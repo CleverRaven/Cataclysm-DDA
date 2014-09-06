@@ -799,19 +799,19 @@ static void draw_recipe_tabs(WINDOW *w, craft_cat tab, TAB_MODE mode)
     {
         int pos_x = 2;//draw the tabs on each other
         int tab_step = 3;//step between tabs, two for tabs border
-        draw_tab(w,  pos_x, _("WEAPONS"),     (tab == "CC_WEAPON")     ? true : false);
+        draw_tab(w,  pos_x, _("WEAPONS"), tab == "CC_WEAPON");
         pos_x += utf8_width(_("WEAPONS")) + tab_step;
-        draw_tab(w, pos_x,  _("AMMO"),        (tab == "CC_AMMO")       ? true : false);
+        draw_tab(w, pos_x,  _("AMMO"),    tab == "CC_AMMO");
         pos_x += utf8_width(_("AMMO")) + tab_step;
-        draw_tab(w, pos_x,  _("FOOD"),        (tab == "CC_FOOD")       ? true : false);
+        draw_tab(w, pos_x,  _("FOOD"),    tab == "CC_FOOD");
         pos_x += utf8_width(_("FOOD")) + tab_step;
-        draw_tab(w, pos_x,  _("CHEMS"),       (tab == "CC_CHEM")       ? true : false);
+        draw_tab(w, pos_x,  _("CHEMS"),   tab == "CC_CHEM");
         pos_x += utf8_width(_("CHEMS")) + tab_step;
-        draw_tab(w, pos_x,  _("ELECTRICAL"), (tab == "CC_ELECTRONIC") ? true : false);
+        draw_tab(w, pos_x,  _("ELECTRICAL"), tab == "CC_ELECTRONIC");
         pos_x += utf8_width(_("ELECTRICAL")) + tab_step;
-        draw_tab(w, pos_x,  _("ARMOR"),       (tab == "CC_ARMOR")      ? true : false);
+        draw_tab(w, pos_x,  _("ARMOR"),   tab == "CC_ARMOR");
         pos_x += utf8_width(_("ARMOR")) + tab_step;
-        draw_tab(w, pos_x,  _("OTHER"),       (tab == "CC_OTHER")      ? true : false);
+        draw_tab(w, pos_x,  _("OTHER"),   tab == "CC_OTHER");
         break;
     }
     case FILTERED:
@@ -849,97 +849,96 @@ static void draw_recipe_subtabs(WINDOW *w, craft_cat tab, craft_subcat subtab, T
     {
         int pos_x = 2;//draw the tabs on each other
         int tab_step = 3;//step between tabs, two for tabs border
-        draw_subtab(w, pos_x, _("ALL"),
-                    (subtab == "CSC_ALL") ? true : false);//Add ALL subcategory to all tabs;
+        draw_subtab(w, pos_x, _("ALL"), subtab == "CSC_ALL");//Add ALL subcategory to all tabs;
         pos_x += utf8_width(_("ALL")) + tab_step;
         if (tab == "CC_WEAPON") {
-            draw_subtab(w, pos_x, _("BASHING"), (subtab == "CSC_WEAPON_BASHING") ? true : false);
+            draw_subtab(w, pos_x, _("BASHING"), subtab == "CSC_WEAPON_BASHING");
             pos_x += utf8_width(_("BASHING")) + tab_step;
-            draw_subtab(w, pos_x, _("CUTTING"),    (subtab == "CSC_WEAPON_CUTTING")   ? true : false);
+            draw_subtab(w, pos_x, _("CUTTING"), subtab == "CSC_WEAPON_CUTTING");
             pos_x += utf8_width(_("CUTTING")) + tab_step;
-            draw_subtab(w, pos_x, _("PIERCING"),    (subtab == "CSC_WEAPON_PIERCING")   ? true : false);
+            draw_subtab(w, pos_x, _("PIERCING"), subtab == "CSC_WEAPON_PIERCING");
             pos_x += utf8_width(_("PIERCING")) + tab_step;
-            draw_subtab(w, pos_x, _("RANGED"),  (subtab == "CSC_WEAPON_RANGED")  ? true : false);
+            draw_subtab(w, pos_x, _("RANGED"), subtab == "CSC_WEAPON_RANGED");
             pos_x += utf8_width(_("RANGED")) + tab_step;
-            draw_subtab(w, pos_x, _("EXPLOSIVE"),  (subtab == "CSC_WEAPON_EXPLOSIVE")  ? true : false);
+            draw_subtab(w, pos_x, _("EXPLOSIVE"), subtab == "CSC_WEAPON_EXPLOSIVE");
             pos_x += utf8_width(_("EXPLOSIVE")) + tab_step;
-            draw_subtab(w, pos_x, _("MODS"),  (subtab == "CSC_WEAPON_MODS")  ? true : false);
+            draw_subtab(w, pos_x, _("MODS"), subtab == "CSC_WEAPON_MODS");
             pos_x += utf8_width(_("MODS")) + tab_step;
-            draw_subtab(w, pos_x, _("OTHER"),   (subtab == "CSC_WEAPON_OTHER")   ? true : false);
+            draw_subtab(w, pos_x, _("OTHER"), subtab == "CSC_WEAPON_OTHER");
         } else if (tab == "CC_AMMO") {
-            draw_subtab(w, pos_x, _("BULLETS"), (subtab == "CSC_AMMO_BULLETS") ? true : false);
+            draw_subtab(w, pos_x, _("BULLETS"), subtab == "CSC_AMMO_BULLETS");
             pos_x += utf8_width(_("BULLETS")) + tab_step;
-            draw_subtab(w, pos_x, _("ARROWS"), (subtab == "CSC_AMMO_ARROWS") ? true : false);
+            draw_subtab(w, pos_x, _("ARROWS"), subtab == "CSC_AMMO_ARROWS");
             pos_x += utf8_width(_("ARROWS")) + tab_step;
-            draw_subtab(w, pos_x, _("COMPONENTS"), (subtab == "CSC_AMMO_COMPONENTS") ? true : false);
+            draw_subtab(w, pos_x, _("COMPONENTS"), subtab == "CSC_AMMO_COMPONENTS");
             pos_x += utf8_width(_("COMPONENTS")) + tab_step;
-            draw_subtab(w, pos_x, _("OTHER"), (subtab == "CSC_AMMO_OTHER") ? true : false);
+            draw_subtab(w, pos_x, _("OTHER"), subtab == "CSC_AMMO_OTHER");
         } else if (tab == "CC_FOOD") {
-            draw_subtab(w, pos_x, _("DRINKS"), (subtab == "CSC_FOOD_DRINKS") ? true : false);
+            draw_subtab(w, pos_x, _("DRINKS"), subtab == "CSC_FOOD_DRINKS");
             pos_x += utf8_width(_("DRINKS")) + tab_step;
-            draw_subtab(w, pos_x, _("MEAT"), (subtab == "CSC_FOOD_MEAT") ? true : false);
+            draw_subtab(w, pos_x, _("MEAT"), subtab == "CSC_FOOD_MEAT");
             pos_x += utf8_width(_("MEAT")) + tab_step;
-            draw_subtab(w, pos_x, _("VEGGI"), (subtab == "CSC_FOOD_VEGGI") ? true : false);
+            draw_subtab(w, pos_x, _("VEGGI"), subtab == "CSC_FOOD_VEGGI");
             pos_x += utf8_width(_("VEGGI")) + tab_step;
-            draw_subtab(w, pos_x, _("SNACK"), (subtab == "CSC_FOOD_SNACK") ? true : false);
+            draw_subtab(w, pos_x, _("SNACK"), subtab == "CSC_FOOD_SNACK");
             pos_x += utf8_width(_("SNACK")) + tab_step;
-            draw_subtab(w, pos_x, _("BREAD"), (subtab == "CSC_FOOD_BREAD") ? true : false);
+            draw_subtab(w, pos_x, _("BREAD"), subtab == "CSC_FOOD_BREAD");
             pos_x += utf8_width(_("BREAD")) + tab_step;
-            draw_subtab(w, pos_x, _("PASTA"), (subtab == "CSC_FOOD_PASTA") ? true : false);
+            draw_subtab(w, pos_x, _("PASTA"), subtab == "CSC_FOOD_PASTA");
             pos_x += utf8_width(_("PASTA")) + tab_step;
-            draw_subtab(w, pos_x, _("OTHER"), (subtab == "CSC_FOOD_OTHER") ? true : false);
+            draw_subtab(w, pos_x, _("OTHER"), subtab == "CSC_FOOD_OTHER");
         } else if (tab == "CC_CHEM") {
-            draw_subtab(w, pos_x, _("DRUGS"), (subtab == "CSC_CHEM_DRUGS") ? true : false);
+            draw_subtab(w, pos_x, _("DRUGS"), subtab == "CSC_CHEM_DRUGS");
             pos_x += utf8_width(_("DRUGS")) + tab_step;
-            draw_subtab(w, pos_x, _("MUTAGEN"), (subtab == "CSC_CHEM_MUTAGEN") ? true : false);
+            draw_subtab(w, pos_x, _("MUTAGEN"), subtab == "CSC_CHEM_MUTAGEN");
             pos_x += utf8_width(_("MUTAGEN")) + tab_step;
-            draw_subtab(w, pos_x, _("CHEMICALS"), (subtab == "CSC_CHEM_CHEMICALS") ? true : false);
+            draw_subtab(w, pos_x, _("CHEMICALS"), subtab == "CSC_CHEM_CHEMICALS");
             pos_x += utf8_width(_("CHEMICALS")) + tab_step;
-            draw_subtab(w, pos_x, _("OTHER"), (subtab == "CSC_CHEM_OTHER") ? true : false);
+            draw_subtab(w, pos_x, _("OTHER"), subtab == "CSC_CHEM_OTHER");
         } else if (tab == "CC_ELECTRONIC") {
-            draw_subtab(w, pos_x, _("CBMS"), (subtab == "CSC_ELECTRONIC_CBMS") ? true : false);
+            draw_subtab(w, pos_x, _("CBMS"), subtab == "CSC_ELECTRONIC_CBMS");
             pos_x += utf8_width(_("CBMS")) + tab_step;
-            draw_subtab(w, pos_x, _("TOOLS"), (subtab == "CSC_ELECTRONIC_TOOLS") ? true : false);
+            draw_subtab(w, pos_x, _("TOOLS"), subtab == "CSC_ELECTRONIC_TOOLS");
             pos_x += utf8_width(_("TOOLS")) + tab_step;
-            draw_subtab(w, pos_x, _("PARTS"), (subtab == "CSC_ELECTRONIC_PARTS") ? true : false);
+            draw_subtab(w, pos_x, _("PARTS"), subtab == "CSC_ELECTRONIC_PARTS");
             pos_x += utf8_width(_("PARTS")) + tab_step;
-            draw_subtab(w, pos_x, _("LIGHTING"), (subtab == "CSC_ELECTRONIC_LIGHTING") ? true : false);
+            draw_subtab(w, pos_x, _("LIGHTING"), subtab == "CSC_ELECTRONIC_LIGHTING");
             pos_x += utf8_width(_("LIGHTING")) + tab_step;
-            draw_subtab(w, pos_x, _("COMPONENTS"), (subtab == "CSC_ELECTRONIC_COMPONENTS") ? true : false);
+            draw_subtab(w, pos_x, _("COMPONENTS"), subtab == "CSC_ELECTRONIC_COMPONENTS");
             pos_x += utf8_width(_("COMPONENTS")) + tab_step;
-            draw_subtab(w, pos_x, _("OTHER"), (subtab == "CSC_ELECTRONIC_OTHER") ? true : false);
+            draw_subtab(w, pos_x, _("OTHER"), subtab == "CSC_ELECTRONIC_OTHER");
         } else if (tab == "CC_ARMOR") {
-            draw_subtab(w, pos_x, _("STORAGE"), (subtab == "CSC_ARMOR_STORAGE") ? true : false);
+            draw_subtab(w, pos_x, _("STORAGE"), subtab == "CSC_ARMOR_STORAGE");
             pos_x += utf8_width(_("STORAGE")) + tab_step;
-            draw_subtab(w, pos_x, _("SUIT"), (subtab == "CSC_ARMOR_SUIT") ? true : false);
+            draw_subtab(w, pos_x, _("SUIT"), subtab == "CSC_ARMOR_SUIT");
             pos_x += utf8_width(_("SUIT")) + tab_step;
-            draw_subtab(w, pos_x, _("HEAD"), (subtab == "CSC_ARMOR_HEAD") ? true : false);
+            draw_subtab(w, pos_x, _("HEAD"), subtab == "CSC_ARMOR_HEAD");
             pos_x += utf8_width(_("HEAD")) + tab_step;
-            draw_subtab(w, pos_x, _("TORSO"), (subtab == "CSC_ARMOR_TORSO") ? true : false);
+            draw_subtab(w, pos_x, _("TORSO"), subtab == "CSC_ARMOR_TORSO");
             pos_x += utf8_width(_("TORSO")) + tab_step;
-            draw_subtab(w, pos_x, _("ARMS"), (subtab == "CSC_ARMOR_ARMS") ? true : false);
+            draw_subtab(w, pos_x, _("ARMS"), subtab == "CSC_ARMOR_ARMS");
             pos_x += utf8_width(_("ARMS")) + tab_step;
-            draw_subtab(w, pos_x, _("HANDS"), (subtab == "CSC_ARMOR_HANDS") ? true : false);
+            draw_subtab(w, pos_x, _("HANDS"), subtab == "CSC_ARMOR_HANDS");
             pos_x += utf8_width(_("HANDS")) + tab_step;
-            draw_subtab(w, pos_x, _("LEGS"), (subtab == "CSC_ARMOR_LEGS") ? true : false);
+            draw_subtab(w, pos_x, _("LEGS"), subtab == "CSC_ARMOR_LEGS");
             pos_x += utf8_width(_("LEGS")) + tab_step;
-            draw_subtab(w, pos_x, _("FEET"), (subtab == "CSC_ARMOR_FEET") ? true : false);
+            draw_subtab(w, pos_x, _("FEET"), subtab == "CSC_ARMOR_FEET");
             pos_x += utf8_width(_("FEET")) + tab_step;
-            draw_subtab(w, pos_x, _("OTHER"), (subtab == "CSC_ARMOR_OTHER") ? true : false);
+            draw_subtab(w, pos_x, _("OTHER"), subtab == "CSC_ARMOR_OTHER");
         } else if (tab == "CC_OTHER") {
-            draw_subtab(w, pos_x, _("TOOLS"), (subtab == "CSC_OTHER_TOOLS") ? true : false);
+            draw_subtab(w, pos_x, _("TOOLS"), subtab == "CSC_OTHER_TOOLS");
             pos_x += utf8_width(_("TOOLS")) + tab_step;
-            draw_subtab(w, pos_x, _("MEDICAL"), (subtab == "CSC_OTHER_MEDICAL") ? true : false);
+            draw_subtab(w, pos_x, _("MEDICAL"), subtab == "CSC_OTHER_MEDICAL");
             pos_x += utf8_width(_("MEDICAL")) + tab_step;
-            draw_subtab(w, pos_x, _("CONTAINERS"), (subtab == "CSC_OTHER_CONTAINERS") ? true : false);
+            draw_subtab(w, pos_x, _("CONTAINERS"), subtab == "CSC_OTHER_CONTAINERS");
             pos_x += utf8_width(_("CONTAINERS")) + tab_step;
-            draw_subtab(w, pos_x, _("MATERIALS"), (subtab == "CSC_OTHER_MATERIALS") ? true : false);
+            draw_subtab(w, pos_x, _("MATERIALS"), subtab == "CSC_OTHER_MATERIALS");
             pos_x += utf8_width(_("MATERIALS")) + tab_step;
-            draw_subtab(w, pos_x, _("PARTS"), (subtab == "CSC_OTHER_PARTS") ? true : false);
+            draw_subtab(w, pos_x, _("PARTS"), subtab == "CSC_OTHER_PARTS");
             pos_x += utf8_width(_("PARTS")) + tab_step;
-            draw_subtab(w, pos_x, _("TRAPS"), (subtab == "CSC_OTHER_TRAPS") ? true : false);
+            draw_subtab(w, pos_x, _("TRAPS"), subtab == "CSC_OTHER_TRAPS");
             pos_x += utf8_width(_("TRAPS")) + tab_step;
-            draw_subtab(w, pos_x, _("OTHER"), (subtab == "CSC_OTHER_OTHER") ? true : false);
+            draw_subtab(w, pos_x, _("OTHER"), subtab == "CSC_OTHER_OTHER");
         }
         break;
     }
