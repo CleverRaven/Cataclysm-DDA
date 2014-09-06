@@ -12942,7 +12942,7 @@
         "comestible_type" : "MED",
         "symbol" : "!",
         "quench" : 0,
-        "healthy" : -2,
+        "healthy" : 0,
         "addiction_potential" : 0,
         "nutrition" : 0,
         "description" : "Antibacterial medication designed to prevent or stop the spread of infection.",
