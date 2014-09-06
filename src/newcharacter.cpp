@@ -1038,7 +1038,6 @@ inline bool profession_display_sort(const profession *a, const profession *b)
 int set_profession(WINDOW *w, player *u, int &points)
 {
     draw_tabs(w, _("PROFESSION"));
-
     int cur_id = 0;
     int retval = 0;
     const int iContentHeight = FULL_SCREEN_HEIGHT - 10;
@@ -1069,7 +1068,6 @@ int set_profession(WINDOW *w, player *u, int &points)
             break;
         }
     }
-
     input_context ctxt("NEW_CHAR_PROFESSIONS");
     ctxt.register_cardinal();
     ctxt.register_action("CONFIRM");
