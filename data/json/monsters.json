@@ -2104,7 +2104,7 @@
         "id" : "mon_boomer_fungus",
     "name": "fungal boomer",
     "species":"FUNGUS",
-    "symbol":"B",
+    "symbol":"Z",
     "color":"ltgray_magenta",
     "size":"LARGE",
     "material":"flesh",
