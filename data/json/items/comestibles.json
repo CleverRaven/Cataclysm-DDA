@@ -10577,7 +10577,7 @@
     },
     {
         "type" : "COMESTIBLE",
-        "id" : "white_bread",
+        "id" : "bread",
         "name" : "white_bread",
         "weight" : 56,
         "color" : "brown",
