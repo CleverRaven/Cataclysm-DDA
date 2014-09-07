@@ -258,6 +258,7 @@ void player::json_save_common_variables(JsonOut &json) const
     // misc levels
     json.member( "radiation", radiation );
     json.member( "scent", int(scent) );
+    json.member( "body_wetness", std::vector<int>( body_wetness, body_wetness + num_bp ) );
 
     // initiative type stuff
     json.member( "moves", moves );
@@ -495,6 +496,14 @@ void player::deserialize(JsonIn &jsin)
     }
     for(int i = 0; i < parray.size(); i++) {
         frostbite_timer[i] = parray.get_int(i);
+    }
+    
+    parray = data.get_array("body_wetness");
+    for(int i = 0; i < num_bp; i++) {
+        body_wetness[i] = 0;
+    }
+    for(int i = 0; i < parray.size(); i++) {
+        body_wetness[i] = parray.get_int(i);
     }
 
     parray = data.get_array("learned_recipes");
