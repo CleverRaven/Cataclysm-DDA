@@ -207,6 +207,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int  run_cost(int base_cost, bool diag = false);
         /** Returns the player's speed for swimming across water tiles */
         int  swim_speed();
+        /** Maintains body wetness and handles the rate at which the player dries */
+        void update_body_wetness();
 
         /** Returns true if the player has the entered trait */
         bool has_trait(const std::string &flag) const;
@@ -894,6 +896,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         // Drench cache
         std::map<int, std::map<std::string, int> > mMutDrench;
         std::map<int, int> mDrenchEffect;
+        signed int body_wetness[num_bp];
 
         std::vector<morale_point> morale;
 

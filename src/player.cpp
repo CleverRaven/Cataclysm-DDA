@@ -191,6 +191,7 @@ player::player() : Character(), name("")
   temp_cur[i] = BODYTEMP_NORM;
   frostbite_timer[i] = 0;
   temp_conv[i] = BODYTEMP_NORM;
+  body_wetness[i] = 0;
  }
  nv_cached = false;
  pda_cached = false;
@@ -763,6 +764,21 @@ void player::apply_persistent_morale()
     if (has_trait("BADTEMPER")) {
         add_morale(MORALE_PERM_BADTEMPER, -4, -4, 5, 5, true);
     }
+
+    // Being wet affects morale
+    int penalty = 0;
+    for (int i = 0; i < num_bp; ++i)
+    {
+        if (abs(body_wetness[i]) > abs(penalty))
+        {
+            penalty = body_wetness[i];
+        }
+    }
+    add_msg("Penalty: %d", penalty);
+    if (penalty != 0)
+    {
+        add_morale(MORALE_WET, penalty, penalty, 5, 5, true);
+    }
 }
 
 void player::update_mental_focus()
@@ -993,6 +1009,7 @@ void player::update_bodytemp()
     // Current temperature and converging temperature calculations
     for (int i = 0 ; i < num_bp ; i++)
     {
+        add_msg("%s wetness: %d/%d", body_part_name(body_part(i)).c_str(), body_wetness[i], mDrenchEffect[i]);
         // Skip eyes
         if (i == bp_eyes) { continue; }
         // Represents the fact that the body generates heat when it is cold. TODO : should this increase hunger?
@@ -6190,85 +6207,122 @@ void player::vomit()
 
 void player::drench(int saturation, int flags)
 {
+    /**
+    *
+    *  TODO
+    *
+    *  Understand how this function really works
+    *
+    **/
     // OK, water gets in your AEP suit or whatever.  It wasn't built to keep you dry.
     if ( (has_trait("DEBUG_NOTEMP")) || ((is_waterproof(flags)) &&
         (!(g->m.has_flag(TFLAG_DEEP_WATER, posx, posy)))) ) {
         return;
     }
 
-    int effected = 0;
-    int tot_ignored = 0; //Always ignored
-    int tot_neut = 0; //Ignored for good wet bonus
-    int tot_good = 0; //Increase good wet bonus
+    for (int i = 0; i < num_bp; ++i)
+    {
+        int effected = 0;
+        int tot_ignored = 0; //Always ignored
+        int tot_neut = 0; //Ignored for good wet bonus
+        int tot_good = 0; //Increase good wet bonus
 
-    for (std::map<int, int>::iterator iter = mDrenchEffect.begin(); iter != mDrenchEffect.end(); ++iter) {
-        if (mfb(iter->first) & flags) {
-            effected += iter->second;
-            tot_ignored += mMutDrench[iter->first]["ignored"];
-            tot_neut += mMutDrench[iter->first]["neutral"];
-            tot_good += mMutDrench[iter->first]["good"];
+        if (mfb(i) & flags)
+        {
+            effected = mDrenchEffect[i];
+            tot_ignored = mMutDrench[i]["ignored"];
+            tot_neut = mMutDrench[i]["neutral"];
+            tot_good = mMutDrench[i]["good"];
         }
-    }
 
-    if (effected == 0) {
-        return;
-    }
+        if (effected == 0) {
+            continue;
+        }
 
-    bool wants_drench = false;
-    // If not protected by mutations then check clothing
-    if (tot_good + tot_neut + tot_ignored < effected) {
-        wants_drench = is_water_friendly(flags);
-    } else {
-        wants_drench = true;
-    }
-
-    int morale_cap;
-    if (wants_drench) {
-        morale_cap = g->get_temperature() - std::min(65, 65 + (tot_ignored - tot_good) / 2) * saturation / 100;
-    } else {
-        morale_cap = -(saturation / 2);
-    }
-
-    // Good increases pos and cancels neg, neut cancels neg, ignored cancels both
-    if (morale_cap > 0) {
-        morale_cap = morale_cap * (effected - tot_ignored + tot_good) / effected;
-    } else if (morale_cap < 0) {
-        morale_cap = morale_cap * (effected - tot_ignored - tot_neut - tot_good) / effected;
-    }
-
-    if (morale_cap == 0) {
-        return;
-    }
-
-    int morale_effect = morale_cap / 8;
-    if (morale_effect == 0) {
-        if (morale_cap > 0) {
-            morale_effect = 1;
+        bool wants_drench = false;
+        // If not protected by mutations then check clothing
+        if (tot_good + tot_neut + tot_ignored < effected) {
+            wants_drench = is_water_friendly(flags);
         } else {
-            morale_effect = -1;
+            wants_drench = true;
+        }
+
+        int morale_cap;
+        if (wants_drench) {
+            morale_cap = g->get_temperature() - std::min(65, 65 + (tot_ignored - tot_good) / 2) * saturation / 100;
+        } else {
+            morale_cap = -(saturation / 2);
+        }
+
+        // Good increases pos and cancels neg, neut cancels neg, ignored cancels both
+        if (morale_cap > 0) {
+            morale_cap = morale_cap * (effected - tot_ignored + tot_good) / effected;
+        } else if (morale_cap < 0) {
+            morale_cap = morale_cap * (effected - tot_ignored - tot_neut - tot_good) / effected;
+        }
+
+        if (morale_cap == 0) {
+            continue;
+        }
+
+        /**
+
+        Ensure the player gets at least a little wet
+
+        **/
+        int morale_effect = morale_cap / 8;
+        if (morale_effect == 0) {
+            if (morale_cap > 0) {
+                morale_effect = 1;
+            } else {
+                morale_effect = -1;
+            }
+        }
+
+        /**
+
+        Mutations can affect the duration of the player being wet.
+
+        **/
+        int dur = 60;
+        int d_start = 30;
+        if (morale_cap < 0) {
+            if (has_trait("LIGHTFUR") || has_trait("FUR") || has_trait("FELINE_FUR") || has_trait("LUPINE_FUR")) {
+                dur /= 5;
+                d_start /= 5;
+            }
+            // Shaggy fur holds water longer.  :-/
+            if (has_trait("URSINE_FUR")) {
+                dur /= 3;
+                d_start /= 3;
+            }
+        } else {
+            if (has_trait("SLIMY")) {
+                dur *= 1.2;
+                d_start *= 1.2;
+            }
+        }
+
+        /**
+
+        Apply wetness
+
+        **/
+        int sign = 1;
+        if (body_wetness[i] != 0)
+        {
+            sign = body_wetness[i] / abs(body_wetness[i]);
+        }
+        body_wetness[i] += morale_effect;
+        if (abs(body_wetness[i]) > abs(morale_cap) && body_wetness[i] != 0)
+        {
+            body_wetness[i] = morale_cap;
+        }
+        if (abs(body_wetness[i]) > abs(mDrenchEffect[i]) && body_wetness[i] != 0)
+        {
+            body_wetness[i] = mDrenchEffect[i] * sign;
         }
     }
-
-    int dur = 60;
-    int d_start = 30;
-    if (morale_cap < 0) {
-        if (has_trait("LIGHTFUR") || has_trait("FUR") || has_trait("FELINE_FUR") || has_trait("LUPINE_FUR")) {
-            dur /= 5;
-            d_start /= 5;
-        }
-        // Shaggy fur holds water longer.  :-/
-        if (has_trait("URSINE_FUR")) {
-            dur /= 3;
-            d_start /= 3;
-        }
-    } else {
-        if (has_trait("SLIMY")) {
-            dur *= 1.2;
-            d_start *= 1.2;
-        }
-    }
-
-    add_morale(MORALE_WET, morale_effect, morale_cap, dur, d_start);
 }
 
 void player::drench_mut_calc()
@@ -6295,6 +6349,16 @@ void player::drench_mut_calc()
         mMutDrench[it->first]["good"] = good;
         mMutDrench[it->first]["neutral"] = neutral;
         mMutDrench[it->first]["ignored"] = ignored;
+    }
+}
+
+void player::update_body_wetness()
+{
+    for (int i = 0; i < num_bp; ++i)
+    {
+        if (body_wetness[i] == 0) continue;
+        int sign = abs(body_wetness[i]) / body_wetness[i];
+        body_wetness[i] -= 1 * sign;
     }
 }
 
