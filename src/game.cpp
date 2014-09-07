@@ -1441,6 +1441,7 @@ bool game::do_turn()
     rustCheck();
     if (calendar::turn % 10 == 0) {
         u.update_morale();
+        u.update_body_wetness();
     }
 
     return false;
