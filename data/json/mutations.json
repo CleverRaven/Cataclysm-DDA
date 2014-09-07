@@ -77,7 +77,7 @@
         "points" : 3,
         "description" : "Your metabolism is a little slower, and you require less food than most.",
         "starting_trait" : true,
-        "cancels" : ["HUNGER"],
+        "cancels" : ["HUNGER", "HUNGER2", "HUNGER3", "EATHEALTH"],
         "changes_to" : ["GIZZARD"],
         "category" : ["MUTCAT_BIRD", "MUTCAT_INSECT", "MUTCAT_TROGLOBITE"]
     },{
@@ -897,7 +897,7 @@
         "description" : "Your eyes have turned...green.  It's tough to tell the exact shade as it seems to shift.  The effect is ...pleasant.",
         "leads_to" : ["ELFA_NV"],
         "valid" : false,
-        "cancels" : ["BIRD_EYE", "LIZ_EYE", "FEL_EYE", "URSINE_EYE"],
+        "cancels" : ["BIRD_EYE", "LIZ_EYE", "FEL_EYE", "URSINE_EYE", "COMPOUND_EYES"],
         "category" : ["MUTCAT_ELFA"]
     },{
         "type" : "mutation",
@@ -927,7 +927,7 @@
         "ugliness" : 1,
         "description" : "Your eyes have mutated, now having a slitted pupil and glittering in light, much like those of cats.  This is visually striking, but it isn't helping you see at night.",
         "leads_to" : ["FEL_NV"],
-        "cancels" : ["ELFAEYES", "LIZ_EYE", "BIRD_EYE", "URSINE_EYE"],
+        "cancels" : ["ELFAEYES", "LIZ_EYE", "BIRD_EYE", "URSINE_EYE", "COMPOUND_EYES"],
         "category" : ["MUTCAT_FELINE", "MUTCAT_BEAST"]
     },{
         "type" : "mutation",
@@ -944,7 +944,7 @@
         "name" : "Ursine Vision",
         "points" : 1,
         "description" : "Your visual processing has shifted: though you can see better in the dark, you can't see very far in the light.",
-        "cancels" : ["ELFAEYES", "LIZ_EYE", "BIRD_EYE", "FEL_EYE", "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3"],
+        "cancels" : ["ELFAEYES", "LIZ_EYE", "BIRD_EYE", "FEL_EYE", "COMPOUND_EYES", "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3"],
         "category" : ["MUTCAT_URSINE"]
     },{
         "type" : "mutation",
@@ -954,7 +954,7 @@
         "visibility" : 1,
         "ugliness" : 0,
         "description" : "Your vision has become particularly acute: you suspect you could pick out zombies much farther away.  Perception +4.",
-        "cancels" : ["ELFAEYES", "FEL_EYE", "LIZ_EYE", "URSINE_EYE"],
+        "cancels" : ["ELFAEYES", "FEL_EYE", "LIZ_EYE", "URSINE_EYE", "COMPOUND_EYES"],
         "prereqs" : ["PER_UP"],
         "threshreq" : ["THRESH_BIRD"],
         "category" : ["MUTCAT_BIRD"]
@@ -976,7 +976,7 @@
         "ugliness" : 1,
         "description" : "Your eyes have mutated, with a brilliant iris and slitted pupil similar to that of a lizard.  This is visually striking, but doesn't seem to affect your vision.",
         "leads_to" : ["LIZ_IR"],
-        "cancels" : ["ELFAEYES", "FEL_EYE", "URSINE_EYE", "BIRD_EYE"],
+        "cancels" : ["ELFAEYES", "FEL_EYE", "URSINE_EYE", "BIRD_EYE", "COMPOUND_EYES"],
         "category" : ["MUTCAT_LIZARD", "MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
@@ -1567,6 +1567,7 @@
         "visibility" : 9,
         "ugliness" : 5,
         "description" : "Your eyes are compound, like those of an insect. This increases your perception by 2 so long as you aren't wearing eyewear.",
+        "cancels" : ["ELFAEYES", "FEL_EYE", "URSINE_EYE", "BIRD_EYE", "LIZ_EYE"],
         "prereqs" : ["EYEBULGE"],
         "category" : ["MUTCAT_SPIDER"]
     },{
@@ -1745,6 +1746,7 @@
         "points" : 15,
         "description" : "You metabolize nutrients so rapidly that you can convert food directly into useful tissue.  Excess nutrition will convert to HP, rather than being wasted.",
         "prereqs" : ["HUNGER3"],
+        "cancels" : ["LIGHTEATER"],
         "threshreq" : ["THRESH_CHIMERA"],
         "category" : ["MUTCAT_CHIMERA"],
         "valid" : false
