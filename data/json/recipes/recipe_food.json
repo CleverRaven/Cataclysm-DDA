@@ -512,6 +512,9 @@
       [ "flour", 1 ],
       [ "cornmeal", 1 ],
       [ "bread", 1 ],
+      [ "wg_bread", 1],
+      [ "toast", 1],
+      [ "wg_toast", 1],
       [ "cornbread", 1 ],
       [ "hardtack", 1 ],
       [ "crackers", 1 ]
@@ -1091,6 +1094,9 @@
       [ "flour", 1 ],
       [ "cornmeal", 1 ],
       [ "bread", 1 ],
+      [ "wg_bread", 1],
+      [ "toast", 1],
+      [ "wg_toast", 1],
       [ "cornbread", 1 ],
       [ "hardtack", 1 ],
       [ "crackers", 1 ]
@@ -1195,6 +1201,9 @@
       [ "flour", 1 ],
       [ "cornmeal", 1 ],
       [ "bread", 1 ],
+      [ "wg_bread", 1],
+      [ "toast", 1],
+      [ "wg_toast", 1],
       [ "cornbread", 1 ],
       [ "hardtack", 1 ],
       [ "crackers", 1 ]
@@ -2827,6 +2836,9 @@
       [ "dry_veggy", 1 ],
       [ "con_milk", 1 ],
       [ "bread", 1 ],
+      [ "wg_bread", 1],
+      [ "toast", 1],
+      [ "wg_toast", 1],
       [ "hardtack", 1 ],
       [ "flour", 1 ],
       [ "cornmeal", 1 ],
@@ -6522,6 +6534,7 @@
     ],
     [
       [ "bread", 2 ],
+      [ "wg_bread", 2],
       [ "hardtack", 4]
     ],
     [
@@ -6557,6 +6570,9 @@
     ],
     [
       [ "bread", 2 ],
+      [ "wg_bread", 2],
+      [ "toast", 2],
+      [ "wg_toast", 2],
       [ "hardtack", 4]
     ],
     [
@@ -6630,6 +6646,7 @@
     ],
     [
       [ "bread", 2 ],
+      [ "wg_bread", 2],
       [ "hardtack", 4]
     ],
     [
@@ -6672,6 +6689,7 @@
     ],
     [
       [ "bread", 2 ],
+      [ "wg_bread", 2],
       [ "hardtack", 4]
     ],
     [
@@ -6776,6 +6794,9 @@
     ],
     [
       [ "bread", 4 ],
+      [ "wg_bread", 4],
+      [ "toast", 4],
+      [ "wg_toast", 4],
       [ "hardtack", 8]
     ],
     [
@@ -6817,6 +6838,9 @@
     ],
     [
       [ "bread", 4 ],
+      [ "wg_bread", 4],
+      [ "toast", 4],
+      [ "wg_toast", 4],
       [ "hardtack", 8]
     ],
     [
@@ -6886,6 +6910,9 @@
     ],
     [
       [ "bread", 4 ],
+      [ "wg_bread", 4],
+      [ "toast", 4],
+      [ "wg_toast", 4],
       [ "hardtack", 8]
     ],
     [
@@ -6979,6 +7006,7 @@
     ],
     [
       [ "bread", 2 ],
+      [ "wg_bread", 2],
       [ "hardtack", 4]
     ],
     [
@@ -7015,6 +7043,9 @@
   "components": [
     [
       [ "bread", 2 ],
+      [ "wg_bread", 2],
+      [ "toast", 2],
+      [ "wg_toast", 2],
       [ "hardtack", 4]
     ],
     [
@@ -7051,6 +7082,9 @@
   "components": [
     [
       [ "bread", 2 ],
+      [ "wg_bread", 2],
+      [ "toast", 2],
+      [ "wg_toast", 2],
       [ "hardtack", 4]
     ],
     [
@@ -7087,6 +7121,9 @@
   "components": [
     [
       [ "bread", 2 ],
+      [ "wg_bread", 2],
+      [ "toast", 2],
+      [ "wg_toast", 2],
       [ "hardtack", 4]
     ],
     [
@@ -7114,6 +7151,9 @@
   "components": [
     [
       [ "bread", 2 ],
+      [ "wg_bread", 2],
+      [ "toast", 2],
+      [ "wg_toast", 2],
       [ "hardtack", 4]
     ],
     [
@@ -7136,6 +7176,9 @@
   "components": [
     [
       [ "bread", 2 ],
+      [ "wg_bread", 2],
+      [ "toast", 2],
+      [ "wg_toast", 2],
       [ "hardtack", 4]
     ],
     [
@@ -7158,6 +7201,9 @@
   "components": [
     [
       [ "bread", 2 ],
+      [ "wg_bread", 2],
+      [ "toast", 2],
+      [ "wg_toast", 2],
       [ "hardtack", 4]
     ],
     [
@@ -7185,6 +7231,9 @@
   "components": [
     [
       [ "bread", 2 ],
+      [ "wg_bread", 2],
+      [ "toast", 2],
+      [ "wg_toast", 2],
       [ "hardtack", 4]
     ],
     [
@@ -7212,6 +7261,9 @@
   "components": [
     [
       [ "bread", 2 ],
+      [ "wg_bread", 2],
+      [ "toast", 2],
+      [ "wg_toast", 2],
       [ "hardtack", 4]
     ],
     [
