@@ -105,7 +105,7 @@ void show_mutations_titlebar(WINDOW *window, player *p, std::string menu_mode)
 {
     werase(window);
 
-    std::string caption = _("MUTATIONS -");
+    std::string caption = _("ABILITIES AND MUTATIONS -");
     int cap_offset = utf8_width(caption.c_str()) + 1;
     mvwprintz(window, 0,  0, c_blue, "%s", caption.c_str());
 

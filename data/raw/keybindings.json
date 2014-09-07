@@ -1201,7 +1201,7 @@
     { "type":"keybinding", "name": "Drop Item", "category":"DEFAULTMODE", "id":"drop", "bindings":[ { "input_method":"keyboard", "key":"d" } ] },
     { "type":"keybinding", "name": "Drop Item to Adjacent Tile", "category":"DEFAULTMODE", "id":"drop_adj", "bindings":[ { "input_method":"keyboard", "key":"D" } ] },
     { "type":"keybinding", "name": "View/Activate Bionics", "category":"DEFAULTMODE", "id":"bionics", "bindings":[ { "input_method":"keyboard", "key":"p" } ] },
-    { "type":"keybinding", "name": "View/Activate Mutations", "category":"DEFAULTMODE", "id":"mutations", "bindings":[ { "input_method":"keyboard", "key":"[" } ] },
+    { "type":"keybinding", "name": "View/Activate Abilities and Mutations", "category":"DEFAULTMODE", "id":"mutations", "bindings":[ { "input_method":"keyboard", "key":"[" } ] },
     { "type":"keybinding", "name": "Re-layer armour/clothing", "category":"DEFAULTMODE", "id":"sort_armor", "bindings":[ { "input_method":"keyboard", "key":"+" } ] },
     { "type":"keybinding", "name": "Wait for Several Minutes", "category":"DEFAULTMODE", "id":"wait", "bindings":[ { "input_method":"keyboard", "key":"|" } ] },
     { "type":"keybinding", "name": "Craft Items", "category":"DEFAULTMODE", "id":"craft", "bindings":[ { "input_method":"keyboard", "key":"&" } ] },
