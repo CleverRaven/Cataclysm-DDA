@@ -23,7 +23,7 @@
     "category": "CC_NONCRAFT",
     "subcategory": "CSC_NONCRAFT",
     "difficulty": 0,
-    "time": 20,
+    "time": 2000,
     "reversible": true,
     "autolearn": false,
     "qualities" : [ {"id":"CUT","level":1,"amount":1} ],
@@ -45,6 +45,21 @@
     "components": [
       [ [ "rag", 6 ] ],
       [ [ "feather", 2 ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "pillow",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 15,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"CUT","level":1,"amount":1} ],
+    "components": [
+      [ [ "rag", 6 ] ],
+      [ [ "cotton_ball", 4 ]
     ]
   },{
     "type" : "recipe",
