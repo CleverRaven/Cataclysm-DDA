@@ -2075,6 +2075,7 @@
 
   {
     "type":"GENERIC",
+	"category" : "tools",
     "id": "knitting_needles",
     "symbol": ",",
     "color": "brown",
