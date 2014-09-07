@@ -3449,6 +3449,29 @@
   ]
 },{
         "type" : "recipe",
+  "result": "down_blanket",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_OTHER",
+  "skill_used": "tailor",
+  "difficulty": 1,
+  "time": 85000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 20 ],
+      [ "needle_wood", 20 ],
+      [ "sewing_kit", 20 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 35 ],
+      [ "feather", 8]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "fur_blanket",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_OTHER",
