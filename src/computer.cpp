@@ -193,7 +193,7 @@ bool computer::hack_attempt(player *p, int Security)
         Security += (alerts * 2);
     }
 
-    p->moves -= 10 * (5 + Security * 2) / hack_skill;
+    p->moves -= 10 * (5 + Security * 2) / std::max( 1, hack_skill + 1 );
     p->practice( "computer", 5 + Security * 2 );
     int player_roll = hack_skill;
     if (p->int_cur < 8 && one_in(2)) {
