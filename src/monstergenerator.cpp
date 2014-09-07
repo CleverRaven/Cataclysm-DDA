@@ -174,9 +174,12 @@ void MonsterGenerator::init_attack()
     attack_map["TRIFFID_HEARTBEAT"] = &mattack::triffid_heartbeat;
     attack_map["FUNGUS"] = &mattack::fungus;
     attack_map["FUNGUS_HAZE"] = &mattack::fungus_haze;
+    attack_map["FUNGUS_BIG_BLOSSOM"] = &mattack::fungus_big_blossom;
     attack_map["FUNGUS_INJECT"] = &mattack::fungus_inject;
+    attack_map["FUNGUS_BRISTLE"] = &mattack::fungus_bristle;
     attack_map["FUNGUS_GROWTH"] = &mattack::fungus_growth;
     attack_map["FUNGUS_SPROUT"] = &mattack::fungus_sprout;
+    attack_map["FUNGUS_FORTIFY"] = &mattack::fungus_fortify;
     attack_map["LEAP"] = &mattack::leap;
     attack_map["DERMATIK"] = &mattack::dermatik;
     attack_map["DERMATIK_GROWTH"] = &mattack::dermatik_growth;

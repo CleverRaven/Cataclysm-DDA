@@ -1556,7 +1556,7 @@
         "id" : "fungal_tower",
         "name" : "fungal tower",
         "sym" : 84,
-        "color" : "light_gray",
+        "color" : "yellow",
         "see_cost" : 3,
         "extras" : "field"
     },{

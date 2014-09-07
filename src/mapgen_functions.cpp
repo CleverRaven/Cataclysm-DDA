@@ -884,9 +884,7 @@ void mapgen_fungal_tower(map *m, oter_id, mapgendata dat, int, float)
     (void)dat;
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {
-            if (one_in(rl_dist(i, j, 12, 12) * 4)) {
-                m->ter_set(i, j, t_marloss);
-            } else if (one_in(8)) {
+            if (one_in(8)) {
                 if (one_in(3)) {
                     m->ter_set(i, j, t_tree_fungal);
                 } else {
@@ -901,7 +899,7 @@ void mapgen_fungal_tower(map *m, oter_id, mapgendata dat, int, float)
         }
     }
     square(m, t_fungus, SEEX - 2, SEEY - 2, SEEX + 2, SEEY + 2);
-    m->add_spawn("mon_fungaloid_queen", 1, 12, 12);
+    m->add_spawn("mon_fungaloid_tower", 1, 12, 12);
 }
 
 void mapgen_fungal_flowers(map *m, oter_id, mapgendata dat, int, float)
@@ -930,7 +928,7 @@ void mapgen_fungal_flowers(map *m, oter_id, mapgendata dat, int, float)
         }
     }
     square(m, t_fungus, SEEX - 2, SEEY - 2, SEEX + 2, SEEY + 2);
-    m->add_spawn("mon_fungaloid_queen", 1, 12, 12);
+    m->add_spawn("mon_fungaloid_seeder", 1, 12, 12);
 }
 
 void mapgen_road_straight(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)

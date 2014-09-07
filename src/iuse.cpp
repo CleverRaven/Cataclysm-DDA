@@ -2171,7 +2171,7 @@ int iuse::marloss_seed(player *p, item *it, bool t)
     p->add_memorial_log(pgettext("memorial_male", "Ate a marloss seed."),
                         pgettext("memorial_female", "Ate a marloss seed."));
 
-    if (p->has_trait("MARLOSS")) {
+    if (p->has_trait("MARLOSS_BLUE")) {
         p->add_msg_if_player(m_good,
                              _("As you eat the seed, you have a near-religious experience, feeling at one with your surroundings..."));
         p->add_morale(MORALE_MARLOSS, 100, 1000);
@@ -2228,9 +2228,83 @@ int iuse::marloss_seed(player *p, item *it, bool t)
     } else if (effect == 8) {
         p->add_msg_if_player(m_bad, _("You take one bite, and immediately vomit!"));
         p->vomit();
-    } else if (!p->has_trait("MARLOSS")) {
+    } else if (!p->has_trait("MARLOSS_BLUE")) {
         p->add_msg_if_player(_("You feel a strange warmth spreading throughout your body..."));
-        p->toggle_mutation("MARLOSS");
+        p->toggle_mutation("MARLOSS_BLUE");
+    }
+    return it->type->charges_to_use();
+}
+
+int iuse::marloss_gel(player *p, item *it, bool t)
+{
+    if (p->is_npc()) {
+        return it->type->charges_to_use();
+    }
+    // If we have the marloss in our veins, we are a "breeder" and will spread
+    // the fungus.
+    p->add_memorial_log(pgettext("memorial_male", "Ate some marloss jelly."),
+                        pgettext("memorial_female", "Ate some marloss jelly."));
+
+    if (p->has_trait("MARLOSS_YELLOW")) {
+        p->add_msg_if_player(m_good,
+                             _("As you eat the jelly, you have a near-religious experience, feeling at one with your surroundings..."));
+        p->add_morale(MORALE_MARLOSS, 100, 1000);
+        p->hunger = -100;
+        monster spore(GetMType("mon_spore"));
+        spore.friendly = -1;
+        int spore_spawned = 0;
+        for (int x = p->posx - 4; x <= p->posx + 4; x++) {
+            for (int y = p->posy - 4; y <= p->posy + 4; y++) {
+                if (rng(0, 10) > trig_dist(x, y, p->posx, p->posy) &&
+                    rng(0, 10) > trig_dist(x, y, p->posx, p->posy)) {
+                    g->m.marlossify(x, y);
+                }
+                bool moveOK = (g->m.move_cost(x, y) > 0);
+                bool monOK = g->mon_at(x, y) == -1;
+                bool posOK = (g->u.posx != x || g->u.posy != y);
+                if (moveOK && monOK && posOK &&
+                    one_in(10 + 5 * trig_dist(x, y, p->posx, p->posy)) &&
+                    (spore_spawned == 0 || one_in(spore_spawned * 2))) {
+                    spore.spawn(x, y);
+                    g->add_zombie(spore);
+                    spore_spawned++;
+                }
+            }
+        }
+        return it->type->charges_to_use();
+    }
+
+    /* If we're not already carriers of Marloss, roll for a random effect:
+     * 1 - Mutate
+     * 2 - Mutate
+     * 3 - Mutate
+     * 4 - Purify
+     * 5 - Purify
+     * 6 - Cleanse radiation + Purify
+     * 7 - Fully satiate
+     * 8 - Vomit
+     * 9 - Give Marloss mutation
+     */
+    int effect = rng(1, 9);
+    if (effect <= 3) {
+        p->add_msg_if_player(_("This jelly tastes extremely strange!"));
+        p->mutate();
+    } else if (effect <= 6) { // Radiation cleanse is below
+        p->add_msg_if_player(m_good, _("This jelly makes you feel better all over."));
+        p->pkill += 30;
+        this->purifier(p, it, t);
+        if (effect == 6) {
+            p->radiation = 0;
+        }
+    } else if (effect == 7) {
+        p->add_msg_if_player(m_good, _("This jelly is delicious, and very filling!"));
+        p->hunger = -100;
+    } else if (effect == 8) {
+        p->add_msg_if_player(m_bad, _("You take one bite, and immediately vomit!"));
+        p->vomit();
+    } else if (!p->has_trait("MARLOSS_YELOW")) {
+        p->add_msg_if_player(_("You feel a strange warmth spreading throughout your body..."));
+        p->toggle_mutation("MARLOSS_YELLOW");
     }
     return it->type->charges_to_use();
 }

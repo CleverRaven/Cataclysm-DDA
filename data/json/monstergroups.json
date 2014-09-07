@@ -498,8 +498,8 @@
       { "monster" : "mon_fungaloid_young", "freq" : 30, "cost_multiplier" : 0 },
       { "monster" : "mon_zombie_fungus", "freq" : 75, "cost_multiplier" : 0 },
       { "monster" : "mon_boomer_fungus", "freq" : 50, "cost_multiplier" : 0 },
-      { "monster" : "mon_fungal_wall", "freq" : 0, "cost_multiplier" : 0 },
-      { "monster" : "mon_fungaloid_queen", "freq" : 0, "cost_multiplier" : 0 }
+      { "monster" : "mon_fungal_hedgerow", "freq" : 0, "cost_multiplier" : 0 },
+      { "monster" : "mon_fungaloid_tower", "freq" : 0, "cost_multiplier" : 0 }
     ]
   },{
     "type":"monstergroup",
@@ -510,8 +510,7 @@
       { "monster" : "mon_fungaloid_young", "freq" : 50, "cost_multiplier" : 0 },
       { "monster" : "mon_zombie_fungus", "freq" : 100, "cost_multiplier" : 0 },
       { "monster" : "mon_boomer_fungus", "freq" : 50, "cost_multiplier" : 0 },
-      { "monster" : "mon_fungal_wall", "freq" : 0, "cost_multiplier" : 0 },
-      { "monster" : "mon_fungaloid_queen", "freq" : 0, "cost_multiplier" : 0 }
+      { "monster" : "mon_fungaloid_seeder", "freq" : 0, "cost_multiplier" : 0 }
     ]
   },{
     "type":"monstergroup",

@@ -283,7 +283,7 @@ void game::init_fields()
         {
             "fd_fungal_haze",
             {_("hazy cloud"),_("fungal haze"),_("thick fungal haze")}, '.', 8,
-            { c_white, c_yellow, c_yellow }, { true, true, false }, { true, true, true }, 30,
+            { c_white, c_cyan, c_cyan }, { true, true, false }, { true, true, true }, 40,
             {0,0,0}
         }
 
