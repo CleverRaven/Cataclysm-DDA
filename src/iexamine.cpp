@@ -1863,7 +1863,7 @@ void iexamine::tree_plum(player *p, map *m, int examx, int examy)
         none(p, m, examx, examy);
         return;
     }
-    pick_plant(p, m, examx, examy, "plum", t_tree);
+    pick_plant(p, m, examx, examy, "plums", t_tree);
 }
 
 void iexamine::tree_pine(player *p, map *m, int examx, int examy)
