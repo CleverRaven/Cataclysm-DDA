@@ -1,4 +1,18 @@
 [
+   {
+        "type" : "mutation",
+        "id" : "SPRINT",
+        "name" : "Run For It!",
+        "points" : 0,
+        "description" : "Activate this ability to run faster at the cost of fatigue and thirst.",
+        "starting_trait" : false,
+        "valid" : false,
+        "active"     :    true,
+        "cost"       :    0,
+        "time"       :    100,
+        "fatigue"    :    true,
+        "thirst"     :    true
+    },
     {
         "type" : "mutation",
         "id" : "FLEET",

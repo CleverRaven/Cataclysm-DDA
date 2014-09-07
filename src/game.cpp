@@ -13186,6 +13186,42 @@ void game::on_move_effects()
             u.charge_power(1);
         }
     }
+    if ((moveCount % 2 == 0) && (u.has_active_mutation("SPRINT"))) {
+            u.add_disease("winded", 3);
+            if (u.has_disease("winded")) {
+               if (!u.has_disease("asthma") && u.disease_duration("winded") > 12 * u.get_str() && g->u.has_trait("ASTHMA") && (one_in(4))) {
+                u.add_msg_if_player(m_bad, _("You feel an asthma attack coming on!"));
+                u.add_disease("asthma", rng(400, 800));
+            } if ((u.disease_duration("winded") >= u.get_str())) {
+                  if (one_in(4)){
+                    u.thirst++;
+                    u.fatigue++;
+                  }
+                  if (one_in(7)){
+                    u.hunger++;
+                  }
+              } if ((!u.has_trait("NOPAIN")) && (u.disease_duration("winded") >= 10 * u.get_str()) && (one_in(5))) {
+                        u.add_msg_if_player(m_bad, _("Your side is cramping from exertion!"));
+                        if (u.pain < 50) {
+                        u.mod_pain(rng(0,1));
+                        }
+                    if ((!u.has_trait("NOPAIN"))  && (u.disease_duration("winded") >= 15 * u.get_str())) {
+                        u.add_msg_if_player(m_bad, _("You're exhausted from running!  You need to stop!"));
+                        if (u.pain < 50) {
+                        u.mod_pain(rng(0,1));
+                        }
+                        if (one_in(5)) {
+                        if (u.pain < 50) {
+                        u.mod_pain(rng(1,2));
+                        }
+                        }
+                      }
+                 }
+                 if ((!u.has_trait("NOPAIN")) && (u.disease_duration("winded") >= 20 * u.get_str()) && (one_in(2))) {
+                      u.add_msg_if_player(m_bad, _("You can run no further!"));
+                 }
+            }
+    }
 }
 
 void game::plswim(int x, int y)

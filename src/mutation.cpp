@@ -96,6 +96,9 @@ void player::activate_mutation(int b)
     else if (traits[mut].id == "SHOUT3"){
         g->sound(posx, posy, 20 + 4 * str_cur, _("You let out a piercing howl!"));
     }
+    else if (traits[mut].id == "SPRINT"){
+              add_msg(m_good, _("You tense your muscles, ready to run."));
+    }
 }
 void player::deactivate_mutation(int b)
 {

@@ -54,7 +54,9 @@ enum dis_type_enum {
  // Lack/sleep
  DI_LACKSLEEP,
  // Grabbed (from MA or monster)
- DI_GRABBED
+ DI_GRABBED,
+ // Winded from running too much
+ DI_WINDED
 };
 
 std::map<std::string, dis_type_enum> disease_type_lookup;
@@ -153,6 +155,7 @@ void game::init_diseases() {
     disease_type_lookup["ma_buff"] = DI_MA_BUFF;
     disease_type_lookup["lack_sleep"] = DI_LACKSLEEP;
     disease_type_lookup["grabbed"] = DI_GRABBED;
+    disease_type_lookup["winded"] = DI_WINDED;
 }
 
 bool dis_msg(dis_type type_string) {
@@ -1788,6 +1791,10 @@ void dis_effect(player &p, disease &dis)
             p.dodges_left = 0;
             p.rem_disease(dis.type);
             break;
+            
+        case DI_WINDED:
+             break;
+            
         default: // Other diseases don't have any effects. Suppress warning.
             break;
     }
@@ -2282,6 +2289,7 @@ std::string dis_name(disease& dis)
 
     case DI_LACKSLEEP: return _("Lacking Sleep");
     case DI_GRABBED: return _("Grabbed");
+    case DI_WINDED: return _("Winded");
     default: break;
     }
     return "";
@@ -2874,6 +2882,7 @@ Your right foot is blistering from the intense heat. It is extremely painful.");
     You can't move as quickly and your stats just aren't where they should be.");
     case DI_GRABBED: return _("You have been grabbed by an attacker. \n\
     You cannot dodge and blocking is very difficult.");
+    case DI_WINDED: return _("You are tired from running.");
     default: break;
     }
     return "Who knows?  This is probably a bug. (disease.cpp:dis_description)";

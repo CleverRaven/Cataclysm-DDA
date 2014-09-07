@@ -1536,6 +1536,9 @@ int player::run_cost(int base_cost, bool diag)
         movecost += 25;
     }
 
+    if ((has_active_mutation("SPRINT")) && !(disease_duration("winded") >= 20 * get_str())) {
+        movecost *= .75f;
+    }
     if (has_trait("FLEET") && flatground) {
         movecost *= .85f;
     }
@@ -5795,7 +5798,6 @@ void player::suffer()
                 add_morale(MORALE_MOODSWING, 100, 500);
             }
         }
-
         if (has_trait("VOMITOUS") && one_in(4200)) {
             vomit();
         }
