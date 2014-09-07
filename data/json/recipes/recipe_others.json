@@ -60,6 +60,29 @@
     ]
   ]
 },{
+        "type" : "recipe",
+  "result": "pillow",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_OTHER",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 10000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 12 ],
+      [ "needle_wood", 12 ],
+      [ "sewing_kit", 12 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 6 ],
+      [ "cotton_ball", 4]
+    ]
+  ]
+},{
   "type" : "recipe",
   "result": "caltrops",
   "id_suffix": "from wire",
