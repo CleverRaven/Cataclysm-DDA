@@ -6704,7 +6704,7 @@
         "type" : "COMESTIBLE",
         "id" : "jerky_human",
         "name" : "jerk jerky",
-        "name_plural" : "jerk jerkies",
+        "name_plural" : "jerk jerky",
         "weight" : 40,
         "color" : "brown",
         "addiction_type" : "none",
