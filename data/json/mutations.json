@@ -1950,7 +1950,7 @@
         "name" : "Resilient",
         "points" : 3,
         "description" : "You can survive injuries that would incapacitate humans: you get a 20% bonus to all hit points. Stacks with Tough, etc.",
-        "prereqs" : ["LARGE_OK", "HUGE_OK", "STR_UP_3", "MASOCHIST_MED"],
+        "prereqs" : ["LARGE_OK", "HUGE_OK", "STR_UP_3", "STR_UP_4", "MASOCHIST_MED"],
         "threshreq" : ["THRESH_URSINE", "THRESH_CATTLE", "THRESH_CHIMERA", "THRESH_MEDICAL", "THRESH_LIZARD", "THRESH_BEAST"],
         "cancels" : ["FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW"],
         "changes_to" : ["MUT_TOUGH2"],
@@ -2371,6 +2371,7 @@
         "ugliness" : 2,
         "description" : "Your muscles are noticeably bulging. Strength + 7",
         "prereqs" : ["STR_UP_3"],
+        "leads_to" : ["MUT_TOUGH"],
         "threshreq" : ["THRESH_BEAST", "THRESH_URSINE"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_URSINE"]
     },{
