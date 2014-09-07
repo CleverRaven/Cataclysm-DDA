@@ -630,6 +630,15 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "bed",
+    "items":[
+      ["blanket", 60],
+      ["down_blanket", 25],
+      ["pillow", 60],
+      ["down_pillow", 25]
+    ]
+  },{
+    "type" : "item_group",
     "id" : "home_hw",
     "items":[
       ["superglue", 30],
@@ -805,7 +814,7 @@
       ["dinosuit", 4],
       ["glowstick", 60],
       ["handflare", 40],
-      ["blanket", 20],
+      ["blanket", 10],
       ["house_coat", 25],
       ["talking_doll", 65],
       ["marble", 65],
@@ -3792,6 +3801,9 @@
       ["aspirin", 40],
       ["vaccine_shot", 5],
       ["blanket", 50],
+      ["down_blanket", 10],
+      ["pillow", 50],
+      ["down_pillow", 15],
       ["smoxygen_tank", 10],
       ["antiparasitic", 3],
       ["diazepam", 3],
@@ -4776,6 +4788,9 @@
       ["ax", 8],
       ["heatpack", 60],
       ["blanket", 20],
+      ["down_blanket", 10],
+      ["pillow", 20],
+      ["down_pillow", 15],
       ["emer_blanket", 20],
       ["flyer", 10],
       ["gasoline_lantern", 5],
@@ -5280,7 +5295,7 @@
       ["dinosuit", 4],
       ["jedi_cloak", 4],
       ["glowstick", 60],
-      ["blanket", 20],
+      ["blanket", 10],
       ["house_coat", 25],
       ["talking_doll", 5],
       ["marble", 5],
