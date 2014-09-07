@@ -6342,29 +6342,7 @@ void player::drench(int saturation, int flags)
             }
         }
 
-        /**
 
-        Mutations can affect the duration of the player being wet.
-
-        **/
-        int dur = 60;
-        int d_start = 30;
-        if (morale_cap < 0) {
-            if (has_trait("LIGHTFUR") || has_trait("FUR") || has_trait("FELINE_FUR") || has_trait("LUPINE_FUR")) {
-                dur /= 5;
-                d_start /= 5;
-            }
-            // Shaggy fur holds water longer.  :-/
-            if (has_trait("URSINE_FUR")) {
-                dur /= 3;
-                d_start /= 3;
-            }
-        } else {
-            if (has_trait("SLIMY")) {
-                dur *= 1.2;
-                d_start *= 1.2;
-            }
-        }
 
         /**
 
@@ -6417,6 +6395,24 @@ void player::drench_mut_calc()
 
 void player::update_body_wetness()
 {
+    /**
+    Mutations can affect the duration of the player being wet.
+    **/
+    int turns = 10;
+    if (has_trait("LIGHTFUR") || has_trait("FUR") || has_trait("FELINE_FUR") || has_trait("LUPINE_FUR")) {
+        turns += 2;
+    }
+    if (has_trait("URSINE_FUR")) {
+        turns += 5;
+    }
+    if (has_trait("SLIMY")) {
+        turns -= 5;
+    }
+
+    if (calendar::turn % turns != 0) {
+        return;
+    }
+
     for (int i = 0; i < num_bp; ++i)
     {
         if (body_wetness[i] == 0) continue;
