@@ -937,11 +937,13 @@ void game::cleanup_at_end()
             }
         } else if (ACTIVE_WORLD_OPTIONS["DELETE_WORLD"] != "no") {
             std::stringstream message;
-            message << _("World retained. Characters remaining:");
+            std::string tmpmessage;
             for (std::vector<std::string>::iterator it = characters.begin();
                  it != characters.end(); ++it) {
-                message << "\n  " << *it;
+                tmpmessage += "\n  ";
+                tmpmessage += *it;
             }
+            message << string_format(_("World retained. Characters remaining:%s"),tmpmessage.c_str());
             popup(message.str(), PF_NONE);
         }
         if (gamemode) {
@@ -4608,19 +4610,23 @@ void game::debug()
             data << npc_class_name(p->myclass) << "; " <<
                  npc_attitude_name(p->attitude) << std::endl;
             if (p->has_destination()) {
-                data << _("Destination: ") << p->goal.x << ":" << p->goal.y << "(" <<
-                     otermap[overmap_buffer.ter(p->goal)].name << ")" << std::endl;
+                data << string_format(_("Destination: %d:%d (%s)"),
+                        p->goal.x, p->goal.y,
+                        otermap[overmap_buffer.ter(p->goal)].name.c_str()) << std::endl;
             } else {
                 data << _("No destination.") << std::endl;
             }
-            data << _("Trust: ") << p->op_of_u.trust << _(" Fear: ") << p->op_of_u.fear <<
-                 _(" Value: ") << p->op_of_u.value << _(" Anger: ") << p->op_of_u.anger <<
-                 _(" Owed: ") << p->op_of_u.owed << std::endl;
+            data << string_format(_("Trust: %d"), p->op_of_u.trust) << " "
+                 << string_format(_("Fear: %d"), p->op_of_u.fear) << " "
+                 << string_format(_("Value: %d"), p->op_of_u.value) << " "
+                 << string_format(_("Anger: %d"), p->op_of_u.anger) << " "
+                 << string_format(_("Owed: %d"), p->op_of_u.owed) << std::endl;
 
-            data << _("Aggression: ") << int(p->personality.aggression) << _(" Bravery: ") <<
-                 int(p->personality.bravery) << _(" Collector: ") <<
-                 int(p->personality.collector) << _(" Altruism: ") <<
-                 int(p->personality.altruism) << std::endl << " " << std::endl;
+            data << string_format(_("Aggression: %d"), int(p->personality.aggression)) << " "
+                 << string_format(_("Bravery: %d"), int(p->personality.bravery)) << " "
+                 << string_format(_("Collector: %d"), int(p->personality.collector)) << " "
+                 << string_format(_("Altruism: %d"), int(p->personality.altruism)) << std::endl;
+
             nmenu.text = data.str();
             nmenu.addentry(0, true, 's', "%s", _("Edit [s]kills"));
             nmenu.addentry(1, true, 'i', "%s", _("Grant [i]tems"));
@@ -4856,7 +4862,7 @@ void game::disp_kills()
     if (data.empty()) {
         buffer << _("You haven't killed any monsters yet!");
     } else {
-        buffer << _("KILL COUNT: ") << totalkills;
+        buffer << string_format(_("KILL COUNT: %d"), totalkills);
     }
     display_table(w, buffer.str(), 3, data);
 
