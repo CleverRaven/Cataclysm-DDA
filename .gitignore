@@ -64,3 +64,5 @@ lang/mo/
 # Netbeans IDE folders
 nbproject/
 
+# Debain package files
+debian/
