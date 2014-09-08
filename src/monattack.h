@@ -20,9 +20,14 @@ class mattack
         void vine               (monster *z);
         void spit_sap           (monster *z);
         void triffid_heartbeat  (monster *z);
-        void fungus             (monster *z);
-        void fungus_growth      (monster *z);
-        void fungus_sprout      (monster *z);
+        void fungus             (monster *z); // Generic fungal spore-launch
+        void fungus_haze        (monster *z); // Broadly scatter aerobics
+        void fungus_big_blossom (monster *z); // Aerobic & anaerobic, as needed
+        void fungus_inject      (monster *z); // Directly inject the spores
+        void fungus_bristle     (monster *z); // Fungal hedgrow rake & inject
+        void fungus_growth      (monster *z); // Sporeling -> fungaloid
+        void fungus_sprout      (monster *z); // Grow fungal walls
+        void fungus_fortify     (monster *z); // Grow fungal hedgerows
         void leap               (monster *z);
         void dermatik           (monster *z);
         void dermatik_growth    (monster *z);
