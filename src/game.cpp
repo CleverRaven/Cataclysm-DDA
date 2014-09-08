@@ -13197,28 +13197,28 @@ void game::on_move_effects()
                     u.thirst++;
                     u.fatigue++;
                   }
-                  if (one_in(7)){
+                  if (one_in(6)){
                     u.hunger++;
                   }
               } if ((!u.has_trait("NOPAIN")) && (u.disease_duration("winded") >= 10 * u.get_str()) && (one_in(5))) {
                         u.add_msg_if_player(m_bad, _("Your side is cramping from exertion!"));
-                        if (u.pain < 50) {
+                        if (u.pain < 10) {
                         u.mod_pain(rng(0,1));
                         }
                     if ((!u.has_trait("NOPAIN"))  && (u.disease_duration("winded") >= 15 * u.get_str())) {
-                        u.add_msg_if_player(m_bad, _("You're exhausted from running!  You need to stop!"));
-                        if (u.pain < 50) {
+                        u.add_msg_if_player(m_bad, _("You're exhausted from running and can barely continue!"));
+                        if (u.pain < 15) {
                         u.mod_pain(rng(0,1));
                         }
-                        if (one_in(5)) {
-                        if (u.pain < 50) {
+                        if (one_in(4)) {
+                        if (u.pain < 20) {
                         u.mod_pain(rng(1,2));
                         }
                         }
                       }
                  }
                  if ((!u.has_trait("NOPAIN")) && (u.disease_duration("winded") >= 20 * u.get_str()) && (one_in(2))) {
-                      u.add_msg_if_player(m_bad, _("You can run no further!"));
+                      u.add_msg_if_player(m_bad, _("You can run no further!  You need to stop!"));
                  }
             }
     }

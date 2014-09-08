@@ -2,9 +2,9 @@
    {
         "type" : "mutation",
         "id" : "SPRINT",
-        "name" : "Run For It!",
+        "name" : "Sprint",
         "points" : 0,
-        "description" : "Activate this ability to run faster at the cost of fatigue and thirst.",
+        "description" : "This basic ability allows you to run faster.",
         "starting_trait" : false,
         "valid" : false,
         "active"     :    true,
