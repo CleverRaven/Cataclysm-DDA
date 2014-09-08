@@ -1989,7 +1989,7 @@
     "color": "dark_gray",
     "name": "H&K 416A5",
     "name_plural": "H&K",
-    "description": "Designed to replace the M4A1, the Heckler and Koch 416A5 features most the former's strengths, while being considerably more durable.",
+    "description": "Designed to replace the M4A1, the Heckler and Koch 416A5 features most of the former's strengths, while being considerably more durable.",
     "price": 440000,
     "material": ["steel", "plastic"],
     "flags": "MODE_BURST",
