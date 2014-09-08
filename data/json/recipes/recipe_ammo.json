@@ -2572,28 +2572,18 @@
     {"id":"HAMMER","level":3,"amount":1}
     ], "tools": [
      [
-      ["tongs", -1]
-     ],
-     [
       ["swage", -1]
      ],
      [
-      ["anvil", -1]
-     ],
-     [
       ["press", -1]
-     ],
-     [
-        [ "matches", 10 ]
-     ],
-     [
-      ["forge", 50], ["char_forge", 10]
      ]
     ],
     "components": [
-      [
-        [ "scrap", 4 ]
-      ],
+    [
+      [ "can_drink", 2 ],
+      [ "can_food", 2 ],
+      [ "scrap", 4 ]
+    ],
       [
         [ "oxy_powder", 100 ]
       ]
@@ -2615,28 +2605,18 @@
     {"id":"HAMMER","level":3,"amount":1}
     ], "tools": [
      [
-      ["tongs", -1]
-     ],
-     [
       ["swage", -1]
      ],
      [
-      ["anvil", -1]
-     ],
-     [
       ["press", -1]
-     ],
-     [
-        [ "matches", 10 ]
-     ],
-     [
-      ["forge", 50], ["char_forge", 10]
      ]
     ],
     "components": [
-      [
-        [ "scrap", 4 ]
-      ],
+    [
+      [ "can_drink", 2 ],
+      [ "can_food", 2 ],
+      [ "scrap", 4 ]
+    ],
       [
         [ "oxy_powder", 100 ]
       ]
@@ -2658,28 +2638,18 @@
     {"id":"HAMMER","level":3,"amount":1}
     ], "tools": [
      [
-      ["tongs", -1]
-     ],
-     [
       ["swage", -1]
      ],
      [
-      ["anvil", -1]
-     ],
-     [
       ["press", -1]
-     ],
-     [
-        [ "matches", 10 ]
-     ],
-     [
-      ["forge", 50], ["char_forge", 10]
      ]
     ],
     "components": [
-      [
-        [ "scrap", 4 ]
-      ],
+    [
+      [ "can_drink", 2 ],
+      [ "can_food", 2 ],
+      [ "scrap", 4 ]
+    ],
       [
         [ "oxy_powder", 100 ]
       ]
@@ -2701,28 +2671,18 @@
     {"id":"HAMMER","level":3,"amount":1}
     ], "tools": [
      [
-      ["tongs", -1]
-     ],
-     [
       ["swage", -1]
      ],
      [
-      ["anvil", -1]
-     ],
-     [
       ["press", -1]
-     ],
-     [
-        [ "matches", 10 ]
-     ],
-     [
-      ["forge", 50], ["char_forge", 10]
      ]
     ],
     "components": [
-      [
-        [ "scrap", 4 ]
-      ],
+    [
+      [ "can_drink", 2 ],
+      [ "can_food", 2 ],
+      [ "scrap", 4 ]
+    ],
       [
         [ "oxy_powder", 100 ]
       ]
@@ -2744,28 +2704,18 @@
     {"id":"HAMMER","level":3,"amount":1}
     ], "tools": [
      [
-      ["tongs", -1]
-     ],
-     [
       ["swage", -1]
      ],
      [
-      ["anvil", -1]
-     ],
-     [
       ["press", -1]
-     ],
-     [
-        [ "matches", 10 ]
-     ],
-     [
-      ["forge", 50], ["char_forge", 10]
      ]
     ],
     "components": [
-      [
-        [ "scrap", 4 ]
-      ],
+    [
+      [ "can_drink", 2 ],
+      [ "can_food", 2 ],
+      [ "scrap", 4 ]
+    ],
       [
         [ "oxy_powder", 100 ]
       ]
