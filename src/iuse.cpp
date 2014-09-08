@@ -1415,6 +1415,7 @@ int iuse::oxygen_bottle(player *p, item *it, bool)
 {
     p->moves -= 500;
     p->add_msg_if_player(_("You breathe deeply from the %s"), it->tname().c_str());
+    p->rem_disease("winded");
     if (p->has_effect("smoke")) {
         p->remove_effect("smoke");
     } else if (p->has_disease("asthma")) {
@@ -7966,7 +7967,7 @@ int iuse::adrenaline_injector(player *p, item *it, bool)
 {
     p->moves -= 100;
     p->add_msg_if_player(_("You inject yourself with adrenaline."));
-
+    p->rem_disease("winded");
     item syringe( "syringe", it->bday );
     p->i_add( syringe );
     if (p->has_disease("adrenaline")) {
@@ -8001,6 +8002,7 @@ int iuse::jet_injector(player *p, item *it, bool)
         p->rem_disease("bleed");
         p->rem_disease("fungus");
         p->rem_disease("dermatik");
+        p->rem_disease("winded");
         p->radiation += 4;
         p->healall(20);
     }
