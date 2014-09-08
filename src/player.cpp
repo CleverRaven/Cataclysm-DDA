@@ -10068,8 +10068,28 @@ void player::try_to_sleep()
             add_msg(m_bad, _("Your roots scrabble ineffectively at the unyielding surface."));
         }
     }
-    if( (furn_at_pos == f_bed || furn_at_pos == f_makeshift_bed ||
-         trap_at_pos == tr_cot || trap_at_pos == tr_rollmat ||
+    int bed_pieces = 0;
+    if (furn_at_pos == f_bed){
+        for (int i = -1; i <= 1; i++){
+            for (int j = -1; j <= 1; j++){
+                vehicle *veh = g->m.veh_at (posx + i, posy + j, vpart);
+                if (g->m.furn(posx + i, posy + j) == f_bed || g->m.furn(posx + i, posy + j) == f_makeshift_bed ||
+                    (veh && veh->part_with_feature (vpart, "BED") >= 0)){
+                    bed_pieces++;
+                }
+            }
+        }
+        if (bed_pieces == 9){
+            add_msg(m_good, _("You are going to sleep like a king!"));
+        }
+        else if (bed_pieces > 1){
+            add_msg(m_good, _("This bed is so large and comfortable!"));
+        }
+        else if (bed_pieces == 1){
+            add_msg(m_good, _("This is a comfortable place to sleep."));
+        }
+    }
+    if( (trap_at_pos == tr_cot || trap_at_pos == tr_rollmat ||
          trap_at_pos == tr_fur_rollmat || furn_at_pos == f_armchair ||
          furn_at_pos == f_sofa || furn_at_pos == f_hay || ter_at_pos == t_improvised_shelter ||
          (veh && veh->part_with_feature (vpart, "SEAT") >= 0) ||
@@ -10087,64 +10107,84 @@ void player::try_to_sleep()
 
 bool player::can_sleep()
 {
- int sleepy = 0;
- bool plantsleep = false;
- if (has_addiction(ADD_SLEEP))
-  sleepy -= 3;
- if (has_trait("INSOMNIA"))
-  sleepy -= 8;
- if (has_trait("EASYSLEEPER"))
-  sleepy += 8;
- if (has_trait("CHLOROMORPH"))
-  plantsleep = true;
+    int sleepy = 0;
+    bool plantsleep = false;
+    if (has_addiction(ADD_SLEEP))
+        sleepy -= 3;
+    if (has_trait("INSOMNIA"))
+        sleepy -= 8;
+    if (has_trait("EASYSLEEPER"))
+        sleepy += 8;
+    if (has_trait("CHLOROMORPH"))
+        plantsleep = true;
 
- int vpart = -1;
- vehicle *veh = g->m.veh_at (posx, posy, vpart);
- const trap_id trap_at_pos = g->m.tr_at(posx, posy);
- const ter_id ter_at_pos = g->m.ter(posx, posy);
- const furn_id furn_at_pos = g->m.furn(posx, posy);
- if ( ((veh && veh->part_with_feature (vpart, "BED") >= 0) ||
-     furn_at_pos == f_makeshift_bed || trap_at_pos == tr_cot ||
-     furn_at_pos == f_sofa || furn_at_pos == f_hay) &&
-     (!(plantsleep)) ) {
-  sleepy += 4;
- }
- else if ( ((veh && veh->part_with_feature (vpart, "SEAT") >= 0) ||
-      trap_at_pos == tr_rollmat || trap_at_pos == tr_fur_rollmat ||
-      furn_at_pos == f_armchair || ter_at_pos == t_improvised_shelter) && (!(plantsleep)) ) {
-    sleepy += 3;
- }
- else if ( (furn_at_pos == f_bed) && (!(plantsleep)) ) {
-    sleepy += 5;
- }
- else if ( (ter_at_pos == t_floor) && (!(plantsleep)) ) {
-    sleepy += 1;
- }
- else if (plantsleep) {
-    if ((ter_at_pos == t_dirt || ter_at_pos == t_pit ||
-        ter_at_pos == t_dirtmound || ter_at_pos == t_pit_shallow) &&
-        furn_at_pos == f_null) {
-        sleepy += 10; // It's very easy for Chloromorphs to get to sleep on soil!
+    int bed_pieces = 0;
+    int vpart = -1;
+
+    if (g->m.furn(posx, posy) == f_bed){
+        for (int i = -1; i <= 1; i++){
+            for (int j = -1; j <= 1; j++){
+                vehicle *veh = g->m.veh_at (posx + i, posy + j, vpart);
+                if (g->m.furn(posx + i, posy + j) == f_bed || g->m.furn(posx + i, posy + j) == f_makeshift_bed ||
+                    (veh && veh->part_with_feature (vpart, "BED") >= 0)){
+                    bed_pieces++;
+                }
+            }
+        }
+        if (bed_pieces == 9){
+            sleepy += 2;
+        }
+        else if (bed_pieces > 1){
+            sleepy += 1;
+        }
     }
-    else if ((ter_at_pos == t_grass || ter_at_pos == t_ash) &&
-        furn_at_pos == f_null) {
-        sleepy += 5; // Not as much if you have to dig through stuff first
+    vpart = -1;
+    vehicle *veh = g->m.veh_at (posx, posy, vpart);
+    const trap_id trap_at_pos = g->m.tr_at(posx, posy);
+    const ter_id ter_at_pos = g->m.ter(posx, posy);
+    const furn_id furn_at_pos = g->m.furn(posx, posy);
+    if ( ((veh && veh->part_with_feature (vpart, "BED") >= 0) ||
+        furn_at_pos == f_makeshift_bed || trap_at_pos == tr_cot ||
+        furn_at_pos == f_sofa || furn_at_pos == f_hay) &&
+        (!(plantsleep)) ) {
+        sleepy += 4;
     }
-    else {
-        sleepy -= 999; // Sleep ain't happening
+    else if ( ((veh && veh->part_with_feature (vpart, "SEAT") >= 0) ||
+        trap_at_pos == tr_rollmat || trap_at_pos == tr_fur_rollmat ||
+        furn_at_pos == f_armchair || ter_at_pos == t_improvised_shelter) && (!(plantsleep)) ) {
+        sleepy += 3;
     }
- }
- else
-  sleepy -= g->m.move_cost(posx, posy);
- if (fatigue < 192)
-  sleepy -= int( (192 - fatigue) / 4);
- else
-  sleepy += int((fatigue - 192) / 16);
- sleepy += rng(-8, 8);
- sleepy -= 2 * stim;
- if (sleepy > 0)
-  return true;
- return false;
+    else if ( (furn_at_pos == f_bed) && (!(plantsleep)) ) {
+        sleepy += 5;
+    }
+    else if ( (ter_at_pos == t_floor) && (!(plantsleep)) ) {
+        sleepy += 1;
+    }
+    else if (plantsleep) {
+        if ((ter_at_pos == t_dirt || ter_at_pos == t_pit ||
+            ter_at_pos == t_dirtmound || ter_at_pos == t_pit_shallow) &&
+            furn_at_pos == f_null) {
+            sleepy += 10; // It's very easy for Chloromorphs to get to sleep on soil!
+        }
+        else if ((ter_at_pos == t_grass || ter_at_pos == t_ash) &&
+            furn_at_pos == f_null) {
+            sleepy += 5; // Not as much if you have to dig through stuff first
+        }
+        else {
+            sleepy -= 999; // Sleep ain't happening
+        }
+    }
+    else
+        sleepy -= g->m.move_cost(posx, posy);
+    if (fatigue < 192)
+        sleepy -= int( (192 - fatigue) / 4);
+    else
+        sleepy += int((fatigue - 192) / 16);
+    sleepy += rng(-8, 8);
+    sleepy -= 2 * stim;
+    if (sleepy > 0)
+        return true;
+    return false;
 }
 
 void player::fall_asleep(int duration)

@@ -10261,7 +10261,7 @@
     {
         "type" : "ARMOR",
         "id" : "technician_pants_gray",
-        "name" : "blue work pants",
+        "name" : "gray work pants",
         "name_plural" : "gray work pants",
         "weight" : 520,
         "color" : "ltgray",
