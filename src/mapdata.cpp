@@ -204,6 +204,9 @@ ter_t null_terrain_t() {
   new_terrain.set_flag("TRANSPARENT");
   new_terrain.set_flag("DIGGABLE");
   new_terrain.examine = iexamine_function_from_string("none");
+  new_terrain.bday = 0;
+  new_terrain.harvest_season = 0;
+  new_terrain.harvestable = "";
   new_terrain.loadid = 0;
   new_terrain.open = "";
   new_terrain.close = "";
@@ -325,7 +328,14 @@ void load_terrain(JsonObject &jsobj)
     //If not specified, default to no action
     new_terrain.examine = iexamine_function_from_string("none");
   }
-
+  //if the terrain has something harvestable it will have a product & season to be harvested in the json
+  if (jsobj.has_member("harvestable")) {
+    new_terrain.harvestable = jsobj.get_string("harvestable");
+    if (jsobj.get_string("harvest_season") == "SPRING") {new_terrain.harvest_season = 0;} //convert the season to int for calendar compare
+    if (jsobj.get_string("harvest_season") == "SUMMER") {new_terrain.harvest_season = 1;}
+    if (jsobj.get_string("harvest_season") == "AUTUMN") {new_terrain.harvest_season = 2;}
+    if (jsobj.get_string("harvest_season") == "WINTER") {new_terrain.harvest_season = 3;}
+  }  
   new_terrain.open = "";
   if ( jsobj.has_member("open") ) {
       new_terrain.open = jsobj.get_string("open");

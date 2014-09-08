@@ -384,7 +384,7 @@ bool map::displace_vehicle (int &x, int &y, const int dx, const int dy, bool tes
             upd_y = psg->posy;
         }
     }
- 
+
     for (auto &p : veh->parts) {
         p.precalc_dx[0] = p.precalc_dx[1];
         p.precalc_dy[0] = p.precalc_dy[1];
@@ -1037,6 +1037,31 @@ ter_id map::ter(const int x, const int y) const {
  */
 std::string map::get_ter(const int x, const int y) const {
     return terlist[ ter(x,y) ].id;
+}
+
+/*
+ * Get the terrain harvestable string (what will get harvested from the terrain)
+ */
+std::string map::get_ter_harvestable(const int x, const int y) const {
+    return terlist[ ter(x,y) ].harvestable;
+}
+
+/*
+ * Get the harvest season from the terrain
+ */
+int map::get_ter_harvest_season(const int x, const int y) const {
+    return terlist[ ter(x,y) ].harvest_season;
+}
+
+/*
+ * Set the terrain's bday, and output it, or just output its bday if input is -1
+ * (todo: what if we want to give bdays from before gamestart? (day 0, turn 0))
+ */
+int map::get_ter_bday(const int x, const int y, const int bday) const {
+	if (bday != -1) {
+		terlist[ ter(x,y) ].bday = bday;
+	}
+	return terlist[ ter(x,y) ].bday;
 }
 
 /*
@@ -2616,7 +2641,7 @@ void map::spawn_items(const int x, const int y, const std::vector<item> &new_ite
             }
             //Clone unsided item
             item new_item2 = new_item;
-            
+
             //Add new sides to both items
             new_item.item_tags.insert("LEFT");
             new_item2.item_tags.insert("RIGHT");
