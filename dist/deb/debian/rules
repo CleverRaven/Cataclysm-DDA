@@ -23,21 +23,23 @@ clean:
 	dh_testdir
 	dh_auto_clean
 	rm -f build-stamp
-#	$(MAKE) --silent clean
+	$(MAKE) --silent clean
 	dh_clean
 
-cataclysm-dda-common:
 # LUA bindings should be created before.
+cataclysm-dda-common:
 	dh_prep
 	lang/compile_mo.sh
 	dh_install --exclude=".gitkeep" -p cataclysm-dda-common
 	fakeroot dh_gencontrol -p cataclysm-dda-common -- -v$(VERSION)
+	fakeroot dh_md5sums -p cataclysm-dda-common
 	dh_builddeb -p cataclysm-dda-common
 
 cataclysm-dda-gfx:
 	dh_prep
 	dh_install -p cataclysm-dda-gfx
 	fakeroot dh_gencontrol -p cataclysm-dda-gfx -- -v$(VERSION)
+	fakeroot dh_md5sums -p cataclysm-dda-gfx
 	dh_builddeb -p cataclysm-dda-gfx
 # Ncurses
 cataclysm-dda: clean build
@@ -45,6 +47,7 @@ cataclysm-dda: clean build
 	dh_install -p cataclysm-dda 
 	fakeroot dh_shlibdeps -p cataclysm-dda
 	fakeroot dh_gencontrol -p cataclysm-dda -- -v$(VERSION)
+	fakeroot dh_md5sums -p cataclysm-dda
 	dh_builddeb -p cataclysm-dda
 
 # SDL Tiles.
@@ -55,4 +58,5 @@ cataclysm-dda-tiles: clean build
 	dh_install -p cataclysm-dda-tiles 
 	fakeroot dh_shlibdeps -p cataclysm-dda-tiles
 	fakeroot dh_gencontrol -p cataclysm-dda-tiles -- -v$(VERSION)
+	fakeroot dh_md5sums -p cataclysm-dda-tiles
 	dh_builddeb -p cataclysm-dda-tiles
