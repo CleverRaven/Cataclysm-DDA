@@ -1752,7 +1752,7 @@ void map::mon_in_field(int x, int y, monster *z)
             if (!z->has_flag(MF_DIGS) && !z->has_flag(MF_FLIES) &&
                 !z->has_flag(MF_SLUDGEPROOF)) {
               z->moves -= cur->getFieldDensity() * 300;
-              curfield.removeField( fd_sludge );
+              field_list_it = curfield.removeField( fd_sludge );
             }
             break;
 
