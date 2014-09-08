@@ -52,7 +52,7 @@ void show_bionics_titlebar(WINDOW *window, player *p, std::string menu_mode)
     mvwprintz(window, 0,  0, c_blue, "%s", caption.c_str());
 
     std::stringstream pwr;
-    pwr << _("Power: ") << int(p->power_level) << _("/") << int(p->max_power_level);
+    pwr << string_format(_("Power: %i/%i"), int(p->power_level), int(p->max_power_level));
     int pwr_length = utf8_width(pwr.str().c_str()) + 1;
     mvwprintz(window, 0, getmaxx(window) - pwr_length, c_white, "%s", pwr.str().c_str());
 
