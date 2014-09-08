@@ -87,6 +87,9 @@ void player::activate_mutation(int b)
             add_msg(m_good, _("we're a team, we've got this!"));
         }
     }
+    else if (traits[mut].id == "BASE_SHOUT"){
+        g->sound(posx, posy, 2 * str_cur, _("You shout!"));
+    }
     else if (traits[mut].id == "SHOUT1"){
         g->sound(posx, posy, 10 + 2 * str_cur, _("You shout loudly!"));
     }

@@ -12,6 +12,19 @@
         "time"       :    100,
         "fatigue"    :    true,
         "thirst"     :    true
+    },{
+        "type" : "mutation",
+        "id" : "BASE_SHOUT",
+        "name" : "Shout",
+        "points" : 0,
+        "description" : "This basic ability allows you to make some noise and draw attention to yourself.",
+        "starting_trait" : false,
+        "valid" : false,
+        "active"     :    true,
+        "cost"       :    2,
+        "time"       :    0,
+        "fatigue"    :    true,
+        "thirst"     :    true
     },
     {
         "type" : "mutation",

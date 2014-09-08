@@ -531,8 +531,9 @@ bool player::create(character_type type, std::string tempname)
         inv.push_back(tmp);
     }
 
-    // This adds the basic 'Sprint' trait to all new characters so they can run.
+    // This adds the basic 'Sprint' and 'SHout' traits to all new characters.
     toggle_trait("SPRINT");
+    toggle_trait("BASE_SHOUT");
 
     // Ensure that persistent morale effects (e.g. Optimist) are present at the start.
     apply_persistent_morale();
