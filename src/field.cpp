@@ -1449,7 +1449,7 @@ void map::step_in_field(int x, int y)
         case fd_sludge:
             add_msg(m_bad, _("The sludge is thick and sticky. You struggle to pull free."));
             g->u.moves -= cur->getFieldDensity() * 300;
-            curfield.removeField( fd_sludge );
+            field_list_it = curfield.removeField( fd_sludge );
             break;
 
         case fd_fire:
@@ -1688,7 +1688,12 @@ void map::step_in_field(int x, int y)
             //Suppress warnings
             break;
         }
-        ++field_list_it;
+        if (field_list_it != curfield.getFieldEnd()) {
+            // It may have became the last one as a result of a field
+            // being removed, in which case incrementing would make us
+            // pass on by, so only increment if that's not the case
+            ++field_list_it;
+        }
     }
 
     if(no_rubble) {
@@ -1752,7 +1757,7 @@ void map::mon_in_field(int x, int y, monster *z)
             if (!z->has_flag(MF_DIGS) && !z->has_flag(MF_FLIES) &&
                 !z->has_flag(MF_SLUDGEPROOF)) {
               z->moves -= cur->getFieldDensity() * 300;
-              curfield.removeField( fd_sludge );
+              field_list_it = curfield.removeField( fd_sludge );
             }
             break;
 
@@ -1972,7 +1977,13 @@ void map::mon_in_field(int x, int y, monster *z)
             //Suppress warnings
             break;
         }
-        ++field_list_it;
+
+        if (field_list_it != curfield.getFieldEnd()) {
+            // It may have became the last one as a result of a field
+            // being removed, in which case incrementing would make us
+            // pass on by, so only increment if that's not the case
+            ++field_list_it;
+        }
     }
     if (dam > 0) {
         z->apply_damage( nullptr, bp_torso, dam );
