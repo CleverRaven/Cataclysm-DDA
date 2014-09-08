@@ -365,6 +365,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```VARIABLE_SIZE``` Has 'bigness' for power, wheel radius, etc.
 - ```BOARDABLE``` The player can safely move over or stand on this part while the vehicle is moving.
 - ```CARGO``` Cargo holding area.
+- ```COVERED``` Prevents items in cargo parts from emitting any light.
 - ```BELTABLE``` Seatbelt can be attached to this part.
 - ```SEATBELT``` Helps prevent the player from being ejected from the vehicle during an accident.
 - ```SEAT``` A seat where the player can sit or sleep.

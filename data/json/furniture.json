@@ -1288,6 +1288,26 @@
         "examine_action": "flower_datura"
     },{
         "type" : "furniture",
+        "id" : "f_flower_marloss",
+        "name": "marloss flower",
+        "symbol": "f",
+        "color": "cyan",
+        "move_cost_mod": 1,
+        "required_str": -1,
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "FUNGUS"],
+        "examine_action": "flower_marloss"
+    },{
+        "type" : "furniture",
+        "id" : "f_dandelion",
+        "name": "dandelion",
+        "symbol": "f",
+        "color": "yellow",
+        "move_cost_mod": 1,
+        "required_str": -1,
+        "flags": ["TRANSPARENT"],
+        "examine_action": "flower_dandelion"
+    },{
+        "type" : "furniture",
         "id" : "f_forge",
         "name": "forge",
         "symbol": "^",

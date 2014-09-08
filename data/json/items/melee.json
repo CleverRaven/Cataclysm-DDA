@@ -580,6 +580,38 @@
   },
 
   {
+    "type":"GENERIC",
+    "id": "pine_bough",
+    "symbol": "/",
+    "color": "green",
+    "name": "pine bough",
+    "description": "A branch from a pine tree, oozing sticky sap and bristling with prickly needles.",
+    "price": 0,
+    "material": "wood",
+    "weight": 220,
+    "volume": 2,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": -2
+  },
+
+  {
+    "type":"GENERIC",
+    "id": "pinecone",
+    "symbol": "/",
+    "color": "green",
+    "name": "pinecone",
+    "description": "A spiny pod from a pine tree.  Dry seeds rattle around inside when you shake it.",
+    "price": 0,
+    "material": "wood",
+    "weight": 90,
+    "volume": 1,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": -2
+  },
+
+  {
         "type":"GENERIC",
         "id": "spear_rebar",
         "symbol": "/",
@@ -1751,6 +1783,7 @@
   {
     "type":"GENERIC",
     "id": "rock_pot",
+    "category" : "tools",
     "symbol": ";",
     "color": "dark_gray",
     "name": "stone pot",
@@ -2042,6 +2075,7 @@
 
   {
     "type":"GENERIC",
+	"category" : "tools",
     "id": "knitting_needles",
     "symbol": ",",
     "color": "brown",
@@ -3591,6 +3625,54 @@
         "bashing": 0,
         "cutting": 0,
         "to_hit": 1
+   },
+   {
+     "id": "fencing_foil",
+     "type": "GENERIC", 
+     "symbol": "/",
+     "color": "light_gray",
+     "name": "fencing foil",
+     "description": "A weapon used for fencing, the most noble of all sports. Unfortunately, a fencing foil is rather useless as a weapon, due to its flexible shaft and dull tip.",
+     "price": 2000,
+     "material": "steel",
+     "weight": 500,
+     "volume": 5,
+     "bashing": 1,
+     "cutting": 2,
+     "to_hit": 2,
+     "flags": ["STAB", "SHEATH_SWORD", "PRECISE", "RAPID" ]
+   },
+   {
+     "id": "fencing_epee",
+     "type": "GENERIC", 
+     "symbol": "/",
+     "color": "light_gray",
+     "name": "fencing epee",
+     "description": "A weapon used for fencing, the most noble of all sports. The epee is the heaviest and stiffest of the fencing weapons, and therefore perhaps the most useful.",
+     "price": 2000,
+     "material": "steel",
+     "weight": 750,
+     "volume": 5,
+     "bashing": 3,
+     "cutting": 7,
+     "to_hit": 2,
+     "flags": ["STAB", "SHEATH_SWORD", "PRECISE", "RAPID" ]
+   },
+   {
+     "id": "fencing_sabre",
+     "type": "GENERIC", 
+     "symbol": "/",
+     "color": "light_gray",
+     "name": "fencing foil",
+     "description": "A weapon used for fencing, the most noble of all sports. The fencing sabre is shorter than foil or epee.",
+     "price": 2000,
+     "material": "steel",
+     "weight": 500,
+     "volume": 5,
+     "bashing": 1,
+     "cutting": 6,
+     "to_hit": 2,
+     "flags": ["STAB", "SHEATH_SWORD", "PRECISE", "RAPID" ]
    },
    {
    "id": "katana_fake",

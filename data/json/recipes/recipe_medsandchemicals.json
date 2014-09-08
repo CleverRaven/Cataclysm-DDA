@@ -2312,6 +2312,8 @@
       [ "bleach", 1 ],
       [ "lye_powder", 100 ],
       [ "bone", 20 ],
+      [ "pine_bough", 10 ],
+      [ "raw_dandelion", 20 ],
       [ "biollante_bud", 1],
       [ "ant_egg", 1 ],
       [ "slime_scrap", 1 ]

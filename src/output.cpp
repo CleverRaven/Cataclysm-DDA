@@ -460,14 +460,15 @@ bool query_yn(const char *mes, ...)
 
     while (ch != '\n' && ch != ' ' && ch != KEY_ESCAPE) {
 
-        gotkey = (force_uc && ((ch == ucselectors[0]) || (ch == ucselectors[1])))
-                 || (!force_uc && ((ch == selectors[0]) || (ch == selectors[1])));
+        // Upper case always works, lower case only if !force_uc.
+        gotkey = (ch == ucselectors[0]) || (ch == ucselectors[1]) ||
+            (!force_uc && ((ch == selectors[0]) || (ch == selectors[1])));
 
         if (gotkey) {
-            result = (!force_uc && (ch == selectors[0])) || (force_uc && (ch == ucselectors[0]));
+            result = (!force_uc && (ch == selectors[0])) || (ch == ucselectors[0]);
             break; // could move break past render to flash final choice once.
-        } else if ((!force_uc && (ch != ucselectors[0]) && (ch != ucselectors[1]))
-                   || (force_uc && ((ch != selectors[0]) && (ch != selectors[1])))) {
+        } else {
+            // Everything else toggles the selection.
             result = !result;
         }
 
@@ -1377,10 +1378,19 @@ std::string vstring_format(const char *pattern, va_list argptr)
         va_copy(cur_argptr, argptr);
         returned_length = vsnprintf(&buffer[0], buffer_size, pattern, cur_argptr);
         va_end(cur_argptr);
-        if (returned_length >= 0) {
+        if( returned_length >= 0 && returned_length <= buffer_size ) {
+            // Buffer size was sufficient, string has been printed, all is well
             break;
+        } else if( returned_length > 0 ) {
+            // For some reason (is this a mingw build with mingws own vsnprintf?)
+            // vsnprintf seems to be POSIX compatible and returns the required
+            // size of the buffer instead of -1
+            // Note that buffer_size is always > 0 and therefor the case returned_length==0
+            // is handled above.
+            buffer_size = returned_length + 1;
+        } else {
+            buffer_size *= 2;
         }
-        buffer_size *= 2;
     }
 #else
     va_copy(cur_argptr, argptr);

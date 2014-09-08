@@ -278,6 +278,13 @@ void game::init_fields()
             {_("hazy cloud"),_("sedative gas"),_("relaxation gas")}, '.', 8,
             { c_white, c_pink, c_cyan }, { true, true, true }, { false, true, true }, 500,
             {0,0,0}
+        },
+
+        {
+            "fd_fungal_haze",
+            {_("hazy cloud"),_("fungal haze"),_("thick fungal haze")}, '.', 8,
+            { c_white, c_cyan, c_cyan }, { true, true, false }, { true, true, true }, 40,
+            {0,0,0}
         }
 
     };
@@ -500,16 +507,21 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         // TODO-MATERIALS: use fire resistance
                     case fd_fire: {
                         std::vector<item> &items_here = i_at(x, y);
-                        for (std::vector<item>::iterator it =
-                                 items_here.begin();
-                             it != items_here.end();) {
-                            if (it->type->explode_in_fire()) {
+                        // explosions will destroy items on this square, iterating
+                        // backwards makes sure that every item is visited.
+                        for( int i = (int) items_here.size() - 1; i >= 0; --i ) {
+                            if( i >= (int) items_here.size() ) {
+                                // the last item exploded and destroyed some items,
+                                // now there is a gap (e.g. exploded item has index 10,
+                                // items 9,8,7 have been destroyed, i is now 9 and thereby
+                                // invalid, continue until the index is valid again.
+                                continue;
+                            }
+                            if( items_here[i].type->explode_in_fire() ) {
                                 // make a copy and let the copy explode
-                                item tmp(*it);
-                                it = items_here.erase(it);
+                                item tmp( items_here[i] );
+                                items_here.erase( items_here.begin() + i );
                                 tmp.detonate(point(x, y));
-                            } else {
-                                it++;
                             }
                         }
                         std::vector<item> new_content;
@@ -916,6 +928,29 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                     case fd_relax_gas:
                         spread_gas( this, cur, x, y, curtype, 25, 50 );
+                        break;
+
+                    case fd_fungal_haze:
+                        spread_gas( this, cur, x, y, curtype, 33,  5);
+                        int mondex;
+                        mondex = g->mon_at(x, y);
+                        if (g->m.move_cost(x, y) > 0) {
+                            if (mondex != -1) { // Haze'd!
+                                if (!g->zombie(mondex).type->in_species("FUNGUS") &&
+                                  !g->zombie(mondex).type->has_flag("NO_BREATHE")) {
+                                    if (g->u_see(x, y)) {
+                                        add_msg(m_info, _("The %s inhales thousands of live spores!"),
+                                    g->zombie(mondex).name().c_str());
+                                    }
+                                    monster &critter = g->zombie( mondex );
+                                    if( !critter.make_fungus() ) {
+                                        critter.die(nullptr);
+                                    }
+                                }
+                        } if (one_in(5 - cur->getFieldDensity())) {
+                            g->spread_fungus(x, y); //Haze'd terrain
+                        }
+                        }
                         break;
 
                     case fd_toxic_gas:
@@ -1362,7 +1397,7 @@ void map::step_in_field(int x, int y)
             //Moving through multiple webs stacks the effect.
             if (!g->u.has_trait("WEB_WALKER") && !g->u.in_vehicle) {
                 //between 5 and 15 minus your current web level.
-                int web = cur->getFieldDensity() * 5 - g->u.disease_duration("webbed");
+                int web = cur->getFieldDensity() * 5;
                 if (web > 0) { g->u.add_disease("webbed", web); }
                 field_list_it = curfield.removeField( fd_web ); //Its spent.
                 continue;
@@ -1492,6 +1527,13 @@ void map::step_in_field(int x, int y)
             if ((cur->getFieldDensity() > 1 || !one_in(3)) && (!inside || (inside && one_in(3))))
             {
                 g->u.add_env_effect("relax_gas", bp_mouth, cur->getFieldDensity() * 2, 3);
+            }
+            break;
+
+        case fd_fungal_haze:
+            if (!inside || (inside && one_in(4)) ) {
+                g->u.infect("fungus", bp_mouth, 3, 100, true, 2, 4, 1, 1);
+                g->u.infect("fungus", bp_eyes, 3, 100, true, 2, 4, 1, 1);
             }
             break;
 

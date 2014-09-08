@@ -54,6 +54,9 @@
     "items":[
       ["rock", 40],
       ["stick", 95],
+      ["pine_bough", 20],
+      ["acorns", 15],
+      ["pinecone", 5],
       ["bottle_plastic", 1],
       ["bottle_glass", 1],
       ["syringe", 1],
@@ -195,6 +198,8 @@
       ["gloves_fingerless", 20],
       ["bandana", 35],
       ["scarf", 45],
+      ["knit_scarf", 35],
+      ["long_knit_scarf", 5],
       ["scarf_long", 2],
       ["hairpin", 5],
       ["fc_hairpin", 1],
@@ -803,6 +808,7 @@
       ["blanket", 20],
       ["house_coat", 25],
       ["talking_doll", 65],
+      ["marble", 65],
       ["creepy_doll", 1],
       ["money_bundle", 30],
       ["wristwatch", 15],
@@ -1173,6 +1179,7 @@
       ["popcorn3", 35],
       ["fruit_leather", 25],
       ["kernels", 25],
+      ["pine_nuts", 5],
       ["candycigarette", 20]
     ]
   },{
@@ -1347,6 +1354,7 @@
       ["restaurantmap", 5],
       ["touristmap", 2],
       ["salt", 10],
+      ["pine_nuts", 10],
       ["brioche", 50]
     ]
   },{
@@ -1621,6 +1629,7 @@
       ["celery", 5],
       ["wheat", 3],
       ["onion", 3],
+      ["pine_nuts", 2],
       ["carrot", 3]
     ]
   },{
@@ -1928,6 +1937,12 @@
       ["runner_bag", 5],
       ["mouthpiece", 15],
       ["leathersandals", 10],
+      ["fencing_jacket", 8],
+      ["fencing_mask", 8],
+      ["fencing_pants", 8],
+      ["fencing_foil", 8],
+      ["fencing_sabre", 8],
+      ["fencing_epee", 8],
       ["survnote", 1]
     ]
   },{
@@ -2224,6 +2239,12 @@
       ["grapnel", 2],
       ["leathersandals", 15],
       ["sheath", 5],
+      ["fencing_jacket", 10],
+      ["fencing_mask", 10],
+      ["fencing_pants", 10],
+      ["fencing_foil", 10],
+      ["fencing_sabre", 10],
+      ["fencing_epee", 10],
       ["survnote", 1]
     ]
   },{
@@ -2314,6 +2335,7 @@
       ["jar_3l_glass", 8],
       ["flyer", 10],
       ["talking_doll", 60],
+      ["marble", 65],
       ["55gal_drum", 1],
       ["30gal_drum", 2],
       ["creepy_doll", 1],
@@ -2760,6 +2782,8 @@
       ["gloves_liner", 25],
       ["gloves_leather", 45],
       ["scarf", 45],
+      ["knit_scarf", 35],
+      ["long_knit_scarf", 15],
       ["scarf_long", 2],
       ["hat_cotton", 45],
       ["hat_knit", 25],
@@ -2864,6 +2888,8 @@
       ["gloves_liner", 25],
       ["gloves_leather", 45],
       ["scarf", 45],
+      ["knit_scarf", 35],
+      ["long_knit_scarf", 5],
       ["scarf_long", 1],
       ["hat_cotton", 45],
       ["hat_knit", 25],
@@ -5257,6 +5283,7 @@
       ["blanket", 20],
       ["house_coat", 25],
       ["talking_doll", 5],
+      ["marble", 5],
       ["creepy_doll", 1],
       ["wristwatch", 15],
       ["pocketwatch", 5],
@@ -7949,6 +7976,7 @@
       ["holster", 14],
       ["bandana", 18],
       ["scarf", 26],
+      ["long_knit_scarf", 15],
       ["mask_gas_xl", 4],
       ["hat_boonie", 16],
       ["beret", 18],
@@ -8014,6 +8042,9 @@
     "items":[
       ["rock", 5],
       ["stick", 5],
+      ["pine_bough", 2],
+      ["acorns", 2],
+      ["pinecone", 3],
       ["flyer", 1],
       ["bag_plastic", 3],
       ["bottle_plastic", 2],
@@ -8160,6 +8191,7 @@
       ["dinosuit", 5],
       ["gum", 10],
       ["talking_doll", 11],
+      ["marble", 15],
       ["creepy_doll", 1],
       ["jedi_cloak", 5],
       ["glowstick", 15],
@@ -8422,7 +8454,8 @@
 "entries" : [
       { "item": "egg_bird", "prob": 15, "count-min": 2, "count-max": 5 },
       { "item": "egg_reptile", "prob": 5, "count-min": 2, "count-max": 5 },
-      { "item": "wild_herbs", "prob": 10 }
+      { "item": "wild_herbs", "prob": 10 },
+      { "item": "buckwheat", "prob": 5, "count-min": 1, "count-max": 2 }
     ]
   },{
 "type" : "item_group",
@@ -8433,7 +8466,8 @@
       { "group": "forage_mushroom", "prob": 50 },
       { "item": "egg_bird", "prob": 15, "count-min": 2, "count-max": 5 },
       { "item": "egg_reptile", "prob": 5, "count-min": 2, "count-max": 5 },
-      { "item": "wild_herbs", "prob": 10 }
+      { "item": "wild_herbs", "prob": 10 },
+      { "item": "buckwheat", "prob": 10, "count-min": 1, "count-max": 4 }
     ]
   },{
 "type" : "item_group",
@@ -8444,7 +8478,8 @@
       { "group": "forage_mushroom", "prob": 50 },
       { "item": "egg_bird", "prob": 15, "count-min": 2, "count-max": 5 },
       { "item": "egg_reptile", "prob": 5, "count-min": 2, "count-max": 5 },
-      { "item": "wild_herbs", "prob": 10 }
+      { "item": "wild_herbs", "prob": 10 },
+      { "item": "buckwheat", "prob": 15, "count-min": 2, "count-max": 4 }
     ]
   },{
 "type" : "item_group",
@@ -8459,6 +8494,7 @@
 "entries":[
       { "item": "mushroom", "prob": 4, "count-min": 1, "count-max": 3 },
       { "item": "mushroom_poison", "prob": 3, "count-min": 1, "count-max": 3 },
+      { "item": "mushroom_morel", "prob": 2, "count-min": 1, "count-max": 4 },
       { "item": "mushroom_magic", "prob": 1, "count-min": 1, "count-max": 3 }
     ]
   },{
@@ -8488,6 +8524,25 @@
       ["bio_heatsink", 20],
       ["bio_watch", 20],
       ["bio_faraday", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "bionics_subs",
+    "note" : "Bionics dropped by substation mini-boss.",
+    "items":[
+      ["bio_power_storage", 20],
+      ["bio_batteries", 20],
+      ["bio_ups", 15],
+      ["bio_torsionratchet", 20],
+      ["bio_sunglasses", 25],
+      ["bio_dex_enhancer", 12],
+      ["bio_str_enhancer", 12],
+      ["bio_infrared", 25],
+      ["bio_targeting", 20],
+      ["bio_blaster", 15],
+      ["bio_emp", 20],
+      ["bio_chain_lightning", 15],
+      ["bio_adrenaline", 20]
     ]
   }
 ]

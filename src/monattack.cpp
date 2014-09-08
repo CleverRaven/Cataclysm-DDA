@@ -830,6 +830,162 @@ void mattack::fungus(monster *z)
     }
 }
 
+void mattack::fungus_haze(monster *z)
+{
+    z->sp_timeout = z->type->sp_freq; // Reset timer
+    //~ That spore sound again
+    g->sound(z->posx(), z->posy(), 10, _("Pouf!"));
+    if (g->u_see(z->posx(), z->posy())) {
+        add_msg(m_info, _("The %s pulses, and fresh fungal material bursts forth."), z->name().c_str());
+    }
+    z->moves -= 150;
+    for (int i = z->posx() - 3; i <= z->posx() + 3; i++) {
+        for (int j = z->posy() - 3; j <= z->posy() + 3; j++) {
+                g->m.add_field( i, j, fd_fungal_haze, rng(1, 2));
+        }
+    }
+}
+
+void mattack::fungus_big_blossom(monster *z)
+{
+    z->sp_timeout = z->type->sp_freq; // Reset timer
+    bool firealarm = false;
+    int monx = z->posx();
+    int mony = z->posy();
+    // Fungal fire-suppressor! >:D
+    for (int i = monx - 6; i <= monx + 6; i++) {
+        for (int j = mony - 6; j <= mony + 6; j++) {
+            if (g->m.get_field_strength(point (i, j), fd_fire) != 0) {
+                firealarm = true;
+            }
+            if (firealarm) {
+                g->m.field_at(i, j).removeField(fd_fire);
+                g->m.field_at(i, j).removeField(fd_smoke);
+                g->m.add_field(i, j, fd_fungal_haze, 3);
+            }
+        }
+    }
+    // Special effects handled outside the loop
+    if (firealarm){
+        if (g->u_see(monx, mony)) {
+            // Sucks up all the smoke
+            add_msg(m_warning, _("The %s suddenly inhales!"), z->name().c_str());
+        }
+        //~Sound of a giant fungal blossom inhaling
+        g->sound(monx, mony, 20, _("WOOOSH!"));
+        if (g->u_see(monx, mony)) {
+            add_msg(m_bad, _("The %s discharges an immense flow of spores, smothering the flames!"), z->name().c_str());
+        }
+        //~Sound of a giant fungal blossom blowing out the dangerous fire!
+        g->sound(monx, mony, 20, _("POUFF!"));
+        return;
+    }
+    // No fire detected, routine haze-emission
+    if (!firealarm) {
+        //~ That spore sound, much louder
+        g->sound(monx, mony, 15, _("POUF."));
+        if (g->u_see(monx, mony)) {
+            add_msg(m_info, _("The %s pulses, and fresh fungal material bursts forth!"), z->name().c_str());
+        }
+        z->moves -= 150;
+        for (int i = monx - 12; i <= monx + 12; i++) {
+            for (int j = mony - 12; j <= mony + 12; j++) {
+                g->m.add_field( i, j, fd_fungal_haze, rng(1, 2));
+            }
+        }
+    }
+}
+
+void mattack::fungus_inject(monster *z)
+{
+    if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 1) {
+        return;
+    }
+
+    z->sp_timeout = z->type->sp_freq; // Reset timer
+    add_msg(m_warning, _("The %s jabs at you with a needlelike point!"), z->name().c_str());
+    z->moves -= 150;
+
+    if (g->u.uncanny_dodge()) {
+        return;
+    }
+
+    // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
+    int dodge_check = std::max(g->u.get_dodge() - rng(0, z->type->melee_skill), 0L);
+    if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
+        add_msg(_("You dodge it!"));
+        g->u.practice( "dodge", z->type->melee_skill * 2 );
+        g->u.ma_ondodge_effects();
+        return;
+    }
+
+    body_part hit = random_body_part();
+    int dam = rng(5, 11);
+    dam = g->u.deal_damage( z, hit, damage_instance( DT_CUT, dam ) ).total_damage();
+
+    if (dam > 0) {
+        //~ 1$s is monster name, 2$s bodypart in accusative
+        add_msg(m_bad, _("The %1$s sinks its point into your %2$s!"), z->name().c_str(),
+                body_part_name_accusative(hit).c_str());
+
+        if(one_in(10 - dam)) {
+            g->u.add_disease("fungus", 100, false, 1, 1, 0, -1);
+            add_msg(m_warning, _("You feel thousands of live spores pumping into you..."));
+        }
+    } else {
+        //~ 1$s is monster name, 2$s bodypart in accusative
+        add_msg(_("The %1$s strikes your %2$s, but your armor protects you."), z->name().c_str(),
+                body_part_name_accusative(hit).c_str());
+    }
+
+    g->u.practice( "dodge", z->type->melee_skill );
+
+}
+void mattack::fungus_bristle(monster *z)
+{
+    if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 1) {
+        return;
+    }
+
+    z->sp_timeout = z->type->sp_freq; // Reset timer
+    add_msg(m_warning, _("The %s swipes at you with a barbed tendril!"), z->name().c_str());
+    z->moves -= 150;
+
+    if (g->u.uncanny_dodge()) {
+        return;
+    }
+
+    // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
+    int dodge_check = std::max(g->u.get_dodge() - rng(0, z->type->melee_skill), 0L);
+    if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
+        add_msg(_("You dodge it!"));
+        g->u.practice( "dodge", z->type->melee_skill * 2 );
+        g->u.ma_ondodge_effects();
+        return;
+    }
+
+    body_part hit = random_body_part();
+    int dam = rng(7, 16);
+    dam = g->u.deal_damage( z, hit, damage_instance( DT_CUT, dam ) ).total_damage();
+
+    if (dam > 0) {
+        //~ 1$s is monster name, 2$s bodypart in accusative
+        add_msg(m_bad, _("The %1$s sinks several needlelike barbs into your %2$s!"), z->name().c_str(),
+                body_part_name_accusative(hit).c_str());
+
+        if(one_in(15 - dam)) {
+            g->u.add_disease("fungus", 200, false, 1, 1, 0, -1);
+            add_msg(m_warning, _("You feel thousands of live spores pumping into you..."));
+        }
+    } else {
+        //~ 1$s is monster name, 2$s bodypart in accusative
+        add_msg(_("The %1$s slashes your %2$s, but your armor protects you."), z->name().c_str(),
+                body_part_name_accusative(hit).c_str());
+    }
+
+    g->u.practice( "dodge", z->type->melee_skill );
+}
+
 void mattack::fungus_growth(monster *z)
 {
     // Young fungaloid growing into an adult
@@ -852,6 +1008,25 @@ void mattack::fungus_sprout(monster *z)
             }
             if (g->is_empty(x, y)) {
                 monster wall(GetMType("mon_fungal_wall"));
+                wall.spawn(x, y);
+                g->add_zombie(wall);
+            }
+        }
+    }
+}
+
+void mattack::fungus_fortify(monster *z)
+{
+    z->sp_timeout = z->type->sp_freq; // Reset timer
+    for (int x = z->posx() - 1; x <= z->posx() + 1; x++) {
+        for (int y = z->posy() - 1; y <= z->posy() + 1; y++) {
+            if (g->u.posx == x && g->u.posy == y) {
+                add_msg(m_bad, _("You're shoved away as a fungal hedgerow grows!"));
+                g->fling_creature( &g->u, g->m.coord_to_angle(z->posx(), z->posy(), g->u.posx,
+                                   g->u.posy), rng(10, 50));
+            }
+            if (g->is_empty(x, y)) {
+                monster wall(GetMType("mon_fungal_hedgerow"));
                 wall.spawn(x, y);
                 g->add_zombie(wall);
             }

@@ -117,7 +117,7 @@ class inventory_selector
         inventory_selector(bool m, bool c, const std::string &t);
         ~inventory_selector();
 
-        std::vector<item> remove_dropping_items( player &u ) const;
+        void remove_dropping_items( player &u ) const;
 
     private:
         /** All the items that should be shown in the left column */
@@ -422,8 +422,8 @@ void inventory_selector::display() const
         for (drop_map::const_iterator a = dropping.begin(); a != dropping.end(); ++a) {
             if (a->first == -1 && a->second == -1) {
                 tmp.remove_weapon();
-            } else if (a->first == -1 && a->first == -1) {
-                tmp.weapon.charges -= a->first;
+            } else if (a->first == -1 && a->second != -1) {
+                tmp.weapon.charges -= a->second;
             } else if (a->first < 0) {
                 tmp.worn.erase(tmp.worn.begin() + player::worn_position_to_index(a->first));
             }
@@ -434,7 +434,8 @@ void inventory_selector::display() const
         print_inv_weight_vol(g->u.weight_carried(), g->u.volume_carried(), g->u.volume_capacity());
     }
     if (!multidrop && !compare) {
-        mvwprintw(w_inv, 1, 61, _("Hotkeys:  %d/%d "), g->u.allocated_invlets().size(), inv_chars.size());
+        mvwprintw(w_inv, 1, 61, _("Hotkeys:  %d/%d "),
+                  g->u.allocated_invlets().size(), inv_chars.size());
     }
     wrefresh(w_inv);
 }
@@ -723,9 +724,8 @@ void inventory_selector::set_drop_count(int it_pos, int count, const item &it)
     }
 }
 
-std::vector<item> inventory_selector::remove_dropping_items( player &u ) const
+void inventory_selector::remove_dropping_items( player &u ) const
 {
-    std::vector<item> ret;
     // We iterate backwards because deletion will invalidate later indices.
     for( inventory_selector::drop_map::const_reverse_iterator a = dropping.rbegin();
          a != dropping.rend(); ++a ) {
@@ -739,18 +739,16 @@ std::vector<item> inventory_selector::remove_dropping_items( player &u ) const
             if( count != -1 && count < charges ) {
                 charges = count;
             }
-            ret.push_back( u.inv.reduce_charges( a->first, charges ) );
         } else {
             size_t max_count = u.inv.const_stack( a->first ).size();
             if( count != -1 && ( size_t )count < max_count ) {
                 max_count = count;
             }
             for( size_t i = 0; i < max_count; i++ ) {
-                ret.push_back( u.inv.remove_item( a->first ) );
+                u.inv.remove_item( a->first );
             }
         }
     }
-    return ret;
 }
 
 int game::display_slice(indexed_invslice &slice, const std::string &title, const int &position)
@@ -911,19 +909,26 @@ int game::inv_for_flag(const std::string flag, const std::string title, bool aut
     return display_slice(reduced_inv, title);
 }
 
-std::vector<item> game::multidrop()
+int inventory::num_items_at_position( int position )
 {
-    int dummy = 0;
-    std::vector<item> dropped_worn;
-    std::vector<item> result = multidrop(dropped_worn, dummy);
-    result.insert(result.end(), dropped_worn.begin(), dropped_worn.end());
-    return result;
+    if( position < -1 ) {
+        return g->u.worn[ player::worn_position_to_index(position) ].count_by_charges() ?
+            g->u.worn[ player::worn_position_to_index(position) ].charges : 1;
+    } else if( position == -1 ) {
+        return g->u.weapon.count_by_charges() ? g->u.weapon.charges : 1;
+    } else {
+        const std::list<item> &stack = g->u.inv.const_stack(position);
+        if( stack.size() == 1 ) {
+            return stack.front().count_by_charges() ?
+                stack.front().charges : 1;
+        } else {
+            return stack.size();
+        }
+    }
 }
 
-std::vector<item> game::multidrop(std::vector<item> &dropped_worn, int &freed_volume_capacity)
+std::list<std::pair<int, int>> game::multidrop()
 {
-    freed_volume_capacity = 0;
-
     u.inv.restack(&u);
     u.inv.sort();
     const indexed_invslice stacks = u.inv.slice_filter();
@@ -947,44 +952,24 @@ std::vector<item> game::multidrop(std::vector<item> &dropped_worn, int &freed_vo
         } else if (action == "CONFIRM") {
             break;
         } else if (action == "QUIT") {
-            return std::vector<item>();
+            return std::list<std::pair<int, int> >();
         } else if (action == "RIGHT") {
             inv_s.set_selected_to_drop(count);
             count = 0;
         }
     }
 
-    std::vector<item> ret;
+    std::list<std::pair<int, int>> dropped_pos_and_qty;
 
-    ret = inv_s.remove_dropping_items(g->u);
-    const inventory_selector::drop_map &dropping = inv_s.dropping;
-    const inventory_selector::drop_map::const_iterator dit = dropping.find(-1);
-    if (dit != dropping.end()) {
-        if (dit->second == -1) {
-            ret.push_back(u.remove_weapon());
-        } else {
-            ret.push_back(u.weapon);
-            u.weapon.charges -= dit->second;
-            ret.back().charges = dit->second;
+    for( auto drop_pair : inv_s.dropping ) {
+        int num_to_drop = drop_pair.second;
+        if( num_to_drop == -1 ) {
+            num_to_drop = inventory::num_items_at_position( drop_pair.first );
         }
-    }
-    // We iterate backwards because deletion will invalidate later indices.
-    for( int k = u.worn.size() - 1; k >= 0; k-- ) {
-        const int wornpos = player::worn_position_to_index( k );
-        if( dropping.count( wornpos ) == 0 ) {
-            continue;
-        }
-        const it_armor *ita = dynamic_cast<const it_armor *>( u.worn[k].type );
-        if( !u.takeoff( wornpos, true, &dropped_worn ) ) {
-            continue;
-        }
-        u.moves -= 250; // same as in game::takeoff
-        if( ita != NULL ) {
-            freed_volume_capacity += ita->storage;
-        }
+        dropped_pos_and_qty.push_back( std::make_pair( drop_pair.first, num_to_drop ) );
     }
 
-    return ret;
+    return dropped_pos_and_qty;
 }
 
 void game::compare(int iCompareX, int iCompareY)

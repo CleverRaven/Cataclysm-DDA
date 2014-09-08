@@ -395,7 +395,7 @@ ter_id t_null,
     t_paper,
     t_rock_wall, t_rock_wall_half,
     // Tree
-    t_tree, t_tree_young, t_tree_apple, t_underbrush, t_shrub, t_shrub_blueberry, t_shrub_strawberry, t_trunk,
+    t_tree, t_tree_young, t_tree_apple, t_tree_pear, t_tree_cherry, t_tree_peach, t_tree_apricot, t_tree_plum, t_tree_pine, t_tree_deadpine, t_underbrush, t_shrub, t_shrub_blueberry, t_shrub_strawberry, t_trunk,
     t_root_wall,
     t_wax, t_floor_wax,
     t_fence_v, t_fence_h, t_chainfence_v, t_chainfence_h, t_chainfence_posts,
@@ -420,7 +420,7 @@ ter_id t_null,
     t_column,
     t_vat,
     t_cvdbody, t_cvdmachine,
-    t_water_pump,
+    t_water_pump, t_improvised_shelter,
     // Staircases etc.
     t_stairs_down, t_stairs_up, t_manhole, t_ladder_up, t_ladder_down, t_slope_down,
      t_slope_up, t_rope_up,
@@ -564,6 +564,13 @@ void set_ter_ids() {
     t_tree=terfind("t_tree");
     t_tree_young=terfind("t_tree_young");
     t_tree_apple=terfind("t_tree_apple");
+    t_tree_pear=terfind("t_tree_pear");
+    t_tree_cherry=terfind("t_tree_cherry");
+    t_tree_peach=terfind("t_tree_peach");
+    t_tree_apricot=terfind("t_tree_apricot");
+    t_tree_plum=terfind("t_tree_plum");
+    t_tree_pine=terfind("t_tree_pine");
+    t_tree_deadpine=terfind("t_tree_deadpine");
     t_underbrush=terfind("t_underbrush");
     t_shrub=terfind("t_shrub");
     t_shrub_blueberry=terfind("t_shrub_blueberry");
@@ -687,12 +694,13 @@ furn_id f_null,
     f_crate_c, f_crate_o,
     f_large_canvas_wall, f_canvas_wall, f_canvas_door, f_canvas_door_o, f_groundsheet, f_fema_groundsheet, f_large_groundsheet,
     f_large_canvas_door, f_large_canvas_door_o, f_center_groundsheet, f_skin_wall, f_skin_door, f_skin_door_o,  f_skin_groundsheet,
-    f_mutpoppy, f_flower_fungal, f_fungal_mass, f_fungal_clump,f_dahlia,f_datura,f_bluebell,
+    f_mutpoppy, f_flower_fungal, f_fungal_mass, f_fungal_clump,f_dahlia,f_datura,f_dandelion,f_bluebell,
     f_safe_c, f_safe_l, f_safe_o,
     f_plant_seed, f_plant_seedling, f_plant_mature, f_plant_harvest,
     f_fvat_empty, f_fvat_full,
     f_wood_keg,
     f_statue, f_egg_sackbw, f_egg_sackws, f_egg_sacke,
+    f_flower_marloss,
     f_floor_canvas,
     num_furniture_types;
 
@@ -759,6 +767,7 @@ void set_furn_ids() {
     f_bluebell=furnfind("f_bluebell");
     f_dahlia=furnfind("f_dahlia");
     f_datura=furnfind("f_datura");
+    f_dandelion=furnfind("f_dandelion");
     f_safe_c=furnfind("f_safe_c");
     f_safe_l=furnfind("f_safe_l");
     f_safe_o=furnfind("f_safe_o");
@@ -773,6 +782,7 @@ void set_furn_ids() {
     f_egg_sackbw=furnfind("f_egg_sackbw");
     f_egg_sackws=furnfind("f_egg_sackws");
     f_egg_sacke=furnfind("f_egg_sacke");
+    f_flower_marloss=furnfind("f_flower_marloss");
     f_floor_canvas=furnfind("f_floor_canvas");
     num_furniture_types = furnlist.size();
 }

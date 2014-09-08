@@ -531,12 +531,6 @@ bool player::create(character_type type, std::string tempname)
         inv.push_back(tmp);
     }
 
-    // make sure we have no mutations
-    for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter)
-        if (!has_base_trait(iter->first)) {
-            my_mutations.erase(iter->first);
-        }
-
     // Ensure that persistent morale effects (e.g. Optimist) are present at the start.
     apply_persistent_morale();
     return true;
@@ -898,7 +892,6 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
                         cLine = col_off_act;
                         if (iCurrentLine[iCurrentPage] == (int)i) {
                             cLine = hi_off;
-
                             if (u->has_conflicting_trait(vStartingTraits[iCurrentPage][i])) {
                                 cLine = hilite(c_dkgray);
                             } else if (u->has_trait(vStartingTraits[iCurrentPage][i])) {
@@ -971,8 +964,14 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
                         popup(_("Your profession of %s prevents you from removing this trait."),
                               u->prof->gender_appropriate_name(u->male).c_str());
                     }
+                    if(g->scen->locked_traits(cur_trait)){
+                        inc_type = 0;
+                        popup(_("The scenario you picked prevents you from removing this trait!"));
+                    }
                 } else if(u->has_conflicting_trait(cur_trait)) {
                     popup(_("You already picked a conflicting trait!"));
+                }else if(g->scen->forbidden_traits(cur_trait)) {
+                    popup(_("The scenario you picked prevents you from taking this trait!"));
                 } else if (iCurWorkingPage == 0 && num_good + traits[cur_trait].points >
                            max_trait_points) {
                     popup(ngettext("Sorry, but you can only take %d point of advantages.", "Sorry, but you can only take %d points of advantages.", max_trait_points),
@@ -1032,7 +1031,6 @@ inline bool profession_display_sort(const profession *a, const profession *b)
 int set_profession(WINDOW *w, player *u, int &points)
 {
     draw_tabs(w, _("PROFESSION"));
-
     int cur_id = 0;
     int retval = 0;
     const int iContentHeight = FULL_SCREEN_HEIGHT - 10;
@@ -1063,7 +1061,6 @@ int set_profession(WINDOW *w, player *u, int &points)
             break;
         }
     }
-
     input_context ctxt("NEW_CHAR_PROFESSIONS");
     ctxt.register_cardinal();
     ctxt.register_action("CONFIRM");
@@ -1514,14 +1511,16 @@ int set_scenario(WINDOW *w, player *u, int &points)
                 }
         } else if (action == "CONFIRM") {
 		u->start_location = sorted_scens[cur_id]->start_location();
-		u->prof = profession::generic();
 		u->str_max = 8;
 		u->dex_max = 8;
 		u->int_max = 8;
 		u->per_max = 8;
-		u->empty_traits();
-		points = OPTIONS["INITIAL_POINTS"] - sorted_scens[cur_id]->point_cost();
 		g->scen = scenario::scen(sorted_scens[cur_id]->ident());
+		u->prof = g->scen->get_profession();
+		u->empty_traits();
+		u->add_traits();
+		points = OPTIONS["INITIAL_POINTS"] - sorted_scens[cur_id]->point_cost();
+
 
         }else if (action == "PREV_TAB" && query_yn(_("Return to main menu?"))) {
             delwin(w_description);
@@ -1575,11 +1574,14 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
     select_location.text = _("Select a starting location.");
     int offset = 0;
     for( location_map::iterator loc = start_location::begin();
-         loc != start_location::end(); ++loc, ++offset ) {
-        select_location.entries.push_back( uimenu_entry( _( loc->second.name().c_str() ) ) );
-        if( loc->second.ident() == u->start_location ) {
-            select_location.selected = offset;
-        }
+         loc != start_location::end(); ++loc) {
+             if (g->scen->allowed_start(loc->second.ident()) || g->scen->has_flag("ALL_STARTS")){
+                 select_location.entries.push_back( uimenu_entry( _( loc->second.name().c_str() ) ) );
+                 if( loc->second.ident() == u->start_location ) {
+                    select_location.selected = offset;
+                 }
+                 offset++;
+             }
     }
     select_location.setup();
     if(MAP_SHARING::isSharing()) {
@@ -1618,11 +1620,11 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             wrefresh(w_stats);
 
             mvwprintz(w_traits, 0, 0, COL_HEADER, _("Traits: "));
-            std::unordered_set<std::string> current_traits = u->get_traits();
+            std::vector<std::string> current_traits = u->get_traits();
             if (current_traits.empty()) {
                 wprintz(w_traits, c_ltred, _("None!"));
             } else {
-                for (std::unordered_set<std::string>::iterator i = current_traits.begin();
+                for (std::vector<std::string>::iterator i = current_traits.begin();
                      i != current_traits.end(); ++i) {
                     wprintz(w_traits, c_ltgray, "\n");
                     wprintz(w_traits, (traits[*i].points > 0) ? c_ltgreen : c_ltred,
@@ -1712,7 +1714,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
         mvwprintz( w_location, 0, 0, c_ltgray, location_prompt.c_str() );
         mvwprintz( w_location, 0, prompt_offset + 1, c_ltgray, _("Starting location:") );
         mvwprintz( w_location, 0, prompt_offset + utf8_width(_("Starting location:")) + 2,
-                   c_ltgray, _(select_location.entries[select_location.selected].txt.c_str()) );
+                   c_ltgray, _(u->start_location.c_str()));
         wrefresh(w_location);
 
         werase(w_profession);
@@ -1796,7 +1798,6 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
                 if( 0 == strcmp( _( loc->second.name().c_str() ),
                                  select_location.entries[ select_location.selected ].txt.c_str() ) ) {
                     u->start_location = loc->second.ident();
-
                 }
             }
             werase(select_location.window);
@@ -1825,7 +1826,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
     } while (true);
 }
 
-std::unordered_set<std::string> player::get_traits() const
+std::vector<std::string> player::get_traits() const
 {
     return my_traits;
 }
@@ -1835,7 +1836,14 @@ void player::empty_traits()
 	if (has_trait(iter->first)){toggle_trait(iter->first);}
 	}
 }
-
+void player::add_traits()
+{
+    for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
+        if (g->scen->locked_traits(iter->first)){
+            toggle_trait(iter->first);
+        }
+    }
+}
 std::string player::random_good_trait()
 {
     std::vector<std::string> vTraitsGood;

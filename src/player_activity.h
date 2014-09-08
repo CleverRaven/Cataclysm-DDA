@@ -11,7 +11,8 @@ enum activity_type {
     ACT_RELOAD, ACT_READ, ACT_GAME, ACT_WAIT, ACT_CRAFT, ACT_LONGCRAFT,
     ACT_DISASSEMBLE, ACT_BUTCHER, ACT_FORAGE, ACT_BUILD, ACT_VEHICLE, ACT_REFILL_VEHICLE,
     ACT_TRAIN, ACT_WAIT_WEATHER, ACT_FIRSTAID,
-    ACT_FISH, ACT_PICKAXE, ACT_PULP, ACT_VIBE, ACT_MAKE_ZLAVE,
+    ACT_FISH, ACT_PICKAXE, ACT_PULP, ACT_VIBE, ACT_MAKE_ZLAVE, ACT_DROP, ACT_STASH, ACT_PICKUP,
+    ACT_MOVE_ITEMS, ACT_ADV_INVENTORY,
     NUM_ACTIVITIES
 };
 
@@ -28,6 +29,8 @@ class player_activity : public JsonSerializer, public JsonDeserializer
         std::vector<std::string> str_values;
         point placement;
         bool warned_of_proximity; // True if player has been warned of dangerously close monsters
+        // Property that makes the activity resume if the previous activity completes.
+        bool auto_resume;
 
         player_activity(activity_type t = ACT_NULL, int turns = 0, int Index = -1, int pos = INT_MIN,
                         std::string name_in = "");
