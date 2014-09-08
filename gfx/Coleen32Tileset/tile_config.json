@@ -7,7 +7,7 @@
   ],
   "tiles-new": [
     {
-      "file": "gfx/Coleen24Tileset/Coleen.png",
+      "file": "gfx/Coleen32Tileset/Coleen.png",
       "tiles": [
         {
           "rotates": true,
