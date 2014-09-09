@@ -991,7 +991,6 @@ void player::update_bodytemp()
     // Current temperature and converging temperature calculations
     for (int i = 0 ; i < num_bp ; i++)
     {
-        add_msg("%s wetness: %d/%d", body_part_name(body_part(i)).c_str(), body_wetness[i], mDrenchEffect[i]);
         // Skip eyes
         if (i == bp_eyes) { continue; }
         // Represents the fact that the body generates heat when it is cold. TODO : should this increase hunger?
@@ -6263,12 +6262,9 @@ void player::drench(int saturation, int flags)
         if (source_wet_max != 0 && wetness_increment == 0) {
             wetness_increment = 1;
         }
-
-        if (body_wetness[i] < source_wet_max){
+        // Respect maximums
+        if (body_wetness[i] < source_wet_max && body_wetness[i] < bp_wetness_max){
             body_wetness[i] += wetness_increment;
-        }
-        if (body_wetness[i] > bp_wetness_max){
-            body_wetness[i] = bp_wetness_max;
         }
     }
 
@@ -6378,40 +6374,39 @@ void player::drench_mut_calc()
 void player::update_body_wetness()
 {
     /**
-
-    Handle how the player dries
-    Handle morale
-        > Loop over all body parts, make totals
-    Make the player wet
-
-    Issue : morale and wetness still aren't linked ... two seperate things that mostly coincide
-
+    * Issue : morale and wetness still aren't linked ... they are two seperate things that mostly coincide
     **/
 
     /*
-    * Mutations can affect the duration of the player being wet.
-    * So can weather ...
+    * Mutations and weather can affect the duration of the player being wet.
     */
-    int turns = 10;
+    int delay = 10;
     if (has_trait("LIGHTFUR") || has_trait("FUR") || has_trait("FELINE_FUR") || has_trait("LUPINE_FUR")) {
-        turns += 2;
+        delay += 2;
     }
     if (has_trait("URSINE_FUR")) {
-        turns += 5;
+        delay += 5;
     }
     if (has_trait("SLIMY")) {
-        turns -= 5;
+        delay -= 5;
+    }
+    if (g->weather == WEATHER_SUNNY) {
+        delay -= 2;
     }
 
-    if (calendar::turn % turns != 0) {
+    if (calendar::turn % delay != 0) {
         return;
     }
 
     for (int i = 0; i < num_bp; ++i)
     {
-        if (body_wetness[i] == 0) continue;
-        int sign = abs(body_wetness[i]) / body_wetness[i];
-        body_wetness[i] -= 1 * sign;
+        if (body_wetness[i] == 0) {
+            continue;
+        }
+        body_wetness[i] -= 1;
+        if (body_wetness[i] < 0) {
+            body_wetness[i] -= 0;
+        }
     }
 }
 
@@ -10328,19 +10323,8 @@ float player::fine_detail_vision_mod()
 
 int player::warmth(body_part bp) const
 {
-    int bodywetness = 0;
     int ret = 0, warmth = 0;
     const it_armor* armor = NULL;
-
-    // Fetch the morale value of wetness for bodywetness
-    for (auto &i : morale)
-    {
-        if( i.type == MORALE_WET )
-        {
-            bodywetness = abs(i.bonus); // Make it positive, less confusing
-            break;
-        }
-    }
 
     // If the player is not wielding anything, check if hands can be put in pockets
     if((bp == bp_hand_l || bp == bp_hand_r) && !is_armed() && (temp_conv[bp] <=  BODYTEMP_COLD) &&
@@ -10362,10 +10346,11 @@ int player::warmth(body_part bp) const
         if (i.covers.test(bp))
         {
             warmth = armor->warmth;
-            // Wool items do not lose their warmth in the rain
+            // Wool items do not lose their warmth due to being wet.
+            // Warmth is reduced by 0 - 66% based on wetness.
             if (!i.made_of("wool"))
             {
-                warmth *= 1.0 - (float)bodywetness / 100.0;
+                warmth *= 1.0 - 0.66 * body_wetness[bp] / mDrenchEffect.at(bp);
             }
             ret += warmth;
         }
