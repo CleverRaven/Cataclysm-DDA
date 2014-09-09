@@ -315,9 +315,7 @@ class map
  ter_id ter(const int x, const int y) const; // Terrain integer id at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
  std::string get_ter(const int x, const int y) const; // Terrain string id at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
  std::string get_ter_harvestable(const int x, const int y) const; //harvestable of the terrain
- int get_ter_harvest_season(const int x, const int y) const; //get season to harvest the terrain
- int get_ter_bday(const int x, const int y, const int bday) const; //get & set bday of terrain. with -1 it just returns the current bday
- 
+ int get_ter_harvest_season(const int x, const int y) const; //get season to harvest the terrain 
  ter_t & ter_at(const int x, const int y) const; // Terrain at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
 
  void ter_set(const int x, const int y, const ter_id new_terrain);
