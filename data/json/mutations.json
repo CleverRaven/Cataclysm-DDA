@@ -1436,7 +1436,21 @@
         "id" : "MARLOSS",
         "name" : "Marloss Carrier",
         "points" : 4,
-        "description" : "Ever since you ate that Marloss berry, you can't get its scent out of your nose, and you have a strong desire to eat more.",
+        "description" : "Ever since you ate that Marloss berry, you can't get its scent out of your nose, and you have a strong desire to try some seeds and...sap?",
+        "valid" : false
+    },{
+        "type" : "mutation",
+        "id" : "MARLOSS_BLUE",
+        "name" : "Marloss Vessel",
+        "points" : 4,
+        "description" : "Ever since you ate that Marloss seed, you can't get its taste off of your tongue, and you have a strong desire to try some berries and...sap?",
+        "valid" : false
+    },{
+        "type" : "mutation",
+        "id" : "MARLOSS_YELLOW",
+        "name" : "Marloss Vector",
+        "points" : 4,
+        "description" : "Ever since you ate that Marloss jelly, you can't stop thinking of it, and you have a strong desire to eat some seeds and berries.",
         "valid" : false
     },{
         "type" : "mutation",

@@ -278,6 +278,13 @@ void game::init_fields()
             {_("hazy cloud"),_("sedative gas"),_("relaxation gas")}, '.', 8,
             { c_white, c_pink, c_cyan }, { true, true, true }, { false, true, true }, 500,
             {0,0,0}
+        },
+
+        {
+            "fd_fungal_haze",
+            {_("hazy cloud"),_("fungal haze"),_("thick fungal haze")}, '.', 8,
+            { c_white, c_cyan, c_cyan }, { true, true, false }, { true, true, true }, 40,
+            {0,0,0}
         }
 
     };
@@ -923,6 +930,29 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         spread_gas( this, cur, x, y, curtype, 25, 50 );
                         break;
 
+                    case fd_fungal_haze:
+                        spread_gas( this, cur, x, y, curtype, 33,  5);
+                        int mondex;
+                        mondex = g->mon_at(x, y);
+                        if (g->m.move_cost(x, y) > 0) {
+                            if (mondex != -1) { // Haze'd!
+                                if (!g->zombie(mondex).type->in_species("FUNGUS") &&
+                                  !g->zombie(mondex).type->has_flag("NO_BREATHE")) {
+                                    if (g->u_see(x, y)) {
+                                        add_msg(m_info, _("The %s inhales thousands of live spores!"),
+                                    g->zombie(mondex).name().c_str());
+                                    }
+                                    monster &critter = g->zombie( mondex );
+                                    if( !critter.make_fungus() ) {
+                                        critter.die(nullptr);
+                                    }
+                                }
+                        } if (one_in(5 - cur->getFieldDensity())) {
+                            g->spread_fungus(x, y); //Haze'd terrain
+                        }
+                        }
+                        break;
+
                     case fd_toxic_gas:
                         spread_gas( this, cur, x, y, curtype, 50, 30 );
                         break;
@@ -1419,7 +1449,7 @@ void map::step_in_field(int x, int y)
         case fd_sludge:
             add_msg(m_bad, _("The sludge is thick and sticky. You struggle to pull free."));
             g->u.moves -= cur->getFieldDensity() * 300;
-            curfield.removeField( fd_sludge );
+            field_list_it = curfield.removeField( fd_sludge );
             break;
 
         case fd_fire:
@@ -1497,6 +1527,13 @@ void map::step_in_field(int x, int y)
             if ((cur->getFieldDensity() > 1 || !one_in(3)) && (!inside || (inside && one_in(3))))
             {
                 g->u.add_env_effect("relax_gas", bp_mouth, cur->getFieldDensity() * 2, 3);
+            }
+            break;
+
+        case fd_fungal_haze:
+            if (!inside || (inside && one_in(4)) ) {
+                g->u.infect("fungus", bp_mouth, 3, 100, true, 2, 4, 1, 1);
+                g->u.infect("fungus", bp_eyes, 3, 100, true, 2, 4, 1, 1);
             }
             break;
 
@@ -1651,7 +1688,12 @@ void map::step_in_field(int x, int y)
             //Suppress warnings
             break;
         }
-        ++field_list_it;
+        if (field_list_it != curfield.getFieldEnd()) {
+            // It may have became the last one as a result of a field
+            // being removed, in which case incrementing would make us
+            // pass on by, so only increment if that's not the case
+            ++field_list_it;
+        }
     }
 
     if(no_rubble) {
@@ -1715,7 +1757,7 @@ void map::mon_in_field(int x, int y, monster *z)
             if (!z->has_flag(MF_DIGS) && !z->has_flag(MF_FLIES) &&
                 !z->has_flag(MF_SLUDGEPROOF)) {
               z->moves -= cur->getFieldDensity() * 300;
-              curfield.removeField( fd_sludge );
+              field_list_it = curfield.removeField( fd_sludge );
             }
             break;
 
@@ -1935,7 +1977,13 @@ void map::mon_in_field(int x, int y, monster *z)
             //Suppress warnings
             break;
         }
-        ++field_list_it;
+
+        if (field_list_it != curfield.getFieldEnd()) {
+            // It may have became the last one as a result of a field
+            // being removed, in which case incrementing would make us
+            // pass on by, so only increment if that's not the case
+            ++field_list_it;
+        }
     }
     if (dam > 0) {
         z->apply_damage( nullptr, bp_torso, dam );

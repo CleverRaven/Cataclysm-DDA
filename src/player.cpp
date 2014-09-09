@@ -1764,15 +1764,15 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
     const std::string pronoun = male ? _("He") : _("She");
 
     //Avoid saying "a male unemployed" or similar
-    std::stringstream profession_name;
+    std::string profession_name;
     if(prof == prof->generic()) {
         if (male) {
-            profession_name << _("an unemployed male");
+            profession_name = _("an unemployed male");
         } else {
-            profession_name << _("an unemployed female");
+            profession_name = _("an unemployed female");
         }
     } else {
-        profession_name << _("a ") << prof->gender_appropriate_name(male);
+        profession_name = string_format(_("a %s"), prof->gender_appropriate_name(male).c_str());
     }
 
     //Figure out the location
@@ -1782,60 +1782,74 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
 
     //Were they in a town, or out in the wilderness?
     int city_index = g->cur_om->closest_city(cur_loc);
-    std::stringstream city_name;
+    std::string kill_place;
     if(city_index < 0) {
-        city_name << _("in the middle of nowhere");
+        //~ First parameter is a pronoun (“He”/“She”), second parameter is a terrain name.
+        kill_place = string_format(_("%s was killed in a %s in the middle of nowhere."),
+                     pronoun.c_str(), tername.c_str());
     } else {
         city nearest_city = g->cur_om->cities[city_index];
         //Give slightly different messages based on how far we are from the middle
         int distance_from_city = abs(g->cur_om->dist_from_city(cur_loc));
         if(distance_from_city > nearest_city.s + 4) {
-            city_name << _("in the wilderness");
+            //~ First parameter is a pronoun (“He”/“She”), second parameter is a terrain name.
+            kill_place = string_format(_("%s was killed in a %s in the wilderness."),
+                         pronoun.c_str(), tername.c_str());
+
         } else if(distance_from_city >= nearest_city.s) {
-            city_name << _("on the outskirts of ") << nearest_city.name;
+            //~ First parameter is a pronoun (“He”/“She”), second parameter is a terrain name, third parameter is a city name.
+            kill_place = string_format(_("%s was killed in a %s on the outskirts of %s."),
+                         pronoun.c_str(), tername.c_str(), nearest_city.name.c_str());
         } else {
-            city_name << _("in ") << nearest_city.name;
+            //~ First parameter is a pronoun (“He”/“She”), second parameter is a terrain name, third parameter is a city name.
+            kill_place = string_format(_("%s was killed in a %s in %s."),
+                         pronoun.c_str(), tername.c_str(), nearest_city.name.c_str());
         }
     }
 
     //Header
     std::string version = string_format("%s", getVersionString());
-    memorial_file << _("Cataclysm - Dark Days Ahead version ") << version << _(" memorial file") << "\n";
+    memorial_file << string_format(_("Cataclysm - Dark Days Ahead version %s memorial file"), version.c_str()) << "\n";
     memorial_file << "\n";
-    memorial_file << _("In memory of: ") << name << "\n";
+    memorial_file << string_format(_("In memory of: %s"), name.c_str()) << "\n";
     if(epitaph.length() > 0) { //Don't record empty epitaphs
-        memorial_file << "\"" << epitaph << "\"" << "\n\n";
+        //~ The “%s” will be replaced by an epitaph as displyed in the memorial files. Replace the quotation marks as appropriate for your language.
+        memorial_file << string_format(pgettext("epitaph","\"%s\""), epitaph.c_str()) << "\n\n";
     }
-    memorial_file << pronoun << _(" was ") << profession_name.str()
-                  << _(" when the apocalypse began.") << "\n";
-    memorial_file << pronoun << _(" died on ") << season_name[calendar::turn.get_season()]
-                  << _(" of year ") << (calendar::turn.years() + 1)
-                  << _(", day ") << (calendar::turn.days() + 1)
-                  << _(", at ") << calendar::turn.print_time() << ".\n";
-    memorial_file << pronoun << _(" was killed in a ") << tername << " " << city_name.str() << ".\n";
+    //~ First parameter: Pronoun, second parameter: a profession name (with article)
+    memorial_file << string_format("%s was %s when the apocalypse began.",
+                                   pronoun.c_str(), profession_name.c_str()) << "\n";
+    memorial_file << string_format("%s died on %s of year %d, day %d, at %s.",
+                     pronoun.c_str(), season_name[calendar::turn.get_season()].c_str(), (calendar::turn.years() + 1),
+                     (calendar::turn.days() + 1), calendar::turn.print_time().c_str()) << "\n";
+    memorial_file << kill_place << "\n";
     memorial_file << "\n";
 
     //Misc
-    memorial_file << _("Cash on hand: ") << "$" << cash << "\n";
+    memorial_file << string_format(_("Cash on hand: $%d"), cash) << "\n";
     memorial_file << "\n";
 
     //HP
     memorial_file << _("Final HP:") << "\n";
-    memorial_file << indent << _(" Head: ") << hp_cur[hp_head] << "/" << hp_max[hp_head] << "\n";
-    memorial_file << indent << _("Torso: ") << hp_cur[hp_torso] << "/" << hp_max[hp_torso] << "\n";
-    memorial_file << indent << _("L Arm: ") << hp_cur[hp_arm_l] << "/" << hp_max[hp_arm_l] << "\n";
-    memorial_file << indent << _("R Arm: ") << hp_cur[hp_arm_r] << "/" << hp_max[hp_arm_r] << "\n";
-    memorial_file << indent << _("L Leg: ") << hp_cur[hp_leg_l] << "/" << hp_max[hp_leg_l] << "\n";
-    memorial_file << indent << _("R Leg: ") << hp_cur[hp_leg_r] << "/" << hp_max[hp_leg_r] << "\n";
+    memorial_file << indent << string_format(_(" Head: %d/%d"), hp_cur[hp_head],  hp_max[hp_head] ) << "\n";
+    memorial_file << indent << string_format(_("Torso: %d/%d"), hp_cur[hp_torso], hp_max[hp_torso]) << "\n";
+    memorial_file << indent << string_format(_("L Arm: %d/%d"), hp_cur[hp_arm_l], hp_max[hp_arm_l]) << "\n";
+    memorial_file << indent << string_format(_("R Arm: %d/%d"), hp_cur[hp_arm_r], hp_max[hp_arm_r]) << "\n";
+    memorial_file << indent << string_format(_("L Leg: %d/%d"), hp_cur[hp_leg_l], hp_max[hp_leg_l]) << "\n";
+    memorial_file << indent << string_format(_("R Leg: %d/%d"), hp_cur[hp_leg_r], hp_max[hp_leg_r]) << "\n";
     memorial_file << "\n";
 
     //Stats
     memorial_file << _("Final Stats:") << "\n";
-    memorial_file << indent << _("Str ") << str_cur << indent << _("Dex ") << dex_cur << indent
-                  << _("Int ") << int_cur << indent << _("Per ") << per_cur << "\n";
+    memorial_file << indent << string_format(_("Str %d"), str_cur)
+                  << indent << string_format(_("Dex %d"), dex_cur)
+                  << indent << string_format(_("Int %d"), int_cur)
+                  << indent << string_format(_("Per %d"), per_cur) << "\n";
     memorial_file << _("Base Stats:") << "\n";
-    memorial_file << indent << _("Str ") << str_max << indent << _("Dex ") << dex_max << indent
-                  << _("Int ") << int_max << indent << _("Per ") << per_max << "\n";
+    memorial_file << indent << string_format(_("Str %d"), str_max)
+                  << indent << string_format(_("Dex %d"), dex_max)
+                  << indent << string_format(_("Int %d"), int_max)
+                  << indent << string_format(_("Per %d"), per_max) << "\n";
     memorial_file << "\n";
 
     //Last 20 messages
@@ -1862,7 +1876,7 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
     if(total_kills == 0) {
       memorial_file << indent << _("No monsters were killed.") << "\n";
     } else {
-      memorial_file << _("Total kills: ") << total_kills << "\n";
+      memorial_file << string_format(_("Total kills: %d"), total_kills) << "\n";
     }
     memorial_file << "\n";
 
@@ -1943,9 +1957,9 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
     if(total_bionics == 0) {
       memorial_file << indent << _("No bionics were installed.") << "\n";
     } else {
-      memorial_file << _("Total bionics: ") << total_bionics << "\n";
+      memorial_file << string_format(_("Total bionics: %d"), total_bionics) << "\n";
     }
-    memorial_file << _("Power: ") << power_level << "/" << max_power_level << "\n";
+    memorial_file << string_format(_("Power: %d/%d"), power_level,  max_power_level) << "\n";
     memorial_file << "\n";
 
     //Equipment
@@ -1990,14 +2004,14 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
 
     //Lifetime stats
     memorial_file << _("Lifetime Stats") << "\n";
-    memorial_file << indent << _("Distance Walked: ")
-                       << player_stats.squares_walked << _(" Squares") << "\n";
-    memorial_file << indent << _("Damage Taken: ")
-                       << player_stats.damage_taken << _(" Damage") << "\n";
-    memorial_file << indent << _("Damage Healed: ")
-                       << player_stats.damage_healed << _(" Damage") << "\n";
-    memorial_file << indent << _("Headshots: ")
-                       << player_stats.headshots << "\n";
+    memorial_file << indent << string_format(_("Distance walked: %d squares"),
+                       player_stats.squares_walked) << "\n";
+    memorial_file << indent << string_format(_("Damage taken: %d damage"),
+                       player_stats.damage_taken) << "\n";
+    memorial_file << indent << string_format(_("Damage healed: %d damage"),
+                       player_stats.damage_healed) << "\n";
+    memorial_file << indent << string_format(_("Headshots: %d"),
+                       player_stats.headshots) << "\n";
     memorial_file << "\n";
 
     //History
@@ -2030,9 +2044,11 @@ void player::add_memorial_log(const char* male_msg, const char* female_msg, ...)
     }
 
     std::stringstream timestamp;
-    timestamp << _("Year") << " " << (calendar::turn.years() + 1) << ", "
-              << season_name[calendar::turn.get_season()] << " "
-              << (calendar::turn.days() + 1) << ", " << calendar::turn.print_time();
+    //~ A timestamp. Parameters from left to right: Year, season, day, time
+    timestamp << string_format(_("Year %1$d, %2$s %3$d, %4$s"), calendar::turn.years() + 1,
+                               season_name[calendar::turn.get_season()].c_str(),
+                               calendar::turn.days() + 1, calendar::turn.print_time().c_str()
+                               );
 
     const oter_id &cur_ter = overmap_buffer.ter(g->om_global_location());
     std::string location = otermap[cur_ter].name;

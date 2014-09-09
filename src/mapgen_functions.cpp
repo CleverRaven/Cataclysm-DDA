@@ -52,6 +52,8 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["hive"]             = &mapgen_hive;
     mapgen_cfunction_map["spider_pit"]       = &mapgen_spider_pit;
     mapgen_cfunction_map["fungal_bloom"]     = &mapgen_fungal_bloom;
+    mapgen_cfunction_map["fungal_tower"]     = &mapgen_fungal_tower;
+    mapgen_cfunction_map["fungal_flowers"]   = &mapgen_fungal_flowers;
     mapgen_cfunction_map["road_straight"]    = &mapgen_road_straight;
     mapgen_cfunction_map["road_curved"]      = &mapgen_road_curved;
     mapgen_cfunction_map["road_end"]         = &mapgen_road_end;
@@ -875,6 +877,58 @@ void mapgen_fungal_bloom(map *m, oter_id, mapgendata dat, int, float)
     }
     square(m, t_fungus, SEEX - 2, SEEY - 2, SEEX + 2, SEEY + 2);
     m->add_spawn("mon_fungaloid_queen", 1, 12, 12);
+}
+
+void mapgen_fungal_tower(map *m, oter_id, mapgendata dat, int, float)
+{
+    (void)dat;
+    for (int i = 0; i < SEEX * 2; i++) {
+        for (int j = 0; j < SEEY * 2; j++) {
+            if (one_in(8)) {
+                if (one_in(3)) {
+                    m->ter_set(i, j, t_tree_fungal);
+                } else {
+                    m->ter_set(i, j, t_tree_fungal_young);
+                }
+
+            } else if (one_in(10)) {
+                m->ter_set(i, j, t_fungus_mound);
+            } else {
+                m->ter_set(i, j, t_fungus);
+            }
+        }
+    }
+    square(m, t_fungus, SEEX - 2, SEEY - 2, SEEX + 2, SEEY + 2);
+    m->add_spawn("mon_fungaloid_tower", 1, 12, 12);
+}
+
+void mapgen_fungal_flowers(map *m, oter_id, mapgendata dat, int, float)
+{
+    (void)dat;
+    for (int i = 0; i < SEEX * 2; i++) {
+        for (int j = 0; j < SEEY * 2; j++) {
+            if (one_in(rl_dist(i, j, 12, 12) * 4)) {
+                m->ter_set(i, j, t_fungus);
+                m->furn_set(i, j, f_flower_marloss);
+            } else if (one_in(10)) {
+                if (one_in(3)) {
+                    m->ter_set(i, j, t_fungus_mound);
+                } else {
+                    m->ter_set(i, j, t_tree_fungal_young);
+                }
+
+            } else if (one_in(5)) {
+                m->ter_set(i, j, t_fungus);
+                m->furn_set(i, j, f_flower_fungal);
+            } else if (one_in(10)) {
+                m->ter_set(i, j, t_shrub_fungal);
+            } else {
+                m->ter_set(i, j, t_fungus);
+            }
+        }
+    }
+    square(m, t_fungus, SEEX - 2, SEEY - 2, SEEX + 2, SEEY + 2);
+    m->add_spawn("mon_fungaloid_seeder", 1, 12, 12);
 }
 
 void mapgen_road_straight(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)

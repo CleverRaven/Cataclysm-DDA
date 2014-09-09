@@ -207,6 +207,8 @@ void Item_factory::init()
     iuse_function_list["MUT_IV"] = &iuse::mut_iv;
     iuse_function_list["PURIFY_IV"] = &iuse::purify_iv;
     iuse_function_list["MARLOSS"] = &iuse::marloss;
+    iuse_function_list["MARLOSS_SEED"] = &iuse::marloss_seed;
+    iuse_function_list["MARLOSS_GEL"] = &iuse::marloss_gel;
     iuse_function_list["DOGFOOD"] = &iuse::dogfood;
     iuse_function_list["CATFOOD"] = &iuse::catfood;
 

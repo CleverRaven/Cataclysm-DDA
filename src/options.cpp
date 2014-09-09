@@ -574,7 +574,7 @@ void initOptions()
     optionNames["ru"] = "Русский";
     optionNames["sr"] = "Srpski";
     optionNames["vi"] = "Tiếng Việt";
-    optionNames["zh_CN"] = "中文(中华人民共和国)";
+    optionNames["zh_CN"] = "中文(天朝)";
     optionNames["zh_TW"] = "中文(台灣)";
     OPTIONS["USE_LANG"] = cOpt("interface", _("Language"), _("Switch Language. Requires restart."),
                                ",cs,en,fi,fr_FR,de_DE,it,es_ES,ja,ko,pl,pt_BR,pt_PT,ru,sr,vi,zh_CN,zh_TW",
