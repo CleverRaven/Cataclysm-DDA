@@ -1444,17 +1444,17 @@ int set_scenario(WINDOW *w, player *u, int &points)
                                      pointsForScen);
         } else {
             //~ 1s - scenario name, 2d - current character points.
-            scen_msg_temp = ngettext("Scenario %1$s cost %2$d point",
+            scen_msg_temp = ngettext("Scenario %1$s costs %2$d point",
                                      "Scenario %1$s cost %2$d points",
                                      pointsForScen);
         }
         ///* This string has fixed start pos(7 = 2(start) + 5(length of "(+%d)" and space))
         mvwprintz(w, 3, pMsg_length + 7, can_pick ? c_green:c_ltred, scen_msg_temp.c_str(),
-                  sorted_scens[cur_id]->gender_appropriate_name(u->male).c_str(),
+                  _(sorted_scens[cur_id]->gender_appropriate_name(u->male).c_str()),
                   pointsForScen);
 
         fold_and_print(w_description, 0, 0, FULL_SCREEN_WIDTH - 2, c_green,
-                       sorted_scens[cur_id]->description(u->male));
+                       _(sorted_scens[cur_id]->description(u->male).c_str()));
 
         calcStartPos(iStartPos, cur_id, iContentHeight, scenario::count());
         //Draw options
@@ -1469,7 +1469,7 @@ int set_scenario(WINDOW *w, player *u, int &points)
                 col = (sorted_scens[i] == sorted_scens[cur_id] ? hilite(COL_SKILL_USED) : COL_SKILL_USED);
             }
             mvwprintz(w, 5 + i - iStartPos, 2, col,
-                      sorted_scens[i]->gender_appropriate_name(u->male).c_str());
+                      _(sorted_scens[i]->gender_appropriate_name(u->male).c_str()));
 
         }
 
