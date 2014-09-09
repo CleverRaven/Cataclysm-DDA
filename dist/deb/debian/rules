@@ -1,0 +1,58 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+
+# Uncomment this to turn on verbose mode.
+export DH_VERBOSE=1
+
+# This has to be exported to make some magic below work.
+#export DH_OPTIONS=-v
+
+BUILD_DEFINES = RELEASE=1 LUA=1 USE_HOME_DIR=1 PREFIX=/usr
+VERSION = $(shell git describe --tags --always)
+
+build: build-stamp
+build-stamp:
+	dh_testdir
+#   Build with default OS CFLAGS
+#	dh_auto_build -- $(BUILD_DEFINES)
+#	Build with CDDA flags
+	$(MAKE) $(BUILD_DEFINES)
+	touch debian/build-stamp
+
+clean:
+	dh_testdir
+	dh_auto_clean
+	rm -f build-stamp
+#	$(MAKE) --silent clean
+	dh_clean
+
+cataclysm-dda-common:
+# LUA bindings should be created before.
+	dh_prep
+	lang/compile_mo.sh
+	dh_install --exclude=".gitkeep" -p cataclysm-dda-common
+	fakeroot dh_gencontrol -p cataclysm-dda-common -- -v$(VERSION)
+	dh_builddeb -p cataclysm-dda-common
+
+cataclysm-dda-gfx:
+	dh_prep
+	dh_install -p cataclysm-dda-gfx
+	fakeroot dh_gencontrol -p cataclysm-dda-gfx -- -v$(VERSION)
+	dh_builddeb -p cataclysm-dda-gfx
+# Ncurses
+cataclysm-dda: clean build
+	dh_prep
+	dh_install -p cataclysm-dda 
+	fakeroot dh_shlibdeps -p cataclysm-dda
+	fakeroot dh_gencontrol -p cataclysm-dda -- -v$(VERSION)
+	dh_builddeb -p cataclysm-dda
+
+# SDL Tiles.
+# 6.11 Target-specific Variable Values (GNU Make documentation)
+cataclysm-dda-tiles: BUILD_DEFINES += TILES=1 SOUND=1
+cataclysm-dda-tiles: clean build
+	dh_prep
+	dh_install -p cataclysm-dda-tiles 
+	fakeroot dh_shlibdeps -p cataclysm-dda-tiles
+	fakeroot dh_gencontrol -p cataclysm-dda-tiles -- -v$(VERSION)
+	dh_builddeb -p cataclysm-dda-tiles

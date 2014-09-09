@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Cataclysm: Dark Days Ahead
+Name[ru]=Катаклизм: Тёмные дни впереди
+Icon=cataclysm-dda
+Type=Application
+Exec=/usr/games/cataclysm-tiles
+Terminal=false
+Categories=Game;
