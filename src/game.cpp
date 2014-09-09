@@ -1428,6 +1428,7 @@ bool game::do_turn()
     }
 
     u.update_bodytemp();
+    u.update_body_wetness();
 
     rustCheck();
     if (calendar::turn % 10 == 0) {

@@ -188,6 +188,7 @@ player::player() : Character(), name("")
   temp_cur[i] = BODYTEMP_NORM;
   frostbite_timer[i] = 0;
   temp_conv[i] = BODYTEMP_NORM;
+  body_wetness[i] = 0;
  }
  nv_cached = false;
  pda_cached = false;
@@ -990,6 +991,7 @@ void player::update_bodytemp()
     // Current temperature and converging temperature calculations
     for (int i = 0 ; i < num_bp ; i++)
     {
+        add_msg("%s wetness: %d/%d", body_part_name(body_part(i)).c_str(), body_wetness[i], mDrenchEffect[i]);
         // Skip eyes
         if (i == bp_eyes) { continue; }
         // Represents the fact that the body generates heat when it is cold. TODO : should this increase hunger?
@@ -6243,6 +6245,34 @@ void player::drench(int saturation, int flags)
         return;
     }
 
+    // Make the body wet
+    for (int i = 0; i < num_bp; ++i)
+    {
+        // Different body parts have different size, they can only store so much water
+        int bp_wetness_max = 0;
+        if (mfb(i) & flags){
+            bp_wetness_max = mDrenchEffect[i];
+        }
+        if (bp_wetness_max == 0){
+            continue;
+        }
+        // Different sources will only make the bodypart wet to a limit
+        int source_wet_max = saturation / 2;
+        int wetness_increment = source_wet_max / 8;
+        // Make sure increment is at least 1
+        if (source_wet_max != 0 && wetness_increment == 0) {
+            wetness_increment = 1;
+        }
+
+        if (body_wetness[i] < source_wet_max){
+            body_wetness[i] += wetness_increment;
+        }
+        if (body_wetness[i] > bp_wetness_max){
+            body_wetness[i] = bp_wetness_max;
+        }
+    }
+
+    // Apply morale results from getting wet
     int effected = 0;
     int tot_ignored = 0; //Always ignored
     int tot_neut = 0; //Ignored for good wet bonus
@@ -6342,6 +6372,46 @@ void player::drench_mut_calc()
         mMutDrench[it->first]["good"] = good;
         mMutDrench[it->first]["neutral"] = neutral;
         mMutDrench[it->first]["ignored"] = ignored;
+    }
+}
+
+void player::update_body_wetness()
+{
+    /**
+
+    Handle how the player dries
+    Handle morale
+        > Loop over all body parts, make totals
+    Make the player wet
+
+    Issue : morale and wetness still aren't linked ... two seperate things that mostly coincide
+
+    **/
+
+    /*
+    * Mutations can affect the duration of the player being wet.
+    * So can weather ...
+    */
+    int turns = 10;
+    if (has_trait("LIGHTFUR") || has_trait("FUR") || has_trait("FELINE_FUR") || has_trait("LUPINE_FUR")) {
+        turns += 2;
+    }
+    if (has_trait("URSINE_FUR")) {
+        turns += 5;
+    }
+    if (has_trait("SLIMY")) {
+        turns -= 5;
+    }
+
+    if (calendar::turn % turns != 0) {
+        return;
+    }
+
+    for (int i = 0; i < num_bp; ++i)
+    {
+        if (body_wetness[i] == 0) continue;
+        int sign = abs(body_wetness[i]) / body_wetness[i];
+        body_wetness[i] -= 1 * sign;
     }
 }
 
