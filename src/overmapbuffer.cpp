@@ -434,12 +434,38 @@ std::vector<npc*> overmapbuffer::get_npcs_near_player(int radius)
     return get_npcs_near(plpos.x, plpos.y, plpos.z, radius);
 }
 
+std::vector<overmap *> overmapbuffer::get_overmaps_near( point location, int radius )
+{
+    // Grab the corners of a square around the target location at distance radius.
+    // Convert to overmap coordinates and iterate from the minimum to the maximum.
+    std::set<point> distinct_corners;
+    const point upper_left = sm_to_om_copy( point( location.x - radius, location.y - radius ) );
+    const point lower_right = sm_to_om_copy( point( location.x + radius, location.y + radius ) );
+
+    for( int x = upper_left.x; x <= lower_right.x; x++ ) {
+        for( int y = upper_left.y; y <= lower_right.y; y++ ) {
+            distinct_corners.insert( point( x, y ) );
+        }
+    }
+    // Grab references to the overmaps at those coordinates, but only if they exist.
+    // Might use this to drive creation of these overmaps at some point if we want to
+    // more agressively expand the created overmaps.
+    std::vector<overmap *> nearby_overmaps;
+    for( auto overmap_origin : distinct_corners ) {
+        overmap *nearby_overmap = get_existing( overmap_origin.x, overmap_origin.y );
+        if( nearby_overmap ) {
+            nearby_overmaps.push_back( nearby_overmap );
+        }
+    }
+    return nearby_overmaps;
+}
+
 std::vector<npc*> overmapbuffer::get_npcs_near(int x, int y, int z, int radius)
 {
     std::vector<npc*> result;
-    for( auto &it : overmaps ) {
-        for (size_t i = 0; i < it.second->npcs.size(); i++) {
-            npc *p = it.second->npcs[i];
+    for( auto &it : get_overmaps_near( point( x, y ), radius ) ) {
+        for (size_t i = 0; i < it->npcs.size(); i++) {
+            npc *p = it->npcs[i];
             // Global position of NPC, in submap coordiantes
             const tripoint pos = p->global_sm_location();
             if (pos.z != z) {
@@ -457,9 +483,9 @@ std::vector<npc*> overmapbuffer::get_npcs_near(int x, int y, int z, int radius)
 std::vector<npc*> overmapbuffer::get_npcs_near_omt(int x, int y, int z, int radius)
 {
     std::vector<npc*> result;
-    for( auto &it : overmaps ) {
-        for (size_t i = 0; i < it.second->npcs.size(); i++) {
-            npc *p = it.second->npcs[i];
+    for( auto &it : get_overmaps_near( omt_to_sm_copy( x, y ), radius ) ) {
+        for (size_t i = 0; i < it->npcs.size(); i++) {
+            npc *p = it->npcs[i];
             // Global position of NPC, in submap coordiantes
             tripoint pos = p->global_omt_location();
             if (pos.z != z) {

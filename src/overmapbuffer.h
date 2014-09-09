@@ -334,6 +334,10 @@ private:
      * groups to the correct overmap (if it exists), also removes empty groups.
      */
     void fix_mongroups(overmap &new_overmap);
+    /**
+     * Retrieve overmaps that overlap the bounding box defined by the location and radius.
+     */
+    std::vector<overmap *> get_overmaps_near( point location, int radius );
 };
 
 extern overmapbuffer overmap_buffer;
