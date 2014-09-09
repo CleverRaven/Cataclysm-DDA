@@ -3140,7 +3140,7 @@
     "name": "fungal blossom",
     "species":"FUNGUS",
     "symbol":"7",
-    "color":"ltgray",
+    "color":"cyan",
     "size":"LARGE",
     "material":"veggy",
     "diff":18,

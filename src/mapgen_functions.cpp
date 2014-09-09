@@ -907,7 +907,7 @@ void mapgen_fungal_flowers(map *m, oter_id, mapgendata dat, int, float)
     (void)dat;
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {
-            if (one_in(rl_dist(i, j, 12, 12) * 4)) {
+            if (one_in(rl_dist(i, j, 12, 12) * 6)) {
                 m->ter_set(i, j, t_fungus);
                 m->furn_set(i, j, f_flower_marloss);
             } else if (one_in(10)) {

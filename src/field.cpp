@@ -1532,8 +1532,8 @@ void map::step_in_field(int x, int y)
 
         case fd_fungal_haze:
             if (!inside || (inside && one_in(4)) ) {
-                g->u.infect("fungus", bp_mouth, 3, 100, true, 2, 4, 1, 1);
-                g->u.infect("fungus", bp_eyes, 3, 100, true, 2, 4, 1, 1);
+                g->u.infect("fungus", bp_mouth, 4, 100, true, 2, 4, 1, 1);
+                g->u.infect("fungus", bp_eyes, 4, 100, true, 2, 4, 1, 1);
             }
             break;
 
