@@ -65,12 +65,12 @@ map_extras build_extras(
 // %%% HEL MIL SCI BLK DRG SUP PRT MIN CRT FUM 1WY ART
     90,  0,  5, 12,  0, 0,  0,  5,  5, 60,  8,  1,  3);
 
-std::map<std::string, oter_t> otermap;
+std::unordered_map<std::string, oter_t> otermap;
 std::vector<oter_t> oterlist;
 
-std::map<std::string, oter_t> obasetermap;
+std::unordered_map<std::string, oter_t> obasetermap;
 //const regional_settings default_region_settings;
-std::map<std::string, regional_settings> region_settings_map;
+std::unordered_map<std::string, regional_settings> region_settings_map;
 
 std::vector<overmap_special> overmap_specials;
 
@@ -445,7 +445,8 @@ void finalize_overmap_terrain( )
                  " cataclysm pending. And not the fun kind.");
     }
 
-    for( std::map<std::string, regional_settings>::iterator rsit = region_settings_map.begin();
+    for( std::unordered_map<std::string, regional_settings>::iterator rsit =
+             region_settings_map.begin();
          rsit != region_settings_map.end(); ++rsit) {
         rsit->second.setup();
     }
@@ -614,8 +615,8 @@ overmap::overmap(int x, int y)
     // STUB: need region map:
     // settings = regionmap->calculate_settings( loc );
     const std::string rsettings_id = ACTIVE_WORLD_OPTIONS["DEFAULT_REGION"].getValue();
-    std::map<std::string, regional_settings>::const_iterator rsit = region_settings_map.find(
-                rsettings_id );
+    std::unordered_map<std::string, regional_settings>::const_iterator rsit =
+        region_settings_map.find( rsettings_id );
 
     if ( rsit == region_settings_map.end() ) {
         debugmsg("overmap(%d,%d): can't find region '%s'", x, y, rsettings_id.c_str() ); // gonna die now =[
@@ -1740,7 +1741,7 @@ void overmap::draw(WINDOW *w, const tripoint &center,
         mvwprintz(w, 19, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("DELETE_NOTE") +
                   _(" - Delete a note")).c_str());
         mvwprintz(w, 20, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("LIST_NOTES") +
-                  _(" - List notes")).c_str());        
+                  _(" - List notes")).c_str());
         mvwprintz(w, 21, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("TOGGLE_BLINKING") +
                   _(" - Toggle Blinking")).c_str());
         mvwprintz(w, 22, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("TOGGLE_OVERLAYS") +
@@ -3765,12 +3766,12 @@ bool oter_id::operator==(const char *v) const
 }
 bool oter_id::operator<=(const char *v) const
 {
-    std::map<std::string, oter_t>::const_iterator it = otermap.find(v);
+    std::unordered_map<std::string, oter_t>::const_iterator it = otermap.find(v);
     return ( it == otermap.end() || it->second.loadid <= _val);
 }
 bool oter_id::operator>=(const char *v) const
 {
-    std::map<std::string, oter_t>::const_iterator it = otermap.find(v);
+    std::unordered_map<std::string, oter_t>::const_iterator it = otermap.find(v);
     return ( it != otermap.end() && it->second.loadid >= _val);
 }
 
@@ -3820,7 +3821,7 @@ int oter_id::compare(size_t pos, size_t len, const char *s, size_t n) const
 // std::string("river_ne");  oter_id van_location(down_by);
 oter_id::oter_id(const std::string &v)
 {
-    std::map<std::string, oter_t>::const_iterator it = otermap.find(v);
+    std::unordered_map<std::string, oter_t>::const_iterator it = otermap.find(v);
     if ( it == otermap.end() ) {
         debugmsg("not found: %s", v.c_str());
     } else {
@@ -3831,7 +3832,7 @@ oter_id::oter_id(const std::string &v)
 // oter_id b("house_north");
 oter_id::oter_id(const char *v)
 {
-    std::map<std::string, oter_t>::const_iterator it = otermap.find(v);
+    std::unordered_map<std::string, oter_t>::const_iterator it = otermap.find(v);
     if ( it == otermap.end() ) {
         debugmsg("not found: %s", v);
     } else {
