@@ -1,0 +1,10 @@
+#MSHOCK'S TILESET
+#Description: Based on Coleen's Tileset (by Coleen, Waldo, Tsu, Sir Hoder), Blockhead's Tileset plus my own work
+#Name of the tileset
+NAME: MShock32
+#Viewing (Option) name of the tileset
+VIEW: MShock32
+#JSON Path - Default of tile_config.json
+JSON: MShock32Tileset/tile_config.json
+#Tileset Path - Default of tinytile.png
+TILESET: MShock32Tileset/MShock.png
