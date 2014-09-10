@@ -533,7 +533,7 @@ extern ter_id t_null,
     t_paper,
     t_rock_wall, t_rock_wall_half,
     // Tree
-    t_tree, t_tree_young, t_tree_apple, t_underbrush, t_shrub, t_shrub_blueberry, t_shrub_strawberry, t_trunk,
+    t_tree, t_tree_young, t_tree_apple, t_tree_pear, t_tree_cherry, t_tree_peach, t_tree_apricot, t_tree_plum, t_tree_pine, t_tree_deadpine, t_underbrush, t_shrub, t_shrub_blueberry, t_shrub_strawberry, t_trunk,
     t_root_wall,
     t_wax, t_floor_wax,
     t_fence_v, t_fence_h, t_chainfence_v, t_chainfence_h, t_chainfence_posts,
@@ -558,7 +558,7 @@ extern ter_id t_null,
     t_column,
     t_vat,
     t_cvdbody, t_cvdmachine,
-    t_water_pump,
+    t_water_pump, t_improvised_shelter,
     // Staircases etc.
     t_stairs_down, t_stairs_up, t_manhole, t_ladder_up, t_ladder_down, t_slope_down,
      t_slope_up, t_rope_up,
@@ -603,6 +603,7 @@ extern furn_id f_null,
     f_plant_seed, f_plant_seedling, f_plant_mature, f_plant_harvest,
     f_fvat_empty, f_fvat_full,
     f_wood_keg, f_egg_sackbw, f_egg_sackws, f_egg_sacke,
+    f_flower_marloss,
     num_furniture_types;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////

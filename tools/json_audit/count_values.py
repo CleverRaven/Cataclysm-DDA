@@ -24,7 +24,7 @@ if __name__ == "__main__":
 
         json_data = ui_import_data()
 
-        stats, num_matches = value_counter(search_key, json_data, where_key, where_value)
+        stats, num_matches = value_counter(json_data, search_key, where_key, where_value)
         if not stats:
             print("Sorry, didn't find any stats for '%s' in the JSON." % search_key)
             sys.exit(1)
@@ -41,7 +41,7 @@ if __name__ == "__main__":
         where_value = None
 
         json_data = import_data()[0]
-        stats, num_matches = value_counter(search_key, json_data, where_key, where_value)
+        stats, num_matches = value_counter(json_data, search_key, where_key, where_value)
         if not stats:
             # Still JSON parser friendly, indicator of fail with emptiness.
             print(json.dumps([]))
@@ -55,7 +55,7 @@ if __name__ == "__main__":
         where_value = sys.argv[3]
 
         json_data = import_data()[0]
-        stats, num_matches = value_counter(search_key, json_data, where_key, where_value)
+        stats, num_matches = value_counter(json_data, search_key, where_key, where_value)
         if not stats:
             print("Sorry, didn't find any stats for '%s' in the JSON." % search_key)
             sys.exit(1)
@@ -71,7 +71,7 @@ if __name__ == "__main__":
         where_value = sys.argv[3]
 
         json_data = import_data()[0]
-        stats, num_matches = value_counter(search_key, json_data, where_key, where_value)
+        stats, num_matches = value_counter(json_data, search_key, where_key, where_value)
         if not stats:
             # Still JSON parser friendly, indicator of fail with emptiness.
             print(json.dumps([]))

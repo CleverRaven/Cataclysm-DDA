@@ -300,10 +300,8 @@ bool map::displace_vehicle (int &x, int &y, const int dx, const int dy, bool tes
     int dsty = y2;
 
     if (!inbounds(srcx, srcy)){
-        if (g->debugmon) {
-            debugmsg ("map::displace_vehicle: coords out of bounds %d,%d->%d,%d",
+        add_msg( m_debug, "map::displace_vehicle: coords out of bounds %d,%d->%d,%d",
                         srcx, srcy, dstx, dsty);
-        }
         return false;
     }
 
@@ -337,9 +335,7 @@ bool map::displace_vehicle (int &x, int &y, const int dx, const int dy, bool tes
         }
     }
     if (our_i < 0) {
-        if (g->debugmon) {
-            debugmsg ("displace_vehicle our_i=%d", our_i);
-        }
+        add_msg( m_debug, "displace_vehicle our_i=%d", our_i );
         return false;
     }
     // move the vehicle
@@ -349,10 +345,7 @@ bool map::displace_vehicle (int &x, int &y, const int dx, const int dy, bool tes
         veh->stop();
         // Silent debug
         dbg(D_ERROR) << "map:displace_vehicle: Stopping vehicle, displaced dx=" << dx << ", dy=" << dy;
-        // debugmon'd on screen
-        if (g->debugmon) debugmsg ("stopping vehicle, displaced dx=%d, dy=%d", dx,dy); {
-            return false;
-        }
+        return false;
     }
 
     // record every passenger inside
@@ -483,7 +476,7 @@ bool map::vehproceed()
     if(!veh) { return false; }
 
     if (!inbounds(x, y)) {
-        if (g->debugmon) { debugmsg ("stopping out-of-map vehicle. (x,y)=(%d,%d)",x,y); }
+        dbg( D_INFO ) << "stopping out-of-map vehicle. (x,y)=(" << x << "," << y << ")";
         veh->stop();
         veh->of_turn = 0;
         return true;

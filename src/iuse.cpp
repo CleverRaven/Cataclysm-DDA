@@ -2157,6 +2157,158 @@ int iuse::marloss(player *p, item *it, bool t)
     return it->type->charges_to_use();
 }
 
+int iuse::marloss_seed(player *p, item *it, bool t)
+{
+    if (p->is_npc()) {
+        return it->type->charges_to_use();
+    }
+    if (!(query_yn(_("Sure you want to eat the %s? You could plant it in a mound of dirt."),
+                 it->tname().c_str())) ) {
+        return 0; // Save the seed for later!
+    }
+    // If we have the marloss in our veins, we are a "breeder" and will spread
+    // the fungus.
+    p->add_memorial_log(pgettext("memorial_male", "Ate a marloss seed."),
+                        pgettext("memorial_female", "Ate a marloss seed."));
+
+    if (p->has_trait("MARLOSS_BLUE")) {
+        p->add_msg_if_player(m_good,
+                             _("As you eat the seed, you have a near-religious experience, feeling at one with your surroundings..."));
+        p->add_morale(MORALE_MARLOSS, 100, 1000);
+        p->hunger = -100;
+        monster spore(GetMType("mon_spore"));
+        spore.friendly = -1;
+        int spore_spawned = 0;
+        for (int x = p->posx - 4; x <= p->posx + 4; x++) {
+            for (int y = p->posy - 4; y <= p->posy + 4; y++) {
+                if (rng(0, 10) > trig_dist(x, y, p->posx, p->posy) &&
+                    rng(0, 10) > trig_dist(x, y, p->posx, p->posy)) {
+                    g->m.marlossify(x, y);
+                }
+                bool moveOK = (g->m.move_cost(x, y) > 0);
+                bool monOK = g->mon_at(x, y) == -1;
+                bool posOK = (g->u.posx != x || g->u.posy != y);
+                if (moveOK && monOK && posOK &&
+                    one_in(10 + 5 * trig_dist(x, y, p->posx, p->posy)) &&
+                    (spore_spawned == 0 || one_in(spore_spawned * 2))) {
+                    spore.spawn(x, y);
+                    g->add_zombie(spore);
+                    spore_spawned++;
+                }
+            }
+        }
+        return it->type->charges_to_use();
+    }
+
+    /* If we're not already carriers of Marloss, roll for a random effect:
+     * 1 - Mutate
+     * 2 - Mutate
+     * 3 - Mutate
+     * 4 - Purify
+     * 5 - Purify
+     * 6 - Cleanse radiation + Purify
+     * 7 - Fully satiate
+     * 8 - Vomit
+     * 9 - Give Marloss mutation
+     */
+    int effect = rng(1, 9);
+    if (effect <= 3) {
+        p->add_msg_if_player(_("This seed tastes extremely strange!"));
+        p->mutate();
+    } else if (effect <= 6) { // Radiation cleanse is below
+        p->add_msg_if_player(m_good, _("This seed makes you feel better all over."));
+        p->pkill += 30;
+        this->purifier(p, it, t);
+        if (effect == 6) {
+            p->radiation = 0;
+        }
+    } else if (effect == 7) {
+        p->add_msg_if_player(m_good, _("This seed is delicious, and very filling!"));
+        p->hunger = -100;
+    } else if (effect == 8) {
+        p->add_msg_if_player(m_bad, _("You take one bite, and immediately vomit!"));
+        p->vomit();
+    } else if (!p->has_trait("MARLOSS_BLUE")) {
+        p->add_msg_if_player(_("You feel a strange warmth spreading throughout your body..."));
+        p->toggle_mutation("MARLOSS_BLUE");
+    }
+    return it->type->charges_to_use();
+}
+
+int iuse::marloss_gel(player *p, item *it, bool t)
+{
+    if (p->is_npc()) {
+        return it->type->charges_to_use();
+    }
+    // If we have the marloss in our veins, we are a "breeder" and will spread
+    // the fungus.
+    p->add_memorial_log(pgettext("memorial_male", "Ate some marloss jelly."),
+                        pgettext("memorial_female", "Ate some marloss jelly."));
+
+    if (p->has_trait("MARLOSS_YELLOW")) {
+        p->add_msg_if_player(m_good,
+                             _("As you eat the jelly, you have a near-religious experience, feeling at one with your surroundings..."));
+        p->add_morale(MORALE_MARLOSS, 100, 1000);
+        p->hunger = -100;
+        monster spore(GetMType("mon_spore"));
+        spore.friendly = -1;
+        int spore_spawned = 0;
+        for (int x = p->posx - 4; x <= p->posx + 4; x++) {
+            for (int y = p->posy - 4; y <= p->posy + 4; y++) {
+                if (rng(0, 10) > trig_dist(x, y, p->posx, p->posy) &&
+                    rng(0, 10) > trig_dist(x, y, p->posx, p->posy)) {
+                    g->m.marlossify(x, y);
+                }
+                bool moveOK = (g->m.move_cost(x, y) > 0);
+                bool monOK = g->mon_at(x, y) == -1;
+                bool posOK = (g->u.posx != x || g->u.posy != y);
+                if (moveOK && monOK && posOK &&
+                    one_in(10 + 5 * trig_dist(x, y, p->posx, p->posy)) &&
+                    (spore_spawned == 0 || one_in(spore_spawned * 2))) {
+                    spore.spawn(x, y);
+                    g->add_zombie(spore);
+                    spore_spawned++;
+                }
+            }
+        }
+        return it->type->charges_to_use();
+    }
+
+    /* If we're not already carriers of Marloss, roll for a random effect:
+     * 1 - Mutate
+     * 2 - Mutate
+     * 3 - Mutate
+     * 4 - Purify
+     * 5 - Purify
+     * 6 - Cleanse radiation + Purify
+     * 7 - Fully satiate
+     * 8 - Vomit
+     * 9 - Give Marloss mutation
+     */
+    int effect = rng(1, 9);
+    if (effect <= 3) {
+        p->add_msg_if_player(_("This jelly tastes extremely strange!"));
+        p->mutate();
+    } else if (effect <= 6) { // Radiation cleanse is below
+        p->add_msg_if_player(m_good, _("This jelly makes you feel better all over."));
+        p->pkill += 30;
+        this->purifier(p, it, t);
+        if (effect == 6) {
+            p->radiation = 0;
+        }
+    } else if (effect == 7) {
+        p->add_msg_if_player(m_good, _("This jelly is delicious, and very filling!"));
+        p->hunger = -100;
+    } else if (effect == 8) {
+        p->add_msg_if_player(m_bad, _("You take one bite, and immediately vomit!"));
+        p->vomit();
+    } else if (!p->has_trait("MARLOSS_YELOW")) {
+        p->add_msg_if_player(_("You feel a strange warmth spreading throughout your body..."));
+        p->toggle_mutation("MARLOSS_YELLOW");
+    }
+    return it->type->charges_to_use();
+}
+
 // TOOLS below this point!
 
 int iuse::dogfood(player *p, item *, bool)
@@ -3432,7 +3584,7 @@ int iuse::radio_on(player *p, item *it, bool t)
             std::vector<std::string> segments = foldstring(message, RADIO_PER_TURN);
             int index = calendar::turn % (segments.size());
             std::stringstream messtream;
-            messtream << _("radio: ") << segments[index];
+            messtream << string_format(_("radio: %s"), segments[index].c_str());
             message = messtream.str();
         }
         point pos = g->find_item(it);
@@ -5095,8 +5247,11 @@ int iuse::pipebomb_act(player *, item *it, bool t)
         add_msg(m_info, _("You've already lit the %s, try throwing it instead."), it->tname().c_str());
         return 0;
     } else { // The timer has run down
-        if (one_in(10) && g->u_see(pos.x, pos.y)) {
-            add_msg(_("The pipe bomb fizzles out."));
+        if (one_in(10)) {
+            // Fizzled, but we may not have seen it to know that
+            if (g->u_see(pos.x, pos.y)) {
+                add_msg(_("The pipe bomb fizzles out."));
+            }
         } else {
             g->explosion(pos.x, pos.y, rng(6, 14), rng(0, 4), false);
         }
@@ -8483,24 +8638,24 @@ bool einkpc_download_memory_card(player *p, item *eink, item *mc)
             recipe *r = candidates[rng(0, candidates.size() - 1)];
             const std::string rident = r->ident;
 
-            const item dummy(r->ident, 0);
+            const item dummy(r->result, 0);
 
             if (eink->item_vars["EIPC_RECIPES"] == "") {
                 something_downloaded = true;
                 eink->item_vars["EIPC_RECIPES"] = "," + rident + ",";
 
                 p->add_msg_if_player(m_good, _("You download a recipe for %s into the tablet's memory."),
-                                     dummy.tname().c_str());
+                                     dummy.type->nname(1).c_str());
             } else {
                 if (eink->item_vars["EIPC_RECIPES"].find("," + rident + ",") == std::string::npos) {
                     something_downloaded = true;
                     eink->item_vars["EIPC_RECIPES"] += rident + ",";
 
                     p->add_msg_if_player(m_good, _("You download a recipe for %s into the tablet's memory."),
-                                         dummy.tname().c_str());
+                                         dummy.type->nname(1).c_str());
                 } else {
                     p->add_msg_if_player(m_good, _("Your tablet already has a recipe for %s."),
-                                         dummy.tname().c_str());
+                                         dummy.type->nname(1).c_str());
                 }
             }
         }
@@ -8747,7 +8902,7 @@ int iuse::einktabletpc(player *p, item *it, bool t)
             rmenu.text = _("Choose recipe to view:");
             rmenu.addentry(0, true, 'q', _("Cancel"));
 
-            std::vector<std::string> recipes;
+            std::vector<std::string> candidate_recipes;
             std::istringstream f(it->item_vars["EIPC_RECIPES"]);
             std::string s;
             int k = 1;
@@ -8757,10 +8912,13 @@ int iuse::einktabletpc(player *p, item *it, bool t)
                     continue;
                 }
 
-                recipes.push_back(s);
+                candidate_recipes.push_back(s);
 
-                const item dummy(s, 0);
-                rmenu.addentry(k++, true, -1, dummy.tname().c_str());
+                auto recipe = find_recipe( s );
+                if( recipe ) {
+                    const item dummy( recipe->result, 0 );
+                    rmenu.addentry(k++, true, -1, dummy.type->nname(1).c_str());
+                }
             }
 
             rmenu.query();
@@ -8770,10 +8928,15 @@ int iuse::einktabletpc(player *p, item *it, bool t)
                 return it->type->charges_to_use();
             } else {
                 it->item_tags.insert("HAS_RECIPE");
-                it->item_vars["RECIPE"] = recipes[rchoice - 1];
+                it->item_vars["RECIPE"] = candidate_recipes[rchoice - 1];
 
-                const item dummy(it->item_vars["RECIPE"], 0);
-                p->add_msg_if_player(m_info, _("You change the e-ink screen to show a recipe for %s."), dummy.tname().c_str());
+                auto recipe = find_recipe( it->item_vars["RECIPE"] );
+                if( recipe ) {
+                    const item dummy( recipe->result, 0 );
+                    p->add_msg_if_player(m_info,
+                        _("You change the e-ink screen to show a recipe for %s."),
+                                         dummy.type->nname(1).c_str());
+                }
             }
 
             return it->type->charges_to_use();

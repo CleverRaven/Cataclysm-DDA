@@ -49,6 +49,7 @@ void player_activity::serialize(JsonOut &json) const
     json.member( "placement", placement );
     json.member( "values", values );
     json.member( "str_values", str_values );
+    json.member( "auto_resume", auto_resume );
     json.end_object();
 }
 
@@ -71,6 +72,7 @@ void player_activity::deserialize(JsonIn &jsin)
     data.read( "placement", placement );
     values = data.get_int_array("values");
     str_values = data.get_string_array("str_values");
+    data.read( "auto_resume", auto_resume );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -177,6 +179,11 @@ void player::json_load_common_variables(JsonObject &data)
 
     data.read("power_level", power_level);
     data.read("max_power_level", max_power_level);
+    // Bionic power scale has been changed, savegame version 21 has the new scale
+    if( savegame_loading_version <= 20 ) {
+        power_level *= 25;
+        max_power_level *= 25;
+    }
     data.read("traits", my_traits);
 
     if (data.has_object("skills")) {
@@ -439,7 +446,15 @@ void player::deserialize(JsonIn &jsin)
     }
 
     data.read("activity", activity);
-    data.read("backlog", backlog);
+    // Changed from a single element to a list, handle either.
+    // Can deprecate once we stop handling pre-0.B saves.
+    if( data.has_array("backlog") ) {
+        data.read("backlog", backlog);
+    } else {
+        player_activity temp;
+        data.read("backlog", temp);
+        backlog.push_front( temp );
+    }
 
     data.read("driving_recoil", driving_recoil);
     data.read("controlling_vehicle", controlling_vehicle);
@@ -469,8 +484,12 @@ void player::deserialize(JsonIn &jsin)
     std::string scen_ident="(null)";
     if ( data.read("scenario",scen_ident) && scenario::exists(scen_ident) ) {
         g->scen = scenario::scen(scen_ident);
+        start_location = g->scen->start_location();
     } else {
-        debugmsg("Tried to use non-existent scenario '%s'", scen_ident.c_str());
+        scenario *generic_scenario = scenario::generic();
+        debugmsg("Tried to use non-existent scenario '%s'. Setting to generic '%s'.",
+                    scen_ident.c_str(), generic_scenario->ident().c_str());
+        g->scen = generic_scenario;
     }
     parray = data.get_array("temp_cur");
     for(int i = 0; i < num_bp; i++) {

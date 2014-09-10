@@ -424,11 +424,11 @@ void player::melee_attack(Creature &t, bool allow_special, matec_id force_techni
         if (!specialmsg.empty()) {
             add_msg_if_player(specialmsg.c_str());
         }
-        
+
         if (t.is_dead_state()) {
             t.die(this);
         }
-        
+
     }
 
     mod_moves(-move_cost);
@@ -2103,18 +2103,12 @@ void player_hit_message(player* attacker, std::string message,
                             message.c_str(), dam);
         sSCTmod = _("Critical!");
         gmtSCTcolor = m_critical;
-        if (!attacker->is_npc()) {
-            msgtype = m_good;
-        }
     } else {
         //~ someone hits something for %d damage
         msg = string_format(_("%s for %d damage."), message.c_str(), dam);
-        if (!attacker->is_npc()) {
-            msgtype = m_good;
-        }
     }
 
-    if (dam > 0) {
+    if (dam > 0 && attacker->is_player()) {
         //player hits monster melee
         nc_color color;
         std::string health_bar = "";

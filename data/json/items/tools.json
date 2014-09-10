@@ -132,13 +132,36 @@
     "description": "This fire drill is a simple item for starting fires; it is made from two pieces of wood and some string.  Since it is constructed out of simple materials, it's slow and rather difficult to get a fire started using this tool.",
     "price": 50,
     "material": "wood",
-    "weight": 10,
+    "weight": 240,
     "volume": 1,
     "bashing": 0,
     "cutting": 0,
     "to_hit": 0,
-    "max_charges": 20,
-    "initial_charges": 20,
+    "max_charges": 50,
+    "initial_charges": 50,
+    "charges_per_use": 1,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "PRIMITIVE_FIRE"
+  },
+
+  {
+    "id": "fire_drill_large",
+    "type": "TOOL",
+    "symbol": ",",
+    "color": "brown",
+    "name": "camp fire drill",
+    "description": "This stout fire drill is a simple item for starting fires; it is made from two pieces of wood and some string.  Since it is constructed out of simple materials, it's slow and rather difficult to get a fire started using this tool.",
+    "price": 50,
+    "material": ["wood", "stone"],
+    "weight": 1280,
+    "volume": 5,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": 0,
+    "max_charges": 1000,
+    "initial_charges": 1000,
     "charges_per_use": 1,
     "turns_per_charge": 0,
     "ammo": "NULL",
@@ -284,7 +307,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "qualities": [["CUT", 1]]
+    "qualities": [["CUT", 1], ["BUTCHER", 20]]
   },
   {
     "id": "oxygen_tank",
@@ -1516,7 +1539,7 @@
     "ammo": "battery",
     "revert_to": "carver_off",
     "use_action": "CARVER_ON",
-    "qualities": [["CUT", 1]]
+    "qualities": [["CUT", 1], ["BUTCHER", 14]]
   },{
     "id": "trimmer_off",
     "type": "TOOL",
@@ -1562,7 +1585,7 @@
     "ammo": "gasoline",
     "revert_to": "trimmer_off",
     "use_action": "TRIMMER_ON",
-    "qualities": [["CUT", 1]]
+    "qualities": [["CUT", 1], ["BUTCHER", 60]]
   },{
     "id": "circsaw_off",
     "type": "TOOL",
@@ -1613,7 +1636,7 @@
     "ammo": "battery",
     "revert_to": "circsaw_off",
     "use_action": "CIRCSAW_ON",
-    "qualities": [["CUT", 1]]
+    "qualities": [["CUT", 1], ["BUTCHER", 74]]
   },{
     "id": "combatsaw_off",
     "type": "TOOL",
@@ -3835,7 +3858,7 @@
     "revert_to": "null",
     "category": "weapons",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1]]
+    "qualities": [["CUT", 1], ["BUTCHER", 14]]
   },
 
   {
@@ -3916,7 +3939,7 @@
     "revert_to": "null",
     "category": "weapons",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1]]
+    "qualities": [["CUT", 1], ["BUTCHER", 14]]
   },
   {
     "id": "diamond_machete",
@@ -3942,7 +3965,7 @@
     "revert_to": "null",
     "category": "weapons",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1]]
+    "qualities": [["CUT", 1], ["BUTCHER", 14]]
   },
   {
     "id": "diamond_katana",
@@ -3968,7 +3991,7 @@
     "revert_to": "null",
     "use_action": "KNIFE",
     "category" : "weapons",
-    "qualities": [["CUT", 1]]
+    "qualities": [["CUT", 1], ["BUTCHER", 20]]
   },
   {
     "id": "tanto",
@@ -3994,7 +4017,7 @@
     "revert_to": "null",
     "category": "weapons",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1]]
+    "qualities": [["CUT", 1], ["BUTCHER", 16]]
   },
   {
     "id": "kris",
@@ -4021,7 +4044,7 @@
     "revert_to": "null",
     "category": "weapons",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1]]
+    "qualities": [["CUT", 1], ["BUTCHER", 12]]
   },
   {
     "id": "wakizashi",
@@ -4047,7 +4070,7 @@
     "revert_to": "null",
     "use_action": "KNIFE",
     "category" : "weapons",
-    "qualities": [["CUT", 1]]
+    "qualities": [["CUT", 1], ["BUTCHER", 9]]
   },
   {
     "id": "katana",
@@ -4073,7 +4096,7 @@
     "revert_to": "null",
     "use_action": "KNIFE",
     "category" : "weapons",
-    "qualities": [["CUT", 1]]
+    "qualities": [["CUT", 1], ["BUTCHER", 13]]
   },
 
   {
@@ -4181,7 +4204,7 @@
     "revert_to": "null",
     "use_action": "KNIFE",
     "category" : "weapons",
-    "qualities": [["CUT", 1]]
+    "qualities": [["CUT", 1], ["BUTCHER", 12]]
   },
 
   {
@@ -4234,7 +4257,7 @@
     "revert_to": "null",
     "use_action": "KNIFE",
     "category" : "weapons",
-    "qualities": [["CUT", 1]]
+    "qualities": [["CUT", 1], ["BUTCHER", 15]]
   },
 
   {
@@ -4397,7 +4420,7 @@
     "revert_to": "null",
     "category": "weapons",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1]]
+    "qualities": [["CUT", 1], ["BUTCHER", -38]]
   },
 
   {
@@ -4501,7 +4524,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1]],
+    "qualities": [["CUT", 1], ["BUTCHER", 16]],
     "flags": ["STAB", "SHEATH_KNIFE"]
   },
 
@@ -4527,7 +4550,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1]],
+    "qualities": [["CUT", 1], ["BUTCHER", 18]],
     "flags": ["CHOP", "SHEATH_KNIFE"]
   },
 
@@ -4555,7 +4578,7 @@
     "revert_to": "null",
     "category": "weapons",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1]]
+    "qualities": [["CUT", 1], ["BUTCHER", 30]]
   },
 
   {
@@ -5427,7 +5450,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1]]
+    "qualities": [["CUT", 1], ["BUTCHER", 16]]
   },
 
   {
@@ -5452,7 +5475,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1]],
+    "qualities": [["CUT", 1], ["BUTCHER", 14]],
     "flags": ["STAB", "SHEATH_KNIFE"]
    },
 
@@ -5599,7 +5622,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1]],
+    "qualities": [["CUT", 1], ["BUTCHER", 12]],
     "flags": ["STAB", "SHEATH_KNIFE"]
   },
 
@@ -5625,7 +5648,7 @@
     "use_action": "DIG",
     "flags" : ["CHOP", "DURABLE_MELEE"],
     "to_hit": 1,
-    "qualities": [["CUT", 1], ["DIG", 3]]
+    "qualities": [["CUT", 1], ["DIG", 3], ["BUTCHER", -8]]
   },
 
   {
@@ -6978,7 +7001,7 @@
     "color": "brown",
     "name": "lit charcoal kiln",
     "description": "A kiln full of wood that has been lit; better drop it!",
-	"flags": ["LIGHT_15"],
+	"flags": ["LIGHT_4"],
     "price": 100,
     "material": ["steel", "wood"],
     "weight": 15142,
@@ -7168,7 +7191,7 @@
     "revert_to": "null",
     "category" : "weapons",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1]]
+    "qualities": [["CUT", 1], ["BUTCHER", 24]]
   },
 
   {
@@ -7216,7 +7239,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1]]
+    "qualities": [["CUT", 1], ["BUTCHER", 44]]
   },
 
   {
@@ -7263,7 +7286,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "qualities": [["CUT", 1]]
+    "qualities": [["CUT", 1], ["BUTCHER", -22]]
   },
 
   {
@@ -7289,7 +7312,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "weapons",
-    "qualities": [["CUT", 1]]
+    "qualities": [["CUT", 1], ["BUTCHER", 1]]
   },
 
   {
@@ -7313,7 +7336,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "qualities": [["CUT", 1]]
+    "qualities": [["CUT", 1], ["BUTCHER", 20]]
   },
   {
     "id": "airhorn",
@@ -7408,7 +7431,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1]],
+    "qualities": [["CUT", 1], ["BUTCHER", 30]],
     "flags": ["CHOP", "SHEATH_KNIFE"]
   },
 
@@ -7573,7 +7596,8 @@
     "revert_to": "null",
     "use_action": "MISC_REPAIR",
     "qualities": [["CUT", 1], ["HAMMER", 2], ["SAW_M", 1], ["SAW_W", 2], ["WRENCH", 1],
-        ["SCREW", 1], ["HAMMER_FINE", 1], ["SAW_M_FINE", 1], ["WRENCH_FINE", 1], ["SCREW_FINE", 1]]
+        ["SCREW", 1], ["HAMMER_FINE", 1], ["SAW_M_FINE", 1], ["WRENCH_FINE", 1], ["SCREW_FINE", 1],
+        ["BUTCHER", 10]]
   },
   {
     "id": "battery_atomic",
@@ -7643,7 +7667,7 @@
     "flags" : ["CHOP"],
     "to_hit": 1,
     "revert_to": "null",
-    "qualities": [["CUT", 1]]
+    "qualities": [["CUT", 1], ["BUTCHER", -4]]
   },
   {
     "type":"TOOL",
@@ -7704,7 +7728,8 @@
     "revert_to": "null",
     "use_action": "HAMMER",
     "qualities": [["HAMMER", 3], ["HAMMER_FINE", 1], ["CUT", 1], ["SAW_W", 1], ["SAW_M", 1],
-     ["SAW_M_FINE", 1], ["WRENCH", 1], ["WRENCH_FINE", 1], ["SCREW", 1], ["SCREW_FINE", 1]]
+     ["SAW_M_FINE", 1], ["WRENCH", 1], ["WRENCH_FINE", 1], ["SCREW", 1], ["SCREW_FINE", 1],
+     ["BUTCHER", -100]]
   },
   {
     "type": "TOOL",

@@ -38,29 +38,29 @@ bool quality::has( const std::string &id )
     return qualities.count( id ) > 0;
 }
 
-std::string quality_requirement::to_string() const
+std::string quality_requirement::to_string(int) const
 {
     return string_format( ngettext( "%d tool with %s of %d or more.",
                                     "%d tools with %s of %d or more.", count ),
                           count, quality::get_name( type ).c_str(), level );
 }
 
-std::string tool_comp::to_string() const
+std::string tool_comp::to_string(int batch) const
 {
     const itype *it = item_controller->find_template( type );
     if( count > 0 ) {
         //~ <tool-name> (<numer-of-charges> charges)
-        return string_format( ngettext( "%s (%d charge)", "%s (%d charges)", count ),
-                              it->nname( 1 ).c_str(), count );
+        return string_format( ngettext( "%s (%d charge)", "%s (%d charges)", count * batch ),
+                              it->nname( 1 ).c_str(), count * batch );
     } else {
         return it->nname( abs( count ) );
     }
 }
 
-std::string item_comp::to_string() const
+std::string item_comp::to_string(int batch) const
 {
     const itype *it = item_controller->find_template( type );
-    const int c = abs( count );
+    const int c = (count > 0) ? count * batch : abs( count );
     //~ <item-count> <item-name>
     return string_format( ngettext( "%d %s", "%d %s", c ), c, it->nname( c ).c_str() );
 }
@@ -206,18 +206,19 @@ void requirements::check_consistency( const std::string &display_name ) const
 }
 
 int requirements::print_components( WINDOW *w, int ypos, int xpos, int width, nc_color col,
-                                    const inventory &crafting_inv ) const
+                                    const inventory &crafting_inv, int batch ) const
 {
     if( components.empty() ) {
         return 0;
     }
     mvwprintz( w, ypos, xpos, col, _( "Components required:" ) );
-    return print_list( w, ypos + 1, xpos, width, col, crafting_inv, components ) + 1;
+    return print_list( w, ypos + 1, xpos, width, col, crafting_inv, components, batch ) + 1;
 }
 
 template<typename T>
 int requirements::print_list( WINDOW *w, int ypos, int xpos, int width, nc_color col,
-                              const inventory &crafting_inv, const std::vector< std::vector<T> > &objs )
+                              const inventory &crafting_inv, const std::vector< std::vector<T> > &objs,
+                              int batch )
 {
     const int oldy = ypos;
     for( const auto &comp_list : objs ) {
@@ -227,8 +228,8 @@ int requirements::print_list( WINDOW *w, int ypos, int xpos, int width, nc_color
             if( a != comp_list.begin() ) {
                 buffer << "<color_white> " << _( "OR" ) << "</color> ";
             }
-            const std::string col = a->get_color( has_one, crafting_inv );
-            buffer << "<color_" << col << ">" << a->to_string() << "</color>";
+            const std::string col = a->get_color( has_one, crafting_inv, batch );
+            buffer << "<color_" << col << ">" << a->to_string(batch) << "</color>";
         }
         mvwprintz( w, ypos, xpos, col, "> " );
         ypos += fold_and_print( w, ypos, xpos + 2, width - 2, col, buffer.str() );
@@ -237,7 +238,7 @@ int requirements::print_list( WINDOW *w, int ypos, int xpos, int width, nc_color
 }
 
 int requirements::print_tools( WINDOW *w, int ypos, int xpos, int width, nc_color col,
-                               const inventory &crafting_inv ) const
+                               const inventory &crafting_inv, int batch ) const
 {
     const int oldy = ypos;
     mvwprintz( w, ypos, xpos, col, _( "Tools required:" ) );
@@ -249,13 +250,13 @@ int requirements::print_tools( WINDOW *w, int ypos, int xpos, int width, nc_colo
         return ypos - oldy;
     }
     ypos += print_list(w, ypos, xpos, width, col, crafting_inv, qualities);
-    ypos += print_list(w, ypos, xpos, width, col, crafting_inv, tools);
+    ypos += print_list(w, ypos, xpos, width, col, crafting_inv, tools, batch);
     return ypos - oldy;
 }
 
-int requirements::print_time( WINDOW *w, int ypos, int xpos, int width, nc_color col ) const
+int requirements::print_time( WINDOW *w, int ypos, int xpos, int width, nc_color col, int batch ) const
 {
-    const int turns = time / 100;
+    const int turns = time * batch / 100;
     std::string text;
     if( turns < MINUTES( 1 ) ) {
         const int seconds = std::max( 1, turns * 6 );
@@ -278,27 +279,28 @@ int requirements::print_time( WINDOW *w, int ypos, int xpos, int width, nc_color
     return fold_and_print( w, ypos, xpos, width, col, text );
 }
 
-bool requirements::can_make_with_inventory( const inventory &crafting_inv ) const
+bool requirements::can_make_with_inventory( const inventory &crafting_inv, int batch ) const
 {
     bool retval = true;
     // Doing this in several steps avoids C++ Short-circuit evaluation
     // and makes sure that the available value is set for every entry
     retval &= has_comps(crafting_inv, qualities);
-    retval &= has_comps(crafting_inv, tools);
-    retval &= has_comps(crafting_inv, components);
-    retval &= check_enough_materials(crafting_inv);
+    retval &= has_comps(crafting_inv, tools, batch);
+    retval &= has_comps(crafting_inv, components, batch);
+    retval &= check_enough_materials(crafting_inv, batch);
     return retval;
 }
 
 template<typename T>
 bool requirements::has_comps( const inventory &crafting_inv,
-                              const std::vector< std::vector<T> > &vec )
+                              const std::vector< std::vector<T> > &vec,
+                              int batch )
 {
     bool retval = true;
     for( const auto &set_of_tools : vec ) {
         bool has_tool_in_set = false;
         for( const auto &tool : set_of_tools ) {
-            if( tool.has( crafting_inv ) ) {
+            if( tool.has( crafting_inv, batch ) ) {
                 tool.available = a_true;
             } else {
                 tool.available = a_false;
@@ -312,17 +314,17 @@ bool requirements::has_comps( const inventory &crafting_inv,
     return retval;
 }
 
-bool quality_requirement::has( const inventory &crafting_inv ) const
+bool quality_requirement::has( const inventory &crafting_inv, int ) const
 {
     return crafting_inv.has_items_with_quality( type, level, count );
 }
 
-std::string quality_requirement::get_color( bool, const inventory &) const
+std::string quality_requirement::get_color( bool, const inventory &, int ) const
 {
     return available == a_true ? "green" : "red";
 }
 
-bool tool_comp::has( const inventory &crafting_inv ) const
+bool tool_comp::has( const inventory &crafting_inv, int batch ) const
 {
     if( type == "goggles_welding" ) {
         if( g->u.has_bionic( "bio_sunglasses" ) || g->u.is_wearing( "rm13_armor_on" ) ) {
@@ -332,11 +334,11 @@ bool tool_comp::has( const inventory &crafting_inv ) const
     if( count <= 0 ) {
         return crafting_inv.has_tools( type, std::abs( count ) );
     } else {
-        return crafting_inv.has_charges( type, count );
+        return crafting_inv.has_charges( type, count * batch );
     }
 }
 
-std::string tool_comp::get_color( bool has_one, const inventory &crafting_inv ) const
+std::string tool_comp::get_color( bool has_one, const inventory &crafting_inv, int batch ) const
 {
     if( type == "goggles_welding" ) {
         if( g->u.has_bionic( "bio_sunglasses" ) || g->u.is_wearing( "rm13_armor_on" ) ) {
@@ -347,13 +349,13 @@ std::string tool_comp::get_color( bool has_one, const inventory &crafting_inv ) 
         return "brown";
     } else if( count < 0 && crafting_inv.has_tools( type, std::abs( count ) ) ) {
         return "green";
-    } else if( count > 0 && crafting_inv.has_charges( type, count ) ) {
+    } else if( count > 0 && crafting_inv.has_charges( type, count * batch ) ) {
         return "green";
     }
     return has_one ? "dkgray" : "red";
 }
 
-bool item_comp::has( const inventory &crafting_inv ) const
+bool item_comp::has( const inventory &crafting_inv, int batch ) const
 {
     // If you've Rope Webs, you can spin up the webbing to replace any amount of
     // rope your projects may require.  But you need to be somewhat nourished:
@@ -367,13 +369,13 @@ bool item_comp::has( const inventory &crafting_inv ) const
     }
     const itype *it = item_controller->find_template( type );
     if( it->count_by_charges() && count > 0 ) {
-        return crafting_inv.has_charges( type, count );
+        return crafting_inv.has_charges( type, count * batch );
     } else {
-        return crafting_inv.has_components( type, abs( count ) );
+        return crafting_inv.has_components( type, (count > 0) ? count * batch : abs( count ) );
     }
 }
 
-std::string item_comp::get_color( bool has_one, const inventory &crafting_inv ) const
+std::string item_comp::get_color( bool has_one, const inventory &crafting_inv, int batch ) const
 {
     if( type == "rope_30" || type == "rope_6" ) {
         if( g->u.has_trait( "WEB_ROPE" ) && g->u.hunger <= 300 ) {
@@ -384,10 +386,10 @@ std::string item_comp::get_color( bool has_one, const inventory &crafting_inv ) 
     if( available == a_insufficent ) {
         return "brown";
     } else if( it->count_by_charges() && count > 0 ) {
-        if( crafting_inv.has_charges( type, count ) ) {
+        if( crafting_inv.has_charges( type, count * batch ) ) {
             return "green";
         }
-    } else if( crafting_inv.has_components( type, abs( count ) ) ) {
+    } else if( crafting_inv.has_components( type, (count > 0) ? count * batch : abs( count ) ) ) {
         return "green";
     }
     return has_one ? "dkgray" : "red";
@@ -407,13 +409,13 @@ const T *requirements::find_by_type(const std::vector< std::vector<T> > &vec,
     return nullptr;
 }
 
-bool requirements::check_enough_materials( const inventory &crafting_inv ) const
+bool requirements::check_enough_materials( const inventory &crafting_inv, int batch ) const
 {
     bool retval = true;
     for( const auto &component_choices : components ) {
         bool atleast_one_available = false;
         for( const auto &comp : component_choices ) {
-            if( check_enough_materials( comp, crafting_inv ) ) {
+            if( check_enough_materials( comp, crafting_inv, batch ) ) {
                 atleast_one_available = true;
             }
         }
@@ -425,7 +427,7 @@ bool requirements::check_enough_materials( const inventory &crafting_inv ) const
 }
 
 bool requirements::check_enough_materials( const item_comp &comp,
-        const inventory &crafting_inv ) const
+        const inventory &crafting_inv, int batch ) const
 {
     if( comp.available != a_true ) {
         return false;
@@ -451,9 +453,9 @@ bool requirements::check_enough_materials( const item_comp &comp,
         // to appear as tool, but it's possible /-:
         bool has_comps;
         if( it->count_by_charges() && comp.count > 0 ) {
-            has_comps = crafting_inv.has_charges( comp.type, comp.count + tc );
+            has_comps = crafting_inv.has_charges( comp.type, comp.count * batch + tc );
         } else {
-            has_comps = crafting_inv.has_components( comp.type, abs( comp.count ) + tc );
+            has_comps = crafting_inv.has_components( comp.type, ((comp.count > 0) ? comp.count * batch : abs( comp.count )) + tc );
         }
         if( !has_comps && !crafting_inv.has_tools( comp.type, comp.count + tc ) ) {
             comp.available = a_insufficent;

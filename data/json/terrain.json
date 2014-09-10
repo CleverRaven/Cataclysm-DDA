@@ -1800,6 +1800,68 @@
         }
     },{
         "type" : "terrain",
+        "id" : "t_tree_pear",
+        "name": "pear tree",
+        "symbol": "7",
+        "color": "ltgreen",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
+        "examine_action": "tree_pear"
+    },{
+        "type" : "terrain",
+        "id" : "t_tree_cherry",
+        "name": "cherry tree",
+        "symbol": "7",
+        "color": "red",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
+        "examine_action": "tree_cherry"
+    },{
+        "type" : "terrain",
+        "id" : "t_tree_peach",
+        "name": "peach tree",
+        "symbol": "7",
+        "color": "yellow",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
+        "examine_action": "tree_peach"
+    },{
+        "type" : "terrain",
+        "id" : "t_tree_apricot",
+        "name": "apricot tree",
+        "symbol": "7",
+        "color": "yellow",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
+        "examine_action": "tree_apricot"
+    },{
+        "type" : "terrain",
+        "id" : "t_tree_plum",
+        "name": "plum tree",
+        "symbol": "7",
+        "color": "red",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
+        "examine_action": "tree_plum"
+    },{
+        "type" : "terrain",
+        "id" : "t_tree_pine",
+        "name": "pine tree",
+        "symbol": "4",
+        "color": "green",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
+        "examine_action": "tree_pine"
+    },{
+        "type" : "terrain",
+        "id" : "t_tree_deadpine",
+        "name": "dead pine tree",
+        "symbol": "4",
+        "color": "brown",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"]
+    },{
+        "type" : "terrain",
         "id" : "t_underbrush",
         "name": "underbrush",
         "symbol": "#",
@@ -3725,6 +3787,26 @@
         "examine_action": "water_source"
     },{
         "type" : "terrain",
+        "id" : "t_improvised_shelter",
+        "name": "improvised shelter",
+        "symbol": "#",
+        "color": "brown_green",
+        "move_cost": 2,
+        "flags": [
+            "TRANSPARENT", "BASHABLE", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "REDUCE_SCENT", "INDOORS", "MOUNTABLE"
+        ],
+        "bash": {
+            "str_min": 0, "str_max": 30, "num_tests": 2, "chance": 50,
+            "sound": "crunch.",
+            "sound_fail": "brush.",
+            "ter_set": "t_pit_shallow",
+            "items": [
+                { "item": "stick", "amount": 6, "minamount": 3},
+                { "item": "pine_bough", "amount": 18, "minamount": 6}
+            ]
+        }
+    },{
+        "type" : "terrain",
         "id" : "t_open_air",
         "name": "open air",
         "symbol": " ",
@@ -3758,6 +3840,203 @@
                 { "item": "scrap", "amount": 16, "minamount": 4},
                 { "item": "steel_chunk", "amount": 6, "minamount": 1},
                 { "item": "plut_cell", "amount": 3, "minamount": 0}
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_sai_box",
+        "name": "telecom cabinet",
+        "symbol": "#",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["BASHABLE", "NOITEM", "WALL"],
+        "bash": {
+            "str_min": 8, "str_max": 80,
+            "sound": "whack!",
+            "sound_fail": "clang!",
+            "ter_set": "t_sai_box_damaged"
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_sai_box_damaged",
+        "name": "damaged telecom cabinet",
+        "symbol": "#",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["BASHABLE", "NOITEM", "WALL"],
+        "bash": {
+            "str_min": 6, "str_max": 80,
+            "sound": "whack!",
+            "sound_fail": "clang!",
+            "ter_set": "t_concrete",
+            "items": [
+                { "item": "cable", "amount": 8, "minamount": 4, "chance": 80 },
+                { "item": "e_scrap", "amount": 8, "minamount": 2, "chance": 60  },
+                { "item": "circuit", "amount": 6, "minamount": 1, "chance": 50 },
+                { "item": "amplifier", "amount": 4, "minamount": 1, "chance": 50 },
+                { "item": "scrap", "amount": 6, "minamount": 2, "chance": 50 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_pwr_sb_support_l",
+        "name": "large metal support",
+        "symbol": "T",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["NOITEM", "WALL"]
+    },{
+        "type" : "terrain",
+        "id" : "t_oil_circ_brkr_l",
+        "name": "HV oil circuit breaker",
+        "symbol": "B",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["BASHABLE", "TRANSPARENT", "FLAMMABLE", "EXPLODES", "NOITEM", "WALL"],
+        "bash": {
+            "str_min": 12, "str_max": 100, "num_tests": 2,
+            "explosive" : 6,
+            "sound": "pow!",
+            "ter_set": "t_concrete",
+            "sound_fail": "clang!",
+            "items": [
+                { "item": "scrap", "amount": 16, "minamount": 8},
+                { "item": "steel_chunk", "amount": 6, "minamount": 2}
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_pwr_sb_support_s",
+        "name": "small metal support",
+        "symbol": "l",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["NOITEM", "WALL"]
+    },{
+        "type" : "terrain",
+        "id" : "t_oil_circ_brkr_s",
+        "name": "small HV oil circuit breaker",
+        "symbol": "b",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["BASHABLE", "TRANSPARENT", "FLAMMABLE", "EXPLODES", "NOITEM", "WALL"],
+        "bash": {
+            "str_min": 12, "str_max": 100, "num_tests": 2,
+            "explosive" : 4,
+            "sound": "pow!",
+            "ter_set": "t_concrete",
+            "sound_fail": "clang!",
+            "items": [
+                { "item": "scrap", "amount": 12, "minamount": 6},
+                { "item": "steel_chunk", "amount": 3, "minamount": 1}
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_pwr_sb_switchgear_l",
+        "name": "large switchgear",
+        "symbol": "H",
+        "color": "i_ltgray",
+        "move_cost": 0,
+        "flags": ["BASHABLE", "TRANSPARENT", "NOITEM", "WALL"],
+        "bash": {
+            "str_min": 12, "str_max": 100, "num_tests": 2,
+            "explosive" : 3,
+            "ter_set": "t_concrete",
+            "sound_fail": "clang!",
+            "items": [
+                { "item": "scrap", "amount": 10, "minamount": 5},
+                { "item": "steel_chunk", "amount": 4, "minamount": 2}
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_pwr_sb_switchgear_s",
+        "name": "small switchgear",
+        "symbol": "L",
+        "color": "i_ltgray",
+        "move_cost": 0,
+        "flags": ["BASHABLE", "TRANSPARENT", "NOITEM", "WALL"],
+        "bash": {
+            "str_min": 12, "str_max": 100, "num_tests": 2,
+            "explosive" : 2,
+            "ter_set": "t_concrete",
+            "sound_fail": "clang!",
+            "items": [
+                { "item": "scrap", "amount": 8, "minamount": 4},
+                { "item": "steel_chunk", "amount": 2, "minamount": 1}
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_lgtn_arrest",
+        "name": "lightning arrester",
+        "symbol": "}",
+        "color": "i_ltgray",
+        "move_cost": 0,
+        "flags": ["BASHABLE", "TRANSPARENT", "EXPLODES", "NOITEM", "WALL"],
+        "bash": {
+            "str_min": 12, "str_max": 100, "num_tests": 2,
+            "explosive" : 4,
+            "ter_set": "t_concrete",
+            "sound_fail": "clang!",
+            "items": [
+                { "item": "scrap", "amount": 12, "minamount": 8},
+                { "item": "steel_chunk", "amount": 4, "minamount": 4}
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_station_disc",
+        "name": "disconnect switch",
+        "symbol": "h",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["BASHABLE", "TRANSPARENT", "EXPLODES", "NOITEM", "WALL"],
+        "bash": {
+            "str_min": 12, "str_max": 100, "num_tests": 2,
+            "explosive" : 3,
+            "ter_set": "t_concrete",
+            "sound_fail": "clang!",
+            "items": [
+                { "item": "scrap", "amount": 8, "minamount": 4},
+                { "item": "steel_chunk", "amount": 4, "minamount": 2}
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_current_trans",
+        "name": "current transformer",
+        "symbol": "{",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["BASHABLE", "TRANSPARENT", "EXPLODES", "NOITEM", "WALL"],
+        "bash": {
+            "str_min": 12, "str_max": 100, "num_tests": 2,
+            "explosive" : 5,
+            "ter_set": "t_concrete",
+            "sound_fail": "clang!",
+            "items": [
+                { "item": "scrap", "amount": 12, "minamount": 10},
+                { "item": "steel_chunk", "amount": 6, "minamount": 4}
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_potential_trans",
+        "name": "potential transformer",
+        "symbol": "8",
+        "color": "i_ltgray",
+        "move_cost": 0,
+        "flags": ["BASHABLE", "TRANSPARENT", "EXPLODES", "NOITEM", "WALL"],
+        "bash": {
+            "str_min": 12, "str_max": 100, "num_tests": 2,
+            "explosive" : 5,
+            "ter_set": "t_concrete",
+            "sound_fail": "clang!",
+            "items": [
+                { "item": "scrap", "amount": 12, "minamount": 10},
+                { "item": "steel_chunk", "amount": 6, "minamount": 4}
             ]
         }
     }

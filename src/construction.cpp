@@ -192,7 +192,7 @@ void construction_menu()
                     category_name = "OTHER";
                     break;
             }
-            
+
             if (category_name == "ALL") {
                 constructs = available;
             } else {
@@ -205,7 +205,7 @@ void construction_menu()
         }
         //Print new tab listing
         mvwprintz(w_con, 1, 1, c_yellow, "<< %s >>", construct_cat[tabindex].c_str());
-        
+
         // Erase existing list of constructions
         for( int i = 3; i < iMaxY - 1; i++ ) {
             for( int j = 1; j < 30; j++ ) {
@@ -265,9 +265,10 @@ void construction_menu()
                 // Print construction name
                 mvwprintz(w_con, 1, 31, c_white, "%s", current_desc.c_str());
 
-                // Print stages and their requirement
-                int posy = 1;
+                // Print stages and their requirement.
                 std::vector<construction *> options = constructions_by_desc(current_desc);
+                // Space if there is more than one stage.
+                int posy = options.size() > 1 ? 2 : 1;
                 for(std::vector<construction *>::iterator it = options.begin();
                     it != options.end(); ++it) {
                     construction *current_con = *it;
@@ -276,28 +277,10 @@ void construction_menu()
                     }
                     nc_color color_stage = c_white;
 
-                    // display required skill and difficulty
-                    int pskill = g->u.skillLevel(current_con->skill);
-                    int diff = (current_con->difficulty > 0) ? current_con->difficulty : 0;
-                    posy++;
-                    mvwprintz(w_con, posy, 31, c_white,
-                              _("Skill: %s"), Skill::skill(current_con->skill)->name().c_str());
-                    posy++;
-                    mvwprintz(w_con, posy, 31, (pskill >= diff ? c_white : c_red),
-                              _("Difficulty: %d"), diff);
-                    // display required terrain
-                    if (current_con->pre_terrain != "") {
-                        posy++;
-                        if (current_con->pre_is_furniture) {
-                            mvwprintz(w_con, posy, 31, color_stage, _("Replaces: %s"),
-                                      furnmap[current_con->pre_terrain].name.c_str());
-                        } else {
-                            mvwprintz(w_con, posy, 31, color_stage, _("Replaces: %s"),
-                                      termap[current_con->pre_terrain].name.c_str());
-                        }
-                    }
-                    // display result
-                    if (current_con->post_terrain != "") {
+                    // display result only if more than one step.
+                    // Assume single stage constructions should be clear
+                    // in their description what their result is.
+                    if (current_con->post_terrain != "" && options.size() > 1) {
                         posy++;
                         if (current_con->post_is_furniture) {
                             mvwprintz(w_con, posy, 31, color_stage, _("Result: %s"),
@@ -305,6 +288,25 @@ void construction_menu()
                         } else {
                             mvwprintz(w_con, posy, 31, color_stage, _("Result: %s"),
                                       termap[current_con->post_terrain].name.c_str());
+                        }
+                    }
+                    // display required skill and difficulty
+                    int pskill = g->u.skillLevel(current_con->skill);
+                    int diff = (current_con->difficulty > 0) ? current_con->difficulty : 0;
+                    posy++;
+                    mvwprintz(w_con, posy, 31, (pskill >= diff ? c_white : c_red),
+                              _("Skill Req: %d (%s)"), diff, Skill::skill(current_con->skill)->name().c_str());
+                    // TODO: Textify pre_flags to provide a bit more information.
+                    // Example: First step of dig pit could say something about
+                    // requiring diggable ground.
+                    if (current_con->pre_terrain != "") {
+                        posy++;
+                        if (current_con->pre_is_furniture) {
+                            mvwprintz(w_con, posy, 31, color_stage, _("Requires: %s"),
+                                      furnmap[current_con->pre_terrain].name.c_str());
+                        } else {
+                            mvwprintz(w_con, posy, 31, color_stage, _("Requires: %s"),
+                                      termap[current_con->pre_terrain].name.c_str());
                         }
                     }
                     // display time needed

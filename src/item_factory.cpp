@@ -31,6 +31,7 @@ static const std::string category_id_food("food");
 static const std::string category_id_books("books");
 static const std::string category_id_mods("mods");
 static const std::string category_id_cbm("bionics");
+static const std::string category_id_mutagen("mutagen");
 static const std::string category_id_other("other");
 
 Item_factory *item_controller = new Item_factory();
@@ -206,6 +207,8 @@ void Item_factory::init()
     iuse_function_list["MUT_IV"] = &iuse::mut_iv;
     iuse_function_list["PURIFY_IV"] = &iuse::purify_iv;
     iuse_function_list["MARLOSS"] = &iuse::marloss;
+    iuse_function_list["MARLOSS_SEED"] = &iuse::marloss_seed;
+    iuse_function_list["MARLOSS_GEL"] = &iuse::marloss_gel;
     iuse_function_list["DOGFOOD"] = &iuse::dogfood;
     iuse_function_list["CATFOOD"] = &iuse::catfood;
 
@@ -378,16 +381,17 @@ void Item_factory::create_inital_categories()
     // (simply define a category in json with the id
     // taken from category_id_* and that definition will get
     // used - see load_item_category)
-    add_category(category_id_guns, -20, _("guns"));
-    add_category(category_id_ammo, -19, _("ammo"));
-    add_category(category_id_weapons, -18, _("weapons"));
-    add_category(category_id_tools, -17, _("tools"));
-    add_category(category_id_clothing, -16, _("clothing"));
-    add_category(category_id_food, -15, _("food"));
-    add_category(category_id_drugs, -14, _("drugs"));
-    add_category(category_id_books, -13, _("books"));
-    add_category(category_id_mods, -12, _("mods"));
-    add_category(category_id_cbm, -11, _("bionics"));
+    add_category(category_id_guns, -21, _("guns"));
+    add_category(category_id_ammo, -20, _("ammo"));
+    add_category(category_id_weapons, -19, _("weapons"));
+    add_category(category_id_tools, -18, _("tools"));
+    add_category(category_id_clothing, -17, _("clothing"));
+    add_category(category_id_food, -16, _("food"));
+    add_category(category_id_drugs, -15, _("drugs"));
+    add_category(category_id_books, -14, _("books"));
+    add_category(category_id_mods, -13, _("mods"));
+    add_category(category_id_cbm, -12, _("bionics"));
+    add_category(category_id_mutagen, -11, _("mutagen"));
     add_category(category_id_other, -10, _("other"));
 }
 

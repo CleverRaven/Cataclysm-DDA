@@ -52,7 +52,7 @@ void show_bionics_titlebar(WINDOW *window, player *p, std::string menu_mode)
     mvwprintz(window, 0,  0, c_blue, "%s", caption.c_str());
 
     std::stringstream pwr;
-    pwr << _("Power: ") << int(p->power_level) << _("/") << int(p->max_power_level);
+    pwr << string_format(_("Power: %i/%i"), int(p->power_level), int(p->max_power_level));
     int pwr_length = utf8_width(pwr.str().c_str()) + 1;
     mvwprintz(window, 0, getmaxx(window) - pwr_length, c_white, "%s", pwr.str().c_str());
 
@@ -565,13 +565,21 @@ void player::activate_bionic(int b)
         stim = 0;
     } else if(bio.id == "bio_evap") {
         item water = item("water_clean", 0);
-        if (g->handle_liquid(water, true, true)) {
+        int humidity = g->weatherGen.get_weather(pos(), calendar::turn).humidity;
+        int water_charges = (humidity * 3.0) / 100.0 + 0.5;
+        // At 50% relative humidity or more, the player will draw 2 units of water
+        // At 16% relative humidity or less, the player will draw 0 units of water
+        water.charges = water_charges;
+        if (water_charges == 0) {
+            add_msg_if_player(m_bad, _("There was not enough moisture in the air from which to draw water!"));
+        }
+        if (g->handle_liquid(water, true, false)) {
             moves -= 100;
         } else if (query_yn(_("Drink from your hands?"))) {
             inv.push_back(water);
             consume(inv.position_by_type(water.typeId()));
             moves -= 350;
-        } else {
+        } else if (water.charges == water_charges && water_charges != 0) {
             power_level += bionics["bio_evap"]->power_cost;
         }
     } else if(bio.id == "bio_lighter") {

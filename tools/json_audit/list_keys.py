@@ -12,18 +12,7 @@ from __future__ import print_function
 import sys
 import os
 import json
-from util import import_data, ui_import_data, ui_values_to_columns
-
-
-def distinct_keys(data):
-    """Return a sorted-ascending list of keys scraped from the list of data
-    assumed to be dictionaries.
-    """
-    all_keys = set()
-    for d in data:
-        all_keys.update(list(d.keys()))
-    return sorted(all_keys)
-
+from util import import_data, ui_import_data, ui_values_to_columns, distinct_keys
 
 if __name__ == "__main__":
     if len(sys.argv) > 1 and sys.argv[1] == "--json":

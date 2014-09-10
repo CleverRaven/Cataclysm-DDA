@@ -1,0 +1,42 @@
+[
+    {
+        "type": "BULLET_PULLING",
+        "bullet": "654",
+        "items": [
+            ["lead", 5],
+            ["654_casing", 1],
+            ["smrifle_primer", 1],
+            ["gunpowder", 10]
+        ]
+    },
+    {
+        "type": "BULLET_PULLING",
+        "bullet": "654t",
+        "items": [
+            ["lead", 6],
+            ["654_casing", 1],
+            ["smrifle_primer", 1],
+            ["gunpowder", 10]
+        ]
+    },
+    {
+        "type": "BULLET_PULLING",
+        "bullet": "545",
+        "items": [
+            ["lead", 2],
+            ["545_casing", 1],
+            ["smrifle_primer", 1],
+            ["gunpowder", 5]
+        ]
+    },
+    {
+        "type": "BULLET_PULLING",
+        "bullet": "545_ap",
+        "items": [
+            ["lead", 3],
+            ["545_casing", 1],
+            ["smrifle_primer", 1],
+            ["gunpowder", 5]
+        ]
+    }
+]

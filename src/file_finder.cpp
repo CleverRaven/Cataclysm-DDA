@@ -1,6 +1,7 @@
 #include "file_finder.h"
 #include <cstring>  // for strcmp
 #include <stack>    // for stack (obviously)
+#include <queue>
 #include <algorithm>
 
 // FILE I/O
@@ -40,39 +41,42 @@ std::vector<std::string> file_finder::get_files_from_path(std::string extension,
         root_path = ".";
     }
 
-    std::stack<std::string> directories, tempstack;
+    // Breadth-first search
+    std::queue<std::string> directories;
     directories.push(root_path);
     std::string path = "";
 
     while( !directories.empty() ) {
-        path = directories.top();
+        path = directories.front();
         directories.pop();
 
         DIR *root = opendir( path.c_str() );
 
         if( root ) {
             struct dirent *root_file;
-            struct stat _buff;
             DIR *subdir;
 
             while( (root_file = readdir(root)) ) {
-                // Check to see if it is a folder!
-                if( stat(root_file->d_name, &_buff) != 0x4 ) {
-                    // Ignore '.' and '..' folder names, which are current and parent folder
-                    // relative paths.
-                    if( strcmp(root_file->d_name, ".") != 0 &&
-                        strcmp(root_file->d_name, "..") != 0 ) {
-                        std::string subpath = path + "/" + root_file->d_name;
+                // Ignore '.' and '..' folder names, which are current and parent folder
+                // relative paths.
+                if( strcmp(root_file->d_name, ".") == 0 ||
+                    strcmp(root_file->d_name, "..") == 0 ) {
+                    continue;
+                }
 
-                        if( recursive_search ) {
-                            subdir = opendir( subpath.c_str() );
-                            if( subdir ) {
-                                tempstack.push( subpath );
-                                closedir( subdir );
-                            }
-                        }
+                std::string subpath = path + "/" + root_file->d_name;
+
+                if( recursive_search ) {
+                    // Ignore folders we can't open for any reason
+                    // (e.g. no permissions, not a directory)
+                    subdir = opendir( subpath.c_str() );
+                    if( subdir ) {
+                        directories.push( subpath );
+                        closedir( subdir );
+                        continue;
                     }
                 }
+
                 // check to see if it is a file with the appropriate extension
                 std::string tmp = root_file->d_name;
                 if ( tmp.find(c_extension, match_extension ? tmp.size() - extsz : 0 ) !=
@@ -85,13 +89,6 @@ std::vector<std::string> file_finder::get_files_from_path(std::string extension,
                 }
             }
             closedir( root );
-        }
-        // Directories are added to tempstack in A->Z order, which makes them pop from Z->A.
-        // This Makes sure that directories are searched in the proper order and that
-        // the final output is in the proper order.
-        while( !tempstack.empty() ) {
-            directories.push( tempstack.top() );
-            tempstack.pop();
         }
     }
     return files;
