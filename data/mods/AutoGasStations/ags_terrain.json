@@ -7,7 +7,7 @@
         "symbol": "Q",
         "color": "brown_red",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "FLAMMABLE", "EXPLODES", "NOITEM", "SEALED", "CONTAINER", "REDUCE_SCENT"]
+        "flags": ["TRANSPARENT", "FLAMMABLE", "NOITEM", "SEALED", "CONTAINER", "REDUCE_SCENT"]
 },
 
 {
@@ -28,7 +28,7 @@
         "symbol": "&",
         "color": "yellow_red",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "FLAMMABLE", "EXPLODES", "NOITEM", "SEALED", "CONTAINER", "REDUCE_SCENT"],
+        "flags": ["TRANSPARENT", "FLAMMABLE", "NOITEM", "SEALED", "CONTAINER", "REDUCE_SCENT"],
         "examine_action": "gaspump"
 }
 
