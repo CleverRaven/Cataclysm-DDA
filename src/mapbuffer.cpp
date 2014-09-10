@@ -412,12 +412,12 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
         std::unique_ptr<submap> sm(new submap());
         tripoint submap_coordinates;
         jsin.start_object();
-        bool rubble_update = false;
+        bool rubpow_update = false;
         while( !jsin.end_object() ) {
             std::string submap_member_name = jsin.get_member_name();
             if( submap_member_name == "version" ) {
                 if (jsin.get_int() <= 20) {
-                    rubble_update = true;
+                    rubpow_update = true;
                 }
             } else if( submap_member_name == "coordinates" ) {
                 jsin.start_array();
@@ -434,7 +434,7 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
                 // TODO: try block around this to error out if we come up short?
                 jsin.start_array();
                 // Small duplication here so that the rubble check is only performed once
-                if (rubble_update) {
+                if (rubpow_update) {
                     for( int j = 0; j < SEEY; j++ ) {
                         for( int i = 0; i < SEEX; i++ ) {
                             std::string ter_string = jsin.get_string();
@@ -447,6 +447,12 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
                             } else if (ter_string == "t_ash"){
                                 sm->ter[i][j] = termap[ "t_dirt" ].loadid;
                                 sm->frn[i][j] = termap[ "f_ash" ].loadid;
+                            } else if (ter_string == "t_pwr_sb_support_l"){
+                                sm->ter[i][j] = termap[ "t_support_l" ].loadid;
+                            } else if (ter_string == "t_pwr_sb_switchgear_l"){
+                                sm->ter[i][j] = termap[ "t_switchgear_l" ].loadid;
+                            } else if (ter_string == "t_pwr_sb_switchgear_s"){
+                                sm->ter[i][j] = termap[ "t_switchgear_s" ].loadid;
                             } else {
                                 sm->ter[i][j] = termap[ ter_string ].loadid;
                             }

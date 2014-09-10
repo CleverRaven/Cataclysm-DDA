@@ -1806,7 +1806,17 @@
         "color": "ltgreen",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
-        "examine_action": "tree_pear"
+        "examine_action": "tree_pear",
+        "bash": {
+            "str_min": 80, "str_max": 180,
+            "sound": "crunch!",
+            "sound_fail": "whack!",
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "stick", "amount": 10, "minamount": 3 },
+                { "item": "splinter", "amount": 25, "minamount": 10 }
+            ]
+        }
     },{
         "type" : "terrain",
         "id" : "t_tree_cherry",
@@ -1815,7 +1825,17 @@
         "color": "red",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
-        "examine_action": "tree_cherry"
+        "examine_action": "tree_cherry",
+        "bash": {
+            "str_min": 80, "str_max": 180,
+            "sound": "crunch!",
+            "sound_fail": "whack!",
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "stick", "amount": 10, "minamount": 3 },
+                { "item": "splinter", "amount": 25, "minamount": 10 }
+            ]
+        }
     },{
         "type" : "terrain",
         "id" : "t_tree_peach",
@@ -1824,7 +1844,17 @@
         "color": "yellow",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
-        "examine_action": "tree_peach"
+        "examine_action": "tree_peach",
+        "bash": {
+            "str_min": 80, "str_max": 180,
+            "sound": "crunch!",
+            "sound_fail": "whack!",
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "stick", "amount": 10, "minamount": 3 },
+                { "item": "splinter", "amount": 25, "minamount": 10 }
+            ]
+        }
     },{
         "type" : "terrain",
         "id" : "t_tree_apricot",
@@ -1833,7 +1863,17 @@
         "color": "yellow",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
-        "examine_action": "tree_apricot"
+        "examine_action": "tree_apricot",
+        "bash": {
+            "str_min": 80, "str_max": 180,
+            "sound": "crunch!",
+            "sound_fail": "whack!",
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "stick", "amount": 10, "minamount": 3 },
+                { "item": "splinter", "amount": 25, "minamount": 10 }
+            ]
+        }
     },{
         "type" : "terrain",
         "id" : "t_tree_plum",
@@ -1842,7 +1882,17 @@
         "color": "red",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
-        "examine_action": "tree_plum"
+        "examine_action": "tree_plum",
+        "bash": {
+            "str_min": 80, "str_max": 180,
+            "sound": "crunch!",
+            "sound_fail": "whack!",
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "stick", "amount": 10, "minamount": 3 },
+                { "item": "splinter", "amount": 25, "minamount": 10 }
+            ]
+        }
     },{
         "type" : "terrain",
         "id" : "t_tree_pine",
@@ -1851,7 +1901,17 @@
         "color": "green",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
-        "examine_action": "tree_pine"
+        "examine_action": "tree_pine",
+        "bash": {
+            "str_min": 80, "str_max": 180,
+            "sound": "crunch!",
+            "sound_fail": "whack!",
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "stick", "amount": 10, "minamount": 3 },
+                { "item": "splinter", "amount": 25, "minamount": 10 }
+            ]
+        }
     },{
         "type" : "terrain",
         "id" : "t_tree_deadpine",
@@ -1859,7 +1919,17 @@
         "symbol": "4",
         "color": "brown",
         "move_cost": 0,
-        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"]
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
+        "bash": {
+            "str_min": 60, "str_max": 120,
+            "sound": "crunch!",
+            "sound_fail": "whack!",
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "stick", "amount": 10, "minamount": 3 },
+                { "item": "splinter", "amount": 25, "minamount": 10 }
+            ]
+        }
     },{
         "type" : "terrain",
         "id" : "t_underbrush",
@@ -3793,10 +3863,10 @@
         "color": "brown_green",
         "move_cost": 2,
         "flags": [
-            "TRANSPARENT", "BASHABLE", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "REDUCE_SCENT", "INDOORS", "MOUNTABLE"
+            "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "REDUCE_SCENT", "INDOORS", "MOUNTABLE"
         ],
         "bash": {
-            "str_min": 0, "str_max": 30, "num_tests": 2, "chance": 50,
+            "str_min": 4, "str_max": 60,
             "sound": "crunch.",
             "sound_fail": "brush.",
             "ter_set": "t_pit_shallow",
@@ -3849,7 +3919,7 @@
         "symbol": "#",
         "color": "ltgray",
         "move_cost": 0,
-        "flags": ["BASHABLE", "NOITEM", "WALL"],
+        "flags": ["NOITEM", "WALL"],
         "bash": {
             "str_min": 8, "str_max": 80,
             "sound": "whack!",
@@ -3863,7 +3933,7 @@
         "symbol": "#",
         "color": "ltgray",
         "move_cost": 0,
-        "flags": ["BASHABLE", "NOITEM", "WALL"],
+        "flags": ["NOITEM", "WALL"],
         "bash": {
             "str_min": 6, "str_max": 80,
             "sound": "whack!",
@@ -3879,12 +3949,42 @@
         }
     },{
         "type" : "terrain",
-        "id" : "t_pwr_sb_support_l",
+        "id" : "t_support_l",
         "name": "large metal support",
         "symbol": "T",
         "color": "ltgray",
         "move_cost": 0,
-        "flags": ["NOITEM", "WALL"]
+        "flags": ["NOITEM", "WALL", "SUPPORTS_ROOF"],
+        "bash": {
+            "str_min": 40, "str_max": 200,
+            "sound": "metal screeching!",
+            "sound_fail": "whump!",
+            "ter_set": "t_concrete",
+            "items": [
+                { "item": "steel_lump", "amount": 2, "minamount": 0 },
+                { "item": "steel_chunk", "amount": 6, "minamount": 2 },
+                { "item": "scrap", "amount": 18, "minamount": 5 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_support_s",
+        "name": "small metal support",
+        "symbol": "l",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["NOITEM", "WALL", "SUPPORTS_ROOF"],
+        "bash": {
+            "str_min": 20, "str_max": 120,
+            "sound": "metal screeching!",
+            "sound_fail": "whump!",
+            "ter_set": "t_concrete",
+            "items": [
+                { "item": "steel_lump", "amount": 1, "minamount": 0 },
+                { "item": "steel_chunk", "amount": 3, "minamount": 1 },
+                { "item": "scrap", "amount": 9, "minamount": 2 }
+            ]
+        }
     },{
         "type" : "terrain",
         "id" : "t_oil_circ_brkr_l",
@@ -3892,9 +3992,9 @@
         "symbol": "B",
         "color": "ltgray",
         "move_cost": 0,
-        "flags": ["BASHABLE", "TRANSPARENT", "FLAMMABLE", "EXPLODES", "NOITEM", "WALL"],
+        "flags": ["TRANSPARENT", "FLAMMABLE", "NOITEM", "WALL"],
         "bash": {
-            "str_min": 12, "str_max": 100, "num_tests": 2,
+            "str_min": 20, "str_max": 150,
             "explosive" : 6,
             "sound": "pow!",
             "ter_set": "t_concrete",
@@ -3906,22 +4006,14 @@
         }
     },{
         "type" : "terrain",
-        "id" : "t_pwr_sb_support_s",
-        "name": "small metal support",
-        "symbol": "l",
-        "color": "ltgray",
-        "move_cost": 0,
-        "flags": ["NOITEM", "WALL"]
-    },{
-        "type" : "terrain",
         "id" : "t_oil_circ_brkr_s",
         "name": "small HV oil circuit breaker",
         "symbol": "b",
         "color": "ltgray",
         "move_cost": 0,
-        "flags": ["BASHABLE", "TRANSPARENT", "FLAMMABLE", "EXPLODES", "NOITEM", "WALL"],
+        "flags": ["TRANSPARENT", "FLAMMABLE", "NOITEM", "WALL"],
         "bash": {
-            "str_min": 12, "str_max": 100, "num_tests": 2,
+            "str_min": 20, "str_max": 150,
             "explosive" : 4,
             "sound": "pow!",
             "ter_set": "t_concrete",
@@ -3933,14 +4025,14 @@
         }
     },{
         "type" : "terrain",
-        "id" : "t_pwr_sb_switchgear_l",
+        "id" : "t_switchgear_l",
         "name": "large switchgear",
         "symbol": "H",
         "color": "i_ltgray",
         "move_cost": 0,
-        "flags": ["BASHABLE", "TRANSPARENT", "NOITEM", "WALL"],
+        "flags": ["TRANSPARENT", "NOITEM", "WALL"],
         "bash": {
-            "str_min": 12, "str_max": 100, "num_tests": 2,
+            "str_min": 20, "str_max": 150,
             "explosive" : 3,
             "ter_set": "t_concrete",
             "sound_fail": "clang!",
@@ -3951,14 +4043,14 @@
         }
     },{
         "type" : "terrain",
-        "id" : "t_pwr_sb_switchgear_s",
+        "id" : "t_switchgear_s",
         "name": "small switchgear",
         "symbol": "L",
         "color": "i_ltgray",
         "move_cost": 0,
-        "flags": ["BASHABLE", "TRANSPARENT", "NOITEM", "WALL"],
+        "flags": ["TRANSPARENT", "NOITEM", "WALL"],
         "bash": {
-            "str_min": 12, "str_max": 100, "num_tests": 2,
+            "str_min": 20, "str_max": 150,
             "explosive" : 2,
             "ter_set": "t_concrete",
             "sound_fail": "clang!",
@@ -3974,9 +4066,9 @@
         "symbol": "}",
         "color": "i_ltgray",
         "move_cost": 0,
-        "flags": ["BASHABLE", "TRANSPARENT", "EXPLODES", "NOITEM", "WALL"],
+        "flags": ["TRANSPARENT", "NOITEM", "WALL"],
         "bash": {
-            "str_min": 12, "str_max": 100, "num_tests": 2,
+            "str_min": 20, "str_max": 150,
             "explosive" : 4,
             "ter_set": "t_concrete",
             "sound_fail": "clang!",
@@ -3992,9 +4084,9 @@
         "symbol": "h",
         "color": "ltgray",
         "move_cost": 0,
-        "flags": ["BASHABLE", "TRANSPARENT", "EXPLODES", "NOITEM", "WALL"],
+        "flags": ["TRANSPARENT", "NOITEM", "WALL"],
         "bash": {
-            "str_min": 12, "str_max": 100, "num_tests": 2,
+            "str_min": 20, "str_max": 150,
             "explosive" : 3,
             "ter_set": "t_concrete",
             "sound_fail": "clang!",
@@ -4010,9 +4102,9 @@
         "symbol": "{",
         "color": "ltgray",
         "move_cost": 0,
-        "flags": ["BASHABLE", "TRANSPARENT", "EXPLODES", "NOITEM", "WALL"],
+        "flags": ["TRANSPARENT", "NOITEM", "WALL"],
         "bash": {
-            "str_min": 12, "str_max": 100, "num_tests": 2,
+            "str_min": 20, "str_max": 150,
             "explosive" : 5,
             "ter_set": "t_concrete",
             "sound_fail": "clang!",
@@ -4028,9 +4120,9 @@
         "symbol": "8",
         "color": "i_ltgray",
         "move_cost": 0,
-        "flags": ["BASHABLE", "TRANSPARENT", "EXPLODES", "NOITEM", "WALL"],
+        "flags": ["TRANSPARENT", "NOITEM", "WALL"],
         "bash": {
-            "str_min": 12, "str_max": 100, "num_tests": 2,
+            "str_min": 20, "str_max": 150,
             "explosive" : 5,
             "ter_set": "t_concrete",
             "sound_fail": "clang!",
