@@ -98,15 +98,6 @@
         "flags": ["TRANSPARENT", "INDOORS", "FLAT"]
     },{
         "type" : "terrain",
-        "id" : "t_ash",
-        "name": "pile of ash",
-        "symbol": "#",
-        "color": "ltgray",
-        "move_cost": 2,
-        "flags": ["TRANSPARENT", "DIGGABLE"],
-        "examine_action": "rubble"
-    },{
-        "type" : "terrain",
         "id" : "t_grass",
         "name": "grass",
         "symbol": ".",

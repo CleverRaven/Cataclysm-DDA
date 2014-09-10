@@ -9963,7 +9963,7 @@ void player::try_to_sleep()
         plantsleep = true;
         if( (ter_at_pos == t_dirt || ter_at_pos == t_pit ||
              ter_at_pos == t_dirtmound || ter_at_pos == t_pit_shallow ||
-             ter_at_pos == t_ash || ter_at_pos == t_grass) && (!(veh)) &&
+             ter_at_pos == t_grass) && (!(veh)) &&
             (furn_at_pos == f_null) ) {
             add_msg(m_good, _("You relax as your roots embrace the soil."));
         } else if (veh) {
@@ -10032,7 +10032,7 @@ bool player::can_sleep()
         furn_at_pos == f_null) {
         sleepy += 10; // It's very easy for Chloromorphs to get to sleep on soil!
     }
-    else if ((ter_at_pos == t_grass || ter_at_pos == t_ash) &&
+    else if ((ter_at_pos == t_grass) &&
         furn_at_pos == f_null) {
         sleepy += 5; // Not as much if you have to dig through stuff first
     }

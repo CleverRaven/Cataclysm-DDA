@@ -444,6 +444,9 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
                             } else if (sm->ter[i][j] == termap[ "t_wreckage" ].loadid){
                                 sm->ter[i][j] = termap[ "t_dirt" ].loadid;
                                 sm->frn[i][j] = termap[ "f_wreckage" ].loadid;
+                            } else if (sm->ter[i][j] == termap[ "t_ash" ].loadid){
+                                sm->ter[i][j] = termap[ "t_dirt" ].loadid;
+                                sm->frn[i][j] = termap[ "f_ash" ].loadid;
                             }
                         }
                     }

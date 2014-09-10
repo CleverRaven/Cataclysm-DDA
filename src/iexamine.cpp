@@ -535,16 +535,6 @@ void iexamine::rubble(player *p, map *m, int examx, int examy)
     if (query_yn(_("Clear up that %s?"), xname.c_str())) {
         // "Remove"
         p->moves -= 200;
-
-        // "Replace"
-        if(m->furn(examx, examy) == f_rubble) {
-            item rock("rock", calendar::turn);
-            int rock_count = rng(1,3);
-            for (int i = 0; i < rock_count; i++) {
-                m->add_item_or_charges(p->posx, p->posy, rock);
-            }
-        }
-
         m->furn_set(examx, examy, f_null);
 
         // "Remind"
@@ -654,31 +644,6 @@ void iexamine::shelter(player *p, map *m, int examx, int examy)
     add_msg(_("You take down the shelter"));
     item dropped("shelter_kit", calendar::turn);
     m->add_item_or_charges(examx, examy, dropped);
-}
-
-void iexamine::wreckage(player *p, map *m, int examx, int examy)
-{
-    if (!(p->has_amount("shovel", 1) || p->has_amount("primitive_shovel", 1) ||
-          p->has_amount("e_tool", 1))) {
-        add_msg(m_info, _("If only you had a shovel..."));
-        return;
-    }
-
-    if (query_yn(_("Clear up that wreckage?"))) {
-        p->moves -= 200;
-        m->ter_set(examx, examy, t_dirt);
-        item chunk("steel_chunk", calendar::turn);
-        item scrap("scrap", calendar::turn);
-        item pipe("pipe", calendar::turn);
-        item wire("wire", calendar::turn);
-        m->add_item_or_charges(examx, examy, chunk);
-        m->add_item_or_charges(examx, examy, scrap);
-        if (one_in(5)) {
-            m->add_item_or_charges(examx, examy, pipe);
-            m->add_item_or_charges(examx, examy, wire);
-        }
-        add_msg(_("You clear the wreckage up"));
-    }
 }
 
 void iexamine::pit(player *p, map *m, int examx, int examy)
@@ -2528,9 +2493,6 @@ void (iexamine::*iexamine_function_from_string(std::string function_name))(playe
     }
     if ("shelter" == function_name) {
         return &iexamine::shelter;
-    }
-    if ("wreckage" == function_name) {
-        return &iexamine::wreckage;
     }
     if ("pit" == function_name) {
         return &iexamine::pit;

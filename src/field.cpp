@@ -687,10 +687,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                                  cur->getFieldDensity() * 40);
                                 smoke += 15;
                                 if (cur->getFieldDensity() == 3 || cur->getFieldAge() < -600) {
-                                    ter_set(x, y, t_ash);
-                                    if(has_furn(x, y)) {
-                                        furn_set(x, y, f_null);
-                                    }
+                                    ter_set(x, y, t_dirt);
+                                    furn_set(x, y, f_ash);
                                 }
 
                             } else if (has_flag("FLAMMABLE_HARD", x, y) &&

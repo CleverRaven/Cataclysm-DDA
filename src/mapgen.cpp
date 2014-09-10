@@ -5119,7 +5119,7 @@ ff.......|....|WWWWWWWW|\n\
                 for (int i = x - 3; i < x + 3; i++) {
                     for (int j = y - 3; j < y + 3; j++) {
                         if (!one_in(4)) {
-                            make_rubble(i, j, f_wreckage);
+                            make_rubble(i, j, f_wreckage, true);
                         }
                     }
                 }
@@ -8725,7 +8725,7 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                         ter_set(i, j, t_dirtmound);
                     }
                     if (one_in(2)) {
-                        make_rubble(i, j, f_wreckage);
+                        make_rubble(i, j, f_wreckage, true);
                     }
                     place_items("trash", 50,  i,  j, i,  j, false, 0);
                     place_items("sewer", 50,  i,  j, i,  j, false, 0);
@@ -8818,7 +8818,7 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                             ter_set(i, j, t_dirtmound);
                         }
                         if (one_in(2)) {
-                            make_rubble(i, j, f_wreckage);
+                            make_rubble(i, j, f_wreckage, true);
                         }
                         place_items("trash", 50,  i,  j, i,  j, false, 0);
                         place_items("sewer", 50,  i,  j, i,  j, false, 0);
@@ -8904,7 +8904,7 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                             ter_set(i, j, t_dirtmound);
                         }
                         if (one_in(2)) {
-                            make_rubble(i, j, f_wreckage);
+                            make_rubble(i, j, f_wreckage, true);
                         }
                         place_items("trash", 50,  i,  j, i,  j, false, 0);
                         place_items("sewer", 50,  i,  j, i,  j, false, 0);
@@ -8999,7 +8999,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
                             ter_set(i, j, t_dirtmound);
                         }
                         if (one_in(2)) {
-                            make_rubble(i, j, f_wreckage);
+                            make_rubble(i, j, f_wreckage, true);
                         }
                         place_items("trash", 50,  i,  j, i,  j, false, 0);
                         place_items("sewer", 50,  i,  j, i,  j, false, 0);
@@ -12718,12 +12718,12 @@ void map::add_extra(map_extra type)
             for (int y = 0; y < SEEY * 2; y++) {
                 if (x >= cx - 4 && x <= cx + 4 && y >= cy - 4 && y <= cy + 4) {
                     if (!one_in(5)) {
-                        make_rubble(x, y, f_wreckage);
+                        make_rubble(x, y, f_wreckage, true);
                     } else if (is_bashable(x, y)) {
                         destroy(x, y, true);
                     }
                 } else if (one_in(10)) { // 1 in 10 chance of being wreckage anyway
-                    make_rubble(x, y, f_wreckage);
+                    make_rubble(x, y, f_wreckage, true);
                 }
             }
         }

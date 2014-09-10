@@ -1433,7 +1433,7 @@ int map::bash_rating(const int str, const int x, const int y)
     return (10 * (str - bash_min)) / (bash_max - bash_min);
 }
 
-void map::make_rubble(const int x, const int y, furn_id rubble_type, ter_id floor_type, bool overwrite)
+void map::make_rubble(const int x, const int y, furn_id rubble_type, ter_id floor_type, bool items, bool overwrite)
 {
     if (overwrite) {
         ter_set(x, y, floor_type);
@@ -1453,6 +1453,21 @@ void map::make_rubble(const int x, const int y, furn_id rubble_type, ter_id floo
         }
         
         furn_set(x, y, rubble_type);
+    }
+    if (items) {
+        //Hardcoded still, but a step up from the old mapgen stuff
+        if (rubble_type == f_wreckage) {
+            item chunk("steel_chunk", calendar::turn);
+            item scrap("scrap", calendar::turn);
+            item pipe("pipe", calendar::turn);
+            item wire("wire", calendar::turn);
+            add_item_or_charges(x, y, chunk);
+            add_item_or_charges(x, y, scrap);
+            if (one_in(5)) {
+                add_item_or_charges(x, y, pipe);
+                add_item_or_charges(x, y, wire);
+            }
+        }
     }
 }
 
@@ -1687,11 +1702,15 @@ void map::collapse_at(const int x, const int y)
     make_rubble(x, y);
     for (int i = x - 1; i <= x + 1; i++) {
         for (int j = y - 1; j <= y + 1; j++) {
-            if ((i == x && j == y) || !has_flag("SUPPORTS_ROOF", i, j)) {
+            if ((i == x && j == y)) {
                 continue;
             }
-            if (one_in(collapse_check(i, j))) {
+            if (has_flag("COLLAPSES", i, j) && one_in(collapse_check(i, j))) {
                 destroy (i, j, false);
+            // We only check for rubble spread if it doesn't already collapse to prevent double crushing
+            } else if (has_flag("FLAT", i, j) && one_in(8)) {
+                crush(i, j);
+                make_rubble(i, j);
             }
         }
     }

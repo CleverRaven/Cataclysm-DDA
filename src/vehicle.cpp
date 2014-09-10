@@ -3127,7 +3127,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
             mass2 = 82;// player or NPC
         }
     } else if (g->m.is_bashable_ter_furn(x, y)) {
-        collision_type = veh_coll_bashable; // not destructible
+        collision_type = veh_coll_bashable;
         e = 0.30;
         //Just a rough rescale for now to obtain approximately equal numbers
         mass2 = 10 + std::max(0, g->m.bash_strength(x, y) - 30);

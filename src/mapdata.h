@@ -82,7 +82,6 @@ struct map_deconstruct_info {
  * DOOR - Can be opened (used for NPC pathfinding)
  * FLAMMABLE - Can be lit on fire
  * FLAMMABLE_HARD - Harder to light on fire, but still possible
- * EXPLODES - Explodes when on fire
  * DIGGABLE - Digging monsters, seeding monsters, digging with shovel, etc
  * LIQUID - Blocks movement, but isn't a wall (lava, water, etc)
  * SWIMMABLE - Player and monsters can swim through it
@@ -98,7 +97,6 @@ struct map_deconstruct_info {
  * ALARMED - Sets off an alarm if smashed
  * SUPPORTS_ROOF - Used as a boundary for roof construction
  * INDOORS - Has roof over it; blocks rain, sunlight, etc.
- * THIN_OBSTACLE - Passable by players and monsters, vehicles destroy it
  * COLLAPSES - Has a roof that can collapse
  * FLAMMABLE_ASH - Burns to ash rather than rubble.
  * REDUCE_SCENT - Reduces scent even more, only works if also bashable
@@ -110,6 +108,7 @@ struct map_deconstruct_info {
  *
  * Currently only used for Fungal conversions
  * WALL - This terrain is an upright obstacle
+ * THIN_OBSTACLE - This terrain is a thin obstacle, i.e. fence
  * ORGANIC - This furniture is partly organic
  * FLOWER - This furniture is a flower
  * SHRUB - This terrain is a shrub
@@ -498,7 +497,7 @@ extern ter_id t_null,
     // Ground
     t_dirt, t_sand, t_dirtmound, t_pit_shallow, t_pit,
     t_pit_corpsed, t_pit_covered, t_pit_spiked, t_pit_spiked_covered,
-    t_rock_floor, t_ash,
+    t_rock_floor,
     t_grass,
     t_metal_floor,
     t_pavement, t_pavement_y, t_sidewalk, t_concrete,
@@ -583,7 +582,7 @@ about ter_id above.
 */
 extern furn_id f_null,
     f_hay,
-    f_rubble, f_rubble_rock, f_wreckage,
+    f_rubble, f_rubble_rock, f_wreckage, f_ash,
     f_barricade_road,
     f_bulletin,
     f_indoor_plant,
