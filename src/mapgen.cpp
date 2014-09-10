@@ -3840,7 +3840,7 @@ ff.......|....|WWWWWWWW|\n\
                         (j < SEEY * 2 - bw && (!one_in(3) || (i > SEEX - 6 && i < SEEX + 5)))) {
                         ter_set(i, j, t_rock_floor);
                         if (one_in(5)) {
-                            make_rubble(i, j, f_rubble_rock, t_rock_floor);
+                            make_rubble(i, j, f_rubble_rock, true, t_rock_floor);
                         }
                     }
                 }
@@ -3858,7 +3858,7 @@ ff.......|....|WWWWWWWW|\n\
                     if (((j <= tw || i >= rw) && i >= j && (SEEX * 2 - 1 - i) <= j) ||
                         ((j >= bw || i <= lw) && i <= j && (SEEY * 2 - 1 - j) <= i)   ) {
                         if (one_in(5)) {
-                            make_rubble(i, j, f_rubble_rock, t_slime);
+                            make_rubble(i, j, f_rubble_rock, true, t_slime);
                         } else if (!one_in(5)) {
                             ter_set(i, j, t_slime);
                         }
@@ -13067,7 +13067,7 @@ void map::add_extra(map_extra type)
         int x = rng(1, SEEX * 2 - 2), y = rng(1, SEEY * 2 - 2);
         for (int i = x - 1; i <= x + 1; i++) {
             for (int j = y - 1; j <= y + 1; j++) {
-                make_rubble(i, j, f_rubble_rock);
+                make_rubble(i, j, f_rubble_rock, true);
             }
         }
         add_trap(x, y, tr_portal);
@@ -13075,7 +13075,7 @@ void map::add_extra(map_extra type)
         for (int i = 0; i < num_monsters; i++) {
             std::string type = spawncreatures[( rng(0, 4) )];
             int mx = rng(1, SEEX * 2 - 2), my = rng(1, SEEY * 2 - 2);
-            furn_set(mx, my, f_rubble);
+            make_rubble(mx, my, f_rubble_rock, true);
             add_spawn(type, 1, mx, my);
         }
     }

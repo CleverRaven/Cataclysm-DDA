@@ -395,7 +395,7 @@ void mapgen_crater(map *m, oter_id, mapgendata dat, int, float)
            if (rng(0, dat.w_fac) <= i && rng(0, dat.e_fac) <= SEEX * 2 - 1 - i &&
                rng(0, dat.n_fac) <= j && rng(0, dat.s_fac) <= SEEX * 2 - 1 - j ) {
                m->ter_set(i, j, dat.groundcover());
-               m->furn_set(i, j, f_rubble);
+               m->make_rubble(i, j, f_rubble, true);
                m->set_radiation(i, j, rng(0, 4) * rng(0, 2));
            } else {
                m->ter_set(i, j, dat.groundcover());
@@ -1313,7 +1313,7 @@ void mapgen_subway_straight(map *m, oter_id terrain_type, mapgendata dat, int, f
                     m->ter_set(i, j, t_rock);
                 } else if (one_in(90)) {
                     m->ter_set(i, j, t_rock_floor);
-                    m->furn_set(i, j, f_rubble);
+                    m->make_rubble(i, j, f_rubble_rock, true);
                 } else {
                     m->ter_set(i, j, t_rock_floor);
                 }
@@ -1336,7 +1336,7 @@ void mapgen_subway_curved(map *m, oter_id terrain_type, mapgendata dat, int, flo
                     m->ter_set(i, j, t_rock);
                 } else if (one_in(30)) {
                     m->ter_set(i, j, t_rock_floor);
-                    m->furn_set(i, j, f_rubble);
+                    m->make_rubble(i, j, f_rubble_rock, true);
                 } else {
                     m->ter_set(i, j, t_rock_floor);
                 }
@@ -1365,7 +1365,7 @@ void mapgen_subway_tee(map *m, oter_id terrain_type, mapgendata dat, int, float)
                     m->ter_set(i, j, t_rock);
                 } else if (one_in(30)) {
                     m->ter_set(i, j, t_rock_floor);
-                    m->furn_set(i, j, f_rubble);
+                    m->make_rubble(i, j, f_rubble_rock, true);
                 } else {
                     m->ter_set(i, j, t_rock_floor);
                 }
@@ -1396,7 +1396,7 @@ void mapgen_subway_four_way(map *m, oter_id, mapgendata dat, int, float)
                     m->ter_set(i, j, t_rock);
                 } else if (one_in(30)) {
                     m->ter_set(i, j, t_rock_floor);
-                    m->furn_set(i, j, f_rubble);
+                    m->make_rubble(i, j, f_rubble_rock, true);
                 } else {
                     m->ter_set(i, j, t_rock_floor);
                 }
@@ -4486,8 +4486,8 @@ void mapgen_cabin(map *m, oter_id, mapgendata dat, int, float)
             line(m, t_fencegate_c, 11, 20, 12, 20);
             line_furn(m, f_bench, 4, 17, 7, 17);
             square_furn(m, f_rubble, 19, 18, 20, 19);
-            m->furn_set(20, 17, f_rubble);
-            m->furn_set(18, 19, f_rubble); //Porch done
+            m->make_rubble(20, 17, f_rubble, true);
+            m->make_rubble(18, 19, f_rubble, true);
             line(m, t_door_c, 11, 16, 12, 16); //Interior
             square(m, t_floor, 3, 4, 9, 9);
             square(m, t_floor, 3, 11, 9, 15);
@@ -4506,8 +4506,8 @@ void mapgen_cabin(map *m, oter_id, mapgendata dat, int, float)
             m->ter_set(8, 3, t_curtains); //Windows End
             line(m, t_door_c, 11, 3, 12, 3); //Rear Doors
             square_furn(m, f_rubble, 20, 3, 21, 4);
-            m->furn_set(19, 3, f_rubble);
-            m->furn_set(21, 5, f_rubble);
+            m->make_rubble(19, 3, f_rubble, true);
+            m->make_rubble(21, 5, f_rubble, true);
             m->furn_set(6, 4, f_desk);
             m->furn_set(6, 5, f_chair);
             m->furn_set(7, 9, f_locker);

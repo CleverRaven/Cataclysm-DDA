@@ -1433,7 +1433,7 @@ int map::bash_rating(const int str, const int x, const int y)
     return (10 * (str - bash_min)) / (bash_max - bash_min);
 }
 
-void map::make_rubble(const int x, const int y, furn_id rubble_type, ter_id floor_type, bool items, bool overwrite)
+void map::make_rubble(const int x, const int y, furn_id rubble_type, bool items, ter_id floor_type, bool overwrite)
 {
     if (overwrite) {
         ter_set(x, y, floor_type);
@@ -1469,9 +1469,20 @@ void map::make_rubble(const int x, const int y, furn_id rubble_type, ter_id floo
             }
         } else if (rubble_type == f_rubble_rock) {
             item rock("rock", calendar::turn);
-            int rock_count = rng(1,3);
+            int rock_count = rng(1, 3);
             for (int i = 0; i < rock_count; i++) {
                 add_item_or_charges(x, y, rock);
+            }
+        } else if (rubble_type == f_rubble) {
+            item splinter("splinter", calendar::turn);
+            item nail("nail", calendar::turn);
+            int splinter_count = rng(2, 8);
+            int nail_count = rng(5, 10);
+            for (int i = 0; i < splinter_count; i++) {
+                add_item_or_charges(x, y, splinter);
+            }
+            for (int i = 0; i < nail_count; i++) {
+                add_item_or_charges(x, y, nail);
             }
         }
     }

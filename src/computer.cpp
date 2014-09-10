@@ -1026,17 +1026,17 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
                 if (g->m.ter(x, y) == t_elevator || g->m.ter(x, y) == t_vat) {
-                    g->m.make_rubble(x, y, f_rubble_rock);
+                    g->m.make_rubble(x, y, f_rubble_rock, true);
                     g->explosion(x, y, 40, 0, true);
                 }
                 if (g->m.ter(x, y) == t_wall_glass_h || g->m.ter(x, y) == t_wall_glass_v) {
-                    g->m.make_rubble(x, y, f_rubble_rock);
+                    g->m.make_rubble(x, y, f_rubble_rock, true);
                 }
                 if (g->m.ter(x, y) == t_sewage_pipe || g->m.ter(x, y) == t_sewage || g->m.ter(x, y) == t_grate) {
-                    g->m.make_rubble(x, y, f_rubble_rock);
+                    g->m.make_rubble(x, y, f_rubble_rock, true);
                 }
                 if (g->m.ter(x, y) == t_sewage_pump) {
-                    g->m.make_rubble(x, y, f_rubble_rock);
+                    g->m.make_rubble(x, y, f_rubble_rock, true);
                     g->explosion(x, y, 50, 0, true);
                 }
             }

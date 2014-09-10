@@ -1627,7 +1627,7 @@ void dis_effect(player &p, disease &dis)
                     } while (((x == p.posx && y == p.posy) || g->mon_at(x, y) != -1));
                     if (tries < 10) {
                         if (g->m.move_cost(x, y) == 0) {
-                            g->m.make_rubble(x, y, f_rubble_rock);
+                            g->m.make_rubble(x, y, f_rubble_rock, true);
                         }
                         beast.spawn(x, y);
                         g->add_zombie(beast);
@@ -1691,7 +1691,7 @@ void dis_effect(player &p, disease &dis)
                 } while (((x == p.posx && y == p.posy) || g->mon_at(x, y) != -1) && tries < 10);
                 if (tries < 10) {
                     if (g->m.move_cost(x, y) == 0) {
-                        g->m.make_rubble(x, y, f_rubble_rock);
+                        g->m.make_rubble(x, y, f_rubble_rock, true);
                     }
                     beast.spawn(x, y);
                     g->add_zombie(beast);
