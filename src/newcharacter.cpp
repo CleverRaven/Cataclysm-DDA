@@ -164,7 +164,7 @@ bool player::create(character_type type, std::string tempname)
                     }
                 }
 
-                /* The loops variable is used to prevent the algorithm running in an infinte loop */
+                /* The loops variable is used to prevent the algorithm running in an infinite loop */
                 unsigned int loops = 0;
                 while (points > 0 && loops <= 30000) {
                     switch (rng((num_gtraits < max_trait_points ? 1 : 5), 9)) {
@@ -1374,6 +1374,7 @@ inline bool scenario_display_sort(const scenario *a, const scenario *b)
 
     return a->point_cost() < b->point_cost();
 }
+
 int set_scenario(WINDOW *w, player *u, int &points)
 {
     draw_tabs(w, _("SCENARIO"));
@@ -1386,9 +1387,11 @@ int set_scenario(WINDOW *w, player *u, int &points)
     WINDOW *w_description = newwin(4, FULL_SCREEN_WIDTH - 2,
                                    FULL_SCREEN_HEIGHT - 5 + getbegy(w), 1 + getbegx(w));
 
-    WINDOW *w_profession =       newwin(iContentHeight - 1, 25,  6 + getbegy(w), 24 + getbegx(w));
+    WINDOW *w_profession = newwin(iContentHeight - 1, (getmaxx(w) / 2) - getbegx(w) - 3,
+                                  6 + getbegy(w),  (getmaxx(w) / 2) + getbegx(w));
 
-    WINDOW *w_location=  newwin(iContentHeight - 8, 50, 10 + getbegy(w), 24 + getbegx(w));
+    WINDOW *w_location =   newwin(iContentHeight - 8, (getmaxx(w) / 2) - getbegx(w) - 3,
+                                  10 + getbegy(w), (getmaxx(w) / 2) + getbegx(w));
 
     std::vector<const scenario *> sorted_scens;
     for (scenmap::const_iterator iter = scenario::begin(); iter != scenario::end(); ++iter) {
@@ -1487,28 +1490,31 @@ int set_scenario(WINDOW *w, player *u, int &points)
         mvwprintz(w_profession, 0, 0, COL_HEADER, _("Professions:"));
 
 	wprintz(w_profession, c_ltgray,_("\n"));
-	if (sorted_scens[cur_id]->profsize() > 0){wprintz(w_profession, c_ltgray,_("Limited"));}
-	else {wprintz(w_profession, c_ltgray,_("All"));}
+	if (sorted_scens[cur_id]->profsize() > 0){
+        wprintz(w_profession, c_ltgray, _("Limited"));
+    } else {
+        wprintz(w_profession, c_ltgray, _("All"));
+    }
 	mvwprintz(w_location, 0, 0, COL_HEADER, _("Scenario Location:"));
 	wprintz(w_location, c_ltgray,_("\n"));
 	wprintz(w_location, c_ltgray,_(sorted_scens[cur_id]->start_name().c_str()));
-        draw_scrollbar(w, cur_id, iContentHeight, profession::count(), 5);
-        wrefresh(w);
-        wrefresh(w_description);
-        wrefresh(w_profession);
+    draw_scrollbar(w, cur_id, iContentHeight, scenario::count(), 5);
+    wrefresh(w);
+    wrefresh(w_description);
+    wrefresh(w_profession);
 	wrefresh(w_location);
 
         const std::string action = ctxt.handle_input();
         if (action == "DOWN") {
-                cur_id++;
-                if (cur_id > scenario::count() - 1) {
-                    cur_id = 0;
-                }
+            cur_id++;
+            if (cur_id > scenario::count() - 1) {
+                cur_id = 0;
+            }
         } else if (action == "UP") {
-                cur_id--;
-                if (cur_id < 0) {
-                    cur_id = scenario::count() - 1;
-                }
+            cur_id--;
+            if (cur_id < 0) {
+                cur_id = scenario::count() - 1;
+            }
         } else if (action == "CONFIRM") {
 		u->start_location = sorted_scens[cur_id]->start_location();
 		u->str_max = 8;
