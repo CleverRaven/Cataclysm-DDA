@@ -1507,9 +1507,7 @@ int player::run_cost(int base_cost, bool diag)
       (ter_at_pos == t_pit_spiked_covered) || (ter_at_pos == t_pavement) ||
       (ter_at_pos == t_pavement_y) || (ter_at_pos == t_sidewalk) ||
       (ter_at_pos == t_concrete) || (ter_at_pos == t_floor) ||
-      (ter_at_pos == t_skylight) || (ter_at_pos == t_door_glass_o) ||
-      (ter_at_pos == t_emergency_light_flicker) ||
-      (ter_at_pos == t_emergency_light) || (ter_at_pos == t_utility_light) ||
+      (ter_at_pos == t_door_glass_o) || (ter_at_pos == t_utility_light) ||
       (ter_at_pos == t_door_o) || (ter_at_pos == t_rdoor_o) ||
       (ter_at_pos == t_door_frame) || (ter_at_pos == t_mdoor_frame) ||
       (ter_at_pos == t_fencegate_o) || (ter_at_pos == t_chaingate_o) ||

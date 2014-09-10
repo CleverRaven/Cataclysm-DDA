@@ -3698,7 +3698,6 @@ void mapgen_lmoe_under(map *m, oter_id, mapgendata dat, int, float) {
         line_furn(m, f_rubble, 16, 20, 20, 16);
         line_furn(m, f_rubble, 17, 20, 20, 17);
         line(m, t_water_sh, 15, 20, 20, 15);
-        //square(m, t_emergency_light_flicker, 11, 13, 12, 19);
         m->furn_set(17, 16, f_woodstove);
         m->furn_set(14, 13, f_chair);
         m->furn_set(14, 18, f_chair);

@@ -180,7 +180,15 @@
         "move_cost": 2,
         "flags": [
             "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"
-        ]
+        ],
+        "bash": {
+            "sound": "SMASH!!",
+            "ter_set": "t_dirt",
+            "destroy_only": true,
+            "items": [
+                { "item": "wax", "amount": 3, "minamount": 1 }
+            ]
+        }
     },{
         "type" : "terrain",
         "id" : "t_dirtfloor",
@@ -190,7 +198,15 @@
         "move_cost": 2,
         "flags": [
             "TRANSPARENT", "DIGGABLE", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"
-        ]
+        ],
+        "bash": {
+            "sound": "SMASH!!",
+            "ter_set": "t_dirt",
+            "destroy_only": true,
+            "items": [
+                { "item": "splinter", "amount": 8, "minamount": 2 }
+            ]
+        }
     },{
         "type" : "terrain",
         "id" : "t_grate",
@@ -215,39 +231,6 @@
         "color": "yellow",
         "move_cost": 2,
         "flags": ["TRANSPARENT", "FLAT"]
-    },{
-        "type" : "terrain",
-        "id" : "t_skylight",
-        "name": "floor",
-        "comment": "Skylight",
-        "symbol": ".",
-        "color": "white",
-        "move_cost": 2,
-        "flags": [
-            "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "FLAT"
-        ]
-    },{
-        "type" : "terrain",
-        "id" : "t_emergency_light_flicker",
-        "name": "floor",
-        "comment": "Emergency Light",
-        "symbol": ".",
-        "color": "white",
-        "move_cost": 2,
-        "flags": [
-            "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"
-        ]
-    },{
-        "type" : "terrain",
-        "id" : "t_emergency_light",
-        "name": "floor",
-        "comment": "Regular Light",
-        "symbol": ".",
-        "color": "white",
-        "move_cost": 2,
-        "flags": [
-            "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"
-        ]
     },{
         "type" : "terrain",
         "id" : "t_utility_light",
