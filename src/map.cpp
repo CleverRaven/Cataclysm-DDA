@@ -1455,7 +1455,7 @@ void map::make_rubble(const int x, const int y, furn_id rubble_type, ter_id floo
         furn_set(x, y, rubble_type);
     }
     if (items) {
-        //Hardcoded still, but a step up from the old mapgen stuff
+        //Still hardcoded, but a step up from the old stuff due to being in only one place
         if (rubble_type == f_wreckage) {
             item chunk("steel_chunk", calendar::turn);
             item scrap("scrap", calendar::turn);
@@ -1466,6 +1466,12 @@ void map::make_rubble(const int x, const int y, furn_id rubble_type, ter_id floo
             if (one_in(5)) {
                 add_item_or_charges(x, y, pipe);
                 add_item_or_charges(x, y, wire);
+            }
+        } else if (rubble_type == f_rubble_rock) {
+            item rock("rock", calendar::turn);
+            int rock_count = rng(1,3);
+            for (int i = 0; i < rock_count; i++) {
+                add_item_or_charges(x, y, rock);
             }
         }
     }
@@ -1779,7 +1785,9 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str, bool si
         if ( bash != NULL && (!bash->destroy_only || destroy)) {
             int smin = bash->str_min;
             int smax = bash->str_max;
-            if (!destroy) {
+            if (destroy) {
+                success = true;
+            } else {
                 if ( bash->str_min_blocked != -1 || bash->str_max_blocked != -1 ) {
                     if( has_adjacent_furniture(x, y) ) {
                         if ( bash->str_min_blocked != -1 ) {

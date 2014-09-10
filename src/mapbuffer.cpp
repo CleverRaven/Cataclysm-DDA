@@ -437,16 +437,18 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
                 if (rubble_update) {
                     for( int j = 0; j < SEEY; j++ ) {
                         for( int i = 0; i < SEEX; i++ ) {
-                            sm->ter[i][j] = termap[ jsin.get_string() ].loadid;
-                            if (sm->ter[i][j] == termap[ "t_rubble" ].loadid) {
+                            std::string ter_string = jsin.get_string();
+                            if (ter_string == "t_rubble") {
                                 sm->ter[i][j] = termap[ "t_dirt" ].loadid;
                                 sm->frn[i][j] = termap[ "f_rubble" ].loadid;
-                            } else if (sm->ter[i][j] == termap[ "t_wreckage" ].loadid){
+                            } else if (ter_string == "t_wreckage"){
                                 sm->ter[i][j] = termap[ "t_dirt" ].loadid;
                                 sm->frn[i][j] = termap[ "f_wreckage" ].loadid;
-                            } else if (sm->ter[i][j] == termap[ "t_ash" ].loadid){
+                            } else if (ter_string == "t_ash"){
                                 sm->ter[i][j] = termap[ "t_dirt" ].loadid;
                                 sm->frn[i][j] = termap[ "f_ash" ].loadid;
+                            } else {
+                                sm->ter[i][j] = termap[ ter_string ].loadid;
                             }
                         }
                     }
