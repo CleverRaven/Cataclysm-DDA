@@ -416,7 +416,7 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
         while( !jsin.end_object() ) {
             std::string submap_member_name = jsin.get_member_name();
             if( submap_member_name == "version" ) {
-                if (jsin.get_int() <= 20) {
+                if (jsin.get_int() < 22) {
                     rubpow_update = true;
                 }
             } else if( submap_member_name == "coordinates" ) {
@@ -433,20 +433,21 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
             } else if( submap_member_name == "terrain" ) {
                 // TODO: try block around this to error out if we come up short?
                 jsin.start_array();
-                // Small duplication here so that the rubble check is only performed once
+                // Small duplication here so that the update check is only performed once
                 if (rubpow_update) {
+                    std::string ter_string;
                     for( int j = 0; j < SEEY; j++ ) {
                         for( int i = 0; i < SEEX; i++ ) {
-                            std::string ter_string = jsin.get_string();
+                            ter_string = jsin.get_string();
                             if (ter_string == "t_rubble") {
                                 sm->ter[i][j] = termap[ "t_dirt" ].loadid;
-                                sm->frn[i][j] = termap[ "f_rubble" ].loadid;
+                                sm->frn[i][j] = furnmap[ "f_rubble" ].loadid;
                             } else if (ter_string == "t_wreckage"){
                                 sm->ter[i][j] = termap[ "t_dirt" ].loadid;
-                                sm->frn[i][j] = termap[ "f_wreckage" ].loadid;
+                                sm->frn[i][j] = furnmap[ "f_wreckage" ].loadid;
                             } else if (ter_string == "t_ash"){
                                 sm->ter[i][j] = termap[ "t_dirt" ].loadid;
-                                sm->frn[i][j] = termap[ "f_ash" ].loadid;
+                                sm->frn[i][j] = furnmap[ "f_ash" ].loadid;
                             } else if (ter_string == "t_pwr_sb_support_l"){
                                 sm->ter[i][j] = termap[ "t_support_l" ].loadid;
                             } else if (ter_string == "t_pwr_sb_switchgear_l"){
