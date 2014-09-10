@@ -436,15 +436,21 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
                 // Small duplication here so that the update check is only performed once
                 if (rubpow_update) {
                     std::string ter_string;
+                    item rock = item("rock", 0);
+                    item chunk = item("steel_chunk", 0);
                     for( int j = 0; j < SEEY; j++ ) {
                         for( int i = 0; i < SEEX; i++ ) {
                             ter_string = jsin.get_string();
                             if (ter_string == "t_rubble") {
                                 sm->ter[i][j] = termap[ "t_dirt" ].loadid;
                                 sm->frn[i][j] = furnmap[ "f_rubble" ].loadid;
+                                sm->itm[i][j].push_back( rock );
+                                sm->itm[i][j].push_back( rock );
                             } else if (ter_string == "t_wreckage"){
                                 sm->ter[i][j] = termap[ "t_dirt" ].loadid;
                                 sm->frn[i][j] = furnmap[ "f_wreckage" ].loadid;
+                                sm->itm[i][j].push_back( chunk );
+                                sm->itm[i][j].push_back( chunk );
                             } else if (ter_string == "t_ash"){
                                 sm->ter[i][j] = termap[ "t_dirt" ].loadid;
                                 sm->frn[i][j] = furnmap[ "f_ash" ].loadid;
