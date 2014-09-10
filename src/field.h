@@ -49,6 +49,7 @@ enum field_id {
  fd_sap,
  fd_sludge,
  fd_fire,
+ fd_rubble,
  fd_smoke,
  fd_toxic_gas,
  fd_tear_gas,

@@ -88,6 +88,13 @@ void game::init_fields()
             {c_yellow, c_ltred, c_red}, {true, true, true}, {true, true, true}, 800,
             {0,0,0}
         },
+        
+       {
+           "fd_rubble",
+           {_("legacy rubble"), _("legacy rubble"), _("legacy rubble")}, '#', 0,
+           {c_dkgray, c_dkgray, c_dkgray}, {true, true, true},{false, false, false},  1,
+           {0,0,0}
+       },
 
         {
             "fd_smoke",
@@ -1271,6 +1278,11 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                             spread_gas( this, cur, x, y, curtype, 66, 40 );
                         }
+                        break;
+
+                    //Legacy Stuff
+                    case fd_rubble:
+                        make_rubble(x, y);
                         break;
 
                     default:
