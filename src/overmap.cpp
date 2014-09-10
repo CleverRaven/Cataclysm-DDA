@@ -54,7 +54,7 @@ map_extras no_extras(0);
     // Careful with astyle here, please?
 map_extras road_extras(
 // %%% HEL MIL SCI BLK DRG SUP PRT MIN CRT FUM 1WY ART
-    75, 40, 25, 60, 100, 30, 10, 5, 80, 10,  8,  2,  3);
+    75, 40, 25, 40, 100, 30, 10, 5, 80, 10,  8,  2,  3);
 map_extras field_extras(
 // %%% HEL MIL SCI BLK DRG SUP PRT MIN CRT FUM 1WY ART
     90, 40, 8, 20,  0, 20, 10,  3, 50,  10,  8,  1,  3);
