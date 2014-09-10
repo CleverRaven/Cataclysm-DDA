@@ -363,6 +363,13 @@ void computer::activate_function(computer_action action)
         query_any(_("Containment shields opened.  Press any key..."));
         break;
 
+    case COMPACT_RELEASE_BIONICS:
+        g->sound(g->u.posx, g->u.posy, 40, _("An alarm sounds!"));
+        g->m.translate_radius(t_reinforced_glass_h, t_floor, 3.0, g->u.posx, g->u.posy);
+        g->m.translate_radius(t_reinforced_glass_v, t_floor, 3.0, g->u.posx, g->u.posy);
+        query_any(_("Containment shields opened.  Press any key..."));
+        break;
+
     case COMPACT_TERMINATE:
         g->u.add_memorial_log(pgettext("memorial_male", "Terminated subspace specimens."),
                               pgettext("memorial_female", "Terminated subspace specimens."));
