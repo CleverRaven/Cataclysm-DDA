@@ -107,15 +107,6 @@
         "examine_action": "rubble"
     },{
         "type" : "terrain",
-        "id" : "t_metal",
-        "name": "twisted metal",
-        "symbol": "#",
-        "color": "cyan",
-        "move_cost": 8,
-        "flags": ["TRANSPARENT", "UNSTABLE", "ROUGH", "SHARP", "PLACE_ITEM"],
-        "examine_action": "wreckage"
-    },{
-        "type" : "terrain",
         "id" : "t_grass",
         "name": "grass",
         "symbol": ".",

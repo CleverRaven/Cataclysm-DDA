@@ -22,7 +22,7 @@
         "move_cost_mod": 6,
         "max_volume": 3000,
         "required_str": -1,
-        "flags": ["TRANSPARENT", "UNSTABLE", "ROUGH", "PLACE_ITEM", "MOUNTABLE"],
+        "flags": ["TRANSPARENT", "UNSTABLE", "ROUGH", "PLACE_ITEM", "MOUNTABLE", "CONTAINER", "SEALED"],
         "examine_action": "rubble"
     },{
         "type" : "furniture",
@@ -33,7 +33,7 @@
         "move_cost_mod": 6,
         "max_volume": 3000,
         "required_str": -1,
-        "flags": ["TRANSPARENT", "UNSTABLE", "ROUGH", "SHARP", "PLACE_ITEM", "MOUNTABLE"],
+        "flags": ["TRANSPARENT", "UNSTABLE", "ROUGH", "SHARP", "PLACE_ITEM", "MOUNTABLE", "CONTAINER", "SEALED"],
         "examine_action": "wreckage"
     },{
         "type" : "furniture",

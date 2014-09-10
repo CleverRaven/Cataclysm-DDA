@@ -498,7 +498,7 @@ extern ter_id t_null,
     // Ground
     t_dirt, t_sand, t_dirtmound, t_pit_shallow, t_pit,
     t_pit_corpsed, t_pit_covered, t_pit_spiked, t_pit_spiked_covered,
-    t_rock_floor, t_ash, t_metal,
+    t_rock_floor, t_ash,
     t_grass,
     t_metal_floor,
     t_pavement, t_pavement_y, t_sidewalk, t_concrete,

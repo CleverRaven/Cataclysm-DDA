@@ -412,11 +412,13 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
         std::unique_ptr<submap> sm(new submap());
         tripoint submap_coordinates;
         jsin.start_object();
+        bool rubble_update = false;
         while( !jsin.end_object() ) {
             std::string submap_member_name = jsin.get_member_name();
             if( submap_member_name == "version" ) {
-                // We aren't using the version number for anything at the moment.
-                jsin.skip_value();
+                if (jsin.get_int() <= 20) {
+                    rubble_update = true;
+                }
             } else if( submap_member_name == "coordinates" ) {
                 jsin.start_array();
                 int locx = jsin.get_int();
@@ -431,9 +433,25 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
             } else if( submap_member_name == "terrain" ) {
                 // TODO: try block around this to error out if we come up short?
                 jsin.start_array();
-                for( int j = 0; j < SEEY; j++ ) {
-                    for( int i = 0; i < SEEX; i++ ) {
-                        sm->ter[i][j] = termap[ jsin.get_string() ].loadid;
+                // Small duplication here so that the rubble check is only performed once
+                if (rubble_update) {
+                    for( int j = 0; j < SEEY; j++ ) {
+                        for( int i = 0; i < SEEX; i++ ) {
+                            sm->ter[i][j] = termap[ jsin.get_string() ].loadid;
+                            if (sm->ter[i][j] == termap[ "t_rubble" ].loadid) {
+                                sm->ter[i][j] = termap[ "t_dirt" ].loadid;
+                                sm->frn[i][j] = termap[ "f_rubble" ].loadid;
+                            } else if (sm->ter[i][j] == termap[ "t_wreckage" ].loadid){
+                                sm->ter[i][j] = termap[ "t_dirt" ].loadid;
+                                sm->frn[i][j] = termap[ "f_wreckage" ].loadid;
+                            }
+                        }
+                    }
+                } else {
+                    for( int j = 0; j < SEEY; j++ ) {
+                        for( int i = 0; i < SEEX; i++ ) {
+                            sm->ter[i][j] = termap[ jsin.get_string() ].loadid;
+                        }
                     }
                 }
                 jsin.end_array();
@@ -497,7 +515,7 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
                         sm->fld[i][j].addField(field_id(type), density, age);
                     }
                 }
-            } else if( submap_member_name == "griffiti" ) {
+            } else if( submap_member_name == "graffiti" ) {
                 jsin.start_array();
                 while( !jsin.end_array() ) {
                     jsin.start_array();

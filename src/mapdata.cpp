@@ -73,7 +73,6 @@ void init_ter_bitflags_map() {
     ter_bitflags_map["COLLAPSES"]               = TFLAG_COLLAPSES;      // building "remodeling"
     ter_bitflags_map["FLAMMABLE"]               = TFLAG_FLAMMABLE;      // fire bad! fire SLOW!
     ter_bitflags_map["REDUCE_SCENT"]            = TFLAG_REDUCE_SCENT;   // ...and the other half is update_scent
-    ter_bitflags_map["SEALED"]                  = TFLAG_SEALED;         // item list
     ter_bitflags_map["INDOORS"]                 = TFLAG_INDOORS;        // vehicle gain_moves, weather
     ter_bitflags_map["SHARP"]                   = TFLAG_SHARP;          // monmove
     ter_bitflags_map["SUPPORTS_ROOF"]           = TFLAG_SUPPORTS_ROOF;  // and by building "remodeling" I mean hulkSMASH
@@ -330,7 +329,7 @@ ter_id t_null,
     // Ground
     t_dirt, t_sand, t_dirtmound, t_pit_shallow, t_pit,
     t_pit_corpsed, t_pit_covered, t_pit_spiked, t_pit_spiked_covered,
-    t_rock_floor, t_ash, t_metal,
+    t_rock_floor, t_ash,
     t_grass,
     t_metal_floor,
     t_pavement, t_pavement_y, t_sidewalk, t_concrete,
@@ -423,7 +422,6 @@ void set_ter_ids() {
     t_pit_spiked_covered=terfind("t_pit_spiked_covered");
     t_rock_floor=terfind("t_rock_floor");
     t_ash=terfind("t_ash");
-    t_metal=terfind("t_metal");
     t_grass=terfind("t_grass");
     t_metal_floor=terfind("t_metal_floor");
     t_pavement=terfind("t_pavement");

@@ -8542,7 +8542,11 @@ void game::examine(int examx, int examy)
 
     if (m.has_flag("SEALED", examx, examy)) {
         if (none) {
-            add_msg(_("The %s is firmly sealed."), m.name(examx, examy).c_str());
+            if (m.has_flag("UNSTABLE", examx, examy)) {
+                add_msg(_("The %s is too unstable to remove anything."), m.name(examx, examy).c_str());
+            } else {
+                add_msg(_("The %s is firmly sealed."), m.name(examx, examy).c_str());
+            }
         }
     } else {
         //examx,examy has no traps, is a container and doesn't have a special examination function
