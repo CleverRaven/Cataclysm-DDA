@@ -14,10 +14,6 @@ inline int modulo(int v, int m);
 inline int divide(int v, int m);
 inline int divide(int v, int m, int &r);
 
-bool operator==(const std::unique_ptr<overmap> &a, const point &b) {
-    return a && a->pos() == b;
-}
-
 overmapbuffer::overmapbuffer()
 : last_requested_overmap( nullptr )
 {
@@ -50,14 +46,14 @@ std::string overmapbuffer::player_filename(int const x, int const y)
 
 overmap &overmapbuffer::get( const int x, const int y )
 {
-    auto it = std::find( overmaps.begin(), overmaps.end(), point( x, y ) );
+    auto it = overmaps.find( point( x, y ) );
     if( it != overmaps.end() ) {
-        return **it;
+        return *(it->second);
     }
     // That constructor loads an existing overmap or creates a new one.
     std::unique_ptr<overmap> new_om( new overmap( x, y ) );
     overmap &result = *new_om;
-    overmaps.push_back( std::move( new_om ) );
+    overmaps[ new_om->pos() ] = std::move( new_om );
     // Note: fix_mongroups might load other overmaps, so overmaps.back() is not
     // necessarily the overmap at (x,y)
     fix_mongroups( result );
@@ -100,7 +96,7 @@ void overmapbuffer::save()
 {
     for( auto &omp : overmaps ) {
         // Note: this may throw io errors from std::ofstream
-        omp->save();
+        omp.second->save();
     }
 }
 
@@ -133,12 +129,13 @@ void overmapbuffer::delete_note(int x, int y, int z)
 
 overmap *overmapbuffer::get_existing(int x, int y)
 {
-    if (last_requested_overmap != NULL && last_requested_overmap->pos().x == x && last_requested_overmap->pos().y == y) {
+    if( last_requested_overmap != NULL && last_requested_overmap->pos().x == x &&
+        last_requested_overmap->pos().y == y ) {
         return last_requested_overmap;
     }
-    auto it = std::find( overmaps.begin(), overmaps.end(), point( x, y ) );
+    auto it = overmaps.find( point( x, y ) );
     if( it != overmaps.end() ) {
-        return last_requested_overmap = it->get();
+        return last_requested_overmap = it->second.get();
     }
     if (known_non_existing.count(point(x, y)) > 0) {
         // This overmap does not exist on disk (this has already been
@@ -402,9 +399,9 @@ std::vector<point> overmapbuffer::find_all(const tripoint& origin, const std::st
 
 npc* overmapbuffer::find_npc(int id) {
     for( auto &it : overmaps ) {
-        for (size_t i = 0; i < it->npcs.size(); i++) {
-            if (it->npcs[i]->getID() == id) {
-                return it->npcs[i];
+        for (size_t i = 0; i < it.second->npcs.size(); i++) {
+            if (it.second->npcs[i]->getID() == id) {
+                return it.second->npcs[i];
             }
         }
     }
@@ -414,13 +411,13 @@ npc* overmapbuffer::find_npc(int id) {
 void overmapbuffer::remove_npc(int id)
 {
     for( auto &it : overmaps ) {
-        for (size_t i = 0; i < it->npcs.size(); i++) {
-            npc *p = it->npcs[i];
+        for (size_t i = 0; i < it.second->npcs.size(); i++) {
+            npc *p = it.second->npcs[i];
             if (p->getID() == id) {
                 if( !p->is_dead() ) {
                     debugmsg("overmapbuffer::remove_npc: NPC (%d) is not dead.", id);
                 }
-                it->npcs.erase(it->npcs.begin() + i);
+                it.second->npcs.erase(it.second->npcs.begin() + i);
                 delete p;
                 return;
             }
@@ -437,10 +434,36 @@ std::vector<npc*> overmapbuffer::get_npcs_near_player(int radius)
     return get_npcs_near(plpos.x, plpos.y, plpos.z, radius);
 }
 
+std::vector<overmap *> overmapbuffer::get_overmaps_near( point location, int radius )
+{
+    // Grab the corners of a square around the target location at distance radius.
+    // Convert to overmap coordinates and iterate from the minimum to the maximum.
+    std::set<point> distinct_corners;
+    const point upper_left = sm_to_om_copy( point( location.x - radius, location.y - radius ) );
+    const point lower_right = sm_to_om_copy( point( location.x + radius, location.y + radius ) );
+
+    for( int x = upper_left.x; x <= lower_right.x; x++ ) {
+        for( int y = upper_left.y; y <= lower_right.y; y++ ) {
+            distinct_corners.insert( point( x, y ) );
+        }
+    }
+    // Grab references to the overmaps at those coordinates, but only if they exist.
+    // Might use this to drive creation of these overmaps at some point if we want to
+    // more agressively expand the created overmaps.
+    std::vector<overmap *> nearby_overmaps;
+    for( auto overmap_origin : distinct_corners ) {
+        overmap *nearby_overmap = get_existing( overmap_origin.x, overmap_origin.y );
+        if( nearby_overmap ) {
+            nearby_overmaps.push_back( nearby_overmap );
+        }
+    }
+    return nearby_overmaps;
+}
+
 std::vector<npc*> overmapbuffer::get_npcs_near(int x, int y, int z, int radius)
 {
     std::vector<npc*> result;
-    for( auto &it : overmaps ) {
+    for( auto &it : get_overmaps_near( point( x, y ), radius ) ) {
         for (size_t i = 0; i < it->npcs.size(); i++) {
             npc *p = it->npcs[i];
             // Global position of NPC, in submap coordiantes
@@ -460,7 +483,7 @@ std::vector<npc*> overmapbuffer::get_npcs_near(int x, int y, int z, int radius)
 std::vector<npc*> overmapbuffer::get_npcs_near_omt(int x, int y, int z, int radius)
 {
     std::vector<npc*> result;
-    for( auto &it : overmaps ) {
+    for( auto &it : get_overmaps_near( omt_to_sm_copy( x, y ), radius ) ) {
         for (size_t i = 0; i < it->npcs.size(); i++) {
             npc *p = it->npcs[i];
             // Global position of NPC, in submap coordiantes
@@ -535,7 +558,7 @@ overmapbuffer::t_notes_vector overmapbuffer::get_notes(int z, const std::string*
 {
     t_notes_vector result;
     for( auto &it : overmaps ) {
-        const overmap &om = *it;
+        const overmap &om = *it.second;
         const int offset_x = om.pos().x * OMAPX;
         const int offset_y = om.pos().y * OMAPY;
         for (int i = 0; i < OMAPX; i++) {

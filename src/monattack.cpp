@@ -2140,8 +2140,8 @@ void mattack::bmg_tur(monster *z)
 void mattack::tank_tur(monster *z)
 {
     // Make sure our ammo isn't weird.
-    if (z->ammo > 20) {
-        z->ammo = 20;
+    if (z->ammo > 40) {
+        z->ammo = 40;
         debugmsg("Generated too much ammo (%d) for %s in mattack::tank_tur", z->ammo, z->name().c_str());
     }
     int fire_t = 0;
@@ -2151,7 +2151,7 @@ void mattack::tank_tur(monster *z)
     tmp.set_fake(true);
     // kevingranade	KA101: yes, but make it really inaccurate
     // Sure thing.
-    tmp.skillLevel("launcher").level(4);
+    tmp.skillLevel("launcher").level(2);
     tmp.skillLevel("gun").level(2);
     tmp.recoil = 0;
     tmp.posx = z->posx();
