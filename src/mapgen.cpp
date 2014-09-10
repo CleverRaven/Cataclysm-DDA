@@ -11748,6 +11748,13 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
                                        mapf::basic_bind("- | =", t_wall_h, t_wall_v, t_reinforced_glass_v),
                                        mapf::basic_bind("c", f_counter));
             m->place_items("bionics_common", 70, biox, bioy, biox, bioy, false, 0);
+            
+            m->ter_set(biox, bioy+2, t_console);
+            computer *tmpcomp = m->add_computer(biox, bioy+2, _("Bionic access"), 2);
+            tmpcomp->add_option(_("Manifest"), COMPACT_LIST_BIONICS, 0);
+            tmpcomp->add_option(_("Open Chambers"), COMPACT_RELEASE_BIONICS, 3);
+            tmpcomp->add_failure(COMPFAIL_MANHACKS);
+            tmpcomp->add_failure(COMPFAIL_SECUBOTS);
 
             biox = x2 - 2;
             mapf::formatted_set_simple(m, biox - 1, bioy - 1,
@@ -11759,13 +11766,12 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
                                        mapf::basic_bind("c", f_counter));
             m->place_items("bionics_common", 70, biox, bioy, biox, bioy, false, 0);
 
-            int compx = int((x1 + x2) / 2), compy = int((y1 + y2) / 2);
-            m->ter_set(compx, compy, t_console);
-            computer *tmpcomp = m->add_computer(compx, compy, _("Bionic access"), 2);
-            tmpcomp->add_option(_("Manifest"), COMPACT_LIST_BIONICS, 0);
-            tmpcomp->add_option(_("Open Chambers"), COMPACT_RELEASE, 3);
-            tmpcomp->add_failure(COMPFAIL_MANHACKS);
-            tmpcomp->add_failure(COMPFAIL_SECUBOTS);
+            m->ter_set(biox, bioy-2, t_console);
+            computer *tmpcomp2 = m->add_computer(biox, bioy-2, _("Bionic access"), 2);
+            tmpcomp2->add_option(_("Manifest"), COMPACT_LIST_BIONICS, 0);
+            tmpcomp2->add_option(_("Open Chambers"), COMPACT_RELEASE_BIONICS, 3);
+            tmpcomp2->add_failure(COMPFAIL_MANHACKS);
+            tmpcomp2->add_failure(COMPFAIL_SECUBOTS);
         } else {
             int bioy = y1 + 2, biox = int((x1 + x2) / 2);
             mapf::formatted_set_simple(m, biox - 1, bioy - 1,
@@ -11777,6 +11783,13 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
                                        mapf::basic_bind("c", f_counter));
             m->place_items("bionics_common", 70, biox, bioy, biox, bioy, false, 0);
 
+            m->ter_set(biox+2, bioy, t_console);
+            computer *tmpcomp = m->add_computer(biox+2, bioy, _("Bionic access"), 2);
+            tmpcomp->add_option(_("Manifest"), COMPACT_LIST_BIONICS, 0);
+            tmpcomp->add_option(_("Open Chambers"), COMPACT_RELEASE_BIONICS, 3);
+            tmpcomp->add_failure(COMPFAIL_MANHACKS);
+            tmpcomp->add_failure(COMPFAIL_SECUBOTS);
+
             bioy = y2 - 2;
             mapf::formatted_set_simple(m, biox - 1, bioy - 1,
                                        "\
@@ -11787,13 +11800,12 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
                                        mapf::basic_bind("c", f_counter));
             m->place_items("bionics_common", 70, biox, bioy, biox, bioy, false, 0);
 
-            int compx = int((x1 + x2) / 2), compy = int((y1 + y2) / 2);
-            m->ter_set(compx, compy, t_console);
-            computer *tmpcomp = m->add_computer(compx, compy, _("Bionic access"), 2);
-            tmpcomp->add_option(_("Manifest"), COMPACT_LIST_BIONICS, 0);
-            tmpcomp->add_option(_("Open Chambers"), COMPACT_RELEASE, 3);
-            tmpcomp->add_failure(COMPFAIL_MANHACKS);
-            tmpcomp->add_failure(COMPFAIL_SECUBOTS);
+            m->ter_set(biox-2, bioy, t_console);
+            computer *tmpcomp2 = m->add_computer(biox-2, bioy, _("Bionic access"), 2);
+            tmpcomp2->add_option(_("Manifest"), COMPACT_LIST_BIONICS, 0);
+            tmpcomp2->add_option(_("Open Chambers"), COMPACT_RELEASE_BIONICS, 3);
+            tmpcomp2->add_failure(COMPFAIL_MANHACKS);
+            tmpcomp2->add_failure(COMPFAIL_SECUBOTS);
         }
         break;
     case room_dorm:
