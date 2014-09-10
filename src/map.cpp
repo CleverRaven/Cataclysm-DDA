@@ -1684,6 +1684,7 @@ int map::collapse_check(const int x, const int y)
 void map::collapse_at(const int x, const int y)
 {
     crush(x, y);
+    make_rubble(x, y);
     for (int i = x - 1; i <= x + 1; i++) {
         for (int j = y - 1; j <= y + 1; j++) {
             if ((i == x && j == y) || !has_flag("SUPPORTS_ROOF", i, j)) {

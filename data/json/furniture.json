@@ -23,7 +23,28 @@
         "max_volume": 3000,
         "required_str": -1,
         "flags": ["TRANSPARENT", "UNSTABLE", "ROUGH", "PLACE_ITEM", "MOUNTABLE", "CONTAINER", "SEALED"],
-        "examine_action": "rubble"
+        "examine_action": "rubble",
+        "bash": {
+            "str_min": 30, "str_max": 80,
+            "sound": "crunch!",
+            "sound_fail": "crunch."
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_rubble_rock",
+        "name": "pile of rocky rubble",
+        "symbol": "^",
+        "color": "dkgray",
+        "move_cost_mod": 6,
+        "max_volume": 3000,
+        "required_str": -1,
+        "flags": ["TRANSPARENT", "UNSTABLE", "ROUGH", "PLACE_ITEM", "MOUNTABLE", "CONTAINER", "SEALED"],
+        "examine_action": "rubble",
+        "bash": {
+            "str_min": 40, "str_max": 90,
+            "sound": "crunch!",
+            "sound_fail": "crunch."
+        }
     },{
         "type" : "furniture",
         "id" : "f_wreckage",
@@ -34,7 +55,12 @@
         "max_volume": 3000,
         "required_str": -1,
         "flags": ["TRANSPARENT", "UNSTABLE", "ROUGH", "SHARP", "PLACE_ITEM", "MOUNTABLE", "CONTAINER", "SEALED"],
-        "examine_action": "wreckage"
+        "examine_action": "rubble",
+        "bash": {
+            "str_min": 50, "str_max": 100,
+            "sound": "crunch!",
+            "sound_fail": "crunch."
+        }
     },{
         "type" : "furniture",
         "id" : "f_barricade_road",

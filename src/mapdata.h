@@ -583,7 +583,7 @@ about ter_id above.
 */
 extern furn_id f_null,
     f_hay,
-    f_rubble, f_wreckage,
+    f_rubble, f_rubble_rock, f_wreckage,
     f_barricade_road,
     f_bulletin,
     f_indoor_plant,

@@ -168,7 +168,8 @@
             "ter_set": "t_dirt",
             "destroy_only": true,
             "items": [
-                { "item": "splinter", "amount": 8, "minamount": 2 }
+                { "item": "splinter", "amount": 8, "minamount": 2 },
+                { "item": "nail", "amount": 10, "minamount": 5 }
             ]
         }
     },{
@@ -204,7 +205,8 @@
             "ter_set": "t_dirt",
             "destroy_only": true,
             "items": [
-                { "item": "splinter", "amount": 8, "minamount": 2 }
+                { "item": "splinter", "amount": 8, "minamount": 2 },
+                { "item": "nail", "amount": 10, "minamount": 5 }
             ]
         }
     },{
@@ -240,7 +242,16 @@
         "move_cost": 2,
         "flags": [
             "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"
-        ]
+        ],
+        "bash": {
+            "sound": "SMASH!!",
+            "ter_set": "t_dirt",
+            "destroy_only": true,
+            "items": [
+                { "item": "splinter", "amount": 8, "minamount": 2 },
+                { "item": "nail", "amount": 10, "minamount": 5 }
+            ]
+        }
     },{
         "type" : "terrain",
         "id" : "t_wall_log_half",
@@ -2171,7 +2182,15 @@
         "move_cost": 2,
         "flags": [
             "TRANSPARENT", "FLAMMABLE_ASH", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "FUNGUS"
-        ]
+        ],
+        "bash": {
+            "sound": "SMASH!!",
+            "ter_set": "t_dirt",
+            "destroy_only": true,
+            "items": [
+                { "item": "splinter", "amount": 4, "minamount": 1 }
+            ]
+        }
     },{
         "type" : "terrain",
         "id" : "t_fungus_floor_sup",
@@ -2718,7 +2737,7 @@
         "symbol": "6",
         "color": "cyan_red",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM", "COLLAPSES"],
+        "flags": ["TRANSPARENT", "NOITEM", "INDOORS"],
         "examine_action": "controls_gate",
         "bash": {
             "str_min": 18, "str_max": 80,
@@ -2737,7 +2756,7 @@
         "symbol": "6",
         "color": "cyan_red",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM", "COLLAPSES"],
+        "flags": ["TRANSPARENT", "NOITEM", "INDOORS"],
         "examine_action": "controls_gate",
         "bash": {
             "str_min": 18, "str_max": 80,
@@ -2756,7 +2775,7 @@
         "symbol": "|",
         "color": "brown",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM", "COLLAPSES", "REDUCE_SCENT"],
+        "flags": ["TRANSPARENT", "NOITEM", "INDOORS"],
         "examine_action": "controls_gate",
         "bash": {
             "str_min": 8, "str_max": 40,
@@ -2776,7 +2795,7 @@
         "symbol": "|",
         "color": "brown",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM", "COLLAPSES"],
+        "flags": ["TRANSPARENT", "NOITEM"],
         "examine_action": "controls_gate",
         "bash": {
             "str_min": 8, "str_max": 40,
@@ -3304,7 +3323,16 @@
         "color": "red",
         "move_cost": 2,
         "flags": [
-            "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG"]
+            "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG"],
+        "bash": {
+            "sound": "SMASH!!",
+            "ter_set": "t_dirt",
+            "destroy_only": true,
+            "items": [
+                { "item": "splinter", "amount": 8, "minamount": 2 },
+                { "item": "nail", "amount": 13, "minamount": 6 }
+            ]
+        }
    },{
         "type" : "terrain",
         "id" : "t_carpet_yellow",
@@ -3313,7 +3341,16 @@
         "color": "yellow",
         "move_cost": 2,
         "flags": [
-            "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG"]
+            "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG"],
+        "bash": {
+            "sound": "SMASH!!",
+            "ter_set": "t_dirt",
+            "destroy_only": true,
+            "items": [
+                { "item": "splinter", "amount": 8, "minamount": 2 },
+                { "item": "nail", "amount": 13, "minamount": 6 }
+            ]
+        }
    },{
         "type" : "terrain",
         "id" : "t_carpet_green",
@@ -3322,7 +3359,16 @@
         "color": "green",
         "move_cost": 2,
         "flags": [
-            "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG"]
+            "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG"],
+        "bash": {
+            "sound": "SMASH!!",
+            "ter_set": "t_dirt",
+            "destroy_only": true,
+            "items": [
+                { "item": "splinter", "amount": 8, "minamount": 2 },
+                { "item": "nail", "amount": 13, "minamount": 6 }
+            ]
+        }
    },{
         "type" : "terrain",
         "id" : "t_carpet_purple",
@@ -3331,7 +3377,16 @@
         "color": "magenta",
         "move_cost": 2,
         "flags": [
-            "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG"]
+            "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG"],
+        "bash": {
+            "sound": "SMASH!!",
+            "ter_set": "t_dirt",
+            "destroy_only": true,
+            "items": [
+                { "item": "splinter", "amount": 8, "minamount": 2 },
+                { "item": "nail", "amount": 13, "minamount": 6 }
+            ]
+        }
     },{
         "type" : "terrain",
         "id" : "t_linoleum_white",
@@ -3340,7 +3395,16 @@
         "color": "white",
         "move_cost": 2,
         "flags": [
-            "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"]
+            "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"],
+        "bash": {
+            "sound": "SMASH!!",
+            "ter_set": "t_dirt",
+            "destroy_only": true,
+            "items": [
+                { "item": "splinter", "amount": 8, "minamount": 2 },
+                { "item": "nail", "amount": 10, "minamount": 5 }
+            ]
+        }
    },{
         "type" : "terrain",
         "id" : "t_linoleum_gray",
@@ -3349,7 +3413,16 @@
         "color": "ltgray",
         "move_cost": 2,
         "flags": [
-            "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"]
+            "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"],
+        "bash": {
+            "sound": "SMASH!!",
+            "ter_set": "t_dirt",
+            "destroy_only": true,
+            "items": [
+                { "item": "splinter", "amount": 8, "minamount": 2 },
+                { "item": "nail", "amount": 10, "minamount": 5 }
+            ]
+        }
    },{
         "type" : "terrain",
         "id" : "t_wall_h_r",
