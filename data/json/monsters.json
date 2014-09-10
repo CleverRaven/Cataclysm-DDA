@@ -3140,7 +3140,7 @@
     "name": "fungal blossom",
     "species":"FUNGUS",
     "symbol":"7",
-    "color":"ltgray",
+    "color":"cyan",
     "size":"LARGE",
     "material":"veggy",
     "diff":18,
@@ -5159,9 +5159,9 @@
     "hp":90,
     "special_freq":5,
     "death_function":"EXPLODE",
-    "special_attack":"SMG",
+    "special_attack":"CHICKENBOT",
     "description":"The Northrop ATSV, a massive, heavily-armed and armored robot walking on a pair of reverse-jointed legs.  Armed with a 40mm anti-vehicle grenade launcher, 5.56 anti-personnel gun, and the ability to electrify itself against attackers, it is an effective automated sentry, though production was limited due to a legal dispute.",
-    "flags":["SEES", "VIS50", "HEARS", "BASHES", "NO_BREATHE", "ELECTRONIC"]
+    "flags":["SEES", "VIS50", "HEARS", "BASHES", "NO_BREATHE", "ELECTRONIC", "FRIENDLY_SPECIAL"]
     },{
         "type" : "MONSTER",
         "id" : "mon_tankbot",
@@ -5195,7 +5195,7 @@
     "death_function":"BROKEN",
     "special_attack":"MULTI_ROBOT",
     "description":"The Northrop Emancipator is the first and only automated tank ever produced, made shortly after the split-up of Northrup Grumman.  Clad in depleted uranium plating, and armed with advanced munitions and a 120-mm gun, it is capable of delivering extraordinary firepower.",
-    "flags":["SEES", "VIS50", "HEARS", "GOODHEARING", "NOHEAD", "BASHES", "DESTROYS", "ATTACKMON", "NO_BREATHE", "ELECTRONIC"]
+    "flags":["SEES", "VIS50", "HEARS", "GOODHEARING", "NOHEAD", "BASHES", "DESTROYS", "ATTACKMON", "NO_BREATHE", "ELECTRONIC", "FRIENDLY_SPECIAL"]
     },{
         "type" : "MONSTER",
         "id" : "mon_turret",

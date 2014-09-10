@@ -1563,8 +1563,8 @@
         "type" : "overmap_terrain",
         "id" : "fungal_flowers",
         "name" : "fungal flowers",
-        "sym" : 70,
-        "color" : "light_gray",
+        "sym" : 84,
+        "color" : "cyan",
         "see_cost" : 5,
         "extras" : "field"
     },{

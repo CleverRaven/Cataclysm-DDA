@@ -12533,6 +12533,10 @@ bool game::plmove(int dx, int dy)
             case fd_gas_vent:
                 dangerous = !(u.get_env_resist(bp_mouth) >= 15);
                 break;
+            case fd_fungal_haze:
+                dangerous = !((u.get_env_resist(bp_mouth) >= 15) &&
+                (u.get_env_resist(bp_eyes) >= 15) );
+                break;
             default:
                 dangerous = cur->is_dangerous();
                 break;
@@ -14376,12 +14380,32 @@ bool game::spread_fungus(int x, int y)
                         }
                     } else if (m.has_flag("YOUNG", i, j)) {
                         if (one_in(5)) {
-                            m.ter_set(i, j, t_tree_fungal_young);
+                            if (m.get_field_strength(point (x, y), fd_fungal_haze) != 0) {
+                                if (one_in(3)) { // young trees are Vulnerable
+                                    m.ter_set(i, j, t_fungus);
+                                    m.add_spawn("mon_fungal_blossom", 1, x, y);
+                                    if (u_see(x, y)) {
+                                    add_msg(m_warning, _("The young tree blooms forth into a fungal blossom!"));
+                                    }
+                                }
+                            } else { 
+                                m.ter_set(i, j, t_tree_fungal_young);
+                            }
                             converted = true;
                         }
                     } else if (m.has_flag("TREE", i, j)) {
                         if (one_in(10)) {
-                            m.ter_set(i, j, t_tree_fungal);
+                            if (m.get_field_strength(point (x, y), fd_fungal_haze) != 0) {
+                                if (one_in(4)) {
+                                    m.ter_set(i, j, t_fungus);
+                                    m.add_spawn("mon_fungal_blossom", 1, x, y);
+                                    if (u_see(x, y)) {
+                                    add_msg(m_warning, _("The tree blooms forth into a fungal blossom!"));
+                                    }
+                                }
+                            } else {
+                                m.ter_set(i, j, t_tree_fungal);
+                            }
                             converted = true;
                         }
                     } else if (m.has_flag("WALL", i, j)) {
