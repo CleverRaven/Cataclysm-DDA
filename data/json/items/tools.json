@@ -2183,7 +2183,7 @@
     "symbol": "*",
     "color": "light_gray",
     "name": "pipe bomb",
-    "description": "This is a section of a pipe filled with explosive materials.  Use this item with to light the fuse, which gives you three turns to get away from it before it detonates.  You'll need a lighter or some matches to use it.  It is somewhat unreliable, and may fail to detonate.",
+    "description": "This is a section of a pipe filled with explosive materials.  Use this item to light the fuse, which gives you three turns to get away from it before it detonates.  You'll need a lighter or some matches to use it.  It is somewhat unreliable, and may fail to detonate.",
     "price": 15000,
     "material": "steel",
     "weight": 1298,
