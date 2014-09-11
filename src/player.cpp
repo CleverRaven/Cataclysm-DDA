@@ -6421,7 +6421,7 @@ void player::update_body_wetness()
         }
         body_wetness[i] -= 1;
         if (body_wetness[i] < 0) {
-            body_wetness[i] -= 0;
+            body_wetness[i] = 0;
         }
     }
 }
