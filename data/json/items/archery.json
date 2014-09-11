@@ -607,7 +607,7 @@
       "color" : "yellow",
       "name" : "short bow",
       "description" : "Shorter than the longbow and not as powerful, this bow is easier to draw and can be used effectively by average archers.  Arrows fired from this weapon have a good chance of remaining intact for re-use.",
-      "price" : 800000,
+      "price" : 60000,
       "material" : "wood",
       "flags" : ["ALWAYS_TWOHAND", "STR8_DRAW", "RELOAD_AND_SHOOT"],
       "skill" : "archery",
