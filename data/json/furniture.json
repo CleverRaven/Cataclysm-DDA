@@ -170,7 +170,7 @@
             "sound_fail": "whunk!",
             "items": [
                 { "item": "cu_pipe", "amount": 1, "chance": 50 },
-                { "item": "steel_chunk", "amount": 8, "minamount": 2}
+                { "item": "rock", "amount": 8, "minamount": 2}
             ]
         }
     },{
@@ -217,7 +217,7 @@
             "items": [
                 { "item": "cu_pipe", "amount": 1, "minamount": 0 },
                 { "item": "water_faucet", "amount": 1, "minamount": 0},
-                { "item": "steel_chunk", "amount": 8, "minamount": 2}
+                { "item": "rock", "amount": 8, "minamount": 2}
             ]
         }
     },{
@@ -316,13 +316,13 @@
         "required_str": 10,
         "flags": ["TRANSPARENT", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE"],
         "bash": {
-            "str_min": 12, "str_max": 40,
+            "str_min": 8, "str_max": 30,
             "sound": "porcelain breaking!",
             "sound_fail": "whunk!",
             "items": [
                 { "item": "cu_pipe", "amount": 1, "minamount": 0 },
                 { "item": "water_faucet", "amount": 1, "minamount": 0},
-                { "item": "steel_chunk", "amount": 18, "minamount": 6}
+                { "item": "rock", "amount": 18, "minamount": 6}
             ]
         }
     },{
