@@ -774,6 +774,32 @@
     ]
   ]
 },{
+          "type" : "recipe",
+  "result": "l_car_223",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "mechanics",
+  "skills_required": [[ "gun", 4 ]],
+  "difficulty": 5,
+  "time": 9000,
+  "reversible": true,
+  "autolearn": true,
+  "//": "Firearms kits are mandatory by design--you're doing significant modifications to your gun and should use the right gear to sight everything in, etc.",
+  "tools": [
+    [
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "l_base_223", 1 ]
+    ],
+    [
+      [ "l_car_223_kit", 1 ]
+    ]
+  ]
+},{
         "type" : "recipe",
   "result": "saiga_sawn",
   "byproducts": { "id" : "scrap", "amount" : 5 },  

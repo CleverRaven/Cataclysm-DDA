@@ -3900,8 +3900,7 @@
       "cutting":0,
       "to_hit":-2,
       "flags":["CD"]
-     },
-  {
+  },{
     "id": "l_HFPack",
     "type": "GENERIC",
     "symbol": ")",
@@ -3917,6 +3916,22 @@
     "cutting": 0,
     "to_hit": -2,
     "material": ["wood", "steel"]
+  },{
+    "id": "l_car_223_kit",
+    "type": "GENERIC",
+    "symbol": ")",
+    "color": "lt_gray",
+    "name": "L523-CAR conversion",
+    "name_plural": "L523-CAR conversions",
+    "category": "other",
+    "description": "All the parts necessary to convert an L523 to the Carbine configuration, Leadworks LLC's choice for close-quarters work.  In order to reconfigure an already-configured L523, you'll need to disassemble it to the base platform, then assemble with the parts you prefer.",
+    "price": 170000,
+    "weight": 200,
+    "volume": 2,
+    "bashing": -2,
+    "cutting": 0,
+    "to_hit": -2,
+    "material": ["steel", "plastic"]
   },{
     "type":"GENERIC",
     "id": "mobile_memory_card",
