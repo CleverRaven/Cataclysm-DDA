@@ -412,8 +412,11 @@ void mattack::growplants(monster *z)
             }
             if (!g->m.has_flag("DIGGABLE", z->posx() + i, z->posy() + j) && one_in(4)) {
                 g->m.ter_set(z->posx() + i, z->posy() + j, t_dirt);
-            } else if (one_in(3) && g->m.is_destructable(z->posx() + i, z->posy() + j)) {
-                g->m.ter_set(z->posx() + i, z->posy() + j, t_dirtmound);    // Destroy walls, &c
+            } else if (one_in(3) && g->m.is_bashable(z->posx() + i, z->posy() + j)) {
+                // Destroy everything
+                g->m.bash(z->posx() + i, z->posy() + j, 999, false, true);
+                // And then make the ground fertile
+                g->m.ter_set(z->posx() + i, z->posy() + j, t_dirtmound);
             } else {
                 if (one_in(4)) { // 1 in 4 chance to grow a tree
                     int mondex = g->mon_at(z->posx() + i, z->posy() + j);
@@ -1689,8 +1692,9 @@ void mattack::stare(monster *z)
             if (g->m.ter(i.x, i.y) == t_reinforced_glass_h ||
                 g->m.ter(i.x, i.y) == t_reinforced_glass_v) {
                 break;
-            } else if (g->m.is_destructable(i.x, i.y)) {
-                g->m.ter_set(i.x, i.y, t_rubble);
+            } else if (g->m.is_bashable(i.x, i.y)) {
+                //Destroy it
+                g->m.bash(i.x, i.y, 999, false, true);
             }
         }
     }

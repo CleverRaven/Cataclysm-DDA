@@ -38,7 +38,6 @@ class iexamine
         void tent (player *p, map *m, int examx, int examy);
         void large_tent(player *p, map *m, int examx, int examy);
         void shelter (player *p, map *m, int examx, int examy);
-        void wreckage (player *p, map *m, int examx, int examy);
         void pit (player *p, map *m, int examx, int examy);
         void pit_covered (player *p, map *m, int examx, int examy);
         void fence_post (player *p, map *m, int examx, int examy);

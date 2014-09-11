@@ -778,6 +778,27 @@
         "post_terrain" : "t_fence_v"
     },{
         "type" : "construction",
+        "description" : "Build Fence Gate",
+        "category" : "CONSTRUCT",
+        "difficulty" : 2,
+        "time" : 15,
+        "qualities": [ 
+		    [
+            { "id": "HAMMER", "level": 2 }
+            ],
+		    [
+            { "id": "DIG", "level": 2 }
+            ]
+			],
+        "components" : [
+            [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ] ],
+            [ [ "2x4", 5 ] ],
+            [ [ "nail", 12 ] ]
+        ],
+        "pre_flags" : "DIGGABLE",
+        "post_terrain" : "t_fence_h"
+    },{
+        "type" : "construction",
         "description" : "Realign Fence", "//": "vertical to horizontal",
         "category" : "OTHER",
         "difficulty" : 0,
@@ -1100,12 +1121,34 @@
             { "id": "HAMMER", "level": 2 }
         ] ],
         "components" : [
-            [ [ "2x4", 10 ] ],
-            [ [ "nail", 8 ] ],
+            [ [ "2x4", 4 ] ],
+            [ [ "nail", 6 ] ],
             [ [ "blanket", 1 ], [ "sheet", 1 ] ]
         ],
         "pre_special" : "check_empty",
         "post_terrain" : "f_makeshift_bed"
+    },{
+        "type" : "construction",
+        "description" : "Build Bed",
+        "category" : "FURN",
+        "difficulty" : 3,
+        "time" : 20,
+        "qualities": [
+		    [
+            { "id": "HAMMER", "level": 2 }
+            ],
+		    [
+            { "id": "SAW_W", "level": 1 }
+            ]
+			],
+        "components" : [
+            [ [ "2x4", 12 ] ],
+            [ [ "nail", 10 ] ],
+            [ [ "sheet", 10 ] ],
+            [ [ "blanket", 1 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_bed"
     },{
         "type" : "construction",
         "description" : "Build Armchair",
@@ -1252,6 +1295,28 @@
         ],
         "pre_special" : "check_empty",
         "post_terrain" : "f_anvil"
+    },{
+        "type" : "construction",
+        "description" : "Place forge",
+        "category" : "FURN",
+        "difficulty" : 0,
+        "time" : 1,
+        "components" : [
+            [ [ "forge", 1 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_forge"
+    },{
+        "type" : "construction",
+        "description" : "Place still",
+        "category" : "FURN",
+        "difficulty" : 0,
+        "time" : 1,
+        "components" : [
+            [ [ "still", 1 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_still"
     },{
         "type" : "construction",
         "description" : "Build Water Well",

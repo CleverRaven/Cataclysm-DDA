@@ -1372,7 +1372,7 @@
     "death_function":"WORM",
     "special_attack":"NONE",
     "description":"A monstrous beast with a tripartite mouth that opens to reveal hundreds of writhing tongues with razor sharp edges.  It keeps most of its enormous body hidden underground.",
-    "flags":["DIGS", "HEARS", "POISON", "GOODHEARING", "DESTROYS", "WARM", "LEATHER", "FAT"]
+    "flags":["DIGS", "HEARS", "POISON", "GOODHEARING", "BASHES", "DESTROYS", "WARM", "LEATHER", "FAT"]
     },{
         "type" : "MONSTER",
         "id" : "mon_worm",
@@ -4120,7 +4120,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"A huge mutated worm found deep underground.  It has a gaping round mouth lined with dagger-like teeth, and its flesh is slick with bubbling blue slime.",
-    "flags":["SMELLS", "HEARS", "GOODHEARING", "DESTROYS", "POISON", "SUNDEATH", "ACIDPROOF", "ACIDTRAIL"]
+    "flags":["SMELLS", "HEARS", "GOODHEARING", "BASHES", "DESTROYS", "POISON", "SUNDEATH", "ACIDPROOF", "ACIDTRAIL"]
     },{
         "type" : "MONSTER",
         "id" : "mon_amigara_horror",

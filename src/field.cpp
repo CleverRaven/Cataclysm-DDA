@@ -88,13 +88,13 @@ void game::init_fields()
             {c_yellow, c_ltred, c_red}, {true, true, true}, {true, true, true}, 800,
             {0,0,0}
         },
-
-        {
-            "fd_rubble",
-            {_("rubble heap"), _("rubble pile"), _("mountain of rubble")}, '#', 2,
-            {c_dkgray, c_dkgray, c_dkgray}, {true, true, false},{false, false, false},  0,
-            {0,0,0}
-        },
+        
+       {
+           "fd_rubble",
+           {_("legacy rubble"), _("legacy rubble"), _("legacy rubble")}, '#', 0,
+           {c_dkgray, c_dkgray, c_dkgray}, {true, true, true},{false, false, false},  1,
+           {0,0,0}
+       },
 
         {
             "fd_smoke",
@@ -497,8 +497,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         break;
                     case fd_slime:
                         break;
-                    case fd_rubble:
-                        break;
                     case fd_plasma:
                         break;
                     case fd_laser:
@@ -711,21 +709,13 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         if((tr_brazier != tr_at(x, y)) &&
                            (has_flag("FIRE_CONTAINER", x, y) != true )) {
                             // Consume the terrain we're on
-                            if (has_flag("EXPLODES", x, y)) {
-                                //This is what destroys houses so fast.
-                                ter_set(x, y, ter_id(int(ter(x, y)) + 1));
-                                cur->setFieldAge(0); //Fresh level 3 fire.
-                                cur->setFieldDensity(3);
-                                g->explosion(x, y, 40, 0, true); //Boom.
-
-                            } else if (has_flag("FLAMMABLE", x, y) &&
-                                       one_in(32 - cur->getFieldDensity() * 10)) {
+                            if (has_flag("FLAMMABLE", x, y) && one_in(32 - cur->getFieldDensity() * 10)) {
                                 //The fire feeds on the ground itself until max density.
                                 cur->setFieldAge(cur->getFieldAge() - cur->getFieldDensity() *
                                                  cur->getFieldDensity() * 40);
                                 smoke += 15;
                                 if (cur->getFieldDensity() == 3) {
-                                    destroy(x, y, false);
+                                    destroy(x, y, true);
                                 }
 
                             } else if (has_flag("FLAMMABLE_ASH", x, y) &&
@@ -735,10 +725,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                                  cur->getFieldDensity() * 40);
                                 smoke += 15;
                                 if (cur->getFieldDensity() == 3 || cur->getFieldAge() < -600) {
-                                    ter_set(x, y, t_ash);
-                                    if(has_furn(x, y)) {
-                                        furn_set(x, y, f_null);
-                                    }
+                                    ter_set(x, y, t_dirt);
+                                    furn_set(x, y, f_ash);
                                 }
 
                             } else if (has_flag("FLAMMABLE_HARD", x, y) &&
@@ -748,7 +736,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                                  cur->getFieldDensity() * 30);
                                 smoke += 10;
                                 if (cur->getFieldDensity() == 3 || cur->getFieldAge() < -600) {
-                                    destroy(x, y, false);
+                                    destroy(x, y, true);
                                 }
 
                             } else if (terlist[ter(x, y)].has_flag("SWIMMABLE")) {
@@ -849,27 +837,14 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     if (nearwebfld) {
                                         spread_chance = 50 + spread_chance / 2;
                                     }
-                                    if (has_flag("EXPLODES", fx, fy) &&
-                                        one_in(8 - cur->getFieldDensity()) &&
-                                        tr_brazier != tr_at(x, y) &&
-                                        (has_flag("FIRE_CONTAINER", x, y) != true ) ) {
-                                        ter_set(fx, fy, ter_id(int(ter(fx, fy)) + 1));
-                                        g->explosion(fx, fy, 40, 0, true);
-                                        //Nearby explodables? blow em up.
-                                    } else if ((i != 0 || j != 0) && rng(1, 100) < spread_chance &&
-                                               cur->getFieldAge() < 200 &&
-                                               tr_brazier != tr_at(x, y) &&
-                                               (has_flag("FIRE_CONTAINER", x, y) != true ) &&
-                                               (in_pit == (ter(fx, fy) == t_pit)) &&
-                                               (
-                                                   (cur->getFieldDensity() >= 2 &&
-                                                    (has_flag("FLAMMABLE", fx, fy) && one_in(20))) ||
-                                                   (cur->getFieldDensity() >= 2  &&
-                                                    (has_flag("FLAMMABLE_ASH", fx, fy) && one_in(10))) ||
-                                                   (cur->getFieldDensity() == 3  &&
-                                                    (has_flag("FLAMMABLE_HARD", fx, fy) && one_in(10))) ||
-                                                   flammable_items_at(fx, fy) ||
-                                                   nearwebfld )) {
+                                    if ((i != 0 || j != 0) && rng(1, 100) < spread_chance &&
+                                          cur->getFieldAge() < 200 && tr_brazier != tr_at(x, y) &&
+                                          (has_flag("FIRE_CONTAINER", x, y) != true ) &&
+                                          (in_pit == (ter(fx, fy) == t_pit)) &&
+                                          ((cur->getFieldDensity() >= 2 && (has_flag("FLAMMABLE", fx, fy) && one_in(20))) ||
+                                          (cur->getFieldDensity() >= 2  && (has_flag("FLAMMABLE_ASH", fx, fy) && one_in(10))) ||
+                                          (cur->getFieldDensity() == 3  && (has_flag("FLAMMABLE_HARD", fx, fy) && one_in(10))) ||
+                                          flammable_items_at(fx, fy) || nearwebfld )) {
                                         add_field(fx, fy, fd_fire, 1); //Nearby open flammable ground? Set it on fire.
                                         tmpfld = nearby_field.findField(fd_fire);
                                         if(tmpfld) {
@@ -1285,9 +1260,10 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         { //Needed for variable scope
                             int offset_x = x + rng(-1,1);
                             int offset_y = y + rng(-1,1); //pick a random adjacent tile and attempt to set that on fire
-                            if (has_flag("EXPLODES", offset_x, offset_y) || has_flag("FLAMMABLE", offset_x, offset_y) ||
-                            has_flag("FLAMMABLE_ASH",offset_x, offset_y) || has_flag("FLAMMABLE_HARD", offset_x, offset_y) ) {
-                                    add_field(offset_x, offset_y , fd_fire, 1);
+                            if (has_flag("FLAMMABLE", offset_x, offset_y) ||
+                                  has_flag("FLAMMABLE_ASH",offset_x, offset_y) ||
+                                  has_flag("FLAMMABLE_HARD", offset_x, offset_y) ) {
+                                add_field(offset_x, offset_y , fd_fire, 1);
                             }
 
                             //check piles for flammable items and set those on fire
@@ -1302,6 +1278,11 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                             spread_gas( this, cur, x, y, curtype, 66, 40 );
                         }
+                        break;
+
+                    //Legacy Stuff
+                    case fd_rubble:
+                        make_rubble(x, y);
                         break;
 
                     default:
@@ -1352,8 +1333,6 @@ void map::step_in_field(int x, int y)
     int veh_part; // vehicle part existing on this tile.
     vehicle *veh = NULL; // Vehicle reference if there is one.
     bool inside = false; // Are we inside?
-    // For use in determining if we are in a rubble square or not, for the disease effect
-    bool no_rubble = true;
     //to modify power of a field based on... whatever is relevant for the effect.
     int adjusted_intensity;
 
@@ -1373,11 +1352,6 @@ void map::step_in_field(int x, int y)
         // Shouldn't happen unless you free memory of field entries manually
         // (hint: don't do that)... Pointer safety.
         if(cur == NULL) continue;
-
-        if (cur->getFieldType() == fd_rubble) {
-             //We found rubble, don't remove the players rubble disease at the end of function.
-            no_rubble = false;
-        }
 
         //Do things based on what field effect we are currently in.
         switch (cur->getFieldType()) {
@@ -1482,11 +1456,6 @@ void map::step_in_field(int x, int y)
                     g->u.add_effect("onfire", 5); //lasting fire damage only from the strongest fires.
                 }
             }
-            break;
-
-        case fd_rubble:
-            //You are walking on rubble. Slow down.
-            g->u.add_disease("bouldering", 0, false, cur->getFieldDensity(), 3);
             break;
 
         case fd_smoke:
@@ -1696,10 +1665,6 @@ void map::step_in_field(int x, int y)
         }
     }
 
-    if(no_rubble) {
-        //After iterating through all fields, if we found no rubble, remove the rubble disease.
-        g->u.rem_disease("bouldering");
-    }
 }
 
 void map::mon_in_field(int x, int y, monster *z)
@@ -1803,12 +1768,6 @@ void map::mon_in_field(int x, int y, monster *z)
             }
             // Drop through to smoke no longer needed as smoke will exist in the same square now,
             // this would double apply otherwise.
-            break;
-
-        case fd_rubble:
-            if (!z->has_flag(MF_FLIES) && !z->has_flag(MF_AQUATIC)) {
-                z->add_effect("bouldering", 1);
-            }
             break;
 
         case fd_smoke:
@@ -1987,105 +1946,6 @@ void map::mon_in_field(int x, int y, monster *z)
     }
     if (dam > 0) {
         z->apply_damage( nullptr, bp_torso, dam );
-    }
-}
-
-// TODO FIXME XXX: oh god the horror
-void map::field_effect(int x, int y) //Applies effect of field immediately
-{
-    field_entry *cur = NULL;
-    field &curfield = field_at(x, y);
-    for(std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart(); field_list_it != curfield.getFieldEnd(); ++field_list_it) {
-        cur = field_list_it->second;
-        if(cur == NULL) {
-            continue;
-        }
-
-        //Can add independent code for different types of fields to apply different effects
-        if (cur->getFieldType() == fd_rubble) {
-            int hit_chance = 10;
-            //The index of the monster at (x,y), or -1 if there isn't one
-            int fdmon = g->mon_at(x, y);
-            //The index of the NPC at (x,y), or -1 if there isn't one
-            int fdnpc = g->npc_at(x, y);
-            npc *me = NULL;
-            if (fdnpc != -1) {
-                me = g->active_npc[fdnpc];
-            }
-            int veh_part;
-            bool pc_inside = false;
-            bool npc_inside = false;
-
-            if (g->u.in_vehicle) {
-                vehicle *veh = veh_at(x, y, veh_part);
-                pc_inside = (veh && veh->is_inside(veh_part));
-            }
-            if (me && me->in_vehicle) {
-                vehicle *veh = veh_at(x, y, veh_part);
-                npc_inside = (veh && veh->is_inside(veh_part));
-            }
-            //If there's a PC at (x,y) and he's not in a covered vehicle...
-            if (g->u.posx == x && g->u.posy == y && !pc_inside) {
-                if (g->u.get_dodge() < rng(1, hit_chance) || one_in(g->u.get_dodge())) {
-                    int how_many_limbs_hit = rng(0, num_hp_parts);
-                    for ( int i = 0 ; i < how_many_limbs_hit ; i++ ) {
-                        g->u.hp_cur[rng(0, num_hp_parts)] -= rng(0, 10);
-                        add_msg(m_bad, _("You are hit by the falling debris!"));
-                    }
-                    if (one_in(g->u.dex_cur) && (!g->u.has_trait("LEG_TENT_BRACE") ||
-                          g->u.footwear_factor() == 1 || (g->u.footwear_factor() == .5 && one_in(2))) ) {
-                        g->u.add_effect("downed", 2);
-                    }
-                    if (one_in(g->u.str_cur)) {
-                        g->u.add_effect("stunned", 2);
-                    }
-                } else if (one_in(g->u.str_cur) && (!g->u.has_trait("LEG_TENT_BRACE") ||
-                          g->u.footwear_factor() == 1 ||
-                          (g->u.footwear_factor() == .5 && one_in(2))) ) {
-                    add_msg(m_bad, _("You trip as you evade the falling debris!"));
-                    g->u.add_effect("downed", 1);
-                }
-                //Avoiding disease system for the moment, since I was having trouble with it.
-                //g->u.add_disease("crushed", 42, g);    //Using a disease allows for easy modification without messing with field code
-                //g->u.rem_disease("crushed");           //For instance, if we wanted to easily add a chance of limb mangling or a stun effect later
-            }
-            if (fdmon != -1 && size_t(fdmon) < g->num_zombies()) {  //If there's a monster at (x,y)...
-                monster* monhit = &(g->zombie(fdmon));
-                int dam = 10;                             //This is a simplistic damage implementation. It can be improved, for instance to account for armor
-                monhit->apply_damage( nullptr, bp_torso, dam ); //Ideally an external disease-like system would handle this to make it easier to modify later
-            }
-            if (fdnpc != -1) {
-                if (size_t(fdnpc) < g->active_npc.size() && !npc_inside) { //If there's an NPC at (x,y) and he's not in a covered vehicle...
-                    if (me && (me->get_dodge() < rng(1, hit_chance) || one_in(me->get_dodge()))) {
-                        int how_many_limbs_hit = rng(0, num_hp_parts);
-                        for ( int i = 0 ; i < how_many_limbs_hit ; i++ ) {
-                            me->hp_cur[rng(0, num_hp_parts)] -= rng(0, 10);
-                        }
-                        // Not sure how to track what NPCs are wearing, and they're under revision anyway so leaving it checking player. :-/
-                        if (one_in(me->dex_cur) && (!g->u.has_trait("LEG_TENT_BRACE") ||
-                              g->u.footwear_factor() == 1 ||
-                              (g->u.footwear_factor() == .5 && one_in(2))) ) {
-                            me->add_effect("downed", 2);
-                        }
-                        if (one_in(me->str_cur)) {
-                            me->add_effect("stunned", 2);
-                        }
-                    } else if (me && one_in(me->str_cur) && (!g->u.has_trait("LEG_TENT_BRACE") ||
-                                g->u.footwear_factor() == 1 ||
-                                (g->u.footwear_factor() == .5 && one_in(2))) ) {
-                        me->add_effect("downed", 1);
-                    }
-                }
-                if (me && (me->hp_cur[hp_head]  <= 0 || me->hp_cur[hp_torso] <= 0)) {
-                    me->die( nullptr );        //Right now cave-ins are treated as not the player's fault. This should be iterated on.
-                    g->active_npc.erase(g->active_npc.begin() + fdnpc);
-                }                                       //Still need to add vehicle damage, but I'm ignoring that for now.
-            }
-            vehicle *veh = veh_at(x, y, veh_part);
-            if (veh) {
-                veh->damage(veh_part, ceil(veh->parts[veh_part].hp/3.0 * cur->getFieldDensity()), 1, false);
-            }
-        }
     }
 }
 

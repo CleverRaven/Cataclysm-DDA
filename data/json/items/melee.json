@@ -1,4 +1,22 @@
 [
+    {
+        "type":"GENERIC",
+        "id" : "mjolnir",
+        "name" : "Mjölnir",
+        "description" : "A large hammer, forged from the heart of a dying star.  It bears the inscription:\n \nWhosoever holds this hammer,\nIf he be worthy,\nShall possess the power to...\nCRUSH!!'",
+        "weight" : 5443,
+        "to_hit" : 0,
+        "color" : "light_gray",
+        "symbol" : "/",
+        "material" : ["wood", "steel"],
+        "techniques" : ["BRUTAL", "WIDE"],
+        "volume" : 10,
+        "bashing" : 9999,
+        "cutting" : 0,
+        "price" : 12000,
+        "qualities": [["HAMMER", 1]]
+    },
+  
   {
     "type":"GENERIC",
     "id": "withered",

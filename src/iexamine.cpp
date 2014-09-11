@@ -532,24 +532,11 @@ void iexamine::rubble(player *p, map *m, int examx, int examy)
         add_msg(m_info, _("If only you had a shovel..."));
         return;
     }
-    std::string xname = m->tername(examx, examy);
+    std::string xname = m->furnname(examx, examy);
     if (query_yn(_("Clear up that %s?"), xname.c_str())) {
         // "Remove"
         p->moves -= 200;
-
-        // "Replace"
-        if(m->ter(examx, examy) == t_rubble) {
-            item rock("rock", calendar::turn);
-            m->add_item_or_charges(p->posx, p->posy, rock);
-            m->add_item_or_charges(p->posx, p->posy, rock);
-        }
-
-        // "Refloor"
-        if (g->levz < 0) {
-            m->ter_set(examx, examy, t_rock_floor);
-        } else {
-            m->ter_set(examx, examy, t_dirt);
-        }
+        m->furn_set(examx, examy, f_null);
 
         // "Remind"
         add_msg(_("You clear up that %s."), xname.c_str());
@@ -658,31 +645,6 @@ void iexamine::shelter(player *p, map *m, int examx, int examy)
     add_msg(_("You take down the shelter"));
     item dropped("shelter_kit", calendar::turn);
     m->add_item_or_charges(examx, examy, dropped);
-}
-
-void iexamine::wreckage(player *p, map *m, int examx, int examy)
-{
-    if (!(p->has_amount("shovel", 1) || p->has_amount("primitive_shovel", 1) ||
-          p->has_amount("e_tool", 1))) {
-        add_msg(m_info, _("If only you had a shovel..."));
-        return;
-    }
-
-    if (query_yn(_("Clear up that wreckage?"))) {
-        p->moves -= 200;
-        m->ter_set(examx, examy, t_dirt);
-        item chunk("steel_chunk", calendar::turn);
-        item scrap("scrap", calendar::turn);
-        item pipe("pipe", calendar::turn);
-        item wire("wire", calendar::turn);
-        m->add_item_or_charges(examx, examy, chunk);
-        m->add_item_or_charges(examx, examy, scrap);
-        if (one_in(5)) {
-            m->add_item_or_charges(examx, examy, pipe);
-            m->add_item_or_charges(examx, examy, wire);
-        }
-        add_msg(_("You clear the wreckage up"));
-    }
 }
 
 void iexamine::pit(player *p, map *m, int examx, int examy)
@@ -1217,56 +1179,8 @@ void iexamine::egg_sackws( player *p, map *m, int examx, int examy )
 
 void iexamine::fungus(player *p, map *m, int examx, int examy)
 {
-    // TODO: Infect NPCs?
-    monster spore(GetMType("mon_spore"));
-    int mondex;
     add_msg(_("The %s crumbles into spores!"), m->furnname(examx, examy).c_str());
-    for (int i = examx - 1; i <= examx + 1; i++) {
-        for (int j = examy - 1; j <= examy + 1; j++) {
-            mondex = g->mon_at(i, j);
-            if (g->m.move_cost(i, j) > 0 || (i == examx && j == examy)) {
-                if (mondex != -1) { // Spores hit a monster
-                    if (g->u_see(i, j) &&
-                        !g->zombie(mondex).type->in_species("FUNGUS")) {
-                        add_msg(_("The %s is covered in tiny spores!"),
-                                g->zombie(mondex).name().c_str());
-                    }
-                    monster &critter = g->zombie( mondex );
-                    if( !critter.make_fungus() ) {
-                        critter.die( p ); // counts as kill by player
-                    }
-                } else if (g->u.posx == i && g->u.posy == j) {
-                    // Spores hit the player
-                    bool hit = false;
-                    if (one_in(4) && g->u.infect("spores", bp_head, 3, 90, false, 1, 3, 120, 1, true)) {
-                        hit = true;
-                    }
-                    if (one_in(2) && g->u.infect("spores", bp_torso, 3, 90, false, 1, 3, 120, 1, true)) {
-                        hit = true;
-                    }
-                    if (one_in(4) && g->u.infect("spores", bp_arm_l, 3, 90, false, 1, 3, 120, 1, true)) {
-                        hit = true;
-                    }
-                    if (one_in(4) && g->u.infect("spores", bp_arm_r, 3, 90, false, 1, 3, 120, 1, true)) {
-                        hit = true;
-                    }
-                    if (one_in(4) && g->u.infect("spores", bp_leg_l, 3, 90, false, 1, 3, 120, 1, true)) {
-                        hit = true;
-                    }
-                    if (one_in(4) && g->u.infect("spores", bp_leg_r, 3, 90, false, 1, 3, 120, 1, true)) {
-                        hit = true;
-                    }
-                    if (hit) {
-                        add_msg(m_warning, _("You're covered in tiny spores!"));
-                    }
-                } else if (((i == examx && j == examy) || one_in(4)) &&
-                           g->num_zombies() <= 1000) { // Spawn a spore
-                    spore.spawn(i, j);
-                    g->add_zombie(spore);
-                }
-            }
-        }
-    }
+    m->create_spores(examx, examy, p);
     m->furn_set(examx, examy, f_null);
     p->moves -= 50;
 }
@@ -1347,6 +1261,12 @@ void iexamine::dirtmound(player *p, map *m, int examx, int examy)
 void iexamine::aggie_plant(player *p, map *m, int examx, int examy)
 {
     if (m->furn(examx, examy) == f_plant_harvest && query_yn(_("Harvest plant?"))) {
+        if (m->i_at(examx, examy).empty()) {
+            m->i_clear(examx, examy);
+            m->furn_set(examx, examy, f_null);
+            debugmsg("Missing seeds in harvested plant!");
+            return;
+        }
         itype_id seedType = m->i_at(examx, examy)[0].typeId();
         if (seedType == "fungal_seeds") {
             fungus(p, m, examx, examy);
@@ -2660,9 +2580,6 @@ void (iexamine::*iexamine_function_from_string(std::string function_name))(playe
     }
     if ("shelter" == function_name) {
         return &iexamine::shelter;
-    }
-    if ("wreckage" == function_name) {
-        return &iexamine::wreckage;
     }
     if ("pit" == function_name) {
         return &iexamine::pit;

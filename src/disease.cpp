@@ -26,7 +26,7 @@ enum dis_type_enum {
  DI_COMMON_COLD, DI_FLU, DI_RECOVER, DI_TAPEWORM, DI_BLOODWORMS, DI_BRAINWORM, DI_PAINCYSTS,
  DI_TETANUS,
 // Fields - onfire moved to effects
- DI_CRUSHED, DI_BOULDERING,
+ DI_CRUSHED,
 // Monsters
  DI_SAP, DI_SPORES, DI_FUNGUS, DI_SLIMED,
  DI_LYING_DOWN, DI_SLEEP, DI_ALARM_CLOCK,
@@ -93,7 +93,6 @@ void game::init_diseases() {
     disease_type_lookup["tetanus"] = DI_TETANUS;
     disease_type_lookup["paincysts"] = DI_PAINCYSTS;
     disease_type_lookup["crushed"] = DI_CRUSHED;
-    disease_type_lookup["bouldering"] = DI_BOULDERING;
     disease_type_lookup["sap"] = DI_SAP;
     disease_type_lookup["spores"] = DI_SPORES;
     disease_type_lookup["fungus"] = DI_FUNGUS;
@@ -170,9 +169,6 @@ bool dis_msg(dis_type type_string) {
         break;
     case DI_CRUSHED:
         add_msg(m_bad, _("The ceiling collapses on you!"));
-        break;
-    case DI_BOULDERING:
-        add_msg(m_warning, _("You are slowed by the rubble."));
         break;
     case DI_SAP:
         add_msg(m_bad, _("You're coated in sap!"));
@@ -1028,31 +1024,6 @@ void dis_effect(player &p, disease &dis)
             */
             break;
 
-        case DI_BOULDERING:
-            switch(dis.intensity) {
-                case 3:
-                    p.mod_dex_bonus(-2);
-                    p.add_miss_reason(
-                        _("You get off-balance from your unsteady footing."), 2);
-                case 2:
-                    p.mod_dex_bonus(-2);
-                    p.add_miss_reason(
-                        _("You waver over your unsteady footing."), 2);
-                case 1:
-                    p.mod_dex_bonus(-1);
-                    p.add_miss_reason(
-                        _("It's hard to fight on this rubble."), 1);
-                    break;
-                default:
-                    debugmsg("Something went wrong with DI_BOULDERING.");
-                    debugmsg("Check disease.cpp");
-            }
-            if (p.get_dex() < 1) {
-                // Add to dexterity current + 1 so it's at least 1
-                p.mod_dex_bonus(abs(p.get_dex())+1);
-            }
-            break;
-
         case DI_SAP:
             p.mod_dex_bonus(-3);
             p.add_miss_reason(_("The sap's too sticky for you to fight effectively."), 3);
@@ -1656,7 +1627,7 @@ void dis_effect(player &p, disease &dis)
                     } while (((x == p.posx && y == p.posy) || g->mon_at(x, y) != -1));
                     if (tries < 10) {
                         if (g->m.move_cost(x, y) == 0) {
-                            g->m.ter_set(x, y, t_rubble);
+                            g->m.make_rubble(x, y, f_rubble_rock, true);
                         }
                         beast.spawn(x, y);
                         g->add_zombie(beast);
@@ -1720,7 +1691,7 @@ void dis_effect(player &p, disease &dis)
                 } while (((x == p.posx && y == p.posy) || g->mon_at(x, y) != -1) && tries < 10);
                 if (tries < 10) {
                     if (g->m.move_cost(x, y) == 0) {
-                        g->m.ter_set(x, y, t_rubble);
+                        g->m.make_rubble(x, y, f_rubble_rock, true);
                     }
                     beast.spawn(x, y);
                     g->add_zombie(beast);
@@ -1891,7 +1862,6 @@ int disease_speed_boost(disease dis)
         case DI_ASTHMA:     return 0 - int(dis.duration / 5);
         case DI_GRACK:      return +20000;
         case DI_METH:       return (dis.duration > 600 ? 50 : -40);
-        case DI_BOULDERING: return ( 0 - (dis.intensity * 10));
         case DI_LACKSLEEP:  return -5;
         case DI_GRABBED:    return -25;
         default:            break;
@@ -2198,7 +2168,6 @@ std::string dis_name(disease& dis)
 
 
     case DI_IN_PIT: return _("Stuck in Pit");
-    case DI_BOULDERING: return _("Clambering Over Rubble");
 
     case DI_STEMCELL_TREATMENT: return _("Stem cell treatment");
     case DI_BITE:
@@ -2661,23 +2630,6 @@ Your right foot is blistering from the intense heat. It is extremely painful.");
         "Symptoms alleviated by medication (cough syrup).");
 
     case DI_CRUSHED: return "If you're seeing this, there is a bug in disease.cpp!";
-
-    case DI_BOULDERING:
-        switch (dis.intensity){
-        case 1:
-            stream << _(
-            "Dexterity - 1;   Speed -10%\n"
-            "You are being slowed by climbing over a pile of rubble.");
-        case 2:
-            stream << _(
-            "Dexterity - 3;   Speed -20%\n"
-            "You are being slowed by climbing over a heap of rubble.");
-        case 3:
-            stream << _(
-            "Dexterity - 5;   Speed -30%\n"
-            "You are being slowed by climbing over a mountain of rubble.");
-        }
-        return stream.str();
 
     case DI_STEMCELL_TREATMENT: return _("Your insides are shifting in strange ways as the treatment takes effect.");
 

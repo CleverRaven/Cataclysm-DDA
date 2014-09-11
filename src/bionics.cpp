@@ -418,9 +418,6 @@ void player::activate_bionic(int b)
                 g->m.bash( i, j, 40 );
                 g->m.bash( i, j, 40 ); // Multibash effect, so that doors &c will fall
                 g->m.bash( i, j, 40 );
-                if (g->m.is_destructable(i, j) && rng(1, 10) >= 4) {
-                    g->m.ter_set(i, j, t_rubble);
-                }
             }
         }
     } else if (bio.id == "bio_time_freeze") {
@@ -746,11 +743,18 @@ void player::activate_bionic(int b)
                                 g->zombie(index).apply_damage( this, bp_torso, tmp_item.weight() / 225 );
                                 g->m.add_item_or_charges(it->x, it->y, tmp_item);
                                 break;
-                            } else if (it != traj.begin() && g->m.move_cost(it->x, it->y) == 0) {
-                                g->m.bash( it->x, it->y, tmp_item.weight() / 225 );
-                                if (g->m.move_cost(it->x, it->y) == 0) {
-                                    g->m.add_item_or_charges((it - 1)->x, (it - 1)->y, tmp_item);
-                                    break;
+                            } else if (g->m.move_cost(it->x, it->y) == 0) {
+                                if (it != traj.begin()) {
+                                    g->m.bash( it->x, it->y, tmp_item.weight() / 225 );
+                                    if (g->m.move_cost(it->x, it->y) == 0) {
+                                        g->m.add_item_or_charges((it - 1)->x, (it - 1)->y, tmp_item);
+                                        break;
+                                    }
+                                } else {
+                                    g->m.bash( it->x, it->y, tmp_item.weight() / 225 );
+                                    if (g->m.move_cost(it->x, it->y) == 0) {
+                                        break;
+                                    }
                                 }
                             }
                         }
