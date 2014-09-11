@@ -465,6 +465,7 @@
       ["knife_butcher", 10],
       ["knife_combat", 14],
       ["kukri", 1],
+      ["knife_rm42", 1],
       ["knife_hunting", 4],
       ["knife_rambo", 16],
       ["throwing_knife", 4],
@@ -3473,6 +3474,7 @@
       ["brewing_cookbook", 3],
       ["recipe_bullets", 1],
       ["knife_combat", 14],
+      ["knife_rm42", 2],
       ["kukri", 2],
       ["knife_hunting", 4],
       ["knife_rambo", 20],
@@ -4424,6 +4426,7 @@
       ["ax", 8],
       ["knife_butcher", 10],
       ["knife_combat", 14],
+      ["knife_rm42", 1],
       ["kukri", 2],
       ["knife_hunting", 8],
       ["knife_rambo", 16],
@@ -4636,6 +4639,7 @@
     "id" : "mil_surplus",
     "items":[
       ["knife_combat", 14],
+      ["knife_rm42", 1],
       ["kukri", 2],
       ["knife_hunting", 4],
       ["knife_rambo", 20],
@@ -5983,6 +5987,7 @@
       ["kukri", 2],
       ["knife_hunting", 4],
       ["knife_rambo", 8],
+      ["knife_rm42", 2],
       ["throwing_knife", 7],
       ["throwing_axe", 6],
       ["punch_dagger", 6],
@@ -7040,6 +7045,7 @@
       ["bot_laserturret", 1],
       ["sheath", 13],
       ["toolbox", 1],
+      ["knife_rm42", 4],
       ["survnote", 1]
     ]
   },{
@@ -7194,6 +7200,7 @@
       ["bio_speed", 1],
       ["bio_blade", 1],
       ["bot_laserturret", 2],
+      ["knife_rm42", 2],
       ["survnote", 1]
     ]
   },{
@@ -7348,6 +7355,7 @@
       ["kukri", 2],
       ["knife_hunting", 4],
       ["knife_rambo", 16],
+      ["knife_rm42", 2],
       ["throwing_knife", 7],
       ["throwing_axe", 2],
       ["punch_dagger", 12],
