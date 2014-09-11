@@ -7305,7 +7305,7 @@
     "name": "survival knife",
     "name_plural": "survival knives",
     "description": "This massive combat knife features a hollow handle with a compass built into the pommel and a row of fearsome looking saw teeth along the back of its blade.",
-    "price": 11000,
+    "price": 16000,
     "material": ["steel", "plastic"],
     "flags" : ["STAB", "SHEATH_KNIFE"],
     "techniques": ["WBLOCK_1"],
@@ -7323,6 +7323,34 @@
     "category" : "weapons",
     "use_action": "KNIFE",
     "qualities": [["CUT", 1], ["SAW_W", 1], ["SAW_M", 1], ["BUTCHER", 6]]
+  },
+
+  {
+    "comment": "The swiss army knife is a bit more of a knife than a toolkit.",
+    "id": "knife_swissarmy",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "red",
+    "name": "Swiss Army knife",
+    "name_plural": "Swiss Army knives",
+    "description": "An iconic pocket knife imported from Europe.  Its red plastic handle conceals many small tools.",
+    "price": 30000,
+    "material": ["steel", "plastic"],
+    "flags" : ["STAB"],
+    "weight": 246,
+    "volume": 0,
+    "bashing": 0,
+    "cutting": 6,
+    "to_hit": -4,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "category" : "weapons",
+    "use_action": "KNIFE",
+    "qualities": [["CUT", 1], ["SAW_W", 1], ["SAW_M", 1], ["WRENCH", 1], ["SCREW", 1], ["BUTCHER", 14]]
   },
 
   {

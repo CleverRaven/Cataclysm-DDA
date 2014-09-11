@@ -25,6 +25,7 @@
       ["colamdew", 15],
       ["backpack", 38],
       ["pockknife", 14],
+      ["knife_swissarmy", 10],
       ["hairpin", 5],
       ["fc_hairpin", 1],
       ["wristwatch", 10],
@@ -468,6 +469,7 @@
       ["knife_rambo", 16],
       ["throwing_knife", 4],
       ["pockknife", 14],
+      ["knife_swissarmy", 6],
       ["punch_dagger", 2],
       ["knife_trench", 7],
       ["switchblade", 4],
@@ -2992,6 +2994,7 @@
       ["suitcase_l", 55],
       ["duffelbag", 20],
       ["pockknife", 14],
+      ["knife_swissarmy", 6],
       ["touring_suit", 20],
       ["helmet_motor", 14]
     ]
@@ -4112,6 +4115,7 @@
       ["backpack_leather", 18],
       ["briefcase", 5],
       ["pockknife", 14],
+      ["knife_swissarmy", 6],
       ["mag_comic", 20],
       ["umbrella", 5],
       ["teleumbrella", 2],
