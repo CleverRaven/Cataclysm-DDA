@@ -7390,7 +7390,7 @@
     "description": "This sturdy matte black Rivtech combat dagger features a long and slim double-edged blade with a spear-point and a distinctive slip-resistant grip.  Originally manufactured for the military, it was very popular in films and among collectors due to its fearsome appearance.",
     "price": 600,
     "material": ["ceramic", "steel"],
-    "techniques": "RAPID",
+    "techniques": ["RAPID", "WBLOCK_1"],
     "weight": 188,
     "volume": 3,
     "bashing": 2,
