@@ -2040,66 +2040,44 @@ void map::destroy_furn(const int x, const int y, const bool silent)
 }
 
 void map::crush(const int x, const int y)
-{   
+{
     int veh_part;
-    bool pc_inside = false;
-    if (g->u.in_vehicle) {
-        vehicle *veh = veh_at(x, y, veh_part);
-        pc_inside = (veh && veh->is_inside(veh_part));
-    }
-    //If there's a PC at (x,y) and he's not in a covered vehicle...
-    if (g->u.posx == x && g->u.posy == y && !pc_inside) {
-        //This is the roof coming down on top of us, no chance to dodge
-        add_msg(m_bad, _("You are crushed by the falling debris!"));
-        int dam = rng(0, 70);
-        // Torso and head take the brunt of the blow
-        body_part hit = bp_head;
-        g->u.deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .25 ) );
-        hit = bp_torso;
-        g->u.deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .45 ) );
-        // Legs take the next most through transfered force
-        hit = bp_leg_l;
-        g->u.deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .10 ) );
-        hit = bp_leg_r;
-        g->u.deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .10 ) );
-        // Arms take the least
-        hit = bp_arm_l;
-        g->u.deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .05 ) );
-        hit = bp_arm_r;
-        g->u.deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .05 ) );
-        
-        // Add crushed pinning effect once effect processing is updated
-    }
-
+    player *crushed_player = nullptr;
     //The index of the NPC at (x,y), or -1 if there isn't one
     int npc_index = g->npc_at(x, y);
-    if (npc_index != -1) {
-        npc *npc_hit = g->active_npc[npc_index];
-        bool npc_inside = false;
-        if (npc_hit->in_vehicle) {
+    if( g->u.posx == x && g->u.posy == y ) {
+        crushed_player = &(g->u);
+    } else if( npc_index != -1 ) {
+        crushed_player = static_cast<player *>(g->active_npc[npc_index]);
+    }
+
+    if( crushed_player != nullptr ) {
+        bool player_inside = false;
+        if( crushed_player->in_vehicle ) {
             vehicle *veh = veh_at(x, y, veh_part);
-            npc_inside = (veh && veh->is_inside(veh_part));
+            player_inside = (veh && veh->is_inside(veh_part));
         }
-        if (!npc_inside) { //If there's an NPC at (x,y) and he's not in a covered vehicle...
+        if (!player_inside) { //If there's a player at (x,y) and he's not in a covered vehicle...
             //This is the roof coming down on top of us, no chance to dodge
-            add_msg(m_bad, _("1$s is crushed by the falling debris!"), npc_hit->name.c_str());
+            crushed_player->add_msg_player_or_npc( m_bad, _("You are crushed by the falling debris!"),
+                                                   _("<npcname> is crushed by the falling debris!") );
             int dam = rng(0, 60);
             // Torso and head take the brunt of the blow
             body_part hit = bp_head;
-            npc_hit->deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .25 ) );
+            crushed_player->deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .25 ) );
             hit = bp_torso;
-            npc_hit->deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .45 ) );
+            crushed_player->deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .45 ) );
             // Legs take the next most through transfered force
             hit = bp_leg_l;
-            npc_hit->deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .10 ) );
+            crushed_player->deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .10 ) );
             hit = bp_leg_r;
-            npc_hit->deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .10 ) );
+            crushed_player->deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .10 ) );
             // Arms take the least
             hit = bp_arm_l;
-            npc_hit->deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .05 ) );
+            crushed_player->deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .05 ) );
             hit = bp_arm_r;
-            npc_hit->deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .05 ) );
-            
+            crushed_player->deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .05 ) );
+
             // Add crushed pinning effect once effect processing is updated
         }
     }
@@ -2110,10 +2088,10 @@ void map::crush(const int x, const int y)
         monster* monhit = &(g->zombie(mon));
         // 25 ~= 60 * .45 (torso)
         monhit->deal_damage(nullptr, bp_torso, damage_instance(DT_BASH, rng(0,25)));
-        
+
         // Add crushed pinning effect once effect processing is updated
     }
-    
+
     vehicle *veh = veh_at(x, y, veh_part);
     if (veh) {
         veh->damage(veh_part, rng(0, veh->parts[veh_part].hp), 1, false);
