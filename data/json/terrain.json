@@ -1431,8 +1431,10 @@
         "symbol": "7",
         "color": "ltgreen",
         "move_cost": 0,
-        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
-        "examine_action": "tree_apple"
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],        
+        "harvest_season": "AUTUMN",
+        "harvestable": "apple",
+        "examine_action": "harvest_tree"
     },{
         "type" : "terrain",
         "id" : "t_tree_pear",
@@ -1441,7 +1443,9 @@
         "color": "ltgreen",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
-        "examine_action": "tree_pear"
+        "harvest_season": "AUTUMN",
+        "harvestable": "pear",
+        "examine_action": "harvest_tree"
     },{
         "type" : "terrain",
         "id" : "t_tree_cherry",
@@ -1450,7 +1454,9 @@
         "color": "red",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
-        "examine_action": "tree_cherry"
+        "harvest_season": "SUMMER",
+        "harvestable": "cherries",
+        "examine_action": "harvest_tree"
     },{
         "type" : "terrain",
         "id" : "t_tree_peach",
@@ -1459,7 +1465,9 @@
         "color": "yellow",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
-        "examine_action": "tree_peach"
+        "harvest_season": "SUMMER",
+        "harvestable": "peach",
+        "examine_action": "harvest_tree"
     },{
         "type" : "terrain",
         "id" : "t_tree_apricot",
@@ -1468,7 +1476,9 @@
         "color": "yellow",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
-        "examine_action": "tree_apricot"
+        "harvest_season": "SUMMER",
+        "harvestable": "apricot",
+        "examine_action": "harvest_tree"
     },{
         "type" : "terrain",
         "id" : "t_tree_plum",
@@ -1477,7 +1487,9 @@
         "color": "red",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
-        "examine_action": "tree_plum"
+        "harvest_season": "SUMMER",
+        "harvestable": "plums",
+        "examine_action": "harvest_tree"
     },{
         "type" : "terrain",
         "id" : "t_tree_pine",

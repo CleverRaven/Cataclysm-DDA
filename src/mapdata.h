@@ -178,15 +178,17 @@ struct ter_t {
  */
  long sym;
 
- nc_color color;//The color the sym will draw in on the GUI.
+ nc_color color; //The color the sym will draw in on the GUI.
  unsigned char movecost; //The amount of movement points required to pass this terrain by default.
  trap_id trap; //The id of the trap located at this terrain. Limit one trap per tile currently.
- std::string trap_id_str; // String storing the id string of the trap.
+ std::string trap_id_str; //String storing the id string of the trap.
  std::set<std::string> flags;// string flags which may or may not refer to what's documented above.
  unsigned long bitflags; // bitfield of -certian- string flags which are heavily checked
  iexamine_function examine; //What happens when the terrain is examined
- std::string open;          // open action: transform into terrain with matching id
- std::string close;         // close action: transform into terrain with matching id
+ std::string harvestable; //what will be harvested from this terrain?
+ int harvest_season; //when will this terrain get harvested?
+ std::string open; //open action: transform into terrain with matching id
+ std::string close; //close action: transform into terrain with matching id
 
  map_bash_info bash;
  map_deconstruct_info deconstruct;
