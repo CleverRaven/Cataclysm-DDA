@@ -6261,8 +6261,7 @@ void player::drench(int saturation, int flags)
     }
 
     // Make the body wet
-    for (int i = 0; i < num_bp; ++i)
-    {
+    for (int i = 0; i < num_bp; ++i) {
         // Different body parts have different size, they can only store so much water
         int bp_wetness_max = 0;
         if (mfb(i) & flags){
@@ -6397,7 +6396,8 @@ void player::update_body_wetness()
     * Mutations and weather can affect the duration of the player being wet.
     */
     int delay = 10;
-    if (has_trait("LIGHTFUR") || has_trait("FUR") || has_trait("FELINE_FUR") || has_trait("LUPINE_FUR")) {
+    if( has_trait("LIGHTFUR") || has_trait("FUR") || has_trait("FELINE_FUR") ||
+        has_trait("LUPINE_FUR") ) {
         delay += 2;
     }
     if (has_trait("URSINE_FUR")) {
@@ -6414,8 +6414,7 @@ void player::update_body_wetness()
         return;
     }
 
-    for (int i = 0; i < num_bp; ++i)
-    {
+    for (int i = 0; i < num_bp; ++i) {
         if (body_wetness[i] == 0) {
             continue;
         }

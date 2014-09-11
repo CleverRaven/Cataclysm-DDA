@@ -897,7 +897,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         unsigned long cash;
         int movecounter;
         int hp_cur[num_hp_parts], hp_max[num_hp_parts];
-        signed int temp_cur[num_bp], frostbite_timer[num_bp], temp_conv[num_bp];
+        int temp_cur[num_bp], frostbite_timer[num_bp], temp_conv[num_bp];
         void temp_equalizer(body_part bp1, body_part bp2); // Equalizes heat between body parts
         bool nv_cached;
         bool pda_cached;
@@ -905,7 +905,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         // Drench cache
         std::map<int, std::map<std::string, int> > mMutDrench;
         std::map<int, int> mDrenchEffect;
-        signed int body_wetness[num_bp];
+        int body_wetness[num_bp];
 
         std::vector<morale_point> morale;
 
