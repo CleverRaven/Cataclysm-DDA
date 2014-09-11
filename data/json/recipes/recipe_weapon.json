@@ -2480,6 +2480,48 @@
     ]
 },{
         "type" : "recipe",
+  "result": "knife_hunting",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_CUTTING",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": 390000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "manual_knives", 3 ] , [ "recipe_melee", 4 ]],
+  "qualities":[
+    {"id":"HAMMER","level":3,"amount":1}
+  ], "tools": [
+      [
+      ["tongs", -1]
+      ],
+      [
+      ["chisel", -1]
+      ],
+      [
+      ["anvil", -1]
+      ],
+      [
+      ["swage", -1]
+      ],
+      [
+      ["forge", 200], ["char_forge", 40]
+      ]
+      ],
+  "components":
+    [
+     [
+     [ "steel_lump", 1 ],
+     [ "steel_chunk", 4 ],
+     [ "scrap", 12 ]
+     ],
+     [
+      [ "fur", 1 ],
+      [ "leather", 1 ]
+     ]
+    ]
+},{
+        "type" : "recipe",
   "result": "kukri",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_CUTTING",
@@ -2505,7 +2547,7 @@
       ["swage", -1]
       ],
       [
-      ["forge", 300], ["char_forge", 60]
+      ["forge", 400], ["char_forge", 80]
       ]
       ],
   "components":
