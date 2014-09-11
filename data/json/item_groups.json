@@ -1718,6 +1718,7 @@
       ["fungicide", 5],
       ["charcoal", 5],
       ["sheath", 10],
+      ["multitool", 6],
       ["survnote", 1]
     ]
   },{
@@ -2144,6 +2145,7 @@
       ["kukri", 2],
       ["knife_hunting", 12],
       ["knife_rambo", 20],
+      ["multitool", 12],
       ["throwing_knife", 7],
       ["machete", 5],
       ["vest", 15],
@@ -2995,6 +2997,7 @@
       ["duffelbag", 20],
       ["pockknife", 14],
       ["knife_swissarmy", 6],
+      ["multitool", 8],
       ["touring_suit", 20],
       ["helmet_motor", 14]
     ]
@@ -4115,7 +4118,7 @@
       ["backpack_leather", 18],
       ["briefcase", 5],
       ["pockknife", 14],
-      ["knife_swissarmy", 6],
+      ["knife_swissarmy", 10],
       ["mag_comic", 20],
       ["umbrella", 5],
       ["teleumbrella", 2],
