@@ -134,6 +134,7 @@
 				"WW//////////////////,,,,"
             ],
             "place_groups": [
+            	{ "item": "bed", "chance": 80,  "x": [2,3], "y": [7,8 ] },
                 { "item": "dresser", "chance": 75,  "x": [ 1,2 ], "y": [ 10,10 ] },
                 { "item": "home_hw", "chance": 75,  "x": [ 3,3 ], "y": [ 17,19 ] },
                 { "item": "electronics", "chance": 75,  "x": [ 1,2 ], "y": [ 19,19 ] }
