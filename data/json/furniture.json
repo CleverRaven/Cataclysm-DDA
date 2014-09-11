@@ -165,11 +165,12 @@
         "flags": ["TRANSPARENT", "FLAMMABLE_HARD", "MOUNTABLE"],
         "examine_action": "toilet",
         "bash": {
-            "str_min": 6, "str_max": 20,
+            "str_min": 8, "str_max": 30,
             "sound": "porcelain breaking!",
             "sound_fail": "whunk!",
             "items": [
-                { "item": "cu_pipe", "amount": 1, "chance": 50 }
+                { "item": "cu_pipe", "amount": 1, "chance": 50 },
+                { "item": "steel_chunk", "amount": 8, "minamount": 2}
             ]
         }
     },{
@@ -210,13 +211,13 @@
         "required_str": 18,
         "flags": ["TRANSPARENT", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "MOUNTABLE"],
         "bash": {
-            "str_min": 6, "str_max": 20,
+            "str_min": 8, "str_max": 30,
             "sound": "porcelain breaking!",
             "sound_fail": "whunk!",
             "items": [
                 { "item": "cu_pipe", "amount": 1, "minamount": 0 },
                 { "item": "water_faucet", "amount": 1, "minamount": 0},
-                { "item": "rock", "amount": 8, "minamount": 2}
+                { "item": "steel_chunk", "amount": 8, "minamount": 2}
             ]
         }
     },{
@@ -301,7 +302,8 @@
             "sound": "porcelain breaking!",
             "sound_fail": "whunk!",
             "items": [
-                { "item": "cu_pipe", "amount": 3, "minamount": 0 }
+                { "item": "cu_pipe", "amount": 3, "minamount": 0 },
+                { "item": "glass_shard", "amount": 2, "minamount": 1 }
             ]
         }
     },{
@@ -314,13 +316,13 @@
         "required_str": 10,
         "flags": ["TRANSPARENT", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE"],
         "bash": {
-            "str_min": 6, "str_max": 30,
+            "str_min": 12, "str_max": 40,
             "sound": "porcelain breaking!",
             "sound_fail": "whunk!",
             "items": [
                 { "item": "cu_pipe", "amount": 1, "minamount": 0 },
                 { "item": "water_faucet", "amount": 1, "minamount": 0},
-                { "item": "rock", "amount": 18, "minamount": 6}
+                { "item": "steel_chunk", "amount": 18, "minamount": 6}
             ]
         }
     },{
