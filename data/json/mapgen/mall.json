@@ -3214,6 +3214,10 @@
 				"?fYY fW ????            "
 			],
 			"place_groups": [
+				{ "item": "bed", "chance": 80, "x": [15,16 ], "y": [4,5 ]},
+				{ "item": "bed", "chance": 80, "x": [18,19 ], "y": [4,5 ]},
+				{ "item": "bed", "chance": 80, "x": [21,21], "y": [4,5 ]},
+				{ "item": "bed", "chance": 80, "x": [17,18], "y": [8,9 ]},
 				{ "item": "beauty", "chance": 60, "x": [ 20,21 ], "y": [ 7,7 ]},
 				{ "item": "shirts", "chance": 60, "x": [ 23,23 ], "y": [ 13,14 ]},
 				{ "item": "pants", "chance": 60, "x": [ 23,23 ], "y": [ 16,17 ]},
