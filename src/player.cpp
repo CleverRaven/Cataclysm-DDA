@@ -10079,7 +10079,7 @@ void player::try_to_sleep()
                 }
             }
         }
-        if (bed_pieces == 9){
+        if (bed_pieces >= 9){
             add_msg(m_good, _("You are going to sleep like a king!"));
         }
         else if (bed_pieces > 1){
