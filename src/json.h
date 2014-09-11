@@ -3,10 +3,13 @@
 
 #include <iosfwd>
 #include <map>
+#include <unordered_map>
 #include <set>
 #include <unordered_set>
 #include <string>
 #include <vector>
+#include <list>
+#include <bitset>
 
 /* Cataclysm-DDA homegrown JSON tools
  * copyright CC-BY-SA-3.0 2013 CleverRaven
@@ -108,143 +111,235 @@ class JsonDeserializer;
  * If an if;else if;... is missing the "else", it /will/ cause bugs,
  * so preindexing as a JsonObject is safer, as well as tidier.
  */
-class JsonIn {
-private:
-    std::istream *stream;
-    bool strict; // throw errors on non-RFC-4627-compliant input
-    bool ate_separator;
+class JsonIn
+{
+    private:
+        std::istream *stream;
+        bool strict; // throw errors on non-RFC-4627-compliant input
+        bool ate_separator;
 
-    void skip_separator();
-    void skip_pair_separator();
-    void end_value();
+        void skip_separator();
+        void skip_pair_separator();
+        void end_value();
 
-public:
-    JsonIn(std::istream &stream, bool strict = true);
+    public:
+        JsonIn(std::istream &stream, bool strict = true);
 
-    bool get_ate_separator() { return ate_separator; }
-    void set_ate_separator(bool s) { ate_separator = s; }
+        bool get_ate_separator()
+        {
+            return ate_separator;
+        }
+        void set_ate_separator(bool s)
+        {
+            ate_separator = s;
+        }
 
-    int tell(); // get current stream position
-    void seek(int pos); // seek to specified stream position
-    char peek(); // what's the next char gonna be?
-    bool good(); // whether stream is ok
+        int tell(); // get current stream position
+        void seek(int pos); // seek to specified stream position
+        char peek(); // what's the next char gonna be?
+        bool good(); // whether stream is ok
 
-    // advance seek head to the next non-whitespace character
-    void eat_whitespace();
-    // or rewind to the previous one
-    void uneat_whitespace();
+        // advance seek head to the next non-whitespace character
+        void eat_whitespace();
+        // or rewind to the previous one
+        void uneat_whitespace();
 
-    // quick skipping for when values don't have to be parsed
-    void skip_member();
-    void skip_string();
-    void skip_value();
-    void skip_object();
-    void skip_array();
-    void skip_true();
-    void skip_false();
-    void skip_null();
-    void skip_number();
+        // quick skipping for when values don't have to be parsed
+        void skip_member();
+        void skip_string();
+        void skip_value();
+        void skip_object();
+        void skip_array();
+        void skip_true();
+        void skip_false();
+        void skip_null();
+        void skip_number();
 
-    // data parsing
-    std::string get_string(); // get the next value as a string
-    int get_int(); // get the next value as an int
-    long get_long(); // get the next value as an long
-    bool get_bool(); // get the next value as a bool
-    double get_float(); // get the next value as a double
-    std::string get_member_name(); // also strips the ':'
-    JsonObject get_object();
-    JsonArray get_array();
+        // data parsing
+        std::string get_string(); // get the next value as a string
+        int get_int(); // get the next value as an int
+        long get_long(); // get the next value as an long
+        bool get_bool(); // get the next value as a bool
+        double get_float(); // get the next value as a double
+        std::string get_member_name(); // also strips the ':'
+        JsonObject get_object();
+        JsonArray get_array();
 
-    // container control and iteration
-    void start_array(); // verify array start
-    bool end_array(); // returns false if it's not the end
-    void start_object();
-    bool end_object(); // returns false if it's not the end
+        // container control and iteration
+        void start_array(); // verify array start
+        bool end_array(); // returns false if it's not the end
+        void start_object();
+        bool end_object(); // returns false if it's not the end
 
-    // type testing
-    bool test_null();
-    bool test_bool();
-    bool test_number();
-    bool test_int() { return test_number(); };
-    bool test_float() { return test_number(); };
-    bool test_string();
-    bool test_array();
-    bool test_object();
+        // type testing
+        bool test_null();
+        bool test_bool();
+        bool test_number();
+        bool test_int()
+        {
+            return test_number();
+        };
+        bool test_float()
+        {
+            return test_number();
+        };
+        bool test_string();
+        bool test_bitset();
+        bool test_array();
+        bool test_object();
 
-    // non-fatal reading into values by reference
-    // returns true if the data was read successfully, false otherwise
-    bool read(bool &b);
-    bool read(int &i);
-    bool read(unsigned int &u);
-    bool read(long &l);
-    bool read(unsigned long &ul);
-    bool read(float &f);
-    bool read(double &d);
-    bool read(std::string &s);
-    bool read(JsonDeserializer &j);
-    // array ~> vector
-    template <typename T> bool read(std::vector<T> &v) {
-        if (!test_array()) { return false; }
-        try {
-            start_array();
-            v.clear();
-            while (!end_array()) {
-                T element;
-                if (read(element)) { v.push_back(element); }
-                else { skip_value(); }
+        // non-fatal reading into values by reference
+        // returns true if the data was read successfully, false otherwise
+        bool read(bool &b);
+        bool read(int &i);
+        bool read(unsigned int &u);
+        bool read(long &l);
+        bool read(unsigned long &ul);
+        bool read(float &f);
+        bool read(double &d);
+        bool read(std::string &s);
+        bool read(std::bitset<13> &b);
+        bool read(JsonDeserializer &j);
+        // array ~> vector
+        template <typename T> bool read(std::vector<T> &v)
+        {
+            if (!test_array()) {
+                return false;
             }
-            return true;
-        } catch (std::string e) { return false; }
-    }
-    // array ~> set
-    template <typename T> bool read(std::set<T> &v) {
-        if (!test_array()) { return false; }
-        try {
-            start_array();
-            v.clear();
-            while (!end_array()) {
-                T element;
-                if (read(element)) { v.insert(element); }
-                else { skip_value(); }
+            try {
+                start_array();
+                v.clear();
+                while (!end_array()) {
+                    T element;
+                    if (read(element)) {
+                        v.push_back(element);
+                    } else {
+                        skip_value();
+                    }
+                }
+                return true;
+            } catch (std::string e) {
+                return false;
             }
-            return true;
-        } catch (std::string e) { return false; }
-    }
-    // array ~> unordered_set
-    template <typename T> bool read(std::unordered_set<T> &v) {
-        if (!test_array()) { return false; }
-        try {
-            start_array();
-            v.clear();
-            while (!end_array()) {
-                T element;
-                if (read(element)) { v.insert(element); }
-                else { skip_value(); }
+        }
+        // array ~> list
+        template <typename T> bool read(std::list<T> &v)
+        {
+            if (!test_array()) {
+                return false;
             }
-            return true;
-        } catch (std::string e) { return false; }
-    }
-    // object ~> map
-    template <typename T> bool read(std::map<std::string,T> &m) {
-        if (!test_object()) { return false; }
-        try {
-            start_object();
-            m.clear();
-            while (!end_object()) {
-                std::string name = get_member_name();
-                T element;
-                if (read(element)) { m[name] = element; }
-                else { skip_value(); }
+            try {
+                start_array();
+                v.clear();
+                while (!end_array()) {
+                    T element;
+                    if (read(element)) {
+                        v.push_back(element);
+                    } else {
+                        skip_value();
+                    }
+                }
+                return true;
+            } catch (std::string e) {
+                return false;
             }
-            return true;
-        } catch (std::string e) { return false; }
-    }
+        }
+        // array ~> set
+        template <typename T> bool read(std::set<T> &v)
+        {
+            if (!test_array()) {
+                return false;
+            }
+            try {
+                start_array();
+                v.clear();
+                while (!end_array()) {
+                    T element;
+                    if (read(element)) {
+                        v.insert(element);
+                    } else {
+                        skip_value();
+                    }
+                }
+                return true;
+            } catch (std::string e) {
+                return false;
+            }
+        }
+        // array ~> unordered_set
+        template <typename T> bool read(std::unordered_set<T> &v)
+        {
+            if (!test_array()) {
+                return false;
+            }
+            try {
+                start_array();
+                v.clear();
+                while (!end_array()) {
+                    T element;
+                    if (read(element)) {
+                        v.insert(element);
+                    } else {
+                        skip_value();
+                    }
+                }
+                return true;
+            } catch (std::string e) {
+                return false;
+            }
+        }
+        // object ~> map
+        template <typename T> bool read(std::map<std::string, T> &m)
+        {
+            if (!test_object()) {
+                return false;
+            }
+            try {
+                start_object();
+                m.clear();
+                while (!end_object()) {
+                    std::string name = get_member_name();
+                    T element;
+                    if (read(element)) {
+                        m[name] = element;
+                    } else {
+                        skip_value();
+                    }
+                }
+                return true;
+            } catch (std::string e) {
+                return false;
+            }
+        }
+        // object ~> unordered_map
+        template <typename T> bool read(std::unordered_map<std::string, T> &m)
+        {
+            if (!test_object()) {
+                return false;
+            }
+            try {
+                start_object();
+                m.clear();
+                while (!end_object()) {
+                    std::string name = get_member_name();
+                    T element;
+                    if (read(element)) {
+                        m[name] = element;
+                    } else {
+                        skip_value();
+                    }
+                }
+                return true;
+            } catch (std::string e) {
+                return false;
+            }
+        }
 
-    // error messages
-    std::string line_number(int offset_modifier=0); // for occasional use only
-    void error(std::string message, int offset=0); // ditto
-    void rewind(int max_lines=-1, int max_chars=-1);
-    std::string substr(size_t pos, size_t len=std::string::npos);
+        // error messages
+        std::string line_number(int offset_modifier = 0); // for occasional use only
+        void error(std::string message, int offset = 0); // ditto
+        void rewind(int max_lines = -1, int max_chars = -1);
+        std::string substr(size_t pos, size_t len = std::string::npos);
 };
 
 
@@ -277,82 +372,113 @@ public:
  * as well as anything inheriting the JsonSerializer interface,
  * can be serialized automatically by write() and member().
  */
-class JsonOut {
-private:
-    std::ostream *stream;
-    bool pretty_print;
-    bool need_separator;
-    int indent_level;
+class JsonOut
+{
+    private:
+        std::ostream *stream;
+        bool pretty_print;
+        bool need_separator;
+        int indent_level;
 
-public:
-    JsonOut(std::ostream &stream, bool pretty_print=false);
+    public:
+        JsonOut(std::ostream &stream, bool pretty_print = false);
 
-    // punctuation
-    void write_indent();
-    void write_separator();
-    void write_member_separator();
-    void start_object();
-    void end_object();
-    void start_array();
-    void end_array();
+        // punctuation
+        void write_indent();
+        void write_separator();
+        void write_member_separator();
+        void start_object();
+        void end_object();
+        void start_array();
+        void end_array();
 
-    // write data to the output stream as JSON
-    void write_null();
-    void write(const bool &b);
-    void write(const int &i);
-    void write(const unsigned &u);
-    void write(const long &l);
-    void write(const unsigned long &ul);
-    void write(const double &f);
-    void write(const std::string &s);
-    void write(const char *cstr) { write(std::string(cstr)); }
-    void write(const JsonSerializer &thing);
-    // vector ~> array
-    template <typename T> void write(const std::vector<T> &v) {
-        start_array();
-        for (size_t i = 0; i < v.size(); ++i) {
-            write(v[i]);
+        // write data to the output stream as JSON
+        void write_null();
+        void write(const bool &b);
+        void write(const int &i);
+        void write(const unsigned &u);
+        void write(const long &l);
+        void write(const unsigned long &ul);
+        void write(const double &f);
+        void write(const std::string &s);
+        void write(const std::bitset<13> &b);
+        void write(const char *cstr)
+        {
+            write(std::string(cstr));
         }
-        end_array();
-    }
-    // set ~> array
-    template <typename T> void write(const std::set<T> &v) {
-        start_array();
-        typename std::set<T>::const_iterator it;
-        for (it = v.begin(); it != v.end(); ++it) {
-            write(*it);
+        void write(const JsonSerializer &thing);
+        // vector ~> array
+        template <typename T> void write(const std::vector<T> &v)
+        {
+            start_array();
+            for (typename std::vector<T>::const_iterator it = v.begin();
+                 it != v.end(); ++it) {
+                write(*it);
+            }
+            end_array();
         }
-        end_array();
-    }
-    // unordered_set ~> array
-    template <typename T> void write(const std::unordered_set<T> &v) {
-        start_array();
-        typename std::unordered_set<T>::const_iterator it;
-        for (it = v.begin(); it != v.end(); ++it) {
-            write(*it);
+        template <typename T> void write(const std::list<T> &v)
+        {
+            start_array();
+            for (typename std::list<T>::const_iterator it = v.begin();
+                 it != v.end(); ++it) {
+                write(*it);
+            }
+            end_array();
         }
-        end_array();
-    }
-    // map ~> object
-    template <typename T> void write(const std::map<std::string,T> &m) {
-        start_object();
-        typename std::map<std::string,T>::const_iterator it;
-        for (it = m.begin(); it != m.end(); ++it) {
-            write(it->first);
-            write_member_separator();
-            write(it->second);
+        // set ~> array
+        template <typename T> void write(const std::set<T> &v)
+        {
+            start_array();
+            typename std::set<T>::const_iterator it;
+            for (it = v.begin(); it != v.end(); ++it) {
+                write(*it);
+            }
+            end_array();
         }
-        end_object();
-    }
+        // unordered_set ~> array
+        template <typename T> void write(const std::unordered_set<T> &v)
+        {
+            start_array();
+            typename std::unordered_set<T>::const_iterator it;
+            for (it = v.begin(); it != v.end(); ++it) {
+                write(*it);
+            }
+            end_array();
+        }
+        // map ~> object
+        template <typename T> void write(const std::map<std::string, T> &m)
+        {
+            start_object();
+            typename std::map<std::string, T>::const_iterator it;
+            for (it = m.begin(); it != m.end(); ++it) {
+                write(it->first);
+                write_member_separator();
+                write(it->second);
+            }
+            end_object();
+        }
+        // unordered_map ~> object
+        template <typename T> void write(const std::unordered_map<std::string, T> &m)
+        {
+            start_object();
+            typename std::unordered_map<std::string, T>::const_iterator it;
+            for (it = m.begin(); it != m.end(); ++it) {
+                write(it->first);
+                write_member_separator();
+                write(it->second);
+            }
+            end_object();
+        }
 
-    // convenience methods for writing named object members
-    void member(const std::string &name); // TODO: enforce value after
-    void null_member(const std::string &name);
-    template <typename T> void member(const std::string &name, const T &value)
-    {
-        member(name);
-        write(value);
-    }
+        // convenience methods for writing named object members
+        void member(const std::string &name); // TODO: enforce value after
+        void null_member(const std::string &name);
+        template <typename T> void member(const std::string &name, const T &value)
+        {
+            member(name);
+            write(value);
+        }
 };
 
 
@@ -415,81 +541,94 @@ public:
  *         DebugLog() << "No messages.";
  *     }
  */
-class JsonObject {
-private:
-    std::map<std::string, int> positions;
-    int start;
-    int end;
-    bool final_separator;
-    JsonIn *jsin;
-    int verify_position(const std::string &name,
-                        const bool throw_exception=true);
+class JsonObject
+{
+    private:
+        std::map<std::string, int> positions;
+        int start;
+        int end;
+        bool final_separator;
+        JsonIn *jsin;
+        int verify_position(const std::string &name,
+                            const bool throw_exception = true);
 
-public:
-    JsonObject(JsonIn &jsin);
-    JsonObject(const JsonObject &jsobj);
-    JsonObject() : positions(), start(0), end(0), jsin(NULL) {}
-    ~JsonObject() { finish(); }
+    public:
+        JsonObject(JsonIn &jsin);
+        JsonObject(const JsonObject &jsobj);
+        JsonObject() : positions(), start(0), end(0), jsin(NULL) {}
+        ~JsonObject()
+        {
+            finish();
+        }
 
-    void finish(); // moves the stream to the end of the object
-    size_t size();
-    bool empty();
+        void finish(); // moves the stream to the end of the object
+        size_t size();
+        bool empty();
 
-    bool has_member(const std::string &name); // true iff named member exists
-    std::set<std::string> get_member_names();
-    std::string str(); // copy object json as string
-    void throw_error(std::string err);
-    void throw_error(std::string err, const std::string & name);
-    // seek to a value and return a pointer to the JsonIn (member must exist)
-    JsonIn* get_raw(const std::string &name);
+        bool has_member(const std::string &name); // true iff named member exists
+        std::set<std::string> get_member_names();
+        std::string str(); // copy object json as string
+        void throw_error(std::string err);
+        void throw_error(std::string err, const std::string &name);
+        // seek to a value and return a pointer to the JsonIn (member must exist)
+        JsonIn *get_raw(const std::string &name);
 
-    // values by name
-    // variants with no fallback throw an error if the name is not found.
-    // variants with a fallback return the fallback value in stead.
-    bool get_bool(const std::string &name);
-    bool get_bool(const std::string &name, const bool fallback);
-    int get_int(const std::string &name);
-    int get_int(const std::string &name, const int fallback);
-    long get_long(const std::string &name);
-    long get_long(const std::string &name, const long fallback);
-    double get_float(const std::string &name);
-    double get_float(const std::string &name, const double fallback);
-    std::string get_string(const std::string &name);
-    std::string get_string(const std::string &name, const std::string &fallback);
+        // values by name
+        // variants with no fallback throw an error if the name is not found.
+        // variants with a fallback return the fallback value in stead.
+        bool get_bool(const std::string &name);
+        bool get_bool(const std::string &name, const bool fallback);
+        int get_int(const std::string &name);
+        int get_int(const std::string &name, const int fallback);
+        long get_long(const std::string &name);
+        long get_long(const std::string &name, const long fallback);
+        double get_float(const std::string &name);
+        double get_float(const std::string &name, const double fallback);
+        std::string get_string(const std::string &name);
+        std::string get_string(const std::string &name, const std::string &fallback);
 
-    // containers by name
-    // get_array returns empty array if the member is not found
-    JsonArray get_array(const std::string &name);
-    std::vector<int> get_int_array(const std::string &name);
-    std::vector<std::string> get_string_array(const std::string &name);
-    // get_object returns empty object if not found
-    JsonObject get_object(const std::string &name);
-    // get_tags returns empty set if none found
-    std::set<std::string> get_tags(const std::string &name);
-    // TODO: some sort of get_map(), maybe
+        // containers by name
+        // get_array returns empty array if the member is not found
+        JsonArray get_array(const std::string &name);
+        std::vector<int> get_int_array(const std::string &name);
+        std::vector<std::string> get_string_array(const std::string &name);
+        // get_object returns empty object if not found
+        JsonObject get_object(const std::string &name);
+        // get_tags returns empty set if none found
+        std::set<std::string> get_tags(const std::string &name);
+        // TODO: some sort of get_map(), maybe
 
-    // type checking
-    bool has_null(const std::string &name);
-    bool has_bool(const std::string &name);
-    bool has_number(const std::string &name);
-    bool has_int(const std::string &name) { return has_number(name); };
-    bool has_float(const std::string &name) { return has_number(name); };
-    bool has_string(const std::string &name);
-    bool has_array(const std::string &name);
-    bool has_object(const std::string &name);
+        // type checking
+        bool has_null(const std::string &name);
+        bool has_bool(const std::string &name);
+        bool has_number(const std::string &name);
+        bool has_int(const std::string &name)
+        {
+            return has_number(name);
+        };
+        bool has_float(const std::string &name)
+        {
+            return has_number(name);
+        };
+        bool has_string(const std::string &name);
+        bool has_array(const std::string &name);
+        bool has_object(const std::string &name);
 
-    // non-fatally read values by reference
-    // return true if the value was set, false otherwise.
-    // return false if the member is not found.
-    template <typename T> bool read(const std::string &name, T &t) {
-        int pos = positions[name];
-        if (pos <= start) { return false; }
-        jsin->seek(pos);
-        return jsin->read(t);
-    }
+        // non-fatally read values by reference
+        // return true if the value was set, false otherwise.
+        // return false if the member is not found.
+        template <typename T> bool read(const std::string &name, T &t)
+        {
+            int pos = positions[name];
+            if (pos <= start) {
+                return false;
+            }
+            jsin->seek(pos);
+            return jsin->read(t);
+        }
 
-    // useful debug info
-    std::string line_number(); // for occasional use only
+        // useful debug info
+        std::string line_number(); // for occasional use only
 };
 
 
@@ -563,82 +702,101 @@ public:
  *         process(mydata);
  *     }
  */
-class JsonArray {
-private:
-    std::vector<int> positions;
-    int start;
-    int index;
-    int end;
-    bool final_separator;
-    JsonIn *jsin;
-    void verify_index(int i);
+class JsonArray
+{
+    private:
+        std::vector<int> positions;
+        int start;
+        int index;
+        int end;
+        bool final_separator;
+        JsonIn *jsin;
+        void verify_index(int i);
 
-public:
-    JsonArray(JsonIn &jsin);
-    JsonArray(const JsonArray &jsarr);
-    JsonArray() : positions(), start(0), index(0), end(0), jsin(NULL) {};
-    ~JsonArray() { finish(); }
+    public:
+        JsonArray(JsonIn &jsin);
+        JsonArray(const JsonArray &jsarr);
+        JsonArray() : positions(), start(0), index(0), end(0), jsin(NULL) {};
+        ~JsonArray()
+        {
+            finish();
+        }
 
-    void finish(); // move the stream position to the end of the array
+        void finish(); // move the stream position to the end of the array
 
-    bool has_more(); // true iff more elements may be retrieved with next_*
-    int size();
-    bool empty();
-    std::string str(); // copy array json as string
-    void throw_error(std::string err);
-    void throw_error(std::string err, int idx );
+        bool has_more(); // true iff more elements may be retrieved with next_*
+        int size();
+        bool empty();
+        std::string str(); // copy array json as string
+        void throw_error(std::string err);
+        void throw_error(std::string err, int idx );
 
-    // iterative access
-    bool next_bool();
-    int next_int();
-    long next_long();
-    double next_float();
-    std::string next_string();
-    JsonArray next_array();
-    JsonObject next_object();
-    void skip_value(); // ignore whatever is next
+        // iterative access
+        bool next_bool();
+        int next_int();
+        long next_long();
+        double next_float();
+        std::string next_string();
+        JsonArray next_array();
+        JsonObject next_object();
+        void skip_value(); // ignore whatever is next
 
-    // static access
-    bool get_bool(int index);
-    int get_int(int index);
-    long get_long(int index);
-    double get_float(int index);
-    std::string get_string(int index);
-    JsonArray get_array(int index);
-    JsonObject get_object(int index);
+        // static access
+        bool get_bool(int index);
+        int get_int(int index);
+        long get_long(int index);
+        double get_float(int index);
+        std::string get_string(int index);
+        JsonArray get_array(int index);
+        JsonObject get_object(int index);
 
-    // iterative type checking
-    bool test_null();
-    bool test_bool();
-    bool test_number();
-    bool test_int() { return test_number(); };
-    bool test_float() { return test_number(); };
-    bool test_string();
-    bool test_array();
-    bool test_object();
+        // iterative type checking
+        bool test_null();
+        bool test_bool();
+        bool test_number();
+        bool test_int()
+        {
+            return test_number();
+        };
+        bool test_float()
+        {
+            return test_number();
+        };
+        bool test_string();
+        bool test_bitset();
+        bool test_array();
+        bool test_object();
 
-    // random-access type checking
-    bool has_null(int index);
-    bool has_bool(int index);
-    bool has_number(int index);
-    bool has_int(int index) { return has_number(index); };
-    bool has_float(int index) { return has_number(index); };
-    bool has_string(int index);
-    bool has_array(int index);
-    bool has_object(int index);
+        // random-access type checking
+        bool has_null(int index);
+        bool has_bool(int index);
+        bool has_number(int index);
+        bool has_int(int index)
+        {
+            return has_number(index);
+        };
+        bool has_float(int index)
+        {
+            return has_number(index);
+        };
+        bool has_string(int index);
+        bool has_array(int index);
+        bool has_object(int index);
 
-    // iteratively read values by reference
-    template <typename T> bool read_next(T &t) {
-        verify_index(index);
-        jsin->seek(positions[index++]);
-        return jsin->read(t);
-    }
-    // random-access read values by reference
-    template <typename T> bool read(int i, T &t) {
-        verify_index(i);
-        jsin->seek(positions[i]);
-        return jsin->read(t);
-    }
+        // iteratively read values by reference
+        template <typename T> bool read_next(T &t)
+        {
+            verify_index(index);
+            jsin->seek(positions[index++]);
+            return jsin->read(t);
+        }
+        // random-access read values by reference
+        template <typename T> bool read(int i, T &t)
+        {
+            verify_index(i);
+            jsin->seek(positions[i]);
+            return jsin->read(t);
+        }
 };
 
 
@@ -667,12 +825,13 @@ public:
  *         }
  *     }
  */
-class JsonSerializer {
-public:
-    virtual ~JsonSerializer() {}
-    virtual void serialize(JsonOut &jsout) const = 0;
-    std::string serialize() const;
-    void serialize(std::ostream &o) const;
+class JsonSerializer
+{
+    public:
+        virtual ~JsonSerializer() {}
+        virtual void serialize(JsonOut &jsout) const = 0;
+        std::string serialize() const;
+        void serialize(std::ostream &o) const;
 };
 
 /* JsonDeserializer
@@ -700,12 +859,13 @@ public:
  *         }
  *     }
  */
-class JsonDeserializer {
-public:
-    virtual ~JsonDeserializer() {}
-    virtual void deserialize(JsonIn &jsin) = 0;
-    void deserialize(const std::string &json_string);
-    void deserialize(std::istream &i);
+class JsonDeserializer
+{
+    public:
+        virtual ~JsonDeserializer() {}
+        virtual void deserialize(JsonIn &jsin) = 0;
+        void deserialize(const std::string &json_string);
+        void deserialize(std::istream &i);
 };
 
 #endif // _JSON_H_

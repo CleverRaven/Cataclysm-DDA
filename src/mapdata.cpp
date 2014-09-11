@@ -3,6 +3,7 @@
 #include "init.h"
 #include "item_factory.h"
 #include "game_constants.h"
+#include "debug.h"
 #include <ostream>
 
 std::vector<ter_t> terlist;
@@ -63,6 +64,7 @@ std::ostream & operator<<(std::ostream & out, const submap & sm)
 void init_ter_bitflags_map() {
     ter_bitflags_map["DESTROY_ITEM"]            = TFLAG_DESTROY_ITEM;   // add/spawn_item*()
     ter_bitflags_map["ROUGH"]                   = TFLAG_ROUGH;          // monmove
+    ter_bitflags_map["UNSTABLE"]                = TFLAG_UNSTABLE;       // monmove
     ter_bitflags_map["LIQUID"]                  = TFLAG_LIQUID;         // *move(), add/spawn_item*()
     ter_bitflags_map["FIRE_CONTAINER"]          = TFLAG_FIRE_CONTAINER; // fire
     ter_bitflags_map["DIGGABLE"]                = TFLAG_DIGGABLE;       // monmove
@@ -70,9 +72,7 @@ void init_ter_bitflags_map() {
     ter_bitflags_map["FLAMMABLE_HARD"]          = TFLAG_FLAMMABLE_HARD; // fire
     ter_bitflags_map["COLLAPSES"]               = TFLAG_COLLAPSES;      // building "remodeling"
     ter_bitflags_map["FLAMMABLE"]               = TFLAG_FLAMMABLE;      // fire bad! fire SLOW!
-    ter_bitflags_map["BASHABLE"]                = TFLAG_BASHABLE;       // half the game uses this
     ter_bitflags_map["REDUCE_SCENT"]            = TFLAG_REDUCE_SCENT;   // ...and the other half is update_scent
-    ter_bitflags_map["SEALED"]                  = TFLAG_SEALED;         // item list
     ter_bitflags_map["INDOORS"]                 = TFLAG_INDOORS;        // vehicle gain_moves, weather
     ter_bitflags_map["SHARP"]                   = TFLAG_SHARP;          // monmove
     ter_bitflags_map["SUPPORTS_ROOF"]           = TFLAG_SUPPORTS_ROOF;  // and by building "remodeling" I mean hulkSMASH
@@ -81,79 +81,52 @@ void init_ter_bitflags_map() {
     ter_bitflags_map["NOITEM"]                  = TFLAG_NOITEM;         // add/spawn_item*()
     ter_bitflags_map["FLAMMABLE_ASH"]           = TFLAG_FLAMMABLE_ASH;  // oh hey fire. again.
     ter_bitflags_map["PLANT"]                   = TFLAG_PLANT;          // full map iteration
-    ter_bitflags_map["EXPLODES"]                = TFLAG_EXPLODES;       // guess who? smokey the bear -warned- you
     ter_bitflags_map["WALL"]                    = TFLAG_WALL;           // smells
     ter_bitflags_map["DEEP_WATER"]              = TFLAG_DEEP_WATER;     // Deep enough to submerge things
-}
-
-
-bool jsonint(JsonObject &jsobj, std::string key, int & var) {
-    if ( jsobj.has_int(key) ) {
-        var = jsobj.get_int(key);
-        return true;
-    }
-    return false;
-}
-
-bool jsonstring(JsonObject &jsobj, std::string key, std::string & var) {
-    if ( jsobj.has_string(key) ) {
-        var = jsobj.get_string(key);
-        return true;
-    }
-    return false;
 }
 
 void load_map_bash_item_drop_list(JsonArray ja, std::vector<map_bash_item_drop> &items) {
     while ( ja.has_more() ) {
         JsonObject jio = ja.next_object();
-        if ( jio.has_int("minamount") ) {
-            map_bash_item_drop drop( jio.get_string("item"), jio.get_int("amount"), jio.get_int("minamount") );
-            jsonint(jio, "chance", drop.chance);
-            items.push_back(drop);
-        } else {
-            map_bash_item_drop drop( jio.get_string("item"), jio.get_int("amount") );
-            jsonint(jio, "chance", drop.chance);
-            items.push_back(drop);
-        }
+        map_bash_item_drop drop( jio.get_string("item"), jio.get_int("amount"), jio.get_int("minamount", -1) );
+        drop.chance = jio.get_int("chance", -1);
+        items.push_back(drop);
     }
 }
 
 bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture) {
     if( jsobj.has_object(member) ) {
         JsonObject j = jsobj.get_object(member);
-
-        if ( jsonint(j, "num_tests", num_tests ) == false ) {
-           if ( jsonint(j, "str_min", str_min ) && jsonint(j, "str_max", str_max ) ) {
-               num_tests = 1;
-           }
-        } else if ( num_tests > 0 ) {
-           str_min = j.get_int("str_min");
-           str_max = j.get_int("str_max");
-        }
-
-        jsonint(j, "str_min_blocked", str_min_blocked );
-        jsonint(j, "str_max_blocked", str_max_blocked );
-        jsonint(j, "str_min_roll", str_min_roll );
-        jsonint(j, "explosive", explosive );
-        jsonint(j, "chance", chance );
-        jsonstring(j, "sound", sound );
-        jsonstring(j, "sound_fail", sound_fail );
-        jsonstring(j, "furn_set", furn_set );
-
-        if ( jsonstring(j, "ter_set", ter_set ) == false && isfurniture == false ) {
-           ter_set = "t_rubble";
-           debugmsg("terrain[\"%s\"].bash.ter_set is not set!",jsobj.get_string("id").c_str() );
+        str_min = j.get_int("str_min", 0);
+        str_max = j.get_int("str_max", 0);
+        
+        str_min_blocked = j.get_int("str_min_blocked", -1);
+        str_max_blocked = j.get_int("str_max_blocked", -1);
+        
+        str_min_roll = j.get_int("str_min_roll", str_min);
+        str_max_roll = j.get_int("str_min_roll", str_max);
+        
+        explosive = j.get_int("explosive", -1);
+        
+        destroy_only = j.get_bool("destroy_only", false);
+        
+        sound = j.get_string("sound", _("smash!"));
+        sound_fail = j.get_string("sound_fail", _("thump!"));
+        
+        if (isfurniture) {
+            furn_set = j.get_string("furn_set", "f_null");
+        } else {
+            ter_set = j.get_string("ter_set");
         }
 
         if ( j.has_array("items") ) {
             load_map_bash_item_drop_list(j.get_array("items"), items);
         }
 
-//debugmsg("%d/%d %s %s/%s %d",str_min,str_max, ter_set.c_str(), sound.c_str(), sound_fail.c_str(), items.size() );
-    return true;
-  } else {
-    return false;
-  }
+        return true;
+    } else {
+        return false;
+    }
 }
 
 bool map_deconstruct_info::load(JsonObject &jsobj, std::string member, bool isfurniture)
@@ -162,7 +135,7 @@ bool map_deconstruct_info::load(JsonObject &jsobj, std::string member, bool isfu
         return false;
     }
     JsonObject j = jsobj.get_object(member);
-    jsonstring(j, "furn_set", furn_set );
+    furn_set = j.get_string("furn_set", "");
     if (!isfurniture) {
         ter_set = j.get_string("ter_set");
     }
@@ -198,11 +171,15 @@ ter_t null_terrain_t() {
   new_terrain.sym = ' ';
   new_terrain.color = c_white;
   new_terrain.movecost = 2;
+  new_terrain.trap = tr_null;
+  new_terrain.trap_id_str = "";
   new_terrain.transparent = true;
   new_terrain.bitflags = 0;
   new_terrain.set_flag("TRANSPARENT");
   new_terrain.set_flag("DIGGABLE");
   new_terrain.examine = iexamine_function_from_string("none");
+  new_terrain.harvest_season = 0;
+  new_terrain.harvestable = "";
   new_terrain.loadid = 0;
   new_terrain.open = "";
   new_terrain.close = "";
@@ -324,7 +301,14 @@ void load_terrain(JsonObject &jsobj)
     //If not specified, default to no action
     new_terrain.examine = iexamine_function_from_string("none");
   }
-
+  //if the terrain has something harvestable it will have a product & season to be harvested in the json
+  if (jsobj.has_member("harvestable")) {
+    new_terrain.harvestable = jsobj.get_string("harvestable");
+    if (jsobj.get_string("harvest_season") == "SPRING") {new_terrain.harvest_season = 0;} //convert the season to int for calendar compare
+    if (jsobj.get_string("harvest_season") == "SUMMER") {new_terrain.harvest_season = 1;}
+    if (jsobj.get_string("harvest_season") == "AUTUMN") {new_terrain.harvest_season = 2;}
+    if (jsobj.get_string("harvest_season") == "WINTER") {new_terrain.harvest_season = 3;}
+  }
   new_terrain.open = "";
   if ( jsobj.has_member("open") ) {
       new_terrain.open = jsobj.get_string("open");
@@ -354,7 +338,7 @@ ter_id t_null,
     // Ground
     t_dirt, t_sand, t_dirtmound, t_pit_shallow, t_pit,
     t_pit_corpsed, t_pit_covered, t_pit_spiked, t_pit_spiked_covered,
-    t_rock_floor, t_rubble, t_ash, t_metal, t_wreckage,
+    t_rock_floor,
     t_grass,
     t_metal_floor,
     t_pavement, t_pavement_y, t_sidewalk, t_concrete,
@@ -367,7 +351,7 @@ ter_id t_null,
     t_bridge,
     t_covered_well,
     // Lighting related
-    t_skylight, t_emergency_light_flicker, t_emergency_light, t_utility_light,
+    t_utility_light,
     // Walls
     t_wall_log_half, t_wall_log, t_wall_log_chipped, t_wall_log_broken, t_palisade, t_palisade_gate, t_palisade_gate_o,
     t_wall_half, t_wall_wood, t_wall_wood_chipped, t_wall_wood_broken,
@@ -380,7 +364,8 @@ ter_id t_null,
     t_wall_h_r,t_wall_h_w,t_wall_h_b,t_wall_h_g,t_wall_h_p,t_wall_h_y,
     t_wall_v_r,t_wall_v_w,t_wall_v_b,t_wall_v_g,t_wall_v_p,t_wall_v_y,
     t_door_c, t_door_b, t_door_o, t_rdoor_c, t_rdoor_b, t_rdoor_o,t_door_locked_interior, t_door_locked, t_door_locked_alarm, t_door_frame,
-    t_chaingate_l, t_fencegate_c, t_fencegate_o, t_chaingate_c, t_chaingate_o, t_door_boarded,
+    t_chaingate_l, t_fencegate_c, t_fencegate_o, t_chaingate_c, t_chaingate_o,
+    t_door_boarded, t_door_boarded_damaged, t_rdoor_boarded, t_rdoor_boarded_damaged,
     t_door_metal_c, t_door_metal_o, t_door_metal_locked, t_mdoor_frame,
     t_door_bar_c, t_door_bar_o, t_door_bar_locked,
     t_door_glass_c, t_door_glass_o,
@@ -393,7 +378,7 @@ ter_id t_null,
     t_paper,
     t_rock_wall, t_rock_wall_half,
     // Tree
-    t_tree, t_tree_young, t_tree_apple, t_underbrush, t_shrub, t_shrub_blueberry, t_shrub_strawberry, t_trunk,
+    t_tree, t_tree_young, t_tree_apple, t_tree_pear, t_tree_cherry, t_tree_peach, t_tree_apricot, t_tree_plum, t_tree_pine, t_tree_deadpine, t_underbrush, t_shrub, t_shrub_blueberry, t_shrub_strawberry, t_trunk,
     t_root_wall,
     t_wax, t_floor_wax,
     t_fence_v, t_fence_h, t_chainfence_v, t_chainfence_h, t_chainfence_posts,
@@ -418,7 +403,7 @@ ter_id t_null,
     t_column,
     t_vat,
     t_cvdbody, t_cvdmachine,
-    t_water_pump,
+    t_water_pump, t_improvised_shelter,
     // Staircases etc.
     t_stairs_down, t_stairs_up, t_manhole, t_ladder_up, t_ladder_down, t_slope_down,
      t_slope_up, t_rope_up,
@@ -429,7 +414,7 @@ ter_id t_null,
      t_pedestal_temple,
     // Temple tiles
     t_rock_red, t_rock_green, t_rock_blue, t_floor_red, t_floor_green, t_floor_blue,
-     t_switch_rg, t_switch_gb, t_switch_rb, t_switch_even,
+    t_switch_rg, t_switch_gb, t_switch_rb, t_switch_even, t_open_air, t_plut_generator,
     num_terrain_types;
 
 void set_ter_ids() {
@@ -445,10 +430,6 @@ void set_ter_ids() {
     t_pit_spiked=terfind("t_pit_spiked");
     t_pit_spiked_covered=terfind("t_pit_spiked_covered");
     t_rock_floor=terfind("t_rock_floor");
-    t_rubble=terfind("t_rubble");
-    t_ash=terfind("t_ash");
-    t_metal=terfind("t_metal");
-    t_wreckage=terfind("t_wreckage");
     t_grass=terfind("t_grass");
     t_metal_floor=terfind("t_metal_floor");
     t_pavement=terfind("t_pavement");
@@ -467,9 +448,6 @@ void set_ter_ids() {
     t_grate=terfind("t_grate");
     t_slime=terfind("t_slime");
     t_bridge=terfind("t_bridge");
-    t_skylight=terfind("t_skylight");
-    t_emergency_light_flicker=terfind("t_emergency_light_flicker");
-    t_emergency_light=terfind("t_emergency_light");
     t_utility_light=terfind("t_utility_light");
     t_wall_log_half=terfind("t_wall_log_half");
     t_wall_log=terfind("t_wall_log");
@@ -522,6 +500,9 @@ void set_ter_ids() {
     t_chaingate_c=terfind("t_chaingate_c");
     t_chaingate_o=terfind("t_chaingate_o");
     t_door_boarded=terfind("t_door_boarded");
+    t_door_boarded_damaged=terfind("t_door_boarded_damaged");
+    t_rdoor_boarded=terfind("t_rdoor_boarded");
+    t_rdoor_boarded_damaged=terfind("t_rdoor_boarded_damaged");
     t_door_metal_c=terfind("t_door_metal_c");
     t_door_metal_o=terfind("t_door_metal_o");
     t_door_metal_locked=terfind("t_door_metal_locked");
@@ -559,6 +540,13 @@ void set_ter_ids() {
     t_tree=terfind("t_tree");
     t_tree_young=terfind("t_tree_young");
     t_tree_apple=terfind("t_tree_apple");
+    t_tree_pear=terfind("t_tree_pear");
+    t_tree_cherry=terfind("t_tree_cherry");
+    t_tree_peach=terfind("t_tree_peach");
+    t_tree_apricot=terfind("t_tree_apricot");
+    t_tree_plum=terfind("t_tree_plum");
+    t_tree_pine=terfind("t_tree_pine");
+    t_tree_deadpine=terfind("t_tree_deadpine");
     t_underbrush=terfind("t_underbrush");
     t_shrub=terfind("t_shrub");
     t_shrub_blueberry=terfind("t_shrub_blueberry");
@@ -652,6 +640,8 @@ void set_ter_ids() {
     t_switch_even=terfind("t_switch_even");
     t_covered_well=terfind("t_covered_well");
     t_water_pump=terfind("t_water_pump");
+    t_open_air=terfind("t_open_air");
+    t_plut_generator = terfind("t_plut_generator");
     num_terrain_types = terlist.size();
 };
 
@@ -665,6 +655,7 @@ furn_id furnfind(const std::string & id) {
 
 furn_id f_null,
     f_hay,
+    f_rubble, f_rubble_rock, f_wreckage, f_ash,
     f_barricade_road,
     f_bulletin,
     f_indoor_plant,f_indoor_plant_y,
@@ -678,20 +669,25 @@ furn_id f_null,
     f_washer, f_dryer,
     f_vending_c, f_vending_o, f_dumpster, f_dive_block,
     f_crate_c, f_crate_o,
-    f_canvas_wall, f_canvas_door, f_canvas_door_o, f_groundsheet, f_fema_groundsheet,
-    f_skin_wall, f_skin_door, f_skin_door_o,  f_skin_groundsheet,
-    f_mutpoppy, f_flower_fungal, f_fungal_mass, f_fungal_clump,f_dahlia,f_bluebell,
+    f_large_canvas_wall, f_canvas_wall, f_canvas_door, f_canvas_door_o, f_groundsheet, f_fema_groundsheet, f_large_groundsheet,
+    f_large_canvas_door, f_large_canvas_door_o, f_center_groundsheet, f_skin_wall, f_skin_door, f_skin_door_o,  f_skin_groundsheet,
+    f_mutpoppy, f_flower_fungal, f_fungal_mass, f_fungal_clump,f_dahlia,f_datura,f_dandelion,f_bluebell,
     f_safe_c, f_safe_l, f_safe_o,
     f_plant_seed, f_plant_seedling, f_plant_mature, f_plant_harvest,
     f_fvat_empty, f_fvat_full,
     f_wood_keg,
     f_statue, f_egg_sackbw, f_egg_sackws, f_egg_sacke,
+    f_flower_marloss,
     f_floor_canvas,
     num_furniture_types;
 
 void set_furn_ids() {
     f_null=furnfind("f_null");
     f_hay=furnfind("f_hay");
+    f_rubble=furnfind("f_rubble");
+    f_rubble_rock=furnfind("f_rubble_rock");
+    f_wreckage=furnfind("f_wreckage");
+    f_ash=furnfind("f_ash");
     f_barricade_road=furnfind("f_barricade_road");
     f_bulletin=furnfind("f_bulletin");
     f_indoor_plant=furnfind("f_indoor_plant");
@@ -732,9 +728,14 @@ void set_furn_ids() {
     f_crate_c=furnfind("f_crate_c");
     f_crate_o=furnfind("f_crate_o");
     f_canvas_wall=furnfind("f_canvas_wall");
+    f_large_canvas_wall=furnfind("f_large_canvas_wall");
     f_canvas_door=furnfind("f_canvas_door");
+    f_large_canvas_door=furnfind("f_large_canvas_door");
     f_canvas_door_o=furnfind("f_canvas_door_o");
+    f_large_canvas_door_o=furnfind("f_large_canvas_door_o");
     f_groundsheet=furnfind("f_groundsheet");
+    f_large_groundsheet=furnfind("f_large_groundsheet");
+    f_center_groundsheet=furnfind("f_center_groundsheet");
     f_fema_groundsheet=furnfind("f_fema_groundsheet");
     f_skin_wall=furnfind("f_skin_wall");
     f_skin_door=furnfind("f_skin_door");
@@ -746,6 +747,8 @@ void set_furn_ids() {
     f_flower_fungal=furnfind("f_flower_fungal");
     f_bluebell=furnfind("f_bluebell");
     f_dahlia=furnfind("f_dahlia");
+    f_datura=furnfind("f_datura");
+    f_dandelion=furnfind("f_dandelion");
     f_safe_c=furnfind("f_safe_c");
     f_safe_l=furnfind("f_safe_l");
     f_safe_o=furnfind("f_safe_o");
@@ -760,6 +763,7 @@ void set_furn_ids() {
     f_egg_sackbw=furnfind("f_egg_sackbw");
     f_egg_sackws=furnfind("f_egg_sackws");
     f_egg_sacke=furnfind("f_egg_sacke");
+    f_flower_marloss=furnfind("f_flower_marloss");
     f_floor_canvas=furnfind("f_floor_canvas");
     num_furniture_types = furnlist.size();
 }
@@ -828,4 +832,29 @@ void check_furniture_and_terrain()
         check_bash_items(t.bash, t.id, true);
         check_decon_items(t.deconstruct, t.id, true);
     }
+}
+
+submap::submap() : ter(), frn(), trp(), rad(),
+    active_item_count(0), field_count(0), turn_last_touched(0), temperature(0) {
+    for (int x = 0; x < SEEX; x++) {
+        for (int y = 0; y < SEEY; y++) {
+            ter[x][y] = t_null;
+            set_furn(x, y, f_null);
+            set_trap(x, y, tr_null);
+            set_radiation(x, y, 0);
+        }
+    }
+}
+
+submap::~submap()
+{
+    delete_vehicles();
+}
+
+void submap::delete_vehicles()
+{
+    for(vehicle *veh : vehicles) {
+        delete veh;
+    }
+    vehicles.clear();
 }

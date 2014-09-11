@@ -370,7 +370,7 @@
     },{
         "type" : "dream",
         "messages" : [
-            "A warm, sunny spot high up where you can watch your prey. What a great dream!",
+            "A warm, sunny spot high up where you can watch your prey.  What a great dream!",
             "You dream of pursuing and killing a rat, for some reason."
             ],
         "category" : "MUTCAT_FELINE",
@@ -467,7 +467,7 @@
         "type" : "dream",
         "messages" : [
             "You are many animals, and yet one.",
-            "Hoof. Talon. Tooth. Fight. Feed. Forward."
+            "Hoof.  Talon. Tooth.  Fight.  Feed.  Forward."
             ],
         "category" : "MUTCAT_CHIMERA",
         "strength" : 3
@@ -499,7 +499,7 @@
         "type" : "dream",
         "messages" : [
             "You wonder if your nest will be good enough.",
-            "Your dream of soaring over the lanscape becomes a nightmare when you find yourself with arms and a glider!"
+            "Your dream of soaring over the landscape becomes a nightmare when you find yourself with arms and a glider!"
             ],
         "category" : "MUTCAT_BIRD",
         "strength" : 4
@@ -523,7 +523,7 @@
         "type" : "dream",
         "messages" : [
             "You wonder if you could find one of those 'salmon runs', or if they were just a legend...",
-            "Ah, the wolf-slaying dream again. That's a good one..."
+            "Ah, the wolf-slaying dream again.  That's a good one..."
             ],
         "category" : "MUTCAT_URSINE",
         "strength" : 4
@@ -539,7 +539,7 @@
         "type" : "dream",
         "messages" : [
             "You dream of the hunt, the feed, and your pack.",
-            "Oh, you shoul really patrol your territory again, maybe expand."
+            "Oh, you should really patrol your territory again, maybe expand."
             ],
         "category" : "MUTCAT_LUPINE",
         "strength" : 4
@@ -562,8 +562,8 @@
     },{
         "type" : "dream",
         "messages" : [
-            "You dream of bees fighting over your sweet nectar. Mmm.",
-            "A rather attractive triffid offers you a bouquet of ape heads. How thoughtful!"
+            "You dream of bees fighting over your sweet nectar.  Mmm.",
+            "A rather attractive triffid offers you a bouquet of ape heads.  How thoughtful!"
             ],
         "category" : "MUTCAT_PLANT",
         "strength" : 4
@@ -571,7 +571,7 @@
         "type" : "dream",
         "messages" : [
             "Your vivid dream of your pseudopods calcifying into rigid structures terrifies you.",
-            "Ah, the painting-the-planet dream again. Maybe if you assimilated more..."
+            "Ah, the painting-the-planet dream again.  Maybe if you assimilated more..."
             ],
         "category" : "MUTCAT_SLIME",
         "strength" : 4
@@ -586,7 +586,7 @@
     },{
         "type" : "dream",
         "messages" : [
-            "Mmm. The shellfish dream again.  Yum!",
+            "Mmm.  The shellfish dream again.  Yum!",
             "You dream of recruiting a cult of fishfolk to serve your needs."
             ],
         "category" : "MUTCAT_CEPHALOPOD",
@@ -603,7 +603,7 @@
         "type" : "dream",
         "messages" : [
             "The Fury is so big! it's GONNA GET YOAAAAAH! *pant* only a dream.",
-            "You find your paws twitching. There's a cave. You should go."
+            "You find your paws twitching.  There's a cave.  You should go."
             ],
         "category" : "MUTCAT_RAT",
         "strength" : 4
@@ -611,7 +611,7 @@
         "type" : "dream",
         "messages" : [
             "You dream of the peaceful world you'll give humankind.  Because no one else can.",
-            "There are underground Faults in the world. Faults you should remedy."
+            "There are underground Faults in the world.  Faults you should remedy."
             ],
         "category" : "MUTCAT_ALPHA",
         "strength" : 4
@@ -627,7 +627,7 @@
         "type" : "dream",
         "messages" : [
             "Your body flows slightly faster than you expected... oh, just a dream.",
-            "FIGHT. FEED. FORWARD."
+            "FIGHT.  FEED.  FORWARD."
             ],
         "category" : "MUTCAT_CHIMERA",
         "strength" : 4

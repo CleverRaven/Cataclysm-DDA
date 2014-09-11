@@ -15,7 +15,7 @@
         "type" : "ammunition_type",
         "id" : "700nx",
         "name" : ".700 Nitro Express",
-        "default" : ""
+        "default" : "700nx"
     },
     {
         "type" : "ammunition_type",
@@ -27,7 +27,7 @@
         "type" : "ammunition_type",
         "id" : "nail",
         "name" : "nails",
-        "default" : ""
+        "default" : "nail"
     },
     {
         "type" : "ammunition_type",
@@ -51,7 +51,7 @@
         "type" : "ammunition_type",
         "id" : "pebble",
         "name" : "pebbles",
-        "default" : ""
+        "default" : "pebble"
     },
     {
         "type" : "ammunition_type",
@@ -157,6 +157,12 @@
     },
     {
         "type" : "ammunition_type",
+        "id" : "120mm",
+        "name" : "High Explosive Anti Tank warhead",
+        "default" : "120mm_HEAT"
+    },
+    {
+        "type" : "ammunition_type",
         "id" : "84x246mm",
         "name" : "84mm recoilless projectile",
         "default" : "84x246mm_he"
@@ -207,7 +213,7 @@
         "type" : "ammunition_type",
         "id" : "laser_capacitor",
         "name" : "charge",
-        "default" : ""
+        "default" : "laser_pack"
     },
     {
         "type" : "ammunition_type",
@@ -315,13 +321,13 @@
         "type" : "ammunition_type",
         "id" : "RPG-7",
         "name" : "RPG-7",
-        "default" : ""
+        "default" : "RPG-7_ammo"
     },
     {
         "type" : "ammunition_type",
         "id" : "dart",
         "name" : "dart",
-        "default" : ""
+        "default" : "dart"
     },
     {
         "type" : "ammunition_type",
@@ -351,19 +357,19 @@
         "type" : "ammunition_type",
         "id" : "ammo_flintlock",
         "name" : "paper cartridge",
-        "default" : ""
+        "default" : "flintlock_ammo"
     },
     {
         "type" : "ammunition_type",
         "id" : "36paper",
         "name" : ".36 cap & ball",
-        "default" : ""
+        "default" : "36navy"
     },
     {
         "type" : "ammunition_type",
         "id" : "44paper",
         "name" : ".44 cap & ball",
-        "default" : ""
+        "default" : "44army"
     },
     {
         "type" : "ammunition_type",
@@ -376,5 +382,11 @@
         "id" : "fishspear",
         "name" : "speargun spear",
         "default" : "fishspear"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "fish_bait",
+        "name" : "fish bait",
+        "default" : "fish_bait_meat"
     }
 ]

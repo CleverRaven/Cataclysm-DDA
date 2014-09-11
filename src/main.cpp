@@ -8,7 +8,6 @@
 #include "game.h"
 #include "color.h"
 #include "options.h"
-#include "mapbuffer.h"
 #include "debug.h"
 #include "item_factory.h"
 #include "monstergenerator.h"
@@ -48,7 +47,7 @@ int main(int argc, char *argv[])
 #ifdef PREFIX
 #define Q(STR) #STR
 #define QUOTE(STR) Q(STR)
-    init_base_path(std::string(QUOTE(PREFIX)));
+    PATH_INFO::init_base_path(std::string(QUOTE(PREFIX)));
 #else
     PATH_INFO::init_base_path("");
 #endif
@@ -209,37 +208,15 @@ int main(int argc, char *argv[])
         }
     }
 
-    // setup debug loggind
-#ifdef ENABLE_LOGGING
     setupDebug();
-#endif
-    // set locale to system default
-    setlocale(LC_ALL, "");
-#ifdef LOCALIZE
-    const char *locale_dir;
-#ifdef __linux__
-    if (!FILENAMES["base_path"].empty()) {
-        locale_dir = std::string(FILENAMES["base_path"] + "share/locale").c_str();
-    } else {
-        locale_dir = "lang/mo";
-    }
-#else
-    locale_dir = "lang/mo";
-#endif // __linux__
-
-    bindtextdomain("cataclysm-dda", locale_dir);
-    bind_textdomain_codeset("cataclysm-dda", "UTF-8");
-    textdomain("cataclysm-dda");
-#endif // LOCALIZE
-
-    // ncurses stuff
+    // Options strings loaded with system locale
     initOptions();
-    load_options(); // For getting size options
-#ifdef LOCALIZE
-    setlocale(LC_ALL, OPTIONS["USE_LANG"].getValue().c_str());
-#endif // LOCALIZE
+    load_options();
+
+    set_language(true);
+
     if (initscr() == NULL) { // Initialize ncurses
-        DebugLog() << "initscr failed!\n";
+        DebugLog( D_ERROR, DC_ALL ) << "initscr failed!";
         return 1;
     }
     init_interface();
@@ -326,20 +303,22 @@ int main(int argc, char *argv[])
     return 0;
 }
 
-void exit_handler(int s) {
+void exit_handler(int s)
+{
     if (s != 2 || query_yn(_("Really Quit? All unsaved changes will be lost."))) {
         erase(); // Clear screen
         endwin(); // End ncurses
         int ret;
-        #if (defined _WIN32 || defined WINDOWS)
-            ret = system("cls"); // Tell the terminal to clear itself
-            ret = system("color 07");
-        #else
-            ret = system("clear"); // Tell the terminal to clear itself
-        #endif
+#if (defined _WIN32 || defined WINDOWS)
+        ret = system("cls"); // Tell the terminal to clear itself
+        ret = system("color 07");
+#else
+        ret = system("clear"); // Tell the terminal to clear itself
+#endif
         if (ret != 0) {
-            DebugLog() << "main.cpp:exit_handler(): system(\"clear\"): error returned\n";
+            DebugLog( D_ERROR, DC_ALL ) << "system(\"clear\"): error returned: " << ret;
         }
+        deinitDebug();
 
         if(g != NULL) {
             if(g->game_error()) {

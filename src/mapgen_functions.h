@@ -54,6 +54,8 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
 void mapgen_hive(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_spider_pit(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_fungal_bloom(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
+void mapgen_fungal_tower(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
+void mapgen_fungal_flowers(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_river_center(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_road_straight(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_road_end(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
@@ -220,6 +222,7 @@ void mapgen_triffid_roots(map *m, oter_id terrain_type, mapgendata dat, int turn
 void mapgen_triffid_finale(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_cavern(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_rock(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
+void mapgen_open_air(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_rift(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_hellmouth(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_subway_station(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);

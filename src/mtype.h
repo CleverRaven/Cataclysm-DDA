@@ -16,92 +16,7 @@
 #include "color.h"
 #include "field.h"
 
-/*
-  On altering any entries in this enum please add or remove the appropriate entry to the monster_names array in tile_id_data.h
-*/
-enum mon_id {
-    mon_null = 0,
-    // Wildlife
-    mon_squirrel, mon_rabbit, mon_deer, mon_moose, mon_wolf, mon_coyote, mon_bear, mon_cougar, mon_crow,
-    // Friendly animals
-    mon_dog, mon_cat,
-    // Ants
-    mon_ant_larva, mon_ant, mon_ant_soldier, mon_ant_queen, mon_ant_fungus,
-    // Bees
-    mon_fly, mon_bee, mon_wasp,
-    // Worms
-    mon_graboid, mon_worm, mon_halfworm,
-    // Wild Mutants
-    mon_sludge_crawler,
-    // Zombies
-    mon_zombie, mon_zombie_cop, mon_zombie_shrieker, mon_zombie_spitter, mon_zombie_electric,
-    mon_zombie_smoker, mon_zombie_swimmer,
-    mon_zombie_dog, mon_zombie_brute, mon_zombie_hulk, mon_zombie_fungus,
-    mon_boomer, mon_boomer_fungus, mon_skeleton, mon_zombie_necro,
-    mon_zombie_scientist, mon_zombie_soldier, mon_zombie_grabber,
-    mon_zombie_master,  mon_beekeeper, mon_zombie_child, mon_zombie_fireman, mon_zombie_survivor,
-    // Flesh Golem
-    mon_jabberwock,
-    // Triffids
-    mon_triffid, mon_triffid_young, mon_triffid_queen, mon_creeper_hub,
-    mon_creeper_vine, mon_biollante, mon_vinebeast, mon_triffid_heart,
-    // Fungaloids TODO: Remove dormant fungaloid when it won't break save compatibility
-    mon_fungaloid, mon_fungaloid_dormant, mon_fungaloid_young, mon_spore,
-    mon_fungaloid_queen, mon_fungal_wall,
-    // Blobs
-    mon_blob, mon_blob_small,
-    // Sewer mutants
-    mon_chud, mon_one_eye, mon_crawler,
-    // Sewer animals
-    mon_sewer_fish, mon_sewer_snake, mon_sewer_rat, mon_rat_king,
-    // Swamp monsters
-    mon_mosquito, mon_dragonfly, mon_centipede, mon_frog, mon_slug,
-    mon_dermatik_larva, mon_dermatik,
-    // SPIDERS
-    mon_spider_wolf, mon_spider_web, mon_spider_jumping, mon_spider_trapdoor,
-    mon_spider_widow, mon_spider_widow_giant_s, mon_spider_web_s,
-    // Unearthed Horrors
-    mon_dark_wyrm, mon_amigara_horror, mon_dog_thing, mon_headless_dog_thing,
-    mon_thing,
-    // Spiral monsters
-    mon_human_snail, mon_twisted_body, mon_vortex,
-    // Subspace monsters
-    mon_flying_polyp, mon_hunting_horror, mon_mi_go, mon_yugg, mon_gelatin,
-    mon_flaming_eye, mon_kreck, mon_gracke, mon_blank, mon_gozu, mon_shadow, mon_breather_hub,
-    mon_darkman, mon_breather, mon_shadow_snake, mon_shoggoth,
-    // Cult, lobotomized creatures that are human/undead hybrids
-    mon_dementia, mon_homunculus, mon_blood_sacrifice, mon_flesh_angel,
-    // Robots
-    mon_eyebot, mon_manhack, mon_skitterbot, mon_secubot, mon_hazmatbot, mon_copbot, mon_molebot,
-    mon_tripod, mon_chickenbot, mon_tankbot, mon_turret, mon_exploder,
-    // Hallucinations
-    mon_hallu_mom,
-    // Special monsters
-    mon_generator, mon_player_blob,
-    // 0.8 -> 0.9
-    mon_turkey, mon_raccoon, mon_opossum, mon_rattlesnake,
-    mon_giant_crayfish, mon_fungal_fighter,
-    mon_black_rat,
-    mon_mosquito_giant, mon_dragonfly_giant, mon_centipede_giant,
-    mon_frog_giant, mon_slug_giant,
-    mon_spider_jumping_giant, mon_spider_trapdoor_giant,
-    mon_spider_web_giant, mon_spider_widow_giant, mon_spider_wolf_giant,
-    mon_bat, mon_beaver, mon_bobcat,
-    mon_chicken, mon_chipmunk, mon_cow, mon_coyote_wolf,
-    mon_deer_mouse, mon_fox_gray, mon_fox_red,
-    mon_groundhog, mon_hare, mon_horse, mon_lemming,
-    mon_mink, mon_muskrat, mon_otter, mon_pig,
-    mon_sheep, mon_shrew, mon_squirrel_red,
-    mon_weasel,
-    // 0.9 -> 0.A
-    mon_dog_skeleton, mon_dog_zombie_cop, mon_dog_zombie_rot,
-    // 0.A -> 0.B
-    mon_broken_cyborg, mon_zoose, mon_zolf, mon_zougar,
-    mon_zombie_bio_op, mon_zombie_gasbag, mon_turret_rifle,
-    mon_irradiated_wanderer_1, mon_irradiated_wanderer_2, mon_irradiated_wanderer_3, mon_irradiated_wanderer_4,
-    mon_charred_nightmare,
-    num_monsters
-};
+typedef std::string itype_id;
 
 enum m_size {
     MS_TINY = 0,    // Squirrel
@@ -134,7 +49,7 @@ enum monster_trigger {
 #define mfb(n) static_cast <unsigned long> (1 << (n))
 #endif
 enum m_flag {
-    MF_NULL = 0,            // Helps with setvector
+    MF_NULL = 0,            //
     MF_SEES,                // It can see you (and will run/follow)
     MF_VIS50,               // Vision -10
     MF_VIS40,               // Vision -20
@@ -205,67 +120,74 @@ enum m_flag {
     MF_CBM_POWER,           // May produce a power CBM when butchered, independent of MF_CBM_wev.
     MF_CBM_SCI,             // May produce a bionic from bionics_sci when butchered.
     MF_CBM_OP,              // May produce a bionic from bionics_op when butchered, and the power storage is mk 2.
+    MF_CBM_TECH,            // May produce a bionic from bionics_tech when butchered.
+    MF_CBM_SUBS,            // May produce a bionic from bionics_subs when butchered.
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
 struct mtype {
-private:
-    friend class MonsterGenerator;
-    std::string name;
-    std::string name_plural;
-public:
-    std::string id;
-    std::string description;
-    std::set<std::string> species, categories;
-    long sym;
-    nc_color color;
-    m_size size;
-    std::string mat;
-    phase_id phase;
-    std::set<m_flag> flags;
-    std::set<monster_trigger> anger, placate, fear;
+    private:
+        friend class MonsterGenerator;
+        std::string name;
+        std::string name_plural;
+    public:
+        std::string id;
+        std::string description;
+        std::set<std::string> species, categories;
+        /** UTF-8 encoded symbol, should be exactyle one cell wide. */
+        std::string sym;
+        nc_color color;
+        m_size size;
+        std::string mat;
+        phase_id phase;
+        std::set<m_flag> flags;
+        std::set<monster_trigger> anger, placate, fear;
 
-    std::bitset<MF_MAX> bitflags;
-    std::bitset<N_MONSTER_TRIGGERS> bitanger, bitfear, bitplacate;
+        std::bitset<MF_MAX> bitflags;
+        std::bitset<N_MONSTER_TRIGGERS> bitanger, bitfear, bitplacate;
 
-    int difficulty; // Used all over; 30 min + (diff-3)*30 min = earlist appearance
-    int agro;       // How likely to attack; -100 to 100
-    int morale;     // Default morale level
+        int difficulty; // Used all over; 30 min + (diff-3)*30 min = earlist appearance
+        int agro;       // How likely to attack; -100 to 100
+        int morale;     // Default morale level
 
-    unsigned int  speed;       // Speed; human = 100
-    unsigned char melee_skill; // Melee hit skill, 20 is superhuman hitting abilities.
-    unsigned char melee_dice;  // Number of dice on melee hit
-    unsigned char melee_sides; // Number of sides those dice have
-    unsigned char melee_cut;   // Bonus cutting damage
-    unsigned char sk_dodge;    // Dodge skill; should be 0 to 5
-    unsigned char armor_bash;  // Natural armor vs. bash
-    unsigned char armor_cut;   // Natural armor vs. cut
-    std::string death_drops;   // Name of item group that is used to create item dropped upon death, or empty
-    float luminance;           // 0 is default, >0 gives luminance to lightmap
-    int hp;
-    unsigned int sp_freq;     // How long sp_attack takes to charge
-    std::vector<void (mdeath::*)(monster *)> dies; // What happens when this monster dies
-    unsigned int def_chance; // How likely a special "defensive" move is to trigger (0-100%, default 0)
-    void (mattack::*sp_attack)(monster *); // This monster's special attack
-    // This monster's special "defensive" move that may trigger when the monster is attacked.
-    // Note that this can be anything, and is not necessarily beneficial to the monster
-    void (mdefense::*sp_defense)(monster *, const projectile*);
-    // Default constructor
-    mtype ();
+        int  speed;       // Speed; human = 100
+        unsigned char melee_skill; // Melee hit skill, 20 is superhuman hitting abilities.
+        unsigned char melee_dice;  // Number of dice on melee hit
+        unsigned char melee_sides; // Number of sides those dice have
+        unsigned char melee_cut;   // Bonus cutting damage
+        unsigned char sk_dodge;    // Dodge skill; should be 0 to 5
+        unsigned char armor_bash;  // Natural armor vs. bash
+        unsigned char armor_cut;   // Natural armor vs. cut
+        std::string
+        death_drops;   // Name of item group that is used to create item dropped upon death, or empty
+        float luminance;           // 0 is default, >0 gives luminance to lightmap
+        int hp;
+        unsigned int sp_freq;     // How long sp_attack takes to charge
+        std::vector<void (mdeath::*)(monster *)> dies; // What happens when this monster dies
+        unsigned int def_chance; // How likely a special "defensive" move is to trigger (0-100%, default 0)
+        void (mattack::*sp_attack)(monster *); // This monster's special attack
+        // This monster's special "defensive" move that may trigger when the monster is attacked.
+        // Note that this can be anything, and is not necessarily beneficial to the monster
+        void (mdefense::*sp_defense)(monster *, const projectile *);
+        // Default constructor
+        mtype ();
 
-    // Used to fetch the properly pluralized monster type name
-    std::string nname(unsigned int quantity = 1) const;
-    bool has_flag(m_flag flag) const;
-    bool has_flag(std::string flag) const;
-    void set_flag(std::string flag, bool state);
-    bool has_anger_trigger(monster_trigger trigger) const;
-    bool has_fear_trigger(monster_trigger trigger) const;
-    bool has_placate_trigger(monster_trigger trigger) const;
-    bool in_category(std::string category) const;
-    bool in_species(std::string _species) const;
-    //Used for corpses.
-    field_id bloodType ();
-    field_id gibType ();
+        // Used to fetch the properly pluralized monster type name
+        std::string nname(unsigned int quantity = 1) const;
+        bool has_flag(m_flag flag) const;
+        bool has_flag(std::string flag) const;
+        void set_flag(std::string flag, bool state);
+        bool has_anger_trigger(monster_trigger trigger) const;
+        bool has_fear_trigger(monster_trigger trigger) const;
+        bool has_placate_trigger(monster_trigger trigger) const;
+        bool in_category(std::string category) const;
+        bool in_species(std::string _species) const;
+        //Used for corpses.
+        field_id bloodType () const;
+        field_id gibType () const;
+        // The item id of the meat items that are produced by this monster (or "null")
+        // if there is no matching item type. e.g. "veggy" for plant monsters.
+        itype_id get_meat_itype() const;
 };
 
 #endif

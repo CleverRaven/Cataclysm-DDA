@@ -53,22 +53,27 @@ public:
     int prozac              (player*, item*, bool);
     int sleep               (player*, item*, bool);
     int iodine              (player*, item*, bool);
+    int datura              (player*, item*, bool);
     int flumed              (player*, item*, bool);
     int flusleep            (player*, item*, bool);
     int inhaler             (player*, item*, bool);
     int blech               (player*, item*, bool);
+    int plantblech          (player*, item*, bool);
     int chew                (player*, item*, bool);
     int mutagen             (player*, item*, bool);
     int mut_iv              (player*, item*, bool);
     int purifier            (player*, item*, bool);
     int purify_iv           (player*, item*, bool);
     int marloss             (player*, item*, bool);
+    int marloss_seed        (player*, item*, bool);
+    int marloss_gel        (player*, item*, bool);
     int dogfood             (player*, item*, bool);
     int catfood             (player*, item*, bool);
 
 // TOOLS
     int lighter             (player *, item *, bool);
     int primitive_fire      (player *, item *, bool);
+	int ref_lit             (player *, item *, bool);
     int sew                 (player *, item *, bool);
     int extra_battery       (player *, item *, bool);
     int rechargeable_battery(player *, item *, bool);
@@ -131,6 +136,7 @@ public:
     int c4                  (player *, item *, bool);
     int arrow_flamable      (player *, item *, bool);
     int acidbomb_act        (player *, item *, bool);
+    int grenade_inc_act     (player *, item *, bool);
     int molotov             (player *, item *, bool);
     int molotov_lit         (player *, item *, bool);
     int firecracker_pack    (player *, item *, bool);
@@ -164,6 +170,7 @@ public:
     int lumber              (player *, item *, bool);
     int hacksaw             (player *, item *, bool);
     int tent                (player *, item *, bool);
+    int large_tent          (player *, item *, bool);
     int shelter             (player *, item *, bool);
     int torch_lit           (player *, item *, bool);
     int battletorch_lit     (player *, item *, bool);
@@ -195,6 +202,7 @@ public:
     int atomic_battery      (player *, item *, bool);
     int ups_battery         (player *, item *, bool);
     int fishing_rod_basic   (player *, item *, bool);
+    int fish_trap           (player *, item *, bool);
     int gun_repair          (player *, item *, bool);
     int misc_repair         (player *, item *, bool);
     int rm13armor_off       (player *, item *, bool);
@@ -203,8 +211,18 @@ public:
     int pack_item           (player *, item *, bool);
     int radglove            (player *, item *, bool);
     int robotcontrol        (player *, item *, bool);
+    int einktabletpc        (player *, item *, bool);
+    int camera              (player *, item *, bool);
+    int ehandcuffs          (player *, item *, bool);
 // MACGUFFINS
     int mcg_note            (player *, item *, bool);
+
+    int radiocar(player *, item *, bool);
+    int radiocaron(player *, item *, bool);
+    int radiocontrol(player *, item *, bool);
+
+    int multicooker(player *, item *, bool);
+
 
 // ARTIFACTS
     /* This function is used when an artifact is activated.

@@ -25,6 +25,7 @@ OPTION(LOCALIZE "Toggle gettext localization/translation." ON)
 OPTION(SDL "Use SDL curses emulation instead of terminal support. Also enables tiles support." OFF)
 OPTION(SOUND "Use SDL mixer to play music and sounds." ON)
 OPTION(LUA "Enable lua scripting support." ON)
+OPTION(LUA_BINARY "Select the lua binary to execute lua scripts with." "lua")
 
 # Note: The CMake documentation says it's better to list the actual source
 #       files here, as otherwise cmake won't know to rerun when a new file
@@ -42,6 +43,9 @@ ADD_CUSTOM_COMMAND(
     COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/data $<TARGET_FILE_DIR:cataclysm>/data
     COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/LICENSE.txt $<TARGET_FILE_DIR:cataclysm> # Don't forget the license :)
 )
+
+# We're using c++11 now
+add_definitions("-std=c++11")
 
 IF(MINGW)
     add_definitions("-D_WINDOWS -D_MINGW -D_WIN32 -DWIN32 -D__MINGW__")
@@ -62,8 +66,21 @@ ENDIF()
 
 Include(FindPkgConfig)
 IF(LUA)
+    # Generate lua bindings
+    #ADD_CUSTOM_COMMAND(OUTPUT ${CMAKE_BINARY_DIR}/lua/catabindings.cpp
+	#WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/src/lua
+        #COMMAND ${LUA_BINARY} generate_bindings.lua ${CMAKE_BINARY_DIR}/lua/catabindings.cpp
+        #DEPENDS ${CMAKE_SOURCE_DIR}/lua/generate_bindings.lua
+        #DEPENDS ${CMAKE_SOURCE_DIR}/lua/class_definitions.lua
+    #)
+
     ADD_DEFINITIONS(-DLUA)
+    # The CMake Lua51 package on linux is BROKEN, it yields lua52
+    # Use pkg_config first, and only if that fails, use find_package
+    PKG_SEARCH_MODULE(Lua51 REQUIRED lua5.1)
+    if(NOT LUA51_FOUND)
 	find_package(Lua51 REQUIRED)
+    endif()
 
     if(LUA51_FOUND)
         ADD_DEFINITIONS(-I${LUA51_INCLUDE_DIRS})
@@ -75,7 +92,7 @@ IF(SDL)
     # Look for SDL2 using pkgconfig
     PKG_SEARCH_MODULE(SDL2 REQUIRED sdl2)
 
-    # Harcode these for now since they don't seem to be included in pkg-config
+    # Hardcode these for now since they don't seem to be included in pkg-config
     # CMake is bound to get SDL2 finders eventually.
     #PKG_SEARCH_MODULE(SDL2_TTF REQUIRED sdl2_ttf)
     #PKG_SEARCH_MODULE(SDL2_IMAGE REQUIRED sdl2_image)

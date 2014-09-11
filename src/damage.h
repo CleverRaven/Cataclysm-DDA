@@ -41,13 +41,10 @@ struct damage_unit {
     float amount;
     int res_pen;
     float res_mult;
+    float damage_multiplier;
 
     damage_unit(damage_type dt, float a, int rp, float rm) :
-        type(dt),
-        amount(a),
-        res_pen(rp),
-        res_mult(rm)
-    { }
+    type(dt), amount(a), res_pen(rp), res_mult(rm), damage_multiplier(1.0) { }
 };
 
 
@@ -59,10 +56,12 @@ struct damage_instance {
     damage_instance();
     static damage_instance physical(float bash, float cut, float stab, int arpen = 0);
     void add_damage(damage_type dt, float a, int rp = 0, float rm = 1.0f);
+    damage_instance(damage_type dt, float a, int rp = 0, float rm = 1.0f);
     void add_effect( std::string effect );
     void mult_damage(double multiplier);
     float type_damage(damage_type dt) const;
     float total_damage() const;
+    void clear();
 };
 
 struct dealt_damage_instance {

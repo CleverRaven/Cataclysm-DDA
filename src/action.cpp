@@ -17,7 +17,8 @@ extern input_context get_default_mode_input_context();
 void parse_keymap(std::istream &keymap_txt, std::map<char, action_id> &kmap,
                   std::set<action_id> &unbound_keymap);
 
-void load_keyboard_settings(std::map<char, action_id> &keymap, std::string &keymap_file_loaded_from, std::set<action_id> &unbound_keymap)
+void load_keyboard_settings(std::map<char, action_id> &keymap, std::string &keymap_file_loaded_from,
+                            std::set<action_id> &unbound_keymap)
 {
     // Load the player's actual keymap
     std::ifstream fin;
@@ -37,7 +38,8 @@ void load_keyboard_settings(std::map<char, action_id> &keymap, std::string &keym
     parse_keymap(fin, keymap, unbound_keymap);
 }
 
-void parse_keymap(std::istream &keymap_txt, std::map<char, action_id> &kmap, std::set<action_id> &unbound_keymap)
+void parse_keymap(std::istream &keymap_txt, std::map<char, action_id> &kmap,
+                  std::set<action_id> &unbound_keymap)
 {
     while (!keymap_txt.eof()) {
         std::string id;
@@ -204,6 +206,8 @@ std::string action_ident(action_id act)
         return "drop_adj";
     case ACTION_BIONICS:
         return "bionics";
+    case ACTION_MUTATIONS:
+        return "mutations";
     case ACTION_SORT_ARMOR:
         return "sort_armor";
     case ACTION_WAIT:
@@ -254,7 +258,7 @@ std::string action_ident(action_id act)
         return "debug";
     case ACTION_DISPLAY_SCENT:
         return "debug_scent";
-    case ACTION_TOGGLE_DEBUGMON:
+    case ACTION_TOGGLE_DEBUG_MODE:
         return "debug_mode";
     case ACTION_ZOOM_OUT:
         return "zoom_out";
@@ -275,7 +279,7 @@ std::string action_ident(action_id act)
 
 action_id look_up_action(std::string ident)
 {
-    // Temporarly for the interface with the input manager!
+    // Temporarily for the interface with the input manager!
     if (ident == "move_nw") {
         return ACTION_MOVE_NW;
     } else if (ident == "move_sw") {
@@ -410,17 +414,15 @@ bool can_butcher_at(int x, int y)
     std::vector<item> &items = g->m.i_at(x, y);
     bool has_corpse, has_item = false;
     inventory crafting_inv = g->crafting_inventory(&g->u);
-    for (size_t i = 0; i < items.size(); i++) {
-        if (items[i].type->id == "corpse" && items[i].corpse != NULL) {
-            if (factor != INT_MAX) {
+    for (std::vector<item>::iterator it = items.begin();
+         it != items.end(); ++it) {
+        if (it->type->id == "corpse" && it->corpse != NULL) {
+            if (factor != INT_MIN) {
                 has_corpse = true;
             }
-        }
-    }
-    for (size_t i = 0; i < items.size(); i++) {
-        if (items[i].type->id != "corpse" || items[i].corpse == NULL) {
-            recipe *cur_recipe = g->get_disassemble_recipe(items[i].type->id);
-            if (cur_recipe != NULL && g->can_disassemble(&items[i], cur_recipe, crafting_inv, false)) {
+        } else {
+            recipe *cur_recipe = g->get_disassemble_recipe(it->type->id);
+            if (cur_recipe != NULL && g->can_disassemble(&*it, cur_recipe, crafting_inv, false)) {
                 has_item = true;
             }
         }
@@ -467,7 +469,8 @@ bool can_examine_at(int x, int y)
         return true;
     }
 
-    if(g->m.tr_at(x, y) != tr_null) {
+    const trap_id t = g->m.tr_at( x, y );
+    if( t != tr_null && traplist[t]->can_see( g->u, x, y ) ) {
         return true;
     }
 
@@ -592,21 +595,21 @@ action_id handle_action_menu()
             REGISTER_CATEGORY("craft");
             REGISTER_CATEGORY("info");
             REGISTER_CATEGORY("misc");
-            if (hotkey_for_action(ACTION_QUICKSAVE) >-1) {
+            if (hotkey_for_action(ACTION_QUICKSAVE) > -1) {
                 REGISTER_ACTION(ACTION_QUICKSAVE);
             }
             REGISTER_ACTION(ACTION_SAVE);
-            if (hotkey_for_action(ACTION_QUIT) >-1) {
+            if (hotkey_for_action(ACTION_QUIT) > -1) {
                 REGISTER_ACTION(ACTION_QUIT);
             }
             REGISTER_ACTION(ACTION_HELP);
-            if ((entry= &entries.back())) {
+            if ((entry = &entries.back())) {
                 entry->txt += "...";        // help _is_a menu.
             }
-            if (hotkey_for_action(ACTION_DEBUG) >-1) {
+            if (hotkey_for_action(ACTION_DEBUG) > -1) {
                 REGISTER_CATEGORY("debug"); // register with globalkey
-                if ((entry= &entries.back())) {
-                    entry->hotkey= hotkey_for_action(ACTION_DEBUG);
+                if ((entry = &entries.back())) {
+                    entry->hotkey = hotkey_for_action(ACTION_DEBUG);
                 }
             }
         } else if(category == "look") {
@@ -636,15 +639,15 @@ action_id handle_action_menu()
             REGISTER_ACTION(ACTION_UNLOAD);
         } else if(category == "debug") {
             REGISTER_ACTION(ACTION_DEBUG);
-            if ((entry= &entries.back())) {
+            if ((entry = &entries.back())) {
                 entry->txt += "..."; // debug _is_a menu.
             }
             REGISTER_ACTION(ACTION_TOGGLE_SIDEBAR_STYLE);
-            #ifndef TILES
-                REGISTER_ACTION(ACTION_TOGGLE_FULLSCREEN);
-            #endif
+#ifndef TILES
+            REGISTER_ACTION(ACTION_TOGGLE_FULLSCREEN);
+#endif
             REGISTER_ACTION(ACTION_DISPLAY_SCENT);
-            REGISTER_ACTION(ACTION_TOGGLE_DEBUGMON);
+            REGISTER_ACTION(ACTION_TOGGLE_DEBUG_MODE);
         } else if(category == "interact") {
             REGISTER_ACTION(ACTION_EXAMINE);
             REGISTER_ACTION(ACTION_SMASH);
@@ -683,13 +686,14 @@ action_id handle_action_menu()
             REGISTER_ACTION(ACTION_WAIT);
             REGISTER_ACTION(ACTION_SLEEP);
             REGISTER_ACTION(ACTION_BIONICS);
+            REGISTER_ACTION(ACTION_MUTATIONS);
             REGISTER_ACTION(ACTION_CONTROL_VEHICLE);
-            #ifdef TILES
+#ifdef TILES
             if (use_tiles) {
                 REGISTER_ACTION(ACTION_ZOOM_OUT);
                 REGISTER_ACTION(ACTION_ZOOM_IN);
             }
-            #endif
+#endif
         }
 
         std::string title = _("Back");
@@ -702,28 +706,28 @@ action_id handle_action_menu()
 
         title = _("Actions");
         if(category != "back") {
-            catgname= _(category.c_str());
-            capitalize_letter(catgname,0);
+            catgname = _(category.c_str());
+            capitalize_letter(catgname, 0);
             title += ": " + catgname;
         }
 
         int width = 0;
         for (std::vector<uimenu_entry>::iterator entry = entries.begin();
              entry != entries.end(); ++entry) {
-            if (width < entry->txt.length()) {
+            if (width < (int)entry->txt.length()) {
                 width = entry->txt.length();
             }
         }
         //border=2, selectors=3, after=3 for balance.
         width += 2 + 3 + 3;
-        int ix = (TERMX > width) ? (TERMX - width) / 2 -1 : 0;
-        int iy = (TERMY > entries.size() + 2) ? (TERMY - entries.size() -2) / 2 -1 : 0;
+        int ix = (TERMX > width) ? (TERMX - width) / 2 - 1 : 0;
+        int iy = (TERMY > (int)entries.size() + 2) ? (TERMY - (int)entries.size() - 2) / 2 - 1 : 0;
         int selection = (int) uimenu(true, std::max(ix, 0), std::min(width, TERMX - 2),
                                      std::max(iy, 0), title, entries);
 
         g->draw();
 
-        if (selection <0) {
+        if (selection < 0) {
             return ACTION_NULL;
         } else if (selection == 2 * NUM_ACTIONS) {
             if (category != "back") {
@@ -787,7 +791,8 @@ bool choose_adjacent_highlight(std::string message, int &x, int &y,
 
             if(can_interact_at(action_to_highlight, x, y)) {
                 highlighted = true;
-                g->m.drawsq(g->w_terrain, g->u, x, y, true, true, g->u.xpos() + g->u.view_offset_x, g->u.ypos() + g->u.view_offset_y);
+                g->m.drawsq(g->w_terrain, g->u, x, y, true, true, g->u.xpos() + g->u.view_offset_x,
+                            g->u.ypos() + g->u.view_offset_y);
             }
         }
     }

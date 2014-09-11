@@ -7,11 +7,12 @@
 #include "line.h"
 #include "json.h"
 #include "messages.h"
+#include "item_factory.h"
 #include <math.h>    //sqrt
 #include <algorithm> //std::min
 #include <sstream>
 
-#define BATTERY_AMOUNT 4 // How much batteries increase your power
+#define BATTERY_AMOUNT 100 // How much batteries increase your power
 
 std::map<bionic_id, bionic_data *> bionics;
 std::vector<bionic_id> faulty_bionics;
@@ -51,7 +52,7 @@ void show_bionics_titlebar(WINDOW *window, player *p, std::string menu_mode)
     mvwprintz(window, 0,  0, c_blue, "%s", caption.c_str());
 
     std::stringstream pwr;
-    pwr << _("Power: ") << int(p->power_level) << _("/") << int(p->max_power_level);
+    pwr << string_format(_("Power: %i/%i"), int(p->power_level), int(p->max_power_level));
     int pwr_length = utf8_width(pwr.str().c_str()) + 1;
     mvwprintz(window, 0, getmaxx(window) - pwr_length, c_white, "%s", pwr.str().c_str());
 
@@ -76,11 +77,12 @@ void player::power_bionics()
 {
     std::vector <bionic *> passive;
     std::vector <bionic *> active;
-    for (size_t i = 0; i < my_bionics.size(); i++) {
-        if (!bionics[my_bionics[i].id]->activated) {
-            passive.push_back(&my_bionics[i]);
+    for (std::vector<bionic>::iterator it = my_bionics.begin();
+         it != my_bionics.end(); ++it) {
+        if (!bionics[it->id]->activated) {
+            passive.push_back(&*it);
         } else {
-            active.push_back(&my_bionics[i]);
+            active.push_back(&*it);
         }
     }
 
@@ -103,7 +105,7 @@ void player::power_bionics()
     * TOTAL: TITLE_HEIGHT + bionic_count + DESCRIPTION_HEIGHT + 5
     */
     int HEIGHT = std::min(TERMY, std::max(FULL_SCREEN_HEIGHT,
-                 TITLE_HEIGHT + bionic_count + DESCRIPTION_HEIGHT + 5));
+                                          TITLE_HEIGHT + bionic_count + DESCRIPTION_HEIGHT + 5));
     int WIDTH = FULL_SCREEN_WIDTH + (TERMX - FULL_SCREEN_WIDTH) / 2;
     int START_X = (TERMX - WIDTH) / 2;
     int START_Y = (TERMY - HEIGHT) / 2;
@@ -121,7 +123,8 @@ void player::power_bionics()
     WINDOW *w_title = newwin(TITLE_HEIGHT, WIDTH - 2, TITLE_START_Y, START_X + 1);
 
     int scroll_position = 0;
-    int second_column = 32 + (TERMX - FULL_SCREEN_WIDTH) / 4; // X-coordinate of the list of active bionics
+    int second_column = 32 + (TERMX - FULL_SCREEN_WIDTH) /
+                        4; // X-coordinate of the list of active bionics
 
     input_context ctxt("BIONICS");
     ctxt.register_updown();
@@ -161,8 +164,8 @@ void player::power_bionics()
                 mvwprintz(wBio, list_start_y, 2, c_ltgray, _("None"));
             } else {
                 for (size_t i = scroll_position; i < passive.size(); i++) {
-                    if (list_start_y + i == (menu_mode == "examining" ?
-                                             DESCRIPTION_LINE_Y : HEIGHT - 1)) {
+                    if (list_start_y + static_cast<int>(i) ==
+                        (menu_mode == "examining" ? DESCRIPTION_LINE_Y : HEIGHT - 1)) {
                         break;
                     }
                     if (bionics[passive[i]->id]->power_source) {
@@ -179,8 +182,8 @@ void player::power_bionics()
                 mvwprintz(wBio, list_start_y, second_column, c_ltgray, _("None"));
             } else {
                 for (size_t i = scroll_position; i < active.size(); i++) {
-                    if (list_start_y + i == (menu_mode == "examining" ?
-                                             DESCRIPTION_LINE_Y : HEIGHT - 1)) {
+                    if (list_start_y + static_cast<int>(i) ==
+                        (menu_mode == "examining" ? DESCRIPTION_LINE_Y : HEIGHT - 1)) {
                         break;
                     }
                     if (active[i]->powered && !bionics[active[i]->id]->power_source) {
@@ -194,7 +197,7 @@ void player::power_bionics()
                     }
                     mvwputch(wBio, list_start_y + i, second_column, type, active[i]->invlet);
                     mvwprintz(wBio, list_start_y + i, second_column + 2, type,
-                              (active[i]->powered ? _("%s - ON") : _("%s - %d PU / %d trns")),
+                              (active[i]->powered ? _("%s - ON") : _("%s - %d PU / %d turns")),
                               bionics[active[i]->id]->name.c_str(),
                               bionics[active[i]->id]->power_cost,
                               bionics[active[i]->id]->charge_time);
@@ -291,8 +294,7 @@ void player::power_bionics()
                                (weapon_id == "bio_claws_weapon" && bio_id == "bio_claws_weapon") ||
                                (weapon_id == "bio_blade_weapon" && bio_id == "bio_blade_weapon")) {
 
-
-                        //this will clear the bionics menu for targeting purposes
+                        // this will clear the bionics menu for targeting purposes
                         werase(wBio);
                         wrefresh(wBio);
                         delwin(w_title);
@@ -304,6 +306,10 @@ void player::power_bionics()
                         if (bio_id == "bio_cqb") {
                             pick_style();
                         }
+                    } else {
+                        popup( _( "You don't have enough power to activate the %s." ), bio_data.name.c_str() );
+                        redraw = true;
+                        continue;
                     }
                     // Action done, leave screen
                     break;
@@ -412,22 +418,19 @@ void player::activate_bionic(int b)
                 g->m.bash( i, j, 40 );
                 g->m.bash( i, j, 40 ); // Multibash effect, so that doors &c will fall
                 g->m.bash( i, j, 40 );
-                if (g->m.is_destructable(i, j) && rng(1, 10) >= 4) {
-                    g->m.ter_set(i, j, t_rubble);
-                }
             }
         }
     } else if (bio.id == "bio_time_freeze") {
-        moves += 100 * power_level;
+        moves += power_level;
         power_level = 0;
         add_msg(m_good, _("Your speed suddenly increases!"));
         if (one_in(3)) {
             add_msg(m_bad, _("Your muscles tear with the strain."));
-            hurt(bp_arms, 0, rng(5, 10));
-            hurt(bp_arms, 1, rng(5, 10));
-            hurt(bp_legs, 0, rng(7, 12));
-            hurt(bp_legs, 1, rng(7, 12));
-            hurt(bp_torso, -1, rng(5, 15));
+            apply_damage( nullptr, bp_arm_l, rng( 5, 10 ) );
+            apply_damage( nullptr, bp_arm_r, rng( 5, 10 ) );
+            apply_damage( nullptr, bp_leg_l, rng( 7, 12 ) );
+            apply_damage( nullptr, bp_leg_r, rng( 7, 12 ) );
+            apply_damage( nullptr, bp_torso, rng( 5, 15 ) );
         }
         if (one_in(5)) {
             add_disease("teleglow", rng(50, 400));
@@ -489,6 +492,9 @@ void player::activate_bionic(int b)
         if (has_disease("iodine")) {
             good.push_back(_("Iodine"));
         }
+        if (has_disease("datura")) {
+            good.push_back(_("Anticholinergic Tropane Alkaloids"));
+        }
         if (has_disease("took_xanax")) {
             good.push_back(_("Xanax"));
         }
@@ -549,6 +555,7 @@ void player::activate_bionic(int b)
         rem_disease("hallu");
         rem_disease("visuals");
         rem_disease("iodine");
+        rem_disease("datura");
         rem_disease("took_xanax");
         rem_disease("took_prozac");
         rem_disease("took_flumed");
@@ -558,13 +565,21 @@ void player::activate_bionic(int b)
         stim = 0;
     } else if(bio.id == "bio_evap") {
         item water = item("water_clean", 0);
-        if (g->handle_liquid(water, true, true)) {
+        int humidity = g->weatherGen.get_weather(pos(), calendar::turn).humidity;
+        int water_charges = (humidity * 3.0) / 100.0 + 0.5;
+        // At 50% relative humidity or more, the player will draw 2 units of water
+        // At 16% relative humidity or less, the player will draw 0 units of water
+        water.charges = water_charges;
+        if (water_charges == 0) {
+            add_msg_if_player(m_bad, _("There was not enough moisture in the air from which to draw water!"));
+        }
+        if (g->handle_liquid(water, true, false)) {
             moves -= 100;
         } else if (query_yn(_("Drink from your hands?"))) {
             inv.push_back(water);
             consume(inv.position_by_type(water.typeId()));
             moves -= 350;
-        } else {
+        } else if (water.charges == water_charges && water_charges != 0) {
             power_level += bionics["bio_evap"]->power_cost;
         }
     } else if(bio.id == "bio_lighter") {
@@ -577,11 +592,8 @@ void player::activate_bionic(int b)
     }
     if(bio.id == "bio_leukocyte") {
         add_msg(m_neutral, _("You activate your leukocyte breeder system."));
-        if (health < 0) {
-            health = 0;
-        } else {
-            health += 5;
-        }
+        g->u.set_healthy(std::min(100, g->u.get_healthy() + 2));
+        g->u.mod_healthy_mod(20);
     }
     if(bio.id == "bio_geiger") {
         add_msg(m_info, _("Your radiation level: %d"), radiation);
@@ -607,12 +619,12 @@ void player::activate_bionic(int b)
             weapon = ret_null;
         } else if (weapon.has_flag ("NO_UNWIELD")) {
             add_msg(m_info, _("Deactivate your %s first!"),
-                       weapon.tname().c_str());
+                    weapon.tname().c_str());
             power_level += bionics[bio.id]->power_cost;
             return;
         } else if(weapon.type->id != "null") {
             add_msg(m_warning, _("Your claws extend, forcing you to drop your %s."),
-                       weapon.tname().c_str());
+                    weapon.tname().c_str());
             g->m.add_item_or_charges(posx, posy, weapon);
             weapon = item("bio_claws_weapon", 0);
             weapon.invlet = '#';
@@ -627,12 +639,12 @@ void player::activate_bionic(int b)
             weapon = ret_null;
         } else if (weapon.has_flag ("NO_UNWIELD")) {
             add_msg(m_info, _("Deactivate your %s first!"),
-                       weapon.tname().c_str());
+                    weapon.tname().c_str());
             power_level += bionics[bio.id]->power_cost;
             return;
         } else if(weapon.type->id != "null") {
             add_msg(m_warning, _("Your blade extends, forcing you to drop your %s."),
-                       weapon.tname().c_str());
+                    weapon.tname().c_str());
             g->m.add_item_or_charges(posx, posy, weapon);
             weapon = item("bio_blade_weapon", 0);
             weapon.invlet = '#';
@@ -680,27 +692,27 @@ void player::activate_bionic(int b)
         g->sound(posx, posy, 19, _("HISISSS!"));
     } else if (bio.id == "bio_water_extractor") {
         bool extracted = false;
-        for (unsigned i = 0; i < g->m.i_at(posx, posy).size(); i++) {
-            item &tmp = g->m.i_at(posx, posy)[i];
-            if (tmp.type->id == "corpse" ) {
+        for (std::vector<item>::iterator it = g->m.i_at(posx, posy).begin();
+             it != g->m.i_at(posx, posy).end(); ++it) {
+            if (it->type->id == "corpse" ) {
                 int avail = 0;
-                if ( tmp.item_vars.find("remaining_water") != tmp.item_vars.end() ) {
-                    avail = atoi ( tmp.item_vars["remaining_water"].c_str() );
+                if ( it->item_vars.find("remaining_water") != it->item_vars.end() ) {
+                    avail = atoi ( it->item_vars["remaining_water"].c_str() );
                 } else {
-                    avail = tmp.volume() / 2;
+                    avail = it->volume() / 2;
                 }
-                if(avail > 0 && query_yn(_("Extract water from the %s"), tmp.tname().c_str())) {
+                if(avail > 0 && query_yn(_("Extract water from the %s"), it->tname().c_str())) {
                     item water = item("water_clean", 0);
                     if (g->handle_liquid(water, true, true)) {
                         moves -= 100;
-                    } else if (query_yn(_("Drink directly from the condensor?"))) {
+                    } else if (query_yn(_("Drink directly from the condenser?"))) {
                         inv.push_back(water);
                         consume(inv.position_by_type(water.typeId()));
                         moves -= 350;
                     }
                     extracted = true;
                     avail--;
-                    tmp.item_vars["remaining_water"] = string_format("%d", avail);
+                    it->item_vars["remaining_water"] = string_format("%d", avail);
                     break;
                 }
             }
@@ -724,24 +736,29 @@ void player::activate_bionic(int b)
                     if (g->m.i_at(i, j)[k].made_of("iron") || g->m.i_at(i, j)[k].made_of("steel")) {
                         tmp_item = g->m.i_at(i, j)[k];
                         g->m.i_rem(i, j, k);
-                        size_t l = 0;
-                        for (l = 0; l < traj.size(); l++) {
-                            int index = g->mon_at(traj[l].x, traj[l].y);
+                        std::vector<point>::iterator it;
+                        for (it = traj.begin(); it != traj.end(); ++it) {
+                            int index = g->mon_at(it->x, it->y);
                             if (index != -1) {
-                                if (g->zombie(index).hurt(tmp_item.weight() / 225)) {
-                                    g->kill_mon(index, true);
-                                }
-                                g->m.add_item_or_charges(traj[l].x, traj[l].y, tmp_item);
-                                l = traj.size() + 1;
-                            } else if (l > 0 && g->m.move_cost(traj[l].x, traj[l].y) == 0) {
-                                g->m.bash( traj[l].x, traj[l].y, tmp_item.weight() / 225 );
-                                if (g->m.move_cost(traj[l].x, traj[l].y) == 0) {
-                                    g->m.add_item_or_charges(traj[l - 1].x, traj[l - 1].y, tmp_item);
-                                    l = traj.size() + 1;
+                                g->zombie(index).apply_damage( this, bp_torso, tmp_item.weight() / 225 );
+                                g->m.add_item_or_charges(it->x, it->y, tmp_item);
+                                break;
+                            } else if (g->m.move_cost(it->x, it->y) == 0) {
+                                if (it != traj.begin()) {
+                                    g->m.bash( it->x, it->y, tmp_item.weight() / 225 );
+                                    if (g->m.move_cost(it->x, it->y) == 0) {
+                                        g->m.add_item_or_charges((it - 1)->x, (it - 1)->y, tmp_item);
+                                        break;
+                                    }
+                                } else {
+                                    g->m.bash( it->x, it->y, tmp_item.weight() / 225 );
+                                    if (g->m.move_cost(it->x, it->y) == 0) {
+                                        break;
+                                    }
                                 }
                             }
                         }
-                        if (l == traj.size()) {
+                        if (it == traj.end()) {
                             g->m.add_item_or_charges(posx, posy, tmp_item);
                         }
                     }
@@ -758,20 +775,20 @@ void player::activate_bionic(int b)
             moves -= 40;
             std::string door_name = rm_prefix(_("<door_name>door"));
             add_msg_if_player(m_neutral, _("With a satisfying click, the lock on the %s opens."),
-                                 door_name.c_str());
+                              door_name.c_str());
             g->m.ter_set(dirx, diry, t_door_c);
             // Locked metal doors are the Lab and Bunker entries.  Those need to stay locked.
         } else if(type == t_door_bar_locked) {
             moves -= 40;
             std::string door_name = rm_prefix(_("<door_name>door"));
             add_msg_if_player(m_neutral, _("The %s swings open..."),
-                                 door_name.c_str()); //Could better copy the messages from lockpick....
+                              door_name.c_str()); //Could better copy the messages from lockpick....
             g->m.ter_set(dirx, diry, t_door_bar_o);
         } else if(type == t_chaingate_l) {
             moves -= 40;
             std::string gate_name = rm_prefix (_("<door_name>gate"));
             add_msg_if_player(m_neutral, _("With a satisfying click, the lock on the %s opens."),
-                                 gate_name.c_str());
+                              gate_name.c_str());
             g->m.ter_set(dirx, diry, t_chaingate_c);
         } else if(type == t_door_c) {
             add_msg(m_info, _("That door isn't locked."));
@@ -785,8 +802,6 @@ void player::activate_bionic(int b)
     } else if(bio.id == "bio_shockwave") {
         g->shockwave(posx, posy, 3, 4, 2, 8, true);
         add_msg_if_player(m_neutral, _("You unleash a powerful shockwave!"));
-    } else if(bio.id == "bio_ups"){
-        add_msg_if_player(m_neutral, _("Your internal UPS powers on."));
     }
 }
 
@@ -798,8 +813,9 @@ void player::deactivate_bionic(int b)
         // check if player knows current style naturally, otherwise drop them back to style_none
         if (style_selected != "style_none") {
             bool has_style = false;
-            for (size_t i = 0; i < ma_styles.size(); ++i) {
-                if (ma_styles[i] == style_selected) {
+            for (std::vector<matype_id>::iterator it = ma_styles.begin();
+                 it != ma_styles.end(); ++it) {
+                if (*it == style_selected) {
                     has_style = true;
                 }
             }
@@ -861,14 +877,13 @@ int bionic_manip_cos(int p_int, int s_electronics, int s_firstaid, int s_mechani
 
 bool player::uninstall_bionic(bionic_id b_id)
 {
-    it_bionic *type = dynamic_cast<it_bionic *> (itypes[b_id]);
     // malfunctioning bionics don't have associated items and get a difficulty of 12
-    int difficulty = type == NULL ? 12 : type->difficulty;
-
-    if (bionics.count(b_id) == 0) {
-        popup("invalid / unknown bionic id %s", b_id.c_str());
-        return false;
+    int difficulty = 12;
+    if( item_controller->has_template(b_id) > 0) {
+        const it_bionic *type = dynamic_cast<it_bionic *> (item_controller->find_template(b_id));
+        difficulty = type->difficulty;
     }
+
     if (!has_bionic(b_id)) {
         popup(_("You don't have this bionic installed."));
         return false;
@@ -877,8 +892,8 @@ bool player::uninstall_bionic(bionic_id b_id)
         popup(_("Removing bionics requires a cutting tool and a first aid kit."));
         return false;
     }
-    
-    if ( type->id == "bio_blaster" ) {
+
+    if ( b_id == "bio_blaster" ) {
         popup(_("Removing your Fusion Blaster Arm would leave you with a useless stump."));
         return false;
     }
@@ -953,7 +968,7 @@ bool player::install_bionics(it_bionic *type)
     if (type->id == "bio_power_storage" || type->id == "bio_power_storage_mkII") {
         pow_up = BATTERY_AMOUNT;
         if (type->id == "bio_power_storage_mkII") {
-            pow_up = 10;
+            pow_up = 250;
         }
     }
 
@@ -1079,7 +1094,7 @@ void bionics_install_failure(player *u, it_bionic *type, int success)
             if (u->max_power_level > 0) {
                 int old_power = u->max_power_level;
                 add_msg(m_bad, _("You lose power capacity!"));
-                u->max_power_level = rng(0, u->max_power_level - 1);
+                u->max_power_level = rng(0, u->max_power_level - 25);
                 g->u.add_memorial_log(pgettext("memorial_male", "Lost %d units of power capacity."),
                                       pgettext("memorial_female", "Lost %d units of power capacity."),
                                       old_power - u->max_power_level);
@@ -1099,7 +1114,8 @@ void bionics_install_failure(player *u, it_bionic *type, int success)
 
 void reset_bionics()
 {
-    for (std::map<bionic_id, bionic_data*>::iterator bio = bionics.begin(); bio != bionics.end(); ++bio){
+    for (std::map<bionic_id, bionic_data *>::iterator bio = bionics.begin(); bio != bionics.end();
+         ++bio) {
         delete bio->second;
     }
     bionics.clear();

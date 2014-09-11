@@ -181,6 +181,7 @@
 		<Unit filename="src/SDLMain.h" />
 		<Unit filename="src/action.cpp" />
 		<Unit filename="src/action.h" />
+		<Unit filename="src/activity_item_handling.cpp" />
 		<Unit filename="src/addiction.cpp" />
 		<Unit filename="src/addiction.h" />
 		<Unit filename="src/advanced_inv.cpp" />
@@ -214,6 +215,8 @@
 		<Unit filename="src/char_validity_check.h" />
 		<Unit filename="src/character.cpp" />
 		<Unit filename="src/character.h" />
+		<Unit filename="src/clzones.cpp" />
+		<Unit filename="src/clzones.h" />
 		<Unit filename="src/color.cpp" />
 		<Unit filename="src/color.h" />
 		<Unit filename="src/computer.cpp" />
@@ -380,7 +383,7 @@
 		<Unit filename="src/path_info.cpp" />
 		<Unit filename="src/path_info.h" />
 		<Unit filename="src/pickup.cpp" />
-        	<Unit filename="src/pickup.h" />
+		<Unit filename="src/pickup.h" />
 		<Unit filename="src/player.cpp" />
 		<Unit filename="src/player.h" />
 		<Unit filename="src/player_activity.cpp" />
@@ -391,6 +394,8 @@
 		<Unit filename="src/profession.cpp" />
 		<Unit filename="src/profession.h" />
 		<Unit filename="src/ranged.cpp" />
+		<Unit filename="src/requirements.cpp" />
+		<Unit filename="src/requirements.h" />
 		<Unit filename="src/resource.rc">
 			<Option compilerVar="WINDRES" />
 		</Unit>
@@ -400,9 +405,11 @@
 		<Unit filename="src/savegame.h" />
 		<Unit filename="src/savegame_json.cpp" />
 		<Unit filename="src/savegame_legacy.cpp" />
+    <Unit filename="src/scenario.cpp" />
+    <Unit filename="src/scenario.h" />
 		<Unit filename="src/sdltiles.cpp" />
-		<Unit filename="src/setvector.cpp" />
-		<Unit filename="src/setvector.h" />
+		<Unit filename="src/simplexnoise.cpp" />
+		<Unit filename="src/simplexnoise.h" />
 		<Unit filename="src/skill.cpp" />
 		<Unit filename="src/skill.h" />
 		<Unit filename="src/speech.cpp" />
@@ -435,6 +442,8 @@
 		<Unit filename="src/weather.cpp" />
 		<Unit filename="src/weather.h" />
 		<Unit filename="src/weather_data.cpp" />
+		<Unit filename="src/weather_gen.cpp" />
+		<Unit filename="src/weather_gen.h" />
 		<Unit filename="src/wincurse.cpp" />
 		<Unit filename="src/wish.cpp" />
 		<Unit filename="src/worldfactory.cpp" />

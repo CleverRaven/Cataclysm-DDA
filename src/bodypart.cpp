@@ -4,7 +4,7 @@
 
 std::map<std::string, body_part> body_parts;
 
-std::string body_part_name (body_part bp, int side)
+std::string body_part_name (body_part bp)
 {
     switch (bp) {
     case bp_head:
@@ -15,40 +15,56 @@ std::string body_part_name (body_part bp, int side)
         return _("mouth");
     case bp_torso:
         return _("torso");
-    case bp_arms:
-        if (side == 0) {
-            return  _("left arm");
-        }
-        if (side == 1) {
-            return _("right arm");
-        }
-        return _("arms");
-    case bp_hands:
-        if (side == 0) {
-            return _("left hand");
-        }
-        if (side == 1) {
-            return _("right hand");
-        }
-        return _("hands");
-    case bp_legs:
-        if (side == 0) {
-            return _("left leg");
-        }
-        if (side == 1) {
-            return _("right leg");
-        }
-        return _("legs");
-    case bp_feet:
-        if (side == 0) {
-            return _("left foot");
-        }
-        if (side == 1) {
-            return _("right foot");
-        }
-        return _("feet");
+    case bp_arm_l:
+        return  _("left arm");
+    case bp_arm_r:
+        return  _("right arm");
+    case bp_hand_l:
+        return _("left hand");
+    case bp_hand_r:
+        return _("right hand");
+    case bp_leg_l:
+        return _("left leg");
+    case bp_leg_r:
+        return _("right leg");
+    case bp_foot_l:
+        return _("left foot");
+    case bp_foot_r:
+        return _("right foot");
     default:
         return _("appendix");
+    }
+}
+
+std::string body_part_name_accusative (body_part bp)
+{
+    switch (bp) {
+    case bp_head:
+        return pgettext("bodypart_accusative", "head");
+    case bp_eyes:
+        return pgettext("bodypart_accusative", "eyes");
+    case bp_mouth:
+        return pgettext("bodypart_accusative", "mouth");
+    case bp_torso:
+        return pgettext("bodypart_accusative", "torso");
+    case bp_arm_l:
+        return pgettext("bodypart_accusative", "left arm");
+    case bp_arm_r:
+        return pgettext("bodypart_accusative", "right arm");
+    case bp_hand_l:
+        return pgettext("bodypart_accusative", "left hand");
+    case bp_hand_r:
+        return pgettext("bodypart_accusative", "right hand");
+    case bp_leg_l:
+        return pgettext("bodypart_accusative", "left leg");
+    case bp_leg_r:
+        return pgettext("bodypart_accusative", "right leg");
+    case bp_foot_l:
+        return pgettext("bodypart_accusative", "left foot");
+    case bp_foot_r:
+        return pgettext("bodypart_accusative", "right foot");
+    default:
+        return pgettext("bodypart_accusative", "appendix");
     }
 }
 
@@ -63,13 +79,17 @@ std::string encumb_text(body_part bp)
         return _("Running is slowed.");
     case bp_torso:
         return _("Dodging and melee is hampered.");
-    case bp_arms:
+    case bp_arm_l:
+    case bp_arm_r:
         return _("Melee and ranged combat is hampered.");
-    case bp_hands:
+    case bp_hand_l:
+    case bp_hand_r:
         return _("Manual tasks are slowed.");
-    case bp_legs:
+    case bp_leg_l:
+    case bp_leg_r:
         return _("Running and swimming are slowed.");
-    case bp_feet:
+    case bp_foot_l:
+    case bp_foot_r:
         return _("Running is slowed.");
     default:
         return _("It's inflammed.");
@@ -89,48 +109,48 @@ body_part random_body_part(bool main_parts_only)
         if (rn <= 7) {
             return bp_head;
         }
-        if (rn <= 24) {
-            return bp_legs;
+        if (rn <= 16) {
+            return bp_leg_l;
         }
-        if (rn <= 30) {
-            return bp_feet;
+        if (rn <= 25) {
+            return bp_leg_r;
         }
-        if (rn <= 47) {
-            return bp_arms;
+        if (rn <= 28) {
+            return bp_foot_l;
         }
-        if (rn <= 53) {
-            return bp_hands;
+        if (rn <= 31) {
+            return bp_foot_r;
+        }
+        if (rn <= 40) {
+            return bp_arm_l;
+        }
+        if (rn <= 49) {
+            return bp_arm_r;
+        }
+        if (rn <= 52) {
+            return bp_hand_l;
+        }
+        if (rn <= 55) {
+            return bp_hand_r;
         }
         return bp_torso;
     } else {
         if (rn <= 7) {
             return bp_head;
         }
-        if (rn <= 30) {
-            return bp_legs;
+        if (rn <= 19) {
+            return bp_leg_l;
         }
-        if (rn <= 53) {
-            return bp_arms;
+        if (rn <= 31) {
+            return bp_leg_r;
+        }
+        if (rn <= 43) {
+            return bp_arm_l;
+        }
+        if (rn <= 55) {
+            return bp_arm_r;
         }
         return bp_torso;
-    }
-}
-
-int random_side(body_part bp)
-{
-    switch (bp) {
-    case bp_torso:
-    case bp_head:
-    case bp_eyes:
-    case bp_mouth:
-        return -1;
-    case bp_arms:
-    case bp_hands:
-    case bp_legs:
-    case bp_feet:
-        return rng(0, 1);
-    default:
-        return rng(0, 1);
     }
 }
 
@@ -140,10 +160,14 @@ void init_body_parts()
     body_parts["HEAD"]  = bp_head;
     body_parts["EYES"]  = bp_eyes;
     body_parts["MOUTH"] = bp_mouth;
-    body_parts["ARMS"]  = bp_arms;
-    body_parts["HANDS"] = bp_hands;
-    body_parts["LEGS"]  = bp_legs;
-    body_parts["FEET"]  = bp_feet;
+    body_parts["ARM_L"]  = bp_arm_l;
+    body_parts["ARM_R"]  = bp_arm_r;
+    body_parts["HAND_L"] = bp_hand_l;
+    body_parts["HAND_R"] = bp_hand_r;
+    body_parts["LEG_L"]  = bp_leg_l;
+    body_parts["LEG_R"]  = bp_leg_r;
+    body_parts["FOOT_L"]  = bp_foot_l;
+    body_parts["FOOT_R"]  = bp_foot_r;
 }
 
 std::string get_body_part_id(body_part bp)
@@ -157,17 +181,23 @@ std::string get_body_part_id(body_part bp)
         return "MOUTH";
     case bp_torso:
         return "TORSO";
-    case bp_arms:
-        return "ARMS";
-    case bp_hands:
-        return "HANDS";
-    case bp_legs:
-        return "LEGS";
-    case bp_feet:
-        return "FEET";
+    case bp_arm_l:
+        return "ARM_L";
+    case bp_arm_r:
+        return "ARM_R";
+    case bp_hand_l:
+        return "HAND_L";
+    case bp_hand_r:
+        return "HAND_R";
+    case bp_leg_l:
+        return "LEG_L";
+    case bp_leg_r:
+        return "LEG_R";
+    case bp_foot_l:
+        return "FOOT_L";
+    case bp_foot_r:
+        return "FOOT_R";
     default:
         throw std::string("bad body part: %d", bp);
     }
 }
-
-
