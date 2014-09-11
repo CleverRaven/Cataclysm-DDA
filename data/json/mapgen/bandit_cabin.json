@@ -32,6 +32,8 @@
                 ".............z........^."
             ],
             "place_groups": [
+            	{ "item": "bed", "chance": 80,  "x": [11,12 ], "y": [5,6 ] },
+            	{ "item": "bed", "chance": 80,  "x": [20,21 ], "y": [3,4 ] },
                 { "item": "stash_wood", "chance": 70,  "x": [ 9,9 ], "y": [ 2,4 ] },
                 { "item": "dresser", "chance": 70,  "x": [ 13,13 ], "y": [ 3,3 ] },
                 { "item": "dresser", "chance": 70,  "x": [ 20,20 ], "y": [ 7,7 ] },
