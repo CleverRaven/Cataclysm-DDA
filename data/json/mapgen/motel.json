@@ -221,6 +221,8 @@
                 { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": 0, "repeat": [ 5, 10 ] }
             ],
 		 "add": [
+		{ "item": "bed", "chance": 80, "x": [5,6], "y": [19,20 ]}, 
+		{ "item": "bed", "chance": 80, "x": [8,9], "y": [19,20 ]},
                 { "item": "phonebook", "x": 10, "y": 16, "chance": 2 },
                 { "item": "holybook_bible3", "x": 10, "y": 16, "chance": 2 },
                 { "item": "phonebook", "x": 10, "y": 22, "chance": 2 },
@@ -359,6 +361,12 @@
                 { "item": "holybook_bible3", "x": 18, "y": 13, "chance": 2 }
             ],
             "place_groups": [
+            	{ "item": "bed", "chance": 80, "x": [5,6 ], "y": [1,2 ]},
+            	{ "item": "bed", "chance": 80, "x": [8,9 ], "y": [1,2 ]},
+            	{ "item": "bed", "chance": 80, "x": [8,9 ], "y": [7,8 ]},
+            	{ "item": "bed", "chance": 80, "x": [7,8 ], "y": [13,14 ]},
+            	{ "item": "bed", "chance": 80, "x": [12,13 ], "y": [14,15 ]},
+            	{ "item": "bed", "chance": 80, "x": [18,19 ], "y": [15,16 ]},
                 { "item": "traveler", "chance": 30, "x": [ 5,6 ], "y": [ 4,4 ] },
                 { "item": "traveler", "chance": 30, "x": [ 5,6 ], "y": [ 10,10 ] },
                 { "item": "traveler", "chance": 30, "x": [ 16,16 ], "y": [ 17,18 ] },
@@ -484,6 +492,14 @@
             ],
             "place_groups": [
                 { "vehicle": "car", "x": 8, "y": 8, "rotation": 90, "chance": 35  },
+                { "item": "bed", "chance": 80, "x": [1,2 ], "y": [14,15 ]},
+                { "item": "bed", "chance": 80, "x": [7,8 ], "y": [14,15 ]},
+                { "item": "bed", "chance": 80, "x": [13,14 ], "y": [14,15 ]},
+                { "item": "bed", "chance": 80, "x": [19,20 ], "y": [14,15 ]},
+                { "item": "bed", "chance": 80, "x": [1,2 ], "y": [17,18 ]},
+                { "item": "bed", "chance": 80, "x": [7,8 ], "y": [17,18 ]},
+                { "item": "bed", "chance": 80, "x": [13,14 ], "y": [17,18 ]},
+                { "item": "bed", "chance": 80, "x": [19,20 ], "y": [17,18 ]},
                 { "item": "traveler", "chance": 30, "x": [ 4,4 ], "y": [ 17,18 ] },
                 { "item": "traveler", "chance": 30, "x": [ 10,10 ], "y": [ 17,18 ] },
                 { "item": "traveler", "chance": 30, "x": [ 16,16 ], "y": [ 17,18 ] },
