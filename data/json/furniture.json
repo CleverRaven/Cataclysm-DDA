@@ -151,7 +151,7 @@
                 { "item": "2x4", "amount": 8, "minamount": 3 },
                 { "item": "nail", "amount": 10, "minamount": 6 },
                 { "item": "splinter", "amount": 6, "minamount": 3 },
-                { "item": "rag", "amount": 40, "minamount": 20 }
+                { "item": "rag", "amount": 10, "minamount": 5 }
             ]
         }
     },{
@@ -373,7 +373,8 @@
             "items": [
                 { "item": "2x4", "amount": 3, "minamount": 1},
                 { "item": "nail", "amount": 6, "minamount": 2},
-                { "item": "splinter", "amount": 1 }
+                { "item": "splinter", "amount": 1 },
+                { "item": "rag", "amount": 10, "minamount": 5 }
             ]
         }
     },{
@@ -400,7 +401,8 @@
             "items": [
                 { "item": "2x4", "amount": 3, "minamount": 1},
                 { "item": "nail", "amount": 6, "minamount": 2},
-                { "item": "splinter", "amount": 1 }
+                { "item": "splinter", "amount": 1 },
+                { "item": "rag", "amount": 10, "minamount": 5 }
             ]
         }
     },{
@@ -639,7 +641,8 @@
             "items": [
                 { "item": "2x4", "amount": 6, "minamount": 2},
                 { "item": "nail", "amount": 12, "minamount": 4},
-                { "item": "splinter", "amount": 1 }
+                { "item": "splinter", "amount": 1 },
+                { "item": "rag", "amount": 2, "minamount": 0 }
             ]
         }
     },{
