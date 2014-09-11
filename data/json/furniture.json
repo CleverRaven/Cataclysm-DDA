@@ -151,7 +151,7 @@
                 { "item": "2x4", "amount": 8, "minamount": 3 },
                 { "item": "nail", "amount": 10, "minamount": 6 },
                 { "item": "splinter", "amount": 6, "minamount": 3 },
-                { "item": "rag", "amount": 40, "minamount": 20 }
+                { "item": "rag", "amount": 10, "minamount": 5 }
             ]
         }
     },{
@@ -165,11 +165,12 @@
         "flags": ["TRANSPARENT", "FLAMMABLE_HARD", "MOUNTABLE"],
         "examine_action": "toilet",
         "bash": {
-            "str_min": 6, "str_max": 20,
+            "str_min": 8, "str_max": 30,
             "sound": "porcelain breaking!",
             "sound_fail": "whunk!",
             "items": [
-                { "item": "cu_pipe", "amount": 1, "chance": 50 }
+                { "item": "cu_pipe", "amount": 1, "chance": 50 },
+                { "item": "rock", "amount": 8, "minamount": 2}
             ]
         }
     },{
@@ -210,7 +211,7 @@
         "required_str": 18,
         "flags": ["TRANSPARENT", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "MOUNTABLE"],
         "bash": {
-            "str_min": 6, "str_max": 20,
+            "str_min": 8, "str_max": 30,
             "sound": "porcelain breaking!",
             "sound_fail": "whunk!",
             "items": [
@@ -301,7 +302,8 @@
             "sound": "porcelain breaking!",
             "sound_fail": "whunk!",
             "items": [
-                { "item": "cu_pipe", "amount": 3, "minamount": 0 }
+                { "item": "cu_pipe", "amount": 3, "minamount": 0 },
+                { "item": "glass_shard", "amount": 2, "minamount": 1 }
             ]
         }
     },{
@@ -314,7 +316,7 @@
         "required_str": 10,
         "flags": ["TRANSPARENT", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE"],
         "bash": {
-            "str_min": 6, "str_max": 30,
+            "str_min": 8, "str_max": 30,
             "sound": "porcelain breaking!",
             "sound_fail": "whunk!",
             "items": [
@@ -373,7 +375,8 @@
             "items": [
                 { "item": "2x4", "amount": 3, "minamount": 1},
                 { "item": "nail", "amount": 6, "minamount": 2},
-                { "item": "splinter", "amount": 1 }
+                { "item": "splinter", "amount": 1 },
+                { "item": "rag", "amount": 10, "minamount": 5 }
             ]
         }
     },{
@@ -400,7 +403,8 @@
             "items": [
                 { "item": "2x4", "amount": 3, "minamount": 1},
                 { "item": "nail", "amount": 6, "minamount": 2},
-                { "item": "splinter", "amount": 1 }
+                { "item": "splinter", "amount": 1 },
+                { "item": "rag", "amount": 10, "minamount": 5 }
             ]
         }
     },{
@@ -639,7 +643,8 @@
             "items": [
                 { "item": "2x4", "amount": 6, "minamount": 2},
                 { "item": "nail", "amount": 12, "minamount": 4},
-                { "item": "splinter", "amount": 1 }
+                { "item": "splinter", "amount": 1 },
+                { "item": "rag", "amount": 2, "minamount": 0 }
             ]
         }
     },{
