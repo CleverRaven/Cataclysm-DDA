@@ -106,7 +106,7 @@
         "description" : "You possess natural night vision, and can see two squares instead of one in pitch blackness.",
         "starting_trait" : true,
         "changes_to" : ["NIGHTVISION2"],
-        "cancels": ["ELFA_NV", "ELFA_FNV", "FELINE_NV"],
+        "cancels": ["ELFA_NV", "ELFA_FNV", "FELINE_NV", "URSINE_EYE"],
         "category" : ["MUTCAT_BIRD", "MUTCAT_CATTLE", "MUTCAT_INSECT"]
     },{
         "type" : "mutation",
@@ -877,7 +877,7 @@
         "description" : "You can see incredibly well in the dark!",
         "prereqs" : ["NIGHTVISION"],
         "changes_to" : ["NIGHTVISION3"],
-        "cancels" : ["ELFA_NV", "ELFA_FNV", "FEL_NV"],
+        "cancels" : ["ELFA_NV", "ELFA_FNV", "FEL_NV", "URSINE_EYE"],
         "category" : ["MUTCAT_FISH", "MUTCAT_BEAST", "MUTCAT_INSECT", "MUTCAT_RAT", "MUTCAT_CHIMERA", "MUTCAT_LUPINE"]
     },{
         "type" : "mutation",
@@ -887,7 +887,7 @@
         "description" : "You can see in pitch blackness as if you were wearing night-vision goggles.",
         "prereqs" : ["NIGHTVISION2"],
         "leads_to" : ["INFRARED"],
-        "cancels" : ["ELFA_NV", "ELFA_FNV", "FEL_NV"],
+        "cancels" : ["ELFA_NV", "ELFA_FNV", "FEL_NV", "URSINE_EYE"],
         "category" : ["MUTCAT_TROGLOBITE", "MUTCAT_SPIDER"]
     },{
         "type" : "mutation",
