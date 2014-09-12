@@ -1844,7 +1844,7 @@
     "material": "ceramic",
     "weight": 750,
     "volume": 1,
-    "bashing": 4,
+    "bashing": 5,
     "cutting": 2,
     "to_hit": -1,
     "qualities": [["HAMMER", 1]]
