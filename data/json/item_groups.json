@@ -2314,6 +2314,7 @@
       ["chain", 20],
       ["glass_sheet", 5],
       ["glass_shard", 20],
+      ["ceramic_shard", 15],
       ["stick", 95],
       ["muffler", 30],
       ["seed_wheat", 5],
