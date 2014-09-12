@@ -2191,7 +2191,7 @@
     "skill": "rifle",
     "ammo": "223",
     "weight": 4590,
-    "volume": 11,
+    "volume": 12,
     "bashing": 12,
     "cutting": 0,
     "to_hit": -1,
@@ -2259,7 +2259,7 @@
     "burst": 20,
     "clip_size": 100,
     "reload": 2000,
-    "valid_mod_locations": [[ "accessories", 4 ]]
+    "valid_mod_locations": [[ "accessories", 2 ]]
   },
   {
     "id": "m9",
