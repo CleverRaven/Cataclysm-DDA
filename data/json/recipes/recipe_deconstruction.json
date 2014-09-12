@@ -823,7 +823,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 20 ],
-      [ "toolset", 2 ]
+      [ "toolset", 20 ]
     ]
   ],
   "components": [
@@ -848,7 +848,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 20 ],
-      [ "toolset", 2 ]
+      [ "toolset", 20 ]
     ]
   ],
   "components": [
@@ -873,7 +873,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 20 ],
-      [ "toolset", 2 ]
+      [ "toolset", 20 ]
     ]
   ],
   "components": [
@@ -898,7 +898,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 20 ],
-      [ "toolset", 2 ]
+      [ "toolset", 20 ]
     ]
   ],
   "components": [
@@ -923,7 +923,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 20 ],
-      [ "toolset", 2 ]
+      [ "toolset", 20 ]
     ]
   ],
   "components": [
@@ -948,7 +948,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 20 ],
-      [ "toolset", 2 ]
+      [ "toolset", 20 ]
     ]
   ],
   "components": [
@@ -973,7 +973,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 20 ],
-      [ "toolset", 2 ]
+      [ "toolset", 20 ]
     ]
   ],
   "components": [
@@ -1034,6 +1034,75 @@
   ]
 },{
         "type" : "recipe",
+  "result": "pipe",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "skill_used": "mechanics",
+  "difficulty": 0,
+  "time": 5000,
+  "reversible": true,
+  "autolearn": false,
+  "qualities":[
+    {"id":"SAW_M","level":1,"amount":1}
+    
+    ], "components": [
+        [ [ "scrap", 7 ] ]
+    ]
+},{
+	"type" : "recipe",
+  "result": "makeshift_crowbar",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "skill_used": "mechanics",
+  "difficulty": 0,
+  "time": 5000,
+  "reversible": true,
+  "autolearn": false,
+  "qualities": [
+   {"id":"SAW_M","level":1,"amount":1}
+   ], "components": [
+        [ [ "scrap", 3 ] ],
+        [ [ "steel_chunk", 1] ]
+    ]
+},{
+	"type" : "recipe",
+  "result": "file",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 100,
+  "reversible": true,
+  "autolearn": false,
+  "components": [
+  	[ [ "paper", 3 ] ]
+  ]
+},{
+	"type" : "recipe",
+  "result": "flyer",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 100,
+  "reversible": true,
+  "autolearn": false,
+  "components": [
+  	[ [ "paper", 1 ] ]
+  ]
+},{
+	"type" : "recipe",
+  "result": "survnote",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 100,
+  "reversible": true,
+  "autolearn": false,
+  "components": [
+  	[ [ "paper", 1 ] ]
+  ]
+},{
+        "type" : "recipe",
   "result": "broken_manhack",
   "category": "CC_NONCRAFT",
   "subcategory": "CSC_NONCRAFT",
@@ -1047,7 +1116,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 5 ],
-      [ "toolset", 1 ]
+      [ "toolset", 5 ]
     ]
   ],
   "components": [
@@ -1077,7 +1146,7 @@
     "qualities" : [
         {"id":"SCREW","level":1,"amount":1}
     ], "tools": [
-        [ [ "soldering_iron", 3 ], [ "toolset", 1 ] ]
+        [ [ "soldering_iron", 3 ], [ "toolset", 3 ] ]
     ], "components": [
         [ [ "processor", 1 ] ],
         [ [ "lens", 1 ] ],
@@ -1097,7 +1166,7 @@
     "qualities" : [
         {"id":"SCREW","level":1,"amount":1}
     ], "tools": [
-        [ [ "soldering_iron", 10 ], [ "toolset", 1 ] ]
+        [ [ "soldering_iron", 10 ], [ "toolset", 10 ] ]
     ], "components": [
         [ [ "power_supply", 1 ] ],
         [ [ "tazer", 2 ] ],
@@ -1118,13 +1187,37 @@
         {"id":"SCREW","level":1,"amount":1},
         {"id":"SAW_M","level":1,"amount":1}
     ], "tools": [
-        [ [ "soldering_iron", 20 ], [ "toolset", 2 ] ],
-        [ [ "welder", 50 ], [ "toolset", 5 ] ]
+        [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ],
+        [ [ "welder", 50 ], [ "toolset", 75 ], [ "welder_crude", 75 ] ]
     ], "components": [
         [ [ "power_supply", 4 ] ],
         [ [ "solar_cell", 2 ] ],
         [ [ "motor", 1 ] ],
         [ [ "tazer", 1 ] ],
+        [ [ "e_scrap", 3 ] ],
+        [ [ "steel_chunk", 12 ] ]
+    ]
+},{
+    "type" : "recipe",
+    "result": "broken_riotbot",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "electronics",
+    "difficulty": 6,
+    "time": 120000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [
+        {"id":"SCREW","level":1,"amount":1},
+        {"id":"SAW_M","level":1,"amount":1}
+    ], "tools": [
+        [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ],
+        [ [ "welder", 50 ], [ "toolset", 75 ], [ "welder_crude", 75 ] ]
+    ], "components": [
+        [ [ "power_supply", 4 ] ],
+        [ [ "solar_cell", 2 ] ],
+        [ [ "motor", 1 ] ],
+        [ [ "canister_empty", 1 ] ],
         [ [ "e_scrap", 3 ] ],
         [ [ "steel_chunk", 12 ] ]
     ]
@@ -1141,7 +1234,7 @@
     "qualities" : [
         {"id":"SAW_M","level":1,"amount":1}
     ], "tools": [
-        [ [ "welder", 60 ], [ "toolset", 6 ] ]
+        [ [ "welder", 60 ], [ "toolset", 90 ], [ "welder_crude", 90 ] ]
     ], "components": [
         [ [ "power_supply", 4 ] ],
         [ [ "motor", 1 ] ],
@@ -1161,8 +1254,8 @@
         {"id":"SCREW","level":1,"amount":1},
         {"id":"SAW_M","level":1,"amount":1}
     ], "tools": [
-        [ [ "soldering_iron", 10 ], [ "toolset", 1 ] ],
-        [ [ "welder", 100 ], [ "toolset", 10 ] ]
+        [ [ "soldering_iron", 10 ], [ "toolset", 10 ] ],
+        [ [ "welder", 100 ], [ "toolset", 150 ], [ "welder_crude", 150 ] ]
     ], "components": [
         [ [ "power_supply", 12 ] ],
         [ [ "processor", 1 ] ],
@@ -1187,8 +1280,8 @@
         {"id":"WRENCH","level":1,"amount":1},
         {"id":"SAW_M","level":1,"amount":1}
     ], "tools": [
-        [ [ "soldering_iron", 30 ], [ "toolset", 3 ] ],
-        [ [ "welder", 200 ], [ "toolset", 200 ] ]
+        [ [ "soldering_iron", 30 ], [ "toolset", 30 ] ],
+        [ [ "welder", 200 ], [ "toolset", 300 ], [ "welder_crude", 300 ] ]
     ], "components": [
         [ [ "flamethrower", 1 ] ],
         [ [ "tazer", 1 ] ],
@@ -1665,5 +1758,249 @@
     ],
 	  [[ "char_kiln", 1 ]]
   ]
-}
+},{
+  "type" : "recipe",
+  "result": "multi_cooker",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "skill_used": "electronics",
+  "difficulty": 0,
+  "time": 90000,
+  "reversible": true,
+  "autolearn": false,
+  "qualities" : [
+    {"id":"SCREW","level":1,"amount":1}
+  ], "components": [
+    [
+      ["processor", 1]
+    ],
+    [
+      ["RAM", 1]
+    ],
+    [
+      ["cable", 8]
+    ],
+    [
+      [ "element", 4 ]
+    ],
+    [
+      ["amplifier", 1]
+    ],
+    [
+      [ "power_supply", 4 ]
+    ],
+    [
+      ["plastic_chunk", 12]
+    ],
+    [
+      ["e_scrap", 4]
+    ],
+    [
+      ["scrap", 10]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "mess_kit",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "skill_used": "electronics",
+  "difficulty": 0,
+  "time": 10000,
+  "reversible": true,
+  "autolearn": false,
+  "qualities" : [
+    {"id":"SCREW","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "soldering_iron", 10 ],
+      [ "toolset", 10 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "element", 3 ]
+    ],
+    [
+      ["amplifier", 1]
+    ],
+    [
+      ["scrap", 6]
+    ],
+    [
+      ["plastic_chunk", 1]
+    ],
+    [
+      ["cable", 8]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "mil_mess_kit",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "skill_used": "electronics",
+  "difficulty": 0,
+  "time": 10000,
+  "reversible": true,
+  "autolearn": false,
+  "qualities" : [
+    {"id":"SCREW","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "element", 3 ]
+    ],
+    [
+      ["amplifier", 1]
+    ],
+    [
+      ["cable", 8]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "l_HFPack",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
+  "time": 500,
+  "reversible": true,
+  "autolearn": false,
+  "components": [
+    [
+      [ "l_long_45", 1 ]
+    ],
+    [
+      [ "l_enforcer_45", 1 ]
+    ],
+    [
+      [ "small_repairkit", 1 ]
+    ],
+    [
+      [ "battery", 300 ]
+    ],
+    [
+      [ "manual_gun", 1 ]
+    ],
+    [
+      [ "holster", 1 ]
+    ]
+  ]
+},{
+    "type" : "recipe",
+    "result": "eink_tablet_pc",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 500,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+    "components": [
+      [ [ "scrap", 1 ] ],
+      [ [ "RAM", 1 ] ],
+      [ [ "processor", 1 ] ],
+      [ [ "plastic_chunk", 2 ] ],
+      [ [ "e_scrap", 2 ] ]
+    ]
+  },
+  {
+    "type" : "recipe",
+    "result": "camera",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 1000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+    "components": [
+      [ [ "scrap", 2 ] ],
+      [ [ "processor", 1 ] ],
+      [ [ "plastic_chunk", 5 ] ],
+      [ [ "e_scrap", 2 ] ],
+      [ [ "lens", 1 ] ]
+    ]
+  },
+  {
+    "type" : "recipe",
+    "result": "camera_pro",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 1200,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+    "components": [
+      [ [ "scrap", 5 ] ],
+      [ [ "processor", 1 ] ],
+      [ [ "plastic_chunk", 10 ] ],
+      [ [ "e_scrap", 8 ] ],
+      [ [ "lens", 2 ] ]
+    ]
+  },
+{
+  "type" : "recipe",
+  "result": "processor",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "skill_used": "electronics",
+  "difficulty": 1,
+  "time": 10000,
+  "reversible": true,
+  "autolearn": false,
+  "qualities" : [
+    {"id":"SCREW","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "soldering_iron", 5 ],
+      [ "toolset", 5 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "e_scrap", 3 ]
+    ],
+    [
+      ["plastic_chunk", 1]
+    ]
+  ]
+},
+  {
+  "type" : "recipe",
+  "result": "radio_car_box",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
+  "time": 500,
+  "reversible": true,
+  "autolearn": false,
+  "components": [
+    [
+      [ "radio_car", 1 ]
+    ],
+    [
+      [ "radiocontrol", 1 ]
+    ],
+    [
+      [ "battery", 200 ]
+    ]
+  ]
+  }
 ]

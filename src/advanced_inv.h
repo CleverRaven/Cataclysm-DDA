@@ -3,7 +3,7 @@
 #include "output.h"
 #include <string>
 
-typedef std::vector< std::list<item*> > itemslice;
+typedef std::vector< std::list<item *> > itemslice;
 
 struct advanced_inv_area {
     int id;
@@ -58,7 +58,8 @@ class advanced_inventory_pane
         bool recalc;
         bool redraw;
         std::map<std::string, bool> filtercache;
-        advanced_inventory_pane() {
+        advanced_inventory_pane()
+        {
             offx = 0;
             offy = 0;
             size = 0;
@@ -81,9 +82,22 @@ class advanced_inventory_pane
 
 class advanced_inventory
 {
-    public:
-        player *p;
 
+    public:
+        advanced_inventory() :
+            head_height(5),
+            min_w_height(10),
+            min_w_width(FULL_SCREEN_WIDTH),
+            max_w_width(120),
+            left(0),
+            right(1),
+            isinventory(0),
+            isall(10),
+            isdrag(11)
+        {
+        }
+        void display();
+    private:
         const int head_height;
         const int min_w_height;
         const int min_w_width;
@@ -94,8 +108,6 @@ class advanced_inventory
         const int isall;
         const int isdrag;
 
-        bool checkshowmsg;
-        bool showmsg;
         bool inCategoryMode;
 
         int itemsPerPage;
@@ -105,10 +117,6 @@ class advanced_inventory
         int headstart;
         int colstart;
 
-        //    itemsPerPage=getmaxy(left_window)-ADVINVOFS;
-        // todo: awaiting ui::menu // last_tmpdest=-1;
-        bool exit;// = false;
-        bool redraw;// = true;
         bool recalc;// = true;
         int lastCh;// = 0;
 
@@ -120,24 +128,12 @@ class advanced_inventory
         advanced_inventory_pane panes[2];
         advanced_inv_area squares[12];
 
-        advanced_inventory() :
-            head_height(5),
-            min_w_height(10),
-            min_w_width(FULL_SCREEN_WIDTH),
-            max_w_width(120),
-            left(0),
-            right(1),
-            isinventory(0),
-            isall(10),
-            isdrag(11) {
-        }
+        std::string get_sortname(int sortby);
         bool move_all_items();
-        void display(player *pp);
         void print_items(advanced_inventory_pane &pane, bool active);
         void recalc_pane(int i);
         void redraw_pane(int i);
-        void init(player *pp);
-    private:
+        void init();
         bool isDirectionalDragged(int area1, int area2);
 };
 

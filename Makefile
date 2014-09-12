@@ -45,11 +45,15 @@
 # we don't check in code with new warnings, but we also have to disable some classes of warnings
 # for now as we get rid of them.  In non-release builds we want to show all the warnings,
 # even the ones we're allowing in release builds so they're visible to developers.
-RELEASE_FLAGS = -Werror -Wno-switch -Wno-sign-compare
+RELEASE_FLAGS = -Werror
 WARNINGS = -Wall -Wextra
 # Uncomment below to disable warnings
 #WARNINGS = -w
-DEBUG = -g
+ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Cygwin)
+  DEBUG = -g
+else
+  DEBUG = -g -D_GLIBCXX_DEBUG
+endif
 #PROFILE = -pg
 #OTHERS = -O3
 #DEFINES = -DNDEBUG
@@ -163,6 +167,9 @@ ifeq ($(NATIVE), osx)
   WARNINGS = -Werror -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces
   ifeq ($(LOCALIZE), 1)
     LDFLAGS += -lintl
+    ifeq ($(MACPORTS), 1)
+      LDFLAGS += -L$(shell ncursesw5-config --libdir)
+    endif
   endif
   TARGETSYSTEM=LINUX
   ifneq ($(OS), Linux)
@@ -241,7 +248,7 @@ ifdef LUA
   BINDIST_EXTRAS  += $(LUA_DIR)
 endif
 
-ifdef SDL 
+ifdef SDL
   TILES = 1
 endif
 

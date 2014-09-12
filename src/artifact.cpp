@@ -2,9 +2,12 @@
 
 #include "output.h" // string_format
 #include "item_factory.h"
+#include "debug.h"
+#include "json.h"
 
 #include <sstream>
 #include <fstream>
+#include <bitset>
 
 std::vector<art_effect_passive> fill_good_passive();
 std::vector<art_effect_passive> fill_bad_passive();
@@ -195,7 +198,7 @@ struct artifact_armor_form_datum {
     int warmth;
     int storage;
     int melee_bash, melee_cut, melee_hit;
-    unsigned char covers;
+    std::bitset<13> covers;
     bool plural;
     artifact_armor_mod available_mods[5];
 };
@@ -236,7 +239,8 @@ std::string artifact_noun[NUM_ART_NOUNS];
 std::string artifact_name(std::string type);
 
 // Constructrs for artifact itypes.
-it_artifact_tool::it_artifact_tool() : it_tool() {
+it_artifact_tool::it_artifact_tool() : it_tool()
+{
     id = mk_artifact_id();
     ammo = "NULL";
     price = 0;
@@ -249,7 +253,8 @@ it_artifact_tool::it_artifact_tool() : it_tool() {
     use_methods.push_back( &iuse::artifact );
 };
 
-it_artifact_armor::it_artifact_armor() : it_armor() {
+it_artifact_armor::it_artifact_armor() : it_armor()
+{
     id = mk_artifact_id();
     price = 0;
 };
@@ -470,8 +475,8 @@ void init_artifacts()
         },
         // Name    color  Materials         Vol Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
         {
-            _("Robe"),   c_red, "wool", "null", 6, 700,  1,  3,  3,  0,  2,  0, -8,  0, -3,
-            mfb(bp_torso) | mfb(bp_legs), false,
+            _("Robe"),   c_red, "wool", "null", 6, 700,  1,  90,  3,  0,  2,  0, -8,  0, -3,
+            mfb(bp_torso) | mfb(bp_leg_l) | mfb(bp_leg_r), false,
             {
                 ARMORMOD_LIGHT, ARMORMOD_BULKY, ARMORMOD_POCKETED, ARMORMOD_FURRED,
                 ARMORMOD_PADDED
@@ -479,7 +484,7 @@ void init_artifacts()
         },
 
         {
-            _("Coat"),   c_brown, "leather", "null", 14, 1600,  2,  3, 2,  1,  4,  4, -6,  0, -3,
+            _("Coat"),   c_brown, "leather", "null", 14, 1600,  2,  80, 2,  1,  4,  4, -6,  0, -3,
             mfb(bp_torso), false,
             {
                 ARMORMOD_LIGHT, ARMORMOD_POCKETED, ARMORMOD_FURRED, ARMORMOD_PADDED,
@@ -488,7 +493,7 @@ void init_artifacts()
         },
 
         {
-            _("Mask"),   c_white, "wood", "null",   4, 100,  2,  2, 2,  1,  2,  0,  2,  0, -2,
+            _("Mask"),   c_white, "wood", "null",   4, 100,  2,  50, 2,  1,  2,  0,  2,  0, -2,
             mfb(bp_eyes) | mfb(bp_mouth), false,
             {
                 ARMORMOD_FURRED, ARMORMOD_FURRED, ARMORMOD_NULL, ARMORMOD_NULL,
@@ -498,7 +503,7 @@ void init_artifacts()
 
         // Name    color  Materials             Vol  Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
         {
-            _("Helm"),   c_dkgray, "silver", "null", 6, 700,  2,  3, 3,  0,  1,  0,  8,  0, -2,
+            _("Helm"),   c_dkgray, "silver", "null", 6, 700,  2,  85, 3,  0,  1,  0,  8,  0, -2,
             mfb(bp_head), false,
             {
                 ARMORMOD_BULKY, ARMORMOD_FURRED, ARMORMOD_PADDED, ARMORMOD_PLATED,
@@ -507,8 +512,8 @@ void init_artifacts()
         },
 
         {
-            _("Gloves"), c_ltblue, "leather", "null", 2, 100,  1,  3,  3,  1,  2,  0, -4,  0, -2,
-            mfb(bp_hands), true,
+            _("Gloves"), c_ltblue, "leather", "null", 2, 100,  1,  90,  3,  1,  2,  0, -4,  0, -2,
+            mfb(bp_hand_l) | mfb(bp_hand_r), true,
             {
                 ARMORMOD_BULKY, ARMORMOD_FURRED, ARMORMOD_PADDED, ARMORMOD_PLATED,
                 ARMORMOD_NULL
@@ -517,8 +522,8 @@ void init_artifacts()
 
         // Name    color  Materials            Vol  Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
         {
-            _("Boots"), c_blue, "leather", "null",  6, 250,  1,  3,  3,  1,  3,  0,  4,  0, -1,
-            mfb(bp_feet), true,
+            _("Boots"), c_blue, "leather", "null",  6, 250,  1,  75,  3,  1,  3,  0,  4,  0, -1,
+            mfb(bp_foot_l) | mfb(bp_foot_r), true,
             {
                 ARMORMOD_LIGHT, ARMORMOD_BULKY, ARMORMOD_PADDED, ARMORMOD_PLATED,
                 ARMORMOD_NULL
@@ -617,7 +622,7 @@ void it_artifact_tool::create_name(const std::string &type)
 void it_artifact_tool::create_name(const std::string &property_name, const std::string &shape_name)
 {
     name = rmp_format(_("<artifact_name>%1$s %2$s"), property_name.c_str(),
-                           shape_name.c_str());
+                      shape_name.c_str());
     name_plural = name;
 }
 
@@ -886,7 +891,7 @@ std::string new_natural_artifact(artifact_natural_property prop)
     // Pick a property
     artifact_natural_property property = (prop > ARTPROP_NULL ? prop :
                                           artifact_natural_property(rng(ARTPROP_NULL + 1,
-                                                                        ARTPROP_MAX - 1)));
+                                                  ARTPROP_MAX - 1)));
     artifact_property_datum *property_data = &(artifact_property_data[property]);
 
     art->sym = ':';
@@ -987,31 +992,31 @@ std::string new_natural_artifact(artifact_natural_property prop)
 // Make a special debugging artifact.
 std::string architects_cube()
 {
-      std::string artifact_name(std::string type);
+    std::string artifact_name(std::string type);
 
-      it_artifact_tool *art = new it_artifact_tool();
-      artifact_tool_form_datum *info = &(artifact_tool_form_data[ARTTOOLFORM_CUBE]);
-      art->create_name(info->name);
-      art->color = info->color;
-      art->sym = info->sym;
-      art->m1 = info->m1;
-      art->m2 = info->m2;
-      art->volume = rng(info->volume_min, info->volume_max);
-      art->weight = rng(info->weight_min, info->weight_max);
-      // Set up the basic weapon type
-      artifact_weapon_datum *weapon = &(artifact_weapon_data[info->base_weapon]);
-      art->melee_dam = rng(weapon->bash_min, weapon->bash_max);
-      art->melee_cut = rng(weapon->cut_min, weapon->cut_max);
-      art->m_to_hit = rng(weapon->to_hit_min, weapon->to_hit_max);
-      if( weapon->tag != "" ) {
-          art->item_tags.insert(weapon->tag);
-      }
-      // Add an extra weapon perhaps?
-      art->description = _("The architect's cube.");
-      art->effects_carried.push_back(AEP_SUPER_CLAIRVOYANCE);
-      item_controller->add_item_type( art );
-      artifact_itype_ids.push_back(art->id);
-      return art->id;
+    it_artifact_tool *art = new it_artifact_tool();
+    artifact_tool_form_datum *info = &(artifact_tool_form_data[ARTTOOLFORM_CUBE]);
+    art->create_name(info->name);
+    art->color = info->color;
+    art->sym = info->sym;
+    art->m1 = info->m1;
+    art->m2 = info->m2;
+    art->volume = rng(info->volume_min, info->volume_max);
+    art->weight = rng(info->weight_min, info->weight_max);
+    // Set up the basic weapon type
+    artifact_weapon_datum *weapon = &(artifact_weapon_data[info->base_weapon]);
+    art->melee_dam = rng(weapon->bash_min, weapon->bash_max);
+    art->melee_cut = rng(weapon->cut_min, weapon->cut_max);
+    art->m_to_hit = rng(weapon->to_hit_min, weapon->to_hit_max);
+    if( weapon->tag != "" ) {
+        art->item_tags.insert(weapon->tag);
+    }
+    // Add an extra weapon perhaps?
+    art->description = _("The architect's cube.");
+    art->effects_carried.push_back(AEP_SUPER_CLAIRVOYANCE);
+    item_controller->add_item_type( art );
+    artifact_itype_ids.push_back(art->id);
+    return art->id;
 }
 
 std::vector<art_effect_passive> fill_good_passive()
@@ -1174,7 +1179,7 @@ void it_artifact_armor::deserialize(JsonObject &jo)
     m_to_hit = jo.get_int("m_to_hit");
     item_tags = jo.get_tags("item_flags");
 
-    covers = jo.get_int("covers");
+    jo.read( "covers", covers);
     encumber = jo.get_int("encumber");
     coverage = jo.get_int("coverage");
     thickness = jo.get_int("material_thickness");

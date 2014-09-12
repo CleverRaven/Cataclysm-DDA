@@ -36,8 +36,8 @@ timespec_subtract( struct timespec *result, struct timespec *x, struct timespec 
 }
 
 #define SGN(a) (((a)<0) ? -1 : 1)
-// Compare all future line_to implementations to the cannonical one.
-std::vector <point> cannonical_line_to(const int x1, const int y1, const int x2, const int y2, int t)
+// Compare all future line_to implementations to the canonical one.
+std::vector <point> canonical_line_to(const int x1, const int y1, const int x2, const int y2, int t)
 {
     std::vector<point> ret;
     int dx = x2 - x1;
@@ -122,7 +122,7 @@ int main(int argc, char *argv[])
      int t2 = 0;
      snprintf( test_message, sizeof(test_message), "Line from %d, %d to %d, %d.",
                x1, y1, x2, y2 );
-     ok( line_to( x1, y1, x2, y2, t1 ) == cannonical_line_to( x1, y1, x2, y2, t2 ),
+     ok( line_to( x1, y1, x2, y2, t1 ) == canonical_line_to( x1, y1, x2, y2, t2 ),
          test_message );
  }
 
@@ -161,7 +161,7 @@ int main(int argc, char *argv[])
      // or at least reliably so.
      printf( "line_to() executed %d times in %ld.%ld seconds.\n",
              PERFORMANCE_TEST_ITERATIONS, diff1.tv_sec, diff1.tv_nsec );
-     printf( "cannonical_line_to() executed %d times in %ld.%ld seconds.\n",
+     printf( "canonical_line_to() executed %d times in %ld.%ld seconds.\n",
              PERFORMANCE_TEST_ITERATIONS, diff2.tv_sec, diff2.tv_nsec );
  }
 

@@ -66,6 +66,18 @@
     ]
 },{
         "type" : "recipe",
+  "result": "meal_chitin_piece",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["rock_quern", -1] ] ],
+  "components": [ [ ["chitin_piece", 1] ] ]
+},{
+        "type" : "recipe",
   "result": "reinforced_glass_sheet",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -81,7 +93,7 @@
     [
       [ "welder", 100 ],
       [ "welder_crude", 150 ],
-      [ "toolset", 15 ],
+      [ "toolset", 150 ],
       [ "soldering_iron", 150 ]
     ]
   ],
@@ -113,7 +125,7 @@
     [
       ["welder", 100],
       ["welder_crude", 150],
-      ["toolset", 4]
+      ["toolset", 150]
     ]
   ],
   "components": [
@@ -146,7 +158,7 @@
      [ ["mold_plastic", -1] ],
      [
       ["hotplate", 10],
-      ["toolset", 1],
+      ["toolset", 10],
       ["fire", -1]
      ],
      [
@@ -154,7 +166,7 @@
      ],
      [
       [ "soldering_iron", 10 ],
-      [ "toolset", 1 ]
+      [ "toolset", 10 ]
      ]
   ],
   "components" : [
@@ -213,7 +225,7 @@
   "skill_used": "fabrication",
   "difficulty": 1,
   "time": 20000,
-  "reversible": false,
+  "reversible": true,
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
@@ -282,7 +294,7 @@
     [
       [ "welder", 35 ],
       [ "welder_crude", 52 ],
-      [ "toolset", 2 ]
+      [ "toolset", 52 ]
     ]
   ],
   "components": [
@@ -316,7 +328,7 @@
     [
       [ "welder", 15 ],
       [ "welder_crude", 30 ],
-      [ "toolset", 1 ]
+      [ "toolset", 30 ]
     ]
   ],
   "components": [
@@ -349,7 +361,7 @@
     [
       [ "welder", 35 ],
       [ "welder_crude", 52 ],
-      [ "toolset", 2 ]
+      [ "toolset", 52 ]
     ]
   ],
   "components": [
@@ -383,7 +395,7 @@
     [
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
-      [ "toolset", 3 ]
+      [ "toolset", 75 ]
     ]
   ],
   "components": [
@@ -419,7 +431,7 @@
   ], "tools": [
         [
             [ "soldering_iron", 16 ],
-            [ "toolset", 2 ]
+            [ "toolset", 16 ]
         ]
         ],
     "components": [
@@ -660,12 +672,44 @@
   "time": 5000,
   "reversible": false,
   "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
   "components": [
     [
-      [ "skewer", 2 ]
+      [ "stick", 2 ],
+      [ "2x4", 1 ]
     ],
     [
-      [ "string_6", 1 ]
+      [ "skewer", 1 ]
+    ],
+    [
+      [ "string_6", 3 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "fire_drill_large",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "survival",
+  "difficulty": 2,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "stick", 4 ],
+      [ "2x4", 2 ]
+    ],
+    [
+      [ "rock", 1 ]
+    ],
+    [
+      [ "string_36", 3 ]
     ]
   ]
 },{
@@ -1044,7 +1088,7 @@
     [
       [ "welder", 100 ],
       [ "welder_crude", 150 ],
-      [ "toolset", 5 ]
+      [ "toolset", 150 ]
     ]
   ],
   "components": [
@@ -1090,7 +1134,7 @@
     [
       [ "welder", 100 ],
       [ "welder_crude", 150 ],
-      [ "toolset", 5 ]
+      [ "toolset", 150 ]
     ]
   ],
   "components": [
@@ -1171,7 +1215,7 @@
     [
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
-      [ "toolset", 2 ]
+      [ "toolset", 75 ]
     ]
   ],
   "components": [
@@ -1199,7 +1243,7 @@
     [
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
-      [ "toolset", 2 ]
+      [ "toolset", 75 ]
     ],
     [
       [ "needle_bone", 50 ],
@@ -1226,10 +1270,27 @@
   "result": "cotton_ball",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
+  "id_suffix": "by hand",
+  "difficulty": 0,
+  "time": 54000,
+  "reversible": false,
+  "autolearn": true,
+  "byproduct": { "id" : "seed_cotton_boll", "amount" : 2 },
+  "components": [
+    [
+      [ "cotton_boll", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "cotton_ball",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
   "difficulty": 0,
   "time": 9000,
   "reversible": false,
   "autolearn": true,
+  "byproduct": { "id" : "seed_cotton_boll", "amount" : 2 },
   "tools": [
     [
       [ "carding_paddles", -1 ]
@@ -1298,7 +1359,7 @@
       [ "fire", -1 ],
       [ "hotplate", 3 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ]
+      [ "toolset", 3 ]
     ]
   ],
   "components": [
@@ -1354,7 +1415,7 @@
     [
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
-      [ "toolset", 2 ]
+      [ "toolset", 75 ]
     ]
   ],
   "components": [
@@ -1390,7 +1451,7 @@
     [
       [ "welder", 300 ],
       [ "welder_crude", 450 ],
-      [ "toolset", 12 ]
+      [ "toolset", 450 ]
     ]
   ],
   "components": [
@@ -1578,7 +1639,7 @@
       [ "char_smoker", 1 ],
       [ "lighter", 5 ],
       [ "ref_lighter", 5 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "fire", -1 ]
     ]
   ],
@@ -1668,7 +1729,7 @@
     [
       [ "hotplate", 5 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 5 ],
       [ "fire", -1 ]
     ]
   ],
@@ -1708,7 +1769,7 @@
     [
       [ "welder", 20 ],
       [ "welder_crude", 30 ],
-      [ "toolset", 1 ],
+      [ "toolset", 30 ],
       [ "forge", 10],
       [ "char_forge", 2]
     ]
@@ -1756,7 +1817,7 @@
     [
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
-      [ "toolset", 2 ]
+      [ "toolset", 75 ]
     ]
   ],
   "components": [
@@ -1781,7 +1842,7 @@
     [
       [ "welder", 60 ],
       [ "welder_crude", 90 ],
-      [ "toolset", 2 ]
+      [ "toolset", 90 ]
     ]
   ],
   "components": [
@@ -1809,7 +1870,7 @@
     [
       [ "welder", 40 ],
       [ "welder_crude", 60 ],
-      [ "toolset", 2 ]
+      [ "toolset", 60 ]
     ]
   ],
   "components": [
@@ -1839,7 +1900,7 @@
     [
       [ "welder", 20 ],
       [ "welder_crude", 30 ],
-      [ "toolset", 1 ]
+      [ "toolset", 30 ]
     ]
   ],
   "components": [
@@ -1867,7 +1928,7 @@
     [
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
-      [ "toolset", 2 ],
+      [ "toolset", 75 ],
       [ "forge", 50 ],
       [ "char_forge", 10]
     ]
@@ -1897,7 +1958,7 @@
     [
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
-      [ "toolset", 2 ],
+      [ "toolset", 75 ],
       [ "forge", 50 ],
       [ "char_forge", 10]
     ]
@@ -1928,6 +1989,51 @@
     ]
   ]
 },{
+        "type" : "recipe",
+  "result": "wheel_wood",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 3,
+  "time": 6000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1},
+	{"id":"SAW_W","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "2x4", 5 ]
+    ],
+    [
+      [ "nail", 20 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "wheel_wood_b",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": 12000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1},
+	{"id":"SAW_W","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "2x4", 5 ]
+    ],
+    [
+      [ "nail", 30 ]
+    ],
+    [
+      [ "scrap", 5 ]
+    ]
+  ]
+},{
   "type" : "recipe",
   "result": "sheet_metal",
   "category": "CC_OTHER",
@@ -1944,7 +2050,7 @@
     [
       [ "welder", 20 ],
       [ "welder_crude", 30 ],
-      [ "toolset", 1 ]
+      [ "toolset", 30 ]
     ]
   ],
   "components": [
@@ -1988,7 +2094,7 @@
     [
       [ "welder", 100 ],
       [ "welder_crude", 150 ],
-      [ "toolset", 5 ],
+      [ "toolset", 150 ],
       [ "forge", 100 ],
       [ "char_forge", 20]
     ]
@@ -2016,7 +2122,7 @@
     [
       [ "welder", 100 ],
       [ "welder_crude", 150 ],
-      [ "toolset", 5 ],
+      [ "toolset", 150 ],
       [ "forge", 100 ],
       [ "char_forge", 20]
     ]
@@ -2051,7 +2157,7 @@
     [
       [ "welder", 100 ],
       [ "welder_crude", 150 ],
-      [ "toolset", 5 ],
+      [ "toolset", 150 ],
       [ "forge", 100 ],
       [ "char_forge", 20]
     ]
@@ -2310,7 +2416,7 @@
     [
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
-      [ "toolset", 2 ]
+      [ "toolset", 75 ]
     ]
   ],
   "components": [
@@ -2337,7 +2443,7 @@
     [
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
-      [ "toolset", 2 ]
+      [ "toolset", 75 ]
     ]
   ],
   "components": [
@@ -2458,7 +2564,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 10 ],
-      [ "toolset", 1 ]
+      [ "toolset", 10 ]
     ]
   ],
   "components": [
@@ -2517,7 +2623,7 @@
     [
       [ "welder", 20 ],
       [ "welder_crude", 30 ],
-      [ "toolset", 1 ],
+      [ "toolset", 30 ],
       [ "forge", 5],
       [ "char_forge", 1]
     ]
@@ -2677,7 +2783,7 @@
   "tools": [
     [
       ["hotplate", 2],
-      ["toolset", 1],
+      ["toolset", 2],
       ["fire", -1]
     ]
   ],
@@ -2699,7 +2805,7 @@
   "tools": [
     [
       ["hotplate", 5],
-      ["toolset", 1],
+      ["toolset", 5],
       ["fire", -1]
     ]
   ],
@@ -2724,7 +2830,7 @@
     ],
     [
       ["hotplate", 5],
-      ["toolset", 1],
+      ["toolset", 5],
       ["fire", -1]
     ]
   ],
@@ -2908,8 +3014,8 @@
       [
       [ "welder", 200 ],
       [ "welder_crude", 300 ],
-      [ "toolset", 20 ],
-      [ "soldering_iron", 200 ]
+      [ "toolset", 300 ],
+      [ "soldering_iron", 300 ]
       ] ],
   "components":
     [
@@ -3743,7 +3849,7 @@
     [
       [ "welder", 100],
       [ "welder_crude", 150],
-      [ "toolset", 4]
+      [ "toolset", 150]
     ]
   ],
   "components": [
@@ -3816,7 +3922,7 @@
       [ "lighter", 20 ],
       [ "ref_lighter", 20 ],
       [ "fire", -1 ],
-      [ "toolset", 2 ]
+      [ "toolset", 20 ]
     ]
   ],
   "components": [
@@ -3843,17 +3949,55 @@
     [
       [ "hotplate", 18 ],
       [ "chemistry_set", 18 ],
-      [ "toolset", 1 ],
+      [ "toolset", 18 ],
       [ "fire", -1 ]
     ]
   ],
   "components": [
     [
-      [ "chitin_piece", 6 ]
+      [ "chitin_piece", 6 ],
+      [ "meal_chitin_piece", 6 ]
     ],
     [
       [ "ammonia", 1 ],
       [ "lye_powder", 100 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "bfipowder",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MEDICAL",
+  "skill_used": "cooking",
+  "skills_required": [ "firstaid", 1 ],
+  "difficulty": 6,
+  "time": 1200,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["textbook_firstaid", 8] , ["textbook_chemistry", 7] , ["adv_chemistry", 6] , ["emergency_book", 8]],
+  "qualities":[
+    {"id":"COOK","level":3,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 18 ],
+      [ "chemistry_set", 18 ],
+      [ "toolset", 18 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "iodine", 2 ]
+    ],
+    [
+      [ "aspirin", 4 ]
+    ],
+    [
+      [ "oxy_powder", 50 ]
+    ],
+    [
+      [ "salt_water", 1 ],
+      [ "saline", 5 ]
     ]
   ]
 },{
@@ -3876,8 +4020,8 @@
      [
       [ "welder", 100 ],
       [ "welder_crude", 150 ],
-      [ "toolset", 10 ],
-      [ "soldering_iron", 100 ]
+      [ "toolset", 150 ],
+      [ "soldering_iron", 150 ]
      ]
     ],
   "components":
@@ -3919,8 +4063,8 @@
      [
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
-      [ "toolset", 5 ],
-      [ "soldering_iron", 50 ]
+      [ "toolset", 75 ],
+      [ "soldering_iron", 75 ]
      ]
     ],
   "components":
@@ -3954,8 +4098,8 @@
     [
       [ "welder", 150 ],
       [ "welder_crude", 225 ],
-      [ "toolset", 15 ],
-      [ "soldering_iron", 150 ]
+      [ "toolset", 225 ],
+      [ "soldering_iron", 225 ]
     ] ],
   "components":
     [
@@ -3987,6 +4131,7 @@
       [ "2x4", 3 ],
       [ "stick", 5 ],
       [ "bone", 40 ],
+      [ "pine_bough", 40 ],
       [ "log", 1 ]
     ],
 	  [[ "char_kiln", 1 ]]
@@ -4125,7 +4270,7 @@
     [
       ["welder", 20],
       ["welder_crude", 30],
-      ["toolset", 1]
+      ["toolset", 30]
     ],
     [
       ["fire", -1]
@@ -4191,7 +4336,7 @@
   "tools": [
     [
       [ "soldering_iron", 40 ],
-      [ "toolset", 4 ]
+      [ "toolset", 40 ]
     ]
   ],
   "components": [
@@ -4508,7 +4653,7 @@
     [
       [ "welder", 100 ],
       [ "welder_crude", 150 ],
-      [ "toolset", 10 ],
+      [ "toolset", 150 ],
       [ "soldering_iron", 150 ]
     ] ],
   "components":
@@ -4590,5 +4735,32 @@
         [ "nail", 1 ]
       ]
     ]
-  }
+  },
+{
+  "type" : "recipe",
+  "result": "fish_trap",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "survival",
+  "difficulty": 2,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["mag_survival", 2], ["textbook_survival", 2], ["survival_book", 1], ["pocket_survival", 1]],
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "jug_plastic", 2 ],
+      [ "bottle_plastic", 10 ]
+    ],
+    [
+      [ "string_6", 6 ],
+      [ "string_36", 1 ],
+      [ "duct_tape", 50 ],
+      [ "medical_tape", 25 ]
+    ]
+  ]
+}
 ]

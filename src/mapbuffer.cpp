@@ -12,7 +12,7 @@
 #include <fstream>
 #include <sstream>
 
-#define dbg(x) dout((DebugLevel)(x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((DebugLevel)(x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
 mapbuffer MAPBUFFER;
 
@@ -108,9 +108,7 @@ void mapbuffer::save( bool delete_after_save )
 
     point map_origin;
     if( g->cur_om != NULL ) {
-        map_origin = overmapbuffer::sm_to_omt_copy( g->levx, g->levy );
-        map_origin.x += g->cur_om->pos().x * OMAPX;
-        map_origin.y += g->cur_om->pos().y * OMAPY;
+        map_origin = overmapbuffer::sm_to_omt_copy( g->get_abs_levx(), g->get_abs_levy() );
     } else {
         map_origin.x = INT_MIN;
         map_origin.y = INT_MIN;
@@ -141,15 +139,15 @@ void mapbuffer::save( bool delete_after_save )
         std::stringstream segment_path;
         tripoint segment_addr = overmapbuffer::omt_to_seg_copy( om_addr );
         segment_path << map_directory.str() << "/" << segment_addr.x << "." <<
-            segment_addr.y << "." << segment_addr.z;
+                     segment_addr.y << "." << segment_addr.z;
         assure_dir_exist( segment_path.str().c_str() );
 
         std::stringstream quad_path;
         quad_path << segment_path.str() << "/" << om_addr.x << "." <<
-            om_addr.y << "." << om_addr.z << ".map";
+                  om_addr.y << "." << om_addr.z << ".map";
 
-                   // delete_on_save deletes everything, otherwise delete submaps
-                   // outside the current map.
+        // delete_on_save deletes everything, otherwise delete submaps
+        // outside the current map.
         save_quad( quad_path.str(), om_addr, submaps_to_delete,
                    delete_after_save || om_addr.z != g->levz ||
                    om_addr.x < map_origin.x || om_addr.y < map_origin.y ||
@@ -327,7 +325,7 @@ void mapbuffer::save_quad( const std::string &filename, const tripoint &om_addr,
             }
         }
         jsout.end_array();
-        
+
         jsout.member("cosmetics");
         jsout.start_array();
         for (int j = 0; j < SEEY; j++) {
@@ -399,8 +397,8 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
     const tripoint segment_addr = overmapbuffer::omt_to_seg_copy( om_addr );
     std::stringstream quad_path;
     quad_path << world_generator->active_world->world_path << "/maps/" <<
-        segment_addr.x << "." << segment_addr.y << "." << segment_addr.z << "/" <<
-        om_addr.x << "." << om_addr.y << "." << om_addr.z << ".map";
+              segment_addr.x << "." << segment_addr.y << "." << segment_addr.z << "/" <<
+              om_addr.x << "." << om_addr.y << "." << om_addr.z << ".map";
 
     std::ifstream fin( quad_path.str().c_str() );
     if( !fin.is_open() ) {
@@ -414,11 +412,13 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
         std::unique_ptr<submap> sm(new submap());
         tripoint submap_coordinates;
         jsin.start_object();
+        bool rubpow_update = false;
         while( !jsin.end_object() ) {
             std::string submap_member_name = jsin.get_member_name();
             if( submap_member_name == "version" ) {
-                // We aren't using the version number for anything at the moment.
-                jsin.skip_value();
+                if (jsin.get_int() < 22) {
+                    rubpow_update = true;
+                }
             } else if( submap_member_name == "coordinates" ) {
                 jsin.start_array();
                 int locx = jsin.get_int();
@@ -433,9 +433,43 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
             } else if( submap_member_name == "terrain" ) {
                 // TODO: try block around this to error out if we come up short?
                 jsin.start_array();
-                for( int j = 0; j < SEEY; j++ ) {
-                    for( int i = 0; i < SEEX; i++ ) {
-                        sm->ter[i][j] = termap[ jsin.get_string() ].loadid;
+                // Small duplication here so that the update check is only performed once
+                if (rubpow_update) {
+                    std::string ter_string;
+                    item rock = item("rock", 0);
+                    item chunk = item("steel_chunk", 0);
+                    for( int j = 0; j < SEEY; j++ ) {
+                        for( int i = 0; i < SEEX; i++ ) {
+                            ter_string = jsin.get_string();
+                            if (ter_string == "t_rubble") {
+                                sm->ter[i][j] = termap[ "t_dirt" ].loadid;
+                                sm->frn[i][j] = furnmap[ "f_rubble" ].loadid;
+                                sm->itm[i][j].push_back( rock );
+                                sm->itm[i][j].push_back( rock );
+                            } else if (ter_string == "t_wreckage"){
+                                sm->ter[i][j] = termap[ "t_dirt" ].loadid;
+                                sm->frn[i][j] = furnmap[ "f_wreckage" ].loadid;
+                                sm->itm[i][j].push_back( chunk );
+                                sm->itm[i][j].push_back( chunk );
+                            } else if (ter_string == "t_ash"){
+                                sm->ter[i][j] = termap[ "t_dirt" ].loadid;
+                                sm->frn[i][j] = furnmap[ "f_ash" ].loadid;
+                            } else if (ter_string == "t_pwr_sb_support_l"){
+                                sm->ter[i][j] = termap[ "t_support_l" ].loadid;
+                            } else if (ter_string == "t_pwr_sb_switchgear_l"){
+                                sm->ter[i][j] = termap[ "t_switchgear_l" ].loadid;
+                            } else if (ter_string == "t_pwr_sb_switchgear_s"){
+                                sm->ter[i][j] = termap[ "t_switchgear_s" ].loadid;
+                            } else {
+                                sm->ter[i][j] = termap[ ter_string ].loadid;
+                            }
+                        }
+                    }
+                } else {
+                    for( int j = 0; j < SEEY; j++ ) {
+                        for( int i = 0; i < SEEX; i++ ) {
+                            sm->ter[i][j] = termap[ jsin.get_string() ].loadid;
+                        }
                     }
                 }
                 jsin.end_array();
@@ -499,7 +533,7 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
                         sm->fld[i][j].addField(field_id(type), density, age);
                     }
                 }
-            } else if( submap_member_name == "griffiti" ) {
+            } else if( submap_member_name == "graffiti" ) {
                 jsin.start_array();
                 while( !jsin.end_array() ) {
                     jsin.start_array();
@@ -551,11 +585,13 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
             }
         }
         if( !add_submap( submap_coordinates, sm ) ) {
-            debugmsg( "submap %d,%d,%d was alread loaded", submap_coordinates.x, submap_coordinates.y, submap_coordinates.z );
+            debugmsg( "submap %d,%d,%d was alread loaded", submap_coordinates.x, submap_coordinates.y,
+                      submap_coordinates.z );
         }
     }
     if( submaps.count( p ) == 0 ) {
-        debugmsg("file %s did not contain the expected submap %d,%d,%d", quad_path.str().c_str(), p.x, p.y, p.z);
+        debugmsg("file %s did not contain the expected submap %d,%d,%d", quad_path.str().c_str(), p.x, p.y,
+                 p.z);
         return NULL;
     }
     return submaps[ p ];

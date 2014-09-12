@@ -66,7 +66,7 @@ void game::draw_bullet(Creature &p, int tx, int ty, int i,
             tilecontext->init_draw_bullet(tx, ty, bullet);
         } else {
             mvwputch(w_terrain, POSY + (ty - (u.posy + u.view_offset_y)),
-                 POSX + (tx - (u.posx + u.view_offset_x)), c_red, bullet_char);
+                     POSX + (tx - (u.posx + u.view_offset_x)), c_red, bullet_char);
         }
         wrefresh(w_terrain);
         if (p.is_player()) {
@@ -127,7 +127,7 @@ void game::draw_hit_player(player *p, const int iDam, bool dead)
     } else {
         hit_animation(POSX + (p->posx - (u.posx + u.view_offset_x)),
                       POSY + (p->posy - (u.posy + u.view_offset_y)),
-                      (iDam == 0) ? yellow_background(p->color()) : red_background(p->color()), "@");
+                      (iDam == 0) ? yellow_background(p->symbol_color()) : red_background(p->symbol_color()), "@");
     }
 }
 
@@ -138,14 +138,10 @@ void game::draw_line(const int x, const int y, const point center_point, std::ve
     if (u_see( x, y)) {
         for (std::vector<point>::iterator it = ret.begin();
              it != ret.end(); it++) {
-            int mondex = mon_at(it->x, it->y),
-                npcdex = npc_at(it->x, it->y);
-
+            const Creature *critter = critter_at( it->x, it->y );
             // NPCs and monsters get drawn with inverted colors
-            if (mondex != -1 && u_see(&(critter_tracker.find(mondex)))) {
-                critter_tracker.find(mondex).draw(w_terrain, center_point.x, center_point.y, true);
-            } else if (npcdex != -1) {
-                active_npc[npcdex]->draw(w_terrain, center_point.x, center_point.y, true);
+            if( critter != nullptr && u.sees( critter ) ) {
+                critter->draw( w_terrain, center_point.x, center_point.y, true );
             } else {
                 m.drawsq(w_terrain, u, it->x, it->y, true, true, center_point.x, center_point.y);
             }
@@ -177,38 +173,38 @@ void game::draw_weather(weather_printable wPrint)
         std::string weather_name;
 
         switch(wPrint.wtype) {
-            // Acid weathers, uses acid droplet tile, fallthrough intended
-            case WEATHER_ACID_DRIZZLE:
-            case WEATHER_ACID_RAIN:
-                weather_name = "weather_acid_drop";
-                break;
+        // Acid weathers, uses acid droplet tile, fallthrough intended
+        case WEATHER_ACID_DRIZZLE:
+        case WEATHER_ACID_RAIN:
+            weather_name = "weather_acid_drop";
+            break;
 
-            // Normal rainy weathers, uses normal raindrop tile, fallthrough intended
-            case WEATHER_DRIZZLE:
-            case WEATHER_RAINY:
-            case WEATHER_THUNDER:
-            case WEATHER_LIGHTNING:
-                weather_name = "weather_rain_drop";
-                break;
+        // Normal rainy weathers, uses normal raindrop tile, fallthrough intended
+        case WEATHER_DRIZZLE:
+        case WEATHER_RAINY:
+        case WEATHER_THUNDER:
+        case WEATHER_LIGHTNING:
+            weather_name = "weather_rain_drop";
+            break;
 
-            // Snowy weathers, uses snowflake tile, fallthrough intended
-            case WEATHER_FLURRIES:
-            case WEATHER_SNOW:
-            case WEATHER_SNOWSTORM:
-                weather_name = "weather_snowflake";
-                break;
+        // Snowy weathers, uses snowflake tile, fallthrough intended
+        case WEATHER_FLURRIES:
+        case WEATHER_SNOW:
+        case WEATHER_SNOWSTORM:
+            weather_name = "weather_snowflake";
+            break;
 
-            default:
-                break;
+        default:
+            break;
         }
 
         tilecontext->init_draw_weather(wPrint, weather_name);
     } else {
         for (std::vector<std::pair<int, int> >::iterator weather_iterator = wPrint.vdrops.begin();
              weather_iterator != wPrint.vdrops.end();
-             ++weather_iterator)
-        {
-            mvwputch(w_terrain, weather_iterator->second, weather_iterator->first, wPrint.colGlyph, wPrint.cGlyph);
+             ++weather_iterator) {
+            mvwputch(w_terrain, weather_iterator->second, weather_iterator->first, wPrint.colGlyph,
+                     wPrint.cGlyph);
         }
     }
 }
@@ -218,24 +214,28 @@ void game::draw_sct()
     if (use_tiles) {
         tilecontext->init_draw_sct();
     } else {
-        for (std::vector<scrollingcombattext::cSCT>::iterator iter = SCT.vSCT.begin(); iter != SCT.vSCT.end(); ++iter) {
+        for (std::vector<scrollingcombattext::cSCT>::iterator iter = SCT.vSCT.begin();
+             iter != SCT.vSCT.end(); ++iter) {
             const int iDY = POSY + (iter->getPosY() - (u.posy + u.view_offset_y));
             const int iDX = POSX + (iter->getPosX() - (u.posx + u.view_offset_x));
 
-            mvwprintz(w_terrain, iDY, iDX, msgtype_to_color(iter->getMsgType("first"), (iter->getStep() >= SCT.iMaxSteps/2)), "%s", iter->getText("first").c_str());
-            wprintz(w_terrain, msgtype_to_color(iter->getMsgType("second"), (iter->getStep() >= SCT.iMaxSteps/2)), iter->getText("second").c_str());
+            mvwprintz(w_terrain, iDY, iDX, msgtype_to_color(iter->getMsgType("first"),
+                      (iter->getStep() >= SCT.iMaxSteps / 2)), "%s", iter->getText("first").c_str());
+            wprintz(w_terrain, msgtype_to_color(iter->getMsgType("second"),
+                                                (iter->getStep() >= SCT.iMaxSteps / 2)), iter->getText("second").c_str());
         }
     }
 }
 
-void game::draw_zones(const point &p_pointStart, const point &p_pointEnd, const point &p_pointOffset)
+void game::draw_zones(const point &p_pointStart, const point &p_pointEnd,
+                      const point &p_pointOffset)
 {
     if (use_tiles) {
         tilecontext->init_draw_zones(p_pointStart, p_pointEnd, p_pointOffset);
     } else {
-        for (int iY=p_pointStart.y; iY <= p_pointEnd.y; ++iY) {
-            for (int iX=p_pointStart.x; iX <= p_pointEnd.x; ++iX) {
-                mvwputch_inv(w_terrain, iY+p_pointOffset.y, iX+p_pointOffset.x, c_ltgreen, '~');
+        for (int iY = p_pointStart.y; iY <= p_pointEnd.y; ++iY) {
+            for (int iX = p_pointStart.x; iX <= p_pointEnd.x; ++iX) {
+                mvwputch_inv(w_terrain, iY + p_pointOffset.y, iX + p_pointOffset.x, c_ltgreen, '~');
             }
         }
     }

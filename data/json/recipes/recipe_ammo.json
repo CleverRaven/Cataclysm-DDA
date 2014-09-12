@@ -117,6 +117,34 @@
       [ "rock", 1 ]
     ]
   ]
+},{
+  "type" : "recipe",
+  "result": "marble",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_CONTAINERS",
+  "skill_used": "fabrication",
+  "difficulty": 6,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn": [[ "glassblowing_book", 5 ]],
+  "tools": [
+     [
+      ["tongs", -1]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      ["forge", 25], ["char_forge", 5]
+     ]
+    ],
+  "components":
+    [
+     [
+     [ "glass_shard", 2 ]
+     ]
+    ]
 },
   {
     "type" : "recipe",
@@ -143,9 +171,12 @@
     ],
     "components": [
       [
-        [ "scrap", 5 ],
-        [ "lead", 50 ],
-        [ "gold_small", 50 ]
+      [ "lead", 50 ],
+      [ "gold_small", 50 ],
+      [ "silver_small", 50 ],
+      [ "tin", 50 ],
+      [ "bismuth", 50 ],
+      [ "solder_wire", 50 ]
       ]
     ]
   },{
@@ -434,7 +465,7 @@
   "difficulty" : 5,
   "time" : 3000,
   "reversible" : false,
-  "autolearn" : false,
+  "autolearn" : true,
   "book_learn" : [[ "recipe_arrows", 3 ]],
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
@@ -629,7 +660,7 @@
   ], "tools" : [
     [
       [ "soldering_iron", 10 ],
-      [ "toolset", 1 ]
+      [ "toolset", 10 ]
     ]
   ],
   "components" : [
@@ -790,7 +821,7 @@
     ],
     [
       [ "fire", -1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "press", 2 ]
     ]
   ],
@@ -831,7 +862,7 @@
     ],
     [
       [ "fire", -1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "press", 2 ]
     ]
   ],
@@ -873,7 +904,7 @@
     ],
     [
       [ "fire", -1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "press", 2 ]
     ]
   ],
@@ -915,7 +946,7 @@
     ],
     [
       [ "fire", -1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "press", 2 ]
     ]
   ],
@@ -957,7 +988,7 @@
     ],
     [
       [ "fire", -1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "press", 2 ]
     ]
   ],
@@ -999,7 +1030,7 @@
     ],
     [
       [ "fire", -1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "press", 2 ]
     ]
   ],
@@ -1041,7 +1072,7 @@
     ],
     [
       [ "fire", -1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "press", 2 ]
     ]
   ],
@@ -1083,7 +1114,7 @@
     ],
     [
       [ "fire", -1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "press", 2 ]
     ]
   ],
@@ -1102,7 +1133,8 @@
       [ "gold_small", 500 ],
       [ "silver_small", 500 ],
       [ "tin", 500 ],
-      [ "bismuth", 500 ]
+      [ "bismuth", 500 ],
+      [ "solder_wire", 500 ]
 
     ]
   ]
@@ -1124,7 +1156,7 @@
     ],
     [
       [ "fire", -1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "press", 2 ]
     ]
   ],
@@ -1166,7 +1198,7 @@
     ],
     [
       [ "fire", -1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "press", 2 ]
     ]
   ],
@@ -1208,7 +1240,7 @@
     ],
     [
       [ "fire", -1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "press", 2 ]
     ]
   ],
@@ -1253,7 +1285,7 @@
     ],
     [
       [ "fire", -1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "press", 2 ]
     ]
   ],
@@ -1298,7 +1330,7 @@
     ],
     [
       [ "fire", -1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "press", 2 ]
     ]
   ],
@@ -1343,7 +1375,7 @@
     ],
     [
       [ "fire", -1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "press", 2 ]
     ]
   ],
@@ -1385,7 +1417,7 @@
     ],
     [
       [ "fire", -1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "press", 2 ]
     ]
   ],
@@ -1427,7 +1459,7 @@
     ],
     [
       [ "fire", -1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "press", 2 ]
     ]
   ],
@@ -1472,7 +1504,7 @@
     ],
     [
       [ "fire", -1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "press", 2 ]
     ]
   ],
@@ -1517,7 +1549,7 @@
     ],
     [
       [ "fire", -1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "press", 2 ]
     ]
   ],
@@ -1563,7 +1595,7 @@
     ],
     [
       [ "fire", -1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "press", 2 ]
     ]
   ],
@@ -1609,7 +1641,7 @@
     ],
     [
       [ "fire", -1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "press", 2 ]
     ]
   ],
@@ -1649,7 +1681,7 @@
     ],
     [
       [ "fire", -1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "press", 2 ]
     ]
   ],
@@ -1693,7 +1725,7 @@
     ],
     [
       [ "fire", -1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "press", 2 ]
     ]
   ],
@@ -1738,7 +1770,7 @@
     ],
     [
       [ "fire", -1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "press", 2 ]
         ]
   ],
@@ -1786,7 +1818,7 @@
     ],
     [
       [ "fire", -1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "press", 2 ]
         ]
   ],
@@ -1825,7 +1857,7 @@
     ],
     [
       [ "fire", -1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "press", 2 ]
         ]
   ],
@@ -1869,7 +1901,7 @@
     ],
     [
       [ "fire", -1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "press", 2 ]
     ]
   ],
@@ -1908,7 +1940,7 @@
     ],
     [
       [ "fire", -1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "press", 2 ]
     ]
   ],
@@ -1953,7 +1985,7 @@
     ],
     [
       [ "fire", -1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "press", 2 ]
     ]
   ],
@@ -1998,7 +2030,7 @@
     ],
     [
       [ "fire", -1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "press", 2 ]
     ]
   ],
@@ -2037,7 +2069,7 @@
     ],
     [
       [ "fire", -1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "press", 2 ]
     ]
   ],
@@ -2076,7 +2108,7 @@
     ],
     [
       [ "fire", -1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "press", 2 ]
     ]
   ],
@@ -2118,7 +2150,7 @@
     ],
     [
       [ "fire", -1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "press", 2 ]
     ]
   ],
@@ -2160,7 +2192,7 @@
     ],
     [
       [ "fire", -1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "press", 2 ]
     ]
   ],
@@ -2204,7 +2236,7 @@
     ],
     [
       [ "fire", -1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "press", 2 ]
     ]
   ],
@@ -2240,7 +2272,7 @@
     [
       [ "chemistry_set", 50 ],
       [ "hotplate", 50 ],
-      [ "toolset", 4 ]
+      [ "toolset", 50 ]
     ]
   ],
   "components": [
@@ -2273,7 +2305,7 @@
     [
       [ "chemistry_set", 50 ],
       [ "hotplate", 50 ],
-      [ "toolset", 4 ]
+      [ "toolset", 50 ]
     ]
   ],
   "components": [
@@ -2306,7 +2338,7 @@
       [ "chemistry_set", 50 ],
       [ "press", 50 ],
       [ "hotplate", 50 ],
-      [ "toolset", 4 ]
+      [ "toolset", 50 ]
     ],
     [
       [ "press", -1 ]
@@ -2353,7 +2385,7 @@
       [ "chemistry_set", 50 ],
       [ "press", 50 ],
       [ "hotplate", 50 ],
-      [ "toolset", 4 ]
+      [ "toolset", 50 ]
     ],
     [
       [ "press", -1 ]
@@ -2403,7 +2435,7 @@
       [ "chemistry_set", 50 ],
       [ "press", 50 ],
       [ "hotplate", 50 ],
-      [ "toolset", 4 ]
+      [ "toolset", 50 ]
     ],
     [
       [ "press", -1 ]
@@ -2450,7 +2482,7 @@
       [ "chemistry_set", 50 ],
       [ "press", 50 ],
       [ "hotplate", 50 ],
-      [ "toolset", 4 ]
+      [ "toolset", 50 ]
     ],
     [
       [ "boltcutters", -1 ]
@@ -2495,7 +2527,7 @@
       [ "chemistry_set", 50 ],
       [ "press", 50 ],
       [ "hotplate", 50 ],
-      [ "toolset", 4 ]
+      [ "toolset", 50 ]
     ],
     [
       [ "press", -1 ]
@@ -2540,28 +2572,18 @@
     {"id":"HAMMER","level":3,"amount":1}
     ], "tools": [
      [
-      ["tongs", -1]
-     ],
-     [
       ["swage", -1]
      ],
      [
-      ["anvil", -1]
-     ],
-     [
       ["press", -1]
-     ],
-     [
-        [ "matches", 10 ]
-     ],
-     [
-      ["forge", 50], ["char_forge", 10]
      ]
     ],
     "components": [
-      [
-        [ "scrap", 4 ]
-      ],
+    [
+      [ "can_drink", 2 ],
+      [ "can_food", 2 ],
+      [ "scrap", 4 ]
+    ],
       [
         [ "oxy_powder", 100 ]
       ]
@@ -2583,28 +2605,18 @@
     {"id":"HAMMER","level":3,"amount":1}
     ], "tools": [
      [
-      ["tongs", -1]
-     ],
-     [
       ["swage", -1]
      ],
      [
-      ["anvil", -1]
-     ],
-     [
       ["press", -1]
-     ],
-     [
-        [ "matches", 10 ]
-     ],
-     [
-      ["forge", 50], ["char_forge", 10]
      ]
     ],
     "components": [
-      [
-        [ "scrap", 4 ]
-      ],
+    [
+      [ "can_drink", 2 ],
+      [ "can_food", 2 ],
+      [ "scrap", 4 ]
+    ],
       [
         [ "oxy_powder", 100 ]
       ]
@@ -2626,28 +2638,18 @@
     {"id":"HAMMER","level":3,"amount":1}
     ], "tools": [
      [
-      ["tongs", -1]
-     ],
-     [
       ["swage", -1]
      ],
      [
-      ["anvil", -1]
-     ],
-     [
       ["press", -1]
-     ],
-     [
-        [ "matches", 10 ]
-     ],
-     [
-      ["forge", 50], ["char_forge", 10]
      ]
     ],
     "components": [
-      [
-        [ "scrap", 4 ]
-      ],
+    [
+      [ "can_drink", 2 ],
+      [ "can_food", 2 ],
+      [ "scrap", 4 ]
+    ],
       [
         [ "oxy_powder", 100 ]
       ]
@@ -2669,28 +2671,18 @@
     {"id":"HAMMER","level":3,"amount":1}
     ], "tools": [
      [
-      ["tongs", -1]
-     ],
-     [
       ["swage", -1]
      ],
      [
-      ["anvil", -1]
-     ],
-     [
       ["press", -1]
-     ],
-     [
-        [ "matches", 10 ]
-     ],
-     [
-      ["forge", 50], ["char_forge", 10]
      ]
     ],
     "components": [
-      [
-        [ "scrap", 4 ]
-      ],
+    [
+      [ "can_drink", 2 ],
+      [ "can_food", 2 ],
+      [ "scrap", 4 ]
+    ],
       [
         [ "oxy_powder", 100 ]
       ]
@@ -2712,28 +2704,18 @@
     {"id":"HAMMER","level":3,"amount":1}
     ], "tools": [
      [
-      ["tongs", -1]
-     ],
-     [
       ["swage", -1]
      ],
      [
-      ["anvil", -1]
-     ],
-     [
       ["press", -1]
-     ],
-     [
-        [ "matches", 10 ]
-     ],
-     [
-      ["forge", 50], ["char_forge", 10]
      ]
     ],
     "components": [
-      [
-        [ "scrap", 4 ]
-      ],
+    [
+      [ "can_drink", 2 ],
+      [ "can_food", 2 ],
+      [ "scrap", 4 ]
+    ],
       [
         [ "oxy_powder", 100 ]
       ]
@@ -2804,7 +2786,7 @@
   "tools" : [ [ ["mold_plastic", -1] ],
     [
       ["hotplate", 5],
-      ["toolset", 1],
+      ["toolset", 5],
       ["fire", -1]
     ]
   ],
@@ -2827,7 +2809,7 @@
   "tools" : [ [ ["mold_plastic", -1] ],
     [
       ["hotplate", 5],
-      ["toolset", 1],
+      ["toolset", 5],
       ["fire", -1]
     ]
   ],
@@ -2846,7 +2828,7 @@
   "tools" : [ [ ["mold_plastic", -1] ],
     [
       ["hotplate", 5],
-      ["toolset", 1],
+      ["toolset", 5],
       ["fire", -1]
     ]
   ],
@@ -2927,7 +2909,7 @@
       ],
       [
         [ "fire", -1 ],
-        [ "toolset", 1 ],
+        [ "toolset", 2 ],
         [ "press", 2 ]
           ]
     ],
@@ -2971,7 +2953,7 @@
       ],
       [
         [ "fire", -1 ],
-        [ "toolset", 1 ],
+        [ "toolset", 2 ],
         [ "press", 2 ]
       ]
     ],
@@ -3015,7 +2997,7 @@
       ],
       [
         [ "fire", -1 ],
-        [ "toolset", 1 ],
+        [ "toolset", 2 ],
         [ "press", 2 ]
       ]
     ],
@@ -3059,7 +3041,7 @@
     ],
     [
       [ "fire", -1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "press", 2 ]
         ]
   ],
@@ -3104,7 +3086,7 @@
       ],
       [
         [ "fire", -1 ],
-        [ "toolset", 1 ],
+        [ "toolset", 2 ],
         [ "press", 2 ]
       ]
     ],
@@ -3148,7 +3130,7 @@
     ],
     [
       [ "fire", -1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "press", 2 ]
     ]
   ],
@@ -3192,7 +3174,7 @@
     ],
     [
       [ "fire", -1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "press", 2 ]
     ]
   ],
@@ -3228,7 +3210,7 @@
       ],
       [
         [ "fire", -1 ],
-        [ "toolset", 1],
+        [ "toolset", 2],
         [ "press", 2]
       ]
     ],
@@ -3272,7 +3254,7 @@
       ],
       [
         [ "fire", -1 ],
-        [ "toolset", 1 ],
+        [ "toolset", 2 ],
         [ "press", 2 ]
       ]
      ],
@@ -3418,7 +3400,7 @@
       ],
       [
         [ "fire", -1 ],
-        [ "toolset", 1],
+        [ "toolset", 2],
         [ "press", 2]
       ]
     ],
@@ -3442,6 +3424,90 @@
       ],
       [
         [ "cu_pipe", 3 ]
+      ]
+    ]
+  },
+  {
+    "type" : "recipe",
+    "result": "fish_bait_meat",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "survival",
+    "difficulty": 1,
+    "time": 1000,
+    "reversible": false,
+    "autolearn": false,
+    "book_learn": [["mag_survival", 1], ["textbook_survival", 1], ["survival_book", 1], ["pocket_survival", 1]],
+    "qualities" : [
+      {"id":"CUT","level":1,"amount":1}
+    ],
+    "components": [
+      [
+        [ "meat", 1 ]
+      ]
+    ]
+  },
+ {
+    "type" : "recipe",
+    "result": "fish_bait_fish",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "survival",
+    "difficulty": 1,
+    "time": 1000,
+    "reversible": false,
+    "autolearn": false,
+    "book_learn": [["mag_survival", 1], ["textbook_survival", 1], ["survival_book", 1], ["pocket_survival", 1]],
+    "qualities" : [
+      {"id":"CUT","level":1,"amount":1}
+    ],
+    "components": [
+      [
+        [ "fish", 1 ]
+      ]
+    ]
+  },
+ {
+    "type" : "recipe",
+    "result": "fish_bait_veggy",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "survival",
+    "difficulty": 1,
+    "time": 1000,
+    "reversible": false,
+    "autolearn": false,
+    "book_learn": [["mag_survival", 1], ["textbook_survival", 1], ["survival_book", 1], ["pocket_survival", 1]],
+    "qualities" : [
+      {"id":"CUT","level":1,"amount":1}
+    ],
+    "components": [
+      [
+        [ "corn", 1 ],
+        [ "carrot", 1 ]
+      ]
+    ]
+  },
+ {
+    "type" : "recipe",
+    "result": "fish_bait_bread",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "survival",
+    "difficulty": 1,
+    "time": 1000,
+    "reversible": false,
+    "autolearn": false,
+    "book_learn": [["mag_survival", 1], ["textbook_survival", 1], ["survival_book", 1], ["pocket_survival", 1]],
+    "qualities" : [
+      {"id":"CUT","level":1,"amount":1}
+    ],
+    "components": [
+      [
+        [ "bread", 1 ],
+        [ "cornbread", 1 ],
+        [ "macaroni_raw", 1 ],
+        [ "spaghetti_raw", 1 ]
       ]
     ]
   }

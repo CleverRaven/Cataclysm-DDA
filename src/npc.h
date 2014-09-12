@@ -4,12 +4,12 @@
 #include "messages.h"
 #include "player.h"
 #include "monster.h"
-#include "overmap.h"
 #include "faction.h"
 #include "json.h"
 
 #include <vector>
 #include <string>
+#include <map>
 
 #define NPC_LOW_VALUE       5
 #define NPC_HI_VALUE        8
@@ -21,7 +21,7 @@ class item;
 class overmap;
 class player;
 
-void parse_tags(std::string &phrase, player *u, npc *me);
+void parse_tags(std::string &phrase, const player *u, const npc *me);
 
 /*
  * Talk:   Trust midlow->high, fear low->mid, need doesn't matter
@@ -75,20 +75,24 @@ enum npc_mission {
 
 enum npc_class {
  NC_NONE,
- NC_EVAC_SHOPKEEP, // Found in the Evacuation Center, unique, has more goods than he should be able to carry
- NC_SHOPKEEP, // Found in towns.  Stays in his shop mostly.
- NC_HACKER, // Weak in combat but has hacking skills and equipment
- NC_DOCTOR, // Found in towns, or roaming.  Stays in the clinic.
- NC_TRADER, // Roaming trader, journeying between towns.
- NC_NINJA, // Specializes in unarmed combat, carries few items
- NC_COWBOY, // Gunslinger and survivalist
- NC_SCIENTIST, // Uses intelligence-based skills and high-tech items
- NC_BOUNTY_HUNTER, // Resourceful and well-armored
- NC_ARSONIST, // Evacuation Center, restocks moltovs and anarcist type stuff
+ NC_EVAC_SHOPKEEP,  // Found in the Evacuation Center, unique, has more goods than he should be able to carry
+ NC_SHOPKEEP,       // Found in towns.  Stays in his shop mostly.
+ NC_HACKER,         // Weak in combat but has hacking skills and equipment
+ NC_DOCTOR,         // Found in towns, or roaming.  Stays in the clinic.
+ NC_TRADER,         // Roaming trader, journeying between towns.
+ NC_NINJA,          // Specializes in unarmed combat, carries few items
+ NC_COWBOY,         // Gunslinger and survivalist
+ NC_SCIENTIST,      // Uses intelligence-based skills and high-tech items
+ NC_BOUNTY_HUNTER,  // Resourceful and well-armored
+ NC_THUG,           // Moderate melee skills and poor equipment
+ NC_SCAVENGER,      // Good with pistols light weapons
+ NC_ARSONIST,       // Evacuation Center, restocks moltovs and anarcist type stuff
+ NC_HUNTER,         // Survivor type good with bow or rifle
  NC_MAX
 };
 
 std::string npc_class_name(npc_class);
+std::string npc_class_name_str(npc_class);
 
 enum npc_action {
  npc_undecided = 0,
@@ -296,7 +300,7 @@ enum talk_topic {
 
  TALK_MISSION_REWARD, // Intentionally placed below END
 
- TALK_EVAC_MERCHANT, //Located in Refugee Center
+ TALK_EVAC_MERCHANT, //17, Located in Refugee Center
  TALK_EVAC_MERCHANT_NEW,
  TALK_EVAC_MERCHANT_PLANS,
  TALK_EVAC_MERCHANT_PLANS2,
@@ -308,7 +312,7 @@ enum talk_topic {
  TALK_EVAC_MERCHANT_NO,
  TALK_EVAC_MERCHANT_HELL_NO,
 
- TALK_FREE_MERCHANT_STOCKS,//Located in Refugee Center
+ TALK_FREE_MERCHANT_STOCKS,//28, Located in Refugee Center
  TALK_FREE_MERCHANT_STOCKS_NEW,
  TALK_FREE_MERCHANT_STOCKS_WHY,
  TALK_FREE_MERCHANT_STOCKS_ALL,
@@ -323,7 +327,7 @@ enum talk_topic {
  TALK_FREE_MERCHANT_STOCKS_OIL,
  TALK_FREE_MERCHANT_STOCKS_DELIVERED,
 
- TALK_EVAC_GUARD1,//Located in Refugee Center
+ TALK_EVAC_GUARD1,//42, Located in Refugee Center
  TALK_EVAC_GUARD1_PLACE,
  TALK_EVAC_GUARD1_GOVERNMENT,
  TALK_EVAC_GUARD1_TRADE,
@@ -335,14 +339,33 @@ enum talk_topic {
  TALK_EVAC_GUARD1_OLDGUARD,
  TALK_EVAC_GUARD1_BYE,
 
- TALK_EVAC_GUARD2,//Located in Refugee Center
+ TALK_EVAC_GUARD2,//53, Located in Refugee Center
  TALK_EVAC_GUARD2_NEW,
  TALK_EVAC_GUARD2_RULES,
  TALK_EVAC_GUARD2_RULES_BASEMENT,
  TALK_EVAC_GUARD2_WHO,
  TALK_EVAC_GUARD2_TRADE,
 
- TALK_OLD_GUARD_REP,//Located in Refugee Center
+ TALK_EVAC_GUARD3,//59, Located in Refugee Center
+ TALK_EVAC_GUARD3_NEW,
+ TALK_EVAC_GUARD3_RULES,
+ TALK_EVAC_GUARD3_HIDE1,
+ TALK_EVAC_GUARD3_HIDE2,
+ TALK_EVAC_GUARD3_WASTE,
+ TALK_EVAC_GUARD3_DEAD,
+ TALK_EVAC_GUARD3_HOSTILE,
+ TALK_EVAC_GUARD3_INSULT,
+
+ TALK_EVAC_HUNTER,//68, Located in Refugee Center
+ TALK_EVAC_HUNTER_SMELL,
+ TALK_EVAC_HUNTER_DO,
+ TALK_EVAC_HUNTER_LIFE,
+ TALK_EVAC_HUNTER_HUNT,
+ TALK_EVAC_HUNTER_SALE,
+ TALK_EVAC_HUNTER_ADVICE,
+ TALK_EVAC_HUNTER_BYE,
+
+ TALK_OLD_GUARD_REP,//76, Located in Refugee Center
  TALK_OLD_GUARD_REP_NEW,
  TALK_OLD_GUARD_REP_NEW_DOING,
  TALK_OLD_GUARD_REP_NEW_DOWNSIDE,
@@ -351,7 +374,7 @@ enum talk_topic {
  TALK_OLD_GUARD_REP_WORLD_FOOTHOLDS,
  TALK_OLD_GUARD_REP_ASK_JOIN,
 
- TALK_ARSONIST,//Located in Refugee Center
+ TALK_ARSONIST,//84, Located in Refugee Center
  TALK_ARSONIST_NEW,
  TALK_ARSONIST_DOING,
  TALK_ARSONIST_DOING_REBAR,
@@ -361,7 +384,7 @@ enum talk_topic {
  TALK_ARSONIST_MUTATION,
  TALK_ARSONIST_MUTATION_INSULT,
 
- TALK_SCAVENGER_MERC,//Located in Refugee Center
+ TALK_SCAVENGER_MERC,//93, Located in Refugee Center
  TALK_SCAVENGER_MERC_NEW,
  TALK_SCAVENGER_MERC_TIPS,
  TALK_SCAVENGER_MERC_HIRE,
@@ -392,6 +415,9 @@ enum talk_topic {
  TALK_FRIEND,
  TALK_FRIEND_GUARD,
  TALK_DENY_GUARD,
+ TALK_DENY_TRAIN,
+ TALK_DENY_PERSONAL,
+ TALK_FRIEND_UNCOMFORTABLE,
  TALK_COMBAT_COMMANDS,
  TALK_COMBAT_ENGAGEMENT,
 
@@ -441,6 +467,10 @@ struct npc_chatbin : public JsonSerializer, public JsonDeserializer
  void load_legacy(std::stringstream &info);
 };
 
+class npc;
+
+typedef std::map<std::string, npc> npc_map;
+
 class npc : public player
 {
 public:
@@ -449,21 +479,25 @@ public:
  //npc(npc& rhs);
  npc(const npc &rhs);
  virtual ~npc();
- virtual bool is_player() { return false; }
- virtual bool is_npc() { return true; }
+ virtual bool is_player() const { return false; }
+ virtual bool is_npc() const { return true; }
+
+ static void load_npc(JsonObject &jsobj);
+ npc* find_npc(std::string ident);
+ void load_npc_template(std::string ident);
 
  npc& operator= (const npc &rhs);
 
 // Generating our stats, etc.
  void randomize(npc_class type = NC_NONE);
  void randomize_from_faction(faction *fac);
+ void set_fac(std::string fac_name);
     /**
-     * Set omx, omy, omz, mapx and mapx.
-     * mx and my are submap coordinates relative to the overmap o.
-     * Both may out of the normal range of submap coordinates
-     * (< 0 or >= OMAPX*2), that's fine.
+     * Set @ref mapx and @ref mapx and @ref mapz.
+     * @param mx,my,mz are global submap coordinates.
+     * This function also adds the npc object to the overmap.
      */
-    void spawn_at(overmap *o, int mx, int my, int omz);
+    void spawn_at(int mx, int my, int mz);
     /**
      * Calls @ref spawn_at, spawns in a random city in
      * the given overmap on z-level 0.
@@ -478,7 +512,7 @@ public:
      */
     void place_on_map();
  Skill* best_skill();
- void starting_weapon();
+ void starting_weapon(npc_class type);
 
 // Save & load
  virtual void load_legacy(std::stringstream & dump);// Overloaded from player
@@ -491,42 +525,42 @@ public:
     virtual void serialize(JsonOut &jsout, bool save_contents) const;
 
 // Display
- void draw(WINDOW* w, int plx, int ply, bool inv);
- int print_info(WINDOW* w, int column = 1, int line = 6);
- std::string short_description();
- std::string opinion_text();
+    virtual nc_color basic_symbol_color() const;
+ int print_info(WINDOW* w, int vStart, int vLines, int column) const;
+ std::string short_description() const;
+ std::string opinion_text() const;
 
 // Goal / mission functions
  void pick_long_term_goal();
  void perform_mission();
- int  minutes_to_u(); // Time in minutes it takes to reach player
+ int  minutes_to_u() const; // Time in minutes it takes to reach player
  bool fac_has_value(faction_value value);
  bool fac_has_job(faction_job job);
 
 // Interaction with the player
  void form_opinion(player *u);
  talk_topic pick_talk_topic(player *u);
- int  player_danger(player *u); // Comparable to monsters
- int vehicle_danger(int radius);
- bool turned_hostile(); // True if our anger is at least equal to...
- int hostile_anger_level(); // ... this value!
+ int  player_danger(player *u) const; // Comparable to monsters
+ int vehicle_danger(int radius) const;
+ bool turned_hostile() const; // True if our anger is at least equal to...
+ int hostile_anger_level() const; // ... this value!
  void make_angry(); // Called if the player attacks us
- bool wants_to_travel_with(player *p);
+ bool wants_to_travel_with(player *p) const;
  int assigned_missions_value();
  std::vector<Skill*> skills_offered_to(player *p); // Skills that're higher
  std::vector<itype_id> styles_offered_to(player *p); // Martial Arts
 // State checks
- bool is_enemy(); // We want to kill/mug/etc the player
- bool is_following(); // Traveling w/ player (whether as a friend or a slave)
- bool is_friend(); // Allies with the player
- bool is_leader(); // Leading the player
- bool is_defending(); // Putting the player's safety ahead of ours
+ bool is_enemy() const; // We want to kill/mug/etc the player
+ bool is_following() const; // Traveling w/ player (whether as a friend or a slave)
+ bool is_friend() const; // Allies with the player
+ bool is_leader() const; // Leading the player
+ bool is_defending() const; // Putting the player's safety ahead of ours
 // What happens when the player makes a request
  void told_to_help();
  void told_to_wait();
  void told_to_leave();
- int  follow_distance(); // How closely do we follow the player?
- int  speed_estimate(int speed); // Estimate of a target's speed, usually player
+ int  follow_distance() const; // How closely do we follow the player?
+ int  speed_estimate(int speed) const; // Estimate of a target's speed, usually player
 
 
 // Dialogue and bartering--see npctalk.cpp
@@ -549,20 +583,20 @@ public:
  virtual bool wield(item* it);
  bool has_healing_item();
  bool has_painkiller();
- bool took_painkiller();
+ bool took_painkiller() const;
  void use_painkiller();
- void activate_item(char invlet);
+ void activate_item(int position);
 
 // Interaction and assessment of the world around us
  int  danger_assessment();
  int  average_damage_dealt(); // Our guess at how much damage we can deal
  bool bravery_check(int diff);
  bool emergency(int danger);
- bool is_active();
- void say(std::string line, ...);
+ bool is_active() const;
+ void say(std::string line, ...) const;
  void decide_needs();
  void die(Creature* killer);
- void die(bool your_fault = false);
+ bool is_dead() const;
 /* shift() works much like monster::shift(), and is called when the player moves
  * from one submap to an adjacent submap.  It updates our position (shifting by
  * 12 tiles), as well as our plans.
@@ -586,15 +620,15 @@ public:
  int choose_escape_item(); // Returns item position of our best escape aid
 
 // Helper functions for ranged combat
- int  confident_range(char invlet = 0); // >= 50% chance to hit
- bool wont_hit_friend(int tarx, int tary, char invlet = 0);
+ int  confident_range(int position = -1); // >= 50% chance to hit
+ bool wont_hit_friend(int tarx, int tary, int position = -1);
  bool can_reload(); // Wielding a gun that is not fully loaded
  bool need_to_reload(); // Wielding a gun that is empty
  bool enough_time_to_reload(int target, item &gun);
 
 // Physical movement from one tile to the next
  void update_path (int x, int y);
- bool can_move_to (int x, int y);
+ bool can_move_to (int x, int y) const;
  void move_to  (int x, int y);
  void move_to_next (); // Next in <path>
  void avoid_friendly_fire(int target); // Maneuver so we won't shoot u
@@ -619,22 +653,23 @@ public:
  void pick_and_eat ();
  void mug_player (player &mark);
  void look_for_player (player &sought);
- bool saw_player_recently();// Do we have an idea of where u are?
+ bool saw_player_recently() const;// Do we have an idea of where u are?
 
 // Movement on the overmap scale
- bool has_destination(); // Do we have a long-term destination?
+ bool has_destination() const; // Do we have a long-term destination?
  void set_destination(); // Pick a place to go
  void go_to_destination(); // Move there; on the micro scale
  void reach_destination(); // We made it!
 
  //message related stuff
- virtual void add_msg_if_npc(const char* msg, ...);
- virtual void add_msg_player_or_npc(const char* player_str, const char* npc_str, ...);
- virtual void add_msg_if_npc(game_message_type type, const char* msg, ...);
- virtual void add_msg_player_or_npc(game_message_type type, const char* player_str, const char* npc_str, ...);
- virtual void add_msg_if_player(const char *, ...){};
- virtual void add_msg_if_player(game_message_type, const char *, ...){};
+ virtual void add_msg_if_npc(const char* msg, ...) const;
+ virtual void add_msg_player_or_npc(const char* player_str, const char* npc_str, ...) const;
+ virtual void add_msg_if_npc(game_message_type type, const char* msg, ...) const;
+ virtual void add_msg_player_or_npc(game_message_type type, const char* player_str, const char* npc_str, ...) const;
+ virtual void add_msg_if_player(const char *, ...) const{};
+ virtual void add_msg_if_player(game_message_type, const char *, ...) const{};
  virtual void add_memorial_log(const char*, const char*, ...) {};
+ virtual void add_miss_reason(const char *, unsigned int) {};
 
 // The preceding are in npcmove.cpp
 
@@ -645,21 +680,31 @@ public:
  npc_attitude attitude; // What we want to do to the player
  npc_class myclass; // What's our archetype?
  int wandx, wandy, wandf; // Location of heard sound, etc.
+ std::string idz; // A temp variable used to inform the game which npc json to use as a template
+ int miss_id; // A temp variable used to link to the correct mission
 
 private:
-// Location:
- int omx, omy, omz; // Which overmap (e.g., o.0.0.0)
- int mapx, mapy;// Which square in that overmap (e.g., m.0.0)
+    /**
+     * Global submap coordinates of the npc (minus the position on the map:
+     * posx,posy). Use global_*_location to get the global position.
+     * You should not change mapx,mapy directly, use posx,posy instead,
+     * @ref shift will update mapx,mapy and move the npc to a different
+     * overmap if needed.
+     * (mapx,mapy) defines the overmap the npc is stored on.
+     */
+    int mapx, mapy, mapz;
 public:
+
+    static npc_map _all_npc;
     /**
      * Global position, expressed in map square coordinate system
      * (the most detailed coordinate system), used by the @ref map.
      *
      * The (global) position of an NPC is always:
      * point(
-     *  ((omx * OMAPX * 2) + mapx) * SEEX + posx,
-     *  ((omy * OMAPY * 2) + mapy) * SEEY + posy,
-     *  omz)
+     *     mapx * SEEX + posx,
+     *     mapy * SEEY + posy,
+     *     mapz)
      * (Expressed in map squares, the system that @ref map uses.)
      * Any of om, map, pos can be in any range.
      * For active NPCs pos would be in the valid range required by
@@ -693,7 +738,7 @@ public:
  std::vector<point> path; // Our movement plans
 
 // Personality & other defining characteristics
- int fac_id; // A temp variable used to inform the game which faction to link
+ std::string fac_id; // A temp variable used to inform the game which faction to link
  faction *my_fac;
  npc_mission mission;
  npc_personality personality;
@@ -702,7 +747,6 @@ public:
  int patience; // Used when we expect the player to leave the area
  npc_combat_rules combat_rules;
  bool marked_for_death; // If true, we die as soon as we respawn!
- bool dead;  // If true, we need to be cleaned up
  bool hit_by_player;
  std::vector<npc_need> needs;
  unsigned flags : NF_MAX;
@@ -710,11 +754,7 @@ public:
  static const tripoint no_goal_point;
 private:
     void setID (int id);
-    // Called after shifting or when mapx,mapy changed to
-    // update omx,omy and move the npc to another overmap,
-    // if needed. If mapx,mapy are still inside the overmap,
-    // nothing will be done.
-    void update_overmap_pos();
+    bool dead;  // If true, we need to be cleaned up
 };
 
 #endif

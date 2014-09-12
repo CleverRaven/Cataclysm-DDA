@@ -22,7 +22,7 @@ SDL2, SDL2\_image, and SDL2\_ttf are needed for the tiles build.
 Copy `SDL2.framework`, `SDL2_image.framework`, and `SDL2_ttf.framework`
 to `/Library/Frameworks` or `/Users/name/Library/Frameworks`.
 
-### Option 2: Homebrew package manager
+### Option 2: Using package manager
 
 Alternately, shared libraries (libSDL2, libSDL2\_image, libSDL2\_ttf) can be used
 instead of frameworks. Install with a package manager (Fink, MacPorts,
@@ -31,6 +31,10 @@ Homebrew, pkgsrc) or build and install from source.
 For Homebrew (can also install lua):
 
     brew install sdl2 sdl2_image sdl2_ttf
+
+For Macports:
+
+    sudo port install libsdl2 libsdl2_image libsdl2_ttf
 
 
 
@@ -46,12 +50,19 @@ For Homebrew:
     brew install gettext ncurses
     brew link --force gettext ncurses
 
-**After you build Cataclysm** you might want to to unlink gettext and ncurses with: 
+**After you build Cataclysm** you might want to to unlink gettext and ncurses with:
 
-    brew unlink gettext ncurses 
-    
-Reason: if you build other software, these versions might conflict with what the other software expects.  
+    brew unlink gettext ncurses
 
+Reason: if you build other software, these versions might conflict with what the other software expects.
+
+
+For Macports:
+
+    # gettext depends on ncurses, so you don't need to specify ncurses explicitly
+    # gettext also includes libintl
+    sudo port install gettext ncurses
+    hash -r
 
 
 ## Step 3: Compile
@@ -62,24 +73,40 @@ One of the following commands will likely work for you. Tweak flags to suit your
 
 build a release version, use `SDL` + graphical tiles, don't use `gettext`, and use `Clang` for compilation:
 
-    $ make NATIVE=osx OSX_MIN=10.7 RELEASE=1 TILES=1 LOCALIZE=0 CLANG=1 
-    
+    $ make NATIVE=osx OSX_MIN=10.7 RELEASE=1 TILES=1 LOCALIZE=0 CLANG=1
+
 build a release version, use `SDL` + graphical tiles, link to libraries in the OS X `Frameworks` folders, don't use `gettext`, and use `Clang` for compilation:
 
     $ make NATIVE=osx OSX_MIN=10.7 RELEASE=1 TILES=1 FRAMEWORK=1 LOCALIZE=0 CLANG=1
+
+build a release version, use curses and gettext supplied by Macports:
+
+    $ make NATIVE=osx OSX_MIN=10.7 RELEASE=1 LOCALIZE=1 MACPORTS=1
+
+### Compile localization files for specified languages
+
+If you just want to compile localization files for specified languages, you can add `LANGUAGES="<lang_id_1>[ lang_id_2][ ...]"` option to make command, e.g.
+
+    $ make LANGUAGES="zh_CN zh_TW"
+
+You can get the language ID from the filenames of `*.po` in `lang/po` directory.
+
+Note: Setting `LOCALIZE=1` may not tell `make` to compile those localization files for you.
 
 ### Make Options
 
 Description of the options used above. Tweak until things work. More notes are in the `Makefile`.
 
 * `FRAMEWORK=1` attempt to link to libraries under the OS X `Frameworks` folders; omit to use the usual libsdl, libsdl\_image, libsdl\_ttf (e.g. leave out when you `brew install` the packages).
-* `LOCALIZED=0` disable localization (to get around possible `gettext` errors if it is not setup correctly); omit to use `gettext`. 
+* `LOCALIZE=0` disable localization (to get around possible `gettext` errors if it is not setup correctly); omit to use `gettext`.
+* `LANGUAGES="<lang_id_1>[ lang_id_2][ ...]"` compile localization files for specified languages. e.g. `LANGUAGES="zh_CN zh_TW"`
 * `NATIVE=osx` build for OS X.
 * `OSX_MIN=version` sets `-mmacosx-version-min=` (for OS X > 10.5 set it to 10.6 or higher); omit for 10.5.
 * `RELEASE=1` build an optimized 'release' version; omit for debug build.
 * `TILES=1` build the SDL version with graphical tiles (and graphical ASCII); omit to build with `ncurses`.
 * `CLANG=1` build with [Clang](http://clang.llvm.org/) to get the necessary support for c++11 without needing to reinstall gcc/g++ (which seems like it might cause havoc with certain compilations of things).
-
+* `TILES=1` build the SDL version with graphical tiles (and graphical ASCII); omit to build with `ncurses`.
+* `MACPORTS` build against dependencies installed via Macports, currently only `gettext` and `ncurses`.
 
 
 ## Step 4: Run

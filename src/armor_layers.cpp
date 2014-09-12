@@ -13,18 +13,17 @@ void player::sort_armor()
     * + 3 - horizontal lines;
     * + 1 - caption line;
     * + 2 - innermost/outermost string lines;
-    * + 8 - sub-categories (torso, head, eyes, etc.);
+    * + 12 - sub-categories (torso, head, eyes, etc.);
     * + 1 - gap;
     * number of lines required for displaying all items is calculated dynamically,
     * because some items can have multiple entries (i.e. cover a few parts of body).
     */
 
-    int req_right_h = 3 + 1 + 2 + 8 + 1;
+    int req_right_h = 3 + 1 + 2 + 12 + 1;
     for (int cover = 0; cover < num_bp; cover++) {
         for (std::vector<item>::iterator it = worn.begin();
              it != worn.end(); ++it) {
-            each_armor = dynamic_cast<it_armor *>(it->type);
-            if (each_armor->covers & mfb(cover)) {
+            if (it->covers.test(cover)) {
                 req_right_h++;
             }
         }
@@ -35,12 +34,12 @@ void player::sort_armor()
     * + 1 - caption line;
     * + 8 - general properties
     * + 7 - ASSUMPTION: max possible number of flags @ item
-    * + 9 - warmth & enc block
+    * + 13 - warmth & enc block
     */
-    int req_mid_h = 3 + 1 + 8 + 7 + 9;
+    int req_mid_h = 3 + 1 + 8 + 7 + 13;
 
     const int win_h = std::min(TERMY, std::max(FULL_SCREEN_HEIGHT,
-                                               std::max(req_right_h, req_mid_h)));
+                               std::max(req_right_h, req_mid_h)));
     const int win_w = FULL_SCREEN_WIDTH + (TERMX - FULL_SCREEN_WIDTH) / 3;
     const int win_x = TERMX / 2 - win_w / 2;
     const int win_y = TERMY / 2 - win_h / 2;
@@ -65,8 +64,9 @@ void player::sort_armor()
     std::vector<item *> tmp_worn;
     std::string tmp_str;
 
-    std::string  armor_cat[] = {_("Torso"), _("Head"), _("Eyes"), _("Mouth"), _("Arms"),
-                                _("Hands"), _("Legs"), _("Feet"), _("All")
+    std::string  armor_cat[] = {_("Torso"), _("Head"), _("Eyes"), _("Mouth"), _("L. Arm"), _("R. Arm"),
+                                _("L. Hand"), _("R. Hand"), _("L. Leg"), _("R. Leg"), _("L. Foot"),
+                                _("R. Foot"), _("All")
                                };
 
     // Layout window
@@ -117,7 +117,7 @@ void player::sort_armor()
 
         // Create ptr list of items to display
         tmp_worn.clear();
-        if (tabindex == 8) { // All
+        if (tabindex == 12) { // All
             for (std::vector<item>::iterator it = worn.begin();
                  it != worn.end(); ++it) {
                 tmp_worn.push_back(&*it);
@@ -125,13 +125,12 @@ void player::sort_armor()
         } else { // bp_*
             for (std::vector<item>::iterator it = worn.begin();
                  it != worn.end(); ++it) {
-                each_armor = dynamic_cast<it_armor *>(it->type);
-                if (each_armor->covers & mfb(tabindex)) {
+                if (it->covers.test(tabindex)) {
                     tmp_worn.push_back(&*it);
                 }
             }
         }
-        leftListSize = (tmp_worn.size() < cont_h - 2) ? tmp_worn.size() : cont_h - 2;
+        leftListSize = ((int)tmp_worn.size() < cont_h - 2) ? (int)tmp_worn.size() : cont_h - 2;
 
         // Left header
         mvwprintz(w_sort_left, 0, 0, c_ltgray, _("(Innermost)"));
@@ -158,7 +157,7 @@ void player::sort_armor()
 
         // Left footer
         mvwprintz(w_sort_left, cont_h - 1, 0, c_ltgray, _("(Outermost)"));
-        if (leftListSize > tmp_worn.size()) {
+        if (leftListSize > (int)tmp_worn.size()) {
             mvwprintz(w_sort_left, cont_h - 1, left_w - utf8_width(_("<more>")), c_ltblue, _("<more>"));
         }
         if (leftListSize == 0) {
@@ -173,25 +172,21 @@ void player::sort_armor()
         }
 
         // Player encumbrance - altered copy of '@' screen
-        it_armor *each_armor = 0;
-        if (leftListSize)
-            each_armor = dynamic_cast<it_armor *>(tmp_worn[leftListIndex]->type);
-
-        mvwprintz(w_sort_middle, cont_h - 9, 1, c_white, _("Encumbrance and Warmth"));
+        mvwprintz(w_sort_middle, cont_h - 13, 1, c_white, _("Encumbrance and Warmth"));
         for (int i = 0; i < num_bp; ++i) {
             int enc, armorenc;
             double layers;
             layers = armorenc = 0;
             enc = encumb(body_part(i), layers, armorenc);
-            if (leftListSize && (each_armor->covers & mfb(i))) {
-                mvwprintz(w_sort_middle, cont_h - 8 + i, 2, c_green, "%s:", armor_cat[i].c_str());
+            if (leftListSize && (tmp_worn[leftListIndex]->covers.test(i))) {
+                mvwprintz(w_sort_middle, cont_h - 12 + i, 2, c_green, "%s:", armor_cat[i].c_str());
             } else {
-                mvwprintz(w_sort_middle, cont_h - 8 + i, 2, c_ltgray, "%s:", armor_cat[i].c_str());
+                mvwprintz(w_sort_middle, cont_h - 12 + i, 2, c_ltgray, "%s:", armor_cat[i].c_str());
             }
-            mvwprintz(w_sort_middle, cont_h - 8 + i, middle_w - 16, c_ltgray, "%d+%d = ", armorenc,
+            mvwprintz(w_sort_middle, cont_h - 12 + i, middle_w - 16, c_ltgray, "%d+%d = ", armorenc,
                       enc - armorenc);
             wprintz(w_sort_middle, encumb_color(enc), "%d" , enc);
-            mvwprintz(w_sort_middle, cont_h - 8 + i, middle_w - 6,
+            mvwprintz(w_sort_middle, cont_h - 12 + i, middle_w - 6,
                       bodytemp_color(i), "(%3d)", warmth(body_part(i)));
         }
 
@@ -214,7 +209,7 @@ void player::sort_armor()
             for (std::vector<item>::iterator it = worn.begin();
                  it != worn.end(); ++it) {
                 each_armor = dynamic_cast<it_armor *>(it->type);
-                if (each_armor->covers & mfb(cover)) {
+                if (it->covers.test(cover)) {
                     if (rightListSize >= rightListOffset && pos <= cont_h - 2) {
                         mvwprintz(w_sort_right, pos, 2, dam_color[int(it->damage + 1)],
                                   each_armor->nname(1).c_str());
@@ -336,7 +331,7 @@ void player::sort_armor()
                 item &w = worn[worn_index];
                 if (invlet == w.invlet) {
                     worn_index--;
-                } else if (has_item(invlet)) {
+                } else if (invlet_to_position(invlet) != INT_MIN) {
                     invlet_index--;
                 } else {
                     w.invlet = invlet;
@@ -355,11 +350,11 @@ Press %s to assign special inventory letters to clothing.\n\
 The first number is the summed encumbrance from all clothing on that bodypart.\n\
 The second number is the encumbrance caused by the number of clothing on that bodypart.\n\
 The sum of these values is the effective encumbrance value your character has for that bodypart."),
-                ctxt.get_desc("MOVE_ARMOR").c_str(),
-                ctxt.get_desc("PREV_TAB").c_str(),
-                ctxt.get_desc("NEXT_TAB").c_str(),
-                ctxt.get_desc("ASSIGN_INVLETS").c_str()
-            );
+                         ctxt.get_desc("MOVE_ARMOR").c_str(),
+                         ctxt.get_desc("PREV_TAB").c_str(),
+                         ctxt.get_desc("NEXT_TAB").c_str(),
+                         ctxt.get_desc("ASSIGN_INVLETS").c_str()
+                        );
             //TODO: refresh the window properly. Current method erases the intersection symbols
             draw_border(w_sort_armor); // hack to mark whole window for redrawing
             wrefresh(w_sort_armor);
@@ -419,18 +414,18 @@ std::vector<std::string> clothing_properties(item *worn_item, int width)
     it_armor *each_armor = dynamic_cast<it_armor *>(worn_item->type);
     std::vector<std::string> props;
     props.push_back(name_and_value(_("Coverage:"),
-                    string_format("%3d", int(each_armor->coverage)), width));
+                                   string_format("%3d", int(each_armor->coverage)), width));
     props.push_back(name_and_value(_("Encumbrance:"), string_format("%3d",
-                    (worn_item->has_flag("FIT")) ? std::max(0, int(each_armor->encumber) - 1) :
-                    int(each_armor->encumber)), width));
+                                   (worn_item->has_flag("FIT")) ? std::max(0, int(each_armor->encumber) - 1) :
+                                   int(each_armor->encumber)), width));
     props.push_back(name_and_value(_("Bash Protection:"),
-                    string_format("%3d", int(worn_item->bash_resist())), width));
+                                   string_format("%3d", int(worn_item->bash_resist())), width));
     props.push_back(name_and_value(_("Cut Protection:"),
-                    string_format("%3d", int(worn_item->cut_resist())), width));
+                                   string_format("%3d", int(worn_item->cut_resist())), width));
     props.push_back(name_and_value(_("Warmth:"),
-                    string_format("%3d", int(each_armor->warmth)), width));
+                                   string_format("%3d", int(each_armor->warmth)), width));
     props.push_back(name_and_value(_("Storage:"),
-                    string_format("%3d", int(each_armor->storage)), width));
+                                   string_format("%3d", int(each_armor->storage)), width));
 
     return props;
 }

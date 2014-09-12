@@ -32,24 +32,6 @@ std::string mission::name()
     return type->name;
 }
 
-std::string mission::save_info()
-{
-    std::stringstream ret;
-    if (type == NULL) {
-        ret << -1;
-    } else {
-        ret << type->id;
-    }
-    ret << description << " <> " << (failed ? 1 : 0) << " " << value <<
-        " " << reward.type << " " << reward.value << " " << reward.item_id <<
-        " " << (reward.skill ? reward.skill->id() : 0) << " " << uid << " " << target.x << " " <<
-        target.y << " " << item_id << " " << item_count << " " << deadline << " " <<
-        npc_id << " " << good_fac_id << " " << bad_fac_id << " " << step <<
-        " " << follow_up << " " << target_npc_id;
-
-    return ret.str();
-}
-
 void mission::load_info(std::ifstream &data)
 {
     int type_id, rewtype, reward_id, rew_skill, tmpfollow, item_num, target_npc_id;
@@ -246,7 +228,7 @@ of those things now.  Can you put her out of her misery for me?");
         }
         break;
 
-//patriot mission 1
+    //patriot mission 1
     case MISSION_GET_FLAG:
         switch (state) {
         case TALK_MISSION_DESCRIBE:
@@ -275,7 +257,7 @@ good man to rely on... might as well give up, I guess.");
         }
         break;
 
-//patriot mission 2
+    //patriot mission 2
     case MISSION_GET_BLACK_BOX:
         switch (state) {
         case TALK_MISSION_DESCRIBE:
@@ -308,7 +290,7 @@ Fuck ya, America!");
         }
         break;
 
-//patriot mission 3
+    //patriot mission 3
     case MISSION_GET_BLACK_BOX_TRANSCRIPT:
         switch (state) {
         case TALK_MISSION_DESCRIBE:
@@ -343,7 +325,7 @@ Fuck ya, America!");
         }
         break;
 
-//patriot mission 4
+    //patriot mission 4
     case MISSION_EXPLORE_SARCOPHAGUS:
         switch (state) {
         case TALK_MISSION_DESCRIBE:
@@ -377,7 +359,7 @@ bird coming to pick them up.");
         }
         break;
 
-//martyr mission 1
+    //martyr mission 1
     case MISSION_GET_RELIC:
         switch (state) {
         case TALK_MISSION_DESCRIBE:
@@ -407,7 +389,7 @@ I wish you the best of luck, may whatever god you please guide your path.");
         }
         break;
 
-//martyr mission 2
+    //martyr mission 2
     case MISSION_RECOVER_PRIEST_DIARY:
         switch (state) {
         case TALK_MISSION_DESCRIBE:
@@ -441,7 +423,7 @@ within his own home.");
         }
         break;
 
-//martyr mission 3
+    //martyr mission 3
     case MISSION_INVESTIGATE_CULT:
         switch (state) {
         case TALK_MISSION_DESCRIBE:
@@ -480,7 +462,7 @@ known if they are responsible for the outbreak but they certainly know more abou
         }
         break;
 
-//martyr mission 4
+    //martyr mission 4
     case MISSION_INVESTIGATE_PRISON_VISIONARY:
         switch (state) {
         case TALK_MISSION_DESCRIBE:
@@ -546,7 +528,7 @@ Thanks so much, you may save both of us yet.");
         }
         break;
 
-//humanitarian mission 1
+    //humanitarian mission 1
     case MISSION_GET_RECORD_PATIENT:
         switch (state) {
         case TALK_MISSION_DESCRIBE:
@@ -574,7 +556,7 @@ Thank you, I suppose it wont change what has already happened but it will bring 
         }
         break;
 
-//humanitarian mission 2
+    //humanitarian mission 2
     case MISSION_REACH_FEMA_CAMP:
         switch (state) {
         case TALK_MISSION_DESCRIBE:
@@ -604,7 +586,7 @@ Thank you, just bring me to the camp... I just want to see.");
         }
         break;
 
-//humanitarian mission 3
+    //humanitarian mission 3
     case MISSION_REACH_FARM_HOUSE:
         switch (state) {
         case TALK_MISSION_DESCRIBE:
@@ -636,7 +618,7 @@ ought to be safe for now.  You'll always be welcome here.");
         }
         break;
 
-//vigilante mission 1
+    //vigilante mission 1
     case MISSION_GET_RECORD_ACCOUNTING:
         switch (state) {
         case TALK_MISSION_DESCRIBE:
@@ -667,7 +649,7 @@ will prove their guilt if we get an expert to examine it.");
         }
         break;
 
-//vigilante mission 2
+    //vigilante mission 2
     case MISSION_GET_SAFE_BOX:
         switch (state) {
         case TALK_MISSION_DESCRIBE:
@@ -698,7 +680,7 @@ we take measure to stop those who seek to rule over us.");
         }
         break;
 
-//vigilante mission 3
+    //vigilante mission 3
     case MISSION_GET_DEPUTY_BADGE:
         switch (state) {
         case TALK_MISSION_DESCRIBE:
@@ -727,7 +709,7 @@ I'd check the police station.");
         }
         break;
 
-//demon slayer mission 1
+    //demon slayer mission 1
     case MISSION_KILL_JABBERWOCK:
         switch (state) {
         case TALK_MISSION_DESCRIBE:
@@ -757,7 +739,7 @@ Thanks, make sure you're ready for whatever the beast is.");
         }
         break;
 
-//demon slayer mission 2
+    //demon slayer mission 2
     case MISSION_KILL_100_Z:
         switch (state) {
         case TALK_MISSION_DESCRIBE:
@@ -790,7 +772,7 @@ our little neck of the world if you keep this up.");
         }
         break;
 
-//demon slayer mission 3
+    //demon slayer mission 3
     case MISSION_KILL_HORDE_MASTER:
         switch (state) {
         case TALK_MISSION_DESCRIBE:
@@ -823,7 +805,7 @@ alive under the rubble and ash.");
 
 
 
-//demon slayer mission 4
+    //demon slayer mission 4
     case MISSION_RECRUIT_TRACKER:
         switch (state) {
         case TALK_MISSION_DESCRIBE:
@@ -857,7 +839,7 @@ target.");
         }
         break;
 
-//demon slayer mission 4b
+    //demon slayer mission 4b
     case MISSION_JOIN_TRACKER:
         switch (state) {
         case TALK_MISSION_DESCRIBE:
@@ -886,7 +868,7 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         }
         break;
 
-//Free Merchants
+    //Free Merchants
     case MISSION_FREE_MERCHANTS_EVAC_1:
         switch (state) {
         case TALK_MISSION_DESCRIBE:
@@ -899,8 +881,7 @@ Before we get into a major fight just make sure we have the gear we need, boss."
                      "different.  Kill all of them and make sure they won't bother us again.  We can't "
                      "pay much but it would help us to reclaim the bay.");
         case TALK_MISSION_ACCEPTED:
-            return _("\
-Please be careful, we don't need any more deaths.");
+            return _("Please be careful, we don't need any more deaths.");
         case TALK_MISSION_REJECTED:
             return _("Come back when you get a chance, we really need to start reclaiming the region.");
         case TALK_MISSION_ADVICE:
@@ -931,8 +912,7 @@ Please be careful, we don't need any more deaths.");
                      "scavengers can continue to pass through in relative safety.  The best "
                      "reward I can offer is a claim to the supplies they were carrying.");
         case TALK_MISSION_ACCEPTED:
-            return _("\
-Our community survives on trade, we appreciate it.");
+            return _("Our community survives on trade, we appreciate it.");
         case TALK_MISSION_REJECTED:
             return _("Come back when you get a chance, we really need to start reclaiming the region.");
         case TALK_MISSION_ADVICE:
@@ -963,8 +943,7 @@ Our community survives on trade, we appreciate it.");
                      "able to get an electrical expansion working for a year or two.  I know they "
                      "are rare but running generators isn't a viable option in the basement.");
         case TALK_MISSION_ACCEPTED:
-            return _("\
-If you can do this for us our survival options would vastly increase.");
+            return _("If you can do this for us our survival options would vastly increase.");
         case TALK_MISSION_REJECTED:
             return _("Come back when you get a chance, we really need to start reclaiming the region.");
         case TALK_MISSION_ADVICE:
@@ -973,6 +952,135 @@ If you can do this for us our survival options would vastly increase.");
             return _("How is the search going?");
         case TALK_MISSION_SUCCESS:
             return _("Great, I know it isn't much but we hope to continue to expand thanks to your help.");
+        case TALK_MISSION_SUCCESS_LIE:
+            return _("What good does this do us?");
+        case TALK_MISSION_FAILURE:
+            return _("It was a lost cause anyways...");
+        default: // It's a bug.
+            return "";
+        }
+        break;
+
+    //Old Guard
+    case MISSION_OLD_GUARD_REP_1:
+        switch (state) {
+        case TALK_MISSION_DESCRIBE:
+            return _("We need help...");
+        case TALK_MISSION_OFFER:
+            return _("I don't like sending untested men into the field but if you have stayed alive so far "
+                     "you might have some skills.  There are at least a pair of bandits squatting in a local cabin, "
+                     "anyone who preys upon civilians meets a quick end... execute both of them for their "
+                     "crimes.  Complete this and the Old Guard will consider you an asset in the region.");
+        case TALK_MISSION_ACCEPTED:
+            return _("Contractor, I welcome you aboard.");
+        case TALK_MISSION_REJECTED:
+            return _("The States will remain a wasteland unless good men choose to save it.");
+        case TALK_MISSION_ADVICE:
+            return _("They might suspect you are coming, keep an eye out for traps.");
+        case TALK_MISSION_INQUIRE:
+            return _("Have you completed your mission?");
+        case TALK_MISSION_SUCCESS:
+            return _("The Old Guard thanks you for eliminating the criminals.  You won't be forgotten.");
+        case TALK_MISSION_SUCCESS_LIE:
+            return _("What good does this do us?");
+        case TALK_MISSION_FAILURE:
+            return _("It was a lost cause anyways...");
+        default: // It's a bug.
+            return "";
+        }
+        break;
+
+    case MISSION_OLD_GUARD_REP_2:
+        switch (state) {
+        case TALK_MISSION_DESCRIBE:
+            return _("We need help...");
+        case TALK_MISSION_OFFER:
+            return _("This task is going to require a little more persuasive skill.  I believe the "
+                     "Hell's Raiders have an informant here to monitor who comes and goes.  I need "
+                     "you to find out who it is and deal with them without letting anyone else know "
+                     "of my suspicions.  We normally allow the Free Merchants to govern themselves "
+                     "so I would hate to offend them.");
+        case TALK_MISSION_ACCEPTED:
+            return _("Thank you, please keep this discreet.");
+        case TALK_MISSION_REJECTED:
+            return _("Come back when you get a chance, we could use a few good men.");
+        case TALK_MISSION_ADVICE:
+            return _("If they draw first blood their friends are less likely to blame you...");
+        case TALK_MISSION_INQUIRE:
+            return _("You deal with the rat?");
+        case TALK_MISSION_SUCCESS:
+            return _("Thank you, I'll do the explaining if anyone else asks about it.");
+        case TALK_MISSION_SUCCESS_LIE:
+            return _("What good does this do us?");
+        case TALK_MISSION_FAILURE:
+            return _("It was a lost cause anyways...");
+        default: // It's a bug.
+            return "";
+        }
+        break;
+
+    case MISSION_OLD_GUARD_REP_3:
+        switch (state) {
+        case TALK_MISSION_DESCRIBE:
+            return _("We need help...");
+        case TALK_MISSION_OFFER:
+            return _("There is another monster troubling the merchants but this time it isn't "
+                     "human... at least I don't think.  Guy just disappeared while walking "
+                     "behind a packed caravan.  They didn't hear any shots but I suppose some "
+                     "raider may have been real sneaky.  Check out the area and report anything "
+                     "you find.");
+        case TALK_MISSION_ACCEPTED:
+            return _("Thanks, keeping the people safe is what we try and do.");
+        case TALK_MISSION_REJECTED:
+            return _("Come back when you get a chance, we really need to start reclaiming the region.");
+        case TALK_MISSION_ADVICE:
+            return _("Search the bushes for any trace?  I'm not an expert tracker but you should "
+                     "be able to find something.");
+        case TALK_MISSION_INQUIRE:
+            return _("How is the search going?");
+        case TALK_MISSION_SUCCESS:
+            return _("Great work, wasn't sure what I was sending you after.");
+        case TALK_MISSION_SUCCESS_LIE:
+            return _("What good does this do us?");
+        case TALK_MISSION_FAILURE:
+            return _("It was a lost cause anyways...");
+        default: // It's a bug.
+            return "";
+        }
+        break;
+
+    case MISSION_OLD_GUARD_REP_4:
+        switch (state) {
+        case TALK_MISSION_DESCRIBE:
+            return _("We need help...");
+        case TALK_MISSION_OFFER:
+            return _("I've located a Hell's Raiders encampment in the region that appears to be "
+                     "coordinating operations against the Free Merchants.  We know almost nothing "
+                     "about the command structure in the 'gang' so I need to send someone in to "
+                     "decapitate the leadership.  The raid will be held under orders of the U.S. "
+                     "Marshals Service and by agreeing to the mission you will become a marshal, "
+                     "swearing to assist the federal government in regaining order.");
+        case TALK_MISSION_ACCEPTED:
+            popup("Now repeat after me...");
+            popup("I, %s, do solemnly swear that I will support and defend the Constitution of the "
+                  "United States against all enemies, foreign and domestic...", g->u.name.c_str());
+            popup("...that I will bear true faith and allegiance to the same...");
+            popup("...that I take this obligation freely, without any mental reservation or purpose of evasion...");
+            popup("...and that I will well and faithfully discharge the duties of the office on which I am about to enter.");
+            popup("To establish justice, insure domestic tranquility, provide for the common defense, promote the "
+                  "general welfare and secure the blessings of liberty.");
+            popup("So help me God.");
+            return _("Congratulations Marshal, don't forget your badge and gun.  As a marshal all men or women assisting you are "
+                     "considered deputy marshals so keep them in line.");
+        case TALK_MISSION_REJECTED:
+            return _("Come back when you get a chance, we could use a few good men.");
+        case TALK_MISSION_ADVICE:
+            return _("I'd recommend having two deputies... it would be a death trap if a "
+                     "single man got surrounded.");
+        case TALK_MISSION_INQUIRE:
+            return _("Has the leadership been dealt with?");
+        case TALK_MISSION_SUCCESS:
+            return _("Marshal, you continue to impress us.");
         case TALK_MISSION_SUCCESS_LIE:
             return _("What good does this do us?");
         case TALK_MISSION_FAILURE:

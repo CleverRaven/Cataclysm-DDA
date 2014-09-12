@@ -24,6 +24,7 @@ ignorable = {
     "mapgen",
     "monstergroup",
     "monitems",
+    "npc", # FIXME right now this object is unextractable
     "overmap_special",
     "recipe_category",
     "recipe_subcategory",
@@ -53,6 +54,7 @@ automatically_convertible = {
     "construction",
     "CONTAINER",
     "dream",
+    "faction",
     "furniture",
     "GENERIC",
     "GUNMOD",
@@ -160,12 +162,20 @@ def extract_professions(item):
         writestr(outfile, item["description"], context="prof_desc_female",
                  comment="Profession (female {}) description".format(nm))
 
+def extract_scenarios(item):
+    outfile = get_outfile("scenario")
+    # writestr will not write string if it is None.
+    for f in [ "name", "description", "start_name"]:
+        found = item.get(f, None)
+        writestr(outfile, found)
+
 # these objects need to have their strings specially extracted
 extract_specials = {
     "effect_type": extract_effect_type,
     "material": extract_material,
     "martial_art": extract_martial_art,
-    "profession": extract_professions
+    "profession": extract_professions,
+    "scenario": extract_scenarios
 }
 
 ##

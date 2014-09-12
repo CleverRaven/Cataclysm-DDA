@@ -12,7 +12,7 @@ iuse_actor *iuse_transform::clone() const
     return new iuse_transform(*this);
 }
 
-long iuse_transform::use(player* p, item* it, bool /*t*/) const
+long iuse_transform::use(player *p, item *it, bool /*t*/) const
 {
     if (need_fire > 0 && p != NULL && p->is_underwater()) {
         p->add_msg_if_player(m_info, _("You can't do that while underwater"));
@@ -70,11 +70,11 @@ long auto_iuse_transform::use(player *p, item *it, bool t) const
     if (t) {
         if (!when_underwater.empty() && p != NULL && p->is_underwater()) {
             // Dirty hack to display the "when unterwater" message instead of the normal message
-            std::swap(const_cast<auto_iuse_transform*>(this)->when_underwater,
-                      const_cast<auto_iuse_transform*>(this)->msg_transform);
+            std::swap(const_cast<auto_iuse_transform *>(this)->when_underwater,
+                      const_cast<auto_iuse_transform *>(this)->msg_transform);
             const long tmp = iuse_transform::use(p, it, t);
-            std::swap(const_cast<auto_iuse_transform*>(this)->when_underwater,
-                      const_cast<auto_iuse_transform*>(this)->msg_transform);
+            std::swap(const_cast<auto_iuse_transform *>(this)->when_underwater,
+                      const_cast<auto_iuse_transform *>(this)->msg_transform);
             return tmp;
         }
         // Normal use, don't need to do anything here.
@@ -118,7 +118,8 @@ long explosion_iuse::use(player *p, item *it, bool t) const
     }
     if (it->charges > 0) {
         if (no_deactivate_msg.empty()) {
-            p->add_msg_if_player(m_warning, _("You've already set the %s's timer you might want to get away from it."), it->tname().c_str());
+            p->add_msg_if_player(m_warning,
+                                 _("You've already set the %s's timer you might want to get away from it."), it->tname().c_str());
         } else {
             p->add_msg_if_player(m_info, no_deactivate_msg.c_str(), it->tname().c_str());
         }
@@ -175,11 +176,22 @@ long unfold_vehicle_iuse::use(player *p, item *it, bool /*t*/) const
         p->add_msg_if_player(m_info, _("You can't do that while underwater."));
         return 0;
     }
+
+    for (auto tool = tools_needed.cbegin(); tool != tools_needed.cend(); ++tool) {
+        // Amount == -1 means need one, but don't consume it.
+        if (!p->has_amount(tool->first, 1)) {
+            p->add_msg_if_player(_("You need %s to do it!"),
+                                 item(tool->first, 0).type->nname(1).c_str());
+            return 0;
+        }
+    }
+
     vehicle *veh = g->m.add_vehicle(vehicle_name, p->posx, p->posy, 0, 0, 0, false);
     if (veh == NULL) {
         p->add_msg_if_player(m_info, _("There's no room to unfold the %s."), it->tname().c_str());
         return 0;
     }
+
     // Mark the vehicle as foldable.
     veh->tags.insert("convertible");
     // Store the id of the item the vehicle is made of.
@@ -225,7 +237,7 @@ long unfold_vehicle_iuse::use(player *p, item *it, bool /*t*/) const
     return 1;
 }
 
-consume_drug_iuse::~consume_drug_iuse(){};
+consume_drug_iuse::~consume_drug_iuse() {};
 
 iuse_actor *consume_drug_iuse::clone() const
 {
@@ -260,8 +272,7 @@ long consume_drug_iuse::use(player *p, item *it, bool) const
         int duration = disease->second;
         if (p->has_trait("TOLERANCE")) {
             duration -= 10; // Symmetry would cause negative duration.
-        }
-        else if (p->has_trait("LIGHTWEIGHT")) {
+        } else if (p->has_trait("LIGHTWEIGHT")) {
             duration += 20;
         }
         p->add_disease( disease->first, duration );
@@ -270,8 +281,9 @@ long consume_drug_iuse::use(player *p, item *it, bool) const
         p->mod_stat( stat->first, stat->second );
     }
     for( auto field = fields_produced.cbegin(); field != fields_produced.cend(); ++field ) {
+        const field_id fid = field_from_ident( field->first );
         for(int i = 0; i < 3; i++) {
-            g->m.add_field(p->posx + int(rng(-2, 2)), p->posy + int(rng(-2, 2)), fd_cracksmoke, 2);
+            g->m.add_field(p->posx + int(rng(-2, 2)), p->posy + int(rng(-2, 2)), fid, field->second);
         }
     }
     // Output message.

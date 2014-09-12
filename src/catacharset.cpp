@@ -155,10 +155,12 @@ int cursorx_to_position(const char *line, int cursorx, int *prevpos, int maxlen)
     while(c < cursorx) {
         const char *utf8str = line + i;
         int len = ANY_LENGTH;
+        if ( utf8str[0] == 0 ) {
+            break;
+        }
         unsigned ch = UTF8_getch(&utf8str, &len);
         int cw = mk_wcwidth(ch);
         len = ANY_LENGTH - len;
-
         if( len <= 0 ) {
             len = 1;
         }
@@ -167,7 +169,7 @@ int cursorx_to_position(const char *line, int cursorx, int *prevpos, int maxlen)
         }
         i += len;
         if( cw <= 0 ) {
-            cw = 1;
+            cw = 0;
         }
         c += cw;
         if( c <= cursorx ) {
@@ -325,8 +327,6 @@ std::string base64_encode(std::string str)
     ret += encoded_data;
     delete[] encoded_data;
 
-    //DebugLog()<<"base64 encoded: \n"<<str<<"\n"<<ret<<"\n";
-
     return ret;
 }
 
@@ -388,12 +388,13 @@ std::string base64_decode(std::string str)
     std::string ret = (char *)decoded_data;
     delete[] decoded_data;
 
-    //DebugLog()<<"base64 decoded: \n"<<str<<"\n"<<ret<<"\n";
-
     return ret;
 }
 
-utf8_wrapper::utf8_wrapper(const std::string &d) : _data(d), _length(0), _display_width(0)
+// In an attempt to maintain compatibility with gcc 4.6, use an initializer function
+// instead of a delegated constructor.
+// When we declare a hard dependency on gcc 4.7+, turn this back into a delegated constructor.
+void utf8_wrapper::init_utf8_wrapper()
 {
     const char *utf8str = _data.c_str();
     int len = _data.length();
@@ -405,6 +406,17 @@ utf8_wrapper::utf8_wrapper(const std::string &d) : _data(d), _length(0), _displa
         _length++;
         _display_width += mk_wcwidth(ch);
     }
+}
+
+utf8_wrapper::utf8_wrapper(const std::string &d) : _data(d), _length(0), _display_width(0)
+{
+    init_utf8_wrapper();
+}
+
+utf8_wrapper::utf8_wrapper(const char *d) : _length(0), _display_width(0)
+{
+    _data = std::string(d);
+    init_utf8_wrapper();
 }
 
 size_t utf8_wrapper::byte_start(size_t bstart, size_t start) const
@@ -441,7 +453,7 @@ size_t utf8_wrapper::byte_start_display(size_t bstart, size_t start) const
             continue;
         }
         const int width = mk_wcwidth(ch);
-        if(start >= width) {
+        if((int)start >= width) {
             // If width is 0, include the code point (might be combination character)
             // Same when width is actually smaller than start
             start -= width;
@@ -472,7 +484,8 @@ utf8_wrapper utf8_wrapper::substr_display(size_t start, size_t length) const
     return substr_byte(byte_start_display(0, start), length, true);
 }
 
-utf8_wrapper utf8_wrapper::substr_byte(size_t bytestart, size_t length, bool use_display_width) const
+utf8_wrapper utf8_wrapper::substr_byte(size_t bytestart, size_t length,
+                                       bool use_display_width) const
 {
     if(length == 0 || bytestart >= _data.length()) {
         return utf8_wrapper();

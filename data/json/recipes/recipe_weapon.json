@@ -402,7 +402,7 @@
       [
       [ "welder", 20 ],
       [ "welder_crude", 20 ],
-      [ "toolset", 2 ]
+      [ "toolset", 20 ]
       ]
       ],
   "components":
@@ -727,6 +727,7 @@
 },{
         "type" : "recipe",
   "result": "shotgun_sawn",
+  "byproducts": { "id" : "scrap", "amount" : 6 },
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
   "skill_used": "fabrication",
@@ -762,7 +763,7 @@
     [
       [ "welder", 30 ],
       [ "welder_crude", 30 ],
-      [ "toolset", 3 ],
+      [ "toolset", 30 ],
       [ "small_repairkit", 150 ],
       [ "large_repairkit", 30 ]
     ]
@@ -773,8 +774,113 @@
     ]
   ]
 },{
+          "type" : "recipe",
+  "result": "l_car_223",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "mechanics",
+  "skills_required": [[ "gun", 4 ]],
+  "difficulty": 5,
+  "time": 90000, "//": "90 minutes to set up",
+  "reversible": true,
+  "autolearn": true,
+  "//": "Firearms kits are mandatory by design--you're doing significant modifications to your gun and should use the right gear to sight everything in, etc.",
+  "tools": [
+    [
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "l_base_223", 1 ]
+    ],
+    [
+      [ "l_car_223_kit", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "l_mbr_223",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "mechanics",
+  "skills_required": [[ "gun", 4 ]],
+  "difficulty": 5,
+  "time": 95000,
+  "reversible": true,
+  "autolearn": true,
+  "//": "Firearms kits are mandatory by design--you're doing significant modifications to your gun and should use the right gear to sight everything in, etc.",
+  "tools": [
+    [
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "l_base_223", 1 ]
+    ],
+    [
+      [ "l_mbr_223_kit", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "l_dsr_223",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "mechanics",
+  "skills_required": [[ "gun", 6 ]],
+  "difficulty": 6,
+  "time": 120000,
+  "reversible": true,
+  "autolearn": true,
+  "//": "Firearms kits are mandatory by design--you're doing significant modifications to your gun and should use the right gear to sight everything in, etc.",
+  "tools": [
+    [
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "l_base_223", 1 ]
+    ],
+    [
+      [ "l_dsr_223_kit", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "l_lmg_223",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "mechanics",
+  "skills_required": [[ "gun", 5 ]],
+  "difficulty": 7,
+  "time": 100000, "//": "Should be 100 minutes",
+  "reversible": true,
+  "autolearn": true,
+  "//": "Firearms kits are mandatory by design--you're doing significant modifications to your gun and should use the right gear to sight everything in, etc.",
+  "tools": [
+    [
+      [ "small_repairkit", -1 ],
+      [ "large_repairkit", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "l_base_223", 1 ]
+    ],
+    [
+      [ "l_lmg_223_kit", 1 ]
+    ]
+  ]
+},{
         "type" : "recipe",
   "result": "saiga_sawn",
+  "byproducts": { "id" : "scrap", "amount" : 5 },  
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
   "skill_used": "fabrication",
@@ -953,6 +1059,7 @@
 },{
         "type" : "recipe",
   "result": "pipe_shotgunsawn",
+  "byproducts": { "id" : "scrap", "amount" : 3 },
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
   "skill_used": "fabrication",
@@ -1161,7 +1268,7 @@
   "tools": [
     [
       [ "hotplate", 5 ],
-      [ "toolset", 1 ]
+      [ "toolset", 5 ]
     ]
   ],
   "components": [
@@ -1235,7 +1342,7 @@
     [
       ["welder", 100],
       ["welder_crude", 150],
-      ["toolset", 4]
+      ["toolset", 150]
     ]
   ],
   "components": [
@@ -1337,7 +1444,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 6 ],
-      [ "toolset", 1 ],
+      [ "toolset", 6 ],
       [ "small_repairkit", 6 ],
       [ "large_repairkit", 3 ]
     ]
@@ -1409,7 +1516,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 10 ],
-      [ "toolset", 1 ],
+      [ "toolset", 10 ],
       [ "small_repairkit", 10 ],
       [ "large_repairkit", 5 ]
     ]
@@ -1447,7 +1554,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 6 ],
-      [ "toolset", 1 ]
+      [ "toolset", 6 ]
     ]
   ],
   "components": [
@@ -1808,7 +1915,7 @@
     [
       ["welder", 20],
       ["welder_crude", 30],
-      ["toolset", 1]
+      ["toolset", 30]
     ]
   ],
   "components": [
@@ -1844,7 +1951,7 @@
   [
     ["welder", 20],
     ["welder_crude", 30],
-    ["toolset", 1]
+    ["toolset", 30]
   ]
   ],
   "components": [
@@ -1880,7 +1987,7 @@
     [
       ["welder", 20],
       ["welder_crude", 30],
-      ["toolset", 1]
+      ["toolset", 30]
     ]
     ],
   "components": [
@@ -1916,7 +2023,7 @@
     [
       ["welder", 20],
       ["welder_crude", 30],
-      ["toolset", 1]
+      ["toolset", 30]
     ]
     ],
   "components": [
@@ -1979,7 +2086,7 @@
       ["goggles_welding", -1]
     ],
     [
-      ["welder", 150], ["welder_crude", 225], ["toolset", 6]
+      ["welder", 150], ["welder_crude", 225], ["toolset", 225]
     ]
   ],
   "components": [
@@ -2022,7 +2129,7 @@
       ["goggles_welding", -1]
     ],
     [
-      ["welder", 300], ["welder_crude", 450], ["toolset", 12]
+      ["welder", 300], ["welder_crude", 450], ["toolset", 450]
     ]
   ],
   "components": [
@@ -2066,7 +2173,7 @@
       ["goggles_welding", -1]
     ],
     [
-      ["welder", 200], ["welder_crude", 300], ["toolset", 8]
+      ["welder", 200], ["welder_crude", 300], ["toolset", 300]
     ]
   ],
   "components": [
@@ -2110,7 +2217,7 @@
       ["goggles_welding", -1]
     ],
     [
-      ["welder", 100], ["welder_crude", 150], ["toolset", 4]
+      ["welder", 100], ["welder_crude", 150], ["toolset", 150]
     ]
   ],
   "components": [
@@ -2145,7 +2252,7 @@
       ["goggles_welding", -1]
     ],
     [
-      ["welder", 300], ["welder_crude", 450], ["toolset", 12]
+      ["welder", 300], ["welder_crude", 450], ["toolset", 450]
     ]
   ],
   "components": [
@@ -2477,6 +2584,89 @@
     ]
 },{
         "type" : "recipe",
+  "result": "knife_hunting",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_CUTTING",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": 390000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "manual_knives", 3 ] , [ "recipe_melee", 4 ]],
+  "qualities":[
+    {"id":"HAMMER","level":3,"amount":1}
+  ], "tools": [
+      [
+      ["tongs", -1]
+      ],
+      [
+      ["chisel", -1]
+      ],
+      [
+      ["anvil", -1]
+      ],
+      [
+      ["swage", -1]
+      ],
+      [
+      ["forge", 200], ["char_forge", 40]
+      ]
+      ],
+  "components":
+    [
+     [
+     [ "steel_lump", 1 ],
+     [ "steel_chunk", 4 ],
+     [ "scrap", 12 ]
+     ],
+     [
+      [ "fur", 1 ],
+      [ "leather", 1 ]
+     ]
+    ]
+},{
+        "type" : "recipe",
+  "result": "kukri",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_CUTTING",
+  "skill_used": "fabrication",
+  "difficulty": 8,
+  "time": 360000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "manual_knives", 9 ] , [ "textbook_weapeast", 8 ]],
+  "qualities":[
+    {"id":"HAMMER","level":3,"amount":1}
+  ], "tools": [
+      [
+      ["tongs", -1]
+      ],
+      [
+      ["chisel", -1]
+      ],
+      [
+      ["anvil", -1]
+      ],
+      [
+      ["swage", -1]
+      ],
+      [
+      ["forge", 400], ["char_forge", 80]
+      ]
+      ],
+  "components":
+    [
+     [
+     [ "steel_lump", 1 ],
+     [ "steel_chunk", 4 ],
+     [ "scrap", 12 ]
+     ],
+     [
+      [ "plastic_chunk", 2 ]
+     ]
+    ]
+},{
+        "type" : "recipe",
   "result": "throwing_knife",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
@@ -2568,7 +2758,7 @@
       ["mold_plastic", -1] ],
     [
       ["hotplate", 10],
-      ["toolset", 1],
+      ["toolset", 10],
       ["fire", -1]
     ]
   ],
@@ -2603,7 +2793,7 @@
       [
       [ "welder", 10 ],
       [ "welder_crude", 15 ],
-      [ "toolset", 1 ]
+      [ "toolset", 15 ]
       ]
       ],
   "components":
@@ -2643,7 +2833,7 @@
       [
       [ "welder", 20 ],
       [ "welder_crude", 30 ],
-      [ "toolset", 2 ]
+      [ "toolset", 30 ]
       ]
       ],
   "components":
@@ -2682,7 +2872,7 @@
       [
       [ "welder", 30 ],
       [ "welder_crude", 45 ],
-      [ "toolset", 3 ]
+      [ "toolset", 45 ]
       ]
       ],
   "components":
@@ -3094,7 +3284,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 20 ],
-      [ "toolset", 2 ],
+      [ "toolset", 20 ],
       [ "small_repairkit", 20 ],
       [ "large_repairkit", 10 ]
     ]
@@ -3132,7 +3322,7 @@
   "tools" : [ [ ["mold_plastic", -1] ],
     [
       ["hotplate", 10],
-      ["toolset", 1],
+      ["toolset", 10],
       ["fire", -1]
     ]
   ],
@@ -3176,12 +3366,12 @@
      [ ["mold_plastic", -1] ],
      [
       ["hotplate", 10],
-      ["toolset", 1],
+      ["toolset", 10],
       ["fire", -1]
      ],
      [
       [ "soldering_iron", 10 ],
-      [ "toolset", 1 ]
+      [ "toolset", 10 ]
      ]
   ],
   "components" : [
@@ -3307,14 +3497,8 @@
   "time": 20000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      ["rock", -1],
-      ["primitive_hammer", -1],
-      ["hammer", -1],
-      ["hatchet", -1],
-      ["toolset", -1]
-    ]
+  "qualities": [
+    {"id":"HAMMER","level":1,"amount":1}
   ],
   "components": [
     [
@@ -3334,16 +3518,12 @@
   "time": 240000,
   "reversible": false,
   "autolearn": true,
+  "qualities": [
+    {"id":"HAMMER","level":1,"amount":1}
+  ],
   "tools": [
     [
-      ["rock", -1],
-      ["primitive_hammer", -1],
-      ["hammer", -1],
-      ["hatchet", -1],
-      ["toolset", -1]
-    ],
-    [
-      ["toolset", 10],
+      ["toolset", 7],
       ["fire", -1],
       ["forge", 7],
       ["char_forge", 2]
@@ -3368,7 +3548,10 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_weapwest", 7 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities": [
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools": [
       [
       ["tongs", -1]
       ],
@@ -3413,7 +3596,10 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_weapwest", 8 ] , ["recipe_melee", 7 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1] ],
+  "qualities": [
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools": [
       [
       ["tongs", -1]
       ],
@@ -3458,7 +3644,10 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_weapwest", 8 ] , [ "recipe_melee", 6 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1] ],
+  "qualities": [
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools": [
       [
       ["tongs", -1]
       ],
@@ -3499,7 +3688,10 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_weapwest", 8 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities": [
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools": [
       [
       ["tongs", -1]
       ],
@@ -3544,7 +3736,10 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_weapwest", 8 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities": [
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools": [
       [
       ["tongs", -1]
       ],
@@ -3589,7 +3784,10 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_weapeast", 6 ], [ "manual_knives", 7 ] , [ "recipe_melee", 8 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities": [
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools": [
       [
       ["tongs", -1]
       ],
@@ -3634,7 +3832,10 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_weapeast", 7 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities": [
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools": [
       [
       ["tongs", -1]
       ],
@@ -3679,7 +3880,10 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_weapeast", 8 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities": [
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools": [
       [
       ["tongs", -1]
       ],
@@ -3724,7 +3928,10 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_weapeast", 8 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities":[
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools": [
       [
       ["tongs", -1]
       ],
@@ -3768,7 +3975,10 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_weapwest", 3 ] , [ "recipe_melee", 4 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities":[
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools": [
       [
       ["tongs", -1]
       ],
@@ -3809,7 +4019,10 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_weapwest", 5 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities":[
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools": [
       [
       ["tongs", -1]
       ],
@@ -3853,7 +4066,10 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_weapwest", 6 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities":[
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools": [
       [
       ["tongs", -1]
       ],
@@ -3951,7 +4167,10 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_weapeast", 9 ] , [ "recipe_melee", 4 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities":[
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools": [
       [
       ["tongs", -1]
       ],
@@ -3987,16 +4206,15 @@
   "reversible": true,
   "autolearn": false,
   "book_learn": [[ "textbook_electronics", 3 ] , ["advanced_electronics", 3] , [ "recipe_melee", 4 ]],
+  "qualities": [
+    {"id":"SCREW_FINE","level":3,"amount":1}
+  ],
   "tools": [
     [
-      [ "toolset", 1 ],
+      [ "toolset", 10 ],
       [ "soldering_iron", 10 ]
-    ],
-    [
-      ["toolset", -1],
-      ["screwdriver", -1]
     ]
-    ],
+  ],
   "components": [
     [
       [ "i_staff", 1 ]
@@ -4043,31 +4261,12 @@
   "autolearn": false,
   "book_learn" : [[ "recipe_bows", 6 ] , [ "textbook_weapwest", 6]],
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "tools": [
-    [
-      [ "wrench", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
-      [ "saw", -1 ]
-    ],
-    [
-      [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
-      [ "screwdriver", -1 ],
-      [ "toolset", -1 ]
-    ]
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"HAMMER","level":1,"amount":1},
+    {"id":"SCREW","level":1,"amount":1},
+    {"id":"WRENCH","level":1,"amount":1},
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SAW_W","level":1,"amount":1}
   ],
   "components": [
     [
@@ -4104,20 +4303,11 @@
     "autolearn": true,
     "book_learn": [[ "manual_rifle", 5 ] , [ "mag_rifle", 6 ]],
     "qualities":[
-      {"id":"CUT","level":1,"amount":1}
+      {"id":"CUT","level":1,"amount":1},
+      {"id":"HAMMER","level":3,"amount":1},
+      {"id":"SCREW_FINE","level":1,"amount":1}
     ],
     "tools":[
-      [
-        ["hammer", -1],
-        ["toolset", -1],
-        [ "small_repairkit", -1 ],
-        [ "large_repairkit", -1 ]
-      ],
-      [
-        ["screwdriver", -1],
-        [ "small_repairkit", -1 ],
-        [ "large_repairkit", -1 ]
-      ],
       [
         ["tongs", -1]
       ],
@@ -4163,20 +4353,11 @@
     "autolearn": true,
     "book_learn": [[ "manual_pistol", 5 ] , [ "mag_pistol", 6 ]],
     "qualities":[
-      {"id":"CUT","level":1,"amount":1}
+      {"id":"CUT","level":1,"amount":1},
+      {"id":"HAMMER","level":3,"amount":1},
+      {"id":"SCREW_FINE","level":1,"amount":1}
     ],
     "tools":[
-      [
-        ["hammer", -1],
-        ["toolset", -1],
-        [ "small_repairkit", -1 ],
-        [ "large_repairkit", -1 ]
-      ],
-      [
-        ["screwdriver", -1],
-        [ "small_repairkit", -1 ],
-        [ "large_repairkit", -1 ]
-      ],
       [
         ["tongs", -1]
       ],
@@ -4223,20 +4404,9 @@
   "autolearn":false,
   "book_learn" : [[ "recipe_bows", 4 ] , [ "textbook_weapeast", 6]],
   "qualities":[
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "tools": [
-    [
-      [ "screwdriver", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
-    ]
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"SCREW","level":1,"amount":1},
+    {"id":"HAMMER","level":1,"amount":1}
   ],
   "components": [
     [

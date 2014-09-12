@@ -1,5 +1,6 @@
 #include "messages.h"
 #include "input.h"
+#include "debug.h"
 #include <sstream>
 
 // Messages object.
@@ -18,7 +19,7 @@ std::vector< std::pair<std::string, std::string> > Messages::recent_messages(con
         }
 
         recent_messages.push_back( std::make_pair( player_messages.messages[i].turn.print_time(),
-                                                   message_with_count.str() ) );
+                                   message_with_count.str() ) );
     }
     return recent_messages;
 }
@@ -68,6 +69,9 @@ void Messages::add_msg_string(const std::string &s)
 void Messages::add_msg_string(const std::string &s, game_message_type type)
 {
     if (s.length() == 0) {
+        return;
+    }
+    if( type == m_debug && !debug_mode ) {
         return;
     }
     if (!player_messages.messages.empty() &&
@@ -182,7 +186,7 @@ void Messages::display_messages()
             calendar timepassed = calendar::turn - m.turn;
             if (int(timepassed) > lasttime) {
                 mvwprintz(w, line, 3, c_ltblue, _("%s ago:"),
-                        timepassed.textify_period().c_str());
+                          timepassed.textify_period().c_str());
                 line++;
                 lasttime = int(timepassed);
             }

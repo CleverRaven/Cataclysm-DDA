@@ -82,14 +82,16 @@ struct jmapgen_setmap {
     int chance;
     jmapgen_int repeat;
     int rotation;
+    int fuel;
+    int status;
 
     jmapgen_setmap(
        jmapgen_int ix, jmapgen_int iy, jmapgen_int ix2, jmapgen_int iy2,
        jmapgen_setmap_op iop, jmapgen_int ival,
-       int ione_in = 1, jmapgen_int irepeat = jmapgen_int(1,1), int irotation = 0
+       int ione_in = 1, jmapgen_int irepeat = jmapgen_int(1,1), int irotation = 0, int ifuel = -1, int istatus = -1
     ) :
-       x(ix), y(iy), x2(ix2), y2(iy2), op(iop), val(ival), chance(ione_in), repeat(irepeat), rotation(irotation)
-    {}
+       x(ix), y(iy), x2(ix2), y2(iy2), op(iop), val(ival), chance(ione_in), repeat(irepeat), rotation(irotation),
+       fuel(ifuel), status(istatus) {}
     bool apply( map * m );
 };
 
@@ -110,9 +112,12 @@ struct jmapgen_place_group {
     float density;
     jmapgen_int repeat;
     int rotation;
+    int fuel;
+    int status;
     jmapgen_place_group(jmapgen_int ix, jmapgen_int iy, std::string igid, jmapgen_place_group_op iop, int ichance,
-        float idensity = -1.0f, jmapgen_int irepeat = jmapgen_int(1,1), int irotation = 0
-      ) : x(ix), y(iy), gid(igid), op(iop), chance(ichance), density(idensity), repeat(irepeat), rotation(irotation) { }
+        float idensity = -1.0f, jmapgen_int irepeat = jmapgen_int(1,1), int irotation = 0, int ifuel = -1, int istatus = -1
+      ) : x(ix), y(iy), gid(igid), op(iop), chance(ichance), density(idensity), repeat(irepeat), rotation(irotation),
+       fuel(ifuel), status(istatus) { }
     void apply( map * m, float mdensity );
 };
 
@@ -280,6 +285,7 @@ void square(map *m, ter_id type, int x1, int y1, int x2, int y2);
 void square(map *m, ter_id (*f)(), int x1, int y1, int x2, int y2);
 void square_furn(map *m, furn_id type, int x1, int y1, int x2, int y2);
 void rough_circle(map *m, ter_id type, int x, int y, int rad);
+void rough_circle_furn(map *m, furn_id type, int x, int y, int rad);
 void add_corpse(map *m, int x, int y);
 
 #endif

@@ -9,71 +9,54 @@
 #include "skill.h"
 #include "rng.h"
 #include "json.h"
+#include "requirements.h"
 
 #define MAX_DISPLAYED_RECIPES 18
 
 typedef std::string craft_cat;
 typedef std::string craft_subcat;
 
-struct component {
-    itype_id type;
-    int count;
-    int available; // -1 means the player doesn't have the item, 1 means they do,
-    // 0 means they have item but not enough for both tool and component
-    component()
-    {
-        type = "null";
-        count = 0;
-        available = -1;
-    }
-    component(itype_id TYPE, int COUNT) : type (TYPE), count (COUNT), available(-1) {}
+enum TAB_MODE {
+    NORMAL,
+    FILTERED,
+    BATCH
 };
 
-struct quality_requirement {
-    std::string id;
-    int count;
-    bool available;
-    int level;
+struct byproduct {
+    itype_id result;
+    int charges_mult;
+    int amount;
 
-    quality_requirement()
+    byproduct()
     {
-        id = "UNKNOWN";
-        count = 0;
-        available = false;
-        level = 0;
+        result = "null";
+        charges_mult = 1;
+        amount = 1;
     }
-    quality_requirement(std::string new_id, int new_count, int new_level)
+
+    byproduct(itype_id res, int mult = 1, int amnt = 1)
+        : result(res), charges_mult(mult), amount(amnt)
     {
-        id = new_id;
-        count = new_count;
-        level = new_level;
-        available = false;
     }
 };
 
-struct quality {
-    std::string id;
-    std::string name;
-};
-
-struct recipe {
+struct recipe : public requirements {
     std::string ident;
     int id;
     itype_id result;
+    std::vector<byproduct> byproducts;
     craft_cat cat;
     craft_subcat subcat;
     Skill *skill_used;
     std::map<Skill *, int> required_skills;
     int difficulty;
-    int time;
     bool reversible; // can the item be disassembled?
     bool autolearn; // do we learn it just by leveling skills?
     int learn_by_disassembly; // what level (if any) do we learn it by disassembly?
     int result_mult; // used by certain batch recipes that create more than one stack of the result
+    bool paired;
+    int batch; // Size of batch for crafting, 1 is default
 
-    std::vector<std::vector<component> > tools;
-    std::vector<quality_requirement> qualities;
-    std::vector<std::vector<component> > components;
     // only used during loading json data: books and the skill needed
     // to learn this recipe from.
     std::vector<std::pair<std::string, int> > booksets;
@@ -88,21 +71,21 @@ struct recipe {
         result = "null";
         skill_used = NULL;
         difficulty = 0;
-        time = 0;
         reversible = false;
         autolearn = false;
         learn_by_disassembly = -1;
         result_mult = 1;
+        paired = false;
+        batch = 1;
     }
 
     recipe(std::string pident, int pid, itype_id pres, craft_cat pcat, craft_subcat psubcat,
-           std::string &to_use,
-           std::map<std::string, int> &to_require, int pdiff, int ptime, bool preversible, bool pautolearn,
-           int plearn_dis, int pmult) :
+           std::string &to_use, std::map<std::string, int> &to_require, int pdiff,
+           bool preversible, bool pautolearn, int plearn_dis, int pmult, bool ppaired,
+           std::vector<byproduct> &bps) :
         ident (pident), id (pid), result (pres), cat(pcat), subcat(psubcat), difficulty (pdiff),
-        time (ptime),
         reversible (preversible), autolearn (pautolearn), learn_by_disassembly (plearn_dis),
-        result_mult(pmult)
+        result_mult(pmult), paired(ppaired)
     {
         skill_used = to_use.size() ? Skill::skill(to_use) : NULL;
         if(!to_require.empty()) {
@@ -111,11 +94,27 @@ struct recipe {
                 required_skills[Skill::skill(iter->first)] = iter->second;
             }
         }
+        if(!bps.empty()) {
+            for(auto &val : bps) {
+                byproducts.push_back(val);
+            }
+        }
     }
 
     // Create an item instance as if the recipe was just finished,
     // Contain charges multiplier
-    item create_result() const;
+    item create_result(int handed = NONE) const;
+    std::vector<item> create_results(int batch = 1, int handed = NONE) const;
+
+    // Create byproduct instances as if the recipe was just finished
+    std::vector<item> create_byproducts(int batch = 1) const;
+
+    bool has_byproducts() const;
+
+    bool can_make_with_inventory(const inventory &crafting_inv, int batch = 1) const;
+
+    int print_items(WINDOW *w, int ypos, int xpos, nc_color col, int batch = 1);
+    void print_item(WINDOW *w, int ypos, int xpos, nc_color col, const byproduct &bp, int batch = 1);
 };
 
 typedef std::vector<recipe *> recipe_list;
@@ -134,17 +133,17 @@ void load_recipe(JsonObject &jsobj);
 void reset_recipes();
 recipe *recipe_by_name(std::string name);
 void finalize_recipes();
-void reset_recipes_qualities();
+// Show the "really disassemble?" query along with a list of possible results.
+// Returns false if the player answered no to the query.
+bool query_dissamble(const item &dis_item);
 
 extern recipe_map recipes; // The list of valid recipes
 
-void load_quality(JsonObject &jo);
-extern std::map<std::string, quality> qualities;
-
+const recipe *find_recipe( std::string id );
 void check_recipe_definitions();
 
-// Check that all components are known, print a message if not containing the display_name name
-void check_component_list(const std::vector<std::vector<component> > &vec,
-                          const std::string &display_name);
+void set_item_spoilage(item &newit, float used_age_tally, int used_age_count);
+void set_item_food(item &newit);
+void set_item_inventory(game *g, item &newit);
 
 #endif

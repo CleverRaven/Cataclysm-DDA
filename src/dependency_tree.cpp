@@ -193,7 +193,7 @@ std::vector<dependency_node *> dependency_node::get_dependencies_as_nodes()
 
         // make sure that the one we are checking is not THIS one
         if (found.find(check->key) != found.end()) {
-            continue; // just keep going, we aren't really caring about availiability right now
+            continue; // just keep going, we aren't really caring about availability right now
         }
 
         // add check to dependencies
@@ -432,7 +432,7 @@ void dependency_tree::check_for_strongly_connected_components()
         if (it->size() > 1) {
             for (std::vector<dependency_node *>::iterator node = it->begin();
                  node != it->end(); ++node) {
-                DebugLog() << "--" << (*node)->key << "\n";
+                DebugLog( D_PEDANTIC_INFO, DC_ALL ) << "--" << (*node)->key << "\n";
                 in_circular_connection.insert(*node);
             }
 

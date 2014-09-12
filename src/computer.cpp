@@ -151,7 +151,7 @@ void computer::use()
             ch = getch();
         } while (ch != 'q' && ch != 'Q' && (ch < '1' || ch - '1' >= (char)options_size));
         if (ch == 'q' || ch == 'Q') {
-             break; // Exit from main computer loop
+            break; // Exit from main computer loop
         } else { // We selected an option other than quit.
             ch -= '1'; // So '1' -> 0; index in options.size()
             computer_option current = options[ch];
@@ -184,6 +184,7 @@ bool computer::hack_attempt(player *p, int Security)
     if (Security == -1) {
         Security = security;    // Set to main system security if no value passed
     }
+    const int hack_skill = p->get_skill_level( "computer" );
 
     // Every time you dig for lab notes, (or, in future, do other suspicious stuff?)
     // +2 dice to the system's hack-resistance
@@ -192,8 +193,9 @@ bool computer::hack_attempt(player *p, int Security)
         Security += (alerts * 2);
     }
 
+    p->moves -= 10 * (5 + Security * 2) / std::max( 1, hack_skill + 1 );
     p->practice( "computer", 5 + Security * 2 );
-    int player_roll = p->skillLevel("computer");
+    int player_roll = hack_skill;
     if (p->int_cur < 8 && one_in(2)) {
         player_roll -= rng(0, 8 - p->int_cur);
     } else if (p->int_cur > 8 && one_in(3)) {
@@ -222,7 +224,7 @@ std::string computer::save_data()
             savename.replace(found, 1, "_");
             found = savename.find(" ");
         }
-        data << savename << " " << int(it->action) <<" "<< it->security << " ";
+        data << savename << " " << int(it->action) << " " << it->security << " ";
     }
     data << failures.size() << " ";
     for (std::vector<computer_failure>::iterator it = failures.begin();
@@ -274,6 +276,8 @@ void computer::load_data(std::string data)
 
 void computer::activate_function(computer_action action)
 {
+    // Token move cost for any action, if an action takes longer decrement moves further.
+    g->u.moves -= 30;
     switch (action) {
 
     case COMPACT_NULL: // Unknown action.
@@ -285,11 +289,11 @@ void computer::activate_function(computer_action action)
         query_any(_("Doors opened.  Press any key..."));
         break;
 
-        //LOCK AND UNLOCK are used to build more complex buildings
-        // that can have multiple doors that can be locked and be
-        // unlocked by different computers.
-        //Simply uses translate_radius which take a given radius and
-        // player position to determine which terrain tiles to edit.
+    //LOCK AND UNLOCK are used to build more complex buildings
+    // that can have multiple doors that can be locked and be
+    // unlocked by different computers.
+    //Simply uses translate_radius which take a given radius and
+    // player position to determine which terrain tiles to edit.
     case COMPACT_LOCK:
         g->m.translate_radius(t_door_metal_c, t_door_metal_locked, 8.0, g->u.posx, g->u.posy);
         query_any(_("Lock enabled.  Press any key..."));
@@ -300,13 +304,14 @@ void computer::activate_function(computer_action action)
         query_any(_("Lock disabled.  Press any key..."));
         break;
 
-        //Toll is required for the church computer/mechanism to function
+    //Toll is required for the church computer/mechanism to function
     case COMPACT_TOLL:
         //~ the sound of a church bell ringing
         g->sound(g->u.posx, g->u.posy, 120, _("Bohm... Bohm... Bohm..."));
         break;
 
     case COMPACT_SAMPLE:
+        g->u.moves -= 30;
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
                 if (g->m.ter(x, y) == t_sewage_pump) {
@@ -358,9 +363,16 @@ void computer::activate_function(computer_action action)
         query_any(_("Containment shields opened.  Press any key..."));
         break;
 
+    case COMPACT_RELEASE_BIONICS:
+        g->sound(g->u.posx, g->u.posy, 40, _("An alarm sounds!"));
+        g->m.translate_radius(t_reinforced_glass_h, t_floor, 2.0, g->u.posx, g->u.posy);
+        g->m.translate_radius(t_reinforced_glass_v, t_floor, 2.0, g->u.posx, g->u.posy);
+        query_any(_("Containment shields opened.  Press any key..."));
+        break;
+
     case COMPACT_TERMINATE:
-        g->u.add_memorial_log(pgettext("memorial_male","Terminated subspace specimens."),
-                              pgettext("memorial_female","Terminated subspace specimens."));
+        g->u.add_memorial_log(pgettext("memorial_male", "Terminated subspace specimens."),
+                              pgettext("memorial_female", "Terminated subspace specimens."));
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
                 int mondex = g->mon_at(x, y);
@@ -369,7 +381,7 @@ void computer::activate_function(computer_action action)
                       g->m.ter(x, y + 1) == t_concrete_h) ||
                      (g->m.ter(x, y + 1) == t_reinforced_glass_h &&
                       g->m.ter(x, y - 1) == t_concrete_h))) {
-                    g->kill_mon(mondex, true);
+                    g->zombie( mondex ).die( &g->u );
                 }
             }
         }
@@ -428,24 +440,26 @@ void computer::activate_function(computer_action action)
         if (lab_notes.empty()) {
             log = _("No data found.");
         } else {
-            log = lab_notes[(g->levx + g->levy + g->levz + (alerts)) % lab_notes.size()];
+            g->u.moves -= 70;
+            log = lab_notes[(g->get_abs_levx() + g->get_abs_levy() + g->get_abs_levz() + alerts) %
+                            lab_notes.size()];
         }
 
         print_text("%s", log.c_str());
         // One's an anomaly
         if (alerts == 0) {
-        query_any(_("Local data-access error logged, alerting helpdesk. Press any key..."));
-        alerts ++;
-        }
-        else {
-        // Two's a trend.
+            query_any(_("Local data-access error logged, alerting helpdesk. Press any key..."));
+            alerts ++;
+        } else {
+            // Two's a trend.
             query_any(_("Warning: anomalous archive-access activity detected at this node. Press any key..."));
             alerts ++;
-            }
+        }
     }
     break;
 
     case COMPACT_MAPS: {
+        g->u.moves -= 30;
         const tripoint center = g->om_global_location();
         overmap_buffer.reveal(point(center.x, center.y), 40, 0);
         query_any(_("Surface map data downloaded.  Press any key..."));
@@ -453,6 +467,7 @@ void computer::activate_function(computer_action action)
     break;
 
     case COMPACT_MAP_SEWER: {
+        g->u.moves -= 30;
         const tripoint center = g->om_global_location();
         for (int i = -60; i <= 60; i++) {
             for (int j = -60; j <= 60; j++) {
@@ -515,11 +530,10 @@ void computer::activate_function(computer_action action)
         for(int x = target.x - 2; x <= target.x + 2; x++) {
             for(int y = target.y - 2; y <= target.y + 2; y++) {
                 // give it a nice rounded shape
-                if(!(x == (target.x-2) && (y == (target.y-2))) &&
-                   !(x == (target.x-2) && (y == (target.y+2))) &&
-                   !(x == (target.x+2) && (y == (target.y-2))) &&
-                   !(x == (target.x+2) && (y == (target.y+2))))
-                {
+                if(!(x == (target.x - 2) && (y == (target.y - 2))) &&
+                   !(x == (target.x - 2) && (y == (target.y + 2))) &&
+                   !(x == (target.x + 2) && (y == (target.y - 2))) &&
+                   !(x == (target.x + 2) && (y == (target.y + 2)))) {
                     g->nuke(x, y);
                 }
 
@@ -545,6 +559,7 @@ void computer::activate_function(computer_action action)
         break;
 
     case COMPACT_LIST_BIONICS: {
+        g->u.moves -= 30;
         std::vector<std::string> names;
         int more = 0;
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
@@ -593,8 +608,9 @@ void computer::activate_function(computer_action action)
         break;
 
     case COMPACT_AMIGARA_LOG: // TODO: This is static, move to data file?
+        g->u.moves -= 30;
         reset_terminal();
-        print_line(_("NEPower Mine(%d:%d) Log"), g->levx, g->levy);
+        print_line(_("NEPower Mine(%d:%d) Log"), g->get_abs_levx(), g->get_abs_levy());
         print_line(_("\
 ENTRY 47:\n\
 Our normal mining routine has unearthed a hollow chamber.  This would not be\n\
@@ -610,8 +626,9 @@ themselves.\n"));
         if (!query_bool(_("Continue reading?"))) {
             return;
         }
+        g->u.moves -= 30;
         reset_terminal();
-        print_line(_("NEPower Mine(%d:%d) Log"), g->levx, g->levy);
+        print_line(_("NEPower Mine(%d:%d) Log"), g->get_abs_levx(), g->get_abs_levy());
         print_line(_("\
 ENTRY 49:\n\
 We've stopped mining operations in this area, obviously, until archaeologists\n\
@@ -628,8 +645,9 @@ for such narrow tunnels, so it's hard to say exactly how far back they go.\n"));
         if (!query_bool(_("Continue reading?"))) {
             return;
         }
+        g->u.moves -= 30;
         reset_terminal();
-        print_line(_("NEPower Mine(%d:%d) Log"), g->levx, g->levy);
+        print_line(_("NEPower Mine(%d:%d) Log"), g->get_abs_levx(), g->get_abs_levy());
         print_line(_("\
 ENTRY 54:\n\
 I noticed a couple of the guys down in the chamber with a chisel, breaking\n\
@@ -661,11 +679,12 @@ know that's sort of a big deal, but come on, these guys can't handle it?\n"));
         if (!query_bool(_("Continue reading?"))) {
             return;
         }
+        g->u.moves -= 30;
         reset_terminal();
         print_line(_("\
-SITE %d%d%d%d%d\n\
+SITE %d%d%d\n\
 PERTINANT FOREMAN LOGS WILL BE PREPENDED TO NOTES"),
-                   g->cur_om->pos().x, g->cur_om->pos().y, g->levx, g->levy, abs(g->levz));
+                   g->get_abs_levx(), g->get_abs_levy(), abs(g->get_abs_levz()));
         print_line(_("\n\
 MINE OPERATIONS SUSPENDED; CONTROL TRANSFERRED TO AMIGARA PROJECT UNDER\n\
    IMPERATIVE 2:07B\n\
@@ -684,13 +703,14 @@ INITIATING STANDARD TREMOR TEST..."));
         break;
 
     case COMPACT_AMIGARA_START:
-        g->add_event(EVENT_AMIGARA, int(calendar::turn) + 10, 0, 0, 0);
+        g->add_event(EVENT_AMIGARA, int(calendar::turn) + 10);
         if (!g->u.has_artifact_with(AEP_PSYSHIELD)) {
             g->u.add_disease("amigara", 20);
         }
         break;
 
     case COMPACT_STEMCELL_TREATMENT:
+        g->u.moves -= 70;
         g->u.add_disease("stemcell_treatment", 120);
         print_line(_("The machine injects your eyeball with the solution \n\
 of pureed bone & LSD."));
@@ -707,6 +727,7 @@ of pureed bone & LSD."));
                 debugmsg(_("Computer couldn't find its mission!"));
                 return;
             }
+            g->u.moves -= 30;
             item software(miss->item_id, 0);
             software.mission_id = mission_id;
             item *usb = g->u.pick_usb();
@@ -718,6 +739,7 @@ of pureed bone & LSD."));
         break;
 
     case COMPACT_BLOOD_ANAL:
+        g->u.moves -= 70;
         for (int x = g->u.posx - 2; x <= g->u.posx + 2; x++) {
             for (int y = g->u.posy - 2; y <= g->u.posy + 2; y++) {
                 if (g->m.ter(x, y) == t_centrifuge) {
@@ -764,6 +786,7 @@ of pureed bone & LSD."));
         break;
 
     case COMPACT_DATA_ANAL:
+        g->u.moves -= 30;
         for (int x = g->u.posx - 2; x <= g->u.posx + 2; x++) {
             for (int y = g->u.posy - 2; y <= g->u.posy + 2; y++) {
                 if (g->m.ter(x, y) == t_floor_blue) {
@@ -907,7 +930,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
   samples from each operational leache system to the following\n\
   addresses:\n\
   \n\
-  CDC Bioterrism Lab \n\
+  CDC Bioterrorism Lab \n\
   Building 10\n\
   Corporate Square Boulevard\n\
   Atlanta, GA 30329\n\
@@ -1027,17 +1050,17 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
                 if (g->m.ter(x, y) == t_elevator || g->m.ter(x, y) == t_vat) {
-                    g->m.ter_set(x, y, t_rubble);
+                    g->m.make_rubble(x, y, f_rubble_rock, true);
                     g->explosion(x, y, 40, 0, true);
                 }
                 if (g->m.ter(x, y) == t_wall_glass_h || g->m.ter(x, y) == t_wall_glass_v) {
-                    g->m.ter_set(x, y, t_rubble);
+                    g->m.make_rubble(x, y, f_rubble_rock, true);
                 }
                 if (g->m.ter(x, y) == t_sewage_pipe || g->m.ter(x, y) == t_sewage || g->m.ter(x, y) == t_grate) {
-                    g->m.ter_set(x, y, t_rubble);
+                    g->m.make_rubble(x, y, f_rubble_rock, true);
                 }
                 if (g->m.ter(x, y) == t_sewage_pump) {
-                    g->m.ter_set(x, y, t_rubble);
+                    g->m.make_rubble(x, y, f_rubble_rock, true);
                     g->explosion(x, y, 50, 0, true);
                 }
             }
@@ -1084,8 +1107,8 @@ void computer::activate_failure(computer_failure fail)
         break;
 
     case COMPFAIL_SHUTDOWN:
-        for( int x = g->u.posx-1; x <= g->u.posx+1; x++ ) {
-            for( int y = g->u.posy-1; y <= g->u.posy+1; y++ ) {
+        for( int x = g->u.posx - 1; x <= g->u.posx + 1; x++ ) {
+            for( int y = g->u.posy - 1; y <= g->u.posy + 1; y++ ) {
                 if( g->m.has_flag("CONSOLE", x, y) ) {
                     g->m.ter_set(x, y, t_console_broken);
                     add_msg(m_bad, _("The console shuts down."));
@@ -1111,7 +1134,7 @@ void computer::activate_failure(computer_failure fail)
                               pgettext("memorial_female", "Set off an alarm."));
         g->sound(g->u.posx, g->u.posy, 60, _("An alarm sounds!"));
         if (g->levz > 0 && !g->event_queued(EVENT_WANTED)) {
-            g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->levx, g->levy);
+            g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->get_abs_levx(), g->get_abs_levy());
         }
         break;
 
@@ -1155,14 +1178,15 @@ void computer::activate_failure(computer_failure fail)
 
     case COMPFAIL_DAMAGE:
         add_msg(m_neutral, _("The console electrocutes you."));
-        if (g->u.has_artifact_with(AEP_RESIST_ELECTRICITY) || g->u.has_active_bionic("bio_faraday")) { //Artifact or bionic stops electricity.
+        if (g->u.has_artifact_with(AEP_RESIST_ELECTRICITY) ||
+            g->u.has_active_bionic("bio_faraday")) { //Artifact or bionic stops electricity.
             add_msg(m_neutral, _("The electricity flows around you."));
         } else if (g->u.worn_with_flag("ELECTRIC_IMMUNE")) { //Armor stops electricity.
             add_msg(m_neutral, _("Your armor safely grounds the electrical discharge."));
         } else {
-               add_msg(m_bad, _("Your body is damaged by the electric shock!"));
-               g->u.hurtall(rng(1, 10));
-           }
+            add_msg(m_bad, _("Your body is damaged by the electric shock!"));
+            g->u.hurtall(rng(1, 10));
+        }
         break;
 
     case COMPFAIL_PUMP_EXPLODE:
@@ -1170,7 +1194,7 @@ void computer::activate_failure(computer_failure fail)
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
                 if (g->m.ter(x, y) == t_sewage_pump) {
-                    g->m.ter_set(x, y, t_rubble);
+                    g->m.make_rubble(x, y);
                     g->explosion(x, y, 10, 0, false);
                 }
             }
@@ -1212,7 +1236,7 @@ void computer::activate_failure(computer_failure fail)
         break;
 
     case COMPFAIL_AMIGARA:
-        g->add_event(EVENT_AMIGARA, int(calendar::turn) + 5, 0, 0, 0);
+        g->add_event(EVENT_AMIGARA, int(calendar::turn) + 5);
         g->u.add_disease("amigara", 20);
         g->explosion(rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), 10, 10, false);
         g->explosion(rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), 10, 10, false);

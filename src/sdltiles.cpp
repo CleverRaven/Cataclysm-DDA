@@ -47,6 +47,8 @@
 #include "SDL_mixer.h"
 #endif
 
+#define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
+
 //***********************************
 //Globals                           *
 //***********************************
@@ -131,6 +133,8 @@ protected:
 static Font *font = NULL;
 static Font *map_font = NULL;
 
+std::array<std::string, 16> main_color_names{ { "BLACK","RED","GREEN","BROWN","BLUE","MAGENTA",
+"CYAN","GRAY","DGRAY","LRED","LGREEN","YELLOW","LBLUE","LMAGENTA","LCYAN","WHITE" } };
 static SDL_Color windowsPalette[256];
 static SDL_Window *window = NULL;
 static SDL_Renderer* renderer = NULL;
@@ -194,20 +198,32 @@ bool fexists(const char *filename)
 bool InitSDL()
 {
     int init_flags = SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER;
+    int ret;
 
-    if (SDL_Init(init_flags) < 0) {
+    ret = SDL_Init( init_flags );
+    if( ret != 0 ) {
+        dbg( D_ERROR ) << "SDL_Init failed with " << ret << ", error: " << SDL_GetError();
         return false;
     }
-    if (TTF_Init() < 0) {
+    ret = TTF_Init();
+    if( ret != 0 ) {
+        dbg( D_ERROR ) << "TTF_Init failed with " << ret << ", error: " << TTF_GetError();
         return false;
     }
     #ifdef SDLTILES
-    if (IMG_Init(IMG_INIT_PNG) < 0) {
-        return false;
+    ret = IMG_Init( IMG_INIT_PNG );
+    if( (ret & IMG_INIT_PNG) != IMG_INIT_PNG ) {
+        dbg( D_ERROR ) << "IMG_Init failed to initialize PNG support, tiles won't work, error: " << IMG_GetError();
+        // cata_tiles won't be able to load the tiles, but the normal SDL
+        // code will display fine.
     }
     #endif // SDLTILES
 
-    SDL_InitSubSystem(SDL_INIT_JOYSTICK);
+    ret = SDL_InitSubSystem( SDL_INIT_JOYSTICK );
+    if( ret != 0 ) {
+        dbg( D_WARNING ) << "Initializing joystick subsystem failed with " << ret << ", error: " <<
+        SDL_GetError() << "\nIf you don't have a joystick plugged in, this is probably fine.";
+    }
 
     //SDL2 has no functionality for INPUT_DELAY, we would have to query it manually, which is expensive
     //SDL2 instead uses the OS's Input Delay.
@@ -240,6 +256,7 @@ bool WinCreate()
         );
 
     if (window == NULL) {
+        dbg(D_ERROR) << "SDL_CreateWindow failed: " << SDL_GetError();
         return false;
     }
     if (window_flags & SDL_WINDOW_FULLSCREEN) {
@@ -249,32 +266,49 @@ bool WinCreate()
         TERMINAL_HEIGHT = WindowHeight / fontheight;
     }
 
-    format = SDL_AllocFormat(SDL_GetWindowPixelFormat(window));
+    const Uint32 wformat = SDL_GetWindowPixelFormat(window);
+    format = SDL_AllocFormat(wformat);
+    if(format == 0) {
+        dbg(D_ERROR) << "SDL_AllocFormat(" << wformat << ") failed: " << SDL_GetError();
+        return false;
+    }
 
     bool software_renderer = OPTIONS["SOFTWARE_RENDERING"];
     if( !software_renderer ) {
-        DebugLog() << "Attempting to initialize accelerated SDL renderer.\n";
+        dbg( D_INFO ) << "Attempting to initialize accelerated SDL renderer.";
 
         renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_ACCELERATED |
-                                       SDL_RENDERER_PRESENTVSYNC );
+                                       SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_TARGETTEXTURE );
         if( renderer == NULL ) {
-            DebugLog() << "Failed to initialize accelerated renderer, falling back to software rendering: " << SDL_GetError() << "\n";
+            dbg( D_ERROR ) << "Failed to initialize accelerated renderer, falling back to software rendering: " << SDL_GetError();
             software_renderer = true;
         }
     }
     if( software_renderer ) {
-        renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_SOFTWARE );
+        renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_SOFTWARE | SDL_RENDERER_TARGETTEXTURE );
         if( renderer == NULL ) {
-            DebugLog() << "Failed to initialize software renderer: " << SDL_GetError() << "\n";
+            dbg( D_ERROR ) << "Failed to initialize software renderer: " << SDL_GetError();
             return false;
         }
     }
 
-    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE);
+    if( SDL_SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_NONE ) != 0 ) {
+        dbg( D_ERROR ) << "SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE) failed: " << SDL_GetError();
+        // Ignored for now, rendering could still work
+    }
     display_buffer = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGB888, SDL_TEXTUREACCESS_TARGET, WindowWidth, WindowHeight);
-    SDL_SetRenderTarget(renderer, display_buffer);
+    if( display_buffer == nullptr ) {
+        dbg( D_ERROR ) << "Failed to create window buffer: " << SDL_GetError();
+        return false;
+    }
+    if( SDL_SetRenderTarget( renderer, display_buffer ) != 0 ) {
+        dbg( D_ERROR ) << "Failed to select render target: " << SDL_GetError();
+        return false;
+    }
     ClearScreen();
 
+    // Errors here are ignored, worst case: the option does not work as expected,
+    // but that won't crash
     if(OPTIONS["HIDE_CURSOR"] != "show" && SDL_ShowCursor(-1)) {
         SDL_ShowCursor(SDL_DISABLE);
     } else {
@@ -286,10 +320,17 @@ bool WinCreate()
 
     if( OPTIONS["ENABLE_JOYSTICK"] && numjoy >= 1 ) {
         if( numjoy > 1 ) {
-            DebugLog() << "You have more than one gamepads/joysticks plugged in, only the first will be used.\n";
+            dbg( D_WARNING ) << "You have more than one gamepads/joysticks plugged in, only the first will be used.";
         }
         joystick = SDL_JoystickOpen(0);
-        SDL_JoystickEventState(SDL_ENABLE);
+        if( joystick == nullptr ) {
+            dbg( D_ERROR ) << "Opening the first joystick failed: " << SDL_GetError();
+        } else {
+            const int ret = SDL_JoystickEventState(SDL_ENABLE);
+            if( ret < 0 ) {
+                dbg( D_ERROR ) << "SDL_JoystickEventState(SDL_ENABLE) failed: " << SDL_GetError();
+            }
+        }
     } else {
         joystick = NULL;
     }
@@ -301,10 +342,8 @@ bool WinCreate()
     int audio_channels = 2;
     int audio_buffers = 4096;
 
-    SDL_Init(SDL_INIT_AUDIO);
-
     if(Mix_OpenAudio(audio_rate, audio_format, audio_channels, audio_buffers)) {
-      DebugLog() << "Failed to open audio mixer.\n";
+        dbg( D_ERROR ) << "Failed to open audio mixer, sound won't work: " << Mix_GetError();
     }
 #endif
 
@@ -337,8 +376,12 @@ void WinDestroy()
 };
 
 inline void FillRectDIB(SDL_Rect &rect, unsigned char color) {
-    SDL_SetRenderDrawColor(renderer, windowsPalette[color].r, windowsPalette[color].g, windowsPalette[color].b, 255);
-    SDL_RenderFillRect(renderer, &rect);
+    if( SDL_SetRenderDrawColor( renderer, windowsPalette[color].r, windowsPalette[color].g, windowsPalette[color].b, 255 ) != 0 ) {
+        dbg(D_ERROR) << "SDL_SetRenderDrawColor failed: " << SDL_GetError();
+    }
+    if( SDL_RenderFillRect( renderer, &rect ) != 0 ) {
+        dbg(D_ERROR) << "SDL_RenderFillRect failed: " << SDL_GetError();
+    }
 }
 
 //The following 3 methods use mem functions for fast drawing
@@ -375,7 +418,7 @@ SDL_Texture *CachedTTFFont::create_glyph(const std::string &ch, int color)
 {
     SDL_Surface * sglyph = (fontblending ? TTF_RenderUTF8_Blended : TTF_RenderUTF8_Solid)(font, ch.c_str(), windowsPalette[color]);
     if (sglyph == NULL) {
-        DebugLog() << "Failed to create glyph for " << ch << ": " << TTF_GetError() << "\n";
+        dbg( D_ERROR ) << "Failed to create glyph for " << ch << ": " << TTF_GetError();
         return NULL;
     }
     /* SDL interprets each pixel as a 32-bit number, so our masks must depend
@@ -396,7 +439,7 @@ SDL_Texture *CachedTTFFont::create_glyph(const std::string &ch, int color)
     // that TTF_RenderGlyph above returns. This is important for SDL_BlitScaled
     SDL_Surface *surface = SDL_CreateRGBSurface(0, fontwidth * wf, fontheight, 32, rmask, gmask, bmask, amask);
     if (surface == NULL) {
-        DebugLog() << "CreateRGBSurface failed: " << SDL_GetError() << "\n";
+        dbg( D_ERROR ) << "CreateRGBSurface failed: " << SDL_GetError();
         SDL_Texture *glyph = SDL_CreateTextureFromSurface(renderer, sglyph);
         SDL_FreeSurface(sglyph);
         return glyph;
@@ -419,7 +462,7 @@ SDL_Texture *CachedTTFFont::create_glyph(const std::string &ch, int color)
     }
 
     if (SDL_BlitSurface(sglyph, &src_rect, surface, &dst_rect) != 0) {
-        DebugLog() << SDL_GetError() << "\n";
+        dbg( D_ERROR ) << "SDL_BlitSurface failed: " << SDL_GetError();
         SDL_FreeSurface(surface);
     } else {
         SDL_FreeSurface(sglyph);
@@ -451,7 +494,9 @@ void CachedTTFFont::OutputChar(const std::string &ch, int x, int y, unsigned cha
     rect.y = y;
     rect.w = fontwidth * utf8_wrapper( ch ).display_width();
     rect.h = fontheight;
-    SDL_RenderCopy(renderer, glyph, NULL, &rect);
+    if( SDL_RenderCopy( renderer, glyph, NULL, &rect ) != 0 ) {
+        dbg(D_ERROR) << "SDL_RenderCopy failed: " << SDL_GetError();
+    }
 }
 
 void BitmapFont::OutputChar(const std::string &ch, int x, int y, unsigned char color)
@@ -474,7 +519,9 @@ void BitmapFont::OutputChar(long t, int x, int y, unsigned char color)
     src.h = fontheight;
     SDL_Rect rect;
     rect.x = x; rect.y = y; rect.w = fontwidth; rect.h = fontheight;
-    SDL_RenderCopy(renderer,ascii[color],&src,&rect);
+    if( SDL_RenderCopy( renderer, ascii[color], &src, &rect ) != 0 ) {
+        dbg(D_ERROR) << "SDL_RenderCopy failed: " << SDL_GetError();
+    }
 }
 
 #ifdef SDLTILES
@@ -485,10 +532,16 @@ void try_update()
     if (now - lastupdate >= interval) {
         // Select default target (the window), copy rendered buffer
         // there, present it, select the buffer as target again.
-        SDL_SetRenderTarget(renderer, NULL);
-        SDL_RenderCopy(renderer, display_buffer, NULL, NULL);
+        if( SDL_SetRenderTarget( renderer, NULL ) != 0 ) {
+            dbg(D_ERROR) << "SDL_SetRenderTarget failed: " << SDL_GetError();
+        }
+        if( SDL_RenderCopy( renderer, display_buffer, NULL, NULL ) != 0 ) {
+            dbg(D_ERROR) << "SDL_RenderCopy failed: " << SDL_GetError();
+        }
         SDL_RenderPresent(renderer);
-        SDL_SetRenderTarget(renderer, display_buffer);
+        if( SDL_SetRenderTarget( renderer, display_buffer ) != 0 ) {
+            dbg(D_ERROR) << "SDL_SetRenderTarget failed: " << SDL_GetError();
+        }
         needupdate = false;
         lastupdate = now;
     } else {
@@ -997,8 +1050,7 @@ static void font_folder_list(std::ofstream& fout, std::string path)
                         if (start != std::string::npos && end != std::string::npos) {
                             fout << " [" << f.substr(start + 1, end - start - 1) + "]";
                         } else {
-                            DebugLog() << "sdltiles.cpp::font_folder_list():" <<
-                            "Skipping wrong font file: \"" << f.c_str() << "\"\n";
+                            dbg( D_INFO ) << "Skipping wrong font file: \"" << f << "\"";
                         }
                     }
                 }
@@ -1062,17 +1114,18 @@ static void save_font_list()
 
 static std::string find_system_font(std::string name, int& faceIndex)
 {
-    std::ifstream fin(FILENAMES["fontlist"].c_str());
+    const std::string fontlist_path = FILENAMES["fontlist"];
+    std::ifstream fin(fontlist_path.c_str());
     if ( !fin.is_open() ) {
         // Try opening the fontlist at the old location.
         fin.open(FILENAMES["legacy_fontlist"].c_str());
         if( !fin.is_open() ) {
-            DebugLog() << "Generating fontlist\n";
+            dbg( D_INFO ) << "Generating fontlist";
             assure_dir_exist(FILENAMES["config_dir"]);
             save_font_list();
-            fin.open(FILENAMES["fontlist"].c_str());
+            fin.open(fontlist_path.c_str());
             if( !fin ) {
-                DebugLog() << "Can't open or create fontlist file.\n";
+                dbg( D_ERROR ) << "Can't open or create fontlist file " << fontlist_path;
                 return "";
             }
         } else {
@@ -1193,8 +1246,8 @@ WINDOW *curses_init(void)
             assure_dir_exist(FILENAMES["config_dir"]);
             std::ofstream OutStream(FILENAMES["fontdata"].c_str(), std::ofstream::binary);
             if(!OutStream.good()) {
-                DebugLog() << "Can't save user fontdata file.\n"
-                << "Check permissions for: " << FILENAMES["fontdata"].c_str();
+                dbg(D_ERROR) << "Can't save user fontdata file.\n"
+                << "Check permissions for: " << FILENAMES["fontdata"];
                 return NULL;
             }
             JsonOut jOut(OutStream, true); // pretty-print
@@ -1212,15 +1265,14 @@ WINDOW *curses_init(void)
             OutStream << "\n";
             OutStream.close();
         } else {
-            DebugLog() << "Can't load fontdata files.\n"
-            << "Check permissions for:\n" << FILENAMES["legacy_fontdata"].c_str() << "\n"
-            << FILENAMES["fontdata"].c_str() << "\n";
+            dbg(D_ERROR) << "Can't load fontdata files.\n"
+            << "Check permissions for:\n" << FILENAMES["legacy_fontdata"] << "\n"
+            << FILENAMES["fontdata"];
             return NULL;
         }
     }
 
     if(!InitSDL()) {
-        DebugLog() << "Failed to initialize SDL: " << SDL_GetError() << "\n";
         return NULL;
     }
 
@@ -1228,17 +1280,17 @@ WINDOW *curses_init(void)
     TERMINAL_HEIGHT = OPTIONS["TERMINAL_Y"];
 
     if(!WinCreate()) {
-        DebugLog() << "Failed to create game window: " << SDL_GetError() << "\n";
         return NULL;
     }
 
     #ifdef SDLTILES
-    DebugLog() << "Initializing SDL Tiles context\n";
+    dbg( D_INFO ) << "Initializing SDL Tiles context";
     tilecontext = new cata_tiles(renderer);
     try {
         tilecontext->init(FILENAMES["gfxdir"]);
-        DebugLog() << "Tiles initialized successfully.\n";
+        dbg( D_INFO ) << "Tiles initialized successfully.";
     } catch(std::string err) {
+        dbg( D_ERROR ) << "failed to initialize tile: " << err;
         // use_tiles is the cached value of the USE_TILES option.
         // most (all?) code refers to this to see if cata_tiles should be used.
         // Setting it to false disables this from getting used.
@@ -1274,7 +1326,7 @@ Font *Font::load_font(const std::string &typeface, int fontsize, int fontwidth, 
             return bm_font;
         } catch(std::exception &err) {
             delete bm_font;
-            DebugLog() << "Failed to load " << typeface << ": " << err.what() << "\n";
+            dbg( D_ERROR ) << "Failed to load " << typeface << ": " << err.what();
             // Continue to load as truetype font
         }
     }
@@ -1287,7 +1339,7 @@ Font *Font::load_font(const std::string &typeface, int fontsize, int fontwidth, 
         return ttf_font;
     } catch(std::exception &err) {
         delete ttf_font;
-        DebugLog() << "Failed to load " << typeface << ": " << err.what() << "\n";
+        dbg( D_ERROR ) << "Failed to load " << typeface << ": " << err.what();
     }
     return NULL;
 }
@@ -1329,80 +1381,57 @@ inline SDL_Color BGR(int b, int g, int r)
     return result;
 }
 
-void load_colors(JsonObject &jsobj)
+void load_colors( JsonObject &jsobj )
 {
-    std::string colors[16]={"BLACK","RED","GREEN","BROWN","BLUE","MAGENTA","CYAN","GRAY",
-    "DGRAY","LRED","LGREEN","YELLOW","LBLUE","LMAGENTA","LCYAN","WHITE"};
     JsonArray jsarr;
-    for(int c=0;c<16;c++)
-    {
-        jsarr = jsobj.get_array(colors[c]);
-        if(jsarr.size()<3)continue;
-        consolecolors[colors[c]].clear();
-        consolecolors[colors[c]].push_back(jsarr.get_int(2));
-        consolecolors[colors[c]].push_back(jsarr.get_int(1));
-        consolecolors[colors[c]].push_back(jsarr.get_int(0));
+    for( size_t c = 0; c < main_color_names.size(); c++ ) {
+        const std::string &color = main_color_names[c];
+        auto &bgr = consolecolors[color];
+        jsarr = jsobj.get_array( color );
+        bgr.resize( 3 );
+        // Strange ordering, isn't it? Entries in consolecolors are BGR,
+        // the json contains them as RGB.
+        bgr[0] = jsarr.get_int( 2 );
+        bgr[1] = jsarr.get_int( 1 );
+        bgr[2] = jsarr.get_int( 0 );
     }
 }
 
-#define ccolor(s) consolecolors[s][0],consolecolors[s][1],consolecolors[s][2]
-int curses_start_color(void)
+// translate color entry in consolecolors to SDL_Color
+inline SDL_Color ccolor( const std::string &color )
 {
+    const auto it = consolecolors.find( color );
+    if( it == consolecolors.end() ) {
+        dbg( D_ERROR ) << "requested non-existing color " << color << "\n";
+        return SDL_Color { 0, 0, 0, 0 };
+    }
+    return BGR( it->second[0], it->second[1], it->second[2] );
+}
+
+// This function mimics the ncurses interface. It must not throw.
+// Instead it should return ERR or OK, see man curs_color
+int curses_start_color( void )
+{
+    const std::string path = FILENAMES["colors"];
     colorpairs = new pairs[100];
-    //Load the console colors from colors.json
-    std::ifstream colorfile(FILENAMES["colors"].c_str(), std::ifstream::in | std::ifstream::binary);
-    try{
-        JsonIn jsin(colorfile);
-        char ch;
+    std::ifstream colorfile( path.c_str(), std::ifstream::in | std::ifstream::binary );
+    try {
+        JsonIn jsin( colorfile );
         // Manually load the colordef object because the json handler isn't loaded yet.
-        jsin.eat_whitespace();
-        ch = jsin.peek();
-        if( ch == '[' ) {
-            jsin.start_array();
-            // find type and dispatch each object until array close
-            while (!jsin.end_array()) {
-                jsin.eat_whitespace();
-                char ch = jsin.peek();
-                if (ch != '{') {
-                    std::stringstream err;
-                    err << jsin.line_number() << ": ";
-                    err << "expected array of objects but found '";
-                    err << ch << "', not '{'";
-                    throw err.str();
-                }
-                JsonObject jo = jsin.get_object();
-                load_colors(jo);
-                jo.finish();
-            }
-        } else {
-            // not an array?
-            std::stringstream err;
-            err << jsin.line_number() << ": ";
-            err << "expected object or array, but found '" << ch << "'";
-            throw err.str();
+        jsin.start_array();
+        while( !jsin.end_array() ) {
+            JsonObject jo = jsin.get_object();
+            load_colors( jo );
+            jo.finish();
         }
+    } catch( std::string e ) {
+        dbg( D_ERROR ) << "Failed to load color definitions from " << path << ": " << e;
+        return ERR;
     }
-    catch(std::string e){
-        throw FILENAMES["colors"] + ": " + e;
+    for( size_t c = 0; c < main_color_names.size(); c++ ) {
+        windowsPalette[c]  = ccolor( main_color_names[c] );
     }
-    if(consolecolors.empty())return 0;
-    windowsPalette[0]  = BGR(ccolor("BLACK"));
-    windowsPalette[1]  = BGR(ccolor("RED"));
-    windowsPalette[2]  = BGR(ccolor("GREEN"));
-    windowsPalette[3]  = BGR(ccolor("BROWN"));
-    windowsPalette[4]  = BGR(ccolor("BLUE"));
-    windowsPalette[5]  = BGR(ccolor("MAGENTA"));
-    windowsPalette[6]  = BGR(ccolor("CYAN"));
-    windowsPalette[7]  = BGR(ccolor("GRAY"));
-    windowsPalette[8]  = BGR(ccolor("DGRAY"));
-    windowsPalette[9]  = BGR(ccolor("LRED"));
-    windowsPalette[10] = BGR(ccolor("LGREEN"));
-    windowsPalette[11] = BGR(ccolor("YELLOW"));
-    windowsPalette[12] = BGR(ccolor("LBLUE"));
-    windowsPalette[13] = BGR(ccolor("LMAGENTA"));
-    windowsPalette[14] = BGR(ccolor("LCYAN"));
-    windowsPalette[15] = BGR(ccolor("WHITE"));
-    return 0;
+    return OK;
 }
 
 void curses_timeout(int t)
@@ -1556,7 +1585,7 @@ void BitmapFont::clear()
 void BitmapFont::load_font(const std::string &typeface)
 {
     clear();
-    DebugLog() << "Loading bitmap font [" + typeface + "].\n" ;
+    dbg( D_INFO ) << "Loading bitmap font [" + typeface + "]." ;
     SDL_Surface *asciiload = IMG_Load(typeface.c_str());
     if (asciiload == NULL) {
         throw std::runtime_error(IMG_GetError());
@@ -1675,21 +1704,21 @@ void CachedTTFFont::load_font(std::string typeface, int fontsize)
     const std::string sysfnt = find_system_font(typeface, faceIndex);
     if (!sysfnt.empty()) {
         typeface = sysfnt;
-        DebugLog() << "Using font [" + typeface + "].\n" ;
+        dbg( D_INFO ) << "Using font [" + typeface + "]." ;
     }
     //make fontdata compatible with wincurse
     if(!fexists(typeface.c_str())) {
         faceIndex = 0;
         typeface = FILENAMES["fontdir"] + typeface + ".ttf";
-        DebugLog() << "Using compatible font [" + typeface + "].\n" ;
+        dbg( D_INFO ) << "Using compatible font [" + typeface + "]." ;
     }
     //different default font with wincurse
     if(!fexists(typeface.c_str())) {
         faceIndex = 0;
         typeface = FILENAMES["fontdir"] + "fixedsys.ttf";
-        DebugLog() << "Using fallback font [" + typeface + "].\n" ;
+        dbg( D_INFO ) << "Using fallback font [" + typeface + "]." ;
     }
-    DebugLog() << "Loading truetype font [" + typeface + "].\n" ;
+    dbg( D_INFO ) << "Loading truetype font [" + typeface + "]." ;
     if(fontsize <= 0) {
         fontsize = fontheight - 1;
     }
@@ -1753,9 +1782,17 @@ std::map<std::string, music_playlist> playlists;
 void musicFinished();
 
 void play_music_file(std::string filename, int volume) {
-    current_music = Mix_LoadMUS((FILENAMES["datadir"] + "/sound/" + filename).c_str());
+    const std::string path = (FILENAMES["datadir"] + "/sound/" + filename);
+    current_music = Mix_LoadMUS(path.c_str());
+    if( current_music == nullptr ) {
+        dbg( D_ERROR ) << "Failed to load audio file " << path << ": " << Mix_GetError();
+        return;
+    }
     Mix_VolumeMusic(volume * OPTIONS["MUSIC_VOLUME"] / 100);
-    Mix_PlayMusic(current_music, 0);
+    if( Mix_PlayMusic( current_music, 0 ) != 0 ) {
+        dbg( D_ERROR ) << "Starting playlist " << path << " failed: " << Mix_GetError();
+        return;
+    }
     Mix_HookMusicFinished(musicFinished);
 }
 
@@ -1769,7 +1806,7 @@ void musicFinished() {
     current_playlist_at++;
 
     // Wrap around if we reached the end of the playlist.
-    if(current_playlist_at >= playlists[current_playlist].files.size()) {
+    if(current_playlist_at >= (int)playlists[current_playlist].files.size()) {
         current_playlist_at = 0;
     }
 
@@ -1810,7 +1847,7 @@ void load_soundset() {
         JsonObject config = json.get_object();
         JsonArray playlists_ = config.get_array("playlists");
 
-        for(int i=0; i < playlists_.size(); i++) {
+        for(int i=0; i < (int)playlists_.size(); i++) {
             JsonObject playlist = playlists_.get_object(i);
 
             std::string playlist_id = playlist.get_string("id");
@@ -1818,7 +1855,7 @@ void load_soundset() {
             playlist_to_load.shuffle = playlist.get_bool("shuffle", false);
 
             JsonArray playlist_files = playlist.get_array("files");
-            for(int j=0; j < playlist_files.size(); j++) {
+            for(int j=0; j < (int)playlist_files.size(); j++) {
                 JsonObject entry = playlist_files.get_object(j);
                 playlist_to_load.files.push_back(entry.get_string("file"));
                 playlist_to_load.volumes.push_back(entry.get_int("volume"));

@@ -106,6 +106,7 @@
             ],
             "comment": "randomly picked from a group ---v",
             "place_groups": [
+                { "vehicle": "beetle", "x": 17, "y": 6, "rotation": 270, "chance": 10  },
                 { "item": "bedroom", "chance": 80, "x": [ 15, 21 ], "y": [ 18, 21 ] },
                 { "item": "livingroom", "chance": 60, "x": [ 7,13 ], "y": [ 18,21 ] },
                 { "item": "homeguns", "chance": 5, "x": [ 15,21 ], "y": [ 18,21 ] },

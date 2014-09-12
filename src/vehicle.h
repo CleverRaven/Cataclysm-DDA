@@ -24,14 +24,12 @@ extern const ammotype fuel_types[num_fuel_types];
 #define k_mvel 200 //adjust this to balance collision damage
 
 // 0 - nothing, 1 - monster/player/npc, 2 - vehicle,
-// 3 - thin_obstacle, 4 - bashable, 5 - destructible, 6 - other
+// 3 - bashable, 5 - other
 enum veh_coll_type {
  veh_coll_nothing = 0,
  veh_coll_body,
  veh_coll_veh,
- veh_coll_thin_obstacle,
  veh_coll_bashable,
- veh_coll_destructable,
  veh_coll_other,
 
  num_veh_coll_types
@@ -64,7 +62,6 @@ struct vehicle_prototype
     std::vector<std::pair<point, std::string> > parts;
     std::vector<vehicle_item_spawn> item_spawns;
 };
-
 
 /**
  * Structure, describing vehicle part (ie, wheel, seat)
@@ -139,6 +136,39 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
      * It includes hp, fuel, bigness, ...
      */
     void properties_from_item( const item &used_item );
+};
+
+/**
+ * Struct used for storing labels
+ * (easier to json opposed to a std::map<point, std::string>)
+ */
+struct label : public JsonSerializer, public JsonDeserializer {
+    label(const int x = 0, const int y = 0) {
+    	this->x = x;
+    	this->y = y;
+    }
+    label(const int x, const int y, const std::string text) {
+    	this->x = x;
+    	this->y = y;
+    	this->text = text;
+    }
+
+    int x;
+    int y;
+    std::string text;
+
+	// these are stored in a set
+    bool operator< (const label &other) const {
+    	if (x != other.x)
+    		return x < other.x;
+    	return y < other.y;
+    }
+
+    // json saving/loading
+    using JsonSerializer::serialize;
+    void serialize(JsonOut &jsout) const;
+    using JsonDeserializer::deserialize;
+    void deserialize(JsonIn &jsin);
 };
 
 /**
@@ -296,6 +326,9 @@ public:
     bool remove_part (int p);
     void part_removal_cleanup ();
 
+    const std::string get_label(int x, int y);
+    void set_label(int x, int y, const std::string text);
+
     void break_part_into_pieces (int p, int x, int y, bool scatter = false);
 
 // returns the list of indeces of parts at certain position (not accounting frame direction)
@@ -376,17 +409,20 @@ public:
 // get passenger at part p
     player *get_passenger (int p);
 
-// get global coords for vehicle
-    int global_x ();
-    int global_y ();
-
-// get omap coordinate for vehicle
-    int omap_x ();
-    int omap_y ();
-
-// update map coordinates of the vehicle
-    void update_map_x(int x);
-    void update_map_y(int y);
+    /**
+     * Get the coordinates (in map squares) of this vehicle, it's the same
+     * coordinate system that player::posx uses.
+     * Global apparently means relative to the currently loaded map (game::m).
+     * This implies:
+     * <code>g->m.veh_at(this->global_x(), this->global_y()) == this;</code>
+     */
+    int global_x() const;
+    int global_y() const;
+    /**
+     * Really global absolute coordinates in map squares.
+     * This includes the overmap, the submap, and the map square.
+     */
+    point real_global_pos() const;
 
 // Checks how much certain fuel left in tanks.
     int fuel_left (const ammotype & ftype);
@@ -580,6 +616,7 @@ public:
     std::vector<vehicle_part> parts;   // Parts which occupy different tiles
     int removed_part_count;            // Subtract from parts.size() to get the real part count.
     std::map<point, std::vector<int> > relative_parts;    // parts_at_relative(x,y) is used alot (to put it mildly)
+    std::set<label> labels;            // stores labels
     std::vector<int> lights;           // List of light part indices
     std::vector<int> alternators;      // List of alternator indices
     std::vector<int> fuel;             // List of fuel tank indices
@@ -590,8 +627,26 @@ public:
     std::vector<vehicle_item_spawn> item_spawns; //Possible starting items
     std::set<std::string> tags;        // Properties of the vehicle
 
-    // temp values
-    int smx, smy;   // submap coords. WARNING: must ALWAYS correspond to sumbap coords in grid, or i'm out
+    /**
+     * Submap coordinates of the currently loaded submap (see game::m)
+     * that contains this vehicle. These values are changed when the map
+     * shifts (but the vehicle is not actually moved than, it also stays on
+     * the same submap, only the relative coordinates in map::grid have changed).
+     * These coordinates must always refer to the submap in map::grid that contains
+     * this vehicle.
+     * When the vehicle is really moved (by map::displace_vehicle), set_submap_moved
+     * is called and updates these values, when the map is only shifted or when a submap
+     * is loaded into the map the values are directly set. The vehicles position does
+     * not change therefor no call to set_submap_moved is required.
+     */
+    int smx, smy;
+    /**
+     * Update the submap coordinates smx, smy, and update the tracker info in the overmap
+     * (if enabled).
+     * This should be called only when the vehicle has actually been moved, not when
+     * the map is just shifted (in the later case simply set smx/smy directly).
+     */
+    void set_submap_moved(int x, int y);
     bool insides_dirty; // if true, then parts' "inside" flags are outdated and need refreshing
     int init_veh_fuel;
     int init_veh_status;
@@ -599,8 +654,13 @@ public:
     int last_repair_turn; // Turn it was last repaired, used to make consecutive repairs faster.
 
     // save values
+    /**
+     * Position of the vehicle *inside* the submap that contains the vehicle.
+     * This will (nearly) always be in the range (0...SEEX-1).
+     * Note that vehicles are "moved" by map::displace_vehicle. You should not
+     * set them directly, except when initializing the vehicle or during mapgen.
+     */
     int posx, posy;
-    int levx,levy;       // vehicle map coordinates.
     tileray face;       // frame direction
     tileray move;       // direction we are moving
     int velocity;       // vehicle current velocity, mph * 100
@@ -610,6 +670,7 @@ public:
     bool reactor_on;    // reactor on/off
     bool engine_on;     // engine on/off
     bool has_pedals;
+    bool has_paddles;
     bool has_hand_rims;
     bool lights_on;     // lights on/off
     bool stereo_on;

@@ -21,19 +21,19 @@ sokoban_game::sokoban_game()
 void sokoban_game::print_score(WINDOW *w_sokoban, int iScore, int iMoves)
 {
     std::stringstream ssTemp;
-    ssTemp << _("Level: ") << iCurrentLevel + 1 << "/" << iNumLevel << "    ";
+    ssTemp << string_format(_("Level: %d/%d"), iCurrentLevel + 1, iNumLevel) << "    ";
     mvwprintz(w_sokoban, 1, 3, c_white, ssTemp.str().c_str());
 
     ssTemp.str("");
-    ssTemp << _("Score: ") << iScore;
+    ssTemp << string_format(_("Score: %d"), iScore);
     mvwprintz(w_sokoban, 2, 3, c_white, ssTemp.str().c_str());
 
     ssTemp.str("");
-    ssTemp << _("Moves: ") << iMoves << "    ";
+    ssTemp << string_format(_("Moves: %d"), iMoves) << "    ";
     mvwprintz(w_sokoban, 3, 3, c_white, ssTemp.str().c_str());
 
     ssTemp.str("");
-    ssTemp << _("Total moves: ") << iTotalMoves;
+    ssTemp << string_format(_("Total moves: %d"), iTotalMoves);
     mvwprintz(w_sokoban, 4, 3, c_white, ssTemp.str().c_str());
 
 }
@@ -349,7 +349,8 @@ int sokoban_game::start_game()
                 if (vUndo[vUndo.size() - 1].sTileOld == "$" ||
                     vUndo[vUndo.size() - 1].sTileOld == "*") {
                     mLevel[iPlayerY][iPlayerX] = (mLevel[iPlayerY][iPlayerX] == ".") ? "*" : "$";
-                    mLevel[iPlayerY + iDirY][iPlayerX + iDirX] = (mLevel[iPlayerY + iDirY][iPlayerX + iDirX] == "*") ? "." : " ";
+                    mLevel[iPlayerY + iDirY][iPlayerX + iDirX] = (mLevel[iPlayerY + iDirY][iPlayerX + iDirX] == "*") ?
+                            "." : " ";
 
                     vUndo.pop_back();
                 }

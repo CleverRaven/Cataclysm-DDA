@@ -12,13 +12,9 @@
 #include <unordered_map>
 #include <vector>
 #include <string>
-#include <algorithm>
+#include <memory>
 
-extern std::unordered_map<std::string, cOpt> OPTIONS;
-extern std::unordered_map<std::string, cOpt> ACTIVE_WORLD_OPTIONS;
-
-struct WORLD
-{
+struct WORLD {
     std::string world_path;
     std::string world_name;
     std::unordered_map<std::string, cOpt> world_options;
@@ -72,13 +68,13 @@ class worldfactory
         int show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world);
         int show_worldgen_tab_confirm(WINDOW *win, WORLDPTR world);
 
-        void draw_modselection_borders(WINDOW *win);
+        void draw_modselection_borders(WINDOW *win, input_context *ctxtp);
         void draw_worldgen_tabs(WINDOW *win, unsigned int current, std::vector<std::string> tabs);
 
         std::unordered_map<std::string, cOpt> get_default_world_options();
         std::unordered_map<std::string, cOpt> get_world_options(std::string path);
-        mod_manager *mman;
-        mod_ui *mman_ui;
+        std::unique_ptr<mod_manager> mman;
+        std::unique_ptr<mod_ui> mman_ui;
 };
 
 extern worldfactory *world_generator;

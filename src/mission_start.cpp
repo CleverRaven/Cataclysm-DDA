@@ -32,10 +32,14 @@ point target_om_ter_random(const std::string &omter, int reveal_rad, mission *mi
     int dist = 0;
     std::vector<point> places = overmap_buffer.find_all(
         g->om_global_location(), omter, dist, must_see);
+    if (places.size() == 0){
+        debugmsg("Couldn't find %s", omter.c_str());
+        return point();
+    }
     std::vector<point> places_om;
-    for (int i = 0; i < places.size(); i++) {
-            if (g->cur_om == overmap_buffer.get_existing_om_global(places[i]))
-                places_om.push_back(places[i]);
+    for (auto &i : places) {
+        if (g->cur_om == overmap_buffer.get_existing_om_global(i))
+            places_om.push_back(i);
     }
     const point place = places_om[rng(0,places_om.size()-1)];
     if(place != overmap::invalid_point && reveal_rad >= 0) {
@@ -122,14 +126,13 @@ void mission_start::place_caravan_ambush(mission *miss)
  point site = target_om_ter_random("field", 1, miss, false);
  tinymap bay;
  bay.load_abs(site.x * 2, site.y * 2, g->levz, false);
- //bay.add_vehicle("cube_van", SEEX, SEEY, 0, 500)
  bay.add_vehicle("cube_van", SEEX, SEEY, 0);
  bay.add_vehicle("quad_bike", SEEX+6, SEEY-5, 270, 500, -1, true);
  bay.add_vehicle("motorcycle", SEEX-2, SEEY-9, 315, 500, -1, true);
  bay.add_vehicle("motorcycle", SEEX-5, SEEY-5, 90, 500, -1, true);
  bay.draw_square_ter(t_grass, SEEX-6, SEEY-9, SEEX+6, SEEY+3);
  bay.draw_square_ter(t_dirt, SEEX-4, SEEY-7, SEEX+3, SEEY+1);
- bay.ter_set(SEEX, SEEY-4, t_ash);
+ bay.furn_set(SEEX, SEEY-4, f_ash);
  bay.spawn_item(SEEX-1, SEEY-3, "rock");
  bay.spawn_item(SEEX, SEEY-3, "rock");
  bay.spawn_item(SEEX+1, SEEY-3, "rock");
@@ -164,9 +167,64 @@ void mission_start::place_caravan_ambush(mission *miss)
  bay.add_field(SEEX+1, SEEY+9,fd_blood,1);
  bay.add_field(SEEX, SEEY+9,fd_blood,1);
  bay.place_npc(SEEX+3,SEEY-5, "bandit");
- bay.place_npc(SEEX, SEEY-7, "bandit");
+ bay.place_npc(SEEX, SEEY-7, "thug");
  miss->target_npc_id = bay.place_npc(SEEX-3, SEEY-4, "bandit");
  bay.save();
+}
+
+void mission_start::place_bandit_cabin(mission *miss)
+{
+ point site = target_om_ter_random("bandit_cabin", 1, miss, false);
+ tinymap cabin;
+ cabin.load_abs(site.x * 2, site.y * 2, g->levz, false);
+ cabin.trap_set(SEEX-5, SEEY-6, tr_landmine_buried);
+ cabin.trap_set(SEEX-7, SEEY-7, tr_landmine_buried);
+ cabin.trap_set(SEEX-4, SEEY-7, tr_landmine_buried);
+ cabin.trap_set(SEEX-12, SEEY-1, tr_landmine_buried);
+ miss->target_npc_id = cabin.place_npc(SEEX, SEEY, "bandit");
+ cabin.save();
+}
+
+void mission_start::place_informant(mission *miss)
+{
+ point site = target_om_ter_random("evac_center_19", 1, miss, false);
+ tinymap bay;
+ bay.load_abs(site.x * 2, site.y * 2, g->levz, false);
+ miss->target_npc_id = bay.place_npc(SEEX, SEEY, "evac_guard3");
+ bay.save();
+
+ site = target_om_ter_random("evac_center_7", 1, miss, false);
+ tinymap bay2;
+ bay2.load_abs(site.x * 2, site.y * 2, g->levz, false);
+ bay2.place_npc(SEEX+rng(-3,3), SEEY+rng(-3,3), "scavenger_hunter");
+ bay2.save();
+ site = target_om_ter_random("evac_center_17", 1, miss, false);
+}
+
+void mission_start::place_grabber(mission *miss)
+{
+ point site = target_om_ter_random("field", 5, miss, false);
+ tinymap there;
+ there.load_abs(site.x * 2, site.y * 2, g->levz, false);
+ there.add_spawn("mon_graboid", 1, SEEX+rng(-3,3), SEEY+rng(-3,3));
+ there.add_spawn("mon_graboid", 1, SEEX, SEEY, false, -1, miss->uid, "Little Guy");
+ there.save();
+}
+
+void mission_start::place_bandit_camp(mission *miss)
+{
+ npc *p = g->find_npc(miss->npc_id);
+ g->u.i_add( item("ruger_redhawk", 0, false) );
+ g->u.i_add( item("44magnum", 0, false) );
+ g->u.i_add( item("holster", 0, false) );
+ g->u.i_add( item("badge_marshal", 0, false) );
+ add_msg(m_good, _("%s has instated you as a marshal!"), p->name.c_str());
+
+ point site = target_om_ter_random("bandit_camp_1", 1, miss, false);
+ tinymap bay1;
+ bay1.load_abs(site.x * 2, site.y * 2, g->levz, false);
+ miss->target_npc_id = bay1.place_npc(SEEX+5, SEEY-3, "bandit");
+ bay1.save();
 }
 
 void mission_start::place_jabberwock(mission *miss)
@@ -485,14 +543,12 @@ void mission_start::recruit_tracker(mission *miss)
 
  point site = target_om_ter("cabin", 2, miss, false);
  miss->recruit_class = NC_COWBOY;
- // get  the overmap of the new npc, crop site to valid values inside that overmap
- overmap &om = overmap_buffer.get_om_global(site.x, site.y);
 
  npc * temp = new npc();
  temp->normalize();
  temp->randomize(NC_COWBOY);
  // NPCs spawn with submap coordinates, site is in overmap terrain coords
- temp->spawn_at(&om, site.x * 2, site.y * 2, g->levz);
+ temp->spawn_at( site.x * 2, site.y * 2, g->levz );
  temp->posx = 11;
  temp->posy = 11;
  temp->attitude = NPCATT_TALK;

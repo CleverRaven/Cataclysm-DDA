@@ -28,7 +28,7 @@
 #include <vector>
 #include "debug.h"
 
-#define dbg(x) dout((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 #define maplim 132
 #define inbounds(x, y) (x >= 0 && x < maplim && y >= 0 && y < maplim)
 #define pinbounds(p) ( p.x >= 0 && p.x < maplim && p.y >= 0 && p.y < maplim)
@@ -43,7 +43,7 @@ std::vector<std::string> fld_string ( std::string str, int width ) {
     int linepos = width;
     int linestart = 0;
     int crpos = -2;
-    while( linepos < str.length() || crpos != -1 ) {
+    while( linepos < (int)str.length() || crpos != -1 ) {
         crpos = str.find('\n', linestart);
         if (crpos != -1 && crpos <= linepos) {
             lines.push_back( str.substr( linestart, crpos-linestart ) );
@@ -54,7 +54,7 @@ std::vector<std::string> fld_string ( std::string str, int width ) {
             if ( spacepos == -1 ) spacepos = str.find(',', linepos);
             if ( spacepos < linestart ) {
                 spacepos = linestart + width;
-                if( spacepos < str.length() ) {
+                if( spacepos < (int)str.length() ) {
                     lines.push_back( str.substr( linestart, width ) );
                     linepos = spacepos + width;
                     linestart = spacepos;
@@ -138,7 +138,7 @@ void edit_json( SAVEOBJ *it )
 
 void editmap_hilight::draw( editmap * hm, bool update ) {
     cur_blink++;
-    if ( cur_blink >= blink_interval.size() ) {
+    if ( cur_blink >= (int)blink_interval.size() ) {
         cur_blink = 0;
     }
     if ( blink_interval[ cur_blink ] == true || update == true ) {
@@ -380,11 +380,15 @@ void editmap::uber_draw_ter( WINDOW *w, map *m )
             long sym = ( game_map ? '%' : ' ' );
             if ( x >= 0 && x < msize && y >= 0 && y < msize ) {
                 if ( game_map ) {
-                    int mon_idx = g->mon_at(x, y);
-                    int npc_idx = g->npc_at(x, y);
-                    if ( mon_idx >= 0 ) {
-                        g->zombie(mon_idx).draw(w, center.x, center.y, false);
-                        monster & mon=g->zombie(mon_idx);
+                    Creature *critter = g->critter_at( x, y );
+                    if( critter != nullptr ) {
+                        critter->draw( w, center.x, center.y, false );
+                    } else {
+                        m->drawsq(w, g->u, x, y, false, draw_itm, center.x, center.y, false, true);
+                    }
+                    monster *m = dynamic_cast<monster*>( critter );
+                    if( m != nullptr ) {
+                        monster &mon = *m;
                         if ( refresh_mplans == true ) {
                             for(std::vector<point>::iterator it =
                                     mon.plans.begin();
@@ -392,10 +396,6 @@ void editmap::uber_draw_ter( WINDOW *w, map *m )
                                 hilights["mplan"].points[*it] = 1;
                             }
                         }
-                    } else if ( npc_idx >= 0 ) {
-                        g->active_npc[npc_idx]->draw(w, center.x, center.y, false);
-                    } else {
-                        m->drawsq(w, g->u, x, y, false, draw_itm, center.x, center.y, false, true);
                     }
                 } else {
                     m->drawsq(w, g->u, x, y, false, draw_itm, center.x, center.y, false, true);
@@ -429,8 +429,7 @@ void editmap::update_view(bool update_info)
 
     cur_field = &g->m.field_at(target.x, target.y);
     cur_trap = g->m.tr_at(target.x, target.y);
-    int mon_index = g->mon_at(target.x, target.y);
-    int npc_index = g->npc_at(target.x, target.y);
+    const Creature *critter = g->critter_at( target.x, target.y );
 
     // update map always
     werase(g->w_terrain);
@@ -442,10 +441,8 @@ void editmap::update_view(bool update_info)
     }
 
     // update target point
-    if (mon_index != -1) {
-        g->zombie(mon_index).draw(g->w_terrain, target.x, target.y, true);
-    } else if (npc_index != -1) {
-        g->active_npc[npc_index]->draw(g->w_terrain, target.x, target.y, true);
+    if( critter != nullptr ) {
+        critter->draw( g->w_terrain, target.x, target.y, true );
     } else {
         g->m.drawsq(g->w_terrain, g->u, target.x, target.y, true, true, target.x, target.y);
     }
@@ -565,12 +562,8 @@ void editmap::update_view(bool update_info)
             off++; // 6
         }
 
-        if (mon_index != -1) {
-            g->zombie(mon_index).print_info(w_info);
-            off += 6;
-        } else if (npc_index != -1) {
-            g->active_npc[npc_index]->print_info(w_info);
-            off += 6;
+        if( critter != nullptr ) {
+            off = critter->print_info( w_info, off, 5, 1 );
         } else if (veh) {
             mvwprintw(w_info, off, 1, _("There is a %s there. Parts:"), veh->name.c_str());
             off++;
@@ -652,13 +645,14 @@ int editmap::edit_ter()
     int lastsel_ter = sel_ter;
     int lastsel_frn = sel_frn;
 
-    int xmax = pickw;
-    int tymax = int(num_terrain_types / xmax);
-    if ( tymax % xmax != 0 ) {
+    const int xmin = 3; // left margin
+    int xmax = pickw - xmin;
+    int tymax = int(terlist.size() / xmax);
+    if ( terlist.size() % xmax != 0 ) {
         tymax++;
     }
-    int fymax = int(num_furniture_types / xmax);
-    if ( fymax == 0 || fymax % xmax != 0 ) {
+    int fymax = int(furnlist.size() / xmax);
+    if ( furnlist.size() % xmax != 0 ) {
         fymax++;
     }
 
@@ -694,8 +688,8 @@ int editmap::edit_ter()
         int cur_t = 0;
         int tstart = 2;
         // draw icon grid
-        for (int y = tstart; y < pickh && cur_t < num_terrain_types; y += 2) {
-            for (int x = 3; x < pickw && cur_t < num_terrain_types; x++, cur_t++) {
+        for (int y = tstart; y < pickh && cur_t < (int) terlist.size(); y += 2) {
+            for (int x = xmin; x < pickw && cur_t < (int) terlist.size(); x++, cur_t++) {
                 ter_t ttype = terlist[cur_t];
                 mvwputch(w_pickter, y, x, ( ter_frn_mode == 0 ? ttype.color : c_dkgray ) , ttype.sym);
                 if(cur_t == sel_ter) {
@@ -748,8 +742,8 @@ int editmap::edit_ter()
         off += 2;
         int cur_f = 0;
         int fstart = off; // calc vertical offset, draw furniture icons
-        for (int y = fstart; y < pickh && cur_f < num_furniture_types; y += 2) {
-            for (int x = 3; x < pickw && cur_f < num_furniture_types; x++, cur_f++) {
+        for (int y = fstart; y < pickh && cur_f < (int) furnlist.size(); y += 2) {
+            for (int x = xmin; x < pickw && cur_f < (int) furnlist.size(); x++, cur_f++) {
 
                 furn_t ftype = furnlist[cur_f];
                 mvwputch(w_pickter, y, x, ( ter_frn_mode == 1 ? ftype.color : c_dkgray ), ftype.sym);
@@ -821,18 +815,18 @@ int editmap::edit_ter()
         lastsel_frn = sel_frn;
         if ( ter_frn_mode == 0 ) {
             if( action == "LEFT" ) {
-                sel_ter = (sel_ter - 1 >= 0 ? sel_ter - 1 : num_terrain_types - 1);
+                sel_ter = (sel_ter - 1 >= 0 ? sel_ter - 1 : (int) terlist.size() - 1);
             } else if( action == "RIGHT" ) {
-                sel_ter = (sel_ter + 1 < num_terrain_types ? sel_ter + 1 : 0 );
+                sel_ter = (sel_ter + 1 < (int) terlist.size() ? sel_ter + 1 : 0 );
             } else if( action == "UP" ) {
-                if (sel_ter - xmax + 3 >= 0 ) {
-                    sel_ter = sel_ter - xmax + 3;
+                if (sel_ter - xmax >= 0 ) {
+                    sel_ter = sel_ter - xmax;
                 } else {
                     ter_frn_mode = ( ter_frn_mode == 0 ? 1 : 0 );
                 }
             } else if( action == "DOWN" ) {
-                if (sel_ter + xmax - 3 < num_terrain_types ) {
-                    sel_ter = sel_ter + xmax - 3;
+                if (sel_ter + xmax < (int) terlist.size() ) {
+                    sel_ter = sel_ter + xmax;
                 } else {
                     ter_frn_mode = ( ter_frn_mode == 0 ? 1 : 0 );
                 }
@@ -889,18 +883,18 @@ int editmap::edit_ter()
             }
         } else { // todo: cleanup
             if( action == "LEFT" ) {
-                sel_frn = (sel_frn - 1 >= 0 ? sel_frn - 1 : num_furniture_types - 1);
+                sel_frn = (sel_frn - 1 >= 0 ? sel_frn - 1 : (int) furnlist.size() - 1);
             } else if( action == "RIGHT" ) {
-                sel_frn = (sel_frn + 1 < num_furniture_types ? sel_frn + 1 : 0 );
+                sel_frn = (sel_frn + 1 < (int) furnlist.size() ? sel_frn + 1 : 0 );
             } else if( action == "UP" ) {
-                if ( sel_frn - xmax + 3 >= 0 ) {
-                    sel_frn = sel_frn - xmax + 3;
+                if ( sel_frn - xmax >= 0 ) {
+                    sel_frn = sel_frn - xmax;
                 } else {
                     ter_frn_mode = ( ter_frn_mode == 0 ? 1 : 0 );
                 }
             } else if( action == "DOWN" ) {
-                if ( sel_frn + xmax - 3 < num_furniture_types ) {
-                    sel_frn = sel_frn + xmax - 3;
+                if ( sel_frn + xmax < (int) furnlist.size() ) {
+                    sel_frn = sel_frn + xmax;
                 } else {
                     ter_frn_mode = ( ter_frn_mode == 0 ? 1 : 0 );
                 }
@@ -1215,7 +1209,7 @@ int editmap::edit_itm()
     ilmenu.addentry(-10, true, 'q', _("Cancel"));
     do {
         ilmenu.query();
-        if ( ilmenu.ret >= 0 && ilmenu.ret < items.size() ) {
+        if ( ilmenu.ret >= 0 && ilmenu.ret < (int)items.size() ) {
             item *it = &items[ilmenu.ret];
             uimenu imenu;
             imenu.w_x = ilmenu.w_x;
@@ -1657,7 +1651,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
                             submap *destsm = g->m.get_submap_at_grid(target_sub.x + x, target_sub.y + y);
                             submap *srcsm = tmpmap.get_submap_at_grid(x, y);
 
-                            for (int i = 0; i < srcsm->vehicles.size(); i++ ) { // copy vehicles to real map
+                            for (size_t i = 0; i < srcsm->vehicles.size(); i++ ) { // copy vehicles to real map
                                 s += string_format("  copying vehicle %d/%d",i,srcsm->vehicles.size());
                                 vehicle *veh1 = srcsm->vehicles[i];
                                 // vehicle *veh1 = veh;   // fixme: is this required?
@@ -1670,9 +1664,9 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
                             g->m.update_vehicle_list(destsm); // update real map's vcaches
 
                             int spawns_todo = 0;
-                            for (int i = 0; i < srcsm->spawns.size(); i++) { // copy spawns
+                            for (size_t i = 0; i < srcsm->spawns.size(); i++) { // copy spawns
                                 int mx = srcsm->spawns[i].posx, my = srcsm->spawns[i].posy;
-                                s += string_format("  copying monster %d/%d pos %d,%d\n", i,srcsm->spawns.size(), mx, my );
+                                s += string_format("  copying monster %d/%d pos %d,%d\n", i, srcsm->spawns.size(), mx, my );
                                 destsm->spawns.push_back( srcsm->spawns[i] );
                                 spawns_todo++;
                             }
@@ -1821,7 +1815,7 @@ int editmap::edit_mapgen()
     broken_oter_blacklist["nuke_plant"] = true;
     broken_oter_blacklist["temple_core"] = true;
 
-    for (int i = 0; i < oterlist.size(); i++) {
+    for (size_t i = 0; i < oterlist.size(); i++) {
         oter_id id = oter_id(i);
         gmenu.addentry(-1, true, 0, "[%3d] %s", (int)id, std::string(id).c_str() );
         if ( broken_oter_blacklist.find(id) != broken_oter_blacklist.end() ) {
