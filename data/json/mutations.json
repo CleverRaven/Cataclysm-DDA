@@ -3374,7 +3374,7 @@
         "id" : "COLDBLOOD",
         "name" : "Heat Dependent",
         "points" : -2,
-        "description" : "Your muscle response is dependent on ambient temperatures. You lose 1% of your speed for every 5 degrees below 65 F.",
+        "description" : "Your muscle response is dependent on ambient temperatures. You lose 1% of your speed for every 5 (2.8) degrees below 65 F (18.3 C).",
         "changes_to" : ["COLDBLOOD2"],
         "category" : ["MUTCAT_BIRD", "MUTCAT_CEPHALOPOD", "MUTCAT_SPIDER"]
     },{
@@ -3382,7 +3382,7 @@
         "id" : "COLDBLOOD2",
         "name" : "Very Heat Dependent",
         "points" : -3,
-        "description" : "Your muscle response is highly dependent on ambient temperatures. You lose 1% of your speed for every 3 degrees below 65 F.",
+        "description" : "Your muscle response is highly dependent on ambient temperatures. You lose 1% of your speed for every 3 (1.7) degrees below 65 F (18.3 C).",
         "prereqs" : ["COLDBLOOD"],
         "changes_to" : ["COLDBLOOD3"],
         "category" : ["MUTCAT_FISH", "MUTCAT_RAPTOR"]
@@ -3391,7 +3391,7 @@
         "id" : "COLDBLOOD3",
         "name" : "Cold Blooded",
         "points" : -5,
-        "description" : "You are cold-blooded and rely on heat to keep moving. Your lose 1% of your speed for every 2 degrees below 65 F.",
+        "description" : "You are cold-blooded and rely on heat to keep moving. Your lose 1% of your speed for every 2 (1.1) degrees below 65 F (18.3 C).",
         "prereqs" : ["COLDBLOOD2"],
         "category" : ["MUTCAT_INSECT", "MUTCAT_LIZARD"]
     },{
@@ -3400,7 +3400,7 @@
         "name" : "Ectothermic",
         "points" : -2,
         "mixed_effect" : true,
-        "description" : "Your body has become permanently cold-blooded. Your speed lowers--or raises--for every two degrees below or above 65 F.",
+        "description" : "Your body has become permanently cold-blooded. Your speed lowers--or raises--for every 2 (1.1) degrees below or above 65 F (18.3 C).",
         "prereqs" : ["COLDBLOOD3"],
         "threshreq" : ["THRESH_LIZARD"],
         "purifiable" : false,
