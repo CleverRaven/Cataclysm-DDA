@@ -1479,35 +1479,6 @@
         "required_str": 9,
         "flags": ["TRANSPARENT", "PLACE_ITEM"]
     },{
-         "type" : "terrain",
-         "id" : "t_conveyor",
-         "name": "conveyor belt",
-         "symbol": "=",
-         "color": "brown",
-         "move_cost": 6,
-         "flags": ["TRANSPARENT", "BASHABLE", "PLACE_ITEM"],
-         "deconstruct": {
-             "ter_set": "t_floor",
-             "items": [
-                 { "item": "wire", "amount": 1 },
-                 { "item": "pipe", "amount": 4, "minamount": 1 },
-                 { "item": "chain", "amount": 1, "chance": 10},
-                 { "item": "scrap", "amount": 5, "minamount": 1 },
-                 { "item": "xlframe", "amount": 1, "chance": 5}
-             ]
-         },
-         "bash": {
-             "str_min": 12, "str_max": 80,
-             "sound": "clang!",
-             "sound_fail": "ting.",
-             "ter_set": "t_floor",
-             "items": [
-                 { "item": "pipe", "amount": 3, "minamount": 1 },
-                 { "item": "chain", "amount": 1, "chance": 10},
-                 { "item": "scrap", "amount": 5, "minamount": 1 }
-             ]
-         }
-     },{
         "type" : "furniture",
         "id" : "f_plc",
         "name": "PLC(programmable logic controller)",

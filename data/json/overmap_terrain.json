@@ -4111,7 +4111,36 @@
 		"extras" : "build",        
         "see_cost" : 5,
         "mondensity" : 2
-    }
-	
+    },{
+        "type" : "overmap_terrain",
+        "id" : "rivfactory_04",
+        "name" : "Rivtech Factory", 
+        "sym" : 82,
+		"rotate" : true,
+        "color" : "dark_gray",
+		"extras" : "build",        
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "rivfactory_10",
+        "name" : "Rivtech Factory", 
+        "sym" : 82,
+		"rotate" : true,
+        "color" : "dark_gray",
+		"extras" : "build",        
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "rivfactory_11",
+        "name" : "Rivtech Factory", 
+        "sym" : 82,
+		"rotate" : true,
+        "color" : "dark_gray",
+		"extras" : "build",        
+        "see_cost" : 5,
+        "mondensity" : 2
+    }	
 ]
 
