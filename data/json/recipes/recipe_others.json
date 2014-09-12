@@ -553,8 +553,8 @@
       [ "bone", 1 ]
     ],
     [
-      [ "rock", 1 ]
-      [ "ceramic_shard", 1 ],
+      [ "rock", 1 ],
+      [ "ceramic_shard", 1 ]
     ],
     [
       [ "string_6", 1 ],
@@ -625,8 +625,8 @@
       [ "2x4", 1 ]
     ],
     [
-      [ "rock", 1 ]
-      [ "ceramic_shard", 1 ],
+      [ "rock", 1 ],
+      [ "ceramic_shard", 1 ]
     ],
     [
       [ "string_6", 2 ],
@@ -655,8 +655,8 @@
       [ "2x4", 1 ]
     ],
     [
-      [ "rock", 1 ]
-      [ "ceramic_shard", 1 ],
+      [ "rock", 1 ],
+      [ "ceramic_shard", 1 ]
     ],
     [
       [ "string_6", 2 ],
@@ -709,8 +709,8 @@
       [ "2x4", 2 ]
     ],
     [
-      [ "rock", 1 ]
-      [ "ceramic_shard", 1 ],
+      [ "rock", 1 ],
+      [ "ceramic_shard", 1 ]
     ],
     [
       [ "string_36", 3 ]
