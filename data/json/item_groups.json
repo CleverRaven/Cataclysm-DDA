@@ -6374,6 +6374,7 @@
       ["string_6", 2],
       ["chain", 20],
       ["rock", 40],
+      ["ceramic_shard", 30],
       ["pipe", 20],
       ["music_cd", 20],
       ["file", 30],
@@ -7549,6 +7550,7 @@
       ["wrapper", 50],
       ["manhole_cover", 1],
       ["rock", 40],
+      ["ceramic_shard", 40],
       ["stick", 95],
       ["bag_plastic", 10],
       ["flashlight_on", 0],
@@ -8081,6 +8083,7 @@
     "id" : "trash_forest",
     "items":[
       ["rock", 5],
+      ["ceramic_shard", 5],
       ["stick", 5],
       ["pine_bough", 2],
       ["acorns", 2],

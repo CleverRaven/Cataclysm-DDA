@@ -165,7 +165,7 @@
         "flags": ["TRANSPARENT", "FLAMMABLE_HARD", "MOUNTABLE"],
         "examine_action": "toilet",
         "bash": {
-            "str_min": 6, "str_max": 20,
+            "str_min": 8, "str_max": 30,
             "sound": "porcelain breaking!",
             "sound_fail": "whunk!",
             "items": [
@@ -211,7 +211,7 @@
         "required_str": 18,
         "flags": ["TRANSPARENT", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "MOUNTABLE"],
         "bash": {
-            "str_min": 6, "str_max": 20,
+            "str_min": 8, "str_max": 30,
             "sound": "porcelain breaking!",
             "sound_fail": "whunk!",
             "items": [
@@ -315,7 +315,7 @@
         "required_str": 10,
         "flags": ["TRANSPARENT", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE"],
         "bash": {
-            "str_min": 6, "str_max": 30,
+            "str_min": 12, "str_max": 50,
             "sound": "porcelain breaking!",
             "sound_fail": "whunk!",
             "items": [

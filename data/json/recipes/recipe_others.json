@@ -489,6 +489,7 @@
     ],
     [
       [ "rock", 1 ]
+      [ "ceramic_shard", 1 ],
     ],
     [
       [ "string_6", 2 ],
@@ -554,6 +555,7 @@
     ],
     [
       [ "rock", 1 ]
+      [ "ceramic_shard", 1 ],
     ],
     [
       [ "string_6", 1 ],
@@ -625,6 +627,7 @@
     ],
     [
       [ "rock", 1 ]
+      [ "ceramic_shard", 1 ],
     ],
     [
       [ "string_6", 2 ],
@@ -654,6 +657,7 @@
     ],
     [
       [ "rock", 1 ]
+      [ "ceramic_shard", 1 ],
     ],
     [
       [ "string_6", 2 ],
@@ -707,6 +711,7 @@
     ],
     [
       [ "rock", 1 ]
+      [ "ceramic_shard", 1 ],
     ],
     [
       [ "string_36", 3 ]
@@ -2957,7 +2962,7 @@
   "book_learn": [["atomic_survival", 1] , ["textbook_survival", 1] , ["cookbook", 3]],
   "qualities":[
     {"id":"HAMMER","level":2,"amount":1}
-  ], "components": [ [ ["stick", 2], [ "2x4", 1 ] ], [ ["rock", 6] ] ]
+  ], "components": [ [ ["stick", 2], [ "2x4", 1 ] ], [ ["rock", 6], [ "ceramic_shard", 6 ] ] ]
 },{
         "type" : "recipe",
   "result": "welder_crude",

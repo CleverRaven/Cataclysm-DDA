@@ -3396,6 +3396,7 @@
   "tools": [
     [
       ["rock", -1],
+      ["ceramic_shard", -1],
       ["primitive_hammer", -1],
       ["hammer", -1],
       ["hatchet", -1],
@@ -3423,6 +3424,7 @@
   "tools": [
     [
       ["rock", -1],
+      ["ceramic_shard", -1],
       ["primitive_hammer", -1],
       ["hammer", -1],
       ["hatchet", -1],
@@ -4145,6 +4147,7 @@
     ],
     [
       [ "rock", -1 ],
+      [ "ceramic_shard", -1 ],
       [ "primitive_hammer", -1 ],
       [ "hammer", -1 ],
       [ "hatchet", -1 ],
@@ -4318,6 +4321,7 @@
     ],
     [
       [ "rock", -1 ],
+      [ "ceramic_shard", -1 ],
       [ "primitive_hammer", -1 ],
       [ "hammer", -1 ],
       [ "hatchet", -1 ],
