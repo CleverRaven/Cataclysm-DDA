@@ -21,6 +21,16 @@ bool one_in(int chance)
     return (chance <= 1 || rng(0, chance - 1) == 0);
 }
 
+/*
+ * this takes into account the sliding error from consequentially adding stuff with one_in(chance) that makes
+ * the items lower in the list have lower chances to spawn than the specified ones, by increasing their actual chances to spawn
+*/
+bool one_in_improved(double earlier_chance, int chance) 
+{
+    double diff = chance/((1 - earlier_chance)*chance); //difference between the actual and desired chances
+    return (chance <= 1 || rng_float(0, chance*diff; - 1) == 0); //gives a result, taking into account the difference
+}
+
 bool x_in_y(double x, double y)
 {
     return ((double)rand() / RAND_MAX) <= ((double)x / y);
