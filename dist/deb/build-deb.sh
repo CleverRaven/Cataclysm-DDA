@@ -24,7 +24,6 @@ then
     echo "You need to run this script ONLY from CDDA root."
     exit 1
 fi
-exit 0
 
 echo "Checking requirements..."
 REQ="git dpkg-buildpackage gpg grep"
