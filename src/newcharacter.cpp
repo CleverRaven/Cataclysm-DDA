@@ -1395,11 +1395,11 @@ int set_scenario(WINDOW *w, player *u, int &points)
     WINDOW *w_description = newwin(4, FULL_SCREEN_WIDTH - 2,
                                    FULL_SCREEN_HEIGHT - 5 + getbegy(w), 1 + getbegx(w));
 
-    WINDOW *w_profession = newwin(iContentHeight - 1, (getmaxx(w) / 2) - getbegx(w) - 3,
-                                  6 + getbegy(w),  (getmaxx(w) / 2) + getbegx(w));
+    WINDOW *w_profession = newwin(iContentHeight - 1, (FULL_SCREEN_WIDTH / 2) - 1,
+                                  6 + getbegy(w),  (FULL_SCREEN_WIDTH / 2) + getbegx(w));
 
-    WINDOW *w_location =   newwin(iContentHeight - 8, (getmaxx(w) / 2) - getbegx(w) - 3,
-                                  10 + getbegy(w), (getmaxx(w) / 2) + getbegx(w));
+    WINDOW *w_location =   newwin(iContentHeight - 8, (FULL_SCREEN_WIDTH / 2) - 1,
+                                  10 + getbegy(w), (FULL_SCREEN_WIDTH / 2) + getbegx(w));
 
     std::vector<const scenario *> sorted_scens;
     for (scenmap::const_iterator iter = scenario::begin(); iter != scenario::end(); ++iter) {
@@ -1418,10 +1418,9 @@ int set_scenario(WINDOW *w, player *u, int &points)
     ctxt.register_action("HELP_KEYBINDINGS");
 
     do {
-
         int netPointCost = sorted_scens[cur_id]->point_cost() - g->scen->point_cost();
         bool can_pick = sorted_scens[cur_id]->can_pick(points);
-        const std::string empty_line(getmaxx(w) - 2, ' ');
+        const std::string empty_line(getmaxx(w_description), ' ');
 
         // Clear the bottom of the screen and header.
         werase(w_description);

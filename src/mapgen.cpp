@@ -9215,12 +9215,12 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
             if(t_south == "farm_field") {
                 square(this, t_fence_barbed, 1, 20, 1, 23);
                 ter_set(2, 20, t_fence_barbed);
-                ter_set(1, 20, t_fence_post);
+                ter_set(1, 20, t_fence_barbed);
                 square(this, t_fence_barbed, 22, 20, 22, 22);
                 ter_set(21, 20, t_fence_barbed);
                 ter_set(23, 22, t_fence_barbed);
-                ter_set(22, 22, t_fence_post);
-                ter_set(22, 20, t_fence_post);
+                ter_set(22, 22, t_fence_barbed);
+                ter_set(22, 20, t_fence_barbed);
                 square(this, t_dirt, 2, 21, 21, 23);
                 square(this, t_dirt, 22, 23, 23, 23);
                 ter_set(16, 21, t_barndoor);
@@ -9240,10 +9240,10 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
             fill_background(this, t_grass); // basic lot
             square(this, t_fence_barbed, 1, 1, 22, 22);
             square(this, t_dirt, 2, 2, 21, 21);
-            ter_set(1, 1, t_fence_post);
-            ter_set(22, 1, t_fence_post);
-            ter_set(1, 22, t_fence_post);
-            ter_set(22, 22, t_fence_post);
+            ter_set(1, 1, t_fence_barbed);
+            ter_set(22, 1, t_fence_barbed);
+            ter_set(1, 22, t_fence_barbed);
+            ter_set(22, 22, t_fence_barbed);
 
             int xStart = 4;
             int xEnd = 19;
@@ -9283,7 +9283,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
             if(t_west == "farm") {
                 square(this, t_fence_barbed, 0, 22, 1, 22);
                 square(this, t_dirt, 0, 23, 2, 23);
-                ter_set(1, 22, t_fence_post);
+                ter_set(1, 22, t_fence_barbed);
             }
             //standard field
             line(this, t_dirtmound, xStart, 3, xEnd, 3); //Crop rows
