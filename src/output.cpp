@@ -446,17 +446,11 @@ bool query_yn(const char *mes, ...)
         ucwarning = " (" + ucwarning + ")";
         dispkeys = &ucselectors;
     }
-
-    // figures the length of the combined texts
-    // width needed for text +2 for the border. + (/) 4 for the symbols and a space
-    int win_width = utf8_width(text.c_str()) + utf8_width(selectors.c_str()) + utf8_width(
-                        ucwarning.c_str()) + 2 + 4;
-    win_width = (win_width < FULL_SCREEN_WIDTH - 2 ? win_width : FULL_SCREEN_WIDTH - 2);
+    int win_width = 0;
 
     WINDOW *w = NULL;
     std::vector<std::string> textformatted;
 
-    std::string query;
     std::string color_on = "<color_white>";
     std::string color_off = "</color>";
 
@@ -466,30 +460,42 @@ bool query_yn(const char *mes, ...)
 
     while (ch != '\n' && ch != ' ' && ch != KEY_ESCAPE) {
 
-        gotkey = (force_uc && ((ch == ucselectors[0]) || (ch == ucselectors[1])))
-                 || (!force_uc && ((ch == selectors[0]) || (ch == selectors[1])));
+        // Upper case always works, lower case only if !force_uc.
+        gotkey = (ch == ucselectors[0]) || (ch == ucselectors[1]) ||
+            (!force_uc && ((ch == selectors[0]) || (ch == selectors[1])));
 
         if (gotkey) {
-            result = (!force_uc && (ch == selectors[0])) || (force_uc && (ch == ucselectors[0]));
+            result = (!force_uc && (ch == selectors[0])) || (ch == ucselectors[0]);
             break; // could move break past render to flash final choice once.
-        } else if ((!force_uc && (ch != ucselectors[0]) && (ch != ucselectors[1]))
-                   || (force_uc && ((ch != selectors[0]) && (ch != selectors[1])))) {
+        } else {
+            // Everything else toggles the selection.
             result = !result;
         }
 
+        // Additional query string ("Y/N") and uppercase hint, always has the same width!
+        std::string query;
         if (result) {
             query = " (" + color_on + dispkeys->substr(0, 1) + color_off + "/" + dispkeys->substr(1, 1) + ")";
         } else {
             query = " (" + dispkeys->substr(0, 1) + "/" + color_on + dispkeys->substr(1, 1) + color_off + ")";
         }
+        // Query string without color tags, color tags are *not* ignored by utf8_width,
+        // it gives the wrong width instead.
+        std::string query_nc = " (" + dispkeys->substr(0, 1) + "/" + dispkeys->substr(1, 1) + ")";
         if (force_uc) {
             query += ucwarning;
+            query_nc += ucwarning;
         }
 
         if (!w) {
-            textformatted = foldstring(text + query, win_width);
-            w = newwin(textformatted.size() + 2, win_width, (TERMY - 3) / 2,
-                       (TERMX > win_width) ? (TERMX - win_width) / 2 : 0);
+            // -2 to keep space for the border, use query without color tags so
+            // utf8_width uses the same text as it will be printed in the window.
+            std::vector<std::string> textformatted = foldstring( text + query_nc, FULL_SCREEN_WIDTH - 2 );
+            for( auto &s : textformatted ) {
+                win_width = std::max( win_width, utf8_width( s.c_str() ) );
+            }
+            w = newwin( textformatted.size() + 2, win_width + 2, (TERMY - 3) / 2,
+                        std::max( TERMX - win_width, 0 ) / 2 );
             draw_border(w);
         }
         fold_and_print(w, 1, 1, win_width, c_ltred, text + query);
@@ -1372,10 +1378,19 @@ std::string vstring_format(const char *pattern, va_list argptr)
         va_copy(cur_argptr, argptr);
         returned_length = vsnprintf(&buffer[0], buffer_size, pattern, cur_argptr);
         va_end(cur_argptr);
-        if (returned_length >= 0) {
+        if( returned_length >= 0 && returned_length <= buffer_size ) {
+            // Buffer size was sufficient, string has been printed, all is well
             break;
+        } else if( returned_length > 0 ) {
+            // For some reason (is this a mingw build with mingws own vsnprintf?)
+            // vsnprintf seems to be POSIX compatible and returns the required
+            // size of the buffer instead of -1
+            // Note that buffer_size is always > 0 and therefor the case returned_length==0
+            // is handled above.
+            buffer_size = returned_length + 1;
+        } else {
+            buffer_size *= 2;
         }
-        buffer_size *= 2;
     }
 #else
     va_copy(cur_argptr, argptr);
@@ -1550,6 +1565,7 @@ void get_HP_Bar(const int current_hp, const int max_hp, nc_color &color, std::st
  * of the data vector fits into one cell.
  * @param title The title text, displayed on top.
  * @param w The window to draw this in, the whole widow is used.
+ * @param data Text data to fill.
  */
 void display_table(WINDOW *w, const std::string &title, int columns,
                    const std::vector<std::string> &data)

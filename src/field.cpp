@@ -88,13 +88,13 @@ void game::init_fields()
             {c_yellow, c_ltred, c_red}, {true, true, true}, {true, true, true}, 800,
             {0,0,0}
         },
-
-        {
-            "fd_rubble",
-            {_("rubble heap"), _("rubble pile"), _("mountain of rubble")}, '#', 2,
-            {c_dkgray, c_dkgray, c_dkgray}, {true, true, false},{false, false, false},  0,
-            {0,0,0}
-        },
+        
+       {
+           "fd_rubble",
+           {_("legacy rubble"), _("legacy rubble"), _("legacy rubble")}, '#', 0,
+           {c_dkgray, c_dkgray, c_dkgray}, {true, true, true},{false, false, false},  1,
+           {0,0,0}
+       },
 
         {
             "fd_smoke",
@@ -277,6 +277,13 @@ void game::init_fields()
             "fd_relax_gas",
             {_("hazy cloud"),_("sedative gas"),_("relaxation gas")}, '.', 8,
             { c_white, c_pink, c_cyan }, { true, true, true }, { false, true, true }, 500,
+            {0,0,0}
+        },
+
+        {
+            "fd_fungal_haze",
+            {_("hazy cloud"),_("fungal haze"),_("thick fungal haze")}, '.', 8,
+            { c_white, c_cyan, c_cyan }, { true, true, false }, { true, true, true }, 40,
             {0,0,0}
         }
 
@@ -490,8 +497,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         break;
                     case fd_slime:
                         break;
-                    case fd_rubble:
-                        break;
                     case fd_plasma:
                         break;
                     case fd_laser:
@@ -500,16 +505,21 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         // TODO-MATERIALS: use fire resistance
                     case fd_fire: {
                         std::vector<item> &items_here = i_at(x, y);
-                        for (std::vector<item>::iterator it =
-                                 items_here.begin();
-                             it != items_here.end();) {
-                            if (it->type->explode_in_fire()) {
+                        // explosions will destroy items on this square, iterating
+                        // backwards makes sure that every item is visited.
+                        for( int i = (int) items_here.size() - 1; i >= 0; --i ) {
+                            if( i >= (int) items_here.size() ) {
+                                // the last item exploded and destroyed some items,
+                                // now there is a gap (e.g. exploded item has index 10,
+                                // items 9,8,7 have been destroyed, i is now 9 and thereby
+                                // invalid, continue until the index is valid again.
+                                continue;
+                            }
+                            if( items_here[i].type->explode_in_fire() ) {
                                 // make a copy and let the copy explode
-                                item tmp(*it);
-                                it = items_here.erase(it);
+                                item tmp( items_here[i] );
+                                items_here.erase( items_here.begin() + i );
                                 tmp.detonate(point(x, y));
-                            } else {
-                                it++;
                             }
                         }
                         std::vector<item> new_content;
@@ -517,10 +527,12 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         bool destroyed = false; //Is the item destroyed?
                         // Volume, Smoke generation probability, consumed items count
                         int vol = 0, smoke = 0, consumed = 0;
+                        // The highest # of items this fire can remove in one turn
+                        int max_consume = cur->getFieldDensity() * 2;
                         for (auto it = items_here.begin(); it != items_here.end() &&
-                                 consumed < cur->getFieldDensity() * 2;) {
+                                 consumed < max_consume;) {
                             // Stop when we hit the end of the item buffer OR we consumed
-                            // enough items given our fire size.
+                            // more than max_consume items
                             destroyed = false;
                             vol = it->volume(); //Used to feed the fire based on volume of item burnt.
                             it_ammo *ammo_type = NULL; //Special case if its ammo.
@@ -528,54 +540,64 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             if (it->is_ammo()) {
                                 ammo_type = dynamic_cast<it_ammo *>(it->type);
                             }
+                            // Types of ammo with special effects.
+                            bool cookoff = false;
+                            bool special = false;
                             //Flame type ammo removed so gasoline isn't explosive, it just burns.
                             if( ammo_type != NULL && ammo_type->id != "gasoline") {
-                                bool cookoff = false;
-                                bool special = false;
-                                // Types with special effects.
-                                if( ammo_type->ammo_effects.count("FRAG") ||
-                                    ammo_type->ammo_effects.count("NAPALM") ||
-                                    ammo_type->ammo_effects.count("NAPALM_BIG") ||
-                                    ammo_type->ammo_effects.count("EXPLOSIVE") ||
-                                    ammo_type->ammo_effects.count("EXPLOSIVE_BIG") ||
-                                    ammo_type->ammo_effects.count("EXPLOSIVE_HUGE") ||
-                                    ammo_type->ammo_effects.count("TEARGAS") ||
-                                    ammo_type->ammo_effects.count("SMOKE") ||
-                                    ammo_type->ammo_effects.count("SMOKE_BIG") ||
-                                    ammo_type->ammo_effects.count("FLASHBANG") ) {
-                                    special = true;
-                                } else if( ammo_type->ammo_effects.count("INCENDIARY") ||
-                                           ammo_type->ammo_effects.count("COOKOFF") ) {
-                                    cookoff = true;
-                                }
-                                if( special || cookoff ) {
-                                    const long rounds_exploded = rng( 1, it->charges );
-                                    // cook off ammo instead of just burning it.
-                                    for(int j = 0; j < (rounds_exploded / 10) + 1; j++) {
-                                        if( cookoff ) {
-                                            // Ammo that cooks off, but doesn't have a
-                                            // large intrinsic effect blows up with half
-                                            // the ammos damage in force, for each bullet,
-                                            // just creating shrapnel.
-                                            g->explosion( x, y, ammo_type->damage / 2,
-                                                          true, false, false );
-                                        } else if( special ) {
-                                            // If it has a special effect just trigger it.
-                                            ammo_effects( x, y, ammo_type->ammo_effects );
-                                        }
+                                cookoff = ammo_type->ammo_effects.count("INCENDIARY") ||
+                                          ammo_type->ammo_effects.count("COOKOFF");
+                                special = ammo_type->ammo_effects.count("FRAG") ||
+                                          ammo_type->ammo_effects.count("NAPALM") ||
+                                          ammo_type->ammo_effects.count("NAPALM_BIG") ||
+                                          ammo_type->ammo_effects.count("EXPLOSIVE") ||
+                                          ammo_type->ammo_effects.count("EXPLOSIVE_BIG") ||
+                                          ammo_type->ammo_effects.count("EXPLOSIVE_HUGE") ||
+                                          ammo_type->ammo_effects.count("TEARGAS") ||
+                                          ammo_type->ammo_effects.count("SMOKE") ||
+                                          ammo_type->ammo_effects.count("SMOKE_BIG") ||
+                                          ammo_type->ammo_effects.count("FLASHBANG");
+                            }
+
+                            // How much more burnt the item will be, should be a multiple of 'base_burn_amt'
+                            int burn_amt = 0;
+                            // 'burn_amt' / 'base_burn_amt' == 1 to 'consumed',
+                            // Right now all materials are 1, except paper, which is 3
+                            // This means paper is consumed 3x as fast
+                            int base_burn_amt = 1;
+                            // How much time to add to the fire's life
+                            int time_added = 0;
+
+                            if( special || cookoff ) {
+                                const long rounds_exploded = rng( 1, it->charges );
+                                // cook off ammo instead of just burning it.
+                                for(int j = 0; j < (rounds_exploded / 10) + 1; j++) {
+                                    if( cookoff ) {
+                                        // Ammo that cooks off, but doesn't have a
+                                        // large intrinsic effect blows up with half
+                                        // the ammos damage in force, for each bullet,
+                                        // just creating shrapnel.
+                                        g->explosion( x, y, ammo_type->damage / 2,
+                                                      true, false, false );
+                                    } else if( special ) {
+                                        // If it has a special effect just trigger it.
+                                        ammo_effects( x, y, ammo_type->ammo_effects );
                                     }
-                                    it->charges -= rounds_exploded; //Get rid of the spent ammo.
-                                    if( it->charges == 0 ) {
-                                        destroyed = true;    //No more ammo, item should be removed.
-                                    }
                                 }
+                                burn_amt = rounds_exploded;
+
                             } else if (it->made_of("paper")) {
-                                //paper items feed the fire moderatly.
-                                destroyed = it->burn(cur->getFieldDensity() * 3);
-                                consumed++;
+                                //paper items feed the fire moderately.
+                                base_burn_amt = 3;
+                                burn_amt = base_burn_amt * (max_consume - consumed);
+                                if (ammo_type != NULL) {
+                                    if (it->charges - burn_amt < 0) {
+                                        burn_amt = it->charges;
+                                    }
+                                }
                                 if (cur->getFieldDensity() == 1) {
-                                    cur->setFieldAge(cur->getFieldAge() - vol * 10);
-                                    //lower age is a longer lasting fire
+                                    time_added = vol * 10;
+                                    time_added += (vol * 10) * (burn_amt / base_burn_amt);
                                 }
                                 if (vol >= 4) {
                                     smoke++;    //Large paper items give chance to smoke.
@@ -586,65 +608,57 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 if (vol <= cur->getFieldDensity() * 10 ||
                                     cur->getFieldDensity() == 3) {
                                     // A single wood item will just maintain at the current level.
-                                    cur->setFieldAge(cur->getFieldAge() - 1);
-                                    if( one_in(50) ) {
-                                        destroyed = it->burn(cur->getFieldDensity());
+                                    time_added = 1;
+                                    // ammo has more surface area, and burns quicker
+                                    if (one_in( (ammo_type != NULL) ? 25 : 50 )) {
+                                        burn_amt = cur->getFieldDensity();
                                     }
-                                    smoke++;
-                                    consumed++;
                                 } else if (it->burnt < cur->getFieldDensity()) {
-                                    destroyed = it->burn(1);
-                                    smoke++;
+                                    burn_amt = 1;
                                 }
+                                smoke++;
 
                             } else if ((it->made_of("cotton") || it->made_of("wool"))) {
-                                //Cotton and Wool burn slowly but don't feed the fire much.
+                                //Cotton and wool burn slowly but don't feed the fire much.
                                 if (vol <= cur->getFieldDensity() * 5 || cur->getFieldDensity() == 3) {
-                                    cur->setFieldAge(cur->getFieldAge() - 1);
-                                    destroyed = it->burn(cur->getFieldDensity());
-                                    smoke++;
-                                    consumed++;
+                                    time_added = 1;
+                                    burn_amt = cur->getFieldDensity();
                                 } else if (it->burnt < cur->getFieldDensity()) {
-                                    destroyed = it->burn(1);
-                                    smoke++;
+                                    burn_amt = 1;
                                 }
+                                smoke++;
 
                             } else if ((it->made_of("flesh")) || (it->made_of("hflesh")) ||
                                        (it->made_of("iflesh"))) {
                                 //Same as cotton/wool really but more smokey.
                                 if (vol <= cur->getFieldDensity() * 5 ||
                                     (cur->getFieldDensity() == 3 && one_in(vol / 20))) {
-                                    cur->setFieldAge(cur->getFieldAge() - 1);
-                                    destroyed = it->burn(cur->getFieldDensity());
+                                    time_added = 1;
+                                    burn_amt = cur->getFieldDensity();
                                     smoke += 3;
-                                    consumed++;
-                                } else if (it->burnt < cur->getFieldDensity() * 5 ||
-                                           cur->getFieldDensity() >= 2) {
-                                    destroyed = it->burn(1);
+                                } else if (it->burnt < cur->getFieldDensity()) {
+                                    burn_amt = 1;
                                     smoke++;
                                 }
 
                             } else if (it->made_of(LIQUID)) {
-                                // Lots of smoke if alcohol, and LOTS of fire fueling power,
-                                // kills a fire otherwise.
+                                // Lots of smoke if alcohol, and LOTS of fire fueling power
                                 if(it->type->id == "tequila" || it->type->id == "whiskey" ||
                                    it->type->id == "vodka" || it->type->id == "rum" ||
                                    it->type->id == "gasoline") {
-                                    cur->setFieldAge(cur->getFieldAge() - 300);
+                                    time_added = 300;
                                     smoke += 6;
                                 } else {
-                                    cur->setFieldAge(cur->getFieldAge() + rng(80 * vol, 300 * vol));
+                                    // kills a fire otherwise.
+                                    time_added = -rng(80 * vol, 300 * vol);
                                     smoke++;
                                 }
-                                it->charges -= cur->getFieldDensity();
-                                if(it->charges <= 0) {
-                                    destroyed = true;
-                                }
-                                consumed++;
+                                burn_amt = cur->getFieldDensity();
+
                             } else if (it->made_of("powder")) {
                                 // Any powder will fuel the fire as much as its volume
                                 // but be immediately destroyed.
-                                cur->setFieldAge(cur->getFieldAge() - vol);
+                                time_added = vol;
                                 destroyed = true;
                                 smoke += 2;
 
@@ -653,12 +667,27 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 smoke += 3;
                                 if (it->burnt <= cur->getFieldDensity() * 2 ||
                                     (cur->getFieldDensity() == 3 && one_in(vol))) {
-                                    destroyed = it->burn(cur->getFieldDensity());
-                                    if (one_in(vol + it->burnt)) {
-                                        cur->setFieldAge(cur->getFieldAge() - 1);
+                                    burn_amt = cur->getFieldDensity();
+                                    if (one_in( (ammo_type != NULL) ? vol : it->burnt )) {
+                                        time_added = 1;
                                     }
                                 }
                             }
+                            if (!destroyed) {
+                                if (ammo_type != NULL) {
+                                    if (burn_amt > it->charges) {
+                                        burn_amt = it->charges;
+                                    }
+                                    it->charges -= burn_amt;
+                                    consumed += burn_amt / base_burn_amt;
+                                    destroyed = it->charges <= 0;
+                                } else {
+                                    destroyed = it->burn(burn_amt);
+                                }
+                            }
+
+                            //lower age is a longer lasting fire
+                            cur->setFieldAge(cur->getFieldAge() - time_added);
 
                             if (destroyed) {
                                 //If we decided the item was destroyed by fire, remove it.
@@ -680,21 +709,13 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         if((tr_brazier != tr_at(x, y)) &&
                            (has_flag("FIRE_CONTAINER", x, y) != true )) {
                             // Consume the terrain we're on
-                            if (has_flag("EXPLODES", x, y)) {
-                                //This is what destroys houses so fast.
-                                ter_set(x, y, ter_id(int(ter(x, y)) + 1));
-                                cur->setFieldAge(0); //Fresh level 3 fire.
-                                cur->setFieldDensity(3);
-                                g->explosion(x, y, 40, 0, true); //Boom.
-
-                            } else if (has_flag("FLAMMABLE", x, y) &&
-                                       one_in(32 - cur->getFieldDensity() * 10)) {
+                            if (has_flag("FLAMMABLE", x, y) && one_in(32 - cur->getFieldDensity() * 10)) {
                                 //The fire feeds on the ground itself until max density.
                                 cur->setFieldAge(cur->getFieldAge() - cur->getFieldDensity() *
                                                  cur->getFieldDensity() * 40);
                                 smoke += 15;
                                 if (cur->getFieldDensity() == 3) {
-                                    destroy(x, y, false);
+                                    destroy(x, y, true);
                                 }
 
                             } else if (has_flag("FLAMMABLE_ASH", x, y) &&
@@ -704,10 +725,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                                  cur->getFieldDensity() * 40);
                                 smoke += 15;
                                 if (cur->getFieldDensity() == 3 || cur->getFieldAge() < -600) {
-                                    ter_set(x, y, t_ash);
-                                    if(has_furn(x, y)) {
-                                        furn_set(x, y, f_null);
-                                    }
+                                    ter_set(x, y, t_dirt);
+                                    furn_set(x, y, f_ash);
                                 }
 
                             } else if (has_flag("FLAMMABLE_HARD", x, y) &&
@@ -717,7 +736,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                                  cur->getFieldDensity() * 30);
                                 smoke += 10;
                                 if (cur->getFieldDensity() == 3 || cur->getFieldAge() < -600) {
-                                    destroy(x, y, false);
+                                    destroy(x, y, true);
                                 }
 
                             } else if (terlist[ter(x, y)].has_flag("SWIMMABLE")) {
@@ -818,27 +837,14 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     if (nearwebfld) {
                                         spread_chance = 50 + spread_chance / 2;
                                     }
-                                    if (has_flag("EXPLODES", fx, fy) &&
-                                        one_in(8 - cur->getFieldDensity()) &&
-                                        tr_brazier != tr_at(x, y) &&
-                                        (has_flag("FIRE_CONTAINER", x, y) != true ) ) {
-                                        ter_set(fx, fy, ter_id(int(ter(fx, fy)) + 1));
-                                        g->explosion(fx, fy, 40, 0, true);
-                                        //Nearby explodables? blow em up.
-                                    } else if ((i != 0 || j != 0) && rng(1, 100) < spread_chance &&
-                                               cur->getFieldAge() < 200 &&
-                                               tr_brazier != tr_at(x, y) &&
-                                               (has_flag("FIRE_CONTAINER", x, y) != true ) &&
-                                               (in_pit == (ter(fx, fy) == t_pit)) &&
-                                               (
-                                                   (cur->getFieldDensity() >= 2 &&
-                                                    (has_flag("FLAMMABLE", fx, fy) && one_in(20))) ||
-                                                   (cur->getFieldDensity() >= 2  &&
-                                                    (has_flag("FLAMMABLE_ASH", fx, fy) && one_in(10))) ||
-                                                   (cur->getFieldDensity() == 3  &&
-                                                    (has_flag("FLAMMABLE_HARD", fx, fy) && one_in(10))) ||
-                                                   flammable_items_at(fx, fy) ||
-                                                   nearwebfld )) {
+                                    if ((i != 0 || j != 0) && rng(1, 100) < spread_chance &&
+                                          cur->getFieldAge() < 200 && tr_brazier != tr_at(x, y) &&
+                                          (has_flag("FIRE_CONTAINER", x, y) != true ) &&
+                                          (in_pit == (ter(fx, fy) == t_pit)) &&
+                                          ((cur->getFieldDensity() >= 2 && (has_flag("FLAMMABLE", fx, fy) && one_in(20))) ||
+                                          (cur->getFieldDensity() >= 2  && (has_flag("FLAMMABLE_ASH", fx, fy) && one_in(10))) ||
+                                          (cur->getFieldDensity() == 3  && (has_flag("FLAMMABLE_HARD", fx, fy) && one_in(10))) ||
+                                          flammable_items_at(fx, fy) || nearwebfld )) {
                                         add_field(fx, fy, fd_fire, 1); //Nearby open flammable ground? Set it on fire.
                                         tmpfld = nearby_field.findField(fd_fire);
                                         if(tmpfld) {
@@ -897,6 +903,29 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                     case fd_relax_gas:
                         spread_gas( this, cur, x, y, curtype, 25, 50 );
+                        break;
+
+                    case fd_fungal_haze:
+                        spread_gas( this, cur, x, y, curtype, 33,  5);
+                        int mondex;
+                        mondex = g->mon_at(x, y);
+                        if (g->m.move_cost(x, y) > 0) {
+                            if (mondex != -1) { // Haze'd!
+                                if (!g->zombie(mondex).type->in_species("FUNGUS") &&
+                                  !g->zombie(mondex).type->has_flag("NO_BREATHE")) {
+                                    if (g->u_see(x, y)) {
+                                        add_msg(m_info, _("The %s inhales thousands of live spores!"),
+                                    g->zombie(mondex).name().c_str());
+                                    }
+                                    monster &critter = g->zombie( mondex );
+                                    if( !critter.make_fungus() ) {
+                                        critter.die(nullptr);
+                                    }
+                                }
+                        } if (one_in(5 - cur->getFieldDensity())) {
+                            g->spread_fungus(x, y); //Haze'd terrain
+                        }
+                        }
                         break;
 
                     case fd_toxic_gas:
@@ -1231,9 +1260,10 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         { //Needed for variable scope
                             int offset_x = x + rng(-1,1);
                             int offset_y = y + rng(-1,1); //pick a random adjacent tile and attempt to set that on fire
-                            if (has_flag("EXPLODES", offset_x, offset_y) || has_flag("FLAMMABLE", offset_x, offset_y) ||
-                            has_flag("FLAMMABLE_ASH",offset_x, offset_y) || has_flag("FLAMMABLE_HARD", offset_x, offset_y) ) {
-                                    add_field(offset_x, offset_y , fd_fire, 1);
+                            if (has_flag("FLAMMABLE", offset_x, offset_y) ||
+                                  has_flag("FLAMMABLE_ASH",offset_x, offset_y) ||
+                                  has_flag("FLAMMABLE_HARD", offset_x, offset_y) ) {
+                                add_field(offset_x, offset_y , fd_fire, 1);
                             }
 
                             //check piles for flammable items and set those on fire
@@ -1248,6 +1278,11 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                             spread_gas( this, cur, x, y, curtype, 66, 40 );
                         }
+                        break;
+
+                    //Legacy Stuff
+                    case fd_rubble:
+                        make_rubble(x, y);
                         break;
 
                     default:
@@ -1298,8 +1333,6 @@ void map::step_in_field(int x, int y)
     int veh_part; // vehicle part existing on this tile.
     vehicle *veh = NULL; // Vehicle reference if there is one.
     bool inside = false; // Are we inside?
-    // For use in determining if we are in a rubble square or not, for the disease effect
-    bool no_rubble = true;
     //to modify power of a field based on... whatever is relevant for the effect.
     int adjusted_intensity;
 
@@ -1320,11 +1353,6 @@ void map::step_in_field(int x, int y)
         // (hint: don't do that)... Pointer safety.
         if(cur == NULL) continue;
 
-        if (cur->getFieldType() == fd_rubble) {
-             //We found rubble, don't remove the players rubble disease at the end of function.
-            no_rubble = false;
-        }
-
         //Do things based on what field effect we are currently in.
         switch (cur->getFieldType()) {
         case fd_null:
@@ -1343,7 +1371,7 @@ void map::step_in_field(int x, int y)
             //Moving through multiple webs stacks the effect.
             if (!g->u.has_trait("WEB_WALKER") && !g->u.in_vehicle) {
                 //between 5 and 15 minus your current web level.
-                int web = cur->getFieldDensity() * 5 - g->u.disease_duration("webbed");
+                int web = cur->getFieldDensity() * 5;
                 if (web > 0) { g->u.add_disease("webbed", web); }
                 field_list_it = curfield.removeField( fd_web ); //Its spent.
                 continue;
@@ -1395,7 +1423,7 @@ void map::step_in_field(int x, int y)
         case fd_sludge:
             add_msg(m_bad, _("The sludge is thick and sticky. You struggle to pull free."));
             g->u.moves -= cur->getFieldDensity() * 300;
-            curfield.removeField( fd_sludge );
+            field_list_it = curfield.removeField( fd_sludge );
             break;
 
         case fd_fire:
@@ -1428,11 +1456,6 @@ void map::step_in_field(int x, int y)
                     g->u.add_effect("onfire", 5); //lasting fire damage only from the strongest fires.
                 }
             }
-            break;
-
-        case fd_rubble:
-            //You are walking on rubble. Slow down.
-            g->u.add_disease("bouldering", 0, false, cur->getFieldDensity(), 3);
             break;
 
         case fd_smoke:
@@ -1473,6 +1496,13 @@ void map::step_in_field(int x, int y)
             if ((cur->getFieldDensity() > 1 || !one_in(3)) && (!inside || (inside && one_in(3))))
             {
                 g->u.add_env_effect("relax_gas", bp_mouth, cur->getFieldDensity() * 2, 3);
+            }
+            break;
+
+        case fd_fungal_haze:
+            if (!inside || (inside && one_in(4)) ) {
+                g->u.infect("fungus", bp_mouth, 4, 100, true, 2, 4, 1, 1);
+                g->u.infect("fungus", bp_eyes, 4, 100, true, 2, 4, 1, 1);
             }
             break;
 
@@ -1627,13 +1657,14 @@ void map::step_in_field(int x, int y)
             //Suppress warnings
             break;
         }
-        ++field_list_it;
+        if (field_list_it != curfield.getFieldEnd()) {
+            // It may have became the last one as a result of a field
+            // being removed, in which case incrementing would make us
+            // pass on by, so only increment if that's not the case
+            ++field_list_it;
+        }
     }
 
-    if(no_rubble) {
-        //After iterating through all fields, if we found no rubble, remove the rubble disease.
-        g->u.rem_disease("bouldering");
-    }
 }
 
 void map::mon_in_field(int x, int y, monster *z)
@@ -1691,7 +1722,7 @@ void map::mon_in_field(int x, int y, monster *z)
             if (!z->has_flag(MF_DIGS) && !z->has_flag(MF_FLIES) &&
                 !z->has_flag(MF_SLUDGEPROOF)) {
               z->moves -= cur->getFieldDensity() * 300;
-              curfield.removeField( fd_sludge );
+              field_list_it = curfield.removeField( fd_sludge );
             }
             break;
 
@@ -1737,12 +1768,6 @@ void map::mon_in_field(int x, int y, monster *z)
             }
             // Drop through to smoke no longer needed as smoke will exist in the same square now,
             // this would double apply otherwise.
-            break;
-
-        case fd_rubble:
-            if (!z->has_flag(MF_FLIES) && !z->has_flag(MF_AQUATIC)) {
-                z->add_effect("bouldering", 1);
-            }
             break;
 
         case fd_smoke:
@@ -1911,109 +1936,16 @@ void map::mon_in_field(int x, int y, monster *z)
             //Suppress warnings
             break;
         }
-        ++field_list_it;
+
+        if (field_list_it != curfield.getFieldEnd()) {
+            // It may have became the last one as a result of a field
+            // being removed, in which case incrementing would make us
+            // pass on by, so only increment if that's not the case
+            ++field_list_it;
+        }
     }
     if (dam > 0) {
         z->apply_damage( nullptr, bp_torso, dam );
-    }
-}
-
-// TODO FIXME XXX: oh god the horror
-void map::field_effect(int x, int y) //Applies effect of field immediately
-{
-    field_entry *cur = NULL;
-    field &curfield = field_at(x, y);
-    for(std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart(); field_list_it != curfield.getFieldEnd(); ++field_list_it) {
-        cur = field_list_it->second;
-        if(cur == NULL) {
-            continue;
-        }
-
-        //Can add independent code for different types of fields to apply different effects
-        if (cur->getFieldType() == fd_rubble) {
-            int hit_chance = 10;
-            //The index of the monster at (x,y), or -1 if there isn't one
-            int fdmon = g->mon_at(x, y);
-            //The index of the NPC at (x,y), or -1 if there isn't one
-            int fdnpc = g->npc_at(x, y);
-            npc *me = NULL;
-            if (fdnpc != -1) {
-                me = g->active_npc[fdnpc];
-            }
-            int veh_part;
-            bool pc_inside = false;
-            bool npc_inside = false;
-
-            if (g->u.in_vehicle) {
-                vehicle *veh = veh_at(x, y, veh_part);
-                pc_inside = (veh && veh->is_inside(veh_part));
-            }
-            if (me && me->in_vehicle) {
-                vehicle *veh = veh_at(x, y, veh_part);
-                npc_inside = (veh && veh->is_inside(veh_part));
-            }
-            //If there's a PC at (x,y) and he's not in a covered vehicle...
-            if (g->u.posx == x && g->u.posy == y && !pc_inside) {
-                if (g->u.get_dodge() < rng(1, hit_chance) || one_in(g->u.get_dodge())) {
-                    int how_many_limbs_hit = rng(0, num_hp_parts);
-                    for ( int i = 0 ; i < how_many_limbs_hit ; i++ ) {
-                        g->u.hp_cur[rng(0, num_hp_parts)] -= rng(0, 10);
-                        add_msg(m_bad, _("You are hit by the falling debris!"));
-                    }
-                    if (one_in(g->u.dex_cur) && (!g->u.has_trait("LEG_TENT_BRACE") ||
-                          g->u.footwear_factor() == 1 || (g->u.footwear_factor() == .5 && one_in(2))) ) {
-                        g->u.add_effect("downed", 2);
-                    }
-                    if (one_in(g->u.str_cur)) {
-                        g->u.add_effect("stunned", 2);
-                    }
-                } else if (one_in(g->u.str_cur) && (!g->u.has_trait("LEG_TENT_BRACE") ||
-                          g->u.footwear_factor() == 1 ||
-                          (g->u.footwear_factor() == .5 && one_in(2))) ) {
-                    add_msg(m_bad, _("You trip as you evade the falling debris!"));
-                    g->u.add_effect("downed", 1);
-                }
-                //Avoiding disease system for the moment, since I was having trouble with it.
-                //g->u.add_disease("crushed", 42, g);    //Using a disease allows for easy modification without messing with field code
-                //g->u.rem_disease("crushed");           //For instance, if we wanted to easily add a chance of limb mangling or a stun effect later
-            }
-            if (fdmon != -1 && size_t(fdmon) < g->num_zombies()) {  //If there's a monster at (x,y)...
-                monster* monhit = &(g->zombie(fdmon));
-                int dam = 10;                             //This is a simplistic damage implementation. It can be improved, for instance to account for armor
-                monhit->apply_damage( nullptr, bp_torso, dam ); //Ideally an external disease-like system would handle this to make it easier to modify later
-            }
-            if (fdnpc != -1) {
-                if (size_t(fdnpc) < g->active_npc.size() && !npc_inside) { //If there's an NPC at (x,y) and he's not in a covered vehicle...
-                    if (me && (me->get_dodge() < rng(1, hit_chance) || one_in(me->get_dodge()))) {
-                        int how_many_limbs_hit = rng(0, num_hp_parts);
-                        for ( int i = 0 ; i < how_many_limbs_hit ; i++ ) {
-                            me->hp_cur[rng(0, num_hp_parts)] -= rng(0, 10);
-                        }
-                        // Not sure how to track what NPCs are wearing, and they're under revision anyway so leaving it checking player. :-/
-                        if (one_in(me->dex_cur) && (!g->u.has_trait("LEG_TENT_BRACE") ||
-                              g->u.footwear_factor() == 1 ||
-                              (g->u.footwear_factor() == .5 && one_in(2))) ) {
-                            me->add_effect("downed", 2);
-                        }
-                        if (one_in(me->str_cur)) {
-                            me->add_effect("stunned", 2);
-                        }
-                    } else if (me && one_in(me->str_cur) && (!g->u.has_trait("LEG_TENT_BRACE") ||
-                                g->u.footwear_factor() == 1 ||
-                                (g->u.footwear_factor() == .5 && one_in(2))) ) {
-                        me->add_effect("downed", 1);
-                    }
-                }
-                if (me && (me->hp_cur[hp_head]  <= 0 || me->hp_cur[hp_torso] <= 0)) {
-                    me->die( nullptr );        //Right now cave-ins are treated as not the player's fault. This should be iterated on.
-                    g->active_npc.erase(g->active_npc.begin() + fdnpc);
-                }                                       //Still need to add vehicle damage, but I'm ignoring that for now.
-            }
-            vehicle *veh = veh_at(x, y, veh_part);
-            if (veh) {
-                veh->damage(veh_part, ceil(veh->parts[veh_part].hp/3.0 * cur->getFieldDensity()), 1, false);
-            }
-        }
     }
 }
 

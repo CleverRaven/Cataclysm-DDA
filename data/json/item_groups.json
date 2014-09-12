@@ -25,6 +25,7 @@
       ["colamdew", 15],
       ["backpack", 38],
       ["pockknife", 14],
+      ["knife_swissarmy", 10],
       ["hairpin", 5],
       ["fc_hairpin", 1],
       ["wristwatch", 10],
@@ -37,7 +38,10 @@
       ["novel_pulp", 16],
       ["fairy_tales", 20],
       ["mag_comic", 20],
-      ["candycigarette", 10]
+      ["candycigarette", 10],
+      ["radio_car_box", 1],
+      ["basketball", 8],
+      ["radiocontrol", 5]
     ]
   },{
     "type" : "item_group",
@@ -51,6 +55,9 @@
     "items":[
       ["rock", 40],
       ["stick", 95],
+      ["pine_bough", 20],
+      ["acorns", 15],
+      ["pinecone", 5],
       ["bottle_plastic", 1],
       ["bottle_glass", 1],
       ["syringe", 1],
@@ -192,6 +199,8 @@
       ["gloves_fingerless", 20],
       ["bandana", 35],
       ["scarf", 45],
+      ["knit_scarf", 35],
+      ["long_knit_scarf", 5],
       ["scarf_long", 2],
       ["hairpin", 5],
       ["fc_hairpin", 1],
@@ -266,7 +275,9 @@
       ["holybook_scientology", 1],
       ["leathersandals", 25],
       ["phonebook", 5],
-      ["survnote", 1]
+      ["survnote", 1],
+      ["radio_car_box", 2],
+      ["radiocontrol", 5]
     ]
   },{
     "type" : "item_group",
@@ -413,6 +424,7 @@
       ["ketchup", 35],
       ["mustard", 35],
       ["honey_bottled", 35],
+      ["honey_glassed", 35],
       ["peanutbutter", 35],
       ["jar_glass", 50],
       ["jar_3l_glass", 40],
@@ -452,8 +464,13 @@
       ["knife_steak", 85],
       ["knife_butcher", 10],
       ["knife_combat", 14],
+      ["kukri", 1],
+      ["knife_rm42", 1],
+      ["knife_hunting", 4],
+      ["knife_rambo", 16],
       ["throwing_knife", 4],
       ["pockknife", 14],
+      ["knife_swissarmy", 6],
       ["punch_dagger", 2],
       ["knife_trench", 7],
       ["switchblade", 4],
@@ -482,6 +499,9 @@
       ["milk", 50],
       ["yoghurt", 50],
       ["pudding", 60],
+      ["veggy_salad", 25],
+      ["insta_salad", 40],
+      ["dried_salad", 50],
       ["V8", 15],
       ["apple", 70],
       ["irradiated_apple", 35],
@@ -491,11 +511,17 @@
       ["sandwich_pbh", 30],
       ["mushroom", 4],
       ["blueberries", 3],
+      ["irradiated_blueberries", 1],
       ["strawberries", 2],
+      ["irradiated_strawberries", 1],
       ["lettuce", 11],
       ["irradiated_lettuce", 5],
       ["tomato", 9],
       ["irradiated_tomato", 4],
+      ["cucumber", 10],
+      ["irradiated_cucumber", 4],
+      ["celery", 3],
+      ["irradiated_celery", 1],
       ["broccoli", 9],
       ["irradiated_broccoli", 4],
       ["zucchini", 7],
@@ -548,20 +574,25 @@
       ["grapefruit", 5],
       ["irradiated_grapefruit", 2],
       ["cherries", 10],
+      ["irradiated_cherries", 5],
       ["plums", 10],
       ["irradiated_plums", 5],
       ["grapes", 20],
+      ["irradiated_grapes", 10],
       ["pineapple", 5],
       ["irradiated_pineapple", 2],
       ["peach", 10],
       ["irradiated_peach", 5],
       ["cranberries", 7],
+      ["irradiated_cranberries", 3],
       ["watermelon", 5],
       ["irradiated_watermelon", 2],
       ["melon", 5],
       ["irradiated_melon", 2],
       ["raspberries", 7],
+      ["irradiated_raspberries", 3],
       ["blackberries", 7],
+      ["irradiated_blackberries", 3],
       ["mango", 10],
       ["irradiated_mango", 5],
       ["pomegranate", 5],
@@ -783,6 +814,7 @@
       ["blanket", 20],
       ["house_coat", 25],
       ["talking_doll", 65],
+      ["marble", 65],
       ["creepy_doll", 1],
       ["money_bundle", 30],
       ["wristwatch", 15],
@@ -1046,7 +1078,8 @@
       ["maid_dress", 3],
       ["maid_hat", 3],
       ["knitting_needles", 1],
-      ["survnote", 1]
+      ["survnote", 1],
+      ["b_shorts", 15]
     ]
   },{
     "type" : "item_group",
@@ -1155,6 +1188,7 @@
       ["popcorn3", 35],
       ["fruit_leather", 25],
       ["kernels", 25],
+      ["pine_nuts", 5],
       ["candycigarette", 20]
     ]
   },{
@@ -1191,6 +1225,7 @@
       ["sandwich_pbh", 30],
       ["frozen_dinner", 50],
       ["frozen_burrito", 60],
+      ["dried_salad", 6],
       ["pizza_veggy", 8],
       ["pizza_meat", 8],
       ["cheeseburger", 8],
@@ -1328,6 +1363,7 @@
       ["restaurantmap", 5],
       ["touristmap", 2],
       ["salt", 10],
+      ["pine_nuts", 10],
       ["brioche", 50]
     ]
   },{
@@ -1599,9 +1635,12 @@
       ["strawberries", 2],
       ["tomato", 9],
       ["broccoli", 9],
+      ["cucumber", 10],
       ["zucchini", 7],
+      ["celery", 5],
       ["wheat", 3],
       ["onion", 3],
+      ["pine_nuts", 2],
       ["carrot", 3]
     ]
   },{
@@ -1681,11 +1720,11 @@
       ["apron_leather", 10],
       ["tool_belt", 30],
       ["knee_pads", 20],
-      ["roller_blades", 20],
       ["cu_pipe", 50],
       ["fungicide", 5],
       ["charcoal", 5],
       ["sheath", 10],
+      ["multitool", 6],
       ["survnote", 1]
     ]
   },{
@@ -1831,7 +1870,9 @@
       ["mobile_memory_card", 40],
       ["camera", 15],
       ["camera_pro", 5],
-      ["wristwatch", 15]
+      ["wristwatch", 15],
+      ["radio_car_box", 3],
+      ["radiocontrol", 15]
     ]
   },{
     "type" : "item_group",
@@ -1867,6 +1908,7 @@
       ["headgear", 35],
       ["jersey", 30],
       ["puck", 30],
+      ["basketball", 25],
       ["golf_club", 35],
       ["glasses_safety", 40],
       ["armguard_soft", 40],
@@ -1899,6 +1941,7 @@
       ["elbow_pads", 40],
       ["knee_pads", 40],
       ["roller_blades", 20],
+      ["rollerskates", 10],
       ["manual_throw", 12],
       ["protein_powder", 15],
       ["airhorn", 40],
@@ -1906,6 +1949,12 @@
       ["runner_bag", 5],
       ["mouthpiece", 15],
       ["leathersandals", 10],
+      ["fencing_jacket", 8],
+      ["fencing_mask", 8],
+      ["fencing_pants", 8],
+      ["fencing_foil", 8],
+      ["fencing_sabre", 8],
+      ["fencing_epee", 8],
       ["survnote", 1]
     ]
   },{
@@ -1927,6 +1976,9 @@
       ["coffeemaker", 5],
       ["tin_plate", 10],
       ["knife_combat", 14],
+      ["kukri", 4],
+      ["knife_hunting", 18],
+      ["knife_rambo", 20],
       ["throwing_knife", 7],
       ["machete", 5],
       ["vest", 15],
@@ -2044,6 +2096,7 @@
       ["football_armor", 10],
       ["helmet_football", 10],
       ["football", 30],
+      ["basketball", 20],
       ["sneakers", 80],
       ["socks", 70],
       ["tshirt", 80],
@@ -2092,8 +2145,13 @@
       ["pastaextruder", 10],
       ["binoculars", 20],
       ["roller_blades", 20],
+      ["rollerskates", 10],
       ["hotplate", 10],
       ["knife_combat", 14],
+      ["kukri", 2],
+      ["knife_hunting", 12],
+      ["knife_rambo", 20],
+      ["multitool", 12],
       ["throwing_knife", 7],
       ["machete", 5],
       ["vest", 15],
@@ -2200,6 +2258,12 @@
       ["grapnel", 2],
       ["leathersandals", 15],
       ["sheath", 5],
+      ["fencing_jacket", 10],
+      ["fencing_mask", 10],
+      ["fencing_pants", 10],
+      ["fencing_foil", 10],
+      ["fencing_sabre", 10],
+      ["fencing_epee", 10],
       ["survnote", 1]
     ]
   },{
@@ -2290,6 +2354,7 @@
       ["jar_3l_glass", 8],
       ["flyer", 10],
       ["talking_doll", 60],
+      ["marble", 65],
       ["55gal_drum", 1],
       ["30gal_drum", 2],
       ["creepy_doll", 1],
@@ -2664,7 +2729,8 @@
       ["boots_western", 10],
       ["clogs", 1],
       ["leathersandals", 10],
-      ["roller_blades", 20]
+      ["rollerskates", 1],
+      ["roller_blades", 5]
     ]
   },{
     "type" : "item_group",
@@ -2686,7 +2752,8 @@
       ["dress", 70],
       ["sundress", 50],
       ["dress_wedding", 1],
-      ["postman_shorts", 5]
+      ["postman_shorts", 5],
+      ["b_shorts", 15]
     ]
   },{
     "type" : "item_group",
@@ -2740,6 +2807,8 @@
       ["gloves_liner", 25],
       ["gloves_leather", 45],
       ["scarf", 45],
+      ["knit_scarf", 35],
+      ["long_knit_scarf", 15],
       ["scarf_long", 2],
       ["hat_cotton", 45],
       ["hat_knit", 25],
@@ -2844,6 +2913,8 @@
       ["gloves_liner", 25],
       ["gloves_leather", 45],
       ["scarf", 45],
+      ["knit_scarf", 35],
+      ["long_knit_scarf", 5],
       ["scarf_long", 1],
       ["hat_cotton", 45],
       ["hat_knit", 25],
@@ -2937,6 +3008,8 @@
       ["suitcase_l", 55],
       ["duffelbag", 20],
       ["pockknife", 14],
+      ["knife_swissarmy", 6],
+      ["multitool", 8],
       ["touring_suit", 20],
       ["helmet_motor", 14]
     ]
@@ -3412,6 +3485,10 @@
       ["brewing_cookbook", 3],
       ["recipe_bullets", 1],
       ["knife_combat", 14],
+      ["knife_rm42", 2],
+      ["kukri", 2],
+      ["knife_hunting", 4],
+      ["knife_rambo", 20],
       ["tanto", 3],
       ["throwing_knife", 7],
       ["punch_dagger", 12],
@@ -4054,6 +4131,7 @@
       ["backpack_leather", 18],
       ["briefcase", 5],
       ["pockknife", 14],
+      ["knife_swissarmy", 10],
       ["mag_comic", 20],
       ["umbrella", 5],
       ["teleumbrella", 2],
@@ -4062,7 +4140,11 @@
       ["mouthpiece", 5],
       ["football", 5],
       ["roller_blades", 20],
-      ["survnote", 3]
+      ["rollerskates", 10],
+      ["rollerskates", 10],
+      ["survnote", 3],
+      ["radio_car_box", 3],
+      ["radiocontrol", 10]
     ]
   },{
     "type" : "item_group",
@@ -4355,6 +4437,10 @@
       ["ax", 8],
       ["knife_butcher", 10],
       ["knife_combat", 14],
+      ["knife_rm42", 1],
+      ["kukri", 2],
+      ["knife_hunting", 8],
+      ["knife_rambo", 16],
       ["throwing_knife", 7],
       ["throwing_axe", 4],
       ["punch_dagger", 12],
@@ -4495,6 +4581,7 @@
       ["boots_combat", 10],
       ["boots_hiking", 10],
       ["roller_blades", 20],
+      ["rollerskates", 10],
       ["runner_bag", 5],
       ["gloves_tactical", 1],
       ["glasses_bal", 5],
@@ -4554,13 +4641,19 @@
       ["helmet_barbute", 1],
       ["rifle_flintlock", 1],
       ["pistol_flintlock", 1],
-      ["survnote", 5]
+      ["survnote", 5],
+      ["radio_car_box", 1],
+      ["radiocontrol", 3]
     ]
   },{
     "type" : "item_group",
     "id" : "mil_surplus",
     "items":[
       ["knife_combat", 14],
+      ["knife_rm42", 1],
+      ["kukri", 2],
+      ["knife_hunting", 4],
+      ["knife_rambo", 20],
       ["throwing_knife", 14],
       ["throwing_axe", 4],
       ["duffelbag", 25],
@@ -5060,9 +5153,11 @@
       ["seed_hops", 1],
       ["tomato", 9],
       ["broccoli", 9],
+      ["cucumber", 10],
       ["zucchini", 7],
       ["potato_raw", 10],
       ["corn", 7],
+      ["celery", 4],
       ["onion", 3],
       ["carrot", 3],
       ["withered", 60],
@@ -5108,7 +5203,9 @@
       ["UPS_off", 5],
       ["usb_drive", 5],
       ["software_useless", 10],
-      ["vac_sealer", 10]
+      ["vac_sealer", 10],
+      ["radio_car_box", 3],
+      ["radiocontrol", 25]
     ]
   },{
     "type" : "item_group",
@@ -5226,6 +5323,7 @@
       ["blanket", 20],
       ["house_coat", 25],
       ["talking_doll", 5],
+      ["marble", 5],
       ["creepy_doll", 1],
       ["wristwatch", 15],
       ["pocketwatch", 5],
@@ -5380,7 +5478,7 @@
       ["bio_torsionratchet", 10]
     ]
   },{
-      "type" : "item_group",
+    "type" : "item_group",
     "id" : "bionics_sci",
     "note" : "High-tech bionics, handy for the harried researcher. They get access to classified toys too.",
     "items":[
@@ -5897,6 +5995,10 @@
       ["hatchet", 10],
       ["ax", 8],
       ["knife_combat", 14],
+      ["kukri", 2],
+      ["knife_hunting", 4],
+      ["knife_rambo", 8],
+      ["knife_rm42", 2],
       ["throwing_knife", 7],
       ["throwing_axe", 6],
       ["punch_dagger", 6],
@@ -6232,7 +6334,9 @@
       ["gum", 20],
       ["caff_gum", 8],
       ["toolbox", 1],
-      ["nic_gum", 5]
+      ["nic_gum", 5],
+      ["radio_car_box", 2],
+      ["radiocontrol", 15]
     ]
   },{
     "type" : "item_group",
@@ -6478,9 +6582,11 @@
       ["mushroom", 4],
       ["blueberries", 3],
       ["strawberries", 2],
+      ["cucumber", 8],
       ["tomato", 9],
       ["broccoli", 9],
       ["zucchini", 7],
+      ["celery", 2],
       ["onion", 3],
       ["carrot", 3],
       ["potato_raw", 10],
@@ -6659,6 +6765,12 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "turret_bmg",
+    "items":[
+      ["50bmg", 8]
+    ]
+  },{
+    "type" : "item_group",
     "id" : "turret_searchlight",
     "items":[
       ["lens", 15]
@@ -6771,6 +6883,7 @@
       ["nicotine_liquid", 8],
       ["chaw", 30],
       ["knife_combat", 14],
+      ["kukri", 2],
       ["throwing_knife", 7],
       ["boots_steel", 50],
       ["boots_combat", 50],
@@ -6943,6 +7056,7 @@
       ["bot_laserturret", 1],
       ["sheath", 13],
       ["toolbox", 1],
+      ["knife_rm42", 4],
       ["survnote", 1]
     ]
   },{
@@ -7097,6 +7211,7 @@
       ["bio_speed", 1],
       ["bio_blade", 1],
       ["bot_laserturret", 2],
+      ["knife_rm42", 2],
       ["survnote", 1]
     ]
   },{
@@ -7248,6 +7363,10 @@
       ["nailboard", 5],
       ["caltrops", 3],
       ["knife_combat", 14],
+      ["kukri", 2],
+      ["knife_hunting", 4],
+      ["knife_rambo", 16],
+      ["knife_rm42", 2],
       ["throwing_knife", 7],
       ["throwing_axe", 2],
       ["punch_dagger", 12],
@@ -7396,7 +7515,9 @@
       ["textbook_weapeast", 2],
       ["textbook_armwest", 2],
       ["textbook_armeast", 2],
-      ["radio_book", 22]
+      ["radio_book", 22],
+      ["radio_car_box", 1],
+      ["radiocontrol", 5]
     ]
   },{
     "type" : "item_group",
@@ -7906,6 +8027,7 @@
       ["holster", 14],
       ["bandana", 18],
       ["scarf", 26],
+      ["long_knit_scarf", 15],
       ["mask_gas_xl", 4],
       ["hat_boonie", 16],
       ["beret", 18],
@@ -7971,6 +8093,9 @@
     "items":[
       ["rock", 5],
       ["stick", 5],
+      ["pine_bough", 2],
+      ["acorns", 2],
+      ["pinecone", 3],
       ["flyer", 1],
       ["bag_plastic", 3],
       ["bottle_plastic", 2],
@@ -8117,6 +8242,7 @@
       ["dinosuit", 5],
       ["gum", 10],
       ["talking_doll", 11],
+      ["marble", 15],
       ["creepy_doll", 1],
       ["jedi_cloak", 5],
       ["glowstick", 15],
@@ -8379,7 +8505,8 @@
 "entries" : [
       { "item": "egg_bird", "prob": 15, "count-min": 2, "count-max": 5 },
       { "item": "egg_reptile", "prob": 5, "count-min": 2, "count-max": 5 },
-      { "item": "wild_herbs", "prob": 10 }
+      { "item": "wild_herbs", "prob": 10 },
+      { "item": "buckwheat", "prob": 5, "count-min": 1, "count-max": 2 }
     ]
   },{
 "type" : "item_group",
@@ -8390,7 +8517,8 @@
       { "group": "forage_mushroom", "prob": 50 },
       { "item": "egg_bird", "prob": 15, "count-min": 2, "count-max": 5 },
       { "item": "egg_reptile", "prob": 5, "count-min": 2, "count-max": 5 },
-      { "item": "wild_herbs", "prob": 10 }
+      { "item": "wild_herbs", "prob": 10 },
+      { "item": "buckwheat", "prob": 10, "count-min": 1, "count-max": 4 }
     ]
   },{
 "type" : "item_group",
@@ -8401,7 +8529,8 @@
       { "group": "forage_mushroom", "prob": 50 },
       { "item": "egg_bird", "prob": 15, "count-min": 2, "count-max": 5 },
       { "item": "egg_reptile", "prob": 5, "count-min": 2, "count-max": 5 },
-      { "item": "wild_herbs", "prob": 10 }
+      { "item": "wild_herbs", "prob": 10 },
+      { "item": "buckwheat", "prob": 15, "count-min": 2, "count-max": 4 }
     ]
   },{
 "type" : "item_group",
@@ -8416,7 +8545,55 @@
 "entries":[
       { "item": "mushroom", "prob": 4, "count-min": 1, "count-max": 3 },
       { "item": "mushroom_poison", "prob": 3, "count-min": 1, "count-max": 3 },
+      { "item": "mushroom_morel", "prob": 2, "count-min": 1, "count-max": 4 },
       { "item": "mushroom_magic", "prob": 1, "count-min": 1, "count-max": 3 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "technician_shirts",
+    "items":[
+      ["technician_shirt_blue", 20],
+      ["technician_shirt_ltblue", 15],
+      ["technician_shirt_gray", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "technician_pants",
+    "items":[
+      ["technician_pants_blue", 20],
+      ["technician_pants_ltblue", 15],
+      ["technician_pants_gray", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "bionics_tech",
+    "note" : "Bionics used by technicians.",
+    "items":[
+      ["bio_torsionratchet", 20],
+      ["bio_memory", 20],
+      ["bio_sunglasses", 20],
+      ["bio_heatsink", 20],
+      ["bio_watch", 20],
+      ["bio_faraday", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "bionics_subs",
+    "note" : "Bionics dropped by substation mini-boss.",
+    "items":[
+      ["bio_power_storage", 20],
+      ["bio_batteries", 20],
+      ["bio_ups", 15],
+      ["bio_torsionratchet", 20],
+      ["bio_sunglasses", 25],
+      ["bio_dex_enhancer", 12],
+      ["bio_str_enhancer", 12],
+      ["bio_infrared", 25],
+      ["bio_targeting", 20],
+      ["bio_blaster", 15],
+      ["bio_emp", 20],
+      ["bio_chain_lightning", 15],
+      ["bio_adrenaline", 20]
     ]
   }
 ]

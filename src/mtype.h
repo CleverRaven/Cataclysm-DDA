@@ -120,6 +120,8 @@ enum m_flag {
     MF_CBM_POWER,           // May produce a power CBM when butchered, independent of MF_CBM_wev.
     MF_CBM_SCI,             // May produce a bionic from bionics_sci when butchered.
     MF_CBM_OP,              // May produce a bionic from bionics_op when butchered, and the power storage is mk 2.
+    MF_CBM_TECH,            // May produce a bionic from bionics_tech when butchered.
+    MF_CBM_SUBS,            // May produce a bionic from bionics_subs when butchered.
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
@@ -181,8 +183,8 @@ struct mtype {
         bool in_category(std::string category) const;
         bool in_species(std::string _species) const;
         //Used for corpses.
-        field_id bloodType ();
-        field_id gibType ();
+        field_id bloodType () const;
+        field_id gibType () const;
         // The item id of the meat items that are produced by this monster (or "null")
         // if there is no matching item type. e.g. "veggy" for plant monsters.
         itype_id get_meat_itype() const;

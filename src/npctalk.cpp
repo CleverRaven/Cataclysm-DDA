@@ -981,7 +981,7 @@ std::string dynamic_line(talk_topic topic, npc *p)
 
         case TALK_TRAIN:
             {
-            if (g->u.backlog.type == ACT_TRAIN) {
+                if( !g->u.backlog.empty() && g->u.backlog.front().type == ACT_TRAIN ) {
                 return _("Shall we resume?");
             }
             std::vector<Skill*> trainable = p->skills_offered_to(&(g->u));
@@ -1206,24 +1206,24 @@ std::string dynamic_line(talk_topic topic, npc *p)
             info << "&";
             int str_range = int(100 / ability);
             int str_min = int(p->str_max / str_range) * str_range;
-            info << _("Str ") << str_min << " - " << str_min + str_range;
+            info << string_format(_("Str %d - %d"), str_min, str_min + str_range);
 
             if (ability >= 40) {
                 int dex_range = int(160 / ability);
                 int dex_min = int(p->dex_max / dex_range) * dex_range;
-                info << _("  Dex ") << dex_min << " - " << dex_min + dex_range;
+                info << "  " << string_format(_("Dex %d - %d"), dex_min, dex_min + dex_range);
             }
 
             if (ability >= 50) {
                 int int_range = int(200 / ability);
                 int int_min = int(p->int_max / int_range) * int_range;
-                info << _("  Int ") << int_min << " - " << int_min + int_range;
+                info << "  " << string_format(_("Int %d - %d"), int_min, int_min + int_range);
             }
 
             if (ability >= 60) {
                 int per_range = int(240 / ability);
                 int per_min = int(p->per_max / per_range) * per_range;
-                info << _("  Per ") << per_min << " - " << per_min + per_range;
+                info << "  " << string_format(_("Per %d - %d"), per_min, per_min + per_range);
             }
 
             return info.str();
@@ -2180,13 +2180,14 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
             break;
 
         case TALK_TRAIN: {
-            if (g->u.backlog.type == ACT_TRAIN) {
+            if( !g->u.backlog.empty() && g->u.backlog.front().type == ACT_TRAIN ) {
+                player_activity &backlog = g->u.backlog.front();
                 std::stringstream resume;
                 resume << _("Yes, let's resume training ");
-                Skill *skillt = Skill::skill(g->u.backlog.name);
+                Skill *skillt = Skill::skill(backlog.name);
                 if(skillt == NULL) {
-                    resume << martialarts[g->u.backlog.name].name;
-                    SELECT_STYLE(resume.str(), g->u.backlog.name);
+                    resume << martialarts[backlog.name].name;
+                    SELECT_STYLE(resume.str(), backlog.name);
                 } else {
                     resume << skillt->name();
                     SELECT_SKIL(resume.str(), skillt);

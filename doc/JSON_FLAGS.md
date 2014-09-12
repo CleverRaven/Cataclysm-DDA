@@ -365,6 +365,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```VARIABLE_SIZE``` Has 'bigness' for power, wheel radius, etc.
 - ```BOARDABLE``` The player can safely move over or stand on this part while the vehicle is moving.
 - ```CARGO``` Cargo holding area.
+- ```COVERED``` Prevents items in cargo parts from emitting any light.
 - ```BELTABLE``` Seatbelt can be attached to this part.
 - ```SEATBELT``` Helps prevent the player from being ejected from the vehicle during an accident.
 - ```SEAT``` A seat where the player can sit or sleep.
@@ -434,6 +435,7 @@ The chambering of weapons that this ammo can be loaded into.
 - ```3006``` 30.06
 - ```40mm``` 40mm Grenade
 - ```66mm``` 66mm HEAT
+- ```120mm``` 120mm HEAT
 - ```84x246mm``` 84x246mm HE
 - ```m235``` M235 TPA (66mm Incendiary Rocket)
 - ```battery``` Battery
@@ -605,6 +607,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```FLUSLEEP``` Adds disease `took_flumed` and increases fatigue.
 - ```INHALER``` Removes disease `asthma`.
 - ```BLECH``` Causes vomiting.
+- ```PLANTBLECH``` Causes vomiting if player does not contain plant mutations
 - ```CHEW``` Displays message "You chew your %s", but otherwise does nothing.
 - ```MUTAGEN``` Causes mutation.
 - ```PURIFIER``` Removes negative mutations.

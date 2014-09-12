@@ -6,6 +6,7 @@
 #include "map.h"
 #include "lightmap.h"
 #include "player.h"
+#include "scenario.h"
 #include "overmap.h"
 #include "omdata.h"
 #include "mapitems.h"
@@ -107,6 +108,7 @@ class game
         void setup();
         bool game_quit(); // True if we actually quit the game - used in main.cpp
         bool game_error();
+        bool new_game;    // Is true if game has just started or loaded, false otherwise
         quit_status uquit;    // used in main.cpp to determine what type of quit
         void serialize(std::ofstream &fout);  // for save
         void unserialize(std::ifstream &fin);  // for load
@@ -120,12 +122,16 @@ class game
         std::vector<std::string> list_active_characters();
         void write_memorial_file(std::string sLastWords);
         void cleanup_at_end();
+	void determine_starting_season();
         bool do_turn();
         void draw();
         void draw_ter(int posx = -999, int posy = -999);
         void draw_veh_dir_indicator(void);
         /**
          * Add an entry to @ref events. For further information see event.h
+         * @param type Type of event.
+         * @param on_turn On which turn event should be happened.
+         * @param faction_id Faction of event.
          * @param x,y global submap coordinates.
          */
         void add_event(event_type type, int on_turn, int faction_id = -1,
@@ -133,6 +139,9 @@ class game
         bool event_queued(event_type type);
         /**
          * Sound at (x, y) of intensity (vol)
+         * @param x x-position of sound.
+         * @param y y-position of sound.
+         * @param vol Volume of sound.
          * @param description Description of the sound for the player,
          * if non-empty string a message is generated.
          * @param ambient If false, the sound interrupts player activities.
@@ -303,18 +312,8 @@ class game
         int inv_for_flag(const std::string flag, const std::string title, bool auto_choose_single);
         int display_slice(indexed_invslice &, const std::string &, const int &position = INT_MIN);
         int inventory_item_menu(int pos, int startx = 0, int width = 50, int position = 0);
-        // Same as other multidrop, only the dropped_worn vector
-        // is merged into the result.
-        std::vector<item> multidrop();
-        // Select items to drop, removes those items from the players
-        // inventory, takes of the selected armor, unwields weapon (if
-        // selected).
-        // Selected items that had been worn are taken off and put into dropped_worn.
-        // Selected items from main inventory and the weapon are returned directly.
-        // removed_storage_space contains the summed up storage of the taken
-        // of armor. This includes the storage space of the items in dropped_worn
-        // and the items that have been autodropped while taking them off.
-        std::vector<item> multidrop(std::vector<item> &dropped_worn, int &removed_storage_space);
+        // Select items to drop.  Returns a list of pairs of position, quantity.
+        std::list<std::pair<int, int>> multidrop();
         faction *list_factions(std::string title = "FACTIONS:");
         point find_item(item *it);
         void remove_item(item *it);
@@ -324,8 +323,8 @@ class game
             return recipes;
         };
         inventory crafting_inventory(player *p);  // inv_from_map, inv, & 'weapon'
-        std::list<item> consume_items(player *p, const std::vector<item_comp> &components);
-        void consume_tools(player *p, const std::vector<tool_comp> &tools);
+        std::list<item> consume_items(player *p, const std::vector<item_comp> &components, int batch = 1);
+        void consume_tools(player *p, const std::vector<tool_comp> &tools, int batch = 1);
         /**
          * Returns the recipe that is used to disassemble the given item type.
          * Returns NULL if there is no recipe to disassemble the item type.
@@ -376,6 +375,7 @@ class game
         int get_abs_levy() const;
         int get_abs_levz() const;
         player u;
+	scenario* scen;
         std::vector<monster> coming_to_stairs;
         int monstairx, monstairy, monstairz;
         std::vector<npc *> active_npc;
@@ -385,7 +385,6 @@ class game
         ter_id dragging;
         std::vector<item> items_dragged;
         int weight_dragged; // Computed once, when you start dragging
-        bool debugmon;
 
         std::map<int, std::map<int, bool> > mapRain;
 
@@ -439,7 +438,6 @@ class game
         // ignore_player determines if player is affected, useful for bionic, etc.
         void shockwave(int x, int y, int radius, int force, int stun, int dam_mult, bool ignore_player);
 
-
         // Animation related functions
         void draw_explosion(int x, int y, int radius, nc_color col);
         void draw_bullet(Creature &p, int tx, int ty, int i, std::vector<point> trajectory, char bullet,
@@ -469,6 +467,8 @@ class game
                             bool bite = true, bool infect = true);
 
         bool opening_screen();// Warn about screen size, then present the main menu
+        void mmenu_refresh_motd();
+        void mmenu_refresh_credits();
 
         const int dangerous_proximity;
         bool narrow_sidebar;
@@ -477,6 +477,13 @@ class game
         void exam_vehicle(vehicle &veh, int examx, int examy, int cx = 0,
                           int cy = 0); // open vehicle interaction screen
 
+        // put items from the item-vector on the map/a vehicle
+        // at (dirx, diry), items are dropped into a vehicle part
+        // with the cargo flag (if there is one), otherwise they are
+        // dropped onto the ground.
+        void drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
+                  int freed_volume_capacity, int dirx, int diry);
+        bool make_drop_activity( enum activity_type act, point target );
     private:
         // Game-start procedures
         void print_menu(WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY,
@@ -534,6 +541,7 @@ class game
         // Standard movement; handles attacks, traps, &c. Returns false if auto move
         // should be canceled
         bool plmove(int dx, int dy);
+        void on_move_effects();
         void wait(); // Long wait (player action)  '^'
         void open(); // Open a door  'o'
         void close(int closex = -1, int closey = -1); // Close a door  'c'
@@ -547,7 +555,7 @@ class game
         bool making_would_work(recipe *r);   // See crafting.cpp
         bool is_container_eligible_for_crafting(item &cont); // See crafting.cpp
         std::vector<item> get_eligible_containers_for_crafting();    // See crafting.cpp
-        bool check_eligible_containers_for_crafting(recipe *r);  // See crafting.cpp
+        bool check_eligible_containers_for_crafting(recipe *r, int batch = 1);  // See crafting.cpp
         bool can_make(recipe *r);            // See crafting.cpp
         void make_craft(recipe *making);     // See crafting.cpp
         void make_all_craft(recipe *making); // See crafting.cpp
@@ -555,6 +563,8 @@ class game
         void pick_recipes(const inventory &crafting_inv, std::vector<recipe *> &current,
                           std::vector<bool> &available, craft_cat tab, craft_subcat subtab,
                           std::string filter);// crafting.cpp
+        void batch_recipes(const inventory &crafting_inv, std::vector<recipe *> &current,
+                          std::vector<bool> &available, recipe* r);// crafting.cpp
         void disassemble(int pos = INT_MAX);       // See crafting.cpp
         void complete_disassemble();         // See crafting.cpp
         recipe *recipe_by_index(int index);  // See crafting.cpp
@@ -591,12 +601,7 @@ class game
         void compare(int iCompareX = -999, int iCompareY = -999); // Compare two Items 'I'
         void drop(int pos = INT_MIN); // Drop an item  'd'
         void drop_in_direction(); // Drop w/ direction  'D'
-        // put items from the item-vector on the map/a vehicle
-        // at (dirx, diry), items are dropped into a vehicle part
-        // with the cargo flag (if there is one), otherwise they are
-        // dropped onto the ground.
-        void drop(std::vector<item> &dropped, std::vector<item> &dropped_worn, int freed_volume_capacity,
-                  int dirx, int diry);
+
         // calculate the time (in player::moves) it takes to drop the
         // items in dropped and dropped_worn.
         int calculate_drop_cost(std::vector<item> &dropped, const std::vector<item> &dropped_worn,
@@ -753,6 +758,10 @@ class game
         bool is_hostile_within(int distance);
         void activity_on_turn();
         void activity_on_turn_game();
+        void activity_on_turn_drop();
+        void activity_on_turn_stash();
+        void activity_on_turn_pickup();
+        void activity_on_turn_move_items();
         void activity_on_turn_vibe();
         void activity_on_turn_refill_vehicle();
         void activity_on_turn_pulp();

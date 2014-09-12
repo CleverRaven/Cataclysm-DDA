@@ -124,8 +124,8 @@ public:
  int price() const;
 
     /**
-     * Return the butcher factor, always positive, but lower is better.
-     * If the item can not be used for butcherin it return INT_MAX.
+     * Return the butcher factor (BUTCHER tool quality).
+     * If the item can not be used for butchering it returns INT_MIN.
      */
     int butcher_factor() const;
 
@@ -194,8 +194,11 @@ public:
   * Consume a specific amount of items of a specific type.
   * This includes this item, and any of its contents (recursively).
   * @see item::use_charges - this is similar for items, not charges.
+  * @param it Type of consumable item.
+  * @param quantity How much to consumed.
   * @param use_container If the contents of an item are used, also use the
   * container it was in.
+  * @param On success all consumed items will be stored here.
   */
  bool use_amount(const itype_id &it, int &quantity, bool use_container, std::list<item> &used);
 
@@ -294,6 +297,9 @@ public:
  int get_remaining_capacity() const;
 
  bool operator<(const item& other) const;
+    /** List of all @ref components in printable form, empty if this item has
+     * no components */
+    std::string components_to_string() const;
 
  itype_id typeId() const;
  itype* type;
@@ -405,10 +411,11 @@ class map_item_stack
 };
 
 // Commonly used convenience functions that match an item to one of the 3 common types of locators:
-// invlet (char), type_id (itype_id, a typedef of string), or position (int).
+// type_id (itype_id, a typedef of string), position (int) or pointer (item *).
 // The item's position is optional, if not passed in we expect the item to fail position match.
-bool item_matches_locator(const item& it, const itype_id& id, int item_pos = INT_MIN);
-bool item_matches_locator(const item& it, int locator_pos, int item_pos = INT_MIN);
+bool item_matches_locator(const item &it, const itype_id &id, int item_pos = INT_MIN);
+bool item_matches_locator(const item &it, int locator_pos, int item_pos = INT_MIN);
+bool item_matches_locator(const item &it, const item *other, int);
 
 //this is an attempt for functional programming
 bool is_edible(item i, player const*u);

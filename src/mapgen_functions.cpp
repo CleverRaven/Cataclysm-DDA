@@ -7,6 +7,7 @@
 #include "overmap.h"
 #include "monstergenerator.h"
 #include "options.h"
+#include "game.h"
 
 mapgendata::mapgendata(oter_id north, oter_id east, oter_id south, oter_id west, oter_id northeast,
                        oter_id northwest, oter_id southeast, oter_id southwest, oter_id up, int z, const regional_settings * rsettings, map * mp) :
@@ -51,6 +52,8 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["hive"]             = &mapgen_hive;
     mapgen_cfunction_map["spider_pit"]       = &mapgen_spider_pit;
     mapgen_cfunction_map["fungal_bloom"]     = &mapgen_fungal_bloom;
+    mapgen_cfunction_map["fungal_tower"]     = &mapgen_fungal_tower;
+    mapgen_cfunction_map["fungal_flowers"]   = &mapgen_fungal_flowers;
     mapgen_cfunction_map["road_straight"]    = &mapgen_road_straight;
     mapgen_cfunction_map["road_curved"]      = &mapgen_road_curved;
     mapgen_cfunction_map["road_end"]         = &mapgen_road_end;
@@ -393,7 +396,8 @@ void mapgen_crater(map *m, oter_id, mapgendata dat, int, float)
        for (int j = 0; j < SEEY * 2; j++) {
            if (rng(0, dat.w_fac) <= i && rng(0, dat.e_fac) <= SEEX * 2 - 1 - i &&
                rng(0, dat.n_fac) <= j && rng(0, dat.s_fac) <= SEEX * 2 - 1 - j ) {
-               m->ter_set(i, j, t_rubble);
+               m->ter_set(i, j, dat.groundcover());
+               m->make_rubble(i, j, f_rubble, true);
                m->set_radiation(i, j, rng(0, 4) * rng(0, 2));
            } else {
                m->ter_set(i, j, dat.groundcover());
@@ -511,6 +515,20 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
             if ((forest_chance > 0 && rn > 13) || one_in(100 - forest_chance)) {
                 if (one_in(250)) {
                     m->ter_set(i, j, t_tree_apple);
+                } else if (one_in(300)){
+                    m->ter_set(i, j, t_tree_pear);
+                } else if (one_in(300)){
+                    m->ter_set(i, j, t_tree_cherry);
+                } else if (one_in(350)){
+                    m->ter_set(i, j, t_tree_peach);
+                } else if (one_in(350)){
+                    m->ter_set(i, j, t_tree_apricot);
+                } else if (one_in(350)){
+                    m->ter_set(i, j, t_tree_plum);
+                } else if (one_in(128)){
+                    m->ter_set(i, j, t_tree_deadpine);
+                } else if (one_in(16)){
+                    m->ter_set(i, j, t_tree_pine);
                 } else {
                     m->ter_set(i, j, t_tree);
                 }
@@ -860,6 +878,58 @@ void mapgen_fungal_bloom(map *m, oter_id, mapgendata dat, int, float)
     }
     square(m, t_fungus, SEEX - 2, SEEY - 2, SEEX + 2, SEEY + 2);
     m->add_spawn("mon_fungaloid_queen", 1, 12, 12);
+}
+
+void mapgen_fungal_tower(map *m, oter_id, mapgendata dat, int, float)
+{
+    (void)dat;
+    for (int i = 0; i < SEEX * 2; i++) {
+        for (int j = 0; j < SEEY * 2; j++) {
+            if (one_in(8)) {
+                if (one_in(3)) {
+                    m->ter_set(i, j, t_tree_fungal);
+                } else {
+                    m->ter_set(i, j, t_tree_fungal_young);
+                }
+
+            } else if (one_in(10)) {
+                m->ter_set(i, j, t_fungus_mound);
+            } else {
+                m->ter_set(i, j, t_fungus);
+            }
+        }
+    }
+    square(m, t_fungus, SEEX - 2, SEEY - 2, SEEX + 2, SEEY + 2);
+    m->add_spawn("mon_fungaloid_tower", 1, 12, 12);
+}
+
+void mapgen_fungal_flowers(map *m, oter_id, mapgendata dat, int, float)
+{
+    (void)dat;
+    for (int i = 0; i < SEEX * 2; i++) {
+        for (int j = 0; j < SEEY * 2; j++) {
+            if (one_in(rl_dist(i, j, 12, 12) * 6)) {
+                m->ter_set(i, j, t_fungus);
+                m->furn_set(i, j, f_flower_marloss);
+            } else if (one_in(10)) {
+                if (one_in(3)) {
+                    m->ter_set(i, j, t_fungus_mound);
+                } else {
+                    m->ter_set(i, j, t_tree_fungal_young);
+                }
+
+            } else if (one_in(5)) {
+                m->ter_set(i, j, t_fungus);
+                m->furn_set(i, j, f_flower_fungal);
+            } else if (one_in(10)) {
+                m->ter_set(i, j, t_shrub_fungal);
+            } else {
+                m->ter_set(i, j, t_fungus);
+            }
+        }
+    }
+    square(m, t_fungus, SEEX - 2, SEEY - 2, SEEX + 2, SEEY + 2);
+    m->add_spawn("mon_fungaloid_seeder", 1, 12, 12);
 }
 
 void mapgen_road_straight(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
@@ -1310,7 +1380,8 @@ void mapgen_subway_straight(map *m, oter_id terrain_type, mapgendata dat, int, f
                 if (i < dat.w_fac || i > dat.e_fac) {
                     m->ter_set(i, j, t_rock);
                 } else if (one_in(90)) {
-                    m->ter_set(i, j, t_rubble);
+                    m->ter_set(i, j, t_rock_floor);
+                    m->make_rubble(i, j, f_rubble_rock, true);
                 } else {
                     m->ter_set(i, j, t_rock_floor);
                 }
@@ -1332,7 +1403,8 @@ void mapgen_subway_curved(map *m, oter_id terrain_type, mapgendata dat, int, flo
                 if ((i >= SEEX * 2 - 4 && j < 4) || i < 4 || j >= SEEY * 2 - 4) {
                     m->ter_set(i, j, t_rock);
                 } else if (one_in(30)) {
-                    m->ter_set(i, j, t_rubble);
+                    m->ter_set(i, j, t_rock_floor);
+                    m->make_rubble(i, j, f_rubble_rock, true);
                 } else {
                     m->ter_set(i, j, t_rock_floor);
                 }
@@ -1360,7 +1432,8 @@ void mapgen_subway_tee(map *m, oter_id terrain_type, mapgendata dat, int, float)
                 if (i < 4 || (i >= SEEX * 2 - 4 && (j < 4 || j >= SEEY * 2 - 4))) {
                     m->ter_set(i, j, t_rock);
                 } else if (one_in(30)) {
-                    m->ter_set(i, j, t_rubble);
+                    m->ter_set(i, j, t_rock_floor);
+                    m->make_rubble(i, j, f_rubble_rock, true);
                 } else {
                     m->ter_set(i, j, t_rock_floor);
                 }
@@ -1390,7 +1463,8 @@ void mapgen_subway_four_way(map *m, oter_id, mapgendata dat, int, float)
                     (j < 4 || j >= SEEY * 2 - 4)) {
                     m->ter_set(i, j, t_rock);
                 } else if (one_in(30)) {
-                    m->ter_set(i, j, t_rubble);
+                    m->ter_set(i, j, t_rock_floor);
+                    m->make_rubble(i, j, f_rubble_rock, true);
                 } else {
                     m->ter_set(i, j, t_rock_floor);
                 }
@@ -3596,7 +3670,7 @@ void mapgen_shelter(map *m, oter_id, mapgendata dat, int, float) {
                                    mapf::basic_bind("b c l", f_bench, f_counter, f_locker));
         computer * tmpcomp = m->add_computer(SEEX + 6, 5, _("Evac shelter computer"), 0);
         tmpcomp->add_option(_("Emergency Message"), COMPACT_EMERG_MESS, 0);
-        if(ACTIVE_WORLD_OPTIONS["BLACK_ROAD"]) {
+        if(ACTIVE_WORLD_OPTIONS["BLACK_ROAD"] || g->scen->has_flag("SUR_START")) {
             //place zombies outside
             m->place_spawns("GROUP_ZOMBIE", ACTIVE_WORLD_OPTIONS["SPAWN_DENSITY"], 0, 0, SEEX * 2 - 1, 3, 0.4f);
             m->place_spawns("GROUP_ZOMBIE", ACTIVE_WORLD_OPTIONS["SPAWN_DENSITY"], 0, 4, 3, SEEX * 2 - 4, 0.4f);
@@ -3688,11 +3762,10 @@ void mapgen_lmoe_under(map *m, oter_id, mapgendata dat, int, float) {
         line(m, t_door_metal_c, 11, 12, 12, 12);
         m->ter_set(17, 11, t_door_metal_c);
         m->ter_set(15, 6, t_door_metal_c);
-        square(m, t_rubble, 18, 18, 20, 20);
-        line(m, t_rubble, 16, 20, 20, 16);
-        line(m, t_rubble, 17, 20, 20, 17);
+        square_furn(m, f_rubble, 18, 18, 20, 20);
+        line_furn(m, f_rubble, 16, 20, 20, 16);
+        line_furn(m, f_rubble, 17, 20, 20, 17);
         line(m, t_water_sh, 15, 20, 20, 15);
-        //square(m, t_emergency_light_flicker, 11, 13, 12, 19);
         m->furn_set(17, 16, f_woodstove);
         m->furn_set(14, 13, f_chair);
         m->furn_set(14, 18, f_chair);
@@ -3712,7 +3785,7 @@ void mapgen_lmoe_under(map *m, oter_id, mapgendata dat, int, float) {
         square_furn(m, f_bed, 19, 3, 20, 4);
         m->furn_set(19, 7, f_chair);
         m->furn_set(20, 7, f_desk);
-        line(m, t_rubble, 15, 10, 16, 10);
+        line_furn(m, f_rubble, 15, 10, 16, 10);
         m->furn_set(19, 10, f_sink);
         m->place_toilet(20, 11);
         m->place_items("lmoe_guns", 80, 3, 3, 6, 3, false, 0);
@@ -4480,9 +4553,9 @@ void mapgen_cabin(map *m, oter_id, mapgendata dat, int, float)
             m->ter_set(13, 20, t_column);
             line(m, t_fencegate_c, 11, 20, 12, 20);
             line_furn(m, f_bench, 4, 17, 7, 17);
-            square(m, t_rubble, 19, 18, 20, 19);
-            m->ter_set(20, 17, t_rubble);
-            m->ter_set(18, 19, t_rubble); //Porch done
+            square_furn(m, f_rubble, 19, 18, 20, 19);
+            m->make_rubble(20, 17, f_rubble, true);
+            m->make_rubble(18, 19, f_rubble, true);
             line(m, t_door_c, 11, 16, 12, 16); //Interior
             square(m, t_floor, 3, 4, 9, 9);
             square(m, t_floor, 3, 11, 9, 15);
@@ -4500,9 +4573,9 @@ void mapgen_cabin(map *m, oter_id, mapgendata dat, int, float)
             line(m, t_window_empty, 21, 6, 21, 7);
             m->ter_set(8, 3, t_curtains); //Windows End
             line(m, t_door_c, 11, 3, 12, 3); //Rear Doors
-            square(m, t_rubble, 20, 3, 21, 4);
-            m->ter_set(19, 3, t_rubble);
-            m->ter_set(21, 5, t_rubble);
+            square_furn(m, f_rubble, 20, 3, 21, 4);
+            m->make_rubble(19, 3, f_rubble, true);
+            m->make_rubble(21, 5, f_rubble, true);
             m->furn_set(6, 4, f_desk);
             m->furn_set(6, 5, f_chair);
             m->furn_set(7, 9, f_locker);

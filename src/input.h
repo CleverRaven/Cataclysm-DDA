@@ -186,6 +186,7 @@ class input_manager
         /**
          * Get the key name associated with the given keyboard keycode.
          *
+         * @param ch Character code.
          * @param input_type Whether the keycode is a gamepad or a keyboard code.
          * @param portable If true, return a language independent and portable name
          * of the key. This acts as the inverse to get_keyname:
@@ -319,13 +320,17 @@ class input_context
          * and the specified coordinates can be retrieved using `get_coordinates()`. Currently the
          * only form of coordinate input is mouse input(you can directly click coordinates on
          * the screen).
+         *
+         * @param action_descriptor String of action id.
          */
         void register_action(const std::string &action_descriptor);
+
         /**
          * Same as other @ref register_action function but allows a context specific
          * action name. The given name is displayed instead of the name taken from
          * the @ref input_manager.
          *
+         * @param action_descriptor String of action id.
          * @param name Name of the action, displayed to the user. If empty use the
          * name reported by the input_manager.
          */
@@ -375,6 +380,7 @@ class input_context
          * False if the action is not a movement action (CONFIRM, QUIT, ...),
          * (dx,dy) has been set to (-2,-2).
          *
+         * @param action Action to convert.
          * @param dx Output parameter for x delta.
          * @param dy Output parameter for y delta.
          */

@@ -1446,6 +1446,30 @@ int iuse::blech(player *p, item *it, bool)
     return it->type->charges_to_use();
 }
 
+int iuse::plantblech(player *p, item *it, bool)
+{
+    if (p->has_trait("THRESH_PLANT")) {
+    double multiplier = -1;
+        if (p->has_trait("CHLOROMORPH")) {
+            multiplier = -3;
+            p->add_msg_if_player(m_good, _("The meal is revitalizing."));
+        } else{
+            p->add_msg_if_player(m_good, _("Oddly enough, this doesn't taste so bad."));
+        }
+    it_comest *food = dynamic_cast<it_comest*>(it->type);
+    //reverses the harmful values of drinking fertilizer
+    p->hunger += food->nutr * multiplier;
+    p->thirst -= food->quench * multiplier;
+    p->mod_healthy_mod(food->healthy * multiplier);
+    p->add_morale(MORALE_FOOD_GOOD, -10 * multiplier, 60, 60, 30, false, food);
+    return it->type->charges_to_use();
+    }
+    else {
+    //return it->type->charges_to_use();
+    return blech(p,it,true);
+    }
+}
+
 int iuse::chew(player *p, item *it, bool)
 {
     // TODO: Add more effects?
@@ -2129,6 +2153,158 @@ int iuse::marloss(player *p, item *it, bool t)
     } else if (!p->has_trait("MARLOSS")) {
         p->add_msg_if_player(_("You feel a strange warmth spreading throughout your body..."));
         p->toggle_mutation("MARLOSS");
+    }
+    return it->type->charges_to_use();
+}
+
+int iuse::marloss_seed(player *p, item *it, bool t)
+{
+    if (p->is_npc()) {
+        return it->type->charges_to_use();
+    }
+    if (!(query_yn(_("Sure you want to eat the %s? You could plant it in a mound of dirt."),
+                 it->tname().c_str())) ) {
+        return 0; // Save the seed for later!
+    }
+    // If we have the marloss in our veins, we are a "breeder" and will spread
+    // the fungus.
+    p->add_memorial_log(pgettext("memorial_male", "Ate a marloss seed."),
+                        pgettext("memorial_female", "Ate a marloss seed."));
+
+    if (p->has_trait("MARLOSS_BLUE")) {
+        p->add_msg_if_player(m_good,
+                             _("As you eat the seed, you have a near-religious experience, feeling at one with your surroundings..."));
+        p->add_morale(MORALE_MARLOSS, 100, 1000);
+        p->hunger = -100;
+        monster spore(GetMType("mon_spore"));
+        spore.friendly = -1;
+        int spore_spawned = 0;
+        for (int x = p->posx - 4; x <= p->posx + 4; x++) {
+            for (int y = p->posy - 4; y <= p->posy + 4; y++) {
+                if (rng(0, 10) > trig_dist(x, y, p->posx, p->posy) &&
+                    rng(0, 10) > trig_dist(x, y, p->posx, p->posy)) {
+                    g->m.marlossify(x, y);
+                }
+                bool moveOK = (g->m.move_cost(x, y) > 0);
+                bool monOK = g->mon_at(x, y) == -1;
+                bool posOK = (g->u.posx != x || g->u.posy != y);
+                if (moveOK && monOK && posOK &&
+                    one_in(10 + 5 * trig_dist(x, y, p->posx, p->posy)) &&
+                    (spore_spawned == 0 || one_in(spore_spawned * 2))) {
+                    spore.spawn(x, y);
+                    g->add_zombie(spore);
+                    spore_spawned++;
+                }
+            }
+        }
+        return it->type->charges_to_use();
+    }
+
+    /* If we're not already carriers of Marloss, roll for a random effect:
+     * 1 - Mutate
+     * 2 - Mutate
+     * 3 - Mutate
+     * 4 - Purify
+     * 5 - Purify
+     * 6 - Cleanse radiation + Purify
+     * 7 - Fully satiate
+     * 8 - Vomit
+     * 9 - Give Marloss mutation
+     */
+    int effect = rng(1, 9);
+    if (effect <= 3) {
+        p->add_msg_if_player(_("This seed tastes extremely strange!"));
+        p->mutate();
+    } else if (effect <= 6) { // Radiation cleanse is below
+        p->add_msg_if_player(m_good, _("This seed makes you feel better all over."));
+        p->pkill += 30;
+        this->purifier(p, it, t);
+        if (effect == 6) {
+            p->radiation = 0;
+        }
+    } else if (effect == 7) {
+        p->add_msg_if_player(m_good, _("This seed is delicious, and very filling!"));
+        p->hunger = -100;
+    } else if (effect == 8) {
+        p->add_msg_if_player(m_bad, _("You take one bite, and immediately vomit!"));
+        p->vomit();
+    } else if (!p->has_trait("MARLOSS_BLUE")) {
+        p->add_msg_if_player(_("You feel a strange warmth spreading throughout your body..."));
+        p->toggle_mutation("MARLOSS_BLUE");
+    }
+    return it->type->charges_to_use();
+}
+
+int iuse::marloss_gel(player *p, item *it, bool t)
+{
+    if (p->is_npc()) {
+        return it->type->charges_to_use();
+    }
+    // If we have the marloss in our veins, we are a "breeder" and will spread
+    // the fungus.
+    p->add_memorial_log(pgettext("memorial_male", "Ate some marloss jelly."),
+                        pgettext("memorial_female", "Ate some marloss jelly."));
+
+    if (p->has_trait("MARLOSS_YELLOW")) {
+        p->add_msg_if_player(m_good,
+                             _("As you eat the jelly, you have a near-religious experience, feeling at one with your surroundings..."));
+        p->add_morale(MORALE_MARLOSS, 100, 1000);
+        p->hunger = -100;
+        monster spore(GetMType("mon_spore"));
+        spore.friendly = -1;
+        int spore_spawned = 0;
+        for (int x = p->posx - 4; x <= p->posx + 4; x++) {
+            for (int y = p->posy - 4; y <= p->posy + 4; y++) {
+                if (rng(0, 10) > trig_dist(x, y, p->posx, p->posy) &&
+                    rng(0, 10) > trig_dist(x, y, p->posx, p->posy)) {
+                    g->m.marlossify(x, y);
+                }
+                bool moveOK = (g->m.move_cost(x, y) > 0);
+                bool monOK = g->mon_at(x, y) == -1;
+                bool posOK = (g->u.posx != x || g->u.posy != y);
+                if (moveOK && monOK && posOK &&
+                    one_in(10 + 5 * trig_dist(x, y, p->posx, p->posy)) &&
+                    (spore_spawned == 0 || one_in(spore_spawned * 2))) {
+                    spore.spawn(x, y);
+                    g->add_zombie(spore);
+                    spore_spawned++;
+                }
+            }
+        }
+        return it->type->charges_to_use();
+    }
+
+    /* If we're not already carriers of Marloss, roll for a random effect:
+     * 1 - Mutate
+     * 2 - Mutate
+     * 3 - Mutate
+     * 4 - Purify
+     * 5 - Purify
+     * 6 - Cleanse radiation + Purify
+     * 7 - Fully satiate
+     * 8 - Vomit
+     * 9 - Give Marloss mutation
+     */
+    int effect = rng(1, 9);
+    if (effect <= 3) {
+        p->add_msg_if_player(_("This jelly tastes extremely strange!"));
+        p->mutate();
+    } else if (effect <= 6) { // Radiation cleanse is below
+        p->add_msg_if_player(m_good, _("This jelly makes you feel better all over."));
+        p->pkill += 30;
+        this->purifier(p, it, t);
+        if (effect == 6) {
+            p->radiation = 0;
+        }
+    } else if (effect == 7) {
+        p->add_msg_if_player(m_good, _("This jelly is delicious, and very filling!"));
+        p->hunger = -100;
+    } else if (effect == 8) {
+        p->add_msg_if_player(m_bad, _("You take one bite, and immediately vomit!"));
+        p->vomit();
+    } else if (!p->has_trait("MARLOSS_YELOW")) {
+        p->add_msg_if_player(_("You feel a strange warmth spreading throughout your body..."));
+        p->toggle_mutation("MARLOSS_YELLOW");
     }
     return it->type->charges_to_use();
 }
@@ -2899,59 +3075,6 @@ int iuse::extinguisher(player *p, item *it, bool)
     return it->type->charges_to_use();
 }
 
-int iuse::hammer(player *p, item *it, bool)
-{
-    g->draw();
-    int x, y;
-    // If anyone other than the player wants to use one of these,
-    // they're going to need to figure out how to aim it.
-    if (!choose_adjacent(_("Pry where?"), x, y)) {
-        return 0;
-    }
-
-    if (x == p->posx && y == p->posy) {
-        p->add_msg_if_player(_("You try to hit yourself with the hammer."));
-        p->add_msg_if_player(_("But you can't touch this."));
-        return 0;
-    }
-
-    int nails = 0, boards = 0;
-    ter_id newter;
-    ter_id type = g->m.ter(x, y);
-    if (type == t_fence_h || type == t_fence_v) {
-        nails = 6;
-        boards = 3;
-        newter = t_fence_post;
-        p->add_msg_if_player(_("You pry out the fence post."));
-    } else if (type == t_window_boarded) {
-        nails = 8;
-        boards = 4;
-        newter = t_window_frame;
-        p->add_msg_if_player(_("You pry the boards from the window."));
-    } else if (type == t_window_boarded_noglass) {
-        nails = 8;
-        boards = 4;
-        newter = t_window_empty;
-        p->add_msg_if_player(_("You pry the boards from the window frame."));
-    } else if (type == t_door_boarded) {
-        nails = 8;
-        boards = 4;
-        // FIXME: boards go across a door FRAME;
-        // the door itself should be as good as it was before it was boarded up.
-        newter = t_door_b;
-        p->add_msg_if_player(_("You pry the boards from the door."));
-    } else {
-        p->add_msg_if_player(m_info, _("Hammers can only remove boards from windows, doors and fences."));
-        p->add_msg_if_player(m_info, _("To board up a window or door, press *"));
-        return 0;
-    }
-    p->moves -= 500;
-    g->m.spawn_item(p->posx, p->posy, "nail", 0, nails);
-    g->m.spawn_item(p->posx, p->posy, "2x4", boards);
-    g->m.ter_set(x, y, newter);
-    return it->type->charges_to_use();
-}
-
 int iuse::rm13armor_off(player *p, item *it, bool)
 {
     if (it->charges < it->type->charges_to_use()) {
@@ -3461,7 +3584,7 @@ int iuse::radio_on(player *p, item *it, bool t)
             std::vector<std::string> segments = foldstring(message, RADIO_PER_TURN);
             int index = calendar::turn % (segments.size());
             std::stringstream messtream;
-            messtream << _("radio: ") << segments[index];
+            messtream << string_format(_("radio: %s"), segments[index].c_str());
             message = messtream.str();
         }
         point pos = g->find_item(it);
@@ -3834,6 +3957,75 @@ int iuse::picklock(player *p, item *it, bool)
     return it->type->charges_to_use();
 }
 
+bool pry_nails(player *p, ter_id &type, int dirx, int diry)
+{
+    int nails = 0, boards = 0;
+    ter_id newter;
+    if (type == t_fence_h || type == t_fence_v) {
+        nails = 6;
+        boards = 3;
+        newter = t_fence_post;
+        p->add_msg_if_player(_("You pry out the fence post."));
+    } else if (type == t_window_boarded) {
+        nails = 8;
+        boards = 4;
+        newter = t_window_frame;
+        p->add_msg_if_player(_("You pry the boards from the window."));
+    } else if (type == t_window_boarded_noglass) {
+        nails = 8;
+        boards = 4;
+        newter = t_window_empty;
+        p->add_msg_if_player(_("You pry the boards from the window frame."));
+    } else if ( type == t_door_boarded || type == t_door_boarded_damaged
+            || type == t_rdoor_boarded || type == t_rdoor_boarded_damaged ) {
+        nails = 8;
+        boards = 4;
+        if (type == t_door_boarded) {
+            newter = t_door_c;
+        } else if (type == t_door_boarded_damaged) {
+            newter = t_door_b;
+        } else if (type == t_rdoor_boarded) {
+            newter = t_rdoor_c;
+        } else { // if (type == t_rdoor_boarded_damaged)
+            newter = t_rdoor_b;
+        }
+        p->add_msg_if_player(_("You pry the boards from the door."));
+    } else {
+        return false;
+    }
+    p->practice("carpentry", 1, 1);
+    p->moves -= 500;
+    g->m.spawn_item(p->posx, p->posy, "nail", 0, nails);
+    g->m.spawn_item(p->posx, p->posy, "2x4", boards);
+    g->m.ter_set(dirx, diry, newter);
+    return true;
+}
+
+int iuse::hammer(player *p, item *it, bool)
+{
+    g->draw();
+    int x, y;
+    // If anyone other than the player wants to use one of these,
+    // they're going to need to figure out how to aim it.
+    if (!choose_adjacent(_("Pry where?"), x, y)) {
+        return 0;
+    }
+
+    if (x == p->posx && y == p->posy) {
+        p->add_msg_if_player(_("You try to hit yourself with the hammer."));
+        p->add_msg_if_player(_("But you can't touch this."));
+        return 0;
+    }
+
+    ter_id type = g->m.ter(x, y);
+    if (pry_nails(p, type, x, y)) {
+        return it->type->charges_to_use();
+    } else {
+        p->add_msg_if_player(m_info, _("There's nothing to pry there."));
+    }
+    return 0;
+}
+
 int iuse::crowbar(player *p, item *it, bool)
 {
     int dirx, diry;
@@ -3883,41 +4075,11 @@ int iuse::crowbar(player *p, item *it, bool)
         new_type = t_window_open;
         noisy = true;
         difficulty = 6;
-    } else {
-        int nails = 0, boards = 0;
-        ter_id newter;
-        if (type == t_fence_h || type == t_fence_v) {
-            nails = 6;
-            boards = 3;
-            newter = t_fence_post;
-            p->add_msg_if_player(_("You pry out the fence post."));
-        } else if (type == t_window_boarded) {
-            nails = 8;
-            boards = 4;
-            newter = t_window_frame;
-            p->add_msg_if_player(_("You pry the boards from the window."));
-        } else if (type == t_window_boarded_noglass) {
-            nails = 8;
-            boards = 4;
-            newter = t_window_empty;
-            p->add_msg_if_player(_("You pry the boards from the window frame."));
-        } else if (type == t_door_boarded) {
-            nails = 8;
-            boards = 4;
-            // FIXME: boards go across a door FRAME;
-            // the door itself should be as good as it was before it was boarded up.
-            newter = t_door_b;
-            p->add_msg_if_player(_("You pry the boards from the door."));
-        } else {
-            p->add_msg_if_player(m_info, _("There's nothing to pry there."));
-            return 0;
-        }
-        p->practice("carpentry", 1, 1);
-        p->moves -= 500;
-        g->m.spawn_item(p->posx, p->posy, "nail", 0, nails);
-        g->m.spawn_item(p->posx, p->posy, "2x4", boards);
-        g->m.ter_set(dirx, diry, newter);
+    } else if (pry_nails(p, type, dirx, diry)) {
         return it->type->charges_to_use();
+    } else {
+        p->add_msg_if_player(m_info, _("There's nothing to pry there."));
+        return 0;
     }
 
     p->practice("mechanics", 1);
@@ -4572,15 +4734,15 @@ int iuse::jackhammer(player *p, item *it, bool)
         p->add_msg_if_player(_("Don't do anything rash.."));
         return 0;
     }
-    if (g->m.is_destructable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
+    if (g->m.is_bashable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
         g->m.ter(dirx, diry) != t_tree) {
-        g->m.destroy(dirx, diry, false);
+        g->m.destroy(dirx, diry, true);
         p->moves -= 500;
         //~ the sound of a jackhammer
         g->sound(dirx, diry, 45, _("TATATATATATATAT!"));
     } else if (g->m.move_cost(dirx, diry) == 2 && g->levz != -1 &&
                g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass) {
-        g->m.destroy(dirx, diry, false);
+        g->m.destroy(dirx, diry, true);
         p->moves -= 500;
         g->sound(dirx, diry, 45, _("TATATATATATATAT!"));
     } else {
@@ -4617,16 +4779,16 @@ int iuse::jacqueshammer(player *p, item *it, bool)
     }
     dirx += p->posx;
     diry += p->posy;
-    if (g->m.is_destructable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
+    if (g->m.is_bashable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
         g->m.ter(dirx, diry) != t_tree) {
-        g->m.destroy(dirx, diry, false);
+        g->m.destroy(dirx, diry, true);
         // This looked like 50 minutes, but seems more like 50 seconds.  Needs checked.
         p->moves -= 500;
         //~ the sound of a "jacqueshammer"
         g->sound(dirx, diry, 45, _("OHOHOHOHOHOHOHOHO!"));
     } else if (g->m.move_cost(dirx, diry) == 2 && g->levz != -1 &&
                g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass) {
-        g->m.destroy(dirx, diry, false);
+        g->m.destroy(dirx, diry, true);
         p->moves -= 500;
         g->sound(dirx, diry, 45, _("OHOHOHOHOHOHOHOHO!"));
     } else {
@@ -4655,7 +4817,7 @@ int iuse::pickaxe(player *p, item *it, bool)
         return 0;
     }
     int turns;
-    if (g->m.is_destructable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
+    if (g->m.is_bashable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
         g->m.ter(dirx, diry) != t_tree) {
         // Takes about 100 minutes (not quite two hours) base time.  Construction skill can speed this: 3 min off per level.
         turns = (100000 - 3000 * p->skillLevel("carpentry"));
@@ -4688,7 +4850,7 @@ void on_finish_activity_pickaxe(player *p)
     const int dirx = p->activity.placement.x;
     const int diry = p->activity.placement.y;
     item *it = &p->i_at(p->activity.position);
-    if (g->m.is_destructable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
+    if (g->m.is_bashable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
         g->m.ter(dirx, diry) != t_tree) {
         // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
         // Betcha wish you'd opted for the J-Hammer ;P
@@ -4709,7 +4871,7 @@ void on_finish_activity_pickaxe(player *p)
         p->fatigue += 10;
         p->thirst += 5;
     }
-    g->m.destroy(dirx, diry, false);
+    g->m.destroy(dirx, diry, true);
     it->charges = std::max(long(0), it->charges - it->type->charges_to_use());
     if (it->charges == 0 && it->destroyed_at_zero_charges()) {
         p->i_rem(p->activity.position);
@@ -5085,8 +5247,11 @@ int iuse::pipebomb_act(player *, item *it, bool t)
         add_msg(m_info, _("You've already lit the %s, try throwing it instead."), it->tname().c_str());
         return 0;
     } else { // The timer has run down
-        if (one_in(10) && g->u_see(pos.x, pos.y)) {
-            add_msg(_("The pipe bomb fizzles out."));
+        if (one_in(10)) {
+            // Fizzled, but we may not have seen it to know that
+            if (g->u_see(pos.x, pos.y)) {
+                add_msg(_("The pipe bomb fizzles out."));
+            }
         } else {
             g->explosion(pos.x, pos.y, rng(6, 14), rng(0, 4), false);
         }
@@ -7127,8 +7292,8 @@ int iuse::artifact(player *p, item *it, bool)
                         g->m.bash(x, y, 40);
                         g->m.bash(x, y, 40);  // Multibash effect, so that doors &c will fall
                         g->m.bash(x, y, 40);
-                        if (g->m.is_destructable(x, y) && rng(1, 10) >= 3) {
-                            g->m.ter_set(x, y, t_rubble);
+                        if (g->m.is_bashable(x, y) && rng(1, 10) >= 3) {
+                            g->m.bash(x, y, 999, false, true);
                         }
                     }
                 }
@@ -7400,7 +7565,7 @@ static bool heat_item(player *p)
         return false;
     }
     item *target = heat->is_food_container() ? &(heat->contents[0]) : heat;
-    if (target->type->is_food()) {
+    if ((target->type->is_food()) && (target->has_flag("EATEN_HOT"))) {
         p->moves -= 300;
         add_msg(_("You heat up the food."));
         target->item_tags.insert("HOT");
@@ -7876,6 +8041,9 @@ int iuse::towel(player *p, item *it, bool)
     // dry off from being wet
     else if (abs(p->has_morale(MORALE_WET))) {
         p->rem_morale(MORALE_WET);
+        for (int i = 0; i < num_bp; ++i) {
+            p->body_wetness[i] = 0;
+        }
         p->add_msg_if_player(_("You use the %s to dry off, saturating it with water!"),
                              it->tname().c_str());
 
@@ -8473,24 +8641,24 @@ bool einkpc_download_memory_card(player *p, item *eink, item *mc)
             recipe *r = candidates[rng(0, candidates.size() - 1)];
             const std::string rident = r->ident;
 
-            const item dummy(r->ident, 0);
+            const item dummy(r->result, 0);
 
             if (eink->item_vars["EIPC_RECIPES"] == "") {
                 something_downloaded = true;
                 eink->item_vars["EIPC_RECIPES"] = "," + rident + ",";
 
                 p->add_msg_if_player(m_good, _("You download a recipe for %s into the tablet's memory."),
-                                     dummy.tname().c_str());
+                                     dummy.type->nname(1).c_str());
             } else {
                 if (eink->item_vars["EIPC_RECIPES"].find("," + rident + ",") == std::string::npos) {
                     something_downloaded = true;
                     eink->item_vars["EIPC_RECIPES"] += rident + ",";
 
                     p->add_msg_if_player(m_good, _("You download a recipe for %s into the tablet's memory."),
-                                         dummy.tname().c_str());
+                                         dummy.type->nname(1).c_str());
                 } else {
                     p->add_msg_if_player(m_good, _("Your tablet already has a recipe for %s."),
-                                         dummy.tname().c_str());
+                                         dummy.type->nname(1).c_str());
                 }
             }
         }
@@ -8737,7 +8905,7 @@ int iuse::einktabletpc(player *p, item *it, bool t)
             rmenu.text = _("Choose recipe to view:");
             rmenu.addentry(0, true, 'q', _("Cancel"));
 
-            std::vector<std::string> recipes;
+            std::vector<std::string> candidate_recipes;
             std::istringstream f(it->item_vars["EIPC_RECIPES"]);
             std::string s;
             int k = 1;
@@ -8747,10 +8915,13 @@ int iuse::einktabletpc(player *p, item *it, bool t)
                     continue;
                 }
 
-                recipes.push_back(s);
+                candidate_recipes.push_back(s);
 
-                const item dummy(s, 0);
-                rmenu.addentry(k++, true, -1, dummy.tname().c_str());
+                auto recipe = find_recipe( s );
+                if( recipe ) {
+                    const item dummy( recipe->result, 0 );
+                    rmenu.addentry(k++, true, -1, dummy.type->nname(1).c_str());
+                }
             }
 
             rmenu.query();
@@ -8760,10 +8931,15 @@ int iuse::einktabletpc(player *p, item *it, bool t)
                 return it->type->charges_to_use();
             } else {
                 it->item_tags.insert("HAS_RECIPE");
-                it->item_vars["RECIPE"] = recipes[rchoice - 1];
+                it->item_vars["RECIPE"] = candidate_recipes[rchoice - 1];
 
-                const item dummy(it->item_vars["RECIPE"], 0);
-                p->add_msg_if_player(m_info, _("You change the e-ink screen to show a recipe for %s."), dummy.tname().c_str());
+                auto recipe = find_recipe( it->item_vars["RECIPE"] );
+                if( recipe ) {
+                    const item dummy( recipe->result, 0 );
+                    p->add_msg_if_player(m_info,
+                        _("You change the e-ink screen to show a recipe for %s."),
+                                         dummy.type->nname(1).c_str());
+                }
             }
 
             return it->type->charges_to_use();
@@ -9173,6 +9349,19 @@ int iuse::ehandcuffs(player *p, item *it, bool t)
             return it->type->charges_to_use();
         }
 
+        if (p->has_item(it)) {
+            if (p->has_active_bionic("bio_shock") && p->power_level >= 2 && one_in(5)) {
+                p->power_level -= 2;
+
+                it->item_tags.erase("NO_UNWIELD");
+                it->charges = 0;
+                it->active = false;
+                add_msg(m_good, _("The %s crackle with electricity from your bionic, then come off your hands!"), it->tname().c_str());
+
+                return it->type->charges_to_use();
+            }
+        }
+
         if (calendar::turn % 10 == 0) {
             g->sound(pos.x, pos.y, 10, _("a police siren, whoop WHOOP."));
         }
@@ -9180,14 +9369,24 @@ int iuse::ehandcuffs(player *p, item *it, bool t)
         const int x = atoi(it->item_vars["HANDCUFFS_X"].c_str());
         const int y = atoi(it->item_vars["HANDCUFFS_Y"].c_str());
 
-        if (x != pos.x || y != pos.y) {
+        if ((it->charges > it->type->maximum_charges() - 1000) && (x != pos.x || y != pos.y)) {
 
             if (p->has_item(it) && p->weapon.type->id == "e_handcuffs") {
 
-                add_msg(m_bad, _("Ouch, the cuffs shock you!"));
+                if (g->u.has_artifact_with(AEP_RESIST_ELECTRICITY) ||
+                    g->u.has_active_bionic("bio_faraday")) { //Artifact or bionic stops electricity.
+                    add_msg(_("The electricity flows around you."));
+                } else if (g->u.worn_with_flag("ELECTRIC_IMMUNE")) { //Artifact or bionic stops electricity.
+                    add_msg(_("Your armor safely grounds the electrical discharge."));
+                } else {
 
-                p->apply_damage(nullptr, bp_arm_l, rng(0, 2));
-                p->apply_damage(nullptr, bp_arm_r, rng(0, 2));
+                    add_msg(m_bad, _("Ouch, the cuffs shock you!"));
+
+                    p->apply_damage(nullptr, bp_arm_l, rng(0, 2));
+                    p->apply_damage(nullptr, bp_arm_r, rng(0, 2));
+                    g->u.mod_pain(rng(2, 5));
+
+                }
 
             } else {
                 add_msg(m_bad, _("The %s spark with electricity!"), it->tname().c_str());
@@ -9210,7 +9409,8 @@ int iuse::ehandcuffs(player *p, item *it, bool t)
     }
 
     if (it->active) {
-        add_msg("Your %s are clamped tightly on your limbs.  You can't take them off.", it->tname().c_str());
+        add_msg("The %s are clamped tightly on your wrists.  You can't take them off.",
+                it->tname().c_str());
     } else {
         add_msg("The %s have discharged and can be taken off.", it->tname().c_str());
     }

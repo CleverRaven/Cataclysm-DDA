@@ -51,8 +51,7 @@ void npc::move()
     int danger = 0, total_danger = 0, target = -1;
 
     choose_monster_target(target, danger, total_danger);
-    if (g->debugmon)
-        debugmsg("NPC %s: target = %d, danger = %d, range = %d",
+    add_msg( m_debug, "NPC %s: target = %d, danger = %d, range = %d",
                  name.c_str(), target, danger, confident_range(-1));
 
     //faction opinion determines if it should consider you hostile
@@ -71,9 +70,7 @@ void npc::move()
         if ((pl_danger > danger || rl_dist(posx, posy, g->u.posx, g->u.posy) <= 1) || target == -1) {
             target = TARGET_PLAYER;
             danger = pl_danger;
-            if (g->debugmon) {
-                debugmsg("NPC %s: Set target to PLAYER, danger = %d", name.c_str(), danger);
-            }
+            add_msg( m_debug, "NPC %s: Set target to PLAYER, danger = %d", name.c_str(), danger );
         }
     }
     // TODO: Place player-aiding actions here, with a weight
@@ -100,15 +97,11 @@ void npc::move()
 
     else { // No present danger
         action = address_needs(danger);
-        if (g->debugmon) {
-            debugmsg("address_needs %s", npc_action_name(action).c_str());
-        }
+        add_msg( m_debug, "address_needs %s", npc_action_name(action).c_str() );
         if (action == npc_undecided) {
             action = address_player();
         }
-        if (g->debugmon) {
-            debugmsg("address_player %s", npc_action_name(action).c_str());
-        }
+        add_msg( m_debug, "address_player %s", npc_action_name(action).c_str() );
         if (action == npc_undecided) {
             if (mission == NPC_MISSION_SHELTER || mission == NPC_MISSION_BASE || mission == NPC_MISSION_SHOPKEEP
                 || mission == NPC_MISSION_GUARD || has_disease("infection")) {
@@ -118,9 +111,7 @@ void npc::move()
             } else if (!fetching_item) {
                 find_item();
             }
-            if (g->debugmon) {
-                debugmsg("find_item %s", npc_action_name(action).c_str());
-            }
+            add_msg( m_debug, "find_item %s", npc_action_name(action).c_str() );
             // check if in vehicle before rushing off to fetch things
             if (is_following() && g->u.in_vehicle) {
                 action = npc_follow_embarked;
@@ -131,9 +122,7 @@ void npc::move()
             } else { // Do our long-term action
                 action = long_term_goal_action();
             }
-            if (g->debugmon) {
-                debugmsg("long_term_goal_action %s", npc_action_name(action).c_str());
-            }
+            add_msg( m_debug, "long_term_goal_action %s", npc_action_name(action).c_str() );
         }
     }
 
@@ -152,9 +141,7 @@ void npc::move()
         action = method_of_attack(target, danger);
     }
 
-    if (g->debugmon) {
-        debugmsg("%s chose action %s.", name.c_str(), npc_action_name(action).c_str());
-    }
+    add_msg( m_debug, "%s chose action %s.", name.c_str(), npc_action_name( action ).c_str() );
 
     execute_action(action, target);
 }
@@ -418,7 +405,7 @@ void npc::execute_action(npc_action action, int target)
     if (oldmoves == moves) {
         dbg(D_ERROR) << "map::veh_at: NPC didn't use its moves.";
         debugmsg("NPC didn't use its moves.  Action %d.  Turning on debug mode.", action);
-        g->debugmon = true;
+        debug_mode = true;
     }
 }
 
@@ -727,9 +714,7 @@ npc_action npc::address_player()
 
 npc_action npc::long_term_goal_action()
 {
-    if (g->debugmon) {
-        debugmsg("long_term_goal_action()");
-    }
+    add_msg( m_debug, "long_term_goal_action()" );
     path.clear();
 
     if (mission == NPC_MISSION_SHOPKEEP || mission == NPC_MISSION_SHELTER) {
@@ -1004,7 +989,8 @@ void npc::update_path(int x, int y)
 
 bool npc::can_move_to(int x, int y) const
 {
-    return ((g->m.move_cost(x, y) > 0 || g->m.has_flag("BASHABLE", x, y)) &&
+    //Space is considered good with a 20% chance of bashing successfully
+    return ((g->m.move_cost(x, y) > 0 || g->m.bash_rating(str_cur + weapon.type->melee_dam, x, y) >= 2) &&
             rl_dist(posx, posy, x, y) <= 1);
 }
 
@@ -1014,12 +1000,6 @@ void npc::move_to(int x, int y)
     if (has_effect("downed")) {
         moves -= 100;
         return;
-    }
-    if (has_disease("bouldering")) {
-        moves -= 20;
-        if (moves < 0) {
-            moves = 0;
-        }
     }
     if (recoil > 0) { // Start by dropping recoil a little
         if (int(str_cur / 2) + skillLevel("gun") >= (int)recoil) {
@@ -1090,17 +1070,11 @@ void npc::move_to(int x, int y)
             }
         } else if (g->m.open_door(x, y, (g->m.ter(posx, posy) == t_floor))) {
             moves -= 100;
-        } else if (g->m.has_flag("BASHABLE", x, y)) {
-            moves -= 110;
-            int smashskill = int(str_cur / 2 + weapon.type->melee_dam);
+        } else if (g->m.is_bashable(x, y) && g->m.bash_rating(str_cur + weapon.type->melee_dam, x, y) > 0) {
+            moves -= int(weapon.is_null() ? 80 : weapon.attack_time() * 0.8);;
+            int smashskill = str_cur + weapon.type->melee_dam;
             g->m.bash( x, y, smashskill );
         } else {
-            int frubble = g->m.get_field_strength( point(x, y), fd_rubble );
-            if (frubble > 0 ) {
-                g->u.add_disease("bouldering", 100, false, frubble, 3);
-            } else {
-                g->u.rem_disease("bouldering");
-            }
             moves -= 100;
         }
     }
@@ -1109,9 +1083,7 @@ void npc::move_to(int x, int y)
 void npc::move_to_next()
 {
     if (path.empty()) {
-        if (g->debugmon) {
-            debugmsg("npc::move_to_next() called with an empty path!");
-        }
+        add_msg( m_debug, "npc::move_to_next() called with an empty path!" );
         move_pause();
         return;
     }
@@ -1346,16 +1318,11 @@ void npc::find_item()
 
 void npc::pick_up_item()
 {
-    if (g->debugmon) {
-        debugmsg("%s::pick_up_item(); [%d, %d] => [%d, %d]", name.c_str(), posx, posy,
-                 itx, ity);
-    }
+    add_msg( m_debug, "%s::pick_up_item(); [%d, %d] => [%d, %d]", name.c_str(), posx, posy, itx, ity );
     update_path(itx, ity);
 
     if (path.size() > 1) {
-        if (g->debugmon) {
-            debugmsg("Moving; [%d, %d] => [%d, %d]", posx, posy, path[0].x, path[0].y);
-        }
+        add_msg( m_debug, "Moving; [%d, %d] => [%d, %d]", posx, posy, path[0].x, path[0].y );
         move_to_next();
         return;
     }
@@ -1419,7 +1386,7 @@ void npc::pick_up_item()
         if (itval < worst_item_value) {
             worst_item_value = itval;
         }
-        i_add((*items)[pickup[i]]);
+        i_add((*items)[i]);
     }
     for (auto &i : pickup) {
         g->m.i_rem(itx, ity, i);
@@ -1432,11 +1399,9 @@ void npc::pick_up_item()
 
 void npc::drop_items(int weight, int volume)
 {
-    if (g->debugmon) {
-        debugmsg("%s is dropping items-%d,%d (%d items, wgt %d/%d, vol %d/%d)",
+    add_msg( m_debug, "%s is dropping items-%d,%d (%d items, wgt %d/%d, vol %d/%d)",
                  name.c_str(), weight, volume, inv.size(), weight_carried(),
                  weight_capacity(), volume_carried(), volume_capacity());
-    }
 
     int weight_dropped = 0, volume_dropped = 0;
     std::vector<ratio_index> rWgt, rVol; // Weight/Volume to value ratios
@@ -2257,7 +2222,8 @@ void npc::go_to_destination()
             for (int dx = 0 - i; dx <= i; dx++) {
                 for (int dy = 0 - i; dy <= i; dy++) {
                     if ((g->m.move_cost(x + dx, y + dy) > 0 ||
-                         g->m.has_flag("BASHABLE", x + dx, y + dy) ||
+                         //Needs 20% chance of bashing success to be considered for pathing
+                         g->m.bash_rating(str_cur + weapon.type->melee_dam, x, y) >= 2 ||
                          g->m.ter(x + dx, y + dy) == t_door_c) &&
                         g->m.sees(posx, posy, x + dx, y + dy, light, linet)) {
                         path = g->m.route(posx, posy, x + dx, y + dy);
