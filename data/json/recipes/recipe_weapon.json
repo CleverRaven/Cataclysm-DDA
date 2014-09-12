@@ -3497,14 +3497,8 @@
   "time": 20000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      ["rock", -1],
-      ["primitive_hammer", -1],
-      ["hammer", -1],
-      ["hatchet", -1],
-      ["toolset", -1]
-    ]
+  "qualities": [
+    {"id":"HAMMER","level":1,"amount":1}
   ],
   "components": [
     [
@@ -3524,14 +3518,10 @@
   "time": 240000,
   "reversible": false,
   "autolearn": true,
+  "qualities": [
+    {"id":"HAMMER","level":1,"amount":1}
+  ],
   "tools": [
-    [
-      ["rock", -1],
-      ["primitive_hammer", -1],
-      ["hammer", -1],
-      ["hatchet", -1],
-      ["toolset", -1]
-    ],
     [
       ["toolset", 7],
       ["fire", -1],
@@ -3558,7 +3548,10 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_weapwest", 7 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities": [
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools": [
       [
       ["tongs", -1]
       ],
@@ -3603,7 +3596,10 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_weapwest", 8 ] , ["recipe_melee", 7 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1] ],
+  "qualities": [
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools": [
       [
       ["tongs", -1]
       ],
@@ -3648,7 +3644,10 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_weapwest", 8 ] , [ "recipe_melee", 6 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1] ],
+  "qualities": [
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools": [
       [
       ["tongs", -1]
       ],
@@ -3689,7 +3688,10 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_weapwest", 8 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities": [
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools": [
       [
       ["tongs", -1]
       ],
@@ -3734,7 +3736,10 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_weapwest", 8 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities": [
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools": [
       [
       ["tongs", -1]
       ],
@@ -3779,7 +3784,10 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_weapeast", 6 ], [ "manual_knives", 7 ] , [ "recipe_melee", 8 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities": [
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools": [
       [
       ["tongs", -1]
       ],
@@ -3824,7 +3832,10 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_weapeast", 7 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities": [
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools": [
       [
       ["tongs", -1]
       ],
@@ -3869,7 +3880,10 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_weapeast", 8 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities": [
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools": [
       [
       ["tongs", -1]
       ],
@@ -3914,7 +3928,10 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_weapeast", 8 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities":[
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools": [
       [
       ["tongs", -1]
       ],
@@ -3958,7 +3975,10 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_weapwest", 3 ] , [ "recipe_melee", 4 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities":[
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools": [
       [
       ["tongs", -1]
       ],
@@ -3999,7 +4019,10 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_weapwest", 5 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities":[
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools": [
       [
       ["tongs", -1]
       ],
@@ -4043,7 +4066,10 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_weapwest", 6 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities":[
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools": [
       [
       ["tongs", -1]
       ],
@@ -4141,7 +4167,10 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_weapeast", 9 ] , [ "recipe_melee", 4 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities":[
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools": [
       [
       ["tongs", -1]
       ],
@@ -4177,16 +4206,15 @@
   "reversible": true,
   "autolearn": false,
   "book_learn": [[ "textbook_electronics", 3 ] , ["advanced_electronics", 3] , [ "recipe_melee", 4 ]],
+  "qualities": [
+    {"id":"SCREW_FINE","level":3,"amount":1}
+  ],
   "tools": [
     [
       [ "toolset", 10 ],
       [ "soldering_iron", 10 ]
-    ],
-    [
-      ["toolset", -1],
-      ["screwdriver", -1]
     ]
-    ],
+  ],
   "components": [
     [
       [ "i_staff", 1 ]
@@ -4233,31 +4261,12 @@
   "autolearn": false,
   "book_learn" : [[ "recipe_bows", 6 ] , [ "textbook_weapwest", 6]],
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "tools": [
-    [
-      [ "wrench", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
-      [ "saw", -1 ]
-    ],
-    [
-      [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
-      [ "screwdriver", -1 ],
-      [ "toolset", -1 ]
-    ]
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"HAMMER","level":1,"amount":1},
+    {"id":"SCREW","level":1,"amount":1},
+    {"id":"WRENCH","level":1,"amount":1},
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SAW_W","level":1,"amount":1}
   ],
   "components": [
     [
@@ -4294,20 +4303,11 @@
     "autolearn": true,
     "book_learn": [[ "manual_rifle", 5 ] , [ "mag_rifle", 6 ]],
     "qualities":[
-      {"id":"CUT","level":1,"amount":1}
+      {"id":"CUT","level":1,"amount":1},
+      {"id":"HAMMER","level":3,"amount":1},
+      {"id":"SCREW_FINE","level":1,"amount":1}
     ],
     "tools":[
-      [
-        ["hammer", -1],
-        ["toolset", -1],
-        [ "small_repairkit", -1 ],
-        [ "large_repairkit", -1 ]
-      ],
-      [
-        ["screwdriver", -1],
-        [ "small_repairkit", -1 ],
-        [ "large_repairkit", -1 ]
-      ],
       [
         ["tongs", -1]
       ],
@@ -4353,20 +4353,11 @@
     "autolearn": true,
     "book_learn": [[ "manual_pistol", 5 ] , [ "mag_pistol", 6 ]],
     "qualities":[
-      {"id":"CUT","level":1,"amount":1}
+      {"id":"CUT","level":1,"amount":1},
+      {"id":"HAMMER","level":3,"amount":1},
+      {"id":"SCREW_FINE","level":1,"amount":1}
     ],
     "tools":[
-      [
-        ["hammer", -1],
-        ["toolset", -1],
-        [ "small_repairkit", -1 ],
-        [ "large_repairkit", -1 ]
-      ],
-      [
-        ["screwdriver", -1],
-        [ "small_repairkit", -1 ],
-        [ "large_repairkit", -1 ]
-      ],
       [
         ["tongs", -1]
       ],
@@ -4413,20 +4404,9 @@
   "autolearn":false,
   "book_learn" : [[ "recipe_bows", 4 ] , [ "textbook_weapeast", 6]],
   "qualities":[
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "tools": [
-    [
-      [ "screwdriver", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
-    ]
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"SCREW","level":1,"amount":1},
+    {"id":"HAMMER","level":1,"amount":1}
   ],
   "components": [
     [
