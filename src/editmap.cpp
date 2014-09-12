@@ -645,13 +645,14 @@ int editmap::edit_ter()
     int lastsel_ter = sel_ter;
     int lastsel_frn = sel_frn;
 
-    int xmax = pickw;
-    int tymax = int(num_terrain_types / xmax);
-    if ( tymax % xmax != 0 ) {
+    const int xmin = 3; // left margin
+    int xmax = pickw - xmin;
+    int tymax = int(terlist.size() / xmax);
+    if ( terlist.size() % xmax != 0 ) {
         tymax++;
     }
-    int fymax = int(num_furniture_types / xmax);
-    if ( fymax == 0 || fymax % xmax != 0 ) {
+    int fymax = int(furnlist.size() / xmax);
+    if ( furnlist.size() % xmax != 0 ) {
         fymax++;
     }
 
@@ -687,8 +688,8 @@ int editmap::edit_ter()
         int cur_t = 0;
         int tstart = 2;
         // draw icon grid
-        for (int y = tstart; y < pickh && cur_t < num_terrain_types; y += 2) {
-            for (int x = 3; x < pickw && cur_t < num_terrain_types; x++, cur_t++) {
+        for (int y = tstart; y < pickh && cur_t < (int) terlist.size(); y += 2) {
+            for (int x = xmin; x < pickw && cur_t < (int) terlist.size(); x++, cur_t++) {
                 ter_t ttype = terlist[cur_t];
                 mvwputch(w_pickter, y, x, ( ter_frn_mode == 0 ? ttype.color : c_dkgray ) , ttype.sym);
                 if(cur_t == sel_ter) {
@@ -741,8 +742,8 @@ int editmap::edit_ter()
         off += 2;
         int cur_f = 0;
         int fstart = off; // calc vertical offset, draw furniture icons
-        for (int y = fstart; y < pickh && cur_f < num_furniture_types; y += 2) {
-            for (int x = 3; x < pickw && cur_f < num_furniture_types; x++, cur_f++) {
+        for (int y = fstart; y < pickh && cur_f < (int) furnlist.size(); y += 2) {
+            for (int x = xmin; x < pickw && cur_f < (int) furnlist.size(); x++, cur_f++) {
 
                 furn_t ftype = furnlist[cur_f];
                 mvwputch(w_pickter, y, x, ( ter_frn_mode == 1 ? ftype.color : c_dkgray ), ftype.sym);
@@ -814,18 +815,18 @@ int editmap::edit_ter()
         lastsel_frn = sel_frn;
         if ( ter_frn_mode == 0 ) {
             if( action == "LEFT" ) {
-                sel_ter = (sel_ter - 1 >= 0 ? sel_ter - 1 : num_terrain_types - 1);
+                sel_ter = (sel_ter - 1 >= 0 ? sel_ter - 1 : (int) terlist.size() - 1);
             } else if( action == "RIGHT" ) {
-                sel_ter = (sel_ter + 1 < num_terrain_types ? sel_ter + 1 : 0 );
+                sel_ter = (sel_ter + 1 < (int) terlist.size() ? sel_ter + 1 : 0 );
             } else if( action == "UP" ) {
-                if (sel_ter - xmax + 3 >= 0 ) {
-                    sel_ter = sel_ter - xmax + 3;
+                if (sel_ter - xmax >= 0 ) {
+                    sel_ter = sel_ter - xmax;
                 } else {
                     ter_frn_mode = ( ter_frn_mode == 0 ? 1 : 0 );
                 }
             } else if( action == "DOWN" ) {
-                if (sel_ter + xmax - 3 < num_terrain_types ) {
-                    sel_ter = sel_ter + xmax - 3;
+                if (sel_ter + xmax < (int) terlist.size() ) {
+                    sel_ter = sel_ter + xmax;
                 } else {
                     ter_frn_mode = ( ter_frn_mode == 0 ? 1 : 0 );
                 }
@@ -882,18 +883,18 @@ int editmap::edit_ter()
             }
         } else { // todo: cleanup
             if( action == "LEFT" ) {
-                sel_frn = (sel_frn - 1 >= 0 ? sel_frn - 1 : num_furniture_types - 1);
+                sel_frn = (sel_frn - 1 >= 0 ? sel_frn - 1 : (int) furnlist.size() - 1);
             } else if( action == "RIGHT" ) {
-                sel_frn = (sel_frn + 1 < num_furniture_types ? sel_frn + 1 : 0 );
+                sel_frn = (sel_frn + 1 < (int) furnlist.size() ? sel_frn + 1 : 0 );
             } else if( action == "UP" ) {
-                if ( sel_frn - xmax + 3 >= 0 ) {
-                    sel_frn = sel_frn - xmax + 3;
+                if ( sel_frn - xmax >= 0 ) {
+                    sel_frn = sel_frn - xmax;
                 } else {
                     ter_frn_mode = ( ter_frn_mode == 0 ? 1 : 0 );
                 }
             } else if( action == "DOWN" ) {
-                if ( sel_frn + xmax - 3 < num_furniture_types ) {
-                    sel_frn = sel_frn + xmax - 3;
+                if ( sel_frn + xmax < (int) furnlist.size() ) {
+                    sel_frn = sel_frn + xmax;
                 } else {
                     ter_frn_mode = ( ter_frn_mode == 0 ? 1 : 0 );
                 }
