@@ -302,7 +302,8 @@
             "sound": "porcelain breaking!",
             "sound_fail": "whunk!",
             "items": [
-                { "item": "cu_pipe", "amount": 3, "minamount": 0 }
+                { "item": "cu_pipe", "amount": 3, "minamount": 0 },
+                { "item": "ceramic_shard", "amount": 6, "minamount": 2}
             ]
         }
     },{
@@ -1816,7 +1817,7 @@
         "bash": {
             "str_min": 6, "str_max": 20,
             "sound": "glass breaking",
-            "sound_fail": "thunk",
+            "sound_fail": "whack!",
             "furn_set": "f_displaycase_b",
             "items": [
                 { "item": "glass_shard", "amount": 6, "minamount": 3 }
