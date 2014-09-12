@@ -70,6 +70,7 @@ class worldfactory
 
         void draw_modselection_borders(WINDOW *win, input_context *ctxtp);
         void draw_worldgen_tabs(WINDOW *win, unsigned int current, std::vector<std::string> tabs);
+        void draw_mod_list(WINDOW *w, int &start, int &cursor, const std::vector<std::string> &mods, bool is_active_list, const std::string &text_if_empty);
 
         std::unordered_map<std::string, cOpt> get_default_world_options();
         std::unordered_map<std::string, cOpt> get_world_options(std::string path);

@@ -739,6 +739,33 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
     return 0;
 }
 
+void worldfactory::draw_mod_list( WINDOW *w, int &start, int &cursor, const std::vector<std::string> &mods, bool is_active_list, const std::string &text_if_empty )
+{
+    werase( w );
+    calcStartPos( start, cursor, getmaxy( w ), mods.size() );
+    if( mods.empty() ) {
+        center_print( w, 0, c_red, "%s", text_if_empty.c_str() );
+    } else {
+        const size_t wwidth = getmaxx( w ) - 1 - 3; // border (1) + ">> " (3)
+        for( size_t i = start, c = 0; i < mods.size() && (int)c < getmaxy( w ); ++i, ++c ) {
+            auto mod = mman->mod_map[mods[i]];
+            if( (int)i != cursor ) {
+                mvwprintw( w, c, 1, "   " );
+            } else {
+                if( is_active_list ) {
+                    mvwprintz( w, c, 1, c_yellow, ">> " );
+                } else {
+                    mvwprintz( w, c, 1, c_blue, ">> " );
+                }
+            }
+            const std::string name = utf8_truncate( mod->name, wwidth );
+            mvwprintz( w, c, 4, c_white, "%s", name.c_str() );
+        }
+    }
+    draw_scrollbar( w, cursor, getmaxy( w ), mods.size(), 0, 0 );
+    wrefresh( w );
+}
+
 int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
 {
     // Use active_mod_order of the world,
@@ -850,63 +877,10 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
             wrefresh(w_description);
         }
         if (redraw_list) {
-            werase(w_list);
-            calcStartPos(startsel[0], cursel[0], getmaxy(w_list), useable_mod_count);
-
-            if (useable_mod_count == 0) {
-                center_print(w_list, 0, c_red, _("--NO AVAILABLE MODS--"));
-            } else {
-                std::stringstream list_output;
-
-                for( size_t i = startsel[0], c = 0;
-                     i < useable_mod_count && (int)c < getmaxy(w_list); ++i, ++c ) {
-                    if ((int)i != cursel[0]) {
-                        list_output << std::string(3, ' ');
-                    } else {
-                        if (active_header == 0) {
-                            list_output << "<color_yellow>";
-                        } else {
-                            list_output << "<color_blue>";
-                        }
-                        list_output << ">></color> ";
-                    }
-                    list_output << mman->mod_map[mman_ui->usable_mods[i]]->name << "\n";
-                }
-                fold_and_print(w_list, 0, 1, getmaxx(w_list) - 1, c_white, list_output.str());
-            }
-            draw_scrollbar(w_list, cursel[0], getmaxy(w_list), useable_mod_count, 0, 0);
-
-            wrefresh(w_list);
+            draw_mod_list( w_list, startsel[0], cursel[0], mman_ui->usable_mods, active_header == 0, _("--NO AVAILABLE MODS--") );
         }
         if (redraw_active) {
-            werase(w_active);
-            const int active_count = active_mod_order.size();
-            calcStartPos(startsel[1], cursel[1], getmaxy(w_active), active_count);
-
-            if (active_count == 0) {
-                center_print(w_active, 0, c_red, _("--NO ACTIVE MODS--"));
-            } else {
-                std::stringstream list_output;
-
-                for (int i = startsel[1], c = 0; i < active_count && c < getmaxy(w_active); ++i, ++c) {
-                    if (i != cursel[1]) {
-                        list_output << std::string(3, ' ');
-                    } else {
-                        if (active_header == 1) {
-                            list_output << "<color_yellow>";
-                        } else {
-                            list_output << "<color_blue>";
-                        }
-                        list_output << ">></color> ";
-                    }
-                    list_output << mman->mod_map[active_mod_order[i]]->name << "\n";
-                }
-                fold_and_print(w_active, 0, 1, getmaxx(w_active) - 1, c_white, list_output.str());
-            }
-
-            draw_scrollbar(w_active, cursel[1], getmaxy(w_active), active_count, 0, 0);
-
-            wrefresh(w_active);
+            draw_mod_list( w_active, startsel[1], cursel[1], active_mod_order, active_header == 1, _("--NO ACTIVE MODS--") );
         }
         if (redraw_shift) {
             werase(w_shift);
