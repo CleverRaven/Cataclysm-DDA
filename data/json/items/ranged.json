@@ -1883,7 +1883,7 @@
     "flags": "MODE_BURST",
     "skill": "rifle",
     "ammo": "223",
-    "weight": 2890,
+    "weight": 2690,
     "volume": 6,
     "bashing": 12,
     "cutting": 0,
@@ -1924,7 +1924,7 @@
     "burst": 5,
     "clip_size": 30,
     "reload": 500,
-    "valid_mod_locations": [[ "accessories", 4 ]]
+    "valid_mod_locations": [[ "accessories", 2 ], [ "magazine", 2 ]]
   },
   {
     "id": "acr",
@@ -2036,7 +2036,7 @@
     "burst": 3,
     "clip_size": 30,
     "reload": 500,
-    "valid_mod_locations": [[ "accessories", 4 ]]
+    "valid_mod_locations": [[ "accessories", 2 ] , [ "magazine", 2 ]]
   },
   {
     "id": "scar_l",
@@ -2203,7 +2203,7 @@
     "burst": 0,
     "clip_size": 30,
     "reload": 500,
-    "valid_mod_locations": [[ "accessories", 4 ]]
+    "valid_mod_locations": [[ "accessories", 2 ], [ "magazine", 2 ]]
   },
   {
     "id": "m27iar",
@@ -2240,7 +2240,7 @@
     "color": "dark_gray",
     "name": "L523-LMG",
     "name_plural": "L523-LMGs",
-    "description": "Leadworks LLC's bullpup L523 platform utilizes the ubitiquous 5.56 round in multiple applications, and is designed to part-swap quickly, safely, and effectively from one to the next.  The rather ambitious light machine gun variant incorporates a heavy-duty barrel & foregrip, the Leadworks gyro system, and a redesigned drum magazine capable of serving up 100 rounds per reload.  Like the rest of the family, though, it doesn't accept third-party modifications.",
+    "description": "Leadworks LLC's bullpup L523 platform utilizes the ubitiquous 5.56 round in multiple applications, and is designed to part-swap quickly, safely, and effectively from one to the next.  The rather ambitious light machine gun variant incorporates a heavy-duty barrel & foregrip, the Leadworks gyro system, and a redesigned drum magazine capable of serving up 100 rounds per reload.  Unfortunately this rules out third-party magazines, as well as more usual modifications.",
     "price": 620000,
     "material": ["steel", "plastic"],
     "flags": "MODE_BURST",
