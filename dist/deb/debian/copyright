@@ -1,0 +1,24 @@
+Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Name: cataclysm-dda
+Source: https://github.com/CleverRaven/Cataclysm-DDA
+
+Files: *
+Copyright: 2010-2013 Whales <fivedozenwhales@gmail.com>
+           2012-2013 TheDarklingWolf <TheDarklingWolf@gmail.com>
+           2012-2014 Kevin Granade <kevin.granade@gmail.com>
+           2013-2014 Rivet-the-Zombie <rivet.the.zombie@gmail.com>
+           2013-2014 KA101 <cstrayer@rocketmail.com>
+License: CC-BY-SA-3.0
+
+Files: dist/deb/*
+Copyright: 2014 Vitaly Vlasov <vnigtha@gmail.com>
+License: CC-BY-SA-3.0
+
+License: CC-BY-SA-3.0
+ Cataclysm:Dark Days Ahead is released under the Creative Commons Attribution
+ ShareAlike 3.0 license. The code and content of the game is free to use,
+ modify, and redistribute for any purpose whatsoever.
+ See http://creativecommons.org/licenses/by-sa/3.0/ for details.
+ .
+ This means any contribution you make to the project will also be covered
+ by the same license, and this license is irrevocable.
