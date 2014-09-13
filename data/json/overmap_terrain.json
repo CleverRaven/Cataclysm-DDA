@@ -4343,7 +4343,7 @@
         "see_cost" : 5,
         "mondensity" : 2
     },{
-        "type" : "overmap_terrain",
+	    "type" : "overmap_terrain",
         "id" : "bandit_cabin",
         "name" : "bandit cabin",
         "sym" : 70,
@@ -4429,5 +4429,75 @@
         "color" : "cyan",
         "see_cost" : 5,
         "extras" : "field"
-    }
+    },{
+        "type" : "overmap_terrain",
+        "id" : "rivfactory_00",
+        "name" : "Rivtech Factory", 
+        "sym" : 82,
+		"rotate" : true,
+        "color" : "dark_gray",
+		"extras" : "build",        
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "rivfactory_01",
+        "name" : "Rivtech Factory", 
+        "sym" : 82,
+		"rotate" : true,
+        "color" : "dark_gray",
+		"extras" : "build",        
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "rivfactory_02",
+        "name" : "Rivtech Factory", 
+        "sym" : 82,
+		"rotate" : true,
+        "color" : "dark_gray",
+		"extras" : "build",        
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "rivfactory_03",
+        "name" : "Rivtech Factory", 
+        "sym" : 82,
+		"rotate" : true,
+        "color" : "dark_gray",
+		"extras" : "build",        
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "rivfactory_04",
+        "name" : "Rivtech Factory", 
+        "sym" : 82,
+		"rotate" : true,
+        "color" : "dark_gray",
+		"extras" : "build",        
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "rivfactory_10",
+        "name" : "Rivtech Factory", 
+        "sym" : 82,
+		"rotate" : true,
+        "color" : "dark_gray",
+		"extras" : "build",        
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "rivfactory_11",
+        "name" : "Rivtech Factory", 
+        "sym" : 82,
+		"rotate" : true,
+        "color" : "dark_gray",
+		"extras" : "build",        
+        "see_cost" : 5,
+        "mondensity" : 2
+    }	
 ]

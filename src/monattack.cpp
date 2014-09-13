@@ -1716,6 +1716,26 @@ void mattack::fear_paralyze(monster *z)
     }
 }
 
+void mattack::proximity_alarm(monster *z)
+{
+    int t;
+    int distance = rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy);//defined them to makes things a little clear
+    bool seen = g->sees_u(z->posx(), z->posy(), t);
+    if (distance > 40 || !seen){ //if you are far away or not seen, do nothing.
+        return;
+    } else if(distance > 20 && distance < 40 && seen){  //gives the player a "fair chance" to leave
+        add_msg(m_warning, _("%s:YOU ARE IN A RESTRICTED ZONE.  LEAVE OR LETHAL FORCE WILL BE USED."), z->name().c_str());
+        return;
+    }
+    z->sp_timeout = z->type->sp_freq;
+    z->moves -= 250;
+    add_msg(m_warning,
+             _("The %s sounds a alarm! YOU HAVE BEEN FOUND GUILTY OF TRESSPASSING IN A RESTRICTED AREA.  THE AUTHORITIES ARE ON THEIR WAY."),
+             z->name().c_str());
+    g->add_event(EVENT_ROBOT_ATTACK, int(calendar::turn) + rng(40, 60), z->faction_id,
+                 g->levx, g->levy);
+}
+
 void mattack::photograph(monster *z)
 {
     int t;

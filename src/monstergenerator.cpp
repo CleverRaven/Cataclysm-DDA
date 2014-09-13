@@ -197,6 +197,7 @@ void MonsterGenerator::init_attack()
     attack_map["TRIFFID_GROWTH"] = &mattack::triffid_growth;
     attack_map["STARE"] = &mattack::stare;
     attack_map["FEAR_PARALYZE"] = &mattack::fear_paralyze;
+    attack_map["PROXIMITY_ALARM"] = &mattack::proximity_alarm;
     attack_map["PHOTOGRAPH"] = &mattack::photograph;
     attack_map["TAZER"] = &mattack::tazer;
     attack_map["SMG"] = &mattack::smg;

@@ -1834,7 +1834,7 @@
         "color": "ltgray",
         "move_cost_mod": 2,
         "required_str": 9,
-        "flags": ["TRANSPARENT", "PLACE_ITEM"],
+		"flags": ["TRANSPARENT", "PLACE_ITEM"],
         "bash": {
             "str_min": 8, "str_max": 30,
             "sound": "crunch!",
@@ -1843,6 +1843,74 @@
                 { "item": "2x4", "amount": 6, "minamount": 3 },
                 { "item": "splinter", "amount": 4, "minamount": 2 }
             ]
+        }    
+    },{
+        "type" : "furniture",
+        "id" : "f_plc",
+        "name": "PLC(programmable logic controller)",
+        "symbol": "6",
+        "color": "white",
+        "move_cost_mod": -1,
+        "required_str": 10,
+        "flags": ["BASHABLE", "TRANSPARENT"],
+        "deconstruct": {
+            "items": [
+                { "item": "plc", "amount": 1, "minamount": 1},
+                { "item": "sheet_metal", "amount": 2, "minamount": 2},
+                { "item": "cable", "amount": 30, "minamount": 4}
+            ]
+        },
+            "bash": {
+            "str_min": 10, "str_max": 25,
+            "sound": "metal screeching!",
+            "sound_fail": "clink!",
+            "items": [
+                { "item": "cable", "amount": 10, "minamount": 4},
+                { "item": "scrap", "amount": 10, "minamount": 2},                
+				{ "item": "e_scrap", "amount": 8, "minamount": 1, "chance": 50}                
+            ]
         }
-    }
+   },{
+        "type" : "furniture",
+        "id" : "f_industrial_a_loader",
+        "name": "industrial ammunition loader",
+        "symbol": "%",
+        "color": "dkgray",
+        "move_cost_mod": -1,
+        "required_str": 20,
+        "flags": ["BASHABLE", "TRANSPARENT"],
+        "deconstruct": {
+            "items": [                
+                { "item": "sheet_metal", "amount": 4, "minamount": 2},
+				{ "item": "scrap", "amount": 10, "minamount": 2},                
+                { "item": "cable", "amount": 10, "minamount": 4}
+            ]
+        },
+            "bash": {
+            "str_min": 10, "str_max": 25,
+            "sound": "metal screeching!",
+            "sound_fail": "clink!",
+            "items": [
+                { "item": "cable", "amount": 10, "minamount": 4},
+                { "item": "scrap", "amount": 10, "minamount": 2}                
+            ]
+        }
+   },{
+        "type" : "furniture",
+        "id" : "f_hopper",
+        "name": "hopper",
+        "symbol": "%",
+        "color": "brown",
+        "move_cost_mod": 6,
+        "required_str": 20,
+        "flags": ["CONTAINER","TRANSPARENT", "PLACE_ITEM", "BLOCKSDOOR"],
+        "deconstruct": {
+            "items": [                
+                { "item": "steel_plate", "amount": 2, "minamount": 1},
+				{ "item": "frame", "amount": 2, "minamount": 4},
+				{ "item": "wheel_caster", "amount": 2, "minamount": 4}				
+            ]
+        }    
+   }	
+
 ]
