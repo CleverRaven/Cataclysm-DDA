@@ -1396,10 +1396,13 @@
         "points" : 2,
         "visibility" : 0,
         "ugliness" : 1,
-        "description" : "You have claws on the ends of your fingers, and can retract them if desired.  If you aren't wearing gloves, your unarmed attacks deal a minor amount of cutting damage.",
+        "description" : "You have claws on the ends of your fingers, and can extend or retract them as desired.  Gloves will still get in the way, though.",
         "prereqs" : ["CLAWS"],
         "cancels" : ["TALONS"],
-        "category" : ["MUTCAT_FELINE"]
+        "category" : ["MUTCAT_FELINE"],
+        "active"     :    true,
+        "cost"       :    0,
+        "time"       :    100
     },{
         "type" : "mutation",
         "id" : "CLAWS_TENTACLE",
@@ -1902,7 +1905,11 @@
         "prereqs" : ["TAIL_STUB"],
         "cancels" : ["TAIL_FIN", "TAIL_FLUFFY", "TAIL_STING", "TAIL_CLUB", "TAIL_RAPTOR", "TAIL_CATTLE", "TAIL_RAT"],
         "changes_to" : ["TAIL_CLUB"],
-        "category" : ["MUTCAT_LIZARD"]
+        "category" : ["MUTCAT_LIZARD"],
+        "active"     :    true,
+        "cost"       :    20,
+        "time"       :    10,
+        "fatigue"    :    true
     },{
         "type" : "mutation",
         "id" : "TAIL_RAPTOR",
@@ -1934,7 +1941,11 @@
         "description" : "You have a long tail that ends in a vicious stinger, like that of a scorpion. It does not improve your balance at all, but allows for a powerful piercing attack.",
         "prereqs" : ["TAIL_LONG"],
         "cancels" : ["TAIL_FLUFFY", "TAIL_CLUB", "TAIL_FIN", "TAIL_THICK", "TAIL_RAT", "TAIL_CATTLE", "TAIL_RAPTOR"],
-        "category" : ["MUTCAT_INSECT"]
+        "category" : ["MUTCAT_INSECT"],
+        "active"     :    true,
+        "cost"       :    20,
+        "time"       :    10,
+        "fatigue"    :    true
     },{
         "type" : "mutation",
         "id" : "TAIL_CLUB",
@@ -1945,7 +1956,11 @@
         "description" : "You have a long tail that ends in a heavy, bony club. It does not improve your balance at all, but allows for a powerful bashing attack.",
         "prereqs" : ["TAIL_THICK"],
         "cancels" : ["TAIL_FLUFFY", "TAIL_STING", "TAIL_FIN", "TAIL_RAT", "TAIL_CATTLE", "TAIL_RAPTOR"],
-        "category" : ["MUTCAT_CHIMERA"]
+        "category" : ["MUTCAT_CHIMERA"],
+        "active"     :    true,
+        "cost"       :    20,
+        "time"       :    10,
+        "fatigue"    :    true
     },{
         "type" : "mutation",
         "id" : "HIBERNATE",
@@ -2141,10 +2156,16 @@
         "points" : 3,
         "visibility" : 4,
         "ugliness" : 4,
-        "description" : "You have a pair of large, translucent wings. You buzz them as you run, enabling you to run faster.",
+        "description" : "You have a pair of large, translucent wings.  They are too small to lift you, but are powerful enough to greatly speed your momvement, with some effort and noise.",
         "prereqs" : ["WINGS_STUB"],
         "cancels" : ["WINGS_BIRD", "WINGS_BAT", "WINGS_BUTTERFLY"],
-        "category" : ["MUTCAT_INSECT"]
+        "category" : ["MUTCAT_INSECT"],
+        "active"     :    true,
+        "cost"       :    100,
+        "time"       :    10,
+        "fatigue"    :    true,
+        "hunger" : true,
+        "thirst" : true
     },{
         "type" : "mutation",
         "id" : "MOUTH_TENTACLES",
@@ -2249,7 +2270,7 @@
         "id" : "WEB_WEAVER",
         "name" : "Web Weaver",
         "points" : 5,
-        "description" : "You've developed the necessary anatomy and techniques to control your web-generation.  Use the pause function to spin or enhance webs.",
+        "description" : "You've developed the necessary anatomy and techniques to control your web-generation.  Activate this to start or stop weaving webs.",
         "prereqs" : ["WEB_SPINNER"],
         "threshreq" : ["THRESH_SPIDER"],
         "cancels" : ["SLIMY"],

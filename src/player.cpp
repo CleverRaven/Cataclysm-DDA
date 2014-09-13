@@ -514,7 +514,7 @@ void player::reset_stats()
     if (has_trait("TAIL_RAT")) {
         mod_dodge_bonus(2);
     }
-    if (has_trait("TAIL_THICK")) {
+    if (has_trait("TAIL_THICK") && !(has_active_mutation("TAIL_THICK")) ) {
         mod_dodge_bonus(1);
     }
     if (has_trait("TAIL_RAPTOR")) {
@@ -1553,8 +1553,8 @@ int player::run_cost(int base_cost, bool diag)
     if (has_trait("HOLLOW_BONES")) {
         movecost *= .8f;
     }
-    if (has_trait("WINGS_INSECT")) {
-        movecost -= 15;
+    if (has_active_mutation("WINGS_INSECT")) {
+        movecost *= .75f;
     }
     if (has_trait("WINGS_BUTTERFLY")) {
         movecost -= 10; // You can't fly, but you can make life easier on your legs
@@ -5575,7 +5575,12 @@ void player::suffer()
             }
         }
     }
-
+    
+    if(has_active_mutation("WINGS_INSECT")){
+        //~Sound of buzzing Insect Wings
+        g->sound(posx, posy, 10, "BZZZZZ");
+    }
+    
     double shoe_factor = footwear_factor();
     if( has_trait("ROOTS3") && g->m.has_flag("DIGGABLE", posx, posy) && !shoe_factor) {
         if (one_in(25 / shoe_factor)) {
