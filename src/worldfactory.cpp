@@ -782,12 +782,14 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
     }
 
     input_context ctxt("MODMANAGER_DIALOG");
-    ctxt.register_cardinal();
+    ctxt.register_updown();
+    ctxt.register_action("LEFT", _("Switch to other list"));
+    ctxt.register_action("RIGHT", _("Switch to other list"));
     ctxt.register_action("HELP_KEYBINDINGS");
     ctxt.register_action("QUIT");
     ctxt.register_action("NEXT_TAB");
     ctxt.register_action("PREV_TAB");
-    ctxt.register_action("CONFIRM");
+    ctxt.register_action("CONFIRM", _("Activate / deactive mod"));
     ctxt.register_action("ADD_MOD");
     ctxt.register_action("REMOVE_MOD");
     ctxt.register_action("SAVE_DEFAULT_MODS");

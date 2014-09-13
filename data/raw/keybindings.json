@@ -533,7 +533,7 @@
         "type" : "keybinding",
         "id": "ADD_MOD",
         "category": "MODMANAGER_DIALOG",
-        "name": "Add selected mod",
+        "name": "Move selected mod up",
         "bindings":[
             {
                 "input_method":"keyboard",
@@ -545,7 +545,7 @@
         "type" : "keybinding",
         "id": "REMOVE_MOD",
         "category": "MODMANAGER_DIALOG",
-        "name": "Remove selcted mod",
+        "name": "Move selcted mod down",
         "bindings":[
             {
                 "input_method":"keyboard",
