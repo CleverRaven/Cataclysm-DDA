@@ -1103,6 +1103,7 @@
         "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "UNIQUE" ]
     },{
+		"type" : "overmap_special",
         "id" : "bandit_cabin",
         "overmaps" :
         [
@@ -1203,6 +1204,5 @@
         "required" : false, "//":"is this special required for valid city sizes",
         "flags" : ["UNIQUE", "REQUIRED", "ROTATE" ]
 	}
-
 ]
 
