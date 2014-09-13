@@ -2161,7 +2161,7 @@
         "cancels" : ["WINGS_BIRD", "WINGS_BAT", "WINGS_BUTTERFLY"],
         "category" : ["MUTCAT_INSECT"],
         "active"     :    true,
-        "cost"       :    100,
+        "cost"       :    20,
         "time"       :    10,
         "fatigue"    :    true,
         "hunger" : true,

@@ -5558,6 +5558,11 @@ void player::suffer()
             activate_bionic(i);
         }
     }
+    
+    // TODO: Active mutations need processed here.
+    // Appears to need a fundamental overhaul of their handling,
+    // which I'm not gonna start at 3 AM.  -KA101.
+
     if (underwater) {
         if (!has_trait("GILLS")) {
             oxygen--;
@@ -5575,12 +5580,12 @@ void player::suffer()
             }
         }
     }
-    
+
     if(has_active_mutation("WINGS_INSECT")){
         //~Sound of buzzing Insect Wings
         g->sound(posx, posy, 10, "BZZZZZ");
     }
-    
+
     double shoe_factor = footwear_factor();
     if( has_trait("ROOTS3") && g->m.has_flag("DIGGABLE", posx, posy) && !shoe_factor) {
         if (one_in(25 / shoe_factor)) {
