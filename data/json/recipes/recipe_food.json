@@ -17,6 +17,7 @@
       [ "char_smoker", 1 ],
       [ "toolset", 3 ],
       [ "coffeemaker", 3],
+      [ "atomic_coffeepot", -1 ],
       [ "fire", -1 ]
     ]
   ],
