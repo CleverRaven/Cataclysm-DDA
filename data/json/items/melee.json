@@ -1740,15 +1740,14 @@
         "symbol": "*",
         "color": "white",
         "name":"ceramic shard",
-        "description": "Broken off ceramic shard. It is heavy and has somewhat sharp edge, but you can't cut properly with it.",
+        "description": "A broken ceramic shard. It is heavy and has a somewhat sharp edge, but it's too irregular to cut properly.",
         "price": 0,
         "material": "ceramic",
         "weight": 750,
         "volume": 1,
         "bashing": 5,
         "cutting": 2,
-        "to_hit": -1,
-        "qualities": [["HAMMER", 1]]
+        "to_hit": -1
     },
     {
         "type":"GENERIC",
