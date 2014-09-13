@@ -22,6 +22,7 @@
 #include <queue>
 #include "mapdata.h"
 #include "mapgen.h"
+#include "uistate.h"
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
 #define STREETCHANCE 2
@@ -48,30 +49,28 @@ enum oter_dir {
 // relative frequencies of each (higher = more likely).
 // Adding or deleting map_extras will affect the amount
 // of others, so be careful.
-//
-// 2014 June 21: Stashes are removed. The easiest way to make stashes disappear
-// and leave other extras appearing at the same quantity in the game is to
-// leave these weights the same and ignore stashes when they're created.
 map_extras no_extras(0);
+    // Formatting deviates from standard to make the headers read reliably
+    // Careful with astyle here, please?
 map_extras road_extras(
-    // %%% HEL MIL SCI STA DRG SUP PRT MIN CRT FUM 1WY ART
-    75, 40, 25, 60, 200, 30, 10,  5, 80, 10,  8,  2,  3);
+// %%% HEL MIL SCI BLK DRG SUP PRT MIN CRT FUM 1WY ART
+    75, 40, 25, 40, 100, 30, 10, 5, 80, 10,  8,  2,  3);
 map_extras field_extras(
-    // %%% HEL MIL SCI STA DRG SUP PRT MIN CRT FUM 1WY ART
-    90, 40, 8, 20, 80, 10, 10,  3, 50, 10,  8,  1,  3);
+// %%% HEL MIL SCI BLK DRG SUP PRT MIN CRT FUM 1WY ART
+    90, 40, 8, 20,  0, 20, 10,  3, 50,  10,  8,  1,  3);
 map_extras subway_extras(
-    // %%% HEL MIL SCI STA DRG SUP PRT MIN CRT FUM 1WY ART
-    75,  0,  5, 12,  5,  5,  0,  7,  0,  0, 20,  1,  3);
+// %%% HEL MIL SCI BLK DRG SUP PRT MIN CRT FUM 1WY ART
+    75,  0,  5, 12,  0,  0,  0,  7,  0,  0, 20,  1,  3);
 map_extras build_extras(
-    // %%% HEL MIL SCI STA DRG SUP PRT MIN CRT FUM 1WY ART
-    90,  0,  5, 12,  0, 10,  0,  5,  5, 60,  8,  1,  3);
+// %%% HEL MIL SCI BLK DRG SUP PRT MIN CRT FUM 1WY ART
+    90,  0,  5, 12,  0, 0,  0,  5,  5, 60,  8,  1,  3);
 
-std::map<std::string, oter_t> otermap;
+std::unordered_map<std::string, oter_t> otermap;
 std::vector<oter_t> oterlist;
 
-std::map<std::string, oter_t> obasetermap;
+std::unordered_map<std::string, oter_t> obasetermap;
 //const regional_settings default_region_settings;
-std::map<std::string, regional_settings> region_settings_map;
+std::unordered_map<std::string, regional_settings> region_settings_map;
 
 std::vector<overmap_special> overmap_specials;
 
@@ -316,6 +315,14 @@ void load_overmap_terrain(JsonObject &jo)
     oter.loadid_base = start_iid;
     oter.directional_peers.clear();
 
+    if( jo.has_object( "spawns" ) ) {
+        JsonObject spawns = jo.get_object( "spawns" );
+        oter.static_spawns.group = spawns.get_string( "group" );
+        oter.static_spawns.min_population = spawns.get_array( "population" ).get_int( 0 );
+        oter.static_spawns.max_population = spawns.get_array( "population" ).get_int( 1 );
+        oter.static_spawns.chance = spawns.get_int( "chance" );
+    }
+
     oter.is_road = isroad(id_base);
     oter.is_river = (id_base.compare(0, 5, "river", 5) == 0 ||
                      id_base.compare(0, 6, "bridge", 6) == 0);
@@ -438,7 +445,8 @@ void finalize_overmap_terrain( )
                  " cataclysm pending. And not the fun kind.");
     }
 
-    for( std::map<std::string, regional_settings>::iterator rsit = region_settings_map.begin();
+    for( std::unordered_map<std::string, regional_settings>::iterator rsit =
+             region_settings_map.begin();
          rsit != region_settings_map.end(); ++rsit) {
         rsit->second.setup();
     }
@@ -607,8 +615,8 @@ overmap::overmap(int x, int y)
     // STUB: need region map:
     // settings = regionmap->calculate_settings( loc );
     const std::string rsettings_id = ACTIVE_WORLD_OPTIONS["DEFAULT_REGION"].getValue();
-    std::map<std::string, regional_settings>::const_iterator rsit = region_settings_map.find(
-                rsettings_id );
+    std::unordered_map<std::string, regional_settings>::const_iterator rsit =
+        region_settings_map.find( rsettings_id );
 
     if ( rsit == region_settings_map.end() ) {
         debugmsg("overmap(%d,%d): can't find region '%s'", x, y, rsettings_id.c_str() ); // gonna die now =[
@@ -1734,9 +1742,13 @@ void overmap::draw(WINDOW *w, const tripoint &center,
                   _(" - Delete a note")).c_str());
         mvwprintz(w, 20, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("LIST_NOTES") +
                   _(" - List notes")).c_str());
-        mvwprintz(w, 21, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("HELP_KEYBINDINGS") +
+        mvwprintz(w, 21, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("TOGGLE_BLINKING") +
+                  _(" - Toggle Blinking")).c_str());
+        mvwprintz(w, 22, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("TOGGLE_OVERLAYS") +
+                  _(" - Toggle Overlays")).c_str());
+        mvwprintz(w, 23, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("HELP_KEYBINDINGS") +
                   _(" - Change keys")).c_str());
-        fold_and_print(w, 22, om_map_width + 1, 27, c_magenta, ("m, " + inp_ctxt->get_desc("QUIT") +
+        fold_and_print(w, 24, om_map_width + 1, 27, c_magenta, ("m, " + inp_ctxt->get_desc("QUIT") +
                        _(" - Return to game")).c_str());
     }
     point omt(cursx, cursy);
@@ -1763,7 +1775,6 @@ tripoint overmap::draw_overmap(int z)
 tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const tripoint &select, const int iZoneIndex)
 {
     WINDOW *w_map = newwin(TERMY, TERMX, 0, 0);
-    bool blink = true;
 
     tripoint ret = invalid_tripoint;
     tripoint curs(orig);
@@ -1787,11 +1798,13 @@ tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const 
     ictxt.register_action("DELETE_NOTE");
     ictxt.register_action("SEARCH");
     ictxt.register_action("LIST_NOTES");
+    ictxt.register_action("TOGGLE_BLINKING");
+    ictxt.register_action("TOGGLE_OVERLAYS");
     ictxt.register_action("QUIT");
     std::string action;
     do {
         timeout( BLINK_SPEED );
-        draw(w_map, curs, orig, blink, &ictxt, debug_mongroup, iZoneIndex);
+        draw(w_map, curs, orig, uistate.overmap_show_overlays, &ictxt, debug_mongroup, iZoneIndex);
         action = ictxt.handle_input();
         timeout(-1);
 
@@ -1827,6 +1840,10 @@ tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const 
                 curs.x = p.x;
                 curs.y = p.y;
             }
+        } else if (action == "TOGGLE_BLINKING") {
+            uistate.overmap_blinking = !uistate.overmap_blinking;
+        } else if (action == "TOGGLE_OVERLAYS") {
+            uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
         } else if (action == "SEARCH") {
             std::string term = string_input_popup(_("Search term:"));
             if(term.empty()) {
@@ -1862,7 +1879,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const 
             do {
                 tmp.x = om.pos().x * OMAPX + terlist[i].x;
                 tmp.y = om.pos().y * OMAPY + terlist[i].y;
-                draw(w_map, tmp, orig, blink, NULL);
+                draw(w_map, tmp, orig, uistate.overmap_show_overlays, NULL);
                 //Draw search box
                 draw_border(w_search);
                 mvwprintz(w_search, 1, 1, c_red, _("Find place:"));
@@ -1875,7 +1892,9 @@ tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const 
                 timeout( BLINK_SPEED );
                 action = ctxt.handle_input();
                 timeout(-1);
-                blink = !blink;
+                if (uistate.overmap_blinking) {
+                    uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
+                }
                 if (action == "NEXT_TAB") {
                     i = (i + 1) % terlist.size();
                 } else if (action == "PREV_TAB") {
@@ -1887,9 +1906,13 @@ tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const 
             delwin(w_search);
             action = "";
         } else if (action == "TIMEOUT") {
-            blink = !blink;
+            if (uistate.overmap_blinking) {
+                uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
+            }
         } else if (action == "ANY_INPUT") {
-            blink = !blink;
+            if (uistate.overmap_blinking) {
+                uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
+            }
             input_event e = ictxt.get_raw_input();
             if(e.type == CATA_INPUT_KEYBOARD && e.get_first_input() == 'm') {
                 action = "QUIT";
@@ -2410,7 +2433,6 @@ bool overmap::build_lab(int x, int y, int z, int s)
                  && ter(finalex, finaley, z) != "lab_core");
         ter(finalex, finaley, z) = "lab_finale";
     }
-    add_mon_group(mongroup("GROUP_LAB", (x * 2), (y * 2), z, s, 400));
 
     return numstairs > 0;
 }
@@ -2476,7 +2498,6 @@ bool overmap::build_ice_lab(int x, int y, int z, int s)
                  && ter(finalex, finaley, z) != "ice_lab_core");
         ter(finalex, finaley, z) = "ice_lab_finale";
     }
-    add_mon_group(mongroup("GROUP_ICE_LAB", (x * 2), (y * 2), z, s, 400));
 
     return numstairs > 0;
 }
@@ -3585,24 +3606,6 @@ void overmap::place_mongroups()
                          rng(20, 40), rng(30, 50)));
         }
     }
-
-    // Forest groups cover the entire map
-    mongroup m("GROUP_FOREST", OMAPX / 2, OMAPY / 2, 0,
-                           OMAPY, rng(2000, 12000));
-    m.diffuse = true;
-    add_mon_group( m );
-    m = mongroup("GROUP_FOREST", OMAPX / 2, (OMAPY * 3) / 2, 0,
-                           OMAPY, rng(2000, 12000));
-    m.diffuse = true;
-    add_mon_group( m );
-    m = mongroup("GROUP_FOREST", (OMAPX * 3) / 2, OMAPY / 2, 0,
-                           OMAPX, rng(2000, 12000));
-    m.diffuse = true;
-    add_mon_group( m );
-    m = mongroup("GROUP_FOREST", (OMAPX * 3) / 2, (OMAPY * 3) / 2, 0,
-                           OMAPX, rng(2000, 12000));
-    m.diffuse = true;
-    add_mon_group( m );
 }
 
 int overmap::get_top_border()
@@ -3763,12 +3766,12 @@ bool oter_id::operator==(const char *v) const
 }
 bool oter_id::operator<=(const char *v) const
 {
-    std::map<std::string, oter_t>::const_iterator it = otermap.find(v);
+    std::unordered_map<std::string, oter_t>::const_iterator it = otermap.find(v);
     return ( it == otermap.end() || it->second.loadid <= _val);
 }
 bool oter_id::operator>=(const char *v) const
 {
-    std::map<std::string, oter_t>::const_iterator it = otermap.find(v);
+    std::unordered_map<std::string, oter_t>::const_iterator it = otermap.find(v);
     return ( it != otermap.end() && it->second.loadid >= _val);
 }
 
@@ -3818,7 +3821,7 @@ int oter_id::compare(size_t pos, size_t len, const char *s, size_t n) const
 // std::string("river_ne");  oter_id van_location(down_by);
 oter_id::oter_id(const std::string &v)
 {
-    std::map<std::string, oter_t>::const_iterator it = otermap.find(v);
+    std::unordered_map<std::string, oter_t>::const_iterator it = otermap.find(v);
     if ( it == otermap.end() ) {
         debugmsg("not found: %s", v.c_str());
     } else {
@@ -3829,7 +3832,7 @@ oter_id::oter_id(const std::string &v)
 // oter_id b("house_north");
 oter_id::oter_id(const char *v)
 {
-    std::map<std::string, oter_t>::const_iterator it = otermap.find(v);
+    std::unordered_map<std::string, oter_t>::const_iterator it = otermap.find(v);
     if ( it == otermap.end() ) {
         debugmsg("not found: %s", v);
     } else {
@@ -3937,9 +3940,10 @@ void overmap::add_mon_group(const mongroup &group)
         zg.insert(std::pair<tripoint, mongroup>( tripoint( group.posx, group.posy, group.posz ), group ) );
         return;
     }
-    const int rad = group.radius;
-    const double total_area = rad * rad * M_PI;
-    const double pop = group.population;
+    // diffuse groups use a circular area, non-diffuse groups use a rectangular area
+    const int rad = std::max<int>( 0, group.radius );
+    const double total_area = group.diffuse ? std::pow( rad + 1, 2 ) : ( rad * rad * M_PI + 1 );
+    const double pop = std::max<int>( 1, group.population );
     int xpop = 0;
     for( int x = -rad; x <= rad; x++ ) {
         for( int y = -rad; y <= rad; y++ ) {
@@ -3949,13 +3953,18 @@ void overmap::add_mon_group(const mongroup &group)
             }
             // Population on a single submap, *not* a integer
             double pop_here;
-            if( group.diffuse ) {
+            if( rad == 0 ) {
+                pop_here = pop;
+            } else if( group.diffuse ) {
                 pop_here = pop / total_area;
             } else {
                 // non-diffuse groups are more dense towards the center.
                 pop_here = ( 1.0 - static_cast<double>( dist ) / rad ) * pop / total_area;
             }
-            int p = std::floor( pop_here );
+            if( pop_here > pop || pop_here < 0 ) {
+                DebugLog( D_ERROR, D_GAME ) << group.type << ": invalid population here: " << pop_here;
+            }
+            int p = std::max<int>( 0, std::floor( pop_here ) );
             if( pop_here - p != 0 ) {
                 // in case the population is something like 0.2, randomly add a
                 // single population unit, this *should* on average give the correct

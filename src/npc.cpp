@@ -907,8 +907,7 @@ std::list<item> starting_inv(npc *me, npc_class type)
   it_gun *gun = dynamic_cast<it_gun*>(me->weapon.type);
   tmp = default_ammo(gun->ammo);
   if (tmp == "" || tmp == "UPS"){
-    if (g->debugmon)
-        debugmsg("Unknown ammo type for spawned NPC: '%s'", tmp.c_str());
+    add_msg( m_debug, "Unknown ammo type for spawned NPC: '%s'", tmp.c_str() );
   }else {
       item itammo( tmp, 0 );
       itammo = itammo.in_its_container();
@@ -1126,8 +1125,11 @@ void npc::starting_weapon(npc_class type)
     if (weapon.is_gun())
     {
         it_gun* gun = dynamic_cast<it_gun*>(weapon.type);
-        weapon.charges = gun->clip;
-        weapon.curammo = dynamic_cast<it_ammo*>(itypes[default_ammo(gun->ammo)]);
+        const std::string tmp = default_ammo( gun->ammo );
+        if( tmp != "" ) {
+            weapon.charges = gun->clip;
+            weapon.curammo = dynamic_cast<it_ammo*>( itypes[tmp] );
+        }
     }
 }
 

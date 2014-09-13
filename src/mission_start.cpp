@@ -132,7 +132,7 @@ void mission_start::place_caravan_ambush(mission *miss)
  bay.add_vehicle("motorcycle", SEEX-5, SEEY-5, 90, 500, -1, true);
  bay.draw_square_ter(t_grass, SEEX-6, SEEY-9, SEEX+6, SEEY+3);
  bay.draw_square_ter(t_dirt, SEEX-4, SEEY-7, SEEX+3, SEEY+1);
- bay.ter_set(SEEX, SEEY-4, t_ash);
+ bay.furn_set(SEEX, SEEY-4, f_ash);
  bay.spawn_item(SEEX-1, SEEY-3, "rock");
  bay.spawn_item(SEEX, SEEY-3, "rock");
  bay.spawn_item(SEEX+1, SEEY-3, "rock");

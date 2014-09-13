@@ -26,7 +26,7 @@ enum dis_type_enum {
  DI_COMMON_COLD, DI_FLU, DI_RECOVER, DI_TAPEWORM, DI_BLOODWORMS, DI_BRAINWORM, DI_PAINCYSTS,
  DI_TETANUS,
 // Fields - onfire moved to effects
- DI_CRUSHED, DI_BOULDERING,
+ DI_CRUSHED,
 // Monsters
  DI_SAP, DI_SPORES, DI_FUNGUS, DI_SLIMED,
  DI_LYING_DOWN, DI_SLEEP, DI_ALARM_CLOCK,
@@ -94,7 +94,6 @@ void game::init_diseases() {
     disease_type_lookup["tetanus"] = DI_TETANUS;
     disease_type_lookup["paincysts"] = DI_PAINCYSTS;
     disease_type_lookup["crushed"] = DI_CRUSHED;
-    disease_type_lookup["bouldering"] = DI_BOULDERING;
     disease_type_lookup["sap"] = DI_SAP;
     disease_type_lookup["spores"] = DI_SPORES;
     disease_type_lookup["fungus"] = DI_FUNGUS;
@@ -171,9 +170,6 @@ bool dis_msg(dis_type type_string) {
         break;
     case DI_CRUSHED:
         add_msg(m_bad, _("The ceiling collapses on you!"));
-        break;
-    case DI_BOULDERING:
-        add_msg(m_warning, _("You are slowed by the rubble."));
         break;
     case DI_SAP:
         add_msg(m_bad, _("You're coated in sap!"));
@@ -979,7 +975,7 @@ void dis_effect(player &p, disease &dis)
                 p.mod_per_bonus(-1);
             }
 
-            if (one_in(300)) {
+            if (!p.has_disease("took_flumed") && one_in(300)) {
                 handle_cough(p);
             }
             break;
@@ -1004,7 +1000,7 @@ void dis_effect(player &p, disease &dis)
                         p.mod_pain(1);
                     }
                 }
-            if (one_in(300)) {
+            if (!p.has_disease("took_flumed") && one_in(300)) {
                 handle_cough(p);
             }
             if (!p.has_disease("took_flumed") || one_in(2)) {
@@ -1020,31 +1016,6 @@ void dis_effect(player &p, disease &dis)
                 to deal different damage amounts to different body parts and
                 to account for helmets and other armor
             */
-            break;
-
-        case DI_BOULDERING:
-            switch(dis.intensity) {
-                case 3:
-                    p.mod_dex_bonus(-2);
-                    p.add_miss_reason(
-                        _("You get off-balance from your unsteady footing."), 2);
-                case 2:
-                    p.mod_dex_bonus(-2);
-                    p.add_miss_reason(
-                        _("You waver over your unsteady footing."), 2);
-                case 1:
-                    p.mod_dex_bonus(-1);
-                    p.add_miss_reason(
-                        _("It's hard to fight on this rubble."), 1);
-                    break;
-                default:
-                    debugmsg("Something went wrong with DI_BOULDERING.");
-                    debugmsg("Check disease.cpp");
-            }
-            if (p.get_dex() < 1) {
-                // Add to dexterity current + 1 so it's at least 1
-                p.mod_dex_bonus(abs(p.get_dex())+1);
-            }
             break;
 
         case DI_SAP:
@@ -1492,7 +1463,7 @@ void dis_effect(player &p, disease &dis)
                                               body_part_name_accusative(dis.bp).c_str());
                      g->cancel_activity();
                 } else if (g->u_see(p.posx, p.posy)) {
-                    //~ 1$s is NPC name, 2$s is bodypart in accusative. 
+                    //~ 1$s is NPC name, 2$s is bodypart in accusative.
                     add_msg(_("%1$s starts scratching their %2$s!"), p.name.c_str(),
                                        body_part_name_accusative(dis.bp).c_str());
                 }
@@ -1650,7 +1621,7 @@ void dis_effect(player &p, disease &dis)
                     } while (((x == p.posx && y == p.posy) || g->mon_at(x, y) != -1));
                     if (tries < 10) {
                         if (g->m.move_cost(x, y) == 0) {
-                            g->m.ter_set(x, y, t_rubble);
+                            g->m.make_rubble(x, y, f_rubble_rock, true);
                         }
                         beast.spawn(x, y);
                         g->add_zombie(beast);
@@ -1714,7 +1685,7 @@ void dis_effect(player &p, disease &dis)
                 } while (((x == p.posx && y == p.posy) || g->mon_at(x, y) != -1) && tries < 10);
                 if (tries < 10) {
                     if (g->m.move_cost(x, y) == 0) {
-                        g->m.ter_set(x, y, t_rubble);
+                        g->m.make_rubble(x, y, f_rubble_rock, true);
                     }
                     beast.spawn(x, y);
                     g->add_zombie(beast);
@@ -1880,12 +1851,11 @@ int disease_speed_boost(disease dis)
         case DI_SLIMED:     return -25;
         case DI_BADPOISON:  return -10;
         case DI_FOODPOISON: return -20;
-        case DI_WEBBED:     return -25;
+        case DI_WEBBED:     return (dis.duration / 5 ) * -25;
         case DI_ADRENALINE: return (dis.duration > 150 ? 40 : -10);
         case DI_ASTHMA:     return 0 - int(dis.duration / 5);
         case DI_GRACK:      return +20000;
         case DI_METH:       return (dis.duration > 600 ? 50 : -40);
-        case DI_BOULDERING: return ( 0 - (dis.intensity * 10));
         case DI_LACKSLEEP:  return -5;
         case DI_GRABBED:    return -25;
         default:            break;
@@ -2198,12 +2168,11 @@ std::string dis_name(disease& dis)
     case DI_METH:
         if (dis.duration > 200) return _("High on Meth");
         else return _("Meth Comedown");
-		
+
     case DI_DATURA: return _("Experiencing Datura");
 
 
     case DI_IN_PIT: return _("Stuck in Pit");
-    case DI_BOULDERING: return _("Clambering Over Rubble");
 
     case DI_STEMCELL_TREATMENT: return _("Stem cell treatment");
     case DI_BITE:
@@ -2680,23 +2649,6 @@ Your right foot is blistering from the intense heat. It is extremely painful.");
 
     case DI_CRUSHED: return "If you're seeing this, there is a bug in disease.cpp!";
 
-    case DI_BOULDERING:
-        switch (dis.intensity){
-        case 1:
-            stream << _(
-            "Dexterity - 1;   Speed -10%\n"
-            "You are being slowed by climbing over a pile of rubble.");
-        case 2:
-            stream << _(
-            "Dexterity - 3;   Speed -20%\n"
-            "You are being slowed by climbing over a heap of rubble.");
-        case 3:
-            stream << _(
-            "Dexterity - 5;   Speed -30%\n"
-            "You are being slowed by climbing over a mountain of rubble.");
-        }
-        return stream.str();
-
     case DI_STEMCELL_TREATMENT: return _("Your insides are shifting in strange ways as the treatment takes effect.");
 
     case DI_SAP:
@@ -2772,8 +2724,21 @@ Your right foot is blistering from the intense heat. It is extremely painful.");
     }
 
     case DI_WEBBED:
-        return _(
+        if (dis.duration < 5) {
+            return _("Strength - 1;   Dexterity - 4");
+        }
+        if (dis.duration >= 5 && dis.duration < 10){
+                    return _(
         "Strength - 1;   Dexterity - 4;   Speed - 25");
+        }
+        else if (dis.duration >= 10 && dis.duration < 15){
+                    return _(
+        "Strength - 1;   Dexterity - 4;   Speed - 50");
+        }
+        else if (dis.duration >= 15){
+                    return _(
+        "Strength - 1;   Dexterity - 4;   Speed - 75");
+        }
 
     case DI_RAT:
     {
@@ -2829,7 +2794,7 @@ Your right foot is blistering from the intense heat. It is extremely painful.");
         return _("Intelligence - 1;   Perception - 1");
 
     case DI_VISUALS: return _("You can't trust everything that you see.");
-	
+
     case DI_DATURA: return _("Buy the ticket, take the ride.  The datura has you now.");
 
     case DI_ADRENALINE:
@@ -2848,7 +2813,7 @@ Your right foot is blistering from the intense heat. It is extremely painful.");
         else
             return _(
             "Strength - 1;   Dexterity - 2;   Intelligence - 1;   Perception - 2");
-			
+
     case DI_ASTHMA:
         return string_format(_("Speed - %d%%;   Strength - 2;   Dexterity - 3"), int(dis.duration / 5));
 
@@ -3075,7 +3040,7 @@ void manage_sleep(player& p, disease& dis)
                 p.healall(1);
             }
         }
-        
+
         if (p.fatigue <= 0 && p.fatigue > -20) {
             p.fatigue = -25;
             add_msg(m_good, _("You feel well rested."));

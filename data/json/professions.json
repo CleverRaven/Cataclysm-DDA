@@ -39,7 +39,7 @@
                     "tshirt",
                     "socks",
                     "backpack",
-                    "pockknife",
+                    "knife_swissarmy",
                     "rope_30",
                     "canteen"
                 ],
@@ -77,6 +77,63 @@
                 "panties"
             ]
         }
+    },
+    {
+        "type": "profession",
+        "ident": "sheltered_survivor",
+        "name": "Sheltered Survivor",
+        "description": "At the start of the cataclysm, you hunkered down in a bomb shelter. Now, it is winter, and you hope the rag-tag collection of skills you learned from all those books can help you survive.",
+        "points": 4,
+        "skills": [
+            {
+                "level": 2,
+                "name": "tailor"
+            },
+            {
+                "level": 2,
+                "name": "computer"
+            },
+            {
+                "level": 2,
+                "name": "cooking"
+            },
+            {
+                "level": 2,
+                "name": "mechanics"
+            },
+            {
+                "level": 2,
+                "name": "firstaid"
+            },
+            {
+                "level": 2,
+                "name": "electronics"
+            },
+            {
+                "level": 2,
+                "name": "carpentry"
+            }
+        ],
+        "items": {
+            "both": [
+                "jeans",
+                "tshirt",
+                "socks",
+                "sweater",
+                "sneakers",
+                "multitool",
+                "water_clean",
+                "matches"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        },
+        "flags": ["SCEN_ONLY"]
     },
     {
         "type": "profession",
@@ -269,6 +326,82 @@
     },
     {
         "type": "profession",
+        "ident": "beekeeper",
+        "name": "Beekeeper",
+        "description": "You used to be a professional beekeeper. You had to abandon your precious bees when the cataclysm struck, but at least you managed to grab some utensils and honey.",
+        "points": 2,
+        "skills": [
+            {
+                "name": "survival",
+                "level": 2
+            },
+            {
+            	"name": "carpentry",
+            	"level": 1
+            }
+        ],
+        "items": {
+            "both": [
+                "honey_scraper",
+                "beekeeping_hood",
+                "beekeeping_suit",
+                "beekeeping_gloves",
+                "socks",
+                "boots",
+                "tank_top",
+                "honeycomb",
+		"honey_bottled",
+		"honey_bottled"
+
+
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "basketball_player",
+        "name": "Basketball Player",
+        "description": "It was going to be your first major game, but then the cataclysm struck. Creatures unlike anything you've seen before, began attacking the attending crowd and only a handful of people managed to escape the carnage. Thanks to your quick feet, you were among the lucky few to survive and escape from the creatures.",
+        "points": 1,
+        "skills": [
+            {
+                "level": 2,
+                "name": "dodge"
+            },
+            {
+                "level": 3,
+                "name": "throw"
+            }
+        ],
+
+        "items": {
+            "both": [
+                "tank_top",
+		"jersey",
+                "b_shorts",
+                "socks",
+                "sneakers",
+                "basketball",
+ 		"sports_drink"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "sports_bra",
+                "panties"
+            ]
+        }
+    },
+    {
+        "type": "profession",
         "ident": "cyclist",
         "name": "Professional Cyclist",
         "description": "You were a promising young cyclist with a bright career in front of you before this all happened.  Perhaps you'll never get to participate in the grand tours now, but as the saying goes: Life is like riding a bicycle, you got to keep moving.",
@@ -293,7 +426,7 @@
                 "sneakers",
                 "sports_drink",
                 "fanny",
-                "fancy_sunglasses"               
+                "fancy_sunglasses"
             ],
             "male": [
                 "briefs"
@@ -392,7 +525,7 @@
                 "rm2000_smg",
                 "suppressor",
                 "8mm_fmj",
-                "knife_trench"
+                "kukri"
             ],
             "male": [
                 "boxer_shorts"
@@ -608,7 +741,7 @@
                 "tshirt",
                 "socks",
                 "backpack",
-                "knife_combat",
+                "knife_rambo",
                 "lighter",
                 "rope_30",
                 "canteen",
@@ -824,7 +957,7 @@
                 "pants_cargo",
                 "compbow",
                 "arrow_cf",
-                "knife_combat",
+                "knife_hunting",
                 "hat_hunting",
                 "quiver"
             ],
@@ -1072,7 +1205,7 @@
                 "boots",
                 "bandana",
                 "jacket_leather",
-                "pockknife"
+                "knife_trench"
             ],
             "male": [
                 "boxer_shorts"
@@ -1173,6 +1306,83 @@
                 "panties"
             ]
         }
+    },
+    {
+        "type" : "profession",
+        "ident": "patient",
+        "name": "Patient",
+        "description": "When the diagnosis came back positive, you were willing to fight to keep living. Now, you must renew your vow of tenacity in these new times.",
+        "points": -2,
+        "items":{
+            "both": [
+                "jeans",
+                "tshirt",
+                "socks",
+                "sneakers"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
+    },
+    {
+        "type" : "profession",
+        "ident": "mutant_patient",
+        "name": "Unwilling Mutant",
+        "description": "During the panic of the Cataclysm, one of the lab technicians (feeling remorse for their part in the experiments forced on you and your genetic makeup) set you free.",
+        "points": -1,
+        "items":{
+            "both": [
+                "subsuit_xl"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        },
+        "flags": ["SCEN_ONLY"]
+    },
+    {
+        "type" : "profession",
+        "ident": "mutant_volunteer",
+        "name": "Volunteer Mutant",
+        "description": "Your dreams of becoming a super-human mutant through genetic alteration may have fallen a bit short, but when the Cataclysm struck, you and the scientists were ready to put your new body to the test.",
+        "points": 1,
+        "skills": [
+            {
+                "level": 2,
+                "name": "cooking"
+            },
+            {
+                "level": 2,
+                "name": "electronics"
+            }
+        ],
+        "items": {
+            "both": [
+                "dress_shirt",
+                "pants",
+                "socks",
+                "boots",
+                "coat_lab",
+                "glasses_safety"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        },
+        "flags": ["SCEN_ONLY"]
     },
     {
         "type" : "profession",
@@ -1282,12 +1492,23 @@
             "both": [
                 "tac_fullhelmet",
                 "chestrig",
+                "pants_cargo",
+                "under_armor",
+                "socks",
+                "boots",
                 "badge_deputy",
                 "holster",
                 "l_mp_9mm",
                 "9mmP",
                 "9mmP",
                 "spare_mag"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "sports_bra",
+                "boxer_shorts"
             ]
         }
     },
@@ -1616,7 +1837,7 @@
                 "hat_hunting",
                 "jacket_flannel",
                 "beartrap",
-                "pockknife",
+                "knife_hunting",
                 "tobacco",
                 "rolling_paper",
                 "matches"
@@ -2422,7 +2643,48 @@
             ]
         }
     },
-    
+    {
+        "type": "profession",
+        "ident": "rollerderby",
+        "name": "Roller Derby Player",
+        "description": "You were hell on wheels prior to the apocalypse.  Now the rest of your team is dead, and you probably wouldn't have lived this long if not for your penchant for high-speed violence.  Things are looking grim; how long can you race laps around the undead before you get blocked for good?",
+        "points": 2,
+		"skills": [
+            {
+                "level": 1,
+                "name": "melee"
+            },
+            {
+                "level": 1,
+                "name": "unarmed"
+            },
+            {
+                "level": 1,
+                "name": "dodge"
+            }
+        ],
+        "items": {
+            "both": [
+                "under_armor_shorts",
+                "under_armor",
+                "socks",
+                "elbow_pads",
+                "knee_pads",
+                "mouthpiece",
+                "gloves_fingerless",
+                "helmet_skid",
+                "rollerskates"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "sports_bra",
+                "panties"
+            ]
+        }
+    },
+
     {
         "type": "profession",
         "ident": "farmer",
@@ -2434,7 +2696,7 @@
                 "jeans",
                 "tshirt",
                 "backpack",
-                "pockknife",
+                "multitool",
                 "hoe",
                 "socks",
                 "boots",
@@ -2452,6 +2714,173 @@
             "female": [
                 "bra",
                 "panties"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "national_guard",
+        "name": "National Guard",
+        "description": "Your National Guard unit was activated when the epidemic struck.  Despite your best efforts you did not manage to meet up with them before all communications ceased and you found yourself alone amongst the dead.",
+        "points": 4,
+        "skills": [
+            {
+                "level": 1,
+                "name": "gun"
+            },
+            {
+                "level": 1,
+                "name": "firstaid"
+            }
+        ],
+        "items": {
+            "both": [
+                "shorts",
+                "tshirt",
+                "socks",
+                "lowtops",
+                "gobag"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
+    },
+    {
+	"type": "profession",
+	"ident": "winter_survivor",
+	"name" : "Hardened Survivor",
+	"description" : "One of the lucky few who escaped the cataclysm, you made a life for yourself living off nature's bounties and what you could get outside the death traps of the large city.",
+	"points" : 6,
+	"skills": [
+            {
+                "level": 5,
+                "name": "survival"
+            },
+            {
+                "level": 5,
+                "name": "fabrication"
+            },
+            {
+                "level": 5,
+                "name": "melee"
+            },
+	    {
+		"level" : 4,
+		"name" : "tailor"
+	    },
+            {
+                "level": 3,
+                "name": "archery"
+            }
+        ],
+
+        "items": {
+            "both": [
+                "survivor_vest",
+                "wsurvivor_suit",
+                "socks",
+                "boots_wsurvivor",
+                "hood_wsurvivor",
+                "gloves_wsurvivor",
+		"quiver_large",
+		"crossbow",
+		"bolt_wood",
+		"bolt_wood",
+		"mess_kit",
+		"kukri"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "sports_bra",
+                "panties"
+            ]
+        },
+	"flags" : ["SCEN_ONLY"]
+    },
+    {
+	"type": "profession",
+	"ident": "winter_scavenger",
+	"name" : "Hardened Scavenger",
+	"description" : "One of the lucky few who escaped the cataclysm, you made a life for yourself on the ruins of others. Whether by force, guile, or luck, you've obtained the best gear you could find.",
+	"points" : 8,
+	"skills": [
+            {
+                "level": 5,
+                "name": "melee"
+            },
+            {
+                "level": 5,
+                "name": "gun"
+            },
+            {
+                "level": 3,
+                "name": "dodge"
+            },
+	    {
+		"level" : 4,
+		"name" : "mechanics"
+	    },
+            {
+                "level": 3,
+                "name": "rifle"
+            }
+        ],
+
+        "items": {
+            "both": [
+                "pants_army",
+                "sleeveless_trenchcoat",
+                "socks",
+                "boots_combat",
+                "tac_helmet",
+                "gloves_tactical",
+		"rucksack",
+		"scar_h",
+		"762_51",
+		"katana",
+	        "scabbard"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "sports_bra",
+                "panties"
+            ]
+        },
+	"flags" : ["SCEN_ONLY"]
+    },{
+        "type": "profession",
+        "ident": "mall_cop",
+        "name": "Mall Security",
+        "description": "A mall security guard. You don't have any useful skills, other than some basic training for your job. You do however have your trusty tazer, baton, and pocket knife.",
+        "points": 0,
+        "items": {
+            "both": [
+                "pants",
+                "socks",
+                "boots",
+                "flashlight",
+                "longshirt",
+                "jacket_light",
+                "baton",
+                "tazer",
+                "battery",
+                "pockknife"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "bra",
+                "boy_shorts"
             ]
         }
     }

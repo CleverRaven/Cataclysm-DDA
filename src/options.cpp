@@ -574,7 +574,7 @@ void initOptions()
     optionNames["ru"] = "Русский";
     optionNames["sr"] = "Srpski";
     optionNames["vi"] = "Tiếng Việt";
-    optionNames["zh_CN"] = "中文(中华人民共和国)";
+    optionNames["zh_CN"] = "中文(天朝)";
     optionNames["zh_TW"] = "中文(台灣)";
     OPTIONS["USE_LANG"] = cOpt("interface", _("Language"), _("Switch Language. Requires restart."),
                                ",cs,en,fi,fr_FR,de_DE,it,es_ES,ja,ko,pl,pt_BR,pt_PT,ru,sr,vi,zh_CN,zh_TW",
@@ -874,7 +874,7 @@ void initOptions()
     optionNames["autumn"] = _("Autumn");
     optionNames["winter"] = _("Winter");
     OPTIONS["INITIAL_SEASON"] = cOpt("world_default", _("Initial season"),
-                                     _("Initial starting season of day on character generation."),
+                                     _("Season the player starts in.  Options other than the default delay spawn of the character, so food decay and monster spawns will have advanced."),
                                      "spring,summer,autumn,winter", "spring");
 
     OPTIONS["SEASON_LENGTH"] = cOpt("world_default", _("Season length"),
@@ -1251,6 +1251,8 @@ void show_options(bool ingame)
     }
     if( lang_changed ) {
         set_language(false);
+        g->mmenu_refresh_motd();
+        g->mmenu_refresh_credits();
     }
 #ifdef SDLTILES
     if( used_tiles_changed ) {

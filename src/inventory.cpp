@@ -404,6 +404,11 @@ item &inventory::add_item(item newit, bool keep_invlet, bool assign_invlet)
                     it_ref->item_counter = tmpcounter;
                     newit.item_counter = tmpcounter;
                 }
+                if (it_ref->is_food() && it_ref->has_flag("COLD")) {
+                    int tmpcounter = (it_ref->item_counter + newit.item_counter) / 2;
+                    it_ref->item_counter = tmpcounter;
+                    newit.item_counter = tmpcounter;
+                }
                 newit.invlet = it_ref->invlet;
                 iter->push_back(newit);
                 return iter->back();
@@ -788,6 +793,11 @@ item inventory::reduce_charges(int position, long quantity)
 item inventory::reduce_charges(const itype_id &type, long quantity)
 {
     return reduce_charges_internal(type, quantity);
+}
+
+item inventory::reduce_charges(const item *ptr, long quantity)
+{
+    return reduce_charges_internal(ptr, quantity);
 }
 
 std::vector<item> inventory::remove_mission_items(int mission_id)
@@ -1190,16 +1200,16 @@ bool inventory::has_mission_item(int mission_id) const
 
 int inventory::butcher_factor() const
 {
-    int lowest_factor = INT_MAX;
+    int result = INT_MIN;
     for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter) {
         for (std::list<item>::const_iterator stack_iter = iter->begin();
              stack_iter != iter->end();
              ++stack_iter) {
             const item &cur_item = *stack_iter;
-            lowest_factor = std::min(lowest_factor, cur_item.butcher_factor());
+            result = std::max( result, cur_item.butcher_factor() );
         }
     }
-    return lowest_factor;
+    return result;
 }
 
 bool inventory::has_artifact_with(art_effect_passive effect) const

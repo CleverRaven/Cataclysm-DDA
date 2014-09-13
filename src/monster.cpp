@@ -651,9 +651,8 @@ bool monster::block_hit(Creature *, body_part &, damage_instance &) {
 
 void monster::absorb_hit(body_part, damage_instance &dam) {
     for (std::vector<damage_unit>::iterator it = dam.damage_units.begin();
-            it != dam.damage_units.end(); ++it) {
-        it->amount -= std::min(resistances(*this).get_effective_resist(*it),
-                it->amount);
+         it != dam.damage_units.end(); ++it) {
+        it->amount -= std::min(resistances(*this).get_effective_resist(*it), it->amount);
     }
 }
 
@@ -672,8 +671,6 @@ void monster::melee_attack(Creature &target, bool, matec_id) {
 
     body_part bp_hit;
     //int highest_hit = 0;
-    int hitstat = type->melee_skill;
-    int hitroll = dice(hitstat,10);
 
     damage_instance damage;
     if(!is_hallucination()) {
@@ -687,7 +684,7 @@ void monster::melee_attack(Creature &target, bool, matec_id) {
     }
 
     dealt_damage_instance dealt_dam;
-    int hitspread = target.deal_melee_attack(this, hitroll);
+    int hitspread = target.deal_melee_attack(this, hit_roll());
     if (hitspread >= 0) {
         target.deal_melee_hit(this, hitspread, false, damage, dealt_dam);
     }
@@ -922,7 +919,14 @@ int monster::get_armor_bash(body_part bp) const
 }
 
 int monster::hit_roll() const {
-    return 0;
+    //Unstable ground chance of failure
+    if (has_effect("bouldering")) {
+        if(one_in(type->melee_skill)) {
+            return 0;
+        }
+    }
+    
+    return dice(type->melee_skill, 10);
 }
 
 int monster::get_dodge() const
@@ -947,18 +951,33 @@ int monster::get_melee() const
 
 int monster::dodge_roll()
 {
- int numdice = get_dodge();
+    if (has_effect("bouldering")) {
+        if(one_in(type->sk_dodge)) {
+            return 0;
+        }
+    }
 
- switch (type->size) {
-  case MS_TINY:  numdice += 6; break;
-  case MS_SMALL: numdice += 3; break;
-  case MS_LARGE: numdice -= 2; break;
-  case MS_HUGE:  numdice -= 4; break;
-  case MS_MEDIUM: break; // keep default
- }
+    int numdice = get_dodge();
 
- numdice += int(speed / 80);
- return dice(numdice, 10);
+    switch (type->size) {
+        case MS_TINY:
+            numdice += 6;
+            break;
+        case MS_SMALL:
+            numdice += 3;
+            break;
+        case MS_LARGE:
+            numdice -= 2;
+            break;
+        case MS_HUGE:
+            numdice -= 4;
+            break;
+        case MS_MEDIUM:
+            break; // keep default
+    }
+
+    numdice += int(speed / 80);
+    return dice(numdice, 10);
 }
 
 int monster::fall_damage() const
@@ -985,7 +1004,8 @@ void monster::explode()
     // Send body parts and blood all over!
     const itype_id meat = type->get_meat_itype();
     const field_id type_blood = bloodType();
-    if( meat != "null" || type_blood != fd_null ) {
+    const field_id type_gib = gibType();
+    if( meat != "null" || type_blood != fd_null || type_gib != fd_null ) {
         // Only create chunks if we know what kind to make.
         int num_chunks = 0;
         switch( type->size ) {
@@ -1010,26 +1030,30 @@ void monster::explode()
             int tarx = _posx + rng( -3, 3 ), tary = _posy + rng( -3, 3 );
             std::vector<point> traj = line_to( _posx, _posy, tarx, tary, 0 );
 
-            bool done = false;
-            for( size_t j = 0; j < traj.size() && !done; j++ ) {
+            for( size_t j = 0; j < traj.size(); j++ ) {
                 tarx = traj[j].x;
                 tary = traj[j].y;
-                if( type_blood != fd_null ) {
+                if( one_in( 2 ) && type_blood != fd_null ) {
                     g->m.add_field( tarx, tary, type_blood, 1 );
+                } else if( type_gib != fd_null ) {
+                    g->m.add_field( tarx, tary, type_gib, rng( 1, j + 1 ) );
                 }
-                g->m.add_field( tarx + rng( -1, 1 ), tary + rng( -1, 1 ), gibType(), rng( 1, j + 1 ) );
-
                 if( g->m.move_cost( tarx, tary ) == 0 ) {
-                    if( !g->m.bash( tarx, tary, 3 ) ) {
+                    if( !g->m.bash( tarx, tary, 3 ).second ) {
+                        // Target is obstacle, not destroyed by bashing,
+                        // stop trajectory in front of it, if this is the first
+                        // point (e.g. wall adjacent to monster) , make it invalid.
                         if( j > 0 ) {
                             tarx = traj[j - 1].x;
                             tary = traj[j - 1].y;
+                        } else {
+                            tarx = -1;
                         }
-                        done = true;
+                        break;
                     }
                 }
             }
-            if( meat != "null" ) {
+            if( meat != "null" && tarx != -1 ) {
                 g->m.spawn_item( tarx, tary, meat, 1, 0, calendar::turn );
             }
         }
@@ -1186,15 +1210,22 @@ bool monster::make_fungus()
 {
     char polypick = 0;
     std::string tid = type->id;
-    if (tid == "mon_ant" || tid == "mon_ant_soldier" || tid == "mon_ant_queen" || tid == "mon_fly" || tid == "mon_bee" || tid == "mon_dermatik")
-    {
+    if (type->in_species("FUNGUS")) { // No friendly-fungalizing ;-)
+        return true;
+    }
+    if (tid == "mon_ant" || tid == "mon_ant_soldier" || tid == "mon_ant_queen" || tid == "mon_fly" ||
+      tid == "mon_bee" || tid == "mon_dermatik") {
         polypick = 1;
-    }else if (tid == "mon_zombie" || tid == "mon_zombie_shrieker" || tid == "mon_zombie_electric" || tid == "mon_zombie_spitter" || tid == "mon_zombie_dog" ||
-              tid == "mon_zombie_brute" || tid == "mon_zombie_hulk"){
+    } else if (tid == "mon_zombie" || tid == "mon_zombie_shrieker" || tid == "mon_zombie_electric" ||
+      tid == "mon_zombie_spitter" || tid == "mon_zombie_dog" || tid == "mon_zombie_brute" ||
+      tid == "mon_zombie_hulk" || tid == "mon_zombie_soldier" || tid == "mon_zombie_tough" ||
+      tid == "mon_zombie_scientist" || tid == "mon_zombie_hunter" || tid == "mon_zombie_child"||
+      tid == "mon_zombie_bio_op" || tid == "mon_zombie_survivor" || tid == "mon_zombie_fireman" ||
+      tid == "mon_zombie_cop" || tid == "mon_zombie_fat") {
         polypick = 2;
-    }else if (tid == "mon_boomer" || tid == "mon_zombie_gasbag"){
+    } else if (tid == "mon_boomer" || tid == "mon_zombie_gasbag") {
         polypick = 3;
-    }else if (tid == "mon_triffid" || tid == "mon_triffid_young" || tid == "mon_triffid_queen"){
+    } else if (tid == "mon_triffid" || tid == "mon_triffid_young" || tid == "mon_triffid_queen") {
         polypick = 4;
     }
     switch (polypick) {
@@ -1211,7 +1242,7 @@ bool monster::make_fungus()
             poly(GetMType("mon_fungaloid"));
             return true;
         default:
-            return true;
+            return false;
     }
 }
 
@@ -1232,29 +1263,10 @@ bool monster::is_hallucination() const
 }
 
 field_id monster::bloodType() const {
-    if (has_flag(MF_ACID_BLOOD))
-        //A monster that has the death effect "ACID" does not need to have acid blood.
-        return fd_acid;
-    if (has_flag(MF_BILE_BLOOD))
-        return fd_bile;
-    if (has_flag(MF_LARVA) || has_flag(MF_ARTHROPOD_BLOOD))
-        return fd_blood_invertebrate;
-    if (made_of("veggy"))
-        return fd_blood_veggy;
-    if (made_of("iflesh"))
-        return fd_blood_insect;
-    if (has_flag(MF_WARM))
-        return fd_blood;
-    return fd_null; //Please update the corpse blood type code at mtypedef.cpp modifying these rules!
+    return type->bloodType();
 }
 field_id monster::gibType() const {
-    if (has_flag(MF_LARVA) || type->in_species("MOLLUSK"))
-        return fd_gibs_invertebrate;
-    if (made_of("veggy"))
-        return fd_gibs_veggy;
-    if (made_of("iflesh"))
-        return fd_gibs_insect;
-    return fd_gibs_flesh; //Please update the corpse gib type code at mtypedef.cpp modifying these rules!
+    return type->gibType();
 }
 
 m_size monster::get_size() const {

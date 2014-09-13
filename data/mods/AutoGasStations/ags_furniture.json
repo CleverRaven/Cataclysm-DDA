@@ -8,7 +8,7 @@
         "color": "blue",
         "move_cost_mod": -1,
         "required_str": 25,
-        "flags": ["BASHABLE", "SEALED", "ALARMED", "BLOCKSDOOR"],
+        "flags": ["SEALED", "ALARMED", "BLOCKSDOOR"],
         "examine_action": "pay_gas",
         "bash": {
             "str_min": 7, "str_max": 30,
@@ -26,7 +26,7 @@
         "color": "dkgray",
         "move_cost_mod": -1,
         "required_str": 20,
-        "flags": ["BASHABLE", "BLOCKSDOOR"],
+        "flags": ["BLOCKSDOOR"],
         "bash": {
             "str_min": 5, "str_max": 45,
             "sound": "metal screeching!",

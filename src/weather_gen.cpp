@@ -1,6 +1,7 @@
 #include "weather_gen.h"
 #include "options.h"
 #include "enums.h"
+#include "game.h"
 
 #include <cmath>
 #include <iostream>
@@ -26,15 +27,16 @@ w_point weather_generator::get_weather(const point &location, const calendar &t)
 //        initial_season = 3;
 //    }
     const double z( double( t.get_turn() + DAYS(t.season_length()) ) / 2000.0); // Integer turn / widening factor of the Perlin function.
+    
     const double dayFraction((double)t.minutes_past_midnight() / 1440);
 
     // Noise factors
-    double T(raw_noise_4d(x, y, z, SEED) * 8.0);
+    double T(raw_noise_4d(x, y, z, SEED) * 4.0);
     double H(raw_noise_4d(x, y, z / 5, SEED + 101));
     double H2(raw_noise_4d(x, y, z, SEED + 151) / 4);
     double P(raw_noise_4d(x, y, z / 3, SEED + 211) * 70);
 
-    const double now( (double( t.turn_of_year() + DAYS(t.season_length()) )) / double(t.year_turns()) ); // [0,1)
+    const double now( double( t.turn_of_year() + DAYS(t.season_length()) / 2 ) / double(t.year_turns()) ); // [0,1)
     const double ctn(cos(tau * now));
 
     // Temperature variation
@@ -43,14 +45,14 @@ w_point weather_generator::get_weather(const point &location, const calendar &t)
     const double seasonal_variation(ctn * -1); // Start and end at -1 going up to 1 in summer.
     const double season_atenuation(ctn / 2 + 1); // Harsh winter nights, hot summers.
     const double season_dispersion(pow(2,
-                                       ctn * -1 + 1) - 2.3); // Make summers peak faster and winters not perma-frozen.
-    const double daily_variation(cos( tau * dayFraction - tau / 8 ) * -1 * season_atenuation +
-                                 season_dispersion); // Day-night temperature variation.
+                                       ctn + 1) - 2.3); // Make summers peak faster and winters not perma-frozen.
+    const double daily_variation(cos( tau * dayFraction - tau / 8 ) * -1 * season_atenuation / 2 +
+                                 season_dispersion * -1); // Day-night temperature variation.
 
     T += current_t; // Add baseline to the noise.
-    T += seasonal_variation * 12 * exp(-pow(current_t * 2.7 / 20 - 0.5,
+    T += seasonal_variation * 8 * exp(-pow(current_t * 2.7 / 10 - 0.5,
                                             2)); // Add season curve offset to account for the winter-summer difference in day-night difference.
-    T += daily_variation * 10 * exp(-pow(current_t / 30,
+    T += daily_variation * 8 * exp(-pow(current_t / 30,
                                          2)); // Add daily variation scaled to the inverse of the current baseline. A very specific and finicky adjustment curve.
     T = T * 9 / 5 + 32; // Convert to imperial. =|
 
@@ -97,7 +99,7 @@ weather_type weather_generator::get_weather_conditions(const w_point &w) const
         r = WEATHER_LIGHTNING;
     }
 
-    if (w.temperature <= 0) {
+    if (w.temperature <= 32) {
         if (r == WEATHER_DRIZZLE) {
             r = WEATHER_FLURRIES;
         } else if (r > WEATHER_DRIZZLE) {

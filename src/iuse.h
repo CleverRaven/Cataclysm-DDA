@@ -58,12 +58,15 @@ public:
     int flusleep            (player*, item*, bool);
     int inhaler             (player*, item*, bool);
     int blech               (player*, item*, bool);
+    int plantblech          (player*, item*, bool);
     int chew                (player*, item*, bool);
     int mutagen             (player*, item*, bool);
     int mut_iv              (player*, item*, bool);
     int purifier            (player*, item*, bool);
     int purify_iv           (player*, item*, bool);
     int marloss             (player*, item*, bool);
+    int marloss_seed        (player*, item*, bool);
+    int marloss_gel        (player*, item*, bool);
     int dogfood             (player*, item*, bool);
     int catfood             (player*, item*, bool);
 

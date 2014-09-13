@@ -10,10 +10,10 @@
 class Creature;
 
 typedef int trap_id;
-/** map trap ids to index into @ref traps */
+/** map trap ids to index into <B>traps</B> */
 extern std::map<std::string, int> trapmap;
 void set_trap_ids();
-/** release all trap types, reset @ref traps and @ref trapmap */
+/** release all trap types, reset <B>traps</B> and <B>trapmap</B> */
 void release_traps();
 /** load a trap definition from json */
 void load_trap(JsonObject &jo);
