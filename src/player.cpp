@@ -1011,7 +1011,7 @@ void player::update_bodytemp()
     // Current temperature and converging temperature calculations
     for (int i = 0 ; i < num_bp ; i++)
     {
-        int bpWindPower = (float)(windPower*0.44704);
+        int bpWindPower = (float)(windPower*0.44704); // Conver to meters per second
         int bpRelHum = relativeHumidity;
         // Skip eyes
         if (i == bp_eyes) { continue; }
@@ -1044,7 +1044,6 @@ void player::update_bodytemp()
         }
         /// Source : http://en.wikipedia.org/wiki/Wind_chill#Australian_Apparent_Temperature
         int windChill = (0.33 * ((bpRelHum / 100.00) * 6.105 * exp((17.27 * Ctemperature/100)/(237.70 + Ctemperature/100))) - 0.70*bpWindPower - 4.00);
-        int felt_air_temperature = Ctemperature/100 + windChill;
         // Convergeant temperature is affected by ambient temperature, clothing warmth, and body wetness.
         temp_conv[i] = BODYTEMP_NORM + adjusted_temp + windChill*100 + clothing_warmth_adjustement;
         // HUNGER
@@ -1350,63 +1349,92 @@ void player::update_bodytemp()
         }
         // FROSTBITE - only occurs to hands, feet, face
         /**
-        If it is above  35C, - 9 timer (recover from frostbite)
-        If it is above  25C, - 3 timer (recover from frostbite)
-        If it is above   0C, - 1 timer (recover from frostbite)
-        If it is under -25C, + 3 timer (30 minutes)
-        If it is under -35C, + 9 timer (10 minutes)
-        If it is under -60C, +18 timer ( 5 minutes)
 
-         5 minutes = 50 turns  (+18 tics will reach 900 total tics in  5 in game minutes)
-        10 minutes = 100 turns (+ 9 tics will reach 900 total tics in 10 in game minutes)
-        30 minutes = 300 turns (+ 3 tics will reach 900 total tics in 30 in game minutes)
-
-        Let's say frostnip @ 450 tics, frostbite @ 900 tics
+        Source : http://www.atc.army.mil/weather/windchill.pdf
 
         Temperature and wind chill are main factors, mitigated by clothing warmth. Each 10 warmth protects against 2C of cold.
 
-        TODO : Have to be able to distinguish from recoving or sucumbing to frostbite to be able to simulate pain from thawing appendages...
+        1200 turns in low risk, + 3 tics
+        450 turns in moderate risk, + 8 tics
+        50 turns in high risk, +72 tics
+
+        Let's say frostnip @ 1800 tics, frostbite @ 3600 tics
+
+        >> Chunked into 8 parts (http://imgur.com/xlTPmJF)
+        -- 2 hour risk --
+        Between 30F and 10F
+        Between 10F and -5F, less than 20mph, -4x + 3y - 20 > 0, x : F, y : mph
+        -- 45 minute risk --
+        Between 10F and -5F, less than 20mph, -4x + 3y - 20 < 0, x : F, y : mph
+        Between 10F and -5F, greater than 20mph
+        Less than -5F, less than 10 mph
+        Less than -5F, more than 10 mph, -4x + 3y - 170 > 0, x : F, y : mph
+        -- 5 minute risk --
+        Less than -5F, more than 10 mph, -4x + 3y - 170 < 0, x : F, y : mph
+        Less than -35F, more than 10 mp
+
+        TODO : Being wet should increase frostbite risk
         **/
 
         if ( i == bp_mouth || i == bp_foot_r || i == bp_foot_l || i == bp_hand_r || i == bp_hand_l)
         {
-            int frostbite_temperature = felt_air_temperature + warmth((body_part)i)*0.2;
-            if (frostbite_temperature < -60)
+            // Handle the frostbite timer
+            // Need temps in F, windPower already in mph
+            int Ftemperature = g->get_temperature() + warmth((body_part)i)*0.2; // Warmth gives a slight buff to temperature resistance
+            int FBwindPower = windPower * (1 - get_wind_resistance(body_part(i))/100.0); // Windchill reduced by your armor
+            // This has been broken down into 8 zones
+            // Low risk zones
+            if ((Ftemperature < 30 && Ftemperature >= 10) ||
+                (Ftemperature < 10 && Ftemperature >= -5 && FBwindPower < 20 && -4*Ftemperature + 3*FBwindPower - 20 >= 0) )
             {
-                if (one_in(100)) add_msg(m_bad, _("You feel your %s turning to ice!!"), body_part_name(body_part(i)).c_str());
-                frostbite_timer[i] += 18;
+                frostbite_timer[i] += 3;
+                if (one_in(100)) add_msg(m_bad, _("Your %s will be frostbitten in the next few hours."), body_part_name(body_part(i)).c_str());
             }
-            else if (frostbite_temperature < -35)
+            // Medium risk zones
+            else if ((Ftemperature < 10 && Ftemperature >= -5 && FBwindPower < 20 && -4*Ftemperature + 3*FBwindPower - 20 < 0) ||
+                     (Ftemperature < 10 && Ftemperature >= -5 && FBwindPower >= 20) ||
+                     (Ftemperature < -5 && FBwindPower < 10) ||
+                     (Ftemperature < -5 && FBwindPower >= 10 && -4*Ftemperature + 3*FBwindPower - 170 >= 0) )
             {
-                if (one_in(100)) add_msg(m_bad, _("You feel your %s hardening from the freezing cold!"), body_part_name(body_part(i)).c_str());
-                frostbite_timer[i] +=  9;
+                frostbite_timer[i] += 8;
+                if (one_in(100)) add_msg(m_bad, _("Your %s will be frostbitten within the hour!"), body_part_name(body_part(i)).c_str());
             }
-            else if (frostbite_temperature < -25)
+            // High risk zones
+            else if ((Ftemperature < -5 && FBwindPower >= 10 && -4*Ftemperature + 3*FBwindPower - 170 < 0) ||
+                     (Ftemperature < -35 && FBwindPower >= 10) )
             {
-                if (one_in(100)) add_msg(m_bad, _("You begin to lose feeling in your %s from the intense cold!"), body_part_name(body_part(i)).c_str());
-                if (frostbite_timer[i] < 500) frostbite_timer[i] +=  3; // Can only get frostnip in these temperatures
+                frostbite_timer[i] += 72;
+                if (one_in(100)) add_msg(m_bad, _("Your %s will be frostbitten any minute now!!"), body_part_name(body_part(i)).c_str());
             }
-            else if (frostbite_temperature > 35 && frostbite_timer[i] > 0)
-                frostbite_timer[i] -=  8;
-            else if (frostbite_temperature > 25 && frostbite_timer[i] > 0)
-                frostbite_timer[i] -=  2;
-            if (frostbite_temperature > 0 && frostbite_timer[i] > 0)
+            // Risk free, so reduce frostbite timer
+            else
             {
-                if (one_in(100)) add_msg(m_good, _("You begin to regain feeling in your %s."), body_part_name(body_part(i)).c_str());
-                frostbite_timer[i] -=  1;
+                frostbite_timer[i] -= 3;
             }
 
-            if (frostbite_timer[i] >= 900)
-            {
-                add_disease("frostbite", 1, true, 2, 2, 0, 1, (body_part)i, false);
-            }
-            else if (frostbite_timer[i] >= 500)
-            {
-                add_disease("frostbite", 1, true, 1, 1, 0, 1, (body_part)i, false);
-            }
-            else if (frostbite_timer[i] == 0)
+            // Handle the bestowing of frostbite
+            if (frostbite_timer[i] < 0) frostbite_timer[i] = 0;
+            else if (frostbite_timer[i] > 4200) frostbite_timer[i] = 0; // This ensures that the player will recover in at most 3 hours.
+            if (frostbite_timer[i] == 0)
             {
                 rem_disease("frostbite", (body_part)i);
+                rem_disease("frostbite_recovery", (body_part)i);
+            }
+            else if (frostbite_timer[i] >= 1800 && !has_disease("frostbite", (body_part)i))
+            {
+                // We get frostnip
+                add_disease("frostbite", 1, true, 1, 1, 0, 1, (body_part)i, false);
+            }
+            else if (frostbite_timer[i] >= 3600 && disease_intensity("frostbite", false, (body_part)i) == 1)
+            {
+                // Worsens to frostbite
+                add_disease("frostbite", 1, true, 2, 2, 0, 1, (body_part)i, false);
+            }
+            else if (frostbite_timer[i] >= 1800 && disease_intensity("frostbite", false, (body_part)i) == 2)
+            {
+                // Recovers from frostbite
+                add_disease("frostbite", 1, true, 1, 1, 0, 1, (body_part)i, false);
+                add_disease("frostbite_recovery", 1, true, 1, 1, 0, 1, (body_part)i, false);
             }
         }
         // Warn the player if condition worsens
@@ -3426,60 +3454,59 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
     else if (hunger < -60)
         wprintz(w, c_green,  _("Engorged"));
 
- // Find hottest/coldest bodypart
- int min = 0, max = 0;
- for (int i = 0; i < num_bp ; i++ ){
-  if      (temp_cur[i] > BODYTEMP_HOT  && temp_cur[i] > temp_cur[max]) max = i;
-  else if (temp_cur[i] < BODYTEMP_COLD && temp_cur[i] < temp_cur[min]) min = i;
- }
- // Compare which is most extreme
- int print;
- if (temp_cur[max] - BODYTEMP_NORM > BODYTEMP_NORM + temp_cur[min]) print = max;
- else print = min;
- // Assign zones to temp_cur and temp_conv for comparison
- int cur_zone = 0;
- if      (temp_cur[print] >  BODYTEMP_SCORCHING) cur_zone = 7;
- else if (temp_cur[print] >  BODYTEMP_VERY_HOT)  cur_zone = 6;
- else if (temp_cur[print] >  BODYTEMP_HOT)       cur_zone = 5;
- else if (temp_cur[print] >  BODYTEMP_COLD)      cur_zone = 4;
- else if (temp_cur[print] >  BODYTEMP_VERY_COLD) cur_zone = 3;
- else if (temp_cur[print] >  BODYTEMP_FREEZING)  cur_zone = 2;
- else if (temp_cur[print] <= BODYTEMP_FREEZING)  cur_zone = 1;
- int conv_zone = 0;
- if      (temp_conv[print] >  BODYTEMP_SCORCHING) conv_zone = 7;
- else if (temp_conv[print] >  BODYTEMP_VERY_HOT)  conv_zone = 6;
- else if (temp_conv[print] >  BODYTEMP_HOT)       conv_zone = 5;
- else if (temp_conv[print] >  BODYTEMP_COLD)      conv_zone = 4;
- else if (temp_conv[print] >  BODYTEMP_VERY_COLD) conv_zone = 3;
- else if (temp_conv[print] >  BODYTEMP_FREEZING)  conv_zone = 2;
- else if (temp_conv[print] <= BODYTEMP_FREEZING)  conv_zone = 1;
- // delta will be positive if temp_cur is rising
- int delta = conv_zone - cur_zone;
- // Decide if temp_cur is rising or falling
- const char *temp_message = "Error";
- if      (delta >   2) temp_message = _(" (Rising!!)");
- else if (delta ==  2) temp_message = _(" (Rising!)");
- else if (delta ==  1) temp_message = _(" (Rising)");
- else if (delta ==  0) temp_message = "";
- else if (delta == -1) temp_message = _(" (Falling)");
- else if (delta == -2) temp_message = _(" (Falling!)");
- else if (delta <  -2) temp_message = _(" (Falling!!)");
- // Print the hottest/coldest bodypart, and if it is rising or falling in temperature
+    /// Find hottest/coldest bodypart
+    // Calculate the most extreme body tempearatures
+    int current_bp_extreme = 0, conv_bp_extreme = 0;
+    for (int i = 0; i < num_bp ; i++ ){
+        if (abs(temp_cur[i] - BODYTEMP_NORM) > abs(temp_cur[current_bp_extreme] - BODYTEMP_NORM)) current_bp_extreme = i;
+        if (abs(temp_conv[i] - BODYTEMP_NORM) > abs(temp_conv[conv_bp_extreme] - BODYTEMP_NORM)) conv_bp_extreme = i;
+    }
 
+    // Assign zones for comparisons
+    int cur_zone = 0, conv_zone = 0;
+    if      (temp_cur[current_bp_extreme] >  BODYTEMP_SCORCHING) cur_zone = 7;
+    else if (temp_cur[current_bp_extreme] >  BODYTEMP_VERY_HOT)  cur_zone = 6;
+    else if (temp_cur[current_bp_extreme] >  BODYTEMP_HOT)       cur_zone = 5;
+    else if (temp_cur[current_bp_extreme] >  BODYTEMP_COLD)      cur_zone = 4;
+    else if (temp_cur[current_bp_extreme] >  BODYTEMP_VERY_COLD) cur_zone = 3;
+    else if (temp_cur[current_bp_extreme] >  BODYTEMP_FREEZING)  cur_zone = 2;
+    else if (temp_cur[current_bp_extreme] <= BODYTEMP_FREEZING)  cur_zone = 1;
+
+    if      (temp_conv[conv_bp_extreme] >  BODYTEMP_SCORCHING) conv_zone = 7;
+    else if (temp_conv[conv_bp_extreme] >  BODYTEMP_VERY_HOT)  conv_zone = 6;
+    else if (temp_conv[conv_bp_extreme] >  BODYTEMP_HOT)       conv_zone = 5;
+    else if (temp_conv[conv_bp_extreme] >  BODYTEMP_COLD)      conv_zone = 4;
+    else if (temp_conv[conv_bp_extreme] >  BODYTEMP_VERY_COLD) conv_zone = 3;
+    else if (temp_conv[conv_bp_extreme] >  BODYTEMP_FREEZING)  conv_zone = 2;
+    else if (temp_conv[conv_bp_extreme] <= BODYTEMP_FREEZING)  conv_zone = 1;
+
+    // delta will be positive if temp_cur is rising
+    int delta = conv_zone - cur_zone;
+    // Decide if temp_cur is rising or falling
+    const char *temp_message = "Error";
+    if      (delta >   2) temp_message = _(" (Rising!!)");
+    else if (delta ==  2) temp_message = _(" (Rising!)");
+    else if (delta ==  1) temp_message = _(" (Rising)");
+    else if (delta ==  0) temp_message = "";
+    else if (delta == -1) temp_message = _(" (Falling)");
+    else if (delta == -2) temp_message = _(" (Falling!)");
+    else if (delta <  -2) temp_message = _(" (Falling!!)");
+
+    // printCur the hottest/coldest bodypart, and if it is rising or falling in temperature
     wmove(w, sideStyle ? 6 : 1, sideStyle ? 0 : 9);
-    if      (temp_cur[print] >  BODYTEMP_SCORCHING)
+    if      (temp_cur[current_bp_extreme] >  BODYTEMP_SCORCHING)
         wprintz(w, c_red,   _("Scorching!%s"), temp_message);
-    else if (temp_cur[print] >  BODYTEMP_VERY_HOT)
+    else if (temp_cur[current_bp_extreme] >  BODYTEMP_VERY_HOT)
         wprintz(w, c_ltred, _("Very hot!%s"), temp_message);
-    else if (temp_cur[print] >  BODYTEMP_HOT)
+    else if (temp_cur[current_bp_extreme] >  BODYTEMP_HOT)
         wprintz(w, c_yellow,_("Warm%s"), temp_message);
-    else if (temp_cur[print] >  BODYTEMP_COLD) // If you're warmer than cold, you are comfortable
+    else if (temp_cur[current_bp_extreme] >  BODYTEMP_COLD) // If you're warmer than cold, you are comfortable
         wprintz(w, c_green, _("Comfortable%s"), temp_message);
-    else if (temp_cur[print] >  BODYTEMP_VERY_COLD)
+    else if (temp_cur[current_bp_extreme] >  BODYTEMP_VERY_COLD)
         wprintz(w, c_ltblue,_("Chilly%s"), temp_message);
-    else if (temp_cur[print] >  BODYTEMP_FREEZING)
+    else if (temp_cur[current_bp_extreme] >  BODYTEMP_FREEZING)
         wprintz(w, c_cyan,  _("Very cold!%s"), temp_message);
-    else if (temp_cur[print] <= BODYTEMP_FREEZING)
+    else if (temp_cur[current_bp_extreme] <= BODYTEMP_FREEZING)
         wprintz(w, c_blue,  _("Freezing!%s"), temp_message);
 
     int x = sideStyle ? 37 : 32;

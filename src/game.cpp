@@ -5224,11 +5224,31 @@ void game::draw_sidebar()
         col_temp = c_ltblue;
     }
     w_point weatherPoint = weatherGen.get_weather(u.pos(), calendar::turn);
-    int pressure = 1020 - weatherPoint.pressure;
-    int windSpeed = std::max(0, pressure);
+    int windSpeed = std::max(0, (int)(1020 - weatherPoint.pressure));
     int relHum = weatherPoint.humidity;
 
-    wprintz( w_location, col_temp, " %s, %d mph, %d\%", print_temperature( display_temp ).c_str(), windSpeed, relHum );
+    std::string windSpeedString, relHumString;
+
+    if (windSpeed > 200) windSpeedString = "Hurricane (EF5)";
+    else if (windSpeed > 165) windSpeedString = "Hurricane (EF4)";
+    else if (windSpeed > 135) windSpeedString = "Hurricane (EF3)";
+    else if (windSpeed > 110) windSpeedString = "Hurricane (EF2)";
+    else if (windSpeed >  85) windSpeedString = "Hurricane (EF1)";
+    else if (windSpeed >  65) windSpeedString = "Hurricane (EF0)";
+    else if (windSpeed >  50) windSpeedString = "Storm";
+    else if (windSpeed >  40) windSpeedString = "Strong gale";
+    else if (windSpeed >  30) windSpeedString = "Moderate gale";
+    else if (windSpeed >  20) windSpeedString = "Strong breeze";
+    else if (windSpeed >  10) windSpeedString = "Light breeze";
+    else windSpeedString = "Calm";
+
+    if (relHum > 70) relHumString = "Very humid";
+    else if (relHum > 60) relHumString = "Humid";
+    else if (relHum > 50) relHumString = "Comfortable";
+    else if (relHum > 30) relHumString = "Dry";
+    else relHumString = "Very dry";
+
+    wprintz( w_location, col_temp, " %s, %s, %s", print_temperature( display_temp ).c_str(), windSpeedString.c_str(), relHumString.c_str());
     wrefresh(w_location);
 
     //Safemode coloring
