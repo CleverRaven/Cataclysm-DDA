@@ -451,10 +451,6 @@ public:
   void place_mongroups();
   void place_radios();
 
-  // Map helper function.
-  static void print_npcs(WINDOW *w, int const x, int const y, int const z);
-  bool has_vehicle(int const x, int const y, int const z, bool require_pda = true) const;
-  void print_vehicles(WINDOW *w, int const x, int const y, int const z) const;
     void add_mon_group(const mongroup &group);
     // not available because *every* overmap needs location, so use the other constructor.
     overmap() = delete;

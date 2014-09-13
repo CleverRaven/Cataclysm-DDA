@@ -394,9 +394,6 @@ $(ODIR)/%.o: $(SRC_DIR)/%.cpp
 $(ODIR)/%.o: $(SRC_DIR)/%.rc
 	$(RC) $(RFLAGS) $< -o $@
 
-$(ODIR)/SDLMain.o: $(SRC_DIR)/SDLMain.m
-	$(CC) -c $(OSX_INC) $< -o $@
-
 version.cpp: version
 
 $(LUASRC_DIR)/catabindings.cpp: $(LUA_DIR)/class_definitions.lua $(LUASRC_DIR)/generate_bindings.lua

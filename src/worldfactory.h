@@ -69,12 +69,18 @@ class worldfactory
         int show_worldgen_tab_confirm(WINDOW *win, WORLDPTR world);
 
         void draw_modselection_borders(WINDOW *win, input_context *ctxtp);
-        void draw_worldgen_tabs(WINDOW *win, unsigned int current, std::vector<std::string> tabs);
+        void draw_worldgen_tabs(WINDOW *win, unsigned int current);
+        void draw_mod_list(WINDOW *w, int &start, int &cursor, const std::vector<std::string> &mods, bool is_active_list, const std::string &text_if_empty);
 
         std::unordered_map<std::string, cOpt> get_default_world_options();
         std::unordered_map<std::string, cOpt> get_world_options(std::string path);
         std::unique_ptr<mod_manager> mman;
         std::unique_ptr<mod_ui> mman_ui;
+
+        typedef int (worldfactory::*worldgen_display)(WINDOW *, WORLDPTR);
+
+        std::vector<worldgen_display> tabs;
+        std::vector<std::string> tab_strings;
 };
 
 extern worldfactory *world_generator;
