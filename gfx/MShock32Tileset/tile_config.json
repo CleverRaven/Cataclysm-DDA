@@ -13811,9 +13811,8 @@
         },
         {
           "rotates": false,
-          "id": "t_wreckage",
-          "fg": 1660,
-          "bg": 420
+          "id": "f_wreckage",
+          "fg": 1660
         },
         {
           "rotates": false,
