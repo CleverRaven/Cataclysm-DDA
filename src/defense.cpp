@@ -329,6 +329,7 @@ void defense_game::init_to_style(defense_style new_style)
     case NUM_DEFENSE_STYLES:
         DebugLog( D_ERROR, D_GAME ) << "invalid defense style: " << new_style;
         break;
+    case DEFENSE_EASY: // fall through to custom
     case DEFENSE_CUSTOM:
         location = DEFLOC_HOSPITAL;
         initial_difficulty = 15;
@@ -343,8 +344,6 @@ void defense_game::init_to_style(defense_style new_style)
         triffids = true;
         mercenaries = true;
         break;
-    case DEFENSE_EASY:
-        break; // keep default, default is easy
     case DEFENSE_MEDIUM:
         location = DEFLOC_MALL;
         initial_difficulty = 30;
@@ -378,8 +377,6 @@ void defense_game::init_to_style(defense_style new_style)
         subspace = true;
         hunger = true;
         thirst = true;
-        break;
-
         break;
 
     case DEFENSE_SHAUN:
@@ -797,9 +794,10 @@ std::string defense_style_name(defense_style style)
         return _("Skynet");
     case DEFENSE_LOVECRAFT:
         return _("The Call of Cthulhu");
-    default:
-        return "Bug! (bug in defense.cpp:defense_style_name)";
+    case NUM_DEFENSE_STYLES:
+        break;
     }
+    return "Bug! (bug in defense.cpp:defense_style_name)";
 }
 
 std::string defense_style_description(defense_style style)
@@ -826,9 +824,10 @@ std::string defense_style_description(defense_style style)
         return _("The robots have decided that humans are the enemy!");
     case DEFENSE_LOVECRAFT:
         return _("Ward off legions of eldritch horrors.");
-    default:
-        return "What the heck is this I don't even know. (defense.cpp:defense_style_description)";
+    case NUM_DEFENSE_STYLES:
+        break;
     }
+    return "What the heck is this I don't even know. (defense.cpp:defense_style_description)";
 }
 
 std::string defense_location_name(defense_location location)
@@ -846,9 +845,10 @@ std::string defense_location_name(defense_location location)
         return _("Bar");
     case DEFLOC_MANSION:
         return _("Mansion");
-    default:
-        return "a ghost's house (bug in defense.cpp:defense_location_name)";
+    case NUM_DEFENSE_LOCATIONS:
+        break;
     }
+    return "a ghost's house (bug in defense.cpp:defense_location_name)";
 }
 
 std::string defense_location_description(defense_location location)
@@ -866,9 +866,10 @@ std::string defense_location_description(defense_location location)
         return                 _("A small building with plenty of alcohol.");
     case DEFLOC_MANSION:
         return                 _("A large house with many rooms and.");
-    default:
-        return "Unknown data bug. (defense.cpp:defense_location_description)";
+    case NUM_DEFENSE_LOCATIONS:
+        break;
     }
+    return "Unknown data bug. (defense.cpp:defense_location_description)";
 }
 
 void defense_game::caravan()
