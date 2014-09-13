@@ -10,12 +10,13 @@
 #include "bodypart.h"
 #include "mtype.h"
 #include "output.h"
-#include "messages.h"
 #include <stdlib.h>
 #include <string>
 #include <unordered_map>
 
 class game;
+class JsonObject;
+class JsonOut;
 
 class Creature
 {
@@ -370,6 +371,11 @@ class Creature
         Creature &operator=(Creature &&) = default;
 
         body_part select_body_part(Creature *source, int hit_roll);
+
+        // Store data of *this* class in the stream
+        void store(JsonOut &jsout) const;
+        // Load creature data from the given json object.
+        void load(JsonObject &jsin);
 };
 
 #endif

@@ -111,6 +111,8 @@ void SkillLevel::deserialize(JsonIn &jsin)
 
 void player::json_load_common_variables(JsonObject &data)
 {
+    Creature::load( data );
+
     JsonArray parray;
     int tmpid = 0;
 
@@ -129,26 +131,13 @@ void player::json_load_common_variables(JsonObject &data)
         debugmsg("BAD PLAYER/NPC JSON: no 'posx'?");
     }
     data.read("posy", posy);
-    data.read("str_cur", str_cur);
-    data.read("str_max", str_max);
-    data.read("dex_cur", dex_cur);
-    data.read("dex_max", dex_max);
-    data.read("int_cur", int_cur);
-    data.read("int_max", int_max);
-    data.read("per_cur", per_cur);
-    data.read("per_max", per_max);
-    data.read("healthy", healthy);
-    data.read("healthy_mod", healthy_mod);
     data.read("hunger", hunger);
     data.read("thirst", thirst);
     data.read("fatigue", fatigue);
     data.read("stim", stim);
-    data.read("pain", pain);
     data.read("pkill", pkill);
     data.read("radiation", radiation);
     data.read("scent", scent);
-    data.read("moves", moves);
-    data.read("dodges_left", num_dodges);
     data.read("underwater", underwater);
     data.read("oxygen", oxygen);
     data.read("male", male);
@@ -193,19 +182,6 @@ void player::json_load_common_variables(JsonObject &data)
     data.read("ma_styles", ma_styles);
     data.read("illness", illness);
 
-    if( data.has_array( "effects" ) ) {
-        // effects started out as a vector, then changed to an unordered map.
-        // This is the easiest way to maintain backwards compatability.
-        parray = data.get_array( "effects" );
-        while( parray.has_more() ) {
-            effect new_effect;
-            parray.read_next( new_effect );
-            effects[ new_effect.get_id() ] = new_effect;
-        }
-    } else if( data.has_object( "effects" ) ) {
-        data.read( "effects", effects );
-    }
-    data.read( "values", values );
     data.read( "addictions", addictions );
     data.read( "my_bionics", my_bionics );
 
@@ -236,24 +212,14 @@ void player::json_load_common_variables(JsonObject &data)
  */
 void player::json_save_common_variables(JsonOut &json) const
 {
+    // This must be after the json object has been started, so any super class
+    // puts their data into the same json object.
+    Creature::store( json );
+
     // assumes already in player object
     // positional data
     json.member( "posx", posx );
     json.member( "posy", posy );
-
-    // attributes, current / max levels
-    json.member( "str_cur", str_cur );
-    json.member( "str_max", str_max );
-    json.member( "dex_cur", dex_cur );
-    json.member( "dex_max", dex_max );
-    json.member( "int_cur", int_cur );
-    json.member( "int_max", int_max );
-    json.member( "per_cur", per_cur );
-    json.member( "per_max", per_max );
-
-    // Healthy values
-    json.member( "healthy", healthy );
-    json.member( "healthy_mod", healthy_mod );
 
     // om-noms or lack thereof
     json.member( "hunger", hunger );
@@ -262,16 +228,11 @@ void player::json_save_common_variables(JsonOut &json) const
     json.member( "fatigue", fatigue );
     json.member( "stim", stim );
     // pain
-    json.member( "pain", pain );
     json.member( "pkill", pkill );
     // misc levels
     json.member( "radiation", radiation );
     json.member( "scent", int(scent) );
     json.member( "body_wetness", body_wetness );
-
-    // initiative type stuff
-    json.member( "moves", moves );
-    json.member( "dodges_left", num_dodges);
 
     // breathing
     json.member( "underwater", underwater );
@@ -315,9 +276,6 @@ void player::json_save_common_variables(JsonOut &json) const
 
     // disease
     json.member( "illness", illness );
-    // creature::effects
-    json.member( "effects", effects );
-    json.member( "values", values );
 
     // "Looks like I picked the wrong week to quit smoking." - Steve McCroskey
     json.member( "addictions", addictions );
@@ -375,7 +333,6 @@ void player::serialize(JsonOut &json) const
     json.member( "grab_type", obj_type_name[ (int)grab_type ] );
 
     // misc player specific stuff
-    json.member( "blocks_left", num_blocks );
     json.member( "focus_pool", focus_pool );
     json.member( "style_selected", style_selected );
 
@@ -475,7 +432,6 @@ void player::deserialize(JsonIn &jsin)
     data.read( "stomach_food", stomach_food);
     data.read( "stomach_water", stomach_water);
 
-    data.read( "blocks_left", num_blocks);
     data.read( "focus_pool", focus_pool);
     data.read( "style_selected", style_selected );
 
@@ -863,6 +819,7 @@ void inventory::json_load_items(JsonIn &jsin)
 void monster::deserialize(JsonIn &jsin)
 {
     JsonObject data = jsin.get_object();
+    Creature::load( data );
 
     int iidtmp;
     std::string sidtmp;
@@ -879,9 +836,6 @@ void monster::deserialize(JsonIn &jsin)
     data.read("wandx", wandx);
     data.read("wandy", wandy);
     data.read("wandf", wandf);
-    data.read("moves", moves);
-    data.read("speed", speed);
-    Creature::set_speed_base(speed);
     data.read("hp", hp);
     data.read("sp_timeout", sp_timeout);
     data.read("friendly", friendly);
@@ -896,20 +850,6 @@ void monster::deserialize(JsonIn &jsin)
 
     data.read("plans", plans);
 
-    if( data.has_array( "effects" ) ) {
-        // effects started out as a vector, then changed to an unordered map.
-        // This is the easiest way to maintain backwards compatability.
-        JsonArray parray = data.get_array( "effects" );
-        while( parray.has_more() ) {
-            effect new_effect;
-            parray.read_next( new_effect );
-            effects[ new_effect.get_id() ] = new_effect;
-        }
-    } else if( data.has_object( "effects" ) ) {
-        data.read( "effects", effects );
-    }
-
-    data.read( "values", values );
     data.read("inv", inv);
     if (!data.read("ammo", ammo)) {
         ammo = 100;
@@ -922,6 +862,9 @@ void monster::deserialize(JsonIn &jsin)
 void monster::serialize(JsonOut &json) const
 {
     json.start_object();
+    // This must be after the json object has been started, so any super class
+    // puts their data into the same json object.
+    Creature::store( json );
 
     json.member( "typeid", type->id );
     json.member("posx", _posx);
@@ -929,8 +872,6 @@ void monster::serialize(JsonOut &json) const
     json.member("wandx", wandx);
     json.member("wandy", wandy);
     json.member("wandf", wandf);
-    json.member("moves", moves);
-    json.member("speed", get_speed());
     json.member("hp", hp);
     json.member("sp_timeout", sp_timeout);
     json.member("friendly", friendly);
@@ -944,10 +885,6 @@ void monster::serialize(JsonOut &json) const
     json.member("stairscount", staircount);
     json.member("plans", plans);
     json.member("ammo", ammo);
-
-    // creature::effects
-    json.member( "effects", effects );
-    json.member( "values", values );
 
     json.member( "inv", inv );
 
@@ -1508,3 +1445,120 @@ void faction::serialize(JsonOut &json) const
     json.end_object();
 }
 
+void Creature::store( JsonOut &jsout ) const
+{
+    jsout.member( "str_cur", str_cur );
+    jsout.member( "str_max", str_max );
+    jsout.member( "dex_cur", dex_cur );
+    jsout.member( "dex_max", dex_max );
+    jsout.member( "int_cur", int_cur );
+    jsout.member( "int_max", int_max );
+    jsout.member( "per_cur", per_cur );
+    jsout.member( "per_max", per_max );
+
+    jsout.member( "moves", moves );
+    jsout.member( "pain", pain );
+
+    // killer is not stored, it's temporary anyway, any creature that has a non-null
+    // killer is dead (as per definition) and should not be stored.
+    jsout.member( "effects", effects );
+    jsout.member( "values", values );
+
+    jsout.member( "str_bonus", str_bonus );
+    jsout.member( "dex_bonus", dex_bonus );
+    jsout.member( "per_bonus", per_bonus );
+    jsout.member( "int_bonus", int_bonus );
+
+    jsout.member( "healthy", healthy );
+    jsout.member( "healthy_mod", healthy_mod );
+
+    jsout.member( "blocks_left", num_blocks );
+    jsout.member( "dodges_left", num_dodges );
+    jsout.member( "num_blocks_bonus", num_blocks_bonus );
+    jsout.member( "num_dodges_bonus", num_dodges_bonus );
+
+    jsout.member( "armor_bash_bonus", armor_bash_bonus );
+    jsout.member( "armor_cut_bonus", armor_cut_bonus );
+
+    jsout.member( "speed", speed_base );
+
+    jsout.member( "speed_bonus", speed_bonus );
+    jsout.member( "dodge_bonus", dodge_bonus );
+    jsout.member( "block_bonus", block_bonus );
+    jsout.member( "hit_bonus", hit_bonus );
+    jsout.member( "bash_bonus", bash_bonus );
+    jsout.member( "cut_bonus", cut_bonus );
+
+    jsout.member( "bash_mult", bash_mult );
+    jsout.member( "cut_mult", cut_mult );
+    jsout.member( "melee_quiet", melee_quiet );
+
+    jsout.member( "grab_resist", grab_resist );
+    jsout.member( "throw_resist", throw_resist );
+
+    // fake is not stored, it's temporary anyway, only used to fire with a gun.
+}
+
+void Creature::load( JsonObject &jsin )
+{
+    jsin.read( "str_cur", str_cur );
+    jsin.read( "str_max", str_max );
+    jsin.read( "dex_cur", dex_cur );
+    jsin.read( "dex_max", dex_max );
+    jsin.read( "int_cur", int_cur );
+    jsin.read( "int_max", int_max );
+    jsin.read( "per_cur", per_cur );
+    jsin.read( "per_max", per_max );
+
+    jsin.read( "moves", moves );
+    jsin.read( "pain", pain );
+
+    killer = nullptr; // see Creature::load
+    if( jsin.has_array( "effects" ) ) {
+        // effects started out as a vector, then changed to an unordered map.
+        // This is the easiest way to maintain backwards compatibility.
+        JsonArray parray = jsin.get_array( "effects" );
+        while( parray.has_more() ) {
+            effect new_effect;
+            parray.read_next( new_effect );
+            effects[ new_effect.get_id() ] = new_effect;
+        }
+    } else if( jsin.has_object( "effects" ) ) {
+        jsin.read( "effects", effects );
+    }
+    jsin.read( "values", values );
+
+    jsin.read( "str_bonus", str_bonus );
+    jsin.read( "dex_bonus", dex_bonus );
+    jsin.read( "per_bonus", per_bonus );
+    jsin.read( "int_bonus", int_bonus );
+
+    jsin.read( "healthy", healthy );
+    jsin.read( "healthy_mod", healthy_mod );
+
+    jsin.read( "blocks_left", num_blocks );
+    jsin.read( "dodges_left", num_dodges );
+    jsin.read( "num_blocks_bonus", num_blocks_bonus );
+    jsin.read( "num_dodges_bonus", num_dodges_bonus );
+
+    jsin.read( "armor_bash_bonus", armor_bash_bonus );
+    jsin.read( "armor_cut_bonus", armor_cut_bonus );
+
+    jsin.read( "speed", speed_base );
+
+    jsin.read( "speed_bonus", speed_bonus );
+    jsin.read( "dodge_bonus", dodge_bonus );
+    jsin.read( "block_bonus", block_bonus );
+    jsin.read( "hit_bonus", hit_bonus );
+    jsin.read( "bash_bonus", bash_bonus );
+    jsin.read( "cut_bonus", cut_bonus );
+
+    jsin.read( "bash_mult", bash_mult );
+    jsin.read( "cut_mult", cut_mult );
+    jsin.read( "melee_quiet", melee_quiet );
+
+    jsin.read( "grab_resist", grab_resist );
+    jsin.read( "throw_resist", throw_resist );
+
+    fake = false; // see Creature::load
+}
