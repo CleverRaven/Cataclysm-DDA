@@ -520,7 +520,7 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
                     {t_tree_apple, t_tree_pear, t_tree_cherry, t_tree_peach, t_tree_apricot, t_tree_plum, t_tree_deadpine, t_tree_pine, t_tree}
                 };
                 double earlier_chances = 0;//remember the earlier chances to calculate the sliding errors
-                for (size_t c = 0; c < 9; c++){
+                for (size_t c = 0; c < sizeof(tree_chances[0])/sizeof(*tree_chances[0]); c++){
                     if (tree_chances[0][c] == 1) { //if something has chances of 1, just put it in and go on
                         m->ter_set(i, j, tree_chances[1][c]);
                         break;
