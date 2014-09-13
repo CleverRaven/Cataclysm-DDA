@@ -1828,7 +1828,7 @@
   "skill_used": "cooking",
   "difficulty": 2,
   "skills_required": [ "survival", 2 ],
-  "time": 9000,
+  "time": 4000,
   "reversible": false,
   "autolearn": false,
   "book_learn": [["pocket_survival", 1] , ["survival_book", 1] , ["textbook_survival", 1] ,
