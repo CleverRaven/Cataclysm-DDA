@@ -1526,6 +1526,8 @@ void game::process_activity()
     activity_on_turn();
     if (u.activity.moves_left <= 0) { // We finished our activity!
         activity_on_finish();
+        // Often redundant, but make sure the display is in a good state after finishing an activity.
+        draw();
     }
 }
 
