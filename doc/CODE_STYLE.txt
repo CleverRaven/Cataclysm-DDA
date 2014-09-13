@@ -13,7 +13,7 @@ int foo( int arg1, int *arg2 )
 {
     if( arg1 < 5 ) {
         switch( *arg2 ) {
-	case 0:
+        case 0:
             return arg1 + 5;
             break;
         case 1:
