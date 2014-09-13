@@ -308,6 +308,10 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         bool dead;
         /** Attack another monster */
         void hit_monster(monster &other);
+
+    protected:
+        void store(JsonOut &jsout) const;
+        void load(JsonObject &jsin);
 };
 
 #endif

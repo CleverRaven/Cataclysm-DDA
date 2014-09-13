@@ -164,11 +164,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int print_info(WINDOW *w, int vStart, int vLines, int column) const;
 
         // populate variables, inventory items, and misc from json object
-        void json_load_common_variables(JsonObject &jsout);
         using JsonDeserializer::deserialize;
         virtual void deserialize(JsonIn &jsin);
 
-        void json_save_common_variables(JsonOut &json) const;
         using JsonSerializer::serialize;
         // by default save all contained info
         virtual void serialize(JsonOut &jsout) const override;
@@ -1011,6 +1009,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int sight_max;
         int sight_boost;
         int sight_boost_cap;
+
+        void store(JsonOut &jsout) const;
+        void load(JsonObject &jsin);
 
     private:
         // Items the player has identified.

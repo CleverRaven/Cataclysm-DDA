@@ -22,6 +22,9 @@ class Character : public Creature
         Character(Character &&) = default;
         Character &operator=(const Character &) = default;
         Character &operator=(Character &&) = default;
+
+        void store(JsonOut &jsout) const;
+        void load(JsonObject &jsin);
 };
 
 #endif

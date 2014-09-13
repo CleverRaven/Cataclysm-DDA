@@ -752,6 +752,11 @@ public:
  unsigned flags : NF_MAX;
  // Dummy point that indicates that the goal is invalid.
  static const tripoint no_goal_point;
+
+    protected:
+        void store(JsonOut &jsout) const;
+        void load(JsonObject &jsin);
+
 private:
     void setID (int id);
     bool dead;  // If true, we need to be cleaned up

@@ -28,3 +28,15 @@ const std::string &Character::symbol() const
     static const std::string character_symbol("@");
     return character_symbol;
 }
+
+void Character::store(JsonOut &jsout) const
+{
+    Creature::store( jsout );
+    // Add members of this class here:
+}
+
+void Character::load(JsonObject &jsin)
+{
+    Creature::load( jsin );
+    // Add members of this class here:
+}

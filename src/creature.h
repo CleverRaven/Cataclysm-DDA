@@ -372,6 +372,31 @@ class Creature
 
         body_part select_body_part(Creature *source, int hit_roll);
 
+        /**
+         * These two functions are responsible for storing and loading the members
+         * of this class to/from json data.
+         * All classes that inherit from this class should implement their own
+         * version of these functions. They are not virtual on purpose, as it's
+         * not needed.
+         * Every implementation of those functions should a) call the same function
+         * with the same parameters of the super class and b) store/load their own
+         * members, but *not* members of any sub or super class.
+         *
+         * The functions are (on purpose) not part of the json
+         * serialize/deserialize system (defined in json.h).
+         * The Creature class is incomplete, there won't be any instance of that
+         * class alone, but there will be instances of sub classes (e.g. player,
+         * monster).
+         * Those (complete) classes implement the deserialize/serialize interface
+         * of json. That way only one json object per npc/player/monster instance
+         * is created (inside of the serialize function).
+         * E.g. player::serialize() looks like this:
+         * <code>json.start_object();store(json);json.end_object()</code>
+         * player::store than stores the members of the player class, and it calls
+         * Character::store, which stores the members of the Character class and calls
+         * Creature::store, which stores the members of the Creature class.
+         * All data goes into the single json object created in player::serialize.
+         */
         // Store data of *this* class in the stream
         void store(JsonOut &jsout) const;
         // Load creature data from the given json object.

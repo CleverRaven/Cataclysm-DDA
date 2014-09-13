@@ -109,7 +109,7 @@ void SkillLevel::deserialize(JsonIn &jsin)
  * Do not overload; NPC or player specific stuff should go to player::json_save or npc::json_save.
  */
 
-void player::json_load_common_variables(JsonObject &data)
+void player::load(JsonObject &data)
 {
     Creature::load( data );
 
@@ -210,10 +210,8 @@ void player::json_load_common_variables(JsonObject &data)
 /*
  * Variables common to player and npc
  */
-void player::json_save_common_variables(JsonOut &json) const
+void player::store(JsonOut &json) const
 {
-    // This must be after the json object has been started, so any super class
-    // puts their data into the same json object.
     Creature::store( json );
 
     // assumes already in player object
@@ -314,8 +312,13 @@ void player::json_save_common_variables(JsonOut &json) const
 void player::serialize(JsonOut &json) const
 {
     json.start_object();
+    // This must be after the json object has been started, so any super class
+    // puts their data into the same json object.
+    store( json );
 
-    json_save_common_variables( json );
+    // TODO: once npcs are seperated from the player class,
+    // this code should go into player::store, serialize will then only
+    // contain start_object(), store(), end_object().
 
     // player-specific specifics
     if ( prof != NULL ) {
@@ -395,7 +398,11 @@ void player::deserialize(JsonIn &jsin)
     JsonObject data = jsin.get_object();
     JsonArray parray;
 
-    json_load_common_variables( data );
+    load( data );
+
+    // TODO: once npcs are seperated from the player class,
+    // this code should go into player::load, deserialize will then only
+    // contain get_object(), load()
 
     std::string prof_ident = "(null)";
     if ( data.read("profession", prof_ident) && profession::exists(prof_ident) ) {
@@ -634,8 +641,14 @@ void npc_favor::serialize(JsonOut &json) const
 void npc::deserialize(JsonIn &jsin)
 {
     JsonObject data = jsin.get_object();
+    load( data );
+}
 
-    json_load_common_variables(data);
+void npc::load(JsonObject &data)
+{
+    // TODO: once npcs are seperated from the player class,
+    // this should call load on the parent class of npc (probably Character).
+    player::load( data );
 
     int misstmp, classtmp, flagstmp, atttmp;
     std::string facID;
@@ -700,8 +713,17 @@ void npc::deserialize(JsonIn &jsin)
 void npc::serialize(JsonOut &json) const
 {
     json.start_object();
+    // This must be after the json object has been started, so any super class
+    // puts their data into the same json object.
+    store( json );
+    json.end_object();
+}
 
-    json_save_common_variables( json );
+void npc::store(JsonOut &json) const
+{
+    // TODO: once npcs are seperated from the player class,
+    // this should call store on the parent class of npc (probably Character).
+    player::store( json );
 
     json.member( "name", name );
     json.member( "marked_for_death", marked_for_death );
@@ -732,8 +754,6 @@ void npc::serialize(JsonOut &json) const
     json.member("op_of_u", op_of_u);
     json.member("chatbin", chatbin);
     json.member("combat_rules", combat_rules);
-
-    json.end_object();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -819,6 +839,11 @@ void inventory::json_load_items(JsonIn &jsin)
 void monster::deserialize(JsonIn &jsin)
 {
     JsonObject data = jsin.get_object();
+    load( data );
+}
+
+void monster::load(JsonObject &data)
+{
     Creature::load( data );
 
     int iidtmp;
@@ -864,8 +889,13 @@ void monster::serialize(JsonOut &json) const
     json.start_object();
     // This must be after the json object has been started, so any super class
     // puts their data into the same json object.
-    Creature::store( json );
+    store( json );
+    json.end_object();
+}
 
+void monster::store(JsonOut &json) const
+{
+    Creature::store( json );
     json.member( "typeid", type->id );
     json.member("posx", _posx);
     json.member("posy", _posy);
@@ -887,8 +917,6 @@ void monster::serialize(JsonOut &json) const
     json.member("ammo", ammo);
 
     json.member( "inv", inv );
-
-    json.end_object();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
