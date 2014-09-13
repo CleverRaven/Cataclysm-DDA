@@ -24,7 +24,6 @@
 #define SAVE_MASTER "master.gsav"
 #define SAVE_EXTENSION ".sav"
 
-typedef int (worldfactory::*worldgen_display)(WINDOW *, WORLDPTR);
 // single instance of world generator
 worldfactory *world_generator;
 
@@ -73,6 +72,15 @@ worldfactory::worldfactory()
     mman.reset( new mod_manager );
     mman->refresh_mod_list();
     mman_ui.reset( new mod_ui( mman.get() ) );
+
+    // prepare tab display order
+    tabs.push_back(&worldfactory::show_worldgen_tab_modselection);
+    tabs.push_back(&worldfactory::show_worldgen_tab_options);
+    tabs.push_back(&worldfactory::show_worldgen_tab_confirm);
+
+    tab_strings.push_back(_("Mods to use"));
+    tab_strings.push_back(_("World Gen Options"));
+    tab_strings.push_back(_("CONFIRMATION"));
 }
 
 worldfactory::~worldfactory()
@@ -92,24 +100,13 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt )
         const int iOffsetY = (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0;
         // set up window
         WINDOW *wf_win = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX);
-        // prepare tab display order
-        std::vector<worldgen_display> tabs;
-        std::vector<std::string> tab_strings;
-
-        tabs.push_back(&worldfactory::show_worldgen_tab_modselection);
-        tabs.push_back(&worldfactory::show_worldgen_tab_options);
-        tabs.push_back(&worldfactory::show_worldgen_tab_confirm);
-
-        tab_strings.push_back(_("Mods to use"));
-        tab_strings.push_back(_("World Gen Options"));
-        tab_strings.push_back(_("CONFIRMATION"));
 
         int curtab = 0;
         int lasttab; // give placement memory to menus, sorta.
         const int numtabs = tabs.size();
         while (curtab >= 0 && curtab < numtabs) {
             lasttab = curtab;
-            draw_worldgen_tabs(wf_win, curtab, tab_strings);
+            draw_worldgen_tabs(wf_win, curtab);
             curtab += (world_generator->*tabs[curtab])(wf_win, retworld);
 
             if (curtab < 0) {
@@ -975,6 +972,15 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
                 draw_modselection_borders(win, &ctxt);
                 redraw_headers = true;
             }
+        } else if (action == "HELP_KEYBINDINGS") {
+            // Redraw all the things!
+            redraw_headers = true;
+            redraw_shift = true;
+            redraw_description = true;
+            redraw_list = true;
+            redraw_active = true;
+            draw_worldgen_tabs( win, 0 );
+            draw_modselection_borders( win, &ctxt );
         } else if (action == "QUIT") {
             tab_output = -999;
         }
@@ -1202,8 +1208,7 @@ void worldfactory::draw_modselection_borders(WINDOW *win, input_context *ctxtp)
     refresh();
 }
 
-void worldfactory::draw_worldgen_tabs(WINDOW *w, unsigned int current,
-                                      std::vector<std::string> tabs)
+void worldfactory::draw_worldgen_tabs(WINDOW *w, unsigned int current)
 {
     werase(w);
 
@@ -1218,9 +1223,9 @@ void worldfactory::draw_worldgen_tabs(WINDOW *w, unsigned int current,
     }
 
     int x = 2;
-    for (size_t i = 0; i < tabs.size(); ++i) {
-        draw_tab(w, x, tabs[i], (i == current) ? true : false);
-        x += utf8_width(tabs[i].c_str()) + 7;
+    for (size_t i = 0; i < tab_strings.size(); ++i) {
+        draw_tab(w, x, tab_strings[i], (i == current) ? true : false);
+        x += utf8_width(tab_strings[i].c_str()) + 7;
     }
 
     mvwputch(w, 2, 0, BORDER_COLOR, LINE_OXXO); // |^
