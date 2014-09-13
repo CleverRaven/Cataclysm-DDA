@@ -463,7 +463,7 @@
       { "monster" : "mon_zombie_master", "freq" : 1, "cost_multiplier" : 30 },
       { "monster" : "mon_beekeeper", "freq" : 1, "cost_multiplier" : 5 },
       { "monster" : "mon_zombie_technician", "freq" : 1, "cost_multiplier" : 12},
-      { "monster" : "mon_zombie_brute_shocker", "freq" : 8, "cost_multiplier" : 25 }
+      { "monster" : "mon_zombie_brute_shocker", "freq" : 5, "cost_multiplier" : 40 }
 
     ]
   },{
@@ -961,7 +961,7 @@
       { "monster" : "mon_zombie_brute", "freq" : 10, "cost_multiplier" : 15 },
       { "monster" : "mon_zombie_hulk", "freq" : 1, "cost_multiplier" : 50 },
       { "monster" : "mon_zombie_master", "freq" : 1, "cost_multiplier" : 25 },
-      { "monster" : "mon_zombie_brute_shocker", "freq" : 1, "cost_multiplier" : 25 }
+      { "monster" : "mon_zombie_brute_shocker", "freq" : 1, "cost_multiplier" : 45 }
     ]
   },{
     "type":"monstergroup",
@@ -992,8 +992,7 @@
       { "monster" : "mon_boomer", "freq" : 30, "cost_multiplier" : 7 },
       { "monster" : "mon_zombie_brute", "freq" : 10, "cost_multiplier" : 15 },
       { "monster" : "mon_zombie_hulk", "freq" : 1, "cost_multiplier" : 50 },
-      { "monster" : "mon_zombie_master", "freq" : 1, "cost_multiplier" : 25 },
-      { "monster" : "mon_zombie_brute_shocker", "freq" : 1, "cost_multiplier" : 40 }
+      { "monster" : "mon_zombie_master", "freq" : 1, "cost_multiplier" : 25 }
     ]
   },{
     "type":"monstergroup",
@@ -1033,8 +1032,7 @@
       { "monster" : "mon_boomer", "freq" : 30, "cost_multiplier" : 7 },
       { "monster" : "mon_zombie_brute", "freq" : 10, "cost_multiplier" : 15 },
       { "monster" : "mon_zombie_hulk", "freq" : 1, "cost_multiplier" : 50 },
-      { "monster" : "mon_zombie_master", "freq" : 1, "cost_multiplier" : 25 },
-      { "monster" : "mon_zombie_brute_shocker", "freq" : 1, "cost_multiplier" : 35 }
+      { "monster" : "mon_zombie_master", "freq" : 1, "cost_multiplier" : 25 }
     ]
   },{
     "type":"monstergroup",
@@ -1099,8 +1097,7 @@
       { "monster" : "mon_boomer", "freq" : 180, "cost_multiplier" : 7 },
       { "monster" : "mon_zombie_brute", "freq" : 10, "cost_multiplier" : 15 },
       { "monster" : "mon_zombie_hulk", "freq" : 1, "cost_multiplier" : 50 },
-      { "monster" : "mon_zombie_master", "freq" : 1, "cost_multiplier" : 25 },
-      { "monster" : "mon_zombie_brute_shocker", "freq" : 1, "cost_multiplier" : 40 }
+      { "monster" : "mon_zombie_master", "freq" : 1, "cost_multiplier" : 25 }
     ]
   },{
     "type":"monstergroup",
@@ -1128,7 +1125,7 @@
       { "monster" : "mon_zombie_brute", "freq" : 20, "cost_multiplier" : 15 },
       { "monster" : "mon_zombie_hulk", "freq" : 1, "cost_multiplier" : 50 },
       { "monster" : "mon_zombie_master", "freq" : 1, "cost_multiplier" : 25 },
-      { "monster" : "mon_zombie_brute_shocker", "freq" : 18, "cost_multiplier" : 18 }
+      { "monster" : "mon_zombie_brute_shocker", "freq" : 8, "cost_multiplier" : 28 }
     ]
   },{
     "type":"monstergroup",
