@@ -159,21 +159,11 @@ void player::json_load_common_variables(JsonObject &data)
         setID( tmpid );
     }
 
-    parray = data.get_array("hp_cur");
-    if ( parray.size() == num_hp_parts ) {
-        for(int i = 0; i < num_hp_parts; i++) {
-            hp_cur[i] = parray.get_int(i);
-        }
-    } else {
+    if( !data.read( "hp_cur", hp_cur ) ) {
         debugmsg("Error, incompatible hp_cur in save file '%s'", parray.str().c_str());
     }
 
-    parray = data.get_array("hp_max");
-    if ( parray.size() == num_hp_parts ) {
-        for(int i = 0; i < num_hp_parts; i++) {
-            hp_max[i] = parray.get_int(i);
-        }
-    } else {
+    if( !data.read( "hp_max", hp_max ) ) {
         debugmsg("Error, incompatible hp_max in save file '%s'", parray.str().c_str());
     }
 
@@ -265,7 +255,7 @@ void player::json_save_common_variables(JsonOut &json) const
     // misc levels
     json.member( "radiation", radiation );
     json.member( "scent", int(scent) );
-    json.member( "body_wetness", std::vector<int>( body_wetness, body_wetness + num_bp ) );
+    json.member( "body_wetness", body_wetness );
 
     // initiative type stuff
     json.member( "moves", moves );
@@ -285,8 +275,8 @@ void player::json_save_common_variables(JsonOut &json) const
 
     // potential incompatibility with future expansion
     // todo: consider ["parts"]["head"]["hp_cur"] instead of ["hp_cur"][head_enum_value]
-    json.member( "hp_cur", std::vector<int>( hp_cur, hp_cur + num_hp_parts ) );
-    json.member( "hp_max", std::vector<int>( hp_max, hp_max + num_hp_parts ) );
+    json.member( "hp_cur", hp_cur );
+    json.member( "hp_max", hp_max );
 
     // npc; unimplemented
     json.member( "power_level", power_level );
@@ -379,9 +369,9 @@ void player::serialize(JsonOut &json, bool save_contents) const
     json.member( "mutations", my_mutations );
 
     // "The cold wakes you up."
-    json.member( "temp_cur", std::vector<int>( temp_cur, temp_cur + num_bp ) );
-    json.member( "temp_conv", std::vector<int>( temp_conv, temp_conv + num_bp ) );
-    json.member( "frostbite_timer", std::vector<int>( frostbite_timer, frostbite_timer + num_bp ) );
+    json.member( "temp_cur", temp_cur );
+    json.member( "temp_conv", temp_conv );
+    json.member( "frostbite_timer", frostbite_timer );
 
     // npc: unimplemented, potentially useful
     json.member( "learned_recipes" );
@@ -492,38 +482,18 @@ void player::deserialize(JsonIn &jsin)
                     scen_ident.c_str(), generic_scenario->ident().c_str());
         g->scen = generic_scenario;
     }
-    parray = data.get_array("temp_cur");
-    for(int i = 0; i < num_bp; i++) {
-        temp_cur[i] = 5000;
-    }
-    for(int i = 0; i < parray.size(); i++) {
-        temp_cur[i] = parray.get_int(i);
-    }
+    temp_cur.fill( 5000 );
+    data.read( "temp_cur", temp_cur );
 
 
-    parray = data.get_array("temp_conv");
-    for(int i = 0; i < num_bp; i++) {
-        temp_conv[i] = 5000;
-    }
-    for(int i = 0; i < parray.size(); i++) {
-        temp_conv[i] = parray.get_int(i);
-    }
+    temp_conv.fill( 5000 );
+    data.read( "temp_conv", temp_conv );
 
-    parray = data.get_array("frostbite_timer");
-    for(int i = 0; i < num_bp; i++) {
-        frostbite_timer[i] = 0;
-    }
-    for(int i = 0; i < parray.size(); i++) {
-        frostbite_timer[i] = parray.get_int(i);
-    }
+    frostbite_timer.fill( 0 );
+    data.read( "frostbite_timer", frostbite_timer );
     
-    parray = data.get_array("body_wetness");
-    for(int i = 0; i < num_bp; i++) {
-        body_wetness[i] = 0;
-    }
-    for(int i = 0; i < parray.size(); i++) {
-        body_wetness[i] = parray.get_int(i);
-    }
+    body_wetness.fill( 0 );
+    data.read( "body_wetness", body_wetness );
 
     parray = data.get_array("learned_recipes");
     if ( !parray.empty() ) {
