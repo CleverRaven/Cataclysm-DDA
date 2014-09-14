@@ -1361,10 +1361,10 @@ void veh_interact::display_mode(char mode)
         actions.push_back(_("re<f>ill"));
         actions.push_back(_("rem<o>ve"));
         actions.push_back(_("<s>iphon"));
-        actions.push_back(_("<d>rain water"));
+        actions.push_back(_("<d>rain"));
         actions.push_back(_("<c>hange tire"));
         actions.push_back(_("r<e>name"));
-        actions.push_back(_("rel<a>bel"));
+        actions.push_back(_("l<a>bel"));
 
         bool enabled[9];
         enabled[0] = !cant_do('i');
