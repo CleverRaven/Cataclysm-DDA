@@ -519,9 +519,9 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
                         // Ensure that these one_in chances
                         // (besides the last) don't add up to more than 1 in 1
                         // Reserve the last one (1 in 1) for simple trees that fill up the rest.
-                        { 250, 300, 300, 350, 350, 350, 128, 16, 1 },
-                        { t_tree_apple, t_tree_pear, t_tree_cherry, t_tree_peach,
-                          t_tree_apricot, t_tree_plum, t_tree_deadpine, t_tree_pine, t_tree}
+                        {{ 250, 300, 300, 350, 350, 350, 128, 16, 1 }},
+                        {{ t_tree_apple, t_tree_pear, t_tree_cherry, t_tree_peach,
+                           t_tree_apricot, t_tree_plum, t_tree_deadpine, t_tree_pine, t_tree}}
                     }};
                 double earlier_chances = 0;
                 // Remember the earlier chances to calculate the sliding errors
