@@ -1051,6 +1051,23 @@ void player::update_bodytemp()
         }
         /// Source : http://en.wikipedia.org/wiki/Wind_chill#Australian_Apparent_Temperature
         int windChill = (0.33 * ((bpRelHum / 100.00) * 6.105 * exp((17.27 * Ctemperature/100)/(237.70 + Ctemperature/100))) - 0.70*bpWindPower - 4.00);
+        // If you're standing in water, air temperature is replaced by water temperature. No wind.
+        int water_temperature = Ctemperature;
+        if (calendar::turn.get_season() == SUMMER) {
+            water_temperature = 2000;
+        }
+        else if (calendar::turn.get_season() == AUTUMN || calendar::turn.get_season() == SPRING) {
+            water_temperature = 1000;
+        }
+        else if (calendar::turn.get_season() == WINTER) {
+            water_temperature =  300;
+        }
+        if ( (ter_at_pos == t_water_dp || ter_at_pos == t_water_pool || ter_at_pos == t_swater_dp) ||
+            ((ter_at_pos == t_water_sh || ter_at_pos == t_swater_sh || ter_at_pos == t_sewage) &&
+            (i == bp_foot_l || i == bp_foot_r || i == bp_leg_l || i == bp_leg_r)) ) {
+            adjusted_temp += 1500 - Ctemperature;
+            windChill = 0;
+        }
         // Convergeant temperature is affected by ambient temperature, clothing warmth, and body wetness.
         temp_conv[i] = BODYTEMP_NORM + adjusted_temp + windChill*100 + clothing_warmth_adjustement;
         // HUNGER
@@ -1278,20 +1295,7 @@ void player::update_bodytemp()
         }
         if (temp_cur[i] != temp_conv[i])
         {
-            // If you're standing in deep water, you approach convergent temp fast
-            // If you're standing in shallow water, only your feet and legs converge faster
-            if      ( (ter_at_pos == t_water_dp || ter_at_pos == t_water_pool ||
-                      ter_at_pos == t_swater_dp) ||
-                     ((ter_at_pos == t_water_sh || ter_at_pos == t_swater_sh ||
-                        ter_at_pos == t_sewage) &&
-                      (i == bp_foot_l || i == bp_foot_r || i == bp_leg_l || i == bp_leg_r)) )
-            {
-                temp_cur[i] = temp_difference*exp(-0.004) + temp_conv[i] + rounding_error;
-            }
-            else
-            {
-                temp_cur[i] = temp_difference*exp(-0.002) + temp_conv[i] + rounding_error;
-            }
+            temp_cur[i] = temp_difference*exp(-0.002) + temp_conv[i] + rounding_error;
         }
         int temp_after = temp_cur[i];
         // PENALTIES
