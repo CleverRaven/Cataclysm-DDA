@@ -1096,7 +1096,7 @@ bool cata_tiles::draw_entity(int x, int y)
     return false;
 }
 
-bool cata_tiles::draw_entity_with_overlays(int x, int y) {
+void cata_tiles::draw_entity_with_overlays(int x, int y) {
     const player* entity_to_draw = NULL;
     bool is_player = false;
     std::string ent_name;
