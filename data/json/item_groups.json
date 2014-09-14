@@ -455,7 +455,7 @@
       ["soap", 10],
       ["dry_beans", 40],
       ["dry_rice", 40],
-      ["survnote", 1]
+      ["survnote", 1],
     ]
   },{
     "type" : "item_group",
@@ -1410,7 +1410,7 @@
       ["nic_gum", 2],
       ["razor_blade", 3],
       ["knitting_needles", 1],
-      ["survnote", 2]
+      ["survnote", 2],
     ]
   },{
     "type" : "item_group",
@@ -2311,6 +2311,7 @@
     "type" : "item_group",
     "id" : "trash",
     "items":[
+      ["plastic_shopping_bag", 35]
       ["iodine", 5],
       ["bum_wine", 5],
       ["meth", 2],
