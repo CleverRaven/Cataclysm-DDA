@@ -8334,7 +8334,6 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "OXYTORCH",
-    "effects" : ["COOKOFF"]
+    "use_action": "OXYTORCH"
   }
 ]
