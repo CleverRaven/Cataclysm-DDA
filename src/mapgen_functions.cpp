@@ -8,6 +8,7 @@
 #include "monstergenerator.h"
 #include "options.h"
 #include "game.h"
+#include <array>
 
 mapgendata::mapgendata(oter_id north, oter_id east, oter_id south, oter_id west, oter_id northeast,
                        oter_id northwest, oter_id southeast, oter_id southwest, oter_id up, int z, const regional_settings * rsettings, map * mp) :
@@ -513,14 +514,14 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
             }
             int rn = rng(0, forest_chance);
             if ((forest_chance > 0 && rn > 13) || one_in(100 - forest_chance)) {
-                int tree_chances[][9] {//todo: JSONize this array!
+                std::array<std::array<int, 9>, 2> tree_chances = {{//todo: JSONize this array!
                     //ensure that these one_in chances (besides the last) don't add up to more than 1 in 1
                     //reserve the last one (1 in 1) for simple trees that fill up the rest
                     {250,300,300,350,350,350,128,16,1},
                     {t_tree_apple, t_tree_pear, t_tree_cherry, t_tree_peach, t_tree_apricot, t_tree_plum, t_tree_deadpine, t_tree_pine, t_tree}
-                };
+                }};
                 double earlier_chances = 0;//remember the earlier chances to calculate the sliding errors
-                for (size_t c = 0; c < 9; c++){
+                for (size_t c = 0; c < tree_chances[0].size(); c++){
                     if (tree_chances[0][c] == 1) { //if something has chances of 1, just put it in and go on
                         m->ter_set(i, j, tree_chances[1][c]);
                         break;

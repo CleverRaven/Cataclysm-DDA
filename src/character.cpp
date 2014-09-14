@@ -5,16 +5,9 @@ Character::Character()
     Creature::set_speed_base(100);
 };
 
-Character::Character(const Creature &)
+Character::~Character()
 {
-    Creature::set_speed_base(100);
 };
-
-Character &Character::operator= (const Character &rhs)
-{
-    Creature::operator=(rhs);
-    return (*this);
-}
 
 field_id Character::bloodType() const
 {
@@ -34,4 +27,16 @@ const std::string &Character::symbol() const
 {
     static const std::string character_symbol("@");
     return character_symbol;
+}
+
+void Character::store(JsonOut &jsout) const
+{
+    Creature::store( jsout );
+    // Add members of this class here:
+}
+
+void Character::load(JsonObject &jsin)
+{
+    Creature::load( jsin );
+    // Add members of this class here:
 }
