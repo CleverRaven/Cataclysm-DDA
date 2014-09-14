@@ -929,7 +929,7 @@
         "comestible_type" : "DRINK",
         "symbol" : "~",
         "quench" : 100,
-        "healthy" : 1,
+        "healthy" : 3,
         "addiction_potential" : 0,
         "nutrition" : 140,
         "description" : "A nutritious and delicious soup, made of gifts of nature.",
@@ -942,7 +942,7 @@
         "charges" : 1,
         "bashing" : 0,
         "flags" : ["EATEN_HOT", "USE_EAT_VERB"],
-        "fun" : 1
+        "fun" : 3
     },
     {
         "type" : "COMESTIBLE",
