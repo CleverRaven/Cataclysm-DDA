@@ -1716,11 +1716,12 @@ int map::collapse_check(const int x, const int y)
             }
         }
     }
-    return num_supports;
+    return 1.7 * num_supports;
 }
 
 void map::collapse_at(const int x, const int y)
 {
+    destroy (x, y, false);
     crush(x, y);
     make_rubble(x, y);
     for (int i = x - 1; i <= x + 1; i++) {
@@ -1870,7 +1871,8 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str, bool si
                 if (collapses) {
                     collapse_at(x, y);
                 }
-                if (supports) {
+                // Check the flag again to ensure the new terrain doesn't support anything
+                if (supports && !has_flag("SUPPORTS_ROOF", x, y)) {
                     for (int i = x - 1; i <= x + 1; i++) {
                         for (int j = y - 1; j <= y + 1; j++) {
                             if ((i == x && j == y) || !has_flag("COLLAPSES", i, j)) {

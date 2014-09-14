@@ -11717,7 +11717,7 @@
         {
           "rotates": false,
           "id": "soup_woods",
-          "fg": 220,
+          "fg": 2468,
           "bg": 2
         },
         {
@@ -12064,9 +12064,8 @@
         },
         {
           "rotates": false,
-          "id": "t_ash",
-          "fg": 1466,
-          "bg": 420
+          "id": "f_ash",
+          "fg": 1466
         },
         {
           "rotates": false,
@@ -13029,9 +13028,8 @@
         },
         {
           "rotates": false,
-          "id": "t_rubble",
-          "fg": 1570,
-          "bg": 420
+          "id": "f_rubble",
+          "fg": 1570
         },
         {
           "rotates": false,
@@ -13813,9 +13811,8 @@
         },
         {
           "rotates": false,
-          "id": "t_wreckage",
-          "fg": 1660,
-          "bg": 420
+          "id": "f_wreckage",
+          "fg": 1660
         },
         {
           "rotates": false,
@@ -17708,6 +17705,114 @@
           "id": "t_improvised_shelter",
           "fg": 2412,
           "bg": 1471
+        },
+        {
+          "rotates": false,
+          "id": "marshmallow",
+          "fg": 2414,
+          "bg": 2
+        },
+        {
+          "rotates": false,
+          "id": "puck",
+          "fg": 2415,
+          "bg": 2
+        },
+        {
+          "rotates": false,
+          "id": "bowling_ball",
+          "fg": 2428,
+          "bg": 2
+        },
+        {
+          "rotates": false,
+          "id": "nachos",
+          "fg": 2429,
+          "bg": 2
+        },
+        {
+          "rotates": false,
+          "id": "wetsuit_hood",
+          "fg": 2430,
+          "bg": 2
+        },
+        {
+          "rotates": false,
+          "id": "locket",
+          "fg": 2431,
+          "bg": 2
+        },
+        {
+          "rotates": false,
+          "id": "curry_powder",
+          "fg": 2444,
+          "bg": 2
+        },
+        {
+          "rotates": false,
+          "id": "yoghurt",
+          "fg": 2445,
+          "bg": 2
+        },
+        {
+          "rotates": false,
+          "id": "curry_veggy",
+          "fg": 2446,
+          "bg": 2
+        },
+        {
+          "rotates": false,
+          "id": "curry_meat",
+          "fg": 2447,
+          "bg": 2
+        },
+        {
+          "rotates": false,
+          "id": "soup_chicken",
+          "fg": 2460,
+          "bg": 2
+        },
+        {
+          "rotates": false,
+          "id": "soup_mushroom",
+          "fg": 2461,
+          "bg": 2
+        },
+        {
+          "rotates": false,
+          "id": "soup_tomato",
+          "fg": 2462,
+          "bg": 2
+        },
+        {
+          "rotates": false,
+          "id": "soup_dumplings",
+          "fg": 2463,
+          "bg": 2
+        },
+        {
+          "rotates": false,
+          "id": "soup_fish",
+          "fg": 2464,
+          "bg": 2
+        },
+        {
+          "rotates": false,
+          "id": "chili",
+          "fg": 2465,
+          "bg": 2
+        },
+        {
+          "rotates": false,
+          "id": "chili_human",
+          "fg": 2466,
+          "bg": 2
+        },
+        {
+          "rotates": false,
+          "id": "chilly-p",
+          "fg": 2467,
+          "bg": 2
         }
       ],
       "ascii": [

@@ -52,7 +52,11 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         monster();
         monster(mtype *t);
         monster(mtype *t, int x, int y);
-        ~monster();
+        monster(const monster &) = default;
+        monster(monster &&) = default;
+        virtual ~monster() override;
+        monster &operator=(const monster &) = default;
+        monster &operator=(monster &&) = default;
         void poly(mtype *t);
         void spawn(int x, int y); // All this does is moves the monster to x,y
 
@@ -105,11 +109,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         void load_info(std::string data);
 
         using JsonSerializer::serialize;
-        void serialize(JsonOut &jsout) const
-        {
-            serialize(jsout, true);
-        }
-        virtual void serialize(JsonOut &jsout, bool save_contents) const;
+        virtual void serialize(JsonOut &jsout) const override;
         using JsonDeserializer::deserialize;
         virtual void deserialize(JsonIn &jsin);
 
@@ -308,6 +308,10 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         bool dead;
         /** Attack another monster */
         void hit_monster(monster &other);
+
+    protected:
+        void store(JsonOut &jsout) const;
+        void load(JsonObject &jsin);
 };
 
 #endif

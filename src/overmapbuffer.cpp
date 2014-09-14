@@ -206,8 +206,29 @@ bool overmapbuffer::has_npc(int x, int y, int z)
 
 bool overmapbuffer::has_vehicle(int x, int y, int z, bool require_pda)
 {
-    const overmap *om = get_existing_om_global(x, y);
-    return (om != NULL) && om->has_vehicle(x, y, z, require_pda);
+    return !get_vehicle( x, y, z, require_pda ).empty();
+}
+
+std::vector<om_vehicle> overmapbuffer::get_vehicle(int x, int y, int z, bool require_pda)
+{
+    std::vector<om_vehicle> result;
+    if( z != 0 ) {
+        return result;
+    }
+    // if the player is not carrying a PDA then he cannot see the vehicle.
+    if( require_pda && !g->u.has_pda() ) {
+        return result;
+    }
+    overmap *om = get_existing_om_global(x, y);
+    if( om == nullptr ) {
+        return result;
+    }
+    for( const auto &ov : om->vehicles ) {
+        if ( ov.second.x == x && ov.second.y == y ) {
+            result.push_back( ov.second );
+        }
+    }
+    return result;
 }
 
 std::vector<mongroup*> overmapbuffer::monsters_at(int x, int y, int z)

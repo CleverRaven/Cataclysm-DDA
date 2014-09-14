@@ -337,6 +337,7 @@
     [
       [ "bone", 5 ],
       [ "rock", 1 ],
+      [ "ceramic_shard", 1 ],
       [ "scrap", 2 ],
       [ "nail", 10 ]
     ]
@@ -363,6 +364,7 @@
     [
       [ "bone", 3 ],
       [ "rock", 1 ],
+      [ "ceramic_shard", 1 ],
       [ "scrap", 2 ],
       [ "nail", 10 ]
     ]
@@ -553,6 +555,7 @@
     [
       [ "bone", 5 ],
       [ "rock", 1 ],
+      [ "ceramic_shard", 1 ],
       [ "scrap", 2 ],
       [ "nail", 10 ]
     ]

@@ -93,6 +93,7 @@ public:
     void set_seen(int x, int y, int z, bool seen = true);
     bool has_npc(int x, int y, int z);
     bool has_vehicle(int x, int y, int z, bool require_pda = true);
+    std::vector<om_vehicle> get_vehicle(int x, int y, int z, bool require_pda = true);
     const regional_settings& get_settings(int x, int y, int z);
     bool is_safe(int x, int y, int z);
     bool is_safe(const tripoint& p) { return is_safe(p.x, p.y, p.z); }

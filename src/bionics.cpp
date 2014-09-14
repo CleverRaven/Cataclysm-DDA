@@ -905,7 +905,7 @@ bool player::uninstall_bionic(bionic_id b_id)
                             skillLevel("mechanics"),
                             difficulty + 2);
 
-    if (!query_yn(_("WARNING: %i percent chance of SEVERE bodily damage! Remove anyway?"),
+    if (!query_yn(_("WARNING: %i percent chance of failure and SEVERE bodily damage! Remove anyway?"),
                   100 - chance_of_success)) {
         return false;
     }

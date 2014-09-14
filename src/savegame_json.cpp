@@ -109,8 +109,10 @@ void SkillLevel::deserialize(JsonIn &jsin)
  * Do not overload; NPC or player specific stuff should go to player::json_save or npc::json_save.
  */
 
-void player::json_load_common_variables(JsonObject &data)
+void player::load(JsonObject &data)
 {
+    Creature::load( data );
+
     JsonArray parray;
     int tmpid = 0;
 
@@ -129,26 +131,13 @@ void player::json_load_common_variables(JsonObject &data)
         debugmsg("BAD PLAYER/NPC JSON: no 'posx'?");
     }
     data.read("posy", posy);
-    data.read("str_cur", str_cur);
-    data.read("str_max", str_max);
-    data.read("dex_cur", dex_cur);
-    data.read("dex_max", dex_max);
-    data.read("int_cur", int_cur);
-    data.read("int_max", int_max);
-    data.read("per_cur", per_cur);
-    data.read("per_max", per_max);
-    data.read("healthy", healthy);
-    data.read("healthy_mod", healthy_mod);
     data.read("hunger", hunger);
     data.read("thirst", thirst);
     data.read("fatigue", fatigue);
     data.read("stim", stim);
-    data.read("pain", pain);
     data.read("pkill", pkill);
     data.read("radiation", radiation);
     data.read("scent", scent);
-    data.read("moves", moves);
-    data.read("dodges_left", num_dodges);
     data.read("underwater", underwater);
     data.read("oxygen", oxygen);
     data.read("male", male);
@@ -159,21 +148,11 @@ void player::json_load_common_variables(JsonObject &data)
         setID( tmpid );
     }
 
-    parray = data.get_array("hp_cur");
-    if ( parray.size() == num_hp_parts ) {
-        for(int i = 0; i < num_hp_parts; i++) {
-            hp_cur[i] = parray.get_int(i);
-        }
-    } else {
+    if( !data.read( "hp_cur", hp_cur ) ) {
         debugmsg("Error, incompatible hp_cur in save file '%s'", parray.str().c_str());
     }
 
-    parray = data.get_array("hp_max");
-    if ( parray.size() == num_hp_parts ) {
-        for(int i = 0; i < num_hp_parts; i++) {
-            hp_max[i] = parray.get_int(i);
-        }
-    } else {
+    if( !data.read( "hp_max", hp_max ) ) {
         debugmsg("Error, incompatible hp_max in save file '%s'", parray.str().c_str());
     }
 
@@ -203,19 +182,6 @@ void player::json_load_common_variables(JsonObject &data)
     data.read("ma_styles", ma_styles);
     data.read("illness", illness);
 
-    if( data.has_array( "effects" ) ) {
-        // effects started out as a vector, then changed to an unordered map.
-        // This is the easiest way to maintain backwards compatability.
-        parray = data.get_array( "effects" );
-        while( parray.has_more() ) {
-            effect new_effect;
-            parray.read_next( new_effect );
-            effects[ new_effect.get_id() ] = new_effect;
-        }
-    } else if( data.has_object( "effects" ) ) {
-        data.read( "effects", effects );
-    }
-    data.read( "values", values );
     data.read( "addictions", addictions );
     data.read( "my_bionics", my_bionics );
 
@@ -227,31 +193,31 @@ void player::json_load_common_variables(JsonObject &data)
         const std::string t = pmap.get_string("trap");
         known_traps.insert(trap_map::value_type(p, t));
     }
+
+    inv.clear();
+    if ( data.has_member( "inv" ) ) {
+        JsonIn *invin = data.get_raw( "inv" );
+        inv.json_load_items( *invin );
+    }
+
+    worn.clear();
+    data.read( "worn", worn );
+
+    weapon = item( "null", 0 );
+    data.read( "weapon", weapon );
 }
 
 /*
  * Variables common to player and npc
  */
-void player::json_save_common_variables(JsonOut &json) const
+void player::store(JsonOut &json) const
 {
+    Creature::store( json );
+
     // assumes already in player object
     // positional data
     json.member( "posx", posx );
     json.member( "posy", posy );
-
-    // attributes, current / max levels
-    json.member( "str_cur", str_cur );
-    json.member( "str_max", str_max );
-    json.member( "dex_cur", dex_cur );
-    json.member( "dex_max", dex_max );
-    json.member( "int_cur", int_cur );
-    json.member( "int_max", int_max );
-    json.member( "per_cur", per_cur );
-    json.member( "per_max", per_max );
-
-    // Healthy values
-    json.member( "healthy", healthy );
-    json.member( "healthy_mod", healthy_mod );
 
     // om-noms or lack thereof
     json.member( "hunger", hunger );
@@ -260,16 +226,11 @@ void player::json_save_common_variables(JsonOut &json) const
     json.member( "fatigue", fatigue );
     json.member( "stim", stim );
     // pain
-    json.member( "pain", pain );
     json.member( "pkill", pkill );
     // misc levels
     json.member( "radiation", radiation );
     json.member( "scent", int(scent) );
-    json.member( "body_wetness", std::vector<int>( body_wetness, body_wetness + num_bp ) );
-
-    // initiative type stuff
-    json.member( "moves", moves );
-    json.member( "dodges_left", num_dodges);
+    json.member( "body_wetness", body_wetness );
 
     // breathing
     json.member( "underwater", underwater );
@@ -285,8 +246,8 @@ void player::json_save_common_variables(JsonOut &json) const
 
     // potential incompatibility with future expansion
     // todo: consider ["parts"]["head"]["hp_cur"] instead of ["hp_cur"][head_enum_value]
-    json.member( "hp_cur", std::vector<int>( hp_cur, hp_cur + num_hp_parts ) );
-    json.member( "hp_max", std::vector<int>( hp_max, hp_max + num_hp_parts ) );
+    json.member( "hp_cur", hp_cur );
+    json.member( "hp_max", hp_max );
 
     // npc; unimplemented
     json.member( "power_level", power_level );
@@ -313,9 +274,6 @@ void player::json_save_common_variables(JsonOut &json) const
 
     // disease
     json.member( "illness", illness );
-    // creature::effects
-    json.member( "effects", effects );
-    json.member( "values", values );
 
     // "Looks like I picked the wrong week to quit smoking." - Steve McCroskey
     json.member( "addictions", addictions );
@@ -334,6 +292,15 @@ void player::json_save_common_variables(JsonOut &json) const
         json.end_object();
     }
     json.end_array();
+
+    json.member( "worn", worn ); // also saves contents
+
+    json.member( "inv" );
+    inv.json_save_items( json );
+
+    if( !weapon.is_null() ) {
+        json.member( "weapon", weapon ); // also saves contents
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -342,11 +309,16 @@ void player::json_save_common_variables(JsonOut &json) const
  * Prepare a json object for player, including player specific data, and data common to
    players and npcs ( which json_save_actor_data() handles ).
  */
-void player::serialize(JsonOut &json, bool save_contents) const
+void player::serialize(JsonOut &json) const
 {
     json.start_object();
+    // This must be after the json object has been started, so any super class
+    // puts their data into the same json object.
+    store( json );
 
-    json_save_common_variables( json );
+    // TODO: once npcs are seperated from the player class,
+    // this code should go into player::store, serialize will then only
+    // contain start_object(), store(), end_object().
 
     // player-specific specifics
     if ( prof != NULL ) {
@@ -364,7 +336,6 @@ void player::serialize(JsonOut &json, bool save_contents) const
     json.member( "grab_type", obj_type_name[ (int)grab_type ] );
 
     // misc player specific stuff
-    json.member( "blocks_left", num_blocks );
     json.member( "focus_pool", focus_pool );
     json.member( "style_selected", style_selected );
 
@@ -379,9 +350,9 @@ void player::serialize(JsonOut &json, bool save_contents) const
     json.member( "mutations", my_mutations );
 
     // "The cold wakes you up."
-    json.member( "temp_cur", std::vector<int>( temp_cur, temp_cur + num_bp ) );
-    json.member( "temp_conv", std::vector<int>( temp_conv, temp_conv + num_bp ) );
-    json.member( "frostbite_timer", std::vector<int>( frostbite_timer, frostbite_timer + num_bp ) );
+    json.member( "temp_cur", temp_cur );
+    json.member( "temp_conv", temp_conv );
+    json.member( "frostbite_timer", frostbite_timer );
 
     // npc: unimplemented, potentially useful
     json.member( "learned_recipes" );
@@ -406,25 +377,15 @@ void player::serialize(JsonOut &json, bool save_contents) const
 
     json.member( "player_stats", get_stats() );
 
-    if ( save_contents ) {
-        json.member( "worn", worn ); // also saves contents
-
-        json.member("inv");
-        inv.json_save_items(json);
-
         json.member("invcache");
         inv.json_save_invcache(json);
 
-        if (!weapon.is_null()) {
-            json.member( "weapon", weapon ); // also saves contents
-        }
         //FIXME: seperate function, better still another file
         /*      for( size_t i = 0; i < memorial_log.size(); ++i ) {
                   ptmpvect.push_back(pv(memorial_log[i]));
               }
               json.member("memorial",ptmpvect);
         */
-    }
 
     json.end_object();
 }
@@ -437,7 +398,11 @@ void player::deserialize(JsonIn &jsin)
     JsonObject data = jsin.get_object();
     JsonArray parray;
 
-    json_load_common_variables( data );
+    load( data );
+
+    // TODO: once npcs are seperated from the player class,
+    // this code should go into player::load, deserialize will then only
+    // contain get_object(), load()
 
     std::string prof_ident = "(null)";
     if ( data.read("profession", prof_ident) && profession::exists(prof_ident) ) {
@@ -474,7 +439,6 @@ void player::deserialize(JsonIn &jsin)
     data.read( "stomach_food", stomach_food);
     data.read( "stomach_water", stomach_water);
 
-    data.read( "blocks_left", num_blocks);
     data.read( "focus_pool", focus_pool);
     data.read( "style_selected", style_selected );
 
@@ -492,38 +456,18 @@ void player::deserialize(JsonIn &jsin)
                     scen_ident.c_str(), generic_scenario->ident().c_str());
         g->scen = generic_scenario;
     }
-    parray = data.get_array("temp_cur");
-    for(int i = 0; i < num_bp; i++) {
-        temp_cur[i] = 5000;
-    }
-    for(int i = 0; i < parray.size(); i++) {
-        temp_cur[i] = parray.get_int(i);
-    }
+    temp_cur.fill( 5000 );
+    data.read( "temp_cur", temp_cur );
 
 
-    parray = data.get_array("temp_conv");
-    for(int i = 0; i < num_bp; i++) {
-        temp_conv[i] = 5000;
-    }
-    for(int i = 0; i < parray.size(); i++) {
-        temp_conv[i] = parray.get_int(i);
-    }
+    temp_conv.fill( 5000 );
+    data.read( "temp_conv", temp_conv );
 
-    parray = data.get_array("frostbite_timer");
-    for(int i = 0; i < num_bp; i++) {
-        frostbite_timer[i] = 0;
-    }
-    for(int i = 0; i < parray.size(); i++) {
-        frostbite_timer[i] = parray.get_int(i);
-    }
+    frostbite_timer.fill( 0 );
+    data.read( "frostbite_timer", frostbite_timer );
     
-    parray = data.get_array("body_wetness");
-    for(int i = 0; i < num_bp; i++) {
-        body_wetness[i] = 0;
-    }
-    for(int i = 0; i < parray.size(); i++) {
-        body_wetness[i] = parray.get_int(i);
-    }
+    body_wetness.fill( 0 );
+    data.read( "body_wetness", body_wetness );
 
     parray = data.get_array("learned_recipes");
     if ( !parray.empty() ) {
@@ -550,21 +494,10 @@ void player::deserialize(JsonIn &jsin)
     stats &pstats = *lifetime_stats();
     data.read("player_stats", pstats);
 
-    inv.clear();
-    if ( data.has_member("inv") ) {
-        JsonIn *jip = data.get_raw("inv");
-        inv.json_load_items( *jip );
-    }
     if ( data.has_member("invcache") ) {
         JsonIn *jip = data.get_raw("invcache");
         inv.json_load_invcache( *jip );
     }
-
-    worn.clear();
-    data.read("worn", worn);
-
-    weapon.contents.clear();
-    data.read("weapon", weapon);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -708,8 +641,14 @@ void npc_favor::serialize(JsonOut &json) const
 void npc::deserialize(JsonIn &jsin)
 {
     JsonObject data = jsin.get_object();
+    load( data );
+}
 
-    json_load_common_variables(data);
+void npc::load(JsonObject &data)
+{
+    // TODO: once npcs are seperated from the player class,
+    // this should call load on the parent class of npc (probably Character).
+    player::load( data );
 
     int misstmp, classtmp, flagstmp, atttmp;
     std::string facID;
@@ -763,18 +702,6 @@ void npc::deserialize(JsonIn &jsin)
         attitude = npc_attitude(atttmp);
     }
 
-    inv.clear();
-    if ( data.has_member("inv") ) {
-        JsonIn *invin = data.get_raw("inv");
-        inv.json_load_items( *invin );
-    }
-
-    worn.clear();
-    data.read("worn", worn);
-
-    weapon.contents.clear();
-    data.read("weapon", weapon);
-
     data.read("op_of_u", op_of_u);
     data.read("chatbin", chatbin);
     data.read("combat_rules", combat_rules);
@@ -783,11 +710,20 @@ void npc::deserialize(JsonIn &jsin)
 /*
  * save npc
  */
-void npc::serialize(JsonOut &json, bool save_contents) const
+void npc::serialize(JsonOut &json) const
 {
     json.start_object();
+    // This must be after the json object has been started, so any super class
+    // puts their data into the same json object.
+    store( json );
+    json.end_object();
+}
 
-    json_save_common_variables( json );
+void npc::store(JsonOut &json) const
+{
+    // TODO: once npcs are seperated from the player class,
+    // this should call store on the parent class of npc (probably Character).
+    player::store( json );
 
     json.member( "name", name );
     json.member( "marked_for_death", marked_for_death );
@@ -818,19 +754,6 @@ void npc::serialize(JsonOut &json, bool save_contents) const
     json.member("op_of_u", op_of_u);
     json.member("chatbin", chatbin);
     json.member("combat_rules", combat_rules);
-
-    if ( save_contents ) {
-        json.member( "worn", worn ); // also saves contents
-
-        json.member("inv");
-        inv.json_save_items(json);
-
-        if (!weapon.is_null()) {
-            json.member( "weapon", weapon ); // also saves contents
-        }
-    }
-
-    json.end_object();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -916,6 +839,12 @@ void inventory::json_load_items(JsonIn &jsin)
 void monster::deserialize(JsonIn &jsin)
 {
     JsonObject data = jsin.get_object();
+    load( data );
+}
+
+void monster::load(JsonObject &data)
+{
+    Creature::load( data );
 
     int iidtmp;
     std::string sidtmp;
@@ -932,9 +861,6 @@ void monster::deserialize(JsonIn &jsin)
     data.read("wandx", wandx);
     data.read("wandy", wandy);
     data.read("wandf", wandf);
-    data.read("moves", moves);
-    data.read("speed", speed);
-    Creature::set_speed_base(speed);
     data.read("hp", hp);
     data.read("sp_timeout", sp_timeout);
     data.read("friendly", friendly);
@@ -949,20 +875,6 @@ void monster::deserialize(JsonIn &jsin)
 
     data.read("plans", plans);
 
-    if( data.has_array( "effects" ) ) {
-        // effects started out as a vector, then changed to an unordered map.
-        // This is the easiest way to maintain backwards compatability.
-        JsonArray parray = data.get_array( "effects" );
-        while( parray.has_more() ) {
-            effect new_effect;
-            parray.read_next( new_effect );
-            effects[ new_effect.get_id() ] = new_effect;
-        }
-    } else if( data.has_object( "effects" ) ) {
-        data.read( "effects", effects );
-    }
-
-    data.read( "values", values );
     data.read("inv", inv);
     if (!data.read("ammo", ammo)) {
         ammo = 100;
@@ -972,18 +884,24 @@ void monster::deserialize(JsonIn &jsin)
 /*
  * Save, json ed; serialization that won't break as easily. In theory.
  */
-void monster::serialize(JsonOut &json, bool save_contents) const
+void monster::serialize(JsonOut &json) const
 {
     json.start_object();
+    // This must be after the json object has been started, so any super class
+    // puts their data into the same json object.
+    store( json );
+    json.end_object();
+}
 
+void monster::store(JsonOut &json) const
+{
+    Creature::store( json );
     json.member( "typeid", type->id );
     json.member("posx", _posx);
     json.member("posy", _posy);
     json.member("wandx", wandx);
     json.member("wandy", wandy);
     json.member("wandf", wandf);
-    json.member("moves", moves);
-    json.member("speed", get_speed());
     json.member("hp", hp);
     json.member("sp_timeout", sp_timeout);
     json.member("friendly", friendly);
@@ -998,20 +916,7 @@ void monster::serialize(JsonOut &json, bool save_contents) const
     json.member("plans", plans);
     json.member("ammo", ammo);
 
-    // creature::effects
-    json.member( "effects", effects );
-    json.member( "values", values );
-
-    if ( save_contents ) {
-        json.member("inv");
-        json.start_array();
-        for(size_t i = 0; i < inv.size(); i++) {
-            inv[i].serialize(json, true);
-        }
-        json.end_array();
-    }
-
-    json.end_object();
+    json.member( "inv", inv );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1568,3 +1473,120 @@ void faction::serialize(JsonOut &json) const
     json.end_object();
 }
 
+void Creature::store( JsonOut &jsout ) const
+{
+    jsout.member( "str_cur", str_cur );
+    jsout.member( "str_max", str_max );
+    jsout.member( "dex_cur", dex_cur );
+    jsout.member( "dex_max", dex_max );
+    jsout.member( "int_cur", int_cur );
+    jsout.member( "int_max", int_max );
+    jsout.member( "per_cur", per_cur );
+    jsout.member( "per_max", per_max );
+
+    jsout.member( "moves", moves );
+    jsout.member( "pain", pain );
+
+    // killer is not stored, it's temporary anyway, any creature that has a non-null
+    // killer is dead (as per definition) and should not be stored.
+    jsout.member( "effects", effects );
+    jsout.member( "values", values );
+
+    jsout.member( "str_bonus", str_bonus );
+    jsout.member( "dex_bonus", dex_bonus );
+    jsout.member( "per_bonus", per_bonus );
+    jsout.member( "int_bonus", int_bonus );
+
+    jsout.member( "healthy", healthy );
+    jsout.member( "healthy_mod", healthy_mod );
+
+    jsout.member( "blocks_left", num_blocks );
+    jsout.member( "dodges_left", num_dodges );
+    jsout.member( "num_blocks_bonus", num_blocks_bonus );
+    jsout.member( "num_dodges_bonus", num_dodges_bonus );
+
+    jsout.member( "armor_bash_bonus", armor_bash_bonus );
+    jsout.member( "armor_cut_bonus", armor_cut_bonus );
+
+    jsout.member( "speed", speed_base );
+
+    jsout.member( "speed_bonus", speed_bonus );
+    jsout.member( "dodge_bonus", dodge_bonus );
+    jsout.member( "block_bonus", block_bonus );
+    jsout.member( "hit_bonus", hit_bonus );
+    jsout.member( "bash_bonus", bash_bonus );
+    jsout.member( "cut_bonus", cut_bonus );
+
+    jsout.member( "bash_mult", bash_mult );
+    jsout.member( "cut_mult", cut_mult );
+    jsout.member( "melee_quiet", melee_quiet );
+
+    jsout.member( "grab_resist", grab_resist );
+    jsout.member( "throw_resist", throw_resist );
+
+    // fake is not stored, it's temporary anyway, only used to fire with a gun.
+}
+
+void Creature::load( JsonObject &jsin )
+{
+    jsin.read( "str_cur", str_cur );
+    jsin.read( "str_max", str_max );
+    jsin.read( "dex_cur", dex_cur );
+    jsin.read( "dex_max", dex_max );
+    jsin.read( "int_cur", int_cur );
+    jsin.read( "int_max", int_max );
+    jsin.read( "per_cur", per_cur );
+    jsin.read( "per_max", per_max );
+
+    jsin.read( "moves", moves );
+    jsin.read( "pain", pain );
+
+    killer = nullptr; // see Creature::load
+    if( jsin.has_array( "effects" ) ) {
+        // effects started out as a vector, then changed to an unordered map.
+        // This is the easiest way to maintain backwards compatibility.
+        JsonArray parray = jsin.get_array( "effects" );
+        while( parray.has_more() ) {
+            effect new_effect;
+            parray.read_next( new_effect );
+            effects[ new_effect.get_id() ] = new_effect;
+        }
+    } else if( jsin.has_object( "effects" ) ) {
+        jsin.read( "effects", effects );
+    }
+    jsin.read( "values", values );
+
+    jsin.read( "str_bonus", str_bonus );
+    jsin.read( "dex_bonus", dex_bonus );
+    jsin.read( "per_bonus", per_bonus );
+    jsin.read( "int_bonus", int_bonus );
+
+    jsin.read( "healthy", healthy );
+    jsin.read( "healthy_mod", healthy_mod );
+
+    jsin.read( "blocks_left", num_blocks );
+    jsin.read( "dodges_left", num_dodges );
+    jsin.read( "num_blocks_bonus", num_blocks_bonus );
+    jsin.read( "num_dodges_bonus", num_dodges_bonus );
+
+    jsin.read( "armor_bash_bonus", armor_bash_bonus );
+    jsin.read( "armor_cut_bonus", armor_cut_bonus );
+
+    jsin.read( "speed", speed_base );
+
+    jsin.read( "speed_bonus", speed_bonus );
+    jsin.read( "dodge_bonus", dodge_bonus );
+    jsin.read( "block_bonus", block_bonus );
+    jsin.read( "hit_bonus", hit_bonus );
+    jsin.read( "bash_bonus", bash_bonus );
+    jsin.read( "cut_bonus", cut_bonus );
+
+    jsin.read( "bash_mult", bash_mult );
+    jsin.read( "cut_mult", cut_mult );
+    jsin.read( "melee_quiet", melee_quiet );
+
+    jsin.read( "grab_resist", grab_resist );
+    jsin.read( "throw_resist", throw_resist );
+
+    fake = false; // see Creature::load
+}
