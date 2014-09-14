@@ -514,24 +514,31 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
             }
             int rn = rng(0, forest_chance);
             if ((forest_chance > 0 && rn > 13) || one_in(100 - forest_chance)) {
-                std::array<std::array<int, 9>, 2> tree_chances = {{//todo: JSONize this array!
-                    //ensure that these one_in chances (besides the last) don't add up to more than 1 in 1
-                    //reserve the last one (1 in 1) for simple trees that fill up the rest
-                    {250,300,300,350,350,350,128,16,1},
-                    {t_tree_apple, t_tree_pear, t_tree_cherry, t_tree_peach, t_tree_apricot, t_tree_plum, t_tree_deadpine, t_tree_pine, t_tree}
-                }};
-                double earlier_chances = 0;//remember the earlier chances to calculate the sliding errors
+                std::array<std::array<int, 9>, 2> tree_chances = {{
+                        // todo: JSONize this array!
+                        // Ensure that these one_in chances
+                        // (besides the last) don't add up to more than 1 in 1
+                        // Reserve the last one (1 in 1) for simple trees that fill up the rest.
+                        { 250, 300, 300, 350, 350, 350, 128, 16, 1 },
+                        { t_tree_apple, t_tree_pear, t_tree_cherry, t_tree_peach,
+                          t_tree_apricot, t_tree_plum, t_tree_deadpine, t_tree_pine, t_tree}
+                    }};
+                double earlier_chances = 0;
+                // Remember the earlier chances to calculate the sliding errors
                 for (size_t c = 0; c < tree_chances[0].size(); c++){
-                    if (tree_chances[0][c] == 1) { //if something has chances of 1, just put it in and go on
+                    if (tree_chances[0][c] == 1) {
+                        // If something has chances of 1, just put it in and go on.
                         m->ter_set(i, j, tree_chances[1][c]);
                         break;
                     }
-                    else if ((earlier_chances != 1) && (one_in_improved((1/(1 - earlier_chances))*tree_chances[0][c]))){ // (1/(1 - earlier_chances)) is the sliding error. fixed here
+                    else if( earlier_chances != 1 &&
+                             (one_in_improved((1/(1 - earlier_chances))*tree_chances[0][c])) ){
+                        // (1/(1 - earlier_chances)) is the sliding error. fixed here
                         m->ter_set(i, j, tree_chances[1][c]);
                         break;
                     }
                     else {
-                        earlier_chances += 1/double(tree_chances[0][c]);
+                        earlier_chances += 1 / double(tree_chances[0][c]);
                     }
                 }
             } else if ((forest_chance > 0 && rn > 10) || one_in(100 - forest_chance)) {
