@@ -998,6 +998,15 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool save_zones();
         void load_zones();
 
+        // drawing related stuff
+        /**
+         * Returns a list of the IDs of overlays on this character,
+         * sorted from "lowest" to "highest".
+         *
+         * Only required for rendering.
+         */
+        std::vector<std::string> get_overlay_ids() const;
+
     protected:
         std::vector<std::string> my_traits;
         std::vector<std::string> my_mutations;

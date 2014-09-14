@@ -550,6 +550,7 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
             draw_field_or_item(x, y);
             draw_vpart(x, y);
             draw_entity(x, y);
+            draw_entity_with_overlays(x, y);
         }
     }
     in_animation = do_draw_explosion || do_draw_bullet || do_draw_hit ||
@@ -1088,24 +1089,53 @@ bool cata_tiles::draw_entity(int x, int y)
             }
             entity_here = true;
     }
-    // check for NPC (next most common)
-    if (!entity_here && g->npc_at(x, y) >= 0) {
-        npc &m = *g->active_npc[g->npc_at(x, y)];
-        if( !m.is_dead() ) {
-            ent_name = m.male ? "npc_male" : "npc_female";
-            entity_here = true;
-        }
-    }
-    // check for PC (least common, only ever 1)
-    if (!entity_here && g->u.posx == x && g->u.posy == y) {
-        ent_name = g->u.male ? "player_male" : "player_female";
-        entity_here = true;
-    }
     if (entity_here) {
         int subtile = corner;
         return draw_from_id_string(ent_name, ent_category, ent_subcategory, x, y, subtile, 0);
     }
     return false;
+}
+
+bool cata_tiles::draw_entity_with_overlays(int x, int y) {
+    const player* entity_to_draw = NULL;
+    bool is_player = false;
+    std::string ent_name;
+
+    int npc_index = g->npc_at(x, y);
+    if (npc_index >= 0) {
+        entity_to_draw = g->active_npc[npc_index];
+        if (! (g->active_npc[npc_index]->is_dead()) ) {
+            ent_name = entity_to_draw->male ? "npc_male" : "npc_female";
+        } else {
+            entity_to_draw = NULL;
+        }
+    }
+
+    if (!entity_to_draw) {
+        if (g->u.posx == x && g->u.posy == y) {
+            entity_to_draw = &(g->u);
+            ent_name = entity_to_draw->male ? "player_male" : "player_female";
+            is_player = true;
+        }
+    }
+
+    if (entity_to_draw) {
+        // first draw the character itself(i guess this means a tileset that
+        // takes this seriously needs a naked sprite)
+        draw_from_id_string(ent_name, C_NONE, "", x, y, corner, 0);
+
+        // next up, draw all the overlays
+        std::vector<std::string> overlays = entity_to_draw->get_overlay_ids();
+        for(const std::string& overlay : overlays) {
+            // TODO: distinguish between male/female?
+            std::string draw_id = "overlay_"+overlay;
+
+            // make sure we don't draw an annoying "unknown" tile when we have nothing to draw
+            if(tile_ids.find(draw_id) != tile_ids.end()) {
+                draw_from_id_string(draw_id, C_NONE, "", x, y, corner, 0);
+            }
+        }
+    }
 }
 
 bool cata_tiles::draw_item_highlight(int x, int y)
