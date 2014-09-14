@@ -33,7 +33,10 @@ struct point : public JsonSerializer, public JsonDeserializer {
     int x;
     int y;
     point(int X = 0, int Y = 0) : x (X), y (Y) {}
-    point(const point &p) : JsonSerializer(), JsonDeserializer(), x (p.x), y (p.y) {}
+    point(point &&) = default;
+    point(const point &) = default;
+    point &operator=(point &&) = default;
+    point &operator=(const point &) = default;
     ~point() {}
     using JsonSerializer::serialize;
     void serialize(JsonOut &jsout) const
