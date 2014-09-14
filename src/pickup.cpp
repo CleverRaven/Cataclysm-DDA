@@ -277,12 +277,12 @@ void Pickup::pick_one_up( const point &pickup_target, std::vector<item> &here,
                                   newit.display_name().c_str(),
                                   g->u.weapon.display_name().c_str()) ) {
                         picked_up = true;
-                        g->m.add_item_or_charges( pickup_target.x, pickup_target.y,
-                                                  g->u.remove_weapon(), 1 );
+                        item tmp = g->u.remove_weapon() // not dropping it yet, but remove it from the players hand
                         g->u.inv.assign_empty_invlet( newit, true ); // force getting an invlet.
                         g->u.wield( &( g->u.i_add(newit) ) );
                         add_msg(m_info, _("Wielding %c - %s"), newit.invlet,
                                 newit.display_name().c_str());
+                        g->m.add_item_or_charges( pickup_target.x, pickup_target.y, tmp, 1 ); // now drop it.
                     }
                 }
             } else {
