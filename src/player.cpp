@@ -11836,10 +11836,6 @@ std::vector<std::string> player::get_overlay_ids() const {
     // next clothing
     // TODO: worry about correct order of clothing overlays
     for(const item& worn_item : worn) {
-        if(worn_item.is_null()) {
-            continue;
-        }
-
         rval.push_back("worn_"+worn_item.type->id);
     }
 
