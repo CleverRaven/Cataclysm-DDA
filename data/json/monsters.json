@@ -5746,7 +5746,7 @@
     },{
         "type" : "MONSTER",
         "id" : "mon_zougar",
-    "name": "decay cat",
+    "name": "decayed pouncer",
     "species":"ZOMBIE",
     "symbol":"C",
     "color":"green",
