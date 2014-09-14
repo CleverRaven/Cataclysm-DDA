@@ -4427,7 +4427,6 @@
         "category" : "armor",
         "name" : "pair of chitin arm guards",
         "name_plural" : "pairs of chitin arm guards",
-        "category" : "armor",
         "weight" : 392,
         "color" : "green",
         "covers" : ["ARMS"],
