@@ -2433,7 +2433,7 @@
         "price" : 1000,
         "material" : "powder",
         "tool" : "null",
-        "volume" : 1,
+        "volume" : 8,
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 20,
