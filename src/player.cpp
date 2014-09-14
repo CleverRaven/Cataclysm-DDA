@@ -1065,7 +1065,7 @@ void player::update_bodytemp()
         if ( (ter_at_pos == t_water_dp || ter_at_pos == t_water_pool || ter_at_pos == t_swater_dp) ||
             ((ter_at_pos == t_water_sh || ter_at_pos == t_swater_sh || ter_at_pos == t_sewage) &&
             (i == bp_foot_l || i == bp_foot_r || i == bp_leg_l || i == bp_leg_r)) ) {
-            adjusted_temp += 1500 - Ctemperature;
+            adjusted_temp += water_temperature - Ctemperature; // Swap out air temp for water temp.
             windChill = 0;
         }
         // Convergeant temperature is affected by ambient temperature, clothing warmth, and body wetness.
@@ -1383,8 +1383,6 @@ void player::update_bodytemp()
         -- 5 minute risk --
         Less than -5F, more than 10 mph, -4x + 3y - 170 < 0, x : F, y : mph
         Less than -35F, more than 10 mp
-
-        TODO : Being wet should increase frostbite risk
         **/
 
         if ( i == bp_mouth || i == bp_foot_r || i == bp_foot_l || i == bp_hand_r || i == bp_hand_l)
@@ -1398,12 +1396,14 @@ void player::update_bodytemp()
             // Windchill reduced by your armor
             int FBwindPower = windPower * (1 - get_wind_resistance(body_part(i))/100.0);
             // This has been broken down into 8 zones
-            // Low risk zones
+            // Low risk zones (stops are frostnip)
             if ((Ftemperature < 30 && Ftemperature >= 10) ||
                 (Ftemperature < 10 && Ftemperature >= -5 && FBwindPower < 20 && -4*Ftemperature + 3*FBwindPower - 20 >= 0) )
             {
-                frostbite_timer[i] += 3;
-                if (one_in(100)) add_msg(m_bad, _("Your %s will be frostbitten in the next few hours."), body_part_name(body_part(i)).c_str());
+                if (frostbite_timer[i] < 2000) frostbite_timer[i] += 3;
+                if (one_in(100) && !has_disease("frostbite", (body_part)i)) {
+                    add_msg(m_bad, _("Your %s will be frostnipped in the next few hours."), body_part_name(body_part(i)).c_str());
+                }
             }
             // Medium risk zones
             else if ((Ftemperature < 10 && Ftemperature >= -5 && FBwindPower < 20 && -4*Ftemperature + 3*FBwindPower - 20 < 0) ||
@@ -1411,15 +1411,19 @@ void player::update_bodytemp()
                      (Ftemperature < -5 && FBwindPower < 10) ||
                      (Ftemperature < -5 && FBwindPower >= 10 && -4*Ftemperature + 3*FBwindPower - 170 >= 0) )
             {
-                frostbite_timer[i] += 8;
-                if (one_in(100)) add_msg(m_bad, _("Your %s will be frostbitten within the hour!"), body_part_name(body_part(i)).c_str());
+                frostbite_timer[i] += 8;                
+                if (one_in(100) && !disease_intensity("frostbite", false, (body_part)i) == 1) {
+                    add_msg(m_bad, _("Your %s will be frostbitten within the hour!"), body_part_name(body_part(i)).c_str());
+                }
             }
             // High risk zones
             else if ((Ftemperature < -5 && FBwindPower >= 10 && -4*Ftemperature + 3*FBwindPower - 170 < 0) ||
                      (Ftemperature < -35 && FBwindPower >= 10) )
             {
                 frostbite_timer[i] += 72;
-                if (one_in(100)) add_msg(m_bad, _("Your %s will be frostbitten any minute now!!"), body_part_name(body_part(i)).c_str());
+                if (one_in(100) && !disease_intensity("frostbite", false, (body_part)i) == 1) {
+                    add_msg(m_bad, _("Your %s will be frostbitten any minute now!!"), body_part_name(body_part(i)).c_str());
+                }
             }
             // Risk free, so reduce frostbite timer
             else
@@ -1429,7 +1433,7 @@ void player::update_bodytemp()
 
             // Handle the bestowing of frostbite
             if (frostbite_timer[i] < 0) frostbite_timer[i] = 0;
-            else if (frostbite_timer[i] > 4200) frostbite_timer[i] = 0; // This ensures that the player will recover in at most 3 hours.
+            else if (frostbite_timer[i] > 4200) frostbite_timer[i] = 4200; // This ensures that the player will recover in at most 3 hours.            
             if (frostbite_timer[i] == 0)
             {
                 rem_disease("frostbite", (body_part)i);
