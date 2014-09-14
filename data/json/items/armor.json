@@ -9583,7 +9583,6 @@
         "name_plural" : "pairs of ear plugs",
         "weight" : 10,
         "color" : "light_gray",
-        "covers" : ["HEAD"],
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : ";",
