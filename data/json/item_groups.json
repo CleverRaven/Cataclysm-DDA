@@ -455,7 +455,7 @@
       ["soap", 10],
       ["dry_beans", 40],
       ["dry_rice", 40],
-      ["survnote", 1]
+      ["survnote", 1],
     ]
   },{
     "type" : "item_group",
@@ -1410,7 +1410,7 @@
       ["nic_gum", 2],
       ["razor_blade", 3],
       ["knitting_needles", 1],
-      ["survnote", 2]
+      ["survnote", 2],
     ]
   },{
     "type" : "item_group",
@@ -1516,7 +1516,8 @@
     "items":[
       ["inhaler", 14],
       ["codeine", 15],
-      ["oxycodone", 7],
+      ["oxycodone", 4],
+      ["morphine", 4],
       ["tramadol", 11],
       ["xanax", 10],
       ["adderall", 10],
@@ -2310,6 +2311,7 @@
     "type" : "item_group",
     "id" : "trash",
     "items":[
+      ["plastic_shopping_bag", 35]
       ["iodine", 5],
       ["bum_wine", 5],
       ["meth", 2],
@@ -3536,6 +3538,7 @@
     "items":[
       ["caffeine", 25],
       ["oxycodone", 4],
+      ["morphine", 4],
       ["adderall", 10],
       ["xanax", 10],
       ["adrenaline_injector", 2],
@@ -6493,7 +6496,8 @@
       ["leg", 4],
       ["1st_aid", 35],
       ["codeine", 15],
-      ["oxycodone", 7],
+      ["oxycodone", 5],
+      ["morphine", 2],
       ["pipe_tobacco", 5],
       ["tobacco", 5],
       ["weed", 20],
@@ -7326,7 +7330,8 @@
     "id" : "stash_drugs",
     "items":[
       ["pills_sleep", 15],
-      ["oxycodone", 7],
+      ["oxycodone", 4],
+      ["morphine", 4],
       ["xanax", 10],
       ["adderall", 10],
       ["pipe_tobacco", 2],
@@ -7367,6 +7372,7 @@
       ["cotton_ball", 50],
       ["caffeine", 25],
       ["oxycodone", 7],
+      ["morphine", 3],
       ["adderall", 10],
       ["cig", 60],
       ["tobacco", 30],
