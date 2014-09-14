@@ -1373,9 +1373,9 @@ int item::price() const
     if( is_tool() && curammo == nullptr ) {
         // If the tool uses specific ammo (like gasoline) it is handled above.
         const it_tool *itt = dynamic_cast<const it_tool*>( type );
-        if( itt->max_charges > 0 && itt->def_charges > 0 ) {
-            const double f = static_cast<double>( itt->def_charges ) / itt->max_charges;
-            ret = f * std::max<long>( 0, charges ) * ret;
+        if( itt->def_charges > 0 ) {
+            // Full value when charges == default charges, otherwise scalled down
+            ret = ret * std::max<long>( 0, charges ) / static_cast<double>( itt->def_charges );
         }
     }
     for (size_t i = 0; i < contents.size(); i++) {
