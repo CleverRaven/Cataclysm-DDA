@@ -4290,7 +4290,7 @@
         "phase" : "solid",
         "environmental_protection" : 0,
         "encumbrance" : 0,
-        "bashing" : -3,
+        "bashing" : 5,
         "flags" : ["BELTED", "VARSIZE"],
         "coverage" : 20,
         "material_thickness" : 2

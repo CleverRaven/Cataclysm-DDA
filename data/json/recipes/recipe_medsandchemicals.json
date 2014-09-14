@@ -483,7 +483,8 @@
       [ "saline", 5 ]
     ],
     [
-      [ "oxycodone", 40 ]
+      [ "oxycodone", 30 ]
+      [ "morphine", 30 ]
     ]
   ]
 },{
@@ -1617,6 +1618,7 @@
     [
       [ "heroin", 5 ],
       [ "oxycodone", 10 ],
+      [ "morphine", 10 ],
       [ "tramadol", 15 ],
       [ "diazepam", 15 ],
       [ "codeine", 20 ],
