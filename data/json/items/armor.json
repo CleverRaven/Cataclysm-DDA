@@ -9254,7 +9254,6 @@
         "id" : "helmet_barbute",
         "category" : "armor",
         "name" : "barbute helm",
-        "category" : "armor",
         "weight" : 1175,
         "color" : "light_gray",
         "covers" : ["HEAD"],
