@@ -3445,7 +3445,7 @@
      "use_action": "PORTABLE_GAME",
      "flags": ["SHEATH_KNIFE"]
   },
-  
+
   {
     "id": "vibrator",
     "type": "TOOL",
@@ -6870,7 +6870,7 @@
         "need_charges_msg": "Nothing happens."
     }
   },
-  
+
 {
     "id": "ref_lighter_on",
     "type": "TOOL",
@@ -6962,7 +6962,7 @@
     "revert_to": "null",
     "use_action": "WATER_PURIFIER"
   },
-  
+
   {
     "id": "kiln_full",
     "type": "TOOL",
@@ -8379,7 +8379,7 @@
         "sound_volume": 0,
         "sound_msg": "ssss...",
         "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
-        "explosion_power": 80,
+        "explosion_power": 80
     }
   }
 ]

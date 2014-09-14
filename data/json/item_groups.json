@@ -1708,7 +1708,7 @@
       ["funnel", 50],
       ["bearing", 1],
       ["jack", 10],
-      ["permanent_marker", 50],
+      ["permanent_marker", 20],
       ["forge", 1],
       ["char_forge", 1],
       ["char_kiln", 1],
@@ -1725,6 +1725,7 @@
       ["charcoal", 5],
       ["sheath", 10],
       ["multitool", 6],
+      ["survnote", 1],
       ["fertilizer_commercial",30]
     ]
   },{
@@ -8421,11 +8422,10 @@
       ["boots", 60],
       ["gloves_rubber", 60],
       ["fertilizer_liquid", 20],
-      ["fertilizer_commercial"", 50]
+      ["fertilizer_commercial", 40],
       ["sickle", 40],
       ["toolbox", 10],
       ["bullwhip", 30],
-      ["knitting_needles", 30],
       ["distaff_spindle", 2],
       ["carding_paddles", 2],
       ["scythe", 40]
