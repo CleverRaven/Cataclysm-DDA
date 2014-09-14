@@ -2436,7 +2436,7 @@
         "volume" : 8,
         "cutting" : 0,
         "phase" : "solid",
-        "charges" : 20,
+        "charges" : 60,
         "bashing" : 0,
         "category" : "chems",
         "fun" : 0
