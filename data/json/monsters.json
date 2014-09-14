@@ -937,7 +937,7 @@
     },{
         "type" : "MONSTER",
         "id" : "mon_zombear",
-    "name": "lumbering terror",
+    "name": "zombear",
     "species":"ZOMBIE",
     "symbol":"B",
     "color":"green",
