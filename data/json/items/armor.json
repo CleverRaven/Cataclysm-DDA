@@ -9768,7 +9768,7 @@
     },
     {
         "type" : "ARMOR",
-        "id" : "shopping_bag_plastic",
+        "id" : "plastic_shopping_bag",
         "name" : "plastic shopping bag",
         "weight" : 2,
         "color" : "white",
