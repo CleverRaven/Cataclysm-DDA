@@ -17,6 +17,7 @@
       [ "char_smoker", 1 ],
       [ "toolset", 3 ],
       [ "coffeemaker", 3],
+      [ "atomic_coffeepot", -1 ],
       [ "fire", -1 ]
     ]
   ],
@@ -443,7 +444,8 @@
   ],
   "components": [
     [
-      [ "mushroom", 4 ]
+      [ "mushroom", 4 ],
+      [ "mushroom_morel", 4 ]
     ]
   ]
 },{
@@ -561,7 +563,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "protein_shake",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
@@ -581,48 +583,56 @@
       [ "water_clean", 1 ]
     ],
     [
-      [ "apple", 1 ],
-      [ "apricot", 1 ],
-      [ "banana", 1 ],
-      [ "blackberries", 1 ],
-      [ "blueberries", 1 ],
-      [ "cherries", 1 ],
-      [ "coconut", 1 ],
-      [ "cranberries", 1 ],
-      [ "grapefruit", 1 ],
-      [ "grapes", 1 ],
-      [ "kiwi", 1 ],
-      [ "lemon", 1 ],
-      [ "mango", 1 ],
-      [ "melon", 1 ],
-      [ "orange", 1 ],
-      [ "papaya", 1 ],
-      [ "peach", 1 ],
-      [ "pear", 1 ],
-      [ "pineapple", 1 ],
-      [ "plums", 1 ],
-      [ "pomegranate", 1 ],
-      [ "raspberries", 1 ],
-      [ "strawberries", 1 ],
-      [ "watermelon", 1 ],
-      [ "irradiated_apple", 1 ],
-      [ "irradiated_apricot", 1 ],
-      [ "irradiated_banana", 1 ],
-      [ "irradiated_kiwi", 1 ],
-      [ "irradiated_lemon", 1 ],
-      [ "irradiated_mango", 1 ],
-      [ "irradiated_melon", 1 ],
-      [ "irradiated_orange", 1 ],
-      [ "irradiated_papaya", 1 ],
-      [ "irradiated_peach", 1 ],
-      [ "irradiated_pear", 1 ],
-      [ "irradiated_pineapple", 1 ],
-      [ "irradiated_plums", 1 ],
-      [ "irradiated_pomegranate", 1 ],
-      [ "irradiated_watermelon", 1 ],
-      [ "rehydrated_fruit", 1 ],
-      [ "dry_fruit", 1 ],
-      [ "juice_pulp", 2 ]
+      ["apple", 1],
+      ["apricot", 1],
+      ["banana", 1],
+      ["blackberries", 1],
+      ["blueberries", 1],
+      ["cherries", 1],
+      ["coconut", 1],
+      ["cranberries", 1],
+      ["dry_fruit", 1],
+      ["grapefruit", 1],
+      ["grapes", 1],
+      ["irradiated_apple", 1],
+      ["irradiated_apricot", 1],
+      ["irradiated_banana", 1],
+      ["irradiated_blackberries", 1],
+      ["irradiated_blueberries", 1],
+      ["irradiated_cherries", 1],
+      ["irradiated_cranberries", 1],
+      ["irradiated_grapefruit", 1],
+      ["irradiated_grapes", 1],
+      ["irradiated_kiwi", 1],
+      ["irradiated_lemon", 1],
+      ["irradiated_mango", 1],
+      ["irradiated_melon", 1],
+      ["irradiated_orange", 1],
+      ["irradiated_papaya", 1],
+      ["irradiated_peach", 1],
+      ["irradiated_pear", 1],
+      ["irradiated_pineapple", 1],
+      ["irradiated_plums", 1],
+      ["irradiated_pomegranate", 1],
+      ["irradiated_raspberries", 1],
+      ["irradiated_strawberries", 1],
+      ["irradiated_watermelon", 1],
+      ["juice_pulp", 2],
+      ["kiwi", 1],
+      ["lemon", 1],
+      ["mango", 1],
+      ["melon", 1],
+      ["orange", 1],
+      ["papaya", 1],
+      ["peach", 1],
+      ["pear", 1],
+      ["pineapple", 1],
+      ["plums", 1],
+      ["pomegranate", 1],
+      ["raspberries", 1],
+      ["rehydrated_fruit", 1],
+      ["strawberries", 1],
+      ["watermelon", 1]
     ]
   ]
 },{
@@ -655,6 +665,7 @@
       [ "veggy", 2 ],
       [ "veggy_wild", 2 ],
       [ "plant_sac", 6 ],
+      [ "dandelion_cooked", 2 ],
       [ "wild_herbs", 40 ]
     ]
   ]
@@ -1010,6 +1021,215 @@
   "components": [
     [
       [ "veggy_wild", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "morel_cooked",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "skills_required": [ "survival", 1 ],
+  "time": 4000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"COOK","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 5 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 5 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "mushroom_morel", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "morel_fried",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 8000,
+  "reversible": false,
+  "autolearn": true,
+   "note": "the cooking oil isn't supposed to be expended since you can recycle it after frying the morel",
+  "qualities" : [
+    {"id":"COOK","level":2,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "hotplate", 8 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 8 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "tongs", -1 ],
+      [ "skewer", -1 ]
+    ],
+    [
+      [ "cooking_oil", -1 ],
+      [ "tallow", -1 ],
+      [ "lard", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "mushroom_morel", 1 ]
+    ],
+    [
+      [ "flour", 1 ],
+      [ "cornmeal", 1 ],
+      [ "bread", 1 ],
+      [ "cornbread", 1 ],
+      [ "hardtack", 1 ],
+      [ "crackers", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "dahlia_baked",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 12000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["pocket_survival", 1] , ["survival_book", 1] , ["textbook_survival", 1] ,
+  ["manual_survival", 1], ["survival_book", 1]],
+  "qualities":[
+    {"id":"COOK","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 5 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 5 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "dahlia_root", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "dandelion_cooked",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "skills_required": [ "survival", 2 ],
+  "time": 6000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"COOK","level":2,"amount":1},
+    {"id":"CUT","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 5 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 5 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "raw_dandelion", 2 ]
+    ],
+    [
+      [ "water", 2 ],
+      [ "water_clean", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "dandelion_fried",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "skills_required": [ "survival", 2 ],
+  "time": 8000,
+  "reversible": false,
+  "autolearn": true,
+   "note": "the cooking oil isn't supposed to be expended since you can recycle it after frying the dandelions",
+  "qualities" : [
+    {"id":"COOK","level":2,"amount":1},
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "hotplate", 8 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 8 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "tongs", -1 ],
+      [ "skewer", -1 ]
+    ],
+    [
+      [ "cooking_oil", -1 ],
+      [ "tallow", -1 ],
+      [ "lard", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "raw_dandelion", 2 ]
+    ],
+    [
+      [ "flour", 1 ],
+      [ "cornmeal", 1 ],
+      [ "bread", 1 ],
+      [ "cornbread", 1 ],
+      [ "hardtack", 1 ],
+      [ "crackers", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "acorns_cooked",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "skills_required": [ "survival", 2 ],
+  "time": 24000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"COOK","level":2,"amount":1},
+    {"id":"CUT","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 5 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 5 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "acorns", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
     ]
   ]
 },{
@@ -1602,6 +1822,75 @@
   ]
 },{
         "type" : "recipe",
+  "result": "pine_tea",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "skills_required": [ "survival", 2 ],
+  "time": 4000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["pocket_survival", 1] , ["survival_book", 1] , ["textbook_survival", 1] ,
+  ["manual_survival", 1], ["mag_survival", 1] , ["family_cookbook", 1]],
+  "qualities":[
+     {"id":"CUT","level":1,"amount":1},
+    {"id":"BOIL","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 2 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 2 ],
+      [ "atomic_coffeepot", -1 ],
+      [ "fire", -1 ],
+      [ "coffeemaker", 2]
+    ]
+  ],
+  "components": [
+    [
+      [ "pine_bough", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "dandelion_tea",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 6000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["pocket_survival", 1] , ["survival_book", 1] , ["textbook_survival", 1] ,
+  ["manual_survival", 1], ["mag_survival", 1] , ["family_cookbook", 1]],
+  "qualities":[
+    {"id":"BOIL","level":1,"amount":1},
+    {"id":"CUT","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 2 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 2 ],
+      [ "atomic_coffeepot", -1 ],
+      [ "fire", -1 ],
+      [ "coffeemaker", 2]
+    ]
+  ],
+  "components": [
+    [
+      [ "raw_dandelion", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "kompot",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
@@ -1622,41 +1911,52 @@
   ],
   "components": [
     [
-      [ "blueberries", 4 ],
-      [ "irradiated_apple", 4 ],
-      [ "apple", 4 ],
-      [ "apple_canned", 4 ],
-      [ "apple_vac", 4 ],
-      [ "strawberries", 4 ],
-      [ "irradiated_orange", 4 ],
-      [ "orange", 4 ],
-      [ "irradiated_lemon", 4 ],
-      [ "lemon", 4 ],
-      [ "irradiated_pear", 4 ],
-      [ "pear", 4 ],
-      [ "irradiated_grapefruit", 4 ],
-      [ "grapefruit", 4 ],
-      [ "cherries", 4 ],
-      [ "irradiated_plums", 4 ],
-      [ "plums", 4 ],
-      [ "grapes", 4 ],
-      [ "irradiated_pineapple", 4 ],
-      [ "pineapple", 4],
-      [ "irradiated_peach", 4 ],
-      [ "peach", 4 ],
-      [ "cranberries", 4 ],
-      [ "irradiated_melon", 4 ],
-      [ "melon", 4 ],
-      [ "raspberries", 4 ],
-      [ "blackberries", 4 ],
-      [ "irradiated_pomegranate", 4 ],
-      [ "pomegranate", 4 ],
-      [ "irradiated_mango", 4 ],
-      [ "mango", 4 ],
-      [ "irradiated_rhubarb", 4 ],
-      [ "rhubarb", 4 ],
-      [ "irradiated_apricot", 4 ],
-      [ "apricot", 4 ]
+      ["apple", 4],
+      ["apple_canned", 4],
+      ["apple_vac", 4],
+      ["apricot", 4],
+      ["blackberries", 4],
+      ["blueberries", 4],
+      ["cherries", 4],
+      ["cranberries", 4],
+      ["grapefruit", 4],
+      ["grapes", 4],
+      ["irradiated_apple", 4],
+      ["irradiated_apricot", 4],
+      ["irradiated_banana", 4],
+      ["irradiated_blackberries", 4],
+      ["irradiated_blueberries", 4],
+      ["irradiated_cherries", 4],
+      ["irradiated_cranberries", 4],
+      ["irradiated_grapefruit", 4],
+      ["irradiated_grapes", 4],
+      ["irradiated_kiwi", 4],
+      ["irradiated_lemon", 4],
+      ["irradiated_mango", 4],
+      ["irradiated_melon", 4],
+      ["irradiated_orange", 4],
+      ["irradiated_papaya", 4],
+      ["irradiated_peach", 4],
+      ["irradiated_pear", 4],
+      ["irradiated_pineapple", 4],
+      ["irradiated_plums", 4],
+      ["irradiated_pomegranate", 4],
+      ["irradiated_raspberries", 4],
+      ["irradiated_rhubarb", 4],
+      ["irradiated_strawberries", 4],
+      ["irradiated_watermelon", 4],
+      ["lemon", 4],
+      ["mango", 4],
+      ["melon", 4],
+      ["orange", 4],
+      ["peach", 4],
+      ["pear", 4],
+      ["pineapple", 4],
+      ["plums", 4],
+      ["pomegranate", 4],
+      ["raspberries", 4],
+      ["rhubarb", 4],
+      ["strawberries", 4]
     ],
     [
       [ "sugar", 1 ]
@@ -1667,7 +1967,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "strawberries_cooked",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
@@ -1876,7 +2176,8 @@
     [
       [ "sugar", 1 ],
       [ "honeycomb", 1 ],
-      [ "honey_bottled", 1]
+      [ "honey_bottled", 1],
+      [ "honey_glassed", 1]
     ],
     [
       [ "water", 1 ],
@@ -2282,6 +2583,7 @@
     [
       [ "dry_veggy", 2 ],
       [ "dry_fruit", 2 ],
+      [ "dry_mushroom", 2 ],
       [ "juice_pulp", 4 ],
       [ "strawberries", 1 ],
       [ "blueberries", 1 ],
@@ -2356,7 +2658,9 @@
       [ "powder_eggs", 5 ],
       [ "egg_bird", 1 ],
       [ "egg_reptile", 1 ],
-      [ "dry_veggy", 1 ]
+      [ "dry_veggy", 1 ],
+      [ "dandelion_cooked", 1 ],
+      [ "dry_mushroom", 1 ]
     ]
   ]
 },{
@@ -2422,7 +2726,9 @@
       [ "egg_bird", 1 ],
       [ "egg_reptile", 1 ],
       [ "dry_beans", 1 ],
-      [ "dry_rice", 1 ]
+      [ "dry_rice", 1 ],
+      [ "dandelion_cooked", 1 ],
+      [ "acorns_cooked", 1 ]
     ],
     [
       [ "irradiated_tomato", 2 ],
@@ -2473,7 +2779,9 @@
       [ "egg_bird", 1 ],
       [ "egg_reptile", 1 ],
       [ "dry_beans", 1 ],
-      [ "dry_rice", 1 ]
+      [ "dry_rice", 1 ],
+      [ "dandelion_cooked", 1 ],
+      [ "acorns_cooked", 1 ]
     ],
     [
       [ "meat", 2 ],
@@ -2529,7 +2837,10 @@
       [ "egg_bird", 1 ],
       [ "egg_reptile", 1 ],
       [ "dry_beans", 1 ],
-      [ "dry_rice", 1 ]
+      [ "dry_rice", 1 ],
+      [ "dandelion_cooked", 1 ],
+      [ "dry_mushroom", 1 ],
+      [ "acorns_cooked", 1 ]
     ],
     [
       [ "fish", 2 ],
@@ -2564,7 +2875,8 @@
   "components": [
     [
       [ "broth", 1 ],
-      [ "broth_bone", 1 ]
+      [ "broth_bone", 1 ],
+      [ "pine_tea", 1 ]
     ],
     [
       [ "meat", 1 ],
@@ -2579,7 +2891,8 @@
       [ "bacon", 1 ],
       [ "powder_eggs", 10 ],
       [ "egg_bird", 2 ],
-      [ "egg_reptile", 2 ]
+      [ "egg_reptile", 2 ],
+      [ "dry_mushroom", 2 ]
     ],
     [
       [ "veggy_wild", 1 ],
@@ -2587,7 +2900,9 @@
       [ "rehydrated_veggy", 1 ],
       [ "dry_veggy", 1 ],
       [ "dry_beans", 1 ],
-      [ "dry_rice", 1 ]
+      [ "dry_rice", 1 ],
+      [ "dandelion_cooked", 1 ],
+      [ "acorns_cooked", 1 ]
     ]
   ]
 },{
@@ -2626,7 +2941,8 @@
       [ "egg_bird", 1 ],
       [ "egg_reptile", 1 ],
       [ "dry_beans", 1 ],
-      [ "dry_rice", 1 ]
+      [ "dry_rice", 1 ],
+      [ "acorns_cooked", 1 ]
     ],
     [
       [ "human_flesh", 2 ]
@@ -2946,7 +3262,8 @@
       [ "syrup", 1 ],
       [ "molasses", 1 ],
       [ "honeycomb", 1 ],
-      [ "honey_bottled", 1]
+      [ "honey_bottled", 1],
+      [ "honey_glassed", 1]
     ]
   ]
 },{
@@ -2991,7 +3308,8 @@
       [ "syrup", 1 ],
       [ "molasses", 1 ],
       [ "honeycomb", 1 ],
-      [ "honey_bottled", 1]
+      [ "honey_bottled", 1],
+      [ "honey_glassed", 1]
     ]
   ]
 },{
@@ -3306,6 +3624,7 @@
       [ "con_milk", 1 ],
       [ "honeycomb", 1 ],
       [ "honey_bottled", 1],
+      [ "honey_glassed", 1],
       [ "jam_strawberries", 1 ],
       [ "jam_blueberries", 1 ],
       [ "jam_fruit", 1 ],
@@ -3326,6 +3645,59 @@
     [
       [ "water", 1 ],
       [ "water_clean", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "buckwheat_cooked",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 9000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"COOK","level":2,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 2 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 2 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "buckwheat", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "pine_nuts",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "skills_required": [ "survival", 2 ],
+  "difficulty": 1,
+  "time": 3000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      ["hotplate", 5],
+      [ "char_smoker", 1 ],
+      ["toolset", 5],
+      ["fire", -1]
+    ]
+  ],
+  "components": [
+    [
+      ["pinecone", 1]
     ]
   ]
 },{
@@ -3355,6 +3727,7 @@
       [ "honeycomb", 1 ],
       [ "con_milk", 1 ],
       [ "honey_bottled", 4 ],
+      [ "honey_glassed", 4],
       [ "sugar", 4 ],
       [ "syrup", 4 ]
     ],
@@ -3383,26 +3756,34 @@
       [ "raspberries", 1 ],
       [ "strawberries", 1 ],
       [ "watermelon", 1 ],
-      [ "irradiated_apple", 1 ],
-      [ "irradiated_apricot", 1 ],
-      [ "irradiated_banana", 1 ],
-      [ "irradiated_kiwi", 1 ],
-      [ "irradiated_lemon", 1 ],
-      [ "irradiated_mango", 1 ],
-      [ "irradiated_melon", 1 ],
-      [ "irradiated_orange", 1 ],
-      [ "irradiated_papaya", 1 ],
-      [ "irradiated_peach", 1 ],
-      [ "irradiated_pear", 1 ],
-      [ "irradiated_pineapple", 1 ],
-      [ "irradiated_plums", 1 ],
-      [ "irradiated_pomegranate", 1 ],
-      [ "irradiated_watermelon", 1 ],
+      ["irradiated_apple", 1],
+      ["irradiated_apricot", 1],
+      ["irradiated_banana", 1],
+      ["irradiated_blackberries", 1],
+      ["irradiated_blueberries", 1],
+      ["irradiated_cherries", 1],
+      ["irradiated_cranberries", 1],
+      ["irradiated_grapefruit", 1],
+      ["irradiated_grapes", 1],
+      ["irradiated_kiwi", 1],
+      ["irradiated_lemon", 1],
+      ["irradiated_mango", 1],
+      ["irradiated_melon", 1],
+      ["irradiated_orange", 1],
+      ["irradiated_papaya", 1],
+      ["irradiated_peach", 1],
+      ["irradiated_pear", 1],
+      ["irradiated_pineapple", 1],
+      ["irradiated_plums", 1],
+      ["irradiated_pomegranate", 1],
+      ["irradiated_raspberries", 1],
+      ["irradiated_strawberries", 1],
+      ["irradiated_watermelon", 1],
       [ "dry_fruit", 1 ],
       [ "juice_pulp", 2 ],
       [ "jam_strawberries", 1 ],
       [ "jam_blueberries", 1 ],
-      [ "jam_fruit", 1 ],      
+      [ "jam_fruit", 1 ],
       [ "chocolate", 1 ],
       [ "candy", 2 ],
       [ "candy2", 2 ],
@@ -3614,42 +3995,54 @@
       [ "water_clean", 1 ]
     ],
     [
-      [ "apple", 1 ],
-      [ "apricot", 1 ],
-      [ "banana", 1 ],
-      [ "blackberries", 1 ],
-      [ "blueberries", 1 ],
-      [ "cherries", 1 ],
-      [ "cranberries", 1 ],
-      [ "grapes", 1 ],
-      [ "kiwi", 1 ],
-      [ "mango", 1 ],
-      [ "melon", 1 ],
-      [ "papaya", 1 ],
-      [ "peach", 1 ],
-      [ "pear", 1 ],
-      [ "pineapple", 1 ],
-      [ "plums", 1 ],
-      [ "pomegranate", 1 ],
-      [ "raspberries", 1 ],
-      [ "strawberries", 1 ],
-      [ "irradiated_apple", 1 ],
-      [ "irradiated_apricot", 1 ],
-      [ "irradiated_banana", 1 ],
-      [ "irradiated_kiwi", 1 ],
-      [ "irradiated_mango", 1 ],
-      [ "irradiated_papaya", 1 ],
-      [ "irradiated_peach", 1 ],
-      [ "irradiated_pear", 1 ],
-      [ "irradiated_pineapple", 1 ],
-      [ "irradiated_plums", 1 ],
-      [ "irradiated_pomegranate", 1 ],
-      [ "jam_strawberries", 1 ],
-      [ "jam_blueberries", 1 ],
-      [ "jam_fruit", 1 ],
-      [ "rehydrated_fruit", 1 ],
-      [ "dry_fruit", 1 ],
-      [ "juice_pulp", 2 ]
+      ["apple", 1],
+      ["apricot", 1],
+      ["banana", 1],
+      ["blackberries", 1],
+      ["blueberries", 1],
+      ["cherries", 1],
+      ["cranberries", 1],
+      ["dry_fruit", 1],
+      ["grapes", 1],
+      ["irradiated_apple", 1],
+      ["irradiated_apricot", 1],
+      ["irradiated_banana", 1],
+      ["irradiated_blackberries", 1],
+      ["irradiated_blueberries", 1],
+      ["irradiated_cherries", 1],
+      ["irradiated_cranberries", 1],
+      ["irradiated_grapefruit", 1],
+      ["irradiated_grapes", 1],
+      ["irradiated_kiwi", 1],
+      ["irradiated_lemon", 1],
+      ["irradiated_mango", 1],
+      ["irradiated_melon", 1],
+      ["irradiated_orange", 1],
+      ["irradiated_papaya", 1],
+      ["irradiated_peach", 1],
+      ["irradiated_pear", 1],
+      ["irradiated_pineapple", 1],
+      ["irradiated_plums", 1],
+      ["irradiated_pomegranate", 1],
+      ["irradiated_raspberries", 1],
+      ["irradiated_strawberries", 1],
+      ["irradiated_watermelon", 1],
+      ["jam_blueberries", 1],
+      ["jam_fruit", 1],
+      ["jam_strawberries", 1],
+      ["juice_pulp", 2],
+      ["kiwi", 1],
+      ["mango", 1],
+      ["melon", 1],
+      ["papaya", 1],
+      ["peach", 1],
+      ["pear", 1],
+      ["pineapple", 1],
+      ["plums", 1],
+      ["pomegranate", 1],
+      ["raspberries", 1],
+      ["rehydrated_fruit", 1],
+      ["strawberries", 1]
     ]
   ]
 },{
@@ -3752,7 +4145,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "fruit_waffles",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_BREAD",
@@ -3800,42 +4193,54 @@
       [ "water_clean", 1 ]
     ],
     [
-      [ "apple", 1 ],
-      [ "apricot", 1 ],
-      [ "banana", 1 ],
-      [ "blackberries", 1 ],
-      [ "blueberries", 1 ],
-      [ "cherries", 1 ],
-      [ "cranberries", 1 ],
-      [ "grapes", 1 ],
-      [ "kiwi", 1 ],
-      [ "mango", 1 ],
-      [ "melon", 1 ],
-      [ "papaya", 1 ],
-      [ "peach", 1 ],
-      [ "pear", 1 ],
-      [ "pineapple", 1 ],
-      [ "plums", 1 ],
-      [ "pomegranate", 1 ],
-      [ "raspberries", 1 ],
-      [ "strawberries", 1 ],
-      [ "irradiated_apple", 1 ],
-      [ "irradiated_apricot", 1 ],
-      [ "irradiated_banana", 1 ],
-      [ "irradiated_kiwi", 1 ],
-      [ "irradiated_mango", 1 ],
-      [ "irradiated_papaya", 1 ],
-      [ "irradiated_peach", 1 ],
-      [ "irradiated_pear", 1 ],
-      [ "irradiated_pineapple", 1 ],
-      [ "irradiated_plums", 1 ],
-      [ "irradiated_pomegranate", 1 ],
-      [ "jam_strawberries", 1 ],
-      [ "jam_blueberries", 1 ],
-      [ "jam_fruit", 1 ],
-      [ "rehydrated_fruit", 1 ],
-      [ "dry_fruit", 1 ],
-      [ "juice_pulp", 2 ]
+      ["apple", 1],
+      ["apricot", 1],
+      ["banana", 1],
+      ["blackberries", 1],
+      ["blueberries", 1],
+      ["cherries", 1],
+      ["cranberries", 1],
+      ["dry_fruit", 1],
+      ["grapes", 1],
+      ["irradiated_apple", 1],
+      ["irradiated_apricot", 1],
+      ["irradiated_banana", 1],
+      ["irradiated_blackberries", 1],
+      ["irradiated_blueberries", 1],
+      ["irradiated_cherries", 1],
+      ["irradiated_cranberries", 1],
+      ["irradiated_grapefruit", 1],
+      ["irradiated_grapes", 1],
+      ["irradiated_kiwi", 1],
+      ["irradiated_lemon", 1],
+      ["irradiated_mango", 1],
+      ["irradiated_melon", 1],
+      ["irradiated_orange", 1],
+      ["irradiated_papaya", 1],
+      ["irradiated_peach", 1],
+      ["irradiated_pear", 1],
+      ["irradiated_pineapple", 1],
+      ["irradiated_plums", 1],
+      ["irradiated_pomegranate", 1],
+      ["irradiated_raspberries", 1],
+      ["irradiated_strawberries", 1],
+      ["irradiated_watermelon", 1],
+      ["jam_blueberries", 1],
+      ["jam_fruit", 1],
+      ["jam_strawberries", 1],
+      ["juice_pulp", 2],
+      ["kiwi", 1],
+      ["mango", 1],
+      ["melon", 1],
+      ["papaya", 1],
+      ["peach", 1],
+      ["pear", 1],
+      ["pineapple", 1],
+      ["plums", 1],
+      ["pomegranate", 1],
+      ["raspberries", 1],
+      ["rehydrated_fruit", 1],
+      ["strawberries", 1]
     ]
   ]
 },{
@@ -3918,45 +4323,56 @@
   ],
   "components": [
     [
-      [ "apple", 1 ],
-      [ "apricot", 1 ],
-      [ "banana", 1 ],
-      [ "blackberries", 1 ],
-      [ "blueberries", 1 ],
-      [ "cherries", 1 ],
-      [ "cranberries", 1 ],
-      [ "grapefruit", 1 ],
-      [ "grapes", 1 ],
-      [ "kiwi", 1 ],
-      [ "lemon", 1 ],
-      [ "mango", 1 ],
-      [ "orange", 1 ],
-      [ "papaya", 1 ],
-      [ "peach", 1 ],
-      [ "pear", 1 ],
-      [ "pineapple", 1 ],
-      [ "plums", 1 ],
-      [ "pomegranate", 1 ],
-      [ "raspberries", 1 ],
-      [ "strawberries", 1 ],
-      [ "irradiated_apple", 1 ],
-      [ "irradiated_apricot", 1 ],
-      [ "irradiated_banana", 1 ],
-      [ "irradiated_kiwi", 1 ],
-      [ "irradiated_lemon", 1 ],
-      [ "irradiated_mango", 1 ],
-      [ "irradiated_orange", 1 ],
-      [ "irradiated_papaya", 1 ],
-      [ "irradiated_peach", 1 ],
-      [ "irradiated_pear", 1 ],
-      [ "irradiated_pineapple", 1 ],
-      [ "irradiated_plums", 1 ],
-      [ "irradiated_pomegranate", 1 ]
+      ["apple", 1],
+      ["apricot", 1],
+      ["banana", 1],
+      ["blackberries", 1],
+      ["blueberries", 1],
+      ["cherries", 1],
+      ["cranberries", 1],
+      ["grapefruit", 1],
+      ["grapes", 1],
+      ["irradiated_apple", 1],
+      ["irradiated_apricot", 1],
+      ["irradiated_banana", 1],
+      ["irradiated_blackberries", 1],
+      ["irradiated_blueberries", 1],
+      ["irradiated_cherries", 1],
+      ["irradiated_cranberries", 1],
+      ["irradiated_grapefruit", 1],
+      ["irradiated_grapes", 1],
+      ["irradiated_kiwi", 1],
+      ["irradiated_lemon", 1],
+      ["irradiated_mango", 1],
+      ["irradiated_melon", 1],
+      ["irradiated_orange", 1],
+      ["irradiated_papaya", 1],
+      ["irradiated_peach", 1],
+      ["irradiated_pear", 1],
+      ["irradiated_pineapple", 1],
+      ["irradiated_plums", 1],
+      ["irradiated_pomegranate", 1],
+      ["irradiated_raspberries", 1],
+      ["irradiated_strawberries", 1],
+      ["irradiated_watermelon", 1],
+      ["kiwi", 1],
+      ["lemon", 1],
+      ["mango", 1],
+      ["orange", 1],
+      ["papaya", 1],
+      ["peach", 1],
+      ["pear", 1],
+      ["pineapple", 1],
+      ["plums", 1],
+      ["pomegranate", 1],
+      ["raspberries", 1],
+      ["strawberries", 1]
     ],
     [
       [ "sugar", 1 ],
       [ "honeycomb", 1 ],
       [ "honey_bottled", 1],
+      [ "honey_glassed", 1],
       [ "syrup", 1 ]
     ]
   ]
@@ -3993,55 +4409,66 @@
       [ "con_milk", 1 ],
       [ "can_coconut", 1 ],
       [ "honey_bottled", 1],
-      [ "honeycomb", 1 ]
+      [ "honeycomb", 1 ],
+      [ "honey_glassed", 1]
     ],
     [
       [ "water", 1 ],
       [ "water_clean", 1 ]
     ],
     [
-      [ "candy", 3 ],
-      [ "candy2", 3 ],
-      [ "choco_coffee_beans", 1 ],
-      [ "chocolate", 1 ],
-      [ "jam_strawberries", 1 ],
-      [ "jam_blueberries", 1 ],
-      [ "jam_fruit", 1 ],
-      [ "strawberries", 1 ],
-      [ "blueberries", 1 ],
-      [ "cherries", 1 ],
-      [ "irradiated_plums", 1],
-      [ "plums", 1 ],
-      [ "grapes", 1 ],
-      [ "raspberries", 1 ],
-      [ "blackberries", 1 ],
-      [ "irradiated_apple", 1],
-      [ "apple", 1 ],
-      [ "irradiated_banana", 1],
-      [ "banana", 1 ],
-      [ "irradiated_orange", 1],
-      [ "orange", 1 ],
-      [ "irradiated_lemon", 1],
-      [ "lemon", 1 ],
-      [ "irradiated_pear", 1],
-      [ "pear", 1 ],
-      [ "irradiated_grapefruit", 1],
-      [ "grapefruit", 1 ],
-      [ "irradiated_pineapple", 1],
-      [ "pineapple", 1],
-      [ "irradiated_peach", 1],
-      [ "peach", 1 ],
-      [ "irradiated_melon",1 ],
-      [ "melon", 1 ],
-      [ "irradiated_pomegranate", 1],
-      [ "pomegranate", 1 ],
-      [ "irradiated_mango", 1],
-      [ "mango", 1 ],
-      [ "irradiated_apricot", 1],
-      [ "apricot", 1 ],
-      [ "rehydrated_fruit", 1 ],
-      [ "dry_fruit", 1 ],
-      [ "juice_pulp", 2 ]
+      ["apple", 1],
+      ["apricot", 1],
+      ["banana", 1],
+      ["blackberries", 1],
+      ["blueberries", 1],
+      ["candy", 3],
+      ["candy2", 3],
+      ["cherries", 1],
+      ["choco_coffee_beans", 1],
+      ["chocolate", 1],
+      ["dry_fruit", 1],
+      ["grapefruit", 1],
+      ["grapes", 1],
+      ["irradiated_apple", 1],
+      ["irradiated_apricot", 1],
+      ["irradiated_banana", 1],
+      ["irradiated_blackberries", 1],
+      ["irradiated_blueberries", 1],
+      ["irradiated_cherries", 1],
+      ["irradiated_cranberries", 1],
+      ["irradiated_grapefruit", 1],
+      ["irradiated_grapes", 1],
+      ["irradiated_kiwi", 1],
+      ["irradiated_lemon", 1],
+      ["irradiated_mango", 1],
+      ["irradiated_melon", 1],
+      ["irradiated_orange", 1],
+      ["irradiated_papaya", 1],
+      ["irradiated_peach", 1],
+      ["irradiated_pear", 1],
+      ["irradiated_pineapple", 1],
+      ["irradiated_plums", 1],
+      ["irradiated_pomegranate", 1],
+      ["irradiated_raspberries", 1],
+      ["irradiated_strawberries", 1],
+      ["irradiated_watermelon", 1],
+      ["jam_blueberries", 1],
+      ["jam_fruit", 1],
+      ["jam_strawberries", 1],
+      ["juice_pulp", 2],
+      ["lemon", 1],
+      ["mango", 1],
+      ["melon", 1],
+      ["orange", 1],
+      ["peach", 1],
+      ["pear", 1],
+      ["pineapple", 1],
+      ["plums", 1],
+      ["pomegranate", 1],
+      ["raspberries", 1],
+      ["rehydrated_fruit", 1],
+      ["strawberries", 1]
     ]
   ]
 },{
@@ -4072,6 +4499,7 @@
       [ "sugar", 1 ],
       [ "honeycomb", 1 ],
       [ "honey_bottled", 1],
+      [ "honey_glassed", 1],
       [ "rehydrated_fruit", 1 ],
       [ "dry_fruit", 1 ],
       [ "juice_pulp", 2 ]
@@ -4085,7 +4513,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "pie",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_SNACK",
@@ -4110,51 +4538,59 @@
       [ "flour", 2 ]
     ],
     [
-      [ "strawberries", 2 ],
-      [ "apple", 2 ],
-      [ "blueberries", 2 ],
-      [ "apple_canned", 1 ],
-      [ "apple_vac", 1 ],
-      [ "orange", 2 ],
-      [ "lemon", 2 ],
-      [ "banana", 2 ],
-      [ "pear", 2 ],
-      [ "grapefruit", 2 ],
-      [ "cherries", 2 ],
-      [ "plums", 2 ],
-      [ "grapes", 2 ],
-      [ "pineapple", 2],
-      [ "peach", 2 ],
-      [ "cranberries", 2 ],
-      [ "watermelon", 2 ],
-      [ "melon", 2 ],
-      [ "raspberries", 2 ],
-      [ "blackberries", 2 ],
-      [ "pomegranate", 2 ],
-      [ "mango", 2 ],
-      [ "rhubarb", 2 ],
-      [ "papaya", 2 ],
-      [ "apricot", 2 ],
-      [ "kiwi", 2 ],
-      [ "irradiated_apple", 2 ],
-      [ "irradiated_orange", 2 ],
-      [ "irradiated_lemon", 2 ],
-      [ "irradiated_banana", 2 ],
-      [ "irradiated_pear", 2 ],
-      [ "irradiated_grapefruit", 2 ],
-      [ "irradiated_plums", 2 ],
-      [ "irradiated_pineapple", 2],
-      [ "irradiated_peach", 2 ],
-      [ "irradiated_watermelon", 2 ],
-      [ "irradiated_melon", 2 ],
-      [ "irradiated_pomegranate", 2 ],
-      [ "irradiated_mango", 2 ],
-      [ "irradiated_rhubarb", 2 ],
-      [ "irradiated_papaya", 2 ],
-      [ "irradiated_apricot", 2 ],
-      [ "irradiated_kiwi", 2 ],
-      [ "dry_fruit", 2 ],
-      [ "juice_pulp", 4 ]
+      ["apple", 2],
+      ["apple_canned", 1],
+      ["apple_vac", 1],
+      ["apricot", 2],
+      ["banana", 2],
+      ["blackberries", 2],
+      ["blueberries", 2],
+      ["cherries", 2],
+      ["coconut", 1],
+      ["cranberries", 2],
+      ["dry_fruit", 2],
+      ["grapefruit", 2],
+      ["grapes", 2],
+      ["irradiated_apple", 2],
+      ["irradiated_apricot", 2],
+      ["irradiated_banana", 2],
+      ["irradiated_blackberries", 2],
+      ["irradiated_blueberries", 2],
+      ["irradiated_cherries", 2],
+      ["irradiated_cranberries", 2],
+      ["irradiated_grapefruit", 2],
+      ["irradiated_grapes", 2],
+      ["irradiated_kiwi", 2],
+      ["irradiated_lemon", 2],
+      ["irradiated_mango", 2],
+      ["irradiated_melon", 2],
+      ["irradiated_orange", 2],
+      ["irradiated_papaya", 2],
+      ["irradiated_peach", 2],
+      ["irradiated_pear", 2],
+      ["irradiated_pineapple", 2],
+      ["irradiated_plums", 2],
+      ["irradiated_pomegranate", 2],
+      ["irradiated_raspberries", 2],
+      ["irradiated_rhubarb", 2],
+      ["irradiated_strawberries", 2],
+      ["irradiated_watermelon", 2],
+      ["juice_pulp", 4],
+      ["kiwi", 2],
+      ["lemon", 2],
+      ["mango", 2],
+      ["melon", 2],
+      ["orange", 2],
+      ["papaya", 2],
+      ["peach", 2],
+      ["pear", 2],
+      ["pineapple", 2],
+      ["plums", 2],
+      ["pomegranate", 2],
+      ["raspberries", 2],
+      ["rhubarb", 2],
+      ["strawberries", 2],
+      ["watermelon", 2]
     ],
     [
       [ "sugar", 2 ]
@@ -4488,6 +4924,36 @@
   ]
 },{
         "type" : "recipe",
+  "result": "sauce_pesto",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "cookbook_italian", 2 ]],
+  "qualities":[
+    {"id":"CONTAIN","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "cooking_oil", 1 ]
+    ],
+    [
+      [ "pine_nuts", 1 ]
+    ],
+    [
+      [ "seasoning_italian", 5 ],
+      [ "wild_herbs", 10 ]
+    ],
+    [
+      [ "salt", 1 ],
+      [ "seasoning_salt", 5 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "pizza_meat",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -4783,7 +5249,8 @@
       [ "veggy", 2 ],
       [ "veggy_wild", 2 ],
       [ "rehydrated_veggy", 2 ],
-      [ "dry_veggy", 2 ]
+      [ "dry_veggy", 2 ],
+      [ "dry_mushroom", 2 ]
     ]
   ]
 },{
@@ -4858,50 +5325,62 @@
   ],
   "components": [
     [
-      [ "apple", 2 ],
-      [ "apricot", 2 ],
-      [ "blackberries", 2 ],
-      [ "blueberries", 2 ],
-      [ "cherries", 2 ],
-      [ "cranberries", 2 ],
-      [ "grapes", 2 ],
-      [ "kiwi", 2 ],
-      [ "mango", 2 ],
-      [ "melon", 2 ],
-      [ "orange", 2 ],
-      [ "papaya", 2 ],
-      [ "pear", 2 ],
-      [ "pineapple", 2 ],
-      [ "plums", 2 ],
-      [ "pomegranate", 2 ],
-      [ "raspberries", 2 ],
-      [ "strawberries", 2 ],
-      [ "watermelon", 2 ],
-      [ "corn", 3 ],
-      [ "irradiated_apple", 2 ],
-      [ "irradiated_apricot", 2 ],
-      [ "irradiated_kiwi", 2 ],
-      [ "irradiated_mango", 2 ],
-      [ "irradiated_melon", 2 ],
-      [ "irradiated_orange", 2 ],
-      [ "irradiated_papaya", 2 ],
-      [ "irradiated_peach", 2 ],
-      [ "irradiated_pear", 2 ],
-      [ "irradiated_pineapple", 2 ],
-      [ "irradiated_plums", 2 ],
-      [ "irradiated_pomegranate", 2 ],
-      [ "irradiated_watermelon", 2 ],
-      [ "irradiated_corn", 3 ],
-      [ "honey_bottled", 1],
-      [ "honeycomb", 1 ],
-      [ "cola", 6 ],
-      [ "rootbeer", 6 ],
-      [ "purple_drink", 6 ],
-      [ "syrup", 4 ],
-      [ "coffee_syrup", 5 ],
-      [ "molasses", 1 ],
-      [ "bum_wine", 14 ],
-      [ "con_milk", 1 ]
+      ["apple", 2],
+      ["apricot", 2],
+      ["blackberries", 2],
+      ["blueberries", 2],
+      ["bum_wine", 14],
+      ["cherries", 2],
+      ["coconut", 1],
+      ["coffee_syrup", 5],
+      ["cola", 6],
+      ["con_milk", 1],
+      ["corn", 3],
+      ["cranberries", 2],
+      ["grapes", 2],
+      ["honey_bottled", 1],
+      ["honey_glassed", 1],
+      ["honeycomb", 1],
+      ["irradiated_apple", 2],
+      ["irradiated_apricot", 2],
+      ["irradiated_banana", 2],
+      ["irradiated_blackberries", 2],
+      ["irradiated_blueberries", 2],
+      ["irradiated_cherries", 2],
+      ["irradiated_corn", 3],
+      ["irradiated_cranberries", 2],
+      ["irradiated_grapefruit", 2],
+      ["irradiated_grapes", 2],
+      ["irradiated_kiwi", 2],
+      ["irradiated_lemon", 2],
+      ["irradiated_mango", 2],
+      ["irradiated_melon", 2],
+      ["irradiated_orange", 2],
+      ["irradiated_papaya", 2],
+      ["irradiated_peach", 2],
+      ["irradiated_pear", 2],
+      ["irradiated_pineapple", 2],
+      ["irradiated_plums", 2],
+      ["irradiated_pomegranate", 2],
+      ["irradiated_raspberries", 2],
+      ["irradiated_strawberries", 2],
+      ["irradiated_watermelon", 2],
+      ["kiwi", 2],
+      ["mango", 2],
+      ["melon", 2],
+      ["molasses", 1],
+      ["orange", 2],
+      ["papaya", 2],
+      ["pear", 2],
+      ["pineapple", 2],
+      ["plums", 2],
+      ["pomegranate", 2],
+      ["purple_drink", 6],
+      ["raspberries", 2],
+      ["rootbeer", 6],
+      ["strawberries", 2],
+      ["syrup", 4],
+      ["watermelon", 2]
     ],
     [
       [ "lye_powder", 50 ]
@@ -4935,6 +5414,7 @@
   ],
   "components": [
     [
+      [ "pine_bough", 6 ],
       [ "2x4", 8 ],
       [ "stick", 8 ],
       [ "splinter", 16 ]
@@ -5355,7 +5835,7 @@
       [ "mango", 3 ],
       [ "papaya", 3 ],
       [ "apricot", 3 ],
-      [ "kiwi", 3 ] 
+      [ "kiwi", 3 ]
    ],
     [
       [ "sugar", 4 ]
@@ -5390,42 +5870,52 @@
       [ "jar_3l_glass", 1 ]
     ],
     [
-      [ "blueberries", 4 ],
-      [ "apple", 4 ],
-      [ "apple_canned", 4 ],
-      [ "apple_vac", 4 ],
-      [ "strawberries", 4 ],
-      [ "orange", 4 ],
-      [ "lemon", 4 ],
-      [ "pear", 4 ],
-      [ "grapefruit", 4 ],
-      [ "cherries", 4 ],
-      [ "plums", 4 ],
-      [ "grapes", 4 ],
-      [ "pineapple", 4],
-      [ "peach", 4 ],
-      [ "cranberries", 4 ],
-      [ "melon", 4 ],
-      [ "raspberries", 4 ],
-      [ "blackberries", 4 ],
-      [ "pomegranate", 4 ],
-      [ "mango", 4 ],
-      [ "rhubarb", 4 ],
-      [ "apricot", 4 ],
-      [ "irradiated_apple", 4 ],
-      [ "irradiated_orange", 4 ],
-      [ "irradiated_lemon", 4 ],
-      [ "irradiated_pear", 4 ],
-      [ "irradiated_grapefruit", 4 ],
-      [ "irradiated_plums", 4 ],
-      [ "irradiated_pineapple", 4],
-      [ "irradiated_peach", 4 ],
-      [ "irradiated_melon", 4 ],
-      [ "irradiated_pomegranate", 4 ],
-      [ "irradiated_mango", 4 ],
-      [ "irradiated_rhubarb", 4 ],
-      [ "irradiated_apricot", 4 ]
-
+      ["apple", 4],
+      ["apple_canned", 4],
+      ["apple_vac", 4],
+      ["apricot", 4],
+      ["blackberries", 4],
+      ["blueberries", 4],
+      ["cherries", 4],
+      ["cranberries", 4],
+      ["grapefruit", 4],
+      ["grapes", 4],
+      ["irradiated_apple", 4],
+      ["irradiated_apricot", 4],
+      ["irradiated_banana", 4],
+      ["irradiated_blackberries", 4],
+      ["irradiated_blueberries", 4],
+      ["irradiated_cherries", 4],
+      ["irradiated_cranberries", 4],
+      ["irradiated_grapefruit", 4],
+      ["irradiated_grapes", 4],
+      ["irradiated_kiwi", 4],
+      ["irradiated_lemon", 4],
+      ["irradiated_mango", 4],
+      ["irradiated_melon", 4],
+      ["irradiated_orange", 4],
+      ["irradiated_papaya", 4],
+      ["irradiated_peach", 4],
+      ["irradiated_pear", 4],
+      ["irradiated_pineapple", 4],
+      ["irradiated_plums", 4],
+      ["irradiated_pomegranate", 4],
+      ["irradiated_raspberries", 4],
+      ["irradiated_rhubarb", 4],
+      ["irradiated_strawberries", 4],
+      ["irradiated_watermelon", 4],
+      ["lemon", 4],
+      ["mango", 4],
+      ["melon", 4],
+      ["orange", 4],
+      ["peach", 4],
+      ["pear", 4],
+      ["pineapple", 4],
+      ["plums", 4],
+      ["pomegranate", 4],
+      ["raspberries", 4],
+      ["rhubarb", 4],
+      ["strawberries", 4]
     ],
     [
       [ "sugar", 1]
@@ -5475,7 +5965,7 @@
   "reversible": false,
   "autolearn": true,
   "tools": [ [ ["rock_quern", -1] ] ],
-  "components": [ [ ["wheat", 2] ] ]
+  "components": [ [ ["wheat", 2], ["buckwheat", 2], ["acorns_cooked", 2] ] ]
 },{
         "type" : "recipe",
   "result": "cornmeal",
@@ -5501,18 +5991,6 @@
   "autolearn": true,
   "tools": [ [ ["rock_quern", -1] ] ],
   "components": [ [ ["bone", 1] ] ]
-},{
-        "type" : "recipe",
-  "result": "meal_chitin_piece",
-  "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_OTHER",
-  "skill_used": "cooking",
-  "difficulty": 2,
-  "time": 60000,
-  "reversible": false,
-  "autolearn": true,
-  "tools": [ [ ["rock_quern", -1] ] ],
-  "components": [ [ ["chitin_piece", 1] ] ]
 },{
         "type" : "recipe",
   "result": "spaghetti_raw",
@@ -5679,7 +6157,7 @@
       [ "water", 3 ], [ "water_clean", 3 ]
     ],
     [
-      [ "corn", 2 ], [ "irradiated_corn", 2 ], [ "cornmeal", 6 ], [ "barley", 1 ]
+      [ "corn", 2 ], [ "irradiated_corn", 2 ], [ "cornmeal", 6 ], [ "barley", 1 ], [ "buckwheat", 1 ]
     ],
     [
       [ "sugar", 8 ]
@@ -5711,7 +6189,7 @@
     ],
     [
       [ "molasses", 2 ], [ "potato_raw", 2 ], [ "potato_irradiated", 2 ], [ "corn", 2 ], [ "irradiated_corn", 2 ], [ "cornmeal", 6 ],
-      [ "wheat", 1 ], [ "barley", 1 ], [ "sugar_beet", 1 ]
+      [ "wheat", 1 ], [ "barley", 1 ], [ "buckwheat", 1 ], [ "sugar_beet", 1 ]
     ],
     [
       [ "yeast", 1 ]
@@ -5769,7 +6247,7 @@
       [ "water", 15 ], [ "water_clean", 15 ]
     ],
     [
-      [ "cornmeal", 12 ]
+      [ "cornmeal", 12 ], [ "buckwheat", 2 ]
     ],
     [
       [ "sugar", 8 ]
@@ -5837,7 +6315,11 @@
       [ "water", 4 ], [ "water_clean", 4 ]
     ],
     [
-      [ "blueberries", 2 ], [ "raspberries", 2 ], [ "blackberries", 2 ], [ "cranberries", 2 ], [ "strawberries", 2 ]
+      [ "blackberries", 2 ], [ "irradiated_blackberries", 2 ],
+      [ "blueberries", 2 ], [ "irradiated_blueberries", 2 ],
+      [ "cranberries", 2 ], [ "irradiated_cranberries", 2 ],
+      [ "raspberries", 2 ], [ "irradiated_raspberries", 2 ],
+      [ "strawberries", 2 ], [ "irradiated_strawberries", 2 ]
     ],
     [
       [ "sugar", 3 ]
@@ -5899,7 +6381,7 @@
       [ "water", 15 ], [ "water_clean", 15 ]
     ],
     [
-      [ "barley", 3 ]
+      [ "barley", 3 ], [ "buckwheat", 3 ]
     ],
     [
       [ "hops", 1 ]
@@ -5928,10 +6410,69 @@
       [ "water", 3 ], [ "water_clean", 3 ]
     ],
     [
-      [ "honey_bottled", 10 ], [ "honeycomb", 2]
+      [ "honey_bottled", 10 ], [ "honeycomb", 2], [ "honey_glassed", 10]
     ],
     [
       [ "hops", 1 ]
+    ],
+    [
+      [ "yeast", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "brew_dandelion_wine",
+  "result_mult" : 3,
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 80000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [ ["brewing_cookbook", 3] , ["family_cookbook", 2], ["survival_book", 3] , ["textbook_survival", 3] ,
+  ["manual_survival", 3] ],
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "water", 3 ], [ "water_clean", 3 ]
+    ],
+    [
+      [ "raw_dandelion", 20 ]
+    ],
+    [
+      [ "sugar", 1 ], [ "honeycomb", 1], [ "honey_bottled", 2 ], [ "honey_glassed", 2]
+    ],
+    [
+      [ "yeast", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "brew_pine_wine",
+  "result_mult" : 3,
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 80000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [ ["survival_book", 3] , ["textbook_survival", 3] , ["manual_survival", 3] ],
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "water", 3 ], [ "water_clean", 3 ]
+    ],
+    [
+      [ "pine_bough", 10 ]
+    ],
+    [
+      [ "sugar", 1 ], [ "honeycomb", 1], [ "honey_bottled", 2 ], [ "honey_glassed", 2]
     ],
     [
       [ "yeast", 1 ]
@@ -6649,7 +7190,8 @@
     ],
     [
       [ "honeycomb", 2],
-      [ "honey_bottled", 2]
+      [ "honey_bottled", 2],
+      [ "honey_glassed", 2]
     ],
     [
       [ "peanutbutter", 1 ]
@@ -6984,7 +7526,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "juice",
   "byproducts": "juice_pulp",
   "category": "CC_FOOD",
@@ -6998,44 +7540,52 @@
     {"id":"HAMMER","level":1,"amount":1}
   ], "components": [
     [
-      [ "apple", 2 ],
-      [ "apricot", 2 ],
-      [ "banana", 2 ],
-      [ "blackberries", 2 ],
-      [ "blueberries", 2 ],
-      [ "cherries", 2 ],
-      [ "cranberries", 2 ],
-      [ "grapefruit", 2 ],
-      [ "grapes", 2 ],
-      [ "kiwi", 2 ],
-      [ "lemon", 2 ],
-      [ "mango", 2 ],
-      [ "melon", 2 ],
-      [ "orange", 2 ],
-      [ "papaya", 2 ],
-      [ "peach", 2 ],
-      [ "pear", 2 ],
-      [ "pineapple", 2 ],
-      [ "plums", 2 ],
-      [ "pomegranate", 2 ],
-      [ "raspberries", 2 ],
-      [ "strawberries", 2 ],
-      [ "watermelon", 1 ],
-      [ "irradiated_apple", 2 ],
-      [ "irradiated_apricot", 2 ],
-      [ "irradiated_banana", 2 ],
-      [ "irradiated_kiwi", 2 ],
-      [ "irradiated_lemon", 2 ],
-      [ "irradiated_mango", 2 ],
-      [ "irradiated_melon", 2 ],
-      [ "irradiated_orange", 2 ],
-      [ "irradiated_papaya", 2 ],
-      [ "irradiated_peach", 2 ],
-      [ "irradiated_pear", 2 ],
-      [ "irradiated_pineapple", 2 ],
-      [ "irradiated_plums", 2 ],
-      [ "irradiated_pomegranate", 2 ],
-      [ "irradiated_watermelon", 1 ]
+      ["apple", 2],
+      ["apricot", 2],
+      ["banana", 2],
+      ["blackberries", 2],
+      ["blueberries", 2],
+      ["cherries", 2],
+      ["cranberries", 2],
+      ["grapefruit", 2],
+      ["grapes", 2],
+      ["irradiated_apple", 2],
+      ["irradiated_apricot", 2],
+      ["irradiated_banana", 2],
+      ["irradiated_blackberries", 2],
+      ["irradiated_blueberries", 2],
+      ["irradiated_cherries", 2],
+      ["irradiated_cranberries", 2],
+      ["irradiated_grapefruit", 2],
+      ["irradiated_grapes", 2],
+      ["irradiated_kiwi", 2],
+      ["irradiated_lemon", 2],
+      ["irradiated_mango", 2],
+      ["irradiated_melon", 2],
+      ["irradiated_orange", 2],
+      ["irradiated_papaya", 2],
+      ["irradiated_peach", 2],
+      ["irradiated_pear", 2],
+      ["irradiated_pineapple", 2],
+      ["irradiated_plums", 2],
+      ["irradiated_pomegranate", 2],
+      ["irradiated_raspberries", 2],
+      ["irradiated_strawberries", 2],
+      ["irradiated_watermelon", 1],
+      ["kiwi", 2],
+      ["lemon", 2],
+      ["mango", 2],
+      ["melon", 2],
+      ["orange", 2],
+      ["papaya", 2],
+      ["peach", 2],
+      ["pear", 2],
+      ["pineapple", 2],
+      ["plums", 2],
+      ["pomegranate", 2],
+      ["raspberries", 2],
+      ["strawberries", 2],
+      ["watermelon", 1]
     ],
     [
       [ "water", 1 ],
@@ -7089,6 +7639,76 @@
     ],
     [
       [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "veggy_salad",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"CONTAIN","level":1,"amount":1}
+    ],
+  "components": [
+    [
+      [ "cucumber", 1 ],
+      [ "irradiated_cucumber", 1],
+      [ "tomato", 1],
+      [ "irradiated_tomato", 1],
+      [ "broccoli", 1],
+      [ "dandelion_cooked", 1 ],
+      [ "irradiated_broccoli", 1]
+    ],
+    [
+      [ "cucumber", 1 ],
+      [ "irradiated_cucumber", 1],
+      [ "tomato", 1],
+      [ "irradiated_tomato", 1],
+      [ "broccoli", 1],
+      [ "irradiated_broccoli", 1],
+      [ "carrot", 1],
+      [ "irradiated_carrot", 1],
+      [ "celery", 1],
+      [ "irradiated_celery", 1],
+      [ "pineapple", 1],
+      [ "irradiated_pineapple", 1],
+      [ "cranberries", 2],
+      [ "raspberries", 2],
+      [ "blackberries", 2]
+    ],
+    [
+      [ "sugar", 2],
+      [ "ketchup", 1 ],
+      [ "mustard", 1],
+      [ "mayonnaise", 1],
+      [ "seasoning_salt", 3]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "insta_salad",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "time": 1000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CONTAIN","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "dried_salad", 1 ]
+    ],
+    [
       [ "water_clean", 1 ]
     ]
   ]

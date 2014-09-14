@@ -25,7 +25,7 @@ class npc;
 #define OVERMAP_LAYERS (1 + OVERMAP_DEPTH + OVERMAP_HEIGHT)
 
 // base oters: exactly what's defined in json before things are split up into blah_east or roadtype_ns, etc
-extern std::map<std::string, oter_t> obasetermap;
+extern std::unordered_map<std::string, oter_t> obasetermap;
 
 // Likelihood to pick a specific overmap terrain.
 struct oter_weight {
@@ -48,7 +48,7 @@ struct oter_weight_list {
         for(std::vector<oter_weight>::iterator item_it = items.begin();
             item_it != items.end(); ++item_it ) {
             if ( item_it->ot_iid == -1 ) {
-                std::map<std::string, oter_t>::const_iterator it = obasetermap.find(item_it->ot_sid);
+                std::unordered_map<std::string, oter_t>::const_iterator it = obasetermap.find(item_it->ot_sid);
                 if ( it == obasetermap.end() ) {
                     debugmsg("Bad oter_weight_list entry in region settings: overmap_terrain '%s' not found.", item_it->ot_sid.c_str() );
                     item_it->ot_iid = 0;
@@ -268,7 +268,7 @@ class overmap
 
   point const& pos() const { return loc; }
 
-  void save();
+  void save() const;
   void first_house(int &x, int &y, const std::string start_location);
 
   void process_mongroups(); // Makes them die out, maybe more
@@ -451,10 +451,6 @@ public:
   void place_mongroups();
   void place_radios();
 
-  // Map helper function.
-  static void print_npcs(WINDOW *w, int const x, int const y, int const z);
-  bool has_vehicle(int const x, int const y, int const z, bool require_pda = true) const;
-  void print_vehicles(WINDOW *w, int const x, int const y, int const z) const;
     void add_mon_group(const mongroup &group);
     // not available because *every* overmap needs location, so use the other constructor.
     overmap() = delete;
@@ -465,10 +461,10 @@ public:
 //std::ostream & operator<<(std::ostream &, const overmap &);
 //std::ostream & operator<<(std::ostream &, const city &);
 
-extern std::map<std::string,oter_t> otermap;
+extern std::unordered_map<std::string,oter_t> otermap;
 extern std::vector<oter_t> oterlist;
 //extern const regional_settings default_region_settings;
-extern std::map<std::string, regional_settings> region_settings_map;
+extern std::unordered_map<std::string, regional_settings> region_settings_map;
 
 void load_overmap_terrain(JsonObject &jo);
 void reset_overmap_terrain();

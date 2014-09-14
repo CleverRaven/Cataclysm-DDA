@@ -124,8 +124,8 @@ public:
  int price() const;
 
     /**
-     * Return the butcher factor, always positive, but lower is better.
-     * If the item can not be used for butcherin it return INT_MAX.
+     * Return the butcher factor (BUTCHER tool quality).
+     * If the item can not be used for butchering it returns INT_MIN.
      */
     int butcher_factor() const;
 
@@ -411,10 +411,11 @@ class map_item_stack
 };
 
 // Commonly used convenience functions that match an item to one of the 3 common types of locators:
-// invlet (char), type_id (itype_id, a typedef of string), or position (int).
+// type_id (itype_id, a typedef of string), position (int) or pointer (item *).
 // The item's position is optional, if not passed in we expect the item to fail position match.
-bool item_matches_locator(const item& it, const itype_id& id, int item_pos = INT_MIN);
-bool item_matches_locator(const item& it, int locator_pos, int item_pos = INT_MIN);
+bool item_matches_locator(const item &it, const itype_id &id, int item_pos = INT_MIN);
+bool item_matches_locator(const item &it, int locator_pos, int item_pos = INT_MIN);
+bool item_matches_locator(const item &it, const item *other, int);
 
 //this is an attempt for functional programming
 bool is_edible(item i, player const*u);

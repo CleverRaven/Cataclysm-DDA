@@ -25,12 +25,6 @@ std::string caravan_category_name(caravan_category cat);
 std::vector<itype_id> caravan_items(caravan_category cat);
 std::set<m_flag> monflags_to_add;
 
-std::map<std::string, defense_game_monchanges> montype_changes;
-std::map<std::string, std::vector<int> > original_itype_values;
-std::vector<int> original_construction_values;
-std::vector<int> original_recipe_values;
-
-
 int caravan_price(player &u, int price);
 
 void draw_caravan_borders(WINDOW *w, int current_window);
@@ -163,80 +157,16 @@ void defense_game::pre_action(action_id &act)
 
 void defense_game::post_action(action_id act)
 {
-    (void)g;
     (void)act;
 }
 
 void defense_game::game_over()
 {
-    (void)g; //unused
     popup(_("You managed to survive through wave %d!"), current_wave);
-    // Reset changed information
-    reset_mtypes();
-    reset_itypes();
-    reset_constructions();
-    reset_recipes();
-    // Clear the changes from memory so that they are not added to multiple times in successive Defense games in one sitting.
-    montype_changes.clear();
-    original_construction_values.clear();
-    original_itype_values.clear();
-    original_recipe_values.clear();
-}
-
-void defense_game::reset_mtypes()
-{
-    // Reset mtype changes
-    std::map<std::string, mtype *> montemplates = MonsterGenerator::generator().get_all_mtypes();
-    for (std::map<std::string, mtype *>::iterator it = montemplates.begin(); it != montemplates.end();
-         ++it) {
-        defense_game_monchanges change = montype_changes[it->first];
-
-        it->second->difficulty = change.original_difficulty;
-        for (std::set<m_flag>::iterator fit = change.added_flags.begin(); fit != change.added_flags.end();
-             ++fit) {
-            it->second->flags.erase(*fit);
-        }
-    }
-}
-
-void defense_game::reset_itypes()
-{
-    itypes["2x4"]->volume = original_itype_values["2x4"][0];
-    itypes["2x4"]->weight = original_itype_values["2x4"][1];
-    itypes["landmine"]->price = original_itype_values["landmine"][0];
-    itypes["bot_turret"]->price = original_itype_values["bot_turret"][0];
-}
-
-void defense_game::reset_constructions()
-{
-    for (unsigned i = 0; i < constructions.size(); i++) {
-        constructions[i]->time = original_construction_values[i];
-    }
-}
-
-void defense_game::reset_recipes()
-{
-    std::vector<int>::iterator it = original_recipe_values.begin();
-    for (recipe_map::iterator map_iter = recipes.begin(); map_iter != recipes.end(); ++map_iter) {
-        for (recipe_list::iterator list_iter = map_iter->second.begin();
-             list_iter != map_iter->second.end(); ++list_iter, ++it) {
-            (*list_iter)->time = *it; // Things take turns, not minutes
-        }
-    }
 }
 
 void defense_game::init_itypes()
 {
-    std::vector<int> change_2x4, change_landmine, change_bot;
-    change_2x4.push_back(itypes["2x4"]->volume);
-    change_2x4.push_back(itypes["2x4"]->weight);
-    change_landmine.push_back(itypes["landmine"]->price);
-    change_bot.push_back(itypes["bot_turret"]->price);
-
-    original_itype_values["2x4"] = change_2x4;
-    original_itype_values["landmine"] = change_landmine;
-    original_itype_values["bot_turret"] = change_bot;
-
     itypes["2x4"]->volume = 0;
     itypes["2x4"]->weight = 0;
     itypes["landmine"]->price = 300;
@@ -245,37 +175,23 @@ void defense_game::init_itypes()
 
 void defense_game::init_mtypes()
 {
-    m_flag flags[] = {MF_BASHES, MF_SMELLS, MF_HEARS, MF_SEES};
-    monflags_to_add.insert(flags, flags + 4);
-
     std::map<std::string, mtype *> montemplates = MonsterGenerator::generator().get_all_mtypes();
-    std::pair<std::set<m_flag>::iterator, bool> ret;
 
     for (std::map<std::string, mtype *>::iterator it = montemplates.begin(); it != montemplates.end();
          ++it) {
-        defense_game_monchanges change;
-        change.original_difficulty = it->second->difficulty;
-
         it->second->difficulty *= 1.5;
         it->second->difficulty += int(it->second->difficulty / 5);
-        for (std::set<m_flag>::iterator fit = monflags_to_add.begin(); fit != monflags_to_add.end();
-             ++fit) {
-            ret = it->second->flags.insert(*fit);
-            if (ret.second) {
-                change.added_flags.insert(*fit);
-            }
-        }
-
-        montype_changes[it->first] = change;
+        it->second->flags.insert( MF_BASHES );
+        it->second->flags.insert( MF_SMELLS );
+        it->second->flags.insert( MF_HEARS );
+        it->second->flags.insert( MF_SEES );
     }
 }
 
 void defense_game::init_constructions()
 {
-    for (std::vector<construction *>::iterator it = constructions.begin();
-         it != constructions.end(); ++it) {
-        original_construction_values.push_back((*it)->time);
-        (*it)->time = 1; // Everything takes 1 minute
+    for( auto &c : constructions ) {
+        c->time = 1; // Everything takes 1 minute
     }
 }
 
@@ -284,7 +200,6 @@ void defense_game::init_recipes()
     for (recipe_map::iterator map_iter = recipes.begin(); map_iter != recipes.end(); ++map_iter) {
         for (recipe_list::iterator list_iter = map_iter->second.begin();
              list_iter != map_iter->second.end(); ++list_iter) {
-            original_recipe_values.push_back((*list_iter)->time);
             (*list_iter)->time /= 10; // Things take turns, not minutes
         }
     }
@@ -414,6 +329,7 @@ void defense_game::init_to_style(defense_style new_style)
     case NUM_DEFENSE_STYLES:
         DebugLog( D_ERROR, D_GAME ) << "invalid defense style: " << new_style;
         break;
+    case DEFENSE_EASY: // fall through to custom
     case DEFENSE_CUSTOM:
         location = DEFLOC_HOSPITAL;
         initial_difficulty = 15;
@@ -428,8 +344,6 @@ void defense_game::init_to_style(defense_style new_style)
         triffids = true;
         mercenaries = true;
         break;
-    case DEFENSE_EASY:
-        break; // keep default, default is easy
     case DEFENSE_MEDIUM:
         location = DEFLOC_MALL;
         initial_difficulty = 30;
@@ -463,8 +377,6 @@ void defense_game::init_to_style(defense_style new_style)
         subspace = true;
         hunger = true;
         thirst = true;
-        break;
-
         break;
 
     case DEFENSE_SHAUN:
@@ -882,9 +794,10 @@ std::string defense_style_name(defense_style style)
         return _("Skynet");
     case DEFENSE_LOVECRAFT:
         return _("The Call of Cthulhu");
-    default:
-        return "Bug! (bug in defense.cpp:defense_style_name)";
+    case NUM_DEFENSE_STYLES:
+        break;
     }
+    return "Bug! (bug in defense.cpp:defense_style_name)";
 }
 
 std::string defense_style_description(defense_style style)
@@ -911,9 +824,10 @@ std::string defense_style_description(defense_style style)
         return _("The robots have decided that humans are the enemy!");
     case DEFENSE_LOVECRAFT:
         return _("Ward off legions of eldritch horrors.");
-    default:
-        return "What the heck is this I don't even know. (defense.cpp:defense_style_description)";
+    case NUM_DEFENSE_STYLES:
+        break;
     }
+    return "What the heck is this I don't even know. (defense.cpp:defense_style_description)";
 }
 
 std::string defense_location_name(defense_location location)
@@ -931,9 +845,10 @@ std::string defense_location_name(defense_location location)
         return _("Bar");
     case DEFLOC_MANSION:
         return _("Mansion");
-    default:
-        return "a ghost's house (bug in defense.cpp:defense_location_name)";
+    case NUM_DEFENSE_LOCATIONS:
+        break;
     }
+    return "a ghost's house (bug in defense.cpp:defense_location_name)";
 }
 
 std::string defense_location_description(defense_location location)
@@ -951,9 +866,10 @@ std::string defense_location_description(defense_location location)
         return                 _("A small building with plenty of alcohol.");
     case DEFLOC_MANSION:
         return                 _("A large house with many rooms and.");
-    default:
-        return "Unknown data bug. (defense.cpp:defense_location_description)";
+    case NUM_DEFENSE_LOCATIONS:
+        break;
     }
+    return "Unknown data bug. (defense.cpp:defense_location_description)";
 }
 
 void defense_game::caravan()
@@ -1441,7 +1357,6 @@ void defense_game::spawn_wave()
 
 std::vector<std::string> defense_game::pick_monster_wave()
 {
-    (void)g; //unused
     std::vector<std::string> valid;
     std::vector<std::string> ret;
 

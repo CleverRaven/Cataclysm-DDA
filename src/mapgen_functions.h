@@ -54,6 +54,8 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
 void mapgen_hive(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_spider_pit(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_fungal_bloom(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
+void mapgen_fungal_tower(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
+void mapgen_fungal_flowers(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_river_center(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_road_straight(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_road_end(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);

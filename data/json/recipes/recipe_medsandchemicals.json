@@ -408,7 +408,7 @@
     ],
     [
       [ "acid", 1 ],
-      [ "datura_seed", 2 ]
+      [ "datura_seed", 8 ]
     ],
     [
       [ "bleach", 1 ],
@@ -444,7 +444,7 @@
       [ "charcoal", 1 ]
     ],
     [
-      [ "datura_seed", 2 ]
+      [ "datura_seed", 8 ]
     ],
     [
       [ "salt_water", 1 ],
@@ -577,7 +577,7 @@
   ],
   "components": [
     [
-      [ "datura_seed", 1 ]
+      [ "datura_seed", 2 ]
     ],
     [
       [ "acid", 1 ]
@@ -690,7 +690,7 @@
     [
       [ "veggy_tainted", 3 ],
       [ "biollante_bud", 1 ],
-      [ "datura_seed", 4 ]
+      [ "datura_seed", 16 ]
     ],
     [
       [ "ammonia", 1 ],
@@ -2312,6 +2312,8 @@
       [ "bleach", 1 ],
       [ "lye_powder", 100 ],
       [ "bone", 20 ],
+      [ "pine_bough", 10 ],
+      [ "raw_dandelion", 20 ],
       [ "biollante_bud", 1],
       [ "ant_egg", 1 ],
       [ "slime_scrap", 1 ]

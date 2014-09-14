@@ -314,6 +314,8 @@ class map
 // Terrain
  ter_id ter(const int x, const int y) const; // Terrain integer id at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
  std::string get_ter(const int x, const int y) const; // Terrain string id at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
+ std::string get_ter_harvestable(const int x, const int y) const; //harvestable of the terrain
+ int get_ter_harvest_season(const int x, const int y) const; //get season to harvest the terrain 
  ter_t & ter_at(const int x, const int y) const; // Terrain at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
 
  void ter_set(const int x, const int y, const ter_id new_terrain);
@@ -356,8 +358,27 @@ class map
  bool has_flag_ter_or_furn(const ter_bitflags flag, const int x, const int y) const; // checks terrain or furniture
  bool has_flag_ter_and_furn(const ter_bitflags flag, const int x, const int y) const; // checks terrain and furniture
 
- bool is_destructable(const int x, const int y);        // checks terrain and vehicles
- bool is_destructable_ter_furn(const int x, const int y);       // only checks terrain
+ /** Returns true if there is a bashable vehicle part or the furn/terrain is bashable at x,y */
+ bool is_bashable(const int x, const int y);
+ /** Returns true if the terrain at x,y is bashable */
+ bool is_bashable_ter(const int x, const int y);
+ /** Returns true if the furniture at x,y is bashable */
+ bool is_bashable_furn(const int x, const int y);
+ /** Returns true if the furniture or terrain at x,y is bashable */
+ bool is_bashable_ter_furn(const int x, const int y);
+ /** Returns max_str of the furniture or terrain at x,y */
+ int bash_strength(const int x, const int y);
+ /** Returns min_str of the furniture or terrain at x,y */
+ int bash_resistance(const int x, const int y);
+ /** Returns a success rating from -1 to 10 for a given tile based on a set strength, used for AI movement planning 
+  *  Values roughly correspond to 10% increment chances of success on a given bash, rounded down. -1 means the square is not bashable */
+ int bash_rating(const int str, const int x, const int y);
+ 
+ /** Generates rubble at the given location, if overwrite is true it just writes on top of what currently exists 
+  *  floor_type is only used if there is a non-bashable wall at the location or with overwrite = true */
+ void make_rubble(const int x, const int y, furn_id rubble_type = f_rubble, bool items = false,
+                    ter_id floor_type = t_dirt, bool overwrite = false);
+
  bool is_divable(const int x, const int y);
  bool is_outside(const int x, const int y);
  bool flammable_items_at(const int x, const int y);
@@ -382,6 +403,8 @@ void draw_square_ter(ter_id (*f)(), int x1, int y1, int x2, int y2);
 void draw_square_ter(const id_or_id & f, int x1, int y1, int x2, int y2);
 void draw_rough_circle(ter_id type, int x, int y, int rad);
 void draw_rough_circle(std::string type, int x, int y, int rad);
+void draw_rough_circle_furn(furn_id type, int x, int y, int rad);
+void draw_rough_circle_furn(std::string type, int x, int y, int rad);
 
 void add_corpse(int x, int y);
 
@@ -393,11 +416,21 @@ void add_corpse(int x, int y);
  void translate_radius(const ter_id from, const ter_id to, const float radi, const int uX, const int uY);
  bool close_door(const int x, const int y, const bool inside, const bool check_only);
  bool open_door(const int x, const int y, const bool inside, const bool check_only = false);
- // bash: if res pointer is supplied, res will contain absorbed impact or -1
- bool bash(const int x, const int y, const int str, bool silent = false, int *res = 0);
+ /** Makes spores at the respective x and y. source is used for kill counting */
+ void create_spores(const int x, const int y, Creature* source = NULL);
+ /** Checks if a square should collapse, returns the X for the one_in(X) collapse chance */
+ int collapse_check(const int x, const int y);
+ /** Causes a collapse at (x, y), such as from destroying a wall */
+ void collapse_at(const int x, const int y);
+ /** Returns a pair where first is whether something was smashed and second is if it was a success */
+ std::pair<bool, bool> bash(const int x, const int y, const int str, bool silent = false, bool destroy = false);
  // spawn items from the list, see map_bash_item_drop
  void spawn_item_list(const std::vector<map_bash_item_drop> &items, int x, int y);
- void destroy(const int x, const int y, const bool makesound);
+ /** Keeps bashing a square until it can't be bashed anymore */
+ void destroy(const int x, const int y, const bool silent = false);
+ /** Keeps bashing a square until there is no more furniture */
+ void destroy_furn(const int x, const int y, const bool silent = false);
+ void crush(const int x, const int y);
  void shoot(const int x, const int y, int &dam, const bool hit_items,
             const std::set<std::string>& ammo_effects);
  bool hit_with_acid(const int x, const int y);
@@ -483,7 +516,6 @@ void add_corpse(int x, int y);
  bool process_fields_in_submap(submap * const current_submap, const int submap_x, const int submap_y); // See fields.cpp
  void step_in_field(const int x, const int y); // See fields.cpp
  void mon_in_field(const int x, const int y, monster *z); // See fields.cpp
- void field_effect(int x, int y); //See fields.cpp
 
 // Computers
  computer* computer_at(const int x, const int y);
@@ -628,6 +660,7 @@ private:
  void apply_light_arc(int x, int y, int angle, float luminance, int wideangle = 30 );
  void apply_light_ray(bool lit[MAPSIZE*SEEX][MAPSIZE*SEEY],
                       int sx, int sy, int ex, int ey, float luminance, bool trig_brightcalc = true);
+ void add_light_from_items( const int x, const int y, const std::vector<item> &items );
  void calc_ray_end(int angle, int range, int x, int y, int* outx, int* outy);
  void forget_traps(int gridx, int gridy);
  vehicle *add_vehicle_to_map(vehicle *veh, const int x, const int y, const bool merge_wrecks = true);

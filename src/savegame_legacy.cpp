@@ -1523,6 +1523,10 @@ void player::load_legacy(std::stringstream & dump)
          underwater >> dodges_left >> blocks_left >> oxygen >> active_mission >>
          focus_pool >> male >> prof_ident >> healthy >> styletmp;
 
+         // Bionic power scale has been changed.
+         max_power_level *= 25;
+         power_level *= 25;
+
  if (profession::exists(prof_ident)) {
   prof = profession::prof(prof_ident);
  } else {
@@ -1531,7 +1535,9 @@ void player::load_legacy(std::stringstream & dump)
  }
 
  activity.load_legacy(dump);
- backlog.load_legacy(dump);
+ player_activity temp_backlog;
+ temp_backlog.load_legacy(dump);
+ backlog.push_front( temp_backlog );
 
  in_vehicle = inveh != 0;
  controlling_vehicle = vctrl != 0;
@@ -1543,7 +1549,7 @@ void player::load_legacy(std::stringstream & dump)
     if (sTemp == "TRAITS_END") {
         break;
     } else {
-        my_traits.insert(sTemp);
+        my_traits.push_back(sTemp);
     }
  }
 
@@ -1552,7 +1558,7 @@ void player::load_legacy(std::stringstream & dump)
     if (sTemp == "MUTATIONS_END") {
         break;
     } else {
-        my_mutations.insert(sTemp);
+        my_mutations.push_back(sTemp);
     }
  }
 
@@ -1719,7 +1725,7 @@ void npc::load_legacy(std::stringstream & dump) {
     if (sTemp == "TRAITS_END") {
         break;
     } else {
-        my_traits.insert(sTemp);
+        my_traits.push_back(sTemp);
     }
  }
 

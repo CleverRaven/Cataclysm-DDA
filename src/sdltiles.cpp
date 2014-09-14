@@ -675,6 +675,10 @@ bool Font::draw_window( WINDOW *win, int offsetx, int offsety )
             const int BG = cell.BG;
             if( codepoint != UNKNOWN_UNICODE ) {
                 const int cw = utf8_width( cell.ch.c_str() );
+                if( cw < 1 ) {
+                    // utf8_width() may return a negative width
+                    continue;
+                }
                 FillRectDIB( drawx, drawy, fontwidth * cw, fontheight, BG );
                 i += cw - 1;
                 OutputChar( cell.ch, drawx, drawy, FG );
@@ -1212,7 +1216,7 @@ WINDOW *curses_init(void)
     int map_fontwidth = 8;
     int map_fontheight = 16;
     int map_fontsize = 8;
- 
+
     std::ifstream jsonstream(FILENAMES["fontdata"].c_str(), std::ifstream::binary);
     if (jsonstream.good()) {
         JsonIn json(jsonstream);

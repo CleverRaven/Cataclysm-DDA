@@ -424,7 +424,10 @@
             "stick",
             "tanto",
             "tonfa",
-            "tonfa_wood"
+            "tonfa_wood",
+            "kukri",
+            "knife_rambo",
+            "knife_rm42"
         ]
     },{
         "type" : "martial_art",
@@ -455,7 +458,10 @@
             "broadfire_off",
             "broadfire_on",
             "sword_forged",
-            "rapier"
+            "rapier",
+            "fencing_foil",
+            "fencing_sabre",
+            "fencing_epee"
         ]
     },{
         "type" : "martial_art",
@@ -530,7 +536,10 @@
             "tanto",
             "umbrella",
             "wasp_sting",
-            "wrench"
+            "wrench",
+            "kukri",
+            "knife_rambo",
+            "knife_rm42"
         ]
     },{
         "type" : "martial_art",

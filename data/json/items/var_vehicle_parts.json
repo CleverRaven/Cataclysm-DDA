@@ -172,7 +172,7 @@
         "category": "veh_parts",
         "bigness-aspect": "WHEEL_DIAMETER"
     },
-	{
+    {
         "type":"VAR_VEH_PART",
         "id": "wheel_wood_b",
         "symbol": "]",

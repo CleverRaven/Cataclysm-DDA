@@ -117,6 +117,34 @@
       [ "rock", 1 ]
     ]
   ]
+},{
+  "type" : "recipe",
+  "result": "marble",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_CONTAINERS",
+  "skill_used": "fabrication",
+  "difficulty": 6,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn": [[ "glassblowing_book", 5 ]],
+  "tools": [
+     [
+      ["tongs", -1]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      ["forge", 25], ["char_forge", 5]
+     ]
+    ],
+  "components":
+    [
+     [
+     [ "glass_shard", 2 ]
+     ]
+    ]
 },
   {
     "type" : "recipe",
@@ -309,6 +337,7 @@
     [
       [ "bone", 5 ],
       [ "rock", 1 ],
+      [ "ceramic_shard", 1 ],
       [ "scrap", 2 ],
       [ "nail", 10 ]
     ]
@@ -335,6 +364,7 @@
     [
       [ "bone", 3 ],
       [ "rock", 1 ],
+      [ "ceramic_shard", 1 ],
       [ "scrap", 2 ],
       [ "nail", 10 ]
     ]
@@ -525,6 +555,7 @@
     [
       [ "bone", 5 ],
       [ "rock", 1 ],
+      [ "ceramic_shard", 1 ],
       [ "scrap", 2 ],
       [ "nail", 10 ]
     ]
@@ -2544,28 +2575,18 @@
     {"id":"HAMMER","level":3,"amount":1}
     ], "tools": [
      [
-      ["tongs", -1]
-     ],
-     [
       ["swage", -1]
      ],
      [
-      ["anvil", -1]
-     ],
-     [
       ["press", -1]
-     ],
-     [
-        [ "matches", 10 ]
-     ],
-     [
-      ["forge", 50], ["char_forge", 10]
      ]
     ],
     "components": [
-      [
-        [ "scrap", 4 ]
-      ],
+    [
+      [ "can_drink", 2 ],
+      [ "can_food", 2 ],
+      [ "scrap", 4 ]
+    ],
       [
         [ "oxy_powder", 100 ]
       ]
@@ -2587,28 +2608,18 @@
     {"id":"HAMMER","level":3,"amount":1}
     ], "tools": [
      [
-      ["tongs", -1]
-     ],
-     [
       ["swage", -1]
      ],
      [
-      ["anvil", -1]
-     ],
-     [
       ["press", -1]
-     ],
-     [
-        [ "matches", 10 ]
-     ],
-     [
-      ["forge", 50], ["char_forge", 10]
      ]
     ],
     "components": [
-      [
-        [ "scrap", 4 ]
-      ],
+    [
+      [ "can_drink", 2 ],
+      [ "can_food", 2 ],
+      [ "scrap", 4 ]
+    ],
       [
         [ "oxy_powder", 100 ]
       ]
@@ -2630,28 +2641,18 @@
     {"id":"HAMMER","level":3,"amount":1}
     ], "tools": [
      [
-      ["tongs", -1]
-     ],
-     [
       ["swage", -1]
      ],
      [
-      ["anvil", -1]
-     ],
-     [
       ["press", -1]
-     ],
-     [
-        [ "matches", 10 ]
-     ],
-     [
-      ["forge", 50], ["char_forge", 10]
      ]
     ],
     "components": [
-      [
-        [ "scrap", 4 ]
-      ],
+    [
+      [ "can_drink", 2 ],
+      [ "can_food", 2 ],
+      [ "scrap", 4 ]
+    ],
       [
         [ "oxy_powder", 100 ]
       ]
@@ -2673,28 +2674,18 @@
     {"id":"HAMMER","level":3,"amount":1}
     ], "tools": [
      [
-      ["tongs", -1]
-     ],
-     [
       ["swage", -1]
      ],
      [
-      ["anvil", -1]
-     ],
-     [
       ["press", -1]
-     ],
-     [
-        [ "matches", 10 ]
-     ],
-     [
-      ["forge", 50], ["char_forge", 10]
      ]
     ],
     "components": [
-      [
-        [ "scrap", 4 ]
-      ],
+    [
+      [ "can_drink", 2 ],
+      [ "can_food", 2 ],
+      [ "scrap", 4 ]
+    ],
       [
         [ "oxy_powder", 100 ]
       ]
@@ -2716,28 +2707,18 @@
     {"id":"HAMMER","level":3,"amount":1}
     ], "tools": [
      [
-      ["tongs", -1]
-     ],
-     [
       ["swage", -1]
      ],
      [
-      ["anvil", -1]
-     ],
-     [
       ["press", -1]
-     ],
-     [
-        [ "matches", 10 ]
-     ],
-     [
-      ["forge", 50], ["char_forge", 10]
      ]
     ],
     "components": [
-      [
-        [ "scrap", 4 ]
-      ],
+    [
+      [ "can_drink", 2 ],
+      [ "can_food", 2 ],
+      [ "scrap", 4 ]
+    ],
       [
         [ "oxy_powder", 100 ]
       ]

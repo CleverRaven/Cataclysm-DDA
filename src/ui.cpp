@@ -515,23 +515,7 @@ void uimenu::show()
 
     int estart = text_lines + 2;
 
-    if( OPTIONS["MENU_SCROLL"] ) {
-        if ((int)fentries.size() > vmax) {
-            vshift = fselected - (vmax - 1) / 2;
-
-            if (vshift < 0) {
-                vshift = 0;
-            } else if (vshift + vmax > (int)fentries.size()) {
-                vshift = fentries.size() - vmax;
-            }
-        }
-    } else {
-        if( fselected < vshift ) {
-            vshift = fselected;
-        } else if( fselected >= vshift + vmax ) {
-            vshift = 1 + fselected - vmax;
-        }
-    }
+    calcStartPos( vshift, fselected, vmax, fentries.size() );
 
     for ( int fei = vshift, si = 0; si < vmax; fei++, si++ ) {
         if ( fei < (int)fentries.size() ) {
