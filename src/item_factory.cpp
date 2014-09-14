@@ -308,6 +308,7 @@ void Item_factory::init()
     iuse_function_list["VACUTAINER"] = &iuse::vacutainer;
     iuse_function_list["KNIFE"] = &iuse::knife;
     iuse_function_list["LUMBER"] = &iuse::lumber;
+    iuse_function_list["OXYTORCH"] = &iuse::oxytorch;
     iuse_function_list["HACKSAW"] = &iuse::hacksaw;
     iuse_function_list["TENT"] = &iuse::tent;
     iuse_function_list["LARGE_TENT"] = &iuse::large_tent;

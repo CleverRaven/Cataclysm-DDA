@@ -6563,7 +6563,7 @@
       ["swage", -1]
      ],
      [
-      ["forge", 450], ["char_forge", 90]
+      ["forge", 450], ["char_forge", 90], ["oxy_torch", 90]
      ]
     ],
   "components":
@@ -6601,7 +6601,7 @@
       ["swage", -1]
      ],
      [
-      ["forge", 400], ["char_forge", 80]
+      ["forge", 400], ["char_forge", 80], ["oxy_torch", 80]
      ]
     ],
   "components":
@@ -6640,7 +6640,7 @@
       ["swage", -1]
      ],
      [
-      ["forge", 300], ["char_forge", 60]
+      ["forge", 300], ["char_forge", 60], ["oxy_torch", 60]
      ]
     ],
   "components":
@@ -6679,7 +6679,7 @@
       ["swage", -1]
      ],
      [
-      ["forge", 250], ["char_forge", 50]
+      ["forge", 250], ["char_forge", 50], ["oxy_torch", 50]
      ]
      ],
   "components":
@@ -6719,7 +6719,7 @@
       ["crucible", -1]
      ],
      [
-      ["forge", 350], ["char_forge", 70]
+      ["forge", 350], ["char_forge", 70], ["oxy_torch", 70]
      ]
     ],
   "components":
@@ -6758,7 +6758,7 @@
       ["crucible", -1]
      ],
      [
-      ["forge", 300], ["char_forge", 60]
+      ["forge", 300], ["char_forge", 60], ["oxy_torch", 60]
      ]
     ],
   "components":
@@ -6797,7 +6797,7 @@
       ["swage", -1]
      ],
      [
-      ["forge", 450], ["char_forge", 90]
+      ["forge", 450], ["char_forge", 90], ["oxy_torch", 90]
      ]
     ],
   "components":
@@ -6839,7 +6839,7 @@
       ["crucible", -1]
      ],
      [
-      ["forge", 450], ["char_forge", 90]
+      ["forge", 450], ["char_forge", 90], ["oxy_torch", 90]
      ]
     ],
   "components":
