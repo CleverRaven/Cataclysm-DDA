@@ -28,6 +28,7 @@ class inventory
         int num_items() const;
         bool is_sorted() const;
 
+        inventory();
         inventory(inventory &&) = default;
         inventory(const inventory &) = default;
         inventory &operator=(inventory &&) = default;

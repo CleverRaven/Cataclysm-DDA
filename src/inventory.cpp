@@ -6,6 +6,15 @@
 const std::string inv_chars =
     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()*+./:;=@[\\]^_{|}";
 
+inventory::inventory()
+: nullitem()
+, nullstack()
+, invlet_cache()
+, items()
+, sorted(false)
+{
+}
+
 invslice inventory::slice()
 {
     invslice stacks;
