@@ -13106,6 +13106,18 @@ int player::get_stamina_percent() {
     return (int)(((double)stamina / (double)get_stamina_max()) * 100 );
 }
 
+void player::burn_move_stamina( int moves )
+{
+    // Regain 10 stamina / turn
+    // 7/turn walking
+    // 20/turn running
+    int burn_ratio = 7;
+    if( run ) {
+        burn_ratio = 20;
+    }
+    stamina -= (moves * burn_ratio) / 100;
+}
+
 field_id player::playerBloodType() const {
     if (has_trait("THRESH_PLANT"))
         return fd_blood_veggy;

@@ -1134,16 +1134,11 @@ bool game::do_turn()
         m.spawn_monsters( false );
     }
 
-    if (u.stamina < u.get_stamina_max()) u.stamina += 10;
-    if (u.move) {
-        int sta_mod = u.run ? -15 : -7;
-        sta_mod += u.swim ? -10 : 0;
-        int d_sta = sta_mod - (int)((double)u.weight_carried() / u.weight_capacity() ) * sta_mod;
-        u.mod_stat("stamina", d_sta );
-        //debug
-        //add_msg(m_info,"Stamina:%i/%i mod:%i",u.stamina,u.get_stamina_max(), d_sta);
-        if (u.stamina == 0 && u.run ) u.run = false;
+    // Recover some stamina every turn.
+    if (u.stamina < u.get_stamina_max()) {
+        u.stamina += 10;
     }
+
     // Check if we've overdosed... in any deadly way.
     if (u.stim > 250) {
         add_msg(m_bad, _("You have a sudden heart attack!"));
@@ -2552,7 +2547,6 @@ bool game::handle_action()
     // Use to track if auto-move should be cancelled due to a failed
     // move or obstacle
     bool continue_auto_move = false;
-    u.move = false; u.swim = false;
 
     // quit prompt check (ACTION_QUIT only grabs 'Q')
     if(uquit == QUIT_WATCH && action == "QUIT") {
@@ -11935,8 +11929,11 @@ bool game::plmove(int dx, int dy)
 
         // Calculate cost of moving
         bool diag = trigdist && u.posx() != x && u.posy() != y;
+        const int previous_moves = u.moves;
         u.moves -= int(u.run_cost(m.combined_movecost(u.posx(), u.posy(), x, y, grabbed_vehicle,
-                                               movecost_modifier), diag) * drag_multiplier);
+                                                      movecost_modifier), diag) * drag_multiplier);
+
+        u.burn_move_stamina( previous_moves - u.moves );
 
         // Adjust recoil down
         u.recoil -= int(u.str_cur / 2) + u.skillLevel("gun");
@@ -12286,8 +12283,6 @@ void game::plswim(int x, int y)
     if( u.in_vehicle ) {
         m.unboard_vehicle( u.posx(), u.posy() );
     }
-    u.move = true;
-    u.swim = true;
     u.setx( x );
     u.sety( y );
     {
@@ -12299,6 +12294,8 @@ void game::plswim(int x, int y)
     }
     u.moves -= (movecost > 200 ? 200 : movecost)  * (trigdist && diagonal ? 1.41 : 1);
     u.inv.rust_iron_items();
+
+    u.burn_move_stamina( movecost );
 
     int drenchFlags = mfb(bp_leg_l) | mfb(bp_leg_r) | mfb(bp_torso) | mfb(bp_arm_l) |
         mfb(bp_arm_r) | mfb(bp_foot_l) | mfb(bp_foot_r);

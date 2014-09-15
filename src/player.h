@@ -943,7 +943,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         int next_climate_control_check;
         bool last_climate_control_ret;
-        bool run = false, move = false, swim = false;
+        bool run = false;
         int power_level, max_power_level;
         int hunger, thirst, fatigue;
         int stomach_food, stomach_water;
@@ -1029,6 +1029,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int get_hp_max( hp_part bp ) const override;
         int get_stamina_max();
         int get_stamina_percent();
+        void burn_move_stamina( int moves );
 
         field_id playerBloodType() const;
 
