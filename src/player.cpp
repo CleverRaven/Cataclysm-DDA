@@ -1705,12 +1705,12 @@ int player::run_cost(int base_cost, bool diag)
         movecost += 10 * footwear_factor();
     }
 
-    if (!run) movecost += 40;
-       else {
-           int percent = get_stamina_percent();
-           int bonus = ( (percent > 25) ? ( (percent - 25) / -7.5 ) : ( (25 - percent) * 1.6 ) );
-           movecost += bonus;
-       }
+    if( run && stamina > 0 ) {
+        // Rationale: Average running speed is 2x walking speed. (NOT sprinting)
+        // At fully rested, can run at 2x walk speed, decaying linearly to walk speed.
+        // So divide movecost by a number between 1 and 2.
+        movecost /= ( 1.0 + ((float)stamina / (float)get_stamina_max()) );
+    }
 
     if (diag) {
         movecost *= 1.4142;
