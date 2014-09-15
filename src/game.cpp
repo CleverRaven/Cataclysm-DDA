@@ -10383,6 +10383,9 @@ void game::plthrow(int pos)
     u.moves -= move_cost;
     u.practice("throw", 10);
 
+    int stamina_cost = ( (thrown.weight() / 100 ) + 20) * -1;
+    u.mod_stat("stamina", stamina_cost);
+
     throw_item(u, x, y, thrown, trajectory);
     reenter_fullscreen();
 }
@@ -10571,9 +10574,28 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
             add_msg(m_info, _("Out of ammo!"));
             return;
         }
+
         if( !u.weapon.reload( u, reload_pos ) ) {
             return;
         }
+
+        // Burn 2x the strength required to fire in stamina.
+        int strength_needed = 6;
+        if (u.weapon.has_flag("STR8_DRAW")) {
+            strength_needed = 8;
+        }
+        if (u.weapon.has_flag("STR10_DRAW")) {
+            strength_needed = 10;
+        }
+        if (u.weapon.has_flag("STR12_DRAW")) {
+            strength_needed = 12;
+        }
+        u.mod_stat("stamina", strength_needed * -2);
+
+        // At low stamina levels, firing starts getting slow.
+        int sta_percent = (100 * u.stamina) / u.get_stamina_max();
+        u.moves -= (sta_percent < 25) ? ((25 - sta_percent) * 2) : 0;
+
         u.moves -= u.weapon.reload_time(u);
         refresh_all();
     }

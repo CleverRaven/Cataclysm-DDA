@@ -2220,9 +2220,8 @@ void player::mod_stat( std::string stat, int modifier )
         oxygen += modifier;
     } else if( stat == "stamina" ) {
         stamina += modifier;
-        if ( stamina < 0 ) stamina = 0;
-        int max = get_stamina_max();
-        if ( stamina > max ) stamina = max;
+        stamina = std::min( stamina, get_stamina_max() );
+        stamina = std::max( 0, stamina );
     } else {
         // Fall through to the creature method.
         Creature::mod_stat( stat, modifier );
