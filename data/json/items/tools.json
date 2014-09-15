@@ -3445,7 +3445,7 @@
      "use_action": "PORTABLE_GAME",
      "flags": ["SHEATH_KNIFE"]
   },
-  
+
   {
     "id": "vibrator",
     "type": "TOOL",
@@ -6870,7 +6870,7 @@
         "need_charges_msg": "Nothing happens."
     }
   },
-  
+
 {
     "id": "ref_lighter_on",
     "type": "TOOL",
@@ -6962,7 +6962,7 @@
     "revert_to": "null",
     "use_action": "WATER_PURIFIER"
   },
-  
+
   {
     "id": "kiln_full",
     "type": "TOOL",
@@ -8312,7 +8312,6 @@
     "revert_to": "null",
     "use_action": "RADIOCONTROL"
   },
-
   {
     "id": "oxy_torch",
     "type": "TOOL",
@@ -8335,5 +8334,75 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "OXYTORCH"
+  },
+  {
+    "id": "fertilizer_bomb",
+    "type": "TOOL",
+    "symbol": "*",
+    "color": "red",
+    "name": "fertilizer bomb",
+    "description": "This is a volatile homemade explosive.  Use this item to light the fuse.  You will, of course, need a lighter or matches in your inventory to do this.  Shortly after lighting the fuse, this item will explode, so get away!",
+    "price": 70000,
+    "material": "plastic",
+    "weight": 1133,
+    "volume": 3,
+    "bashing": 4,
+    "cutting": 0,
+    "to_hit": -3,
+	  "effects": ["COOKOFF", "EXPLOSIVE"],
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "category": "weapons",
+    "explode_in_fire" : {
+        "power": 80,
+        "shrapnel": 0
+    },
+    "use_action": {
+        "type": "transform",
+        "target": "fertilizer_bomb_act",
+        "target_charges": 10,
+        "need_fire": 1,
+        "need_fire_msg": "You need a lighter!",
+        "active": true,
+        "msg": "You light the %s."
+    }
+  },
+  {
+    "id": "fertilizer_bomb_act",
+    "type": "TOOL",
+    "symbol": "*",
+    "color": "red",
+    "name": "fertilizer bomb (lit)",
+    "name_plural": "fertilizer bombs (lit)",
+    "description": "The fuse on this fertilizer bomb is lit and hissing.  It'll explode any moment now.",
+    "price": 0,
+    "material": "plastic",
+    "weight": 1300,
+    "volume": 3,
+    "bashing": 4,
+    "cutting": 0,
+    "to_hit": -3,
+    "max_charges": 10,
+    "initial_charges": 10,
+    "charges_per_use": 0,
+    "turns_per_charge": 1,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "category": "weapons",
+    "explode_in_fire" : {
+        "power": 80,
+        "shrapnel": 0
+    },
+    "use_action": {
+        "type": "explosion",
+        "sound_volume": 0,
+        "sound_msg": "ssss...",
+        "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
+        "explosion_power": 80
+    }
   }
 ]

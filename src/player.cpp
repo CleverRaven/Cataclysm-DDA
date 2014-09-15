@@ -8231,7 +8231,7 @@ bool player::eat(item *eaten, it_comest *comest)
 
 void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
 {
-    if (has_trait("THRESH_PLANT") && eaten->type->id == "fertilizer_liquid") {
+    if (has_trait("THRESH_PLANT") && comest->can_use( "PLANTBLECH" )) {
     return;
     }
     if ( !(has_trait("GIZZARD")) && (rotten) && !(has_trait("SAPROPHAGE")) ) {
