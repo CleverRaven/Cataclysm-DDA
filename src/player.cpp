@@ -11836,13 +11836,13 @@ std::vector<std::string> player::get_overlay_ids() const {
     // next clothing
     // TODO: worry about correct order of clothing overlays
     for(const item& worn_item : worn) {
-        rval.push_back("worn_"+worn_item.type->id);
+        rval.push_back("worn_"+worn_item.typeId());
     }
 
     // last weapon
     // TODO: might there be clothing that covers the weapon?
     if(!weapon.is_null()) {
-        rval.push_back("wielded_"+weapon.type->id);
+        rval.push_back("wielded_"+weapon.typeId());
     }
     return rval;
 }
