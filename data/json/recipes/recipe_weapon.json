@@ -2131,7 +2131,7 @@
     {"id":"SAW_M","level":1,"amount":1},
     {"id":"SAW_M_FINE","level":1,"amount":1},
     {"id":"SCREW_FINE","level":1,"amount":1},
-	{"id":"WRENCH_FINE","level":1,"amount":1}
+    {"id":"WRENCH_FINE","level":1,"amount":1}
   ], "tools": [
     [
       ["goggles_welding", -1]
