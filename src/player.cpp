@@ -8406,6 +8406,13 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
           stomach_food += (carn_nutr);
           stomach_water += (carn_quench);
           add_msg_if_player(m_good, _("You eat the good parts and leave that indigestible plant stuff behind."));
+    } else if (has_trait("CARNIVORE") && ((eaten->made_of("flesh") || eaten->made_of("hflesh") ||
+      eaten->made_of("iflesh") || eaten->made_of("egg"))) ) {
+          // Carnivores, being specialized to consume meat, get more nutrients from a wholly-meat or egg meal.
+          if (comest->healthy < 1) {
+              int carn_healthy = (comest->healthy) + 1;
+              mod_healthy_mod(carn_healthy);
+          }
     } else {
     // Saprophages get the same boost from rotten food that others get from fresh.
         hunger -= comest->nutr;
