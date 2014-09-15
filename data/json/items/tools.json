@@ -8320,7 +8320,7 @@
     "name": "acetylene torch",
     "name_plural": "acetylene torches",
     "description": "A compact tool kit intended for welding and cutting metal, this portable oxyacetylene torch includes a torch handle, cutting attachment, and two pre-filled gas cylinders all in an easy-to-carry tote.  In addition to its metalworking uses, you can activate it in order to destroy metal barriers.",
-    "price": 20,
+    "price": 20000,
     "material": ["steel", "plastic"],
     "weight": 7600,
     "volume": 16,
