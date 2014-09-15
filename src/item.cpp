@@ -11,6 +11,7 @@
 #include "uistate.h"
 #include "helper.h" //to_string_int
 #include "messages.h"
+#include "disease.h"
 
 #include <cmath> // floor
 #include <sstream>
@@ -3553,4 +3554,310 @@ std::string item::components_to_string() const
         }
     }
     return buffer.str();
+}
+
+bool item::needs_processing() const
+{
+    return active ||
+           ( is_container() && !contents.empty() && contents[0].needs_processing() ) ||
+           is_artifact();
+}
+
+bool item::process_food( player * /*carrier*/, point pos )
+{
+    calc_rot( pos );
+    if( item_tags.count( "HOT" ) > 0 ) {
+        item_counter--;
+        if( item_counter == 0 ) {
+            item_tags.erase( "HOT" );
+        }
+    } else if( item_tags.count( "COLD" ) > 0 ) {
+        item_counter--;
+        if( item_counter == 0 ) {
+            item_tags.erase( "COLD" );
+        }
+    }
+    return false;
+}
+
+bool item::process_artifact( player *carrier, point /*pos*/ )
+{
+    // Artifacts are currently only useful for the player character, the messages
+    // don't consider npcs. Also they are not processed when laying on the ground.
+    // TODO: change game::process_artifact to work with npcs,
+    // TODO: consider moving game::process_artifact here.
+    if( carrier == &g->u ) {
+        g->process_artifact( this, carrier, this == &g->u.weapon );
+    }
+    // Artifacts are never consumed
+    return false;
+}
+
+bool item::process_corpse( player *carrier, point pos )
+{
+    // some corpses rez over time
+    if( corpse == nullptr ) {
+        return false;
+    }
+    if( !ready_to_revive() ) {
+        return false;
+    }
+    if( rng( 0, volume() ) > burnt && g->revive_corpse( pos.x, pos.y, this ) ) {
+        if( carrier == nullptr ) {
+            if( g->u_see( pos.x, pos.y ) ) {
+                if( corpse->in_species( "ROBOT" ) ) {
+                    add_msg( m_warning, _( "A nearby robot has repaired itself and stands up!" ) );
+                } else {
+                    add_msg( m_warning, _( "A nearby corpse rises and moves towards you!" ) );
+                }
+            }
+        } else {
+            //~ %s is corpse name
+            carrier->add_memorial_log( pgettext( "memorial_male", "Had a %s revive while carrying it." ),
+                                       pgettext( "memorial_female", "Had a %s revive while carrying it." ),
+                                       tname().c_str() );
+            if( corpse->in_species( "ROBOT" ) ) {
+                carrier->add_msg_if_player( m_warning, _( "Oh dear god, a robot you're carrying has started moving!" ) );
+            } else {
+                carrier->add_msg_if_player( m_warning, _( "Oh dear god, a corpse you're carrying has started moving!" ) );
+            }
+        }
+        // Destroy this corpse item
+        return true;
+    }
+    // Reviving failed, the corpse is now *really* dead, stop further processing.
+    active = false;
+    return false;
+}
+
+bool item::process_litcig( player *carrier, point pos )
+{
+    field_id smoke_type;
+    if( has_flag( "TOBACCO" ) ) {
+        smoke_type = fd_cigsmoke;
+    } else {
+        smoke_type = fd_weedsmoke;
+    }
+    // if carried by someone:
+    if( carrier != nullptr ) {
+        // only puff every other turn
+        if( item_counter % 2 == 0 ) {
+            int duration = 10;
+            if( carrier->has_trait( "TOLERANCE" ) ) {
+                duration = 5;
+            } else if( carrier->has_trait( "LIGHTWEIGHT" ) ) {
+                duration = 20;
+            }
+            carrier->add_msg_if_player( m_info, _( "You take a puff of your %s." ), tname().c_str() );
+            if( has_flag( "TOBACCO" ) ) {
+                carrier->add_disease( "cig", duration );
+            } else {
+                carrier->add_disease( "weed_high", duration / 2 );
+            }
+            g->m.add_field( pos.x + rng( -1, 1 ), pos.y + rng( -1, 1 ), smoke_type, 2 );
+            carrier->moves -= 15;
+        }
+
+        if( ( carrier->has_disease( "shakes" ) && one_in( 10 ) ) ||
+            ( carrier->has_trait( "JITTERY" ) && one_in( 200 ) ) ) {
+            carrier->add_msg_if_player( m_bad, _( "Your shaking hand causes you to drop your %s." ),
+                                        tname().c_str() );
+            g->m.add_item_or_charges( pos.x + rng( -1, 1 ), pos.y + rng( -1, 1 ), *this, 2 );
+            return true; // removes the item that has just been added to the map
+        }
+    } else {
+        // If not carried by someone, but laying on the ground:
+        // release some smoke every five ticks
+        if( item_counter % 5 == 0 ) {
+            g->m.add_field( pos.x + rng( -2, 2 ), pos.y + rng( -2, 2 ), smoke_type, 1 );
+            // lit cigarette can start fires
+            if( g->m.flammable_items_at( pos.x, pos.y ) ||
+                g->m.has_flag( "FLAMMABLE", pos.x, pos.y ) ||
+                g->m.has_flag( "FLAMMABLE_ASH", pos.x, pos.y ) ) {
+                g->m.add_field( pos.x, pos.y, fd_fire, 1 );
+            }
+        }
+    }
+
+    item_counter--;
+    // cig dies out
+    if( item_counter == 0 ) {
+        if( carrier != nullptr ) {
+            carrier->add_msg_if_player( m_info, _( "You finish your %s." ), tname().c_str() );
+        }
+        if( type->id == "cig_lit" ) {
+            make( "cig_butt" );
+        } else if( type->id == "cigar_lit" ) {
+            make( "cigar_butt" );
+        } else { // joint
+            make( "joint_roach" );
+            if( carrier != nullptr ) {
+                carrier->add_disease( "weed_high", 10 ); // one last puff
+                g->m.add_field( pos.x + rng( -1, 1 ), pos.y + rng( -1, 1 ), fd_weedsmoke, 2 );
+                weed_msg( carrier );
+            }
+        }
+        active = false;
+    }
+    // Item remains
+    return false;
+}
+
+bool item::process_wet( player * /*carrier*/, point /*pos*/ )
+{
+    item_counter--;
+    if( item_counter == 0 ) {
+        const it_tool *tool = dynamic_cast<const it_tool *>( type );
+        if( tool != nullptr && tool->revert_to != "null" ) {
+            make( tool->revert_to );
+        }
+        item_tags.erase( "WET" );
+        if( !has_flag( "ABSORBENT" ) ) {
+            item_tags.insert( "ABSORBENT" );
+        }
+        active = false;
+        // TODO: maybe add a messages if the items is carried by the player?
+    }
+    return false;
+}
+
+bool item::process_tool( player *carrier, point /*pos*/ )
+{
+    it_tool *tmp = dynamic_cast<it_tool *>( type );
+    long charges_used = 0;
+    if( tmp->turns_per_charge > 0 && int( calendar::turn ) % tmp->turns_per_charge == 0 ) {
+        charges_used = 1;
+    }
+    if( charges_used > 0 ) {
+        // UPS charges can only be taken from a player, it does not work
+        // when the item is on the ground.
+        if( carrier != nullptr && has_flag( "USE_UPS" ) ) {
+            //With the new UPS system, we'll want to use any charges built up in the tool before pulling from the UPS
+            if( charges > charges_used ) {
+                charges -= charges_used;
+                charges_used = 0;
+            } else if( carrier->use_charges_if_avail( "UPS_on", charges_used ) ) {
+                charges_used = 0;
+            }
+        } else if( charges > 0 ) {
+            charges -= charges_used;
+            charges_used = 0;
+        }
+    }
+    // charges_used is 0 when the tool did not require charges at
+    // this turn or the required charges have been consumed.
+    // Otherwise the required charges are not available, shut the tool down.
+    if( charges_used == 0 ) {
+        // TODO: iuse functions should expect a nullptr as player, but many of them
+        // don't and therefor will fail.
+        tmp->invoke( carrier != nullptr ? carrier : &g->u, this, true );
+    } else {
+        if( carrier != nullptr && has_flag( "USE_UPS" ) && charges < charges_used ) {
+            carrier->add_msg_if_player( m_info, _( "You need an active UPS to run %s!" ), tname().c_str() );
+        }
+        // TODO: iuse functions should expect a nullptr as player, but many of them
+        // don't and therefor will fail.
+        tmp->invoke( carrier != nullptr ? carrier : &g->u, this, false );
+        if( tmp->revert_to == "null" ) {
+            return true; // reverts to nothing -> destroy the item
+        }
+        make( tmp->revert_to );
+        active = false;
+    }
+    // Keep the item
+    return false;
+}
+
+bool item::process_charger_gun( player *carrier, point pos )
+{
+    if( carrier == nullptr || this != &carrier->weapon ) {
+        // Either on the ground or in the inventory of the player, in both cases:
+        // stop charging.
+        active = false;
+        charges = 0;
+        return false;
+    }
+    if( charges == 8 ) { // Maintaining charge takes less power.
+        if( carrier->use_charges_if_avail( "UPS_on", 4 ) ) {
+            poison++;
+        } else {
+            poison--;
+        }
+        if( poison >= 3  &&  one_in( 20 ) ) {   // 3 turns leeway, then it may discharge.
+            //~ %s is weapon name
+            carrier->add_memorial_log( pgettext( "memorial_male", "Accidental discharge of %s." ),
+                                       pgettext( "memorial_female", "Accidental discharge of %s." ),
+                                       tname().c_str() );
+            carrier->add_msg_player_or_npc( m_bad, _( "Your %s discharges!" ), _( "<npcname>'s %s discharges!" ), tname().c_str() );
+            point target( pos.x + rng( -12, 12 ), pos.y + rng( -12, 12 ) );
+            auto traj = line_to( pos.x, pos.y, target.x, target.y, 0 );
+            g->fire( *carrier, target.x, target.y, traj, false );
+        } else {
+            carrier->add_msg_player_or_npc( m_warning, _( "Your %s beeps alarmingly." ), _( "<npcname>'s %s beeps alarmingly." ), tname().c_str() );
+        }
+    } else { // We're chargin it up!
+        if( carrier->use_charges_if_avail( "UPS_on", 1 + charges ) ) {
+            poison++;
+        } else {
+            poison--;
+        }
+        if( poison >= charges ) {
+            charges++;
+            poison = 0;
+        }
+    }
+    if( poison < 0 ) {
+        carrier->add_msg_if_player( m_info, _( "Your %s spins down." ), tname().c_str() );
+        charges--;
+        poison = charges - 1;
+    }
+    if( charges <= 0 ) {
+        active = false;
+    }
+    return false;
+}
+
+bool item::process( player *carrier, point pos )
+{
+    for( auto it = contents.begin(); it != contents.end(); ) {
+        if( it->process( carrier, pos ) ) {
+            it = contents.erase( it );
+        } else {
+            ++it;
+        }
+    }
+    // How this works: it checks what kind of processing has to be done
+    // (e.g. for food, for drying towels, lit cigars), and if that matches,
+    // call the processing function. If that function returns true, the item
+    // has been destroyed by the processing, so no further processing has to be
+    // done.
+    // Otherwise processing continues. This allows items that are processed as
+    // food and as litcig and as ...
+
+    if( is_artifact() && process_artifact( carrier, pos ) ) {
+        return true;
+    }
+    // Remaining stuff is only done for active items, artifacts are always "active".
+    if( !active ) {
+        return false;
+    }
+    if( is_food() &&  process_food( carrier, pos ) ) {
+        return true;
+    }
+    if( is_corpse() && process_corpse( carrier, pos ) ) {
+        return true;
+    }
+    if( has_flag( "WET" ) && process_wet( carrier, pos ) ) {
+        return true;
+    }
+    if( has_flag( "LITCIG" ) && process_litcig( carrier, pos ) ) {
+        return true;
+    }
+    if( is_tool() && process_tool( carrier, pos ) ) {
+        return true;
+    }
+    if( has_flag( "CHARGE" ) && process_charger_gun( carrier, pos ) ) {
+        return true;
+    }
+    return false;
 }
