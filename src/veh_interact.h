@@ -8,6 +8,7 @@
 
 #define DUCT_TAPE_USED 100
 #define CIRC_SAW_USED 20
+#define OXY_CUTTING 10
 
 enum sel_types {
     SEL_NULL, SEL_JACK
