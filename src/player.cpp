@@ -2309,7 +2309,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
     ctxt.register_updown();
     ctxt.register_action("NEXT_TAB", _("Cycle to next category"));
     ctxt.register_action("QUIT");
-    ctxt.register_action("CONFIRM", _("Toogle skill training"));
+    ctxt.register_action("CONFIRM", _("Toggle skill training"));
     ctxt.register_action("HELP_KEYBINDINGS");
     std::string action;
 
