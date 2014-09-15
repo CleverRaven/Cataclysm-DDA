@@ -1365,21 +1365,17 @@ int item::price() const
         tmp.charges = charges;
         ret += tmp.price();
     }
-    if( type->is_ammo() ) {
-        const it_ammo* ammo = dynamic_cast<const it_ammo*>( type );
-        ret = ret * charges / static_cast<double>( ammo->count );
-    } else if( type->is_food() ) {
-        const it_comest* comest = dynamic_cast<const it_comest*>( type );
-        if( comest->charges > 1 || made_of( LIQUID ) ) {
-            ret = ret * charges * static_cast<double>( comest->charges );
-        }
+    // The price from the json data is for the default-sized stack, like the volume
+    // calculation.
+    if( count_by_charges() || made_of( LIQUID ) ) {
+        ret = ret * charges / static_cast<double>( max_charges() );
     }
     if( is_tool() && curammo == nullptr ) {
         // If the tool uses specific ammo (like gasoline) it is handled above.
         const it_tool *itt = dynamic_cast<const it_tool*>( type );
-        if( itt->max_charges > 0 && itt->def_charges > 0 ) {
-            const double f = static_cast<double>( itt->def_charges ) / itt->max_charges;
-            ret = f * std::max<long>( 0, charges ) * ret;
+        if( itt->def_charges > 0 ) {
+            // Full value when charges == default charges, otherwise scalled down
+            ret = ret * std::max<long>( 0, charges ) / static_cast<double>( itt->def_charges );
         }
     }
     for (size_t i = 0; i < contents.size(); i++) {

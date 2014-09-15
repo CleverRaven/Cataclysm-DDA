@@ -1708,7 +1708,7 @@
       ["funnel", 50],
       ["bearing", 1],
       ["jack", 10],
-      ["permanent_marker", 50],
+      ["permanent_marker", 20],
       ["forge", 1],
       ["char_forge", 1],
       ["char_kiln", 1],
@@ -1725,7 +1725,8 @@
       ["charcoal", 5],
       ["sheath", 10],
       ["multitool", 6],
-      ["survnote", 1]
+      ["survnote", 1],
+      ["fertilizer_commercial",30]
     ]
   },{
     "type" : "item_group",
@@ -1775,6 +1776,7 @@
       ["jacqueshammer", 2],
       ["pickaxe", 1],
       ["welder", 25],
+      ["oxy_torch", 25],
       ["ax", 8],
       ["forge", 2],
       ["char_forge", 2],
@@ -4880,6 +4882,7 @@
       ["v8_combustion", 10],
       ["hacksaw", 17],
       ["welder", 25],
+      ["oxy_torch", 25],
       ["weldrig", 1],
       ["kitchen_unit", 1],
       ["motor", 2],
@@ -8421,10 +8424,10 @@
       ["boots", 60],
       ["gloves_rubber", 60],
       ["fertilizer_liquid", 20],
+      ["fertilizer_commercial", 30],
       ["sickle", 40],
       ["toolbox", 10],
       ["bullwhip", 30],
-      ["knitting_needles", 30],
       ["distaff_spindle", 2],
       ["carding_paddles", 2],
       ["scythe", 40]
