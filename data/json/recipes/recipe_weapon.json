@@ -2118,6 +2118,50 @@
   ]
 },{
         "type" : "recipe",
+  "result": "bigun",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "mechanics",
+  "skill_sec": ["gun",2],
+  "difficulty": 7,
+  "time": 17000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"SAW_M","level":1,"amount":1},
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1},
+	{"id":"WRENCH_FINE","level":1,"amount":1}
+  ], "tools": [
+    [
+      ["goggles_welding", -1]
+    ],
+    [
+      ["oxy_torch", 40], ["welder", 200], ["welder_crude", 300], ["toolset", 300]
+    ]
+  ],
+  "components": [
+    [
+      ["xlframe", 1]
+    ],
+    [
+      ["foot_crank", 1]
+    ],
+    [
+      ["spring", 1]
+    ],
+    [
+      ["pipe", 6]
+    ],
+    [
+      ["duct_tape", 100]
+    ],
+    [
+      ["scrap", 2]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "helsing",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
