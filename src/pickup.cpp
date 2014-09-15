@@ -219,9 +219,9 @@ static bool select_autopickup_items( std::vector<item> &here, std::vector<bool> 
     return bFoundSomething;
 }
 
-void Pickup::pick_one_up( const point &pickup_target, std::vector<item> &here,
-                          vehicle *veh, int cargo_part, int index, int quantity,
-                          bool &got_water, bool &offered_swap, std::map<std::string, int> &mapPickup )
+void Pickup::pick_one_up( const point &pickup_target, std::vector<item> &here, vehicle *veh,
+                          int cargo_part, int index, int quantity, bool &got_water,
+                          bool &offered_swap, std::map<std::string, int> &mapPickup, bool autopickup )
 {
     int moves_taken = 100;
     bool picked_up = false;
@@ -257,11 +257,14 @@ void Pickup::pick_one_up( const point &pickup_target, std::vector<item> &here,
                     quantity = quivered;
                     leftovers.charges = newit.charges;
                 }
-                add_msg(m_info, ngettext("There's no room in your inventory for the %s.",
-                                         "There's no room in your inventory for the %s.",
-                                         newit.charges), newit.tname(newit.charges).c_str());
+                if( !autopickup ) {
+                    // Silence some messaging if we're doing autopickup.
+                    add_msg(m_info, ngettext("There's no room in your inventory for the %s.",
+                                             "There's no room in your inventory for the %s.",
+                                             newit.charges), newit.tname(newit.charges).c_str());
+                }
             }
-        } else if (g->u.is_armed()) {
+        } else if( g->u.is_armed() && !autopickup ) {
             if (!g->u.weapon.has_flag("NO_UNWIELD")) {
                 // Armor can be instantly worn
                 if (newit.is_armor() &&
@@ -291,7 +294,7 @@ void Pickup::pick_one_up( const point &pickup_target, std::vector<item> &here,
                         newit.display_name().c_str(),
                         g->u.weapon.display_name().c_str());
             }
-        } else {
+        } else if( !g->u.is_armed() ) {
             g->u.inv.assign_empty_invlet(newit, true);  // force getting an invlet.
             g->u.wield(&(g->u.i_add(newit)));
             picked_up = true;
@@ -329,7 +332,7 @@ void Pickup::pick_one_up( const point &pickup_target, std::vector<item> &here,
 }
 
 void Pickup::do_pickup( point pickup_target, bool from_vehicle,
-                        std::list<int> &indices, std::list<int> &quantities )
+                        std::list<int> &indices, std::list<int> &quantities, bool autopickup )
 {
     bool got_water = false;
     int cargo_part = -1;
@@ -350,6 +353,9 @@ void Pickup::do_pickup( point pickup_target, bool from_vehicle,
     std::vector<item> &here = from_vehicle ? veh->parts[cargo_part].items :
         g->m.i_at( pickup_target.x, pickup_target.y );
 
+    // Grow here vector if needed to avoid resize operations invalidating pointers during operation.
+    here.reserve( here.size() + 1 );
+
     while( g->u.moves >= 0 && !indices.empty() ) {
         // Pulling from the back of the (in-order) list of indices insures
         // that we pull from the end of the vector.
@@ -361,7 +367,7 @@ void Pickup::do_pickup( point pickup_target, bool from_vehicle,
         quantities.pop_back();
 
         pick_one_up( pickup_target, here, veh, cargo_part, index, quantity,
-                     got_water, offered_swap, mapPickup );
+                     got_water, offered_swap, mapPickup, autopickup );
     }
 
     if( !mapPickup.empty() ) {
@@ -751,6 +757,10 @@ void Pickup::pick_up(int posx, int posy, int min)
     g->u.assign_activity( ACT_PICKUP, 0 );
     g->u.activity.placement = point( posx, posy );
     g->u.activity.values.push_back( from_vehicle );
+    if( min == -1 ) {
+        // Auto pickup will need to auto resume since there can be several of them on the stack.
+        g->u.activity.auto_resume = true;
+    }
     for (size_t i = 0; i < here.size(); i++) {
         if( getitem[i] ) {
             g->u.activity.values.push_back( i );

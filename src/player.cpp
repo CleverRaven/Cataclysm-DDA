@@ -11104,7 +11104,8 @@ void player::learn_recipe(recipe *rec)
 void player::assign_activity(activity_type type, int moves, int index, int pos, std::string name)
 {
     if( !backlog.empty() && backlog.front().type == type && backlog.front().index == index &&
-        backlog.front().position == pos && backlog.front().name == name ) {
+        backlog.front().position == pos && backlog.front().name == name &&
+        !backlog.front().auto_resume) {
         add_msg_if_player( _("You resume your task."));
         activity = backlog.front();
         backlog.pop_front();

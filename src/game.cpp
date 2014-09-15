@@ -1523,10 +1523,12 @@ void game::process_activity()
     if (int(calendar::turn) % 50 == 0) {
         draw();
     }
-    activity_on_turn();
-    if (u.activity.moves_left <= 0) { // We finished our activity!
-        activity_on_finish();
-    }
+    do {
+        activity_on_turn();
+        if (u.activity.moves_left <= 0) { // We finished our activity!
+            activity_on_finish();
+        }
+    } while( u.moves > 0 && u.activity.type != ACT_NULL );
 }
 
 void on_turn_activity_pickaxe(player *p);
