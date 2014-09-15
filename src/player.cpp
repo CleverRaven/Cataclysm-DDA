@@ -13113,8 +13113,9 @@ int player::get_hp_max( hp_part bp ) const
     return hp_total;
 }
 
-int player::get_stamina_max() {
-    return get_str_base() * 150;
+int player::get_stamina_max()
+{
+    return 1000;
 }
 
 int player::get_stamina_percent() {
