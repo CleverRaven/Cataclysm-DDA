@@ -33,7 +33,10 @@ struct point : public JsonSerializer, public JsonDeserializer {
     int x;
     int y;
     point(int X = 0, int Y = 0) : x (X), y (Y) {}
-    point(const point &p) : JsonSerializer(), JsonDeserializer(), x (p.x), y (p.y) {}
+    point(point &&) = default;
+    point(const point &) = default;
+    point &operator=(point &&) = default;
+    point &operator=(const point &) = default;
     ~point() {}
     using JsonSerializer::serialize;
     void serialize(JsonOut &jsout) const
@@ -82,8 +85,6 @@ struct tripoint {
     int y;
     int z;
     tripoint(int X = 0, int Y = 0, int Z = 0) : x (X), y (Y), z (Z) {}
-    tripoint(const tripoint &p) : x (p.x), y (p.y), z (p.z) {}
-    ~tripoint() {}
 };
 
 // Make tripoint hashable so it can be used as an unordered_set or unordered_map key,

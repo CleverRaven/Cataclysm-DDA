@@ -23,6 +23,10 @@ class clZones : public JsonSerializer, public JsonDeserializer
     public:
         clZones();
         ~clZones() {};
+        clZones(clZones &&) = default;
+        clZones(const clZones &) = default;
+        clZones &operator=(clZones &&) = default;
+        clZones &operator=(const clZones &) = default;
 
         class clZoneData
         {
