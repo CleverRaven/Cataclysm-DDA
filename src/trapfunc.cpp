@@ -587,12 +587,12 @@ void trapfunc::goo(Creature *c, int x, int y)
             }
         } else if (z != NULL) {
             if (z->type->id == "mon_blob") {
-                z->speed += 15;
-                z->hp = z->speed;
+                z->mod_speed_bonus( 15 );
+                z->hp = z->get_speed();
             } else {
                 z->poly(GetMType("mon_blob"));
-                z->speed -= 15;
-                z->hp = z->speed;
+                z->mod_speed_bonus( -15 );
+                z->hp = z->get_speed();
             }
         }
     }
@@ -1022,7 +1022,7 @@ void trapfunc::glow(Creature *c, int x, int y)
             }
         } else if (z != NULL && one_in(3)) {
             z->apply_damage( nullptr, bp_torso, rng( 5, 10 ) );
-            z->speed *= .9;
+            z->set_speed_bonus( (z->get_speed() * 0.9) - z->get_speed_base() );
         }
     }
 }

@@ -255,7 +255,6 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         std::vector<item> inv; // Inventory
 
         // DEFINING VALUES
-        int speed;
         int hp;
         int sp_timeout;
         int def_chance;

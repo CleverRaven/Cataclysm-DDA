@@ -3060,7 +3060,7 @@ int iuse::extinguisher(player *p, item *it, bool)
             }
             monster &critter = g->zombie( mondex );
             critter.apply_damage( p, bp_torso, rng( 20, 60 ) );
-            critter.speed /= 2;
+            critter.mod_speed_bonus( -(critter.get_speed() / 2) );
         }
     }
 
@@ -5178,8 +5178,9 @@ int iuse::can_goo(player *p, item *it, bool)
                     g->zombie(mondex).name().c_str());
         }
         g->zombie(mondex).poly(GetMType("mon_blob"));
-        g->zombie(mondex).speed -= rng(5, 25);
-        g->zombie(mondex).hp = g->zombie(mondex).speed;
+
+        g->zombie(mondex).set_speed_bonus( -rng(5, 25) );
+        g->zombie(mondex).hp = g->zombie(mondex).get_speed();
     } else {
         if (g->u_see(goox, gooy)) {
             add_msg(_("Living black goo emerges from the canister!"));
@@ -5306,8 +5307,9 @@ int iuse::granade_act(player *, item *it, bool t)
                     for (int j = -explosion_radius; j <= explosion_radius; j++) {
                         const int mon_hit = g->mon_at(pos.x + i, pos.y + j);
                         if (mon_hit != -1) {
-                            g->zombie(mon_hit).speed *= 1 + rng(0, 20) * .1;
-                            g->zombie(mon_hit).hp *= 1 + rng(0, 20) * .1;
+                            g->zombie(mon_hit).set_speed_bonus(
+                                g->zombie(mon_hit).get_speed_base() * rng_float(0.1, 2.0) );
+                            g->zombie(mon_hit).hp *= rng_float(1.1, 2.0);
                         } else if (g->npc_at(pos.x + i, pos.y + j) != -1) {
                             int npc_hit = g->npc_at(pos.x + i, pos.y + j);
                             g->active_npc[npc_hit]->str_max += rng(0, g->active_npc[npc_hit]->str_max / 2);
@@ -5338,7 +5340,8 @@ int iuse::granade_act(player *, item *it, bool t)
                     for (int j = -explosion_radius; j <= explosion_radius; j++) {
                         const int mon_hit = g->mon_at(pos.x + i, pos.y + j);
                         if (mon_hit != -1) {
-                            g->zombie(mon_hit).speed = rng(1, g->zombie(mon_hit).speed);
+                            g->zombie(mon_hit).set_speed_bonus(
+                                -rng(0, g->zombie(mon_hit).get_speed_base() - 1 ) );
                             g->zombie(mon_hit).hp = rng(1, g->zombie(mon_hit).hp);
                         } else if (g->npc_at(pos.x + i, pos.y + j) != -1) {
                             int npc_hit = g->npc_at(pos.x + i, pos.y + j);
@@ -5369,7 +5372,7 @@ int iuse::granade_act(player *, item *it, bool t)
                     for (int j = -explosion_radius; j <= explosion_radius; j++) {
                         const int mon_hit = g->mon_at(pos.x + i, pos.y + j);
                         if (mon_hit != -1) {
-                            g->zombie(mon_hit).speed = g->zombie(mon_hit).type->speed;
+                            g->zombie(mon_hit).set_speed_bonus( 0 );
                             g->zombie(mon_hit).hp = g->zombie(mon_hit).type->hp;
                             g->zombie(mon_hit).clear_effects();
                         } else if (g->npc_at(pos.x + i, pos.y + j) != -1) {

@@ -227,8 +227,9 @@ void player::normalize()
 
     recalc_hp();
 
-    for (int i = 0 ; i < num_bp; i++)
+    for (int i = 0 ; i < num_bp; i++) {
         temp_conv[i] = BODYTEMP_NORM;
+    }
 }
 
 void player::pick_name()
