@@ -565,7 +565,7 @@ int iuse::bandage(player *p, item *it, bool)
     }
     if (num_hp_parts != use_healing_item(p, it, 3, 1, 4, 90, 0, 0, false)) {
         if (it->type->id = "quikclot" || "bfipowder") {
-            if (it->type->id = "quicklot"){
+            if (it->type->id = "quikclot"){
                 p->add_ms_if_player(m_good, _("You use your hemostatic powder."));
             }
             else {
