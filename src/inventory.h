@@ -28,8 +28,12 @@ class inventory
         int num_items() const;
         bool is_sorted() const;
 
-        inventory &operator=  (inventory &rhs);
-        inventory &operator=  (const inventory &rhs);
+        inventory();
+        inventory(inventory &&) = default;
+        inventory(const inventory &) = default;
+        inventory &operator=(inventory &&) = default;
+        inventory &operator=(const inventory &) = default;
+
         inventory &operator+= (const inventory &rhs);
         inventory &operator+= (const item &rhs);
         inventory &operator+= (const std::list<item> &rhs);

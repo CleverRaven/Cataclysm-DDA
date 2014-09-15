@@ -26,7 +26,7 @@
     },
     {   "type" : "AMMO",
         "id" : "money",
-        "price" : 12000,
+        "price" : 1, "//": "= one cent, gives correct prices for cash cards",
         "name" : "cent",
         "name_plural" : "cents",
         "symbol" : "=",

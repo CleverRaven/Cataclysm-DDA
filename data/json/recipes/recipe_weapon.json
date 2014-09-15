@@ -337,7 +337,7 @@
       ["anvil", -1]
       ],
       [
-      ["forge", 50], ["char_forge", 10]
+      ["forge", 50], ["char_forge", 10], ["oxy_torch", 10]
       ]
       ],
   "components":
@@ -400,6 +400,7 @@
       [ "goggles_welding", -1 ]
       ],
       [
+      [ "oxy_torch", 4 ],
       [ "welder", 20 ],
       [ "welder_crude", 20 ],
       [ "toolset", 20 ]
@@ -761,6 +762,7 @@
       [ "goggles_welding", -1 ]
     ],
     [
+      [ "oxy_torch", 6 ],
       [ "welder", 30 ],
       [ "welder_crude", 30 ],
       [ "toolset", 30 ],
@@ -1340,6 +1342,7 @@
       [ "goggles_welding", -1 ]
     ],
     [
+      [ "oxy_torch", 20 ],
       ["welder", 100],
       ["welder_crude", 150],
       ["toolset", 150]
@@ -1913,6 +1916,7 @@
       ["goggles_welding", -1]
     ],
     [
+      [ "oxy_torch", 4 ],
       ["welder", 20],
       ["welder_crude", 30],
       ["toolset", 30]
@@ -1949,6 +1953,7 @@
     ["goggles_welding", -1]
   ],
   [
+    [ "oxy_torch", 4 ],
     ["welder", 20],
     ["welder_crude", 30],
     ["toolset", 30]
@@ -1985,6 +1990,7 @@
       ["goggles_welding", -1]
     ],
     [
+      [ "oxy_torch", 4 ],
       ["welder", 20],
       ["welder_crude", 30],
       ["toolset", 30]
@@ -2021,6 +2027,7 @@
       ["goggles_welding", -1]
     ],
     [
+      [ "oxy_torch", 4 ],
       ["welder", 20],
       ["welder_crude", 30],
       ["toolset", 30]
@@ -2086,7 +2093,7 @@
       ["goggles_welding", -1]
     ],
     [
-      ["welder", 150], ["welder_crude", 225], ["toolset", 225]
+      ["oxy_torch", 30], ["welder", 150], ["welder_crude", 225], ["toolset", 225]
     ]
   ],
   "components": [
@@ -2111,6 +2118,50 @@
   ]
 },{
         "type" : "recipe",
+  "result": "bigun",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "mechanics",
+  "skill_sec": ["gun",2],
+  "difficulty": 7,
+  "time": 17000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"SAW_M","level":1,"amount":1},
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1},
+    {"id":"WRENCH_FINE","level":1,"amount":1}
+  ], "tools": [
+    [
+      ["goggles_welding", -1]
+    ],
+    [
+      ["oxy_torch", 40], ["welder", 200], ["welder_crude", 300], ["toolset", 300]
+    ]
+  ],
+  "components": [
+    [
+      ["xlframe", 1]
+    ],
+    [
+      ["foot_crank", 1]
+    ],
+    [
+      ["spring", 1]
+    ],
+    [
+      ["pipe", 6]
+    ],
+    [
+      ["duct_tape", 100]
+    ],
+    [
+      ["scrap", 2]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "helsing",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
@@ -2129,7 +2180,7 @@
       ["goggles_welding", -1]
     ],
     [
-      ["welder", 300], ["welder_crude", 450], ["toolset", 450]
+      ["oxy_torch", 60], ["welder", 300], ["welder_crude", 450], ["toolset", 450]
     ]
   ],
   "components": [
@@ -2173,7 +2224,7 @@
       ["goggles_welding", -1]
     ],
     [
-      ["welder", 200], ["welder_crude", 300], ["toolset", 300]
+      ["oxy_torch", 40], ["welder", 200], ["welder_crude", 300], ["toolset", 300]
     ]
   ],
   "components": [
@@ -2217,7 +2268,7 @@
       ["goggles_welding", -1]
     ],
     [
-      ["welder", 100], ["welder_crude", 150], ["toolset", 150]
+      ["oxy_torch", 20], ["welder", 100], ["welder_crude", 150], ["toolset", 150]
     ]
   ],
   "components": [
@@ -2252,7 +2303,7 @@
       ["goggles_welding", -1]
     ],
     [
-      ["welder", 300], ["welder_crude", 450], ["toolset", 450]
+      ["oxy_torch", 60], ["welder", 300], ["welder_crude", 450], ["toolset", 450]
     ]
   ],
   "components": [
@@ -2397,7 +2448,8 @@
       ],
       [
       ["forge", 300],
-      [ "char_forge", 60]
+      [ "char_forge", 60],
+      [ "oxy_torch", 60]
       ]
       ],
   "components":
@@ -2438,7 +2490,7 @@
       ["swage", -1]
       ],
       [
-      ["forge", 200], ["char_forge", 40]
+      ["forge", 200], ["char_forge", 40], [ "oxy_torch", 40]
       ]
       ],
   "components":
@@ -2483,7 +2535,7 @@
       ["swage", -1]
       ],
       [
-      ["forge", 200], ["char_forge", 40]
+      ["forge", 200], ["char_forge", 40], [ "oxy_torch", 40]
       ]
       ],
   "components":
@@ -2525,7 +2577,7 @@
       ["swage", -1]
       ],
       [
-      ["forge", 300], ["char_forge", 60]
+      ["forge", 300], ["char_forge", 60], [ "oxy_torch", 60]
       ]
       ],
   "components":
@@ -2567,7 +2619,7 @@
       ["swage", -1]
       ],
       [
-      ["forge", 300], ["char_forge", 60]
+      ["forge", 300], ["char_forge", 60], [ "oxy_torch", 60]
       ]
       ],
   "components":
@@ -2609,7 +2661,7 @@
       ["swage", -1]
       ],
       [
-      ["forge", 200], ["char_forge", 40]
+      ["forge", 200], ["char_forge", 40], [ "oxy_torch", 40]
       ]
       ],
   "components":
@@ -2651,7 +2703,7 @@
       ["swage", -1]
       ],
       [
-      ["forge", 400], ["char_forge", 80]
+      ["forge", 400], ["char_forge", 80], [ "oxy_torch", 80]
       ]
       ],
   "components":
@@ -2691,7 +2743,7 @@
       ["swage", -1]
       ],
       [
-      ["forge", 200], ["char_forge", 40]
+      ["forge", 200], ["char_forge", 40], [ "oxy_torch", 40]
       ]
       ],
   "components":
@@ -2726,7 +2778,7 @@
       ["anvil", -1]
       ],
       [
-      ["forge", 150], ["char_forge", 30]
+      ["forge", 150], ["char_forge", 30], [ "oxy_torch", 30]
       ]
       ],
   "components":
@@ -2791,6 +2843,7 @@
       ["cvd_machine", -1]
       ],
       [
+      [ "oxy_torch", 2 ],
       [ "welder", 10 ],
       [ "welder_crude", 15 ],
       [ "toolset", 15 ]
@@ -2831,6 +2884,7 @@
       ["cvd_machine", -1]
       ],
       [
+      [ "oxy_torch", 4 ],
       [ "welder", 20 ],
       [ "welder_crude", 30 ],
       [ "toolset", 30 ]
@@ -2870,6 +2924,7 @@
       ["cvd_machine", -1]
       ],
       [
+      [ "oxy_torch", 6 ],
       [ "welder", 30 ],
       [ "welder_crude", 45 ],
       [ "toolset", 45 ]
@@ -2914,7 +2969,7 @@
       ["swage", -1]
       ],
       [
-      ["forge", 400], ["char_forge", 80]
+      ["forge", 400], ["char_forge", 80], [ "oxy_torch", 80]
       ]
       ],
   "components":
@@ -2954,7 +3009,7 @@
       ["swage", -1]
       ],
       [
-      ["forge", 350], ["char_forge", 70]
+      ["forge", 350], ["char_forge", 70], [ "oxy_torch", 70]
       ]
       ],
   "components":
@@ -2994,7 +3049,7 @@
       ["swage", -1]
       ],
       [
-      ["forge", 200], ["char_forge", 40]
+      ["forge", 200], ["char_forge", 40], [ "oxy_torch", 40]
       ]
       ],
   "components":
@@ -3052,7 +3107,7 @@
       ["crucible", -1]
      ],
      [
-      ["forge", 150], ["char_forge", 30]
+      ["forge", 150], ["char_forge", 30], [ "oxy_torch", 30]
      ]
     ],
   "components":
@@ -3090,7 +3145,7 @@
       ["crucible", -1]
      ],
      [
-      ["forge", 400], ["char_forge", 80]
+      ["forge", 400], ["char_forge", 80], [ "oxy_torch", 80]
      ]
     ],
   "components":
@@ -3128,7 +3183,7 @@
       ["crucible", -1]
      ],
      [
-      ["forge", 450], ["char_forge", 90]
+      ["forge", 450], ["char_forge", 90], [ "oxy_torch", 90]
      ]
     ],
   "components":
@@ -3169,7 +3224,7 @@
       ["swage", -1]
      ],
      [
-      ["forge", 300], ["char_forge", 60]
+      ["forge", 300], ["char_forge", 60], [ "oxy_torch", 60]
      ]
     ],
   "components":
@@ -3210,7 +3265,7 @@
       ["swage", -1]
      ],
      [
-      ["forge", 350], ["char_forge", 70]
+      ["forge", 350], ["char_forge", 70], [ "oxy_torch", 70]
      ]
     ],
   "components": [
@@ -3526,7 +3581,8 @@
       ["toolset", 7],
       ["fire", -1],
       ["forge", 7],
-      ["char_forge", 2]
+      ["char_forge", 2],
+      ["oxy_torch", 2]
       ]
   ],
   "components": [
@@ -3566,7 +3622,8 @@
       ],
       [
       ["forge", 400],
-      [ "char_forge", 80]
+      [ "char_forge", 80],
+      [ "oxy_torch", 80]
       ]
       ],
   "components":
@@ -3614,7 +3671,8 @@
       ],
       [
       ["forge", 400],
-      [ "char_forge", 80]
+      [ "char_forge", 80],
+      [ "oxy_torch", 80]
       ]
       ],
   "components":
@@ -3662,7 +3720,8 @@
       ],
       [
       ["forge", 350],
-      [ "char_forge", 70]
+      [ "char_forge", 70],
+      [ "oxy_torch", 70]
       ]
       ],
   "components":
@@ -3706,7 +3765,8 @@
       ],
       [
       ["forge", 450],
-      [ "char_forge", 90]
+      [ "char_forge", 90],
+      [ "oxy_torch", 90]
       ]
       ],
   "components":
@@ -3754,7 +3814,8 @@
       ],
       [
       ["forge", 450],
-      [ "char_forge", 90]
+      [ "char_forge", 90],
+      [ "oxy_torch", 90]
       ]
       ],
   "components":
@@ -3802,7 +3863,8 @@
       ],
       [
       ["forge", 310],
-      [ "char_forge", 70]
+      [ "char_forge", 70],
+      [ "oxy_torch", 70]
       ]
       ],
   "components":
@@ -3850,7 +3912,8 @@
       ],
       [
       ["forge", 400],
-      [ "char_forge", 80]
+      [ "char_forge", 80],
+      [ "oxy_torch", 80]
       ]
       ],
   "components":
@@ -3898,7 +3961,8 @@
       ],
       [
       ["forge", 450],
-      [ "char_forge", 90]
+      [ "char_forge", 90],
+      [ "oxy_torch", 90]
       ]
       ],
   "components":
@@ -3945,7 +4009,7 @@
       ["swage", -1]
       ],
       [
-      ["forge", 500], ["char_forge", 100]
+      ["forge", 500], ["char_forge", 100], ["oxy_torch", 100]
       ]
       ],
   "components":
@@ -3989,7 +4053,7 @@
       ["anvil", -1]
       ],
       [
-      ["forge", 200], ["char_forge", 40]
+      ["forge", 200], ["char_forge", 40], ["oxy_torch", 40]
       ]
       ],
   "components":
@@ -4036,7 +4100,7 @@
       ["swage", -1]
       ],
       [
-      ["forge", 300], ["char_forge", 60]
+      ["forge", 300], ["char_forge", 60], ["oxy_torch", 60]
       ]
       ],
   "components":
@@ -4084,7 +4148,8 @@
       ],
       [
       ["forge", 350],
-      [ "char_forge", 70]
+      [ "char_forge", 70],
+      [ "oxy_torch", 70]
       ]
       ],
   "components":
@@ -4145,7 +4210,7 @@
       ["anvil", -1]
     ],
     [
-      ["forge", 150], ["char_forge", 30]
+      ["forge", 150], ["char_forge", 30], ["oxy_torch", 30]
       ]
     ],
   "components": [
@@ -4184,7 +4249,7 @@
       ["swage", -1]
       ],
       [
-      ["forge", 250], ["char_forge", 50]
+      ["forge", 250], ["char_forge", 50], ["oxy_torch", 50]
       ]
       ],
   "components":
@@ -4324,7 +4389,8 @@
       ],
       [
         ["forge", 400],
-        [ "char_forge", 80]
+        [ "char_forge", 80],
+        [ "oxy_torch", 80]
       ]
     ],
     "components": [
@@ -4374,7 +4440,8 @@
       ],
       [
         ["forge", 400],
-        ["char_forge", 80]
+        ["char_forge", 80],
+        [ "oxy_torch", 80]
       ]
     ],
     "components": [

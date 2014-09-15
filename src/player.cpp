@@ -227,8 +227,9 @@ void player::normalize()
 
     recalc_hp();
 
-    for (int i = 0 ; i < num_bp; i++)
+    for (int i = 0 ; i < num_bp; i++) {
         temp_conv[i] = BODYTEMP_NORM;
+    }
 }
 
 void player::pick_name()
@@ -8231,7 +8232,7 @@ bool player::eat(item *eaten, it_comest *comest)
 
 void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
 {
-    if (has_trait("THRESH_PLANT") && eaten->type->id == "fertilizer_liquid") {
+    if (has_trait("THRESH_PLANT") && comest->can_use( "PLANTBLECH" )) {
     return;
     }
     if ( !(has_trait("GIZZARD")) && (rotten) && !(has_trait("SAPROPHAGE")) ) {
@@ -11104,7 +11105,8 @@ void player::learn_recipe(recipe *rec)
 void player::assign_activity(activity_type type, int moves, int index, int pos, std::string name)
 {
     if( !backlog.empty() && backlog.front().type == type && backlog.front().index == index &&
-        backlog.front().position == pos && backlog.front().name == name ) {
+        backlog.front().position == pos && backlog.front().name == name &&
+        !backlog.front().auto_resume) {
         add_msg_if_player( _("You resume your task."));
         activity = backlog.front();
         backlog.pop_front();

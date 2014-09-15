@@ -76,7 +76,8 @@
       			["dahlia_flower", 75],
       			["dahlia_bud", 40],
       			["bluebell_flower", 75],
-      			["bluebell_bud", 45]
+      			["bluebell_bud", 45],
+      			["fertilizer_commercial", 25]
         	]
    	},{
     		"type" : "item_group",

@@ -68,6 +68,10 @@ public:
  void make_corpse(const std::string new_type, mtype* mt, unsigned int turn, const std::string &name);
  item(std::string itemdata);
  item(JsonObject &jo);
+        item(item &&) = default;
+        item(const item &) = default;
+        item &operator=(item &&) = default;
+        item &operator=(const item &) = default;
  virtual ~item();
  void init();
  void make( const std::string new_type );

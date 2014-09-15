@@ -54,8 +54,7 @@ monster::monster(mtype *t)
  wandf = 0;
  type = t;
  moves = type->speed;
- speed = type->speed;
- Creature::set_speed_base(speed);
+ Creature::set_speed_base(type->speed);
  hp = type->hp;
  sp_timeout = rng(0, type->sp_freq);
  def_chance = type->def_chance;
@@ -82,8 +81,7 @@ monster::monster(mtype *t, int x, int y)
  wandf = 0;
  type = t;
  moves = type->speed;
- speed = type->speed;
- Creature::set_speed_base(speed);
+ Creature::set_speed_base(type->speed);
  hp = type->hp;
  sp_timeout = type->sp_freq;
  def_chance = type->def_chance;
@@ -131,8 +129,7 @@ void monster::poly(mtype *t)
  double hp_percentage = double(hp) / double(type->hp);
  type = t;
  moves = 0;
- speed = type->speed;
- Creature::set_speed_base(speed);
+ Creature::set_speed_base(type->speed);
  anger = type->agro;
  morale = type->morale;
  hp = int(hp_percentage * type->hp);
@@ -418,7 +415,7 @@ void monster::load_info(std::string data)
 void monster::debug(player &u)
 {
     debugmsg("monster::debug %s has %d steps planned.", name().c_str(), plans.size());
-    debugmsg("monster::debug %s Moves %d Speed %d HP %d",name().c_str(), moves, speed, hp);
+    debugmsg("monster::debug %s Moves %d Speed %d HP %d",name().c_str(), moves, get_speed(), hp);
     for (size_t i = 0; i < plans.size(); i++) {
         const int digit = '0' + (i % 10);
         mvaddch(plans[i].y - SEEY + u.posy, plans[i].x - SEEX + u.posx, digit);
@@ -938,7 +935,7 @@ int monster::get_dodge() const
     if (has_effect("beartrap") || has_effect("tied")) {
         ret /= 2;
     }
-    if (moves <= 0 - 100 - (int)type->speed) {
+    if (moves <= 0 - 100 - get_speed()) {
         ret = rng(0, ret);
     }
     return ret + get_dodge_bonus();
@@ -976,7 +973,7 @@ int monster::dodge_roll()
             break; // keep default
     }
 
-    numdice += int(speed / 80);
+    numdice += get_speed() / 80;
     return dice(numdice, 10);
 }
 
@@ -1185,10 +1182,10 @@ void monster::process_effects()
     for( auto effect_it = effects.begin(); effect_it != effects.end(); ++effect_it ) {
         std::string id = effect_it->second.get_id();
         if (id == "nasty_poisoned") {
-            speed -= rng(3, 5);
+            mod_speed_bonus( -rng(3, 5) );
             apply_damage( nullptr, bp_torso, rng( 3, 6 ) );
         } if (id == "poisoned") {
-            speed -= rng(0, 3);
+            mod_speed_bonus( -rng(0, 3) );
             apply_damage( nullptr, bp_torso, rng( 1, 3 ) );
 
         // MATERIALS-TODO: use fire resistance

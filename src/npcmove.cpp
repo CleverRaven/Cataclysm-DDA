@@ -420,8 +420,7 @@ void npc::choose_monster_target(int &enemy, int &danger,
     for (size_t i = 0; i < g->num_zombies(); i++) {
         monster *mon = &(g->zombie(i));
         if (this->sees(mon, linet)) {
-            int distance = (100 * rl_dist(posx, posy, mon->posx(), mon->posy())) /
-                           mon->speed;
+            int distance = (100 * rl_dist(posx, posy, mon->posx(), mon->posy())) / mon->get_speed();
             double hp_percent = (mon->type->hp - mon->hp) / mon->type->hp;
             int priority = mon->type->difficulty * (1 + hp_percent) - distance;
             int monster_danger = (mon->type->difficulty * mon->hp) / mon->type->hp;
@@ -471,9 +470,9 @@ void npc::choose_monster_target(int &enemy, int &danger,
             } else if (okay_by_rules && defend_u) {
                 priority = mon->type->difficulty * (1 + hp_percent);
                 distance = (100 * rl_dist(g->u.posx, g->u.posy, mon->posx(), mon->posy())) /
-                           mon->speed;
+                    mon->get_speed();
                 priority -= distance;
-                if ((int)mon->speed < get_speed()) {
+                if( mon->get_speed() < get_speed() ) {
                     priority -= 10;
                 }
                 priority *= (personality.bravery + personality.altruism + op_of_u.value) /
@@ -490,7 +489,7 @@ void npc::choose_monster_target(int &enemy, int &danger,
 npc_action npc::method_of_fleeing(int enemy)
 {
     int speed = (enemy == TARGET_PLAYER ? g->u.get_speed() :
-                 g->zombie(enemy).speed);
+                 g->zombie(enemy).get_speed());
     point enemy_loc = (enemy == TARGET_PLAYER ? point(g->u.posx, g->u.posy) :
                        point(g->zombie(enemy).posx(), g->zombie(enemy).posy()));
     int distance = rl_dist(posx, posy, enemy_loc.x, enemy_loc.y);
@@ -961,7 +960,7 @@ bool npc::enough_time_to_reload(int target, item &gun)
         speed = speed_estimate(g->u.get_speed());
     } else if (target >= 0) {
         dist = rl_dist(posx, posy, g->zombie(target).posx(), g->zombie(target).posy());
-        speed = speed_estimate(g->zombie(target).speed);
+        speed = speed_estimate(g->zombie(target).get_speed());
     } else {
         return true;    // No target, plenty of time to reload
     }

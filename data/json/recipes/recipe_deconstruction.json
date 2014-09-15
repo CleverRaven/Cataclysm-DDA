@@ -1188,7 +1188,7 @@
         {"id":"SAW_M","level":1,"amount":1}
     ], "tools": [
         [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ],
-        [ [ "welder", 50 ], [ "toolset", 75 ], [ "welder_crude", 75 ] ]
+        [ [ "oxy_torch", 10 ], [ "welder", 50 ], [ "toolset", 75 ], [ "welder_crude", 75 ] ]
     ], "components": [
         [ [ "power_supply", 4 ] ],
         [ [ "solar_cell", 2 ] ],
@@ -1212,7 +1212,7 @@
         {"id":"SAW_M","level":1,"amount":1}
     ], "tools": [
         [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ],
-        [ [ "welder", 50 ], [ "toolset", 75 ], [ "welder_crude", 75 ] ]
+        [ [ "oxy_torch", 10 ], [ "welder", 50 ], [ "toolset", 75 ], [ "welder_crude", 75 ] ]
     ], "components": [
         [ [ "power_supply", 4 ] ],
         [ [ "solar_cell", 2 ] ],
@@ -1234,7 +1234,7 @@
     "qualities" : [
         {"id":"SAW_M","level":1,"amount":1}
     ], "tools": [
-        [ [ "welder", 60 ], [ "toolset", 90 ], [ "welder_crude", 90 ] ]
+        [ [ "oxy_torch", 12 ], [ "welder", 60 ], [ "toolset", 90 ], [ "welder_crude", 90 ] ]
     ], "components": [
         [ [ "power_supply", 4 ] ],
         [ [ "motor", 1 ] ],
@@ -1255,7 +1255,7 @@
         {"id":"SAW_M","level":1,"amount":1}
     ], "tools": [
         [ [ "soldering_iron", 10 ], [ "toolset", 10 ] ],
-        [ [ "welder", 100 ], [ "toolset", 150 ], [ "welder_crude", 150 ] ]
+        [ [ "oxy_torch", 20 ],  [ "welder", 100 ], [ "toolset", 150 ], [ "welder_crude", 150 ] ]
     ], "components": [
         [ [ "power_supply", 12 ] ],
         [ [ "processor", 1 ] ],
@@ -1281,7 +1281,7 @@
         {"id":"SAW_M","level":1,"amount":1}
     ], "tools": [
         [ [ "soldering_iron", 30 ], [ "toolset", 30 ] ],
-        [ [ "welder", 200 ], [ "toolset", 300 ], [ "welder_crude", 300 ] ]
+        [ [ "oxy_torch", 40 ], [ "welder", 200 ], [ "toolset", 300 ], [ "welder_crude", 300 ] ]
     ], "components": [
         [ [ "flamethrower", 1 ] ],
         [ [ "tazer", 1 ] ],

@@ -862,6 +862,11 @@ class JsonSerializer
         virtual void serialize(JsonOut &jsout) const = 0;
         std::string serialize() const;
         void serialize(std::ostream &o) const;
+        JsonSerializer() { }
+        JsonSerializer(JsonSerializer &&) = default;
+        JsonSerializer(const JsonSerializer &) = default;
+        JsonSerializer &operator=(JsonSerializer &&) = default;
+        JsonSerializer &operator=(const JsonSerializer &) = default;
 };
 
 /* JsonDeserializer
@@ -896,6 +901,11 @@ class JsonDeserializer
         virtual void deserialize(JsonIn &jsin) = 0;
         void deserialize(const std::string &json_string);
         void deserialize(std::istream &i);
+        JsonDeserializer() { }
+        JsonDeserializer(JsonDeserializer &&) = default;
+        JsonDeserializer(const JsonDeserializer &) = default;
+        JsonDeserializer &operator=(JsonDeserializer &&) = default;
+        JsonDeserializer &operator=(const JsonDeserializer &) = default;
 };
 
 #endif // _JSON_H_

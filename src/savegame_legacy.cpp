@@ -1863,13 +1863,15 @@ std::istream& operator>>(std::istream& is, SkillLevel& obj) {
 
 
 void monster::load_legacy(std::stringstream & dump) {
-    int idtmp, plansize;
+    int idtmp, plansize, speed;
     dump >> idtmp >> _posx >> _posy >> wandx >> wandy >> wandf >> moves >> speed >>
          hp >> sp_timeout >> plansize >> friendly >> faction_id >> mission_id >>
          no_extra_death_drops >> dead >> anger >> morale;
 
     // load->int->str->int (possibly shifted)
     type = GetMType( legacy_mon_id[idtmp] );
+
+    Creature::set_speed_bonus( speed - type->speed );
 
     point ptmp;
     plans.clear();

@@ -9,14 +9,6 @@ player_activity::player_activity(activity_type t, int turns, int Index, int pos,
 {
 }
 
-player_activity::player_activity(const player_activity &copy) :
-    JsonSerializer(), JsonDeserializer(), type(copy.type), moves_left(copy.moves_left),
-    index(copy.index), position(copy.position), name(copy.name),
-    ignore_trivial(copy.ignore_trivial), values(copy.values), str_values(copy.str_values),
-    placement(copy.placement), warned_of_proximity(false), auto_resume(copy.auto_resume)
-{
-}
-
 const std::string &player_activity::get_stop_phrase() const
 {
     static const std::string stop_phrase[NUM_ACTIVITIES] = {

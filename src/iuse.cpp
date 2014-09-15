@@ -3060,7 +3060,7 @@ int iuse::extinguisher(player *p, item *it, bool)
             }
             monster &critter = g->zombie( mondex );
             critter.apply_damage( p, bp_torso, rng( 20, 60 ) );
-            critter.speed /= 2;
+            critter.mod_speed_bonus( -(critter.get_speed() / 2) );
         }
     }
 
@@ -5178,8 +5178,9 @@ int iuse::can_goo(player *p, item *it, bool)
                     g->zombie(mondex).name().c_str());
         }
         g->zombie(mondex).poly(GetMType("mon_blob"));
-        g->zombie(mondex).speed -= rng(5, 25);
-        g->zombie(mondex).hp = g->zombie(mondex).speed;
+
+        g->zombie(mondex).set_speed_bonus( -rng(5, 25) );
+        g->zombie(mondex).hp = g->zombie(mondex).get_speed();
     } else {
         if (g->u_see(goox, gooy)) {
             add_msg(_("Living black goo emerges from the canister!"));
@@ -5306,8 +5307,9 @@ int iuse::granade_act(player *, item *it, bool t)
                     for (int j = -explosion_radius; j <= explosion_radius; j++) {
                         const int mon_hit = g->mon_at(pos.x + i, pos.y + j);
                         if (mon_hit != -1) {
-                            g->zombie(mon_hit).speed *= 1 + rng(0, 20) * .1;
-                            g->zombie(mon_hit).hp *= 1 + rng(0, 20) * .1;
+                            g->zombie(mon_hit).set_speed_bonus(
+                                g->zombie(mon_hit).get_speed_base() * rng_float(0.1, 2.0) );
+                            g->zombie(mon_hit).hp *= rng_float(1.1, 2.0);
                         } else if (g->npc_at(pos.x + i, pos.y + j) != -1) {
                             int npc_hit = g->npc_at(pos.x + i, pos.y + j);
                             g->active_npc[npc_hit]->str_max += rng(0, g->active_npc[npc_hit]->str_max / 2);
@@ -5338,7 +5340,8 @@ int iuse::granade_act(player *, item *it, bool t)
                     for (int j = -explosion_radius; j <= explosion_radius; j++) {
                         const int mon_hit = g->mon_at(pos.x + i, pos.y + j);
                         if (mon_hit != -1) {
-                            g->zombie(mon_hit).speed = rng(1, g->zombie(mon_hit).speed);
+                            g->zombie(mon_hit).set_speed_bonus(
+                                -rng(0, g->zombie(mon_hit).get_speed_base() - 1 ) );
                             g->zombie(mon_hit).hp = rng(1, g->zombie(mon_hit).hp);
                         } else if (g->npc_at(pos.x + i, pos.y + j) != -1) {
                             int npc_hit = g->npc_at(pos.x + i, pos.y + j);
@@ -5369,7 +5372,7 @@ int iuse::granade_act(player *, item *it, bool t)
                     for (int j = -explosion_radius; j <= explosion_radius; j++) {
                         const int mon_hit = g->mon_at(pos.x + i, pos.y + j);
                         if (mon_hit != -1) {
-                            g->zombie(mon_hit).speed = g->zombie(mon_hit).type->speed;
+                            g->zombie(mon_hit).set_speed_bonus( 0 );
                             g->zombie(mon_hit).hp = g->zombie(mon_hit).type->hp;
                             g->zombie(mon_hit).clear_effects();
                         } else if (g->npc_at(pos.x + i, pos.y + j) != -1) {
@@ -6756,6 +6759,82 @@ int iuse::lumber(player *p, item *it, bool)
     }
 }
 
+
+int iuse::oxytorch(player *p, item *it, bool)
+{
+    int dirx, diry;
+    if (!(p->has_amount("goggles_welding", 1) || p->is_wearing("goggles_welding") ||
+          p->is_wearing("rm13_armor_on") || p->has_bionic("bio_sunglasses"))) {
+        add_msg(m_info, _("You need welding goggles to do that."));
+        return 0;
+    }
+    if (!choose_adjacent(_("Cut up metal where?"), dirx, diry)) {
+        return 0;
+    }
+
+    if (dirx == p->posx && diry == p->posy) {
+        add_msg(m_info, _("Yuck.  Acetylene gas smells weird."));
+        return 0;
+    }
+
+
+    if (g->m.furn(dirx, diry) == f_rack) {
+        p->moves -= 200;
+        g->m.furn_set(dirx, diry, f_null);
+        g->sound(dirx, diry, 10, _("hissssssssss!"));
+        g->m.spawn_item(p->posx, p->posy, "steel_chunk", rng(2, 6));
+        return it->type->charges_to_use();
+    }
+
+    const ter_id ter = g->m.ter( dirx, diry );
+    if( ter == t_chainfence_v || ter == t_chainfence_h || ter == t_chaingate_c ||
+        ter == t_chaingate_l) {
+            p->moves -= 1000;
+            g->m.ter_set(dirx, diry, t_dirt);
+            g->sound(dirx, diry, 10, _("hissssssssss!"));
+            g->m.spawn_item(dirx, diry, "pipe", rng(1, 4));
+            g->m.spawn_item(dirx, diry, "wire", rng(4, 16));
+    } else if( ter == t_chainfence_posts ) {
+            p->moves -= 200;
+            g->m.ter_set(dirx, diry, t_dirt);
+            g->sound(dirx, diry, 10, _("hissssssssss!"));
+            g->m.spawn_item(dirx, diry, "pipe", rng(1, 4));
+    } else if( ter == t_chaingate_l || ter == t_chaingate_c ) {
+            p->moves -= 200;
+            g->m.ter_set(dirx, diry, t_dirt);
+            g->sound(dirx, diry, 10, _("hissssssssss!"));
+            g->m.spawn_item(dirx, diry, "pipe", rng(1, 4));
+    } else if( ter == t_door_metal_locked || ter == t_door_metal_c || ter == t_door_bar_c ||
+               ter == t_door_bar_locked ) {
+            p->moves -= 1500;
+            g->m.ter_set(dirx, diry, t_mdoor_frame);
+            g->sound(dirx, diry, 10, _("hissssssssss!"));
+            g->m.spawn_item(dirx, diry, "steel_plate", rng(0, 1));
+            g->m.spawn_item(dirx, diry, "steel_chunk", rng(1, 2));
+    } else if( ter == t_window_enhanced || ter == t_window_empty ) {
+            p->moves -= 500;
+            g->m.ter_set(dirx, diry, t_window_reinforced_noglass);
+            g->sound(dirx, diry, 10, _("hissssssssss!"));
+            g->m.spawn_item(dirx, diry, "steel_plate", rng(0, 1));
+    } else if( ter == t_bars ) {
+            if (g->m.ter(dirx + 1, diry) == t_sewage || g->m.ter(dirx, diry + 1) == t_sewage ||
+                g->m.ter(dirx - 1, diry) == t_sewage || g->m.ter(dirx, diry - 1) == t_sewage) {
+                g->m.ter_set(dirx, diry, t_sewage);
+                p->moves -= 1000;
+                g->sound(dirx, diry, 10, _("hissssssssss!"));
+                g->m.spawn_item(p->posx, p->posy, "pipe", rng(1, 2));
+            } else {
+                g->m.ter_set(dirx, diry, t_floor);
+                p->moves -= 1000;
+                g->sound(dirx, diry, 10, _("hissssssssss!"));
+                g->m.spawn_item(p->posx, p->posy, "pipe", rng(1, 2));
+            }
+    } else {
+            add_msg(m_info, _("You can't cut that."));
+            return 0;
+    }
+    return it->type->charges_to_use();
+}
 
 int iuse::hacksaw(player *p, item *it, bool)
 {

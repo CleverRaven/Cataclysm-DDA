@@ -199,20 +199,6 @@ struct npc_opinion : public JsonSerializer, public JsonDeserializer
  npc_opinion(signed char T, signed char F, signed char V, signed char A, int O):
              trust (T), fear (F), value (V), anger(A), owed (O) { };
 
- npc_opinion(const npc_opinion &copy): JsonSerializer(), JsonDeserializer()
- {
-  trust = copy.trust;
-  fear = copy.fear;
-  value = copy.value;
-  anger = copy.anger;
-  owed = copy.owed;
-  favors.clear();
-  for (std::vector<npc_favor>::const_iterator it = copy.favors.begin();
-       it != copy.favors.end(); ++it) {
-        favors.push_back(*it);
-    }
- };
-
  npc_opinion& operator+= (npc_opinion &rhs)
  {
   trust += rhs.trust;
