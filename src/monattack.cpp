@@ -255,7 +255,7 @@ void mattack::boomer(monster *z)
 
 void mattack::resurrect(monster *z)
 {
-    if (z->speed < z->type->speed / 2) {
+    if( z->get_speed() < z->get_speed_base() / 2) {
         return;    // We can only resurrect so many times!
     }
     std::vector<point> corpses;
@@ -277,7 +277,7 @@ void mattack::resurrect(monster *z)
     if (corpses.empty()) { // No nearby corpses
         return;
     }
-    z->speed = (z->speed - rng(0, 10)) * .8;
+    z->mod_speed_bonus( (z->get_speed() - rng(0, 10)) * 0.8 );
     bool sees_necromancer = (g->u_see(z));
     if (sees_necromancer) {
         add_msg(_("The %s throws its arms wide..."), z->name().c_str());
@@ -1211,24 +1211,24 @@ void mattack::formblob(monster *z)
             } else if (thatmon != -1) {
                 monster &othermon = g->zombie(thatmon);
                 // Hit a monster.  If it's a blob, give it our speed.  Otherwise, blobify it?
-                if( z->speed > 40 && othermon.type->in_species( "BLOB" ) ) {
+                if( z->get_speed() > 40 && othermon.type->in_species( "BLOB" ) ) {
                     if( othermon.type->id == "mon_blob_brain" ) {
                         // Brain blobs don't get sped up, they heal at the cost of the other blob.
                         // But only if they are hurt badly.
                         if( othermon.hp < othermon.type->hp / 2 ) {
                             didit = true;
-                            othermon.hp += z->speed;
+                            othermon.hp += z->get_speed();
                             z->hp = 0;
                             return;
                         }
                         continue;
                     }
                     didit = true;
-                    othermon.speed += 5;
-                    z->speed -= 5;
-                    if (othermon.type->id == "mon_blob_small" && othermon.speed >= 60) {
+                    othermon.mod_speed_bonus( 5 );
+                    z->mod_speed_bonus( -5 );
+                    if (othermon.type->id == "mon_blob_small" && othermon.get_speed() >= 60) {
                         othermon.poly(GetMType("mon_blob"));
-                    } else if ( othermon.type->id == "mon_blob" && othermon.speed >= 80) {
+                    } else if ( othermon.type->id == "mon_blob" && othermon.get_speed() >= 80) {
                         othermon.poly(GetMType("mon_blob_large"));
                     }
                 } else if( (othermon.made_of("flesh") ||
@@ -1237,24 +1237,24 @@ void mattack::formblob(monster *z)
                            rng(0, z->hp) > rng(0, othermon.hp)) { // Blobify!
                     didit = true;
                     othermon.poly(GetMType("mon_blob"));
-                    othermon.speed = z->speed - rng(5, 25);
-                    othermon.hp = othermon.speed;
+                    othermon.mod_speed_bonus( -rng(5, 25) );
+                    othermon.hp = othermon.get_speed();
                 }
-            } else if (z->speed >= 85 && rng(0, 250) < z->speed) {
+            } else if (z->get_speed() >= 85 && rng(0, 250) < z->get_speed()) {
                 // If we're big enough, spawn a baby blob.
                 didit = true;
-                z->speed -= 15;
+                z->mod_speed_bonus( -15 );
                 monster blob(GetMType("mon_blob_small"));
                 blob.spawn(z->posx() + i, z->posy() + j);
-                blob.speed = z->speed - rng(30, 60);
-                blob.hp = blob.speed;
+                blob.mod_speed_bonus( -rng(30, 60) );
+                blob.hp = blob.get_speed();
                 g->add_zombie(blob);
             }
         }
         if (didit) { // We did SOMEthing.
-            if (z->type->id == "mon_blob" && z->speed <= 50) { // We shrank!
+            if (z->type->id == "mon_blob" && z->get_speed() <= 50) { // We shrank!
                 z->poly(GetMType("mon_blob_small"));
-            } else if (z->type->id == "mon_blob_large" && z->speed <= 70) { // We shrank!
+            } else if (z->type->id == "mon_blob_large" && z->get_speed() <= 70) { // We shrank!
                 z->poly(GetMType("mon_blob"));
             }
 

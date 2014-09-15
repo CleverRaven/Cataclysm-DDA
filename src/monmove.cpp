@@ -1067,9 +1067,9 @@ int monster::turns_to_reach(int x, int y)
             // We have to bash through
             turns += 5;
         } else if (i == 0) {
-            turns += double(calc_movecost(posx(), posy(), path[i].x, path[i].y)) / speed;
+            turns += double(calc_movecost(posx(), posy(), path[i].x, path[i].y)) / get_speed();
         } else {
-            turns += double(calc_movecost(path[i-1].x, path[i-1].y, path[i].x, path[i].y)) / speed;
+            turns += double(calc_movecost(path[i-1].x, path[i-1].y, path[i].x, path[i].y)) / get_speed();
         }
     }
     return int(turns + .9); // Round up
