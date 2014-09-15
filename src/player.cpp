@@ -13118,10 +13118,6 @@ int player::get_stamina_max()
     return 1000;
 }
 
-int player::get_stamina_percent() {
-    return (int)(((double)stamina / (double)get_stamina_max()) * 100 );
-}
-
 void player::burn_move_stamina( int moves )
 {
     // Regain 10 stamina / turn

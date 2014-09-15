@@ -1028,7 +1028,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int get_hp( hp_part bp ) const override;
         int get_hp_max( hp_part bp ) const override;
         int get_stamina_max();
-        int get_stamina_percent();
         void burn_move_stamina( int moves );
 
         field_id playerBloodType() const;
