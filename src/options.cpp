@@ -574,7 +574,7 @@ void initOptions()
     optionNames["ru"] = "Русский";
     optionNames["sr"] = "Srpski";
     optionNames["vi"] = "Tiếng Việt";
-    optionNames["zh_CN"] = "中文(中华人民共和国)";
+    optionNames["zh_CN"] = "中文(天朝)";
     optionNames["zh_TW"] = "中文(台灣)";
     OPTIONS["USE_LANG"] = cOpt("interface", _("Language"), _("Switch Language. Requires restart."),
                                ",cs,en,fi,fr_FR,de_DE,it,es_ES,ja,ko,pl,pt_BR,pt_PT,ru,sr,vi,zh_CN,zh_TW",
@@ -1049,6 +1049,13 @@ void show_options(bool ingame)
 
         calcStartPos(iStartPos, iCurrentLine, iContentHeight, mPageItems[iCurrentPage].size());
 
+        // where the column with the names starts
+        const size_t name_col = 5;
+        // where the column with the values starts
+        const size_t value_col = 62;
+        // 2 for the space between name and value column, 3 for the ">> "
+        const size_t name_width = value_col - name_col - 2 - 3;
+        const size_t value_width = getmaxx( w_options ) - value_col;
         //Draw options
         size_t iBlankOffset = 0; // Offset when blank line is printed.
         for (int i = iStartPos; i < iStartPos + ((iContentHeight > (int)mPageItems[iCurrentPage].size()) ?
@@ -1063,21 +1070,22 @@ void show_options(bool ingame)
             sTemp.str("");
             sTemp << i + 1 - iBlankOffset;
             mvwprintz(w_options, line_pos, 1, c_white, sTemp.str().c_str());
-            mvwprintz(w_options, line_pos, 5, c_white, "");
 
             if (iCurrentLine == i) {
-                wprintz(w_options, c_yellow, ">> ");
+                mvwprintz(w_options, line_pos, name_col, c_yellow, ">> ");
             } else {
-                wprintz(w_options, c_yellow, "   ");
+                mvwprintz(w_options, line_pos, name_col, c_yellow, "   ");
             }
-            wprintz(w_options, c_white, "%s", current_opt->getMenuText().c_str());
+            const std::string name = utf8_truncate( current_opt->getMenuText(), name_width );
+            mvwprintz(w_options, line_pos, name_col + 3, c_white, "%s", name.c_str());
 
             if (current_opt->getValue() == "false") {
                 cLineColor = c_ltred;
             }
 
-            mvwprintz(w_options, line_pos, 62, (iCurrentLine == i) ? hilite(cLineColor) :
-                      cLineColor, "%s", current_opt->getValueName().c_str());
+            const std::string value = utf8_truncate( current_opt->getValueName(), value_width );
+            mvwprintz(w_options, line_pos, value_col, (iCurrentLine == i) ? hilite(cLineColor) :
+                      cLineColor, "%s", value.c_str());
         }
 
         //Draw Scrollbar

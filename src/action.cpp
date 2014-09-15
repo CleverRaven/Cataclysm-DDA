@@ -206,6 +206,8 @@ std::string action_ident(action_id act)
         return "drop_adj";
     case ACTION_BIONICS:
         return "bionics";
+    case ACTION_MUTATIONS:
+        return "mutations";
     case ACTION_SORT_ARMOR:
         return "sort_armor";
     case ACTION_WAIT:
@@ -684,6 +686,7 @@ action_id handle_action_menu()
             REGISTER_ACTION(ACTION_WAIT);
             REGISTER_ACTION(ACTION_SLEEP);
             REGISTER_ACTION(ACTION_BIONICS);
+            REGISTER_ACTION(ACTION_MUTATIONS);
             REGISTER_ACTION(ACTION_CONTROL_VEHICLE);
 #ifdef TILES
             if (use_tiles) {

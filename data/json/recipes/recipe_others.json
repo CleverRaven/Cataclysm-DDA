@@ -26,7 +26,7 @@
       ["swage", -1]
       ],
       [
-      ["forge", 50], ["char_forge", 10]
+      ["forge", 50], ["char_forge", 10], ["oxy_torch", 10]
       ]
       ],
   "components":
@@ -64,6 +64,18 @@
      [ "nail", 10 ]
      ]
     ]
+},{
+        "type" : "recipe",
+  "result": "meal_chitin_piece",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["rock_quern", -1] ] ],
+  "components": [ [ ["chitin_piece", 1] ] ]
 },{
         "type" : "recipe",
   "result": "reinforced_glass_sheet",
@@ -190,7 +202,7 @@
       ["anvil", -1]
      ],
      [
-      ["forge", 50], ["char_forge", 10]
+      ["forge", 50], ["char_forge", 10], ["oxy_torch", 10]
      ]
     ],
     "components": [
@@ -213,7 +225,7 @@
   "skill_used": "fabrication",
   "difficulty": 1,
   "time": 20000,
-  "reversible": false,
+  "reversible": true,
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
@@ -541,7 +553,8 @@
       [ "bone", 1 ]
     ],
     [
-      [ "rock", 1 ]
+      [ "rock", 1 ],
+      [ "ceramic_shard", 1 ]
     ],
     [
       [ "string_6", 1 ],
@@ -612,7 +625,8 @@
       [ "2x4", 1 ]
     ],
     [
-      [ "rock", 1 ]
+      [ "rock", 1 ],
+      [ "ceramic_shard", 1 ]
     ],
     [
       [ "string_6", 2 ],
@@ -641,7 +655,8 @@
       [ "2x4", 1 ]
     ],
     [
-      [ "rock", 1 ]
+      [ "rock", 1 ],
+      [ "ceramic_shard", 1 ]
     ],
     [
       [ "string_6", 2 ],
@@ -694,7 +709,8 @@
       [ "2x4", 2 ]
     ],
     [
-      [ "rock", 1 ]
+      [ "rock", 1 ],
+      [ "ceramic_shard", 1 ]
     ],
     [
       [ "string_36", 3 ]
@@ -1580,7 +1596,7 @@
       ["crucible", -1]
      ],
      [
-      ["forge", 50], ["char_forge", 10]
+      ["forge", 50], ["char_forge", 10], ["oxy_torch", 10]
      ]
     ],
   "components":
@@ -1759,7 +1775,8 @@
       [ "welder_crude", 30 ],
       [ "toolset", 30 ],
       [ "forge", 10],
-      [ "char_forge", 2]
+      [ "char_forge", 2],
+      [ "oxy_torch", 2]
     ]
   ],
   "components": [
@@ -1918,7 +1935,8 @@
       [ "welder_crude", 75 ],
       [ "toolset", 75 ],
       [ "forge", 50 ],
-      [ "char_forge", 10]
+      [ "char_forge", 10],
+      [ "oxy_torch", 10]
     ]
   ],
   "components": [
@@ -1948,7 +1966,8 @@
       [ "welder_crude", 75 ],
       [ "toolset", 75 ],
       [ "forge", 50 ],
-      [ "char_forge", 10]
+      [ "char_forge", 10],
+      [ "oxy_torch", 10]
     ]
   ],
   "components": [
@@ -2084,7 +2103,8 @@
       [ "welder_crude", 150 ],
       [ "toolset", 150 ],
       [ "forge", 100 ],
-      [ "char_forge", 20]
+      [ "char_forge", 20],
+      [ "oxy_torch", 20]
     ]
   ],
   "components": [
@@ -2112,7 +2132,8 @@
       [ "welder_crude", 150 ],
       [ "toolset", 150 ],
       [ "forge", 100 ],
-      [ "char_forge", 20]
+      [ "char_forge", 20],
+      [ "oxy_torch", 20]
     ]
   ],
   "components": [
@@ -2147,7 +2168,8 @@
       [ "welder_crude", 150 ],
       [ "toolset", 150 ],
       [ "forge", 100 ],
-      [ "char_forge", 20]
+      [ "char_forge", 20],
+      [ "oxy_torch", 20]
     ]
   ],
   "components": [
@@ -2613,7 +2635,8 @@
       [ "welder_crude", 30 ],
       [ "toolset", 30 ],
       [ "forge", 5],
-      [ "char_forge", 1]
+      [ "char_forge", 1],
+      [ "oxy_torch", 1]
     ]
   ],
   "components": [
@@ -2749,7 +2772,7 @@
       ["swage", -1]
      ],
      [
-      ["forge", 150], ["char_forge", 30]
+      ["forge", 150], ["char_forge", 30], ["oxy_torch", 30]
      ]
     ],
   "components":
@@ -2945,7 +2968,7 @@
   "book_learn": [["atomic_survival", 1] , ["textbook_survival", 1] , ["cookbook", 3]],
   "qualities":[
     {"id":"HAMMER","level":2,"amount":1}
-  ], "components": [ [ ["stick", 2], [ "2x4", 1 ] ], [ ["rock", 6] ] ]
+  ], "components": [ [ ["stick", 2], [ "2x4", 1 ] ], [ ["rock", 6], [ "ceramic_shard", 6 ] ] ]
 },{
         "type" : "recipe",
   "result": "welder_crude",
@@ -3036,7 +3059,8 @@
       ],
       [
       [ "forge", 150],
-      [ "char_forge", 30]
+      [ "char_forge", 30],
+      [ "oxy_torch", 30]
       ]
       ],
   "components":
@@ -3058,7 +3082,8 @@
   ], "tools": [
       [
       [ "forge", 100],
-      [ "char_forge", 20]
+      [ "char_forge", 20],
+      [ "oxy_torch", 20]
       ]
       ],
   "components":
@@ -3088,7 +3113,8 @@
       ],
       [
       [ "forge", 150],
-      [ "char_forge", 30]
+      [ "char_forge", 30],
+      [ "oxy_torch", 30]
       ]
       ],
   "components":
@@ -3124,7 +3150,8 @@
       ,
       [
       [ "forge", 200],
-      [ "char_forge", 40]
+      [ "char_forge", 40],
+      [ "oxy_torch", 40]
       ]
       ],
   "components":
@@ -3161,7 +3188,8 @@
       ,
       [
       [ "forge", 250],
-      [ "char_forge", 50]
+      [ "char_forge", 50],
+      [ "oxy_torch", 50]
       ]
       ],
   "components":
@@ -3199,7 +3227,8 @@
       ],
       [
       [ "forge", 250],
-      [ "char_forge", 50]
+      [ "char_forge", 50],
+      [ "oxy_torch", 50]
       ]
       ],
   "components":
@@ -3231,7 +3260,7 @@
     [ ["chisel", -1] ],
     [ ["swage", -1]  ],
     [ ["anvil", -1]  ],
-    [ ["forge", 50], [ "char_forge", 10]  ]
+    [ ["forge", 50], [ "char_forge", 10], [ "oxy_torch", 10] ]
            ],
   "components": [
     [
@@ -3254,7 +3283,7 @@
   ], "tools": [
       [ ["tongs", -1] ],
       [ ["anvil", -1] ],
-      [ ["forge", 100], ["char_forge", 20] ]
+      [ ["forge", 100], ["char_forge", 20], [ "oxy_torch", 20] ]
       ],
   "components":
     [
@@ -3280,7 +3309,7 @@
       [ ["tongs", -1] ],
       [ ["chisel", -1]],
       [ ["anvil", -1] ],
-      [ ["forge", 100], ["char_forge", 20] ]
+      [ ["forge", 100], ["char_forge", 20], [ "oxy_torch", 20] ]
       ],
   "components":
     [
@@ -3317,7 +3346,7 @@
       ["anvil", -1]
      ],
      [
-      ["forge", 100], ["char_forge", 20]
+      ["forge", 100], ["char_forge", 20], [ "oxy_torch", 20]
      ]
     ],
   "components":
@@ -3353,7 +3382,7 @@
       ["crucible", -1]
      ],
      [
-      ["forge", 200], ["char_forge", 40]
+      ["forge", 200], ["char_forge", 40], [ "oxy_torch", 40]
      ]
     ],
   "components":
@@ -3395,7 +3424,7 @@
       ["swage", -1]
      ],
      [
-      ["forge", 200], ["char_forge", 40]
+      ["forge", 200], ["char_forge", 40], [ "oxy_torch", 40]
      ]
     ],
   "components":
@@ -3433,7 +3462,7 @@
       ["swage", -1]
      ],
      [
-      ["forge", 200], ["char_forge", 40]
+      ["forge", 200], ["char_forge", 40], [ "oxy_torch", 40]
      ]
     ],
   "components":
@@ -3475,7 +3504,7 @@
       ["crucible", -1]
      ],
      [
-      ["forge", 300], ["char_forge", 60]
+      ["forge", 300], ["char_forge", 60], [ "oxy_torch", 60]
      ]
     ],
   "components":
@@ -3516,7 +3545,7 @@
       ["crucible", -1]
      ],
      [
-      ["forge", 200], ["char_forge", 40]
+      ["forge", 200], ["char_forge", 40], [ "oxy_torch", 40]
      ]
     ],
   "components":
@@ -3561,7 +3590,7 @@
       ["crucible", -1]
      ],
      [
-      ["forge", 350], ["char_forge", 70]
+      ["forge", 350], ["char_forge", 70], [ "oxy_torch", 70]
      ]
     ],
   "components":
@@ -3599,7 +3628,7 @@
       ["crucible", -1]
      ],
      [
-      ["forge", 250], ["char_forge", 50]
+      ["forge", 250], ["char_forge", 50], [ "oxy_torch", 50]
      ]
     ],
   "components":
@@ -3641,7 +3670,7 @@
       ["crucible", -1]
      ],
      [
-      ["forge", 300], ["char_forge", 60]
+      ["forge", 300], ["char_forge", 60], [ "oxy_torch", 60]
      ]
     ],
   "components":
@@ -3683,7 +3712,7 @@
       ["crucible", -1]
      ],
      [
-      ["forge", 350], ["char_forge", 70]
+      ["forge", 350], ["char_forge", 70], [ "oxy_torch", 70]
      ]
     ],
   "components":
@@ -3725,7 +3754,7 @@
       ["crucible", -1]
      ],
      [
-      ["forge", 300], ["char_forge", 60]
+      ["forge", 300], ["char_forge", 60], [ "oxy_torch", 60]
      ]
     ],
   "components":
@@ -3768,7 +3797,7 @@
       ["swage", -1]
      ],
      [
-      ["forge", 450], ["char_forge", 90]
+      ["forge", 450], ["char_forge", 90], [ "oxy_torch", 90]
      ]
     ],
   "components":
@@ -3804,7 +3833,7 @@
       ["crucible", -1]
      ],
      [
-      ["forge", 20], ["char_forge", 4]
+      ["forge", 20], ["char_forge", 4], [ "oxy_torch", 4]
      ]
     ],
   "components":
@@ -3881,7 +3910,7 @@
       ["crucible", -1]
      ],
      [
-      ["forge", 400], ["char_forge", 80]
+      ["forge", 400], ["char_forge", 80], [ "oxy_torch", 80]
      ]
     ],
   "components":
@@ -3943,7 +3972,8 @@
   ],
   "components": [
     [
-      [ "chitin_piece", 6 ]
+      [ "chitin_piece", 6 ],
+      [ "meal_chitin_piece", 6 ]
     ],
     [
       [ "ammonia", 1 ],
@@ -4297,7 +4327,7 @@
       ["crucible", -1]
      ],
      [
-      ["forge", 400], ["char_forge", 80]
+      ["forge", 400], ["char_forge", 80], [ "oxy_torch", 80]
      ]
     ],
   "components":

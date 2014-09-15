@@ -44,20 +44,22 @@ struct map_bash_item_drop {
     map_bash_item_drop(std::string str, int i1, int i2) : itemtype(str), amount(i1), minamount(i2), chance(-1) {};
 };
 struct map_bash_info {
-    int str_min;          // min str(*) required to bash
-    int str_max;          // max str required: bash succeeds if str >= random # between str_min_roll & str_max
-    int str_min_roll;     // lower bound of success check; defaults to str_min ( may set default to 0 )
-    int str_min_blocked;  // same as above; alternate values for has_adjacent_furniture(...) == true
+    int str_min;            // min str(*) required to bash
+    int str_max;            // max str required: bash succeeds if str >= random # between str_min_roll & str_max_roll
+    int str_min_blocked;    // same as above; alternate values for has_adjacent_furniture(...) == true
     int str_max_blocked;
-    int num_tests;        // how many tests must succeed
-    int chance;
-    int explosive;        // Explosion on destruction
+    int str_min_roll;       // lower bound of success check; defaults to str_min
+    int str_max_roll;       // upper bound of success check; defaults to str_max
+    int explosive;          // Explosion on destruction
+    bool destroy_only;      // Only used for destroying, not normally bashable
     std::vector<map_bash_item_drop> items; // list of items: map_bash_item_drop
-    std::string sound;    // sound made on success ('You hear a "smash!"')
+    std::string sound;      // sound made on success ('You hear a "smash!"')
     std::string sound_fail; // sound  made on fail
     std::string ter_set;    // terrain to set (REQUIRED for terrain))
-    std::string furn_set;    // furniture to set (only used by furniture, not terrain)
-    map_bash_info() : str_min(-1), str_max(-1), str_min_roll(-1), str_min_blocked(-1), str_max_blocked(-1), num_tests(-1), chance(-1), explosive(0), ter_set(""), furn_set("") {};
+    std::string furn_set;   // furniture to set (only used by furniture, not terrain)
+    map_bash_info() : str_min(-1), str_max(-1), str_min_blocked(-1), str_max_blocked(-1),
+                      str_min_roll(-1), str_max_roll(-1), explosive(0), destroy_only(false), 
+                      sound(""), sound_fail(""), ter_set(""), furn_set("") {};
     bool load(JsonObject &jsobj, std::string member, bool is_furniture);
 };
 struct map_deconstruct_info {
@@ -75,18 +77,15 @@ struct map_deconstruct_info {
  * List of known flags, used in both terrain.json and furniture.json.
  * TRANSPARENT - Players and monsters can see through/past it. Also sets ter_t.transparent
  * FLAT - Player can build and move furniture on
- * BASHABLE - Players + Monsters can bash this
  * CONTAINER - Items on this square are hidden until looted by the player
  * PLACE_ITEM - Valid terrain for place_item() to put items on
  * DOOR - Can be opened (used for NPC pathfinding)
  * FLAMMABLE - Can be lit on fire
  * FLAMMABLE_HARD - Harder to light on fire, but still possible
- * EXPLODES - Explodes when on fire
  * DIGGABLE - Digging monsters, seeding monsters, digging with shovel, etc
  * LIQUID - Blocks movement, but isn't a wall (lava, water, etc)
  * SWIMMABLE - Player and monsters can swim through it
  * SHARP - May do minor damage to players/monsters passing thruogh it
- * PAINFUL - May cause a small amount of pain
  * ROUGH - May hurt the player's feet
  * SEALED - Can't use 'e' to retrieve items, must smash open first
  * NOITEM - Items 'fall off' this space
@@ -98,7 +97,6 @@ struct map_deconstruct_info {
  * ALARMED - Sets off an alarm if smashed
  * SUPPORTS_ROOF - Used as a boundary for roof construction
  * INDOORS - Has roof over it; blocks rain, sunlight, etc.
- * THIN_OBSTACLE - Passable by players and monsters, vehicles destroy it
  * COLLAPSES - Has a roof that can collapse
  * FLAMMABLE_ASH - Burns to ash rather than rubble.
  * REDUCE_SCENT - Reduces scent even more, only works if also bashable
@@ -110,6 +108,7 @@ struct map_deconstruct_info {
  *
  * Currently only used for Fungal conversions
  * WALL - This terrain is an upright obstacle
+ * THIN_OBSTACLE - This terrain is a thin obstacle, i.e. fence
  * ORGANIC - This furniture is partly organic
  * FLOWER - This furniture is a flower
  * SHRUB - This terrain is a shrub
@@ -134,7 +133,6 @@ enum ter_bitflags {
     TFLAG_NONE,
     TFLAG_TRANSPARENT,
     TFLAG_FLAMMABLE,
-    TFLAG_BASHABLE,
     TFLAG_REDUCE_SCENT,
     TFLAG_SWIMMABLE,
     TFLAG_SUPPORTS_ROOF,
@@ -142,7 +140,6 @@ enum ter_bitflags {
     TFLAG_SEALED,
     TFLAG_LIQUID,
     TFLAG_COLLAPSES,
-    TFLAG_EXPLODES,
     TFLAG_FLAMMABLE_ASH,
     TFLAG_DESTROY_ITEM,
     TFLAG_INDOORS,
@@ -154,6 +151,7 @@ enum ter_bitflags {
     TFLAG_SHARP,
     TFLAG_DIGGABLE,
     TFLAG_ROUGH,
+    TFLAG_UNSTABLE,
     TFLAG_WALL,
     TFLAG_DEEP_WATER
 };
@@ -178,15 +176,17 @@ struct ter_t {
  */
  long sym;
 
- nc_color color;//The color the sym will draw in on the GUI.
+ nc_color color; //The color the sym will draw in on the GUI.
  unsigned char movecost; //The amount of movement points required to pass this terrain by default.
  trap_id trap; //The id of the trap located at this terrain. Limit one trap per tile currently.
- std::string trap_id_str; // String storing the id string of the trap.
+ std::string trap_id_str; //String storing the id string of the trap.
  std::set<std::string> flags;// string flags which may or may not refer to what's documented above.
  unsigned long bitflags; // bitfield of -certian- string flags which are heavily checked
  iexamine_function examine; //What happens when the terrain is examined
- std::string open;          // open action: transform into terrain with matching id
- std::string close;         // close action: transform into terrain with matching id
+ std::string harvestable; //what will be harvested from this terrain?
+ int harvest_season; //when will this terrain get harvested?
+ std::string open; //open action: transform into terrain with matching id
+ std::string close; //close action: transform into terrain with matching id
 
  map_bash_info bash;
  map_deconstruct_info deconstruct;
@@ -499,7 +499,7 @@ extern ter_id t_null,
     // Ground
     t_dirt, t_sand, t_dirtmound, t_pit_shallow, t_pit,
     t_pit_corpsed, t_pit_covered, t_pit_spiked, t_pit_spiked_covered,
-    t_rock_floor, t_rubble, t_ash, t_metal, t_wreckage,
+    t_rock_floor,
     t_grass,
     t_metal_floor,
     t_pavement, t_pavement_y, t_sidewalk, t_concrete,
@@ -510,7 +510,7 @@ extern ter_id t_null,
     t_bridge,
     t_covered_well,
     // Lighting related
-    t_skylight, t_emergency_light_flicker, t_emergency_light, t_utility_light,
+    t_utility_light,
     // Walls
     t_wall_log_half, t_wall_log, t_wall_log_chipped, t_wall_log_broken, t_palisade, t_palisade_gate, t_palisade_gate_o,
     t_wall_half, t_wall_wood, t_wall_wood_chipped, t_wall_wood_broken,
@@ -535,7 +535,7 @@ extern ter_id t_null,
     t_paper,
     t_rock_wall, t_rock_wall_half,
     // Tree
-    t_tree, t_tree_young, t_tree_apple, t_tree_pine, t_tree_deadpine, t_underbrush, t_shrub, t_shrub_blueberry, t_shrub_strawberry, t_trunk,
+    t_tree, t_tree_young, t_tree_apple, t_tree_pear, t_tree_cherry, t_tree_peach, t_tree_apricot, t_tree_plum, t_tree_pine, t_tree_deadpine, t_underbrush, t_shrub, t_shrub_blueberry, t_shrub_strawberry, t_trunk,
     t_root_wall,
     t_wax, t_floor_wax,
     t_fence_v, t_fence_h, t_chainfence_v, t_chainfence_h, t_chainfence_posts,
@@ -573,8 +573,7 @@ extern ter_id t_null,
     t_rock_red, t_rock_green, t_rock_blue, t_floor_red, t_floor_green, t_floor_blue,
      t_switch_rg, t_switch_gb, t_switch_rb, t_switch_even,
     t_rdoor_c, t_rdoor_b, t_rdoor_o, t_mdoor_frame, t_window_reinforced, t_window_reinforced_noglass,
-    t_window_enhanced, t_window_enhanced_noglass, t_open_air, t_plut_generator,
-    num_terrain_types;
+    t_window_enhanced, t_window_enhanced_noglass, t_open_air, t_plut_generator;
 
 
 /*
@@ -584,6 +583,7 @@ about ter_id above.
 */
 extern furn_id f_null,
     f_hay,
+    f_rubble, f_rubble_rock, f_wreckage, f_ash,
     f_barricade_road,
     f_bulletin,
     f_indoor_plant,
@@ -604,7 +604,7 @@ extern furn_id f_null,
     f_plant_seed, f_plant_seedling, f_plant_mature, f_plant_harvest,
     f_fvat_empty, f_fvat_full,
     f_wood_keg, f_egg_sackbw, f_egg_sackws, f_egg_sacke,
-    num_furniture_types;
+    f_flower_marloss;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// These are on their way OUT and only used in certain switch statements until they are rewritten.

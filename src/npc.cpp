@@ -66,8 +66,6 @@ npc::npc()
  }
 }
 
-npc::npc(const npc &rhs):player() { *this = rhs; }
-
 npc_map npc::_all_npc;
 
 void npc::load_npc(JsonObject &jsobj)
@@ -142,84 +140,6 @@ void npc::load_npc_template(std::string ident)
 }
 
 npc::~npc() { }
-
-npc& npc::operator= (const npc & rhs)
-{
- player::operator=(rhs);
-
- attitude = rhs.attitude;
- myclass = rhs.myclass;
- wandx = rhs.wandx;
- wandy = rhs.wandy;
- wandf = rhs.wandf;
-
- // Location:
- mapx = rhs.mapx;
- mapy = rhs.mapy;
- mapz = rhs.mapz;
- plx = rhs.plx;
- ply = rhs.ply;
- plt = rhs.plt;
- itx = rhs.itx;
- ity = rhs.ity;
- guardx = rhs.guardx;
- guardy = rhs.guardy;
- goal = rhs.goal;
-
- path = rhs.path;
-
- fetching_item = rhs.fetching_item;
- has_new_items = rhs.has_new_items;
- worst_item_value = rhs.worst_item_value;
-
- idz = rhs.idz;
- miss_id = rhs.miss_id;
- fac_id = rhs.fac_id;
- my_fac = rhs.my_fac;
- mission = rhs.mission;
- personality = rhs.personality;
- op_of_u = rhs.op_of_u;
- chatbin = rhs.chatbin;
- patience = rhs.patience;
- combat_rules = rhs.combat_rules;
- marked_for_death = rhs.marked_for_death;
- dead = rhs.dead;
-
- needs = rhs.needs;
-
- flags = rhs.flags;
-
- posx = rhs.posx;
- posy = rhs.posy;
-
- weapon = rhs.weapon;
- ret_null = rhs.ret_null;
- inv = rhs.inv;
- worn.clear();
- for (auto &i : rhs.worn)
-  worn.push_back(i);
-
- needs.clear();
- for (auto &i : rhs.needs)
-  needs.push_back(i);
-
- path.clear();
- for (auto &i : rhs.path)
-  path.push_back(i);
-
- for (int i = 0; i < num_hp_parts; i++) {
-  hp_cur[i] = rhs.hp_cur[i];
-  hp_max[i] = rhs.hp_max[i];
- }
-
- copy_skill_levels(&rhs);
-
- ma_styles.clear();
- for (auto &i : rhs.ma_styles)
-  ma_styles.push_back(i);
-
- return *this;
-}
 
 std::string npc::save_info()
 {

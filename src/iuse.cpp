@@ -2157,6 +2157,158 @@ int iuse::marloss(player *p, item *it, bool t)
     return it->type->charges_to_use();
 }
 
+int iuse::marloss_seed(player *p, item *it, bool t)
+{
+    if (p->is_npc()) {
+        return it->type->charges_to_use();
+    }
+    if (!(query_yn(_("Sure you want to eat the %s? You could plant it in a mound of dirt."),
+                 it->tname().c_str())) ) {
+        return 0; // Save the seed for later!
+    }
+    // If we have the marloss in our veins, we are a "breeder" and will spread
+    // the fungus.
+    p->add_memorial_log(pgettext("memorial_male", "Ate a marloss seed."),
+                        pgettext("memorial_female", "Ate a marloss seed."));
+
+    if (p->has_trait("MARLOSS_BLUE")) {
+        p->add_msg_if_player(m_good,
+                             _("As you eat the seed, you have a near-religious experience, feeling at one with your surroundings..."));
+        p->add_morale(MORALE_MARLOSS, 100, 1000);
+        p->hunger = -100;
+        monster spore(GetMType("mon_spore"));
+        spore.friendly = -1;
+        int spore_spawned = 0;
+        for (int x = p->posx - 4; x <= p->posx + 4; x++) {
+            for (int y = p->posy - 4; y <= p->posy + 4; y++) {
+                if (rng(0, 10) > trig_dist(x, y, p->posx, p->posy) &&
+                    rng(0, 10) > trig_dist(x, y, p->posx, p->posy)) {
+                    g->m.marlossify(x, y);
+                }
+                bool moveOK = (g->m.move_cost(x, y) > 0);
+                bool monOK = g->mon_at(x, y) == -1;
+                bool posOK = (g->u.posx != x || g->u.posy != y);
+                if (moveOK && monOK && posOK &&
+                    one_in(10 + 5 * trig_dist(x, y, p->posx, p->posy)) &&
+                    (spore_spawned == 0 || one_in(spore_spawned * 2))) {
+                    spore.spawn(x, y);
+                    g->add_zombie(spore);
+                    spore_spawned++;
+                }
+            }
+        }
+        return it->type->charges_to_use();
+    }
+
+    /* If we're not already carriers of Marloss, roll for a random effect:
+     * 1 - Mutate
+     * 2 - Mutate
+     * 3 - Mutate
+     * 4 - Purify
+     * 5 - Purify
+     * 6 - Cleanse radiation + Purify
+     * 7 - Fully satiate
+     * 8 - Vomit
+     * 9 - Give Marloss mutation
+     */
+    int effect = rng(1, 9);
+    if (effect <= 3) {
+        p->add_msg_if_player(_("This seed tastes extremely strange!"));
+        p->mutate();
+    } else if (effect <= 6) { // Radiation cleanse is below
+        p->add_msg_if_player(m_good, _("This seed makes you feel better all over."));
+        p->pkill += 30;
+        this->purifier(p, it, t);
+        if (effect == 6) {
+            p->radiation = 0;
+        }
+    } else if (effect == 7) {
+        p->add_msg_if_player(m_good, _("This seed is delicious, and very filling!"));
+        p->hunger = -100;
+    } else if (effect == 8) {
+        p->add_msg_if_player(m_bad, _("You take one bite, and immediately vomit!"));
+        p->vomit();
+    } else if (!p->has_trait("MARLOSS_BLUE")) {
+        p->add_msg_if_player(_("You feel a strange warmth spreading throughout your body..."));
+        p->toggle_mutation("MARLOSS_BLUE");
+    }
+    return it->type->charges_to_use();
+}
+
+int iuse::marloss_gel(player *p, item *it, bool t)
+{
+    if (p->is_npc()) {
+        return it->type->charges_to_use();
+    }
+    // If we have the marloss in our veins, we are a "breeder" and will spread
+    // the fungus.
+    p->add_memorial_log(pgettext("memorial_male", "Ate some marloss jelly."),
+                        pgettext("memorial_female", "Ate some marloss jelly."));
+
+    if (p->has_trait("MARLOSS_YELLOW")) {
+        p->add_msg_if_player(m_good,
+                             _("As you eat the jelly, you have a near-religious experience, feeling at one with your surroundings..."));
+        p->add_morale(MORALE_MARLOSS, 100, 1000);
+        p->hunger = -100;
+        monster spore(GetMType("mon_spore"));
+        spore.friendly = -1;
+        int spore_spawned = 0;
+        for (int x = p->posx - 4; x <= p->posx + 4; x++) {
+            for (int y = p->posy - 4; y <= p->posy + 4; y++) {
+                if (rng(0, 10) > trig_dist(x, y, p->posx, p->posy) &&
+                    rng(0, 10) > trig_dist(x, y, p->posx, p->posy)) {
+                    g->m.marlossify(x, y);
+                }
+                bool moveOK = (g->m.move_cost(x, y) > 0);
+                bool monOK = g->mon_at(x, y) == -1;
+                bool posOK = (g->u.posx != x || g->u.posy != y);
+                if (moveOK && monOK && posOK &&
+                    one_in(10 + 5 * trig_dist(x, y, p->posx, p->posy)) &&
+                    (spore_spawned == 0 || one_in(spore_spawned * 2))) {
+                    spore.spawn(x, y);
+                    g->add_zombie(spore);
+                    spore_spawned++;
+                }
+            }
+        }
+        return it->type->charges_to_use();
+    }
+
+    /* If we're not already carriers of Marloss, roll for a random effect:
+     * 1 - Mutate
+     * 2 - Mutate
+     * 3 - Mutate
+     * 4 - Purify
+     * 5 - Purify
+     * 6 - Cleanse radiation + Purify
+     * 7 - Fully satiate
+     * 8 - Vomit
+     * 9 - Give Marloss mutation
+     */
+    int effect = rng(1, 9);
+    if (effect <= 3) {
+        p->add_msg_if_player(_("This jelly tastes extremely strange!"));
+        p->mutate();
+    } else if (effect <= 6) { // Radiation cleanse is below
+        p->add_msg_if_player(m_good, _("This jelly makes you feel better all over."));
+        p->pkill += 30;
+        this->purifier(p, it, t);
+        if (effect == 6) {
+            p->radiation = 0;
+        }
+    } else if (effect == 7) {
+        p->add_msg_if_player(m_good, _("This jelly is delicious, and very filling!"));
+        p->hunger = -100;
+    } else if (effect == 8) {
+        p->add_msg_if_player(m_bad, _("You take one bite, and immediately vomit!"));
+        p->vomit();
+    } else if (!p->has_trait("MARLOSS_YELOW")) {
+        p->add_msg_if_player(_("You feel a strange warmth spreading throughout your body..."));
+        p->toggle_mutation("MARLOSS_YELLOW");
+    }
+    return it->type->charges_to_use();
+}
+
 // TOOLS below this point!
 
 int iuse::dogfood(player *p, item *, bool)
@@ -2908,7 +3060,7 @@ int iuse::extinguisher(player *p, item *it, bool)
             }
             monster &critter = g->zombie( mondex );
             critter.apply_damage( p, bp_torso, rng( 20, 60 ) );
-            critter.speed /= 2;
+            critter.mod_speed_bonus( -(critter.get_speed() / 2) );
         }
     }
 
@@ -3432,7 +3584,7 @@ int iuse::radio_on(player *p, item *it, bool t)
             std::vector<std::string> segments = foldstring(message, RADIO_PER_TURN);
             int index = calendar::turn % (segments.size());
             std::stringstream messtream;
-            messtream << _("radio: ") << segments[index];
+            messtream << string_format(_("radio: %s"), segments[index].c_str());
             message = messtream.str();
         }
         point pos = g->find_item(it);
@@ -4582,15 +4734,15 @@ int iuse::jackhammer(player *p, item *it, bool)
         p->add_msg_if_player(_("Don't do anything rash.."));
         return 0;
     }
-    if (g->m.is_destructable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
+    if (g->m.is_bashable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
         g->m.ter(dirx, diry) != t_tree) {
-        g->m.destroy(dirx, diry, false);
+        g->m.destroy(dirx, diry, true);
         p->moves -= 500;
         //~ the sound of a jackhammer
         g->sound(dirx, diry, 45, _("TATATATATATATAT!"));
     } else if (g->m.move_cost(dirx, diry) == 2 && g->levz != -1 &&
                g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass) {
-        g->m.destroy(dirx, diry, false);
+        g->m.destroy(dirx, diry, true);
         p->moves -= 500;
         g->sound(dirx, diry, 45, _("TATATATATATATAT!"));
     } else {
@@ -4627,16 +4779,16 @@ int iuse::jacqueshammer(player *p, item *it, bool)
     }
     dirx += p->posx;
     diry += p->posy;
-    if (g->m.is_destructable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
+    if (g->m.is_bashable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
         g->m.ter(dirx, diry) != t_tree) {
-        g->m.destroy(dirx, diry, false);
+        g->m.destroy(dirx, diry, true);
         // This looked like 50 minutes, but seems more like 50 seconds.  Needs checked.
         p->moves -= 500;
         //~ the sound of a "jacqueshammer"
         g->sound(dirx, diry, 45, _("OHOHOHOHOHOHOHOHO!"));
     } else if (g->m.move_cost(dirx, diry) == 2 && g->levz != -1 &&
                g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass) {
-        g->m.destroy(dirx, diry, false);
+        g->m.destroy(dirx, diry, true);
         p->moves -= 500;
         g->sound(dirx, diry, 45, _("OHOHOHOHOHOHOHOHO!"));
     } else {
@@ -4665,7 +4817,7 @@ int iuse::pickaxe(player *p, item *it, bool)
         return 0;
     }
     int turns;
-    if (g->m.is_destructable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
+    if (g->m.is_bashable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
         g->m.ter(dirx, diry) != t_tree) {
         // Takes about 100 minutes (not quite two hours) base time.  Construction skill can speed this: 3 min off per level.
         turns = (100000 - 3000 * p->skillLevel("carpentry"));
@@ -4698,7 +4850,7 @@ void on_finish_activity_pickaxe(player *p)
     const int dirx = p->activity.placement.x;
     const int diry = p->activity.placement.y;
     item *it = &p->i_at(p->activity.position);
-    if (g->m.is_destructable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
+    if (g->m.is_bashable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
         g->m.ter(dirx, diry) != t_tree) {
         // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
         // Betcha wish you'd opted for the J-Hammer ;P
@@ -4719,7 +4871,7 @@ void on_finish_activity_pickaxe(player *p)
         p->fatigue += 10;
         p->thirst += 5;
     }
-    g->m.destroy(dirx, diry, false);
+    g->m.destroy(dirx, diry, true);
     it->charges = std::max(long(0), it->charges - it->type->charges_to_use());
     if (it->charges == 0 && it->destroyed_at_zero_charges()) {
         p->i_rem(p->activity.position);
@@ -5026,8 +5178,9 @@ int iuse::can_goo(player *p, item *it, bool)
                     g->zombie(mondex).name().c_str());
         }
         g->zombie(mondex).poly(GetMType("mon_blob"));
-        g->zombie(mondex).speed -= rng(5, 25);
-        g->zombie(mondex).hp = g->zombie(mondex).speed;
+
+        g->zombie(mondex).set_speed_bonus( -rng(5, 25) );
+        g->zombie(mondex).hp = g->zombie(mondex).get_speed();
     } else {
         if (g->u_see(goox, gooy)) {
             add_msg(_("Living black goo emerges from the canister!"));
@@ -5095,8 +5248,11 @@ int iuse::pipebomb_act(player *, item *it, bool t)
         add_msg(m_info, _("You've already lit the %s, try throwing it instead."), it->tname().c_str());
         return 0;
     } else { // The timer has run down
-        if (one_in(10) && g->u_see(pos.x, pos.y)) {
-            add_msg(_("The pipe bomb fizzles out."));
+        if (one_in(10)) {
+            // Fizzled, but we may not have seen it to know that
+            if (g->u_see(pos.x, pos.y)) {
+                add_msg(_("The pipe bomb fizzles out."));
+            }
         } else {
             g->explosion(pos.x, pos.y, rng(6, 14), rng(0, 4), false);
         }
@@ -5151,8 +5307,9 @@ int iuse::granade_act(player *, item *it, bool t)
                     for (int j = -explosion_radius; j <= explosion_radius; j++) {
                         const int mon_hit = g->mon_at(pos.x + i, pos.y + j);
                         if (mon_hit != -1) {
-                            g->zombie(mon_hit).speed *= 1 + rng(0, 20) * .1;
-                            g->zombie(mon_hit).hp *= 1 + rng(0, 20) * .1;
+                            g->zombie(mon_hit).set_speed_bonus(
+                                g->zombie(mon_hit).get_speed_base() * rng_float(0.1, 2.0) );
+                            g->zombie(mon_hit).hp *= rng_float(1.1, 2.0);
                         } else if (g->npc_at(pos.x + i, pos.y + j) != -1) {
                             int npc_hit = g->npc_at(pos.x + i, pos.y + j);
                             g->active_npc[npc_hit]->str_max += rng(0, g->active_npc[npc_hit]->str_max / 2);
@@ -5183,7 +5340,8 @@ int iuse::granade_act(player *, item *it, bool t)
                     for (int j = -explosion_radius; j <= explosion_radius; j++) {
                         const int mon_hit = g->mon_at(pos.x + i, pos.y + j);
                         if (mon_hit != -1) {
-                            g->zombie(mon_hit).speed = rng(1, g->zombie(mon_hit).speed);
+                            g->zombie(mon_hit).set_speed_bonus(
+                                -rng(0, g->zombie(mon_hit).get_speed_base() - 1 ) );
                             g->zombie(mon_hit).hp = rng(1, g->zombie(mon_hit).hp);
                         } else if (g->npc_at(pos.x + i, pos.y + j) != -1) {
                             int npc_hit = g->npc_at(pos.x + i, pos.y + j);
@@ -5214,7 +5372,7 @@ int iuse::granade_act(player *, item *it, bool t)
                     for (int j = -explosion_radius; j <= explosion_radius; j++) {
                         const int mon_hit = g->mon_at(pos.x + i, pos.y + j);
                         if (mon_hit != -1) {
-                            g->zombie(mon_hit).speed = g->zombie(mon_hit).type->speed;
+                            g->zombie(mon_hit).set_speed_bonus( 0 );
                             g->zombie(mon_hit).hp = g->zombie(mon_hit).type->hp;
                             g->zombie(mon_hit).clear_effects();
                         } else if (g->npc_at(pos.x + i, pos.y + j) != -1) {
@@ -6602,6 +6760,82 @@ int iuse::lumber(player *p, item *it, bool)
 }
 
 
+int iuse::oxytorch(player *p, item *it, bool)
+{
+    int dirx, diry;
+    if (!(p->has_amount("goggles_welding", 1) || p->is_wearing("goggles_welding") ||
+          p->is_wearing("rm13_armor_on") || p->has_bionic("bio_sunglasses"))) {
+        add_msg(m_info, _("You need welding goggles to do that."));
+        return 0;
+    }
+    if (!choose_adjacent(_("Cut up metal where?"), dirx, diry)) {
+        return 0;
+    }
+
+    if (dirx == p->posx && diry == p->posy) {
+        add_msg(m_info, _("Yuck.  Acetylene gas smells weird."));
+        return 0;
+    }
+
+
+    if (g->m.furn(dirx, diry) == f_rack) {
+        p->moves -= 200;
+        g->m.furn_set(dirx, diry, f_null);
+        g->sound(dirx, diry, 10, _("hissssssssss!"));
+        g->m.spawn_item(p->posx, p->posy, "steel_chunk", rng(2, 6));
+        return it->type->charges_to_use();
+    }
+
+    const ter_id ter = g->m.ter( dirx, diry );
+    if( ter == t_chainfence_v || ter == t_chainfence_h || ter == t_chaingate_c ||
+        ter == t_chaingate_l) {
+            p->moves -= 1000;
+            g->m.ter_set(dirx, diry, t_dirt);
+            g->sound(dirx, diry, 10, _("hissssssssss!"));
+            g->m.spawn_item(dirx, diry, "pipe", rng(1, 4));
+            g->m.spawn_item(dirx, diry, "wire", rng(4, 16));
+    } else if( ter == t_chainfence_posts ) {
+            p->moves -= 200;
+            g->m.ter_set(dirx, diry, t_dirt);
+            g->sound(dirx, diry, 10, _("hissssssssss!"));
+            g->m.spawn_item(dirx, diry, "pipe", rng(1, 4));
+    } else if( ter == t_chaingate_l || ter == t_chaingate_c ) {
+            p->moves -= 200;
+            g->m.ter_set(dirx, diry, t_dirt);
+            g->sound(dirx, diry, 10, _("hissssssssss!"));
+            g->m.spawn_item(dirx, diry, "pipe", rng(1, 4));
+    } else if( ter == t_door_metal_locked || ter == t_door_metal_c || ter == t_door_bar_c ||
+               ter == t_door_bar_locked ) {
+            p->moves -= 1500;
+            g->m.ter_set(dirx, diry, t_mdoor_frame);
+            g->sound(dirx, diry, 10, _("hissssssssss!"));
+            g->m.spawn_item(dirx, diry, "steel_plate", rng(0, 1));
+            g->m.spawn_item(dirx, diry, "steel_chunk", rng(1, 2));
+    } else if( ter == t_window_enhanced || ter == t_window_empty ) {
+            p->moves -= 500;
+            g->m.ter_set(dirx, diry, t_window_reinforced_noglass);
+            g->sound(dirx, diry, 10, _("hissssssssss!"));
+            g->m.spawn_item(dirx, diry, "steel_plate", rng(0, 1));
+    } else if( ter == t_bars ) {
+            if (g->m.ter(dirx + 1, diry) == t_sewage || g->m.ter(dirx, diry + 1) == t_sewage ||
+                g->m.ter(dirx - 1, diry) == t_sewage || g->m.ter(dirx, diry - 1) == t_sewage) {
+                g->m.ter_set(dirx, diry, t_sewage);
+                p->moves -= 1000;
+                g->sound(dirx, diry, 10, _("hissssssssss!"));
+                g->m.spawn_item(p->posx, p->posy, "pipe", rng(1, 2));
+            } else {
+                g->m.ter_set(dirx, diry, t_floor);
+                p->moves -= 1000;
+                g->sound(dirx, diry, 10, _("hissssssssss!"));
+                g->m.spawn_item(p->posx, p->posy, "pipe", rng(1, 2));
+            }
+    } else {
+            add_msg(m_info, _("You can't cut that."));
+            return 0;
+    }
+    return it->type->charges_to_use();
+}
+
 int iuse::hacksaw(player *p, item *it, bool)
 {
     int dirx, diry;
@@ -7137,8 +7371,8 @@ int iuse::artifact(player *p, item *it, bool)
                         g->m.bash(x, y, 40);
                         g->m.bash(x, y, 40);  // Multibash effect, so that doors &c will fall
                         g->m.bash(x, y, 40);
-                        if (g->m.is_destructable(x, y) && rng(1, 10) >= 3) {
-                            g->m.ter_set(x, y, t_rubble);
+                        if (g->m.is_bashable(x, y) && rng(1, 10) >= 3) {
+                            g->m.bash(x, y, 999, false, true);
                         }
                     }
                 }
@@ -7886,6 +8120,9 @@ int iuse::towel(player *p, item *it, bool)
     // dry off from being wet
     else if (abs(p->has_morale(MORALE_WET))) {
         p->rem_morale(MORALE_WET);
+        for (int i = 0; i < num_bp; ++i) {
+            p->body_wetness[i] = 0;
+        }
         p->add_msg_if_player(_("You use the %s to dry off, saturating it with water!"),
                              it->tname().c_str());
 
@@ -8483,24 +8720,24 @@ bool einkpc_download_memory_card(player *p, item *eink, item *mc)
             recipe *r = candidates[rng(0, candidates.size() - 1)];
             const std::string rident = r->ident;
 
-            const item dummy(r->ident, 0);
+            const item dummy(r->result, 0);
 
             if (eink->item_vars["EIPC_RECIPES"] == "") {
                 something_downloaded = true;
                 eink->item_vars["EIPC_RECIPES"] = "," + rident + ",";
 
                 p->add_msg_if_player(m_good, _("You download a recipe for %s into the tablet's memory."),
-                                     dummy.tname().c_str());
+                                     dummy.type->nname(1).c_str());
             } else {
                 if (eink->item_vars["EIPC_RECIPES"].find("," + rident + ",") == std::string::npos) {
                     something_downloaded = true;
                     eink->item_vars["EIPC_RECIPES"] += rident + ",";
 
                     p->add_msg_if_player(m_good, _("You download a recipe for %s into the tablet's memory."),
-                                         dummy.tname().c_str());
+                                         dummy.type->nname(1).c_str());
                 } else {
                     p->add_msg_if_player(m_good, _("Your tablet already has a recipe for %s."),
-                                         dummy.tname().c_str());
+                                         dummy.type->nname(1).c_str());
                 }
             }
         }
@@ -8747,7 +8984,7 @@ int iuse::einktabletpc(player *p, item *it, bool t)
             rmenu.text = _("Choose recipe to view:");
             rmenu.addentry(0, true, 'q', _("Cancel"));
 
-            std::vector<std::string> recipes;
+            std::vector<std::string> candidate_recipes;
             std::istringstream f(it->item_vars["EIPC_RECIPES"]);
             std::string s;
             int k = 1;
@@ -8757,10 +8994,13 @@ int iuse::einktabletpc(player *p, item *it, bool t)
                     continue;
                 }
 
-                recipes.push_back(s);
+                candidate_recipes.push_back(s);
 
-                const item dummy(s, 0);
-                rmenu.addentry(k++, true, -1, dummy.tname().c_str());
+                auto recipe = find_recipe( s );
+                if( recipe ) {
+                    const item dummy( recipe->result, 0 );
+                    rmenu.addentry(k++, true, -1, dummy.type->nname(1).c_str());
+                }
             }
 
             rmenu.query();
@@ -8770,10 +9010,15 @@ int iuse::einktabletpc(player *p, item *it, bool t)
                 return it->type->charges_to_use();
             } else {
                 it->item_tags.insert("HAS_RECIPE");
-                it->item_vars["RECIPE"] = recipes[rchoice - 1];
+                it->item_vars["RECIPE"] = candidate_recipes[rchoice - 1];
 
-                const item dummy(it->item_vars["RECIPE"], 0);
-                p->add_msg_if_player(m_info, _("You change the e-ink screen to show a recipe for %s."), dummy.tname().c_str());
+                auto recipe = find_recipe( it->item_vars["RECIPE"] );
+                if( recipe ) {
+                    const item dummy( recipe->result, 0 );
+                    p->add_msg_if_player(m_info,
+                        _("You change the e-ink screen to show a recipe for %s."),
+                                         dummy.type->nname(1).c_str());
+                }
             }
 
             return it->type->charges_to_use();

@@ -1553,6 +1553,22 @@
         "extras" : "field"
     },{
         "type" : "overmap_terrain",
+        "id" : "fungal_tower",
+        "name" : "fungal tower",
+        "sym" : 84,
+        "color" : "yellow",
+        "see_cost" : 3,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "fungal_flowers",
+        "name" : "fungal flowers",
+        "sym" : 84,
+        "color" : "cyan",
+        "see_cost" : 5,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
         "id" : "spider_pit",
         "name" : "forest",
         "sym" : 70,
@@ -4379,6 +4395,38 @@
         "name" : "small power substation",
         "sym" : 72,
         "color" : "light_cyan",
+        "see_cost" : 5,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "pwr_large_entrance",
+        "name" : "large power substation",
+        "sym" : 72,
+        "color" : "cyan",
+        "see_cost" : 5,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "pwr_large_2",
+        "name" : "large power substation",
+        "sym" : 72,
+        "color" : "cyan",
+        "see_cost" : 5,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "pwr_large_3",
+        "name" : "large power substation",
+        "sym" : 72,
+        "color" : "cyan",
+        "see_cost" : 5,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "pwr_large_4",
+        "name" : "large power substation",
+        "sym" : 72,
+        "color" : "cyan",
         "see_cost" : 5,
         "extras" : "field"
     }

@@ -3126,29 +3126,18 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
         } else {
             mass2 = 82;// player or NPC
         }
-    } else if (g->m.has_flag_ter_or_furn ("THIN_OBSTACLE", x, y)) {
-        // if all above fails, go for terrain which might obstruct moving
-        collision_type = veh_coll_thin_obstacle; // some fence
-        mass2 = 10;
-        e=0.30;
-        part_dens = 20;
-    } else if (g->m.has_flag_ter_or_furn("BASHABLE", x, y)) {
-        collision_type = veh_coll_bashable; // (door, window)
-        mass2 = 50;
-        e=0.30;
-        part_dens = 20;
+    } else if (g->m.is_bashable_ter_furn(x, y) && g->m.move_cost_ter_furn( x, y ) != 2 ) {
+        // movecost 2 indicates flat terrain like a floor, no collision there.
+        collision_type = veh_coll_bashable;
+        e = 0.30;
+        //Just a rough rescale for now to obtain approximately equal numbers
+        mass2 = 10 + std::max(0, g->m.bash_strength(x, y) - 30);
+        part_dens = 10 + int(float(g->m.bash_strength(x, y)) / 300 * 70);
     } else if (g->m.move_cost_ter_furn(x, y) == 0) {
-        if(g->m.is_destructable_ter_furn(x, y)) {
-            collision_type = veh_coll_destructable; // destructible (wall)
-            mass2 = 200;
-            e=0.30;
-            part_dens = 60;
-        } else {
-            collision_type = veh_coll_other; // not destructible
-            mass2 = 1000;
-            e=0.10;
-            part_dens = 80;
-        }
+        collision_type = veh_coll_other; // not destructible
+        mass2 = 1000;
+        e=0.10;
+        part_dens = 80;
     }
 
     if (collision_type == veh_coll_nothing) {  // hit nothing
@@ -3219,36 +3208,29 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
         //damage for object
         const float obj_dmg  = dmg * (100-k)/100;
 
-        if (collision_type == veh_coll_bashable) {
+        if (collision_type == veh_coll_other) {
+            smashed = false;
+        } else if (collision_type == veh_coll_bashable) {
             // something bashable -- use map::bash to determine outcome
-            int absorb = -1;
-            g->m.bash(x, y, obj_dmg, false, &absorb);
-            smashed = obj_dmg > absorb;
-        } else if (collision_type >= veh_coll_thin_obstacle) {
-            // some other terrain
-            smashed = obj_dmg > mass2;
+            smashed = g->m.bash(x, y, obj_dmg, false).second;
             if (smashed) {
-                // destroy obstacle
-                switch (collision_type) {
-                case veh_coll_thin_obstacle:
-                    if (g->m.has_furn(x, y)) {
-                        g->m.furn_set(x, y, f_null);
-                    } else {
-                        g->m.ter_set(x, y, t_dirt);
-                    }
-                    break;
-                case veh_coll_destructable:
-                    g->m.destroy(x, y, false);
-                    snd = _("crash!");
-                    break;
-                case veh_coll_other:
+                if (g->m.is_bashable_ter_furn(x, y)) {
+                    // There's new terrain there to smash
                     smashed = false;
-                    break;
-                default:;
+                    e = 0.30;
+                    //Just a rough rescale for now to obtain approximately equal numbers
+                    mass2 = 10 + std::max(0, g->m.bash_strength(x, y) - 30);
+                    part_dens = 10 + int(float(g->m.bash_strength(x, y)) / 300 * 70);
+                } else if (g->m.move_cost_ter_furn(x, y) == 0) {
+                    // There's new terrain there, but we can't smash it!
+                    smashed = false;
+                    collision_type = veh_coll_other;
+                    mass2 = 1000;
+                    e=0.10;
+                    part_dens = 80;
                 }
             }
-        }
-        if (collision_type == veh_coll_body) {
+        } else if (collision_type == veh_coll_body) {
             int dam = obj_dmg*dmg_mod/100;
             if (z) {
                 int z_armor = part_flag(part, "SHARP")? z->type->armor_cut : z->type->armor_bash;

@@ -172,37 +172,46 @@ int player::get_hit_base() const
 
 int player::hit_roll() const
 {
-// apply martial arts bonuses
+    //Unstable ground chance of failure
+    if (has_effect("bouldering")) {
+        if(one_in(get_dex())) {
+            add_msg_if_player(m_bad, _("The ground shifts beneath your feet!"));
+            return 0;
+        }
+    }
 
- int numdice = get_hit();
+    // apply martial arts bonuses
+    int numdice = get_hit();
 
- int sides = 10 - encumb(bp_torso);
- int best_bonus = 0;
- if (sides < 2)
-  sides = 2;
+    int sides = 10 - encumb(bp_torso);
+    int best_bonus = 0;
+    if (sides < 2) {
+        sides = 2;
+    }
 
- numdice += best_bonus; // Use whichever bonus is best.
+    numdice += best_bonus; // Use whichever bonus is best.
 
-// Drunken master makes us hit better
- if (has_trait("DRUNKEN")) {
-  if (unarmed_attack())
-   numdice += int(disease_duration("drunk") / 300);
-  else
-   numdice += int(disease_duration("drunk") / 400);
- }
+    // Drunken master makes us hit better
+    if (has_trait("DRUNKEN")) {
+        if (unarmed_attack()) {
+            numdice += int(disease_duration("drunk") / 300);
+        } else {
+            numdice += int(disease_duration("drunk") / 400);
+        }
+    }
 
-// Farsightedness makes us hit worse
- if (has_trait("HYPEROPIC") && !is_wearing("glasses_reading")
-     && !is_wearing("glasses_bifocal")) {
-  numdice -= 2;
- }
+    // Farsightedness makes us hit worse
+    if (has_trait("HYPEROPIC") && !is_wearing("glasses_reading")
+          && !is_wearing("glasses_bifocal")) {
+        numdice -= 2;
+    }
 
- if (numdice < 1) {
-  numdice = 1;
-  sides = 8 - encumb(bp_torso);
- }
-
- return dice(numdice, sides);
+    if (numdice < 1) {
+        numdice = 1;
+        sides = 8 - encumb(bp_torso);
+    }
+    
+    return dice(numdice, sides);
 }
 
 void reason_weight_list::add_item(const char *reason, unsigned int weight)
@@ -415,11 +424,11 @@ void player::melee_attack(Creature &t, bool allow_special, matec_id force_techni
         if (!specialmsg.empty()) {
             add_msg_if_player(specialmsg.c_str());
         }
-        
+
         if (t.is_dead_state()) {
             t.die(this);
         }
-        
+
     }
 
     mod_moves(-move_cost);
@@ -555,12 +564,19 @@ int player::dodge_roll()
         }
         add_disease("downed", 3);
     }
-	//Fighting on a pair of quad skates isn't so hard, but fighting while wearing a single skate is.
+    //Fighting on a pair of quad skates isn't so hard, but fighting while wearing a single skate is.
     if (shoe_type_count("rollerskates") == 1 && one_in((get_dex() + get_skill_level("dodge")) / 8 )) {
         if (!has_disease("downed")) {
             add_msg_if_player(_("Fighting on wheels is hard!"));
         }
         add_disease("downed", 3);
+    }
+    if (has_effect("bouldering")) {
+        if(one_in(get_dex())) {
+            add_msg_if_player(m_bad, _("You slip as the ground shifts beneath your feet!"));
+            add_disease("downed", 3);
+            return 0;
+        }
     }
     int dodge_stat = get_dodge();
 
@@ -2087,18 +2103,12 @@ void player_hit_message(player* attacker, std::string message,
                             message.c_str(), dam);
         sSCTmod = _("Critical!");
         gmtSCTcolor = m_critical;
-        if (!attacker->is_npc()) {
-            msgtype = m_good;
-        }
     } else {
         //~ someone hits something for %d damage
         msg = string_format(_("%s for %d damage."), message.c_str(), dam);
-        if (!attacker->is_npc()) {
-            msgtype = m_good;
-        }
     }
 
-    if (dam > 0) {
+    if (dam > 0 && attacker->is_player()) {
         //player hits monster melee
         nc_color color;
         std::string health_bar = "";

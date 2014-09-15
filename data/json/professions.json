@@ -39,7 +39,7 @@
                     "tshirt",
                     "socks",
                     "backpack",
-                    "pockknife",
+                    "knife_swissarmy",
                     "rope_30",
                     "canteen"
                 ],
@@ -121,7 +121,7 @@
                 "socks",
                 "sweater",
                 "sneakers",
-                "pockknife",
+                "multitool",
                 "water_clean",
                 "matches"
             ],
@@ -525,7 +525,7 @@
                 "rm2000_smg",
                 "suppressor",
                 "8mm_fmj",
-                "knife_trench"
+                "kukri"
             ],
             "male": [
                 "boxer_shorts"
@@ -741,7 +741,7 @@
                 "tshirt",
                 "socks",
                 "backpack",
-                "knife_combat",
+                "knife_rambo",
                 "lighter",
                 "rope_30",
                 "canteen",
@@ -957,7 +957,7 @@
                 "pants_cargo",
                 "compbow",
                 "arrow_cf",
-                "knife_combat",
+                "knife_hunting",
                 "hat_hunting",
                 "quiver"
             ],
@@ -1205,7 +1205,7 @@
                 "boots",
                 "bandana",
                 "jacket_leather",
-                "pockknife"
+                "knife_trench"
             ],
             "male": [
                 "boxer_shorts"
@@ -1837,7 +1837,7 @@
                 "hat_hunting",
                 "jacket_flannel",
                 "beartrap",
-                "pockknife",
+                "knife_hunting",
                 "tobacco",
                 "rolling_paper",
                 "matches"
@@ -2696,7 +2696,7 @@
                 "jeans",
                 "tshirt",
                 "backpack",
-                "pockknife",
+                "multitool",
                 "hoe",
                 "socks",
                 "boots",
@@ -2792,7 +2792,7 @@
 		"bolt_wood",
 		"bolt_wood",
 		"mess_kit",
-		"knife_combat"
+		"kukri"
             ],
             "male": [
                 "boxer_shorts"
@@ -2856,5 +2856,32 @@
             ]
         },
 	"flags" : ["SCEN_ONLY"]
+    },{
+        "type": "profession",
+        "ident": "mall_cop",
+        "name": "Mall Security",
+        "description": "A mall security guard. You don't have any useful skills, other than some basic training for your job. You do however have your trusty tazer, baton, and pocket knife.",
+        "points": 0,
+        "items": {
+            "both": [
+                "pants",
+                "socks",
+                "boots",
+                "flashlight",
+                "longshirt",
+                "jacket_light",
+                "baton",
+                "tazer",
+                "battery",
+                "pockknife"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "bra",
+                "boy_shorts"
+            ]
+        }
     }
 ]

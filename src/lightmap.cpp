@@ -101,10 +101,6 @@ void map::generate_lightmap()
                 add_light_source(sx, sy, 3 );
             }
 
-            if(terrain == t_emergency_light) {
-                add_light_source(sx, sy, 3 );
-            }
-
             if(terrain == t_utility_light) {
                 add_light_source(sx, sy, 35 );
             }

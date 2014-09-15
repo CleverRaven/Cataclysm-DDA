@@ -71,10 +71,13 @@ void scenario::load_scenario(JsonObject &jsobj)
             scen._allowed_professions.insert(jsarr.next_string());
         }
         else{
-            scen._profession = profession::prof(jsarr.next_string());
-            scen._allowed_professions.insert(scen._profession->ident());
+            scen._profession = jsarr.next_string();
+            scen._allowed_professions.insert(scen._profession);
             first = true;
         }
+    }
+    if (scen._allowed_professions.size() < 1){
+        scen._profession = profession::generic()->ident();
     }
     jsarr = jsobj.get_array("traits");
     while (jsarr.has_more()) {
@@ -258,11 +261,11 @@ signed int scenario::point_cost() const
 
 std::string scenario::start_location() const
 {
-        return _default_loc;
+    return _default_loc;
 }
 profession* scenario::get_profession() const
 {
-        return _profession;
+    return profession::prof(_profession);;
 }
 std::string scenario::start_name() const
 {

@@ -460,14 +460,15 @@ bool query_yn(const char *mes, ...)
 
     while (ch != '\n' && ch != ' ' && ch != KEY_ESCAPE) {
 
-        gotkey = (force_uc && ((ch == ucselectors[0]) || (ch == ucselectors[1])))
-                 || (!force_uc && ((ch == selectors[0]) || (ch == selectors[1])));
+        // Upper case always works, lower case only if !force_uc.
+        gotkey = (ch == ucselectors[0]) || (ch == ucselectors[1]) ||
+            (!force_uc && ((ch == selectors[0]) || (ch == selectors[1])));
 
         if (gotkey) {
-            result = (!force_uc && (ch == selectors[0])) || (force_uc && (ch == ucselectors[0]));
+            result = (!force_uc && (ch == selectors[0])) || (ch == ucselectors[0]);
             break; // could move break past render to flash final choice once.
-        } else if ((!force_uc && (ch != ucselectors[0]) && (ch != ucselectors[1]))
-                   || (force_uc && ((ch != selectors[0]) && (ch != selectors[1])))) {
+        } else {
+            // Everything else toggles the selection.
             result = !result;
         }
 

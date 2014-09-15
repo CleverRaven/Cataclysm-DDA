@@ -213,23 +213,7 @@ void construction_menu()
             }
         }
         // Determine where in the master list to start printing
-        if( OPTIONS["MENU_SCROLL"] ) {
-            if ((int)constructs.size() > iMaxY) {
-                offset = select - (iMaxY - 1) / 2;
-
-                if (offset < 0) {
-                    offset = 0;
-                } else if (offset + iMaxY -2 > (int)constructs.size()) {
-                    offset = constructs.size() - iMaxY + 4;
-                }
-             }
-        } else {
-            if( select < offset ) {
-                offset = select;
-            } else if( select >= offset + iMaxY - 4 ) {
-                offset = 1 + select - iMaxY + 4;
-            }
-        }
+        calcStartPos( offset, select, iMaxY - 4, constructs.size() );
         // Print the constructions between offset and max (or how many will fit)
         for (size_t i = 0; (int)i < iMaxY - 4 && (i + offset) < constructs.size(); i++) {
             int current = i + offset;
@@ -629,7 +613,7 @@ void construct::done_tree(point p)
     std::vector<point> tree = line_to(p.x, p.y, x, y, rng(1, 8));
     for (std::vector<point>::iterator it = tree.begin();
          it != tree.end(); ++it) {
-        g->m.destroy(it->x, it->y, true);
+        g->m.destroy(it->x, it->y);
         g->m.ter_set(it->x, it->y, t_trunk);
     }
 }

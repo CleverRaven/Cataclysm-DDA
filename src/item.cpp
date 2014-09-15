@@ -190,8 +190,19 @@ void item::init() {
 
 void item::make( const std::string new_type )
 {
+    const bool was_armor = is_armor();
     type = item_controller->find_template( new_type );
     contents.clear();
+    if( was_armor != is_armor() ) {
+        // If changed from armor to non-armor (or reverse), have to recalculate
+        // the coverage.
+        const it_armor* armor = dynamic_cast<const it_armor*>( type );
+        if( armor == nullptr ) {
+            covers = 0;
+        } else {
+            covers = armor->covers;
+        }
+    }
 }
 
 void item::clear()
@@ -820,7 +831,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
                 }
                 buffer << it->front().to_string();
             }
-            dump->push_back( iteminfo( "DESCRIPTION", string_format( _("Dissasembing this item might yield %s"),
+            dump->push_back( iteminfo( "DESCRIPTION", string_format( _("Disassembling this item might yield %s"),
                                                                      buffer.str().c_str() ) ) );
         }
     }
@@ -1169,11 +1180,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     std::string vehtext = "";
     if (is_var_veh_part()) {
         if(type->bigness_aspect == BIGNESS_ENGINE_DISPLACEMENT) {
-            ret.str("");
-            ret.precision(4);
-            ret << (float)bigness/100;
+            float liters = (((float) bigness)/100.0f);
             //~ liters, e.g. 3.21-Liter V8 engine
-            vehtext = rmp_format(_("<veh_adj>%s-Liter "), ret.str().c_str());
+            vehtext = rmp_format(_("<veh_adj>%4.2f-Liter "), liters);
         }
         else if(type->bigness_aspect == BIGNESS_WHEEL_DIAMETER) {
             //~ inches, e.g. 20" wheel
@@ -1356,21 +1365,17 @@ int item::price() const
         tmp.charges = charges;
         ret += tmp.price();
     }
-    if( type->is_ammo() ) {
-        const it_ammo* ammo = dynamic_cast<const it_ammo*>( type );
-        ret = ret * charges / static_cast<double>( ammo->count );
-    } else if( type->is_food() ) {
-        const it_comest* comest = dynamic_cast<const it_comest*>( type );
-        if( comest->charges > 1 || made_of( LIQUID ) ) {
-            ret = ret * charges * static_cast<double>( comest->charges );
-        }
+    // The price from the json data is for the default-sized stack, like the volume
+    // calculation.
+    if( count_by_charges() || made_of( LIQUID ) ) {
+        ret = ret * charges / static_cast<double>( max_charges() );
     }
     if( is_tool() && curammo == nullptr ) {
         // If the tool uses specific ammo (like gasoline) it is handled above.
         const it_tool *itt = dynamic_cast<const it_tool*>( type );
-        if( itt->max_charges > 0 && itt->def_charges > 0 ) {
-            const double f = static_cast<double>( itt->def_charges ) / itt->max_charges;
-            ret = f * std::max<long>( 0, charges ) * ret;
+        if( itt->def_charges > 0 ) {
+            // Full value when charges == default charges, otherwise scalled down
+            ret = ret * std::max<long>( 0, charges ) / static_cast<double>( itt->def_charges );
         }
     }
     for (size_t i = 0; i < contents.size(); i++) {

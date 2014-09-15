@@ -77,7 +77,7 @@
         "points" : 3,
         "description" : "Your metabolism is a little slower, and you require less food than most.",
         "starting_trait" : true,
-        "cancels" : ["HUNGER"],
+        "cancels" : ["HUNGER", "HUNGER2", "HUNGER3", "EATHEALTH"],
         "changes_to" : ["GIZZARD"],
         "category" : ["MUTCAT_BIRD", "MUTCAT_INSECT", "MUTCAT_TROGLOBITE"]
     },{
@@ -106,7 +106,7 @@
         "description" : "You possess natural night vision, and can see two squares instead of one in pitch blackness.",
         "starting_trait" : true,
         "changes_to" : ["NIGHTVISION2"],
-        "cancels": ["ELFA_NV", "ELFA_FNV", "FELINE_NV"],
+        "cancels": ["ELFA_NV", "ELFA_FNV", "FELINE_NV", "URSINE_EYE"],
         "category" : ["MUTCAT_BIRD", "MUTCAT_CATTLE", "MUTCAT_INSECT"]
     },{
         "type" : "mutation",
@@ -877,7 +877,7 @@
         "description" : "You can see incredibly well in the dark!",
         "prereqs" : ["NIGHTVISION"],
         "changes_to" : ["NIGHTVISION3"],
-        "cancels" : ["ELFA_NV", "ELFA_FNV", "FEL_NV"],
+        "cancels" : ["ELFA_NV", "ELFA_FNV", "FEL_NV", "URSINE_EYE"],
         "category" : ["MUTCAT_FISH", "MUTCAT_BEAST", "MUTCAT_INSECT", "MUTCAT_RAT", "MUTCAT_CHIMERA", "MUTCAT_LUPINE"]
     },{
         "type" : "mutation",
@@ -887,7 +887,7 @@
         "description" : "You can see in pitch blackness as if you were wearing night-vision goggles.",
         "prereqs" : ["NIGHTVISION2"],
         "leads_to" : ["INFRARED"],
-        "cancels" : ["ELFA_NV", "ELFA_FNV", "FEL_NV"],
+        "cancels" : ["ELFA_NV", "ELFA_FNV", "FEL_NV", "URSINE_EYE"],
         "category" : ["MUTCAT_TROGLOBITE", "MUTCAT_SPIDER"]
     },{
         "type" : "mutation",
@@ -897,7 +897,7 @@
         "description" : "Your eyes have turned...green.  It's tough to tell the exact shade as it seems to shift.  The effect is ...pleasant.",
         "leads_to" : ["ELFA_NV"],
         "valid" : false,
-        "cancels" : ["BIRD_EYE", "LIZ_EYE", "FEL_EYE", "URSINE_EYE"],
+        "cancels" : ["BIRD_EYE", "LIZ_EYE", "FEL_EYE", "URSINE_EYE", "COMPOUND_EYES"],
         "category" : ["MUTCAT_ELFA"]
     },{
         "type" : "mutation",
@@ -927,7 +927,7 @@
         "ugliness" : 1,
         "description" : "Your eyes have mutated, now having a slitted pupil and glittering in light, much like those of cats.  This is visually striking, but it isn't helping you see at night.",
         "leads_to" : ["FEL_NV"],
-        "cancels" : ["ELFAEYES", "LIZ_EYE", "BIRD_EYE", "URSINE_EYE"],
+        "cancels" : ["ELFAEYES", "LIZ_EYE", "BIRD_EYE", "URSINE_EYE", "COMPOUND_EYES"],
         "category" : ["MUTCAT_FELINE", "MUTCAT_BEAST"]
     },{
         "type" : "mutation",
@@ -944,7 +944,7 @@
         "name" : "Ursine Vision",
         "points" : 1,
         "description" : "Your visual processing has shifted: though you can see better in the dark, you can't see very far in the light.",
-        "cancels" : ["ELFAEYES", "LIZ_EYE", "BIRD_EYE", "FEL_EYE", "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3"],
+        "cancels" : ["ELFAEYES", "LIZ_EYE", "BIRD_EYE", "FEL_EYE", "COMPOUND_EYES", "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3"],
         "category" : ["MUTCAT_URSINE"]
     },{
         "type" : "mutation",
@@ -954,7 +954,7 @@
         "visibility" : 1,
         "ugliness" : 0,
         "description" : "Your vision has become particularly acute: you suspect you could pick out zombies much farther away.  Perception +4.",
-        "cancels" : ["ELFAEYES", "FEL_EYE", "LIZ_EYE", "URSINE_EYE"],
+        "cancels" : ["ELFAEYES", "FEL_EYE", "LIZ_EYE", "URSINE_EYE", "COMPOUND_EYES"],
         "prereqs" : ["PER_UP"],
         "threshreq" : ["THRESH_BIRD"],
         "category" : ["MUTCAT_BIRD"]
@@ -976,7 +976,7 @@
         "ugliness" : 1,
         "description" : "Your eyes have mutated, with a brilliant iris and slitted pupil similar to that of a lizard.  This is visually striking, but doesn't seem to affect your vision.",
         "leads_to" : ["LIZ_IR"],
-        "cancels" : ["ELFAEYES", "FEL_EYE", "URSINE_EYE", "BIRD_EYE"],
+        "cancels" : ["ELFAEYES", "FEL_EYE", "URSINE_EYE", "BIRD_EYE", "COMPOUND_EYES"],
         "category" : ["MUTCAT_LIZARD", "MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
@@ -1436,7 +1436,21 @@
         "id" : "MARLOSS",
         "name" : "Marloss Carrier",
         "points" : 4,
-        "description" : "Ever since you ate that Marloss berry, you can't get its scent out of your nose, and you have a strong desire to eat more.",
+        "description" : "Ever since you ate that Marloss berry, you can't get its scent out of your nose, and you have a strong desire to try some seeds and...sap?",
+        "valid" : false
+    },{
+        "type" : "mutation",
+        "id" : "MARLOSS_BLUE",
+        "name" : "Marloss Vessel",
+        "points" : 4,
+        "description" : "Ever since you ate that Marloss seed, you can't get its taste off of your tongue, and you have a strong desire to try some berries and...sap?",
+        "valid" : false
+    },{
+        "type" : "mutation",
+        "id" : "MARLOSS_YELLOW",
+        "name" : "Marloss Vector",
+        "points" : 4,
+        "description" : "Ever since you ate that Marloss jelly, you can't stop thinking of it, and you have a strong desire to eat some seeds and berries.",
         "valid" : false
     },{
         "type" : "mutation",
@@ -1567,6 +1581,7 @@
         "visibility" : 9,
         "ugliness" : 5,
         "description" : "Your eyes are compound, like those of an insect. This increases your perception by 2 so long as you aren't wearing eyewear.",
+        "cancels" : ["ELFAEYES", "FEL_EYE", "URSINE_EYE", "BIRD_EYE", "LIZ_EYE"],
         "prereqs" : ["EYEBULGE"],
         "category" : ["MUTCAT_SPIDER"]
     },{
@@ -1685,7 +1700,10 @@
         "prereqs" : ["HERBIVORE"],
         "changes_to" : ["GRAZER"],
         "cancels" : ["CARNIVORE", "SAPROVORE"],
-        "category" : ["MUTCAT_CATTLE"]
+        "category" : ["MUTCAT_CATTLE"],
+        "active"     :   true,
+        "cost"       :    0,
+        "turns"      :   100
     },{
         "type" : "mutation",
         "id" : "GRAZER",
@@ -1695,7 +1713,10 @@
         "prereqs" : ["RUMINANT"],
         "threshreq" : ["THRESH_CATTLE"],
         "cancels" : ["CARNIVORE", "SAPROVORE"],
-        "category" : ["MUTCAT_CATTLE"]
+        "category" : ["MUTCAT_CATTLE"],
+        "active"     :   true,
+        "cost"       :    0,
+        "turns"      :   100
     },{
         "type" : "mutation",
         "id" : "EATPOISON",
@@ -1739,6 +1760,7 @@
         "points" : 15,
         "description" : "You metabolize nutrients so rapidly that you can convert food directly into useful tissue.  Excess nutrition will convert to HP, rather than being wasted.",
         "prereqs" : ["HUNGER3"],
+        "cancels" : ["LIGHTEATER"],
         "threshreq" : ["THRESH_CHIMERA"],
         "category" : ["MUTCAT_CHIMERA"],
         "valid" : false
@@ -1934,14 +1956,17 @@
         "prereqs" : ["HEAVYSLEEPER2"],
         "prereqs2" : ["FAT"],
         "threshreq" : ["THRESH_URSINE"],
-        "category" : ["MUTCAT_URSINE"]
+        "category" : ["MUTCAT_URSINE"],
+        "active"     :    true,
+        "cost"       :    0,
+        "time"       :    100
     },{
         "type" : "mutation",
         "id" : "MUT_TOUGH",
         "name" : "Resilient",
         "points" : 3,
         "description" : "You can survive injuries that would incapacitate humans: you get a 20% bonus to all hit points. Stacks with Tough, etc.",
-        "prereqs" : ["LARGE_OK", "HUGE_OK", "STR_UP_3", "MASOCHIST_MED"],
+        "prereqs" : ["LARGE_OK", "HUGE_OK", "STR_UP_3", "STR_UP_4", "MASOCHIST_MED"],
         "threshreq" : ["THRESH_URSINE", "THRESH_CATTLE", "THRESH_CHIMERA", "THRESH_MEDICAL", "THRESH_LIZARD", "THRESH_BEAST"],
         "cancels" : ["FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW"],
         "changes_to" : ["MUT_TOUGH2"],
@@ -2228,7 +2253,12 @@
         "prereqs" : ["WEB_SPINNER"],
         "threshreq" : ["THRESH_SPIDER"],
         "cancels" : ["SLIMY"],
-        "category" : ["MUTCAT_SPIDER"]
+        "category" : ["MUTCAT_SPIDER"],
+        "active"     :    true,
+        "cost"       :    8,
+        "time"       :    100,
+        "hunger"     :    true,
+        "thirst"     :    true
     },{
         "type" : "mutation",
         "id" : "WEB_RAPPEL",
@@ -2357,6 +2387,7 @@
         "ugliness" : 2,
         "description" : "Your muscles are noticeably bulging. Strength + 7",
         "prereqs" : ["STR_UP_3"],
+        "leads_to" : ["MUT_TOUGH"],
         "threshreq" : ["THRESH_BEAST", "THRESH_URSINE"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_URSINE"]
     },{
@@ -3185,7 +3216,12 @@
         "prereqs" : ["INT_SLIME"],
         "prereqs2" : ["PER_SLIME_OK"],
         "threshreq" : ["THRESH_SLIME"],
-        "category" : ["MUTCAT_SLIME"]
+        "category" : ["MUTCAT_SLIME"],
+        "active"     :    true,
+        "cost"       :    40,
+        "time"       :    0,
+        "hunger"     :    true,
+        "thirst"     :    true
     },{
         "type" : "mutation",
         "id" : "HERBIVORE",
@@ -3338,7 +3374,7 @@
         "id" : "COLDBLOOD",
         "name" : "Heat Dependent",
         "points" : -2,
-        "description" : "Your muscle response is dependent on ambient temperatures. You lose 1% of your speed for every 5 degrees below 65 F.",
+        "description" : "Your muscle response is dependent on ambient temperatures. You lose 1% of your speed for every 5 (2.8) degrees below 65 F (18.3 C).",
         "changes_to" : ["COLDBLOOD2"],
         "category" : ["MUTCAT_BIRD", "MUTCAT_CEPHALOPOD", "MUTCAT_SPIDER"]
     },{
@@ -3346,7 +3382,7 @@
         "id" : "COLDBLOOD2",
         "name" : "Very Heat Dependent",
         "points" : -3,
-        "description" : "Your muscle response is highly dependent on ambient temperatures. You lose 1% of your speed for every 3 degrees below 65 F.",
+        "description" : "Your muscle response is highly dependent on ambient temperatures. You lose 1% of your speed for every 3 (1.7) degrees below 65 F (18.3 C).",
         "prereqs" : ["COLDBLOOD"],
         "changes_to" : ["COLDBLOOD3"],
         "category" : ["MUTCAT_FISH", "MUTCAT_RAPTOR"]
@@ -3355,7 +3391,7 @@
         "id" : "COLDBLOOD3",
         "name" : "Cold Blooded",
         "points" : -5,
-        "description" : "You are cold-blooded and rely on heat to keep moving. Your lose 1% of your speed for every 2 degrees below 65 F.",
+        "description" : "You are cold-blooded and rely on heat to keep moving. Your lose 1% of your speed for every 2 (1.1) degrees below 65 F (18.3 C).",
         "prereqs" : ["COLDBLOOD2"],
         "category" : ["MUTCAT_INSECT", "MUTCAT_LIZARD"]
     },{
@@ -3364,7 +3400,7 @@
         "name" : "Ectothermic",
         "points" : -2,
         "mixed_effect" : true,
-        "description" : "Your body has become permanently cold-blooded. Your speed lowers--or raises--for every two degrees below or above 65 F.",
+        "description" : "Your body has become permanently cold-blooded. Your speed lowers--or raises--for every 2 (1.1) degrees below or above 65 F (18.3 C).",
         "prereqs" : ["COLDBLOOD3"],
         "threshreq" : ["THRESH_LIZARD"],
         "purifiable" : false,
@@ -3402,7 +3438,12 @@
         "points" : -2,
         "description" : "You occasionally shout uncontrollably.",
         "changes_to" : ["SHOUT2"],
-        "category" : ["MUTCAT_RAPTOR"]
+        "category" : ["MUTCAT_RAPTOR"],
+        "active"     :    true,
+        "cost"       :    3,
+        "time"       :    0,
+        "fatigue"    :    true,
+        "thirst"     :    true
     },{
         "type" : "mutation",
         "id" : "SHOUT2",
@@ -3411,7 +3452,12 @@
         "description" : "You sometimes scream uncontrollably.",
         "prereqs" : ["SHOUT1"],
         "changes_to" : ["SHOUT3"],
-        "category" : ["MUTCAT_BEAST"]
+        "category" : ["MUTCAT_BEAST"],
+        "active"     :    true,
+        "cost"       :    4,
+        "time"       :    0,
+        "fatigue"    :    true,
+        "thirst"     :    true
     },{
         "type" : "mutation",
         "id" : "SHOUT3",
@@ -3419,7 +3465,12 @@
         "points" : -5,
         "description" : "You frequently let out a piercing howl.",
         "prereqs" : ["SHOUT2"],
-        "category" : ["MUTCAT_CHIMERA", "MUTCAT_LUPINE"]
+        "category" : ["MUTCAT_CHIMERA", "MUTCAT_LUPINE"],
+        "active"     :    true,
+        "cost"       :    6,
+        "time"       :    0,
+        "fatigue"    :    true,
+        "thirst"     :    true
     },{
 
         "type" : "mutation",

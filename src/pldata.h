@@ -189,13 +189,36 @@ class addiction : public JsonSerializer, public JsonDeserializer
 
 struct trait {
     std::string name;
+    std::string id;
     int points; // How many points it costs in character creation
     int visibility; // How visible it is
     int ugliness; // How ugly it is
     bool mixed_effect; // Wheather it has positive as well as negative effects.
     bool startingtrait; // Starting Trait True/False
     bool purifiable; // Whether it's vulnerable to Purifier
+    bool activated;
+    bool fatigue; //IF any of the three are true, it drains that as the "cost"
+    bool hunger;
+    bool thirst;
+    int cost;
+    int charge;
+    char invlet;
+    bool powered;
+    int cooldown;
     std::string description;
+    trait() : name("NULL_TRAIT")
+    {
+        invlet = 'a';
+        powered = false;
+        charge = 0;
+    }
+    trait(std::string pid, char pinvlet) : name(pid)
+    {
+        id = pid;
+        invlet = pinvlet;
+        powered = false;
+        charge = 0;
+    };
 };
 
 extern std::map<std::string, trait> traits;

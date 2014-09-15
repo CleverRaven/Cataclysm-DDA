@@ -184,6 +184,7 @@ bool computer::hack_attempt(player *p, int Security)
     if (Security == -1) {
         Security = security;    // Set to main system security if no value passed
     }
+    const int hack_skill = p->get_skill_level( "computer" );
 
     // Every time you dig for lab notes, (or, in future, do other suspicious stuff?)
     // +2 dice to the system's hack-resistance
@@ -192,8 +193,9 @@ bool computer::hack_attempt(player *p, int Security)
         Security += (alerts * 2);
     }
 
+    p->moves -= 10 * (5 + Security * 2) / std::max( 1, hack_skill + 1 );
     p->practice( "computer", 5 + Security * 2 );
-    int player_roll = p->skillLevel("computer");
+    int player_roll = hack_skill;
     if (p->int_cur < 8 && one_in(2)) {
         player_roll -= rng(0, 8 - p->int_cur);
     } else if (p->int_cur > 8 && one_in(3)) {
@@ -274,6 +276,8 @@ void computer::load_data(std::string data)
 
 void computer::activate_function(computer_action action)
 {
+    // Token move cost for any action, if an action takes longer decrement moves further.
+    g->u.moves -= 30;
     switch (action) {
 
     case COMPACT_NULL: // Unknown action.
@@ -307,6 +311,7 @@ void computer::activate_function(computer_action action)
         break;
 
     case COMPACT_SAMPLE:
+        g->u.moves -= 30;
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
                 if (g->m.ter(x, y) == t_sewage_pump) {
@@ -355,6 +360,13 @@ void computer::activate_function(computer_action action)
         g->sound(g->u.posx, g->u.posy, 40, _("An alarm sounds!"));
         g->m.translate_radius(t_reinforced_glass_h, t_floor, 25.0, g->u.posx, g->u.posy);
         g->m.translate_radius(t_reinforced_glass_v, t_floor, 25.0, g->u.posx, g->u.posy);
+        query_any(_("Containment shields opened.  Press any key..."));
+        break;
+
+    case COMPACT_RELEASE_BIONICS:
+        g->sound(g->u.posx, g->u.posy, 40, _("An alarm sounds!"));
+        g->m.translate_radius(t_reinforced_glass_h, t_floor, 2.0, g->u.posx, g->u.posy);
+        g->m.translate_radius(t_reinforced_glass_v, t_floor, 2.0, g->u.posx, g->u.posy);
         query_any(_("Containment shields opened.  Press any key..."));
         break;
 
@@ -428,6 +440,7 @@ void computer::activate_function(computer_action action)
         if (lab_notes.empty()) {
             log = _("No data found.");
         } else {
+            g->u.moves -= 70;
             log = lab_notes[(g->get_abs_levx() + g->get_abs_levy() + g->get_abs_levz() + alerts) %
                             lab_notes.size()];
         }
@@ -446,6 +459,7 @@ void computer::activate_function(computer_action action)
     break;
 
     case COMPACT_MAPS: {
+        g->u.moves -= 30;
         const tripoint center = g->om_global_location();
         overmap_buffer.reveal(point(center.x, center.y), 40, 0);
         query_any(_("Surface map data downloaded.  Press any key..."));
@@ -453,6 +467,7 @@ void computer::activate_function(computer_action action)
     break;
 
     case COMPACT_MAP_SEWER: {
+        g->u.moves -= 30;
         const tripoint center = g->om_global_location();
         for (int i = -60; i <= 60; i++) {
             for (int j = -60; j <= 60; j++) {
@@ -544,6 +559,7 @@ void computer::activate_function(computer_action action)
         break;
 
     case COMPACT_LIST_BIONICS: {
+        g->u.moves -= 30;
         std::vector<std::string> names;
         int more = 0;
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
@@ -592,6 +608,7 @@ void computer::activate_function(computer_action action)
         break;
 
     case COMPACT_AMIGARA_LOG: // TODO: This is static, move to data file?
+        g->u.moves -= 30;
         reset_terminal();
         print_line(_("NEPower Mine(%d:%d) Log"), g->get_abs_levx(), g->get_abs_levy());
         print_line(_("\
@@ -609,6 +626,7 @@ themselves.\n"));
         if (!query_bool(_("Continue reading?"))) {
             return;
         }
+        g->u.moves -= 30;
         reset_terminal();
         print_line(_("NEPower Mine(%d:%d) Log"), g->get_abs_levx(), g->get_abs_levy());
         print_line(_("\
@@ -627,6 +645,7 @@ for such narrow tunnels, so it's hard to say exactly how far back they go.\n"));
         if (!query_bool(_("Continue reading?"))) {
             return;
         }
+        g->u.moves -= 30;
         reset_terminal();
         print_line(_("NEPower Mine(%d:%d) Log"), g->get_abs_levx(), g->get_abs_levy());
         print_line(_("\
@@ -660,6 +679,7 @@ know that's sort of a big deal, but come on, these guys can't handle it?\n"));
         if (!query_bool(_("Continue reading?"))) {
             return;
         }
+        g->u.moves -= 30;
         reset_terminal();
         print_line(_("\
 SITE %d%d%d\n\
@@ -690,6 +710,7 @@ INITIATING STANDARD TREMOR TEST..."));
         break;
 
     case COMPACT_STEMCELL_TREATMENT:
+        g->u.moves -= 70;
         g->u.add_disease("stemcell_treatment", 120);
         print_line(_("The machine injects your eyeball with the solution \n\
 of pureed bone & LSD."));
@@ -706,6 +727,7 @@ of pureed bone & LSD."));
                 debugmsg(_("Computer couldn't find its mission!"));
                 return;
             }
+            g->u.moves -= 30;
             item software(miss->item_id, 0);
             software.mission_id = mission_id;
             item *usb = g->u.pick_usb();
@@ -717,6 +739,7 @@ of pureed bone & LSD."));
         break;
 
     case COMPACT_BLOOD_ANAL:
+        g->u.moves -= 70;
         for (int x = g->u.posx - 2; x <= g->u.posx + 2; x++) {
             for (int y = g->u.posy - 2; y <= g->u.posy + 2; y++) {
                 if (g->m.ter(x, y) == t_centrifuge) {
@@ -763,6 +786,7 @@ of pureed bone & LSD."));
         break;
 
     case COMPACT_DATA_ANAL:
+        g->u.moves -= 30;
         for (int x = g->u.posx - 2; x <= g->u.posx + 2; x++) {
             for (int y = g->u.posy - 2; y <= g->u.posy + 2; y++) {
                 if (g->m.ter(x, y) == t_floor_blue) {
@@ -1026,17 +1050,17 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
                 if (g->m.ter(x, y) == t_elevator || g->m.ter(x, y) == t_vat) {
-                    g->m.ter_set(x, y, t_rubble);
+                    g->m.make_rubble(x, y, f_rubble_rock, true);
                     g->explosion(x, y, 40, 0, true);
                 }
                 if (g->m.ter(x, y) == t_wall_glass_h || g->m.ter(x, y) == t_wall_glass_v) {
-                    g->m.ter_set(x, y, t_rubble);
+                    g->m.make_rubble(x, y, f_rubble_rock, true);
                 }
                 if (g->m.ter(x, y) == t_sewage_pipe || g->m.ter(x, y) == t_sewage || g->m.ter(x, y) == t_grate) {
-                    g->m.ter_set(x, y, t_rubble);
+                    g->m.make_rubble(x, y, f_rubble_rock, true);
                 }
                 if (g->m.ter(x, y) == t_sewage_pump) {
-                    g->m.ter_set(x, y, t_rubble);
+                    g->m.make_rubble(x, y, f_rubble_rock, true);
                     g->explosion(x, y, 50, 0, true);
                 }
             }
@@ -1170,7 +1194,7 @@ void computer::activate_failure(computer_failure fail)
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
                 if (g->m.ter(x, y) == t_sewage_pump) {
-                    g->m.ter_set(x, y, t_rubble);
+                    g->m.make_rubble(x, y);
                     g->explosion(x, y, 10, 0, false);
                 }
             }

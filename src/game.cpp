@@ -85,6 +85,7 @@ bool is_valid_in_w_terrain(int x, int y)
 
 // This is the main game set-up process.
 game::game() :
+    new_game(false),
     uquit(QUIT_NO),
     w_terrain(NULL),
     w_minimap(NULL),
@@ -524,6 +525,7 @@ void game::setup()
     monstairz = -1;
     last_target = -1;  // We haven't targeted any monsters yet
     last_target_was_npc = false;
+    new_game = true;
     uquit = QUIT_NO;   // We haven't quit the game
 
     weather = WEATHER_CLEAR; // Start with some nice weather...
@@ -568,6 +570,7 @@ void game::start_game(std::string worldname)
         gamemode = new special_game();
     }
 
+    new_game = true;
     calendar::turn = HOURS(ACTIVE_WORLD_OPTIONS["INITIAL_TIME"]);
     determine_starting_season();
     nextweather = calendar::turn;
@@ -937,11 +940,13 @@ void game::cleanup_at_end()
             }
         } else if (ACTIVE_WORLD_OPTIONS["DELETE_WORLD"] != "no") {
             std::stringstream message;
-            message << _("World retained. Characters remaining:");
+            std::string tmpmessage;
             for (std::vector<std::string>::iterator it = characters.begin();
                  it != characters.end(); ++it) {
-                message << "\n  " << *it;
+                tmpmessage += "\n  ";
+                tmpmessage += *it;
             }
+            message << string_format(_("World retained. Characters remaining:%s"),tmpmessage.c_str());
             popup(message.str(), PF_NONE);
         }
         if (gamemode) {
@@ -1078,8 +1083,12 @@ bool game::do_turn()
         return true;
     }
     // Actual stuff
-    gamemode->per_turn();
-    calendar::turn.increment();
+    if (new_game) {
+        new_game = false;
+    } else {
+        gamemode->per_turn();
+        calendar::turn.increment();
+    }
     process_events();
     process_missions();
     if (calendar::turn.hours() == 0 && calendar::turn.minutes() == 0 &&
@@ -1428,6 +1437,7 @@ bool game::do_turn()
     }
 
     u.update_bodytemp();
+    u.update_body_wetness();
 
     rustCheck();
     if (calendar::turn % 10 == 0) {
@@ -1513,10 +1523,12 @@ void game::process_activity()
     if (int(calendar::turn) % 50 == 0) {
         draw();
     }
-    activity_on_turn();
-    if (u.activity.moves_left <= 0) { // We finished our activity!
-        activity_on_finish();
-    }
+    do {
+        activity_on_turn();
+        if (u.activity.moves_left <= 0) { // We finished our activity!
+            activity_on_finish();
+        }
+    } while( u.moves > 0 && u.activity.type != ACT_NULL );
 }
 
 void on_turn_activity_pickaxe(player *p);
@@ -1831,7 +1843,7 @@ void game::activity_on_finish()
         // Make sure data of previous activity is cleared
         u.activity = player_activity();
     }
-    if( !u.backlog.empty() ) {
+    if( !u.backlog.empty() && u.backlog.front().auto_resume ) {
         u.activity = u.backlog.front();
         u.backlog.pop_front();
     }
@@ -2033,6 +2045,7 @@ void game::update_weather()
         w_point w = weatherGen.get_weather(u.pos(), calendar::turn);
         weather_type old_weather = weather;
         weather = weatherGen.get_weather_conditions(w);
+        if (weather == WEATHER_SUNNY && calendar::turn.is_night()) { weather = WEATHER_CLEAR; }
         temperature = w.temperature;
         g->lightning_active = false;
         nextweather += 50; // Check weather each 50 turns.
@@ -2724,6 +2737,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action("drop");
     ctxt.register_action("drop_adj");
     ctxt.register_action("bionics");
+    ctxt.register_action("mutations");
     ctxt.register_action("sort_armor");
     ctxt.register_action("wait");
     ctxt.register_action("craft");
@@ -3437,9 +3451,12 @@ bool game::handle_action()
     case ACTION_DIR_DROP:
         drop_in_direction();
         break;
-
     case ACTION_BIONICS:
         u.power_bionics();
+        refresh_all();
+        break;
+    case ACTION_MUTATIONS:
+        u.power_mutations();
         refresh_all();
         break;
 
@@ -4603,19 +4620,23 @@ void game::debug()
             data << npc_class_name(p->myclass) << "; " <<
                  npc_attitude_name(p->attitude) << std::endl;
             if (p->has_destination()) {
-                data << _("Destination: ") << p->goal.x << ":" << p->goal.y << "(" <<
-                     otermap[overmap_buffer.ter(p->goal)].name << ")" << std::endl;
+                data << string_format(_("Destination: %d:%d (%s)"),
+                        p->goal.x, p->goal.y,
+                        otermap[overmap_buffer.ter(p->goal)].name.c_str()) << std::endl;
             } else {
                 data << _("No destination.") << std::endl;
             }
-            data << _("Trust: ") << p->op_of_u.trust << _(" Fear: ") << p->op_of_u.fear <<
-                 _(" Value: ") << p->op_of_u.value << _(" Anger: ") << p->op_of_u.anger <<
-                 _(" Owed: ") << p->op_of_u.owed << std::endl;
+            data << string_format(_("Trust: %d"), p->op_of_u.trust) << " "
+                 << string_format(_("Fear: %d"), p->op_of_u.fear) << " "
+                 << string_format(_("Value: %d"), p->op_of_u.value) << " "
+                 << string_format(_("Anger: %d"), p->op_of_u.anger) << " "
+                 << string_format(_("Owed: %d"), p->op_of_u.owed) << std::endl;
 
-            data << _("Aggression: ") << int(p->personality.aggression) << _(" Bravery: ") <<
-                 int(p->personality.bravery) << _(" Collector: ") <<
-                 int(p->personality.collector) << _(" Altruism: ") <<
-                 int(p->personality.altruism) << std::endl << " " << std::endl;
+            data << string_format(_("Aggression: %d"), int(p->personality.aggression)) << " "
+                 << string_format(_("Bravery: %d"), int(p->personality.bravery)) << " "
+                 << string_format(_("Collector: %d"), int(p->personality.collector)) << " "
+                 << string_format(_("Altruism: %d"), int(p->personality.altruism)) << std::endl;
+
             nmenu.text = data.str();
             nmenu.addentry(0, true, 's', "%s", _("Edit [s]kills"));
             nmenu.addentry(1, true, 'i', "%s", _("Grant [i]tems"));
@@ -4851,7 +4872,7 @@ void game::disp_kills()
     if (data.empty()) {
         buffer << _("You haven't killed any monsters yet!");
     } else {
-        buffer << _("KILL COUNT: ") << totalkills;
+        buffer << string_format(_("KILL COUNT: %d"), totalkills);
     }
     display_table(w, buffer.str(), 3, data);
 
@@ -6544,9 +6565,6 @@ void game::do_blast(const int x, const int y, const int power, const int radius,
             }
             m.bash(i, j, dam);
             m.bash(i, j, dam); // Double up for tough doors, etc.
-            if (m.is_destructable(i, j) && rng(25, 100) < dam) {
-                m.destroy(i, j, false);
-            }
 
             int mon_hit = mon_at(i, j), npc_hit = npc_at(i, j);
             if (mon_hit != -1) {
@@ -7135,7 +7153,7 @@ void game::resonance_cascade(int x, int y)
             case 16:
             case 17:
             case 18:
-                m.destroy(i, j, true);
+                m.destroy(i, j);
                 break;
             case 19:
                 explosion(i, j, rng(1, 10), rng(0, 1) * rng(0, 6), one_in(4));
@@ -7409,10 +7427,10 @@ bool game::revive_corpse(int x, int y, item *it)
     }
     int burnt_penalty = it->burnt;
     monster critter(it->corpse, x, y);
-    critter.speed = int(critter.speed * .8) - burnt_penalty / 2;
+    critter.set_speed_bonus( -int(critter.get_speed_base() * .2) - burnt_penalty / 2 );
     critter.hp = int(critter.hp    * .7) - burnt_penalty;
     if (it->damage > 0) {
-        critter.speed /= it->damage + 1;
+        critter.set_speed_bonus( critter.get_speed_bonus() / it->damage + 1 );
         critter.hp /= it->damage + 1;
     }
     critter.no_extra_death_drops = true;
@@ -7600,7 +7618,7 @@ void game::smash()
 {
     const int move_cost = int(u.weapon.is_null() ? 80 : u.weapon.attack_time() * 0.8);
     bool didit = false;
-    int smashskill = int(u.str_cur / 2.5 + u.weapon.type->melee_dam);
+    int smashskill = int(u.str_cur + u.weapon.type->melee_dam);
     int smashx, smashy;
 
     if (!choose_adjacent(_("Smash where?"), smashx, smashy)) {
@@ -7623,8 +7641,7 @@ void game::smash()
             return; // don't smash terrain if we've smashed a corpse
         }
     }
-    didit = m.bash(smashx, smashy, smashskill);
-
+    didit = m.bash(smashx, smashy, smashskill).first;
     if (didit) {
         u.handle_melee_wear();
         u.moves -= move_cost;
@@ -7645,6 +7662,15 @@ void game::smash()
                 u.deal_damage( nullptr, bp_hand_l, damage_instance( DT_CUT, rng( 0, long( u.weapon.volume() * .5 ) ) ) );
             }
             u.remove_weapon();
+        }
+        if (smashskill < m.bash_resistance(smashx, smashy) && one_in(10)) {
+            if (m.has_furn(smashx, smashy) && m.furn_at(smashx, smashy).bash.str_min != -1) {
+                // %s is the smashed furniture
+                add_msg(m_neutral, _("You don't seem to be damaging the %s."), m.furnname(smashx, smashy).c_str());
+            } else {
+                // %s is the smashed terrain
+                add_msg(m_neutral, _("You don't seem to be damaging the %s."), m.tername(smashx, smashy).c_str());
+            }
         }
     } else {
         add_msg(_("There's nothing there to smash!"));
@@ -8533,7 +8559,11 @@ void game::examine(int examx, int examy)
 
     if (m.has_flag("SEALED", examx, examy)) {
         if (none) {
-            add_msg(_("The %s is firmly sealed."), m.name(examx, examy).c_str());
+            if (m.has_flag("UNSTABLE", examx, examy)) {
+                add_msg(_("The %s is too unstable to remove anything."), m.name(examx, examy).c_str());
+            } else {
+                add_msg(_("The %s is firmly sealed."), m.name(examx, examy).c_str());
+            }
         }
     } else {
         //examx,examy has no traps, is a container and doesn't have a special examination function
@@ -11633,6 +11663,37 @@ void game::complete_butcher(int index)
         }
     }
 
+    // Substation mini-boss bionics
+    if (corpse->has_flag(MF_CBM_SUBS)) {
+        if (skill_shift >= 0) {
+            add_msg(m_good, _("You discover a CBM in the %s!"), corpse->nname().c_str());
+            //To see if it spawns a battery
+            if (rng(0, 1) == 1) { //The battery works
+                m.spawn_item(u.posx, u.posy, "bio_power_storage", 1, 0, age);
+            } else { //There is a burnt out CBM
+                m.spawn_item(u.posx, u.posy, "burnt_out_bionic", 1, 0, age);
+            }
+        }
+        if (skill_shift >= 0) {
+            //To see if it spawns a random additional CBM
+            if (rng(0, 1) == 1) { //The CBM works
+                Item_tag bionic_item = item_controller->id_from("bionics_subs");
+                m.spawn_item(u.posx, u.posy, bionic_item, 1, 0, age);
+            } else { //There is a burnt out CBM
+                m.spawn_item(u.posx, u.posy, "burnt_out_bionic", 1, 0, age);
+            }
+        }
+        if (skill_shift >= 0) {
+            //To see if it spawns a random additional CBM
+            if (rng(0, 1) == 1) { //The CBM works
+                Item_tag bionic_item = item_controller->id_from("bionics_subs");
+                m.spawn_item(u.posx, u.posy, bionic_item, 1, 0, age);
+            } else { //There is a burnt out CBM
+                m.spawn_item(u.posx, u.posy, "burnt_out_bionic", 1, 0, age);
+            }
+        }
+    }
+
     // Payoff for butchering the zombie bio-op
     if (corpse->has_flag(MF_CBM_OP)) {
         //As long as the factor is above -4 (the sinew cutoff), you will be able to extract cbms
@@ -11769,7 +11830,7 @@ void game::forage()
 
 void game::eat(int pos)
 {
-    if ((u.has_trait("RUMINANT") || u.has_trait("GRAZER")) &&
+    if ((u.has_active_mutation("RUMINANT") || u.has_active_mutation("GRAZER")) &&
         m.ter(u.posx, u.posy) == t_underbrush && query_yn(_("Eat underbrush?"))) {
         u.moves -= 400;
         u.hunger -= 10;
@@ -11777,7 +11838,7 @@ void game::eat(int pos)
         add_msg(_("You eat the underbrush."));
         return;
     }
-    if (u.has_trait("GRAZER") && m.ter(u.posx, u.posy) == t_grass &&
+    if (u.has_active_mutation("GRAZER") && m.ter(u.posx, u.posy) == t_grass &&
         query_yn(_("Graze?"))) {
         u.moves -= 400;
         if ((u.hunger < 10) || one_in(20 - u.int_cur)) {
@@ -12491,6 +12552,10 @@ bool game::plmove(int dx, int dy)
             case fd_gas_vent:
                 dangerous = !(u.get_env_resist(bp_mouth) >= 15);
                 break;
+            case fd_fungal_haze:
+                dangerous = !((u.get_env_resist(bp_mouth) >= 15) &&
+                (u.get_env_resist(bp_eyes) >= 15) );
+                break;
             default:
                 dangerous = cur->is_dangerous();
                 break;
@@ -12767,31 +12832,38 @@ bool game::plmove(int dx, int dy)
             add_msg(_("Written here: %s"), utf8_truncate(*graffiti, 40).c_str());
         }
         if (m.has_flag("ROUGH", x, y) && (!u.in_vehicle)) {
+            bool ter_or_furn = m.has_flag_ter( "ROUGH", x, y );
             if (one_in(5) && u.get_armor_bash(bp_foot_l) < rng(2, 5)) {
-                add_msg(m_bad, _("You hurt your left foot on the %s!"), m.tername(x, y).c_str());
+                add_msg(m_bad, _("You hurt your left foot on the %s!"),
+                        ter_or_furn ? m.tername(x, y).c_str() : m.furnname(x, y).c_str() );
                 u.deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, 1 ) );
             }
             if (one_in(5) && u.get_armor_bash(bp_foot_r) < rng(2, 5)) {
-                add_msg(m_bad, _("You hurt your right foot on the %s!"), m.tername(x, y).c_str());
+                add_msg(m_bad, _("You hurt your right foot on the %s!"),
+                        ter_or_furn ? m.tername(x, y).c_str() : m.furnname(x, y).c_str() );
                 u.deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, 1 ) );
             }
         }
         if (m.has_flag("SHARP", x, y) && !one_in(3) && !one_in(40 - int(u.dex_cur / 2))
-            && (!u.in_vehicle)) {
-            if (!u.has_trait("PARKOUR") || one_in(4)) {
-                body_part bp = random_body_part();
-                if(u.deal_damage( nullptr, bp, damage_instance( DT_CUT, rng( 1, 4 ) ) ).total_damage() > 0) {
-                    //~ 1$s - bodypart name in accusative, 2$s is terrain name.
-                    add_msg(m_bad, _("You cut your %1$s on the %2$s!"),
-                                body_part_name_accusative(bp).c_str(),
-                                m.tername(x, y).c_str());
-                }
-                if ((u.has_trait("INFRESIST")) && (one_in(1024))) {
-                    u.add_disease("tetanus", 1, true);
-                } else if ((!u.has_trait("INFIMMUNE") || !u.has_trait("INFRESIST")) && (one_in(256))) {
-                    u.add_disease("tetanus", 1, true);
-                }
+              && (!u.in_vehicle) && (!u.has_trait("PARKOUR") || one_in(4))) {
+            bool ter_or_furn = m.has_flag_ter( "SHARP", x, y );
+            body_part bp = random_body_part();
+            if(u.deal_damage( nullptr, bp, damage_instance( DT_CUT, rng( 1, 4 ) ) ).total_damage() > 0) {
+                //~ 1$s - bodypart name in accusative, 2$s is terrain name.
+                add_msg(m_bad, _("You cut your %1$s on the %2$s!"),
+                        body_part_name_accusative(bp).c_str(),
+                        ter_or_furn ? m.tername(x, y).c_str() : m.furnname(x, y).c_str() );
             }
+            if ((u.has_trait("INFRESIST")) && (one_in(1024))) {
+                u.add_disease("tetanus", 1, true);
+            } else if ((!u.has_trait("INFIMMUNE") || !u.has_trait("INFRESIST")) && (one_in(256))) {
+                u.add_disease("tetanus", 1, true);
+            }
+        }
+        if (m.has_flag("UNSTABLE", x, y)) {
+            u.add_effect("bouldering", 1, 1, true);
+        } else if (u.has_effect("bouldering")) {
+            u.remove_effect("bouldering");
         }
         if (g->u.has_trait("LEG_TENT_BRACE") && (!g->u.footwear_factor() ||
               (g->u.footwear_factor() == .5 && one_in(2)))) {
@@ -13249,8 +13321,9 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
             int vpart;
             vehicle *veh = m.veh_at(x, y, vpart);
             dname = veh ? veh->part_info(vpart).name : m.tername(x, y).c_str();
-            if (m.has_flag("BASHABLE", x, y)) {
-                thru = m.bash(x, y, flvel);
+            if (m.is_bashable(x, y)) {
+                // Only go through if we successfully destroy what we hit
+                thru = m.bash(x, y, flvel).second;
             } else {
                 thru = false;
             }
@@ -14184,7 +14257,7 @@ void game::nuke(int x, int y)
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {
             if (!one_in(10)) {
-                tmpmap.ter_set(i, j, t_rubble);
+                tmpmap.make_rubble(i, j, f_rubble_rock, true, t_dirt, true);
             }
             if (one_in(3)) {
                 tmpmap.add_field(i, j, fd_nuke_gas, 3);
@@ -14334,12 +14407,32 @@ bool game::spread_fungus(int x, int y)
                         }
                     } else if (m.has_flag("YOUNG", i, j)) {
                         if (one_in(5)) {
-                            m.ter_set(i, j, t_tree_fungal_young);
+                            if (m.get_field_strength(point (x, y), fd_fungal_haze) != 0) {
+                                if (one_in(3)) { // young trees are Vulnerable
+                                    m.ter_set(i, j, t_fungus);
+                                    m.add_spawn("mon_fungal_blossom", 1, x, y);
+                                    if (u_see(x, y)) {
+                                    add_msg(m_warning, _("The young tree blooms forth into a fungal blossom!"));
+                                    }
+                                }
+                            } else { 
+                                m.ter_set(i, j, t_tree_fungal_young);
+                            }
                             converted = true;
                         }
                     } else if (m.has_flag("TREE", i, j)) {
                         if (one_in(10)) {
-                            m.ter_set(i, j, t_tree_fungal);
+                            if (m.get_field_strength(point (x, y), fd_fungal_haze) != 0) {
+                                if (one_in(4)) {
+                                    m.ter_set(i, j, t_fungus);
+                                    m.add_spawn("mon_fungal_blossom", 1, x, y);
+                                    if (u_see(x, y)) {
+                                    add_msg(m_warning, _("The tree blooms forth into a fungal blossom!"));
+                                    }
+                                }
+                            } else {
+                                m.ter_set(i, j, t_tree_fungal);
+                            }
                             converted = true;
                         }
                     } else if (m.has_flag("WALL", i, j)) {

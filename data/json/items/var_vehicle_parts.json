@@ -172,13 +172,13 @@
         "category": "veh_parts",
         "bigness-aspect": "WHEEL_DIAMETER"
     },
-	{
+    {
         "type":"VAR_VEH_PART",
         "id": "wheel_wood_b",
         "symbol": "]",
         "color": "brown",
         "name": "banded wooden cart wheel",
-        "description": "A wooden cart wheel with medal bands for durability, hand made.",
+        "description": "A wooden cart wheel with metal bands for durability, hand made.",
         "price": 1200,
         "material": ["wood", "null"],
         "weight": 5000,

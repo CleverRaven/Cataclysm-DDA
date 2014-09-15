@@ -29,10 +29,15 @@ class player_activity : public JsonSerializer, public JsonDeserializer
         std::vector<std::string> str_values;
         point placement;
         bool warned_of_proximity; // True if player has been warned of dangerously close monsters
+        // Property that makes the activity resume if the previous activity completes.
+        bool auto_resume;
 
         player_activity(activity_type t = ACT_NULL, int turns = 0, int Index = -1, int pos = INT_MIN,
                         std::string name_in = "");
-        player_activity(const player_activity &copy);
+        player_activity(player_activity &&) = default;
+        player_activity(const player_activity &) = default;
+        player_activity &operator=(player_activity &&) = default;
+        player_activity &operator=(const player_activity &) = default;
 
         // Question to ask when the activity is to be stoped,
         // e.g. " Stop doing something?", already translated.

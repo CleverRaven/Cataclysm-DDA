@@ -54,10 +54,10 @@ map_extras no_extras(0);
     // Careful with astyle here, please?
 map_extras road_extras(
 // %%% HEL MIL SCI BLK DRG SUP PRT MIN CRT FUM 1WY ART
-    75, 40, 25, 60, 100, 30, 10, 5, 80, 10,  8,  2,  3);
+    75, 40, 25, 40, 100, 30, 10, 5, 80, 10,  8,  2,  3);
 map_extras field_extras(
 // %%% HEL MIL SCI BLK DRG SUP PRT MIN CRT FUM 1WY ART
-    90, 40, 8, 20,  0, 80, 10,  3, 50,  10,  8,  1,  3);
+    90, 40, 8, 20,  0, 20, 10,  3, 50,  10,  8,  1,  3);
 map_extras subway_extras(
 // %%% HEL MIL SCI BLK DRG SUP PRT MIN CRT FUM 1WY ART
     75,  0,  5, 12,  0,  0,  0,  7,  0,  0, 20,  1,  3);
@@ -65,12 +65,12 @@ map_extras build_extras(
 // %%% HEL MIL SCI BLK DRG SUP PRT MIN CRT FUM 1WY ART
     90,  0,  5, 12,  0, 0,  0,  5,  5, 60,  8,  1,  3);
 
-std::map<std::string, oter_t> otermap;
+std::unordered_map<std::string, oter_t> otermap;
 std::vector<oter_t> oterlist;
 
-std::map<std::string, oter_t> obasetermap;
+std::unordered_map<std::string, oter_t> obasetermap;
 //const regional_settings default_region_settings;
-std::map<std::string, regional_settings> region_settings_map;
+std::unordered_map<std::string, regional_settings> region_settings_map;
 
 std::vector<overmap_special> overmap_specials;
 
@@ -445,7 +445,8 @@ void finalize_overmap_terrain( )
                  " cataclysm pending. And not the fun kind.");
     }
 
-    for( std::map<std::string, regional_settings>::iterator rsit = region_settings_map.begin();
+    for( std::unordered_map<std::string, regional_settings>::iterator rsit =
+             region_settings_map.begin();
          rsit != region_settings_map.end(); ++rsit) {
         rsit->second.setup();
     }
@@ -614,8 +615,8 @@ overmap::overmap(int x, int y)
     // STUB: need region map:
     // settings = regionmap->calculate_settings( loc );
     const std::string rsettings_id = ACTIVE_WORLD_OPTIONS["DEFAULT_REGION"].getValue();
-    std::map<std::string, regional_settings>::const_iterator rsit = region_settings_map.find(
-                rsettings_id );
+    std::unordered_map<std::string, regional_settings>::const_iterator rsit =
+        region_settings_map.find( rsettings_id );
 
     if ( rsit == region_settings_map.end() ) {
         debugmsg("overmap(%d,%d): can't find region '%s'", x, y, rsettings_id.c_str() ); // gonna die now =[
@@ -824,95 +825,6 @@ point overmap::display_notes(int z)
     } while(ch != ' ' && ch != '\n' && ch != KEY_ESCAPE);
     delwin(w_notes);
     return result;
-}
-
-bool overmap::has_vehicle(int const x, int const y, int const z, bool require_pda) const
-{
-    // vehicles only spawn at z level 0 (for now)
-    if (!(z == 0)) {
-        return false;
-    }
-
-    // if the player is not carrying a PDA then he cannot see the vehicle.
-    if (require_pda && !g->u.has_pda()) {
-        return false;
-    }
-
-    for (std::map<int, om_vehicle>::const_iterator it = vehicles.begin();
-         it != vehicles.end(); it++) {
-        om_vehicle om_veh = it->second;
-        if ( om_veh.x == x && om_veh.y == y ) {
-            return true;
-        }
-    }
-    return false;
-}
-
-//Helper function for the overmap::draw function.
-void overmap::print_npcs(WINDOW *w, int const x, int const y, int const z)
-{
-    std::vector<npc *> npcs = overmap_buffer.get_npcs_near_omt(x, y, z, 0);
-    int i = 0, maxnamelength = 0;
-    //Check the max namelength of the npcs in the target
-    for (auto &n : npcs) {
-        if(!n->marked_for_death) {
-            maxnamelength = n->name.length();
-        }
-    }
-    //Check if the target has an npc in it.
-    for (auto &n : npcs) {
-        if(!n->marked_for_death) {
-            mvwprintz(w, i, 0, c_yellow, n->name.c_str());
-            for (int j = n->name.length(); j < maxnamelength; j++) {
-                mvwputch(w, i, j, c_black, LINE_XXXX);
-            }
-            i++;
-        }
-    }
-    for (int j = 0; j < i; j++) {
-        mvwputch(w, j, maxnamelength, c_white, LINE_XOXO);
-    }
-    for (int j = 0; j < maxnamelength; j++) {
-        mvwputch(w, i, j, c_white, LINE_OXOX);
-    }
-    mvwputch(w, i, maxnamelength, c_white, LINE_XOOX);
-}
-
-void overmap::print_vehicles(WINDOW *w, int const x, int const y, int const z) const
-{
-    if (!(z == 0)) { // vehicles only exist on zlevel 0
-        return;
-    }
-    int i = 0;
-    size_t maxnamelength = 0;
-    //Check the max namelength of the vehicles in the target
-    for (auto it = vehicles.begin(); it != vehicles.end(); it++) {
-        om_vehicle om_veh = it->second;
-        if ( om_veh.x == x && om_veh.y == y ) {
-            if (om_veh.name.length() > maxnamelength) {
-                maxnamelength = om_veh.name.length();
-            }
-        }
-    }
-    //Check if the target has a vehicle in it.
-    for (std::map<int, om_vehicle>::const_iterator it = vehicles.begin();
-         it != vehicles.end(); it++) {
-        om_vehicle om_veh = it->second;
-        if (om_veh.x == x && om_veh.y == y) {
-            mvwprintz(w, i, 0, c_cyan, om_veh.name.c_str());
-            for (size_t j = om_veh.name.length(); j < maxnamelength; j++) {
-                mvwputch(w, i, j, c_black, LINE_XXXX);
-            }
-            i++;
-        }
-    }
-    for (int j = 0; j < i; j++) {
-        mvwputch(w, j, maxnamelength, c_white, LINE_XOXO);
-    }
-    for (size_t j = 0; j < maxnamelength; j++) {
-        mvwputch(w, i, j, c_white, LINE_OXOX);
-    }
-    mvwputch(w, i, maxnamelength, c_white, LINE_XOOX);
 }
 
 void overmap::generate(const overmap *north, const overmap *east,
@@ -1652,21 +1564,36 @@ void overmap::draw(WINDOW *w, const tripoint &center,
                note_text[1] == ';') ) {
         note_text.erase(0, 2);
     }
+    std::vector<std::string> corner_text;
     if (!note_text.empty()) {
-        const int length = utf8_width(note_text.c_str());
-        for (int i = 0; i <= length; i++) {
-            mvwputch(w, 1, i, c_white, LINE_OXOX);
+        corner_text.push_back( note_text );
+    }
+    const auto npcs = overmap_buffer.get_npcs_near_omt(cursx, cursy, z, 0);
+    for( const auto &npc : npcs ) {
+        if( npc->marked_for_death ) {
+            continue;
         }
-        mvwprintz(w, 0, 0, c_yellow, "%s", note_text.c_str());
-        mvwputch(w, 1, length, c_white, LINE_XOOX);
-        mvwputch(w, 0, length, c_white, LINE_XOXO);
-    } else if (overmap_buffer.has_npc(cursx, cursy, z)) {
-        print_npcs(w, cursx, cursy, z);
-    } else if (overmap_buffer.has_vehicle(cursx, cursy, z)) {
-        int x = cursx;
-        int y = cursy;
-        const overmap &om = overmap_buffer.get_om_global(x, y);
-        om.print_vehicles(w, x, y, z);
+        corner_text.push_back( npc->name );
+    }
+    const auto vehicles = overmap_buffer.get_vehicle(cursx, cursy, z);
+    for( const auto &v : vehicles ) {
+        corner_text.push_back( v.name );
+    }
+    if( !corner_text.empty() ) {
+        int maxlen = 0;
+        for( const auto &line : corner_text ) {
+            maxlen = std::max( maxlen, utf8_width( line.c_str() ) );
+        }
+        for( size_t i = 0; i < corner_text.size(); i++ ) {
+            // clear line, print line, print vertical line at the right side.
+            mvwprintz( w, i, 0, c_yellow, std::string(maxlen, ' ').c_str() );
+            mvwprintz( w, i, 0, c_yellow, "%s", corner_text[i].c_str() );
+            mvwputch( w, i, maxlen, c_white, LINE_XOXO );
+        }
+        for (int i = 0; i <= maxlen; i++) {
+            mvwputch( w, corner_text.size(), i, c_white, LINE_OXOX );
+        }
+        mvwputch( w, corner_text.size(), maxlen, c_white, LINE_XOOX );
     }
 
     if (sZoneName != "" && tripointZone.x == cursx && tripointZone.y == cursy) {
@@ -1740,7 +1667,7 @@ void overmap::draw(WINDOW *w, const tripoint &center,
         mvwprintz(w, 19, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("DELETE_NOTE") +
                   _(" - Delete a note")).c_str());
         mvwprintz(w, 20, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("LIST_NOTES") +
-                  _(" - List notes")).c_str());        
+                  _(" - List notes")).c_str());
         mvwprintz(w, 21, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("TOGGLE_BLINKING") +
                   _(" - Toggle Blinking")).c_str());
         mvwprintz(w, 22, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("TOGGLE_OVERLAYS") +
@@ -3765,12 +3692,12 @@ bool oter_id::operator==(const char *v) const
 }
 bool oter_id::operator<=(const char *v) const
 {
-    std::map<std::string, oter_t>::const_iterator it = otermap.find(v);
+    std::unordered_map<std::string, oter_t>::const_iterator it = otermap.find(v);
     return ( it == otermap.end() || it->second.loadid <= _val);
 }
 bool oter_id::operator>=(const char *v) const
 {
-    std::map<std::string, oter_t>::const_iterator it = otermap.find(v);
+    std::unordered_map<std::string, oter_t>::const_iterator it = otermap.find(v);
     return ( it != otermap.end() && it->second.loadid >= _val);
 }
 
@@ -3820,7 +3747,7 @@ int oter_id::compare(size_t pos, size_t len, const char *s, size_t n) const
 // std::string("river_ne");  oter_id van_location(down_by);
 oter_id::oter_id(const std::string &v)
 {
-    std::map<std::string, oter_t>::const_iterator it = otermap.find(v);
+    std::unordered_map<std::string, oter_t>::const_iterator it = otermap.find(v);
     if ( it == otermap.end() ) {
         debugmsg("not found: %s", v.c_str());
     } else {
@@ -3831,7 +3758,7 @@ oter_id::oter_id(const std::string &v)
 // oter_id b("house_north");
 oter_id::oter_id(const char *v)
 {
-    std::map<std::string, oter_t>::const_iterator it = otermap.find(v);
+    std::unordered_map<std::string, oter_t>::const_iterator it = otermap.find(v);
     if ( it == otermap.end() ) {
         debugmsg("not found: %s", v);
     } else {

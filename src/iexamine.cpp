@@ -407,25 +407,26 @@ void iexamine::toilet(player *p, map *m, int examx, int examy)
     if (waterIndex < 0) {
         add_msg(m_info, _("This toilet is empty."));
     } else {
-        bool drained = false;
-
         item &water = items[waterIndex];
+        int initial_charges = water.charges;
         // Use a different poison value each time water is drawn from the toilet.
         water.poison = one_in(3) ? 0 : rng(1, 3);
 
-        // First try handling/bottling, then try drinking.
-        if (g->handle_liquid(water, true, false)) {
+        // First try handling/bottling, then try drinking, but only try
+        // drinking if we don't handle or bottle.
+        bool drained = g->handle_liquid(water, true, false);
+        if (drained || initial_charges != water.charges) {
+            // The bottling happens in handle_liquid, but delay of action
+            // does not.
             p->moves -= 100;
-            drained = true;
-        } else {
+        } else if (!drained && initial_charges == water.charges){
             int charges_consumed = p->drink_from_hands(water);
+            // Drink_from_hands handles moves, but doesn't decrease water
+            // charges.
             water.charges -= charges_consumed;
-            if (water.charges <= 0) {
-                drained = true;
-            }
         }
 
-        if (drained) {
+        if (drained || water.charges <= 0) {
             items.erase(items.begin() + waterIndex);
         }
     }
@@ -531,24 +532,11 @@ void iexamine::rubble(player *p, map *m, int examx, int examy)
         add_msg(m_info, _("If only you had a shovel..."));
         return;
     }
-    std::string xname = m->tername(examx, examy);
+    std::string xname = m->furnname(examx, examy);
     if (query_yn(_("Clear up that %s?"), xname.c_str())) {
         // "Remove"
         p->moves -= 200;
-
-        // "Replace"
-        if(m->ter(examx, examy) == t_rubble) {
-            item rock("rock", calendar::turn);
-            m->add_item_or_charges(p->posx, p->posy, rock);
-            m->add_item_or_charges(p->posx, p->posy, rock);
-        }
-
-        // "Refloor"
-        if (g->levz < 0) {
-            m->ter_set(examx, examy, t_rock_floor);
-        } else {
-            m->ter_set(examx, examy, t_dirt);
-        }
+        m->furn_set(examx, examy, f_null);
 
         // "Remind"
         add_msg(_("You clear up that %s."), xname.c_str());
@@ -657,31 +645,6 @@ void iexamine::shelter(player *p, map *m, int examx, int examy)
     add_msg(_("You take down the shelter"));
     item dropped("shelter_kit", calendar::turn);
     m->add_item_or_charges(examx, examy, dropped);
-}
-
-void iexamine::wreckage(player *p, map *m, int examx, int examy)
-{
-    if (!(p->has_amount("shovel", 1) || p->has_amount("primitive_shovel", 1) ||
-          p->has_amount("e_tool", 1))) {
-        add_msg(m_info, _("If only you had a shovel..."));
-        return;
-    }
-
-    if (query_yn(_("Clear up that wreckage?"))) {
-        p->moves -= 200;
-        m->ter_set(examx, examy, t_dirt);
-        item chunk("steel_chunk", calendar::turn);
-        item scrap("scrap", calendar::turn);
-        item pipe("pipe", calendar::turn);
-        item wire("wire", calendar::turn);
-        m->add_item_or_charges(examx, examy, chunk);
-        m->add_item_or_charges(examx, examy, scrap);
-        if (one_in(5)) {
-            m->add_item_or_charges(examx, examy, pipe);
-            m->add_item_or_charges(examx, examy, wire);
-        }
-        add_msg(_("You clear the wreckage up"));
-    }
 }
 
 void iexamine::pit(player *p, map *m, int examx, int examy)
@@ -1149,6 +1112,32 @@ void iexamine::flower_dandelion(player *p, map *m, int examx, int examy)
     m->spawn_item(examx, examy, "raw_dandelion", rng( 1, 4 ) );
 }
 
+void iexamine::flower_marloss(player *p, map *m, int examx, int examy)
+{
+    if (calendar::turn.get_season() == WINTER) {
+        add_msg(m_info, _("This flower is still alive, desipte the harsh conditions..."));
+    }
+    if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) &&
+         ((p->hunger) > 0) ) {
+            if (!(p->wearing_something_on(bp_mouth))) {
+                if (!query_yn(_("You feel out of place as you explore the %s. Drink?"), m->furnname(examx,
+                      examy).c_str())) {
+            return;
+        }
+            p->moves -= 50; // Takes 30 seconds
+            add_msg(m_bad, _("This flower tastes very wrong..."));
+            // If you can drink flowers, you're post-thresh and the Mycus does not want you.
+            p->add_disease("teleglow", 100);
+        }
+    }
+    if(!query_yn(_("Pick %s?"), m->furnname(examx, examy).c_str())) {
+        none(p, m, examx, examy);
+        return;
+    }
+    m->furn_set(examx, examy, f_null);
+    m->spawn_item(examx, examy, "marloss_seed", 1, 3);
+}
+
 void iexamine::egg_sack_generic( player *p, map *m, int examx, int examy,
                                  const std::string &montype )
 {
@@ -1190,56 +1179,8 @@ void iexamine::egg_sackws( player *p, map *m, int examx, int examy )
 
 void iexamine::fungus(player *p, map *m, int examx, int examy)
 {
-    // TODO: Infect NPCs?
-    monster spore(GetMType("mon_spore"));
-    int mondex;
     add_msg(_("The %s crumbles into spores!"), m->furnname(examx, examy).c_str());
-    for (int i = examx - 1; i <= examx + 1; i++) {
-        for (int j = examy - 1; j <= examy + 1; j++) {
-            mondex = g->mon_at(i, j);
-            if (g->m.move_cost(i, j) > 0 || (i == examx && j == examy)) {
-                if (mondex != -1) { // Spores hit a monster
-                    if (g->u_see(i, j) &&
-                        !g->zombie(mondex).type->in_species("FUNGUS")) {
-                        add_msg(_("The %s is covered in tiny spores!"),
-                                g->zombie(mondex).name().c_str());
-                    }
-                    monster &critter = g->zombie( mondex );
-                    if( !critter.make_fungus() ) {
-                        critter.die( p ); // counts as kill by player
-                    }
-                } else if (g->u.posx == i && g->u.posy == j) {
-                    // Spores hit the player
-                    bool hit = false;
-                    if (one_in(4) && g->u.infect("spores", bp_head, 3, 90, false, 1, 3, 120, 1, true)) {
-                        hit = true;
-                    }
-                    if (one_in(2) && g->u.infect("spores", bp_torso, 3, 90, false, 1, 3, 120, 1, true)) {
-                        hit = true;
-                    }
-                    if (one_in(4) && g->u.infect("spores", bp_arm_l, 3, 90, false, 1, 3, 120, 1, true)) {
-                        hit = true;
-                    }
-                    if (one_in(4) && g->u.infect("spores", bp_arm_r, 3, 90, false, 1, 3, 120, 1, true)) {
-                        hit = true;
-                    }
-                    if (one_in(4) && g->u.infect("spores", bp_leg_l, 3, 90, false, 1, 3, 120, 1, true)) {
-                        hit = true;
-                    }
-                    if (one_in(4) && g->u.infect("spores", bp_leg_r, 3, 90, false, 1, 3, 120, 1, true)) {
-                        hit = true;
-                    }
-                    if (hit) {
-                        add_msg(m_warning, _("You're covered in tiny spores!"));
-                    }
-                } else if (((i == examx && j == examy) || one_in(4)) &&
-                           g->num_zombies() <= 1000) { // Spawn a spore
-                    spore.spawn(i, j);
-                    g->add_zombie(spore);
-                }
-            }
-        }
-    }
+    m->create_spores(examx, examy, p);
     m->furn_set(examx, examy, f_null);
     p->moves -= 50;
 }
@@ -1320,6 +1261,12 @@ void iexamine::dirtmound(player *p, map *m, int examx, int examy)
 void iexamine::aggie_plant(player *p, map *m, int examx, int examy)
 {
     if (m->furn(examx, examy) == f_plant_harvest && query_yn(_("Harvest plant?"))) {
+        if (m->i_at(examx, examy).empty()) {
+            m->i_clear(examx, examy);
+            m->furn_set(examx, examy, f_null);
+            debugmsg("Missing seeds in harvested plant!");
+            return;
+        }
         itype_id seedType = m->i_at(examx, examy)[0].typeId();
         if (seedType == "fungal_seeds") {
             fungus(p, m, examx, examy);
@@ -1335,32 +1282,67 @@ void iexamine::aggie_plant(player *p, map *m, int examx, int examy)
             if (plantCount >= 12) {
                 plantCount = 12;
             }
-
             m->spawn_item(examx, examy, seedType.substr(5), plantCount, 0, calendar::turn);
             if(item_controller->find_template(seedType)->count_by_charges()) {
                 m->spawn_item(examx, examy, seedType, 1, rng(plantCount / 4, plantCount / 2));
             } else {
                 m->spawn_item(examx, examy, seedType, rng(plantCount / 4, plantCount / 2));
             }
-
             p->moves -= 500;
         }
-    } else if (m->furn(examx, examy) != f_plant_harvest && m->i_at(examx, examy).size() == 1 &&
-               p->charges_of("fertilizer_liquid") && query_yn(_("Fertilize plant"))) {
-        //Reduce the amount of time it takes until the next stage of the plant by 20% of a seasons length. (default 2.8 days).
-        WORLDPTR world = world_generator->active_world;
-        int fertilizerEpoch = 14400 * 2; //default if options is empty for some reason.
-        if (!world->world_options.empty()) {
-            fertilizerEpoch = 14400 * (world->world_options["SEASON_LENGTH"] * 0.2) ;
+    } else if (m->furn(examx, examy) != f_plant_harvest && m->i_at(examx, examy).size() == 1){
+        if ( !p->has_item_with_flag("FERTILIZER") ) {
+        add_msg(m_info, _("You have no fertilizer."));
+        return;
         }
-
-        if (m->i_at(examx, examy)[0].bday > fertilizerEpoch) {
-            m->i_at(examx, examy)[0].bday -= fertilizerEpoch;
-        } else {
-            m->i_at(examx, examy)[0].bday = 0;
-        }
-        p->use_charges("fertilizer_liquid", 1);
+        if (query_yn(_("Fertilize plant"))) {
+        std::vector<item *> f_inv = p->inv.all_items_with_flag("FERTILIZER");
+            if (g->u.weapon.contains_with_flag("FERTILIZER")) {
+            f_inv.push_back(&g->u.weapon.contents[0]);
+            }
+        std::vector<itype_id> f_types;
+        std::vector<std::string> f_names;
+            for (std::vector<item *>::iterator it = f_inv.begin() ; it != f_inv.end(); it++) {
+                if (std::find(f_types.begin(), f_types.end(), (*it)->typeId()) == f_types.end()) {
+                    f_types.push_back((*it)->typeId());
+                    f_names.push_back((*it)->tname());
+                }
+            }
+            // Choose fertilizer from list
+            int f_index = 0;
+            if (f_types.size() > 1) {
+                f_names.push_back("Cancel");
+                f_index = menu_vec(false, _("Use which fertilizer?"), f_names) - 1;
+                if (f_index == (int)f_names.size() - 1) {
+                    f_index = -1;
+                }
+            } else {
+                    f_index = 0;
+            }
+            if (f_index < 0) {
+                return;
+            }
+            std::list<item> planted = p->inv.use_charges(f_types[f_index], 1);
+            if (planted.empty()) { // nothing was removed from inv => weapon is the SEED
+                if (g->u.weapon.charges > 1) {
+                    g->u.weapon.charges--;
+                } else {
+                    g->u.remove_weapon();
+                }
+            }
+            //Reduce the amount of time it takes until the next stage of the plant by 20% of a seasons length. (default 2.8 days).
+            WORLDPTR world = world_generator->active_world;
+            int fertilizerEpoch = 14400 * 2; //default if options is empty for some reason.
+            if (!world->world_options.empty()) {
+                fertilizerEpoch = 14400 * (world->world_options["SEASON_LENGTH"] * 0.2) ;
+            }
+            if (m->i_at(examx, examy)[0].bday > fertilizerEpoch) {
+                m->i_at(examx, examy)[0].bday -= fertilizerEpoch;
+            } else {
+                m->i_at(examx, examy)[0].bday = 0;
+            }
         m->i_at(examx, examy).push_back(item("fertilizer", (int) calendar::turn));
+        }
     }
 }
 
@@ -1720,8 +1702,9 @@ void iexamine::pick_plant(player *p, map *m, int examx, int examy,
     m->ter_set(examx, examy, (ter_id)new_ter);
 }
 
-void iexamine::tree_apple(player *p, map *m, int examx, int examy)
+void iexamine::harvest_tree(player *p, map *m, int examx, int examy)
 {
+
     if (calendar::turn.get_season() == WINTER) {
         add_msg( m_info, _("The tree is dormant and uninteresting."));
         return;
@@ -1733,15 +1716,30 @@ void iexamine::tree_apple(player *p, map *m, int examx, int examy)
         add_msg(_("You find a flower and drink some nectar."));
         p->hunger -= 15;
     }
-    if (calendar::turn.get_season() != AUTUMN) {
-        add_msg( m_info, _("The fruits ripen in autumn."));
+    //if the fruit is not ripe yet
+    int season_int = m->get_ter_harvest_season(examx, examy);
+    if (calendar::turn.get_season() != season_int) {
+        switch (season_int) {
+        case 0:
+            add_msg( m_info, _("The fruits ripen in spring."));
+            break;
+        case 1:
+            add_msg( m_info, _("The fruits ripen in summer."));
+            break;
+        case 2:
+            add_msg( m_info, _("The fruits ripen in autumn."));
+            break;
+        case 3:
+            add_msg( m_info, _("The fruits ripen in winter."));
+            break;
+        }
         return;
     }
     if(!query_yn(_("Harvest from the %s?"), m->tername(examx, examy).c_str())) {
         none(p, m, examx, examy);
         return;
     }
-    pick_plant(p, m, examx, examy, "apple", t_tree);
+    pick_plant(p, m, examx, examy, m->get_ter_harvestable(examx, examy), t_tree);
 }
 
 void iexamine::tree_pine(player *p, map *m, int examx, int examy)
@@ -2618,9 +2616,6 @@ void (iexamine::*iexamine_function_from_string(std::string function_name))(playe
     if ("shelter" == function_name) {
         return &iexamine::shelter;
     }
-    if ("wreckage" == function_name) {
-        return &iexamine::wreckage;
-    }
     if ("pit" == function_name) {
         return &iexamine::pit;
     }
@@ -2675,6 +2670,9 @@ void (iexamine::*iexamine_function_from_string(std::string function_name))(playe
     if ("flower_datura" == function_name) {
         return &iexamine::flower_datura;
     }
+    if ("flower_marloss" == function_name) {
+        return &iexamine::flower_marloss;
+    }
     if ("flower_dandelion" == function_name) {
         return &iexamine::flower_dandelion;
     }
@@ -2700,8 +2698,8 @@ void (iexamine::*iexamine_function_from_string(std::string function_name))(playe
         return &iexamine::keg;
     }
     //pick_plant deliberately missing due to different function signature
-    if ("tree_apple" == function_name) {
-        return &iexamine::tree_apple;
+    if ("harvest_tree" == function_name) {
+        return &iexamine::harvest_tree;
     }
     if ("tree_pine" == function_name) {
         return &iexamine::tree_pine;

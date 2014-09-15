@@ -31,8 +31,7 @@ bool monster::wander()
 
 bool monster::can_move_to(int x, int y) const
 {
-    if (g->m.move_cost(x, y) == 0 &&
-     (!has_flag(MF_DESTROYS) || !g->m.is_destructable(x, y))) {
+    if (g->m.move_cost(x, y) == 0) {
         return false;
     }
     if (!can_submerge() && g->m.has_flag(TFLAG_DEEP_WATER, x, y)) {
@@ -312,12 +311,6 @@ void monster::move()
         moves = 0;
         return;
     }
-    if (has_effect("bouldering")) {
-        moves -= 20;
-        if (moves < 0) {
-            return;
-        }
-    }
     if (friendly != 0) {
         if (friendly > 0) {
             friendly--;
@@ -358,7 +351,7 @@ void monster::move()
         (mondex == -1 || g->zombie(mondex).friendly != 0 || has_flag(MF_ATTACKMON)) &&
         (can_move_to(plans[0].x, plans[0].y) ||
          (plans[0].x == g->u.posx && plans[0].y == g->u.posy) ||
-         (g->m.has_flag("BASHABLE", plans[0].x, plans[0].y) && has_flag(MF_BASHES)))){
+         (has_flag(MF_BASHES) && g->m.bash_rating(bash_skill(), plans[0].x, plans[0].y) > 0))){
         // CONCRETE PLANS - Most likely based on sight
         next = plans[0];
         moved = true;
@@ -445,7 +438,7 @@ void monster::friendly_move()
     //If we successfully calculated a plan in the generic monster movement function, begin executing it.
     if (!plans.empty() && (plans[0].x != g->u.posx || plans[0].y != g->u.posy) &&
             (can_move_to(plans[0].x, plans[0].y) ||
-             (g->m.has_flag("BASHABLE", plans[0].x, plans[0].y) && has_flag(MF_BASHES)))) {
+             (has_flag(MF_BASHES) && g->m.bash_rating(bash_skill(), plans[0].x, plans[0].y) > 0))) {
         next = plans[0];
         plans.erase(plans.begin());
         moved = true;
@@ -491,7 +484,7 @@ point monster::scent_move()
             int mon = g->mon_at(nx, ny);
             if ((mon == -1 || g->zombie(mon).friendly != 0 || has_flag(MF_ATTACKMON)) &&
                   (can_move_to(nx, ny) || (nx == g->u.posx && ny == g->u.posy) ||
-                  (g->m.has_flag("BASHABLE", nx, ny) && has_flag(MF_BASHES)))) {
+                  (has_flag(MF_BASHES) && g->m.bash_rating(bash_skill(), nx, ny) > 0))) {
                 if ((!fleeing && smell > maxsmell) || (fleeing && smell < minsmell)) {
                     smoves.clear();
                     pbuff.x = nx;
@@ -516,64 +509,74 @@ point monster::scent_move()
 
 point monster::wander_next()
 {
- point next;
- bool xbest = true;
- if (abs(wandy - posy()) > abs(wandx - posx()))// which is more important
-  xbest = false;
- next.x = posx();
- next.y = posy();
- int x = posx(), x2 = posx() - 1, x3 = posx() + 1;
- int y = posy(), y2 = posy() - 1, y3 = posy() + 1;
- if (wandx < posx()) { x--; x2++;          }
- if (wandx > posx()) { x++; x2++; x3 -= 2; }
- if (wandy < posy()) { y--; y2++;          }
- if (wandy > posy()) { y++; y2++; y3 -= 2; }
- if (xbest) {
-  if (can_move_to(x, y) || (x == g->u.posx && y == g->u.posy) ||
-      (has_flag(MF_BASHES) && g->m.has_flag("BASHABLE", x, y))) {
-   next.x = x;
-   next.y = y;
-  } else if (can_move_to(x, y2) || (x == g->u.posx && y == g->u.posy) ||
-             (has_flag(MF_BASHES) && g->m.has_flag("BASHABLE", x, y2))) {
-   next.x = x;
-   next.y = y2;
-  } else if (can_move_to(x2, y) || (x == g->u.posx && y == g->u.posy) ||
-             (has_flag(MF_BASHES) && g->m.has_flag("BASHABLE", x2, y))) {
-   next.x = x2;
-   next.y = y;
-  } else if (can_move_to(x, y3) || (x == g->u.posx && y == g->u.posy) ||
-             (has_flag(MF_BASHES) && g->m.has_flag("BASHABLE", x, y3))) {
-   next.x = x;
-   next.y = y3;
-  } else if (can_move_to(x3, y) || (x == g->u.posx && y == g->u.posy) ||
-             (has_flag(MF_BASHES) && g->m.has_flag("BASHABLE", x3, y))) {
-   next.x = x3;
-   next.y = y;
-  }
- } else {
-  if (can_move_to(x, y) || (x == g->u.posx && y == g->u.posy) ||
-      (has_flag(MF_BASHES) && g->m.has_flag("BASHABLE", x, y))) {
-   next.x = x;
-   next.y = y;
-  } else if (can_move_to(x2, y) || (x == g->u.posx && y == g->u.posy) ||
-             (has_flag(MF_BASHES) && g->m.has_flag("BASHABLE", x2, y))) {
-   next.x = x2;
-   next.y = y;
-  } else if (can_move_to(x, y2) || (x == g->u.posx && y == g->u.posy) ||
-             (has_flag(MF_BASHES) && g->m.has_flag("BASHABLE", x, y2))) {
-   next.x = x;
-   next.y = y2;
-  } else if (can_move_to(x3, y) || (x == g->u.posx && y == g->u.posy) ||
-             (has_flag(MF_BASHES) && g->m.has_flag("BASHABLE", x3, y))) {
-   next.x = x3;
-   next.y = y;
-  } else if (can_move_to(x, y3) || (x == g->u.posx && y == g->u.posy) ||
-             (has_flag(MF_BASHES) && g->m.has_flag("BASHABLE", x, y3))) {
-   next.x = x;
-   next.y = y3;
-  }
- }
- return next;
+    point next;
+    bool xbest = true;
+    if (abs(wandy - posy()) > abs(wandx - posx())) {// which is more important
+        xbest = false;
+    }
+    next.x = posx();
+    next.y = posy();
+    int x = posx(), x2 = posx() - 1, x3 = posx() + 1;
+    int y = posy(), y2 = posy() - 1, y3 = posy() + 1;
+    if (wandx < posx()) {
+        x--; x2++;
+    }
+    if (wandx > posx()) {
+        x++; x2++; x3 -= 2;
+    }
+    if (wandy < posy()) {
+        y--; y2++;
+    }
+    if (wandy > posy()) {
+        y++; y2++; y3 -= 2;
+    }
+    int bashskill = bash_skill();
+    if (xbest) {
+        if (can_move_to(x, y) || (x == g->u.posx && y == g->u.posy) ||
+              (has_flag(MF_BASHES) && g->m.bash_rating(bashskill, x, y) > 0)) {
+            next.x = x;
+            next.y = y;
+        } else if (can_move_to(x, y2) || (x == g->u.posx && y == g->u.posy) ||
+                    (has_flag(MF_BASHES) && g->m.bash_rating(bashskill, x, y2) > 0)) {
+            next.x = x;
+            next.y = y2;
+        } else if (can_move_to(x2, y) || (x == g->u.posx && y == g->u.posy) ||
+                    (has_flag(MF_BASHES) && g->m.bash_rating(bashskill, x2, y) > 0)) {
+            next.x = x2;
+            next.y = y;
+        } else if (can_move_to(x, y3) || (x == g->u.posx && y == g->u.posy) ||
+                    (has_flag(MF_BASHES) && g->m.bash_rating(bashskill, x, y3) > 0)) {
+            next.x = x;
+            next.y = y3;
+        } else if (can_move_to(x3, y) || (x == g->u.posx && y == g->u.posy) ||
+                    (has_flag(MF_BASHES) && g->m.bash_rating(bashskill, x3, y) > 0)) {
+            next.x = x3;
+            next.y = y;
+        }
+    } else {
+        if (can_move_to(x, y) || (x == g->u.posx && y == g->u.posy) ||
+              (has_flag(MF_BASHES) && g->m.bash_rating(bashskill, x, y) > 0)) {
+            next.x = x;
+            next.y = y;
+        } else if (can_move_to(x2, y) || (x == g->u.posx && y == g->u.posy) ||
+                    (has_flag(MF_BASHES) && g->m.bash_rating(bashskill, x2, y) > 0)) {
+            next.x = x2;
+            next.y = y;
+        } else if (can_move_to(x, y2) || (x == g->u.posx && y == g->u.posy) ||
+                    (has_flag(MF_BASHES) && g->m.bash_rating(bashskill, x, y2) > 0)) {
+            next.x = x;
+            next.y = y2;
+        } else if (can_move_to(x3, y) || (x == g->u.posx && y == g->u.posy) ||
+                    (has_flag(MF_BASHES) && g->m.bash_rating(bashskill, x3, y) > 0)) {
+            next.x = x3;
+            next.y = y;
+        } else if (can_move_to(x, y3) || (x == g->u.posx && y == g->u.posy) ||
+                    (has_flag(MF_BASHES) && g->m.bash_rating(bashskill, x, y3) > 0)) {
+            next.x = x;
+            next.y = y3;
+        }
+    }
+    return next;
 }
 
 int monster::calc_movecost(int x1, int y1, int x2, int y2) const
@@ -661,9 +664,9 @@ int monster::bash_at(int x, int y) {
         return 0;
     }
     bool try_bash = !can_move_to(x, y) || one_in(3);
-    bool can_bash = g->m.has_flag("BASHABLE", x, y) && has_flag(MF_BASHES);
+    bool can_bash = g->m.is_bashable(x, y) && has_flag(MF_BASHES);
     if(try_bash && can_bash) {
-        int bashskill = int(type->melee_dice * type->melee_sides);
+        int bashskill = bash_skill();
 
         // pileup = more bashskill, but only help bashing mob directly infront of target
         const int max_helper_depth = 5;
@@ -680,6 +683,9 @@ int monster::bash_at(int x, int y) {
                     // helpers lined up behind primary basher add full strength,
                     // so do those at either shoulder, others add 50%
                     int addbash = int(helpermon.type->melee_dice * helpermon.type->melee_sides);
+                    if (helpermon.has_flag(MF_DESTROYS)) {
+                        addbash *= 2.5;
+                    }
                     // helpers lined up behind primary basher add full strength, others 50%
                     addbash *= ( ( diffx == 0 && bzone[i].x == pos().x ) ||
                                  ( diffy == 0 && bzone[i].y == pos().y ) ) ? 2 : 1;
@@ -693,13 +699,17 @@ int monster::bash_at(int x, int y) {
         g->m.bash( x, y, bashskill );
         moves -= 100;
         return 1;
-    } else if (g->m.move_cost(x, y) == 0 && has_flag(MF_DESTROYS)) {
-        g->m.destroy(x, y, true);
-        //todo: add bash info without BASHABLE flag to walls etc, balanced to these guys
-        moves -= 250;
-        return 1;
     }
     return 0;
+}
+
+int monster::bash_skill()
+{
+    int ret = type->melee_dice * type->melee_sides;
+    if (has_flag(MF_DESTROYS)) {
+        ret *= 2.5;
+    }
+    return ret;
 }
 
 int monster::attack_at(int x, int y) {
@@ -805,6 +815,11 @@ int monster::move_to(int x, int y, bool force)
     if (type->size != MS_TINY && g->m.has_flag("ROUGH", posx(), posy()) && one_in(6)) {
         apply_damage( nullptr, bp_torso, rng( 1, 2 ) );
     }
+    if (g->m.has_flag("UNSTABLE", x, y)) {
+        add_effect("bouldering", 1, 1, true);
+    } else if (has_effect("bouldering")) {
+        remove_effect("bouldering");
+    }
     if (!digging() && !has_flag(MF_FLIES) &&
           g->m.tr_at(posx(), posy()) != tr_null) { // Monster stepped on a trap!
         trap* tr = traplist[g->m.tr_at(posx(), posy())];
@@ -883,9 +898,6 @@ void monster::stumble(bool moved)
    const int nx = posx() + i;
    const int ny = posy() + j;
    if ((i || j) && can_move_to(nx, ny) &&
-       /* Don't ever stumble into impassable terrain, even if we normally could
-        * smash it, as this is uncoordinated movement (and is forced). */
-       g->m.move_cost(nx, ny) != 0 &&
        //Stop zombies and other non-breathing monsters wandering INTO water
        //(Unless they can swim/are aquatic)
        //But let them wander OUT of water if they are there.
@@ -1055,9 +1067,9 @@ int monster::turns_to_reach(int x, int y)
             // We have to bash through
             turns += 5;
         } else if (i == 0) {
-            turns += double(calc_movecost(posx(), posy(), path[i].x, path[i].y)) / speed;
+            turns += double(calc_movecost(posx(), posy(), path[i].x, path[i].y)) / get_speed();
         } else {
-            turns += double(calc_movecost(path[i-1].x, path[i-1].y, path[i].x, path[i].y)) / speed;
+            turns += double(calc_movecost(path[i-1].x, path[i-1].y, path[i].x, path[i].y)) / get_speed();
         }
     }
     return int(turns + .9); // Round up

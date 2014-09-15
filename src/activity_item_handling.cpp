@@ -261,10 +261,12 @@ void game::activity_on_turn_pickup()
     // indices of items on map, and quantities of same.
     bool from_vehicle = g->u.activity.values.front();
     point pickup_target = g->u.activity.placement;
+    // Auto_resume implies autopickup.
+    bool autopickup = g->u.activity.auto_resume;
     std::list<int> indices;
     std::list<int> quantities;
-    
-    if (g->m.i_at(pickup_target.x, pickup_target.y).size() <= 0) {
+
+    if (!from_vehicle && g->m.i_at(pickup_target.x, pickup_target.y).size() <= 0) {
         g->u.cancel_activity();
         return;
     }
@@ -275,12 +277,13 @@ void game::activity_on_turn_pickup()
     }
     g->u.cancel_activity();
 
-    Pickup::do_pickup( pickup_target, from_vehicle, indices, quantities );
+    Pickup::do_pickup( pickup_target, from_vehicle, indices, quantities, autopickup );
 
     // If there are items left, we ran out of moves, so make a new activity with the remainder.
     if( !indices.empty() ) {
         u.assign_activity( ACT_PICKUP, 0 );
         u.activity.placement = pickup_target;
+        u.activity.auto_resume = autopickup;
         u.activity.values.push_back( from_vehicle );
         while( !indices.empty() ) {
             u.activity.values.push_back( indices.front() );

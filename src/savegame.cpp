@@ -36,7 +36,7 @@
  * Changes that break backwards compatibility should bump this number, so the game can
  * load a legacy format loader.
  */
-const int savegame_version = 21;
+const int savegame_version = 22;
 const int savegame_minver_game = 11;
 
 /*
@@ -464,7 +464,8 @@ void overmap::unserialize(std::ifstream & fin, std::string const & plrfilename,
 
                     if ( data.read("region_id",tmpstr) ) { // temporary, until option DEFAULT_REGION becomes start_scenario.region_id
                         if ( settings.id != tmpstr ) {
-                            std::map<std::string, regional_settings>::const_iterator rit = region_settings_map.find( tmpstr );
+                            std::unordered_map<std::string, regional_settings>::const_iterator rit =
+                                region_settings_map.find( tmpstr );
                             if ( rit != region_settings_map.end() ) {
                                 // temporary; user changed option, this overmap should remain whatever it was set to.
                                 settings = rit->second; // todo optimize
