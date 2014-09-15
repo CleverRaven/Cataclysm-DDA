@@ -85,8 +85,6 @@ struct tripoint {
     int y;
     int z;
     tripoint(int X = 0, int Y = 0, int Z = 0) : x (X), y (Y), z (Z) {}
-    tripoint(const tripoint &p) : x (p.x), y (p.y), z (p.z) {}
-    ~tripoint() {}
 };
 
 // Make tripoint hashable so it can be used as an unordered_set or unordered_map key,
