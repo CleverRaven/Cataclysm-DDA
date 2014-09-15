@@ -3651,12 +3651,6 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
     else if (morale_cur > -200) morale_str = "D:";
     else                        morale_str = "D8";
     mvwprintz(w, sideStyle ? 0 : 3, sideStyle ? 11 : 10, col_morale, morale_str);
- if (!in_vehicle) {
-    std::string sta_bar = "";
-    nc_color sta_color;
-    get_HP_Bar(stamina , get_stamina_max(), sta_color, sta_bar);
-    mvwprintz(w, sideStyle ? 2 : 2, sideStyle ? 7 : 10, sta_color, ("Sta  "+sta_bar).c_str());
-    }
 
     vehicle *veh = g->remoteveh();
     if( veh == nullptr && in_vehicle ) {
@@ -3747,18 +3741,18 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
   if (spd_bonus > 0)
    col_spd = c_green;
 
-    int x  = sideStyle ? 18 : 13;
+    int x  = sideStyle ? 19 : 13;
     int y  = sideStyle ?  0 :  3;
-    int dx = sideStyle ?  0 :  7;
+    int dx = sideStyle ?  0 :  6;
     int dy = sideStyle ?  1 :  0;
-    mvwprintz(w, y + dy * 0, x + dx * 0, col_str, _("Str %2d"), get_str());
-    mvwprintz(w, y + dy * 1, x + dx * 1, col_dex, _("Dex %2d"), get_dex());
-    mvwprintz(w, y + dy * 2, x + dx * 2, col_int, _("Int %2d"), get_int());
-    mvwprintz(w, y + dy * 3, x + dx * 3, col_per, _("Per %2d"), get_per());
+    mvwprintz(w, y + dy * 0, x + dx * 0, col_str, _("Str%2d"), get_str());
+    mvwprintz(w, y + dy * 1, x + dx * 1, col_dex, _("Dex%2d"), get_dex());
+    mvwprintz(w, y + dy * 2, x + dx * 2, col_int, _("Int%2d"), get_int());
+    mvwprintz(w, y + dy * 3, x + dx * 3, col_per, _("Per%2d"), get_per());
 
     int spdx = sideStyle ?  0 : x + dx * 4;
     int spdy = sideStyle ?  5 : y + dy * 4;
-    mvwprintz(w, spdy, spdx, col_spd, _("Spd %2d"), get_speed());
+    mvwprintz(w, spdy, spdx, col_spd, _("Spd%3d"), get_speed());
     if (this->weight_carried() > this->weight_capacity()) {
         col_time = h_black;
     }
@@ -3769,7 +3763,12 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
             col_time = c_dkgray_red;
         }
     }
-    wprintz(w, col_time, "  %d", movecounter);
+    wprintz(w, col_time, " %3d", movecounter);
+
+    std::string sta_bar = "";
+    nc_color sta_color;
+    std::tie(sta_bar, sta_color) = get_hp_bar(stamina , get_stamina_max());
+    wprintz(w, sta_color, (" St" + sta_bar).c_str());
  }
 }
 
