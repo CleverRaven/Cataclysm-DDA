@@ -139,8 +139,8 @@ std::string action_ident(action_id act)
         return "shift_w";
     case ACTION_SHIFT_NW:
         return "shift_nw";
-    case ACTION_SWITCH_RUN:
-        return "switch_run";
+    case ACTION_TOGGLE_MOVE:
+        return "toggle_move";
     case ACTION_OPEN:
         return "open";
     case ACTION_CLOSE:

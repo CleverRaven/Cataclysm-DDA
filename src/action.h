@@ -20,7 +20,7 @@ enum action_id {
     ACTION_MOVE_NW,
     ACTION_MOVE_DOWN,
     ACTION_MOVE_UP,
-    ACTION_SWITCH_RUN,
+    ACTION_TOGGLE_MOVE,
     // Shift view
     ACTION_CENTER,
     ACTION_SHIFT_N,

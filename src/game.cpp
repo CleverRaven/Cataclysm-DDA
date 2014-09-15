@@ -2078,7 +2078,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action("shift_sw");
     ctxt.register_action("shift_w");
     ctxt.register_action("shift_nw");
-    ctxt.register_action("switch_run");
+    ctxt.register_action("toggle_move");
     ctxt.register_action("open");
     ctxt.register_action("close");
     ctxt.register_action("smash");
@@ -2632,7 +2632,7 @@ bool game::handle_action()
             }
             break;
 
-        case ACTION_SWITCH_RUN:
+        case ACTION_TOGGLE_MOVE:
             u.run = !u.run;
             add_msg(m_info, u.run?"You run":"You walk");
             break;
