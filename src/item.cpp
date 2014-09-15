@@ -3195,10 +3195,7 @@ int item::amount_of(const itype_id &it, bool used_as_tool) const
     // Check that type matches, and (if not used as tool), it
     // is not a pseudo item.
     if (type->id == it && (used_as_tool || !has_flag("PSEUDO"))) {
-        if (contents.empty()) {
-            // Only use empty container
-            count++;
-        }
+        count++;
     }
     for (size_t k = 0; k < contents.size(); k++) {
         count += contents[k].amount_of(it, used_as_tool);
@@ -3221,7 +3218,7 @@ bool item::use_amount(const itype_id &it, int &quantity, bool use_container, std
     // Now check the item itself
     if (use_container && used_item_contents) {
         return true;
-    } else if (type->id == it && quantity > 0 && contents.empty()) {
+    } else if (type->id == it && quantity > 0) {
         used.push_back(*this);
         quantity--;
         return true;
