@@ -285,6 +285,13 @@ void game::init_fields()
             {_("hazy cloud"),_("fungal haze"),_("thick fungal haze")}, '.', 8,
             { c_white, c_cyan, c_cyan }, { true, true, false }, { true, true, true }, 40,
             {0,0,0}
+        },
+        
+        {
+            "fd_hot_air",
+            {_(""),_(""),_("")}, '&', 8,
+            {c_white, c_white, c_white}, {true, true, true}, {false, false, false}, 80,
+            {0,0,0}
         }
 
     };
@@ -886,6 +893,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                             smoke--;
                                             add_field(fx, fy, fd_smoke, rng(1, cur->getFieldDensity())); //Add smoke!
                                         }
+                                        // Fire generates a lot of hot_air, which spreads and dissipates quickly, but is likely to fill a room regardless!
+                                        if (one_in(5)) add_field(fx, fy, fd_hot_air, 1 * cur->getFieldDensity());
                                     }
                                 }
                             }
@@ -989,6 +998,10 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         break;
                     }
 
+                    case fd_hot_air:
+                        spread_gas( this, cur, x, y, curtype, 100, 70 );
+                        break;                    
+                    
                     case fd_gas_vent:
                         for (int i = x - 1; i <= x + 1; i++) {
                             for (int j = y - 1; j <= y + 1; j++) {

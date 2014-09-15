@@ -910,12 +910,23 @@ void player::update_bodytemp()
             }
         }
         // TILES
-        // Being on fire affects temp_cur (not temp_conv): this is super dangerous for the player
+        int tile_strength = 0;
+        // Being on fire increases very intensly the convergeant temperature.
         if (has_effect("onfire")) {
-            temp_cur[i] += 250;
+            temp_conv[i] += 15000;
         }
-        if ( g->m.get_field_strength( point(posx, posy), fd_fire ) > 2 || trap_at_pos == tr_lava) {
-            temp_cur[i] += 250;
+        // Same with standing on fire.
+        tile_strength = g->m.get_field_strength(point(posx, posy), fd_fire);
+        if (tile_strength > 2 || trap_at_pos == tr_lava) {
+            temp_conv[i] += 15000;
+        }
+        // Standing in the hot air of a fire is nice.
+        tile_strength = g->m.get_field_strength(point(posx, posy), fd_hot_air);
+        switch (tile_strength) {
+            case 3: temp_conv[i] += 1500; break; // Toasty like a warm bed!
+            case 2: temp_conv[i] +=  500; break;
+            case 1: temp_conv[i] +=  100; break;
+            default: break;
         }
         // WEATHER
         if (g->weather == WEATHER_SUNNY && g->is_in_sunlight(posx, posy))
