@@ -5688,7 +5688,7 @@
     },{
         "type" : "MONSTER",
         "id" : "mon_zoose",
-    "name": "zoose",
+    "name": "antlered horror",
     "species":"ZOMBIE",
     "symbol":"M",
     "color":"green",
@@ -5717,8 +5717,7 @@
     },{
         "type" : "MONSTER",
         "id" : "mon_zolf",
-    "name": "zolf",
-    "name_plural": "zolves",
+    "name": "grim howler",
     "species":"ZOMBIE",
     "symbol":"w",
     "color":"green",
@@ -5747,7 +5746,7 @@
     },{
         "type" : "MONSTER",
         "id" : "mon_zougar",
-    "name": "zougar",
+    "name": "decayed pouncer",
     "species":"ZOMBIE",
     "symbol":"C",
     "color":"green",
@@ -5807,7 +5806,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_pig",
-    "name": "zig",
+    "name": "festering boar",
     "species":"ZOMBIE",
     "symbol":"p",
     "color":"green",
