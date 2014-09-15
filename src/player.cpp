@@ -166,6 +166,7 @@ player::player() : Character()
  stomach_food = 0;
  stomach_water = 0;
  fatigue = 0;
+ stamina = get_stamina_max();
  stim = 0;
  pain = 0;
  pkill = 0;
@@ -193,6 +194,7 @@ player::player() : Character()
  grab_point.x = 0;
  grab_point.y = 0;
  grab_type = OBJECT_NONE;
+ move_mode = "walk";
  style_selected = "style_none";
  keep_hands_free = false;
  focus_pool = 100;
