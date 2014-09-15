@@ -2627,8 +2627,7 @@ bool game::handle_action()
             break;
 
         case ACTION_TOGGLE_MOVE:
-            u.run = !u.run;
-            add_msg(m_info, u.run?"You run":"You walk");
+            u.toggle_move_mode();
             break;
 
         case ACTION_MOVE_N:

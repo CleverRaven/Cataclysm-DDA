@@ -1705,7 +1705,7 @@ int player::run_cost(int base_cost, bool diag)
         movecost += 10 * footwear_factor();
     }
 
-    if( run && stamina > 0 ) {
+    if( move_mode == "run" && stamina > 0 ) {
         // Rationale: Average running speed is 2x walking speed. (NOT sprinting)
         // At fully rested, can run at 2x walk speed, decaying linearly to walk speed.
         // So divide movecost by a number between 1 and 2.
@@ -4329,6 +4329,19 @@ void player::pause()
     }
 
     search_surroundings();
+}
+
+void player::toggle_move_mode()
+{
+    if( move_mode == "walk" ) {
+        if( stamina > 0 ) {
+            move_mode = "run";
+            add_msg("You start running.");
+        }
+    } else if( move_mode == "run" ) {
+        move_mode = "walk";
+        add_msg("You slow to a walk.");
+    }
 }
 
 void player::search_surroundings()
@@ -13114,7 +13127,7 @@ void player::burn_move_stamina( int moves )
     // 7/turn walking
     // 20/turn running
     int burn_ratio = 7;
-    if( run ) {
+    if( move_mode == "run" ) {
         burn_ratio = 20;
     }
     stamina -= (moves * burn_ratio) / 100;

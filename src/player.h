@@ -341,7 +341,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         Attitude attitude_to( const Creature &other ) const override;
 
         void pause(); // '.' command; pauses & reduces recoil
-        void set_run(bool p_run) {run = p_run;}
+        void toggle_move_mode(); // Toggles to the next move mode.
 
         // martialarts.cpp
         /** Fires all non-triggered martial arts events */
@@ -943,7 +943,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         int next_climate_control_check;
         bool last_climate_control_ret;
-        bool run = false;
+        std::string move_mode;
         int power_level, max_power_level;
         int hunger, thirst, fatigue;
         int stomach_food, stomach_water;
