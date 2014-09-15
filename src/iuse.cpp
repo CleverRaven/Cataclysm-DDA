@@ -566,19 +566,19 @@ int iuse::bandage(player *p, item *it, bool)
     if (num_hp_parts != use_healing_item(p, it, 3, 1, 4, 90, 0, 0, false)) {
         if (it->type->id == "quikclot" || "bfipowder") {
             if (it->type->id == "quikclot"){
-                p->add_ms_if_player(m_good, _("You use your hemostatic powder."));
+                p->add_msg_if_player(m_good, _("You use your hemostatic powder."));
             }
             else {
-                p->add_ms_if_player(m_good, _("You use your antiseptic powder."));
+                p->add_msg_if_player(m_good, _("You use your antiseptic powder."));
             }
         }
         if (it->type->id == "bandage"){
             // Make bandages and rags take arbitrarily longer than hemostatic/antiseptic powders.
-            p->add_ms_if_player(m_good, _("You use your bandage."));
+            p->add_msg_if_player(m_good, _("You use your bandage."));
             p->moves -= 100;
         }
         else {
-            p->add_ms_if_player(m_good, _("You use your medical implement."));
+            p->add_msg_if_player(m_good, _("You use your medical implement."));
             p->moves -= 100;
         }
         return it->type->charges_to_use();
