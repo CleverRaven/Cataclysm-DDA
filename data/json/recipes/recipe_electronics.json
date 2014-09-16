@@ -455,6 +455,9 @@
   ], "components": [
     [
       [ "lemon", 1 ],
+      [ "orange", 1 ],
+      [ "grapefruit", 1 ],
+      [ "potato", 1 ],
       [ "acid", 1 ],
       [ "vinegar", 2 ]
     ],
