@@ -2312,6 +2312,7 @@
     "type" : "item_group",
     "id" : "trash",
     "items":[
+      ["plastic_shopping_bag", 35]
       ["iodine", 5],
       ["bum_wine", 5],
       ["meth", 2],
