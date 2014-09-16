@@ -5076,7 +5076,7 @@ void player::add_disease(dis_type type, int duration, bool permanent,
         return;
     }
 
-    if (part !=  num_bp && hp_cur[part] == 0) {
+    if (part != num_bp && hp_cur[bodypart_to_hp_part(part)] == 0) {
         return;
     }
 
