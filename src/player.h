@@ -762,7 +762,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool has_active_item(const itype_id &id) const;
         long active_item_charges(itype_id id);
         void process_active_items();
-        bool process_single_active_item(item *it); // returns false if it needs to be removed
         item i_rem(int pos); // Remove item from inventory; returns ret_null on fail
         item i_rem(itype_id type);// Remove first item w/ this type; fail is ret_null
         item i_rem(item *it);// Remove specific item.

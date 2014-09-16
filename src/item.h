@@ -258,6 +258,38 @@ public:
      * for other players. The player is identified by its id.
      */
     void mark_as_used_by_player(const player &p);
+    /**
+     * This is called once each turn. It's usually only useful for active items,
+     * but can be called for inactive items without problems.
+     * It is recursive, and calls process on any contained items.
+     * @param carrier The player / npc that carries the item. This can be null when
+     * the item is not carried by anyone (laying on ground)!
+     * @param pos The location of the item on the map, same system as
+     * @ref player::pos used. If the item is carried, it should be the
+     * location of the carrier.
+     * @return true if the item has been destroyed by the processing. The caller
+     * should than delete the item wherever it was stored.
+     * Returns false if the item is not destroyed.
+     */
+    bool process(player *carrier, point pos);
+protected:
+    // Sub-functions of @ref process, they handle the processing for different
+    // processing types, just to make the process function cleaner.
+    // The interface is the same as for @ref process.
+    bool process_food(player *carrier, point pos);
+    bool process_corpse(player *carrier, point pos);
+    bool process_artifact(player *carrier, point pos);
+    bool process_wet(player *carrier, point pos);
+    bool process_litcig(player *carrier, point pos);
+    bool process_tool(player *carrier, point pos);
+    bool process_charger_gun(player *carrier, point pos);
+public:
+    /**
+     * Whether the item should be processed (by calling @ref process) each turn.
+     * This is only a hint, used by the map to avoid coping the item when it
+     * does not need processing.
+     */
+    bool needs_processing() const;
 
  // umber of mods that can still be installed into the given
  // mod location, for non-guns it returns always 0

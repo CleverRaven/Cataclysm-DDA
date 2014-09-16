@@ -3003,7 +3003,7 @@ void map::add_item(const int x, const int y, item new_item, const int maxitems)
     int lx, ly;
     submap * const current_submap = get_submap_at(x, y, lx, ly);
     current_submap->itm[lx][ly].push_back(new_item);
-    if (new_item.active) {
+    if( new_item.needs_processing() ) {
         current_submap->active_item_count++;
     }
 }
@@ -3043,7 +3043,7 @@ void map::process_active_items()
                 process_active_items_in_submap(current_submap, gx, gy);
             }
             if (!current_submap->vehicles.empty()) {
-                process_active_items_in_vehicles(current_submap, gx, gy);
+                process_active_items_in_vehicles(current_submap);
             }
         }
     }
@@ -3060,12 +3060,16 @@ void map::process_active_items_in_submap(submap * const current_submap, int grid
             std::vector<item> &items = current_submap->itm[i][j];
             //Do a count-down loop, as some items may be removed
             for (size_t n = 0; n < items.size(); n++) {
-                if (!items[n].active) {
+                // The following code is expensive, don't run it for non-active
+                // items, that would be useless anyway
+                if( !items[n].needs_processing() ) {
                     continue;
                 }
+                // make a temporary copy, remove the item (in advance)
+                // and use that copy to process it
                 tmp_active_item_pos.first = items[n];
                 items.erase(items.begin() + n);
-                if(!process_active_item(&tmp_active_item_pos.first, current_submap, gridx, gridy, i, j)) {
+                if( !tmp_active_item_pos.first.process( nullptr, tmp_active_item_pos.second ) ) {
                     // Not destroyed, must be inserted again, but make sure
                     // we don't insert far behind the end of the vector
                     n = std::min(items.size(), n);
@@ -3088,7 +3092,7 @@ void map::process_active_items_in_submap(submap * const current_submap, int grid
     }
 }
 
-void map::process_active_items_in_vehicles(submap * const current_submap, int gridx, int gridy)
+void map::process_active_items_in_vehicles(submap * const current_submap)
 {
     std::vector<vehicle*> &veh_in_nonant = current_submap->vehicles;
     // a copy, important if the vehicle list changes because a
@@ -3103,11 +3107,11 @@ void map::process_active_items_in_vehicles(submap * const current_submap, int gr
             // Can't be sure that it still exist, so skip it
             continue;
         }
-        process_active_items_in_vehicle(cur_veh, current_submap, gridx, gridy);
+        process_active_items_in_vehicle(cur_veh, current_submap);
     }
 }
 
-void map::process_active_items_in_vehicle(vehicle *cur_veh, submap * const current_submap, const int gridx, const int gridy)
+void map::process_active_items_in_vehicle(vehicle *cur_veh, submap * const current_submap)
 {
     std::vector<int> cargo_parts = cur_veh->all_parts_with_feature(VPFLAG_CARGO, false);
     for(size_t part_index = 0; part_index < cargo_parts.size(); part_index++) {
@@ -3117,8 +3121,6 @@ void map::process_active_items_in_vehicle(vehicle *cur_veh, submap * const curre
         // the vehicle part in case cur_veh->parts got changed
         const point mnt(vp.precalc_dx[0], vp.precalc_dy[0]);
         const int vp_type = vp.iid;
-        const int mapx = cur_veh->posx + vp.precalc_dx[0];
-        const int mapy = cur_veh->posy + vp.precalc_dy[0];
         // This is used in game::find_item. Because otherwise the
         // temporary item would nowhere to be found.
         tmp_active_item_pos.second = point(cur_veh->global_x() + vp.precalc_dx[0], cur_veh->global_y() + vp.precalc_dy[0]);
@@ -3143,14 +3145,14 @@ void map::process_active_items_in_vehicle(vehicle *cur_veh, submap * const curre
             }
             // The following code is expensive, don't run it for non-active
             // items, that would be useless anyway
-            if(!it->active) {
+            if( !it->needs_processing() ) {
                 continue;
             }
             // make a temporary copy, remove the item (in advance)
             // and use that copy to process it
             tmp_active_item_pos.first = *it;
             items_in_part->erase(items_in_part->begin() + n);
-            if(!process_active_item(&tmp_active_item_pos.first, current_submap, gridx, gridy, mapx, mapy)) {
+            if( !tmp_active_item_pos.first.process( nullptr, tmp_active_item_pos.second ) ) {
                 // item still exist, most likely it didn't just explode,
                 // put it back
                 items_in_part->insert(items_in_part->begin() + n, tmp_active_item_pos.first);
@@ -3193,140 +3195,6 @@ void map::process_active_items_in_vehicle(vehicle *cur_veh, submap * const curre
         }
     }
 }
-
-/**
- * Processes a single active item.
- * @param it A pointer to the item we're processing.
- * @param nonant The current submap nonant.
- * @param i The x-coordinate inside the submap.
- * @param j The y-coordinate inside the submap.
- * @return true If the item needs to be removed.
- */
-bool map::process_active_item(item *it, submap *const current_submap,
-                              const int gridx, const int gridy, const int i, const int j) {
-    if (it->active || (it->is_container() && !it->contents.empty() && it->contents[0].active)) {
-        if (it->is_food()) { // food items
-            it->calc_rot(point(gridx * SEEX + i, gridy * SEEY + j));
-            if (it->has_flag("HOT")) {
-                it->item_counter--;
-                if (it->item_counter == 0) {
-                    it->item_tags.erase("HOT");
-                    current_submap->active_item_count--;
-                }
-            }
-            else if (it->has_flag("COLD")) {
-                it->item_counter--;
-                if (it->item_counter == 0) {
-                    it->item_tags.erase("COLD");
-                    current_submap->active_item_count--;
-                }
-            }
-        } else if (it->is_food_container()) { // food in containers
-            it->contents[0].calc_rot(point(gridx * SEEX + i, gridy * SEEY + j));
-            if (it->contents[0].has_flag("HOT")) {
-                it->contents[0].item_counter--;
-                if (it->contents[0].item_counter == 0) {
-                    it->contents[0].item_tags.erase("HOT");
-                    current_submap->active_item_count--;
-                }
-            }
-            else if (it->contents[0].has_flag("COLD")) {
-                it->contents[0].item_counter--;
-                if (it->contents[0].item_counter == 0) {
-                    it->contents[0].item_tags.erase("COLD");
-                    current_submap->active_item_count--;
-                }
-            }
-        } else if (it->type->id == "corpse" && it->corpse != NULL ) { // some corpses rez over time
-            if (it->ready_to_revive()) {
-                int mapx = gridx * SEEX + i;
-                int mapy = gridy * SEEY + j;
-                if (rng(0,it->volume()) > it->burnt && g->revive_corpse(mapx, mapy, it)) {
-                    if (g->u_see(mapx, mapy)) {
-                        if(it->corpse->in_species("ROBOT")) {
-                            add_msg(m_warning, _("A nearby robot has repaired itself and stands up!"));
-                        } else {
-                            add_msg(m_warning, _("A nearby corpse rises and moves towards you!"));
-                        }
-                    }
-                    return true;
-                } else {
-                    it->active = false;
-                }
-            }
-        } else if ( it->has_flag("WET") ) {
-            it->item_counter--;
-            if(it->item_counter <= 0)
-            {
-                const it_tool *tool = dynamic_cast<const it_tool*>(it->type);
-                if (tool != NULL && tool->revert_to != "null") {
-                    it->make(tool->revert_to);
-                }
-                it->item_tags.erase("WET");
-                if (!it->has_flag("ABSORBENT")) {
-                    it->item_tags.insert("ABSORBENT");
-                }
-                it->active = false;
-            }
-
-        } else if(it->has_flag("LITCIG")) {
-            it->item_counter--;
-            // release some smoke every five ticks
-            if(it->item_counter % 5 == 0) {
-              int mapx = gridx * SEEX + i;
-              int mapy = gridy * SEEY + j;
-              if(it->has_flag("TOBACCO")) {
-                add_field(mapx + int(rng(-2, 2)), mapy + int(rng(-2, 2)), fd_cigsmoke, 1);
-              } else { // weed
-                add_field(mapx + int(rng(-2, 2)), mapy + int(rng(-2, 2)), fd_weedsmoke, 1);
-              }
-
-              // lit cigarette can start fires
-              if (this->flammable_items_at(mapx, mapy) ||
-                 this->has_flag("FLAMMABLE", mapx, mapy) ||
-                 this->has_flag("FLAMMABLE_ASH", mapx, mapy)) {
-                add_field(mapx, mapy, fd_fire, 1);
-              }
-            }
-
-            // cig dies out
-            if(it->item_counter <= 0) {
-                if(it->type->id == "cig_lit") {
-                    it->make("cig_butt");
-                } else if(it->type->id == "cigar_lit"){
-                    it->make("cigar_butt");
-                } else { // joint
-                    it->make("joint_roach");
-                }
-                it->active = false;
-            }
-        } else if (!it->is_tool()) { // It's probably a charger gun
-            it->active = false;
-            it->charges = 0;
-        } else {
-            it_tool* tmp = dynamic_cast<it_tool*>(it->type);
-            if (tmp->has_use()) {
-                tmp->invoke(&(g->u), it, true);
-            }
-            if (tmp->turns_per_charge > 0 && int(calendar::turn) % tmp->turns_per_charge == 0) {
-                it->charges--;
-            }
-            if (it->charges <= 0) {
-                if (tmp->has_use()) {
-                    tmp->invoke(&(g->u), it, false);
-                }
-                if (tmp->revert_to == "null" || it->charges == -1) {
-                    return true;
-                } else {
-                    it->type = itypes[tmp->revert_to];
-                }
-            }
-        }
-    }
-    //Default: Don't remove the item after processing
-    return false;
-}
-
 
 std::list<item> use_amount_map_or_vehicle(std::vector<item> &vec, const itype_id type, int &quantity, const bool use_container)
 {

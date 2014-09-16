@@ -667,9 +667,8 @@ private:
  void add_item(const int x, const int y, item new_item, int maxitems = 64);
 
  void process_active_items_in_submap(submap * const current_submap, int gridx, int gridy);
- void process_active_items_in_vehicles(submap * const current_submap, int gridx, int gridy);
- void process_active_items_in_vehicle(vehicle *cur_veh, submap * const current_submap, const int gridx, const int gridy);
- bool process_active_item(item *it, submap * const current_submap, const int gridx, const int gridy, const int i, const int j);
+ void process_active_items_in_vehicles(submap * const current_submap);
+ void process_active_items_in_vehicle(vehicle *cur_veh, submap * const current_submap);
 
  float lm[MAPSIZE*SEEX][MAPSIZE*SEEY];
  float sm[MAPSIZE*SEEX][MAPSIZE*SEEY];
