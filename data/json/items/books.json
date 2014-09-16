@@ -4181,5 +4181,27 @@
         "bashing" : -3,
         "cutting" : 0,
         "to_hit" : 0
+    },
+    {
+        "type" : "BOOK",
+        "id" : "cookbook_sushi",
+        "name" : "Sushi Made Easy",
+        "name_plural" : "copies of Sushi Made Easy",
+        "max_level" : 4,
+        "description" : "A simple text for the aspiring sushi lover, this easy to read guide is filled with lots of helpful illustrations for everything from basic rice preparation to setting a proper Japanese table.",
+        "weight" : 1887,
+        "to_hit" : 1,
+        "color" : "light_green",
+        "intelligence" : 7,
+        "symbol" : "?",
+        "material" : "paper",
+        "volume" : 3,
+        "bashing" : 3,
+        "cutting" : 0,
+        "time" : 30,
+        "fun" : 0,
+        "skill" : "cooking",
+        "price" : 4000,
+        "required_level" : 1
     }
 ]

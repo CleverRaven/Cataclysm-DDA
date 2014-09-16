@@ -423,6 +423,8 @@
       ["mayonnaise", 35],
       ["ketchup", 35],
       ["mustard", 35],
+      ["soysauce", 25],
+      ["horseradish", 15],
       ["honey_bottled", 35],
       ["honey_glassed", 35],
       ["peanutbutter", 35],
@@ -455,7 +457,8 @@
       ["soap", 10],
       ["dry_beans", 40],
       ["dry_rice", 40],
-      ["survnote", 1]
+      ["survnote", 1],
+      ["cookbook_sushi", 5]
     ]
   },{
     "type" : "item_group",
@@ -1094,6 +1097,8 @@
       ["foon", 5],
       ["ketchup", 10],
       ["mustard", 10],
+      ["soysauce", 5],
+      ["horseradish", 10],
       ["glass", 90],
       ["glass_bowl", 90],
       ["glass_plate", 90],
@@ -1281,6 +1286,8 @@
       ["foon", 10],
       ["ketchup", 60],
       ["mustard", 60],
+      ["soysauce", 45],
+      ["horseradish", 30],
       ["pickle", 40],
       ["salt", 20],
       ["pepper", 20],
@@ -3178,6 +3185,7 @@
       ["mag_swimming", 10],
       ["mag_fabrication", 30],
       ["mag_tailor", 25],
+      ["cookbook_sushi", 5],
       ["survnote", 1]
     ]
   },{
