@@ -277,7 +277,7 @@ void mattack::resurrect(monster *z)
     if (corpses.empty()) { // No nearby corpses
         return;
     }
-    z->mod_speed_bonus( (z->get_speed() - rng(0, 10)) * 0.8 );
+    z->set_speed_base( (z->get_speed_base() - rng(0, 10)) * 0.8 );
     bool sees_necromancer = (g->u_see(z));
     if (sees_necromancer) {
         add_msg(_("The %s throws its arms wide..."), z->name().c_str());
@@ -1211,24 +1211,24 @@ void mattack::formblob(monster *z)
             } else if (thatmon != -1) {
                 monster &othermon = g->zombie(thatmon);
                 // Hit a monster.  If it's a blob, give it our speed.  Otherwise, blobify it?
-                if( z->get_speed() > 40 && othermon.type->in_species( "BLOB" ) ) {
+                if( z->get_speed_base() > 40 && othermon.type->in_species( "BLOB" ) ) {
                     if( othermon.type->id == "mon_blob_brain" ) {
                         // Brain blobs don't get sped up, they heal at the cost of the other blob.
                         // But only if they are hurt badly.
                         if( othermon.hp < othermon.type->hp / 2 ) {
                             didit = true;
-                            othermon.hp += z->get_speed();
+                            othermon.hp += z->get_speed_base();
                             z->hp = 0;
                             return;
                         }
                         continue;
                     }
                     didit = true;
-                    othermon.mod_speed_bonus( 5 );
-                    z->mod_speed_bonus( -5 );
-                    if (othermon.type->id == "mon_blob_small" && othermon.get_speed() >= 60) {
+                    othermon.set_speed_base( othermon.get_speed_base() + 5 );
+                    z->set_speed_base( z->get_speed_base() - 5 );
+                    if (othermon.type->id == "mon_blob_small" && othermon.get_speed_base() >= 60) {
                         othermon.poly(GetMType("mon_blob"));
-                    } else if ( othermon.type->id == "mon_blob" && othermon.get_speed() >= 80) {
+                    } else if ( othermon.type->id == "mon_blob" && othermon.get_speed_base() >= 80) {
                         othermon.poly(GetMType("mon_blob_large"));
                     }
                 } else if( (othermon.made_of("flesh") ||
@@ -1237,24 +1237,24 @@ void mattack::formblob(monster *z)
                            rng(0, z->hp) > rng(0, othermon.hp)) { // Blobify!
                     didit = true;
                     othermon.poly(GetMType("mon_blob"));
-                    othermon.mod_speed_bonus( -rng(5, 25) );
-                    othermon.hp = othermon.get_speed();
+                    othermon.set_speed_base( othermon.get_speed_base() - rng(5, 25) );
+                    othermon.hp = othermon.get_speed_base();
                 }
-            } else if (z->get_speed() >= 85 && rng(0, 250) < z->get_speed()) {
+            } else if (z->get_speed_base() >= 85 && rng(0, 250) < z->get_speed_base()) {
                 // If we're big enough, spawn a baby blob.
                 didit = true;
                 z->mod_speed_bonus( -15 );
                 monster blob(GetMType("mon_blob_small"));
                 blob.spawn(z->posx() + i, z->posy() + j);
-                blob.mod_speed_bonus( -rng(30, 60) );
-                blob.hp = blob.get_speed();
+                blob.set_speed_base( blob.get_speed_base() - rng(30, 60) );
+                blob.hp = blob.get_speed_base();
                 g->add_zombie(blob);
             }
         }
         if (didit) { // We did SOMEthing.
-            if (z->type->id == "mon_blob" && z->get_speed() <= 50) { // We shrank!
+            if (z->type->id == "mon_blob" && z->get_speed_base() <= 50) { // We shrank!
                 z->poly(GetMType("mon_blob_small"));
-            } else if (z->type->id == "mon_blob_large" && z->get_speed() <= 70) { // We shrank!
+            } else if (z->type->id == "mon_blob_large" && z->get_speed_base() <= 70) { // We shrank!
                 z->poly(GetMType("mon_blob"));
             }
 

@@ -1516,7 +1516,8 @@
     "items":[
       ["inhaler", 14],
       ["codeine", 15],
-      ["oxycodone", 7],
+      ["oxycodone", 4],
+      ["morphine", 4],
       ["tramadol", 11],
       ["xanax", 10],
       ["adderall", 10],
@@ -2312,6 +2313,7 @@
     "type" : "item_group",
     "id" : "trash",
     "items":[
+      ["plastic_shopping_bag", 35],
       ["iodine", 5],
       ["bum_wine", 5],
       ["meth", 2],
@@ -2484,7 +2486,8 @@
       ["weatherby_5", 6],
       ["mosin91_30", 3],
       ["mosin44", 3],
-      ["sks", 6]
+      ["sks", 6],
+      ["rm11b_sniper_rifle", 1]
     ]
   },{
     "type" : "item_group",
@@ -2597,6 +2600,7 @@
       ["v29_cheap", 8],
       ["rm51_assault_rifle", 1],
       ["rm88_battle_rifle", 1],
+      ["rm11b_sniper_rifle", 1],
       ["rm614_lmg", 1],
       ["rm2000_smg", 1],
       ["rm99_pistol", 1],
@@ -3538,6 +3542,7 @@
     "items":[
       ["caffeine", 25],
       ["oxycodone", 4],
+      ["morphine", 4],
       ["adderall", 10],
       ["xanax", 10],
       ["adrenaline_injector", 2],
@@ -5705,7 +5710,8 @@
       ["20x66_slug", 4],
       ["20x66_flechette", 3],
       ["waterproof_gunmod", 2],
-      ["improve_sights", 5]
+      ["improve_sights", 5],
+      ["rm11b_sniper_rifle", 1]
     ]
   },{
     "type" : "item_group",
@@ -7080,7 +7086,8 @@
       ["sheath", 13],
       ["toolbox", 1],
       ["knife_rm42", 4],
-      ["survnote", 1]
+      ["survnote", 1],
+      ["rm11b_sniper_rifle", 1]
     ]
   },{
     "type" : "item_group",
@@ -7235,7 +7242,8 @@
       ["bio_blade", 1],
       ["bot_laserturret", 2],
       ["knife_rm42", 2],
-      ["survnote", 1]
+      ["survnote", 1],
+      ["rm11b_sniper_rifle", 1]
     ]
   },{
     "type" : "item_group",
@@ -7329,7 +7337,8 @@
     "id" : "stash_drugs",
     "items":[
       ["pills_sleep", 15],
-      ["oxycodone", 7],
+      ["oxycodone", 4],
+      ["morphine", 4],
       ["xanax", 10],
       ["adderall", 10],
       ["pipe_tobacco", 2],
@@ -7370,6 +7379,7 @@
       ["cotton_ball", 50],
       ["caffeine", 25],
       ["oxycodone", 7],
+      ["morphine", 3],
       ["adderall", 10],
       ["cig", 60],
       ["tobacco", 30],

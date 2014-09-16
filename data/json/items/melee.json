@@ -579,8 +579,8 @@
     {
         "type":"GENERIC",
         "id": "pinecone",
-        "symbol": "/",
-        "color": "green",
+        "symbol": ",",
+        "color": "brown",
         "name": "pinecone",
         "description": "A spiny pod from a pine tree.  Dry seeds rattle around inside when you shake it.",
         "price": 0,
