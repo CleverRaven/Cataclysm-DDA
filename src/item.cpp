@@ -3716,7 +3716,6 @@ bool item::process_wet( player * /*carrier*/, point /*pos*/ )
             item_tags.insert( "ABSORBENT" );
         }
         active = false;
-        // TODO: maybe add a messages if the items is carried by the player?
     }
     return false;
 }
