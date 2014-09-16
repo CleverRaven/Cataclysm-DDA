@@ -1744,8 +1744,13 @@ void iexamine::harvest_tree(player *p, map *m, int examx, int examy)
 
 void iexamine::tree_pine(player *p, map *m, int examx, int examy)
 {
-    m->spawn_item( examx, examy, "pine_bough", rng( 2, 12 ) );
-    pick_plant(p, m, examx, examy, "pinecone", t_tree_deadpine);
+    if(!query_yn(_("Pick %s?"), m->tername(examx, examy).c_str())) {
+        none(p, m, examx, examy);
+        return;
+    }
+    m->spawn_item(examx, examy, "pine_bough", 2, 12 );
+    m->spawn_item( examx, examy, "pinecone", rng( 1, 4 ) );
+    m->ter_set(examx, examy, t_tree_deadpine);
 }
 
 void iexamine::shrub_blueberry(player *p, map *m, int examx, int examy)
