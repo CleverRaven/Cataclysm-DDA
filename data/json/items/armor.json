@@ -5368,7 +5368,7 @@
         "environmental_protection" : 4,
         "encumbrance" : 0,
         "bashing" : -4,
-        "flags" : ["WATER_FRIENDLY"],
+        "flags" : ["WATER_FRIENDLY", "SUN_GLASSES"],
         "coverage" : 100,
         "material_thickness" : 3
     },
