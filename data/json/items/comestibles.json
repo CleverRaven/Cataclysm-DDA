@@ -2421,7 +2421,7 @@
         "spoils_in" : 0,
         "use_action" : "PLANTBLECH",
         "stim" : 0,
-        "container" : "bag_plastic",
+        "container" : "bag_canvas",
         "to_hit" : 0,
         "comestible_type" : "FOOD",
         "symbol" : "~",
