@@ -3,6 +3,9 @@
 
 #include "color.h"
 #include "itype.h"
+#include <memory>
+
+struct requirements;
 
 /**
  * Represents an entry in the breaks_into list.
@@ -96,6 +99,27 @@ struct vpart_info {
     {
         return (bitflags & mfb(flag));
     }
+    /**
+     * What is needed to install this part.
+     * The item part itself (e.g. the wheel item) is queried separately
+     * and must *not* be included here.
+     */
+    std::unique_ptr<requirements> installation;
+    /**
+     * What is required to remove this item.
+     */
+    std::unique_ptr<requirements> removal;
+    /**
+     * What is required to repair this part.
+     */
+    std::unique_ptr<requirements> repair;
+    /**
+     * If true, scales the repair requirements according to the relative
+     * hp of the part. If the hp are nearly 100%, the repair requirements are
+     * scaled to nearly 0%, if the hp are nearly 0%, the requirements are
+     * at nearly 100%.
+     */
+    bool scale_repair;
 };
 
 extern std::map<std::string, vpart_info> vehicle_part_types;

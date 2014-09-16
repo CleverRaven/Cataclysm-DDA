@@ -2,6 +2,7 @@
 #include "game.h"
 #include "item_factory.h"
 #include "json.h"
+#include "requirements.h"
 
 // GENERAL GUIDELINES
 // To determine mount position for parts (dx, dy), check this scheme:
@@ -116,6 +117,90 @@ void game::load_vehiclepart(JsonObject &jo)
         next_part.breaks_into.push_back(next_break_entry);
     }
 
+    next_part.installation.reset( new requirements() );
+    if( jo.has_object( "installation" ) ) {
+        auto obj = jo.get_object( "installation" );
+        next_part.installation->load( obj );
+    } else {
+        requirements &r = *next_part.installation;
+        const std::string t = jo.get_string( "installation", "welder" );
+        if( t == "welder" ) {
+            r.qualities.resize(1);
+            r.qualities[0].push_back( quality_requirement( "WRENCH", 1, 1 ) );
+            r.tools.resize(2);
+            // The check for goggles_welding *as tool* includes check for other things (like the
+            // bionic) that can be used instead.
+            r.tools[0].push_back( tool_comp( "goggles_welding", -1 ) );
+            // welder and alternatives
+            r.tools[1].push_back( tool_comp( "welder", 50 ) );
+            r.tools[1].push_back( tool_comp( "welder_crude", 75 ) );
+            r.tools[1].push_back( tool_comp( "oxy_torch", 10 ) );
+            r.tools[1].push_back( tool_comp( "toolset", 75 ) );
+        } else if( t == "duct_tape" ) {
+            r.qualities.resize(1);
+            r.qualities[0].push_back( quality_requirement( "WRENCH", 1, 1 ) );
+            r.tools.resize(1);
+            r.tools[0].push_back( tool_comp( "duct_tape", 100 ) );
+            r.tools[0].push_back( tool_comp( "toolbox", 100 ) );
+        } else {
+            jo.throw_error( "Unknown installation requirements for vehicle part", "installation" );
+        }
+    }
+
+    next_part.removal.reset( new requirements() );
+    if( jo.has_object( "removal" ) ) {
+        auto obj = jo.get_object( "removal" );
+        next_part.removal->load( obj );
+    } else {
+        requirements &r = *next_part.removal;
+        const std::string t = jo.get_string( "removal", "hacksaw" );
+        if( t == "hacksaw" ) {
+            r.qualities.resize(1);
+            r.qualities[0].push_back( quality_requirement( "WRENCH", 1, 1 ) );
+            r.tools.resize(1);
+            r.tools[0].push_back( tool_comp( "hacksaw", -1 ) );
+            r.tools[0].push_back( tool_comp( "survivor_belt", -1 ) );
+            r.tools[0].push_back( tool_comp( "toolbox", -1 ) );
+            r.tools[0].push_back( tool_comp( "circsaw_off", 20 ) );
+            r.tools[0].push_back( tool_comp( "oxy_torch", 10 ) ); // TODO: add welding googles for this one
+            r.tools[0].push_back( tool_comp( "toolset", -1 ) );
+        } else if( t == "jack" ) {
+            r.qualities.resize(1);
+            r.qualities[0].push_back( quality_requirement( "WRENCH", 1, 1 ) );
+            r.tools.resize(1);
+            r.tools[0].push_back( tool_comp( "jack", 1 ) );
+        } else {
+            jo.throw_error( "Unknown removal requirements for vehicle part", "removal" );
+        }
+    }
+
+    next_part.repair.reset( new requirements() );
+    if( jo.has_object( "repair" ) ) {
+        auto obj = jo.get_object( "repair" );
+        next_part.repair->load( obj );
+    } else {
+        requirements &r = *next_part.repair;
+        const std::string t = jo.get_string( "repair", "welder" );
+        if( t == "welder" ) {
+            r.tools.resize(2);
+            // The check for goggles_welding *as tool* includes check for other things (like the
+            // bionic) that can be used instead.
+            r.tools[0].push_back( tool_comp( "goggles_welding", -1 ) );
+            // welder and alternatives
+            r.tools[1].push_back( tool_comp( "welder", 50 ) );
+            r.tools[1].push_back( tool_comp( "welder_crude", 75 ) );
+            r.tools[1].push_back( tool_comp( "oxy_torch", 10 ) );
+            r.tools[1].push_back( tool_comp( "toolset", 75 ) );
+        } else if( t == "duct_tape" ) {
+            r.tools.resize(1);
+            r.tools[0].push_back( tool_comp( "duct_tape", 100 ) );
+            r.tools[0].push_back( tool_comp( "toolbox", 100 ) );
+        } else {
+            jo.throw_error( "Unknown repair requirements for vehicle part", "repair" );
+        }
+    }
+    next_part.scale_repair = jo.get_bool( "scale_repair", true );
+
     //Calculate and cache z-ordering based off of location
     // list_order is used when inspecting the vehicle
     if(next_part.location == "on_roof") {
@@ -156,7 +241,7 @@ void game::load_vehiclepart(JsonObject &jo)
         next_part.list_order = 5;
     }
 
-    vehicle_part_types[next_part.id] = next_part;
+    vehicle_part_types[next_part.id] = std::move( next_part );
 }
 
 void game::reset_vehicleparts()
@@ -235,6 +320,12 @@ void game::reset_vehicles()
  */
 void game::finalize_vehicles()
 {
+    for( auto &vp : vehicle_part_types ) {
+        vp.second.installation->check_consistency( vp.first + " (vehicle part)" );
+        vp.second.removal->check_consistency( vp.first + " (vehicle part)" );
+        vp.second.repair->check_consistency( vp.first + " (vehicle part)" );
+    }
+
     int part_x = 0, part_y = 0;
     std::string part_id = "";
     vehicle *next_vehicle;
