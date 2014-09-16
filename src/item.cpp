@@ -218,7 +218,7 @@ void item::clear()
 bool item::is_null() const
 {
     static const std::string s_null("null"); // used alot, no need to repeat
-    return (this == NULL || type == NULL || type->id == s_null);
+    return (type == NULL || type->id == s_null);
 }
 
 item item::in_its_container()
