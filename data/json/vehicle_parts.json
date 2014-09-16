@@ -4404,7 +4404,15 @@
         "item" : "stereo",
         "difficulty" : 2,
         "flags" : ["STEREO"],
-        "installation" : "welder",
+        "installation" : {
+            "qualities": [
+                [ { "id": "SCREW_FINE", "level": 1 } ]
+            ],
+            "tools": [
+                [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ]
+            ],
+            "time": 0, "//": "unused, but requireded by the requirments class"
+        },
         "repair" : "welder",
         "removal" : "hacksaw",
         "breaks_into" : [

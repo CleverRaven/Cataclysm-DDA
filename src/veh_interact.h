@@ -50,6 +50,7 @@ class veh_interact
         WINDOW *w_stats;
         WINDOW *w_list;
         WINDOW *w_name;
+        WINDOW *w_req;
 
         int mode_h;
         int mode_w;
@@ -65,6 +66,8 @@ class veh_interact
         int list_w;
         int name_h;
         int name_w;
+        int req_h;
+        int req_w;
 
         vehicle *veh;
         bool has_wrench;
