@@ -16926,7 +16926,7 @@
         "volume" : 1,
         "cutting" : 0,
         "phase" : "solid",
-        "charges" : 4,
+        "charges" : 2,
         "bashing" : 0,
         "fun" : 12
     },
@@ -16955,7 +16955,7 @@
         "volume" : 1,
         "cutting" : 0,
         "phase" : "solid",
-        "charges" : 4,
+        "charges" : 2,
         "bashing" : 0,
         "fun" : 14
     },
@@ -16984,7 +16984,7 @@
         "volume" : 1,
         "cutting" : 0,
         "phase" : "solid",
-        "charges" : 4,
+        "charges" : 2,
         "bashing" : 0,
         "fun" : 13
     },
