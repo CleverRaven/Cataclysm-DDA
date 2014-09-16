@@ -454,7 +454,7 @@
     {"id":"SCREW","level":1,"amount":1}
   ], "components": [
     [
-      [ "lemon", 2 ],
+      [ "lemon", 1 ],
       [ "acid", 1 ],
       [ "vinegar", 2 ]
     ],
