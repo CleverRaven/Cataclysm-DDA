@@ -1516,7 +1516,8 @@
     "items":[
       ["inhaler", 14],
       ["codeine", 15],
-      ["oxycodone", 7],
+      ["oxycodone", 4],
+      ["morphine", 4],
       ["tramadol", 11],
       ["xanax", 10],
       ["adderall", 10],
@@ -3540,6 +3541,7 @@
     "items":[
       ["caffeine", 25],
       ["oxycodone", 4],
+      ["morphine", 4],
       ["adderall", 10],
       ["xanax", 10],
       ["adrenaline_injector", 2],
@@ -7334,7 +7336,8 @@
     "id" : "stash_drugs",
     "items":[
       ["pills_sleep", 15],
-      ["oxycodone", 7],
+      ["oxycodone", 4],
+      ["morphine", 4],
       ["xanax", 10],
       ["adderall", 10],
       ["pipe_tobacco", 2],
@@ -7375,6 +7378,7 @@
       ["cotton_ball", 50],
       ["caffeine", 25],
       ["oxycodone", 7],
+      ["morphine", 3],
       ["adderall", 10],
       ["cig", 60],
       ["tobacco", 30],
