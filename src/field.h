@@ -79,7 +79,10 @@ enum field_id {
  fd_incendiary,
  fd_relax_gas,
  fd_fungal_haze,
- fd_hot_air,
+ fd_hot_air1,
+ fd_hot_air2,
+ fd_hot_air3,
+ fd_hot_air4,
  num_fields
 };
 

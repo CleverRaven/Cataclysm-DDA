@@ -288,9 +288,30 @@ void game::init_fields()
         },
         
         {
-            "fd_hot_air",
+            "fd_hot_air1",
             {_(""),_(""),_("")}, '&', 8,
-            {c_white, c_white, c_white}, {true, true, true}, {false, false, false}, 80,
+            {c_white, c_yellow, c_red}, {true, true, true}, {false, false, false}, 500,
+            {0,0,0}
+        },
+        
+        {
+            "fd_hot_air2",
+            {_(""),_(""),_("")}, '&', 8,
+            {c_white, c_yellow, c_red}, {true, true, true}, {false, false, false}, 500,
+            {0,0,0}
+        },
+        
+        {
+            "fd_hot_air3",
+            {_(""),_(""),_("")}, '&', 8,
+            {c_white, c_yellow, c_red}, {true, true, true}, {false, false, false}, 500,
+            {0,0,0}
+        },
+        
+        {
+            "fd_hot_air4",
+            {_(""),_(""),_("")}, '&', 8,
+            {c_white, c_yellow, c_red}, {true, true, true}, {false, false, false}, 500,
             {0,0,0}
         }
 
@@ -894,7 +915,19 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                             add_field(fx, fy, fd_smoke, rng(1, cur->getFieldDensity())); //Add smoke!
                                         }
                                         // Fire generates a lot of hot_air, which spreads and dissipates quickly, but is likely to fill a room regardless!
-                                        if (one_in(5)) add_field(fx, fy, fd_hot_air, 1 * cur->getFieldDensity());
+                                        // A unique field for each level of fire.
+                                        if (cur->getFieldDensity() == 1) {
+                                            if (one_in(2)) add_field(fx, fy, fd_hot_air1, 1);
+                                        }
+                                        else if (cur->getFieldDensity() == 2) {
+                                            if (one_in(2)) add_field(fx, fy, fd_hot_air2, 1);
+                                        }
+                                        else if (cur->getFieldDensity() == 3) {
+                                            if (one_in(2)) add_field(fx, fy, fd_hot_air3, 1);
+                                        }
+                                        else if (cur->getFieldDensity() == 4) {
+                                            if (one_in(2)) add_field(fx, fy, fd_hot_air4, 1);
+                                        }
                                     }
                                 }
                             }
@@ -998,7 +1031,10 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         break;
                     }
 
-                    case fd_hot_air:
+                    case fd_hot_air1:
+                    case fd_hot_air2:
+                    case fd_hot_air3:
+                    case fd_hot_air4:
                         spread_gas( this, cur, x, y, curtype, 100, 70 );
                         break;                    
                     

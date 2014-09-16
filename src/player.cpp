@@ -921,11 +921,32 @@ void player::update_bodytemp()
             temp_conv[i] += 15000;
         }
         // Standing in the hot air of a fire is nice.
-        tile_strength = g->m.get_field_strength(point(posx, posy), fd_hot_air);
+        tile_strength = g->m.get_field_strength(point(posx, posy), fd_hot_air1);
         switch (tile_strength) {
-            case 3: temp_conv[i] += 1500; break; // Toasty like a warm bed!
-            case 2: temp_conv[i] +=  500; break;
+            case 3: temp_conv[i] +=  500; break;
+            case 2: temp_conv[i] +=  300; break;
             case 1: temp_conv[i] +=  100; break;
+            default: break;
+        }
+        tile_strength = g->m.get_field_strength(point(posx, posy), fd_hot_air2);
+        switch (tile_strength) {
+            case 3: temp_conv[i] += 1000; break;
+            case 2: temp_conv[i] +=  800; break;
+            case 1: temp_conv[i] +=  300; break;
+            default: break;
+        }
+        tile_strength = g->m.get_field_strength(point(posx, posy), fd_hot_air3);
+        switch (tile_strength) {
+            case 3: temp_conv[i] += 3500; break;
+            case 2: temp_conv[i] += 2000; break;
+            case 1: temp_conv[i] +=  800; break;
+            default: break;
+        }
+        tile_strength = g->m.get_field_strength(point(posx, posy), fd_hot_air4);
+        switch (tile_strength) {
+            case 3: temp_conv[i] += 8000; break;
+            case 2: temp_conv[i] += 5000; break;
+            case 1: temp_conv[i] += 3500; break;
             default: break;
         }
         // WEATHER
