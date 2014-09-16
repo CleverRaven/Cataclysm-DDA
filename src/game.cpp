@@ -7427,10 +7427,10 @@ bool game::revive_corpse(int x, int y, item *it)
     }
     int burnt_penalty = it->burnt;
     monster critter(it->corpse, x, y);
-    critter.set_speed_bonus( -int(critter.get_speed_base() * .2) - burnt_penalty / 2 );
-    critter.hp = int(critter.hp    * .7) - burnt_penalty;
+    critter.set_speed_base( int(critter.get_speed_base() * 0.8) - (burnt_penalty / 2) );
+    critter.hp = int(critter.hp * 0.7) - burnt_penalty;
     if (it->damage > 0) {
-        critter.set_speed_bonus( critter.get_speed_bonus() / it->damage + 1 );
+        critter.set_speed_base( critter.get_speed_base() / (it->damage + 1) );
         critter.hp /= it->damage + 1;
     }
     critter.no_extra_death_drops = true;

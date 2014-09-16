@@ -1871,7 +1871,7 @@ void monster::load_legacy(std::stringstream & dump) {
     // load->int->str->int (possibly shifted)
     type = GetMType( legacy_mon_id[idtmp] );
 
-    Creature::set_speed_bonus( speed - type->speed );
+    Creature::set_speed_base( speed );
 
     point ptmp;
     plans.clear();
