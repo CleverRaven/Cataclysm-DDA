@@ -686,7 +686,7 @@ bool map::vehproceed()
         float E_a = 0.5 * m1 * final1.norm() * final1.norm() +
             0.5 * m2 * final2.norm() * final2.norm();
         float d_E = E - E_a;  //Lost energy at collision -> deformation energy
-        float dmg = abs( d_E / 1000 / 2000 );  //adjust to balance damage
+        float dmg = std::abs( d_E / 1000 / 2000 );  //adjust to balance damage
         float dmg_veh1 = dmg * 0.5;
         float dmg_veh2 = dmg * 0.5;
 
