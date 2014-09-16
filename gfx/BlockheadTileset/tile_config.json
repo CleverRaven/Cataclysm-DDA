@@ -450,9 +450,10 @@
             "fg":88,
             "rotates":false
         },
-	{
-           "id":"t_concrete",
-            "bg":87,
+        {
+            "id":"t_concrete",
+            "fg":87,
+            "bg":1,
             "rotates":false
         },
         {
