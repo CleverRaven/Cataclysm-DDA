@@ -2805,7 +2805,7 @@
     {
         "type" : "ARMOR",
         "id" : "tshirt",
-        "name" : "t shirt",
+        "name" : "t-shirt",
         "weight" : 110,
         "color" : "white",
         "covers" : ["TORSO"],
