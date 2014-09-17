@@ -10437,7 +10437,7 @@
         "id" : "powder_eggs",
         "name" : "powdered egg",
         "name_plural" : "powdered eggs",
-        "weight" : 5,
+        "weight" : 1,
         "color" : "yellow",
         "addiction_type" : "none",
         "spoils_in" : 0,
