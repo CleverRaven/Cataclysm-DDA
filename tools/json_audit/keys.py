@@ -11,10 +11,10 @@ import sys
 import os
 import json
 import argparse
-from util import import_data, distinct_keys, ui_values_to_columns,\
+from util import import_data, key_counter, ui_counts_to_columns,\
         matches_all_wheres, CDDAJSONWriter, WhereAction
 
-parser = argparse.ArgumentParser(description="""List distinct keys on JSON objects.
+parser = argparse.ArgumentParser(description="""Count the number of times a specific key occurs.
 
 Example usages:
 
@@ -51,17 +51,17 @@ if __name__ == "__main__":
         print("No data loaded.")
         sys.exit(1)
 
-    plucked = [item for item in json_data if matches_all_wheres(item, args.where)]
+    stats, num_matches = key_counter(json_data, args.where)
 
-    all_keys = list(distinct_keys(plucked))
-
-    if not plucked:
+    if not stats:
         print("Nothing found.")
         sys.exit(1)
 
     if args.human:
-        print("Printing distinct list of keys.")
-        print("%s keys found in %s blobs out of %s blobs:\n" % (len(all_keys), len(plucked), len(json_data)))
-        ui_values_to_columns(all_keys)
+        title = "Count of keys"
+        print("\n\n%s" % title)
+        print("(Data from %s out of %s blobs)" % (num_matches, len(json_data)))
+        print("-" * len(title))
+        ui_counts_to_columns(stats)
     else:
-        print(json.dumps(all_keys))
+        print(json.dumps(stats))

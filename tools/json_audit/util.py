@@ -156,20 +156,9 @@ class WhereAction(argparse.Action):
 
 
 
-def distinct_keys(data):
-    """Return a sorted-ascending list of keys scraped from the list of data
-    assumed to be dictionaries.
-    """
-    all_keys = set()
-    for d in data:
-        all_keys.update(list(d.keys()))
-    return sorted(all_keys)
-
-
-
-def value_counter(data, search_key, where_key=None, where_value=None):
-    """Takes a search_key {str}, and for values found in data {list of dicts}
-    with those keys, counts the values.
+def key_counter(data, where_fn_list):
+    """Count occurences of keys found in data {list of dicts}
+    that also match each where_fn_list {list of fns}.
 
     Returns a tuple of data.
     """
@@ -177,22 +166,15 @@ def value_counter(data, search_key, where_key=None, where_value=None):
     # Which blobs had our search key?
     blobs_matched = 0
     for item in data:
-        if search_key in item and matches_where(item, where_key, where_value):
-            v = item[search_key]
-            blobs_matched += 1
-            if type(v) == list:
-                stats.update(v)
-            elif type(v) == int or type(v) == float:
-                # Cast to string.
-                stats[str(v)] += 1
-            else:
-                # assume string
-                stats[v] += 1
+        if matches_all_wheres(item, where_fn_list):
+            # We assume we are working with JSON data and that all keys are
+            # strings
+            stats.update(item.keys())
     return stats, blobs_matched
 
 
 
-def value_counter_all_wheres(data, search_key, where_fn_list):
+def value_counter(data, search_key, where_fn_list):
     """Takes a search_key {str}, and for values found in data {list of dicts}
     that also match each where_fn_list {list of fns} with those keys,
     counts the number of times the value appears.

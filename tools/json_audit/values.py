@@ -11,7 +11,7 @@ import argparse
 import sys
 import os
 import json
-from util import import_data, value_counter_all_wheres, ui_counts_to_columns,\
+from util import import_data, value_counter, ui_counts_to_columns,\
         matches_all_wheres, CDDAJSONWriter, WhereAction
 
 parser = argparse.ArgumentParser(description="""Count the number of times a specific values occurs
@@ -55,7 +55,7 @@ if __name__ == "__main__":
         print("No data loaded.")
         sys.exit(1)
 
-    stats, num_matches = value_counter_all_wheres(json_data, search_key, args.where)
+    stats, num_matches = value_counter(json_data, search_key, args.where)
 
     if not stats:
         print("Nothing found.")
