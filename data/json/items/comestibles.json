@@ -16590,7 +16590,7 @@
         "healthy" : 2,
         "addiction_potential" : 0,
         "nutrition" : 60,
-        "description" : "Salad with all kinds of vegetables.",
+        "description" : "Healthy salad with all kinds of vegetables, made tasy by blending all the flavors together",
         "price" : 3500,
         "material" : "veggy",
         "tool" : "null",
@@ -16599,7 +16599,7 @@
         "phase" : "solid",
         "charges" : 1,
         "bashing" : 0,
-        "fun" : 5
+        "fun" : 10
     },{
         "type" : "COMESTIBLE",
         "id" : "dried_salad",
@@ -16653,7 +16653,7 @@
         "phase" : "solid",
         "charges" : 1,
         "bashing" : 0,
-        "fun" : 2
+        "fun" : 3
     },{
         "type" : "COMESTIBLE",
         "id" : "cucumber",
