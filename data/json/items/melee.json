@@ -1186,21 +1186,6 @@
     },
     {
         "type":"GENERIC",
-        "id": "sheet",
-        "symbol": ";",
-        "color": "white",
-        "name": "sheet",
-        "description": "A large fabric sheet, could be used as a curtain or bedsheets; or cut up for a bunch of rags.",
-        "price": 10000,
-        "material": "cotton",
-        "weight": 771,
-        "volume": 20,
-        "bashing": 0,
-        "cutting": 0,
-        "to_hit": -1
-    },
-    {
-        "type":"GENERIC",
         "id": "broketent",
         "symbol": ";",
         "color": "green",
