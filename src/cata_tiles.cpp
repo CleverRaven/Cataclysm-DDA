@@ -1098,7 +1098,6 @@ bool cata_tiles::draw_entity(int x, int y)
 
 void cata_tiles::draw_entity_with_overlays(int x, int y) {
     const player* entity_to_draw = NULL;
-    bool is_player = false;
     std::string ent_name;
 
     int npc_index = g->npc_at(x, y);
@@ -1115,7 +1114,6 @@ void cata_tiles::draw_entity_with_overlays(int x, int y) {
         if (g->u.posx == x && g->u.posy == y) {
             entity_to_draw = &(g->u);
             ent_name = entity_to_draw->male ? "player_male" : "player_female";
-            is_player = true;
         }
     }
 
