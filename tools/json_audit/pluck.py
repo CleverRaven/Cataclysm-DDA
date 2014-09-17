@@ -1,14 +1,14 @@
 #!/usr/bin/env python
-"""Search for first match that matches the where key and value.
+"""Search the json data and return matches.
 
-Default finds first, --all flag will return an array of all objects that match.
+To get the usage string:
 
-Output is always JSON. Keys should respect the order in which they were
-found in the data.
+    pluck.py -h
 
-Usage:
+Example:
 
-    python pluck.py <where-key> <where-value> [--all]
+    ./pluck.py -all type=dream strength=2
+
 """
 
 from __future__ import print_function
@@ -16,42 +16,43 @@ from __future__ import print_function
 import sys
 import os
 import json
-from util import import_data, matches_where, CDDAJSONWriter
+import argparse
+from util import import_data, matches_all_wheres, CDDAJSONWriter, WhereAction
+
+parser = argparse.ArgumentParser(description="""Search for matches within the json data.
+
+Example usages:
+
+    %(prog)s --all type=dream strength=2
+
+    %(prog)s material=plastic material=steel
+""", formatter_class=argparse.RawDescriptionHelpFormatter)
+parser.add_argument("--all",
+        nargs="?", type=bool, const=False, help="if set, includes all matches. if not set, includes first match in the stream.")
+parser.add_argument("where",
+        action=WhereAction, nargs='+', type=str, help="where exclusions of the form 'where_key=where_val', no quotes.")
+
+
 
 if __name__ == "__main__":
-    if len(sys.argv) == 3:
-        # pluck one
-        where_key = sys.argv[1]
-        where_value = sys.argv[2]
+    args = parser.parse_args()
 
-        # TODO: Put the errors back in, someday, maybe.
-        json_data, _ = import_data()
+    json_data, _ = import_data()
 
-        plucked = None
-        for item in json_data:
-            is_match = matches_where(item, where_key, where_value)
-            if is_match:
-                plucked = item
-                break
+    # Wasteful iteration, but less code to maintain on a tool that will likely
+    # change again.
+    plucked = [item for item in json_data if matches_all_wheres(item, args.where)]
 
-        if not plucked:
-            sys.exit(1)
-        else:
-            print(CDDAJSONWriter(plucked).dumps())
-    elif len(sys.argv) == 4 and sys.argv[3] == "--all":
-        # pluck all
-        where_key = sys.argv[1]
-        where_value = sys.argv[2]
-
-        # TODO: Put the errors back in, someday, maybe.
-        json_data, _ = import_data()
-
-        plucked = [item for item in json_data if matches_where(item, where_key, where_value)]
-
-        if not plucked:
-            sys.exit(1)
-        else:
-            print(CDDAJSONWriter(plucked).dumps())
-    else:
-        print("\n%s" % __doc__)
+    if not plucked:
         sys.exit(1)
+    elif plucked and not args.all:
+        print(CDDAJSONWriter(plucked[0]).dumps())
+    else:
+        # ugh, didn't realize JSON writer only wanted single objects when I
+        # wrote it.
+        # TODO: get rid of ugh
+        print("[")
+        for i, p in enumerate(plucked):
+            eol = ",\n" if i < len(plucked)-1 else "\n"
+            print(CDDAJSONWriter(p, 1).dumps(), end=eol)
+        print("]")
