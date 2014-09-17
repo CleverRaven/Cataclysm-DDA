@@ -1,7 +1,7 @@
 [
     {
-        "type" : "MONSTER",
-        "id" : "mon_bat",
+    "type" : "MONSTER",
+    "id" : "mon_bat",
     "name": "bat",
     "species":"MAMMAL",
     "symbol":"w",
@@ -29,8 +29,8 @@
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
     },{
-        "type" : "MONSTER",
-        "id" : "mon_beaver",
+    "type" : "MONSTER",
+    "id" : "mon_beaver",
     "name": "beaver",
     "species":"MAMMAL",
     "symbol":"r",
@@ -88,8 +88,8 @@
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
     },{
-        "type" : "MONSTER",
-        "id" : "mon_bear",
+    "type" : "MONSTER",
+    "id" : "mon_bear",
     "name": "bear",
     "species":"MAMMAL",
     "symbol":"B",
@@ -119,8 +119,8 @@
     "fear_triggers":["SOUND"],
     "categories":["WILDLIFE"]
     },{
-        "type" : "MONSTER",
-        "id" : "mon_bobcat",
+    "type" : "MONSTER",
+    "id" : "mon_bobcat",
     "name": "bobcat",
     "species":"MAMMAL",
     "symbol":"c",
@@ -149,8 +149,8 @@
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
     },{
-        "type" : "MONSTER",
-        "id" : "mon_cat",
+    "type" : "MONSTER",
+    "id" : "mon_cat",
     "name": "cat",
     "species":"MAMMAL",
     "symbol":"c",
@@ -179,8 +179,8 @@
     "fear_triggers":["SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED"],
     "categories":["WILDLIFE"]
     },{
-        "type" : "MONSTER",
-        "id" : "mon_chicken",
+    "type" : "MONSTER",
+    "id" : "mon_chicken",
     "name": "chicken",
     "species":"BIRD",
     "symbol":"v",
