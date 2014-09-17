@@ -16587,7 +16587,7 @@
         "comestible_type" : "FOOD",
         "symbol" : "%",
         "quench" : 15,
-        "healthy" : 2,
+        "healthy" : 5,
         "addiction_potential" : 0,
         "nutrition" : 60,
         "description" : "Healthy salad with all kinds of vegetables, made tasy by blending all the flavors together",
