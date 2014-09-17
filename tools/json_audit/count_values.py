@@ -25,6 +25,9 @@ Example usages:
     # What cost values are in bionics that are active?
     %(prog)s --key=cost type=bionic active=true
 """, formatter_class=argparse.RawDescriptionHelpFormatter)
+parser.add_argument("--fnmatch",
+        default="*.json",
+        help="override with glob expression to select a smaller fileset.")
 parser.add_argument("--human",
         action="store_true",
         help="if set, makes output human readable. default is to return output in JSON dictionary.")
@@ -39,23 +42,30 @@ parser.add_argument("where",
 if __name__ == "__main__":
     args = parser.parse_args()
     search_key = args.key
-    json_data, _ = import_data()
+
+    json_data, load_errors = import_data(json_fmatch=args.fnmatch)
+    if load_errors:
+        # If we start getting unexpected JSON or other things, might need to
+        # revisit quitting on load_errors
+        print("Error loading JSON data.")
+        for e in load_errrors:
+            print(e)
+        sys.exit(1)
+    elif not json_data:
+        print("No data loaded.")
+        sys.exit(1)
+
     stats, num_matches = value_counter_all_wheres(json_data, search_key, args.where)
 
-    if args.human:
-        if not stats:
-            print("Sorry, didn't find any stats for '%s' in the JSON." % search_key)
-            sys.exit(1)
+    if not stats:
+        print("Nothing found.")
+        sys.exit(1)
 
+    if args.human:
         title = "Count of values from field '%s'" % search_key
         print("\n\n%s" % title)
         print("(Data from %s out of %s blobs)" % (num_matches, len(json_data)))
         print("-" * len(title))
         ui_counts_to_columns(stats)
     else:
-        if not stats:
-            # Still JSON parser friendly, indicator of fail with emptiness.
-            print(json.dumps([]))
-            sys.exit(1)
-        else:
-            print(json.dumps(stats))
+        print(json.dumps(stats))
