@@ -1,8 +1,5 @@
 #!/usr/bin/env python
-"""Usage info:
-
-    list_keys.py -h
-
+"""Run this script with -h for usage info and docs.
 """
 
 from __future__ import print_function
