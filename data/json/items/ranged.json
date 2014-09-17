@@ -3169,7 +3169,7 @@
     "description": "A six-barrel hand-cranked automatic shotgun made from bicycle parts.  Though a bit unwieldy, it is exceedingly powerful for such a simple machine.",
     "price": 200000,
     "material": ["aluminum", "steel"],
-    "flags": ["RELOAD_ONE", "MODE_BURST"],
+    "flags": ["RELOAD_ONE", "MODE_BURST", "RELOAD_EJECT"],
     "skill": "shotgun",
     "ammo": "shot",
     "weight": 4980,
