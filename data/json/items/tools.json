@@ -7832,7 +7832,7 @@
     "flags" : ["CHOP"],
     "to_hit": 1,
     "revert_to": "null",
-    "qualities": [["CUT", 1], ["BUTCHER", -4]]
+    "qualities": [["CUT", 1], ["DIG", 1], ["BUTCHER", -4]]
   },
   {
     "type":"TOOL",
