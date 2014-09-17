@@ -156,7 +156,6 @@ class WhereAction(argparse.Action):
 
 
 
-
 def distinct_keys(data):
     """Return a sorted-ascending list of keys scraped from the list of data
     assumed to be dictionaries.
@@ -191,6 +190,8 @@ def value_counter(data, search_key, where_key=None, where_value=None):
                 stats[v] += 1
     return stats, blobs_matched
 
+
+
 def value_counter_all_wheres(data, search_key, where_fn_list):
     """Takes a search_key {str}, and for values found in data {list of dicts}
     that also match each where_fn_list {list of fns} with those keys,
@@ -214,35 +215,6 @@ def value_counter_all_wheres(data, search_key, where_fn_list):
                 # assume string
                 stats[v] += 1
     return stats, blobs_matched
-
-
-
-def ui_import_data(json_dir=JSON_DIR, json_fmatch=JSON_FNMATCH):
-    """Load data with import data and provide user friendly output.
-
-    Will cause program to exit if bad errors occur, call at your own risk.
-
-    If no errors, returns just the list of imported JSON dictionaries.
-    """
-    print("Finding eligible JSON files.")
-    # Single list of all JSON blobs found in each file.
-    json_data, import_errors = import_data(json_dir, json_fmatch)
-    if import_errors:
-        # Considered benign errors.
-        print("There were import errors:")
-        for e in import_errors:
-            print(e)
-        print("")
-    elif not json_data:
-        # Not considered benign.
-        print("We could not find any JSON data in")
-        print("\t", JSON_DIR)
-        print("that matched:")
-        print("\t", JSON_FNMATCH)
-        print("good bye.")
-        sys.exit(1)
-    print("Found %s blobs of JSON data." % len(json_data))
-    return json_data
 
 
 
@@ -271,7 +243,6 @@ def ui_counts_to_columns(counts):
     output_template = "%%-%ds: %%s" % key_field_len
     for k_v in key_vals:
         print(output_template % k_v)
-
 
 
 
