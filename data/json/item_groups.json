@@ -3799,6 +3799,7 @@
       ["antiparasitic", 10],
       ["survnote", 1],
       ["diazepam", 10],
+      ["stethoscope", 35],
       ["jar_3l_glass", 15]
     ]
   },{
@@ -3813,6 +3814,7 @@
     "id" : "hospital_bed",
     "items":[
       ["child_book", 5],
+      ["stethoscope", 20],
       ["tall_tales", 10],
       ["story_book", 5],
       ["novel_pulp", 16],
