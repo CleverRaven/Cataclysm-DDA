@@ -5991,6 +5991,7 @@
         "type" : "ARMOR",
         "id" : "helmet_bike",
         "name" : "bike helmet",
+        "category" : "armor",
         "weight" : 270,
         "color" : "dark_gray",
         "covers" : ["HEAD"],
