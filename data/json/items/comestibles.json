@@ -7740,7 +7740,7 @@
         "comestible_type" : "FOOD",
         "symbol" : "%",
         "quench" : 0,
-        "healthy" : -1,
+        "healthy" : 0,
         "addiction_potential" : 0,
         "nutrition" : 5,
         "description" : "This fleshy root is ripe and flowing with sugars; just takes some processing to extract them.",
@@ -16589,8 +16589,8 @@
         "quench" : 15,
         "healthy" : 2,
         "addiction_potential" : 0,
-        "nutrition" : 45,
-        "description" : "Salad with all kind of vegetables.",
+        "nutrition" : 60,
+        "description" : "Salad with all kinds of vegetables.",
         "price" : 3500,
         "material" : "veggy",
         "tool" : "null",
@@ -16599,7 +16599,7 @@
         "phase" : "solid",
         "charges" : 1,
         "bashing" : 0,
-        "fun" : 1
+        "fun" : 5
     },{
         "type" : "COMESTIBLE",
         "id" : "dried_salad",
@@ -16653,7 +16653,7 @@
         "phase" : "solid",
         "charges" : 1,
         "bashing" : 0,
-        "fun" : 0
+        "fun" : 2
     },{
         "type" : "COMESTIBLE",
         "id" : "cucumber",
