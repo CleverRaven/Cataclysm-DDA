@@ -52,10 +52,13 @@ def match_primitive_values(item_value, where_value):
     # Matching interpolation for keyboard constrained input.
     if type(item_value) == str or type(item_value) == unicode:
         # Direct match, and don't convert unicode in Python 2.
-        return bool(re.search(where_value, item_value))
+        return bool(re.match(where_value, item_value))
     elif type(item_value) == int or type(item_value) == float:
         # match after string conversion
-        return bool(re.search(where_value, str(item_value)))
+        return bool(re.match(where_value, str(item_value)))
+    elif type(item_value) == bool:
+        # help conversion to JSON booleans from the commandline
+        return bool(re.match(where_value, str(item_value).lower()))
     else:
         return False
 
@@ -176,6 +179,30 @@ def value_counter(data, search_key, where_key=None, where_value=None):
     blobs_matched = 0
     for item in data:
         if search_key in item and matches_where(item, where_key, where_value):
+            v = item[search_key]
+            blobs_matched += 1
+            if type(v) == list:
+                stats.update(v)
+            elif type(v) == int or type(v) == float:
+                # Cast to string.
+                stats[str(v)] += 1
+            else:
+                # assume string
+                stats[v] += 1
+    return stats, blobs_matched
+
+def value_counter_all_wheres(data, search_key, where_fn_list):
+    """Takes a search_key {str}, and for values found in data {list of dicts}
+    that also match each where_fn_list {list of fns} with those keys,
+    counts the number of times the value appears.
+
+    Returns a tuple of data.
+    """
+    stats = Counter()
+    # Which blobs had our search key?
+    blobs_matched = 0
+    for item in data:
+        if search_key in item and matches_all_wheres(item, where_fn_list):
             v = item[search_key]
             blobs_matched += 1
             if type(v) == list:

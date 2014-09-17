@@ -1,30 +1,48 @@
 #!/usr/bin/env python
-"""Grep data from cataclysm data and grab count of number of occurences of
-values within a field. Friendly to some different fields types (numbers, strings,
-arrays/lists).
+"""Usage info:
 
-Usage:
+    count_values.py -h
 
-    python count_values.py <key> [where-key] [where-value] [--json]
 """
 
 from __future__ import print_function
 
+import argparse
 import sys
 import os
 import json
-from util import import_data, ui_import_data, value_counter, ui_counts_to_columns
+from util import import_data, value_counter_all_wheres, ui_counts_to_columns,\
+        matches_all_wheres, CDDAJSONWriter, WhereAction
+
+parser = argparse.ArgumentParser(description="""Count the number of times a specific values occurs
+for a specific key.
+
+Example usages:
+
+    # What values are present in the material key?
+    %(prog)s --human -k material
+
+    # What cost values are in bionics that are active?
+    %(prog)s --key=cost type=bionic active=true
+""", formatter_class=argparse.RawDescriptionHelpFormatter)
+parser.add_argument("--human",
+        action="store_true",
+        help="if set, makes output human readable. default is to return output in JSON dictionary.")
+parser.add_argument("-k", "--key",
+        required=True, type=str,
+        help="key on JSON objects from which to count values")
+parser.add_argument("where",
+        action=WhereAction, nargs='*', type=str,
+        help="where exclusions of the form 'where_key=where_val', no quotes.")
+
 
 if __name__ == "__main__":
-    if len(sys.argv) == 2:
-        # Count values associated with key, human friendly output.
-        search_key = sys.argv[1]
-        where_key = None
-        where_value = None
+    args = parser.parse_args()
+    search_key = args.key
+    json_data, _ = import_data()
+    stats, num_matches = value_counter_all_wheres(json_data, search_key, args.where)
 
-        json_data = ui_import_data()
-
-        stats, num_matches = value_counter(json_data, search_key, where_key, where_value)
+    if args.human:
         if not stats:
             print("Sorry, didn't find any stats for '%s' in the JSON." % search_key)
             sys.exit(1)
@@ -34,50 +52,10 @@ if __name__ == "__main__":
         print("(Data from %s out of %s blobs)" % (num_matches, len(json_data)))
         print("-" * len(title))
         ui_counts_to_columns(stats)
-    elif len(sys.argv) == 3 and sys.argv[2] == "--json":
-        # Count values associated with key, machine output.
-        search_key = sys.argv[1]
-        where_key = None
-        where_value = None
-
-        json_data = import_data()[0]
-        stats, num_matches = value_counter(json_data, search_key, where_key, where_value)
-        if not stats:
-            # Still JSON parser friendly, indicator of fail with emptiness.
-            print(json.dumps([]))
-            sys.exit(1)
-        else:
-            print(json.dumps(stats))
-    elif len(sys.argv) == 4:
-        # Count values associated with key, filter, human friendly output.
-        search_key = sys.argv[1]
-        where_key = sys.argv[2]
-        where_value = sys.argv[3]
-
-        json_data = import_data()[0]
-        stats, num_matches = value_counter(json_data, search_key, where_key, where_value)
-        if not stats:
-            print("Sorry, didn't find any stats for '%s' in the JSON." % search_key)
-            sys.exit(1)
-
-        title = "Count of values from field '%s' filtered by [%s=%s]" % (search_key, where_key, where_value)
-        print("\n\n%s" % title)
-        print("(Data from %s out of %s blobs)" % (num_matches, len(json_data)))
-        print("-" * len(title))
-        ui_counts_to_columns(stats)
-    elif len(sys.argv) == 5 and sys.argv[4] == "--json":
-        search_key = sys.argv[1]
-        where_key = sys.argv[2]
-        where_value = sys.argv[3]
-
-        json_data = import_data()[0]
-        stats, num_matches = value_counter(json_data, search_key, where_key, where_value)
-        if not stats:
-            # Still JSON parser friendly, indicator of fail with emptiness.
-            print(json.dumps([]))
-            sys.exit(1)
-        else:
-            print(json.dumps(stats))
     else:
-        print("\n%s" % __doc__)
-        sys.exit(1)
+        if not stats:
+            # Still JSON parser friendly, indicator of fail with emptiness.
+            print(json.dumps([]))
+            sys.exit(1)
+        else:
+            print(json.dumps(stats))

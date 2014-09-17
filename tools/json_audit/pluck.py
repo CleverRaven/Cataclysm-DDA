@@ -1,13 +1,7 @@
 #!/usr/bin/env python
-"""Search the json data and return matches.
-
-To get the usage string:
+"""Usage info:
 
     pluck.py -h
-
-Example:
-
-    ./pluck.py -all type=dream strength=2
 
 """
 
@@ -28,9 +22,11 @@ Example usages:
     %(prog)s material=plastic material=steel
 """, formatter_class=argparse.RawDescriptionHelpFormatter)
 parser.add_argument("--all",
-        nargs="?", type=bool, const=False, help="if set, includes all matches. if not set, includes first match in the stream.")
+        action="store_true",
+        help="if set, includes all matches. if not set, includes first match in the stream.")
 parser.add_argument("where",
-        action=WhereAction, nargs='+', type=str, help="where exclusions of the form 'where_key=where_val', no quotes.")
+        action=WhereAction, nargs='+', type=str,
+        help="where exclusions of the form 'where_key=where_val', no quotes.")
 
 
 
