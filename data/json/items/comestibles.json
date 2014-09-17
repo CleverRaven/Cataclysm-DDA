@@ -1044,7 +1044,7 @@
         "to_hit" : 0,
         "comestible_type" : "DRINK",
         "symbol" : "~",
-        "quench" : 150,
+        "quench" : 15,
         "healthy" : 1,
         "addiction_potential" : 0,
         "nutrition" : 10,
