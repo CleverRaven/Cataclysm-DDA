@@ -4779,5 +4779,64 @@
       [ "medical_tape", 25 ]
     ]
   ]
+},
+{
+  "type" : "recipe",
+  "result": "bag_canvas_small",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_CONTAINERS",
+  "skill_used": "tailor",
+  "difficulty": 1,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 20 ],
+      [ "needle_wood", 20 ],
+      [ "sewing_kit", 20 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 2 ]
+    ],
+    [
+      [ "string_6", 1 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "bag_canvas",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_CONTAINERS",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 50000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 80 ],
+      [ "needle_wood", 80 ],
+      [ "sewing_kit", 80 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 12 ]
+    ],
+    [
+      [ "string_36", 1 ],
+	  [ "string_6", 6 ]
+    ]
+  ]
 }
 ]

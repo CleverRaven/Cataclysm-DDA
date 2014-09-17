@@ -2309,7 +2309,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
     ctxt.register_updown();
     ctxt.register_action("NEXT_TAB", _("Cycle to next category"));
     ctxt.register_action("QUIT");
-    ctxt.register_action("CONFIRM", _("Toogle skill training"));
+    ctxt.register_action("CONFIRM", _("Toggle skill training"));
     ctxt.register_action("HELP_KEYBINDINGS");
     std::string action;
 
@@ -11609,4 +11609,26 @@ void player::place_corpse()
         }
     }
     g->m.add_item_or_charges( posx, posy, body );
+}
+
+std::vector<std::string> player::get_overlay_ids() const {
+    std::vector<std::string> rval;
+
+    // first get mutations
+    for(const std::string& mutation : my_mutations) {
+        rval.push_back("mutation_"+mutation);
+    }
+
+    // next clothing
+    // TODO: worry about correct order of clothing overlays
+    for(const item& worn_item : worn) {
+        rval.push_back("worn_"+worn_item.typeId());
+    }
+
+    // last weapon
+    // TODO: might there be clothing that covers the weapon?
+    if(!weapon.is_null()) {
+        rval.push_back("wielded_"+weapon.typeId());
+    }
+    return rval;
 }
