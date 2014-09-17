@@ -29,7 +29,7 @@
     "qualities" : [ {"id":"CUT","level":1,"amount":1} ],
     "components": [
       [ [ "rag", 35 ] ],
-      [ [ "feather", 8 ]
+      [ [ "feather", 8 ] ]
     ]
   },{
     "type" : "recipe",
@@ -44,7 +44,7 @@
     "qualities" : [ {"id":"CUT","level":1,"amount":1} ],
     "components": [
       [ [ "rag", 6 ] ],
-      [ [ "feather", 2 ]
+      [ [ "feather", 2 ] ]
     ]
   },{
     "type" : "recipe",
@@ -59,7 +59,7 @@
     "qualities" : [ {"id":"CUT","level":1,"amount":1} ],
     "components": [
       [ [ "rag", 6 ] ],
-      [ [ "cotton_ball", 4 ]
+      [ [ "cotton_ball", 4 ] ]
     ]
   },{
     "type" : "recipe",
