@@ -2050,7 +2050,8 @@ void game::update_weather()
         g->lightning_active = false;
         nextweather += 50; // Check weather each 50 turns.
         if (weather != old_weather && weather_data[weather].dangerous &&
-            levz >= 0 && m.is_outside(u.posx, u.posy)) {
+            levz >= 0 && m.is_outside(u.posx, u.posy)
+            && !u.has_activity(ACT_WAIT_WEATHER)) {
             cancel_activity_query(_("The weather changed to %s!"), weather_data[weather].name.c_str());
         }
 

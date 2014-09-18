@@ -34,7 +34,7 @@
     "color": "dark_gray",
     "name": "SVS-24C",
     "name_plural": "SVS-24C",
-    "description": "The compact version of the standard SVS-24. It is commonly issued to tank crews or special forces due to it's smaller size. The shorter barrel reduces accuracy.",
+    "description": "The compact version of the standard SVS-24. It is commonly issued to tank crews or special forces due to its smaller size. The shorter barrel reduces accuracy.",
     "price": 460000,
     "material": ["steel", "plastic"],
     "flags": "MODE_BURST",
