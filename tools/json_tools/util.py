@@ -3,13 +3,14 @@
 
 from __future__ import print_function
 
-import sys
-import os
-import json
-import re
+import argparse
 from collections import Counter, OrderedDict
 from fnmatch import fnmatch
+import json
+import re
+import os
 from StringIO import StringIO
+import sys
 
 
 SCRIPT_DIR = os.path.abspath(os.path.dirname(__file__))
@@ -51,10 +52,13 @@ def match_primitive_values(item_value, where_value):
     # Matching interpolation for keyboard constrained input.
     if type(item_value) == str or type(item_value) == unicode:
         # Direct match, and don't convert unicode in Python 2.
-        return bool(re.search(where_value, item_value))
+        return bool(re.match(where_value, item_value))
     elif type(item_value) == int or type(item_value) == float:
         # match after string conversion
-        return bool(re.search(where_value, str(item_value)))
+        return bool(re.match(where_value, str(item_value)))
+    elif type(item_value) == bool:
+        # help conversion to JSON booleans from the commandline
+        return bool(re.match(where_value, str(item_value).lower()))
     else:
         return False
 
@@ -96,20 +100,65 @@ def matches_where(item, where_key, where_value):
         return match_primitive_values(item_value, where_value)
 
 
-def distinct_keys(data):
-    """Return a sorted-ascending list of keys scraped from the list of data
-    assumed to be dictionaries.
+
+def matches_all_wheres(item, where_fn_list):
+    """Takes a list of where functions and attempts to match against them.
+
+    Assumes wheres are the type returned from WhereAction, and the function
+    accepts the item to match against.
+
+    True if:
+    all where's match (effectively AND)
+
+    False if:
+    any where's don't match
     """
-    all_keys = set()
-    for d in data:
-        all_keys.update(list(d.keys()))
-    return sorted(all_keys)
+    for where_fn in where_fn_list:
+        if not where_fn(item):
+            return False
+    # Must be a match.
+    return True
 
 
 
-def value_counter(data, search_key, where_key=None, where_value=None):
-    """Takes a search_key {str}, and for values found in data {list of dicts}
-    with those keys, counts the values.
+class WhereAction(argparse.Action):
+    """An argparse action callback.
+
+    Example application:
+
+    parser.add_argument("where",
+        action=WhereAction, nargs='*', type=str, help="where exclusions")
+    """
+
+    def where_test_factory(self, where_key, where_value):
+        """Wrap the where test we are using and return it as a callable function.
+
+        item in the callback is assumed to be what we're testing against.
+        """
+        def t(item):
+            return matches_where(item, where_key, where_value)
+        return t
+
+    def __init__(self, option_strings, dest, nargs=None, **kwargs):
+        if not nargs:
+            raise ValueError("nargs must be declared")
+        super(WhereAction, self).__init__(option_strings, dest, nargs=nargs, **kwargs)
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        try:
+            where_functions = []
+            for w in values:
+                where_key, where_value = w.split("=")
+                where_functions.append(self.where_test_factory(where_key, where_value))
+            setattr(namespace, self.dest, where_functions)
+        except Exception:
+            raise ValueError("Where options are strict. Must be in the form of 'where_key=where_value'")
+
+
+
+def key_counter(data, where_fn_list):
+    """Count occurences of keys found in data {list of dicts}
+    that also match each where_fn_list {list of fns}.
 
     Returns a tuple of data.
     """
@@ -117,7 +166,26 @@ def value_counter(data, search_key, where_key=None, where_value=None):
     # Which blobs had our search key?
     blobs_matched = 0
     for item in data:
-        if search_key in item and matches_where(item, where_key, where_value):
+        if matches_all_wheres(item, where_fn_list):
+            # We assume we are working with JSON data and that all keys are
+            # strings
+            stats.update(item.keys())
+    return stats, blobs_matched
+
+
+
+def value_counter(data, search_key, where_fn_list):
+    """Takes a search_key {str}, and for values found in data {list of dicts}
+    that also match each where_fn_list {list of fns} with those keys,
+    counts the number of times the value appears.
+
+    Returns a tuple of data.
+    """
+    stats = Counter()
+    # Which blobs had our search key?
+    blobs_matched = 0
+    for item in data:
+        if search_key in item and matches_all_wheres(item, where_fn_list):
             v = item[search_key]
             blobs_matched += 1
             if type(v) == list:
@@ -129,35 +197,6 @@ def value_counter(data, search_key, where_key=None, where_value=None):
                 # assume string
                 stats[v] += 1
     return stats, blobs_matched
-
-
-
-def ui_import_data(json_dir=JSON_DIR, json_fmatch=JSON_FNMATCH):
-    """Load data with import data and provide user friendly output.
-
-    Will cause program to exit if bad errors occur, call at your own risk.
-
-    If no errors, returns just the list of imported JSON dictionaries.
-    """
-    print("Finding eligible JSON files.")
-    # Single list of all JSON blobs found in each file.
-    json_data, import_errors = import_data(json_dir, json_fmatch)
-    if import_errors:
-        # Considered benign errors.
-        print("There were import errors:")
-        for e in import_errors:
-            print(e)
-        print("")
-    elif not json_data:
-        # Not considered benign.
-        print("We could not find any JSON data in")
-        print("\t", JSON_DIR)
-        print("that matched:")
-        print("\t", JSON_FNMATCH)
-        print("good bye.")
-        sys.exit(1)
-    print("Found %s blobs of JSON data." % len(json_data))
-    return json_data
 
 
 
@@ -189,9 +228,10 @@ def ui_counts_to_columns(counts):
 
 
 
-
 class CDDAJSONWriter(object):
     """Essentially a one-off class used to write CDDA formatted JSON output.
+
+    Expects single object, not a list of objects.
 
     Probable usage:
 
@@ -201,8 +241,10 @@ class CDDAJSONWriter(object):
     indent_multiplier = 0
     buf = None
 
-    def __init__(self, d):
+    def __init__(self, d, indent_multiplier=0):
         self.d = d
+        # Should you wish to change the initial indent for whatever reason.
+        self.indent_multiplier = indent_multiplier
         # buf is initialized on a call to dumps
 
     def indented_write(self, s):
@@ -263,6 +305,7 @@ class CDDAJSONWriter(object):
             # Trailing comma or not
             if items:
                 self.buf.write(",\n")
+        self.buf.write("\n")
         self.indent_multiplier -= 1
-        self.indented_write("\n}\n")
+        self.indented_write("}")
         return self.buf.getvalue()
