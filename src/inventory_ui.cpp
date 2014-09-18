@@ -371,13 +371,15 @@ void inventory_selector::print_right_column() const
         const item &it = stack.front();
         const char invlet = invlet_or_space(it);
         const int count = a->second;
+        const int display_count = (count == -1) ? (it.charges >= 0) ? it.charges : stack.size() : count;
         const nc_color col = it.color_in_inventory();
-        std::string item_name = it.display_name(count);
-        if (stack.size() > 1) {
-            item_name = string_format("%d %s", stack.size(), item_name.c_str());
-        }
+        std::string item_name = it.tname( display_count );
         if (count == -1) {
-            item_name.insert(0, "+ ");
+            if (stack.size() > 1) {
+                item_name = string_format("%d %s", stack.size(), item_name.c_str());
+            } else {
+                item_name.insert(0, "+ ");
+            }
         } else {
             item_name = string_format("# %s {%d}", item_name.c_str(), count);
         }
