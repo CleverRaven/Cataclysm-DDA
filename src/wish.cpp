@@ -2,7 +2,6 @@
 #include "output.h"
 #include "item_factory.h"
 #include <sstream>
-#include "text_snippets.h"
 #include "helper.h"
 #include "uistate.h"
 #include "monstergenerator.h"

@@ -568,6 +568,12 @@ or several snippets at once:
 ```
 Multiple snippets for the same category are possible and actually recommended. The game will select a random one for each item of that type.
 
+One can also put the snippets directly in the item definition:
+```
+"snippet_category": [ "text 1", "text 2", "text 3" ],
+```
+This will automatically create a snippet category speciifc to that item and populate that category with the given snippets.
+
 #json jsons
 
 ###FURNITURE

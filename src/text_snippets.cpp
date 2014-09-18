@@ -30,6 +30,11 @@ void snippet_library::add_snippet(const std::string &category, const std::string
     categories.insert( std::pair<std::string, int>(category, hash) );
 }
 
+bool snippet_library::has_category( const std::string &category ) const
+{
+    return categories.lower_bound( category ) != categories.end();
+}
+
 void snippet_library::clear_snippets()
 {
     snippets.clear();
