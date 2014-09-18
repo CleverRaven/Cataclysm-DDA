@@ -2292,6 +2292,10 @@ void map::shoot(const int x, const int y, int &dam,
         add_field(x, y, fd_smoke, rng(1, 2));
     }
 
+    if (ammo_effects.count("STREAM") && !one_in(3)) {
+        add_field(x, y, fd_fire, rng(1, 2));
+    }
+
     if (ammo_effects.count("LIGHTNING")) {
         add_field(x, y, fd_electricity, rng(2, 3));
     }
