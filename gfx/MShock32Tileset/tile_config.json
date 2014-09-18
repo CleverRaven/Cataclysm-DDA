@@ -17867,6 +17867,31 @@
           "id": "bolt_metal",
           "fg": 2478,
           "bg": 2
+        },
+        {
+          "rotates": false,
+          "id": "fd_hot_air1",
+          "fg": 0
+        },
+        {
+          "rotates": false,
+          "id": "fd_hot_air2",
+          "fg": 0
+        },
+        {
+          "rotates": false,
+          "id": "fd_hot_air3",
+          "fg": 0
+        },
+        {
+          "rotates": false,
+          "id": "fd_hot_air4",
+          "fg": 0
+        },
+        {
+          "rotates": false,
+          "id": "fd_spotlight",
+          "fg": 0
         }
       ],
       "ascii": [
