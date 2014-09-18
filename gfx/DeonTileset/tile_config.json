@@ -181,7 +181,7 @@
             "rotates":false
         },
         {
-            "id":"t_rubble",
+            "id":"f_rubble",
             "bg":21,
             "rotates":false
         },
@@ -194,7 +194,7 @@
             "rotates":false
         },
         {
-            "id":"t_wreckage",
+            "id":"f_wreckage",
             "bg":25,
             "rotates":false
         },
