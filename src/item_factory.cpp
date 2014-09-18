@@ -907,13 +907,6 @@ void Item_factory::load_veh_part(JsonObject &jo)
     load_basic_info(jo, veh_par_template);
 }
 
-void Item_factory::load_stationary(JsonObject &jo)
-{
-    it_stationary *stationary_template = new it_stationary();
-    stationary_template->category = jo.get_string("snippet_category");
-    load_basic_info(jo, stationary_template);
-}
-
 void Item_factory::load_generic(JsonObject &jo)
 {
     itype *new_item_template = new itype();
@@ -972,6 +965,7 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     }
 
     new_item_template->light_emission = 0;
+    new_item_template->snippet_category = jo.get_string( "snippet_category", "" );
 
     /*
     List of current flags

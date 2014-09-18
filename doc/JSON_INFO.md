@@ -224,11 +224,6 @@ The syntax listed here is still valid.
 "description" : "Your skill with submachine guns and machine pistols. Halfway between a pistol and an assault rifle, these weapons fire and reload quickly, and may fire in bursts, but they are not very accurate.", // In-game description
 "tags" : ["gun_type"]  // Special flags (default: none)
 ```
-###SNIPPETS
-```C++
-"category": "flier", // Category used
-	"text": "This is an advertisement for the Diet Devil brand Metabolic Exchange CBM.  It shows a picture of a tiny obese devil sitting on a woman's shoulder. The woman stares intently at a gigantic wedding cake covered with bacon and candybars. The caption reads: \"Burn calories! Burn!\"" // In-game description
-```
 ###TRAITS/MUTATIONS
 ```C++
 "id": "LIGHTEATER",  // Unique ID
@@ -550,8 +545,8 @@ The contents of use_action fields can either be a string indicating a built-in f
     "tools_needed" : { "apparatus" : -1 } // Tool needed to use the drug.
 }
 ```
-###PAPERS
-Require the same values as items of type "GENERIC", additional a "snippet_category" entry:
+###Random descriptions
+Any item with a "snippet_category" entry will have random descriptions, based on that snippet category:
 ```
 "snippet_category": "newspaper",
 ```
