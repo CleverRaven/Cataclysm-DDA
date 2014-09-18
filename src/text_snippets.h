@@ -16,6 +16,7 @@ class snippet_library
         std::string get( const int index ) const;
         bool has_category( const std::string &category ) const;
         // Add the snippet text, puts it into @ref categories and @ref snippets
+        // snippet texts must alreay be translated!
         void add_snippet(const std::string &category, const std::string &text);
 
         void clear_snippets();

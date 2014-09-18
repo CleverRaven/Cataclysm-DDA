@@ -303,6 +303,13 @@ def extract(item, infilename):
     if "sound" in item:
         writestr(outfile, item["sound"], **kwargs)
         wrote = True
+    if "snippet_category" in item
+        # snippet_category is either a simple string (the category ident)
+        # which is not translated,
+        # or it's an array of (translated) strings, writestr handles arrays.
+        if not type(item["snippet_category"]) is str:
+            writestr(outfile, item["snippet_category"], **kwargs)
+            wrote = True
     if "bash" in item and type(item["bash"]) is dict:
         # entries of type technique have a bash member, too.
         # but it's a int, not an object.
