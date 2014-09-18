@@ -8107,8 +8107,13 @@ int iuse::boots(player *p, item *it, bool)
     return it->type->charges_to_use();
 }
 
-int iuse::towel(player *p, item *it, bool)
+int iuse::towel(player *p, item *it, bool t)
 {
+    if( t ) {
+        // Continuous usage, do nothing as not initiated by the player, this is for
+        // wet towels only as they are active items.
+        return 0;
+    }
     bool towelUsed = false;
 
     // can't use an already wet towel!
