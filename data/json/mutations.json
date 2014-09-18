@@ -601,7 +601,7 @@
         "id" : "MEATARIAN",
         "name" : "Hates Vegetables",
         "points" : -2,
-        "description" : "You like many children hated eating your vegetables you also didn't outgrow it. It's possible for you to eat them, but you will suffer morale penalties due to nausea.",
+        "description" : "You, like many children, hated eating your vegetables; however, you didn't outgrow it. It's possible for you to eat them, but you will suffer morale penalties due to nausea.",
         "starting_trait" : true,
         "valid" : false,
         "cancels" : ["VEGETARIAN", "HERBIVORE", "RUMINANT"]
