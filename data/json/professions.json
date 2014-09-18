@@ -2883,5 +2883,42 @@
                 "boy_shorts"
             ]
         }
+    },
+    {
+        "type": "profession",
+        "ident": "fisher",
+        "name": "Fisher",
+        "description": "You spent most of your days just fishing in the swamps getting by quietly on what you caught, you used to find the buzzing of insects enjoyable, but now you fear their horrible noises...you just hope the fish aren't as nasty.",
+        "points": 1,
+        "skills": [
+            {
+                "level": 2,
+                "name": "swimming"
+            },
+            {
+                "level": 2,
+                "name": "survival"
+            }
+        ],
+        "items": {
+            "both": [
+                "jeans",
+                "tank_top",
+                "socks",
+                "fishing_waders",
+                "knife_hunting",
+                "moonshine",
+                "lighter",
+                "fishing_rod_basic",
+                "vest"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
     }
 ]
