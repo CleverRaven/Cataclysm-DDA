@@ -388,11 +388,12 @@
       { "monster" : "mon_sludge_crawler", "freq" :  3, "cost_multiplier" : 2, "starts" :  840, "conditions" : ["DUSK", "NIGHT", "DAWN", "SPRING", "SUMMER", "AUTUMN"] },
       { "monster" : "mon_sludge_crawler", "freq" :  4, "cost_multiplier" : 2, "starts" : 1008, "conditions" : ["DUSK", "NIGHT", "DAWN", "SPRING", "SUMMER", "AUTUMN"] },
 
-      { "monster" : "mon_zfish", "freq" :  40, "cost_multiplier" : 5, "starts" :   24, "pack_size" : [1,3] },
-      { "monster" : "mon_zfish", "freq" :  60, "cost_multiplier" : 5, "starts" :  168, "pack_size" : [1,3] },
-      { "monster" : "mon_zfish", "freq" :  80, "cost_multiplier" : 5, "starts" :  672, "pack_size" : [1,3] },
+      { "monster" : "mon_zhark", "freq" :  1, "cost_multiplier" : 25, "starts" :   24, "pack_size" : [1,3] },
+      { "monster" : "mon_zhark", "freq" :  2, "cost_multiplier" : 25, "starts" :  672, "pack_size" : [1,3] },
 
-      { "monster" : "mon_mutant_carp", "freq" :  5, "cost_multiplier" : 20, "starts" :   168},
+      { "monster" : "mon_mutant_carp", "freq" :  3, "cost_multiplier" : 15, "starts" :   168},
+      
+      { "monster" : "mon_mutant_salmon", "freq" :  2, "cost_multiplier" : 15, "starts" :   168},
 
       { "monster" : "mon_fish_eel", "freq" :  25, "cost_multiplier" : 3, "pack_size" : [1,3] },
       { "monster" : "mon_fish_eel", "freq" :  50, "cost_multiplier" : 3, "conditions" : ["DAWN", "DUSK"], "pack_size" : [1,3] },
