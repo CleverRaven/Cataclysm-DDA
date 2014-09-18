@@ -1193,7 +1193,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     }
 
     std::string burntext = "";
-    if (with_prefix) {
+    if (with_prefix && !made_of(LIQUID)) {
         if (volume() >= 4 && burnt >= volume() * 2) {
             burntext = rm_prefix(_("<burnt_adj>badly burnt "));
         } else if (burnt > 0) {
