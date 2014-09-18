@@ -10646,6 +10646,26 @@
          "bg" : -1,
          "rotates" : false,
          "multitile" : false
-      }
+      },
+        {
+          "rotates": false,
+          "id": "fd_hot_air1",
+          "fg": 165
+        },
+        {
+          "rotates": false,
+          "id": "fd_hot_air2",
+          "fg": 165
+        },
+        {
+          "rotates": false,
+          "id": "fd_hot_air3",
+          "fg": 165
+        },
+        {
+          "rotates": false,
+          "id": "fd_hot_air4",
+          "fg": 165
+        }
     ]
 }

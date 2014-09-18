@@ -12205,6 +12205,26 @@
             "fg":1776,
             "bg":2,
             "rotates":false
-      }
+      },
+        {
+          "rotates": false,
+          "id": "fd_hot_air1",
+          "fg": 1777
+        },
+        {
+          "rotates": false,
+          "id": "fd_hot_air2",
+          "fg": 1777
+        },
+        {
+          "rotates": false,
+          "id": "fd_hot_air3",
+          "fg": 1777
+        },
+        {
+          "rotates": false,
+          "id": "fd_hot_air4",
+          "fg": 1777
+        }
     ]
 }
