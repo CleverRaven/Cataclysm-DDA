@@ -18,6 +18,7 @@ class snippet_library
         // Add the snippet text, puts it into @ref categories and @ref snippets
         // snippet texts must alreay be translated!
         void add_snippet(const std::string &category, const std::string &text);
+        int calc_hash(const std::string &original) const;
 
         void clear_snippets();
     private:

@@ -328,6 +328,14 @@ public:
  bool is_var_veh_part() const;
  bool is_artifact() const;
 
+    /**
+     * Set the description of this specific item, using the snippet library.
+     * The new description is not already contained there, it is added, but keep in
+     * mind that the snippet library is not stored when the game is saved. It is
+     * loaded from the json data every time the game loads.
+     */
+    void set_description( const std::string &description );
+
  int get_remaining_capacity_for_liquid(const item &liquid, LIQUID_FILL_ERROR &error) const;
  int get_remaining_capacity() const;
 

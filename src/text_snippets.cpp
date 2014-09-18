@@ -22,10 +22,14 @@ void snippet_library::load_snippet(JsonObject &jsobj)
     }
 }
 
+int snippet_library::calc_hash(const std::string &text) const
+{
+    return djb2_hash( reinterpret_cast<const unsigned char *>( text.c_str() ) );
+}
+
 void snippet_library::add_snippet(const std::string &category, const std::string &text)
 {
     int hash = djb2_hash( (const unsigned char *)text.c_str() );
-
     snippets.insert( std::pair<int, std::string>(hash, text) );
     categories.insert( std::pair<std::string, int>(category, hash) );
 }

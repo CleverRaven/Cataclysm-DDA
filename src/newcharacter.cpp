@@ -442,9 +442,12 @@ bool player::create(character_type type, std::string tempname)
     else if (has_trait("HYPEROPIC")) {
         prof_items.push_back("glasses_reading");
     }
-    for( auto &type_id : prof_items ) {
+    for( auto &itd : prof_items ) {
         // Spawn left-handed items as a placeholder, shouldn't affect non-handed items
-        tmp = item(type_id, 0, false, LEFT);
+        tmp = item(itd.type_id, 0, false, LEFT);
+        if( !itd.description.empty() ) {
+            tmp.set_description( itd.description );
+        }
         tmp = tmp.in_its_container();
         if(tmp.is_armor()) {
             if(tmp.has_flag("VARSIZE")) {
@@ -455,7 +458,10 @@ bool player::create(character_type type, std::string tempname)
 
             // If item is part of a pair give a second one for the other side
             if (tmp.has_flag("PAIRED")) {
-                tmp2 = item(type_id, 0, false, RIGHT);
+                tmp2 = item(itd.type_id, 0, false, RIGHT);
+                if( !itd.description.empty() ) {
+                    tmp2.set_description( itd.description );
+                }
                 if(tmp2.has_flag("VARSIZE")) {
                     tmp2.item_tags.insert("FIT");
                 }
@@ -1136,7 +1142,7 @@ int set_profession(WINDOW *w, player *u, int &points)
         werase(w_items);
         mvwprintz(w_items, 0, 0, COL_HEADER, _("Profession items:"));
         for (size_t i = 0; i < prof_items.size() && line_offset + (int)i < getmaxy(w_items); i++) {
-            itype *it = item_controller->find_template(prof_items[i]);
+            itype *it = item_controller->find_template(prof_items[i].type_id);
             wprintz(w_items, c_ltgray, _("\n"));
             line_offset += fold_and_print(w_items, i + line_offset, 0, getmaxx(w_items), c_ltgray,
                                           it->nname(1)) - 1;

@@ -152,6 +152,10 @@ The syntax listed here is still valid.
 "items":[              // ID's of items player starts with when selecting this profession
  "army_top",
  "boots_steel",
+ ["survnote", "\"Somehow I managed to fit an entire goddamn lemon into this makeshift battery.\""],
+                       // Entries can also be an array containing the item id and the text taken
+                       // from the snippet category that is used by that item type. The text must match
+                       // the snippet text exactly.
  "jeans"
 ],
 "name":"Bow Hunter",   // In-game name displayed
