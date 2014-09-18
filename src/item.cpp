@@ -2988,7 +2988,9 @@ void item::use()
 
 bool item::burn(int amount)
 {
-    burnt += amount;
+    if (!made_of(LIQUID)) {
+        burnt += amount;
+    }
     return (burnt >= volume() * 3);
 }
 
