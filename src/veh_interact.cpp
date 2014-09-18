@@ -970,7 +970,13 @@ void veh_interact::do_rename()
  */
 void veh_interact::do_relabel()
 {
-    display_mode('e');
+    display_mode('a');
+    const task_reason reason = cant_do('a');
+    if (reason == INVALID_TARGET) {
+        mvwprintz(w_msg, 0, 1, c_ltred, _("There are no parts here to label."));
+        wrefresh (w_msg);
+        return;
+    }
     std::string text = string_input_popup(_("New label:"), 20, veh->get_label(-ddx, -ddy));
     veh->set_label(-ddx, -ddy, text); // empty input removes the label
     display_grid();
