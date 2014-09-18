@@ -6273,7 +6273,7 @@ int iuse::portable_game(player *p, item *it, bool)
     if (p->has_trait("ILLITERATE")) {
         add_msg(_("You're illiterate!"));
         return 0;
-    } else if (it->charges < it->type->charges_to_use()) {
+    } else if (it->charges < 15) {
         p->add_msg_if_player(m_info, _("The %s's batteries are dead."), it->tname().c_str());
         return 0;
     } else {
