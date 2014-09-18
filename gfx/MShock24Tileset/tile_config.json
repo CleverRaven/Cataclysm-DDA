@@ -17887,6 +17887,11 @@
           "rotates": false,
           "id": "fd_hot_air4",
           "fg": 0
+        },
+        {
+          "rotates": false,
+          "id": "fd_spotlight",
+          "fg": 0
         }
       ],
       "ascii": [

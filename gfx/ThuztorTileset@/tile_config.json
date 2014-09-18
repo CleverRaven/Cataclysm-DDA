@@ -16176,6 +16176,11 @@
           "rotates": false,
           "id": "fd_hot_air4",
           "fg": 2379
+        },
+        {
+          "rotates": false,
+          "id": "fd_spotlight",
+          "fg": 2379
         }
     ]
 }
