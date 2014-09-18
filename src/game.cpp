@@ -5974,6 +5974,27 @@ bool game::is_hostile_within(int distance)
     return false;
 }
 
+//get the fishable critters around
+std::vector<std::string> game::get_fishable(int distance)
+{
+    std::vector<std::string> unique_fish;
+    for (size_t i = 0; i < num_zombies(); i++) {
+        monster &critter = critter_tracker.find(i);
+
+        if (critter.has_flag(FISH)) {
+            continue;
+        }
+
+        int mondist = rl_dist(u.posx, u.posy, critter.posx(), critter.posy());
+        
+        if (mondist <= distance) {
+            unique_fish.push_back (critter);
+            return unique_fish;
+        }
+    }
+
+    return false;
+}
 // Print monster info to the given window, and return the lowest row (0-indexed)
 // to which we printed. This is used to share a window with the message log and
 // make optimal use of space.

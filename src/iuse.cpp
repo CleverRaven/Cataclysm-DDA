@@ -2820,7 +2820,7 @@ int iuse::fish_trap(player *p, item *it, bool t)
             it->active = false;
 
             point pos = g->find_item(it);
-
+//here to get the fishes nearby... in a struct?
             if (!g->m.has_flag("FISHABLE", pos.x, pos.y)) {
                 return 0;
             }

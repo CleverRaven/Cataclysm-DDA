@@ -513,7 +513,7 @@
     "death_function":"NORMAL",
     "special_attack":"BITE",
     "description":"This is a zhark. A once aggresive and hungry bull shark, only now even more aggresive and with no functioning brain.",
-    "flags":["FISH","SEES", "HEARS", "SMELLS", "WARM", "AQUATIC", "POISON", "NO_BREATHE", "VIS40", "REVIVES", "BONES"]
+    "flags":["SEES", "HEARS", "SMELLS", "WARM", "AQUATIC", "POISON", "NO_BREATHE", "VIS40", "REVIVES", "BONES"]
     },
   {
     "type" : "MONSTER",
@@ -541,7 +541,7 @@
     "death_function":"NORMAL",
     "special_attack":"BITE",
     "description":"This thing seems like a carp, only hideously swollen and very very angry. Death from the carp god.",
-    "flags":["FISH","SEES", "HEARS", "SMELLS", "WARM", "AQUATIC", "POISON", "NO_BREATHE", "VIS40", "REVIVES", "BONES"]
+    "flags":["SEES", "HEARS", "SMELLS", "WARM", "AQUATIC", "POISON", "NO_BREATHE", "VIS40", "REVIVES", "BONES"]
     },
   {
     "type" : "MONSTER",
@@ -569,6 +569,6 @@
     "death_function":"NORMAL",
     "special_attack":"BITE",
     "description":"A mutated salmon. Sized like a large dog and quite dangerous to the inexperienced survivor fisherman.",
-    "flags":["FISH","SEES", "HEARS", "SMELLS", "WARM", "AQUATIC", "POISON", "NO_BREATHE", "VIS40", "REVIVES", "BONES"]
+    "flags":["SEES", "HEARS", "SMELLS", "WARM", "AQUATIC", "POISON", "NO_BREATHE", "VIS40", "REVIVES", "BONES"]
     }
 ]
