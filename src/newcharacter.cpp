@@ -428,14 +428,7 @@ bool player::create(character_type type, std::string tempname)
     item tmp; //gets used several times
     item tmp2;
 
-    std::vector<std::string> prof_items = g->u.prof->items();
-    std::vector<std::string> gender_items;
-    if(g->u.male) {
-        gender_items = g->u.prof->items_male();
-    } else {
-        gender_items = g->u.prof->items_female();
-    }
-    prof_items.insert(prof_items.begin(), gender_items.begin(), gender_items.end());
+    auto prof_items = g->u.prof->items( g->u.male );
 
     // Those who are both near-sighted and far-sighted start with bifocal glasses.
     if (has_trait("HYPEROPIC") && has_trait("MYOPIC")) {
@@ -449,10 +442,9 @@ bool player::create(character_type type, std::string tempname)
     else if (has_trait("HYPEROPIC")) {
         prof_items.push_back("glasses_reading");
     }
-    for (std::vector<std::string>::const_iterator iter = prof_items.begin();
-         iter != prof_items.end(); ++iter) {
+    for( auto &type_id : prof_items ) {
         // Spawn left-handed items as a placeholder, shouldn't affect non-handed items
-        tmp = item(*iter, 0, false, LEFT);
+        tmp = item(type_id, 0, false, LEFT);
         tmp = tmp.in_its_container();
         if(tmp.is_armor()) {
             if(tmp.has_flag("VARSIZE")) {
@@ -463,7 +455,7 @@ bool player::create(character_type type, std::string tempname)
 
             // If item is part of a pair give a second one for the other side
             if (tmp.has_flag("PAIRED")) {
-                tmp2 = item(*iter, 0, false, RIGHT);
+                tmp2 = item(type_id, 0, false, RIGHT);
                 if(tmp2.has_flag("VARSIZE")) {
                     tmp2.item_tags.insert("FIT");
                 }
@@ -1139,14 +1131,7 @@ int set_profession(WINDOW *w, player *u, int &points)
             mvwprintz(w, 5 + i - iStartPos, 2, col,
                       sorted_profs[i]->gender_appropriate_name(u->male).c_str());
         }
-        std::vector<std::string> prof_items = sorted_profs[cur_id]->items();
-        std::vector<std::string> prof_gender_items;
-        if (u->male) {
-            prof_gender_items = sorted_profs[cur_id]->items_male();
-        } else {
-            prof_gender_items = sorted_profs[cur_id]->items_female();
-        }
-        prof_items.insert( prof_items.end(), prof_gender_items.begin(), prof_gender_items.end() );
+        auto prof_items = sorted_profs[cur_id]->items( u->male );
         int line_offset = 1;
         werase(w_items);
         mvwprintz(w_items, 0, 0, COL_HEADER, _("Profession items:"));

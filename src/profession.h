@@ -73,9 +73,7 @@ class profession
         std::string description(bool male) const;
         std::string gender_req() const;
         signed int point_cost() const;
-        std::vector<std::string> items() const;
-        std::vector<std::string> items_male() const;
-        std::vector<std::string> items_female() const;
+        std::vector<std::string> items(bool male) const;
         std::vector<addiction> addictions() const;
         std::vector<std::string> CBMs() const;
         const StartingSkillList skills() const;

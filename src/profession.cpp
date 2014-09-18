@@ -252,19 +252,12 @@ signed int profession::point_cost() const
     return _point_cost;
 }
 
-std::vector<std::string> profession::items() const
+std::vector<std::string> profession::items(bool male) const
 {
-    return _starting_items;
-}
-
-std::vector<std::string> profession::items_male() const
-{
-    return _starting_items_male;
-}
-
-std::vector<std::string> profession::items_female() const
-{
-    return _starting_items_female;
+    auto result = _starting_items;
+    const auto &gender_items = male ? _starting_items_male : _starting_items_female;
+    result.insert( result.begin(), gender_items.begin(), gender_items.end() );
+    return result;
 }
 
 std::vector<addiction> profession::addictions() const
