@@ -504,5 +504,41 @@
         "material": ["wood", "steel"],
         "contains": 400,
         "flags": ["RIGID", "SEALS", "WATERTIGHT"]
+    },
+	{
+        "id": "bag_canvas",
+        "type": "CONTAINER",
+        "symbol": ")",
+        "color": "brown",
+        "name": "canvas sack",
+        "category": "other",
+        "description": "A large and sturdy canvas sack. Smells faintly of earth and hard work.",
+        "price": 0,
+        "weight": 415,
+        "volume": 12,
+        "bashing": -3,
+        "cutting": 0,
+        "to_hit": -5,
+        "material": "cotton",
+        "contains": 60,
+		"flags": [ "SEALS" ]
+    },
+	{
+        "id": "bag_canvas_small",
+        "type": "CONTAINER",
+        "symbol": ")",
+        "color": "brown",
+        "name": "canvas bag",
+        "category": "other",
+        "description": "Small bag made of canvas. Looks fine to store dried herbs in.",
+        "price": 0,
+        "weight": 5,
+        "volume": 2,
+        "bashing": -5,
+        "cutting": 0,
+        "to_hit": -5,
+        "material": "cotton",
+        "contains": 4,
+		"flags": [ "SEALS" ]
     }
 ]

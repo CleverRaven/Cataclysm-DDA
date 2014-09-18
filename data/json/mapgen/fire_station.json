@@ -119,6 +119,8 @@
             ],
             "place_groups": [
             { "monster": "GROUP_FIRE", "x": [ 2, 21 ], "y": [ 9, 21 ], "chance": 1},
+            { "item": "bed", "chance": 80,  "x": [3,4 ], "y": [16,16 ] },
+            { "item": "bed", "chance": 80,  "x": [3,4 ], "y": [18,18 ] },
             { "item": "fireman_doc", "chance": 70, "x": [ 1,1 ], "y": [ 2,2 ] },
             { "item": "fireman_gear", "chance": 70, "x": [ 1,1 ], "y": [ 5,5 ] },
             { "item": "fireman_gear", "chance": 70, "x": [ 1,1 ], "y": [ 6,6 ] },

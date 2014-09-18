@@ -3200,7 +3200,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
 
         //Damage calculation
         //damage dealt overall
-        dmg += abs(d_E / k_mvel);
+        dmg += std::abs(d_E / k_mvel);
         //damage for vehicle-part - only if not a hallucination
         if(!z || !z->is_hallucination()) {
             part_dmg = dmg * k / 100;
@@ -3326,7 +3326,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
         }
         int turn_roll = rng (0, 100);
         //probability of skidding increases with higher delta_v
-        if (turn_roll < abs(prev_velocity - (float)(velocity / 100)) * 2 ) {
+        if (turn_roll < std::abs(prev_velocity - (float)(velocity / 100)) * 2 ) {
             //delta_v = vel1 - vel1_a
             //delta_v = 50 mph -> 100% probability of skidding
             //delta_v = 25 mph -> 50% probability of skidding
@@ -4312,8 +4312,8 @@ rl_vec2d vehicle::face_vec(){
 
 float get_collision_factor(float delta_v)
 {
-    if (abs(delta_v) <= 31) {
-        return ( 1 - ( 0.9 * abs(delta_v) ) / 31 );
+    if (std::abs(delta_v) <= 31) {
+        return ( 1 - ( 0.9 * std::abs(delta_v) ) / 31 );
     } else {
         return 0.1;
     }
