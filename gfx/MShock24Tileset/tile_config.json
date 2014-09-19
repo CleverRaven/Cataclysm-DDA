@@ -4750,8 +4750,8 @@
         {
           "rotates": false,
           "id": "fish_cooked",
-          "fg": 0,
-          "bg": 0
+          "fg": 555,
+          "bg": 2
         },
         {
           "rotates": false,
@@ -5014,7 +5014,7 @@
         {
           "rotates": false,
           "id": "fungicide",
-          "fg": 2016,
+          "fg": 2495,
           "bg": 2
         },
         {
@@ -12462,7 +12462,7 @@
             },
             {
               "id": "corner",
-              "fg": 1476
+              "fg": 1505
             },
             {
               "id": "edge",
@@ -12470,7 +12470,7 @@
             },
             {
               "id": "t_connection",
-              "fg": 1478
+              "fg": 1505
             },
             {
               "id": "end_piece",
@@ -12478,10 +12478,10 @@
             },
             {
               "id": "unconnected",
-              "fg": 1480
+              "fg": 1505
             }
           ],
-          "id": "t_fence_h",
+          "id": "t_fence_v",
           "fg": 1505,
           "bg": 420
         },
@@ -12499,7 +12499,7 @@
         },
         {
           "rotates": false,
-          "id": "t_fence_v",
+          "id": "t_fence_h",
           "fg": 1509,
           "bg": 420
         },
@@ -17891,7 +17891,97 @@
         {
           "rotates": false,
           "id": "fd_spotlight",
-          "fg": 0
+          "fg": 2479
+        },
+        {
+          "rotates": false,
+          "id": "sports_bra",
+          "fg": 2480,
+          "bg": 2
+        },
+        {
+          "rotates": false,
+          "id": "ceramic_shard",
+          "fg": 2481,
+          "bg": 2
+        },
+        {
+          "rotates": false,
+          "id": "r_paint",
+          "fg": 2482,
+          "bg": 2
+        },
+        {
+          "rotates": false,
+          "id": "b_paint",
+          "fg": 2483,
+          "bg": 2
+        },
+        {
+          "rotates": false,
+          "id": "w_paint",
+          "fg": 2484,
+          "bg": 2
+        },
+        {
+          "rotates": false,
+          "id": "g_paint",
+          "fg": 2485,
+          "bg": 2
+        },
+        {
+          "rotates": false,
+          "id": "p_paint",
+          "fg": 2486,
+          "bg": 2
+        },
+        {
+          "rotates": false,
+          "id": "y_paint",
+          "fg": 2487,
+          "bg": 2
+        },
+        {
+          "rotates": false,
+          "id": "r_carpet",
+          "fg": 2488,
+          "bg": 2
+        },
+        {
+          "rotates": false,
+          "id": "g_carpet",
+          "fg": 2489,
+          "bg": 2
+        },
+        {
+          "rotates": false,
+          "id": "y_carpet",
+          "fg": 2490,
+          "bg": 2
+        },
+        {
+          "rotates": false,
+          "id": "p_carpet",
+          "fg": 2491,
+          "bg": 2
+        },
+        {
+          "rotates": false,
+          "id": "chipper",
+          "fg": 2492,
+          "bg": 2
+        },
+        {
+          "rotates": false,
+          "id": "cow_bell",
+          "fg": 2493,
+          "bg": 2
+        },
+        {
+          "rotates": false,
+          "id": "bullwhip",
+          "fg": 2494,
+          "bg": 2
         }
       ],
       "ascii": [
