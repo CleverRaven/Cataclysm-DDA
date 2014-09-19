@@ -8031,16 +8031,15 @@ bool player::eat(item *eaten, it_comest *comest)
             add_msg_if_player(m_good, _("You feast upon the sweet honey."));
         add_morale(MORALE_HONEY, honey_fun, 100);
     }
-    if ((has_trait("HERBIVORE") || has_trait("RUMINANT")) &&
-            (eaten->made_of("flesh") || eaten->made_of("egg"))) {
-        if (!one_in(3)) {
+    if( (has_trait("HERBIVORE") || has_trait("RUMINANT")) &&
+        (eaten->made_of("flesh") || eaten->made_of("egg")) ) {
+        add_msg_if_player(m_bad, _("Your stomach immediately revolts, you can't keep this disgusting stuff down."));
+        if( !one_in(3) && (stomach_food || stomach_water) ) {
             vomit();
-        }
-        if (comest->quench >= 2) {
-            thirst += int(comest->quench / 2);
-        }
-        if (comest->nutr >= 2) {
-            hunger += int(comest->nutr * .75);
+        } else {
+            add_memorial_log(pgettext("memorial_male", "Threw up."),
+                             pgettext("memorial_female", "Threw up."));
+            add_msg( m_bad, _("You throw up everything you just ate!") );
         }
     }
     return true;
@@ -8049,7 +8048,12 @@ bool player::eat(item *eaten, it_comest *comest)
 void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
 {
     if (has_trait("THRESH_PLANT") && comest->can_use( "PLANTBLECH" )) {
-    return;
+        return;
+    }
+    if( (has_trait("HERBIVORE") || has_trait("RUMINANT")) &&
+        (eaten->made_of("flesh") || eaten->made_of("egg")) ) {
+        // No good can come of this.
+        return;
     }
     if ( !(has_trait("GIZZARD")) && (rotten) && !(has_trait("SAPROPHAGE")) ) {
         hunger -= rng(0, comest->nutr);
