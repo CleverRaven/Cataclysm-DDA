@@ -379,7 +379,8 @@
         "contains": 2,
         "flags": ["RIGID", "SEALS", "WATERTIGHT"],
         "qualities": [["CONTAIN", 1]]
-    },{
+    },
+	{
         "id": "jar_3l_glass",
         "type": "CONTAINER",
         "symbol": ")",
@@ -540,5 +541,23 @@
         "material": "cotton",
         "contains": 4,
 		"flags": [ "SEALS" ]
+    },
+    {
+        "id": "bottle_plastic_small",
+        "type": "CONTAINER",
+        "symbol": ")",
+        "color": "white",
+        "name": "small plastic bottle",
+        "category": "other",
+        "description": "A resealable plastic bottle, holds 250 ml of liquid.",
+        "price": 0,
+        "weight": 8,
+        "volume": 1,
+        "bashing": -1,
+        "cutting": 0,
+        "to_hit": 1,
+        "material": "plastic",
+        "contains": 1,
+        "flags": ["RIGID", "WATERTIGHT", "SEALS"]
     }
 ]

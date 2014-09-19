@@ -378,7 +378,8 @@
       [ "can_drink", 1 ],
       [ "can_food", 1 ],
       [ "bottle_glass", 1 ],
-      [ "bottle_plastic", 1 ]
+      [ "bottle_plastic", 1 ],
+      [ "bottle_plastic_small", 1 ]
     ],
     [
       [ "cable", 10 ]
@@ -684,7 +685,8 @@
     ],
     [
       [ "bottle_glass", 2 ],
-      [ "bottle_plastic", 5 ]
+      [ "bottle_plastic", 5 ],
+      [ "bottle_plastic_small", 10 ]
     ],
     [
       [ "hose", 1 ]

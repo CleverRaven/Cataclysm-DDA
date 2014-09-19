@@ -287,6 +287,7 @@
       [ "duct_tape", 40 ],
       [ "bag_plastic", 1 ],
       [ "bottle_plastic", 1 ],
+      [ "bottle_plastic_small", 1 ],
       [ "box_small", 1 ],
       [ "plastic_chunk", 1 ]
     ]
