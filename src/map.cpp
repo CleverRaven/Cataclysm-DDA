@@ -1341,6 +1341,8 @@ bool map::has_flag_ter_and_furn(const ter_bitflags flag, const int x, const int 
 bool map::is_bashable(const int x, const int y)
 {
     if (!inbounds(x, y)) {
+        DebugLog( D_WARNING, D_MAP ) << "Looking for out-of-bounds is_bashable at "
+                                     << x << ", " << y;
         return false;
     }
 
