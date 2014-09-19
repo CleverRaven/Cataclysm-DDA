@@ -5494,14 +5494,16 @@ void player::suffer()
 
     double shoe_factor = footwear_factor();
     if( has_trait("ROOTS3") && g->m.has_flag("DIGGABLE", posx, posy) && !shoe_factor) {
-        if (one_in(25 / shoe_factor)) {
+        if (one_in(100)) {
             add_msg(m_good, _("This soil is delicious!"));
             hunger -= 2;
             thirst -= 2;
             mod_healthy_mod(10);
             // Mmm, dat soil...
-            focus_pool--;
-        } else if (one_in(20 / shoe_factor)){
+            if (one_in(int_cur)) {
+                focus_pool--;
+            }
+        } else if (one_in(50)){
             hunger--;
             thirst--;
             mod_healthy_mod(5);
