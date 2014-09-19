@@ -1,98 +1,98 @@
 [
-	{
-		"type"  : "item_group",
-		"id"    : "fast_table",
-		"items" : [
-			["cup_plastic",   60],
-			["wrapper",       60],
-			["bag_plastic",   45],
-			["rag",           10],
-			["fries",         25],
-			["cheese_fries",  15],
-			["onion_rings",   20],
-			["cheeseburger",  15],
-			["hamburger",     15],
-			["fish_sandwich", 10],
-			["cola",          15],
-			["lemonlime",     10],
-			["orangesoda",    10],
-			["crispycran",    10],
-			["rootbeer",      13],
-			["colamdew",      10],
-			["lemonade",       7]
-		]
-	},
-	{
-		"type"  : "item_group",
-		"id"    : "fast_kitchen",
-		"items" : [
-			["knife_butcher",     30],
-			["bread",             50],
-			["seasoning_salt",    50],
-			["seasoning_italian", 50],
-			["can_chicken",       30],
-			["sugar",             40],
-			["flour",             40],
-			["curry_powder",      40],
-			["cornmeal",          52]
-		]
-	},
-	{
-		"type"  : "item_group",
-		"id"    : "fast_trash",
-		"items" : [
-			["cup_plastic",      50],
-			["wrapper",          50],
-			["bag_plastic",      50],
-			["rag",              50],
-			["syringe",           5],
-			["restaurantmap",     1],
-			["hairpin",          25],
-			["flyer",            25]
-		]
-	},
-	{
-		"type"  : "item_group",
-		"id"    : "fast_fridge",
-		"items" : [
-			["hotdogs_frozen", 30],
-			["cheese",         60],
-			["fries",          40],
-			["can_chicken",    40],
-			["can_spam",       40],
-			["lettuce",        50],
-			["irradiated_lettuce", 10],
-			["tomato",         50],
-			["irradiated_tomato",  10],
-			["onion",          50],
-			["irradiated_onion",   10]
-		]
-	},
-	{
-		"type"  : "item_group",
-		"id"    : "fast_bath",
-		"items" : [
-			["hairpin",      10],
-			["briefs",       10],
-			["tieclip",      10]
-		]
-	},
-	{
-		"type"  : "item_group",
-		"id"    : "fast_locker",
-		"items" : [
-			["hat_ball",        30],
-			["knife_steak",     20],
-			["sm_extinguisher", 40],
-			["towel",           40],
-			["soap",            30],
-			["rag",             30],
-			["bleach",          30],
-			["vinegar",         30],
-			["backpack",         5]
-		]
-	},
-	{
+    {
+        "type"  : "item_group",
+        "id"    : "fast_table",
+        "items" : [
+            ["cup_plastic",   60],
+            ["wrapper",       60],
+            ["bag_plastic",   45],
+            ["rag",           10],
+            ["fries",         25],
+            ["cheese_fries",  15],
+            ["onion_rings",   20],
+            ["cheeseburger",  15],
+            ["hamburger",     15],
+            ["fish_sandwich", 10],
+            ["cola",          15],
+            ["lemonlime",     10],
+            ["orangesoda",    10],
+            ["crispycran",    10],
+            ["rootbeer",      13],
+            ["colamdew",      10],
+            ["lemonade",       7]
+        ]
+    },
+    {
+        "type"  : "item_group",
+        "id"    : "fast_kitchen",
+        "items" : [
+            ["knife_butcher",     30],
+            ["bread",             50],
+            ["seasoning_salt",    50],
+            ["seasoning_italian", 50],
+            ["can_chicken",       30],
+            ["sugar",             40],
+            ["flour",             40],
+            ["curry_powder",      40],
+            ["cornmeal",          52]
+        ]
+    },
+    {
+        "type"  : "item_group",
+        "id"    : "fast_trash",
+        "items" : [
+            ["cup_plastic",      50],
+            ["wrapper",          50],
+            ["bag_plastic",      50],
+            ["rag",              50],
+            ["syringe",           5],
+            ["restaurantmap",     1],
+            ["hairpin",          25],
+            ["flyer",            25]
+        ]
+    },
+    {
+        "type"  : "item_group",
+        "id"    : "fast_fridge",
+        "items" : [
+            ["hotdogs_frozen", 30],
+            ["cheese",         60],
+            ["fries",          40],
+            ["can_chicken",    40],
+            ["can_spam",       40],
+            ["lettuce",        50],
+            ["irradiated_lettuce", 10],
+            ["tomato",         50],
+            ["irradiated_tomato",  10],
+            ["onion",          50],
+            ["irradiated_onion",   10]
+        ]
+    },
+    {
+        "type"  : "item_group",
+        "id"    : "fast_bath",
+        "items" : [
+            ["hairpin",      10],
+            ["briefs",       10],
+            ["tieclip",      10]
+        ]
+    },
+    {
+        "type"  : "item_group",
+        "id"    : "fast_locker",
+        "items" : [
+            ["hat_ball",        30],
+            ["knife_steak",     20],
+            ["sm_extinguisher", 40],
+            ["towel",           40],
+            ["soap",            30],
+            ["rag",             30],
+            ["bleach",          30],
+            ["vinegar",         30],
+            ["backpack",         5]
+        ]
+    },
+    {
     "type" : "mapgen",
     "om_terrain" : ["s_restaurant_fast"],
     "method": "json",
