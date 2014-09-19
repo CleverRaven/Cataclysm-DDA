@@ -1703,7 +1703,7 @@
         "post_special" : "done_vehicle"
     },{
     	"type" : "construction",
-        "description" : "Build Barricade", 
+        "description" : "Build Road Barricade", 
         "category" : "OTHER",
         "difficulty" : 0,
         "time" : 10,
