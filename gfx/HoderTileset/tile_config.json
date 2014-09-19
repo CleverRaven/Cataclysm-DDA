@@ -191,14 +191,13 @@
             "rotates":false
         },
         {
-            "id":"t_rubble",
-            "bg":2,
+            "id":"f_rubble",
             "fg":83,
             "rotates":false
         },
         {
-            "id":"t_ash",
-            "fg":74,
+            "id":"f_ash",
+            "fg":73,
             "rotates":false
         },
         {
@@ -208,9 +207,8 @@
             "rotates":false
         },
         {
-            "id":"t_wreckage",
+            "id":"f_wreckage",
             "fg":84,
-            "bg":2,
             "rotates":false
         },
         {
@@ -12815,6 +12813,31 @@
          "bg" : 193,
          "rotates" : false,
          "multitile" : false
-      }
+      },
+        {
+          "rotates": false,
+          "id": "fd_hot_air1",
+          "fg": 194
+        },
+        {
+          "rotates": false,
+          "id": "fd_hot_air2",
+          "fg": 194
+        },
+        {
+          "rotates": false,
+          "id": "fd_hot_air3",
+          "fg": 194
+        },
+        {
+          "rotates": false,
+          "id": "fd_hot_air4",
+          "fg": 194
+        },
+        {
+          "rotates": false,
+          "id": "fd_spotlight",
+          "fg": 194
+        }
     ]
 }
