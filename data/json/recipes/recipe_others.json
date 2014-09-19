@@ -2900,7 +2900,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "bottle_plastic",
+  "result": "bottle_plastic_small",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_CONTAINERS",
   "skill_used": "fabrication",
