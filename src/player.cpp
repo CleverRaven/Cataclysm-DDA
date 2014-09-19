@@ -5499,8 +5499,9 @@ void player::suffer()
             hunger -= 2;
             thirst -= 2;
             mod_healthy_mod(10);
-            // Mmm, dat soil...
-            if (one_in(int_cur)) {
+            // No losing oneself in the fertile embrace of rich
+            // New England loam.  But it can be a near thing.
+            if ( (one_in(int_cur)) && (focus_pool >= 25) ) {
                 focus_pool--;
             }
         } else if (one_in(50)){
