@@ -234,6 +234,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```CBM_POWER``` May produce a power CBM when butchered, independent of CBM.
 - ```CBM_SCI``` May produce a cbm or two from bionics_sci when butchered.
 - ```CBM_OP``` May produce a cbm or two from bionics_op when butchered.
+- ```FISH``` That's a fish. Consequently it is fishable.
 
 ### Special attacks
 Some special attacks are also valid use actions for tools and weapons.

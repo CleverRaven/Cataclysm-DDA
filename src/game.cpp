@@ -5982,13 +5982,10 @@ std::vector<monster> game::get_fishable(int distance)
         monster &critter = critter_tracker.find(i);
 
         if (critter.has_flag(MF_FISH)) {
-            continue;
-        }
-
-        int mondist = rl_dist(u.posx, u.posy, critter.posx(), critter.posy());
-        
-        if (mondist <= distance) {
+            int mondist = rl_dist(u.posx, u.posy, critter.posx(), critter.posy());
+            if (mondist <= distance) {
             unique_fish.push_back (critter);
+            }
         }
     }
 
