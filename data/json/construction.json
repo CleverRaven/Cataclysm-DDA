@@ -1701,5 +1701,22 @@
         ],
         "pre_special" : "check_empty",
         "post_special" : "done_vehicle"
+    },{
+    	"type" : "construction",
+        "description" : "Build Barricade", 
+        "category" : "OTHER",
+        "difficulty" : 0,
+        "time" : 10,
+        "qualities": [ [
+            { "id": "HAMMER", "level": 1 }
+        ] ],
+        "components" : [
+            [
+            [ [ "2x4", 6 ] ],
+            [ [ "nail", 12 ] ]
+            ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_barricade_road"
     }
 ]
