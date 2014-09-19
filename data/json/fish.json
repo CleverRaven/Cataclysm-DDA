@@ -546,7 +546,7 @@
   {
     "type" : "MONSTER",
     "id" : "mon_mutant_salmon",
-    "name": "Zalmon",
+    "name": "Mutant Salmon",
     "species":"ZOMBIE",
     "symbol":"S",
     "color":"white_magenta",

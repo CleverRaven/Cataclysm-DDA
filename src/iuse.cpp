@@ -17,6 +17,7 @@
 #include "overmapbuffer.h"
 #include "json.h"
 #include "messages.h"
+#include <vector>
 #include <sstream>
 #include <algorithm>
 
@@ -2815,12 +2816,11 @@ int iuse::fish_trap(player *p, item *it, bool t)
             return 0;
         }
 
-        //after 30 min.
-        if (calendar::turn - it->bday > 300) {
+        //after 3 hours.
+        if (calendar::turn - it->bday > 1800) {
             it->active = false;
 
             point pos = g->find_item(it);
-//here to get the fishes nearby... in a struct?
             if (!g->m.has_flag("FISHABLE", pos.x, pos.y)) {
                 return 0;
             }
@@ -2828,7 +2828,7 @@ int iuse::fish_trap(player *p, item *it, bool t)
             if (!otermap[overmap_buffer.ter(op.x, op.y, g->levz)].is_river) {
                 return 0;
             }
-
+            std::vector<monster> fishables = g->get_fishable(60); //get the nearby fish list.
             int success = -50;
             const int surv = p->skillLevel("survival");
             const int attempts = rng(it->charges, it->charges * it->charges);
@@ -2862,16 +2862,32 @@ int iuse::fish_trap(player *p, item *it, bool t)
 
             for (int i = 0; i < fishes; i++) {
                 p->practice("survival", rng(3, 10));
-
-                item fish;
-                std::vector<std::string> fish_group = MonsterGroupManager::GetMonstersFromGroup("GROUP_FISH");
-                std::string fish_mon = fish_group[rng(1, fish_group.size()) - 1];
-                fish.make_corpse("corpse", GetMType(fish_mon), it->bday + 300);
-                //Yes, we can put fishes in the trap like knives in the boot,
-                //and then get fishes via activation of the item,
-                //but it's not as comfortable as if you just put fishes in the same tile with the trap.
-                //Also: corpses and comestibles not rot in containers like this, but on the ground will rot.
-                g->m.add_item_or_charges(pos.x, pos.y, fish);
+                //there will always be a small chance that the player will get lucky and
+                //a wandering fish will also get caught even if not enough fishes are present. lets say it is a 5% chance.
+                if (fishables.size() < 1){
+                    if (one_in(20)) {
+                    item fish;
+                    std::vector<std::string> fish_group = MonsterGroupManager::GetMonstersFromGroup("GROUP_FISH");
+                    std::string fish_mon = fish_group[rng(1, fish_group.size()) - 1];
+                    fish.make_corpse("corpse", GetMType(fish_mon), it->bday + rng(0, 1800)); //bday will be handled later
+                    //Yes, we can put fishes in the trap like knives in the boot,
+                    //and then get fishes via activation of the item,
+                    //but it's not as comfortable as if you just put fishes in the same tile with the trap.
+                    //Also: corpses and comestibles not rot in containers like this, but on the ground will rot.
+                    g->m.add_item_or_charges(pos.x, pos.y, fish);
+                    }
+                    else {
+                        return 0;
+                    }
+                }
+                //TODO: in deep water the fish trap should get more chances for the better fish.. so some fish should have DEEP_WATER flag maybe
+                //get a random fish from the vector
+                int index = rng(1, fishables.size()) - 1;
+                //move the fished to the trap's tile and kill it.
+                fishables[index].spawn(pos.x, pos.y);
+                fishables[index].die( p );
+                fishables.erase (fishables.begin()+index);
+                //TODO implement another way of spawning the item, so that we can apply some time passed to its corpse for rotting purposes
             }
         }
         return 0;
@@ -2917,7 +2933,7 @@ int iuse::fish_trap(player *p, item *it, bool t)
         g->m.add_item_or_charges(dirx, diry, *it);
         p->i_rem(it);
 
-        p->add_msg_if_player(m_info, _("You place the fish trap, in a half hour or so you might have some fish."));
+        p->add_msg_if_player(m_info, _("You place the fish trap, in three hours or so you may have some fish."));
 
         return 0;
     }

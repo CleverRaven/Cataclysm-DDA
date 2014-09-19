@@ -122,7 +122,8 @@ enum m_flag {
     MF_CBM_OP,              // May produce a bionic from bionics_op when butchered, and the power storage is mk 2.
     MF_CBM_TECH,            // May produce a bionic from bionics_tech when butchered.
     MF_CBM_SUBS,            // May produce a bionic from bionics_subs when butchered.
-    MF_MAX                  // Sets the length of the flags - obviously must be LAST
+    MF_MAX,                 // Sets the length of the flags - obviously must be LAST
+    MF_FISH                 // Its fishable.
 };
 
 struct mtype {
