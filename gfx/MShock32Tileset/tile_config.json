@@ -12099,22 +12099,26 @@
         {
           "rotates": false,
           "id": "t_card_military",
-          "fg": 1894
+          "fg": 1894,
+          "bg": 1471
         },
         {
           "rotates": false,
           "id": "t_card_reader_broken",
-          "fg": 1895
+          "fg": 1895,
+          "bg": 1471
         },
         {
           "rotates": false,
           "id": "t_card_science",
-          "fg": 1894
+          "fg": 1894,
+          "bg": 1471
         },
         {
           "rotates": false,
           "id": "t_centrifuge",
-          "fg": 1474
+          "fg": 1474,
+          "bg": 1471
         },
         {
           "rotates": false,
