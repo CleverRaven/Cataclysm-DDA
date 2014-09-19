@@ -5636,6 +5636,7 @@
     "id" : "mil_hw",
     "items":[
       ["flamethrower", 20],
+      ["rm451_flamethrower", 5],
       ["m249", 30],
       ["m4a1", 30],
       ["m9", 30],
@@ -7042,6 +7043,7 @@
       ["hk_g80", 2],
       ["12mm", 2],
       ["flamethrower", 1],
+      ["rm451_flamethrower", 1],
       ["binoculars", 20],
       ["masterkey", 2],
       ["rm121aux", 1],

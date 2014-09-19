@@ -467,6 +467,8 @@ void player::fire_gun(int tarx, int tary, bool burst)
             used_weapon->charges -= 100;
         } else if (used_weapon->has_flag("FIRE_50")) {
             used_weapon->charges -= 50;
+        } else if (used_weapon->has_flag("FIRE_20")) {
+            used_weapon->charges -= 20;
         } else if (used_weapon->has_flag("CHARGE")) {
             used_weapon->active = false;
             used_weapon->charges = 0;
