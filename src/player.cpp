@@ -7781,8 +7781,11 @@ bool player::eat(item *eaten, it_comest *comest)
         !query_yn(_("Really eat that %s? It smells completely unappealing."), eaten->tname().c_str()) ) {
         return false;
     }
+    // Check for eating/Food is so water and other basic liquids that do not rot don't cause problems.
+    // I'm OK with letting plants drink coffee. (Whether it would count as cannibalism is another story.)
     if ((has_trait("SAPROPHAGE") && (!spoiled) && (!has_bionic("bio_digestion")) && !is_npc() &&
-        !query_yn(_("Really eat that %s? Your stomach won't be happy."), eaten->tname().c_str()))) {
+      (eaten->has_flag("USE_EAT_VERB") || comest->comesttype == "FOOD") &&
+      !query_yn(_("Really eat that %s? Your stomach won't be happy."), eaten->tname().c_str()))) {
         //~ No, we don't eat "rotten" food. We eat properly aged food, like a normal person.
         //~ Semantic difference, but greatly facilitates people being proud of their character.
         add_msg_if_player(m_info,  _("It's too fresh, let it age a little first.  "));
@@ -8018,7 +8021,9 @@ bool player::eat(item *eaten, it_comest *comest)
         add_msg_if_player(m_bad, _("Your stomach begins gurgling and you feel bloated and ill."));
         add_morale(MORALE_NO_DIGEST, -25, -125, 300, 240);
     }
-    if (has_trait("SAPROPHAGE") && !(spoiled)) {
+    if (has_trait("SAPROPHAGE") && !(spoiled) && (eaten->has_flag("USE_EAT_VERB") ||
+    comest->comesttype == "FOOD")) {
+    // It's OK to *drink* things that haven't rotted.  Alternative is to ban water.  D:
         add_msg_if_player(m_bad, _("Your stomach begins gurgling and you feel bloated and ill."));
         add_morale(MORALE_NO_DIGEST, -75, -400, 300, 240);
     }
