@@ -2283,7 +2283,8 @@
   "components": [
     [
       [ "bag_plastic", 2 ],
-      [ "bottle_plastic", 1 ]
+      [ "bottle_plastic", 1 ],
+      [ "bottle_plastic_small", 2 ]
     ],
     [
       [ "rag", 2 ],
@@ -2314,7 +2315,8 @@
       [ "string_6", 2 ]
     ],
     [
-      [ "bottle_plastic", 1 ]
+      [ "bottle_plastic", 1 ],
+      [ "bottle_plastic_small", 2 ]
     ]
   ]
 },{
@@ -6059,7 +6061,8 @@
     [
       [ "plastic_chunk", 10],
       [ "bottle_plastic", 5],
-      [ "jug_plastic", 2]
+      [ "bottle_plastic_small", 10],
+      [ "jug_plastic", 1]
     ]
   ]
 },{
@@ -6097,7 +6100,8 @@
     [
       [ "plastic_chunk", 10],
       [ "bottle_plastic", 5],
-      [ "jug_plastic", 2]
+      [ "bottle_plastic_small", 10],
+      [ "jug_plastic", 1]
     ]
   ]
 },{

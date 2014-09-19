@@ -930,7 +930,8 @@
   "components": [
     [
       [ "jug_plastic", 1 ],
-      [ "bottle_plastic", 3 ]
+      [ "bottle_plastic", 3 ],
+      [ "bottle_plastic_small", 6 ]
     ]
   ]
 },{
@@ -2738,7 +2739,8 @@
       [ "duct_tape", 10 ]
     ],
     [
-      [ "bottle_plastic", 5 ]
+      [ "bottle_plastic", 8 ],
+      [ "bottle_plastic_small", 16 ]
     ]
   ]
 },{
@@ -2893,7 +2895,32 @@
   ],
   "components": [
     [
-      ["plastic_chunk", 3]
+      ["plastic_chunk", 2]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "bottle_plastic_small",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_CONTAINERS",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      ["mold_plastic", -1]
+    ],
+    [
+      ["hotplate", 3],
+      ["toolset", 3],
+      ["fire", -1]
+    ]
+  ],
+  "components": [
+    [
+      ["plastic_chunk", 1]
     ]
   ]
 },{
@@ -4816,7 +4843,8 @@
   "components": [
     [
       [ "jug_plastic", 2 ],
-      [ "bottle_plastic", 10 ]
+      [ "bottle_plastic", 10 ],
+      [ "bottle_plastic_small", 20 ]
     ],
     [
       [ "string_6", 6 ],

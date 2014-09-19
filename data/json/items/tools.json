@@ -8300,7 +8300,7 @@
     "bashing": 4,
     "cutting": 0,
     "to_hit": -3,
-	  "effects": ["COOKOFF", "EXPLOSIVE"],
+    "effects": ["COOKOFF", "EXPLOSIVE"],
     "max_charges": 0,
     "initial_charges": 0,
     "charges_per_use": 0,

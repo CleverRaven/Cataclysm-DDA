@@ -226,8 +226,8 @@
                 { "item": "holybook_bible3", "x": 10, "y": 16, "chance": 2 }
             ],
             "place_groups": [
-		{ "item": "bed", "chance": 80, "x": [5,6], "y": [19,20 ]},
-		{ "item": "bed", "chance": 80, "x": [8,9], "y": [19,20 ]},
+        { "item": "bed", "chance": 80, "x": [5,6], "y": [19,20 ]},
+        { "item": "bed", "chance": 80, "x": [8,9], "y": [19,20 ]},
                 { "item": "cleaning", "chance": 80, "x": [ 7, 7 ], "y": [ 13, 13 ] },
                 { "item": "home_hw", "chance": 80, "x": [ 9, 9 ], "y": [ 13, 13 ] },
                 { "item": "traveler", "chance": 30, "x": [ 5,6 ], "y": [ 16,16 ] },
@@ -349,7 +349,7 @@
             "set": [
                 { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": 23, "repeat": [ 5, 8 ] }
             ],
-		 "add": [
+         "add": [
                 { "item": "phonebook", "x": 5, "y": 8, "chance": 2 },
                 { "item": "holybook_bible3", "x": 5, "y": 8, "chance": 2 },
                 { "item": "phonebook", "x": 5, "y": 13, "chance": 2 },
@@ -360,12 +360,12 @@
                 { "item": "holybook_bible3", "x": 18, "y": 13, "chance": 2 }
             ],
             "place_groups": [
-            	{ "item": "bed", "chance": 80, "x": [5,6 ], "y": [1,2 ]},
-            	{ "item": "bed", "chance": 80, "x": [8,9 ], "y": [1,2 ]},
-            	{ "item": "bed", "chance": 80, "x": [8,9 ], "y": [7,8 ]},
-            	{ "item": "bed", "chance": 80, "x": [7,8 ], "y": [13,14 ]},
-            	{ "item": "bed", "chance": 80, "x": [12,13 ], "y": [14,15 ]},
-            	{ "item": "bed", "chance": 80, "x": [18,19 ], "y": [15,16 ]},
+                { "item": "bed", "chance": 80, "x": [5,6 ], "y": [1,2 ]},
+                { "item": "bed", "chance": 80, "x": [8,9 ], "y": [1,2 ]},
+                { "item": "bed", "chance": 80, "x": [8,9 ], "y": [7,8 ]},
+                { "item": "bed", "chance": 80, "x": [7,8 ], "y": [13,14 ]},
+                { "item": "bed", "chance": 80, "x": [12,13 ], "y": [14,15 ]},
+                { "item": "bed", "chance": 80, "x": [18,19 ], "y": [15,16 ]},
                 { "item": "traveler", "chance": 30, "x": [ 5,6 ], "y": [ 4,4 ] },
                 { "item": "traveler", "chance": 30, "x": [ 5,6 ], "y": [ 10,10 ] },
                 { "item": "traveler", "chance": 30, "x": [ 16,16 ], "y": [ 17,18 ] },
@@ -479,7 +479,7 @@
             "set": [
                 { "point": "terrain", "id": "t_dirt", "x": [ 0,23 ], "y": 23, "repeat": [ 5, 10 ] }
             ],
-		 "add": [
+         "add": [
                 { "item": "phonebook", "x": 4, "y": 13, "chance": 2 },
                 { "item": "holybook_bible3", "x": 4, "y": 13, "chance": 2 },
                 { "item": "phonebook", "x": 10, "y": 13, "chance": 2 },
