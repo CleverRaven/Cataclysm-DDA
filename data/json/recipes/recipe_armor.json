@@ -1324,7 +1324,7 @@
         "type" : "recipe",
   "result": "sleeveless_trenchcoat",
   "id_suffix": "from_trenchcoat",
-  "byproduct": { "id" : "rag", "amount" : 2 },
+  "byproducts": { "id" : "rag", "amount" : 2 },
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
@@ -1437,7 +1437,7 @@
         "type" : "recipe",
   "result": "sleeveless_trenchcoat_fur",
   "id_suffix": "from_trenchcoat_fur",
-  "byproduct": { "id" : "fur", "amount" : 2 },
+  "byproducts": { "id" : "fur", "amount" : 2 },
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
@@ -1506,7 +1506,7 @@
         "type" : "recipe",
   "result": "sleeveless_trenchcoat_leather",
   "id_suffix": "from_trenchcoat_leather",
-  "byproduct": { "id" : "leather", "amount" : 4 },
+  "byproducts": { "id" : "leather", "amount" : 4 },
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
@@ -3449,6 +3449,29 @@
   ]
 },{
         "type" : "recipe",
+  "result": "down_blanket",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_OTHER",
+  "skill_used": "tailor",
+  "difficulty": 1,
+  "time": 85000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 20 ],
+      [ "needle_wood", 20 ],
+      [ "sewing_kit", 20 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 35 ],
+      [ "feather", 8]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "fur_blanket",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_OTHER",
@@ -3940,7 +3963,7 @@
         "type" : "recipe",
   "result": "sleeveless_trenchcoat_survivor",
   "id_suffix": "from_trenchcoat_survivor",
-  "byproduct": { "id" : "rag", "amount" : 4 },
+  "byproducts": { "id" : "rag", "amount" : 4 },
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",

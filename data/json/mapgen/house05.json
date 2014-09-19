@@ -7,8 +7,8 @@
         "method": "json",
         "weight": 300, "comment": "<--- low weight due to low randomness, remove when house mapgen pool is big",
         "object": {
-            "rows":
-                  [".DDD....................",
+            "rows":[
+                ".DDD....................",
                 ".|---------22----33----.",
                 ".|  H    |A   |       |.",
                 ".|      7|;  8| 7     |.",
@@ -98,6 +98,8 @@
                     ],
                         "comment": "randomly picked from a group ---v",
             "place_groups": [
+                { "item": "bed", "chance": 80,  "x": [2,3 ], "y": [18,19 ] },
+                { "item": "bed", "chance": 80,  "x": [12,13 ], "y": [18,19 ] },
                 { "item": "livingroom", "chance": 30,  "x": [ 1,8 ], "y": [ 2,10 ] },
                 { "item": "livingroom", "chance": 70,  "x": [ 1,21 ], "y": [ 12,15 ] },
                 { "item": "bedroom", "chance": 60,  "x": [ 1,10 ], "y": [ 17,21 ] },

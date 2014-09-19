@@ -311,9 +311,9 @@ void Pickup::pick_one_up( const point &pickup_target, std::vector<item> &here, v
         picked_up = true;
         add_msg(m_info, _("Wielding %c - %s"), newit.invlet, newit.display_name().c_str());
     } else {
+        mapPickup[ newit.tname() ] += (newit.count_by_charges()) ? newit.charges : 1;
         newit = g->u.i_add(newit);
         picked_up = true;
-        mapPickup[ newit.tname() ] += (newit.count_by_charges()) ? newit.charges : 1;
     }
 
     if(picked_up) {

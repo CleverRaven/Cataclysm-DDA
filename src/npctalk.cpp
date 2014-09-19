@@ -3519,7 +3519,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
             mvwprintz(w_head, 3, 30,
                     (cash < 0 && (int)g->u.cash >= cash * -1) || (cash >= 0 && (int)p->cash  >= cash) ?
                     c_green : c_red, (cash >= 0 ? _("Profit $%.2f") : _("Cost $%.2f")),
-                    (double)abs(cash)/100);
+                    (double)std::abs(cash)/100);
 
             if (deal != "") {
                 mvwprintz(w_head, 3, 45, (cost < 0 ? c_ltred : c_ltgreen), deal.c_str());

@@ -3060,7 +3060,7 @@ int iuse::extinguisher(player *p, item *it, bool)
             }
             monster &critter = g->zombie( mondex );
             critter.apply_damage( p, bp_torso, rng( 20, 60 ) );
-            critter.mod_speed_bonus( -(critter.get_speed() / 2) );
+            critter.set_speed_base( critter.get_speed_base() / 2 );
         }
     }
 
@@ -5179,7 +5179,7 @@ int iuse::can_goo(player *p, item *it, bool)
         }
         g->zombie(mondex).poly(GetMType("mon_blob"));
 
-        g->zombie(mondex).set_speed_bonus( -rng(5, 25) );
+        g->zombie(mondex).set_speed_base( g->zombie(mondex).get_speed_base() - rng(5, 25) );
         g->zombie(mondex).hp = g->zombie(mondex).get_speed();
     } else {
         if (g->u_see(goox, gooy)) {
@@ -5307,8 +5307,8 @@ int iuse::granade_act(player *, item *it, bool t)
                     for (int j = -explosion_radius; j <= explosion_radius; j++) {
                         const int mon_hit = g->mon_at(pos.x + i, pos.y + j);
                         if (mon_hit != -1) {
-                            g->zombie(mon_hit).set_speed_bonus(
-                                g->zombie(mon_hit).get_speed_base() * rng_float(0.1, 2.0) );
+                            g->zombie(mon_hit).set_speed_base(
+                                g->zombie(mon_hit).get_speed_base() * rng_float(1.1, 2.0) );
                             g->zombie(mon_hit).hp *= rng_float(1.1, 2.0);
                         } else if (g->npc_at(pos.x + i, pos.y + j) != -1) {
                             int npc_hit = g->npc_at(pos.x + i, pos.y + j);
@@ -5340,8 +5340,8 @@ int iuse::granade_act(player *, item *it, bool t)
                     for (int j = -explosion_radius; j <= explosion_radius; j++) {
                         const int mon_hit = g->mon_at(pos.x + i, pos.y + j);
                         if (mon_hit != -1) {
-                            g->zombie(mon_hit).set_speed_bonus(
-                                -rng(0, g->zombie(mon_hit).get_speed_base() - 1 ) );
+                            g->zombie(mon_hit).set_speed_base(
+                                rng( 0, g->zombie(mon_hit).get_speed_base() ) );
                             g->zombie(mon_hit).hp = rng(1, g->zombie(mon_hit).hp);
                         } else if (g->npc_at(pos.x + i, pos.y + j) != -1) {
                             int npc_hit = g->npc_at(pos.x + i, pos.y + j);
@@ -5372,7 +5372,7 @@ int iuse::granade_act(player *, item *it, bool t)
                     for (int j = -explosion_radius; j <= explosion_radius; j++) {
                         const int mon_hit = g->mon_at(pos.x + i, pos.y + j);
                         if (mon_hit != -1) {
-                            g->zombie(mon_hit).set_speed_bonus( 0 );
+                            g->zombie(mon_hit).set_speed_base( g->zombie(mon_hit).type->speed );
                             g->zombie(mon_hit).hp = g->zombie(mon_hit).type->hp;
                             g->zombie(mon_hit).clear_effects();
                         } else if (g->npc_at(pos.x + i, pos.y + j) != -1) {
@@ -6273,7 +6273,7 @@ int iuse::portable_game(player *p, item *it, bool)
     if (p->has_trait("ILLITERATE")) {
         add_msg(_("You're illiterate!"));
         return 0;
-    } else if (it->charges < it->type->charges_to_use()) {
+    } else if (it->charges < 15) {
         p->add_msg_if_player(m_info, _("The %s's batteries are dead."), it->tname().c_str());
         return 0;
     } else {
@@ -8107,8 +8107,13 @@ int iuse::boots(player *p, item *it, bool)
     return it->type->charges_to_use();
 }
 
-int iuse::towel(player *p, item *it, bool)
+int iuse::towel(player *p, item *it, bool t)
 {
+    if( t ) {
+        // Continuous usage, do nothing as not initiated by the player, this is for
+        // wet towels only as they are active items.
+        return 0;
+    }
     bool towelUsed = false;
 
     // can't use an already wet towel!

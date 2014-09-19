@@ -910,12 +910,44 @@ void player::update_bodytemp()
             }
         }
         // TILES
-        // Being on fire affects temp_cur (not temp_conv): this is super dangerous for the player
+        int tile_strength = 0;
+        // Being on fire increases very intensly the convergeant temperature.
         if (has_effect("onfire")) {
-            temp_cur[i] += 250;
+            temp_conv[i] += 15000;
         }
-        if ( g->m.get_field_strength( point(posx, posy), fd_fire ) > 2 || trap_at_pos == tr_lava) {
-            temp_cur[i] += 250;
+        // Same with standing on fire.
+        tile_strength = g->m.get_field_strength(point(posx, posy), fd_fire);
+        if (tile_strength > 2 || trap_at_pos == tr_lava) {
+            temp_conv[i] += 15000;
+        }
+        // Standing in the hot air of a fire is nice.
+        tile_strength = g->m.get_field_strength(point(posx, posy), fd_hot_air1);
+        switch (tile_strength) {
+            case 3: temp_conv[i] +=  500; break;
+            case 2: temp_conv[i] +=  300; break;
+            case 1: temp_conv[i] +=  100; break;
+            default: break;
+        }
+        tile_strength = g->m.get_field_strength(point(posx, posy), fd_hot_air2);
+        switch (tile_strength) {
+            case 3: temp_conv[i] += 1000; break;
+            case 2: temp_conv[i] +=  800; break;
+            case 1: temp_conv[i] +=  300; break;
+            default: break;
+        }
+        tile_strength = g->m.get_field_strength(point(posx, posy), fd_hot_air3);
+        switch (tile_strength) {
+            case 3: temp_conv[i] += 3500; break;
+            case 2: temp_conv[i] += 2000; break;
+            case 1: temp_conv[i] +=  800; break;
+            default: break;
+        }
+        tile_strength = g->m.get_field_strength(point(posx, posy), fd_hot_air4);
+        switch (tile_strength) {
+            case 3: temp_conv[i] += 8000; break;
+            case 2: temp_conv[i] += 5000; break;
+            case 1: temp_conv[i] += 3500; break;
+            default: break;
         }
         // WEATHER
         if (g->weather == WEATHER_SUNNY && g->is_in_sunlight(posx, posy))
@@ -2309,7 +2341,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
     ctxt.register_updown();
     ctxt.register_action("NEXT_TAB", _("Cycle to next category"));
     ctxt.register_action("QUIT");
-    ctxt.register_action("CONFIRM", _("Toogle skill training"));
+    ctxt.register_action("CONFIRM", _("Toggle skill training"));
     ctxt.register_action("HELP_KEYBINDINGS");
     std::string action;
 
@@ -5076,7 +5108,7 @@ void player::add_disease(dis_type type, int duration, bool permanent,
         return;
     }
 
-    if (part !=  num_bp && hp_cur[part] == 0) {
+    if (part != num_bp && hp_cur[bodypart_to_hp_part(part)] == 0) {
         return;
     }
 
@@ -6599,71 +6631,21 @@ long player::active_item_charges(itype_id id)
 
 void player::process_active_items()
 {
-    if (weapon.is_artifact() && weapon.is_tool()) {
-        g->process_artifact(&weapon, this, true);
-    } else if (weapon.active) {
-        if (weapon.has_flag("CHARGE")) {
-            if (weapon.charges == 8) { // Maintaining charge takes less power.
-                if( use_charges_if_avail("UPS_on", 4) ) {
-                    weapon.poison++;
-                } else {
-                    weapon.poison--;
-                }
-                if ( (weapon.poison >= 3) && (one_in(20)) ) { // 3 turns leeway, then it may discharge.
-                    //~ %s is weapon name
-                    add_memorial_log(pgettext("memorial_male", "Accidental discharge of %s."),
-                                     pgettext("memorial_female", "Accidental discharge of %s."),
-                                     weapon.tname().c_str());
-                    add_msg(m_bad, _("Your %s discharges!"), weapon.tname().c_str());
-                    point target(posx + rng(-12, 12), posy + rng(-12, 12));
-                    std::vector<point> traj = line_to(posx, posy, target.x, target.y, 0);
-                    g->fire(*this, target.x, target.y, traj, false);
-                } else {
-                    add_msg(m_warning, _("Your %s beeps alarmingly."), weapon.tname().c_str());
-                }
-            } else { // We're chargin it up!
-                if ( use_charges_if_avail("UPS_on", 1 + weapon.charges) ) {
-                    weapon.poison++;
-                } else {
-                    weapon.poison--;
-                }
-
-                if (weapon.poison >= weapon.charges) {
-                    weapon.charges++;
-                    weapon.poison = 0;
-                }
-            }
-            if (weapon.poison < 0) {
-                add_msg(_("Your %s spins down."), weapon.tname().c_str());
-                weapon.charges--;
-                weapon.poison = weapon.charges - 1;
-            }
-            if (weapon.charges <= 0) {
-                weapon.active = false;
-            }
-        }
-        else if (!process_single_active_item(&weapon)) {
-            weapon = ret_null;
-        }
+    if( weapon.process( this, pos() ) ) {
+        weapon = ret_null;
     }
 
     std::vector<item *> inv_active = inv.active_items();
     for (std::vector<item *>::iterator iter = inv_active.begin(); iter != inv_active.end(); ++iter) {
         item *tmp_it = *iter;
-        if (tmp_it->is_artifact() && tmp_it->is_tool()) {
-            g->process_artifact(tmp_it, this);
-        }
-        if (!process_single_active_item(tmp_it)) {
+        if( tmp_it->process( this, pos() ) ) {
             inv.remove_item(tmp_it);
         }
     }
 
     // worn items
     for (size_t i = 0; i < worn.size(); i++) {
-        if (worn[i].is_artifact()) {
-            g->process_artifact(&(worn[i]), this);
-        }
-        if (!process_single_active_item(&worn[i])) {
+        if( worn[i].process( this, pos() ) ) {
             worn.erase(worn.begin() + i);
             i--;
         }
@@ -6717,172 +6699,6 @@ void player::process_active_items()
     if( ch_UPS_used > 0 ) {
         use_charges( "UPS_on", ch_UPS_used );
     }
-}
-
-// returns false if the item needs to be removed
-bool player::process_single_active_item(item *it)
-{
-    if (it->active ||
-        (it->is_container() && !it->contents.empty() && it->contents[0].active))
-    {
-        if (it->is_food())
-        {
-            it->calc_rot(this->pos());
-            if (it->has_flag("HOT"))
-            {
-                it->item_counter--;
-                if (it->item_counter == 0)
-                {
-                    it->item_tags.erase("HOT");
-                }
-            }
-            if (it->has_flag("COLD"))
-            {
-                it->item_counter--;
-                if (it->item_counter == 0)
-                {
-                    it->item_tags.erase("COLD");
-                }
-            }
-        }
-        else if (it->is_food_container())
-        {
-            it->contents[0].calc_rot(this->pos());
-            if (it->contents[0].has_flag("HOT"))
-            {
-                it->contents[0].item_counter--;
-                if (it->contents[0].item_counter == 0)
-                {
-                    it->contents[0].item_tags.erase("HOT");
-                }
-            }
-            if (it->contents[0].has_flag("COLD"))
-            {
-                it->contents[0].item_counter--;
-                if (it->contents[0].item_counter == 0)
-                {
-                    it->contents[0].item_tags.erase("COLD");
-                }
-            }
-        }
-        else if( it->has_flag("WET") )
-        {
-            it->item_counter--;
-            if(it->item_counter == 0)
-            {
-                const it_tool *tool = dynamic_cast<const it_tool*>(it->type);
-                if (tool != NULL && tool->revert_to != "null") {
-                    it->make(tool->revert_to);
-                }
-                it->item_tags.erase("WET");
-                if (!it->has_flag("ABSORBENT")) {
-                    it->item_tags.insert("ABSORBENT");
-                }
-                it->active = false;
-            }
-        }
-        else if( it->has_flag("LITCIG") )
-        {
-            it->item_counter--;
-            if(it->item_counter % 2 == 0) { // only puff every other turn
-                int duration = 10;
-                if (this->has_trait("TOLERANCE")) {
-                    duration = 5;
-                }
-                else if (this->has_trait("LIGHTWEIGHT")) {
-                    duration = 20;
-                }
-                add_msg_if_player( _("You take a puff of your %s."), it->tname().c_str());
-                if(it->has_flag("TOBACCO")) {
-                    this->add_disease("cig", duration);
-                    g->m.add_field(this->posx + int(rng(-1, 1)), this->posy + int(rng(-1, 1)),
-                                   fd_cigsmoke, 2);
-                } else { // weedsmoke
-                    this->add_disease("weed_high", duration / 2);
-                    g->m.add_field(this->posx + int(rng(-1, 1)), this->posy + int(rng(-1, 1)),
-                                   fd_weedsmoke, 2);
-                }
-                this->moves -= 15;
-            }
-
-            if((this->has_disease("shakes") && one_in(10)) ||
-                (this->has_trait("JITTERY") && one_in(200))) {
-                add_msg_if_player( m_bad,_("Your shaking hand causes you to drop your %s."),
-                                   it->tname().c_str());
-                g->m.add_item_or_charges(this->posx + int(rng(-1, 1)),
-                                         this->posy + int(rng(-1, 1)), this->i_rem(it), 2);
-            }
-
-            // done with cig
-            if(it->item_counter <= 0) {
-                add_msg_if_player( _("You finish your %s."), it->tname().c_str());
-                if(it->type->id == "cig_lit") {
-                    it->make("cig_butt");
-                } else if(it->type->id == "cigar_lit"){
-                    it->make("cigar_butt");
-                } else { // joint
-                    this->add_disease("weed_high", 10); // one last puff
-                    g->m.add_field(this->posx + int(rng(-1, 1)), this->posy + int(rng(-1, 1)),
-                                   fd_weedsmoke, 2);
-                    weed_msg(this);
-                    it->make("joint_roach");
-                }
-                it->active = false;
-            }
-        } else if (it->is_tool()) {
-            it_tool* tmp = dynamic_cast<it_tool*>(it->type);
-            long charges_used = 0;
-            if (tmp->turns_per_charge > 0 && int(calendar::turn) % tmp->turns_per_charge == 0) {
-                charges_used = 1;
-            }
-            if( charges_used > 0 ) {
-                if( it->has_flag( "USE_UPS" ) ) {
-		    //With the new UPS system, we'll want to use any charges built up in the tool before pulling from the UPS
-		    if (it->charges > charges_used){
-			it->charges -= charges_used;
-			charges_used = 0;
-		    }
-                    else if( use_charges_if_avail( "UPS_on", charges_used ) ) {
-                        charges_used = 0;
-                    }
-                } else if( it->charges > 0 ) {
-                    it->charges -= charges_used;
-                    charges_used = 0;
-                }
-            }
-            // charges_used is 0 when the tool did not require charges at
-            // this turn or the required charges have been consumed.
-            // Otherwise the required charges are not available, shut the
-            // tool down.
-            if( charges_used == 0 ) {
-                tmp->invoke(this, it, true);
-            } else {
-                if( it->has_flag( "USE_UPS" ) && it->charges < charges_used) {
-                    add_msg_if_player( _( "You need an active UPS to run %s!" ), it->tname().c_str() );
-                }
-                // deactivate
-                tmp->invoke( this, it, false );
-                if( tmp->revert_to == "null" ) {
-                    return false; // delete it.
-                } else {
-                    it->type = itypes[tmp->revert_to];
-                    it->active = false;
-                }
-            }
-        } else if (it->type->id == "corpse") {
-            if (it->ready_to_revive() && g->revive_corpse(posx, posy, it)) {
-                //~ %s is corpse name
-                add_memorial_log(pgettext("memorial_male", "Had a %s revive while carrying it."),
-                                 pgettext("memorial_female", "Had a %s revive while carrying it."),
-                                 it->tname().c_str());
-                add_msg_if_player( m_warning, _("Oh dear god, a corpse you're carrying has started moving!"));
-                return false;
-            }
-        } else {
-            debugmsg("%s is active, but has no known active function.", it->tname().c_str());
-        }
-    }
-    return true;
 }
 
 item player::remove_weapon()
@@ -8215,16 +8031,15 @@ bool player::eat(item *eaten, it_comest *comest)
             add_msg_if_player(m_good, _("You feast upon the sweet honey."));
         add_morale(MORALE_HONEY, honey_fun, 100);
     }
-    if ((has_trait("HERBIVORE") || has_trait("RUMINANT")) &&
-            (eaten->made_of("flesh") || eaten->made_of("egg"))) {
-        if (!one_in(3)) {
+    if( (has_trait("HERBIVORE") || has_trait("RUMINANT")) &&
+        (eaten->made_of("flesh") || eaten->made_of("egg")) ) {
+        add_msg_if_player(m_bad, _("Your stomach immediately revolts, you can't keep this disgusting stuff down."));
+        if( !one_in(3) && (stomach_food || stomach_water) ) {
             vomit();
-        }
-        if (comest->quench >= 2) {
-            thirst += int(comest->quench / 2);
-        }
-        if (comest->nutr >= 2) {
-            hunger += int(comest->nutr * .75);
+        } else {
+            add_memorial_log(pgettext("memorial_male", "Threw up."),
+                             pgettext("memorial_female", "Threw up."));
+            add_msg( m_bad, _("You throw up everything you just ate!") );
         }
     }
     return true;
@@ -8233,7 +8048,12 @@ bool player::eat(item *eaten, it_comest *comest)
 void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
 {
     if (has_trait("THRESH_PLANT") && comest->can_use( "PLANTBLECH" )) {
-    return;
+        return;
+    }
+    if( (has_trait("HERBIVORE") || has_trait("RUMINANT")) &&
+        (eaten->made_of("flesh") || eaten->made_of("egg")) ) {
+        // No good can come of this.
+        return;
     }
     if ( !(has_trait("GIZZARD")) && (rotten) && !(has_trait("SAPROPHAGE")) ) {
         hunger -= rng(0, comest->nutr);
@@ -11825,4 +11645,26 @@ void player::place_corpse()
         }
     }
     g->m.add_item_or_charges( posx, posy, body );
+}
+
+std::vector<std::string> player::get_overlay_ids() const {
+    std::vector<std::string> rval;
+
+    // first get mutations
+    for(const std::string& mutation : my_mutations) {
+        rval.push_back("mutation_"+mutation);
+    }
+
+    // next clothing
+    // TODO: worry about correct order of clothing overlays
+    for(const item& worn_item : worn) {
+        rval.push_back("worn_"+worn_item.typeId());
+    }
+
+    // last weapon
+    // TODO: might there be clothing that covers the weapon?
+    if(!weapon.is_null()) {
+        rval.push_back("wielded_"+weapon.typeId());
+    }
+    return rval;
 }

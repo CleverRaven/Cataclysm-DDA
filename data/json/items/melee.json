@@ -579,8 +579,8 @@
     {
         "type":"GENERIC",
         "id": "pinecone",
-        "symbol": "/",
-        "color": "green",
+        "symbol": ",",
+        "color": "brown",
         "name": "pinecone",
         "description": "A spiny pod from a pine tree.  Dry seeds rattle around inside when you shake it.",
         "price": 0,
@@ -1183,21 +1183,6 @@
         "bashing": 6,
         "cutting": 0,
         "to_hit": -4
-    },
-    {
-        "type":"GENERIC",
-        "id": "sheet",
-        "symbol": ";",
-        "color": "white",
-        "name": "sheet",
-        "description": "A large fabric sheet, could be used as a curtain or bedsheets; or cut up for a bunch of rags.",
-        "price": 10000,
-        "material": "cotton",
-        "weight": 771,
-        "volume": 20,
-        "bashing": 0,
-        "cutting": 0,
-        "to_hit": -1
     },
     {
         "type":"GENERIC",
@@ -3969,6 +3954,38 @@
     "volume": 0,
     "bashing": 0,
     "cutting": 0,
+    "to_hit": 0
+  },
+  {
+    "type":"GENERIC",
+    "id": "pillow",
+    "symbol": ",",
+    "color": "blue",
+    "name": "pillow",
+    "description": "A pillow to rest your head on when sleeping.",
+    "price": 1000,
+    "material": ["cotton", "null"],
+    "weight": 514,
+    "volume": 4,
+    "bashing": -8,
+    "cutting": 0,
+    "category": "spare_parts",
+    "to_hit": 0
+  },
+  {
+    "type":"GENERIC",
+    "id": "down_pillow",
+    "symbol": ",",
+    "color": "blue",
+    "name": "down-filled pillow",
+    "description": "A fluffy pillow to rest your head on when sleeping.",
+    "price": 1000,
+    "material": ["cotton", "null"],
+    "weight": 514,
+    "volume": 4,
+    "bashing": -8,
+    "cutting": 0,
+    "category": "spare_parts",
     "to_hit": 0
   }
 ]

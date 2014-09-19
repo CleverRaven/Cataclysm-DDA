@@ -11261,7 +11261,7 @@
         {
           "rotates": false,
           "id": "seed_tomato",
-          "fg": 2377,
+          "fg": 2472,
           "bg": 2
         },
         {
@@ -16807,13 +16807,13 @@
         },
         {
           "rotates": false,
-          "id": "t_pwr_sb_switchgear_l",
+          "id": "t_switchgear_l",
           "fg": 2345,
           "bg": 1471
         },
         {
           "rotates": false,
-          "id": "t_pwr_sb_switchgear_s",
+          "id": "t_switchgear_s",
           "fg": 2346,
           "bg": 1471
         },
@@ -16961,13 +16961,13 @@
         },
         {
           "rotates": false,
-          "id": "t_pwr_sb_support_s",
+          "id": "t_support_s",
           "fg": 2373,
           "bg": 1471
         },
         {
           "rotates": false,
-          "id": "t_pwr_sb_support_l",
+          "id": "t_support_l",
           "fg": 2374,
           "bg": 1471
         },
@@ -17813,6 +17813,85 @@
           "id": "chilly-p",
           "fg": 2467,
           "bg": 2
+        },
+        {
+          "rotates": false,
+          "id": "nachosc",
+          "fg": 2469,
+          "bg": 2
+        },
+        {
+          "rotates": false,
+          "id": "nachosm",
+          "fg": 2470,
+          "bg": 2
+        },
+        {
+          "rotates": false,
+          "id": "nachosmc",
+          "fg": 2471,
+          "bg": 2
+        },
+        {
+          "rotates": false,
+          "id": "datura_seed",
+          "fg": 2473,
+          "bg": 2
+        },
+        {
+          "rotates": false,
+          "id": "seed_hops",
+          "fg": 2474,
+          "bg": 2
+        },
+        {
+          "rotates": false,
+          "id": "seed_barley",
+          "fg": 2475,
+          "bg": 2
+        },
+        {
+          "rotates": false,
+          "id": "seed_sugar_beet",
+          "fg": 2476,
+          "bg": 2
+        },
+        {
+          "rotates": false,
+          "id": "seed_cotton_boll",
+          "fg": 2477,
+          "bg": 2
+        },
+        {
+          "rotates": false,
+          "id": "bolt_metal",
+          "fg": 2478,
+          "bg": 2
+        },
+        {
+          "rotates": false,
+          "id": "fd_hot_air1",
+          "fg": 0
+        },
+        {
+          "rotates": false,
+          "id": "fd_hot_air2",
+          "fg": 0
+        },
+        {
+          "rotates": false,
+          "id": "fd_hot_air3",
+          "fg": 0
+        },
+        {
+          "rotates": false,
+          "id": "fd_hot_air4",
+          "fg": 0
+        },
+        {
+          "rotates": false,
+          "id": "fd_spotlight",
+          "fg": 0
         }
       ],
       "ascii": [

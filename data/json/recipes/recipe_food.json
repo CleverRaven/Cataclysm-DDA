@@ -28,6 +28,34 @@
   ]
 },{
         "type" : "recipe",
+  "result": "salt",
+  "id_suffix": "from_salt_water",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "time": 90000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"BOIL","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 3 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 3 ],
+      [ "coffeemaker", 3],
+      [ "atomic_coffeepot", -1 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "salt_water", 8 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "meat_cooked",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -289,6 +317,7 @@
       [ "lemon", 1 ],
       [ "irradiated_lemon", 1 ],
       [ "mustard", 1 ],
+      [ "horseradish", 1 ],
       [ "pickle", 1],
       [ "veggy_pickled", 1],
       [ "vinegar", 1 ]
@@ -520,6 +549,233 @@
   ]
 },{
         "type" : "recipe",
+  "result": "sushi_rice",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "book_learn": [[ "cookbook_sushi", 2 ]],
+  "time": 10000,
+  "reversible": false,
+  "autolearn": false,
+  "qualities" : [
+    {"id":"COOK","level":2,"amount":1},
+    {"id":"CONTAIN","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "hotplate", 4 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 4 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "dry_rice", 1 ]
+    ],
+    [
+      [ "vinegar", 1 ]
+    ],
+    [
+      [ "sugar", 1 ],
+      [ "soysauce", 1 ],
+      [ "salt", 1 ],
+      [ "seasoning_salt", 5 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "onigiri",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "book_learn": [[ "cookbook_sushi", 2 ]],
+  "time": 5000,
+  "reversible": false,
+  "autolearn": false,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"CONTAIN","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "sushi_rice", 1 ]
+    ],
+    [
+      [ "lettuce", 1 ],
+      [ "irradiated_lettuce", 1],
+      [ "dandelion_cooked", 1 ],
+      [ "veggy_wild_cooked", 1 ],
+      [ "veggy_cooked", 1 ]
+    ],
+    [
+      [ "soysauce", 1 ],
+      [ "horseradish", 1 ],
+      [ "salt", 1 ],
+      [ "seasoning_salt", 5 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "sushi_veggyroll",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "book_learn": [[ "cookbook_sushi", 3 ]],
+  "time": 8000,
+  "reversible": false,
+  "autolearn": false,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"CONTAIN","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "sushi_rice", 1 ]
+    ],
+    [
+      [ "cucumber", 1 ],
+      [ "irradiated_cucumber", 1],
+      [ "carrot", 1],
+      [ "irradiated_carrot", 1],
+      [ "celery", 1],
+      [ "irradiated_celery", 1],
+      [ "veggy_wild", 1 ],
+      [ "veggy", 1 ],
+      [ "rehydrated_veggy", 1 ]
+    ],
+    [
+      [ "lettuce", 1 ],
+      [ "irradiated_lettuce", 1],
+      [ "dandelion_cooked", 1 ],
+      [ "veggy_wild_cooked", 1 ],
+      [ "veggy_cooked", 1 ]
+    ],
+    [
+      [ "soysauce", 1 ],
+      [ "horseradish", 1 ],
+      [ "salt", 1 ],
+      [ "seasoning_salt", 5 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "sushi_fishroll",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "book_learn": [[ "cookbook_sushi", 3 ]],
+  "time": 6000,
+  "reversible": false,
+  "autolearn": false,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"CONTAIN","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "sushi_rice", 1 ]
+    ],
+    [
+      [ "fish", 1 ]
+    ],
+    [
+      [ "lettuce", 1 ],
+      [ "irradiated_lettuce", 1],
+      [ "dandelion_cooked", 1 ],
+      [ "veggy_wild_cooked", 1 ],
+      [ "veggy_cooked", 1 ]
+    ],
+    [
+      [ "soysauce", 1 ],
+      [ "horseradish", 1 ],
+      [ "salt", 1 ],
+      [ "seasoning_salt", 5 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "sushi_meatroll",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "book_learn": [[ "cookbook_sushi", 3 ]],
+  "time": 6000,
+  "reversible": false,
+  "autolearn": false,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"CONTAIN","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "sushi_rice", 1 ]
+    ],
+    [
+      [ "meat", 1 ]
+    ],
+    [
+      [ "lettuce", 1 ],
+      [ "irradiated_lettuce", 1],
+      [ "dandelion_cooked", 1 ],
+      [ "veggy_wild_cooked", 1 ],
+      [ "veggy_cooked", 1 ]
+    ],
+    [
+      [ "soysauce", 1 ],
+      [ "horseradish", 1 ],
+      [ "salt", 1 ],
+      [ "seasoning_salt", 5 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "sashimi",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "book_learn": [[ "cookbook_sushi", 4 ]],
+  "time": 9000,
+  "reversible": false,
+  "autolearn": false,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"CONTAIN","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "fish", 2 ]
+    ],
+    [
+      [ "cucumber", 1 ],
+      [ "irradiated_cucumber", 1],
+      [ "carrot", 1],
+      [ "irradiated_carrot", 1],
+      [ "celery", 1],
+      [ "irradiated_celery", 1],
+      [ "veggy_wild", 1 ],
+      [ "veggy", 1 ],
+      [ "rehydrated_veggy", 1 ]
+    ],
+    [
+      [ "soysauce", 1 ],
+      [ "horseradish", 1 ],
+      [ "salt", 1 ],
+      [ "seasoning_salt", 5 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "protein_powder",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
@@ -745,6 +1001,7 @@
     ],
     [
       [ "salt", 1 ],
+      [ "soysauce", 1 ],
       [ "seasoning_italian", 10 ],
       [ "wild_herbs", 10 ],
       [ "seasoning_salt", 10 ],
@@ -778,6 +1035,7 @@
     ],
     [
       [ "salt", 1 ],
+      [ "soysauce", 1 ],
       [ "seasoning_italian", 10 ],
       [ "wild_herbs", 10 ],
       [ "seasoning_salt", 10 ]
@@ -811,6 +1069,7 @@
     ],
     [
       [ "salt", 1 ],
+      [ "soysauce", 1 ],
       [ "seasoning_italian", 10 ],
       [ "wild_herbs", 10 ],
       [ "seasoning_salt", 10 ]
@@ -901,6 +1160,7 @@
     ],
     [
       [ "salt", 1 ],
+      [ "soysauce", 1 ],
       [ "seasoning_italian", 10 ],
       [ "wild_herbs", 10 ],
       [ "seasoning_salt", 10 ],
@@ -2454,6 +2714,7 @@
     [
       [ "salt_water", 1 ],
       [ "salt", 1 ],
+      [ "soysauce", 1 ],
       [ "seasoning_salt", 5 ],
       [ "pepper", 10 ]
     ],
@@ -2483,6 +2744,7 @@
     [
       [ "salt_water", 1 ],
       [ "salt", 1 ],
+      [ "soysauce", 1 ],
       [ "seasoning_salt", 5 ],
       [ "pepper", 10 ]
     ],
@@ -2513,6 +2775,7 @@
     [
       [ "salt_water", 1 ],
       [ "salt", 1 ],
+      [ "soysauce", 1 ],
       [ "seasoning_salt", 5 ],
       [ "pepper", 10 ]
     ],
@@ -2654,6 +2917,7 @@
       [ "seasoning_italian", 15 ],
       [ "wild_herbs", 15 ],
       [ "seasoning_salt", 15 ],
+      [ "soysauce", 2 ],
       [ "pepper", 20 ],
       [ "powder_eggs", 5 ],
       [ "egg_bird", 1 ],
@@ -3115,6 +3379,7 @@
     ],
     [
       [ "salt", 1 ],
+      [ "soysauce", 1 ],
       [ "seasoning_salt", 10 ]
     ],
     [
@@ -3506,6 +3771,7 @@
     ],
     [
       [ "salt", 1 ],
+      [ "soysauce", 1 ],
       [ "seasoning_salt", 5 ],
       [ "pepper", 10 ]
     ],
@@ -3555,6 +3821,7 @@
     ],
     [
       [ "salt", 1 ],
+      [ "soysauce", 1 ],
       [ "seasoning_salt", 5 ],
       [ "pepper", 10 ]
     ],
@@ -6535,7 +6802,7 @@
       [ "tomato", 1]
     ],
     [
-      [ "ketchup", 1 ], [ "mustard", 1], [ "mayonnaise", 1], [ "bacon", 1 ], [ "seasoning_salt", 15]
+      [ "ketchup", 1 ], [ "mustard", 1], [ "horseradish", 1 ], [ "mayonnaise", 1], [ "bacon", 1 ], [ "seasoning_salt", 15], [ "soysauce", 1 ]
     ]
   ]
 },{
@@ -6567,7 +6834,7 @@
       [ "tomato", 1]
     ],
     [
-      [ "ketchup", 1 ], [ "mustard", 1], [ "mayonnaise", 1], [ "bacon", 1 ], [ "seasoning_salt", 15]
+      [ "ketchup", 1 ], [ "mustard", 1], [ "horseradish", 1 ], [ "mayonnaise", 1], [ "bacon", 1 ], [ "seasoning_salt", 15], [ "soysauce", 1 ]
     ]
   ]
 },{
@@ -6643,7 +6910,7 @@
       [ "tomato", 1]
     ],
     [
-      [ "ketchup", 1 ], [ "mustard", 1], [ "mayonnaise", 1], [ "bacon", 1 ], [ "seasoning_salt", 15]
+      [ "ketchup", 1 ], [ "mustard", 1], [ "horseradish", 1 ], [ "mayonnaise", 1], [ "bacon", 1 ], [ "seasoning_salt", 15], [ "soysauce", 1 ]
     ]
   ]
 },{
@@ -6682,7 +6949,7 @@
       [ "tomato", 1]
     ],
     [
-      [ "ketchup", 1 ], [ "mustard", 1], [ "mayonnaise", 1], [ "bacon", 1 ], [ "seasoning_salt", 15 ]
+      [ "ketchup", 1 ], [ "mustard", 1], [ "horseradish", 1 ], [ "mayonnaise", 1], [ "bacon", 1 ], [ "seasoning_salt", 15 ], [ "soysauce", 1 ]
     ]
   ]
 },{
@@ -6781,7 +7048,8 @@
     ],
     [
       [ "ketchup", 4 ],
-      [ "mustard", 4]
+      [ "mustard", 4],
+      [ "horseradish", 2 ]
     ],
     [
       [ "water", 1],
@@ -6821,7 +7089,8 @@
       [ "hardtack", 8]
     ],
     [
-      [ "mustard", 4]
+      [ "mustard", 4],
+      [ "horseradish", 2 ]
     ]
   ]
 },{
@@ -6890,7 +7159,8 @@
       [ "hardtack", 8]
     ],
     [
-      [ "mustard", 4]
+      [ "mustard", 4],
+      [ "horseradish", 2 ]
     ]
   ]
 },{
@@ -6989,7 +7259,7 @@
       [ "tomato", 1]
     ],
     [
-      [ "ketchup", 1 ], [ "mustard", 1], [ "mayonnaise", 1], [ "bacon", 1 ], [ "seasoning_salt", 15 ]
+      [ "ketchup", 1 ], [ "mustard", 1], [ "horseradish", 1 ], [ "mayonnaise", 1], [ "bacon", 1 ], [ "seasoning_salt", 15 ], [ "soysauce", 1 ]
     ]
   ]
 },{
@@ -7268,7 +7538,7 @@
       [ "tomato", 1 ]
     ],
     [
-      [ "salt", 1 ], [ "salt_water", 1 ], [ "seasoning_salt", 5 ]
+      [ "salt", 1 ], [ "salt_water", 1 ], [ "seasoning_salt", 5 ], [ "soysauce", 1 ]
     ]
   ]
 },{
@@ -7689,6 +7959,7 @@
       [ "mustard", 1],
       [ "mayonnaise", 1],
       [ "seasoning_salt", 10],
+      [ "soysauce", 1 ],
       [ "pepper", 10],
       [ "vinegar", 1],
       [ "seasoning_italian", 10]

@@ -285,6 +285,34 @@ void game::init_fields()
             {_("hazy cloud"),_("fungal haze"),_("thick fungal haze")}, '.', 8,
             { c_white, c_cyan, c_cyan }, { true, true, false }, { true, true, true }, 40,
             {0,0,0}
+        },
+        
+        {
+            "fd_hot_air1",
+            {_(""),_(""),_("")}, '&', 0,
+            {c_white, c_yellow, c_red}, {true, true, true}, {false, false, false}, 500,
+            {0,0,0}
+        },
+        
+        {
+            "fd_hot_air2",
+            {_(""),_(""),_("")}, '&', 0,
+            {c_white, c_yellow, c_red}, {true, true, true}, {false, false, false}, 500,
+            {0,0,0}
+        },
+        
+        {
+            "fd_hot_air3",
+            {_(""),_(""),_("")}, '&', 0,
+            {c_white, c_yellow, c_red}, {true, true, true}, {false, false, false}, 500,
+            {0,0,0}
+        },
+        
+        {
+            "fd_hot_air4",
+            {_(""),_(""),_("")}, '&', 0,
+            {c_white, c_yellow, c_red}, {true, true, true}, {false, false, false}, 500,
+            {0,0,0}
         }
 
     };
@@ -339,21 +367,44 @@ static void spread_gas( map *m, field_entry *cur, int x, int y, field_id curtype
     }
     // Then, spread to a nearby point.
     int current_density = cur->getFieldDensity();
-    if (current_density > 1 && cur->getFieldAge() > 0 && !spread.empty()) {
+    int current_age = cur->getFieldAge();
+    if (current_density > 1 && current_age > 0 && !spread.empty()) {
         point p = spread[ rng( 0, spread.size() - 1 ) ];
         field_entry *candidate_field = m->field_at(p.x, p.y).findField( curtype );
         int candidate_density = candidate_field ? candidate_field->getFieldDensity() : 0;
-        // Nearby gas grows thicker.
+        // Nearby gas grows thicker, and ages are shared.
+        int age_fraction = 0.5 + current_age / current_density;
         if ( candidate_field ) {
             candidate_field->setFieldDensity(candidate_density + 1);
             cur->setFieldDensity(current_density - 1);
+            candidate_field->setFieldAge(candidate_field->getFieldAge() + age_fraction);
+            cur->setFieldAge(current_age - age_fraction);
         // Or, just create a new field.
         } else if ( m->add_field( p.x, p.y, curtype, 1 ) ) {
+            m->field_at(p.x, p.y).findField( curtype )->setFieldAge(age_fraction);
             cur->setFieldDensity( current_density - 1 );
+            cur->setFieldAge(current_age - age_fraction);
         }
     }
 }
 
+/*
+Function: create_hot_air
+Helper function that encapsulates the logic involved in creating hot air.
+*/
+static void create_hot_air(map *m, int x, int y, int density)
+{
+    int counter = 0;
+    while (counter < 5) {
+        int dx = rng(-1, 1);
+        int dy = rng(-1, 1);
+        if (density == 1)      m->add_field(x + dx, y + dy, fd_hot_air1, 1);
+        else if (density == 2) m->add_field(x + dx, y + dy, fd_hot_air2, 1);
+        else if (density == 3) m->add_field(x + dx, y + dy, fd_hot_air3, 1);
+        else if (density == 4) m->add_field(x + dx, y + dy, fd_hot_air4, 1);
+        counter++;
+    }
+}
 
 bool map::process_fields()
 {
@@ -890,6 +941,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 }
                             }
                         }
+                        create_hot_air( this, x, y, cur->getFieldDensity());
                     }
                     break;
 
@@ -989,6 +1041,13 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         break;
                     }
 
+                    case fd_hot_air1:
+                    case fd_hot_air2:
+                    case fd_hot_air3:
+                    case fd_hot_air4:
+                        spread_gas( this, cur, x, y, curtype, 100, 1000 );
+                        break;
+
                     case fd_gas_vent:
                         for (int i = x - 1; i <= x + 1; i++) {
                             for (int j = y - 1; j <= y + 1; j++) {
@@ -1013,6 +1072,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             cur->setFieldDensity(3);
                             continue;
                         }
+                        create_hot_air( this, x, y, cur->getFieldDensity());
                         break;
 
                     case fd_flame_burst:
@@ -1023,6 +1083,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             cur->setFieldDensity(3);
                             continue;
                         }
+                        create_hot_air( this, x, y, cur->getFieldDensity());
                         break;
 
                     case fd_electricity:
@@ -1277,6 +1338,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             }
 
                             spread_gas( this, cur, x, y, curtype, 66, 40 );
+                            create_hot_air( this, x, y, cur->getFieldDensity());
                         }
                         break;
 

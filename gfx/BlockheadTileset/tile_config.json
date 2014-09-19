@@ -242,12 +242,12 @@
             "rotates":false
         },
         {
-            "id":"t_rubble",
+            "id":"f_rubble",
             "bg":21,
             "rotates":false
         },
         {
-            "id":"t_ash",
+            "id":"f_ash",
             "bg":171,           
             "rotates":false
         },
@@ -275,40 +275,34 @@
          "multitile" : false
       }, 
         {
-            "id":"t_wreckage",
+            "id":"f_wreckage",
             "fg":2188,
             "multitile":true,
             "additional_tiles":
             [
                 {
                     "id": "center",
-                    "fg": 2189,
-                    "bg": 1
+                    "fg": 2189
                 },
                 {
                     "id": "corner",
-                    "fg": 2190,
-                    "bg": 1
+                    "fg": 2190
                 },
                 {
                     "id": "t_connection",
-                    "fg": 2191,
-                    "bg": 1
+                    "fg": 2191
                 },
                 {
                     "id": "edge",
-                    "fg": 2192,
-                    "bg": 1
+                    "fg": 2192
                 },
                 {
                     "id": "end_piece",
-                    "fg": 2193,
-                    "bg": 1
+                    "fg": 2193
                 },
                 {
                     "id": "unconnected",
-                    "fg": 2188,
-                    "bg": 1
+                    "fg": 2188
                 }
             ],
             "rotates":false
@@ -448,6 +442,12 @@
         {
             "id":"t_wall_h",
             "fg":88,
+            "rotates":false
+        },
+        {
+            "id":"t_concrete",
+            "fg":87,
+            "bg":1,
             "rotates":false
         },
         {
@@ -14577,6 +14577,31 @@
           "id": "file",
          "fg" : 912, 
          "bg" : 936
+        },
+        {
+          "rotates": false,
+          "id": "fd_hot_air1",
+          "fg": 165
+        },
+        {
+          "rotates": false,
+          "id": "fd_hot_air2",
+          "fg": 165
+        },
+        {
+          "rotates": false,
+          "id": "fd_hot_air3",
+          "fg": 165
+        },
+        {
+          "rotates": false,
+          "id": "fd_hot_air4",
+          "fg": 165
+        },
+        {
+          "rotates": false,
+          "id": "fd_spotlight",
+          "fg": 165
         }
     ]
 }

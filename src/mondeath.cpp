@@ -361,7 +361,7 @@ void mdeath::blobsplit(monster *z)
         return;
     }
     monster blob(GetMType((speed < 50 ? "mon_blob_small" : "mon_blob")));
-    blob.set_speed_bonus( speed - blob.get_speed_base() );
+    blob.set_speed_base( speed );
     // If we're tame, our kids are too
     blob.friendly = z->friendly;
     if (g->u_see(z)) {

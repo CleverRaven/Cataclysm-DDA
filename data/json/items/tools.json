@@ -6377,53 +6377,6 @@
     "revert_to": "null",
     "use_action": "DOLLCHAT"
   },
-
-  {
-    "id": "towel",
-    "type": "TOOL",
-    "symbol": ",",
-    "color": "cyan",
-    "name": "towel",
-    "description": "This is a fluffy and large towel.  It could be used to dry yourself.  Any person that can travel the length and breadth of the apocalypse, rough it, slum it, struggle against terrible odds, win through and still know where their towel is, is clearly a force to be reckoned with.",
-    "price": 4500,
-    "material": "cotton",
-    "weight": 370,
-    "volume": 2,
-    "bashing": 0,
-    "cutting": 0,
-    "to_hit": -1,
-    "max_charges": 0,
-    "initial_charges": 0,
-    "charges_per_use": 0,
-    "turns_per_charge": 5,
-    "ammo": "NULL",
-    "revert_to": "null",
-    "use_action": "TOWEL",
-    "flags": ["ABSORBENT"]
-  },
-  {
-    "id": "towel_wet",
-    "type": "TOOL",
-    "symbol": ",",
-    "color": "blue",
-    "name": "towel",
-    "description": "This is a large, sopping wet towel.  If you wait a little bit, it should dry out.  Don't panic.",
-    "price": 2000,
-    "material": "cotton",
-    "weight": 400,
-    "volume": 2,
-    "bashing": 0,
-    "cutting": 0,
-    "to_hit": -1,
-    "max_charges": 0,
-    "initial_charges": 0,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "towel",
-    "use_action": "TOWEL",
-    "flags": ["WET"]
-  },
   {
     "id": "folding_bicycle",
     "type": "TOOL",
@@ -7348,7 +7301,6 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "category" : "weapons",
     "use_action": "KNIFE",
     "qualities": [["CUT", 1], ["SAW_W", 1], ["SAW_M", 1], ["SCREW", 1], ["BUTCHER", 14]]
   },
@@ -7375,7 +7327,6 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "category" : "weapons",
     "use_action": "KNIFE",
     "qualities": [["CUT", 1], ["SAW_W", 1], ["SAW_M", 1], ["WRENCH", 1], ["SCREW", 1], ["SCREW_FINE", 1], ["BUTCHER", 10]]
   },
@@ -7832,7 +7783,7 @@
     "flags" : ["CHOP"],
     "to_hit": 1,
     "revert_to": "null",
-    "qualities": [["CUT", 1], ["BUTCHER", -4]]
+    "qualities": [["CUT", 1], ["DIG", 1], ["BUTCHER", -4]]
   },
   {
     "type":"TOOL",

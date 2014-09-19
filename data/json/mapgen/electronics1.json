@@ -6,8 +6,7 @@
             ["camera", 75],
             ["camera_pro", 25]
         ]
-    },
-    {
+    },{
         "type"  : "item_group",
         "id"    : "elecsto_lights",
         "items" : [
@@ -16,16 +15,14 @@
             ["floodlight", 10],
             ["atomic_light", 1]
         ]
-    },
-    {
+    },{
         "type"  : "item_group",
         "id"    : "elecsto_pcs",
         "items" : [
             ["eink_tablet_pc", 60],
             ["laptop", 75]
         ]
-    },
-    {
+    },{
         "type"  : "item_group",
         "id"    : "elecsto_entapl",
         "items" : [
@@ -33,8 +30,7 @@
             ["radio", 20],
             ["stereo", 40]
         ]
-    },
-    {
+    },{
         "type"  : "item_group",
         "id"    : "elecsto_persele",
         "items" : [
@@ -45,8 +41,7 @@
             ["radio_car_box", 35],
             ["vibrator", 1]
         ]
-    },
-    {
+    },{
         "type"  : "item_group",
         "id"    : "elecsto_homapl",
         "items" : [
@@ -62,8 +57,7 @@
             ["forge", 5],
             ["atomic_coffeepot", 2]
         ]
-    },
-    {
+    },{
         "type"  : "item_group",
         "id"    : "elecsto_diy",
         "items" : [
@@ -84,8 +78,7 @@
             ["superglue", 55],
             ["screwdriver", 60]
         ]
-    },
-    {
+    },{
         "type"  : "item_group",
         "id"    : "elecsto_displ",
         "items" : [
@@ -94,8 +87,7 @@
             ["stereo", 30],
             ["microwave", 40]
         ]
-    },
-    {
+    },{
         "type"  : "item_group",
         "id"    : "elecsto_books",
         "items" : [
@@ -105,8 +97,7 @@
             ["textbook_electronics", 30],
             ["radio_book", 40]
         ]
-    },
-    {
+    },{
         "type"  : "item_group",
         "id"    : "elecsto_stor",
         "items" : [
@@ -117,8 +108,7 @@
             ["software_medical", 5],
             ["software_hacking", 1]
         ]
-    },
-    {
+    },{
         "type": "mapgen",
         "om_terrain": [
           "s_electronics"

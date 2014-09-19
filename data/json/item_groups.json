@@ -423,6 +423,8 @@
       ["mayonnaise", 35],
       ["ketchup", 35],
       ["mustard", 35],
+      ["soysauce", 25],
+      ["horseradish", 15],
       ["honey_bottled", 35],
       ["honey_glassed", 35],
       ["peanutbutter", 35],
@@ -455,7 +457,8 @@
       ["soap", 10],
       ["dry_beans", 40],
       ["dry_rice", 40],
-      ["survnote", 1]
+      ["survnote", 1],
+      ["cookbook_sushi", 5]
     ]
   },{
     "type" : "item_group",
@@ -636,6 +639,15 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "bed",
+    "items":[
+      ["blanket", 60],
+      ["down_blanket", 25],
+      ["pillow", 60],
+      ["down_pillow", 25]
+    ]
+  },{
+    "type" : "item_group",
     "id" : "home_hw",
     "items":[
       ["superglue", 30],
@@ -811,7 +823,7 @@
       ["dinosuit", 4],
       ["glowstick", 60],
       ["handflare", 40],
-      ["blanket", 20],
+      ["blanket", 10],
       ["house_coat", 25],
       ["talking_doll", 65],
       ["marble", 65],
@@ -1094,6 +1106,8 @@
       ["foon", 5],
       ["ketchup", 10],
       ["mustard", 10],
+      ["soysauce", 5],
+      ["horseradish", 10],
       ["glass", 90],
       ["glass_bowl", 90],
       ["glass_plate", 90],
@@ -1281,6 +1295,8 @@
       ["foon", 10],
       ["ketchup", 60],
       ["mustard", 60],
+      ["soysauce", 45],
+      ["horseradish", 30],
       ["pickle", 40],
       ["salt", 20],
       ["pepper", 20],
@@ -1516,7 +1532,8 @@
     "items":[
       ["inhaler", 14],
       ["codeine", 15],
-      ["oxycodone", 7],
+      ["oxycodone", 4],
+      ["morphine", 4],
       ["tramadol", 11],
       ["xanax", 10],
       ["adderall", 10],
@@ -2312,6 +2329,7 @@
     "type" : "item_group",
     "id" : "trash",
     "items":[
+      ["plastic_shopping_bag", 35],
       ["iodine", 5],
       ["bum_wine", 5],
       ["meth", 2],
@@ -2484,7 +2502,8 @@
       ["weatherby_5", 6],
       ["mosin91_30", 3],
       ["mosin44", 3],
-      ["sks", 6]
+      ["sks", 6],
+      ["rm11b_sniper_rifle", 1]
     ]
   },{
     "type" : "item_group",
@@ -2597,6 +2616,7 @@
       ["v29_cheap", 8],
       ["rm51_assault_rifle", 1],
       ["rm88_battle_rifle", 1],
+      ["rm11b_sniper_rifle", 1],
       ["rm614_lmg", 1],
       ["rm2000_smg", 1],
       ["rm99_pistol", 1],
@@ -3178,6 +3198,7 @@
       ["mag_swimming", 10],
       ["mag_fabrication", 30],
       ["mag_tailor", 25],
+      ["cookbook_sushi", 15],
       ["survnote", 1]
     ]
   },{
@@ -3538,6 +3559,7 @@
     "items":[
       ["caffeine", 25],
       ["oxycodone", 4],
+      ["morphine", 4],
       ["adderall", 10],
       ["xanax", 10],
       ["adrenaline_injector", 2],
@@ -3794,6 +3816,7 @@
       ["antiparasitic", 10],
       ["survnote", 1],
       ["diazepam", 10],
+      ["stethoscope", 35],
       ["jar_3l_glass", 15]
     ]
   },{
@@ -3808,6 +3831,7 @@
     "id" : "hospital_bed",
     "items":[
       ["child_book", 5],
+      ["stethoscope", 20],
       ["tall_tales", 10],
       ["story_book", 5],
       ["novel_pulp", 16],
@@ -3840,6 +3864,9 @@
       ["aspirin", 40],
       ["vaccine_shot", 5],
       ["blanket", 50],
+      ["down_blanket", 10],
+      ["pillow", 50],
+      ["down_pillow", 15],
       ["smoxygen_tank", 10],
       ["antiparasitic", 3],
       ["diazepam", 3],
@@ -4833,6 +4860,9 @@
       ["ax", 8],
       ["heatpack", 60],
       ["blanket", 20],
+      ["down_blanket", 10],
+      ["pillow", 20],
+      ["down_pillow", 15],
       ["emer_blanket", 20],
       ["flyer", 10],
       ["gasoline_lantern", 5],
@@ -5338,7 +5368,7 @@
       ["dinosuit", 4],
       ["jedi_cloak", 4],
       ["glowstick", 60],
-      ["blanket", 20],
+      ["blanket", 10],
       ["house_coat", 25],
       ["talking_doll", 5],
       ["marble", 5],
@@ -5705,7 +5735,8 @@
       ["20x66_slug", 4],
       ["20x66_flechette", 3],
       ["waterproof_gunmod", 2],
-      ["improve_sights", 5]
+      ["improve_sights", 5],
+      ["rm11b_sniper_rifle", 1]
     ]
   },{
     "type" : "item_group",
@@ -7080,7 +7111,8 @@
       ["sheath", 13],
       ["toolbox", 1],
       ["knife_rm42", 4],
-      ["survnote", 1]
+      ["survnote", 1],
+      ["rm11b_sniper_rifle", 1]
     ]
   },{
     "type" : "item_group",
@@ -7235,7 +7267,8 @@
       ["bio_blade", 1],
       ["bot_laserturret", 2],
       ["knife_rm42", 2],
-      ["survnote", 1]
+      ["survnote", 1],
+      ["rm11b_sniper_rifle", 1]
     ]
   },{
     "type" : "item_group",
@@ -7329,7 +7362,8 @@
     "id" : "stash_drugs",
     "items":[
       ["pills_sleep", 15],
-      ["oxycodone", 7],
+      ["oxycodone", 4],
+      ["morphine", 4],
       ["xanax", 10],
       ["adderall", 10],
       ["pipe_tobacco", 2],
@@ -7370,6 +7404,7 @@
       ["cotton_ball", 50],
       ["caffeine", 25],
       ["oxycodone", 7],
+      ["morphine", 3],
       ["adderall", 10],
       ["cig", 60],
       ["tobacco", 30],
@@ -8067,6 +8102,7 @@
       ["shishkebab_off", 2],
       ["helsing", 1],
       ["tihar", 2],
+      ["bigun", 2],
       ["ashot", 4],
       ["pickaxe", 1],
       ["makeshift_machete", 4],
