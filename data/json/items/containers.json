@@ -380,7 +380,7 @@
         "flags": ["RIGID", "SEALS", "WATERTIGHT"],
         "qualities": [["CONTAIN", 1]]
     },
-	{
+    {
         "id": "jar_3l_glass",
         "type": "CONTAINER",
         "symbol": ")",
@@ -506,7 +506,7 @@
         "contains": 400,
         "flags": ["RIGID", "SEALS", "WATERTIGHT"]
     },
-	{
+    {
         "id": "bag_canvas",
         "type": "CONTAINER",
         "symbol": ")",
@@ -522,9 +522,9 @@
         "to_hit": -5,
         "material": "cotton",
         "contains": 60,
-		"flags": [ "SEALS" ]
+        "flags": [ "SEALS" ]
     },
-	{
+    {
         "id": "bag_canvas_small",
         "type": "CONTAINER",
         "symbol": ")",
@@ -540,7 +540,7 @@
         "to_hit": -5,
         "material": "cotton",
         "contains": 4,
-		"flags": [ "SEALS" ]
+        "flags": [ "SEALS" ]
     },
     {
         "id": "bottle_plastic_small",
