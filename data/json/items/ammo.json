@@ -2502,7 +2502,7 @@
         "dispersion" : 0,
         "recoil" : 0,
         "count" : 200,
-        "effects" : ["FLAME", "STREAM", "NEVER_MISFIRES"]
+        "effects" : ["FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES"]
     },
     {   "type" : "AMMO",
         "id" : "lamp_oil",

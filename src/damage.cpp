@@ -200,11 +200,11 @@ void ammo_effects(int x, int y, const std::set<std::string> &effects)
         g->flashbang(x, y);
     }
 
-    if (effects.count("FLAME")) {
+    if (!g->u.weapon.has_flag("NO_BOOM") && effects.count("FLAME")) {
         g->explosion(x, y, 4, 0, true);
     }
 
-    if (effects.count("FLARE")) {
+    if (g->u.weapon.has_flag("FLARE") || effects.count("FLARE")) {
         g->m.add_field(x, y, fd_fire, 1);
     }
 
