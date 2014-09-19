@@ -1563,7 +1563,10 @@
   "autolearn": true,
   "components": [
     [
-      [ "string_6", 6 ]
+      [ "string_6", 6 ],
+      [ "thread", 300 ],
+      [ "sinew", 300 ],
+      [ "plant_fibre", 300 ]
     ]
   ]
 },{
@@ -1574,12 +1577,13 @@
   "subcategory": "CSC_OTHER_MATERIALS",
   "skill_used": "tailor",
   "difficulty": 0,
-  "time": 5000,
+  "time": 7500,
   "reversible": true,
   "autolearn": true,
   "components": [
     [
-      [ "string_36", 6 ]
+      [ "string_36", 6 ],
+      [ "string_6", 36 ]
     ]
   ]
 },{
@@ -1609,12 +1613,14 @@
   "subcategory": "CSC_OTHER_MATERIALS",
   "skill_used": "tailor",
   "difficulty": 0,
-  "time": 5000,
+  "time": 7500,
   "reversible": true,
   "autolearn": true,
   "components": [
     [
-      [ "rope_6", 5 ]
+      [ "rope_6", 5 ],
+      [ "string_36", 30 ],
+      [ "string_6", 180 ]
     ]
   ]
 },{
