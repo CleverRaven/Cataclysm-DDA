@@ -46,7 +46,8 @@
     "type" : "item_group",
     "id" : "field",
     "items":[
-      ["rock", 40]
+      ["rock", 40],
+      ["material_sand", 30]
     ]
   },{
     "type" : "item_group",
@@ -6178,7 +6179,8 @@
       ["pickaxe", 2],
       ["rock", 40],
       ["toolbox", 5],
-      ["coal", 20]
+      ["coal", 20],
+      ["material_shrd_limestone", 40]
     ]
   },{
     "type" : "item_group",
