@@ -7,34 +7,42 @@
             ["camera", 75],
             ["camera_pro", 25]
         ]
-    },{
+    },
+    {
         "type"  : "item_group",
         "id"    : "elecsto_lights",
-        "items" : [
+        "items" :
+        [
             ["flashlight", 95],
             ["wearable_light", 65],
             ["floodlight", 10],
             ["atomic_light", 1]
         ]
-    },{
+    },
+    {
         "type"  : "item_group",
         "id"    : "elecsto_pcs",
-        "items" : [
+        "items" :
+        [
             ["eink_tablet_pc", 60],
             ["laptop", 75]
         ]
-    },{
+    },
+    {
         "type"  : "item_group",
         "id"    : "elecsto_entapl",
-        "items" : [
+        "items" :
+        [
             ["television", 50],
             ["radio", 20],
             ["stereo", 40]
         ]
-    },{
+    },
+    {
         "type"  : "item_group",
         "id"    : "elecsto_persele",
-        "items" : [
+        "items" :
+        [
             ["portable_game", 65],
             ["cell_phone", 60],
             ["mp3", 65],
@@ -42,10 +50,12 @@
             ["radio_car_box", 35],
             ["vibrator", 1]
         ]
-    },{
+    },
+    {
         "type"  : "item_group",
         "id"    : "elecsto_homapl",
-        "items" : [
+        "items" :
+        [
             ["microwave", 65],
             ["toaster", 65],
             ["mess_kit", 25],
@@ -58,10 +68,12 @@
             ["forge", 5],
             ["atomic_coffeepot", 2]
         ]
-    },{
+    },
+    {
         "type"  : "item_group",
         "id"    : "elecsto_diy",
-        "items" : [
+        "items" :
+        [
             ["cable", 95],
             ["battery", 85],
             ["scrap", 70],
@@ -79,29 +91,35 @@
             ["superglue", 55],
             ["screwdriver", 60]
         ]
-    },{
+    },
+    {
         "type"  : "item_group",
         "id"    : "elecsto_displ",
-        "items" : [
+        "items" :
+        [
             ["television", 50],
             ["eink_tablet_pc", 50],
             ["stereo", 30],
             ["microwave", 40]
         ]
-    },{
+    },
+    {
         "type"  : "item_group",
         "id"    : "elecsto_books",
-        "items" : [
+        "items" :
+        [
             ["mag_electronics", 60],
             ["manual_electronics", 50],
             ["advanced_electronics", 35],
             ["textbook_electronics", 30],
             ["radio_book", 40]
         ]
-    },{
+    },
+    {
         "type"  : "item_group",
         "id"    : "elecsto_stor",
-        "items" : [
+        "items" :
+        [
             ["usb_drive", 65],
             ["mobile_memory_card", 95],
             ["software_math", 15],
@@ -109,15 +127,19 @@
             ["software_medical", 5],
             ["software_hacking", 1]
         ]
-    },{
+    },
+    {
         "type": "mapgen",
-        "om_terrain": [
+        "om_terrain":
+        [
           "s_electronics"
         ],
         "method": "json",
         "weight": 150, "comment": "<-- It's not as valuable as the gunsmithing shops are, but it's based on the same model and should be a figurative silver mine, if not a gold mine.",
-        "object": {
-            "rows": [
+        "object":
+        {
+            "rows":
+            [
                 "zs______,______,______sz",
                 "zs______,______,______sz",
                 "zs______,______,______sz",
@@ -143,7 +165,8 @@
                 "_-W---W-________________",
                 "________________________"
             ],
-            "terrain": {
+            "terrain":
+            {
                 "_": "t_pavement",
                 ",": "t_pavement_y",
                 "s": "t_sidewalk",
@@ -177,7 +200,8 @@
                 "d": "t_pavement",
                 "z": "t_shrub"
             },
-            "furniture": {
+            "furniture":
+            {
                 "_": "f_null",
                 ",": "f_null",
                 "s": "f_null",
@@ -209,16 +233,19 @@
                 "d": "f_dumpster",
                 "z": "f_null"
             },
-            "place_specials": [
+            "place_specials":
+            [
                 { "type": "toilet", "x": 2, "y": 21 },
                 { "type": "toilet", "x": 6, "y": 21 }
             ],
-            "add": [
+            "add":
+            [
                 { "item": "television", "x": 16, "y": 14, "chance": 30},
                 { "item": "laptop",     "x": 14, "y": 15, "chance": 70},
                 { "item": "multitool",  "x": 21, "y": 17, "chance": 60}
             ],
-            "place_groups": [
+            "place_groups":
+            [
                 { "item": "fridgesnacks",    "chance": 70, "x": 21,      "y": 15,      "repeat": [1,2] },
                 { "item": "elecsto_cameras", "chance": 60, "x": [3,6],   "y": 8,       "repeat": 1 },
                 { "item": "bionics_common",  "chance": 50, "x": [9,12],  "y": 8,       "repeat": [2,3] },

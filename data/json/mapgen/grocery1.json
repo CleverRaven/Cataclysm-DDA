@@ -2,7 +2,8 @@
     {
         "type"  : "item_group",
         "id"    : "groce_bread",
-        "items" : [
+        "items" :
+        [
             ["bread", 65],
             ["cornbread", 35],
             ["brioche", 50],
@@ -10,10 +11,12 @@
             ["biscuit", 50],
             ["crackers", 40]
         ]
-    },{
+    },
+    {
         "type"  : "item_group",
         "id"    : "groce_premade",
-        "items" : [
+        "items" :
+        [
             ["blt", 50],
             ["sandwich_pbj", 50],
             ["sandwich_pbh", 20],
@@ -26,10 +29,12 @@
             ["yoghurt", 50],
             ["macaroni_cooked", 20]
         ]
-    },{
+    },
+    {
         "type"  : "item_group",
         "id"    : "groce_cereal",
-        "items" : [
+        "items" :
+        [
             ["oatmeal", 50],
             ["cereal", 65],
             ["cereal2", 55],
@@ -38,19 +43,23 @@
             ["toastem2", 25],
             ["toastem3", 20]
         ]
-    },{
+    },
+    {
         "type"  : "item_group",
         "id"    : "groce_pasta",
-        "items" : [
+        "items" :
+        [
             ["spaghetti_raw", 60],
             ["lasagne_raw", 50],
             ["macaroni_raw", 60],
             ["noodles_fast", 50]
         ]
-    },{
+    },
+    {
         "type"  : "item_group",
         "id"    : "groce_ingredient",
-        "items" : [
+        "items" :
+        [
             ["flour", 65],
             ["cornmeal", 50],
             ["yeast", 40],
@@ -60,10 +69,12 @@
             ["sugar", 60],
             ["dry_rice", 65]
         ]
-    },{
+    },
+    {
         "type"  : "item_group",
         "id"    : "groce_softdrink",
-        "items" : [
+        "items" :
+        [
             ["lemonade", 30],
             ["sports_drink", 40],
             ["energy_drink", 40],
@@ -78,10 +89,12 @@
             ["crispycran", 35],
             ["purple_drink", 50]
         ]
-    },{
+    },
+    {
         "type"  : "item_group", "comment": "might split this into two categories; condiments and seasonings, and preserves",
         "id"    : "groce_condiment",
-        "items" : [
+        "items" :
+        [
             ["mayonnaise", 40],
             ["ketchup", 60],
             ["mustard", 60],
@@ -101,45 +114,55 @@
             ["sauce_red", 40],
             ["sauce_pesto", 20]
         ]
-    },{
+    },
+    {
         "type"  : "item_group",
         "id"    : "groce_frozen",
-        "items" : [
+        "items" :
+        [
             ["frozen_dinner", 80],
             ["pizza_veggy", 50],
             ["pizza_meat", 50],
             ["frozen_burrito", 50]
         ]
-    },{
+    },
+    {
         "type"  : "item_group",
         "id"    : "groce_meat",
-        "items" : [
+        "items" :
+        [
             ["bologna", 50],
             ["sausage", 50],
             ["hotdogs_frozen", 50],
             ["lunchmeat", 60],
             ["meat", 60]
         ]
-    },{
+    },
+    {
         "type"  : "item_group",
         "id"    : "groce_dairyegg",
         "subtype": "distribution",
-        "entries" : [
+        "entries" :
+        [
             { "item": "egg_bird", "prob": 65, "count-min": 6, "count-max": 12},
             { "item": "milk", "prob": 80},
             { "item": "cheese", "prob": 60},
             { "item": "yoghurt", "prob": 40},
             { "item": "pudding", "prob": 30}
         ]
-    },{
+    },
+    {
         "type": "mapgen",
-        "om_terrain": [
+        "om_terrain":
+        [
             "s_grocery"
         ],
         "method": "json",
         "weight": 500,
-        "object": {
-            "rows": [
+        "object":
+        {
+            "rows":
+            [
                     "ssssssssssssssssssssssss",
                     "ssWWWWWWWWssssssssssssss",
                     "sswsssssssssssssssssssss",
@@ -165,7 +188,8 @@
                     "___L***+**************|_",
                     "___|------------------|_"
             ],
-            "terrain": {
+            "terrain":
+            {
                 "_": "t_pavement",
                 " ": "t_linoleum_white",
                 "-": "t_wall_h",
@@ -194,7 +218,8 @@
                 "7": "t_linoleum_white",
                 "f": "t_linoleum_white"
             },
-            "furniture": {
+            "furniture":
+            {
                 "T": "f_toilet",
                 "S": "f_sink",
                 "C": "f_crate_c",
@@ -206,11 +231,13 @@
                 "7": "f_bookcase",
                 "f": "f_glass_fridge"
             },
-            "place_specials": [
+            "place_specials":
+            [
                 { "type": "toilet", "x": 1, "y": 15 },
                 { "type": "toilet", "x": 1, "y": 17 }
             ],
-            "place_groups": [
+            "place_groups":
+            [
 				{ "vehicle": "shopping_cart", "chance": 10,  "x": 3,       "y": 2 },
 				{ "vehicle": "shopping_cart", "chance": 10,  "x": 4,       "y": 2 },
 				{ "vehicle": "shopping_cart", "chance": 10,  "x": 5,       "y": 2 },

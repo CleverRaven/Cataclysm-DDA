@@ -1,13 +1,16 @@
 [
     {
         "type": "mapgen",
-        "om_terrain": [
+        "om_terrain":
+        [
             "house"
         ],
         "method": "json",
         "weight": 300, "comment": "<--- low weight due to low randomness, remove when house mapgen pool is big",
-        "object": {
-            "rows": [
+        "object":
+        {
+            "rows":
+            [
                 ".....zSSz......SSSSSSS..",
                 "......SS.......SSSSSSS..",
                 ".....zSSz......SSSSSSS..",
@@ -33,7 +36,8 @@
                 "......-2--22-------22--.",
                 "........................"
             ],
-            "terrain": {
+            "terrain":
+            {
                 ".": "t_grass",
                 "-": "t_wall_h",
                 "1": "t_column",
@@ -73,7 +77,8 @@
                 "z": "t_shrub",
                 "4": "t_tree_pine"
             },
-            "furniture": {
+            "furniture":
+            {
                 "6": "f_table",
                 "7": "f_bookcase",
                 "8": "f_bathtub",
@@ -97,22 +102,26 @@
                 "H": "f_armchair",
                 "I": "f_indoor_plant"
             },
-            "place_specials": [
+            "place_specials":
+            [
                 { "type": "toilet", "x": 14, "y": 18 }
             ],
             "comment": "specific terrain/furniture/radiation. doing this until grass_or_dirt is supported ---v",
-            "set": [
+            "set":
+            [
                 { "point": "terrain", "id": "t_dirt", "x": 22, "y": [ 0, 11 ], "repeat": [ 2, 5 ] },
                 { "point": "terrain", "id": "t_dirt", "x": 23, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
                 { "point": "terrain", "id": "t_dirt", "x": 0, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
                 { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": 23, "repeat": [ 4, 8 ] }
             ],
             "comment": "specific things ---v",
-            "add": [
+            "add":
+            [
                 { "item": "television", "x": 4, "y": 10 }
             ],
             "comment": "randomly picked from a group ---v",
-            "place_groups": [
+            "place_groups":
+            [
                 { "item": "bedroom",    "chance": 75, "x": [18,21], "y": [18,21] },
                 { "item": "bedroom",    "chance": 50, "x": [9,12],  "y": [18,21] },
                 { "item": "dresser",    "chance": 50, "x": 18,      "y": 18 },
