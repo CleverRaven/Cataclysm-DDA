@@ -1340,6 +1340,10 @@ bool map::has_flag_ter_and_furn(const ter_bitflags flag, const int x, const int 
 /////
 bool map::is_bashable(const int x, const int y)
 {
+    if (!inbounds(x, y)) {
+        return false;
+    }
+
     if (veh_in_active_range && veh_exists_at[x][y]) {
         std::map< std::pair<int, int>, std::pair<vehicle *, int> >::const_iterator it;
         if ((it = veh_cached_parts.find( std::make_pair(x, y) )) != veh_cached_parts.end()) {
