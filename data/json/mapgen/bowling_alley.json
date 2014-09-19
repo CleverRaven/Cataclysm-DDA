@@ -120,7 +120,7 @@
                         { "point": "terrain", "id": "t_dirt", "x": [0,23], "y": 23, "repeat": [5,8] }
                     ],
                     "place_groups": [
-                        { "monster": "GROUP_PLAIN",   "chance": 1,   "x": [2,21],  "y": [9,21], },
+                        { "monster": "GROUP_PLAIN",   "chance": 1,   "x": [2,21],  "y": [9,21] },
                         { "item":    "bowling_item",  "chance": 80,  "x": [1,1],   "y": [16,18] },
                         { "item":    "bowling_balls", "chance": 80,  "x": [10,10], "y": [11,20] },
                         { "item":    "vending_food",  "chance": 70,  "x": [4,6],   "y": [8,8] },
