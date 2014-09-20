@@ -839,14 +839,23 @@ bool map::vehproceed()
     if (can_move) {
         std::vector<int> wheel_indices = veh->all_parts_with_feature("WHEEL", false);
         for (auto &w : wheel_indices) {
+            const int wheel_x = x + veh->parts[w].precalc_dx[0];
+            const int wheel_y = y + veh->parts[w].precalc_dy[0];
             if (one_in(2)) {
-                if (displace_water (x + veh->parts[w].precalc_dx[0],
-                                    y + veh->parts[w].precalc_dy[0]) && pl_ctrl) {
+                if( displace_water( wheel_x, wheel_y) && pl_ctrl ) {
                     add_msg(m_warning, _("You hear a splash!"));
                 }
             }
-            veh->handle_trap( x + veh->parts[w].precalc_dx[0],
-                              y + veh->parts[w].precalc_dy[0], w );
+            veh->handle_trap( wheel_x, wheel_y, w );
+            auto &item_vec = g->m.i_at( wheel_x, wheel_y );
+            for( auto it = item_vec.begin(); it != item_vec.end(); ) {
+                it->damage += rng( 0, 5 );
+                if( it->damage > 5 ) {
+                    it = item_vec.erase(it);
+                } else {
+                    ++it;
+                }
+            }
         }
     }
 
