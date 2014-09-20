@@ -1159,7 +1159,8 @@
         "stack_size" : 20,
         "effects" : ["COOKOFF", "INCENDIARY", "FLARE", "RECYCLED"]
     },
-	{   "type" : "AMMO",
+	{   
+	"type" : "AMMO",
         "id" : "reloaded_22_lr",
         "price" : 25,
         "name" : "reloaded .22 LR",
