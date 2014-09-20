@@ -3635,7 +3635,7 @@
   "result": "hm_12mm",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
-  "skill_used": "fabrication"
+  "skill_used": "fabrication",
   "skills_required": [[ "electronics", 5 ], [ "gun", 4 ] ],
   "difficulty": 8,
   "time": 10000,
