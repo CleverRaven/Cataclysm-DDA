@@ -4319,12 +4319,8 @@
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":2,"amount":1}
-	{"id":"SAW_W","level":2,"amount":1}
-  ], "tools": [
-    [
-      [ "toolset", -1 ],
-      [ "saw", -1 ]
-    ],
+    {"id":"SAW_W","level":2,"amount":1}
+  ], "tools" [
     [
       ["goggles_welding", -1]
     ],
