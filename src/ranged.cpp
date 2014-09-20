@@ -626,11 +626,12 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
         missed = true;
         p.add_msg_if_player(_("You miss!"));
     } else if (missed_by >= .6) {
-        // Hit the space, but not necessarily the monster there
+        // Hit the space, but not the monster there
         missed = true;
         p.add_msg_if_player(_("You barely miss!"));
     }
 
+    // The damage dealt due to item's weight and player's strength
     int real_dam = (thrown.weight() / 452 + thrown.type->melee_dam / 2 + p.str_cur / 2) /
                    double(2 + double(thrown.volume() / 4));
     if (real_dam > thrown.weight() / 40) {
@@ -645,13 +646,12 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
             rng(0, thrown.volume() + 8) - rng(0, p.str_cur) < thrown.volume() );
 
     int dam = real_dam;
-    std::string message;
     int tx = 0, ty = 0;
-    size_t i = 0;
 
-    // Loop through all squares of the trajectory, see if we hit anything on the way
+    // Loop through all squares of the trajectory, stop if we hit anything on the way
+    size_t i = 0;
     for (i = 0; i < trajectory.size() && dam >= 0; i++) {
-        message = "";
+        std::string message = "";
         double goodhit = missed_by;
         tx = trajectory[i].x;
         ty = trajectory[i].y;
@@ -668,7 +668,8 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
             m.add_field(tx, ty, fd_electricity, rng(2, 3));
         }
 
-        // Check if we hit a zombie or NPC (either the one we aimed for or one that was in the way)
+        // Check if we hit a zombie or NPC
+        // Can be either the one we aimed for, or one that was in the way
         if (zid != -1 && (!missed || one_in(7 - int(zombie(zid).type->size)))) {
             z = &zombie(zid);
             hit_something = true;
@@ -678,7 +679,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
         }
 
         if (hit_something) {
-            // Check if we manage to damage it
+            // Check if we manage to do cutting damage
             if (rng(0, 100) < 20 + skillLevel * 12 && thrown.type->melee_cut > 0) {
                 if (!p.is_npc()) {
                     if (zid != -1) {
@@ -694,6 +695,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
                 }
             }
 
+            // Deal extra cut damage if the item breaks
             if (shatter) {
                 int glassdam = rng(0, thrown.volume() * 2);
                 if (zid != -1 && glassdam > z->get_armor_cut(bp_torso)) {
@@ -766,7 +768,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
             }
             break; // trajectory stops at this square
             // end if (hit_something)
-        } else { // No monster hit, but the terrain might be.
+        } else { // No monster hit, but the terrain might be. (e.g. window)
             m.shoot(tx, ty, dam, false, no_effects);
         }
 
@@ -783,7 +785,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
         }
     }
 
-    // Add the item to the map at where it stopped (tx, ty)
+    // Add the thrown item to the map at the place it stopped (tx, ty)
     if (shatter) {
         if (u_see(tx, ty)) {
             add_msg(_("The %s shatters!"), thrown.tname().c_str());
