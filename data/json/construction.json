@@ -1712,8 +1712,8 @@
         ] ],
         "components" : [
             [
-            [ [ "2x4", 6 ] ],
-            [ [ "nail", 12 ] ]
+            [ "2x4", 6 ],
+            [ "nail", 12 ]
             ]
         ],
         "pre_special" : "check_empty",
