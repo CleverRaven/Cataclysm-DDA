@@ -3403,7 +3403,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-     {"id":"COOK","level":2,"amount":1} ]
+     {"id":"COOK","level":2,"amount":1} ],
   "tools": [
     [
       [ "hotplate", 8 ],
