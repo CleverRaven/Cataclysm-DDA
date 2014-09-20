@@ -1530,7 +1530,7 @@
         "move_cost_mod": -1,
         "required_str": -1,
         "crafting_pseudo_item": "char_forge",
-        "flags": ["SEALED", "CONTAINER", "NOITEM"],
+        "flags": ["TRANSPARENT", "SEALED", "CONTAINER", "NOITEM"],
         "deconstruct": {
             "items": [
                 { "item": "forge", "amount": 1 }
@@ -1607,7 +1607,7 @@
             "sound_fail": "whump.",
             "furn_set": "f_egg_sacke"
         }
-    },{
+     },{
         "type" : "furniture",
         "id" : "f_egg_sackws",
         "name": "spider egg sack",
@@ -1623,7 +1623,7 @@
             "sound_fail": "whump.",
             "furn_set": "f_egg_sacke"
         }
-   },{
+    },{
         "type" : "furniture",
         "id" : "f_egg_sacke",
         "name": "ruptured egg sack",
@@ -1637,7 +1637,7 @@
             "sound": "splat!",
             "sound_fail": "whump."
         }
-   },{
+    },{
         "type" : "furniture",
         "id" : "f_vending_reinforced",
         "name": "reinforced vending machine",
@@ -1656,7 +1656,7 @@
                 { "item": "glass_shard", "amount": 3, "minamount": 1 }
             ]
         }
-   },{
+    },{
         "type" : "furniture",
         "id" : "f_arcade_machine",
         "name": "arcade machine",
@@ -1691,8 +1691,8 @@
                 { "item": "power_supply", "amount": 1, "minamount": 0 },
                 { "item": "RAM", "amount": 2, "minamount": 0}
            ]
-        }		
-   },{
+        }
+    },{
         "type" : "furniture",
         "id" : "f_pinball_machine",
         "name": "pinball machine",
@@ -1735,7 +1735,7 @@
                 { "item": "bearing", "amount": 16, "minamount":0 }
             ]
         }
-   },{
+    },{
         "type" : "furniture",
         "id" : "f_ergometer",
         "name": "ergometer",
@@ -1777,7 +1777,7 @@
                 { "item": "nail", "amount": 6, "minamount": 2}
             ]
         }
-   },{
+    },{
         "type" : "furniture",
         "id" : "f_treadmill",
         "name": "treadmill",
@@ -1809,7 +1809,7 @@
                 { "item": "nail", "amount": 6, "minamount": 2}
             ]
         }
-   },{
+    },{
         "type" : "furniture",
         "id" : "f_displaycase",
         "name": "display case",
@@ -1827,7 +1827,7 @@
                 { "item": "glass_shard", "amount": 6, "minamount": 3 }
             ]
         }
-   },{
+    },{
         "type" : "furniture",
         "id" : "f_displaycase_b",
         "name": "broken display case",
