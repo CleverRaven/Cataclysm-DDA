@@ -1,5 +1,6 @@
 [
-    {   "type" : "AMMO",
+    {
+    	"type" : "AMMO",
         "id" : "battery",
         "category" : "spare_parts",
         "price" : 12000,
