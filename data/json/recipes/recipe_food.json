@@ -512,6 +512,7 @@
   "autolearn": true,
   "note": "the cooking oil isn't supposed to be expended since you can recycle it after frying the fish",
   "qualities" : [
+    {"id":"CUT","level":1,"amount":1},
     {"id":"COOK","level":1,"amount":1}
   ],
   "tools": [
