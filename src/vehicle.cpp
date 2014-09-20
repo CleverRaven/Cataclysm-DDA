@@ -332,7 +332,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
           }
          }
          if (destroyTires) { // vehicle is disabled because flat tires
-          if (part_flag(p, "WHEEL")) {
+          if (part_flag(p, VPFLAG_WHEEL)) {
              parts[p].hp= 0;
           }
          }
@@ -1503,7 +1503,8 @@ int vehicle::part_with_feature (int part, const vpart_bitflags &flag, bool unbro
     if (part_flag(part, flag)) {
         return part;
     }
-    std::map<point, std::vector<int> >::const_iterator it = relative_parts.find( point( parts[part].mount_dx, parts[part].mount_dy ) );
+    std::map<point, std::vector<int> >::const_iterator it =
+        relative_parts.find( point( parts[part].mount_dx, parts[part].mount_dy ) );
     if ( it != relative_parts.end() ) {
         const std::vector<int> & parts_here = it->second;
         for (auto &i : parts_here) {
