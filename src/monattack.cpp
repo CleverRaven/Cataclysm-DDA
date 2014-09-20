@@ -1759,8 +1759,8 @@ void mattack::smg(monster *z)
 {
     // Make sure our ammo isn't weird.
     if (z->ammo > 1000) {
-        z->ammo = 1000;
         debugmsg("Generated too much ammo (%d) for %s in mattack::smg", z->ammo, z->name().c_str());
+        z->ammo = 1000;
     }
     int fire_t = 0;
 
@@ -1905,8 +1905,8 @@ void mattack::rifle_tur(monster *z)
 {
     // Make sure our ammo isn't weird.
     if (z->ammo > 2000) {
-        z->ammo = 2000;
         debugmsg("Generated too much ammo (%d) for %s in mattack::rifle_tur", z->ammo, z->name().c_str());
+        z->ammo = 2000;
     }
     int fire_t = 0;
 
@@ -1982,8 +1982,8 @@ void mattack::frag_tur(monster *z) // This is for the bots, not a standalone tur
 {
     // Make sure our ammo isn't weird.
     if (z->ammo > 100) {
-        z->ammo = 100;
         debugmsg("Generated too much ammo (%d) for %s in mattack::frag_tur", z->ammo, z->name().c_str());
+        z->ammo = 100;
     }
     int fire_t = 0;
 
@@ -2063,8 +2063,8 @@ void mattack::bmg_tur(monster *z)
 {
     // Make sure our ammo isn't weird.
     if (z->ammo > 500) {
-        z->ammo = 500;
         debugmsg("Generated too much ammo (%d) for %s in mattack::bmg_tur", z->ammo, z->name().c_str());
+        z->ammo = 500;
     }
     int fire_t = 0;
 
@@ -2145,8 +2145,8 @@ void mattack::tank_tur(monster *z)
 {
     // Make sure our ammo isn't weird.
     if (z->ammo > 40) {
-        z->ammo = 40;
         debugmsg("Generated too much ammo (%d) for %s in mattack::tank_tur", z->ammo, z->name().c_str());
+        z->ammo = 40;
     }
     int fire_t = 0;
 
