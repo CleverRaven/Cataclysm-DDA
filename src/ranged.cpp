@@ -664,8 +664,8 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
         const int zid = mon_at(tx, ty);
         const int npcID = npc_at(tx, ty);
 
-        monster *z;
-        npc *guy;
+        monster *z = nullptr;
+        npc *guy = nullptr;
 
         // Make railgun sparks
         if (do_railgun) {
