@@ -4320,7 +4320,7 @@
   "qualities":[
     {"id":"HAMMER","level":2,"amount":1},
     {"id":"SAW_W","level":2,"amount":1}
-  ], "tools" [
+  ], "tools": [
     [
       ["goggles_welding", -1]
     ],
