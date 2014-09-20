@@ -4318,7 +4318,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":2,"amount":1}
+    {"id":"HAMMER","level":2,"amount":1},
     {"id":"SAW_W","level":2,"amount":1}
   ], "tools" [
     [
