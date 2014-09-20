@@ -1950,7 +1950,8 @@
         "color": "ltgreen",
         "move_cost": 6,
         "flags": [
-            "TRANSPARENT", "DIGGABLE", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHRUB"
+            "TRANSPARENT", "DIGGABLE", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM",
+	     "SHRUB", "SHORT"
         ],
         "examine_action": "shrub_wildveggies",
         "bash": {
@@ -1967,7 +1968,8 @@
         "color": "green",
         "move_cost": 8,
         "flags": [
-            "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHRUB"
+            "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM",
+	     "SHRUB", "SHORT"
         ],
         "bash": {
             "str_min": 4, "str_max": 60,
@@ -1983,7 +1985,7 @@
         "color": "ltgreen",
         "move_cost": 8,
         "flags": [
-            "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB"
+            "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT"
         ],
         "examine_action": "shrub_blueberry",
         "bash": {
@@ -2000,7 +2002,7 @@
         "color": "ltgreen",
         "move_cost": 8,
         "flags": [
-            "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB"
+            "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT"
         ],
         "examine_action": "shrub_strawberry",
         "bash": {
@@ -2016,7 +2018,7 @@
         "symbol": "1",
         "color": "brown",
         "move_cost": 4,
-        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "REDUCE_SCENT", "MOUNTABLE"],
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "REDUCE_SCENT", "MOUNTABLE", "SHORT"],
         "bash": {
             "str_min": 80, "str_max": 180,
             "sound": "crunch!",
@@ -2076,7 +2078,8 @@
         "color": "brown",
         "move_cost": 3,
         "flags": [
-            "TRANSPARENT", "DIGGABLE", "FLAMMABLE_ASH", "NOITEM", "THIN_OBSTACLE", "REDUCE_SCENT", "MOUNTABLE"
+            "TRANSPARENT", "DIGGABLE", "FLAMMABLE_ASH", "NOITEM", "THIN_OBSTACLE", "REDUCE_SCENT",
+	     "MOUNTABLE", "SHORT"
         ],
         "bash": {
             "str_min": 4, "str_max": 20,
@@ -2097,7 +2100,8 @@
         "color": "brown",
         "move_cost": 3,
         "flags": [
-            "TRANSPARENT", "DIGGABLE", "FLAMMABLE_ASH", "NOITEM", "THIN_OBSTACLE", "REDUCE_SCENT", "MOUNTABLE"
+            "TRANSPARENT", "DIGGABLE", "FLAMMABLE_ASH", "NOITEM", "THIN_OBSTACLE", "REDUCE_SCENT",
+	     "MOUNTABLE", "SHORT"
         ],
         "bash": {
             "str_min": 4, "str_max": 20,
@@ -2175,7 +2179,7 @@
         "symbol": "#",
         "color": "brown",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "THIN_OBSTACLE"],
+        "flags": ["TRANSPARENT", "THIN_OBSTACLE", "SHORT"],
         "examine_action": "fence_post",
         "bash": {
             "str_min": 8, "str_max": 20,
@@ -2193,7 +2197,7 @@
         "symbol": "$",
         "color": "blue",
         "move_cost": 4,
-        "flags": ["TRANSPARENT", "THIN_OBSTACLE"],
+        "flags": ["TRANSPARENT", "THIN_OBSTACLE", "SHORT"],
         "examine_action": "remove_fence_wire",
         "bash": {
             "str_min": 8, "str_max": 20,
@@ -2212,7 +2216,7 @@
         "symbol": "$",
         "color": "blue",
         "move_cost": 4,
-        "flags": ["TRANSPARENT", "SHARP", "THIN_OBSTACLE"],
+        "flags": ["TRANSPARENT", "SHARP", "THIN_OBSTACLE", "SHORT"],
         "examine_action": "remove_fence_barbed",
         "bash": {
             "str_min": 8, "str_max": 20,
@@ -2251,7 +2255,7 @@
         "symbol": "|",
         "color": "yellow",
         "move_cost": 3,
-        "flags": ["TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE"],
+        "flags": ["TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "SHORT"],
         "bash": {
             "str_min": 20, "str_max": 80,
             "sound": "crack!",
@@ -2271,7 +2275,7 @@
         "symbol": "-",
         "color": "yellow",
         "move_cost": 3,
-        "flags": ["TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE"],
+        "flags": ["TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "SHORT"],
         "bash": {
             "str_min": 20, "str_max": 80,
             "sound": "crack!",
@@ -2291,7 +2295,7 @@
         "symbol": "#",
         "color": "dkgray",
         "move_cost": 8,
-        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "FUNGUS", "SHRUB"],
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "FUNGUS", "SHRUB", "SHORT"],
         "examine_action": "shrub_marloss",
         "bash": {
             "str_min": 4, "str_max": 60,
@@ -2408,7 +2412,8 @@
         "color": "dkgray",
         "move_cost": 8,
         "flags": [
-            "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHRUB", "FUNGUS"
+            "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHRUB",
+	     "FUNGUS", "SHORT"
         ],
         "bash": {
             "str_min": 4, "str_max": 60,
@@ -2521,7 +2526,7 @@
                 { "item": "nail", "amount": 10, "minamount": 6 }
             ]
         },
-        "flags": ["TRANSPARENT"],
+        "flags": ["TRANSPARENT", "TINY"],
         "bash": {
             "str_min": 8, "str_max": 40,
             "sound": "crunch!",
@@ -2790,7 +2795,7 @@
         "symbol": "6",
         "color": "ltgray",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM", "INDOORS"],
+        "flags": ["TRANSPARENT", "NOITEM", "INDOORS", "SHORT"],
         "deconstruct": {
             "ter_set": "t_floor",
             "items": [
@@ -2831,7 +2836,7 @@
         "symbol": "6",
         "color": "blue",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "CONSOLE", "NOITEM", "INDOORS"],
+        "flags": ["TRANSPARENT", "CONSOLE", "NOITEM", "INDOORS", "SHORT"],
         "deconstruct": {
             "ter_set": "t_floor",
             "items": [
@@ -2930,7 +2935,7 @@
         "symbol": "|",
         "color": "brown",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM"],
+        "flags": ["TRANSPARENT", "NOITEM", "SHORT"],
         "examine_action": "controls_gate",
         "bash": {
             "str_min": 8, "str_max": 40,

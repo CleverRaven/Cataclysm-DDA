@@ -839,14 +839,23 @@ bool map::vehproceed()
     if (can_move) {
         std::vector<int> wheel_indices = veh->all_parts_with_feature("WHEEL", false);
         for (auto &w : wheel_indices) {
+            const int wheel_x = x + veh->parts[w].precalc_dx[0];
+            const int wheel_y = y + veh->parts[w].precalc_dy[0];
             if (one_in(2)) {
-                if (displace_water (x + veh->parts[w].precalc_dx[0],
-                                    y + veh->parts[w].precalc_dy[0]) && pl_ctrl) {
+                if( displace_water( wheel_x, wheel_y) && pl_ctrl ) {
                     add_msg(m_warning, _("You hear a splash!"));
                 }
             }
-            veh->handle_trap( x + veh->parts[w].precalc_dx[0],
-                              y + veh->parts[w].precalc_dy[0], w );
+            veh->handle_trap( wheel_x, wheel_y, w );
+            auto &item_vec = g->m.i_at( wheel_x, wheel_y );
+            for( auto it = item_vec.begin(); it != item_vec.end(); ) {
+                it->damage += rng( 0, 5 );
+                if( it->damage > 5 ) {
+                    it = item_vec.erase(it);
+                } else {
+                    ++it;
+                }
+            }
         }
     }
 
@@ -1826,7 +1835,7 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str, bool si
                     success = true;
                 }
             }
-            
+
             if (success || destroy) {
                 // Clear out any partially grown seeds
                 if (has_flag_ter_or_furn("PLANT", x, y)) {
@@ -1834,7 +1843,7 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str, bool si
                         i_rem(x, y, i);
                     }
                 }
-                
+
                 if (smash_furn) {
                     if (has_flag_furn("FUNGUS", x, y)) {
                         create_spores(x, y);
@@ -1844,7 +1853,7 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str, bool si
                         create_spores(x, y);
                     }
                 }
-                
+
                 if (destroy) {
                     sound_volume = smax;
                 } else {
@@ -1868,12 +1877,12 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str, bool si
                     debugmsg( "data/json/terrain.json does not have %s.bash.ter_set set!",
                               ter_at(x,y).id.c_str() );
                 }
-                
+
                 spawn_item_list(bash->items, x, y);
                 if (bash->explosive > 0) {
                     g->explosion(x, y, bash->explosive, 0, false);
                 }
-                
+
                 if (collapses) {
                     collapse_at(x, y);
                 }

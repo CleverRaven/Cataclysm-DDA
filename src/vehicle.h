@@ -7,6 +7,7 @@
 #include "line.h"
 #include "veh_type.h"
 #include <vector>
+#include <map>
 #include <string>
 #include <iosfwd>
 
@@ -24,7 +25,7 @@ extern const ammotype fuel_types[num_fuel_types];
 #define k_mvel 200 //adjust this to balance collision damage
 
 // 0 - nothing, 1 - monster/player/npc, 2 - vehicle,
-// 3 - bashable, 5 - other
+// 3 - bashable, 4 - other
 enum veh_coll_type {
  veh_coll_nothing = 0,
  veh_coll_body,

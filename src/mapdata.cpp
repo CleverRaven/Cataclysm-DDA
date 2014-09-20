@@ -99,20 +99,20 @@ bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture
         JsonObject j = jsobj.get_object(member);
         str_min = j.get_int("str_min", 0);
         str_max = j.get_int("str_max", 0);
-        
+
         str_min_blocked = j.get_int("str_min_blocked", -1);
         str_max_blocked = j.get_int("str_max_blocked", -1);
-        
+
         str_min_roll = j.get_int("str_min_roll", str_min);
         str_max_roll = j.get_int("str_min_roll", str_max);
-        
+
         explosive = j.get_int("explosive", -1);
-        
+
         destroy_only = j.get_bool("destroy_only", false);
-        
+
         sound = j.get_string("sound", _("smash!"));
         sound_fail = j.get_string("sound_fail", _("thump!"));
-        
+
         if (isfurniture) {
             furn_set = j.get_string("furn_set", "f_null");
         } else {

@@ -332,7 +332,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
           }
          }
          if (destroyTires) { // vehicle is disabled because flat tires
-          if (part_flag(p, "WHEEL")) {
+          if (part_flag(p, VPFLAG_WHEEL)) {
              parts[p].hp= 0;
           }
          }
@@ -1503,7 +1503,8 @@ int vehicle::part_with_feature (int part, const vpart_bitflags &flag, bool unbro
     if (part_flag(part, flag)) {
         return part;
     }
-    std::map<point, std::vector<int> >::const_iterator it = relative_parts.find( point( parts[part].mount_dx, parts[part].mount_dy ) );
+    std::map<point, std::vector<int> >::const_iterator it =
+        relative_parts.find( point( parts[part].mount_dx, parts[part].mount_dy ) );
     if ( it != relative_parts.end() ) {
         const std::vector<int> & parts_here = it->second;
         for (auto &i : parts_here) {
@@ -3126,7 +3127,16 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
         } else {
             mass2 = 82;// player or NPC
         }
-    } else if (g->m.is_bashable_ter_furn(x, y) && g->m.move_cost_ter_furn( x, y ) != 2 ) {
+    } else if ( g->m.is_bashable_ter_furn(x, y) && g->m.move_cost_ter_furn( x, y ) != 2 &&
+                // Don't collide with tiny things, like flowers, unless we have a wheel in our space.
+                (part_with_feature(part, VPFLAG_WHEEL) >= 0 ||
+                 !g->m.has_flag_ter_or_furn("TINY", x, y)) &&
+                // Protrusions don't collide with short terrain.
+                // Tiny also doesn't, but it's already excluded unless there's a wheel present.
+                !(part_with_feature(part, "PROTRUSION") >= 0 &&
+                  g->m.has_flag_ter_or_furn("SHORT", x, y)) &&
+                // These are bashable, but don't interact with vehicles.
+                !g->m.has_flag_ter_or_furn("NOCOLLIDE", x, y) ) {
         // movecost 2 indicates flat terrain like a floor, no collision there.
         collision_type = veh_coll_bashable;
         e = 0.30;

@@ -65,6 +65,9 @@ List of known flags, used in both terrain.json and furniture.json
 - ```OPENCLOSE_INSIDE``` If it's a door (with an 'open' or 'close' field), it can only be opened or closed if you're inside.
 - ```BARRICADABLE_WINDOW``` Window that can be barricaded.
 - ```BARRICADABLE_DOOR``` Door that can be barricaded.
+- ```SHORT``` Feature too short to collide with vehicle protrusions. (mirrors, blades)
+- ```TINY``` Feature too short to collide with vehicle undercarriage. Vehicles drive over them with no damage, unless a wheel hits them.
+- ```NOCOLLIDE``` Feature that simply doesn't collide with vehicles at all.
 
 ### Examine actions
 
