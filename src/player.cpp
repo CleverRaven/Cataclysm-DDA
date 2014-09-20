@@ -5494,14 +5494,17 @@ void player::suffer()
 
     double shoe_factor = footwear_factor();
     if( has_trait("ROOTS3") && g->m.has_flag("DIGGABLE", posx, posy) && !shoe_factor) {
-        if (one_in(25 / shoe_factor)) {
+        if (one_in(100)) {
             add_msg(m_good, _("This soil is delicious!"));
             hunger -= 2;
             thirst -= 2;
             mod_healthy_mod(10);
-            // Mmm, dat soil...
-            focus_pool--;
-        } else if (one_in(20 / shoe_factor)){
+            // No losing oneself in the fertile embrace of rich
+            // New England loam.  But it can be a near thing.
+            if ( (one_in(int_cur)) && (focus_pool >= 25) ) {
+                focus_pool--;
+            }
+        } else if (one_in(50)){
             hunger--;
             thirst--;
             mod_healthy_mod(5);
@@ -7778,8 +7781,11 @@ bool player::eat(item *eaten, it_comest *comest)
         !query_yn(_("Really eat that %s? It smells completely unappealing."), eaten->tname().c_str()) ) {
         return false;
     }
+    // Check for eating/Food is so water and other basic liquids that do not rot don't cause problems.
+    // I'm OK with letting plants drink coffee. (Whether it would count as cannibalism is another story.)
     if ((has_trait("SAPROPHAGE") && (!spoiled) && (!has_bionic("bio_digestion")) && !is_npc() &&
-        !query_yn(_("Really eat that %s? Your stomach won't be happy."), eaten->tname().c_str()))) {
+      (eaten->has_flag("USE_EAT_VERB") || comest->comesttype == "FOOD") &&
+      !query_yn(_("Really eat that %s? Your stomach won't be happy."), eaten->tname().c_str()))) {
         //~ No, we don't eat "rotten" food. We eat properly aged food, like a normal person.
         //~ Semantic difference, but greatly facilitates people being proud of their character.
         add_msg_if_player(m_info,  _("It's too fresh, let it age a little first.  "));
@@ -8015,7 +8021,9 @@ bool player::eat(item *eaten, it_comest *comest)
         add_msg_if_player(m_bad, _("Your stomach begins gurgling and you feel bloated and ill."));
         add_morale(MORALE_NO_DIGEST, -25, -125, 300, 240);
     }
-    if (has_trait("SAPROPHAGE") && !(spoiled)) {
+    if (has_trait("SAPROPHAGE") && !(spoiled) && (eaten->has_flag("USE_EAT_VERB") ||
+    comest->comesttype == "FOOD")) {
+    // It's OK to *drink* things that haven't rotted.  Alternative is to ban water.  D:
         add_msg_if_player(m_bad, _("Your stomach begins gurgling and you feel bloated and ill."));
         add_morale(MORALE_NO_DIGEST, -75, -400, 300, 240);
     }
