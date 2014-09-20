@@ -303,13 +303,18 @@ def extract(item, infilename):
     if "sound" in item:
         writestr(outfile, item["sound"], **kwargs)
         wrote = True
-    if "snippet_category" in item
+    if "snippet_category" in item and type(item["snippet_category"]) is list:
         # snippet_category is either a simple string (the category ident)
-        # which is not translated,
-        # or it's an array of (translated) strings, writestr handles arrays.
-        if not type(item["snippet_category"]) is str:
-            writestr(outfile, item["snippet_category"], **kwargs)
-            wrote = True
+        # which is not translated, or an array of snippet texts.
+        for entry in item["snippet_category"]:
+            # Each entry is a json-object with an id and text
+            if type(entry) is dict:
+                writestr(outfile, entry["text"], **kwargs)
+                wrote = True
+            else:
+                # or a simple string
+                writestr(outfile, entry, **kwargs)
+                wrote = True
     if "bash" in item and type(item["bash"]) is dict:
         # entries of type technique have a bash member, too.
         # but it's a int, not an object.

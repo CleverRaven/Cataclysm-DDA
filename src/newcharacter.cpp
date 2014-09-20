@@ -445,8 +445,8 @@ bool player::create(character_type type, std::string tempname)
     for( auto &itd : prof_items ) {
         // Spawn left-handed items as a placeholder, shouldn't affect non-handed items
         tmp = item(itd.type_id, 0, false, LEFT);
-        if( !itd.description.empty() ) {
-            tmp.set_description( itd.description );
+        if( !itd.snippet_id.empty() ) {
+            tmp.set_snippet( itd.snippet_id );
         }
         tmp = tmp.in_its_container();
         if(tmp.is_armor()) {
@@ -459,8 +459,8 @@ bool player::create(character_type type, std::string tempname)
             // If item is part of a pair give a second one for the other side
             if (tmp.has_flag("PAIRED")) {
                 tmp2 = item(itd.type_id, 0, false, RIGHT);
-                if( !itd.description.empty() ) {
-                    tmp2.set_description( itd.description );
+                if( !itd.snippet_id.empty() ) {
+                    tmp2.set_snippet( itd.snippet_id );
                 }
                 if(tmp2.has_flag("VARSIZE")) {
                     tmp2.item_tags.insert("FIT");

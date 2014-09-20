@@ -152,10 +152,10 @@ The syntax listed here is still valid.
 "items":[              // ID's of items player starts with when selecting this profession
  "army_top",
  "boots_steel",
- ["survnote", "\"Somehow I managed to fit an entire goddamn lemon into this makeshift battery.\""],
-                       // Entries can also be an array containing the item id and the text taken
-                       // from the snippet category that is used by that item type. The text must match
-                       // the snippet text exactly.
+ ["survnote", "snippet-id"],
+                       // Entries can also be an array containing the item id and a snippet id.
+                       // The id must match a snippet id from the snippet category that is
+                       // used by that item type.
  "jeans"
 ],
 "name":"Bow Hunter",   // In-game name displayed
@@ -559,6 +559,7 @@ The item descriptions are taken from snippets, which can be specified like this 
 {
     "type" : "snippet",
     "category" : "newspaper",
+    "id" : "snippet-id",          // id is optional, it's used when the snippet is referenced in the item list of professions
     "text": "your flavor text"
 }
 ```
@@ -567,6 +568,12 @@ or several snippets at once:
 {
     "type" : "snippet",
     "category" : "newspaper",
+    "text": [
+        "your flavor text",
+        "more flavor",
+        // entries can also bo of this form to have a id to reference that specific snippet.
+        { "id" : "snippet-id", "text" : "another flavor text" }
+    ]
     "text": [ "your flavor text", "another flavor text", "more flavor" ]
 }
 ```
@@ -576,7 +583,8 @@ One can also put the snippets directly in the item definition:
 ```
 "snippet_category": [ "text 1", "text 2", "text 3" ],
 ```
-This will automatically create a snippet category speciifc to that item and populate that category with the given snippets.
+This will automatically create a snippet category specific to that item and populate that category with the given snippets.
+The format also support snippet ids like above.
 
 #json jsons
 

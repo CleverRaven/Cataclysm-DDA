@@ -977,10 +977,7 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
         // snippets in it.
         new_item_template->snippet_category = std::string( "auto:" ) + new_item_template->id;
         JsonArray jarr = jo.get_array( "snippet_category" );
-        while( jarr.has_more() ) {
-            const std::string text = jarr.next_string();
-            SNIPPET.add_snippet( new_item_template->snippet_category, _( text.c_str() ) );
-        }
+        SNIPPET.add_snippets_from_json( new_item_template->snippet_category, jarr );
     } else {
         new_item_template->snippet_category = jo.get_string( "snippet_category", "" );
     }

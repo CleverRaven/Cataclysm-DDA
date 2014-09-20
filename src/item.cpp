@@ -3269,7 +3269,7 @@ bool item::use_charges(const itype_id &it, long &quantity, std::list<item> &used
     return false;
 }
 
-void item::set_description( const std::string &description )
+void item::set_snippet( const std::string &snippet_id )
 {
     if( is_null() ) {
         return;
@@ -3278,9 +3278,9 @@ void item::set_description( const std::string &description )
         debugmsg("can not set description for item %s without snippet category", type->id.c_str() );
         return;
     }
-    const int hash = SNIPPET.calc_hash( description );
+    const int hash = SNIPPET.get_snippet_by_id( snippet_id );
     if( SNIPPET.get( hash ).empty() ) {
-        debugmsg("description %s is not contained in snippet category %s", description.c_str(), type->snippet_category.c_str() );
+        debugmsg("snippet id %s is not contained in snippet category %s", snippet_id.c_str(), type->snippet_category.c_str() );
         return;
     }
     note = hash;

@@ -20,12 +20,13 @@ class profession
         typedef std::vector<StartingSkill> StartingSkillList;
         struct itypedec {
             std::string type_id;
-            std::string description;
+            /** Snippet id, @see snippet_library. */
+            std::string snippet_id;
             // compatible with when this was just a std::string
-            itypedec(const char *t) : type_id( t ), description()
+            itypedec(const char *t) : type_id( t ), snippet_id()
             {
             }
-            itypedec(const std::string &t, const std::string &d) : type_id( t ), description( d )
+            itypedec(const std::string &t, const std::string &d) : type_id( t ), snippet_id( d )
             {
             }
         };

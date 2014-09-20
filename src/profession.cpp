@@ -160,16 +160,16 @@ void profession::check_item_definitions( const itypedecvec &items ) const
     for( auto & itd : items ) {
         if( !item_controller->has_template( itd.type_id ) ) {
             debugmsg( "profession %s: item %s does not exist", _ident.c_str() , itd.type_id.c_str() );
-        } else if( !itd.description.empty() ) {
+        } else if( !itd.snippet_id.empty() ) {
             const itype *type = item_controller->find_template( itd.type_id );
             if( type->snippet_category.empty() ) {
                 debugmsg( "profession %s: item %s has no snippet category - no description can be set",
                           _ident.c_str(), itd.type_id.c_str() );
             } else {
-                const int hash = SNIPPET.calc_hash( itd.description );
+                const int hash = SNIPPET.get_snippet_by_id( itd.snippet_id );
                 if( SNIPPET.get( hash ).empty() ) {
-                    debugmsg( "profession %s: description %s for item %s is not contained in snippet category %s",
-                              _ident.c_str(), itd.description.c_str(), itd.type_id.c_str(), type->snippet_category.c_str() );
+                    debugmsg( "profession %s: snippet id %s for item %s is not contained in snippet category %s",
+                              _ident.c_str(), itd.snippet_id.c_str(), itd.type_id.c_str(), type->snippet_category.c_str() );
                 }
             }
         }

@@ -12,13 +12,32 @@ void snippet_library::load_snippet(JsonObject &jsobj)
     std::string category = jsobj.get_string("category");
     if (jsobj.has_array("text")) {
         JsonArray jarr = jsobj.get_array("text");
-        while(jarr.has_more()) {
-            const std::string text = _(jarr.next_string().c_str());
-            add_snippet(category, text);
-        }
+        add_snippets_from_json( category, jarr );
     } else {
-        const std::string text = _(jsobj.get_string("text").c_str());
-        add_snippet(category, text);
+        add_snippet_from_json( category, jsobj );
+    }
+}
+
+void snippet_library::add_snippets_from_json( const std::string &category, JsonArray &jarr )
+{
+    while( jarr.has_more() ) {
+        if( jarr.test_string() ) {
+            const std::string text = _( jarr.next_string().c_str() );
+            add_snippet( category, text.c_str() );
+        } else {
+            JsonObject jo = jarr.next_object();
+            add_snippet_from_json( category, jo );
+        }
+    }
+}
+
+void snippet_library::add_snippet_from_json( const std::string &category, JsonObject &jo )
+{
+    const std::string text = _( jo.get_string( "text" ).c_str() );
+    const int hash = add_snippet( category, text );
+    if( jo.has_member( "id" ) ) {
+        const std::string id = jo.get_string( "id" );
+        snippets_by_id[id] = hash;
     }
 }
 
@@ -27,11 +46,12 @@ int snippet_library::calc_hash(const std::string &text) const
     return djb2_hash( reinterpret_cast<const unsigned char *>( text.c_str() ) );
 }
 
-void snippet_library::add_snippet(const std::string &category, const std::string &text)
+int snippet_library::add_snippet(const std::string &category, const std::string &text)
 {
     int hash = djb2_hash( (const unsigned char *)text.c_str() );
     snippets.insert( std::pair<int, std::string>(hash, text) );
     categories.insert( std::pair<std::string, int>(category, hash) );
+    return hash;
 }
 
 bool snippet_library::has_category( const std::string &category ) const
@@ -42,7 +62,17 @@ bool snippet_library::has_category( const std::string &category ) const
 void snippet_library::clear_snippets()
 {
     snippets.clear();
+    snippets_by_id.clear();
     categories.clear();
+}
+
+int snippet_library::get_snippet_by_id( const std::string &id ) const
+{
+    const auto it = snippets_by_id.find( id );
+    if( it != snippets_by_id.end() ) {
+        return it->second;
+    }
+    return 0;
 }
 
 int snippet_library::assign( const std::string category ) const
