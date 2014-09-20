@@ -612,12 +612,12 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
     if (missed_by >= 1) {
         // We missed D:
         // Shoot a random nearby space?
-        if (missed_by > 9) {
-            missed_by = 9;
+        if (missed_by > 9.0) {
+            missed_by = 9.0;
         }
 
-        tarx += rng(0 - int(sqrt(double(missed_by))), int(sqrt(double(missed_by))));
-        tary += rng(0 - int(sqrt(double(missed_by))), int(sqrt(double(missed_by))));
+        tarx += rng(0 - int(sqrt(missed_by)), int(sqrt(missed_by)));
+        tary += rng(0 - int(sqrt(missed_by)), int(sqrt(missed_by)));
         if (m.sees(p.posx, p.posy, tarx, tary, -1, tart)) {
             trajectory = line_to(p.posx, p.posy, tarx, tary, tart);
         } else {
@@ -632,8 +632,10 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
     }
 
     // The damage dealt due to item's weight and player's strength
-    int real_dam = (thrown.weight() / 452 + thrown.type->melee_dam / 2 + p.str_cur / 2) /
-                   double(2 + double(thrown.volume() / 4));
+    int real_dam = ( (thrown.weight() / 452)
+                     + (thrown.type->melee_dam / 2)
+                     + (p.str_cur / 2) )
+                   / (2.0 + (thrown.volume() / 4.0));
     if (real_dam > thrown.weight() / 40) {
         real_dam = thrown.weight() / 40;
     }
@@ -706,7 +708,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
             }
 
             if (i < trajectory.size() - 1) {
-                goodhit = double(double(rand() / RAND_MAX) / 2);
+                goodhit = double(rand() / RAND_MAX) / 2.0;
             }
             game_message_type gmtSCTcolor = m_good;
             body_part bp = bp_torso; // for NPCs
@@ -723,7 +725,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
                 dam = rng(dam, dam * 2);
                 p.practice( "throw", 2 );
             } else if (goodhit < .4) {
-                dam = rng(int(dam / 2), int(dam * 1.5));
+                dam = rng(dam / 2, int(dam * 1.5));
             } else if (goodhit < .5) {
                 message = _("Grazing hit.");
                 gmtSCTcolor = m_grazing;
