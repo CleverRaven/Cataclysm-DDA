@@ -3128,8 +3128,15 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
             mass2 = 82;// player or NPC
         }
     } else if ( g->m.is_bashable_ter_furn(x, y) && g->m.move_cost_ter_furn( x, y ) != 2 &&
-                (part_with_feature(part, VPFLAG_WHEEL) >= 0 || !g->m.has_flag_furn("TINY", x, y)) &&
-                !g->m.has_flag_furn("NOCOLLIDE", x, y) ) {
+                // Don't collide with tiny things, like flowers, unless we have a wheel in our space.
+                (part_with_feature(part, VPFLAG_WHEEL) >= 0 ||
+                 !g->m.has_flag_ter_or_furn("TINY", x, y)) &&
+                // Protrusions don't collide with short terrain.
+                // Tiny also doesn't, but it's already excluded unless there's a wheel present.
+                !(part_with_feature(part, "PROTRUSION") >= 0 &&
+                  g->m.has_flag_ter_or_furn("SHORT", x, y)) &&
+                // These are bashable, but don't interact with vehicles.
+                !g->m.has_flag_ter_or_furn("NOCOLLIDE", x, y) ) {
         // movecost 2 indicates flat terrain like a floor, no collision there.
         collision_type = veh_coll_bashable;
         e = 0.30;
