@@ -608,16 +608,18 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
     double missed_by = .01 * deviation * trange;
     bool missed = false;
     int tart;
+    bool do_railgun = (p.has_active_bionic("bio_railgun") &&
+            (thrown.made_of("iron") || thrown.made_of("steel")));
 
     if (missed_by >= 1) {
         // We missed D:
         // Shoot a random nearby space?
-        if (missed_by > 9) {
-            missed_by = 9;
+        if (missed_by > 9.0) {
+            missed_by = 9.0;
         }
 
-        tarx += rng(0 - int(sqrt(double(missed_by))), int(sqrt(double(missed_by))));
-        tary += rng(0 - int(sqrt(double(missed_by))), int(sqrt(double(missed_by))));
+        tarx += rng(0 - int(sqrt(missed_by)), int(sqrt(missed_by)));
+        tary += rng(0 - int(sqrt(missed_by)), int(sqrt(missed_by)));
         if (m.sees(p.posx, p.posy, tarx, tary, -1, tart)) {
             trajectory = line_to(p.posx, p.posy, tarx, tary, tart);
         } else {
@@ -626,145 +628,92 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
         missed = true;
         p.add_msg_if_player(_("You miss!"));
     } else if (missed_by >= .6) {
-        // Hit the space, but not necessarily the monster there
+        // Hit the space, but not the monster there
         missed = true;
         p.add_msg_if_player(_("You barely miss!"));
     }
 
-    std::string message;
-    int real_dam = (thrown.weight() / 452 + thrown.type->melee_dam / 2 + p.str_cur / 2) /
-                   double(2 + double(thrown.volume() / 4));
+    // The damage dealt due to item's weight and player's strength
+    int real_dam = ( (thrown.weight() / 452)
+                     + (thrown.type->melee_dam / 2)
+                     + (p.str_cur / 2) )
+                   / (2.0 + (thrown.volume() / 4.0));
     if (real_dam > thrown.weight() / 40) {
         real_dam = thrown.weight() / 40;
     }
-    if (p.has_active_bionic("bio_railgun") && (thrown.made_of("iron") || thrown.made_of("steel"))) {
+    if (do_railgun) {
         real_dam *= 2;
     }
-    int dam = real_dam;
 
+    // Item will shatter upon landing, destroying the item, dealing damage, and making noise
+    bool shatter = ( thrown.made_of("glass") && !thrown.active && // active = molotov, etc.
+            rng(0, thrown.volume() + 8) - rng(0, p.str_cur) < thrown.volume() );
+
+    int dam = real_dam;
     int tx = 0, ty = 0;
+
+    // Loop through all squares of the trajectory, stop if we hit anything on the way
     size_t i = 0;
     for (i = 0; i < trajectory.size() && dam >= 0; i++) {
-        message = "";
+        std::string message = "";
         double goodhit = missed_by;
         tx = trajectory[i].x;
         ty = trajectory[i].y;
 
+        bool hit_something = false;
         const int zid = mon_at(tx, ty);
         const int npcID = npc_at(tx, ty);
 
-        // If there's a monster in the path of our item, and either our aim was true,
-        //  OR it's not the monster we were aiming at and we were lucky enough to hit it
+        monster *z;
+        npc *guy;
+
+        // Make railgun sparks
+        if (do_railgun) {
+            m.add_field(tx, ty, fd_electricity, rng(2, 3));
+        }
+
+        // Check if we hit a zombie or NPC
+        // Can be either the one we aimed for, or one that was in the way
         if (zid != -1 && (!missed || one_in(7 - int(zombie(zid).type->size)))) {
-            monster &z = zombie(zid);
-            if (rng(0, 100) < 20 + skillLevel * 12 && thrown.type->melee_cut > 0) {
-                if (!p.is_npc()) {
-                    message += string_format(_(" You cut the %s!"), z.name().c_str());
-                }
-                if (thrown.type->melee_cut > z.get_armor_cut(bp_torso)) {
-                    dam += (thrown.type->melee_cut - z.get_armor_cut(bp_torso));
-                }
-            }
-            if (thrown.made_of("glass") && !thrown.active && // active = molotov, etc.
-                rng(0, thrown.volume() + 8) - rng(0, p.str_cur) < thrown.volume()) {
-                if (u_see(tx, ty)) {
-                    add_msg(_("The %s shatters!"), thrown.tname().c_str());
-                }
-
-                for (auto &j : thrown.contents) {
-                    m.add_item_or_charges(tx, ty, j);
-                }
-
-                sound(tx, ty, 16, _("glass breaking!"));
-                int glassdam = rng(0, thrown.volume() * 2);
-                if (glassdam > z.get_armor_cut(bp_torso)) {
-                    dam += (glassdam - z.get_armor_cut(bp_torso));
-                }
-            } else {
-                m.add_item_or_charges(tx, ty, thrown);
-            }
-
-            if (i < trajectory.size() - 1) {
-                goodhit = double(double(rand() / RAND_MAX) / 2);
-            }
-
-            game_message_type gmtSCTcolor = m_good;
-
-            if (goodhit < .1 && !z.has_flag(MF_NOHEAD)) {
-                message = _("Headshot!");
-                gmtSCTcolor = m_headshot;
-                dam = rng(dam, dam * 3);
-                p.practice( "throw", 5 );
-                p.lifetime_stats()->headshots++;
-            } else if (goodhit < .2) {
-                message = _("Critical!");
-                gmtSCTcolor = m_critical;
-                dam = rng(dam, dam * 2);
-                p.practice( "throw", 2 );
-            } else if (goodhit < .4) {
-                dam = rng(int(dam / 2), int(dam * 1.5));
-            } else if (goodhit < .5) {
-                message = _("Grazing hit.");
-                gmtSCTcolor = m_grazing;
-                dam = rng(0, dam);
-            }
-            if (u_see(tx, ty)) {
-                //player hits monster thrown
-                nc_color color;
-                std::string health_bar = "";
-                get_HP_Bar(dam, z.get_hp_max(), color, health_bar, true);
-
-                SCT.add(z.xpos(),
-                        z.ypos(),
-                        direction_from(0, 0, z.xpos() - p.posx, z.ypos() - p.posy),
-                        health_bar.c_str(), m_good,
-                        message, gmtSCTcolor);
-
-                p.add_msg_player_or_npc(m_good, _("%s You hit the %s for %d damage."),
-                                        _("%s <npcname> hits the %s for %d damage."),
-                                        message.c_str(), z.name().c_str(), dam);
-            }
-            z.apply_damage( &p, bp_torso, dam );
-            return;
-
+            z = &zombie(zid);
+            hit_something = true;
         } else if (npcID != -1 && (!missed || one_in(4))) {
-            npc *guy = g->active_npc[npcID];
+            guy = g->active_npc[npcID];
+            hit_something = true;
+        }
 
+        if (hit_something) {
+            // Check if we manage to do cutting damage
             if (rng(0, 100) < 20 + skillLevel * 12 && thrown.type->melee_cut > 0) {
                 if (!p.is_npc()) {
-                    if (npcID != -1) {
+                    if (zid != -1) {
+                        message += string_format(_(" You cut the %s!"), z->name().c_str());
+                    } else if (npcID != -1) {
                         message += string_format(_(" You cut %s!"), guy->name.c_str());
                     }
                 }
-                if (npcID != -1 && thrown.type->melee_cut > guy->get_armor_cut(bp_torso)) {
+                if (zid != -1 && thrown.type->melee_cut > z->get_armor_cut(bp_torso)) {
+                    dam += (thrown.type->melee_cut - z->get_armor_cut(bp_torso));
+                } else if (npcID != -1 && thrown.type->melee_cut > guy->get_armor_cut(bp_torso)) {
                     dam += (thrown.type->melee_cut - guy->get_armor_cut(bp_torso));
                 }
             }
-            if (thrown.made_of("glass") && !thrown.active && // active = molotov, etc.
-                rng(0, thrown.volume() + 8) - rng(0, p.str_cur) < thrown.volume()) {
-                if (u_see(tx, ty)) {
-                    add_msg(_("The %s shatters!"), thrown.tname().c_str());
-                }
 
-                for (auto &j : thrown.contents) {
-                    m.add_item_or_charges(tx, ty, j);
-                }
-
-                sound(tx, ty, 16, _("glass breaking!"));
+            // Deal extra cut damage if the item breaks
+            if (shatter) {
                 int glassdam = rng(0, thrown.volume() * 2);
-                if (npcID != -1 && glassdam > guy->get_armor_cut(bp_torso)) {
+                if (zid != -1 && glassdam > z->get_armor_cut(bp_torso)) {
+                    dam += (glassdam - z->get_armor_cut(bp_torso));
+                } else if (npcID != -1 && glassdam > guy->get_armor_cut(bp_torso)) {
                     dam += (glassdam - guy->get_armor_cut(bp_torso));
                 }
-            } else {
-                m.add_item_or_charges(tx, ty, thrown);
             }
 
             if (i < trajectory.size() - 1) {
-                goodhit = double(double(rand() / RAND_MAX) / 2);
+                goodhit = double(rand() / RAND_MAX) / 2.0;
             }
-
             game_message_type gmtSCTcolor = m_good;
-            body_part bp = bp_torso;
+            body_part bp = bp_torso; // for NPCs
             if (goodhit < .1) {
                 message = _("Headshot!");
                 gmtSCTcolor = m_headshot;
@@ -778,38 +727,55 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
                 dam = rng(dam, dam * 2);
                 p.practice( "throw", 2 );
             } else if (goodhit < .4) {
-                dam = rng(int(dam / 2), int(dam * 1.5));
+                dam = rng(dam / 2, int(dam * 1.5));
             } else if (goodhit < .5) {
                 message = _("Grazing hit.");
                 gmtSCTcolor = m_grazing;
                 dam = rng(0, dam);
             }
 
+            // Combat text and message
             if (u_see(tx, ty)) {
-                //player hits monster thrown
                 nc_color color;
                 std::string health_bar = "";
-                get_HP_Bar(dam, guy->get_hp_max(bodypart_to_hp_part(bp)), color, health_bar, true);
-                SCT.add(guy->xpos(),
-                        guy->ypos(),
-                        direction_from(0, 0, guy->xpos() - p.posx, guy->ypos() - p.posy),
-                        health_bar.c_str(), m_good,
-                        message, gmtSCTcolor);
-
-                p.add_msg_player_or_npc(m_good, _("%s You hit %s for %d damage."),
-                                        _("%s <npcname> hits %s for %d damage."),
-                                        message.c_str(), guy->name.c_str(), dam);
+                if (zid != -1) {
+                    get_HP_Bar(dam, z->get_hp_max(), color, health_bar, true);
+                    SCT.add(z->xpos(),
+                            z->ypos(),
+                            direction_from(0, 0, z->xpos() - p.posx, z->ypos() - p.posy),
+                            health_bar.c_str(), m_good,
+                            message, gmtSCTcolor);
+                    p.add_msg_player_or_npc(m_good, _("%s You hit the %s for %d damage."),
+                                            _("%s <npcname> hits the %s for %d damage."),
+                                            message.c_str(), z->name().c_str(), dam);
+                } else if (npcID != -1) {
+                    get_HP_Bar(dam, guy->get_hp_max(bodypart_to_hp_part(bp)), color, health_bar, true);
+                    SCT.add(guy->xpos(),
+                            guy->ypos(),
+                            direction_from(0, 0, guy->xpos() - p.posx, guy->ypos() - p.posy),
+                            health_bar.c_str(), m_good,
+                            message, gmtSCTcolor);
+                    p.add_msg_player_or_npc(m_good, _("%s You hit %s for %d damage."),
+                                            _("%s <npcname> hits %s for %d damage."),
+                                            message.c_str(), guy->name.c_str(), dam);
+                }
             }
 
-            guy->apply_damage( &p, bp, dam );
-            if (guy->is_dead_state()) {
-                guy->die(&p);
+            // actually deal damage now
+            if (zid != -1) {
+                z->apply_damage( &p, bp_torso, dam );
+            } else if (npcID != -1) {
+                guy->apply_damage( &p, bp, dam );
+                if (guy->is_dead_state()) {
+                    guy->die(&p);
+                }
             }
-            return;
-
-        } else { // No monster hit, but the terrain might be.
+            break; // trajectory stops at this square
+            // end if (hit_something)
+        } else { // No monster hit, but the terrain might be. (e.g. window)
             m.shoot(tx, ty, dam, false, no_effects);
         }
+
         // Collide with impassable terrain
         if (m.move_cost(tx, ty) == 0) {
             if (i > 0) {
@@ -819,20 +785,16 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
                 tx = u.posx;
                 ty = u.posy;
             }
-            i = trajectory.size();
-        }
-        if (p.has_active_bionic("bio_railgun") &&
-            (thrown.made_of("iron") || thrown.made_of("steel"))) {
-            m.add_field(tx, ty, fd_electricity, rng(2, 3));
+            break;
         }
     }
-    if (thrown.made_of("glass") && !thrown.active && // active means molotov, etc
-        rng(0, thrown.volume() + 8) - rng(0, p.str_cur) < thrown.volume()) {
+
+    // Add the thrown item to the map at the place it stopped (tx, ty)
+    if (shatter) {
         if (u_see(tx, ty)) {
             add_msg(_("The %s shatters!"), thrown.tname().c_str());
         }
-
-        for (auto &i : thrown.contents) {
+        for (item &i : thrown.contents) {
             m.add_item_or_charges(tx, ty, i);
         }
         sound(tx, ty, 16, _("glass breaking!"));
