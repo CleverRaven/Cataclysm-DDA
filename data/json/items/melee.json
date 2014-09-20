@@ -3975,7 +3975,7 @@
     "name_plural" : "cement",
     "symbol" : "=",
     "color" : "dark_gray",
-    "description" : "Portland is most likely long gone, but it's memory persists in cement. This ubiquitous binder can be used for all kinds of advanced masonry. Just add water.",
+    "description" : "Portland is most likely long gone, but its memory persists in cement. This ubiquitous binder can be used for all kinds of advanced masonry. Just add water.",
     "material" : "powder",
     "volume" : 1,
     "weight" : 20,
