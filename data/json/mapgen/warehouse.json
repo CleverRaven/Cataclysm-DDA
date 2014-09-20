@@ -75,7 +75,7 @@
 { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": 23, "repeat": [ 5, 8 ] }
 ],
 "place_groups": [
-{ "vehicle": "rv", "x": 12, "y": 13, "rotation": 270, "chance": 50 },
+{ "vehicle": "flatbed_truck", "x": 12, "y": 13, "rotation": 270, "chance": 50 },
 { "item": "home_hw", "chance": 4, "x": [ 3,20 ], "y": [ 3,20] },
 { "item": "cannedfood", "chance": 20, "x": [ 2,2 ], "y": [ 19,20] },
 { "item": "softdrugs", "chance": 30, "x": [ 2,3 ], "y": [ 16,16 ] },
