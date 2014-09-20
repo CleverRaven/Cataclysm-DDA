@@ -908,7 +908,7 @@
         "dispersion" : 0,
         "recoil" : 0,
         "stack_size" : 40,
-        "count" : 20
+        "count" : 20,
 	"effects" : ["COOKOFF", "RECYCLED"]
     },
     { 
