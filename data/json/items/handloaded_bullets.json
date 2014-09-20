@@ -1183,8 +1183,9 @@
         "count" : 100,
         "stack_size" : 200,
         "effects" : ["COOKOFF", "RECYCLED"]
-		},
-		{"type" : "AMMO",
+	},
+	{
+	"type" : "AMMO",
         "id" : "reloaded_700nx",
         "price" : 165,
         "name" : "reloaded .700 NX",
@@ -1207,8 +1208,9 @@
         "recoil" : 51,
         "count" : 30,
         "effects" : ["COOKOFF", "RECYCLED"]
-		},
-		{"type" : "AMMO",
+	},
+	{
+	"type" : "AMMO",
         "id" : "hm_12mm",
         "price" : 50,
         "name" : "handmade 12mm projectile",
