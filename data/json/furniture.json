@@ -7,7 +7,7 @@
         "bgcolor": "brown",
         "move_cost_mod": 3,
         "required_str": 6,
-        "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE"],
+        "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT"],
         "bash": {
             "str_min": 1, "str_max": 12,
             "sound": "whish!",
@@ -23,7 +23,7 @@
         "max_volume": 3000,
         "required_str": -1,
         "flags": ["TRANSPARENT", "UNSTABLE", "ROUGH", "PLACE_ITEM", "MOUNTABLE", "CONTAINER",
-	 "SEALED", "SHORT"],
+	 "SEALED", "TINY"],
         "examine_action": "rubble"
     },{
         "type" : "furniture",
@@ -34,7 +34,8 @@
         "move_cost_mod": 6,
         "max_volume": 3000,
         "required_str": -1,
-        "flags": ["TRANSPARENT", "UNSTABLE", "ROUGH", "PLACE_ITEM", "MOUNTABLE", "CONTAINER", "SEALED"],
+        "flags": ["TRANSPARENT", "UNSTABLE", "ROUGH", "PLACE_ITEM", "MOUNTABLE", "CONTAINER",
+	 "SEALED", "SHORT"],
         "examine_action": "rubble"
     },{
         "type" : "furniture",
@@ -445,7 +446,7 @@
         "move_cost_mod": 1,
         "required_str": 5,
         "max_volume": 4000,
-        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "MOUNTABLE"],
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "SHORT"],
         "bash": {
             "str_min": 8, "str_max": 30,
             "sound": "smash!",
@@ -579,7 +580,7 @@
         "move_cost_mod": 2,
         "required_str": 8,
         "max_volume": 4000,
-        "flags": ["TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE"],
+        "flags": ["TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT"],
         "deconstruct": {
             "items": [
                 { "item": "2x4", "amount": 6 },
@@ -631,7 +632,7 @@
         "move_cost_mod": 2,
         "required_str": -1,
         "max_volume": 4000,
-        "flags": ["TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE"],
+        "flags": ["TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT"],
         "deconstruct": {
             "items": [
                 { "item": "2x4", "amount": 4 },
@@ -658,7 +659,7 @@
         "color": "blue",
         "move_cost_mod": 2,
         "required_str": 10,
-        "flags": ["TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE"],
+        "flags": ["TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT"],
         "deconstruct": {
             "items": [
                 { "item": "2x4", "amount": 6 },
