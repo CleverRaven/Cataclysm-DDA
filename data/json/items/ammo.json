@@ -3917,5 +3917,27 @@
         "recoil" : 0,
         "count" : 20,
         "stack_size" : 50
+    },
+	{   "type" : "AMMO",
+        "id" : "combatnail",
+        "price" : 6000,
+        "name" : "small steel bolt",
+        "symbol" : "=",
+        "color" : "cyan",
+        "description" : "A small pointy steel bolt. Can be fired from a nail gun or similar weapon. Its drawback is that it can't be used for construction like nails.",
+        "material" : "iron",
+        "volume" : 1,
+        "weight" : 6,
+        "bashing" : 1,
+        "cutting" : 0,
+        "to_hit" : 0,
+        "ammo_type" : "nail",
+        "casing" : "NULL",
+        "damage" : 9,
+        "pierce" : 4,
+        "range" : 6,
+        "dispersion" : 22,
+        "recoil" : 5,
+        "count" : 50
     }
 ]

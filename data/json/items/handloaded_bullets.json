@@ -22,7 +22,7 @@
         "recoil" : 19,
         "count" : 25,
         "flags" : ["NOGIB"],
-        "effects" : ["COOKOFF", "SHOT"]
+        "effects" : ["COOKOFF", "SHOT", "RECYCLED"]
     },
     { 
         "type" : "AMMO",
@@ -46,7 +46,7 @@
         "dispersion" : 0,
         "recoil" : 27,
         "count" : 25,
-        "effects" : ["COOKOFF", "SHOT"]
+        "effects" : ["COOKOFF", "SHOT", "RECYCLED"]
     },
     { 
         "type" : "AMMO",
@@ -652,7 +652,7 @@
         "dispersion" : 12,
         "recoil" : 26,
         "count" : 80,
-        "effects" : ["COOKOFF"]
+        "effects" : ["COOKOFF", "RECYCLED"]
     },
     {  
         "type" : "AMMO",
@@ -702,7 +702,7 @@
         "dispersion" : 4,
         "recoil" : 33,
         "count" : 40,
-        "effects" : ["COOKOFF"]
+        "effects" : ["COOKOFF", "RECYCLED"]
     },
     { 
         "type" : "AMMO",
@@ -806,7 +806,7 @@
         "recoil" : 36,
         "count" : 5,
         "stack_size" : 20,
-        "effects" : ["COOKOFF", "INCENDIARY"]
+        "effects" : ["COOKOFF", "INCENDIARY", "RECYCLED"]
     },
     { 
         "type" : "AMMO",
@@ -858,7 +858,7 @@
         "recoil" : 35,
         "count" : 20,
         "stack_size" : 20,
-        "effects" : ["COOKOFF"]
+        "effects" : ["COOKOFF", "RECYCLED"]
     },
     { 
         "type" : "AMMO",
@@ -909,6 +909,7 @@
         "recoil" : 0,
         "stack_size" : 40,
         "count" : 20
+		"effects" : ["COOKOFF", "RECYCLED"]
     },
     { 
         "type" : "AMMO",
@@ -933,7 +934,7 @@
         "recoil" : 36,
         "count" : 4,
         "stack_size" : 4,
-        "effects" : ["COOKOFF", "SHOT"]
+        "effects" : ["COOKOFF", "SHOT", "RECYCLED"]
     },
     { 
         "type" : "AMMO",
@@ -983,7 +984,7 @@
         "recoil" : 8,
         "count" : 100,
         "stack_size" : 100,
-        "effects" : ["COOKOFF"]
+        "effects" : ["COOKOFF", "RECYCLED"]
     },
     { 
         "type" : "AMMO",
@@ -1033,7 +1034,7 @@
         "dispersion" : 1,
         "recoil" : 51,
         "count" : 10,
-        "effects" : ["COOKOFF"]
+        "effects" : ["COOKOFF", "RECYCLED"]
     },
     {   "type" : "AMMO",
         "id" : "reloaded_50_incendiary",
@@ -1057,7 +1058,7 @@
         "dispersion" : 2,
         "recoil" : 36,
         "count" : 10,
-        "effects" : ["INCENDIARY", "RECYCLED"]
+        "effects" : ["COOKOFF", "INCENDIARY", "RECYCLED"]
     },
     {
         "type" : "AMMO",
@@ -1082,7 +1083,7 @@
         "dispersion" : 1,
         "recoil" : 41,
         "count" : 10,
-        "effects" : ["COOKOFF"]
+        "effects" : ["COOKOFF", "RECYCLED"]
     },
     {
         "type" : "AMMO",
@@ -1107,7 +1108,7 @@
         "dispersion" : 11,
         "recoil" : 9,
         "count" : 50,
-        "effects" : ["COOKOFF"]
+        "effects" : ["COOKOFF", "RECYCLED"]
     },
     {
         "type" : "AMMO",
@@ -1132,7 +1133,7 @@
         "dispersion" : 1,
         "recoil" : 36,
         "count" : 20,
-        "effects" : ["COOKOFF"]
+        "effects" : ["COOKOFF", "RECYCLED"]
     },
     {   "type" : "AMMO",
         "id" : "reloaded_signal_flare",
@@ -1156,6 +1157,78 @@
         "recoil" : 15,
         "count" : 4,
         "stack_size" : 20,
-        "effects" : ["INCENDIARY", "FLARE", "RECYCLED"]
-    }
+        "effects" : ["COOKOFF", "INCENDIARY", "FLARE", "RECYCLED"]
+    },
+	{   "type" : "AMMO",
+        "id" : "reloaded_22_lr",
+        "price" : 25,
+        "name" : "reloaded .22 LR",
+        "name_plural" : "reloaded .22 LR",
+        "symbol" : "=",
+        "color" : "yellow",
+        "description" : "One of the smallest calibers available, the .22 Long Rifle cartridge has maintained popularity for nearly two centuries.  Its minimal recoil, low cost and low noise are offset by its paltry damage. This one has been hand-reloaded.",
+        "material" : "steel",
+        "volume" : 1,
+        "weight" : 3,
+        "bashing" : 1,
+        "cutting" : 0,
+        "to_hit" : 0,
+        "ammo_type" : "22",
+        "casing" : "22_casing",
+        "damage" : 10,
+        "pierce" : 0,
+        "range" : 13,
+        "dispersion" : 7,
+        "recoil" : 9,
+        "count" : 100,
+        "stack_size" : 200,
+        "effects" : ["COOKOFF", "RECYCLED"]
+		},
+		{"type" : "AMMO",
+        "id" : "reloaded_700nx",
+        "price" : 165,
+        "name" : "reloaded .700 NX",
+        "name_plural" : "reloaded .700 NX",
+        "symbol" : "=",
+        "color" : "dark_gray",
+        "description" : "The .700 Nitro Express is a very powerful rifle round designed for long-range use.  Its stupendous accuracy and armor piercing capabilities make it one of the most deadly rounds available, offset only by its drastic recoil and noise. This one has been hand-reloaded.",
+        "material" : "steel",
+        "volume" : 2,
+        "weight" : 169,
+        "bashing" : 1,
+        "cutting" : 0,
+        "to_hit" : 0,
+        "ammo_type" : "700nx",
+        "casing" : "700nx_casing",
+        "damage" : 69,
+        "pierce" : 30,
+        "range" : 90,
+        "dispersion" : 2,
+        "recoil" : 51,
+        "count" : 30,
+        "effects" : ["COOKOFF", "RECYCLED"]
+		},
+		{"type" : "AMMO",
+        "id" : "hm_12mm",
+        "price" : 50,
+        "name" : "handmade 12mm projectile",
+        "symbol" : "=",
+        "color" : "blue",
+        "description" : "Handmade 12mm projectiles made for use in a railgun.  These are hand-crafted and made of steel.",
+        "material" : "steel",
+        "volume" : 1,
+        "weight" : 11,
+        "bashing" : 1,
+        "cutting" : 0,
+        "to_hit" : 0,
+        "ammo_type" : "12mm",
+        "casing" : "NULL",
+        "damage" : 0,
+        "pierce" : 20,
+        "range" : 45,
+        "dispersion" : 12,
+        "recoil" : 8,
+        "count" : 20,
+        "stack_size" : 40,
+        "effects" : ["COOKOFF", "RECYCLED"]
 ]

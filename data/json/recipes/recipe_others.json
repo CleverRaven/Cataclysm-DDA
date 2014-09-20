@@ -1841,11 +1841,8 @@
   "time": 8000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "saw", -1 ]
-    ]
-  ],
+  "qualities":[
+    {"id":"SAW_W","level":2,"amount":1} ],
   "components": [
     [
       [ "stick", 1 ]
@@ -4007,7 +4004,7 @@
   "autolearn": false,
   "book_learn": [["textbook_firstaid", 3] , ["adv_chemistry", 4] , ["emergency_book", 4]],
   "qualities":[
-    {"id":"COOK","level":3,"amount":1}
+    {"id":"CHEM","level":1,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 18 ],
@@ -4039,7 +4036,7 @@
   "autolearn": false,
   "book_learn": [["textbook_firstaid", 8] , ["textbook_chemistry", 7] , ["adv_chemistry", 6] , ["emergency_book", 8]],
   "qualities":[
-    {"id":"COOK","level":3,"amount":1}
+    {"id":"CHEM","level":1,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 18 ],
@@ -4322,6 +4319,7 @@
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":2,"amount":1}
+	{"id":"SAW_W","level":2,"amount":1}
   ], "tools": [
     [
       [ "toolset", -1 ],

@@ -6572,7 +6572,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 8 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities": [
+       {"id":"HAMMER","level":3,"amount":1} ],
+  "tools":[
      [
       ["tongs", -1]
      ],
@@ -6610,7 +6612,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 7 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities": [
+       {"id":"HAMMER","level":3,"amount":1} ],
+  "tools": [
      [
       ["tongs", -1]
      ],
@@ -6649,7 +6653,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 5 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities": [
+       {"id":"HAMMER","level":3,"amount":1} ],
+  "tools": [
      [
       ["tongs", -1]
      ],
@@ -6688,7 +6694,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 4 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities": [
+       {"id":"HAMMER","level":3,"amount":1} ],
+  "tools": [
      [
       ["tongs", -1]
      ],
@@ -6728,7 +6736,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 6 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+    "qualities": [
+       {"id":"HAMMER","level":3,"amount":1} ],
+  "tools": [
      [
       ["tongs", -1]
      ],
@@ -6767,7 +6777,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 5 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities": [
+       {"id":"HAMMER","level":3,"amount":1} ],
+  "tools": [
      [
       ["tongs", -1]
      ],
@@ -6806,7 +6818,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_armeast", 8 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities": [
+       {"id":"HAMMER","level":3,"amount":1} ],
+  "tools": [
      [
       ["tongs", -1]
      ],
@@ -6848,7 +6862,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_armeast", 8 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+    "qualities": [
+       {"id":"HAMMER","level":3,"amount":1} ],
+  "tools": [
      [
       ["tongs", -1]
      ],
