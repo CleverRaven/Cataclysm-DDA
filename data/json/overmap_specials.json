@@ -1160,7 +1160,7 @@
 	{ "point":[0,0,0], "overmap": "warehouse", "connect":"road"}
 	],
 	"locations" : [ "by_hiway" ], "//":"what special locations does it spawn",
-	"city_distance" : [10, 100], "//":"how far from a city it should be",
+	"city_distance" : [6, 20], "//":"how far from a city it should be",
 	"city_sizes" : [5, 12], "//":"what city sizes should it spawn in",
 	"occurrences" : [0, 2], "//":"how many per overmap",
 	"rotate" : true , "//":"allow rotation",
