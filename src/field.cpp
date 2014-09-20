@@ -88,7 +88,7 @@ void game::init_fields()
             {c_yellow, c_ltred, c_red}, {true, true, true}, {true, true, true}, 800,
             {0,0,0}
         },
-        
+
        {
            "fd_rubble",
            {_("legacy rubble"), _("legacy rubble"), _("legacy rubble")}, '#', 0,
@@ -286,28 +286,28 @@ void game::init_fields()
             { c_white, c_cyan, c_cyan }, { true, true, false }, { true, true, true }, 40,
             {0,0,0}
         },
-        
+
         {
             "fd_hot_air1",
             {_(""),_(""),_("")}, '&', 0,
             {c_white, c_yellow, c_red}, {true, true, true}, {false, false, false}, 500,
             {0,0,0}
         },
-        
+
         {
             "fd_hot_air2",
             {_(""),_(""),_("")}, '&', 0,
             {c_white, c_yellow, c_red}, {true, true, true}, {false, false, false}, 500,
             {0,0,0}
         },
-        
+
         {
             "fd_hot_air3",
             {_(""),_(""),_("")}, '&', 0,
             {c_white, c_yellow, c_red}, {true, true, true}, {false, false, false}, 500,
             {0,0,0}
         },
-        
+
         {
             "fd_hot_air4",
             {_(""),_(""),_("")}, '&', 0,

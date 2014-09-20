@@ -1826,7 +1826,7 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str, bool si
                     success = true;
                 }
             }
-            
+
             if (success || destroy) {
                 // Clear out any partially grown seeds
                 if (has_flag_ter_or_furn("PLANT", x, y)) {
@@ -1834,7 +1834,7 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str, bool si
                         i_rem(x, y, i);
                     }
                 }
-                
+
                 if (smash_furn) {
                     if (has_flag_furn("FUNGUS", x, y)) {
                         create_spores(x, y);
@@ -1844,7 +1844,7 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str, bool si
                         create_spores(x, y);
                     }
                 }
-                
+
                 if (destroy) {
                     sound_volume = smax;
                 } else {
@@ -1868,12 +1868,12 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str, bool si
                     debugmsg( "data/json/terrain.json does not have %s.bash.ter_set set!",
                               ter_at(x,y).id.c_str() );
                 }
-                
+
                 spawn_item_list(bash->items, x, y);
                 if (bash->explosive > 0) {
                     g->explosion(x, y, bash->explosive, 0, false);
                 }
-                
+
                 if (collapses) {
                     collapse_at(x, y);
                 }
