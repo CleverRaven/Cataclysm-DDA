@@ -3557,8 +3557,9 @@
       [ "solder_wire", 180 ]
     ]
   ]
-},{
-        "type" : "recipe",
+},
+{
+  "type" : "recipe",
   "result": "reloaded_700nx",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
@@ -3601,8 +3602,9 @@
       [ "cu_pipe", 4 ]
     ]
   ]
-},{
-        "type" : "recipe",
+},
+{
+  "type" : "recipe",
   "result": "combatnail",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_OTHER",
@@ -3627,8 +3629,9 @@
       [ "scrap", 3 ]
     ]
 	]
-  },{
-      "type" : "recipe",
+  },
+  {
+  "type" : "recipe",
   "result": "hm_12mm",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
