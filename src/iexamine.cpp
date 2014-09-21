@@ -1290,7 +1290,11 @@ void iexamine::aggie_plant(player *p, map *m, int examx, int examy)
             }
             p->moves -= 500;
         }
-    } else if (m->furn(examx, examy) != f_plant_harvest && m->i_at(examx, examy).size() == 1){
+    } else if (m->furn(examx, examy) != f_plant_harvest) {
+        if (m->i_at(examx, examy).size() > 1) {
+            add_msg(m_info, _("This plant has already been fertilized."));
+            return;
+        }
         if ( !p->has_item_with_flag("FERTILIZER") ) {
         add_msg(m_info, _("You have no fertilizer."));
         return;
