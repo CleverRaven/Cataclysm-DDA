@@ -3636,18 +3636,18 @@
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
   "skill_used": "fabrication",
-  "skills_required": [[ "electronics", 5 ], [ "gun", 4 ] ],
-  "difficulty": 8,
-  "time": 10000,
+  "skills_required": [[ "electronics", 8 ], [ "gun", 7 ] ],
+  "difficulty": 12,
+  "time": 20000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [["recipe_bullets" , 5 ]],
+  "book_learn": [["recipe_bullets" , 10 ]],
   "qualities":[
   {"id":"SCREW","level":1,"amount":1},
   {"id":"CUT","level":1,"amount":1},
   {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
-  [ ["soldering_iron", 5], ["toolset", 5] ]
+  [ ["soldering_iron", 20], ["toolset", 20] ]
   ],
   "components": [
   [ ["combatnail", 20], ["nail", 40] ],
