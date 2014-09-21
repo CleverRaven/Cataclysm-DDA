@@ -2294,7 +2294,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"COOK","level":3,"amount":1}
+    {"id":"CHEM","level":1,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 5 ],
