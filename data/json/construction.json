@@ -6,13 +6,13 @@
         "difficulty" : 0,
         "time" : 20,
         "qualities": [
-		    [
+            [
                 { "id": "HAMMER", "level": 2 }
             ],
-		    [
+            [
                 { "id": "SCREW", "level": 1 }
             ]
-		],
+        ],
         "pre_special" : "check_deconstruct",
         "post_special" : "done_deconstruct"
     },{
@@ -279,13 +279,13 @@
         "difficulty" : 8,
         "time" : 15,
         "qualities": [
-		    [
+            [
             { "id": "HAMMER", "level": 2 }
             ],
-		    [
+            [
             { "id": "SAW_M", "level": 1 }
             ]
-			],
+            ],
         "components" : [
             [ [ "spike", 8 ] ],
             [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ]
@@ -299,16 +299,16 @@
         "difficulty" : 8,
         "time" : 15,
         "qualities": [
-		    [
+            [
             { "id": "HAMMER", "level": 2 }
             ],
-		    [
+            [
             { "id": "SAW_M", "level": 1 }
             ],
-		    [
+            [
             { "id": "WRENCH", "level": 1 }
             ]
-			],
+            ],
         "components" : [
             [ [ "steel_lump", 4 ], [ "steel_chunk", 12 ], [ "scrap", 36 ] ],
             [ [ "steel_plate", 2 ], [ "sheet_metal", 8 ] ]
@@ -741,13 +741,13 @@
         "difficulty" : 0,
         "time" : 5,
         "qualities": [
-		    [
+            [
             { "id": "HAMMER", "level": 2 }
             ],
-		    [
+            [
             { "id": "DIG", "level": 2 }
             ]
-			],
+            ],
         "components" : [
             [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ] ]
         ],
@@ -783,13 +783,13 @@
         "difficulty" : 2,
         "time" : 15,
         "qualities": [ 
-		    [
+            [
             { "id": "HAMMER", "level": 2 }
             ],
-		    [
+            [
             { "id": "DIG", "level": 2 }
             ]
-			],
+            ],
         "components" : [
             [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ] ],
             [ [ "2x4", 5 ] ],
@@ -941,11 +941,11 @@
         "difficulty" : 1,
         "time" : 20,
         "qualities": [
-		    [
+            [
             { "id": "HAMMER", "level": 2 }
             ]
 
-			],
+            ],
         "components" : [
             [ [ "2x4", 8 ] ],
             [ [ "nail", 24 ] ]
@@ -959,13 +959,13 @@
         "difficulty" : 0,
         "time" : 10,
         "qualities": [
-		    [
+            [
             { "id": "HAMMER", "level": 2 }
             ],
-		    [
+            [
             { "id": "SAW_W", "level": 1 }
             ]
-			],
+            ],
         "components" : [
             [ [ "2x4", 4 ] ],
             [ [ "nail", 8 ] ]
@@ -979,13 +979,13 @@
         "difficulty" : 2,
         "time" : 20,
         "qualities": [
-		    [
+            [
             { "id": "HAMMER", "level": 2 }
             ],
-		    [
+            [
             { "id": "SAW_W", "level": 1 }
             ]
-			],
+            ],
         "components" : [
             [ [ "2x4", 6 ] ],
             [ [ "nail", 8 ] ]
@@ -999,13 +999,13 @@
         "difficulty" : 1,
         "time" : 20,
         "qualities": [
-		    [
+            [
             { "id": "HAMMER", "level": 2 }
             ],
-		    [
+            [
             { "id": "SAW_W", "level": 1 }
             ]
-			],
+            ],
         "components" : [
             [ [ "2x4", 12 ] ],
             [ [ "nail", 16 ] ]
@@ -1019,13 +1019,13 @@
         "difficulty" : 4,
         "time" : 20,
         "qualities": [
-		    [
+            [
             { "id": "HAMMER", "level": 2 }
             ],
-		    [
+            [
             { "id": "WRENCH", "level": 1 }
             ]
-			],
+            ],
         "components" : [
             [ [ "sheet_metal", 2 ] ],
             [ [ "pipe", 8 ] ]
@@ -1039,13 +1039,13 @@
         "difficulty" : 2,
         "time" : 20,
         "qualities": [
-		    [
+            [
             { "id": "HAMMER", "level": 2 }
             ],
-		    [
+            [
             { "id": "WRENCH", "level": 1 }
             ]
-			],
+            ],
         "components" : [
             [ [ "pipe", 12 ] ]
         ],
@@ -1134,13 +1134,13 @@
         "difficulty" : 3,
         "time" : 20,
         "qualities": [
-		    [
+            [
             { "id": "HAMMER", "level": 2 }
             ],
-		    [
+            [
             { "id": "SAW_W", "level": 1 }
             ]
-			],
+            ],
         "components" : [
             [ [ "2x4", 12 ] ],
             [ [ "nail", 10 ] ],
@@ -1156,13 +1156,13 @@
         "difficulty" : 3,
         "time" : 20,
         "qualities": [
-		    [
+            [
             { "id": "HAMMER", "level": 2 }
             ],
-		    [
+            [
             { "id": "SAW_W", "level": 1 }
             ]
-			],
+            ],
         "components" : [
             [ [ "2x4", 10 ] ],
             [ [ "nail", 8 ] ],
@@ -1177,13 +1177,13 @@
         "difficulty" : 6,
         "time" : 20,
         "qualities": [
-		    [
+            [
             { "id": "HAMMER", "level": 2 }
             ],
-		    [
+            [
             { "id": "SAW_W", "level": 1 }
             ]
-			],
+            ],
         "components" : [
             [ [ "2x4", 10 ] ],
             [ [ "nail", 8 ] ],
@@ -1213,13 +1213,13 @@
         "difficulty" : 2,
         "time" : 40,
         "qualities": [
-		    [
+            [
             { "id": "HAMMER", "level": 2 }
             ],
-		    [
+            [
             { "id": "DIG", "level": 2 }
             ]
-			],
+            ],
         "components" : [
             [ [ "rock", 40 ] ]
         ],
@@ -1247,13 +1247,13 @@
         "difficulty" : 2,
         "time" : 20,
         "qualities": [
-		    [
+            [
             { "id": "HAMMER", "level": 2 }
             ],
-		    [
+            [
             { "id": "SAW_W", "level": 1 }
             ]
-			],
+            ],
         "components" : [
             [ [ "2x4", 14 ] ],
             [ [ "nail", 12 ] ],
@@ -1269,13 +1269,13 @@
         "difficulty" : 3,
         "time" : 20,
         "qualities": [
-		    [
+            [
             { "id": "HAMMER", "level": 2 }
             ],
-		    [
+            [
             { "id": "SAW_W", "level": 1 }
             ]
-			],
+            ],
         "components" : [
             [ [ "2x4", 18 ] ],
             [ [ "nail", 14 ] ],
@@ -1324,13 +1324,13 @@
         "difficulty" : 9,
         "time" : 480,
         "qualities": [
-		    [
+            [
             { "id": "HAMMER", "level": 2 }
             ],
-		    [
+            [
             { "id": "DIG", "level": 2 }
             ]
-			],
+            ],
         "components" : [
             [ [ "rock", 40 ] ],
             [ [ "2x4", 4 ] ],
@@ -1345,13 +1345,13 @@
         "difficulty" : 5,
         "time" : 120,
         "qualities": [
-		    [
+            [
             { "id": "HAMMER", "level": 2 }
             ],
-		    [
+            [
             { "id": "WRENCH", "level": 1 }
             ]
-			],
+            ],
         "components" : [
             [ [ "well_pump", 1 ] ],
             [ [ "pipe", 6 ] ]
@@ -1626,9 +1626,9 @@
         "difficulty" : 5,
         "time" : 420,
         "qualities": [ [ { "id": "AXE", "level": 2 } ],
-		               [ { "id": "HAMMER", "level": 2 } ],
-		               [ { "id": "DIG", "level": 3 } ]
-					   ],
+                       [ { "id": "HAMMER", "level": 2 } ],
+                       [ { "id": "DIG", "level": 3 } ]
+                       ],
         "tools" : [
             [ "pickaxe" ]
         ],
@@ -1645,9 +1645,9 @@
         "difficulty" : 6,
         "time" : 480,
         "qualities": [ [ { "id": "AXE", "level": 2 } ],
-		               [ { "id": "HAMMER", "level": 2 } ],
-		               [ { "id": "DIG", "level": 3 } ]
-					   ],
+                       [ { "id": "HAMMER", "level": 2 } ],
+                       [ { "id": "DIG", "level": 3 } ]
+                       ],
         "tools" : [
             [ "jackhammer", "jacqueshammer" ],
             [ "crowbar", "halligan"]
@@ -1667,9 +1667,9 @@
         "difficulty" : 6,
         "time" : 480,
         "qualities": [ [ { "id": "AXE", "level": 2 } ],
-		               [ { "id": "HAMMER", "level": 2 } ],
-		               [ { "id": "DIG", "level": 3 } ]
-					   ],
+                       [ { "id": "HAMMER", "level": 2 } ],
+                       [ { "id": "DIG", "level": 3 } ]
+                       ],
         "tools" : [
             [ "jackhammer", "jacqueshammer" ],
             [ "crowbar", "halligan"],
@@ -1702,7 +1702,7 @@
         "pre_special" : "check_empty",
         "post_special" : "done_vehicle"
     },{
-    	"type" : "construction",
+        "type" : "construction",
         "description" : "Build Road Barricade", 
         "category" : "OTHER",
         "difficulty" : 0,
