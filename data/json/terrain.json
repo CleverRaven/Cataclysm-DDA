@@ -2166,7 +2166,7 @@
             "str_min": 8, "str_max": 30,
             "sound": "metal screeching!",
             "sound_fail": "clang!",
-            "ter_set": "t_chainfence_posts",
+            "ter_set": "t_dirt",
             "items": [
                 { "item": "pipe", "amount": 4, "minamount": 1 },
                 { "item": "scrap", "amount": 6, "minamount": 3 }
