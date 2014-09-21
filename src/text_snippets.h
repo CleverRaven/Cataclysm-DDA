@@ -19,13 +19,6 @@ class snippet_library
         int assign( const std::string category ) const;
         std::string get( const int index ) const;
         bool has_category( const std::string &category ) const;
-        /**
-         * Adds the snippet text, puts it into @ref categories and @ref snippets.
-         * Snippet texts must already be translated!
-         * @return the hash of the snippet.
-         */
-        int add_snippet(const std::string &category, const std::string &text);
-        int calc_hash(const std::string &original) const;
         int get_snippet_by_id( const std::string &id ) const;
         /**
          * Load a single snippet text from the json object. The object should have
@@ -33,16 +26,23 @@ class snippet_library
          * A "id" member is optional and if present gives the snippet text a id,
          * stored in snippets_by_id.
          */
+        void add_snippets_from_json( const std::string &category, JsonArray &jarr );
+
+        void clear_snippets();
+    private:
+        /**
+         * Adds the snippet text, puts it into @ref categories and @ref snippets.
+         * Snippet texts must already be translated!
+         * @return the hash of the snippet.
+         */
+        int add_snippet(const std::string &category, const std::string &text);
+        int calc_hash(const std::string &original) const;
         void add_snippet_from_json( const std::string &category, JsonObject &jo );
         /**
          * Load all snippet definitions in the json array into given category.
          * Entries in the array can be simple strings, or json objects (for the
          * later see add_snippet_from_json).
          */
-        void add_snippets_from_json( const std::string &category, JsonArray &jarr );
-
-        void clear_snippets();
-    private:
         // Snippets holds a map from the strings hash to the string.
         // This is so the reference to the string remains stable across
         // changes to the layout and contents of the snippets json file.
