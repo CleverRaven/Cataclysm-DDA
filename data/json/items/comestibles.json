@@ -17066,7 +17066,7 @@
         "comestible_type" : "DRINK",
         "symbol" : "~",
         "quench" : 38,
-        "healthy" : 1,
+        "healthy" : 0,
         "addiction_potential" : 0,
         "nutrition" : 2,
         "description" : "Water with sugar or honey added.  Tastes okay.",
