@@ -2416,7 +2416,7 @@
   "autolearn": true,
   "book_learn": [["adv_chemistry", 2] , ["textbook_chemistry", 2] , ["recipe_labchem", 3] , ["atomic_survival", 2]],
   "qualities":[
-    {"id":"COOK","level":3,"amount":1}],
+    {"id":"CHEM","level":1,"amount":1}],
   "components": [
     [ [ "jug_plastic", 1 ], [ "jar_3l_glass",1 ] ],
 	[ [ "fertilizer_liquid", 4 ], [ "fertilizer_commercial", 4 ] ],
