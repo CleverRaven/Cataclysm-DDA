@@ -152,6 +152,10 @@ The syntax listed here is still valid.
 "items":[              // ID's of items player starts with when selecting this profession
  "army_top",
  "boots_steel",
+ ["survnote", "snippet-id"],
+                       // Entries can also be an array containing the item id and a snippet id.
+                       // The id must match a snippet id from the snippet category that is
+                       // used by that item type.
  "jeans"
 ],
 "name":"Bow Hunter",   // In-game name displayed
@@ -223,11 +227,6 @@ The syntax listed here is still valid.
 "name" : "submachine guns",  // In-game name displayed
 "description" : "Your skill with submachine guns and machine pistols. Halfway between a pistol and an assault rifle, these weapons fire and reload quickly, and may fire in bursts, but they are not very accurate.", // In-game description
 "tags" : ["gun_type"]  // Special flags (default: none)
-```
-###SNIPPETS
-```C++
-"category": "flier", // Category used
-	"text": "This is an advertisement for the Diet Devil brand Metabolic Exchange CBM.  It shows a picture of a tiny obese devil sitting on a woman's shoulder. The woman stares intently at a gigantic wedding cake covered with bacon and candybars. The caption reads: \"Burn calories! Burn!\"" // In-game description
 ```
 ###TRAITS/MUTATIONS
 ```C++
@@ -550,8 +549,8 @@ The contents of use_action fields can either be a string indicating a built-in f
     "tools_needed" : { "apparatus" : -1 } // Tool needed to use the drug.
 }
 ```
-###PAPERS
-Require the same values as items of type "GENERIC", additional a "snippet_category" entry:
+###Random descriptions
+Any item with a "snippet_category" entry will have random descriptions, based on that snippet category:
 ```
 "snippet_category": "newspaper",
 ```
@@ -560,6 +559,7 @@ The item descriptions are taken from snippets, which can be specified like this 
 {
     "type" : "snippet",
     "category" : "newspaper",
+    "id" : "snippet-id",          // id is optional, it's used when the snippet is referenced in the item list of professions
     "text": "your flavor text"
 }
 ```
@@ -568,10 +568,23 @@ or several snippets at once:
 {
     "type" : "snippet",
     "category" : "newspaper",
+    "text": [
+        "your flavor text",
+        "more flavor",
+        // entries can also bo of this form to have a id to reference that specific snippet.
+        { "id" : "snippet-id", "text" : "another flavor text" }
+    ]
     "text": [ "your flavor text", "another flavor text", "more flavor" ]
 }
 ```
 Multiple snippets for the same category are possible and actually recommended. The game will select a random one for each item of that type.
+
+One can also put the snippets directly in the item definition:
+```
+"snippet_category": [ "text 1", "text 2", "text 3" ],
+```
+This will automatically create a snippet category specific to that item and populate that category with the given snippets.
+The format also support snippet ids like above.
 
 #json jsons
 

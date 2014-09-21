@@ -12,6 +12,7 @@
 #include "item.h"
 #include "game.h"
 #include "artifact.h"
+#include "text_snippets.h"
 #include <algorithm>
 #include <cstdlib>
 #include <iostream>
@@ -472,6 +473,11 @@ void Item_factory::check_itype_definitions() const
                 msg << string_format("unknown technique %s", a->c_str()) << "\n";
             }
         }
+        if( !type->snippet_category.empty() ) {
+            if( !SNIPPET.has_category( type->snippet_category ) ) {
+                msg << string_format("snippet category %s without any snippets", type->id.c_str(), type->snippet_category.c_str()) << "\n";
+            }
+        }
         for (std::map<std::string, int>::const_iterator a = type->qualities.begin();
              a != type->qualities.end(); ++a) {
             if( !quality::has( a->first ) ) {
@@ -907,13 +913,6 @@ void Item_factory::load_veh_part(JsonObject &jo)
     load_basic_info(jo, veh_par_template);
 }
 
-void Item_factory::load_stationary(JsonObject &jo)
-{
-    it_stationary *stationary_template = new it_stationary();
-    stationary_template->category = jo.get_string("snippet_category");
-    load_basic_info(jo, stationary_template);
-}
-
 void Item_factory::load_generic(JsonObject &jo)
 {
     itype *new_item_template = new itype();
@@ -972,6 +971,16 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     }
 
     new_item_template->light_emission = 0;
+
+    if( jo.has_array( "snippet_category" ) ) {
+        // auto-create a category that is unlikely to already be used and put the
+        // snippets in it.
+        new_item_template->snippet_category = std::string( "auto:" ) + new_item_template->id;
+        JsonArray jarr = jo.get_array( "snippet_category" );
+        SNIPPET.add_snippets_from_json( new_item_template->snippet_category, jarr );
+    } else {
+        new_item_template->snippet_category = jo.get_string( "snippet_category", "" );
+    }
 
     /*
     List of current flags
