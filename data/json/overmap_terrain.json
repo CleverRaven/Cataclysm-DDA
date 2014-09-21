@@ -4417,6 +4417,7 @@
 	"type" : "overmap_terrain",
 	"id" : "warehouse",
 	"name" : "small warehouse",
+	"rotate" : true,
 	"sym" : 119,
 	"color" : "light_blue",
 	"see_cost" : 5,
