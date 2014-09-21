@@ -317,7 +317,7 @@
         "bashing": 2,
         "cutting": 0,
         "to_hit": -1,
-        "min-bigness": 20,
+        "min-bigness": 22,
         "max-bigness": 45,
         "category": "veh_parts",
         "bigness-aspect": "ENGINE_DISPLACEMENT"
