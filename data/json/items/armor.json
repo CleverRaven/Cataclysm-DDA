@@ -2826,6 +2826,35 @@
         "coverage" : 90,
         "material_thickness" : 1
     },
+    {
+        "type" : "ARMOR",
+        "id" : "tshirt_text",
+        "name" : "t-shirt",
+        "weight" : 110,
+        "color" : "white",
+        "covers" : ["TORSO"],
+        "to_hit" : 0,
+        "storage" : 0,
+        "symbol" : "[",
+        "description" : "A short-sleeved cotton shirt.",
+        "snippet_category" : [
+            { "id" : "allyourbase",
+              "text" : "A short-sleeved cotton shirt with the text \"chown -R us /home/your/base\" printed on the front."
+            }
+        ],
+        "price" : 800,
+        "material" : ["cotton", "null"],
+        "volume" : 2,
+        "cutting" : 0,
+        "warmth" : 5,
+        "phase" : "solid",
+        "environmental_protection" : 0,
+        "encumbrance" : 0,
+        "bashing" : -5,
+        "flags" : ["VARSIZE"],
+        "coverage" : 90,
+        "material_thickness" : 1
+    },
         {
         "type" : "ARMOR",
         "id" : "postman_shirt",
