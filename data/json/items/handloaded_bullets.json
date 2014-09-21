@@ -1227,12 +1227,12 @@
         "ammo_type" : "12mm",
         "casing" : "NULL",
         "damage" : 0,
-        "pierce" : 20,
-        "range" : 45,
+        "pierce" : 15,
+        "range" : 35,
         "dispersion" : 12,
         "recoil" : 8,
         "count" : 20,
         "stack_size" : 40,
-        "effects" : ["COOKOFF", "RECYCLED"]
+        "effects" : ["RECYCLED"]
 	}
 ]
