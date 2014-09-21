@@ -2378,6 +2378,25 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "gas_tank_little",
+        "name" : "gasoline tank (little)",
+        "symbol" : "O",
+        "color" : "light_red",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 75,
+        "size" : 650,
+        "fuel_type" : "gasoline",
+        "item" : "metal_tank_little",
+        "difficulty" : 1,
+        "location" : "fuel_source",
+        "flags" : ["FUEL_TANK"],
+        "breaks_into" : [
+            {"item": "scrap", "min": 1, "max": 2}
+        ]
+    },{
+        "type" : "vehicle_part",
         "id" : "external_gas_tank",
         "name" : "externally mounted gas tank",
         "symbol" : "O",

@@ -344,6 +344,24 @@
         "flags" : ["RIGID", "SEALS", "WATERTIGHT"]
     },
     {
+        "id" : "metal_tank_little",
+        "type": "CONTAINER",
+        "symbol" : "}",
+        "color" : "light_cyan",
+        "name" : "little metal tank",
+        "category": "other",
+        "description" : "A little gas tank.  Useful for crafting.",
+        "price" : 250,
+        "weight" : 160,
+        "volume" : 5,
+        "bashing" : 2,
+        "cutting" : 0,
+        "to_hit" : -2,
+        "contains" : 5,
+        "material" : ["aluminum", "null"],
+        "flags" : ["RIGID", "SEALS", "WATERTIGHT"]
+    },
+    {
         "id": "keg",
         "type": "CONTAINER",
         "symbol": ")",
