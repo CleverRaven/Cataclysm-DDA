@@ -438,6 +438,19 @@ void uimenu::setup()
         wprintz(window, border_color, " >");
     }
     fselected = selected;
+    if(fselected < 0) {
+        fselected = selected = 0;
+    } else if(fselected >= static_cast<int>(entries.size())) {
+        fselected = selected = static_cast<int>(entries.size()) - 1;
+    }
+    if(!entries.empty() && !entries[fselected].enabled) {
+        for(size_t i = 0; i < entries.size(); ++i) {
+            if(entries[i].enabled) {
+                fselected = selected = i;
+                break;
+            }
+        }
+    }
     started = true;
 }
 
