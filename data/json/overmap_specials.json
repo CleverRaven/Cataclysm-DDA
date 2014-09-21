@@ -1157,7 +1157,7 @@
 	"id" : "warehouse",
 	"overmaps" :
 	[
-	{ "point":[0,0,0], "overmap": "warehouse", "connect":"road"}
+	{ "point":[0,0,0], "overmap": "warehouse_north", "connect":"road"}
 	],
 	"locations" : [ "by_hiway" ], "//":"what special locations does it spawn",
 	"city_distance" : [6, 20], "//":"how far from a city it should be",
