@@ -1819,7 +1819,7 @@
         "name" : ".22 casing",
         "symbol" : "=",
         "color" : "yellow",
-        "description" : "An empty casing from a .22 round.",
+        "description" : "An empty casing from a .22 round. These can't be hand-reloaded.",
         "material" : "steel",
         "volume" : 1,
         "weight" : 1,
