@@ -1767,7 +1767,7 @@
   "skill_used": "electronics",
   "difficulty": 0,
   "time": 90000,
-  "reversible": true,
+  "reversible": true,re
   "autolearn": false,
   "qualities" : [
     {"id":"SCREW","level":1,"amount":1}
@@ -2002,5 +2002,30 @@
       [ "battery", 200 ]
     ]
   ]
-  }
+},
+  {
+  "type" : "recipe",
+  "result": "hd_steel_drum",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": 250000,
+  "reversible": true,
+  "autolearn": false,
+"qualities" : [
+    {"id":"SAW_M","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+	[ [ "welder", 250 ], [ "toolset", 375 ], [ "welder_crude", 375 ] ]
+    ]
+  ],
+  "components": [
+    [
+      [ "steel_plate", 5 ]
+    ],
+	  [[ "steel_lump", 13 ]]
+  ]
+}
 ]
