@@ -4809,7 +4809,9 @@
     ],
   "components": [
     [
-    [ "material_quicklime", 50 ],
+    [ "material_quicklime", 50 ]
+    ],
+    [
     [ "material_sand", 50 ]
     ]
   ]
