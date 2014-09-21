@@ -22,15 +22,11 @@ void player::activate_mutation(int b)
     int cost = traits[mut].cost;
     // You can take yourself halfway to Near Death levels of hunger/thirst.
     // Fatigue can go to Exhausted.
-    if ((traits[mut].hunger && hunger >= 700) || (traits[mut].thirst && thirst >= 260) || (traits[mut].fatigue && fatigue >= 575)) { //TODO: Change this to use hunger/fatigue/that crap
-        if (traits[my_mutations[b]].powered) {
-            add_msg(m_neutral, _("You stop using your %s."), traits[mut].name.c_str());
-            traits[my_mutations[b]].powered = false;
-            traits[my_mutations[b]].cooldown = traits[my_mutations[b]].cost;
-        } else {
-            add_msg(m_info, _("You feel like using your %s would kill you!"), traits[mut].name.c_str());
-        }
-        return;
+    if ((traits[mut].hunger && hunger >= 700) || (traits[mut].thirst && thirst >= 260) ||
+      (traits[mut].fatigue && fatigue >= 575)) {
+      // Insufficient Foo to *maintain* operation is handled in player::suffer
+        add_msg(m_warning, _("You feel like using your %s would kill you!"), traits[mut].name.c_str());
+        return; 
     }
     if (traits[my_mutations[b]].powered && traits[my_mutations[b]].charge > 0) {
         // Already-on units just lose a bit of charge
