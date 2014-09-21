@@ -1597,3 +1597,9 @@ void advanced_inventory::display()
         g->refresh_all();
     }
 }
+
+void game::advanced_inv()
+{
+    advanced_inventory advinv;
+    advinv.display();
+}
