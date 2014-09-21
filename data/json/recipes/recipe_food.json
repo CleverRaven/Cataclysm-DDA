@@ -6232,7 +6232,7 @@
   "reversible": false,
   "autolearn": true,
   "tools": [ [ ["rock_quern", -1] ] ],
-  "components": [ [ ["wheat", 2], ["buckwheat", 2], ["acorns_cooked", 2] ] ]
+  "components": [ [ ["wheat", 2], ["buckwheat", 2], ["barley", 2], ["acorns_cooked", 2] ] ]
 },{
         "type" : "recipe",
   "result": "cornmeal",

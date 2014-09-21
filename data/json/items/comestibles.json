@@ -7690,7 +7690,7 @@
         "healthy" : 1,
         "addiction_potential" : 0,
         "nutrition" : 10,
-        "description" : "Grainy cereal used for malting.  A staple of brewing everywhere.",
+        "description" : "Grainy cereal used for malting.  A staple of brewing everywhere.  It can also be ground into flour.",
         "price" : 20,
         "material" : "veggy",
         "tool" : "null",
