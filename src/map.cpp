@@ -5304,8 +5304,10 @@ void map::add_road_vehicles(bool city, int facing)
             int veh_type = rng(0, 100);
             if(veh_type <= 70) {
                 add_vehicle("car", veh_x, veh_y, facing, -1, 1);
-            } else if(veh_type <= 95) {
+            } else if(veh_type <= 92) {
                 add_vehicle("electric_car", veh_x, veh_y, facing, -1, 1);
+            } else if(veh_type <= 95) {
+                add_vehicle("road_roller", veh_x, veh_y, facing, -1, 1);
             } else {
                 add_vehicle("policecar", veh_x, veh_y, facing, -1, 1);
             }
