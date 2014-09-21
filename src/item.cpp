@@ -121,9 +121,8 @@ item::item(const std::string new_type, unsigned int turn, bool rand, int handed)
         it_var_veh_part* varcarpart = dynamic_cast<it_var_veh_part*>(type);
         bigness= rng( varcarpart->min_bigness, varcarpart->max_bigness);
     }
-    // Should be a flag, but we're out at the moment
-    if( type->is_stationary() ) {
-        note = SNIPPET.assign( (dynamic_cast<it_stationary*>(type))->category );
+    if( !type->snippet_category.empty() ) {
+        note = SNIPPET.assign( type->snippet_category );
     }
 }
 
@@ -849,7 +848,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
     if ( showtext && !is_null() ) {
         const std::map<std::string, std::string>::const_iterator idescription = item_vars.find("description");
         dump->push_back(iteminfo("DESCRIPTION", "--"));
-        if (is_stationary()) {
+        if( !type->snippet_category.empty() ) {
             // Just use the dynamic description
             dump->push_back( iteminfo("DESCRIPTION", SNIPPET.get(note)) );
         } else if (idescription != item_vars.end()) {
@@ -2272,14 +2271,6 @@ bool item::is_macguffin() const
     return type->is_macguffin();
 }
 
-bool item::is_stationary() const
-{
-    if( is_null() )
-        return false;
-
-    return type->is_stationary();
-}
-
 bool item::is_other() const
 {
     if( is_null() )
@@ -3276,6 +3267,23 @@ bool item::use_charges(const itype_id &it, long &quantity, std::list<item> &used
     charges -= quantity;
     quantity = 0;
     return false;
+}
+
+void item::set_snippet( const std::string &snippet_id )
+{
+    if( is_null() ) {
+        return;
+    }
+    if( type->snippet_category.empty() ) {
+        debugmsg("can not set description for item %s without snippet category", type->id.c_str() );
+        return;
+    }
+    const int hash = SNIPPET.get_snippet_by_id( snippet_id );
+    if( SNIPPET.get( hash ).empty() ) {
+        debugmsg("snippet id %s is not contained in snippet category %s", snippet_id.c_str(), type->snippet_category.c_str() );
+        return;
+    }
+    note = hash;
 }
 
 const item_category &item::get_category() const

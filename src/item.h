@@ -324,10 +324,15 @@ public:
  bool is_tool() const;
  bool is_software() const;
  bool is_macguffin() const;
- bool is_stationary() const;
  bool is_other() const; // Doesn't belong in other categories
  bool is_var_veh_part() const;
  bool is_artifact() const;
+
+    /**
+     * Set the snippet text (description) of this specific item, using the snippet library.
+     * @see snippet_library.
+     */
+    void set_snippet( const std::string &snippet_id );
 
  int get_remaining_capacity_for_liquid(const item &liquid, LIQUID_FILL_ERROR &error) const;
  int get_remaining_capacity() const;
