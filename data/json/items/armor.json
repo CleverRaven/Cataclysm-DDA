@@ -10344,5 +10344,30 @@
         "flags" : ["VARSIZE", "POCKETS"],
         "coverage" : 95,
         "material_thickness" : 2
-    }
+    },
+    {
+        "type" : "ARMOR",
+        "id" : "socks_bowling",
+        "name" : "pair of disposable bowling socks",
+        "name_plural" : "pairs of disposable bowling socks",
+        "weight" : 20,
+        "color" : "white",
+        "covers" : ["FEET"],
+        "to_hit" : 0,
+        "storage" : 0,
+        "symbol" : "[",
+        "description" : "Cheep one-off socks. Can keep your feet clean, but too thin to give any protection.",
+        "price" : 50,
+        "material" : ["cotton", "null"],
+        "volume" : 1,
+        "cutting" : 0,
+        "warmth" : 2,
+        "phase" : "solid",
+        "environmental_protection" : 0,
+        "encumbrance" : 0,
+        "bashing" : -5,
+        "flags" : ["VARSIZE", "SKINTIGHT"],
+        "coverage" : 80,
+        "material_thickness" : 0
+    },
 ]

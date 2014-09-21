@@ -3,7 +3,7 @@
         "type"  : "item_group",
         "id"    : "bowling_item",
         "items" : [
-            ["socks", 100],
+            ["socks_bowling", 100],
             ["shoes_bowling", 100],
             ["bowling_pin", 100],
             ["bowling_ball", 100]
