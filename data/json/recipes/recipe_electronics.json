@@ -2528,5 +2528,63 @@
       [ "cable", 5 ]
     ]
   ]
+},
+{
+  "type" : "recipe",
+  "result": "cable",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_COMPONENTS",
+  "skill_used": "fabrication",
+  "skills_required" : [ "electronics", 2 ],
+  "difficulty": 5,
+  "time": 40000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"SAW_M","level":1,"amount":1},
+	{"id":"CUT","level":1,"amount":1},
+	{"id":"HAMMER","level":2,"amount":1}],
+  "tools": [
+    [
+      [ "boltcutters", -1 ], [ "toolset", -1 ]
+    ]
+  ], "components": [
+    [
+      [ "wire", 20 ], [ "wire_barbed", 20 ],
+	],
+	[
+	  [ "duct_tape", 300 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "element",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_COMPONENTS",
+  "skill_used": "fabrication",
+  "skills_required" : [ "electronics", 2 ],
+  "difficulty": 4,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1},
+	{"id":"HAMMER","level":1,"amount":1}],
+  "tools": [
+    [
+      [ "boltcutters", -1 ], [ "toolset", -1 ]
+    ]
+  ], "components": [
+    [
+      [ "wire", 3 ], [ "wire_barbed", 3 ], [ "cable", 15 ]
+	],
+	[
+	  [ "duct_tape", 20 ]
+    ],
+	[
+	  [ "scrap", 1 ]
+    ]
+  ]
 }
 ]

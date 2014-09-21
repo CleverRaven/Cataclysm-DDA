@@ -2416,13 +2416,40 @@
   "autolearn": true,
   "book_learn": [["adv_chemistry", 2] , ["textbook_chemistry", 2] , ["recipe_labchem", 3] , ["atomic_survival", 2]],
   "qualities":[
-    {"id":"COOK","level":3,"amount":1}
-  ], "tools": [],
+    {"id":"COOK","level":3,"amount":1}],
   "components": [
     [ [ "jug_plastic", 1 ], [ "jar_3l_glass",1 ] ],
 	[ [ "fertilizer_liquid", 4 ], [ "fertilizer_commercial", 4 ] ],
     [ [ "gasoline", 400 ], [ "sugar", 8 ] ],
 	[ [ "string_6", 1 ], [ "rag", 1] ]
 	]
- }
+},
+{
+        "type" : "recipe",
+  "result": "hydrogen",
+  "byproducts": { "id" : "oxygen", "amount" : 1 },
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_CHEMICALS",
+  "skill_used": "cooking",
+  "skills_required": [ "electronics", 4 ],
+  "difficulty": 8,
+  "time": 45000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["adv_chemistry", 7] , ["textbook_chemistry", 7] , ["recipe_labchem", 7]],
+  "tools": [
+    [
+      [ "chemistry_set", 200 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water", 6 ],
+      [ "water_clean", 6 ]
+    ],
+	[
+	  [ "canister_empty", 2 ]
+	]
+  ]
+}
 ]

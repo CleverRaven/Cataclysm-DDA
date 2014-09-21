@@ -3940,5 +3940,28 @@
         "dispersion" : 30,
         "recoil" : 5,
         "count" : 50
+    },
+    {   "type" : "AMMO",
+        "id" : "oxygen",
+        "category" : "spare_parts",
+        "price" : 2000,
+        "name" : "oxygen",
+        "symbol" : "=",
+        "color" : "light_gray",
+        "description" : "A canister of oxygen.",
+        "material" : "steel",
+        "volume" : 10,
+        "weight" : 183,
+        "bashing" : 1,
+        "cutting" : 0,
+        "to_hit" : 0,
+        "ammo_type" : "components",
+        "casing" : "NULL",
+        "damage" : 0,
+        "pierce" : 0,
+        "range" : 0,
+        "dispersion" : 0,
+        "recoil" : 0,
+        "count" : 10
     }
 ]

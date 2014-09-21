@@ -4878,5 +4878,86 @@
 	  [ "string_6", 6 ]
     ]
   ]
-}
+},{
+        "type" : "recipe",
+  "result": "cu_pipe",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "mechanics",
+  "difficulty": 1,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"SAW_M","level":1,"amount":1},
+	{"id":"HAMMER","level":1,"amount":1}
+  ], "tools": [
+     [
+      ["soldering_iron", 8], ["toolset", 8]
+     ]
+    ],
+  "components":
+    [
+     [
+     [ "scrap", 3 ]
+     ],
+	 [
+     [ "lead", 40 ], [ "solder_wire", 40 ], [ "silver_small", 40 ], [ "bismuth", 40 ], [ "tin", 40 ], [ "gold_small", 40 ]
+     ]
+    ]
+  },{
+        "type" : "recipe",
+  "result": "pilot_light",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "skills_required": [ "mechanics", 2 ],
+  "difficulty": 5,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"SAW_M","level":1,"amount":1},
+	{"id":"HAMMER","level":2,"amount":1},
+	{"id":"SCREW","level":1,"amount":1}
+  ],
+  "components":
+    [
+     [
+     [ "scrap", 3 ]
+     ],
+	 [
+	 [ "cable", 2 ]
+	 ]
+	]
+  },{
+        "type" : "recipe",
+  "result": "paper",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "skills_required": [ "survival", 4 ],
+  "difficulty": 5,
+  "time": 120000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+	{"id":"HAMMER","level":1,"amount":1},
+	{"id":"CONTAIN","level":1,"amount":1},
+	{"id":"CUT","level":1,"amount":1}
+  ], "tools": [
+     [
+      ["sheet_metal", -1 ]
+     ]
+    ],
+  "components":
+    [
+     [
+     [ "splinter", 10 ], [ "stick", 4 ], [ "2x4", 4 ], [ "withered", 20 ], [ "skewer", 10 ]
+     ],
+	 [
+	 [ "water", 4 ], [ "water_clean", 4 ]
+	 ]
+	]
+  }
 ]
