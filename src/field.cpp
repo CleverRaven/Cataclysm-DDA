@@ -200,7 +200,7 @@ void game::init_fields()
         },
         {
             "fd_dazzling",
-            { _("dazzing"), _("dazzing"), _("dazzing") }, '#', 4,
+            { _("dazzling"), _("dazzling"), _("dazzling") }, '#', 4,
             {c_ltred_yellow, c_ltred_yellow, c_ltred_yellow}, { true, true, true }, { false, false, false }, 1,
             { 0, 0, 0 }
         },
