@@ -4102,7 +4102,7 @@
             {"x": -3, "y": 1, "part": "roller_drum"},
             {"x": 2, "y": 1, "part": "roller_drum"},
             {"x": -3, "y": 2, "part": "roller_drum"},
-            {"x": 2, "y": 2, "part": "roller_drum"},
+            {"x": 2, "y": 2, "part": "roller_drum"}
     ]
     }
 ]
