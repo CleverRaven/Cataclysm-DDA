@@ -3222,7 +3222,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
             smashed = false;
         } else if (collision_type == veh_coll_bashable) {
             // something bashable -- use map::bash to determine outcome
-            smashed = g->m.bash(x, y, obj_dmg, false).second;
+            smashed = g->m.bash(x, y, obj_dmg, false, false, this).second;
             if (smashed) {
                 if (g->m.is_bashable_ter_furn(x, y)) {
                     // There's new terrain there to smash
