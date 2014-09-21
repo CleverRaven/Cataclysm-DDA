@@ -2360,7 +2360,7 @@
   "autolearn": true,
   "book_learn": [["adv_chemistry", 2] , ["textbook_chemistry", 2] , ["recipe_labchem", 3] , ["atomic_survival", 2]],
   "qualities":[
-    {"id":"COOK","level":3,"amount":1}
+    {"id":"CHEM","level":1,"amount":1}
   ], "tools": [
     [ [ "hotplate", 5 ], [ "chemistry_set", 5 ], [ "char_smoker", 1 ], [ "toolset", 5 ], [ "fire", -1 ] ]
   ],
