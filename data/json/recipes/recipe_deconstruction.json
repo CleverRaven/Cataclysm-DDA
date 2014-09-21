@@ -2005,10 +2005,11 @@
   },
   {
   "type" : "recipe",
-  "result": " material_shrd_limestone ",
+  "result": "material_shrd_limestone",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
   "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
   "time": 10000,
   "reversible": true,
   "autolearn": false,
