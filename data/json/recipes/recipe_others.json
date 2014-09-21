@@ -180,7 +180,7 @@
   ],
   "components": [
     [
-      [ "1cyl_combustion", 1 ]
+      [ "1cyl_combustion_small", 1 ]
     ],
     [
       [ "metal_tank_little", 1 ]
@@ -3982,10 +3982,10 @@
   ],
   "components": [
     [
-      [ "1cyl_combustion", 1 ]
+      [ "1cyl_combustion_small", 1 ]
     ],
     [
-      [ "metal_tank_small", 1 ]
+      [ "metal_tank_little", 1 ]
     ],
     [
       [ "rebar", 2 ]

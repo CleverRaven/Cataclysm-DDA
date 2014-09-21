@@ -1551,7 +1551,7 @@
     "price": 4000,
     "material": ["steel", "plastic"],
     "weight": 4500,
-    "volume": 8,
+    "volume": 10,
     "bashing": 4,
     "cutting": 8,
     "to_hit": -1,
