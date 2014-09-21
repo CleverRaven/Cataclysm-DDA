@@ -2018,7 +2018,7 @@
   ],
   "tools": [
     [
-	[ [ "welder", 250 ], [ "toolset", 375 ], [ "welder_crude", 375 ] ]
+	[ "welder", 250 ], [ "toolset", 375 ], [ "welder_crude", 375 ]
     ]
   ],
   "components": [
