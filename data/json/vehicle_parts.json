@@ -3575,7 +3575,7 @@
 	"item" : "hd_steel_drum",
 	"difficulty" : 7,
 	"location" : "center",
-	"flags" : ["OBSTACLE"],
+	"flags" : ["OBSTACLE", "WHEEL"],
 	"breaks_into" : [
 	{"item": "steel_lump", "min": 8, "max": 25},
 	{"item": "steel_chunk", "min": 6, "max": 15},
