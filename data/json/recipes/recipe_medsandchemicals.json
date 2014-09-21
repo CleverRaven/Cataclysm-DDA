@@ -2437,6 +2437,8 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [["adv_chemistry", 7] , ["textbook_chemistry", 7] , ["recipe_labchem", 7]],
+  "qualities" : [
++    {"id":"SCREW","level":1,"amount":1}],
   "tools": [
     [
       [ "chemistry_set", 200 ]
