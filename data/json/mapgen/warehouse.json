@@ -2,7 +2,7 @@
 {
 "type": "mapgen",
 "om_terrain": [
-"warehouse_north"
+"warehouse"
 ],
 "method": "json",
 "weight": 500,
