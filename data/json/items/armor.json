@@ -10369,5 +10369,5 @@
         "flags" : ["VARSIZE", "SKINTIGHT"],
         "coverage" : 80,
         "material_thickness" : 0
-    },
+    }
 ]
