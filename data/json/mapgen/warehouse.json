@@ -68,7 +68,7 @@
 "@": "f_trashcan"
 },
 "place_specials": [
-{ "type": "toilet", "x": 17, "y": 2 }
+{ "type": "toilet", "x": 2, "y": 17 }
 ],
 "set": [
 { "point": "terrain", "id": "t_dirt", "x": 23, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
