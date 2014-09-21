@@ -13527,16 +13527,16 @@ void game::vertical_move(int movez, bool force)
                                 add_msg(m_bad, _("You descend on your vines, though leaving a part of you behind stings."));
                                 u.mod_pain(5);
                                 u.apply_damage( nullptr, bp_torso, 5 );
-                                u.hunger += 5;
-                                u.thirst += 5;
+                                u.hunger += 10;
+                                u.thirst += 10;
                             } else {
                                 add_msg(_("You gingerly descend using your vines."));
                             }
                         } else {
                             add_msg(_("You effortlessly lower yourself and leave a vine rooted for future use."));
                             rope_ladder = true;
-                            u.hunger += 5;
-                            u.thirst += 5;
+                            u.hunger += 10;
+                            u.thirst += 10;
                         }
                     } else {
                         return;

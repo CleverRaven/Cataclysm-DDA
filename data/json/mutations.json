@@ -3334,7 +3334,12 @@
         "prereqs2" : ["VINES2"],
         "threshreq" : ["THRESH_PLANT"],
         "cancels" : ["WINGS_BAT", "WINGS_INSECT", "WINGS_BIRD", "WINGS_STUB", "WINGS_BUTTERFLY"],
-        "category" : ["MUTCAT_PLANT"]
+        "category" : ["MUTCAT_PLANT"],
+        "active"     :    true,
+        "cost"       :    10,
+        "time"       :    0,
+        "hunger"     :    true,
+        "thirst"     :    true
     },{
         "type" : "mutation",
         "id" : "ROOTS1",

@@ -99,6 +99,21 @@ void player::activate_mutation(int b)
     else if (traits[mut].id == "SHOUT3"){
         g->sound(posx, posy, 20 + 4 * str_cur, _("You let out a piercing howl!"));
     }
+    else if (traits[mut].id == "VINES3"){
+        int handed = 0;
+        item newit("vine_30", calendar::turn, false, handed);
+        if (!g->u.can_pickVolume(newit.volume())) { //Accounts for result_mult
+            add_msg(_("You detach a vine but don't have room to carry it, so you drop it."));
+            g->m.add_item_or_charges(g->u.posx, g->u.posy, newit);
+        } else if (!g->u.can_pickWeight(newit.weight(), !OPTIONS["DANGEROUS_PICKUPS"])) {
+            add_msg(_("Your freshly-detached vine is too heavy to carry, so you drop it."));
+            g->m.add_item_or_charges(g->u.posx, g->u.posy, newit);
+        } else {
+            g->u.inv.assign_empty_invlet(newit);
+            newit = g->u.i_add(newit);
+            add_msg(m_info, "%c - %s", newit.invlet == 0 ? ' ' : newit.invlet, newit.tname().c_str());
+        }
+    }
 }
 void player::deactivate_mutation(int b)
 {
