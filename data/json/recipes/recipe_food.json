@@ -3326,6 +3326,37 @@
   ]
 },{
         "type" : "recipe",
+  "result": "beet_syrup",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"COOK","level":2,"amount":1},
+    {"id":"CUT","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 8 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 8 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "sugar_beet", 4 ]
+    ],
+    [
+      [ "water_clean", 1 ],
+      [ "water", 1 ]
+    ]
+  ]
+},
+{
+        "type" : "recipe",
   "result": "cornbread",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_BREAD",
@@ -3525,6 +3556,7 @@
     [
       [ "sugar", 1 ],
       [ "syrup", 1 ],
+      [ "beet_syrup", 1],
       [ "molasses", 1 ],
       [ "honeycomb", 1 ],
       [ "honey_bottled", 1],
@@ -3571,6 +3603,7 @@
     [
       [ "sugar", 1 ],
       [ "syrup", 1 ],
+      [ "beet_syrup", 1],
       [ "molasses", 1 ],
       [ "honeycomb", 1 ],
       [ "honey_bottled", 1],
@@ -3886,6 +3919,7 @@
     [
       [ "sugar", 1 ],
       [ "syrup", 1 ],
+      [ "beet_syrup", 1],
       [ "molasses", 1 ],
       [ "coffee_syrup", 1 ],
       [ "con_milk", 1 ],
@@ -3996,7 +4030,8 @@
       [ "honey_bottled", 4 ],
       [ "honey_glassed", 4],
       [ "sugar", 4 ],
-      [ "syrup", 4 ]
+      [ "syrup", 4 ],
+      [ "beet_syrup", 4]
     ],
     [
       [ "apple", 1 ],
@@ -4640,7 +4675,8 @@
       [ "honeycomb", 1 ],
       [ "honey_bottled", 1],
       [ "honey_glassed", 1],
-      [ "syrup", 1 ]
+      [ "syrup", 1 ],
+      [ "beet_syrup", 1]
     ]
   ]
 },{
@@ -4672,6 +4708,7 @@
     [
       [ "sugar", 1 ],
       [ "syrup", 1 ],
+      [ "beet_syrup", 1],
       [ "coffee_syrup", 1 ],
       [ "con_milk", 1 ],
       [ "can_coconut", 1 ],
@@ -5647,6 +5684,7 @@
       ["rootbeer", 6],
       ["strawberries", 2],
       ["syrup", 4],
+      ["beet_syrup", 4],
       ["watermelon", 2]
     ],
     [
