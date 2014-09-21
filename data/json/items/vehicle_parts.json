@@ -205,6 +205,22 @@
     },
     {
         "type":"GENERIC",
+        "id" : "motor_small",
+        "name" : "small electric motor",
+        "description" : "A small electric motor.  Useful for crafting.",
+        "weight" : 1500,
+        "to_hit" : 0,
+        "color" : "light_cyan",
+        "symbol" : ",",
+        "material" : ["steel", "null"],
+        "volume" : 1,
+        "bashing" : 1,
+        "cutting" : 0,
+        "category" : "veh_parts",
+        "price" : 2000
+    },
+    {
+        "type":"GENERIC",
         "id" : "plasma_engine",
         "name" : "plasma engine",
         "description" : "High technology engine, working on hydrogen fuel.",
