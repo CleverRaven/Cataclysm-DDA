@@ -3563,6 +3563,24 @@
             {"item": "steel_chunk", "min": 3, "max": 5},
             {"item": "scrap", "min": 3, "max": 5}
         ]
+    },{
+	"type" : "vehicle_part",
+	"id" : "roller_drum",
+	"name" : "Roller drum",
+	"symbol" : "B",
+	"color" : "light_red",
+	"broken_symbol" : "E",
+	"broken_color" : "light_gray",
+	"durability" : 3500,
+	"item" : "hd_steel_drum",
+	"difficulty" : 7,
+	"location" : "center",
+	"flags" : ["OPAQUE", "OBSTACLE"],
+	"breaks_into" : [
+	{"item": "steel_lump", "min": 8, "max": 25},
+	{"item": "steel_chunk", "min": 6, "max": 15},
+	{"item": "scrap", "min": 7, "max": 20}
+	]
     }
 
 
