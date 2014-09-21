@@ -5559,9 +5559,46 @@ void player::suffer()
         }
     }
     
-    // TODO: Active mutations need processed here.
-    // Appears to need a fundamental overhaul of their handling,
-    // which I'm not gonna start at 3 AM.  -KA101.
+    for (auto mut : my_mutations) {
+        if (!traits[mut].powered ) {
+            continue;
+        }
+        if (traits[mut].powered && traits[mut].charge > 0) {
+        // Already-on units just lose a bit of charge
+        traits[mut].charge--;
+        } else {
+            // Not-on units, or those with zero charge, have to pay the power cost
+            if (traits[mut].cooldown > 0) {
+                traits[mut].powered = true;
+                traits[mut].charge = traits[mut].cooldown - 1;
+            }
+            if (traits[mut].hunger){
+                hunger += traits[mut].cost;
+                if (hunger >= 700) { // Well into Famished
+                    add_msg(m_warning, _("You're too famished to keep your %s going."), traits[mut].name.c_str());
+                    traits[mut].powered = false;
+                    traits[mut].cooldown = traits[mut].cost;
+                }
+            }
+            if (traits[mut].thirst){
+                thirst += traits[mut].cost;
+                if (thirst >= 260) { // Well into Dehydrated
+                    add_msg(m_warning, _("You're too dehydrated to keep your %s going."), traits[mut].name.c_str());
+                    traits[mut].powered = false;
+                    traits[mut].cooldown = traits[mut].cost;
+                }
+            }
+            if (traits[mut].fatigue){
+                fatigue += traits[mut].cost;
+                if (fatigue >= 575) { // Exhausted
+                    add_msg(m_warning, _("You're too exhausted to keep your %s going."), traits[mut].name.c_str());
+                    traits[mut].powered = false;
+                    traits[mut].cooldown = traits[mut].cost;
+                }
+            }
+        }
+        
+    }
 
     if (underwater) {
         if (!has_trait("GILLS")) {

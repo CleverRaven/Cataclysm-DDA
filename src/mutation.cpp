@@ -20,7 +20,9 @@ void player::activate_mutation(int b)
 {
     std::string mut = my_mutations[b];
     int cost = traits[mut].cost;
-    if ((traits[mut].hunger && hunger >= 400) || (traits[mut].thirst && thirst >= 400) || (traits[mut].fatigue && fatigue >= 400)) { //TODO: Change this to use hunger/fatigue/that crap
+    // You can take yourself halfway to Near Death levels of hunger/thirst.
+    // Fatigue can go to Exhausted.
+    if ((traits[mut].hunger && hunger >= 700) || (traits[mut].thirst && thirst >= 260) || (traits[mut].fatigue && fatigue >= 575)) { //TODO: Change this to use hunger/fatigue/that crap
         if (traits[my_mutations[b]].powered) {
             add_msg(m_neutral, _("You stop using your %s."), traits[mut].name.c_str());
             traits[my_mutations[b]].powered = false;
