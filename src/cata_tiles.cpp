@@ -983,6 +983,11 @@ bool cata_tiles::draw_field_or_item(int x, int y)
         case fd_weedsmoke:
         case fd_cracksmoke:
         case fd_methsmoke:
+        case fd_hot_air1:
+        case fd_hot_air2:
+        case fd_hot_air3:
+        case fd_hot_air4:
+        case fd_spotlight:
             //need to draw fields and items both
             is_draw_field = true;
             do_item = true;
