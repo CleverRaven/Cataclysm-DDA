@@ -2839,7 +2839,7 @@
         "description" : "A short-sleeved cotton shirt.",
         "snippet_category" : [
             { "id" : "allyourbase",
-              "text" : "A short-sleeved cotton shirt with the text \"chown -R us /home/your/base\" printed on the front."
+              "text" : "A short-sleeved cotton shirt with the text \"chown -R us ~your/base\" printed on the front."
             }
         ],
         "price" : 800,
