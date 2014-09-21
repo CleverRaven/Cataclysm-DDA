@@ -2550,7 +2550,7 @@
     ]
   ], "components": [
     [
-      [ "wire", 20 ], [ "wire_barbed", 20 ],
+      [ "wire", 20 ], [ "wire_barbed", 20 ]
 	],
 	[
 	  [ "duct_tape", 300 ]
