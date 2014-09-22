@@ -12467,6 +12467,7 @@ bool game::plmove(int dx, int dy)
     bool pushing_furniture = false;  // moving -into- furniture tile; skip check for move_cost > 0
     bool pulling_furniture = false;  // moving -away- from furniture tile; check for move_cost > 0
     bool shifting_furniture = false; // moving furniture and staying still; skip check for move_cost > 0
+    bool pushing_vehicle = false;
     int movecost_modifier =
         0;       // pulling moves furniture into our origin square, so this changes to subtract it.
 
@@ -12477,6 +12478,7 @@ bool game::plmove(int dx, int dy)
             // actually the current tile.
             // If there's a vehicle there, it will actually result in failed movement.
             if (grabbed_vehicle == veh1) {
+                pushing_vehicle = true;
                 veh1 = veh0;
                 vpart1 = vpart0;
             }
@@ -12532,7 +12534,7 @@ bool game::plmove(int dx, int dy)
             }
             plswim(x, y);
         }
-    } else if (m.move_cost(x, y) > 0 || pushing_furniture || shifting_furniture) {
+    } else if (m.move_cost(x, y) > 0 || pushing_furniture || shifting_furniture || pushing_vehicle) {
         // move_cost() of 0 = impassible (e.g. a wall)
         u.set_underwater(false);
 
