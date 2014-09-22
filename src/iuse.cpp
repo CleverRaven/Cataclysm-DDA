@@ -9734,7 +9734,7 @@ int iuse::radiocontrol(player *p, item *it, bool t)
         signal += choice_str.str();
 
         p->add_msg_if_player(_("Click."));
-        sendRadioSignal( p, signal.c_str() );
+        sendRadioSignal(p, signal);
         p->moves -= 150;
     }
 
