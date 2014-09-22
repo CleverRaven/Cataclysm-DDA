@@ -32,7 +32,7 @@
 #define MON_RADIUS 3
 
 bool connects_to(oter_id there, int dir_from_here);
-void science_room(map *m, int x1, int y1, int x2, int y2, int rotate);
+void science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate);
 void set_science_room(map *m, int x1, int y1, bool faces_right, int turn);
 void silo_rooms(map *m);
 void build_mine_room(map *m, room_type type, int x1, int y1, int x2, int y2, mapgendata & dat);
@@ -3084,8 +3084,8 @@ C..C..C...|hhh|#########\n\
             ter_set(SEEX + 1, SEEY - 1, t_door_metal_c);
             ter_set(SEEX - 1, SEEY * 2 - 3, t_stairs_down);
             ter_set(SEEX    , SEEY * 2 - 3, t_stairs_down);
-            science_room(this, 2       , 2, SEEX - 3    , SEEY * 2 - 3, 1);
-            science_room(this, SEEX + 2, 2, SEEX * 2 - 3, SEEY * 2 - 3, 3);
+            science_room(this, 2       , 2, SEEX - 3    , SEEY * 2 - 3, zlevel, 1);
+            science_room(this, SEEX + 2, 2, SEEX * 2 - 3, SEEY * 2 - 3, zlevel, 3);
 
             add_spawn("mon_turret", 1, SEEX, 5);
 
@@ -3357,34 +3357,36 @@ C..C..C...|hhh|#########\n\
                     // Top left
                     if (one_in(2)) {
                         ter_set(SEEX - 2, int(SEEY / 2), t_door_metal_c);
-                        science_room(this, lw, tw, SEEX - 3, SEEY - 3, 1);
+                        science_room(this, lw, tw, SEEX - 3, SEEY - 3, zlevel, 1);
                     } else {
                         ter_set(int(SEEX / 2), SEEY - 2, t_door_metal_c);
-                        science_room(this, lw, tw, SEEX - 3, SEEY - 3, 2);
+                        science_room(this, lw, tw, SEEX - 3, SEEY - 3, zlevel, 2);
                     }
                     // Top right
                     if (one_in(2)) {
                         ter_set(SEEX + 1, int(SEEY / 2), t_door_metal_c);
-                        science_room(this, SEEX + 2, tw, SEEX * 2 - 1 - rw, SEEY - 3, 3);
+                        science_room(this, SEEX + 2, tw, SEEX * 2 - 1 - rw, SEEY - 3, zlevel, 3);
                     } else {
                         ter_set(SEEX + int(SEEX / 2), SEEY - 2, t_door_metal_c);
-                        science_room(this, SEEX + 2, tw, SEEX * 2 - 1 - rw, SEEY - 3, 2);
+                        science_room(this, SEEX + 2, tw, SEEX * 2 - 1 - rw, SEEY - 3, zlevel, 2);
                     }
                     // Bottom left
                     if (one_in(2)) {
                         ter_set(int(SEEX / 2), SEEY + 1, t_door_metal_c);
-                        science_room(this, lw, SEEY + 2, SEEX - 3, SEEY * 2 - 1 - bw, 0);
+                        science_room(this, lw, SEEY + 2, SEEX - 3, SEEY * 2 - 1 - bw, zlevel, 0);
                     } else {
                         ter_set(SEEX - 2, SEEY + int(SEEY / 2), t_door_metal_c);
-                        science_room(this, lw, SEEY + 2, SEEX - 3, SEEY * 2 - 1 - bw, 1);
+                        science_room(this, lw, SEEY + 2, SEEX - 3, SEEY * 2 - 1 - bw, zlevel, 1);
                     }
                     // Bottom right
                     if (one_in(2)) {
                         ter_set(SEEX + int(SEEX / 2), SEEY + 1, t_door_metal_c);
-                        science_room(this, SEEX + 2, SEEY + 2, SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, 0);
+                        science_room(this, SEEX + 2, SEEY + 2, SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw,
+                                     zlevel, 0);
                     } else {
                         ter_set(SEEX + 1, SEEY + int(SEEY / 2), t_door_metal_c);
-                        science_room(this, SEEX + 2, SEEY + 2, SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, 3);
+                        science_room(this, SEEX + 2, SEEY + 2, SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw,
+                                     zlevel, 3);
                     }
                     if (rw == 1) {
                         ter_set(SEEX * 2 - 1, SEEY - 1, t_door_metal_c);
@@ -3464,14 +3466,15 @@ C..C..C...|hhh|#########\n\
                     ter_set(SEEX + int(SEEX / 2), SEEY + 3, t_door_metal_c);
                     ter_set(SEEX - 4, SEEY + int(SEEY / 2), t_door_metal_c);
                     ter_set(SEEX + 3, SEEY + int(SEEY / 2), t_door_metal_c);
-                    science_room(this, lw, tw, SEEX - 5, SEEY - 5, rng(1, 2));
-                    science_room(this, SEEX - 3, tw, SEEX + 2, SEEY - 5, 2);
-                    science_room(this, SEEX + 4, tw, SEEX * 2 - 1 - rw, SEEY - 5, rng(2, 3));
-                    science_room(this, lw, SEEY - 3, SEEX - 5, SEEY + 2, 1);
-                    science_room(this, SEEX + 4, SEEY - 3, SEEX * 2 - 1 - rw, SEEY + 2, 3);
-                    science_room(this, lw, SEEY + 4, SEEX - 5, SEEY * 2 - 1 - bw, rng(0, 1));
-                    science_room(this, SEEX - 3, SEEY + 4, SEEX + 2, SEEY * 2 - 1 - bw, 0);
-                    science_room(this, SEEX + 4, SEEX + 4, SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, 3 * rng(0, 1));
+                    science_room(this, lw, tw, SEEX - 5, SEEY - 5, zlevel, rng(1, 2));
+                    science_room(this, SEEX - 3, tw, SEEX + 2, SEEY - 5, zlevel, 2);
+                    science_room(this, SEEX + 4, tw, SEEX * 2 - 1 - rw, SEEY - 5, zlevel, rng(2, 3));
+                    science_room(this, lw, SEEY - 3, SEEX - 5, SEEY + 2, zlevel, 1);
+                    science_room(this, SEEX + 4, SEEY - 3, SEEX * 2 - 1 - rw, SEEY + 2, zlevel, 3);
+                    science_room(this, lw, SEEY + 4, SEEX - 5, SEEY * 2 - 1 - bw, zlevel, rng(0, 1));
+                    science_room(this, SEEX - 3, SEEY + 4, SEEX + 2, SEEY * 2 - 1 - bw, zlevel, 0);
+                    science_room(this, SEEX + 4, SEEX + 4, SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw,
+                                 zlevel, 3 * rng(0, 1));
                     if (rw == 1) {
                         ter_set(SEEX * 2 - 1, SEEY - 1, t_door_metal_c);
                         ter_set(SEEX * 2 - 1, SEEY    , t_door_metal_c);
@@ -3497,7 +3500,8 @@ C..C..C...|hhh|#########\n\
                             }
                         }
                     }
-                    science_room(this, lw, tw, SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, rng(0, 3));
+                    science_room(this, lw, tw, SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw,
+                                 zlevel, rng(0, 3));
                     if (t_above == "lab_stairs" || t_above == "ice_lab_stairs") {
                         int sx, sy;
                         do {
@@ -11548,7 +11552,7 @@ bool connects_to(oter_id there, int dir)
     }
 }
 
-void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
+void science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate)
 {
     int height = y2 - y1;
     int width  = x2 - x1;
@@ -11573,7 +11577,7 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
     if (height > 4 || width > 4) {
         valid_rooms.push_back(room_chemistry);
     }
-    if ((height > 7 || width > 7) && height > 2 && width > 2) {
+    if ( z != 0 && (height > 7 || width > 7) && height > 2 && width > 2) {
         valid_rooms.push_back(room_teleport);
     }
     if (height > 4 && width > 4) {
@@ -11747,7 +11751,7 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
                                        mapf::basic_bind("- | =", t_wall_h, t_wall_v, t_reinforced_glass_v),
                                        mapf::basic_bind("c", f_counter));
             m->place_items("bionics_common", 70, biox, bioy, biox, bioy, false, 0);
-            
+
             m->ter_set(biox, bioy+2, t_console);
             computer *tmpcomp = m->add_computer(biox, bioy+2, _("Bionic access"), 2);
             tmpcomp->add_option(_("Manifest"), COMPACT_LIST_BIONICS, 0);
@@ -11842,8 +11846,8 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
             }
             m->ter_set(w1, int((y1 + y2) / 2), t_door_metal_c);
             m->ter_set(w2, int((y1 + y2) / 2), t_door_metal_c);
-            science_room(m, x1, y1, w1 - 1, y2, 1);
-            science_room(m, w2 + 1, y1, x2, y2, 3);
+            science_room(m, x1, y1, w1 - 1, y2, z, 1);
+            science_room(m, w2 + 1, y1, x2, y2, z, 3);
         } else {
             int w1 = int((y1 + y2) / 2) - 2, w2 = int((y1 + y2) / 2) + 2;
             for (int x = x1; x <= x2; x++) {
@@ -11852,8 +11856,8 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
             }
             m->ter_set(int((x1 + x2) / 2), w1, t_door_metal_c);
             m->ter_set(int((x1 + x2) / 2), w2, t_door_metal_c);
-            science_room(m, x1, y1, x2, w1 - 1, 2);
-            science_room(m, x1, w2 + 1, x2, y2, 0);
+            science_room(m, x1, y1, x2, w1 - 1, z, 2);
+            science_room(m, x1, w2 + 1, x2, y2, z, 0);
         }
         break;
     default:
