@@ -289,28 +289,28 @@ void game::init_fields()
 
         {
             "fd_hot_air1",
-            {_(""),_(""),_("")}, '&', 0,
+            {"","",""}, '&', 0,
             {c_white, c_yellow, c_red}, {true, true, true}, {false, false, false}, 500,
             {0,0,0}
         },
 
         {
             "fd_hot_air2",
-            {_(""),_(""),_("")}, '&', 0,
+            {"","",""}, '&', 0,
             {c_white, c_yellow, c_red}, {true, true, true}, {false, false, false}, 500,
             {0,0,0}
         },
 
         {
             "fd_hot_air3",
-            {_(""),_(""),_("")}, '&', 0,
+            {"","",""}, '&', 0,
             {c_white, c_yellow, c_red}, {true, true, true}, {false, false, false}, 500,
             {0,0,0}
         },
 
         {
             "fd_hot_air4",
-            {_(""),_(""),_("")}, '&', 0,
+            {"","",""}, '&', 0,
             {c_white, c_yellow, c_red}, {true, true, true}, {false, false, false}, 500,
             {0,0,0}
         }
