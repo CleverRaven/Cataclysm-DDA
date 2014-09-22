@@ -926,11 +926,9 @@ int iuse::smoking(player *p, item *it, bool)
 
     // make sure we're not already smoking something
     std::vector<item *> active_items = p->inv.active_items();
-    for (std::vector<item *>::iterator iter = active_items.begin(); iter != active_items.end();
-         iter++) {
-        item *i = *iter;
-        if (i->has_flag("LITCIG")) {
-            p->add_msg_if_player(m_info, _("You're already smoking a %s!"), i->tname().c_str());
+    for (auto iter : active_items) {
+        if (iter->has_flag("LITCIG")) {
+            p->add_msg_if_player(m_info, _("You're already smoking a %s!"), iter->tname().c_str());
             return 0;
         }
     }
@@ -3858,9 +3856,8 @@ int iuse::ma_manual(player *p, item *it, bool)
     std::string style_to_learn = "style_" + it->type->id.substr(
                                      7); // strip "manual_" from the start of the item id, add the rest to "style_"
 
-    for (std::vector<matype_id>::iterator style = p->ma_styles.begin(); style != p->ma_styles.end();
-         style++) {
-        if (style_to_learn == *style) {
+    for ( auto style: p->ma_styles) {
+        if (style_to_learn == style) {
             p->add_msg_if_player(m_info, _("You already know all this book has to teach."));
 
             return 0;
@@ -7499,9 +7496,9 @@ int iuse::artifact(player *p, item *it, bool)
             case AEA_FIRESTORM: {
                 p->add_msg_if_player(m_bad, _("Fire rains down around you!"));
                 std::vector<point> ps = closest_points_first(3, p->posx, p->posy);
-                for (std::vector<point>::iterator p_it = ps.begin(); p_it != ps.end(); p_it++) {
+                for (auto p_it : ps) {
                     if (!one_in(3)) {
-                        g->m.add_field(*p_it, fd_fire, 1 + rng(0, 1) * rng(0, 1), 30);
+                        g->m.add_field(p_it, fd_fire, 1 + rng(0, 1) * rng(0, 1), 30);
                     }
                 }
                 break;
