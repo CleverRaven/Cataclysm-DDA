@@ -3209,7 +3209,6 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
 
     // Print current weapon, or attachment if active.
     item* gunmod = weapon.active_gunmod();
-    std::string mode = "";
     std::stringstream attachment;
     if (gunmod != NULL)
     {
@@ -5189,7 +5188,7 @@ void player::rem_disease(dis_type type, body_part part)
 bool player::has_disease(dis_type type, body_part part) const
 {
     for (auto &i : illness) {
-        if (i.duration > 0 && i.type == type && ( part == num_bp || i.bp == part ) && i.duration > 0 ) {
+        if (i.duration > 0 && i.type == type && ( part == num_bp || i.bp == part )) {
             return true;
         }
     }
