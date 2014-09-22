@@ -4883,26 +4883,37 @@
   "result": "cu_pipe",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
-  "skill_used": "mechanics",
-  "difficulty": 1,
-  "time": 10000,
+  "skill_used": "fabrication",
+  "difficulty": 5,
+  "time": 90000,
   "reversible": false,
   "autolearn": true,
-  "qualities":[
-    {"id":"SAW_M","level":1,"amount":1},
-	{"id":"HAMMER","level":1,"amount":1}
+    "qualities":[
+    {"id":"HAMMER","level":3,"amount":1}
   ], "tools": [
-     [
-      ["soldering_iron", 8], ["toolset", 8]
-     ]
-    ],
+      [
+      ["tongs", -1]
+      ],
+      [
+      ["chisel", -1]
+      ],
+      [
+      ["anvil", -1]
+      ],
+      [
+      ["swage", -1]
+      ],
+      [
+      ["forge", 50], ["char_forge", 10], ["oxy_torch", 10]
+      ]
+      ],
   "components":
     [
      [
-     [ "scrap", 3 ]
+     [ "scrap", 7 ]
      ],
 	 [
-     [ "lead", 40 ], [ "solder_wire", 40 ], [ "silver_small", 40 ], [ "bismuth", 40 ], [ "tin", 40 ], [ "gold_small", 40 ]
+     [ "lead", 70 ], [ "solder_wire", 70 ], [ "silver_small", 70 ], [ "bismuth", 70 ], [ "tin", 70 ], [ "gold_small", 70 ]
      ]
     ]
   },{
