@@ -3572,6 +3572,7 @@
 	"broken_symbol" : "E",
 	"broken_color" : "light_gray",
 	"durability" : 3500,
+	"wheel_width" : 40,
 	"item" : "hd_steel_drum",
 	"difficulty" : 7,
 	"location" : "center",
