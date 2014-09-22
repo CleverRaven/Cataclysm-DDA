@@ -200,7 +200,7 @@
     "name": "CWD-63",
     "name_plural": "CWD-63",
     "description": "The Clearwater Arms version of the famous SVD-63 Dragunov. This one was rechambered for the .308 round.",
-    "price": 2500,
+    "price": 525000,
     "material": ["steel", "wood"],
     "skill": "rifle",
     "ammo": "308",
