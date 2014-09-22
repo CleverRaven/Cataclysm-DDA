@@ -6,7 +6,6 @@
 #include "line.h"
 #include "computer.h"
 #include "veh_interact.h"
-#include "advanced_inv.h"
 #include "options.h"
 #include "auto_pickup.h"
 #include "mapbuffer.h"
@@ -8583,12 +8582,6 @@ void game::examine(int examx, int examy)
             Pickup::pick_up(examx, examy, 0);    // After disarming a trap, pick it up.
         }
     }
-}
-
-void game::advanced_inv()
-{
-    advanced_inventory advinv;
-    advinv.display();
 }
 
 //Shift player by one tile, look_around(), then restore previous position.
