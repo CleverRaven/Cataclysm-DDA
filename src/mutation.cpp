@@ -20,15 +20,13 @@ void player::activate_mutation(int b)
 {
     std::string mut = my_mutations[b];
     int cost = traits[mut].cost;
-    if ((traits[mut].hunger && hunger >= 400) || (traits[mut].thirst && thirst >= 400) || (traits[mut].fatigue && fatigue >= 400)) { //TODO: Change this to use hunger/fatigue/that crap
-        if (traits[my_mutations[b]].powered) {
-            add_msg(m_neutral, _("Your stop using %s."), traits[mut].name.c_str());
-            traits[my_mutations[b]].powered = false;
-            traits[my_mutations[b]].cooldown = traits[my_mutations[b]].cost;
-        } else {
-            add_msg(m_info, _("You feel like using your %s would kill you!"), traits[mut].name.c_str());
-        }
-        return;
+    // You can take yourself halfway to Near Death levels of hunger/thirst.
+    // Fatigue can go to Exhausted.
+    if ((traits[mut].hunger && hunger >= 700) || (traits[mut].thirst && thirst >= 260) ||
+      (traits[mut].fatigue && fatigue >= 575)) {
+      // Insufficient Foo to *maintain* operation is handled in player::suffer
+        add_msg(m_warning, _("You feel like using your %s would kill you!"), traits[mut].name.c_str());
+        return; 
     }
     if (traits[my_mutations[b]].powered && traits[my_mutations[b]].charge > 0) {
         // Already-on units just lose a bit of charge
@@ -67,6 +65,11 @@ void player::activate_mutation(int b)
                 }
             }
         }
+        // Oops, no room to divide!
+        if (valid.size() == 0) {
+            add_msg(m_bad, _("You focus, but are too hemmed in to birth a new slimespring!"));
+            return;
+        }
         add_msg(m_good, _("You focus, and with a pleasant splitting feeling, birth a new slimespring!"));
         int numslime = 1;
         monster slime(GetMType("mon_player_blob"));
@@ -95,6 +98,21 @@ void player::activate_mutation(int b)
     }
     else if (traits[mut].id == "SHOUT3"){
         g->sound(posx, posy, 20 + 4 * str_cur, _("You let out a piercing howl!"));
+    }
+    else if (traits[mut].id == "VINES3"){
+        int handed = 0;
+        item newit("vine_30", calendar::turn, false, handed);
+        if (!g->u.can_pickVolume(newit.volume())) { //Accounts for result_mult
+            add_msg(_("You detach a vine but don't have room to carry it, so you drop it."));
+            g->m.add_item_or_charges(g->u.posx, g->u.posy, newit);
+        } else if (!g->u.can_pickWeight(newit.weight(), !OPTIONS["DANGEROUS_PICKUPS"])) {
+            add_msg(_("Your freshly-detached vine is too heavy to carry, so you drop it."));
+            g->m.add_item_or_charges(g->u.posx, g->u.posy, newit);
+        } else {
+            g->u.inv.assign_empty_invlet(newit);
+            newit = g->u.i_add(newit);
+            add_msg(m_info, "%c - %s", newit.invlet == 0 ? ' ' : newit.invlet, newit.tname().c_str());
+        }
     }
 }
 void player::deactivate_mutation(int b)
@@ -243,9 +261,10 @@ void player::power_mutations()
                     } else {
                         type = c_ltred;
                     }
+                    // TODO: track resource(s) used and specify
                     mvwputch(wBio, list_start_y + i, second_column, type, traits[active[i]].invlet);
                     mvwprintz(wBio, list_start_y + i, second_column + 2, type,
-                              (traits[active[i]].powered ? _("%s - ON") : _("%s - %d PU / %d turns")),
+                              (traits[active[i]].powered ? _("%s - Active") : _("%s - %d RU / %d turns")),
                               traits[active[i]].name.c_str(),
                               traits[active[i]].cost,
                               traits[active[i]].cooldown);
@@ -342,7 +361,7 @@ void player::power_mutations()
                         g->draw();
                         activate_mutation(b);
                     } else {
-                        popup( _( "You don't have enough power to activate the %s." ), mut_data.name.c_str() );
+                        popup( _( "You don't have enough in you to activate your %s!" ), mut_data.name.c_str() );
                         redraw = true;
                         continue;
                     }
@@ -350,7 +369,7 @@ void player::power_mutations()
                     break;
                 } else {
                     popup(_("\
-You can not activate %s!  To read a description of \
+You cannot activate %s!  To read a description of \
 %s, press '!', then '%c'."), mut_data.name.c_str(), mut_data.name.c_str(), traits[*tmp].invlet);
                     redraw = true;
                 }
@@ -364,7 +383,7 @@ You can not activate %s!  To read a description of \
             }
         }
     }
-    //if we activated a mutations, already killed the windows
+    //if we activated a mutation, already killed the windows
     if(!(menu_mode == "activating")) {
         werase(wBio);
         wrefresh(wBio);

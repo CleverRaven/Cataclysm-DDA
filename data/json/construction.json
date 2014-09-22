@@ -646,7 +646,7 @@
         "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
         "components" : [
             [ [ "log", 3 ] ],
-            [ [ "wire", 6 ], [ "wire_barbed", 4 ], [ "rope_6", 2 ], [ "chain", 1 ] ]
+            [ [ "wire", 6 ], [ "wire_barbed", 4 ], [ "rope_6", 2 ], [ "chain", 1 ], [ "vine_30", 1 ] ]
         ],
         "pre_terrain" : "t_pit",
         "post_terrain" : "t_palisade"
@@ -715,7 +715,7 @@
         "difficulty" : 6,
         "time" : 5,
         "components" : [
-            [ [ "rope_30", 1 ] ],
+            [ [ "rope_30", 1 ], [ "vine_30", 1 ] ],
             [ [ "stick", 8 ], [ "2x4", 8 ] ]
         ],
         "pre_special" : "check_empty",
@@ -730,7 +730,7 @@
         "components" : [
             [ [ "log", 2 ] ],
             [ [ "2x4", 3 ] ],
-            [ [ "rope_6", 2 ] ]
+            [ [ "rope_6", 2 ], [ "vine_30", 1 ] ]
         ],
         "pre_terrain" : "t_pit",
         "post_terrain" : "t_palisade_gate"
@@ -1634,7 +1634,7 @@
         ],
         "components" : [
             [ [ "2x4", 8 ] , [ "log", 8 ] ],
-            [ [ "rope_30", 1 ] ]
+            [ [ "rope_30", 1 ], [ "vine_30", 1 ] ]
         ],
         "pre_flags" : "DIGGABLE",
         "post_special" : "done_dig_stair"
@@ -1654,7 +1654,7 @@
         ],
         "components" : [
             [ [ "2x4", 12 ] , [ "log", 12 ] ],
-            [ [ "rope_30", 1 ] ],
+            [ [ "rope_30", 1 ], [ "vine_30", 1 ] ],
             [ [ "gasoline", 30 ]]
         ],
         "pre_special" : "check_down_OK",
@@ -1679,7 +1679,7 @@
         "note" : "Helmets are essential because you're digging up and things may fall on you.",
         "components" : [
             [ [ "2x4", 12 ] , [ "log", 12 ] ],
-            [ [ "rope_30", 1 ] ],
+            [ [ "rope_30", 1 ], [ "vine_30", 1 ] ],
             [ [ "gasoline", 30 ]]
         ],
         "pre_special" : "check_up_OK",

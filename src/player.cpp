@@ -398,7 +398,7 @@ void player::reset_stats()
     if (has_trait("TAIL_RAT")) {
         mod_dodge_bonus(2);
     }
-    if (has_trait("TAIL_THICK")) {
+    if (has_trait("TAIL_THICK") && !(has_active_mutation("TAIL_THICK")) ) {
         mod_dodge_bonus(1);
     }
     if (has_trait("TAIL_RAPTOR")) {
@@ -1469,8 +1469,8 @@ int player::run_cost(int base_cost, bool diag)
     if (has_trait("HOLLOW_BONES")) {
         movecost *= .8f;
     }
-    if (has_trait("WINGS_INSECT")) {
-        movecost -= 15;
+    if (has_active_mutation("WINGS_INSECT")) {
+        movecost *= .75f;
     }
     if (has_trait("WINGS_BUTTERFLY")) {
         movecost -= 10; // You can't fly, but you can make life easier on your legs
@@ -5474,6 +5474,48 @@ void player::suffer()
             activate_bionic(i);
         }
     }
+    
+    for (auto mut : my_mutations) {
+        if (!traits[mut].powered ) {
+            continue;
+        }
+        if (traits[mut].powered && traits[mut].charge > 0) {
+        // Already-on units just lose a bit of charge
+        traits[mut].charge--;
+        } else {
+            // Not-on units, or those with zero charge, have to pay the power cost
+            if (traits[mut].cooldown > 0) {
+                traits[mut].powered = true;
+                traits[mut].charge = traits[mut].cooldown - 1;
+            }
+            if (traits[mut].hunger){
+                hunger += traits[mut].cost;
+                if (hunger >= 700) { // Well into Famished
+                    add_msg(m_warning, _("You're too famished to keep your %s going."), traits[mut].name.c_str());
+                    traits[mut].powered = false;
+                    traits[mut].cooldown = traits[mut].cost;
+                }
+            }
+            if (traits[mut].thirst){
+                thirst += traits[mut].cost;
+                if (thirst >= 260) { // Well into Dehydrated
+                    add_msg(m_warning, _("You're too dehydrated to keep your %s going."), traits[mut].name.c_str());
+                    traits[mut].powered = false;
+                    traits[mut].cooldown = traits[mut].cost;
+                }
+            }
+            if (traits[mut].fatigue){
+                fatigue += traits[mut].cost;
+                if (fatigue >= 575) { // Exhausted
+                    add_msg(m_warning, _("You're too exhausted to keep your %s going."), traits[mut].name.c_str());
+                    traits[mut].powered = false;
+                    traits[mut].cooldown = traits[mut].cost;
+                }
+            }
+        }
+        
+    }
+
     if (underwater) {
         if (!has_trait("GILLS")) {
             oxygen--;
@@ -5490,6 +5532,11 @@ void player::suffer()
                 apply_damage( nullptr, bp_torso, rng( 1, 4 ) );
             }
         }
+    }
+
+    if(has_active_mutation("WINGS_INSECT")){
+        //~Sound of buzzing Insect Wings
+        g->sound(posx, posy, 10, "BZZZZZ");
     }
 
     double shoe_factor = footwear_factor();
@@ -8108,6 +8155,13 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
           stomach_food += (carn_nutr);
           stomach_water += (carn_quench);
           add_msg_if_player(m_good, _("You eat the good parts and leave that indigestible plant stuff behind."));
+    } else if (has_trait("CARNIVORE") && ((eaten->made_of("flesh") || eaten->made_of("hflesh") ||
+      eaten->made_of("iflesh") || eaten->made_of("egg"))) ) {
+          // Carnivores, being specialized to consume meat, get more nutrients from a wholly-meat or egg meal.
+          if (comest->healthy < 1) {
+              int carn_healthy = (comest->healthy) + 1;
+              mod_healthy_mod(carn_healthy);
+          }
     } else {
     // Saprophages get the same boost from rotten food that others get from fresh.
         hunger -= comest->nutr;

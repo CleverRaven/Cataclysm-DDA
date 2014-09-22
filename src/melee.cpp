@@ -210,7 +210,7 @@ int player::hit_roll() const
         numdice = 1;
         sides = 8 - encumb(bp_torso);
     }
-    
+
     return dice(numdice, sides);
 }
 
@@ -705,26 +705,34 @@ int player::roll_cut_damage(bool crit)
 
     if (unarmed_attack()) {
         if (wearing_something_on(bp_hand_l)) {
-            if (has_trait("CLAWS") || has_trait("CLAWS_RETRACT"))
+            if (has_trait("CLAWS") || (has_active_mutation("CLAWS_RETRACT")) ) {
                 ret += 3;
-            if (has_bionic("bio_razors"))
+            }
+            if (has_bionic("bio_razors")) {
                 ret += 2;
-            if (has_trait("TALONS"))
+            }
+            if (has_trait("TALONS")) {
                 ret += 3 + (unarmed_skill > 8 ? 4 : unarmed_skill / 2);
+            }
             //TODO: add acidproof check back to slime hands (probably move it elsewhere)
-            if (has_trait("SLIME_HANDS"))
+            if (has_trait("SLIME_HANDS")) {
                 ret += rng(2, 3);
+            }
         }
         if (wearing_something_on(bp_hand_r)) {
-            if (has_trait("CLAWS") || has_trait("CLAWS_RETRACT"))
+            if (has_trait("CLAWS") || (has_active_mutation("CLAWS_RETRACT")) ) {
                 ret += 3;
-            if (has_bionic("bio_razors"))
+            }
+            if (has_bionic("bio_razors")) {
                 ret += 2;
-            if (has_trait("TALONS"))
+            }
+            if (has_trait("TALONS")) {
                 ret += 3 + (unarmed_skill > 8 ? 4 : unarmed_skill / 2);
+            }
             //TODO: add acidproof check back to slime hands (probably move it elsewhere)
-            if (has_trait("SLIME_HANDS"))
+            if (has_trait("SLIME_HANDS")) {
                 ret += rng(2, 3);
+            }
         }
     }
 
@@ -1880,7 +1888,8 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         ret.push_back(tmp);
     }
 
-    if (has_trait("TAIL_STING") && one_in(3) && one_in(10 - dex_cur)) {
+    if ( ((has_trait("TAIL_STING") && one_in(3)) || has_active_mutation("TAIL_STING")) &&
+      one_in(10 - dex_cur)) {
         special_attack tmp;
         tmp.stab = 20;
         if (is_player()) {
@@ -1896,7 +1905,8 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         ret.push_back(tmp);
     }
 
-    if (has_trait("TAIL_CLUB") && one_in(3) && one_in(10 - dex_cur)) {
+    if ( ((has_trait("TAIL_CLUB") && one_in(3)) || has_active_mutation("TAIL_CLUB")) &&
+      one_in(10 - dex_cur)) {
         special_attack tmp;
         tmp.bash = 18;
         if (is_player()) {
@@ -1912,7 +1922,8 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         ret.push_back(tmp);
     }
 
-    if (has_trait("TAIL_THICK") && one_in(3) && one_in(10 - dex_cur)) {
+    if (((has_trait("TAIL_THICK") && one_in(3)) || has_active_mutation("TAIL_THICK")) &&
+      one_in(10 - dex_cur)) {
         special_attack tmp;
         tmp.bash = 8;
         if (is_player()) {
