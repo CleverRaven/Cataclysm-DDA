@@ -1183,30 +1183,5 @@
         "recoil" : 51,
         "count" : 30,
         "effects" : ["COOKOFF", "RECYCLED"]
-	},
-	{
-	"type" : "AMMO",
-        "id" : "hm_12mm",
-        "price" : 50,
-        "name" : "handmade 12mm projectile",
-        "symbol" : "=",
-        "color" : "blue",
-        "description" : "Handmade 12mm projectiles made for use in a railgun.  These are hand-crafted and made of steel.",
-        "material" : "steel",
-        "volume" : 1,
-        "weight" : 11,
-        "bashing" : 1,
-        "cutting" : 0,
-        "to_hit" : 0,
-        "ammo_type" : "12mm",
-        "casing" : "NULL",
-        "damage" : 0,
-        "pierce" : 15,
-        "range" : 35,
-        "dispersion" : 12,
-        "recoil" : 8,
-        "count" : 20,
-        "stack_size" : 40,
-        "effects" : ["RECYCLED"]
 	}
 ]
