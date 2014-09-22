@@ -3956,7 +3956,6 @@
     "cutting": 0,
     "to_hit": 0
   },
-<<<<<<< HEAD
   {
     "type":"GENERIC",
     "id": "pillow",
@@ -3988,8 +3987,7 @@
     "cutting": 0,
     "category": "spare_parts",
     "to_hit": 0
-  }
-=======
+  },
   { 
     "type" : "AMMO",
     "id" : "material_cement",
@@ -4106,5 +4104,4 @@
     "cutting": 0,
     "to_hit": -2
    }
->>>>>>> 4d8105e75a38ff24ddf294b086cf436c0bfa953d
 ]
