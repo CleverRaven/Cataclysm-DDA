@@ -5268,7 +5268,6 @@ int iuse::granade(player *p, item *it, bool)
 
 int iuse::granade_act(player *, item *it, bool t)
 {
-    int explosion_radius = 3;
     point pos = g->find_item(it);
     if (pos.x == -999 || pos.y == -999) {
         return 0;
@@ -5280,6 +5279,7 @@ int iuse::granade_act(player *, item *it, bool t)
                 it->tname().c_str());
         return 0;
     } else { // When that timer runs down...
+        int explosion_radius = 3;
         int effect_roll = rng(1, 5);
         switch (effect_roll) {
             case 1:
