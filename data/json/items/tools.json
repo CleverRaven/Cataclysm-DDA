@@ -4420,7 +4420,7 @@
     "revert_to": "null",
     "category": "weapons",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1], ["BUTCHER", -38]]
+    "qualities": [["CUT", 1], ["BUTCHER", -27]]
   },
 
   {
