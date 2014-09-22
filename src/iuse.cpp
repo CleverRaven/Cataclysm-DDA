@@ -3853,15 +3853,12 @@ int iuse::touristmap(player *p, item *it, bool t)
 
 int iuse::ma_manual(player *p, item *it, bool)
 {
-    std::string style_to_learn = "style_" + it->type->id.substr(
-                                     7); // strip "manual_" from the start of the item id, add the rest to "style_"
+    // strip "manual_" from the start of the item id, add the rest to "style_"
+    std::string style_to_learn = "style_" + it->type->id.substr(7);
 
-    for ( auto style: p->ma_styles) {
-        if (style_to_learn == style) {
-            p->add_msg_if_player(m_info, _("You already know all this book has to teach."));
-
-            return 0;
-        }
+    if (p->has_martialart(style_to_learn)) {
+        p->add_msg_if_player(m_info, _("You already know all this book has to teach."));
+        return 0;
     }
 
     p->ma_styles.push_back(style_to_learn);
