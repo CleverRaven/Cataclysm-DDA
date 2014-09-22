@@ -6793,11 +6793,11 @@ item player::reduce_charges(int position, long quantity) {
                       removing maximum available charges instead");
             quantity = weapon.charges;
         }
-        weapon.charges -= quantity;
-        if (weapon.charges <= 0)
+        if (weapon.charges <= quantity)
         {
             return remove_weapon();
         }
+        weapon.charges -= quantity;
         return weapon;
     } else if (position < -1) {
         debugmsg("Wearing charged items is not implemented.");
