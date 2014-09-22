@@ -1029,7 +1029,7 @@
         "bashing": 6,
         "cutting": 8,
         "to_hit": -2,
-        "qualities": [["BUTCHER", -27]]
+        "qualities": [["BUTCHER", -38]]
     },
     {
         "type":"GENERIC",
