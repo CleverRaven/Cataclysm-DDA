@@ -3733,6 +3733,7 @@ bool item::process_tool( player *carrier, point /*pos*/ )
 {
     it_tool *tmp = dynamic_cast<it_tool *>( type );
     long charges_used = 0;
+    // Some tools (bombs) use charges as a countdown timer.
     if( tmp->turns_per_charge > 0 && int( calendar::turn ) % tmp->turns_per_charge == 0 ) {
         charges_used = 1;
     }
@@ -3757,8 +3758,11 @@ bool item::process_tool( player *carrier, point /*pos*/ )
     // Otherwise the required charges are not available, shut the tool down.
     if( charges_used == 0 ) {
         // TODO: iuse functions should expect a nullptr as player, but many of them
-        // don't and therefor will fail.
+        // don't and therefore will fail.
         tmp->invoke( carrier != nullptr ? carrier : &g->u, this, true );
+        if( charges == -1 || (charges == 0 && tmp->revert_to == "null") ) {
+            return true; // reverts to nothing -> destroy the item
+        }
     } else {
         if( carrier != nullptr && has_flag( "USE_UPS" ) && charges < charges_used ) {
             carrier->add_msg_if_player( m_info, _( "You need an active UPS to run %s!" ), tname().c_str() );

@@ -2837,8 +2837,8 @@ int iuse::fish_trap(player *p, item *it, bool t)
             }
 
             it->charges = rng(-1, it->charges);
-            if (it->charges == 0) {
-                it->charges = -1;
+            if (it->charges < 0) {
+                it->charges = 0;
             }
 
             int fishes = 0;
@@ -2854,7 +2854,7 @@ int iuse::fish_trap(player *p, item *it, bool t)
             }
 
             if (fishes == 0) {
-                it->charges = -1;
+                it->charges = 0;
                 p->practice("survival", rng(5, 15));
 
                 return 0;
