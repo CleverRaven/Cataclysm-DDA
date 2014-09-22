@@ -47,10 +47,6 @@ void player::activate_mutation(int b)
             fatigue += cost;
         }
     }
-    std::vector<point> traj;
-    std::vector<std::string> good;
-    std::vector<std::string> bad;
-
 
     if (traits[mut].id == "WEB_WEAVER"){
         g->m.add_field(posx, posy, fd_web, 1);
@@ -343,7 +339,6 @@ void player::power_mutations()
             const trait mut_data = traits[mut_id];
             if (menu_mode == "activating") {
                 if (mut_data.activated) {
-                    itype_id weapon_id = weapon.type->id;
                     int b = tmp - &my_mutations[0];
                     if (traits[*tmp].powered) {
                         traits[*tmp].powered = false;
@@ -659,8 +654,6 @@ void player::mutate_towards(std::string mut)
     bool threshold = mutation_data[mut].threshold;
     bool has_threshreq = false;
     std::vector<std::string> threshreq = mutation_data[mut].threshreq;
-    std::vector<std::string> mutcat;
-    mutcat = mutation_data[mut].category;
 
     // It shouldn't pick a Threshold anyway--they're supposed to be non-Valid
     // and aren't categorized--but if it does, just reroll

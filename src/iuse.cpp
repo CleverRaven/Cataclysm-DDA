@@ -564,7 +564,7 @@ int iuse::bandage(player *p, item *it, bool)
         return false;
     }
     if (num_hp_parts != use_healing_item(p, it, 3, 1, 4, 90, 0, 0, false)) {
-        if (it->type->id != "quikclot" || "bfipowder") {
+        if (it->type->id != "quikclot" || it->type->id != "bfipowder") {
             // Make bandages and rags take arbitrarily longer than hemostatic/antiseptic powders.
             p->moves -= 100;
         }
@@ -926,11 +926,9 @@ int iuse::smoking(player *p, item *it, bool)
 
     // make sure we're not already smoking something
     std::vector<item *> active_items = p->inv.active_items();
-    for (std::vector<item *>::iterator iter = active_items.begin(); iter != active_items.end();
-         iter++) {
-        item *i = *iter;
-        if (i->has_flag("LITCIG")) {
-            p->add_msg_if_player(m_info, _("You're already smoking a %s!"), i->tname().c_str());
+    for (auto iter : active_items) {
+        if (iter->has_flag("LITCIG")) {
+            p->add_msg_if_player(m_info, _("You're already smoking a %s!"), iter->tname().c_str());
             return 0;
         }
     }
@@ -3855,16 +3853,12 @@ int iuse::touristmap(player *p, item *it, bool t)
 
 int iuse::ma_manual(player *p, item *it, bool)
 {
-    std::string style_to_learn = "style_" + it->type->id.substr(
-                                     7); // strip "manual_" from the start of the item id, add the rest to "style_"
+    // strip "manual_" from the start of the item id, add the rest to "style_"
+    std::string style_to_learn = "style_" + it->type->id.substr(7);
 
-    for (std::vector<matype_id>::iterator style = p->ma_styles.begin(); style != p->ma_styles.end();
-         style++) {
-        if (style_to_learn == *style) {
-            p->add_msg_if_player(m_info, _("You already know all this book has to teach."));
-
-            return 0;
-        }
+    if (p->has_martialart(style_to_learn)) {
+        p->add_msg_if_player(m_info, _("You already know all this book has to teach."));
+        return 0;
     }
 
     p->ma_styles.push_back(style_to_learn);
@@ -3895,7 +3889,7 @@ int iuse::picklock(player *p, item *it, bool)
     int pick_quality = 1;
     if (it->typeId() == "picklocks") {
         pick_quality = 5;
-    } else if (it->typeId() == "crude_picklock" || "hairpin") {
+    } else if (it->typeId() == "crude_picklock" || it->typeId() == "hairpin") {
         pick_quality = 3;
     }
 
@@ -5271,7 +5265,6 @@ int iuse::granade(player *p, item *it, bool)
 
 int iuse::granade_act(player *, item *it, bool t)
 {
-    int explosion_radius = 3;
     point pos = g->find_item(it);
     if (pos.x == -999 || pos.y == -999) {
         return 0;
@@ -5283,6 +5276,7 @@ int iuse::granade_act(player *, item *it, bool t)
                 it->tname().c_str());
         return 0;
     } else { // When that timer runs down...
+        int explosion_radius = 3;
         int effect_roll = rng(1, 5);
         switch (effect_roll) {
             case 1:
@@ -7499,9 +7493,9 @@ int iuse::artifact(player *p, item *it, bool)
             case AEA_FIRESTORM: {
                 p->add_msg_if_player(m_bad, _("Fire rains down around you!"));
                 std::vector<point> ps = closest_points_first(3, p->posx, p->posy);
-                for (std::vector<point>::iterator p_it = ps.begin(); p_it != ps.end(); p_it++) {
+                for (auto p_it : ps) {
                     if (!one_in(3)) {
-                        g->m.add_field(*p_it, fd_fire, 1 + rng(0, 1) * rng(0, 1), 30);
+                        g->m.add_field(p_it, fd_fire, 1 + rng(0, 1) * rng(0, 1), 30);
                     }
                 }
                 break;
@@ -9734,7 +9728,7 @@ int iuse::radiocontrol(player *p, item *it, bool t)
         signal += choice_str.str();
 
         p->add_msg_if_player(_("Click."));
-        sendRadioSignal( p, signal.c_str() );
+        sendRadioSignal(p, signal);
         p->moves -= 150;
     }
 

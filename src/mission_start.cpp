@@ -478,10 +478,12 @@ void mission_start::reveal_lab_black_box(mission *miss)
 void mission_start::open_sarcophagus(mission *miss)
 {
     npc *p = g->find_npc(miss->npc_id);
-    p->attitude = NPCATT_FOLLOW;
     if (p != NULL) {
+        p->attitude = NPCATT_FOLLOW;
         g->u.i_add( item("sarcophagus_access_code", 0) );
         add_msg(m_good, _("%s gave you sarcophagus access code."), p->name.c_str());
+    } else {
+        DebugLog( D_ERROR, DC_ALL ) << "mission_start: open_sarcophagus() <= Can't find NPC";
     }
     target_om_ter("haz_sar", 3, miss, false);
 }

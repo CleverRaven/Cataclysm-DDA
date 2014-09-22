@@ -722,13 +722,20 @@ void npc::set_fac(std::string fac_name)
 std::vector<item> starting_clothes(npc_class type, bool male)
 {
  std::vector<item> ret;
- itype_id pants = "null", shoes = "null", shirt = "null",
-                  gloves = "null", coat = "null", mask = "null",
-                  glasses = "null", hat = "null", extras = "null";
- Item_tag selected_item;
+ itype_id pants = "null",
+          shoes = "null",
+          shirt = "null",
+          gloves = "null",
+          coat = "null",
+          mask = "null",
+          glasses = "null",
+          hat = "null",
+          extras = "null";
+
  pants = item_controller->id_from(npc_class_name_str(type)+"_pants_male");
- if (!male)
+ if (!male) {
      pants = item_controller->id_from(npc_class_name_str(type)+"_pants_female");
+ }
  if (pants == "MISSING_ITEM"){
      if (male)
         pants = item_controller->id_from("npc_pants_male");
@@ -743,7 +750,7 @@ std::vector<item> starting_clothes(npc_class type, bool male)
      if (male)
         shirt = item_controller->id_from("npc_shirt_male");
      else
-        shirt = item_controller->id_from("npc_shirt_male");
+        shirt = item_controller->id_from("npc_shirt_female");
  }
 
  gloves = item_controller->id_from(npc_class_name_str(type)+"_gloves");
