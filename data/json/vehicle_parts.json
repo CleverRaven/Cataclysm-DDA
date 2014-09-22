@@ -2224,7 +2224,8 @@
         "breaks_into" : [
             {"item": "steel_lump", "min": 3, "max": 5},
             {"item": "steel_chunk", "min": 3, "max": 5},
-            {"item": "scrap", "min": 3, "max": 5}
+            {"item": "scrap", "min": 3, "max": 5},
+            {"item": "cable", "min": 10, "max": 15}
         ]
     },{
         "type" : "vehicle_part",
@@ -2246,7 +2247,31 @@
         "breaks_into" : [
             {"item": "steel_lump", "min": 30, "max": 40},
             {"item": "steel_chunk", "min": 30, "max": 40},
-            {"item": "scrap", "min": 30, "max": 40}
+            {"item": "scrap", "min": 30, "max": 40},
+            {"item": "cable", "min": 15, "max": 20}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "engine_electric_small",
+        "name" : "small electric motor",
+        "symbol" : "*",
+        "color" : "yellow",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 120,
+        "power" : 15,
+        "epower" : -6000,
+        "fuel_type" : "battery",
+        "item" : "motor_small",
+        "difficulty" : 1,
+        "location" : "engine_block",
+        "flags" : ["ENGINE"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 1, "max": 2},
+            {"item": "steel_chunk", "min": 1, "max": 2},
+            {"item": "scrap", "min": 1, "max": 2},
+            {"item": "cable", "min": 3, "max": 6}
         ]
     },{
         "type" : "vehicle_part",
@@ -2349,6 +2374,25 @@
         "breaks_into" : [
             {"item": "steel_lump", "min": 1, "max": 1},
             {"item": "steel_chunk", "min": 1, "max": 2},
+            {"item": "scrap", "min": 1, "max": 2}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gas_tank_little",
+        "name" : "gasoline tank (little)",
+        "symbol" : "O",
+        "color" : "light_red",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 75,
+        "size" : 650,
+        "fuel_type" : "gasoline",
+        "item" : "metal_tank_little",
+        "difficulty" : 1,
+        "location" : "fuel_source",
+        "flags" : ["FUEL_TANK"],
+        "breaks_into" : [
             {"item": "scrap", "min": 1, "max": 2}
         ]
     },{
@@ -3563,7 +3607,26 @@
             {"item": "steel_chunk", "min": 3, "max": 5},
             {"item": "scrap", "min": 3, "max": 5}
         ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "engine_1cyl_small",
+        "name" : "1-cylinder engine",
+        "symbol" : "*",
+        "color" : "light_red",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 120,
+        "epower" : 0,
+        "fuel_type" : "gasoline",
+        "item" : "1cyl_combustion_small",
+        "difficulty" : 2,
+        "location" : "engine_block",
+        "flags" : ["ENGINE", "VARIABLE_SIZE"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 2, "max": 4},
+            {"item": "steel_chunk", "min": 2, "max": 4},
+            {"item": "scrap", "min": 2, "max": 4}
+        ]
     }
-
-
 ]

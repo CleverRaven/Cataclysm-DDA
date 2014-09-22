@@ -34,7 +34,7 @@
       ["blade", 2]
      ],
      [
-      ["motor", 1]
+      ["motor_small", 1]
      ],
      [
       ["power_supply", 1]
@@ -81,16 +81,19 @@
       ["chain", 1]
     ],
     [
-      ["motor", 1]
+      ["motor_small", 1]
     ],
     [
-      ["power_supply", 1]
+      ["metal_tank_little", 1]
     ],
     [
-      [ "scrap", 1 ]
+      [ "scrap", 2 ]
     ],
     [
-      [ "cable", 5 ]
+      [ "cable", 4 ]
+    ],
+    [
+      [ "1cyl_combustion_small", 1 ]
     ]
   ]
 },{
@@ -127,7 +130,7 @@
       ["circsaw_blade", 1]
     ],
     [
-      ["motor", 1]
+      ["motor_small", 1]
     ],
     [
       ["power_supply", 1]
@@ -2528,6 +2531,39 @@
     ],
     [
       [ "cable", 5 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "motor_small",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_PARTS",
+  "skill_used": "electronics",
+  "skills_required": [ "fabrication", 1 ],
+  "difficulty": 3,
+  "time": 20000,
+  "reversible": true,
+  "decomp_learn": 2,
+  "autolearn": false,
+  "book_learn": [[ "manual_electronics", 2 ] , [ "mag_electronics", 2 ] , [ "manual_mechanics", 2]],
+  "qualities" : [
+    {"id":"HAMMER","level":1,"amount":1},
+    {"id":"SCREW","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "soldering_iron", 5 ],
+      [ "toolset", 5 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "steel_chunk", 2 ]
+    ],
+	[
+      [ "scrap", 2 ]
+    ],
+    [
+      [ "cable", 6 ]
     ]
   ]
 }
