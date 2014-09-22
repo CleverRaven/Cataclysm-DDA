@@ -1755,7 +1755,8 @@ void map::collapse_at(const int x, const int y)
     }
 }
 
-std::pair<bool, bool> map::bash(const int x, const int y, const int str, bool silent, bool destroy)
+std::pair<bool, bool> map::bash(const int x, const int y, const int str,
+                                bool silent, bool destroy, vehicle *bashing_vehicle )
 {
     bool success = false;
     int sound_volume = 0;
@@ -1789,7 +1790,7 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str, bool si
     // Smash vehicle if present
     int vpart;
     vehicle *veh = veh_at(x, y, vpart);
-    if (veh) {
+    if (veh && veh != bashing_vehicle) {
         veh->damage (vpart, str, 1);
         sound = _("crash!");
         sound_volume = 18;
