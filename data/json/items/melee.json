@@ -3965,19 +3965,5 @@
     "bashing": 0,
     "cutting": 0,
     "to_hit": 0
-  },{
-    "type":"GENERIC",
-    "id": "hd_steel_drum",
-    "symbol": "m",
-    "color": "light_gray",
-    "name": "large steel drum",
-    "description": "A large cylinder fashioned out from thick plates of hardened steel, that is normally found on road rollers. Numerous massive spokes, attached to a central axis, reinforce its structure even further, making it an unstoppable force once it starts rolling.",
-    "price": 50000,
-    "material": "steel",
-    "weight": 185000,
-    "volume": 400,
-    "bashing": 50,
-    "cutting": 0,
-    "to_hit": -2
-}
+  }
 ]
