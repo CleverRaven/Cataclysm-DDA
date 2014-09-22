@@ -321,7 +321,7 @@ void Pickup::pick_one_up( const point &pickup_target, std::vector<item> &here, v
                                            veh, cargo_part, moves_taken, index);
     }
     if( quantity != 0 ) {
-        bool to_map = veh != nullptr;
+        bool to_map = veh == nullptr;
         if( !to_map ) {
             to_map = !veh->add_item( cargo_part, leftovers );
         }
