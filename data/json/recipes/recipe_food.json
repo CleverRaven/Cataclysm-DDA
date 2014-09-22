@@ -1100,7 +1100,8 @@
   "autolearn": false,
   "book_learn": [[ "cookbook_human", 3 ]],
   "qualities" : [
-     {"id":"COOK","level":1,"amount":1} ],
+     {"id":"COOK","level":1,"amount":1},    
+     {"id":"CUT","level":1,"amount":1} ],
   "tools": [
     [
       [ "char_smoker", 2 ]
