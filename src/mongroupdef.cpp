@@ -8,16 +8,6 @@
 // Default start time, this is the only place it's still used.
 #define STARTING_MINUTES 480
 
-// hack for MingW: prevent undefined references to `libintl_printf'
-#if defined _WIN32 || defined __CYGWIN__
-#undef printf
-#endif
-
-//Adding a group:
-//  1: Declare it in the MonsterGroupDefs enum in mongroup.h
-//  2: Define it in here with the macro Group(your group, default monster)
-//     and AddMonster(your group, some monster, a frequency on 1000)
-//
 //  Frequency: If you don't use the whole 1000 points of frequency for each of
 //     the monsters, the remaining points will go to the defaultMonster.
 //     Ie. a group with 1 monster at frequency will have 50% chance to spawn
@@ -33,7 +23,7 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
     std::string group_name, int *quantity, int turn )
 {
     int spawn_chance = rng(1, 1000);
-    MonsterGroup group = monsterGroupMap[group_name];
+    MonsterGroup group = GetMonsterGroup( group_name );
 
     //Our spawn details specify, by default, a single instance of the default monster
     MonsterGroupResult spawn_details = MonsterGroupResult(group.defaultMonster, 1);
@@ -144,22 +134,29 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
     return spawn_details;
 }
 
-bool MonsterGroupManager::IsMonsterInGroup(std::string group, std::string monster)
+bool MonsterGroup::IsMonsterInGroup(const std::string &mtypeid) const
 {
-    MonsterGroup g = monsterGroupMap[group];
-    for (FreqDef_iter it = g.monsters.begin(); it != g.monsters.end(); ++it) {
-        if(it->name == monster) {
+    if( defaultMonster == mtypeid ) {
+        return true;
+    }
+    for( auto &m : monsters ) {
+        if( m.name == mtypeid ) {
             return true;
         }
     }
     return false;
 }
 
+bool MonsterGroupManager::IsMonsterInGroup(std::string group, std::string monster)
+{
+    return GetMonsterGroup( group ).IsMonsterInGroup( monster );
+}
+
 std::string MonsterGroupManager::Monster2Group(std::string monster)
 {
     for (std::map<std::string, MonsterGroup>::const_iterator it = monsterGroupMap.begin();
          it != monsterGroupMap.end(); ++it) {
-        if(IsMonsterInGroup(it->first, monster )) {
+        if( it->second.IsMonsterInGroup( monster ) ) {
             return it->first;
         }
     }
@@ -190,7 +187,12 @@ MonsterGroup MonsterGroupManager::GetMonsterGroup(std::string group)
     std::map<std::string, MonsterGroup>::iterator it = monsterGroupMap.find(group);
     if(it == monsterGroupMap.end()) {
         debugmsg("Unable to get the group '%s'", group.c_str());
-        return MonsterGroup();
+        // Initialize the group with a null-monster, it's ignored while spawning,
+        // but it prevents further messages about invalid monster type id
+        auto &g = monsterGroupMap[group];
+        g.name = group;
+        g.defaultMonster = "mon_null";
+        return g;
     } else {
         return it->second;
     }

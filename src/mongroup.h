@@ -59,6 +59,7 @@ struct MonsterGroup {
     std::string name;
     std::string defaultMonster;
     FreqDef  monsters;
+    bool IsMonsterInGroup(const std::string &mtypeid) const;
 };
 
 struct mongroup {
