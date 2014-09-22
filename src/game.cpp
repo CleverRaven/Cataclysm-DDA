@@ -1930,15 +1930,51 @@ void game::activity_on_finish_fish()
         int fishChance = dice(1, 20);
 
         if (sSkillLevel > fishChance) {
-            item fish;
+            std::vector<monster> fishables = get_fishable(60); //get the nearby fish list.
+            //if the vector is empty (no fish around) the player is still given a small chance to get a (let us say it was hidden) fish
+            if (fishables.size() < 1){
+                if (one_in(20)) {
+                item fish;
+                std::vector<std::string> fish_group = MonsterGroupManager::GetMonstersFromGroup("GROUP_FISH");
+                std::string fish_mon = fish_group[rng(1, fish_group.size()) - 1];
+                fish.make_corpse("corpse", GetMType(fish_mon), calendar::turn);
+                m.add_item_or_charges(u.posx, u.posy, fish);
+                u.add_msg_if_player(m_good, _("You catch a fish!"));
+                } else {
+                    u.add_msg_if_player(_("You catch nothing."));
+                }
+            } else {
+                u.add_msg_if_player(m_good, _("You catch a fish!"));
+                catch_a_monster(fishables, u.posx, u.posy, &g->u, 30000);
+            }
 
-            std::vector<std::string> fish_group = MonsterGroupManager::GetMonstersFromGroup("GROUP_FISH");
-            std::string fish_mon = fish_group[rng(1, fish_group.size()) - 1];
+        } else {
+            u.add_msg_if_player(_("You catch nothing."));
+        }
 
-            fish.make_corpse("corpse", GetMType(fish_mon), calendar::turn);
-            m.add_item_or_charges(u.posx, u.posy, fish);
+        u.practice("survival", rng(5, 15));
+    } else if (it.has_flag("FISH_GOOD")) {
+        int sSkillLevel = u.skillLevel("survival")*1.5 + dice(1, 6) + 3; //much better chances with a good fishing implement
+        int fishChance = dice(1, 20);
 
-            u.add_msg_if_player(m_good, _("You catch a fish!"));
+        if (sSkillLevel > fishChance) {
+            std::vector<monster> fishables = g->get_fishable(60); //get the nearby fish list.
+            if (fishables.size() < 1){
+                if (one_in(20)) {
+                item fish;
+                std::vector<std::string> fish_group = MonsterGroupManager::GetMonstersFromGroup("GROUP_FISH");
+                std::string fish_mon = fish_group[rng(1, fish_group.size()) - 1];
+                fish.make_corpse("corpse", GetMType(fish_mon), calendar::turn);
+                m.add_item_or_charges(u.posx, u.posy, fish);
+                u.add_msg_if_player(m_good, _("You catch a fish!"));
+                } else {
+                    u.add_msg_if_player(_("You catch nothing."));
+                }
+            } else {
+                u.add_msg_if_player(m_good, _("You catch a fish!"));
+                catch_a_monster(fishables, u.posx, u.posy, &g->u, 30000);
+            }
+
         } else {
             u.add_msg_if_player(_("You catch nothing."));
         }
@@ -1946,6 +1982,19 @@ void game::activity_on_finish_fish()
         u.practice("survival", rng(5, 15));
     }
     u.activity.type = ACT_NULL;
+}
+
+void game::catch_a_monster(std::vector<monster> &catchables, int posx, int posy, player *p, int catch_duration) // catching function
+{
+    int index = rng(1, catchables.size()) - 1; //get a random monster from the vector
+    //spawn the corpse, rotten by a part of the duration
+    item fish;
+    fish.make_corpse("corpse", catchables[index].type, calendar::turn + int(rng(0, catch_duration)));
+    m.add_item_or_charges(posx, posy, fish);
+    //quietly kill the catched
+    catchables[index].no_corpse_quiet = true;
+    catchables[index].die( p );
+    catchables.erase (catchables.begin()+index);
 }
 
 void game::activity_on_finish_vehicle()
