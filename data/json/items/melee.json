@@ -1028,7 +1028,8 @@
         "volume": 3,
         "bashing": 6,
         "cutting": 8,
-        "to_hit": -2
+        "to_hit": -2,
+        "qualities": [["BUTCHER", -27]]
     },
     {
         "type":"GENERIC",
@@ -3122,7 +3123,8 @@
         "bashing": 0,
         "cutting": 6,
         "to_hit": 0,
-        "flags": ["SHEATH_KNIFE"]
+        "flags": ["SHEATH_KNIFE"],
+        "qualities": [["BUTCHER", -18]]
     },
     {
         "id": "mre_beef_box",
