@@ -4082,7 +4082,7 @@
             {"x": 0, "y": 0, "part": "horn_car"},
             {"x": -1, "y": -2, "part": "gas_tank"},
             {"x": -1, "y": 2, "part": "gas_tank"},
-            {"x": 1, "y": 0, "part": "engine_v12"},
+            {"x": 1, "y": 0, "part": "engine_v8"},
             {"x": 1, "y": 0, "part": "alternator_truck"},
             {"x": 1, "y": 0, "part": "battery_truck"},
             {"x": 1, "y": -1, "part": "headlight"},
