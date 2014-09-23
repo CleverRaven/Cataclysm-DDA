@@ -5282,13 +5282,13 @@ void game::draw_sidebar()
     else if (windSpeed >  10) windSpeedString = "Lgt breeze";
     else windSpeedString = "Calm";
 
-    if (relHum > 70) relHumString = "V humid";
-    else if (relHum > 60) relHumString = "Humid";
-    else if (relHum > 50) relHumString = "Comf";
-    else if (relHum > 30) relHumString = "Dry";
-    else relHumString = "V dry";
+    if (relHum > 70) relHumString = ", V humid";
+    else if (relHum > 60) relHumString = ", Humid";
+    else if (relHum > 50) relHumString = "";
+    else if (relHum > 30) relHumString = ", Dry";
+    else relHumString = ", V dry";
 
-    wprintz( w_location, col_temp, " %s, %s, %s", print_temperature( display_temp ).c_str(), windSpeedString.c_str(), relHumString.c_str());
+    wprintz( w_location, col_temp, " %s, %s%s", print_temperature( display_temp ).c_str(), windSpeedString.c_str(), relHumString.c_str());
     wrefresh(w_location);
 
     //Safemode coloring
