@@ -651,7 +651,7 @@ bool uimenu::scrollby(int scrollby, const int key)
             }
         }
     }
-    if( fselected < fentries.size() ) {
+    if( fselected < (int)fentries.size() ) {
         selected = fentries [ fselected ];
     }
     return true;
