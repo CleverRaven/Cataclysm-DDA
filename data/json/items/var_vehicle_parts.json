@@ -200,13 +200,13 @@
 	"description": "A large cylinder fashioned out of thick plates of hardened steel, that is normally found on road rollers. Numerous massive spokes, attached to a central axis, reinforce its structure even further, making it an unstoppable force once it starts rolling.",
 	"price": 50000,
 	"material": ["steel", "null"],
-	"weight": 500000,
+	"weight": 750000,
     	"volume": 800,
-    	"bashing": 50,
+    	"bashing": 60,
     	"cutting": 0,
     	"to_hit": -2,
-	"min-bigness": 30,
-	"max-bigness": 45,
+	"min-bigness": 50,
+	"max-bigness": 75,
 	"category": "veh_parts",
 	"bigness-aspect": "WHEEL_DIAMETER"
 }
