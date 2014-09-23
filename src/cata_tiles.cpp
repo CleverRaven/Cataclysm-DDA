@@ -622,7 +622,27 @@ bool cata_tiles::draw_from_id_string(const std::string &id, TILE_CATEGORY catego
         return false;
     }
 
-    tile_id_iterator it = tile_ids.find(id);
+    std::string seasonal_id;
+    switch (calendar::turn.get_season()) {
+    case SPRING:
+        seasonal_id = id + "_season_spring";
+        break;
+    case SUMMER:
+        seasonal_id = id + "_season_summer";
+        break;
+    case AUTUMN:
+        seasonal_id = id + "_season_autumn";
+        break;
+    case WINTER:
+        seasonal_id = id + "_season_winter";
+        break;
+    }
+    tile_id_iterator it = tile_ids.find(seasonal_id);
+    if (it != tile_ids.end()) {
+        return draw_from_id_string(seasonal_id, category, subcategory, x, y, subtile, rota);
+    }
+
+    it = tile_ids.find(id);
 
     if (it == tile_ids.end()) {
         long sym = -1;
