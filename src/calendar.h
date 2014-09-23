@@ -78,7 +78,7 @@ class calendar
         
         void sync(); // Synchronize all variables to the turn_number
 
-        // Sunlight and day/night calcuations
+        // Sunlight and day/night calculations
         int minutes_past_midnight() const; // Useful for sunrise/set calculations
         moon_phase moon() const;  // Find phase of moon
         calendar sunrise() const; // Current time of sunrise

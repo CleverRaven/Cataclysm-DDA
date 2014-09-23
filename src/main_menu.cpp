@@ -390,7 +390,7 @@ bool game::opening_screen()
                     if (sel2 == 0 || sel2 == 2 || sel2 == 3) {
                         // First load the mods, this is done by
                         // loading the world.
-                        // Pick a world, supressing prompts if it's "play now" mode.
+                        // Pick a world, suppressing prompts if it's "play now" mode.
                         WORLDPTR world = world_generator->pick_world( sel2 != 3 );
                         if (world == NULL) {
                             continue;
