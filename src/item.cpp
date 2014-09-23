@@ -3760,8 +3760,9 @@ bool item::process_tool( player *carrier, point /*pos*/ )
         // TODO: iuse functions should expect a nullptr as player, but many of them
         // don't and therefore will fail.
         tmp->invoke( carrier != nullptr ? carrier : &g->u, this, true );
-        if( charges == -1 || (charges == 0 && tmp->revert_to == "null") ) {
-            return true; // reverts to nothing -> destroy the item
+        if( charges == -1 ) {
+            // Signal that the item has destroyed itself.
+            return true;
         }
     } else {
         if( carrier != nullptr && has_flag( "USE_UPS" ) && charges < charges_used ) {

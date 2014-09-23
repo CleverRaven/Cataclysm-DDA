@@ -5416,7 +5416,7 @@ int iuse::acidbomb_act(player *p, item *it, bool)
         if (pos.x == -999) {
             pos = point(p->posx, p->posy);
         }
-        it->charges = 0;
+        it->charges = -1;
         for (int x = pos.x - 1; x <= pos.x + 1; x++) {
             for (int y = pos.y - 1; y <= pos.y + 1; y++) {
                 g->m.add_field(x, y, fd_acid, 3);
