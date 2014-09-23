@@ -1069,6 +1069,27 @@
         ]
     },{
         "type" : "mutation",
+        "id" : "M_SKIN",
+        "name" : "Mycus Flesh",
+        "points" : 2,
+        "visibility" : 10,
+        "ugliness" : 8,
+        "description" : "We have adapted local physical structure to Mycus physiology. Greatly reduces wet effects.",
+        "valid" : false,
+        "category" : ["MUTCAT_MYCUS"],
+        "prereqs" : ["M_IMMUNE"],
+        "threshreq" : ["THRESH_MYCUS"],
+        "leads_to" : ["M_DEFENDER"],
+        "wet_protection" : [
+            { "part" : "HEAD", "ignored" : 6 },
+            { "part" : "LEGS", "ignored" : 20 },
+            { "part" : "FEET", "ignored" : 6 },
+            { "part" : "ARMS", "ignored" : 18 },
+            { "part" : "HANDS", "ignored" : 4 },
+            { "part" : "TORSO", "ignored" : 40 }
+        ]
+    },{
+        "type" : "mutation",
         "id" : "SCALES",
         "name" : "Scales",
         "points" : 6,
@@ -1371,6 +1392,73 @@
         "category" : ["MUTCAT_PLANT"]
     },{
         "type" : "mutation",
+        "id" : "FLOWERS",
+        "name" : "Flowering",
+        "points" : 2,
+        "visibility" : 10,
+        "ugliness" : -4,
+        "description" : "You've started blooming where your scalp used to be. Your blossoms have a pleasant aroma, are visually striking, and are quite sensitive.",
+        "prereqs" : ["PLANTSKIN","BARK"],
+        "prereqs2" : ["LEAVES"],
+        "cancels" : ["SMELLY", "SMELLY2"],
+        "threshreq" : ["THRESH_PLANT"],
+        "category" : ["MUTCAT_PLANT"]
+    },{
+        "type" : "mutation",
+        "id" : "M_SPORES",
+        "name" : "Mycus Spores",
+        "points" : 4,
+        "visibility" : 10,
+        "ugliness" : 4,
+        "description" : "We have developed local spore sacs.  The Mycus must grow.",
+        "valid" : false,
+        "prereqs" : ["M_DEPENDENT"],
+        "changes_to" : ["M_FERTILE"],
+        "cancels" : ["M_BLOSSOMS", "M_BLOOM"],
+        "threshreq" : ["THRESH_MYCUS"],
+        "category" : ["MUTCAT_MYCUS"]
+    },{
+        "type" : "mutation",
+        "id" : "M_FERTILE",
+        "name" : "Mycus Sporogenesis",
+        "points" : 6,
+        "visibility" : 5,
+        "ugliness" : 3,
+        "description" : "Local organisms seem to regard open spore-dispersal as a danger, and attack the Mycus. Accordingly our local spore sacs remain quiescent, until local guidance determines that it is safe to germinate. Rapid development taxes local nutrient reserves but ensures rapid and effective growth.",
+        "valid" : false,
+        "prereqs" : ["M_SPORES"],
+        "cancels" : ["M_BLOSSOMS", "M_BLOOM"],
+        "threshreq" : ["THRESH_MYCUS"],
+        "category" : ["MUTCAT_MYCUS"]
+    },{
+        "type" : "mutation",
+        "id" : "M_BLOSSOMS",
+        "name" : "Mycus Blossoms",
+        "points" : 4,
+        "visibility" : 10,
+        "ugliness" : 3,
+        "description" : "We have developed local blossoms.  The Mycus must grow.",
+        "valid" : false,
+        "prereqs" : ["M_DEPENDENT"],
+        "changes_to" : ["M_BLOOM"],
+        "cancels" : ["M_SPORES", "M_FERTILE"],
+        "threshreq" : ["THRESH_MYCUS"],
+        "category" : ["MUTCAT_MYCUS"]
+    },{
+        "type" : "mutation",
+        "id" : "M_BLOOM",
+        "name" : "Mycus Bloom",
+        "points" : 6,
+        "visibility" : 10,
+        "ugliness" : 1,
+        "description" : "Local organisms seem to regard open spore-dispersal as a danger, and attack the Mycus. Accordingly our local blossoms remain quiescent, until local guidance determines that it is safe to germinate. Rapid development taxes local nutrient reserves but ensures rapid and effective growth.",
+        "valid" : false,
+        "cancels" : ["M_SPORES", "M_FERTILE"],
+        "prereqs" : ["M_BLOSSOMS"],
+        "threshreq" : ["THRESH_MYCUS"],
+        "category" : ["MUTCAT_MYCUS"]
+    },{
+        "type" : "mutation",
         "id" : "NAILS",
         "name" : "Long Fingernails",
         "points" : 1,
@@ -1501,6 +1589,15 @@
         "prereqs2" : ["INFRESIST"],
         "threshreq" : ["THRESH_MEDICAL"],
         "category" : ["MUTCAT_MEDICAL"]
+    },{
+        "type" : "mutation",
+        "id" : "M_IMMUNE",
+        "name" : "Mycus Identity",
+        "points" : 5,
+        "description" : "We have synchronized our local physiology with that of our reproductive systems.  Any spores we may encounter will not attempt to germinate inside the local system.",
+        "valid" : false,
+        "threshreq" : ["THRESH_MYCUS"],
+        "category" : ["MUTCAT_MYCUS"]
     },{
         "type" : "mutation",
         "id" : "PARAIMMUNE",
@@ -1695,6 +1792,17 @@
         "threshreq" : ["THRESH_BIRD"],
         "cancels" : ["GOURMAND"],
         "category" : ["MUTCAT_BIRD"]
+    },{
+        "type" : "mutation",
+        "id" : "M_DEPENDENT",
+        "name" : "Mycus Feeder",
+        "points" : -5,
+        "description" : "We have streamlined our nutritional requirements.  We rely on the Mycus for sustenance, as it relies on us.",
+        "valid" : false,
+        "purifiable" : false,
+        "threshreq" : ["THRESH_MYCUS"],
+        "cancels" : ["GOURMAND", "BEAK", "BEAK_PECK", "BEAK_HUM"],
+        "category" : ["MUTCAT_MYCUS"]
     },{
         "type" : "mutation",
         "id" : "RUMINANT",
@@ -2139,6 +2247,18 @@
         "prereqs2" : ["PRED3", "PRED4"],
         "threshreq" : ["THRESH_BEAST", "THRESH_RAPTOR", "THRESH_CHIMERA", "THRESH_URSINE", "THRESH_LIZARD", "THRESH_SPIDER"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_RAPTOR", "MUTCAT_CHIMERA", "MUTCAT_URSINE", "MUTCAT_LIZARD", "MUTCAT_SPIDER"]
+    },{
+        "type" : "mutation",
+        "id" : "M_DEFENDER",
+        "name" : "Mycus Defender",
+        "points" : 4,
+        "description" : "From time to time the Mycus requires protection from non-Mycus that, for whatever reason, wish it ill.  We have adapted to better carry out this task.",
+        "valid" : false,
+        "purifiable" : false,
+        "prereqs" : ["M_SKIN"],
+        "prereqs2" : ["M_DEPENDENT"],
+        "threshreq" : ["THRESH_MYCUS"],
+        "category" : ["MUTCAT_MYCUS"]
     },{
         "type" : "mutation",
         "id" : "WINGS_BIRD",
@@ -3842,6 +3962,24 @@
         "name" : "Raptor",
         "points" : 1,
         "description" : "The chance to undo not one but TWO extinction events. You're confident you'll do fine.",
+        "valid": false,
+        "purifiable": false,
+        "threshold": true
+    },{
+        "type" : "mutation",
+        "id" : "THRESH_MARLOSS",
+        "name" : "Marloss Gateway",
+        "points" : 1,
+        "description" : "You get the feeling that you're on the cusp of becoming something greater than yourself.",
+        "valid": false,
+        "purifiable": false,
+        "threshold": true
+    },{
+        "type" : "mutation",
+        "id" : "THRESH_MYCUS",
+        "name" : "Mycus",
+        "points" : 1,
+        "description" : "We are the Mycus.",
         "valid": false,
         "purifiable": false,
         "threshold": true
