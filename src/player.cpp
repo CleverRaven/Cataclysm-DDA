@@ -1328,7 +1328,7 @@ void player::update_bodytemp()
                      (Ftemperature < -5 && FBwindPower >= 10 && -4*Ftemperature + 3*FBwindPower - 170 >= 0) )
             {
                 frostbite_timer[i] += 8;                
-                if (one_in(100) && !disease_intensity("frostbite", false, (body_part)i) == 1) {
+                if (one_in(100) && disease_intensity("frostbite", false, (body_part)i) != 1) {
                     add_msg(m_bad, _("Your %s will be frostbitten within the hour!"), body_part_name(body_part(i)).c_str());
                 }
             }
@@ -1337,7 +1337,7 @@ void player::update_bodytemp()
                      (Ftemperature < -35 && FBwindPower >= 10) )
             {
                 frostbite_timer[i] += 72;
-                if (one_in(100) && !disease_intensity("frostbite", false, (body_part)i) == 1) {
+                if (one_in(100) && disease_intensity("frostbite", false, (body_part)i) != 1) {
                     add_msg(m_bad, _("Your %s will be frostbitten any minute now!!"), body_part_name(body_part(i)).c_str());
                 }
             }
