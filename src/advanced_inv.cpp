@@ -874,8 +874,16 @@ bool advanced_inventory::move_all_items()
     auto &darea = squares[dpane.area];
 
     if( OPTIONS["CLOSE_ADV_INV"] != true ) {
-        // TODO: why is this here? It's overwritten on the next line with
-        // ACT_DROP anyway. It seems to be completely useless!
+        // Why is this here? It's because the activity backlog can act
+        // like a stack instead of a single deferred activity in order to
+        // accomplish some UI shenanigans. The inventory menu activity is
+        // added, then an activity to drop is pushed on the stack, then
+        // the drop activity is repeatedly popped and pushed on the stack
+        // until all its items are processed. When the drop activity runs out,
+        // the inventory menu activity is there waiting and seamlessly returns
+        // the player to the menu. If the activity is interrupted instead of
+        // completing, both activities are cancelled.
+        // Thanks to kevingranade for the explanation.
         g->u.assign_activity( ACT_ADV_INVENTORY, 0 );
         g->u.activity.auto_resume = true;
     }
@@ -1493,7 +1501,7 @@ bool advanced_inv_area::is_same( const advanced_inv_area &other ) const
     // Inventory is compared by id only, the coordinates are not of concern there.
     // All other locations are compared by the coordinates, e.g. dragged vehicle
     // (to the south) and AIM_SOUTH are the same.
-    if( id != AIM_INVENTORY || other.id == AIM_INVENTORY ) {
+    if( id != AIM_INVENTORY && other.id != AIM_INVENTORY ) {
         if( x == other.x && y == other.y && veh == other.veh ) {
             return true;
         }
