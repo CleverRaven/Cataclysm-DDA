@@ -423,7 +423,7 @@ inline char advanced_inventory::get_location_key( aim_location area )
     return ' ';
 }
 
-void advanced_inventory::print_header( advanced_inventory_pane &pane, aim_location sel )
+int advanced_inventory::print_header( advanced_inventory_pane &pane, aim_location sel )
 {
     WINDOW *window = pane.window;
     int area = pane.area;
@@ -440,6 +440,7 @@ void advanced_inventory::print_header( advanced_inventory_pane &pane, aim_locati
         wprintz( window, kcolor, "%c", key );
         wprintz( window, bcolor, "%c", bracket[1] );
     }
+    return squares[AIM_INVENTORY].hscreeny + ofs;
 }
 
 int advanced_inv_area::get_item_count() const
@@ -799,15 +800,22 @@ void advanced_inventory::redraw_pane( side p )
     print_items( pane, active );
 
     auto itm = pane.get_cur_item_ptr();
+    int width;
     if( itm == nullptr ) {
-        // print header with an invalid aim_location, no location is highlighted than
-        print_header( pane, static_cast<aim_location>( -1 ) );
+        width = print_header( pane, pane.area );
     } else {
-        print_header( pane, itm->area );
+        width = print_header( pane, itm->area );
     }
-
-    mvwprintz( w, 1, 2, active ? c_cyan : c_ltgray, "%s", square.name.c_str() );
-    mvwprintz( w, 2, 2, active ? c_green : c_dkgray , "%s", square.desc.c_str() );
+    width -= 2 + 1; // starts at offset 2, plus space between the header and the text
+    mvwprintz( w, 1, 2, active ? c_cyan : c_ltgray, "%s", utf8_truncate( square.name, width ).c_str() );
+    mvwprintz( w, 2, 2, active ? c_green : c_dkgray , "%s", utf8_truncate( square.desc, width ).c_str() );
+    if( square.veh != nullptr ) {
+        const auto &part = square.veh->parts[square.vstor];
+        const auto label = square.veh->get_label( part.mount_dx, part.mount_dy );
+        if( !label.empty() ) {
+            mvwprintz( w, 3, 2, active ? c_green : c_dkgray , "%s", utf8_truncate( label, width ).c_str() );
+        }
+    }
 
     const int max_page = ( pane.items.size() + itemsPerPage - 1 ) / itemsPerPage;
     if( active && max_page > 1 ) {

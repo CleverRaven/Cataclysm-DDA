@@ -286,7 +286,9 @@ class advanced_inventory
         void print_items(advanced_inventory_pane &pane, bool active);
         void recalc_pane(side p);
         void redraw_pane(side p);
-        void print_header(advanced_inventory_pane &pane, aim_location sel);
+        // Returns the x coordinate where the header started. The header is
+        // displayed right right of it, everything left of it is till free.
+        int print_header(advanced_inventory_pane &pane, aim_location sel);
         void init();
         /**
          * Translate an action ident from the input context to an aim_location.
