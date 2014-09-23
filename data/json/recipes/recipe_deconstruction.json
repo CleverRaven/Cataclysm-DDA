@@ -2010,7 +2010,7 @@
   "subcategory": "CSC_NONCRAFT",
   "skill_used": "fabrication",
   "difficulty": 4,
-  "time": 250000,
+  "time": 750000,
   "reversible": true,
   "autolearn": false,
 "qualities" : [
@@ -2018,14 +2018,14 @@
   ],
   "tools": [
     [
-	[ "welder", 250 ], [ "toolset", 375 ], [ "welder_crude", 375 ]
+	[ "welder", 500 ], [ "toolset", 750 ]
     ]
   ],
   "components": [
     [
-      [ "steel_plate", 5 ]
+      [ "steel_plate", 10 ]
     ],
-	  [[ "steel_lump", 13 ]]
+	  [[ "steel_lump", 70 ]]
   ]
 }
 ]
