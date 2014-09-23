@@ -498,7 +498,7 @@
     },
     {
 "type": "snippet",
-"category":"new_news", 
+"category":"newest_news", 
 "text":
  ["LABS BOMBED: In further invasion proof (discounting earlier suggestion of a riot drug) most of New England's scientific labs were bombed simultaneously yesterday. No word yet from the military about who the aggressors are.", 
  "CHINA INVADES?: Communications were muddled by a large influx of aggressive armed individuals. 'We have this,' says Police Chief 'We are authorizing Securibots and Turrets to use lethal force on combative humans'", 
@@ -522,7 +522,7 @@
 
 {
 "type": "snippet",
-"category":"very_old_news", 
+"category":"many_years_old_news", 
 "text":
  ["QUANTUM LEAP: An undisclosed project has yielded results in the form of short range teleportation. 'This is just the tip of the iceberg' said a source 'I can't disclose, but this development is the LEAST in this exciting vein!'", 
  "HE WILL BLOW YOUR WORLD: Scientist Kevin Granade reveals potential 'Reality Grenade', loosely related to teleport-tech. He claims could be used to weaken enemies or improve our own troops. 'We're still in Alpha testing' says Kevin, 'It really needs a Bugfix'.", 
@@ -543,7 +543,7 @@
 
 {
 "type": "snippet",
-"category":"old_news", 
+"category":"years_old_news", 
 "text":
 ["GRANADE SEEKS FUNDING FOR GRANADE: After being dismissed from government position, Kevin Granade seeks public funding for so-called reality-warping weapon 'the Granade'.  'It works by patching reality. I'm hoping to crowdsource via Kickstarter under the term *Project Cataclysm*' ", 
  "GOVERNMENT SCIENCE BOOST: The government has drastically increased defense R&D after UN disarmament Demands. 'This not only keeps money in our country, but keeps our lead on china and keeps us defended' said President.", 
@@ -562,7 +562,7 @@
 
 {
 "type": "snippet",
-"category":"recent_news", 
+"category":"one_year_old_news", 
 "text":
 ["SHOW THEM YOUR GUNS: In response to China's latest threats, the government has further relaxed gun control, expected to increase the economic boost of earlier gun subsidies and relieve public tension.", 
 "READY FOR THE WORST: The government has proven it is ready to deal with China's threats. In the event of an actual attack, we have established evacuation centres, within a short distance of most towns.", 
@@ -581,7 +581,7 @@
 
 {
 "type": "snippet",
-"category":"very_recent_news", 
+"category":"months_old_news", 
 "text":
 ["SUPPORT THE COUNTRY THAT SUPPORTS YOU - PRESIDENT: Unexpectedly and unpopularly, the president today instituted a peacetime draft in response to China massing troops. 'We must pray for the best while preparing for the worst'", 
 "RIOTS CAUSED BY 'NEW DRUG': Rumours of riots were quelled today. 'These are isolated incidents' says police chief. 'The violence is random and senseless, our current theory is a street drug gone terribly wrong'",
