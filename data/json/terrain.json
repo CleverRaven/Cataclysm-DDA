@@ -1665,7 +1665,7 @@
             "str_min": 100, "str_max": 400,
             "sound": "glass breaking!",
             "sound_fail": "whack!",
-            "ter_set": "t_window_frame",
+            "ter_set": "t_rock_floor",
             "items": [
                 { "item": "glass_shard", "amount": 8, "minamount": 5 }
             ]
@@ -1682,7 +1682,7 @@
             "str_min": 100, "str_max": 400,
             "sound": "glass breaking!",
             "sound_fail": "whack!",
-            "ter_set": "t_window_frame",
+            "ter_set": "t_rock_floor",
             "items": [
                 { "item": "glass_shard", "amount": 8, "minamount": 5 }
             ]
@@ -1699,7 +1699,7 @@
             "str_min": 100, "str_max": 400,
             "sound": "glass breaking!",
             "sound_fail": "whack!",
-            "ter_set": "t_window_frame",
+            "ter_set": "t_rock_floor",
             "items": [
                 { "item": "glass_shard", "amount": 8, "minamount": 5 }
             ]
