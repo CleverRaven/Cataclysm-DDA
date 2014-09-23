@@ -1925,6 +1925,26 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "roller_drum",
+        "name" : "Roller drum",
+        "symbol" : "B",
+        "color" : "light_red",
+        "broken_symbol" : "E",
+        "broken_color" : "light_gray",
+        "damage_modifier" : 500,
+        "durability" : 7500,
+        "wheel_width" : 60,
+        "item" : "hd_steel_drum",
+        "difficulty" : 7,
+        "location" : "center",
+        "flags" : ["OBSTACLE", "WHEEL", "VARIABLE_SIZE"],
+        "breaks_into" : [
+        {"item": "steel_lump", "min": 25, "max": 75},
+        {"item": "steel_chunk", "min": 30, "max": 90},
+        {"item": "scrap", "min": 50, "max": 150}
+        ]
+    },{
+        "type" : "vehicle_part",
         "id" : "wheel_unicycle",
         "name" : "unicycle wheel",
         "symbol" : "|",

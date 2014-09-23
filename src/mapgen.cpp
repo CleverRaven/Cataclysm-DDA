@@ -5857,21 +5857,41 @@ __________           f  \n",
             if (t_west == "public_works" && t_north == "public_works") {
                 rotate(1);
                 if (x_in_y(2, 3)) {
-                    add_vehicle ("flatbed_truck", 2, 0, 90);
+                int roller_check=rng(0,100);
+                    if (roller_check < 75) {
+                        add_vehicle ("flatbed_truck", 2, 0, 90);
+                    } else {
+                        add_vehicle ("road_roller", 2, 0, 90);
+                    }
                 }
             } else if (t_east == "public_works" && t_north == "public_works") {
                 rotate(2);
                 if (x_in_y(2, 3)) {
-                    add_vehicle ("flatbed_truck", 23, 10, 270);
+                int roller_check=rng(0,100);
+                    if (roller_check < 75) {
+                        add_vehicle ("flatbed_truck", 23, 10, 270);
+                    } else {
+                        add_vehicle ("road_roller", 23, 10, 270);
+                    }
                 }
             } else if (t_east == "public_works" && t_south == "public_works") {
                 rotate(3);
                 if (x_in_y(2, 3)) {
-                    add_vehicle ("flatbed_truck", 10, 23, 0);
+                int roller_check=rng(0,100);
+                    if (roller_check < 75) {
+                        add_vehicle ("flatbed_truck", 10, 23, 0);
+                    } else {
+                        add_vehicle ("road_roller", 10, 23, 0);
+                    }
                 }
             } else {
                 if (x_in_y(2, 3)) {
-                    add_vehicle ("flatbed_truck", 0, 10, 90);
+                int roller_check=rng(0,100).
+	            if (roller_check < 75) {
+                        add_vehicle ("flatbed_truck", 0, 10, 90);
+                    } else {
+                        add_vehicle ("road_roller", 0, 10, 90);
+                    }
                 }
             }
         }
