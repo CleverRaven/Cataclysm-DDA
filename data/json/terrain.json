@@ -1662,7 +1662,7 @@
         "move_cost": 0,
         "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL", "BARRICADABLE_WINDOW"],
         "bash": {
-            "str_min": 3, "str_max": 20,
+            "str_min": 100, "str_max": 400,
             "sound": "glass breaking!",
             "sound_fail": "whack!",
             "ter_set": "t_window_frame",
@@ -1679,7 +1679,7 @@
         "move_cost": 0,
         "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL", "BARRICADABLE_WINDOW"],
         "bash": {
-            "str_min": 3, "str_max": 20,
+            "str_min": 100, "str_max": 400,
             "sound": "glass breaking!",
             "sound_fail": "whack!",
             "ter_set": "t_window_frame",
@@ -1696,7 +1696,7 @@
         "move_cost": 0,
         "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL", "BARRICADABLE_WINDOW"],
         "bash": {
-            "str_min": 3, "str_max": 20,
+            "str_min": 100, "str_max": 400,
             "sound": "glass breaking!",
             "sound_fail": "whack!",
             "ter_set": "t_window_frame",
