@@ -6735,7 +6735,7 @@ void mapgen_tutorial(map *m, oter_id terrain_type, mapgendata dat, int turn, flo
     }
     m->furn_set(7, SEEY * 2 - 4, f_rack);
     m->place_gas_pump(SEEX * 2 - 2, SEEY * 2 - 4, rng(500, 1000));
-    if (dat.above() != "") {
+    if( dat.zlevel < 0 ) {
         m->ter_set(SEEX - 2, SEEY + 2, t_stairs_up);
         m->ter_set(2, 2, t_water_sh);
         m->ter_set(2, 3, t_water_sh);
