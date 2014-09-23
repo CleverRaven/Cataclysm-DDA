@@ -164,7 +164,7 @@ void computer::use()
                         shutdown_terminal();
                         return;
                     } else {
-                        // Succesfully hacked function
+                        // Successfully hacked function
                         options[ch].security = 0;
                         activate_function(current.action);
                     }

@@ -906,7 +906,7 @@ bool cata_tiles::draw_furniture(int x, int y)
 
     int f_id = g->m.furn(x, y);
 
-    // for rotation inforomation
+    // for rotation information
     const int neighborhood[4] = {
         static_cast<int> (g->m.furn(x, y + 1)), // south
         static_cast<int> (g->m.furn(x + 1, y)), // east
