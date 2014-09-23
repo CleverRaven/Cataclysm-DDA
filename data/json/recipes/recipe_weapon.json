@@ -4203,7 +4203,10 @@
   "reversible": false,
   "autolearn": true,
   "book_learn": [[ "textbook_weapwest", 2 ] , [ "recipe_melee", 3 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities":[
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools": [
     [
       ["tongs", -1]
     ],
@@ -4273,7 +4276,7 @@
   "autolearn": false,
   "book_learn": [[ "textbook_electronics", 3 ] , ["advanced_electronics", 3] , [ "recipe_melee", 4 ]],
   "qualities": [
-    {"id":"SCREW_FINE","level":3,"amount":1}
+    {"id":"SCREW","level":1,"amount":1}
   ],
   "tools": [
     [
@@ -4331,7 +4334,7 @@
     {"id":"HAMMER","level":1,"amount":1},
     {"id":"SCREW","level":1,"amount":1},
     {"id":"WRENCH","level":1,"amount":1},
-    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1},
     {"id":"SAW_W","level":1,"amount":1}
   ],
   "components": [

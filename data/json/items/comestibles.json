@@ -17080,5 +17080,33 @@
         "charges" : 2,
         "bashing" : 0,
         "fun" : 14
+    },{
+        "type" : "COMESTIBLE",
+        "id" : "sweet_water",
+        "name" : "sweet water",
+        "name_plural" : "sweet water",
+        "weight" : 260,
+        "color" : "light_cyan",
+        "addiction_type" : "none",
+        "spoils_in" : 0,
+        "stim" : 1,
+        "container" : "bottle_plastic",
+        "to_hit" : 0,
+        "comestible_type" : "DRINK",
+        "symbol" : "~",
+        "quench" : 38,
+        "healthy" : 0,
+        "addiction_potential" : 0,
+        "nutrition" : 2,
+        "description" : "Water with sugar or honey added.  Tastes okay.",
+        "price" : 0,
+        "material" : "null",
+        "tool" : "null",
+        "volume" : 1,
+        "cutting" : 0,
+        "phase" : "liquid",
+        "charges" : 1,
+        "bashing" : 0,
+        "fun" : 2
     }
 ]

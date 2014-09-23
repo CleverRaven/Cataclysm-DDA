@@ -1853,11 +1853,8 @@
   "time": 8000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "saw", -1 ]
-    ]
-  ],
+  "qualities":[
+    {"id":"SAW_W","level":2,"amount":1} ],
   "components": [
     [
       [ "stick", 1 ]
@@ -4073,7 +4070,7 @@
   "autolearn": false,
   "book_learn": [["textbook_firstaid", 3] , ["adv_chemistry", 4] , ["emergency_book", 4]],
   "qualities":[
-    {"id":"COOK","level":3,"amount":1}
+    {"id":"CHEM","level":1,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 18 ],
@@ -4105,7 +4102,7 @@
   "autolearn": false,
   "book_learn": [["textbook_firstaid", 8] , ["textbook_chemistry", 7] , ["adv_chemistry", 6] , ["emergency_book", 8]],
   "qualities":[
-    {"id":"COOK","level":3,"amount":1}
+    {"id":"CHEM","level":1,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 18 ],
@@ -4263,7 +4260,7 @@
       [ "pine_bough", 40 ],
       [ "log", 1 ]
     ],
-	  [[ "char_kiln", 1 ]]
+    [[ "char_kiln", 1 ]]
   ]
 },{
         "type" : "recipe",
@@ -4387,12 +4384,9 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":2,"amount":1}
+    {"id":"HAMMER","level":2,"amount":1},
+    {"id":"SAW_W","level":2,"amount":1}
   ], "tools": [
-    [
-      [ "toolset", -1 ],
-      [ "saw", -1 ]
-    ],
     [
       ["goggles_welding", -1]
     ],
@@ -4949,11 +4943,10 @@
     ],
     [
       [ "string_36", 1 ],
-	  [ "string_6", 6 ]
+      [ "string_6", 6 ]
     ]
   ]
-  },
-  {
+  },{
   "type" : "recipe",
   "result": "material_quicklime",
   "category": "CC_OTHER",
@@ -4977,8 +4970,7 @@
     [ "material_limestone", 50 ]
     ]
   ]
- },
-  {
+ },{
   "type" : "recipe",
   "result": "material_cement",
   "category": "CC_OTHER",
@@ -5005,5 +4997,71 @@
     [ "material_sand", 50 ]
     ]
   ]
- }
+},{
+  "type" : "recipe",
+  "result": "cu_pipe",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 5,
+  "time": 90000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools": [
+    [ ["tongs", -1] ],
+    [ ["chisel", -1] ],
+    [ ["anvil", -1] ],
+    [ ["swage", -1] ],
+    [ ["forge", 50], ["char_forge", 10], ["oxy_torch", 10] ]
+  ],
+  "components": [
+     [ [ "scrap", 7 ] ],
+     [ [ "lead", 70 ], [ "solder_wire", 70 ], [ "silver_small", 70 ],
+       [ "bismuth", 70 ], [ "tin", 70 ], [ "gold_small", 70 ] ]
+  ]
+  },{
+        "type" : "recipe",
+  "result": "pilot_light",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "skills_required": [ "mechanics", 2 ],
+  "difficulty": 5,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"SAW_M","level":1,"amount":1},
+    {"id":"HAMMER","level":2,"amount":1},
+    {"id":"SCREW","level":1,"amount":1}
+  ],
+  "components": [
+     [ [ "scrap", 3 ] ],
+     [ [ "cable", 2 ] ]
+  ]
+  },{
+        "type" : "recipe",
+  "result": "paper",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "skills_required": [ "survival", 4 ],
+  "difficulty": 5,
+  "time": 120000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1},
+    {"id":"CONTAIN","level":1,"amount":1},
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [ [ ["sheet_metal", -1 ] ] ],
+  "components": [
+    [ [ "splinter", 10 ], [ "stick", 4 ], [ "2x4", 4 ], [ "withered", 20 ], [ "skewer", 10 ] ],
+    [ [ "water", 4 ], [ "water_clean", 4 ] ]
+  ]
+  }
 ]

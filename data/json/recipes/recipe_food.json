@@ -339,13 +339,12 @@
   "time": 12000,
   "reversible": false,
   "autolearn": true,
+  "qualities" : [
+     {"id":"COOK","level":1,"amount":1} ],
   "tools": [
     [
       [ "char_smoker", 2 ]
-    ],
-    [
-      [ "tongs", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -365,13 +364,12 @@
   "time": 12000,
   "reversible": false,
   "autolearn": true,
+  "qualities" : [
+     {"id":"COOK","level":1,"amount":1} ],
   "tools": [
     [
       [ "char_smoker", 2 ]
-    ],
-    [
-      [ "tongs", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -512,7 +510,7 @@
   "time": 16000,
   "reversible": false,
   "autolearn": true,
-   "note": "the cooking oil isn't supposed to be expended since you can recycle it after frying the fish",
+  "note": "the cooking oil isn't supposed to be expended since you can recycle it after frying the fish",
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
     {"id":"COOK","level":2,"amount":1}
@@ -523,10 +521,6 @@
       [ "char_smoker", 1 ],
       [ "toolset", 8 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "tongs", -1 ],
-      [ "skewer", -1 ]
     ],
     [
       [ "cooking_oil", -1 ],
@@ -980,14 +974,12 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":1,"amount":1}
   ],
   "tools" : [
     [
       [ "char_smoker", 2 ]
-    ],
-    [
-      [ "tongs", -1 ]
     ]
   ],
   "components": [
@@ -1019,14 +1011,12 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1},
+	{"id":"COOK","level":1,"amount":1}
   ],
   "tools" : [
     [
       [ "char_smoker", 2 ]
-    ],
-    [
-      [ "tongs", -1 ]
     ]
   ],
   "components": [
@@ -1053,14 +1043,12 @@
   "autolearn": false,
   "book_learn": [[ "cookbook_human", 4 ]],
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1},
+	{"id":"COOK","level":1,"amount":1}
   ],
   "tools" : [
     [
       [ "char_smoker", 2 ]
-    ],
-    [
-      [ "tongs", -1 ]
     ]
   ],
   "components": [
@@ -1111,13 +1099,12 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "cookbook_human", 3 ]],
+  "qualities" : [
+     {"id":"COOK","level":1,"amount":1} ],
   "tools": [
     [
       [ "char_smoker", 2 ]
-    ],
-    [
-      [ "tongs", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -1139,14 +1126,12 @@
   "autolearn": false,
   "book_learn": [[ "cookbook_human", 4 ]],
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1},
+	{"id":"COOK","level":1,"amount":1}
   ],
   "tools" : [
     [
       [ "char_smoker", 2 ]
-    ],
-    [
-      [ "tongs", -1 ]
     ]
   ],
   "components": [
@@ -1335,10 +1320,6 @@
       [ "fire", -1 ]
     ],
     [
-      [ "tongs", -1 ],
-      [ "skewer", -1 ]
-    ],
-    [
       [ "cooking_oil", -1 ],
       [ "tallow", -1 ],
       [ "lard", -1 ]
@@ -1437,10 +1418,6 @@
       [ "char_smoker", 1 ],
       [ "toolset", 8 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "tongs", -1 ],
-      [ "skewer", -1 ]
     ],
     [
       [ "cooking_oil", -1 ],
@@ -2660,18 +2637,15 @@
   "time": 40000,
   "reversible": false,
   "autolearn": true,
+  "qualities" : [
+     {"id":"COOK","level":2,"amount":1} ],
   "tools": [
     [
       [ "hotplate", 7 ],
       [ "char_smoker", 1 ],
       [ "toolset", 7 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pan", -1 ],
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -3262,16 +3236,14 @@
   "time": 20000,
   "reversible": false,
   "autolearn": true,
+  "qualities": [
+  {"id":"COOK","level":3,"amount":1} ],
   "tools": [
     [
       [ "hotplate", 8 ],
       [ "char_smoker", 1 ],
       [ "toolset", 8 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -3461,15 +3433,14 @@
   "time": 14000,
   "reversible": false,
   "autolearn": true,
+  "qualities" : [
+     {"id":"COOK","level":2,"amount":1} ],
   "tools": [
     [
       [ "hotplate", 8 ],
       [ "char_smoker", 1 ],
       [ "toolset", 8 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pan", -1 ]
     ]
   ],
   "components": [
@@ -4215,15 +4186,14 @@
   "time": 12000,
   "reversible": false,
   "autolearn": true,
+  "qualities" : [
+     {"id":"COOK","level":2,"amount":1} ],
   "tools": [
     [
       [ "hotplate", 8 ],
       [ "char_smoker", 1 ],
       [ "toolset", 8 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pan", -1 ]
     ]
   ],
   "components": [
@@ -4261,15 +4231,14 @@
   "time": 12000,
   "reversible": false,
   "autolearn": true,
+  "qualities" : [
+     {"id":"COOK","level":2,"amount":1} ],
   "tools": [
     [
       [ "hotplate", 8 ],
       [ "char_smoker", 1 ],
       [ "toolset", 8 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pan", -1 ]
     ]
   ],
   "components": [
@@ -4357,15 +4326,14 @@
   "time": 12000,
   "reversible": false,
   "autolearn": true,
+  "qualities" : [
+     {"id":"COOK","level":2,"amount":1} ],
   "tools": [
     [
       [ "hotplate", 8 ],
       [ "char_smoker", 1 ],
       [ "toolset", 8 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pan", -1 ]
     ]
   ],
   "components": [
@@ -4563,7 +4531,6 @@
       [ "fire", -1 ]
     ],
     [
-      [ "pan", -1 ],
       [ "waffleiron", -1 ]
     ]
   ],
@@ -4610,7 +4577,8 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+     {"id":"CUT","level":1,"amount":1},
+     {"id":"COOK","level":2,"amount":1}
   ],
   "tools" : [
     [
@@ -4618,9 +4586,6 @@
       [ "char_smoker", 1 ],
       [ "toolset", 8 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pan", -1 ]
     ]
   ],
   "components": [
@@ -4826,15 +4791,14 @@
   "time": 25000,
   "reversible": false,
   "autolearn": true,
+  "qualities" : [
+     {"id":"COOK","level":2,"amount":1} ],
   "tools": [
     [
       [ "hotplate", 6 ],
       [ "char_smoker", 1 ],
       [ "toolset", 6 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pan", -1 ]
     ]
   ],
   "components": [
@@ -4914,15 +4878,14 @@
   "time": 25000,
   "reversible": false,
   "autolearn": true,
+  "qualities" : [
+     {"id":"COOK","level":2,"amount":1} ],
   "tools": [
     [
       [ "hotplate", 6 ],
       [ "char_smoker", 1 ],
       [ "toolset", 6 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pan", -1 ]
     ]
   ],
   "components": [
@@ -4950,15 +4913,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "cookbook_human", 3 ]],
+  "qualities" : [
+     {"id":"COOK","level":2,"amount":1} ],
   "tools": [
     [
       [ "hotplate", 6 ],
       [ "char_smoker", 1 ],
       [ "toolset", 6 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pan", -1 ]
     ]
   ],
   "components": [
@@ -5149,15 +5111,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "cookbook_italian", 2 ]],
+  "qualities" : [
+     {"id":"COOK","level":2,"amount":1} ],
   "tools": [
     [
       [ "hotplate", 8 ],
       [ "char_smoker", 1 ],
       [ "toolset", 8 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pan", -1 ]
     ]
   ],
   "components": [
@@ -5197,24 +5158,16 @@
   "time": 8000,
   "reversible": false,
   "autolearn": true,
+  "qualities" : [
+     {"id":"COOK","level":1,"amount":1} ],
   "tools": [
     [
       [ "hotplate", 8],
       [ "char_smoker", 1],
       [ "toolset", 8],
       [ "fire", -1]
-    ],
-    [
-      [ "spear_wood", -1 ],
-      [ "spear_steel", -1 ],
-      [ "pointy_stick", -1 ],
-      [ "skewer", -1 ],
-      [ "javelin", -1 ],
-      [ "javelin_iron", -1 ],
-      [ "spear_knife", -1 ],
-      [ "tongs", -1 ]
     ]
-  ],
+    ],
   "components": [
     [
       [ "grahmcrackers", 8 ]
@@ -5267,15 +5220,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "cookbook_italian", 2 ]],
+  "qualities" : [
+     {"id":"COOK","level":2,"amount":1} ],
   "tools": [
     [
       [ "hotplate", 8 ],
       [ "char_smoker", 1 ],
       [ "toolset", 8 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pan", -1 ]
     ]
   ],
   "components": [
@@ -5310,15 +5262,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "cookbook_human", 3 ]],
+  "qualities" : [
+     {"id":"COOK","level":2,"amount":1} ],
   "tools": [
     [
       [ "hotplate", 8 ],
       [ "char_smoker", 1 ],
       [ "toolset", 8 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pan", -1 ]
     ]
   ],
   "components": [
@@ -6241,7 +6192,8 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1},
+	{"id":"COOK","level":2,"amount":1}
   ],
   "tools": [
     [
@@ -6249,9 +6201,6 @@
       [ "char_smoker", 1 ],
       ["toolset", 5],
       ["fire", -1]
-    ],
-    [
-      ["pan", -1]
     ]
   ],
   "components": [
@@ -8022,6 +7971,27 @@
     ],
     [
       [ "water_clean", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "sweet_water",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "time": 1000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "sugar", 1 ],
+	  [ "honey_bottled", 1 ],
+	  [ "honey_glassed", 1 ],
+	  [ "honeycomb", 1 ]
     ]
   ]
 }

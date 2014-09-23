@@ -256,7 +256,7 @@
   "time": 7000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [[ "manual_electronics", 1 ] , [ "textbook_electronics", 1 ] , [ "advanced_electronics", 1 ]], 
+  "book_learn": [[ "manual_electronics", 1 ] , [ "textbook_electronics", 1 ] , [ "advanced_electronics", 1 ]],
   "tools": [
     [
       [ "soldering_iron", 5 ],
@@ -773,16 +773,13 @@
   "qualities" : [
     {"id":"SCREW","level":1,"amount":1},
     {"id":"HAMMER","level":3,"amount":1}
-  ], 
+  ],
   "tools": [
-	[ ["tongs", -1] ],
-	[ ["anvil", -1] ],
-	[ ["forge", 50], ["char_forge", 10] ],
-    [
-      [ "soldering_iron", 10 ],
-      [ "toolset", 10 ]
-    ]
-  ], 
+    [ ["tongs", -1] ],
+    [ ["anvil", -1] ],
+    [ ["forge", 50], ["char_forge", 10] ],
+    [ [ "soldering_iron", 10 ], [ "toolset", 10 ] ]
+  ],
   "components": [
     [
       [ "element", 3 ]
@@ -2397,7 +2394,7 @@
       ],
       [
         [ "antenna", 1]
-      ]  
+      ]
     ]
   },{
   "type" : "recipe",
@@ -2571,22 +2568,33 @@
   "qualities" : [
     {"id":"HAMMER","level":1,"amount":1},
     {"id":"SCREW","level":1,"amount":1}
-  ], "tools": [
-    [
-      [ "soldering_iron", 5 ],
-      [ "toolset", 5 ]
-    ]
   ],
+  "tools": [ [ [ "soldering_iron", 5 ], [ "toolset", 5 ] ] ],
   "components": [
-    [
-      [ "steel_chunk", 2 ]
-    ],
-	[
-      [ "scrap", 2 ]
-    ],
-    [
-      [ "cable", 6 ]
-    ]
+    [ [ "steel_chunk", 2 ] ],
+    [ [ "scrap", 2 ] ],
+    [ [ "cable", 6 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "cable",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_COMPONENTS",
+  "skill_used": "fabrication",
+  "skills_required" : [ "electronics", 2 ],
+  "difficulty": 5,
+  "time": 40000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"SAW_M","level":1,"amount":1},
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"HAMMER","level":2,"amount":1}
+  ],
+  "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
+  "components": [
+    [ [ "wire", 20 ], [ "wire_barbed", 20 ] ],
+    [ [ "duct_tape", 300 ] ]
   ]
 }
 ]
