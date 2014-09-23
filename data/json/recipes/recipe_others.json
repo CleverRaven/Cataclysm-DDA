@@ -175,7 +175,8 @@
     [
       ["welder", 100],
       ["welder_crude", 150],
-      ["toolset", 150]
+      ["toolset", 150],
+      ["oxy_torch", 10]
     ]
   ],
   "components": [
@@ -1189,7 +1190,8 @@
     [
       [ "welder", 100 ],
       [ "welder_crude", 150 ],
-      [ "toolset", 150 ]
+      [ "toolset", 150 ],
+      [ "oxy_torch", 10]
     ]
   ],
   "components": [
@@ -1271,7 +1273,8 @@
     [
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
-      [ "toolset", 75 ]
+      [ "toolset", 75 ],
+      [ "oxy_torch", 5]
     ]
   ],
   "components": [
@@ -1877,7 +1880,8 @@
     [
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
-      [ "toolset", 75 ]
+      [ "toolset", 75 ],
+      [ "oxy_torch", 5]
     ]
   ],
   "components": [
@@ -1902,7 +1906,8 @@
     [
       [ "welder", 60 ],
       [ "welder_crude", 90 ],
-      [ "toolset", 90 ]
+      [ "toolset", 90 ],
+      [ "oxy_torch", 6]
     ]
   ],
   "components": [
@@ -2112,7 +2117,8 @@
     [
       [ "welder", 20 ],
       [ "welder_crude", 30 ],
-      [ "toolset", 30 ]
+      [ "toolset", 30 ],
+      [ "oxy_torch", 2]
     ]
   ],
   "components": [
@@ -2481,7 +2487,8 @@
     [
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
-      [ "toolset", 75 ]
+      [ "toolset", 75 ],
+      [ "oxy_torch", 5]
     ]
   ],
   "components": [
@@ -2508,7 +2515,8 @@
     [
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
-      [ "toolset", 75 ]
+      [ "toolset", 75 ],
+      [ "oxy_torch", 5]
     ]
   ],
   "components": [
@@ -2535,7 +2543,8 @@
     [
       [ "welder", 20 ],
       [ "welder_crude", 30 ],
-      [ "toolset", 30 ]
+      [ "toolset", 30 ],
+      [ "oxy_torch", 2]
     ]
   ],
   "components": [
@@ -3135,7 +3144,8 @@
       [ "welder", 200 ],
       [ "welder_crude", 300 ],
       [ "toolset", 300 ],
-      [ "soldering_iron", 300 ]
+      [ "soldering_iron", 300 ],
+      ["oxy_torch", 20]
       ] ],
   "components":
     [
@@ -3975,7 +3985,8 @@
     [
       [ "welder", 100],
       [ "welder_crude", 150],
-      [ "toolset", 150]
+      [ "toolset", 150],
+      [ "oxy_torch", 10]
     ]
   ],
   "components": [
@@ -4147,7 +4158,8 @@
       [ "welder", 100 ],
       [ "welder_crude", 150 ],
       [ "toolset", 150 ],
-      [ "soldering_iron", 150 ]
+      [ "soldering_iron", 150 ],
+      [ "oxy_torch", 10]
      ]
     ],
   "components":
@@ -4190,7 +4202,8 @@
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
       [ "toolset", 75 ],
-      [ "soldering_iron", 75 ]
+      [ "soldering_iron", 75 ],
+      [ "oxy_torch", 5]
      ]
     ],
   "components":
@@ -4225,7 +4238,8 @@
       [ "welder", 150 ],
       [ "welder_crude", 225 ],
       [ "toolset", 225 ],
-      [ "soldering_iron", 225 ]
+      [ "soldering_iron", 225 ],
+      [ "oxy_torch", 15]
     ] ],
   "components":
     [
