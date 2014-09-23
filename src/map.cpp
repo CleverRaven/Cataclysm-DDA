@@ -849,8 +849,8 @@ bool map::vehproceed()
             veh->handle_trap( wheel_x, wheel_y, w );
             auto &item_vec = g->m.i_at( wheel_x, wheel_y );
             for( auto it = item_vec.begin(); it != item_vec.end(); ) {
-                it->damage += rng( 0, 5 );
-                if( it->damage > 5 ) {
+                it->damage += rng( 0, 3 );
+                if( it->damage > 4 ) {
                     it = item_vec.erase(it);
                 } else {
                     ++it;
