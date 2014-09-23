@@ -5149,7 +5149,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "smores",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_SNACK",
@@ -5158,26 +5158,15 @@
   "time": 8000,
   "reversible": false,
   "autolearn": true,
-  "qualities" : [
-     {"id":"COOK","level":1,"amount":1} ],
   "tools": [
-    [
-      [ "hotplate", 8],
-      [ "char_smoker", 1],
-      [ "toolset", 8],
-      [ "fire", -1]
-    ]
-    ],
+    [ [ "hotplate", 8], [ "char_smoker", 1], [ "toolset", 8], [ "fire", -1] ],
+    [ [ "spear_wood", -1 ], [ "spear_steel", -1 ], [ "pointy_stick", -1 ], [ "skewer", -1 ],
+      [ "javelin", -1 ], [ "javelin_iron", -1 ], [ "spear_knife", -1 ], [ "tongs", -1 ] ]
+   ],
   "components": [
-    [
-      [ "grahmcrackers", 8 ]
-    ],
-    [
-      [ "marshmallow", 8 ]
-    ],
-    [
-      [ "chocolate", 1 ]
-    ]
+    [ [ "grahmcrackers", 8 ] ],
+    [ [ "marshmallow", 8 ] ],
+    [ [ "chocolate", 1 ] ]
   ]
 },{
         "type" : "recipe",
