@@ -1425,9 +1425,9 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     const int unitvolume = it.precise_unit_volume();
     const int free_volume = 1000 * p.free_volume();
     // default to move all
-    const long max = by_charges ? it.charges : sitem.stacks;
-    assert( max > 0 ); // there has to be something to begin with
-    amount = max;
+    const long input_amount = by_charges ? it.charges : sitem.stacks;
+    assert( input_amount > 0 ); // there has to be something to begin with
+    amount = input_amount;
 
     // Picking up stuff might not be possible at all
     if( destarea == AIM_INVENTORY && !g->u.can_pickup( true ) ) {
@@ -1444,7 +1444,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
         const long volmax = free_volume / unitvolume;
         if( volmax == 0 ) {
             popup( _( "Destination area is full.  Remove some items first." ) );
-            redraw  = true;
+            redraw = true;
             return false;
         }
         amount = std::min( volmax, amount );
@@ -1455,7 +1455,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
         if( cntmax == 0 ) {
             // TODO: items by charges might still be able to be add to an existing stack!
             popup( _( "Destination area has too many items.  Remove some first." ) );
-            redraw  = true;
+            redraw = true;
             return false;
         }
         amount = std::min( cntmax, amount );
@@ -1468,7 +1468,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
             const long weightmax = max_weight / unitweight;
             if( weightmax == 0 ) {
                 popup( _( "This is too heavy!." ) );
-                redraw  = true;
+                redraw = true;
                 return false;
             }
             amount = std::min( weightmax, amount );
@@ -1477,7 +1477,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
 
     // Now we have the final amount. Query if needed (either requested, or when
     // the destination can not hold all items).
-    if( askamount || amount > max ) {
+    if( askamount || amount < input_amount ) {
         // moving several items (not charges!) from ground it currently not implemented.
         // TODO: implement this properly, see the code where this is called from.
         if( !by_charges && sitem.area != AIM_INVENTORY ) {
@@ -1485,17 +1485,19 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
             return true;
         }
         std::string popupmsg = _( "How many do you want to move? (0 to cancel)" );
-        if( amount > max ) {
-            popupmsg = string_format( _( "Destination can only hold %d! Move how many? (0 to cancel) " ), max );
+        // At this point amount contains the maximal amount that the destination can hold.
+        if( amount < input_amount ) {
+            popupmsg = string_format( _( "Destination can only hold %d! Move how many? (0 to cancel) " ), amount );
         }
+        const long possible_max = std::min( input_amount, amount );
         amount = helper::to_int( string_input_popup( popupmsg, 20,
-                                 helper::to_string_int( std::max( amount , max ) ),
+                                 helper::to_string_int( possible_max ),
                                  "", "", -1, true ) );
         if( amount <= 0 ) {
             return false;
         }
-        if( amount > max ) {
-            amount = max;
+        if( amount > possible_max ) {
+            amount = possible_max;
         }
     }
     return true;
