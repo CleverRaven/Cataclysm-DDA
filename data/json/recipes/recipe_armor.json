@@ -6900,5 +6900,27 @@
      [ "rag", 4 ]
     ]
    ]
+},{
+  "type" : "recipe",
+  "result": "helmet_netting",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "time": 18000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 12 ],
+      [ "needle_wood", 12 ],
+      [ "sewing_kit", 12 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 3 ]
+    ]
+  ]
 }
 ]

@@ -7983,5 +7983,32 @@
 	  [ "honeycomb", 1 ]
     ]
   ]
+},{
+        "type" : "recipe",
+  "result": "marloss_gel",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "difficulty": 5,
+  "time": 35000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+     {"id":"COOK","level":3,"amount":1} ],
+  "tools": [
+    [
+      [ "hotplate", 7 ],
+      [ "toolset", 7 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "sweet_water", 2 ]
+    ],
+    [
+      [ "marloss_berry", 1 ], [ "marloss_seed", 1 ]
+    ]
+  ]
 }
 ]
