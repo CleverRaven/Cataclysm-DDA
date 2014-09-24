@@ -125,7 +125,6 @@ public:
  char symbol() const;
  nc_color color() const;
  int price() const;
- std::vector<monster*> catchables; //for traps, to store the catchables when the trap was initially set.
 
     /**
      * Return the butcher factor (BUTCHER tool quality).

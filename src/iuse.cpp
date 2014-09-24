@@ -2797,9 +2797,9 @@ int iuse::fishing_rod(player *p, item *it, bool)
         p->add_msg_if_player(m_info, _("That water does not contain any fish, try a river instead."));
         return 0;
     }
-    it->catchables = g->get_fishable(60); //get a fish list
-    if (it->catchables.size() < 1){
-        p->add_msg_if_player(m_info, _("There is no fish around. Try another spot")); // maybe let the player find that out by himself?
+    std::vector<monster*> fishables = g->get_fishable(60);
+    if ( fishables.size() < 1){
+        p->add_msg_if_player(m_info, _("There is no fish around. Try another spot.")); // maybe let the player find that out by himself?
         return 0;
     }
     p->rooted_message();
@@ -2849,9 +2849,9 @@ int iuse::fish_trap(player *p, item *it, bool t)
             p->add_msg_if_player(m_info, _("That water does not contain any fish, try a river instead."));
             return 0;
         }
-        it->catchables = g->get_fishable(60);
-        if (it->catchables.size() < 1){
-            p->add_msg_if_player(m_info, _("There is no fish around. Try another spot")); // maybe let the player find that out by himself?
+        std::vector<monster*> fishables = g->get_fishable(60);
+        if ( fishables.size() < 1){
+            p->add_msg_if_player(m_info, _("There is no fish around. Try another spot.")); // maybe let the player find that out by himself?
             return 0;
         }
         it->active = true;
@@ -2867,22 +2867,6 @@ int iuse::fish_trap(player *p, item *it, bool t)
         if (it->charges == 0) {
             it->active = false;
             return 0;
-        }
-        //every 30mins we check for new fish that may have wandered in. if there are, we add them to the fish list
-        if (int(calendar::turn - it->bday) % 300 < 1){
-            std::vector<monster*> fishables_new = g->get_fishable(60);
-            for (size_t i = 0 ; i < fishables_new.size() ; i++){
-                bool fish_exists = false;
-                for (size_t j = 0 ; j < it->catchables.size() ; j++){
-                    if (fishables_new[i] == it->catchables[j]){
-                        fish_exists = true;
-                        break;
-                    }
-                }
-                if (!fish_exists){
-                    it->catchables.push_back (fishables_new[i]);
-                }
-            }
         }
         //after 3 hours.
         if (calendar::turn - it->bday > 1800) {
@@ -2926,26 +2910,27 @@ int iuse::fish_trap(player *p, item *it, bool t)
 
                 return 0;
             }
-
+            std::vector<monster*> fishables = g->get_fishable(60); //get the fishables around the trap's spot
             for (int i = 0; i < fishes; i++) {
                 p->practice("survival", rng(3, 10));
-                //there will always be a small chance that the player will get lucky and
-                //a wandering fish will also get caught even if not enough fishes are present. lets say it is a 5% chance per fish to catch
-                if (it->catchables.size() < 1){
-                    if (one_in(20)) {
-                    item fish;
-                    std::vector<std::string> fish_group = MonsterGroupManager::GetMonstersFromGroup("GROUP_FISH");
-                    std::string fish_mon = fish_group[rng(1, fish_group.size()) - 1];
-                    fish.make_corpse("corpse", GetMType(fish_mon), it->bday + rng(0, 1800)); //we don't know when it was caught. its random
-                    //Yes, we can put fishes in the trap like knives in the boot,
-                    //and then get fishes via activation of the item,
-                    //but it's not as comfortable as if you just put fishes in the same tile with the trap.
-                    //Also: corpses and comestibles do not rot in containers like this, but on the ground they will rot.
-                    g->m.add_item_or_charges(pos.x, pos.y, fish);
-                    break; //this can happen only once
-                    }
+                if (fishables.size() > 1){
+                    g->catch_a_monster(fishables, pos.x, pos.y, p, 180000); //catch the fish! 180000 is the time spent fishing.
                 } else {
-                    g->catch_a_monster(it->catchables, pos.x, pos.y, p, 180000);
+                    //there will always be a chance that the player will get lucky and catch a fish
+                    //not existing in the fishables vector. (maybe it was in range, but wandered off)
+                    //lets say it is a 5% chance per fish to catch
+                    if (one_in(20)) {
+                        item fish;
+                        std::vector<std::string> fish_group = MonsterGroupManager::GetMonstersFromGroup("GROUP_FISH");
+                        std::string fish_mon = fish_group[rng(1, fish_group.size()) - 1];
+                        fish.make_corpse("corpse", GetMType(fish_mon), it->bday + rng(0, 1800)); //we don't know when it was caught. its random
+                        //Yes, we can put fishes in the trap like knives in the boot,
+                        //and then get fishes via activation of the item,
+                        //but it's not as comfortable as if you just put fishes in the same tile with the trap.
+                        //Also: corpses and comestibles do not rot in containers like this, but on the ground they will rot.
+                        g->m.add_item_or_charges(pos.x, pos.y, fish);
+                        break; //this can happen only once
+                    }
                 }
             }
         }
