@@ -1312,7 +1312,7 @@
         "ident": "patient",
         "name": "Patient",
         "description": "When the diagnosis came back positive, you were willing to fight to keep living. Now, you must renew your vow of tenacity in these new times.",
-        "points": -2,
+        "points": 0,
         "items":{
             "both": [
                 "jeans",
