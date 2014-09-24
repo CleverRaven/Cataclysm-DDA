@@ -9549,7 +9549,8 @@
         "charges" : 1,
         "stack_size" : 10,
         "bashing" : 0,
-        "fun" : 30
+        "fun" : 30,
+        "flags": ["SEED"]
     },
     {
         "type" : "COMESTIBLE",

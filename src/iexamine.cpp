@@ -1273,6 +1273,25 @@ void iexamine::aggie_plant(player *p, map *m, int examx, int examy)
             for (size_t k = 0; k < g->m.i_at(examx, examy).size(); k++) {
                 g->m.i_rem(examx, examy, k);
             }
+        } else if (seedType == "marloss_seed") {
+            fungus(p, m, examx, examy);
+            for (size_t k = 0; k < g->m.i_at(examx, examy).size(); k++) {
+                g->m.i_rem(examx, examy, k);
+            }
+            if (g->u.has_trait("M_DEPENDENT") && ((g->u.hunger > 500) || g->u.thirst > 300 )) {
+                m->ter_set(examx, examy, t_marloss);
+                add_msg(m_info, _("We have altered this unit's configuration to extract and provide local nutriment.  The Mycus provides."));
+            } else if ( (g->u.has_trait("M_DEFENDER")) || ( (g->u.has_trait("M_SPORES") || g->u.has_trait("M_FERTILE")) &&
+              one_in(2)) ) {
+                m->add_spawn("mon_fungal_blossom", 1, examx, examy);
+                add_msg(m_info, _("The seed blooms forth!  We have brought true beauty to this world."));
+            } else if ( (g->u.has_trait("THRESH_MYCUS")) || one_in(4)) {
+                m->furn_set(examx, examy, f_flower_marloss);
+                add_msg(m_info, _("The seed blossoms rather rapidly..."));
+            } else {
+                m->furn_set(examx, examy, f_flower_fungal);
+                add_msg(m_info, _("The seed blossoms into a flower-looking fungus."));
+            }
         } else {
             m->i_clear(examx, examy);
             m->furn_set(examx, examy, f_null);
