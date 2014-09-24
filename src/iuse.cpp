@@ -3675,7 +3675,7 @@ int iuse::noise_emitter_on(player *p, item *it, bool t)
         //~ the sound of a noise emitter when turned on
         g->ambient_sound(pos.x, pos.y, 30, _("KXSHHHHRRCRKLKKK!"));
     } else { // Turning it off
-        p->add_msg_if_player(_("The infernal racket dies as you turn off the noise emitter."));
+        p->add_msg_if_player(_("The infernal racket dies as the noise emitter turns off."));
         it->make("noise_emitter");
         it->active = false;
     }
