@@ -319,6 +319,8 @@ void mattack::smash(monster *z)
         return;    // Out of range
     }
     z->sp_timeout = z->type->sp_freq; // Reset timer
+    // Costs lots of moves to give you a little bit of a chance to get away.
+    z->moves -= 400;
 
     if (g->u.uncanny_dodge()) {
         return;
