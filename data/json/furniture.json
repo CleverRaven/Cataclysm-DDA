@@ -161,7 +161,7 @@
         "symbol": "&",
         "color": "white",
         "move_cost_mod": 2,
-        "required_str": 18,
+        "required_str": -1,
         "flags": ["TRANSPARENT", "FLAMMABLE_HARD", "MOUNTABLE"],
         "examine_action": "toilet",
         "bash": {
@@ -208,7 +208,7 @@
         "symbol": "&",
         "color": "white",
         "move_cost_mod": 2,
-        "required_str": 18,
+        "required_str": 16,
         "flags": ["TRANSPARENT", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "MOUNTABLE"],
         "bash": {
             "str_min": 8, "str_max": 30,
@@ -227,7 +227,7 @@
         "symbol": "#",
         "color": "dkgray",
         "move_cost_mod": 2,
-        "required_str": 10,
+        "required_str": 16,
         "flags": ["PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "CONTAINER", "BLOCKSDOOR", "MOUNTABLE"],
         "deconstruct": {
             "items": [
@@ -295,7 +295,7 @@
         "symbol": "~",
         "color": "white",
         "move_cost_mod": 0,
-        "required_str": 10,
+        "required_str": -1,
         "flags": ["TRANSPARENT", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR"],
         "bash": {
             "str_min": 6, "str_max": 30,
@@ -313,7 +313,7 @@
         "symbol": "~",
         "color": "white",
         "move_cost_mod": 2,
-        "required_str": 10,
+        "required_str": 20,
         "flags": ["TRANSPARENT", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE"],
         "bash": {
             "str_min": 8, "str_max": 30,
@@ -332,7 +332,7 @@
         "symbol": "#",
         "color": "brown",
         "move_cost_mod": 1,
-        "required_str": 6,
+        "required_str": 4,
         "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE"],
         "deconstruct": {
             "items": [
@@ -342,7 +342,7 @@
         },
         "max_volume": 4000,
         "bash": {
-            "str_min": 8, "str_max": 30,
+            "str_min": 6, "str_max": 20,
             "sound": "smash!",
             "sound_fail": "whump.",
             "items": [
