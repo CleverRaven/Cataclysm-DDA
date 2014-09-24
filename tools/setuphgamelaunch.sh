@@ -1,5 +1,12 @@
 #!/bin/bash
 
+if [ -z "$1" ]
+    then
+    echo "No argument supplied"
+    echo "Please provide the full path to the destination directory as an argument"
+    exit 1
+fi
+
 if (pwd | grep "Cataclysm-DDA/tools")
 then
 cd ..
@@ -8,6 +15,7 @@ if (ls Cataclysm-DDA)
 then
 echo "Cataclysm-DDA already exists"
 else
+echo "Cloning Cataclysm-DDA"
 git clone https://github.com/CleverRaven/Cataclysm-DDA
 fi
 cd Cataclysm-DDA
@@ -21,10 +29,12 @@ if (ls Hgamelaunch)
 then
 echo "Hgamelaunch already exists"
 else
+echo "Cloning Hgamelaunch"
 git clone https://github.com/C0DEHERO/Hgamelaunch
 fi
 cd Hgamelaunch
 
+echo "Building Hgamelaunch"
 cabal configure
 cabal build
 
@@ -39,3 +49,38 @@ echo "Copying license to $1"
 cp ./LICENSE.md $1
 echo "Copying readme to $1"
 cp ./README.md $1
+
+# Copying game files
+cd ../Cataclysm-DDA
+mkdir -p $1/cdda
+cp ./cataclysm $1/cdda/
+mkdir -p $1/share/cataclysm-dda
+mkdir -p $1/share/save
+mkdir -p $1/share/memorial
+cp -r ./data/. $1/share/cataclysm-dda
+cp -r ./gfx $1/share/cataclysm-dda
+cp -r ./lua $1/share/cataclysm-dda
+cp -r ./lang $1/share/cataclysm-dda
+
+
+# Copying games.json
+cd $1
+ROOTPATH=$(echo "$1/" | sed -e 's/[\/&]/\\&/g')
+echo "Copying games.json"
+if (ls ./config/games.json)
+then
+cp ./config/examples/Cataclysm-DDA/games.json ./config/games.json.new
+sed -i "s/!rootpath/$ROOTPATH/g" ./config/games.json.new
+echo "New config has been copied to $1/config/games.json.new"
+else
+cp ./config/examples/Cataclysm-DDA/games.json ./config/
+sed -i "s/!rootpath/$ROOTPATH/g" ./config/games.json
+fi
+
+# Making admin userdir
+mkdir -p $1/userdata/cdda/admin/
+mkdir -p $1/userdata/cdda/admin/ttyrec
+
+# Creating the directories for ttrecs in progress
+mkdir -p $1/cdda-inprogress/
+mkdir -p $1/cdda-shared-inprogress/
