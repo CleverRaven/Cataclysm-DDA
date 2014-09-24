@@ -5147,7 +5147,7 @@
 	{"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
-    [ ["hotplate", 15], ["chemistry_set", 15], ["toolset", 15] ],
+    [ ["hotplate", 15], ["chemistry_set", 15], ["toolset", 15] ]
   ],
   "components": [
      [
