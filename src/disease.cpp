@@ -2480,11 +2480,11 @@ Your right leg is frostbitten from prolonged exposure to the cold. It is extreme
 
     case DI_FROSTBITE_RECOVERY:
         switch (dis.bp) {
-            case bp_hand_l: return _("The blood is starting the flow in your left hand again, causing pain as you begin to feel the damage the cold has wrought to your hand.");
-            case bp_hand_r: return _("The blood is starting the flow in your right hand again, causing pain as you begin to feel the damage the cold has wrought to your hand.");
-            case bp_foot_l: return _("The blood is starting the flow in your left foot again, causing pain as you begin to feel the damage the cold has wrought to your foot.");
-            case bp_foot_r: return _("The blood is starting the flow in your right foot again, causing pain as you begin to feel the damage the cold has wrought to your foot.");
-            case bp_mouth:  return _("The blood is starting the flow in your face again, causing pain as you begin to feel the damage the cold has wrought to your face.");
+            case bp_hand_l: return _("The blood is starting to flow in your left hand again, causing pain as you begin to feel the damage the cold has wrought to your hand.");
+            case bp_hand_r: return _("The blood is starting to flow in your right hand again, causing pain as you begin to feel the damage the cold has wrought to your hand.");
+            case bp_foot_l: return _("The blood is starting to flow in your left foot again, causing pain as you begin to feel the damage the cold has wrought to your foot.");
+            case bp_foot_r: return _("The blood is starting to flow in your right foot again, causing pain as you begin to feel the damage the cold has wrought to your foot.");
+            case bp_mouth:  return _("The blood is starting to flow in your face again, causing pain as you begin to feel the damage the cold has wrought to your face.");
             default: // Suppress compiler warning [-Wswitch]
                 break;
         }

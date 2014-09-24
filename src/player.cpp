@@ -2913,7 +2913,7 @@ detecting traps and other things of interest."));
 
             for (unsigned i = min; i < max; i++) {
                 iLayers = iArmorEnc = 0;
-                iBodyTempInt = temp_conv[i] / 100;
+                iBodyTempInt = (temp_conv[i] / 100.0) * 2 - 100; // Scale of -100 to +100
                 iEnc = encumb(aBodyPart[i], iLayers, iArmorEnc);
                 if (line == i) {
                     mvwprintz(w_encumb, i + 1 - min, 1, h_ltgray, "%s", asText[i].c_str());

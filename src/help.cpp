@@ -625,7 +625,7 @@ Try to keep your inventory as full as possible without being overloaded. You nev
 might need an item, most are good to sell, and you can easily drop unwanted items on the floor."));
 
     text.push_back(_("\
-Keep an eye on the weather. Wind and humidity will exasperate dire conditions, so seek shelter if \
+Keep an eye on the weather. Wind and humidity will exacerbate dire conditions, so seek shelter if \
 you're unable to withstand them. Staying dry is important, especially if conditions are so low \
 that they would cause frostbite. If you're having trouble staying warm over night, make a pile \
 of clothing on the floor to sleep on."));
