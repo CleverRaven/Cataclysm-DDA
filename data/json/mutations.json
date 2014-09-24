@@ -1392,19 +1392,6 @@
         "category" : ["MUTCAT_PLANT"]
     },{
         "type" : "mutation",
-        "id" : "FLOWERS",
-        "name" : "Flowering",
-        "points" : 2,
-        "visibility" : 10,
-        "ugliness" : -4,
-        "description" : "You've started blooming where your scalp used to be. Your blossoms have a pleasant aroma, are visually striking, and are quite sensitive.",
-        "prereqs" : ["PLANTSKIN","BARK"],
-        "prereqs2" : ["LEAVES"],
-        "cancels" : ["SMELLY", "SMELLY2"],
-        "threshreq" : ["THRESH_PLANT"],
-        "category" : ["MUTCAT_PLANT"]
-    },{
-        "type" : "mutation",
         "id" : "M_SPORES",
         "name" : "Mycus Spores",
         "points" : 4,
