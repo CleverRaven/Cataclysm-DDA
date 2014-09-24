@@ -13299,15 +13299,15 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
         bool thru = true;
         bool slam = false;
         int mondex = mon_at(x, y);
-        dam1 = flvel / 3 + rng(0, flvel * 1 / 3);
+        dam1 = (flvel / 3) + rng(0, flvel / 3);
         if (controlled) {
-            dam1 = std::max(dam1 / 2 - 5, 0);
+            dam1 = std::max((dam1 / 2) - 5, 0);
         }
         if (mondex >= 0) {
             monster &critter = zombie(mondex);
             slam = true;
             dname = critter.name();
-            dam2 = flvel / 3 + rng(0, flvel * 1 / 3);
+            dam2 = (flvel / 3) + rng(0, flvel / 3);
             critter.apply_damage( c, bp_torso, dam2 );
             if( !critter.is_dead() ) {
                 thru = false;
