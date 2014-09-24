@@ -312,6 +312,18 @@ void mattack::resurrect(monster *z)
     }
 }
 
+void mattack::smash(monster *z)
+{
+    int t, dist = rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy);
+    if (dist > 1 || !g->sees_u(z->posx(), z->posy(), t)) {
+        return;    // Out of range
+    }
+    z->sp_timeout = z->type->sp_freq; // Reset timer
+    g->fling_creature( &(g->u), g->m.coord_to_angle( z->posx(), z->posy(), g->u.xpos(), g->u.ypos() ),
+                       z->type->melee_sides * z->type->melee_dice * 3 );
+    add_msg( _("A blow from the %s sends you flying!"), z->name );
+}
+
 void mattack::science(monster *z) // I said SCIENCE again!
 {
     int t, dist = rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy);

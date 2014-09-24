@@ -14,6 +14,7 @@ class mattack
         void smokecloud         (monster *z);
         void boomer             (monster *z);
         void resurrect          (monster *z);
+        void smash              (monster *z);
         void science            (monster *z);
         void growplants         (monster *z);
         void grow_vine          (monster *z);
