@@ -1585,7 +1585,7 @@
     "ammo": "gasoline",
     "revert_to": "trimmer_off",
     "use_action": "TRIMMER_ON",
-    "qualities": [["CUT", 1], ["BUTCHER", 40]]
+    "qualities": [["CUT", 1]]
   },{
     "id": "circsaw_off",
     "type": "TOOL",
