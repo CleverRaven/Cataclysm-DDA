@@ -5473,7 +5473,7 @@ void player::suffer()
             activate_bionic(i);
         }
     }
-    
+
     for (auto mut : my_mutations) {
         if (!traits[mut].powered ) {
             continue;
@@ -5512,7 +5512,7 @@ void player::suffer()
                 }
             }
         }
-        
+
     }
 
     if (underwater) {
@@ -7749,6 +7749,11 @@ bool player::eat(item *eaten, it_comest *comest)
     }
     if (is_underwater()) {
         add_msg_if_player(m_info, _("You can't do that while underwater."));
+        return false;
+    }
+    // For all those folks who loved eating marloss berries.  D:< mwuhahaha
+    if (has_trait("M_DEPENDENT") && (eaten->type->id != "mycus_fruit")) {
+        add_msg_if_player(m_info, _("We can't eat that.  It's not right for us."));
         return false;
     }
     // Here's why PROBOSCIS is such a negative trait.

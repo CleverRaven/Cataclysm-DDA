@@ -1546,6 +1546,13 @@
         "valid" : false
     },{
         "type" : "mutation",
+        "id" : "MARLOSS_AVOID",
+        "name" : "Marloss Rejection",
+        "points" : 0,
+        "description" : "Ever since you had that life-threatening reaction to that Marloss drek, you can't bear the thought of ever eating it again!",
+        "valid" : false
+    },{
+        "type" : "mutation",
         "id" : "PHEROMONE_INSECT",
         "name" : "Insect Pheromones",
         "points" : 8,

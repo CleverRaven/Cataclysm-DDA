@@ -66,14 +66,15 @@ public:
     int purify_iv           (player*, item*, bool);
     int marloss             (player*, item*, bool);
     int marloss_seed        (player*, item*, bool);
-    int marloss_gel        (player*, item*, bool);
+    int marloss_gel         (player*, item*, bool);
+    int mycus               (player*, item*, bool);
     int dogfood             (player*, item*, bool);
     int catfood             (player*, item*, bool);
 
 // TOOLS
     int lighter             (player *, item *, bool);
     int primitive_fire      (player *, item *, bool);
-	int ref_lit             (player *, item *, bool);
+	  int ref_lit             (player *, item *, bool);
     int sew                 (player *, item *, bool);
     int extra_battery       (player *, item *, bool);
     int rechargeable_battery(player *, item *, bool);

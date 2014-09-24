@@ -2086,12 +2086,17 @@ int iuse::marloss(player *p, item *it, bool t)
     if (p->is_npc()) {
         return it->type->charges_to_use();
     }
+    if (p->has_trait("MARLOSS_AVOID")) {
+        //~"Uh-uh" is a sound used for "nope", "no", etc.
+        p->add_msg_if_player(m_warning, _("After what happened that last time? uh-uh.  You're not eating that alien poison sac."));
+        return 0;
+    }
     // If we have the marloss in our veins, we are a "breeder" and will spread
     // the fungus.
     p->add_memorial_log(pgettext("memorial_male", "Ate a marloss berry."),
                         pgettext("memorial_female", "Ate a marloss berry."));
 
-    if (p->has_trait("MARLOSS")) {
+    if (p->has_trait("MARLOSS") || p->has_trait("THRESH_MARLOSS")) {
         p->add_msg_if_player(m_good,
                              _("As you eat the berry, you have a near-religious experience, feeling at one with your surroundings..."));
         p->add_morale(MORALE_MARLOSS, 100, 1000);
@@ -2135,6 +2140,11 @@ int iuse::marloss(player *p, item *it, bool t)
     if (effect <= 3) {
         p->add_msg_if_player(_("This berry tastes extremely strange!"));
         p->mutate();
+        // Gruss dich, mutation drain, missed you!
+        p->mod_pain(2 * rng(1, 5));
+        p->hunger += 10;
+        p->fatigue += 5;
+        p->thirst += 10;
     } else if (effect <= 6) { // Radiation cleanse is below
         p->add_msg_if_player(m_good, _("This berry makes you feel better all over."));
         p->pkill += 30;
@@ -2148,6 +2158,27 @@ int iuse::marloss(player *p, item *it, bool t)
     } else if (effect == 8) {
         p->add_msg_if_player(m_bad, _("You take one bite, and immediately vomit!"));
         p->vomit();
+    } else if (g->u.crossed_threshold()) { // Mycus Rejection.  Goo already present fights off the fungus.
+        p->add_msg_if_player(m_bad, _("You feel a familiar warmth, but suddenly it surges into an excruciating burn as you convulse, vomiting, and black out..."));
+        p->add_memorial_log(pgettext("memorial_male", "Suffered Marloss Rejection."),
+                        pgettext("memorial_female", "Suffered Marloss Rejection."));
+        p->vomit();
+        p->vomit(); // Yes, make sure you're empty.
+        p->mod_pain(90);
+        p->hurtall(rng(40, 65));// No good way to say "lose half your current HP"
+        p->fall_asleep((6000 - p->int_cur * 10)); // Hope you were eating someplace safe.  Mycus v. Goo in your guts is no joke.
+        p->toggle_mutation("MARLOSS_BLUE");
+        p->toggle_mutation("MARLOSS");
+        p->toggle_mutation("MARLOSS_AVOID"); // And if you survive it's etched in your RNA, so you're unlikely to repeat the experiment.
+    } else if ( (p->has_trait("MARLOSS_BLUE") && p->has_trait("MARLOSS_YELLOW")) && (!p->has_trait("MARLOSS")) ) {
+        p->add_msg_if_player(m_bad, _("You feel a familiar warmth, but suddenly it surges into painful burning as you convulse and collapse to the ground..."));
+        p->fall_asleep((400 - p->int_cur * 5));
+        p->toggle_mutation("MARLOSS_BLUE");
+        p->toggle_mutation("MARLOSS_YELLOW");
+        p->toggle_mutation("THRESH_MARLOSS");
+        g->m.ter_set(p->posx, p->posy, t_marloss);
+        p->add_memorial_log(pgettext("memorial_male", "Opened the Marloss Gateway."),
+                        pgettext("memorial_female", "Opened the Marloss Gateway."));
     } else if (!p->has_trait("MARLOSS")) {
         p->add_msg_if_player(_("You feel a strange warmth spreading throughout your body..."));
         p->toggle_mutation("MARLOSS");
@@ -2160,6 +2191,11 @@ int iuse::marloss_seed(player *p, item *it, bool t)
     if (p->is_npc()) {
         return it->type->charges_to_use();
     }
+    if (p->has_trait("MARLOSS_AVOID")) {
+        //~"Uh-uh" is a sound used for "nope", "no", etc.  "Drek" is a borrowed synonym for "shit".
+        p->add_msg_if_player(m_warning, _("After what happened that last time? uh-uh.  You're not eating that alien drek."));
+        return 0;
+    }
     if (!(query_yn(_("Sure you want to eat the %s? You could plant it in a mound of dirt."),
                  it->tname().c_str())) ) {
         return 0; // Save the seed for later!
@@ -2169,7 +2205,7 @@ int iuse::marloss_seed(player *p, item *it, bool t)
     p->add_memorial_log(pgettext("memorial_male", "Ate a marloss seed."),
                         pgettext("memorial_female", "Ate a marloss seed."));
 
-    if (p->has_trait("MARLOSS_BLUE")) {
+    if (p->has_trait("MARLOSS_BLUE") || p->has_trait("THRESH_MARLOSS")) {
         p->add_msg_if_player(m_good,
                              _("As you eat the seed, you have a near-religious experience, feeling at one with your surroundings..."));
         p->add_morale(MORALE_MARLOSS, 100, 1000);
@@ -2213,6 +2249,11 @@ int iuse::marloss_seed(player *p, item *it, bool t)
     if (effect <= 3) {
         p->add_msg_if_player(_("This seed tastes extremely strange!"));
         p->mutate();
+        // HELLO MY NAME IS MUTATION DRAIN YOU KILLED MY MUTAGEN PREPARE TO DIE! ;-)
+        p->mod_pain(2 * rng(1, 5));
+        p->hunger += 10;
+        p->fatigue += 5;
+        p->thirst += 10;
     } else if (effect <= 6) { // Radiation cleanse is below
         p->add_msg_if_player(m_good, _("This seed makes you feel better all over."));
         p->pkill += 30;
@@ -2226,6 +2267,27 @@ int iuse::marloss_seed(player *p, item *it, bool t)
     } else if (effect == 8) {
         p->add_msg_if_player(m_bad, _("You take one bite, and immediately vomit!"));
         p->vomit();
+    } else if (g->u.crossed_threshold()) { // Mycus Rejection.  Goo already present fights off the fungus.
+        p->add_msg_if_player(m_bad, _("You feel a familiar warmth, but suddenly it surges into an excruciating burn as you convulse, vomiting, and black out..."));
+        p->add_memorial_log(pgettext("memorial_male", "Suffered Marloss Rejection."),
+                        pgettext("memorial_female", "Suffered Marloss Rejection."));
+        p->vomit();
+        p->vomit(); // Yes, make sure you're empty.
+        p->mod_pain(90);
+        p->hurtall(rng(40, 65));// No good way to say "lose half your current HP"
+        p->fall_asleep((6000 - p->int_cur * 10)); // Hope you were eating someplace safe.  Mycus v. Goo in your guts is no joke.
+        p->toggle_mutation("MARLOSS_BLUE");
+        p->toggle_mutation("MARLOSS");
+        p->toggle_mutation("MARLOSS_AVOID"); // And if you survive it's etched in your RNA, so you're unlikely to repeat the experiment.
+    } else if ( (p->has_trait("MARLOSS") && p->has_trait("MARLOSS_YELLOW")) && (!p->has_trait("MARLOSS_BLUE")) ) {
+        p->add_msg_if_player(m_bad, _("You feel a familiar warmth, but suddenly it surges into painful burning as you convulse and collapse to the ground..."));
+        p->fall_asleep((400 - p->int_cur * 5));
+        p->toggle_mutation("MARLOSS");
+        p->toggle_mutation("MARLOSS_YELLOW");
+        p->toggle_mutation("THRESH_MARLOSS");
+        g->m.ter_set(p->posx, p->posy, t_marloss);
+        p->add_memorial_log(pgettext("memorial_male", "Opened the Marloss Gateway."),
+                        pgettext("memorial_female", "Opened the Marloss Gateway."));
     } else if (!p->has_trait("MARLOSS_BLUE")) {
         p->add_msg_if_player(_("You feel a strange warmth spreading throughout your body..."));
         p->toggle_mutation("MARLOSS_BLUE");
@@ -2238,12 +2300,17 @@ int iuse::marloss_gel(player *p, item *it, bool t)
     if (p->is_npc()) {
         return it->type->charges_to_use();
     }
+    if (p->has_trait("MARLOSS_AVOID")) {
+        //~"Uh-uh" is a sound used for "nope", "no", etc.
+        p->add_msg_if_player(m_warning, _("After what happened that last time? uh-uh.  You're not eating that alien slime."));
+        return 0;
+    }
     // If we have the marloss in our veins, we are a "breeder" and will spread
     // the fungus.
     p->add_memorial_log(pgettext("memorial_male", "Ate some marloss jelly."),
                         pgettext("memorial_female", "Ate some marloss jelly."));
 
-    if (p->has_trait("MARLOSS_YELLOW")) {
+    if (p->has_trait("MARLOSS_YELLOW") || p->has_trait("THRESH_MARLOSS")) {
         p->add_msg_if_player(m_good,
                              _("As you eat the jelly, you have a near-religious experience, feeling at one with your surroundings..."));
         p->add_morale(MORALE_MARLOSS, 100, 1000);
@@ -2287,6 +2354,11 @@ int iuse::marloss_gel(player *p, item *it, bool t)
     if (effect <= 3) {
         p->add_msg_if_player(_("This jelly tastes extremely strange!"));
         p->mutate();
+        // hihi! wavewave! mutation drain!
+        p->mod_pain(2 * rng(1, 5));
+        p->hunger += 10;
+        p->fatigue += 5;
+        p->thirst += 10;
     } else if (effect <= 6) { // Radiation cleanse is below
         p->add_msg_if_player(m_good, _("This jelly makes you feel better all over."));
         p->pkill += 30;
@@ -2300,9 +2372,96 @@ int iuse::marloss_gel(player *p, item *it, bool t)
     } else if (effect == 8) {
         p->add_msg_if_player(m_bad, _("You take one bite, and immediately vomit!"));
         p->vomit();
-    } else if (!p->has_trait("MARLOSS_YELOW")) {
+    } else if (g->u.crossed_threshold()) { // Mycus Rejection.  Goo already present fights off the fungus.
+        p->add_msg_if_player(m_bad, _("You feel a familiar warmth, but suddenly it surges into an excruciating burn as you convulse, vomiting, and black out..."));
+        p->add_memorial_log(pgettext("memorial_male", "Suffered Marloss Rejection."),
+                        pgettext("memorial_female", "Suffered Marloss Rejection."));
+        p->vomit();
+        p->vomit(); // Yes, make sure you're empty.
+        p->mod_pain(90);
+        p->hurtall(rng(40, 65));// No good way to say "lose half your current HP"
+        p->fall_asleep((6000 - p->int_cur * 10)); // Hope you were eating someplace safe.  Mycus v. Goo in your guts is no joke.
+        p->toggle_mutation("MARLOSS_BLUE");
+        p->toggle_mutation("MARLOSS");
+        p->toggle_mutation("MARLOSS_AVOID"); // And if you survive it's etched in your RNA, so you're unlikely to repeat the experiment.
+    } else if ( (p->has_trait("MARLOSS_BLUE") && p->has_trait("MARLOSS")) && (!p->has_trait("MARLOSS_YELLOW")) ) {
+        p->add_msg_if_player(m_bad, _("You feel a familiar warmth, but suddenly it surges into painful burning as you convulse and collapse to the ground..."));
+        p->fall_asleep((400 - p->int_cur * 5));
+        p->toggle_mutation("MARLOSS_BLUE");
+        p->toggle_mutation("MARLOSS");
+        p->toggle_mutation("THRESH_MARLOSS");
+        g->m.ter_set(p->posx, p->posy, t_marloss);
+        p->add_memorial_log(pgettext("memorial_male", "Opened the Marloss Gateway."),
+                        pgettext("memorial_female", "Opened the Marloss Gateway."));
+    } else if (!p->has_trait("MARLOSS_YELLOW")) {
         p->add_msg_if_player(_("You feel a strange warmth spreading throughout your body..."));
         p->toggle_mutation("MARLOSS_YELLOW");
+    }
+    return it->type->charges_to_use();
+}
+
+int iuse::mycus(player *p, item *it, bool t)
+{
+    if (p->is_npc()) {
+        return it->type->charges_to_use();
+    }
+    // Welcome our guide.  Welcome.  To. The Mycus.
+    if (p->has_trait("THRESH_MARLOSS")) {
+        p->add_memorial_log(pgettext("memorial_male", "Became one with the Mycus."),
+                        pgettext("memorial_female", "Became one with the Mycus."));
+        p->add_msg_if_player(m_info, _("The apple tastes amazing, and you finish it quickly, not even noticing the lack of any core or seeds."));
+        p->add_msg_if_player(m_good, _("You feel better all over."));
+        p->pkill += 30;
+        this->purifier(p, it, t); // Clear out some of that goo you may have floating around
+        p->radiation = 0;
+        p->healall(4); // Can't make you a whole new person, but not for lack of trying
+        p->add_msg_if_player(m_good, _("As the apple settles in, you feel ecstasy radiating through every part of your body..."));
+        p->add_morale(MORALE_MARLOSS, 1000, 1000); // Last time you'll ever have it this good.  So enjoy.
+        p->add_msg_if_player(m_good, _("Your eyes roll back in your head.  Everything dissolves into a blissful haze..."));
+        p->fall_asleep((3000 - p->int_cur * 10));
+        p->toggle_mutation("THRESH_MARLOSS");
+        p->toggle_mutation("THRESH_MYCUS");
+        //~ The Mycus does not use the term (or encourage the concept of) "you".  The PC is a local/native organism, but is now the Mycus.
+        //~ It still understands the concept, but uninitelligent fungaloids and mind-bent symbiotes should not need it.
+        //~ We are the Mycus.
+        p->add_msg_if_player(m_good, _("We welcome into us.  We have endured long in this forbidding world."));
+        p->add_msg_if_player(m_good, _("The natives have a saying: \"E Pluribus Unum\"  Out of many, one."));
+        p->add_msg_if_player(m_good, _("We welcome the union of our lines in our local guide.  We will prosper, and unite this world."));
+        p->add_msg_if_player(m_good, _("Even now, our fruits adapt to better serve local physiology."));
+        p->add_msg_if_player(m_good, _("As, in time, shall we adapt to better welcome those who have not received us."));
+        for (int x = p->posx - 2; x <= p->posx + 2; x++) {
+            for (int y = p->posy - 2; y <= p->posy + 2; y++) {
+                g->m.marlossify(x, y);
+            }
+        }
+    }
+    else if (p->has_trait("THRESH_MYCUS") && !p->has_trait("M_DEPENDENT")) { // OK, now set the hook.
+        if (!one_in(3)) {
+            p->mutate_category("MUTCAT_MYCUS");
+            p->hunger += 10;
+            p->fatigue += 5;
+            p->thirst += 10;
+            p->add_morale(MORALE_MARLOSS, 25, 200); // still covers up mutation pain
+        }
+    } else if (p->has_trait("THRESH_MYCUS")) {
+        if (one_in(25)) {
+            p->mutate_category("MUTCAT_MYCUS");
+            p->hunger += 10;
+            p->fatigue += 5;
+            p->thirst += 10;
+        }
+        p->pkill += 10;
+        p->stim += 10;
+    } else { // In case someone gets one without having been adapted first.
+        // Marloss is the Mycus' method of co-opting humans.  Mycus fruit is for symbiotes' maintenance and development.
+        p->add_msg_if_player(_("This apple tastes really weird!  You're not sure it's good for you..."));
+        p->mutate();
+        p->mod_pain(2 * rng(1, 5));
+        p->hunger += 10;
+        p->fatigue += 5;
+        p->thirst += 10;
+        p->vomit(); // no hunger/quench benefit for you
+        p->mod_healthy_mod(-8);
     }
     return it->type->charges_to_use();
 }
