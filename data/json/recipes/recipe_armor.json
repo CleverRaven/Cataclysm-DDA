@@ -6910,16 +6910,9 @@
   "time": 18000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "needle_bone", 12 ],
-      [ "needle_wood", 12 ],
-      [ "sewing_kit", 12 ]
-    ]
-  ],
   "components": [
     [
-      [ "rag", 3 ]
+      [ "thread", 500 ], [ "sinew", 500], [ "plant_fibre", 500]
     ]
   ]
 }
