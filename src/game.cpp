@@ -13345,6 +13345,11 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
         }
         if (thru) {
             if( p != nullptr ) {
+                // If we're flinging the player around, make sure the map stays centered on them.
+                if( is_u && ( x < SEEX * int(MAPSIZE / 2) || y < SEEY * int(MAPSIZE / 2) ||
+                    x >= SEEX * (1 + int(MAPSIZE / 2)) || y >= SEEY * (1 + int(MAPSIZE / 2)) ) ) {
+                    update_map( x, y );
+                }
                 p->posx = x;
                 p->posy = y;
             } else {
