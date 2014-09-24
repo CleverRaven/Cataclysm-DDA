@@ -7851,7 +7851,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "flags": ["FISH_POOR"],
-    "use_action": "FISHING_BASIC",
+    "use_action": "FISH_ROD",
     "revert_to": "null",
     "to_hit": 1
   },
@@ -7874,7 +7874,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "flags": ["FISH_GOOD"],
-    "use_action": "FISHING_BASIC",
+    "use_action": "FISH_ROD",
     "revert_to": "null",
     "to_hit": 1
   },

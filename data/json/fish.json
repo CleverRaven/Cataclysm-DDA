@@ -21,13 +21,13 @@
     "armor_bash"      : 0,
     "armor_cut"       : 0,
     "item_chance"     : 0,
-    "luminance"       : 1,
+    "luminance"       : 5,
     "hp"              : 20,
     "special_freq"    : 0,
     "death_function"  : "NORMAL",
     "special_attack"  : "NONE",
     "description"     : "A strange three-eyed fish.",
-    "flags"           : ["FISH", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "VIS30", "BONES"],
+    "flags"           : ["FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "VIS30", "BONES"],
     "fear_triggers":["PLAYER_CLOSE", "SOUND"],
     "categories":["WILDLIFE"]
   },
@@ -58,7 +58,7 @@
     "death_function"  : "NORMAL",
     "special_attack"  : "NONE",
     "description"     : "An eel.",
-    "flags"           : ["FISH", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "VIS30", "BONES"],
+    "flags"           : ["FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "VIS30", "BONES"],
     "fear_triggers":["PLAYER_CLOSE", "SOUND"],
     "categories":["WILDLIFE"]
   },
@@ -89,7 +89,7 @@
     "death_function"  : "NORMAL",
     "special_attack"  : "NONE",
     "description"     : "A bowfin.",
-    "flags"           : ["FISH", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "VIS30", "BONES"],
+    "flags"           : ["FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "VIS30", "BONES"],
     "fear_triggers":["PLAYER_CLOSE", "SOUND"],
     "categories":["WILDLIFE"]
   },
@@ -120,7 +120,7 @@
     "death_function"  : "NORMAL",
     "special_attack"  : "NONE",
     "description"     : "A bullhead.",
-    "flags"           : ["FISH", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "VIS30", "BONES"],
+    "flags"           : ["FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "VIS30", "BONES"],
     "fear_triggers":["PLAYER_CLOSE", "SOUND"],
     "categories":["WILDLIFE"]
   },
@@ -151,7 +151,7 @@
     "death_function"  : "NORMAL",
     "special_attack"  : "NONE",
     "description"     : "A trout",
-    "flags"           : ["FISH", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "VIS30", "BONES", "FAT"],
+    "flags"           : ["FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "VIS30", "BONES", "FAT"],
     "fear_triggers":["PLAYER_CLOSE", "SOUND"],
     "categories":["WILDLIFE"]
   },
@@ -182,7 +182,7 @@
     "death_function"  : "NORMAL",
     "special_attack"  : "NONE",
     "description"     : "A golden-yellow common carp.",
-    "flags"           : ["FISH", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC","VIS30", "BONES"],
+    "flags"           : ["FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC","VIS30", "BONES"],
     "fear_triggers":["PLAYER_CLOSE", "SOUND"],
     "categories":["WILDLIFE"]
   },
@@ -213,7 +213,7 @@
     "death_function"  : "NORMAL",
     "special_attack"  : "NONE",
     "description"     : "A pike.",
-    "flags"           : ["FISH", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "VIS30", "BONES", "FAT"],
+    "flags"           : ["FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "VIS30", "BONES", "FAT"],
     "fear_triggers":["PLAYER_CLOSE", "SOUND"],
     "categories":["WILDLIFE"]
   },
@@ -244,7 +244,7 @@
     "death_function"  : "NORMAL",
     "special_attack"  : "NONE",
     "description"     : "A bluegill.",
-    "flags"           : ["FISH", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "VIS30", "BONES"],
+    "flags"           : ["FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "VIS30", "BONES"],
     "fear_triggers":["PLAYER_CLOSE", "SOUND"],
     "categories":["WILDLIFE"]
   },
@@ -276,7 +276,7 @@
     "death_function"  : "NORMAL",
     "special_attack"  : "NONE",
     "description"     : "A smallmouth bass.",
-    "flags"           : ["FISH", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "VIS30", "BONES"],
+    "flags"           : ["FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "VIS30", "BONES"],
     "fear_triggers":["PLAYER_CLOSE", "SOUND"],
     "categories":["WILDLIFE"]
   },
@@ -308,7 +308,7 @@
     "death_function"  : "NORMAL",
     "special_attack"  : "NONE",
     "description"     : "A largemouth bass.",
-    "flags"           : ["FISH", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "VIS30", "BONES"],
+    "flags"           : ["FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "VIS30", "BONES"],
     "fear_triggers":["PLAYER_CLOSE", "SOUND"],
     "categories":["WILDLIFE"]
   },
@@ -340,7 +340,7 @@
     "death_function"  : "NORMAL",
     "special_attack"  : "NONE",
     "description"     : "A striped bass.",
-    "flags"           : ["FISH", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "VIS30", "BONES"],
+    "flags"           : ["FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "VIS30", "BONES"],
     "fear_triggers":["PLAYER_CLOSE", "SOUND"],
     "categories":["WILDLIFE"]
   },
@@ -372,7 +372,7 @@
     "death_function"  : "NORMAL",
     "special_attack"  : "NONE",
     "description"     : "A small spritely perch.",
-    "flags"           : ["FISH", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "VIS30", "BONES", "FAT"],
+    "flags"           : ["FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "VIS30", "BONES", "FAT"],
     "fear_triggers":["PLAYER_CLOSE", "SOUND"],
     "categories":["WILDLIFE"]
   },
@@ -403,7 +403,7 @@
     "death_function"  : "NORMAL",
     "special_attack"  : "NONE",
     "description"     : "A salmon.",
-    "flags"           : ["FISH", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "VIS30", "BONES", "FAT"],
+    "flags"           : ["FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "VIS30", "BONES", "FAT"],
     "fear_triggers":["PLAYER_CLOSE", "SOUND"],
     "categories":["WILDLIFE"]
   },
@@ -435,7 +435,7 @@
     "death_function"  : "NORMAL",
     "special_attack"  : "NONE",
     "description"     : "A sunfish.",
-    "flags"           : ["FISH", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "VIS30", "BONES"],
+    "flags"           : ["FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "VIS30", "BONES"],
     "fear_triggers":["PLAYER_CLOSE", "SOUND"],
     "categories":["WILDLIFE"]
   },
@@ -467,7 +467,7 @@
     "death_function"  : "NORMAL",
     "special_attack"  : "NONE",
     "description"     : "A whitefish.",
-    "flags"           : ["FISH", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "VIS30", "BONES"],
+    "flags"           : ["FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "VIS30", "BONES"],
     "fear_triggers":["PLAYER_CLOSE", "SOUND"],
     "categories":["WILDLIFE"]
   },
@@ -499,7 +499,7 @@
     "death_function"  : "NORMAL",
     "special_attack"  : "NONE",
     "description"     : "A pickerel.",
-    "flags"           : ["FISH", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "VIS30", "BONES"],
+    "flags"           : ["FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "VIS30", "BONES"],
     "fear_triggers":["PLAYER_CLOSE", "SOUND"],
     "categories":["WILDLIFE"]
   },
@@ -535,7 +535,7 @@
     "type" : "MONSTER",
     "id" : "mon_mutant_carp",
     "name": "Mutant Carp",
-    "species":"ZOMBIE",
+    "species":"FISH",
     "symbol":"C",
     "color":"white_magenta",
     "size":"MEDIUM",
@@ -557,13 +557,13 @@
     "death_function":"NORMAL",
     "special_attack":"BITE",
     "description":"This thing seems like a carp, only swollen and very very angry. Death is the gift of the carp god.",
-    "flags":["SEES", "HEARS", "SMELLS", "WARM", "SWIMS", "AQUATIC", "POISON", "NO_BREATHE", "VIS40", "BONES"]
+    "flags":["SEES", "HEARS", "SMELLS", "WARM", "SWIMS", "AQUATIC", "VIS40", "BONES","FAT"]
     },
   {
     "type" : "MONSTER",
     "id" : "mon_mutant_salmon",
     "name": "Mutant Salmon",
-    "species":"ZOMBIE",
+    "species":"FISH",
     "symbol":"S",
     "color":"white_magenta",
     "size":"MEDIUM",
@@ -585,6 +585,6 @@
     "death_function":"NORMAL",
     "special_attack":"BITE",
     "description":"A mutated salmon. Sized like a large dog and quite dangerous to the inexperienced survivor fisherman.",
-    "flags":["SEES", "HEARS", "SMELLS", "WARM", "SWIMS", "AQUATIC", "POISON", "NO_BREATHE", "VIS40", "BONES"]
+    "flags":["SEES", "HEARS", "SMELLS", "WARM", "SWIMS", "AQUATIC", "VIS40", "BONES","FAT"]
     }
 ]

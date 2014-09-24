@@ -1930,7 +1930,7 @@ void game::activity_on_finish_fish()
         int fishChance = dice(1, 20);
 
         if (sSkillLevel > fishChance) {
-            std::vector<monster> fishables = get_fishable(60); //get the nearby fish list.
+            std::vector<monster*> fishables = get_fishable(60); //get the nearby fish list.
             //if the vector is empty (no fish around) the player is still given a small chance to get a (let us say it was hidden) fish
             if (fishables.size() < 1){
                 if (one_in(20)) {
@@ -1958,7 +1958,7 @@ void game::activity_on_finish_fish()
         int fishChance = dice(1, 20);
 
         if (sSkillLevel > fishChance) {
-            std::vector<monster> fishables = g->get_fishable(60); //get the nearby fish list.
+            std::vector<monster*> fishables = g->get_fishable(60); //get the nearby fish list.
             if (fishables.size() < 1){
                 if (one_in(20)) {
                 item fish;
@@ -1984,16 +1984,16 @@ void game::activity_on_finish_fish()
     u.activity.type = ACT_NULL;
 }
 
-void game::catch_a_monster(std::vector<monster> &catchables, int posx, int posy, player *p, int catch_duration) // catching function
+void game::catch_a_monster(std::vector<monster*> &catchables, int posx, int posy, player *p, int catch_duration) // catching function
 {
     int index = rng(1, catchables.size()) - 1; //get a random monster from the vector
     //spawn the corpse, rotten by a part of the duration
     item fish;
-    fish.make_corpse("corpse", catchables[index].type, calendar::turn + int(rng(0, catch_duration)));
+    fish.make_corpse("corpse", catchables[index]->type, calendar::turn + int(rng(0, catch_duration)));
     m.add_item_or_charges(posx, posy, fish);
     //quietly kill the catched
-    catchables[index].no_corpse_quiet = true;
-    catchables[index].die( p );
+    catchables[index]->no_corpse_quiet = true;
+    catchables[index]->die( p );
     catchables.erase (catchables.begin()+index);
 }
 
@@ -6024,22 +6024,23 @@ bool game::is_hostile_within(int distance)
 }
 
 //get the fishable critters around and return these
-std::vector<monster> game::get_fishable(int distance)
+std::vector<monster*> game::get_fishable(int distance)
 {
-    std::vector<monster> unique_fish;
+    std::vector<monster*> unique_fish;
     for (size_t i = 0; i < num_zombies(); i++) {
         monster &critter = critter_tracker.find(i);
 
-        if (critter.has_flag(MF_FISH)) {
+        if (critter.has_flag(MF_FISHABLE)) {
             int mondist = rl_dist(u.posx, u.posy, critter.posx(), critter.posy());
             if (mondist <= distance) {
-            unique_fish.push_back (critter);
+            unique_fish.push_back (&critter);
             }
         }
     }
 
     return unique_fish;
 }
+
 // Print monster info to the given window, and return the lowest row (0-indexed)
 // to which we printed. This is used to share a window with the message log and
 // make optimal use of space.

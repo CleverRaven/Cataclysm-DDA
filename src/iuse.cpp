@@ -2780,7 +2780,7 @@ int iuse::ups_battery(player *p, item *, bool)
     return 1;
 }
 
-int iuse::fishing_rod_basic(player *p, item *it, bool)
+int iuse::fishing_rod(player *p, item *it, bool)
 {
     int dirx, diry;
 
@@ -2797,7 +2797,11 @@ int iuse::fishing_rod_basic(player *p, item *it, bool)
         p->add_msg_if_player(m_info, _("That water does not contain any fish, try a river instead."));
         return 0;
     }
-
+    it->catchables = g->get_fishable(60); //get a fish list
+    if (it->catchables.size() < 1){
+        p->add_msg_if_player(m_info, _("There is no fish around. Try another spot")); // maybe let the player find that out by himself?
+        return 0;
+    }
     p->rooted_message();
 
     p->add_msg_if_player(_("You cast your line and wait to hook something..."));
@@ -2809,11 +2813,76 @@ int iuse::fishing_rod_basic(player *p, item *it, bool)
 
 int iuse::fish_trap(player *p, item *it, bool t)
 {
-    if (t) {
+    if (!t) {
+        // Handle deploying fish trap.
+        if (it->active) {
+            it->active = false;
+            return 0;
+        }
+
+        if (it->charges < 0) {
+            it->charges = 0;
+            return 0;
+        }
+
+        if (p->is_underwater()) {
+            p->add_msg_if_player(m_info, _("You can't do that while underwater."));
+            return 0;
+        }
+
+        if (it->charges == 0) {
+            p->add_msg_if_player(_("Fishes are not silly to go in here without bait."));
+            return 0;
+        }
+
+        int dirx, diry;
+
+        if (!choose_adjacent(_("Put fish trap where?"), dirx, diry)) {
+            return 0;
+        }
+        if (!g->m.has_flag("FISHABLE", dirx, diry)) {
+            p->add_msg_if_player(m_info, _("You can't fish there!"));
+            return 0;
+        }
+        point op = overmapbuffer::ms_to_omt_copy(g->m.getabs(dirx, diry));
+        if (!otermap[overmap_buffer.ter(op.x, op.y, g->levz)].is_river) {
+            p->add_msg_if_player(m_info, _("That water does not contain any fish, try a river instead."));
+            return 0;
+        }
+        it->catchables = g->get_fishable(60);
+        if (it->catchables.size() < 1){
+            p->add_msg_if_player(m_info, _("There is no fish around. Try another spot")); // maybe let the player find that out by himself?
+            return 0;
+        }
+        it->active = true;
+        it->bday = calendar::turn;
+        g->m.add_item_or_charges(dirx, diry, *it);
+        p->i_rem(it);
+        p->add_msg_if_player(m_info, _("You place the fish trap, in three hours or so you may catch some fish."));
+
+        return 0;
+
+    } else {
         // Handle processing fish trap over time.
         if (it->charges == 0) {
             it->active = false;
             return 0;
+        }
+        //every 30mins we check for new fish that may have wandered in. if there are, we add them to the fish list
+        if (int(calendar::turn - it->bday) % 300 < 1){
+            std::vector<monster*> fishables_new = g->get_fishable(60);
+            for (size_t i = 0 ; i < fishables_new.size() ; i++){
+                bool fish_exists = false;
+                for (size_t j = 0 ; j < it->catchables.size() ; j++){
+                    if (fishables_new[i] == it->catchables[j]){
+                        fish_exists = true;
+                        break;
+                    }
+                }
+                if (!fish_exists){
+                    it->catchables.push_back (fishables_new[i]);
+                }
+            }
         }
         //after 3 hours.
         if (calendar::turn - it->bday > 1800) {
@@ -2827,8 +2896,6 @@ int iuse::fish_trap(player *p, item *it, bool t)
             if (!otermap[overmap_buffer.ter(op.x, op.y, g->levz)].is_river) {
                 return 0;
             }
-            //get the nearby fish list. TODO: add new fish to the list every 30' instead of just once
-            std::vector<monster> fishables = g->get_fishable(60); 
             int success = -50;
             const int surv = p->skillLevel("survival");
             const int attempts = rng(it->charges, it->charges * it->charges);
@@ -2864,7 +2931,7 @@ int iuse::fish_trap(player *p, item *it, bool t)
                 p->practice("survival", rng(3, 10));
                 //there will always be a small chance that the player will get lucky and
                 //a wandering fish will also get caught even if not enough fishes are present. lets say it is a 5% chance per fish to catch
-                if (fishables.size() < 1){
+                if (it->catchables.size() < 1){
                     if (one_in(20)) {
                     item fish;
                     std::vector<std::string> fish_group = MonsterGroupManager::GetMonstersFromGroup("GROUP_FISH");
@@ -2878,55 +2945,10 @@ int iuse::fish_trap(player *p, item *it, bool t)
                     break; //this can happen only once
                     }
                 } else {
-                    g->catch_a_monster(fishables, pos.x, pos.y, p, 180000);
+                    g->catch_a_monster(it->catchables, pos.x, pos.y, p, 180000);
                 }
             }
         }
-        return 0;
-    } else {
-        // Handle deploying fish trap.
-        if (it->active) {
-            it->active = false;
-            return 0;
-        }
-
-        if (it->charges < 0) {
-            it->charges = 0;
-            return 0;
-        }
-
-        if (p->is_underwater()) {
-            p->add_msg_if_player(m_info, _("You can't do that while underwater."));
-            return 0;
-        }
-
-        if (it->charges == 0) {
-            p->add_msg_if_player(_("Fish is not so silly to go in here without bait."));
-            return 0;
-        }
-
-        int dirx, diry;
-
-        if (!choose_adjacent(_("Put fish trap where?"), dirx, diry)) {
-            return 0;
-        }
-        if (!g->m.has_flag("FISHABLE", dirx, diry)) {
-            p->add_msg_if_player(m_info, _("You can't fish there!"));
-            return 0;
-        }
-        point op = overmapbuffer::ms_to_omt_copy(g->m.getabs(dirx, diry));
-        if (!otermap[overmap_buffer.ter(op.x, op.y, g->levz)].is_river) {
-            p->add_msg_if_player(m_info, _("That water does not contain any fish, try a river instead."));
-            return 0;
-        }
-
-        it->active = true;
-        it->bday = calendar::turn;
-        g->m.add_item_or_charges(dirx, diry, *it);
-        p->i_rem(it);
-
-        p->add_msg_if_player(m_info, _("You place the fish trap, in three hours or so you may have some fish."));
-
         return 0;
     }
 }

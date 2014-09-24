@@ -236,8 +236,8 @@ class game
 
         void teleport(player *p = NULL, bool add_teleglow = true);
         void plswim(int x, int y); // Called by plmove.  Handles swimming
-        void catch_a_monster(std::vector<monster> &catchables, int posx, int posy, player *p, int catch_duration = 0); //catch monsters
-        std::vector<monster> get_fishable(int distance); //gets the lish of fishable critters
+        void catch_a_monster(std::vector<monster*> &catchables, int posx, int posy, player *p, int catch_duration = 0); //catch monsters
+        std::vector<monster*> get_fishable(int distance); //gets the lish of fishable critters
         // when player is thrown (by impact or something)
         void fling_creature(Creature *c, const int &dir, float flvel,
                             bool controlled = false);

@@ -279,7 +279,7 @@ void MonsterGenerator::init_flags()
     flag_map["FLIES"] = MF_FLIES;
     flag_map["AQUATIC"] = MF_AQUATIC;
     flag_map["SWIMS"] = MF_SWIMS;
-    flag_map["FISH"] = MF_FISH;
+    flag_map["FISHABLE"] = MF_FISHABLE;
     flag_map["ATTACKMON"] = MF_ATTACKMON;
     flag_map["ANIMAL"] = MF_ANIMAL;
     flag_map["PLASTIC"] = MF_PLASTIC;
