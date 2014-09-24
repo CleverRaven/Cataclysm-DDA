@@ -3563,7 +3563,27 @@
             {"item": "steel_chunk", "min": 3, "max": 5},
             {"item": "scrap", "min": 3, "max": 5}
         ]
-    }
+    },{
+"type" : "vehicle_part",
+"id" : "water_cannon",
+"name" : "deluge gun",
+"symbol" : "J",
+"color" : "dark_blue",
+"broken_symbol" : ";",
+"broken_color" : "gray",
+"damage_modifier" : 80,
+"durability" : 500,
+"fuel_type" : "water",
+"item" : "water_cannon",
+"size" : 40,
+"difficulty" : 9,
+"location" : "on_roof",
+"flags" : ["TURRET"],
+"breaks_into" : [
+{"item": "water_cannon", "min": 0, "max": 1}
+]
+}
+
 
 
 ]
