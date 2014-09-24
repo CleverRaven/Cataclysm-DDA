@@ -1798,7 +1798,7 @@ void iexamine::shrub_marloss(player *p, map *m, int examx, int examy)
 {
     if (p->has_trait("THRESH_MYCUS")) {
         pick_plant(p, m, examx, examy, "mycus_fruit", t_shrub_fungal);
-    } else if (p->has_trait("THRESH_MYCUS")) {
+    } else if (p->has_trait("THRESH_MARLOSS")) {
         m->spawn_item( examx, examy, "mycus_fruit" );
         g->m.ter_set(p->posx, p->posy, t_fungus);
         add_msg( m_info, _("The shrub offers up a fruit, then crumbles into a fungal bed."));
