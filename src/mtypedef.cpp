@@ -83,6 +83,16 @@ bool mtype::in_species(std::string spec) const
     return (species.find(spec) != species.end());
 }
 
+bool mtype::same_species( const mtype &other ) const
+{
+    for( auto &s : species ) {
+        if( other.in_species( s ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 field_id mtype::bloodType() const
 {
     if (has_flag(MF_ACID_BLOOD))

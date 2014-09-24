@@ -146,7 +146,7 @@ struct mtype {
         std::bitset<MF_MAX> bitflags;
         std::bitset<N_MONSTER_TRIGGERS> bitanger, bitfear, bitplacate;
 
-        int difficulty; // Used all over; 30 min + (diff-3)*30 min = earlist appearance
+        int difficulty; // Used all over; 30 min + (diff-3)*30 min = earliest appearance
         int agro;       // How likely to attack; -100 to 100
         int morale;     // Default morale level
 
@@ -171,6 +171,12 @@ struct mtype {
         void (mdefense::*sp_defense)(monster *, const projectile *);
         // Default constructor
         mtype ();
+        /**
+         * Check if this type is of the same species as the other one, because
+         * species is a set and can contain several species, one entry that is
+         * in both monster types fulfills that test.
+         */
+        bool same_species( const mtype &other ) const;
 
         // Used to fetch the properly pluralized monster type name
         std::string nname(unsigned int quantity = 1) const;
