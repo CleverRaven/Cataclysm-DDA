@@ -684,7 +684,9 @@
       [ "gunpowder", 72 ],
       [ "shot_bird", 6 ],
       [ "shot_00", 3 ],
-      [ "shot_slug", 2 ]
+      [ "shot_slug", 2 ],
+      [ "chem_black_powder", 100 ],
+      [ "chem_anfo", 50 ]
     ],
     [
       [ "string_36", 1 ],
@@ -1211,7 +1213,9 @@
       [ "shot_00", 3 ],
       [ "shot_slug", 2 ],
       [ "gasoline", 200 ],
-      [ "gunpowder", 72 ]
+      [ "gunpowder", 72 ],
+      [ "chem_black_powder", 100 ],
+      [ "chem_anfo", 50 ]
     ]
   ]
 },{
