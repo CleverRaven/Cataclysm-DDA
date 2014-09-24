@@ -1262,7 +1262,7 @@ void mutation_loss_effect(player &p, std::string mut)
     } else if (mut == "DEX_UP") {
         p.dex_max --;
 
-    } else if (mut == "BENDY01") {
+    } else if (mut == "BENDY1") {
         p.dex_max --;
 
     } else if (mut == "BENDY2") {
