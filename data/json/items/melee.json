@@ -434,7 +434,7 @@
         "volume": 2,
         "bashing": 12,
         "cutting": 0,
-        "to_hit": -4
+        "to_hit": -4,
 		"qualities": [["HAMMER", 1]]
     },
     {
