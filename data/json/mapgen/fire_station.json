@@ -118,7 +118,7 @@
             { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": 23, "repeat": [ 5, 8 ] }
             ],
             "place_groups": [
-            { "vehicle": "fire_engine", "x": 12, "y": 13, "rotation": 270, "chance": 30 }
+            { "vehicle": "fire_engine", "x": 15, "y": 13, "rotation": 270, "chance": 30 },
             { "monster": "GROUP_FIRE", "x": [ 2, 21 ], "y": [ 9, 21 ], "chance": 1},
             { "item": "fireman_doc", "chance": 70, "x": [ 1,1 ], "y": [ 2,2 ] },
             { "item": "fireman_gear", "chance": 70, "x": [ 1,1 ], "y": [ 5,5 ] },
