@@ -315,40 +315,6 @@
         }
     },{
         "type" : "terrain",
-        "id" : "t_wall_sandbag_half",
-        "name": "half-built wall",
-        "symbol": "#",
-        "color": "brown",
-        "move_cost": 4,
-        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "NOITEM", "REDUCE_SCENT", "MOUNTABLE"],
-        "bash": {
-            "str_min": 40, "str_max": 120,
-            "sound": "crash!",
-            "sound_fail": "whump!",
-            "ter_set": "t_dirt",
-            "items": [
-                { "item": "splinter", "amount": 20, "minamount": 10 }
-            ]
-        }
-    },{
-        "type" : "terrain",
-        "id" : "t_wall_sandbag",
-        "name": "log wall",
-        "symbol": "#",
-        "color": "brown",
-        "move_cost": 0,
-        "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"],
-        "bash": {
-            "str_min": 60, "str_max": 180,
-            "sound": "crunch!",
-            "sound_fail": "whump!",
-            "ter_set": "t_wall_log_chipped",
-            "items": [
-                { "item": "splinter", "amount": 10, "minamount": 5 }
-            ]
-        }
-    },{
-        "type" : "terrain",
         "id" : "t_palisade",
         "name": "palisade wall",
         "symbol": "#",
