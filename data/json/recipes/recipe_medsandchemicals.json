@@ -2405,31 +2405,6 @@
   ]
 },{
 "type" : "recipe",
-"result": "chem_black_powder",
-"category": "CC_CHEM",
-"subcategory": "CSC_CHEM_CHEMICALS",
-"skill_used": "cooking",
-"difficulty": 4,
-"time": 20000,
-"reversible": false,
-"autolearn": true,
-"qualities" : 
-[
-{"id":"BOIL","level":1,"amount":1}
-],
-"components": [
-[
-[ "chem_kno3", 75 ]
-],
-[
-[ "chem_sulphur", 10 ]
-] ,
-[
-[ "charcoal", 15 ]
-]
-]
-},{
-"type" : "recipe",
 "result": "chem_anfo",
 "category": "CC_CHEM",
 "subcategory": "CSC_CHEM_CHEMICALS",
@@ -2444,10 +2419,13 @@
 ],
 "components": [
 [
-[ "chem_nh4no3", 90 ]
+[ "ammonia", 30 ]
 ],
 [
-[ "gasoline", 500 ]
+[ "gasoline", 1000 ]
+],
+[
+[ "acid", 30 ]
 ]
 ]
 }
