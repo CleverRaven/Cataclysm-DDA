@@ -132,8 +132,7 @@
             "items": [
                 { "item": "bag_canvas", "amount": 4, "minamount": 1},
                 { "item": "material_sand", "amount": 40, "minamount": 10}
-            ],
-            "furn_set": "f_sandbag_half"
+            ]
         }
         }
     },{
