@@ -164,7 +164,7 @@
         "symbol": "&",
         "color": "white",
         "move_cost_mod": 2,
-        "required_str": 18,
+        "required_str": -1,
         "flags": ["TRANSPARENT", "FLAMMABLE_HARD", "MOUNTABLE"],
         "examine_action": "toilet",
         "bash": {
@@ -211,7 +211,7 @@
         "symbol": "&",
         "color": "white",
         "move_cost_mod": 2,
-        "required_str": 18,
+        "required_str": -1,
         "flags": ["TRANSPARENT", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "MOUNTABLE"],
         "bash": {
             "str_min": 8, "str_max": 30,
@@ -298,7 +298,7 @@
         "symbol": "~",
         "color": "white",
         "move_cost_mod": 0,
-        "required_str": 10,
+        "required_str": -1,
         "flags": ["TRANSPARENT", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR"],
         "bash": {
             "str_min": 6, "str_max": 30,
@@ -317,7 +317,7 @@
         "symbol": "~",
         "color": "white",
         "move_cost_mod": 2,
-        "required_str": 10,
+        "required_str": -1,
         "flags": ["TRANSPARENT", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE"],
         "bash": {
             "str_min": 12, "str_max": 50,
@@ -514,7 +514,7 @@
         "symbol": "T",
         "color": "dkgray",
         "move_cost_mod": 1,
-        "required_str": 8,
+        "required_str": -1,
         "flags": ["TRANSPARENT"],
         "bash": {
             "str_min": 18, "str_max": 60,
@@ -559,7 +559,7 @@
         "symbol": "#",
         "color": "brown",
         "move_cost_mod": 1,
-        "required_str": 8,
+        "required_str": -1,
         "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT"],
         "bash": {
             "str_min": 6, "str_max": 30,
