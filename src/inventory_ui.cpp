@@ -811,7 +811,7 @@ int game::inv_for_liquid(const item &liquid, const std::string title, bool auto_
     indexed_invslice reduced_inv = u.inv.slice_filter_by_capacity_for_liquid(liquid);
     if (auto_choose_single && reduced_inv.size() == 1) {
         std::list<item> *cont_stack = reduced_inv[0].first;
-        if (cont_stack->size() > 0) {
+        if (! cont_stack->empty() ) {
             return reduced_inv[0].second;
         }
     }
@@ -904,7 +904,7 @@ int game::inv_for_flag(const std::string flag, const std::string title, bool aut
     indexed_invslice reduced_inv = u.inv.slice_filter_by_flag(flag);
     if (auto_choose_single && reduced_inv.size() == 1) {
         std::list<item> *cont_stack = reduced_inv[0].first;
-        if (cont_stack->size() > 0) {
+        if (! cont_stack->empty() ) {
             return reduced_inv[0].second;
         }
     }

@@ -76,7 +76,8 @@
             ["soldering_iron", 65],
             ["solder_wire", 50],
             ["superglue", 55],
-            ["screwdriver", 60]
+            ["screwdriver", 60],
+            ["motor_small", 30]
         ]
     },{
         "type"  : "item_group",

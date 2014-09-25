@@ -132,7 +132,7 @@ void game::init_fields()
 
         { // Fire Vents
             "fd_fire_vent",
-            {"", "", ""}, '&', 0,
+            {"", "", ""}, '&', -1,
             {c_white, c_white, c_white}, {true, true, true}, {false, false, false}, 0,
             {0,0,0}
         },
@@ -160,21 +160,21 @@ void game::init_fields()
 
         { //Push Items
             "fd_push_items",
-            {"", "", ""}, '&', 0,
+            {"", "", ""}, '&', -1,
             {c_white, c_white, c_white}, {true, true, true}, {false, false, false}, 0,
             {0,0,0}
         },
 
         { // shock vents
             "fd_shock_vent",
-            {"", "", ""}, '&', 0,
+            {"", "", ""}, '&', -1,
             {c_white, c_white, c_white}, {true, true, true}, {false, false, false}, 0,
             {0,0,0}
         },
 
         { // acid vents
             "fd_acid_vent",
-            {"", "", ""}, '&', 0,
+            {"", "", ""}, '&', -1,
             {c_white, c_white, c_white}, {true, true, true}, {false, false, false}, 0,
             {0,0,0}
         },
@@ -289,28 +289,28 @@ void game::init_fields()
 
         {
             "fd_hot_air1",
-            {"","",""}, '&', 0,
+            {"", "", ""}, '&', -1,
             {c_white, c_yellow, c_red}, {true, true, true}, {false, false, false}, 500,
             {0,0,0}
         },
 
         {
             "fd_hot_air2",
-            {"","",""}, '&', 0,
+            {"", "", ""}, '&', -1,
             {c_white, c_yellow, c_red}, {true, true, true}, {false, false, false}, 500,
             {0,0,0}
         },
 
         {
             "fd_hot_air3",
-            {"","",""}, '&', 0,
+            {"", "", ""}, '&', -1,
             {c_white, c_yellow, c_red}, {true, true, true}, {false, false, false}, 500,
             {0,0,0}
         },
 
         {
             "fd_hot_air4",
-            {"","",""}, '&', 0,
+            {"", "", ""}, '&', -1,
             {c_white, c_yellow, c_red}, {true, true, true}, {false, false, false}, 500,
             {0,0,0}
         }

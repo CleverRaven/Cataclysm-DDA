@@ -2236,7 +2236,8 @@
       [ "press", -1 ]
     ],
     [
-      [ "boltcutters", -1 ]
+      [ "boltcutters", -1 ],
+	  [ "toolset", -1 ]
     ],
     [
       [ "fire", -1 ],
@@ -2489,7 +2490,8 @@
       [ "toolset", 50 ]
     ],
     [
-      [ "boltcutters", -1 ]
+      [ "boltcutters", -1 ],
+	  [ "toolset", -1 ]
     ],
     [
       [ "press", -1 ]
@@ -3174,7 +3176,8 @@
       [ "press", -1 ]
     ],
     [
-      [ "boltcutters", -1 ]
+      [ "boltcutters", -1 ],
+	  [ "toolset", -1]
     ],
     [
       [ "fire", -1 ],
@@ -3514,5 +3517,77 @@
         [ "spaghetti_raw", 1 ]
       ]
     ]
+  },
+{
+  "type" : "recipe",
+  "result": "reloaded_700nx",
+  "category": "CC_AMMO",
+  "subcategory": "CSC_AMMO_BULLETS",
+  "skill_used": "fabrication",
+  "skills_required": [ "gun", 7 ],
+  "difficulty": 9,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 7 ]],
+  "tools": [
+    [
+      [ "press", -1 ]
+    ],
+    [
+      [ "fire", -1 ],
+      [ "toolset", 2 ],
+      [ "press", 2 ]
+        ]
+  ],
+  "components": [
+    [
+      [ "700nx_casing", 30 ]
+    ],
+    [
+      [ "lgrifle_primer", 30 ]
+    ],
+    [
+      [ "gunpowder", 1150 ]
+    ],
+    [
+      [ "lead", 420 ],
+      [ "gold_small", 420 ],
+      [ "silver_small", 420 ],
+      [ "tin", 420 ],
+      [ "bismuth", 420 ],
+      [ "solder_wire", 420 ]
+    ],
+    [
+      [ "cu_pipe", 4 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "combatnail",
+  "category": "CC_AMMO",
+  "subcategory": "CSC_AMMO_OTHER",
+  "skill_used": "fabrication",
+  "skills_required": [ "gun", 1 ],
+  "difficulty": 2,
+  "time": 180000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":3,"amount":1}
+  ], "tools": [
+    [ ["tongs", -1]  ],
+    [ ["chisel", -1] ],
+    [ ["swage", -1]  ],
+    [ ["anvil", -1]  ],
+    [ ["forge", 50], [ "char_forge", 10], [ "oxy_torch", 10] ]
+           ],
+  "components": [
+    [
+      [ "steel_chunk", 1 ],
+      [ "scrap", 3 ]
+    ]
+	]
   }
 ]

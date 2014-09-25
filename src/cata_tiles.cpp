@@ -622,7 +622,27 @@ bool cata_tiles::draw_from_id_string(const std::string &id, TILE_CATEGORY catego
         return false;
     }
 
-    tile_id_iterator it = tile_ids.find(id);
+    std::string seasonal_id;
+    switch (calendar::turn.get_season()) {
+    case SPRING:
+        seasonal_id = id + "_season_spring";
+        break;
+    case SUMMER:
+        seasonal_id = id + "_season_summer";
+        break;
+    case AUTUMN:
+        seasonal_id = id + "_season_autumn";
+        break;
+    case WINTER:
+        seasonal_id = id + "_season_winter";
+        break;
+    }
+    tile_id_iterator it = tile_ids.find(seasonal_id);
+    if (it != tile_ids.end()) {
+        return draw_from_id_string(seasonal_id, category, subcategory, x, y, subtile, rota);
+    }
+
+    it = tile_ids.find(id);
 
     if (it == tile_ids.end()) {
         long sym = -1;
@@ -906,7 +926,7 @@ bool cata_tiles::draw_furniture(int x, int y)
 
     int f_id = g->m.furn(x, y);
 
-    // for rotation inforomation
+    // for rotation information
     const int neighborhood[4] = {
         static_cast<int> (g->m.furn(x, y + 1)), // south
         static_cast<int> (g->m.furn(x + 1, y)), // east

@@ -1,6 +1,7 @@
 #ifndef _IUSE_H_
 #define _IUSE_H_
 
+#include "monstergenerator.h"
 #include <map>
 #include <string>
 #include <vector>
@@ -73,7 +74,7 @@ public:
 // TOOLS
     int lighter             (player *, item *, bool);
     int primitive_fire      (player *, item *, bool);
-	int ref_lit             (player *, item *, bool);
+    int ref_lit             (player *, item *, bool);
     int sew                 (player *, item *, bool);
     int extra_battery       (player *, item *, bool);
     int rechargeable_battery(player *, item *, bool);
@@ -202,7 +203,7 @@ public:
     int oxygen_bottle       (player *, item *, bool);
     int atomic_battery      (player *, item *, bool);
     int ups_battery         (player *, item *, bool);
-    int fishing_rod_basic   (player *, item *, bool);
+    int fishing_rod         (player *, item *, bool);
     int fish_trap           (player *, item *, bool);
     int gun_repair          (player *, item *, bool);
     int misc_repair         (player *, item *, bool);
@@ -215,6 +216,7 @@ public:
     int einktabletpc        (player *, item *, bool);
     int camera              (player *, item *, bool);
     int ehandcuffs          (player *, item *, bool);
+
 // MACGUFFINS
     int mcg_note            (player *, item *, bool);
 
@@ -223,7 +225,6 @@ public:
     int radiocontrol(player *, item *, bool);
 
     int multicooker(player *, item *, bool);
-
 
 // ARTIFACTS
     /* This function is used when an artifact is activated.

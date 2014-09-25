@@ -1223,7 +1223,7 @@ void npc::move_away_from(int x, int y)
     }
     if (y < posy) {
         dy = 1;
-    } else if (y < posy) {
+    } else if (y > posy) {
         dy = -1;
     }
 

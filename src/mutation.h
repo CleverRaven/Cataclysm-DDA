@@ -38,7 +38,7 @@ struct mutation_branch {
     std::vector<std::string> cancels; // Mutations that conflict with this one
     std::vector<std::string> replacements; // Mutations that replace this one
     std::vector<std::string> additions; // Mutations that add to this one
-    std::vector<std::string> category; // Mutation Categorys
+    std::vector<std::string> category; // Mutation Categories
     std::map<std::string, mutation_wet> protection; // Mutation wet effects
 
     mutation_branch()

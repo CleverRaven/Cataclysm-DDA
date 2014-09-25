@@ -34,7 +34,7 @@
       ["blade", 2]
      ],
      [
-      ["motor", 1]
+      ["motor_small", 1]
      ],
      [
       ["power_supply", 1]
@@ -81,16 +81,19 @@
       ["chain", 1]
     ],
     [
-      ["motor", 1]
+      ["motor_small", 1]
     ],
     [
-      ["power_supply", 1]
+      ["metal_tank_little", 1]
     ],
     [
-      [ "scrap", 1 ]
+      [ "scrap", 2 ]
     ],
     [
-      [ "cable", 5 ]
+      [ "cable", 4 ]
+    ],
+    [
+      [ "1cyl_combustion_small", 1 ]
     ]
   ]
 },{
@@ -127,7 +130,7 @@
       ["circsaw_blade", 1]
     ],
     [
-      ["motor", 1]
+      ["motor_small", 1]
     ],
     [
       ["power_supply", 1]
@@ -241,6 +244,28 @@
     ],
     [
       [ "cable", 20 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "element",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_COMPONENTS",
+  "skill_used": "electronics",
+  "difficulty": 1,
+  "time": 7000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "manual_electronics", 1 ] , [ "textbook_electronics", 1 ] , [ "advanced_electronics", 1 ]],
+  "tools": [
+    [
+      [ "soldering_iron", 5 ],
+      [ "toolset", 5 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "cable", 40 ]
     ]
   ]
 },{
@@ -748,16 +773,13 @@
   "qualities" : [
     {"id":"SCREW","level":1,"amount":1},
     {"id":"HAMMER","level":3,"amount":1}
-  ], 
+  ],
   "tools": [
-	[ ["tongs", -1] ],
-	[ ["anvil", -1] ],
-	[ ["forge", 50], ["char_forge", 10] ],
-    [
-      [ "soldering_iron", 10 ],
-      [ "toolset", 10 ]
-    ]
-  ], 
+    [ ["tongs", -1] ],
+    [ ["anvil", -1] ],
+    [ ["forge", 50], ["char_forge", 10] ],
+    [ [ "soldering_iron", 10 ], [ "toolset", 10 ] ]
+  ],
   "components": [
     [
       [ "element", 3 ]
@@ -2372,7 +2394,7 @@
       ],
       [
         [ "antenna", 1]
-      ]  
+      ]
     ]
   },{
   "type" : "recipe",
@@ -2529,6 +2551,50 @@
     [
       [ "cable", 5 ]
     ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "motor_small",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_PARTS",
+  "skill_used": "electronics",
+  "skills_required": [ "fabrication", 1 ],
+  "difficulty": 3,
+  "time": 20000,
+  "reversible": true,
+  "decomp_learn": 2,
+  "autolearn": false,
+  "book_learn": [[ "manual_electronics", 2 ] , [ "mag_electronics", 2 ] , [ "manual_mechanics", 2]],
+  "qualities" : [
+    {"id":"HAMMER","level":1,"amount":1},
+    {"id":"SCREW","level":1,"amount":1}
+  ],
+  "tools": [ [ [ "soldering_iron", 5 ], [ "toolset", 5 ] ] ],
+  "components": [
+    [ [ "steel_chunk", 2 ] ],
+    [ [ "scrap", 2 ] ],
+    [ [ "cable", 6 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "cable",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_COMPONENTS",
+  "skill_used": "fabrication",
+  "skills_required" : [ "electronics", 2 ],
+  "difficulty": 5,
+  "time": 40000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"SAW_M","level":1,"amount":1},
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"HAMMER","level":2,"amount":1}
+  ],
+  "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
+  "components": [
+    [ [ "wire", 20 ], [ "wire_barbed", 20 ] ],
+    [ [ "duct_tape", 300 ] ]
   ]
 }
 ]

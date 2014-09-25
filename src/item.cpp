@@ -3726,7 +3726,8 @@ bool item::process_wet( player * /*carrier*/, point /*pos*/ )
         }
         active = false;
     }
-    return false;
+    // Always return true so our caller will bail out instead of processing us as a tool.
+    return true;
 }
 
 bool item::process_tool( player *carrier, point /*pos*/ )
@@ -3760,8 +3761,9 @@ bool item::process_tool( player *carrier, point /*pos*/ )
         // TODO: iuse functions should expect a nullptr as player, but many of them
         // don't and therefore will fail.
         tmp->invoke( carrier != nullptr ? carrier : &g->u, this, true );
-        if( charges == -1 || (charges == 0 && tmp->revert_to == "null") ) {
-            return true; // reverts to nothing -> destroy the item
+        if( charges == -1 ) {
+            // Signal that the item has destroyed itself.
+            return true;
         }
     } else {
         if( carrier != nullptr && has_flag( "USE_UPS" ) && charges < charges_used ) {
@@ -3860,7 +3862,8 @@ bool item::process( player *carrier, point pos )
         return true;
     }
     if( has_flag( "WET" ) && process_wet( carrier, pos ) ) {
-        return true;
+        // Drying items are never destroyed, but we want to exit so they don't get processed as tools.
+        return false;
     }
     if( has_flag( "LITCIG" ) && process_litcig( carrier, pos ) ) {
         return true;

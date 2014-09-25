@@ -17,6 +17,7 @@
 #include "overmapbuffer.h"
 #include "json.h"
 #include "messages.h"
+#include <vector>
 #include <sstream>
 #include <algorithm>
 
@@ -564,7 +565,7 @@ int iuse::bandage(player *p, item *it, bool)
         return false;
     }
     if (num_hp_parts != use_healing_item(p, it, 3, 1, 4, 90, 0, 0, false)) {
-        if (it->type->id != "quikclot" || "bfipowder") {
+        if (it->type->id != "quikclot" || it->type->id != "bfipowder") {
             // Make bandages and rags take arbitrarily longer than hemostatic/antiseptic powders.
             p->moves -= 100;
         }
@@ -926,11 +927,9 @@ int iuse::smoking(player *p, item *it, bool)
 
     // make sure we're not already smoking something
     std::vector<item *> active_items = p->inv.active_items();
-    for (std::vector<item *>::iterator iter = active_items.begin(); iter != active_items.end();
-         iter++) {
-        item *i = *iter;
-        if (i->has_flag("LITCIG")) {
-            p->add_msg_if_player(m_info, _("You're already smoking a %s!"), i->tname().c_str());
+    for (auto iter : active_items) {
+        if (iter->has_flag("LITCIG")) {
+            p->add_msg_if_player(m_info, _("You're already smoking a %s!"), iter->tname().c_str());
             return 0;
         }
     }
@@ -2779,7 +2778,7 @@ int iuse::ups_battery(player *p, item *, bool)
     return 1;
 }
 
-int iuse::fishing_rod_basic(player *p, item *it, bool)
+int iuse::fishing_rod(player *p, item *it, bool)
 {
     int dirx, diry;
 
@@ -2796,7 +2795,11 @@ int iuse::fishing_rod_basic(player *p, item *it, bool)
         p->add_msg_if_player(m_info, _("That water does not contain any fish, try a river instead."));
         return 0;
     }
-
+    std::vector<monster*> fishables = g->get_fishable(60);
+    if ( fishables.size() < 1){
+        p->add_msg_if_player(m_info, _("There is no fish around. Try another spot.")); // maybe let the player find that out by himself?
+        return 0;
+    }
     p->rooted_message();
 
     p->add_msg_if_player(_("You cast your line and wait to hook something..."));
@@ -2808,19 +2811,66 @@ int iuse::fishing_rod_basic(player *p, item *it, bool)
 
 int iuse::fish_trap(player *p, item *it, bool t)
 {
-    if (t) {
+    if (!t) {
+        // Handle deploying fish trap.
+        if (it->active) {
+            it->active = false;
+            return 0;
+        }
+
+        if (it->charges < 0) {
+            it->charges = 0;
+            return 0;
+        }
+
+        if (p->is_underwater()) {
+            p->add_msg_if_player(m_info, _("You can't do that while underwater."));
+            return 0;
+        }
+
+        if (it->charges == 0) {
+            p->add_msg_if_player(_("Fishes are not silly to go in here without bait."));
+            return 0;
+        }
+
+        int dirx, diry;
+
+        if (!choose_adjacent(_("Put fish trap where?"), dirx, diry)) {
+            return 0;
+        }
+        if (!g->m.has_flag("FISHABLE", dirx, diry)) {
+            p->add_msg_if_player(m_info, _("You can't fish there!"));
+            return 0;
+        }
+        point op = overmapbuffer::ms_to_omt_copy(g->m.getabs(dirx, diry));
+        if (!otermap[overmap_buffer.ter(op.x, op.y, g->levz)].is_river) {
+            p->add_msg_if_player(m_info, _("That water does not contain any fish, try a river instead."));
+            return 0;
+        }
+        std::vector<monster*> fishables = g->get_fishable(60);
+        if ( fishables.size() < 1){
+            p->add_msg_if_player(m_info, _("There is no fish around. Try another spot.")); // maybe let the player find that out by himself?
+            return 0;
+        }
+        it->active = true;
+        it->bday = calendar::turn;
+        g->m.add_item_or_charges(dirx, diry, *it);
+        p->i_rem(it);
+        p->add_msg_if_player(m_info, _("You place the fish trap, in three hours or so you may catch some fish."));
+
+        return 0;
+
+    } else {
         // Handle processing fish trap over time.
         if (it->charges == 0) {
             it->active = false;
             return 0;
         }
-
-        //after 30 min.
-        if (calendar::turn - it->bday > 300) {
+        //after 3 hours.
+        if (calendar::turn - it->bday > 1800) {
             it->active = false;
 
             point pos = g->find_item(it);
-
             if (!g->m.has_flag("FISHABLE", pos.x, pos.y)) {
                 return 0;
             }
@@ -2828,7 +2878,6 @@ int iuse::fish_trap(player *p, item *it, bool t)
             if (!otermap[overmap_buffer.ter(op.x, op.y, g->levz)].is_river) {
                 return 0;
             }
-
             int success = -50;
             const int surv = p->skillLevel("survival");
             const int attempts = rng(it->charges, it->charges * it->charges);
@@ -2859,66 +2908,30 @@ int iuse::fish_trap(player *p, item *it, bool t)
 
                 return 0;
             }
-
+            std::vector<monster*> fishables = g->get_fishable(60); //get the fishables around the trap's spot
             for (int i = 0; i < fishes; i++) {
                 p->practice("survival", rng(3, 10));
-
-                item fish;
-                std::vector<std::string> fish_group = MonsterGroupManager::GetMonstersFromGroup("GROUP_FISH");
-                std::string fish_mon = fish_group[rng(1, fish_group.size()) - 1];
-                fish.make_corpse("corpse", GetMType(fish_mon), it->bday + 300);
-                //Yes, we can put fishes in the trap like knives in the boot,
-                //and then get fishes via activation of the item,
-                //but it's not as comfortable as if you just put fishes in the same tile with the trap.
-                //Also: corpses and comestibles not rot in containers like this, but on the ground will rot.
-                g->m.add_item_or_charges(pos.x, pos.y, fish);
+                if (fishables.size() > 1){
+                    g->catch_a_monster(fishables, pos.x, pos.y, p, 180000); //catch the fish! 180000 is the time spent fishing.
+                } else {
+                    //there will always be a chance that the player will get lucky and catch a fish
+                    //not existing in the fishables vector. (maybe it was in range, but wandered off)
+                    //lets say it is a 5% chance per fish to catch
+                    if (one_in(20)) {
+                        item fish;
+                        std::vector<std::string> fish_group = MonsterGroupManager::GetMonstersFromGroup("GROUP_FISH");
+                        std::string fish_mon = fish_group[rng(1, fish_group.size()) - 1];
+                        fish.make_corpse("corpse", GetMType(fish_mon), it->bday + rng(0, 1800)); //we don't know when it was caught. its random
+                        //Yes, we can put fishes in the trap like knives in the boot,
+                        //and then get fishes via activation of the item,
+                        //but it's not as comfortable as if you just put fishes in the same tile with the trap.
+                        //Also: corpses and comestibles do not rot in containers like this, but on the ground they will rot.
+                        g->m.add_item_or_charges(pos.x, pos.y, fish);
+                        break; //this can happen only once
+                    }
+                }
             }
         }
-        return 0;
-    } else {
-        // Handle deploying fish trap.
-        if (it->active) {
-            it->active = false;
-            return 0;
-        }
-
-        if (it->charges < 0) {
-            it->charges = 0;
-            return 0;
-        }
-
-        if (p->is_underwater()) {
-            p->add_msg_if_player(m_info, _("You can't do that while underwater."));
-            return 0;
-        }
-
-        if (it->charges == 0) {
-            p->add_msg_if_player(_("Fish is not so silly to go in here without bait."));
-            return 0;
-        }
-
-        int dirx, diry;
-
-        if (!choose_adjacent(_("Put fish trap where?"), dirx, diry)) {
-            return 0;
-        }
-        if (!g->m.has_flag("FISHABLE", dirx, diry)) {
-            p->add_msg_if_player(m_info, _("You can't fish there!"));
-            return 0;
-        }
-        point op = overmapbuffer::ms_to_omt_copy(g->m.getabs(dirx, diry));
-        if (!otermap[overmap_buffer.ter(op.x, op.y, g->levz)].is_river) {
-            p->add_msg_if_player(m_info, _("That water does not contain any fish, try a river instead."));
-            return 0;
-        }
-
-        it->active = true;
-        it->bday = calendar::turn;
-        g->m.add_item_or_charges(dirx, diry, *it);
-        p->i_rem(it);
-
-        p->add_msg_if_player(m_info, _("You place the fish trap, in a half hour or so you might have some fish."));
-
         return 0;
     }
 }
@@ -3675,7 +3688,7 @@ int iuse::noise_emitter_on(player *p, item *it, bool t)
         //~ the sound of a noise emitter when turned on
         g->ambient_sound(pos.x, pos.y, 30, _("KXSHHHHRRCRKLKKK!"));
     } else { // Turning it off
-        p->add_msg_if_player(_("The infernal racket dies as you turn off the noise emitter."));
+        p->add_msg_if_player(_("The infernal racket dies as the noise emitter turns off."));
         it->make("noise_emitter");
         it->active = false;
     }
@@ -3855,16 +3868,12 @@ int iuse::touristmap(player *p, item *it, bool t)
 
 int iuse::ma_manual(player *p, item *it, bool)
 {
-    std::string style_to_learn = "style_" + it->type->id.substr(
-                                     7); // strip "manual_" from the start of the item id, add the rest to "style_"
+    // strip "manual_" from the start of the item id, add the rest to "style_"
+    std::string style_to_learn = "style_" + it->type->id.substr(7);
 
-    for (std::vector<matype_id>::iterator style = p->ma_styles.begin(); style != p->ma_styles.end();
-         style++) {
-        if (style_to_learn == *style) {
-            p->add_msg_if_player(m_info, _("You already know all this book has to teach."));
-
-            return 0;
-        }
+    if (p->has_martialart(style_to_learn)) {
+        p->add_msg_if_player(m_info, _("You already know all this book has to teach."));
+        return 0;
     }
 
     p->ma_styles.push_back(style_to_learn);
@@ -3895,7 +3904,7 @@ int iuse::picklock(player *p, item *it, bool)
     int pick_quality = 1;
     if (it->typeId() == "picklocks") {
         pick_quality = 5;
-    } else if (it->typeId() == "crude_picklock" || "hairpin") {
+    } else if (it->typeId() == "crude_picklock" || it->typeId() == "hairpin") {
         pick_quality = 3;
     }
 
@@ -5271,7 +5280,6 @@ int iuse::granade(player *p, item *it, bool)
 
 int iuse::granade_act(player *, item *it, bool t)
 {
-    int explosion_radius = 3;
     point pos = g->find_item(it);
     if (pos.x == -999 || pos.y == -999) {
         return 0;
@@ -5283,6 +5291,7 @@ int iuse::granade_act(player *, item *it, bool t)
                 it->tname().c_str());
         return 0;
     } else { // When that timer runs down...
+        int explosion_radius = 3;
         int effect_roll = rng(1, 5);
         switch (effect_roll) {
             case 1:
@@ -5422,7 +5431,7 @@ int iuse::acidbomb_act(player *p, item *it, bool)
         if (pos.x == -999) {
             pos = point(p->posx, p->posy);
         }
-        it->charges = 0;
+        it->charges = -1;
         for (int x = pos.x - 1; x <= pos.x + 1; x++) {
             for (int y = pos.y - 1; y <= pos.y + 1; y++) {
                 g->m.add_field(x, y, fd_acid, 3);
@@ -7499,9 +7508,9 @@ int iuse::artifact(player *p, item *it, bool)
             case AEA_FIRESTORM: {
                 p->add_msg_if_player(m_bad, _("Fire rains down around you!"));
                 std::vector<point> ps = closest_points_first(3, p->posx, p->posy);
-                for (std::vector<point>::iterator p_it = ps.begin(); p_it != ps.end(); p_it++) {
+                for (auto p_it : ps) {
                     if (!one_in(3)) {
-                        g->m.add_field(*p_it, fd_fire, 1 + rng(0, 1) * rng(0, 1), 30);
+                        g->m.add_field(p_it, fd_fire, 1 + rng(0, 1) * rng(0, 1), 30);
                     }
                 }
                 break;
@@ -9734,7 +9743,7 @@ int iuse::radiocontrol(player *p, item *it, bool t)
         signal += choice_str.str();
 
         p->add_msg_if_player(_("Click."));
-        sendRadioSignal( p, signal.c_str() );
+        sendRadioSignal(p, signal);
         p->moves -= 150;
     }
 

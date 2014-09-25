@@ -59,7 +59,6 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         monster &operator=(monster &&) = default;
         void poly(mtype *t);
         void spawn(int x, int y); // All this does is moves the monster to x,y
-
         m_size get_size() const;
         int get_hp( hp_part ) const
         {
@@ -186,7 +185,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
          * @return 1 if we destroyed something, 0 otherwise.
          */
         int bash_at(int x, int y);
-        
+
         /** Returns innate monster bash skill, without calculating additional from helpers */
         int bash_skill();
 
@@ -263,7 +262,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         int faction_id; // If we belong to a faction
         int mission_id; // If we're related to a mission
         mtype *type;
-        bool no_extra_death_drops; // if true, don't spawn loot items as part of death
+        bool no_extra_death_drops;    // if true, don't spawn loot items as part of death
+        bool no_corpse_quiet = false; //if true, monster dies quietly and leaves no corpse
         bool is_dead() const;
         bool made_footstep;
         std::string unique_name; // If we're unique

@@ -36,7 +36,6 @@ class snippet_library
          * @return the hash of the snippet.
          */
         int add_snippet(const std::string &category, const std::string &text);
-        int calc_hash(const std::string &original) const;
         void add_snippet_from_json( const std::string &category, JsonObject &jo );
         /**
          * Load all snippet definitions in the json array into given category.

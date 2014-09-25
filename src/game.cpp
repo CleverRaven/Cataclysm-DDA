@@ -6,7 +6,6 @@
 #include "line.h"
 #include "computer.h"
 #include "veh_interact.h"
-#include "advanced_inv.h"
 #include "options.h"
 #include "auto_pickup.h"
 #include "mapbuffer.h"
@@ -1924,28 +1923,57 @@ void game::activity_on_finish_firstaid()
 void game::activity_on_finish_fish()
 {
     item &it = u.i_at(u.activity.position);
-
+    int sSkillLevel = 0; //given values to avoid possible null errors if the item used has not any of the flags.
+    int fishChance = 20;
     if (it.has_flag("FISH_POOR")) {
-        int sSkillLevel = u.skillLevel("survival") + dice(1, 6);
-        int fishChance = dice(1, 20);
+        sSkillLevel = u.skillLevel("survival") + dice(1, 6);
+        fishChance = dice(1, 20);
+    } else if (it.has_flag("FISH_GOOD")) {
+        sSkillLevel = u.skillLevel("survival")*1.5 + dice(1, 6) + 3; //much better chances with a good fishing implement
+        fishChance = dice(1, 20);
+    }
+    rod_fish(sSkillLevel,fishChance);
+    u.practice("survival", rng(5, 15));
+    u.activity.type = ACT_NULL;
+}
 
-        if (sSkillLevel > fishChance) {
+void game::rod_fish(int sSkillLevel, int fishChance) // fish-with-rod fish catching function
+{
+    if (sSkillLevel > fishChance) {
+        std::vector<monster*> fishables = get_fishable(60); //get the nearby fish list.
+        //if the vector is empty (no fish around) the player is still given a small chance to get a (let us say it was hidden) fish
+        if (fishables.size() < 1){
+            if (one_in(20)) {
             item fish;
-
             std::vector<std::string> fish_group = MonsterGroupManager::GetMonstersFromGroup("GROUP_FISH");
             std::string fish_mon = fish_group[rng(1, fish_group.size()) - 1];
-
             fish.make_corpse("corpse", GetMType(fish_mon), calendar::turn);
             m.add_item_or_charges(u.posx, u.posy, fish);
-
             u.add_msg_if_player(m_good, _("You catch a fish!"));
+            } else {
+                u.add_msg_if_player(_("You catch nothing."));
+            }
         } else {
-            u.add_msg_if_player(_("You catch nothing."));
+            u.add_msg_if_player(m_good, _("You catch a fish!"));
+            catch_a_monster(fishables, u.posx, u.posy, &g->u, 30000);
         }
 
-        u.practice("survival", rng(5, 15));
+    } else {
+        u.add_msg_if_player(_("You catch nothing."));
     }
-    u.activity.type = ACT_NULL;
+}
+
+void game::catch_a_monster(std::vector<monster*> &catchables, int posx, int posy, player *p, int catch_duration) // catching function
+{
+    int index = rng(1, catchables.size()) - 1; //get a random monster from the vector
+    //spawn the corpse, rotten by a part of the duration
+    item fish;
+    fish.make_corpse("corpse", catchables[index]->type, calendar::turn + int(rng(0, catch_duration)));
+    m.add_item_or_charges(posx, posy, fish);
+    //quietly kill the catched
+    catchables[index]->no_corpse_quiet = true;
+    catchables[index]->die( p );
+    catchables.erase (catchables.begin()+index);
 }
 
 void game::activity_on_finish_vehicle()
@@ -5975,6 +6003,24 @@ bool game::is_hostile_within(int distance)
     return false;
 }
 
+//get the fishable critters around and return these
+std::vector<monster*> game::get_fishable(int distance)
+{
+    std::vector<monster*> unique_fish;
+    for (size_t i = 0; i < num_zombies(); i++) {
+        monster &critter = critter_tracker.find(i);
+
+        if (critter.has_flag(MF_FISHABLE)) {
+            int mondist = rl_dist(u.posx, u.posy, critter.posx(), critter.posy());
+            if (mondist <= distance) {
+            unique_fish.push_back (&critter);
+            }
+        }
+    }
+
+    return unique_fish;
+}
+
 // Print monster info to the given window, and return the lowest row (0-indexed)
 // to which we printed. This is used to share a window with the message log and
 // make optimal use of space.
@@ -8583,12 +8629,6 @@ void game::examine(int examx, int examy)
             Pickup::pick_up(examx, examy, 0);    // After disarming a trap, pick it up.
         }
     }
-}
-
-void game::advanced_inv()
-{
-    advanced_inventory advinv;
-    advinv.display();
 }
 
 //Shift player by one tile, look_around(), then restore previous position.
@@ -12467,6 +12507,7 @@ bool game::plmove(int dx, int dy)
     bool pushing_furniture = false;  // moving -into- furniture tile; skip check for move_cost > 0
     bool pulling_furniture = false;  // moving -away- from furniture tile; check for move_cost > 0
     bool shifting_furniture = false; // moving furniture and staying still; skip check for move_cost > 0
+    bool pushing_vehicle = false;
     int movecost_modifier =
         0;       // pulling moves furniture into our origin square, so this changes to subtract it.
 
@@ -12477,14 +12518,16 @@ bool game::plmove(int dx, int dy)
             // actually the current tile.
             // If there's a vehicle there, it will actually result in failed movement.
             if (grabbed_vehicle == veh1) {
+                pushing_vehicle = true;
                 veh1 = veh0;
                 vpart1 = vpart0;
             }
-        } else if (u.grab_type ==
-                   OBJECT_FURNITURE) { // Determine if furniture grab is valid, and what we're wanting to do with it based on
-            point fpos(u.posx + u.grab_point.x, u.posy + u.grab_point.y); // where it is
+        } else if (u.grab_type == OBJECT_FURNITURE) {
+            // Determine if furniture grab is valid,
+            // and what we're wanting to do with it based on where it is and where we're going.
+            point fpos(u.posx + u.grab_point.x, u.posy + u.grab_point.y);
             if (m.has_furn(fpos.x, fpos.y)) {
-                pushing_furniture = (dx == u.grab_point.x && dy == u.grab_point.y); // and where we're going
+                pushing_furniture = (dx == u.grab_point.x && dy == u.grab_point.y);
                 if (!pushing_furniture) {
                     point fdest(fpos.x + dx, fpos.y + dy);
                     pulling_furniture = (fdest.x == u.posx && fdest.y == u.posy);
@@ -12515,14 +12558,14 @@ bool game::plmove(int dx, int dy)
         }
     }
 
-	bool toSwimmable = m.has_flag("SWIMMABLE", x, y);
-	bool toDeepWater = m.has_flag(TFLAG_DEEP_WATER, x, y);
-	bool fromSwimmable = m.has_flag("SWIMMABLE", u.posx, u.posy);
-	bool fromDeepWater = m.has_flag(TFLAG_DEEP_WATER, u.posx, u.posy);
-	bool fromBoat = veh0 && veh0->all_parts_with_feature(VPFLAG_FLOATS).size() > 0;
-	bool toBoat = veh1 && veh1->all_parts_with_feature(VPFLAG_FLOATS).size() > 0;
+    bool toSwimmable = m.has_flag("SWIMMABLE", x, y);
+    bool toDeepWater = m.has_flag(TFLAG_DEEP_WATER, x, y);
+    bool fromSwimmable = m.has_flag("SWIMMABLE", u.posx, u.posy);
+    bool fromDeepWater = m.has_flag(TFLAG_DEEP_WATER, u.posx, u.posy);
+    bool fromBoat = veh0 && veh0->all_parts_with_feature(VPFLAG_FLOATS).size() > 0;
+    bool toBoat = veh1 && veh1->all_parts_with_feature(VPFLAG_FLOATS).size() > 0;
 
-	if (toSwimmable && toDeepWater && !toBoat) { // Dive into water!
+    if (toSwimmable && toDeepWater && !toBoat) { // Dive into water!
         // Requires confirmation if we were on dry land previously
         if ((fromSwimmable && fromDeepWater && !fromBoat) || query_yn(_("Dive into the water?"))) {
             if ((!fromDeepWater || fromBoat) && u.swim_speed() < 500) {
@@ -12532,7 +12575,7 @@ bool game::plmove(int dx, int dy)
             }
             plswim(x, y);
         }
-    } else if (m.move_cost(x, y) > 0 || pushing_furniture || shifting_furniture) {
+    } else if (m.move_cost(x, y) > 0 || pushing_furniture || shifting_furniture || pushing_vehicle) {
         // move_cost() of 0 = impassible (e.g. a wall)
         u.set_underwater(false);
 
@@ -12559,7 +12602,7 @@ bool game::plmove(int dx, int dy)
                 break;
             case fd_fungal_haze:
                 dangerous = !((u.get_env_resist(bp_mouth) >= 15) &&
-                (u.get_env_resist(bp_eyes) >= 15) );
+                              (u.get_env_resist(bp_eyes) >= 15) );
                 break;
             default:
                 dangerous = cur->is_dangerous();
@@ -12591,7 +12634,7 @@ bool game::plmove(int dx, int dy)
                         return false;
                     }
                     drag_multiplier += (float)(grabbed_vehicle->total_mass() * 1000) /
-                                       (float)(u.weight_capacity() * 5);
+                        (float)(u.weight_capacity() * 5);
                     if (drag_multiplier > 2.0) {
                         add_msg(m_info, _("The %s is too heavy for you to budge!"), grabbed_vehicle->name.c_str());
                         return false;
@@ -12692,14 +12735,14 @@ bool game::plmove(int dx, int dy)
                     // Unfortunately, game::is_empty fails for tiles we're standing on,
                     // which will forbid pulling, so:
                     bool canmove = (
-                                       ( m.move_cost(fdest.x, fdest.y) > 0) &&
-                                       npc_at(fdest.x, fdest.y) == -1 &&
-                                       mon_at(fdest.x, fdest.y) == -1 &&
-                                       m.has_flag("FLAT", fdest.x, fdest.y) &&
-                                       !m.has_furn(fdest.x, fdest.y) &&
-                                       m.veh_at(fdest.x, fdest.y) == NULL &&
-                                       m.tr_at(fdest.x, fdest.y) == tr_null
-                                   );
+                        ( m.move_cost(fdest.x, fdest.y) > 0) &&
+                        npc_at(fdest.x, fdest.y) == -1 &&
+                        mon_at(fdest.x, fdest.y) == -1 &&
+                        m.has_flag("FLAT", fdest.x, fdest.y) &&
+                        !m.has_furn(fdest.x, fdest.y) &&
+                        m.veh_at(fdest.x, fdest.y) == NULL &&
+                        m.tr_at(fdest.x, fdest.y) == tr_null
+                        );
 
                     const furn_t furntype = m.furn_at(fpos.x, fpos.y);
                     int furncost = furntype.movecost;
@@ -12783,8 +12826,8 @@ bool game::plmove(int dx, int dy)
                         return false; // We moved furniture but stayed still.
                     } else if ( pushing_furniture &&
                                 m.move_cost(x, y) <= 0 ) { // Not sure how that chair got into a wall, but don't let player follow.
-                        add_msg( _("You let go of the %s as it slides past %s"), furntype.name.c_str(), m.ter_at(x,
-                                 y).name.c_str() );
+                        add_msg( _("You let go of the %s as it slides past %s"),
+                                 furntype.name.c_str(), m.ter_at(x, y).name.c_str() );
                         u.grab_point = point (0, 0);
                         u.grab_type = OBJECT_NONE;
                     }
@@ -12801,7 +12844,7 @@ bool game::plmove(int dx, int dy)
         // Calculate cost of moving
         bool diag = trigdist && u.posx != x && u.posy != y;
         u.moves -= int(u.run_cost(m.combined_movecost(u.posx, u.posy, x, y, grabbed_vehicle,
-                                  movecost_modifier), diag) * drag_multiplier);
+                                                      movecost_modifier), diag) * drag_multiplier);
 
         // Adjust recoil down
         if (u.recoil > 0) {
@@ -12824,9 +12867,9 @@ bool game::plmove(int dx, int dy)
             vehicle_part *part = &(veh1->parts[vpart1]);
             std::string label = veh1->get_label(part->mount_dx, part->mount_dy);
             if (label != "") {
-            	add_msg(m_info, _("Label here: %s"), label.c_str());
+                add_msg(m_info, _("Label here: %s"), label.c_str());
             }
-    	}
+        }
 
         std::string signage = m.get_signage(x, y);
         if (signage.size()) {
@@ -12849,8 +12892,8 @@ bool game::plmove(int dx, int dy)
                 u.deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, 1 ) );
             }
         }
-        if (m.has_flag("SHARP", x, y) && !one_in(3) && !one_in(40 - int(u.dex_cur / 2))
-              && (!u.in_vehicle) && (!u.has_trait("PARKOUR") || one_in(4))) {
+        if( m.has_flag("SHARP", x, y) && !one_in(3) && !one_in(40 - int(u.dex_cur / 2)) &&
+            (!u.in_vehicle) && (!u.has_trait("PARKOUR") || one_in(4)) ) {
             bool ter_or_furn = m.has_flag_ter( "SHARP", x, y );
             body_part bp = random_body_part();
             if(u.deal_damage( nullptr, bp, damage_instance( DT_CUT, rng( 1, 4 ) ) ).total_damage() > 0) {
@@ -12871,7 +12914,7 @@ bool game::plmove(int dx, int dy)
             u.remove_effect("bouldering");
         }
         if (g->u.has_trait("LEG_TENT_BRACE") && (!g->u.footwear_factor() ||
-              (g->u.footwear_factor() == .5 && one_in(2)))) {
+                                                 (g->u.footwear_factor() == .5 && one_in(2)))) {
             // DX and IN are long suits for Cephalopods,
             // so this shouldn't cause too much hardship
             // Presumed that if it's swimmable, they're
@@ -12882,7 +12925,7 @@ bool game::plmove(int dx, int dy)
             }
         }
         if (!u.has_artifact_with(AEP_STEALTH) && !u.has_trait("LEG_TENTACLES") &&
-          !u.has_trait("DEBUG_SILENT")) {
+            !u.has_trait("DEBUG_SILENT")) {
             if (u.has_trait("LIGHTSTEP") || u.is_wearing("rm13_armor_on")) {
                 sound(x, y, 2, "");    // Sound of footsteps may awaken nearby monsters
             } else if (u.has_trait("CLUMSY")) {
@@ -13251,7 +13294,7 @@ void game::plswim(int x, int y)
     u.practice("swimming", u.is_underwater() ? 2 : 1);
     if (movecost >= 500) {
         if (!u.is_underwater() && !(g->u.shoe_type_count("swim_fins") == 2 ||
-            (g->u.shoe_type_count("swim_fins") == 1 && one_in(2)))) {
+                                    (g->u.shoe_type_count("swim_fins") == 1 && one_in(2)))) {
             add_msg(m_bad, _("You sink like a rock!"));
             u.set_underwater(true);
             u.oxygen = 30 + 2 * u.str_cur;
@@ -13270,7 +13313,7 @@ void game::plswim(int x, int y)
     u.inv.rust_iron_items();
 
     int drenchFlags = mfb(bp_leg_l) | mfb(bp_leg_r) | mfb(bp_torso) | mfb(bp_arm_l) |
-                        mfb(bp_arm_r) | mfb(bp_foot_l) | mfb(bp_foot_r);
+        mfb(bp_arm_r) | mfb(bp_foot_l) | mfb(bp_foot_r);
 
     if (get_temperature() <= 50) {
         drenchFlags |= mfb(bp_hand_l) | mfb(bp_hand_r);

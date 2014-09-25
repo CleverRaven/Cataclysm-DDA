@@ -849,8 +849,8 @@ bool map::vehproceed()
             veh->handle_trap( wheel_x, wheel_y, w );
             auto &item_vec = g->m.i_at( wheel_x, wheel_y );
             for( auto it = item_vec.begin(); it != item_vec.end(); ) {
-                it->damage += rng( 0, 5 );
-                if( it->damage > 5 ) {
+                it->damage += rng( 0, 3 );
+                if( it->damage > 4 ) {
                     it = item_vec.erase(it);
                 } else {
                     ++it;
@@ -2977,7 +2977,7 @@ bool map::add_item_or_charges(const int x, const int y, item new_item, int overf
     for(std::vector<point>::iterator p_it = ps.begin(); p_it != ps.end(); p_it++)
     {
         itype_id add_type = new_item.type->id; // caching this here = ~25% speed increase
-        if (!INBOUNDS(p_it->x, p_it->x) || new_item.volume() > this->free_volume(p_it->x, p_it->y) ||
+        if (!INBOUNDS(p_it->x, p_it->y) || new_item.volume() > this->free_volume(p_it->x, p_it->y) ||
                 has_flag("DESTROY_ITEM", p_it->x, p_it->y) || has_flag("NOITEM", p_it->x, p_it->y)){
             continue;
         }
@@ -5413,8 +5413,10 @@ void map::add_road_vehicles(bool city, int facing)
             int veh_type = rng(0, 100);
             if(veh_type <= 70) {
                 add_vehicle("car", veh_x, veh_y, facing, -1, 1);
-            } else if(veh_type <= 95) {
+            } else if(veh_type <= 92) {
                 add_vehicle("electric_car", veh_x, veh_y, facing, -1, 1);
+            } else if(veh_type <= 95) {
+                add_vehicle("road_roller", veh_x, veh_y, facing, -1, 1);
             } else {
                 add_vehicle("policecar", veh_x, veh_y, facing, -1, 1);
             }

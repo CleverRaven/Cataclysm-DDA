@@ -52,8 +52,9 @@
     "points" : -8,
     "description": "You've been locked in a lab with no way out! Survive as long as you can! Brag about it on the forums! (Pics or it didn't happen)",
     "start_name": "Locked Lab",
-    "professions" : ["unemployed"],
-    "allowed_locs" : ["lab_stairs"]
+    "professions" : ["unemployed","mutant_patient","mutant_volunteer"],
+    "allowed_locs" : ["lab_stairs"],
+    "traits" : ["ELFAEYES","URSINE_EYE","FANGS","GILLS","SPINES","PLANTSKIN","NAILS","RADIOGENIC","PADDED_FEET","RAP_TALONS","HOOVES","CANINE_EARS","WEB_WALKER","WHISKERS","SLIT_NOSTRILS","TROGLO","WEBBED","BEAK","UNSTABLE","RADIOACTIVE1","SLIMY","HERBIVORE","CARNIVORE","PONDEROUS1","SUNLIGHT_DEPENDENT","COLDBLOOD","GROWL","ARM_FEATHERS","ARM_TENTACLES","LEG_TENTACLES"]
   },{
     "type": "scenario",
     "ident": "ambushed",

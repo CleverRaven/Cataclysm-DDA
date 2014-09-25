@@ -307,7 +307,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "qualities": [["CUT", 1], ["BUTCHER", 20]]
+    "qualities": [["CUT", 1], ["BUTCHER", 3]]
   },
   {
     "id": "oxygen_tank",
@@ -1539,7 +1539,7 @@
     "ammo": "battery",
     "revert_to": "carver_off",
     "use_action": "CARVER_ON",
-    "qualities": [["CUT", 1], ["BUTCHER", 14]]
+    "qualities": [["CUT", 1], ["BUTCHER", 25]]
   },{
     "id": "trimmer_off",
     "type": "TOOL",
@@ -1551,11 +1551,11 @@
     "price": 4000,
     "material": ["steel", "plastic"],
     "weight": 4500,
-    "volume": 8,
+    "volume": 10,
     "bashing": 4,
     "cutting": 8,
     "to_hit": -1,
-    "max_charges": 200,
+    "max_charges": 600,
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
@@ -1578,14 +1578,14 @@
     "cutting": 40,
     "flags" : ["CHOP", "MESSY"],
     "to_hit": -1,
-    "max_charges": 200,
+    "max_charges": 600,
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 1,
     "ammo": "gasoline",
     "revert_to": "trimmer_off",
     "use_action": "TRIMMER_ON",
-    "qualities": [["CUT", 1], ["BUTCHER", 60]]
+    "qualities": [["CUT", 1]]
   },{
     "id": "circsaw_off",
     "type": "TOOL",
@@ -1636,7 +1636,7 @@
     "ammo": "battery",
     "revert_to": "circsaw_off",
     "use_action": "CIRCSAW_ON",
-    "qualities": [["CUT", 1], ["BUTCHER", 74]]
+    "qualities": [["CUT", 1], ["BUTCHER", 60]]
   },{
     "id": "combatsaw_off",
     "type": "TOOL",
@@ -1652,7 +1652,7 @@
     "bashing": 8,
     "cutting": 0,
     "to_hit": -3,
-    "max_charges": 600,
+    "max_charges": 1000,
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
@@ -1677,7 +1677,7 @@
     "cutting": 82,
     "flags" : ["CHOP", "MESSY", "DURABLE_MELEE"],
     "to_hit": -4,
-    "max_charges": 600,
+    "max_charges": 1000,
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 1,
@@ -1748,7 +1748,7 @@
     "cutting": 6,
     "flags" : ["STAB"],
     "to_hit": -8,
-    "max_charges": 120,
+    "max_charges": 400,
     "initial_charges": 0,
     "charges_per_use": 10,
     "turns_per_charge": 0,
@@ -1772,7 +1772,7 @@
     "cutting": 6,
     "flags" : ["STAB"],
     "to_hit": -8,
-    "max_charges": 120,
+    "max_charges": 400,
     "initial_charges": 0,
     "charges_per_use": 10,
     "turns_per_charge": 0,
@@ -3858,7 +3858,7 @@
     "revert_to": "null",
     "category": "weapons",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1], ["BUTCHER", 14]]
+    "qualities": [["CUT", 1], ["BUTCHER", 15]]
   },
 
   {
@@ -3939,7 +3939,7 @@
     "revert_to": "null",
     "category": "weapons",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1], ["BUTCHER", 14]]
+    "qualities": [["CUT", 1], ["BUTCHER", 24]]
   },
   {
     "id": "diamond_machete",
@@ -3965,7 +3965,7 @@
     "revert_to": "null",
     "category": "weapons",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1], ["BUTCHER", 14]]
+    "qualities": [["CUT", 1], ["BUTCHER", 20]]
   },
   {
     "id": "diamond_katana",
@@ -3991,7 +3991,7 @@
     "revert_to": "null",
     "use_action": "KNIFE",
     "category" : "weapons",
-    "qualities": [["CUT", 1], ["BUTCHER", 20]]
+    "qualities": [["CUT", 1], ["BUTCHER", 16]]
   },
   {
     "id": "tanto",
@@ -4017,7 +4017,7 @@
     "revert_to": "null",
     "category": "weapons",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1], ["BUTCHER", 16]]
+    "qualities": [["CUT", 1], ["BUTCHER", 18]]
   },
   {
     "id": "kris",
@@ -4070,7 +4070,7 @@
     "revert_to": "null",
     "use_action": "KNIFE",
     "category" : "weapons",
-    "qualities": [["CUT", 1], ["BUTCHER", 9]]
+    "qualities": [["CUT", 1], ["BUTCHER", 13]]
   },
   {
     "id": "katana",
@@ -4096,7 +4096,7 @@
     "revert_to": "null",
     "use_action": "KNIFE",
     "category" : "weapons",
-    "qualities": [["CUT", 1], ["BUTCHER", 13]]
+    "qualities": [["CUT", 1], ["BUTCHER", 9]]
   },
 
   {
@@ -4204,7 +4204,7 @@
     "revert_to": "null",
     "use_action": "KNIFE",
     "category" : "weapons",
-    "qualities": [["CUT", 1], ["BUTCHER", 12]]
+    "qualities": [["CUT", 1], ["BUTCHER", 9]]
   },
 
   {
@@ -4257,7 +4257,7 @@
     "revert_to": "null",
     "use_action": "KNIFE",
     "category" : "weapons",
-    "qualities": [["CUT", 1], ["BUTCHER", 15]]
+    "qualities": [["CUT", 1], ["BUTCHER", 9]]
   },
 
   {
@@ -4420,7 +4420,7 @@
     "revert_to": "null",
     "category": "weapons",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1], ["BUTCHER", -38]]
+    "qualities": [["CUT", 1], ["BUTCHER", -27]]
   },
 
   {
@@ -4524,7 +4524,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1], ["BUTCHER", 16]],
+    "qualities": [["CUT", 1], ["BUTCHER", 20]],
     "flags": ["STAB", "SHEATH_KNIFE"]
   },
 
@@ -4550,7 +4550,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1], ["BUTCHER", 18]],
+    "qualities": [["CUT", 1], ["BUTCHER", 25]],
     "flags": ["CHOP", "SHEATH_KNIFE"]
   },
 
@@ -4578,7 +4578,7 @@
     "revert_to": "null",
     "category": "weapons",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1], ["BUTCHER", 30]]
+    "qualities": [["CUT", 1], ["BUTCHER", 19]]
   },
 
   {
@@ -5450,7 +5450,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1], ["BUTCHER", 16]]
+    "qualities": [["CUT", 1], ["BUTCHER", 12]]
   },
 
   {
@@ -5475,7 +5475,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1], ["BUTCHER", 14]],
+    "qualities": [["CUT", 1], ["BUTCHER", 11]],
     "flags": ["STAB", "SHEATH_KNIFE"]
    },
 
@@ -5622,7 +5622,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1], ["BUTCHER", 12]],
+    "qualities": [["CUT", 1], ["BUTCHER", 11]],
     "flags": ["STAB", "SHEATH_KNIFE"]
   },
 
@@ -7144,7 +7144,7 @@
     "revert_to": "null",
     "category" : "weapons",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1], ["BUTCHER", 24]]
+    "qualities": [["CUT", 1], ["BUTCHER", 19]]
   },
 
   {
@@ -7192,7 +7192,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1], ["BUTCHER", 44]]
+    "qualities": [["CUT", 1], ["BUTCHER", 14]]
   },
 
   {
@@ -7219,10 +7219,11 @@
     "revert_to": "null",
     "category": "weapons",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1], ["BUTCHER", 22]]
+    "qualities": [["CUT", 1], ["BUTCHER", 18]]
   },
 
   {
+    "comment": "Highest non-powertool butchering quality. It's made for skinning and butchering game, which is what you're generally doing.",
     "id": "knife_hunting",
     "type": "TOOL",
     "symbol": "/",
@@ -7246,7 +7247,7 @@
     "revert_to": "null",
     "category": "weapons",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1], ["BUTCHER", 50]]
+    "qualities": [["CUT", 1], ["BUTCHER", 30]]
   },
 
   {
@@ -7275,7 +7276,7 @@
     "revert_to": "null",
     "category" : "weapons",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1], ["SAW_W", 1], ["SAW_M", 1], ["BUTCHER", 6]]
+    "qualities": [["CUT", 1], ["SAW_W", 1], ["SAW_M", 1], ["BUTCHER", 7]]
   },
 
   {
@@ -7302,7 +7303,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1], ["SAW_W", 1], ["SAW_M", 1], ["SCREW", 1], ["BUTCHER", 14]]
+    "qualities": [["CUT", 1], ["SAW_W", 1], ["SAW_M", 1], ["SCREW", 1], ["BUTCHER", 8]]
   },
 
   {
@@ -7328,7 +7329,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1], ["SAW_W", 1], ["SAW_M", 1], ["WRENCH", 1], ["SCREW", 1], ["SCREW_FINE", 1], ["BUTCHER", 10]]
+    "qualities": [["CUT", 1], ["SAW_W", 1], ["SAW_M", 1], ["WRENCH", 1], ["SCREW", 1], ["SCREW_FINE", 1], ["BUTCHER", 7]]
   },
   {
     "id": "knife_rm42",
@@ -7355,7 +7356,7 @@
     "revert_to": "null",
     "category": "weapons",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1], ["BUTCHER", 18]]
+    "qualities": [["CUT", 1], ["BUTCHER", 19]]
   },
 
   {
@@ -7452,7 +7453,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "qualities": [["CUT", 1], ["BUTCHER", 20]]
+    "qualities": [["CUT", 1], ["BUTCHER", 7]]
   },
   {
     "id": "airhorn",
@@ -7525,6 +7526,7 @@
     "use_action" : "TAZER"
   },
   {
+    "comment": "Too small to be effectively used for butchering, still not bad at it due to serrated edge.",
     "id": "diveknife",
     "type": "TOOL",
     "category" : "weapons",
@@ -7547,7 +7549,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1], ["BUTCHER", 30]],
+    "qualities": [["CUT", 1], ["BUTCHER", 15]],
     "flags": ["CHOP", "SHEATH_KNIFE"]
   },
 
@@ -7804,7 +7806,30 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "flags": ["FISH_POOR"],
-    "use_action": "FISHING_BASIC",
+    "use_action": "FISH_ROD",
+    "revert_to": "null",
+    "to_hit": 1
+  },
+  {
+    "type":"TOOL",
+    "id": "fishing_rod_professional",
+    "symbol": "/",
+    "color": "brown",
+    "name": "pro fishing rod",
+    "description": "A professional fishing rod & reel combo. With this you should be able to catch 'em all.",
+    "price": 0,
+    "material": "plastic",
+    "weight": 1000,
+    "volume": 5,
+    "bashing": 8,
+    "cutting": 0,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "flags": ["FISH_GOOD"],
+    "use_action": "FISH_ROD",
     "revert_to": "null",
     "to_hit": 1
   },
