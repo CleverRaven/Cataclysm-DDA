@@ -1,5 +1,5 @@
 [
-	{
+    {
             "type": "profession",
             "ident": "bionic_prepper",
             "name": "Bionic Prepper",
@@ -2888,7 +2888,7 @@
         "type": "profession",
         "ident": "fisher",
         "name": "Fisher",
-        "description": "You spent most of your days just fishing in the swamps getting by quietly on what you caught. You found the buzzing of insects enjoyable, but they got bigger and and more mean. Now their horrible noises have you spooked- you just hope the fish aren't as nasty.",
+        "description": "You spent most of your days just fishing in the swamps getting by quietly on what you caught. You found the buzzing of insects enjoyable, but they got bigger and more mean. Now their horrible noises have you spooked- you just hope the fish aren't as nasty.",
         "points": 2,
         "skills": [
             {
@@ -2909,7 +2909,8 @@
                 "knife_hunting",
                 "moonshine",
                 "lighter",
-                "fishing_rod_basic",
+                "fishing_rod_professional",
+                "fish_trap",
                 "vest",
                 "hat_boonie",
                 "jacket_flannel"
