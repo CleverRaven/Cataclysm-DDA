@@ -1656,10 +1656,7 @@
       ["boots_rubber", 20],
       ["charcoal", 5],
       ["fungicide", 2],
-      ["soap", 20],
-      ["chem_nh4no3", 10],
-      ["chem_kno3", 10],
-      ["chem_sulfur", 10]
+      ["soap", 20]
     ]
   },{
     "type" : "item_group",
@@ -4896,10 +4893,7 @@
       ["chemistry_set", 8],
       ["sm_extinguisher", 20],
       ["eyedrops", 15],
-      ["charcoal", 10],
-      ["chem_nh4no3", 15],
-      ["chem_kno3", 15],
-      ["chem_sulfur", 20]
+      ["charcoal", 10]
     ]
   },{
     "type" : "item_group",
@@ -4935,9 +4929,7 @@
       ["chemistry_set", 10],
       ["sm_extinguisher", 20],
       ["eyedrops", 25],
-      ["charcoal", 15],
-      ["chem_kno3", 15],
-      ["chem_sulfur", 15]
+      ["charcoal", 15]
     ]
   },{
     "type" : "item_group",
@@ -4978,10 +4970,7 @@
       ["chemistry_set", 5],
       ["sm_extinguisher", 10],
       ["charcoal", 10],
-      ["briefcase", 5],
-      ["chem_nh4no3", 25],
-      ["chem_kno3", 25],
-      ["chem_sulfur", 40]
+      ["briefcase", 5]
     ]
   },{
     "type" : "item_group",
@@ -8362,8 +8351,7 @@
       ["knitting_needles", 30],
       ["distaff_spindle", 2],
       ["carding_paddles", 2],
-      ["scythe", 40],
-      ["chem_nh4no3", 50]
+      ["scythe", 40]
     ]
   },{
 "type" : "item_group",
