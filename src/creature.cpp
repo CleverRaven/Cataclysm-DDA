@@ -869,6 +869,27 @@ int Creature::get_throw_resist() const
  * Innate stats setters
  */
 
+void Creature::set_stat_bonus(STAT stat, int amt)
+{
+    switch(stat)
+    {
+        case STR:
+            str_bonus = amt;
+            break;
+        case DEX:
+            dex_bonus = amt;
+            break;
+        case PER:
+            per_bonus = amt;
+            break;
+        case INT:
+            int_bonus = amt;
+            break;
+        default: break;
+    }
+}
+
+
 void Creature::set_str_bonus(int nstr)
 {
     str_bonus = nstr;
@@ -885,6 +906,27 @@ void Creature::set_int_bonus(int nint)
 {
     int_bonus = nint;
 }
+
+void Creature::mod_stat_bonus(STAT stat, int amt)
+{
+    switch(stat)
+    {
+        case STR:
+            str_bonus += amt;
+            break;
+        case DEX:
+            dex_bonus += amt;
+            break;
+        case PER:
+            per_bonus += amt;
+            break;
+        case INT:
+            int_bonus += amt;
+            break;
+        default: break;
+    }
+}
+
 void Creature::mod_str_bonus(int nstr)
 {
     str_bonus += nstr;
