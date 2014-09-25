@@ -3345,8 +3345,7 @@
     ],
     "components": [
       [
-        [ "gunpowder", 600 ],
-        [ "chem_black_powder", 900 ]
+        [ "gunpowder", 600 ]
       ],
       [
         [ "lead", 400 ],
