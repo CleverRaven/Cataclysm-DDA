@@ -919,6 +919,53 @@ void Creature::mod_healthy_mod(int nhealthy_mod)
     healthy_mod += nhealthy_mod;
 }
 
+void Creature::set_stat( STAT stat, int modifier )
+{
+    switch(stat) {
+        case STR:
+            set_str_bonus( modifier );
+            break;
+        case DEX:
+            set_dex_bonus( modifier );
+            break;
+        case PER:
+            set_per_bonus( modifier );
+            break;
+        case INT:
+            set_int_bonus( modifier );
+            break;
+        case HEALTH:
+            set_healthy( modifier );
+            break;
+        case HEALTH_MOD:
+            set_healthy_mod( modifier );
+            break;
+        case SPEED:
+            set_speed_bonus( modifier );
+            break;
+        case DODGE:
+            set_dodge_bonus( modifier );
+            break;
+        case BLOCK:
+            set_block_bonus( modifier );
+            break;
+        case HIT:
+            set_hit_bonus( modifier );
+            break;
+        case BASH:
+            set_bash_bonus( modifier );
+            break;
+        case CUT:
+            set_cut_bonus( modifier );
+            break;
+        case PAIN:
+            break;
+        case MOVES:
+            break;
+        default: break;
+    }
+}
+
 void Creature::mod_stat( STAT stat, int modifier )
 {
     switch(stat) {
