@@ -3503,7 +3503,7 @@ bool vehicle::add_item (int part, item itm)
     // const int max_weight = ?! // TODO: weight limit, calc per vpart & vehicle stats, not a hard user limit.
     // add creaking sounds and damage to overloaded vpart, outright break it past a certian point, or when hitting bumps etc
 
-    if (!part_flag(part, "CARGO")) {
+    if( !part_flag(part, "CARGO") || parts[part].hp <= 0 ) {
         return false;
     }
 
