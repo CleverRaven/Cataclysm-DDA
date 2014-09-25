@@ -546,6 +546,7 @@ void draw_tabs(WINDOW *w, std::string sTab)
             mvwputch(w, i, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_XOXO);
         }
     }
+
     std::vector<std::string> tab_captions;
     tab_captions.push_back(_("SCENARIO"));
     tab_captions.push_back(_("STATS"));
@@ -553,14 +554,29 @@ void draw_tabs(WINDOW *w, std::string sTab)
     tab_captions.push_back(_("PROFESSION"));
     tab_captions.push_back(_("SKILLS"));
     tab_captions.push_back(_("DESCRIPTION"));
-    std::vector<int> tab_pos(tab_captions.size() + 1, 0);
-    tab_pos[0] = 2;
-    for (size_t pos = 0; pos < tab_captions.size(); pos++) {
-        tab_pos[pos + 1] = tab_pos[pos] + utf8_width(tab_captions[pos].c_str());
+
+    size_t temp_len = 0;
+    size_t tabs_length = 0;
+    std::vector<int> tab_len;
+    for (auto tab_name : tab_captions) {
+        // String length + borders
+        temp_len = utf8_width(tab_name.c_str()) + 2;
+        tabs_length += temp_len;
+        tab_len.push_back(temp_len);
     }
-    int space = (FULL_SCREEN_WIDTH - tab_pos[tab_captions.size()]) / (tab_captions.size() - 1) - 3;
-    for (size_t i = 0; i < tab_captions.size(); i++) {
-        draw_tab(w, tab_pos[i] + space * i, tab_captions[i].c_str(), (sTab == tab_captions[i]));
+
+    int next_pos = 2;
+    // Free space on tabs window. '<', '>' symbols is drawning on free space.
+    // Initial value of next_pos is free space too.
+    // '1' is used for SDL/curses screen column reference.
+    int free_space = (FULL_SCREEN_WIDTH - tabs_length - 1 - next_pos);
+    int spaces = free_space / ((int)tab_captions.size() - 1);
+    if (spaces < 0) {
+        spaces = 0;
+    }
+    for (size_t i = 0; i < tab_captions.size(); ++i) {
+        draw_tab(w, next_pos, tab_captions[i].c_str(), (sTab == tab_captions[i]));
+        next_pos += tab_len[i] + spaces;
     }
 
     mvwputch(w, 2,  0, BORDER_COLOR, LINE_OXXO); // |^
