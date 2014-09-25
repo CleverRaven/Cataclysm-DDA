@@ -13373,6 +13373,7 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
         }
         range--;
         steps++;
+        draw();
     }
 
     if (!m.has_flag("SWIMMABLE", x, y)) {
