@@ -134,7 +134,6 @@
                 { "item": "material_sand", "amount": 40, "minamount": 10}
             ]
         }
-        }
     },{
         "type" : "furniture",
         "id" : "f_bulletin",

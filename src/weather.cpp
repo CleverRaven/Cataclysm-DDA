@@ -51,8 +51,9 @@ int get_rot_since( const int since, const int endturn, const point &location )
     // Bug with this hack: Rot is prevented even when it's above
     // freezing on the ground floor.
     oter_id oter = overmap_buffer.ter(g->om_global_location());
-    if (is_ot_type("ice_lab", oter))
+    if (is_ot_type("ice_lab", oter)) {
         return 0;
+    }
     int ret = 0;
     for (calendar i(since); i.get_turn() < endturn; i += 600) {
         w_point w = g->weatherGen.get_weather(location, i);
