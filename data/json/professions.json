@@ -1,5 +1,5 @@
 [
-	{
+    {
             "type": "profession",
             "ident": "bionic_prepper",
             "name": "Bionic Prepper",
@@ -2909,7 +2909,7 @@
                 "knife_hunting",
                 "moonshine",
                 "lighter",
-                "fishing_rod_basic",
+                "fishing_rod_professional",
                 "vest",
                 "hat_boonie",
                 "jacket_flannel"
