@@ -584,7 +584,7 @@ about ter_id above.
 extern furn_id f_null,
     f_hay,
     f_rubble, f_rubble_rock, f_wreckage, f_ash,
-    f_barricade_road,
+    f_barricade_road, f_sandbag_half, f_sandbag_wall,
     f_bulletin,
     f_indoor_plant,
     f_bed, f_toilet, f_makeshift_bed,

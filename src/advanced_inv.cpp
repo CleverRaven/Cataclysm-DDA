@@ -668,6 +668,9 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square )
     assert( square.id != AIM_ALL );
     square.volume = 0;
     square.weight = 0;
+    if( !square.canputitems ) {
+        return;
+    }
     // Existing items are *not* cleared on purpose, this might be called
     // several time in case all surrounding squares are to be shown.
     if( square.id == AIM_INVENTORY ) {
