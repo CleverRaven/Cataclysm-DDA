@@ -919,38 +919,52 @@ void Creature::mod_healthy_mod(int nhealthy_mod)
     healthy_mod += nhealthy_mod;
 }
 
-void Creature::mod_stat( std::string stat, int modifier )
+void Creature::mod_stat( STAT stat, int modifier )
 {
-    if( stat == "str" ) {
-        mod_str_bonus( modifier );
-    } else if( stat == "dex" ) {
-        mod_dex_bonus( modifier );
-    } else if( stat == "per" ) {
-        mod_per_bonus( modifier );
-    } else if( stat == "int" ) {
-        mod_int_bonus( modifier );
-    } else if( stat == "healthy" ) {
-        mod_healthy( modifier );
-    } else if( stat == "healthy_mod" ) {
-        mod_healthy_mod( modifier );
-    } else if( stat == "speed" ) {
-        mod_speed_bonus( modifier );
-    } else if( stat == "dodge" ) {
-        mod_dodge_bonus( modifier );
-    } else if( stat == "block" ) {
-        mod_block_bonus( modifier );
-    } else if( stat == "hit" ) {
-        mod_hit_bonus( modifier );
-    } else if( stat == "bash" ) {
-        mod_bash_bonus( modifier );
-    } else if( stat == "cut" ) {
-        mod_cut_bonus( modifier );
-    } else if( stat == "pain" ) {
-        mod_pain( modifier );
-    } else if( stat == "moves" ) {
-        mod_moves( modifier );
-    } else {
-        add_msg( "Tried to modify a nonexistent stat %s.", stat.c_str() );
+    switch(stat) {
+        case STR:
+            mod_str_bonus( modifier );
+            break;
+        case DEX:
+            mod_dex_bonus( modifier );
+            break;
+        case PER:
+            mod_per_bonus( modifier );
+            break;
+        case INT:
+            mod_int_bonus( modifier );
+            break;
+        case HEALTH:
+            mod_healthy( modifier );
+            break;
+        case HEALTH_MOD:
+            mod_healthy_mod( modifier );
+            break;
+        case SPEED:
+            mod_speed_bonus( modifier );
+            break;
+        case DODGE:
+            mod_dodge_bonus( modifier );
+            break;
+        case BLOCK:
+            mod_block_bonus( modifier );
+            break;
+        case HIT:
+            mod_hit_bonus( modifier );
+            break;
+        case BASH:
+            mod_bash_bonus( modifier );
+            break;
+        case CUT:
+            mod_cut_bonus( modifier );
+            break;
+        case PAIN:
+            mod_pain( modifier );
+            break;
+        case MOVES:
+            mod_moves( modifier );
+            break;
+        default: break;
     }
 }
 
