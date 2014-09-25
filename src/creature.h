@@ -244,8 +244,8 @@ class Creature
         virtual void mod_dex_bonus(int ndex);
         virtual void mod_per_bonus(int nper);
         virtual void mod_int_bonus(int nint);
-        virtual void set_stat(STAT stat, int modifier );
-        virtual void mod_stat(STAT stat, int modifier );
+        virtual void set_stat(STAT stat, int amount );
+        virtual void mod_stat(STAT stat, int amount );
 
         virtual void set_healthy(int nhealthy);
         virtual void set_healthy_mod(int nhealthy_mod);

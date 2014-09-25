@@ -919,44 +919,44 @@ void Creature::mod_healthy_mod(int nhealthy_mod)
     healthy_mod += nhealthy_mod;
 }
 
-void Creature::set_stat( STAT stat, int modifier )
+void Creature::set_stat( STAT stat, int amount )
 {
     switch(stat) {
         case STR:
-            set_str_bonus( modifier );
+            set_str_bonus( amount );
             break;
         case DEX:
-            set_dex_bonus( modifier );
+            set_dex_bonus( amount );
             break;
         case PER:
-            set_per_bonus( modifier );
+            set_per_bonus( amount );
             break;
         case INT:
-            set_int_bonus( modifier );
+            set_int_bonus( amount );
             break;
         case HEALTH:
-            set_healthy( modifier );
+            set_healthy( amount );
             break;
         case HEALTH_MOD:
-            set_healthy_mod( modifier );
+            set_healthy_mod( amount );
             break;
         case SPEED:
-            set_speed_bonus( modifier );
+            set_speed_bonus( amount );
             break;
         case DODGE:
-            set_dodge_bonus( modifier );
+            set_dodge_bonus( amount );
             break;
         case BLOCK:
-            set_block_bonus( modifier );
+            set_block_bonus( amount );
             break;
         case HIT:
-            set_hit_bonus( modifier );
+            set_hit_bonus( amount );
             break;
         case BASH:
-            set_bash_bonus( modifier );
+            set_bash_bonus( amount );
             break;
         case CUT:
-            set_cut_bonus( modifier );
+            set_cut_bonus( amount );
             break;
         case PAIN:
             break;
@@ -966,50 +966,50 @@ void Creature::set_stat( STAT stat, int modifier )
     }
 }
 
-void Creature::mod_stat( STAT stat, int modifier )
+void Creature::mod_stat( STAT stat, int amount )
 {
     switch(stat) {
         case STR:
-            mod_str_bonus( modifier );
+            mod_str_bonus( amount );
             break;
         case DEX:
-            mod_dex_bonus( modifier );
+            mod_dex_bonus( amount );
             break;
         case PER:
-            mod_per_bonus( modifier );
+            mod_per_bonus( amount );
             break;
         case INT:
-            mod_int_bonus( modifier );
+            mod_int_bonus( amount );
             break;
         case HEALTH:
-            mod_healthy( modifier );
+            mod_healthy( amount );
             break;
         case HEALTH_MOD:
-            mod_healthy_mod( modifier );
+            mod_healthy_mod( amount );
             break;
         case SPEED:
-            mod_speed_bonus( modifier );
+            mod_speed_bonus( amount );
             break;
         case DODGE:
-            mod_dodge_bonus( modifier );
+            mod_dodge_bonus( amount );
             break;
         case BLOCK:
-            mod_block_bonus( modifier );
+            mod_block_bonus( amount );
             break;
         case HIT:
-            mod_hit_bonus( modifier );
+            mod_hit_bonus( amount );
             break;
         case BASH:
-            mod_bash_bonus( modifier );
+            mod_bash_bonus( amount );
             break;
         case CUT:
-            mod_cut_bonus( modifier );
+            mod_cut_bonus( amount );
             break;
         case PAIN:
-            mod_pain( modifier );
+            mod_pain( amount );
             break;
         case MOVES:
-            mod_moves( modifier );
+            mod_moves( amount );
             break;
         default: break;
     }
