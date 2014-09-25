@@ -1327,7 +1327,8 @@
                 "bra",
                 "panties"
             ]
-        }
+        },
+        "flags" : ["SCEN_ONLY"]
     },
     {
         "type" : "profession",
