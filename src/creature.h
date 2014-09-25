@@ -14,6 +14,9 @@
 #include <string>
 #include <unordered_map>
 
+// stat enum
+enum STAT { STR, DEX, PER, INT };
+
 class game;
 class JsonObject;
 class JsonOut;
@@ -233,10 +236,12 @@ class Creature
         /*
          * setters for stats and boni
          */
+        virtual void set_stat_bonus(STAT stat, int amt);
         virtual void set_str_bonus(int nstr);
         virtual void set_dex_bonus(int ndex);
         virtual void set_per_bonus(int nper);
         virtual void set_int_bonus(int nint);
+        virtual void mod_stat_bonus(STAT stat, int amt);
         virtual void mod_str_bonus(int nstr);
         virtual void mod_dex_bonus(int ndex);
         virtual void mod_per_bonus(int nper);
