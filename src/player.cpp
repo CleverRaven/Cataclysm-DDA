@@ -7966,7 +7966,6 @@ bool player::eat(item *eaten, it_comest *comest)
 
     // If it's poisonous... poison us.  TODO: More several poison effects
     if (eaten->poison > 0) {
-        debugmsg("Ate some posioned stuff");
         if (!has_trait("EATPOISON") && !has_trait("EATDEAD")) {
             if (eaten->poison >= rng(2, 4)) {
                 add_effect("poison", eaten->poison * 100);
