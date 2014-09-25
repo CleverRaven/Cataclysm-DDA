@@ -330,8 +330,9 @@ static void move_items( point source, point destination,
         }
 
         // Check that we can pick it up.
-        if( !temp_item.made_of(LIQUID) && g->u.can_pickWeight(temp_item.weight(), false) &&
-            g->u.can_pickVolume(temp_item.volume()) ) {
+        // NB: Advanced inventory move is more of a drag operation, not via the
+        // player's inventory.
+        if( !temp_item.made_of(LIQUID) ) {
             // Drop it first since we're going to delete the original.
             dropped_items.push_back( temp_item );
             g->drop( dropped_items, dropped_worn, 0, destination.x, destination.y );
