@@ -28,7 +28,7 @@ class mdeath
         void thing          (monster *z); // Turn into a full thing
         void explode        (monster *z); // Damaging explosion
         void focused_beam   (monster *z); // blinding ray
-        void broken         (monster *z);  // Broken robot drop
+        void broken         (monster *z); // Broken robot drop
         void ratking        (monster *z); // Cure verminitis
         void darkman        (monster *z); // sight returns to normal
         void gas            (monster *z); // Explodes in toxic gas

@@ -3726,7 +3726,8 @@ bool item::process_wet( player * /*carrier*/, point /*pos*/ )
         }
         active = false;
     }
-    return false;
+    // Always return true so our caller will bail out instead of processing us as a tool.
+    return true;
 }
 
 bool item::process_tool( player *carrier, point /*pos*/ )
@@ -3861,7 +3862,8 @@ bool item::process( player *carrier, point pos )
         return true;
     }
     if( has_flag( "WET" ) && process_wet( carrier, pos ) ) {
-        return true;
+        // Drying items are never destroyed, but we want to exit so they don't get processed as tools.
+        return false;
     }
     if( has_flag( "LITCIG" ) && process_litcig( carrier, pos ) ) {
         return true;
