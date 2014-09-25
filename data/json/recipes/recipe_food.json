@@ -7364,7 +7364,8 @@
       [ "hardtack", 4]
     ],
     [
-      [ "meat_cooked", 1 ]
+      [ "meat_cooked", 1 ],
+      [ "lunchmeat", 4 ]
     ]
   ]
 },{
