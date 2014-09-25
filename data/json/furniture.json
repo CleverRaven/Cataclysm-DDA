@@ -130,8 +130,8 @@
             "sound_fail": "whump.",
             "furn_set": "f_sandbag_half",
             "items": [
-                { "item": "bag_canvas", "amount": 6, "minamount": 2},
-                { "item": "material_sand", "amount": 60, "minamount": 15}
+                { "item": "bag_canvas", "amount": 4, "minamount": 1},
+                { "item": "material_sand", "amount": 40, "minamount": 10}
             ]
         }
     },{
