@@ -27,7 +27,7 @@
 #include "overmapbuffer.h"
 #include "messages.h"
 
-//Used for e^(x) functions
+//Used for e^(x), pow() and round() functions
 #include <stdio.h>
 #include <math.h>
 
@@ -529,27 +529,40 @@ void player::update_morale()
 
 void player::apply_persistent_morale()
 {
-    // Hoarders get a morale penalty if they're not carrying a full inventory.
+    // Hoarders gets morale bonus for carrying full inventory and a (smaller) bonus for just carrying many things,
+    // but also a morale penalty if they're carrying too few items.
     if (has_trait("HOARDER"))
     {
-        int pen = int((volume_capacity()-volume_carried()) / 2);
-        if (pen > 70)
-        {
-            pen = 70;
+        //for 100kg @ 100vol this gives +5. weight carried is more important than vol. carried.
+        float carried_stuff_bonus = (float(volume_carried()) + (2 * float(weight_carried()))/1000)/60;
+        float capacity_factor = float(volume_carried())/(float(volume_capacity()) - 2); // not taking into account the 2 overflow vol
+        if (capacity_factor > 1) {
+            capacity_factor = 1; // ensure that the capacity factor will not go over 1 due to volume overflow (to prevent exploits)
         }
-        if (pen <= 0)
-        {
-            pen = 0;
+        float capacity_bonus = 0.0;
+        if (capacity_factor < 0.5) {
+            capacity_bonus = -(50-capacity_factor*100); // for every 1% under 50% max capacity, player loses 1 morale.
+        } else {
+            capacity_bonus = (pow(capacity_factor, 6))*10; // gives: +1.17 @ 70% vol; +2.62 @ 80%; +5.31 @ 90%; and +10 @ 100%
         }
-        if (has_disease("took_xanax"))
-        {
-            pen = int(pen / 7);
+
+        int total_bonus = round(carried_stuff_bonus + capacity_bonus);
+        if (total_bonus > 15) {
+            total_bonus = 15; // positive bonus capped at +15
+        } else if (total_bonus < -15) {
+            total_bonus = -15; // negative bonus capped at -15
         }
-        else if (has_disease("took_prozac"))
+
+        if (has_disease("took_xanax")) // Xanax will nerf both positive and negative effects
         {
-            pen = int(pen / 2);
+            total_bonus = total_bonus / 7;
         }
-        add_morale(MORALE_PERM_HOARDER, -pen, -pen, 5, 5, true);
+        else if (has_disease("took_prozac") && (total_bonus < 0)) // Prozac will nerf the negative effects, but not the positive ones
+        {
+            total_bonus = total_bonus / 2;
+        }
+
+        add_morale(MORALE_PERM_HOARDER, total_bonus, total_bonus, 5, 5, true);
     }
 
     // The stylish get a morale bonus for each body part covered in an item
