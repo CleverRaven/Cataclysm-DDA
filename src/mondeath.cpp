@@ -10,13 +10,13 @@
 
 void mdeath::normal(monster *z)
 {
-    if (g->u_see(z)) {
+    if ((g->u_see(z)) && (!z->no_corpse_quiet)) {
         add_msg(m_good, _("The %s dies!"),
                 z->name().c_str()); //Currently it is possible to get multiple messages that a monster died.
     }
 
     m_size monSize = (z->type->size);
-    bool leaveCorpse = !(z->type->has_flag(MF_VERMIN));
+    bool leaveCorpse = !((z->type->has_flag(MF_VERMIN)) || (z->no_corpse_quiet));
 
     // leave some blood if we have to
     if (!z->has_flag(MF_VERMIN)) {
