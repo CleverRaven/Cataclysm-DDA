@@ -329,15 +329,15 @@ void mattack::smash(monster *z)
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
     int dodge_check = std::max(g->u.get_dodge() - rng(0, z->type->melee_skill), 0L);
     if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
-        add_msg(_("You dodge it!"));
+        add_msg(_("the %s takes a powerful swing at you, but you dodge it!"), z->name().c_str());
         g->u.practice( "dodge", z->type->melee_skill * 2 );
         g->u.ma_ondodge_effects();
         return;
     }
 
+    add_msg( _("A blow from the %s sends you flying!"), z->name().c_str() );
     g->fling_creature( &(g->u), g->m.coord_to_angle( z->posx(), z->posy(), g->u.xpos(), g->u.ypos() ),
                        z->type->melee_sides * z->type->melee_dice * 3 );
-    add_msg( _("A blow from the %s sends you flying!"), z->name().c_str() );
 }
 
 void mattack::science(monster *z) // I said SCIENCE again!
