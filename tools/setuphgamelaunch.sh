@@ -62,7 +62,6 @@ cp -r ./gfx $1/share/cataclysm-dda
 cp -r ./lua $1/share/cataclysm-dda
 cp -r ./lang $1/share/cataclysm-dda
 
-
 # Copying games.json
 cd $1
 ROOTPATH=$(echo "$1/" | sed -e 's/[\/&]/\\&/g')
@@ -84,3 +83,14 @@ mkdir -p $1/userdata/cdda/admin/ttyrec
 # Creating the directories for ttrecs in progress
 mkdir -p $1/cdda-inprogress/
 mkdir -p $1/cdda-shared-inprogress/
+
+echo "FINISHED! Hgamelaunch was installed into $1"
+echo "The admin login is:"
+echo "username: admin"
+echo "password: admin"
+echo "Please make sure to change the password before opening the server to the public!"
+echo "You can also add, remove, or configure game launchers in config/games.json"
+echo "Make sure to stick to the format, otherwise it won't be read"
+echo "You might also want to change the banners located in config/banners"
+echo "After you configured Hgamelaunch you need to set up an ssh server."
+echo "I assume that you know how to do that."
