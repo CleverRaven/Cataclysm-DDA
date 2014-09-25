@@ -1,0 +1,9 @@
+#Generated from project in Cataclysm DDA Tileset Studio
+#Name of the tileset
+NAME: Winter32
+#Viewing (Option) name of the tileset
+VIEW: Winter32
+#JSON Path - Default of gfx/tile_config.json
+JSON: WinterTest/tile_config.json
+#Tileset Path - Default of gfx/tinytile.png
+TILESET: WinterTest/tiles.png
