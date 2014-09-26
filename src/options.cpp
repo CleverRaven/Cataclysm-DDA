@@ -513,7 +513,7 @@ void initOptions()
                                        );
 
     OPTIONS["SAFEMODEVEH"] = cOpt("general", _("Safemode when driving"),
-                                  _("When true, safemode will alert you to hostiles whilst you are driving a vehicle."),
+                                  _("When true, safemode will alert you to hostiles while you are driving a vehicle."),
                                   false
                                  );
 
