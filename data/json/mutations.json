@@ -335,7 +335,7 @@
         "description" : "Although you still suffer the negative effects of pain, it also brings a unique pleasure to you.",
         "starting_trait" : true,
         "valid" : false,
-        "changes_to" : ["PAIN_JUNKIE", "CENOBITE"]
+        "changes_to" : ["MASOCHIST_MED", "CENOBITE"]
     },{
         "type" : "mutation",
         "id" : "STYLISH",
@@ -1080,6 +1080,7 @@
         "prereqs" : ["M_IMMUNE"],
         "threshreq" : ["THRESH_MYCUS"],
         "leads_to" : ["M_DEFENDER"],
+        "changes_to" : ["M_SKIN2"],
         "wet_protection" : [
             { "part" : "HEAD", "ignored" : 6 },
             { "part" : "LEGS", "ignored" : 20 },
@@ -1087,6 +1088,27 @@
             { "part" : "ARMS", "ignored" : 18 },
             { "part" : "HANDS", "ignored" : 4 },
             { "part" : "TORSO", "ignored" : 40 }
+        ]
+    },{
+        "type" : "mutation",
+        "id" : "M_SKIN2",
+        "name" : "Mycus Fireproofing",
+        "points" : 5,
+        "visibility" : 10,
+        "ugliness" : 8,
+        "description" : "We have incorporated the dense amphibole fibers used in Mycus core towers. Greatly reduces speed, but also damage, flammability, and wet effects.",
+        "valid" : false,
+        "category" : ["MUTCAT_MYCUS"],
+        "prereqs" : ["M_SKIN"],
+        "prereqs2" : ["M_DEFENDER"],
+        "threshreq" : ["THRESH_MYCUS"],
+        "wet_protection" : [
+            { "part" : "HEAD", "ignored" : 9 },
+            { "part" : "LEGS", "ignored" : 30 },
+            { "part" : "FEET", "ignored" : 9 },
+            { "part" : "ARMS", "ignored" : 24 },
+            { "part" : "HANDS", "ignored" : 6 },
+            { "part" : "TORSO", "ignored" : 60 }
         ]
     },{
         "type" : "mutation",
@@ -1416,7 +1438,12 @@
         "prereqs" : ["M_SPORES"],
         "cancels" : ["M_BLOSSOMS", "M_BLOOM"],
         "threshreq" : ["THRESH_MYCUS"],
-        "category" : ["MUTCAT_MYCUS"]
+        "category" : ["MUTCAT_MYCUS"],
+        "active"     :    true,
+        "cost"       :    10,
+        "time"       :    0,
+        "hunger"     :    true,
+        "thirst"     :    true
     },{
         "type" : "mutation",
         "id" : "M_BLOSSOMS",
@@ -1427,6 +1454,7 @@
         "description" : "We have developed local blossoms.  The Mycus must grow.",
         "valid" : false,
         "prereqs" : ["M_DEPENDENT"],
+        "prereqs2" : ["M_IMMUNE"],
         "changes_to" : ["M_BLOOM"],
         "cancels" : ["M_SPORES", "M_FERTILE"],
         "threshreq" : ["THRESH_MYCUS"],
@@ -1443,7 +1471,13 @@
         "cancels" : ["M_SPORES", "M_FERTILE"],
         "prereqs" : ["M_BLOSSOMS"],
         "threshreq" : ["THRESH_MYCUS"],
-        "category" : ["MUTCAT_MYCUS"]
+        "category" : ["MUTCAT_MYCUS"],
+        "active"     :    true,
+        "cost"       :    15,
+        "time"       :    0,
+        "hunger"     :    true,
+        "thirst"     :    true,
+        "fatigue"    :    true
     },{
         "type" : "mutation",
         "id" : "NAILS",

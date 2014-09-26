@@ -1031,7 +1031,7 @@ void dis_effect(player &p, disease &dis)
 
         case DI_SPORES:
             // Equivalent to X in 150000 + health * 100
-            if (one_in(100) && x_in_y(dis.intensity, 150 + p.get_healthy() / 10)) {
+            if ((!g->u.has_trait("M_IMMUNE")) && (one_in(100) && x_in_y(dis.intensity, 150 + p.get_healthy() / 10)) ) {
                 p.add_disease("fungus", 3601, false, 1, 1, 0, -1);
                 g->u.add_memorial_log(pgettext("memorial_male", "Contracted a fungal infection."),
                                       pgettext("memorial_female", "Contracted a fungal infection."));
@@ -1673,7 +1673,11 @@ void dis_effect(player &p, disease &dis)
                 }
             }
             if (one_in(10000)) {
-                p.add_disease("fungus", 3601, false, 1, 1, 0, -1);
+                if (!g->u.has_trait("M_IMMUNE")) {
+                    p.add_disease("fungus", 3601, false, 1, 1, 0, -1);
+                } else {
+                    p.add_msg_if_player(m_info, _("We have many colonists awaiting passage."));
+                }
                 p.rem_disease("teleglow");
             }
             break;
@@ -2833,6 +2837,11 @@ Your right foot is blistering from the intense heat. It is extremely painful.");
 
 void manage_fungal_infection(player& p, disease& dis)
 {
+    if (g->u.has_trait("M_IMMUNE")) { // Just in case
+        p.vomit();
+        p.rem_disease("fungus");
+        p.add_msg_if_player(m_bad,  _("We have mistakenly colonized a local guide!  Purging now."));
+    }
     int bonus = p.get_healthy() / 10 + (p.has_trait("POISRESIST") ? 100 : 0);
     p.moves -= 10;
     p.mod_str_bonus(-1);

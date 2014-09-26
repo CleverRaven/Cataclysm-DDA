@@ -9589,7 +9589,7 @@
         "name" : "mycus fruit",
         "name_plural" : "mycus fruits",
         "weight" : 354,
-        "color" : "gray",
+        "color" : "light_gray",
         "addiction_type" : "none",
         "spoils_in" : 0,
         "use_action" : "MYCUS",

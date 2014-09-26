@@ -1642,7 +1642,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
     // Having lupine or croc jaws makes it much easier to sink your fangs into people;
     // Ursine/Feline, not so much
     if (has_trait("FANGS") && (!wearing_something_on(bp_mouth)) &&
-        ((!has_trait("MUZZLE") && !has_trait("MUZZLE_LONG") &&
+        ((has_trait("MUZZLE") && !has_trait("MUZZLE_LONG") &&
           one_in(20 - dex_cur - get_skill_level("unarmed"))) ||
          (has_trait("MUZZLE") && one_in(18 - dex_cur - get_skill_level("unarmed"))) ||
          (has_trait("MUZZLE_LONG") && one_in(15 - dex_cur - get_skill_level("unarmed"))))) {
@@ -1661,7 +1661,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         ret.push_back(tmp);
     }
 
-    if (!has_trait("FANGS") && has_trait("MUZZLE") &&
+    if (has_trait("FANGS") && has_trait("MUZZLE") &&
         one_in(18 - dex_cur - get_skill_level("unarmed")) &&
         (!wearing_something_on(bp_mouth))) {
         special_attack tmp;
@@ -1679,7 +1679,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         ret.push_back(tmp);
     }
 
-    if (!has_trait("FANGS") && has_trait("MUZZLE_BEAR") &&
+    if (has_trait("FANGS") && has_trait("MUZZLE_BEAR") &&
         one_in(20 - dex_cur - get_skill_level("unarmed")) &&
         (!wearing_something_on(bp_mouth))) {
         special_attack tmp;
@@ -1697,7 +1697,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         ret.push_back(tmp);
     }
 
-    if (!has_trait("FANGS") && has_trait("MUZZLE_LONG") &&
+    if (has_trait("FANGS") && has_trait("MUZZLE_LONG") &&
         one_in(18 - dex_cur - get_skill_level("unarmed")) &&
         (!wearing_something_on(bp_mouth))) {
         special_attack tmp;

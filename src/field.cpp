@@ -1498,7 +1498,8 @@ void map::step_in_field(int x, int y)
                     adjusted_intensity -= 1;
                 }
             }
-            if (!g->u.has_active_bionic("bio_heatsink") && !g->u.is_wearing("rm13_armor_on")) { //heatsink or suit prevents ALL fire damage.
+            if (!g->u.has_active_bionic("bio_heatsink") && !g->u.is_wearing("rm13_armor_on") &&
+              !g->u.has_trait("M_SKIN2")) { //heatsink, suit, or internal restructuring prevents ALL fire damage.
                 if (adjusted_intensity == 1) {
                     add_msg(m_bad, _("You burn your legs and feet!"));
                     g->u.deal_damage( nullptr, bp_foot_l, damage_instance( DT_HEAT, rng( 2, 6 ) ) );
@@ -1562,7 +1563,7 @@ void map::step_in_field(int x, int y)
             break;
 
         case fd_fungal_haze:
-            if (!inside || (inside && one_in(4)) ) {
+            if (!g->u.has_trait("M_IMMUNE") && (!inside || (inside && one_in(4))) ) {
                 g->u.infect("fungus", bp_mouth, 4, 100, true, 2, 4, 1, 1);
                 g->u.infect("fungus", bp_eyes, 4, 100, true, 2, 4, 1, 1);
             }
@@ -1705,7 +1706,7 @@ void map::step_in_field(int x, int y)
 
         case fd_incendiary:
         // Mysterious incendiary substance melts you horribly.
-            if (cur->getFieldDensity() == 1) {
+            if (g->u.has_trait("M_SKIN2") || cur->getFieldDensity() == 1) {
                 add_msg(m_bad, _("The incendiary burns you!"));
                 g->u.hurtall(rng(1, 3));
             } else {

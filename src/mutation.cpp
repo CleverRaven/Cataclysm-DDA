@@ -26,7 +26,7 @@ void player::activate_mutation(int b)
       (traits[mut].fatigue && fatigue >= 575)) {
       // Insufficient Foo to *maintain* operation is handled in player::suffer
         add_msg(m_warning, _("You feel like using your %s would kill you!"), traits[mut].name.c_str());
-        return; 
+        return;
     }
     if (traits[my_mutations[b]].powered && traits[my_mutations[b]].charge > 0) {
         // Already-on units just lose a bit of charge
@@ -94,6 +94,12 @@ void player::activate_mutation(int b)
     }
     else if (traits[mut].id == "SHOUT3"){
         g->sound(posx, posy, 20 + 4 * str_cur, _("You let out a piercing howl!"));
+    }
+    else if (traits[mut].id == "M_FERTILE"){
+        g->u.spores();
+    }
+    else if (traits[mut].id == "M_BLOOM"){
+        g->u.blossoms();
     }
     else if (traits[mut].id == "VINES3"){
         int handed = 0;
@@ -1274,7 +1280,7 @@ void mutation_loss_effect(player &p, std::string mut)
     } else if (mut == "DEX_UP") {
         p.dex_max --;
 
-    } else if (mut == "BENDY01") {
+    } else if (mut == "BENDY1") {
         p.dex_max --;
 
     } else if (mut == "BENDY2") {

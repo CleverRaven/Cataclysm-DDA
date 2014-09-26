@@ -2432,7 +2432,7 @@ void mattack::flamethrower(monster *z)
         }
         g->m.add_field(i.x, i.y, fd_fire, 1);
     }
-    if (!g->u.uncanny_dodge()) {
+    if (!g->u.uncanny_dodge() && !g->u.has_trait("M_SKIN2")) {
         g->u.add_effect("onfire", 8);
     }
 }

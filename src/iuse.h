@@ -74,7 +74,7 @@ public:
 // TOOLS
     int lighter             (player *, item *, bool);
     int primitive_fire      (player *, item *, bool);
-	  int ref_lit             (player *, item *, bool);
+    int ref_lit             (player *, item *, bool);
     int sew                 (player *, item *, bool);
     int extra_battery       (player *, item *, bool);
     int rechargeable_battery(player *, item *, bool);

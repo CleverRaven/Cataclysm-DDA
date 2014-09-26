@@ -1387,6 +1387,10 @@ void player::recalc_speed_bonus()
         }
     }
 
+    if (g->u.has_trait("M_SKIN2")) {
+        mod_speed_bonus(-20); // Could be worse--you've got the armor from a (sessile!) Spire
+    }
+
     if (has_artifact_with(AEP_SPEED_UP)) {
         mod_speed_bonus(20);
     }
@@ -5350,7 +5354,9 @@ bool player::siphon(vehicle *veh, ammotype desired_liquid)
 
 static void manage_fire_exposure(player &p, int fireStrength) {
     // TODO: this should be determined by material properties
-    p.hurtall(3*fireStrength);
+    if (!p.has_trait("M_SKIN2")) {
+        p.hurtall(3*fireStrength);
+    }
     for (size_t i = 0; i < p.worn.size(); i++) {
         item tmp = p.worn[i];
         bool burnVeggy = (tmp.made_of("veggy") || tmp.made_of("paper"));
@@ -5787,6 +5793,12 @@ void player::suffer()
         }
         if (has_trait("SHOUT3") && one_in(1800)) {
             g->sound(posx, posy, 20 + 4 * str_cur, _("You let out a piercing howl!"));
+        }
+        if (has_trait("M_SPORES") && one_in(2400)) {
+            spores();
+        }
+        if (has_trait("M_BLOSSOMS") && one_in(1800)) {
+            blossoms();
         }
     } // Done with while-awake-only effects
 
@@ -10330,6 +10342,12 @@ int player::get_armor_bash_base(body_part bp) const
     if (has_trait("FAT")) {
         ret ++;
     }
+    if (has_trait("M_SKIN")) {
+        ret += 2;
+    }
+    if (has_trait("M_SKIN2")) {
+        ret += 3;
+    }
     if (has_trait("CHITIN")) {
         ret += 2;
     }
@@ -10367,6 +10385,12 @@ int player::get_armor_cut_base(body_part bp) const
     }
     if (has_trait("THINSKIN")) {
         ret--;
+    }
+    if (has_trait("M_SKIN")) {
+        ret ++;
+    }
+    if (has_trait("M_SKIN2")) {
+        ret += 3;
     }
     if (has_trait("SCALES")) {
         ret += 2;
@@ -11733,4 +11757,49 @@ std::vector<std::string> player::get_overlay_ids() const {
         rval.push_back("wielded_"+weapon.typeId());
     }
     return rval;
+}
+
+void player::spores()
+{
+    g->sound(posx, posy, 10, _("Pouf!")); //~spore-release sound
+            monster spore(GetMType("mon_spore"));
+            int sporex, sporey;
+            int mondex;
+            for (int i = -1; i <= 1; i++) {
+                for (int j = -1; j <= 1; j++) {
+                    if (i == 0 && j == 0) {
+                        continue;
+                    }
+                    sporex = posx + i;
+                    sporey = posy + j;
+                    mondex = g->mon_at(sporex, sporey);
+                    if (g->m.move_cost(sporex, sporey) > 0) {
+                        if (mondex != -1) { // Spores hit a monster
+                            if (g->u_see(sporex, sporey) &&
+                                !g->zombie(mondex).type->in_species("FUNGUS")) {
+                                add_msg(_("The %s is covered in tiny spores!"),
+                                        g->zombie(mondex).name().c_str());
+                            }
+                            monster &critter = g->zombie( mondex );
+                            if( !critter.make_fungus() ) {
+                                critter.die(nullptr); // FIXME: needs a player reference
+                            }
+                        } else if (one_in(3) && g->num_zombies() <= 1000) { // Spawn a spore
+                        spore.spawn(sporex, sporey);
+                        g->add_zombie(spore);
+                        }
+                    }
+                }
+            }
+}
+
+void player::blossoms()
+{
+    // Player blossoms are shorter-ranged, but you can fire much more frequently if you like.
+     g->sound(posx, posy, 10, _("Pouf!"));
+     for (int i = posx - 2; i <= posx + 2; i++) {
+        for (int j = posy - 2; j <= posy + 2; j++) {
+                g->m.add_field( i, j, fd_fungal_haze, rng(1, 2));
+        }
+    }
 }

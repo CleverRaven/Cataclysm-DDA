@@ -12554,8 +12554,9 @@ bool game::plmove(int dx, int dy)
                 dangerous = !(u.get_env_resist(bp_mouth) >= 15);
                 break;
             case fd_fungal_haze:
-                dangerous = !((u.get_env_resist(bp_mouth) >= 15) &&
-                              (u.get_env_resist(bp_eyes) >= 15) );
+                dangerous = (!((u.get_env_resist(bp_mouth) >= 15) &&
+                              (u.get_env_resist(bp_eyes) >= 15) ) &&
+                              !u.has_trait("M_IMMUNE"));
                 break;
             default:
                 dangerous = cur->is_dangerous();
@@ -14416,7 +14417,7 @@ bool game::spread_fungus(int x, int y)
                                     add_msg(m_warning, _("The young tree blooms forth into a fungal blossom!"));
                                     }
                                 }
-                            } else { 
+                            } else {
                                 m.ter_set(i, j, t_tree_fungal_young);
                             }
                             converted = true;
