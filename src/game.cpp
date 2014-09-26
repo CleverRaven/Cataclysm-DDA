@@ -1835,16 +1835,21 @@ void game::activity_on_finish()
         activity_on_finish_make_zlave();
         u.activity.type = ACT_NULL;
         break;
+    case ACT_PICKUP:
+    case ACT_MOVE_ITEMS:
+        // Do nothing, the only way this happens is if we set this activity after
+        // entering the advanced inventory menu as an activity, and we want it to play out.
+        break;
     default:
         u.activity.type = ACT_NULL;
     }
     if (u.activity.type == ACT_NULL) {
         // Make sure data of previous activity is cleared
         u.activity = player_activity();
-    }
-    if( !u.backlog.empty() && u.backlog.front().auto_resume ) {
-        u.activity = u.backlog.front();
-        u.backlog.pop_front();
+        if( !u.backlog.empty() && u.backlog.front().auto_resume ) {
+            u.activity = u.backlog.front();
+            u.backlog.pop_front();
+        }
     }
 }
 
