@@ -3383,7 +3383,7 @@ void vehicle::handle_trap (int x, int y, int part)
         g->m.remove_trap(x, y);
         g->m.spawn_item(x, y, "beartrap");
     } else if ( t == tr_nailboard ||
-    		t == tr_caltrops) {
+    		t == tr_caltrops ) {
         wreckit = true;
     } else if ( t == tr_blade ) {
         noise = 1;
