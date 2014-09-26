@@ -728,6 +728,7 @@
         "required_level" : 5
     },
     {
+        "comment": "The spelling is intentionally archaic, as this form is commonly used in the titles of books.",
         "type" : "BOOK",
         "id" : "textbook_traps",
         "name" : "The Compleat Trapper",
