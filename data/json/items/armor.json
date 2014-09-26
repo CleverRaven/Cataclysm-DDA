@@ -7900,7 +7900,7 @@
         "bashing" : 1,
         "flags" : ["WATERPROOF", "STURDY", "ELECTRIC_IMMUNE"],
         "coverage" : 100,
-        "material_thickness" : 13
+        "material_thickness" : 12
     },
     {
         "type" : "ARMOR",
@@ -7925,7 +7925,7 @@
         "encumbrance" : 5,
         "bashing" : 1,
         "coverage" : 100,
-        "material_thickness" : 13,
+        "material_thickness" : 12,
         "flags" : ["WATCH", "WATERPROOF", "STURDY"]
     },
     {

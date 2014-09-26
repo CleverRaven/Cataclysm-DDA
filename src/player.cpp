@@ -4748,7 +4748,7 @@ void player::apply_damage(Creature *source, body_part hurt, int dam)
     }
     hp_cur[hurtpart] -= dam;
     if (hp_cur[hurtpart] < 0) {
-        lifetime_stats()->damage_taken += hp_cur[hurt];
+        lifetime_stats()->damage_taken += hp_cur[hurtpart];
         hp_cur[hurtpart] = 0;
     }
     lifetime_stats()->damage_taken += dam;
@@ -4855,14 +4855,14 @@ void player::hitall(int dam, int vary)
         int cut = 0;
         absorb((body_part) i, ddam, cut);
         hp_cur[i] -= ddam;
-        if (hp_cur[i] < 0)
-        {
-            lifetime_stats()->damage_taken+=hp_cur[i];
+        if (hp_cur[i] < 0) {
+            lifetime_stats()->damage_taken += hp_cur[i];
             hp_cur[i] = 0;
         }
 
-        mod_pain( dam / 2 / 4 );
-        lifetime_stats()->damage_taken+=dam;
+        // Average of pre and post armor damage levels, divided by 8.
+        mod_pain( (dam + ddam) / 16 );
+        lifetime_stats()->damage_taken += ddam;
     }
 }
 

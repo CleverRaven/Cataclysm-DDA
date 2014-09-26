@@ -166,6 +166,7 @@ void MonsterGenerator::init_attack()
     attack_map["SMOKECLOUD"] = &mattack::smokecloud;
     attack_map["BOOMER"] = &mattack::boomer;
     attack_map["RESURRECT"] = &mattack::resurrect;
+    attack_map["SMASH"] = &mattack::smash;
     attack_map["SCIENCE"] = &mattack::science;
     attack_map["GROWPLANTS"] = &mattack::growplants;
     attack_map["GROW_VINE"] = &mattack::grow_vine;

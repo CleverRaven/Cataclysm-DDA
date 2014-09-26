@@ -13346,23 +13346,21 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
         bool thru = true;
         bool slam = false;
         int mondex = mon_at(x, y);
-        dam1 = flvel / 3 + rng(0, flvel * 1 / 3);
+        float previous_velocity = flvel;
+        monster *critter = nullptr;
+
+        dam1 = rng( flvel, flvel * 2.0 ) / 3;
         if (controlled) {
-            dam1 = std::max(dam1 / 2 - 5, 0);
+            dam1 = std::max((dam1 / 2) - 5, 0);
         }
         if (mondex >= 0) {
-            monster &critter = zombie(mondex);
+            critter = &zombie(mondex);
             slam = true;
-            dname = critter.name();
-            dam2 = flvel / 3 + rng(0, flvel * 1 / 3);
-            critter.apply_damage( c, bp_torso, dam2 );
-            if( !critter.is_dead() ) {
+            dname = critter->name();
+            dam2 = rng( flvel, flvel * 2.0 );
+            critter->apply_damage( c, bp_torso, dam2 );
+            if( !critter->is_dead() ) {
                 thru = false;
-            }
-            if( p != nullptr ) {
-                p->hitall(dam1, 40);
-            } else {
-                zz->apply_damage( &critter, bp_torso, dam1 );
             }
         } else if (m.move_cost(x, y) == 0) {
             slam = true;
@@ -13375,23 +13373,43 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
             } else {
                 thru = false;
             }
+        }
+        if( slam ) {
+            if( thru ) {
+                flvel /= 2.0;
+            } else {
+                flvel = 0.0;
+            }
+            float velocity_difference = previous_velocity - flvel;
+            dam1 = rng( velocity_difference, velocity_difference * 2.0 ) / 3;
+            if( thru ) {
+                if( is_u ) {
+                    add_msg(_("You are slammed through the %s for %d damage!"), dname.c_str(), dam1);
+                } else {
+                    //~ first %s is the monster name ("the zombie") or a npc name.
+                    add_msg(_("%s is slammed through the %s!"), c->disp_name().c_str(), dname.c_str());
+                }
+            } else {
+                if( is_u ) {
+                    add_msg(_("You are slammed against the %s for %d damage!"), dname.c_str(), dam1);
+                } else {
+                    //~ first %s is the monster name ("the zombie") or a npc name.
+                    add_msg(_("%s is slammed against the %s!"), c->disp_name().c_str(), dname.c_str());
+                }
+            }
             if( p != nullptr ) {
                 p->hitall(dam1, 40);
             } else {
-                zz->apply_damage( nullptr, bp_torso, dam1 );
-            }
-            flvel = flvel / 2;
-        }
-        if (slam && dam1) {
-            if( is_u ) {
-                add_msg(_("You are slammed against the %s!"), dname.c_str());
-            } else {
-                //~ first %s is the monster name ("the zombie") or a npc name.
-                add_msg(_("%s is slammed against the %s!"), c->disp_name().c_str(), dname.c_str());
+                zz->apply_damage( critter, bp_torso, dam1 );
             }
         }
-        if (thru) {
+        if( thru ) {
             if( p != nullptr ) {
+                // If we're flinging the player around, make sure the map stays centered on them.
+                if( is_u && ( x < SEEX * int(MAPSIZE / 2) || y < SEEY * int(MAPSIZE / 2) ||
+                    x >= SEEX * (1 + int(MAPSIZE / 2)) || y >= SEEY * (1 + int(MAPSIZE / 2)) ) ) {
+                    update_map( x, y );
+                }
                 p->posx = x;
                 p->posy = y;
             } else {
@@ -13402,11 +13420,12 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
         }
         range--;
         steps++;
+        draw();
     }
 
     if (!m.has_flag("SWIMMABLE", x, y)) {
         // fall on ground
-        dam1 = rng(flvel / 3, flvel * 2 / 3) / 2;
+        dam1 = rng( flvel, flvel * 2.0 ) / 6;
         if (controlled) {
             dam1 = std::max(dam1 / 2 - 5, 0);
         }

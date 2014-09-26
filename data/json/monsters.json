@@ -2007,9 +2007,9 @@
     "death_drops": "default_zombie_death_drops",
     "luminance":0,
     "hp":120,
-    "special_freq":5,
+    "special_freq":30,
     "death_function":["NORMAL"],
-    "special_attack":"BITE",
+    "special_attack":"SMASH",
     "description":"Its entire body bulges with distended muscles and swollen, festering wounds.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS40", "REVIVES"]
     },{
@@ -2036,9 +2036,9 @@
     "death_drops": "mon_zombie_hulk_death_drops",
     "luminance":0,
     "hp":480,
-    "special_freq":0,
+    "special_freq":20,
     "death_function":["NORMAL"],
-    "special_attack":"NONE",
+    "special_attack":"SMASH",
     "description":"A human body now swollen to the size of six men, with arms as wide as a trash can.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "DESTROYS", "POISON", "ATTACKMON", "LEATHER", "NO_BREATHE", "VIS50", "REVIVES"]
     },{
