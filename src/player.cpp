@@ -4860,7 +4860,8 @@ void player::hitall(int dam, int vary)
             hp_cur[i] = 0;
         }
 
-        mod_pain( (dam + ddam) / 8 );
+        // Average of pre and post armor damage levels, divided by 8.
+        mod_pain( (dam + ddam) / 16 );
         lifetime_stats()->damage_taken += ddam;
     }
 }
