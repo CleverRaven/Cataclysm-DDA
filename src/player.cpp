@@ -4855,14 +4855,13 @@ void player::hitall(int dam, int vary)
         int cut = 0;
         absorb((body_part) i, ddam, cut);
         hp_cur[i] -= ddam;
-        if (hp_cur[i] < 0)
-        {
-            lifetime_stats()->damage_taken+=hp_cur[i];
+        if (hp_cur[i] < 0) {
+            lifetime_stats()->damage_taken += hp_cur[i];
             hp_cur[i] = 0;
         }
 
-        mod_pain( dam / 2 / 4 );
-        lifetime_stats()->damage_taken+=dam;
+        mod_pain( (dam + ddam) / 8 );
+        lifetime_stats()->damage_taken += ddam;
     }
 }
 
