@@ -3369,7 +3369,6 @@ void vehicle::handle_trap (int x, int y, int part)
     int expl = 0;
     int shrap = 0;
     bool wreckit = false;
-    std::string msg (_("The %s's %s runs over %s."));
     std::string snd;
     // todo; make trapfuncv?
 
@@ -3425,8 +3424,14 @@ void vehicle::handle_trap (int x, int y, int part)
     } else if ( t == tr_sinkhole || t == tr_pit || t == tr_spike_pit || t == tr_ledge ) {
         wreckit = true;
     }
-    if (!msg.empty() && g->u_see(x, y)) {
-        add_msg (m_bad, msg.c_str(), name.c_str(), part_info(part).name.c_str(), traplist[t]->name.c_str());
+    if( g->u_see(x, y) ) {
+        if( g->u.knows_trap(x, y) ) {
+            add_msg(m_bad, _("The %s's %s runs over %s."), name.c_str(),
+                    part_info(part).name.c_str(), traplist[t]->name.c_str() );
+        } else {
+            add_msg(m_bad, _("The %s's %s runs over something."), name.c_str(),
+                    part_info(part).name.c_str() );
+        }
     }
     if (noise > 0) {
         g->sound(x, y, noise, snd);
