@@ -3360,7 +3360,8 @@ void vehicle::handle_trap (int x, int y, int part)
         return;
     }
     trap_id t = g->m.tr_at(x, y);
-    if (t == tr_null) {
+    if (t == tr_null || t == tr_goo || t == tr_portal || t == tr_telepad || t == tr_temple_flood ||
+        t == tr_temple_toggle ) {
         return;
     }
     int noise = 0;
@@ -3375,15 +3376,13 @@ void vehicle::handle_trap (int x, int y, int part)
     if ( t == tr_bubblewrap ) {
         noise = 18;
         snd = _("Pop!");
-    } else if ( t == tr_beartrap ||
-                t == tr_beartrap_buried ) {
+    } else if ( t == tr_beartrap || t == tr_beartrap_buried ) {
         noise = 8;
         snd = _("SNAP!");
         wreckit = true;
         g->m.remove_trap(x, y);
         g->m.spawn_item(x, y, "beartrap");
-    } else if ( t == tr_nailboard ||
-    		t == tr_caltrops ) {
+    } else if ( t == tr_nailboard || t == tr_caltrops ) {
         wreckit = true;
     } else if ( t == tr_blade ) {
         noise = 1;
@@ -3400,8 +3399,7 @@ void vehicle::handle_trap (int x, int y, int part)
         if (!one_in(10)) {
             g->m.spawn_item(x, y, "bolt_steel");
         }
-    } else if ( t == tr_shotgun_2 ||
-                t == tr_shotgun_1 ) {
+    } else if ( t == tr_shotgun_2 || t == tr_shotgun_1 ) {
         noise = 60;
         snd = _("Bang!");
         chance = 70;
@@ -3413,8 +3411,7 @@ void vehicle::handle_trap (int x, int y, int part)
             g->m.spawn_item(x, y, "shotgun_sawn");
             g->m.spawn_item(x, y, "string_6");
         }
-    } else if ( t == tr_landmine_buried ||
-                t == tr_landmine ) {
+    } else if ( t == tr_landmine_buried || t == tr_landmine ) {
         expl = 10;
         shrap = 8;
         g->m.remove_trap(x, y);
@@ -3425,17 +3422,8 @@ void vehicle::handle_trap (int x, int y, int part)
         noise = 10;
         snd = _("BRZZZAP!");
         wreckit = true;
-    } else if ( t == tr_sinkhole ||
-                t == tr_pit ||
-                t == tr_spike_pit ||
-                t == tr_ledge ) {
+    } else if ( t == tr_sinkhole || t == tr_pit || t == tr_spike_pit || t == tr_ledge ) {
         wreckit = true;
-    } else if ( t == tr_goo ||
-                t == tr_portal ||
-                t == tr_telepad ||
-                t == tr_temple_flood ||
-                t == tr_temple_toggle ) {
-        msg.clear();
     }
     if (!msg.empty() && g->u_see(x, y)) {
         add_msg (m_bad, msg.c_str(), name.c_str(), part_info(part).name.c_str(), traplist[t]->name.c_str());
@@ -3806,13 +3794,11 @@ int vehicle::damage (int p, int dmg, int type, bool aimed)
       // We ran out of non removed parts at this location already.
       return dmg;
     }
-    if (!aimed)
-    {
+    if( !aimed ) {
         bool found_obs = false;
         for (auto &i : pl)
             if (part_flag (i, "OBSTACLE") &&
-                (!part_flag (i, "OPENABLE") || !parts[i].open))
-            {
+                (!part_flag (i, "OPENABLE") || !parts[i].open)) {
                 found_obs = true;
                 break;
             }
@@ -3822,15 +3808,13 @@ int vehicle::damage (int p, int dmg, int type, bool aimed)
     int parm = part_with_feature (p, "ARMOR");
     int pdm = pl[rng (0, pl.size()-1)];
     int dres;
-    if (parm < 0)
+    if (parm < 0) {
         // not covered by armor -- damage part
         dres = damage_direct (pdm, dmg, type);
-    else
-    {
+    } else {
         // covered by armor -- damage armor first
         // half damage for internal part(over parts not covered)
-        bool overhead = part_flag(pdm, "ROOF") ||
-                        part_info(pdm).location == "on_roof";
+        bool overhead = part_flag(pdm, "ROOF") || part_info(pdm).location == "on_roof";
         // Calling damage_direct may remove the damaged part
         // completely, therefor the other indes (pdm) becames
         // wrong if pdm > parm.
