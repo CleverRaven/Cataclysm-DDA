@@ -363,6 +363,7 @@ class game
         unsigned int weatherSeed = 0;
         signed char temperature;              // The air temperature
         int get_temperature();    // Returns outdoor or indoor temperature of current location
+        int get_water_temperature();    // Returns water temperature, in celsius
         weather_type weather;   // Weather pattern--SEE weather.h
         bool lightning_active;
 
