@@ -1,5 +1,5 @@
-#ifndef _MONGROUP_H_
-#define _MONGROUP_H_
+#ifndef MONGROUP_H
+#define MONGROUP_H
 
 #include "mtype.h"
 #include <vector>
@@ -146,4 +146,5 @@ class MonsterGroupManager
     private:
         static std::map<std::string, MonsterGroup> monsterGroupMap;
 };
+
 #endif

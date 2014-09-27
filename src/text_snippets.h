@@ -1,5 +1,5 @@
-#ifndef _TEXT_SNIPPET_H_
-#define _TEXT_SNIPPET_H_
+#ifndef TEXT_SNIPPET_H
+#define TEXT_SNIPPET_H
 
 #include "json.h"
 
@@ -54,4 +54,4 @@ class snippet_library
 
 extern snippet_library SNIPPET;
 
-#endif // _TEXT_SNIPPET_H_
+#endif

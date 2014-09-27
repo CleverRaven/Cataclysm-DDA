@@ -1,5 +1,5 @@
-#ifndef _CRAFTING_H_
-#define _CRAFTING_H_
+#ifndef CRAFTING_H
+#define CRAFTING_H
 
 #include <string>
 #include <vector>

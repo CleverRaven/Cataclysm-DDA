@@ -1,5 +1,5 @@
-#ifndef _INVENTORY_H_
-#define _INVENTORY_H_
+#ifndef INVENTORY_H
+#define INVENTORY_H
 
 #include "item.h"
 #include "artifact.h"

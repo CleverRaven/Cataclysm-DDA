@@ -1,5 +1,5 @@
-#ifndef _OPTIONS_H_
-#define _OPTIONS_H_
+#ifndef OPTIONS_H
+#define OPTIONS_H
 
 #include <string>
 #include <map>
@@ -135,6 +135,5 @@ void show_options(bool ingame = false);
 bool use_narrow_sidebar(); // short-circuits to on if terminal is too small
 
 std::string get_tileset_names(std::string dir_path);
-
 
 #endif

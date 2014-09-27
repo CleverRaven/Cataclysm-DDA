@@ -1,5 +1,5 @@
-#ifndef _CALENDAR_H_
-#define _CALENDAR_H_
+#ifndef CALENDAR_H
+#define CALENDAR_H
 
 #include <string>
 
@@ -140,4 +140,4 @@ class calendar
 
         static   calendar turn;
 };
-#endif // _CALENDAR_H_
+#endif

@@ -1,5 +1,5 @@
-#ifndef _ITEM_FACTORY_H_
-#define _ITEM_FACTORY_H_
+#ifndef ITEM_FACTORY_H
+#define ITEM_FACTORY_H
 
 #include "color.h"
 #include "json.h"

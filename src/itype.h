@@ -1,5 +1,5 @@
-#ifndef _ITYPE_H_
-#define _ITYPE_H_
+#ifndef ITYPE_H
+#define ITYPE_H
 
 #include "color.h"
 #include "enums.h"

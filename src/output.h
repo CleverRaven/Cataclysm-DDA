@@ -1,5 +1,5 @@
-#ifndef _OUTPUT_H_
-#define _OUTPUT_H_
+#ifndef OUTPUT_H
+#define OUTPUT_H
 
 #include "color.h"
 #include "line.h"

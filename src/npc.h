@@ -1,5 +1,5 @@
-#ifndef _NPC_H_
-#define _NPC_H_
+#ifndef NPC_H
+#define NPC_H
 
 #include "messages.h"
 #include "player.h"

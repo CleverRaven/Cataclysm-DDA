@@ -1,5 +1,5 @@
-#ifndef _MONDEATH_H_
-#define _MONDEATH_H_
+#ifndef MONDEATH_H
+#define MONDEATH_H
 
 class monster;
 

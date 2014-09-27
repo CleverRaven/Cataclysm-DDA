@@ -1,5 +1,5 @@
-#ifndef _CONSTRUCTION_H_
-#define _CONSTRUCTION_H_
+#ifndef CONSTRUCTION_H
+#define CONSTRUCTION_H
 
 #include "json.h"
 #include "requirements.h"
@@ -39,4 +39,4 @@ void construction_menu();
 void complete_construction();
 void check_constructions();
 
-#endif // _CONSTRUCTION_H_
+#endif

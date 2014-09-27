@@ -1,5 +1,5 @@
-#ifndef _MONATTACK_H_
-#define _MONATTACK_H_
+#ifndef MONATTACK_H
+#define MONATTACK_H
 
 class mattack
 {

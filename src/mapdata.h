@@ -1,5 +1,5 @@
-#ifndef _MAPDATA_H_
-#define _MAPDATA_H_
+#ifndef MAPDATA_H
+#define MAPDATA_H
 
 #include <vector>
 #include <string>
