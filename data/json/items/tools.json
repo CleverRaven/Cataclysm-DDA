@@ -92,7 +92,7 @@
     "cutting": 0,
     "to_hit": 0,
     "max_charges": 100,
-    "initial_charges": 0,
+    "initial_charges": 100,
     "rand_charges": [1,10,12,15,16,22,44,50,67,75,82,100],
     "charges_per_use": 1,
     "turns_per_charge": 0,
