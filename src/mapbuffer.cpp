@@ -295,8 +295,8 @@ void mapbuffer::save_quad( const std::string &filename, const tripoint &om_addr,
                     jsout.write( i );
                     jsout.write( j );
                     jsout.start_array();
-                    for(std::map<field_id, field_entry *>::iterator it = sm->fld[i][j].getFieldStart();
-                        it != sm->fld[i][j].getFieldEnd(); ++it) {
+                    for( auto it = sm->fld[i][j].getFieldStart();
+                         it != sm->fld[i][j].getFieldEnd(); ++it ) {
                         if(it->second != NULL) {
                             // We don't seem to have a string identifier for fields anywhere.
                             jsout.write( it->second->getFieldType() );

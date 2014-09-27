@@ -8729,8 +8729,7 @@ void game::print_fields_info(int lx, int ly, WINDOW *w_look, int column, int &li
     }
 
     field_entry *cur = NULL;
-    typedef std::map<field_id, field_entry *>::iterator field_iterator;
-    for (field_iterator it = tmpfield.getFieldStart(); it != tmpfield.getFieldEnd(); ++it) {
+    for( auto it = tmpfield.getFieldStart(); it != tmpfield.getFieldEnd(); ++it ) {
         cur = it->second;
         if (cur == NULL) {
             continue;
@@ -12587,8 +12586,7 @@ bool game::plmove(int dx, int dy)
         //Ask for EACH bad field, maybe not? Maybe say "theres X bad shit in there don't do it."
         field_entry *cur = NULL;
         field &tmpfld = m.field_at(x, y);
-        std::map<field_id, field_entry *>::iterator field_it;
-        for (field_it = tmpfld.getFieldStart(); field_it != tmpfld.getFieldEnd(); ++field_it) {
+        for( auto field_it = tmpfld.getFieldStart(); field_it != tmpfld.getFieldEnd(); ++field_it ) {
             cur = field_it->second;
             if (cur == NULL) {
                 continue;
