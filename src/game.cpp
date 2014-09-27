@@ -5303,7 +5303,7 @@ void game::draw_sidebar()
     //Safemode coloring
     WINDOW *day_window = sideStyle ? w_status2 : w_status;
     mvwprintz(day_window, 0, sideStyle ? 0 : 41, c_white, _("%s, day %d"),
-              season_name[calendar::turn.get_season()].c_str(), calendar::turn.days() + 1);
+              season_name_uc[calendar::turn.get_season()].c_str(), calendar::turn.days() + 1);
     if (run_mode != 0 || autosafemode != 0) {
         int iPercent = int((turnssincelastmon * 100) / OPTIONS["AUTOSAFEMODETURNS"]);
         wmove(w_status, sideStyle ? 4 : 1, getmaxx(w_status) - 4);

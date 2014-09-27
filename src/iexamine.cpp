@@ -1725,12 +1725,7 @@ void iexamine::harvest_tree(player *p, map *m, int examx, int examy)
     if (calendar::turn.get_season() != season_int) {
         std::string fruit = item_controller->find_template(m->get_ter_harvestable(examx, examy))->nname(10);
         fruit[0] = toupper(fruit[0]);
-        add_msg(m_info, _("%s ripen in %s."),
-            fruit.c_str(),
-            season_int == 0 ? "spring"
-              : season_int == 1 ? "summer"
-              : season_int == 2 ? "autumn"
-              :                   "winter");
+        add_msg(m_info, _("%s ripen in %s."), fruit.c_str(), season_name[season_int].c_str());
         return;
     }
     if(!query_yn(_("Harvest from the %s?"), m->tername(examx, examy).c_str())) {

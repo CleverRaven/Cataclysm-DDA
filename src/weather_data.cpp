@@ -11,6 +11,7 @@
  */
 
 std::string season_name[4];
+std::string season_name_uc[4];
 
 /**
  * Weather types data definition.
@@ -134,10 +135,14 @@ int weather_shift[4][NUM_WEATHER_TYPES][NUM_WEATHER_TYPES] = {
 void game::init_weather()
 {
     std::string tmp_season_name[4] = {
-        _("Spring"), _("Summer"), _("Autumn"), _("Winter")
+        _("spring"), _("summer"), _("autumn"), _("winter")
     };
     for(int i = 0; i < 4; i++) {
         season_name[i] = tmp_season_name[i];
+    }
+    for(int i = 0; i < 4; i++) {
+        season_name_uc[i] = tmp_season_name[i];
+        season_name_uc[i][0] = toupper(season_name_uc[i][0]);
     }
     // Nm, UICol, {Temp by season}, RangedPEN, SightPEN, light_mod, MinTIME, MaxTIME(to recalc)
     weather_datum tmp_weather_data[] = {
