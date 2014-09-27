@@ -11210,33 +11210,35 @@ point player::adjacent_tile()
     field tmpfld;
     trap_id curtrap;
     int dangerous_fields;
-    for (int i=posx-1; i <= posx+1; i++)
-    {
-        for (int j=posy-1; j <= posy+1; j++)
-        {
-            if (i == posx && j == posy) continue;       // don't consider player position
-            curtrap=g->m.tr_at(i, j);
-            if (g->mon_at(i, j) == -1 && g->npc_at(i, j) == -1 && g->m.move_cost(i, j) > 0 && (curtrap == tr_null || traplist[curtrap]->is_benign()))        // only consider tile if unoccupied, passable and has no traps
-            {
+    for( int i = posx - 1; i <= posx + 1; i++ ) {
+        for( int j = posy - 1; j <= posy + 1; j++ ) {
+            if( i == posx && j == posy ) {
+                // don't consider player position
+                continue;
+            }
+            curtrap = g->m.tr_at(i, j);
+            if( g->mon_at(i, j) == -1 && g->npc_at(i, j) == -1 && g->m.move_cost(i, j) > 0 &&
+                (curtrap == tr_null || traplist[curtrap]->is_benign()) ) {
+                // only consider tile if unoccupied, passable and has no traps
                 dangerous_fields = 0;
                 tmpfld = g->m.field_at(i, j);
-                for(std::map<field_id, field_entry*>::iterator field_list_it = tmpfld.getFieldStart(); field_list_it != tmpfld.getFieldEnd(); ++field_list_it)
-                {
+                for( auto field_list_it = tmpfld.getFieldStart();
+                     field_list_it != tmpfld.getFieldEnd(); ++field_list_it ) {
                     cur = field_list_it->second;
-                    if (cur != NULL && cur->is_dangerous())
+                    if (cur != NULL && cur->is_dangerous()) {
                         dangerous_fields++;
+                    }
                 }
-                if (dangerous_fields == 0)
-                {
+                if (dangerous_fields == 0) {
                     ret.push_back(point(i, j));
                 }
             }
         }
     }
-    if (ret.size())
-        return ret[rng(0, ret.size()-1)];   // return a random valid adjacent tile
-    else
-        return point(posx, posy);           // or return player position if no valid adjacent tiles
+    if( ret.size() ) {
+        return ret[ rng( 0, ret.size() - 1 ) ];   // return a random valid adjacent tile
+    }
+    return point(posx, posy);           // or return player position if no valid adjacent tiles
 }
 
 // --- Library functions ---

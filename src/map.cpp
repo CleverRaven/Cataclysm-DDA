@@ -1216,7 +1216,7 @@ bool map::trans(const int x, const int y)
         field &curfield = field_at( x,y );
         if( curfield.fieldCount() > 0 ) {
             field_entry *cur = NULL;
-            for( std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart();
+            for( auto field_list_it = curfield.getFieldStart();
                  field_list_it != curfield.getFieldEnd(); ++field_list_it ) {
                 cur = field_list_it->second;
                 if( cur == NULL ) {
@@ -1940,7 +1940,7 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str,
                                 spawn_item(tentx + i, tenty + j, "damaged_shelter_kit");
                             }
                             furn_id check_furn = furn(tentx + i, tenty + j);
-                            if (check_furn == f_skin_wall || check_furn == f_skin_door || 
+                            if (check_furn == f_skin_wall || check_furn == f_skin_door ||
                                   check_furn == f_skin_door_o || check_furn == f_skin_groundsheet ||
                                   check_furn == f_canvas_wall || check_furn == f_canvas_door ||
                                   check_furn == f_canvas_door_o || check_furn == f_groundsheet ||
@@ -5011,63 +5011,64 @@ void map::build_outside_cache()
 // TODO Consider making this just clear the cache and dynamically fill it in as trans() is called
 void map::build_transparency_cache()
 {
- if (!transparency_cache_dirty) {
-     return;
- }
- for(int x = 0; x < my_MAPSIZE * SEEX; x++) {
-  for(int y = 0; y < my_MAPSIZE * SEEY; y++) {
-
-   // Default to fully transparent.
-   transparency_cache[x][y] = LIGHT_TRANSPARENCY_CLEAR;
-
-   if ( !terlist[ter(x, y)].transparent || !furnlist[furn(x, y)].transparent ) {
-    transparency_cache[x][y] = LIGHT_TRANSPARENCY_SOLID;
-    continue;
-   }
-
-   //Quoted to see if this works!
-   field &curfield = field_at(x,y);
-   if(curfield.fieldCount() > 0){
-    field_entry *cur = NULL;
-    for(std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart(); field_list_it != curfield.getFieldEnd(); ++field_list_it){
-     cur = field_list_it->second;
-     if(cur == NULL) continue;
-
-     if(!fieldlist[cur->getFieldType()].transparent[cur->getFieldDensity() - 1]) {
-      // Fields are either transparent or not, however we want some to be translucent
-      switch(cur->getFieldType()) {
-      case fd_cigsmoke:
-      case fd_weedsmoke:
-      case fd_cracksmoke:
-      case fd_methsmoke:
-      case fd_relax_gas:
-          transparency_cache[x][y] *= 0.7;
-          break;
-      case fd_smoke:
-      case fd_incendiary:
-      case fd_toxic_gas:
-      case fd_tear_gas:
-       if(cur->getFieldDensity() == 3)
-        transparency_cache[x][y] = LIGHT_TRANSPARENCY_SOLID;
-       if(cur->getFieldDensity() == 2)
-        transparency_cache[x][y] *= 0.5;
-       break;
-      case fd_nuke_gas:
-       transparency_cache[x][y] *= 0.5;
-       break;
-      default:
-       transparency_cache[x][y] = LIGHT_TRANSPARENCY_SOLID;
-       break;
-      }
-     }
-
-     // TODO: [lightmap] Have glass reduce light as well
+    if( !transparency_cache_dirty ) {
+        return;
     }
-   }
-  }
- }
+    for( int x = 0; x < my_MAPSIZE * SEEX; x++ ) {
+        for( int y = 0; y < my_MAPSIZE * SEEY; y++ ) {
+            // Default to fully transparent.
+            transparency_cache[x][y] = LIGHT_TRANSPARENCY_CLEAR;
 
- transparency_cache_dirty = false;
+            if( !terlist[ter(x, y)].transparent || !furnlist[furn(x, y)].transparent ) {
+                transparency_cache[x][y] = LIGHT_TRANSPARENCY_SOLID;
+                continue;
+            }
+
+            field &curfield = field_at(x,y);
+            if(curfield.fieldCount() > 0){
+                field_entry *cur = NULL;
+                for( auto field_list_it = curfield.getFieldStart();
+                     field_list_it != curfield.getFieldEnd(); ++field_list_it ) {
+                    cur = field_list_it->second;
+                    if(cur == NULL) {
+                        continue;
+                    }
+
+                    if( !fieldlist[cur->getFieldType()].transparent[cur->getFieldDensity() - 1] ) {
+                        // Fields are either transparent or not, however we want some to be translucent
+                        switch(cur->getFieldType()) {
+                        case fd_cigsmoke:
+                        case fd_weedsmoke:
+                        case fd_cracksmoke:
+                        case fd_methsmoke:
+                        case fd_relax_gas:
+                            transparency_cache[x][y] *= 0.7;
+                            break;
+                        case fd_smoke:
+                        case fd_incendiary:
+                        case fd_toxic_gas:
+                        case fd_tear_gas:
+                            if(cur->getFieldDensity() == 3) {
+                                transparency_cache[x][y] = LIGHT_TRANSPARENCY_SOLID;
+                            }
+                            if(cur->getFieldDensity() == 2) {
+                                transparency_cache[x][y] *= 0.5;
+                            }
+                            break;
+                        case fd_nuke_gas:
+                            transparency_cache[x][y] *= 0.5;
+                            break;
+                        default:
+                            transparency_cache[x][y] = LIGHT_TRANSPARENCY_SOLID;
+                            break;
+                        }
+                    }
+                    // TODO: [lightmap] Have glass reduce light as well
+                }
+            }
+        }
+    }
+    transparency_cache_dirty = false;
 }
 
 void map::build_map_cache()

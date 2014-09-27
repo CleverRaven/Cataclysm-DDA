@@ -459,8 +459,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
             // get a copy of the field variable from the submap;
             // contains all the pointers to the real field effects.
             field &curfield = current_submap->fld[locx][locy];
-            for(std::map<field_id, field_entry *>::iterator it = curfield.getFieldStart();
-                it != curfield.getFieldEnd();) {
+            for( auto it = curfield.getFieldStart(); it != curfield.getFieldEnd();) {
                 //Iterating through all field effects in the submap's field.
                 cur = it->second;
                 if(cur == NULL) {
@@ -1408,8 +1407,7 @@ void map::step_in_field(int x, int y)
     // Iterate through all field effects on this tile.
     // When removing a field, do field_list_it = curfield.removeField(type) and continue
     // This ensures proper iteration through the fields.
-    for(std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart();
-        field_list_it != curfield.getFieldEnd();){
+    for( auto field_list_it = curfield.getFieldStart(); field_list_it != curfield.getFieldEnd(); ){
         cur = field_list_it->second;
         // Shouldn't happen unless you free memory of field entries manually
         // (hint: don't do that)... Pointer safety.
@@ -1738,8 +1736,7 @@ void map::mon_in_field(int x, int y, monster *z)
     field_entry *cur = NULL;
 
     int dam = 0;
-    for( std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart();
-         field_list_it != curfield.getFieldEnd(); ) {
+    for( auto field_list_it = curfield.getFieldStart(); field_list_it != curfield.getFieldEnd(); ) {
         cur = field_list_it->second;
         //shouldn't happen unless you free memory of field entries manually (hint: don't do that)
         if(cur == NULL) continue;
@@ -2153,27 +2150,26 @@ std::map<field_id, field_entry*>::iterator field::removeField(const field_id fie
         }
     };
     return it;
-};
+}
 
 /*
 Function: fieldCount
 Returns the number of fields existing on the current tile.
 */
-unsigned int field::fieldCount() const{
+unsigned int field::fieldCount() const
+{
     return field_list.size();
-};
+}
 
-std::map<field_id, field_entry*>::iterator field::getFieldStart(){
-
+std::map<field_id, field_entry*>::const_iterator field::getFieldStart()
+{
     return field_list.begin();
+}
 
-};
-
-std::map<field_id, field_entry*>::iterator field::getFieldEnd(){
-
+std::map<field_id, field_entry*>::const_iterator field::getFieldEnd()
+{
     return field_list.end();
-
-};
+}
 
 /*
 Function: fieldSymbol
