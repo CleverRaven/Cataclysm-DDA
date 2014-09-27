@@ -4014,7 +4014,8 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
             // If there are items and the field does not hide them,
             // the code handling items will override it.
             draw_item_sym = (f.sym == '%');
-            if (sym == '.' && f.sym != '%') {
+            // If field priority is > 1, draw the field anyway as it obscures what's under it.
+            if( f.priority > 1 || (sym == '.' && f.sym != '%') ) {
                 // default terrain '.' and
                 // non-default field symbol -> field symbol overrides terrain
                 sym = f.sym;
