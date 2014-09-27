@@ -520,7 +520,7 @@ void initOptions()
     mOptionsSort["general"]++;
 
     OPTIONS["AUTOSAVE"] = cOpt("general", _("Periodically autosave"),
-                               _("If true, game will periodically save the map."),
+                               _("If true, game will periodically save the map. Autosaves occur based on in-game turns or real-time minutes, whichever is larger."),
                                false
                               );
 
