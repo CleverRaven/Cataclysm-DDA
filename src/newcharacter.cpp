@@ -443,6 +443,14 @@ bool player::create(character_type type, std::string tempname)
         prof_items.push_back("glasses_reading");
     }
     for( auto &itd : prof_items ) {
+        // If its a lighter and this character started with it, 
+        // they should probably get charges to their lighter.
+        // Fixes all professions getting low/0 charge lighters, 
+        // bug caused by commit 1a641d718695f983be79a01cdd17051b2a674838
+        if(itd.type->id == "lighter") {
+        itd.charges = 100;
+        }
+
         // Spawn left-handed items as a placeholder, shouldn't affect non-handed items
         tmp = item(itd.type_id, 0, false, LEFT);
         if( !itd.snippet_id.empty() ) {
