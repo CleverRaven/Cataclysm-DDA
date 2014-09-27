@@ -3437,7 +3437,8 @@ void vehicle::handle_trap (int x, int y, int part)
         g->sound(x, y, noise, snd);
     }
     if (wreckit && chance >= rng (1, 100)) {
-        damage (part, 500);
+        // Hit the wheel directly since it ran right over the trap.
+        damage_direct( pwh, 500 );
     }
     if (expl > 0) {
         g->explosion(x, y, expl, shrap, false);
