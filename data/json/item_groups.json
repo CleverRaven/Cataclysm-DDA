@@ -2367,7 +2367,7 @@
       ["box_small", 10],
       ["bubblewrap", 50],
       ["cig_butt", 30],
-      ["lighter", 60],
+      {"item": "lighter", "prob": 60, "charges-min": 0, "charges-max": 10 },
       { "item": "matches", "prob": 60, "charges-min": 0, "charges-max": 20 },
       ["syringe", 8],
       ["rag", 1],
