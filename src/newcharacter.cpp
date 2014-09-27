@@ -448,6 +448,15 @@ bool player::create(character_type type, std::string tempname)
         if( !itd.snippet_id.empty() ) {
             tmp.set_snippet( itd.snippet_id );
         }
+
+        // If its a lighter and this character started with it, 
+        // they should probably get charges to their lighter.
+        // Fixes all professions getting low/0 charge lighters, 
+        // bug caused by commit 1a641d718695f983be79a01cdd17051b2a674838
+        if(itd.type->id == "lighter") {
+            tmp.charges = 100;
+        }
+
         tmp = tmp.in_its_container();
         if(tmp.is_armor()) {
             if(tmp.has_flag("VARSIZE")) {
