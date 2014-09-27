@@ -2405,21 +2405,15 @@ void game::handle_key_blocking_activity()
 {
     // If player is performing a task and a monster is dangerously close, warn them
     // regardless of previous safemode warnings
-    monster *hostile_critter = nullptr;
-    npc *hostile_npc = nullptr;
-    if (is_hostile_very_close(&hostile_critter, &hostile_npc) &&
+    Creature *hostile_critter = is_hostile_very_close();
+    if (hostile_critter != nullptr &&
             u.activity.type != ACT_NULL &&
             u.activity.moves_left > 0 &&
             !u.activity.warned_of_proximity) {
         u.activity.warned_of_proximity = true;
-        if (hostile_npc != nullptr) {
-            if (cancel_activity_query(_("%s is dangerously close!"), hostile_npc->name.c_str())) {
-                return;
-            }
-        } else if (hostile_critter != nullptr) {
-            if (cancel_activity_query(_("The %s is dangerously close!"), hostile_critter->type->nname(1).c_str())) {
-                return;
-            }
+        if ( cancel_activity_query(_("%s is dangerously close!"),
+                hostile_critter->disp_name().c_str()) ) {
+            return;
         }
     }
 
@@ -5970,18 +5964,18 @@ void game::remove_item(item *it)
     }
 }
 
-bool game::is_hostile_nearby(monster **hostile_critter, npc **hostile_npc)
+Creature *game::is_hostile_nearby()
 {
     int distance = (OPTIONS["SAFEMODEPROXIMITY"] <= 0) ? 60 : OPTIONS["SAFEMODEPROXIMITY"];
-    return is_hostile_within(distance, hostile_critter, hostile_npc);
+    return is_hostile_within(distance);
 }
 
-bool game::is_hostile_very_close(monster **hostile_critter, npc **hostile_npc)
+Creature *game::is_hostile_very_close()
 {
-    return is_hostile_within(dangerous_proximity, hostile_critter, hostile_npc);
+    return is_hostile_within(dangerous_proximity);
 }
 
-bool game::is_hostile_within(int distance, monster **hostile_critter, npc **hostile_npc)
+Creature *game::is_hostile_within(int distance)
 {
     for (std::vector<npc *>::iterator it = active_npc.begin();
          it != active_npc.end(); ++it) {
@@ -5996,13 +5990,12 @@ bool game::is_hostile_within(int distance, monster **hostile_critter, npc **host
         }
 
         if (rl_dist(u.posx, u.posy, npcp.x, npcp.y) <= distance) {
-            *hostile_npc = *it;
-            return true;
+            return *it;
         }
     }
 
     for (size_t i = 0; i < num_zombies(); i++) {
-        monster *critter = critter_tracker.find_ptr(i);
+        monster *critter = &critter_tracker.find(i);
 
         if ((critter->attitude(&u) != MATT_ATTACK) || (!u_see(critter))) {
             continue;
@@ -6010,12 +6003,11 @@ bool game::is_hostile_within(int distance, monster **hostile_critter, npc **host
 
         int mondist = rl_dist(u.posx, u.posy, critter->posx(), critter->posy());
         if (mondist <= distance) {
-            *hostile_critter = critter;
-            return true;
+            return critter;
         }
     }
 
-    return false;
+    return nullptr;
 }
 
 //get the fishable critters around and return these
@@ -11420,19 +11412,11 @@ void game::butcher()
         return;
     }
 
-    monster *hostile_critter = nullptr;
-    npc *hostile_npc = nullptr;
-    if (is_hostile_nearby(&hostile_critter, &hostile_npc)) {
-        // I hate the if-nesting too
-        // But we don't want to query the player twice
-        if (hostile_npc != nullptr) {
-            if (!query_yn(_("%s is nearby! Start butchering anyway?"), hostile_npc->name.c_str())) {
-                return;
-            }
-        } else if (hostile_critter != nullptr) {
-            if (!query_yn(_("A %s is nearby! Start butchering anyway?"), hostile_critter->type->nname(1).c_str())) {
-                return;
-            }
+    Creature *hostile_critter = is_hostile_very_close();
+    if (hostile_critter != nullptr) {
+        if (!query_yn(_("%s is nearby! Start butchering anyway?"),
+                hostile_critter->disp_name().c_str()) ) {
+            return;
         }
     }
 

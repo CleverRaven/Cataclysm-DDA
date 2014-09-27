@@ -12,7 +12,6 @@ class Creature_tracker
         Creature_tracker();
         ~Creature_tracker();
         monster &find(int index);
-        monster *find_ptr(int index);
         int mon_at(point coords) const;
         int mon_at(int x_pos, int y_pos) const;
         bool add(monster &critter);

@@ -261,8 +261,8 @@ class game
         bool u_see (const monster *critter);
         bool u_see (const Creature *t); // for backwards compatibility
         bool u_see (const Creature &t);
-        bool is_hostile_nearby(monster **hostile_critter = nullptr, npc **hostile_npc = nullptr);
-        bool is_hostile_very_close(monster **hostile_critter = nullptr, npc **hostile_npc = nullptr);
+        Creature *is_hostile_nearby();
+        Creature *is_hostile_very_close();
         void refresh_all();
         void update_map(int &x, int &y);  // Called by plmove when the map updates
         void update_overmap_seen(); // Update which overmap tiles we can see
@@ -758,7 +758,7 @@ class game
         // Preview for auto move route
         std::vector<point> destination_preview;
 
-        bool is_hostile_within(int distance, monster **hostile_critter = nullptr, npc **hostile_npc = nullptr);
+        Creature *is_hostile_within(int distance);
         void activity_on_turn();
         void activity_on_turn_game();
         void activity_on_turn_drop();
