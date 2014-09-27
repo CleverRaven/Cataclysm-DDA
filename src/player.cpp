@@ -4491,7 +4491,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
     }
 
     if (is_player()) {
-        g->cancel_activity_query(_("You were hurt!"));
+        g->cancel_activity_query(_("You were attacked by %s!"), source->disp_name().c_str());
     }
 
     // TODO: Pre or post blit hit tile onto "this"'s location here
@@ -4737,7 +4737,7 @@ void player::apply_damage(Creature *source, body_part hurt, int dam)
     }
 
     if (!is_npc()) {
-        g->cancel_activity_query(_("You were hurt!"));
+        g->cancel_activity_query(_("You were attacked by %s!"), source->disp_name().c_str());
     }
 
     mod_pain( dam /2 );

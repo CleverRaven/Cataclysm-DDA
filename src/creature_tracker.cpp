@@ -16,6 +16,11 @@ monster &Creature_tracker::find(int index)
     return *(_old_monsters_list[index]);
 }
 
+monster *Creature_tracker::find_ptr(int index)
+{
+    return _old_monsters_list[index];
+}
+
 int Creature_tracker::mon_at(int x_pos, int y_pos) const
 {
     return mon_at(point(x_pos, y_pos));
