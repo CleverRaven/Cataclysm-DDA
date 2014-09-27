@@ -330,8 +330,20 @@ static void move_items( point source, point destination,
         }
 
         // Check that we can pick it up.
-        if( !temp_item.made_of(LIQUID) && g->u.can_pickWeight(temp_item.weight(), false) &&
-            g->u.can_pickVolume(temp_item.volume()) ) {
+        if( !temp_item.made_of(LIQUID) ) {
+            // Is it too bulky? We'll have to use our hands, then.
+            if( !g->u.can_pickVolume(temp_item.volume()) && g->u.is_armed() ) {
+                g->u.moves -= 20; // Pretend to be unwielding our gun.
+            }
+
+            // Is it too heavy? It'll take a while...
+            if( !g->u.can_pickWeight(temp_item.weight(), true) ) {
+                int overweight = temp_item.weight() - (g->u.weight_capacity() - g->u.weight_carried());
+
+                // ...like one move cost per 100 grams over your leftover carry capacity.
+                g->u.moves -= int(overweight / 100);
+            }
+
             // Drop it first since we're going to delete the original.
             dropped_items.push_back( temp_item );
             g->drop( dropped_items, dropped_worn, 0, destination.x, destination.y );
