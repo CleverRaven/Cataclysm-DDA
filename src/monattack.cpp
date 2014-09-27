@@ -1021,7 +1021,7 @@ void mattack::fungus_growth(monster *z)
 {
     // Young fungaloid growing into an adult
     if (g->u_see(z->posx(), z->posy())) {
-        add_msg(m_warning, _("The %s young fungaloid grows into an adult!"),
+        add_msg(m_warning, _("The %s grows into an adult!"),
                 z->name().c_str());
     }
     z->poly(GetMType("mon_fungaloid"));
