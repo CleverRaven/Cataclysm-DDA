@@ -1365,7 +1365,7 @@ bool game::do_turn()
 
     // Auto-save if autosave is enabled
     if (OPTIONS["AUTOSAVE"] &&
-        calendar::turn % ((int)OPTIONS["AUTOSAVE_TURNS"] * 10) == 0) {
+        calendar::turn % ((int)OPTIONS["AUTOSAVE_TURNS"]) == 0) {
         autosave();
     }
 
