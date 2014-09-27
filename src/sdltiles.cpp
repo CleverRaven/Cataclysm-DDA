@@ -891,8 +891,12 @@ void CheckMessages()
                     quit = true;
                     break;
                 }
-                const long lc = sdl_keycode_to_curses(ev.key.keysym.sym);
+                long lc = sdl_keycode_to_curses(ev.key.keysym.sym);
                 if( lc <= 0 ) {
+                    //HACK
+                    lc = ev.key.keysym.sym;
+                    last_input = input_event(lc, CATA_INPUT_KEYBOARD);
+                    //END HACK
                     // a key we don't know in curses and won't handle.
                     break;
                 } else if( add_alt_code( lc ) ) {
