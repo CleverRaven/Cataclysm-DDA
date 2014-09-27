@@ -12601,6 +12601,7 @@ bool game::plmove(int dx, int dy)
             case fd_tear_gas:
             case fd_toxic_gas:
             case fd_gas_vent:
+            case fd_relax_gas:
                 dangerous = !(u.get_env_resist(bp_mouth) >= 15);
                 break;
             case fd_fungal_haze:
