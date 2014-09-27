@@ -11430,7 +11430,7 @@ void game::butcher()
                 return;
             }
         } else if (hostile_critter != nullptr) {
-            if (!query_yn(_("%s is nearby! Start butchering anyway?"), hostile_critter->type->nname(1).c_str())) {
+            if (!query_yn(_("A %s is nearby! Start butchering anyway?"), hostile_critter->type->nname(1).c_str())) {
                 return;
             }
         }
