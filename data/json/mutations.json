@@ -747,8 +747,8 @@
         "type" : "mutation",
         "id" : "HOARDER",
         "name" : "Hoarder",
-        "points" : -4,
-        "description" : "You don't feel right unless you're carrying as much as you can. You suffer morale penalties for carrying less than maximum volume (weight is ignored). Xanax can help control this anxiety.",
+        "points" : 1,
+        "description" : "You feel the need to carry as much stuff as you can. You gain morale for carrying things but lose morale if you don't. Xanax can help control this anxiety.",
         "starting_trait" : true,
         "valid" : false
     },{
