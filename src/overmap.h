@@ -1,5 +1,6 @@
-#ifndef _OVERMAP_H_
-#define _OVERMAP_H_
+#ifndef OVERMAP_H
+#define OVERMAP_H
+
 #include "enums.h"
 #include "string.h"
 #include "omdata.h"

@@ -1,5 +1,5 @@
-#ifndef _MUTATION_H_
-#define _MUTATION_H_
+#ifndef MUTATION_H
+#define MUTATION_H
 
 #include "pldata.h"
 #include "json.h"

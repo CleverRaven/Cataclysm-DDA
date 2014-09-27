@@ -1,6 +1,3 @@
-#ifndef _WEATHER_DATA_H_
-#define _WEATHER_DATA_H_
-
 #include "weather.h"
 #include "game.h"
 #include "translations.h"
@@ -280,4 +277,3 @@ int get_hourly_rotpoints_at_temp (const int &temp)
 }
 
 ///@}
-#endif // _WEATHER_DATA_H_

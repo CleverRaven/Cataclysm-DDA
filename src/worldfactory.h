@@ -84,4 +84,5 @@ class worldfactory
 };
 
 extern worldfactory *world_generator;
-#endif // WORLDFACTORY_H
+
+#endif

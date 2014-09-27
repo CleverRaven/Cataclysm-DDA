@@ -1,5 +1,5 @@
-#ifndef _PROFESSION_H_
-#define _PROFESSION_H_
+#ifndef PROFESSION_H
+#define PROFESSION_H
 
 #include <string>
 #include <vector>

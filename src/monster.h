@@ -1,5 +1,5 @@
-#ifndef _MONSTER_H_
-#define _MONSTER_H_
+#ifndef MONSTER_H
+#define MONSTER_H
 
 #include "creature.h"
 #include "player.h"

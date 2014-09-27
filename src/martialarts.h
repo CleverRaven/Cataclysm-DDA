@@ -1,5 +1,5 @@
-#ifndef _MARTIALARTS_H_
-#define _MARTIALARTS_H_
+#ifndef MARTIALARTS_H
+#define MARTIALARTS_H
 
 #include "pldata.h"
 #include "json.h"

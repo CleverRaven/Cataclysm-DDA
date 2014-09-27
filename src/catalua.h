@@ -1,5 +1,5 @@
-#ifndef _CATALUA_H_
-#define _CATALUA_H_
+#ifndef CATALUA_H
+#define CATALUA_H
 
 #include "monster.h"
 #include "mapgen_functions.h"

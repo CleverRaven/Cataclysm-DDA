@@ -1,5 +1,5 @@
-#ifndef _ENUMS_H_
-#define _ENUMS_H_
+#ifndef ENUMS_H
+#define ENUMS_H
 
 #include "json.h" // (de)serialization for points
 

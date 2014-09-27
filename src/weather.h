@@ -1,5 +1,5 @@
-#ifndef _WEATHER_H_
-#define _WEATHER_H_
+#ifndef WEATHER_H
+#define WEATHER_H
 
 /**
  * @name BODYTEMP
@@ -154,4 +154,5 @@ extern const std::vector<int> rot_chart;
 int get_hourly_rotpoints_at_temp (const int &temp);
 //int get_rot_since( const int since, const int endturn );
 int get_rot_since( const int since, const int endturn, const point &);
-#endif // _WEATHER_H_
+
+#endif

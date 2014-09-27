@@ -1,5 +1,5 @@
-#ifndef _MESSAGES_H_
-#define _MESSAGES_H_
+#ifndef MESSAGES_H
+#define MESSAGES_H
 
 #include <string>
 #include <vector>
@@ -72,4 +72,4 @@ class Messages
 void add_msg(const char *msg, ...);
 void add_msg(game_message_type type, const char *msg, ...);
 
-#endif //_MESSAGES_H_
+#endif

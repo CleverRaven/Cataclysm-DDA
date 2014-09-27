@@ -354,4 +354,4 @@ class cata_tiles
 
 };
 
-#endif // CATA_TILES_H
+#endif

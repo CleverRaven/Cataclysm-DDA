@@ -1,5 +1,6 @@
-#ifndef _UISTATE_H_
-#define _UISTATE_H_
+#ifndef UISTATE_H
+#define UISTATE_H
+
 #include "json.h"
 /*
   centralized depot for trivial ui data such as sorting, string_input_popup history, etc.
@@ -161,4 +162,5 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
         };
 };
 extern uistatedata uistate;
+
 #endif

@@ -1,5 +1,5 @@
-#ifndef _MATERIALS_H_
-#define _MATERIALS_H_
+#ifndef MATERIALS_H
+#define MATERIALS_H
 
 #include <string>
 #include <map>
@@ -63,5 +63,4 @@ class material_type
         int density() const;
 };
 
-
-#endif // _MATERIALS_H_
+#endif

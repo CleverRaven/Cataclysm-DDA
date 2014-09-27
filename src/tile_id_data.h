@@ -1,5 +1,5 @@
-#ifndef TILE_ID_DATA
-#define TILE_ID_DATA
+#ifndef TILE_ID_DATA_H
+#define TILE_ID_DATA_H
 
 #define toString(x) #x
 
@@ -14,4 +14,6 @@ const std::string multitile_keys[] = {
     toString(broken)
 };
 
-#endif // TILE_ID_DATA
+#undef toString
+
+#endif

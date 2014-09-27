@@ -1,5 +1,5 @@
-#ifndef _FIELD_H_
-#define _FIELD_H_
+#ifndef FIELD_H
+#define FIELD_H
 
 #include <vector>
 #include <string>
@@ -220,4 +220,5 @@ private:
     field_id draw_symbol;
     bool dirty; //true if this is a copy of the class, false otherwise.
 };
+
 #endif

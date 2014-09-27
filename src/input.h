@@ -1,5 +1,5 @@
-#ifndef _INPUT_H_
-#define _INPUT_H_
+#ifndef INPUT_H
+#define INPUT_H
 
 #include <string>
 #include <map>

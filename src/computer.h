@@ -1,5 +1,5 @@
-#ifndef _COMPUTER_H_
-#define _COMPUTER_H_
+#ifndef COMPUTER_H
+#define COMPUTER_H
 
 #include "output.h"
 #include "json.h"

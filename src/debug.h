@@ -1,5 +1,5 @@
-#ifndef DEBUG_H_1YCYLZSS
-#define DEBUG_H_1YCYLZSS
+#ifndef DEBUG_H
+#define DEBUG_H
 
 /**
  *      debugmsg(msg, ...)
@@ -151,4 +151,4 @@ std::ostream &operator<<( std::ostream &out, const std::vector<C, A> &elm )
 extern bool debug_mode;
 
 // vim:tw=72:sw=1:fdm=marker:fdl=0:
-#endif /* end of include guard: DEBUG_H_1YCYLZSS */
+#endif
