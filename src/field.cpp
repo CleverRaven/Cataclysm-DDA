@@ -2163,10 +2163,6 @@ unsigned int field::fieldCount() const{
     return field_list.size();
 };
 
-std::map<field_id, field_entry*>& field::getEntries() {
-    return field_list;
-}
-
 std::map<field_id, field_entry*>::iterator field::getFieldStart(){
 
     return field_list.begin();

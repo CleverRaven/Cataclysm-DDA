@@ -213,10 +213,8 @@ public:
     //Returns the total move cost from all fields
     int move_cost() const;
 
-    std::map<field_id, field_entry*>& getEntries();
-    std::map<field_id, field_entry*> field_list; //A pointer lookup table of all field effects on the current tile.
 private:
-    //Draw_symbol currently is equal to the last field added to the square. You can modify this behavior in the class functions if you wish.
+    std::map<field_id, field_entry*> field_list; //A pointer lookup table of all field effects on the current tile.    //Draw_symbol currently is equal to the last field added to the square. You can modify this behavior in the class functions if you wish.
     field_id draw_symbol;
     bool dirty; //true if this is a copy of the class, false otherwise.
 };
