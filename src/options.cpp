@@ -526,7 +526,7 @@ void initOptions()
 
     OPTIONS["AUTOSAVE_TURNS"] = cOpt("general", _("Game turns between autosaves"),
                                      _("Number of game turns between autosaves"),
-                                     1, 1000, 5
+                                     10, 1000, 50
                                     );
 
     OPTIONS["AUTOSAVE_MINUTES"] = cOpt("general", _("Real minutes between autosaves"),
