@@ -191,7 +191,11 @@ bool dis_msg(dis_type type_string) {
         add_msg(m_warning, _("You feel lightheaded."));
         break;
     case DI_ADRENALINE:
-        add_msg(m_good, _("You feel a surge of adrenaline!"));
+        if (!g->u.has_trait("M_DEFENDER")) {
+            add_msg(m_good, _("You feel a surge of adrenaline!"));
+        } else {
+            add_msg(m_good, _("Mycal wrath fills our fibers, and we grow turgid."));
+        }
         break;
     case DI_JETINJECTOR:
         add_msg(_("You feel a rush as the chemicals flow through your body!"));
@@ -1484,14 +1488,18 @@ void dis_effect(player &p, disease &dis)
 
         case DI_ADRENALINE:
             if (dis.duration > 150) {
-                // 5 minutes positive effects
+                // 5 minutes positive effects; 15 if Mycus Defender
                 p.mod_str_bonus(5);
                 p.mod_dex_bonus(3);
                 p.mod_int_bonus(-8);
                 p.mod_per_bonus(1);
             } else if (dis.duration == 150) {
                 // 15 minutes come-down
-                p.add_msg_if_player(m_bad, _("Your adrenaline rush wears off.  You feel AWFUL!"));
+                if (g->u.has_trait("M_DEFENDER")) {
+                    p.add_msg_if_player(m_bad, _("We require repose; our fibers are nearly spent..."));
+                } else {
+                    p.add_msg_if_player(m_bad, _("Your adrenaline rush wears off.  You feel AWFUL!"));
+                }
             } else {
                 p.mod_str_bonus(-2);
                 p.mod_dex_bonus(-1);
