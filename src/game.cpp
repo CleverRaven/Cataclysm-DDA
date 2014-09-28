@@ -15088,3 +15088,4 @@ int game::get_abs_levz() const
 {
     return levx;
 }
+
