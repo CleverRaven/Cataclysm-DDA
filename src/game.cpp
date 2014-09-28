@@ -2405,13 +2405,16 @@ void game::handle_key_blocking_activity()
 {
     // If player is performing a task and a monster is dangerously close, warn them
     // regardless of previous safemode warnings
-    if (is_hostile_very_close() &&
-        u.activity.type != ACT_NULL &&
-        u.activity.moves_left > 0 &&
-        !u.activity.warned_of_proximity) {
-        u.activity.warned_of_proximity = true;
-        if (cancel_activity_query(_("Monster dangerously close!"))) {
-            return;
+    if (u.activity.type != ACT_NULL &&
+            u.activity.moves_left > 0 &&
+            !u.activity.warned_of_proximity) {
+        Creature *hostile_critter = is_hostile_very_close();
+        if (hostile_critter != nullptr) {
+            u.activity.warned_of_proximity = true;
+            if ( cancel_activity_query(_("You see %s approaching!"),
+                    hostile_critter->disp_name().c_str()) ) {
+                return;
+            }
         }
     }
 
@@ -3160,7 +3163,9 @@ bool game::handle_action()
     case ACTION_PAUSE:
         if (run_mode == 2 && ((OPTIONS["SAFEMODEVEH"]) ||
                               !(u.controlling_vehicle))) { // Monsters around and we don't wanna pause
-            add_msg(m_warning, _("Monster spotted--safe mode is on! (%s to turn it off.)"),
+            monster &critter = critter_tracker.find(new_seen_mon.back());
+            add_msg(m_warning, _("Spotted %s--safe mode is on! (%s to turn it off.)"),
+                    critter.name().c_str(),
                     press_x(ACTION_TOGGLE_SAFEMODE).c_str());
         } else {
             u.pause();
@@ -5962,32 +5967,19 @@ void game::remove_item(item *it)
     }
 }
 
-bool game::is_hostile_nearby()
+Creature *game::is_hostile_nearby()
 {
     int distance = (OPTIONS["SAFEMODEPROXIMITY"] <= 0) ? 60 : OPTIONS["SAFEMODEPROXIMITY"];
     return is_hostile_within(distance);
 }
 
-bool game::is_hostile_very_close()
+Creature *game::is_hostile_very_close()
 {
     return is_hostile_within(dangerous_proximity);
 }
 
-bool game::is_hostile_within(int distance)
+Creature *game::is_hostile_within(int distance)
 {
-    for (size_t i = 0; i < num_zombies(); i++) {
-        monster &critter = critter_tracker.find(i);
-
-        if ((critter.attitude(&u) != MATT_ATTACK) || (!u_see(&critter))) {
-            continue;
-        }
-
-        int mondist = rl_dist(u.posx, u.posy, critter.posx(), critter.posy());
-        if (mondist <= distance) {
-            return true;
-        }
-    }
-
     for (std::vector<npc *>::iterator it = active_npc.begin();
          it != active_npc.end(); ++it) {
         point npcp((*it)->posx, (*it)->posy);
@@ -6001,11 +5993,24 @@ bool game::is_hostile_within(int distance)
         }
 
         if (rl_dist(u.posx, u.posy, npcp.x, npcp.y) <= distance) {
-            return true;
+            return *it;
         }
     }
 
-    return false;
+    for (size_t i = 0; i < num_zombies(); i++) {
+        monster *critter = &critter_tracker.find(i);
+
+        if ((critter->attitude(&u) != MATT_ATTACK) || (!u_see(critter))) {
+            continue;
+        }
+
+        int mondist = rl_dist(u.posx, u.posy, critter->posx(), critter->posy());
+        if (mondist <= distance) {
+            return critter;
+        }
+    }
+
+    return nullptr;
 }
 
 //get the fishable critters around and return these
@@ -11417,9 +11422,12 @@ void game::butcher()
         return;
     }
 
-    if (is_hostile_nearby() &&
-        !query_yn(_("Hostiles are nearby! Start Butchering anyway?"))) {
-        return;
+    Creature *hostile_critter = is_hostile_very_close();
+    if (hostile_critter != nullptr) {
+        if (!query_yn(_("You see %s nearby! Start butchering anyway?"),
+                hostile_critter->disp_name().c_str()) ) {
+            return;
+        }
     }
 
     int butcher_corpse_index = 0;
@@ -12384,7 +12392,9 @@ bool game::plmove(int dx, int dy)
 {
     if (run_mode == 2) {
         // Monsters around and we don't wanna run
-        add_msg(m_warning, _("Monster spotted--safe mode is on! (%s to turn it off or %s to ignore monster.)"),
+        monster &critter = critter_tracker.find(new_seen_mon.back());
+        add_msg(m_warning, _("Spotted %s--safe mode is on! (%s to turn it off or %s to ignore monster.)"),
+                critter.name().c_str(),
                 press_x(ACTION_TOGGLE_SAFEMODE).c_str(),
                 from_sentence_case(press_x(ACTION_IGNORE_ENEMY)).c_str());
         return false;
