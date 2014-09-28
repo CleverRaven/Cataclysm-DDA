@@ -277,6 +277,12 @@ class overmap
     void move_hordes();
     void signal_hordes( const int x, const int y, const int sig_power);
 
+    /**
+     * Return a vector containing the absolute coordinates of
+     * every matching terrain on the current z level of the current overmap.
+     * @returns A vector of terrain coordinates (absolute overmap terrain
+     * coordinates), or empty vector if no matching terrain is found.
+     */
     std::vector<point> find_terrain(const std::string &term, int zlevel);
     int closest_city(point p);
     point random_house_in_city(int city_id);
@@ -309,12 +315,12 @@ class overmap
     static const point invalid_point;
     static const tripoint invalid_tripoint;
     /**
-     * Search for the nearest note that contains the given pattern.
-     * (x,y) are in global overmap terrain coordinates.
-     * @returns The location of the chosen note (absolute overmap terrain
-     * coordinates), or invalid_point if no note has been found.
+     * Return a vector containing the absolute coordinates of
+     * every matching note on the current z level of the current overmap.
+     * @returns A vector of note coordinates (absolute overmap terrain
+     * coordinates), or empty vector if no matching notes are found.
      */
-    static point find_note(int const x, int const y, int const z, std::string const& text);
+     std::vector<point> find_notes(int const z, std::string const& text);
     /**
      * Interactive point choosing; used as the map screen.
      * The map is initially center at the players position.
