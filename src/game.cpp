@@ -3795,10 +3795,19 @@ void game::update_scent()
         grscent[u.posx][u.posy] = u.scent;
     }
 
+    // for loop constants
     const int scentmap_minx = u.posx - SCENT_RADIUS;
     const int scentmap_maxx = u.posx + SCENT_RADIUS;
     const int scentmap_miny = u.posy - SCENT_RADIUS;
     const int scentmap_maxy = u.posy + SCENT_RADIUS;
+
+    // group flag lookups
+    for (int x = scentmap_minx - 1; x <= scentmap_maxx + 1; ++x) {
+        for (int y = scentmap_miny - 1; y <= scentmap_maxy + 1; ++y) {
+            has_wall_here[x][y] = m.has_flag(TFLAG_WALL, x, y);
+            reduce_scent_here[x][y] = m.has_flag(TFLAG_REDUCE_SCENT, x, y);
+        }
+    }
 
     // Sum neighbors in the y direction.  This way, each square gets called 3 times instead of 9
     // times. This cost us an extra loop here, but it also eliminated a loop at the end, so there
@@ -3808,16 +3817,6 @@ void game::update_scent()
     // SEEX*MAPSIZE, but if that changes, this may need tweaking.
     for (int x = scentmap_minx - 1; x <= scentmap_maxx + 1; x++) {
         for (int y = scentmap_miny; y <= scentmap_maxy; y++) {
-            // cache expensive flag checks, once per tile.
-            if (y == scentmap_miny) {  // Setting y-1 y-0, when we are at the top row...
-                for (int i = y - 1; i <= y; ++i) {
-                    has_wall_here[x][i] = m.has_flag(TFLAG_WALL, x, i);
-                    reduce_scent_here[x][i] = m.has_flag(TFLAG_REDUCE_SCENT, x, i);
-                }
-            }
-            has_wall_here[x][y + 1] = m.has_flag(TFLAG_WALL, x, y + 1); // ...so only y+1 here.
-            reduce_scent_here[x][y + 1] = m.has_flag(TFLAG_REDUCE_SCENT, x, y + 1);
-
             // remember the sum of the scent val for the 3 neighboring squares that can defuse into
             sum_3_scent_y[y][x] = 0;
             squares_used_y[y][x] = 0;
