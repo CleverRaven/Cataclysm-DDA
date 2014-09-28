@@ -263,39 +263,38 @@ class overmap
  public:
     overmap(const overmap&) = default;
     overmap(overmap &&) = default;
-  overmap(int x, int y);
-  ~overmap();
+    overmap(int x, int y);
+    ~overmap();
 
-  overmap& operator=(overmap const&) = default;
+    overmap& operator=(overmap const&) = default;
 
-  point const& pos() const { return loc; }
+    point const& pos() const { return loc; }
 
-  void save() const;
-  void first_house(int &x, int &y, const std::string start_location);
+    void save() const;
+    void first_house(int &x, int &y, const std::string start_location);
 
-  void process_mongroups(); // Makes them die out, maybe more
-  void move_hordes();
-  void signal_hordes( const int x, const int y, const int sig_power);
+    void process_mongroups(); // Makes them die out, maybe more
+    void move_hordes();
+    void signal_hordes( const int x, const int y, const int sig_power);
 
-  std::vector<point> find_terrain(const std::string &term, int zlevel);
-  int closest_city(point p);
-  point random_house_in_city(int city_id);
-  int dist_from_city(point p);
+    std::vector<point> find_terrain(const std::string &term, int zlevel);
+    int closest_city(point p);
+    point random_house_in_city(int city_id);
+    int dist_from_city(point p);
 
-  oter_id& ter(const int x, const int y, const int z);
-  const oter_id get_ter(const int x, const int y, const int z) const;
-  bool&   seen(int x, int y, int z);
-  bool&   explored(int x, int y, int z);
-  bool is_safe(int x, int y, int z); // true if monsters_at is empty, or only woodland
-  bool is_road_or_highway(int x, int y, int z);
-  bool is_explored(int const x, int const y, int const z) const;
+    oter_id& ter(const int x, const int y, const int z);
+    const oter_id get_ter(const int x, const int y, const int z) const;
+    bool&   seen(int x, int y, int z);
+    bool&   explored(int x, int y, int z);
+    bool is_safe(int x, int y, int z); // true if monsters_at is empty, or only woodland
+    bool is_road_or_highway(int x, int y, int z);
+    bool is_explored(int const x, int const y, int const z) const;
 
-  bool has_note(int const x, int const y, int const z) const;
-  std::string const& note(int const x, int const y, int const z) const;
-  void add_note(int const x, int const y, int const z, std::string const& message);
-  void delete_note(int const x, int const y, int const z) { add_note(x, y, z, ""); }
+    bool has_note(int const x, int const y, int const z) const;
+    std::string const& note(int const x, int const y, int const z) const;
+    void add_note(int const x, int const y, int const z, std::string const& message);
+    void delete_note(int const x, int const y, int const z) { add_note(x, y, z, ""); }
 
-//    static oter_id nulloter;
     /**
      * Display a list of all notes on this z-level. Let the user choose
      * one or none of them.
