@@ -1,5 +1,5 @@
-#ifndef _FIELD_H_
-#define _FIELD_H_
+#ifndef FIELD_H
+#define FIELD_H
 
 #include <vector>
 #include <string>
@@ -205,19 +205,18 @@ public:
     //Note: If you are using "field_at" function, set the return to a temporary field variable! If you somehow
     //query an out of bounds field location it returns a different field every inquery. This means that
     //the start and end iterators won't match up and will crash the system.
-    std::map<field_id, field_entry*>::iterator getFieldStart();
+    std::map<field_id, field_entry*>::const_iterator getFieldStart();
 
     //Returns the vector iterator to end searching through the list.
-    std::map<field_id, field_entry*>::iterator getFieldEnd();
+    std::map<field_id, field_entry*>::const_iterator getFieldEnd();
 
     //Returns the total move cost from all fields
     int move_cost() const;
 
-    std::map<field_id, field_entry*>& getEntries();
-    std::map<field_id, field_entry*> field_list; //A pointer lookup table of all field effects on the current tile.
 private:
-    //Draw_symbol currently is equal to the last field added to the square. You can modify this behavior in the class functions if you wish.
+    std::map<field_id, field_entry*> field_list; //A pointer lookup table of all field effects on the current tile.    //Draw_symbol currently is equal to the last field added to the square. You can modify this behavior in the class functions if you wish.
     field_id draw_symbol;
     bool dirty; //true if this is a copy of the class, false otherwise.
 };
+
 #endif

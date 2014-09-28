@@ -4491,7 +4491,12 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
     }
 
     if (is_player()) {
-        g->cancel_activity_query(_("You were hurt!"));
+        if (source != nullptr) {
+            g->cancel_activity_query(_("You were attacked by %s!"), source->disp_name().c_str());
+        } else {
+            // TODO: Find the name of what the player is hurt by
+            g->cancel_activity_query(_("You were hurt!"));
+        }
     }
 
     // TODO: Pre or post blit hit tile onto "this"'s location here
@@ -4737,7 +4742,12 @@ void player::apply_damage(Creature *source, body_part hurt, int dam)
     }
 
     if (!is_npc()) {
-        g->cancel_activity_query(_("You were hurt!"));
+        if (source != nullptr) {
+            g->cancel_activity_query(_("You were attacked by %s!"), source->disp_name().c_str());
+        } else {
+            // TODO: Find the name of what the player is hurt by
+            g->cancel_activity_query(_("You were hurt!"));
+        }
     }
 
     mod_pain( dam /2 );
@@ -4748,7 +4758,7 @@ void player::apply_damage(Creature *source, body_part hurt, int dam)
     }
     hp_cur[hurtpart] -= dam;
     if (hp_cur[hurtpart] < 0) {
-        lifetime_stats()->damage_taken += hp_cur[hurt];
+        lifetime_stats()->damage_taken += hp_cur[hurtpart];
         hp_cur[hurtpart] = 0;
     }
     lifetime_stats()->damage_taken += dam;
@@ -4855,14 +4865,14 @@ void player::hitall(int dam, int vary)
         int cut = 0;
         absorb((body_part) i, ddam, cut);
         hp_cur[i] -= ddam;
-        if (hp_cur[i] < 0)
-        {
-            lifetime_stats()->damage_taken+=hp_cur[i];
+        if (hp_cur[i] < 0) {
+            lifetime_stats()->damage_taken += hp_cur[i];
             hp_cur[i] = 0;
         }
 
-        mod_pain( dam / 2 / 4 );
-        lifetime_stats()->damage_taken+=dam;
+        // Average of pre and post armor damage levels, divided by 8.
+        mod_pain( (dam + ddam) / 16 );
+        lifetime_stats()->damage_taken += ddam;
     }
 }
 
@@ -8160,6 +8170,11 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
               int carn_healthy = (comest->healthy) + 1;
               mod_healthy_mod(carn_healthy);
           }
+          hunger -= comest->nutr;
+          thirst -= comest->quench;
+          mod_healthy_mod(comest->healthy);
+          stomach_food += comest->nutr;
+          stomach_water += comest->quench;
     } else {
     // Saprophages get the same boost from rotten food that others get from fresh.
         hunger -= comest->nutr;
@@ -11210,33 +11225,35 @@ point player::adjacent_tile()
     field tmpfld;
     trap_id curtrap;
     int dangerous_fields;
-    for (int i=posx-1; i <= posx+1; i++)
-    {
-        for (int j=posy-1; j <= posy+1; j++)
-        {
-            if (i == posx && j == posy) continue;       // don't consider player position
-            curtrap=g->m.tr_at(i, j);
-            if (g->mon_at(i, j) == -1 && g->npc_at(i, j) == -1 && g->m.move_cost(i, j) > 0 && (curtrap == tr_null || traplist[curtrap]->is_benign()))        // only consider tile if unoccupied, passable and has no traps
-            {
+    for( int i = posx - 1; i <= posx + 1; i++ ) {
+        for( int j = posy - 1; j <= posy + 1; j++ ) {
+            if( i == posx && j == posy ) {
+                // don't consider player position
+                continue;
+            }
+            curtrap = g->m.tr_at(i, j);
+            if( g->mon_at(i, j) == -1 && g->npc_at(i, j) == -1 && g->m.move_cost(i, j) > 0 &&
+                (curtrap == tr_null || traplist[curtrap]->is_benign()) ) {
+                // only consider tile if unoccupied, passable and has no traps
                 dangerous_fields = 0;
                 tmpfld = g->m.field_at(i, j);
-                for(std::map<field_id, field_entry*>::iterator field_list_it = tmpfld.getFieldStart(); field_list_it != tmpfld.getFieldEnd(); ++field_list_it)
-                {
+                for( auto field_list_it = tmpfld.getFieldStart();
+                     field_list_it != tmpfld.getFieldEnd(); ++field_list_it ) {
                     cur = field_list_it->second;
-                    if (cur != NULL && cur->is_dangerous())
+                    if (cur != NULL && cur->is_dangerous()) {
                         dangerous_fields++;
+                    }
                 }
-                if (dangerous_fields == 0)
-                {
+                if (dangerous_fields == 0) {
                     ret.push_back(point(i, j));
                 }
             }
         }
     }
-    if (ret.size())
-        return ret[rng(0, ret.size()-1)];   // return a random valid adjacent tile
-    else
-        return point(posx, posy);           // or return player position if no valid adjacent tiles
+    if( ret.size() ) {
+        return ret[ rng( 0, ret.size() - 1 ) ];   // return a random valid adjacent tile
+    }
+    return point(posx, posy);           // or return player position if no valid adjacent tiles
 }
 
 // --- Library functions ---

@@ -1,5 +1,5 @@
-#ifndef _CREATURE_H_
-#define _CREATURE_H_
+#ifndef CREATURE_H
+#define CREATURE_H
 
 #include "damage.h"
 #include "pldata.h"
@@ -404,4 +404,3 @@ class Creature
 };
 
 #endif
-

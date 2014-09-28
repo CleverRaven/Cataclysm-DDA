@@ -1,5 +1,5 @@
-#ifndef _START_LOCATION_H_
-#define _START_LOCATION_H_
+#ifndef START_LOCATION_H
+#define START_LOCATION_H
 
 #include "json.h"
 
@@ -29,4 +29,4 @@ class start_location
         std::string _target;
 };
 
-#endif  /* _START_LOCATION_H_ */
+#endif

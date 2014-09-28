@@ -110,4 +110,4 @@ namespace internal
 
 } //END NAMESPACE mapf
 
-#endif // MAPGENFORMAT_H
+#endif

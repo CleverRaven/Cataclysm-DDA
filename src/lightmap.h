@@ -1,5 +1,5 @@
-#ifndef _LIGHTMAP_H_
-#define _LIGHTMAP_H_
+#ifndef LIGHTMAP_H
+#define LIGHTMAP_H
 
 #define LIGHT_SOURCE_LOCAL  0.1f
 #define LIGHT_SOURCE_BRIGHT 10

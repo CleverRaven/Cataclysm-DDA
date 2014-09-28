@@ -1,5 +1,5 @@
-#ifndef _MTYPE_H_
-#define _MTYPE_H_
+#ifndef MTYPE_H
+#define MTYPE_H
 // SEE ALSO: monitemsdef.cpp, which defines data on which items any given
 // monster may carry.
 

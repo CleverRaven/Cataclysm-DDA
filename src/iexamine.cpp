@@ -558,7 +558,7 @@ void iexamine::chainfence( player *p, map *m, int examx, int examy )
     } else {
         p->moves -= 400;
         if( one_in( p->dex_cur ) ) {
-            add_msg( m_bad, _( "You slip whilst climbing and fall down again." ) );
+            add_msg( m_bad, _( "You slip while climbing and fall down again." ) );
             return;
         }
         p->moves += p->dex_cur * 10;

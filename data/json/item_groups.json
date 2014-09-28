@@ -48,7 +48,7 @@
     "id" : "field",
     "items":[
       ["rock", 40],
-      ["material_sand", 30]
+      { "item": "material_sand", "prob": 30, "charges-min": 1, "charges-max": 30 }
     ]
   },{
     "type" : "item_group",
@@ -2367,8 +2367,8 @@
       ["box_small", 10],
       ["bubblewrap", 50],
       ["cig_butt", 30],
-      ["lighter", 60],
-      ["matches", 60],
+      {"item": "lighter", "prob": 60, "charges-min": 0, "charges-max": 10 },
+      { "item": "matches", "prob": 60, "charges-min": 0, "charges-max": 20 },
       ["syringe", 8],
       ["rag", 1],
       ["hairpin", 1],

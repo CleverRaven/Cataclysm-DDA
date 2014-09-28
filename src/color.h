@@ -1,8 +1,5 @@
-#ifndef _COLOR_H_
-#define _COLOR_H_
-
-#ifndef _COLOR_LIST_
-#define _COLOR_LIST_
+#ifndef COLOR_H
+#define COLOR_H
 
 #include "json.h"
 #include "cursesdef.h"
@@ -191,6 +188,4 @@ void setattr(nc_color &col, col_attribute attr);
 void load_colors(JsonObject &jo);
 void init_colormap();
 
-#endif // _COLOR_LIST_
-
-#endif // _COLOR_H_
+#endif

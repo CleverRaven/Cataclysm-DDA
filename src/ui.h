@@ -1,5 +1,5 @@
-#ifndef _UI_H_
-#define _UI_H_
+#ifndef UI_H
+#define UI_H
 
 #include "output.h"
 #include <stdlib.h>

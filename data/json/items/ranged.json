@@ -1598,7 +1598,7 @@
     "color": "brown",
     "name": "L1820 Long Ranger",
     "name_plural": "L1820 Long Ranger",
-    "description": "Numbered to bridge the gap between the USian Frontier and modern Civil Defense needs, the Long Ranger was designed to give Enforcer users (or anyone using .45 caliber cartridges) a little extra reach whilst using the same ammunition.  Synthetic furniture cost it some charm points from the legendary Winchester rifles it was based upon, but users agree that the forty-five's punch with the reach of a rifle is worth it.",
+    "description": "Numbered to bridge the gap between the USian Frontier and modern Civil Defense needs, the Long Ranger was designed to give Enforcer users (or anyone using .45 caliber cartridges) a little extra reach while using the same ammunition.  Synthetic furniture cost it some charm points from the legendary Winchester rifles it was based upon, but users agree that the forty-five's punch with the reach of a rifle is worth it.",
     "price": 290000,
     "material": ["steel", "plastic"],
     "flags": "RELOAD_ONE",

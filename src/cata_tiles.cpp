@@ -1150,11 +1150,17 @@ void cata_tiles::draw_entity_with_overlays(int x, int y) {
         // next up, draw all the overlays
         std::vector<std::string> overlays = entity_to_draw->get_overlay_ids();
         for(const std::string& overlay : overlays) {
-            // TODO: distinguish between male/female?
-            std::string draw_id = "overlay_"+overlay;
+            bool exists = true;
+            std::string draw_id = (entity_to_draw->male) ? "overlay_male_" + overlay : "overlay_female_" + overlay;
+            if (tile_ids.find(draw_id) == tile_ids.end()) {
+                draw_id = "overlay_" + overlay;
+                if(tile_ids.find(draw_id) == tile_ids.end()) {
+                    exists = false;
+                }
+            }
 
             // make sure we don't draw an annoying "unknown" tile when we have nothing to draw
-            if(tile_ids.find(draw_id) != tile_ids.end()) {
+            if (exists) {
                 draw_from_id_string(draw_id, C_NONE, "", x, y, corner, 0);
             }
         }

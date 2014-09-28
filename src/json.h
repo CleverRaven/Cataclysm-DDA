@@ -1,5 +1,5 @@
-#ifndef _JSON_H_
-#define _JSON_H_
+#ifndef JSON_H
+#define JSON_H
 
 #include <iosfwd>
 #include <map>
@@ -908,4 +908,4 @@ class JsonDeserializer
         JsonDeserializer &operator=(const JsonDeserializer &) = default;
 };
 
-#endif // _JSON_H_
+#endif

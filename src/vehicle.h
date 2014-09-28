@@ -1,5 +1,5 @@
-#ifndef _VEHICLE_H_
-#define _VEHICLE_H_
+#ifndef VEHICLE_H
+#define VEHICLE_H
 
 #include "tileray.h"
 #include "color.h"

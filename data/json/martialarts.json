@@ -270,7 +270,7 @@
                 "id" : "taekwondo_static",
                 "name" : "Taekwondo",
                 "unarmed_allowed" : true,
-                "block_str" : 0.8,
+                "block_str" : 0.4,
                 "description" : "Strength decreases damage when blocking"
             }
         ],
@@ -736,11 +736,11 @@
             {
                 "id" : "toad_static",
                 "name" : "Toad's Iron Skin",
-                "description" : "Gain +3 armor while standing still",
-                "//" : "FWIW, this is the same amount of armor provided by bionic plating.",
+                "description" : "Gain up to +6 armor while standing still",
+                "//" : "FWIW, this is twice the amount of armor provided by bionic plating.",
                 "unarmed_allowed" : true,
-                "arm_bash": 3,
-                "arm_cut": 3
+                "arm_bash": 6,
+                "arm_cut": 6
             }
         ],
         "onmove_buffs": [
@@ -750,8 +750,8 @@
                 "description" : "Iron Skin softens when you move!",
                 "unarmed_allowed" : true,
                 "min_unarmed" : 0,
-                "buff_duration" : 3,
-                "max_stacks" : 3,
+                "buff_duration" : 6,
+                "max_stacks" : 6,
                 "arm_bash" : -1,
                 "arm_cut" : -1
             }

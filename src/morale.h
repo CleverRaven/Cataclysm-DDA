@@ -1,5 +1,5 @@
-#ifndef _MORALE_H_
-#define _MORALE_H_
+#ifndef MORALE_H
+#define MORALE_H
 
 #include "itype.h"
 #include "json.h"

@@ -1272,8 +1272,13 @@ void Item_factory::load_item_group(JsonObject &jsobj, const std::string &group_i
     if (subtype == "old") {
         JsonArray items = jsobj.get_array("items");
         while (items.has_more()) {
-            JsonArray pair = items.next_array();
-            ig->add_item_entry(pair.get_string(0), pair.get_int(1));
+            if( items.test_object() ) {
+                JsonObject subobj = items.next_object();
+                add_entry( ig, subobj );
+            } else {
+                JsonArray pair = items.next_array();
+                ig->add_item_entry(pair.get_string(0), pair.get_int(1));
+            }
         }
         return;
     }

@@ -1,5 +1,5 @@
-#ifndef _PLAYER_ACTIVITY_H_
-#define _PLAYER_ACTIVITY_H_
+#ifndef PLAYER_ACTIVITY_H
+#define PLAYER_ACTIVITY_H
 
 #include "enums.h"
 #include "json.h"

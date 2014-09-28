@@ -1,5 +1,5 @@
-#ifndef _WEATHER_GEN_H_
-#define _WEATHER_GEN_H_
+#ifndef WEATHER_GEN_H
+#define WEATHER_GEN_H
 
 #include "weather.h"
 #include "calendar.h"
@@ -34,4 +34,5 @@ class weather_generator
         weather_type get_weather_conditions(const w_point &) const;
         void test_weather();
 };
+
 #endif

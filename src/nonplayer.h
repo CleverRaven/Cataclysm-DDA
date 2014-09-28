@@ -1,5 +1,5 @@
-#ifndef _NEW_NONPLAYER_H_
-#define _NEW_NONPLAYER_H_
+#ifndef NEW_NONPLAYER_H
+#define NEW_NONPLAYER_H
 
 #include "character.h"
 

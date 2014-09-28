@@ -1,5 +1,5 @@
-#ifndef _ADVANCED_INV_H_
-#define _ADVANCED_INV_H_
+#ifndef ADVANCED_INV_H
+#define ADVANCED_INV_H
 #include "output.h"
 #include <string>
 #include <array>

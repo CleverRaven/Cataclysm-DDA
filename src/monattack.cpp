@@ -312,6 +312,34 @@ void mattack::resurrect(monster *z)
     }
 }
 
+void mattack::smash(monster *z)
+{
+    int t, dist = rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy);
+    if (dist > 1 || !g->sees_u(z->posx(), z->posy(), t)) {
+        return;    // Out of range
+    }
+    z->sp_timeout = z->type->sp_freq; // Reset timer
+    // Costs lots of moves to give you a little bit of a chance to get away.
+    z->moves -= 400;
+
+    if (g->u.uncanny_dodge()) {
+        return;
+    }
+
+    // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
+    int dodge_check = std::max(g->u.get_dodge() - rng(0, z->type->melee_skill), 0L);
+    if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
+        add_msg(_("the %s takes a powerful swing at you, but you dodge it!"), z->name().c_str());
+        g->u.practice( "dodge", z->type->melee_skill * 2 );
+        g->u.ma_ondodge_effects();
+        return;
+    }
+
+    add_msg( _("A blow from the %s sends you flying!"), z->name().c_str() );
+    g->fling_creature( &(g->u), g->m.coord_to_angle( z->posx(), z->posy(), g->u.xpos(), g->u.ypos() ),
+                       z->type->melee_sides * z->type->melee_dice * 3 );
+}
+
 void mattack::science(monster *z) // I said SCIENCE again!
 {
     int t, dist = rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy);
@@ -993,7 +1021,7 @@ void mattack::fungus_growth(monster *z)
 {
     // Young fungaloid growing into an adult
     if (g->u_see(z->posx(), z->posy())) {
-        add_msg(m_warning, _("The %s young fungaloid grows into an adult!"),
+        add_msg(m_warning, _("The %s grows into an adult!"),
                 z->name().c_str());
     }
     z->poly(GetMType("mon_fungaloid"));
