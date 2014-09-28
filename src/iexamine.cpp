@@ -2351,6 +2351,39 @@ static bool toPumpFuel(map *m, point src, point dst, long units)
     return false;
 }
 
+static long fromPumpFuel(map *m, point dst, point src)
+{
+	if (src.x == -999) {
+		return -1;
+	}
+	if (dst.x == -999) {
+		return -1;
+	}
+
+	for (size_t i = 0; i < m->i_at(src.x, src.y).size(); i++) {
+		if (m->i_at(src.x, src.y)[i].made_of(LIQUID)) {
+			item *liq = &(m->i_at(src.x, src.y)[i]);
+			long count = dynamic_cast<it_ammo *>(liq->type)->count;
+
+			// how much do we have in the pump?	
+			item liq_d(liq->type->id, calendar::turn);
+			liq_d.charges = liq->charges;
+
+			// add the charges to the destination
+			ter_t backup_tank = m->ter_at(dst.x, dst.y);
+			m->ter_set(dst.x, dst.y, "t_null");
+			m->add_item_or_charges(dst.x, dst.y, liq_d);
+			m->ter_set(dst.x, dst.y, backup_tank.id);
+
+			// remove the liquid from the pump
+			long amount = liq->charges;
+			m->i_at(src.x, src.y).erase(m->i_at(src.x, src.y).begin()+i);
+			return amount / count;
+		}
+	}
+	return -1;
+}
+
 static void turnOnSelectedPump(map *m, int x, int y, int number)
 {
     const int radius = 12;
@@ -2376,7 +2409,8 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
     const int buy_gas = 1;
     const int choose_pump = 2;
     const int hack = 3;
-    const int cancel = 4;
+    const int refund = 4;
+    const int cancel = 5;
 
     if (p->has_trait("ILLITERATE")) {
         popup(_("You're illiterate, and can't read the screen."));
@@ -2420,6 +2454,7 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
     amenu.addentry(0, false, -1, str_to_illiterate_str(_("What would you like to do?")));
 
     amenu.addentry(buy_gas, true, 'b', str_to_illiterate_str(_("Buy gas.")));
+	amenu.addentry(refund, true, 'r', str_to_illiterate_str(_("Refund cash.")));
 
     std::string gaspumpselected = str_to_illiterate_str(_("Current gas pump: ")) +
                                   helper::to_string_int( uistate.ags_pay_gas_selected_pump + 1 );
@@ -2571,6 +2606,39 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
             return;
         }
     }
+
+    if (refund == choice) {
+		int pos;
+		item *cashcard;
+
+		pos = g->inv(_("Insert card."));
+		cashcard = &(p->i_at(pos));
+
+		if (cashcard->is_null()) {
+			popup(_("You do not have that item!"));
+			return;
+		}
+		if (cashcard->type->id != "cash_card") {
+			popup(_("Please insert cash cards only!"));
+			return;
+		}
+		// Ok, we have a cash card. Now we need to know what's left in the pump.
+		point pGasPump = getGasPumpByNumber(m, examx, examy, uistate.ags_pay_gas_selected_pump);
+		long amount = fromPumpFuel(m, pTank, pGasPump);
+		if (amount >= 0) {
+			g->sound(p->posx, p->posy, 6, _("Glug Glug Glug"));
+			cashcard->charges += amount * pricePerUnit;
+			add_msg(m_info, ngettext("Your cash card now holds %d cent.",
+									 "Your cash card now holds %d cents.",
+									 cashcard->charges), cashcard->charges);
+			p->moves -= 100;
+			return;
+		} else {
+			popup(_("Unable to refund, no fuel in pump."));
+			return;
+		}
+    }
+
 }
 
 /**
