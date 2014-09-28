@@ -51,7 +51,7 @@
       { "item": "material_sand", "prob": 30, "charges-min": 1, "charges-max": 30 },
       ["months_old_newspaper", 1],
       ["weeks_old_newspaper", 2],
-      ["newest_newspaper", 3],
+      ["newest_newspaper", 3]
     ]
   },{
     "type" : "item_group",
@@ -6119,7 +6119,7 @@
       ["wakizashi", 3],
       ["nodachi", 1],
       ["katana", 2],
-	    ["survnote", 1]
+      ["survnote", 1]
     ]
   },{
     "type" : "item_group",

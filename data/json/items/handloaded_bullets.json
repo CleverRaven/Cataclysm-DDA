@@ -909,7 +909,7 @@
         "recoil" : 0,
         "stack_size" : 40,
         "count" : 20,
-	"effects" : ["COOKOFF", "RECYCLED"]
+        "effects" : ["COOKOFF", "RECYCLED"]
     },
     { 
         "type" : "AMMO",
@@ -1158,9 +1158,8 @@
         "count" : 4,
         "stack_size" : 20,
         "effects" : ["COOKOFF", "INCENDIARY", "FLARE", "RECYCLED"]
-    },
-	{
-	"type" : "AMMO",
+    },{
+        "type" : "AMMO",
         "id" : "reloaded_700nx",
         "price" : 165,
         "name" : "reloaded .700 NX",
@@ -1183,5 +1182,5 @@
         "recoil" : 51,
         "count" : 30,
         "effects" : ["COOKOFF", "RECYCLED"]
-	}
+    }
 ]
