@@ -3816,8 +3816,8 @@ void game::update_scent()
     // note: this method needs an array that is one square larger on each side in the x direction
     // than the final scent matrix. I think this is fine since SCENT_RADIUS is less than
     // SEEX*MAPSIZE, but if that changes, this may need tweaking.
-    for (int x = scentmap_minx - 1; x <= scentmap_maxx + 1; x++) {
-        for (int y = scentmap_miny; y <= scentmap_maxy; y++) {
+    for (int x = scentmap_minx - 1; x <= scentmap_maxx + 1; ++x) {
+        for (int y = scentmap_miny; y <= scentmap_maxy; ++y) {
             // remember the sum of the scent val for the 3 neighboring squares that can defuse into
             sum_3_scent_y[y][x] = 0;
             squares_used_y[y][x] = 0;
@@ -3835,8 +3835,9 @@ void game::update_scent()
             }
         }
     }
-    for (int x = scentmap_minx; x <= scentmap_maxx; x++) {
-        for (int y = scentmap_miny; y <= scentmap_maxy; y++) {
+
+    for (int x = scentmap_minx; x <= scentmap_maxx; ++x) {
+        for (int y = scentmap_miny; y <= scentmap_maxy; ++y) {
             if (wall[x][y] == false) {
                 // to how many neighboring squares do we diffuse out? (include our own square
                 // since we also include our own square when diffusing in)
