@@ -6221,9 +6221,6 @@ std::string get_random_music_description(player *p)
 {
     std::string sound = "";
 
-    if (one_in(50)) {
-        sound = _("some bass-heavy post-glam speed polka");
-    }
     switch (rng(1, 10)) {
         case 1:
             sound = _("a sweet guitar solo!");
@@ -6245,26 +6242,34 @@ std::string get_random_music_description(player *p)
             }
             break;
     }
+    if (one_in(50)) {
+        sound = _("some bass-heavy post-glam speed polka");
+    }
 
     return sound;
+}
+
+void iuse::play_music( player *p, point source, int volume )
+{
+    std::string sound = "";
+    if( int(calendar::turn) % 50 == 0 ) {
+        // Every 5 minutes, describe the music
+        std::string description = get_random_music_description(p);
+        if( !description.empty() ) {
+            sound = string_format( _("You listen to %s"), description.c_str() );
+        }
+    }
+
+    if( g->ambient_sound( source.x, source.y, volume, sound ) && !g->u.has_effect("music") ){
+        p->add_effect("music", 1);
+        p->add_morale(MORALE_MUSIC, 1, 50, 5, 2);
+    }
 }
 
 int iuse::mp3_on(player *p, item *it, bool t)
 {
     if (t) { // Normal use
-        if (!p->has_item(it) || p->is_deaf()) {
-            return it->type->charges_to_use(); // We're not carrying it, or we're deaf.
-        }
-        if (!p->has_effect("music")){
-            p->add_effect("music", 1);
-            p->add_morale(MORALE_MUSIC, 1, 50, 5, 2);
-        }
-        if (int(calendar::turn) % 50 == 0) { // Every 5 minutes, describe the music
-            std::string sound = get_random_music_description(p);
-            if (sound.length() > 0) {
-                p->add_msg_if_player(_("You listen to %s"), sound.c_str());
-            }
-        }
+        play_music( p, p->pos(), 0 );
     } else { // Turning it off
         p->add_msg_if_player(_("The mp3 player turns off."));
         it->make("mp3");
