@@ -5091,7 +5091,7 @@
   "components":
    [
     [
-     ["makeshift_knife", 1], ["primitive_knife", 1]
+     ["makeshift_knife", 1], ["primitive_knife", 1], ["pockknife", 1]
     ],
     [
      [ "screwdriver", 1 ]
