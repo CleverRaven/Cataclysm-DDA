@@ -340,18 +340,20 @@ void Pickup::do_pickup( point pickup_target, bool from_vehicle,
     bool weight_is_okay = (g->u.weight_carried() <= g->u.weight_capacity());
     bool volume_is_okay = (g->u.volume_carried() <= g->u.volume_capacity() -  2);
     bool offered_swap = false;
+    const int item_x = g->u.xpos() + pickup_target.x;
+    const int item_y = g->u.ypos() + pickup_target.y;
     // Map of items picked up so we can output them all at the end and
     // merge dropping items with the same name.
     std::map<std::string, int> mapPickup;
 
     if( from_vehicle ) {
         int veh_root_part = -1;
-        veh = g->m.veh_at( pickup_target.x, pickup_target.y, veh_root_part );
+        veh = g->m.veh_at( item_x, item_y, veh_root_part );
         cargo_part = veh->part_with_feature( veh_root_part, "CARGO", false );
     }
 
     std::vector<item> &here = from_vehicle ? veh->parts[cargo_part].items :
-        g->m.i_at( pickup_target.x, pickup_target.y );
+        g->m.i_at( item_x, item_y );
 
     // Grow here vector if needed to avoid resize operations invalidating pointers during operation.
     here.reserve( here.size() + 1 );
@@ -366,7 +368,7 @@ void Pickup::do_pickup( point pickup_target, bool from_vehicle,
         indices.pop_back();
         quantities.pop_back();
 
-        pick_one_up( pickup_target, here, veh, cargo_part, index, quantity,
+        pick_one_up( point( item_x, item_y ) , here, veh, cargo_part, index, quantity,
                      got_water, offered_swap, mapPickup, autopickup );
     }
 
@@ -464,7 +466,7 @@ void Pickup::pick_up(int posx, int posy, int min)
     // Not many items, just grab them
     if ((int)here.size() <= min && min != -1) {
         g->u.assign_activity( ACT_PICKUP, 0 );
-        g->u.activity.placement = point( posx, posy );
+        g->u.activity.placement = point( posx - g->u.xpos(), posy - g->u.ypos() );
         g->u.activity.values.push_back( from_vehicle );
         // Only one item means index is 0.
         g->u.activity.values.push_back( 0 );
@@ -755,7 +757,7 @@ void Pickup::pick_up(int posx, int posy, int min)
 
     // At this point we've selected our items, register an activity to pick them up.
     g->u.assign_activity( ACT_PICKUP, 0 );
-    g->u.activity.placement = point( posx, posy );
+    g->u.activity.placement = point( posx - g->u.xpos(), posy - g->u.ypos() );
     g->u.activity.values.push_back( from_vehicle );
     if( min == -1 ) {
         // Auto pickup will need to auto resume since there can be several of them on the stack.
