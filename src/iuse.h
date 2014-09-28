@@ -232,6 +232,9 @@ public:
        See artifact.h for a list.                        */
     int artifact            (player *, item *, bool);
 
+    // Helper for listening to music, might deserve a better home, but not sure where.
+    static void play_music( player *p, point source, int volume );
+
     static void reset_bullet_pulling();
     static void load_bullet_pulling(JsonObject &jo);
 protected:

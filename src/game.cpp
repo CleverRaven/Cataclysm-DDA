@@ -6472,11 +6472,6 @@ bool game::sound(int x, int y, int vol, std::string description, bool ambient)
     // --- Player stuff below this point ---
     int dist = rl_dist(x, y, u.posx, u.posy);
 
-    // Player volume meter includes all sounds from their tile and adjacent tiles
-    if (dist <= 1) {
-        u.volume += vol;
-    }
-
     // Mutation/Bionic volume modifiers
     if (u.has_bionic("bio_ears")) {
         vol *= 3.5;
@@ -6516,6 +6511,11 @@ bool game::sound(int x, int y, int vol, std::string description, bool ambient)
         }
         // We're deaf, can't hear it
         return false;
+    }
+
+    // Player volume meter includes all sounds from their tile and adjacent tiles
+    if (dist <= 1) {
+        u.volume = std::max( u.volume, vol );
     }
 
     // Check for deafness
