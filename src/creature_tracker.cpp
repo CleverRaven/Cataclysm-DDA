@@ -1,4 +1,5 @@
 #include "creature_tracker.h"
+#include "mongroup.h"
 #include "output.h"
 #include "debug.h"
 
@@ -52,6 +53,9 @@ bool Creature_tracker::add(monster &critter)
     }
     if (-1 != mon_at(critter.pos())) {
         debugmsg("add_zombie: there's already a monster at %d,%d", critter.posx(), critter.posy());
+        return false;
+    }
+    if (monster_is_blacklisted(critter.type)) {
         return false;
     }
     _old_monsters_by_location[point(critter.posx(), critter.posy())] = _old_monsters_list.size();
