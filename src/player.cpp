@@ -8160,6 +8160,11 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
               int carn_healthy = (comest->healthy) + 1;
               mod_healthy_mod(carn_healthy);
           }
+          hunger -= comest->nutr;
+          thirst -= comest->quench;
+          mod_healthy_mod(comest->healthy);
+          stomach_food += comest->nutr;
+          stomach_water += comest->quench;
     } else {
     // Saprophages get the same boost from rotten food that others get from fresh.
         hunger -= comest->nutr;
