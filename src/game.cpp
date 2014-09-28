@@ -3785,8 +3785,8 @@ void game::update_scent()
     int  sum_3_scent_y[SEEY * MAPSIZE][SEEX * MAPSIZE]; //intermediate variable
     int squares_used_y[SEEY * MAPSIZE][SEEX * MAPSIZE]; //intermediate variable
 
-    bool     has_wall_here[SEEX * MAPSIZE][SEEY * MAPSIZE];  // stash instead of
-    bool reduce_scent_here[SEEX * MAPSIZE][SEEY * MAPSIZE];  // checking 14884 * (3 redundant)
+    bool         wall[SEEX * MAPSIZE][SEEY * MAPSIZE];  // stash instead of
+    bool reduce_scent[SEEX * MAPSIZE][SEEY * MAPSIZE];  // checking 14884 * (3 redundant)
 
     const int diffusivity = 100; // decrease this to reduce gas spread. Keep it under 125 for
     // stability. This is essentially a decimal number * 1000.
@@ -3804,8 +3804,8 @@ void game::update_scent()
     // group flag lookups
     for (int x = scentmap_minx - 1; x <= scentmap_maxx + 1; ++x) {
         for (int y = scentmap_miny - 1; y <= scentmap_maxy + 1; ++y) {
-            has_wall_here[x][y] = m.has_flag(TFLAG_WALL, x, y);
-            reduce_scent_here[x][y] = m.has_flag(TFLAG_REDUCE_SCENT, x, y);
+            wall[x][y] = m.has_flag(TFLAG_WALL, x, y);
+            reduce_scent[x][y] = m.has_flag(TFLAG_REDUCE_SCENT, x, y);
         }
     }
 
@@ -3821,8 +3821,8 @@ void game::update_scent()
             sum_3_scent_y[y][x] = 0;
             squares_used_y[y][x] = 0;
             for (int i = y - 1; i <= y + 1; ++i) {
-                if (has_wall_here[x][i] == false) {
-                    if (reduce_scent_here[x][i] == true) {
+                if (wall[x][i] == false) {
+                    if (reduce_scent[x][i] == true) {
                         // only 20% of scent can diffuse on REDUCE_SCENT squares
                         sum_3_scent_y[y][x] += 2 * grscent[x][i];
                         squares_used_y[y][x] += 2; // only 20% diffuses into REDUCE_SCENT squares
@@ -3836,7 +3836,7 @@ void game::update_scent()
     }
     for (int x = scentmap_minx; x <= scentmap_maxx; x++) {
         for (int y = scentmap_miny; y <= scentmap_maxy; y++) {
-            if (has_wall_here[x][y] == false) {
+            if (wall[x][y] == false) {
                 // to how many neighboring squares do we diffuse out? (include our own square
                 // since we also include our own square when diffusing in)
                 int squares_used = squares_used_y[y][x - 1]
@@ -3844,7 +3844,7 @@ void game::update_scent()
                                    + squares_used_y[y][x + 1];
 
                 int this_diffusivity;
-                if (reduce_scent_here[x][y] == false) {
+                if (reduce_scent[x][y] == false) {
                     this_diffusivity = diffusivity;
                 } else {
                     this_diffusivity = diffusivity / 5; //less air movement for REDUCE_SCENT square
