@@ -1666,7 +1666,7 @@ void game::activity_on_turn_refill_vehicle()
     }
     for(int i = -1; i <= 1; i++) {
         for(int j = -1; j <= 1; j++) {
-            if(m.ter(u.posx + i, u.posy + j) == t_gas_pump) {
+            if(m.ter(u.posx + i, u.posy + j) == t_gas_pump || m.ter_at(u.posx + i, u.posy + j).id == "t_gas_pump_a") {
                 for( auto it = m.i_at(u.posx + i, u.posy + j).begin();
                      it != m.i_at(u.posx + i, u.posy + j).end();) {
                     if (it->type->id == "gasoline") {
