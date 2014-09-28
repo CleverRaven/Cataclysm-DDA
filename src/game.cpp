@@ -2409,7 +2409,7 @@ void game::handle_key_blocking_activity()
             u.activity.moves_left > 0 &&
             !u.activity.warned_of_proximity) {
         Creature *hostile_critter = is_hostile_very_close();
-        if (hostile_critter != nullptr)
+        if (hostile_critter != nullptr) {
             u.activity.warned_of_proximity = true;
             if ( cancel_activity_query(_("You see %s approaching!"),
                     hostile_critter->disp_name().c_str()) ) {
