@@ -3782,6 +3782,7 @@ void game::update_scent()
     // note: the next two intermediate variables need to be at least
     // [2*SCENT_RADIUS+3][2*SCENT_RADIUS+1] in size to hold enough data
     // The code I'm modifying used [SEEX * MAPSIZE]. I'm staying with that to avoid new bugs.
+    // these are transposed so x accesses are localized
     int  sum_3_scent_y[SEEY * MAPSIZE][SEEX * MAPSIZE]; //intermediate variable
     int squares_used_y[SEEY * MAPSIZE][SEEX * MAPSIZE]; //intermediate variable
 
@@ -3801,7 +3802,7 @@ void game::update_scent()
     const int scentmap_miny = u.posy - SCENT_RADIUS;
     const int scentmap_maxy = u.posy + SCENT_RADIUS;
 
-    // group flag lookups
+    // separate flag lookups from computation loops
     for (int x = scentmap_minx - 1; x <= scentmap_maxx + 1; ++x) {
         for (int y = scentmap_miny - 1; y <= scentmap_maxy + 1; ++y) {
             wall[x][y] = m.has_flag(TFLAG_WALL, x, y);
