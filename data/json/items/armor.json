@@ -6619,7 +6619,7 @@
         "price" : 21000,
         "material" : ["plastic", "null"],
         "volume" : 100,
-        "cutting" :80,
+        "cutting" : 0,
         "warmth" : 10,
         "phase" : "solid",
         "environmental_protection" : 0,
