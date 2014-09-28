@@ -7281,6 +7281,9 @@ void game::emp_blast(int x, int y)
                 add_msg(_("The %s beeps erratically and deactivates!"), critter.name().c_str());
                 remove_zombie(mondex);
                 m.spawn_item(x, y, "bot_rifleturret", 1, 0, calendar::turn);
+                if (critter.ammo > 0) {
+                    m.spawn_item(x, y, "556", 1, critter.ammo, calendar::turn);
+                }
             } else if (critter.type->id == "mon_manhack" && one_in(6)) {
                 add_msg(_("The %s flies erratically and drops from the air!"), critter.name().c_str());
                 remove_zombie(mondex);
@@ -12992,9 +12995,12 @@ bool game::plmove(int dx, int dy)
                     return false;
                 } else if (critter.type->id == "mon_turret_rifle") {
                     if (query_yn(_("Deactivate the rifle turret?"))) {
-                        remove_zombie(mondex);
                         u.moves -= 100;
                         m.spawn_item(x, y, "bot_rifleturret", 1, 0, calendar::turn);
+                        if (critter.ammo > 0) {
+                            m.spawn_item(x, y, "556", 1, critter.ammo, calendar::turn);
+                        }
+                        remove_zombie(mondex);
                     }
                     return false;
                 } else {
