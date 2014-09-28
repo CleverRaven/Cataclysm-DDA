@@ -2098,7 +2098,7 @@
         "breaks_into" : [
             {"item": "2x4", "min": 0, "max": 4},
             {"item": "nail", "min": 5, "max": 15},
-			{"item": "scrap", "min": 1, "max": 2}]
+            {"item": "scrap", "min": 1, "max": 2}]
     },{
         "type" : "vehicle_part",
         "id" : "engine_1cyl",

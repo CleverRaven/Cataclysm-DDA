@@ -61,7 +61,7 @@
             { "point":[-1,1,0], "overmap": "motel_2_north"},
             { "point":[0,1,0], "overmap": "motel_3_north"}
         ],
-	   "locations" : [ "by_hiway" ], "//":"what special locations does it spawn",
+        "locations" : [ "by_hiway" ], "//":"what special locations does it spawn",
         "city_distance" : [10, 120], "//":"how far from a city it should be",
         "city_sizes" : [1, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [2, 5], "//":"how many per overmap",
@@ -1183,20 +1183,17 @@
         "required" : false, "//":"is this special required for valid city sizes",
         "spawns" : { "group" : "GROUP_LARGE_STATION", "population":[4, 10], "radius":[1, 2] }
     },{
-	"type" : "overmap_special",
-	"id" : "warehouse",
-	"overmaps" :
-	[
-	{ "point":[0,0,0], "overmap": "warehouse_north", "connect":"road"}
-	],
-	"locations" : [ "by_hiway" ], "//":"what special locations does it spawn",
-	"city_distance" : [6, 20], "//":"how far from a city it should be",
-	"city_sizes" : [5, 12], "//":"what city sizes should it spawn in",
-	"occurrences" : [0, 2], "//":"how many per overmap",
-	"rotate" : true , "//":"allow rotation",
-	"unique" : false, "//":"only allow one per city",
-	"required" : false, "//":"is this special required for valid city sizes",
-	"flags" : [ "CLASSIC" ]
-}
+        "type" : "overmap_special",
+        "id" : "warehouse",
+        "overmaps" : [ { "point":[0,0,0], "overmap": "warehouse_north", "connect":"road"} ],
+        "locations" : [ "by_hiway" ], "//":"what special locations does it spawn",
+        "city_distance" : [6, 20], "//":"how far from a city it should be",
+        "city_sizes" : [5, 12], "//":"what city sizes should it spawn in",
+        "occurrences" : [0, 2], "//":"how many per overmap",
+        "rotate" : true , "//":"allow rotation",
+        "unique" : false, "//":"only allow one per city",
+        "required" : false, "//":"is this special required for valid city sizes",
+        "flags" : [ "CLASSIC" ]
+    }
 ]
 

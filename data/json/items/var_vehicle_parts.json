@@ -192,25 +192,24 @@
         "bigness-aspect": "WHEEL_DIAMETER"
     },
     {
-	"type":"VAR_VEH_PART",
-	"id": "hd_steel_drum",
-	"symbol": "m",
-	"color": "light_gray",
-	"name": "large steel drum",
-	"description": "A large cylinder fashioned out of thick plates of hardened steel, that is normally found on road rollers. Numerous massive spokes, attached to a central axis, reinforce its structure even further, making it an unstoppable force once it starts rolling.",
-	"price": 50000,
-	"material": ["steel", "null"],
-	"weight": 750000,
-    	"volume": 800,
-    	"bashing": 60,
-    	"cutting": 0,
-    	"to_hit": -2,
-	"min-bigness": 50,
-	"max-bigness": 75,
-	"category": "veh_parts",
-	"bigness-aspect": "WHEEL_DIAMETER"
-}
-    ,{
+        "type":"VAR_VEH_PART",
+        "id": "hd_steel_drum",
+        "symbol": "m",
+        "color": "light_gray",
+        "name": "large steel drum",
+        "description": "A large cylinder fashioned out of thick plates of hardened steel, that is normally found on road rollers. Numerous massive spokes, attached to a central axis, reinforce its structure even further, making it an unstoppable force once it starts rolling.",
+        "price": 50000,
+        "material": ["steel", "null"],
+        "weight": 750000,
+        "volume": 800,
+        "bashing": 60,
+        "cutting": 0,
+        "to_hit": -2,
+        "min-bigness": 50,
+        "max-bigness": 75,
+        "category": "veh_parts",
+        "bigness-aspect": "WHEEL_DIAMETER"
+    },{
         "type":"VAR_VEH_PART",
         "id": "1cyl_combustion",
         "symbol": ":",

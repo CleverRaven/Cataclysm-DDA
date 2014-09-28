@@ -1666,7 +1666,7 @@ void game::activity_on_turn_refill_vehicle()
     }
     for(int i = -1; i <= 1; i++) {
         for(int j = -1; j <= 1; j++) {
-            if(m.ter(u.posx + i, u.posy + j) == t_gas_pump) {
+            if(m.ter(u.posx + i, u.posy + j) == t_gas_pump || m.ter_at(u.posx + i, u.posy + j).id == "t_gas_pump_a") {
                 for( auto it = m.i_at(u.posx + i, u.posy + j).begin();
                      it != m.i_at(u.posx + i, u.posy + j).end();) {
                     if (it->type->id == "gasoline") {
@@ -5308,7 +5308,7 @@ void game::draw_sidebar()
     //Safemode coloring
     WINDOW *day_window = sideStyle ? w_status2 : w_status;
     mvwprintz(day_window, 0, sideStyle ? 0 : 41, c_white, _("%s, day %d"),
-              season_name[calendar::turn.get_season()].c_str(), calendar::turn.days() + 1);
+              season_name_uc[calendar::turn.get_season()].c_str(), calendar::turn.days() + 1);
     if (run_mode != 0 || autosafemode != 0) {
         int iPercent = int((turnssincelastmon * 100) / OPTIONS["AUTOSAFEMODETURNS"]);
         wmove(w_status, sideStyle ? 4 : 1, getmaxx(w_status) - 4);

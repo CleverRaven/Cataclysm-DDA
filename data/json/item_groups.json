@@ -48,7 +48,10 @@
     "id" : "field",
     "items":[
       ["rock", 40],
-      { "item": "material_sand", "prob": 30, "charges-min": 1, "charges-max": 30 }
+      { "item": "material_sand", "prob": 30, "charges-min": 1, "charges-max": 30 },
+      ["months_old_newspaper", 1],
+      ["weeks_old_newspaper", 2],
+      ["newest_newspaper", 3]
     ]
   },{
     "type" : "item_group",
@@ -59,6 +62,10 @@
       ["pine_bough", 20],
       ["acorns", 15],
       ["pinecone", 5],
+      ["one_year_old_newspaper", 2],
+      ["months_old_newspaper", 3],
+      ["weeks_old_newspaper", 4],
+      ["newest_newspaper", 5],
       ["bottle_plastic", 1],
       ["bottle_glass", 1],
       ["syringe", 1],
@@ -111,6 +118,10 @@
       ["foot_crank", 10],
       ["55gal_drum", 1],
       ["flyer", 10],
+      ["one_year_old_newspaper", 2],
+      ["months_old_newspaper", 3],
+      ["weeks_old_newspaper", 4],
+      ["newest_newspaper", 5],
       ["survnote", 1]
     ]
   },{
@@ -143,7 +154,13 @@
       ["rolling_paper", 5],
       ["mask_hockey", 5],
       ["hockey_stick", 10],
-      ["news_regional", 8],
+      ["news_regional", 4],
+      ["many_years_old_newspaper", 2],
+      ["years_old_newspaper", 2],
+      ["one_year_old_newspaper", 3],
+      ["months_old_newspaper", 4],
+      ["weeks_old_newspaper", 5],
+      ["newest_newspaper", 8],
       ["mag_bashing", 10],
       ["mag_cutting", 10],
       ["mag_stabbing", 5],
@@ -1430,6 +1447,8 @@
       ["nic_gum", 2],
       ["razor_blade", 3],
       ["knitting_needles", 1],
+      ["weeks_old_newspaper", 5],
+      ["newest_newspaper", 10],
       ["survnote", 2]
     ]
   },{
@@ -1460,6 +1479,9 @@
       ["mag_news", 35],
       ["mag_cars", 40],
       ["mag_cooking", 30],
+      ["months_old_newspaper", 1],
+      ["weeks_old_newspaper", 4],
+      ["newest_newspaper", 10],
       ["recipe_augs", 4],
       ["textbook_anarch", 1],
       ["decoy_anarch", 10],
@@ -3849,7 +3871,10 @@
       ["novel_pulp", 16],
       ["fairy_tales", 10],
       ["atomic_light", 1],
-      ["news_regional", 8],
+      ["news_regional", 4],
+      ["months_old_newspaper", 4],
+      ["weeks_old_newspaper", 5],
+      ["newest_newspaper", 6],
       ["mag_tv", 20],
       ["mag_dude", 20],
       ["mag_glam", 20],
@@ -3912,6 +3937,7 @@
       ["postman_shirt", 70],
       ["postman_shorts", 70],
       ["mbag", 40],
+      ["newest_newspaper", 10],
       ["wristwatch", 50],
       ["leather_belt", 70],
       ["briefs", 90],
@@ -4852,6 +4878,10 @@
       ["recipe_bows", 4],
       ["recipe_arrows", 4],
       ["child_book", 1],
+      ["many_years_old_newspaper", 3],
+      ["years_old_newspaper", 3],
+      ["one_year_old_newspaper", 3],
+      ["months_old_newspaper", 4],
       ["lighter", 60],
       ["ref_lighter", 5],
       ["matches", 60],
@@ -6089,7 +6119,7 @@
       ["wakizashi", 3],
       ["nodachi", 1],
       ["katana", 2],
-	    ["survnote", 1]
+      ["survnote", 1]
     ]
   },{
     "type" : "item_group",
@@ -6461,6 +6491,12 @@
       ["ceramic_shard", 30],
       ["pipe", 20],
       ["music_cd", 20],
+      ["many_years_old_newspaper", 1],
+      ["years_old_newspaper", 2],
+      ["one_year_old_newspaper", 3],
+      ["months_old_newspaper", 4],
+      ["weeks_old_newspaper", 5],
+      ["newest_newspaper", 10],
       ["file", 30],
       ["mag_porn", 20],
       ["bottle_plastic", 10],
@@ -6510,6 +6546,8 @@
       ["mag_porn", 20],
       ["rag", 1],
       ["hairpin", 1],
+      ["weeks_old_newspaper", 1],
+      ["newest_newspaper", 2],
       ["flyer", 10],
       ["file", 10],
       ["child_book", 2],
@@ -8185,6 +8223,10 @@
       ["acorns", 2],
       ["pinecone", 3],
       ["flyer", 1],
+      ["one_year_old_newspaper", 1],
+      ["months_old_newspaper", 2],
+      ["weeks_old_newspaper", 3],
+      ["newest_newspaper", 4],
       ["bag_plastic", 3],
       ["bottle_plastic", 2],
       ["bottle_plastic_small", 1],
