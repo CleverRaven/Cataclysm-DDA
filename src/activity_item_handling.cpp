@@ -349,7 +349,7 @@ static void move_items( point source, point destination,
             g->drop( dropped_items, dropped_worn, 0, destination.x, destination.y );
 
             // Remove from map.
-            if( veh != nullptr ) {
+            if( veh != nullptr && cargo_part >= 0 ) {
                 veh->remove_item( cargo_part, index );
             } else {
                 g->m.i_rem( source.x, source.y, index );
