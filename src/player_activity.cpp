@@ -35,6 +35,7 @@ bool player_activity::is_abortable() const
     switch(type) {
     case ACT_READ:
     case ACT_BUILD:
+    case ACT_CRAFT:
     case ACT_LONGCRAFT:
     case ACT_REFILL_VEHICLE:
     case ACT_WAIT:
