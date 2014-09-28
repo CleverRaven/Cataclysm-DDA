@@ -3795,16 +3795,21 @@ void game::update_scent()
         grscent[u.posx][u.posy] = u.scent;
     }
 
+    const int scentmap_minx = u.posx - SCENT_RADIUS;
+    const int scentmap_maxx = u.posx + SCENT_RADIUS;
+    const int scentmap_miny = u.posy - SCENT_RADIUS;
+    const int scentmap_maxy = u.posy + SCENT_RADIUS;
+
     // Sum neighbors in the y direction.  This way, each square gets called 3 times instead of 9
     // times. This cost us an extra loop here, but it also eliminated a loop at the end, so there
     // is a net performance improvement over the old code. Could probably still be better.
     // note: this method needs an array that is one square larger on each side in the x direction
     // than the final scent matrix. I think this is fine since SCENT_RADIUS is less than
     // SEEX*MAPSIZE, but if that changes, this may need tweaking.
-    for (int x = u.posx - SCENT_RADIUS - 1; x <= u.posx + SCENT_RADIUS + 1; x++) {
-        for (int y = u.posy - SCENT_RADIUS; y <= u.posy + SCENT_RADIUS; y++) {
+    for (int x = scentmap_minx - 1; x <= scentmap_maxx + 1; x++) {
+        for (int y = scentmap_miny; y <= scentmap_maxy; y++) {
             // cache expensive flag checks, once per tile.
-            if (y == u.posy - SCENT_RADIUS) {  // Setting y-1 y-0, when we are at the top row...
+            if (y == scentmap_miny) {  // Setting y-1 y-0, when we are at the top row...
                 for (int i = y - 1; i <= y; ++i) {
                     has_wall_here[x][i] = m.has_flag(TFLAG_WALL, x, i);
                     reduce_scent_here[x][i] = m.has_flag(TFLAG_REDUCE_SCENT, x, i);
@@ -3830,8 +3835,8 @@ void game::update_scent()
             }
         }
     }
-    for (int x = u.posx - SCENT_RADIUS; x <= u.posx + SCENT_RADIUS; x++) {
-        for (int y = u.posy - SCENT_RADIUS; y <= u.posy + SCENT_RADIUS; y++) {
+    for (int x = scentmap_minx; x <= scentmap_maxx; x++) {
+        for (int y = scentmap_miny; y <= scentmap_maxy; y++) {
             if (has_wall_here[x][y] == false) {
                 // to how many neighboring squares do we diffuse out? (include our own square
                 // since we also include our own square when diffusing in)
