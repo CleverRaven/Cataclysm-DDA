@@ -1,5 +1,5 @@
-#ifndef _ACTION_H_
-#define _ACTION_H_
+#ifndef ACTION_H
+#define ACTION_H
 
 #include <vector>
 #include <map>

@@ -1,5 +1,5 @@
-#ifndef _OMDATA_H_
-#define _OMDATA_H_
+#ifndef OMDATA_H
+#define OMDATA_H
 
 #include "color.h"
 #include "json.h"

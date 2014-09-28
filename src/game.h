@@ -1,5 +1,5 @@
-#ifndef _GAME_H_
-#define _GAME_H_
+#ifndef GAME_H
+#define GAME_H
 
 #include "mtype.h"
 #include "monster.h"

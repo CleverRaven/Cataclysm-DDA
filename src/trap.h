@@ -1,5 +1,5 @@
-#ifndef _TRAP_H_
-#define _TRAP_H_
+#ifndef TRAP_H
+#define TRAP_H
 
 #include "color.h"
 #include "monster.h"

@@ -1,5 +1,5 @@
-#ifndef _OVERMAPBUFFER_H_
-#define _OVERMAPBUFFER_H_
+#ifndef OVERMAPBUFFER_H
+#define OVERMAPBUFFER_H
 
 #include "enums.h"
 #include "overmap.h"
@@ -343,4 +343,4 @@ private:
 
 extern overmapbuffer overmap_buffer;
 
-#endif /* _OVERMAPBUFFER_H_ */
+#endif

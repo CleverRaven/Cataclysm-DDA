@@ -1,5 +1,5 @@
-#ifndef _VEH_INTERACT_H_
-#define _VEH_INTERACT_H_
+#ifndef VEH_INTERACT_H
+#define VEH_INTERACT_H
 
 #include <vector>
 #include "output.h"

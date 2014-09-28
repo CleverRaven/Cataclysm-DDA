@@ -1,5 +1,6 @@
-#ifndef _MAPGEN_H_
-#define _MAPGEN_H_
+#ifndef MAPGEN_H
+#define MAPGEN_H
+
 #include <map>
 #include <string>
 #include "mapgenformat.h"

@@ -1,5 +1,5 @@
-#ifndef _FACTION_H_
-#define _FACTION_H_
+#ifndef FACTION_H
+#define FACTION_H
 
 #include "json.h"
 

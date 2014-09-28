@@ -1,5 +1,6 @@
 #ifndef CATACHARSET_H
 #define CATACHARSET_H
+
 #include <stdint.h>
 #include <string>
 #define ANY_LENGTH 5

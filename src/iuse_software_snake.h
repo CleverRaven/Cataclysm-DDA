@@ -1,5 +1,5 @@
-#ifndef _SOFTWARE_SNAKE_H_
-#define _SOFTWARE_SNAKE_H_
+#ifndef SOFTWARE_SNAKE_H
+#define SOFTWARE_SNAKE_H
 
 class snake_game
 {
@@ -10,4 +10,5 @@ class snake_game
         void snake_over(WINDOW *w_snake, int iScore);
         int start_game();
 };
+
 #endif

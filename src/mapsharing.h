@@ -1,5 +1,5 @@
-#ifndef MAPSHARING_H_INCLUDED
-#define MAPSHARING_H_INCLUDED
+#ifndef MAPSHARING_H
+#define MAPSHARING_H
 
 #ifdef __linux__
 #include <sys/types.h>
@@ -58,4 +58,4 @@ void fopen_exclusive(std::ofstream &fout, const char *filename,
 //std::ofstream fopen_exclusive(const char* filename);
 void fclose_exclusive(std::ofstream &fout, const char *filename);
 
-#endif // MAPSHARING_H_INCLUDED
+#endif

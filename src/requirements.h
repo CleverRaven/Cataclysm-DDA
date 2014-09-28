@@ -1,5 +1,5 @@
-#ifndef _REQUIREMENTS_H_
-#define _REQUIREMENTS_H_
+#ifndef REQUIREMENTS_H
+#define REQUIREMENTS_H
 
 #include <string>
 #include <vector>

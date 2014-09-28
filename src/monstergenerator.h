@@ -111,4 +111,4 @@ class MonsterGenerator
         std::map<std::string, m_flag> flag_map;
 };
 
-#endif // MONSTER_GENERATOR_H
+#endif

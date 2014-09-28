@@ -1,5 +1,5 @@
-#ifndef _IUSE_H_
-#define _IUSE_H_
+#ifndef IUSE_H
+#define IUSE_H
 
 #include "monstergenerator.h"
 #include <map>
@@ -310,6 +310,5 @@ public:
         return !(this->operator==(f));
     }
 };
-
 
 #endif

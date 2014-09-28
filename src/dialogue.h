@@ -1,5 +1,5 @@
-#ifndef _DIALOGUE_H_
-#define _DIALOGUE_H_
+#ifndef DIALOGUE_H
+#define DIALOGUE_H
 
 #include "player.h"
 #include "output.h"
@@ -156,4 +156,4 @@ struct tag_data {
     std::string (*replacement)[10];
 };
 
-#endif  // _DIALOGUE_H_
+#endif

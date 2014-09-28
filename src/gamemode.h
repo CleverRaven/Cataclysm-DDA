@@ -1,5 +1,5 @@
-#ifndef _GAMEMODE_H_
-#define _GAMEMODE_H_
+#ifndef GAMEMODE_H
+#define GAMEMODE_H
 
 #include <vector>
 #include <string>

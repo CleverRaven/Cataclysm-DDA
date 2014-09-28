@@ -1,5 +1,5 @@
-#ifndef _MAP_H_
-#define _MAP_H_
+#ifndef MAP_H
+#define MAP_H
 
 #include "cursesdef.h"
 
