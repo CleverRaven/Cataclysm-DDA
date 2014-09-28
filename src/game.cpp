@@ -8581,11 +8581,19 @@ void game::examine(int examx, int examy)
     const furn_t *xfurn_t = &furnlist[m.furn(examx, examy)];
     const ter_t *xter_t = &terlist[m.ter(examx, examy)];
     iexamine xmine;
+    const int player_x = g->u.posx;
+    const int player_y = g->u.posy;
 
     if (m.has_furn(examx, examy)) {
         (xmine.*xfurn_t->examine)(&u, &m, examx, examy);
     } else {
         (xmine.*xter_t->examine)(&u, &m, examx, examy);
+    }
+
+    // Did the player get moved? Bail out if so; our examx and examy probably
+    // aren't valid anymore.
+    if (player_x != g->u.posx || player_y != g->u.posy) {
+        return;
     }
 
     if (curz != g->levz) {
