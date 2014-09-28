@@ -472,6 +472,7 @@ ctags: $(SOURCES) $(HEADERS)
 
 etags: $(SOURCES) $(HEADERS)
 	etags $(SOURCES) $(HEADERS)
+	find data/json -name "*.json" -print0 | xargs -0 -L 50 etags --append
 
 tests: $(ODIR) $(DDIR) $(OBJS)
 	$(MAKE) -C tests
