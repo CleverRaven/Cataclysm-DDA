@@ -34,7 +34,7 @@
         "to_hit": 0
     },
         {
-        "type":"STATIONARY_ITEM",
+        "type":"GENERIC",
         "id": "newest_newspaper",
         "symbol": ",",
         "color": "white",
@@ -51,14 +51,14 @@
         "to_hit": 0
     },
         {
-        "type":"STATIONARY_ITEM",
+        "type":"GENERIC",
         "id": "many_years_old_newspaper",
         "symbol": ",",
         "color": "white",
         "name": "newspaper page",
         "plural-name": "newspaper pages",
         "snippet_category": "many_years_old_news",
-        "description": "A single sheet of newspaper broadsheet. It seems to date from years ago, you are surprised it has lasted this long. Most of the information on there is terribly trivial, or out of date, but one thing catches your eye briefly.",
+        "description": "A single sheet of newspaper broadsheet. It seems to date from several years ago, and you've NO idea how it lasted this long. Most of the information on there is terribly trivial, or out of date, but one thing catches your eye briefly.",
         "price": 0,
         "material": "paper",
         "weight": 3,
@@ -68,14 +68,14 @@
         "to_hit": 0
     },
         {
-        "type":"STATIONARY_ITEM",
+        "type":"GENERIC",
         "id": "years_old_newspaper",
         "symbol": ",",
         "color": "white",
         "name": "newspaper page",
         "plural-name": "newspaper pages",
         "snippet_category": "years_old_news",
-        "description": "A single sheet of newspaper broadsheet. It seems to date from years ago, you are surprised it has lasted this long. Most of the information on there is terribly trivial, or out of date, but one thing catches your eye briefly.",
+        "description": "A single sheet of newspaper broadsheet. It seems to date from a few years ago--amazing it has lasted this long. Most of the information on there is terribly trivial, or out of date, but one thing catches your eye briefly.",
         "price": 0,
         "material": "paper",
         "weight": 3,
@@ -85,7 +85,7 @@
         "to_hit": 0
     },
         {
-        "type":"STATIONARY_ITEM",
+        "type":"GENERIC",
         "id": "one_year_old_newspaper",
         "symbol": ",",
         "color": "white",
@@ -102,7 +102,7 @@
         "to_hit": 0
     },
         {
-        "type":"STATIONARY_ITEM",
+        "type":"GENERIC",
         "id": "months_old_newspaper",
         "symbol": ",",
         "color": "white",
@@ -119,7 +119,7 @@
         "to_hit": 0
     },
         {
-        "type":"STATIONARY_ITEM",
+        "type":"GENERIC",
         "id": "weeks_old_newspaper",
         "symbol": ",",
         "color": "white",
