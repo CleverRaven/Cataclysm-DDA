@@ -923,6 +923,8 @@ void game::cleanup_at_end()
                                pgettext("memorial_female", "%s was killed."),
                                u.name.c_str());
         }
+        u.add_memorial_log( _("Last words: %s"), sLastWords.c_str() );
+        save_player_data();
         move_save_to_graveyard();
         write_memorial_file(sLastWords);
         u.memorial_log.clear();
@@ -4179,9 +4181,9 @@ bool game::save_uistate()
     }
 }
 
-bool game::save()
+bool game::save_player_data()
 {
-    std::string playerfile = world_generator->active_world->world_path + "/" + base64_encode(u.name);
+    const std::string playerfile = world_generator->active_world->world_path + "/" + base64_encode(u.name);
     try {
         std::ofstream fout;
         fout.exceptions(std::ios::failbit | std::ios::badbit);
@@ -4197,6 +4199,19 @@ bool game::save()
         fout.open(std::string(playerfile + ".log").c_str());
         fout << u.dump_memorial();
         fout.close();
+        return true;
+    } catch (std::ios::failure &err) {
+        popup(_("Failed to save player data"));
+        return false;
+    }
+}
+
+bool game::save()
+{
+    try {
+        if( !save_player_data() ) {
+            return false;
+        }
         if (!save_factions_missions_npcs()) {
             return false;
         }
