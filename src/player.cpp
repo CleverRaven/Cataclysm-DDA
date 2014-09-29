@@ -10229,7 +10229,7 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
     }
 
     if (layers > 0.0) {
-        ret += layers;
+        ret += layers * (bp == bp_torso ? 1 : 2); //easier to layer on torso
     }
 
     if (volume_carried() > volume_capacity() - 2 && bp != bp_head) {
