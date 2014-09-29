@@ -898,7 +898,7 @@ void player::update_bodytemp()
         }
     }
     // Current temperature and converging temperature calculations
-    for (int i = 0 ; i < num_bp ; i++)
+    for (int i = 0 ; i < num_bp; i++)
     {
         // This adjusts the temperature scale to match the bodytemp scale -- it needs to be reset every iteration
         int adjusted_temp = (Ctemperature - ambient_norm);

@@ -5275,9 +5275,18 @@ void game::draw_sidebar()
     } else {
         mvwprintz(w_location, 0, 18, weather_data[weather].color, "%s", weather_data[weather].name.c_str());
     }
-
+   
+    int display_temp = get_temperature(); // Fahrenheit
+    display_temp = (display_temp - 32.0) * 5/9; // Convert to C
+    // Apply windchill
+    w_point weatherPoint = weatherGen.get_weather(u.pos(), calendar::turn);
+    int windSpeed = std::max(0, (int)(1020 - weatherPoint.pressure));
+    int relHum = weatherPoint.humidity;
+    int windchill = (0.33 * ((relHum / 100.00) * 6.105 * exp((17.27 * display_temp/100)/(237.70 + display_temp/100))) - 0.70*windSpeed - 4.00);
+    display_temp += windchill;
+    display_temp = 32.0 + display_temp * 9/5; // Convert to F
+    
     nc_color col_temp = c_blue;
-    int display_temp = get_temperature();
     if (display_temp >= 90) {
         col_temp = c_red;
     } else if (display_temp >= 75) {
@@ -5289,32 +5298,8 @@ void game::draw_sidebar()
     } else if (display_temp > 32) {
         col_temp = c_ltblue;
     }
-    w_point weatherPoint = weatherGen.get_weather(u.pos(), calendar::turn);
-    int windSpeed = std::max(0, (int)(1020 - weatherPoint.pressure));
-    int relHum = weatherPoint.humidity;
-
-    std::string windSpeedString, relHumString;
-
-    if (windSpeed > 200) windSpeedString = "EF5";
-    else if (windSpeed > 165) windSpeedString = "EF4";
-    else if (windSpeed > 135) windSpeedString = "EF3";
-    else if (windSpeed > 110) windSpeedString = "EF2";
-    else if (windSpeed >  85) windSpeedString = "EF1";
-    else if (windSpeed >  65) windSpeedString = "EF0";
-    else if (windSpeed >  50) windSpeedString = "Storm";
-    else if (windSpeed >  40) windSpeedString = "Str gale";
-    else if (windSpeed >  30) windSpeedString = "Mod gale";
-    else if (windSpeed >  20) windSpeedString = "Str breeze";
-    else if (windSpeed >  10) windSpeedString = "Lgt breeze";
-    else windSpeedString = "Calm";
-
-    if (relHum > 70) relHumString = ", V humid";
-    else if (relHum > 60) relHumString = ", Humid";
-    else if (relHum > 50) relHumString = "";
-    else if (relHum > 30) relHumString = ", Dry";
-    else relHumString = ", V dry";
-
-    wprintz( w_location, col_temp, " %s, %s%s", print_temperature( display_temp ).c_str(), windSpeedString.c_str(), relHumString.c_str());
+    
+    wprintz( w_location, col_temp, " %s", print_temperature( display_temp ).c_str());
     wrefresh(w_location);
 
     //Safemode coloring
