@@ -5950,19 +5950,6 @@ bool game::is_hostile_within(int distance)
 
         int mondist = rl_dist(u.posx, u.posy, critter.posx(), critter.posy());
         if (mondist <= distance) {
-            if (u.has_trait("M_DEFENDER")) {
-                if (critter.type->in_species("PLANT")) {
-                    add_msg(m_warning, _("We have detected a %s !"), critter.name().c_str());
-                    if (!u.has_disease("adrenaline")){
-                        u.add_disease("adrenaline", 300); // Message handled in disease.cpp
-                    } else if (u.has_disease("adrenaline") && (u.disease_duration("adrenaline") < 150) ) {
-                        // Triffids present.  We ain't got TIME to adrenaline comedown!
-                        u.add_disease("adrenaline", 150);
-                        u.hurtall(3); // Does take it out of you, though
-                        add_msg(m_info, _("Our fibers strain with renewed wrath!"));
-                    }
-                }
-            }
             return true;
         }
     }
@@ -6039,7 +6026,6 @@ int game::mon_info(WINDOW *w)
                 int mondist = rl_dist(u.posx, u.posy, critter.posx(), critter.posy());
                 if (mondist <= iProxyDist) {
                     bool passmon = false;
-
                     if (critter.ignoring > 0) {
                         if (run_mode != 1) {
                             critter.ignoring = 0;
@@ -6088,6 +6074,19 @@ int game::mon_info(WINDOW *w)
             if (!new_seen_mon.empty()) {
                 monster &critter = critter_tracker.find(new_seen_mon.back());
                 cancel_activity_query(_("%s spotted!"), critter.name().c_str());
+                if (u.has_trait("M_DEFENDER")) {
+                    if (critter.type->in_species("PLANT")) {
+                        add_msg(m_warning, _("We have detected a %s."), critter.name().c_str());
+                        if (!u.has_disease("adrenaline")){
+                            u.add_disease("adrenaline", 300); // Message handled in disease.cpp
+                        } else if (u.has_disease("adrenaline") && (u.disease_duration("adrenaline") < 150) ) {
+                            // Triffids present.  We ain't got TIME to adrenaline comedown!
+                            u.add_disease("adrenaline", 150);
+                            u.hurtall(3); // Does take it out of you, though
+                            add_msg(m_info, _("Our fibers strain with renewed wrath!"));
+                        }
+                    }
+                }
             } else {
                 //Hostile NPC
                 cancel_activity_query(_("Hostile survivor spotted!"));

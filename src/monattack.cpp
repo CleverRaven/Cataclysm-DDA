@@ -1020,6 +1020,7 @@ void mattack::fungus_sprout(monster *z)
 
 void mattack::fungus_fortify(monster *z)
 {
+    bool fortified = false;
     z->sp_timeout = z->type->sp_freq; // Reset timer
     for (int x = z->posx() - 1; x <= z->posx() + 1; x++) {
         for (int y = z->posy() - 1; y <= z->posy() + 1; y++) {
@@ -1032,8 +1033,47 @@ void mattack::fungus_fortify(monster *z)
                 monster wall(GetMType("mon_fungal_hedgerow"));
                 wall.spawn(x, y);
                 g->add_zombie(wall);
+                fortified = true;
             }
         }
+    }
+    if (!fortified) {
+        if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 3) {
+            return;
+        }
+        add_msg(m_warning, _("The %s takes aim, and spears at you with a massive needlelike tendril!"), z->name().c_str());
+        z->moves -= 150;
+
+        if (g->u.uncanny_dodge()) {
+            return;
+        }
+
+        // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
+        int dodge_check = std::max(g->u.get_dodge() - rng(0, z->type->melee_skill), 0L);
+        if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
+            add_msg(_("You dodge it!"));
+            g->u.practice( "dodge", z->type->melee_skill * 2 );
+            g->u.ma_ondodge_effects();
+            return;
+        }
+
+        body_part hit = random_body_part();
+        int dam = rng(10, 21);
+        dam = g->u.deal_damage( z, hit, damage_instance( DT_CUT, dam ) ).total_damage();
+
+        if (dam > 0) {
+            //~ 1$s is monster name, 2$s bodypart in accusative
+            add_msg(m_bad, _("The %1$s sinks its point into your %2$s!"), z->name().c_str(),
+                body_part_name_accusative(hit).c_str());
+            g->u.add_disease("fungus", 400, false, 1, 1, 0, -1);
+            add_msg(m_warning, _("You feel millions of live spores pumping into you..."));
+            } else {
+                //~ 1$s is monster name, 2$s bodypart in accusative
+                add_msg(_("The %1$s strikes your %2$s, but your armor protects you."), z->name().c_str(),
+                        body_part_name_accusative(hit).c_str());
+            }
+
+        g->u.practice( "dodge", z->type->melee_skill );
     }
 }
 
