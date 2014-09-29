@@ -2354,7 +2354,7 @@ int iuse::marloss_gel(player *p, item *it, bool t)
     if (effect <= 3) {
         p->add_msg_if_player(_("This jelly tastes extremely strange!"));
         p->mutate();
-        // hihi! wavewave! mutation drain!
+        // hihi! wavewave! mutation draindrain!
         p->mod_pain(2 * rng(1, 5));
         p->hunger += 10;
         p->fatigue += 5;

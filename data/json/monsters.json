@@ -3038,18 +3038,18 @@
     "melee_dice":3,
     "melee_dice_sides":4,
     "melee_cut":5,
-    "dodge":1,
+    "dodge":3,
     "armor_bash":20,
     "armor_cut":15,
     "luminance":0,
     "item_chance":40,
     "death_drops": "marloss_yellow_drops",
     "hp":300,
-    "special_freq":15,
+    "special_freq":10,
     "death_function":["FUNGUS", "NORMAL"],
     "special_attack":"FUNGUS_FORTIFY",
-    "description":"An enormous, tendril-equipped fungal tower, emerging from a bristling pack of tendrils in the ground.",
-    "flags":["NOHEAD", "POISON", "IMMOBILE", "NO_BREATHE", "QUEEN"]
+    "description":"An enormous fungal tower.  On closer inspection, its cap is supported by LOTS of fungal tendrils of various thicknesses, emerging from yet more bristling tendrils at ground level.  Between this redundancy and their noticeable movement creating frequent gaps, it's tough to get a solid shot on the thing.",
+    "flags":["NOHEAD", "POISON", "IMMOBILE", "HARDTOSHOOT", "NO_BREATHE", "QUEEN"]
     },{
         "type" : "MONSTER",
         "id" : "mon_fungal_wall",

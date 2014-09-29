@@ -639,5 +639,19 @@
             ],
         "category" : "MUTCAT_RAPTOR",
         "strength" : 4
+   },{
+        "type" : "dream",
+        "//" : "The Mycus is ONLY post-thresh, so many more here.",
+        "messages" : [
+            "We have been waiting a long time for a place such as this.",
+            "We will raise bountiful orchards and beautiful gardens.",
+            "The walking plants seek to harness us as a food source.  We will not allow that.",
+            "Our colonists are limitless.  We shall adapt to this world, as we adapt to all.",
+            "Non-Mycus sometimes reject the Marloss.  Our colonial efforts flourish with broad-minded guidance.",
+            "The seething masses attempt to wall non-Mycus away from the Marloss.  We will adapt and defeat them."
+            ],
+        "category" : "MUTCAT_MYCUS",
+        "strength" : 4
+   }
    }
 ]

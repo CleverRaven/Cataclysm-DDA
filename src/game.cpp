@@ -6082,7 +6082,7 @@ int game::mon_info(WINDOW *w)
                         } else if (u.has_disease("adrenaline") && (u.disease_duration("adrenaline") < 150) ) {
                             // Triffids present.  We ain't got TIME to adrenaline comedown!
                             u.add_disease("adrenaline", 150);
-                            u.hurtall(3); // Does take it out of you, though
+                            u.mod_pain(3); // Does take it out of you, though
                             add_msg(m_info, _("Our fibers strain with renewed wrath!"));
                         }
                     }
