@@ -33,8 +33,8 @@ void game::init_weather_anim()
     mapWeatherAnim[WEATHER_RAINY] =         clWeatherAnim(',', c_ltblue, 0.02f);
     mapWeatherAnim[WEATHER_THUNDER] =       clWeatherAnim('.', c_ltblue, 0.02f);
     mapWeatherAnim[WEATHER_LIGHTNING] =     clWeatherAnim(',', c_ltblue, 0.04f);
-    mapWeatherAnim[WEATHER_FLURRIES] =      clWeatherAnim('*', c_white, 0.01f);
-    mapWeatherAnim[WEATHER_SNOW] =          clWeatherAnim('*', c_white, 0.02f);
+    mapWeatherAnim[WEATHER_FLURRIES] =      clWeatherAnim('.', c_white, 0.01f);
+    mapWeatherAnim[WEATHER_SNOW] =          clWeatherAnim(',', c_white, 0.02f);
     mapWeatherAnim[WEATHER_SNOWSTORM] =     clWeatherAnim('*', c_white, 0.04f);
 }
 
