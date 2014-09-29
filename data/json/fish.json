@@ -506,7 +506,7 @@
   {
     "type" : "MONSTER",
     "id" : "mon_zhark",
-    "name": "Jawed Terror",
+    "name": "jawed terror",
     "species":"ZOMBIE",
     "symbol":"^",
     "color":"white_magenta",
@@ -528,13 +528,13 @@
     "special_freq":0,
     "death_function":"NORMAL",
     "special_attack":"BITE",
-    "description":"A once aggresive and hungry bull shark, this jawed terror is now even more aggresive and with no functioning brain.",
+    "description":"A once aggresive and hungry bull shark, this jawed terror is now even more aggresive despite no functioning brain.",
     "flags":["SEES", "HEARS", "SMELLS", "WARM", "SWIMS", "AQUATIC", "POISON", "NO_BREATHE", "VIS40", "REVIVES", "BONES"]
     },
   {
     "type" : "MONSTER",
     "id" : "mon_mutant_carp",
-    "name": "Mutant Carp",
+    "name": "giant carp",
     "species":"FISH",
     "symbol":"C",
     "color":"white_magenta",
@@ -562,7 +562,7 @@
   {
     "type" : "MONSTER",
     "id" : "mon_mutant_salmon",
-    "name": "Mutant Salmon",
+    "name": "giant salmon",
     "species":"FISH",
     "symbol":"S",
     "color":"white_magenta",
@@ -584,7 +584,7 @@
     "special_freq":0,
     "death_function":"NORMAL",
     "special_attack":"BITE",
-    "description":"A mutated salmon. Sized like a large dog and quite dangerous to the inexperienced survivor fisherman.",
+    "description":"A mutated salmon. The same size of a large dog and quite dangerous to the inexperienced fisherman.",
     "flags":["SEES", "HEARS", "SMELLS", "WARM", "SWIMS", "AQUATIC", "VIS40", "BONES","FAT"]
     }
 ]
