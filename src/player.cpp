@@ -936,11 +936,11 @@ void player::update_bodytemp()
         /// Source : http://en.wikipedia.org/wiki/Wind_chill#Australian_Apparent_Temperature
         int windChill = (0.33 * ((bpRelHum / 100.00) * 6.105 * exp((17.27 * Ctemperature/100)/(237.70 + Ctemperature/100))) - 0.70*bpWindPower - 4.00);               
         // If you're standing in water, air temperature is replaced by water temperature. No wind.
-        int water_temperature = g->get_water_temperature();
+        int water_temperature = 100 * (g->get_water_temperature() - 32) * 5/9;
         if ( (ter_at_pos == t_water_dp || ter_at_pos == t_water_pool || ter_at_pos == t_swater_dp) ||
             ((ter_at_pos == t_water_sh || ter_at_pos == t_swater_sh || ter_at_pos == t_sewage) &&
             (i == bp_foot_l || i == bp_foot_r || i == bp_leg_l || i == bp_leg_r)) ) {
-            adjusted_temp += water_temperature*100 - Ctemperature; // Swap out air temp for water temp.
+            adjusted_temp += water_temperature - Ctemperature; // Swap out air temp for water temp.
             windChill = 0;
         }
         // Convergeant temperature is affected by ambient temperature, clothing warmth, and body wetness.
