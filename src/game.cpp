@@ -30,6 +30,7 @@
 #include "monattack.h"
 #include "worldfactory.h"
 #include "file_finder.h"
+#include "file_wrapper.h"
 #include "mod_manager.h"
 #include "path_info.h"
 #include "mapsharing.h"
@@ -3933,25 +3934,26 @@ void game::death_screen()
 #else
     DIR *save_dir = opendir(FILENAMES["savedir"].c_str());
     struct dirent *save_dirent = NULL;
-    if(save_dir != NULL && 0 == chdir(FILENAMES["savedir"].c_str())) {
-        while ((save_dirent = readdir(save_dir)) != NULL) {
-            std::string name_prefix = save_dirent->d_name;
-            std::string tmpname = base64_encode(u.name);
-            name_prefix = name_prefix.substr(0, tmpname.length());
-
-            if (tmpname == name_prefix) {
-                std::string graveyard_path("../graveyard/");
-                mkdir(graveyard_path.c_str(), 0777);
-                graveyard_path.append(save_dirent->d_name);
-                (void)rename(save_dirent->d_name, graveyard_path.c_str());
+    const std::string graveyard = FILENAMES["graveyarddir"];
+    const std::string prefix = base64_encode( u.name ) + ".";
+    if( !assure_dir_exist( graveyard ) ) {
+        debugmsg( "could not create graveyard path %s", graveyard.c_str() );
+    } else if( save_dir != NULL ) {
+        while( ( save_dirent = readdir( save_dir ) ) != NULL ) {
+            const std::string name = save_dirent->d_name;
+            // Player character specific files are formed as
+            // <base64(player-name)>.<extension>
+            // extensions is '.sav' for the main save, .log for the memorial, ...
+            if( name.compare( 0, prefix.length(), prefix ) != 0 ) {
+                continue;
             }
+            const std::string dstpath = graveyard + "/" + save_dirent->d_name;
+            const std::string srcpath = FILENAMES["savedir"] + "/" + name;
+            // ignore errors, it's too late to do anything here,
+            // also, this will override saves from characters of the same name!
+            rename_file( srcpath, dstpath );
         }
-        int ret;
-        ret = chdir("..");
-        if (ret != 0) {
-            debugmsg("game::death_screen: Can\'t chdir(\"..\") from \"save\" directory");
-        }
-        (void)closedir(save_dir);
+        closedir( save_dir );
     }
 #endif
 
