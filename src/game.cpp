@@ -923,6 +923,7 @@ void game::cleanup_at_end()
                                pgettext("memorial_female", "%s was killed."),
                                u.name.c_str());
         }
+        move_save_to_graveyard();
         write_memorial_file(sLastWords);
         u.memorial_log.clear();
         std::vector<std::string> characters = list_active_characters();
@@ -3882,11 +3883,6 @@ bool game::is_game_over()
         if (u.in_vehicle) {
             g->m.unboard_vehicle(u.posx, u.posy);
         }
-        std::stringstream playerfile;
-        playerfile << world_generator->active_world->world_path << "/" << base64_encode(u.name) << ".sav";
-        dbg( D_INFO ) << "Unlinking player file: <" << playerfile.str() << "> -- ";
-        bool ok = (unlink(playerfile.str().c_str()) == 0);
-        dbg( D_INFO ) << (ok ? "SUCCESS" : "FAIL");
         return true;
     }
     if (uquit != QUIT_NO) {
@@ -3898,11 +3894,6 @@ bool game::is_game_over()
                 g->m.unboard_vehicle(u.posx, u.posy);
             }
             u.place_corpse();
-            std::stringstream playerfile;
-            playerfile << world_generator->active_world->world_path << "/" << base64_encode(u.name) << ".sav";
-            dbg( D_INFO ) << "Unlinking player file: <" << playerfile.str() << "> -- ";
-            bool ok = (unlink(playerfile.str().c_str()) == 0);
-            dbg( D_INFO ) << (ok ? "SUCCESS" : "FAIL");
             uquit = QUIT_DIED;
             return true;
         }
@@ -3913,52 +3904,44 @@ bool game::is_game_over()
 void game::death_screen()
 {
     gamemode->game_over();
-
-#if (defined _WIN32 || defined __WIN32__)
-    WIN32_FIND_DATA FindFileData;
-    HANDLE hFind;
-    TCHAR Buffer[MAX_PATH];
-
-    GetCurrentDirectory(MAX_PATH, Buffer);
-    SetCurrentDirectory(FILENAMES["savedir"].c_str());
-    std::stringstream playerfile;
-    playerfile << base64_encode(u.name) << "*";
-    hFind = FindFirstFile(playerfile.str().c_str(), &FindFileData);
-    if (INVALID_HANDLE_VALUE != hFind) {
-        do {
-            DeleteFile(FindFileData.cFileName);
-        } while (FindNextFile(hFind, &FindFileData) != 0);
-        FindClose(hFind);
-    }
-    SetCurrentDirectory(Buffer);
-#else
-    DIR *save_dir = opendir(FILENAMES["savedir"].c_str());
-    struct dirent *save_dirent = NULL;
-    const std::string graveyard = FILENAMES["graveyarddir"];
-    const std::string prefix = base64_encode( u.name ) + ".";
-    if( !assure_dir_exist( graveyard ) ) {
-        debugmsg( "could not create graveyard path %s", graveyard.c_str() );
-    } else if( save_dir != NULL ) {
-        while( ( save_dirent = readdir( save_dir ) ) != NULL ) {
-            const std::string name = save_dirent->d_name;
-            // Player character specific files are formed as
-            // <base64(player-name)>.<extension>
-            // extensions is '.sav' for the main save, .log for the memorial, ...
-            if( name.compare( 0, prefix.length(), prefix ) != 0 ) {
-                continue;
-            }
-            const std::string dstpath = graveyard + "/" + save_dirent->d_name;
-            const std::string srcpath = FILENAMES["savedir"] + "/" + name;
-            // ignore errors, it's too late to do anything here,
-            // also, this will override saves from characters of the same name!
-            rename_file( srcpath, dstpath );
-        }
-        closedir( save_dir );
-    }
-#endif
-
     Messages::display_messages();
     disp_kills();
+}
+
+void game::move_save_to_graveyard()
+{
+    const std::string savedir = world_generator->active_world->world_path;
+    const std::string graveyarddir = FILENAMES["graveyarddir"];
+    const std::string prefix = base64_encode( u.name ) + ".";
+    if( !assure_dir_exist( graveyarddir ) ) {
+        debugmsg( "could not create graveyard path %s", graveyarddir.c_str() );
+    }
+    struct dirent *save_dirent = NULL;
+    DIR *save_dir = opendir( savedir.c_str() );
+    if( save_dir == NULL ) {
+        debugmsg( "could not open savedir %s", savedir.c_str() );
+        return;
+    }
+    while( ( save_dirent = readdir( save_dir ) ) != NULL ) {
+        const std::string name = save_dirent->d_name;
+        // Player character specific files are formed as
+        // <base64(player-name)>.<extension>
+        // extensions is '.sav' for the main save, .log for the memorial, ...
+        if( name.compare( 0, prefix.length(), prefix ) != 0 ) {
+            continue;
+        }
+        const std::string dstpath = graveyarddir + "/" + name;
+        const std::string srcpath = savedir + "/" + name;
+        // this might fail if the graveyard dir does not exist
+        if( !rename_file( srcpath, dstpath ) ) {
+            // Permadeath! The player file must be gone!
+            if( !remove_file( srcpath ) ) {
+                // AHHH, who or what prevents permadeath?
+                debugmsg( "could not remove file %s", srcpath.c_str() );
+            }
+        }
+    }
+    closedir( save_dir );
 }
 
 bool game::load_master(std::string worldname)
