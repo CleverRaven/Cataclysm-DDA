@@ -241,9 +241,10 @@ radio_tower(int X = -1, int Y = -1, int S = -1, std::string M = "",
 struct map_layer {
  oter_id terrain[OMAPX][OMAPY];
  bool visible[OMAPX][OMAPY];
+ bool explored[OMAPX][OMAPY];
  std::vector<om_note> notes;
 
- map_layer() : terrain(), visible(), notes() {}
+ map_layer() : terrain(), visible(), explored(), notes() {}
 };
 
 struct node
@@ -284,8 +285,10 @@ class overmap
   oter_id& ter(const int x, const int y, const int z);
   const oter_id get_ter(const int x, const int y, const int z) const;
   bool&   seen(int x, int y, int z);
+  bool&   explored(int x, int y, int z);
   bool is_safe(int x, int y, int z); // true if monsters_at is empty, or only woodland
   bool is_road_or_highway(int x, int y, int z);
+  bool is_explored(int const x, int const y, int const z) const;
 
   bool has_note(int const x, int const y, int const z) const;
   std::string const& note(int const x, int const y, int const z) const;
@@ -412,7 +415,7 @@ public:
    * @param debug_monstergroups Displays monster groups on the overmap.
    */
   static void draw(WINDOW *w, const tripoint &center,
-            const tripoint &orig, bool blink,
+            const tripoint &orig, bool blink, bool showExplored,
             input_context* inp_ctxt, bool debug_monstergroups = false,
             const int iZoneIndex = -1);
 

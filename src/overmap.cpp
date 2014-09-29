@@ -640,6 +640,7 @@ void overmap::init_layers()
             for(int j = 0; j < OMAPY; ++j) {
                 layer[z].terrain[i][j] = default_type;
                 layer[z].visible[i][j] = false;
+                layer[z].explored[i][j] = false;
             }
         }
     }
@@ -674,6 +675,15 @@ bool &overmap::seen(int x, int y, int z)
     return layer[z + OVERMAP_DEPTH].visible[x][y];
 }
 
+bool &overmap::explored(int x, int y, int z)
+{
+    if (x < 0 || x >= OMAPX || y < 0 || y >= OMAPY || z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT) {
+        nullbool = false;
+        return nullbool;
+    }
+    return layer[z + OVERMAP_DEPTH].explored[x][y];
+}
+
 // this uses om_pos (overmap tiles, aka levxy / 2)
 bool overmap::is_safe(int x, int y, int z)
 {
@@ -690,6 +700,14 @@ bool overmap::is_safe(int x, int y, int z)
         }
     }
     return true;
+}
+
+bool overmap::is_explored(int const x, int const y, int const z) const
+{
+    if (x < 0 || x >= OMAPX || y < 0 || y >= OMAPY || z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT) {
+        return false;
+    }
+    return layer[z + OVERMAP_DEPTH].explored[x][y];
 }
 
 bool overmap::has_note(int const x, int const y, int const z) const
@@ -1285,7 +1303,7 @@ int overmap::dist_from_city(point p)
 }
 
 void overmap::draw(WINDOW *w, const tripoint &center,
-                   const tripoint &orig, bool blink,
+                   const tripoint &orig, bool blink, bool show_explored,
                    input_context *inp_ctxt,
                    bool debug_monstergroups,
                    const int iZoneIndex)
@@ -1472,7 +1490,12 @@ void overmap::draw(WINDOW *w, const tripoint &center,
                         ter_color = c_red;
                         ter_sym = '?';
                     } else {
-                        ter_color = otermap[cur_ter].color;
+                        // Map tile marked as explored
+                        if (show_explored && overmap_buffer.is_explored(omx, omy, z)) {
+                            ter_color = c_dkgray;
+                        } else {
+                            ter_color = otermap[cur_ter].color;
+                        }
                         ter_sym = otermap[cur_ter].sym;
                     }
                 }
@@ -1656,22 +1679,24 @@ void overmap::draw(WINDOW *w, const tripoint &center,
         int distance = rl_dist(orig.x, orig.y, target.x, target.y);
         mvwprintz(w, 3, om_map_width + 1, c_white, _("Distance to target: %d"), distance);
     }
-    mvwprintz(w, 15, om_map_width + 1, c_magenta, _("Use movement keys to pan."));
+    mvwprintz(w, 14, om_map_width + 1, c_magenta, _("Use movement keys to pan."));
     if (inp_ctxt != NULL) {
-        mvwprintz(w, 16, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("CENTER") +
+        mvwprintz(w, 15, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("CENTER") +
                   _(" - Center map on character")).c_str());
-        mvwprintz(w, 17, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("SEARCH") +
+        mvwprintz(w, 16, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("SEARCH") +
                   _(" - Search")).c_str());
-        mvwprintz(w, 18, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("CREATE_NOTE") +
+        mvwprintz(w, 17, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("CREATE_NOTE") +
                   _(" - Add/Edit a note")).c_str());
-        mvwprintz(w, 19, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("DELETE_NOTE") +
+        mvwprintz(w, 18, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("DELETE_NOTE") +
                   _(" - Delete a note")).c_str());
-        mvwprintz(w, 20, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("LIST_NOTES") +
+        mvwprintz(w, 19, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("LIST_NOTES") +
                   _(" - List notes")).c_str());
-        mvwprintz(w, 21, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("TOGGLE_BLINKING") +
+        mvwprintz(w, 20, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("TOGGLE_BLINKING") +
                   _(" - Toggle Blinking")).c_str());
-        mvwprintz(w, 22, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("TOGGLE_OVERLAYS") +
+        mvwprintz(w, 21, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("TOGGLE_OVERLAYS") +
                   _(" - Toggle Overlays")).c_str());
+        mvwprintz(w, 22, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("TOGGLE_EXPLORED") +
+                  _(" - Toggle Explored")).c_str());
         mvwprintz(w, 23, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("HELP_KEYBINDINGS") +
                   _(" - Change keys")).c_str());
         fold_and_print(w, 24, om_map_width + 1, 27, c_magenta, ("m, " + inp_ctxt->get_desc("QUIT") +
@@ -1726,11 +1751,13 @@ tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const 
     ictxt.register_action("LIST_NOTES");
     ictxt.register_action("TOGGLE_BLINKING");
     ictxt.register_action("TOGGLE_OVERLAYS");
+    ictxt.register_action("TOGGLE_EXPLORED");
     ictxt.register_action("QUIT");
     std::string action;
     do {
         timeout( BLINK_SPEED );
-        draw(w_map, curs, orig, uistate.overmap_show_overlays, &ictxt, debug_mongroup, iZoneIndex);
+        bool show_explored = uistate.overmap_blinking || uistate.overmap_show_overlays;
+        draw(w_map, curs, orig, uistate.overmap_show_overlays, show_explored, &ictxt, debug_mongroup, iZoneIndex);
         action = ictxt.handle_input();
         timeout(-1);
 
@@ -1770,6 +1797,8 @@ tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const 
             uistate.overmap_blinking = !uistate.overmap_blinking;
         } else if (action == "TOGGLE_OVERLAYS") {
             uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
+        } else if (action == "TOGGLE_EXPLORED") {
+            overmap_buffer.toggle_explored(curs.x, curs.y, curs.z);
         } else if (action == "SEARCH") {
             std::string term = string_input_popup(_("Search term:"));
             if(term.empty()) {
@@ -1805,7 +1834,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const 
             do {
                 tmp.x = om.pos().x * OMAPX + terlist[i].x;
                 tmp.y = om.pos().y * OMAPY + terlist[i].y;
-                draw(w_map, tmp, orig, uistate.overmap_show_overlays, NULL);
+                draw(w_map, tmp, orig, uistate.overmap_show_overlays, show_explored, NULL);
                 //Draw search box
                 draw_border(w_search);
                 mvwprintz(w_search, 1, 1, c_red, _("Find place:"));

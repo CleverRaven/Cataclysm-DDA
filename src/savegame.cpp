@@ -528,6 +528,25 @@ void overmap::unserialize(std::ifstream & fin, std::string const & plrfilename,
                         }
                     }
                 }
+            } else if (datatype == 'E') { //Load explored areas
+                sfin >> z;
+
+                std::string dataline;
+                getline(sfin, dataline); // Chomp endl
+
+                int count = 0;
+                int explored;
+                if (z >= 0 && z < OVERMAP_LAYERS) {
+                    for (int j = 0; j < OMAPY; j++) {
+                        for (int i = 0; i < OMAPX; i++) {
+                            if (count == 0) {
+                                sfin >> explored >> count;
+                            }
+                            count--;
+                            layer[z].explored[i][j] = (explored == 1);
+                        }
+                    }
+                }
             } else if (datatype == 'N') { // Load notes
                 om_note tmp;
                 sfin >> tmp.x >> tmp.y >> tmp.num;
@@ -559,6 +578,7 @@ void overmap::save() const
         fout << "L " << z << std::endl;
         int count = 0;
         int lastvis = -1;
+        int lastexp = -1;
         for (int j = 0; j < OMAPY; j++) {
             for (int i = 0; i < OMAPX; i++) {
                 int v = (layer[z].visible[i][j] ? 1 : 0);
@@ -568,6 +588,28 @@ void overmap::save() const
                     }
                     lastvis = v;
                     fout << v << " ";
+                    count = 1;
+                } else {
+                    count++;
+                }
+            }
+        }
+        fout << count;
+        fout << std::endl;
+
+        //So we don't break saves that don't have this data, we add a new type.
+        fout << "E " << z << std::endl;
+        count = 0;
+
+        for (int j = 0; j < OMAPY; j++) {
+            for (int i = 0; i < OMAPX; i++) {
+                int e = (layer[z].explored[i][j] ? 1 : 0);
+                if (e != lastexp) {
+                    if (count) {
+                        fout << count << " ";
+                    }
+                    lastexp = e;
+                    fout << e << " ";
                     count = 1;
                 } else {
                     count++;
