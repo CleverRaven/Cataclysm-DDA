@@ -641,7 +641,7 @@ void game::start_game(std::string worldname)
     //Load NPCs. Set nearby npcs to active.
     load_npcs();
     //spawn the monsters
-    m.spawn_monsters(); // Static monsters
+    m.spawn_monsters( true ); // Static monsters
 
     //Create mutation_category_level
     u.set_highest_cat_level();
@@ -1100,6 +1100,9 @@ bool game::do_turn()
 
     if (calendar::turn % 50 == 0) { //move hordes every 5 min
         cur_om->move_hordes();
+        // Hordes that reached the reality bubble need to spawn,
+        // make them spawn in invisible areas only.
+        m.spawn_monsters( false );
     }
 
     // Check if we've overdosed... in any deadly way.
@@ -4482,7 +4485,7 @@ void game::debug()
             levz = tmp.z;
             m.load(levx, levy, levz, true, cur_om);
             load_npcs();
-            m.spawn_monsters(); // Static monsters
+            m.spawn_monsters( true ); // Static monsters
             update_overmap_seen();
             draw_minimap();
         }
@@ -13742,7 +13745,7 @@ void game::vertical_move(int movez, bool force)
         m.ter_set(stairx, stairy, t_manhole);
     }
 
-    m.spawn_monsters();
+    m.spawn_monsters( true );
 
     if (force) { // Basically, we fell.
         if ((u.has_trait("WINGS_BIRD")) || ((one_in(2)) && (u.has_trait("WINGS_BUTTERFLY")))) {
@@ -13831,7 +13834,7 @@ void game::update_map(int &x, int &y)
     load_npcs();
 
     // Spawn monsters if appropriate
-    m.spawn_monsters(); // Static monsters
+    m.spawn_monsters( false ); // Static monsters
     if (calendar::turn >= nextspawn) {
         spawn_mon(shiftx, shifty);
     }

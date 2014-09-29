@@ -161,7 +161,14 @@ class map
      * Note: the map must have been loaded before this can be called.
      */
     void shift(const int sx, const int sy);
- void spawn_monsters();
+    /**
+     * Spawn monsters from submap spawn points and from the overmap.
+     * @param ignore_sight If true, monsters may spawn in the view of the player
+     * character (useful when the whole map has been loaded instead, e.g.
+     * when starting a new game, or after teleportation or after moving vertically).
+     * If false, monsters are not spawned in view of of player character.
+     */
+    void spawn_monsters(bool ignore_sight);
  void clear_spawns();
  void clear_traps();
 
@@ -650,6 +657,8 @@ private:
   */
  submap *get_submap_at(int x, int y, int& offset_x, int& offset_y) const;
  submap *get_submap_at_grid(int gridx, int gridy) const;
+
+    void spawn_monsters( int gx, int gy, mongroup &group, bool ignore_sight );
 
  long determine_wall_corner(const int x, const int y, const long orig_sym);
  void cache_seen(const int fx, const int fy, const int tx, const int ty, const int max_range);
