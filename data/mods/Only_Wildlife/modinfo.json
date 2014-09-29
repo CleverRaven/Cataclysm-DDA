@@ -4,7 +4,7 @@
     "mod-type": "SUPPLEMENTAL",
     "ident": "Only_Wildlife",
     "name": "No Monsters",
-    "author": "Rivet-the-Zombie",
+    "author": "Kodi Arfer",
     "description": "Removes all monsters from the game, save for those in the WILDLIFE category.",
     "path": "modinfo.json"
 },{
