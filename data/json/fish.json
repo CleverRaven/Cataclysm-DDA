@@ -528,7 +528,7 @@
     "special_freq":0,
     "death_function":"NORMAL",
     "special_attack":"BITE",
-    "description":"A once aggresive and hungry bull shark, this jawed terror is now even more aggresive despite no functioning brain.",
+    "description":"A once aggresive and hungry bull shark, this jawed terror is now even more aggresive possibly thanks to its lack of a functioning brain.",
     "flags":["SEES", "HEARS", "SMELLS", "WARM", "SWIMS", "AQUATIC", "POISON", "NO_BREATHE", "VIS40", "REVIVES", "BONES"]
     },
   {
@@ -584,7 +584,7 @@
     "special_freq":0,
     "death_function":"NORMAL",
     "special_attack":"BITE",
-    "description":"A mutated salmon. The same size of a large dog and quite dangerous to the inexperienced fisherman.",
+    "description":"A mutated salmon. The same size as a large dog and quite dangerous to the inexperienced fisher.",
     "flags":["SEES", "HEARS", "SMELLS", "WARM", "SWIMS", "AQUATIC", "VIS40", "BONES","FAT"]
     }
 ]
