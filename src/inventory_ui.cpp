@@ -735,11 +735,13 @@ void inventory_selector::remove_dropping_items( player &u ) const
             continue;
         }
         const int count = a->second;
-        const item tmpit = u.inv.find_item( a->first );
+        item &tmpit = u.inv.find_item( a->first );
         if( tmpit.count_by_charges() ) {
             long charges = tmpit.charges;
             if( count != -1 && count < charges ) {
-                charges = count;
+                tmpit.charges = count;
+            } else {
+                u.inv.remove_item( a->first );
             }
         } else {
             size_t max_count = u.inv.const_stack( a->first ).size();
