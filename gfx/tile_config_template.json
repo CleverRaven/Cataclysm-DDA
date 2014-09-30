@@ -228,7 +228,21 @@
             "multitile":false
         },
         {
+            "id": "t_pit_glass",
+            "fg":-1,
+            "bg":-1,
+            "rotates":false,
+            "multitile":false
+        },
+        {
             "id": "t_pit_spiked_covered",
+            "fg":-1,
+            "bg":-1,
+            "rotates":false,
+            "multitile":false
+        },
+        {
+            "id": "t_pit_glass_covered",
             "fg":-1,
             "bg":-1,
             "rotates":false,
