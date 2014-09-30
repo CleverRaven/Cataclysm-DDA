@@ -5,7 +5,6 @@
         "method": "json",
         "weight": 250,
         "object": {
-            "fill_ter": "t_floor",
             "rows": [
                 "...................%....",
                 "........%...............",
@@ -99,7 +98,6 @@
         "method": "json",
         "weight": 250,
         "object": {
-            "fill_ter": "t_floor",
             "rows": [
                 "...................%....",
                 "........................",
@@ -196,7 +194,6 @@
         "method": "json",
         "weight": 250,
         "object": {
-            "fill_ter": "t_floor",
             "rows": [
                 "....................%...",
                 "....%...................",
@@ -293,7 +290,6 @@
         "method": "json",
         "weight": 250,
         "object": {
-            "fill_ter": "t_floor",
             "rows": [
                 "........................",
                 "........................",
@@ -387,7 +383,6 @@
         "method": "json",
         "weight": 250,
         "object": {
-            "fill_ter": "t_floor",
             "rows": [
                 "....................%...",
                 "........................",
@@ -481,7 +476,6 @@
         "method": "json",
         "weight": 250,
         "object": {
-            "fill_ter": "t_floor",
             "rows": [
                 "......_______,,_______ss",
                 "......________________ss",
@@ -578,7 +572,6 @@
         "method": "json",
         "weight": 250,
         "object": {
-            "fill_ter": "t_floor",
             "rows": [
                 "ss......................",
                 "s.......................",
@@ -629,6 +622,7 @@
                 { "type": "npc", "class": "guard", "x": 19, "y": 21 }
             ],
             "terrain": {
+                " ": "t_floor",
                 "~": "t_floor",
                 ">": "t_stairs_down",
                 "#": "t_rock",
@@ -643,6 +637,7 @@
                 ")": "t_floor",
                 "}": "t_manhole_cover",
                 "@": "t_floor",
+                "1": "t_window_boarded",
                 "2": "t_utility_light",
                 "b": "t_floor",
                 "c": "t_floor",
@@ -695,7 +690,6 @@
         "method": "json",
         "weight": 250,
         "object": {
-            "fill_ter": "t_floor",
             "rows": [
                 ".sss________________sss.",
                 "...ss______________ss...",
@@ -733,6 +727,7 @@
                 { "type": "npc", "class": "guard", "x": 15, "y": 15 }
             ],
             "terrain": {
+                " ": "t_floor",
                 "~": "t_floor",
                 ">": "t_stairs_down",
                 "#": "t_rock",
@@ -747,6 +742,7 @@
                 ")": "t_floor",
                 "}": "t_manhole_cover",
                 "@": "t_floor",
+                "0": "t_door_locked_interior",
                 "2": "t_utility_light",
                 "b": "t_floor",
                 "c": "t_floor",
@@ -799,7 +795,6 @@
         "method": "json",
         "weight": 250,
         "object": {
-            "fill_ter": "t_floor",
             "rows": [
                 "......................ss",
                 ".......................s",
@@ -848,10 +843,12 @@
                 { "item": "allclothes", "chance": 60, "x": [ 6, 15 ], "y": [ 16, 16 ]}
             ],
             "terrain": {
+                " ": "t_floor",
                 "~": "t_floor",
                 ">": "t_stairs_down",
                 "#": "t_rock",
                 ".": "t_grass",
+                "1": "t_window_boarded",
                 "6": "t_console_broken",
                 ",": "t_pavement_y",
                 "_": "t_pavement",
@@ -914,7 +911,6 @@
         "method": "json",
         "weight": 250,
         "object": {
-            "fill_ter": "t_floor",
             "rows": [
                 "ss_______,,_______......",
                 "ss________________......",
@@ -1011,7 +1007,6 @@
         "method": "json",
         "weight": 250,
         "object": {
-            "fill_ter": "t_floor",
             "rows": [
                 "......_______,,________s",
                 "......__________________",
@@ -1105,7 +1100,6 @@
         "method": "json",
         "weight": 250,
         "object": {
-            "fill_ter": "t_floor",
             "rows": [
                 "ss.........#####   c#  #",
                 "sss.........##t+ 2 S#  #",
@@ -1144,10 +1138,12 @@
                 { "type": "npc", "class": "evac_guard2", "x": 18, "y": 18 }
             ],
             "terrain": {
+                " ": "t_floor",
                 "~": "t_floor",
                 ">": "t_stairs_down",
                 "#": "t_rock",
                 ".": "t_grass",
+                "1": "t_window_boarded",
                 "6": "t_console_broken",
                 ",": "t_pavement_y",
                 "_": "t_pavement",
@@ -1210,7 +1206,6 @@
         "method": "json",
         "weight": 250,
         "object": {
-            "fill_ter": "t_floor",
             "rows": [
                 "########################",
                 "r rrrrrrrrrrrrrrrrrrr r#",
@@ -1251,6 +1246,7 @@
                 { "type": "npc", "class": "guard", "x": 14, "y": 21 }
             ],
             "terrain": {
+                " ": "t_floor",
                 "~": "t_floor",
                 ">": "t_stairs_down",
                 "#": "t_rock",
@@ -1317,7 +1313,6 @@
         "method": "json",
         "weight": 250,
         "object": {
-            "fill_ter": "t_floor",
             "rows": [
                 "LL#c   #####..........ss",
                 "bh#S 2 +t##..........sss",
@@ -1357,10 +1352,12 @@
                 { "type": "toilet", "x": 8, "y": 22 }
             ],
             "terrain": {
+                " ": "t_floor",
                 "~": "t_floor",
                 ">": "t_stairs_down",
                 "#": "t_rock",
                 ".": "t_grass",
+                "1": "t_window_boarded",
                 "6": "t_console_broken",
                 ",": "t_pavement_y",
                 "_": "t_pavement",
@@ -1423,7 +1420,6 @@
         "method": "json",
         "weight": 250,
         "object": {
-            "fill_ter": "t_floor",
             "rows": [
                 "s________,,_______......",
                 "__________________......",
@@ -1517,7 +1513,6 @@
         "method": "json",
         "weight": 250,
         "object": {
-            "fill_ter": "t_floor",
             "rows": [
                 "......_______,,_______ss",
                 "......________________ss",
@@ -1615,7 +1610,6 @@
         "method": "json",
         "weight": 250,
         "object": {
-            "fill_ter": "t_floor",
             "rows": [
                 "s....#########t+  c#  #2",
                 "s...################  # ",
@@ -1648,10 +1642,12 @@
                 { "type": "npc", "class": "old_guard_rep", "x": 19, "y": 7 }
             ],
             "terrain": {
+                " ": "t_floor",
                 "~": "t_floor",
                 ">": "t_stairs_down",
                 "#": "t_rock",
                 ".": "t_grass",
+                "1": "t_window_boarded",
                 "6": "t_console_broken",
                 ",": "t_pavement_y",
                 "_": "t_pavement",
@@ -1714,7 +1710,6 @@
         "method": "json",
         "weight": 250,
         "object": {
-            "fill_ter": "t_floor",
             "rows": [
                 "hcV  bbbb      bbbb  Vch",
                 " cV                  Vc ",
@@ -1746,10 +1741,12 @@
                 { "type": "npc", "class": "evac_merchant", "x": 23, "y": 0 }
             ],
             "terrain": {
+                " ": "t_floor",
                 "~": "t_floor",
                 ">": "t_stairs_down",
                 "#": "t_rock",
                 ".": "t_grass",
+                "1": "t_window_boarded",
                 "6": "t_console_broken",
                 ",": "t_pavement_y",
                 "_": "t_pavement",
@@ -1812,7 +1809,6 @@
         "method": "json",
         "weight": 250,
         "object": {
-            "fill_ter": "t_floor",
             "rows": [
                 "2#  #c +t#########....ss",
                 " #  ################...s",
@@ -1852,10 +1848,12 @@
                 { "type": "npc", "class": "guard", "x": 7, "y": 8 }
             ],
             "terrain": {
+                " ": "t_floor",
                 "~": "t_floor",
                 ">": "t_stairs_down",
                 "#": "t_rock",
                 ".": "t_grass",
+                "1": "t_window_boarded",
                 "6": "t_console_broken",
                 ",": "t_pavement_y",
                 "_": "t_pavement",
@@ -1918,7 +1916,6 @@
         "method": "json",
         "weight": 250,
         "object": {
-            "fill_ter": "t_floor",
             "rows": [
                 "s________,,_______......",
                 "ss________________......",
@@ -2015,7 +2012,6 @@
         "method": "json",
         "weight": 250,
         "object": {
-            "fill_ter": "t_floor",
             "rows": [
                 "......_______,,_______ss",
                 "......_________________s",
@@ -2109,7 +2105,6 @@
         "method": "json",
         "weight": 250,
         "object": {
-            "fill_ter": "t_floor",
             "rows": [
                 "ssssssssssssssssssssssss",
                 "ssssssssssssssssssssssss",
@@ -2206,7 +2201,6 @@
         "method": "json",
         "weight": 250,
         "object": {
-            "fill_ter": "t_floor",
             "rows": [
                 "ssssssssssssssssssssssss",
                 "ssssssssssssssssssssssss",
@@ -2300,7 +2294,6 @@
         "method": "json",
         "weight": 250,
         "object": {
-            "fill_ter": "t_floor",
             "rows": [
                 "ssssssssssssssssssssssss",
                 "ssssssssssssssssssssssss",
@@ -2394,7 +2387,6 @@
         "method": "json",
         "weight": 250,
         "object": {
-            "fill_ter": "t_floor",
             "rows": [
                 "ss_______,,_______......",
                 "s_________________......",
