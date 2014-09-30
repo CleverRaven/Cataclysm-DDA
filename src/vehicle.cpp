@@ -4082,7 +4082,7 @@ bool vehicle::fire_turret (int p, bool burst)
     if (!charges)
         charges = 1;
     ammotype amt = part_info (p).fuel_type;
-    if (amt == fuel_type_gasoline || amt == fuel_type_plasma || amt == fuel_type_battery)
+    if (amt == fuel_type_gasoline || amt == fuel_type_plasma || amt == fuel_type_battery || amt == fuel_type_water)
     {
         if (amt == fuel_type_gasoline) {
             charges = 20; // hacky
@@ -4093,6 +4093,15 @@ bool vehicle::fire_turret (int p, bool burst)
                 charges = rng(5,8); // kaboom
             } else {
                 charges = rng(1,4);
+            }
+        }
+        } else if (amt == fuel_type_water) {
+            if (one_in(5)) {
+                //~ the sound of a deluge cannon pumping out a lance of water
+                whoosh = _("sploosh!");
+                charges = 5;
+            } else {
+                charges = 1;
             }
         }
         int fleft = fuel_left (amt);
