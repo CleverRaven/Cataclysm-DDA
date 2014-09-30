@@ -85,15 +85,15 @@ const std::string legacy_furn_id[52] = {"f_null", "f_hay", "f_bulletin", "f_indo
     "f_plant_mature", "f_plant_harvest"
 };
 
-const int num_legacy_trap = 39;
-const std::string legacy_trap_id[39] = {
+const int num_legacy_trap = 40;
+const std::string legacy_trap_id[40] = {
     "tr_null", "tr_bubblewrap", "tr_cot", "tr_brazier", "tr_funnel", "tr_makeshift_funnel",
     "tr_rollmat", "tr_fur_rollmat", "tr_beartrap", "tr_beartrap_buried", "tr_nailboard",
     "tr_caltrops", "tr_tripwire", "tr_crossbow", "tr_shotgun_2", "tr_shotgun_1", "tr_engine",
     "tr_blade", "tr_light_snare", "tr_heavy_snare", "tr_landmine", "tr_landmine_buried",
     "tr_telepad", "tr_goo", "tr_dissector", "tr_sinkhole", "tr_pit", "tr_spike_pit", "tr_lava",
     "tr_portal", "tr_ledge", "tr_boobytrap", "tr_temple_flood", "tr_temple_toggle", "tr_glow",
-    "tr_hum", "tr_shadow", "tr_drain", "tr_snake"
+    "tr_hum", "tr_shadow", "tr_drain", "tr_snake", "tr_glass_pit"
 };
 
 //////////////////////////////////////////////////////////////////////

@@ -43,6 +43,7 @@ struct trapfunc {
     void sinkhole       (Creature *creature, int x, int y);
     void pit            (Creature *creature, int x, int y);
     void pit_spikes     (Creature *creature, int x, int y);
+    void pit_glass      (Creature *creature, int x, int y);
     void lava           (Creature *creature, int x, int y);
     void portal         (Creature *creature, int x, int y);
     void ledge          (Creature *creature, int x, int y);

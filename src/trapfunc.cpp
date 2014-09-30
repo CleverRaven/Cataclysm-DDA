@@ -739,6 +739,83 @@ void trapfunc::pit_spikes(Creature *c, int x, int y)
     }
 }
 
+void trapfunc::pit_glass(Creature *c, int x, int y)
+{
+    // tiny animals aren't hurt by falling into glass pits
+    if (c->get_size() == MS_TINY) {
+        return;
+    }
+    if (c != NULL) {
+        c->add_msg_player_or_npc(m_bad, _("You fall in a pit filled with glass shards!"),
+                                 _("<npcname> falls in pit filled with glass shards!"));
+        c->add_memorial_log(pgettext("memorial_male", "Fell into a pit filled with glass shards."),
+                            pgettext("memorial_female", "Fell into a pit filled with glass shards."));
+        monster *z = dynamic_cast<monster *>(c);
+        player *n = dynamic_cast<player *>(c);
+        if (n != NULL) {
+            int dodge = n->get_dodge();
+            int damage = pit_effectiveness(x, y) * rng(15, 35);
+            if ( (n->has_trait("WINGS_BIRD")) || ((one_in(2)) && (n->has_trait("WINGS_BUTTERFLY"))) ) {
+                n->add_msg_if_player(_("You flap your wings and flutter down gracefully."));
+            } else if (0 == damage || rng(5, 30) < dodge) {
+                n->add_msg_if_player(_("You avoid the glass shards within."));
+            } else {
+                body_part hit = num_bp;
+                switch (rng(1, 10)) {
+                    case  1:
+                        hit = bp_leg_l;
+                        break;
+                    case  2:
+                        hit = bp_leg_r;
+                        break;
+                    case  3:
+                        hit = bp_arm_l;
+                        break;
+                    case  4:
+                        hit = bp_arm_r;
+                        break;
+                    case  5:
+                        hit = bp_foot_l;
+                        break;
+                    case  6:
+                        hit = bp_foot_r;
+                        break;
+                    case  7:
+                    case  8:
+                    case  9:
+                    case 10:
+                        hit = bp_torso;
+                        break;
+                }
+                n->add_msg_if_player(m_bad, _("The glass shards slash your %s!"), body_part_name_accusative(hit).c_str());
+                n->deal_damage( nullptr, hit, damage_instance( DT_CUT, damage ) );
+              if ((n->has_trait("INFRESIST")) && (one_in(256))) {
+                  n->add_disease("tetanus",1,true);
+              }
+              else if ((!n->has_trait("INFIMMUNE") || !n->has_trait("INFRESIST")) && (one_in(35))) {
+                      n->add_disease("tetanus",1,true);
+              }
+            }
+            n->add_disease("in_pit", 1, true);
+        } else if (z != NULL) {
+            z->moves = -1000;
+            z->apply_damage( nullptr, bp_torso, rng(20, 50));
+        }
+    }
+    if (one_in(5)) {
+        if (g->u_see(x, y)) {
+            add_msg(_("The shards shatter!"));
+        }
+        g->m.ter_set(x, y, t_pit);
+        g->m.add_trap(x, y, tr_pit);
+        for (int i = 0; i < 20; i++) { // 20 shards in a pit.
+            if (one_in(3)) {
+                g->m.spawn_item(x, y, "glass_shard");
+            }
+        }
+    }
+}
+
 void trapfunc::lava(Creature *c, int x, int y)
 {
     if (c != NULL) {
@@ -1192,6 +1269,9 @@ trap_function trap_function_from_string(std::string function_name)
     }
     if("pit_spikes" == function_name) {
         return &trapfunc::pit_spikes;
+    }
+    if("pit_glass" == function_name) {
+        return &trapfunc::pit_glass;
     }
     if("lava" == function_name) {
         return &trapfunc::lava;
