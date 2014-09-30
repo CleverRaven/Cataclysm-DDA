@@ -739,7 +739,7 @@ void inventory_selector::remove_dropping_items( player &u ) const
         if( tmpit.count_by_charges() ) {
             long charges = tmpit.charges;
             if( count != -1 && count < charges ) {
-                tmpit.charges = count;
+                tmpit.charges -= count;
             } else {
                 u.inv.remove_item( a->first );
             }
