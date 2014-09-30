@@ -801,7 +801,7 @@ void player::update_bodytemp()
     vehicle *veh = g->m.veh_at (posx, posy, vpart);
     int vehwindspeed = 0;
     if (veh) vehwindspeed = veh->velocity;
-    int windPower = std::max(0, 1020 - pressure) + vehwindspeed;
+    int windPower = weather.windpower + vehwindspeed;
     // Temperature norms
     // Ambient normal temperature is lower while asleep
     int ambient_norm = (has_disease("sleep") ? 3100 : 1900);
@@ -911,7 +911,7 @@ void player::update_bodytemp()
         int clothing_warmth_adjustement = homeostasis_adjustement * warmth(body_part(i));
         // WIND CHILL
         // Modify wind power
-        if (!g->m.is_outside(pos().x, pos().y) || g->levz < 0 || veh->is_inside(vpart))
+        if (!g->m.is_outside(pos().x, pos().y) || g->levz < 0 || (veh && veh->is_inside(vpart)))
         {
             bpWindPower = 0;
         }

@@ -11,9 +11,10 @@ struct w_point {
     double temperature;
     double humidity;
     double pressure;
+    double windpower;
     bool acidic;
 
-    w_point(double t, double h, double p, bool a = false) : temperature(t), humidity(h), pressure(p),
+    w_point(double t, double h, double p, double w, bool a = false) : temperature(t), humidity(h), pressure(p), windpower(w),
         acidic(a) { }
 };
 

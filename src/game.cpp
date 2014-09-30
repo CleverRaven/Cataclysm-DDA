@@ -2080,7 +2080,7 @@ int game::get_water_temperature()
     **/
 
     int season_length = calendar::turn.season_length();
-    int day = calendar::turn.day_of_year() % season_length*4;
+    int day = calendar::turn.day_of_year();
     int hour = calendar::turn.getHour();
     int water_temperature = 0;
 
@@ -5280,7 +5280,7 @@ void game::draw_sidebar()
     display_temp = (display_temp - 32.0) * 5/9; // Convert to C
     // Apply windchill
     w_point weatherPoint = weatherGen.get_weather(u.pos(), calendar::turn);
-    int windSpeed = std::max(0, (int)(1020 - weatherPoint.pressure));
+    int windSpeed = weatherPoint.windpower;
     int relHum = weatherPoint.humidity;
     int windchill = (0.33 * ((relHum / 100.00) * 6.105 * exp((17.27 * display_temp/100)/(237.70 + display_temp/100))) - 0.70*windSpeed - 4.00);
     display_temp += windchill;
