@@ -876,6 +876,8 @@
     "name": "deluge gun",
     "category" : "veh_parts",
     "description": "A large, high-capacity water jet, whose fixtures indicate that it was scavenged off of a firetruck. Shameful that one would rob an emergency vehicle during times of crisis... but it could be scavenged for some parts or mounted to another water-bearing vehicle.",
+    "ammo": "water",
+    "skill": "rifle",
     "weight": 14000,
     "material": ["steel", "plastic"],
     "volume": 96,
