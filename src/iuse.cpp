@@ -10381,21 +10381,46 @@ int iuse::multicooker(player *p, item *it, bool t)
     return 0;
 }
 
-int iuse::cable_attach(player *p, item *, bool)
+int iuse::cable_attach(player *p, item *it, bool)
 {
-    int posx, posy;
-    if(!choose_adjacent(_("Attach cable to vehicle where?"),posx,posy)) {
-        return 0;
+    if(it->item_vars.count("state") < 1) {
+        it->item_vars["state"] = "attach_first";
     }
-    vehicle* veh = g->m.veh_at(posx, posy);
-    if (veh == NULL) {
-        p->add_msg_if_player(_("There's no vehicle there."));
-        return 0;
+
+    std::string initial_state = it->item_vars["state"];
+
+    if(initial_state == "attach_first") {
+        int posx, posy;
+        if(!choose_adjacent(_("Attach cable to vehicle where?"),posx,posy)) {
+            return 0;
+        }
+        auto veh = g->m.veh_at(posx, posy);
+        if (veh == NULL) {
+            p->add_msg_if_player(_("There's no vehicle there."));
+            return 0;
+        }
+        else {
+            point abspos = g->m.getabs(posx, posy);
+            it->active = true;
+            it->item_vars["state"] = "pay_out_cable";
+            it->item_vars["source_x"] = std::to_string(abspos.x);
+            it->item_vars["source_y"] = std::to_string(abspos.y);
+            it->charges = 20;
+
+            debugmsg("First attachment at %d,%d (%d,%d)", posx, posy, abspos.x, abspos.y);
+        }
+        p->moves -= 15;
     }
-    else {
-        point abspos = g->m.getabs(posx, posy);
-        debugmsg("Found vehicle at %d,%d (%d,%d)", posx, posy, abspos.x, abspos.y);
+    else if(initial_state == "pay_out_cable") {
+        int source_x = std::stoi(it->item_vars["source_x"]);
+        int source_y = std::stoi(it->item_vars["source_y"]);
+
+        point item_at = g->find_item(it);
+        point abspos = g->m.getabs(item_at.x, item_at.y);
+
+        int distance = rl_dist(abspos.x, abspos.y, source_x, source_y);
+        it->charges = 20 - distance;
     }
-    p->moves -= 15;
+
     return 0;
 }
