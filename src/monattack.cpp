@@ -1057,10 +1057,12 @@ void mattack::fungus_fortify(monster *z)
                     pgettext("memorial_female", "Was shown to the Marloss Gateway."));
                 z->sp_timeout = z->type->sp_freq; // Reset timer
                 return;
+            } else {
+                peaceful = false; // You declined the offer.  Fight!
             }
         }
     } else {
-        peaceful = false; // You either weren't eligible or said no.  Fight!
+        peaceful = false; // You weren't eligible.  Fight!
     }
 
     bool fortified = false;
