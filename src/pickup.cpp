@@ -226,7 +226,7 @@ void Pickup::pick_one_up( const point &pickup_target, std::vector<item> &here, v
     int moves_taken = 100;
     bool picked_up = false;
     item &newit = here[ index ];
-    item leftovers = newit.clone();
+    item leftovers = newit;
 
     if( here[index].invlet != '\0' &&
         g->u.invlet_to_position( here[index].invlet ) != INT_MIN ) {
@@ -596,6 +596,17 @@ void Pickup::pick_up(int posx, int posy, int min)
             }
 
             if( idx >= 0 && idx < (int)here.size()) {
+                if( getitem[idx] ) {
+                    if( pickup_count[idx] != 0 && (int)pickup_count[idx] < here[idx].charges ) {
+                        item temp = here[idx];
+                        temp.charges = pickup_count[idx];
+                        new_weight -= temp.weight();
+                        new_volume -= temp.volume();
+                    } else {
+                        new_weight -= here[idx].weight();
+                        new_volume -= here[idx].volume();
+                    }
+                }
                 if (itemcount != 0 || pickup_count[idx] == 0) {
                     if (itemcount >= here[idx].charges || !here[idx].count_by_charges()) {
                         // Ignore the count if we pickup the whole stack anyway
@@ -606,6 +617,7 @@ void Pickup::pick_up(int posx, int posy, int min)
                     itemcount = 0;
                 }
 
+                // Note: this might not change the value of getitem[idx] at all!
                 getitem[idx] = ( ch == KEY_RIGHT ? true : ( ch == KEY_LEFT ? false : !getitem[idx] ) );
                 if ( ch != KEY_RIGHT && ch != KEY_LEFT) {
                     selected = idx;
@@ -615,7 +627,7 @@ void Pickup::pick_up(int posx, int posy, int min)
                 if (getitem[idx]) {
                     if (pickup_count[idx] != 0 &&
                         (int)pickup_count[idx] < here[idx].charges) {
-                        item temp = here[idx].clone();
+                        item temp = here[idx];
                         temp.charges = pickup_count[idx];
                         new_weight += temp.weight();
                         new_volume += temp.volume();
@@ -623,16 +635,8 @@ void Pickup::pick_up(int posx, int posy, int min)
                         new_weight += here[idx].weight();
                         new_volume += here[idx].volume();
                     }
-                } else if (pickup_count[idx] != 0 &&
-                           (int)pickup_count[idx] < here[idx].charges) {
-                    item temp = here[idx].clone();
-                    temp.charges = pickup_count[idx];
-                    new_weight -= temp.weight();
-                    new_volume -= temp.volume();
-                    pickup_count[idx] = 0;
                 } else {
-                    new_weight -= here[idx].weight();
-                    new_volume -= here[idx].volume();
+                    pickup_count[idx] = 0;
                 }
                 update = true;
             }
