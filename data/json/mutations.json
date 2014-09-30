@@ -1076,6 +1076,7 @@
         "ugliness" : 8,
         "description" : "We have adapted local physical structure to Mycus physiology. Greatly reduces wet effects.",
         "valid" : false,
+        "purifiable": false,
         "category" : ["MUTCAT_MYCUS"],
         "prereqs" : ["M_IMMUNE"],
         "threshreq" : ["THRESH_MYCUS"],
@@ -1098,6 +1099,7 @@
         "ugliness" : 8,
         "description" : "We have incorporated the dense amphibole fibers used in Mycus core towers. Greatly reduces speed, but also damage, flammability, and wet effects.",
         "valid" : false,
+        "purifiable": false,
         "category" : ["MUTCAT_MYCUS"],
         "prereqs" : ["M_SKIN"],
         "prereqs2" : ["M_DEFENDER"],
@@ -1550,6 +1552,7 @@
         "name" : "Marloss Carrier",
         "points" : 4,
         "description" : "Ever since you ate that Marloss berry, you can't get its scent out of your nose, and you have a strong desire to try some seeds and...sap?",
+        "purifiable": false,
         "valid" : false
     },{
         "type" : "mutation",
@@ -1557,6 +1560,7 @@
         "name" : "Marloss Vessel",
         "points" : 4,
         "description" : "Ever since you ate that Marloss seed, you can't get its taste off of your tongue, and you have a strong desire to try some berries and...sap?",
+        "purifiable": false,
         "valid" : false
     },{
         "type" : "mutation",
@@ -1564,6 +1568,7 @@
         "name" : "Marloss Vector",
         "points" : 4,
         "description" : "Ever since you ate that Marloss jelly, you can't stop thinking of it, and you have a strong desire to eat some seeds and berries.",
+        "purifiable": false,
         "valid" : false
     },{
         "type" : "mutation",
@@ -1571,6 +1576,7 @@
         "name" : "Marloss Rejection",
         "points" : 0,
         "description" : "Ever since you had that life-threatening reaction to that Marloss junk, you can't bear the thought of ever eating it again!",
+        "purifiable": false,
         "valid" : false
     },{
         "type" : "mutation",
@@ -1578,6 +1584,7 @@
         "name" : "Mutagenic Aversion",
         "points" : 0,
         "description" : "Ever since you had that life-threatening reaction to those mutagen and purifier things, you can't bear the thought of ever using them again!",
+        "purifiable": false,
         "valid" : false
     },{
         "type" : "mutation",
@@ -1631,6 +1638,7 @@
         "points" : 5,
         "description" : "We have synchronized our local physiology with that of our reproductive systems.  Any spores we may encounter will not attempt to germinate inside the local system.",
         "valid" : false,
+        "purifiable": false,
         "threshreq" : ["THRESH_MYCUS"],
         "category" : ["MUTCAT_MYCUS"]
     },{
@@ -2290,6 +2298,7 @@
         "description" : "From time to time the Mycus requires protection from non-Mycus that, for whatever reason, wish it ill.  We have adapted to better carry out this task.",
         "valid" : false,
         "purifiable" : false,
+        "cancels" : ["ADRENALINE"],
         "prereqs" : ["M_SKIN"],
         "prereqs2" : ["M_DEPENDENT"],
         "threshreq" : ["THRESH_MYCUS"],
