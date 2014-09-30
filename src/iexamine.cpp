@@ -1807,6 +1807,25 @@ void iexamine::shrub_marloss(player *p, map *m, int examx, int examy)
     }
 }
 
+void iexamine::tree_marloss(player *p, map *m, int examx, int examy)
+{
+    if (p->has_trait("THRESH_MYCUS")) {
+        pick_plant(p, m, examx, examy, "mycus_fruit", t_tree_fungal);
+        if (p->has_trait("M_DEPENDENT") && one_in(3)) {
+            // Folks have a better shot at keeping fed.
+            add_msg(m_info, _("We have located a particularly vital nutrient deposit underneath this location."));
+            add_msg(m_good, _("Additional nourishment is available."));
+            g->m.ter_set(examx, examy, t_marloss_tree);
+        }
+    } else if (p->has_trait("THRESH_MARLOSS")) {
+        m->spawn_item( examx, examy, "mycus_fruit" );
+        g->m.ter_set(examx, examy, t_tree_fungal);
+        add_msg(m_info, _("The tree offers up a fruit, then shrivels into a fungal tree."));
+    } else {
+        pick_plant(p, m, examx, examy, "marloss_berry", t_tree_fungal);
+    }
+}
+
 void iexamine::shrub_wildveggies(player *p, map *m, int examx, int examy)
 {
     if(!query_yn(_("Pick %s?"), m->tername(examx, examy).c_str())) {
@@ -2748,6 +2767,9 @@ void (iexamine::*iexamine_function_from_string(std::string function_name))(playe
     }
     if ("shrub_marloss" == function_name) {
         return &iexamine::shrub_marloss;
+    }
+    if ("tree_marloss" == function_name) {
+        return &iexamine::tree_marloss;
     }
     if ("shrub_wildveggies" == function_name) {
         return &iexamine::shrub_wildveggies;

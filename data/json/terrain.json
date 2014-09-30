@@ -2451,6 +2451,21 @@
         }
     },{
         "type" : "terrain",
+        "id" : "t_marloss_tree",
+        "name": "marloss tree",
+        "symbol": "7",
+        "color": "dkgray",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "FUNGUS", "TREE", "REDUCE_SCENT"],
+        "examine_action": "tree_marloss",
+        "bash": {
+            "str_min": 40, "str_max": 180,
+            "sound": "crunch!",
+            "sound_fail": "poof!",
+            "ter_set": "t_fungus"
+        }
+    },{
+        "type" : "terrain",
         "id" : "t_water_sh",
         "name": "shallow water",
         "symbol": "~",

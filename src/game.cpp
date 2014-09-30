@@ -14428,6 +14428,8 @@ bool game::spread_fungus(int x, int y)
                                     if (u_see(x, y)) {
                                     add_msg(m_warning, _("The young tree blooms forth into a fungal blossom!"));
                                     }
+                                } else if (one_in(2)) {
+                                    m.ter_set(i, j, t_marloss_tree);
                                 }
                             } else {
                                 m.ter_set(i, j, t_tree_fungal_young);
@@ -14443,6 +14445,8 @@ bool game::spread_fungus(int x, int y)
                                     if (u_see(x, y)) {
                                     add_msg(m_warning, _("The tree blooms forth into a fungal blossom!"));
                                     }
+                                } else if (one_in(3)) {
+                                    m.ter_set(i, j, t_marloss_tree);
                                 }
                             } else {
                                 m.ter_set(i, j, t_tree_fungal);
