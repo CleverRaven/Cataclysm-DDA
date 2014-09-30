@@ -1570,7 +1570,14 @@
         "id" : "MARLOSS_AVOID",
         "name" : "Marloss Rejection",
         "points" : 0,
-        "description" : "Ever since you had that life-threatening reaction to that Marloss drek, you can't bear the thought of ever eating it again!",
+        "description" : "Ever since you had that life-threatening reaction to that Marloss junk, you can't bear the thought of ever eating it again!",
+        "valid" : false
+    },{
+        "type" : "mutation",
+        "id" : "MUTAGEN_AVOID",
+        "name" : "Mutagenic Aversion",
+        "points" : 0,
+        "description" : "Ever since you had that life-threatening reaction to those mutagen and purifier things, you can't bear the thought of ever using them again!",
         "valid" : false
     },{
         "type" : "mutation",
