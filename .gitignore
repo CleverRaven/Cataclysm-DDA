@@ -1,6 +1,6 @@
 cataclysm
 cataclysm-tiles
-chkjson
+chkjson*
 !src/chkjson
 data/*.template
 templates/
