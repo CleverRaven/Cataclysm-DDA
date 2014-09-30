@@ -668,9 +668,6 @@ bool Font::draw_window( WINDOW *win, int offsetx, int offsety )
         for( int i = 0; i < win->width; i++ ) {
             const cursecell &cell = win->line[j].chars[i];
 
-            if( cell.ch.empty() ) {
-                continue; // second cell of a multi-cell character
-            }
             const int drawx = offsetx + i * fontwidth;
             const int drawy = offsety + j * fontheight;
             if( drawx + fontwidth > WindowWidth || drawy + fontheight > WindowHeight ) {
@@ -682,12 +679,14 @@ bool Font::draw_window( WINDOW *win, int offsetx, int offsety )
             const int fbx = win->x + i;
             const int fby = win->y + j;
             cursecell &oldcell = framebuffer[fby].chars[fbx];
-
             if (cell == oldcell) {
                 continue;
             }
             oldcell = cell;
 
+            if( cell.ch.empty() ) {
+                continue; // second cell of a multi-cell character
+            }
             const char *utf8str = cell.ch.c_str();
             int len = cell.ch.length();
             const int codepoint = UTF8_getch( &utf8str, &len );
@@ -700,7 +699,6 @@ bool Font::draw_window( WINDOW *win, int offsetx, int offsety )
                     continue;
                 }
                 FillRectDIB( drawx, drawy, fontwidth * cw, fontheight, BG );
-                i += cw - 1;
                 OutputChar( cell.ch, drawx, drawy, FG );
             } else {
                 FillRectDIB( drawx, drawy, fontwidth, fontheight, BG );
