@@ -4508,7 +4508,7 @@
   "tools": [],
   "components": [
     [
-      [ "glass_shard", 10 ]
+      [ "glass_shard", 5 ]
     ],
     [
       [ "stick", 1 ],

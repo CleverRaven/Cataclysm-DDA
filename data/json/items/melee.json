@@ -3138,7 +3138,8 @@
         "volume" : 9,
         "bashing" : 7,
         "cutting" : 14,
-        "price" : 5900
+        "price" : 5900,
+        "qualities": ["CUT", 1]
     },
     {
         "id": "mre_beef_box",
