@@ -169,6 +169,8 @@ static bool fontblending = false;
 // Used only while fontlist.txt is created.
 static std::set<std::string> *bitmap_fonts;
 
+static std::vector<curseline> framebuffer;
+
 #ifdef SDLTILES
 //***********************************
 //Tile-version specific functions   *
@@ -264,6 +266,12 @@ bool WinCreate()
         // Ignore previous values, use the whole window, but nothing more.
         TERMINAL_WIDTH = WindowWidth / fontwidth;
         TERMINAL_HEIGHT = WindowHeight / fontheight;
+    }
+
+    // Initialize framebuffer cache
+    framebuffer.resize(TERMINAL_HEIGHT);
+    for (int i = 0; i < TERMINAL_HEIGHT; i++) {
+        framebuffer[i].chars.resize(TERMINAL_WIDTH);
     }
 
     const Uint32 wformat = SDL_GetWindowPixelFormat(window);
@@ -659,6 +667,7 @@ bool Font::draw_window( WINDOW *win, int offsetx, int offsety )
         win->line[j].touched = false;
         for( int i = 0; i < win->width; i++ ) {
             const cursecell &cell = win->line[j].chars[i];
+
             if( cell.ch.empty() ) {
                 continue; // second cell of a multi-cell character
             }
@@ -668,6 +677,17 @@ bool Font::draw_window( WINDOW *win, int offsetx, int offsety )
                 // Outside of the display area, would not render anyway
                 continue;
             }
+
+            // Avoid redrawing an unchanged tile by checking the framebuffer cache
+            const int fbx = win->x + i;
+            const int fby = win->y + j;
+            cursecell &oldcell = framebuffer[fby].chars[fbx];
+
+            if (cell == oldcell) {
+                continue;
+            }
+            oldcell = cell;
+
             const char *utf8str = cell.ch.c_str();
             int len = cell.ch.length();
             const int codepoint = UTF8_getch( &utf8str, &len );
@@ -686,9 +706,11 @@ bool Font::draw_window( WINDOW *win, int offsetx, int offsety )
                 FillRectDIB( drawx, drawy, fontwidth, fontheight, BG );
                 draw_ascii_lines( static_cast<unsigned char>( cell.ch[0] ), drawx, drawy, FG );
             }
+
         }
     }
     win->draw = false; //We drew the window, mark it as so
+
     return update;
 }
 

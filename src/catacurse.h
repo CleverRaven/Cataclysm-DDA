@@ -42,11 +42,23 @@ struct cursecell {
     char FG;
     char BG;
     cursecell() : ch(" "), FG(0), BG(0) { }
+
+    bool operator==(const cursecell &b) const {
+        return ch == b.ch && FG == b.FG && BG == b.BG;
+    }
+
+    cursecell& operator=(const cursecell &b) {
+        ch = b.ch;
+        FG = b.FG;
+        BG = b.BG;
+        return *this;
+    }
 };
 struct curseline {
     bool touched;
     std::vector<cursecell> chars;
 };
+
 //The curses window struct
 typedef struct {
     int x;//left side of window
