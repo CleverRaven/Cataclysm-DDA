@@ -10420,6 +10420,16 @@ int iuse::cable_attach(player *p, item *it, bool)
 
         int distance = rl_dist(abspos.x, abspos.y, source_x, source_y);
         it->charges = 20 - distance;
+
+        if( it->charges < 1 && p->has_item(it) ) {
+            p->add_msg_if_player(m_bad, _("The over-extended cable breaks loose!"));
+
+            p->add_msg_if_player(m_info, _("You reel in the cable."));
+            it->item_vars["state"] = "attach_first";
+            it->active = false;
+            it->charges = 20;
+            p->moves -= 200;
+        }
     }
 
     return 0;
