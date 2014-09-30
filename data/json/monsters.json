@@ -2939,7 +2939,7 @@
     "death_function":"NORMAL",
     "special_attack":"FUNGUS_GROWTH",
     "description":"A fungal stalk several feet in height.  Two vicious looking tendrils extend from its thorned and leathery exterior, and it moves about faster than the larger fungaloids.",
-    "flags":["HEARS", "POISON", "NO_BREATHE", "NOHEAD"]
+    "flags":["HEARS", "POISON", "NO_BREATHE", "NOHEAD", "FRIENDLY_SPECIAL"]
     },{
         "type" : "MONSTER",
         "id" : "mon_spore",
@@ -2966,7 +2966,7 @@
     "death_function":"DISINTEGRATE",
     "special_attack":"PLANT",
     "description":"A mass of spores the size of a balled fist, wafting around in the air.",
-    "flags":["STUMBLES", "FLIES", "POISON", "NO_BREATHE", "NOHEAD"]
+    "flags":["STUMBLES", "FLIES", "POISON", "NO_BREATHE", "NOHEAD", "FRIENDLY_SPECIAL"]
     },{
         "type" : "MONSTER",
         "id" : "mon_fungaloid_queen",
