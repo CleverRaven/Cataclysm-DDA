@@ -3139,7 +3139,7 @@
         "bashing" : 7,
         "cutting" : 14,
         "price" : 5900,
-        "qualities": ["CUT", 1]
+        "flags": ["NON_STUCK"]
     },
     {
         "id": "mre_beef_box",
