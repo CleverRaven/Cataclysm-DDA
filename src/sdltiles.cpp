@@ -676,13 +676,16 @@ bool Font::draw_window( WINDOW *win, int offsetx, int offsety )
             }
 
             // Avoid redrawing an unchanged tile by checking the framebuffer cache
-            const int fbx = win->x + i;
-            const int fby = win->y + j;
-            cursecell &oldcell = framebuffer[fby].chars[fbx];
-            if (cell == oldcell) {
-                continue;
+            // TODO: handle caching when drawing normal windows over graphical tiles
+            if (!use_tiles) {
+                const int fbx = win->x + i;
+                const int fby = win->y + j;
+                cursecell &oldcell = framebuffer[fby].chars[fbx];
+                if (cell == oldcell) {
+                    continue;
+                }
+                oldcell = cell;
             }
-            oldcell = cell;
 
             if( cell.ch.empty() ) {
                 continue; // second cell of a multi-cell character
