@@ -633,7 +633,7 @@ void trapfunc::dissector(Creature *c, int x, int y)
 void trapfunc::pit(Creature *c, int x, int y)
 {
     // tiny animals aren't hurt by falling into pits
-    if (c->get_size() == MS_TINY) {
+    if (c != NULL && c->get_size() == MS_TINY) {
         return;
     }
     if (c != NULL) {
@@ -669,7 +669,7 @@ void trapfunc::pit(Creature *c, int x, int y)
 void trapfunc::pit_spikes(Creature *c, int x, int y)
 {
     // tiny animals aren't hurt by falling into spiked pits
-    if (c->get_size() == MS_TINY) {
+    if (c != NULL && c->get_size() == MS_TINY) {
         return;
     }
     if (c != NULL) {
