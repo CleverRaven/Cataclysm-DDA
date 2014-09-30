@@ -10478,7 +10478,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                 add_spawn("mon_zombie", rng(1, 5), 11, 12);
                 break;
             case 5:
-                square(this, t_dirtfloor, 1, 1, 22, 22);
+                square(this, t_dirt, 1, 1, 22, 22);
                 square(this, t_fence_barbed, 4, 4, 19, 19);
                 square(this, t_dirt, 5, 5, 18, 18);
                 square(this, t_pit_corpsed, 6, 6, 17, 17);
