@@ -3521,6 +3521,7 @@ bool vehicle::add_item (int part, item itm)
     if (part_flag(part, "TURRET")) {
         if (!ammo || (ammo->type != part_info(part).fuel_type ||
                  ammo->type == fuel_type_gasoline ||
+                 ammo->type == fuel_type_water ||
                  ammo->type == fuel_type_plasma)) {
             return false;
         }
