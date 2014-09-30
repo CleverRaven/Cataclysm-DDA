@@ -3765,6 +3765,33 @@ bool item::process_litcig( player *carrier, point pos )
     return false;
 }
 
+bool item::process_cable( player *p, point pos )
+{
+    if(item_vars["state"] != "pay_out_cable")
+        return false;
+
+    int source_x = std::stoi(item_vars["source_x"]);
+    int source_y = std::stoi(item_vars["source_y"]);
+
+    point abspos = g->m.getabs(pos.x, pos.y);
+
+    int distance = rl_dist(abspos.x, abspos.y, source_x, source_y);
+    int max_charges = type->maximum_charges();
+    charges = max_charges - distance;
+
+    if( charges < 1 && p != nullptr && p->has_item(this) ) {
+        p->add_msg_if_player(m_bad, _("The over-extended cable breaks loose!"));
+
+        p->add_msg_if_player(m_info, _("You reel in the cable."));
+        item_vars["state"] = "attach_first";
+        active = false;
+        charges = max_charges;
+        p->moves -= charges * 10;
+    }
+
+    return false;
+}
+
 bool item::process_wet( player * /*carrier*/, point /*pos*/ )
 {
     item_counter--;
@@ -3920,6 +3947,11 @@ bool item::process( player *carrier, point pos )
     }
     if( has_flag( "LITCIG" ) && process_litcig( carrier, pos ) ) {
         return true;
+    }
+    if( has_flag( "CABLE_SPOOL" ) ) {
+        // DO NOT process this as a tool! It really isn't!
+        process_cable(carrier, pos);
+        return false;
     }
     if( is_tool() && process_tool( carrier, pos ) ) {
         return true;

@@ -1457,13 +1457,14 @@
         "cutting": 0,
         "category" : "veh_parts",
         "price": 1,
-        "max_charges": 0,
-        "initial_charges": 0,
+        "max_charges": 20,
+        "initial_charges": 20,
         "charges_per_use": 0,
         "turns_per_charge": 0,
         "ammo": "NULL",
         "revert_to": "null",
-        "use_action": "CABLE_ATTACH"
+        "use_action": "CABLE_ATTACH",
+        "flags": [ "CABLE_SPOOL" ]
     },
 
   {

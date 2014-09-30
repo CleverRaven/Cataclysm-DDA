@@ -333,6 +333,7 @@ protected:
     bool process_artifact(player *carrier, point pos);
     bool process_wet(player *carrier, point pos);
     bool process_litcig(player *carrier, point pos);
+    bool process_cable(player *carrier, point pos);
     bool process_tool(player *carrier, point pos);
     bool process_charger_gun(player *carrier, point pos);
 public:
