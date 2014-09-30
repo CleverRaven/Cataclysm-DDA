@@ -3125,6 +3125,20 @@
         "to_hit": 0,
         "flags": ["SHEATH_KNIFE"],
         "qualities": [["BUTCHER", -18]]
+    },{
+        "type":"GENERIC",
+        "id" : "glass_macuahuitl",
+        "name" : "makeshift macuahuitl",
+        "description" : "A flat wooden club with sharp glass shards sticking to both of its sides.",
+        "weight" : 955,
+        "to_hit" : 1,
+        "color" : "light_cyan",
+        "symbol" : "/",
+        "material" : ["wood", "glass"],
+        "volume" : 9,
+        "bashing" : 7,
+        "cutting" : 14,
+        "price" : 5900
     },
     {
         "id": "mre_beef_box",
