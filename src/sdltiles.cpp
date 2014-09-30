@@ -271,7 +271,7 @@ bool WinCreate()
     // Initialize framebuffer cache
     framebuffer.resize(TERMINAL_HEIGHT);
     for (int i = 0; i < TERMINAL_HEIGHT; i++) {
-        framebuffer[i].chars.resize(TERMINAL_WIDTH);
+        framebuffer[i].chars.assign(TERMINAL_WIDTH, cursecell(""));
     }
 
     const Uint32 wformat = SDL_GetWindowPixelFormat(window);
@@ -610,12 +610,21 @@ void Font::draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG)
     }
 }
 
+void invalidate_framebuffer(int x, int y, int width, int height)
+{
+    for (int j = 0, fby = y; j < height; j++, fby++) {
+        std::fill_n(framebuffer[fby].chars.begin() + x, width, cursecell(""));
+    }
+}
+
 extern WINDOW *w_hit_animation;
 void curses_drawwindow(WINDOW *win)
 {
     bool update = false;
 #ifdef SDLTILES
     if (g && win == g->w_terrain && use_tiles) {
+        int sx, sy;
+
         // game::w_terrain can be drawn by the tilecontext.
         // skip the normal drawing code for it.
         tilecontext->draw(
@@ -625,6 +634,9 @@ void curses_drawwindow(WINDOW *win)
             g->ter_view_y,
             TERRAIN_WINDOW_TERM_WIDTH * font->fontwidth,
             TERRAIN_WINDOW_TERM_HEIGHT * font->fontheight);
+
+        invalidate_framebuffer(win->x, win->y, TERRAIN_WINDOW_TERM_WIDTH, TERRAIN_WINDOW_TERM_HEIGHT);
+
         update = true;
     } else if (g && win == g->w_terrain && map_font != NULL) {
         // Special font for the terrain window
@@ -677,15 +689,13 @@ bool Font::draw_window( WINDOW *win, int offsetx, int offsety )
 
             // Avoid redrawing an unchanged tile by checking the framebuffer cache
             // TODO: handle caching when drawing normal windows over graphical tiles
-            if (!use_tiles) {
-                const int fbx = win->x + i;
-                const int fby = win->y + j;
-                cursecell &oldcell = framebuffer[fby].chars[fbx];
-                if (cell == oldcell) {
-                    continue;
-                }
-                oldcell = cell;
+            const int fbx = win->x + i;
+            const int fby = win->y + j;
+            cursecell &oldcell = framebuffer[fby].chars[fbx];
+            if (cell == oldcell) {
+                continue;
             }
+            oldcell = cell;
 
             if( cell.ch.empty() ) {
                 continue; // second cell of a multi-cell character
