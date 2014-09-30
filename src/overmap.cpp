@@ -762,19 +762,17 @@ void overmap::add_note(int const x, int const y, int const z, std::string const 
     }
 }
 
-point overmap::find_note(int const x, int const y, int const z, std::string const &text)
+extern bool lcmatch(const std::string& text, const std::string& pattern);
+std::vector<point> overmap::find_notes(int const z, std::string const &text)
 {
-    const overmapbuffer::t_notes_vector notes = overmap_buffer.find_notes(z, text);
-    int closest = INT_MAX;
-    point ret = invalid_point;
-    for (auto &i : notes) {
-        const int dist = rl_dist(x, y, i.first.x, i.first.y);
-        if (dist < closest) {
-            closest = dist;
-            ret = i.first;
+    std::vector<point> note_locations;
+    map_layer &this_layer = layer[z + OVERMAP_DEPTH];
+    for( auto note : this_layer.notes ) {
+        if( lcmatch( note.text, text ) ) {
+            note_locations.push_back( point( get_left_border() + note.x, get_top_border() + note.y ) );
         }
     }
-    return ret;
+    return note_locations;
 }
 
 point overmap::display_notes(int z)
@@ -1232,7 +1230,6 @@ bool overmap::generate_sub(int const z)
     return requires_sub;
 }
 
-extern bool lcmatch(const std::string& text, const std::string& pattern);
 std::vector<point> overmap::find_terrain(const std::string &term, int zlevel)
 {
     std::vector<point> found;
@@ -1240,7 +1237,7 @@ std::vector<point> overmap::find_terrain(const std::string &term, int zlevel)
         for (int y = 0; y < OMAPY; y++) {
             if (seen(x, y, zlevel) &&
                 lcmatch( otermap[ter(x, y, zlevel)].name, term ) ) {
-                found.push_back( point(x, y) );
+                found.push_back( point( get_left_border() + x, get_top_border() + y) );
             }
         }
     }
@@ -1805,19 +1802,14 @@ tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const 
                 continue;
             }
             std::transform( term.begin(), term.end(), term.begin(), tolower );
-            const point p = find_note(curs.x, curs.y, curs.z, term);
-            if (p != invalid_point) {
-                // found a note, center on it, re-display
-                curs.x = p.x;
-                curs.y = p.y;
-                continue;
-            }
-            std::vector<point> terlist;
+
             // This is on purpose only the current overmap, otherwise
             // it would contain way to many entries
             overmap &om = overmap_buffer.get_om_global(point(curs.x, curs.y));
-            terlist = om.find_terrain(term, curs.z);
-            if (terlist.empty()) {
+            std::vector<point> locations = om.find_notes(curs.z, term);
+            std::vector<point> terlist = om.find_terrain(term, curs.z);
+            locations.insert( locations.end(), terlist.begin(), terlist.end() );
+            if( locations.empty() ) {
                 continue;
             }
             int i = 0;
@@ -1832,8 +1824,8 @@ tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const 
             ctxt.register_action("HELP_KEYBINDINGS");
             ctxt.register_action("ANY_INPUT");
             do {
-                tmp.x = om.pos().x * OMAPX + terlist[i].x;
-                tmp.y = om.pos().y * OMAPY + terlist[i].y;
+                tmp.x = locations[i].x;
+                tmp.y = locations[i].y;
                 draw(w_map, tmp, orig, uistate.overmap_show_overlays, show_explored, NULL);
                 //Draw search box
                 draw_border(w_search);
@@ -1851,9 +1843,9 @@ tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const 
                     uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
                 }
                 if (action == "NEXT_TAB") {
-                    i = (i + 1) % terlist.size();
+                    i = (i + 1) % locations.size();
                 } else if (action == "PREV_TAB") {
-                    i = (i + terlist.size() - 1) % terlist.size();
+                    i = (i + locations.size() - 1) % locations.size();
                 } else if (action == "CONFIRM") {
                     curs = tmp;
                 }
