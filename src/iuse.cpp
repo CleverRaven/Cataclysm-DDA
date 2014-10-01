@@ -1482,7 +1482,7 @@ int iuse::mutagen(player *p, item *it, bool)
         p->add_msg_if_player(m_warning, _("After what happened that last time? uh-uh.  You're not drinking that chemical stuff."));
         return 0;
     }
-    
+
     if (!p->is_npc() && !(p->has_trait("THRESH_MYCUS"))) {
         p->add_memorial_log(pgettext("memorial_male", "Consumed mutagen."),
                             pgettext("memorial_female", "Consumed mutagen."));
@@ -1499,7 +1499,7 @@ int iuse::mutagen(player *p, item *it, bool)
                             pgettext("memorial_female", "Suffered a toxic marloss/mutagen reaction."));
         return it->type->charges_to_use();
     }
-    
+
     if (p->has_trait("THRESH_MYCUS")) {
         p->add_msg_if_player(m_info, _("This is a contaminant.  We reject it from the Mycus."));
         if (p->has_trait("M_SPORES") || p->has_trait("M_FERTILE") || p->has_trait("M_BLOSSOMS") || p->has_trait("M_BLOOM")) {
@@ -1514,7 +1514,7 @@ int iuse::mutagen(player *p, item *it, bool)
             return 0;
         }
     }
-    
+
     if (p->has_trait("MUT_JUNKIE")) {
         p->add_msg_if_player(m_good, _("You quiver with anticipation..."));
         p->add_morale(MORALE_MUTAGEN, 5, 50);
@@ -1649,12 +1649,12 @@ int iuse::mut_iv(player *p, item *it, bool)
         p->add_msg_if_player(m_warning, _("After what happened that last time? uh-uh.  You're not injecting that chemical stuff."));
         return 0;
     }
-    
+
     if (!p->is_npc() && !(p->has_trait("THRESH_MYCUS"))) {
         p->add_memorial_log(pgettext("memorial_male", "Injected mutagen."),
                             pgettext("memorial_female", "Injected mutagen."));
     }
-    
+
     if (p->has_trait("THRESH_MARLOSS")) {
         p->add_msg_if_player(m_warning, _("The %s sears your insides white-hot, and you collapse to the ground!"), it->tname().c_str());
         p->vomit();
@@ -1669,7 +1669,7 @@ int iuse::mut_iv(player *p, item *it, bool)
                             pgettext("memorial_female", "Suffered a toxic marloss/mutagen reaction."));
         return it->type->charges_to_use();
     }
-    
+
     if (p->has_trait("THRESH_MYCUS")) {
         p->add_msg_if_player(m_info, _("This is a contaminant.  We reject it from the Mycus."));
         if (p->has_trait("M_SPORES") || p->has_trait("M_FERTILE") || p->has_trait("M_BLOSSOMS") || p->has_trait("M_BLOOM")) {
@@ -1684,7 +1684,7 @@ int iuse::mut_iv(player *p, item *it, bool)
             return 0;
         }
     }
-    
+
     if (p->has_trait("MUT_JUNKIE")) {
         p->add_msg_if_player(m_good, _("You quiver with anticipation..."));
         p->add_morale(MORALE_MUTAGEN, 10, 100);
@@ -2085,12 +2085,12 @@ int iuse::purifier(player *p, item *it, bool)
         p->add_msg_if_player(m_warning, _("After what happened that last time? uh-uh.  You're not drinking that chemical stuff."));
         return 0;
     }
-    
+
     if (!p->is_npc() && !(p->has_trait("THRESH_MYCUS"))) {
         p->add_memorial_log(pgettext("memorial_male", "Consumed purifier."),
                             pgettext("memorial_female", "Consumed purifier."));
     }
-    
+
     if (p->has_trait("THRESH_MARLOSS")) {
         p->add_msg_if_player(m_warning, _("The %s burns white-hot inside you, and you collapse to the ground!"), it->tname().c_str());
         p->vomit();
@@ -2103,7 +2103,7 @@ int iuse::purifier(player *p, item *it, bool)
                             pgettext("memorial_female", "Suffered a toxic reaction to purifier."));
         return it->type->charges_to_use();
     }
-    
+
     if (p->has_trait("THRESH_MYCUS")) {
         p->add_msg_if_player(m_info, _("This is a contaminant.  We reject it from the Mycus."));
         if (p->has_trait("M_SPORES") || p->has_trait("M_FERTILE") || p->has_trait("M_BLOSSOMS") || p->has_trait("M_BLOOM")) {
@@ -2118,7 +2118,7 @@ int iuse::purifier(player *p, item *it, bool)
             return 0;
         }
     }
-    
+
     std::vector<std::string> valid; // Which flags the player has
     for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
         if (p->has_trait(iter->first) && !p->has_base_trait(iter->first)) {
@@ -2153,12 +2153,12 @@ int iuse::purify_iv(player *p, item *it, bool)
         p->add_msg_if_player(m_warning, _("After what happened that last time? uh-uh.  You're not injecting that chemical stuff."));
         return 0;
     }
-    
+
     if (!p->is_npc() && !(p->has_trait("THRESH_MYCUS"))) {
         p->add_memorial_log(pgettext("memorial_male", "Injected purifier."),
                             pgettext("memorial_female", "Injected purifier."));
     }
-    
+
     if (p->has_trait("THRESH_MARLOSS")) {
         p->add_msg_if_player(m_warning, _("The %s sears your insides white-hot, and you collapse to the ground!"), it->tname().c_str());
         p->vomit();
@@ -2175,7 +2175,7 @@ int iuse::purify_iv(player *p, item *it, bool)
                             pgettext("memorial_female", "Burned out a particularly nasty fungal infestation."));
         return it->type->charges_to_use();
     }
-    
+
     if (p->has_trait("THRESH_MYCUS")) {
         p->add_msg_if_player(m_info, _("This is a contaminant.  We reject it from the Mycus."));
         if (p->has_trait("M_SPORES") || p->has_trait("M_FERTILE") || p->has_trait("M_BLOSSOMS") || p->has_trait("M_BLOOM")) {
@@ -2190,7 +2190,7 @@ int iuse::purify_iv(player *p, item *it, bool)
             return 0;
         }
     }
-    
+
     std::vector<std::string> valid; // Which flags the player has
     for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
         if (p->has_trait(iter->first) && !p->has_base_trait(iter->first)) {
@@ -2245,6 +2245,8 @@ int iuse::marloss(player *p, item *it, bool t)
         p->add_msg_if_player(m_good,
                              _("As you eat the berry, you have a near-religious experience, feeling at one with your surroundings..."));
         p->add_morale(MORALE_MARLOSS, 100, 1000);
+        p->add_addiction(ADD_MARLOSS_B, 50);
+        p->add_addiction(ADD_MARLOSS_Y, 50);
         p->hunger = -100;
         monster spore(GetMType("mon_spore"));
         spore.friendly = -1;
@@ -2324,9 +2326,14 @@ int iuse::marloss(player *p, item *it, bool t)
         g->m.ter_set(p->posx, p->posy, t_marloss);
         p->add_memorial_log(pgettext("memorial_male", "Opened the Marloss Gateway."),
                         pgettext("memorial_female", "Opened the Marloss Gateway."));
+        p->add_msg_if_player(m_good, _("You wake up in a marloss bush.  Almost *cradled* in it, actually, as though it grew there for you."));
+        //~ Beginning to hear the Mycus while conscious: that's it speaking
+        p->add_msg_if_player(m_good, _("unity. together we have reached the door. we provide the final key. now to pass through..."));
     } else if (!p->has_trait("MARLOSS")) {
         p->add_msg_if_player(_("You feel a strange warmth spreading throughout your body..."));
         p->toggle_mutation("MARLOSS");
+        p->add_addiction(ADD_MARLOSS_B, 60);
+        p->add_addiction(ADD_MARLOSS_Y, 60);
     }
     return it->type->charges_to_use();
 }
@@ -2354,6 +2361,8 @@ int iuse::marloss_seed(player *p, item *it, bool t)
         p->add_msg_if_player(m_good,
                              _("As you eat the seed, you have a near-religious experience, feeling at one with your surroundings..."));
         p->add_morale(MORALE_MARLOSS, 100, 1000);
+        p->add_addiction(ADD_MARLOSS_R, 50);
+        p->add_addiction(ADD_MARLOSS_Y, 50);
         p->hunger = -100;
         monster spore(GetMType("mon_spore"));
         spore.friendly = -1;
@@ -2433,9 +2442,14 @@ int iuse::marloss_seed(player *p, item *it, bool t)
         g->m.ter_set(p->posx, p->posy, t_marloss);
         p->add_memorial_log(pgettext("memorial_male", "Opened the Marloss Gateway."),
                         pgettext("memorial_female", "Opened the Marloss Gateway."));
+        p->add_msg_if_player(m_good, _("You wake up in a marloss bush.  Almost *cradled* in it, actually, as though it grew there for you."));
+        //~ Beginning to hear the Mycus while conscious: that's it speaking
+        p->add_msg_if_player(m_good, _("unity. together we have reached the door. we provide the final key. now to pass through..."));
     } else if (!p->has_trait("MARLOSS_BLUE")) {
         p->add_msg_if_player(_("You feel a strange warmth spreading throughout your body..."));
         p->toggle_mutation("MARLOSS_BLUE");
+        p->add_addiction(ADD_MARLOSS_R, 60);
+        p->add_addiction(ADD_MARLOSS_Y, 60);
     }
     return it->type->charges_to_use();
 }
@@ -2459,6 +2473,8 @@ int iuse::marloss_gel(player *p, item *it, bool t)
         p->add_msg_if_player(m_good,
                              _("As you eat the jelly, you have a near-religious experience, feeling at one with your surroundings..."));
         p->add_morale(MORALE_MARLOSS, 100, 1000);
+        p->add_addiction(ADD_MARLOSS_R, 50);
+        p->add_addiction(ADD_MARLOSS_B, 50);
         p->hunger = -100;
         monster spore(GetMType("mon_spore"));
         spore.friendly = -1;
@@ -2538,9 +2554,14 @@ int iuse::marloss_gel(player *p, item *it, bool t)
         g->m.ter_set(p->posx, p->posy, t_marloss);
         p->add_memorial_log(pgettext("memorial_male", "Opened the Marloss Gateway."),
                         pgettext("memorial_female", "Opened the Marloss Gateway."));
+        p->add_msg_if_player(m_good, _("You wake up in a marloss bush.  Almost *cradled* in it, actually, as though it grew there for you."));
+        //~ Beginning to hear the Mycus while conscious: that's it speaking
+        p->add_msg_if_player(m_good, _("unity. together we have reached the door. we provide the final key. now to pass through..."));
     } else if (!p->has_trait("MARLOSS_YELLOW")) {
         p->add_msg_if_player(_("You feel a strange warmth spreading throughout your body..."));
         p->toggle_mutation("MARLOSS_YELLOW");
+        p->add_addiction(ADD_MARLOSS_R, 60);
+        p->add_addiction(ADD_MARLOSS_B, 60);
     }
     return it->type->charges_to_use();
 }

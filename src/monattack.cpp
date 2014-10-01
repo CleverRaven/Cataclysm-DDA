@@ -1055,6 +1055,9 @@ void mattack::fungus_fortify(monster *z)
                 g->m.ter_set(g->u.posx, g->u.posy, t_marloss); // We only show you the door.  You walk through it on your own.
                 g->u.add_memorial_log(pgettext("memorial_male", "Was shown to the Marloss Gatweay."),
                     pgettext("memorial_female", "Was shown to the Marloss Gateway."));
+                g->u.add_msg_if_player(m_good, _("You wake up in a marloss bush.  Almost *cradled* in it, actually, as though it grew there for you."));
+                //~ Beginning to hear the Mycus while conscious: this is it speaking
+                g->u.add_msg_if_player(m_good, _("assistance, on an arduous quest. unity. together we have reached the door. now to pass through..."));
                 z->sp_timeout = z->type->sp_freq; // Reset timer
                 return;
             } else {

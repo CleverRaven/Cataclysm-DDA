@@ -1553,7 +1553,8 @@
         "points" : 4,
         "description" : "Ever since you ate that Marloss berry, you can't get its scent out of your nose, and you have a strong desire to try some seeds and...sap?",
         "purifiable": false,
-        "valid" : false
+        "valid" : false,
+        "category" : ["MUTCAT_MARLOSS"]
     },{
         "type" : "mutation",
         "id" : "MARLOSS_BLUE",
@@ -1561,7 +1562,8 @@
         "points" : 4,
         "description" : "Ever since you ate that Marloss seed, you can't get its taste off of your tongue, and you have a strong desire to try some berries and...sap?",
         "purifiable": false,
-        "valid" : false
+        "valid" : false,
+        "category" : ["MUTCAT_MARLOSS"]
     },{
         "type" : "mutation",
         "id" : "MARLOSS_YELLOW",
@@ -1569,7 +1571,8 @@
         "points" : 4,
         "description" : "Ever since you ate that Marloss jelly, you can't stop thinking of it, and you have a strong desire to eat some seeds and berries.",
         "purifiable": false,
-        "valid" : false
+        "valid" : false,
+        "category" : ["MUTCAT_MARLOSS"]
     },{
         "type" : "mutation",
         "id" : "MARLOSS_AVOID",
@@ -4017,7 +4020,8 @@
         "description" : "You get the feeling that you're on the cusp of becoming something greater than yourself.",
         "valid": false,
         "purifiable": false,
-        "threshold": true
+        "threshold": true,
+        "category" : ["MUTCAT_MARLOSS"]
     },{
         "type" : "mutation",
         "id" : "THRESH_MYCUS",
