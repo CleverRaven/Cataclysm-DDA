@@ -2061,5 +2061,189 @@
   "qualities" : [ {"id":"SAW_M","level":1,"amount":1} ],
   "tools": [ [ [ "welder", 500 ], [ "toolset", 750 ] ] ],
   "components": [ [ [ "steel_plate", 10 ] ], [ [ "steel_lump", 70 ] ] ]
+},{
+    "type" : "recipe",
+    "result": "fish_bowl",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 500,
+    "reversible": true,
+    "autolearn": false,
+  "components": [
+    [
+    [ "jar_3l_glass", 1 ]
+    ],
+	[
+	[ "water", 8 ]
+	],
+	[ "fish", 1 ]
+	]
+},{
+    "type" : "recipe",
+    "result": "roadmap",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 500,
+    "reversible": true,
+    "autolearn": false,
+  "components": [
+    [
+    [ "paper", 10 ]
+    ]
+	]
+},{
+    "type" : "recipe",
+    "result": "survivormap",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 500,
+    "reversible": true,
+    "autolearn": false,
+  "components": [
+    [
+    [ "paper", 10 ]
+    ]
+	]
+},{
+    "type" : "recipe",
+    "result": "militarymap",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 500,
+    "reversible": true,
+    "autolearn": false,
+  "components": [
+    [
+    [ "paper", 10 ]
+    ]
+	]
+},{
+    "type" : "recipe",
+    "result": "restaurantmap",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 500,
+    "reversible": true,
+    "autolearn": false,
+  "components": [
+    [
+    [ "paper", 10 ]
+    ]
+	]
+},{
+    "type" : "recipe",
+    "result": "touristmap",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 500,
+    "reversible": true,
+    "autolearn": false,
+  "components": [
+    [
+    [ "paper", 10 ]
+    ]
+	]
+},{
+    "type" : "recipe",
+    "result": "newest_newspaper",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 500,
+    "reversible": true,
+    "autolearn": false,
+  "components": [
+    [
+    [ "paper", 2 ]
+    ]
+	]
+},{
+    "type" : "recipe",
+    "result": "many_years_old_newspaper",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 500,
+    "reversible": true,
+    "autolearn": false,
+  "components": [
+    [
+    [ "paper", 2 ]
+    ]
+	]
+},{
+    "type" : "recipe",
+    "result": "years_old_newspaper",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 500,
+    "reversible": true,
+    "autolearn": false,
+  "components": [
+    [
+    [ "paper", 2 ]
+    ]
+	]
+},{
+    "type" : "recipe",
+    "result": "one_year_old_newspaper",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 500,
+    "reversible": true,
+    "autolearn": false,
+  "components": [
+    [
+    [ "paper", 2 ]
+    ]
+	]
+},{
+    "type" : "recipe",
+    "result": "months_old_newspaper",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 500,
+    "reversible": true,
+    "autolearn": false,
+  "components": [
+    [
+    [ "paper", 2 ]
+    ]
+	]
+},{
+    "type" : "recipe",
+    "result": "weeks_old_newspaper",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 500,
+    "reversible": true,
+    "autolearn": false,
+  "components": [
+    [
+    [ "paper", 2 ]
+    ]
+	]
 }
 ]

@@ -1264,7 +1264,7 @@
     "name": "tourist guide",
     "description": "This is glossy printed pamphlet for tourists that details local hotels and attractions.",
     "price": 10000,
-    "material": "plastic",
+    "material": "paper",
     "weight": 30,
     "volume": 1,
     "bashing": 0,

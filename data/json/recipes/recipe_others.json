@@ -5121,6 +5121,7 @@
 },{
   "type" : "recipe",
   "result": "plastic_chunk",
+  "id_suffix": "from_milk",
   "byproducts": { "id" : "plastic_chunk", "amount" : 14 },
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -5162,6 +5163,24 @@
   ],
   "components": [
      [ [ "scrap", 7 ] ]
+  ]
+  },{
+  "type" : "recipe",
+  "result": "plastic_chunk",
+  "id_suffix": "from_plastic_bags",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 0,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [ ["hotplate", 4], ["toolset", 4], ["fire", -1] ],
+	[ ["mold_plastic", -1] ]
+  ],
+  "components": [
+     [ [ "bag_plastic", 3 ] ]
   ]
   }
 ]

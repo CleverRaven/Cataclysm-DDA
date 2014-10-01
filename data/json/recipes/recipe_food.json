@@ -7961,5 +7961,61 @@
       [ "honeycomb", 1 ]
     ]
   ]
+},{
+        "type" : "recipe",
+  "result": "sugar",
+  "id_suffix": "from_sweet_water",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "time": 90000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"BOIL","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 3 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 3 ],
+      [ "coffeemaker", 3],
+      [ "atomic_coffeepot", -1 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "sweet_water", 8 ]
+    ]
+  ]
+}{
+        "type" : "recipe",
+  "result": "sugar_fried",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 3500,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"COOK","level":2,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 2 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 2 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "sugar", 1 ]
+    ],
+	[
+	  [ "water_clean", 1 ]
+	]
+  ]
 }
 ]
