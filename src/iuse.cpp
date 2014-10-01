@@ -10405,8 +10405,6 @@ int iuse::cable_attach(player *p, item *it, bool)
             it->item_vars["source_x"] = std::to_string(abspos.x);
             it->item_vars["source_y"] = std::to_string(abspos.y);
             it->charges = 20;
-
-            debugmsg("First attachment at %d,%d (%d,%d)", posx, posy, abspos.x, abspos.y);
         }
         p->moves -= 15;
     }
@@ -10427,8 +10425,10 @@ int iuse::cable_attach(player *p, item *it, bool)
             point target_global = g->m.getabs(posx, posy);
             point target_local(posx, posy);
 
-            if(source_veh == nullptr && p->has_item(it)) {
-                p->add_msg_if_player(m_bad, _("You notice the cable has come loose!"));
+            if(source_veh == nullptr) {
+                if( p != nullptr && p->has_item(it) ) {
+                    p->add_msg_if_player(m_bad, _("You notice the cable has come loose!"));
+                }
                 it->reset_cable(p);
                 return 0;
             }

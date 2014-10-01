@@ -3861,7 +3861,7 @@
         "durability" : 20,
         "item" : "jumper_cable",
         "difficulty" : 1,
-        "flags" : ["NOINSTALL", "UNMOUNT_ON_DAMAGE", "POWER_TRANSFER"],
+        "flags" : ["NOINSTALL", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER"],
         "breaks_into" : [
             {"item": "cable", "min": 1, "max": 1}
         ]

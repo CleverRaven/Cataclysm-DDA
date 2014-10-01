@@ -410,6 +410,8 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```ODDTURN``` Only on during odd turns.
 - ```EVENTURN``` Only on during even turns.
 - ```RECHARGE``` Recharge items with the same flag. ( Currently only the rechargeable battery mod. )
+- ```UNMOUNT_ON_MOVE``` Dismount this part when the vehicle moves. Doesn't drop the part, unless you give it special handling.
+- ```POWER_TRANSFER``` Transmits power to and from an attached thingy (probably a vehicle)
 
 ## Ammo
 

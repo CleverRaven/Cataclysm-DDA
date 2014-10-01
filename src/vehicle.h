@@ -579,6 +579,7 @@ public:
     bool shift_if_needed();
 
     void leak_fuel (int p);
+    void shed_loose_parts(std::vector<int>& parts);
 
     // Cycle through available turret modes
     void cycle_turret_mode();
@@ -626,6 +627,7 @@ public:
     std::vector<int> engines;          // List of engine indices
     std::vector<int> reactors;         // List of reactor indices
     std::vector<int> solar_panels;     // List of solar panel indices
+    std::vector<int> loose_parts;      // List of UNMOUNT_ON_MOVE parts
     std::vector<int> wheelcache;
     std::vector<vehicle_item_spawn> item_spawns; //Possible starting items
     std::set<std::string> tags;        // Properties of the vehicle

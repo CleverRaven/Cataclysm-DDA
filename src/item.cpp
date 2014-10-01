@@ -3774,14 +3774,25 @@ bool item::process_cable( player *p, point pos )
     int source_x = std::stoi(item_vars["source_x"]);
     int source_y = std::stoi(item_vars["source_y"]);
 
+    point relpos= g->m.getlocal(source_x, source_y);
+    auto veh = g->m.veh_at(relpos.x, relpos.y);
+    if( veh == nullptr ) {
+        if( p != nullptr && p->has_item(this) ) {
+            p->add_msg_if_player(m_bad, _("You notice the cable has come loose!"));
+        }
+        reset_cable(p);
+    }
+
     point abspos = g->m.getabs(pos.x, pos.y);
 
     int distance = rl_dist(abspos.x, abspos.y, source_x, source_y);
     int max_charges = type->maximum_charges();
     charges = max_charges - distance;
 
-    if( charges < 1 && p != nullptr && p->has_item(this) ) {
-        p->add_msg_if_player(m_bad, _("The over-extended cable breaks loose!"));
+    if( charges < 1 ) {
+        if( p != nullptr && p->has_item(this) ) {
+            p->add_msg_if_player(m_bad, _("The over-extended cable breaks loose!"));
+        }
         reset_cable(p);
     }
 
@@ -3792,11 +3803,14 @@ void item::reset_cable( player* p )
 {
     int max_charges = type->maximum_charges();
 
-    p->add_msg_if_player(m_info, _("You reel in the cable."));
     item_vars["state"] = "attach_first";
     active = false;
     charges = max_charges;
-    p->moves -= charges * 10;
+
+    if ( p != nullptr ) {
+        p->add_msg_if_player(m_info, _("You reel in the cable."));
+        p->moves -= charges * 10;
+    }
 }
 
 bool item::process_wet( player * /*carrier*/, point /*pos*/ )

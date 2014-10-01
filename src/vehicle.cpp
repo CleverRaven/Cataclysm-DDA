@@ -1325,6 +1325,14 @@ item vehicle_part::properties_to_item() const
     if( tmp.type->is_tool() ) {
         tmp.charges = 0;
     }
+    // Cables get special handling: their target coordinates need to remain
+    // stored, and if a cable actually drops, it should be half-connected.
+    if( tmp.has_flag("CABLE_SPOOL") ) {
+        tmp.item_vars["source_x"] = std::to_string(target.x);
+        tmp.item_vars["source_y"] = std::to_string(target.y);
+        tmp.item_vars["state"] = "pay_out_cable";
+        tmp.active = true;
+    }
     // translate part damage to item damage.
     // max damage is 4, min damage 0.
     // this is very lossy.
@@ -3609,6 +3617,9 @@ void vehicle::place_spawn_items()
 void vehicle::gain_moves()
 {
     if (velocity) {
+        if (loose_parts.size() > 0) {
+            shed_loose_parts(loose_parts);
+        }
         of_turn = 1 + of_turn_carry;
     } else {
         of_turn = 0;
@@ -3652,6 +3663,7 @@ void vehicle::refresh()
     reactors.clear();
     solar_panels.clear();
     relative_parts.clear();
+    loose_parts.clear();
     lights_epower = 0;
     overhead_epower = 0;
     tracking_epower = 0;
@@ -3716,6 +3728,9 @@ void vehicle::refresh()
         if( vpi.has_flag("HAND_RIMS") ) {
             has_hand_rims = true;
         }
+        if( vpi.has_flag("UNMOUNT_ON_MOVE") ) {
+            loose_parts.push_back(p);
+        }
         // Build map of point -> all parts in that point
         point pt( parts[p].mount_dx, parts[p].mount_dy );
         // This will keep the parts at point pt sorted
@@ -3726,6 +3741,29 @@ void vehicle::refresh()
     precalc_mounts( 0, face.dir() );
     check_environmental_effects = true;
     insides_dirty = true;
+}
+
+void vehicle::shed_loose_parts(std::vector<int>& loose_parts) {
+    for( size_t i = 0; i < loose_parts.size(); i++) {
+        auto part = &parts[loose_parts[i]];
+        auto vpi = &part_info(loose_parts[i]);
+        debugmsg("This is part #%d, a %s at %d,%d", loose_parts[i], part->id.c_str(), part->mount_dx, part->mount_dy);
+        if (vpi->has_flag("POWER_TRANSFER")) {
+            point local_pos = g->m.getlocal(part->target);
+            auto veh = g->m.veh_at(local_pos.x, local_pos.y);
+
+            // If the target vehicle is still there, drop the part
+            if (veh != nullptr) {
+                int posx = global_x() + part->precalc_dx[0];
+                int posy = global_y() + part->precalc_dy[0];
+                item drop = part->properties_to_item();
+                g->m.add_item_or_charges(posx, posy, drop, true);
+            }
+        }
+
+        remove_part(loose_parts[i]);
+    }
+    loose_parts.clear();
 }
 
 void vehicle::refresh_insides ()
