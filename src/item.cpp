@@ -116,6 +116,10 @@ item::item(const std::string new_type, unsigned int turn, bool rand, int handed)
                 }
             }
         }
+        // clothing with variable size flag may sometimes be generated fitted
+        if( type->item_tags.count( "VARSIZE" ) > 0 && one_in( 3 ) ) {
+            item_tags.insert( "FIT" );
+        }
     }
     if(type->is_var_veh_part()) {
         it_var_veh_part* varcarpart = dynamic_cast<it_var_veh_part*>(type);
