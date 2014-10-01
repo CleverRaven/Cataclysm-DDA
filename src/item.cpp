@@ -412,11 +412,11 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
                 item * food = NULL;
                 if( goes_bad() ) {
                     food = this;
-                    maxrot = dynamic_cast<it_comest*>(type)->spoils * 600;
+                    maxrot = dynamic_cast<it_comest*>(type)->spoils;
                 } else if(is_food_container()) {
                     food = &contents[0];
                     if ( food->goes_bad() ) {
-                        maxrot =dynamic_cast<it_comest*>(food->type)->spoils * 600;
+                        maxrot =dynamic_cast<it_comest*>(food->type)->spoils;
                     }
                 }
                 if ( food != NULL && maxrot != 0 ) {
@@ -1678,7 +1678,7 @@ bool item::rotten() const
 {
     const it_comest *comest = dynamic_cast<const it_comest *>( type );
     if( comest != nullptr && comest->spoils > 0 ) {
-        return rot > static_cast<int>( comest->spoils ) * 600;
+        return rot > comest->spoils;
     }
     return false;
 }
@@ -1688,7 +1688,7 @@ bool item::has_rotten_away() const
     const it_comest *comest = dynamic_cast<const it_comest *>( type );
     if( comest != nullptr && comest->spoils > 0 ) {
         // Twice the regular shelf life and it's gone.
-        return rot > static_cast<int>( comest->spoils ) * 600 * 2;
+        return rot > comest->spoils * 2;
     }
     return false;
 }

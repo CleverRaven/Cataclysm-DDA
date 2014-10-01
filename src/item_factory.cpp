@@ -819,6 +819,8 @@ void Item_factory::load_comestible(JsonObject &jo)
     comest_template->quench = jo.get_int("quench", 0);
     comest_template->nutr = jo.get_int("nutrition", 0);
     comest_template->spoils = jo.get_int("spoils_in", 0);
+    // In json it's in hours, here it shall be in turns, as item::rot is also in turns.
+    comest_template->spoils *= 600;
     comest_template->brewtime = jo.get_int("brew_time", 0);
     comest_template->addict = jo.get_int("addiction_potential", 0);
     comest_template->charges = jo.get_long("charges", 0);

@@ -253,7 +253,12 @@ public:
 struct it_comest : public virtual itype {
     signed int quench;     // Many things make you thirstier!
     unsigned int nutr;     // Nutrition imparted
-    unsigned int spoils;   // How long it takes to spoil (hours / 600 turns)
+    /**
+     * How long it takes to spoil (turns), rotten food is handled differently
+     * (chance of bad thinks happen when eating etc).
+     * If 0, the food never spoils.
+     */
+    int spoils;
     unsigned int addict;   // Addictiveness potential
     long charges;  // Defaults # of charges (drugs, loaf of bread? etc)
     std::vector<long> rand_charges;
