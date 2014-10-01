@@ -4095,7 +4095,7 @@ bool vehicle::fire_turret (int p, bool burst)
                 charges = rng(1,4);
             }
         }
-        } else if (amt == fuel_type_water) {
+        else if (amt == fuel_type_water) {
             if (one_in(5)) {
                 //~ the sound of a deluge cannon pumping out a lance of water
                 whoosh = _("sploosh!");
