@@ -4087,7 +4087,7 @@
     "type" : "AMMO",
     "id" : "material_sand",
     "category" : "spare_parts",
-    "price" : 20,
+    "price" : 0,
     "name" : "sand",
     "name_plural" : "sand",
     "symbol" : "=",
