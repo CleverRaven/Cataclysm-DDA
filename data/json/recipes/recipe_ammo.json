@@ -3585,7 +3585,6 @@
   "book_learn": [["textbook_gaswarfare" , 6 ], ["textbook_anarch" , 7 ]],
   "tools": [
     [ ["chemistry_set", 25]  ]
-           ],
   ], "components": [
     [
       [ "gasoline, 125 ]
