@@ -218,9 +218,52 @@ public:
  long max_charges() const;
  bool craft_has_charges();
  long num_charges();
- bool rotten();
- bool is_rotten;
- void calc_rot(const point &);
+
+    /**
+     * Returns true if the item is considered rotten.
+     */
+    bool rotten() const;
+    /**
+     * Accumulate rot of the item since last rot calculation.
+     * This function works for non-rotting stuff, too - it increases the value
+     * of rot.
+     * @param p The location of the item to check for temperature.
+     */
+    void calc_rot(const point &p);
+    /**
+     * Returns whether the item has completely rotten away.
+     */
+    bool has_rotten_away() const;
+    /**
+     * Get @ref rot value relative to it_comest::spoils, if the item does not spoil,
+     * it returns 0. If the item is rotten the returned value is > 1.
+     */
+    float get_relative_rot();
+    /**
+     * Set the @ref rot to the given relative rot (relative to it_comest::spoils).
+     */
+    void set_relative_rot(float rel_rot);
+private:
+    /**
+     * Accumulated rot of the item. This is compared to it_comest::spoils
+     * to decide weather the item is rotten or not.
+     */
+    int rot;
+    /**
+     * The turn when the rot calculation has been done the last time.
+     */
+    int last_rot_check;
+public:
+    int get_rot() const
+    {
+        return rot;
+    }
+    /**
+     * The turn when this item has been put into a fridge.
+     * 0 if this item is not in a fridge.
+     */
+    int fridge;
+
  int brewing_time();
  bool ready_to_revive(); // used for corpses
  void detonate(point p) const;
@@ -354,9 +397,6 @@ public:
  char invlet;             // Inventory letter
  long charges;
  bool active;             // If true, it has active effects to be processed
- int fridge;              // The turn we entered a fridge.
- int rot;                 // decay; same as turn-bday at 65 degrees, but doubles/halves every 18 degrees. can be negative (start game fridges)
- int last_rot_check;      // last turn we calculated rot
  signed char damage;      // How much damage it's sustained; generally, max is 5
  int burnt;               // How badly we're burnt
  std::bitset<13> covers;  // What body parts it covers

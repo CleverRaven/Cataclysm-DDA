@@ -4664,17 +4664,16 @@ void map::loadn(const int worldx, const int worldy, const int worldz,
               if (it->is_corpse()) {
                   it->calc_rot(point(x,y));
 
-                  //remove corpse after 10 days = 144000 turns (dependent on temperature)
-                  if(it->rot > 144000 && it->can_revive() == false) {
+                  //remove corpse after 10 days (dependent on temperature)
+                  if(it->get_rot() > DAYS( 10 ) && !it->can_revive() ) {
                       it = tmpsub->itm[x][y].erase(it);
                   } else { ++it; intidx++; }
 
                   continue;
               }
               if(it->goes_bad() && biggest_container_idx != intidx) { // you never know...
-                  it_comest *food = dynamic_cast<it_comest*>(it->type);
                   it->calc_rot(point(x,y));
-                  if(it->rot >= (int)(food->spoils * 600)*2) {
+                  if( it->has_rotten_away() ) {
                       it = tmpsub->itm[x][y].erase(it);
                   } else { ++it; intidx++; }
               } else { ++it; intidx++; }

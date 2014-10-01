@@ -184,7 +184,6 @@ void item::init() {
     light = nolight;
     fridge = 0;
     rot = 0;
-    is_rotten = false;
     last_rot_check = 0;
 }
 
@@ -1353,7 +1352,7 @@ int item::price() const
     }
 
     int ret = type->price;
-    if( is_rotten ) {
+    if( rotten() ) {
         // better price here calculation? No value at all?
         ret = type->price / 10;
     }
@@ -1675,17 +1674,49 @@ int item::has_gunmod(itype_id mod_type)
     return -1;
 }
 
-bool item::rotten()
+bool item::rotten() const
 {
-    return is_rotten;
+    const it_comest *comest = dynamic_cast<const it_comest *>( type );
+    if( comest != nullptr && comest->spoils > 0 ) {
+        return rot > static_cast<int>( comest->spoils ) * 600;
+    }
+    return false;
+}
+
+bool item::has_rotten_away() const
+{
+    const it_comest *comest = dynamic_cast<const it_comest *>( type );
+    if( comest != nullptr && comest->spoils > 0 ) {
+        // Twice the regular shelf life and it's gone.
+        return rot > static_cast<int>( comest->spoils ) * 600 * 2;
+    }
+    return false;
+}
+
+float item::get_relative_rot()
+{
+    const it_comest *comest = dynamic_cast<const it_comest *>( type );
+    if( comest != nullptr && comest->spoils > 0 ) {
+        return static_cast<float>( rot ) / comest->spoils;
+    }
+    return 0;
+}
+
+void item::set_relative_rot( float rel_rot )
+{
+    const it_comest *comest = dynamic_cast<const it_comest *>( type );
+    if( comest != nullptr && comest->spoils > 0 ) {
+        rot = rel_rot * comest->spoils;
+        // calc_rot uses last_rot_check (when it's not 0) instead of bday.
+        // this makes sure the rotting starts from now, not from bday.
+        last_rot_check = calendar::turn;
+        fridge = 0;
+        active = !rotten();
+    }
 }
 
 void item::calc_rot(const point &location)
 {
-    if (!is_food() || g == NULL){
-        is_rotten = false;
-        return;
-    }
     const int now = calendar::turn;
     if ( last_rot_check + 10 < now ) {
         const int since = ( last_rot_check == 0 ? bday : last_rot_check );
@@ -1703,14 +1734,11 @@ void item::calc_rot(const point &location)
             rot += (now - fridge) * 0.2;
             fridge = 0;
         }
+        // item stays active to let the item counter work
+        if( item_counter == 0 && rotten() ) {
+            active = false;
+        }
     }
-    it_comest* food = dynamic_cast<it_comest*>(type);
-    if (food->spoils != 0 && (rot > (signed int)food->spoils * 600)) {
-      is_rotten = true;
-    } else {
-      is_rotten = false;
-    }
-    if(is_rotten) {active = false;}
 }
 
 int item::brewing_time()
