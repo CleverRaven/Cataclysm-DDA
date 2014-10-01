@@ -3747,7 +3747,6 @@ void vehicle::shed_loose_parts(std::vector<int>& loose_parts) {
     for( size_t i = 0; i < loose_parts.size(); i++) {
         auto part = &parts[loose_parts[i]];
         auto vpi = &part_info(loose_parts[i]);
-        debugmsg("This is part #%d, a %s at %d,%d", loose_parts[i], part->id.c_str(), part->mount_dx, part->mount_dy);
         if (vpi->has_flag("POWER_TRANSFER")) {
             point local_pos = g->m.getlocal(part->target);
             auto veh = g->m.veh_at(local_pos.x, local_pos.y);
@@ -3757,7 +3756,7 @@ void vehicle::shed_loose_parts(std::vector<int>& loose_parts) {
                 int posx = global_x() + part->precalc_dx[0];
                 int posy = global_y() + part->precalc_dy[0];
                 item drop = part->properties_to_item();
-                g->m.add_item_or_charges(posx, posy, drop, true);
+                g->m.add_item_or_charges(posx, posy, drop);
             }
         }
 

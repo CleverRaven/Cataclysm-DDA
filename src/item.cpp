@@ -3781,6 +3781,7 @@ bool item::process_cable( player *p, point pos )
             p->add_msg_if_player(m_bad, _("You notice the cable has come loose!"));
         }
         reset_cable(p);
+        return false;
     }
 
     point abspos = g->m.getabs(pos.x, pos.y);

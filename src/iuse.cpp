@@ -10409,6 +10409,23 @@ int iuse::cable_attach(player *p, item *it, bool)
         p->moves -= 15;
     }
     else if(initial_state == "pay_out_cable") {
+        int choice = -1;
+        uimenu kmenu;
+        kmenu.selected = 0;
+        kmenu.text = _("Using jumper cable:");
+        kmenu.addentry(0, true, -1, _("Attach loose end of the cable"));
+        kmenu.addentry(1, true, -1, _("Detach and re-spool the cable"));
+        kmenu.addentry(-1, true, 'q', _("Cancel"));
+        kmenu.query();
+        choice = kmenu.ret;
+
+        if(choice == -1) {
+            return 0; // we did nothing.
+        } else if(choice == 1) {
+            it->reset_cable(p);
+            return 0;
+        }
+
         int posx, posy;
         if(!choose_adjacent(_("Attach cable to vehicle where?"),posx,posy)) {
             return 0;
