@@ -283,6 +283,13 @@ class map
   */
  vehicle* veh_at(const int x, const int y);// checks, if tile is occupied by vehicle
 
+ /**
+  * Vehicle-relative coordinates from reality bubble coordinates, if a vehicle
+  * actually exists here.
+  * Returns 0,0 if no vehicle exists there (use veh_at to check if it exists first)
+  */
+ point veh_part_coordinates(const int x, const int y);
+
  // put player on vehicle at x,y
  void board_vehicle(int x, int y, player *p);
  void unboard_vehicle(const int x, const int y);//remove player from vehicle at x,y
