@@ -923,40 +923,40 @@ void Creature::set_stat( STAT stat, int amount )
 {
     switch(stat) {
         case STR:
-            set_str_bonus( amount );
+            str_bonus = amount;
             break;
         case DEX:
-            set_dex_bonus( amount );
+            dex_bonus = amount;
             break;
         case PER:
-            set_per_bonus( amount );
+            per_bonus = amount;
             break;
         case INT:
-            set_int_bonus( amount );
+            int_bonus = amount;
             break;
-        case HEALTH:
-            set_healthy( amount );
+        case HEALTHY:
+            healthy = amount;
             break;
-        case HEALTH_MOD:
-            set_healthy_mod( amount );
+        case HEALTHY_MOD:
+            healthy_mod = amount;
             break;
         case SPEED:
-            set_speed_bonus( amount );
+            speed_bonus = amount;
             break;
         case DODGE:
-            set_dodge_bonus( amount );
+            dodge_bonus = amount;
             break;
         case BLOCK:
-            set_block_bonus( amount );
+            block_bonus = amount;
             break;
         case HIT:
-            set_hit_bonus( amount );
+            hit_bonus = amount;
             break;
         case BASH:
-            set_bash_bonus( amount );
+            bash_bonus = amount;
             break;
         case CUT:
-            set_cut_bonus( amount );
+            cut_bonus = amount;
             break;
         case PAIN:
             break;
@@ -970,46 +970,46 @@ void Creature::mod_stat( STAT stat, int amount )
 {
     switch(stat) {
         case STR:
-            mod_str_bonus( amount );
+            str_bonus += amount;
             break;
         case DEX:
-            mod_dex_bonus( amount );
+            dex_bonus += amount;
             break;
         case PER:
-            mod_per_bonus( amount );
+            per_bonus += amount;
             break;
         case INT:
-            mod_int_bonus( amount );
+            int_bonus += amount;
             break;
-        case HEALTH:
-            mod_healthy( amount );
+        case HEALTHY:
+            healthy += amount;
             break;
-        case HEALTH_MOD:
-            mod_healthy_mod( amount );
+        case HEALTHY_MOD:
+            healthy_mod += amount;
             break;
         case SPEED:
-            mod_speed_bonus( amount );
+            speed_bonus += amount;
             break;
         case DODGE:
-            mod_dodge_bonus( amount );
+            dodge_bonus += amount;
             break;
         case BLOCK:
-            mod_block_bonus( amount );
+            block_bonus += amount;
             break;
         case HIT:
-            mod_hit_bonus( amount );
+            hit_bonus += amount;
             break;
         case BASH:
-            mod_bash_bonus( amount );
+            bash_bonus += amount;
             break;
         case CUT:
-            mod_cut_bonus( amount );
+            cut_bonus += amount;
             break;
         case PAIN:
-            mod_pain( amount );
+            pain += amount;
             break;
         case MOVES:
-            mod_moves( amount );
+            moves += amount;
             break;
         default: break;
     }
