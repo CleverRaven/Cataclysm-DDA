@@ -3587,7 +3587,7 @@
     [ ["chemistry_set", 25]  ]
   ], "components": [
     [
-      [ "gasoline, 125 ]
+      [ "gasoline", 125 ]
     ],
 	[
 	  [ "plastic_chunk", 4 ]
