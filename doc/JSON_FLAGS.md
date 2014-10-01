@@ -679,9 +679,6 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```RELOAD_ONE``` Only reloads one round at a time.
 - ```NO_AMMO``` Does not directly have a loaded ammo type.
 - ```BIO_WEAPON``` Weapon is a CBM weapon, uses power as ammo. (CBM weapons should get both NO_AMMO and BIO_WEAPON, to work correctly).
-- ```USE_UPS``` Uses 5 UPS charges per shot, or 3 advanced UPS charges.
-- ```USE_UPS_20``` Uses 20 UPS charges per shot, or 12 advanced UPS charges.
-- ```USE_UPS_40``` Uses 40 UPS charges per shot, or 24 advanced UPS charges.
 - ```CHARGE``` Has to be charged to fire. Higher charges do more damage.
 - ```NO_UNLOAD``` Cannot be unloaded.
 - ```FIRE_50``` Uses 50 shots per firing.
@@ -700,6 +697,7 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```FIRE``` Counts as a fire for crafting purposes.
 - ```WRAP``` Unused?
 - ```RECHARGE``` Gain charges when placed in a cargo area with a recharge station.
+- ```USE_UPS``` Item is charges from an UPS / it uses the charges of an UPS instead of its own.
 
 ### Use actions
 
