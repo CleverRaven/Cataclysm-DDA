@@ -10395,11 +10395,10 @@ int iuse::cable_attach(player *p, item *it, bool)
             return 0;
         }
         auto veh = g->m.veh_at(posx, posy);
-        if (veh == NULL) {
+        if (veh == nullptr) {
             p->add_msg_if_player(_("There's no vehicle there."));
             return 0;
-        }
-        else {
+        } else {
             point abspos = g->m.getabs(posx, posy);
             it->active = true;
             it->item_vars["state"] = "pay_out_cable";
@@ -10412,6 +10411,38 @@ int iuse::cable_attach(player *p, item *it, bool)
         p->moves -= 15;
     }
     else if(initial_state == "pay_out_cable") {
+        int posx, posy;
+        if(!choose_adjacent(_("Attach cable to vehicle where?"),posx,posy)) {
+            return 0;
+        }
+        auto target_veh = g->m.veh_at(posx, posy);
+        if (target_veh == nullptr) {
+            p->add_msg_if_player(_("There's no vehicle there."));
+            return 0;
+        } else {
+            point source_global(std::stoi(it->item_vars["source_x"]), std::stoi(it->item_vars["source_y"]));
+            point source_local = g->m.getlocal(source_global);
+            auto source_veh = g->m.veh_at(source_local.x, source_local.y);
+
+            point target_global = g->m.getabs(posx, posy);
+            point target_local(posx, posy);
+
+            if(source_veh == nullptr && p->has_item(it)) {
+                p->add_msg_if_player(m_bad, _("You notice the cable has come loose!"));
+                it->reset_cable(p);
+                return 0;
+            }
+
+            point vcoords = g->m.veh_part_coordinates(source_local.x, source_local.y);
+            int new_part = source_veh->install_part(vcoords.x, vcoords.y, "jumper_cable", -1, true);
+            source_veh->parts[new_part].target = target_global;
+
+            vcoords = g->m.veh_part_coordinates(target_local.x, target_local.y);
+            new_part = target_veh->install_part(vcoords.x, vcoords.y, "jumper_cable", -1, true);
+            target_veh->parts[new_part].target = source_global;
+
+            return 1; // Let the cable be destroyed.
+        }
     }
 
     return 0;
