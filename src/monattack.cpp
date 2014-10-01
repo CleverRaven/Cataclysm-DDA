@@ -2181,7 +2181,7 @@ void mattack::tank_tur(monster *z)
     npc tmp;
     tmp.name = _("The ") + z->name();
     tmp.set_fake(true);
-    // kevingranade	KA101: yes, but make it really inaccurate
+    // kevingranade KA101: yes, but make it really inaccurate
     // Sure thing.
     tmp.skillLevel("launcher").level(2);
     tmp.skillLevel("gun").level(2);

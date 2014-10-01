@@ -485,23 +485,11 @@
   "time": 18000,
   "reversible": false,
   "autolearn": true,
-  "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "tools": [
-    [
-      [ "dehydrator", 25 ],
-      [ "char_smoker", 5 ]
-    ]
-  ],
-  "components": [
-    [
-	    [ "egg_bird", 12 ],
-	    [ "egg_reptile", 12 ]
-    ]
-  ]
+  "qualities" : [ {"id":"CUT","level":1,"amount":1} ],
+  "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 5 ] ] ],
+  "components": [ [ [ "egg_bird", 12 ], [ "egg_reptile", 12 ] ] ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "fish_fried",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -1012,7 +1000,7 @@
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
-	{"id":"COOK","level":1,"amount":1}
+    {"id":"COOK","level":1,"amount":1}
   ],
   "tools" : [
     [
@@ -1044,7 +1032,7 @@
   "book_learn": [[ "cookbook_human", 4 ]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
-	{"id":"COOK","level":1,"amount":1}
+    {"id":"COOK","level":1,"amount":1}
   ],
   "tools" : [
     [
@@ -1127,7 +1115,7 @@
   "book_learn": [[ "cookbook_human", 4 ]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
-	{"id":"COOK","level":1,"amount":1}
+    {"id":"COOK","level":1,"amount":1}
   ],
   "tools" : [
     [
@@ -2652,18 +2640,18 @@
       [ "bone", 4 ]
     ],
     [
-    	[ "meat", 1 ],
-    	[ "fish", 1 ],
-    	[ "can_tuna", 1 ],
-    	[ "can_sardine", 1 ],
-    	[ "veggy_wild", 1 ],
-    	[ "zucchini", 1],
-    	[ "tomato", 1]
+        [ "meat", 1 ],
+        [ "fish", 1 ],
+        [ "can_tuna", 1 ],
+        [ "can_sardine", 1 ],
+        [ "veggy_wild", 1 ],
+        [ "zucchini", 1],
+        [ "tomato", 1]
 
     ],
     [
-    	[ "water_clean", 1],
-    	[ "water", 1]
+        [ "water_clean", 1],
+        [ "water", 1]
     ]
   ]
 },{
@@ -3247,22 +3235,11 @@
     ]
   ],
   "components": [
-    [
-      [ "flour", 3 ]
-    ],
-    [
-      [ "water", 2 ],
-      [ "water_clean", 2 ]
-    ],
-    [
-    	[ "chocolate", 1]
-    ],
-    [
-    	[ "powder_eggs", 1]
-    ],
-    [
-    	[ "weed", 5]
-    ]
+    [ [ "flour", 3 ] ],
+    [ [ "water", 2 ], [ "water_clean", 2 ] ],
+    [ [ "chocolate", 1] ],
+    [ [ "powder_eggs", 1] ],
+    [ [ "weed", 5] ]
   ]
 },{
         "type" : "recipe",
@@ -3495,7 +3472,7 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2,"amount":1},
-	  {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 2 ],
@@ -3546,7 +3523,7 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2,"amount":1},
-	  {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 2 ],
@@ -3622,7 +3599,7 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2,"amount":1},
-	  {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 2 ],
@@ -3668,7 +3645,7 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2,"amount":1},
-	  {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 2 ],
@@ -3742,7 +3719,7 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2,"amount":1},
-	  {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 2 ],
@@ -3796,7 +3773,7 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2,"amount":1},
-	  {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 2 ],
@@ -6182,7 +6159,7 @@
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
-	{"id":"COOK","level":2,"amount":1}
+    {"id":"COOK","level":2,"amount":1}
   ],
   "tools": [
     [
@@ -7979,9 +7956,9 @@
     ],
     [
       [ "sugar", 1 ],
-	  [ "honey_bottled", 1 ],
-	  [ "honey_glassed", 1 ],
-	  [ "honeycomb", 1 ]
+      [ "honey_bottled", 1 ],
+      [ "honey_glassed", 1 ],
+      [ "honeycomb", 1 ]
     ]
   ]
 }

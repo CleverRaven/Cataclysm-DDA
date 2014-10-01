@@ -378,7 +378,7 @@ class game
         int get_abs_levy() const;
         int get_abs_levz() const;
         player u;
-	scenario* scen;
+        scenario *scen;
         std::vector<monster> coming_to_stairs;
         int monstairx, monstairy, monstairz;
         std::vector<npc *> active_npc;

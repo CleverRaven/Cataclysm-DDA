@@ -325,7 +325,7 @@ void player::serialize(JsonOut &json) const
         json.member( "profession", prof->ident() );
     }
     if ( g->scen != NULL ) {
-	json.member( "scenario", g->scen->ident() );
+        json.member( "scenario", g->scen->ident() );
     }
     // someday, npcs may drive
     json.member( "driving_recoil", int(driving_recoil) );

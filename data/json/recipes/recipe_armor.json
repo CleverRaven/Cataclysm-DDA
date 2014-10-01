@@ -6457,24 +6457,18 @@
     "time": 40000,
     "reversible": false,
     "autolearn": false,
-	"book_learn": [ ["textbook_weapwest", 5], ["textbook_weapeast", 5], ["textbook_armwest", 5], ["textbook_armeast", 5] ],
-	"qualities":[
-      {"id":"HAMMER","level":1,"amount":1},
-	  {"id":"CUT","level":1,"amount":1}
-	],
+    "book_learn": [
+        ["textbook_weapwest", 5], ["textbook_weapeast", 5],
+        ["textbook_armwest", 5], ["textbook_armeast", 5] ],
+    "qualities":[
+        {"id":"HAMMER","level":1,"amount":1},
+	{"id":"CUT","level":1,"amount":1}
+    ],
     "components": [
-      [
-        [ "leather", 10 ]
-      ],
-      [
-        ["superglue", 1]
-      ],
-      [
-        ["2x4", 2]
-      ],
-      [
-        ["nail", 5]
-      ]
+        [ [ "leather", 10 ] ],
+        [ ["superglue", 1] ],
+        [ ["2x4", 2] ],
+        [ ["nail", 5] ]
     ]
   },
   {
@@ -6495,10 +6489,8 @@
         [ "sewing_kit", 20 ]
       ]
     ],
-     "components": [
-      [
-        [ "leather", 6 ]
-      ],
+    "components": [
+      [ [ "leather", 6 ] ],
       [
         [ "string_36", 1 ],
         [ "string_6", 6 ],

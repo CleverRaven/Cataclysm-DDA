@@ -74,11 +74,11 @@
                 { "point": "terrain", "id": "t_dirt",      "x": 23,        "y": [ 0,23 ], "repeat": [ 5,10 ] },
                 { "point": "terrain", "id": "t_dirt",      "x": [ 0,23 ],  "y": 23,       "repeat": [ 5,8 ] },
                 { "point": "terrain", "id": "t_tree_pine", "x": [ 0,5 ],   "y": 0,        "repeat": [ 0,1 ] },
-				{ "point": "terrain", "id": "t_tree_pine", "x": [ 18,23 ], "y": 0,        "repeat": [ 0,1 ] },
-				{ "point": "terrain", "id": "t_shrub", "x": 0,             "y": [ 2,19 ], "repeat": [ 1,4 ] },
-				{ "point": "terrain", "id": "t_shrub", "x": 23,            "y": [ 2,19 ], "repeat": [ 1,4 ] },
-				{ "point": "terrain", "id": "t_tree_pine", "x": 0,         "y": [ 2,19 ], "repeat": [ 0,2 ] },
-				{ "point": "terrain", "id": "t_tree_pine", "x": 23,        "y": [ 2,19 ], "repeat": [ 0,2 ] }
+                { "point": "terrain", "id": "t_tree_pine", "x": [ 18,23 ], "y": 0,        "repeat": [ 0,1 ] },
+                { "point": "terrain", "id": "t_shrub", "x": 0,             "y": [ 2,19 ], "repeat": [ 1,4 ] },
+                { "point": "terrain", "id": "t_shrub", "x": 23,            "y": [ 2,19 ], "repeat": [ 1,4 ] },
+                { "point": "terrain", "id": "t_tree_pine", "x": 0,         "y": [ 2,19 ], "repeat": [ 0,2 ] },
+                { "point": "terrain", "id": "t_tree_pine", "x": 23,        "y": [ 2,19 ], "repeat": [ 0,2 ] }
             ],
             "place_groups": [
                 { "vehicle": "flatbed_truck", "chance": 50, "x": 12,        "y": 13, "rotation": 270 },

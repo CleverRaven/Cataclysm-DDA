@@ -1505,7 +1505,8 @@ int player::run_cost(int base_cost, bool diag)
             movecost *= 1.5f;
         }
     }
-	// Quad skates might be more stable than inlines, but that also translates into a slower speed when on good surfaces.
+    // Quad skates might be more stable than inlines,
+    // but that also translates into a slower speed when on good surfaces.
     if ( (is_wearing("rollerskates")) && !(is_on_ground())) {
         if (offroading) {
             movecost *= 1.0f + (0.15f * shoe_type_count("rollerskates"));
@@ -9295,7 +9296,7 @@ void player::use(int pos)
         }
         if( used->has_flag( "USE_UPS" ) ) {
             use_charges( "UPS", charges_used );
-	    //Replace 1 with charges it needs to use.
+            //Replace 1 with charges it needs to use.
             if( used->active && !has_active_UPS() && used->charges <= 1  ) {
                 add_msg_if_player( m_info, _( "You need an active UPS of some kind for this %s to work continuously." ), used->tname().c_str() );
             }
