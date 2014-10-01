@@ -2290,7 +2290,7 @@
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
   "skill_used": "electronics",
-  "skill_sec": ["mechanics",6],
+  "skills_required": ["mechanics",6],
   "difficulty": 9,
   "time": 36000,
   "reversible": false,
@@ -4492,6 +4492,28 @@
     ],
     [
       [ "nail", 20 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "ugl_buttstock",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "skills_required": [ "launcher", 3 ],
+  "difficulty": 3,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"SAW_W","level":1,"amount":1},
+    {"id":"SCREW","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "2x4", 2 ],
+      [ "stick", 2 ]
+    ],
+    [
+      [ "scrap", 1 ]
     ]
   ]
 }

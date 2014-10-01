@@ -4257,5 +4257,32 @@
     "clip_size": 1,
     "reload": 1000,
     "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+  },{
+    "id": "rm298",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "dark_gray",
+    "name": "RM298 HMG",
+    "name_plural": "RM298 HMG",
+    "description": "Utilizing a powerful and unusual caliber, the Rivtech RM298 heavy machine gun was designed for durability and extreme volume of sustained fire under the worst possible circumstances. Needs to be mounted because of extreme recoil.",
+    "price": 7500000,
+    "material": ["superalloy", "ceramic"],
+    "flags": ["MODE_BURST", "WATERPROOF_GUN", "NEVER_JAMS", "MOUNTED_GUN"],
+    "skill": "rifle",
+    "ammo": "8x40mm",
+    "weight": 24500,
+    "volume": 26,
+    "bashing": 18,
+    "cutting": 0,
+    "to_hit": -4,
+    "ranged_damage": 10,
+    "range": -6,
+    "dispersion": 24,
+    "recoil": 14,
+    "durability": 9,
+    "burst": 30,
+    "clip_size": 600,
+    "reload": 2250,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   }
 ]

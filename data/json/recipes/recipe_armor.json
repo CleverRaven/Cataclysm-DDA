@@ -6900,5 +6900,20 @@
      [ "rag", 4 ]
     ]
    ]
+},{
+  "type" : "recipe",
+  "result": "helmet_netting",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "time": 18000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "thread", 500 ], [ "sinew", 500], [ "plant_fibre", 500]
+    ]
+  ]
 }
 ]
