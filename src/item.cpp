@@ -3767,8 +3767,9 @@ bool item::process_litcig( player *carrier, point pos )
 
 bool item::process_cable( player *p, point pos )
 {
-    if(item_vars["state"] != "pay_out_cable")
+    if( item_vars["state"] != "pay_out_cable" ) {
         return false;
+    }
 
     int source_x = std::stoi(item_vars["source_x"]);
     int source_y = std::stoi(item_vars["source_y"]);
@@ -3781,15 +3782,21 @@ bool item::process_cable( player *p, point pos )
 
     if( charges < 1 && p != nullptr && p->has_item(this) ) {
         p->add_msg_if_player(m_bad, _("The over-extended cable breaks loose!"));
-
-        p->add_msg_if_player(m_info, _("You reel in the cable."));
-        item_vars["state"] = "attach_first";
-        active = false;
-        charges = max_charges;
-        p->moves -= charges * 10;
+        reset_cable(p);
     }
 
     return false;
+}
+
+void item::reset_cable( player* p )
+{
+    int max_charges = type->maximum_charges();
+
+    p->add_msg_if_player(m_info, _("You reel in the cable."));
+    item_vars["state"] = "attach_first";
+    active = false;
+    charges = max_charges;
+    p->moves -= charges * 10;
 }
 
 bool item::process_wet( player * /*carrier*/, point /*pos*/ )
@@ -3950,8 +3957,7 @@ bool item::process( player *carrier, point pos )
     }
     if( has_flag( "CABLE_SPOOL" ) ) {
         // DO NOT process this as a tool! It really isn't!
-        process_cable(carrier, pos);
-        return false;
+        return process_cable(carrier, pos);
     }
     if( is_tool() && process_tool( carrier, pos ) ) {
         return true;
