@@ -2614,7 +2614,7 @@ void overmap::make_hiway(int x1, int y1, int x2, int y2, int z, const std::strin
         return;
     }
 
-    std::priority_queue<node> nodes[2];
+    std::priority_queue<node, std::deque<node> > nodes[2];
     bool closed[OMAPX][OMAPY] = {{false}};
     int open[OMAPX][OMAPY] = {{0}};
     int dirs[OMAPX][OMAPY] = {{0}};
