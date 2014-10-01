@@ -1115,22 +1115,12 @@ nc_color item::color(player *u) const
         ammotype amtype = ammo_type();
         if (u->has_ammo(amtype).size() > 0)
             ret = c_green;
-    } else if (is_food() || is_food_container()) { // Rotten food shows up as a brown color
-        if (!is_food_container()) {
-            const item* food = NULL;
-            food = this;
-            if (const_cast<item*>(food)->rotten()) {
-                ret = c_brown;
-            }
-        } else {
-            if (!contents.empty()) {
-                const item* food = NULL;
-                food = &contents[0];
-                if (const_cast<item*>(food)->rotten()) {
-                    ret = c_brown;
-                }
-            }
-        }
+    } else if (is_food()) { // Rotten food shows up as a brown color
+        if (const_cast<item*>(this)->rotten())
+            ret = c_brown;
+    } else if (is_food_container()) {
+        if (const_cast<item*>(&contents[0])->rotten())
+            ret = c_brown;
     } else if (is_ammo()) { // Likewise, ammo is green if you have guns that use it
         ammotype amtype = ammo_type();
         if (u->weapon.is_gun() && u->weapon.ammo_type() == amtype) {
