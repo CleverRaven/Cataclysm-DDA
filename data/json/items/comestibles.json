@@ -13,7 +13,7 @@
         "name": "water",
         "name_plural": "water",
         "description": "Water, the stuff of life, the best thirst-quencher available.",
-        "price": 5000,
+        "price": 0,
         "weight": 250,
         "volume": 1,
         "bashing": 0,

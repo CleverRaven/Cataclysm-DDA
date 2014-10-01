@@ -776,6 +776,8 @@ class game
         void activity_on_finish_vehicle();
         void activity_on_finish_make_zlave();
 
+        void move_save_to_graveyard();
+        bool save_player_data();
 };
 
 #endif

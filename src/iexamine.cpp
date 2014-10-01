@@ -555,13 +555,20 @@ void iexamine::chainfence( player *p, map *m, int examx, int examy )
     } else if( p->has_trait( "INSECT_ARMS_OK" ) && !p->wearing_something_on( bp_torso ) ) {
         add_msg( _( "You quickly scale the fence." ) );
         p->moves -= 90;
+    } else if( p->has_trait( "PARKOUR" ) ) {
+        add_msg( _( "The fence is no match for your freerunning abilities." ) );
+        p->moves -= 100;
     } else {
         p->moves -= 400;
-        if( one_in( p->dex_cur ) ) {
+        int climb = p->dex_cur;
+        if (p->has_trait( "BADKNEES" )) {
+            climb = climb / 2;
+        }
+        if( one_in( climb ) ) {
             add_msg( m_bad, _( "You slip while climbing and fall down again." ) );
             return;
         }
-        p->moves += p->dex_cur * 10;
+        p->moves += climb * 10;
     }
     if( p->in_vehicle ) {
         m->unboard_vehicle( p->posx, p->posy );

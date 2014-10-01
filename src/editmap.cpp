@@ -1698,7 +1698,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
                             destsm->camp = srcsm->camp;
 
                             if ( spawns_todo > 0 ) {                              // trigger spawnpoints
-                                g->m.spawn_monsters();
+                                g->m.spawn_monsters( true );
                             }
                         }
                     }

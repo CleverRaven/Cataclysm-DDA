@@ -155,7 +155,7 @@ void event::actualize()
       }
      }
      tries++;
-    } while ((monx == -1 || mony == -1 || g->is_empty(monx, mony)) &&
+    } while ((monx == -1 || mony == -1 || !g->is_empty(monx, mony)) &&
              tries < 10);
     if (tries < 10) {
      horror.spawn(monx, mony);
