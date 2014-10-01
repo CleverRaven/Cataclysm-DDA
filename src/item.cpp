@@ -1,4 +1,4 @@
-#include "item.h"
+﻿#include "item.h"
 #include "player.h"
 #include "output.h"
 #include "skill.h"
@@ -1477,19 +1477,19 @@ int item::volume(bool unit_value, bool precise_value ) const
     if (corpse != NULL && typeId() == "corpse" ) {
         switch (corpse->size) {
             case MS_TINY:
-                ret = 2;
+                ret = 3;
                 break;
             case MS_SMALL:
-                ret = 40;
+                ret = 120;
                 break;
             case MS_MEDIUM:
-                ret = 75;
+                ret = 250;
                 break;
             case MS_LARGE:
-                ret = 160;
+                ret = 370;
                 break;
             case MS_HUGE:
-                ret = 600;
+                ret = 3500;
                 break;
         }
         if ( precise_value == true ) {
