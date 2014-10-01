@@ -623,8 +623,6 @@ void curses_drawwindow(WINDOW *win)
     bool update = false;
 #ifdef SDLTILES
     if (g && win == g->w_terrain && use_tiles) {
-        int sx, sy;
-
         // game::w_terrain can be drawn by the tilecontext.
         // skip the normal drawing code for it.
         tilecontext->draw(
