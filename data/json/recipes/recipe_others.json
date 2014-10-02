@@ -88,6 +88,25 @@
   ]
 },{
   "type" : "recipe",
+  "result": "skewer",
+  "result_mult": 12,
+  "id_suffix": "TEST",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER",
+  "skill_used": "fabrication",
+  "difficulty": 0,
+  "time": 100,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "2x4", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "caltrops",
   "id_suffix": "from wire",
   "category": "CC_OTHER",
