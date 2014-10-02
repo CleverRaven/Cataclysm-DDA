@@ -14,9 +14,6 @@
 #include <string>
 #include <unordered_map>
 
-// stat enum
-enum STAT { STR, DEX, PER, INT, HEALTHY, HEALTHY_MOD, SPEED, DODGE, BLOCK, HIT, BASH, CUT, PAIN, MOVES };
-
 class game;
 class JsonObject;
 class JsonOut;

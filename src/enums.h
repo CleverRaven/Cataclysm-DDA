@@ -7,6 +7,9 @@
 #define sgn(x) (((x) < 0) ? -1 : 1)
 #endif
 
+// stat enum
+enum STAT { STR, DEX, PER, INT, HEALTHY, HEALTHY_MOD, SPEED, DODGE, BLOCK, HIT, BASH, CUT, PAIN, MOVES };
+
 enum phase_id {
     PNULL, SOLID, LIQUID, GAS, PLASMA
 };
