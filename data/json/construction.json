@@ -143,6 +143,7 @@
         "post_special" : "done_trunk_plank"
     },{
         "type" : "construction",
+        "skill" : "survival",
         "description" : "Build Improvised Shelter",
         "category" : "CONSTRUCT",
         "difficulty" : 2,
