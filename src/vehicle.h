@@ -446,7 +446,11 @@ public:
 
     void power_parts ();
 
-    void charge_battery (int amount);
+    /**
+     * Try to charge our (and, optionally, connected vehicles') batteries by the given amount.
+     * @return amount of charge left over.
+     */
+    int charge_battery (int amount, bool recurse = true);
 
     int discharge_battery (int amount);
 
