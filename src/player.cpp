@@ -795,7 +795,6 @@ void player::update_bodytemp()
     // Converts temperature to Celsius/10(Wito plans on using degrees Kelvin later)
     int Ctemperature = 100*(g->get_temperature() - 32) * 5/9;
     w_point weather = g->weatherGen.get_weather(pos(), calendar::turn);
-    int pressure = weather.pressure;
     int relativeHumidity = weather.humidity;
     int vpart = -1;
     vehicle *veh = g->m.veh_at (posx, posy, vpart);
@@ -902,7 +901,7 @@ void player::update_bodytemp()
     {
         // This adjusts the temperature scale to match the bodytemp scale -- it needs to be reset every iteration
         int adjusted_temp = (Ctemperature - ambient_norm);
-        int bpWindPower = (float)(windPower*0.44704); // Conver to meters per second
+        int bpWindPower = windPower;
         int bpRelHum = relativeHumidity;
         // Skip eyes
         if (i == bp_eyes) { continue; }
@@ -933,18 +932,18 @@ void player::update_bodytemp()
         {
             bpRelHum = 100;
         }
-        /// Source : http://en.wikipedia.org/wiki/Wind_chill#Australian_Apparent_Temperature
-        int windChill = (0.33 * ((bpRelHum / 100.00) * 6.105 * exp((17.27 * Ctemperature/100)/(237.70 + Ctemperature/100))) - 0.70*bpWindPower - 4.00);               
+        // Calculate windchill
+        int windchill = g->weatherGen.get_windchill(weather.temperature, bpRelHum, bpWindPower, vehwindspeed);
         // If you're standing in water, air temperature is replaced by water temperature. No wind.
-        int water_temperature = 100 * (g->get_water_temperature() - 32) * 5/9;
+        int water_temperature = 100 * (g->get_water_temperature() - 32) * 5/9; // Convert to C.
         if ( (ter_at_pos == t_water_dp || ter_at_pos == t_water_pool || ter_at_pos == t_swater_dp) ||
             ((ter_at_pos == t_water_sh || ter_at_pos == t_swater_sh || ter_at_pos == t_sewage) &&
             (i == bp_foot_l || i == bp_foot_r || i == bp_leg_l || i == bp_leg_r)) ) {
             adjusted_temp += water_temperature - Ctemperature; // Swap out air temp for water temp.
-            windChill = 0;
+            windchill = 0;
         }
         // Convergeant temperature is affected by ambient temperature, clothing warmth, and body wetness.
-        temp_conv[i] = BODYTEMP_NORM + adjusted_temp + windChill*100 + clothing_warmth_adjustement;
+        temp_conv[i] = BODYTEMP_NORM + adjusted_temp + windchill*100 + clothing_warmth_adjustement;
         // HUNGER
         temp_conv[i] -= hunger/6 + 100;
         // FATIGUE
@@ -1299,7 +1298,7 @@ void player::update_bodytemp()
             int wetness_percentage = 100 * body_wetness[i] / mDrenchEffect.at(i); // 0 - 100
             // Warmth gives a slight buff to temperature resistance
             // Wetness gives a heavy nerf to tempearture resistance
-            int Ftemperature = g->get_temperature() + warmth((body_part)i)*0.2 - 20 * wetness_percentage / 100; 
+            int Ftemperature = g->get_temperature() + warmth((body_part)i)*0.2 - 20 * wetness_percentage / 100;
             // Windchill reduced by your armor
             int FBwindPower = windPower * (1 - get_wind_resistance(body_part(i))/100.0);
             // This has been broken down into 8 zones
@@ -1318,7 +1317,7 @@ void player::update_bodytemp()
                      (Ftemperature < -5 && FBwindPower < 10) ||
                      (Ftemperature < -5 && FBwindPower >= 10 && -4*Ftemperature + 3*FBwindPower - 170 >= 0) )
             {
-                frostbite_timer[i] += 8;                
+                frostbite_timer[i] += 8;
                 if (one_in(100) && disease_intensity("frostbite", false, (body_part)i) != 1) {
                     add_msg(m_bad, _("Your %s will be frostbitten within the hour!"), body_part_name(body_part(i)).c_str());
                 }
@@ -1340,7 +1339,7 @@ void player::update_bodytemp()
 
             // Handle the bestowing of frostbite
             if (frostbite_timer[i] < 0) frostbite_timer[i] = 0;
-            else if (frostbite_timer[i] > 4200) frostbite_timer[i] = 4200; // This ensures that the player will recover in at most 3 hours.            
+            else if (frostbite_timer[i] > 4200) frostbite_timer[i] = 4200; // This ensures that the player will recover in at most 3 hours.
             if (frostbite_timer[i] == 0)
             {
                 rem_disease("frostbite", (body_part)i);

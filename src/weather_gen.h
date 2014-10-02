@@ -34,5 +34,7 @@ class weather_generator
         weather_type get_weather_conditions(const point &, const calendar &);
         weather_type get_weather_conditions(const w_point &) const;
         void test_weather();
+        // Windchill has to be calculated on demand
+        int get_windchill(double temperature, double humidity, double windpower, int bonus_wind = 0);
 };
 #endif

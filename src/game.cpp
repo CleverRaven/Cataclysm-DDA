@@ -5275,17 +5275,17 @@ void game::draw_sidebar()
     } else {
         mvwprintz(w_location, 0, 18, weather_data[weather].color, "%s", weather_data[weather].name.c_str());
     }
-   
+
     int display_temp = get_temperature(); // Fahrenheit
     display_temp = (display_temp - 32.0) * 5/9; // Convert to C
     // Apply windchill
     w_point weatherPoint = weatherGen.get_weather(u.pos(), calendar::turn);
     int windSpeed = weatherPoint.windpower;
     int relHum = weatherPoint.humidity;
-    int windchill = (0.33 * ((relHum / 100.00) * 6.105 * exp((17.27 * display_temp/100)/(237.70 + display_temp/100))) - 0.70*windSpeed - 4.00);
+    int windchill = weatherGen.get_windchill(weatherPoint.temperature, weatherPoint.humidity, weatherPoint.windpower);
     display_temp += windchill;
     display_temp = 32.0 + display_temp * 9/5; // Convert to F
-    
+
     nc_color col_temp = c_blue;
     if (display_temp >= 90) {
         col_temp = c_red;
@@ -5298,7 +5298,7 @@ void game::draw_sidebar()
     } else if (display_temp > 32) {
         col_temp = c_ltblue;
     }
-    
+
     wprintz( w_location, col_temp, " %s", print_temperature( display_temp ).c_str());
     wrefresh(w_location);
 

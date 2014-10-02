@@ -142,3 +142,19 @@ void weather_generator::test_weather()
     testfile.close();
     //debugmsg("Starting season: %s", ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue().c_str());
 }
+
+int weather_generator::get_windchill(double temperature, double humidity, double windpower, int bonus_wind)
+{
+    int tmpwind = windpower;
+    tmpwind += bonus_wind;
+    tmpwind = (float)(tmpwind*0.44704); // Conver to meters per second
+    int Ctemperature = (temperature - 32) * 5/9; // Convert to celsius
+
+    /// Source : http://en.wikipedia.org/wiki/Wind_chill#Australian_Apparent_Temperature
+    int windchill = (0.33 * ((humidity / 100.00) * 6.105 * exp((17.27 * Ctemperature)/(237.70 + Ctemperature))) - 0.70*tmpwind - 4.00);
+
+    windchill = 32 + windchill * 9/5; // Convert to Fahrenheit
+
+    return windchill;
+
+}
