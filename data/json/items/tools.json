@@ -5299,6 +5299,29 @@
   },
 
   {
+    "id": "survival_marker",
+    "type": "TOOL",
+    "symbol": ",",
+    "color": "dark_gray",
+    "name": "survival marker",
+    "description": "This is a sharpened piece of charcoal that is almost guaranteed to make your hands all covered in charcoal. Use it to write something down.",
+    "price": 1000,
+    "material": "plastic",
+    "weight": 113,
+    "volume": 0,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": 0,
+    "max_charges": 100,
+    "initial_charges": 100,
+    "charges_per_use": 1,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "SPRAY_CAN"
+  },
+
+  {
     "id": "rag",
     "type": "TOOL",
     "symbol": ",",
