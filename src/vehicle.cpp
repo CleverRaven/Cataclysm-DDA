@@ -635,10 +635,12 @@ void vehicle::use_controls()
         }
         break;
     case toggle_overhead_lights:
-        if( !overhead_lights_on || fuel_left(fuel_type_battery) ) {
-            overhead_lights_on = !overhead_lights_on;
-            add_msg((overhead_lights_on) ? _("Overhead lights turned on") :
-                       _("Overhead lights turned off"));
+        if( overhead_lights_on ) {
+            overhead_lights_on = false;
+            add_msg(_("Overhead lights turned off"));
+        } else if( fuel_left(fuel_type_battery) ) {
+            overhead_lights_on = true;
+            add_msg(_("Overhead lights turned on"));
         } else {
             add_msg(_("The lights won't come on!"));
         }
@@ -651,19 +653,23 @@ void vehicle::use_controls()
         cycle_turret_mode();
         break;
     case toggle_fridge:
-        if( !fridge_on || fuel_left(fuel_type_battery) ) {
-            fridge_on = !fridge_on;
-            add_msg((fridge_on) ? _("Fridge turned on") :
-                       _("Fridge turned off"));
+        if( fridge_on ) {
+            fridge_on = false;
+            add_msg(_("Fridge turned off"));
+        } else if (fuel_left(fuel_type_battery)) {
+            fridge_on = true;
+            add_msg(_("Fridge turned on"));
         } else {
             add_msg(_("The fridge won't turn on!"));
         }
         break;
     case toggle_recharger:
-        if( !recharger_on || fuel_left(fuel_type_battery) ) {
-            recharger_on = !recharger_on;
-            add_msg((recharger_on) ? _("Recharger turned on") :
-                       _("Recharger turned off"));
+        if( recharger_on ) {
+            recharger_on = false;
+            add_msg(_("Recharger turned off"));
+        } else if (fuel_left(fuel_type_battery)) {
+            recharger_on = true;
+            add_msg(_("Recharger turned on"));
         } else {
             add_msg(_("The recharger won't turn on!"));
         }
