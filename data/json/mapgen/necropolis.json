@@ -1990,7 +1990,7 @@
                 "x": "t_grass",
                 "Y": "t_floor",
                 "y": "t_window_boarded",
-                "Z": "t_floor",
+                "Z": "t_sidewalk",
                 "z": "t_floor",
                 "]": "t_dirt"
             },
