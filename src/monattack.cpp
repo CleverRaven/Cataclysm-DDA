@@ -1762,6 +1762,11 @@ void mattack::photograph(monster *z)
 
 void mattack::tazer(monster *z)
 {
+    if (z->friendly != 0) {
+      // friendly
+      return;
+    }
+ 
     int j;
     if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 2 ||
         !g->sees_u(z->posx(), z->posy(), j)) {
@@ -2441,6 +2446,11 @@ void mattack::searchlight(monster *z)
 
 void mattack::flamethrower(monster *z)
 {
+    if (z->friendly != 0) {
+      // friendly
+      return;
+    }
+ 
     int t;
     if (abs(g->u.posx - z->posx()) > 5 || abs(g->u.posy - z->posy()) > 5 ||
         !g->sees_u(z->posx(), z->posy(), t)) {
