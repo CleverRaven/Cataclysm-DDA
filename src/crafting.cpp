@@ -957,15 +957,21 @@ static void draw_recipe_subtabs(WINDOW *w, craft_cat tab, craft_subcat subtab, T
 
 int recipe::print_items(WINDOW *w, int ypos, int xpos, nc_color col, int batch)
 {
-    if(!has_byproducts()) {
-        return 0;
-    }
-
     const int oldy = ypos;
 
-    mvwprintz(w, ypos++, xpos, col, _( "Byproducts:" ));
-    for (auto &bp : byproducts) {
-        print_item(w, ypos++, xpos, col, bp, batch);
+    item it(result, calendar::turn, false);
+    mvwprintz(w, ypos++, xpos, col, _( "Result:" ));
+    std::string str = string_format(_("> %d %s"), (it.charges > 0) ? result_mult : result_mult * batch, it.tname().c_str());
+    if (it.charges > 0) {
+        str = string_format(_("%s (%d)"), str.c_str(), it.charges * result_mult * batch);
+    }
+    mvwprintz(w, ypos++, xpos, col, str.c_str());
+
+    if(has_byproducts()) {
+        mvwprintz(w, ypos++, xpos, col, _( "Byproducts:" ));
+        for (auto &bp : byproducts) {
+            print_item(w, ypos++, xpos, col, bp, batch);
+        }
     }
 
     return ypos - oldy;
@@ -1180,7 +1186,7 @@ std::vector<item> recipe::create_results(int batch, int handed) const
 
     bool charges = item_controller->find_template(result)->count_by_charges();
     if (!charges) {
-        for (int i = 0; i < batch; i++) {
+        for (int i = 0; i < batch * result_mult; i++) {
             item newit = create_result(handed);
             items.push_back(newit);
         }
