@@ -114,6 +114,7 @@ void load_recipe(JsonObject &jsobj)
     int learn_by_disassembly = jsobj.get_int("decomp_learn", -1);
     int result_mult = jsobj.get_int("result_mult", 1);
     bool paired = jsobj.get_bool("paired", false);
+    std::string container = jsobj.get_string("container", "null");
 
     std::map<std::string, int> requires_skills;
     jsarr = jsobj.get_array("skills_required");
@@ -155,7 +156,7 @@ void load_recipe(JsonObject &jsobj)
 
     recipe *rec = new recipe(rec_name, id, result, category, subcategory, skill_used,
                              requires_skills, difficulty, reversible, autolearn,
-                             learn_by_disassembly, result_mult, paired, bps);
+                             learn_by_disassembly, result_mult, paired, container, bps);
     rec->load(jsobj);
 
     jsarr = jsobj.get_array("book_learn");
@@ -959,12 +960,21 @@ int recipe::print_items(WINDOW *w, int ypos, int xpos, nc_color col, int batch)
 {
     const int oldy = ypos;
 
-    item it(result, calendar::turn, false);
     mvwprintz(w, ypos++, xpos, col, _( "Result:" ));
-    std::string str = string_format(_("> %d %s"), (it.charges > 0) ? result_mult : result_mult * batch, it.tname().c_str());
-    if (it.charges > 0) {
-        str = string_format(_("%s (%d)"), str.c_str(), it.charges * result_mult * batch);
+
+    item it(result, calendar::turn, false);
+    item cont(container, calendar::turn, false);
+    std::string str;
+    if (cont.is_null()) {
+        str = string_format(_("> %d %s"), (it.charges > 0) ? result_mult : result_mult * batch, it.tname().c_str());
+        if (it.charges > 0) {
+            str = string_format(_("%s (%d)"), str.c_str(), it.charges * result_mult * batch);
+        }
+    } else {
+        int amount = (it.charges > 0) ? it.charges * result_mult : result_mult;
+        str = string_format(_("> %d %s of %s (%d)"), batch, cont.tname(batch).c_str(), it.tname(amount).c_str(), amount);
     }
+
     mvwprintz(w, ypos++, xpos, col, str.c_str());
 
     if(has_byproducts()) {
@@ -1186,14 +1196,26 @@ std::vector<item> recipe::create_results(int batch, int handed) const
 
     bool charges = item_controller->find_template(result)->count_by_charges();
     if (!charges) {
-        for (int i = 0; i < batch * result_mult; i++) {
-            item newit = create_result(handed);
-            items.push_back(newit);
+        for (int i = 0; i < batch; i++) {
+            item cont(container, calendar::turn, false);
+            std::vector<item> &v = (cont.is_null()) ? items : cont.contents;
+            for (int j = 0; j <  result_mult; j++) {
+                item newit = create_result(handed);
+                v.push_back(newit);
+            }
+            if (!cont.is_null()) {
+                items.push_back(cont);
+            }
         }
     } else {
+        item cont(container, calendar::turn, false);
+        std::vector<item> &v = (cont.is_null()) ? items : cont.contents;
         item newit = create_result(handed);
         newit.charges *= batch;
-        items.push_back(newit);
+        v.push_back(newit);
+        if (!cont.is_null()) {
+            items.push_back(cont);
+        }
     }
 
     return items;

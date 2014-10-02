@@ -55,6 +55,7 @@ struct recipe : public requirements {
     int learn_by_disassembly; // what level (if any) do we learn it by disassembly?
     int result_mult; // used by certain batch recipes that create more than one stack of the result
     bool paired;
+    itype_id container;
     int batch; // Size of batch for crafting, 1 is default
 
     // only used during loading json data: books and the skill needed
@@ -77,15 +78,16 @@ struct recipe : public requirements {
         result_mult = 1;
         paired = false;
         batch = 1;
+        container = "null";
     }
 
     recipe(std::string pident, int pid, itype_id pres, craft_cat pcat, craft_subcat psubcat,
            std::string &to_use, std::map<std::string, int> &to_require, int pdiff,
            bool preversible, bool pautolearn, int plearn_dis, int pmult, bool ppaired,
-           std::vector<byproduct> &bps) :
+           itype_id pcont, std::vector<byproduct> &bps) :
         ident (pident), id (pid), result (pres), cat(pcat), subcat(psubcat), difficulty (pdiff),
         reversible (preversible), autolearn (pautolearn), learn_by_disassembly (plearn_dis),
-        result_mult(pmult), paired(ppaired)
+        result_mult(pmult), paired(ppaired), container(pcont)
     {
         skill_used = to_use.size() ? Skill::skill(to_use) : NULL;
         if(!to_require.empty()) {
