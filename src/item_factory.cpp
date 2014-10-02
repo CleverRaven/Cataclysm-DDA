@@ -690,6 +690,7 @@ void Item_factory::load_gun(JsonObject &jo)
     gun_template->reload_time = jo.get_int("reload");
     gun_template->pierce = jo.get_int("pierce", 0);
     gun_template->ammo_effects = jo.get_tags("ammo_effects");
+    gun_template->ups_charges = jo.get_int( "ups_charges", 0 );
 
     if (jo.has_array("valid_mod_locations")) {
         JsonArray jarr = jo.get_array("valid_mod_locations");

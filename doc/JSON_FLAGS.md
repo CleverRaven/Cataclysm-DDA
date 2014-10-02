@@ -671,6 +671,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```IAIJUTSU``` Sword can slash at an enemy as it's drawn if cutting skill is above 7 and a roll is passed
 - ```SHEATH_KNIFE``` Item can be sheathed in a knife sheath
 - ```QUIVER_n``` Item can hold n arrows (will parse number as integer)
+- ```ALWAYS_TWOHAND``` Item is always wielded with two hands. Without this, the items volume and weight are used to calculate this.
 
 ## Guns
 
@@ -679,9 +680,6 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```RELOAD_ONE``` Only reloads one round at a time.
 - ```NO_AMMO``` Does not directly have a loaded ammo type.
 - ```BIO_WEAPON``` Weapon is a CBM weapon, uses power as ammo. (CBM weapons should get both NO_AMMO and BIO_WEAPON, to work correctly).
-- ```USE_UPS``` Uses 5 UPS charges per shot, or 3 advanced UPS charges.
-- ```USE_UPS_20``` Uses 20 UPS charges per shot, or 12 advanced UPS charges.
-- ```USE_UPS_40``` Uses 40 UPS charges per shot, or 24 advanced UPS charges.
 - ```CHARGE``` Has to be charged to fire. Higher charges do more damage.
 - ```NO_UNLOAD``` Cannot be unloaded.
 - ```FIRE_50``` Uses 50 shots per firing.
@@ -700,6 +698,22 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```FIRE``` Counts as a fire for crafting purposes.
 - ```WRAP``` Unused?
 - ```RECHARGE``` Gain charges when placed in a cargo area with a recharge station.
+- ```USE_UPS``` Item is charges from an UPS / it uses the charges of an UPS instead of its own.
+- ```NO_UNLOAD``` Cannot be unloaded.
+- ```RADIOCARITEM``` Item can be put into a remote controlled car.
+- ```RADIOSIGNAL_1``` Activated per radios signal 1.
+- ```RADIOSIGNAL_2``` Activated per radios signal 2.
+- ```BOMB``` It's a radio controlled bomb.
+- ```RADIO_CONTAINER``` It's a container of something that is radio controlled.
+- ```RADIO_ACTIVATION``` It is activated by a remote control (also requires RADIOSIGNAL_*).
+- ```FISH_GOOD``` When used for fishing, it's a good tool (requires that the matching use_action has been set).
+- ```FISH_POOR``` When used for fishing, it's a poor tool (requires that the matching use_action has been set).
+
+### Flags that apply to items, not to item types.
+Those flags are added by the game code to specific items (that specific welder, not *all* welders).
+- ```DOUBLE_AMMO``` The tool has the double battery mod and has its max_charges doubled.
+- ```USE_UPS``` The tool has the UPS mod and is charged from an UPS.
+- ```ATOMIC_AMMO``` The tool has the atomic mod and runs on plutonium instead of normal batteries.
 
 ### Use actions
 

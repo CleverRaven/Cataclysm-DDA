@@ -465,6 +465,7 @@ Never use `yellow` and `red`, those colors are reserved for sounds and infrared 
 "durability": 8,      // Resistance to damage/rusting, also determines misfire chance
 "burst": 5,           // Number of shots fired in burst mode
 "clip_size": 100,     // Maximum amount of ammo that can be loaded
+"ups_charges": 0,     // Additionally to the normal ammo (if any), a gun can require some charges from an UPS.
 "reload": 450         // Amount of time to reload, 100 = 6 seconds = 1 "turn"
 ```
 ###TOOLS

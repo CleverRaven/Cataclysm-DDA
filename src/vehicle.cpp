@@ -4043,11 +4043,7 @@ bool vehicle::fire_turret (int p, bool burst)
     }
     // Check for available power for turrets that use it.
     const int power = fuel_left(fuel_type_battery);
-    if( gun->item_tags.count( "USE_UPS" ) && power < 5 ) {
-        return false;
-    } else if( gun->item_tags.count( "USE_UPS_20" ) && power < 20 ) {
-        return false;
-    } else if( gun->item_tags.count( "USE_UPS_40" ) && power < 40 ) {
+    if( gun->ups_charges > 0 && gun->ups_charges < power ) {
         return false;
     }
     long charges = burst? gun->burst : 1;

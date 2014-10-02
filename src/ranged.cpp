@@ -342,18 +342,10 @@ void player::fire_gun(int tarx, int tary, bool burst)
     int ups_drain = 0;
     int adv_ups_drain = 0;
     int bio_power_drain = 0;
-    if (weapon.has_flag("USE_UPS")) {
-        ups_drain = 5;
-        adv_ups_drain = 3;
-        bio_power_drain = 1;
-    } else if (weapon.has_flag("USE_UPS_20")) {
-        ups_drain = 20;
-        adv_ups_drain = 12;
-        bio_power_drain = 4;
-    } else if (weapon.has_flag("USE_UPS_40")) {
-        ups_drain = 40;
-        adv_ups_drain = 24;
-        bio_power_drain = 8;
+    if( firing->ups_charges > 0 ) {
+        ups_drain = firing->ups_charges;
+        adv_ups_drain = std::min( 1, firing->ups_charges * 3 / 5 );
+        bio_power_drain = std::min( 1, firing->ups_charges / 5 );
     }
 
     // cap our maximum burst size by the amount of UPS power left
