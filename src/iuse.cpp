@@ -7602,7 +7602,7 @@ int iuse::artifact(player *p, item *it, bool)
 
 int iuse::spray_can(player *p, item *it, bool)
 {
-    bool ismarker = (it->type->id == _("permanent_marker"));
+    bool ismarker = (it->type->id == _("permanent_marker") || it->type->id == _("survival_marker"));
     if (ismarker) {
         int ret = menu(true, _("Write on what?"), _("The ground"), _("An item"), _("Cancel"), NULL);
 
