@@ -12898,7 +12898,7 @@ bool game::plmove(int dx, int dy)
         if (signage.size()) {
             add_msg(m_info, _("The sign says: %s"), signage.c_str());
         }
-        std::string *graffiti = m.graffiti_at(u.posx, u.posy).contents;
+        std::string *graffiti = m.graffiti_at(x, y).contents;
         if (graffiti) {
             add_msg(_("Written here: %s"), utf8_truncate(*graffiti, 40).c_str());
         }
