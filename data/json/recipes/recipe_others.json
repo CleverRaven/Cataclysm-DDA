@@ -88,6 +88,25 @@
   ]
 },{
   "type" : "recipe",
+  "result": "skewer",
+  "result_mult": 12,
+  "id_suffix": "TEST",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_OTHER",
+  "skill_used": "fabrication",
+  "difficulty": 0,
+  "time": 100,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "2x4", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "caltrops",
   "id_suffix": "from wire",
   "category": "CC_OTHER",
@@ -5163,5 +5182,326 @@
   "components": [
      [ [ "scrap", 7 ] ]
   ]
-  }
+},{
+  "type" : "recipe",
+  "result": "skewer",
+  "result_mult": 25,
+  "container": "stack_tiny",
+  "id_suffix": "STACK_TINY",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_OTHER",
+  "difficulty": 0,
+  "time": 1000,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "skewer", 25 ],
+      [ "2x4", 2 ],
+      [ "stick", 2 ],
+      [ "splinter", 8 ]
+    ],
+    [
+      [ "stack_tiny", 1 ],
+      [ "string_6", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "bag_plastic",
+  "result_mult": 25,
+  "container": "stack_tiny",
+  "id_suffix": "STACK_TINY",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_OTHER",
+  "difficulty": 0,
+  "time": 1000,
+  "autolearn": true,
+  "components": [
+    [
+      [ "bag_plastic", 25 ]
+    ],
+    [
+      [ "stack_tiny", 1 ],
+      [ "string_6", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "2x4",
+  "result_mult": 10,
+  "container": "stack_small",
+  "id_suffix": "STACK_SMALL",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_OTHER",
+  "difficulty": 0,
+  "time": 1000,
+  "autolearn": true,
+  "components": [
+    [
+      [ "2x4", 10 ]
+    ],
+    [
+      [ "stack_small", 1 ],
+      [ "string_36", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "2x4",
+  "result_mult": 20,
+  "container": "stack",
+  "id_suffix": "STACK",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_OTHER",
+  "difficulty": 0,
+  "time": 2000,
+  "autolearn": true,
+  "components": [
+    [
+      [ "2x4", 20 ]
+    ],
+    [
+      [ "stack", 1 ],
+      [ "rope_6", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "2x4",
+  "result_mult": 100,
+  "container": "stack_large",
+  "id_suffix": "STACK_LARGE",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_OTHER",
+  "difficulty": 0,
+  "time": 10000,
+  "autolearn": true,
+  "components": [
+    [
+      [ "2x4", 100 ]
+    ],
+    [
+      [ "stack_large", 1 ],
+      [ "rope_30", 2 ],
+      [ "vine_30", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "pipe",
+  "result_mult": 15,
+  "container": "stack_small",
+  "id_suffix": "STACK_SMALL",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_OTHER",
+  "difficulty": 0,
+  "time": 1000,
+  "autolearn": true,
+  "components": [
+    [
+      [ "pipe", 15 ]
+    ],
+    [
+      [ "stack_small", 1 ],
+      [ "string_36", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "cu_pipe",
+  "result_mult": 30,
+  "container": "stack_small",
+  "id_suffix": "STACK_SMALL",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_OTHER",
+  "difficulty": 0,
+  "time": 1000,
+  "autolearn": true,
+  "components": [
+    [
+      [ "cu_pipe", 30 ]
+    ],
+    [
+      [ "stack_small", 1 ],
+      [ "string_36", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "rag",
+  "result_mult": 30,
+  "container": "stack_small",
+  "id_suffix": "STACK_SMALL",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_OTHER",
+  "difficulty": 0,
+  "time": 1000,
+  "autolearn": true,
+  "components": [
+    [
+      [ "rag", 30 ]
+    ],
+    [
+      [ "stack_small", 1 ],
+      [ "string_36", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "leather",
+  "result_mult": 30,
+  "container": "stack_small",
+  "id_suffix": "STACK_SMALL",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_OTHER",
+  "difficulty": 0,
+  "time": 1000,
+  "autolearn": true,
+  "components": [
+    [
+      [ "leather", 30 ]
+    ],
+    [
+      [ "stack_small", 1 ],
+      [ "string_36", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "fur",
+  "result_mult": 30,
+  "container": "stack_small",
+  "id_suffix": "STACK_SMALL",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_OTHER",
+  "difficulty": 0,
+  "time": 1000,
+  "autolearn": true,
+  "components": [
+    [
+      [ "fur", 30 ]
+    ],
+    [
+      [ "stack_small", 1 ],
+      [ "string_36", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "scrap",
+  "result_mult": 60,
+  "container": "bag_canvas",
+  "id_suffix": "BAG_CANVAS",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_OTHER",
+  "difficulty": 0,
+  "time": 3000,
+  "autolearn": true,
+  "components": [
+    [
+      [ "scrap", 60 ]
+    ],
+    [
+      [ "bag_canvas", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "steel_chunk",
+  "result_mult": 30,
+  "container": "bag_canvas",
+  "id_suffix": "BAG_CANVAS",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_OTHER",
+  "difficulty": 0,
+  "time": 3000,
+  "autolearn": true,
+  "components": [
+    [
+      [ "steel_chunk", 30 ]
+    ],
+    [
+      [ "bag_canvas", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "steel_lump",
+  "result_mult": 30,
+  "container": "bag_canvas",
+  "id_suffix": "BAG_CANVAS",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_OTHER",
+  "difficulty": 0,
+  "time": 3000,
+  "autolearn": true,
+  "components": [
+    [
+      [ "steel_lump", 30 ]
+    ],
+    [
+      [ "bag_canvas", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "splinter",
+  "result_mult": 60,
+  "container": "bag_canvas",
+  "id_suffix": "BAG_CANVAS",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_OTHER",
+  "difficulty": 0,
+  "time": 3000,
+  "autolearn": true,
+  "components": [
+    [
+      [ "splinter", 60 ]
+    ],
+    [
+      [ "bag_canvas", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "bone",
+  "result_mult": 60,
+  "container": "bag_canvas",
+  "id_suffix": "BAG_CANVAS",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_OTHER",
+  "difficulty": 0,
+  "time": 3000,
+  "autolearn": true,
+  "components": [
+    [
+      [ "bone", 60 ]
+    ],
+    [
+      [ "bag_canvas", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "plant_sac",
+  "result_mult": 60,
+  "container": "bag_canvas",
+  "id_suffix": "BAG_CANVAS",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_OTHER",
+  "difficulty": 0,
+  "time": 3000,
+  "autolearn": true,
+  "components": [
+    [
+      [ "plant_sac", 60 ]
+    ],
+    [
+      [ "bag_canvas", 1 ]
+    ]
+  ]
+}
 ]

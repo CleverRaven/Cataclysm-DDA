@@ -1250,7 +1250,10 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         }
     }
     else if (!contents.empty()) {
-        maintext = rmp_format(_("<item_name>%s, full"), type->nname(quantity).c_str());
+        maintext = (contents.size() > 1) ? rmp_format(_("<item_name>%s of %s (%d)"), type->nname(quantity).c_str(),
+                                                      contents[0].tname(contents.size()).c_str(), contents.size()) :
+                                           rmp_format(_("<item_name>%s of %s"), type->nname(quantity).c_str(),
+                                                      contents[0].tname(contents.size()).c_str());
     } else {
         maintext = type->nname(quantity);
     }
