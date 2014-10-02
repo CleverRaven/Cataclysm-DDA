@@ -51,7 +51,7 @@
         "difficulty" : 0,
         "time" : 5,
         "components" : [
-            [ "glass_shard", 20 ]
+            [ ["glass_shard", 20] ]
         ],
         "pre_terrain" : "t_pit",
         "post_terrain" : "t_pit_glass"
