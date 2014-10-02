@@ -279,7 +279,9 @@
                 { "item": "novels", "chance": 70, "x": [ 8,8 ], "y": [ 9,9 ]},
                 { "item": "kitchen", "chance": 60, "x": [ 8,14 ], "y": [ 5,7 ]},
                 { "item": "fridge", "chance": 70, "x": [ 8,14 ], "y": [ 5,7 ]},
-                { "item": "softdrugs", "chance": 70, "x": [ 18,22 ], "y": [ 8,10 ]}
+                { "item": "softdrugs", "chance": 70, "x": [ 18,22 ], "y": [ 8,10 ]},
+                { "item": "bed", "chance": 80,  "x": [ 18,19 ], "y": [ 3,4 ] },
+                { "item": "bed", "chance": 80,  "x": [ 21,22 ], "y": [ 13,14 ] }
             ],
             "terrain": {
                 "&": "t_gas_pump",
@@ -1581,7 +1583,8 @@
                 { "item": "allclothes", "chance": 90, "x": [ 15,17 ], "y": [ 3,3 ]},
                 { "item": "softdrugs", "chance": 90, "x": [ 10,13 ], "y": [ 3,4 ]},
                 { "item": "fridge", "chance": 90, "x": [ 5,5 ], "y": [ 7,7 ]},
-                { "item": "kitchen", "chance": 60, "x": [ 5,8 ], "y": [ 3,6 ]}
+                { "item": "kitchen", "chance": 60, "x": [ 5,8 ], "y": [ 3,6 ]},
+                { "item": "bed", "chance": 80,  "x": [ 19,20 ], "y": [ 3,4 ]}
             ],
             "terrain": {
                 "&": "t_gas_pump",
@@ -2729,7 +2732,9 @@
                 { "item": "cop_armory", "chance": 70, "x": [ 4,4 ], "y": [ 10,12 ]},
                 { "item": "office", "chance": 70, "x": [ 16,18 ], "y": [ 0,0 ]},
                 { "item": "office", "chance": 70, "x": [ 11,13 ], "y": [ 0,0 ]},
-                { "item": "office", "chance": 70, "x": [ 3,5 ], "y": [ 0,0 ]}
+                { "item": "office", "chance": 70, "x": [ 3,5 ], "y": [ 0,0 ]},
+                { "item": "bed", "chance": 80,  "x": [ 21,21 ], "y": [ 0,0 ]},
+                { "item": "bed", "chance": 80,  "x": [ 21,21 ], "y": [ 7,8 ]}
             ],
             "terrain": {
                 "&": "t_gas_pump",
@@ -2894,7 +2899,13 @@
                 { "vehicle": "policecar", "x": 9, "y": 14, "rotation": 180, "chance": 50 },
                 { "vehicle": "policecar", "x": 9, "y": 21, "rotation": 180, "chance": 50 },
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
-                { "item": "field", "chance": 70, "x": [ 15,23 ], "y": [ 0,23 ]}
+                { "item": "field", "chance": 70, "x": [ 15,23 ], "y": [ 0,23 ]},
+                { "item": "bed", "chance": 80,  "x": [ 1,1 ], "y": [ 0,0 ]},
+                { "item": "bed", "chance": 80,  "x": [ 5,5 ], "y": [ 0,0 ]},
+                { "item": "bed", "chance": 80,  "x": [ 9,9 ], "y": [ 0,0 ]},
+                { "item": "bed", "chance": 80,  "x": [ 1,1 ], "y": [ 7,8 ]},
+                { "item": "bed", "chance": 80,  "x": [ 5,5 ], "y": [ 7,8 ]},
+                { "item": "bed", "chance": 80,  "x": [ 9,9 ], "y": [ 7,8 ]}
             ],
             "terrain": {
                 "&": "t_gas_pump",
@@ -3853,7 +3864,9 @@
                 { "item": "novels", "chance": 70, "x": [ 3,4 ], "y": [ 23,23 ]},
                 { "item": "allclothes", "chance": 75, "x": [ 7,7 ], "y": [ 23,23 ]},
                 { "item": "allclothes", "chance": 75, "x": [ 13,13 ], "y": [ 23,23 ]},
-                { "item": "building_rubble", "chance": 20, "x": [ 0,15 ], "y": [ 0,15 ]}
+                { "item": "building_rubble", "chance": 20, "x": [ 0,15 ], "y": [ 0,15 ]},
+                { "item": "bed", "chance": 80,  "x": [ 8,8 ], "y": [ 23,23 ]},
+                { "item": "bed", "chance": 80,  "x": [ 12,12 ], "y": [ 23,23 ]}
             ],
             "terrain": {
                 "&": "t_gas_pump",
@@ -5313,7 +5326,10 @@
                 { "item": "alcohol", "chance": 80, "x": [ 17,17 ], "y": [ 20,21 ]},
                 { "item": "homebooks", "chance": 70, "x": [ 10,11 ], "y": [ 6,6 ]},
                 { "item": "church", "chance": 70, "x": [ 1,5 ], "y": [ 8,15 ]},
-                { "item": "dining", "chance": 60, "x": [ 10,11 ], "y": [ 2,3 ]}
+                { "item": "dining", "chance": 60, "x": [ 10,11 ], "y": [ 2,3 ]},
+                { "item": "bed", "chance": 80,  "x": [ 8,8 ], "y": [ 0,0 ]},
+                { "item": "bed", "chance": 80,  "x": [ 12,12 ], "y": [ 0,0 ]},
+                { "item": "bed", "chance": 80,  "x": [ 15,16 ], "y": [ 23,23 ]}
             ],
             "terrain": {
                 "&": "t_gas_pump",
@@ -6443,7 +6459,9 @@
             ],
             "place_groups": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
-                { "item": "traveler", "chance": 80, "x": [ 17,17 ], "y": [ 23,23 ]}
+                { "item": "traveler", "chance": 80, "x": [ 17,17 ], "y": [ 23,23 ]},
+                { "item": "bed", "chance": 80,  "x": [ 8,8 ], "y": [ 0,0 ]},
+                { "item": "bed", "chance": 80,  "x": [ 18,19 ], "y": [ 0,0 ]}
             ],
             "terrain": {
                 "&": "t_gas_pump",
@@ -6760,7 +6778,8 @@
             "place_groups": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
                 { "item": "allclothes", "chance": 75, "x": [ 4,4 ], "y": [ 0,0 ]},
-                { "item": "allclothes", "chance": 75, "x": [ 17,17 ], "y": [ 0,0 ]}
+                { "item": "allclothes", "chance": 75, "x": [ 17,17 ], "y": [ 0,0 ]},
+                { "item": "bed", "chance": 80,  "x": [ 15,16 ], "y": [ 0,0 ]}
             ],
             "terrain": {
                 "&": "t_gas_pump",
@@ -7407,7 +7426,9 @@
                 { "item": "allclothes", "chance": 70, "x": [ 12,17 ], "y": [ 4,4 ]},
                 { "item": "office", "chance": 70, "x": [ 9,11 ], "y": [ 1,1 ]},
                 { "item": "home_hw", "chance": 70, "x": [ 16,17 ], "y": [ 0,0 ]},
-                { "item": "home_hw", "chance": 70, "x": [ 14,17 ], "y": [ 2,2 ]}
+                { "item": "home_hw", "chance": 70, "x": [ 14,17 ], "y": [ 2,2 ]},
+                { "item": "bed", "chance": 80,  "x": [ 13,14 ], "y": [ 23,23 ]},
+                { "item": "bed", "chance": 80,  "x": [ 16,17 ], "y": [ 23,23 ]}
             ],
             "terrain": {
                 "&": "t_gas_pump",
@@ -7738,7 +7759,10 @@
                 { "item": "allclothes", "chance": 70, "x": [ 7,12 ], "y": [ 23,23]},
                 { "item": "building_rubble", "chance": 95, "x": [ 11,22 ], "y": [ 2,6 ]},
                 { "item": "building_rubble", "chance": 95, "x": [ 0,11 ], "y": [ 9,15 ]},
-                { "item": "building_rubble", "chance": 60, "x": [ 0,8 ], "y": [ 0,8 ]}
+                { "item": "building_rubble", "chance": 60, "x": [ 0,8 ], "y": [ 0,8 ]},
+                { "item": "bed", "chance": 80,  "x": [ 17,18 ], "y": [ 6,7 ]},
+                { "item": "bed", "chance": 80,  "x": [ 6,7 ], "y": [ 13,14 ]},
+                { "item": "bed", "chance": 80,  "x": [ 17,18 ], "y": [ 13,14 ]}
             ],
             "terrain": {
                 "&": "t_gas_pump",
@@ -7907,7 +7931,13 @@
                 { "item": "traveler", "chance": 70, "x": [ 5,9 ], "y": [ 6,11]},
                 { "item": "traveler", "chance": 70, "x": [ 16,21 ], "y": [ 13,18]},
                 { "item": "traveler", "chance": 80, "x": [ 17,17 ], "y": [ 16,16]},
-                { "item": "traveler", "chance": 70, "x": [ 6,10 ], "y": [ 18,18]}
+                { "item": "traveler", "chance": 70, "x": [ 6,10 ], "y": [ 18,18]},
+                { "item": "bed", "chance": 80,  "x": [ 7,8 ], "y": [ 0,0 ]},
+                { "item": "bed", "chance": 80,  "x": [ 7,8 ], "y": [ 6,7 ]},
+                { "item": "bed", "chance": 80,  "x": [ 7,8 ], "y": [ 13,14 ]},
+                { "item": "bed", "chance": 80,  "x": [ 18,19 ], "y": [ 0,0 ]},
+                { "item": "bed", "chance": 80,  "x": [ 18,19 ], "y": [ 6,7 ]},
+                { "item": "bed", "chance": 80,  "x": [ 18,19 ], "y": [ 13,14 ]}
             ],
             "terrain": {
                 "&": "t_gas_pump",
@@ -8734,7 +8764,9 @@
                 { "item": "allclothes", "chance": 70, "x": [ 18,18 ], "y": [ 0,0 ]},
                 { "item": "fridge", "chance": 70, "x": [ 8,8 ], "y": [ 2,2 ]},
                 { "item": "dining", "chance": 70, "x": [ 3,4 ], "y": [ 1,3 ]},
-                { "item": "kitchen", "chance": 80, "x": [ 8,12 ], "y": [ 0,2 ]}
+                { "item": "kitchen", "chance": 80, "x": [ 8,12 ], "y": [ 0,2 ]},
+                { "item": "bed", "chance": 80,  "x": [ 16,17 ], "y": [ 0,1 ]},
+                { "item": "bed", "chance": 80,  "x": [ 19,20 ], "y": [ 16,17 ]}
             ],
             "terrain": {
                 "&": "t_gas_pump",
@@ -8904,7 +8936,15 @@
                 { "item": "traveler", "chance": 70, "x": [ 13,18 ], "y": [ 18,18]},
                 { "item": "traveler", "chance": 70, "x": [ 12,12 ], "y": [ 20,20]},
                 { "item": "traveler", "chance": 70, "x": [ 15,15 ], "y": [ 20,20]},
-                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
+                { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
+                { "item": "bed", "chance": 80,  "x": [ 13,14 ], "y": [ 0,0 ]},
+                { "item": "bed", "chance": 80,  "x": [ 16,17 ], "y": [ 0,0 ]},
+                { "item": "bed", "chance": 80,  "x": [ 13,14 ], "y": [ 6,7 ]},
+                { "item": "bed", "chance": 80,  "x": [ 16,17 ], "y": [ 6,7 ]},
+                { "item": "bed", "chance": 80,  "x": [ 13,14 ], "y": [ 13,14 ]},
+                { "item": "bed", "chance": 80,  "x": [ 16,17 ], "y": [ 13,14 ]},
+                { "item": "bed", "chance": 80,  "x": [ 13,14 ], "y": [ 20,21 ]},
+                { "item": "bed", "chance": 80,  "x": [ 16,17 ], "y": [ 20,21 ]}
             ],
             "terrain": {
                 "&": "t_gas_pump",
@@ -9242,7 +9282,11 @@
                 { "item": "allclothes", "chance": 70, "x": [ 4,4 ], "y": [ 10,11 ]},
                 { "item": "dining", "chance": 70, "x": [ 8,9 ], "y": [ 17,18 ]},
                 { "item": "fridge", "chance": 70, "x": [ 6,6 ], "y": [ 15,15 ]},
-                { "item": "kitchen", "chance": 80, "x": [ 4,5 ], "y": [ 15,19 ]}
+                { "item": "kitchen", "chance": 80, "x": [ 4,5 ], "y": [ 15,19 ]},
+                { "item": "bed", "chance": 80,  "x": [ 6,7 ], "y": [ 3,4 ]},
+                { "item": "bed", "chance": 80,  "x": [ 17,18 ], "y": [ 10,11 ]},
+                { "item": "bed", "chance": 80,  "x": [ 6,7 ], "y": [ 14,15 ]},
+                { "item": "bed", "chance": 80,  "x": [ 17,18 ], "y": [ 10,1 ]}
             ],
             "terrain": {
                 "&": "t_gas_pump",
@@ -10217,7 +10261,9 @@
                 { "item": "allclothes", "chance": 70, "x": [ 12,12 ], "y": [ 6,6 ]},
                 { "item": "dining", "chance": 70, "x": [ 14,15 ], "y": [ 9,10 ]},
                 { "item": "fridge", "chance": 70, "x": [ 15,15 ], "y": [ 6,6 ]},
-                { "item": "kitchen", "chance": 80, "x": [ 14,19 ], "y": [ 6,9 ]}
+                { "item": "kitchen", "chance": 80, "x": [ 14,19 ], "y": [ 6,9 ]},
+                { "item": "bed", "chance": 80,  "x": [ 7,8 ], "y": [ 6,7 ]},
+                { "item": "bed", "chance": 80,  "x": [ 5,6 ], "y": [ 20,21 ]}
             ],
             "terrain": {
                 "&": "t_gas_pump",
