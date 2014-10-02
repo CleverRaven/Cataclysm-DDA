@@ -452,7 +452,11 @@ public:
      */
     int charge_battery (int amount, bool recurse = true);
 
-    int discharge_battery (int amount);
+    /**
+     * Try to discharge our (and, optionally, connected vehicles') batteries by the given amount.
+     * @return amount of request unfulfilled (0 if totally successful).
+     */
+    int discharge_battery (int amount, bool recurse = true);
 
 // get the total mass of vehicle, including cargo and passengers
     int total_mass ();

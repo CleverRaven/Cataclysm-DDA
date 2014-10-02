@@ -2715,7 +2715,6 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
 
 int vehicle::charge_battery (int amount, bool include_other_vehicles)
 {
-    g->u.add_msg_if_player("%p charging with %d charge", (void*)this, amount);
     for(auto &f : fuel) {
         if(part_info(f).fuel_type == fuel_type_battery) {
             int empty = part_info(f).size - parts[f].amount;
@@ -2734,7 +2733,6 @@ int vehicle::charge_battery (int amount, bool include_other_vehicles)
     }
 
     if(amount > 0 && include_other_vehicles) { // still a bit of charge we could send out...
-        g->u.add_msg_if_player("Have %d charge to distribute to other vehicles", amount);
         // Breadth-first search! Initialize the queue with a pointer to ourselves and go!
         std::queue<vehicle*> connected_vehs;
         std::set<vehicle*> visited_vehs;
@@ -2744,7 +2742,6 @@ int vehicle::charge_battery (int amount, bool include_other_vehicles)
             vehicle* current_veh = connected_vehs.front();
             visited_vehs.insert(current_veh);
             connected_vehs.pop();
-            g->u.add_msg_if_player("Have %d charge to distribute away from %p", amount, (void*)current_veh);
 
             for(auto &p : current_veh->loose_parts) {
                 if(!current_veh->part_info(p).has_flag("POWER_TRANSFER")) {
@@ -2753,7 +2750,6 @@ int vehicle::charge_battery (int amount, bool include_other_vehicles)
 
                 point target_pos = g->m.getlocal(current_veh->parts[p].target);
                 vehicle* target_veh = g->m.veh_at(target_pos.x, target_pos.y);
-                g->u.add_msg_if_player("Peeking at %p", (void*)target_veh);
 
                 if(target_veh == nullptr || visited_vehs.count(target_veh) > 0) {
                     // Either no destination here (that vehicle's rolled away or off-map) or
@@ -2767,7 +2763,6 @@ int vehicle::charge_battery (int amount, bool include_other_vehicles)
                     connected_vehs.push(target_veh);
 
                     amount = target_veh->charge_battery(amount, false);
-                    g->u.add_msg_if_player("Got to distribute %d charge now", amount);
                     if(amount < 1) {
                         break; // No more charge to donate away.
                     }
@@ -2779,7 +2774,7 @@ int vehicle::charge_battery (int amount, bool include_other_vehicles)
     return amount;
 }
 
-int vehicle::discharge_battery (int amount)
+int vehicle::discharge_battery (int amount, bool recurse)
 {
     int avail_charge;
 
@@ -2801,7 +2796,46 @@ int vehicle::discharge_battery (int amount)
         }
     }
 
-    return amount; // non-zero if discharge amount exceeds available battery charge
+    if(amount > 0 && recurse) { // need more power!
+        // Breadth-first search! Initialize the queue with a pointer to ourselves and go!
+        std::queue<vehicle*> connected_vehs;
+        std::set<vehicle*> visited_vehs;
+        connected_vehs.push(this);
+
+        while(amount > 0 && connected_vehs.size() > 0) {
+            vehicle* current_veh = connected_vehs.front();
+            visited_vehs.insert(current_veh);
+            connected_vehs.pop();
+
+            for(auto &p : current_veh->loose_parts) {
+                if(!current_veh->part_info(p).has_flag("POWER_TRANSFER")) {
+                    continue; // ignore loose parts that aren't power transfer cables
+                }
+
+                point target_pos = g->m.getlocal(current_veh->parts[p].target);
+                vehicle* target_veh = g->m.veh_at(target_pos.x, target_pos.y);
+
+                if(target_veh == nullptr || visited_vehs.count(target_veh) > 0) {
+                    // Either no destination here (that vehicle's rolled away or off-map) or
+                    // we've already looked at that vehicle.
+                    continue;
+                }
+
+                // Add this connected vehicle to the queue of vehicles to search next,
+                // but only if we haven't seen this one before.
+                if(visited_vehs.count(target_veh) < 1) {
+                    connected_vehs.push(target_veh);
+
+                    amount = target_veh->discharge_battery(amount, false);
+                    if(amount < 1) {
+                        break; // No more sources of charge.
+                    }
+                }
+            }
+        }
+    }
+
+    return amount; // non-zero if we weren't able to fulfill demand.
 }
 
 void vehicle::idle() {
