@@ -1263,7 +1263,7 @@
     "color": "blue",
     "name": "tourist guide",
     "description": "This is glossy printed pamphlet for tourists that details local hotels and attractions.",
-    "price": 10000,
+    "price": 100,
     "material": "paper",
     "weight": 30,
     "volume": 1,
