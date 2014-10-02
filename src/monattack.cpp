@@ -1762,6 +1762,11 @@ void mattack::photograph(monster *z)
 
 void mattack::tazer(monster *z)
 {
+    if (z->friendly != 0) {
+      // friendly
+      return;
+    }
+ 
     int j;
     if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 2 ||
         !g->sees_u(z->posx(), z->posy(), j)) {
@@ -2441,6 +2446,54 @@ void mattack::searchlight(monster *z)
 
 void mattack::flamethrower(monster *z)
 {
+    if (z->friendly != 0) {
+      // friendly
+
+      npc tmp;
+      tmp.name = _("The ") + z->name();
+      tmp.set_fake(true);
+      tmp.skillLevel("launcher").level(2);
+      tmp.skillLevel("gun").level(2);
+      tmp.recoil = 0;
+      tmp.posx = z->posx();
+      tmp.posy = z->posy();
+      tmp.str_cur = 12;
+      tmp.dex_cur = 8;
+      tmp.per_cur = 8;
+
+      z->sp_timeout = z->type->sp_freq; // Reset timer
+      Creature *target = NULL;
+
+      // Attacking monsters, not the player!
+      int boo_hoo, fire_t;
+      target = tmp.auto_find_hostile_target(5, boo_hoo, fire_t);
+      if (target == NULL) {// Couldn't find any targets!
+          if(boo_hoo > 0 && g->u_see(z->posx(), z->posy()) ) { // because that stupid oaf was in the way!
+              add_msg(m_warning, ngettext("Pointed in your direction, the %s emits an IFF warning beep.",
+                                          "Pointed in your direction, the %s emits %d annoyed sounding beeps.",
+                                          boo_hoo),
+                      z->name().c_str(), boo_hoo);
+          }
+          return;
+      }
+      z->moves -= 500;   // It takes a while
+      std::vector<point> traj = line_to(z->posx(), z->posy(), target->xpos(), target->ypos(), fire_t);
+
+      for (auto &i : traj) {
+          // break out of attack if flame hits a wall
+          if (g->m.hit_with_fire(i.x, i.y)) {
+              if (g->u_see(i.x, i.y))
+                  add_msg(_("The tongue of flame hits the %s!"),
+                          g->m.tername(i.x, i.y).c_str());
+              return;
+          }
+          g->m.add_field(i.x, i.y, fd_fire, 1);
+      }
+      target->add_effect("onfire", 8);
+
+      return;
+    }
+ 
     int t;
     if (abs(g->u.posx - z->posx()) > 5 || abs(g->u.posy - z->posy()) > 5 ||
         !g->sees_u(z->posx(), z->posy(), t)) {
