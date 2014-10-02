@@ -2018,6 +2018,9 @@ void check_recipe_definitions()
             if (!item_controller->has_template(r.result)) {
                 debugmsg("result %s in recipe %s is not a valid item template", r.result.c_str(), r.ident.c_str());
             }
+            if (!item_controller->has_template(r.container)) {
+                debugmsg("container %s in recipe %s is not a valid item template", r.container.c_str(), r.ident.c_str());
+            }
         }
     }
 }
