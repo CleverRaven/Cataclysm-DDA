@@ -11,40 +11,6 @@
             ]
     },{
             "type" : "item_group",
-            "id" : "vault_wanderer",
-            "items" : [
-                ["jumpsuit", 90],
-                ["mask_filter", 10],
-                ["battery", 10],
-                ["radio", 10],
-                ["boots_combat", 20],
-                ["bandages", 5],
-                ["cig", 30],
-                ["knife_combat", 10],
-                ["vest", 15],
-                ["glasses_safety", 15],
-                ["9mm", 15],
-                ["m9", 10],
-                ["water_clean", 10],
-                ["eyedrops", 10],
-                ["pda", 20],
-                ["screwdriver", 10],
-                ["id_science", 5],
-                ["cleansuit", 10],
-                ["coat_lab", 20],
-                ["glasses_eye", 30],
-                ["rad_monitor", 10],
-                ["geiger_off", 10],
-                ["tool_belt", 15],
-                ["panties", 20],
-                ["boy_shorts", 20],
-                ["bra", 20],
-                ["undershirt", 40],
-                ["boxer_shorts", 30],
-                ["briefs", 30]
-            ]
-       },{
-            "type" : "item_group",
             "id" : "building_rubble",
             "items" : [
                 ["rock", 25],

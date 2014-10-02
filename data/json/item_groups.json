@@ -2390,7 +2390,7 @@
       ["bubblewrap", 50],
       ["cig_butt", 30],
       {"item": "lighter", "prob": 60, "charges-min": 0, "charges-max": 10 },
-      { "item": "matches", "prob": 60, "charges-min": 0, "charges-max": 20 },
+      {"item": "matches", "prob": 60, "charges-min": 0, "charges-max": 20 },
       ["syringe", 8],
       ["rag", 1],
       ["hairpin", 1],
@@ -8728,5 +8728,43 @@
       ["bio_chain_lightning", 15],
       ["bio_adrenaline", 20]
     ]
+  },{
+    "type" : "item_group",
+    "id" : "vault_wanderer",
+    "items" : [
+      ["jumpsuit", 90],
+      ["mask_filter", 10],
+      ["battery", 10],
+      {"item": "radio", "prob": 10, "charges-min": 10, "charges-max": 95 },
+      ["boots_combat", 20],
+      {"item": "bandages", "prob": 10, "charges-min": 1, "charges-max": 3 },
+      {"item": "cig", "prob": 30, "charges-min": 1, "charges-max": 20 },
+      ["knife_combat", 10],
+      ["vest", 15],
+      ["glasses_safety", 15],
+      ["9mm", 15],
+      ["m9", 10],
+      ["water_clean", 10],
+      {"item": "eyedrops", "prob": 10, "charges-min": 1, "charges-max": 10 },
+      {"item": "pda", "prob": 20, "charges-min": 10, "charges-max": 95 },
+      ["screwdriver", 10],
+      ["id_science", 5],
+      ["cleansuit", 10],
+      ["coat_lab", 20],
+      ["glasses_eye", 30],
+      ["rad_monitor", 10],
+      {"item": "rad_monitor", "prob": 10, "charges-min": 2, "charges-max": 20 },
+      ["geiger_off", 10],
+      {"item": "geiger_off", "prob": 10, "charges-min": 10, "charges-max": 95 },
+      ["tool_belt", 15],
+      ["panties", 20],
+      ["boy_shorts", 20],
+      ["bra", 20],
+      ["undershirt", 40],
+      ["boxer_shorts", 30],
+      ["briefs", 30]
+    ]
   }
 ]
+
+      {"item": "matches", "prob": 60, "charges-min": 0, "charges-max": 20 }
