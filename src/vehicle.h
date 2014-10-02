@@ -579,7 +579,7 @@ public:
     bool shift_if_needed();
 
     void leak_fuel (int p);
-    void shed_loose_parts(std::vector<int>& parts);
+    void shed_loose_parts();
 
     // Cycle through available turret modes
     void cycle_turret_mode();

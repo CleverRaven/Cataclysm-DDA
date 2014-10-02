@@ -3618,7 +3618,7 @@ void vehicle::gain_moves()
 {
     if (velocity) {
         if (loose_parts.size() > 0) {
-            shed_loose_parts(loose_parts);
+            shed_loose_parts();
         }
         of_turn = 1 + of_turn_carry;
     } else {
@@ -3743,7 +3743,7 @@ void vehicle::refresh()
     insides_dirty = true;
 }
 
-void vehicle::shed_loose_parts(std::vector<int>& loose_parts) {
+void vehicle::shed_loose_parts() {
     for( size_t i = 0; i < loose_parts.size(); i++) {
         auto part = &parts[loose_parts[i]];
         auto vpi = &part_info(loose_parts[i]);
