@@ -92,7 +92,7 @@
   "result_mult": 12,
   "id_suffix": "TEST",
   "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER",
+  "subcategory": "CSC_OTHER_OTHER",
   "skill_used": "fabrication",
   "difficulty": 0,
   "time": 100,
@@ -5182,5 +5182,104 @@
   "components": [
      [ [ "scrap", 7 ] ]
   ]
-  }
+},{
+  "type" : "recipe",
+  "result": "2x4",
+  "result_mult": 10,
+  "container": "stack_small",
+  "id_suffix": "STACK_SMALL",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_OTHER",
+  "skill_used": "fabrication",
+  "difficulty": 0,
+  "time": 1000,
+  "autolearn": true,
+  "components": [
+    [
+      [ "2x4", 10 ]
+    ],
+    [
+      [ "stack_small", 1 ],
+      [ "string_36", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "pipe",
+  "result_mult": 15,
+  "container": "stack_small",
+  "id_suffix": "STACK_SMALL",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_OTHER",
+  "skill_used": "fabrication",
+  "difficulty": 0,
+  "time": 1000,
+  "autolearn": true,
+  "components": [
+    [
+      [ "pipe", 15 ]
+    ],
+    [
+      [ "stack_small", 1 ],
+      [ "string_36", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "scrap",
+  "result_mult": 60,
+  "container": "bag_canvas",
+  "id_suffix": "BAG_CANVAS",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_OTHER",
+  "difficulty": 0,
+  "time": 3000,
+  "autolearn": true,
+  "components": [
+    [
+      [ "scrap", 60 ]
+    ],
+    [
+      [ "bag_canvas", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "steel_chunk",
+  "result_mult": 30,
+  "container": "bag_canvas",
+  "id_suffix": "BAG_CANVAS",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_OTHER",
+  "difficulty": 0,
+  "time": 3000,
+  "autolearn": true,
+  "components": [
+    [
+      [ "steel_chunk", 30 ]
+    ],
+    [
+      [ "bag_canvas", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "steel_lump",
+  "result_mult": 30,
+  "container": "bag_canvas",
+  "id_suffix": "BAG_CANVAS",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_OTHER",
+  "difficulty": 0,
+  "time": 3000,
+  "autolearn": true,
+  "components": [
+    [
+      [ "steel_lump", 30 ]
+    ],
+    [
+      [ "bag_canvas", 1 ]
+    ]
+  ]
+}
 ]
