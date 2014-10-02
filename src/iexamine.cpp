@@ -686,6 +686,8 @@ void iexamine::pit(player *p, map *m, int examx, int examy)
             m->ter_set(examx, examy, t_pit_covered);
         } else if( m->ter(examx, examy) == t_pit_spiked ) {
             m->ter_set(examx, examy, t_pit_spiked_covered);
+        } else if( m->ter(examx, examy) == t_pit_glass ) {
+            m->ter_set(examx, examy, t_pit_glass_covered);
         }
         add_msg(_("You place a plank of wood over the pit."));
     }
@@ -706,6 +708,8 @@ void iexamine::pit_covered(player *p, map *m, int examx, int examy)
         m->ter_set(examx, examy, t_pit);
     } else if( m->ter(examx, examy) == t_pit_spiked_covered ) {
         m->ter_set(examx, examy, t_pit_spiked);
+    } else if( m->ter(examx, examy) == t_pit_glass_covered ) {
+        m->ter_set(examx, examy, t_pit_glass);
     }
 }
 

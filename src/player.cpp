@@ -1425,7 +1425,8 @@ int player::run_cost(int base_cost, bool diag)
       (ter_at_pos == t_door_o) || (ter_at_pos == t_rdoor_o) ||
       (ter_at_pos == t_door_frame) || (ter_at_pos == t_mdoor_frame) ||
       (ter_at_pos == t_fencegate_o) || (ter_at_pos == t_chaingate_o) ||
-      (ter_at_pos == t_door_metal_o) || (ter_at_pos == t_door_bar_o) )) );
+      (ter_at_pos == t_door_metal_o) || (ter_at_pos == t_door_bar_o) ||
+      (ter_at_pos == t_pit_glass_covered) )) );
 
     if (has_trait("PARKOUR") && movecost > 100 ) {
         movecost *= .5f;

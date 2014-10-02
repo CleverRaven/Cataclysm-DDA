@@ -498,7 +498,7 @@ extern ter_id t_null,
     t_hole, // Real nothingness; makes you fall a z-level
     // Ground
     t_dirt, t_sand, t_dirtmound, t_pit_shallow, t_pit,
-    t_pit_corpsed, t_pit_covered, t_pit_spiked, t_pit_spiked_covered,
+    t_pit_corpsed, t_pit_covered, t_pit_spiked, t_pit_spiked_covered, t_pit_glass, t_pit_glass_covered,
     t_rock_floor,
     t_grass,
     t_metal_floor,

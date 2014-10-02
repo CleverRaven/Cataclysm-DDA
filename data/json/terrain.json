@@ -90,6 +90,25 @@
         "examine_action": "pit_covered"
     },{
         "type" : "terrain",
+        "id" : "t_pit_glass",
+        "name": "glass pit",
+        "symbol": "0",
+        "color": "ltcyan",
+        "move_cost": 10,
+        "trap": "tr_glass_pit",
+        "flags": ["TRANSPARENT"],
+        "examine_action": "pit"
+    },{
+        "type" : "terrain",
+        "id" : "t_pit_glass_covered",
+        "name": "covered glass pit",
+        "symbol": "#",
+        "color": "ltcyan",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT"],
+        "examine_action": "pit_covered"
+    },{
+        "type" : "terrain",
         "id" : "t_rock_floor",
         "name": "rock floor",
         "symbol": ".",

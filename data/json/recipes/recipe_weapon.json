@@ -3530,7 +3530,7 @@
   "skill_used": "fabrication",
   "skills_required": [],
   "difficulty": 0,
-  "time": 12000,
+  "time": 1000,
   "reversible": true,
   "autolearn": true,
   "tools": [],
@@ -4494,7 +4494,7 @@
       [ "nail", 20 ]
     ]
   ]
-},{
+  },{
   "type" : "recipe",
   "result": "ugl_buttstock",
   "category": "CC_WEAPON",
@@ -4516,5 +4516,29 @@
       [ "scrap", 1 ]
     ]
   ]
-}
+  },{
+  "type" : "recipe",
+  "result": "glass_macuahuitl",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_CUTTING",
+  "skill_used": "fabrication",
+  "skills_required": [],
+  "difficulty": 1,
+  "time": 8000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [],
+  "components": [
+    [
+      [ "glass_shard", 5 ]
+    ],
+    [
+      [ "stick", 1 ],
+      [ "2x4", 1 ]
+    ],
+    [
+      [ "superglue", 3 ]
+    ]
+  ]
+  }
 ]

@@ -136,7 +136,8 @@ tr_glow,
 tr_hum,
 tr_shadow,
 tr_drain,
-tr_snake;
+tr_snake,
+tr_glass_pit;
 
 void set_trap_ids()
 {
@@ -179,6 +180,7 @@ void set_trap_ids()
     tr_shadow = trapfind("tr_shadow");
     tr_drain = trapfind("tr_drain");
     tr_snake = trapfind("tr_snake");
+    tr_glass_pit = trapfind("tr_glass_pit");
 
     // Set ter_t.trap using ter_t.trap_id_str.
     for( std::vector<ter_t>::iterator terrain = terlist.begin();
