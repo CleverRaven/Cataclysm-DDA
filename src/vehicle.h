@@ -72,7 +72,7 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     vehicle_part(const std::string &sid = "", int dx = 0, int dy = 0,
                  const item *it = NULL) : id("null"), iid(0), mount_dx(dx), mount_dy(dy),
                  hp(0), blood(0), bigness(0), inside(false), removed(false), flags(0),
-                 passenger_id(0), amount(0) {
+                 passenger_id(0), amount(0), target(0,0) {
         precalc_dx[0] = precalc_dx[1] = -1;
         precalc_dy[0] = precalc_dy[1] = -1;
         if (!sid.empty()) {
