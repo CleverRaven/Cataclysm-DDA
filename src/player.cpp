@@ -795,12 +795,11 @@ void player::update_bodytemp()
     // Converts temperature to Celsius/10(Wito plans on using degrees Kelvin later)
     int Ctemperature = 100*(g->get_temperature() - 32) * 5/9;
     w_point weather = g->weatherGen.get_weather(pos(), calendar::turn);
-    int relativeHumidity = weather.humidity;
     int vpart = -1;
     vehicle *veh = g->m.veh_at (posx, posy, vpart);
     int vehwindspeed = 0;
     if (veh) vehwindspeed = veh->velocity;
-    int windPower = weather.windpower + vehwindspeed;
+    int total_windspeed = weather.windpower + vehwindspeed;
     // Temperature norms
     // Ambient normal temperature is lower while asleep
     int ambient_norm = (has_disease("sleep") ? 3100 : 1900);
@@ -901,8 +900,8 @@ void player::update_bodytemp()
     {
         // This adjusts the temperature scale to match the bodytemp scale -- it needs to be reset every iteration
         int adjusted_temp = (Ctemperature - ambient_norm);
-        int bpWindPower = windPower;
-        int bpRelHum = relativeHumidity;
+        int bpTotal_windspeed = total_windspeed;
+        int bpRelHum = (int)weather.humidity;
         // Skip eyes
         if (i == bp_eyes) { continue; }
         // Represents the fact that the body generates heat when it is cold. TODO : should this increase hunger?
@@ -912,28 +911,28 @@ void player::update_bodytemp()
         // Modify wind power
         if (!g->m.is_outside(pos().x, pos().y) || g->levz < 0 || (veh && veh->is_inside(vpart)))
         {
-            bpWindPower = 0;
+            bpTotal_windspeed = 0;
         }
         const oter_id &cur_om_ter = overmap_buffer.ter(g->om_global_location());
         std::string omtername = otermap[cur_om_ter].name;
         if ( omtername == "forest_water")
-            bpWindPower *= 0.7;
+            bpTotal_windspeed *= 0.7;
         else if ( omtername == "forest" )
-            bpWindPower *= 0.5;
+            bpTotal_windspeed *= 0.5;
         else if ( omtername == "forest_thick" || omtername == "hive")
-            bpWindPower *= 0.4;
-        bpWindPower = (float)bpWindPower*(1 - get_wind_resistance(body_part(i))/100.0);
+            bpTotal_windspeed *= 0.4;
+        bpTotal_windspeed = (float)bpTotal_windspeed*(1 - get_wind_resistance(body_part(i))/100.0);
         // Modify relative humidity
         if (!g->m.is_outside(pos().x, pos().y) || g->levz < 0)
         {
-            bpRelHum = relativeHumidity * (100 - relativeHumidity) / 100 + relativeHumidity; // norm for a house?
+            bpRelHum = weather.humidity * (100 - weather.humidity) / 100 + weather.humidity; // norm for a house?
         }
         else if (g->weather == WEATHER_RAINY || g->weather == WEATHER_DRIZZLE || g->weather == WEATHER_THUNDER || g->weather == WEATHER_LIGHTNING)
         {
             bpRelHum = 100;
         }
         // Calculate windchill
-        int windchill = g->weatherGen.get_windchill(weather.temperature, bpRelHum, bpWindPower, vehwindspeed);
+        int windchill = g->weatherGen.get_windchill(weather.temperature, bpRelHum, bpTotal_windspeed, vehwindspeed);
         // If you're standing in water, air temperature is replaced by water temperature. No wind.
         int water_temperature = 100 * (g->get_water_temperature() - 32) * 5/9; // Convert to C.
         if ( (ter_at_pos == t_water_dp || ter_at_pos == t_water_pool || ter_at_pos == t_swater_dp) ||
@@ -1300,7 +1299,7 @@ void player::update_bodytemp()
             // Wetness gives a heavy nerf to tempearture resistance
             int Ftemperature = g->get_temperature() + warmth((body_part)i)*0.2 - 20 * wetness_percentage / 100;
             // Windchill reduced by your armor
-            int FBwindPower = windPower * (1 - get_wind_resistance(body_part(i))/100.0);
+            int FBwindPower = total_windspeed * (1 - get_wind_resistance(body_part(i))/100.0);
             // This has been broken down into 8 zones
             // Low risk zones (stops are frostnip)
             if ((Ftemperature < 30 && Ftemperature >= 10) ||

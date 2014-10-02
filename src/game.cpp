@@ -5276,15 +5276,11 @@ void game::draw_sidebar()
         mvwprintz(w_location, 0, 18, weather_data[weather].color, "%s", weather_data[weather].name.c_str());
     }
 
-    int display_temp = get_temperature(); // Fahrenheit
-    display_temp = (display_temp - 32.0) * 5/9; // Convert to C
+    int display_temp = get_temperature();
     // Apply windchill
     w_point weatherPoint = weatherGen.get_weather(u.pos(), calendar::turn);
-    int windSpeed = weatherPoint.windpower;
-    int relHum = weatherPoint.humidity;
     int windchill = weatherGen.get_windchill(weatherPoint.temperature, weatherPoint.humidity, weatherPoint.windpower);
     display_temp += windchill;
-    display_temp = 32.0 + display_temp * 9/5; // Convert to F
 
     nc_color col_temp = c_blue;
     if (display_temp >= 90) {
