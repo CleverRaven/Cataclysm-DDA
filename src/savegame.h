@@ -37,8 +37,8 @@ const std::string legacy_mon_id[126] = {"mon_null", "mon_squirrel", "mon_rabbit"
     "mon_turkey", "mon_raccoon", "mon_opossum", "mon_rattlesnake", "mon_giant_crayfish"
 
 };
-const int num_legacy_ter = 176;
-const std::string legacy_ter_id[176] = {"t_null", "t_hole", "t_dirt", "t_sand", "t_dirtmound",
+const int num_legacy_ter = 174;
+const std::string legacy_ter_id[174] = {"t_null", "t_hole", "t_dirt", "t_sand", "t_dirtmound",
     "t_pit_shallow", "t_pit", "t_pit_corpsed", "t_pit_covered", "t_pit_spiked", "t_pit_spiked_covered",
     "t_rock_floor", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass", "t_metal_floor",
     "t_pavement", "t_pavement_y", "t_sidewalk", "t_concrete", "t_floor", "t_dirtfloor", "t_grate",
@@ -70,7 +70,7 @@ const std::string legacy_ter_id[176] = {"t_null", "t_hole", "t_dirt", "t_sand", 
     "t_card_reader_broken", "t_slot_machine", "t_elevator_control", "t_elevator_control_off",
     "t_elevator", "t_pedestal_wyrm", "t_pedestal_temple", "t_rock_red", "t_rock_green", "t_rock_blue",
     "t_floor_red", "t_floor_green", "t_floor_blue", "t_switch_rg", "t_switch_gb", "t_switch_rb",
-    "t_switch_even", "t_pit_glass", "t_pit_glass_covered"
+    "t_switch_even"
 };
 
 const int num_legacy_furn = 52;
@@ -85,15 +85,15 @@ const std::string legacy_furn_id[52] = {"f_null", "f_hay", "f_bulletin", "f_indo
     "f_plant_mature", "f_plant_harvest"
 };
 
-const int num_legacy_trap = 40;
-const std::string legacy_trap_id[40] = {
+const int num_legacy_trap = 39;
+const std::string legacy_trap_id[39] = {
     "tr_null", "tr_bubblewrap", "tr_cot", "tr_brazier", "tr_funnel", "tr_makeshift_funnel",
     "tr_rollmat", "tr_fur_rollmat", "tr_beartrap", "tr_beartrap_buried", "tr_nailboard",
     "tr_caltrops", "tr_tripwire", "tr_crossbow", "tr_shotgun_2", "tr_shotgun_1", "tr_engine",
     "tr_blade", "tr_light_snare", "tr_heavy_snare", "tr_landmine", "tr_landmine_buried",
     "tr_telepad", "tr_goo", "tr_dissector", "tr_sinkhole", "tr_pit", "tr_spike_pit", "tr_lava",
     "tr_portal", "tr_ledge", "tr_boobytrap", "tr_temple_flood", "tr_temple_toggle", "tr_glow",
-    "tr_hum", "tr_shadow", "tr_drain", "tr_snake", "tr_glass_pit"
+    "tr_hum", "tr_shadow", "tr_drain", "tr_snake"
 };
 
 //////////////////////////////////////////////////////////////////////
