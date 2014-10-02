@@ -2925,5 +2925,66 @@
                 "panties"
             ]
         }
+    },
+    {
+        "type": "profession",
+        "ident": "reenactor",
+        "name": "Historical Reenactor",
+        "description": "You were on your way to the Annual All New England Revolutionary War Living History exhibition when the end of the world permanently derailed your plans.",
+        "points": 3,
+        "skills": [
+            {
+                "level": 2,
+                "name": "survival"
+            },
+            {
+                "level": 2,
+                "name": "tailor"
+            },
+            {
+                "level": 1,
+                "name": "gun"
+            },
+            {
+                "level": 1,
+                "name": "cooking"
+            }
+        ],
+        "items": {
+            "both": [
+                "stockings",
+                "pockknife",
+                "matches",
+                "pipe_tobacco",
+                "tobacco"
+            ],
+            "male": [
+                "knee_high_boots",
+                "pants_leather",
+                "undershirt",
+                "peacoat",
+                "leather_belt",
+                "knit_scarf",
+                "tricorne",
+                "rifle_flintlock",
+                "flintlock_ammo",
+                "hatchet",
+                "hardtack"
+            ],
+            "female": [
+                "dress",
+                "apron_leather",
+                "boots",
+                "gloves_leather",
+                "long_knit_scarf",
+                "hat_fur",
+                "purse",
+                "oil_lamp",
+                "needle_wood",
+                "pot",
+                "cornmeal",
+                "salt"
+            ]
+        }
     }
 ]
