@@ -317,7 +317,7 @@ void player::melee_attack(Creature &t, bool allow_special, matec_id force_techni
                 const char* reason_for_miss = get_miss_reason();
                 if (reason_for_miss != NULL)
                     add_msg(reason_for_miss);
-	    }
+            }
 
             if (has_miss_recovery_tec())
                 add_msg(_("You feint."));

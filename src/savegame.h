@@ -1,5 +1,5 @@
-#ifndef SAVEGAME_H_
-#define SAVEGAME_H_
+#ifndef SAVEGAME_H
+#define SAVEGAME_H
 
 #include <string>
 #include <map>
@@ -103,4 +103,5 @@ const std::string obj_type_name[11]={ "OBJECT_NONE", "OBJECT_ITEM", "OBJECT_ACTO
 };
 
 extern std::map<std::string, int> obj_type_id;
+
 #endif

@@ -1,5 +1,5 @@
-#ifndef _WEATHER_H_
-#define _WEATHER_H_
+#ifndef WEATHER_H
+#define WEATHER_H
 
 /**
  * @name BODYTEMP
@@ -135,6 +135,7 @@ struct weather_datum {
 };
 
 extern std::string season_name[4];
+extern std::string season_name_uc[4];
 extern weather_datum weather_data[NUM_WEATHER_TYPES];
 extern int weather_shift[4][NUM_WEATHER_TYPES][NUM_WEATHER_TYPES];
 
@@ -154,4 +155,5 @@ extern const std::vector<int> rot_chart;
 int get_hourly_rotpoints_at_temp (const int &temp);
 //int get_rot_since( const int since, const int endturn );
 int get_rot_since( const int since, const int endturn, const point &);
-#endif // _WEATHER_H_
+
+#endif

@@ -1216,7 +1216,7 @@ bool map::trans(const int x, const int y)
         field &curfield = field_at( x,y );
         if( curfield.fieldCount() > 0 ) {
             field_entry *cur = NULL;
-            for( std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart();
+            for( auto field_list_it = curfield.getFieldStart();
                  field_list_it != curfield.getFieldEnd(); ++field_list_it ) {
                 cur = field_list_it->second;
                 if( cur == NULL ) {
@@ -1940,7 +1940,7 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str,
                                 spawn_item(tentx + i, tenty + j, "damaged_shelter_kit");
                             }
                             furn_id check_furn = furn(tentx + i, tenty + j);
-                            if (check_furn == f_skin_wall || check_furn == f_skin_door || 
+                            if (check_furn == f_skin_wall || check_furn == f_skin_door ||
                                   check_furn == f_skin_door_o || check_furn == f_skin_groundsheet ||
                                   check_furn == f_canvas_wall || check_furn == f_canvas_door ||
                                   check_furn == f_canvas_door_o || check_furn == f_groundsheet ||
@@ -3043,7 +3043,7 @@ static void apply_in_fridge(item &it)
             it.item_tags.insert("COLD");
             it.active = true;
         }
-		if ((it.has_flag("COLD")) && (it.item_counter <= 590) && it.fridge > 0) {
+        if ((it.has_flag("COLD")) && (it.item_counter <= 590) && it.fridge > 0) {
             it.item_counter += 10;
         }
     }
@@ -4014,7 +4014,8 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
             // If there are items and the field does not hide them,
             // the code handling items will override it.
             draw_item_sym = (f.sym == '%');
-            if (sym == '.' && f.sym != '%') {
+            // If field priority is > 1, draw the field anyway as it obscures what's under it.
+            if( f.priority > 1 || (sym == '.' && f.sym != '%') ) {
                 // default terrain '.' and
                 // non-default field symbol -> field symbol overrides terrain
                 sym = f.sym;
@@ -4773,26 +4774,79 @@ void map::copy_grid(const int to, const int from)
     }
 }
 
-void map::spawn_monsters()
+void map::spawn_monsters( int gx, int gy, mongroup &group, bool ignore_sight )
+{
+    const int s_range = std::min(SEEX * (MAPSIZE / 2), g->u.sight_range( g->light_level() ) );
+    int pop = group.population;
+    std::vector<point> locations;
+    if( !ignore_sight ) {
+        // If the submap is one of the outermost submaps, assume that monsters are
+        // invisible there.
+        // When the map shifts because of the player moving (called from game::plmove),
+        // the player has still their *old* (not shifted) coordinates.
+        // That makes the submaps that have come into view visible (if the sight range
+        // is big enough).
+        if( gx == 0 || gy == 0 || gx + 1 == MAPSIZE || gy + 1 == MAPSIZE ) {
+            ignore_sight = true;
+        }
+    }
+    for( int x = 0; x < SEEX; ++x ) {
+        for( int y = 0; y < SEEY; ++y ) {
+            int fx = x + SEEX * gx;
+            int fy = y + SEEY * gy;
+            if( g->critter_at( fx, fy ) != nullptr ) {
+                continue; // there is already some creature
+            }
+            if( move_cost( fx, fy ) == 0 ) {
+                continue; // solid area, impassable
+            }
+            int t;
+            if( !ignore_sight && sees( g->u.posx, g->u.posy, fx, fy, s_range, t ) ) {
+                continue; // monster must spawn outside the viewing range of the player
+            }
+            if( has_flag_ter_or_furn( TFLAG_INDOORS, fx, fy ) ) {
+                continue; // monster must spawn outside.
+            }
+            locations.push_back( point( fx, fy ) );
+        }
+    }
+    if( locations.empty() ) {
+        // TODO: what now? there is now possible place to spawn monsters, most
+        // likely because the player can see all the places.
+        dbg( D_ERROR ) << "Empty locations for group " << group.type << " at " << gx << "," << gy;
+        return;
+    }
+    for( int m = 0; m < pop; m++ ) {
+        MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( group.type, &pop );
+        if( spawn_details.name == "mon_null" ) {
+            continue;
+        }
+        monster tmp( GetMType( spawn_details.name ) );
+        for( int i = 0; i < spawn_details.pack_size; i++) {
+            for( int tries = 0; tries < 10 && !locations.empty(); tries++ ) {
+                const size_t index = rng( 0, locations.size() - 1 );
+                const point p = locations[index];
+                if( !tmp.can_move_to( p.x, p.y ) ) {
+                    continue; // target can not contain the monster
+                }
+                tmp.spawn( p.x, p.y );
+                g->add_zombie( tmp );
+                locations.erase( locations.begin() + index );
+                break;
+            }
+        }
+    }
+    // indicates the group is empty, and can be removed later
+    group.population = 0;
+}
+
+void map::spawn_monsters(bool ignore_sight)
 {
     for (int gx = 0; gx < my_MAPSIZE; gx++) {
         for (int gy = 0; gy < my_MAPSIZE; gy++) {
             auto groups = overmap_buffer.groups_at( abs_sub.x + gx, abs_sub.y + gy, abs_sub.z );
             for( auto &mgp : groups ) {
-                int group = mgp->population;
-                for( int g = 0; g < group; g++ ) {
-                    MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( mgp->type, &group );
-                    if( spawn_details.name == "mon_null" ) {
-                        continue;
-                    }
-                    // Spawn points can be added everywhere, the actual spawn code
-                    // places the monster at a suitable point.
-                    int monx = rng( 0, SEEX - 1 ) + SEEX * gx;
-                    int mony = rng( 0, SEEY - 1 ) + SEEY * gy;
-                    add_spawn( spawn_details.name, spawn_details.pack_size, monx, mony );
-                }
-                // indicates the group is empty, and can be removed later
-                mgp->population = 0;
+                spawn_monsters( gx, gy, *mgp, ignore_sight );
             }
 
             submap * const current_submap = get_submap_at_grid(gx, gy);
@@ -5011,63 +5065,64 @@ void map::build_outside_cache()
 // TODO Consider making this just clear the cache and dynamically fill it in as trans() is called
 void map::build_transparency_cache()
 {
- if (!transparency_cache_dirty) {
-     return;
- }
- for(int x = 0; x < my_MAPSIZE * SEEX; x++) {
-  for(int y = 0; y < my_MAPSIZE * SEEY; y++) {
-
-   // Default to fully transparent.
-   transparency_cache[x][y] = LIGHT_TRANSPARENCY_CLEAR;
-
-   if ( !terlist[ter(x, y)].transparent || !furnlist[furn(x, y)].transparent ) {
-    transparency_cache[x][y] = LIGHT_TRANSPARENCY_SOLID;
-    continue;
-   }
-
-   //Quoted to see if this works!
-   field &curfield = field_at(x,y);
-   if(curfield.fieldCount() > 0){
-    field_entry *cur = NULL;
-    for(std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart(); field_list_it != curfield.getFieldEnd(); ++field_list_it){
-     cur = field_list_it->second;
-     if(cur == NULL) continue;
-
-     if(!fieldlist[cur->getFieldType()].transparent[cur->getFieldDensity() - 1]) {
-      // Fields are either transparent or not, however we want some to be translucent
-      switch(cur->getFieldType()) {
-      case fd_cigsmoke:
-      case fd_weedsmoke:
-      case fd_cracksmoke:
-      case fd_methsmoke:
-      case fd_relax_gas:
-          transparency_cache[x][y] *= 0.7;
-          break;
-      case fd_smoke:
-      case fd_incendiary:
-      case fd_toxic_gas:
-      case fd_tear_gas:
-       if(cur->getFieldDensity() == 3)
-        transparency_cache[x][y] = LIGHT_TRANSPARENCY_SOLID;
-       if(cur->getFieldDensity() == 2)
-        transparency_cache[x][y] *= 0.5;
-       break;
-      case fd_nuke_gas:
-       transparency_cache[x][y] *= 0.5;
-       break;
-      default:
-       transparency_cache[x][y] = LIGHT_TRANSPARENCY_SOLID;
-       break;
-      }
-     }
-
-     // TODO: [lightmap] Have glass reduce light as well
+    if( !transparency_cache_dirty ) {
+        return;
     }
-   }
-  }
- }
+    for( int x = 0; x < my_MAPSIZE * SEEX; x++ ) {
+        for( int y = 0; y < my_MAPSIZE * SEEY; y++ ) {
+            // Default to fully transparent.
+            transparency_cache[x][y] = LIGHT_TRANSPARENCY_CLEAR;
 
- transparency_cache_dirty = false;
+            if( !terlist[ter(x, y)].transparent || !furnlist[furn(x, y)].transparent ) {
+                transparency_cache[x][y] = LIGHT_TRANSPARENCY_SOLID;
+                continue;
+            }
+
+            field &curfield = field_at(x,y);
+            if(curfield.fieldCount() > 0){
+                field_entry *cur = NULL;
+                for( auto field_list_it = curfield.getFieldStart();
+                     field_list_it != curfield.getFieldEnd(); ++field_list_it ) {
+                    cur = field_list_it->second;
+                    if(cur == NULL) {
+                        continue;
+                    }
+
+                    if( !fieldlist[cur->getFieldType()].transparent[cur->getFieldDensity() - 1] ) {
+                        // Fields are either transparent or not, however we want some to be translucent
+                        switch(cur->getFieldType()) {
+                        case fd_cigsmoke:
+                        case fd_weedsmoke:
+                        case fd_cracksmoke:
+                        case fd_methsmoke:
+                        case fd_relax_gas:
+                            transparency_cache[x][y] *= 0.7;
+                            break;
+                        case fd_smoke:
+                        case fd_incendiary:
+                        case fd_toxic_gas:
+                        case fd_tear_gas:
+                            if(cur->getFieldDensity() == 3) {
+                                transparency_cache[x][y] = LIGHT_TRANSPARENCY_SOLID;
+                            }
+                            if(cur->getFieldDensity() == 2) {
+                                transparency_cache[x][y] *= 0.5;
+                            }
+                            break;
+                        case fd_nuke_gas:
+                            transparency_cache[x][y] *= 0.5;
+                            break;
+                        default:
+                            transparency_cache[x][y] = LIGHT_TRANSPARENCY_SOLID;
+                            break;
+                        }
+                    }
+                    // TODO: [lightmap] Have glass reduce light as well
+                }
+            }
+        }
+    }
+    transparency_cache_dirty = false;
 }
 
 void map::build_map_cache()

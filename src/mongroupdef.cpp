@@ -271,10 +271,6 @@ void MonsterGroupManager::FinalizeMonsterGroups()
             mg.defaultMonster = "mon_null";
         }
     }
-    monster_blacklist.clear();
-    monster_whitelist.clear();
-    monster_categories_blacklist.clear();
-    monster_categories_whitelist.clear();
 }
 
 void MonsterGroupManager::LoadMonsterGroup(JsonObject &jo)

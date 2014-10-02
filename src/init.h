@@ -1,5 +1,5 @@
-#ifndef _INIT_H_
-#define _INIT_H_
+#ifndef INIT_H
+#define INIT_H
 
 #include "json.h"
 
@@ -188,4 +188,4 @@ class DynamicDataLoader
 
 void init_names();
 
-#endif // _INIT_H_
+#endif

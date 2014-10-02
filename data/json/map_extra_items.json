@@ -13,7 +13,6 @@
             { "group": "lab_shoes", "damage-min": 1, "damage-max": 3 },
             { "group": "lab_torso", "damage-min": 1, "damage-max": 3 },
             { "group": "underwear", "damage-min": 1, "damage-max": 3 }
-            
         ]
     }, {
         "type" : "item_group",

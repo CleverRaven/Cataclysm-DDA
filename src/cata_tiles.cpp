@@ -163,11 +163,15 @@ void cata_tiles::get_tile_information(std::string dir_path, std::string &json_pa
 
 int cata_tiles::load_tileset(std::string path, int R, int G, int B)
 {
+    std::string img_path = path;
+#ifdef PREFIX   // use the PREFIX path over the current directory
+    img_path = (FILENAMES["datadir"] + "/" + img_path);
+#endif
     /** reinit tile_atlas */
-    SDL_Surface *tile_atlas = IMG_Load(path.c_str());
+    SDL_Surface *tile_atlas = IMG_Load(img_path.c_str());
 
     if(!tile_atlas) {
-        throw std::string("Could not load tileset image at ") + path + ", error: " + IMG_GetError();
+        throw std::string("Could not load tileset image at ") + img_path + ", error: " + IMG_GetError();
     }
 
         /** get dimensions of the atlas image */
@@ -622,7 +626,27 @@ bool cata_tiles::draw_from_id_string(const std::string &id, TILE_CATEGORY catego
         return false;
     }
 
-    tile_id_iterator it = tile_ids.find(id);
+    std::string seasonal_id;
+    switch (calendar::turn.get_season()) {
+    case SPRING:
+        seasonal_id = id + "_season_spring";
+        break;
+    case SUMMER:
+        seasonal_id = id + "_season_summer";
+        break;
+    case AUTUMN:
+        seasonal_id = id + "_season_autumn";
+        break;
+    case WINTER:
+        seasonal_id = id + "_season_winter";
+        break;
+    }
+    tile_id_iterator it = tile_ids.find(seasonal_id);
+    if (it != tile_ids.end()) {
+        return draw_from_id_string(seasonal_id, category, subcategory, x, y, subtile, rota);
+    }
+
+    it = tile_ids.find(id);
 
     if (it == tile_ids.end()) {
         long sym = -1;
@@ -1130,11 +1154,17 @@ void cata_tiles::draw_entity_with_overlays(int x, int y) {
         // next up, draw all the overlays
         std::vector<std::string> overlays = entity_to_draw->get_overlay_ids();
         for(const std::string& overlay : overlays) {
-            // TODO: distinguish between male/female?
-            std::string draw_id = "overlay_"+overlay;
+            bool exists = true;
+            std::string draw_id = (entity_to_draw->male) ? "overlay_male_" + overlay : "overlay_female_" + overlay;
+            if (tile_ids.find(draw_id) == tile_ids.end()) {
+                draw_id = "overlay_" + overlay;
+                if(tile_ids.find(draw_id) == tile_ids.end()) {
+                    exists = false;
+                }
+            }
 
             // make sure we don't draw an annoying "unknown" tile when we have nothing to draw
-            if(tile_ids.find(draw_id) != tile_ids.end()) {
+            if (exists) {
                 draw_from_id_string(draw_id, C_NONE, "", x, y, corner, 0);
             }
         }

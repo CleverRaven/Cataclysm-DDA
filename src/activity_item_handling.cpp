@@ -14,7 +14,7 @@ bool game::make_drop_activity( enum activity_type act, point target )
         return false;
     }
     u.assign_activity( act, 0 );
-    u.activity.placement = target;
+    u.activity.placement = point( target.x - u.xpos(), target.y - u.ypos() );
     for( auto item_pair : dropped ) {
         u.activity.values.push_back( item_pair.first );
         u.activity.values.push_back( item_pair.second );
@@ -46,6 +46,8 @@ static void make_drop_activity( enum activity_type act, point drop_target,
     std::list<item *> &selected_worn_items, std::list<int> &worn_item_quantities )
 {
     g->u.assign_activity( act, 0 );
+    // This one is only ever called to re-insert the activity into the activity queue.
+    // It's already relative, so no need to adjust it.
     g->u.activity.placement = drop_target;
     add_drop_pairs( selected_worn_items, worn_item_quantities);
     add_drop_pairs( selected_items, item_quantities);
@@ -173,6 +175,9 @@ static void place_item_activity( std::list<item *> &selected_items, std::list<in
     std::vector<item> dropped_worn_items;
     int prev_volume = g->u.volume_capacity();
     bool taken_off = false;
+    // Make the relative coordinates absolute.
+    drop_target.x += g->u.xpos();
+    drop_target.y += g->u.ypos();
     if( type == DROP_WORN || type == STASH_WORN ) {
         // TODO: Add the logic where dropping a worn container drops a number of contents as well.
         // Stash previous volume and compare it to volume after taking off each article of clothing.
@@ -266,7 +271,8 @@ void game::activity_on_turn_pickup()
     std::list<int> indices;
     std::list<int> quantities;
 
-    if (!from_vehicle && g->m.i_at(pickup_target.x, pickup_target.y).size() <= 0) {
+    if( !from_vehicle &&
+        g->m.i_at(pickup_target.x + u.xpos(), pickup_target.y + u.ypos()).size() <= 0 ) {
         g->u.cancel_activity();
         return;
     }
@@ -299,6 +305,10 @@ void game::activity_on_turn_pickup()
 static void move_items( point source, point destination,
                         std::list<int> &indices, std::list<int> &quantities )
 {
+    source.x += g->u.xpos();
+    source.y += g->u.ypos();
+    destination.x += g->u.xpos();
+    destination.y += g->u.ypos();
     int veh_root_part = -1;
     vehicle *veh = g->m.veh_at( source.x, source.y, veh_root_part );
     int cargo_part = -1;
@@ -330,14 +340,26 @@ static void move_items( point source, point destination,
         }
 
         // Check that we can pick it up.
-        if( !temp_item.made_of(LIQUID) && g->u.can_pickWeight(temp_item.weight(), false) &&
-            g->u.can_pickVolume(temp_item.volume()) ) {
+        if( !temp_item.made_of(LIQUID) ) {
+            // Is it too bulky? We'll have to use our hands, then.
+            if( !g->u.can_pickVolume(temp_item.volume()) && g->u.is_armed() ) {
+                g->u.moves -= 20; // Pretend to be unwielding our gun.
+            }
+
+            // Is it too heavy? It'll take a while...
+            if( !g->u.can_pickWeight(temp_item.weight(), true) ) {
+                int overweight = temp_item.weight() - (g->u.weight_capacity() - g->u.weight_carried());
+
+                // ...like one move cost per 100 grams over your leftover carry capacity.
+                g->u.moves -= int(overweight / 100);
+            }
+
             // Drop it first since we're going to delete the original.
             dropped_items.push_back( temp_item );
             g->drop( dropped_items, dropped_worn, 0, destination.x, destination.y );
 
             // Remove from map.
-            if( veh != nullptr ) {
+            if( veh != nullptr && cargo_part >= 0 ) {
                 veh->remove_item( cargo_part, index );
             } else {
                 g->m.i_rem( source.x, source.y, index );

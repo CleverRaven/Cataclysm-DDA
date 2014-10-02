@@ -13,6 +13,7 @@
 #include "overmapbuffer.h"
 #include "enums.h"
 #include "monstergenerator.h"
+#include "mongroup.h"
 #include "mapgen.h"
 #include <algorithm>
 #include <cassert>
@@ -10477,7 +10478,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                 add_spawn("mon_zombie", rng(1, 5), 11, 12);
                 break;
             case 5:
-                square(this, t_dirtfloor, 1, 1, 22, 22);
+                square(this, t_dirt, 1, 1, 22, 22);
                 square(this, t_fence_barbed, 4, 4, 19, 19);
                 square(this, t_dirt, 5, 5, 18, 18);
                 square(this, t_pit_corpsed, 6, 6, 17, 17);
@@ -11080,6 +11081,9 @@ void map::add_spawn(std::string type, int count, int x, int y, bool friendly,
     if( ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"] && !GetMType(type)->in_category("CLASSIC") &&
         !GetMType(type)->in_category("WILDLIFE") ) {
         // Don't spawn non-classic monsters in classic zombie mode.
+        return;
+    }
+    if (monster_is_blacklisted(GetMType(type))) {
         return;
     }
     spawn_point tmp(type, count, offset_x, offset_y, faction_id, mission_id, friendly, name);

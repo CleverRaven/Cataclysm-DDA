@@ -654,7 +654,7 @@ furn_id furnfind(const std::string & id) {
 furn_id f_null,
     f_hay,
     f_rubble, f_rubble_rock, f_wreckage, f_ash,
-    f_barricade_road,
+    f_barricade_road, f_sandbag_half, f_sandbag_wall,
     f_bulletin,
     f_indoor_plant,f_indoor_plant_y,
     f_bed, f_toilet, f_makeshift_bed,
@@ -686,6 +686,8 @@ void set_furn_ids() {
     f_wreckage=furnfind("f_wreckage");
     f_ash=furnfind("f_ash");
     f_barricade_road=furnfind("f_barricade_road");
+    f_sandbag_half=furnfind("f_sandbag_half");
+    f_sandbag_wall=furnfind("f_sandbag_wall");
     f_bulletin=furnfind("f_bulletin");
     f_indoor_plant=furnfind("f_indoor_plant");
     f_indoor_plant_y=furnfind("f_indoor_plant_y");

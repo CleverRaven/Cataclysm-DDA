@@ -329,7 +329,7 @@
   "autolearn" : true,
   "qualities":[
     {"id":"CUT","level":1,"amount":1},
-	{"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1,"amount":1}
   ],
   "components" : [
     [
@@ -2232,32 +2232,15 @@
   "autolearn": false,
   "book_learn": [["recipe_bullets" , 2 ] , [ "manual_shotgun", 3 ]],
   "tools": [
-    [
-      [ "press", -1 ]
-    ],
-    [
-      [ "boltcutters", -1 ],
-	  [ "toolset", -1 ]
-    ],
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "press", 2 ]
-    ]
+    [ [ "press", -1 ] ],
+    [ [ "boltcutters", -1 ], [ "toolset", -1 ] ],
+    [ [ "fire", -1 ], [ "toolset", 2 ], [ "press", 2 ] ]
   ],
   "components": [
-    [
-      [ "shot_hull", 10 ]
-    ],
-    [
-      [ "shotgun_primer", 10 ]
-    ],
-    [
-      [ "gunpowder", 120 ]
-    ],
-    [
-      [ "nail", 160 ]
-     ]
+    [ [ "shot_hull", 10 ] ],
+    [ [ "shotgun_primer", 10 ] ],
+    [ [ "gunpowder", 120 ] ],
+    [ [ "nail", 160 ] ]
    ]
 },{
         "type" : "recipe",
@@ -2491,7 +2474,7 @@
     ],
     [
       [ "boltcutters", -1 ],
-	  [ "toolset", -1 ]
+      [ "toolset", -1 ]
     ],
     [
       [ "press", -1 ]
@@ -3177,7 +3160,7 @@
     ],
     [
       [ "boltcutters", -1 ],
-	  [ "toolset", -1]
+      [ "toolset", -1]
     ],
     [
       [ "fire", -1 ],
@@ -3588,6 +3571,6 @@
       [ "steel_chunk", 1 ],
       [ "scrap", 3 ]
     ]
-	]
+  ]
   }
 ]

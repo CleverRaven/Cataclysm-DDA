@@ -1,5 +1,6 @@
-#ifndef _BIONICS_H_
-#define _BIONICS_H_
+#ifndef BIONICS_H
+#define BIONICS_H
+
 #include "json.h"
 #include <string>
 #include <map>

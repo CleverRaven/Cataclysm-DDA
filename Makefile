@@ -442,6 +442,8 @@ install: version $(TARGET)
 	cp -R --no-preserve=ownership data/names $(DATA_PREFIX)
 	cp -R --no-preserve=ownership data/raw $(DATA_PREFIX)
 	cp -R --no-preserve=ownership data/recycling $(DATA_PREFIX)
+	cp -R --no-preserve=ownership data/motd $(DATA_PREFIX)
+	cp -R --no-preserve=ownership data/credits $(DATA_PREFIX)
 ifdef TILES
 	cp -R --no-preserve=ownership gfx $(DATA_PREFIX)
 endif
@@ -450,7 +452,7 @@ ifdef LUA
 	install --mode=644 lua/autoexec.lua $(DATA_PREFIX)/lua
 	install --mode=644 lua/class_definitions.lua $(DATA_PREFIX)/lua
 endif
-	install --mode=644 data/changelog.txt data/credits data/motd data/cataicon.ico \
+	install --mode=644 data/changelog.txt data/cataicon.ico data/fontdata.json \
                    README.txt LICENSE.txt -t $(DATA_PREFIX)
 	mkdir -p $(LOCALE_DIR)
 	LOCALE_DIR=$(LOCALE_DIR) lang/compile_mo.sh
@@ -472,6 +474,7 @@ ctags: $(SOURCES) $(HEADERS)
 
 etags: $(SOURCES) $(HEADERS)
 	etags $(SOURCES) $(HEADERS)
+	find data/json -name "*.json" -print0 | xargs -0 -L 50 etags --append
 
 tests: $(ODIR) $(DDIR) $(OBJS)
 	$(MAKE) -C tests

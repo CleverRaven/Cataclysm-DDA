@@ -25,9 +25,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-22 09:16+0400\n"
-"PO-Revision-Date: 2014-09-22 13:05+0000\n"
-"Last-Translator: insolor <insolor@gmail.com>\n"
+"POT-Creation-Date: 2014-09-29 09:48+0400\n"
+"PO-Revision-Date: 2014-09-29 10:16+0000\n"
+"Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/cataclysm-dda/"
 "language/ru/)\n"
 "Language: ru\n"
@@ -1187,6 +1187,10 @@ msgstr ""
 "до состояния плазмы."
 
 #: lang/json/AMMO_from_json.py
+msgid "A canister of oxygen."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
 msgid ""
 "A crude shaft made from plastic.  It needs arrowheads and fletching to "
 "become a functional arrow.  You can, however, fire it from a bow."
@@ -1603,6 +1607,12 @@ msgstr ""
 "предупреждает о вреде использования более 2-х раз в час."
 
 #: lang/json/AMMO_from_json.py
+msgid ""
+"A tiny pointy steel bolt. Can be fired from a nail gun or similar weapon. "
+"Its drawback is that it can't be used for construction like nails."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
 msgid "A tough sinew cut from a corpse, usable as thread."
 msgstr ""
 "Жёсткое сухожилие из трупа, пригодное для использования в качестве нити."
@@ -1678,8 +1688,8 @@ msgid ""
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
-msgid "An empty casing from a .22 round."
-msgstr "Пустая гильза от патрона .22"
+msgid "An empty casing from a .22 round. These can't be hand-reloaded."
+msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "An empty casing from a .223 round."
@@ -2591,6 +2601,14 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid ""
+"The .700 Nitro Express is a very powerful rifle round designed for long-"
+"range use.  Its stupendous accuracy and armor piercing capabilities make it "
+"one of the most deadly rounds available, offset only by its drastic recoil "
+"and noise. This one has been hand-reloaded."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
 "The 5.45x39mm was the standard ammunition for the AK series from 1974. Its "
 "designers were inspired by the 5.56x45mm NATO cartridge."
 msgstr ""
@@ -3373,6 +3391,13 @@ msgstr[0] "окислитель"
 msgstr[1] "окислителя"
 msgstr[2] "окислителя"
 
+#: lang/json/AMMO_from_json.py
+msgid "oxygen"
+msgid_plural "oxygens"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
 msgid "paper cartridge"
 msgid_plural "paper cartridges"
@@ -3631,6 +3656,13 @@ msgid_plural "reloaded .500 S&W Magnum"
 msgstr[0] "переснаряжённый .500 S&W Магнум"
 msgstr[1] "переснаряжённых .500 S&W Магнум"
 msgstr[2] "переснаряжённых .500 S&W Магнум"
+
+#: lang/json/AMMO_from_json.py
+msgid "reloaded .700 NX"
+msgid_plural "reloaded .700 NX"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded 00 shot"
@@ -3967,6 +3999,13 @@ msgid_plural "tin"
 msgstr[0] "олово"
 msgstr[1] "олова"
 msgstr[2] "олова"
+
+#: lang/json/AMMO_from_json.py
+msgid "tiny steel bolt"
+msgid_plural "tiny steel bolts"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: lang/json/AMMO_from_json.py
 msgid "tomato seed"
@@ -8078,9 +8117,9 @@ msgstr[2] "кевларовых бронежилетов"
 #: lang/json/ARMOR_from_json.py
 msgid "knit hat"
 msgid_plural "knit hats"
-msgstr[0] "вязанная шляпа"
-msgstr[1] "вязанные шляпы"
-msgstr[2] "вязанных шляп"
+msgstr[0] "вязаная шляпа"
+msgstr[1] "вязаные шляпы"
+msgstr[2] "вязаных шляп"
 
 #: lang/json/ARMOR_from_json.py
 msgid "knit scarf"
@@ -9723,9 +9762,9 @@ msgstr[2] "фуфаек"
 #: lang/json/ARMOR_from_json.py
 msgid "t-shirt"
 msgid_plural "t-shirts"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "футболка"
+msgstr[1] "футболки"
+msgstr[2] "футболок"
 
 #: lang/json/ARMOR_from_json.py
 msgid "tactical dump pouch"
@@ -15507,6 +15546,8 @@ msgid ""
 "A thick syrup produced from shredded sugar beets.  Useful in cooking as a "
 "sweetener."
 msgstr ""
+"Густой сироп, получаемый из измельчённой сахарной свеклы. Полезен в готовке "
+"в качестве подсластителя."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -15611,6 +15652,9 @@ msgid ""
 "A very strong semi-synthetic narcotic used to treat intense pain in hospital "
 "settings. This injectable drug is very addictive."
 msgstr ""
+"Очень сильнодействующий полусинтетический наркотический препарат, "
+"используемый при лечении сильной боли в больничных условиях. Этот "
+"инъекционный препарат вызывает очень сильную зависимость."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A very sweet and soft tropical fruit."
@@ -17268,7 +17312,7 @@ msgstr "Солёная жареная свинина. Вкусная, но вы�
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Salty fermented soybean sauce."
-msgstr ""
+msgstr "Солёный ферментированный соевой соус."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Salty little fish.  They'll make you thirsty."
@@ -17867,6 +17911,10 @@ msgstr ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Water with salt added.  Not good for drinking."
 msgstr "Вода с солью. Непригодна для питья."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Water with sugar or honey added.  Tastes okay."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Water, the stuff of life, the best thirst-quencher available."
@@ -20345,9 +20393,9 @@ msgstr[2] "сморчков"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "morphine"
 msgid_plural "morphines"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "морфин"
+msgstr[1] "морфина"
+msgstr[2] "морфина"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "mushroom"
@@ -21234,9 +21282,9 @@ msgstr[2] "мыла"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "soy sauce"
 msgid_plural "soy sauce"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "соевый соус"
+msgstr[1] "соевый соус"
+msgstr[2] "соевый соус"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "soylent slice"
@@ -21360,9 +21408,9 @@ msgstr[2] "сахарных свёкол"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "sugar beet syrup"
 msgid_plural "sugar beet syrup"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "сироп из сахарной свеклы"
+msgstr[1] "сироп из сахарной свеклы"
+msgstr[2] "сироп из сахарной свеклы"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "sugary cereal"
@@ -21374,6 +21422,13 @@ msgstr[2] "сахарные хлопья"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "sushi rice"
 msgid_plural "sushi rice"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "sweet water"
+msgid_plural "sweet water"
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
@@ -21810,6 +21865,10 @@ msgid "A large watertight leather bag, can hold 5 liters of water."
 msgstr "Большой герметичный кожаный мешок, вмещает 5 литров воды."
 
 #: lang/json/CONTAINER_from_json.py
+msgid "A little gas tank.  Useful for crafting."
+msgstr ""
+
+#: lang/json/CONTAINER_from_json.py
 msgid "A massive steel barrel with a resealable lid."
 msgstr "Массивная стальная бочка с закрывающейся крышкой."
 
@@ -21993,6 +22052,13 @@ msgid_plural "large waterskins"
 msgstr[0] "большой бурдюк"
 msgstr[1] "больших бурдюка"
 msgstr[2] "больших бурдюков"
+
+#: lang/json/CONTAINER_from_json.py
+msgid "little metal tank"
+msgid_plural "little metal tanks"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: lang/json/CONTAINER_from_json.py
 msgid "metal tank"
@@ -23117,6 +23183,50 @@ msgid "A simple wood pole with one end sharpened."
 msgstr "Простая деревянная палка заточеннная на одном конце."
 
 #: lang/json/GENERIC_from_json.py
+msgid ""
+"A single sheet of newspaper broadsheet. It is possibly one of the last "
+"issues printed before New England was overwhelmed. Most of the information "
+"on there is terribly trivial, or out of date, but one thing catches your eye "
+"briefly."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A single sheet of newspaper broadsheet. It seems to date from a few years "
+"ago--amazing it has lasted this long. Most of the information on there is "
+"terribly trivial, or out of date, but one thing catches your eye briefly."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A single sheet of newspaper broadsheet. It seems to date from several years "
+"ago, and you've NO idea how it lasted this long. Most of the information on "
+"there is terribly trivial, or out of date, but one thing catches your eye "
+"briefly."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A single sheet of newspaper broadsheet. It was printed in the months leading "
+"up to the Cataclysm. Most of the information on there is terribly trivial, "
+"or out of date, but one thing catches your eye briefly."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A single sheet of newspaper broadsheet. It was printed in the weeks leading "
+"up to the Cataclysm. Most of the information on there is terribly trivial, "
+"or out of date, but one thing catches your eye briefly."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A single sheet of newspaper broadsheet. It was printed more than a year ago. "
+"Most of the information on there is terribly trivial, or out of date, but "
+"one thing catches your eye briefly."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
 msgid "A six-foot long piece of nylon rope.  Too small to be of much use.  "
 msgstr ""
 "Двухметровый кусок нейлоновой веревки. Слишком короткий, чтобы на что-то "
@@ -23163,6 +23273,10 @@ msgstr "Маленьких кусок огнеупорной ткани из н�
 #: lang/json/GENERIC_from_json.py
 msgid "A small bolt of fur from an animal.  Can be made into warm clothing."
 msgstr "Маленький комок меха животных. Используется для пошива тёплой одежды."
+
+#: lang/json/GENERIC_from_json.py
+msgid "A small electric motor.  Useful for crafting."
+msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid ""
@@ -23493,7 +23607,7 @@ msgstr ""
 #: lang/json/GENERIC_from_json.py
 msgid ""
 "A weapon used for fencing, the most noble of all sports. The fencing sabre "
-"is shorter than foil or epee."
+"is marginally shorter than the foil and epee, but no less effective."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -24773,6 +24887,13 @@ msgstr[1] ""
 msgstr[2] ""
 
 #: lang/json/GENERIC_from_json.py
+msgid "fencing sabre"
+msgid_plural "fencing sabres"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: lang/json/GENERIC_from_json.py
 msgid "fertilizer"
 msgid_plural "fertilizers"
 msgstr[0] "удобритель"
@@ -25242,6 +25363,13 @@ msgstr[1] "доски с гвоздями"
 msgstr[2] "досок с гвоздями"
 
 #: lang/json/GENERIC_from_json.py
+msgid "newspaper page"
+msgid_plural "newspaper pages"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: lang/json/GENERIC_from_json.py
 msgid "nomex patch"
 msgid_plural "nomex patches"
 msgstr[0] "обрывок номекса"
@@ -25620,6 +25748,13 @@ msgstr[1] "маленьких LCD дисплея"
 msgstr[2] "маленьких LCD дисплеев"
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
+msgid "small electric motor"
+msgid_plural "small electric motors"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
 msgid "small storage battery"
 msgid_plural "small storage batteries"
 msgstr[0] "маленький аккумулятор"
@@ -25689,7 +25824,7 @@ msgstr[0] "ложко-вилка"
 msgstr[1] "ложко-вилки"
 msgstr[2] "ложко-вилок"
 
-#: lang/json/GENERIC_from_json.py
+#: lang/json/GENERIC_from_json.py src/weather_data.cpp
 msgid "spring"
 msgid_plural "springs"
 msgstr[0] "пружина"
@@ -28392,7 +28527,7 @@ msgstr[2] ""
 msgid ""
 "Numbered to bridge the gap between the USian Frontier and modern Civil "
 "Defense needs, the Long Ranger was designed to give Enforcer users (or "
-"anyone using .45 caliber cartridges) a little extra reach whilst using the "
+"anyone using .45 caliber cartridges) a little extra reach while using the "
 "same ammunition.  Synthetic furniture cost it some charm points from the "
 "legendary Winchester rifles it was based upon, but users agree that the "
 "forty-five's punch with the reach of a rifle is worth it."
@@ -29445,7 +29580,7 @@ msgstr[2] "больших луков"
 
 #: lang/json/GUN_from_json.py
 msgid "magazine"
-msgstr "обойма"
+msgstr "магазин"
 
 #: lang/json/GUN_from_json.py
 msgid "manual autoshotgun"
@@ -30511,11 +30646,23 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid ""
+"A mutated salmon. The same size as a large dog and quite dangerous to the "
+"inexperienced fisher."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid ""
 "A mutated wasp nearly the size of a cat, with a barbed ovipositor extruding "
 "from the abdomen."
 msgstr ""
 "Мутировавшая оса размером с кошку с торчащим из брюха острым жалом-"
 "яйцекладом."
+
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A once aggresive and hungry bull shark, this jawed terror is now even more "
+"aggresive possibly thanks to its lack of a functioning brain."
+msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid ""
@@ -30542,6 +30689,10 @@ msgstr ""
 "Бледно-белый гриб с мясистым серым стеблем, который венчается цветком. Споры "
 "периодически выходят из его жабр, несколько усиков тянутся от основания, "
 "придавая подвижности и небольшую защиту."
+
+#: lang/json/MONSTER_from_json.py
+msgid "A pickerel."
+msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "A pike."
@@ -30885,6 +31036,10 @@ msgstr ""
 #: lang/json/MONSTER_from_json.py
 msgid "A weird mass of immobile pink goo.  It seems to breathe."
 msgstr "Странная масса неподвижной розовой слизи. Похоже, что оно дышит."
+
+#: lang/json/MONSTER_from_json.py
+msgid "A whitefish."
+msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid ""
@@ -31748,6 +31903,12 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid ""
+"This thing seems like a carp, only swollen and very very angry. Death is the "
+"gift of the carp god."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid ""
 "This zombie's face and body is completely covered by a protective suit.  It "
 "wanders around, unsteadily."
 msgstr ""
@@ -32427,6 +32588,13 @@ msgstr[1] "гигантские незрелые чёрные вдовы"
 msgstr[2] "гигантских незрелых чёрных вдов"
 
 #: lang/json/MONSTER_from_json.py
+msgid "giant carp"
+msgid_plural "giant carps"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: lang/json/MONSTER_from_json.py
 msgid "giant centipede"
 msgid_plural "giant centipedes"
 msgstr[0] "гигантская многоножка"
@@ -32481,6 +32649,13 @@ msgid_plural "giant mosquitos"
 msgstr[0] "гигантский комар"
 msgstr[1] "гигантских комара"
 msgstr[2] "гигантских комаров"
+
+#: lang/json/MONSTER_from_json.py
+msgid "giant salmon"
+msgid_plural "giant salmons"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "giant slug"
@@ -32637,6 +32812,13 @@ msgstr[1] "зайца"
 msgstr[2] "зайцев"
 
 #: lang/json/MONSTER_from_json.py
+msgid "jawed terror"
+msgid_plural "jawed terrors"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: lang/json/MONSTER_from_json.py
 msgid "jumping spider"
 msgid_plural "jumping spiders"
 msgstr[0] "паук-скакун"
@@ -32754,6 +32936,13 @@ msgid_plural "perches"
 msgstr[0] "пресноводный окунь"
 msgstr[1] "пресноводных окуня"
 msgstr[2] "пресноводных окуней"
+
+#: lang/json/MONSTER_from_json.py
+msgid "pickerel"
+msgid_plural "whitefish"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "pig"
@@ -33160,6 +33349,13 @@ msgid_plural "weasels"
 msgstr[0] "ласка"
 msgstr[1] "ласки"
 msgstr[2] "ласок"
+
+#: lang/json/MONSTER_from_json.py
+msgid "whitefish"
+msgid_plural "whitefish"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "wolf"
@@ -34108,9 +34304,15 @@ msgid ""
 "sight', and flash.  You can look at your photos on the digital screen, or "
 "transfer them with a memory card.  Takes conventional batteries."
 msgstr ""
-"Цифровая фотокамера, с цифровой фокусировкой, исправлением эффекта «красных "
-"глаз», и световспышкой. Можно просматривать фотки на ЖК-дисплее или "
-"перенести их на карту памяти. Работает на обычных батарейках."
+"Цифровая фотокамера с цифровой фокусировкой, исправлением эффекта «красных "
+"глаз» и световспышкой. Можно просматривать фотки на ЖК-дисплее или перенести "
+"их на карту памяти. Работает на обычных батарейках."
+
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A professional fishing rod & reel combo. With this you should be able to "
+"catch 'em all."
+msgstr ""
 
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -38583,6 +38785,13 @@ msgstr[1] "посоха-шокера"
 msgstr[2] "посохов-шокеров"
 
 #: lang/json/TOOL_from_json.py
+msgid "pro fishing rod"
+msgid_plural "pro fishing rods"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: lang/json/TOOL_from_json.py
 msgid "quern"
 msgid_plural "querns"
 msgstr[0] "ручная мельница"
@@ -39286,6 +39495,14 @@ msgstr "Большой и очень мощный 8-цилиндровый дв�
 
 #: lang/json/VAR_VEH_PART_from_json.py
 msgid ""
+"A large cylinder fashioned out of thick plates of hardened steel, that is "
+"normally found on road rollers. Numerous massive spokes, attached to a "
+"central axis, reinforce its structure even further, making it an unstoppable "
+"force once it starts rolling."
+msgstr ""
+
+#: lang/json/VAR_VEH_PART_from_json.py
+msgid ""
 "A massive and extremely powerful V12 engine, usually built into high end "
 "sports cars."
 msgstr ""
@@ -39319,6 +39536,10 @@ msgstr "Набор колёсиков, как на магазинной теле
 #: lang/json/VAR_VEH_PART_from_json.py
 msgid "A single-cylinder 4-stroke combustion engine."
 msgstr "Одноцилиндровый, 4-тактный двигатель внутреннего сгорания."
+
+#: lang/json/VAR_VEH_PART_from_json.py
+msgid "A small single-cylinder 2-stroke combustion engine."
+msgstr ""
 
 #: lang/json/VAR_VEH_PART_from_json.py
 msgid "A small, yet powerful 4-cylinder combustion engine."
@@ -39417,6 +39638,13 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
+#: lang/json/VAR_VEH_PART_from_json.py
+msgid "large steel drum"
+msgid_plural "large steel drums"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
 #: lang/json/VAR_VEH_PART_from_json.py lang/json/vehicle_part_from_json.py
 msgid "motorbike wheel"
 msgid_plural "motorbike wheels"
@@ -39437,6 +39665,13 @@ msgid_plural "sets of casters"
 msgstr[0] "набор колёсиков"
 msgstr[1] "набора колёсиков"
 msgstr[2] "наборов колёсиков"
+
+#: lang/json/VAR_VEH_PART_from_json.py
+msgid "small 1-cylinder engine"
+msgid_plural "small 1-cylinder engines"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: lang/json/VAR_VEH_PART_from_json.py lang/json/vehicle_part_from_json.py
 msgid "small wheel"
@@ -40135,10 +40370,9 @@ msgid ""
 "don't let go (even when you'd rather they did).  Increases hand encumbrance "
 "by two, while failing to improve your ability to hold objects whatsoever."
 msgstr ""
-"Самофиксирующиеся большие пальцы крепко держат (даже когда вы действительно "
-"не хотите, этого) и не отпускают (даже если вы хотите это сделать). "
-"Увеличивают обременение рук на два, не улучшая вашу способность удерживать "
-"объекты."
+"Самофиксирующиеся большие пальцы крепко держат (даже если вы этого не "
+"хотите) и не отпускают (даже если вы хотите это сделать). Увеличивают "
+"обременение рук на два, не улучшая вашу способность удерживать объекты."
 
 #: lang/json/bionic_from_json.py
 msgid "Sensory Dulling"
@@ -40445,6 +40679,10 @@ msgstr "Строить крышу"
 #: lang/json/construction_from_json.py
 msgid "Build Rope & Pulley System"
 msgstr "Строить канатный подъёмник"
+
+#: lang/json/construction_from_json.py
+msgid "Build Sandbag Wall"
+msgstr ""
 
 #: lang/json/construction_from_json.py
 msgid "Build Sign"
@@ -42221,12 +42459,24 @@ msgid "road barricade"
 msgstr "баррикады"
 
 #: lang/json/furniture_from_json.py
+msgid "rrrip!"
+msgstr ""
+
+#: lang/json/furniture_from_json.py
 msgid "ruptured egg sack"
 msgstr "разорванная кладка яиц"
 
 #: lang/json/furniture_from_json.py
 msgid "safe"
 msgstr "сейф"
+
+#: lang/json/furniture_from_json.py
+msgid "sandbag barricade"
+msgstr ""
+
+#: lang/json/furniture_from_json.py
+msgid "sandbag wall"
+msgstr ""
 
 #: lang/json/furniture_from_json.py
 msgid "screeching metal!"
@@ -43802,6 +44052,10 @@ msgid "Toggle Debug Mode"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py
+msgid "Toggle Explored"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
 msgid "Toggle Fast Scroll"
 msgstr "Быстрая прокрутка"
 
@@ -44845,8 +45099,8 @@ msgid "Fencing"
 msgstr "Фехтование"
 
 #: lang/json/martial_art_from_json.py
-msgid "Gain +3 armor while standing still"
-msgstr "Прибавка +3 к броне, если стоять на месте"
+msgid "Gain up to +6 armor while standing still"
+msgstr ""
 
 #: lang/json/martial_art_from_json.py
 msgid "Half damage to enemies"
@@ -49688,10 +49942,8 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "Your visual processing has shifted: though you can see better in the dark, "
-"you can't see very far in the light."
+"you're nearsighted in the light.  Maybe glasses would help."
 msgstr ""
-"Ваша обработка зрительной информации была изменена: вы лучше видите в "
-"темноте, но на свету не можете далеко смотреть."
 
 #: lang/json/mutation_from_json.py
 msgid ""
@@ -52237,8 +52489,8 @@ msgctxt "prof_desc_female"
 msgid ""
 "You spent most of your days just fishing in the swamps getting by quietly on "
 "what you caught. You found the buzzing of insects enjoyable, but they got "
-"bigger and and more mean. Now their horrible noises have you spooked- you "
-"just hope the fish aren't as nasty."
+"bigger and more mean. Now their horrible noises have you spooked- you just "
+"hope the fish aren't as nasty."
 msgstr ""
 
 #. ~ Profession (male Fisher) description
@@ -52247,8 +52499,8 @@ msgctxt "prof_desc_male"
 msgid ""
 "You spent most of your days just fishing in the swamps getting by quietly on "
 "what you caught. You found the buzzing of insects enjoyable, but they got "
-"bigger and and more mean. Now their horrible noises have you spooked- you "
-"just hope the fish aren't as nasty."
+"bigger and more mean. Now their horrible noises have you spooked- you just "
+"hope the fish aren't as nasty."
 msgstr ""
 
 #. ~ Profession (female Biker) description
@@ -53578,6 +53830,21 @@ msgid "unarmed combat"
 msgstr "кулачный бой"
 
 #: lang/json/snippet_from_json.py
+msgid ""
+" ...What do you know about surviving in the Wilderness? If you can't make a "
+"snare you don't know TRAP! Hunt down a copy of TRAPPERS' LIFE and learn "
+"about wildlife!... And how to kill it. Classic BEAR TRAP returns in this "
+"issue!"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+" ...What do you know about surviving in the Wilderness? If you can't make a "
+"snare you don't know TRAP! Hunt down a copy of TRAPPERS' LIFE and learn "
+"about wildlife!... And how to kill it. This week, a CROSSBOW TRAP!"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
 #, no-python-format
 msgid "\"99% dead? I'd like to see a million zombies on Wall Street.\""
 msgstr ""
@@ -54115,6 +54382,413 @@ msgstr "\"этот глаз смотрит за мной следует за м�
 
 #: lang/json/snippet_from_json.py
 msgid ""
+"A WHOLE NEW YOU! Augment your world with CBMs! This ad features a man "
+"covered in solar panels with a miniature flashlight in the middle of his "
+"head."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"BAGS, BAGS, BAGS! They're very useful things! If we didn't have BAGS, what-"
+"would-we-use... to PUT a lot of things in!? (Ad by the \"Play SchoolClothing "
+"Co.\")"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"BEWARE UNDEAD PROPAGANDA: Stories about the dead \"rising\" may abet the "
+"enemy, a general said today. \"These stories have been tracked to communist "
+"sources tied in with the presumably Chinese invasion.\""
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"BIRDHOUSE MONTHLY... This month we look at some Dutch innovations in "
+"birdhouse design, and compare with the often confused Scandinavian Birdhouse "
+"design.  Our article on sheet metal birdhouses will have you riveted!"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"BIRDHOUSE MONTHLY... Which wood would a woodpecker prefer? This month we "
+"discuss hardwood versus soft woods, whether to lacquer, oil or paint, and "
+"which type of nails you should use!"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"CHINA INVADES?: Communications were muddled by a large influx of aggressive "
+"armed individuals. \"We have this,\" says a local Police Chief. \"We are "
+"authorizing our robotic security drones to use lethal force on combative "
+"humans\""
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"CRAFTY CRAFTERS QUARTERLY: Macaroni isn't just for eating anymore! Learn how "
+"to make jewellery and art from it as well! We also discuss the correct way "
+"to use superglue without gluing your hands together!"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Coffee of The Future... RIGHT NOW! No one has really has the time to make "
+"great coffee, but now you don't have to! Rivtech gives you inexhaustible "
+"ATOMIC power! To make boiling hot coffee the MINUTE you want it! Atomic "
+"Coffeemaker."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"DRIVING ON A WING AND A PRAYER: A New England man has proven it is possible "
+"to create a new car from scrap parts using almost nothing but duct tape. "
+"When asked why he had done it, his answer was \"Well, I didn't have a welder."
+"\""
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+#, no-python-format
+msgid ""
+"DRUG USE ON THE RISE: Recent statistic suggest drug use has climbed more "
+"than 40% in the last two years. \"People are scared for their jobs, their "
+"country, even their life... of course some will turn to drugs,\" said an "
+"expert."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"EDITOR SAYS \"DESTROY THE DEAD\". Recognisable enemy dead left lying in the "
+"street may give away militia positions! If you kill an enemy combatant, "
+"smash or butcher with a knife til unrecognisable! Screw Geneva! Protect our "
+"troops!"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"EVACS UNSTOCKED: TRUTH OR FICTION? An unidentified government source has "
+"suggested that the evacuation centers are unstocked, having \"already "
+"accomplished the goal of calming the people\". He later retracted the "
+"comment and is unable to be contacted."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"FEELING BLUE? Try \"Greens\" for Magazines! Your local Supermarket! Nothing "
+"cheers you up like a good magazine... Unless it's JUNK FOOD! Or why not buy "
+"an MP3 PLAYER or a GAME CONSOLE? Chase those Blues away at GREENS Supermarket"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"FEELING BLUE? Try \"Greens\" for Magazines! Your local Supermarket! Nothing "
+"cheers you up like a good magazine... Unless it's JUNK FOOD! Or why not buy "
+"an MP3 PLAYER or a GAME CONSOLE? Chase those blues away at GREENS Supermarket"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"GENERAL SAYS AVOID BUNKERS: Do not attempt to flee to your nearest military "
+"bunker!  Understaffed bunkers are defended by turrets, which shoot those "
+"without proper registration. Please seek military personnel if you need "
+"access."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"GLAMOPOLITAN! We've got ALL the latest tips! Whether you want to know what "
+"the elite are eating, wearing or discussing, Glamopolitan is YOUR magazine! "
+"So pick up a copy today and \"Sizzle Like A Star!\""
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"GLAMOPOLITAN! We've got ALL the latest tips! Whether you want to know what "
+"the elite are eating, wearing or discussing, Glamopolitan is YOUR magazine! "
+"So pick up a copy today and \"Sizzle Like A Star\"!"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"GOVERNMENT INTRODUCES GUN SUBSIDIES: In a move the government says will "
+"boost the economy, encourage military production and support defense "
+"militia, the government has dropped taxes on guns and applied a subsidy for "
+"the poor."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"GOVERNMENT SCIENCE BOOST: The government has drastically increased defense "
+"R&D after UN disarmament demands. \"This not only keeps money in our "
+"country, but maintains our lead on China and keeps us defended\", the "
+"President said."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"GRANADE SEEKS FUNDING FOR GRANADE: This paper has been investigating rumors "
+"disgraced former scientist Kevin Granade seeks public funding for so-called "
+"reality-warping weapon \"the Granade\", which \"[...]works by patching "
+"reality\". Apparently it will be crowdsourced via Kickstarter as \"Project "
+"Cataclysm\" "
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"GRAVE BUSINESS: Recent reports show a large spike in thefts from and "
+"assaults on funeral homes in the last few weeks. Described as highly strange "
+"but not especially dangerous, Homeland Security is \"looking at the "
+"connections now.\""
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"HE WILL BLOW YOUR WORLD: Scientist Kevin Granade reveals potential \"Reality "
+"Grenade\", loosely related to teleport-tech. He claims could be used to "
+"weaken enemies or improve our own troops. \"We're still in Alpha testing,\" "
+"says Kevin, \"It really needs a Bugfix\"."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"HOME GROWN SCIENCE: Several governors & legislators from the New England "
+"region discussed a new regional initiative today, which relaxed laws that "
+"limit the distance a hazardous-material laboratory or factory can be from a "
+"city. \"This should keep our economy going strong for years to come, with "
+"all the military R&D facilities being established,\", one mayor remarked."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"HUNTING GOODS! Food prices getting you down? Why not get a crossbow or "
+"compound bow and Hunt Your Own!? Our arrows and bolts are completely "
+"reusable, so why not hunt animals like Mother Nature intended?"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"INVADERS ARE SUPER SOLDIERS: Further proof of mutation, in addition to "
+"strength, speed & toughness, we now have reports of foreign enemies who are "
+"somehow firing lightning fields, spitting acid and reports of soldiers "
+"hidden in mobile clouds of smoke."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"INVADERS NOT HUMAN?: An earlier command by the Police Chief has backfired. "
+"\"The invaders don't register as human. The securibots turned on us when we "
+"tried to fight them. We don't have enough people left to reprogram them.\""
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"INVASION IS GM TROOPS: Reports of invasion by as yet unknown soldiers have "
+"been confirmed, and this paper has gained first hand footage proving genetic "
+"modification, with examples of extreme strength, speed and natural armor."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"LABS BOMBED: In further invasion proof (discounting earlier suggestion of a "
+"riot drug) most of New England's scientific labs were bombed simultaneously "
+"yesterday. No word yet from the military about who the aggressors are."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"LASERS - NEXT BIG THING?: Top defense researchers remarked during "
+"demonstration of a prototype today: \"We are still working on it, the laser "
+"weapon lacks power, but has a technically almost unlimited range,\" one said"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"LEAVE TO THE EXPERTS -- GENERAL: \"Do not attempt to deal with invaders "
+"yourself, our troops have the technology and the training for military "
+"action. Loud gunfire may attract more enemy attention than you have ammo!\""
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"MILITARY HAS GM TOO - GENERAL: \"We want to reassure the people, these "
+"invaders are not the only super-soldiers.  Our genemods are more advanced "
+"than China's.  We were safety-testing, which China obviously skipped "
+"disastrously.\""
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"MUTANT COLD: A new cold virus has emerged in the New England area. \"There "
+"don't appear to be complications, but many sufferers are developing large "
+"amounts of benign tumorous tissue, A pound or more,\" said a doctor"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"NEVER BE LEFT IN THE DARK! Rivtech Atomic-nightlight uses \"inexhaustible\" "
+"plutonium fuel cell, provides light, feeds power back into your grid!"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"NEW WEAPON UNVEILED: Defense today lifted the lid on a long held secret "
+"project. \"We can't discuss the specifics, but it generates a burst of "
+"plasma which accurately follows a path of laser-heated air,\" according to a "
+"Pentagon official."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"PICKLED MEAT IN A JAR! Just like your grandma used to make! It will last for "
+"months or longer, and when you've eaten it, you can refill and seal the jar! "
+"Stock your emergency supply TODAY!"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"POPULAR MECHANICS: People say mechanics is boring.  We say, \"Prove them "
+"Wrong!\" We've got all the articles that make it interesting to talk about, "
+"so you can \"Make Mechanics Popular!\""
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"POPULAR MECHANICS: People say mechanics is boring? We say, Prove them Wrong! "
+"We've got all the articles that make it interesting to talk about, so you "
+"can \"Make 'Mechanics Popular\"!"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"POPULAR MECHANICS: People say mechanics is boring? We say, Prove them Wrong! "
+"We've got all the articles that make it interesting to talk about, so you "
+"can \"Make Mechanics Popular!\""
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"POPULAR MECHANICS: People say mechanics is boring? We say, Prove them Wrong! "
+"We've got all the articles that make it interesting to talk about, so you "
+"can. \"Make Mechanics Popular\"!"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"PUBLIC SERVICE ANNOUCEMENT: \"Beware Acid Rain\". Several caustic chemicals "
+"in the air react with rain clouds to cause deadly acid rain. No word yet on "
+"if this is a deliberate tactic or a side effect of the earlier bombings."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"PUBLIC SERVICE ANNOUNCEMENT: \"Aid Delayed\". Fighting by the military at "
+"the edge of the New England Disaster Area is expected to delay civilian "
+"extraction. Civilians will be forced to supply themselves over the next "
+"weeks."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"PUBLIC SERVICE ANNOUNCEMENT: \"New England Cut Off\". New England has been "
+"quarantined for the safety of the rest of the USA. No rescue attempts will "
+"be funded, it is assumed there are no survivors in the area."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"QUANTUM LEAP: An undisclosed project has yielded results in the form of "
+"theoretical teleportation. \"This is just the tip of the iceberg,\" said a "
+"source. \"I can't disclose, but this development is the LEAST in this "
+"exciting vein!\""
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"READY FOR THE WORST: The government has proven it is ready to deal with "
+"China's threats. In the event of an actual attack, we have established "
+"evacuation centres, within a short distance of most towns."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"RIOTS CAUSED BY \"NEW DRUG\": Rumours of riots were quelled today. \"These "
+"are isolated incidents\" said a local police chief. \"The violence is random "
+"and senseless, our current theory is a street drug gone terribly wrong\""
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+#, no-python-format
+msgid ""
+"ROBOCOP BEATS CRIME: Due to the common usage of Securibots and their ability "
+"to respond more rapidly than people, crime is down 54% and dropping. Police "
+"chief says \"Don't trip an alarm and you have nothing to worry about\""
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"ROBOT RAMPAGE: Three Protestors injured when surrounding a Military base, "
+"protesting automated turrets which put guards out of jobs. \"We warned them, "
+"turrets will open fire on anyone without a military ID,\" a general said."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"SECURIBOTS: Keeping your home safe, ready the second the alarm goes off... "
+"Who needs people?"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"SHOW THEM YOUR GUNS: In response to China's latest threats, the government "
+"has further relaxed gun control, expected to increase the economic boost of "
+"earlier gun subsidies and relieve public tension."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"SPACE TELEPORTATION - TRUTH OR FICTION? Scientists addressed a growing "
+"conspiracy theory today \"The plutonium consumed is massive. We cannot use "
+"teleportation to reach aliens, unless they live on some kind of parallel "
+"world.\""
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"SUPPORT THE COUNTRY THAT SUPPORTS YOU - PRESIDENT: Unexpectedly and "
+"unpopularly, the president today instituted a peacetime draft in response to "
+"China massing troops. \"We must pray for the best while preparing for the "
+"worst.\""
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Sick of FUEL PRICES? Bus stop too far? Get your driving fix from THE SUN! "
+"Solar powered electric cars: Silent, Cheap, Powerful."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"TIME TRAVEL: TRUTH OR FICTION? Leaked federal documents describe the "
+"formation of a new federal agency XEDRA, to oversee \"4th Axis technology\" "
+"already in use. Expert opinion suggests time-travel or parallel worlds."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"TOWNS OCCUPIED TERRITORY: FEMA officials said today \"Do not try to defend "
+"your property in towns: invaders use advanced tracking, perhaps scent. "
+"Please retreat to your nearest evacuation center outside town and await "
+"extraction.\""
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"The Future... powered by COFFEE! Rivtech brings you the greatest revolution "
+"since espresso. Why wait for milk to boil? Have your coffee ready instantly "
+"with \"THE POWER OF THE ATOM\"!"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
 "The Green Fever shall purge the land for His Chosen children.  I have seen "
 "His black fire shining in the eyes of the afflicted and eagerly await the "
 "day He shall consume us all.  Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl "
@@ -54622,6 +55296,36 @@ msgid ""
 "\"Improving the world, one tank at a time.\" is written across the top.  "
 "Someone used a blue pen to write \"who gives a shit\" across the slogan and "
 "put X's over the eyes of all the animals."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"UFO CRASH: TRUTH OR FICTION? One civilian account claims a shining disk "
+"appeared in his field. \"It kind of glowed, and I could see a strange grey "
+"world through it. Then a shambling hazy purple mushroom came through, man.\""
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"US IGNORES UN DEMANDS: The US ambassador to the UN today turned down UN "
+"requests to begin nuclear disarmament by China, the US and North Korea. \"We "
+"have a right to defend ourselves,\" insisted the ambassador. \"We'll back "
+"down when they do\"."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"WAR ON DRUGS DEAD: The government has finally reacted to long accumulated "
+"evidence that suggests that decriminalized drugs cause fewer health problems "
+"and are generally better managed while providing valuable tax revenues."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"ZOMBIE DRUG: TRUTH OR FICTION? A blogger suggests recent riots are a "
+"chemical attack by China. \"They are jealous of our cybernetic superiority, "
+"they teamed up with Haiti to put hoodoo drugs in the water making people "
+"zombies.\""
 msgstr ""
 
 #: lang/json/speech_from_json.py
@@ -58448,6 +59152,10 @@ msgid "RV"
 msgstr "Дом на колёсах"
 
 #: lang/json/vehicle_from_json.py
+msgid "Road Roller"
+msgstr ""
+
+#: lang/json/vehicle_from_json.py
 msgid "Schoolbus"
 msgstr "Школьный автобус"
 
@@ -58502,6 +59210,10 @@ msgstr ""
 #: lang/json/vehicle_part_from_json.py
 msgid "5-point harness"
 msgstr "5-конечный ремень безопасности"
+
+#: lang/json/vehicle_part_from_json.py
+msgid "Roller drum"
+msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "V12 Engine"
@@ -58582,6 +59294,10 @@ msgstr "рама"
 #: lang/json/vehicle_part_from_json.py
 msgid "gasoline tank"
 msgstr "бензобак"
+
+#: lang/json/vehicle_part_from_json.py
+msgid "gasoline tank (little)"
+msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "gasoline tank (small)"
@@ -58932,7 +59648,7 @@ msgstr "Было бы неплохо получить никотин."
 msgid ""
 "You daydream what it'd be like if you were *different*.  Different is good."
 msgstr ""
-"Вы мечтаете о том, что бы было если бы вы были *иным* человеком. Быть иным "
+"Вы мечтаете о том, что было, если бы вы были *иным* человеком. Быть иным "
 "хорошо."
 
 #: src/addiction.cpp
@@ -58994,7 +59710,7 @@ msgstr ""
 #: src/addiction.cpp
 msgid "Your body is SOO booorrrring.  Just a little sip to liven things up?"
 msgstr ""
-"Ваше тело ТАКОООЕ скуууучное. Может быть один глоток, что бы оживить мир?"
+"Ваше тело ТАКОООЕ скуууучное. Может быть один глоток, чтобы оживить мир?"
 
 #: src/addiction.cpp
 msgid "Your hands start shaking... you need a drink bad!"
@@ -59058,16 +59774,16 @@ msgid "< [s]ort: %s >"
 msgstr "< [s] сортировка: %s >"
 
 #: src/advanced_inv.cpp
+msgid "AL"
+msgstr ""
+
+#: src/advanced_inv.cpp
 msgid "All 9 squares"
 msgstr "Все 9 клеток."
 
 #: src/advanced_inv.cpp
-msgid "Can't move stuff to the same place."
-msgstr "Нельзя двигать вещи в то же место"
-
-#: src/advanced_inv.cpp src/newcharacter.cpp
-msgid "DESCRIPTION"
-msgstr "ОПИСАНИЕ"
+msgid "DN"
+msgstr ""
 
 #: src/advanced_inv.cpp
 msgid "Destination area has too many items.  Remove some first."
@@ -59087,25 +59803,20 @@ msgid "Destination can only hold %d! Move how many? (0 to cancel) "
 msgstr "Туда поместится только %d! Сколько переместить? (0 для отмены) "
 
 #: src/advanced_inv.cpp
-#, c-format
-msgid ""
-"Destination full.  %d / %d moved.  Please report a bug if items have "
-"vanished."
-msgstr ""
-"Место назначения переполнено. %d / %d перемещено. Пожалуйста, сообщите, если "
-"вещи пропали."
-
-#: src/advanced_inv.cpp
-msgid "Destination full.  Please report a bug if items have vanished."
-msgstr "Место назначения переполнено. Пожалуйста, сообщите, если вещи пропали."
-
-#: src/advanced_inv.cpp
 msgid "Directly below you"
 msgstr "Прямо под вами"
 
 #: src/advanced_inv.cpp
+msgid "E"
+msgstr ""
+
+#: src/advanced_inv.cpp
 msgid "East"
 msgstr "Восток"
+
+#: src/advanced_inv.cpp
+msgid "GR"
+msgstr ""
 
 #: src/advanced_inv.cpp
 msgid "Grabbed Vehicle"
@@ -59116,12 +59827,28 @@ msgid "How many do you want to move? (0 to cancel)"
 msgstr "Сколько нужно перенести? (0 - отмена)"
 
 #: src/advanced_inv.cpp
+msgid "IN"
+msgstr ""
+
+#: src/advanced_inv.cpp
 msgid "Invalid.  Like the menu said."
 msgstr "Невозможно. Как и указано в меню."
 
 #: src/advanced_inv.cpp
 msgid "Inventory"
 msgstr "Инвентарь"
+
+#: src/advanced_inv.cpp
+msgid "N"
+msgstr ""
+
+#: src/advanced_inv.cpp
+msgid "NE"
+msgstr ""
+
+#: src/advanced_inv.cpp
+msgid "NW"
+msgstr ""
 
 #: src/advanced_inv.cpp
 msgid "Name (charges)"
@@ -59144,8 +59871,24 @@ msgid "North West"
 msgstr "Северо-запад"
 
 #: src/advanced_inv.cpp
+msgid "Not dragging any vehicle"
+msgstr ""
+
+#: src/advanced_inv.cpp
 msgid "Really move everything from your inventory?"
 msgstr "Действительно переместить всё из своего инвентаря?"
+
+#: src/advanced_inv.cpp
+msgid "S"
+msgstr ""
+
+#: src/advanced_inv.cpp
+msgid "SE"
+msgstr ""
+
+#: src/advanced_inv.cpp
+msgid "SW"
+msgstr ""
 
 #: src/advanced_inv.cpp
 msgid "Select destination"
@@ -59177,20 +59920,16 @@ msgid "Surrounding area"
 msgstr "Окрестности"
 
 #: src/advanced_inv.cpp
-msgid "There's no room in your inventory."
-msgstr "В вашем инвентаре нет места."
-
-#: src/advanced_inv.cpp
-msgid "This is too heavy!"
-msgstr "Это слишком тяжело!"
-
-#: src/advanced_inv.cpp
-msgid "Too many items."
-msgstr "Слишком много предметов."
+msgid "This is too heavy!."
+msgstr ""
 
 #: src/advanced_inv.cpp
 msgid "Unsorted (recently added first)"
 msgstr "нет (недавно добавленные первыми)"
+
+#: src/advanced_inv.cpp
+msgid "W"
+msgstr ""
 
 #: src/advanced_inv.cpp
 msgid "West"
@@ -59225,14 +59964,6 @@ msgstr "[F] Фильтр"
 msgid "[R]eset"
 msgstr "[R] Сброс"
 
-#: src/advanced_inv.cpp
-msgid "[down / page down] next"
-msgstr "[down / page down] след"
-
-#: src/advanced_inv.cpp
-msgid "[up / page up] previous"
-msgstr "[up / page up] пред"
-
 #. ~ Items list header. Table fields length without spaces: amt - 4, weight - 5, vol - 4.
 #: src/advanced_inv.cpp
 msgid "amt weight vol"
@@ -59266,10 +59997,6 @@ msgstr "по объёму"
 #: src/advanced_inv.cpp
 msgid "weight"
 msgstr "по весу"
-
-#: src/advanced_inv.h
-msgid "Initializing..."
-msgstr "Инициализация…"
 
 #: src/armor_layers.cpp
 msgid "(Innermost)"
@@ -67493,6 +68220,12 @@ msgstr "%s накрыло взрывной волной!"
 msgid "%s is slammed against the %s!"
 msgstr ""
 
+#. ~ first %s is the monster name ("the zombie") or a npc name.
+#: src/game.cpp
+#, c-format
+msgid "%s is slammed through the %s!"
+msgstr ""
+
 #: src/game.cpp
 #, c-format
 msgid "%s moves out of the way."
@@ -68185,10 +68918,6 @@ msgid "Hostile survivor spotted!"
 msgstr "Обнаружен враждебный выживший!"
 
 #: src/game.cpp
-msgid "Hostiles are nearby! Start Butchering anyway?"
-msgstr "Враг поблизости! Всё равно начать разделку?"
-
-#: src/game.cpp
 msgid "How much longer until bedtime?"
 msgstr "Когда придёт время сна?"
 
@@ -68311,10 +69040,6 @@ msgid "Martial arts debug."
 msgstr ""
 
 #: src/game.cpp
-msgid "Monster dangerously close!"
-msgstr "Монстр совсем близко!"
-
-#: src/game.cpp
 msgid "Monster in the way. Auto-move canceled."
 msgstr "Монстр на пути. Авто-движение отменено."
 
@@ -68325,20 +69050,6 @@ msgid ""
 msgstr ""
 "Замечен монстр--режим бега включён! (%s чтобы выключить или %s чтобы "
 "игнорировать монстра.)"
-
-#: src/game.cpp
-#, c-format
-msgid ""
-"Monster spotted--safe mode is on! (%s to turn it off or %s to ignore "
-"monster.)"
-msgstr ""
-"Замечен монстр--безопасный режим включён! (%s чтобы выключить или %s чтобы "
-"игнорировать монстра.)"
-
-#: src/game.cpp
-#, c-format
-msgid "Monster spotted--safe mode is on! (%s to turn it off.)"
-msgstr "Замечен монстр--включен безопасный режим! (%s выключить.)"
 
 #: src/game.cpp
 msgid "Monsters"
@@ -68779,6 +69490,17 @@ msgstr "Вызвать транспорт"
 #, c-format
 msgid "Speed %s%d! "
 msgstr "Скорость %s%d! "
+
+#: src/game.cpp
+#, c-format
+msgid ""
+"Spotted %s--safe mode is on! (%s to turn it off or %s to ignore monster.)"
+msgstr ""
+
+#: src/game.cpp
+#, c-format
+msgid "Spotted %s--safe mode is on! (%s to turn it off.)"
+msgstr ""
 
 #: src/game.cpp
 msgid "Status Window [@]"
@@ -69489,7 +70211,12 @@ msgstr "У вас в руках нет оружия дальнего боя."
 
 #: src/game.cpp
 #, c-format
-msgid "You are slammed against the %s!"
+msgid "You are slammed against the %s for %d damage!"
+msgstr ""
+
+#: src/game.cpp
+#, c-format
+msgid "You are slammed through the %s for %d damage!"
 msgstr ""
 
 #: src/game.cpp
@@ -70301,6 +71028,16 @@ msgstr "Вы перезарядили %s."
 #: src/game.cpp
 msgid "You securely web up and work your way down, lowering yourself safely."
 msgstr "Вы надёжно закрепили паутину и медленно спустились вниз."
+
+#: src/game.cpp
+#, c-format
+msgid "You see %s approaching!"
+msgstr ""
+
+#: src/game.cpp
+#, c-format
+msgid "You see %s nearby! Start butchering anyway?"
+msgstr ""
 
 #: src/game.cpp
 #, c-format
@@ -72269,6 +73006,11 @@ msgstr "%.3f фунта"
 
 #: src/iexamine.cpp
 #, c-format
+msgid "%s ripen in %s."
+msgstr ""
+
+#: src/iexamine.cpp
+#, c-format
 msgid "A spiderling bursts from the %s!"
 msgstr ""
 
@@ -72291,7 +73033,7 @@ msgstr "ограда из колючей проволоки"
 
 #: src/iexamine.cpp
 msgid "Beloved customer"
-msgstr ""
+msgstr "Любимый клиент"
 
 #: src/iexamine.cpp
 msgid "Blueberries ripen in summer."
@@ -72397,7 +73139,7 @@ msgstr "Бульк Бульк Бульк Бульк Бульк Бульк"
 
 #: src/iexamine.cpp
 msgid "Gold member"
-msgstr ""
+msgstr "Золотой участник"
 
 #: src/iexamine.cpp
 msgid "Hack console."
@@ -72476,7 +73218,7 @@ msgstr "И выплёвывет куски более мелкого разме�
 
 #: src/iexamine.cpp
 msgid "It will be ready for bottling soon."
-msgstr ""
+msgstr "Скоро будет готово к розливу в бутылки."
 
 #: src/iexamine.cpp
 msgid "It's been set recently, and will take some time to ferment."
@@ -72506,7 +73248,7 @@ msgstr "Вы проиграли."
 
 #: src/iexamine.cpp
 msgid "Not enough money, please refill your cash card."
-msgstr ""
+msgstr "Недостаточно денег, пополните баланс вашей карты."
 
 #: src/iexamine.cpp
 msgid "Nothing legible on the sign."
@@ -72555,7 +73297,7 @@ msgstr "Посажено %s"
 
 #: src/iexamine.cpp
 msgid "Platinum member"
-msgstr ""
+msgstr "Платиновый участник"
 
 #: src/iexamine.cpp
 msgid "Play again?"
@@ -72586,11 +73328,15 @@ msgstr "Как много %s поместить в %s?"
 #: src/iexamine.cpp
 #, c-format
 msgid "Recycle %s metal into:"
-msgstr ""
+msgstr "Переработать %s металл в:"
 
 #: src/iexamine.cpp
 msgid "Refill"
 msgstr "Восполнить"
+
+#: src/iexamine.cpp
+msgid "Refund cash."
+msgstr ""
 
 #: src/iexamine.cpp
 #, c-format
@@ -72621,7 +73367,7 @@ msgstr ""
 
 #: src/iexamine.cpp
 msgid "Silver member"
-msgstr ""
+msgstr "Серебряный участник"
 
 #: src/iexamine.cpp
 #, c-format
@@ -72705,22 +73451,6 @@ msgid "The %s is now ready for bottling."
 msgstr "%s готов для розлива."
 
 #: src/iexamine.cpp
-msgid "The fruits ripen in autumn."
-msgstr "Фрукты созревают осенью."
-
-#: src/iexamine.cpp
-msgid "The fruits ripen in spring."
-msgstr ""
-
-#: src/iexamine.cpp
-msgid "The fruits ripen in summer."
-msgstr ""
-
-#: src/iexamine.cpp
-msgid "The fruits ripen in winter."
-msgstr ""
-
-#: src/iexamine.cpp
 msgid "The nearby doors slide into the floor."
 msgstr "Дверь плавно уходит в пол."
 
@@ -72758,7 +73488,7 @@ msgstr ""
 
 #: src/iexamine.cpp
 msgid "The vat is full, so you close the lid and start the fermenting cycle."
-msgstr ""
+msgstr "Бак полон, так что можете закрыть крышку и начать цикл ферментации."
 
 #: src/iexamine.cpp
 msgid "The vending machine is empty!"
@@ -72810,7 +73540,7 @@ msgstr ""
 
 #: src/iexamine.cpp
 msgid "This plant has already been fertilized."
-msgstr ""
+msgstr "Растение уже удобрено."
 
 #: src/iexamine.cpp
 msgid "This plant is dead. You can't get it."
@@ -72818,7 +73548,7 @@ msgstr "Это растение мертво. Вы не можете его со
 
 #: src/iexamine.cpp
 msgid "This station is out of fuel.  We apologize for the inconvenience."
-msgstr ""
+msgstr "На станции нет топлива. Извините за неудобство."
 
 #: src/iexamine.cpp
 msgid "This toilet is empty."
@@ -72864,6 +73594,10 @@ msgstr[1] "Сколько перевести? Максимум: %d цента. (
 msgstr[2] "Сколько перевести? Максимум: %d центов. (0 для отмены)"
 
 #: src/iexamine.cpp
+msgid "Unable to refund, no fuel in pump."
+msgstr ""
+
+#: src/iexamine.cpp
 msgid "Use electrohack on the reader?"
 msgstr "Использовать электрохак на считывателе?"
 
@@ -72886,7 +73620,7 @@ msgstr "Какое сусло использовать?"
 
 #: src/iexamine.cpp
 msgid "Use which fertilizer?"
-msgstr ""
+msgstr "Какое удобрение использовать?"
 
 #: src/iexamine.cpp
 msgid "Use which seed?"
@@ -72965,7 +73699,7 @@ msgstr "Вы убрали %s."
 
 #: src/iexamine.cpp
 msgid "You close the lid and start the fermenting cycle."
-msgstr ""
+msgstr "Вы закрываете крышку и начинаете цикл ферментации."
 
 #: src/iexamine.cpp
 #, c-format
@@ -73027,7 +73761,7 @@ msgstr ""
 
 #: src/iexamine.cpp
 msgid "You have no fertilizer."
-msgstr ""
+msgstr "У вас нет удобрений."
 
 #: src/iexamine.cpp
 msgid "You have no seeds to plant."
@@ -73134,8 +73868,8 @@ msgid "You slide right between the bars."
 msgstr ""
 
 #: src/iexamine.cpp
-msgid "You slip whilst climbing and fall down again."
-msgstr "Карабкаясь, вы поскальзываетесь и снова падаете."
+msgid "You slip while climbing and fall down again."
+msgstr ""
 
 #: src/iexamine.cpp
 msgid "You slowly suck up the nectar."
@@ -73144,12 +73878,12 @@ msgstr "Вы неторопливо потягиваете нектар."
 #: src/iexamine.cpp
 #, c-format
 msgid "You squeeze the last drops of %s from the %s."
-msgstr ""
+msgstr "Вы выжимаете последние капли %s из %s."
 
 #: src/iexamine.cpp
 #, c-format
 msgid "You squeeze the last drops of %s from the vat."
-msgstr ""
+msgstr "Вы выжимаете последние капли %s из бака."
 
 #: src/iexamine.cpp
 msgid "You successfully crack the safe!"
@@ -73197,7 +73931,7 @@ msgstr[2] ""
 
 #: src/iexamine.cpp
 msgid "Your discount: "
-msgstr ""
+msgstr "Ваша скидка:"
 
 #: src/iexamine.cpp
 msgid "Your electrohack is ruined!"
@@ -73213,7 +73947,7 @@ msgstr "Ваша энергия истощена."
 
 #: src/iexamine.cpp
 msgid "Your price per gasoline unit: "
-msgstr ""
+msgstr "Ваша цена за единицу бензина:"
 
 #: src/iexamine.cpp
 #, c-format
@@ -73258,11 +73992,11 @@ msgstr ""
 
 #: src/input.cpp src/messages.cpp
 msgid "Scroll down"
-msgstr ""
+msgstr "Прокрутить вниз"
 
 #: src/input.cpp src/messages.cpp
 msgid "Scroll up"
-msgstr ""
+msgstr "Прокрутить вверх"
 
 #: src/input.cpp
 msgid ""
@@ -73566,9 +74300,9 @@ msgstr "<num> за патрон"
 #, c-format
 msgid "<num> round of %s"
 msgid_plural "<num> rounds of %s"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "<num> патрон типа %s"
+msgstr[1] "<num> патрона типа %s"
+msgstr[2] "<num> патрон типа %s"
 
 #. ~ liters, e.g. 3.21-Liter V8 engine
 #: src/item.cpp
@@ -73609,7 +74343,7 @@ msgstr "Боеприпасы:"
 
 #: src/item.cpp
 msgid "Ammunition: "
-msgstr "Обойма: "
+msgstr "Патроны: "
 
 #: src/item.cpp
 msgid "Armor-pierce: "
@@ -73726,7 +74460,7 @@ msgstr ""
 
 #: src/item.cpp
 msgid "Magazine: "
-msgstr "Обойма: "
+msgstr "Магазин: "
 
 #: src/item.cpp
 #, c-format
@@ -73820,15 +74554,15 @@ msgstr "Ни хрена себе, труп, который вы несли, на
 
 #: src/item.cpp
 msgid "Oh dear god, a robot you're carrying has started moving!"
-msgstr ""
+msgstr "О боже, робот, которого вы несёте, зашевелился!"
 
 #: src/item.cpp
 msgid "On closer inspection, this appears to be hallucinogenic."
-msgstr ""
+msgstr "При ближайшем рассмотрении от оказывается галюциногенным."
 
 #: src/item.cpp
 msgid "On closer inspection, this appears to be poisonous."
-msgstr ""
+msgstr "При ближайшем рассмотрении он оказывается ядовитым."
 
 #: src/item.cpp
 #, c-format
@@ -73940,6 +74674,7 @@ msgstr "%s уже полон!"
 #: src/item.cpp
 msgid "The casing of this item has cracked, revealing an ominous green glow."
 msgstr ""
+"Обшивка предмета повреждена, содержимое излучает зловещий зелёный свет."
 
 #: src/item.cpp
 msgid "The eyes. "
@@ -74252,7 +74987,7 @@ msgstr ""
 
 #: src/item_factory.cpp
 msgid "Test which group?"
-msgstr ""
+msgstr "Какую группу протестировать?"
 
 #: src/item_factory.cpp
 msgid "ammo"
@@ -75080,12 +75815,12 @@ msgid "Fire rains down around you!"
 msgstr "Вокруг вас идет огненный дождь!"
 
 #: src/iuse.cpp
-msgid "Fish is not so silly to go in here without bait."
-msgstr ""
-
-#: src/iuse.cpp
 msgid "Fish where?"
 msgstr "Где рыбачить?"
+
+#: src/iuse.cpp
+msgid "Fishes are not silly to go in here without bait."
+msgstr ""
 
 #: src/iuse.cpp
 msgid "Flies buzz around you."
@@ -76154,8 +76889,8 @@ msgid "The ground's radiation level: %d"
 msgstr "Уровень радиации почвы: %d"
 
 #: src/iuse.cpp
-msgid "The infernal racket dies as you turn off the noise emitter."
-msgstr "Адский шум замолкает после выключения звукогенератора."
+msgid "The infernal racket dies as the noise emitter turns off."
+msgstr ""
 
 #: src/iuse.cpp
 msgid "The itching sensation under your skin fades away."
@@ -76331,6 +77066,10 @@ msgstr "Здесь уже зажжен огонь."
 #: src/iuse.cpp
 msgid "There is no adjacent square to release the manhack in!"
 msgstr "Недостаточно места, чтобы выпустить мэнхак."
+
+#: src/iuse.cpp
+msgid "There is no fish around. Try another spot."
+msgstr ""
 
 #: src/iuse.cpp
 msgid "There isn't anything new on the map."
@@ -77178,7 +77917,7 @@ msgstr "У вас нет никотиновой жидкости!"
 
 #: src/iuse.cpp
 msgid "You don't have anything to light it with!"
-msgstr ""
+msgstr "Вам нечем его зажечь!"
 
 #: src/iuse.cpp
 #, c-format
@@ -77648,9 +78387,8 @@ msgid "You place the brazier securely."
 msgstr "Вы установили мангал."
 
 #: src/iuse.cpp
-msgid "You place the fish trap, in a half hour or so you might have some fish."
+msgid "You place the fish trap, in three hours or so you may catch some fish."
 msgstr ""
-"Вы разместили ловушку для рыбы. Возможно, через полчаса у вас будет рыба."
 
 #: src/iuse.cpp
 msgid "You place the funnel, waiting to collect rain."
@@ -78395,11 +79133,11 @@ msgstr "Ваше тело теряет всю жёсткость на мгнов
 
 #: src/iuse.cpp
 msgid "Your bowels clench as something inside them dies."
-msgstr ""
+msgstr "Ваш кишечник сжимается, как будто внутри что-то сдохло."
 
 #: src/iuse.cpp
 msgid "Your bowels spasm painfully as something inside them dies."
-msgstr ""
+msgstr "Ваш кишечник болезненно сжимается, как будто внутри что-то сдохло."
 
 #: src/iuse.cpp
 msgid "Your breathing clears up!"
@@ -78600,7 +79338,7 @@ msgstr ""
 msgid "Zap something"
 msgstr "Ткнуть что-нибудь"
 
-#: src/iuse.cpp src/vehicle.cpp
+#: src/iuse.cpp
 msgid "a funky bassline."
 msgstr "басовую партию в стиле фанк."
 
@@ -78608,7 +79346,7 @@ msgstr "басовую партию в стиле фанк."
 msgid "a police siren, whoop WHOOP."
 msgstr ""
 
-#: src/iuse.cpp src/vehicle.cpp
+#: src/iuse.cpp
 msgid "a sweet guitar solo!"
 msgstr "приятное гитарное соло!"
 
@@ -78629,7 +79367,7 @@ msgstr "но увы. Вы слишком бедны."
 msgid "ding!"
 msgstr "дзынь!"
 
-#: src/iuse.cpp src/vehicle.cpp
+#: src/iuse.cpp
 msgid "dramatic classical music."
 msgstr "классическую музыку."
 
@@ -78690,7 +79428,7 @@ msgstr "куски пластика"
 msgid "radio: %s"
 msgstr ""
 
-#: src/iuse.cpp src/vehicle.cpp
+#: src/iuse.cpp
 msgid "some amazing vocals."
 msgstr "потрясающее вокальное пение"
 
@@ -78698,7 +79436,7 @@ msgstr "потрясающее вокальное пение"
 msgid "some bass-heavy post-glam speed polka"
 msgstr "быструю польку в стиле хеви-метал."
 
-#: src/iuse.cpp src/vehicle.cpp
+#: src/iuse.cpp
 msgid "some pumping bass."
 msgstr "ритмичный бас"
 
@@ -82809,6 +83547,11 @@ msgid "A %1$s hits your %2$s for %3$d damage!"
 msgstr "%1$s бьёт вас в %2$s на %3$d ед. урона!"
 
 #: src/monattack.cpp
+#, c-format
+msgid "A blow from the %s sends you flying!"
+msgstr ""
+
+#: src/monattack.cpp
 msgid "A bolt of electricity arcs towards you!"
 msgstr "Рядом с вами вспыхивают электрические дуги!"
 
@@ -83090,6 +83833,11 @@ msgstr "%s дико трясет!"
 
 #: src/monattack.cpp
 #, c-format
+msgid "The %s grows into an adult!"
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
 msgid "The %s hits a %s!"
 msgstr "%s ударил %s!"
 
@@ -83307,11 +84055,6 @@ msgstr "%s прыгает на вас, но вы уворачиваетесь."
 #, c-format
 msgid "The %s unsuccessfully attempts to shock you."
 msgstr ""
-
-#: src/monattack.cpp
-#, c-format
-msgid "The %s young fungaloid grows into an adult!"
-msgstr "%s молодой фунгалоид подрос и стал взрослой особью!"
 
 #: src/monattack.cpp
 #, c-format
@@ -83670,6 +84413,11 @@ msgstr ""
 #. ~ Sound of a riotbot using its blinding flash
 #: src/monattack.cpp
 msgid "fzzzzzt"
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
+msgid "the %s takes a powerful swing at you, but you dodge it!"
 msgstr ""
 
 #: src/monattack.cpp
@@ -84296,6 +85044,10 @@ msgstr "Многоножка"
 #: src/newcharacter.cpp
 msgid "Crane"
 msgstr "Журавль"
+
+#: src/newcharacter.cpp
+msgid "DESCRIPTION"
+msgstr "ОПИСАНИЕ"
 
 #: src/newcharacter.cpp
 msgid "Dexterity also enhances many actions which require finesse."
@@ -85433,9 +86185,9 @@ msgstr "!Иди на хрен, нет."
 #, c-format
 msgid "%d foot."
 msgid_plural "%d feet."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%d фут."
+msgstr[1] "%d футов."
+msgstr[2] "%d футов."
 
 #: src/npctalk.cpp
 #, c-format
@@ -85803,7 +86555,7 @@ msgstr "Что-то, что я могу сделать?"
 
 #: src/npctalk.cpp
 msgid "Anything I can help with?"
-msgstr ""
+msgstr "Я могу чем-то помочь?"
 
 #: src/npctalk.cpp
 msgid "Anything more to it?"
@@ -85938,7 +86690,7 @@ msgstr "Изменить порядок боевых действий…"
 
 #: src/npctalk.cpp
 msgid "Citizen..."
-msgstr ""
+msgstr "Гражданин..."
 
 #: src/npctalk.cpp
 msgid "Combat commands..."
@@ -86004,7 +86756,7 @@ msgstr ""
 #: src/npctalk.cpp
 #, c-format
 msgid "Dex %d - %d"
-msgstr ""
+msgstr "Лов %d - %d"
 
 #: src/npctalk.cpp
 #, c-format
@@ -86029,7 +86781,7 @@ msgstr "Не вступай в бой, если твоей жизни не уг�
 
 #: src/npctalk.cpp
 msgid "Don't mind me..."
-msgstr ""
+msgstr "Не обращайте на меня внимания..."
 
 #: src/npctalk.cpp
 msgid "Don't use grenades anymore."
@@ -86119,7 +86871,7 @@ msgstr "Следуй программе, бездельник!"
 
 #: src/npctalk.cpp
 msgid "Give it some time, I'll show you something new later..."
-msgstr ""
+msgstr "Дайте мне немного времени, и я вам покажу что-то новое..."
 
 #: src/npctalk.cpp
 msgid "Give it to me, or else!"
@@ -86127,7 +86879,7 @@ msgstr "Отдавай по-хорошему!"
 
 #: src/npctalk.cpp
 msgid "Glad to have you aboard."
-msgstr ""
+msgstr "Добро пожаловать на борт."
 
 #: src/npctalk.cpp
 msgid "Glad to help.  I need no payment."
@@ -86388,7 +87140,7 @@ msgstr "Далеко ещё?"
 
 #: src/npctalk.cpp
 msgid "Huh, thought I smelled someone new. Can I help you?"
-msgstr ""
+msgstr "Эй, кажется вы здесь недавно. Могу я вам помочь?"
 
 #: src/npctalk.cpp
 msgid "Hurry up, <name_g>!"
@@ -86494,7 +87246,7 @@ msgstr ""
 
 #: src/npctalk.cpp
 msgid "I feel bad for asking."
-msgstr ""
+msgstr "Извините, что обращаюсь к вам."
 
 #: src/npctalk.cpp
 msgid "I guess I'll look somewhere else..."
@@ -86545,7 +87297,7 @@ msgstr "Убил."
 
 #: src/npctalk.cpp
 msgid "I might be back."
-msgstr ""
+msgstr "Возможно я вернусь."
 
 #: src/npctalk.cpp
 msgid "I need <ammo> for my <mywp>, got any?"
@@ -86614,7 +87366,7 @@ msgstr "Пожалуй, я лучше подправлю тебе лицо!"
 
 #: src/npctalk.cpp
 msgid "I thought I smelled a pig.  I jest... please don't arrest me."
-msgstr ""
+msgstr "Кажется я учуял свинью. Шучу... пожалуйста, не арестовывайте меня."
 
 #: src/npctalk.cpp
 msgid ""
@@ -86696,7 +87448,7 @@ msgstr "Мне скоро понадобятся <ammo>, у тебя не най
 
 #: src/npctalk.cpp
 msgid "I'll take cash if you got it!"
-msgstr ""
+msgstr "Я бы взял деньги, если у вас они есть!"
 
 #: src/npctalk.cpp
 msgid "I'm <very> doomed"
@@ -86739,7 +87491,7 @@ msgstr ""
 
 #: src/npctalk.cpp
 msgid "I'm actually new."
-msgstr ""
+msgstr "Вообще-то я новичок."
 
 #: src/npctalk.cpp
 msgid "I'm actually new..."
@@ -86825,7 +87577,7 @@ msgstr ""
 
 #: src/npctalk.cpp
 msgid "I'm not sure..."
-msgstr ""
+msgstr "Я не уверен..."
 
 #: src/npctalk.cpp
 msgid "I'm on watch."
@@ -86934,11 +87686,11 @@ msgstr ""
 #: src/npctalk.cpp
 #, c-format
 msgid "Int %d - %d"
-msgstr ""
+msgstr "Инт %d - %d"
 
 #: src/npctalk.cpp
 msgid "Interesting."
-msgstr ""
+msgstr "Интересно."
 
 #: src/npctalk.cpp
 msgid "Interesting..."
@@ -86994,7 +87746,7 @@ msgstr "Продолжаем двигаться!"
 
 #: src/npctalk.cpp
 msgid "Keep to yourself and you won't find any problems."
-msgstr ""
+msgstr "Следи за собой, и у тебя не будет проблем."
 
 #: src/npctalk.cpp
 msgid "Keep up!"
@@ -87006,7 +87758,7 @@ msgstr "Не подходи ближе!"
 
 #: src/npctalk.cpp
 msgid "Keep your head down and stay out of my way."
-msgstr ""
+msgstr "Преклони голову и уйди с дороги"
 
 #: src/npctalk.cpp
 msgid "L: Look at"
@@ -87062,7 +87814,7 @@ msgstr ""
 
 #: src/npctalk.cpp
 msgid "Like what?"
-msgstr ""
+msgstr "Какого типа?"
 
 #: src/npctalk.cpp
 msgid "Look, <name_g><punc> let's talk!"
@@ -87082,7 +87834,7 @@ msgstr "Я <happy> тебя видеть!  Есть немного еды на �
 
 #: src/npctalk.cpp
 msgid "Marshal..."
-msgstr ""
+msgstr "Маршал..."
 
 #: src/npctalk.cpp
 msgid "Maybe you can teach me something as payment."
@@ -87187,7 +87939,7 @@ msgstr "He-a."
 
 #: src/npctalk.cpp
 msgid "Not a bloody chance, I'm going to get left behind!"
-msgstr ""
+msgstr "Ни единого шанса, я сматываю удочки!"
 
 #: src/npctalk.cpp
 msgid "Not a problem."
@@ -87213,7 +87965,7 @@ msgstr "Не интересует."
 
 #: src/npctalk.cpp
 msgid "Not really, just trying to lead my life."
-msgstr ""
+msgstr "Пожалуй нет, просто пытаюсь жить своей жизнью."
 
 #: src/npctalk.cpp
 msgid "Not until I get some antibiotics..."
@@ -87231,7 +87983,7 @@ msgstr ""
 
 #: src/npctalk.cpp
 msgid "Nothing optimistic?"
-msgstr ""
+msgstr "Нет хороших новостей?"
 
 #: src/npctalk.cpp
 msgid "Now get out of here, before I kill you."
@@ -87247,7 +87999,7 @@ msgstr ""
 
 #: src/npctalk.cpp
 msgid "OK..."
-msgstr ""
+msgstr "Хорошо..."
 
 #: src/npctalk.cpp
 msgid ""
@@ -87269,7 +88021,7 @@ msgstr ""
 
 #: src/npctalk.cpp
 msgid "Ok, thanks."
-msgstr ""
+msgstr "Хорошо, спасибо."
 
 #: src/npctalk.cpp
 msgid "Okay <name_b>, drop your weapon!"
@@ -87359,7 +88111,7 @@ msgstr "Оплата обучения:"
 #: src/npctalk.cpp
 #, c-format
 msgid "Per %d - %d"
-msgstr ""
+msgstr "Вос %d - %d"
 
 #: src/npctalk.cpp
 msgid "Please tell me you have some food to trade!"
@@ -87499,7 +88251,7 @@ msgstr ""
 
 #: src/npctalk.cpp
 msgid "Sorry..."
-msgstr ""
+msgstr "Извините..."
 
 #: src/npctalk.cpp
 msgid "Sounds good, thanks."
@@ -87541,11 +88293,11 @@ msgstr "В сторону. Теперь я лидер."
 #: src/npctalk.cpp
 #, c-format
 msgid "Str %d - %d"
-msgstr ""
+msgstr "Сил %d - %d"
 
 #: src/npctalk.cpp
 msgid "Sucks..."
-msgstr ""
+msgstr "Отстой..."
 
 #: src/npctalk.cpp
 msgid "Sure, here you go!"
@@ -87623,7 +88375,7 @@ msgstr "Точно, у вас тут блестящий значок!"
 
 #: src/npctalk.cpp
 msgid "That's it, you're dead!"
-msgstr ""
+msgstr "Точняк, ты труп!"
 
 #: src/npctalk.cpp
 msgid ""
@@ -87639,17 +88391,17 @@ msgstr ""
 
 #: src/npctalk.cpp
 msgid "The 2nd Fleet?"
-msgstr ""
+msgstr "Второй Флот?"
 
 #: src/npctalk.cpp
 msgid ""
 "The Jabberwock is real, don't listen to what anybody else says. If you see "
 "it, RUN."
-msgstr ""
+msgstr "Никого не слушай, Бармаглот существует. Если увидишь его - БЕГИ."
 
 #: src/npctalk.cpp
 msgid "Then leave, you have two feet."
-msgstr ""
+msgstr "Тогда уходите, у вас всего две ноги."
 
 #: src/npctalk.cpp
 msgid ""
@@ -87829,7 +88581,7 @@ msgstr "Ладно, пока."
 
 #: src/npctalk.cpp
 msgid "Well, then..."
-msgstr ""
+msgstr "Хорошо, тогда..."
 
 #: src/npctalk.cpp
 msgid ""
@@ -87919,7 +88671,7 @@ msgstr "Как дела, <name_g>?"
 
 #: src/npctalk.cpp
 msgid "What's with your ears?"
-msgstr ""
+msgstr "Что с вашими ушами?"
 
 #: src/npctalk.cpp
 msgid "Whatever, I had another question."
@@ -87944,7 +88696,7 @@ msgstr "Какое задание?"
 
 #: src/npctalk.cpp
 msgid "Who are the Old Guard?"
-msgstr ""
+msgstr "Кто такие Старая Гвардия?"
 
 #: src/npctalk.cpp
 msgid "Who are you?"
@@ -87991,7 +88743,7 @@ msgstr ""
 
 #: src/npctalk.cpp
 msgid "Yes of course. Just don't bring any trouble and it's all fine by me."
-msgstr ""
+msgstr "Конечно. Просто не доставляй беспокойства и все будет нормально."
 
 #: src/npctalk.cpp
 msgid "Yes, let's resume training "
@@ -88082,11 +88834,11 @@ msgstr "Ты будешь беззащитен! Продолжать?"
 
 #: src/npctalk.cpp
 msgid "You're disgusting."
-msgstr ""
+msgstr "Вы отвратительны."
 
 #: src/npctalk.cpp
 msgid "You're new here, who the hell put you up to this crap?"
-msgstr ""
+msgstr "Я раньше тебя здесь не видел, как тебе удалось так вляпаться?"
 
 #: src/npctalk.cpp
 msgid "You're not working on anything for me right now."
@@ -88126,6 +88878,8 @@ msgid ""
 "Zombie animal meat isn't good for eating, but sometimes you might find "
 "usable fur on 'em."
 msgstr ""
+"Мясо зомби-животных не годится в пищу, но иногда у них есть шерсть, которую "
+"можно использовать для чего-нибудь."
 
 #: src/npctalk.cpp
 msgid "[$8000] You have a deal."
@@ -88663,7 +89417,7 @@ msgstr "Авто-безопасный режим по умолчанию"
 msgid "Auto-shift the view while driving"
 msgstr "Автосмещение взгляда при вождении"
 
-#: src/options.cpp src/weather_data.cpp
+#: src/options.cpp
 msgid "Autumn"
 msgstr "Осень"
 
@@ -88912,8 +89666,10 @@ msgid "If true, game will ask to save the map before sleeping."
 msgstr "Если да, игра справшивает о необходимости сохранения перед сном."
 
 #: src/options.cpp
-msgid "If true, game will periodically save the map."
-msgstr "Если да, игра будет периодически сохраняться."
+msgid ""
+"If true, game will periodically save the map. Autosaves occur based on in-"
+"game turns or real-time minutes, whichever is larger."
+msgstr ""
 
 #: src/options.cpp
 msgid ""
@@ -89271,7 +90027,7 @@ msgstr ""
 msgid "Speed units"
 msgstr "Единица измерения скорости"
 
-#: src/options.cpp src/weather_data.cpp
+#: src/options.cpp
 msgid "Spring"
 msgstr "Весна"
 
@@ -89287,7 +90043,7 @@ msgstr "Статические персонажи"
 msgid "Static spawn"
 msgstr "Статическое зарождение"
 
-#: src/options.cpp src/weather_data.cpp
+#: src/options.cpp
 msgid "Summer"
 msgstr "Лето"
 
@@ -89392,18 +90148,16 @@ msgstr "Негерметичные"
 
 #: src/options.cpp
 msgid ""
-"When true, safemode will alert you to hostiles whilst you are driving a "
+"When true, safemode will alert you to hostiles while you are driving a "
 "vehicle."
 msgstr ""
-"Когда включено, безопасный режим будет оповещать вас о врагах во время "
-"вождения."
 
 #. ~ sidebar style
 #: src/options.cpp
 msgid "Wider"
 msgstr "Широкий"
 
-#: src/options.cpp src/weather_data.cpp
+#: src/options.cpp
 msgid "Winter"
 msgstr "Зима"
 
@@ -89470,6 +90224,10 @@ msgstr "- Поиск"
 #: src/overmap.cpp
 msgid " - Toggle Blinking"
 msgstr "- Вкл/Выкл мигание"
+
+#: src/overmap.cpp
+msgid " - Toggle Explored"
+msgstr ""
 
 #: src/overmap.cpp
 msgid " - Toggle Overlays"
@@ -90209,7 +90967,7 @@ msgstr "Снаряжение:"
 
 #: src/player.cpp
 msgid "Eww.  Inedible plant stuff!"
-msgstr ""
+msgstr "Фу, несъедобная растительная штука!"
 
 #: src/player.cpp
 msgid "Exhausted"
@@ -90331,7 +91089,7 @@ msgstr "Под солнцем"
 #: src/player.cpp
 #, c-format
 msgid "In memory of: %s"
-msgstr ""
+msgstr "В память о %s"
 
 #: src/player.cpp
 #, c-format
@@ -90395,7 +91153,7 @@ msgstr "Невозможно спать в этом горшке на колес
 #. ~ Semantic difference, but greatly facilitates people being proud of their character.
 #: src/player.cpp
 msgid "It's too fresh, let it age a little first.  "
-msgstr ""
+msgstr "Слишком свежее, пусть немного постоит."
 
 #: src/player.cpp
 msgid "Killed Friend"
@@ -90609,7 +91367,7 @@ msgstr "Вос %2d"
 #: src/player.cpp
 #, c-format
 msgid "Per %d"
-msgstr ""
+msgstr "На %d"
 
 #: src/player.cpp
 msgid "Perception"
@@ -90683,7 +91441,7 @@ msgstr "Уверены, что хотите съесть %s?"
 #: src/player.cpp
 #, c-format
 msgid "Really eat that %s? It smells completely unappealing."
-msgstr ""
+msgstr "Действительно съесть %s? Пахнет отвратительно."
 
 #: src/player.cpp
 #, c-format
@@ -90924,7 +91682,7 @@ msgstr "Вы заполнили эту пустоту! Время поспать
 #: src/player.cpp
 #, c-format
 msgid "The %s is much too small to fit your huge body!"
-msgstr ""
+msgstr "%s слишком маленького размера по сравнению с вашим огромным телом!"
 
 #: src/player.cpp
 #, c-format
@@ -90954,7 +91712,7 @@ msgstr "Остальная часть книги в настоящее врем�
 
 #: src/player.cpp
 msgid "The smoke bothers you."
-msgstr ""
+msgstr "Дым раздражает вас."
 
 #: src/player.cpp
 msgid "The sunlight burns your skin!"
@@ -90962,7 +91720,7 @@ msgstr "Солнечный свет обжигает вашу кожу!"
 
 #: src/player.cpp
 msgid "The sunlight distracts you."
-msgstr ""
+msgstr "Солнечный свет отвлекает вас."
 
 #: src/player.cpp
 msgid ""
@@ -90994,7 +91752,7 @@ msgstr "Солнечный свет сильно жжёт."
 
 #: src/player.cpp
 msgid "The tear gas bothers you."
-msgstr ""
+msgstr "Слезоточивый газ раздражает вас."
 
 #: src/player.cpp
 msgid ""
@@ -91179,14 +91937,14 @@ msgstr ""
 #, c-format
 msgctxt "memorial_female"
 msgid "Worn %s was completely destroyed."
-msgstr ""
+msgstr "Одетый на вас %s полностью уничтожен."
 
 #. ~ %s is armor name
 #: src/player.cpp
 #, c-format
 msgctxt "memorial_male"
 msgid "Worn %s was completely destroyed."
-msgstr ""
+msgstr "Одетый на вас %s полностью уничтожен."
 
 #: src/player.cpp
 msgid "YOU SHOULD QUIT THE GAME IMMEDIATELY."
@@ -91283,7 +92041,7 @@ msgstr "Недостаточно света для чтения!"
 
 #: src/player.cpp
 msgid "You can't stand the sunlight!"
-msgstr ""
+msgstr "Вы не переносите солнечный свет!"
 
 #: src/player.cpp
 msgid ""
@@ -91415,7 +92173,7 @@ msgstr "Вы выбросили пустой %s."
 
 #: src/player.cpp
 msgid "You eat the good parts and leave that indigestible plant stuff behind."
-msgstr ""
+msgstr "Вы едите хорошие части и выбрасываете несъедобные части растения."
 
 #: src/player.cpp
 #, c-format
@@ -91448,7 +92206,7 @@ msgstr "Вам так отвратительно плохо от поедани�
 
 #: src/player.cpp
 msgid "You feel nauseous, but your stomach is empty."
-msgstr ""
+msgstr "Вы чувствуете тошноту, хотя ваш желудок пуст."
 
 #: src/player.cpp
 msgid "You feel poison flood your body, wracking you with pain..."
@@ -91469,7 +92227,7 @@ msgstr "Вы чувствуете, что задача %s слишком про�
 #: src/player.cpp
 #, c-format
 msgid "You feel the %s filling you out."
-msgstr ""
+msgstr "Вы чувствуете, как %s наполняет вас."
 
 #. ~ %s is bodypart
 #: src/player.cpp
@@ -91660,7 +92418,7 @@ msgstr "Вы сняли %s."
 
 #: src/player.cpp
 msgid "You throw up everything you just ate!"
-msgstr ""
+msgstr "Вы выложили все, что только что съели!"
 
 #: src/player.cpp
 msgid "You try to dodge but there's no room!"
@@ -91669,6 +92427,11 @@ msgstr "Вы пытаетесь увернуться, но не хватает �
 #: src/player.cpp
 msgid "You wake up!"
 msgstr "Вы просыпаетесь!"
+
+#: src/player.cpp
+#, c-format
+msgid "You were attacked by %s!"
+msgstr ""
 
 #: src/player.cpp
 msgid "You were hurt!"
@@ -91874,11 +92637,11 @@ msgstr ""
 
 #: src/player.cpp
 msgid "Your clothing constricts your arachnid limbs."
-msgstr ""
+msgstr "Ваша одежда сковывает ваши конечности арахнида."
 
 #: src/player.cpp
 msgid "Your clothing restricts your insect arms."
-msgstr ""
+msgstr "Ваша одежда сковывает ваши руки насекомого."
 
 #: src/player.cpp
 msgid "Your eyes won't focus without reading glasses."
@@ -91920,12 +92683,12 @@ msgstr "Ваша маскировка мерцает на мгновение!"
 
 #: src/player.cpp
 msgid "Your pain distracts you!"
-msgstr ""
+msgstr "Боль отвлекает вас!"
 
 #: src/player.cpp
 #, c-format
 msgid "Your proboscis is simply too large for %s to fit."
-msgstr ""
+msgstr "Ваш хобот слишком большой для %s."
 
 #: src/player.cpp
 #, c-format
@@ -91958,7 +92721,7 @@ msgstr "Ваш желудок начинает бурчать, и вы чувс�
 #: src/player.cpp
 msgid ""
 "Your stomach immediately revolts, you can't keep this disgusting stuff down."
-msgstr ""
+msgstr "Ваш желудок бунтует, вы не можете есть это."
 
 #: src/player.cpp
 msgid "Your talons are much too large for footgear."
@@ -92000,7 +92763,7 @@ msgstr "Фу! Как можно есть эту дрянь?"
 #: src/player.cpp
 #, c-format
 msgid "a %s"
-msgstr ""
+msgstr "%s"
 
 #: src/player.cpp
 msgid "an unemployed female"
@@ -92058,7 +92821,7 @@ msgstr " Прекратить крафт?"
 
 #: src/player_activity.cpp
 msgid " Stop cutting tissues?"
-msgstr ""
+msgstr "Прекратить резку ткани?"
 
 #: src/player_activity.cpp
 msgid " Stop de-stressing?"
@@ -92082,7 +92845,7 @@ msgstr " Прекратить сбор?"
 
 #: src/player_activity.cpp
 msgid " Stop interacting with inventory?"
-msgstr ""
+msgstr "Прекратить взаимодействие с инвентарём?"
 
 #: src/player_activity.cpp
 msgid " Stop mining?"
@@ -92090,7 +92853,7 @@ msgstr "Прекратить добывать?"
 
 #: src/player_activity.cpp
 msgid " Stop moving items?"
-msgstr ""
+msgstr "Прекратить перемещать предметы?"
 
 #: src/player_activity.cpp
 msgid " Stop picking up?"
@@ -92195,7 +92958,7 @@ msgstr ""
 #: src/ranged.cpp
 #, c-format
 msgid "<npcname>'s %s malfunctions!"
-msgstr ""
+msgstr "%s <npcname> не работает!"
 
 #: src/ranged.cpp
 #, c-format
@@ -92210,7 +92973,7 @@ msgstr ""
 #: src/ranged.cpp
 #, c-format
 msgid "<npcname>'s %s misfires with a wet click!"
-msgstr ""
+msgstr "%s <npcname> влажно щёлкает и даёт осечку!"
 
 #: src/ranged.cpp
 msgid "Brrrap!"
@@ -92361,7 +93124,7 @@ msgstr ""
 #: src/ranged.cpp
 #, c-format
 msgid "Your %s malfunctions!"
-msgstr ""
+msgstr "Ваш %s не работает!"
 
 #: src/ranged.cpp
 #, c-format
@@ -92376,7 +93139,7 @@ msgstr ""
 #: src/ranged.cpp
 #, c-format
 msgid "Your %s misfires with a wet click!"
-msgstr ""
+msgstr "Ваш %s влажно щёлкает и даёт осечку!"
 
 #: src/ranged.cpp
 msgid "bang!"
@@ -92404,7 +93167,7 @@ msgstr "стук."
 
 #: src/ranged.cpp
 msgid "tz-CRACKck!"
-msgstr ""
+msgstr "тз-ХРЯСЬ!"
 
 #. ~ <item-count> <item-name>
 #: src/requirements.cpp
@@ -93224,7 +93987,7 @@ msgstr ""
 
 #: src/veh_interact.cpp
 msgid "New label:"
-msgstr ""
+msgstr "Новая метка:"
 
 #: src/veh_interact.cpp
 msgid "No parts here."
@@ -93604,7 +94367,7 @@ msgstr "Вставить %s"
 #: src/vehicle.cpp
 #, c-format
 msgid "Label: %s"
-msgstr ""
+msgstr "Метка: %s"
 
 #: src/vehicle.cpp
 msgid "Let go of controls"
@@ -93673,7 +94436,7 @@ msgstr "%s стреляет из %s!"
 #: src/vehicle.cpp
 #, c-format
 msgid "The %s is too leaky!"
-msgstr ""
+msgstr "%s слишком дырявый!"
 
 #: src/vehicle.cpp
 #, c-format
@@ -93683,7 +94446,7 @@ msgstr "%s вернул управление."
 #: src/vehicle.cpp
 #, c-format
 msgid "The %s's %s breaks into pieces!"
-msgstr ""
+msgstr "%s %s рассыпается на куски!"
 
 #: src/vehicle.cpp
 #, c-format
@@ -93699,6 +94462,11 @@ msgstr ""
 #, c-format
 msgid "The %s's %s runs over %s."
 msgstr "%s наезжает своим %s на %s."
+
+#: src/vehicle.cpp
+#, c-format
+msgid "The %s's %s runs over something."
+msgstr ""
 
 #: src/vehicle.cpp
 #, c-format
@@ -93864,7 +94632,7 @@ msgstr ""
 
 #: src/vehicle.cpp
 msgid "You don't have anything to play!"
-msgstr ""
+msgstr "Вам не с чем играть!"
 
 #: src/vehicle.cpp
 #, c-format
@@ -94066,6 +94834,18 @@ msgstr "Солнечно"
 msgid "Thunder Storm"
 msgstr "Ливень с громом"
 
+#: src/weather_data.cpp
+msgid "autumn"
+msgstr ""
+
+#: src/weather_data.cpp
+msgid "summer"
+msgstr ""
+
+#: src/weather_data.cpp
+msgid "winter"
+msgstr ""
+
 #: src/wish.cpp
 msgid " (contained)"
 msgstr ""
@@ -94095,11 +94875,11 @@ msgstr "@ %d: %s"
 
 #: src/wish.cpp
 msgid "Add 1"
-msgstr ""
+msgstr "Прибавить 1"
 
 #: src/wish.cpp
 msgid "Add 3"
-msgstr ""
+msgstr "Прибавить 3"
 
 #: src/wish.cpp
 msgid "Add-ons:"
@@ -94164,11 +94944,11 @@ msgstr "Установить на 5"
 
 #: src/wish.cpp
 msgid "Subtract 1"
-msgstr ""
+msgstr "Вычесть 1"
 
 #: src/wish.cpp
 msgid "Subtract 3"
-msgstr ""
+msgstr "Вычесть 3"
 
 #: src/wish.cpp
 msgid "Thresholds required:"
@@ -94222,7 +95002,7 @@ msgstr "--НЕТ ДОСТУПНЫХ МОДОВ--"
 
 #: src/worldfactory.cpp
 msgid "Activate / deactive mod"
-msgstr ""
+msgstr "Включить / выключить мод"
 
 #: src/worldfactory.cpp
 msgid "Are you SURE you're finished? World name will be randomly generated."
@@ -94286,6 +95066,9 @@ msgid ""
 "is and are ready to continue, or <color_yellow>%s</color> to go back and "
 "review your world."
 msgstr ""
+"Нажмите <color_yellow>%s</color>, когда посчитаете, что сгенерированный мир "
+"вам подходит и вы будете готовы продожить, или <color_yellow>%s</color>, "
+"чтобы вернуться и изменить мир."
 
 #: src/worldfactory.cpp
 msgid "Saved list of active mods as default"
@@ -94293,7 +95076,7 @@ msgstr "Сохранить список модов как список по ум
 
 #: src/worldfactory.cpp
 msgid "Switch to other list"
-msgstr ""
+msgstr "Перейти к другому списку"
 
 #: src/worldfactory.cpp
 msgid "World Gen Options"

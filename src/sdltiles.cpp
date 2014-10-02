@@ -169,6 +169,8 @@ static bool fontblending = false;
 // Used only while fontlist.txt is created.
 static std::set<std::string> *bitmap_fonts;
 
+static std::vector<curseline> framebuffer;
+
 #ifdef SDLTILES
 //***********************************
 //Tile-version specific functions   *
@@ -264,6 +266,12 @@ bool WinCreate()
         // Ignore previous values, use the whole window, but nothing more.
         TERMINAL_WIDTH = WindowWidth / fontwidth;
         TERMINAL_HEIGHT = WindowHeight / fontheight;
+    }
+
+    // Initialize framebuffer cache
+    framebuffer.resize(TERMINAL_HEIGHT);
+    for (int i = 0; i < TERMINAL_HEIGHT; i++) {
+        framebuffer[i].chars.assign(TERMINAL_WIDTH, cursecell(""));
     }
 
     const Uint32 wformat = SDL_GetWindowPixelFormat(window);
@@ -602,6 +610,13 @@ void Font::draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG)
     }
 }
 
+void invalidate_framebuffer(int x, int y, int width, int height)
+{
+    for (int j = 0, fby = y; j < height; j++, fby++) {
+        std::fill_n(framebuffer[fby].chars.begin() + x, width, cursecell(""));
+    }
+}
+
 extern WINDOW *w_hit_animation;
 void curses_drawwindow(WINDOW *win)
 {
@@ -617,6 +632,9 @@ void curses_drawwindow(WINDOW *win)
             g->ter_view_y,
             TERRAIN_WINDOW_TERM_WIDTH * font->fontwidth,
             TERRAIN_WINDOW_TERM_HEIGHT * font->fontheight);
+
+        invalidate_framebuffer(win->x, win->y, TERRAIN_WINDOW_TERM_WIDTH, TERRAIN_WINDOW_TERM_HEIGHT);
+
         update = true;
     } else if (g && win == g->w_terrain && map_font != NULL) {
         // Special font for the terrain window
@@ -659,14 +677,26 @@ bool Font::draw_window( WINDOW *win, int offsetx, int offsety )
         win->line[j].touched = false;
         for( int i = 0; i < win->width; i++ ) {
             const cursecell &cell = win->line[j].chars[i];
-            if( cell.ch.empty() ) {
-                continue; // second cell of a multi-cell character
-            }
+
             const int drawx = offsetx + i * fontwidth;
             const int drawy = offsety + j * fontheight;
             if( drawx + fontwidth > WindowWidth || drawy + fontheight > WindowHeight ) {
                 // Outside of the display area, would not render anyway
                 continue;
+            }
+
+            // Avoid redrawing an unchanged tile by checking the framebuffer cache
+            // TODO: handle caching when drawing normal windows over graphical tiles
+            const int fbx = win->x + i;
+            const int fby = win->y + j;
+            cursecell &oldcell = framebuffer[fby].chars[fbx];
+            if (cell == oldcell) {
+                continue;
+            }
+            oldcell = cell;
+
+            if( cell.ch.empty() ) {
+                continue; // second cell of a multi-cell character
             }
             const char *utf8str = cell.ch.c_str();
             int len = cell.ch.length();
@@ -680,15 +710,16 @@ bool Font::draw_window( WINDOW *win, int offsetx, int offsety )
                     continue;
                 }
                 FillRectDIB( drawx, drawy, fontwidth * cw, fontheight, BG );
-                i += cw - 1;
                 OutputChar( cell.ch, drawx, drawy, FG );
             } else {
                 FillRectDIB( drawx, drawy, fontwidth, fontheight, BG );
                 draw_ascii_lines( static_cast<unsigned char>( cell.ch[0] ), drawx, drawy, FG );
             }
+
         }
     }
     win->draw = false; //We drew the window, mark it as so
+
     return update;
 }
 

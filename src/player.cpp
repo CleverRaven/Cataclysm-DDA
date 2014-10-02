@@ -1505,7 +1505,8 @@ int player::run_cost(int base_cost, bool diag)
             movecost *= 1.5f;
         }
     }
-	// Quad skates might be more stable than inlines, but that also translates into a slower speed when on good surfaces.
+    // Quad skates might be more stable than inlines,
+    // but that also translates into a slower speed when on good surfaces.
     if ( (is_wearing("rollerskates")) && !(is_on_ground())) {
         if (offroading) {
             movecost *= 1.0f + (0.15f * shoe_type_count("rollerskates"));
@@ -1735,7 +1736,7 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
     memorial_file << string_format("%s was %s when the apocalypse began.",
                                    pronoun.c_str(), profession_name.c_str()) << "\n";
     memorial_file << string_format("%s died on %s of year %d, day %d, at %s.",
-                     pronoun.c_str(), season_name[calendar::turn.get_season()].c_str(), (calendar::turn.years() + 1),
+                     pronoun.c_str(), season_name_uc[calendar::turn.get_season()].c_str(), (calendar::turn.years() + 1),
                      (calendar::turn.days() + 1), calendar::turn.print_time().c_str()) << "\n";
     memorial_file << kill_place << "\n";
     memorial_file << "\n";
@@ -1961,7 +1962,7 @@ void player::add_memorial_log(const char* male_msg, const char* female_msg, ...)
     std::stringstream timestamp;
     //~ A timestamp. Parameters from left to right: Year, season, day, time
     timestamp << string_format(_("Year %1$d, %2$s %3$d, %4$s"), calendar::turn.years() + 1,
-                               season_name[calendar::turn.get_season()].c_str(),
+                               season_name_uc[calendar::turn.get_season()].c_str(),
                                calendar::turn.days() + 1, calendar::turn.print_time().c_str()
                                );
 
@@ -4491,7 +4492,12 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
     }
 
     if (is_player()) {
-        g->cancel_activity_query(_("You were hurt!"));
+        if (source != nullptr) {
+            g->cancel_activity_query(_("You were attacked by %s!"), source->disp_name().c_str());
+        } else {
+            // TODO: Find the name of what the player is hurt by
+            g->cancel_activity_query(_("You were hurt!"));
+        }
     }
 
     // TODO: Pre or post blit hit tile onto "this"'s location here
@@ -4737,7 +4743,12 @@ void player::apply_damage(Creature *source, body_part hurt, int dam)
     }
 
     if (!is_npc()) {
-        g->cancel_activity_query(_("You were hurt!"));
+        if (source != nullptr) {
+            g->cancel_activity_query(_("You were attacked by %s!"), source->disp_name().c_str());
+        } else {
+            // TODO: Find the name of what the player is hurt by
+            g->cancel_activity_query(_("You were hurt!"));
+        }
     }
 
     mod_pain( dam /2 );
@@ -4748,7 +4759,7 @@ void player::apply_damage(Creature *source, body_part hurt, int dam)
     }
     hp_cur[hurtpart] -= dam;
     if (hp_cur[hurtpart] < 0) {
-        lifetime_stats()->damage_taken += hp_cur[hurt];
+        lifetime_stats()->damage_taken += hp_cur[hurtpart];
         hp_cur[hurtpart] = 0;
     }
     lifetime_stats()->damage_taken += dam;
@@ -4855,14 +4866,14 @@ void player::hitall(int dam, int vary)
         int cut = 0;
         absorb((body_part) i, ddam, cut);
         hp_cur[i] -= ddam;
-        if (hp_cur[i] < 0)
-        {
-            lifetime_stats()->damage_taken+=hp_cur[i];
+        if (hp_cur[i] < 0) {
+            lifetime_stats()->damage_taken += hp_cur[i];
             hp_cur[i] = 0;
         }
 
-        mod_pain( dam / 2 / 4 );
-        lifetime_stats()->damage_taken+=dam;
+        // Average of pre and post armor damage levels, divided by 8.
+        mod_pain( (dam + ddam) / 16 );
+        lifetime_stats()->damage_taken += ddam;
     }
 }
 
@@ -7966,7 +7977,6 @@ bool player::eat(item *eaten, it_comest *comest)
 
     // If it's poisonous... poison us.  TODO: More several poison effects
     if (eaten->poison > 0) {
-        debugmsg("Ate some posioned stuff");
         if (!has_trait("EATPOISON") && !has_trait("EATDEAD")) {
             if (eaten->poison >= rng(2, 4)) {
                 add_effect("poison", eaten->poison * 100);
@@ -8161,6 +8171,11 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
               int carn_healthy = (comest->healthy) + 1;
               mod_healthy_mod(carn_healthy);
           }
+          hunger -= comest->nutr;
+          thirst -= comest->quench;
+          mod_healthy_mod(comest->healthy);
+          stomach_food += comest->nutr;
+          stomach_water += comest->quench;
     } else {
     // Saprophages get the same boost from rotten food that others get from fresh.
         hunger -= comest->nutr;
@@ -9281,7 +9296,7 @@ void player::use(int pos)
         }
         if( used->has_flag( "USE_UPS" ) ) {
             use_charges( "UPS", charges_used );
-	    //Replace 1 with charges it needs to use.
+            //Replace 1 with charges it needs to use.
             if( used->active && !has_active_UPS() && used->charges <= 1  ) {
                 add_msg_if_player( m_info, _( "You need an active UPS of some kind for this %s to work continuously." ), used->tname().c_str() );
             }
@@ -11211,33 +11226,35 @@ point player::adjacent_tile()
     field tmpfld;
     trap_id curtrap;
     int dangerous_fields;
-    for (int i=posx-1; i <= posx+1; i++)
-    {
-        for (int j=posy-1; j <= posy+1; j++)
-        {
-            if (i == posx && j == posy) continue;       // don't consider player position
-            curtrap=g->m.tr_at(i, j);
-            if (g->mon_at(i, j) == -1 && g->npc_at(i, j) == -1 && g->m.move_cost(i, j) > 0 && (curtrap == tr_null || traplist[curtrap]->is_benign()))        // only consider tile if unoccupied, passable and has no traps
-            {
+    for( int i = posx - 1; i <= posx + 1; i++ ) {
+        for( int j = posy - 1; j <= posy + 1; j++ ) {
+            if( i == posx && j == posy ) {
+                // don't consider player position
+                continue;
+            }
+            curtrap = g->m.tr_at(i, j);
+            if( g->mon_at(i, j) == -1 && g->npc_at(i, j) == -1 && g->m.move_cost(i, j) > 0 &&
+                (curtrap == tr_null || traplist[curtrap]->is_benign()) ) {
+                // only consider tile if unoccupied, passable and has no traps
                 dangerous_fields = 0;
                 tmpfld = g->m.field_at(i, j);
-                for(std::map<field_id, field_entry*>::iterator field_list_it = tmpfld.getFieldStart(); field_list_it != tmpfld.getFieldEnd(); ++field_list_it)
-                {
+                for( auto field_list_it = tmpfld.getFieldStart();
+                     field_list_it != tmpfld.getFieldEnd(); ++field_list_it ) {
                     cur = field_list_it->second;
-                    if (cur != NULL && cur->is_dangerous())
+                    if (cur != NULL && cur->is_dangerous()) {
                         dangerous_fields++;
+                    }
                 }
-                if (dangerous_fields == 0)
-                {
+                if (dangerous_fields == 0) {
                     ret.push_back(point(i, j));
                 }
             }
         }
     }
-    if (ret.size())
-        return ret[rng(0, ret.size()-1)];   // return a random valid adjacent tile
-    else
-        return point(posx, posy);           // or return player position if no valid adjacent tiles
+    if( ret.size() ) {
+        return ret[ rng( 0, ret.size() - 1 ) ];   // return a random valid adjacent tile
+    }
+    return point(posx, posy);           // or return player position if no valid adjacent tiles
 }
 
 // --- Library functions ---

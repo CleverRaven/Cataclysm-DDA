@@ -1,5 +1,5 @@
-#ifndef _ITYPE_H_
-#define _ITYPE_H_
+#ifndef ITYPE_H
+#define ITYPE_H
 
 #include "color.h"
 #include "enums.h"
@@ -212,7 +212,7 @@ public:
     }
     virtual int maximum_charges() const
     {
-	return 1;
+        return 1;
     }
 
     bool has_use() const;
@@ -537,7 +537,7 @@ struct it_tool : public virtual itype {
     }
     int maximum_charges() const
     {
-	return max_charges;
+        return max_charges;
     }
     it_tool() : itype(), ammo(), max_charges(0), def_charges(0), rand_charges(), charges_per_use(0),
         turns_per_charge(0), revert_to(), subtype()
@@ -564,7 +564,7 @@ struct it_tool_armor : public virtual it_tool, public virtual it_armor {
     }
     virtual int maximum_charges() const
     {
-	return it_tool::maximum_charges();
+        return it_tool::maximum_charges();
     }
     virtual std::string get_item_type_string() const
     {

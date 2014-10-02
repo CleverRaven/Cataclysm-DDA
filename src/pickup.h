@@ -1,5 +1,5 @@
-#ifndef _PICKUP_H_
-#define _PICKUP_H_
+#ifndef PICKUP_H
+#define PICKUP_H
 
 #include "enums.h"
 
@@ -37,5 +37,4 @@ class Pickup
         static void show_pickup_message( std::map<std::string, int> &mapPickup );
 };
 
-
-#endif //_PICKUP_H_
+#endif

@@ -166,6 +166,7 @@ void MonsterGenerator::init_attack()
     attack_map["SMOKECLOUD"] = &mattack::smokecloud;
     attack_map["BOOMER"] = &mattack::boomer;
     attack_map["RESURRECT"] = &mattack::resurrect;
+    attack_map["SMASH"] = &mattack::smash;
     attack_map["SCIENCE"] = &mattack::science;
     attack_map["GROWPLANTS"] = &mattack::growplants;
     attack_map["GROW_VINE"] = &mattack::grow_vine;
@@ -279,6 +280,7 @@ void MonsterGenerator::init_flags()
     flag_map["FLIES"] = MF_FLIES;
     flag_map["AQUATIC"] = MF_AQUATIC;
     flag_map["SWIMS"] = MF_SWIMS;
+    flag_map["FISHABLE"] = MF_FISHABLE;
     flag_map["ATTACKMON"] = MF_ATTACKMON;
     flag_map["ANIMAL"] = MF_ANIMAL;
     flag_map["PLASTIC"] = MF_PLASTIC;

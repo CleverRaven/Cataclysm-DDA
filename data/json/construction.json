@@ -639,6 +639,30 @@
         "post_terrain" : "t_wall_log_chipped"
     },{
         "type" : "construction",
+        "description" : "Build Sandbag Wall", "//": "Step 1: Build sandbag barricade",
+        "category" : "CONSTRUCT",
+        "difficulty" : 0,
+        "time" : 60,
+        "components" : [
+            [ [ "bag_canvas", 2 ] ],
+            [ [ "material_sand", 20 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_sandbag_half"
+    },{
+        "type" : "construction",
+        "description" : "Build Sandbag Wall", "//": "Step 2: Finish the sandbag wall",
+        "category" : "CONSTRUCT",
+        "difficulty" : 0,
+        "time" : 90,
+        "components" : [
+            [ [ "bag_canvas", 4 ] ],
+            [ [ "material_sand", 40 ] ]
+        ],
+        "pre_terrain" : "f_sandbag_half",
+        "post_terrain" : "f_sandbag_wall"
+    },{
+        "type" : "construction",
         "description" : "Build Palisade Wall",
         "category" : "CONSTRUCT",
         "difficulty" : 4,

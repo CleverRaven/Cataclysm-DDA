@@ -6619,7 +6619,7 @@
         "price" : 21000,
         "material" : ["plastic", "null"],
         "volume" : 100,
-        "cutting" :80,
+        "cutting" : 0,
         "warmth" : 10,
         "phase" : "solid",
         "environmental_protection" : 0,
@@ -7896,11 +7896,11 @@
         "power_armor" : true,
         "storage" : 16,
         "warmth" : 60,
-        "encumbrance" : 5,
+        "encumbrance" : 6,
         "bashing" : 1,
         "flags" : ["WATERPROOF", "STURDY", "ELECTRIC_IMMUNE"],
         "coverage" : 100,
-        "material_thickness" : 13
+        "material_thickness" : 12
     },
     {
         "type" : "ARMOR",
@@ -7922,10 +7922,10 @@
         "power_armor" : true,
         "storage" : 0,
         "warmth" : 60,
-        "encumbrance" : 5,
+        "encumbrance" : 6,
         "bashing" : 1,
         "coverage" : 100,
-        "material_thickness" : 13,
+        "material_thickness" : 12,
         "flags" : ["WATCH", "WATERPROOF", "STURDY"]
     },
     {

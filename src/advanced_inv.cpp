@@ -668,6 +668,9 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square )
     assert( square.id != AIM_ALL );
     square.volume = 0;
     square.weight = 0;
+    if( !square.canputitems ) {
+        return;
+    }
     // Existing items are *not* cleared on purpose, this might be called
     // several time in case all surrounding squares are to be shown.
     if( square.id == AIM_INVENTORY ) {
@@ -898,7 +901,7 @@ bool advanced_inventory::move_all_items()
 
     if( spane.area == AIM_INVENTORY ) {
         g->u.assign_activity( ACT_DROP, 0 );
-        g->u.activity.placement = point( darea.x, darea.y );
+        g->u.activity.placement = point( darea.x - g->u.xpos(), darea.y - g->u.ypos() );
 
         for( size_t index = 0; index < g->u.inv.size(); ++index ) {
             const auto &stack = g->u.inv.const_stack( index );
@@ -922,10 +925,10 @@ bool advanced_inventory::move_all_items()
         } else { // Vehicle and map destinations are handled the same.
             g->u.assign_activity( ACT_MOVE_ITEMS, 0 );
             // Stash the destination at the start of the values vector.
-            g->u.activity.values.push_back( darea.x );
-            g->u.activity.values.push_back( darea.y );
+            g->u.activity.values.push_back( darea.x - g->u.xpos() );
+            g->u.activity.values.push_back( darea.y - g->u.ypos() );
         }
-        g->u.activity.placement = point( sarea.x, sarea.y );
+        g->u.activity.placement = point( sarea.x - g->u.xpos(), sarea.y - g->u.ypos() );
 
         for( size_t index = 0; index < source_items.size(); index++ ) {
             if( spane.is_filtered( source_items[index].tname() ) ) {

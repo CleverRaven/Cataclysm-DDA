@@ -1,5 +1,5 @@
-#ifndef _BODYPART_H_
-#define _BODYPART_H_
+#ifndef BODYPART_H
+#define BODYPART_H
 
 #include <string>
 #include <map>

@@ -1,5 +1,5 @@
-#ifndef _GAME_H_
-#define _GAME_H_
+#ifndef GAME_H
+#define GAME_H
 
 #include "mtype.h"
 #include "monster.h"
@@ -122,7 +122,7 @@ class game
         std::vector<std::string> list_active_characters();
         void write_memorial_file(std::string sLastWords);
         void cleanup_at_end();
-	void determine_starting_season();
+        void determine_starting_season();
         bool do_turn();
         void draw();
         void draw_ter(int posx = -999, int posy = -999);
@@ -236,6 +236,9 @@ class game
 
         void teleport(player *p = NULL, bool add_teleglow = true);
         void plswim(int x, int y); // Called by plmove.  Handles swimming
+        void rod_fish(int sSkillLevel, int fishChance); // fish with rod catching function
+        void catch_a_monster(std::vector<monster*> &catchables, int posx, int posy, player *p, int catch_duration = 0); //catch monsters
+        std::vector<monster*> get_fishable(int distance); //gets the lish of fishable critters
         // when player is thrown (by impact or something)
         void fling_creature(Creature *c, const int &dir, float flvel,
                             bool controlled = false);
@@ -258,8 +261,8 @@ class game
         bool u_see (const monster *critter);
         bool u_see (const Creature *t); // for backwards compatibility
         bool u_see (const Creature &t);
-        bool is_hostile_nearby();
-        bool is_hostile_very_close();
+        Creature *is_hostile_nearby();
+        Creature *is_hostile_very_close();
         void refresh_all();
         void update_map(int &x, int &y);  // Called by plmove when the map updates
         void update_overmap_seen(); // Update which overmap tiles we can see
@@ -375,7 +378,7 @@ class game
         int get_abs_levy() const;
         int get_abs_levz() const;
         player u;
-	scenario* scen;
+        scenario *scen;
         std::vector<monster> coming_to_stairs;
         int monstairx, monstairy, monstairz;
         std::vector<npc *> active_npc;
@@ -755,7 +758,7 @@ class game
         // Preview for auto move route
         std::vector<point> destination_preview;
 
-        bool is_hostile_within(int distance);
+        Creature *is_hostile_within(int distance);
         void activity_on_turn();
         void activity_on_turn_game();
         void activity_on_turn_drop();
@@ -773,6 +776,8 @@ class game
         void activity_on_finish_vehicle();
         void activity_on_finish_make_zlave();
 
+        void move_save_to_graveyard();
+        bool save_player_data();
 };
 
 #endif

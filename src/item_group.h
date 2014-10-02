@@ -1,5 +1,5 @@
-#ifndef _ITEM_GROUP_H_
-#define _ITEM_GROUP_H_
+#ifndef ITEM_GROUP_H
+#define ITEM_GROUP_H
 
 #include "item.h"
 #include <vector>

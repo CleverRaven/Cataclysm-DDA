@@ -1,3 +1,6 @@
+#ifndef MAPBUFFER_H
+#define MAPBUFFER_H
+
 #include "line.h"
 #include <map>
 #include <list>
@@ -88,3 +91,5 @@ class mapbuffer
 };
 
 extern mapbuffer MAPBUFFER;
+
+#endif

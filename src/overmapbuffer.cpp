@@ -199,6 +199,18 @@ const std::string& overmapbuffer::note(int x, int y, int z)
     return om->note(x, y, z);
 }
 
+bool overmapbuffer::is_explored(int x, int y, int z)
+{
+    const overmap *om = get_existing_om_global(x, y);
+    return (om != NULL) && om->is_explored(x, y, z);
+}
+
+void overmapbuffer::toggle_explored(int x, int y, int z)
+{
+    overmap &om = get_om_global(x, y);
+    om.explored(x, y, z) = !om.explored(x, y, z);
+}
+
 bool overmapbuffer::has_npc(int x, int y, int z)
 {
     return !get_npcs_near_omt(x, y, z, 0).empty();

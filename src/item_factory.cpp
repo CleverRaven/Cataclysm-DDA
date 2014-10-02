@@ -343,7 +343,7 @@ void Item_factory::init()
     iuse_function_list["OXYGEN_BOTTLE"] = &iuse::oxygen_bottle;
     iuse_function_list["ATOMIC_BATTERY"] = &iuse::atomic_battery;
     iuse_function_list["UPS_BATTERY"] = &iuse::ups_battery;
-    iuse_function_list["FISHING_BASIC"] = &iuse::fishing_rod_basic;
+    iuse_function_list["FISH_ROD"] = &iuse::fishing_rod;
     iuse_function_list["FISH_TRAP"] = &iuse::fish_trap;
     iuse_function_list["GUN_REPAIR"] = &iuse::gun_repair;
     iuse_function_list["MISC_REPAIR"] = &iuse::misc_repair;
@@ -1272,8 +1272,13 @@ void Item_factory::load_item_group(JsonObject &jsobj, const std::string &group_i
     if (subtype == "old") {
         JsonArray items = jsobj.get_array("items");
         while (items.has_more()) {
-            JsonArray pair = items.next_array();
-            ig->add_item_entry(pair.get_string(0), pair.get_int(1));
+            if( items.test_object() ) {
+                JsonObject subobj = items.next_object();
+                add_entry( ig, subobj );
+            } else {
+                JsonArray pair = items.next_array();
+                ig->add_item_entry(pair.get_string(0), pair.get_int(1));
+            }
         }
         return;
     }

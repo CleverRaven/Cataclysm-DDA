@@ -1951,7 +1951,7 @@
         "move_cost": 6,
         "flags": [
             "TRANSPARENT", "DIGGABLE", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM",
-	     "SHRUB", "SHORT"
+            "SHRUB", "SHORT"
         ],
         "examine_action": "shrub_wildveggies",
         "bash": {
@@ -1969,7 +1969,7 @@
         "move_cost": 8,
         "flags": [
             "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM",
-	     "SHRUB", "SHORT"
+            "SHRUB", "SHORT"
         ],
         "bash": {
             "str_min": 4, "str_max": 60,
@@ -2079,7 +2079,7 @@
         "move_cost": 3,
         "flags": [
             "TRANSPARENT", "DIGGABLE", "FLAMMABLE_ASH", "NOITEM", "THIN_OBSTACLE", "REDUCE_SCENT",
-	     "MOUNTABLE", "SHORT"
+            "MOUNTABLE", "SHORT"
         ],
         "bash": {
             "str_min": 4, "str_max": 20,
@@ -2101,7 +2101,7 @@
         "move_cost": 3,
         "flags": [
             "TRANSPARENT", "DIGGABLE", "FLAMMABLE_ASH", "NOITEM", "THIN_OBSTACLE", "REDUCE_SCENT",
-	     "MOUNTABLE", "SHORT"
+            "MOUNTABLE", "SHORT"
         ],
         "bash": {
             "str_min": 4, "str_max": 20,
@@ -2413,7 +2413,7 @@
         "move_cost": 8,
         "flags": [
             "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHRUB",
-	     "FUNGUS", "SHORT"
+            "FUNGUS", "SHORT"
         ],
         "bash": {
             "str_min": 4, "str_max": 60,

@@ -1,5 +1,5 @@
-#ifndef _TRANSLATIONS_H_
-#define _TRANSLATIONS_H_
+#ifndef TRANSLATIONS_H
+#define TRANSLATIONS_H
 
 #ifdef LOCALIZE
 

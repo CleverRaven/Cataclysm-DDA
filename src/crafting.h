@@ -1,5 +1,5 @@
-#ifndef _CRAFTING_H_
-#define _CRAFTING_H_
+#ifndef CRAFTING_H
+#define CRAFTING_H
 
 #include <string>
 #include <vector>
@@ -144,6 +144,7 @@ void check_recipe_definitions();
 
 void set_item_spoilage(item &newit, float used_age_tally, int used_age_count);
 void set_item_food(item &newit);
-void set_item_inventory(game *g, item &newit);
+void set_item_inventory(item &newit);
+void finalize_crafted_item(item &newit, float used_age_tally, int used_age_count);
 
 #endif

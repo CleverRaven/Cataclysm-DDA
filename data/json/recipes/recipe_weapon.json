@@ -880,9 +880,9 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "saiga_sawn",
-  "byproducts": { "id" : "scrap", "amount" : 5 },  
+  "byproducts": { "id" : "scrap", "amount" : 5 },
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
   "skill_used": "fabrication",
@@ -898,7 +898,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "hand_crossbow",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
@@ -912,7 +912,7 @@
   "book_learn" : [[ "recipe_bows", 3 ] , [ "manual_archery", 5] , [ "book_archery", 4]],
   "qualities":[
     {"id":"CUT","level":1,"amount":1},
-	{"id":"HAMMER","level":2,"amount":1},
+    {"id":"HAMMER","level":2,"amount":1},
     {"id":"SCREW","level":1,"amount":1},
     {"id":"WRENCH","level":1,"amount":1}
   ], "components": [
@@ -2088,7 +2088,7 @@
   "qualities":[
     {"id":"SAW_M_FINE","level":1,"amount":1},
     {"id":"SCREW_FINE","level":1,"amount":1},
-	{"id":"WRENCH_FINE","level":1,"amount":1}
+    {"id":"WRENCH_FINE","level":1,"amount":1}
   ], "tools": [
     [
       ["goggles_welding", -1]
@@ -2175,7 +2175,7 @@
   "qualities":[
     {"id":"SAW_M_FINE","level":1,"amount":1},
     {"id":"SCREW_FINE","level":1,"amount":1},
-	{"id":"WRENCH_FINE","level":1,"amount":1}
+    {"id":"WRENCH_FINE","level":1,"amount":1}
   ], "tools": [
     [
       ["goggles_welding", -1]
@@ -2219,7 +2219,7 @@
   "qualities":[
     {"id":"SAW_M_FINE","level":1,"amount":1},
     {"id":"SCREW_FINE","level":1,"amount":1},
-	{"id":"WRENCH_FINE","level":1,"amount":1}
+    {"id":"WRENCH_FINE","level":1,"amount":1}
   ], "tools": [
     [
       ["goggles_welding", -1]
@@ -2263,7 +2263,7 @@
   "qualities":[
     {"id":"SAW_M_FINE","level":1,"amount":1},
     {"id":"SCREW_FINE","level":1,"amount":1},
-	{"id":"WRENCH_FINE","level":1,"amount":1}
+    {"id":"WRENCH_FINE","level":1,"amount":1}
   ], "tools": [
     [
       ["goggles_welding", -1]
@@ -2290,7 +2290,7 @@
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
   "skill_used": "electronics",
-  "skill_sec": ["mechanics",6],
+  "skills_required": ["mechanics",6],
   "difficulty": 9,
   "time": 36000,
   "reversible": false,
@@ -2298,7 +2298,7 @@
   "qualities":[
     {"id":"SAW_M_FINE","level":1,"amount":1},
     {"id":"SCREW_FINE","level":1,"amount":1},
-	{"id":"WRENCH_FINE","level":1,"amount":1}
+    {"id":"WRENCH_FINE","level":1,"amount":1}
   ], "tools": [
     [
       ["goggles_welding", -1]
@@ -2363,7 +2363,7 @@
     [
     [ ["rag", 4] ],
     [ ["scrap", 4] ]
-	]
+  ]
 },{
         "type" : "recipe",
   "result": "knuckle_katar",
@@ -4492,6 +4492,28 @@
     ],
     [
       [ "nail", 20 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "ugl_buttstock",
+  "category": "CC_WEAPON",
+  "skill_used": "fabrication",
+  "skills_required": [ "launcher", 3 ],
+  "difficulty": 3,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"SAW_W","level":1,"amount":1},
+    {"id":"SCREW","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "2x4", 2 ],
+      [ "stick", 2 ]
+    ],
+    [
+      [ "scrap", 1 ]
     ]
   ]
 }

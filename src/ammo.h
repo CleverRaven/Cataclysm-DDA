@@ -1,5 +1,5 @@
-#ifndef _AMMO_H_
-#define _AMMO_H_
+#ifndef AMMO_H
+#define AMMO_H
 
 #include <string>
 #include <map>
@@ -34,4 +34,4 @@ class ammunition_type
         std::string default_ammotype() const;
 };
 
-#endif // _AMMO_H_
+#endif

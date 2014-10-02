@@ -2067,7 +2067,7 @@
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":1,"amount":1},
-	{"id":"SAW_W","level":1,"amount":1}
+    {"id":"SAW_W","level":1,"amount":1}
   ], "components": [
     [
       [ "2x4", 5 ]
@@ -2088,7 +2088,7 @@
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":1,"amount":1},
-	{"id":"SAW_W","level":1,"amount":1}
+    {"id":"SAW_W","level":1,"amount":1}
   ], "components": [
     [
       [ "2x4", 5 ]
@@ -2743,16 +2743,15 @@
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MEDICAL",
   "skill_used": "firstaid",
-   "difficulty": 3,
+  "difficulty": 3,
   "time": 20000,
   "reversible": true,
   "decomp_learn": 2,
   "autolearn": true,
-  "tools": [ ],
   "components": [
     [
-      [ "duct_tape", 40 ],
-      [ "medical_tape", 20 ]
+      [ "medical_tape", 20 ],
+      [ "duct_tape", 40 ]
     ],
     [
       [ "aspirin", 8 ]
@@ -3118,7 +3117,7 @@
   "book_learn": [["textbook_chemistry", 2] , ["adv_chemistry", 2]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
-	{"id":"HAMMER","level":2,"amount":1}
+    {"id":"HAMMER","level":2,"amount":1}
   ], "components": [ [ ["pot", 1] ],
     [ ["hose", 2] ],
     [ ["metal_tank_small", 1] ] ]
@@ -5076,6 +5075,93 @@
   "components": [
     [ [ "splinter", 10 ], [ "stick", 4 ], [ "2x4", 4 ], [ "withered", 20 ], [ "skewer", 10 ] ],
     [ [ "water", 4 ], [ "water_clean", 4 ] ]
+  ]
+  },
+  {
+  "type" : "recipe",
+  "result": "toolbox",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "skills_required": [ "mechanics", 3 ],
+  "difficulty": 4,
+  "time": 4000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [ ["switchblade", 1], ["primitive_knife", 1], ["pockknife", 1], ["knife_steak", 1] ],
+    [ [ "screwdriver", 1 ] ],
+    [ [ "hacksaw", 1 ] ],
+    [ [ "wrench", 1 ] ],
+    [ [ "saw", 1 ] ],
+    [ [ "misc_repairkit", 1 ] ]
+  ]
+  },{
+        "type" : "recipe",
+  "result": "vacutainer",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MEDICAL",
+  "skill_used": "firstaid",
+  "skills_required": [ "fabrication", 2 ],
+  "difficulty": 4,
+  "time": 3000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"SAW_M","level":1,"amount":1},
+    {"id":"CUT","level":1,"amount":1} ],
+  "components": [
+    [
+      [ "syringe", 1 ]
+    ],
+    [
+      [ "flask_glass", 1 ], [ "bottle_plastic_small", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "plastic_chunk",
+  "byproducts": { "id" : "plastic_chunk", "amount" : 14 },
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "cooking",
+  "difficulty": 5,
+  "time": 50000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CHEM","level":2,"amount":1},
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [ ["hotplate", 15], ["chemistry_set", 15], ["toolset", 15] ]
+  ],
+  "components": [
+     [ [ "milk", 15 ] ],
+     [ [ "bleach", 1 ] ]
+  ]
+  },{
+  "type" : "recipe",
+  "result": "pipe",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": 120000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools": [
+    [ ["tongs", -1] ],
+    [ ["chisel", -1] ],
+    [ ["anvil", -1] ],
+    [ ["swage", -1] ],
+    [ ["forge", 50], ["char_forge", 10], ["oxy_torch", 10] ]
+  ],
+  "components": [
+     [ [ "scrap", 7 ] ]
   ]
   }
 ]

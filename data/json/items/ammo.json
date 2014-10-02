@@ -1,6 +1,6 @@
 [
     {
-    	"type" : "AMMO",
+        "type" : "AMMO",
         "id" : "battery",
         "category" : "spare_parts",
         "price" : 12000,
@@ -3921,8 +3921,8 @@
         "recoil" : 0,
         "count" : 20,
         "stack_size" : 50
-    },
-	{   "type" : "AMMO",
+    },{
+        "type" : "AMMO",
         "id" : "combatnail",
         "price" : 6000,
         "name" : "tiny steel bolt",

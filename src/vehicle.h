@@ -1,5 +1,5 @@
-#ifndef _VEHICLE_H_
-#define _VEHICLE_H_
+#ifndef VEHICLE_H
+#define VEHICLE_H
 
 #include "tileray.h"
 #include "color.h"
@@ -145,24 +145,25 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
  */
 struct label : public JsonSerializer, public JsonDeserializer {
     label(const int x = 0, const int y = 0) {
-    	this->x = x;
-    	this->y = y;
+        this->x = x;
+        this->y = y;
     }
     label(const int x, const int y, const std::string text) {
-    	this->x = x;
-    	this->y = y;
-    	this->text = text;
+        this->x = x;
+        this->y = y;
+        this->text = text;
     }
 
     int x;
     int y;
     std::string text;
 
-	// these are stored in a set
+    // these are stored in a set
     bool operator< (const label &other) const {
-    	if (x != other.x)
-    		return x < other.x;
-    	return y < other.y;
+        if (x != other.x) {
+            return x < other.x;
+        }
+        return y < other.y;
     }
 
     // json saving/loading

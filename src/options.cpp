@@ -513,20 +513,20 @@ void initOptions()
                                        );
 
     OPTIONS["SAFEMODEVEH"] = cOpt("general", _("Safemode when driving"),
-                                  _("When true, safemode will alert you to hostiles whilst you are driving a vehicle."),
+                                  _("When true, safemode will alert you to hostiles while you are driving a vehicle."),
                                   false
                                  );
 
     mOptionsSort["general"]++;
 
     OPTIONS["AUTOSAVE"] = cOpt("general", _("Periodically autosave"),
-                               _("If true, game will periodically save the map."),
+                               _("If true, game will periodically save the map. Autosaves occur based on in-game turns or real-time minutes, whichever is larger."),
                                false
                               );
 
     OPTIONS["AUTOSAVE_TURNS"] = cOpt("general", _("Game turns between autosaves"),
                                      _("Number of game turns between autosaves"),
-                                     1, 1000, 5
+                                     10, 1000, 50
                                     );
 
     OPTIONS["AUTOSAVE_MINUTES"] = cOpt("general", _("Real minutes between autosaves"),

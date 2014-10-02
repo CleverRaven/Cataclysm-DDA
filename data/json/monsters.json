@@ -1,7 +1,7 @@
 [
     {
-        "type" : "MONSTER",
-        "id" : "mon_bat",
+    "type" : "MONSTER",
+    "id" : "mon_bat",
     "name": "bat",
     "species":"MAMMAL",
     "symbol":"w",
@@ -29,8 +29,8 @@
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
     },{
-        "type" : "MONSTER",
-        "id" : "mon_beaver",
+    "type" : "MONSTER",
+    "id" : "mon_beaver",
     "name": "beaver",
     "species":"MAMMAL",
     "symbol":"r",
@@ -88,8 +88,8 @@
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
     },{
-        "type" : "MONSTER",
-        "id" : "mon_bear",
+    "type" : "MONSTER",
+    "id" : "mon_bear",
     "name": "bear",
     "species":"MAMMAL",
     "symbol":"B",
@@ -119,8 +119,8 @@
     "fear_triggers":["SOUND"],
     "categories":["WILDLIFE"]
     },{
-        "type" : "MONSTER",
-        "id" : "mon_bobcat",
+    "type" : "MONSTER",
+    "id" : "mon_bobcat",
     "name": "bobcat",
     "species":"MAMMAL",
     "symbol":"c",
@@ -149,8 +149,8 @@
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
     },{
-        "type" : "MONSTER",
-        "id" : "mon_cat",
+    "type" : "MONSTER",
+    "id" : "mon_cat",
     "name": "cat",
     "species":"MAMMAL",
     "symbol":"c",
@@ -179,8 +179,8 @@
     "fear_triggers":["SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED"],
     "categories":["WILDLIFE"]
     },{
-        "type" : "MONSTER",
-        "id" : "mon_chicken",
+    "type" : "MONSTER",
+    "id" : "mon_chicken",
     "name": "chicken",
     "species":"BIRD",
     "symbol":"v",
@@ -2007,9 +2007,9 @@
     "death_drops": "default_zombie_death_drops",
     "luminance":0,
     "hp":120,
-    "special_freq":5,
+    "special_freq":30,
     "death_function":["NORMAL"],
-    "special_attack":"BITE",
+    "special_attack":"SMASH",
     "description":"Its entire body bulges with distended muscles and swollen, festering wounds.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS40", "REVIVES"]
     },{
@@ -2036,9 +2036,9 @@
     "death_drops": "mon_zombie_hulk_death_drops",
     "luminance":0,
     "hp":480,
-    "special_freq":0,
+    "special_freq":20,
     "death_function":["NORMAL"],
-    "special_attack":"NONE",
+    "special_attack":"SMASH",
     "description":"A human body now swollen to the size of six men, with arms as wide as a trash can.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "DESTROYS", "POISON", "ATTACKMON", "LEATHER", "NO_BREATHE", "VIS50", "REVIVES"]
     },{
@@ -2939,7 +2939,7 @@
     "death_function":"NORMAL",
     "special_attack":"FUNGUS_GROWTH",
     "description":"A fungal stalk several feet in height.  Two vicious looking tendrils extend from its thorned and leathery exterior, and it moves about faster than the larger fungaloids.",
-    "flags":["HEARS", "POISON", "NO_BREATHE", "NOHEAD"]
+    "flags":["HEARS", "POISON", "NO_BREATHE", "NOHEAD", "FRIENDLY_SPECIAL"]
     },{
         "type" : "MONSTER",
         "id" : "mon_spore",
@@ -2966,7 +2966,7 @@
     "death_function":"DISINTEGRATE",
     "special_attack":"PLANT",
     "description":"A mass of spores the size of a balled fist, wafting around in the air.",
-    "flags":["STUMBLES", "FLIES", "POISON", "NO_BREATHE", "NOHEAD"]
+    "flags":["STUMBLES", "FLIES", "POISON", "NO_BREATHE", "NOHEAD", "FRIENDLY_SPECIAL"]
     },{
         "type" : "MONSTER",
         "id" : "mon_fungaloid_queen",

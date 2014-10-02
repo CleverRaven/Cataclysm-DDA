@@ -1,5 +1,5 @@
-#ifndef _PLDATA_H_
-#define _PLDATA_H_
+#ifndef PLDATA_H
+#define PLDATA_H
 
 #include "enums.h"
 #include "json.h"
@@ -274,4 +274,5 @@ inline hp_part bodypart_to_hp_part(body_part p_bp)
 
     return hp_torso;
 }
+
 #endif

@@ -1179,7 +1179,7 @@ void dis_effect(player &p, disease &dis)
             break;
 
         case DI_DATURA:
-		    {
+        {
                 p.mod_per_bonus(-6);
                 p.mod_dex_bonus(-3);
                 if (p.has_disease("asthma")) {
@@ -1199,14 +1199,14 @@ void dis_effect(player &p, disease &dis)
                   p.add_disease("hallu", rng(200, 1000));
             } if (dis.duration > 6000 && one_in(128)) {
                   p.mod_pain(rng(-3, -24));
-				  if (dis.duration > 8000 && one_in(16)) {
+                  if (dis.duration > 8000 && one_in(16)) {
                       add_msg(m_bad, _("You're experiencing loss of basic motor skills and blurred vision.  Your mind recoils in horror, unable to communicate with your spinal column."));
                       add_msg(m_bad, _("You stagger and fall!"));
                       p.add_effect("downed",rng(1,4));
                       if (one_in(8) || will_vomit(p, 10)) {
                             p.vomit();
                        }
-			      }
+                  }
             } if (dis.duration > 7000 && p.focus_pool >= 1) {
                   p.focus_pool--;
             } if (dis.duration > 8000 && one_in(256)) {
@@ -1215,24 +1215,24 @@ void dis_effect(player &p, disease &dis)
             } if (dis.duration > 12000 && one_in(256)) {
                   add_msg(m_bad, _("There's some kind of big machine in the sky."));
                   p.add_disease("visuals", rng(80, 400));
-				  if (one_in(32)) {
+                  if (one_in(32)) {
                         add_msg(m_bad, _("It's some kind of electric snake, coming right at you!"));
                         p.mod_pain(rng(4, 40));
                         p.vomit();
-				  };
+                  }
             } if (dis.duration > 14000 && one_in(128)) {
                   add_msg(m_bad, _("Order us some golf shoes, otherwise we'll never get out of this place alive."));
                   p.add_disease("visuals", rng(400, 2000));
-				  if (one_in(8)) {
+                  if (one_in(8)) {
                   add_msg(m_bad, _("The possibility of physical and mental collapse is now very real."));
                     if (one_in(2) || will_vomit(p, 10)) {
                         add_msg(m_bad, _("No one should be asked to handle this trip."));
                         p.vomit();
                         p.mod_pain(rng(8, 40));
                     }
-				  };
+                  }
             }
-			}
+        }
             break;
 
         case DI_TOOK_XANAX:
