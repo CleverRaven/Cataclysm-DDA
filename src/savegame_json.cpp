@@ -991,6 +991,11 @@ void item::deserialize(JsonObject &data)
     data.read( "fridge", fridge );
     data.read( "rot", rot );
     data.read( "last_rot_check", last_rot_check );
+    if( !active && !rotten() && goes_bad() ) {
+        // Rotting found *must* be active to trigger the rotting process,
+        // if it's already rotten, no need to do this.
+        active = true;
+    }
 
     data.read( "curammo", ammotmp );
     if ( ammotmp != "null" ) {
