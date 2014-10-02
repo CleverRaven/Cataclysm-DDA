@@ -1115,11 +1115,21 @@ nc_color item::color(player *u) const
         if (u->has_ammo(amtype).size() > 0)
             ret = c_green;
     } else if (is_food()) { // Rotten food shows up as a brown color
-        if (rotten())
+        if (rotten()) {
             ret = c_brown;
+        } else if (is_going_bad()) {
+            ret = c_yellow;
+        } else if (goes_bad()) {
+            ret = c_green;
+        }
     } else if (is_food_container()) {
-        if (contents[0].rotten())
+        if (contents[0].rotten()) {
             ret = c_brown;
+        } else if (contents[0].is_going_bad()) {
+            ret = c_yellow;
+        } else if (contents[0].goes_bad()) {
+            ret = c_green;
+        }
     } else if (is_ammo()) { // Likewise, ammo is green if you have guns that use it
         ammotype amtype = ammo_type();
         if (u->weapon.is_gun() && u->weapon.ammo_type() == amtype) {
@@ -1680,6 +1690,15 @@ int item::has_gunmod(itype_id mod_type)
     return -1;
 }
 
+bool item::is_going_bad() const
+{
+    const it_comest *comest = dynamic_cast<const it_comest *>(type);
+    if( comest != nullptr && comest->spoils > 0) {
+        return ((float)rot / (float)comest->spoils) > 0.9;
+    }
+    return false;
+}
+
 bool item::rotten() const
 {
     const it_comest *comest = dynamic_cast<const it_comest *>( type );
@@ -1800,7 +1819,7 @@ bool item::ready_to_revive()
     return false;
 }
 
-bool item::goes_bad()
+bool item::goes_bad() const
 {
     if (!is_food())
         return false;
