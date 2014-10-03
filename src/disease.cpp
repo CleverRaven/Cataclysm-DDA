@@ -603,54 +603,23 @@ void dis_effect(player &p, disease &dis)
         case DI_FROSTBITE:
             switch(dis.bp) {
                 case bp_hand_l:
-                    switch(dis.intensity) {
-                        case 2:
-                            p.mod_dex_bonus(-2);
-                            p.add_miss_reason(_("You have trouble grasping with your numb fingers."), 2);
-                        case 1:
-                            if (one_in(2)) {
-                                if (!sleeping && tempMsgTrigger) {
-                                    add_msg(m_bad, _("Your fingers itch."));
-                                }
-                            }
-                        default:
-                            break;
-                    }
-                    break;
                 case bp_hand_r:
                     switch(dis.intensity) {
                         case 2:
                             p.add_miss_reason(_("You have trouble grasping with your numb fingers."), 2);
                             p.mod_dex_bonus(-2);
-                        case 1:
-                            if (one_in(2)) {
-                                if (!sleeping && tempMsgTrigger) {
-                                    add_msg(m_bad, _("Your fingers itch."));
-                                }
-                            }
                         default:
                             break;
                     }
                     break;
                 case bp_foot_l:
-                    switch(dis.intensity) {
-                        case 2:
-                            // Fall-through
-                        case 1:
-                            if (!sleeping && tempMsgTrigger && one_in(2)) {
-                                add_msg(m_bad, _("Your toes itch."));
-                            }
-                        default:
-                            break;
-                    }
-                    break;
                 case bp_foot_r:
                     switch(dis.intensity) {
                         case 2:
-                            // Fall-through
+                            // Speed is lowered.
                         case 1:
                             if (!sleeping && tempMsgTrigger && one_in(2)) {
-                                add_msg(m_bad, _("Your toes itch."));
+                                add_msg(m_bad, _("Your foot has gone numb."));
                             }
                         default:
                             break;
@@ -678,9 +647,22 @@ void dis_effect(player &p, disease &dis)
             switch(dis.bp) {
                 case bp_hand_l:
                 case bp_hand_r:
+                    if (!sleeping && tempMsgTrigger && one_in(2)) {
+                        add_msg(m_bad, _("Your fingers itch."));
+                    }
+                    if (p.pain < 40) p.mod_pain(1);
+                    break;
                 case bp_foot_l:
                 case bp_foot_r:
+                    if (!sleeping && tempMsgTrigger && one_in(2)) {
+                        add_msg(m_bad, _("Your toes itch."));
+                    }
+                    if (p.pain < 40) p.mod_pain(1);
+                    break;
                 case bp_mouth:
+                    if (!sleeping && tempMsgTrigger && one_in(2)) {
+                        add_msg(m_bad, _("Your face feels irritated."));
+                    }
                     if (p.pain < 40) p.mod_pain(1);
                     break;
                 default: // Suppress compiler warnings [-Wswitch]
