@@ -1120,7 +1120,7 @@ nc_color item::color(player *u) const
         } else if (is_going_bad()) {
             ret = c_yellow;
         } else if (goes_bad()) {
-            ret = c_green;
+            ret = c_cyan;
         }
     } else if (is_food_container()) {
         if (contents[0].rotten()) {
@@ -1128,7 +1128,7 @@ nc_color item::color(player *u) const
         } else if (contents[0].is_going_bad()) {
             ret = c_yellow;
         } else if (contents[0].goes_bad()) {
-            ret = c_green;
+            ret = c_cyan;
         }
     } else if (is_ammo()) { // Likewise, ammo is green if you have guns that use it
         ammotype amtype = ammo_type();
@@ -1280,6 +1280,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         {
             if(const_cast<item*>(food)->rotten()) {
                 ret << _(" (rotten)");
+            } else if ( const_cast<item*>(food)->is_going_bad()) {
+                ret << _(" (old)");
             } else if ( rot < 100 ) {
                 ret << _(" (fresh)");
             }
