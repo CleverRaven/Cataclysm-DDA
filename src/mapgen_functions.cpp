@@ -397,7 +397,7 @@ void mapgen_crater(map *m, oter_id, mapgendata dat, int, float)
        for (int j = 0; j < SEEY * 2; j++) {
            if (rng(0, dat.w_fac) <= i && rng(0, dat.e_fac) <= SEEX * 2 - 1 - i &&
                rng(0, dat.n_fac) <= j && rng(0, dat.s_fac) <= SEEX * 2 - 1 - j ) {
-               m->ter_set(i, j, dat.groundcover());
+               m->ter_set(i, j, t_dirt);
                m->make_rubble(i, j, f_rubble_rock, true);
                m->set_radiation(i, j, rng(0, 4) * rng(0, 2));
            } else {

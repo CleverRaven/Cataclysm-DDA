@@ -46,6 +46,17 @@
         "post_terrain" : "t_pit_spiked"
     },{
         "type" : "construction",
+        "description" : "Glass Pit",
+        "category" : "DIG",
+        "difficulty" : 0,
+        "time" : 5,
+        "components" : [
+            [ ["glass_shard", 20] ]
+        ],
+        "pre_terrain" : "t_pit",
+        "post_terrain" : "t_pit_glass"
+    },{
+        "type" : "construction",
         "description" : "Fill Pit", "//": "fill in a pit",
         "category" : "DIG",
         "difficulty" : 0,
@@ -61,6 +72,15 @@
         "time" : 5,
         "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
         "pre_terrain" : "t_pit_spiked",
+        "post_terrain" : "t_pit_shallow"
+    },{
+        "type" : "construction",
+        "description" : "Fill Pit", "//": "fill in a glass pit",
+        "category" : "DIG",
+        "difficulty" : 0,
+        "time" : 5,
+        "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+        "pre_terrain" : "t_pit_glass",
         "post_terrain" : "t_pit_shallow"
     },{
         "type" : "construction",
@@ -123,6 +143,7 @@
         "post_special" : "done_trunk_plank"
     },{
         "type" : "construction",
+        "skill" : "survival",
         "description" : "Build Improvised Shelter",
         "category" : "CONSTRUCT",
         "difficulty" : 2,

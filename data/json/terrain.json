@@ -90,6 +90,25 @@
         "examine_action": "pit_covered"
     },{
         "type" : "terrain",
+        "id" : "t_pit_glass",
+        "name": "glass pit",
+        "symbol": "0",
+        "color": "ltcyan",
+        "move_cost": 10,
+        "trap": "tr_glass_pit",
+        "flags": ["TRANSPARENT"],
+        "examine_action": "pit"
+    },{
+        "type" : "terrain",
+        "id" : "t_pit_glass_covered",
+        "name": "covered glass pit",
+        "symbol": "#",
+        "color": "ltcyan",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT"],
+        "examine_action": "pit_covered"
+    },{
+        "type" : "terrain",
         "id" : "t_rock_floor",
         "name": "rock floor",
         "symbol": ".",
@@ -2445,6 +2464,21 @@
         "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "NOITEM", "FUNGUS", "YOUNG", "REDUCE_SCENT"],
         "bash": {
             "str_min": 4, "str_max": 50,
+            "sound": "crunch!",
+            "sound_fail": "poof!",
+            "ter_set": "t_fungus"
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_marloss_tree",
+        "name": "marloss tree",
+        "symbol": "7",
+        "color": "dkgray",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "FUNGUS", "TREE", "REDUCE_SCENT"],
+        "examine_action": "tree_marloss",
+        "bash": {
+            "str_min": 40, "str_max": 180,
             "sound": "crunch!",
             "sound_fail": "poof!",
             "ter_set": "t_fungus"

@@ -50,7 +50,7 @@ bool monster::can_move_to(int x, int y) const
 
         // don't enter open pits ever unless tiny or can fly
         if (!(type->size == MS_TINY || has_flag(MF_FLIES)) &&
-            (g->m.ter(x, y) == t_pit || g->m.ter(x, y) == t_pit_spiked))
+            (g->m.ter(x, y) == t_pit || g->m.ter(x, y) == t_pit_spiked || g->m.ter(x, y) == t_pit_glass))
             return false;
 
         // don't enter lava ever

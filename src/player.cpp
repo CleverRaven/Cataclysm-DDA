@@ -78,6 +78,7 @@ void game::init_morale()
     _("Crack Cocaine Craving"),
     _("Mutagen Craving"),
     _("Diazepam Craving"),
+    _("Marloss Craving"),
 
     _("Disliked %i"),
     _("Ate Human Flesh"),
@@ -1387,6 +1388,10 @@ void player::recalc_speed_bonus()
         }
     }
 
+    if (g->u.has_trait("M_SKIN2")) {
+        mod_speed_bonus(-20); // Could be worse--you've got the armor from a (sessile!) Spire
+    }
+
     if (has_artifact_with(AEP_SPEED_UP)) {
         mod_speed_bonus(20);
     }
@@ -1425,7 +1430,8 @@ int player::run_cost(int base_cost, bool diag)
       (ter_at_pos == t_door_o) || (ter_at_pos == t_rdoor_o) ||
       (ter_at_pos == t_door_frame) || (ter_at_pos == t_mdoor_frame) ||
       (ter_at_pos == t_fencegate_o) || (ter_at_pos == t_chaingate_o) ||
-      (ter_at_pos == t_door_metal_o) || (ter_at_pos == t_door_bar_o) )) );
+      (ter_at_pos == t_door_metal_o) || (ter_at_pos == t_door_bar_o) ||
+      (ter_at_pos == t_pit_glass_covered) )) );
 
     if (has_trait("PARKOUR") && movecost > 100 ) {
         movecost *= .5f;
@@ -1505,7 +1511,8 @@ int player::run_cost(int base_cost, bool diag)
             movecost *= 1.5f;
         }
     }
-	// Quad skates might be more stable than inlines, but that also translates into a slower speed when on good surfaces.
+    // Quad skates might be more stable than inlines,
+    // but that also translates into a slower speed when on good surfaces.
     if ( (is_wearing("rollerskates")) && !(is_on_ground())) {
         if (offroading) {
             movecost *= 1.0f + (0.15f * shoe_type_count("rollerskates"));
@@ -5360,7 +5367,9 @@ bool player::siphon(vehicle *veh, ammotype desired_liquid)
 
 static void manage_fire_exposure(player &p, int fireStrength) {
     // TODO: this should be determined by material properties
-    p.hurtall(3*fireStrength);
+    if (!p.has_trait("M_SKIN2")) {
+        p.hurtall(3*fireStrength);
+    }
     for (size_t i = 0; i < p.worn.size(); i++) {
         item tmp = p.worn[i];
         bool burnVeggy = (tmp.made_of("veggy") || tmp.made_of("paper"));
@@ -5483,7 +5492,7 @@ void player::suffer()
             activate_bionic(i);
         }
     }
-    
+
     for (auto mut : my_mutations) {
         if (!traits[mut].powered ) {
             continue;
@@ -5522,7 +5531,7 @@ void player::suffer()
                 }
             }
         }
-        
+
     }
 
     if (underwater) {
@@ -5797,6 +5806,12 @@ void player::suffer()
         }
         if (has_trait("SHOUT3") && one_in(1800)) {
             g->sound(posx, posy, 20 + 4 * str_cur, _("You let out a piercing howl!"));
+        }
+        if (has_trait("M_SPORES") && one_in(2400)) {
+            spores();
+        }
+        if (has_trait("M_BLOSSOMS") && one_in(1800)) {
+            blossoms();
         }
     } // Done with while-awake-only effects
 
@@ -7761,6 +7776,11 @@ bool player::eat(item *eaten, it_comest *comest)
         add_msg_if_player(m_info, _("You can't do that while underwater."));
         return false;
     }
+    // For all those folks who loved eating marloss berries.  D:< mwuhahaha
+    if (has_trait("M_DEPENDENT") && (eaten->type->id != "mycus_fruit")) {
+        add_msg_if_player(m_info, _("We can't eat that.  It's not right for us."));
+        return false;
+    }
     // Here's why PROBOSCIS is such a negative trait.
     if ( (has_trait("PROBOSCIS")) && (comest->comesttype == "FOOD" ||
         eaten->has_flag("USE_EAT_VERB")) ) {
@@ -9295,7 +9315,7 @@ void player::use(int pos)
         }
         if( used->has_flag( "USE_UPS" ) ) {
             use_charges( "UPS", charges_used );
-	    //Replace 1 with charges it needs to use.
+            //Replace 1 with charges it needs to use.
             if( used->active && !has_active_UPS() && used->charges <= 1  ) {
                 add_msg_if_player( m_info, _( "You need an active UPS of some kind for this %s to work continuously." ), used->tname().c_str() );
             }
@@ -10339,6 +10359,12 @@ int player::get_armor_bash_base(body_part bp) const
     if (has_trait("FAT")) {
         ret ++;
     }
+    if (has_trait("M_SKIN")) {
+        ret += 2;
+    }
+    if (has_trait("M_SKIN2")) {
+        ret += 3;
+    }
     if (has_trait("CHITIN")) {
         ret += 2;
     }
@@ -10376,6 +10402,12 @@ int player::get_armor_cut_base(body_part bp) const
     }
     if (has_trait("THINSKIN")) {
         ret--;
+    }
+    if (has_trait("M_SKIN")) {
+        ret ++;
+    }
+    if (has_trait("M_SKIN2")) {
+        ret += 3;
     }
     if (has_trait("SCALES")) {
         ret += 2;
@@ -11744,4 +11776,49 @@ std::vector<std::string> player::get_overlay_ids() const {
         rval.push_back("wielded_"+weapon.typeId());
     }
     return rval;
+}
+
+void player::spores()
+{
+    g->sound(posx, posy, 10, _("Pouf!")); //~spore-release sound
+            monster spore(GetMType("mon_spore"));
+            int sporex, sporey;
+            int mondex;
+            for (int i = -1; i <= 1; i++) {
+                for (int j = -1; j <= 1; j++) {
+                    if (i == 0 && j == 0) {
+                        continue;
+                    }
+                    sporex = posx + i;
+                    sporey = posy + j;
+                    mondex = g->mon_at(sporex, sporey);
+                    if (g->m.move_cost(sporex, sporey) > 0) {
+                        if (mondex != -1) { // Spores hit a monster
+                            if (g->u_see(sporex, sporey) &&
+                                !g->zombie(mondex).type->in_species("FUNGUS")) {
+                                add_msg(_("The %s is covered in tiny spores!"),
+                                        g->zombie(mondex).name().c_str());
+                            }
+                            monster &critter = g->zombie( mondex );
+                            if( !critter.make_fungus() ) {
+                                critter.die(nullptr); // FIXME: needs a player reference
+                            }
+                        } else if (one_in(3) && g->num_zombies() <= 1000) { // Spawn a spore
+                        spore.spawn(sporex, sporey);
+                        g->add_zombie(spore);
+                        }
+                    }
+                }
+            }
+}
+
+void player::blossoms()
+{
+    // Player blossoms are shorter-ranged, but you can fire much more frequently if you like.
+     g->sound(posx, posy, 10, _("Pouf!"));
+     for (int i = posx - 2; i <= posx + 2; i++) {
+        for (int j = posy - 2; j <= posy + 2; j++) {
+                g->m.add_field( i, j, fd_fungal_haze, rng(1, 2));
+        }
+    }
 }

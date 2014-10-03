@@ -555,13 +555,20 @@ void iexamine::chainfence( player *p, map *m, int examx, int examy )
     } else if( p->has_trait( "INSECT_ARMS_OK" ) && !p->wearing_something_on( bp_torso ) ) {
         add_msg( _( "You quickly scale the fence." ) );
         p->moves -= 90;
+    } else if( p->has_trait( "PARKOUR" ) ) {
+        add_msg( _( "The fence is no match for your freerunning abilities." ) );
+        p->moves -= 100;
     } else {
         p->moves -= 400;
-        if( one_in( p->dex_cur ) ) {
+        int climb = p->dex_cur;
+        if (p->has_trait( "BADKNEES" )) {
+            climb = climb / 2;
+        }
+        if( one_in( climb ) ) {
             add_msg( m_bad, _( "You slip while climbing and fall down again." ) );
             return;
         }
-        p->moves += p->dex_cur * 10;
+        p->moves += climb * 10;
     }
     if( p->in_vehicle ) {
         m->unboard_vehicle( p->posx, p->posy );
@@ -679,6 +686,8 @@ void iexamine::pit(player *p, map *m, int examx, int examy)
             m->ter_set(examx, examy, t_pit_covered);
         } else if( m->ter(examx, examy) == t_pit_spiked ) {
             m->ter_set(examx, examy, t_pit_spiked_covered);
+        } else if( m->ter(examx, examy) == t_pit_glass ) {
+            m->ter_set(examx, examy, t_pit_glass_covered);
         }
         add_msg(_("You place a plank of wood over the pit."));
     }
@@ -699,6 +708,8 @@ void iexamine::pit_covered(player *p, map *m, int examx, int examy)
         m->ter_set(examx, examy, t_pit);
     } else if( m->ter(examx, examy) == t_pit_spiked_covered ) {
         m->ter_set(examx, examy, t_pit_spiked);
+    } else if( m->ter(examx, examy) == t_pit_glass_covered ) {
+        m->ter_set(examx, examy, t_pit_glass);
     }
 }
 
@@ -1273,6 +1284,25 @@ void iexamine::aggie_plant(player *p, map *m, int examx, int examy)
             for (size_t k = 0; k < g->m.i_at(examx, examy).size(); k++) {
                 g->m.i_rem(examx, examy, k);
             }
+        } else if (seedType == "marloss_seed") {
+            fungus(p, m, examx, examy);
+            for (size_t k = 0; k < g->m.i_at(examx, examy).size(); k++) {
+                g->m.i_rem(examx, examy, k);
+            }
+            if (g->u.has_trait("M_DEPENDENT") && ((g->u.hunger > 500) || g->u.thirst > 300 )) {
+                m->ter_set(examx, examy, t_marloss);
+                add_msg(m_info, _("We have altered this unit's configuration to extract and provide local nutriment.  The Mycus provides."));
+            } else if ( (g->u.has_trait("M_DEFENDER")) || ( (g->u.has_trait("M_SPORES") || g->u.has_trait("M_FERTILE")) &&
+              one_in(2)) ) {
+                m->add_spawn("mon_fungal_blossom", 1, examx, examy);
+                add_msg(m_info, _("The seed blooms forth!  We have brought true beauty to this world."));
+            } else if ( (g->u.has_trait("THRESH_MYCUS")) || one_in(4)) {
+                m->furn_set(examx, examy, f_flower_marloss);
+                add_msg(m_info, _("The seed blossoms rather rapidly..."));
+            } else {
+                m->furn_set(examx, examy, f_flower_fungal);
+                add_msg(m_info, _("The seed blossoms into a flower-looking fungus."));
+            }
         } else {
             m->i_clear(examx, examy);
             m->furn_set(examx, examy, f_null);
@@ -1766,7 +1796,34 @@ void iexamine::shrub_strawberry(player *p, map *m, int examx, int examy)
 
 void iexamine::shrub_marloss(player *p, map *m, int examx, int examy)
 {
-    pick_plant(p, m, examx, examy, "marloss_berry", t_shrub_fungal);
+    if (p->has_trait("THRESH_MYCUS")) {
+        pick_plant(p, m, examx, examy, "mycus_fruit", t_shrub_fungal);
+    } else if (p->has_trait("THRESH_MARLOSS")) {
+        m->spawn_item( examx, examy, "mycus_fruit" );
+        g->m.ter_set(examx, examy, t_fungus);
+        add_msg( m_info, _("The shrub offers up a fruit, then crumbles into a fungal bed."));
+    } else {
+        pick_plant(p, m, examx, examy, "marloss_berry", t_shrub_fungal);
+    }
+}
+
+void iexamine::tree_marloss(player *p, map *m, int examx, int examy)
+{
+    if (p->has_trait("THRESH_MYCUS")) {
+        pick_plant(p, m, examx, examy, "mycus_fruit", t_tree_fungal);
+        if (p->has_trait("M_DEPENDENT") && one_in(3)) {
+            // Folks have a better shot at keeping fed.
+            add_msg(m_info, _("We have located a particularly vital nutrient deposit underneath this location."));
+            add_msg(m_good, _("Additional nourishment is available."));
+            g->m.ter_set(examx, examy, t_marloss_tree);
+        }
+    } else if (p->has_trait("THRESH_MARLOSS")) {
+        m->spawn_item( examx, examy, "mycus_fruit" );
+        g->m.ter_set(examx, examy, t_tree_fungal);
+        add_msg(m_info, _("The tree offers up a fruit, then shrivels into a fungal tree."));
+    } else {
+        pick_plant(p, m, examx, examy, "marloss_berry", t_tree_fungal);
+    }
 }
 
 void iexamine::shrub_wildveggies(player *p, map *m, int examx, int examy)
@@ -2340,6 +2397,39 @@ static bool toPumpFuel(map *m, point src, point dst, long units)
     return false;
 }
 
+static long fromPumpFuel(map *m, point dst, point src)
+{
+    if (src.x == -999) {
+        return -1;
+    }
+    if (dst.x == -999) {
+        return -1;
+    }
+
+    for (size_t i = 0; i < m->i_at(src.x, src.y).size(); i++) {
+        if (m->i_at(src.x, src.y)[i].made_of(LIQUID)) {
+            item *liq = &(m->i_at(src.x, src.y)[i]);
+            long count = dynamic_cast<it_ammo *>(liq->type)->count;
+
+            // how much do we have in the pump?
+            item liq_d(liq->type->id, calendar::turn);
+            liq_d.charges = liq->charges;
+
+            // add the charges to the destination
+            ter_t backup_tank = m->ter_at(dst.x, dst.y);
+            m->ter_set(dst.x, dst.y, "t_null");
+            m->add_item_or_charges(dst.x, dst.y, liq_d);
+            m->ter_set(dst.x, dst.y, backup_tank.id);
+
+            // remove the liquid from the pump
+            long amount = liq->charges;
+            m->i_at(src.x, src.y).erase(m->i_at(src.x, src.y).begin()+i);
+            return amount / count;
+        }
+    }
+    return -1;
+}
+
 static void turnOnSelectedPump(map *m, int x, int y, int number)
 {
     const int radius = 12;
@@ -2365,7 +2455,8 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
     const int buy_gas = 1;
     const int choose_pump = 2;
     const int hack = 3;
-    const int cancel = 4;
+    const int refund = 4;
+    const int cancel = 5;
 
     if (p->has_trait("ILLITERATE")) {
         popup(_("You're illiterate, and can't read the screen."));
@@ -2409,6 +2500,7 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
     amenu.addentry(0, false, -1, str_to_illiterate_str(_("What would you like to do?")));
 
     amenu.addentry(buy_gas, true, 'b', str_to_illiterate_str(_("Buy gas.")));
+    amenu.addentry(refund, true, 'r', str_to_illiterate_str(_("Refund cash.")));
 
     std::string gaspumpselected = str_to_illiterate_str(_("Current gas pump: ")) +
                                   helper::to_string_int( uistate.ags_pay_gas_selected_pump + 1 );
@@ -2557,6 +2649,38 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
                 }
             }
         } else {
+            return;
+        }
+    }
+
+    if (refund == choice) {
+        int pos;
+        item *cashcard;
+
+        pos = g->inv(_("Insert card."));
+        cashcard = &(p->i_at(pos));
+
+        if (cashcard->is_null()) {
+            popup(_("You do not have that item!"));
+            return;
+        }
+        if (cashcard->type->id != "cash_card") {
+            popup(_("Please insert cash cards only!"));
+            return;
+        }
+        // Ok, we have a cash card. Now we need to know what's left in the pump.
+        point pGasPump = getGasPumpByNumber(m, examx, examy, uistate.ags_pay_gas_selected_pump);
+        long amount = fromPumpFuel(m, pTank, pGasPump);
+        if (amount >= 0) {
+            g->sound(p->posx, p->posy, 6, _("Glug Glug Glug"));
+            cashcard->charges += amount * pricePerUnit;
+            add_msg(m_info, ngettext("Your cash card now holds %d cent.",
+                                     "Your cash card now holds %d cents.",
+                                     cashcard->charges), cashcard->charges);
+            p->moves -= 100;
+            return;
+        } else {
+            popup(_("Unable to refund, no fuel in pump."));
             return;
         }
     }
@@ -2710,6 +2834,9 @@ void (iexamine::*iexamine_function_from_string(std::string function_name))(playe
     }
     if ("shrub_marloss" == function_name) {
         return &iexamine::shrub_marloss;
+    }
+    if ("tree_marloss" == function_name) {
+        return &iexamine::tree_marloss;
     }
     if ("shrub_wildveggies" == function_name) {
         return &iexamine::shrub_wildveggies;

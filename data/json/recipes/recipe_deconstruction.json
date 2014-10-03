@@ -1078,7 +1078,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "pipe",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -1088,14 +1088,10 @@
   "time": 5000,
   "reversible": true,
   "autolearn": false,
-  "qualities":[
-    {"id":"SAW_M","level":1,"amount":1}
-    
-    ], "components": [
-        [ [ "scrap", 7 ] ]
-    ]
+  "qualities":[ {"id":"SAW_M","level":1,"amount":1} ],
+  "components": [ [ [ "scrap", 7 ] ] ]
 },{
-	"type" : "recipe",
+  "type" : "recipe",
   "result": "makeshift_crowbar",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -1104,14 +1100,13 @@
   "time": 5000,
   "reversible": true,
   "autolearn": false,
-  "qualities": [
-   {"id":"SAW_M","level":1,"amount":1}
-   ], "components": [
+  "qualities": [ {"id":"SAW_M","level":1,"amount":1} ],
+  "components": [
         [ [ "scrap", 3 ] ],
         [ [ "steel_chunk", 1] ]
     ]
 },{
-	"type" : "recipe",
+  "type" : "recipe",
   "result": "file",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -1119,11 +1114,9 @@
   "time": 100,
   "reversible": true,
   "autolearn": false,
-  "components": [
-  	[ [ "paper", 3 ] ]
-  ]
+  "components": [ [ [ "paper", 3 ] ] ]
 },{
-	"type" : "recipe",
+  "type" : "recipe",
   "result": "flyer",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -1131,11 +1124,9 @@
   "time": 100,
   "reversible": true,
   "autolearn": false,
-  "components": [
-  	[ [ "paper", 1 ] ]
-  ]
+  "components": [ [ [ "paper", 1 ] ] ]
 },{
-	"type" : "recipe",
+  "type" : "recipe",
   "result": "survnote",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -1143,9 +1134,7 @@
   "time": 100,
   "reversible": true,
   "autolearn": false,
-  "components": [
-  	[ [ "paper", 1 ] ]
-  ]
+  "components": [ [ [ "paper", 1 ] ] ]
 },{
         "type" : "recipe",
   "result": "broken_manhack",
@@ -1798,10 +1787,8 @@
   "reversible": true,
   "autolearn": false,
   "components": [
-    [
-      [ "charcoal", 15 ]
-    ],
-	  [[ "char_kiln", 1 ]]
+    [ [ "charcoal", 15 ] ],
+    [ [ "char_kiln", 1 ] ]
   ]
 },{
   "type" : "recipe",
@@ -2058,21 +2045,10 @@
   "time": 10000,
   "reversible": true,
   "autolearn": false,
-  "qualities" : [
-    {"id":"HAMMER","level":1,"amount":1}
-    ], 
-  "tools": [
-    [
-    [ "crucible", -1 ]
-    ]
-    ],
-  "components": [
-    [
-    [ "material_limestone", 10 ]
-    ]
-    ]
-  },
-  {
+  "qualities" : [ {"id":"HAMMER","level":1,"amount":1} ],
+  "tools": [ [ [ "crucible", -1 ] ] ],
+  "components": [ [ [ "material_limestone", 10 ] ] ]
+  },{
   "type" : "recipe",
   "result": "hd_steel_drum",
   "category": "CC_NONCRAFT",
@@ -2082,19 +2058,8 @@
   "time": 750000,
   "reversible": true,
   "autolearn": false,
-"qualities" : [
-    {"id":"SAW_M","level":1,"amount":1}
-  ],
-  "tools": [
-    [
-	[ "welder", 500 ], [ "toolset", 750 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "steel_plate", 10 ]
-    ],
-	  [[ "steel_lump", 70 ]]
-  ]
+  "qualities" : [ {"id":"SAW_M","level":1,"amount":1} ],
+  "tools": [ [ [ "welder", 500 ], [ "toolset", 750 ] ] ],
+  "components": [ [ [ "steel_plate", 10 ] ], [ [ "steel_lump", 70 ] ] ]
 }
 ]

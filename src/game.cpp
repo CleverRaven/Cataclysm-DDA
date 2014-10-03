@@ -30,6 +30,7 @@
 #include "monattack.h"
 #include "worldfactory.h"
 #include "file_finder.h"
+#include "file_wrapper.h"
 #include "mod_manager.h"
 #include "path_info.h"
 #include "mapsharing.h"
@@ -641,7 +642,7 @@ void game::start_game(std::string worldname)
     //Load NPCs. Set nearby npcs to active.
     load_npcs();
     //spawn the monsters
-    m.spawn_monsters(); // Static monsters
+    m.spawn_monsters( true ); // Static monsters
 
     //Create mutation_category_level
     u.set_highest_cat_level();
@@ -922,6 +923,9 @@ void game::cleanup_at_end()
                                pgettext("memorial_female", "%s was killed."),
                                u.name.c_str());
         }
+        u.add_memorial_log( _("Last words: %s"), sLastWords.c_str() );
+        save_player_data();
+        move_save_to_graveyard();
         write_memorial_file(sLastWords);
         u.memorial_log.clear();
         std::vector<std::string> characters = list_active_characters();
@@ -1100,6 +1104,9 @@ bool game::do_turn()
 
     if (calendar::turn % 50 == 0) { //move hordes every 5 min
         cur_om->move_hordes();
+        // Hordes that reached the reality bubble need to spawn,
+        // make them spawn in invisible areas only.
+        m.spawn_monsters( false );
     }
 
     // Check if we've overdosed... in any deadly way.
@@ -1123,9 +1130,7 @@ bool game::do_turn()
         u.add_memorial_log(pgettext("memorial_male", "Died of a healing stimulant overdose."),
                            pgettext("memorial_female", "Died of a healing stimulant overdose."));
         u.hp_cur[hp_torso] = 0;
-    } else if (u.has_disease("datura") &&
-               u.disease_duration("datura") > 14000 &&
-			   one_in(512)) {
+    } else if (u.has_disease("datura") && u.disease_duration("datura") > 14000 && one_in(512)) {
         if (!(u.has_trait("NOPAIN"))) {
             add_msg(m_bad, _("Your heart spasms painfully and stops, dragging you back to reality as you die."));
         } else {
@@ -3886,11 +3891,6 @@ bool game::is_game_over()
         if (u.in_vehicle) {
             g->m.unboard_vehicle(u.posx, u.posy);
         }
-        std::stringstream playerfile;
-        playerfile << world_generator->active_world->world_path << "/" << base64_encode(u.name) << ".sav";
-        dbg( D_INFO ) << "Unlinking player file: <" << playerfile.str() << "> -- ";
-        bool ok = (unlink(playerfile.str().c_str()) == 0);
-        dbg( D_INFO ) << (ok ? "SUCCESS" : "FAIL");
         return true;
     }
     if (uquit != QUIT_NO) {
@@ -3902,11 +3902,6 @@ bool game::is_game_over()
                 g->m.unboard_vehicle(u.posx, u.posy);
             }
             u.place_corpse();
-            std::stringstream playerfile;
-            playerfile << world_generator->active_world->world_path << "/" << base64_encode(u.name) << ".sav";
-            dbg( D_INFO ) << "Unlinking player file: <" << playerfile.str() << "> -- ";
-            bool ok = (unlink(playerfile.str().c_str()) == 0);
-            dbg( D_INFO ) << (ok ? "SUCCESS" : "FAIL");
             uquit = QUIT_DIED;
             return true;
         }
@@ -3917,51 +3912,44 @@ bool game::is_game_over()
 void game::death_screen()
 {
     gamemode->game_over();
-
-#if (defined _WIN32 || defined __WIN32__)
-    WIN32_FIND_DATA FindFileData;
-    HANDLE hFind;
-    TCHAR Buffer[MAX_PATH];
-
-    GetCurrentDirectory(MAX_PATH, Buffer);
-    SetCurrentDirectory(FILENAMES["savedir"].c_str());
-    std::stringstream playerfile;
-    playerfile << base64_encode(u.name) << "*";
-    hFind = FindFirstFile(playerfile.str().c_str(), &FindFileData);
-    if (INVALID_HANDLE_VALUE != hFind) {
-        do {
-            DeleteFile(FindFileData.cFileName);
-        } while (FindNextFile(hFind, &FindFileData) != 0);
-        FindClose(hFind);
-    }
-    SetCurrentDirectory(Buffer);
-#else
-    DIR *save_dir = opendir(FILENAMES["savedir"].c_str());
-    struct dirent *save_dirent = NULL;
-    if(save_dir != NULL && 0 == chdir(FILENAMES["savedir"].c_str())) {
-        while ((save_dirent = readdir(save_dir)) != NULL) {
-            std::string name_prefix = save_dirent->d_name;
-            std::string tmpname = base64_encode(u.name);
-            name_prefix = name_prefix.substr(0, tmpname.length());
-
-            if (tmpname == name_prefix) {
-                std::string graveyard_path("../graveyard/");
-                mkdir(graveyard_path.c_str(), 0777);
-                graveyard_path.append(save_dirent->d_name);
-                (void)rename(save_dirent->d_name, graveyard_path.c_str());
-            }
-        }
-        int ret;
-        ret = chdir("..");
-        if (ret != 0) {
-            debugmsg("game::death_screen: Can\'t chdir(\"..\") from \"save\" directory");
-        }
-        (void)closedir(save_dir);
-    }
-#endif
-
     Messages::display_messages();
     disp_kills();
+}
+
+void game::move_save_to_graveyard()
+{
+    const std::string savedir = world_generator->active_world->world_path;
+    const std::string graveyarddir = FILENAMES["graveyarddir"];
+    const std::string prefix = base64_encode( u.name ) + ".";
+    if( !assure_dir_exist( graveyarddir ) ) {
+        debugmsg( "could not create graveyard path %s", graveyarddir.c_str() );
+    }
+    struct dirent *save_dirent = NULL;
+    DIR *save_dir = opendir( savedir.c_str() );
+    if( save_dir == NULL ) {
+        debugmsg( "could not open savedir %s", savedir.c_str() );
+        return;
+    }
+    while( ( save_dirent = readdir( save_dir ) ) != NULL ) {
+        const std::string name = save_dirent->d_name;
+        // Player character specific files are formed as
+        // <base64(player-name)>.<extension>
+        // extensions is '.sav' for the main save, .log for the memorial, ...
+        if( name.compare( 0, prefix.length(), prefix ) != 0 ) {
+            continue;
+        }
+        const std::string dstpath = graveyarddir + "/" + name;
+        const std::string srcpath = savedir + "/" + name;
+        // this might fail if the graveyard dir does not exist
+        if( !rename_file( srcpath, dstpath ) ) {
+            // Permadeath! The player file must be gone!
+            if( !remove_file( srcpath ) ) {
+                // AHHH, who or what prevents permadeath?
+                debugmsg( "could not remove file %s", srcpath.c_str() );
+            }
+        }
+    }
+    closedir( save_dir );
 }
 
 bool game::load_master(std::string worldname)
@@ -4199,9 +4187,9 @@ bool game::save_uistate()
     }
 }
 
-bool game::save()
+bool game::save_player_data()
 {
-    std::string playerfile = world_generator->active_world->world_path + "/" + base64_encode(u.name);
+    const std::string playerfile = world_generator->active_world->world_path + "/" + base64_encode(u.name);
     try {
         std::ofstream fout;
         fout.exceptions(std::ios::failbit | std::ios::badbit);
@@ -4217,6 +4205,19 @@ bool game::save()
         fout.open(std::string(playerfile + ".log").c_str());
         fout << u.dump_memorial();
         fout.close();
+        return true;
+    } catch (std::ios::failure &err) {
+        popup(_("Failed to save player data"));
+        return false;
+    }
+}
+
+bool game::save()
+{
+    try {
+        if( !save_player_data() ) {
+            return false;
+        }
         if (!save_factions_missions_npcs()) {
             return false;
         }
@@ -4482,7 +4483,7 @@ void game::debug()
             levz = tmp.z;
             m.load(levx, levy, levz, true, cur_om);
             load_npcs();
-            m.spawn_monsters(); // Static monsters
+            m.spawn_monsters( true ); // Static monsters
             update_overmap_seen();
             draw_minimap();
         }
@@ -4798,7 +4799,7 @@ void game::debug()
             std::string spstr = "";
             for (int i = 0; i < ne; i++) {
                 itype *ity = item_controller->find_template(examples[i]);
-                exsp[i] = dynamic_cast<it_comest *>(ity)->spoils * 600;
+                exsp[i] = dynamic_cast<it_comest *>(ity)->spoils;
                 esz[i] = examples[i].size();
                 spstr = string_format("%s | %s", spstr.c_str(), examples[i].c_str());
             }
@@ -6083,7 +6084,6 @@ int game::mon_info(WINDOW *w)
                 int mondist = rl_dist(u.posx, u.posy, critter.posx(), critter.posy());
                 if (mondist <= iProxyDist) {
                     bool passmon = false;
-
                     if (critter.ignoring > 0) {
                         if (run_mode != 1) {
                             critter.ignoring = 0;
@@ -6132,6 +6132,19 @@ int game::mon_info(WINDOW *w)
             if (!new_seen_mon.empty()) {
                 monster &critter = critter_tracker.find(new_seen_mon.back());
                 cancel_activity_query(_("%s spotted!"), critter.name().c_str());
+                if (u.has_trait("M_DEFENDER")) {
+                    if (critter.type->in_species("PLANT")) {
+                        add_msg(m_warning, _("We have detected a %s."), critter.name().c_str());
+                        if (!u.has_disease("adrenaline")){
+                            u.add_disease("adrenaline", 300); // Message handled in disease.cpp
+                        } else if (u.has_disease("adrenaline") && (u.disease_duration("adrenaline") < 150) ) {
+                            // Triffids present.  We ain't got TIME to adrenaline comedown!
+                            u.add_disease("adrenaline", 150);
+                            u.mod_pain(3); // Does take it out of you, though
+                            add_msg(m_info, _("Our fibers strain with renewed wrath!"));
+                        }
+                    }
+                }
             } else {
                 //Hostile NPC
                 cancel_activity_query(_("Hostile survivor spotted!"));
@@ -11321,24 +11334,21 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
         add_msg(m_info, _("Your %s needs 20 charges to fire!"), u.weapon.tname().c_str());
         return;
     }
-    if (u.weapon.has_flag("USE_UPS") && !u.has_charges("UPS_off", 5) &&
-        !u.has_charges("UPS_on", 5) && !u.has_charges("adv_UPS_off", 3) &&
-        !u.has_charges("adv_UPS_on", 3) && !(u.has_bionic("bio_ups") && u.power_level >= 5)) {
-        add_msg(m_info,
-                _("You need a UPS with at least 5 charges or an advanced UPS with at least 3 charges to fire that!"));
-        return;
-    } else if (u.weapon.has_flag("USE_UPS_20") && !u.has_charges("UPS_off", 20) &&
-               !u.has_charges("UPS_on", 20) && !u.has_charges("adv_UPS_off", 12) &&
-               !u.has_charges("adv_UPS_on", 12) && !(u.has_bionic("bio_ups") && u.power_level >= 20)) {
-        add_msg(m_info,
-                _("You need a UPS with at least 20 charges or an advanced UPS with at least 12 charges to fire that!"));
-        return;
-    } else if (u.weapon.has_flag("USE_UPS_40") && !u.has_charges("UPS_off", 40) &&
-               !u.has_charges("UPS_on", 40) && !u.has_charges("adv_UPS_off", 24) &&
-               !u.has_charges("adv_UPS_on", 24) && !(u.has_bionic("bio_ups") && u.power_level >= 40)) {
-        add_msg(m_info,
-                _("You need a UPS with at least 40 charges or an advanced UPS with at least 24 charges to fire that!"));
-        return;
+    const it_gun *gun = dynamic_cast<const it_gun*>( u.weapon.type );
+    if( gun != nullptr && gun->ups_charges > 0 ) {
+        const int ups_drain = gun->ups_charges;
+        const int adv_ups_drain = std::min( 1, gun->ups_charges * 3 / 5 );
+        const int bio_power_drain = std::min( 1, gun->ups_charges / 5 );
+        if( !( u.has_charges( "UPS_off", ups_drain ) ||
+               u.has_charges( "UPS_on", ups_drain ) ||
+               u.has_charges( "adv_UPS_off", adv_ups_drain ) ||
+               u.has_charges( "adv_UPS_on", adv_ups_drain ) ||
+               (u.has_bionic( "bio_ups" ) && u.power_level >= bio_power_drain ) ) ) {
+            add_msg( m_info,
+                     _("You need a UPS with at least %d charges or an advanced UPS with at least %d charges to fire that!"),
+                     ups_drain, adv_ups_drain );
+            return;
+        }
     }
 
     if (u.weapon.has_flag("MOUNTED_GUN")) {
@@ -12626,8 +12636,9 @@ bool game::plmove(int dx, int dy)
                 dangerous = !(u.get_env_resist(bp_mouth) >= 15);
                 break;
             case fd_fungal_haze:
-                dangerous = !((u.get_env_resist(bp_mouth) >= 15) &&
-                              (u.get_env_resist(bp_eyes) >= 15) );
+                dangerous = (!((u.get_env_resist(bp_mouth) >= 15) &&
+                              (u.get_env_resist(bp_eyes) >= 15) ) &&
+                              !u.has_trait("M_IMMUNE"));
                 break;
             default:
                 dangerous = cur->is_dangerous();
@@ -12900,7 +12911,7 @@ bool game::plmove(int dx, int dy)
         if (signage.size()) {
             add_msg(m_info, _("The sign says: %s"), signage.c_str());
         }
-        std::string *graffiti = m.graffiti_at(u.posx, u.posy).contents;
+        std::string *graffiti = m.graffiti_at(x, y).contents;
         if (graffiti) {
             add_msg(_("Written here: %s"), utf8_truncate(*graffiti, 40).c_str());
         }
@@ -13742,7 +13753,7 @@ void game::vertical_move(int movez, bool force)
         m.ter_set(stairx, stairy, t_manhole);
     }
 
-    m.spawn_monsters();
+    m.spawn_monsters( true );
 
     if (force) { // Basically, we fell.
         if ((u.has_trait("WINGS_BIRD")) || ((one_in(2)) && (u.has_trait("WINGS_BUTTERFLY")))) {
@@ -13831,7 +13842,7 @@ void game::update_map(int &x, int &y)
     load_npcs();
 
     // Spawn monsters if appropriate
-    m.spawn_monsters(); // Static monsters
+    m.spawn_monsters( false ); // Static monsters
     if (calendar::turn >= nextspawn) {
         spawn_mon(shiftx, shifty);
     }
@@ -14509,8 +14520,10 @@ bool game::spread_fungus(int x, int y)
                                     if (u_see(x, y)) {
                                     add_msg(m_warning, _("The young tree blooms forth into a fungal blossom!"));
                                     }
+                                } else if (one_in(2)) {
+                                    m.ter_set(i, j, t_marloss_tree);
                                 }
-                            } else { 
+                            } else {
                                 m.ter_set(i, j, t_tree_fungal_young);
                             }
                             converted = true;
@@ -14524,6 +14537,8 @@ bool game::spread_fungus(int x, int y)
                                     if (u_see(x, y)) {
                                     add_msg(m_warning, _("The tree blooms forth into a fungal blossom!"));
                                     }
+                                } else if (one_in(3)) {
+                                    m.ter_set(i, j, t_marloss_tree);
                                 }
                             } else {
                                 m.ter_set(i, j, t_tree_fungal);
@@ -14889,24 +14904,30 @@ void game::process_artifact(item *it, player *p, bool wielded)
 }
 void game::determine_starting_season()
 {
-	if (g->scen->has_flag("SPR_START") || g->scen->has_flag("SUM_START") || g->scen->has_flag("AUT_START") || g->scen->has_flag("WIN_START"))
-	{
-		if (g->scen->has_flag("SPR_START"));
-		else if (g->scen->has_flag("SUM_START")){calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"]);}
-		else if (g->scen->has_flag("AUT_START")){calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 2);}
-		else if (g->scen->has_flag("WIN_START")){calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 3);}
-		else {debugmsg("The Unicorn");}
-	}
-    	else{
-	    if (ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "spring");
-	    else if (ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "summer") {
-		calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"]);
-	    } else if (ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "autumn") {
-		calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 2);
-	    } else {
-		calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 3);
-	    }
-	}
+    if( g->scen->has_flag("SPR_START") || g->scen->has_flag("SUM_START") ||
+        g->scen->has_flag("AUT_START") || g->scen->has_flag("WIN_START") ) {
+        if( g->scen->has_flag("SPR_START") ) {
+            ; // Do nothing;
+        } else if( g->scen->has_flag("SUM_START") ) {
+            calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"]);
+        } else if( g->scen->has_flag("AUT_START") ) {
+            calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 2);
+        } else if( g->scen->has_flag("WIN_START") ) {
+            calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 3);
+        } else {
+            debugmsg("The Unicorn");
+        }
+    } else {
+        if( ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "spring" ) {
+            ; // Do nothing.
+        } else if( ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "summer") {
+            calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"]);
+        } else if( ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "autumn" ) {
+            calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 2);
+        } else {
+            calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 3);
+        }
+    }
 }
 void game::add_artifact_messages(std::vector<art_effect_passive> effects)
 {

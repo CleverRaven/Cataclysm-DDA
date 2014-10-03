@@ -226,7 +226,7 @@ void Pickup::pick_one_up( const point &pickup_target, std::vector<item> &here, v
     int moves_taken = 100;
     bool picked_up = false;
     item &newit = here[ index ];
-    item leftovers = newit.clone();
+    item leftovers = newit;
 
     if( here[index].invlet != '\0' &&
         g->u.invlet_to_position( here[index].invlet ) != INT_MIN ) {
@@ -340,6 +340,9 @@ void Pickup::do_pickup( point pickup_target, bool from_vehicle,
     bool weight_is_okay = (g->u.weight_carried() <= g->u.weight_capacity());
     bool volume_is_okay = (g->u.volume_carried() <= g->u.volume_capacity() -  2);
     bool offered_swap = false;
+    // Convert from player-relative to map-relative.
+    pickup_target.x += g->u.xpos();
+    pickup_target.y += g->u.ypos();
     // Map of items picked up so we can output them all at the end and
     // merge dropping items with the same name.
     std::map<std::string, int> mapPickup;
@@ -366,7 +369,7 @@ void Pickup::do_pickup( point pickup_target, bool from_vehicle,
         indices.pop_back();
         quantities.pop_back();
 
-        pick_one_up( pickup_target, here, veh, cargo_part, index, quantity,
+        pick_one_up( pickup_target , here, veh, cargo_part, index, quantity,
                      got_water, offered_swap, mapPickup, autopickup );
     }
 
@@ -464,7 +467,7 @@ void Pickup::pick_up(int posx, int posy, int min)
     // Not many items, just grab them
     if ((int)here.size() <= min && min != -1) {
         g->u.assign_activity( ACT_PICKUP, 0 );
-        g->u.activity.placement = point( posx, posy );
+        g->u.activity.placement = point( posx - g->u.xpos(), posy - g->u.ypos() );
         g->u.activity.values.push_back( from_vehicle );
         // Only one item means index is 0.
         g->u.activity.values.push_back( 0 );
@@ -593,6 +596,17 @@ void Pickup::pick_up(int posx, int posy, int min)
             }
 
             if( idx >= 0 && idx < (int)here.size()) {
+                if( getitem[idx] ) {
+                    if( pickup_count[idx] != 0 && (int)pickup_count[idx] < here[idx].charges ) {
+                        item temp = here[idx];
+                        temp.charges = pickup_count[idx];
+                        new_weight -= temp.weight();
+                        new_volume -= temp.volume();
+                    } else {
+                        new_weight -= here[idx].weight();
+                        new_volume -= here[idx].volume();
+                    }
+                }
                 if (itemcount != 0 || pickup_count[idx] == 0) {
                     if (itemcount >= here[idx].charges || !here[idx].count_by_charges()) {
                         // Ignore the count if we pickup the whole stack anyway
@@ -603,6 +617,7 @@ void Pickup::pick_up(int posx, int posy, int min)
                     itemcount = 0;
                 }
 
+                // Note: this might not change the value of getitem[idx] at all!
                 getitem[idx] = ( ch == KEY_RIGHT ? true : ( ch == KEY_LEFT ? false : !getitem[idx] ) );
                 if ( ch != KEY_RIGHT && ch != KEY_LEFT) {
                     selected = idx;
@@ -612,7 +627,7 @@ void Pickup::pick_up(int posx, int posy, int min)
                 if (getitem[idx]) {
                     if (pickup_count[idx] != 0 &&
                         (int)pickup_count[idx] < here[idx].charges) {
-                        item temp = here[idx].clone();
+                        item temp = here[idx];
                         temp.charges = pickup_count[idx];
                         new_weight += temp.weight();
                         new_volume += temp.volume();
@@ -620,16 +635,8 @@ void Pickup::pick_up(int posx, int posy, int min)
                         new_weight += here[idx].weight();
                         new_volume += here[idx].volume();
                     }
-                } else if (pickup_count[idx] != 0 &&
-                           (int)pickup_count[idx] < here[idx].charges) {
-                    item temp = here[idx].clone();
-                    temp.charges = pickup_count[idx];
-                    new_weight -= temp.weight();
-                    new_volume -= temp.volume();
-                    pickup_count[idx] = 0;
                 } else {
-                    new_weight -= here[idx].weight();
-                    new_volume -= here[idx].volume();
+                    pickup_count[idx] = 0;
                 }
                 update = true;
             }
@@ -755,7 +762,7 @@ void Pickup::pick_up(int posx, int posy, int min)
 
     // At this point we've selected our items, register an activity to pick them up.
     g->u.assign_activity( ACT_PICKUP, 0 );
-    g->u.activity.placement = point( posx, posy );
+    g->u.activity.placement = point( posx - g->u.xpos(), posy - g->u.ypos() );
     g->u.activity.values.push_back( from_vehicle );
     if( min == -1 ) {
         // Auto pickup will need to auto resume since there can be several of them on the stack.

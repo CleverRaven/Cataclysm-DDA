@@ -191,7 +191,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -361,7 +362,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -518,7 +520,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -675,7 +678,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -837,7 +841,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -995,7 +1000,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -1158,7 +1164,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -1325,7 +1332,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -1487,7 +1495,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -1655,7 +1664,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -1811,7 +1821,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -1977,7 +1988,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -2141,7 +2153,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -2299,7 +2312,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -2455,7 +2469,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -2627,7 +2642,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -2796,7 +2812,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -2960,7 +2977,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -3122,7 +3140,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -3278,7 +3297,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -3434,7 +3454,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -3593,7 +3614,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -3753,7 +3775,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -3913,7 +3936,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -4069,7 +4093,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -4225,7 +4250,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -4382,7 +4408,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -4550,7 +4577,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -4721,7 +4749,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -4878,7 +4907,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -5034,7 +5064,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -5197,7 +5228,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -5364,7 +5396,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -5537,7 +5570,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -5695,7 +5729,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -5853,7 +5888,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -6014,7 +6050,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -6171,7 +6208,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -6330,7 +6368,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -6487,7 +6526,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -6644,7 +6684,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -6802,7 +6843,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -6959,7 +7001,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -7116,7 +7159,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -7274,7 +7318,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -7445,7 +7490,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -7603,7 +7649,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -7774,7 +7821,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -7942,7 +7990,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -8098,7 +8147,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -8264,7 +8314,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -8428,7 +8479,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -8584,7 +8636,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -8764,7 +8817,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -8933,7 +8987,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -9093,7 +9148,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -9269,7 +9325,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -9430,7 +9487,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -9586,7 +9644,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -9749,7 +9808,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -9909,7 +9969,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -10065,7 +10126,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -10238,7 +10300,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -10397,7 +10460,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -10554,7 +10618,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -10712,7 +10777,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -10868,7 +10934,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -11024,7 +11091,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -11180,7 +11248,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -11337,7 +11406,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -11494,7 +11564,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -11651,7 +11722,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -11809,7 +11881,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -11976,7 +12049,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -12142,7 +12216,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -12298,7 +12373,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -12455,7 +12531,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -12619,7 +12696,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -12789,7 +12867,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -12952,7 +13031,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",
@@ -13109,7 +13189,8 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor"
+                "z": "t_floor",
+                "]": "t_dirt"
             },
             "furniture": {
                 "{": "f_rubble",

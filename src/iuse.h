@@ -67,7 +67,8 @@ public:
     int purify_iv           (player*, item*, bool);
     int marloss             (player*, item*, bool);
     int marloss_seed        (player*, item*, bool);
-    int marloss_gel        (player*, item*, bool);
+    int marloss_gel         (player*, item*, bool);
+    int mycus               (player*, item*, bool);
     int dogfood             (player*, item*, bool);
     int catfood             (player*, item*, bool);
 

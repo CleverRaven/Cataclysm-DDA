@@ -77,7 +77,7 @@ void map::generate_lightmap()
             // When underground natural_light is 0, if this changes we need to revisit
             // Only apply this whole thing if the player is inside,
             // buildings will be shadowed when outside looking in.
-            if (natural_light > LIGHT_AMBIENT_LOW && !is_outside(g->u.posx, g->u.posy) ) {
+            if (natural_light > LIGHT_SOURCE_BRIGHT && !is_outside(g->u.posx, g->u.posy) ) {
                 if (!is_outside(sx, sy)) {
                     // Apply light sources for external/internal divide
                     for(int i = 0; i < 4; ++i) {

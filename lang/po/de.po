@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cdda\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-22 09:16+0400\n"
+"POT-Creation-Date: 2014-09-29 09:48+0400\n"
 "PO-Revision-Date: 2014-09-23 14:16+0000\n"
 "Last-Translator: Wuzzy <almikes@aol.com>\n"
 "Language-Team: German <de@li.org>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2014-09-24 05:05+0000\n"
+"X-Launchpad-Export-Date: 2014-10-01 05:27+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: lang/json/AMMO_from_json.py
@@ -1084,6 +1084,10 @@ msgstr ""
 "Plasma umgewandelt werden."
 
 #: lang/json/AMMO_from_json.py
+msgid "A canister of oxygen."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
 msgid ""
 "A crude shaft made from plastic.  It needs arrowheads and fletching to "
 "become a functional arrow.  You can, however, fire it from a bow."
@@ -1516,6 +1520,12 @@ msgstr ""
 "einzunehmen."
 
 #: lang/json/AMMO_from_json.py
+msgid ""
+"A tiny pointy steel bolt. Can be fired from a nail gun or similar weapon. "
+"Its drawback is that it can't be used for construction like nails."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
 msgid "A tough sinew cut from a corpse, usable as thread."
 msgstr ""
 "Eine harte Sehne, die aus einer Leiche geschnitten wurde; brauchbar als "
@@ -1603,8 +1613,8 @@ msgstr ""
 "Patrone wurde wiedergeladen."
 
 #: lang/json/AMMO_from_json.py
-msgid "An empty casing from a .22 round."
-msgstr "Eine leeres Gehäuse einer .22-Patrone."
+msgid "An empty casing from a .22 round. These can't be hand-reloaded."
+msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "An empty casing from a .223 round."
@@ -2536,6 +2546,14 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid ""
+"The .700 Nitro Express is a very powerful rifle round designed for long-"
+"range use.  Its stupendous accuracy and armor piercing capabilities make it "
+"one of the most deadly rounds available, offset only by its drastic recoil "
+"and noise. This one has been hand-reloaded."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
 "The 5.45x39mm was the standard ammunition for the AK series from 1974. Its "
 "designers were inspired by the 5.56x45mm NATO cartridge."
 msgstr ""
@@ -3264,6 +3282,12 @@ msgid_plural "oxidizer powder"
 msgstr[0] "Oxidationspulver"
 msgstr[1] "Oxidationspulver"
 
+#: lang/json/AMMO_from_json.py
+msgid "oxygen"
+msgid_plural "oxygens"
+msgstr[0] ""
+msgstr[1] ""
+
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
 msgid "paper cartridge"
 msgid_plural "paper cartridges"
@@ -3485,6 +3509,12 @@ msgid "reloaded .500 S&W Magnum"
 msgid_plural "reloaded .500 S&W Magnum"
 msgstr[0] "wiedergeladene .500 S&W Magnum"
 msgstr[1] "wiedergeladene .500 S&W Magnum"
+
+#: lang/json/AMMO_from_json.py
+msgid "reloaded .700 NX"
+msgid_plural "reloaded .700 NX"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded 00 shot"
@@ -3773,6 +3803,12 @@ msgid "tin"
 msgid_plural "tin"
 msgstr[0] "Zinn"
 msgstr[1] "Zinn"
+
+#: lang/json/AMMO_from_json.py
+msgid "tiny steel bolt"
+msgid_plural "tiny steel bolts"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/AMMO_from_json.py
 msgid "tomato seed"
@@ -17392,6 +17428,10 @@ msgid "Water with salt added.  Not good for drinking."
 msgstr "Wasser mit Salz. Nicht zum Trinken geeignet."
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "Water with sugar or honey added.  Tastes okay."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid "Water, the stuff of life, the best thirst-quencher available."
 msgstr "Wasser, der Grundstein allen Lebens. Der beste Durstlöscher der Welt."
 
@@ -20416,6 +20456,12 @@ msgstr[0] "Sushireis"
 msgstr[1] "Sushireis"
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "sweet water"
+msgid_plural "sweet water"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid "taco"
 msgid_plural "tacos"
 msgstr[0] "Taco"
@@ -20798,6 +20844,10 @@ msgid "A large watertight leather bag, can hold 5 liters of water."
 msgstr "Eine große wasserdichte Ledertasche, die 5 Liter Wasser fassen kann."
 
 #: lang/json/CONTAINER_from_json.py
+msgid "A little gas tank.  Useful for crafting."
+msgstr ""
+
+#: lang/json/CONTAINER_from_json.py
 msgid "A massive steel barrel with a resealable lid."
 msgstr "Ein gewaltiges Stahlfass mit einem wiederverschließbaren Deckel."
 
@@ -20984,6 +21034,12 @@ msgid "large waterskin"
 msgid_plural "large waterskins"
 msgstr[0] "großer Wasserbeutel"
 msgstr[1] "große Wasserbeutel"
+
+#: lang/json/CONTAINER_from_json.py
+msgid "little metal tank"
+msgid_plural "little metal tanks"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/CONTAINER_from_json.py
 msgid "metal tank"
@@ -22156,6 +22212,50 @@ msgid "A simple wood pole with one end sharpened."
 msgstr "Ein einfacher Holzstock, vom dem sein Ende geschärft wurde."
 
 #: lang/json/GENERIC_from_json.py
+msgid ""
+"A single sheet of newspaper broadsheet. It is possibly one of the last "
+"issues printed before New England was overwhelmed. Most of the information "
+"on there is terribly trivial, or out of date, but one thing catches your eye "
+"briefly."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A single sheet of newspaper broadsheet. It seems to date from a few years "
+"ago--amazing it has lasted this long. Most of the information on there is "
+"terribly trivial, or out of date, but one thing catches your eye briefly."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A single sheet of newspaper broadsheet. It seems to date from several years "
+"ago, and you've NO idea how it lasted this long. Most of the information on "
+"there is terribly trivial, or out of date, but one thing catches your eye "
+"briefly."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A single sheet of newspaper broadsheet. It was printed in the months leading "
+"up to the Cataclysm. Most of the information on there is terribly trivial, "
+"or out of date, but one thing catches your eye briefly."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A single sheet of newspaper broadsheet. It was printed in the weeks leading "
+"up to the Cataclysm. Most of the information on there is terribly trivial, "
+"or out of date, but one thing catches your eye briefly."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A single sheet of newspaper broadsheet. It was printed more than a year ago. "
+"Most of the information on there is terribly trivial, or out of date, but "
+"one thing catches your eye briefly."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
 msgid "A six-foot long piece of nylon rope.  Too small to be of much use.  "
 msgstr ""
 "Ein 15 cm langes Stück Nylonseil. Zu kurz, um von großem Nutzen zu sein.  "
@@ -22205,6 +22305,10 @@ msgid "A small bolt of fur from an animal.  Can be made into warm clothing."
 msgstr ""
 "Ein kleiner Fellballen eines Tieres. Er kann zu warmer Kleidung gemacht "
 "werden."
+
+#: lang/json/GENERIC_from_json.py
+msgid "A small electric motor.  Useful for crafting."
+msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid ""
@@ -22551,10 +22655,8 @@ msgstr ""
 #: lang/json/GENERIC_from_json.py
 msgid ""
 "A weapon used for fencing, the most noble of all sports. The fencing sabre "
-"is shorter than foil or epee."
+"is marginally shorter than the foil and epee, but no less effective."
 msgstr ""
-"Eine Waffe, die zum Fechten benutzt wird, die Nobelste aller Sportarten. Der "
-"Fechtsäbel ist kurzer als Florett oder Degen."
 
 #: lang/json/GENERIC_from_json.py
 msgid ""
@@ -23789,6 +23891,12 @@ msgstr[0] "Fechtflorett"
 msgstr[1] "Fechtflorette"
 
 #: lang/json/GENERIC_from_json.py
+msgid "fencing sabre"
+msgid_plural "fencing sabres"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GENERIC_from_json.py
 msgid "fertilizer"
 msgid_plural "fertilizers"
 msgstr[0] "Dünger"
@@ -24191,6 +24299,12 @@ msgstr[0] "Nagelbrett"
 msgstr[1] "Nagelbretter"
 
 #: lang/json/GENERIC_from_json.py
+msgid "newspaper page"
+msgid_plural "newspaper pages"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GENERIC_from_json.py
 msgid "nomex patch"
 msgid_plural "nomex patches"
 msgstr[0] "Nomexfetzen"
@@ -24515,6 +24629,12 @@ msgstr[0] "kleiner LCD-Bildschirm"
 msgstr[1] "kleine LCD-Bildschirme"
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
+msgid "small electric motor"
+msgid_plural "small electric motors"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
 msgid "small storage battery"
 msgid_plural "small storage batteries"
 msgstr[0] "kleiner Akkumulator"
@@ -24574,7 +24694,7 @@ msgid_plural "sporks"
 msgstr[0] "Löffelgabel"
 msgstr[1] "Löffelgabeln"
 
-#: lang/json/GENERIC_from_json.py
+#: lang/json/GENERIC_from_json.py src/weather_data.cpp
 msgid "spring"
 msgid_plural "springs"
 msgstr[0] "Schraubenfeder"
@@ -27251,19 +27371,11 @@ msgstr[1] "NX-17-Energiegewehre"
 msgid ""
 "Numbered to bridge the gap between the USian Frontier and modern Civil "
 "Defense needs, the Long Ranger was designed to give Enforcer users (or "
-"anyone using .45 caliber cartridges) a little extra reach whilst using the "
+"anyone using .45 caliber cartridges) a little extra reach while using the "
 "same ammunition.  Synthetic furniture cost it some charm points from the "
 "legendary Winchester rifles it was based upon, but users agree that the "
 "forty-five's punch with the reach of a rifle is worth it."
 msgstr ""
-"Der Long Ranger wird dazu gezählt, die Brücke zwischen den Bedürfnissen des "
-"US-Grenzschutzes und den modernen Bedürfnissen der Zivilverteidigung zu "
-"schlagen. Er wurde so gestaltet, dass er Enforcer-Benutzern (oder jeden, der "
-"Patronen des .45-Kalibers benutzt) eine leicht höhere Reichweite bietet, "
-"während er die gleiche Munition benutzt. Eine synthetische Ausstattung lässt "
-"sie ein paar Charme-Punkte von den legendären Winchester-Gewehren, auf die "
-"er aufbaute, einbüßen, aber Benutzer sind sich darin einig, dass die "
-"Schlagkraft der .45 mit der Reichweite eines Gewehrs es wert sind."
 
 #: lang/json/GUN_from_json.py
 msgid ""
@@ -29361,11 +29473,23 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid ""
+"A mutated salmon. The same size as a large dog and quite dangerous to the "
+"inexperienced fisher."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid ""
 "A mutated wasp nearly the size of a cat, with a barbed ovipositor extruding "
 "from the abdomen."
 msgstr ""
 "Eine mutierte Wespe, die fast so groß wie eine Katze ist und bei der ein "
 "Legestachel mit Widerhaken vom Unterleib extrudiert."
+
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A once aggresive and hungry bull shark, this jawed terror is now even more "
+"aggresive possibly thanks to its lack of a functioning brain."
+msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid ""
@@ -29393,6 +29517,10 @@ msgstr ""
 "auf der Spitze trägt. Sporen werden periodisch aus seinen Lamellen "
 "ausgestoßen und ein paar Ranken erstrecken sich von seinem Fuß, was "
 "Mobilität und eine simple Verteidigung ermöglicht."
+
+#: lang/json/MONSTER_from_json.py
+msgid "A pickerel."
+msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "A pike."
@@ -29762,6 +29890,10 @@ msgstr ""
 msgid "A weird mass of immobile pink goo.  It seems to breathe."
 msgstr ""
 "Eine seltsame Masse aus unbeweglichem rosa Glibber. Sie scheint zu atmen."
+
+#: lang/json/MONSTER_from_json.py
+msgid "A whitefish."
+msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid ""
@@ -30700,6 +30832,12 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid ""
+"This thing seems like a carp, only swollen and very very angry. Death is the "
+"gift of the carp god."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid ""
 "This zombie's face and body is completely covered by a protective suit.  It "
 "wanders around, unsteadily."
 msgstr ""
@@ -31295,6 +31433,12 @@ msgstr[0] "junge Riesige Schwarze Witwe"
 msgstr[1] "junge Riesige Schwarze Witwen"
 
 #: lang/json/MONSTER_from_json.py
+msgid "giant carp"
+msgid_plural "giant carps"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/MONSTER_from_json.py
 msgid "giant centipede"
 msgid_plural "giant centipedes"
 msgstr[0] "Riesentausendfüßler"
@@ -31341,6 +31485,12 @@ msgid "giant mosquito"
 msgid_plural "giant mosquitos"
 msgstr[0] "Riesenmoskito"
 msgstr[1] "Riesenmoskitos"
+
+#: lang/json/MONSTER_from_json.py
+msgid "giant salmon"
+msgid_plural "giant salmons"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "giant slug"
@@ -31475,6 +31625,12 @@ msgstr[0] "Hase"
 msgstr[1] "Hasen"
 
 #: lang/json/MONSTER_from_json.py
+msgid "jawed terror"
+msgid_plural "jawed terrors"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/MONSTER_from_json.py
 msgid "jumping spider"
 msgid_plural "jumping spiders"
 msgstr[0] "Springspinne"
@@ -31575,6 +31731,12 @@ msgid "perch"
 msgid_plural "perches"
 msgstr[0] "Flussbarsch"
 msgstr[1] "Flussbarsch"
+
+#: lang/json/MONSTER_from_json.py
+msgid "pickerel"
+msgid_plural "whitefish"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "pig"
@@ -31923,6 +32085,12 @@ msgid "weasel"
 msgid_plural "weasels"
 msgstr[0] "Wiesel"
 msgstr[1] "Wiesel"
+
+#: lang/json/MONSTER_from_json.py
+msgid "whitefish"
+msgid_plural "whitefish"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "wolf"
@@ -32885,6 +33053,12 @@ msgstr ""
 "Not-»Visier« und einem Blitzlicht. Du kannst dir deine Fotos auf dem "
 "Bildschirm ansehen oder sie auf eine Speicherkarte übertragen. Verwendet "
 "gewöhnliche Batterien."
+
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A professional fishing rod & reel combo. With this you should be able to "
+"catch 'em all."
+msgstr ""
 
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -37371,6 +37545,12 @@ msgstr[0] "bestromter Quarterstaff"
 msgstr[1] "bestromte Quarterstaffs"
 
 #: lang/json/TOOL_from_json.py
+msgid "pro fishing rod"
+msgid_plural "pro fishing rods"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_from_json.py
 msgid "quern"
 msgid_plural "querns"
 msgstr[0] "Handmühle"
@@ -37976,6 +38156,14 @@ msgstr "Ein großer und sehr starker Achtzylinder-Verbrennungsmotor."
 
 #: lang/json/VAR_VEH_PART_from_json.py
 msgid ""
+"A large cylinder fashioned out of thick plates of hardened steel, that is "
+"normally found on road rollers. Numerous massive spokes, attached to a "
+"central axis, reinforce its structure even further, making it an unstoppable "
+"force once it starts rolling."
+msgstr ""
+
+#: lang/json/VAR_VEH_PART_from_json.py
+msgid ""
 "A massive and extremely powerful V12 engine, usually built into high end "
 "sports cars."
 msgstr ""
@@ -38009,6 +38197,10 @@ msgstr "Ein Satz Transportrollen, für Sachen wie Einkaufswägen."
 #: lang/json/VAR_VEH_PART_from_json.py
 msgid "A single-cylinder 4-stroke combustion engine."
 msgstr "Ein Einzylinder-Viertaktverbrennungsmotor."
+
+#: lang/json/VAR_VEH_PART_from_json.py
+msgid "A small single-cylinder 2-stroke combustion engine."
+msgstr ""
 
 #: lang/json/VAR_VEH_PART_from_json.py
 msgid "A small, yet powerful 4-cylinder combustion engine."
@@ -38098,6 +38290,12 @@ msgid_plural "inflatable section"
 msgstr[0] "aufblasbares Segment"
 msgstr[1] "aufblasbare Segmente"
 
+#: lang/json/VAR_VEH_PART_from_json.py
+msgid "large steel drum"
+msgid_plural "large steel drums"
+msgstr[0] ""
+msgstr[1] ""
+
 #: lang/json/VAR_VEH_PART_from_json.py lang/json/vehicle_part_from_json.py
 msgid "motorbike wheel"
 msgid_plural "motorbike wheels"
@@ -38115,6 +38313,12 @@ msgid "set of casters"
 msgid_plural "sets of casters"
 msgstr[0] "Transportrollensatz"
 msgstr[1] "Transportrollensätze"
+
+#: lang/json/VAR_VEH_PART_from_json.py
+msgid "small 1-cylinder engine"
+msgid_plural "small 1-cylinder engines"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/VAR_VEH_PART_from_json.py lang/json/vehicle_part_from_json.py
 msgid "small wheel"
@@ -39127,6 +39331,10 @@ msgstr "Dach bauen"
 #: lang/json/construction_from_json.py
 msgid "Build Rope & Pulley System"
 msgstr "Seil-und-Rolle-System bauen"
+
+#: lang/json/construction_from_json.py
+msgid "Build Sandbag Wall"
+msgstr ""
 
 #: lang/json/construction_from_json.py
 msgid "Build Sign"
@@ -41004,12 +41212,24 @@ msgid "road barricade"
 msgstr "Straßenbarrikade"
 
 #: lang/json/furniture_from_json.py
+msgid "rrrip!"
+msgstr ""
+
+#: lang/json/furniture_from_json.py
 msgid "ruptured egg sack"
 msgstr "geplündertes Eiernest"
 
 #: lang/json/furniture_from_json.py
 msgid "safe"
 msgstr "Tresor"
+
+#: lang/json/furniture_from_json.py
+msgid "sandbag barricade"
+msgstr ""
+
+#: lang/json/furniture_from_json.py
+msgid "sandbag wall"
+msgstr ""
 
 #: lang/json/furniture_from_json.py
 msgid "screeching metal!"
@@ -42623,6 +42843,10 @@ msgid "Toggle Debug Mode"
 msgstr "Debugmodus umschalten"
 
 #: lang/json/keybinding_from_json.py
+msgid "Toggle Explored"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
 msgid "Toggle Fast Scroll"
 msgstr "Schnelles Scrollen umschalten"
 
@@ -43731,8 +43955,8 @@ msgid "Fencing"
 msgstr "Fechten"
 
 #: lang/json/martial_art_from_json.py
-msgid "Gain +3 armor while standing still"
-msgstr "+3 Panzerung beim Stillstehen erhalten"
+msgid "Gain up to +6 armor while standing still"
+msgstr ""
 
 #: lang/json/martial_art_from_json.py
 msgid "Half damage to enemies"
@@ -48746,10 +48970,8 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "Your visual processing has shifted: though you can see better in the dark, "
-"you can't see very far in the light."
+"you're nearsighted in the light.  Maybe glasses would help."
 msgstr ""
-"Deine Sicht hat sich verschoben: Obwohl du besser im Dunkeln sehen kannst, "
-"kannst nicht sehr weit im Licht sehen."
 
 #: lang/json/mutation_from_json.py
 msgid ""
@@ -51374,8 +51596,8 @@ msgctxt "prof_desc_female"
 msgid ""
 "You spent most of your days just fishing in the swamps getting by quietly on "
 "what you caught. You found the buzzing of insects enjoyable, but they got "
-"bigger and and more mean. Now their horrible noises have you spooked- you "
-"just hope the fish aren't as nasty."
+"bigger and more mean. Now their horrible noises have you spooked- you just "
+"hope the fish aren't as nasty."
 msgstr ""
 
 #. ~ Profession (male Fisher) description
@@ -51384,8 +51606,8 @@ msgctxt "prof_desc_male"
 msgid ""
 "You spent most of your days just fishing in the swamps getting by quietly on "
 "what you caught. You found the buzzing of insects enjoyable, but they got "
-"bigger and and more mean. Now their horrible noises have you spooked- you "
-"just hope the fish aren't as nasty."
+"bigger and more mean. Now their horrible noises have you spooked- you just "
+"hope the fish aren't as nasty."
 msgstr ""
 
 #. ~ Profession (female Biker) description
@@ -52819,6 +53041,21 @@ msgid "unarmed combat"
 msgstr "waffenloser Kampf"
 
 #: lang/json/snippet_from_json.py
+msgid ""
+" ...What do you know about surviving in the Wilderness? If you can't make a "
+"snare you don't know TRAP! Hunt down a copy of TRAPPERS' LIFE and learn "
+"about wildlife!... And how to kill it. Classic BEAR TRAP returns in this "
+"issue!"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+" ...What do you know about surviving in the Wilderness? If you can't make a "
+"snare you don't know TRAP! Hunt down a copy of TRAPPERS' LIFE and learn "
+"about wildlife!... And how to kill it. This week, a CROSSBOW TRAP!"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
 #, no-python-format
 msgid "\"99% dead? I'd like to see a million zombies on Wall Street.\""
 msgstr ""
@@ -53430,6 +53667,413 @@ msgstr "»das auge es beobachtet mich es folgt mir überall hilfe«"
 
 #: lang/json/snippet_from_json.py
 msgid ""
+"A WHOLE NEW YOU! Augment your world with CBMs! This ad features a man "
+"covered in solar panels with a miniature flashlight in the middle of his "
+"head."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"BAGS, BAGS, BAGS! They're very useful things! If we didn't have BAGS, what-"
+"would-we-use... to PUT a lot of things in!? (Ad by the \"Play SchoolClothing "
+"Co.\")"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"BEWARE UNDEAD PROPAGANDA: Stories about the dead \"rising\" may abet the "
+"enemy, a general said today. \"These stories have been tracked to communist "
+"sources tied in with the presumably Chinese invasion.\""
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"BIRDHOUSE MONTHLY... This month we look at some Dutch innovations in "
+"birdhouse design, and compare with the often confused Scandinavian Birdhouse "
+"design.  Our article on sheet metal birdhouses will have you riveted!"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"BIRDHOUSE MONTHLY... Which wood would a woodpecker prefer? This month we "
+"discuss hardwood versus soft woods, whether to lacquer, oil or paint, and "
+"which type of nails you should use!"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"CHINA INVADES?: Communications were muddled by a large influx of aggressive "
+"armed individuals. \"We have this,\" says a local Police Chief. \"We are "
+"authorizing our robotic security drones to use lethal force on combative "
+"humans\""
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"CRAFTY CRAFTERS QUARTERLY: Macaroni isn't just for eating anymore! Learn how "
+"to make jewellery and art from it as well! We also discuss the correct way "
+"to use superglue without gluing your hands together!"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Coffee of The Future... RIGHT NOW! No one has really has the time to make "
+"great coffee, but now you don't have to! Rivtech gives you inexhaustible "
+"ATOMIC power! To make boiling hot coffee the MINUTE you want it! Atomic "
+"Coffeemaker."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"DRIVING ON A WING AND A PRAYER: A New England man has proven it is possible "
+"to create a new car from scrap parts using almost nothing but duct tape. "
+"When asked why he had done it, his answer was \"Well, I didn't have a welder."
+"\""
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+#, no-python-format
+msgid ""
+"DRUG USE ON THE RISE: Recent statistic suggest drug use has climbed more "
+"than 40% in the last two years. \"People are scared for their jobs, their "
+"country, even their life... of course some will turn to drugs,\" said an "
+"expert."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"EDITOR SAYS \"DESTROY THE DEAD\". Recognisable enemy dead left lying in the "
+"street may give away militia positions! If you kill an enemy combatant, "
+"smash or butcher with a knife til unrecognisable! Screw Geneva! Protect our "
+"troops!"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"EVACS UNSTOCKED: TRUTH OR FICTION? An unidentified government source has "
+"suggested that the evacuation centers are unstocked, having \"already "
+"accomplished the goal of calming the people\". He later retracted the "
+"comment and is unable to be contacted."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"FEELING BLUE? Try \"Greens\" for Magazines! Your local Supermarket! Nothing "
+"cheers you up like a good magazine... Unless it's JUNK FOOD! Or why not buy "
+"an MP3 PLAYER or a GAME CONSOLE? Chase those Blues away at GREENS Supermarket"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"FEELING BLUE? Try \"Greens\" for Magazines! Your local Supermarket! Nothing "
+"cheers you up like a good magazine... Unless it's JUNK FOOD! Or why not buy "
+"an MP3 PLAYER or a GAME CONSOLE? Chase those blues away at GREENS Supermarket"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"GENERAL SAYS AVOID BUNKERS: Do not attempt to flee to your nearest military "
+"bunker!  Understaffed bunkers are defended by turrets, which shoot those "
+"without proper registration. Please seek military personnel if you need "
+"access."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"GLAMOPOLITAN! We've got ALL the latest tips! Whether you want to know what "
+"the elite are eating, wearing or discussing, Glamopolitan is YOUR magazine! "
+"So pick up a copy today and \"Sizzle Like A Star!\""
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"GLAMOPOLITAN! We've got ALL the latest tips! Whether you want to know what "
+"the elite are eating, wearing or discussing, Glamopolitan is YOUR magazine! "
+"So pick up a copy today and \"Sizzle Like A Star\"!"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"GOVERNMENT INTRODUCES GUN SUBSIDIES: In a move the government says will "
+"boost the economy, encourage military production and support defense "
+"militia, the government has dropped taxes on guns and applied a subsidy for "
+"the poor."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"GOVERNMENT SCIENCE BOOST: The government has drastically increased defense "
+"R&D after UN disarmament demands. \"This not only keeps money in our "
+"country, but maintains our lead on China and keeps us defended\", the "
+"President said."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"GRANADE SEEKS FUNDING FOR GRANADE: This paper has been investigating rumors "
+"disgraced former scientist Kevin Granade seeks public funding for so-called "
+"reality-warping weapon \"the Granade\", which \"[...]works by patching "
+"reality\". Apparently it will be crowdsourced via Kickstarter as \"Project "
+"Cataclysm\" "
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"GRAVE BUSINESS: Recent reports show a large spike in thefts from and "
+"assaults on funeral homes in the last few weeks. Described as highly strange "
+"but not especially dangerous, Homeland Security is \"looking at the "
+"connections now.\""
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"HE WILL BLOW YOUR WORLD: Scientist Kevin Granade reveals potential \"Reality "
+"Grenade\", loosely related to teleport-tech. He claims could be used to "
+"weaken enemies or improve our own troops. \"We're still in Alpha testing,\" "
+"says Kevin, \"It really needs a Bugfix\"."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"HOME GROWN SCIENCE: Several governors & legislators from the New England "
+"region discussed a new regional initiative today, which relaxed laws that "
+"limit the distance a hazardous-material laboratory or factory can be from a "
+"city. \"This should keep our economy going strong for years to come, with "
+"all the military R&D facilities being established,\", one mayor remarked."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"HUNTING GOODS! Food prices getting you down? Why not get a crossbow or "
+"compound bow and Hunt Your Own!? Our arrows and bolts are completely "
+"reusable, so why not hunt animals like Mother Nature intended?"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"INVADERS ARE SUPER SOLDIERS: Further proof of mutation, in addition to "
+"strength, speed & toughness, we now have reports of foreign enemies who are "
+"somehow firing lightning fields, spitting acid and reports of soldiers "
+"hidden in mobile clouds of smoke."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"INVADERS NOT HUMAN?: An earlier command by the Police Chief has backfired. "
+"\"The invaders don't register as human. The securibots turned on us when we "
+"tried to fight them. We don't have enough people left to reprogram them.\""
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"INVASION IS GM TROOPS: Reports of invasion by as yet unknown soldiers have "
+"been confirmed, and this paper has gained first hand footage proving genetic "
+"modification, with examples of extreme strength, speed and natural armor."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"LABS BOMBED: In further invasion proof (discounting earlier suggestion of a "
+"riot drug) most of New England's scientific labs were bombed simultaneously "
+"yesterday. No word yet from the military about who the aggressors are."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"LASERS - NEXT BIG THING?: Top defense researchers remarked during "
+"demonstration of a prototype today: \"We are still working on it, the laser "
+"weapon lacks power, but has a technically almost unlimited range,\" one said"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"LEAVE TO THE EXPERTS -- GENERAL: \"Do not attempt to deal with invaders "
+"yourself, our troops have the technology and the training for military "
+"action. Loud gunfire may attract more enemy attention than you have ammo!\""
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"MILITARY HAS GM TOO - GENERAL: \"We want to reassure the people, these "
+"invaders are not the only super-soldiers.  Our genemods are more advanced "
+"than China's.  We were safety-testing, which China obviously skipped "
+"disastrously.\""
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"MUTANT COLD: A new cold virus has emerged in the New England area. \"There "
+"don't appear to be complications, but many sufferers are developing large "
+"amounts of benign tumorous tissue, A pound or more,\" said a doctor"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"NEVER BE LEFT IN THE DARK! Rivtech Atomic-nightlight uses \"inexhaustible\" "
+"plutonium fuel cell, provides light, feeds power back into your grid!"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"NEW WEAPON UNVEILED: Defense today lifted the lid on a long held secret "
+"project. \"We can't discuss the specifics, but it generates a burst of "
+"plasma which accurately follows a path of laser-heated air,\" according to a "
+"Pentagon official."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"PICKLED MEAT IN A JAR! Just like your grandma used to make! It will last for "
+"months or longer, and when you've eaten it, you can refill and seal the jar! "
+"Stock your emergency supply TODAY!"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"POPULAR MECHANICS: People say mechanics is boring.  We say, \"Prove them "
+"Wrong!\" We've got all the articles that make it interesting to talk about, "
+"so you can \"Make Mechanics Popular!\""
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"POPULAR MECHANICS: People say mechanics is boring? We say, Prove them Wrong! "
+"We've got all the articles that make it interesting to talk about, so you "
+"can \"Make 'Mechanics Popular\"!"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"POPULAR MECHANICS: People say mechanics is boring? We say, Prove them Wrong! "
+"We've got all the articles that make it interesting to talk about, so you "
+"can \"Make Mechanics Popular!\""
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"POPULAR MECHANICS: People say mechanics is boring? We say, Prove them Wrong! "
+"We've got all the articles that make it interesting to talk about, so you "
+"can. \"Make Mechanics Popular\"!"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"PUBLIC SERVICE ANNOUCEMENT: \"Beware Acid Rain\". Several caustic chemicals "
+"in the air react with rain clouds to cause deadly acid rain. No word yet on "
+"if this is a deliberate tactic or a side effect of the earlier bombings."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"PUBLIC SERVICE ANNOUNCEMENT: \"Aid Delayed\". Fighting by the military at "
+"the edge of the New England Disaster Area is expected to delay civilian "
+"extraction. Civilians will be forced to supply themselves over the next "
+"weeks."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"PUBLIC SERVICE ANNOUNCEMENT: \"New England Cut Off\". New England has been "
+"quarantined for the safety of the rest of the USA. No rescue attempts will "
+"be funded, it is assumed there are no survivors in the area."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"QUANTUM LEAP: An undisclosed project has yielded results in the form of "
+"theoretical teleportation. \"This is just the tip of the iceberg,\" said a "
+"source. \"I can't disclose, but this development is the LEAST in this "
+"exciting vein!\""
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"READY FOR THE WORST: The government has proven it is ready to deal with "
+"China's threats. In the event of an actual attack, we have established "
+"evacuation centres, within a short distance of most towns."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"RIOTS CAUSED BY \"NEW DRUG\": Rumours of riots were quelled today. \"These "
+"are isolated incidents\" said a local police chief. \"The violence is random "
+"and senseless, our current theory is a street drug gone terribly wrong\""
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+#, no-python-format
+msgid ""
+"ROBOCOP BEATS CRIME: Due to the common usage of Securibots and their ability "
+"to respond more rapidly than people, crime is down 54% and dropping. Police "
+"chief says \"Don't trip an alarm and you have nothing to worry about\""
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"ROBOT RAMPAGE: Three Protestors injured when surrounding a Military base, "
+"protesting automated turrets which put guards out of jobs. \"We warned them, "
+"turrets will open fire on anyone without a military ID,\" a general said."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"SECURIBOTS: Keeping your home safe, ready the second the alarm goes off... "
+"Who needs people?"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"SHOW THEM YOUR GUNS: In response to China's latest threats, the government "
+"has further relaxed gun control, expected to increase the economic boost of "
+"earlier gun subsidies and relieve public tension."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"SPACE TELEPORTATION - TRUTH OR FICTION? Scientists addressed a growing "
+"conspiracy theory today \"The plutonium consumed is massive. We cannot use "
+"teleportation to reach aliens, unless they live on some kind of parallel "
+"world.\""
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"SUPPORT THE COUNTRY THAT SUPPORTS YOU - PRESIDENT: Unexpectedly and "
+"unpopularly, the president today instituted a peacetime draft in response to "
+"China massing troops. \"We must pray for the best while preparing for the "
+"worst.\""
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"Sick of FUEL PRICES? Bus stop too far? Get your driving fix from THE SUN! "
+"Solar powered electric cars: Silent, Cheap, Powerful."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"TIME TRAVEL: TRUTH OR FICTION? Leaked federal documents describe the "
+"formation of a new federal agency XEDRA, to oversee \"4th Axis technology\" "
+"already in use. Expert opinion suggests time-travel or parallel worlds."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"TOWNS OCCUPIED TERRITORY: FEMA officials said today \"Do not try to defend "
+"your property in towns: invaders use advanced tracking, perhaps scent. "
+"Please retreat to your nearest evacuation center outside town and await "
+"extraction.\""
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"The Future... powered by COFFEE! Rivtech brings you the greatest revolution "
+"since espresso. Why wait for milk to boil? Have your coffee ready instantly "
+"with \"THE POWER OF THE ATOM\"!"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
 "The Green Fever shall purge the land for His Chosen children.  I have seen "
 "His black fire shining in the eyes of the afflicted and eagerly await the "
 "day He shall consume us all.  Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl "
@@ -54029,6 +54673,36 @@ msgid ""
 "\"Improving the world, one tank at a time.\" is written across the top.  "
 "Someone used a blue pen to write \"who gives a shit\" across the slogan and "
 "put X's over the eyes of all the animals."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"UFO CRASH: TRUTH OR FICTION? One civilian account claims a shining disk "
+"appeared in his field. \"It kind of glowed, and I could see a strange grey "
+"world through it. Then a shambling hazy purple mushroom came through, man.\""
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"US IGNORES UN DEMANDS: The US ambassador to the UN today turned down UN "
+"requests to begin nuclear disarmament by China, the US and North Korea. \"We "
+"have a right to defend ourselves,\" insisted the ambassador. \"We'll back "
+"down when they do\"."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"WAR ON DRUGS DEAD: The government has finally reacted to long accumulated "
+"evidence that suggests that decriminalized drugs cause fewer health problems "
+"and are generally better managed while providing valuable tax revenues."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"ZOMBIE DRUG: TRUTH OR FICTION? A blogger suggests recent riots are a "
+"chemical attack by China. \"They are jealous of our cybernetic superiority, "
+"they teamed up with Haiti to put hoodoo drugs in the water making people "
+"zombies.\""
 msgstr ""
 
 #: lang/json/speech_from_json.py
@@ -57896,6 +58570,10 @@ msgid "RV"
 msgstr "Wohnwagen"
 
 #: lang/json/vehicle_from_json.py
+msgid "Road Roller"
+msgstr ""
+
+#: lang/json/vehicle_from_json.py
 msgid "Schoolbus"
 msgstr "Schulbus"
 
@@ -57950,6 +58628,10 @@ msgstr "custom_empty"
 #: lang/json/vehicle_part_from_json.py
 msgid "5-point harness"
 msgstr "Fünfpunktgurt"
+
+#: lang/json/vehicle_part_from_json.py
+msgid "Roller drum"
+msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "V12 Engine"
@@ -58030,6 +58712,10 @@ msgstr "Fahrgestell"
 #: lang/json/vehicle_part_from_json.py
 msgid "gasoline tank"
 msgstr "Benzintank"
+
+#: lang/json/vehicle_part_from_json.py
+msgid "gasoline tank (little)"
+msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "gasoline tank (small)"
@@ -58508,16 +59194,16 @@ msgid "< [s]ort: %s >"
 msgstr "< [s]ortieren: %s >"
 
 #: src/advanced_inv.cpp
+msgid "AL"
+msgstr ""
+
+#: src/advanced_inv.cpp
 msgid "All 9 squares"
 msgstr "Alle 9 Felder"
 
 #: src/advanced_inv.cpp
-msgid "Can't move stuff to the same place."
-msgstr "Sachen können nicht zum selben Feld bewegt werden."
-
-#: src/advanced_inv.cpp src/newcharacter.cpp
-msgid "DESCRIPTION"
-msgstr "BESCHREIBUNG"
+msgid "DN"
+msgstr ""
 
 #: src/advanced_inv.cpp
 msgid "Destination area has too many items.  Remove some first."
@@ -58538,25 +59224,20 @@ msgstr ""
 "Zielbereich kann nur %d enthalten! Wie viele bewegen? (0 zum Abbrechen) "
 
 #: src/advanced_inv.cpp
-#, c-format
-msgid ""
-"Destination full.  %d / %d moved.  Please report a bug if items have "
-"vanished."
-msgstr ""
-"Ziel voll. %d/%d bewegt. Bitte melde einen Bug, falls Gegenstände "
-"verschwunden sind."
-
-#: src/advanced_inv.cpp
-msgid "Destination full.  Please report a bug if items have vanished."
-msgstr "Ziel voll. Bitte melde einen Bug, falls Gegenstände verschwunden sind."
-
-#: src/advanced_inv.cpp
 msgid "Directly below you"
 msgstr "Direkt unter dir"
 
 #: src/advanced_inv.cpp
+msgid "E"
+msgstr ""
+
+#: src/advanced_inv.cpp
 msgid "East"
 msgstr "Ost"
+
+#: src/advanced_inv.cpp
+msgid "GR"
+msgstr ""
 
 #: src/advanced_inv.cpp
 msgid "Grabbed Vehicle"
@@ -58567,12 +59248,28 @@ msgid "How many do you want to move? (0 to cancel)"
 msgstr "Wie viele willst du bewegen? (0 zum Abbrechen)"
 
 #: src/advanced_inv.cpp
+msgid "IN"
+msgstr ""
+
+#: src/advanced_inv.cpp
 msgid "Invalid.  Like the menu said."
 msgstr "Ungültig. Wie es im Menü stand."
 
 #: src/advanced_inv.cpp
 msgid "Inventory"
 msgstr "Inventar"
+
+#: src/advanced_inv.cpp
+msgid "N"
+msgstr ""
+
+#: src/advanced_inv.cpp
+msgid "NE"
+msgstr "NO"
+
+#: src/advanced_inv.cpp
+msgid "NW"
+msgstr "NW"
 
 #: src/advanced_inv.cpp
 msgid "Name (charges)"
@@ -58595,8 +59292,24 @@ msgid "North West"
 msgstr "Nordwest"
 
 #: src/advanced_inv.cpp
+msgid "Not dragging any vehicle"
+msgstr ""
+
+#: src/advanced_inv.cpp
 msgid "Really move everything from your inventory?"
 msgstr "Wirklich alles aus deinem Inventar entfernen?"
+
+#: src/advanced_inv.cpp
+msgid "S"
+msgstr ""
+
+#: src/advanced_inv.cpp
+msgid "SE"
+msgstr "SO"
+
+#: src/advanced_inv.cpp
+msgid "SW"
+msgstr "SW"
 
 #: src/advanced_inv.cpp
 msgid "Select destination"
@@ -58628,20 +59341,16 @@ msgid "Surrounding area"
 msgstr "Umgebung"
 
 #: src/advanced_inv.cpp
-msgid "There's no room in your inventory."
-msgstr "In deinem Inventar ist kein Platz."
-
-#: src/advanced_inv.cpp
-msgid "This is too heavy!"
-msgstr "Dies ist zu schwer!"
-
-#: src/advanced_inv.cpp
-msgid "Too many items."
-msgstr "Zu viele Gegenstände."
+msgid "This is too heavy!."
+msgstr ""
 
 #: src/advanced_inv.cpp
 msgid "Unsorted (recently added first)"
 msgstr "Unsortiert (neueres kommt zuerst)"
+
+#: src/advanced_inv.cpp
+msgid "W"
+msgstr ""
 
 #: src/advanced_inv.cpp
 msgid "West"
@@ -58676,14 +59385,6 @@ msgstr "[F]ilter"
 msgid "[R]eset"
 msgstr "Zu[r]ücksetzen"
 
-#: src/advanced_inv.cpp
-msgid "[down / page down] next"
-msgstr "[↓/Bild↓] nächstes"
-
-#: src/advanced_inv.cpp
-msgid "[up / page up] previous"
-msgstr "[↑/Bild↑] vorherige"
-
 #. ~ Items list header. Table fields length without spaces: amt - 4, weight - 5, vol - 4.
 #: src/advanced_inv.cpp
 msgid "amt weight vol"
@@ -58717,10 +59418,6 @@ msgstr "Volumen"
 #: src/advanced_inv.cpp
 msgid "weight"
 msgstr "Gewicht"
-
-#: src/advanced_inv.h
-msgid "Initializing..."
-msgstr "Initialisieren …"
 
 #: src/armor_layers.cpp
 msgid "(Innermost)"
@@ -67063,6 +67760,12 @@ msgstr "%s ist von der Druckwelle erfasst!"
 msgid "%s is slammed against the %s!"
 msgstr "%s ist gegen %s geschmettert!"
 
+#. ~ first %s is the monster name ("the zombie") or a npc name.
+#: src/game.cpp
+#, c-format
+msgid "%s is slammed through the %s!"
+msgstr ""
+
 #: src/game.cpp
 #, c-format
 msgid "%s moves out of the way."
@@ -67756,10 +68459,6 @@ msgid "Hostile survivor spotted!"
 msgstr "Feindlichen Überlebenden aufgespürt!"
 
 #: src/game.cpp
-msgid "Hostiles are nearby! Start Butchering anyway?"
-msgstr "Gegner sind in der Nähe! Trotzdem mit Schlachten anfangen?"
-
-#: src/game.cpp
 msgid "How much longer until bedtime?"
 msgstr "Wie lange noch bis zur Schlafenszeit?"
 
@@ -67882,10 +68581,6 @@ msgid "Martial arts debug."
 msgstr "Kampfkünste-Debug."
 
 #: src/game.cpp
-msgid "Monster dangerously close!"
-msgstr "Monster ist gefährlich nah!"
-
-#: src/game.cpp
 msgid "Monster in the way. Auto-move canceled."
 msgstr "Monster im Weg. Automatisches Bewegen abgebrochen."
 
@@ -67896,20 +68591,6 @@ msgid ""
 msgstr ""
 "Monster entdeckt – Laufmodus ist an! (%s zum Abschalten oder %s, zum "
 "Ignorieren.)"
-
-#: src/game.cpp
-#, c-format
-msgid ""
-"Monster spotted--safe mode is on! (%s to turn it off or %s to ignore "
-"monster.)"
-msgstr ""
-"Monster entdeckt – Sicherheitsmodus ist an! (%s zum Abschalten oder %s zum "
-"Ignorieren.)"
-
-#: src/game.cpp
-#, c-format
-msgid "Monster spotted--safe mode is on! (%s to turn it off.)"
-msgstr "Monster erfasst – Sicherheitsmoduus ist an! (%s, um ihn abzuschalten.)"
 
 #: src/game.cpp
 msgid "Monsters"
@@ -68352,6 +69033,17 @@ msgstr "Ein Fahrzeug auftauchen lassen"
 #, c-format
 msgid "Speed %s%d! "
 msgstr "Geschwindigkeit %s%d! "
+
+#: src/game.cpp
+#, c-format
+msgid ""
+"Spotted %s--safe mode is on! (%s to turn it off or %s to ignore monster.)"
+msgstr ""
+
+#: src/game.cpp
+#, c-format
+msgid "Spotted %s--safe mode is on! (%s to turn it off.)"
+msgstr ""
 
 #: src/game.cpp
 msgid "Status Window [@]"
@@ -69079,8 +69771,13 @@ msgstr "Du trägst keine Fernkampfwaffe."
 
 #: src/game.cpp
 #, c-format
-msgid "You are slammed against the %s!"
-msgstr "Du bist gegen %s geschmettert!"
+msgid "You are slammed against the %s for %d damage!"
+msgstr ""
+
+#: src/game.cpp
+#, c-format
+msgid "You are slammed through the %s for %d damage!"
+msgstr ""
 
 #: src/game.cpp
 msgid ""
@@ -69902,6 +70599,16 @@ msgid "You securely web up and work your way down, lowering yourself safely."
 msgstr ""
 "Sicher spinnst du ein Netz und arbeitest dich nach unten, dich sicher "
 "abwärts senkend."
+
+#: src/game.cpp
+#, c-format
+msgid "You see %s approaching!"
+msgstr ""
+
+#: src/game.cpp
+#, c-format
+msgid "You see %s nearby! Start butchering anyway?"
+msgstr ""
 
 #: src/game.cpp
 #, c-format
@@ -72045,6 +72752,11 @@ msgstr "%.3f lb"
 
 #: src/iexamine.cpp
 #, c-format
+msgid "%s ripen in %s."
+msgstr ""
+
+#: src/iexamine.cpp
+#, c-format
 msgid "A spiderling bursts from the %s!"
 msgstr "Eine junge Spinne bricht aus dem %s hinaus!"
 
@@ -72369,6 +73081,10 @@ msgid "Refill"
 msgstr "Wiederbefüllen"
 
 #: src/iexamine.cpp
+msgid "Refund cash."
+msgstr ""
+
+#: src/iexamine.cpp
 #, c-format
 msgid "Remove %s?"
 msgstr "%s entfernen?"
@@ -72481,22 +73197,6 @@ msgstr "Das %s ist völlig voll."
 #, c-format
 msgid "The %s is now ready for bottling."
 msgstr "Das %s ist nun abfüllbereit."
-
-#: src/iexamine.cpp
-msgid "The fruits ripen in autumn."
-msgstr "Die Früchte werden im Herbst reif."
-
-#: src/iexamine.cpp
-msgid "The fruits ripen in spring."
-msgstr "Die Früchte werden im Frühling reif."
-
-#: src/iexamine.cpp
-msgid "The fruits ripen in summer."
-msgstr "Die Früchte werden im Sommer reif."
-
-#: src/iexamine.cpp
-msgid "The fruits ripen in winter."
-msgstr "Die Früchte werden im Winter reif."
 
 #: src/iexamine.cpp
 msgid "The nearby doors slide into the floor."
@@ -72644,6 +73344,10 @@ msgid "Transfer how much? Max:%d cent. (0 to cancel) "
 msgid_plural "Transfer how much? Max:%d cents. (0 to cancel) "
 msgstr[0] "Wieviel überweisen? Max:%d Cent. (0 zum Abbrechen) "
 msgstr[1] "Wieviel überweisen? Max:%d Cents. (0 zum Abbrechen) "
+
+#: src/iexamine.cpp
+msgid "Unable to refund, no fuel in pump."
+msgstr ""
 
 #: src/iexamine.cpp
 msgid "Use electrohack on the reader?"
@@ -72917,8 +73621,8 @@ msgid "You slide right between the bars."
 msgstr "Du schlüpfst direkt durch die Stäbe."
 
 #: src/iexamine.cpp
-msgid "You slip whilst climbing and fall down again."
-msgstr "Du stolperst beim Klettern und fällst wieder herunter."
+msgid "You slip while climbing and fall down again."
+msgstr ""
 
 #: src/iexamine.cpp
 msgid "You slowly suck up the nectar."
@@ -74870,12 +75574,12 @@ msgid "Fire rains down around you!"
 msgstr "Es regnet Feuer um dich herum!"
 
 #: src/iuse.cpp
-msgid "Fish is not so silly to go in here without bait."
-msgstr "Fische sind nicht so dumm, ohne Köder da rein zu schwimmen."
-
-#: src/iuse.cpp
 msgid "Fish where?"
 msgstr "Wo angeln?"
+
+#: src/iuse.cpp
+msgid "Fishes are not silly to go in here without bait."
+msgstr ""
 
 #: src/iuse.cpp
 msgid "Flies buzz around you."
@@ -75953,8 +76657,8 @@ msgid "The ground's radiation level: %d"
 msgstr "Der Strahlungswert des Bodens beträgt %d."
 
 #: src/iuse.cpp
-msgid "The infernal racket dies as you turn off the noise emitter."
-msgstr "Der höllische Krach verstummt, als du den Krachmacher abschaltest."
+msgid "The infernal racket dies as the noise emitter turns off."
+msgstr ""
 
 #: src/iuse.cpp
 msgid "The itching sensation under your skin fades away."
@@ -76139,6 +76843,10 @@ msgid "There is no adjacent square to release the manhack in!"
 msgstr ""
 "Es gibt kein benachbartes Feld, auf das die Klingendrohne losgelassen werden "
 "kann."
+
+#: src/iuse.cpp
+msgid "There is no fish around. Try another spot."
+msgstr ""
 
 #: src/iuse.cpp
 msgid "There isn't anything new on the map."
@@ -77493,10 +78201,8 @@ msgid "You place the brazier securely."
 msgstr "Sicher platzierst du die Feuerschale."
 
 #: src/iuse.cpp
-msgid "You place the fish trap, in a half hour or so you might have some fish."
+msgid "You place the fish trap, in three hours or so you may catch some fish."
 msgstr ""
-"Du platzierst die Reuse, in einer halben Stunde oder so könntest du ein paar "
-"Fische haben."
 
 #: src/iuse.cpp
 msgid "You place the funnel, waiting to collect rain."
@@ -78460,7 +79166,7 @@ msgstr "Igitt! Azetylengas riecht merkwürdig."
 msgid "Zap something"
 msgstr "Etwas schocken"
 
-#: src/iuse.cpp src/vehicle.cpp
+#: src/iuse.cpp
 msgid "a funky bassline."
 msgstr "eine funkige Bassline"
 
@@ -78468,7 +79174,7 @@ msgstr "eine funkige Bassline"
 msgid "a police siren, whoop WHOOP."
 msgstr "eine Polizeisirene: »Tatü-Tata!«."
 
-#: src/iuse.cpp src/vehicle.cpp
+#: src/iuse.cpp
 msgid "a sweet guitar solo!"
 msgstr "ein nettes Gitarren-Solo"
 
@@ -78489,7 +79195,7 @@ msgstr "Aber leider bist du zu geizig."
 msgid "ding!"
 msgstr "»Ding!«"
 
-#: src/iuse.cpp src/vehicle.cpp
+#: src/iuse.cpp
 msgid "dramatic classical music."
 msgstr "dramatische klassische Musik"
 
@@ -78550,7 +79256,7 @@ msgstr "Plastikklumpen"
 msgid "radio: %s"
 msgstr "Radio: %s"
 
-#: src/iuse.cpp src/vehicle.cpp
+#: src/iuse.cpp
 msgid "some amazing vocals."
 msgstr "großartigen Gesang"
 
@@ -78558,7 +79264,7 @@ msgstr "großartigen Gesang"
 msgid "some bass-heavy post-glam speed polka"
 msgstr "bassigen Post-Glam-Speed-Polka"
 
-#: src/iuse.cpp src/vehicle.cpp
+#: src/iuse.cpp
 msgid "some pumping bass."
 msgstr "Bass, der mächtig reinhaut"
 
@@ -82895,6 +83601,11 @@ msgid "A %1$s hits your %2$s for %3$d damage!"
 msgstr "Ein %1$s trifft %2$s für %3$d Schaden!"
 
 #: src/monattack.cpp
+#, c-format
+msgid "A blow from the %s sends you flying!"
+msgstr ""
+
+#: src/monattack.cpp
 msgid "A bolt of electricity arcs towards you!"
 msgstr "Ein Blitz aus Elektrizität schnellt auf dich zu!"
 
@@ -83179,6 +83890,11 @@ msgstr "Das %s gestikuliert wild umher!"
 
 #: src/monattack.cpp
 #, c-format
+msgid "The %s grows into an adult!"
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
 msgid "The %s hits a %s!"
 msgstr "Das %s trifft 1 %s!"
 
@@ -83396,11 +84112,6 @@ msgstr "Das %s versucht, auf dir zu landen, aber du weichst aus."
 #, c-format
 msgid "The %s unsuccessfully attempts to shock you."
 msgstr "Erfolglos versucht %s, dich zu schocken."
-
-#: src/monattack.cpp
-#, c-format
-msgid "The %s young fungaloid grows into an adult!"
-msgstr "Das %s junge Fungoid wird erwachsen!"
 
 #: src/monattack.cpp
 #, c-format
@@ -83773,6 +84484,11 @@ msgstr "»Klonk!«"
 #: src/monattack.cpp
 msgid "fzzzzzt"
 msgstr "»Fzzzzzzt«"
+
+#: src/monattack.cpp
+#, c-format
+msgid "the %s takes a powerful swing at you, but you dodge it!"
+msgstr ""
 
 #: src/monattack.cpp
 msgid "thu-THUMP."
@@ -84419,6 +85135,10 @@ msgstr "Tausendfüßler"
 #: src/newcharacter.cpp
 msgid "Crane"
 msgstr "Kranich"
+
+#: src/newcharacter.cpp
+msgid "DESCRIPTION"
+msgstr "BESCHREIBUNG"
 
 #: src/newcharacter.cpp
 msgid "Dexterity also enhances many actions which require finesse."
@@ -89041,7 +89761,7 @@ msgstr "Auto-Sicherheitsmodus standardmäßig an"
 msgid "Auto-shift the view while driving"
 msgstr "Ansicht automatisch beim Fahren verschieben"
 
-#: src/options.cpp src/weather_data.cpp
+#: src/options.cpp
 msgid "Autumn"
 msgstr "Herbst"
 
@@ -89297,8 +90017,10 @@ msgstr ""
 "werden soll."
 
 #: src/options.cpp
-msgid "If true, game will periodically save the map."
-msgstr "Wenn wahr, wird das Spiel regelmäßig die Welt speichern."
+msgid ""
+"If true, game will periodically save the map. Autosaves occur based on in-"
+"game turns or real-time minutes, whichever is larger."
+msgstr ""
 
 #: src/options.cpp
 msgid ""
@@ -89671,7 +90393,7 @@ msgstr ""
 msgid "Speed units"
 msgstr "Geschwindigkeitseinheiten"
 
-#: src/options.cpp src/weather_data.cpp
+#: src/options.cpp
 msgid "Spring"
 msgstr "Frühl."
 
@@ -89687,7 +90409,7 @@ msgstr "Statische NPCs"
 msgid "Static spawn"
 msgstr "Einmalig Gegner auftauchen lassen"
 
-#: src/options.cpp src/weather_data.cpp
+#: src/options.cpp
 msgid "Summer"
 msgstr "Sommer"
 
@@ -89794,18 +90516,16 @@ msgstr "Wasserdichte"
 
 #: src/options.cpp
 msgid ""
-"When true, safemode will alert you to hostiles whilst you are driving a "
+"When true, safemode will alert you to hostiles while you are driving a "
 "vehicle."
 msgstr ""
-"Falls wahr, wird dich der Sicherheitsmodus vor Gegnern, während du ein "
-"Fahrzeug fährst, warnen."
 
 #. ~ sidebar style
 #: src/options.cpp
 msgid "Wider"
 msgstr "Breiter"
 
-#: src/options.cpp src/weather_data.cpp
+#: src/options.cpp
 msgid "Winter"
 msgstr "Winter"
 
@@ -89872,6 +90592,10 @@ msgstr " – Suche"
 #: src/overmap.cpp
 msgid " - Toggle Blinking"
 msgstr " – Blinken umschalten"
+
+#: src/overmap.cpp
+msgid " - Toggle Explored"
+msgstr ""
 
 #: src/overmap.cpp
 msgid " - Toggle Overlays"
@@ -92075,6 +92799,11 @@ msgid "You wake up!"
 msgstr "Du wachst auf!"
 
 #: src/player.cpp
+#, c-format
+msgid "You were attacked by %s!"
+msgstr ""
+
+#: src/player.cpp
 msgid "You were hurt!"
 msgstr "Du wurdest verletzt!"
 
@@ -94130,6 +94859,11 @@ msgstr "Des %ss %s überfährt %s."
 
 #: src/vehicle.cpp
 #, c-format
+msgid "The %s's %s runs over something."
+msgstr ""
+
+#: src/vehicle.cpp
+#, c-format
 msgid "The %s's engine dies!"
 msgstr "Der Motor von %s geht aus!"
 
@@ -94495,6 +95229,18 @@ msgstr "Sonnig"
 #: src/weather_data.cpp
 msgid "Thunder Storm"
 msgstr "Gewitter"
+
+#: src/weather_data.cpp
+msgid "autumn"
+msgstr ""
+
+#: src/weather_data.cpp
+msgid "summer"
+msgstr ""
+
+#: src/weather_data.cpp
+msgid "winter"
+msgstr ""
 
 #: src/wish.cpp
 msgid " (contained)"

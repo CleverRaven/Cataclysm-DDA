@@ -640,6 +640,18 @@
     },
     {
         "type" : "keybinding",
+        "id":"TOGGLE_EXPLORED",
+        "category":"OVERMAP",
+        "name":"Toggle Explored",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"E"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id":"SEARCH",
         "name":"Search",
         "bindings":[

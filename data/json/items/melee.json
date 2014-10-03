@@ -434,7 +434,8 @@
         "volume": 2,
         "bashing": 12,
         "cutting": 0,
-        "to_hit": -4
+        "to_hit": -4,
+        "qualities": [["HAMMER", 1]]
     },
     {
         "type":"GENERIC",
@@ -3125,6 +3126,21 @@
         "to_hit": 0,
         "flags": ["SHEATH_KNIFE"],
         "qualities": [["BUTCHER", -18]]
+    },{
+        "type":"GENERIC",
+        "id" : "glass_macuahuitl",
+        "name" : "makeshift macuahuitl",
+        "description" : "A flat wooden club with sharp glass shards sticking to both of its sides.",
+        "weight" : 955,
+        "to_hit" : 1,
+        "color" : "light_cyan",
+        "symbol" : "/",
+        "material" : ["wood", "glass"],
+        "volume" : 9,
+        "bashing" : 7,
+        "cutting" : 14,
+        "price" : 5900,
+        "flags": ["NON_STUCK"]
     },
     {
         "id": "mre_beef_box",
@@ -4086,7 +4102,7 @@
     "type" : "AMMO",
     "id" : "material_sand",
     "category" : "spare_parts",
-    "price" : 20,
+    "price" : 0,
     "name" : "sand",
     "name_plural" : "sand",
     "symbol" : "=",

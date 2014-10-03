@@ -163,11 +163,15 @@ void cata_tiles::get_tile_information(std::string dir_path, std::string &json_pa
 
 int cata_tiles::load_tileset(std::string path, int R, int G, int B)
 {
+    std::string img_path = path;
+#ifdef PREFIX   // use the PREFIX path over the current directory
+    img_path = (FILENAMES["datadir"] + "/" + img_path);
+#endif
     /** reinit tile_atlas */
-    SDL_Surface *tile_atlas = IMG_Load(path.c_str());
+    SDL_Surface *tile_atlas = IMG_Load(img_path.c_str());
 
     if(!tile_atlas) {
-        throw std::string("Could not load tileset image at ") + path + ", error: " + IMG_GetError();
+        throw std::string("Could not load tileset image at ") + img_path + ", error: " + IMG_GetError();
     }
 
         /** get dimensions of the atlas image */

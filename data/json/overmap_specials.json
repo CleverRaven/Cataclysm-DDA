@@ -664,7 +664,7 @@
         "rotate" : false, "//":"allow rotation",
         "unique" : false, "//":"only allow one per city",
         "required" : false, "//":"is this special required for valid city sizes",
-        "spawns" : { "group" : "GROUP_FUNGI_TOWER", "population":[75,125], "radius":[2,2] }
+        "spawns" : { "group" : "GROUP_FUNGI_TOWER", "population":[125,175], "radius":[2,2] }
     },{
         "type" : "overmap_special",
         "id" : "Fungal Flowers",

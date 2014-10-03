@@ -162,6 +162,16 @@
     },{
         "type" : "dream",
         "messages" : [
+            "You dream of a strange quest for a bush that grows grey apples.",
+            "You feel like you're cracking a combination lock.",
+            "Red, blue, and yellow cancel each other out, don't they?",
+            "Red, blue, and yellow add together, don't they?"
+            ],
+        "category" : "MUTCAT_MARLOSS",
+        "strength" : 1
+    },{
+        "type" : "dream",
+        "messages" : [
             "You have a disturbing dream of bathing in the sun on a rock.",
             "While dreaming, you see a distinctively lizard-like reflection of yourself."
             ],
@@ -638,6 +648,19 @@
             "You stir, saddened that your beautiful hatchlings were only a dream."
             ],
         "category" : "MUTCAT_RAPTOR",
+        "strength" : 4
+   },{
+        "type" : "dream",
+        "//" : "The Mycus is ONLY post-thresh, so many more here.",
+        "messages" : [
+            "We have been waiting a long time for a place such as this.",
+            "We will raise bountiful orchards and beautiful gardens.",
+            "The walking plants seek to harness us as a food source.  We will not allow that.",
+            "Our colonists are limitless.  We shall adapt to this world, as we adapt to all.",
+            "Non-Mycus sometimes reject the Marloss.  Our colonial efforts flourish with broad-minded guidance.",
+            "The seething masses attempt to wall non-Mycus away from the Marloss.  We will adapt and defeat them."
+            ],
+        "category" : "MUTCAT_MYCUS",
         "strength" : 4
    }
 ]

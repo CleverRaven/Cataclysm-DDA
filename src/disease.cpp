@@ -191,7 +191,11 @@ bool dis_msg(dis_type type_string) {
         add_msg(m_warning, _("You feel lightheaded."));
         break;
     case DI_ADRENALINE:
-        add_msg(m_good, _("You feel a surge of adrenaline!"));
+        if (!g->u.has_trait("M_DEFENDER")) {
+            add_msg(m_good, _("You feel a surge of adrenaline!"));
+        } else {
+            add_msg(m_good, _("Mycal wrath fills our fibers, and we grow turgid."));
+        }
         break;
     case DI_JETINJECTOR:
         add_msg(_("You feel a rush as the chemicals flow through your body!"));
@@ -1031,7 +1035,7 @@ void dis_effect(player &p, disease &dis)
 
         case DI_SPORES:
             // Equivalent to X in 150000 + health * 100
-            if (one_in(100) && x_in_y(dis.intensity, 150 + p.get_healthy() / 10)) {
+            if ((!g->u.has_trait("M_IMMUNE")) && (one_in(100) && x_in_y(dis.intensity, 150 + p.get_healthy() / 10)) ) {
                 p.add_disease("fungus", 3601, false, 1, 1, 0, -1);
                 g->u.add_memorial_log(pgettext("memorial_male", "Contracted a fungal infection."),
                                       pgettext("memorial_female", "Contracted a fungal infection."));
@@ -1179,7 +1183,7 @@ void dis_effect(player &p, disease &dis)
             break;
 
         case DI_DATURA:
-		    {
+        {
                 p.mod_per_bonus(-6);
                 p.mod_dex_bonus(-3);
                 if (p.has_disease("asthma")) {
@@ -1199,14 +1203,14 @@ void dis_effect(player &p, disease &dis)
                   p.add_disease("hallu", rng(200, 1000));
             } if (dis.duration > 6000 && one_in(128)) {
                   p.mod_pain(rng(-3, -24));
-				  if (dis.duration > 8000 && one_in(16)) {
+                  if (dis.duration > 8000 && one_in(16)) {
                       add_msg(m_bad, _("You're experiencing loss of basic motor skills and blurred vision.  Your mind recoils in horror, unable to communicate with your spinal column."));
                       add_msg(m_bad, _("You stagger and fall!"));
                       p.add_effect("downed",rng(1,4));
                       if (one_in(8) || will_vomit(p, 10)) {
                             p.vomit();
                        }
-			      }
+                  }
             } if (dis.duration > 7000 && p.focus_pool >= 1) {
                   p.focus_pool--;
             } if (dis.duration > 8000 && one_in(256)) {
@@ -1215,24 +1219,24 @@ void dis_effect(player &p, disease &dis)
             } if (dis.duration > 12000 && one_in(256)) {
                   add_msg(m_bad, _("There's some kind of big machine in the sky."));
                   p.add_disease("visuals", rng(80, 400));
-				  if (one_in(32)) {
+                  if (one_in(32)) {
                         add_msg(m_bad, _("It's some kind of electric snake, coming right at you!"));
                         p.mod_pain(rng(4, 40));
                         p.vomit();
-				  };
+                  }
             } if (dis.duration > 14000 && one_in(128)) {
                   add_msg(m_bad, _("Order us some golf shoes, otherwise we'll never get out of this place alive."));
                   p.add_disease("visuals", rng(400, 2000));
-				  if (one_in(8)) {
+                  if (one_in(8)) {
                   add_msg(m_bad, _("The possibility of physical and mental collapse is now very real."));
                     if (one_in(2) || will_vomit(p, 10)) {
                         add_msg(m_bad, _("No one should be asked to handle this trip."));
                         p.vomit();
                         p.mod_pain(rng(8, 40));
                     }
-				  };
+                  }
             }
-			}
+        }
             break;
 
         case DI_TOOK_XANAX:
@@ -1484,14 +1488,18 @@ void dis_effect(player &p, disease &dis)
 
         case DI_ADRENALINE:
             if (dis.duration > 150) {
-                // 5 minutes positive effects
+                // 5 minutes positive effects; 15 if Mycus Defender
                 p.mod_str_bonus(5);
                 p.mod_dex_bonus(3);
                 p.mod_int_bonus(-8);
                 p.mod_per_bonus(1);
             } else if (dis.duration == 150) {
                 // 15 minutes come-down
-                p.add_msg_if_player(m_bad, _("Your adrenaline rush wears off.  You feel AWFUL!"));
+                if (g->u.has_trait("M_DEFENDER")) {
+                    p.add_msg_if_player(m_bad, _("We require repose; our fibers are nearly spent..."));
+                } else {
+                    p.add_msg_if_player(m_bad, _("Your adrenaline rush wears off.  You feel AWFUL!"));
+                }
             } else {
                 p.mod_str_bonus(-2);
                 p.mod_dex_bonus(-1);
@@ -1673,7 +1681,11 @@ void dis_effect(player &p, disease &dis)
                 }
             }
             if (one_in(10000)) {
-                p.add_disease("fungus", 3601, false, 1, 1, 0, -1);
+                if (!g->u.has_trait("M_IMMUNE")) {
+                    p.add_disease("fungus", 3601, false, 1, 1, 0, -1);
+                } else {
+                    p.add_msg_if_player(m_info, _("We have many colonists awaiting passage."));
+                }
                 p.rem_disease("teleglow");
             }
             break;
@@ -2833,6 +2845,11 @@ Your right foot is blistering from the intense heat. It is extremely painful.");
 
 void manage_fungal_infection(player& p, disease& dis)
 {
+    if (g->u.has_trait("M_IMMUNE")) { // Just in case
+        p.vomit();
+        p.rem_disease("fungus");
+        p.add_msg_if_player(m_bad,  _("We have mistakenly colonized a local guide!  Purging now."));
+    }
     int bonus = p.get_healthy() / 10 + (p.has_trait("POISRESIST") ? 100 : 0);
     p.moves -= 10;
     p.mod_str_bonus(-1);
