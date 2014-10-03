@@ -901,7 +901,6 @@ void player::update_bodytemp()
         // This adjusts the temperature scale to match the bodytemp scale -- it needs to be reset every iteration
         int adjusted_temp = (Ctemperature - ambient_norm);
         int bpTotal_windspeed = total_windspeed;
-        int bpRelHum = (int)weather.humidity;
         // Skip eyes
         if (i == bp_eyes) { continue; }
         // Represents the fact that the body generates heat when it is cold. TODO : should this increase hunger?
@@ -909,30 +908,23 @@ void player::update_bodytemp()
         int clothing_warmth_adjustement = homeostasis_adjustement * warmth(body_part(i));
         // WIND CHILL
         // Modify wind power
-        if (!g->m.is_outside(pos().x, pos().y) || g->levz < 0 || (veh && veh->is_inside(vpart)))
-        {
-            bpTotal_windspeed = 0;
-        }
         const oter_id &cur_om_ter = overmap_buffer.ter(g->om_global_location());
         std::string omtername = otermap[cur_om_ter].name;
-        if ( omtername == "forest_water")
-            bpTotal_windspeed *= 0.7;
-        else if ( omtername == "forest" )
-            bpTotal_windspeed *= 0.5;
-        else if ( omtername == "forest_thick" || omtername == "hive")
-            bpTotal_windspeed *= 0.4;
+        bool sheltered = false;
+        if (!g->m.is_outside(pos().x, pos().y) || g->levz < 0 || (veh && veh->is_inside(vpart)))
+        {
+            sheltered = true;
+        }
         bpTotal_windspeed = (float)bpTotal_windspeed*(1 - get_wind_resistance(body_part(i))/100.0);
         // Modify relative humidity
+        bool is_indoors = false;
         if (!g->m.is_outside(pos().x, pos().y) || g->levz < 0)
         {
-            bpRelHum = weather.humidity * (100 - weather.humidity) / 100 + weather.humidity; // norm for a house?
+            is_indoors = true;
         }
-        else if (g->weather == WEATHER_RAINY || g->weather == WEATHER_DRIZZLE || g->weather == WEATHER_THUNDER || g->weather == WEATHER_LIGHTNING)
-        {
-            bpRelHum = 100;
-        }
+        int bpRelHum = g->weatherGen.get_windchill(weather.humidity, g->weather, is_indoors);
         // Calculate windchill
-        int windchill = g->weatherGen.get_windchill(weather.temperature, bpRelHum, bpTotal_windspeed, vehwindspeed);
+        int windchill = g->weatherGen.get_windchill(weather.temperature, bpRelHum, bpTotal_windspeed, vehwindspeed, omtername, sheltered);
         // If you're standing in water, air temperature is replaced by water temperature. No wind.
         int water_temperature = 100 * (g->get_water_temperature() - 32) * 5/9; // Convert to C.
         if ( (ter_at_pos == t_water_dp || ter_at_pos == t_water_pool || ter_at_pos == t_swater_dp) ||

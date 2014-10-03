@@ -5279,7 +5279,7 @@ void game::draw_sidebar()
     int display_temp = get_temperature();
     // Apply windchill
     w_point weatherPoint = weatherGen.get_weather(u.pos(), calendar::turn);
-    int windchill = weatherGen.get_windchill(weatherPoint.temperature, weatherPoint.humidity, weatherPoint.windpower);
+    int windchill = weatherGen.get_windchill(weatherPoint.temperature, weatherGen.get_humidity(weatherPoint.humidity, weather), weatherPoint.windpower);
     display_temp += windchill;
 
     nc_color col_temp = c_blue;
@@ -14447,7 +14447,7 @@ bool game::spread_fungus(int x, int y)
                                     add_msg(m_warning, _("The young tree blooms forth into a fungal blossom!"));
                                     }
                                 }
-                            } else { 
+                            } else {
                                 m.ter_set(i, j, t_tree_fungal_young);
                             }
                             converted = true;
