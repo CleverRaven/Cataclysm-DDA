@@ -213,7 +213,8 @@ public:
  int has_gunmod(itype_id type);
  item* active_gunmod();
  item const* inspect_active_gunmod() const;
- bool goes_bad();
+ bool goes_bad() const;
+ bool is_going_bad() const;
  bool count_by_charges() const;
  long max_charges() const;
  bool craft_has_charges();
