@@ -1069,7 +1069,8 @@ void mattack::fungus_fortify(monster *z)
     if (g->u.has_trait("THRESH_MARLOSS") || g->u.has_trait("THRESH_MYCUS")) {
         mycus = true; //No nifty support effects.  Yet.  This lets it rebuild hedges.
     }
-    if ( (g->u.has_trait("MARLOSS")) && (g->u.has_trait("MARLOSS_BLUE")) && !g->u.crossed_threshold() && !mycus) {
+    if ( (g->u.has_trait("MARLOSS")) && (g->u.has_trait("MARLOSS_BLUE")) &&
+         !g->u.crossed_threshold() && !mycus) {
         // You have the other two.  Is it really necessary for us to fight?
         add_msg(m_info, _("The %s spreads its tendrils.  It seems as though it's expecting you..."), z->name().c_str());
         if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) < 3) {
@@ -1113,7 +1114,7 @@ void mattack::fungus_fortify(monster *z)
             }
         }
     }
-    if ((!fortified) && (!mycus || !peaceful)) {
+    if( !fortified && !(mycus || peaceful) ) {
         if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) < 12) {
             if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 3) {
                 // Oops, can't reach.  ):
