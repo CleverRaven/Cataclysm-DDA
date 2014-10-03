@@ -1720,6 +1720,11 @@ void complete_vehicle ()
         }
         veh->parts[vehicle_part].items.clear();
 
+        // Power cables must remove parts from the target vehicle, too.
+        if (veh->part_flag(vehicle_part, "POWER_TRANSFER")) {
+            veh->remove_remote_part(vehicle_part);
+        }
+
         broken = veh->parts[vehicle_part].hp <= 0;
         if (!broken) {
             used_item = veh->parts[vehicle_part].properties_to_item();

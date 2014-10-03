@@ -1334,6 +1334,11 @@ item vehicle_part::properties_to_item() const
     // Cables get special handling: their target coordinates need to remain
     // stored, and if a cable actually drops, it should be half-connected.
     if( tmp.has_flag("CABLE_SPOOL") ) {
+        point local_pos = g->m.getlocal(target);
+        if(g->m.veh_at(local_pos.x, local_pos.y) == nullptr) {
+            tmp.item_tags.insert("NO_DROP"); // That vehicle ain't there no more.
+        }
+
         tmp.item_vars["source_x"] = std::to_string(target.x);
         tmp.item_vars["source_y"] = std::to_string(target.y);
         tmp.item_vars["state"] = "pay_out_cable";
@@ -3820,22 +3825,39 @@ void vehicle::refresh()
     insides_dirty = true;
 }
 
-void vehicle::shed_loose_parts() {
-    for( size_t i = 0; i < loose_parts.size(); i++) {
-        auto part = &parts[loose_parts[i]];
-        auto vpi = &part_info(loose_parts[i]);
-        if (vpi->has_flag("POWER_TRANSFER")) {
-            point local_pos = g->m.getlocal(part->target);
-            auto veh = g->m.veh_at(local_pos.x, local_pos.y);
+void vehicle::remove_remote_part(int part_num) {
+    point local_pos = g->m.getlocal(parts[part_num].target);
+    auto veh = g->m.veh_at(local_pos.x, local_pos.y);
 
-            // If the target vehicle is still there, drop the part
-            if (veh != nullptr) {
-                int posx = global_x() + part->precalc_dx[0];
-                int posy = global_y() + part->precalc_dy[0];
-                item drop = part->properties_to_item();
-                g->m.add_item_or_charges(posx, posy, drop);
+    // If the target vehicle is still there, ask it to remove its part
+    if (veh != nullptr) {
+        int posx = global_x() + parts[part_num].precalc_dx[0];
+        int posy = global_y() + parts[part_num].precalc_dy[0];
+        point local_abs = g->m.getabs(posx, posy);
+
+        for( size_t j = 0; j < veh->loose_parts.size(); j++) {
+            int remote_partnum = veh->loose_parts[j];
+            auto remote_part = &veh->parts[remote_partnum];
+
+            if (veh->part_flag(remote_partnum, "POWER_TRANSFER") && remote_part->target == local_abs) {
+                veh->remove_part(remote_partnum);
+                return;
             }
         }
+    }
+}
+
+void vehicle::shed_loose_parts() {
+    for( size_t i = 0; i < loose_parts.size(); i++) {
+        if (part_flag(loose_parts[i], "POWER_TRANSFER")) {
+            remove_remote_part(loose_parts[i]);
+        }
+
+        auto part = &parts[loose_parts[i]];
+        int posx = global_x() + part->precalc_dx[0];
+        int posy = global_y() + part->precalc_dy[0];
+        item drop = part->properties_to_item();
+        g->m.add_item_or_charges(posx, posy, drop);
 
         remove_part(loose_parts[i]);
     }

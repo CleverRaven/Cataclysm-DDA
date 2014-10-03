@@ -329,6 +329,12 @@ public:
     bool remove_part (int p);
     void part_removal_cleanup ();
 
+    /**
+     * Remove a part from a targeted remote vehicle. Useful for, e.g. power cables that have
+     * a vehicle part on both sides.
+     */
+    void remove_remote_part(int part_num);
+
     const std::string get_label(int x, int y);
     void set_label(int x, int y, const std::string text);
 
