@@ -397,7 +397,9 @@ task_reason veh_interact::cant_do (char mode)
     case 'o': // remove mode
         enough_morale = g->u.morale_level() >= MIN_MORALE_CRAFT;
         valid_target = cpart >= 0 && 0 == veh->tags.count("convertible");
-        has_tools = (has_wrench && has_hacksaw) || can_remove_wheel;
+        has_tools = (has_wrench && has_hacksaw) || can_remove_wheel ||
+            // UNMOUNT_ON_MOVE == loose enough to hand-remove
+            (cpart >= 0 && veh->part_with_feature(cpart, "UNMOUNT_ON_MOVE") >= 0);
         part_free = parts_here.size() > 1 || (cpart >= 0 && veh->can_unmount(cpart));
         has_skill = g->u.skillLevel("mechanics") >= 2 || can_remove_wheel;
         break;
@@ -785,13 +787,14 @@ void veh_interact::do_remove()
         sel_vehicle_part = &veh->parts[parts_here[pos]];
         sel_vpart_info = &(vehicle_part_types[sel_vehicle_part->id]);
         bool is_wheel = sel_vpart_info->has_flag("WHEEL");
+        bool is_loose = sel_vpart_info->has_flag("UNMOUNT_ON_MOVE");
         werase (w_parts);
         veh->print_part_desc (w_parts, 0, parts_w, cpart, pos);
         wrefresh (w_parts);
         const std::string action = main_context.handle_input();
         if (action == "REMOVE" || action == "CONFIRM") {
             if (veh->can_unmount(parts_here[pos])) {
-                if (can_hacksaw || is_wheel) {
+                if (can_hacksaw || is_wheel || is_loose) {
                     sel_cmd = 'o';
                     return;
                 } else {
@@ -1708,12 +1711,15 @@ void complete_vehicle ()
         g->pl_refill_vehicle(*veh, vehicle_part);
         break;
     case 'o':
-        tools.push_back(tool_comp("hacksaw", -1));
-        tools.push_back(tool_comp("toolbox", -1));
-        tools.push_back(tool_comp("survivor_belt", -1));
-        tools.push_back(tool_comp("circsaw_off", 20));
-        tools.push_back(tool_comp("oxy_torch", 10));
-        g->consume_tools(&g->u, tools);
+        // Loose part removal (e.g. jumper cables) is a tool-free action.
+        if (!veh->part_flag(vehicle_part, "UNMOUNT_ON_MOVE")) {
+            tools.push_back(tool_comp("hacksaw", -1));
+            tools.push_back(tool_comp("toolbox", -1));
+            tools.push_back(tool_comp("survivor_belt", -1));
+            tools.push_back(tool_comp("circsaw_off", 20));
+            tools.push_back(tool_comp("oxy_torch", 10));
+            g->consume_tools(&g->u, tools);
+        }
         // Dump contents of part at player's feet, if any.
         for (size_t i = 0; i < veh->parts[vehicle_part].items.size(); i++) {
             g->m.add_item_or_charges (g->u.posx, g->u.posy, veh->parts[vehicle_part].items[i]);
