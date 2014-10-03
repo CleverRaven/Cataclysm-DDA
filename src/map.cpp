@@ -104,22 +104,15 @@ vehicle* map::veh_at(const int x, const int y, int &part_num)
 
 point map::veh_part_coordinates(const int x, const int y)
 {
-    // This function is called A LOT. Move as much out of here as possible.
-    if (!veh_in_active_range || !inbounds(x, y)) {
-        return point(0, 0);
-    }
-    if(!veh_exists_at[x][y]) {
-        return point(0, 0);
+    int part_num;
+    vehicle* veh = veh_at(x, y, part_num);
+
+    if(veh == nullptr) {
+        return point(0,0);
     }
 
-    std::pair<int,int> here(x,y);
-    std::map< std::pair<int,int>, std::pair<vehicle*,int> >::iterator it;
-    if ((it = veh_cached_parts.find(here)) != veh_cached_parts.end()) {
-        int part_num = it->second.second;
-        auto part = it->second.first->parts[part_num];
-        return point(part.mount_dx, part.mount_dy);
-    }
-    return point(0,0);
+    auto part = veh->parts[part_num];
+    return point(part.mount_dx, part.mount_dy);
 }
 
 vehicle* map::veh_at(const int x, const int y)
