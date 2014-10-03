@@ -919,38 +919,99 @@ void Creature::mod_healthy_mod(int nhealthy_mod)
     healthy_mod += nhealthy_mod;
 }
 
-void Creature::mod_stat( std::string stat, int modifier )
+void Creature::set_stat( STAT stat, int amount )
 {
-    if( stat == "str" ) {
-        mod_str_bonus( modifier );
-    } else if( stat == "dex" ) {
-        mod_dex_bonus( modifier );
-    } else if( stat == "per" ) {
-        mod_per_bonus( modifier );
-    } else if( stat == "int" ) {
-        mod_int_bonus( modifier );
-    } else if( stat == "healthy" ) {
-        mod_healthy( modifier );
-    } else if( stat == "healthy_mod" ) {
-        mod_healthy_mod( modifier );
-    } else if( stat == "speed" ) {
-        mod_speed_bonus( modifier );
-    } else if( stat == "dodge" ) {
-        mod_dodge_bonus( modifier );
-    } else if( stat == "block" ) {
-        mod_block_bonus( modifier );
-    } else if( stat == "hit" ) {
-        mod_hit_bonus( modifier );
-    } else if( stat == "bash" ) {
-        mod_bash_bonus( modifier );
-    } else if( stat == "cut" ) {
-        mod_cut_bonus( modifier );
-    } else if( stat == "pain" ) {
-        mod_pain( modifier );
-    } else if( stat == "moves" ) {
-        mod_moves( modifier );
-    } else {
-        add_msg( "Tried to modify a nonexistent stat %s.", stat.c_str() );
+    switch(stat) {
+        case STR:
+            str_bonus = amount;
+            break;
+        case DEX:
+            dex_bonus = amount;
+            break;
+        case PER:
+            per_bonus = amount;
+            break;
+        case INT:
+            int_bonus = amount;
+            break;
+        case HEALTHY:
+            healthy = amount;
+            break;
+        case HEALTHY_MOD:
+            healthy_mod = amount;
+            break;
+        case SPEED:
+            speed_bonus = amount;
+            break;
+        case DODGE:
+            dodge_bonus = amount;
+            break;
+        case BLOCK:
+            block_bonus = amount;
+            break;
+        case HIT:
+            hit_bonus = amount;
+            break;
+        case BASH:
+            bash_bonus = amount;
+            break;
+        case CUT:
+            cut_bonus = amount;
+            break;
+        case PAIN:
+            break;
+        case MOVES:
+            break;
+        default: break;
+    }
+}
+
+void Creature::mod_stat( STAT stat, int amount )
+{
+    switch(stat) {
+        case STR:
+            str_bonus += amount;
+            break;
+        case DEX:
+            dex_bonus += amount;
+            break;
+        case PER:
+            per_bonus += amount;
+            break;
+        case INT:
+            int_bonus += amount;
+            break;
+        case HEALTHY:
+            healthy += amount;
+            break;
+        case HEALTHY_MOD:
+            healthy_mod += amount;
+            break;
+        case SPEED:
+            speed_bonus += amount;
+            break;
+        case DODGE:
+            dodge_bonus += amount;
+            break;
+        case BLOCK:
+            block_bonus += amount;
+            break;
+        case HIT:
+            hit_bonus += amount;
+            break;
+        case BASH:
+            bash_bonus += amount;
+            break;
+        case CUT:
+            cut_bonus += amount;
+            break;
+        case PAIN:
+            pain += amount;
+            break;
+        case MOVES:
+            moves += amount;
+            break;
+        default: break;
     }
 }
 

@@ -2034,19 +2034,23 @@ stats player::get_stats() const
     return player_stats;
 }
 
-void player::mod_stat( std::string stat, int modifier )
+void player::mod_stat( STAT stat, int amount )
 {
-    if( stat == "hunger" ) {
-        hunger += modifier;
-    } else if( stat == "thirst" ) {
-        thirst += modifier;
-    } else if( stat == "fatigue" ) {
-        fatigue += modifier;
-    } else if( stat == "oxygen" ) {
-        oxygen += modifier;
-    } else {
-        // Fall through to the creature method.
-        Creature::mod_stat( stat, modifier );
+    switch(stat) {
+        case HUNGER:
+            hunger += amount;
+            break;
+        case THIRST:
+            thirst += amount;
+            break;
+        case FATIGUE:
+            fatigue += amount;
+            break;
+        case OXYGEN:
+            oxygen += amount;
+        default:
+            Creature::mod_stat( stat, amount );
+            break;
     }
 }
 
