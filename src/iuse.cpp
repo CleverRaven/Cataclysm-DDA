@@ -1474,6 +1474,9 @@ int iuse::chew(player *p, item *it, bool)
 
 static int marloss_reject_mutagen( player *p, item *it )
 {
+    if( it->type->can_use( "MYCUS" ) ) {
+        return 0;
+    }
     if (p->has_trait("THRESH_MARLOSS")) {
         p->add_msg_if_player(m_warning, _("The %s burns white-hot inside you, and you collapse to the ground!"), it->tname().c_str());
         p->vomit();
@@ -1510,6 +1513,9 @@ static int marloss_reject_mutagen( player *p, item *it )
 
 static int marloss_reject_mut_iv( player *p, item *it )
 {
+    if( it->type->can_use( "MYCUS" ) ) {
+        return 0;
+    }
     if (p->has_trait("THRESH_MARLOSS")) {
         p->add_msg_if_player(m_warning, _("The %s sears your insides white-hot, and you collapse to the ground!"), it->tname().c_str());
         p->vomit();
