@@ -1265,7 +1265,6 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         maintext = type->nname(quantity);
     }
 
-    const item* food = NULL;
     const it_comest* food_type = NULL;
     std::string tagtext = "";
     std::string toolmodtext = "";
@@ -1273,23 +1272,22 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     ret.str("");
     if (is_food())
     {
-        food = this;
         food_type = dynamic_cast<it_comest*>(type);
 
         if (food_type->spoils != 0)
         {
-            if(const_cast<item*>(food)->rotten()) {
+            if(rotten()) {
                 ret << _(" (rotten)");
-            } else if ( const_cast<item*>(food)->is_going_bad()) {
+            } else if ( is_going_bad()) {
                 ret << _(" (old)");
             } else if ( rot < 100 ) {
                 ret << _(" (fresh)");
             }
         }
-        if (food->has_flag("HOT")) {
+        if (has_flag("HOT")) {
             ret << _(" (hot)");
             }
-        if (food->has_flag("COLD")) {
+        if (has_flag("COLD")) {
             ret << _(" (cold)");
             }
     }
