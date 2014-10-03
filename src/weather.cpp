@@ -261,7 +261,7 @@ void fill_water_collectors(int mmPerHour, bool acid)
 }
 
 /**
- * Weather-based degredation of fires and scentmap.
+ * Weather-based degradation of fires and scentmap.
  */
 void decay_fire_and_scent(int fire_amount)
 {
@@ -494,7 +494,7 @@ std::string weather_forecast(radio_tower tower)
     //weather_report << "The wind was <direction> at ? mi/km an hour.  ";
     //weather_report << "The pressure was ??? in/mm and steady/rising/falling.";
 
-    // Regional conditions (simulated by chosing a random range containing the current conditions).
+    // Regional conditions (simulated by choosing a random range containing the current conditions).
     // Adjusted for weather volatility based on how many weather changes are coming up.
     //weather_report << "Across <region>, skies ranged from <cloudiest> to <clearest>.  ";
     // TODO: Add fake reports for nearby cities
