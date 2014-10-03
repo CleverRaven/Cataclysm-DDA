@@ -1222,9 +1222,15 @@ bool monster::make_fungus()
       tid == "mon_zombie_hulk" || tid == "mon_zombie_soldier" || tid == "mon_zombie_tough" ||
       tid == "mon_zombie_scientist" || tid == "mon_zombie_hunter" || tid == "mon_zombie_child"||
       tid == "mon_zombie_bio_op" || tid == "mon_zombie_survivor" || tid == "mon_zombie_fireman" ||
-      tid == "mon_zombie_cop" || tid == "mon_zombie_fat") {
-        polypick = 2;
-    } else if (tid == "mon_boomer" || tid == "mon_zombie_gasbag") {
+      tid == "mon_zombie_cop" || tid == "mon_zombie_fat" || tid == "mon_zombie_rot" ||
+      tid == "mon_zombie_swimmer" || tid == "mon_zombie_grabber" || tid == "mon_zombie_technician" ||
+      tid == "mon_zombie_brute_shocker") {
+        polypick = 2; // Necro and Master have enough Goo to resist conversion.
+        // Firefighter, hazmat, and scarred/beekeeper have the PPG on.
+    } else if (tid == "mon_zombie_necro" || tid == "mon_zombie_master" || tid == "mon_zombie_firefighter" ||
+      tid == "mon_zombie_hazmat" || tid == "mon_beekeeper") {
+        return true;
+    } else if (tid == "mon_boomer" || tid == "mon_zombie_gasbag" || tid == "mon_zombie_smoker") {
         polypick = 3;
     } else if (tid == "mon_triffid" || tid == "mon_triffid_young" || tid == "mon_triffid_queen") {
         polypick = 4;

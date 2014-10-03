@@ -69,6 +69,7 @@ class iexamine
         void shrub_blueberry (player *p, map *m, int examx, int examy);
         void shrub_strawberry (player *p, map *m, int examx, int examy);
         void shrub_marloss (player *p, map *m, int examx, int examy);
+        void tree_marloss(player *p, map *m, int examx, int examy);
         void shrub_wildveggies (player *p, map *m, int examx, int examy);
         void recycler (player *p, map *m, int examx, int examy);
         void trap(player *p, map *m, int examx, int examy);
