@@ -10402,8 +10402,8 @@ int iuse::cable_attach(player *p, item *it, bool)
             point abspos = g->m.getabs(posx, posy);
             it->active = true;
             it->item_vars["state"] = "pay_out_cable";
-            it->item_vars["source_x"] = std::to_string(abspos.x);
-            it->item_vars["source_y"] = std::to_string(abspos.y);
+            it->item_vars["source_x"] = string_format("%d", abspos.x);
+            it->item_vars["source_y"] = string_format("%d", abspos.y);
             it->charges = 20;
         }
         p->moves -= 15;
