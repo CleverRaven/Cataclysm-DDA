@@ -301,7 +301,7 @@ action_id look_up_action(std::string ident)
     } else if (ident == "move_up") {
         return ACTION_MOVE_UP;
     }
-    // ^^ Temporarly for the interface with the input manager!
+    // ^^ Temporarily for the interface with the input manager!
     for (int i = 0; i < NUM_ACTIONS; i++) {
         if (action_ident( action_id(i) ) == ident) {
             return action_id(i);
@@ -395,16 +395,12 @@ action_id get_movement_direction_from_delta(const int dx, const int dy)
     }
 }
 
-// get the key for an action, used in the action menu to give each
-// action the hotkey it's bound to
+// Get the key for an action, used in the action menu to give each action the
+// hotkey it is bound to.
 long hotkey_for_action(action_id action)
 {
     std::vector<char> keys = keys_bound_to(action);
-    if(keys.size() >= 1) {
-        return keys[0];
-    } else {
-        return -1;
-    }
+    return keys.empty() ? -1 : keys[0];
 }
 
 bool can_butcher_at(int x, int y)
