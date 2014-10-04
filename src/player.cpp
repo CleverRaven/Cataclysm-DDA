@@ -799,7 +799,7 @@ void player::update_bodytemp()
     vehicle *veh = g->m.veh_at (posx, posy, vpart);
     int vehwindspeed = 0;
     if (veh) vehwindspeed = veh->velocity;
-    int total_windspeed = weather.windpower + vehwindspeed;
+    int total_windpower = vehwindspeed + weather.windpower;
     // Temperature norms
     // Ambient normal temperature is lower while asleep
     int ambient_norm = (has_disease("sleep") ? 3100 : 1900);
@@ -900,14 +900,13 @@ void player::update_bodytemp()
     {
         // This adjusts the temperature scale to match the bodytemp scale -- it needs to be reset every iteration
         int adjusted_temp = (Ctemperature - ambient_norm);
-        int bpTotal_windspeed = total_windspeed;
+        int bp_windpower = total_windpower;
         // Skip eyes
         if (i == bp_eyes) { continue; }
         // Represents the fact that the body generates heat when it is cold. TODO : should this increase hunger?
         float homeostasis_adjustement = (temp_cur[i] > BODYTEMP_NORM ? 30.0 : 60.0);
         int clothing_warmth_adjustement = homeostasis_adjustement * warmth(body_part(i));
-        // WIND CHILL
-        // Modify wind power
+        // WINDCHILL
         const oter_id &cur_om_ter = overmap_buffer.ter(g->om_global_location());
         std::string omtername = otermap[cur_om_ter].name;
         bool sheltered = false;
@@ -915,18 +914,11 @@ void player::update_bodytemp()
         {
             sheltered = true;
         }
-        bpTotal_windspeed = (float)bpTotal_windspeed*(1 - get_wind_resistance(body_part(i))/100.0);
-        // Modify relative humidity
-        bool is_indoors = false;
-        if (!g->m.is_outside(pos().x, pos().y) || g->levz < 0)
-        {
-            is_indoors = true;
-        }
-        int bpRelHum = g->weatherGen.get_windchill(weather.humidity, g->weather, is_indoors);
+        bp_windpower = (float)bp_windpower*(1 - get_wind_resistance(body_part(i))/100.0);
         // Calculate windchill
-        int windchill = g->weatherGen.get_windchill(weather.temperature, bpRelHum, bpTotal_windspeed, vehwindspeed, omtername, sheltered);
+        int windchill = g->weatherGen.get_windchill(weather.temperature, g->weatherGen.get_humidity(weather.humidity, g->weather, sheltered), bp_windpower, omtername, sheltered);
         // If you're standing in water, air temperature is replaced by water temperature. No wind.
-        int water_temperature = 100 * (g->get_water_temperature() - 32) * 5/9; // Convert to C.
+        int water_temperature = 100 * (g->weatherGen.get_water_temperature() - 32) * 5/9; // Convert to C.
         if ( (ter_at_pos == t_water_dp || ter_at_pos == t_water_pool || ter_at_pos == t_swater_dp) ||
             ((ter_at_pos == t_water_sh || ter_at_pos == t_swater_sh || ter_at_pos == t_sewage) &&
             (i == bp_foot_l || i == bp_foot_r || i == bp_leg_l || i == bp_leg_r)) ) {
@@ -1291,7 +1283,7 @@ void player::update_bodytemp()
             // Wetness gives a heavy nerf to tempearture resistance
             int Ftemperature = g->get_temperature() + warmth((body_part)i)*0.2 - 20 * wetness_percentage / 100;
             // Windchill reduced by your armor
-            int FBwindPower = total_windspeed * (1 - get_wind_resistance(body_part(i))/100.0);
+            int FBwindPower = total_windpower * (1 - get_wind_resistance(body_part(i))/100.0);
             // This has been broken down into 8 zones
             // Low risk zones (stops are frostnip)
             if ((Ftemperature < 30 && Ftemperature >= 10) ||

@@ -143,13 +143,13 @@ void weather_generator::test_weather()
     //debugmsg("Starting season: %s", ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue().c_str());
 }
 
-int weather_generator::get_windchill(double temperature, double humidity, double windpower, int bonus_wind, std::string omtername, bool sheltered)
+int weather_generator::get_windchill(double temperature, double humidity, double windpower, std::string omtername, bool sheltered)
 {
     /**
     *  A player is sheltered if he is underground, in a car, or indoors.
     **/  
     
-    int tmpwind = windpower + bonus_wind;
+    int tmpwind = windpower;
     tmpwind = (float)(tmpwind*0.44704); // Conver to meters per second.
     int Ctemperature = (temperature - 32) * 5/9; // Convert to celsius.
 
@@ -174,10 +174,10 @@ int weather_generator::get_windchill(double temperature, double humidity, double
 
 }
 
-int weather_generator::get_humidity(double humidity, weather_type weather, bool is_indoors)
+int weather_generator::get_humidity(double humidity, weather_type weather, bool sheltered)
 {
     int tmphumidity = humidity;
-    if (is_indoors)
+    if (sheltered)
     {
         tmphumidity = humidity * (100 - humidity) / 100 + humidity; // norm for a house?
     }
@@ -187,4 +187,31 @@ int weather_generator::get_humidity(double humidity, weather_type weather, bool 
     }
     
     return tmphumidity;
+}
+
+int weather_generator::get_water_temperature()
+{
+    /**
+    WATER TEMPERATURE
+    source : http://echo2.epfl.ch/VICAIRE/mod_2/chapt_5/main.htm
+    source : http://www.grandriver.ca/index/document.cfm?Sec=2&Sub1=7&sub2=1
+    **/
+
+    // Can I actually access these things?
+    calendar turn = calendar::turn;
+    int season_length = turn.season_length();
+    int day = turn.day_of_year();
+    int hour = turn.getHour();
+    int water_temperature = 0;
+
+    if (season_length == 0) season_length = 1;
+
+    // Temperature varies between 33.8F and 75.2F depending on the time of year. Day = 0 corresponds to the start of spring.
+    int annual_mean_water_temperature = 54.5 + 20.7 * sin(2.0 * 3.14 * (day - season_length*0.5) / (season_length*4.0));
+    // Temperature vareis between +2F and -2F depending on the time of day. Hour = 0 corresponds to midnight.
+    int daily_water_temperature_varaition = 2.0 + 2.0 * sin(2.0 * 3.14 * (hour - 6.0) / 24.0);
+
+    water_temperature = annual_mean_water_temperature + daily_water_temperature_varaition;
+
+    return water_temperature;
 }

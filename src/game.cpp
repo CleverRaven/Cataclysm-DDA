@@ -2071,32 +2071,6 @@ int game::get_temperature()
     return tmp_temperature;
 }
 
-int game::get_water_temperature()
-{
-    /**
-    WATER TEMPERATURE
-    source : http://echo2.epfl.ch/VICAIRE/mod_2/chapt_5/main.htm
-    source : http://www.grandriver.ca/index/document.cfm?Sec=2&Sub1=7&sub2=1
-    **/
-
-    int season_length = calendar::turn.season_length();
-    int day = calendar::turn.day_of_year();
-    int hour = calendar::turn.getHour();
-    int water_temperature = 0;
-
-    if (season_length == 0) season_length = 1;
-
-    // Temperature varies between 33.8F and 75.2F depending on the time of year. Day = 0 corresponds to the start of spring.
-    int annual_mean_water_temperature = 54.5 + 20.7 * sin(2.0 * 3.14 * (day - season_length*0.5) / (season_length*4.0));
-    // Temperature vareis between +2F and -2F depending on the time of day. Hour = 0 corresponds to midnight.
-    int daily_water_temperature_varaition = 2.0 + 2.0 * sin(2.0 * 3.14 * (hour - 6.0) / 24.0);
-
-    water_temperature = annual_mean_water_temperature + daily_water_temperature_varaition;
-
-    return water_temperature;
-}
-
-
 int game::assign_mission_id()
 {
     int ret = next_mission_id;
@@ -5279,7 +5253,19 @@ void game::draw_sidebar()
     int display_temp = get_temperature();
     // Apply windchill
     w_point weatherPoint = weatherGen.get_weather(u.pos(), calendar::turn);
-    int windchill = weatherGen.get_windchill(weatherPoint.temperature, weatherGen.get_humidity(weatherPoint.humidity, weather), weatherPoint.windpower);
+    const oter_id &cur_om_ter = overmap_buffer.ter(g->om_global_location());
+    std::string omtername = otermap[cur_om_ter].name;
+    bool sheltered = false;
+    int vpart = -1;
+    vehicle *veh = m.veh_at (u.posx, u.posy, vpart);
+    if (!m.is_outside(u.pos().x, u.pos().y) || levz < 0 || (veh && veh->is_inside(vpart)))
+    {
+        sheltered = true;
+    }
+    int vehwindspeed = 0;
+    if (veh) vehwindspeed = veh->velocity;
+    int windpower = weatherPoint.windpower + vehwindspeed;
+    int windchill = weatherGen.get_windchill(weatherPoint.temperature, (double)weatherGen.get_humidity(weatherPoint.humidity, weather, sheltered), windpower, omtername, sheltered);
     display_temp += windchill;
 
     nc_color col_temp = c_blue;
