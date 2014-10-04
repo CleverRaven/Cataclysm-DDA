@@ -3293,6 +3293,10 @@ int iuse::cut_up(player *p, item *it, item *cut, bool)
         }
     }
 
+    if(count > cut->volume()) {
+        count = cut->volume();
+    }
+
     //scrap_text is result string of worthless scraps
     //sliced_text is result on a success
     std::string scrap_text, sliced_text, type;
