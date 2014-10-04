@@ -5678,7 +5678,11 @@ void game::draw_minimap()
             } else {
                 const oter_id &cur_ter = overmap_buffer.ter(omx, omy, levz);
                 ter_sym = otermap[cur_ter].sym;
-                ter_color = otermap[cur_ter].color;
+                if (overmap_buffer.is_explored(omx, omy, levz)) {
+                    ter_color = c_dkgray;
+                } else {
+                    ter_color = otermap[cur_ter].color;
+                }
             }
             if (!drew_mission && targ.x == omx && targ.y == omy) {
                 // If there is a mission target, and it's not on the same
