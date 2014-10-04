@@ -30,8 +30,9 @@
 #define NOMINMAX
 #endif
 #include <windows.h>
+#include <shlwapi.h>
 #ifndef strcasecmp
-#define strcasecmp strcmpi
+#define strcasecmp StrCmpI
 #endif
 #else
 #include <wordexp.h>
@@ -170,6 +171,8 @@ static bool fontblending = false;
 static std::set<std::string> *bitmap_fonts;
 
 static std::vector<curseline> framebuffer;
+static WINDOW *winBuffer; //tracking last drawn window to fix the framebuffer
+static int fontScaleBuffer; //tracking zoom levels to fix framebuffer w/tiles
 
 #ifdef SDLTILES
 //***********************************
@@ -668,6 +671,10 @@ bool Font::draw_window(WINDOW *win)
 
 bool Font::draw_window( WINDOW *win, int offsetx, int offsety )
 {
+    //Keeping track of the active window
+    if(winBuffer == NULL){winBuffer = win;}
+    if(fontScaleBuffer == NULL){fontScaleBuffer = tilecontext->get_tile_width();}
+    const int fontScale = tilecontext->get_tile_width();
     bool update = false;
     for( int j = 0; j < win->height; j++ ) {
         if( !win->line[j].touched ) {
@@ -690,7 +697,10 @@ bool Font::draw_window( WINDOW *win, int offsetx, int offsety )
             const int fbx = win->x + i;
             const int fby = win->y + j;
             cursecell &oldcell = framebuffer[fby].chars[fbx];
-            if (cell == oldcell) {
+            //This creates a problem when map_font is different from the regular font
+            //Specifically when showing the overmap
+            //And in some instances of screen change, i.e. inventory.
+            if (cell == oldcell && win == winBuffer && fontScale == fontScaleBuffer) {
                 continue;
             }
             oldcell = cell;
@@ -719,6 +729,9 @@ bool Font::draw_window( WINDOW *win, int offsetx, int offsety )
         }
     }
     win->draw = false; //We drew the window, mark it as so
+    //Keeping track of last drawn window and tilemode zoom level
+    winBuffer = win;
+    fontScaleBuffer = tilecontext->get_tile_width();
 
     return update;
 }
