@@ -4296,7 +4296,7 @@
     "material": ["steel", "plastic"],
     "ammo_effects": ["LASER", "INCENDIARY"],
     "flags": ["NO_AMMO", "NO_UNLOAD"],
-    "ups_charges": 25
+    "ups_charges": 25,
     "skill": "rifle",
     "ammo": "UPS",
     "weight": 5140,
