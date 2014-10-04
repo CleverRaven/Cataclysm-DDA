@@ -736,6 +736,38 @@
         }
     },{
         "type" : "terrain",
+        "id" : "t_door_c_peep",
+        "name": "closed wood door",
+        "symbol": "+",
+        "color": "brown",
+        "move_cost": 0,
+        "flags": [
+            "FLAMMABLE_ASH", "DOOR", "NOITEM",
+            "SUPPORTS_ROOF", "BARRICADABLE_DOOR",
+            "PEEPHOLE"
+        ],
+        "examine_action": "door_peephole",
+        "open": "t_door_o",
+        "deconstruct": {
+            "ter_set": "t_door_frame",
+            "items": [
+                { "item": "2x4", "amount": 4 },
+                { "item": "nail", "amount": 12, "minamount": 6 }
+            ]
+        },
+        "bash": {
+            "str_min": 8, "str_max": 80, "str_min_blocked": 15, "str_max_blocked": 100,
+            "sound": "smash!",
+            "sound_fail": "whump!",
+            "ter_set": "t_door_b",
+            "items": [
+                { "item": "2x4", "amount": 1, "chance": 25 },
+                { "item": "splinter", "amount": 2, "minamount": 1 },
+                { "item": "nail", "amount": 2, "minamount": 0 }
+            ]
+        }
+    },{
+        "type" : "terrain",
         "id" : "t_door_b",
         "name": "damaged wood door",
         "symbol": "&",

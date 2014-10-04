@@ -918,6 +918,10 @@ void iexamine::pedestal_temple(player *p, map *m, int examx, int examy)
 large semi-spherical indentation at the top."));
 }
 
+void iexamine::door_peephole(player *p, map *m, int examx, int examy) {
+
+}
+
 void iexamine::fswitch(player *p, map *m, int examx, int examy)
 {
     if(!query_yn(_("Flip the %s?"), m->tername(examx, examy).c_str())) {
@@ -2773,6 +2777,9 @@ void (iexamine::*iexamine_function_from_string(std::string function_name))(playe
     }
     if ("pedestal_temple" == function_name) {
         return &iexamine::pedestal_temple;
+    }
+    if ("door_peephole" == function_name) {
+        return &iexamine::door_peephole;
     }
     if ("fswitch" == function_name) {
         return &iexamine::fswitch;
