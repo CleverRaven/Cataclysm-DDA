@@ -8275,7 +8275,7 @@
         "weight" : 283,
         "color" : "light_green",
         "addiction_type" : "none",
-        "spoils_in" : 120,
+        "spoils_in" : 0,
         "stim" : 0,
         "container" : "bag_plastic",
         "to_hit" : 0,
