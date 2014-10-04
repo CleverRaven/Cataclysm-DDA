@@ -4295,7 +4295,8 @@
     "price": 400000,
     "material": ["steel", "plastic"],
     "ammo_effects": ["LASER", "INCENDIARY"],
-    "flags": ["USE_UPS_25", "NO_AMMO", "NO_UNLOAD"],
+    "flags": ["NO_AMMO", "NO_UNLOAD"],
+    "ups_charges": 25
     "skill": "rifle",
     "ammo": "UPS",
     "weight": 5140,
