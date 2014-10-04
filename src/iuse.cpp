@@ -8793,10 +8793,9 @@ int iuse::robotcontrol(player *p, item *it, bool)
         return 0;
     }
 
-    int choice = -1;
-    choice = menu(true, _("Welcome to hackPRO!:"), _("Override IFF protocols"),
-                  _("Set friendly robots to passive mode"),
-                  _("Set friendly robots to combat mode"), _("Cancel"), NULL);
+    int choice = menu(true, _("Welcome to hackPRO!:"), _("Override IFF protocols"),
+                      _("Set friendly robots to passive mode"),
+                      _("Set friendly robots to combat mode"), _("Cancel"), NULL);
     switch( choice ) {
     case 1: { // attempt to make a robot friendly
         uimenu pick_robot;
@@ -9908,10 +9907,8 @@ int iuse::radiocaron(player *p, item *it, bool t)
         return 0;
     }
 
-    int choice = -1;
-
-    choice = menu(true, _("What do with activated RC car:"), _("Turn off"),
-                  _("Cancel"), NULL);
+    int choice = menu(true, _("What do with activated RC car:"), _("Turn off"),
+                      _("Cancel"), NULL);
 
     if (choice == 2) {
         return it->type->charges_to_use();
