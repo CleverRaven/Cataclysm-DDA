@@ -10453,11 +10453,13 @@ int iuse::cable_attach(player *p, item *it, bool)
 
             point vcoords = g->m.veh_part_coordinates(source_local.x, source_local.y);
             int new_part = source_veh->install_part(vcoords.x, vcoords.y, "jumper_cable", -1, true);
-            source_veh->parts[new_part].target = target_global;
+            source_veh->parts[new_part].target.first = target_global;
+            source_veh->parts[new_part].target.second = target_veh->real_global_pos();
 
             vcoords = g->m.veh_part_coordinates(target_local.x, target_local.y);
             new_part = target_veh->install_part(vcoords.x, vcoords.y, "jumper_cable", -1, true);
-            target_veh->parts[new_part].target = source_global;
+            target_veh->parts[new_part].target.first = source_global;
+            target_veh->parts[new_part].target.second = source_veh->real_global_pos();
 
             return 1; // Let the cable be destroyed.
         }

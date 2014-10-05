@@ -1334,13 +1334,14 @@ item vehicle_part::properties_to_item() const
     // Cables get special handling: their target coordinates need to remain
     // stored, and if a cable actually drops, it should be half-connected.
     if( tmp.has_flag("CABLE_SPOOL") ) {
-        point local_pos = g->m.getlocal(target);
+        point local_pos = g->m.getlocal(target.first);
         if(g->m.veh_at(local_pos.x, local_pos.y) == nullptr) {
             tmp.item_tags.insert("NO_DROP"); // That vehicle ain't there no more.
         }
 
-        tmp.item_vars["source_x"] = std::to_string(target.x);
-        tmp.item_vars["source_y"] = std::to_string(target.y);
+        tmp.item_vars["source_x"] = string_format("%d", target.first.x);
+        tmp.item_vars["source_y"] = string_format("%d", target.first.y);
+        tmp.item_vars["source_z"] = string_format("%d", g->levz);
         tmp.item_vars["state"] = "pay_out_cable";
         tmp.active = true;
     }
@@ -2724,6 +2725,29 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
     }
 }
 
+map remote_vehicle_maps(1);
+
+vehicle* find_vehicle(point &where)
+{
+    // Is it in the reality bubble?
+    point veh_local = g->m.getlocal(where);
+    vehicle* veh = g->m.veh_at(veh_local.x, veh_local.y);
+
+    if (veh != nullptr) {
+        return veh;
+    }
+
+    // Nope. Load up its submap...
+    point veh_sm = overmapbuffer::ms_to_sm_copy(where);
+    remote_vehicle_maps.load_abs(veh_sm.x, veh_sm.y, g->levz, true);
+
+    point target_pos = remote_vehicle_maps.getlocal(where);
+    veh = remote_vehicle_maps.veh_at(target_pos.x, target_pos.y);
+
+    // ...and hand it over.
+    return veh;
+}
+
 int vehicle::charge_battery (int amount, bool include_other_vehicles)
 {
     for(auto &f : fuel) {
@@ -2759,9 +2783,7 @@ int vehicle::charge_battery (int amount, bool include_other_vehicles)
                     continue; // ignore loose parts that aren't power transfer cables
                 }
 
-                point target_pos = g->m.getlocal(current_veh->parts[p].target);
-                vehicle* target_veh = g->m.veh_at(target_pos.x, target_pos.y);
-
+                auto target_veh = find_vehicle(current_veh->parts[p].target.second);
                 if(target_veh == nullptr || visited_vehs.count(target_veh) > 0) {
                     // Either no destination here (that vehicle's rolled away or off-map) or
                     // we've already looked at that vehicle.
@@ -2823,9 +2845,7 @@ int vehicle::discharge_battery (int amount, bool recurse)
                     continue; // ignore loose parts that aren't power transfer cables
                 }
 
-                point target_pos = g->m.getlocal(current_veh->parts[p].target);
-                vehicle* target_veh = g->m.veh_at(target_pos.x, target_pos.y);
-
+                auto target_veh = find_vehicle(current_veh->parts[p].target.second);
                 if(target_veh == nullptr || visited_vehs.count(target_veh) > 0) {
                     // Either no destination here (that vehicle's rolled away or off-map) or
                     // we've already looked at that vehicle.
@@ -3826,8 +3846,7 @@ void vehicle::refresh()
 }
 
 void vehicle::remove_remote_part(int part_num) {
-    point local_pos = g->m.getlocal(parts[part_num].target);
-    auto veh = g->m.veh_at(local_pos.x, local_pos.y);
+    auto veh = find_vehicle(parts[part_num].target.second);
 
     // If the target vehicle is still there, ask it to remove its part
     if (veh != nullptr) {
@@ -3839,7 +3858,7 @@ void vehicle::remove_remote_part(int part_num) {
             int remote_partnum = veh->loose_parts[j];
             auto remote_part = &veh->parts[remote_partnum];
 
-            if (veh->part_flag(remote_partnum, "POWER_TRANSFER") && remote_part->target == local_abs) {
+            if (veh->part_flag(remote_partnum, "POWER_TRANSFER") && remote_part->target.first == local_abs) {
                 veh->remove_part(remote_partnum);
                 return;
             }
