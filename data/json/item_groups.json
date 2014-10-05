@@ -670,6 +670,7 @@
     "type" : "item_group",
     "id" : "home_hw",
     "items":[
+      ["jumper_cable", 3],
       ["superglue", 30],
       ["string_6", 2],
       ["string_36", 40],
@@ -1718,6 +1719,7 @@
     "type" : "item_group",
     "id" : "hardware",
     "items":[
+      ["jumper_cable", 10],
       ["superglue", 30],
       ["chain", 20],
       ["rope_6", 4],
@@ -1754,7 +1756,6 @@
       ["funnel", 50],
       ["bearing", 1],
       ["jack", 10],
-      ["jumper_cable", 10],
       ["permanent_marker", 20],
       ["forge", 1],
       ["char_forge", 1],
@@ -1838,6 +1839,7 @@
     "type" : "item_group",
     "id" : "mischw",
     "items":[
+      ["jumper_cable", 4],
       ["2x4", 60],
       ["machete", 5],
       ["boots_steel", 50],
@@ -4938,6 +4940,7 @@
     "type" : "item_group",
     "id" : "mechanics",
     "items":[
+      ["jumper_cable", 5],
       ["wrench", 30],
       ["stereo", 25],
       ["frame", 20],
