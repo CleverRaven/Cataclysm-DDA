@@ -38,7 +38,7 @@ const std::string legacy_mon_id[126] = {"mon_null", "mon_squirrel", "mon_rabbit"
 
 };
 const int num_legacy_ter = 174;
-const std::string legacy_ter_id[175] = {"t_null", "t_hole", "t_dirt", "t_sand", "t_dirtmound",
+const std::string legacy_ter_id[174] = {"t_null", "t_hole", "t_dirt", "t_sand", "t_dirtmound",
     "t_pit_shallow", "t_pit", "t_pit_corpsed", "t_pit_covered", "t_pit_spiked", "t_pit_spiked_covered",
     "t_rock_floor", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass", "t_metal_floor",
     "t_pavement", "t_pavement_y", "t_sidewalk", "t_concrete", "t_floor", "t_dirtfloor", "t_grate",
@@ -47,7 +47,7 @@ const std::string legacy_ter_id[175] = {"t_null", "t_hole", "t_dirt", "t_sand", 
     "t_palisade_gate", "t_palisade_gate_o", "t_wall_half", "t_wall_wood", "t_wall_wood_chipped",
     "t_wall_wood_broken", "t_wall_v", "t_wall_h", "t_concrete_v", "t_concrete_h", "t_wall_metal_v",
     "t_wall_metal_h", "t_wall_glass_v", "t_wall_glass_h", "t_wall_glass_v_alarm",
-    "t_wall_glass_h_alarm", "t_reinforced_glass_v", "t_reinforced_glass_h", "t_bars", "t_door_c", "t_door_c_peep",
+    "t_wall_glass_h_alarm", "t_reinforced_glass_v", "t_reinforced_glass_h", "t_bars", "t_door_c",
     "t_door_b", "t_door_o", "t_door_locked_interior", "t_door_locked", "t_door_locked_alarm",
     "t_door_frame", "t_chaingate_l", "t_fencegate_c", "t_fencegate_o", "t_chaingate_c",
     "t_chaingate_o", "t_door_boarded", "t_door_metal_c", "t_door_metal_o", "t_door_metal_locked",
