@@ -2428,7 +2428,6 @@
       [ "orange", 2 ]
     ],
     [
-      [ "water", 1 ],
       [ "water_clean", 1 ]
     ]
   ]
@@ -2472,7 +2471,6 @@
       [ "sugar", 1 ]
     ],
     [
-      [ "water", 1 ],
       [ "water_clean", 1 ]
     ]
   ]
@@ -7814,7 +7812,6 @@
       ["watermelon", 1]
     ],
     [
-      [ "water", 1 ],
       [ "water_clean", 1 ]
     ]
   ]
