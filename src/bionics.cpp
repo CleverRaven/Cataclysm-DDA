@@ -769,6 +769,7 @@ void player::activate_bionic(int b)
                 }
             }
         }
+        moves -= 100;
     } else if(bio.id == "bio_lockpick") {
         if(!choose_adjacent(_("Activate your bio lockpick where?"), dirx, diry)) {
             power_level += bionics["bio_lockpick"]->power_cost;
