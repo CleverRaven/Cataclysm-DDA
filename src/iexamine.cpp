@@ -919,7 +919,25 @@ large semi-spherical indentation at the top."));
 }
 
 void iexamine::door_peephole(player *p, map *m, int examx, int examy) {
+    if (m->is_outside(p->posx, p->posy)) {
+        p->add_msg_if_player( _("You cannot look through the peephole from the outside."));
+        return;
+    }
 
+    // Peek through the curtains, or tear them down.
+    int choice = menu( true, _("Do what with the door?"),
+                       _("Peek through peephole."), _("Open door."),
+                       _("Cancel"), NULL );
+    if( choice == 1 ) {
+        // Peek
+        g->peek( examx, examy );
+        p->add_msg_if_player( _("You peek through the peephole.") );
+    } else if( choice == 2 ) {
+        m->open_door(examx, examy, true, false);
+        p->add_msg_if_player( _("You open the door.") );
+    } else {
+        p->add_msg_if_player( _("Never mind."));
+    }
 }
 
 void iexamine::fswitch(player *p, map *m, int examx, int examy)

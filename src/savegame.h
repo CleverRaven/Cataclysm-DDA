@@ -38,7 +38,7 @@ const std::string legacy_mon_id[126] = {"mon_null", "mon_squirrel", "mon_rabbit"
 
 };
 const int num_legacy_ter = 174;
-const std::string legacy_ter_id[174] = {"t_null", "t_hole", "t_dirt", "t_sand", "t_dirtmound",
+const std::string legacy_ter_id[175] = {"t_null", "t_hole", "t_dirt", "t_sand", "t_dirtmound",
     "t_pit_shallow", "t_pit", "t_pit_corpsed", "t_pit_covered", "t_pit_spiked", "t_pit_spiked_covered",
     "t_rock_floor", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass", "t_metal_floor",
     "t_pavement", "t_pavement_y", "t_sidewalk", "t_concrete", "t_floor", "t_dirtfloor", "t_grate",
