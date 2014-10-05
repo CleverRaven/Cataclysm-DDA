@@ -685,8 +685,12 @@ bool Font::draw_window(WINDOW *win)
 bool Font::draw_window( WINDOW *win, int offsetx, int offsety )
 {
     //Keeping track of the last drawn window
-    if(winBuffer == NULL){winBuffer = win;}
-    if(!fontScaleBuffer){fontScaleBuffer = tilecontext->get_tile_width();}
+    if( winBuffer == NULL ) {
+            winBuffer = win;
+    }
+    if( !fontScaleBuffer ) {
+            fontScaleBuffer = tilecontext->get_tile_width();
+    }
     const int fontScale = tilecontext->get_tile_width();
     bool update = false;
     for( int j = 0; j < win->height; j++ ) {
@@ -714,7 +718,7 @@ bool Font::draw_window( WINDOW *win, int offsetx, int offsety )
             //Specifically when showing the overmap
             //And in some instances of screen change, i.e. inventory.
             bool oldWinCompatible = false;
-            /**
+            /*
             Let's try to keep track of different windows.
             A number of windows are coexisting on the screen, so don't have to interfere.
 
@@ -726,18 +730,20 @@ bool Font::draw_window( WINDOW *win, int offsetx, int offsety )
 
             Everything else works on strict equality because there aren't yet IDs for some of them.
             */
-            if (win == g->w_terrain || win == g->w_minimap || win == g->w_HP || win == g->w_status || win == g->w_status2 || win == g->w_messages ||
-               win == g->w_location) {
-                if (winBuffer == g->w_terrain || winBuffer == g->w_minimap || winBuffer == g->w_HP || winBuffer == g->w_status ||
-               winBuffer == g->w_status2 || winBuffer == g->w_messages || winBuffer == g->w_location) {
+            if ( win == g->w_terrain || win == g->w_minimap || win == g->w_HP || win == g->w_status || win == g->w_status2 || win == g->w_messages ||
+               win == g->w_location ) {
+                if ( winBuffer == g->w_terrain || winBuffer == g->w_minimap || winBuffer == g->w_HP || winBuffer == g->w_status ||
+               winBuffer == g->w_status2 || winBuffer == g->w_messages || winBuffer == g->w_location ) {
                     oldWinCompatible = true;
                 }
-            }else if (win == g->w_overmap || win == g->w_omlegend){
-                if (winBuffer == g->w_overmap || winBuffer == g->w_omlegend){
+            }else if ( win == g->w_overmap || win == g->w_omlegend ){
+                if ( winBuffer == g->w_overmap || winBuffer == g->w_omlegend ) {
                     oldWinCompatible = true;
                 }
             }else{
-                if(win == winBuffer){ oldWinCompatible = true;}
+                if( win == winBuffer ) {
+                    oldWinCompatible = true;
+                }
             }
 
             if (cell == oldcell && oldWinCompatible && fontScale == fontScaleBuffer) {

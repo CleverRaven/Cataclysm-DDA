@@ -376,6 +376,7 @@ void game::init_ui()
     to_overmap_font_dimension(OVERMAP_WINDOW_WIDTH, OVERMAP_WINDOW_HEIGHT);
 
     //Bring the framebuffer to the maximum required dimensions
+    //Otherwise it segfaults when the overmap needs a bigger buffer size than it provides
     reinitialize_framebuffer();
 
     int minimapX, minimapY; // always MINIMAP_WIDTH x MINIMAP_HEIGHT in size
