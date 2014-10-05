@@ -24,11 +24,6 @@ std::string overmapbuffer::terrain_filename(int const x, int const y)
     std::stringstream filename;
 
     filename << world_generator->active_world->world_path << "/";
-
-    if (g->has_gametype()) {
-        filename << special_game_name(g->gametype()) << ".";
-    }
-
     filename << "o." << x << "." << y;
 
     return filename.str();
