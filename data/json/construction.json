@@ -207,9 +207,9 @@
             ],
 
         "components" : [
-            [ [ "peephole", 1 ] ],
+            [ [ "peephole", 1 ] ]
         ],
-        "pre_terrain" : "t_door__c",
+        "pre_terrain" : "t_door_c",
         "post_terrain" : "t_door_c_peep"
     },{
         "type" : "construction",
