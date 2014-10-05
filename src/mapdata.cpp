@@ -487,7 +487,9 @@ void set_ter_ids() {
     t_door_c=terfind("t_door_c");
     t_door_c_peep=terfind("t_door_c_peep");
     t_door_b=terfind("t_door_b");
+    t_door_b_peep=terfind("t_door_b_peep");
     t_door_o=terfind("t_door_o");
+    t_door_o_peep=terfind("t_door_o_peep");
     t_rdoor_c=terfind("t_rdoor_c");
     t_rdoor_b=terfind("t_rdoor_b");
     t_rdoor_o=terfind("t_rdoor_o");
