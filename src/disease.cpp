@@ -3198,6 +3198,7 @@ static void handle_bite_wound(player& p, disease& dis)
                 p.add_disease("recover", 2 * (3601 - dis.duration) - 4800);
             }
             p.rem_disease("bite", dis.bp);
+            return;
         }
     }
 
@@ -3246,6 +3247,7 @@ static void handle_infected_wound(player& p, disease& dis)
                 p.add_disease("recover", 4 * (14401 - dis.duration + 3600) - 4800);
             }
             p.rem_disease("infected", dis.bp);
+            return;
         }
     }
 
