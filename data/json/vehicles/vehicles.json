@@ -273,6 +273,7 @@
             {"x": -2, "y": 1, "chance": 5, "items": "screwdriver"},
             {"x": -2, "y": 1, "chance": 5, "items": "scissors"},
             {"x": -2, "y": 1, "chance": 5, "items": "crowbar"},
+            {"x": -2, "y": 1, "chance": 5, "items": "jumper_cable"},
             {"x": -2, "y": 1, "chance": 15, "items": ["jack", "wheel"]}
         ]
     },{

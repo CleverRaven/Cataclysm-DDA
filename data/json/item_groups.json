@@ -1754,6 +1754,7 @@
       ["funnel", 50],
       ["bearing", 1],
       ["jack", 10],
+      ["jumper_cable", 10],
       ["permanent_marker", 20],
       ["forge", 1],
       ["char_forge", 1],
