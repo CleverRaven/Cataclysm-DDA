@@ -2540,7 +2540,7 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
                 m->ter_set(rw, rng(tw + 2, cw - 2), (one_in(6) ? t_door_c : t_door_locked));
             }
         } else {
-            m->ter_set(rng(mw + 1, rw - 2), tw, (one_in(6) ? t_door_c : t_door_locked));
+            m->ter_set(rng(mw + 1, rw - 2), tw, (one_in(6) ? (one_in(6) ? t_door_c : t_door_c_peep) : (one_in(6) ? t_door_locked : t_door_locked_peep)));
             if (one_in(5)) {
                 m->ter_set(lw, rng(tw + 2, cw - 2), (one_in(6) ? t_door_c : t_door_locked));
             }
