@@ -76,7 +76,7 @@ void game::serialize(std::ofstream & fout) {
         // basic game state information.
         json.member("turn", (int)calendar::turn);
         json.member( "last_target", (int)last_target );
-        json.member( "run_mode", (int)run_mode );
+        json.member( "run_mode", (int)safe_mode );
         json.member( "mostseen", mostseen );
         json.member( "nextspawn", (int)nextspawn );
         // current map coordinates
@@ -207,9 +207,9 @@ void game::unserialize(std::ifstream & fin)
         cur_om = &overmap_buffer.get(comx, comy);
         m.load(levx, levy, levz, true, cur_om);
 
-        run_mode = static_cast<run_mode_type>( tmprun );
-        if (OPTIONS["SAFEMODE"] && run_mode == SAFE_MODE_OFF) {
-            run_mode = SAFE_MODE_ON;
+        safe_mode = static_cast<safe_mode_type>( tmprun );
+        if (OPTIONS["SAFEMODE"] && safe_mode == SAFE_MODE_OFF) {
+            safe_mode = SAFE_MODE_ON;
         }
         autosafemode = OPTIONS["AUTOSAFEMODE"];
         safemodeveh = OPTIONS["SAFEMODEVEH"];

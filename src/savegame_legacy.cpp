@@ -105,9 +105,9 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             cur_om = &overmap_buffer.get(comx, comy);
             m.load(levx, levy, levz, true, cur_om);
 
-            run_mode = static_cast<run_mode_type>( tmprun );
-            if( OPTIONS["SAFEMODE"] && run_mode == SAFE_MODE_OFF ) {
-                run_mode = SAFE_MODE_ON;
+            safe_mode = static_cast<safe_mode_type>( tmprun );
+            if( OPTIONS["SAFEMODE"] && safe_mode == SAFE_MODE_OFF ) {
+                safe_mode = SAFE_MODE_ON;
             }
             autosafemode = OPTIONS["AUTOSAFEMODE"];
             last_target = tmptar;
@@ -188,9 +188,9 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             cur_om = &overmap_buffer.get(comx, comy);
             m.load(levx, levy, levz, true, cur_om);
 
-            run_mode = static_cast<run_mode_type>( tmprun );
-            if( OPTIONS["SAFEMODE"] && run_mode == SAFE_MODE_OFF ) {
-                run_mode = SAFE_MODE_ON;
+            safe_mode = static_cast<safe_mode_type>( tmprun );
+            if( OPTIONS["SAFEMODE"] && safe_mode == SAFE_MODE_OFF ) {
+                safe_mode = SAFE_MODE_ON;
             }
             autosafemode = OPTIONS["AUTOSAFEMODE"];
             safemodeveh = OPTIONS["SAFEMODEVEH"];
@@ -300,9 +300,9 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             cur_om = &overmap_buffer.get(comx, comy);
             m.load(levx, levy, levz, true, cur_om);
 
-            run_mode = static_cast<run_mode_type>( tmprun );
-            if( OPTIONS["SAFEMODE"] && run_mode == SAFE_MODE_OFF ) {
-                run_mode = SAFE_MODE_ON;
+            safe_mode = static_cast<safe_mode_type>( tmprun );
+            if( OPTIONS["SAFEMODE"] && safe_mode == SAFE_MODE_OFF ) {
+                safe_mode = SAFE_MODE_ON;
             }
             autosafemode = OPTIONS["AUTOSAFEMODE"];
             safemodeveh = OPTIONS["SAFEMODEVEH"];
@@ -411,9 +411,9 @@ original 'structure', which globs game/weather/location & killcount/player data 
          cur_om = &overmap_buffer.get(comx, comy);
          m.load(levx, levy, levz, true, cur_om);
 
-         run_mode = static_cast<run_mode_type>( tmprun );
-         if( OPTIONS["SAFEMODE"] && run_mode == SAFE_MODE_OFF ) {
-            run_mode = SAFE_MODE_ON;
+         safe_mode = static_cast<safe_mode_type>( tmprun );
+         if( OPTIONS["SAFEMODE"] && safe_mode == SAFE_MODE_OFF ) {
+            safe_mode = SAFE_MODE_ON;
          }
          autosafemode = OPTIONS["AUTOSAFEMODE"];
          safemodeveh = OPTIONS["SAFEMODEVEH"];

@@ -66,7 +66,7 @@ enum quit_status {
     QUIT_ERROR
 };
 
-enum run_mode_type {
+enum safe_mode_type {
     SAFE_MODE_OFF = 0, // Moving always allowed
     SAFE_MODE_ON = 1, // Moving allowed, but if a new monsters spawns, go to SAFE_MODE_STOP
     SAFE_MODE_STOP = 2, // New monsters spotted, no movement allowed
@@ -730,9 +730,9 @@ class game
 
         int last_target; // The last monster targeted
         bool last_target_was_npc;
-        run_mode_type run_mode;
+        safe_mode_type safe_mode;
         std::vector<int> new_seen_mon;
-        int mostseen;  // # of mons seen last turn; if this increases, run_mode++
+        int mostseen;  // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
         bool autosafemode; // is autosafemode enabled?
         bool safemodeveh; // safemode while driving?
         int turnssincelastmon; // needed for auto run mode
