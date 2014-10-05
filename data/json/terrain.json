@@ -736,6 +736,39 @@
         }
     },{
         "type" : "terrain",
+        "id" : "t_door_c_peep",
+        "name": "closed wood door with peephole",
+        "symbol": "+",
+        "color": "brown",
+        "move_cost": 0,
+        "flags": [
+            "FLAMMABLE_ASH", "DOOR", "NOITEM",
+            "SUPPORTS_ROOF", "BARRICADABLE_DOOR"
+        ],
+        "examine_action": "door_peephole",
+        "open": "t_door_o_peep",
+        "deconstruct": {
+            "ter_set": "t_door_frame",
+            "items": [
+				{ "item": "peephole", "amount": 1 },
+                { "item": "2x4", "amount": 4 },
+                { "item": "nail", "amount": 12, "minamount": 6 }
+            ]
+        },
+        "bash": {
+            "str_min": 8, "str_max": 80, "str_min_blocked": 15, "str_max_blocked": 100,
+            "sound": "smash!",
+            "sound_fail": "whump!",
+            "ter_set": "t_door_b_peep",
+            "items": [
+				{ "item": "peephole", "amount": 1, "chance": 75 },
+                { "item": "2x4", "amount": 1, "chance": 25 },
+                { "item": "splinter", "amount": 2, "minamount": 1 },
+                { "item": "nail", "amount": 2, "minamount": 0 }
+            ]
+        }
+    },{
+        "type" : "terrain",
         "id" : "t_door_b",
         "name": "damaged wood door",
         "symbol": "&",
@@ -751,6 +784,29 @@
             "sound_fail": "whump!",
             "ter_set": "t_door_frame",
             "items": [
+                { "item": "2x4", "amount": 2, "minamount": 1 },
+                { "item": "nail", "amount": 4, "minamount": 1 },
+                { "item": "splinter", "amount": 4, "minamount": 1 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_door_b_peep",
+        "name": "damaged wood door with peephole",
+        "symbol": "&",
+        "color": "brown",
+        "move_cost": 0,
+        "flags": [
+            "TRANSPARENT", "FLAMMABLE_ASH", "NOITEM",
+            "SUPPORTS_ROOF", "REDUCE_SCENT", "BARRICADABLE_DOOR_DAMAGED"
+        ],
+        "bash": {
+            "str_min": 5, "str_max": 70, "str_min_blocked": 7, "str_max_blocked": 90,
+            "sound": "crash!",
+            "sound_fail": "whump!",
+            "ter_set": "t_door_frame",
+            "items": [
+				{ "item": "2x4", "amount": 1, "minamount": 0 },
                 { "item": "2x4", "amount": 2, "minamount": 1 },
                 { "item": "nail", "amount": 4, "minamount": 1 },
                 { "item": "splinter", "amount": 4, "minamount": 1 }
@@ -781,6 +837,38 @@
             "sound_fail": "whump!",
             "ter_set": "t_door_frame",
             "items": [
+                { "item": "2x4", "amount": 3, "minamount": 1 },
+                { "item": "nail", "amount": 6, "minamount": 1 },
+                { "item": "splinter", "amount": 6, "minamount": 2 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_door_o_peep",
+        "name": "open wood door with peephole",
+        "symbol": "'",
+        "color": "brown",
+        "move_cost": 2,
+        "flags": [
+            "FLAMMABLE_ASH", "TRANSPARENT", "SUPPORTS_ROOF",
+            "FLAT", "BARRICADABLE_DOOR"
+        ],
+        "deconstruct": {
+            "ter_set": "t_door_frame",
+            "items": [
+				{ "item": "peephole", "amount": 1 },
+                { "item": "2x4", "amount": 4 },
+                { "item": "nail", "amount": 12, "minamount": 6 }
+            ]
+        },
+        "close": "t_door_c_peep",
+        "bash": {
+            "str_min": 5, "str_max": 80, "str_min_blocked": 7, "str_max_blocked": 100,
+            "sound": "crash!",
+            "sound_fail": "whump!",
+            "ter_set": "t_door_frame",
+            "items": [
+				{ "item": "peephole", "amount": 1, "minamount": 0 },
                 { "item": "2x4", "amount": 3, "minamount": 1 },
                 { "item": "nail", "amount": 6, "minamount": 1 },
                 { "item": "splinter", "amount": 6, "minamount": 2 }
@@ -898,6 +986,7 @@
             "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF",
             "OPENCLOSE_INSIDE", "REDUCE_SCENT"
         ],
+        "examine_action": "door_peephole",
         "open": "t_door_o",
         "bash": {
             "str_min": 8, "str_max": 80, "str_min_blocked": 15, "str_max_blocked": 100,
@@ -905,6 +994,31 @@
             "sound_fail": "whump!",
             "ter_set": "t_door_b",
             "items": [
+                { "item": "2x4", "amount": 1, "chance": 25 },
+                { "item": "splinter", "amount": 2, "minamount": 1 },
+                { "item": "nail", "amount": 2, "minamount": 0 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_door_locked_peep",
+        "name": "closed wood door",
+        "symbol": "+",
+        "color": "brown",
+        "move_cost": 0,
+        "flags": [
+            "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF",
+            "OPENCLOSE_INSIDE", "REDUCE_SCENT"
+        ],
+        "open": "t_door_o_peep",
+        "examine_action": "door_peephole",
+        "bash": {
+            "str_min": 8, "str_max": 80, "str_min_blocked": 15, "str_max_blocked": 100,
+            "sound": "smash!",
+            "sound_fail": "whump!",
+            "ter_set": "t_door_b_peep",
+            "items": [
+				{ "item": "peephole", "amount": 1, "chance": 75 },
                 { "item": "2x4", "amount": 1, "chance": 25 },
                 { "item": "splinter", "amount": 2, "minamount": 1 },
                 { "item": "nail", "amount": 2, "minamount": 0 }

@@ -894,6 +894,28 @@ void iexamine::pedestal_temple(player *p, map *m, int examx, int examy)
 large semi-spherical indentation at the top."));
 }
 
+void iexamine::door_peephole(player *p, map *m, int examx, int examy) {
+    if (m->is_outside(p->posx, p->posy)) {
+        p->add_msg_if_player( _("You cannot look through the peephole from the outside."));
+        return;
+    }
+
+    // Peek through the peephole, or open the door. 
+    int choice = menu( true, _("Do what with the door?"),
+                       _("Peek through peephole."), _("Open door."),
+                       _("Cancel"), NULL );
+    if( choice == 1 ) {
+        // Peek
+        g->peek( examx, examy );
+        p->add_msg_if_player( _("You peek through the peephole.") );
+    } else if( choice == 2 ) {
+        m->open_door(examx, examy, true, false);
+        p->add_msg_if_player( _("You open the door.") );
+    } else {
+        p->add_msg_if_player( _("Never mind."));
+    }
+}
+
 void iexamine::fswitch(player *p, map *m, int examx, int examy)
 {
     if(!query_yn(_("Flip the %s?"), m->tername(examx, examy).c_str())) {
@@ -2743,6 +2765,9 @@ void (iexamine::*iexamine_function_from_string(std::string function_name))(playe
     }
     if ("pedestal_temple" == function_name) {
         return &iexamine::pedestal_temple;
+    }
+    if ("door_peephole" == function_name) {
+        return &iexamine::door_peephole;
     }
     if ("fswitch" == function_name) {
         return &iexamine::fswitch;

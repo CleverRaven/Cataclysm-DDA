@@ -190,6 +190,29 @@
         "post_terrain" : "t_door_c"
     },{
         "type" : "construction",
+        "description" : "Build Door", "//": "Step 3: peephole",
+        "category" : "CONSTRUCT",
+        "difficulty" : 4,
+        "time" : 10,
+                "qualities": [
+            [
+            { "id": "DRILL", "level": 1 }
+            ],
+            [
+            { "id": "SCREW", "level": 1 }
+            ],
+            [
+            { "id": "WRENCH", "level": 1 }
+            ]
+            ],
+
+        "components" : [
+            [ [ "peephole", 1 ] ]
+        ],
+        "pre_terrain" : "t_door_c",
+        "post_terrain" : "t_door_c_peep"
+    },{
+        "type" : "construction",
         "description" : "Repair Wood Door", "//": "Repair the regular door",
         "category" : "REPAIR",
         "difficulty" : 1,

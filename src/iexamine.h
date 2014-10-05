@@ -48,6 +48,7 @@ class iexamine
         void fault (player *p, map *m, int examx, int examy);
         void pedestal_wyrm (player *p, map *m, int examx, int examy);
         void pedestal_temple (player *p, map *m, int examx, int examy);
+        void door_peephole (player *p, map *m, int examx, int examy);
         void fswitch (player *p, map *m, int examx, int examy);
         void flower_poppy (player *p, map *m, int examx, int examy);
         void flower_blubell (player *p, map *m, int examx, int examy);

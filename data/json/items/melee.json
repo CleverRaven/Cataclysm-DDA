@@ -4138,5 +4138,21 @@
     "bashing": 2,
     "cutting": 0,
     "to_hit": -2
+   },
+   {
+	"type":"GENERIC",
+	"id": "peephole",
+	"symbol": ".",
+	"color": "yellow",
+	"name": "peephole",
+	"category": "spare_parts",
+	"description": "A metal cylinder with a small lens inside intended to be installed on a door.",
+	"price": 12000,
+	"material": ["aluminum", "glass"],
+	"weight": 5,
+	"volume": 1,
+	"bashing": -5,
+	"cutting": 0,
+	"to_hit": -3
    }
 ]
