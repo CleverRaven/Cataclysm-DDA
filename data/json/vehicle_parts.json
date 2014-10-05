@@ -831,7 +831,7 @@
         "flags" : [],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9},
-            {"item": "nail", "min": 5, "max": 15}
+            {"item": "nail", "min": 5, "max": 10}
         ]
     },{
         "type" : "vehicle_part",
@@ -848,7 +848,7 @@
         "flags" : [],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9},
-            {"item": "nail", "min": 5, "max": 15}
+            {"item": "nail", "min": 5, "max": 10}
         ]
     },{
         "type" : "vehicle_part",
