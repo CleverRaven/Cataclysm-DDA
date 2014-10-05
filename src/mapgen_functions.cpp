@@ -2296,24 +2296,36 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2, mapgenda
         case 1:
             m->furn_set(x1 + 1, y1 + 2, f_bed);
             m->furn_set(x1 + 1, y1 + 3, f_bed);
+            m->place_items("bed", 80, x1 + 1, y1 + 2, x1 + 1, y1 + 2, false, 0);
+            m->place_items("bed", 80, x1 + 1, y1 + 3, x1 + 1, y1 + 3, false, 0);
             break;
         case 2:
             m->furn_set(x1 + 2, y2 - 1, f_bed);
             m->furn_set(x1 + 3, y2 - 1, f_bed);
+            m->place_items("bed", 80, x1 + 2, y2 - 1, x1 + 2, y2 - 1, false, 0);
+            m->place_items("bed", 80, x1 + 2, y2 - 1, x1 + 2, y2 - 1, false, 0);
             break;
         case 3:
             m->furn_set(x2 - 1, y2 - 3, f_bed);
             m->furn_set(x2 - 1, y2 - 2, f_bed);
+            m->place_items("bed", 80, x2 - 1, y2 - 3, x2 - 1, y2 - 3, false, 0);
+            m->place_items("bed", 80, x2 - 1, y2 - 2, x2 - 1, y2 - 2, false, 0);
             break;
         case 4:
             m->furn_set(x2 - 3, y1 + 1, f_bed);
             m->furn_set(x2 - 2, y1 + 1, f_bed);
+            m->place_items("bed", 80, x2 - 3, y1 + 1, x2 - 3, y1 + 1, false, 0);
+            m->place_items("bed", 80, x2 - 2, y1 + 1, x2 - 2, y1 + 1, false, 0);
             break;
         case 5:
             m->furn_set(int((x1 + x2) / 2)    , y2 - 1, f_bed);
             m->furn_set(int((x1 + x2) / 2) + 1, y2 - 1, f_bed);
             m->furn_set(int((x1 + x2) / 2)    , y2 - 2, f_bed);
             m->furn_set(int((x1 + x2) / 2) + 1, y2 - 2, f_bed);
+            m->place_items("bed", 80, int((x1 + x2) / 2), y2 - 1, int((x1 + x2) / 2), y2 - 1, false, 0);
+            m->place_items("bed", 80, int((x1 + x2) / 2) + 1, y2 - 1, int((x1 + x2) / 2) + 1, y2 - 1, false, 0);
+            m->place_items("bed", 80, int((x1 + x2) / 2), y2 - 2, int((x1 + x2) / 2), y2 - 2, false, 0);
+            m->place_items("bed", 80, int((x1 + x2) / 2) + 1, y2 - 2, int((x1 + x2) / 2) + 1, y2 - 2, false, 0);
             break;
         }
         switch (rng(1, 4)) {
