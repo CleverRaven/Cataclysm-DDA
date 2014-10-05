@@ -13286,7 +13286,7 @@ bool game::plmove(int dx, int dy)
             u.moves -= 100;
         } else if (m.furn(x, y) != f_safe_c && m.open_door(x, y, !m.is_outside(u.posx, u.posy))) {
             u.moves -= 100;
-        } else if (m.ter(x, y) == t_door_locked || m.ter(x, y) == t_door_locked_alarm ||
+        } else if (m.ter(x, y) == t_door_locked || m.ter(x, y) == t_door_locked_peep || m.ter(x, y) == t_door_locked_alarm ||
                    m.ter(x, y) == t_door_locked_interior) {
             u.moves -= 100;
             add_msg(_("That door is locked!"));

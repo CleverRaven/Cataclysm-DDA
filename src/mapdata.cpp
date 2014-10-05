@@ -363,7 +363,7 @@ ter_id t_null,
     t_bars,
     t_wall_h_r,t_wall_h_w,t_wall_h_b,t_wall_h_g,t_wall_h_p,t_wall_h_y,
     t_wall_v_r,t_wall_v_w,t_wall_v_b,t_wall_v_g,t_wall_v_p,t_wall_v_y,
-    t_door_c, t_door_c_peep, t_door_b, t_door_b_peep, t_door_o, t_door_o_peep, t_rdoor_c, t_rdoor_b, t_rdoor_o,t_door_locked_interior, t_door_locked, t_door_locked_alarm, t_door_frame,
+    t_door_c, t_door_c_peep, t_door_b, t_door_b_peep, t_door_o, t_door_o_peep, t_rdoor_c, t_rdoor_b, t_rdoor_o,t_door_locked_interior, t_door_locked, t_door_locked_peep, t_door_locked_alarm, t_door_frame,
     t_chaingate_l, t_fencegate_c, t_fencegate_o, t_chaingate_c, t_chaingate_o,
     t_door_boarded, t_door_boarded_damaged, t_rdoor_boarded, t_rdoor_boarded_damaged,
     t_door_metal_c, t_door_metal_o, t_door_metal_locked, t_mdoor_frame,
@@ -495,6 +495,7 @@ void set_ter_ids() {
     t_rdoor_o=terfind("t_rdoor_o");
     t_door_locked_interior=terfind("t_door_locked_interior");
     t_door_locked=terfind("t_door_locked");
+    t_door_locked=terfind("t_door_locked_peep");
     t_door_locked_alarm=terfind("t_door_locked_alarm");
     t_door_frame=terfind("t_door_frame");
     t_mdoor_frame=terfind("t_mdoor_frame");
