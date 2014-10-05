@@ -1155,7 +1155,7 @@
         "move_cost_mod": 0,
         "required_str": -1,
         "flags": ["TRANSPARENT", "INDOORS", "NOCOLLIDE"],
-        "examine_action": "tent",
+        "examine_action": "portable_structure",
         "comment": "No bash info due to special handling"
     },{
         "type" : "furniture",
@@ -1176,7 +1176,7 @@
         "move_cost_mod": 0,
         "required_str": -1,
         "flags": ["TRANSPARENT", "INDOORS", "NOCOLLIDE"],
-        "examine_action": "large_tent",
+        "examine_action": "portable_structure",
         "comment": "No bash info due to special handling"
     },{
         "type" : "furniture",
@@ -1229,7 +1229,7 @@
         "move_cost_mod": 0,
         "required_str": -1,
         "flags": ["TRANSPARENT", "INDOORS", "NOCOLLIDE"],
-        "examine_action": "shelter",
+        "examine_action": "portable_structure",
         "comment": "No bash info due to special handling"
     },{
         "type" : "furniture",

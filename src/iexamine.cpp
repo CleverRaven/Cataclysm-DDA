@@ -606,52 +606,25 @@ void iexamine::bars(player *p, map *m, int examx, int examy)
     p->posy = examy;
 }
 
-void iexamine::tent(player *p, map *m, int examx, int examy)
+void iexamine::portable_structure(player *p, map *m, int examx, int examy)
 {
-    if (!query_yn(_("Take down your tent?"))) {
+    int radius = m->furn(examx, examy) == f_center_groundsheet ? 2 : 1;
+    std::string dropped =
+        m->furn(examx, examy) == f_groundsheet        ? "tent_kit"
+      : m->furn(examx, examy) == f_center_groundsheet ? "large_tent_kit"
+      :                                                 "shelter_kit";
+    if (!query_yn(_("Take down the structure?"))) {
         none(p, m, examx, examy);
         return;
     }
     p->moves -= 200;
-    for (int i = -1; i <= 1; i++)
-        for (int j = -1; j <= 1; j++) {
+    for (int i = -radius; i <= radius; i++) {
+        for (int j = -radius; j <= radius; j++) {
             m->furn_set(examx + i, examy + j, f_null);
         }
-    add_msg(_("You take down the tent"));
-    item dropped("tent_kit", calendar::turn);
-    m->add_item_or_charges(examx, examy, dropped);
-}
-
-void iexamine::large_tent(player *p, map *m, int examx, int examy)
-{
-    if (!query_yn(_("Take down your tent?"))) {
-        none(p, m, examx, examy);
-        return;
     }
-    p->moves -= 200;
-    for (int i = -2; i <= 2; i++)
-        for (int j = -2; j <= 2; j++) {
-            m->furn_set(examx + i, examy + j, f_null);
-        }
-    add_msg(_("You take down the tent"));
-    item dropped("large_tent_kit", calendar::turn);
-    m->add_item_or_charges(examx, examy, dropped);
-}
-
-void iexamine::shelter(player *p, map *m, int examx, int examy)
-{
-    if (!query_yn(_("Take down %s?"), m->furnname(examx, examy).c_str())) {
-        none(p, m, examx, examy);
-        return;
-    }
-    p->moves -= 200;
-    for (int i = -1; i <= 1; i++)
-        for (int j = -1; j <= 1; j++) {
-            m->furn_set(examx + i, examy + j, f_null);
-        }
-    add_msg(_("You take down the shelter"));
-    item dropped("shelter_kit", calendar::turn);
-    m->add_item_or_charges(examx, examy, dropped);
+    add_msg(_("You take down the structure."));
+    m->add_item_or_charges(examx, examy, item(dropped, calendar::turn));
 }
 
 void iexamine::pit(player *p, map *m, int examx, int examy)
@@ -2729,14 +2702,8 @@ void (iexamine::*iexamine_function_from_string(std::string function_name))(playe
     if ("bars" == function_name) {
         return &iexamine::bars;
     }
-    if ("tent" == function_name) {
-        return &iexamine::tent;
-    }
-    if ("large_tent" == function_name) {
-        return &iexamine::large_tent;
-    }
-    if ("shelter" == function_name) {
-        return &iexamine::shelter;
+    if ("portable_structure" == function_name) {
+        return &iexamine::portable_structure;
     }
     if ("pit" == function_name) {
         return &iexamine::pit;

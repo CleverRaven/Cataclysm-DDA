@@ -4725,7 +4725,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "TENT"
+    "use_action": "PORTABLE_STRUCTURE"
   },
   {
     "id": "large_tent_kit",
@@ -4747,7 +4747,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "LARGE_TENT"
+    "use_action": "PORTABLE_STRUCTURE"
   },
   {
     "id": "torch",
@@ -5719,7 +5719,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "SHELTER"
+    "use_action": "PORTABLE_STRUCTURE"
   },
 
   {

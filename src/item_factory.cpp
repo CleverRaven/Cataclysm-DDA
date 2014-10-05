@@ -312,9 +312,7 @@ void Item_factory::init()
     iuse_function_list["LUMBER"] = &iuse::lumber;
     iuse_function_list["OXYTORCH"] = &iuse::oxytorch;
     iuse_function_list["HACKSAW"] = &iuse::hacksaw;
-    iuse_function_list["TENT"] = &iuse::tent;
-    iuse_function_list["LARGE_TENT"] = &iuse::large_tent;
-    iuse_function_list["SHELTER"] = &iuse::shelter;
+    iuse_function_list["PORTABLE_STRUCTURE"] = &iuse::portable_structure;
     iuse_function_list["TORCH_LIT"] = &iuse::torch_lit;
     iuse_function_list["BATTLETORCH_LIT"] = &iuse::battletorch_lit;
     iuse_function_list["BULLET_PULLER"] = &iuse::bullet_puller;

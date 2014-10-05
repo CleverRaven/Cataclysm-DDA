@@ -7211,121 +7211,67 @@ int iuse::hacksaw(player *p, item *it, bool)
     return it->type->charges_to_use();
 }
 
-int iuse::tent(player *p, item *, bool)
+int iuse::portable_structure(player *p, item *it, bool)
 {
+    int radius = it->type->id == "large_tent_kit" ? 2 : 1;
+    furn_id floor =
+        it->type->id == "tent_kit"       ? f_groundsheet
+      : it->type->id == "large_tent_kit" ? f_large_groundsheet
+      :                                    f_skin_groundsheet;
+    furn_id wall =
+        it->type->id == "tent_kit"       ? f_canvas_wall
+      : it->type->id == "large_tent_kit" ? f_large_canvas_wall
+      :                                    f_skin_wall;
+    furn_id door =
+        it->type->id == "tent_kit"       ? f_canvas_door
+      : it->type->id == "large_tent_kit" ? f_large_canvas_door
+      :                                    f_skin_door;
+    furn_id center_floor =
+        it->type->id == "large_tent_kit" ? f_center_groundsheet
+                                         : floor;
+
+    int diam = 2*radius + 1;
+
     int dirx, diry;
-    if(!choose_adjacent(_("Pitch the tent towards where (3x3 clear area)?"), dirx, diry)) {
+    if (!choose_adjacent(
+            string_format(_("Put up the %s where (%dx%d clear area)?"),
+                it->tname().c_str(),
+                diam, diam),
+            dirx, diry)) {
         return 0;
     }
 
-    //must place the center of the tent two spaces away from player
-    //dirx and diry will be integratined with the player's position
-    int posx = dirx - p->posx;
-    int posy = diry - p->posy;
-    if(posx == 0 && posy == 0) {
-        p->add_msg_if_player(m_info, _("Invalid Direction"));
-        return 0;
-    }
-    posx = posx * 2 + p->posx;
-    posy = posy * 2 + p->posy;
-    for (int i = -1; i <= 1; i++) {
-        for (int j = -1; j <= 1; j++) {
+    // We place the center of the structure (radius + 1)
+    // spaces away from the player.
+    // First check there's enough room.
+    int posx = radius * (dirx - p->posx) + dirx;
+        //(radius + 1)*posx + p->posx;
+    int posy = radius * (diry - p->posy) + diry;
+    for (int i = -radius; i <= radius; i++) {
+        for (int j = -radius; j <= radius; j++) {
             if (!g->m.has_flag("FLAT", posx + i, posy + j) ||
-                g->m.has_furn(posx + i, posy + j)) {
-                add_msg(m_info, _("You need a 3x3 flat space to place a tent."));
+                    g->m.has_furn(posx + i, posy + j)) {
+                add_msg(m_info, _("There isn't enough space in that direction."));
                 return 0;
             }
         }
     }
-    for (int i = -1; i <= 1; i++) {
-        for (int j = -1; j <= 1; j++) {
-            g->m.furn_set(posx + i, posy + j, f_canvas_wall);
+    // Make a square of floor surrounded by wall.
+    for (int i = -radius; i <= radius; i++) {
+        for (int j = -radius; j <= radius; j++) {
+            g->m.furn_set(posx + i, posy + j, wall);
         }
     }
-    g->m.furn_set(posx, posy, f_groundsheet);
-    g->m.furn_set(posx - (dirx - p->posx), posy - (diry - p->posy), f_canvas_door);
-    add_msg(m_info, _("You set up the tent on the ground."));
-    return 1;
-}
-
-int iuse::large_tent(player *p, item *, bool)
-{
-    int dirx, diry;
-    if(!choose_adjacent(_("Pitch the tent towards where (5x5 clear area)?"), dirx, diry)) {
-        return 0;
-    }
-
-    //must place the center of the tent three spaces away from player
-    //dirx and diry will be integratined with the player's position
-    int posx = dirx - p->posx;
-    int posy = diry - p->posy;
-    if(posx == 0 && posy == 0) {
-        p->add_msg_if_player(m_info, _("Invalid Direction"));
-        return 0;
-    }
-    posx = posx * 3 + p->posx;
-    posy = posy * 3 + p->posy;
-    for (int i = -2; i <= 2; i++) {
-        for (int j = -2; j <= 2; j++) {
-            if (!g->m.has_flag("FLAT", posx + i, posy + j) ||
-                g->m.has_furn(posx + i, posy + j)) {
-                add_msg(m_info, _("You need a 5x5 flat space to place this tent."));
-                return 0;
-            }
+    for (int i = -(radius - 1); i <= (radius - 1); i++) {
+        for (int j = -(radius - 1); j <= (radius - 1); j++) {
+            g->m.furn_set(posx + i, posy + j, floor);
         }
     }
-    for (int i = -2; i <= 2; i++) {
-        for (int j = -2; j <= 2; j++) {
-            g->m.furn_set(posx + i, posy + j, f_large_canvas_wall);
-        }
-    }
-    for (int i = -1; i <= 1; i++) {
-        for (int j = -1; j <= 1; j++) {
-            g->m.furn_set(posx + i, posy + j, f_large_groundsheet);
-        }
-    }
-    // f_center_groundsheet instead of f_large_groundsheet so the
-    // iexamine function for the tent works properly
-    g->m.furn_set(posx, posy, f_center_groundsheet);
-    g->m.furn_set(posx - ((dirx - p->posx) * 2), posy - ((diry - p->posy) * 2), f_large_canvas_door);
-//    g->m.furn_set((posx - (dirx - p->posx) * 2), (posy - (diry - p->posy) * 2), f_large_canvas_door);
-    add_msg(m_info, _("You set up the tent on the ground."));
-    return 1;
-}
-
-int iuse::shelter(player *p, item *, bool)
-{
-    int dirx, diry;
-    if(!choose_adjacent(_("Put up the shelter where?"), dirx, diry)) {
-        return 0;
-    }
-
-    //must place the center of the tent two spaces away from player
-    //dirx and diry will be integratined with the player's position
-    int posx = dirx - p->posx;
-    int posy = diry - p->posy;
-    if(posx == 0 && posy == 0) {
-        p->add_msg_if_player(m_info, _("Invalid Direction"));
-        return 0;
-    }
-    posx = posx*2 + p->posx;
-    posy = posy*2 + p->posy;
-    for (int i = -1; i <= 1; i++) {
-        for (int j = -1; j <= 1; j++) {
-            if (!g->m.has_flag("FLAT", posx + i, posy + j) ||
-                g->m.has_furn(posx + i, posy + j)) {
-                add_msg(m_info, _("You need a 3x3 flat space to place a shelter."));
-                return 0;
-            }
-        }
-    }
-    for (int i = -1; i <= 1; i++) {
-        for (int j = -1; j <= 1; j++) {
-            g->m.furn_set(posx + i, posy + j, f_skin_wall);
-        }
-    }
-    g->m.furn_set(posx, posy, f_skin_groundsheet);
-    g->m.furn_set(posx - (dirx - p->posx), posy - (diry - p->posy), f_skin_door);
+    // Place the center floor and the door.
+    g->m.furn_set(posx, posy, center_floor);
+    g->m.furn_set(posx - radius*(dirx - p->posx), posy - radius*(diry - p->posy), door);
+    add_msg(m_info, _("You set up the %s on the ground."), it->tname().c_str());
+    add_msg(m_info, _("Examine the center square to pack it up again."), it->tname().c_str());
     return 1;
 }
 
