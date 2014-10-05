@@ -1011,6 +1011,7 @@
             "OPENCLOSE_INSIDE", "REDUCE_SCENT"
         ],
         "open": "t_door_o_peep",
+        "examine_action": "door_peephole",
         "bash": {
             "str_min": 8, "str_max": 80, "str_min_blocked": 15, "str_max_blocked": 100,
             "sound": "smash!",
