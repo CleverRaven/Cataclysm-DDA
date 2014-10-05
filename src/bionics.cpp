@@ -733,8 +733,9 @@ void player::activate_bionic(int b)
                 }
                 traj.insert(traj.begin(), point(i, j));
                 for (unsigned k = 0; k < g->m.i_at(i, j).size(); k++) {
-                    if (g->m.i_at(i, j)[k].made_of("iron") || g->m.i_at(i, j)[k].made_of("steel")) {
-                        tmp_item = g->m.i_at(i, j)[k];
+                    tmp_item = g->m.i_at(i, j)[k];
+                    if( (tmp_item.made_of("iron") || tmp_item.made_of("steel")) &&
+                        tmp_item.weight() < weight_capacity() ) {
                         g->m.i_rem(i, j, k);
                         std::vector<point>::iterator it;
                         for (it = traj.begin(); it != traj.end(); ++it) {
