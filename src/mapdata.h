@@ -58,7 +58,7 @@ struct map_bash_info {
     std::string ter_set;    // terrain to set (REQUIRED for terrain))
     std::string furn_set;   // furniture to set (only used by furniture, not terrain)
     map_bash_info() : str_min(-1), str_max(-1), str_min_blocked(-1), str_max_blocked(-1),
-                      str_min_roll(-1), str_max_roll(-1), explosive(0), destroy_only(false), 
+                      str_min_roll(-1), str_max_roll(-1), explosive(0), destroy_only(false),
                       sound(""), sound_fail(""), ter_set(""), furn_set("") {};
     bool load(JsonObject &jsobj, std::string member, bool is_furniture);
 };
@@ -520,8 +520,8 @@ extern ter_id t_null,
     t_wall_glass_v_alarm, t_wall_glass_h_alarm,
     t_reinforced_glass_v, t_reinforced_glass_h,
     t_bars,
-    t_door_c, t_door_b, t_door_o,
-    t_door_locked_interior, t_door_locked, t_door_locked_alarm, t_door_frame,
+    t_door_c, t_door_c_peep, t_door_b, t_door_b_peep, t_door_o, t_door_o_peep,
+    t_door_locked_interior, t_door_locked, t_door_locked_peep, t_door_locked_alarm, t_door_frame,
     t_chaingate_l, t_fencegate_c, t_fencegate_o, t_chaingate_c, t_chaingate_o,
     t_door_boarded, t_door_boarded_damaged, t_rdoor_boarded, t_rdoor_boarded_damaged,
     t_door_metal_c, t_door_metal_o, t_door_metal_locked,

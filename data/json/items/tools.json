@@ -6161,7 +6161,8 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "battery",
-    "revert_to": "null"
+    "revert_to": "null",
+    "qualities": [["DRILL", 3]]
   },
 
   {

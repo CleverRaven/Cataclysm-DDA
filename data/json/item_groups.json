@@ -722,7 +722,8 @@
       ["charcoal", 20],
       ["toolbox", 2],
       ["knitting_needles", 10],
-      ["sheath", 15]
+      ["sheath", 15],
+      ["peephole", 2]
     ]
   },{
     "type" : "item_group",
@@ -1771,7 +1772,8 @@
       ["sheath", 10],
       ["multitool", 6],
       ["survnote", 1],
-      ["fertilizer_commercial",30]
+      ["fertilizer_commercial",30],
+      ["peephole", 25]
     ]
   },{
     "type" : "item_group",
@@ -4726,7 +4728,8 @@
       ["pistol_flintlock", 1],
       ["survnote", 5],
       ["radio_car_box", 1],
-      ["radiocontrol", 3]
+      ["radiocontrol", 3],
+      ["peephole", 1]
     ]
   },{
     "type" : "item_group",
