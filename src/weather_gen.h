@@ -33,11 +33,7 @@ class weather_generator
         w_point get_weather(const point &, const calendar &);
         weather_type get_weather_conditions(const point &, const calendar &);
         weather_type get_weather_conditions(const w_point &) const;
-        void test_weather();
-        // Windchill has to be calculated on demand.
-        int get_windchill(double temperature, double humidity, double windpower, std::string omtername = "no name", bool sheltered = false);
-        // Humidity has to be calculated on demand.
-        int get_humidity(double humidity, weather_type weather, bool sheltered = false);
         int get_water_temperature();
+        void test_weather();    
 };
 #endif

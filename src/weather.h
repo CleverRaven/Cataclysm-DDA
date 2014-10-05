@@ -148,6 +148,9 @@ std::string weather_forecast(radio_tower tower);
 // Use the decimals parameter to set number of decimal places returned in string.
 std::string print_temperature(float fahrenheit, int decimals = 0);
 
+int get_windchill(double temperature, double humidity, double windpower, std::string omtername = "no name", bool sheltered = false);
+int get_humidity(double humidity, weather_type weather, bool sheltered = false);
+
 void retroactively_fill_from_funnel( item *it, const trap_id t, const calendar &, const point &);
 
 extern const std::vector<int> rot_chart;

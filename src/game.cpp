@@ -5265,7 +5265,7 @@ void game::draw_sidebar()
     int vehwindspeed = 0;
     if (veh) vehwindspeed = veh->velocity;
     int windpower = weatherPoint.windpower + vehwindspeed;
-    int windchill = weatherGen.get_windchill(weatherPoint.temperature, (double)weatherGen.get_humidity(weatherPoint.humidity, weather, sheltered), windpower, omtername, sheltered);
+    int windchill = get_windchill(weatherPoint.temperature, get_humidity(weatherPoint.humidity, weather, sheltered), windpower, omtername, sheltered);
     display_temp += windchill;
 
     nc_color col_temp = c_blue;

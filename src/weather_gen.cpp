@@ -122,73 +122,6 @@ weather_type weather_generator::get_weather_conditions(const w_point &w) const
     return r;
 }
 
-void weather_generator::test_weather()
-{
-    // Outputs a Cata year's worth of weather data to a csv file.
-    // Usage:
-    // weather_generator WEATHERGEN(0); // Seeds the weather object.
-    // WEATHERGEN.test_weather(); // Runs this test.
-    std::ofstream testfile;
-    std::ostringstream ss;
-    testfile.open("weather.output", std::ofstream::trunc);
-    testfile << "turn,temperature(F),humidity(%),pressure(mB)" << std::endl;
-
-    for (calendar i(calendar::turn); i.get_turn() < calendar::turn + 14400 * 2 * calendar::turn.year_length(); i+=200) {
-        ss.str("");
-        w_point w = get_weather(point(0, 0), i);
-        ss << i.get_turn() << "," << w.temperature << "," << w.humidity << "," << w.pressure;
-        testfile << std::string( ss.str() ) << std::endl;
-    }
-    testfile.close();
-    //debugmsg("Starting season: %s", ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue().c_str());
-}
-
-int weather_generator::get_windchill(double temperature, double humidity, double windpower, std::string omtername, bool sheltered)
-{
-    /**
-    *  A player is sheltered if he is underground, in a car, or indoors.
-    **/  
-    
-    int tmpwind = windpower;
-    tmpwind = (float)(tmpwind*0.44704); // Conver to meters per second.
-    int Ctemperature = (temperature - 32) * 5/9; // Convert to celsius.
-
-    // Over map terrain may modify the effect of wind.
-    if (sheltered)
-        tmpwind  = 0.0;
-    else if ( omtername == "forest_water")
-        tmpwind *= 0.7;
-    else if ( omtername == "forest" )
-        tmpwind *= 0.5;
-    else if ( omtername == "forest_thick" || omtername == "hive")
-        tmpwind *= 0.4;
-        
-    
-    
-    /// Source : http://en.wikipedia.org/wiki/Wind_chill#Australian_Apparent_Temperature
-    int windchill = (0.33 * ((humidity / 100.00) * 6.105 * exp((17.27 * Ctemperature)/(237.70 + Ctemperature))) - 0.70*tmpwind - 4.00);
-
-    windchill = windchill * 9/5; // Convert to Fahrenheit, but omit the '+ 32' because we are only dealing with a piece of the felt air temperature equation.
-
-    return windchill;
-
-}
-
-int weather_generator::get_humidity(double humidity, weather_type weather, bool sheltered)
-{
-    int tmphumidity = humidity;
-    if (sheltered)
-    {
-        tmphumidity = humidity * (100 - humidity) / 100 + humidity; // norm for a house?
-    }
-    else if (weather == WEATHER_RAINY || weather == WEATHER_DRIZZLE || weather == WEATHER_THUNDER || weather == WEATHER_LIGHTNING)
-    {
-        tmphumidity = 100;
-    }
-    
-    return tmphumidity;
-}
-
 int weather_generator::get_water_temperature()
 {
     /**
@@ -214,4 +147,25 @@ int weather_generator::get_water_temperature()
     water_temperature = annual_mean_water_temperature + daily_water_temperature_varaition;
 
     return water_temperature;
+}
+
+void weather_generator::test_weather()
+{
+    // Outputs a Cata year's worth of weather data to a csv file.
+    // Usage:
+    // weather_generator WEATHERGEN(0); // Seeds the weather object.
+    // WEATHERGEN.test_weather(); // Runs this test.
+    std::ofstream testfile;
+    std::ostringstream ss;
+    testfile.open("weather.output", std::ofstream::trunc);
+    testfile << "turn,temperature(F),humidity(%),pressure(mB)" << std::endl;
+
+    for (calendar i(calendar::turn); i.get_turn() < calendar::turn + 14400 * 2 * calendar::turn.year_length(); i+=200) {
+        ss.str("");
+        w_point w = get_weather(point(0, 0), i);
+        ss << i.get_turn() << "," << w.temperature << "," << w.humidity << "," << w.pressure;
+        testfile << std::string( ss.str() ) << std::endl;
+    }
+    testfile.close();
+    //debugmsg("Starting season: %s", ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue().c_str());
 }

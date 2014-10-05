@@ -438,7 +438,6 @@ void weather_effect::acid()
     generic_very_wet(true);
 }
 
-
 // Script from wikipedia:
 // Current time
 // The current time is hour/minute Eastern Standard Time
@@ -546,6 +545,52 @@ std::string print_temperature(float fahrenheit, int decimals)
         return rmp_format(_("<Fahrenheit>%sF"), ret.str().c_str());
     }
 
+}
+
+int get_windchill(double temperature, double humidity, double windpower, std::string omtername, bool sheltered)
+{
+    /**
+    *  A player is sheltered if he is underground, in a car, or indoors.
+    **/  
+    
+    int tmpwind = windpower;
+    tmpwind = (float)(tmpwind*0.44704); // Conver to meters per second.
+    int Ctemperature = (temperature - 32) * 5/9; // Convert to celsius.
+
+    // Over map terrain may modify the effect of wind.
+    if (sheltered)
+        tmpwind  = 0.0;
+    else if ( omtername == "forest_water")
+        tmpwind *= 0.7;
+    else if ( omtername == "forest" )
+        tmpwind *= 0.5;
+    else if ( omtername == "forest_thick" || omtername == "hive")
+        tmpwind *= 0.4;
+        
+    
+    
+    /// Source : http://en.wikipedia.org/wiki/Wind_chill#Australian_Apparent_Temperature
+    int windchill = (0.33 * ((humidity / 100.00) * 6.105 * exp((17.27 * Ctemperature)/(237.70 + Ctemperature))) - 0.70*tmpwind - 4.00);
+
+    windchill = windchill * 9/5; // Convert to Fahrenheit, but omit the '+ 32' because we are only dealing with a piece of the felt air temperature equation.
+
+    return windchill;
+
+}
+
+int get_humidity(double humidity, weather_type weather, bool sheltered)
+{
+    int tmphumidity = humidity;
+    if (sheltered)
+    {
+        tmphumidity = humidity * (100 - humidity) / 100 + humidity; // norm for a house?
+    }
+    else if (weather == WEATHER_RAINY || weather == WEATHER_DRIZZLE || weather == WEATHER_THUNDER || weather == WEATHER_LIGHTNING)
+    {
+        tmphumidity = 100;
+    }
+    
+    return tmphumidity;
 }
 
 ///@}
