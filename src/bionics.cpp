@@ -732,6 +732,9 @@ void player::activate_bionic(int b)
                     }
                 }
                 traj.insert(traj.begin(), point(i, j));
+                if( g->m.has_flag( "SEALED", i, j ) ) {
+                    continue;
+                }
                 for (unsigned k = 0; k < g->m.i_at(i, j).size(); k++) {
                     tmp_item = g->m.i_at(i, j)[k];
                     if( (tmp_item.made_of("iron") || tmp_item.made_of("steel")) &&
