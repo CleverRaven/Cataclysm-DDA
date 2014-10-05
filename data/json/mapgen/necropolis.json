@@ -9252,7 +9252,7 @@
                 { "item": "bed", "chance": 80,  "x": [ 6,7 ], "y": [ 3,4 ]},
                 { "item": "bed", "chance": 80,  "x": [ 17,18 ], "y": [ 10,11 ]},
                 { "item": "bed", "chance": 80,  "x": [ 6,7 ], "y": [ 14,15 ]},
-                { "item": "bed", "chance": 80,  "x": [ 17,18 ], "y": [ 10,1 ]}
+                { "item": "bed", "chance": 80,  "x": [ 17,18 ], "y": [ 10,11 ]}
             ],
             "terrain": {
                 "&": "t_gas_pump",
