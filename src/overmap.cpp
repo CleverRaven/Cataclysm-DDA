@@ -1643,7 +1643,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
 
     // Clear the legend
     for (int i = 1; i < 55; i++) {
-        for (int j = 0; j < om_map_height; j++) {
+        for (int j = 0; j < TERMY; j++) {
             mvwputch(wbar, j, i, c_black, ' ');
         }
     }
