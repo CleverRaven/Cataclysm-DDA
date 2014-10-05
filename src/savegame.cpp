@@ -207,9 +207,9 @@ void game::unserialize(std::ifstream & fin)
         cur_om = &overmap_buffer.get(comx, comy);
         m.load(levx, levy, levz, true, cur_om);
 
-        run_mode = tmprun;
-        if (OPTIONS["SAFEMODE"] && run_mode == 0) {
-            run_mode = 1;
+        run_mode = static_cast<run_mode_type>( tmprun );
+        if (OPTIONS["SAFEMODE"] && run_mode == SAFE_MODE_OFF) {
+            run_mode = SAFE_MODE_ON;
         }
         autosafemode = OPTIONS["AUTOSAFEMODE"];
         safemodeveh = OPTIONS["SAFEMODEVEH"];
