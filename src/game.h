@@ -393,6 +393,8 @@ class game
 
         int ter_view_x, ter_view_y;
         WINDOW *w_terrain;
+        WINDOW *w_overmap;
+        WINDOW *w_omlegend;
         WINDOW *w_minimap;
         WINDOW *w_HP;
         WINDOW *w_messages;

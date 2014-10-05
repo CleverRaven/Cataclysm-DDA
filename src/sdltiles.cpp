@@ -30,8 +30,9 @@
 #define NOMINMAX
 #endif
 #include <windows.h>
+#include <shlwapi.h>
 #ifndef strcasecmp
-#define strcasecmp strcmpi
+#define strcasecmp StrCmpI
 #endif
 #else
 #include <wordexp.h>
@@ -132,6 +133,7 @@ protected:
 
 static Font *font = NULL;
 static Font *map_font = NULL;
+static Font *overmap_font = NULL;
 
 std::array<std::string, 16> main_color_names{ { "BLACK","RED","GREEN","BROWN","BLUE","MAGENTA",
 "CYAN","GRAY","DGRAY","LRED","LGREEN","YELLOW","LBLUE","LMAGENTA","LCYAN","WHITE" } };
@@ -170,6 +172,8 @@ static bool fontblending = false;
 static std::set<std::string> *bitmap_fonts;
 
 static std::vector<curseline> framebuffer;
+static WINDOW *winBuffer; //tracking last drawn window to fix the framebuffer
+static int fontScaleBuffer; //tracking zoom levels to fix framebuffer w/tiles
 
 #ifdef SDLTILES
 //***********************************
@@ -617,6 +621,15 @@ void invalidate_framebuffer(int x, int y, int width, int height)
     }
 }
 
+void reinitialize_framebuffer()
+{
+    //Re-initialize the framebuffer with new values.
+    framebuffer.resize(std::max(TERMY, std::max(OVERMAP_WINDOW_HEIGHT, TERRAIN_WINDOW_HEIGHT)));
+    for (int i = 0; i < std::max(TERMY, std::max(OVERMAP_WINDOW_HEIGHT, TERRAIN_WINDOW_HEIGHT)); i++) {
+        framebuffer[i].chars.assign(std::max(TERMX, std::max(OVERMAP_WINDOW_WIDTH, TERRAIN_WINDOW_WIDTH)), cursecell(""));
+    }
+}
+
 extern WINDOW *w_hit_animation;
 void curses_drawwindow(WINDOW *win)
 {
@@ -639,6 +652,9 @@ void curses_drawwindow(WINDOW *win)
     } else if (g && win == g->w_terrain && map_font != NULL) {
         // Special font for the terrain window
         update = map_font->draw_window(win);
+    } else if (g && win == g->w_overmap && overmap_font != NULL) {
+        // Special font for the terrain window
+        update = overmap_font->draw_window(win);
     } else if (win == w_hit_animation && map_font != NULL) {
         // The animation window overlays the terrain window,
         // it uses the same font, but it's only 1 square in size.
@@ -668,6 +684,10 @@ bool Font::draw_window(WINDOW *win)
 
 bool Font::draw_window( WINDOW *win, int offsetx, int offsety )
 {
+    //Keeping track of the last drawn window
+    if(winBuffer == NULL){winBuffer = win;}
+    if(!fontScaleBuffer){fontScaleBuffer = tilecontext->get_tile_width();}
+    const int fontScale = tilecontext->get_tile_width();
     bool update = false;
     for( int j = 0; j < win->height; j++ ) {
         if( !win->line[j].touched ) {
@@ -690,7 +710,37 @@ bool Font::draw_window( WINDOW *win, int offsetx, int offsety )
             const int fbx = win->x + i;
             const int fby = win->y + j;
             cursecell &oldcell = framebuffer[fby].chars[fbx];
-            if (cell == oldcell) {
+            //This creates a problem when map_font is different from the regular font
+            //Specifically when showing the overmap
+            //And in some instances of screen change, i.e. inventory.
+            bool oldWinCompatible = false;
+            /**
+            Let's try to keep track of different windows.
+            A number of windows are coexisting on the screen, so don't have to interfere.
+
+            g->w_terrain, g->w_minimap, g->w_HP, g->w_status, g->w_status2, g->w_messages,
+             g->w_location, and g->w_minimap, can be buffered if either of them was
+             the previous window.
+
+            g->w_overmap and g->w_omlegend are likewise.
+
+            Everything else works on strict equality because there aren't yet IDs for some of them.
+            */
+            if (win == g->w_terrain || win == g->w_minimap || win == g->w_HP || win == g->w_status || win == g->w_status2 || win == g->w_messages ||
+               win == g->w_location) {
+                if (winBuffer == g->w_terrain || winBuffer == g->w_minimap || winBuffer == g->w_HP || winBuffer == g->w_status ||
+               winBuffer == g->w_status2 || winBuffer == g->w_messages || winBuffer == g->w_location) {
+                    oldWinCompatible = true;
+                }
+            }else if (win == g->w_overmap || win == g->w_omlegend){
+                if (winBuffer == g->w_overmap || winBuffer == g->w_omlegend){
+                    oldWinCompatible = true;
+                }
+            }else{
+                if(win == winBuffer){ oldWinCompatible = true;}
+            }
+
+            if (cell == oldcell && oldWinCompatible && fontScale == fontScaleBuffer) {
                 continue;
             }
             oldcell = cell;
@@ -719,6 +769,9 @@ bool Font::draw_window( WINDOW *win, int offsetx, int offsety )
         }
     }
     win->draw = false; //We drew the window, mark it as so
+    //Keeping track of last drawn window and tilemode zoom level
+    winBuffer = win;
+    fontScaleBuffer = tilecontext->get_tile_width();
 
     return update;
 }
@@ -1242,11 +1295,14 @@ WINDOW *curses_init(void)
     last_input = input_event();
     inputdelay = -1;
 
-    std::string typeface, map_typeface;
+    std::string typeface, map_typeface, overmap_typeface;
     int fontsize = 8;
     int map_fontwidth = 8;
     int map_fontheight = 16;
     int map_fontsize = 8;
+    int overmap_fontwidth = 8;
+    int overmap_fontheight = 16;
+    int overmap_fontsize = 8;
 
     std::ifstream jsonstream(FILENAMES["fontdata"].c_str(), std::ifstream::binary);
     if (jsonstream.good()) {
@@ -1261,7 +1317,10 @@ WINDOW *curses_init(void)
         map_fontheight = config.get_int("map_fontheight", fontheight);
         map_fontsize = config.get_int("map_fontsize", fontsize);
         map_typeface = config.get_string("map_typeface", typeface);
-        jsonstream.close();
+        overmap_fontwidth = config.get_int("overmap_fontwidth", fontwidth);
+        overmap_fontheight = config.get_int("overmap_fontheight", fontheight);
+        overmap_fontsize = config.get_int("overmap_fontsize", fontsize);
+        overmap_typeface = config.get_string("overmap_typeface", typeface);        jsonstream.close();
     } else { // User fontdata is missed. Try to load legacy fontdata.
         std::ifstream InStream(FILENAMES["legacy_fontdata"].c_str(), std::ifstream::binary);
         if(InStream.good()) {
@@ -1276,6 +1335,10 @@ WINDOW *curses_init(void)
             map_fontheight = config.get_int("map_fontheight", fontheight);
             map_fontsize = config.get_int("map_fontsize", fontsize);
             map_typeface = config.get_string("map_typeface", typeface);
+            overmap_fontwidth = config.get_int("overmap_fontwidth", fontwidth);
+            overmap_fontheight = config.get_int("overmap_fontheight", fontheight);
+            overmap_fontsize = config.get_int("overmap_fontsize", fontsize);
+            overmap_typeface = config.get_string("overmap_typeface", typeface);
             InStream.close();
             // Save legacy as user fontdata.
             assure_dir_exist(FILENAMES["config_dir"]);
@@ -1296,6 +1359,10 @@ WINDOW *curses_init(void)
             jOut.member("map_fontheight", map_fontheight);
             jOut.member("map_fontsize", map_fontsize);
             jOut.member("map_typeface", map_typeface);
+            jOut.member("overmap_fontwidth", overmap_fontwidth);
+            jOut.member("overmap_fontheight", overmap_fontheight);
+            jOut.member("overmap_fontsize", overmap_fontsize);
+            jOut.member("overmap_typeface", overmap_typeface);
             jOut.end_object();
             OutStream << "\n";
             OutStream.close();
@@ -1344,6 +1411,7 @@ WINDOW *curses_init(void)
         return NULL;
     }
     map_font = Font::load_font(map_typeface, map_fontsize, map_fontwidth, map_fontheight);
+    overmap_font = Font::load_font(overmap_typeface, overmap_fontsize, overmap_fontwidth, overmap_fontheight);
     mainwin = newwin(get_terminal_height(), get_terminal_width(),0,0);
     return mainwin;   //create the 'stdscr' window and return its ref
 }
@@ -1786,6 +1854,14 @@ int map_font_height() {
     return (map_font != NULL ? map_font : font)->fontheight;
 }
 
+int overmap_font_width() {
+    return (overmap_font != NULL ? overmap_font : font)->fontwidth;
+}
+
+int overmap_font_height() {
+    return (overmap_font != NULL ? overmap_font : font)->fontheight;
+}
+
 void to_map_font_dimension(int &w, int &h) {
     w = (w * fontwidth) / map_font_width();
     h = (h * fontheight) / map_font_height();
@@ -1794,6 +1870,11 @@ void to_map_font_dimension(int &w, int &h) {
 void from_map_font_dimension(int &w, int &h) {
     w = (w * map_font_width() + fontwidth - 1) / fontwidth;
     h = (h * map_font_height() + fontheight - 1) / fontheight;
+}
+
+void to_overmap_font_dimension(int &w, int &h) {
+    w = (w * fontwidth) / overmap_font_width();
+    h = (h * fontheight) / overmap_font_height();
 }
 
 bool is_draw_tiles_mode() {
