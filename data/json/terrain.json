@@ -737,7 +737,7 @@
     },{
         "type" : "terrain",
         "id" : "t_door_c_peep",
-        "name": "closed wood door",
+        "name": "closed wood door with peephole",
         "symbol": "+",
         "color": "brown",
         "move_cost": 0,
@@ -750,6 +750,7 @@
         "deconstruct": {
             "ter_set": "t_door_frame",
             "items": [
+				{ "item": "peephole", "amount": 1 },
                 { "item": "2x4", "amount": 4 },
                 { "item": "nail", "amount": 12, "minamount": 6 }
             ]
@@ -758,8 +759,9 @@
             "str_min": 8, "str_max": 80, "str_min_blocked": 15, "str_max_blocked": 100,
             "sound": "smash!",
             "sound_fail": "whump!",
-            "ter_set": "t_door_b",
+            "ter_set": "t_door_b_peep",
             "items": [
+				{ "item": "peephole", "amount": 1, "chance": 75 },
                 { "item": "2x4", "amount": 1, "chance": 25 },
                 { "item": "splinter", "amount": 2, "minamount": 1 },
                 { "item": "nail", "amount": 2, "minamount": 0 }
@@ -790,7 +792,7 @@
     },{
         "type" : "terrain",
         "id" : "t_door_b_peep",
-        "name": "damaged wood door",
+        "name": "damaged wood door with peephole",
         "symbol": "&",
         "color": "brown",
         "move_cost": 0,
@@ -804,6 +806,7 @@
             "sound_fail": "whump!",
             "ter_set": "t_door_frame",
             "items": [
+				{ "item": "2x4", "amount": 1, "minamount": 0 },
                 { "item": "2x4", "amount": 2, "minamount": 1 },
                 { "item": "nail", "amount": 4, "minamount": 1 },
                 { "item": "splinter", "amount": 4, "minamount": 1 }
@@ -842,7 +845,7 @@
     },{
         "type" : "terrain",
         "id" : "t_door_o_peep",
-        "name": "open wood door",
+        "name": "open wood door with peephole",
         "symbol": "'",
         "color": "brown",
         "move_cost": 2,
@@ -853,6 +856,7 @@
         "deconstruct": {
             "ter_set": "t_door_frame",
             "items": [
+				{ "item": "peephole", "amount": 1 },
                 { "item": "2x4", "amount": 4 },
                 { "item": "nail", "amount": 12, "minamount": 6 }
             ]
@@ -864,6 +868,7 @@
             "sound_fail": "whump!",
             "ter_set": "t_door_frame",
             "items": [
+				{ "item": "peephole", "amount": 1, "minamount": 0 },
                 { "item": "2x4", "amount": 3, "minamount": 1 },
                 { "item": "nail", "amount": 6, "minamount": 1 },
                 { "item": "splinter", "amount": 6, "minamount": 2 }
