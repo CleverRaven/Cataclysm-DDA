@@ -2559,7 +2559,7 @@
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MEDICAL",
   "skill_used": "firstaid",
-   "difficulty": 1,
+   "difficulty": 2,
   "time": 500,
   "reversible": false,
   "autolearn": true,
