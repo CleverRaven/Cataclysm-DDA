@@ -1155,7 +1155,7 @@
         "move_cost_mod": 0,
         "required_str": -1,
         "flags": ["TRANSPARENT", "INDOORS", "NOCOLLIDE"],
-        "examine_action": "tent",
+        "examine_action": "portable_structure",
         "comment": "No bash info due to special handling"
     },{
         "type" : "furniture",
@@ -1176,7 +1176,7 @@
         "move_cost_mod": 0,
         "required_str": -1,
         "flags": ["TRANSPARENT", "INDOORS", "NOCOLLIDE"],
-        "examine_action": "large_tent",
+        "examine_action": "portable_structure",
         "comment": "No bash info due to special handling"
     },{
         "type" : "furniture",
@@ -1229,7 +1229,7 @@
         "move_cost_mod": 0,
         "required_str": -1,
         "flags": ["TRANSPARENT", "INDOORS", "NOCOLLIDE"],
-        "examine_action": "shelter",
+        "examine_action": "portable_structure",
         "comment": "No bash info due to special handling"
     },{
         "type" : "furniture",
@@ -1239,7 +1239,7 @@
         "color": "red",
         "move_cost_mod": 1,
         "required_str": -1,
-        "flags": ["TRANSPARENT", "TINY"],
+        "flags": ["TRANSPARENT", "TINY", "FLAMMABLE_ASH"],
         "examine_action": "flower_poppy",
         "bash": {
             "str_min": 2, "str_max": 6,
@@ -1254,7 +1254,7 @@
         "color": "dkgray",
         "move_cost_mod": 1,
         "required_str": -1,
-        "flags": ["TRANSPARENT", "FLOWER", "FUNGUS", "TINY"],
+        "flags": ["TRANSPARENT", "FLOWER", "FUNGUS", "TINY", "FLAMMABLE_ASH"],
         "examine_action": "fungus",
         "bash": {
             "str_min": 2, "str_max": 6,
@@ -1510,7 +1510,7 @@
         "color": "blue",
         "move_cost_mod": 1,
         "required_str": -1,
-        "flags": ["TRANSPARENT", "TINY"],
+        "flags": ["TRANSPARENT", "TINY", "FLAMMABLE_ASH"],
         "examine_action": "flower_bluebell",
         "bash": {
             "str_min": 2, "str_max": 6,
@@ -1525,7 +1525,7 @@
         "color": "magenta",
         "move_cost_mod": 1,
         "required_str": -1,
-        "flags": ["TRANSPARENT", "TINY"],
+        "flags": ["TRANSPARENT", "TINY", "FLAMMABLE_ASH"],
         "examine_action": "flower_dahlia",
         "bash": {
             "str_min": 2, "str_max": 6,
@@ -1540,7 +1540,7 @@
         "color": "light_green",
         "move_cost_mod": 1,
         "required_str": -1,
-        "flags": ["TRANSPARENT", "TINY"],
+        "flags": ["TRANSPARENT", "TINY", "FLAMMABLE_ASH"],
         "examine_action": "flower_datura",
         "bash": {
             "str_min": 2, "str_max": 6,
@@ -1570,7 +1570,7 @@
         "color": "yellow",
         "move_cost_mod": 1,
         "required_str": -1,
-        "flags": ["TRANSPARENT", "TINY"],
+        "flags": ["TRANSPARENT", "TINY", "FLAMMABLE_ASH"],
         "examine_action": "flower_dandelion",
         "bash": {
             "str_min": 2, "str_max": 6,

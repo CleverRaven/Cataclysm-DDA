@@ -2447,7 +2447,7 @@ float vehicle::k_mass ()
     float ma0 = 50.0;
 
     // calculate safe speed reduction due to mass
-    float km = ma0 / (ma0 + (total_mass() / 8) / (8 * (float) wa));
+    float km = ma0 / (ma0 + (total_mass()) / (8 * (float) wa));
 
     return km;
 }
@@ -2954,13 +2954,26 @@ void vehicle::thrust (int thd) {
         (velocity < 0 && velocity + vel_inc > 0)) {
         stop ();
     } else {
-        velocity += vel_inc;
-        if (velocity > max_vel) {
+        // Increase velocity up to max_vel, but not above.
+        // If the velocity is already above max, don't change it at all,
+        // this happens when the engine gets destroyed while driving, the max
+        // velocity drops to 0 (no engine), but the actual velocity remains.
+        const int min_vel = -max_vel / 4;
+        if( velocity + vel_inc <= max_vel ) {
+            // normal acceleration, result is still below maximum
+            velocity += vel_inc;
+        } else if( velocity < max_vel && velocity + vel_inc > max_vel ) {
+            // velocity is currently in range, but would go out of range, clip it
+            // to the range, this is still an acceleration.
             velocity = max_vel;
-        } else {
-            if (velocity < -max_vel / 4) {
-                velocity = -max_vel / 4;
-            }
+        } else if( velocity + vel_inc > max_vel ) {
+            // No acceleration, would get us above the maximum
+        } else if( velocity + vel_inc > min_vel ) {
+            // same for negative velocity
+            velocity += vel_inc;
+        } else if( velocity > min_vel && velocity + vel_inc < min_vel ) {
+            // same for negative velocity
+            velocity = min_vel;
         }
     }
     if (stereo_on == true) {
@@ -3188,7 +3201,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
         //Impulse of object
         const float vel1 = velocity / 100;
 
-        //Assumption: velocitiy of hit object = 0 mph
+        //Assumption: velocity of hit object = 0 mph
         const float vel2 = 0;
         //lost energy at collision -> deformation energy -> damage
         const float d_E = ((mass*mass2)*(1-e)*(1-e)*(vel1-vel2)*(vel1-vel2)) / (2*mass + 2*mass2);

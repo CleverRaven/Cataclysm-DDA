@@ -1204,6 +1204,62 @@ void monster::process_effects()
         }
     }
 
+    //If this monster has the ability to heal in combat, do it now.
+    if( has_flag( MF_REGENERATES_50 ) ) {
+        if( hp < type->hp ) {
+            if( one_in( 2 ) && g->u.sees( this ) ) {
+                add_msg( m_warning, _( "The %s is visibly regenerating!" ), name().c_str() );
+            }
+            hp += 50;
+            if( hp > type->hp ) {
+                hp = type->hp;
+            }
+        }
+    }
+    if( has_flag( MF_REGENERATES_10 ) ) {
+        if( hp < type->hp ) {
+            if( one_in( 2 ) && g->u.sees( this ) ) {
+                add_msg( m_warning, _( "The %s seems a little healthier." ), name().c_str() );
+            }
+            hp += 10;
+            if( hp > type->hp ) {
+                hp = type->hp;
+            }
+        }
+    }
+
+    //Monster will regen morale and aggression if it is on max HP
+    //It regens more morale and aggression if is currently fleeing.
+    if( has_flag( MF_REGENMORALE ) && hp >= type->hp ) {
+        if( is_fleeing( g->u ) ) {
+            morale = type->morale;
+            anger = type->agro;
+        }
+        if( morale <= type->morale ) {
+            morale += 1;
+        }
+        if( anger <= type->agro ) {
+            anger += 1;
+        }
+        if( morale < 0 ) {
+            morale += 5;
+        }
+        if( anger < 0 ) {
+            anger += 5;
+        }
+    }
+
+    // If this critter dies in sunlight, check & assess damage.
+    if( has_flag( MF_SUNDEATH ) && g->is_in_sunlight( posx(), posy() ) ) {
+        if( g->u.sees( this ) ) {
+            add_msg( m_good, _( "The %s burns horribly in the sunlight!" ), name().c_str() );
+        }
+        hp -= 100;
+        if( hp < 0 ) {
+            hp = 0;
+        }
+    }
+
     Creature::process_effects();
 }
 

@@ -2428,7 +2428,6 @@
       [ "orange", 2 ]
     ],
     [
-      [ "water", 1 ],
       [ "water_clean", 1 ]
     ]
   ]
@@ -2472,13 +2471,13 @@
       [ "sugar", 1 ]
     ],
     [
-      [ "water", 1 ],
       [ "water_clean", 1 ]
     ]
   ]
 },{
   "type" : "recipe",
   "result": "spezi",
+  "result_mult": 2,
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
@@ -2497,6 +2496,7 @@
 },{
   "type" : "recipe",
   "result": "crispycran",
+  "result_mult": 2,
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
@@ -7812,7 +7812,6 @@
       ["watermelon", 1]
     ],
     [
-      [ "water", 1 ],
       [ "water_clean", 1 ]
     ]
   ]
