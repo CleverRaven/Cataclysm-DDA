@@ -2646,15 +2646,17 @@ void mattack::copbot(monster *z)
 {
     int t;
     bool sees_u = g->sees_u(z->posx(), z->posy(), t);
+    bool cuffed = g->u.weapon.type->id == "e_handcuffs";
     z->sp_timeout = z->type->sp_freq; // Reset timer
     if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 2 || !sees_u) {
         if (one_in(3)) {
             if (sees_u) {
                 if (g->u.unarmed_attack()) {
                     g->sound(z->posx(), z->posy(), 18, _("a robotic voice boom, \"Citizen, Halt!\""));
-                } else
+                } else if (!cuffed) {
                     g->sound(z->posx(), z->posy(), 18, _("a robotic voice boom, \"\
 Please put down your weapon.\""));
+                }
             } else
                 g->sound(z->posx(), z->posy(), 18,
                          _("a robotic voice boom, \"Come out with your hands up!\""));
@@ -2663,8 +2665,19 @@ Please put down your weapon.\""));
         }
         return;
     }
+    // only taze uncuffed victims, erm, perpetrators
     mattack tmp;
-    tmp.tazer(z);
+    if (!cuffed) {
+        tmp.tazer(z);
+        return;
+    }
+    // if cuffed don't attack the player, unless the bot is damaged
+    // presumably beacuse of the player's actions
+    if (z->hp == z->type->hp) {
+        z->anger = 1;
+    } else {
+        z->anger = z->type->agro;
+    }
 }
 
 void mattack::chickenbot(monster *z)
