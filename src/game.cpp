@@ -3166,13 +3166,7 @@ bool game::handle_action()
         break; // handled above
 
     case ACTION_PAUSE:
-        if (safe_mode == SAFE_MODE_STOP && ((OPTIONS["SAFEMODEVEH"]) ||
-                              !(u.controlling_vehicle))) { // Monsters around and we don't wanna pause
-            monster &critter = critter_tracker.find(new_seen_mon.back());
-            add_msg(m_warning, _("Spotted %s--safe mode is on! (%s to turn it off.)"),
-                    critter.name().c_str(),
-                    press_x(ACTION_TOGGLE_SAFEMODE).c_str());
-        } else {
+        if( check_save_mode_allowed() ) {
             u.pause();
         }
         break;
@@ -12354,11 +12348,7 @@ void game::chat()
 
 void game::pldrive(int x, int y)
 {
-    if (safe_mode == SAFE_MODE_STOP && (OPTIONS["SAFEMODEVEH"])) { // Monsters around and we don't wanna run
-        add_msg(m_warning, _("Monster spotted--run mode is on! "
-                             "(%s to turn it off or %s to ignore monster.)"),
-                press_x(ACTION_TOGGLE_SAFEMODE).c_str(),
-                from_sentence_case(press_x(ACTION_IGNORE_ENEMY)).c_str());
+    if( !check_save_mode_allowed() ) {
         return;
     }
     int part = -1;
@@ -12401,15 +12391,33 @@ void game::pldrive(int x, int y)
     }
 }
 
+bool game::check_save_mode_allowed()
+{
+    if( safe_mode != SAFE_MODE_STOP ) {
+        return true;
+    }
+    // Currently driving around, ignore the monster, they have no chance against a proper car anyway (-:
+    if( u.controlling_vehicle && !OPTIONS["SAFEMODEVEH"] ) {
+        return true;
+    }
+    // Monsters around and we don't wanna run
+    std::string spotted_creature_name;
+    if( new_seen_mon.empty() ) {
+        // naming consistent with code in game::mon_info
+        spotted_creature_name = _( "a hostile survivor" );
+    } else {
+        spotted_creature_name = zombie( new_seen_mon.back() ).name();
+    }
+    add_msg( m_warning,
+             _( "Spotted %s--safe mode is on! (%s to turn it off or %s to ignore monster.)" ),
+             spotted_creature_name.c_str(), press_x( ACTION_TOGGLE_SAFEMODE ).c_str(),
+             from_sentence_case( press_x( ACTION_IGNORE_ENEMY ) ).c_str() );
+    return false;
+}
+
 bool game::plmove(int dx, int dy)
 {
-    if (safe_mode == SAFE_MODE_STOP) {
-        // Monsters around and we don't wanna run
-        monster &critter = critter_tracker.find(new_seen_mon.back());
-        add_msg(m_warning, _("Spotted %s--safe mode is on! (%s to turn it off or %s to ignore monster.)"),
-                critter.name().c_str(),
-                press_x(ACTION_TOGGLE_SAFEMODE).c_str(),
-                from_sentence_case(press_x(ACTION_IGNORE_ENEMY)).c_str());
+    if( !check_save_mode_allowed() ) {
         return false;
     }
     int x = 0;
