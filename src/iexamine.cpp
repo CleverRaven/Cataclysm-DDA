@@ -609,11 +609,14 @@ void iexamine::bars(player *p, map *m, int examx, int examy)
 void iexamine::portable_structure(player *p, map *m, int examx, int examy)
 {
     int radius = m->furn(examx, examy) == f_center_groundsheet ? 2 : 1;
+    const char *name = m->furn(examx, examy) == f_skin_groundsheet ? _("shelter") : _("tent");
+      // We don't take the name from the item in case "kit" is in
+      // it, instead of just the name of the structure.
     std::string dropped =
         m->furn(examx, examy) == f_groundsheet        ? "tent_kit"
       : m->furn(examx, examy) == f_center_groundsheet ? "large_tent_kit"
       :                                                 "shelter_kit";
-    if (!query_yn(_("Take down the structure?"))) {
+    if (!query_yn(_("Take down the %s?"), name)) {
         none(p, m, examx, examy);
         return;
     }
@@ -623,7 +626,7 @@ void iexamine::portable_structure(player *p, map *m, int examx, int examy)
             m->furn_set(examx + i, examy + j, f_null);
         }
     }
-    add_msg(_("You take down the structure."));
+    add_msg(_("You take down the %s."), name);
     m->add_item_or_charges(examx, examy, item(dropped, calendar::turn));
 }
 
