@@ -1637,7 +1637,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
     }
 
     // Draw the vertical line
-    for (int j = 0; j < om_map_height; j++) {
+    for (int j = 0; j < TERMY; j++) {
         mvwputch(wbar, j, 0, c_white, LINE_XOXO);
     }
 
