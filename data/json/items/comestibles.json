@@ -9970,7 +9970,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "deluxe_beansnrice",
-        "name" : "Deluxe beans and rice",
+        "name" : "deluxe beans and rice",
         "name_plural" : "deluxe beans and rice",
         "weight" : 512,
         "color" : "brown",
