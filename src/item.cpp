@@ -3773,10 +3773,11 @@ bool item::process_cable( player *p, point pos )
 
     int source_x = std::stoi(item_vars["source_x"]);
     int source_y = std::stoi(item_vars["source_y"]);
+    int source_z = std::stoi(item_vars["source_z"]);
 
     point relpos= g->m.getlocal(source_x, source_y);
     auto veh = g->m.veh_at(relpos.x, relpos.y);
-    if( veh == nullptr ) {
+    if( veh == nullptr || source_z != g->levz ) {
         if( p != nullptr && p->has_item(this) ) {
             p->add_msg_if_player(m_bad, _("You notice the cable has come loose!"));
         }
