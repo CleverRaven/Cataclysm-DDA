@@ -986,6 +986,7 @@
             "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF",
             "OPENCLOSE_INSIDE", "REDUCE_SCENT"
         ],
+        "examine_action": "door_peephole",
         "open": "t_door_o",
         "bash": {
             "str_min": 8, "str_max": 80, "str_min_blocked": 15, "str_max_blocked": 100,
@@ -993,6 +994,30 @@
             "sound_fail": "whump!",
             "ter_set": "t_door_b",
             "items": [
+                { "item": "2x4", "amount": 1, "chance": 25 },
+                { "item": "splinter", "amount": 2, "minamount": 1 },
+                { "item": "nail", "amount": 2, "minamount": 0 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_door_locked_peep",
+        "name": "closed wood door",
+        "symbol": "+",
+        "color": "brown",
+        "move_cost": 0,
+        "flags": [
+            "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF",
+            "OPENCLOSE_INSIDE", "REDUCE_SCENT"
+        ],
+        "open": "t_door_o_peep",
+        "bash": {
+            "str_min": 8, "str_max": 80, "str_min_blocked": 15, "str_max_blocked": 100,
+            "sound": "smash!",
+            "sound_fail": "whump!",
+            "ter_set": "t_door_b_peep",
+            "items": [
+				{ "item": "peephole", "amount": 1, "chance": 75 },
                 { "item": "2x4", "amount": 1, "chance": 25 },
                 { "item": "splinter", "amount": 2, "minamount": 1 },
                 { "item": "nail", "amount": 2, "minamount": 0 }
