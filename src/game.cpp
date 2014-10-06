@@ -3859,9 +3859,12 @@ void game::update_scent()
                 // we've already summed neighboring scent values in the y direction in the previous
                 // loop. Now we do it for the x direction, multiply by diffusion, and this is what
                 // diffuses into our current square.
-                grscent[x][y] = (temp_scent + this_diffusivity *
-                                 (sum_3_scent_y[y][x - 1] + sum_3_scent_y[y][x] +
-                                  sum_3_scent_y[y][x + 1])) / (1000 * 10);
+                grscent[x][y] =
+                    (temp_scent
+                     + this_diffusivity * (sum_3_scent_y[y][x - 1]
+                                           + sum_3_scent_y[y][x]
+                                           + sum_3_scent_y[y][x + 1])
+                    ) / (1000 * 10);
 
 
                 const int fslime = m.get_field_strength(point(x, y), fd_slime) * 10;
