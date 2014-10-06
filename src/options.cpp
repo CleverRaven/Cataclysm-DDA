@@ -29,7 +29,7 @@ extern cata_tiles *tilecontext;
 
 std::unordered_map<std::string, cOpt> OPTIONS;
 std::unordered_map<std::string, cOpt> ACTIVE_WORLD_OPTIONS;
-options_data optionsdata; // store extranious options data that doesn't need to be in OPTIONS,
+options_data optionsdata; // store extraneous options data that doesn't need to be in OPTIONS,
 std::vector<std::pair<std::string, std::string> > vPages;
 std::map<int, std::vector<std::string> > mPageItems;
 std::map<std::string, int> mOptionsSort;
