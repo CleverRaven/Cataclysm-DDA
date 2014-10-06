@@ -1731,7 +1731,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const 
 
     // Draw black padding space to avoid gap between map and legend
     g->w_blackspace = newwin(TERMY, TERMX - 28, 0, 0);
-    g->w_blackspace->draw = true;
+    mvwputch(g->w_blackspace, 0, 0, c_black, ' ');
     wrefresh(g->w_blackspace);
     delwin(g->w_blackspace);
 
