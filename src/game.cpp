@@ -96,6 +96,7 @@ game::game() :
     w_location(NULL),
     w_status(NULL),
     w_status2(NULL),
+    w_blackspace(NULL),
     dangerous_proximity(5),
     run_mode(1),
     mostseen(0),

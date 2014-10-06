@@ -401,6 +401,7 @@ class game
         WINDOW *w_location;
         WINDOW *w_status;
         WINDOW *w_status2;
+        WINDOW *w_blackspace;
         live_view liveview;
 
         // View offset based on the driving speed (if any)

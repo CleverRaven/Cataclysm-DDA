@@ -1600,6 +1600,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
     for( const auto &v : vehicles ) {
         corner_text.push_back( v.name );
     }
+
     if( !corner_text.empty() ) {
         int maxlen = 0;
         for( const auto &line : corner_text ) {
@@ -1629,11 +1630,6 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
         mvwprintz(w, om_map_height-1, 0, c_yellow, "%s", sTemp.c_str());
         mvwputch(w, om_map_height-2, length, c_white, LINE_OOXX);
         mvwputch(w, om_map_height-1, length, c_white, LINE_XOXO);
-    }
-
-    // Draw black padding space to avoid gap between map and legend
-    for (int j = 0; j < om_map_height; j++) {
-        mvwputch(w, j, om_map_width, c_black, ' ');
     }
 
     // Draw the vertical line
@@ -1731,7 +1727,13 @@ tripoint overmap::draw_overmap(int z)
 tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const tripoint &select, const int iZoneIndex)
 {
     g->w_omlegend = newwin(TERMY, 28, 0, TERMX - 28);
-    g->w_overmap = newwin(OVERMAP_WINDOW_HEIGHT, OVERMAP_WINDOW_WIDTH + 1, 0, 0);
+    g->w_overmap = newwin(OVERMAP_WINDOW_HEIGHT, OVERMAP_WINDOW_WIDTH, 0, 0);
+
+    // Draw black padding space to avoid gap between map and legend
+    g->w_blackspace = newwin(TERMY, TERMX - 28, 0, 0);
+    g->w_blackspace->draw = true;
+    wrefresh(g->w_blackspace);
+    delwin(g->w_blackspace);
 
     tripoint ret = invalid_tripoint;
     tripoint curs(orig);

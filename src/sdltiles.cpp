@@ -650,6 +650,13 @@ void curses_drawwindow(WINDOW *win)
 
         update = true;
     } else if (g && win == g->w_terrain && map_font != NULL) {
+        // When the terrain updates, predraw a black space around its edge
+        // to keep various former interface elements from showing through the gaps
+        // TODO: Maybe track down screen changes and use g->w_blackspace to draw this instead
+        FillRectDIB(win->x * fontwidth, (win->y + TERRAIN_WINDOW_TERM_HEIGHT - 1) * fontheight, TERRAIN_WINDOW_TERM_WIDTH * fontwidth,
+                     fontheight, COLOR_BLACK); //Gap between terrain and lower window edge
+        FillRectDIB((win->x + TERRAIN_WINDOW_TERM_WIDTH - 1) * fontwidth, win->y * fontheight, fontwidth,
+                     TERRAIN_WINDOW_TERM_HEIGHT * fontheight, COLOR_BLACK); //Gap between terrain and sidebar
         // Special font for the terrain window
         update = map_font->draw_window(win);
     } else if (g && win == g->w_overmap && overmap_font != NULL) {
@@ -662,6 +669,15 @@ void curses_drawwindow(WINDOW *win)
         int offsetx = win->x * map_font->fontwidth;
         int offsety = win->y * map_font->fontheight;
         update = map_font->draw_window(win, offsetx, offsety);
+    } else if (g && win == g->w_blackspace) {
+        // fill-in black space window skips draw code
+        // so as not to confuse framebuffer any more than necessary
+        int offsetx = win->x * font->fontwidth;
+        int offsety = win->y * font->fontheight;
+        int wwidth = win->width * font->fontwidth;
+        int wheight = win->height * font->fontheight;
+        FillRectDIB(offsetx, offsety, wwidth, wheight, COLOR_BLACK);
+        update = true;
     } else {
         // Either not using tiles (tilecontext) or not the w_terrain window.
         update = font->draw_window(win);
@@ -740,7 +756,7 @@ bool Font::draw_window( WINDOW *win, int offsetx, int offsety )
                 if ( winBuffer == g->w_overmap || winBuffer == g->w_omlegend ) {
                     oldWinCompatible = true;
                 }
-            }else{
+            }else {
                 if( win == winBuffer ) {
                     oldWinCompatible = true;
                 }
