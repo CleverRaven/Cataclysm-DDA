@@ -114,7 +114,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         player &operator=(player &&) = default;
 
         // newcharacter.cpp
-        bool create(character_type type, std::string tempname = "");
+        int create(character_type type, std::string tempname = "");
         /** Returns the set "my_traits" */
         std::vector<std::string> get_traits() const;
         /** Empties the trait list */
