@@ -4293,14 +4293,19 @@ bool pry_nails(player *p, ter_id &type, int dirx, int diry)
         boards = 4;
         newter = t_window_empty;
         p->add_msg_if_player(_("You pry the boards from the window frame."));
-    } else if ( type == t_door_boarded || type == t_door_boarded_damaged
-            || type == t_rdoor_boarded || type == t_rdoor_boarded_damaged ) {
+    } else if ( type == t_door_boarded || type == t_door_boarded_damaged ||
+            type == t_rdoor_boarded || type == t_rdoor_boarded_damaged || 
+            type == t_door_boarded_peep || type == t_door_boarded_damaged_peep ) {
         nails = 8;
         boards = 4;
         if (type == t_door_boarded) {
             newter = t_door_c;
         } else if (type == t_door_boarded_damaged) {
             newter = t_door_b;
+        } else if (type == t_door_boarded_peep) {
+            newter = t_door_c_peep;
+        } else if (type == t_door_boarded_damaged_peep) {
+            newter = t_door_b_peep;
         } else if (type == t_rdoor_boarded) {
             newter = t_rdoor_c;
         } else { // if (type == t_rdoor_boarded_damaged)

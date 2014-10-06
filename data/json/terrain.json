@@ -750,7 +750,7 @@
         "deconstruct": {
             "ter_set": "t_door_frame",
             "items": [
-				{ "item": "peephole", "amount": 1 },
+                { "item": "peephole", "amount": 1 },
                 { "item": "2x4", "amount": 4 },
                 { "item": "nail", "amount": 12, "minamount": 6 }
             ]
@@ -761,7 +761,7 @@
             "sound_fail": "whump!",
             "ter_set": "t_door_b_peep",
             "items": [
-				{ "item": "peephole", "amount": 1, "chance": 75 },
+                { "item": "peephole", "amount": 1, "chance": 75 },
                 { "item": "2x4", "amount": 1, "chance": 25 },
                 { "item": "splinter", "amount": 2, "minamount": 1 },
                 { "item": "nail", "amount": 2, "minamount": 0 }
@@ -793,6 +793,7 @@
         "type" : "terrain",
         "id" : "t_door_b_peep",
         "name": "damaged wood door with peephole",
+        "//": "There's no need for a use-peephole, because the door is transparent",
         "symbol": "&",
         "color": "brown",
         "move_cost": 0,
@@ -1220,6 +1221,26 @@
         }
     },{
         "type" : "terrain",
+        "id" : "t_door_boarded_peep",
+        "name": "boarded up door with peephole",
+        "symbol": "#",
+        "color": "brown",
+        "move_cost": 0,
+        "examine_action": "door_peephole",
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "bash": {
+            "str_min": 15, "str_max": 80, "str_min_blocked": 17, "str_max_blocked": 100,
+            "sound": "crash!",
+            "sound_fail": "wham!",
+            "ter_set": "t_door_b_peep",
+            "items": [
+                { "item": "2x4", "amount": 3, "minamount": 1 },
+                { "item": "nail", "amount": 10, "minamount": 2 },
+                { "item": "splinter", "amount": 2, "minamount": 1 }
+            ]
+        }
+    },{
+        "type" : "terrain",
         "id" : "t_rdoor_boarded",
         "name": "boarded up reinforced door",
         "symbol": "#",
@@ -1253,6 +1274,27 @@
             "items": [
                 { "item": "2x4", "amount": 16, "minamount": 2},
                 { "item": "nail", "amount": 54, "minamount": 6},
+                { "item": "splinter", "amount": 1 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_door_boarded_damaged_peep",
+        "name": "boarded up damaged door with peephole",
+        "symbol": "#",
+        "color": "brown",
+        "move_cost": 0,
+        "examine_action": "door_peephole",
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "bash": {
+            "str_min": 10, "str_max": 40, "str_min_blocked": 9, "str_max_blocked": 50,
+            "sound": "crash!",
+            "sound_fail": "wham!",
+            "ter_set": "t_door_frame",
+            "items": [
+                { "item": "peephole", "amount": 1, "chance": 75 },
+                { "item": "2x4", "amount": 8, "minamount": 1},
+                { "item": "nail", "amount": 20, "minamount": 2},
                 { "item": "splinter", "amount": 1 }
             ]
         }
