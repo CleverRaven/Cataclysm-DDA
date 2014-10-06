@@ -1736,13 +1736,8 @@ void iexamine::pick_plant(player *p, map *m, int examx, int examy,
     m->ter_set(examx, examy, (ter_id)new_ter);
 }
 
-void iexamine::harvest_tree(player *p, map *m, int examx, int examy)
+void iexamine::harvest_tree_shrub(player *p, map *m, int examx, int examy)
 {
-
-    if (calendar::turn.get_season() == WINTER) {
-        add_msg( m_info, _("The tree is dormant and uninteresting."));
-        return;
-    }
     if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) &&
          ((p->hunger) > 0) && (!(p->wearing_something_on(bp_mouth))) &&
          (calendar::turn.get_season() == SUMMER || calendar::turn.get_season() == SPRING) ) {
@@ -1751,18 +1746,22 @@ void iexamine::harvest_tree(player *p, map *m, int examx, int examy)
         p->hunger -= 15;
     }
     //if the fruit is not ripe yet
-    int season_int = m->get_ter_harvest_season(examx, examy);
-    if (calendar::turn.get_season() != season_int) {
+    if (calendar::turn.get_season() != m->get_ter_harvest_season(examx, examy)) {
         std::string fruit = item_controller->find_template(m->get_ter_harvestable(examx, examy))->nname(10);
         fruit[0] = toupper(fruit[0]);
-        add_msg(m_info, _("%s ripen in %s."), fruit.c_str(), season_name[season_int].c_str());
+        add_msg(m_info, _("%s ripen in %s."), fruit.c_str(), season_name[m->get_ter_harvest_season(examx, examy)].c_str());
+        return;
+    }
+    //if the fruit has been recently harvested
+    if (m->has_flag("HARVESTED", examx, examy)){
+        add_msg(m_info, _("This %s was recently harvested. Harvest it again next year"), m->tername(examx, examy).c_str());
         return;
     }
     if(!query_yn(_("Harvest from the %s?"), m->tername(examx, examy).c_str())) {
         none(p, m, examx, examy);
         return;
     }
-    pick_plant(p, m, examx, examy, m->get_ter_harvestable(examx, examy), t_tree);
+    pick_plant(p, m, examx, examy, m->get_ter_harvestable(examx, examy), m->get_ter_transforms_into(examx, examy));
 }
 
 void iexamine::tree_pine(player *p, map *m, int examx, int examy)
@@ -1774,24 +1773,6 @@ void iexamine::tree_pine(player *p, map *m, int examx, int examy)
     m->spawn_item(p->xpos(), p->ypos(), "pine_bough", 2, 12 );
     m->spawn_item( p->xpos(), p->ypos(), "pinecone", rng( 1, 4 ) );
     m->ter_set(examx, examy, t_tree_deadpine);
-}
-
-void iexamine::shrub_blueberry(player *p, map *m, int examx, int examy)
-{
-    if (calendar::turn.get_season() != SUMMER) {
-        add_msg( m_info, _("Blueberries ripen in summer."));
-        return;
-    }
-    pick_plant(p, m, examx, examy, "blueberries", t_shrub, true);
-}
-
-void iexamine::shrub_strawberry(player *p, map *m, int examx, int examy)
-{
-    if (calendar::turn.get_season() != SUMMER) {
-        add_msg( m_info, _("Strawberries ripen in summer."));
-        return;
-    }
-    pick_plant(p, m, examx, examy, "strawberries", t_shrub, true);
 }
 
 void iexamine::shrub_marloss(player *p, map *m, int examx, int examy)
@@ -2820,17 +2801,11 @@ void (iexamine::*iexamine_function_from_string(std::string function_name))(playe
         return &iexamine::keg;
     }
     //pick_plant deliberately missing due to different function signature
-    if ("harvest_tree" == function_name) {
-        return &iexamine::harvest_tree;
+    if ("harvest_tree_shrub" == function_name) {
+        return &iexamine::harvest_tree_shrub;
     }
     if ("tree_pine" == function_name) {
         return &iexamine::tree_pine;
-    }
-    if ("shrub_blueberry" == function_name) {
-        return &iexamine::shrub_blueberry;
-    }
-    if ("shrub_strawberry" == function_name) {
-        return &iexamine::shrub_strawberry;
     }
     if ("shrub_marloss" == function_name) {
         return &iexamine::shrub_marloss;

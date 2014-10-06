@@ -180,6 +180,7 @@ ter_t null_terrain_t() {
   new_terrain.examine = iexamine_function_from_string("none");
   new_terrain.harvest_season = 0;
   new_terrain.harvestable = "";
+  new_terrain.transforms_into = "t_null";
   new_terrain.loadid = 0;
   new_terrain.open = "";
   new_terrain.close = "";
@@ -298,17 +299,21 @@ void load_terrain(JsonObject &jsobj)
     std::string function_name = jsobj.get_string("examine_action");
     new_terrain.examine = iexamine_function_from_string(function_name);
   } else {
-    //If not specified, default to no action
+    // if not specified, default to no action
     new_terrain.examine = iexamine_function_from_string("none");
   }
-  //if the terrain has something harvestable it will have a product & season to be harvested in the json
+
+  // if the terrain has something harvestable
   if (jsobj.has_member("harvestable")) {
-    new_terrain.harvestable = jsobj.get_string("harvestable");
-    if (jsobj.get_string("harvest_season") == "SPRING") {new_terrain.harvest_season = 0;} //convert the season to int for calendar compare
-    if (jsobj.get_string("harvest_season") == "SUMMER") {new_terrain.harvest_season = 1;}
-    if (jsobj.get_string("harvest_season") == "AUTUMN") {new_terrain.harvest_season = 2;}
-    if (jsobj.get_string("harvest_season") == "WINTER") {new_terrain.harvest_season = 3;}
+    new_terrain.harvestable = jsobj.get_string("harvestable"); // get the harvestable
+    new_terrain.transforms_into = jsobj.get_string("transforms_into"); // get the terrain to transform into later on
+    //get the harvest season
+    if (jsobj.get_string("harvest_season") == "SPRING") {new_terrain.harvest_season = 0;} // convert the season to int for calendar compare
+    else if (jsobj.get_string("harvest_season") == "SUMMER") {new_terrain.harvest_season = 1;}
+    else if (jsobj.get_string("harvest_season") == "AUTUMN") {new_terrain.harvest_season = 2;}
+    else {new_terrain.harvest_season = 3;}
   }
+
   new_terrain.open = "";
   if ( jsobj.has_member("open") ) {
       new_terrain.open = jsobj.get_string("open");
@@ -378,7 +383,9 @@ ter_id t_null,
     t_paper,
     t_rock_wall, t_rock_wall_half,
     // Tree
-    t_tree, t_tree_young, t_tree_apple, t_tree_pear, t_tree_cherry, t_tree_peach, t_tree_apricot, t_tree_plum, t_tree_pine, t_tree_deadpine, t_underbrush, t_shrub, t_shrub_blueberry, t_shrub_strawberry, t_trunk,
+    t_tree, t_tree_young, t_tree_apple, t_tree_apple_harvested, t_tree_pear, t_tree_pear_harvested, t_tree_cherry, t_tree_cherry_harvested,
+    t_tree_peach, t_tree_peach_harvested, t_tree_apricot, t_tree_apricot_harvested, t_tree_plum, t_tree_plum_harvested,
+    t_tree_pine, t_tree_deadpine, t_underbrush, t_shrub, t_shrub_blueberry, t_shrub_strawberry, t_trunk,
     t_root_wall,
     t_wax, t_floor_wax,
     t_fence_v, t_fence_h, t_chainfence_v, t_chainfence_h, t_chainfence_posts,
@@ -541,11 +548,17 @@ void set_ter_ids() {
     t_tree=terfind("t_tree");
     t_tree_young=terfind("t_tree_young");
     t_tree_apple=terfind("t_tree_apple");
+    t_tree_apple_harvested=terfind("t_tree_apple_harvested");
     t_tree_pear=terfind("t_tree_pear");
+    t_tree_pear_harvested=terfind("t_tree_pear_harvested");
     t_tree_cherry=terfind("t_tree_cherry");
+    t_tree_cherry_harvested=terfind("t_tree_cherry_harvested");
     t_tree_peach=terfind("t_tree_peach");
+    t_tree_peach_harvested=terfind("t_tree_peach_harvested");
     t_tree_apricot=terfind("t_tree_apricot");
+    t_tree_apricot_harvested=terfind("t_tree_apricot_harvested");
     t_tree_plum=terfind("t_tree_plum");
+    t_tree_plum_harvested=terfind("t_tree_plum_harvested");
     t_tree_pine=terfind("t_tree_pine");
     t_tree_deadpine=terfind("t_tree_deadpine");
     t_underbrush=terfind("t_underbrush");

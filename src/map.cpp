@@ -1055,6 +1055,13 @@ std::string map::get_ter_harvestable(const int x, const int y) const {
 }
 
 /*
+ * Get the terrain transforms_into id (what will the terrain transforms into)
+ */
+ter_id map::get_ter_transforms_into(const int x, const int y) const {
+    return (ter_id)termap[ terlist[ ter(x,y) ].transforms_into ].loadid;
+}
+
+/*
  * Get the harvest season from the terrain
  */
 int map::get_ter_harvest_season(const int x, const int y) const {
@@ -4680,7 +4687,7 @@ void map::loadn(const int worldx, const int worldy, const int worldz,
   // plantEpoch is half a season; 3 epochs pass from plant to harvest
   const int plantEpoch = 14400 * (int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] / 2;
 
-  // check plants
+  // check plants for crops and seasonal harvesting.
   for (int x = 0; x < SEEX; x++) {
     for (int y = 0; y < SEEY; y++) {
       furn_id furn = tmpsub->get_furn(x, y);
@@ -4698,10 +4705,14 @@ void map::loadn(const int worldx, const int worldy, const int worldz,
 
           // fixme; Lazy farmer drop rake on dirt mound. What happen rake?!
           tmpsub->itm[x][y].resize(1);
-
           tmpsub->itm[x][y][0].bday = seed.bday;
           tmpsub->set_furn(x, y, furn);
         }
+      }
+      ter_id ter = tmpsub->ter[x][y];
+      //if the fruit-bearing season of the already harvested terrain has passed, make it harvestable again
+      if ((ter) && (terlist[ter].has_flag("HARVESTED")) && ( terlist[ter].harvest_season != calendar::turn.get_season())) {
+        tmpsub->set_ter(x, y, terfind(terlist[ter].transforms_into));
       }
     }
   }
