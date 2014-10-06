@@ -3853,9 +3853,10 @@ void game::update_scent()
                 }
                 int temp_scent;
                 // take the old scent and subtract what diffuses out
-                temp_scent = grscent[x][y] * (10 * 1000 - squares_used * this_diffusivity);
                 // neighboring walls and reduce_scent squares absorb some scent
-                temp_scent -= grscent[x][y] * this_diffusivity * (90 - squares_used) / 5;
+                temp_scent = (grscent[x][y] * (10 * 1000 - squares_used * this_diffusivity)
+                    - grscent[x][y] * this_diffusivity * (90 - squares_used) / 5);
+
                 // we've already summed neighboring scent values in the y direction in the previous
                 // loop. Now we do it for the x direction, multiply by diffusion, and this is what
                 // diffuses into our current square.
