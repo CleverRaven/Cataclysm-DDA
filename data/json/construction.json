@@ -228,6 +228,21 @@
         "post_terrain" : "t_door_c"
     },{
         "type" : "construction",
+        "description" : "Repair Wood Door", "//": "Repair the peephole door",
+        "category" : "REPAIR",
+        "difficulty" : 1,
+        "time" : 10,
+        "qualities": [ [
+            { "id": "HAMMER", "level": 2 }
+        ] ],
+        "components" : [
+            [ [ "2x4", 3 ] ],
+            [ [ "nail", 12 ] ]
+        ],
+        "pre_terrain" : "t_door_b_peep",
+        "post_terrain" : "t_door_c_peep"
+    },{
+        "type" : "construction",
         "description" : "Repair Wood Door", "//": "Repair the reinforced door",
         "category" : "REPAIR",
         "difficulty" : 2,
@@ -258,6 +273,21 @@
         "post_terrain" : "t_door_boarded"
     },{
         "type" : "construction",
+        "description" : "Board Up Wood Door", "//": "peephole door",
+        "category" : "REINFORCE",
+        "difficulty" : 0,
+        "time" : 8,
+        "qualities": [ [
+            { "id": "HAMMER", "level": 2 }
+        ] ],
+        "components" : [
+            [ [ "2x4", 4 ] ],
+            [ [ "nail", 8 ] ]
+        ],
+        "pre_terrain" : "t_door_c_peep",
+        "post_terrain" : "t_door_boarded_peep"
+    },{
+        "type" : "construction",
         "description" : "Board Up Wood Door", "//": "boarded damaged door",
         "category" : "REINFORCE",
         "difficulty" : 0,
@@ -271,6 +301,21 @@
         ],
         "pre_flags" : "BARRICADABLE_DOOR_DAMAGED",
         "post_terrain" : "t_door_boarded_damaged"
+    },{
+        "type" : "construction",
+        "description" : "Board Up Wood Door", "//": "boarded damaged peephole door",
+        "category" : "REINFORCE",
+        "difficulty" : 0,
+        "time" : 10,
+        "qualities": [ [
+            { "id": "HAMMER", "level": 2 }
+        ] ],
+        "components" : [
+            [ [ "2x4", 4 ] ],
+            [ [ "nail", 8 ] ]
+        ],
+        "pre_terrain" : "t_door_b_peep",
+        "post_terrain" : "t_door_boarded_damaged_peep"
     },{
         "type" : "construction",
         "description" : "Board Up Wood Door", "//": "the reinforced doors",
