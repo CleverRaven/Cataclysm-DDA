@@ -2795,8 +2795,8 @@
         "location" : "center",
         "flags" : ["CARGO", "BOARDABLE", "COVERED"],
         "breaks_into" : [
-            {"item": "splinter", "min": 7, "max": 9},
-            {"item": "nail", "min": 5, "max": 15}
+            {"item": "splinter", "min": 3, "max": 5},
+            {"item": "string_36", "min": 10, "max": 15}
         ]
     },{
         "type" : "vehicle_part",
