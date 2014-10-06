@@ -23,6 +23,7 @@ ignorable = {
     "item_group",
     "mapgen",
     "monstergroup",
+    "MONSTER_WHITELIST",
     "monitems",
     "npc", # FIXME right now this object is unextractable
     "overmap_special",
