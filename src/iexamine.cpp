@@ -1754,7 +1754,7 @@ void iexamine::harvest_tree_shrub(player *p, map *m, int examx, int examy)
     }
     //if the fruit has been recently harvested
     if (m->has_flag("HARVESTED", examx, examy)){
-        add_msg(m_info, _("This %s was recently harvested. Harvest it again next year"), m->tername(examx, examy).c_str());
+        add_msg(m_info, _("This %s has already been harvested. Harvest it again next year."), m->tername(examx, examy).c_str());
         return;
     }
     if(!query_yn(_("Harvest from the %s?"), m->tername(examx, examy).c_str())) {
