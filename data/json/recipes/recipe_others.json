@@ -2057,6 +2057,25 @@
   ]
 },{
         "type" : "recipe",
+  "result": "frame_wood_light",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 0,
+  "time": 4000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "2x4", 3 ],
+      [ "stick", 6 ]
+    ],
+    [
+      [ "rope_6", 3 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "wheel_wood",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",

@@ -75,6 +75,23 @@
     },
     {
         "type":"GENERIC",
+        "id" : "frame_wood_light",
+        "name" : "light wooden frame",
+        "description" : "A small frame made of few pieces of wood, held together by rope.  Useful for crafting.",
+        "weight" : 4000,
+        "to_hit" : -5,
+        "color" : "brown",
+        "symbol" : "]",
+        "material" : ["wood", "null"],
+        "techniques" : ["DEF_DISARM"],
+        "volume" : 35,
+        "bashing" : 8,
+        "cutting" : 1,
+        "category" : "veh_parts",
+        "price" : 1000
+    },
+    {
+        "type":"GENERIC",
         "id" : "hdframe",
         "name" : "heavy duty frame",
         "description" : "A large, reinforced steel frame, used in military vehicle construction.",

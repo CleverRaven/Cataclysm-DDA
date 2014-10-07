@@ -677,7 +677,8 @@
         "location" : "structure",
         "flags" : [],
         "breaks_into" : [
-            {"item": "splinter", "min": 7, "max": 9}
+            {"item": "splinter", "min": 7, "max": 9},
+            {"item": "nail", "min": 5, "max": 10}
         ]
     },{
         "type" : "vehicle_part",
@@ -693,7 +694,8 @@
         "location" : "structure",
         "flags" : [],
         "breaks_into" : [
-            {"item": "splinter", "min": 7, "max": 9}
+            {"item": "splinter", "min": 7, "max": 9},
+            {"item": "nail", "min": 5, "max": 10}
         ]
     },{
         "type" : "vehicle_part",
@@ -709,7 +711,8 @@
         "location" : "structure",
         "flags" : [],
         "breaks_into" : [
-            {"item": "splinter", "min": 7, "max": 9}
+            {"item": "splinter", "min": 7, "max": 9},
+            {"item": "nail", "min": 5, "max": 10}
         ]
     },{
         "type" : "vehicle_part",
@@ -725,7 +728,8 @@
         "location" : "structure",
         "flags" : [],
         "breaks_into" : [
-            {"item": "splinter", "min": 7, "max": 9}
+            {"item": "splinter", "min": 7, "max": 9},
+            {"item": "nail", "min": 5, "max": 10}
         ]
     },{
         "type" : "vehicle_part",
@@ -741,7 +745,8 @@
         "location" : "structure",
         "flags" : [],
         "breaks_into" : [
-            {"item": "splinter", "min": 7, "max": 9}
+            {"item": "splinter", "min": 7, "max": 9},
+            {"item": "nail", "min": 5, "max": 10}
         ]
     },{
         "type" : "vehicle_part",
@@ -757,7 +762,8 @@
         "location" : "structure",
         "flags" : [],
         "breaks_into" : [
-            {"item": "splinter", "min": 7, "max": 9}
+            {"item": "splinter", "min": 7, "max": 9},
+            {"item": "nail", "min": 5, "max": 10}
         ]
     },{
         "type" : "vehicle_part",
@@ -773,7 +779,8 @@
         "location" : "structure",
         "flags" : [],
         "breaks_into" : [
-            {"item": "splinter", "min": 7, "max": 9}
+            {"item": "splinter", "min": 7, "max": 9},
+            {"item": "nail", "min": 5, "max": 10}
         ]
     },{
         "type" : "vehicle_part",
@@ -789,7 +796,8 @@
         "location" : "structure",
         "flags" : [],
         "breaks_into" : [
-            {"item": "splinter", "min": 7, "max": 9}
+            {"item": "splinter", "min": 7, "max": 9},
+            {"item": "nail", "min": 5, "max": 10}
         ]
     },{
         "type" : "vehicle_part",
@@ -805,7 +813,8 @@
         "location" : "structure",
         "flags" : [],
         "breaks_into" : [
-            {"item": "splinter", "min": 7, "max": 9}
+            {"item": "splinter", "min": 7, "max": 9},
+            {"item": "nail", "min": 5, "max": 10}
         ]
     },{
         "type" : "vehicle_part",
@@ -821,7 +830,8 @@
         "location" : "structure",
         "flags" : [],
         "breaks_into" : [
-            {"item": "splinter", "min": 7, "max": 9}
+            {"item": "splinter", "min": 7, "max": 9},
+            {"item": "nail", "min": 5, "max": 10}
         ]
     },{
         "type" : "vehicle_part",
@@ -837,7 +847,178 @@
         "location" : "structure",
         "flags" : [],
         "breaks_into" : [
-            {"item": "splinter", "min": 7, "max": 9}
+            {"item": "splinter", "min": 7, "max": 9},
+            {"item": "nail", "min": 5, "max": 10}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "frame_wood_light_vertical",
+        "name" : "light wooden frame",
+        "symbol" : "j",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "durability" : 100,
+        "item" : "frame_wood_light",
+        "difficulty" : 0,
+        "location" : "structure",
+        "flags" : [],
+        "breaks_into" : [
+            {"item": "splinter", "min": 3, "max": 5},
+            {"item": "string_36", "min": 10, "max": 15}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "frame_wood_light_cross",
+        "name" : "light wooden frame",
+        "symbol" : "c",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "durability" : 100,
+        "item" : "frame_wood_light",
+        "difficulty" : 0,
+        "location" : "structure",
+        "flags" : [],
+        "breaks_into" : [
+            {"item": "splinter", "min": 3, "max": 5},
+            {"item": "string_36", "min": 10, "max": 15}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "frame_wood_light_nw",
+        "name" : "light wooden frame",
+        "symbol" : "y",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "durability" : 100,
+        "item" : "frame_wood_light",
+        "difficulty" : 0,
+        "location" : "structure",
+        "flags" : [],
+        "breaks_into" : [
+            {"item": "splinter", "min": 3, "max": 5},
+            {"item": "string_36", "min": 10, "max": 15}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "frame_wood_light_ne",
+        "name" : "light wooden frame",
+        "symbol" : "u",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "durability" : 100,
+        "item" : "frame_wood_light",
+        "difficulty" : 0,
+        "location" : "structure",
+        "flags" : [],
+        "breaks_into" : [
+            {"item": "splinter", "min": 3, "max": 5},
+            {"item": "string_36", "min": 10, "max": 15}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "frame_wood_light_se",
+        "name" : "light wooden frame",
+        "symbol" : "n",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "durability" : 100,
+        "item" : "frame_wood_light",
+        "difficulty" : 0,
+        "location" : "structure",
+        "flags" : [],
+        "breaks_into" : [
+            {"item": "splinter", "min": 3, "max": 5},
+            {"item": "string_36", "min": 10, "max": 15}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "frame_wood_light_sw",
+        "name" : "light wooden frame",
+        "symbol" : "b",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "durability" : 100,
+        "item" : "frame_wood_light",
+        "difficulty" : 0,
+        "location" : "structure",
+        "flags" : [],
+        "breaks_into" : [
+            {"item": "splinter", "min": 3, "max": 5},
+            {"item": "string_36", "min": 10, "max": 15}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "frame_wood_light_horizontal_2",
+        "name" : "light wooden frame",
+        "symbol" : "=",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "durability" : 100,
+        "item" : "frame_wood_light",
+        "difficulty" : 0,
+        "location" : "structure",
+        "flags" : [],
+        "breaks_into" : [
+            {"item": "splinter", "min": 3, "max": 5},
+            {"item": "string_36", "min": 10, "max": 15}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "frame_wood_light_vertical_2",
+        "name" : "light wooden frame",
+        "symbol" : "H",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "durability" : 100,
+        "item" : "frame_wood_light",
+        "difficulty" : 0,
+        "location" : "structure",
+        "flags" : [],
+        "breaks_into" : [
+            {"item": "splinter", "min": 3, "max": 5},
+            {"item": "string_36", "min": 10, "max": 15}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "frame_wood_light_cover",
+        "name" : "light wooden frame",
+        "symbol" : "^",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "durability" : 100,
+        "item" : "frame_wood_light",
+        "difficulty" : 0,
+        "location" : "structure",
+        "flags" : [],
+        "breaks_into" : [
+            {"item": "splinter", "min": 3, "max": 5},
+            {"item": "string_36", "min": 10, "max": 15}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "frame_wood_light_handle",
+        "name" : "light wooden handle",
+        "symbol" : "^",
+        "color" : "light_red",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "durability" : 75,
+        "item" : "frame_wood_light",
+        "difficulty" : 0,
+        "location" : "structure",
+        "flags" : [],
+        "breaks_into" : [
+            {"item": "splinter", "min": 3, "max": 5},
+            {"item": "string_36", "min": 10, "max": 15}
         ]
     },{
         "type" : "vehicle_part",
@@ -2597,6 +2778,25 @@
             {"item": "steel_lump", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 4, "max": 6},
             {"item": "scrap", "min": 4, "max": 6}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "travois",
+        "name" : "travois",
+        "symbol" : "o",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "damage_modifier" : 60,
+        "durability" : 50,
+        "size" : 200,
+        "item" : "frame_wood_light",
+        "difficulty" : 0,
+        "location" : "center",
+        "flags" : ["CARGO", "BOARDABLE", "COVERED"],
+        "breaks_into" : [
+            {"item": "splinter", "min": 3, "max": 5},
+            {"item": "string_36", "min": 10, "max": 15}
         ]
     },{
         "type" : "vehicle_part",
