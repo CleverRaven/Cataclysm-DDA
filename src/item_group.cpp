@@ -45,6 +45,9 @@ item Single_item_creator::create_single(int birthday, RecursionList &rec) const
     } else if (type == S_NONE) {
         return item(null_item_id, birthday);
     }
+    if( one_in( 3 ) && tmp.has_flag( "VARSIZE" ) ) {
+        tmp.item_tags.insert( "FIT" );
+    }
     if (modifier.get() != NULL) {
         modifier->modify(tmp);
     }

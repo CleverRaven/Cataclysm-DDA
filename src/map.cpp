@@ -2029,7 +2029,14 @@ void map::spawn_item_list(const std::vector<map_bash_item_drop> &items, int x, i
                     new_item.charges = numitems;
                     numitems = 1;
                 }
+                const bool varsize = new_item.has_flag( "VARSIZE" );
                 for(int a = 0; a < numitems; a++ ) {
+                    if( varsize && one_in( 3 ) ) {
+                        new_item.item_tags.insert( "FIT" );
+                    } else if( varsize ) {
+                        // might have been added previously
+                        new_item.item_tags.erase( "FIT" );
+                    }
                     add_item_or_charges(x, y, new_item);
                 }
             }
@@ -2889,6 +2896,9 @@ void map::spawn_item(const int x, const int y, const std::string &type_id,
     }
     // spawn the item
     item new_item(type_id, birthday, rand);
+    if( one_in( 3 ) && new_item.has_flag( "VARSIZE" ) ) {
+        new_item.item_tags.insert( "FIT" );
+    }
     spawn_an_item(x, y, new_item, charges, damlevel);
 }
 

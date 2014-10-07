@@ -813,6 +813,9 @@ std::vector<item> starting_clothes(npc_class type, bool male)
     // is a non-armor item!
     for( auto it = ret.begin(); it != ret.end(); ) {
         if( it->is_armor() ) {
+            if( one_in( 3 ) && it->has_flag( "VARSIZE" ) ) {
+                it->item_tags.insert( "FIT" );
+            }
             ++it;
         } else {
             it = ret.erase( it );
@@ -867,6 +870,9 @@ std::list<item> starting_inv(npc *me, npc_class type)
     tmpitem = item_controller->item_from(npc_class_name_str(type)+"_misc");
     if (tmpitem.is_null())
         tmpitem = item_controller->item_from("npc_misc");
+    if( one_in( 3 ) && tmpitem.has_flag( "VARSIZE" ) ) {
+        tmpitem.item_tags.insert( "FIT" );
+    }
     if (total_space >= tmpitem.volume()) {
         ret.push_back(tmpitem);
         ret.back() = ret.back().in_its_container();
