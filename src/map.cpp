@@ -4565,6 +4565,7 @@ void map::saven( const int worldx, const int worldy, const int worldz,
     const int abs_x = worldx + gridx;
     const int abs_y = worldy + gridy;
     dbg( D_INFO ) << "map::saven abs_x: " << abs_x << "  abs_y: " << abs_y;
+    submap_to_save->turn_last_touched = int(calendar::turn);
     MAPBUFFER.add_submap( abs_x, abs_y, worldz, submap_to_save );
 }
 
@@ -4711,12 +4712,7 @@ void map::loadn(const int worldx, const int worldy, const int worldz,
       }
       ter_id ter = tmpsub->ter[x][y];
       //if the fruit-bearing season of the already harvested terrain has passed, make it harvestable again
-      if ((ter) && (terlist[ter].has_flag("HARVESTED"))){
-        //debug messages to get removed when its fixed
-        debugmsg("time now %d", int(calendar::turn));
-        debugmsg("time before %d",tmpsub->turn_last_touched);
-        debugmsg("diff %d", int(calendar::turn) - tmpsub->turn_last_touched);
-        debugmsg("season_length %d", int(calendar::season_length())*14400);
+      if ((ter) && (terlist[ter].has_flag(TFLAG_HARVESTED))){
         if ((terlist[ter].harvest_season != calendar::turn.get_season()) || 
         (calendar::turn - tmpsub->turn_last_touched > calendar::season_length()*14400)){
           tmpsub->set_ter(x, y, terfind(terlist[ter].transforms_into));
@@ -4737,6 +4733,9 @@ void map::loadn(const int worldx, const int worldy, const int worldz,
         }
     }
   }
+
+  tmpsub->turn_last_touched = int(calendar::turn); // the last time we touched the submap, is right now.
+
  } else { // It doesn't exist; we must generate it!
   dbg(D_INFO|D_WARNING) << "map::loadn: Missing mapbuffer data. Regenerating.";
   tinymap tmp_map;
