@@ -7840,7 +7840,7 @@ int iuse::artifact(player *p, item *it, bool)
                              !g->m.sees(monx, mony, p->posx, p->posy, 10, junk));
                     if (tries < 5) {
                         num_spawned++;
-                        spawned.sp_timeout[0] = rng(8, 20);
+                        spawned.reset_special_rng(0);
                         spawned.spawn(monx, mony);
                         g->add_zombie(spawned);
                     }

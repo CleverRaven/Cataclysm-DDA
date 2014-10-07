@@ -997,6 +997,36 @@ int monster::fall_damage() const
  return 0;
 }
 
+void monster::reset_special(int index)
+{
+    if (index < 0) {
+        return;
+    }
+    
+    sp_timeout[index] = type->sp_freq[index];
+}
+
+void monster::reset_special_rng(int index)
+{
+    if (index < 0) {
+        return;
+    }
+    
+    sp_timeout[index] = rng(0, type->sp_freq[index]);
+}
+
+void monster::set_special(int index, int time)
+{
+    if (index < 0) {
+        return;
+    }
+    
+    if (time < 0) {
+        time = 0;
+    }
+    sp_timeout[index] = time;
+}
+
 void monster::explode()
 {
     if( is_hallucination() ) {
