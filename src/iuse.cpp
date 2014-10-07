@@ -10436,7 +10436,8 @@ int iuse::cable_attach(player *p, item *it, bool)
             p->add_msg_if_player(_("There's no vehicle there."));
             return 0;
         } else {
-            point source_global(std::stoi(it->item_vars["source_x"]), std::stoi(it->item_vars["source_y"]));
+            point source_global(atoi(it->item_vars["source_x"].c_str()),
+                                atoi(it->item_vars["source_y"].c_str()));
             point source_local = g->m.getlocal(source_global);
             auto source_veh = g->m.veh_at(source_local.x, source_local.y);
 

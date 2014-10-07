@@ -3771,9 +3771,9 @@ bool item::process_cable( player *p, point pos )
         return false;
     }
 
-    int source_x = std::stoi(item_vars["source_x"]);
-    int source_y = std::stoi(item_vars["source_y"]);
-    int source_z = std::stoi(item_vars["source_z"]);
+    int source_x = atoi(item_vars["source_x"].c_str());
+    int source_y = atoi(item_vars["source_y"].c_str());
+    int source_z = atoi(item_vars["source_z"].c_str());
 
     point relpos= g->m.getlocal(source_x, source_y);
     auto veh = g->m.veh_at(relpos.x, relpos.y);
