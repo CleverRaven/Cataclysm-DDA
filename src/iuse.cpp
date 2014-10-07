@@ -4219,7 +4219,7 @@ int iuse::picklock(player *p, item *it, bool)
     if (type == t_chaingate_l) {
         door_name = rm_prefix(_("<door_name>gate"));
         new_type = t_chaingate_c;
-    } else if (type == t_door_locked || type == t_door_locked_peep || type == t_door_locked_alarm || type == t_door_locked_interior) {
+    } else if (type == t_door_locked || type == t_door_locked_alarm || type == t_door_locked_interior) {
         door_name = rm_prefix(_("<door_name>door"));
         new_type = t_door_c;
     } else if (type == t_door_locked_peep) {
