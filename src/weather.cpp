@@ -547,7 +547,7 @@ std::string print_temperature(float fahrenheit, int decimals)
 
 }
 
-int get_windchill(double temperature, double humidity, double windpower, std::string omtername, bool sheltered)
+int get_local_windchill(double temperature, double humidity, double windpower, std::string omtername, bool sheltered)
 {
     /**
     *  A player is sheltered if he is underground, in a car, or indoors.
@@ -578,7 +578,7 @@ int get_windchill(double temperature, double humidity, double windpower, std::st
 
 }
 
-int get_humidity(double humidity, weather_type weather, bool sheltered)
+int get_local_humidity(double humidity, weather_type weather, bool sheltered)
 {
     int tmphumidity = humidity;
     if (sheltered)

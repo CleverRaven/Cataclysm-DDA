@@ -909,14 +909,10 @@ void player::update_bodytemp()
         // WINDCHILL
         const oter_id &cur_om_ter = overmap_buffer.ter(g->om_global_location());
         std::string omtername = otermap[cur_om_ter].name;
-        bool sheltered = false;
-        if (!g->m.is_outside(pos().x, pos().y) || g->levz < 0 || (veh && veh->is_inside(vpart)))
-        {
-            sheltered = true;
-        }
+        bool sheltered = g->is_sheltered(pos().x, pos().y);
         bp_windpower = (float)bp_windpower*(1 - get_wind_resistance(body_part(i))/100.0);
         // Calculate windchill
-        int windchill = get_windchill(weather.temperature, get_humidity(weather.humidity, g->weather, sheltered), bp_windpower, omtername, sheltered);
+        int windchill = get_local_windchill(weather.temperature, get_local_humidity(weather.humidity, g->weather, sheltered), bp_windpower, omtername, sheltered);
         // If you're standing in water, air temperature is replaced by water temperature. No wind.
         int water_temperature = 100 * (g->weatherGen.get_water_temperature() - 32) * 5/9; // Convert to C.
         if ( (ter_at_pos == t_water_dp || ter_at_pos == t_water_pool || ter_at_pos == t_swater_dp) ||

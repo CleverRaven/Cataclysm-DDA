@@ -5255,17 +5255,11 @@ void game::draw_sidebar()
     w_point weatherPoint = weatherGen.get_weather(u.pos(), calendar::turn);
     const oter_id &cur_om_ter = overmap_buffer.ter(g->om_global_location());
     std::string omtername = otermap[cur_om_ter].name;
-    bool sheltered = false;
-    int vpart = -1;
-    vehicle *veh = m.veh_at (u.posx, u.posy, vpart);
-    if (!m.is_outside(u.pos().x, u.pos().y) || levz < 0 || (veh && veh->is_inside(vpart)))
-    {
-        sheltered = true;
-    }
+    bool sheltered = is_sheltered(u.pos().x, u.pos().y);
     int vehwindspeed = 0;
     if (veh) vehwindspeed = veh->velocity;
     int windpower = weatherPoint.windpower + vehwindspeed;
-    int windchill = get_windchill(weatherPoint.temperature, get_humidity(weatherPoint.humidity, weather, sheltered), windpower, omtername, sheltered);
+    int windchill = get_local_windchill(weatherPoint.temperature, get_local_humidity(weatherPoint.humidity, weather, sheltered), windpower, omtername, sheltered);
     display_temp += windchill;
 
     nc_color col_temp = c_blue;
@@ -7404,6 +7398,27 @@ bool game::is_in_sunlight(int x, int y)
 {
     return (m.is_outside(x, y) && light_level() >= 40 &&
             (weather == WEATHER_CLEAR || weather == WEATHER_SUNNY));
+}
+
+bool game::is_sheltered(int x, int y)
+{
+    bool is_inside = false;
+    bool is_underground = false;
+    bool is_in_vehicle = false;
+    int vpart = -1;
+    vehicle *veh = m.veh_at(x, y, vpart);
+    
+    if (!m.is_outside(x, y)) 
+        is_inside = true;
+    if (levz < 0)
+        is_underground = true;       
+    if (veh && veh->is_inside(vpart))
+        is_in_vehicle = true;
+        
+    if (is_inside || is_underground || is_in_vehicle)
+        return true;
+    else
+        return false;
 }
 
 bool game::is_in_ice_lab(point location)
