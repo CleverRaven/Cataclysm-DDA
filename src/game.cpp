@@ -8521,7 +8521,7 @@ bool pet_menu(monster *z)
             g->u.i_add(rope_6);
         } else {
             z->add_effect("tied", 1, 1, true);
-            g->u.inv.remove_item("rope_6");
+            g->u.use_amount( "rope_6", 1 );
         }
 
         return true;

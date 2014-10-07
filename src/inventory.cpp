@@ -723,11 +723,6 @@ item inventory::remove_item(int position)
     return remove_item_internal(position);
 }
 
-item inventory::remove_item(const itype_id &type)
-{
-    return remove_item_internal(type);
-}
-
 // using this assumes the item has charges
 template<typename Locator>
 item inventory::reduce_charges_internal(const Locator &locator, long quantity)

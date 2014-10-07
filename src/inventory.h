@@ -80,7 +80,6 @@ class inventory
          */
         item remove_item(const item *it);
         item remove_item(int position);
-        item remove_item(const itype_id &type);
         std::list<item> reduce_stack(int position, int quantity);
         std::list<item> reduce_stack(const itype_id &type, int quantity);
         item reduce_charges(int position, long quantity);

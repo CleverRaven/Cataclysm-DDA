@@ -6834,15 +6834,6 @@ item player::i_rem(int pos)
  return inv.remove_item(pos);
 }
 
-item player::i_rem(itype_id type)
-{
-    if (weapon.type->id == type)
-    {
-        return remove_weapon();
-    }
-    return inv.remove_item(type);
-}
-
 item player::i_rem(const item *it)
 {
     auto tmp = remove_items_with( [&it] (const item &i) { return &i == it; } );

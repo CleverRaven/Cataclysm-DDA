@@ -849,7 +849,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool has_active_item(const itype_id &id) const;
         long active_item_charges(itype_id id);
         void process_active_items();
-        item i_rem(itype_id type);// Remove first item w/ this type; fail is ret_null
         /**
          * Remove a specific item from player possession. The item is compared
          * by pointer. Contents of the item are removed as well.
@@ -876,7 +875,14 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * the player does not have such an item with that invlet. Don't use this on npcs.
          * Only use the invlet in the user interface, otherwise always use the item position. */
         int invlet_to_position(char invlet) const;
-        int get_item_position(const item *it);  // looks up an item (via pointer comparison)
+        /**
+         * Returns the item position (suitable for @ref i_at or similar) of a
+         * specific item.
+         * NOTE: this only works for items outside of containers, in the main inventory,
+         * the weapon or worn items, If the item is a pointer to an item inside a
+         * container, it wont work.
+         */
+        int get_item_position(const item *it);
         const martialart &get_combat_style() const; // Returns the combat style object
         std::vector<item *> inv_dump(); // Inventory + weapon + worn (for death, etc)
         void place_corpse(); // put corpse+inventory on map at the place where this is.
