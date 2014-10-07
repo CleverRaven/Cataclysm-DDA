@@ -392,6 +392,28 @@ public:
 
  std::vector<item> contents;
 
+        /**
+         * Recursively check the contents of this item and remove those items
+         * that match the filter. Note that this function does *not* match
+         * the filter against *this* item, only against the contents.
+         * @return The removed items, the list may be empty if no items matches.
+         */
+        template<typename T>
+        std::list<item> remove_items_with( T filter )
+        {
+            std::list<item> result;
+            for( auto it = contents.begin(); it != contents.end(); ) {
+                if( filter( *it ) ) {
+                    result.push_back( std::move( *it ) );
+                    it = contents.erase( it );
+                } else {
+                    result.splice( result.begin(), it->remove_items_with( filter ) );
+                    ++it;
+                }
+            }
+            return result;
+        }
+
 private:
  std::string name;
 public:

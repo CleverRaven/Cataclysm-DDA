@@ -809,6 +809,34 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
             }
             return result;
         }
+        /**
+         * Removes the items that match the given filter.
+         * The returned items are a copy of the removed item.
+         * If no item has been removed, an empty list will be returned.
+         */
+        template<typename T>
+        std::list<item> remove_items_with( T filter )
+        {
+            // player usually interacts with items in the inventory the most (?)
+            std::list<item> result = inv.remove_items_with( filter );
+            for( auto it = worn.begin(); it != worn.end(); ) {
+                if( filter( *it ) ) {
+                    result.push_back( std::move( *it ) );
+                    it = worn.erase( it );
+                } else {
+                    result.splice( result.begin(), it->remove_items_with( filter ) );
+                    ++it;
+                }
+            }
+            if( !weapon.is_null() ) {
+                if( filter( weapon ) ) {
+                    result.push_back( remove_weapon() );
+                } else {
+                    result.splice( result.begin(), weapon.remove_items_with( filter ) );
+                }
+            }
+            return result;
+        }
 
         item &i_add(item it);
         // Sets invlet and adds to inventory if possible, drops otherwise, returns true if either succeeded.

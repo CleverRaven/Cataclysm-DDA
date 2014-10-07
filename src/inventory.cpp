@@ -685,20 +685,10 @@ std::list<item> inventory::reduce_stack(const itype_id &type, int quantity)
 
 item inventory::remove_item(const item *it)
 {
-    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
-        for (std::list<item>::iterator stack_iter = iter->begin(); stack_iter != iter->end();
-             ++stack_iter) {
-            if (it == &*stack_iter) {
-                item tmp = *stack_iter;
-                iter->erase(stack_iter);
-                if (iter->size() <= 0) {
-                    items.erase(iter);
-                }
-                return tmp;
-            }
-        }
+    auto tmp = remove_items_with( [&it] (const item &i) { return &i == it; } );
+    if( !tmp.empty() ) {
+        return tmp.front();
     }
-
     debugmsg("Tried to remove a item not in inventory (name: %s)", it->tname().c_str());
     return nullitem;
 }

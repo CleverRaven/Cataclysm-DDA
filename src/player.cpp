@@ -6862,11 +6862,12 @@ item player::i_rem(itype_id type)
 
 item player::i_rem(const item *it)
 {
-    if (&weapon == it)
-    {
-        return remove_weapon();
+    auto tmp = remove_items_with( [&it] (const item &i) { return &i == it; } );
+    if( tmp.empty() ) {
+        debugmsg( "did not found item %s to remove it!", it->tname().c_str() );
+        return ret_null;
     }
-    return inv.remove_item(it);
+    return tmp.front();
 }
 
 // Negative positions indicate weapon/clothing, 0 & positive indicate inventory

@@ -212,6 +212,33 @@ class inventory
             }
             return result;
         }
+        template<typename T>
+        std::list<item> remove_items_with( T filter )
+        {
+            std::list<item> result;
+            for( auto items_it = items.begin(); items_it != items.end(); ) {
+                auto &stack = *items_it;
+                for( auto stack_it = stack.begin(); stack_it != stack.end(); ) {
+                    if( filter( *stack_it ) ) {
+                        result.push_back( std::move( *stack_it ) );
+                        stack_it = stack.erase( stack_it );
+                        if( stack_it == stack.begin() && !stack.empty() ) {
+                            // preserve the invlet when removing the first item of a stack
+                            stack_it->invlet = result.back().invlet;
+                        }
+                    } else {
+                        result.splice( result.begin(), stack_it->remove_items_with( filter ) );
+                        ++stack_it;
+                    }
+                }
+                if( stack.empty() ) {
+                    items_it = items.erase( items_it );
+                } else {
+                    ++items_it;
+                }
+            }
+            return result;
+        }
     private:
         // For each item ID, store a set of "favorite" inventory letters.
         std::map<std::string, std::vector<char> > invlet_cache;
