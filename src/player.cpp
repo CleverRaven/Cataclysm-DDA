@@ -6859,19 +6859,6 @@ item& player::i_at(int position)
     return inv.find_item(position);
 }
 
-item& player::i_of_type(itype_id type)
-{
-    if (weapon.type->id == type) {
-        return weapon;
-    }
-    for (auto &i : worn) {
-        if (i.type->id == type) {
-            return i;
-        }
-    }
-    return inv.item_by_type(type);
-}
-
 int player::invlet_to_position( char invlet ) const
 {
     if( is_npc() ) {
