@@ -775,31 +775,6 @@ item inventory::reduce_charges(const item *ptr, long quantity)
     return reduce_charges_internal(ptr, quantity);
 }
 
-std::vector<item> inventory::remove_mission_items(int mission_id)
-{
-    std::vector<item> ret;
-    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
-        for (std::list<item>::iterator stack_iter = iter->begin();
-             stack_iter != iter->end(); ++stack_iter) {
-            if (stack_iter->mission_id == mission_id) {
-                ret.push_back(remove_item(&*stack_iter));
-                stack_iter = iter->begin();
-            } else {
-                for (size_t k = 0; k < stack_iter->contents.size() && stack_iter != iter->end(); ++k) {
-                    if (stack_iter->contents[k].mission_id == mission_id) {
-                        ret.push_back(remove_item(&*stack_iter));
-                        stack_iter = iter->begin();
-                    }
-                }
-            }
-        }
-        if (ret.size()) {
-            return ret;
-        }
-    }
-    return ret;
-}
-
 void inventory::dump(std::vector<item *> &dest)
 {
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {

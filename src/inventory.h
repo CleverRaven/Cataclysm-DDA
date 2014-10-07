@@ -84,7 +84,6 @@ class inventory
         template<typename Locator> std::list<item> reduce_stack(const Locator &type, int amount);
         template<typename Locator> item reduce_charges(const Locator &type, long quantity);
 
-        std::vector<item>  remove_mission_items(int mission_id);
         item &find_item(int position);
         item &item_by_type(itype_id type);
         item &item_or_container(itype_id type); // returns an item, or a container of it

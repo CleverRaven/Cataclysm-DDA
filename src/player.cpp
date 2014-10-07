@@ -6786,23 +6786,6 @@ item player::remove_weapon()
  return tmp;
 }
 
-void player::remove_mission_items(int mission_id)
-{
-    if (mission_id == -1) {
-        return;
-    }
-    if (weapon.mission_id == mission_id) {
-        remove_weapon();
-    } else {
-        for (auto &i : weapon.contents) {
-            if (i.mission_id == mission_id) {
-                remove_weapon();
-            }
-        }
-    }
-    inv.remove_mission_items(mission_id);
-}
-
 item player::reduce_charges(int position, long quantity) {
     if (position == -1) {
         if (!weapon.count_by_charges())
@@ -7508,6 +7491,14 @@ struct has_mission_item_filter {
 bool player::has_mission_item(int mission_id) const
 {
     return mission_id != -1 && has_item_with( has_mission_item_filter{ mission_id } );
+}
+
+void player::remove_mission_items( int mission_id )
+{
+    if( mission_id == -1 ) {
+        return;
+    }
+    remove_items_with( has_mission_item_filter { mission_id } );
 }
 
 bool player::i_add_or_drop(item& it, int qty) {
