@@ -1,10 +1,12 @@
-#ifndef _MONGROUP_H_
-#define _MONGROUP_H_
+#ifndef MONGROUP_H
+#define MONGROUP_H
 
 #include "mtype.h"
 #include <vector>
 #include <map>
 #include "json.h"
+
+bool monster_is_blacklisted(const mtype *m);
 
 struct MonsterGroupEntry;
 typedef std::vector<MonsterGroupEntry> FreqDef;
@@ -59,6 +61,7 @@ struct MonsterGroup {
     std::string name;
     std::string defaultMonster;
     FreqDef  monsters;
+    bool IsMonsterInGroup(const std::string &mtypeid) const;
 };
 
 struct mongroup {
@@ -145,4 +148,5 @@ class MonsterGroupManager
     private:
         static std::map<std::string, MonsterGroup> monsterGroupMap;
 };
+
 #endif

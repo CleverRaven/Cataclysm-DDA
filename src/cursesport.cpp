@@ -683,37 +683,37 @@ int waddch(WINDOW *win, const chtype ch)
     charcode = ch;
 
     switch (ch) {       //LINE_NESW  - X for on, O for off
-    case LINE_XOXO:   //#define LINE_XOXO 4194424
+    case LINE_XOXO:
         charcode = LINE_XOXO_C;
         break;
-    case LINE_OXOX:   //#define LINE_OXOX 4194417
+    case LINE_OXOX:
         charcode = LINE_OXOX_C;
         break;
-    case LINE_XXOO:   //#define LINE_XXOO 4194413
+    case LINE_XXOO:
         charcode = LINE_XXOO_C;
         break;
-    case LINE_OXXO:   //#define LINE_OXXO 4194412
+    case LINE_OXXO:
         charcode = LINE_OXXO_C;
         break;
-    case LINE_OOXX:   //#define LINE_OOXX 4194411
+    case LINE_OOXX:
         charcode = LINE_OOXX_C;
         break;
-    case LINE_XOOX:   //#define LINE_XOOX 4194410
+    case LINE_XOOX:
         charcode = LINE_XOOX_C;
         break;
-    case LINE_XXOX:   //#define LINE_XXOX 4194422
+    case LINE_XXOX:
         charcode = LINE_XXOX_C;
         break;
-    case LINE_XXXO:   //#define LINE_XXXO 4194420
+    case LINE_XXXO:
         charcode = LINE_XXXO_C;
         break;
-    case LINE_XOXX:   //#define LINE_XOXX 4194421
+    case LINE_XOXX:
         charcode = LINE_XOXX_C;
         break;
-    case LINE_OXXX:   //#define LINE_OXXX 4194423
+    case LINE_OXXX:
         charcode = LINE_OXXX_C;
         break;
-    case LINE_XXXX:   //#define LINE_XXXX 4194414
+    case LINE_XXXX:
         charcode = LINE_XXXX_C;
         break;
     default:

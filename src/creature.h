@@ -1,5 +1,5 @@
-#ifndef _CREATURE_H_
-#define _CREATURE_H_
+#ifndef CREATURE_H
+#define CREATURE_H
 
 #include "damage.h"
 #include "pldata.h"
@@ -10,19 +10,18 @@
 #include "bodypart.h"
 #include "mtype.h"
 #include "output.h"
-#include "messages.h"
 #include <stdlib.h>
 #include <string>
 #include <unordered_map>
 
 class game;
+class JsonObject;
+class JsonOut;
 
 class Creature
 {
     public:
-        // TODO: fill these in
-        Creature();
-        Creature(const Creature &rhs);
+        virtual ~Creature();
 
         virtual std::string disp_name(bool possessive = false) const = 0; // displayname for Creature
         virtual std::string skin_name() const = 0; // name of outer layer, e.g. "armor plates"
@@ -365,10 +364,43 @@ class Creature
 
         bool fake;
 
-        Creature &operator= (const Creature &rhs);
+        Creature();
+        Creature(const Creature &) = default;
+        Creature(Creature &&) = default;
+        Creature &operator=(const Creature &) = default;
+        Creature &operator=(Creature &&) = default;
 
         body_part select_body_part(Creature *source, int hit_roll);
+
+        /**
+         * These two functions are responsible for storing and loading the members
+         * of this class to/from json data.
+         * All classes that inherit from this class should implement their own
+         * version of these functions. They are not virtual on purpose, as it's
+         * not needed.
+         * Every implementation of those functions should a) call the same function
+         * with the same parameters of the super class and b) store/load their own
+         * members, but *not* members of any sub or super class.
+         *
+         * The functions are (on purpose) not part of the json
+         * serialize/deserialize system (defined in json.h).
+         * The Creature class is incomplete, there won't be any instance of that
+         * class alone, but there will be instances of sub classes (e.g. player,
+         * monster).
+         * Those (complete) classes implement the deserialize/serialize interface
+         * of json. That way only one json object per npc/player/monster instance
+         * is created (inside of the serialize function).
+         * E.g. player::serialize() looks like this:
+         * <code>json.start_object();store(json);json.end_object()</code>
+         * player::store than stores the members of the player class, and it calls
+         * Character::store, which stores the members of the Character class and calls
+         * Creature::store, which stores the members of the Creature class.
+         * All data goes into the single json object created in player::serialize.
+         */
+        // Store data of *this* class in the stream
+        void store(JsonOut &jsout) const;
+        // Load creature data from the given json object.
+        void load(JsonObject &jsin);
 };
 
 #endif
-

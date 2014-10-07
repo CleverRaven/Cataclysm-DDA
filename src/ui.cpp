@@ -438,6 +438,19 @@ void uimenu::setup()
         wprintz(window, border_color, " >");
     }
     fselected = selected;
+    if(fselected < 0) {
+        fselected = selected = 0;
+    } else if(fselected >= static_cast<int>(entries.size())) {
+        fselected = selected = static_cast<int>(entries.size()) - 1;
+    }
+    if(!entries.empty() && !entries[fselected].enabled) {
+        for(size_t i = 0; i < entries.size(); ++i) {
+            if(entries[i].enabled) {
+                fselected = selected = i;
+                break;
+            }
+        }
+    }
     started = true;
 }
 
@@ -515,23 +528,7 @@ void uimenu::show()
 
     int estart = text_lines + 2;
 
-    if( OPTIONS["MENU_SCROLL"] ) {
-        if ((int)fentries.size() > vmax) {
-            vshift = fselected - (vmax - 1) / 2;
-
-            if (vshift < 0) {
-                vshift = 0;
-            } else if (vshift + vmax > (int)fentries.size()) {
-                vshift = fentries.size() - vmax;
-            }
-        }
-    } else {
-        if( fselected < vshift ) {
-            vshift = fselected;
-        } else if( fselected >= vshift + vmax ) {
-            vshift = 1 + fselected - vmax;
-        }
-    }
+    calcStartPos( vshift, fselected, vmax, fentries.size() );
 
     for ( int fei = vshift, si = 0; si < vmax; fei++, si++ ) {
         if ( fei < (int)fentries.size() ) {
@@ -667,7 +664,9 @@ bool uimenu::scrollby(int scrollby, const int key)
             }
         }
     }
-    selected = fentries [ fselected ];
+    if( fselected < (int)fentries.size() ) {
+        selected = fentries [ fselected ];
+    }
     return true;
 }
 

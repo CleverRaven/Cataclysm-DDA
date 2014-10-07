@@ -1,5 +1,5 @@
-#ifndef _VEHICLE_H_
-#define _VEHICLE_H_
+#ifndef VEHICLE_H
+#define VEHICLE_H
 
 #include "tileray.h"
 #include "color.h"
@@ -7,6 +7,7 @@
 #include "line.h"
 #include "veh_type.h"
 #include <vector>
+#include <map>
 #include <string>
 #include <iosfwd>
 
@@ -24,14 +25,12 @@ extern const ammotype fuel_types[num_fuel_types];
 #define k_mvel 200 //adjust this to balance collision damage
 
 // 0 - nothing, 1 - monster/player/npc, 2 - vehicle,
-// 3 - thin_obstacle, 4 - bashable, 5 - destructible, 6 - other
+// 3 - bashable, 4 - other
 enum veh_coll_type {
  veh_coll_nothing = 0,
  veh_coll_body,
  veh_coll_veh,
- veh_coll_thin_obstacle,
  veh_coll_bashable,
- veh_coll_destructable,
  veh_coll_other,
 
  num_veh_coll_types
@@ -146,24 +145,25 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
  */
 struct label : public JsonSerializer, public JsonDeserializer {
     label(const int x = 0, const int y = 0) {
-    	this->x = x;
-    	this->y = y;
+        this->x = x;
+        this->y = y;
     }
     label(const int x, const int y, const std::string text) {
-    	this->x = x;
-    	this->y = y;
-    	this->text = text;
+        this->x = x;
+        this->y = y;
+        this->text = text;
     }
 
     int x;
     int y;
     std::string text;
 
-	// these are stored in a set
+    // these are stored in a set
     bool operator< (const label &other) const {
-    	if (x != other.x)
-    		return x < other.x;
-    	return y < other.y;
+        if (x != other.x) {
+            return x < other.x;
+        }
+        return y < other.y;
     }
 
     // json saving/loading

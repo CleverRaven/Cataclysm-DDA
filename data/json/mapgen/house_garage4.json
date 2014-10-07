@@ -19,7 +19,7 @@
                 ".x...SSSSSSSSSSSSSS...x.",
                 ".x...SSSSSSSSSSSSSS...x.",
                 ".x...SSSSSSSSSSSSSS...x.",
-                " x...xxxxx.SS.xxxxx...x.",
+                ".x...xxxxx.SS.xxxxx...x.",
                 ".|--------2332--------|.",
                 ".|8  A|         |6   F|.",
                 ".|8  ;|  66666  |6   G2.",
@@ -101,6 +101,7 @@
             ],
             "place_groups": [
                 { "vehicle": "car_sports", "x": 11, "y": 8, "rotation": 0, "chance": 10  },
+                { "item": "bed", "chance": 80,  "x": [20,21 ], "y": [19,20 ] },
                 { "item": "bedroom", "chance": 80, "x": [ 15, 21 ], "y": [ 18, 21 ] },
                 { "item": "livingroom", "chance": 80, "x": [ 7,13 ], "y": [ 18,21 ] },
                 { "item": "homeguns", "chance": 5, "x": [ 15,21 ], "y": [ 18,21 ] },

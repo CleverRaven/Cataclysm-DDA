@@ -1,4 +1,5 @@
-#pragma once
+#ifndef IUSE_ACTOR_H
+#define IUSE_ACTOR_H
 
 #include "iuse.h"
 #include "color.h"
@@ -195,3 +196,5 @@ class consume_drug_iuse : public iuse_actor
         virtual long use(player *, item *, bool) const;
         virtual iuse_actor *clone() const;
 };
+
+#endif

@@ -533,7 +533,7 @@
         "type" : "keybinding",
         "id": "ADD_MOD",
         "category": "MODMANAGER_DIALOG",
-        "name": "Add selected mod",
+        "name": "Move selected mod up",
         "bindings":[
             {
                 "input_method":"keyboard",
@@ -545,7 +545,7 @@
         "type" : "keybinding",
         "id": "REMOVE_MOD",
         "category": "MODMANAGER_DIALOG",
-        "name": "Remove selcted mod",
+        "name": "Move selcted mod down",
         "bindings":[
             {
                 "input_method":"keyboard",
@@ -635,6 +635,18 @@
             {
                 "input_method":"keyboard",
                 "key":"O"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"TOGGLE_EXPLORED",
+        "category":"OVERMAP",
+        "name":"Toggle Explored",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"E"
             }
         ]
     },
@@ -886,6 +898,18 @@
             {
                 "input_method":"keyboard",
                 "key":"!"
+            }
+        ]
+    },
+	{
+        "type" : "keybinding",
+        "id": "REROLL_CHARACTER",
+        "category": "NEW_CHAR_DESCRIPTION",
+        "name": "Reroll Random Character",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"%"
             }
         ]
     },
@@ -1730,7 +1754,7 @@
         "bindings":[
             {
                 "input_method":"keyboard",
-                "key":"1"
+                "key":"7"
             }
         ]
     },
@@ -1742,7 +1766,7 @@
         "bindings":[
             {
                 "input_method":"keyboard",
-                "key":"2"
+                "key":"8"
             }
         ]
     },
@@ -1754,7 +1778,7 @@
         "bindings":[
             {
                 "input_method":"keyboard",
-                "key":"3"
+                "key":"9"
             }
         ]
     },
@@ -1802,7 +1826,7 @@
         "bindings":[
             {
                 "input_method":"keyboard",
-                "key":"7"
+                "key":"1"
             }
         ]
     },
@@ -1814,7 +1838,7 @@
         "bindings":[
             {
                 "input_method":"keyboard",
-                "key":"8"
+                "key":"2"
             }
         ]
     },
@@ -1826,7 +1850,7 @@
         "bindings":[
             {
                 "input_method":"keyboard",
-                "key":"9"
+                "key":"3"
             }
         ]
     },

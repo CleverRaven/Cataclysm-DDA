@@ -332,7 +332,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
           }
          }
          if (destroyTires) { // vehicle is disabled because flat tires
-          if (part_flag(p, "WHEEL")) {
+          if (part_flag(p, VPFLAG_WHEEL)) {
              parts[p].hp= 0;
           }
          }
@@ -869,20 +869,7 @@ void vehicle::play_music()
         std::string sound = "";
         const int radio_x = global_x() + parts[p].precalc_dx[0];
         const int radio_y = global_y() + parts[p].precalc_dy[0];
-        if (int(calendar::turn) % 5 == 0) {
-            switch (rng(1, 5)) {
-            case 1: sound = _("a sweet guitar solo!");
-            case 2: sound = _("a funky bassline."); break;
-            case 3: sound = _("some amazing vocals."); break;
-            case 4: sound = _("some pumping bass."); break;
-            case 5: sound = _("dramatic classical music.");
-            }
-
-        }
-        if( g->ambient_sound( radio_x, radio_y, 15, sound ) && !g->u.has_effect("music") ){
-            g->u.add_effect("music", 1);
-            g->u.add_morale(MORALE_MUSIC, 5, 20, 30, 1);
-        }
+        iuse::play_music( &(g->u), point(radio_x, radio_y), 15 );
     }
 }
 vpart_info& vehicle::part_info (int index, bool include_removed) const
@@ -1503,7 +1490,8 @@ int vehicle::part_with_feature (int part, const vpart_bitflags &flag, bool unbro
     if (part_flag(part, flag)) {
         return part;
     }
-    std::map<point, std::vector<int> >::const_iterator it = relative_parts.find( point( parts[part].mount_dx, parts[part].mount_dy ) );
+    std::map<point, std::vector<int> >::const_iterator it =
+        relative_parts.find( point( parts[part].mount_dx, parts[part].mount_dy ) );
     if ( it != relative_parts.end() ) {
         const std::vector<int> & parts_here = it->second;
         for (auto &i : parts_here) {
@@ -1531,9 +1519,9 @@ int vehicle::part_with_feature (int part, const std::string &flag, bool unbroken
  * Returns the label at the coordinates given (mount coordinates)
  */
 const std::string vehicle::get_label(int x, int y) {
-	std::set<label>::const_iterator it = labels.find(label(x, y));
+    std::set<label>::const_iterator it = labels.find(label(x, y));
     if (it != labels.end()) {
-    	return it->text;
+        return it->text;
     }
     return "";
 }
@@ -1543,8 +1531,9 @@ const std::string vehicle::get_label(int x, int y) {
  */
 void vehicle::set_label(int x, int y, std::string text) {
     labels.erase(label(x, y));
-    if (text != "")
-    	labels.insert(label(x, y, text));
+    if (text != "") {
+        labels.insert(label(x, y, text));
+    }
 }
 
 int vehicle::next_part_to_close(int p, bool outside)
@@ -1905,13 +1894,14 @@ int vehicle::print_part_desc(WINDOW *win, int y1, int width, int p, int hl /*= -
             //~ indicates that a vehicle part is outside
             mvwprintz(win, y, width-2-utf8_width(_("Out")), c_ltgray, _("Out"));
         }
-    	y++;
+        y++;
     }
 
     // print the label for this location
     const std::string label = get_label(parts[p].mount_dx, parts[p].mount_dy);
-    if (label != "")
-    	mvwprintz(win, y + 1, 1, c_ltred, _("Label: %s"), label.c_str());
+    if (label != "") {
+        mvwprintz(win, y + 1, 1, c_ltred, _("Label: %s"), label.c_str());
+    }
 
     return y;
 }
@@ -2457,7 +2447,7 @@ float vehicle::k_mass ()
     float ma0 = 50.0;
 
     // calculate safe speed reduction due to mass
-    float km = ma0 / (ma0 + (total_mass() / 8) / (8 * (float) wa));
+    float km = ma0 / (ma0 + (total_mass()) / (8 * (float) wa));
 
     return km;
 }
@@ -2906,7 +2896,6 @@ void vehicle::thrust (int thd) {
     if( load < 0.01 ) {
         load = 0.01;
     }
-    noise_and_smoke( load );
     // Ugly hack, use full engine power occasionally when thrusting slightly
     // up to cruise control speed. Loses some extra power when in reverse.
     if (thrusting && rng(1, accel) <= vel_inc ) {
@@ -2937,6 +2926,7 @@ void vehicle::thrust (int thd) {
             }
         }
 
+        noise_and_smoke( load );
         consume_fuel ();
 
         int strn = (int) (strain () * strain() * 100);
@@ -2964,13 +2954,26 @@ void vehicle::thrust (int thd) {
         (velocity < 0 && velocity + vel_inc > 0)) {
         stop ();
     } else {
-        velocity += vel_inc;
-        if (velocity > max_vel) {
+        // Increase velocity up to max_vel, but not above.
+        // If the velocity is already above max, don't change it at all,
+        // this happens when the engine gets destroyed while driving, the max
+        // velocity drops to 0 (no engine), but the actual velocity remains.
+        const int min_vel = -max_vel / 4;
+        if( velocity + vel_inc <= max_vel ) {
+            // normal acceleration, result is still below maximum
+            velocity += vel_inc;
+        } else if( velocity < max_vel && velocity + vel_inc > max_vel ) {
+            // velocity is currently in range, but would go out of range, clip it
+            // to the range, this is still an acceleration.
             velocity = max_vel;
-        } else {
-            if (velocity < -max_vel / 4) {
-                velocity = -max_vel / 4;
-            }
+        } else if( velocity + vel_inc > max_vel ) {
+            // No acceleration, would get us above the maximum
+        } else if( velocity + vel_inc > min_vel ) {
+            // same for negative velocity
+            velocity += vel_inc;
+        } else if( velocity > min_vel && velocity + vel_inc < min_vel ) {
+            // same for negative velocity
+            velocity = min_vel;
         }
     }
     if (stereo_on == true) {
@@ -3126,29 +3129,27 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
         } else {
             mass2 = 82;// player or NPC
         }
-    } else if (g->m.has_flag_ter_or_furn ("THIN_OBSTACLE", x, y)) {
-        // if all above fails, go for terrain which might obstruct moving
-        collision_type = veh_coll_thin_obstacle; // some fence
-        mass2 = 10;
-        e=0.30;
-        part_dens = 20;
-    } else if (g->m.has_flag_ter_or_furn("BASHABLE", x, y)) {
-        collision_type = veh_coll_bashable; // (door, window)
-        mass2 = 50;
-        e=0.30;
-        part_dens = 20;
+    } else if ( g->m.is_bashable_ter_furn(x, y) && g->m.move_cost_ter_furn( x, y ) != 2 &&
+                // Don't collide with tiny things, like flowers, unless we have a wheel in our space.
+                (part_with_feature(part, VPFLAG_WHEEL) >= 0 ||
+                 !g->m.has_flag_ter_or_furn("TINY", x, y)) &&
+                // Protrusions don't collide with short terrain.
+                // Tiny also doesn't, but it's already excluded unless there's a wheel present.
+                !(part_with_feature(part, "PROTRUSION") >= 0 &&
+                  g->m.has_flag_ter_or_furn("SHORT", x, y)) &&
+                // These are bashable, but don't interact with vehicles.
+                !g->m.has_flag_ter_or_furn("NOCOLLIDE", x, y) ) {
+        // movecost 2 indicates flat terrain like a floor, no collision there.
+        collision_type = veh_coll_bashable;
+        e = 0.30;
+        //Just a rough rescale for now to obtain approximately equal numbers
+        mass2 = 10 + std::max(0, g->m.bash_strength(x, y) - 30);
+        part_dens = 10 + int(float(g->m.bash_strength(x, y)) / 300 * 70);
     } else if (g->m.move_cost_ter_furn(x, y) == 0) {
-        if(g->m.is_destructable_ter_furn(x, y)) {
-            collision_type = veh_coll_destructable; // destructible (wall)
-            mass2 = 200;
-            e=0.30;
-            part_dens = 60;
-        } else {
-            collision_type = veh_coll_other; // not destructible
-            mass2 = 1000;
-            e=0.10;
-            part_dens = 80;
-        }
+        collision_type = veh_coll_other; // not destructible
+        mass2 = 1000;
+        e=0.10;
+        part_dens = 80;
     }
 
     if (collision_type == veh_coll_nothing) {  // hit nothing
@@ -3200,7 +3201,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
         //Impulse of object
         const float vel1 = velocity / 100;
 
-        //Assumption: velocitiy of hit object = 0 mph
+        //Assumption: velocity of hit object = 0 mph
         const float vel2 = 0;
         //lost energy at collision -> deformation energy -> damage
         const float d_E = ((mass*mass2)*(1-e)*(1-e)*(vel1-vel2)*(vel1-vel2)) / (2*mass + 2*mass2);
@@ -3211,7 +3212,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
 
         //Damage calculation
         //damage dealt overall
-        dmg += abs(d_E / k_mvel);
+        dmg += std::abs(d_E / k_mvel);
         //damage for vehicle-part - only if not a hallucination
         if(!z || !z->is_hallucination()) {
             part_dmg = dmg * k / 100;
@@ -3219,36 +3220,29 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
         //damage for object
         const float obj_dmg  = dmg * (100-k)/100;
 
-        if (collision_type == veh_coll_bashable) {
+        if (collision_type == veh_coll_other) {
+            smashed = false;
+        } else if (collision_type == veh_coll_bashable) {
             // something bashable -- use map::bash to determine outcome
-            int absorb = -1;
-            g->m.bash(x, y, obj_dmg, false, &absorb);
-            smashed = obj_dmg > absorb;
-        } else if (collision_type >= veh_coll_thin_obstacle) {
-            // some other terrain
-            smashed = obj_dmg > mass2;
+            smashed = g->m.bash(x, y, obj_dmg, false, false, this).second;
             if (smashed) {
-                // destroy obstacle
-                switch (collision_type) {
-                case veh_coll_thin_obstacle:
-                    if (g->m.has_furn(x, y)) {
-                        g->m.furn_set(x, y, f_null);
-                    } else {
-                        g->m.ter_set(x, y, t_dirt);
-                    }
-                    break;
-                case veh_coll_destructable:
-                    g->m.destroy(x, y, false);
-                    snd = _("crash!");
-                    break;
-                case veh_coll_other:
+                if (g->m.is_bashable_ter_furn(x, y)) {
+                    // There's new terrain there to smash
                     smashed = false;
-                    break;
-                default:;
+                    e = 0.30;
+                    //Just a rough rescale for now to obtain approximately equal numbers
+                    mass2 = 10 + std::max(0, g->m.bash_strength(x, y) - 30);
+                    part_dens = 10 + int(float(g->m.bash_strength(x, y)) / 300 * 70);
+                } else if (g->m.move_cost_ter_furn(x, y) == 0) {
+                    // There's new terrain there, but we can't smash it!
+                    smashed = false;
+                    collision_type = veh_coll_other;
+                    mass2 = 1000;
+                    e=0.10;
+                    part_dens = 80;
                 }
             }
-        }
-        if (collision_type == veh_coll_body) {
+        } else if (collision_type == veh_coll_body) {
             int dam = obj_dmg*dmg_mod/100;
             if (z) {
                 int z_armor = part_flag(part, "SHARP")? z->type->armor_cut : z->type->armor_bash;
@@ -3344,7 +3338,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
         }
         int turn_roll = rng (0, 100);
         //probability of skidding increases with higher delta_v
-        if (turn_roll < abs(prev_velocity - (float)(velocity / 100)) * 2 ) {
+        if (turn_roll < std::abs(prev_velocity - (float)(velocity / 100)) * 2 ) {
             //delta_v = vel1 - vel1_a
             //delta_v = 50 mph -> 100% probability of skidding
             //delta_v = 25 mph -> 50% probability of skidding
@@ -3368,51 +3362,49 @@ void vehicle::handle_trap (int x, int y, int part)
         return;
     }
     trap_id t = g->m.tr_at(x, y);
-    if (t == tr_null) {
+    if (t == tr_null || t == tr_goo || t == tr_portal || t == tr_telepad || t == tr_temple_flood ||
+        t == tr_temple_toggle ) {
         return;
     }
     int noise = 0;
     int chance = 100;
     int expl = 0;
     int shrap = 0;
-    bool wreckit = false;
-    std::string msg (_("The %s's %s runs over %s."));
+    int part_damage = 0;
     std::string snd;
     // todo; make trapfuncv?
 
     if ( t == tr_bubblewrap ) {
         noise = 18;
         snd = _("Pop!");
-    } else if ( t == tr_beartrap ||
-                t == tr_beartrap_buried ) {
+    } else if ( t == tr_beartrap || t == tr_beartrap_buried ) {
         noise = 8;
         snd = _("SNAP!");
-        wreckit = true;
+        part_damage = 300;
         g->m.remove_trap(x, y);
         g->m.spawn_item(x, y, "beartrap");
-    } else if ( t == tr_nailboard ) {
-        wreckit = true;
+    } else if ( t == tr_nailboard || t == tr_caltrops ) {
+        part_damage = 300;
     } else if ( t == tr_blade ) {
         noise = 1;
         snd = _("Swinnng!");
-        wreckit = true;
+        part_damage = 300;
     } else if ( t == tr_crossbow ) {
         chance = 30;
         noise = 1;
         snd = _("Clank!");
-        wreckit = true;
+        part_damage = 300;
         g->m.remove_trap(x, y);
         g->m.spawn_item(x, y, "crossbow");
         g->m.spawn_item(x, y, "string_6");
         if (!one_in(10)) {
             g->m.spawn_item(x, y, "bolt_steel");
         }
-    } else if ( t == tr_shotgun_2 ||
-                t == tr_shotgun_1 ) {
+    } else if ( t == tr_shotgun_2 || t == tr_shotgun_1 ) {
         noise = 60;
         snd = _("Bang!");
         chance = 70;
-        wreckit = true;
+        part_damage = 300;
         if (t == tr_shotgun_2) {
             g->m.add_trap(x, y, tr_shotgun_1);
         } else {
@@ -3420,38 +3412,37 @@ void vehicle::handle_trap (int x, int y, int part)
             g->m.spawn_item(x, y, "shotgun_sawn");
             g->m.spawn_item(x, y, "string_6");
         }
-    } else if ( t == tr_landmine_buried ||
-                t == tr_landmine ) {
+    } else if ( t == tr_landmine_buried || t == tr_landmine ) {
         expl = 10;
         shrap = 8;
         g->m.remove_trap(x, y);
+        part_damage = 1000;
     } else if ( t == tr_boobytrap ) {
         expl = 18;
         shrap = 12;
+        part_damage = 1000;
     } else if ( t == tr_dissector ) {
         noise = 10;
         snd = _("BRZZZAP!");
-        wreckit = true;
-    } else if ( t == tr_sinkhole ||
-                t == tr_pit ||
-                t == tr_spike_pit ||
-                t == tr_ledge ) {
-        wreckit = true;
-    } else if ( t == tr_goo ||
-                t == tr_portal ||
-                t == tr_telepad ||
-                t == tr_temple_flood ||
-                t == tr_temple_toggle ) {
-        msg.clear();
+        part_damage = 500;
+    } else if ( t == tr_sinkhole || t == tr_pit || t == tr_spike_pit || t == tr_ledge || t == tr_glass_pit ) {
+        part_damage = 500;
     }
-    if (!msg.empty() && g->u_see(x, y)) {
-        add_msg (m_bad, msg.c_str(), name.c_str(), part_info(part).name.c_str(), traplist[t]->name.c_str());
+    if( g->u_see(x, y) ) {
+        if( g->u.knows_trap(x, y) ) {
+            add_msg(m_bad, _("The %s's %s runs over %s."), name.c_str(),
+                    part_info(part).name.c_str(), traplist[t]->name.c_str() );
+        } else {
+            add_msg(m_bad, _("The %s's %s runs over something."), name.c_str(),
+                    part_info(part).name.c_str() );
+        }
     }
     if (noise > 0) {
         g->sound(x, y, noise, snd);
     }
-    if (wreckit && chance >= rng (1, 100)) {
-        damage (part, 500);
+    if( part_damage && chance >= rng (1, 100) ) {
+        // Hit the wheel directly since it ran right over the trap.
+        damage_direct( pwh, part_damage );
     }
     if (expl > 0) {
         g->explosion(x, y, expl, shrap, false);
@@ -3511,7 +3502,7 @@ bool vehicle::add_item (int part, item itm)
     // const int max_weight = ?! // TODO: weight limit, calc per vpart & vehicle stats, not a hard user limit.
     // add creaking sounds and damage to overloaded vpart, outright break it past a certian point, or when hitting bumps etc
 
-    if (!part_flag(part, "CARGO")) {
+    if( !part_flag(part, "CARGO") || parts[part].hp <= 0 ) {
         return false;
     }
 
@@ -3813,13 +3804,11 @@ int vehicle::damage (int p, int dmg, int type, bool aimed)
       // We ran out of non removed parts at this location already.
       return dmg;
     }
-    if (!aimed)
-    {
+    if( !aimed ) {
         bool found_obs = false;
         for (auto &i : pl)
             if (part_flag (i, "OBSTACLE") &&
-                (!part_flag (i, "OPENABLE") || !parts[i].open))
-            {
+                (!part_flag (i, "OPENABLE") || !parts[i].open)) {
                 found_obs = true;
                 break;
             }
@@ -3829,15 +3818,13 @@ int vehicle::damage (int p, int dmg, int type, bool aimed)
     int parm = part_with_feature (p, "ARMOR");
     int pdm = pl[rng (0, pl.size()-1)];
     int dres;
-    if (parm < 0)
+    if (parm < 0) {
         // not covered by armor -- damage part
         dres = damage_direct (pdm, dmg, type);
-    else
-    {
+    } else {
         // covered by armor -- damage armor first
         // half damage for internal part(over parts not covered)
-        bool overhead = part_flag(pdm, "ROOF") ||
-                        part_info(pdm).location == "on_roof";
+        bool overhead = part_flag(pdm, "ROOF") || part_info(pdm).location == "on_roof";
         // Calling damage_direct may remove the damaged part
         // completely, therefor the other indes (pdm) becames
         // wrong if pdm > parm.
@@ -4069,11 +4056,7 @@ bool vehicle::fire_turret (int p, bool burst)
     }
     // Check for available power for turrets that use it.
     const int power = fuel_left(fuel_type_battery);
-    if( gun->item_tags.count( "USE_UPS" ) && power < 5 ) {
-        return false;
-    } else if( gun->item_tags.count( "USE_UPS_20" ) && power < 20 ) {
-        return false;
-    } else if( gun->item_tags.count( "USE_UPS_40" ) && power < 40 ) {
+    if( gun->ups_charges > 0 && gun->ups_charges < power ) {
         return false;
     }
     long charges = burst? gun->burst : 1;
@@ -4330,8 +4313,8 @@ rl_vec2d vehicle::face_vec(){
 
 float get_collision_factor(float delta_v)
 {
-    if (abs(delta_v) <= 31) {
-        return ( 1 - ( 0.9 * abs(delta_v) ) / 31 );
+    if (std::abs(delta_v) <= 31) {
+        return ( 1 - ( 0.9 * std::abs(delta_v) ) / 31 );
     } else {
         return 0.1;
     }

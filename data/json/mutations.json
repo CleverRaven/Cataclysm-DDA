@@ -106,7 +106,7 @@
         "description" : "You possess natural night vision, and can see two squares instead of one in pitch blackness.",
         "starting_trait" : true,
         "changes_to" : ["NIGHTVISION2"],
-        "cancels": ["ELFA_NV", "ELFA_FNV", "FELINE_NV"],
+        "cancels": ["ELFA_NV", "ELFA_FNV", "FELINE_NV", "URSINE_EYE"],
         "category" : ["MUTCAT_BIRD", "MUTCAT_CATTLE", "MUTCAT_INSECT"]
     },{
         "type" : "mutation",
@@ -335,7 +335,7 @@
         "description" : "Although you still suffer the negative effects of pain, it also brings a unique pleasure to you.",
         "starting_trait" : true,
         "valid" : false,
-        "changes_to" : ["PAIN_JUNKIE", "CENOBITE"]
+        "changes_to" : ["MASOCHIST_MED", "CENOBITE"]
     },{
         "type" : "mutation",
         "id" : "STYLISH",
@@ -471,6 +471,7 @@
         "points" : -2,
         "description" : "Without your glasses, your seeing radius is severely reduced! However, while wearing glasses this trait has no effect, and you are guaranteed to start with a pair.",
         "starting_trait" : true,
+        "cancels" : ["URSINE_EYE"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_TROGLOBITE"]
     },{
         "type" : "mutation",
@@ -601,7 +602,7 @@
         "id" : "MEATARIAN",
         "name" : "Hates Vegetables",
         "points" : -2,
-        "description" : "You like many children hated eating your vegetables you also didn't outgrow it. It's possible for you to eat them, but you will suffer morale penalties due to nausea.",
+        "description" : "You, like many children, hated eating your vegetables; however, you didn't outgrow it. It's possible for you to eat them, but you will suffer morale penalties due to nausea.",
         "starting_trait" : true,
         "valid" : false,
         "cancels" : ["VEGETARIAN", "HERBIVORE", "RUMINANT"]
@@ -877,7 +878,7 @@
         "description" : "You can see incredibly well in the dark!",
         "prereqs" : ["NIGHTVISION"],
         "changes_to" : ["NIGHTVISION3"],
-        "cancels" : ["ELFA_NV", "ELFA_FNV", "FEL_NV"],
+        "cancels" : ["ELFA_NV", "ELFA_FNV", "FEL_NV", "URSINE_EYE"],
         "category" : ["MUTCAT_FISH", "MUTCAT_BEAST", "MUTCAT_INSECT", "MUTCAT_RAT", "MUTCAT_CHIMERA", "MUTCAT_LUPINE"]
     },{
         "type" : "mutation",
@@ -887,7 +888,7 @@
         "description" : "You can see in pitch blackness as if you were wearing night-vision goggles.",
         "prereqs" : ["NIGHTVISION2"],
         "leads_to" : ["INFRARED"],
-        "cancels" : ["ELFA_NV", "ELFA_FNV", "FEL_NV"],
+        "cancels" : ["ELFA_NV", "ELFA_FNV", "FEL_NV", "URSINE_EYE"],
         "category" : ["MUTCAT_TROGLOBITE", "MUTCAT_SPIDER"]
     },{
         "type" : "mutation",
@@ -943,8 +944,8 @@
         "id" : "URSINE_EYE",
         "name" : "Ursine Vision",
         "points" : 1,
-        "description" : "Your visual processing has shifted: though you can see better in the dark, you can't see very far in the light.",
-        "cancels" : ["ELFAEYES", "LIZ_EYE", "BIRD_EYE", "FEL_EYE", "COMPOUND_EYES", "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3"],
+        "description" : "Your visual processing has shifted: though you can see better in the dark, you're nearsighted in the light.  Maybe glasses would help.",
+        "cancels" : ["ELFAEYES", "LIZ_EYE", "BIRD_EYE", "FEL_EYE", "COMPOUND_EYES", "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3", "MYOPIC"],
         "category" : ["MUTCAT_URSINE"]
     },{
         "type" : "mutation",
@@ -1065,6 +1066,51 @@
         "category" : ["MUTCAT_FISH", "MUTCAT_CEPHALOPOD"],
         "wet_protection" : [
             { "part" : "HEAD", "good" : 1 }
+        ]
+    },{
+        "type" : "mutation",
+        "id" : "M_SKIN",
+        "name" : "Mycus Flesh",
+        "points" : 2,
+        "visibility" : 10,
+        "ugliness" : 8,
+        "description" : "We have adapted local physical structure to Mycus physiology. Greatly reduces wet effects.",
+        "valid" : false,
+        "purifiable": false,
+        "category" : ["MUTCAT_MYCUS"],
+        "prereqs" : ["M_IMMUNE"],
+        "threshreq" : ["THRESH_MYCUS"],
+        "leads_to" : ["M_DEFENDER"],
+        "changes_to" : ["M_SKIN2"],
+        "wet_protection" : [
+            { "part" : "HEAD", "ignored" : 6 },
+            { "part" : "LEGS", "ignored" : 20 },
+            { "part" : "FEET", "ignored" : 6 },
+            { "part" : "ARMS", "ignored" : 18 },
+            { "part" : "HANDS", "ignored" : 4 },
+            { "part" : "TORSO", "ignored" : 40 }
+        ]
+    },{
+        "type" : "mutation",
+        "id" : "M_SKIN2",
+        "name" : "Mycus Fireproofing",
+        "points" : 5,
+        "visibility" : 10,
+        "ugliness" : 8,
+        "description" : "We have incorporated the dense amphibole fibers used in Mycus core towers. Greatly reduces speed, but also damage, flammability, and wet effects.",
+        "valid" : false,
+        "purifiable": false,
+        "category" : ["MUTCAT_MYCUS"],
+        "prereqs" : ["M_SKIN"],
+        "prereqs2" : ["M_DEFENDER"],
+        "threshreq" : ["THRESH_MYCUS"],
+        "wet_protection" : [
+            { "part" : "HEAD", "ignored" : 9 },
+            { "part" : "LEGS", "ignored" : 30 },
+            { "part" : "FEET", "ignored" : 9 },
+            { "part" : "ARMS", "ignored" : 24 },
+            { "part" : "HANDS", "ignored" : 6 },
+            { "part" : "TORSO", "ignored" : 60 }
         ]
     },{
         "type" : "mutation",
@@ -1370,6 +1416,72 @@
         "category" : ["MUTCAT_PLANT"]
     },{
         "type" : "mutation",
+        "id" : "M_SPORES",
+        "name" : "Mycus Spores",
+        "points" : 4,
+        "visibility" : 10,
+        "ugliness" : 4,
+        "description" : "We have developed local spore sacs.  The Mycus must grow.",
+        "valid" : false,
+        "prereqs" : ["M_DEPENDENT"],
+        "changes_to" : ["M_FERTILE"],
+        "cancels" : ["M_BLOSSOMS", "M_BLOOM"],
+        "threshreq" : ["THRESH_MYCUS"],
+        "category" : ["MUTCAT_MYCUS"]
+    },{
+        "type" : "mutation",
+        "id" : "M_FERTILE",
+        "name" : "Mycus Sporogenesis",
+        "points" : 6,
+        "visibility" : 5,
+        "ugliness" : 3,
+        "description" : "Local organisms seem to regard open spore-dispersal as a danger, and attack the Mycus. Accordingly our local spore sacs remain quiescent, until local guidance determines that it is safe to germinate. Rapid development taxes local nutrient reserves but ensures rapid and effective growth.",
+        "valid" : false,
+        "prereqs" : ["M_SPORES"],
+        "cancels" : ["M_BLOSSOMS", "M_BLOOM"],
+        "threshreq" : ["THRESH_MYCUS"],
+        "category" : ["MUTCAT_MYCUS"],
+        "active"     :    true,
+        "cost"       :    10,
+        "time"       :    0,
+        "hunger"     :    true,
+        "thirst"     :    true
+    },{
+        "type" : "mutation",
+        "id" : "M_BLOSSOMS",
+        "name" : "Mycus Blossoms",
+        "points" : 4,
+        "visibility" : 10,
+        "ugliness" : 3,
+        "description" : "We have developed local blossoms.  The Mycus must grow.",
+        "valid" : false,
+        "prereqs" : ["M_DEPENDENT"],
+        "prereqs2" : ["M_IMMUNE"],
+        "changes_to" : ["M_BLOOM"],
+        "cancels" : ["M_SPORES", "M_FERTILE"],
+        "threshreq" : ["THRESH_MYCUS"],
+        "category" : ["MUTCAT_MYCUS"]
+    },{
+        "type" : "mutation",
+        "id" : "M_BLOOM",
+        "name" : "Mycus Bloom",
+        "points" : 6,
+        "visibility" : 10,
+        "ugliness" : 1,
+        "description" : "Local organisms seem to regard open spore-dispersal as a danger, and attack the Mycus. Accordingly our local blossoms remain quiescent, until local guidance determines that it is safe to germinate. Rapid development taxes local nutrient reserves but ensures rapid and effective growth.",
+        "valid" : false,
+        "cancels" : ["M_SPORES", "M_FERTILE"],
+        "prereqs" : ["M_BLOSSOMS"],
+        "threshreq" : ["THRESH_MYCUS"],
+        "category" : ["MUTCAT_MYCUS"],
+        "active"     :    true,
+        "cost"       :    15,
+        "time"       :    0,
+        "hunger"     :    true,
+        "thirst"     :    true,
+        "fatigue"    :    true
+    },{
+        "type" : "mutation",
         "id" : "NAILS",
         "name" : "Long Fingernails",
         "points" : 1,
@@ -1396,10 +1508,13 @@
         "points" : 2,
         "visibility" : 0,
         "ugliness" : 1,
-        "description" : "You have claws on the ends of your fingers, and can retract them if desired.  If you aren't wearing gloves, your unarmed attacks deal a minor amount of cutting damage.",
+        "description" : "You have claws on the ends of your fingers, and can extend or retract them as desired.  Gloves will still get in the way, though.",
         "prereqs" : ["CLAWS"],
         "cancels" : ["TALONS"],
-        "category" : ["MUTCAT_FELINE"]
+        "category" : ["MUTCAT_FELINE"],
+        "active"     :    true,
+        "cost"       :    0,
+        "time"       :    100
     },{
         "type" : "mutation",
         "id" : "CLAWS_TENTACLE",
@@ -1436,7 +1551,43 @@
         "id" : "MARLOSS",
         "name" : "Marloss Carrier",
         "points" : 4,
-        "description" : "Ever since you ate that Marloss berry, you can't get its scent out of your nose, and you have a strong desire to eat more.",
+        "description" : "Ever since you ate that Marloss berry, you can't get its scent out of your nose, and you have a strong desire to try some seeds and...sap?",
+        "purifiable": false,
+        "valid" : false,
+        "category" : ["MUTCAT_MARLOSS"]
+    },{
+        "type" : "mutation",
+        "id" : "MARLOSS_BLUE",
+        "name" : "Marloss Vessel",
+        "points" : 4,
+        "description" : "Ever since you ate that Marloss seed, you can't get its taste off of your tongue, and you have a strong desire to try some berries and...sap?",
+        "purifiable": false,
+        "valid" : false,
+        "category" : ["MUTCAT_MARLOSS"]
+    },{
+        "type" : "mutation",
+        "id" : "MARLOSS_YELLOW",
+        "name" : "Marloss Vector",
+        "points" : 4,
+        "description" : "Ever since you ate that Marloss jelly, you can't stop thinking of it, and you have a strong desire to eat some seeds and berries.",
+        "purifiable": false,
+        "valid" : false,
+        "category" : ["MUTCAT_MARLOSS"]
+    },{
+        "type" : "mutation",
+        "id" : "MARLOSS_AVOID",
+        "name" : "Marloss Rejection",
+        "points" : 0,
+        "description" : "Ever since you had that life-threatening reaction to that Marloss junk, you can't bear the thought of ever eating it again!",
+        "purifiable": false,
+        "valid" : false
+    },{
+        "type" : "mutation",
+        "id" : "MUTAGEN_AVOID",
+        "name" : "Mutagenic Aversion",
+        "points" : 0,
+        "description" : "Ever since you had that life-threatening reaction to those mutagen and purifier things, you can't bear the thought of ever using them again!",
+        "purifiable": false,
         "valid" : false
     },{
         "type" : "mutation",
@@ -1483,6 +1634,16 @@
         "prereqs2" : ["INFRESIST"],
         "threshreq" : ["THRESH_MEDICAL"],
         "category" : ["MUTCAT_MEDICAL"]
+    },{
+        "type" : "mutation",
+        "id" : "M_IMMUNE",
+        "name" : "Mycus Identity",
+        "points" : 5,
+        "description" : "We have synchronized our local physiology with that of our reproductive systems.  Any spores we may encounter will not attempt to germinate inside the local system.",
+        "valid" : false,
+        "purifiable": false,
+        "threshreq" : ["THRESH_MYCUS"],
+        "category" : ["MUTCAT_MYCUS"]
     },{
         "type" : "mutation",
         "id" : "PARAIMMUNE",
@@ -1677,6 +1838,17 @@
         "threshreq" : ["THRESH_BIRD"],
         "cancels" : ["GOURMAND"],
         "category" : ["MUTCAT_BIRD"]
+    },{
+        "type" : "mutation",
+        "id" : "M_DEPENDENT",
+        "name" : "Mycus Feeder",
+        "points" : -5,
+        "description" : "We have streamlined our nutritional requirements.  We rely on the Mycus for sustenance, as it relies on us.",
+        "valid" : false,
+        "purifiable" : false,
+        "threshreq" : ["THRESH_MYCUS"],
+        "cancels" : ["GOURMAND", "BEAK", "BEAK_PECK", "BEAK_HUM"],
+        "category" : ["MUTCAT_MYCUS"]
     },{
         "type" : "mutation",
         "id" : "RUMINANT",
@@ -1888,7 +2060,11 @@
         "prereqs" : ["TAIL_STUB"],
         "cancels" : ["TAIL_FIN", "TAIL_FLUFFY", "TAIL_STING", "TAIL_CLUB", "TAIL_RAPTOR", "TAIL_CATTLE", "TAIL_RAT"],
         "changes_to" : ["TAIL_CLUB"],
-        "category" : ["MUTCAT_LIZARD"]
+        "category" : ["MUTCAT_LIZARD"],
+        "active"     :    true,
+        "cost"       :    20,
+        "time"       :    10,
+        "fatigue"    :    true
     },{
         "type" : "mutation",
         "id" : "TAIL_RAPTOR",
@@ -1920,7 +2096,11 @@
         "description" : "You have a long tail that ends in a vicious stinger, like that of a scorpion. It does not improve your balance at all, but allows for a powerful piercing attack.",
         "prereqs" : ["TAIL_LONG"],
         "cancels" : ["TAIL_FLUFFY", "TAIL_CLUB", "TAIL_FIN", "TAIL_THICK", "TAIL_RAT", "TAIL_CATTLE", "TAIL_RAPTOR"],
-        "category" : ["MUTCAT_INSECT"]
+        "category" : ["MUTCAT_INSECT"],
+        "active"     :    true,
+        "cost"       :    20,
+        "time"       :    10,
+        "fatigue"    :    true
     },{
         "type" : "mutation",
         "id" : "TAIL_CLUB",
@@ -1931,7 +2111,11 @@
         "description" : "You have a long tail that ends in a heavy, bony club. It does not improve your balance at all, but allows for a powerful bashing attack.",
         "prereqs" : ["TAIL_THICK"],
         "cancels" : ["TAIL_FLUFFY", "TAIL_STING", "TAIL_FIN", "TAIL_RAT", "TAIL_CATTLE", "TAIL_RAPTOR"],
-        "category" : ["MUTCAT_CHIMERA"]
+        "category" : ["MUTCAT_CHIMERA"],
+        "active"     :    true,
+        "cost"       :    20,
+        "time"       :    10,
+        "fatigue"    :    true
     },{
         "type" : "mutation",
         "id" : "HIBERNATE",
@@ -2111,6 +2295,19 @@
         "category" : ["MUTCAT_BEAST", "MUTCAT_RAPTOR", "MUTCAT_CHIMERA", "MUTCAT_URSINE", "MUTCAT_LIZARD", "MUTCAT_SPIDER"]
     },{
         "type" : "mutation",
+        "id" : "M_DEFENDER",
+        "name" : "Mycus Defender",
+        "points" : 4,
+        "description" : "From time to time the Mycus requires protection from non-Mycus that, for whatever reason, wish it ill.  We have adapted to better carry out this task.",
+        "valid" : false,
+        "purifiable" : false,
+        "cancels" : ["ADRENALINE"],
+        "prereqs" : ["M_SKIN"],
+        "prereqs2" : ["M_DEPENDENT"],
+        "threshreq" : ["THRESH_MYCUS"],
+        "category" : ["MUTCAT_MYCUS"]
+    },{
+        "type" : "mutation",
         "id" : "WINGS_BIRD",
         "name" : "Bird Wings",
         "points" : 2,
@@ -2127,10 +2324,16 @@
         "points" : 3,
         "visibility" : 4,
         "ugliness" : 4,
-        "description" : "You have a pair of large, translucent wings. You buzz them as you run, enabling you to run faster.",
+        "description" : "You have a pair of large, translucent wings.  They are too small to lift you, but are powerful enough to greatly speed your momvement, with some effort and noise.",
         "prereqs" : ["WINGS_STUB"],
         "cancels" : ["WINGS_BIRD", "WINGS_BAT", "WINGS_BUTTERFLY"],
-        "category" : ["MUTCAT_INSECT"]
+        "category" : ["MUTCAT_INSECT"],
+        "active"     :    true,
+        "cost"       :    20,
+        "time"       :    10,
+        "fatigue"    :    true,
+        "hunger" : true,
+        "thirst" : true
     },{
         "type" : "mutation",
         "id" : "MOUTH_TENTACLES",
@@ -2235,7 +2438,7 @@
         "id" : "WEB_WEAVER",
         "name" : "Web Weaver",
         "points" : 5,
-        "description" : "You've developed the necessary anatomy and techniques to control your web-generation.  Use the pause function to spin or enhance webs.",
+        "description" : "You've developed the necessary anatomy and techniques to control your web-generation.  Activate this to start or stop weaving webs.",
         "prereqs" : ["WEB_SPINNER"],
         "threshreq" : ["THRESH_SPIDER"],
         "cancels" : ["SLIMY"],
@@ -3299,7 +3502,12 @@
         "prereqs2" : ["VINES2"],
         "threshreq" : ["THRESH_PLANT"],
         "cancels" : ["WINGS_BAT", "WINGS_INSECT", "WINGS_BIRD", "WINGS_STUB", "WINGS_BUTTERFLY"],
-        "category" : ["MUTCAT_PLANT"]
+        "category" : ["MUTCAT_PLANT"],
+        "active"     :    true,
+        "cost"       :    10,
+        "time"       :    0,
+        "hunger"     :    true,
+        "thirst"     :    true
     },{
         "type" : "mutation",
         "id" : "ROOTS1",
@@ -3360,7 +3568,7 @@
         "id" : "COLDBLOOD",
         "name" : "Heat Dependent",
         "points" : -2,
-        "description" : "Your muscle response is dependent on ambient temperatures. You lose 1% of your speed for every 5 degrees below 65 F.",
+        "description" : "Your muscle response is dependent on ambient temperatures. You lose 1% of your speed for every 5 (2.8) degrees below 65 F (18.3 C).",
         "changes_to" : ["COLDBLOOD2"],
         "category" : ["MUTCAT_BIRD", "MUTCAT_CEPHALOPOD", "MUTCAT_SPIDER"]
     },{
@@ -3368,7 +3576,7 @@
         "id" : "COLDBLOOD2",
         "name" : "Very Heat Dependent",
         "points" : -3,
-        "description" : "Your muscle response is highly dependent on ambient temperatures. You lose 1% of your speed for every 3 degrees below 65 F.",
+        "description" : "Your muscle response is highly dependent on ambient temperatures. You lose 1% of your speed for every 3 (1.7) degrees below 65 F (18.3 C).",
         "prereqs" : ["COLDBLOOD"],
         "changes_to" : ["COLDBLOOD3"],
         "category" : ["MUTCAT_FISH", "MUTCAT_RAPTOR"]
@@ -3377,7 +3585,7 @@
         "id" : "COLDBLOOD3",
         "name" : "Cold Blooded",
         "points" : -5,
-        "description" : "You are cold-blooded and rely on heat to keep moving. Your lose 1% of your speed for every 2 degrees below 65 F.",
+        "description" : "You are cold-blooded and rely on heat to keep moving. Your lose 1% of your speed for every 2 (1.1) degrees below 65 F (18.3 C).",
         "prereqs" : ["COLDBLOOD2"],
         "category" : ["MUTCAT_INSECT", "MUTCAT_LIZARD"]
     },{
@@ -3386,7 +3594,7 @@
         "name" : "Ectothermic",
         "points" : -2,
         "mixed_effect" : true,
-        "description" : "Your body has become permanently cold-blooded. Your speed lowers--or raises--for every two degrees below or above 65 F.",
+        "description" : "Your body has become permanently cold-blooded. Your speed lowers--or raises--for every 2 (1.1) degrees below or above 65 F (18.3 C).",
         "prereqs" : ["COLDBLOOD3"],
         "threshreq" : ["THRESH_LIZARD"],
         "purifiable" : false,
@@ -3801,6 +4009,25 @@
         "name" : "Raptor",
         "points" : 1,
         "description" : "The chance to undo not one but TWO extinction events. You're confident you'll do fine.",
+        "valid": false,
+        "purifiable": false,
+        "threshold": true
+    },{
+        "type" : "mutation",
+        "id" : "THRESH_MARLOSS",
+        "name" : "Marloss Gateway",
+        "points" : 1,
+        "description" : "You get the feeling that you're on the cusp of becoming something greater than yourself.",
+        "valid": false,
+        "purifiable": false,
+        "threshold": true,
+        "category" : ["MUTCAT_MARLOSS"]
+    },{
+        "type" : "mutation",
+        "id" : "THRESH_MYCUS",
+        "name" : "Mycus",
+        "points" : 1,
+        "description" : "We are the Mycus.",
         "valid": false,
         "purifiable": false,
         "threshold": true

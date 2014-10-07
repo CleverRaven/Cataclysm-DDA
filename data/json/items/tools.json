@@ -93,6 +93,7 @@
     "to_hit": 0,
     "max_charges": 100,
     "initial_charges": 100,
+    "rand_charges": [1,10,12,15,16,22,44,50,67,75,82,100],
     "charges_per_use": 1,
     "turns_per_charge": 0,
     "ammo": "NULL",
@@ -307,7 +308,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "qualities": [["CUT", 1], ["BUTCHER", 20]]
+    "qualities": [["CUT", 1], ["BUTCHER", 3]]
   },
   {
     "id": "oxygen_tank",
@@ -850,7 +851,7 @@
     "turns_per_charge": 0,
     "ammo": "battery",
     "revert_to": "null",
-    "qualities": [["COOK", 2], ["BOIL", 2], ["CONTAIN", 1]],	
+    "qualities": [["COOK", 2], ["BOIL", 2], ["CONTAIN", 1]],
     "use_action": "HOTPLATE"
   },
   {
@@ -874,7 +875,7 @@
     "turns_per_charge": 0,
     "ammo": "battery",
     "revert_to": "null",
-    "qualities": [["COOK", 2], ["BOIL", 2], ["CONTAIN", 1]],	
+    "qualities": [["COOK", 2], ["BOIL", 2], ["CONTAIN", 1]],
     "use_action": "HOTPLATE"
   },
   {
@@ -1539,7 +1540,7 @@
     "ammo": "battery",
     "revert_to": "carver_off",
     "use_action": "CARVER_ON",
-    "qualities": [["CUT", 1], ["BUTCHER", 14]]
+    "qualities": [["CUT", 1], ["BUTCHER", 25]]
   },{
     "id": "trimmer_off",
     "type": "TOOL",
@@ -1551,11 +1552,11 @@
     "price": 4000,
     "material": ["steel", "plastic"],
     "weight": 4500,
-    "volume": 8,
+    "volume": 10,
     "bashing": 4,
     "cutting": 8,
     "to_hit": -1,
-    "max_charges": 200,
+    "max_charges": 600,
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
@@ -1578,14 +1579,14 @@
     "cutting": 40,
     "flags" : ["CHOP", "MESSY"],
     "to_hit": -1,
-    "max_charges": 200,
+    "max_charges": 600,
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 1,
     "ammo": "gasoline",
     "revert_to": "trimmer_off",
     "use_action": "TRIMMER_ON",
-    "qualities": [["CUT", 1], ["BUTCHER", 60]]
+    "qualities": [["CUT", 1]]
   },{
     "id": "circsaw_off",
     "type": "TOOL",
@@ -1636,7 +1637,7 @@
     "ammo": "battery",
     "revert_to": "circsaw_off",
     "use_action": "CIRCSAW_ON",
-    "qualities": [["CUT", 1], ["BUTCHER", 74]]
+    "qualities": [["CUT", 1], ["BUTCHER", 60]]
   },{
     "id": "combatsaw_off",
     "type": "TOOL",
@@ -1652,7 +1653,7 @@
     "bashing": 8,
     "cutting": 0,
     "to_hit": -3,
-    "max_charges": 600,
+    "max_charges": 1000,
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
@@ -1677,7 +1678,7 @@
     "cutting": 82,
     "flags" : ["CHOP", "MESSY", "DURABLE_MELEE"],
     "to_hit": -4,
-    "max_charges": 600,
+    "max_charges": 1000,
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 1,
@@ -1748,7 +1749,7 @@
     "cutting": 6,
     "flags" : ["STAB"],
     "to_hit": -8,
-    "max_charges": 120,
+    "max_charges": 400,
     "initial_charges": 0,
     "charges_per_use": 10,
     "turns_per_charge": 0,
@@ -1772,7 +1773,7 @@
     "cutting": 6,
     "flags" : ["STAB"],
     "to_hit": -8,
-    "max_charges": 120,
+    "max_charges": 400,
     "initial_charges": 0,
     "charges_per_use": 10,
     "turns_per_charge": 0,
@@ -2183,7 +2184,7 @@
     "symbol": "*",
     "color": "light_gray",
     "name": "pipe bomb",
-    "description": "This is a section of a pipe filled with explosive materials.  Use this item with to light the fuse, which gives you three turns to get away from it before it detonates.  You'll need a lighter or some matches to use it.  It is somewhat unreliable, and may fail to detonate.",
+    "description": "This is a section of a pipe filled with explosive materials.  Use this item to light the fuse, which gives you three turns to get away from it before it detonates.  You'll need a lighter or some matches to use it.  It is somewhat unreliable, and may fail to detonate.",
     "price": 15000,
     "material": "steel",
     "weight": 1298,
@@ -3445,7 +3446,7 @@
      "use_action": "PORTABLE_GAME",
      "flags": ["SHEATH_KNIFE"]
   },
-  
+
   {
     "id": "vibrator",
     "type": "TOOL",
@@ -3858,7 +3859,7 @@
     "revert_to": "null",
     "category": "weapons",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1], ["BUTCHER", 14]]
+    "qualities": [["CUT", 1], ["BUTCHER", 15]]
   },
 
   {
@@ -3939,7 +3940,7 @@
     "revert_to": "null",
     "category": "weapons",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1], ["BUTCHER", 14]]
+    "qualities": [["CUT", 1], ["BUTCHER", 24]]
   },
   {
     "id": "diamond_machete",
@@ -3965,7 +3966,7 @@
     "revert_to": "null",
     "category": "weapons",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1], ["BUTCHER", 14]]
+    "qualities": [["CUT", 1], ["BUTCHER", 20]]
   },
   {
     "id": "diamond_katana",
@@ -3991,7 +3992,7 @@
     "revert_to": "null",
     "use_action": "KNIFE",
     "category" : "weapons",
-    "qualities": [["CUT", 1], ["BUTCHER", 20]]
+    "qualities": [["CUT", 1], ["BUTCHER", 16]]
   },
   {
     "id": "tanto",
@@ -4017,7 +4018,7 @@
     "revert_to": "null",
     "category": "weapons",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1], ["BUTCHER", 16]]
+    "qualities": [["CUT", 1], ["BUTCHER", 18]]
   },
   {
     "id": "kris",
@@ -4070,7 +4071,7 @@
     "revert_to": "null",
     "use_action": "KNIFE",
     "category" : "weapons",
-    "qualities": [["CUT", 1], ["BUTCHER", 9]]
+    "qualities": [["CUT", 1], ["BUTCHER", 13]]
   },
   {
     "id": "katana",
@@ -4096,7 +4097,7 @@
     "revert_to": "null",
     "use_action": "KNIFE",
     "category" : "weapons",
-    "qualities": [["CUT", 1], ["BUTCHER", 13]]
+    "qualities": [["CUT", 1], ["BUTCHER", 9]]
   },
 
   {
@@ -4204,7 +4205,7 @@
     "revert_to": "null",
     "use_action": "KNIFE",
     "category" : "weapons",
-    "qualities": [["CUT", 1], ["BUTCHER", 12]]
+    "qualities": [["CUT", 1], ["BUTCHER", 9]]
   },
 
   {
@@ -4257,7 +4258,7 @@
     "revert_to": "null",
     "use_action": "KNIFE",
     "category" : "weapons",
-    "qualities": [["CUT", 1], ["BUTCHER", 15]]
+    "qualities": [["CUT", 1], ["BUTCHER", 9]]
   },
 
   {
@@ -4420,7 +4421,7 @@
     "revert_to": "null",
     "category": "weapons",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1], ["BUTCHER", -38]]
+    "qualities": [["CUT", 1], ["BUTCHER", -27]]
   },
 
   {
@@ -4524,7 +4525,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1], ["BUTCHER", 16]],
+    "qualities": [["CUT", 1], ["BUTCHER", 20]],
     "flags": ["STAB", "SHEATH_KNIFE"]
   },
 
@@ -4550,7 +4551,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1], ["BUTCHER", 18]],
+    "qualities": [["CUT", 1], ["BUTCHER", 25]],
     "flags": ["CHOP", "SHEATH_KNIFE"]
   },
 
@@ -4578,7 +4579,7 @@
     "revert_to": "null",
     "category": "weapons",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1], ["BUTCHER", 30]]
+    "qualities": [["CUT", 1], ["BUTCHER", 19]]
   },
 
   {
@@ -4602,7 +4603,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "LUMBER",
-	"qualities":[["SAW_W", 2]]
+    "qualities":[["SAW_W", 2]]
   },
 
   {
@@ -4703,7 +4704,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "HACKSAW",
-	"qualities":[["SAW_M", 1], ["SAW_M_FINE", 1]]
+    "qualities":[["SAW_M", 1], ["SAW_M_FINE", 1]]
   },{
     "id": "tent_kit",
     "type": "TOOL",
@@ -4724,7 +4725,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "TENT"
+    "use_action": "PORTABLE_STRUCTURE"
   },
   {
     "id": "large_tent_kit",
@@ -4746,7 +4747,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "LARGE_TENT"
+    "use_action": "PORTABLE_STRUCTURE"
   },
   {
     "id": "torch",
@@ -5059,7 +5060,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-	"qualities": [["SCREW", 1], ["SCREW_FINE", 1]]
+    "qualities": [["SCREW", 1], ["SCREW_FINE", 1]]
   },
 
   {
@@ -5083,7 +5084,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-	"qualities": [["WRENCH", 1], ["WRENCH_FINE", 1]]
+    "qualities": [["WRENCH", 1], ["WRENCH_FINE", 1]]
   },
 
   {
@@ -5298,6 +5299,29 @@
   },
 
   {
+    "id": "survival_marker",
+    "type": "TOOL",
+    "symbol": ",",
+    "color": "dark_gray",
+    "name": "survival marker",
+    "description": "This is a sharpened piece of charcoal that is almost guaranteed to make your hands all covered in charcoal. Use it to write something down.",
+    "price": 1000,
+    "material": "plastic",
+    "weight": 113,
+    "volume": 0,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": 0,
+    "max_charges": 100,
+    "initial_charges": 100,
+    "charges_per_use": 1,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "SPRAY_CAN"
+  },
+
+  {
     "id": "rag",
     "type": "TOOL",
     "symbol": ",",
@@ -5450,7 +5474,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1], ["BUTCHER", 16]]
+    "qualities": [["CUT", 1], ["BUTCHER", 12]]
   },
 
   {
@@ -5475,7 +5499,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1], ["BUTCHER", 14]],
+    "qualities": [["CUT", 1], ["BUTCHER", 11]],
     "flags": ["STAB", "SHEATH_KNIFE"]
    },
 
@@ -5622,7 +5646,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1], ["BUTCHER", 12]],
+    "qualities": [["CUT", 1], ["BUTCHER", 11]],
     "flags": ["STAB", "SHEATH_KNIFE"]
   },
 
@@ -5695,7 +5719,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "SHELTER"
+    "use_action": "PORTABLE_STRUCTURE"
   },
 
   {
@@ -6137,7 +6161,8 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "battery",
-    "revert_to": "null"
+    "revert_to": "null",
+    "qualities": [["DRILL", 3]]
   },
 
   {
@@ -6376,53 +6401,6 @@
     "ammo": "battery",
     "revert_to": "null",
     "use_action": "DOLLCHAT"
-  },
-
-  {
-    "id": "towel",
-    "type": "TOOL",
-    "symbol": ",",
-    "color": "cyan",
-    "name": "towel",
-    "description": "This is a fluffy and large towel.  It could be used to dry yourself.  Any person that can travel the length and breadth of the apocalypse, rough it, slum it, struggle against terrible odds, win through and still know where their towel is, is clearly a force to be reckoned with.",
-    "price": 4500,
-    "material": "cotton",
-    "weight": 370,
-    "volume": 2,
-    "bashing": 0,
-    "cutting": 0,
-    "to_hit": -1,
-    "max_charges": 0,
-    "initial_charges": 0,
-    "charges_per_use": 0,
-    "turns_per_charge": 5,
-    "ammo": "NULL",
-    "revert_to": "null",
-    "use_action": "TOWEL",
-    "flags": ["ABSORBENT"]
-  },
-  {
-    "id": "towel_wet",
-    "type": "TOOL",
-    "symbol": ",",
-    "color": "blue",
-    "name": "towel",
-    "description": "This is a large, sopping wet towel.  If you wait a little bit, it should dry out.  Don't panic.",
-    "price": 2000,
-    "material": "cotton",
-    "weight": 400,
-    "volume": 2,
-    "bashing": 0,
-    "cutting": 0,
-    "to_hit": -1,
-    "max_charges": 0,
-    "initial_charges": 0,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "towel",
-    "use_action": "TOWEL",
-    "flags": ["WET"]
   },
   {
     "id": "folding_bicycle",
@@ -6870,9 +6848,9 @@
         "need_charges_msg": "Nothing happens."
     }
   },
-  
+
 {
-	"id": "ref_lighter_on",
+    "id": "ref_lighter_on",
     "type": "TOOL",
     "symbol": ",",
     "color": "light_gray",
@@ -6881,7 +6859,7 @@
     "description": "This is a lighter featuring a flip top cover and refuelable tank.  It is lit.",
     "price": 35000,
     "material": "aluminum",
-	"flags": ["FIRE", "LIGHT_4", "FLAMING"],
+    "flags": ["FIRE", "LIGHT_4", "FLAMING"],
     "weight": 20,
     "volume": 0,
     "bashing": 0,
@@ -6962,7 +6940,7 @@
     "revert_to": "null",
     "use_action": "WATER_PURIFIER"
   },
-  
+
   {
     "id": "kiln_full",
     "type": "TOOL",
@@ -7001,11 +6979,11 @@
     "color": "brown",
     "name": "lit charcoal kiln",
     "description": "A kiln full of wood that has been lit; better drop it!",
-	"flags": ["LIGHT_4"],
+    "flags": ["LIGHT_4"],
     "price": 100,
     "material": ["steel", "wood"],
     "weight": 15142,
-    "volume": 1001,
+    "volume": 40,
     "bashing": 0,
     "cutting": 0,
     "to_hit": -2,
@@ -7191,7 +7169,7 @@
     "revert_to": "null",
     "category" : "weapons",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1], ["BUTCHER", 24]]
+    "qualities": [["CUT", 1], ["BUTCHER", 19]]
   },
 
   {
@@ -7239,7 +7217,171 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1], ["BUTCHER", 44]]
+    "qualities": [["CUT", 1], ["BUTCHER", 14]]
+  },
+
+  {
+    "id": "kukri",
+    "type": "TOOL",
+    "symbol": "/",
+    "color": "dark_gray",
+    "name": "kukri",
+    "description": "This versatile implement is a modern take on a traditional weapon that originated in Nepal.  Featuring a heavy blade with an inwardly curved edge, it is used as both a tool and as a weapon.",
+    "price": 40000,
+    "material": ["steel", "plastic"],
+    "techniques": "WBLOCK_1",
+    "weight": 450,
+    "volume": 3,
+    "bashing": 2,
+    "cutting": 20,
+    "flags" : ["CHOP", "DURABLE_MELEE", "SHEATH_KNIFE", "IAIJUTSU"],
+    "to_hit": 1,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "category": "weapons",
+    "use_action": "KNIFE",
+    "qualities": [["CUT", 1], ["BUTCHER", 18]]
+  },
+
+  {
+    "comment": "Highest non-powertool butchering quality. It's made for skinning and butchering game, which is what you're generally doing.",
+    "id": "knife_hunting",
+    "type": "TOOL",
+    "symbol": "/",
+    "color": "dark_gray",
+    "name": "hunting knife",
+    "name_plural": "hunting knives",
+    "description": "Commonly used by hunters, this single-edge sheath knife is designed for cutting and skinning game rather than combat.",
+    "price": 40000,
+    "material": ["steel", "leather"],
+    "weight": 390,
+    "volume": 1,
+    "bashing": 0,
+    "cutting": 16,
+    "flags" : ["SHEATH_KNIFE"],
+    "to_hit": -1,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "category": "weapons",
+    "use_action": "KNIFE",
+    "qualities": [["CUT", 1], ["BUTCHER", 30]]
+  },
+
+  {
+    "comment": "This isn't really supposed to be a very good knife, or a very good saw. It's more for looking scary.",
+    "id": "knife_rambo",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "dark_gray",
+    "name": "survival knife",
+    "name_plural": "survival knives",
+    "description": "This massive combat knife features a hollow handle with a compass built into the pommel and a row of fearsome looking saw teeth along the back of its blade.",
+    "price": 16000,
+    "material": ["steel", "plastic"],
+    "flags" : ["STAB", "SHEATH_KNIFE"],
+    "techniques": ["WBLOCK_1"],
+    "weight": 612,
+    "volume": 4,
+    "bashing": 4,
+    "cutting": 15,
+    "to_hit": 0,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "category" : "weapons",
+    "use_action": "KNIFE",
+    "qualities": [["CUT", 1], ["SAW_W", 1], ["SAW_M", 1], ["BUTCHER", 7]]
+  },
+
+  {
+    "comment": "The swiss army knife is a bit more of a knife than a toolkit.",
+    "id": "knife_swissarmy",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "red",
+    "name": "Swiss Army knife",
+    "name_plural": "Swiss Army knives",
+    "description": "An iconic pocket knife imported from Europe.  Its red plastic handle conceals many small tools.",
+    "price": 30000,
+    "material": ["steel", "plastic"],
+    "flags" : ["STAB"],
+    "weight": 246,
+    "volume": 0,
+    "bashing": 0,
+    "cutting": 6,
+    "to_hit": -4,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "KNIFE",
+    "qualities": [["CUT", 1], ["SAW_W", 1], ["SAW_M", 1], ["SCREW", 1], ["BUTCHER", 8]]
+  },
+
+  {
+    "comment": "The multi-tool is a bit more of a toolkit than a knife.",
+    "id": "multitool",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": "multi-tool",
+    "description": "A cleverly designed all-in-one tool which combines several smaller tools into the handles of a pair of pliers.",
+    "price": 30000,
+    "material": "steel",
+    "flags" : ["STAB", "SHEATH_KNIFE"],
+    "weight": 494,
+    "volume": 1,
+    "bashing": 1,
+    "cutting": 4,
+    "to_hit": -4,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "KNIFE",
+    "qualities": [["CUT", 1], ["SAW_W", 1], ["SAW_M", 1], ["WRENCH", 1], ["SCREW", 1], ["SCREW_FINE", 1], ["BUTCHER", 7]]
+  },
+  {
+    "id": "knife_rm42",
+    "type": "TOOL",
+    "symbol": "/",
+    "color": "dark_gray",
+    "name": "RM42 fighting knife",
+    "name_plural": "RM42 fighting knives",
+    "description": "This sturdy matte black Rivtech combat dagger features a long and slim double-edged blade with a spear-point and a distinctive slip-resistant grip.  Originally manufactured for the military, it was very popular in films and among collectors due to its fearsome appearance.",
+    "price": 600,
+    "material": ["ceramic", "plastic"],
+    "techniques": ["RAPID", "WBLOCK_1"],
+    "weight": 188,
+    "volume": 3,
+    "bashing": 2,
+    "cutting": 20,
+    "flags" : ["STAB", "DURABLE_MELEE", "SHEATH_KNIFE"],
+    "to_hit": 2,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "category": "weapons",
+    "use_action": "KNIFE",
+    "qualities": [["CUT", 1], ["BUTCHER", 19]]
   },
 
   {
@@ -7336,7 +7478,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "qualities": [["CUT", 1], ["BUTCHER", 20]]
+    "qualities": [["CUT", 1], ["BUTCHER", 7]]
   },
   {
     "id": "airhorn",
@@ -7409,6 +7551,7 @@
     "use_action" : "TAZER"
   },
   {
+    "comment": "Too small to be effectively used for butchering, still not bad at it due to serrated edge.",
     "id": "diveknife",
     "type": "TOOL",
     "category" : "weapons",
@@ -7431,7 +7574,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1], ["BUTCHER", 30]],
+    "qualities": [["CUT", 1], ["BUTCHER", 15]],
     "flags": ["CHOP", "SHEATH_KNIFE"]
   },
 
@@ -7595,7 +7738,7 @@
     "ammo": "tape",
     "revert_to": "null",
     "use_action": "MISC_REPAIR",
-    "qualities": [["CUT", 1], ["HAMMER", 2], ["SAW_M", 1], ["SAW_W", 2], ["WRENCH", 1],
+    "qualities": [["CUT", 1], ["HAMMER", 3], ["SAW_M", 1], ["SAW_W", 2], ["WRENCH", 1],
         ["SCREW", 1], ["HAMMER_FINE", 1], ["SAW_M_FINE", 1], ["WRENCH_FINE", 1], ["SCREW_FINE", 1],
         ["BUTCHER", 10]]
   },
@@ -7667,7 +7810,7 @@
     "flags" : ["CHOP"],
     "to_hit": 1,
     "revert_to": "null",
-    "qualities": [["CUT", 1], ["BUTCHER", -4]]
+    "qualities": [["CUT", 1], ["DIG", 1], ["BUTCHER", -4]]
   },
   {
     "type":"TOOL",
@@ -7688,7 +7831,30 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "flags": ["FISH_POOR"],
-    "use_action": "FISHING_BASIC",
+    "use_action": "FISH_ROD",
+    "revert_to": "null",
+    "to_hit": 1
+  },
+  {
+    "type":"TOOL",
+    "id": "fishing_rod_professional",
+    "symbol": "/",
+    "color": "brown",
+    "name": "pro fishing rod",
+    "description": "A professional fishing rod & reel combo. With this you should be able to catch 'em all.",
+    "price": 0,
+    "material": "plastic",
+    "weight": 1000,
+    "volume": 5,
+    "bashing": 8,
+    "cutting": 0,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "flags": ["FISH_GOOD"],
+    "use_action": "FISH_ROD",
     "revert_to": "null",
     "to_hit": 1
   },
@@ -7939,7 +8105,7 @@
     "category": "weapons",
     "use_action": {
         "type": "explosion",
-	"no_deactivate_msg": "You can't disarm your %s'.  Place it, get away, and use the remote control to detonate.",
+    "no_deactivate_msg": "You can't disarm your %s'.  Place it, get away, and use the remote control to detonate.",
         "explosion_power": 12,
         "explosion_shrapnel": 4
     }
@@ -7997,7 +8163,7 @@
     "category": "weapons",
     "use_action": {
         "type": "explosion",
-	"no_deactivate_msg": "You can't disarm your %s'.  Place it, get away and use the remote control to detonate.",
+    "no_deactivate_msg": "You can't disarm your %s'.  Place it, get away and use the remote control to detonate.",
         "explosion_power": 60,
         "explosion_shrapnel": 0
     }
@@ -8146,5 +8312,98 @@
     "ammo": "battery",
     "revert_to": "null",
     "use_action": "RADIOCONTROL"
+  },
+  {
+    "id": "oxy_torch",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "red",
+    "name": "acetylene torch",
+    "name_plural": "acetylene torches",
+    "description": "A compact tool kit intended for welding and cutting metal, this portable oxyacetylene torch includes a torch handle, cutting attachment, and two pre-filled gas cylinders all in an easy-to-carry tote.  In addition to its metalworking uses, you can activate it in order to destroy metal barriers.",
+    "price": 20000,
+    "material": ["steel", "plastic"],
+    "weight": 7600,
+    "volume": 16,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": 0,
+    "max_charges": 1000,
+    "initial_charges": 1000,
+    "charges_per_use": 10,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "OXYTORCH"
+  },
+  {
+    "id": "fertilizer_bomb",
+    "type": "TOOL",
+    "symbol": "*",
+    "color": "red",
+    "name": "fertilizer bomb",
+    "description": "This is a volatile homemade explosive.  Use this item to light the fuse.  You will, of course, need a lighter or matches in your inventory to do this.  Shortly after lighting the fuse, this item will explode, so get away!",
+    "price": 70000,
+    "material": "plastic",
+    "weight": 1133,
+    "volume": 3,
+    "bashing": 4,
+    "cutting": 0,
+    "to_hit": -3,
+    "effects": ["COOKOFF", "EXPLOSIVE"],
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "category": "weapons",
+    "explode_in_fire" : {
+        "power": 80,
+        "shrapnel": 0
+    },
+    "use_action": {
+        "type": "transform",
+        "target": "fertilizer_bomb_act",
+        "target_charges": 10,
+        "need_fire": 1,
+        "need_fire_msg": "You need a lighter!",
+        "active": true,
+        "msg": "You light the %s."
+    }
+  },
+  {
+    "id": "fertilizer_bomb_act",
+    "type": "TOOL",
+    "symbol": "*",
+    "color": "red",
+    "name": "fertilizer bomb (lit)",
+    "name_plural": "fertilizer bombs (lit)",
+    "description": "The fuse on this fertilizer bomb is lit and hissing.  It'll explode any moment now.",
+    "price": 0,
+    "material": "plastic",
+    "weight": 1300,
+    "volume": 3,
+    "bashing": 4,
+    "cutting": 0,
+    "to_hit": -3,
+    "max_charges": 10,
+    "initial_charges": 10,
+    "charges_per_use": 0,
+    "turns_per_charge": 1,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "category": "weapons",
+    "explode_in_fire" : {
+        "power": 80,
+        "shrapnel": 0
+    },
+    "use_action": {
+        "type": "explosion",
+        "sound_volume": 0,
+        "sound_msg": "ssss...",
+        "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
+        "explosion_power": 80
+    }
   }
 ]

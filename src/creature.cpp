@@ -74,54 +74,8 @@ Creature::Creature()
     fake = false;
 }
 
-Creature::Creature(const Creature &rhs)
+Creature::~Creature()
 {
-    str_max = rhs.str_max;
-    dex_max = rhs.dex_max;
-    per_max = rhs.per_max;
-    int_max = rhs.int_max;
-    str_cur = rhs.str_cur;
-    dex_cur = rhs.dex_cur;
-    per_cur = rhs.per_cur;
-    int_cur = rhs.int_cur;
-    moves = rhs.moves;
-    pain = rhs.pain;
-    killer = rhs.killer;
-    speed_base = rhs.speed_base;
-
-    str_bonus = rhs.str_bonus;
-    dex_bonus = rhs.dex_bonus;
-    per_bonus = rhs.per_bonus;
-    int_bonus = rhs.int_bonus;
-
-    healthy = rhs.healthy;
-    healthy_mod = rhs.healthy_mod;
-
-    num_blocks = rhs.num_blocks;
-    num_dodges = rhs.num_dodges;
-    num_blocks_bonus = rhs.num_blocks_bonus;
-    num_dodges_bonus = rhs.num_dodges_bonus;
-
-    armor_bash_bonus = rhs.armor_bash_bonus;
-    armor_cut_bonus = rhs.armor_cut_bonus;
-
-    speed_bonus = rhs.speed_bonus;
-    dodge_bonus = rhs.dodge_bonus;
-    block_bonus = rhs.block_bonus;
-    hit_bonus = rhs.hit_bonus;
-    bash_bonus = rhs.bash_bonus;
-    cut_bonus = rhs.cut_bonus;
-
-    bash_mult = rhs.bash_mult;
-    cut_mult = rhs.cut_mult;
-
-    melee_quiet = rhs.melee_quiet;
-    grab_resist = rhs.grab_resist;
-    throw_resist = rhs.throw_resist;
-
-    effects = rhs.effects;
-
-    fake = rhs.fake;
 }
 
 void Creature::normalize()
@@ -1228,55 +1182,4 @@ body_part Creature::select_body_part(Creature *source, int hit_roll)
     }
 
     return selected_part;
-}
-
-Creature &Creature::operator= (const Creature &rhs)
-{
-    str_cur = rhs.str_cur;
-    dex_cur = rhs.dex_cur;
-    int_cur = rhs.int_cur;
-    per_cur = rhs.per_cur;
-
-    str_max = rhs.str_max;
-    dex_max = rhs.dex_max;
-    int_max = rhs.int_max;
-    per_max = rhs.per_max;
-
-    moves = rhs.moves;
-    pain = rhs.pain;
-
-    killer = rhs.killer;
-    effects = rhs.effects;
-
-    str_bonus = rhs.str_bonus;
-    dex_bonus = rhs.dex_bonus;
-    per_bonus = rhs.per_bonus;
-    int_bonus = rhs.int_bonus;
-
-    num_blocks = rhs.num_blocks;
-    num_dodges = rhs.num_dodges;
-    num_blocks_bonus = rhs.num_blocks_bonus;
-    num_dodges_bonus = rhs.num_dodges_bonus;
-
-    armor_bash_bonus = rhs.armor_bash_bonus;
-    armor_cut_bonus = rhs.armor_cut_bonus;
-
-    speed_base = rhs.speed_base;
-
-    speed_bonus = rhs.speed_bonus;
-    dodge_bonus = rhs.dodge_bonus;
-    block_bonus = rhs.block_bonus;
-    hit_bonus = rhs.hit_bonus;
-    bash_bonus = rhs.bash_bonus;
-    cut_bonus = rhs.cut_bonus;
-
-    bash_mult = rhs.bash_mult;
-    cut_mult = rhs.cut_mult;
-    melee_quiet = rhs.melee_quiet;
-
-    grab_resist = rhs.grab_resist;
-    throw_resist = rhs.throw_resist;
-
-    fake = rhs.fake;
-    return *this;
 }

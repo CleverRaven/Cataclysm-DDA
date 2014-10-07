@@ -2,7 +2,6 @@
 #include "output.h"
 #include "item_factory.h"
 #include <sstream>
-#include "text_snippets.h"
 #include "helper.h"
 #include "uistate.h"
 #include "monstergenerator.h"
@@ -14,7 +13,7 @@ class wish_mutate_callback: public uimenu_callback
 {
     public:
         int lastlen;           // last menu entry
-        std::string msg;       // feedback mesage
+        std::string msg;       // feedback message
         bool started;
         std::vector<std::string> vTraits;
         std::map<std::string, bool> pTraits;
@@ -249,12 +248,12 @@ class wish_monster_callback: public uimenu_callback
 {
     public:
         int lastent;           // last menu entry
-        std::string msg;       // feedback mesage
+        std::string msg;       // feedback message
         bool friendly;         // spawn friendly critter?
         int group;             // Number of monsters to spawn.
         WINDOW *w_info;        // ui_parent menu's padding area
         monster tmp;           // scrap critter for monster::print_info
-        bool started;          // if unset, intialize window
+        bool started;          // if unset, initialize window
         std::string padding;   // ' ' x window width
 
         wish_monster_callback() : msg(""), padding("")

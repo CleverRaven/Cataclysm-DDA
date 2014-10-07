@@ -12,6 +12,7 @@
 #include "item.h"
 #include "game.h"
 #include "artifact.h"
+#include "text_snippets.h"
 #include <algorithm>
 #include <cstdlib>
 #include <iostream>
@@ -109,8 +110,6 @@ void Item_factory::finialize_item_blacklist()
             remove_item(itm, furnlist[i].bash.items);
         }
     }
-    item_blacklist.clear();
-    item_whitelist.clear();
 }
 
 void add_to_set(t_string_set &s, JsonObject &json, const std::string &name)
@@ -207,6 +206,9 @@ void Item_factory::init()
     iuse_function_list["MUT_IV"] = &iuse::mut_iv;
     iuse_function_list["PURIFY_IV"] = &iuse::purify_iv;
     iuse_function_list["MARLOSS"] = &iuse::marloss;
+    iuse_function_list["MARLOSS_SEED"] = &iuse::marloss_seed;
+    iuse_function_list["MARLOSS_GEL"] = &iuse::marloss_gel;
+    iuse_function_list["MYCUS"] = &iuse::mycus;
     iuse_function_list["DOGFOOD"] = &iuse::dogfood;
     iuse_function_list["CATFOOD"] = &iuse::catfood;
 
@@ -306,10 +308,9 @@ void Item_factory::init()
     iuse_function_list["VACUTAINER"] = &iuse::vacutainer;
     iuse_function_list["KNIFE"] = &iuse::knife;
     iuse_function_list["LUMBER"] = &iuse::lumber;
+    iuse_function_list["OXYTORCH"] = &iuse::oxytorch;
     iuse_function_list["HACKSAW"] = &iuse::hacksaw;
-    iuse_function_list["TENT"] = &iuse::tent;
-    iuse_function_list["LARGE_TENT"] = &iuse::large_tent;
-    iuse_function_list["SHELTER"] = &iuse::shelter;
+    iuse_function_list["PORTABLE_STRUCTURE"] = &iuse::portable_structure;
     iuse_function_list["TORCH_LIT"] = &iuse::torch_lit;
     iuse_function_list["BATTLETORCH_LIT"] = &iuse::battletorch_lit;
     iuse_function_list["BULLET_PULLER"] = &iuse::bullet_puller;
@@ -339,7 +340,7 @@ void Item_factory::init()
     iuse_function_list["OXYGEN_BOTTLE"] = &iuse::oxygen_bottle;
     iuse_function_list["ATOMIC_BATTERY"] = &iuse::atomic_battery;
     iuse_function_list["UPS_BATTERY"] = &iuse::ups_battery;
-    iuse_function_list["FISHING_BASIC"] = &iuse::fishing_rod_basic;
+    iuse_function_list["FISH_ROD"] = &iuse::fishing_rod;
     iuse_function_list["FISH_TRAP"] = &iuse::fish_trap;
     iuse_function_list["GUN_REPAIR"] = &iuse::gun_repair;
     iuse_function_list["MISC_REPAIR"] = &iuse::misc_repair;
@@ -467,6 +468,11 @@ void Item_factory::check_itype_definitions() const
              a != type->techniques.end(); ++a) {
             if (ma_techniques.count(*a) == 0) {
                 msg << string_format("unknown technique %s", a->c_str()) << "\n";
+            }
+        }
+        if( !type->snippet_category.empty() ) {
+            if( !SNIPPET.has_category( type->snippet_category ) ) {
+                msg << string_format("snippet category %s without any snippets", type->id.c_str(), type->snippet_category.c_str()) << "\n";
             }
         }
         for (std::map<std::string, int>::const_iterator a = type->qualities.begin();
@@ -681,6 +687,7 @@ void Item_factory::load_gun(JsonObject &jo)
     gun_template->reload_time = jo.get_int("reload");
     gun_template->pierce = jo.get_int("pierce", 0);
     gun_template->ammo_effects = jo.get_tags("ammo_effects");
+    gun_template->ups_charges = jo.get_int( "ups_charges", 0 );
 
     if (jo.has_array("valid_mod_locations")) {
         JsonArray jarr = jo.get_array("valid_mod_locations");
@@ -810,6 +817,8 @@ void Item_factory::load_comestible(JsonObject &jo)
     comest_template->quench = jo.get_int("quench", 0);
     comest_template->nutr = jo.get_int("nutrition", 0);
     comest_template->spoils = jo.get_int("spoils_in", 0);
+    // In json it's in hours, here it shall be in turns, as item::rot is also in turns.
+    comest_template->spoils *= 600;
     comest_template->brewtime = jo.get_int("brew_time", 0);
     comest_template->addict = jo.get_int("addiction_potential", 0);
     comest_template->charges = jo.get_long("charges", 0);
@@ -904,13 +913,6 @@ void Item_factory::load_veh_part(JsonObject &jo)
     load_basic_info(jo, veh_par_template);
 }
 
-void Item_factory::load_stationary(JsonObject &jo)
-{
-    it_stationary *stationary_template = new it_stationary();
-    stationary_template->category = jo.get_string("snippet_category");
-    load_basic_info(jo, stationary_template);
-}
-
 void Item_factory::load_generic(JsonObject &jo)
 {
     itype *new_item_template = new itype();
@@ -969,6 +971,16 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     }
 
     new_item_template->light_emission = 0;
+
+    if( jo.has_array( "snippet_category" ) ) {
+        // auto-create a category that is unlikely to already be used and put the
+        // snippets in it.
+        new_item_template->snippet_category = std::string( "auto:" ) + new_item_template->id;
+        JsonArray jarr = jo.get_array( "snippet_category" );
+        SNIPPET.add_snippets_from_json( new_item_template->snippet_category, jarr );
+    } else {
+        new_item_template->snippet_category = jo.get_string( "snippet_category", "" );
+    }
 
     /*
     List of current flags
@@ -1260,8 +1272,13 @@ void Item_factory::load_item_group(JsonObject &jsobj, const std::string &group_i
     if (subtype == "old") {
         JsonArray items = jsobj.get_array("items");
         while (items.has_more()) {
-            JsonArray pair = items.next_array();
-            ig->add_item_entry(pair.get_string(0), pair.get_int(1));
+            if( items.test_object() ) {
+                JsonObject subobj = items.next_object();
+                add_entry( ig, subobj );
+            } else {
+                JsonArray pair = items.next_array();
+                ig->add_item_entry(pair.get_string(0), pair.get_int(1));
+            }
         }
         return;
     }

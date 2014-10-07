@@ -61,7 +61,7 @@
             { "point":[-1,1,0], "overmap": "motel_2_north"},
             { "point":[0,1,0], "overmap": "motel_3_north"}
         ],
-	   "locations" : [ "by_hiway" ], "//":"what special locations does it spawn",
+        "locations" : [ "by_hiway" ], "//":"what special locations does it spawn",
         "city_distance" : [10, 120], "//":"how far from a city it should be",
         "city_sizes" : [1, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [2, 5], "//":"how many per overmap",
@@ -652,6 +652,36 @@
         "spawns" : { "group" : "GROUP_FUNGI", "population":[600,1200], "radius":[30,50] }
     },{
         "type" : "overmap_special",
+        "id" : "Fungal Tower",
+        "overmaps" :
+        [
+            { "point":[0,0,0], "overmap": "fungal_tower"}
+        ],
+        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
+        "city_distance" : [5, -1], "//":"how far from a city it should be",
+        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
+        "occurrences" : [0, 2], "//":"how many per overmap",
+        "rotate" : false, "//":"allow rotation",
+        "unique" : false, "//":"only allow one per city",
+        "required" : false, "//":"is this special required for valid city sizes",
+        "spawns" : { "group" : "GROUP_FUNGI_TOWER", "population":[125,175], "radius":[2,2] }
+    },{
+        "type" : "overmap_special",
+        "id" : "Fungal Flowers",
+        "overmaps" :
+        [
+            { "point":[0,0,0], "overmap": "fungal_flowers"}
+        ],
+        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
+        "city_distance" : [5, -1], "//":"how far from a city it should be",
+        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
+        "occurrences" : [0, 2], "//":"how many per overmap",
+        "rotate" : false, "//":"allow rotation",
+        "unique" : false, "//":"only allow one per city",
+        "required" : false, "//":"is this special required for valid city sizes",
+        "spawns" : { "group" : "GROUP_FUNGI_FLOWERS", "population":[50,100], "radius":[2,4] }
+    },{
+        "type" : "overmap_special",
         "id" : "Triffid Grove",
         "overmaps" :
         [
@@ -1152,6 +1182,18 @@
         "unique" : true, "//":"only allow one per city",
         "required" : false, "//":"is this special required for valid city sizes",
         "spawns" : { "group" : "GROUP_LARGE_STATION", "population":[4, 10], "radius":[1, 2] }
+    },{
+        "type" : "overmap_special",
+        "id" : "warehouse",
+        "overmaps" : [ { "point":[0,0,0], "overmap": "warehouse_north", "connect":"road"} ],
+        "locations" : [ "by_hiway" ], "//":"what special locations does it spawn",
+        "city_distance" : [6, 20], "//":"how far from a city it should be",
+        "city_sizes" : [5, 12], "//":"what city sizes should it spawn in",
+        "occurrences" : [0, 2], "//":"how many per overmap",
+        "rotate" : true , "//":"allow rotation",
+        "unique" : false, "//":"only allow one per city",
+        "required" : false, "//":"is this special required for valid city sizes",
+        "flags" : [ "CLASSIC" ]
     }
 ]
 

@@ -36,7 +36,7 @@
  * Changes that break backwards compatibility should bump this number, so the game can
  * load a legacy format loader.
  */
-const int savegame_version = 21;
+const int savegame_version = 22;
 const int savegame_minver_game = 11;
 
 /*
@@ -76,7 +76,7 @@ void game::serialize(std::ofstream & fout) {
         // basic game state information.
         json.member("turn", (int)calendar::turn);
         json.member( "last_target", (int)last_target );
-        json.member( "run_mode", (int)run_mode );
+        json.member( "run_mode", (int)safe_mode );
         json.member( "mostseen", mostseen );
         json.member( "nextspawn", (int)nextspawn );
         // current map coordinates
@@ -207,9 +207,9 @@ void game::unserialize(std::ifstream & fin)
         cur_om = &overmap_buffer.get(comx, comy);
         m.load(levx, levy, levz, true, cur_om);
 
-        run_mode = tmprun;
-        if (OPTIONS["SAFEMODE"] && run_mode == 0) {
-            run_mode = 1;
+        safe_mode = static_cast<safe_mode_type>( tmprun );
+        if (OPTIONS["SAFEMODE"] && safe_mode == SAFE_MODE_OFF) {
+            safe_mode = SAFE_MODE_ON;
         }
         autosafemode = OPTIONS["AUTOSAFEMODE"];
         safemodeveh = OPTIONS["SAFEMODEVEH"];
@@ -464,7 +464,8 @@ void overmap::unserialize(std::ifstream & fin, std::string const & plrfilename,
 
                     if ( data.read("region_id",tmpstr) ) { // temporary, until option DEFAULT_REGION becomes start_scenario.region_id
                         if ( settings.id != tmpstr ) {
-                            std::map<std::string, regional_settings>::const_iterator rit = region_settings_map.find( tmpstr );
+                            std::unordered_map<std::string, regional_settings>::const_iterator rit =
+                                region_settings_map.find( tmpstr );
                             if ( rit != region_settings_map.end() ) {
                                 // temporary; user changed option, this overmap should remain whatever it was set to.
                                 settings = rit->second; // todo optimize
@@ -527,6 +528,25 @@ void overmap::unserialize(std::ifstream & fin, std::string const & plrfilename,
                         }
                     }
                 }
+            } else if (datatype == 'E') { //Load explored areas
+                sfin >> z;
+
+                std::string dataline;
+                getline(sfin, dataline); // Chomp endl
+
+                int count = 0;
+                int explored;
+                if (z >= 0 && z < OVERMAP_LAYERS) {
+                    for (int j = 0; j < OMAPY; j++) {
+                        for (int i = 0; i < OMAPX; i++) {
+                            if (count == 0) {
+                                sfin >> explored >> count;
+                            }
+                            count--;
+                            layer[z].explored[i][j] = (explored == 1);
+                        }
+                    }
+                }
             } else if (datatype == 'N') { // Load notes
                 om_note tmp;
                 sfin >> tmp.x >> tmp.y >> tmp.num;
@@ -558,6 +578,7 @@ void overmap::save() const
         fout << "L " << z << std::endl;
         int count = 0;
         int lastvis = -1;
+        int lastexp = -1;
         for (int j = 0; j < OMAPY; j++) {
             for (int i = 0; i < OMAPX; i++) {
                 int v = (layer[z].visible[i][j] ? 1 : 0);
@@ -567,6 +588,28 @@ void overmap::save() const
                     }
                     lastvis = v;
                     fout << v << " ";
+                    count = 1;
+                } else {
+                    count++;
+                }
+            }
+        }
+        fout << count;
+        fout << std::endl;
+
+        //So we don't break saves that don't have this data, we add a new type.
+        fout << "E " << z << std::endl;
+        count = 0;
+
+        for (int j = 0; j < OMAPY; j++) {
+            for (int i = 0; i < OMAPX; i++) {
+                int e = (layer[z].explored[i][j] ? 1 : 0);
+                if (e != lastexp) {
+                    if (count) {
+                        fout << count << " ";
+                    }
+                    lastexp = e;
+                    fout << e << " ";
                     count = 1;
                 } else {
                     count++;

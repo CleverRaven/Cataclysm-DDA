@@ -172,13 +172,13 @@
         "category": "veh_parts",
         "bigness-aspect": "WHEEL_DIAMETER"
     },
-	{
+    {
         "type":"VAR_VEH_PART",
         "id": "wheel_wood_b",
         "symbol": "]",
         "color": "brown",
         "name": "banded wooden cart wheel",
-        "description": "A wooden cart wheel with medal bands for durability, hand made.",
+        "description": "A wooden cart wheel with metal bands for durability, hand made.",
         "price": 1200,
         "material": ["wood", "null"],
         "weight": 5000,
@@ -188,6 +188,25 @@
         "to_hit": -4,
         "min-bigness": 20,
         "max-bigness": 20,
+        "category": "veh_parts",
+        "bigness-aspect": "WHEEL_DIAMETER"
+    },
+    {
+        "type":"VAR_VEH_PART",
+        "id": "hd_steel_drum",
+        "symbol": "m",
+        "color": "light_gray",
+        "name": "large steel drum",
+        "description": "A large cylinder fashioned out of thick plates of hardened steel, that is normally found on road rollers. Numerous massive spokes, attached to a central axis, reinforce its structure even further, making it an unstoppable force once it starts rolling.",
+        "price": 50000,
+        "material": ["steel", "null"],
+        "weight": 750000,
+        "volume": 800,
+        "bashing": 60,
+        "cutting": 0,
+        "to_hit": -2,
+        "min-bigness": 50,
+        "max-bigness": 75,
         "category": "veh_parts",
         "bigness-aspect": "WHEEL_DIAMETER"
     },{
@@ -301,6 +320,24 @@
         "to_hit": -8,
         "min-bigness": 800,
         "max-bigness": 1600,
+        "category": "veh_parts",
+        "bigness-aspect": "ENGINE_DISPLACEMENT"
+    },{
+        "type":"VAR_VEH_PART",
+        "id": "1cyl_combustion_small",
+        "symbol": ":",
+        "color": "light_cyan",
+        "name": "small 1-cylinder engine",
+        "description": "A small single-cylinder 2-stroke combustion engine.",
+        "price": 6000,
+        "material": ["iron", "null"],
+        "weight": 10000,
+        "volume": 3,
+        "bashing": 2,
+        "cutting": 0,
+        "to_hit": -1,
+        "min-bigness": 22,
+        "max-bigness": 45,
         "category": "veh_parts",
         "bigness-aspect": "ENGINE_DISPLACEMENT"
     }

@@ -1,5 +1,6 @@
-#ifndef _UISTATE_H_
-#define _UISTATE_H_
+#ifndef UISTATE_H
+#define UISTATE_H
+
 #include "json.h"
 /*
   centralized depot for trivial ui data such as sorting, string_input_popup history, etc.
@@ -20,10 +21,8 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
         int adv_inv_rightarea;
         int adv_inv_leftindex;
         int adv_inv_rightindex;
-        int adv_inv_leftpage;
         int adv_inv_src;
         int adv_inv_dest;
-        int adv_inv_rightpage;
         int adv_inv_last_popup_dest;
         int ags_pay_gas_selected_pump;
         std::string adv_inv_leftfilter;
@@ -62,8 +61,6 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
             adv_inv_rightarea = 0;
             adv_inv_leftindex = 0;
             adv_inv_rightindex = 0;
-            adv_inv_leftpage = 0;
-            adv_inv_rightpage = 0;
             adv_inv_src = 0;
             adv_inv_dest = 1;
             adv_inv_last_popup_dest = 0;
@@ -165,4 +162,5 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
         };
 };
 extern uistatedata uistate;
+
 #endif

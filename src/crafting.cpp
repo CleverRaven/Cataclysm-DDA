@@ -1354,9 +1354,7 @@ void game::complete_craft()
 
             for (std::list<item>::iterator iter = used.begin(); iter != used.end(); ++iter) {
                 if (iter->goes_bad()) {
-                    iter->calc_rot(u.pos());
-                    used_age_tally += iter->rot /
-                                      (float)(dynamic_cast<it_comest *>(iter->type)->spoils);
+                    used_age_tally += iter->get_relative_rot();
                     ++used_age_count;
                 }
             }
@@ -1368,34 +1366,15 @@ void game::complete_craft()
             // which would either loose this information or merge it somehow.
             newit.components.insert(newit.components.begin(), used.begin(), used.end());
         }
-
-        if (newit.is_armor() && newit.has_flag("VARSIZE")) {
-            newit.item_tags.insert("FIT");
-        }
-        if (used_age_count > 0 && newit.goes_bad()) {
-            set_item_spoilage(newit, used_age_tally, used_age_count);
-        }
-        // for food items
-        if (newit.is_food()) {
-            set_item_food(newit);
-        }
-
-        set_item_inventory(this, newit);
+        finalize_crafted_item( newit, used_age_tally, used_age_count );
+        set_item_inventory(newit);
     }
 
     if (making->has_byproducts()) {
         std::vector<item> bps = making->create_byproducts(making->batch);
         for(auto &bp : bps) {
-            if (bp.is_armor() && bp.has_flag("VARSIZE")) {
-                bp.item_tags.insert("FIT");
-            }
-            if (used_age_count > 0 && bp.goes_bad()) {
-                set_item_spoilage(bp, used_age_tally, used_age_count);
-            }
-            if (bp.is_food()) {
-                set_item_food(bp);
-            }
-            set_item_inventory(this, bp);
+            finalize_crafted_item( bp, used_age_tally, used_age_count );
+            set_item_inventory(bp);
         }
     }
 
@@ -1404,9 +1383,7 @@ void game::complete_craft()
 
 void set_item_spoilage(item &newit, float used_age_tally, int used_age_count)
 {
-    const int average_used_age = int((used_age_tally / used_age_count) * dynamic_cast<it_comest *>
-                                     (newit.type)->spoils);
-    newit.bday = newit.bday - average_used_age;
+    newit.set_relative_rot( used_age_tally / used_age_count );
 }
 
 void set_item_food(item &newit)
@@ -1421,14 +1398,27 @@ void set_item_food(item &newit)
     }
 }
 
-void set_item_inventory(game *g, item &newit)
+void finalize_crafted_item( item &newit, float used_age_tally, int used_age_count )
 {
-    g->u.inv.assign_empty_invlet(newit);
+    if( newit.is_armor() && newit.has_flag( "VARSIZE" ) ) {
+        newit.item_tags.insert( "FIT" );
+    }
+    if( newit.is_food() ) {
+        set_item_food( newit );
+    }
+    if( used_age_count > 0 && newit.goes_bad() ) {
+        set_item_spoilage( newit, used_age_tally, used_age_count );
+    }
+}
+
+void set_item_inventory(item &newit)
+{
     if (newit.made_of(LIQUID)) {
         while(!g->handle_liquid(newit, false, false)) {
             ;
         }
     } else {
+        g->u.inv.assign_empty_invlet( newit );
         // We might not have space for the item
         if (!g->u.can_pickVolume(newit.volume())) { //Accounts for result_mult
             add_msg(_("There's no room in your inventory for the %s, so you drop it."),

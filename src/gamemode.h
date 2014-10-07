@@ -1,5 +1,5 @@
-#ifndef _GAMEMODE_H_
-#define _GAMEMODE_H_
+#ifndef GAMEMODE_H
+#define GAMEMODE_H
 
 #include <vector>
 #include <string>
@@ -127,11 +127,6 @@ enum caravan_category {
     NUM_CARAVAN_CATEGORIES
 };
 
-struct defense_game_monchanges {
-    int original_difficulty;
-    std::set<m_flag> added_flags;
-};
-
 struct defense_game : public special_game {
         defense_game();
 
@@ -152,13 +147,9 @@ struct defense_game : public special_game {
         void setup();
         void refresh_setup(WINDOW *w, int selection);
         void init_itypes();
-        void reset_itypes();
         void init_mtypes();
-        void reset_mtypes();
         void init_constructions();
-        void reset_constructions();
         void init_recipes();
-        void reset_recipes();
         void init_map();
         std::vector<itype_id> carvan_items(caravan_category cat);
 

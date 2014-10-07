@@ -6,6 +6,15 @@
 const std::string inv_chars =
     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()*+./:;=@[\\]^_{|}";
 
+inventory::inventory()
+: nullitem()
+, nullstack()
+, invlet_cache()
+, items()
+, sorted(false)
+{
+}
+
 invslice inventory::slice()
 {
     invslice stacks;
@@ -55,32 +64,6 @@ int inventory::num_items() const
 bool inventory::is_sorted() const
 {
     return sorted;
-}
-
-inventory &inventory::operator= (inventory &rhs)
-{
-    if (this == &rhs) {
-        return *this; // No self-assignment
-    }
-
-    clear();
-    for (size_t i = 0; i < rhs.size(); i++) {
-        items.push_back(rhs.const_stack(i));
-    }
-    return *this;
-}
-
-inventory &inventory::operator= (const inventory &rhs)
-{
-    if (this == &rhs) {
-        return *this; // No self-assignment
-    }
-
-    clear();
-    for (size_t i = 0; i < rhs.size(); i++) {
-        items.push_back(rhs.const_stack(i));
-    }
-    return *this;
 }
 
 inventory &inventory::operator+= (const inventory &rhs)
@@ -532,7 +515,9 @@ void inventory::form_from_map(point origin, int range, bool assign_invlet)
                 fire.charges = 1;
                 add_item(fire);
             }
-            if (terrain_id == t_water_sh || terrain_id == t_water_dp || terrain_id == t_water_pool) {
+            if (terrain_id == t_water_sh || terrain_id == t_water_dp ||
+                terrain_id == t_water_pool || terrain_id == t_water_pump ||
+                terrain_id == t_sewage) {
                 item water("water", 0);
                 water.charges = 50;
                 add_item(water);

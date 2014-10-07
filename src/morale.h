@@ -1,5 +1,5 @@
-#ifndef _MORALE_H_
-#define _MORALE_H_
+#ifndef MORALE_H
+#define MORALE_H
 
 #include "itype.h"
 #include "json.h"
@@ -31,6 +31,7 @@ enum morale_type
     MORALE_CRAVING_CRACK,
     MORALE_CRAVING_MUTAGEN,
     MORALE_CRAVING_DIAZEPAM,
+    MORALE_CRAVING_MARLOSS,
 
     MORALE_FOOD_BAD,
     MORALE_CANNIBAL,

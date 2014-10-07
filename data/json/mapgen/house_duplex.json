@@ -106,6 +106,7 @@
             ],
             "comment": "north dwelling followed by south dwelling",
             "place_groups": [
+                { "item": "bed", "chance": 80,  "x": [18,19 ], "y": [7,8 ] },
                 { "item": "homebooks", "chance": 60,  "x": [ 8, 9 ], "y": [ 10, 10 ] },
                 { "item": "bedroom", "chance": 60,  "x": [ 18, 21 ], "y": [ 7, 9 ] },
                 { "item": "livingroom", "chance": 60,  "x": [ 4, 8 ], "y": [ 7, 10 ] },
@@ -114,6 +115,7 @@
                 { "item": "oven", "chance": 70, "x": [ 11, 11 ], "y": [ 10, 10 ] },
                 { "item": "kitchen", "chance": 70, "x": [ 12, 15 ], "y": [ 10, 10 ] },
                 
+                { "item": "bed", "chance": 80,  "x": [16,16 ], "y": [15,16 ] },
                 { "item": "homebooks", "chance": 60,  "x": [ 5, 5 ], "y": [ 21, 21 ] },
                 { "item": "novels", "chance": 50, "x": [ 6, 7 ], "y": [ 12, 12 ] },
                 { "item": "bedroom", "chance": 60,  "x": [ 16, 18 ], "y": [ 14, 17 ] },

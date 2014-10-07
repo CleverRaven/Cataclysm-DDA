@@ -1950,81 +1950,67 @@
             "rotates":false
         },
         {
-            "id":"t_rubble",
+            "id":"f_rubble",
             "fg":245,
-            "bg":6,
             "multitile":true,
             "additional_tiles":
             [
                 {
                     "id":"center",
-                    "fg":2280,
-                    "bg":6
+                    "fg":2280
                 },
                 {
                     "id":"corner",
-                    "fg":2281,
-                    "bg":6
+                    "fg":2281
                 },
                 {
                     "id":"edge",
-                    "fg":2282,
-                    "bg":6
+                    "fg":2282
                 },
                 {
                     "id":"t_connection",
-                    "fg":2283,
-                    "bg":6
+                    "fg":2283
                 },
                 {
                     "id":"end_piece",
-                    "fg":2284,
-                    "bg":6
+                    "fg":2284
                 },
                 {
                     "id":"unconnected",
-                    "fg":245,
-                    "bg":6
+                    "fg":245
                 }
             ],
             "rotates":false
         },
         {
-            "id":"t_ash",
+            "id":"f_ash",
             "fg":246,
-            "bg":6,
             "multitile":true,
             "additional_tiles":
             [
                 {
                     "id":"center",
-                    "fg":2341,
-                    "bg":6
+                    "fg":2341
                 },
                 {
                     "id":"corner",
-                    "fg":2342,
-                    "bg":6
+                    "fg":2342
                 },
                 {
                     "id":"edge",
-                    "fg":2343,
-                    "bg":6
+                    "fg":2343
                 },
                 {
                     "id":"t_connection",
-                    "fg":2344,
-                    "bg":6
+                    "fg":2344
                 },
                 {
                     "id":"end_piece",
-                    "fg":2345,
-                    "bg":6
+                    "fg":2345
                 },
                 {
                     "id":"unconnected",
-                    "fg":246,
-                    "bg":-1
+                    "fg":246
                 }
             ],
             "rotates":false
@@ -2130,41 +2116,34 @@
             "rotates":false
         },
         {
-            "id":"t_wreckage",
+            "id":"f_wreckage",
             "fg":2275,
-            "bg":6,
             "multitile":true,
             "additional_tiles":
             [
                 {
                     "id":"center",
-                    "fg":2275,
-                    "bg":6
+                    "fg":2275
                 },
                 {
                     "id":"corner",
-                    "fg":2276,
-                    "bg":6
+                    "fg":2276
                 },
                 {
                     "id":"edge",
-                    "fg":2277,
-                    "bg":6
+                    "fg":2277
                 },
                 {
                     "id":"t_connection",
-                    "fg":2278,
-                    "bg":6
+                    "fg":2278
                 },
                 {
                     "id":"end_piece",
-                    "fg":2279,
-                    "bg":6
+                    "fg":2279
                 },
                 {
                     "id":"unconnected",
-                    "fg":263,
-                    "bg":6
+                    "fg":263
                 }
             ],
             "rotates":false
@@ -16156,6 +16135,31 @@
                     "bg": 24
                 }
             ]
+        },
+        {
+          "rotates": false,
+          "id": "fd_hot_air1",
+          "fg": 2379
+        },
+        {
+          "rotates": false,
+          "id": "fd_hot_air2",
+          "fg": 2379
+        },
+        {
+          "rotates": false,
+          "id": "fd_hot_air3",
+          "fg": 2379
+        },
+        {
+          "rotates": false,
+          "id": "fd_hot_air4",
+          "fg": 2379
+        },
+        {
+          "rotates": false,
+          "id": "fd_spotlight",
+          "fg": 2379
         }
     ]
 }

@@ -1,5 +1,5 @@
-#ifndef _GAME_H_
-#define _GAME_H_
+#ifndef GAME_H
+#define GAME_H
 
 #include "mtype.h"
 #include "monster.h"
@@ -66,6 +66,12 @@ enum quit_status {
     QUIT_ERROR
 };
 
+enum safe_mode_type {
+    SAFE_MODE_OFF = 0, // Moving always allowed
+    SAFE_MODE_ON = 1, // Moving allowed, but if a new monsters spawns, go to SAFE_MODE_STOP
+    SAFE_MODE_STOP = 2, // New monsters spotted, no movement allowed
+};
+
 // Refactoring into base monster class.
 
 struct monster_and_count {
@@ -108,6 +114,7 @@ class game
         void setup();
         bool game_quit(); // True if we actually quit the game - used in main.cpp
         bool game_error();
+        bool new_game;    // Is true if game has just started or loaded, false otherwise
         quit_status uquit;    // used in main.cpp to determine what type of quit
         void serialize(std::ofstream &fout);  // for save
         void unserialize(std::ifstream &fin);  // for load
@@ -121,7 +128,7 @@ class game
         std::vector<std::string> list_active_characters();
         void write_memorial_file(std::string sLastWords);
         void cleanup_at_end();
-	void determine_starting_season();
+        void determine_starting_season();
         bool do_turn();
         void draw();
         void draw_ter(int posx = -999, int posy = -999);
@@ -235,6 +242,9 @@ class game
 
         void teleport(player *p = NULL, bool add_teleglow = true);
         void plswim(int x, int y); // Called by plmove.  Handles swimming
+        void rod_fish(int sSkillLevel, int fishChance); // fish with rod catching function
+        void catch_a_monster(std::vector<monster*> &catchables, int posx, int posy, player *p, int catch_duration = 0); //catch monsters
+        std::vector<monster*> get_fishable(int distance); //gets the lish of fishable critters
         // when player is thrown (by impact or something)
         void fling_creature(Creature *c, const int &dir, float flvel,
                             bool controlled = false);
@@ -257,8 +267,8 @@ class game
         bool u_see (const monster *critter);
         bool u_see (const Creature *t); // for backwards compatibility
         bool u_see (const Creature &t);
-        bool is_hostile_nearby();
-        bool is_hostile_very_close();
+        Creature *is_hostile_nearby();
+        Creature *is_hostile_very_close();
         void refresh_all();
         void update_map(int &x, int &y);  // Called by plmove when the map updates
         void update_overmap_seen(); // Update which overmap tiles we can see
@@ -374,7 +384,7 @@ class game
         int get_abs_levy() const;
         int get_abs_levz() const;
         player u;
-	scenario* scen;
+        scenario *scen;
         std::vector<monster> coming_to_stairs;
         int monstairx, monstairy, monstairz;
         std::vector<npc *> active_npc;
@@ -437,7 +447,6 @@ class game
         // ignore_player determines if player is affected, useful for bionic, etc.
         void shockwave(int x, int y, int radius, int force, int stun, int dam_mult, bool ignore_player);
 
-
         // Animation related functions
         void draw_explosion(int x, int y, int radius, nc_color col);
         void draw_bullet(Creature &p, int tx, int ty, int i, std::vector<point> trajectory, char bullet,
@@ -469,6 +478,12 @@ class game
         bool opening_screen();// Warn about screen size, then present the main menu
         void mmenu_refresh_motd();
         void mmenu_refresh_credits();
+
+        /**
+         * Check whether movement is allowed according to safe mode settings.
+         * @return true if the movement is allowed, otherwise false.
+         */
+        bool check_save_mode_allowed();
 
         const int dangerous_proximity;
         bool narrow_sidebar;
@@ -721,10 +736,9 @@ class game
 
         int last_target; // The last monster targeted
         bool last_target_was_npc;
-        int run_mode; // 0 - Normal run always; 1 - Running allowed, but if a new
-        //  monsters spawns, go to 2 - No movement allowed
+        safe_mode_type safe_mode;
         std::vector<int> new_seen_mon;
-        int mostseen;  // # of mons seen last turn; if this increases, run_mode++
+        int mostseen;  // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
         bool autosafemode; // is autosafemode enabled?
         bool safemodeveh; // safemode while driving?
         int turnssincelastmon; // needed for auto run mode
@@ -755,7 +769,7 @@ class game
         // Preview for auto move route
         std::vector<point> destination_preview;
 
-        bool is_hostile_within(int distance);
+        Creature *is_hostile_within(int distance);
         void activity_on_turn();
         void activity_on_turn_game();
         void activity_on_turn_drop();
@@ -773,6 +787,8 @@ class game
         void activity_on_finish_vehicle();
         void activity_on_finish_make_zlave();
 
+        void move_save_to_graveyard();
+        bool save_player_data();
 };
 
 #endif

@@ -1,5 +1,5 @@
-#ifndef _BASECAMP_H_
-#define _BASECAMP_H_
+#ifndef BASECAMP_H
+#define BASECAMP_H
 
 #include <string>
 

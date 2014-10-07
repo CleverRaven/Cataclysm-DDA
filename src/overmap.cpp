@@ -54,10 +54,10 @@ map_extras no_extras(0);
     // Careful with astyle here, please?
 map_extras road_extras(
 // %%% HEL MIL SCI BLK DRG SUP PRT MIN CRT FUM 1WY ART
-    75, 40, 25, 60, 100, 30, 10, 5, 80, 10,  8,  2,  3);
+    75, 40, 25, 40, 100, 30, 10, 5, 80, 10,  8,  2,  3);
 map_extras field_extras(
 // %%% HEL MIL SCI BLK DRG SUP PRT MIN CRT FUM 1WY ART
-    90, 40, 8, 20,  0, 80, 10,  3, 50,  10,  8,  1,  3);
+    90, 40, 8, 20,  0, 20, 10,  3, 50,  10,  8,  1,  3);
 map_extras subway_extras(
 // %%% HEL MIL SCI BLK DRG SUP PRT MIN CRT FUM 1WY ART
     75,  0,  5, 12,  0,  0,  0,  7,  0,  0, 20,  1,  3);
@@ -65,12 +65,12 @@ map_extras build_extras(
 // %%% HEL MIL SCI BLK DRG SUP PRT MIN CRT FUM 1WY ART
     90,  0,  5, 12,  0, 0,  0,  5,  5, 60,  8,  1,  3);
 
-std::map<std::string, oter_t> otermap;
+std::unordered_map<std::string, oter_t> otermap;
 std::vector<oter_t> oterlist;
 
-std::map<std::string, oter_t> obasetermap;
+std::unordered_map<std::string, oter_t> obasetermap;
 //const regional_settings default_region_settings;
-std::map<std::string, regional_settings> region_settings_map;
+std::unordered_map<std::string, regional_settings> region_settings_map;
 
 std::vector<overmap_special> overmap_specials;
 
@@ -445,7 +445,8 @@ void finalize_overmap_terrain( )
                  " cataclysm pending. And not the fun kind.");
     }
 
-    for( std::map<std::string, regional_settings>::iterator rsit = region_settings_map.begin();
+    for( std::unordered_map<std::string, regional_settings>::iterator rsit =
+             region_settings_map.begin();
          rsit != region_settings_map.end(); ++rsit) {
         rsit->second.setup();
     }
@@ -614,8 +615,8 @@ overmap::overmap(int x, int y)
     // STUB: need region map:
     // settings = regionmap->calculate_settings( loc );
     const std::string rsettings_id = ACTIVE_WORLD_OPTIONS["DEFAULT_REGION"].getValue();
-    std::map<std::string, regional_settings>::const_iterator rsit = region_settings_map.find(
-                rsettings_id );
+    std::unordered_map<std::string, regional_settings>::const_iterator rsit =
+        region_settings_map.find( rsettings_id );
 
     if ( rsit == region_settings_map.end() ) {
         debugmsg("overmap(%d,%d): can't find region '%s'", x, y, rsettings_id.c_str() ); // gonna die now =[
@@ -639,6 +640,7 @@ void overmap::init_layers()
             for(int j = 0; j < OMAPY; ++j) {
                 layer[z].terrain[i][j] = default_type;
                 layer[z].visible[i][j] = false;
+                layer[z].explored[i][j] = false;
             }
         }
     }
@@ -673,6 +675,15 @@ bool &overmap::seen(int x, int y, int z)
     return layer[z + OVERMAP_DEPTH].visible[x][y];
 }
 
+bool &overmap::explored(int x, int y, int z)
+{
+    if (x < 0 || x >= OMAPX || y < 0 || y >= OMAPY || z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT) {
+        nullbool = false;
+        return nullbool;
+    }
+    return layer[z + OVERMAP_DEPTH].explored[x][y];
+}
+
 // this uses om_pos (overmap tiles, aka levxy / 2)
 bool overmap::is_safe(int x, int y, int z)
 {
@@ -689,6 +700,14 @@ bool overmap::is_safe(int x, int y, int z)
         }
     }
     return true;
+}
+
+bool overmap::is_explored(int const x, int const y, int const z) const
+{
+    if (x < 0 || x >= OMAPX || y < 0 || y >= OMAPY || z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT) {
+        return false;
+    }
+    return layer[z + OVERMAP_DEPTH].explored[x][y];
 }
 
 bool overmap::has_note(int const x, int const y, int const z) const
@@ -743,19 +762,17 @@ void overmap::add_note(int const x, int const y, int const z, std::string const 
     }
 }
 
-point overmap::find_note(int const x, int const y, int const z, std::string const &text)
+extern bool lcmatch(const std::string& text, const std::string& pattern);
+std::vector<point> overmap::find_notes(int const z, std::string const &text)
 {
-    const overmapbuffer::t_notes_vector notes = overmap_buffer.find_notes(z, text);
-    int closest = INT_MAX;
-    point ret = invalid_point;
-    for (auto &i : notes) {
-        const int dist = rl_dist(x, y, i.first.x, i.first.y);
-        if (dist < closest) {
-            closest = dist;
-            ret = i.first;
+    std::vector<point> note_locations;
+    map_layer &this_layer = layer[z + OVERMAP_DEPTH];
+    for( auto note : this_layer.notes ) {
+        if( lcmatch( note.text, text ) ) {
+            note_locations.push_back( point( get_left_border() + note.x, get_top_border() + note.y ) );
         }
     }
-    return ret;
+    return note_locations;
 }
 
 point overmap::display_notes(int z)
@@ -824,95 +841,6 @@ point overmap::display_notes(int z)
     } while(ch != ' ' && ch != '\n' && ch != KEY_ESCAPE);
     delwin(w_notes);
     return result;
-}
-
-bool overmap::has_vehicle(int const x, int const y, int const z, bool require_pda) const
-{
-    // vehicles only spawn at z level 0 (for now)
-    if (!(z == 0)) {
-        return false;
-    }
-
-    // if the player is not carrying a PDA then he cannot see the vehicle.
-    if (require_pda && !g->u.has_pda()) {
-        return false;
-    }
-
-    for (std::map<int, om_vehicle>::const_iterator it = vehicles.begin();
-         it != vehicles.end(); it++) {
-        om_vehicle om_veh = it->second;
-        if ( om_veh.x == x && om_veh.y == y ) {
-            return true;
-        }
-    }
-    return false;
-}
-
-//Helper function for the overmap::draw function.
-void overmap::print_npcs(WINDOW *w, int const x, int const y, int const z)
-{
-    std::vector<npc *> npcs = overmap_buffer.get_npcs_near_omt(x, y, z, 0);
-    int i = 0, maxnamelength = 0;
-    //Check the max namelength of the npcs in the target
-    for (auto &n : npcs) {
-        if(!n->marked_for_death) {
-            maxnamelength = n->name.length();
-        }
-    }
-    //Check if the target has an npc in it.
-    for (auto &n : npcs) {
-        if(!n->marked_for_death) {
-            mvwprintz(w, i, 0, c_yellow, n->name.c_str());
-            for (int j = n->name.length(); j < maxnamelength; j++) {
-                mvwputch(w, i, j, c_black, LINE_XXXX);
-            }
-            i++;
-        }
-    }
-    for (int j = 0; j < i; j++) {
-        mvwputch(w, j, maxnamelength, c_white, LINE_XOXO);
-    }
-    for (int j = 0; j < maxnamelength; j++) {
-        mvwputch(w, i, j, c_white, LINE_OXOX);
-    }
-    mvwputch(w, i, maxnamelength, c_white, LINE_XOOX);
-}
-
-void overmap::print_vehicles(WINDOW *w, int const x, int const y, int const z) const
-{
-    if (!(z == 0)) { // vehicles only exist on zlevel 0
-        return;
-    }
-    int i = 0;
-    size_t maxnamelength = 0;
-    //Check the max namelength of the vehicles in the target
-    for (auto it = vehicles.begin(); it != vehicles.end(); it++) {
-        om_vehicle om_veh = it->second;
-        if ( om_veh.x == x && om_veh.y == y ) {
-            if (om_veh.name.length() > maxnamelength) {
-                maxnamelength = om_veh.name.length();
-            }
-        }
-    }
-    //Check if the target has a vehicle in it.
-    for (std::map<int, om_vehicle>::const_iterator it = vehicles.begin();
-         it != vehicles.end(); it++) {
-        om_vehicle om_veh = it->second;
-        if (om_veh.x == x && om_veh.y == y) {
-            mvwprintz(w, i, 0, c_cyan, om_veh.name.c_str());
-            for (size_t j = om_veh.name.length(); j < maxnamelength; j++) {
-                mvwputch(w, i, j, c_black, LINE_XXXX);
-            }
-            i++;
-        }
-    }
-    for (int j = 0; j < i; j++) {
-        mvwputch(w, j, maxnamelength, c_white, LINE_XOXO);
-    }
-    for (size_t j = 0; j < maxnamelength; j++) {
-        mvwputch(w, i, j, c_white, LINE_OXOX);
-    }
-    mvwputch(w, i, maxnamelength, c_white, LINE_XOOX);
 }
 
 void overmap::generate(const overmap *north, const overmap *east,
@@ -1302,7 +1230,6 @@ bool overmap::generate_sub(int const z)
     return requires_sub;
 }
 
-extern bool lcmatch(const std::string& text, const std::string& pattern);
 std::vector<point> overmap::find_terrain(const std::string &term, int zlevel)
 {
     std::vector<point> found;
@@ -1310,7 +1237,7 @@ std::vector<point> overmap::find_terrain(const std::string &term, int zlevel)
         for (int y = 0; y < OMAPY; y++) {
             if (seen(x, y, zlevel) &&
                 lcmatch( otermap[ter(x, y, zlevel)].name, term ) ) {
-                found.push_back( point(x, y) );
+                found.push_back( point( get_left_border() + x, get_top_border() + y) );
             }
         }
     }
@@ -1373,7 +1300,7 @@ int overmap::dist_from_city(point p)
 }
 
 void overmap::draw(WINDOW *w, const tripoint &center,
-                   const tripoint &orig, bool blink,
+                   const tripoint &orig, bool blink, bool show_explored,
                    input_context *inp_ctxt,
                    bool debug_monstergroups,
                    const int iZoneIndex)
@@ -1560,7 +1487,12 @@ void overmap::draw(WINDOW *w, const tripoint &center,
                         ter_color = c_red;
                         ter_sym = '?';
                     } else {
-                        ter_color = otermap[cur_ter].color;
+                        // Map tile marked as explored
+                        if (show_explored && overmap_buffer.is_explored(omx, omy, z)) {
+                            ter_color = c_dkgray;
+                        } else {
+                            ter_color = otermap[cur_ter].color;
+                        }
                         ter_sym = otermap[cur_ter].sym;
                     }
                 }
@@ -1652,21 +1584,36 @@ void overmap::draw(WINDOW *w, const tripoint &center,
                note_text[1] == ';') ) {
         note_text.erase(0, 2);
     }
+    std::vector<std::string> corner_text;
     if (!note_text.empty()) {
-        const int length = utf8_width(note_text.c_str());
-        for (int i = 0; i <= length; i++) {
-            mvwputch(w, 1, i, c_white, LINE_OXOX);
+        corner_text.push_back( note_text );
+    }
+    const auto npcs = overmap_buffer.get_npcs_near_omt(cursx, cursy, z, 0);
+    for( const auto &npc : npcs ) {
+        if( npc->marked_for_death ) {
+            continue;
         }
-        mvwprintz(w, 0, 0, c_yellow, "%s", note_text.c_str());
-        mvwputch(w, 1, length, c_white, LINE_XOOX);
-        mvwputch(w, 0, length, c_white, LINE_XOXO);
-    } else if (overmap_buffer.has_npc(cursx, cursy, z)) {
-        print_npcs(w, cursx, cursy, z);
-    } else if (overmap_buffer.has_vehicle(cursx, cursy, z)) {
-        int x = cursx;
-        int y = cursy;
-        const overmap &om = overmap_buffer.get_om_global(x, y);
-        om.print_vehicles(w, x, y, z);
+        corner_text.push_back( npc->name );
+    }
+    const auto vehicles = overmap_buffer.get_vehicle(cursx, cursy, z);
+    for( const auto &v : vehicles ) {
+        corner_text.push_back( v.name );
+    }
+    if( !corner_text.empty() ) {
+        int maxlen = 0;
+        for( const auto &line : corner_text ) {
+            maxlen = std::max( maxlen, utf8_width( line.c_str() ) );
+        }
+        for( size_t i = 0; i < corner_text.size(); i++ ) {
+            // clear line, print line, print vertical line at the right side.
+            mvwprintz( w, i, 0, c_yellow, std::string(maxlen, ' ').c_str() );
+            mvwprintz( w, i, 0, c_yellow, "%s", corner_text[i].c_str() );
+            mvwputch( w, i, maxlen, c_white, LINE_XOXO );
+        }
+        for (int i = 0; i <= maxlen; i++) {
+            mvwputch( w, corner_text.size(), i, c_white, LINE_OXOX );
+        }
+        mvwputch( w, corner_text.size(), maxlen, c_white, LINE_XOOX );
     }
 
     if (sZoneName != "" && tripointZone.x == cursx && tripointZone.y == cursy) {
@@ -1729,22 +1676,24 @@ void overmap::draw(WINDOW *w, const tripoint &center,
         int distance = rl_dist(orig.x, orig.y, target.x, target.y);
         mvwprintz(w, 3, om_map_width + 1, c_white, _("Distance to target: %d"), distance);
     }
-    mvwprintz(w, 15, om_map_width + 1, c_magenta, _("Use movement keys to pan."));
+    mvwprintz(w, 14, om_map_width + 1, c_magenta, _("Use movement keys to pan."));
     if (inp_ctxt != NULL) {
-        mvwprintz(w, 16, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("CENTER") +
+        mvwprintz(w, 15, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("CENTER") +
                   _(" - Center map on character")).c_str());
-        mvwprintz(w, 17, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("SEARCH") +
+        mvwprintz(w, 16, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("SEARCH") +
                   _(" - Search")).c_str());
-        mvwprintz(w, 18, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("CREATE_NOTE") +
+        mvwprintz(w, 17, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("CREATE_NOTE") +
                   _(" - Add/Edit a note")).c_str());
-        mvwprintz(w, 19, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("DELETE_NOTE") +
+        mvwprintz(w, 18, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("DELETE_NOTE") +
                   _(" - Delete a note")).c_str());
-        mvwprintz(w, 20, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("LIST_NOTES") +
-                  _(" - List notes")).c_str());        
-        mvwprintz(w, 21, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("TOGGLE_BLINKING") +
+        mvwprintz(w, 19, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("LIST_NOTES") +
+                  _(" - List notes")).c_str());
+        mvwprintz(w, 20, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("TOGGLE_BLINKING") +
                   _(" - Toggle Blinking")).c_str());
-        mvwprintz(w, 22, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("TOGGLE_OVERLAYS") +
+        mvwprintz(w, 21, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("TOGGLE_OVERLAYS") +
                   _(" - Toggle Overlays")).c_str());
+        mvwprintz(w, 22, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("TOGGLE_EXPLORED") +
+                  _(" - Toggle Explored")).c_str());
         mvwprintz(w, 23, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("HELP_KEYBINDINGS") +
                   _(" - Change keys")).c_str());
         fold_and_print(w, 24, om_map_width + 1, 27, c_magenta, ("m, " + inp_ctxt->get_desc("QUIT") +
@@ -1799,11 +1748,13 @@ tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const 
     ictxt.register_action("LIST_NOTES");
     ictxt.register_action("TOGGLE_BLINKING");
     ictxt.register_action("TOGGLE_OVERLAYS");
+    ictxt.register_action("TOGGLE_EXPLORED");
     ictxt.register_action("QUIT");
     std::string action;
     do {
         timeout( BLINK_SPEED );
-        draw(w_map, curs, orig, uistate.overmap_show_overlays, &ictxt, debug_mongroup, iZoneIndex);
+        bool show_explored = uistate.overmap_blinking || uistate.overmap_show_overlays;
+        draw(w_map, curs, orig, uistate.overmap_show_overlays, show_explored, &ictxt, debug_mongroup, iZoneIndex);
         action = ictxt.handle_input();
         timeout(-1);
 
@@ -1843,25 +1794,22 @@ tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const 
             uistate.overmap_blinking = !uistate.overmap_blinking;
         } else if (action == "TOGGLE_OVERLAYS") {
             uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
+        } else if (action == "TOGGLE_EXPLORED") {
+            overmap_buffer.toggle_explored(curs.x, curs.y, curs.z);
         } else if (action == "SEARCH") {
             std::string term = string_input_popup(_("Search term:"));
             if(term.empty()) {
                 continue;
             }
             std::transform( term.begin(), term.end(), term.begin(), tolower );
-            const point p = find_note(curs.x, curs.y, curs.z, term);
-            if (p != invalid_point) {
-                // found a note, center on it, re-display
-                curs.x = p.x;
-                curs.y = p.y;
-                continue;
-            }
-            std::vector<point> terlist;
+
             // This is on purpose only the current overmap, otherwise
             // it would contain way to many entries
             overmap &om = overmap_buffer.get_om_global(point(curs.x, curs.y));
-            terlist = om.find_terrain(term, curs.z);
-            if (terlist.empty()) {
+            std::vector<point> locations = om.find_notes(curs.z, term);
+            std::vector<point> terlist = om.find_terrain(term, curs.z);
+            locations.insert( locations.end(), terlist.begin(), terlist.end() );
+            if( locations.empty() ) {
                 continue;
             }
             int i = 0;
@@ -1876,9 +1824,9 @@ tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const 
             ctxt.register_action("HELP_KEYBINDINGS");
             ctxt.register_action("ANY_INPUT");
             do {
-                tmp.x = om.pos().x * OMAPX + terlist[i].x;
-                tmp.y = om.pos().y * OMAPY + terlist[i].y;
-                draw(w_map, tmp, orig, uistate.overmap_show_overlays, NULL);
+                tmp.x = locations[i].x;
+                tmp.y = locations[i].y;
+                draw(w_map, tmp, orig, uistate.overmap_show_overlays, show_explored, NULL);
                 //Draw search box
                 draw_border(w_search);
                 mvwprintz(w_search, 1, 1, c_red, _("Find place:"));
@@ -1895,9 +1843,9 @@ tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const 
                     uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
                 }
                 if (action == "NEXT_TAB") {
-                    i = (i + 1) % terlist.size();
+                    i = (i + 1) % locations.size();
                 } else if (action == "PREV_TAB") {
-                    i = (i + terlist.size() - 1) % terlist.size();
+                    i = (i + locations.size() - 1) % locations.size();
                 } else if (action == "CONFIRM") {
                     curs = tmp;
                 }
@@ -3765,12 +3713,12 @@ bool oter_id::operator==(const char *v) const
 }
 bool oter_id::operator<=(const char *v) const
 {
-    std::map<std::string, oter_t>::const_iterator it = otermap.find(v);
+    std::unordered_map<std::string, oter_t>::const_iterator it = otermap.find(v);
     return ( it == otermap.end() || it->second.loadid <= _val);
 }
 bool oter_id::operator>=(const char *v) const
 {
-    std::map<std::string, oter_t>::const_iterator it = otermap.find(v);
+    std::unordered_map<std::string, oter_t>::const_iterator it = otermap.find(v);
     return ( it != otermap.end() && it->second.loadid >= _val);
 }
 
@@ -3820,7 +3768,7 @@ int oter_id::compare(size_t pos, size_t len, const char *s, size_t n) const
 // std::string("river_ne");  oter_id van_location(down_by);
 oter_id::oter_id(const std::string &v)
 {
-    std::map<std::string, oter_t>::const_iterator it = otermap.find(v);
+    std::unordered_map<std::string, oter_t>::const_iterator it = otermap.find(v);
     if ( it == otermap.end() ) {
         debugmsg("not found: %s", v.c_str());
     } else {
@@ -3831,7 +3779,7 @@ oter_id::oter_id(const std::string &v)
 // oter_id b("house_north");
 oter_id::oter_id(const char *v)
 {
-    std::map<std::string, oter_t>::const_iterator it = otermap.find(v);
+    std::unordered_map<std::string, oter_t>::const_iterator it = otermap.find(v);
     if ( it == otermap.end() ) {
         debugmsg("not found: %s", v);
     } else {

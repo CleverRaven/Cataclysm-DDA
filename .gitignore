@@ -1,6 +1,6 @@
 cataclysm
 cataclysm-tiles
-chkjson
+chkjson*
 !src/chkjson
 data/*.template
 templates/
@@ -71,3 +71,9 @@ nbproject/
 # Python runtime files
 *.pyc
 
+# vim files
+*.vim
+*.session
+
+# taskwarrior files
+*.task*

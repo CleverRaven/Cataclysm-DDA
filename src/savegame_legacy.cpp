@@ -105,9 +105,9 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             cur_om = &overmap_buffer.get(comx, comy);
             m.load(levx, levy, levz, true, cur_om);
 
-            run_mode = tmprun;
-            if (OPTIONS["SAFEMODE"] && run_mode == 0) {
-                run_mode = 1;
+            safe_mode = static_cast<safe_mode_type>( tmprun );
+            if( OPTIONS["SAFEMODE"] && safe_mode == SAFE_MODE_OFF ) {
+                safe_mode = SAFE_MODE_ON;
             }
             autosafemode = OPTIONS["AUTOSAFEMODE"];
             last_target = tmptar;
@@ -188,9 +188,9 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             cur_om = &overmap_buffer.get(comx, comy);
             m.load(levx, levy, levz, true, cur_om);
 
-            run_mode = tmprun;
-            if (OPTIONS["SAFEMODE"] && run_mode == 0) {
-                run_mode = 1;
+            safe_mode = static_cast<safe_mode_type>( tmprun );
+            if( OPTIONS["SAFEMODE"] && safe_mode == SAFE_MODE_OFF ) {
+                safe_mode = SAFE_MODE_ON;
             }
             autosafemode = OPTIONS["AUTOSAFEMODE"];
             safemodeveh = OPTIONS["SAFEMODEVEH"];
@@ -300,9 +300,9 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             cur_om = &overmap_buffer.get(comx, comy);
             m.load(levx, levy, levz, true, cur_om);
 
-            run_mode = tmprun;
-            if (OPTIONS["SAFEMODE"] && run_mode == 0) {
-                run_mode = 1;
+            safe_mode = static_cast<safe_mode_type>( tmprun );
+            if( OPTIONS["SAFEMODE"] && safe_mode == SAFE_MODE_OFF ) {
+                safe_mode = SAFE_MODE_ON;
             }
             autosafemode = OPTIONS["AUTOSAFEMODE"];
             safemodeveh = OPTIONS["SAFEMODEVEH"];
@@ -411,9 +411,10 @@ original 'structure', which globs game/weather/location & killcount/player data 
          cur_om = &overmap_buffer.get(comx, comy);
          m.load(levx, levy, levz, true, cur_om);
 
-         run_mode = tmprun;
-         if (OPTIONS["SAFEMODE"] && run_mode == 0)
-          run_mode = 1;
+         safe_mode = static_cast<safe_mode_type>( tmprun );
+         if( OPTIONS["SAFEMODE"] && safe_mode == SAFE_MODE_OFF ) {
+            safe_mode = SAFE_MODE_ON;
+         }
          autosafemode = OPTIONS["AUTOSAFEMODE"];
          safemodeveh = OPTIONS["SAFEMODEVEH"];
          last_target = tmptar;
@@ -1013,14 +1014,14 @@ bool overmap::unserialize_legacy(std::ifstream & fin, std::string const & plrfil
  * Parse an open, obsolete maps.txt.
  */
 static bool unserialize_legacy(std::ifstream & fin ) {
-   switch (savegame_loading_version) {
-       case 9:
-       case 7:
-       case 6:
-       case 5:
-       case 4:
-       case 3:
-       case 0: {
+    switch (savegame_loading_version) {
+        case 9:
+        case 7:
+        case 6:
+        case 5:
+        case 4:
+        case 3:
+        case 0: {
 
         std::map<tripoint, submap*>::iterator it;
         int itx, ity, t, d, a, num_submaps, num_loaded = 0;
@@ -1031,30 +1032,43 @@ static bool unserialize_legacy(std::ifstream & fin ) {
         // string ID. legacy_ter_id translates the saved ints to a string, and like the
         // current loader, instead of doing string lookups while parsing a potentially huge
         // amount of tiles, we do so beforehand.
-
-        std::map<int, int> ter_key;
-        std::string tstr;
-        for(int i=0; i < num_legacy_ter; i++) {
-           tstr = legacy_ter_id[i];
-           if ( termap.find(tstr) == termap.end() ) {
-              debugmsg("Can't find terrain '%s' (%d)",tstr.c_str(), i );
-              ter_key[i] = termap["t_null"].loadid;
-           } else {
-              ter_key[i] = termap[tstr].loadid;
-           }
-        }
+        
         // Ditto for furniture
         std::map<int, int> furn_key;
         std::string fstr;
         for(int i=0; i < num_legacy_furn; i++) {
-           fstr = legacy_furn_id[i];
-           if ( furnmap.find(fstr) == furnmap.end() ) {
-              debugmsg("Can't find furniture '%s' (%d)",fstr.c_str(), i );
-              furn_key[i] = furnmap["f_null"].loadid;
-           } else {
-              furn_key[i] = furnmap[fstr].loadid;
-           }
+            fstr = legacy_furn_id[i];
+            if ( furnmap.find(fstr) == furnmap.end() ) {
+                debugmsg("Can't find furniture '%s' (%d)",fstr.c_str(), i );
+                furn_key[i] = furnmap["f_null"].loadid;
+            } else {
+                furn_key[i] = furnmap[fstr].loadid;
+            }
         }
+        // Process terrain after furniture to allow for furniture changes due to updated terrain
+        std::map<int, int> ter_key;
+        std::string tstr;
+        for(int i=0; i < num_legacy_ter; i++) {
+            tstr = legacy_ter_id[i];
+            if ( termap.find(tstr) == termap.end() ) {
+                if (tstr == "t_rubble") {
+                    ter_key[i] = termap["t_dirt"].loadid;
+                    furn_key[i] = furnmap["f_rubble"].loadid;
+                } else if (tstr == "t_wreckage") {
+                    ter_key[i] = termap["t_dirt"].loadid;
+                    furn_key[i] = furnmap["f_wreckage"].loadid;
+                } else if (tstr == "t_ash") {
+                    ter_key[i] = termap["t_dirt"].loadid;
+                    furn_key[i] = furnmap["f_ash"].loadid;
+                } else {
+                    debugmsg("Can't find terrain '%s' (%d)",tstr.c_str(), i );
+                    ter_key[i] = termap["t_null"].loadid;
+                }
+            } else {
+                ter_key[i] = termap[tstr].loadid;
+            }
+        }
+
         // it's a...
         std::map<int, int> trap_key;
         std::string trstr;
@@ -1239,7 +1253,13 @@ static int unserialize_keys( std::ifstream &fin, std::map<int, int> &ter_key,
             while (!jsin.end_array()) {
                 std::string tstr = jsin.get_string();
                 if ( termap.find(tstr) == termap.end() ) {
-                    debugmsg("Can't find terrain '%s' (%d)", tstr.c_str(), i);
+                    if (tstr == "t_rubble" || tstr == "t_wreckage" || tstr == "t_ash" ||
+                          tstr == "t_metal" || tstr == "t_skylight" || tstr == "t_emergency_light" ||
+                          tstr == "t_emergency_light_flicker") {
+                        ter_key[i] = termap["t_dirt"].loadid;
+                    } else {
+                        debugmsg("Can't find terrain '%s' (%d)", tstr.c_str(), i);
+                    }
                 } else {
                     ter_key[i] = termap[tstr].loadid;
                 }
@@ -1863,13 +1883,15 @@ std::istream& operator>>(std::istream& is, SkillLevel& obj) {
 
 
 void monster::load_legacy(std::stringstream & dump) {
-    int idtmp, plansize;
+    int idtmp, plansize, speed;
     dump >> idtmp >> _posx >> _posy >> wandx >> wandy >> wandf >> moves >> speed >>
          hp >> sp_timeout >> plansize >> friendly >> faction_id >> mission_id >>
          no_extra_death_drops >> dead >> anger >> morale;
 
     // load->int->str->int (possibly shifted)
     type = GetMType( legacy_mon_id[idtmp] );
+
+    Creature::set_speed_base( speed );
 
     point ptmp;
     plans.clear();

@@ -1,5 +1,5 @@
-#ifndef _TRAP_H_
-#define _TRAP_H_
+#ifndef TRAP_H
+#define TRAP_H
 
 #include "color.h"
 #include "monster.h"
@@ -43,6 +43,7 @@ struct trapfunc {
     void sinkhole       (Creature *creature, int x, int y);
     void pit            (Creature *creature, int x, int y);
     void pit_spikes     (Creature *creature, int x, int y);
+    void pit_glass      (Creature *creature, int x, int y);
     void lava           (Creature *creature, int x, int y);
     void portal         (Creature *creature, int x, int y);
     void ledge          (Creature *creature, int x, int y);
@@ -170,6 +171,7 @@ tr_dissector,
 tr_sinkhole,
 tr_pit,
 tr_spike_pit,
+tr_glass_pit,
 tr_lava,
 tr_portal,
 tr_ledge,

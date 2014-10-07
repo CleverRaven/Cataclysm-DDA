@@ -1,5 +1,5 @@
-#ifndef _PROFESSION_H_
-#define _PROFESSION_H_
+#ifndef PROFESSION_H
+#define PROFESSION_H
 
 #include <string>
 #include <vector>
@@ -18,6 +18,19 @@ class profession
     public:
         typedef std::pair<std::string, int> StartingSkill;
         typedef std::vector<StartingSkill> StartingSkillList;
+        struct itypedec {
+            std::string type_id;
+            /** Snippet id, @see snippet_library. */
+            std::string snippet_id;
+            // compatible with when this was just a std::string
+            itypedec(const char *t) : type_id( t ), snippet_id()
+            {
+            }
+            itypedec(const std::string &t, const std::string &d) : type_id( t ), snippet_id( d )
+            {
+            }
+        };
+        typedef std::vector<itypedec> itypedecvec;
     private:
         std::string _ident;
         std::string _name_male;
@@ -26,21 +39,23 @@ class profession
         std::string _description_female;
         std::string _gender_req;
         signed int _point_cost;
-        std::vector<std::string> _starting_items;
-        std::vector<std::string> _starting_items_male;
-        std::vector<std::string> _starting_items_female;
+        itypedecvec _starting_items;
+        itypedecvec _starting_items_male;
+        itypedecvec _starting_items_female;
         std::vector<addiction> _starting_addictions;
         std::vector<std::string> _starting_CBMs;
         std::set<std::string> flags; // flags for some special properties of the profession
         StartingSkillList  _starting_skills;
 
         void add_items_from_jsonarray(JsonArray jsarr, std::string gender);
-        void add_item(std::string item, std::string gender);
+        void add_item(const itypedec &entry, const std::string &gender);
         void add_addiction(add_type, int);
         void add_CBM(std::string CBM);
         // Starting skills will boost the players level in those skills by a
         // given amount.
         void add_skill(const std::string &skill_name, const int level);
+
+        void check_item_definitions(const itypedecvec &items) const;
 
         static profmap _all_profs;
     public:
@@ -73,9 +88,7 @@ class profession
         std::string description(bool male) const;
         std::string gender_req() const;
         signed int point_cost() const;
-        std::vector<std::string> items() const;
-        std::vector<std::string> items_male() const;
-        std::vector<std::string> items_female() const;
+        itypedecvec items(bool male) const;
         std::vector<addiction> addictions() const;
         std::vector<std::string> CBMs() const;
         const StartingSkillList skills() const;

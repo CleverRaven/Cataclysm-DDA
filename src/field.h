@@ -1,5 +1,5 @@
-#ifndef _FIELD_H_
-#define _FIELD_H_
+#ifndef FIELD_H
+#define FIELD_H
 
 #include <vector>
 #include <string>
@@ -16,7 +16,7 @@ struct field_t {
     std::string id;
  std::string name[3]; //The display name of the given density (ie: light smoke, smoke, heavy smoke)
  char sym; //The symbol to draw for this field. Note that some are reserved like * and %. You will have to check the draw function for specifics.
- int priority; //Inferior numbers have lower priority. 0 is "ground" (splatter), 2 is "on the ground" (rubble), 4 is "above the ground" (fire), 6 is reserved for furniture, and 8 is "in the air" (smoke).
+ int priority; //Inferior numbers have lower priority. 0 is "ground" (splatter), 2 is "on the ground", 4 is "above the ground" (fire), 6 is reserved for furniture, and 8 is "in the air" (smoke).
  nc_color color[3]; //The color the field will be drawn as on the screen, by density.
 
  /*
@@ -78,6 +78,11 @@ enum field_id {
  fd_bees,
  fd_incendiary,
  fd_relax_gas,
+ fd_fungal_haze,
+ fd_hot_air1,
+ fd_hot_air2,
+ fd_hot_air3,
+ fd_hot_air4,
  num_fields
 };
 
@@ -200,19 +205,18 @@ public:
     //Note: If you are using "field_at" function, set the return to a temporary field variable! If you somehow
     //query an out of bounds field location it returns a different field every inquery. This means that
     //the start and end iterators won't match up and will crash the system.
-    std::map<field_id, field_entry*>::iterator getFieldStart();
+    std::map<field_id, field_entry*>::const_iterator getFieldStart();
 
     //Returns the vector iterator to end searching through the list.
-    std::map<field_id, field_entry*>::iterator getFieldEnd();
+    std::map<field_id, field_entry*>::const_iterator getFieldEnd();
 
     //Returns the total move cost from all fields
     int move_cost() const;
 
-    std::map<field_id, field_entry*>& getEntries();
-    std::map<field_id, field_entry*> field_list; //A pointer lookup table of all field effects on the current tile.
 private:
-    //Draw_symbol currently is equal to the last field added to the square. You can modify this behavior in the class functions if you wish.
+    std::map<field_id, field_entry*> field_list; //A pointer lookup table of all field effects on the current tile.    //Draw_symbol currently is equal to the last field added to the square. You can modify this behavior in the class functions if you wish.
     field_id draw_symbol;
     bool dirty; //true if this is a copy of the class, false otherwise.
 };
+
 #endif

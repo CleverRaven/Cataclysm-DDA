@@ -1,5 +1,5 @@
-#ifndef _SOFTWARE_SOKOBAN_H_
-#define _SOFTWARE_SOKOBAN_H_
+#ifndef SOFTWARE_SOKOBAN_H
+#define SOFTWARE_SOKOBAN_H
 
 #include <string>
 #include <vector>
@@ -51,4 +51,5 @@ class sokoban_game
         int start_game();
         sokoban_game();
 };
+
 #endif

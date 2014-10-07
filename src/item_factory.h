@@ -1,5 +1,5 @@
-#ifndef _ITEM_FACTORY_H_
-#define _ITEM_FACTORY_H_
+#ifndef ITEM_FACTORY_H
+#define ITEM_FACTORY_H
 
 #include "color.h"
 #include "json.h"
@@ -9,6 +9,8 @@
 #include <vector>
 #include <map>
 #include <bitset>
+
+bool item_is_blacklisted(const std::string &id);
 
 typedef std::string Item_tag;
 typedef std::string Group_tag;
@@ -118,7 +120,6 @@ class Item_factory
         void load_generic   (JsonObject &jo);
         void load_bionic    (JsonObject &jo);
         void load_veh_part  (JsonObject &jo);
-        void load_stationary(JsonObject &jo);
 
         void load_item_blacklist(JsonObject &jo);
         void load_item_whitelist(JsonObject &jo);

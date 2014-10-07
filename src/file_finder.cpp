@@ -54,36 +54,27 @@ std::vector<std::string> file_finder::get_files_from_path(std::string extension,
 
         if( root ) {
             struct dirent *root_file;
-            struct stat _buff;
             DIR *subdir;
 
             while( (root_file = readdir(root)) ) {
-                // Check to see if it is a folder!
-                if( stat(root_file->d_name, &_buff) != 0x4 ) {
-                    // Ignore all folders if we're not recursing.
-                    if( !recursive_search ) {
-                        continue;
-                    }
+                // Ignore '.' and '..' folder names, which are current and parent folder
+                // relative paths.
+                if( strcmp(root_file->d_name, ".") == 0 ||
+                    strcmp(root_file->d_name, "..") == 0 ) {
+                    continue;
+                }
 
-                    // Ignore '.' and '..' folder names, which are current and parent folder
-                    // relative paths.
-                    if( strcmp(root_file->d_name, ".") == 0 ||
-                        strcmp(root_file->d_name, "..") == 0 ) {
-                        continue;
-                    }
+                std::string subpath = path + "/" + root_file->d_name;
 
-                    std::string subpath = path + "/" + root_file->d_name;
-
-                    // Ignore folders we can't open for any reason (e.g. no permissions)
+                if( recursive_search ) {
+                    // Ignore folders we can't open for any reason
+                    // (e.g. no permissions, not a directory)
                     subdir = opendir( subpath.c_str() );
                     if( subdir ) {
                         directories.push( subpath );
                         closedir( subdir );
+                        continue;
                     }
-
-                    // Finally, just skip to the next value because only files should
-                    // go through the filename checking below.
-                    continue;
                 }
 
                 // check to see if it is a file with the appropriate extension

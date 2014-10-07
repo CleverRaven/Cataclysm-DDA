@@ -1,5 +1,5 @@
-#ifndef _AUTO_PICKUP_H_
-#define _AUTO_PICKUP_H_
+#ifndef AUTO_PICKUP_H
+#define AUTO_PICKUP_H
 
 #include <map>
 #include <string>

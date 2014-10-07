@@ -1,5 +1,5 @@
-#ifndef _NAME_H_
-#define _NAME_H_
+#ifndef NAME_H
+#define NAME_H
 
 #include <string>
 #include <vector>

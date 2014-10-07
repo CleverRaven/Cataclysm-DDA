@@ -887,7 +887,7 @@ void input_context::display_help()
     while(true) {
         werase(w_help);
         draw_border(w_help);
-        draw_scrollbar(w_help, scroll_offset, display_height, org_registered_actions.size(), 1);
+        draw_scrollbar(w_help, scroll_offset, display_height, org_registered_actions.size() - display_height, 1);
         mvwprintz(w_help, 0, (FULL_SCREEN_WIDTH - utf8_width(_("Keybindings"))) / 2 - 1,
                   c_ltred, " %s ", _("Keybindings"));
 
@@ -1003,7 +1003,7 @@ void input_context::display_help()
             }
             status = s_show;
         } else if (action == "DOWN") {
-            if (scroll_offset + 1 < org_registered_actions.size()) {
+            if (scroll_offset < org_registered_actions.size() - display_height) {
                 scroll_offset++;
             }
         } else if (action == "UP") {
@@ -1012,7 +1012,8 @@ void input_context::display_help()
             }
         } else if (action == "PAGE_DOWN") {
             if( scroll_offset + display_height < org_registered_actions.size() ) {
-                scroll_offset += display_height;
+                scroll_offset += std::min(display_height, org_registered_actions.size() -
+                                          display_height - scroll_offset);
             } else if( org_registered_actions.size() > display_height ) {
                 scroll_offset = 0;
             }

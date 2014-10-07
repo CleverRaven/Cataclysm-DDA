@@ -295,8 +295,8 @@ void mapbuffer::save_quad( const std::string &filename, const tripoint &om_addr,
                     jsout.write( i );
                     jsout.write( j );
                     jsout.start_array();
-                    for(std::map<field_id, field_entry *>::iterator it = sm->fld[i][j].getFieldStart();
-                        it != sm->fld[i][j].getFieldEnd(); ++it) {
+                    for( auto it = sm->fld[i][j].getFieldStart();
+                         it != sm->fld[i][j].getFieldEnd(); ++it ) {
                         if(it->second != NULL) {
                             // We don't seem to have a string identifier for fields anywhere.
                             jsout.write( it->second->getFieldType() );
@@ -412,11 +412,13 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
         std::unique_ptr<submap> sm(new submap());
         tripoint submap_coordinates;
         jsin.start_object();
+        bool rubpow_update = false;
         while( !jsin.end_object() ) {
             std::string submap_member_name = jsin.get_member_name();
             if( submap_member_name == "version" ) {
-                // We aren't using the version number for anything at the moment.
-                jsin.skip_value();
+                if (jsin.get_int() < 22) {
+                    rubpow_update = true;
+                }
             } else if( submap_member_name == "coordinates" ) {
                 jsin.start_array();
                 int locx = jsin.get_int();
@@ -431,9 +433,43 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
             } else if( submap_member_name == "terrain" ) {
                 // TODO: try block around this to error out if we come up short?
                 jsin.start_array();
-                for( int j = 0; j < SEEY; j++ ) {
-                    for( int i = 0; i < SEEX; i++ ) {
-                        sm->ter[i][j] = termap[ jsin.get_string() ].loadid;
+                // Small duplication here so that the update check is only performed once
+                if (rubpow_update) {
+                    std::string ter_string;
+                    item rock = item("rock", 0);
+                    item chunk = item("steel_chunk", 0);
+                    for( int j = 0; j < SEEY; j++ ) {
+                        for( int i = 0; i < SEEX; i++ ) {
+                            ter_string = jsin.get_string();
+                            if (ter_string == "t_rubble") {
+                                sm->ter[i][j] = termap[ "t_dirt" ].loadid;
+                                sm->frn[i][j] = furnmap[ "f_rubble" ].loadid;
+                                sm->itm[i][j].push_back( rock );
+                                sm->itm[i][j].push_back( rock );
+                            } else if (ter_string == "t_wreckage"){
+                                sm->ter[i][j] = termap[ "t_dirt" ].loadid;
+                                sm->frn[i][j] = furnmap[ "f_wreckage" ].loadid;
+                                sm->itm[i][j].push_back( chunk );
+                                sm->itm[i][j].push_back( chunk );
+                            } else if (ter_string == "t_ash"){
+                                sm->ter[i][j] = termap[ "t_dirt" ].loadid;
+                                sm->frn[i][j] = furnmap[ "f_ash" ].loadid;
+                            } else if (ter_string == "t_pwr_sb_support_l"){
+                                sm->ter[i][j] = termap[ "t_support_l" ].loadid;
+                            } else if (ter_string == "t_pwr_sb_switchgear_l"){
+                                sm->ter[i][j] = termap[ "t_switchgear_l" ].loadid;
+                            } else if (ter_string == "t_pwr_sb_switchgear_s"){
+                                sm->ter[i][j] = termap[ "t_switchgear_s" ].loadid;
+                            } else {
+                                sm->ter[i][j] = termap[ ter_string ].loadid;
+                            }
+                        }
+                    }
+                } else {
+                    for( int j = 0; j < SEEY; j++ ) {
+                        for( int i = 0; i < SEEX; i++ ) {
+                            sm->ter[i][j] = termap[ jsin.get_string() ].loadid;
+                        }
                     }
                 }
                 jsin.end_array();
@@ -469,6 +505,9 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
                         item tmp;
                         jsin.read( tmp );
                         sm->itm[i][j].push_back( tmp );
+                        if( tmp.needs_processing() ) {
+                            sm->active_item_count++;
+                        }
                     }
                 }
             } else if( submap_member_name == "traps" ) {
@@ -497,7 +536,7 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
                         sm->fld[i][j].addField(field_id(type), density, age);
                     }
                 }
-            } else if( submap_member_name == "griffiti" ) {
+            } else if( submap_member_name == "graffiti" ) {
                 jsin.start_array();
                 while( !jsin.end_array() ) {
                     jsin.start_array();

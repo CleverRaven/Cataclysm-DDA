@@ -13,6 +13,7 @@
 #include "overmapbuffer.h"
 #include "enums.h"
 #include "monstergenerator.h"
+#include "mongroup.h"
 #include "mapgen.h"
 #include <algorithm>
 #include <cassert>
@@ -32,7 +33,7 @@
 #define MON_RADIUS 3
 
 bool connects_to(oter_id there, int dir_from_here);
-void science_room(map *m, int x1, int y1, int x2, int y2, int rotate);
+void science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate);
 void set_science_room(map *m, int x1, int y1, bool faces_right, int turn);
 void silo_rooms(map *m);
 void build_mine_room(map *m, room_type type, int x1, int y1, int x2, int y2, mapgendata & dat);
@@ -3084,8 +3085,8 @@ C..C..C...|hhh|#########\n\
             ter_set(SEEX + 1, SEEY - 1, t_door_metal_c);
             ter_set(SEEX - 1, SEEY * 2 - 3, t_stairs_down);
             ter_set(SEEX    , SEEY * 2 - 3, t_stairs_down);
-            science_room(this, 2       , 2, SEEX - 3    , SEEY * 2 - 3, 1);
-            science_room(this, SEEX + 2, 2, SEEX * 2 - 3, SEEY * 2 - 3, 3);
+            science_room(this, 2       , 2, SEEX - 3    , SEEY * 2 - 3, zlevel, 1);
+            science_room(this, SEEX + 2, 2, SEEX * 2 - 3, SEEY * 2 - 3, zlevel, 3);
 
             add_spawn("mon_turret", 1, SEEX, 5);
 
@@ -3357,34 +3358,36 @@ C..C..C...|hhh|#########\n\
                     // Top left
                     if (one_in(2)) {
                         ter_set(SEEX - 2, int(SEEY / 2), t_door_metal_c);
-                        science_room(this, lw, tw, SEEX - 3, SEEY - 3, 1);
+                        science_room(this, lw, tw, SEEX - 3, SEEY - 3, zlevel, 1);
                     } else {
                         ter_set(int(SEEX / 2), SEEY - 2, t_door_metal_c);
-                        science_room(this, lw, tw, SEEX - 3, SEEY - 3, 2);
+                        science_room(this, lw, tw, SEEX - 3, SEEY - 3, zlevel, 2);
                     }
                     // Top right
                     if (one_in(2)) {
                         ter_set(SEEX + 1, int(SEEY / 2), t_door_metal_c);
-                        science_room(this, SEEX + 2, tw, SEEX * 2 - 1 - rw, SEEY - 3, 3);
+                        science_room(this, SEEX + 2, tw, SEEX * 2 - 1 - rw, SEEY - 3, zlevel, 3);
                     } else {
                         ter_set(SEEX + int(SEEX / 2), SEEY - 2, t_door_metal_c);
-                        science_room(this, SEEX + 2, tw, SEEX * 2 - 1 - rw, SEEY - 3, 2);
+                        science_room(this, SEEX + 2, tw, SEEX * 2 - 1 - rw, SEEY - 3, zlevel, 2);
                     }
                     // Bottom left
                     if (one_in(2)) {
                         ter_set(int(SEEX / 2), SEEY + 1, t_door_metal_c);
-                        science_room(this, lw, SEEY + 2, SEEX - 3, SEEY * 2 - 1 - bw, 0);
+                        science_room(this, lw, SEEY + 2, SEEX - 3, SEEY * 2 - 1 - bw, zlevel, 0);
                     } else {
                         ter_set(SEEX - 2, SEEY + int(SEEY / 2), t_door_metal_c);
-                        science_room(this, lw, SEEY + 2, SEEX - 3, SEEY * 2 - 1 - bw, 1);
+                        science_room(this, lw, SEEY + 2, SEEX - 3, SEEY * 2 - 1 - bw, zlevel, 1);
                     }
                     // Bottom right
                     if (one_in(2)) {
                         ter_set(SEEX + int(SEEX / 2), SEEY + 1, t_door_metal_c);
-                        science_room(this, SEEX + 2, SEEY + 2, SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, 0);
+                        science_room(this, SEEX + 2, SEEY + 2, SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw,
+                                     zlevel, 0);
                     } else {
                         ter_set(SEEX + 1, SEEY + int(SEEY / 2), t_door_metal_c);
-                        science_room(this, SEEX + 2, SEEY + 2, SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, 3);
+                        science_room(this, SEEX + 2, SEEY + 2, SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw,
+                                     zlevel, 3);
                     }
                     if (rw == 1) {
                         ter_set(SEEX * 2 - 1, SEEY - 1, t_door_metal_c);
@@ -3464,14 +3467,15 @@ C..C..C...|hhh|#########\n\
                     ter_set(SEEX + int(SEEX / 2), SEEY + 3, t_door_metal_c);
                     ter_set(SEEX - 4, SEEY + int(SEEY / 2), t_door_metal_c);
                     ter_set(SEEX + 3, SEEY + int(SEEY / 2), t_door_metal_c);
-                    science_room(this, lw, tw, SEEX - 5, SEEY - 5, rng(1, 2));
-                    science_room(this, SEEX - 3, tw, SEEX + 2, SEEY - 5, 2);
-                    science_room(this, SEEX + 4, tw, SEEX * 2 - 1 - rw, SEEY - 5, rng(2, 3));
-                    science_room(this, lw, SEEY - 3, SEEX - 5, SEEY + 2, 1);
-                    science_room(this, SEEX + 4, SEEY - 3, SEEX * 2 - 1 - rw, SEEY + 2, 3);
-                    science_room(this, lw, SEEY + 4, SEEX - 5, SEEY * 2 - 1 - bw, rng(0, 1));
-                    science_room(this, SEEX - 3, SEEY + 4, SEEX + 2, SEEY * 2 - 1 - bw, 0);
-                    science_room(this, SEEX + 4, SEEX + 4, SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, 3 * rng(0, 1));
+                    science_room(this, lw, tw, SEEX - 5, SEEY - 5, zlevel, rng(1, 2));
+                    science_room(this, SEEX - 3, tw, SEEX + 2, SEEY - 5, zlevel, 2);
+                    science_room(this, SEEX + 4, tw, SEEX * 2 - 1 - rw, SEEY - 5, zlevel, rng(2, 3));
+                    science_room(this, lw, SEEY - 3, SEEX - 5, SEEY + 2, zlevel, 1);
+                    science_room(this, SEEX + 4, SEEY - 3, SEEX * 2 - 1 - rw, SEEY + 2, zlevel, 3);
+                    science_room(this, lw, SEEY + 4, SEEX - 5, SEEY * 2 - 1 - bw, zlevel, rng(0, 1));
+                    science_room(this, SEEX - 3, SEEY + 4, SEEX + 2, SEEY * 2 - 1 - bw, zlevel, 0);
+                    science_room(this, SEEX + 4, SEEX + 4, SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw,
+                                 zlevel, 3 * rng(0, 1));
                     if (rw == 1) {
                         ter_set(SEEX * 2 - 1, SEEY - 1, t_door_metal_c);
                         ter_set(SEEX * 2 - 1, SEEY    , t_door_metal_c);
@@ -3497,7 +3501,8 @@ C..C..C...|hhh|#########\n\
                             }
                         }
                     }
-                    science_room(this, lw, tw, SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, rng(0, 3));
+                    science_room(this, lw, tw, SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw,
+                                 zlevel, rng(0, 3));
                     if (t_above == "lab_stairs" || t_above == "ice_lab_stairs") {
                         int sx, sy;
                         do {
@@ -3838,10 +3843,9 @@ ff.......|....|WWWWWWWW|\n\
                         (i > rw &&          (!one_in(3) || (j > SEEY - 6 && j < SEEY + 5))) ||
                         (j > tw &&          (!one_in(3) || (i > SEEX - 6 && i < SEEX + 5))) ||
                         (j < SEEY * 2 - bw && (!one_in(3) || (i > SEEX - 6 && i < SEEX + 5)))) {
+                        ter_set(i, j, t_rock_floor);
                         if (one_in(5)) {
-                            ter_set(i, j, t_rubble);
-                        } else {
-                            ter_set(i, j, t_rock_floor);
+                            make_rubble(i, j, f_rubble_rock, true, t_rock_floor);
                         }
                     }
                 }
@@ -3859,7 +3863,7 @@ ff.......|....|WWWWWWWW|\n\
                     if (((j <= tw || i >= rw) && i >= j && (SEEX * 2 - 1 - i) <= j) ||
                         ((j >= bw || i <= lw) && i <= j && (SEEY * 2 - 1 - j) <= i)   ) {
                         if (one_in(5)) {
-                            ter_set(i, j, t_rubble);
+                            make_rubble(i, j, f_rubble_rock, true, t_slime);
                         } else if (!one_in(5)) {
                             ter_set(i, j, t_slime);
                         }
@@ -4391,7 +4395,7 @@ ff.......|....|WWWWWWWW|\n\
                 } else if (one_in(4)) { // Bionic Op zombie!
                     add_spawn("mon_zombie_bio_op", 1, rnx, rny);
                 } else if (one_in(20)) {
-                    rough_circle(this, t_rubble, rnx, rny, rng(3, 6));
+                    rough_circle_furn(this, f_rubble, rnx, rny, rng(3, 6));
                 }
             }
         }
@@ -4400,7 +4404,7 @@ ff.......|....|WWWWWWWW|\n\
             for (int j = 0; j < SEEY * 2; j++) {
                 int extra_radiation = (one_in(5) ? rng(1, 2) : 0);
                 adjust_radiation(i, j, extra_radiation);
-                if (ter(i, j) == t_rubble) {
+                if (furn(i, j) == f_rubble) {
                     adjust_radiation(i, j, rng(1, 3));
                 }
             }
@@ -5120,7 +5124,7 @@ ff.......|....|WWWWWWWW|\n\
                 for (int i = x - 3; i < x + 3; i++) {
                     for (int j = y - 3; j < y + 3; j++) {
                         if (!one_in(4)) {
-                            ter_set(i, j, t_wreckage);
+                            make_rubble(i, j, f_wreckage, true);
                         }
                     }
                 }
@@ -5854,21 +5858,41 @@ __________           f  \n",
             if (t_west == "public_works" && t_north == "public_works") {
                 rotate(1);
                 if (x_in_y(2, 3)) {
-                    add_vehicle ("flatbed_truck", 2, 0, 90);
+                int roller_check=rng(0,100);
+                    if (roller_check < 75) {
+                        add_vehicle ("flatbed_truck", 2, 0, 90);
+                    } else {
+                        add_vehicle ("road_roller", 2, 0, 90);
+                    }
                 }
             } else if (t_east == "public_works" && t_north == "public_works") {
                 rotate(2);
                 if (x_in_y(2, 3)) {
-                    add_vehicle ("flatbed_truck", 23, 10, 270);
+                int roller_check=rng(0,100);
+                    if (roller_check < 75) {
+                        add_vehicle ("flatbed_truck", 23, 10, 270);
+                    } else {
+                        add_vehicle ("road_roller", 23, 10, 270);
+                    }
                 }
             } else if (t_east == "public_works" && t_south == "public_works") {
                 rotate(3);
                 if (x_in_y(2, 3)) {
-                    add_vehicle ("flatbed_truck", 10, 23, 0);
+                int roller_check=rng(0,100);
+                    if (roller_check < 75) {
+                        add_vehicle ("flatbed_truck", 10, 23, 0);
+                    } else {
+                        add_vehicle ("road_roller", 10, 23, 0);
+                    }
                 }
             } else {
                 if (x_in_y(2, 3)) {
-                    add_vehicle ("flatbed_truck", 0, 10, 90);
+                int roller_check=rng(0,100);
+                  if (roller_check < 75) {
+                        add_vehicle ("flatbed_truck", 0, 10, 90);
+                    } else {
+                        add_vehicle ("road_roller", 0, 10, 90);
+                    }
                 }
             }
         }
@@ -8726,7 +8750,7 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                         ter_set(i, j, t_dirtmound);
                     }
                     if (one_in(2)) {
-                        ter_set(i, j, t_wreckage);
+                        make_rubble(i, j, f_wreckage, true);
                     }
                     place_items("trash", 50,  i,  j, i,  j, false, 0);
                     place_items("sewer", 50,  i,  j, i,  j, false, 0);
@@ -8819,7 +8843,7 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                             ter_set(i, j, t_dirtmound);
                         }
                         if (one_in(2)) {
-                            ter_set(i, j, t_wreckage);
+                            make_rubble(i, j, f_wreckage, true);
                         }
                         place_items("trash", 50,  i,  j, i,  j, false, 0);
                         place_items("sewer", 50,  i,  j, i,  j, false, 0);
@@ -8905,7 +8929,7 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                             ter_set(i, j, t_dirtmound);
                         }
                         if (one_in(2)) {
-                            ter_set(i, j, t_wreckage);
+                            make_rubble(i, j, f_wreckage, true);
                         }
                         place_items("trash", 50,  i,  j, i,  j, false, 0);
                         place_items("sewer", 50,  i,  j, i,  j, false, 0);
@@ -9000,7 +9024,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
                             ter_set(i, j, t_dirtmound);
                         }
                         if (one_in(2)) {
-                            ter_set(i, j, t_wreckage);
+                            make_rubble(i, j, f_wreckage, true);
                         }
                         place_items("trash", 50,  i,  j, i,  j, false, 0);
                         place_items("sewer", 50,  i,  j, i,  j, false, 0);
@@ -9216,12 +9240,12 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
             if(t_south == "farm_field") {
                 square(this, t_fence_barbed, 1, 20, 1, 23);
                 ter_set(2, 20, t_fence_barbed);
-                ter_set(1, 20, t_fence_post);
+                ter_set(1, 20, t_fence_barbed);
                 square(this, t_fence_barbed, 22, 20, 22, 22);
                 ter_set(21, 20, t_fence_barbed);
                 ter_set(23, 22, t_fence_barbed);
-                ter_set(22, 22, t_fence_post);
-                ter_set(22, 20, t_fence_post);
+                ter_set(22, 22, t_fence_barbed);
+                ter_set(22, 20, t_fence_barbed);
                 square(this, t_dirt, 2, 21, 21, 23);
                 square(this, t_dirt, 22, 23, 23, 23);
                 ter_set(16, 21, t_barndoor);
@@ -9241,10 +9265,10 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
             fill_background(this, t_grass); // basic lot
             square(this, t_fence_barbed, 1, 1, 22, 22);
             square(this, t_dirt, 2, 2, 21, 21);
-            ter_set(1, 1, t_fence_post);
-            ter_set(22, 1, t_fence_post);
-            ter_set(1, 22, t_fence_post);
-            ter_set(22, 22, t_fence_post);
+            ter_set(1, 1, t_fence_barbed);
+            ter_set(22, 1, t_fence_barbed);
+            ter_set(1, 22, t_fence_barbed);
+            ter_set(22, 22, t_fence_barbed);
 
             int xStart = 4;
             int xEnd = 19;
@@ -9284,7 +9308,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
             if(t_west == "farm") {
                 square(this, t_fence_barbed, 0, 22, 1, 22);
                 square(this, t_dirt, 0, 23, 2, 23);
-                ter_set(1, 22, t_fence_post);
+                ter_set(1, 22, t_fence_barbed);
             }
             //standard field
             line(this, t_dirtmound, xStart, 3, xEnd, 3); //Crop rows
@@ -10454,7 +10478,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                 add_spawn("mon_zombie", rng(1, 5), 11, 12);
                 break;
             case 5:
-                square(this, t_dirtfloor, 1, 1, 22, 22);
+                square(this, t_dirt, 1, 1, 22, 22);
                 square(this, t_fence_barbed, 4, 4, 19, 19);
                 square(this, t_dirt, 5, 5, 18, 18);
                 square(this, t_pit_corpsed, 6, 6, 17, 17);
@@ -10879,7 +10903,7 @@ void map::post_process(unsigned zones)
             for (int x = center.x - radius; x <= center.x + radius; x++) {
                 for (int y = center.y - radius; y <= center.y + radius; y++) {
                     if (rl_dist(x, y, center.x, center.y) <= rng(1, radius)) {
-                        destroy(x, y, false);
+                        destroy(x, y, true);
                     }
                 }
             }
@@ -11059,6 +11083,9 @@ void map::add_spawn(std::string type, int count, int x, int y, bool friendly,
         // Don't spawn non-classic monsters in classic zombie mode.
         return;
     }
+    if (monster_is_blacklisted(GetMType(type))) {
+        return;
+    }
     spawn_point tmp(type, count, offset_x, offset_y, faction_id, mission_id, friendly, name);
     place_on_submap->spawns.push_back(tmp);
 }
@@ -11202,7 +11229,7 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const int x, const int y, const b
             }
 
             //There's a wall or other obstacle here; destroy it
-            destroy(px, py, false);
+            destroy(px, py, true);
 
             //Then smash up the vehicle
             if(!veh_smashed) {
@@ -11549,7 +11576,7 @@ bool connects_to(oter_id there, int dir)
     }
 }
 
-void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
+void science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate)
 {
     int height = y2 - y1;
     int width  = x2 - x1;
@@ -11574,7 +11601,7 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
     if (height > 4 || width > 4) {
         valid_rooms.push_back(room_chemistry);
     }
-    if ((height > 7 || width > 7) && height > 2 && width > 2) {
+    if ( z != 0 && (height > 7 || width > 7) && height > 2 && width > 2) {
         valid_rooms.push_back(room_teleport);
     }
     if (height > 4 && width > 4) {
@@ -11749,6 +11776,13 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
                                        mapf::basic_bind("c", f_counter));
             m->place_items("bionics_common", 70, biox, bioy, biox, bioy, false, 0);
 
+            m->ter_set(biox, bioy+2, t_console);
+            computer *tmpcomp = m->add_computer(biox, bioy+2, _("Bionic access"), 2);
+            tmpcomp->add_option(_("Manifest"), COMPACT_LIST_BIONICS, 0);
+            tmpcomp->add_option(_("Open Chambers"), COMPACT_RELEASE_BIONICS, 3);
+            tmpcomp->add_failure(COMPFAIL_MANHACKS);
+            tmpcomp->add_failure(COMPFAIL_SECUBOTS);
+
             biox = x2 - 2;
             mapf::formatted_set_simple(m, biox - 1, bioy - 1,
                                        "\
@@ -11759,13 +11793,12 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
                                        mapf::basic_bind("c", f_counter));
             m->place_items("bionics_common", 70, biox, bioy, biox, bioy, false, 0);
 
-            int compx = int((x1 + x2) / 2), compy = int((y1 + y2) / 2);
-            m->ter_set(compx, compy, t_console);
-            computer *tmpcomp = m->add_computer(compx, compy, _("Bionic access"), 2);
-            tmpcomp->add_option(_("Manifest"), COMPACT_LIST_BIONICS, 0);
-            tmpcomp->add_option(_("Open Chambers"), COMPACT_RELEASE, 3);
-            tmpcomp->add_failure(COMPFAIL_MANHACKS);
-            tmpcomp->add_failure(COMPFAIL_SECUBOTS);
+            m->ter_set(biox, bioy-2, t_console);
+            computer *tmpcomp2 = m->add_computer(biox, bioy-2, _("Bionic access"), 2);
+            tmpcomp2->add_option(_("Manifest"), COMPACT_LIST_BIONICS, 0);
+            tmpcomp2->add_option(_("Open Chambers"), COMPACT_RELEASE_BIONICS, 3);
+            tmpcomp2->add_failure(COMPFAIL_MANHACKS);
+            tmpcomp2->add_failure(COMPFAIL_SECUBOTS);
         } else {
             int bioy = y1 + 2, biox = int((x1 + x2) / 2);
             mapf::formatted_set_simple(m, biox - 1, bioy - 1,
@@ -11777,6 +11810,13 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
                                        mapf::basic_bind("c", f_counter));
             m->place_items("bionics_common", 70, biox, bioy, biox, bioy, false, 0);
 
+            m->ter_set(biox+2, bioy, t_console);
+            computer *tmpcomp = m->add_computer(biox+2, bioy, _("Bionic access"), 2);
+            tmpcomp->add_option(_("Manifest"), COMPACT_LIST_BIONICS, 0);
+            tmpcomp->add_option(_("Open Chambers"), COMPACT_RELEASE_BIONICS, 3);
+            tmpcomp->add_failure(COMPFAIL_MANHACKS);
+            tmpcomp->add_failure(COMPFAIL_SECUBOTS);
+
             bioy = y2 - 2;
             mapf::formatted_set_simple(m, biox - 1, bioy - 1,
                                        "\
@@ -11787,13 +11827,12 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
                                        mapf::basic_bind("c", f_counter));
             m->place_items("bionics_common", 70, biox, bioy, biox, bioy, false, 0);
 
-            int compx = int((x1 + x2) / 2), compy = int((y1 + y2) / 2);
-            m->ter_set(compx, compy, t_console);
-            computer *tmpcomp = m->add_computer(compx, compy, _("Bionic access"), 2);
-            tmpcomp->add_option(_("Manifest"), COMPACT_LIST_BIONICS, 0);
-            tmpcomp->add_option(_("Open Chambers"), COMPACT_RELEASE, 3);
-            tmpcomp->add_failure(COMPFAIL_MANHACKS);
-            tmpcomp->add_failure(COMPFAIL_SECUBOTS);
+            m->ter_set(biox-2, bioy, t_console);
+            computer *tmpcomp2 = m->add_computer(biox-2, bioy, _("Bionic access"), 2);
+            tmpcomp2->add_option(_("Manifest"), COMPACT_LIST_BIONICS, 0);
+            tmpcomp2->add_option(_("Open Chambers"), COMPACT_RELEASE_BIONICS, 3);
+            tmpcomp2->add_failure(COMPFAIL_MANHACKS);
+            tmpcomp2->add_failure(COMPFAIL_SECUBOTS);
         }
         break;
     case room_dorm:
@@ -11831,8 +11870,8 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
             }
             m->ter_set(w1, int((y1 + y2) / 2), t_door_metal_c);
             m->ter_set(w2, int((y1 + y2) / 2), t_door_metal_c);
-            science_room(m, x1, y1, w1 - 1, y2, 1);
-            science_room(m, w2 + 1, y1, x2, y2, 3);
+            science_room(m, x1, y1, w1 - 1, y2, z, 1);
+            science_room(m, w2 + 1, y1, x2, y2, z, 3);
         } else {
             int w1 = int((y1 + y2) / 2) - 2, w2 = int((y1 + y2) / 2) + 2;
             for (int x = x1; x <= x2; x++) {
@@ -11841,8 +11880,8 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
             }
             m->ter_set(int((x1 + x2) / 2), w1, t_door_metal_c);
             m->ter_set(int((x1 + x2) / 2), w2, t_door_metal_c);
-            science_room(m, x1, y1, x2, w1 - 1, 2);
-            science_room(m, x1, w2 + 1, x2, y2, 0);
+            science_room(m, x1, y1, x2, w1 - 1, z, 2);
+            science_room(m, x1, w2 + 1, x2, y2, z, 0);
         }
         break;
     default:
@@ -12541,7 +12580,7 @@ void build_mansion_room(map *m, room_type type, int x1, int y1, int x2, int y2, 
 
         m->furn_set(cx_hi + 2, cy_hi, f_oven);
         m->place_items("oven", 70,  cx_hi + 2, cy_hi, cx_hi + 2, cy_hi, false, 0);
-        
+
         line_furn(m, f_rack, cx_hi + 2, cy_hi + 1, cx_hi + 2, y2 - 1);
         m->place_items("cannedfood",  70, cx_hi + 2, cy_hi + 1, cx_hi + 2, y2 - 1, false, 0);
         m->place_items("pasta",  70, cx_hi + 2, cy_hi + 1, cx_hi + 2, y2 - 1, false, 0);
@@ -12720,13 +12759,12 @@ void map::add_extra(map_extra type)
             for (int y = 0; y < SEEY * 2; y++) {
                 if (x >= cx - 4 && x <= cx + 4 && y >= cy - 4 && y <= cy + 4) {
                     if (!one_in(5)) {
-                        ter_set(x, y, t_wreckage);
-                    } else if (has_flag("BASHABLE", x, y)) {
-                        bash(x, y, 500, true); // Smash the fuck out of it
-                        bash(x, y, 500, true); // Smash the fuck out of it some more
+                        make_rubble(x, y, f_wreckage, true);
+                    } else if (is_bashable(x, y)) {
+                        destroy(x, y, true);
                     }
                 } else if (one_in(10)) { // 1 in 10 chance of being wreckage anyway
-                    ter_set(x, y, t_wreckage);
+                    make_rubble(x, y, f_wreckage, true);
                 }
             }
         }
@@ -13058,7 +13096,7 @@ void map::add_extra(map_extra type)
                 items_created += place_items(item_group, 80, x, y, x, y, true, 0);
             }
             if (i_at(x, y).empty()) {
-                destroy(x, y, false);
+                destroy(x, y, true);
             }
         }
     }
@@ -13070,7 +13108,7 @@ void map::add_extra(map_extra type)
         int x = rng(1, SEEX * 2 - 2), y = rng(1, SEEY * 2 - 2);
         for (int i = x - 1; i <= x + 1; i++) {
             for (int j = y - 1; j <= y + 1; j++) {
-                ter_set(i, j, t_rubble);
+                make_rubble(i, j, f_rubble_rock, true);
             }
         }
         add_trap(x, y, tr_portal);
@@ -13078,7 +13116,7 @@ void map::add_extra(map_extra type)
         for (int i = 0; i < num_monsters; i++) {
             std::string type = spawncreatures[( rng(0, 4) )];
             int mx = rng(1, SEEX * 2 - 2), my = rng(1, SEEY * 2 - 2);
-            ter_set(mx, my, t_rubble);
+            make_rubble(mx, my, f_rubble_rock, true);
             add_spawn(type, 1, mx, my);
         }
     }
@@ -13112,7 +13150,7 @@ void map::add_extra(map_extra type)
                 //If we're using circular distances, make circular craters
                 //Pythagoras to the rescue, x^2 + y^2 = hypotenuse^2
                 if(!trigdist || (((i - x) * (i - x) + (j - y) * (j - y)) <= size_squared)) {
-                    destroy(i, j, false);
+                    destroy(i, j, true);
                     adjust_radiation(i, j, rng(20, 40));
                 }
             }
@@ -13165,13 +13203,14 @@ void map::add_extra(map_extra type)
 
 void map::create_anomaly(int cx, int cy, artifact_natural_property prop)
 {
-    rough_circle(this, t_rubble, cx, cy, 5);
+    rough_circle(this, t_dirt, cx, cy, 11);
+    rough_circle_furn(this, f_rubble, cx, cy, 5);
     switch (prop) {
     case ARTPROP_WRIGGLING:
     case ARTPROP_MOVING:
         for (int i = cx - 5; i <= cx + 5; i++) {
             for (int j = cy - 5; j <= cy + 5; j++) {
-                if (ter(i, j) == t_rubble) {
+                if (furn(i, j) == f_rubble) {
                     add_field(i, j, fd_push_items, 1);
                     if (one_in(3)) {
                         spawn_item(i, j, "rock");
@@ -13185,7 +13224,7 @@ void map::create_anomaly(int cx, int cy, artifact_natural_property prop)
     case ARTPROP_GLITTERING:
         for (int i = cx - 5; i <= cx + 5; i++) {
             for (int j = cy - 5; j <= cy + 5; j++) {
-                if (ter(i, j) == t_rubble && one_in(2)) {
+                if (furn(i, j) == f_rubble && one_in(2)) {
                     add_trap(i, j, tr_glow);
                 }
             }
@@ -13196,7 +13235,7 @@ void map::create_anomaly(int cx, int cy, artifact_natural_property prop)
     case ARTPROP_RATTLING:
         for (int i = cx - 5; i <= cx + 5; i++) {
             for (int j = cy - 5; j <= cy + 5; j++) {
-                if (ter(i, j) == t_rubble && one_in(2)) {
+                if (furn(i, j) == f_rubble && one_in(2)) {
                     add_trap(i, j, tr_hum);
                 }
             }
@@ -13207,7 +13246,7 @@ void map::create_anomaly(int cx, int cy, artifact_natural_property prop)
     case ARTPROP_ENGRAVED:
         for (int i = cx - 5; i <= cx + 5; i++) {
             for (int j = cy - 5; j <= cy + 5; j++) {
-                if (ter(i, j) == t_rubble && one_in(3)) {
+                if (furn(i, j) == f_rubble && one_in(3)) {
                     add_trap(i, j, tr_shadow);
                 }
             }
@@ -13228,7 +13267,7 @@ void map::create_anomaly(int cx, int cy, artifact_natural_property prop)
     case ARTPROP_DEAD:
         for (int i = cx - 5; i <= cx + 5; i++) {
             for (int j = cy - 5; j <= cy + 5; j++) {
-                if (ter(i, j) == t_rubble) {
+                if (furn(i, j) == f_rubble) {
                     add_trap(i, j, tr_drain);
                 }
             }
@@ -13238,7 +13277,7 @@ void map::create_anomaly(int cx, int cy, artifact_natural_property prop)
     case ARTPROP_ITCHY:
         for (int i = cx - 5; i <= cx + 5; i++) {
             for (int j = cy - 5; j <= cy + 5; j++) {
-                if (ter(i, j) == t_rubble) {
+                if (furn(i, j) == f_rubble) {
                     set_radiation(i, j, rng(0, 10));
                 }
             }
@@ -13257,7 +13296,7 @@ void map::create_anomaly(int cx, int cy, artifact_natural_property prop)
     case ARTPROP_WARM:
         for (int i = cx - 5; i <= cx + 5; i++) {
             for (int j = cy - 5; j <= cy + 5; j++) {
-                if (ter(i, j) == t_rubble) {
+                if (furn(i, j) == f_rubble) {
                     add_field(i, j, fd_fire_vent, 1 + (rl_dist(cx, cy, i, j) % 3));
                 }
             }
@@ -13267,7 +13306,7 @@ void map::create_anomaly(int cx, int cy, artifact_natural_property prop)
     case ARTPROP_SCALED:
         for (int i = cx - 5; i <= cx + 5; i++) {
             for (int j = cy - 5; j <= cy + 5; j++) {
-                if (ter(i, j) == t_rubble) {
+                if (furn(i, j) == f_rubble) {
                     add_trap(i, j, tr_snake);
                 }
             }
@@ -13319,6 +13358,9 @@ void square(map *m, const id_or_id & f, int x1, int y1, int x2, int y2) {
 }
 void rough_circle(map *m, ter_id type, int x, int y, int rad) {
     m->draw_rough_circle(type, x, y, rad);
+}
+void rough_circle_furn(map *m, furn_id type, int x, int y, int rad) {
+    m->draw_rough_circle_furn(type, x, y, rad);
 }
 void add_corpse(map *m, int x, int y) {
     m->add_corpse(x, y);

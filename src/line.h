@@ -1,5 +1,5 @@
-#ifndef _LINE_H_
-#define _LINE_H_
+#ifndef LINE_H
+#define LINE_H
 
 #include <vector>
 #include <string>
@@ -106,4 +106,5 @@ struct rl_vec3d {
     rl_vec3d operator- ();
     rl_vec3d operator+ (const rl_vec3d &rhs);
 };
+
 #endif

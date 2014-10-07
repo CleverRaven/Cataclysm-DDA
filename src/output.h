@@ -1,5 +1,5 @@
-#ifndef _OUTPUT_H_
-#define _OUTPUT_H_
+#ifndef OUTPUT_H
+#define OUTPUT_H
 
 #include "color.h"
 #include "line.h"
@@ -12,7 +12,7 @@
 
 //      LINE_NESW  - X for on, O for off
 #define LINE_XOXO 4194424 // '|'   Vertical line. ncurses: ACS_VLINE; Unicode: U+2502
-#define LINE_OXOX 4194417 // '_'   Horizontal line. ncurses: ACS_HLINE; Unicode: U+2500
+#define LINE_OXOX 4194417 // '-'   Horizontal line. ncurses: ACS_HLINE; Unicode: U+2500
 #define LINE_XXOO 4194413 // '|_'  Lower left corner. ncurses: ACS_LLCORNER; Unicode: U+2514
 #define LINE_OXXO 4194412 // '|^'  Upper left corner. ncurses: ACS_ULCORNER; Unicode: U+250C
 #define LINE_OOXX 4194411 // '^|'  Upper right corner. ncurses: ACS_URCORNER; Unicode: U+2510

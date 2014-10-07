@@ -1,5 +1,5 @@
-#ifndef _ITEM_H_
-#define _ITEM_H_
+#ifndef ITEM_H
+#define ITEM_H
 
 #include <climits>
 #include <string>
@@ -68,6 +68,10 @@ public:
  void make_corpse(const std::string new_type, mtype* mt, unsigned int turn, const std::string &name);
  item(std::string itemdata);
  item(JsonObject &jo);
+        item(item &&) = default;
+        item(const item &) = default;
+        item &operator=(item &&) = default;
+        item &operator=(const item &) = default;
  virtual ~item();
  void init();
  void make( const std::string new_type );
@@ -86,7 +90,7 @@ public:
  // Returns the category of this item.
  const item_category &get_category() const;
 
-// Firearm specifics
+ // Firearm specifics
  int reload_time(player &u);
  int clip_size();
  int dispersion();
@@ -113,7 +117,6 @@ public:
         deserialize(jo);
     }
 
- //
  void load_legacy(std::stringstream & dump);
  void load_info(std::string data);
  //std::string info(bool showtext = false); // Formatted for human viewing
@@ -210,14 +213,58 @@ public:
  int has_gunmod(itype_id type);
  item* active_gunmod();
  item const* inspect_active_gunmod() const;
- bool goes_bad();
+ bool goes_bad() const;
+ bool is_going_bad() const;
  bool count_by_charges() const;
  long max_charges() const;
  bool craft_has_charges();
  long num_charges();
- bool rotten();
- bool is_rotten;
- void calc_rot(const point &);
+
+    /**
+     * Returns true if the item is considered rotten.
+     */
+    bool rotten() const;
+    /**
+     * Accumulate rot of the item since last rot calculation.
+     * This function works for non-rotting stuff, too - it increases the value
+     * of rot.
+     * @param p The location of the item to check for temperature.
+     */
+    void calc_rot(const point &p);
+    /**
+     * Returns whether the item has completely rotten away.
+     */
+    bool has_rotten_away() const;
+    /**
+     * Get @ref rot value relative to it_comest::spoils, if the item does not spoil,
+     * it returns 0. If the item is rotten the returned value is > 1.
+     */
+    float get_relative_rot();
+    /**
+     * Set the @ref rot to the given relative rot (relative to it_comest::spoils).
+     */
+    void set_relative_rot(float rel_rot);
+private:
+    /**
+     * Accumulated rot of the item. This is compared to it_comest::spoils
+     * to decide weather the item is rotten or not.
+     */
+    int rot;
+    /**
+     * The turn when the rot calculation has been done the last time.
+     */
+    int last_rot_check;
+public:
+    int get_rot() const
+    {
+        return rot;
+    }
+    /**
+     * The turn when this item has been put into a fridge.
+     * 0 if this item is not in a fridge.
+     */
+    int fridge;
+
  int brewing_time();
  bool ready_to_revive(); // used for corpses
  void detonate(point p) const;
@@ -254,6 +301,38 @@ public:
      * for other players. The player is identified by its id.
      */
     void mark_as_used_by_player(const player &p);
+    /**
+     * This is called once each turn. It's usually only useful for active items,
+     * but can be called for inactive items without problems.
+     * It is recursive, and calls process on any contained items.
+     * @param carrier The player / npc that carries the item. This can be null when
+     * the item is not carried by anyone (laying on ground)!
+     * @param pos The location of the item on the map, same system as
+     * @ref player::pos used. If the item is carried, it should be the
+     * location of the carrier.
+     * @return true if the item has been destroyed by the processing. The caller
+     * should than delete the item wherever it was stored.
+     * Returns false if the item is not destroyed.
+     */
+    bool process(player *carrier, point pos);
+protected:
+    // Sub-functions of @ref process, they handle the processing for different
+    // processing types, just to make the process function cleaner.
+    // The interface is the same as for @ref process.
+    bool process_food(player *carrier, point pos);
+    bool process_corpse(player *carrier, point pos);
+    bool process_artifact(player *carrier, point pos);
+    bool process_wet(player *carrier, point pos);
+    bool process_litcig(player *carrier, point pos);
+    bool process_tool(player *carrier, point pos);
+    bool process_charger_gun(player *carrier, point pos);
+public:
+    /**
+     * Whether the item should be processed (by calling @ref process) each turn.
+     * This is only a hint, used by the map to avoid coping the item when it
+     * does not need processing.
+     */
+    bool needs_processing() const;
 
  // umber of mods that can still be installed into the given
  // mod location, for non-guns it returns always 0
@@ -288,10 +367,15 @@ public:
  bool is_tool() const;
  bool is_software() const;
  bool is_macguffin() const;
- bool is_stationary() const;
  bool is_other() const; // Doesn't belong in other categories
  bool is_var_veh_part() const;
  bool is_artifact() const;
+
+    /**
+     * Set the snippet text (description) of this specific item, using the snippet library.
+     * @see snippet_library.
+     */
+    void set_snippet( const std::string &snippet_id );
 
  int get_remaining_capacity_for_liquid(const item &liquid, LIQUID_FILL_ERROR &error) const;
  int get_remaining_capacity() const;
@@ -314,9 +398,6 @@ public:
  char invlet;             // Inventory letter
  long charges;
  bool active;             // If true, it has active effects to be processed
- int fridge;              // The turn we entered a fridge.
- int rot;                 // decay; same as turn-bday at 65 degrees, but doubles/halves every 18 degrees. can be negative (start game fridges)
- int last_rot_check;      // last turn we calculated rot
  signed char damage;      // How much damage it's sustained; generally, max is 5
  int burnt;               // How badly we're burnt
  std::bitset<13> covers;  // What body parts it covers

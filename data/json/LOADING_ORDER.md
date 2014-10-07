@@ -36,3 +36,4 @@ Otherwise, even if on Windows you get `data/json/assets.json` before
 correct thing to do (assuming bullets.json depends on assets.json) is to ensure
 that you actually have a subdirectory in there --
 `data/json/bullets/bullets.json`.
+

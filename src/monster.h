@@ -1,5 +1,5 @@
-#ifndef _MONSTER_H_
-#define _MONSTER_H_
+#ifndef MONSTER_H
+#define MONSTER_H
 
 #include "creature.h"
 #include "player.h"
@@ -23,7 +23,6 @@ enum monster_effect_type {
     ME_DOCILE,          // Don't attack other monsters--for tame monster
     ME_HIT_BY_PLAYER,   // We shot or hit them
     ME_RUN,             // For hit-and-run monsters; we're running for a bit;
-    ME_BOULDERING,      // Monster is moving over rubble
     ME_BOUNCED,
     NUM_MONSTER_EFFECTS
 };
@@ -53,10 +52,13 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         monster();
         monster(mtype *t);
         monster(mtype *t, int x, int y);
-        ~monster();
+        monster(const monster &) = default;
+        monster(monster &&) = default;
+        virtual ~monster() override;
+        monster &operator=(const monster &) = default;
+        monster &operator=(monster &&) = default;
         void poly(mtype *t);
         void spawn(int x, int y); // All this does is moves the monster to x,y
-
         m_size get_size() const;
         int get_hp( hp_part ) const
         {
@@ -106,11 +108,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         void load_info(std::string data);
 
         using JsonSerializer::serialize;
-        void serialize(JsonOut &jsout) const
-        {
-            serialize(jsout, true);
-        }
-        virtual void serialize(JsonOut &jsout, bool save_contents) const;
+        virtual void serialize(JsonOut &jsout) const override;
         using JsonDeserializer::deserialize;
         virtual void deserialize(JsonIn &jsin);
 
@@ -124,7 +122,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         bool wander(); // Returns true if we have no plans
 
         /**
-         * Checks whether we can move to/through (x, y).
+         * Checks whether we can move to/through (x, y). This does not account for bashing.
          *
          * This is used in pathfinding and ONLY checks the terrain. It ignores players
          * and monsters, which might only block this tile temporarily.
@@ -187,6 +185,9 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
          * @return 1 if we destroyed something, 0 otherwise.
          */
         int bash_at(int x, int y);
+
+        /** Returns innate monster bash skill, without calculating additional from helpers */
+        int bash_skill();
 
         void stumble(bool moved);
         void knock_back_from(int posx, int posy);
@@ -253,7 +254,6 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         std::vector<item> inv; // Inventory
 
         // DEFINING VALUES
-        int speed;
         int hp;
         int sp_timeout;
         int def_chance;
@@ -262,7 +262,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         int faction_id; // If we belong to a faction
         int mission_id; // If we're related to a mission
         mtype *type;
-        bool no_extra_death_drops; // if true, don't spawn loot items as part of death
+        bool no_extra_death_drops;    // if true, don't spawn loot items as part of death
+        bool no_corpse_quiet = false; //if true, monster dies quietly and leaves no corpse
         bool is_dead() const;
         bool made_footstep;
         std::string unique_name; // If we're unique
@@ -306,6 +307,10 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         bool dead;
         /** Attack another monster */
         void hit_monster(monster &other);
+
+    protected:
+        void store(JsonOut &jsout) const;
+        void load(JsonObject &jsin);
 };
 
 #endif

@@ -1,5 +1,5 @@
-#ifndef _PLAYER_H_
-#define _PLAYER_H_
+#ifndef PLAYER_H
+#define PLAYER_H
 
 #include "character.h"
 #include "item.h"
@@ -17,6 +17,7 @@
 
 #include <unordered_set>
 #include <bitset>
+#include <array>
 
 class monster;
 class game;
@@ -106,13 +107,14 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
     public:
         player();
-        player(const player &rhs);
-        virtual ~player();
-
-        player &operator= (const player &rhs);
+        player(const player &) = default;
+        player(player &&) = default;
+        virtual ~player() override;
+        player &operator=(const player &) = default;
+        player &operator=(player &&) = default;
 
         // newcharacter.cpp
-        bool create(character_type type, std::string tempname = "");
+        int create(character_type type, std::string tempname = "");
         /** Returns the set "my_traits" */
         std::vector<std::string> get_traits() const;
         /** Empties the trait list */
@@ -162,18 +164,12 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int print_info(WINDOW *w, int vStart, int vLines, int column) const;
 
         // populate variables, inventory items, and misc from json object
-        void json_load_common_variables(JsonObject &jsout);
         using JsonDeserializer::deserialize;
         virtual void deserialize(JsonIn &jsin);
 
-        void json_save_common_variables(JsonOut &json) const;
         using JsonSerializer::serialize;
         // by default save all contained info
-        void serialize(JsonOut &jsout) const
-        {
-            serialize(jsout, true);
-        }
-        virtual void serialize(JsonOut &jsout, bool save_contents) const;
+        virtual void serialize(JsonOut &jsout) const override;
 
         /** Prints out the player's memorial file */
         void memorial( std::ofstream &memorial_file, std::string epitaph );
@@ -208,6 +204,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int  run_cost(int base_cost, bool diag = false);
         /** Returns the player's speed for swimming across water tiles */
         int  swim_speed();
+        /** Maintains body wetness and handles the rate at which the player dries */
+        void update_body_wetness();
 
         /** Returns true if the player has the entered trait */
         bool has_trait(const std::string &flag) const;
@@ -764,7 +762,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool has_active_item(const itype_id &id) const;
         long active_item_charges(itype_id id);
         void process_active_items();
-        bool process_single_active_item(item *it); // returns false if it needs to be removed
         item i_rem(int pos); // Remove item from inventory; returns ret_null on fail
         item i_rem(itype_id type);// Remove first item w/ this type; fail is ret_null
         item i_rem(item *it);// Remove specific item.
@@ -894,8 +891,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int stim, pkill, radiation;
         unsigned long cash;
         int movecounter;
-        int hp_cur[num_hp_parts], hp_max[num_hp_parts];
-        signed int temp_cur[num_bp], frostbite_timer[num_bp], temp_conv[num_bp];
+        std::array<int, num_hp_parts> hp_cur, hp_max;
+        std::array<int, num_bp> temp_cur, frostbite_timer, temp_conv;
         void temp_equalizer(body_part bp1, body_part bp2); // Equalizes heat between body parts
         bool nv_cached;
         bool pda_cached;
@@ -903,6 +900,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         // Drench cache
         std::map<int, std::map<std::string, int> > mMutDrench;
         std::map<int, int> mDrenchEffect;
+        std::array<int, num_bp> body_wetness;
 
         std::vector<morale_point> morale;
 
@@ -999,6 +997,18 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool save_zones();
         void load_zones();
 
+        // drawing related stuff
+        /**
+         * Returns a list of the IDs of overlays on this character,
+         * sorted from "lowest" to "highest".
+         *
+         * Only required for rendering.
+         */
+        std::vector<std::string> get_overlay_ids() const;
+
+        void spores();
+        void blossoms();
+
     protected:
         std::vector<std::string> my_traits;
         std::vector<std::string> my_mutations;
@@ -1010,6 +1020,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int sight_max;
         int sight_boost;
         int sight_boost_cap;
+
+        void store(JsonOut &jsout) const;
+        void load(JsonObject &jsin);
 
     private:
         // Items the player has identified.

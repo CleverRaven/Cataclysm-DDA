@@ -163,11 +163,15 @@ void cata_tiles::get_tile_information(std::string dir_path, std::string &json_pa
 
 int cata_tiles::load_tileset(std::string path, int R, int G, int B)
 {
+    std::string img_path = path;
+#ifdef PREFIX   // use the PREFIX path over the current directory
+    img_path = (FILENAMES["datadir"] + "/" + img_path);
+#endif
     /** reinit tile_atlas */
-    SDL_Surface *tile_atlas = IMG_Load(path.c_str());
+    SDL_Surface *tile_atlas = IMG_Load(img_path.c_str());
 
     if(!tile_atlas) {
-        throw std::string("Could not load tileset image at ") + path + ", error: " + IMG_GetError();
+        throw std::string("Could not load tileset image at ") + img_path + ", error: " + IMG_GetError();
     }
 
         /** get dimensions of the atlas image */
@@ -550,6 +554,7 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
             draw_field_or_item(x, y);
             draw_vpart(x, y);
             draw_entity(x, y);
+            draw_entity_with_overlays(x, y);
         }
     }
     in_animation = do_draw_explosion || do_draw_bullet || do_draw_hit ||
@@ -621,7 +626,27 @@ bool cata_tiles::draw_from_id_string(const std::string &id, TILE_CATEGORY catego
         return false;
     }
 
-    tile_id_iterator it = tile_ids.find(id);
+    std::string seasonal_id;
+    switch (calendar::turn.get_season()) {
+    case SPRING:
+        seasonal_id = id + "_season_spring";
+        break;
+    case SUMMER:
+        seasonal_id = id + "_season_summer";
+        break;
+    case AUTUMN:
+        seasonal_id = id + "_season_autumn";
+        break;
+    case WINTER:
+        seasonal_id = id + "_season_winter";
+        break;
+    }
+    tile_id_iterator it = tile_ids.find(seasonal_id);
+    if (it != tile_ids.end()) {
+        return draw_from_id_string(seasonal_id, category, subcategory, x, y, subtile, rota);
+    }
+
+    it = tile_ids.find(id);
 
     if (it == tile_ids.end()) {
         long sym = -1;
@@ -905,7 +930,7 @@ bool cata_tiles::draw_furniture(int x, int y)
 
     int f_id = g->m.furn(x, y);
 
-    // for rotation inforomation
+    // for rotation information
     const int neighborhood[4] = {
         static_cast<int> (g->m.furn(x, y + 1)), // south
         static_cast<int> (g->m.furn(x + 1, y)), // east
@@ -982,6 +1007,11 @@ bool cata_tiles::draw_field_or_item(int x, int y)
         case fd_weedsmoke:
         case fd_cracksmoke:
         case fd_methsmoke:
+        case fd_hot_air1:
+        case fd_hot_air2:
+        case fd_hot_air3:
+        case fd_hot_air4:
+        case fd_spotlight:
             //need to draw fields and items both
             is_draw_field = true;
             do_item = true;
@@ -1088,24 +1118,57 @@ bool cata_tiles::draw_entity(int x, int y)
             }
             entity_here = true;
     }
-    // check for NPC (next most common)
-    if (!entity_here && g->npc_at(x, y) >= 0) {
-        npc &m = *g->active_npc[g->npc_at(x, y)];
-        if( !m.is_dead() ) {
-            ent_name = m.male ? "npc_male" : "npc_female";
-            entity_here = true;
-        }
-    }
-    // check for PC (least common, only ever 1)
-    if (!entity_here && g->u.posx == x && g->u.posy == y) {
-        ent_name = g->u.male ? "player_male" : "player_female";
-        entity_here = true;
-    }
     if (entity_here) {
         int subtile = corner;
         return draw_from_id_string(ent_name, ent_category, ent_subcategory, x, y, subtile, 0);
     }
     return false;
+}
+
+void cata_tiles::draw_entity_with_overlays(int x, int y) {
+    const player* entity_to_draw = NULL;
+    std::string ent_name;
+
+    int npc_index = g->npc_at(x, y);
+    if (npc_index >= 0) {
+        entity_to_draw = g->active_npc[npc_index];
+        if (! (g->active_npc[npc_index]->is_dead()) ) {
+            ent_name = entity_to_draw->male ? "npc_male" : "npc_female";
+        } else {
+            entity_to_draw = NULL;
+        }
+    }
+
+    if (!entity_to_draw) {
+        if (g->u.posx == x && g->u.posy == y) {
+            entity_to_draw = &(g->u);
+            ent_name = entity_to_draw->male ? "player_male" : "player_female";
+        }
+    }
+
+    if (entity_to_draw) {
+        // first draw the character itself(i guess this means a tileset that
+        // takes this seriously needs a naked sprite)
+        draw_from_id_string(ent_name, C_NONE, "", x, y, corner, 0);
+
+        // next up, draw all the overlays
+        std::vector<std::string> overlays = entity_to_draw->get_overlay_ids();
+        for(const std::string& overlay : overlays) {
+            bool exists = true;
+            std::string draw_id = (entity_to_draw->male) ? "overlay_male_" + overlay : "overlay_female_" + overlay;
+            if (tile_ids.find(draw_id) == tile_ids.end()) {
+                draw_id = "overlay_" + overlay;
+                if(tile_ids.find(draw_id) == tile_ids.end()) {
+                    exists = false;
+                }
+            }
+
+            // make sure we don't draw an annoying "unknown" tile when we have nothing to draw
+            if (exists) {
+                draw_from_id_string(draw_id, C_NONE, "", x, y, corner, 0);
+            }
+        }
+    }
 }
 
 bool cata_tiles::draw_item_highlight(int x, int y)

@@ -291,6 +291,7 @@ void veh_interact::cache_tool_availability()
     crafting_inv = g->crafting_inventory(&g->u);
 
     int charges = dynamic_cast<it_tool *>(itypes["welder"])->charges_per_use;
+    int charges_oxy = dynamic_cast<it_tool *>(itypes["oxy_torch"])->charges_per_use;
     int charges_crude = dynamic_cast<it_tool *>(itypes["welder_crude"])->charges_per_use;
     has_wrench = crafting_inv.has_tools("wrench", 1) ||
                  crafting_inv.has_tools("toolset", 1) ||
@@ -303,9 +304,16 @@ void veh_interact::cache_tool_availability()
                   crafting_inv.has_tools("toolbox", 1) ||
                   (crafting_inv.has_tools("circsaw_off", 1) &&
                    crafting_inv.has_charges("circsaw_off", CIRC_SAW_USED)) ||
+                  (crafting_inv.has_tools("oxy_torch", 1) &&
+                   crafting_inv.has_charges("oxy_torch", OXY_CUTTING) &&
+                  (crafting_inv.has_tools("goggles_welding", 1) ||
+                   g->u.has_bionic("bio_sunglasses") ||
+                   g->u.is_wearing("goggles_welding") || g->u.is_wearing("rm13_armor_on"))) ||
                   crafting_inv.has_tools("toolset", 1);
     has_welder = (crafting_inv.has_tools("welder", 1) &&
                   crafting_inv.has_charges("welder", charges)) ||
+                 (crafting_inv.has_tools("oxy_torch", 1) &&
+                  crafting_inv.has_charges("oxy_torch", charges_oxy)) ||
                  (crafting_inv.has_tools("welder_crude", 1) &&
                   crafting_inv.has_charges("welder_crude", charges_crude)) ||
                  (crafting_inv.has_tools("toolset", 1) &&
@@ -741,7 +749,7 @@ void veh_interact::do_remove()
         return;
     case LACK_TOOLS:
         fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                       _("You need a <color_%1$s>wrench</color> and a <color_%2$s>hacksaw or circular saw (off)</color> to remove parts."),
+                       _("You need a <color_%1$s>wrench</color> and a <color_%2$s>hacksaw, cutting torch and goggles, or circular saw (off)</color> to remove parts."),
                        has_wrench ? "ltgreen" : "red",
                        has_hacksaw ? "ltgreen" : "red");
         if(wheel) {
@@ -788,7 +796,7 @@ void veh_interact::do_remove()
                     return;
                 } else {
                     fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                                   _("You need a <color_%1$s>wrench</color> and a <color_%2$s>hacksaw or circular saw (off)</color> and <color_%3$s>level 2</color> mechanics skill to remove parts."),
+                                   _("You need a <color_%1$s>wrench</color> and a <color_%2$s>hacksaw, cutting torch and goggles, or circular saw (off)</color> and <color_%3$s>level 2</color> mechanics skill to remove parts."),
                                    has_wrench ? "ltgreen" : "red",
                                    has_hacksaw ? "ltgreen" : "red",
                                    has_skill ? "ltgreen" : "red");
@@ -962,7 +970,13 @@ void veh_interact::do_rename()
  */
 void veh_interact::do_relabel()
 {
-    display_mode('e');
+    display_mode('a');
+    const task_reason reason = cant_do('a');
+    if (reason == INVALID_TARGET) {
+        mvwprintz(w_msg, 0, 1, c_ltred, _("There are no parts here to label."));
+        wrefresh (w_msg);
+        return;
+    }
     std::string text = string_input_popup(_("New label:"), 20, veh->get_label(-ddx, -ddy));
     veh->set_label(-ddx, -ddy, text); // empty input removes the label
     display_grid();
@@ -1361,10 +1375,10 @@ void veh_interact::display_mode(char mode)
         actions.push_back(_("re<f>ill"));
         actions.push_back(_("rem<o>ve"));
         actions.push_back(_("<s>iphon"));
-        actions.push_back(_("<d>rain water"));
+        actions.push_back(_("<d>rain"));
         actions.push_back(_("<c>hange tire"));
         actions.push_back(_("r<e>name"));
-        actions.push_back(_("rel<a>bel"));
+        actions.push_back(_("l<a>bel"));
 
         bool enabled[9];
         enabled[0] = !cant_do('i');
@@ -1582,6 +1596,7 @@ void complete_vehicle ()
     std::string part_id = g->u.activity.str_values[0];
     std::vector<tool_comp> tools;
     int welder_charges = dynamic_cast<it_tool *>(itypes["welder"])->charges_per_use;
+    int welder_oxy_charges = dynamic_cast<it_tool *>(itypes["oxy_torch"])->charges_per_use;
     int welder_crude_charges = dynamic_cast<it_tool *>(itypes["welder_crude"])->charges_per_use;
     inventory crafting_inv = g->crafting_inventory(&g->u);
     const bool has_goggles = crafting_inv.has_tools("goggles_welding", 1) ||
@@ -1608,6 +1623,7 @@ void complete_vehicle ()
             // Need welding goggles to use any of these tools,
             // without the goggles one _must_ use the duct tape
             tools.push_back(tool_comp("welder", welder_charges));
+            tools.push_back(tool_comp("oxy_torch", welder_oxy_charges));
             tools.push_back(tool_comp("welder_crude", welder_crude_charges));
             tools.push_back(tool_comp("toolset", welder_crude_charges));
         }
@@ -1674,6 +1690,7 @@ void complete_vehicle ()
             dmg = 1.1 - double(veh->parts[vehicle_part].hp) / veh->part_info(vehicle_part).durability;
         }
         tools.push_back(tool_comp("welder", int(welder_charges * dmg)));
+        tools.push_back(tool_comp("oxy_torch", int(welder_oxy_charges * dmg)));
         tools.push_back(tool_comp("welder_crude", int(welder_crude_charges * dmg)));
         tools.push_back(tool_comp("duct_tape", int(DUCT_TAPE_USED * dmg)));
         tools.push_back(tool_comp("toolbox", int(DUCT_TAPE_USED * dmg)));
@@ -1695,6 +1712,7 @@ void complete_vehicle ()
         tools.push_back(tool_comp("toolbox", -1));
         tools.push_back(tool_comp("survivor_belt", -1));
         tools.push_back(tool_comp("circsaw_off", 20));
+        tools.push_back(tool_comp("oxy_torch", 10));
         g->consume_tools(&g->u, tools);
         // Dump contents of part at player's feet, if any.
         for (size_t i = 0; i < veh->parts[vehicle_part].items.size(); i++) {

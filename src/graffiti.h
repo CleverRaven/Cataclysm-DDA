@@ -1,5 +1,5 @@
-#ifndef _GRAFFITI_H_
-#define _GRAFFITI_H_
+#ifndef GRAFFITI_H
+#define GRAFFITI_H
 
 #include <string>
 #include "itype.h"

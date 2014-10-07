@@ -1,5 +1,5 @@
-#ifndef _COMPUTER_H_
-#define _COMPUTER_H_
+#ifndef COMPUTER_H
+#define COMPUTER_H
 
 #include "output.h"
 #include "json.h"
@@ -19,6 +19,7 @@ enum computer_action {
     COMPACT_TOLL,
     COMPACT_SAMPLE,
     COMPACT_RELEASE,
+    COMPACT_RELEASE_BIONICS,
     COMPACT_TERMINATE,
     COMPACT_PORTAL,
     COMPACT_CASCADE,

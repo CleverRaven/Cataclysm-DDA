@@ -166,7 +166,7 @@
       ["crucible", -1]
     ],
     [
-      ["forge", 100], ["char_forge", 20]
+      ["forge", 100], ["char_forge", 20], [ "oxy_torch", 20]
     ]
     ],
     "components": [
@@ -287,6 +287,7 @@
       [ "duct_tape", 40 ],
       [ "bag_plastic", 1 ],
       [ "bottle_plastic", 1 ],
+      [ "bottle_plastic_small", 1 ],
       [ "box_small", 1 ],
       [ "plastic_chunk", 1 ]
     ]
@@ -328,7 +329,7 @@
   "autolearn" : true,
   "qualities":[
     {"id":"CUT","level":1,"amount":1},
-	{"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1,"amount":1}
   ],
   "components" : [
     [
@@ -337,6 +338,7 @@
     [
       [ "bone", 5 ],
       [ "rock", 1 ],
+      [ "ceramic_shard", 1 ],
       [ "scrap", 2 ],
       [ "nail", 10 ]
     ]
@@ -363,6 +365,7 @@
     [
       [ "bone", 3 ],
       [ "rock", 1 ],
+      [ "ceramic_shard", 1 ],
       [ "scrap", 2 ],
       [ "nail", 10 ]
     ]
@@ -488,7 +491,7 @@
   "subcategory": "CSC_AMMO_ARROWS",
   "skill_used" : "fabrication",
   "skills_required": [ "archery", 3 ],
-  "difficulty" : 5,
+  "difficulty" : 4,
   "time" : 5000,
   "reversible" : false,
   "autolearn" : true,
@@ -508,7 +511,7 @@
   "subcategory": "CSC_AMMO_ARROWS",
   "skill_used" : "fabrication",
   "skills_required": [ "archery", 3 ],
-  "difficulty" : 5,
+  "difficulty" : 4,
   "time" : 5000,
   "reversible" : false,
   "autolearn" : true,
@@ -535,7 +538,7 @@
   "subcategory": "CSC_AMMO_ARROWS",
   "skill_used" : "fabrication",
   "skills_required": [ "archery", 3 ],
-  "difficulty" : 5,
+  "difficulty" : 4,
   "time" : 5000,
   "reversible" : false,
   "autolearn" : false,
@@ -553,6 +556,7 @@
     [
       [ "bone", 5 ],
       [ "rock", 1 ],
+      [ "ceramic_shard", 1 ],
       [ "scrap", 2 ],
       [ "nail", 10 ]
     ]
@@ -2228,31 +2232,15 @@
   "autolearn": false,
   "book_learn": [["recipe_bullets" , 2 ] , [ "manual_shotgun", 3 ]],
   "tools": [
-    [
-      [ "press", -1 ]
-    ],
-    [
-      [ "boltcutters", -1 ]
-    ],
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "press", 2 ]
-    ]
+    [ [ "press", -1 ] ],
+    [ [ "boltcutters", -1 ], [ "toolset", -1 ] ],
+    [ [ "fire", -1 ], [ "toolset", 2 ], [ "press", 2 ] ]
   ],
   "components": [
-    [
-      [ "shot_hull", 10 ]
-    ],
-    [
-      [ "shotgun_primer", 10 ]
-    ],
-    [
-      [ "gunpowder", 120 ]
-    ],
-    [
-      [ "nail", 160 ]
-     ]
+    [ [ "shot_hull", 10 ] ],
+    [ [ "shotgun_primer", 10 ] ],
+    [ [ "gunpowder", 120 ] ],
+    [ [ "nail", 160 ] ]
    ]
 },{
         "type" : "recipe",
@@ -2485,7 +2473,8 @@
       [ "toolset", 50 ]
     ],
     [
-      [ "boltcutters", -1 ]
+      [ "boltcutters", -1 ],
+      [ "toolset", -1 ]
     ],
     [
       [ "press", -1 ]
@@ -2572,28 +2561,18 @@
     {"id":"HAMMER","level":3,"amount":1}
     ], "tools": [
      [
-      ["tongs", -1]
-     ],
-     [
       ["swage", -1]
      ],
      [
-      ["anvil", -1]
-     ],
-     [
       ["press", -1]
-     ],
-     [
-        [ "matches", 10 ]
-     ],
-     [
-      ["forge", 50], ["char_forge", 10]
      ]
     ],
     "components": [
-      [
-        [ "scrap", 4 ]
-      ],
+    [
+      [ "can_drink", 2 ],
+      [ "can_food", 2 ],
+      [ "scrap", 4 ]
+    ],
       [
         [ "oxy_powder", 100 ]
       ]
@@ -2615,28 +2594,18 @@
     {"id":"HAMMER","level":3,"amount":1}
     ], "tools": [
      [
-      ["tongs", -1]
-     ],
-     [
       ["swage", -1]
      ],
      [
-      ["anvil", -1]
-     ],
-     [
       ["press", -1]
-     ],
-     [
-        [ "matches", 10 ]
-     ],
-     [
-      ["forge", 50], ["char_forge", 10]
      ]
     ],
     "components": [
-      [
-        [ "scrap", 4 ]
-      ],
+    [
+      [ "can_drink", 2 ],
+      [ "can_food", 2 ],
+      [ "scrap", 4 ]
+    ],
       [
         [ "oxy_powder", 100 ]
       ]
@@ -2658,28 +2627,18 @@
     {"id":"HAMMER","level":3,"amount":1}
     ], "tools": [
      [
-      ["tongs", -1]
-     ],
-     [
       ["swage", -1]
      ],
      [
-      ["anvil", -1]
-     ],
-     [
       ["press", -1]
-     ],
-     [
-        [ "matches", 10 ]
-     ],
-     [
-      ["forge", 50], ["char_forge", 10]
      ]
     ],
     "components": [
-      [
-        [ "scrap", 4 ]
-      ],
+    [
+      [ "can_drink", 2 ],
+      [ "can_food", 2 ],
+      [ "scrap", 4 ]
+    ],
       [
         [ "oxy_powder", 100 ]
       ]
@@ -2701,28 +2660,18 @@
     {"id":"HAMMER","level":3,"amount":1}
     ], "tools": [
      [
-      ["tongs", -1]
-     ],
-     [
       ["swage", -1]
      ],
      [
-      ["anvil", -1]
-     ],
-     [
       ["press", -1]
-     ],
-     [
-        [ "matches", 10 ]
-     ],
-     [
-      ["forge", 50], ["char_forge", 10]
      ]
     ],
     "components": [
-      [
-        [ "scrap", 4 ]
-      ],
+    [
+      [ "can_drink", 2 ],
+      [ "can_food", 2 ],
+      [ "scrap", 4 ]
+    ],
       [
         [ "oxy_powder", 100 ]
       ]
@@ -2744,28 +2693,18 @@
     {"id":"HAMMER","level":3,"amount":1}
     ], "tools": [
      [
-      ["tongs", -1]
-     ],
-     [
       ["swage", -1]
      ],
      [
-      ["anvil", -1]
-     ],
-     [
       ["press", -1]
-     ],
-     [
-        [ "matches", 10 ]
-     ],
-     [
-      ["forge", 50], ["char_forge", 10]
      ]
     ],
     "components": [
-      [
-        [ "scrap", 4 ]
-      ],
+    [
+      [ "can_drink", 2 ],
+      [ "can_food", 2 ],
+      [ "scrap", 4 ]
+    ],
       [
         [ "oxy_powder", 100 ]
       ]
@@ -2790,7 +2729,7 @@
       ["crucible", -1]
      ],
      [
-      ["forge", 50], ["char_forge", 10]
+      ["forge", 50], ["char_forge", 10], [ "oxy_torch", 10]
      ]
     ],
     "components": [
@@ -2931,7 +2870,7 @@
       ["crucible", -1]
      ],
      [
-      ["forge", 50], ["char_forge", 10]
+      ["forge", 50], ["char_forge", 10], [ "oxy_torch", 10]
      ]
     ],
   "components":
@@ -3220,7 +3159,8 @@
       [ "press", -1 ]
     ],
     [
-      [ "boltcutters", -1 ]
+      [ "boltcutters", -1 ],
+      [ "toolset", -1]
     ],
     [
       [ "fire", -1 ],
@@ -3560,5 +3500,77 @@
         [ "spaghetti_raw", 1 ]
       ]
     ]
+  },
+{
+  "type" : "recipe",
+  "result": "reloaded_700nx",
+  "category": "CC_AMMO",
+  "subcategory": "CSC_AMMO_BULLETS",
+  "skill_used": "fabrication",
+  "skills_required": [ "gun", 7 ],
+  "difficulty": 9,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 7 ]],
+  "tools": [
+    [
+      [ "press", -1 ]
+    ],
+    [
+      [ "fire", -1 ],
+      [ "toolset", 2 ],
+      [ "press", 2 ]
+        ]
+  ],
+  "components": [
+    [
+      [ "700nx_casing", 30 ]
+    ],
+    [
+      [ "lgrifle_primer", 30 ]
+    ],
+    [
+      [ "gunpowder", 1150 ]
+    ],
+    [
+      [ "lead", 420 ],
+      [ "gold_small", 420 ],
+      [ "silver_small", 420 ],
+      [ "tin", 420 ],
+      [ "bismuth", 420 ],
+      [ "solder_wire", 420 ]
+    ],
+    [
+      [ "cu_pipe", 4 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "combatnail",
+  "category": "CC_AMMO",
+  "subcategory": "CSC_AMMO_OTHER",
+  "skill_used": "fabrication",
+  "skills_required": [ "gun", 1 ],
+  "difficulty": 2,
+  "time": 180000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":3,"amount":1}
+  ], "tools": [
+    [ ["tongs", -1]  ],
+    [ ["chisel", -1] ],
+    [ ["swage", -1]  ],
+    [ ["anvil", -1]  ],
+    [ ["forge", 50], [ "char_forge", 10], [ "oxy_torch", 10] ]
+           ],
+  "components": [
+    [
+      [ "steel_chunk", 1 ],
+      [ "scrap", 3 ]
+    ]
+  ]
   }
 ]

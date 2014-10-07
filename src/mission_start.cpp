@@ -132,7 +132,7 @@ void mission_start::place_caravan_ambush(mission *miss)
  bay.add_vehicle("motorcycle", SEEX-5, SEEY-5, 90, 500, -1, true);
  bay.draw_square_ter(t_grass, SEEX-6, SEEY-9, SEEX+6, SEEY+3);
  bay.draw_square_ter(t_dirt, SEEX-4, SEEY-7, SEEX+3, SEEY+1);
- bay.ter_set(SEEX, SEEY-4, t_ash);
+ bay.furn_set(SEEX, SEEY-4, f_ash);
  bay.spawn_item(SEEX-1, SEEY-3, "rock");
  bay.spawn_item(SEEX, SEEY-3, "rock");
  bay.spawn_item(SEEX+1, SEEY-3, "rock");
@@ -478,10 +478,12 @@ void mission_start::reveal_lab_black_box(mission *miss)
 void mission_start::open_sarcophagus(mission *miss)
 {
     npc *p = g->find_npc(miss->npc_id);
-    p->attitude = NPCATT_FOLLOW;
     if (p != NULL) {
+        p->attitude = NPCATT_FOLLOW;
         g->u.i_add( item("sarcophagus_access_code", 0) );
         add_msg(m_good, _("%s gave you sarcophagus access code."), p->name.c_str());
+    } else {
+        DebugLog( D_ERROR, DC_ALL ) << "mission_start: open_sarcophagus() <= Can't find NPC";
     }
     target_om_ter("haz_sar", 3, miss, false);
 }

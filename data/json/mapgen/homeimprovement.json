@@ -125,13 +125,20 @@
                 ],
                 "comment": "randomly picked from a group ---v",
                 "place_groups": [
-		 { "item": "paint", "chance": 75, "x": [2,10], "y": 17 },
-		 { "item": "paint", "chance": 75, "x": [2,10], "y": 19 },
-		 { "item": "paint", "chance": 75, "x": [2,10], "y": 21 },
-	
-		 { "item": "rug", "chance": 75, "x": [13,21], "y": 17 },
-		 { "item": "rug", "chance": 75, "x": [13,21], "y": 19 },
-		 { "item": "rug", "chance": 75, "x": [13,21], "y": 21 }
+                 { "item": "bed", "chance": 80,  "x": [3,3 ], "y": [3,3 ] },
+                 { "item": "bed", "chance": 80,  "x": [5,5 ], "y": [3,3 ] },
+                 { "item": "bed", "chance": 80,  "x": [7,7 ], "y": [3,3 ] },
+                 { "item": "bed", "chance": 80,  "x": [9,9 ], "y": [3,3 ] },
+                 { "item": "bed", "chance": 80,  "x": [3,3 ], "y": [5,5 ] },
+                 { "item": "bed", "chance": 80,  "x": [5,5 ], "y": [5,5 ] },
+                 { "item": "bed", "chance": 80,  "x": [7,7 ], "y": [5,5 ] },
+                 { "item": "bed", "chance": 80,  "x": [9,9 ], "y": [5,5 ] },
+         { "item": "paint", "chance": 75, "x": [2,10], "y": 17 },
+         { "item": "paint", "chance": 75, "x": [2,10], "y": 19 },
+         { "item": "paint", "chance": 75, "x": [2,10], "y": 21 },
+         { "item": "rug", "chance": 75, "x": [13,21], "y": 17 },
+         { "item": "rug", "chance": 75, "x": [13,21], "y": 19 },
+         { "item": "rug", "chance": 75, "x": [13,21], "y": 21 }
                 ],
             "comment": "end of mapgen json definition ---v"
         },

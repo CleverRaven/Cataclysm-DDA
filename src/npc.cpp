@@ -66,8 +66,6 @@ npc::npc()
  }
 }
 
-npc::npc(const npc &rhs):player() { *this = rhs; }
-
 npc_map npc::_all_npc;
 
 void npc::load_npc(JsonObject &jsobj)
@@ -142,84 +140,6 @@ void npc::load_npc_template(std::string ident)
 }
 
 npc::~npc() { }
-
-npc& npc::operator= (const npc & rhs)
-{
- player::operator=(rhs);
-
- attitude = rhs.attitude;
- myclass = rhs.myclass;
- wandx = rhs.wandx;
- wandy = rhs.wandy;
- wandf = rhs.wandf;
-
- // Location:
- mapx = rhs.mapx;
- mapy = rhs.mapy;
- mapz = rhs.mapz;
- plx = rhs.plx;
- ply = rhs.ply;
- plt = rhs.plt;
- itx = rhs.itx;
- ity = rhs.ity;
- guardx = rhs.guardx;
- guardy = rhs.guardy;
- goal = rhs.goal;
-
- path = rhs.path;
-
- fetching_item = rhs.fetching_item;
- has_new_items = rhs.has_new_items;
- worst_item_value = rhs.worst_item_value;
-
- idz = rhs.idz;
- miss_id = rhs.miss_id;
- fac_id = rhs.fac_id;
- my_fac = rhs.my_fac;
- mission = rhs.mission;
- personality = rhs.personality;
- op_of_u = rhs.op_of_u;
- chatbin = rhs.chatbin;
- patience = rhs.patience;
- combat_rules = rhs.combat_rules;
- marked_for_death = rhs.marked_for_death;
- dead = rhs.dead;
-
- needs = rhs.needs;
-
- flags = rhs.flags;
-
- posx = rhs.posx;
- posy = rhs.posy;
-
- weapon = rhs.weapon;
- ret_null = rhs.ret_null;
- inv = rhs.inv;
- worn.clear();
- for (auto &i : rhs.worn)
-  worn.push_back(i);
-
- needs.clear();
- for (auto &i : rhs.needs)
-  needs.push_back(i);
-
- path.clear();
- for (auto &i : rhs.path)
-  path.push_back(i);
-
- for (int i = 0; i < num_hp_parts; i++) {
-  hp_cur[i] = rhs.hp_cur[i];
-  hp_max[i] = rhs.hp_max[i];
- }
-
- copy_skill_levels(&rhs);
-
- ma_styles.clear();
- for (auto &i : rhs.ma_styles)
-  ma_styles.push_back(i);
-
- return *this;
-}
 
 std::string npc::save_info()
 {
@@ -802,13 +722,20 @@ void npc::set_fac(std::string fac_name)
 std::vector<item> starting_clothes(npc_class type, bool male)
 {
  std::vector<item> ret;
- itype_id pants = "null", shoes = "null", shirt = "null",
-                  gloves = "null", coat = "null", mask = "null",
-                  glasses = "null", hat = "null", extras = "null";
- Item_tag selected_item;
+ itype_id pants = "null",
+          shoes = "null",
+          shirt = "null",
+          gloves = "null",
+          coat = "null",
+          mask = "null",
+          glasses = "null",
+          hat = "null",
+          extras = "null";
+
  pants = item_controller->id_from(npc_class_name_str(type)+"_pants_male");
- if (!male)
+ if (!male) {
      pants = item_controller->id_from(npc_class_name_str(type)+"_pants_female");
+ }
  if (pants == "MISSING_ITEM"){
      if (male)
         pants = item_controller->id_from("npc_pants_male");
@@ -823,7 +750,7 @@ std::vector<item> starting_clothes(npc_class type, bool male)
      if (male)
         shirt = item_controller->id_from("npc_shirt_male");
      else
-        shirt = item_controller->id_from("npc_shirt_male");
+        shirt = item_controller->id_from("npc_shirt_female");
  }
 
  gloves = item_controller->id_from(npc_class_name_str(type)+"_gloves");

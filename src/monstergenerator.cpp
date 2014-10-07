@@ -166,6 +166,7 @@ void MonsterGenerator::init_attack()
     attack_map["SMOKECLOUD"] = &mattack::smokecloud;
     attack_map["BOOMER"] = &mattack::boomer;
     attack_map["RESURRECT"] = &mattack::resurrect;
+    attack_map["SMASH"] = &mattack::smash;
     attack_map["SCIENCE"] = &mattack::science;
     attack_map["GROWPLANTS"] = &mattack::growplants;
     attack_map["GROW_VINE"] = &mattack::grow_vine;
@@ -173,8 +174,13 @@ void MonsterGenerator::init_attack()
     attack_map["SPIT_SAP"] = &mattack::spit_sap;
     attack_map["TRIFFID_HEARTBEAT"] = &mattack::triffid_heartbeat;
     attack_map["FUNGUS"] = &mattack::fungus;
+    attack_map["FUNGUS_HAZE"] = &mattack::fungus_haze;
+    attack_map["FUNGUS_BIG_BLOSSOM"] = &mattack::fungus_big_blossom;
+    attack_map["FUNGUS_INJECT"] = &mattack::fungus_inject;
+    attack_map["FUNGUS_BRISTLE"] = &mattack::fungus_bristle;
     attack_map["FUNGUS_GROWTH"] = &mattack::fungus_growth;
     attack_map["FUNGUS_SPROUT"] = &mattack::fungus_sprout;
+    attack_map["FUNGUS_FORTIFY"] = &mattack::fungus_fortify;
     attack_map["LEAP"] = &mattack::leap;
     attack_map["DERMATIK"] = &mattack::dermatik;
     attack_map["DERMATIK_GROWTH"] = &mattack::dermatik_growth;
@@ -202,6 +208,7 @@ void MonsterGenerator::init_attack()
     attack_map["SEARCHLIGHT"] = &mattack::searchlight;
     attack_map["FLAMETHROWER"] = &mattack::flamethrower;
     attack_map["COPBOT"] = &mattack::copbot;
+    attack_map["CHICKENBOT"] = &mattack::chickenbot;
     attack_map["MULTI_ROBOT"] = &mattack::multi_robot;
     attack_map["RATKING"] = &mattack::ratking;
     attack_map["GENERATOR"] = &mattack::generator;
@@ -273,6 +280,7 @@ void MonsterGenerator::init_flags()
     flag_map["FLIES"] = MF_FLIES;
     flag_map["AQUATIC"] = MF_AQUATIC;
     flag_map["SWIMS"] = MF_SWIMS;
+    flag_map["FISHABLE"] = MF_FISHABLE;
     flag_map["ATTACKMON"] = MF_ATTACKMON;
     flag_map["ANIMAL"] = MF_ANIMAL;
     flag_map["PLASTIC"] = MF_PLASTIC;

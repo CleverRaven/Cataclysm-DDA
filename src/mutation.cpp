@@ -20,14 +20,12 @@ void player::activate_mutation(int b)
 {
     std::string mut = my_mutations[b];
     int cost = traits[mut].cost;
-    if ((traits[mut].hunger && hunger >= 400) || (traits[mut].thirst && thirst >= 400) || (traits[mut].fatigue && fatigue >= 400)) { //TODO: Change this to use hunger/fatigue/that crap
-        if (traits[my_mutations[b]].powered) {
-            add_msg(m_neutral, _("Your stop using %s."), traits[mut].name.c_str());
-            traits[my_mutations[b]].powered = false;
-            traits[my_mutations[b]].cooldown = traits[my_mutations[b]].cost;
-        } else {
-            add_msg(m_info, _("You feel like using your %s would kill you!"), traits[mut].name.c_str());
-        }
+    // You can take yourself halfway to Near Death levels of hunger/thirst.
+    // Fatigue can go to Exhausted.
+    if ((traits[mut].hunger && hunger >= 700) || (traits[mut].thirst && thirst >= 260) ||
+      (traits[mut].fatigue && fatigue >= 575)) {
+      // Insufficient Foo to *maintain* operation is handled in player::suffer
+        add_msg(m_warning, _("You feel like using your %s would kill you!"), traits[mut].name.c_str());
         return;
     }
     if (traits[my_mutations[b]].powered && traits[my_mutations[b]].charge > 0) {
@@ -49,10 +47,6 @@ void player::activate_mutation(int b)
             fatigue += cost;
         }
     }
-    std::vector<point> traj;
-    std::vector<std::string> good;
-    std::vector<std::string> bad;
-
 
     if (traits[mut].id == "WEB_WEAVER"){
         g->m.add_field(posx, posy, fd_web, 1);
@@ -66,6 +60,11 @@ void player::activate_mutation(int b)
                     valid.push_back( point(x, y) );
                 }
             }
+        }
+        // Oops, no room to divide!
+        if (valid.size() == 0) {
+            add_msg(m_bad, _("You focus, but are too hemmed in to birth a new slimespring!"));
+            return;
         }
         add_msg(m_good, _("You focus, and with a pleasant splitting feeling, birth a new slimespring!"));
         int numslime = 1;
@@ -96,6 +95,27 @@ void player::activate_mutation(int b)
     else if (traits[mut].id == "SHOUT3"){
         g->sound(posx, posy, 20 + 4 * str_cur, _("You let out a piercing howl!"));
     }
+    else if (traits[mut].id == "M_FERTILE"){
+        g->u.spores();
+    }
+    else if (traits[mut].id == "M_BLOOM"){
+        g->u.blossoms();
+    }
+    else if (traits[mut].id == "VINES3"){
+        int handed = 0;
+        item newit("vine_30", calendar::turn, false, handed);
+        if (!g->u.can_pickVolume(newit.volume())) { //Accounts for result_mult
+            add_msg(_("You detach a vine but don't have room to carry it, so you drop it."));
+            g->m.add_item_or_charges(g->u.posx, g->u.posy, newit);
+        } else if (!g->u.can_pickWeight(newit.weight(), !OPTIONS["DANGEROUS_PICKUPS"])) {
+            add_msg(_("Your freshly-detached vine is too heavy to carry, so you drop it."));
+            g->m.add_item_or_charges(g->u.posx, g->u.posy, newit);
+        } else {
+            g->u.inv.assign_empty_invlet(newit);
+            newit = g->u.i_add(newit);
+            add_msg(m_info, "%c - %s", newit.invlet == 0 ? ' ' : newit.invlet, newit.tname().c_str());
+        }
+    }
 }
 void player::deactivate_mutation(int b)
 {
@@ -110,7 +130,7 @@ void show_mutations_titlebar(WINDOW *window, player *p, std::string menu_mode)
     mvwprintz(window, 0,  0, c_blue, "%s", caption.c_str());
 
     std::stringstream pwr;
-    pwr << _("Power: ") << int(p->power_level) << _("/") << int(p->max_power_level);
+    pwr << string_format(_("Power: %d/%d"), int(p->power_level), int(p->max_power_level));
     int pwr_length = utf8_width(pwr.str().c_str()) + 1;
 
     std::string desc;
@@ -243,9 +263,10 @@ void player::power_mutations()
                     } else {
                         type = c_ltred;
                     }
+                    // TODO: track resource(s) used and specify
                     mvwputch(wBio, list_start_y + i, second_column, type, traits[active[i]].invlet);
                     mvwprintz(wBio, list_start_y + i, second_column + 2, type,
-                              (traits[active[i]].powered ? _("%s - ON") : _("%s - %d PU / %d turns")),
+                              (traits[active[i]].powered ? _("%s - Active") : _("%s - %d RU / %d turns")),
                               traits[active[i]].name.c_str(),
                               traits[active[i]].cost,
                               traits[active[i]].cooldown);
@@ -324,7 +345,6 @@ void player::power_mutations()
             const trait mut_data = traits[mut_id];
             if (menu_mode == "activating") {
                 if (mut_data.activated) {
-                    itype_id weapon_id = weapon.type->id;
                     int b = tmp - &my_mutations[0];
                     if (traits[*tmp].powered) {
                         traits[*tmp].powered = false;
@@ -342,7 +362,7 @@ void player::power_mutations()
                         g->draw();
                         activate_mutation(b);
                     } else {
-                        popup( _( "You don't have enough power to activate the %s." ), mut_data.name.c_str() );
+                        popup( _( "You don't have enough in you to activate your %s!" ), mut_data.name.c_str() );
                         redraw = true;
                         continue;
                     }
@@ -350,7 +370,7 @@ void player::power_mutations()
                     break;
                 } else {
                     popup(_("\
-You can not activate %s!  To read a description of \
+You cannot activate %s!  To read a description of \
 %s, press '!', then '%c'."), mut_data.name.c_str(), mut_data.name.c_str(), traits[*tmp].invlet);
                     redraw = true;
                 }
@@ -364,7 +384,7 @@ You can not activate %s!  To read a description of \
             }
         }
     }
-    //if we activated a mutations, already killed the windows
+    //if we activated a mutation, already killed the windows
     if(!(menu_mode == "activating")) {
         werase(wBio);
         wrefresh(wBio);
@@ -640,8 +660,6 @@ void player::mutate_towards(std::string mut)
     bool threshold = mutation_data[mut].threshold;
     bool has_threshreq = false;
     std::vector<std::string> threshreq = mutation_data[mut].threshreq;
-    std::vector<std::string> mutcat;
-    mutcat = mutation_data[mut].category;
 
     // It shouldn't pick a Threshold anyway--they're supposed to be non-Valid
     // and aren't categorized--but if it does, just reroll
@@ -1262,7 +1280,7 @@ void mutation_loss_effect(player &p, std::string mut)
     } else if (mut == "DEX_UP") {
         p.dex_max --;
 
-    } else if (mut == "BENDY01") {
+    } else if (mut == "BENDY1") {
         p.dex_max --;
 
     } else if (mut == "BENDY2") {

@@ -1,5 +1,6 @@
 [
-	{
+    {
+
             "type": "profession",
             "ident": "bionic_prepper",
             "name": "Bionic Prepper",
@@ -39,7 +40,7 @@
                     "tshirt",
                     "socks",
                     "backpack",
-                    "pockknife",
+                    "knife_swissarmy",
                     "rope_30",
                     "canteen"
                 ],
@@ -51,7 +52,7 @@
                     "boxer_shorts"
                 ]
             }
-        },
+    },
     {
         "type": "profession",
         "ident": "unemployed",
@@ -116,12 +117,12 @@
         ],
         "items": {
             "both": [
-                "jeans",
+                "pants",
                 "tshirt",
                 "socks",
                 "sweater",
                 "sneakers",
-                "pockknife",
+                "multitool",
                 "water_clean",
                 "matches"
             ],
@@ -336,8 +337,8 @@
                 "level": 2
             },
             {
-            	"name": "carpentry",
-            	"level": 1
+                    "name": "carpentry",
+                    "level": 1
             }
         ],
         "items": {
@@ -350,8 +351,8 @@
                 "boots",
                 "tank_top",
                 "honeycomb",
-		"honey_bottled",
-		"honey_bottled"
+                "honey_bottled",
+                "honey_bottled"
 
 
             ],
@@ -384,12 +385,12 @@
         "items": {
             "both": [
                 "tank_top",
-		"jersey",
+                "jersey",
                 "b_shorts",
                 "socks",
                 "sneakers",
                 "basketball",
- 		"sports_drink"
+                 "sports_drink"
             ],
             "male": [
                 "boxer_shorts"
@@ -525,7 +526,7 @@
                 "rm2000_smg",
                 "suppressor",
                 "8mm_fmj",
-                "knife_trench"
+                "kukri"
             ],
             "male": [
                 "boxer_shorts"
@@ -685,7 +686,7 @@
                 "jacket_light",
                 "holster",
                 "baton",
-                "cx4",
+                "m9",
                 "9mm",
                 "pockknife",
                 "hat_ball"
@@ -741,7 +742,7 @@
                 "tshirt",
                 "socks",
                 "backpack",
-                "knife_combat",
+                "knife_rambo",
                 "lighter",
                 "rope_30",
                 "canteen",
@@ -957,7 +958,7 @@
                 "pants_cargo",
                 "compbow",
                 "arrow_cf",
-                "knife_combat",
+                "knife_hunting",
                 "hat_hunting",
                 "quiver"
             ],
@@ -1123,7 +1124,7 @@
         "items": {
             "both": [
                 "pants",
-                "tshirt",
+                ["tshirt_text", "allyourbase"],
                 "socks",
                 "sneakers",
                 "portable_game",
@@ -1205,7 +1206,7 @@
                 "boots",
                 "bandana",
                 "jacket_leather",
-                "pockknife"
+                "knife_trench"
             ],
             "male": [
                 "boxer_shorts"
@@ -1327,7 +1328,8 @@
                 "bra",
                 "panties"
             ]
-        }
+        },
+        "flags" : ["SCEN_ONLY"]
     },
     {
         "type" : "profession",
@@ -1837,7 +1839,7 @@
                 "hat_hunting",
                 "jacket_flannel",
                 "beartrap",
-                "pockknife",
+                "knife_hunting",
                 "tobacco",
                 "rolling_paper",
                 "matches"
@@ -2608,7 +2610,7 @@
         "name": "Archaeologist",
         "description": "While on your way to a long-lost temple following a clue from your dead grandfather's journal, the ground started to shake uncontrollably.  Getting a bad feeling about the situation, you head to the nearest shelter.",
         "points": 5,
-		"skills": [
+                "skills": [
             {
                 "level": 2,
                 "name": "melee"
@@ -2649,7 +2651,7 @@
         "name": "Roller Derby Player",
         "description": "You were hell on wheels prior to the apocalypse.  Now the rest of your team is dead, and you probably wouldn't have lived this long if not for your penchant for high-speed violence.  Things are looking grim; how long can you race laps around the undead before you get blocked for good?",
         "points": 2,
-		"skills": [
+                "skills": [
             {
                 "level": 1,
                 "name": "melee"
@@ -2696,7 +2698,7 @@
                 "jeans",
                 "tshirt",
                 "backpack",
-                "pockknife",
+                "multitool",
                 "hoe",
                 "socks",
                 "boots",
@@ -2751,12 +2753,12 @@
         }
     },
     {
-	"type": "profession",
-	"ident": "winter_survivor",
-	"name" : "Hardened Survivor",
-	"description" : "One of the lucky few who escaped the cataclysm, you made a life for yourself living off nature's bounties and what you could get outside the death traps of the large city.",
-	"points" : 6,
-	"skills": [
+        "type": "profession",
+        "ident": "winter_survivor",
+        "name" : "Hardened Survivor",
+        "description" : "One of the lucky few who escaped the cataclysm, you made a life for yourself living off nature's bounties and what you could get outside the death traps of the large city.",
+        "points" : 6,
+        "skills": [
             {
                 "level": 5,
                 "name": "survival"
@@ -2769,10 +2771,10 @@
                 "level": 5,
                 "name": "melee"
             },
-	    {
-		"level" : 4,
-		"name" : "tailor"
-	    },
+            {
+                "level" : 4,
+                "name" : "tailor"
+            },
             {
                 "level": 3,
                 "name": "archery"
@@ -2787,12 +2789,12 @@
                 "boots_wsurvivor",
                 "hood_wsurvivor",
                 "gloves_wsurvivor",
-		"quiver_large",
-		"crossbow",
-		"bolt_wood",
-		"bolt_wood",
-		"mess_kit",
-		"knife_combat"
+                "quiver_large",
+                "crossbow",
+                "bolt_wood",
+                "bolt_wood",
+                "mess_kit",
+                "kukri"
             ],
             "male": [
                 "boxer_shorts"
@@ -2802,15 +2804,15 @@
                 "panties"
             ]
         },
-	"flags" : ["SCEN_ONLY"]
+        "flags" : ["SCEN_ONLY"]
     },
     {
-	"type": "profession",
-	"ident": "winter_scavenger",
-	"name" : "Hardened Scavenger",
-	"description" : "One of the lucky few who escaped the cataclysm, you made a life for yourself on the ruins of others. Whether by force, guile, or luck, you've obtained the best gear you could find.",
-	"points" : 8,
-	"skills": [
+        "type": "profession",
+        "ident": "winter_scavenger",
+        "name" : "Hardened Scavenger",
+        "description" : "One of the lucky few who escaped the cataclysm, you made a life for yourself on the ruins of others. Whether by force, guile, or luck, you've obtained the best gear you could find.",
+        "points" : 8,
+        "skills": [
             {
                 "level": 5,
                 "name": "melee"
@@ -2823,10 +2825,10 @@
                 "level": 3,
                 "name": "dodge"
             },
-	    {
-		"level" : 4,
-		"name" : "mechanics"
-	    },
+            {
+                "level" : 4,
+                "name" : "mechanics"
+            },
             {
                 "level": 3,
                 "name": "rifle"
@@ -2841,11 +2843,11 @@
                 "boots_combat",
                 "tac_helmet",
                 "gloves_tactical",
-		"rucksack",
-		"scar_h",
-		"762_51",
-		"katana",
-	        "scabbard"
+                "rucksack",
+                "scar_h",
+                "762_51",
+                "katana",
+                "scabbard"
             ],
             "male": [
                 "boxer_shorts"
@@ -2855,7 +2857,7 @@
                 "panties"
             ]
         },
-	"flags" : ["SCEN_ONLY"]
+        "flags" : ["SCEN_ONLY"]
     },{
         "type": "profession",
         "ident": "mall_cop",
@@ -2881,6 +2883,167 @@
             "female": [
                 "bra",
                 "boy_shorts"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "fisher",
+        "name": "Fisher",
+        "description": "You spent most of your days just fishing in the swamps getting by quietly on what you caught. You found the buzzing of insects enjoyable, but they got bigger and more mean. Now their horrible noises have you spooked- you just hope the fish aren't as nasty.",
+        "points": 2,
+        "skills": [
+            {
+                "level": 2,
+                "name": "swimming"
+            },
+            {
+                "level": 2,
+                "name": "survival"
+            }
+        ],
+        "items": {
+            "both": [
+                "jeans",
+                "tank_top",
+                "socks",
+                "fishing_waders",
+                "knife_hunting",
+                "moonshine",
+                "lighter",
+                "fishing_rod_professional",
+                "fish_trap",
+                "vest",
+                "hat_boonie",
+                "jacket_flannel"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "reenactor",
+        "name": "Historical Reenactor",
+        "description": "You were on your way to the Annual All New England Revolutionary War Living History exhibition when the end of the world permanently derailed your plans.",
+        "points": 3,
+        "skills": [
+            {
+                "level": 2,
+                "name": "survival"
+            },
+            {
+                "level": 2,
+                "name": "tailor"
+            },
+            {
+                "level": 1,
+                "name": "gun"
+            },
+            {
+                "level": 1,
+                "name": "cooking"
+            }
+        ],
+        "items": {
+            "both": [
+                "stockings",
+                "pockknife",
+                "matches",
+                "pipe_tobacco",
+                "tobacco"
+            ],
+            "male": [
+                "knee_high_boots",
+                "pants_leather",
+                "waistcoat",
+                "peacoat",
+                "leather_belt",
+                "knit_scarf",
+                "tricorne",
+                "rifle_flintlock",
+                "flintlock_ammo",
+                "hatchet",
+                "hardtack"
+            ],
+            "female": [
+                "dress",
+                "apron_leather",
+                "boots",
+                "gloves_leather",
+                "long_knit_scarf",
+                "hat_fur",
+                "purse",
+                "oil_lamp",
+                "needle_wood",
+                "pot",
+                "cornmeal",
+                "salt"
+            ]
+        }
+    },{
+        "type": "profession",
+        "ident": "reenactor2",
+        "name": "Ahistorical Reenactor",
+        "description": "You were on your way to the Annual All New England Revolutionary War Living History exhibition when the end of the world made traditional gender roles obsolete.",
+        "points": 3,
+        "skills": [
+            {
+                "level": 2,
+                "name": "survival"
+            },
+            {
+                "level": 2,
+                "name": "tailor"
+            },
+            {
+                "level": 1,
+                "name": "gun"
+            },
+            {
+                "level": 1,
+                "name": "cooking"
+            }
+        ],
+        "items": {
+            "both": [
+                "stockings",
+                "pockknife",
+                "matches",
+                "pipe_tobacco",
+                "tobacco"
+            ],
+            "male": [
+                "dress",
+                "apron_leather",
+                "boots",
+                "gloves_leather",
+                "long_knit_scarf",
+                "hat_fur",
+                "purse",
+                "oil_lamp",
+                "needle_wood",
+                "pot",
+                "cornmeal",
+                "salt"
+            ],
+            "female": [
+                "knee_high_boots",
+                "pants_leather",
+                "waistcoat",
+                "peacoat",
+                "leather_belt",
+                "knit_scarf",
+                "tricorne",
+                "rifle_flintlock",
+                "flintlock_ammo",
+                "hatchet",
+                "hardtack"
             ]
         }
     }

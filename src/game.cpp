@@ -6,7 +6,6 @@
 #include "line.h"
 #include "computer.h"
 #include "veh_interact.h"
-#include "advanced_inv.h"
 #include "options.h"
 #include "auto_pickup.h"
 #include "mapbuffer.h"
@@ -31,6 +30,7 @@
 #include "monattack.h"
 #include "worldfactory.h"
 #include "file_finder.h"
+#include "file_wrapper.h"
 #include "mod_manager.h"
 #include "path_info.h"
 #include "mapsharing.h"
@@ -85,6 +85,7 @@ bool is_valid_in_w_terrain(int x, int y)
 
 // This is the main game set-up process.
 game::game() :
+    new_game(false),
     uquit(QUIT_NO),
     w_terrain(NULL),
     w_minimap(NULL),
@@ -94,7 +95,7 @@ game::game() :
     w_status(NULL),
     w_status2(NULL),
     dangerous_proximity(5),
-    run_mode(1),
+    safe_mode(SAFE_MODE_ON),
     mostseen(0),
     gamemode(NULL),
     lookHeight(13),
@@ -524,6 +525,7 @@ void game::setup()
     monstairz = -1;
     last_target = -1;  // We haven't targeted any monsters yet
     last_target_was_npc = false;
+    new_game = true;
     uquit = QUIT_NO;   // We haven't quit the game
 
     weather = WEATHER_CLEAR; // Start with some nice weather...
@@ -568,11 +570,12 @@ void game::start_game(std::string worldname)
         gamemode = new special_game();
     }
 
+    new_game = true;
     calendar::turn = HOURS(ACTIVE_WORLD_OPTIONS["INITIAL_TIME"]);
     determine_starting_season();
     nextweather = calendar::turn;
     weatherSeed = rand();
-    run_mode = (OPTIONS["SAFEMODE"] ? 1 : 0);
+    safe_mode = (OPTIONS["SAFEMODE"] ? SAFE_MODE_ON : SAFE_MODE_OFF);
     mostseen = 0; // ...and mostseen is 0, we haven't seen any monsters yet.
 
     init_autosave();
@@ -639,7 +642,7 @@ void game::start_game(std::string worldname)
     //Load NPCs. Set nearby npcs to active.
     load_npcs();
     //spawn the monsters
-    m.spawn_monsters(); // Static monsters
+    m.spawn_monsters( true ); // Static monsters
 
     //Create mutation_category_level
     u.set_highest_cat_level();
@@ -920,6 +923,11 @@ void game::cleanup_at_end()
                                pgettext("memorial_female", "%s was killed."),
                                u.name.c_str());
         }
+        if (!sLastWords.empty()) {
+            u.add_memorial_log( _("Last words: %s"), sLastWords.c_str(), _("Last words: %s"), sLastWords.c_str() );
+        }
+        save_player_data();
+        move_save_to_graveyard();
         write_memorial_file(sLastWords);
         u.memorial_log.clear();
         std::vector<std::string> characters = list_active_characters();
@@ -937,11 +945,13 @@ void game::cleanup_at_end()
             }
         } else if (ACTIVE_WORLD_OPTIONS["DELETE_WORLD"] != "no") {
             std::stringstream message;
-            message << _("World retained. Characters remaining:");
+            std::string tmpmessage;
             for (std::vector<std::string>::iterator it = characters.begin();
                  it != characters.end(); ++it) {
-                message << "\n  " << *it;
+                tmpmessage += "\n  ";
+                tmpmessage += *it;
             }
+            message << string_format(_("World retained. Characters remaining:%s"),tmpmessage.c_str());
             popup(message.str(), PF_NONE);
         }
         if (gamemode) {
@@ -1078,8 +1088,12 @@ bool game::do_turn()
         return true;
     }
     // Actual stuff
-    gamemode->per_turn();
-    calendar::turn.increment();
+    if (new_game) {
+        new_game = false;
+    } else {
+        gamemode->per_turn();
+        calendar::turn.increment();
+    }
     process_events();
     process_missions();
     if (calendar::turn.hours() == 0 && calendar::turn.minutes() == 0 &&
@@ -1092,6 +1106,9 @@ bool game::do_turn()
 
     if (calendar::turn % 50 == 0) { //move hordes every 5 min
         cur_om->move_hordes();
+        // Hordes that reached the reality bubble need to spawn,
+        // make them spawn in invisible areas only.
+        m.spawn_monsters( false );
     }
 
     // Check if we've overdosed... in any deadly way.
@@ -1115,9 +1132,7 @@ bool game::do_turn()
         u.add_memorial_log(pgettext("memorial_male", "Died of a healing stimulant overdose."),
                            pgettext("memorial_female", "Died of a healing stimulant overdose."));
         u.hp_cur[hp_torso] = 0;
-    } else if (u.has_disease("datura") &&
-               u.disease_duration("datura") > 14000 &&
-			   one_in(512)) {
+    } else if (u.has_disease("datura") && u.disease_duration("datura") > 14000 && one_in(512)) {
         if (!(u.has_trait("NOPAIN"))) {
             add_msg(m_bad, _("Your heart spasms painfully and stops, dragging you back to reality as you die."));
         } else {
@@ -1357,7 +1372,7 @@ bool game::do_turn()
 
     // Auto-save if autosave is enabled
     if (OPTIONS["AUTOSAVE"] &&
-        calendar::turn % ((int)OPTIONS["AUTOSAVE_TURNS"] * 10) == 0) {
+        calendar::turn % ((int)OPTIONS["AUTOSAVE_TURNS"]) == 0) {
         autosave();
     }
 
@@ -1428,6 +1443,7 @@ bool game::do_turn()
     }
 
     u.update_bodytemp();
+    u.update_body_wetness();
 
     rustCheck();
     if (calendar::turn % 10 == 0) {
@@ -1513,10 +1529,12 @@ void game::process_activity()
     if (int(calendar::turn) % 50 == 0) {
         draw();
     }
-    activity_on_turn();
-    if (u.activity.moves_left <= 0) { // We finished our activity!
-        activity_on_finish();
-    }
+    do {
+        activity_on_turn();
+        if (u.activity.moves_left <= 0) { // We finished our activity!
+            activity_on_finish();
+        }
+    } while( u.moves > 0 && u.activity.type != ACT_NULL );
 }
 
 void on_turn_activity_pickaxe(player *p);
@@ -1655,7 +1673,7 @@ void game::activity_on_turn_refill_vehicle()
     }
     for(int i = -1; i <= 1; i++) {
         for(int j = -1; j <= 1; j++) {
-            if(m.ter(u.posx + i, u.posy + j) == t_gas_pump) {
+            if(m.ter(u.posx + i, u.posy + j) == t_gas_pump || m.ter_at(u.posx + i, u.posy + j).id == "t_gas_pump_a") {
                 for( auto it = m.i_at(u.posx + i, u.posy + j).begin();
                      it != m.i_at(u.posx + i, u.posy + j).end();) {
                     if (it->type->id == "gasoline") {
@@ -1824,16 +1842,21 @@ void game::activity_on_finish()
         activity_on_finish_make_zlave();
         u.activity.type = ACT_NULL;
         break;
+    case ACT_PICKUP:
+    case ACT_MOVE_ITEMS:
+        // Do nothing, the only way this happens is if we set this activity after
+        // entering the advanced inventory menu as an activity, and we want it to play out.
+        break;
     default:
         u.activity.type = ACT_NULL;
     }
     if (u.activity.type == ACT_NULL) {
         // Make sure data of previous activity is cleared
         u.activity = player_activity();
-    }
-    if( !u.backlog.empty() && u.backlog.front().auto_resume ) {
-        u.activity = u.backlog.front();
-        u.backlog.pop_front();
+        if( !u.backlog.empty() && u.backlog.front().auto_resume ) {
+            u.activity = u.backlog.front();
+            u.backlog.pop_front();
+        }
     }
 }
 
@@ -1912,28 +1935,57 @@ void game::activity_on_finish_firstaid()
 void game::activity_on_finish_fish()
 {
     item &it = u.i_at(u.activity.position);
-
+    int sSkillLevel = 0; //given values to avoid possible null errors if the item used has not any of the flags.
+    int fishChance = 20;
     if (it.has_flag("FISH_POOR")) {
-        int sSkillLevel = u.skillLevel("survival") + dice(1, 6);
-        int fishChance = dice(1, 20);
+        sSkillLevel = u.skillLevel("survival") + dice(1, 6);
+        fishChance = dice(1, 20);
+    } else if (it.has_flag("FISH_GOOD")) {
+        sSkillLevel = u.skillLevel("survival")*1.5 + dice(1, 6) + 3; //much better chances with a good fishing implement
+        fishChance = dice(1, 20);
+    }
+    rod_fish(sSkillLevel,fishChance);
+    u.practice("survival", rng(5, 15));
+    u.activity.type = ACT_NULL;
+}
 
-        if (sSkillLevel > fishChance) {
+void game::rod_fish(int sSkillLevel, int fishChance) // fish-with-rod fish catching function
+{
+    if (sSkillLevel > fishChance) {
+        std::vector<monster*> fishables = get_fishable(60); //get the nearby fish list.
+        //if the vector is empty (no fish around) the player is still given a small chance to get a (let us say it was hidden) fish
+        if (fishables.size() < 1){
+            if (one_in(20)) {
             item fish;
-
             std::vector<std::string> fish_group = MonsterGroupManager::GetMonstersFromGroup("GROUP_FISH");
             std::string fish_mon = fish_group[rng(1, fish_group.size()) - 1];
-
             fish.make_corpse("corpse", GetMType(fish_mon), calendar::turn);
             m.add_item_or_charges(u.posx, u.posy, fish);
-
             u.add_msg_if_player(m_good, _("You catch a fish!"));
+            } else {
+                u.add_msg_if_player(_("You catch nothing."));
+            }
         } else {
-            u.add_msg_if_player(_("You catch nothing."));
+            u.add_msg_if_player(m_good, _("You catch a fish!"));
+            catch_a_monster(fishables, u.posx, u.posy, &g->u, 30000);
         }
 
-        u.practice("survival", rng(5, 15));
+    } else {
+        u.add_msg_if_player(_("You catch nothing."));
     }
-    u.activity.type = ACT_NULL;
+}
+
+void game::catch_a_monster(std::vector<monster*> &catchables, int posx, int posy, player *p, int catch_duration) // catching function
+{
+    int index = rng(1, catchables.size()) - 1; //get a random monster from the vector
+    //spawn the corpse, rotten by a part of the duration
+    item fish;
+    fish.make_corpse("corpse", catchables[index]->type, calendar::turn + int(rng(0, catch_duration)));
+    m.add_item_or_charges(posx, posy, fish);
+    //quietly kill the catched
+    catchables[index]->no_corpse_quiet = true;
+    catchables[index]->die( p );
+    catchables.erase (catchables.begin()+index);
 }
 
 void game::activity_on_finish_vehicle()
@@ -2038,7 +2090,8 @@ void game::update_weather()
         g->lightning_active = false;
         nextweather += 50; // Check weather each 50 turns.
         if (weather != old_weather && weather_data[weather].dangerous &&
-            levz >= 0 && m.is_outside(u.posx, u.posy)) {
+            levz >= 0 && m.is_outside(u.posx, u.posy)
+            && !u.has_activity(ACT_WAIT_WEATHER)) {
             cancel_activity_query(_("The weather changed to %s!"), weather_data[weather].name.c_str());
         }
 
@@ -2359,13 +2412,16 @@ void game::handle_key_blocking_activity()
 {
     // If player is performing a task and a monster is dangerously close, warn them
     // regardless of previous safemode warnings
-    if (is_hostile_very_close() &&
-        u.activity.type != ACT_NULL &&
-        u.activity.moves_left > 0 &&
-        !u.activity.warned_of_proximity) {
-        u.activity.warned_of_proximity = true;
-        if (cancel_activity_query(_("Monster dangerously close!"))) {
-            return;
+    if (u.activity.type != ACT_NULL &&
+            u.activity.moves_left > 0 &&
+            !u.activity.warned_of_proximity) {
+        Creature *hostile_critter = is_hostile_very_close();
+        if (hostile_critter != nullptr) {
+            u.activity.warned_of_proximity = true;
+            if ( cancel_activity_query(_("You see %s approaching!"),
+                    hostile_critter->disp_name().c_str()) ) {
+                return;
+            }
         }
     }
 
@@ -3112,11 +3168,7 @@ bool game::handle_action()
         break; // handled above
 
     case ACTION_PAUSE:
-        if (run_mode == 2 && ((OPTIONS["SAFEMODEVEH"]) ||
-                              !(u.controlling_vehicle))) { // Monsters around and we don't wanna pause
-            add_msg(m_warning, _("Monster spotted--safe mode is on! (%s to turn it off.)"),
-                    press_x(ACTION_TOGGLE_SAFEMODE).c_str());
-        } else {
+        if( check_save_mode_allowed() ) {
             u.pause();
         }
         break;
@@ -3554,13 +3606,13 @@ bool game::handle_action()
         break;
 
     case ACTION_TOGGLE_SAFEMODE:
-        if (run_mode == 0 ) {
-            run_mode = 1;
+        if (safe_mode == SAFE_MODE_OFF ) {
+            safe_mode = SAFE_MODE_ON;
             mostseen = 0;
             add_msg(m_info, _("Safe mode ON!"));
         } else {
             turnssincelastmon = 0;
-            run_mode = 0;
+            safe_mode = SAFE_MODE_OFF;
             if (autosafemode) {
                 add_msg(m_info, _("Safe mode OFF! (Auto safe mode still enabled!)"));
             } else {
@@ -3580,14 +3632,14 @@ bool game::handle_action()
         break;
 
     case ACTION_IGNORE_ENEMY:
-        if (run_mode == 2) {
+        if (safe_mode == SAFE_MODE_STOP) {
             add_msg(m_info, _("Ignoring enemy!"));
             for(std::vector<int>::iterator it = new_seen_mon.begin();
                 it != new_seen_mon.end(); ++it) {
                 monster &critter = critter_tracker.find(*it);
                 critter.ignoring = rl_dist(point(u.posx, u.posy), critter.pos());
             }
-            run_mode = 1;
+            safe_mode = SAFE_MODE_ON;
         }
         break;
 
@@ -3835,11 +3887,6 @@ bool game::is_game_over()
         if (u.in_vehicle) {
             g->m.unboard_vehicle(u.posx, u.posy);
         }
-        std::stringstream playerfile;
-        playerfile << world_generator->active_world->world_path << "/" << base64_encode(u.name) << ".sav";
-        dbg( D_INFO ) << "Unlinking player file: <" << playerfile.str() << "> -- ";
-        bool ok = (unlink(playerfile.str().c_str()) == 0);
-        dbg( D_INFO ) << (ok ? "SUCCESS" : "FAIL");
         return true;
     }
     if (uquit != QUIT_NO) {
@@ -3851,11 +3898,6 @@ bool game::is_game_over()
                 g->m.unboard_vehicle(u.posx, u.posy);
             }
             u.place_corpse();
-            std::stringstream playerfile;
-            playerfile << world_generator->active_world->world_path << "/" << base64_encode(u.name) << ".sav";
-            dbg( D_INFO ) << "Unlinking player file: <" << playerfile.str() << "> -- ";
-            bool ok = (unlink(playerfile.str().c_str()) == 0);
-            dbg( D_INFO ) << (ok ? "SUCCESS" : "FAIL");
             uquit = QUIT_DIED;
             return true;
         }
@@ -3866,51 +3908,44 @@ bool game::is_game_over()
 void game::death_screen()
 {
     gamemode->game_over();
-
-#if (defined _WIN32 || defined __WIN32__)
-    WIN32_FIND_DATA FindFileData;
-    HANDLE hFind;
-    TCHAR Buffer[MAX_PATH];
-
-    GetCurrentDirectory(MAX_PATH, Buffer);
-    SetCurrentDirectory(FILENAMES["savedir"].c_str());
-    std::stringstream playerfile;
-    playerfile << base64_encode(u.name) << "*";
-    hFind = FindFirstFile(playerfile.str().c_str(), &FindFileData);
-    if (INVALID_HANDLE_VALUE != hFind) {
-        do {
-            DeleteFile(FindFileData.cFileName);
-        } while (FindNextFile(hFind, &FindFileData) != 0);
-        FindClose(hFind);
-    }
-    SetCurrentDirectory(Buffer);
-#else
-    DIR *save_dir = opendir(FILENAMES["savedir"].c_str());
-    struct dirent *save_dirent = NULL;
-    if(save_dir != NULL && 0 == chdir(FILENAMES["savedir"].c_str())) {
-        while ((save_dirent = readdir(save_dir)) != NULL) {
-            std::string name_prefix = save_dirent->d_name;
-            std::string tmpname = base64_encode(u.name);
-            name_prefix = name_prefix.substr(0, tmpname.length());
-
-            if (tmpname == name_prefix) {
-                std::string graveyard_path("../graveyard/");
-                mkdir(graveyard_path.c_str(), 0777);
-                graveyard_path.append(save_dirent->d_name);
-                (void)rename(save_dirent->d_name, graveyard_path.c_str());
-            }
-        }
-        int ret;
-        ret = chdir("..");
-        if (ret != 0) {
-            debugmsg("game::death_screen: Can\'t chdir(\"..\") from \"save\" directory");
-        }
-        (void)closedir(save_dir);
-    }
-#endif
-
     Messages::display_messages();
     disp_kills();
+}
+
+void game::move_save_to_graveyard()
+{
+    const std::string savedir = world_generator->active_world->world_path;
+    const std::string graveyarddir = FILENAMES["graveyarddir"];
+    const std::string prefix = base64_encode( u.name ) + ".";
+    if( !assure_dir_exist( graveyarddir ) ) {
+        debugmsg( "could not create graveyard path %s", graveyarddir.c_str() );
+    }
+    struct dirent *save_dirent = NULL;
+    DIR *save_dir = opendir( savedir.c_str() );
+    if( save_dir == NULL ) {
+        debugmsg( "could not open savedir %s", savedir.c_str() );
+        return;
+    }
+    while( ( save_dirent = readdir( save_dir ) ) != NULL ) {
+        const std::string name = save_dirent->d_name;
+        // Player character specific files are formed as
+        // <base64(player-name)>.<extension>
+        // extensions is '.sav' for the main save, .log for the memorial, ...
+        if( name.compare( 0, prefix.length(), prefix ) != 0 ) {
+            continue;
+        }
+        const std::string dstpath = graveyarddir + "/" + name;
+        const std::string srcpath = savedir + "/" + name;
+        // this might fail if the graveyard dir does not exist
+        if( !rename_file( srcpath, dstpath ) ) {
+            // Permadeath! The player file must be gone!
+            if( !remove_file( srcpath ) ) {
+                // AHHH, who or what prevents permadeath?
+                debugmsg( "could not remove file %s", srcpath.c_str() );
+            }
+        }
+    }
+    closedir( save_dir );
 }
 
 bool game::load_master(std::string worldname)
@@ -4148,9 +4183,9 @@ bool game::save_uistate()
     }
 }
 
-bool game::save()
+bool game::save_player_data()
 {
-    std::string playerfile = world_generator->active_world->world_path + "/" + base64_encode(u.name);
+    const std::string playerfile = world_generator->active_world->world_path + "/" + base64_encode(u.name);
     try {
         std::ofstream fout;
         fout.exceptions(std::ios::failbit | std::ios::badbit);
@@ -4166,6 +4201,19 @@ bool game::save()
         fout.open(std::string(playerfile + ".log").c_str());
         fout << u.dump_memorial();
         fout.close();
+        return true;
+    } catch (std::ios::failure &err) {
+        popup(_("Failed to save player data"));
+        return false;
+    }
+}
+
+bool game::save()
+{
+    try {
+        if( !save_player_data() ) {
+            return false;
+        }
         if (!save_factions_missions_npcs()) {
             return false;
         }
@@ -4431,7 +4479,7 @@ void game::debug()
             levz = tmp.z;
             m.load(levx, levy, levz, true, cur_om);
             load_npcs();
-            m.spawn_monsters(); // Static monsters
+            m.spawn_monsters( true ); // Static monsters
             update_overmap_seen();
             draw_minimap();
         }
@@ -4608,19 +4656,23 @@ void game::debug()
             data << npc_class_name(p->myclass) << "; " <<
                  npc_attitude_name(p->attitude) << std::endl;
             if (p->has_destination()) {
-                data << _("Destination: ") << p->goal.x << ":" << p->goal.y << "(" <<
-                     otermap[overmap_buffer.ter(p->goal)].name << ")" << std::endl;
+                data << string_format(_("Destination: %d:%d (%s)"),
+                        p->goal.x, p->goal.y,
+                        otermap[overmap_buffer.ter(p->goal)].name.c_str()) << std::endl;
             } else {
                 data << _("No destination.") << std::endl;
             }
-            data << _("Trust: ") << p->op_of_u.trust << _(" Fear: ") << p->op_of_u.fear <<
-                 _(" Value: ") << p->op_of_u.value << _(" Anger: ") << p->op_of_u.anger <<
-                 _(" Owed: ") << p->op_of_u.owed << std::endl;
+            data << string_format(_("Trust: %d"), p->op_of_u.trust) << " "
+                 << string_format(_("Fear: %d"), p->op_of_u.fear) << " "
+                 << string_format(_("Value: %d"), p->op_of_u.value) << " "
+                 << string_format(_("Anger: %d"), p->op_of_u.anger) << " "
+                 << string_format(_("Owed: %d"), p->op_of_u.owed) << std::endl;
 
-            data << _("Aggression: ") << int(p->personality.aggression) << _(" Bravery: ") <<
-                 int(p->personality.bravery) << _(" Collector: ") <<
-                 int(p->personality.collector) << _(" Altruism: ") <<
-                 int(p->personality.altruism) << std::endl << " " << std::endl;
+            data << string_format(_("Aggression: %d"), int(p->personality.aggression)) << " "
+                 << string_format(_("Bravery: %d"), int(p->personality.bravery)) << " "
+                 << string_format(_("Collector: %d"), int(p->personality.collector)) << " "
+                 << string_format(_("Altruism: %d"), int(p->personality.altruism)) << std::endl;
+
             nmenu.text = data.str();
             nmenu.addentry(0, true, 's', "%s", _("Edit [s]kills"));
             nmenu.addentry(1, true, 'i', "%s", _("Grant [i]tems"));
@@ -4743,7 +4795,7 @@ void game::debug()
             std::string spstr = "";
             for (int i = 0; i < ne; i++) {
                 itype *ity = item_controller->find_template(examples[i]);
-                exsp[i] = dynamic_cast<it_comest *>(ity)->spoils * 600;
+                exsp[i] = dynamic_cast<it_comest *>(ity)->spoils;
                 esz[i] = examples[i].size();
                 spstr = string_format("%s | %s", spstr.c_str(), examples[i].c_str());
             }
@@ -4856,7 +4908,7 @@ void game::disp_kills()
     if (data.empty()) {
         buffer << _("You haven't killed any monsters yet!");
     } else {
-        buffer << _("KILL COUNT: ") << totalkills;
+        buffer << string_format(_("KILL COUNT: %d"), totalkills);
     }
     display_table(w, buffer.str(), 3, data);
 
@@ -5253,13 +5305,13 @@ void game::draw_sidebar()
     //Safemode coloring
     WINDOW *day_window = sideStyle ? w_status2 : w_status;
     mvwprintz(day_window, 0, sideStyle ? 0 : 41, c_white, _("%s, day %d"),
-              season_name[calendar::turn.get_season()].c_str(), calendar::turn.days() + 1);
-    if (run_mode != 0 || autosafemode != 0) {
+              season_name_uc[calendar::turn.get_season()].c_str(), calendar::turn.days() + 1);
+    if (safe_mode != SAFE_MODE_OFF || autosafemode != 0) {
         int iPercent = int((turnssincelastmon * 100) / OPTIONS["AUTOSAFEMODETURNS"]);
         wmove(w_status, sideStyle ? 4 : 1, getmaxx(w_status) - 4);
         const char *letters[] = { "S", "A", "F", "E" };
         for (int i = 0; i < 4; i++) {
-            nc_color c = (run_mode == 0 && iPercent < (i + 1) * 25) ? c_red : c_green;
+            nc_color c = (safe_mode == SAFE_MODE_OFF && iPercent < (i + 1) * 25) ? c_red : c_green;
             wprintz(w_status, c, letters[i]);
         }
     }
@@ -5622,7 +5674,11 @@ void game::draw_minimap()
             } else {
                 const oter_id &cur_ter = overmap_buffer.ter(omx, omy, levz);
                 ter_sym = otermap[cur_ter].sym;
-                ter_color = otermap[cur_ter].color;
+                if (overmap_buffer.is_explored(omx, omy, levz)) {
+                    ter_color = c_dkgray;
+                } else {
+                    ter_color = otermap[cur_ter].color;
+                }
             }
             if (!drew_mission && targ.x == omx && targ.y == omy) {
                 // If there is a mission target, and it's not on the same
@@ -5912,32 +5968,19 @@ void game::remove_item(item *it)
     }
 }
 
-bool game::is_hostile_nearby()
+Creature *game::is_hostile_nearby()
 {
     int distance = (OPTIONS["SAFEMODEPROXIMITY"] <= 0) ? 60 : OPTIONS["SAFEMODEPROXIMITY"];
     return is_hostile_within(distance);
 }
 
-bool game::is_hostile_very_close()
+Creature *game::is_hostile_very_close()
 {
     return is_hostile_within(dangerous_proximity);
 }
 
-bool game::is_hostile_within(int distance)
+Creature *game::is_hostile_within(int distance)
 {
-    for (size_t i = 0; i < num_zombies(); i++) {
-        monster &critter = critter_tracker.find(i);
-
-        if ((critter.attitude(&u) != MATT_ATTACK) || (!u_see(&critter))) {
-            continue;
-        }
-
-        int mondist = rl_dist(u.posx, u.posy, critter.posx(), critter.posy());
-        if (mondist <= distance) {
-            return true;
-        }
-    }
-
     for (std::vector<npc *>::iterator it = active_npc.begin();
          it != active_npc.end(); ++it) {
         point npcp((*it)->posx, (*it)->posy);
@@ -5951,11 +5994,42 @@ bool game::is_hostile_within(int distance)
         }
 
         if (rl_dist(u.posx, u.posy, npcp.x, npcp.y) <= distance) {
-            return true;
+            return *it;
         }
     }
 
-    return false;
+    for (size_t i = 0; i < num_zombies(); i++) {
+        monster *critter = &critter_tracker.find(i);
+
+        if ((critter->attitude(&u) != MATT_ATTACK) || (!u_see(critter))) {
+            continue;
+        }
+
+        int mondist = rl_dist(u.posx, u.posy, critter->posx(), critter->posy());
+        if (mondist <= distance) {
+            return critter;
+        }
+    }
+
+    return nullptr;
+}
+
+//get the fishable critters around and return these
+std::vector<monster*> game::get_fishable(int distance)
+{
+    std::vector<monster*> unique_fish;
+    for (size_t i = 0; i < num_zombies(); i++) {
+        monster &critter = critter_tracker.find(i);
+
+        if (critter.has_flag(MF_FISHABLE)) {
+            int mondist = rl_dist(u.posx, u.posy, critter.posx(), critter.posy());
+            if (mondist <= distance) {
+            unique_fish.push_back (&critter);
+            }
+        }
+    }
+
+    return unique_fish;
 }
 
 // Print monster info to the given window, and return the lowest row (0-indexed)
@@ -6010,9 +6084,8 @@ int game::mon_info(WINDOW *w)
                 int mondist = rl_dist(u.posx, u.posy, critter.posx(), critter.posy());
                 if (mondist <= iProxyDist) {
                     bool passmon = false;
-
                     if (critter.ignoring > 0) {
-                        if (run_mode != 1) {
+                        if (safe_mode != SAFE_MODE_ON) {
                             critter.ignoring = 0;
                         } else if (mondist > critter.ignoring / 2 || mondist < 6) {
                             passmon = true;
@@ -6059,6 +6132,19 @@ int game::mon_info(WINDOW *w)
             if (!new_seen_mon.empty()) {
                 monster &critter = critter_tracker.find(new_seen_mon.back());
                 cancel_activity_query(_("%s spotted!"), critter.name().c_str());
+                if (u.has_trait("M_DEFENDER")) {
+                    if (critter.type->in_species("PLANT")) {
+                        add_msg(m_warning, _("We have detected a %s."), critter.name().c_str());
+                        if (!u.has_disease("adrenaline")){
+                            u.add_disease("adrenaline", 300); // Message handled in disease.cpp
+                        } else if (u.has_disease("adrenaline") && (u.disease_duration("adrenaline") < 150) ) {
+                            // Triffids present.  We ain't got TIME to adrenaline comedown!
+                            u.add_disease("adrenaline", 150);
+                            u.mod_pain(3); // Does take it out of you, though
+                            add_msg(m_info, _("Our fibers strain with renewed wrath!"));
+                        }
+                    }
+                }
             } else {
                 //Hostile NPC
                 cancel_activity_query(_("Hostile survivor spotted!"));
@@ -6067,18 +6153,18 @@ int game::mon_info(WINDOW *w)
             cancel_activity_query(_("Monsters spotted!"));
         }
         turnssincelastmon = 0;
-        if (run_mode == 1) {
-            run_mode = 2; // Stop movement!
+        if (safe_mode == SAFE_MODE_ON) {
+            safe_mode = SAFE_MODE_STOP; // Stop movement!
         }
     } else if (autosafemode && newseen == 0) { // Auto-safemode
         turnssincelastmon++;
-        if (turnssincelastmon >= OPTIONS["AUTOSAFEMODETURNS"] && run_mode == 0) {
-            run_mode = 1;
+        if (turnssincelastmon >= OPTIONS["AUTOSAFEMODETURNS"] && safe_mode == SAFE_MODE_OFF) {
+            safe_mode = SAFE_MODE_ON;
         }
     }
 
-    if (newseen == 0 && run_mode == 2) {
-        run_mode = 1;
+    if (newseen == 0 && safe_mode == SAFE_MODE_STOP) {
+        safe_mode = SAFE_MODE_ON;
     }
 
     mostseen = newseen;
@@ -6399,11 +6485,6 @@ bool game::sound(int x, int y, int vol, std::string description, bool ambient)
     // --- Player stuff below this point ---
     int dist = rl_dist(x, y, u.posx, u.posy);
 
-    // Player volume meter includes all sounds from their tile and adjacent tiles
-    if (dist <= 1) {
-        u.volume += vol;
-    }
-
     // Mutation/Bionic volume modifiers
     if (u.has_bionic("bio_ears")) {
         vol *= 3.5;
@@ -6443,6 +6524,11 @@ bool game::sound(int x, int y, int vol, std::string description, bool ambient)
         }
         // We're deaf, can't hear it
         return false;
+    }
+
+    // Player volume meter includes all sounds from their tile and adjacent tiles
+    if (dist <= 1) {
+        u.volume = std::max( u.volume, vol );
     }
 
     // Check for deafness
@@ -6549,9 +6635,6 @@ void game::do_blast(const int x, const int y, const int power, const int radius,
             }
             m.bash(i, j, dam);
             m.bash(i, j, dam); // Double up for tough doors, etc.
-            if (m.is_destructable(i, j) && rng(25, 100) < dam) {
-                m.destroy(i, j, false);
-            }
 
             int mon_hit = mon_at(i, j), npc_hit = npc_at(i, j);
             if (mon_hit != -1) {
@@ -7140,7 +7223,7 @@ void game::resonance_cascade(int x, int y)
             case 16:
             case 17:
             case 18:
-                m.destroy(i, j, true);
+                m.destroy(i, j);
                 break;
             case 19:
                 explosion(i, j, rng(1, 10), rng(0, 1) * rng(0, 6), one_in(4));
@@ -7211,6 +7294,9 @@ void game::emp_blast(int x, int y)
                 add_msg(_("The %s beeps erratically and deactivates!"), critter.name().c_str());
                 remove_zombie(mondex);
                 m.spawn_item(x, y, "bot_rifleturret", 1, 0, calendar::turn);
+                if (critter.ammo > 0) {
+                    m.spawn_item(x, y, "556", 1, critter.ammo, calendar::turn);
+                }
             } else if (critter.type->id == "mon_manhack" && one_in(6)) {
                 add_msg(_("The %s flies erratically and drops from the air!"), critter.name().c_str());
                 remove_zombie(mondex);
@@ -7414,10 +7500,10 @@ bool game::revive_corpse(int x, int y, item *it)
     }
     int burnt_penalty = it->burnt;
     monster critter(it->corpse, x, y);
-    critter.speed = int(critter.speed * .8) - burnt_penalty / 2;
-    critter.hp = int(critter.hp    * .7) - burnt_penalty;
+    critter.set_speed_base( int(critter.get_speed_base() * 0.8) - (burnt_penalty / 2) );
+    critter.hp = int(critter.hp * 0.7) - burnt_penalty;
     if (it->damage > 0) {
-        critter.speed /= it->damage + 1;
+        critter.set_speed_base( critter.get_speed_base() / (it->damage + 1) );
         critter.hp /= it->damage + 1;
     }
     critter.no_extra_death_drops = true;
@@ -7605,7 +7691,7 @@ void game::smash()
 {
     const int move_cost = int(u.weapon.is_null() ? 80 : u.weapon.attack_time() * 0.8);
     bool didit = false;
-    int smashskill = int(u.str_cur / 2.5 + u.weapon.type->melee_dam);
+    int smashskill = int(u.str_cur + u.weapon.type->melee_dam);
     int smashx, smashy;
 
     if (!choose_adjacent(_("Smash where?"), smashx, smashy)) {
@@ -7628,8 +7714,7 @@ void game::smash()
             return; // don't smash terrain if we've smashed a corpse
         }
     }
-    didit = m.bash(smashx, smashy, smashskill);
-
+    didit = m.bash(smashx, smashy, smashskill).first;
     if (didit) {
         u.handle_melee_wear();
         u.moves -= move_cost;
@@ -7650,6 +7735,15 @@ void game::smash()
                 u.deal_damage( nullptr, bp_hand_l, damage_instance( DT_CUT, rng( 0, long( u.weapon.volume() * .5 ) ) ) );
             }
             u.remove_weapon();
+        }
+        if (smashskill < m.bash_resistance(smashx, smashy) && one_in(10)) {
+            if (m.has_furn(smashx, smashy) && m.furn_at(smashx, smashy).bash.str_min != -1) {
+                // %s is the smashed furniture
+                add_msg(m_neutral, _("You don't seem to be damaging the %s."), m.furnname(smashx, smashy).c_str());
+            } else {
+                // %s is the smashed terrain
+                add_msg(m_neutral, _("You don't seem to be damaging the %s."), m.tername(smashx, smashy).c_str());
+            }
         }
     } else {
         add_msg(_("There's nothing there to smash!"));
@@ -8508,11 +8602,19 @@ void game::examine(int examx, int examy)
     const furn_t *xfurn_t = &furnlist[m.furn(examx, examy)];
     const ter_t *xter_t = &terlist[m.ter(examx, examy)];
     iexamine xmine;
+    const int player_x = g->u.posx;
+    const int player_y = g->u.posy;
 
     if (m.has_furn(examx, examy)) {
         (xmine.*xfurn_t->examine)(&u, &m, examx, examy);
     } else {
         (xmine.*xter_t->examine)(&u, &m, examx, examy);
+    }
+
+    // Did the player get moved? Bail out if so; our examx and examy probably
+    // aren't valid anymore.
+    if (player_x != g->u.posx || player_y != g->u.posy) {
+        return;
     }
 
     if (curz != g->levz) {
@@ -8538,7 +8640,11 @@ void game::examine(int examx, int examy)
 
     if (m.has_flag("SEALED", examx, examy)) {
         if (none) {
-            add_msg(_("The %s is firmly sealed."), m.name(examx, examy).c_str());
+            if (m.has_flag("UNSTABLE", examx, examy)) {
+                add_msg(_("The %s is too unstable to remove anything."), m.name(examx, examy).c_str());
+            } else {
+                add_msg(_("The %s is firmly sealed."), m.name(examx, examy).c_str());
+            }
         }
     } else {
         //examx,examy has no traps, is a container and doesn't have a special examination function
@@ -8557,12 +8663,6 @@ void game::examine(int examx, int examy)
             Pickup::pick_up(examx, examy, 0);    // After disarming a trap, pick it up.
         }
     }
-}
-
-void game::advanced_inv()
-{
-    advanced_inventory advinv;
-    advinv.display();
 }
 
 //Shift player by one tile, look_around(), then restore previous position.
@@ -8658,8 +8758,7 @@ void game::print_fields_info(int lx, int ly, WINDOW *w_look, int column, int &li
     }
 
     field_entry *cur = NULL;
-    typedef std::map<field_id, field_entry *>::iterator field_iterator;
-    for (field_iterator it = tmpfield.getFieldStart(); it != tmpfield.getFieldEnd(); ++it) {
+    for( auto it = tmpfield.getFieldStart(); it != tmpfield.getFieldEnd(); ++it ) {
         cur = it->second;
         if (cur == NULL) {
             continue;
@@ -11231,24 +11330,25 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
         add_msg(m_info, _("Your %s needs 50 charges to fire!"), u.weapon.tname().c_str());
         return;
     }
-    if (u.weapon.has_flag("USE_UPS") && !u.has_charges("UPS_off", 5) &&
-        !u.has_charges("UPS_on", 5) && !u.has_charges("adv_UPS_off", 3) &&
-        !u.has_charges("adv_UPS_on", 3) && !(u.has_bionic("bio_ups") && u.power_level >= 5)) {
-        add_msg(m_info,
-                _("You need a UPS with at least 5 charges or an advanced UPS with at least 3 charges to fire that!"));
+    if (u.weapon.has_flag("FIRE_20") && u.weapon.num_charges() < 20) {
+        add_msg(m_info, _("Your %s needs 20 charges to fire!"), u.weapon.tname().c_str());
         return;
-    } else if (u.weapon.has_flag("USE_UPS_20") && !u.has_charges("UPS_off", 20) &&
-               !u.has_charges("UPS_on", 20) && !u.has_charges("adv_UPS_off", 12) &&
-               !u.has_charges("adv_UPS_on", 12) && !(u.has_bionic("bio_ups") && u.power_level >= 20)) {
-        add_msg(m_info,
-                _("You need a UPS with at least 20 charges or an advanced UPS with at least 12 charges to fire that!"));
-        return;
-    } else if (u.weapon.has_flag("USE_UPS_40") && !u.has_charges("UPS_off", 40) &&
-               !u.has_charges("UPS_on", 40) && !u.has_charges("adv_UPS_off", 24) &&
-               !u.has_charges("adv_UPS_on", 24) && !(u.has_bionic("bio_ups") && u.power_level >= 40)) {
-        add_msg(m_info,
-                _("You need a UPS with at least 40 charges or an advanced UPS with at least 24 charges to fire that!"));
-        return;
+    }
+    const it_gun *gun = dynamic_cast<const it_gun*>( u.weapon.type );
+    if( gun != nullptr && gun->ups_charges > 0 ) {
+        const int ups_drain = gun->ups_charges;
+        const int adv_ups_drain = std::min( 1, gun->ups_charges * 3 / 5 );
+        const int bio_power_drain = std::min( 1, gun->ups_charges / 5 );
+        if( !( u.has_charges( "UPS_off", ups_drain ) ||
+               u.has_charges( "UPS_on", ups_drain ) ||
+               u.has_charges( "adv_UPS_off", adv_ups_drain ) ||
+               u.has_charges( "adv_UPS_on", adv_ups_drain ) ||
+               (u.has_bionic( "bio_ups" ) && u.power_level >= bio_power_drain ) ) ) {
+            add_msg( m_info,
+                     _("You need a UPS with at least %d charges or an advanced UPS with at least %d charges to fire that!"),
+                     ups_drain, adv_ups_drain );
+            return;
+        }
     }
 
     if (u.weapon.has_flag("MOUNTED_GUN")) {
@@ -11335,9 +11435,12 @@ void game::butcher()
         return;
     }
 
-    if (is_hostile_nearby() &&
-        !query_yn(_("Hostiles are nearby! Start Butchering anyway?"))) {
-        return;
+    Creature *hostile_critter = is_hostile_very_close();
+    if (hostile_critter != nullptr) {
+        if (!query_yn(_("You see %s nearby! Start butchering anyway?"),
+                hostile_critter->disp_name().c_str()) ) {
+            return;
+        }
     }
 
     int butcher_corpse_index = 0;
@@ -12251,11 +12354,7 @@ void game::chat()
 
 void game::pldrive(int x, int y)
 {
-    if (run_mode == 2 && (OPTIONS["SAFEMODEVEH"])) { // Monsters around and we don't wanna run
-        add_msg(m_warning, _("Monster spotted--run mode is on! "
-                             "(%s to turn it off or %s to ignore monster.)"),
-                press_x(ACTION_TOGGLE_SAFEMODE).c_str(),
-                from_sentence_case(press_x(ACTION_IGNORE_ENEMY)).c_str());
+    if( !check_save_mode_allowed() ) {
         return;
     }
     int part = -1;
@@ -12298,13 +12397,33 @@ void game::pldrive(int x, int y)
     }
 }
 
+bool game::check_save_mode_allowed()
+{
+    if( safe_mode != SAFE_MODE_STOP ) {
+        return true;
+    }
+    // Currently driving around, ignore the monster, they have no chance against a proper car anyway (-:
+    if( u.controlling_vehicle && !OPTIONS["SAFEMODEVEH"] ) {
+        return true;
+    }
+    // Monsters around and we don't wanna run
+    std::string spotted_creature_name;
+    if( new_seen_mon.empty() ) {
+        // naming consistent with code in game::mon_info
+        spotted_creature_name = _( "a hostile survivor" );
+    } else {
+        spotted_creature_name = zombie( new_seen_mon.back() ).name();
+    }
+    add_msg( m_warning,
+             _( "Spotted %s--safe mode is on! (%s to turn it off or %s to ignore monster.)" ),
+             spotted_creature_name.c_str(), press_x( ACTION_TOGGLE_SAFEMODE ).c_str(),
+             from_sentence_case( press_x( ACTION_IGNORE_ENEMY ) ).c_str() );
+    return false;
+}
+
 bool game::plmove(int dx, int dy)
 {
-    if (run_mode == 2) {
-        // Monsters around and we don't wanna run
-        add_msg(m_warning, _("Monster spotted--safe mode is on! (%s to turn it off or %s to ignore monster.)"),
-                press_x(ACTION_TOGGLE_SAFEMODE).c_str(),
-                from_sentence_case(press_x(ACTION_IGNORE_ENEMY)).c_str());
+    if( !check_save_mode_allowed() ) {
         return false;
     }
     int x = 0;
@@ -12437,6 +12556,7 @@ bool game::plmove(int dx, int dy)
     bool pushing_furniture = false;  // moving -into- furniture tile; skip check for move_cost > 0
     bool pulling_furniture = false;  // moving -away- from furniture tile; check for move_cost > 0
     bool shifting_furniture = false; // moving furniture and staying still; skip check for move_cost > 0
+    bool pushing_vehicle = false;
     int movecost_modifier =
         0;       // pulling moves furniture into our origin square, so this changes to subtract it.
 
@@ -12447,14 +12567,16 @@ bool game::plmove(int dx, int dy)
             // actually the current tile.
             // If there's a vehicle there, it will actually result in failed movement.
             if (grabbed_vehicle == veh1) {
+                pushing_vehicle = true;
                 veh1 = veh0;
                 vpart1 = vpart0;
             }
-        } else if (u.grab_type ==
-                   OBJECT_FURNITURE) { // Determine if furniture grab is valid, and what we're wanting to do with it based on
-            point fpos(u.posx + u.grab_point.x, u.posy + u.grab_point.y); // where it is
+        } else if (u.grab_type == OBJECT_FURNITURE) {
+            // Determine if furniture grab is valid,
+            // and what we're wanting to do with it based on where it is and where we're going.
+            point fpos(u.posx + u.grab_point.x, u.posy + u.grab_point.y);
             if (m.has_furn(fpos.x, fpos.y)) {
-                pushing_furniture = (dx == u.grab_point.x && dy == u.grab_point.y); // and where we're going
+                pushing_furniture = (dx == u.grab_point.x && dy == u.grab_point.y);
                 if (!pushing_furniture) {
                     point fdest(fpos.x + dx, fpos.y + dy);
                     pulling_furniture = (fdest.x == u.posx && fdest.y == u.posy);
@@ -12485,14 +12607,14 @@ bool game::plmove(int dx, int dy)
         }
     }
 
-	bool toSwimmable = m.has_flag("SWIMMABLE", x, y);
-	bool toDeepWater = m.has_flag(TFLAG_DEEP_WATER, x, y);
-	bool fromSwimmable = m.has_flag("SWIMMABLE", u.posx, u.posy);
-	bool fromDeepWater = m.has_flag(TFLAG_DEEP_WATER, u.posx, u.posy);
-	bool fromBoat = veh0 && veh0->all_parts_with_feature(VPFLAG_FLOATS).size() > 0;
-	bool toBoat = veh1 && veh1->all_parts_with_feature(VPFLAG_FLOATS).size() > 0;
+    bool toSwimmable = m.has_flag("SWIMMABLE", x, y);
+    bool toDeepWater = m.has_flag(TFLAG_DEEP_WATER, x, y);
+    bool fromSwimmable = m.has_flag("SWIMMABLE", u.posx, u.posy);
+    bool fromDeepWater = m.has_flag(TFLAG_DEEP_WATER, u.posx, u.posy);
+    bool fromBoat = veh0 && veh0->all_parts_with_feature(VPFLAG_FLOATS).size() > 0;
+    bool toBoat = veh1 && veh1->all_parts_with_feature(VPFLAG_FLOATS).size() > 0;
 
-	if (toSwimmable && toDeepWater && !toBoat) { // Dive into water!
+    if (toSwimmable && toDeepWater && !toBoat) { // Dive into water!
         // Requires confirmation if we were on dry land previously
         if ((fromSwimmable && fromDeepWater && !fromBoat) || query_yn(_("Dive into the water?"))) {
             if ((!fromDeepWater || fromBoat) && u.swim_speed() < 500) {
@@ -12502,15 +12624,14 @@ bool game::plmove(int dx, int dy)
             }
             plswim(x, y);
         }
-    } else if (m.move_cost(x, y) > 0 || pushing_furniture || shifting_furniture) {
+    } else if (m.move_cost(x, y) > 0 || pushing_furniture || shifting_furniture || pushing_vehicle) {
         // move_cost() of 0 = impassible (e.g. a wall)
         u.set_underwater(false);
 
         //Ask for EACH bad field, maybe not? Maybe say "theres X bad shit in there don't do it."
         field_entry *cur = NULL;
         field &tmpfld = m.field_at(x, y);
-        std::map<field_id, field_entry *>::iterator field_it;
-        for (field_it = tmpfld.getFieldStart(); field_it != tmpfld.getFieldEnd(); ++field_it) {
+        for( auto field_it = tmpfld.getFieldStart(); field_it != tmpfld.getFieldEnd(); ++field_it ) {
             cur = field_it->second;
             if (cur == NULL) {
                 continue;
@@ -12525,7 +12646,13 @@ bool game::plmove(int dx, int dy)
             case fd_tear_gas:
             case fd_toxic_gas:
             case fd_gas_vent:
+            case fd_relax_gas:
                 dangerous = !(u.get_env_resist(bp_mouth) >= 15);
+                break;
+            case fd_fungal_haze:
+                dangerous = (!((u.get_env_resist(bp_mouth) >= 15) &&
+                              (u.get_env_resist(bp_eyes) >= 15) ) &&
+                              !u.has_trait("M_IMMUNE"));
                 break;
             default:
                 dangerous = cur->is_dangerous();
@@ -12557,7 +12684,7 @@ bool game::plmove(int dx, int dy)
                         return false;
                     }
                     drag_multiplier += (float)(grabbed_vehicle->total_mass() * 1000) /
-                                       (float)(u.weight_capacity() * 5);
+                        (float)(u.weight_capacity() * 5);
                     if (drag_multiplier > 2.0) {
                         add_msg(m_info, _("The %s is too heavy for you to budge!"), grabbed_vehicle->name.c_str());
                         return false;
@@ -12658,14 +12785,14 @@ bool game::plmove(int dx, int dy)
                     // Unfortunately, game::is_empty fails for tiles we're standing on,
                     // which will forbid pulling, so:
                     bool canmove = (
-                                       ( m.move_cost(fdest.x, fdest.y) > 0) &&
-                                       npc_at(fdest.x, fdest.y) == -1 &&
-                                       mon_at(fdest.x, fdest.y) == -1 &&
-                                       m.has_flag("FLAT", fdest.x, fdest.y) &&
-                                       !m.has_furn(fdest.x, fdest.y) &&
-                                       m.veh_at(fdest.x, fdest.y) == NULL &&
-                                       m.tr_at(fdest.x, fdest.y) == tr_null
-                                   );
+                        ( m.move_cost(fdest.x, fdest.y) > 0) &&
+                        npc_at(fdest.x, fdest.y) == -1 &&
+                        mon_at(fdest.x, fdest.y) == -1 &&
+                        m.has_flag("FLAT", fdest.x, fdest.y) &&
+                        !m.has_furn(fdest.x, fdest.y) &&
+                        m.veh_at(fdest.x, fdest.y) == NULL &&
+                        m.tr_at(fdest.x, fdest.y) == tr_null
+                        );
 
                     const furn_t furntype = m.furn_at(fpos.x, fpos.y);
                     int furncost = furntype.movecost;
@@ -12749,8 +12876,8 @@ bool game::plmove(int dx, int dy)
                         return false; // We moved furniture but stayed still.
                     } else if ( pushing_furniture &&
                                 m.move_cost(x, y) <= 0 ) { // Not sure how that chair got into a wall, but don't let player follow.
-                        add_msg( _("You let go of the %s as it slides past %s"), furntype.name.c_str(), m.ter_at(x,
-                                 y).name.c_str() );
+                        add_msg( _("You let go of the %s as it slides past %s"),
+                                 furntype.name.c_str(), m.ter_at(x, y).name.c_str() );
                         u.grab_point = point (0, 0);
                         u.grab_type = OBJECT_NONE;
                     }
@@ -12767,7 +12894,7 @@ bool game::plmove(int dx, int dy)
         // Calculate cost of moving
         bool diag = trigdist && u.posx != x && u.posy != y;
         u.moves -= int(u.run_cost(m.combined_movecost(u.posx, u.posy, x, y, grabbed_vehicle,
-                                  movecost_modifier), diag) * drag_multiplier);
+                                                      movecost_modifier), diag) * drag_multiplier);
 
         // Adjust recoil down
         if (u.recoil > 0) {
@@ -12790,47 +12917,54 @@ bool game::plmove(int dx, int dy)
             vehicle_part *part = &(veh1->parts[vpart1]);
             std::string label = veh1->get_label(part->mount_dx, part->mount_dy);
             if (label != "") {
-            	add_msg(m_info, _("Label here: %s"), label.c_str());
+                add_msg(m_info, _("Label here: %s"), label.c_str());
             }
-    	}
+        }
 
         std::string signage = m.get_signage(x, y);
         if (signage.size()) {
             add_msg(m_info, _("The sign says: %s"), signage.c_str());
         }
-        std::string *graffiti = m.graffiti_at(u.posx, u.posy).contents;
+        std::string *graffiti = m.graffiti_at(x, y).contents;
         if (graffiti) {
             add_msg(_("Written here: %s"), utf8_truncate(*graffiti, 40).c_str());
         }
         if (m.has_flag("ROUGH", x, y) && (!u.in_vehicle)) {
+            bool ter_or_furn = m.has_flag_ter( "ROUGH", x, y );
             if (one_in(5) && u.get_armor_bash(bp_foot_l) < rng(2, 5)) {
-                add_msg(m_bad, _("You hurt your left foot on the %s!"), m.tername(x, y).c_str());
+                add_msg(m_bad, _("You hurt your left foot on the %s!"),
+                        ter_or_furn ? m.tername(x, y).c_str() : m.furnname(x, y).c_str() );
                 u.deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, 1 ) );
             }
             if (one_in(5) && u.get_armor_bash(bp_foot_r) < rng(2, 5)) {
-                add_msg(m_bad, _("You hurt your right foot on the %s!"), m.tername(x, y).c_str());
+                add_msg(m_bad, _("You hurt your right foot on the %s!"),
+                        ter_or_furn ? m.tername(x, y).c_str() : m.furnname(x, y).c_str() );
                 u.deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, 1 ) );
             }
         }
-        if (m.has_flag("SHARP", x, y) && !one_in(3) && !one_in(40 - int(u.dex_cur / 2))
-            && (!u.in_vehicle)) {
-            if (!u.has_trait("PARKOUR") || one_in(4)) {
-                body_part bp = random_body_part();
-                if(u.deal_damage( nullptr, bp, damage_instance( DT_CUT, rng( 1, 4 ) ) ).total_damage() > 0) {
-                    //~ 1$s - bodypart name in accusative, 2$s is terrain name.
-                    add_msg(m_bad, _("You cut your %1$s on the %2$s!"),
-                                body_part_name_accusative(bp).c_str(),
-                                m.tername(x, y).c_str());
-                }
-                if ((u.has_trait("INFRESIST")) && (one_in(1024))) {
-                    u.add_disease("tetanus", 1, true);
-                } else if ((!u.has_trait("INFIMMUNE") || !u.has_trait("INFRESIST")) && (one_in(256))) {
-                    u.add_disease("tetanus", 1, true);
-                }
+        if( m.has_flag("SHARP", x, y) && !one_in(3) && !one_in(40 - int(u.dex_cur / 2)) &&
+            (!u.in_vehicle) && (!u.has_trait("PARKOUR") || one_in(4)) ) {
+            bool ter_or_furn = m.has_flag_ter( "SHARP", x, y );
+            body_part bp = random_body_part();
+            if(u.deal_damage( nullptr, bp, damage_instance( DT_CUT, rng( 1, 4 ) ) ).total_damage() > 0) {
+                //~ 1$s - bodypart name in accusative, 2$s is terrain name.
+                add_msg(m_bad, _("You cut your %1$s on the %2$s!"),
+                        body_part_name_accusative(bp).c_str(),
+                        ter_or_furn ? m.tername(x, y).c_str() : m.furnname(x, y).c_str() );
+            }
+            if ((u.has_trait("INFRESIST")) && (one_in(1024))) {
+                u.add_disease("tetanus", 1, true);
+            } else if ((!u.has_trait("INFIMMUNE") || !u.has_trait("INFRESIST")) && (one_in(256))) {
+                u.add_disease("tetanus", 1, true);
             }
         }
+        if (m.has_flag("UNSTABLE", x, y)) {
+            u.add_effect("bouldering", 1, 1, true);
+        } else if (u.has_effect("bouldering")) {
+            u.remove_effect("bouldering");
+        }
         if (g->u.has_trait("LEG_TENT_BRACE") && (!g->u.footwear_factor() ||
-              (g->u.footwear_factor() == .5 && one_in(2)))) {
+                                                 (g->u.footwear_factor() == .5 && one_in(2)))) {
             // DX and IN are long suits for Cephalopods,
             // so this shouldn't cause too much hardship
             // Presumed that if it's swimmable, they're
@@ -12841,7 +12975,7 @@ bool game::plmove(int dx, int dy)
             }
         }
         if (!u.has_artifact_with(AEP_STEALTH) && !u.has_trait("LEG_TENTACLES") &&
-          !u.has_trait("DEBUG_SILENT")) {
+            !u.has_trait("DEBUG_SILENT")) {
             if (u.has_trait("LIGHTSTEP") || u.is_wearing("rm13_armor_on")) {
                 sound(x, y, 2, "");    // Sound of footsteps may awaken nearby monsters
             } else if (u.has_trait("CLUMSY")) {
@@ -12886,9 +13020,12 @@ bool game::plmove(int dx, int dy)
                     return false;
                 } else if (critter.type->id == "mon_turret_rifle") {
                     if (query_yn(_("Deactivate the rifle turret?"))) {
-                        remove_zombie(mondex);
                         u.moves -= 100;
                         m.spawn_item(x, y, "bot_rifleturret", 1, 0, calendar::turn);
+                        if (critter.ammo > 0) {
+                            m.spawn_item(x, y, "556", 1, critter.ammo, calendar::turn);
+                        }
+                        remove_zombie(mondex);
                     }
                     return false;
                 } else {
@@ -13163,7 +13300,7 @@ bool game::plmove(int dx, int dy)
             u.moves -= 100;
         } else if (m.furn(x, y) != f_safe_c && m.open_door(x, y, !m.is_outside(u.posx, u.posy))) {
             u.moves -= 100;
-        } else if (m.ter(x, y) == t_door_locked || m.ter(x, y) == t_door_locked_alarm ||
+        } else if (m.ter(x, y) == t_door_locked || m.ter(x, y) == t_door_locked_peep || m.ter(x, y) == t_door_locked_alarm ||
                    m.ter(x, y) == t_door_locked_interior) {
             u.moves -= 100;
             add_msg(_("That door is locked!"));
@@ -13210,7 +13347,7 @@ void game::plswim(int x, int y)
     u.practice("swimming", u.is_underwater() ? 2 : 1);
     if (movecost >= 500) {
         if (!u.is_underwater() && !(g->u.shoe_type_count("swim_fins") == 2 ||
-            (g->u.shoe_type_count("swim_fins") == 1 && one_in(2)))) {
+                                    (g->u.shoe_type_count("swim_fins") == 1 && one_in(2)))) {
             add_msg(m_bad, _("You sink like a rock!"));
             u.set_underwater(true);
             u.oxygen = 30 + 2 * u.str_cur;
@@ -13229,7 +13366,7 @@ void game::plswim(int x, int y)
     u.inv.rust_iron_items();
 
     int drenchFlags = mfb(bp_leg_l) | mfb(bp_leg_r) | mfb(bp_torso) | mfb(bp_arm_l) |
-                        mfb(bp_arm_r) | mfb(bp_foot_l) | mfb(bp_foot_r);
+        mfb(bp_arm_r) | mfb(bp_foot_l) | mfb(bp_foot_r);
 
     if (get_temperature() <= 50) {
         drenchFlags |= mfb(bp_hand_l) | mfb(bp_hand_r);
@@ -13262,51 +13399,70 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
         bool thru = true;
         bool slam = false;
         int mondex = mon_at(x, y);
-        dam1 = flvel / 3 + rng(0, flvel * 1 / 3);
+        float previous_velocity = flvel;
+        monster *critter = nullptr;
+
+        dam1 = rng( flvel, flvel * 2.0 ) / 3;
         if (controlled) {
-            dam1 = std::max(dam1 / 2 - 5, 0);
+            dam1 = std::max((dam1 / 2) - 5, 0);
         }
         if (mondex >= 0) {
-            monster &critter = zombie(mondex);
+            critter = &zombie(mondex);
             slam = true;
-            dname = critter.name();
-            dam2 = flvel / 3 + rng(0, flvel * 1 / 3);
-            critter.apply_damage( c, bp_torso, dam2 );
-            if( !critter.is_dead() ) {
+            dname = critter->name();
+            dam2 = rng( flvel, flvel * 2.0 );
+            critter->apply_damage( c, bp_torso, dam2 );
+            if( !critter->is_dead() ) {
                 thru = false;
-            }
-            if( p != nullptr ) {
-                p->hitall(dam1, 40);
-            } else {
-                zz->apply_damage( &critter, bp_torso, dam1 );
             }
         } else if (m.move_cost(x, y) == 0) {
             slam = true;
             int vpart;
             vehicle *veh = m.veh_at(x, y, vpart);
             dname = veh ? veh->part_info(vpart).name : m.tername(x, y).c_str();
-            if (m.has_flag("BASHABLE", x, y)) {
-                thru = m.bash(x, y, flvel);
+            if (m.is_bashable(x, y)) {
+                // Only go through if we successfully destroy what we hit
+                thru = m.bash(x, y, flvel).second;
             } else {
                 thru = false;
+            }
+        }
+        if( slam ) {
+            if( thru ) {
+                flvel /= 2.0;
+            } else {
+                flvel = 0.0;
+            }
+            float velocity_difference = previous_velocity - flvel;
+            dam1 = rng( velocity_difference, velocity_difference * 2.0 ) / 3;
+            if( thru ) {
+                if( is_u ) {
+                    add_msg(_("You are slammed through the %s for %d damage!"), dname.c_str(), dam1);
+                } else {
+                    //~ first %s is the monster name ("the zombie") or a npc name.
+                    add_msg(_("%s is slammed through the %s!"), c->disp_name().c_str(), dname.c_str());
+                }
+            } else {
+                if( is_u ) {
+                    add_msg(_("You are slammed against the %s for %d damage!"), dname.c_str(), dam1);
+                } else {
+                    //~ first %s is the monster name ("the zombie") or a npc name.
+                    add_msg(_("%s is slammed against the %s!"), c->disp_name().c_str(), dname.c_str());
+                }
             }
             if( p != nullptr ) {
                 p->hitall(dam1, 40);
             } else {
-                zz->apply_damage( nullptr, bp_torso, dam1 );
-            }
-            flvel = flvel / 2;
-        }
-        if (slam && dam1) {
-            if( is_u ) {
-                add_msg(_("You are slammed against the %s!"), dname.c_str());
-            } else {
-                //~ first %s is the monster name ("the zombie") or a npc name.
-                add_msg(_("%s is slammed against the %s!"), c->disp_name().c_str(), dname.c_str());
+                zz->apply_damage( critter, bp_torso, dam1 );
             }
         }
-        if (thru) {
+        if( thru ) {
             if( p != nullptr ) {
+                // If we're flinging the player around, make sure the map stays centered on them.
+                if( is_u && ( x < SEEX * int(MAPSIZE / 2) || y < SEEY * int(MAPSIZE / 2) ||
+                    x >= SEEX * (1 + int(MAPSIZE / 2)) || y >= SEEY * (1 + int(MAPSIZE / 2)) ) ) {
+                    update_map( x, y );
+                }
                 p->posx = x;
                 p->posy = y;
             } else {
@@ -13317,11 +13473,12 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
         }
         range--;
         steps++;
+        draw();
     }
 
     if (!m.has_flag("SWIMMABLE", x, y)) {
         // fall on ground
-        dam1 = rng(flvel / 3, flvel * 2 / 3) / 2;
+        dam1 = rng( flvel, flvel * 2.0 ) / 6;
         if (controlled) {
             dam1 = std::max(dam1 / 2 - 5, 0);
         }
@@ -13492,16 +13649,16 @@ void game::vertical_move(int movez, bool force)
                                 add_msg(m_bad, _("You descend on your vines, though leaving a part of you behind stings."));
                                 u.mod_pain(5);
                                 u.apply_damage( nullptr, bp_torso, 5 );
-                                u.hunger += 5;
-                                u.thirst += 5;
+                                u.hunger += 10;
+                                u.thirst += 10;
                             } else {
                                 add_msg(_("You gingerly descend using your vines."));
                             }
                         } else {
                             add_msg(_("You effortlessly lower yourself and leave a vine rooted for future use."));
                             rope_ladder = true;
-                            u.hunger += 5;
-                            u.thirst += 5;
+                            u.hunger += 10;
+                            u.thirst += 10;
                         }
                     } else {
                         return;
@@ -13610,7 +13767,7 @@ void game::vertical_move(int movez, bool force)
         m.ter_set(stairx, stairy, t_manhole);
     }
 
-    m.spawn_monsters();
+    m.spawn_monsters( true );
 
     if (force) { // Basically, we fell.
         if ((u.has_trait("WINGS_BIRD")) || ((one_in(2)) && (u.has_trait("WINGS_BUTTERFLY")))) {
@@ -13699,7 +13856,7 @@ void game::update_map(int &x, int &y)
     load_npcs();
 
     // Spawn monsters if appropriate
-    m.spawn_monsters(); // Static monsters
+    m.spawn_monsters( false ); // Static monsters
     if (calendar::turn >= nextspawn) {
         spawn_mon(shiftx, shifty);
     }
@@ -14220,7 +14377,7 @@ void game::nuke(int x, int y)
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {
             if (!one_in(10)) {
-                tmpmap.ter_set(i, j, t_rubble);
+                tmpmap.make_rubble(i, j, f_rubble_rock, true, t_dirt, true);
             }
             if (one_in(3)) {
                 tmpmap.add_field(i, j, fd_nuke_gas, 3);
@@ -14370,12 +14527,36 @@ bool game::spread_fungus(int x, int y)
                         }
                     } else if (m.has_flag("YOUNG", i, j)) {
                         if (one_in(5)) {
-                            m.ter_set(i, j, t_tree_fungal_young);
+                            if (m.get_field_strength(point (x, y), fd_fungal_haze) != 0) {
+                                if (one_in(3)) { // young trees are Vulnerable
+                                    m.ter_set(i, j, t_fungus);
+                                    m.add_spawn("mon_fungal_blossom", 1, x, y);
+                                    if (u_see(x, y)) {
+                                    add_msg(m_warning, _("The young tree blooms forth into a fungal blossom!"));
+                                    }
+                                } else if (one_in(2)) {
+                                    m.ter_set(i, j, t_marloss_tree);
+                                }
+                            } else {
+                                m.ter_set(i, j, t_tree_fungal_young);
+                            }
                             converted = true;
                         }
                     } else if (m.has_flag("TREE", i, j)) {
                         if (one_in(10)) {
-                            m.ter_set(i, j, t_tree_fungal);
+                            if (m.get_field_strength(point (x, y), fd_fungal_haze) != 0) {
+                                if (one_in(4)) {
+                                    m.ter_set(i, j, t_fungus);
+                                    m.add_spawn("mon_fungal_blossom", 1, x, y);
+                                    if (u_see(x, y)) {
+                                    add_msg(m_warning, _("The tree blooms forth into a fungal blossom!"));
+                                    }
+                                } else if (one_in(3)) {
+                                    m.ter_set(i, j, t_marloss_tree);
+                                }
+                            } else {
+                                m.ter_set(i, j, t_tree_fungal);
+                            }
                             converted = true;
                         }
                     } else if (m.has_flag("WALL", i, j)) {
@@ -14737,24 +14918,30 @@ void game::process_artifact(item *it, player *p, bool wielded)
 }
 void game::determine_starting_season()
 {
-	if (g->scen->has_flag("SPR_START") || g->scen->has_flag("SUM_START") || g->scen->has_flag("AUT_START") || g->scen->has_flag("WIN_START"))
-	{
-		if (g->scen->has_flag("SPR_START"));
-		else if (g->scen->has_flag("SUM_START")){calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"]);}
-		else if (g->scen->has_flag("AUT_START")){calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 2);}
-		else if (g->scen->has_flag("WIN_START")){calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 3);}
-		else {debugmsg("The Unicorn");}
-	}
-    	else{
-	    if (ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "spring");
-	    else if (ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "summer") {
-		calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"]);
-	    } else if (ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "autumn") {
-		calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 2);
-	    } else {
-		calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 3);
-	    }
-	}
+    if( g->scen->has_flag("SPR_START") || g->scen->has_flag("SUM_START") ||
+        g->scen->has_flag("AUT_START") || g->scen->has_flag("WIN_START") ) {
+        if( g->scen->has_flag("SPR_START") ) {
+            ; // Do nothing;
+        } else if( g->scen->has_flag("SUM_START") ) {
+            calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"]);
+        } else if( g->scen->has_flag("AUT_START") ) {
+            calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 2);
+        } else if( g->scen->has_flag("WIN_START") ) {
+            calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 3);
+        } else {
+            debugmsg("The Unicorn");
+        }
+    } else {
+        if( ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "spring" ) {
+            ; // Do nothing.
+        } else if( ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "summer") {
+            calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"]);
+        } else if( ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "autumn" ) {
+            calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 2);
+        } else {
+            calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 3);
+        }
+    }
 }
 void game::add_artifact_messages(std::vector<art_effect_passive> effects)
 {
@@ -14936,3 +15123,4 @@ int game::get_abs_levz() const
 {
     return levx;
 }
+

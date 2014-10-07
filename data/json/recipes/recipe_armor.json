@@ -1324,7 +1324,7 @@
         "type" : "recipe",
   "result": "sleeveless_trenchcoat",
   "id_suffix": "from_trenchcoat",
-  "byproduct": { "id" : "rag", "amount" : 2 },
+  "byproducts": { "id" : "rag", "amount" : 2 },
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
@@ -1437,7 +1437,7 @@
         "type" : "recipe",
   "result": "sleeveless_trenchcoat_fur",
   "id_suffix": "from_trenchcoat_fur",
-  "byproduct": { "id" : "fur", "amount" : 2 },
+  "byproducts": { "id" : "fur", "amount" : 2 },
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
@@ -1506,7 +1506,7 @@
         "type" : "recipe",
   "result": "sleeveless_trenchcoat_leather",
   "id_suffix": "from_trenchcoat_leather",
-  "byproduct": { "id" : "leather", "amount" : 4 },
+  "byproducts": { "id" : "leather", "amount" : 4 },
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
@@ -2283,7 +2283,8 @@
   "components": [
     [
       [ "bag_plastic", 2 ],
-      [ "bottle_plastic", 1 ]
+      [ "bottle_plastic", 1 ],
+      [ "bottle_plastic_small", 2 ]
     ],
     [
       [ "rag", 2 ],
@@ -2314,7 +2315,8 @@
       [ "string_6", 2 ]
     ],
     [
-      [ "bottle_plastic", 1 ]
+      [ "bottle_plastic", 1 ],
+      [ "bottle_plastic_small", 2 ]
     ]
   ]
 },{
@@ -3449,6 +3451,31 @@
   ]
 },{
         "type" : "recipe",
+  "result": "down_blanket",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_OTHER",
+  "skill_used": "tailor",
+  "difficulty": 1,
+  "time": 85000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 20 ],
+      [ "needle_wood", 20 ],
+      [ "sewing_kit", 20 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 35 ]
+    ],
+    [
+      [ "feather", 160]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "fur_blanket",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_OTHER",
@@ -3940,7 +3967,7 @@
         "type" : "recipe",
   "result": "sleeveless_trenchcoat_survivor",
   "id_suffix": "from_trenchcoat_survivor",
-  "byproduct": { "id" : "rag", "amount" : 4 },
+  "byproducts": { "id" : "rag", "amount" : 4 },
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
@@ -6036,7 +6063,8 @@
     [
       [ "plastic_chunk", 10],
       [ "bottle_plastic", 5],
-      [ "jug_plastic", 2]
+      [ "bottle_plastic_small", 10],
+      [ "jug_plastic", 1]
     ]
   ]
 },{
@@ -6074,7 +6102,8 @@
     [
       [ "plastic_chunk", 10],
       [ "bottle_plastic", 5],
-      [ "jug_plastic", 2]
+      [ "bottle_plastic_small", 10],
+      [ "jug_plastic", 1]
     ]
   ]
 },{
@@ -6428,24 +6457,18 @@
     "time": 40000,
     "reversible": false,
     "autolearn": false,
-	"book_learn": [ ["textbook_weapwest", 5], ["textbook_weapeast", 5], ["textbook_armwest", 5], ["textbook_armeast", 5] ],
-	"qualities":[
-      {"id":"HAMMER","level":1,"amount":1},
-	  {"id":"CUT","level":1,"amount":1}
-	],
+    "book_learn": [
+        ["textbook_weapwest", 5], ["textbook_weapeast", 5],
+        ["textbook_armwest", 5], ["textbook_armeast", 5] ],
+    "qualities":[
+        {"id":"HAMMER","level":1,"amount":1},
+	{"id":"CUT","level":1,"amount":1}
+    ],
     "components": [
-      [
-        [ "leather", 10 ]
-      ],
-      [
-        ["superglue", 1]
-      ],
-      [
-        ["2x4", 2]
-      ],
-      [
-        ["nail", 5]
-      ]
+        [ [ "leather", 10 ] ],
+        [ ["superglue", 1] ],
+        [ ["2x4", 2] ],
+        [ ["nail", 5] ]
     ]
   },
   {
@@ -6466,10 +6489,8 @@
         [ "sewing_kit", 20 ]
       ]
     ],
-     "components": [
-      [
-        [ "leather", 6 ]
-      ],
+    "components": [
+      [ [ "leather", 6 ] ],
       [
         [ "string_36", 1 ],
         [ "string_6", 6 ],
@@ -6549,7 +6570,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 8 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities": [
+       {"id":"HAMMER","level":3,"amount":1} ],
+  "tools":[
      [
       ["tongs", -1]
      ],
@@ -6563,7 +6586,7 @@
       ["swage", -1]
      ],
      [
-      ["forge", 450], ["char_forge", 90]
+      ["forge", 450], ["char_forge", 90], ["oxy_torch", 90]
      ]
     ],
   "components":
@@ -6587,7 +6610,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 7 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities": [
+       {"id":"HAMMER","level":3,"amount":1} ],
+  "tools": [
      [
       ["tongs", -1]
      ],
@@ -6601,7 +6626,7 @@
       ["swage", -1]
      ],
      [
-      ["forge", 400], ["char_forge", 80]
+      ["forge", 400], ["char_forge", 80], ["oxy_torch", 80]
      ]
     ],
   "components":
@@ -6626,7 +6651,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 5 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities": [
+       {"id":"HAMMER","level":3,"amount":1} ],
+  "tools": [
      [
       ["tongs", -1]
      ],
@@ -6640,7 +6667,7 @@
       ["swage", -1]
      ],
      [
-      ["forge", 300], ["char_forge", 60]
+      ["forge", 300], ["char_forge", 60], ["oxy_torch", 60]
      ]
     ],
   "components":
@@ -6665,7 +6692,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 4 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities": [
+       {"id":"HAMMER","level":3,"amount":1} ],
+  "tools": [
      [
       ["tongs", -1]
      ],
@@ -6679,7 +6708,7 @@
       ["swage", -1]
      ],
      [
-      ["forge", 250], ["char_forge", 50]
+      ["forge", 250], ["char_forge", 50], ["oxy_torch", 50]
      ]
      ],
   "components":
@@ -6705,7 +6734,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 6 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+    "qualities": [
+       {"id":"HAMMER","level":3,"amount":1} ],
+  "tools": [
      [
       ["tongs", -1]
      ],
@@ -6719,7 +6750,7 @@
       ["crucible", -1]
      ],
      [
-      ["forge", 350], ["char_forge", 70]
+      ["forge", 350], ["char_forge", 70], ["oxy_torch", 70]
      ]
     ],
   "components":
@@ -6744,7 +6775,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 5 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities": [
+       {"id":"HAMMER","level":3,"amount":1} ],
+  "tools": [
      [
       ["tongs", -1]
      ],
@@ -6758,7 +6791,7 @@
       ["crucible", -1]
      ],
      [
-      ["forge", 300], ["char_forge", 60]
+      ["forge", 300], ["char_forge", 60], ["oxy_torch", 60]
      ]
     ],
   "components":
@@ -6783,7 +6816,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_armeast", 8 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities": [
+       {"id":"HAMMER","level":3,"amount":1} ],
+  "tools": [
      [
       ["tongs", -1]
      ],
@@ -6797,7 +6832,7 @@
       ["swage", -1]
      ],
      [
-      ["forge", 450], ["char_forge", 90]
+      ["forge", 450], ["char_forge", 90], ["oxy_torch", 90]
      ]
     ],
   "components":
@@ -6825,7 +6860,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_armeast", 8 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+    "qualities": [
+       {"id":"HAMMER","level":3,"amount":1} ],
+  "tools": [
      [
       ["tongs", -1]
      ],
@@ -6839,7 +6876,7 @@
       ["crucible", -1]
      ],
      [
-      ["forge", 450], ["char_forge", 90]
+      ["forge", 450], ["char_forge", 90], ["oxy_torch", 90]
      ]
     ],
   "components":
@@ -6855,5 +6892,20 @@
      [ "rag", 4 ]
     ]
    ]
+},{
+  "type" : "recipe",
+  "result": "helmet_netting",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "time": 18000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "thread", 500 ], [ "sinew", 500], [ "plant_fibre", 500]
+    ]
+  ]
 }
 ]

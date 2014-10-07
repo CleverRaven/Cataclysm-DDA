@@ -1,53 +1,53 @@
 [
-	{
-		"type" : "item_group",
-		"id" : "diner_food",
+    {
+        "type" : "item_group",
+        "id" : "diner_food",
         "items" : [
-			["cheeseburger", 6],
-			["hamburger", 8],
-			["sloppyjoe", 6],
-			["blt", 6],
-			["fries",10],
-			["onion_rings", 8],
-			["fchicken", 8],
-			["sausage", 8],
-			["hotdogs_cooked", 8],
-			["chilidogs", 6],
-			["corndogs_cooked", 8],
-			["scrambled_eggs", 8],
-			["deluxe_eggs", 5],
-			["pancakes" , 12],
-			["fruit_pancakes", 6],
-			["choc_pancakes", 6],
-			["waffles", 10],
-			["fruit_waffles", 6],
-			["choc_waffles", 6],
-			["pie", 9],
-			["pie_meat", 8],
-			["pan", 30]
-		]
-	},
-	{
-		"type" : "item_group",
-		"id" : "diner_back",
-		"items" : [
-			["pickle", 20],
-			["bacon", 20],
-			["fries", 20],
-			["onion_rings", 20],
-			["sausage", 20],
-			["hotdogs_frozen", 20],
-			["corndogs_frozen", 20],
-			["pancakes" , 20],
-			["waffles", 20],
-			["tomato", 20],
-			["lettuce", 20],
-			["soup_veggy", 20],
-			["soup_meat", 20],
-			["soup_tomato", 20]
-		]
-	},
-	{
+            ["cheeseburger", 6],
+            ["hamburger", 8],
+            ["sloppyjoe", 6],
+            ["blt", 6],
+            ["fries",10],
+            ["onion_rings", 8],
+            ["fchicken", 8],
+            ["sausage", 8],
+            ["hotdogs_cooked", 8],
+            ["chilidogs", 6],
+            ["corndogs_cooked", 8],
+            ["scrambled_eggs", 8],
+            ["deluxe_eggs", 5],
+            ["pancakes" , 12],
+            ["fruit_pancakes", 6],
+            ["choc_pancakes", 6],
+            ["waffles", 10],
+            ["fruit_waffles", 6],
+            ["choc_waffles", 6],
+            ["pie", 9],
+            ["pie_meat", 8],
+            ["pan", 30]
+        ]
+    },
+    {
+        "type" : "item_group",
+        "id" : "diner_back",
+        "items" : [
+            ["pickle", 20],
+            ["bacon", 20],
+            ["fries", 20],
+            ["onion_rings", 20],
+            ["sausage", 20],
+            ["hotdogs_frozen", 20],
+            ["corndogs_frozen", 20],
+            ["pancakes" , 20],
+            ["waffles", 20],
+            ["tomato", 20],
+            ["lettuce", 20],
+            ["soup_veggy", 20],
+            ["soup_meat", 20],
+            ["soup_tomato", 20]
+        ]
+    },
+    {
         "type": "mapgen",
         "om_terrain": [
             "s_restaurant"
@@ -55,7 +55,7 @@
         "method": "json",
         "weight": 300,
         "object": {
-		"fill_ter": "t_linoleum_white",
+        "fill_ter": "t_linoleum_white",
         "rows": [
             "____,____,____,____,____",
             "____,____,____,____,____",
@@ -99,8 +99,8 @@
             "f": "t_linoleum_white",
             "S": "t_linoleum_white",
             "H": "t_linoleum_white",
-			"l": "t_linoleum_white",
-			"b": "t_linoleum_gray"
+            "l": "t_linoleum_white",
+            "b": "t_linoleum_gray"
             },
             "furniture": {
             "#": "f_counter",
@@ -111,13 +111,13 @@
             "f": "f_fridge",
             "H": "f_sofa"
             },
-		"place_groups": [
+        "place_groups": [
                 { "item": "diner_food", "chance": 75, "x": [ 4,17 ], "y": [ 14,14 ] },
                 { "item": "diner_back", "chance": 95, "x": [ 4,16 ], "y": [ 16,16 ] }
         ],
         "place_specials": [
                 { "type": "toilet", "x": 20, "y": 18 }
         ]
-		}
-	}
+        }
+    }
 ]

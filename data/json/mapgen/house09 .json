@@ -104,6 +104,7 @@
                     ],
                         "comment": "randomly picked from a group ---v",
             "place_groups": [
+                { "item": "bed", "chance": 80,  "x": [2,3 ], "y": [18,19 ] },
                 { "item": "livingroom", "chance": 70,  "x": [ 12,21 ], "y": [ 2,6 ] },
                 { "item": "livingroom", "chance": 70,  "x": [ 2,10 ], "y": [ 6,11 ] },
                 { "item": "dining", "chance": 70,  "x": [ 16,18 ], "y": [ 8,9 ] },

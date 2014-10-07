@@ -18,6 +18,51 @@
     ]
   },{
     "type" : "recipe",
+    "result": "down_blanket",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 2000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"CUT","level":1,"amount":1} ],
+    "components": [
+      [ [ "rag", 35 ] ],
+      [ [ "feather", 8 ] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "down_pillow",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 1000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"CUT","level":1,"amount":1} ],
+    "components": [
+      [ [ "rag", 6 ] ],
+      [ [ "feather", 2 ] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "pillow",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 1000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"CUT","level":1,"amount":1} ],
+    "components": [
+      [ [ "rag", 6 ] ],
+      [ [ "cotton_ball", 4 ] ]
+    ]
+  },{
+    "type" : "recipe",
     "result": "talking_doll",
     "id_suffix": "uncraft",
     "category": "CC_NONCRAFT",
@@ -459,7 +504,7 @@
       [ "plastic_chunk", 3 ]
     ],
     [
-      [ "motor", 1 ]
+      [ "motor_small", 1 ]
     ],
     [
       [ "cable", 2 ]
@@ -1033,7 +1078,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "pipe",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -1043,14 +1088,10 @@
   "time": 5000,
   "reversible": true,
   "autolearn": false,
-  "qualities":[
-    {"id":"SAW_M","level":1,"amount":1}
-    
-    ], "components": [
-        [ [ "scrap", 7 ] ]
-    ]
+  "qualities":[ {"id":"SAW_M","level":1,"amount":1} ],
+  "components": [ [ [ "scrap", 7 ] ] ]
 },{
-	"type" : "recipe",
+  "type" : "recipe",
   "result": "makeshift_crowbar",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -1059,14 +1100,13 @@
   "time": 5000,
   "reversible": true,
   "autolearn": false,
-  "qualities": [
-   {"id":"SAW_M","level":1,"amount":1}
-   ], "components": [
+  "qualities": [ {"id":"SAW_M","level":1,"amount":1} ],
+  "components": [
         [ [ "scrap", 3 ] ],
         [ [ "steel_chunk", 1] ]
     ]
 },{
-	"type" : "recipe",
+  "type" : "recipe",
   "result": "file",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -1074,11 +1114,9 @@
   "time": 100,
   "reversible": true,
   "autolearn": false,
-  "components": [
-  	[ [ "paper", 3 ] ]
-  ]
+  "components": [ [ [ "paper", 3 ] ] ]
 },{
-	"type" : "recipe",
+  "type" : "recipe",
   "result": "flyer",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -1086,11 +1124,9 @@
   "time": 100,
   "reversible": true,
   "autolearn": false,
-  "components": [
-  	[ [ "paper", 1 ] ]
-  ]
+  "components": [ [ [ "paper", 1 ] ] ]
 },{
-	"type" : "recipe",
+  "type" : "recipe",
   "result": "survnote",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -1098,9 +1134,7 @@
   "time": 100,
   "reversible": true,
   "autolearn": false,
-  "components": [
-  	[ [ "paper", 1 ] ]
-  ]
+  "components": [ [ [ "paper", 1 ] ] ]
 },{
         "type" : "recipe",
   "result": "broken_manhack",
@@ -1188,7 +1222,7 @@
         {"id":"SAW_M","level":1,"amount":1}
     ], "tools": [
         [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ],
-        [ [ "welder", 50 ], [ "toolset", 75 ], [ "welder_crude", 75 ] ]
+        [ [ "oxy_torch", 10 ], [ "welder", 50 ], [ "toolset", 75 ], [ "welder_crude", 75 ] ]
     ], "components": [
         [ [ "power_supply", 4 ] ],
         [ [ "solar_cell", 2 ] ],
@@ -1212,7 +1246,7 @@
         {"id":"SAW_M","level":1,"amount":1}
     ], "tools": [
         [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ],
-        [ [ "welder", 50 ], [ "toolset", 75 ], [ "welder_crude", 75 ] ]
+        [ [ "oxy_torch", 10 ], [ "welder", 50 ], [ "toolset", 75 ], [ "welder_crude", 75 ] ]
     ], "components": [
         [ [ "power_supply", 4 ] ],
         [ [ "solar_cell", 2 ] ],
@@ -1234,7 +1268,7 @@
     "qualities" : [
         {"id":"SAW_M","level":1,"amount":1}
     ], "tools": [
-        [ [ "welder", 60 ], [ "toolset", 90 ], [ "welder_crude", 90 ] ]
+        [ [ "oxy_torch", 12 ], [ "welder", 60 ], [ "toolset", 90 ], [ "welder_crude", 90 ] ]
     ], "components": [
         [ [ "power_supply", 4 ] ],
         [ [ "motor", 1 ] ],
@@ -1255,7 +1289,7 @@
         {"id":"SAW_M","level":1,"amount":1}
     ], "tools": [
         [ [ "soldering_iron", 10 ], [ "toolset", 10 ] ],
-        [ [ "welder", 100 ], [ "toolset", 150 ], [ "welder_crude", 150 ] ]
+        [ [ "oxy_torch", 20 ],  [ "welder", 100 ], [ "toolset", 150 ], [ "welder_crude", 150 ] ]
     ], "components": [
         [ [ "power_supply", 12 ] ],
         [ [ "processor", 1 ] ],
@@ -1281,7 +1315,7 @@
         {"id":"SAW_M","level":1,"amount":1}
     ], "tools": [
         [ [ "soldering_iron", 30 ], [ "toolset", 30 ] ],
-        [ [ "welder", 200 ], [ "toolset", 300 ], [ "welder_crude", 300 ] ]
+        [ [ "oxy_torch", 40 ], [ "welder", 200 ], [ "toolset", 300 ], [ "welder_crude", 300 ] ]
     ], "components": [
         [ [ "flamethrower", 1 ] ],
         [ [ "tazer", 1 ] ],
@@ -1753,10 +1787,8 @@
   "reversible": true,
   "autolearn": false,
   "components": [
-    [
-      [ "charcoal", 15 ]
-    ],
-	  [[ "char_kiln", 1 ]]
+    [ [ "charcoal", 15 ] ],
+    [ [ "char_kiln", 1 ] ]
   ]
 },{
   "type" : "recipe",
@@ -2002,5 +2034,32 @@
       [ "battery", 200 ]
     ]
   ]
-  }
+  },
+  {
+  "type" : "recipe",
+  "result": "material_shrd_limestone",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
+  "time": 10000,
+  "reversible": true,
+  "autolearn": false,
+  "qualities" : [ {"id":"HAMMER","level":1,"amount":1} ],
+  "tools": [ [ [ "crucible", -1 ] ] ],
+  "components": [ [ [ "material_limestone", 10 ] ] ]
+  },{
+  "type" : "recipe",
+  "result": "hd_steel_drum",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": 750000,
+  "reversible": true,
+  "autolearn": false,
+  "qualities" : [ {"id":"SAW_M","level":1,"amount":1} ],
+  "tools": [ [ [ "welder", 500 ], [ "toolset", 750 ] ] ],
+  "components": [ [ [ "steel_plate", 10 ] ], [ [ "steel_lump", 70 ] ] ]
+}
 ]

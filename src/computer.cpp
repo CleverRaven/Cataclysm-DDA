@@ -164,7 +164,7 @@ void computer::use()
                         shutdown_terminal();
                         return;
                     } else {
-                        // Succesfully hacked function
+                        // Successfully hacked function
                         options[ch].security = 0;
                         activate_function(current.action);
                     }
@@ -193,7 +193,7 @@ bool computer::hack_attempt(player *p, int Security)
         Security += (alerts * 2);
     }
 
-    p->moves -= 10 * (5 + Security * 2) / hack_skill;
+    p->moves -= 10 * (5 + Security * 2) / std::max( 1, hack_skill + 1 );
     p->practice( "computer", 5 + Security * 2 );
     int player_roll = hack_skill;
     if (p->int_cur < 8 && one_in(2)) {
@@ -360,6 +360,13 @@ void computer::activate_function(computer_action action)
         g->sound(g->u.posx, g->u.posy, 40, _("An alarm sounds!"));
         g->m.translate_radius(t_reinforced_glass_h, t_floor, 25.0, g->u.posx, g->u.posy);
         g->m.translate_radius(t_reinforced_glass_v, t_floor, 25.0, g->u.posx, g->u.posy);
+        query_any(_("Containment shields opened.  Press any key..."));
+        break;
+
+    case COMPACT_RELEASE_BIONICS:
+        g->sound(g->u.posx, g->u.posy, 40, _("An alarm sounds!"));
+        g->m.translate_radius(t_reinforced_glass_h, t_floor, 2.0, g->u.posx, g->u.posy);
+        g->m.translate_radius(t_reinforced_glass_v, t_floor, 2.0, g->u.posx, g->u.posy);
         query_any(_("Containment shields opened.  Press any key..."));
         break;
 
@@ -1043,17 +1050,17 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
                 if (g->m.ter(x, y) == t_elevator || g->m.ter(x, y) == t_vat) {
-                    g->m.ter_set(x, y, t_rubble);
+                    g->m.make_rubble(x, y, f_rubble_rock, true);
                     g->explosion(x, y, 40, 0, true);
                 }
                 if (g->m.ter(x, y) == t_wall_glass_h || g->m.ter(x, y) == t_wall_glass_v) {
-                    g->m.ter_set(x, y, t_rubble);
+                    g->m.make_rubble(x, y, f_rubble_rock, true);
                 }
                 if (g->m.ter(x, y) == t_sewage_pipe || g->m.ter(x, y) == t_sewage || g->m.ter(x, y) == t_grate) {
-                    g->m.ter_set(x, y, t_rubble);
+                    g->m.make_rubble(x, y, f_rubble_rock, true);
                 }
                 if (g->m.ter(x, y) == t_sewage_pump) {
-                    g->m.ter_set(x, y, t_rubble);
+                    g->m.make_rubble(x, y, f_rubble_rock, true);
                     g->explosion(x, y, 50, 0, true);
                 }
             }
@@ -1187,7 +1194,7 @@ void computer::activate_failure(computer_failure fail)
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
                 if (g->m.ter(x, y) == t_sewage_pump) {
-                    g->m.ter_set(x, y, t_rubble);
+                    g->m.make_rubble(x, y);
                     g->explosion(x, y, 10, 0, false);
                 }
             }

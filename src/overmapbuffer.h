@@ -1,10 +1,12 @@
-#ifndef _OVERMAPBUFFER_H_
-#define _OVERMAPBUFFER_H_
+#ifndef OVERMAPBUFFER_H
+#define OVERMAPBUFFER_H
 
+#include "enums.h"
 #include "overmap.h"
 #include <set>
 #include <list>
 #include <memory>
+#include <unordered_map>
 
 class monster;
 
@@ -87,10 +89,13 @@ public:
     void add_note(const tripoint& p, const std::string& message) { add_note(p.x, p.y, p.z, message); }
     void delete_note(int x, int y, int z);
     void delete_note(const tripoint& p) { delete_note(p.x, p.y, p.z); }
+    bool is_explored(int x, int y, int z);
+    void toggle_explored(int x, int y, int z);
     bool seen(int x, int y, int z);
     void set_seen(int x, int y, int z, bool seen = true);
     bool has_npc(int x, int y, int z);
     bool has_vehicle(int x, int y, int z, bool require_pda = true);
+    std::vector<om_vehicle> get_vehicle(int x, int y, int z, bool require_pda = true);
     const regional_settings& get_settings(int x, int y, int z);
     bool is_safe(int x, int y, int z);
     bool is_safe(const tripoint& p) { return is_safe(p.x, p.y, p.z); }
@@ -305,7 +310,7 @@ public:
     static tripoint omt_to_seg_copy(const tripoint& p);
 
 private:
-    std::list< std::unique_ptr< overmap > > overmaps;
+    std::unordered_map< point, std::unique_ptr< overmap > > overmaps;
     /**
      * Set of overmap coordinates of overmaps that are known
      * to not exist on disk. See @ref get_existing for usage.
@@ -332,8 +337,12 @@ private:
      * groups to the correct overmap (if it exists), also removes empty groups.
      */
     void fix_mongroups(overmap &new_overmap);
+    /**
+     * Retrieve overmaps that overlap the bounding box defined by the location and radius.
+     */
+    std::vector<overmap *> get_overmaps_near( point location, int radius );
 };
 
 extern overmapbuffer overmap_buffer;
 
-#endif /* _OVERMAPBUFFER_H_ */
+#endif

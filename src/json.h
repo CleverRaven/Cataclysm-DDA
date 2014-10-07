@@ -1,5 +1,5 @@
-#ifndef _JSON_H_
-#define _JSON_H_
+#ifndef JSON_H
+#define JSON_H
 
 #include <iosfwd>
 #include <map>
@@ -10,6 +10,7 @@
 #include <vector>
 #include <list>
 #include <bitset>
+#include <array>
 
 /* Cataclysm-DDA homegrown JSON tools
  * copyright CC-BY-SA-3.0 2013 CleverRaven
@@ -222,6 +223,27 @@ class JsonIn
                 return false;
             }
         }
+        // array ~> array
+        template <typename T, size_t N> bool read( std::array<T, N> &v )
+        {
+            if( !test_array() ) {
+                return false;
+            }
+            try {
+                start_array();
+                for( size_t i = 0; i < N; ++i ) {
+                    if( end_array() ) {
+                        return false; // json array is too small
+                    }
+                    if( !read( v[i] ) ) {
+                        return false; // invalid entry
+                    }
+                }
+                return end_array(); // false if json array is too big
+            } catch( std::string e ) {
+                return false;
+            }
+        }
         // array ~> list
         template <typename T> bool read(std::list<T> &v)
         {
@@ -414,6 +436,14 @@ class JsonOut
             for (typename std::vector<T>::const_iterator it = v.begin();
                  it != v.end(); ++it) {
                 write(*it);
+            }
+            end_array();
+        }
+        template <typename T, size_t N> void write(const std::array<T, N> &v)
+        {
+            start_array();
+            for( auto &e : v ) {
+                write( e );
             }
             end_array();
         }
@@ -832,6 +862,11 @@ class JsonSerializer
         virtual void serialize(JsonOut &jsout) const = 0;
         std::string serialize() const;
         void serialize(std::ostream &o) const;
+        JsonSerializer() { }
+        JsonSerializer(JsonSerializer &&) = default;
+        JsonSerializer(const JsonSerializer &) = default;
+        JsonSerializer &operator=(JsonSerializer &&) = default;
+        JsonSerializer &operator=(const JsonSerializer &) = default;
 };
 
 /* JsonDeserializer
@@ -866,6 +901,11 @@ class JsonDeserializer
         virtual void deserialize(JsonIn &jsin) = 0;
         void deserialize(const std::string &json_string);
         void deserialize(std::istream &i);
+        JsonDeserializer() { }
+        JsonDeserializer(JsonDeserializer &&) = default;
+        JsonDeserializer(const JsonDeserializer &) = default;
+        JsonDeserializer &operator=(JsonDeserializer &&) = default;
+        JsonDeserializer &operator=(const JsonDeserializer &) = default;
 };
 
-#endif // _JSON_H_
+#endif

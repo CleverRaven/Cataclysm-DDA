@@ -172,37 +172,46 @@ int player::get_hit_base() const
 
 int player::hit_roll() const
 {
-// apply martial arts bonuses
+    //Unstable ground chance of failure
+    if (has_effect("bouldering")) {
+        if(one_in(get_dex())) {
+            add_msg_if_player(m_bad, _("The ground shifts beneath your feet!"));
+            return 0;
+        }
+    }
 
- int numdice = get_hit();
+    // apply martial arts bonuses
+    int numdice = get_hit();
 
- int sides = 10 - encumb(bp_torso);
- int best_bonus = 0;
- if (sides < 2)
-  sides = 2;
+    int sides = 10 - encumb(bp_torso);
+    int best_bonus = 0;
+    if (sides < 2) {
+        sides = 2;
+    }
 
- numdice += best_bonus; // Use whichever bonus is best.
+    numdice += best_bonus; // Use whichever bonus is best.
 
-// Drunken master makes us hit better
- if (has_trait("DRUNKEN")) {
-  if (unarmed_attack())
-   numdice += int(disease_duration("drunk") / 300);
-  else
-   numdice += int(disease_duration("drunk") / 400);
- }
+    // Drunken master makes us hit better
+    if (has_trait("DRUNKEN")) {
+        if (unarmed_attack()) {
+            numdice += int(disease_duration("drunk") / 300);
+        } else {
+            numdice += int(disease_duration("drunk") / 400);
+        }
+    }
 
-// Farsightedness makes us hit worse
- if (has_trait("HYPEROPIC") && !is_wearing("glasses_reading")
-     && !is_wearing("glasses_bifocal")) {
-  numdice -= 2;
- }
+    // Farsightedness makes us hit worse
+    if (has_trait("HYPEROPIC") && !is_wearing("glasses_reading")
+          && !is_wearing("glasses_bifocal")) {
+        numdice -= 2;
+    }
 
- if (numdice < 1) {
-  numdice = 1;
-  sides = 8 - encumb(bp_torso);
- }
+    if (numdice < 1) {
+        numdice = 1;
+        sides = 8 - encumb(bp_torso);
+    }
 
- return dice(numdice, sides);
+    return dice(numdice, sides);
 }
 
 void reason_weight_list::add_item(const char *reason, unsigned int weight)
@@ -308,7 +317,7 @@ void player::melee_attack(Creature &t, bool allow_special, matec_id force_techni
                 const char* reason_for_miss = get_miss_reason();
                 if (reason_for_miss != NULL)
                     add_msg(reason_for_miss);
-	    }
+            }
 
             if (has_miss_recovery_tec())
                 add_msg(_("You feint."));
@@ -555,12 +564,19 @@ int player::dodge_roll()
         }
         add_disease("downed", 3);
     }
-	//Fighting on a pair of quad skates isn't so hard, but fighting while wearing a single skate is.
+    //Fighting on a pair of quad skates isn't so hard, but fighting while wearing a single skate is.
     if (shoe_type_count("rollerskates") == 1 && one_in((get_dex() + get_skill_level("dodge")) / 8 )) {
         if (!has_disease("downed")) {
             add_msg_if_player(_("Fighting on wheels is hard!"));
         }
         add_disease("downed", 3);
+    }
+    if (has_effect("bouldering")) {
+        if(one_in(get_dex())) {
+            add_msg_if_player(m_bad, _("You slip as the ground shifts beneath your feet!"));
+            add_disease("downed", 3);
+            return 0;
+        }
     }
     int dodge_stat = get_dodge();
 
@@ -689,26 +705,34 @@ int player::roll_cut_damage(bool crit)
 
     if (unarmed_attack()) {
         if (wearing_something_on(bp_hand_l)) {
-            if (has_trait("CLAWS") || has_trait("CLAWS_RETRACT"))
+            if (has_trait("CLAWS") || (has_active_mutation("CLAWS_RETRACT")) ) {
                 ret += 3;
-            if (has_bionic("bio_razors"))
+            }
+            if (has_bionic("bio_razors")) {
                 ret += 2;
-            if (has_trait("TALONS"))
+            }
+            if (has_trait("TALONS")) {
                 ret += 3 + (unarmed_skill > 8 ? 4 : unarmed_skill / 2);
+            }
             //TODO: add acidproof check back to slime hands (probably move it elsewhere)
-            if (has_trait("SLIME_HANDS"))
+            if (has_trait("SLIME_HANDS")) {
                 ret += rng(2, 3);
+            }
         }
         if (wearing_something_on(bp_hand_r)) {
-            if (has_trait("CLAWS") || has_trait("CLAWS_RETRACT"))
+            if (has_trait("CLAWS") || (has_active_mutation("CLAWS_RETRACT")) ) {
                 ret += 3;
-            if (has_bionic("bio_razors"))
+            }
+            if (has_bionic("bio_razors")) {
                 ret += 2;
-            if (has_trait("TALONS"))
+            }
+            if (has_trait("TALONS")) {
                 ret += 3 + (unarmed_skill > 8 ? 4 : unarmed_skill / 2);
+            }
             //TODO: add acidproof check back to slime hands (probably move it elsewhere)
-            if (has_trait("SLIME_HANDS"))
+            if (has_trait("SLIME_HANDS")) {
                 ret += rng(2, 3);
+            }
         }
     }
 
@@ -1864,7 +1888,8 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         ret.push_back(tmp);
     }
 
-    if (has_trait("TAIL_STING") && one_in(3) && one_in(10 - dex_cur)) {
+    if ( ((has_trait("TAIL_STING") && one_in(3)) || has_active_mutation("TAIL_STING")) &&
+      one_in(10 - dex_cur)) {
         special_attack tmp;
         tmp.stab = 20;
         if (is_player()) {
@@ -1880,7 +1905,8 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         ret.push_back(tmp);
     }
 
-    if (has_trait("TAIL_CLUB") && one_in(3) && one_in(10 - dex_cur)) {
+    if ( ((has_trait("TAIL_CLUB") && one_in(3)) || has_active_mutation("TAIL_CLUB")) &&
+      one_in(10 - dex_cur)) {
         special_attack tmp;
         tmp.bash = 18;
         if (is_player()) {
@@ -1896,7 +1922,8 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         ret.push_back(tmp);
     }
 
-    if (has_trait("TAIL_THICK") && one_in(3) && one_in(10 - dex_cur)) {
+    if (((has_trait("TAIL_THICK") && one_in(3)) || has_active_mutation("TAIL_THICK")) &&
+      one_in(10 - dex_cur)) {
         special_attack tmp;
         tmp.bash = 8;
         if (is_player()) {

@@ -1,5 +1,5 @@
-#ifndef _MTYPE_H_
-#define _MTYPE_H_
+#ifndef MTYPE_H
+#define MTYPE_H
 // SEE ALSO: monitemsdef.cpp, which defines data on which items any given
 // monster may carry.
 
@@ -122,6 +122,7 @@ enum m_flag {
     MF_CBM_OP,              // May produce a bionic from bionics_op when butchered, and the power storage is mk 2.
     MF_CBM_TECH,            // May produce a bionic from bionics_tech when butchered.
     MF_CBM_SUBS,            // May produce a bionic from bionics_subs when butchered.
+    MF_FISHABLE,            // Its fishable.
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
@@ -146,7 +147,7 @@ struct mtype {
         std::bitset<MF_MAX> bitflags;
         std::bitset<N_MONSTER_TRIGGERS> bitanger, bitfear, bitplacate;
 
-        int difficulty; // Used all over; 30 min + (diff-3)*30 min = earlist appearance
+        int difficulty; // Used all over; 30 min + (diff-3)*30 min = earliest appearance
         int agro;       // How likely to attack; -100 to 100
         int morale;     // Default morale level
 
@@ -171,6 +172,12 @@ struct mtype {
         void (mdefense::*sp_defense)(monster *, const projectile *);
         // Default constructor
         mtype ();
+        /**
+         * Check if this type is of the same species as the other one, because
+         * species is a set and can contain several species, one entry that is
+         * in both monster types fulfills that test.
+         */
+        bool same_species( const mtype &other ) const;
 
         // Used to fetch the properly pluralized monster type name
         std::string nname(unsigned int quantity = 1) const;

@@ -5,8 +5,8 @@
 //  Livingstone
 //
 
-#ifndef __Cataclysmic__iexamine__
-#define __Cataclysmic__iexamine__
+#ifndef IEXAMINE_H
+#define IEXAMINE_H
 
 class game;
 class item;
@@ -35,10 +35,7 @@ class iexamine
         void rubble (player *p, map *m, int examx, int examy);
         void chainfence (player *p, map *m, int examx, int examy);
         void bars(player *p, map *m, int examx, int examy);
-        void tent (player *p, map *m, int examx, int examy);
-        void large_tent(player *p, map *m, int examx, int examy);
-        void shelter (player *p, map *m, int examx, int examy);
-        void wreckage (player *p, map *m, int examx, int examy);
+        void portable_structure(player *p, map *m, int examx, int examy);
         void pit (player *p, map *m, int examx, int examy);
         void pit_covered (player *p, map *m, int examx, int examy);
         void fence_post (player *p, map *m, int examx, int examy);
@@ -51,11 +48,13 @@ class iexamine
         void fault (player *p, map *m, int examx, int examy);
         void pedestal_wyrm (player *p, map *m, int examx, int examy);
         void pedestal_temple (player *p, map *m, int examx, int examy);
+        void door_peephole (player *p, map *m, int examx, int examy);
         void fswitch (player *p, map *m, int examx, int examy);
         void flower_poppy (player *p, map *m, int examx, int examy);
         void flower_blubell (player *p, map *m, int examx, int examy);
         void flower_dahlia (player *p, map *m, int examx, int examy);
         void flower_datura (player *p, map *m, int examx, int examy);
+        void flower_marloss (player *p, map *m, int examx, int examy);
         void flower_dandelion (player *p, map *m, int examx, int examy);
         void egg_sackbw(player *p, map *m, int examx, int examy);
         void egg_sackws(player *p, map *m, int examx, int examy);
@@ -64,16 +63,12 @@ class iexamine
         void aggie_plant (player *p, map *m, int examx, int examy);
         void pick_plant(player *p, map *m, int examx, int examy, std::string itemType, int new_ter,
                         bool seeds = false);
-        void tree_apple (player *p, map *m, int examx, int examy);
-        void tree_pear (player *p, map *m, int examx, int examy);
-        void tree_cherry (player *p, map *m, int examx, int examy);
-        void tree_peach (player *p, map *m, int examx, int examy);
-        void tree_apricot (player *p, map *m, int examx, int examy);
-        void tree_plum (player *p, map *m, int examx, int examy);
+        void harvest_tree (player *p, map *m, int examx, int examy);
         void tree_pine (player *p, map *m, int examx, int examy);
         void shrub_blueberry (player *p, map *m, int examx, int examy);
         void shrub_strawberry (player *p, map *m, int examx, int examy);
         void shrub_marloss (player *p, map *m, int examx, int examy);
+        void tree_marloss(player *p, map *m, int examx, int examy);
         void shrub_wildveggies (player *p, map *m, int examx, int examy);
         void recycler (player *p, map *m, int examx, int examy);
         void trap(player *p, map *m, int examx, int examy);
@@ -92,4 +87,4 @@ class iexamine
 typedef void (iexamine::*iexamine_function)(player *, map *, int, int);
 iexamine_function iexamine_function_from_string(std::string function_name);
 
-#endif /* defined(__Cataclysmic__iexamine__) */
+#endif

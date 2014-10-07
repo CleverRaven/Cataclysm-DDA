@@ -1,12 +1,12 @@
-#ifndef _WEATHER_H_
-#define _WEATHER_H_
+#ifndef WEATHER_H
+#define WEATHER_H
 
 /**
  * @name BODYTEMP
  * Body temperature.
  * Bodytemp is measured on a scale of 0u to 10000u, where 10u = 0.02C and 5000u is 37C
- * Outdoor temperature uses simliar numbers, but on a different scale: 2200u = 22C, where 10u = 0.1C.
- * Most values can be changed with no impact on calculations. Because of caluclations done in disease.cpp,
+ * Outdoor temperature uses similar numbers, but on a different scale: 2200u = 22C, where 10u = 0.1C.
+ * Most values can be changed with no impact on calculations. Because of calculations done in disease.cpp,
  * maximum heat cannot pass 15000u, otherwise the player will vomit to death.
  */
 ///@{
@@ -135,6 +135,7 @@ struct weather_datum {
 };
 
 extern std::string season_name[4];
+extern std::string season_name_uc[4];
 extern weather_datum weather_data[NUM_WEATHER_TYPES];
 extern int weather_shift[4][NUM_WEATHER_TYPES][NUM_WEATHER_TYPES];
 
@@ -154,4 +155,5 @@ extern const std::vector<int> rot_chart;
 int get_hourly_rotpoints_at_temp (const int &temp);
 //int get_rot_since( const int since, const int endturn );
 int get_rot_since( const int since, const int endturn, const point &);
-#endif // _WEATHER_H_
+
+#endif

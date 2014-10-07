@@ -1,5 +1,5 @@
-#ifndef _PLDATA_H_
-#define _PLDATA_H_
+#ifndef PLDATA_H
+#define PLDATA_H
 
 #include "enums.h"
 #include "json.h"
@@ -30,7 +30,8 @@ typedef std::string dis_type;
 enum add_type {
     ADD_NULL,
     ADD_CAFFEINE, ADD_ALCOHOL, ADD_SLEEP, ADD_PKILLER, ADD_SPEED, ADD_CIG,
-    ADD_COKE, ADD_CRACK, ADD_MUTAGEN, ADD_DIAZEPAM,
+    ADD_COKE, ADD_CRACK, ADD_MUTAGEN, ADD_DIAZEPAM, ADD_MARLOSS_R, ADD_MARLOSS_B,
+    ADD_MARLOSS_Y,
 };
 
 void realDebugmsg(const char *name, const char *line, const char *mes, ...);
@@ -274,4 +275,5 @@ inline hp_part bodypart_to_hp_part(body_part p_bp)
 
     return hp_torso;
 }
+
 #endif

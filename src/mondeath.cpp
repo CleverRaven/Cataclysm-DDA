@@ -10,13 +10,13 @@
 
 void mdeath::normal(monster *z)
 {
-    if (g->u_see(z)) {
+    if ((g->u_see(z)) && (!z->no_corpse_quiet)) {
         add_msg(m_good, _("The %s dies!"),
                 z->name().c_str()); //Currently it is possible to get multiple messages that a monster died.
     }
 
     m_size monSize = (z->type->size);
-    bool leaveCorpse = !(z->type->has_flag(MF_VERMIN));
+    bool leaveCorpse = !((z->type->has_flag(MF_VERMIN)) || (z->no_corpse_quiet));
 
     // leave some blood if we have to
     if (!z->has_flag(MF_VERMIN)) {
@@ -351,9 +351,9 @@ void mdeath::guilt(monster *z)
 
 void mdeath::blobsplit(monster *z)
 {
-    int speed = z->speed - rng(30, 50);
+    int speed = z->get_speed() - rng(30, 50);
     g->m.spawn_item(z->posx(), z->posy(), "slime_scrap", 1, 0, calendar::turn, rng(1, 4));
-    if (speed <= 0) {
+    if( z->get_speed() <= 0) {
         if (g->u_see(z)) {
             //  TODO:  Add vermin-tagged tiny versions of the splattered blob  :)
             add_msg(m_good, _("The %s splatters apart."), z->name().c_str());
@@ -361,7 +361,7 @@ void mdeath::blobsplit(monster *z)
         return;
     }
     monster blob(GetMType((speed < 50 ? "mon_blob_small" : "mon_blob")));
-    blob.speed = speed;
+    blob.set_speed_base( speed );
     // If we're tame, our kids are too
     blob.friendly = z->friendly;
     if (g->u_see(z)) {
@@ -371,7 +371,7 @@ void mdeath::blobsplit(monster *z)
             add_msg(m_bad, _("Two small blobs slither out of the corpse."), z->name().c_str());
         }
     }
-    blob.hp = blob.speed;
+    blob.hp = speed;
     std::vector <point> valid;
 
     for (int i = -1; i <= 1; i++) {

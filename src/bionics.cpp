@@ -52,7 +52,7 @@ void show_bionics_titlebar(WINDOW *window, player *p, std::string menu_mode)
     mvwprintz(window, 0,  0, c_blue, "%s", caption.c_str());
 
     std::stringstream pwr;
-    pwr << _("Power: ") << int(p->power_level) << _("/") << int(p->max_power_level);
+    pwr << string_format(_("Power: %i/%i"), int(p->power_level), int(p->max_power_level));
     int pwr_length = utf8_width(pwr.str().c_str()) + 1;
     mvwprintz(window, 0, getmaxx(window) - pwr_length, c_white, "%s", pwr.str().c_str());
 
@@ -418,9 +418,6 @@ void player::activate_bionic(int b)
                 g->m.bash( i, j, 40 );
                 g->m.bash( i, j, 40 ); // Multibash effect, so that doors &c will fall
                 g->m.bash( i, j, 40 );
-                if (g->m.is_destructable(i, j) && rng(1, 10) >= 4) {
-                    g->m.ter_set(i, j, t_rubble);
-                }
             }
         }
     } else if (bio.id == "bio_time_freeze") {
@@ -735,9 +732,13 @@ void player::activate_bionic(int b)
                     }
                 }
                 traj.insert(traj.begin(), point(i, j));
+                if( g->m.has_flag( "SEALED", i, j ) ) {
+                    continue;
+                }
                 for (unsigned k = 0; k < g->m.i_at(i, j).size(); k++) {
-                    if (g->m.i_at(i, j)[k].made_of("iron") || g->m.i_at(i, j)[k].made_of("steel")) {
-                        tmp_item = g->m.i_at(i, j)[k];
+                    tmp_item = g->m.i_at(i, j)[k];
+                    if( (tmp_item.made_of("iron") || tmp_item.made_of("steel")) &&
+                        tmp_item.weight() < weight_capacity() ) {
                         g->m.i_rem(i, j, k);
                         std::vector<point>::iterator it;
                         for (it = traj.begin(); it != traj.end(); ++it) {
@@ -746,11 +747,18 @@ void player::activate_bionic(int b)
                                 g->zombie(index).apply_damage( this, bp_torso, tmp_item.weight() / 225 );
                                 g->m.add_item_or_charges(it->x, it->y, tmp_item);
                                 break;
-                            } else if (it != traj.begin() && g->m.move_cost(it->x, it->y) == 0) {
-                                g->m.bash( it->x, it->y, tmp_item.weight() / 225 );
-                                if (g->m.move_cost(it->x, it->y) == 0) {
-                                    g->m.add_item_or_charges((it - 1)->x, (it - 1)->y, tmp_item);
-                                    break;
+                            } else if (g->m.move_cost(it->x, it->y) == 0) {
+                                if (it != traj.begin()) {
+                                    g->m.bash( it->x, it->y, tmp_item.weight() / 225 );
+                                    if (g->m.move_cost(it->x, it->y) == 0) {
+                                        g->m.add_item_or_charges((it - 1)->x, (it - 1)->y, tmp_item);
+                                        break;
+                                    }
+                                } else {
+                                    g->m.bash( it->x, it->y, tmp_item.weight() / 225 );
+                                    if (g->m.move_cost(it->x, it->y) == 0) {
+                                        break;
+                                    }
                                 }
                             }
                         }
@@ -761,6 +769,7 @@ void player::activate_bionic(int b)
                 }
             }
         }
+        moves -= 100;
     } else if(bio.id == "bio_lockpick") {
         if(!choose_adjacent(_("Activate your bio lockpick where?"), dirx, diry)) {
             power_level += bionics["bio_lockpick"]->power_cost;
@@ -901,7 +910,7 @@ bool player::uninstall_bionic(bionic_id b_id)
                             skillLevel("mechanics"),
                             difficulty + 2);
 
-    if (!query_yn(_("WARNING: %i percent chance of SEVERE bodily damage! Remove anyway?"),
+    if (!query_yn(_("WARNING: %i percent chance of failure and SEVERE bodily damage! Remove anyway?"),
                   100 - chance_of_success)) {
         return false;
     }

@@ -420,8 +420,7 @@ void npc::choose_monster_target(int &enemy, int &danger,
     for (size_t i = 0; i < g->num_zombies(); i++) {
         monster *mon = &(g->zombie(i));
         if (this->sees(mon, linet)) {
-            int distance = (100 * rl_dist(posx, posy, mon->posx(), mon->posy())) /
-                           mon->speed;
+            int distance = (100 * rl_dist(posx, posy, mon->posx(), mon->posy())) / mon->get_speed();
             double hp_percent = (mon->type->hp - mon->hp) / mon->type->hp;
             int priority = mon->type->difficulty * (1 + hp_percent) - distance;
             int monster_danger = (mon->type->difficulty * mon->hp) / mon->type->hp;
@@ -471,9 +470,9 @@ void npc::choose_monster_target(int &enemy, int &danger,
             } else if (okay_by_rules && defend_u) {
                 priority = mon->type->difficulty * (1 + hp_percent);
                 distance = (100 * rl_dist(g->u.posx, g->u.posy, mon->posx(), mon->posy())) /
-                           mon->speed;
+                    mon->get_speed();
                 priority -= distance;
-                if ((int)mon->speed < get_speed()) {
+                if( mon->get_speed() < get_speed() ) {
                     priority -= 10;
                 }
                 priority *= (personality.bravery + personality.altruism + op_of_u.value) /
@@ -490,7 +489,7 @@ void npc::choose_monster_target(int &enemy, int &danger,
 npc_action npc::method_of_fleeing(int enemy)
 {
     int speed = (enemy == TARGET_PLAYER ? g->u.get_speed() :
-                 g->zombie(enemy).speed);
+                 g->zombie(enemy).get_speed());
     point enemy_loc = (enemy == TARGET_PLAYER ? point(g->u.posx, g->u.posy) :
                        point(g->zombie(enemy).posx(), g->zombie(enemy).posy()));
     int distance = rl_dist(posx, posy, enemy_loc.x, enemy_loc.y);
@@ -961,7 +960,7 @@ bool npc::enough_time_to_reload(int target, item &gun)
         speed = speed_estimate(g->u.get_speed());
     } else if (target >= 0) {
         dist = rl_dist(posx, posy, g->zombie(target).posx(), g->zombie(target).posy());
-        speed = speed_estimate(g->zombie(target).speed);
+        speed = speed_estimate(g->zombie(target).get_speed());
     } else {
         return true;    // No target, plenty of time to reload
     }
@@ -989,7 +988,8 @@ void npc::update_path(int x, int y)
 
 bool npc::can_move_to(int x, int y) const
 {
-    return ((g->m.move_cost(x, y) > 0 || g->m.has_flag("BASHABLE", x, y)) &&
+    //Space is considered good with a 20% chance of bashing successfully
+    return ((g->m.move_cost(x, y) > 0 || g->m.bash_rating(str_cur + weapon.type->melee_dam, x, y) >= 2) &&
             rl_dist(posx, posy, x, y) <= 1);
 }
 
@@ -999,12 +999,6 @@ void npc::move_to(int x, int y)
     if (has_effect("downed")) {
         moves -= 100;
         return;
-    }
-    if (has_disease("bouldering")) {
-        moves -= 20;
-        if (moves < 0) {
-            moves = 0;
-        }
     }
     if (recoil > 0) { // Start by dropping recoil a little
         if (int(str_cur / 2) + skillLevel("gun") >= (int)recoil) {
@@ -1075,17 +1069,11 @@ void npc::move_to(int x, int y)
             }
         } else if (g->m.open_door(x, y, (g->m.ter(posx, posy) == t_floor))) {
             moves -= 100;
-        } else if (g->m.has_flag("BASHABLE", x, y)) {
-            moves -= 110;
-            int smashskill = int(str_cur / 2 + weapon.type->melee_dam);
+        } else if (g->m.is_bashable(x, y) && g->m.bash_rating(str_cur + weapon.type->melee_dam, x, y) > 0) {
+            moves -= int(weapon.is_null() ? 80 : weapon.attack_time() * 0.8);;
+            int smashskill = str_cur + weapon.type->melee_dam;
             g->m.bash( x, y, smashskill );
         } else {
-            int frubble = g->m.get_field_strength( point(x, y), fd_rubble );
-            if (frubble > 0 ) {
-                g->u.add_disease("bouldering", 100, false, frubble, 3);
-            } else {
-                g->u.rem_disease("bouldering");
-            }
             moves -= 100;
         }
     }
@@ -1235,7 +1223,7 @@ void npc::move_away_from(int x, int y)
     }
     if (y < posy) {
         dy = 1;
-    } else if (y < posy) {
+    } else if (y > posy) {
         dy = -1;
     }
 
@@ -2233,7 +2221,8 @@ void npc::go_to_destination()
             for (int dx = 0 - i; dx <= i; dx++) {
                 for (int dy = 0 - i; dy <= i; dy++) {
                     if ((g->m.move_cost(x + dx, y + dy) > 0 ||
-                         g->m.has_flag("BASHABLE", x + dx, y + dy) ||
+                         //Needs 20% chance of bashing success to be considered for pathing
+                         g->m.bash_rating(str_cur + weapon.type->melee_dam, x, y) >= 2 ||
                          g->m.ter(x + dx, y + dy) == t_door_c) &&
                         g->m.sees(posx, posy, x + dx, y + dy, light, linet)) {
                         path = g->m.route(posx, posy, x + dx, y + dy);

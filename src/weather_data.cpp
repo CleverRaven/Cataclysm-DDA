@@ -1,6 +1,3 @@
-#ifndef _WEATHER_DATA_H_
-#define _WEATHER_DATA_H_
-
 #include "weather.h"
 #include "game.h"
 #include "translations.h"
@@ -11,6 +8,7 @@
  */
 
 std::string season_name[4];
+std::string season_name_uc[4];
 
 /**
  * Weather types data definition.
@@ -35,8 +33,8 @@ void game::init_weather_anim()
     mapWeatherAnim[WEATHER_RAINY] =         clWeatherAnim(',', c_ltblue, 0.02f);
     mapWeatherAnim[WEATHER_THUNDER] =       clWeatherAnim('.', c_ltblue, 0.02f);
     mapWeatherAnim[WEATHER_LIGHTNING] =     clWeatherAnim(',', c_ltblue, 0.04f);
-    mapWeatherAnim[WEATHER_FLURRIES] =      clWeatherAnim('*', c_white, 0.01f);
-    mapWeatherAnim[WEATHER_SNOW] =          clWeatherAnim('*', c_white, 0.02f);
+    mapWeatherAnim[WEATHER_FLURRIES] =      clWeatherAnim('.', c_white, 0.01f);
+    mapWeatherAnim[WEATHER_SNOW] =          clWeatherAnim(',', c_white, 0.02f);
     mapWeatherAnim[WEATHER_SNOWSTORM] =     clWeatherAnim('*', c_white, 0.04f);
 }
 
@@ -134,10 +132,14 @@ int weather_shift[4][NUM_WEATHER_TYPES][NUM_WEATHER_TYPES] = {
 void game::init_weather()
 {
     std::string tmp_season_name[4] = {
-        _("Spring"), _("Summer"), _("Autumn"), _("Winter")
+        _("spring"), _("summer"), _("autumn"), _("winter")
     };
     for(int i = 0; i < 4; i++) {
         season_name[i] = tmp_season_name[i];
+    }
+    for(int i = 0; i < 4; i++) {
+        season_name_uc[i] = tmp_season_name[i];
+        season_name_uc[i][0] = toupper(season_name_uc[i][0]);
     }
     // Nm, UICol, {Temp by season}, RangedPEN, SightPEN, light_mod, MinTIME, MaxTIME(to recalc)
     weather_datum tmp_weather_data[] = {
@@ -280,4 +282,3 @@ int get_hourly_rotpoints_at_temp (const int &temp)
 }
 
 ///@}
-#endif // _WEATHER_DATA_H_
