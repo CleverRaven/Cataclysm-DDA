@@ -165,6 +165,53 @@ class inventory
         void assign_empty_invlet(item &it, bool force = false);
 
         std::set<char> allocated_invlets() const;
+
+        template<typename T>
+        static void items_with_recursive( std::vector<const item *> &vec, const item &it, T filter )
+        {
+            if( filter( it ) ) {
+                vec.push_back( &it );
+            }
+            for( auto &c : it.contents ) {
+                items_with_recursive( vec, c, filter );
+            }
+        }
+        template<typename T>
+        static bool has_item_with_recursive( const item &it, T filter )
+        {
+            if( filter( it ) ) {
+                return true;
+            }
+            for( auto &c : it.contents ) {
+                if( has_item_with_recursive( c, filter ) ) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        template<typename T>
+        bool has_item_with(T filter) const
+        {
+            for( auto &stack : items ) {
+                for( auto &it : stack ) {
+                    if( has_item_with_recursive( it, filter ) ) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+        template<typename T>
+        std::vector<const item *> items_with(T filter) const
+        {
+            std::vector<const item *> result;
+            for( auto &stack : items ) {
+                for( auto &it : stack ) {
+                    inventory::items_with_recursive( result, it, filter );
+                }
+            }
+            return result;
+        }
     private:
         // For each item ID, store a set of "favorite" inventory letters.
         std::map<std::string, std::vector<char> > invlet_cache;

@@ -755,6 +755,61 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         std::string weapname(bool charges = true);
 
+        /**
+         * Test whether an item in the possession of this player match a
+         * certain filter.
+         * The items might be inside other items (containers / quiver / etc.),
+         * the filter is recursively applied to all item contents.
+         * If this returns true, the vector returned by @ref items_with
+         * (with the same filter) will be non-empty.
+         * @param filter some object that when invoked with the () operator
+         * returns true for item that should checked for.
+         * @return Returns true when at least one item matches the filter,
+         * if no item matches the filter it returns false.
+         */
+        template<typename T>
+        bool has_item_with(T filter) const
+        {
+            if( inv.has_item_with( filter ) ) {
+                return true;
+            }
+            if( !weapon.is_null() && inventory::has_item_with_recursive( weapon, filter ) ) {
+                return true;
+            }
+            for( auto &w : worn ) {
+                if( inventory::has_item_with_recursive( w, filter ) ) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        /**
+         * Gather all items that match a certain filter.
+         * The returned vector contains pointers to items in the possession
+         * of this player (can be weapon, worn items or inventory).
+         * The items might be inside other items (containers / quiver / etc.),
+         * the filter is recursively applied to all item contents.
+         * The items should not be changed directly, the pointers can be used
+         * with @ref i_rem, @ref reduce_charges. The pointers are *not* suitable
+         * for @ref get_item_position because the returned index can only
+         * refer to items directly in the inventory (e.g. -1 means the weapon,
+         * there is no index for the content of the weapon).
+         * @param filter some object that when invoked with the () operator
+         * returns true for item that should be returned.
+         */
+        template<typename T>
+        std::vector<const item *> items_with(T filter) const
+        {
+            auto result = inv.items_with( filter );
+            if( !weapon.is_null() ) {
+                inventory::items_with_recursive( result, weapon, filter );
+            }
+            for( auto &w : worn ) {
+                inventory::items_with_recursive( result, w, filter );
+            }
+            return result;
+        }
+
         item &i_add(item it);
         // Sets invlet and adds to inventory if possible, drops otherwise, returns true if either succeeded.
         // An optional qty can be provided (and will perform better than separate calls).
