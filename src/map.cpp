@@ -1437,12 +1437,12 @@ int map::bash_rating(const int str, const int x, const int y)
     } else if ( ter_at(x, y).bash.str_max != -1 ) {
         ter_smash = true;
     }
-    
+
     if (!furn_smash && !ter_smash) {
     //There must be a vehicle there!
         return 10;
     }
-    
+
     int bash_min = 0;
     int bash_max = 0;
     if (furn_smash) {
@@ -1457,7 +1457,7 @@ int map::bash_rating(const int str, const int x, const int y)
     } else if (str >= bash_max) {
         return 10;
     }
-    
+
     return (10 * (str - bash_min)) / (bash_max - bash_min);
 }
 
@@ -1479,7 +1479,7 @@ void map::make_rubble(const int x, const int y, furn_id rubble_type, bool items,
         if (move_cost(x, y) <= 0) {
             ter_set(x, y, floor_type);
         }
-        
+
         furn_set(x, y, rubble_type);
     }
     if (items) {
@@ -4685,7 +4685,7 @@ void map::loadn(const int worldx, const int worldy, const int worldz,
   }
 
   // plantEpoch is half a season; 3 epochs pass from plant to harvest
-  const int plantEpoch = 14400 * (int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] / 2;
+  const int plantEpoch = 14400 * int(calendar::season_length()) / 2;
 
   // check plants for crops and seasonal harvesting.
   for (int x = 0; x < SEEX; x++) {
@@ -4711,8 +4711,16 @@ void map::loadn(const int worldx, const int worldy, const int worldz,
       }
       ter_id ter = tmpsub->ter[x][y];
       //if the fruit-bearing season of the already harvested terrain has passed, make it harvestable again
-      if ((ter) && (terlist[ter].has_flag("HARVESTED")) && ( terlist[ter].harvest_season != calendar::turn.get_season())) {
-        tmpsub->set_ter(x, y, terfind(terlist[ter].transforms_into));
+      if ((ter) && (terlist[ter].has_flag("HARVESTED"))){
+        //debug messages to get removed when its fixed
+        debugmsg("time now %d", int(calendar::turn));
+        debugmsg("time before %d",tmpsub->turn_last_touched);
+        debugmsg("diff %d", int(calendar::turn) - tmpsub->turn_last_touched);
+        debugmsg("season_length %d", int(calendar::season_length())*14400);
+        if ((terlist[ter].harvest_season != calendar::turn.get_season()) || 
+        (calendar::turn - tmpsub->turn_last_touched > calendar::season_length()*14400)){
+          tmpsub->set_ter(x, y, terfind(terlist[ter].transforms_into));
+        }
       }
     }
   }
