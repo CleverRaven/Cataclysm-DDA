@@ -1094,19 +1094,6 @@ bool inventory::has_artifact_with(art_effect_passive effect) const
     return false;
 }
 
-item &inventory::watertight_container()
-{
-    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
-        item &it = iter->front();
-        if (it.is_container() && it.contents.empty()) {
-            if (it.has_flag("WATERTIGHT") && it.has_flag("SEALS")) {
-                return it;
-            }
-        }
-    }
-    return nullitem;
-}
-
 int inventory::worst_item_value(npc *p) const
 {
     int worst = 99999;

@@ -133,7 +133,6 @@ class inventory
 
         int butcher_factor() const;
         bool has_artifact_with(art_effect_passive effect) const;
-        item &watertight_container();
 
         // NPC/AI functions
         int worst_item_value(npc *p) const;
