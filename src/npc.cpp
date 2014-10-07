@@ -1661,7 +1661,7 @@ int npc::value(const item &it)
    if (ammo->type == gun->ammo)
     ret += 14;
   }
-  if (inv.has_gun_for_ammo(ammo->type)) {
+  if (has_gun_for_ammo(ammo->type)) {
    // TODO consider making this cumulative (once was)
    ret += 14;
   }

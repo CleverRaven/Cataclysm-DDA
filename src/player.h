@@ -926,6 +926,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         std::set<char> allocated_invlets() const;
         bool has_mission_item(int mission_id) const; // Has item with mission_id
         std::vector<item *> has_ammo(ammotype at); // Returns a list of the ammo
+        /**
+         * Check whether the player has a gun that uses the given type of ammo.
+         */
+        bool has_gun_for_ammo( const ammotype &at ) const;
 
         bool has_weapon() const;
         // Check if the player can pickup stuff (fails if wielding
