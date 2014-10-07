@@ -110,8 +110,6 @@ void Item_factory::finialize_item_blacklist()
             remove_item(itm, furnlist[i].bash.items);
         }
     }
-    item_blacklist.clear();
-    item_whitelist.clear();
 }
 
 void add_to_set(t_string_set &s, JsonObject &json, const std::string &name)
