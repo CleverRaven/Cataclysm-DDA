@@ -130,11 +130,9 @@ int weather_generator::get_water_temperature()
     source : http://www.grandriver.ca/index/document.cfm?Sec=2&Sub1=7&sub2=1
     **/
 
-    // Can I actually access these things?
-    calendar turn = calendar::turn;
-    int season_length = turn.season_length();
-    int day = turn.day_of_year();
-    int hour = turn.getHour();
+    int season_length = calendar::turn.season_length();
+    int day = calendar::turn.day_of_year();
+    int hour = calendar::turn.getHour();
     int water_temperature = 0;
 
     if (season_length == 0) season_length = 1;
