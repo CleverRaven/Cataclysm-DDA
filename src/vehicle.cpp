@@ -593,7 +593,7 @@ void vehicle::use_controls()
         if((stereo_on || fuel_left(fuel_type_battery))) {
             stereo_on = !stereo_on;
             int music_index = 0;
-            std::vector<item*> music_inv = g->u.inv.all_items_with_flag("CD");
+            std::vector<const item*> music_inv = g->u.inv.all_items_with_flag("CD");
             std::vector<itype_id> music_types;
             std::vector<std::string> music_names;
             add_msg((stereo_on) ? _("Loading...") : _("Ejecting..."));
@@ -605,7 +605,7 @@ void vehicle::use_controls()
                 add_msg(_("Ejected the %s"), cd.tname().c_str());
                 g->u.i_add(cd);
             } else {
-            for (std::vector<item*>::iterator it = music_inv.begin() ; it != music_inv.end(); it++){
+            for (std::vector<const item*>::iterator it = music_inv.begin() ; it != music_inv.end(); it++){
                 if (std::find(music_types.begin(), music_types.end(), (*it)->typeId()) == music_types.end()){
                 music_types.push_back((*it)->typeId());
                 music_names.push_back((*it)->tname());

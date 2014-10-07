@@ -1216,7 +1216,7 @@ void iexamine::dirtmound(player *p, map *m, int examx, int examy)
     }
 
     // Get list of all inv+wielded seeds
-    std::vector<item *> seed_inv = p->inv.all_items_with_flag("SEED");
+    std::vector<const item *> seed_inv = p->inv.all_items_with_flag("SEED");
     if (g->u.weapon.has_flag("SEED")) {
         seed_inv.push_back(&g->u.weapon);
     }
@@ -1224,7 +1224,7 @@ void iexamine::dirtmound(player *p, map *m, int examx, int examy)
     // Make lists of unique seed types and names for the menu(no multiple hemp seeds etc)
     std::vector<itype_id> seed_types;
     std::vector<std::string> seed_names;
-    for (std::vector<item *>::iterator it = seed_inv.begin() ; it != seed_inv.end(); it++) {
+    for (std::vector<const item *>::iterator it = seed_inv.begin() ; it != seed_inv.end(); it++) {
         if (std::find(seed_types.begin(), seed_types.end(), (*it)->typeId()) == seed_types.end()) {
             seed_types.push_back((*it)->typeId());
             seed_names.push_back((*it)->tname());
@@ -1328,13 +1328,13 @@ void iexamine::aggie_plant(player *p, map *m, int examx, int examy)
         return;
         }
         if (query_yn(_("Fertilize plant"))) {
-        std::vector<item *> f_inv = p->inv.all_items_with_flag("FERTILIZER");
+        std::vector<const item *> f_inv = p->inv.all_items_with_flag("FERTILIZER");
             if (g->u.weapon.contains_with_flag("FERTILIZER")) {
             f_inv.push_back(&g->u.weapon.contents[0]);
             }
         std::vector<itype_id> f_types;
         std::vector<std::string> f_names;
-            for (std::vector<item *>::iterator it = f_inv.begin() ; it != f_inv.end(); it++) {
+            for (std::vector<const item *>::iterator it = f_inv.begin() ; it != f_inv.end(); it++) {
                 if (std::find(f_types.begin(), f_types.end(), (*it)->typeId()) == f_types.end()) {
                     f_types.push_back((*it)->typeId());
                     f_names.push_back((*it)->tname());
@@ -1403,7 +1403,7 @@ void iexamine::fvat_empty(player *p, map *m, int examx, int examy)
             return;
         }
         // Get list of all inv+wielded ferment-able items.
-        std::vector<item *> b_inv = p->inv.all_items_with_flag("BREW");
+        std::vector<const item *> b_inv = p->inv.all_items_with_flag("BREW");
         if (g->u.weapon.contains_with_flag("BREW")) {
             b_inv.push_back(&g->u.weapon.contents[0]);
         }
@@ -1411,7 +1411,7 @@ void iexamine::fvat_empty(player *p, map *m, int examx, int examy)
         // Code shamelessly stolen from the crop planting function!
         std::vector<itype_id> b_types;
         std::vector<std::string> b_names;
-        for (std::vector<item *>::iterator it = b_inv.begin() ; it != b_inv.end(); it++) {
+        for (std::vector<const item *>::iterator it = b_inv.begin() ; it != b_inv.end(); it++) {
             if (std::find(b_types.begin(), b_types.end(), (*it)->typeId()) == b_types.end()) {
                 b_types.push_back((*it)->typeId());
                 b_names.push_back((*it)->tname());
@@ -1557,14 +1557,14 @@ void iexamine::keg(player *p, map *m, int examx, int examy)
             return;
         }
         // Get list of all drinks
-        std::vector<item *> drinks_inv = p->inv.all_drinks();
+        std::vector<const item *> drinks_inv = p->inv.all_drinks();
         if (!g->u.weapon.contents.empty() && g->u.weapon.contents[0].is_drink()) {
             drinks_inv.push_back(&g->u.weapon.contents[0]);
         }
         // Make lists of unique drinks... about third time we do this, maybe we oughta make a function next time
         std::vector<itype_id> drink_types;
         std::vector<std::string> drink_names;
-        for (std::vector<item *>::iterator it = drinks_inv.begin() ; it != drinks_inv.end(); it++) {
+        for (std::vector<const item *>::iterator it = drinks_inv.begin() ; it != drinks_inv.end(); it++) {
             if (std::find(drink_types.begin(), drink_types.end(), (*it)->typeId()) == drink_types.end()) {
                 drink_types.push_back((*it)->typeId());
                 drink_names.push_back((*it)->tname());

@@ -683,7 +683,7 @@ std::list<item> inventory::reduce_stack(const itype_id &type, int quantity)
     return reduce_stack_internal(type, quantity);
 }
 
-item inventory::remove_item(item *it)
+item inventory::remove_item(const item *it)
 {
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
         for (std::list<item>::iterator stack_iter = iter->begin(); stack_iter != iter->end();
@@ -844,7 +844,7 @@ int inventory::invlet_to_position( char invlet ) const
     return INT_MIN;
 }
 
-int inventory::position_by_item(item *it)
+int inventory::position_by_item(const item *it)
 {
     int i = 0;
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
@@ -915,12 +915,12 @@ std::vector<std::pair<item *, int> > inventory::all_items_by_type(itype_id type)
     return ret;
 }
 
-std::vector<item *> inventory::all_items_with_flag( const std::string flag )
+std::vector<const item *> inventory::all_items_with_flag( const std::string flag ) const
 {
-    std::vector<item *> ret;
+    std::vector<const item *> ret;
 
-    for (invstack::iterator istack = items.begin(); istack != items.end(); ++istack) {
-        for (std::list<item>::iterator iitem = istack->begin(); iitem != istack->end(); ++iitem) {
+    for (invstack::const_iterator istack = items.begin(); istack != items.end(); ++istack) {
+        for (std::list<item>::const_iterator iitem = istack->begin(); iitem != istack->end(); ++iitem) {
             if (iitem->has_flag(flag)) {
                 ret.push_back(&*iitem);
             } else if (!iitem->contents.empty())
@@ -950,12 +950,12 @@ std::vector<item *> inventory::all_ammo(const ammotype &type)
     return ret;
 }
 
-std::vector<item *> inventory::all_drinks()
+std::vector<const item *> inventory::all_drinks() const
 {
-    std::vector<item *> ret;
+    std::vector<const item *> ret;
 
-    for (invstack::iterator istack = items.begin(); istack != items.end(); ++istack) {
-        for (std::list<item>::iterator iitem = istack->begin(); iitem != istack->end(); ++iitem) {
+    for (invstack::const_iterator istack = items.begin(); istack != items.end(); ++istack) {
+        for (std::list<item>::const_iterator iitem = istack->begin(); iitem != istack->end(); ++iitem) {
             if (iitem->is_drink()) {
                 ret.push_back(&*iitem);
             } else if (!iitem->contents.empty())

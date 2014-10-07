@@ -764,7 +764,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void process_active_items();
         item i_rem(int pos); // Remove item from inventory; returns ret_null on fail
         item i_rem(itype_id type);// Remove first item w/ this type; fail is ret_null
-        item i_rem(item *it);// Remove specific item.
+        item i_rem(const item *it);// Remove specific item.
         item remove_weapon();
         void remove_mission_items(int mission_id);
         item reduce_charges(int position, long quantity);
@@ -775,7 +775,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * the player does not have such an item with that invlet. Don't use this on npcs.
          * Only use the invlet in the user interface, otherwise always use the item position. */
         int invlet_to_position(char invlet) const;
-        int get_item_position(item *it);  // looks up an item (via pointer comparison)
+        int get_item_position(const item *it);  // looks up an item (via pointer comparison)
         const martialart &get_combat_style() const; // Returns the combat style object
         std::vector<item *> inv_dump(); // Inventory + weapon + worn (for death, etc)
         void place_corpse(); // put corpse+inventory on map at the place where this is.
@@ -815,7 +815,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Only use for UI things. Returns all invelts that are currently used in
          * the player inventory, the weapon slot and the worn items. */
         std::set<char> allocated_invlets() const;
-        bool has_mission_item(int mission_id); // Has item with mission_id
+        bool has_mission_item(int mission_id) const; // Has item with mission_id
         std::vector<item *> has_ammo(ammotype at); // Returns a list of the ammo
 
         bool has_weapon() const;

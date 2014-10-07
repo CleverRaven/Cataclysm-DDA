@@ -71,7 +71,7 @@ class inventory
 
         void form_from_map(point origin, int distance, bool assign_invlet = true);
 
-        item remove_item(item *it);
+        item remove_item(const item *it);
         item remove_item(int position);
         item remove_item(const itype_id &type);
         std::list<item> reduce_stack(int position, int quantity);
@@ -89,7 +89,7 @@ class inventory
         item &item_by_type(itype_id type);
         item &item_or_container(itype_id type); // returns an item, or a container of it
 
-        int position_by_item(item *it);  // looks up an item (via pointer comparison)
+        int position_by_item(const item *it);  // looks up an item (via pointer comparison)
         int position_by_type(itype_id type);
         /** Return the item position of the item with given invlet, return INT_MIN if
          * the inventory does not have such an item with that invlet. Don't use this on npcs inventory. */
@@ -97,8 +97,8 @@ class inventory
 
         std::vector<std::pair<item *, int> > all_items_by_type(itype_id type);
         std::vector<item *> all_ammo(const ammotype &type);
-        std::vector<item *> all_drinks();
-        std::vector<item *> all_items_with_flag( const std::string flag );
+        std::vector<const item *> all_drinks() const;
+        std::vector<const item *> all_items_with_flag( const std::string flag ) const;
 
         // Below, "amount" refers to quantity
         //        "charges" refers to charges

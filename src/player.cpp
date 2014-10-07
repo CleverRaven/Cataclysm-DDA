@@ -6860,7 +6860,7 @@ item player::i_rem(itype_id type)
     return inv.remove_item(type);
 }
 
-item player::i_rem(item *it)
+item player::i_rem(const item *it)
 {
     if (&weapon == it)
     {
@@ -6913,7 +6913,7 @@ int player::invlet_to_position( char invlet ) const
     return inv.invlet_to_position( invlet );
 }
 
-int player::get_item_position(item* it) {
+int player::get_item_position(const item* it) {
     if (&weapon == it) {
         return -1;
     }
@@ -7508,7 +7508,7 @@ bool player::has_item(item *it)
     return inv.has_item(it);
 }
 
-bool player::has_mission_item(int mission_id)
+bool player::has_mission_item(int mission_id) const
 {
     if (mission_id == -1)
     {
