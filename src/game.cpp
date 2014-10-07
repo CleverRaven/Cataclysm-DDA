@@ -88,12 +88,15 @@ game::game() :
     new_game(false),
     uquit(QUIT_NO),
     w_terrain(NULL),
+    w_overmap(NULL),
+    w_omlegend(NULL),
     w_minimap(NULL),
     w_HP(NULL),
     w_messages(NULL),
     w_location(NULL),
     w_status(NULL),
     w_status2(NULL),
+    w_blackspace(NULL),
     dangerous_proximity(5),
     run_mode(1),
     mostseen(0),
@@ -252,11 +255,17 @@ game::~game()
 // defined in sdltiles.cpp
 void to_map_font_dimension(int &w, int &h);
 void from_map_font_dimension(int &w, int &h);
+void to_overmap_font_dimension(int &w, int &h);
+void reinitialize_framebuffer();
 #else
 // unchanged, nothing to be translated without tiles
 void to_map_font_dimension(int &, int &) { }
 void from_map_font_dimension(int &, int &) { }
+void to_overmap_font_dimension(int &, int &) { }
+//in pure curses, the framebuffer won't need reinitializing
+void reinitialize_framebuffer() { }
 #endif
+
 
 void game::init_ui()
 {
@@ -361,6 +370,18 @@ void game::init_ui()
     // Set up the main UI windows.
     w_terrain = newwin(TERRAIN_WINDOW_HEIGHT, TERRAIN_WINDOW_WIDTH, VIEW_OFFSET_Y, VIEW_OFFSET_X);
     werase(w_terrain);
+
+    /**
+     * Doing the same thing as above for the overmap
+     */
+    static const int OVERMAP_LEGEND_WIDTH = 28;
+    OVERMAP_WINDOW_HEIGHT = TERMY;
+    OVERMAP_WINDOW_WIDTH = TERMX - OVERMAP_LEGEND_WIDTH;
+    to_overmap_font_dimension(OVERMAP_WINDOW_WIDTH, OVERMAP_WINDOW_HEIGHT);
+
+    //Bring the framebuffer to the maximum required dimensions
+    //Otherwise it segfaults when the overmap needs a bigger buffer size than it provides
+    reinitialize_framebuffer();
 
     int minimapX, minimapY; // always MINIMAP_WIDTH x MINIMAP_HEIGHT in size
     int hpX, hpY, hpW, hpH;

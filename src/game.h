@@ -393,12 +393,15 @@ class game
 
         int ter_view_x, ter_view_y;
         WINDOW *w_terrain;
+        WINDOW *w_overmap;
+        WINDOW *w_omlegend;
         WINDOW *w_minimap;
         WINDOW *w_HP;
         WINDOW *w_messages;
         WINDOW *w_location;
         WINDOW *w_status;
         WINDOW *w_status2;
+        WINDOW *w_blackspace;
         live_view liveview;
 
         // View offset based on the driving speed (if any)

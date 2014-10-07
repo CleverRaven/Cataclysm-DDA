@@ -34,6 +34,10 @@ int TERRAIN_WINDOW_TERM_HEIGHT;
 int FULL_SCREEN_WIDTH;
 int FULL_SCREEN_HEIGHT;
 
+int OVERMAP_WINDOW_HEIGHT;
+int OVERMAP_WINDOW_WIDTH;
+
+
 scrollingcombattext SCT;
 
 // utf8 version
