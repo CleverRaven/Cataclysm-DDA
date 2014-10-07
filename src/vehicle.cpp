@@ -2896,7 +2896,6 @@ void vehicle::thrust (int thd) {
     if( load < 0.01 ) {
         load = 0.01;
     }
-    noise_and_smoke( load );
     // Ugly hack, use full engine power occasionally when thrusting slightly
     // up to cruise control speed. Loses some extra power when in reverse.
     if (thrusting && rng(1, accel) <= vel_inc ) {
@@ -2927,6 +2926,7 @@ void vehicle::thrust (int thd) {
             }
         }
 
+        noise_and_smoke( load );
         consume_fuel ();
 
         int strn = (int) (strain () * strain() * 100);
