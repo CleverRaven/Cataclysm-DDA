@@ -1094,21 +1094,6 @@ bool inventory::has_artifact_with(art_effect_passive effect) const
     return false;
 }
 
-bool inventory::has_liquid(itype_id type) const
-{
-    // has_capacity_for_liquid needs an item, not an item type
-    const item liquid(type, calendar::turn);
-    for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter) {
-        const item &it = iter->front();
-        if (it.is_container() && !it.contents.empty()) {
-            if (has_capacity_for_liquid(it, liquid)) {
-                return true;
-            }
-        }
-    }
-    return false;
-}
-
 item &inventory::watertight_container()
 {
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {

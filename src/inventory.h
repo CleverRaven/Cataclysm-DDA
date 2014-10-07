@@ -133,7 +133,6 @@ class inventory
 
         int butcher_factor() const;
         bool has_artifact_with(art_effect_passive effect) const;
-        bool has_liquid(itype_id type) const;
         item &watertight_container();
 
         // NPC/AI functions
