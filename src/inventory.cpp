@@ -1227,22 +1227,6 @@ int inventory::volume() const
     return ret;
 }
 
-long inventory::max_active_item_charges(itype_id id) const
-{
-    long max = 0;
-    for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter) {
-        for (std::list<item>::const_iterator stack_iter = iter->begin();
-             stack_iter != iter->end();
-             ++stack_iter) {
-            if (stack_iter->type->id == id && stack_iter->active &&
-                stack_iter->charges > max) {
-                max = stack_iter->charges;
-            }
-        }
-    }
-    return max;
-}
-
 std::vector<item *> inventory::active_items()
 {
     std::vector<item *> ret;

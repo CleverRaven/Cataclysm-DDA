@@ -146,7 +146,6 @@ class inventory
 
         int weight() const;
         int volume() const;
-        long max_active_item_charges(itype_id id) const;
 
         void dump(std::vector<item *> &dest); // dumps contents into dest (does not delete contents)
 

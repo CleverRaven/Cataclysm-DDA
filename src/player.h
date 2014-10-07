@@ -847,7 +847,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         // An optional qty can be provided (and will perform better than separate calls).
         bool i_add_or_drop(item &it, int qty = 1);
         bool has_active_item(const itype_id &id) const;
-        long active_item_charges(itype_id id);
         void process_active_items();
         /**
          * Remove a specific item from player possession. The item is compared

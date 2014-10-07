@@ -6687,22 +6687,6 @@ bool player::has_active_item(const itype_id & id) const
     return inv.has_active_item(id);
 }
 
-long player::active_item_charges(itype_id id)
-{
-    long max = 0;
-    if (weapon.type->id == id && weapon.active)
-    {
-        max = weapon.charges;
-    }
-
-    long inv_max = inv.max_active_item_charges(id);
-    if (inv_max > max)
-    {
-        max = inv_max;
-    }
-    return max;
-}
-
 void player::process_active_items()
 {
     if( weapon.process( this, pos() ) ) {
