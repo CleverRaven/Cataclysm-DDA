@@ -972,19 +972,6 @@ bool inventory::has_items_with_quality(std::string id, int level, int amount) co
     }
 }
 
-bool inventory::has_active_item(itype_id type) const
-{
-    for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter) {
-        for (std::list<item>::const_iterator stack_iter = iter->begin(); stack_iter != iter->end();
-             ++stack_iter) {
-            if (stack_iter->type->id == type && stack_iter->active) {
-                return true;
-            }
-        }
-    }
-    return false;
-}
-
 int inventory::leak_level(std::string flag) const
 {
     int ret = 0;

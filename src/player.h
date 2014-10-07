@@ -846,6 +846,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         // Sets invlet and adds to inventory if possible, drops otherwise, returns true if either succeeded.
         // An optional qty can be provided (and will perform better than separate calls).
         bool i_add_or_drop(item &it, int qty = 1);
+        /**
+         * Whether the player carries an active item of the given item type.
+         */
         bool has_active_item(const itype_id &id) const;
         void process_active_items();
         /**

@@ -6680,11 +6680,9 @@ item& player::i_add(item it)
 
 bool player::has_active_item(const itype_id & id) const
 {
-    if (weapon.type->id == id && weapon.active)
-    {
-        return true;
-    }
-    return inv.has_active_item(id);
+    return has_item_with( [id]( const item & it ) {
+        return it.active && it.typeId() == id;
+    } );
 }
 
 void player::process_active_items()

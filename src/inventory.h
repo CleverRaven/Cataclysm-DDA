@@ -120,7 +120,6 @@ class inventory
          */
         bool has_item(const item *it) const;
         bool has_items_with_quality(std::string id, int level, int amount) const;
-        bool has_active_item(itype_id) const;
 
         static int num_items_at_position( int position );
 
