@@ -1427,6 +1427,8 @@ bool game::do_turn()
     m.process_active_items();
     m.step_in_field(u.posx, u.posy);
 
+    remote_vehicle_maps.vehmove();
+
     monmove();
     update_stair_monsters();
     u.reset_bonuses();
