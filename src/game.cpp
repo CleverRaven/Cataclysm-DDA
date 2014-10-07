@@ -12835,6 +12835,13 @@ bool game::plmove(int dx, int dy)
                     }
 
                     int str_req = furntype.move_str_req;
+                    // Factor in weight of items contained in the furniture.
+                    int furniture_contents_weight = 0;
+                    for( auto contained_item : m.i_at( fpos.x, fpos.y ) ) {
+                        furniture_contents_weight += contained_item.weight();
+                    }
+                    str_req += furniture_contents_weight / 4000;
+
                     u.moves -= str_req * 10;
                     // Additional penalty if we can't comfortably move it.
                     if (!m.can_move_furniture(fpos.x, fpos.y, &u)) {
