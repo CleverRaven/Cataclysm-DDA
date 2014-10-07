@@ -1299,7 +1299,7 @@ int overmap::dist_from_city(point p)
     return distance;
 }
 
-void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
+void overmap::draw(WINDOW *w, const tripoint &center,
                    const tripoint &orig, bool blink, bool show_explored,
                    input_context *inp_ctxt,
                    bool debug_monstergroups,
@@ -1308,10 +1308,9 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
     const int z = center.z;
     const int cursx = center.x;
     const int cursy = center.y;
-    const int om_map_width = OVERMAP_WINDOW_WIDTH;
-    const int om_map_height = OVERMAP_WINDOW_HEIGHT;
-
-
+    static const int LEGEND_WIDTH = 28;
+    const int om_map_width = TERMX - LEGEND_WIDTH;
+    const int om_map_height = TERMY;
     // Target of current mission
     point target;
     bool has_target = false;
@@ -1600,7 +1599,6 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
     for( const auto &v : vehicles ) {
         corner_text.push_back( v.name );
     }
-
     if( !corner_text.empty() ) {
         int maxlen = 0;
         for( const auto &line : corner_text ) {
@@ -1633,14 +1631,13 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
     }
 
     // Draw the vertical line
-    for (int j = 0; j < TERMY; j++) {
-        mvwputch(wbar, j, 0, c_white, LINE_XOXO);
+    for (int j = 0; j < om_map_height; j++) {
+        mvwputch(w, j, om_map_width, c_white, LINE_XOXO);
     }
-
     // Clear the legend
-    for (int i = 1; i < 55; i++) {
-        for (int j = 0; j < TERMY; j++) {
-            mvwputch(wbar, j, i, c_black, ' ');
+    for (int i = om_map_width + 1; i < om_map_width + 55; i++) {
+        for (int j = 0; j < om_map_height; j++) {
+            mvwputch(w, j, i, c_black, ' ');
         }
     }
 
@@ -1649,66 +1646,65 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
         if(!mgroups.empty()) {
             int line_number = 1;
             for( const auto &mgroup : mgroups ) {
-                mvwprintz(wbar, line_number++, 3,
+                mvwprintz(w, line_number++, om_map_width + 3,
                           c_blue, "  Species: %s", mgroup->type.c_str());
-                mvwprintz(wbar, line_number++, 3,
+                mvwprintz(w, line_number++, om_map_width + 3,
                           c_blue, "# monsters: %d", mgroup->population);
                 if( !mgroup->horde ) {
                     continue;
                 }
-                mvwprintz(wbar, line_number++, 3,
+                mvwprintz(w, line_number++, om_map_width + 3,
                           c_blue, "  Interest: %d", mgroup->interest);
-                mvwprintz(wbar, line_number, 3,
+                mvwprintz(w, line_number, om_map_width + 3,
                           c_blue, "  Target: %d, %d", mgroup->tx, mgroup->ty);
-                mvwprintz(wbar, line_number++, 3,
+                mvwprintz(w, line_number++, om_map_width + 3,
                           c_red, "x");
             }
         } else {
-            mvwputch(wbar, 1, 1, otermap[ccur_ter].color, otermap[ccur_ter].sym);
+            mvwputch(w, 1, om_map_width + 1, otermap[ccur_ter].color, otermap[ccur_ter].sym);
             std::vector<std::string> name = foldstring(otermap[ccur_ter].name, 25);
             for (size_t i = 0; i < name.size(); i++) {
-                mvwprintz(wbar, i + 1, 3, otermap[ccur_ter].color, "%s", name[i].c_str());
+                mvwprintz(w, i + 1, om_map_width + 3, otermap[ccur_ter].color, "%s", name[i].c_str());
             }
         }
     } else {
-        mvwprintz(wbar, 1, 1, c_dkgray, _("# Unexplored"));
+        mvwprintz(w, 1, om_map_width + 1, c_dkgray, _("# Unexplored"));
     }
 
     if (has_target) {
         // TODO: mission targets currently have no z-component, are assumed to be on z=0
         int distance = rl_dist(orig.x, orig.y, target.x, target.y);
-        mvwprintz(wbar, 3, 1, c_white, _("Distance to target: %d"), distance);
+        mvwprintz(w, 3, om_map_width + 1, c_white, _("Distance to target: %d"), distance);
     }
-    mvwprintz(wbar, 14, 1, c_magenta, _("Use movement keys to pan."));
+    mvwprintz(w, 14, om_map_width + 1, c_magenta, _("Use movement keys to pan."));
     if (inp_ctxt != NULL) {
-        mvwprintz(wbar, 15, 1, c_magenta, (inp_ctxt->get_desc("CENTER") +
+        mvwprintz(w, 15, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("CENTER") +
                   _(" - Center map on character")).c_str());
-        mvwprintz(wbar, 16, 1, c_magenta, (inp_ctxt->get_desc("SEARCH") +
+        mvwprintz(w, 16, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("SEARCH") +
                   _(" - Search")).c_str());
-        mvwprintz(wbar, 17, 1, c_magenta, (inp_ctxt->get_desc("CREATE_NOTE") +
+        mvwprintz(w, 17, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("CREATE_NOTE") +
                   _(" - Add/Edit a note")).c_str());
-        mvwprintz(wbar, 18, 1, c_magenta, (inp_ctxt->get_desc("DELETE_NOTE") +
+        mvwprintz(w, 18, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("DELETE_NOTE") +
                   _(" - Delete a note")).c_str());
-        mvwprintz(wbar, 19, 1, c_magenta, (inp_ctxt->get_desc("LIST_NOTES") +
+        mvwprintz(w, 19, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("LIST_NOTES") +
                   _(" - List notes")).c_str());
-        mvwprintz(wbar, 20, 1, c_magenta, (inp_ctxt->get_desc("TOGGLE_BLINKING") +
+        mvwprintz(w, 20, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("TOGGLE_BLINKING") +
                   _(" - Toggle Blinking")).c_str());
-        mvwprintz(wbar, 21, 1, c_magenta, (inp_ctxt->get_desc("TOGGLE_OVERLAYS") +
+        mvwprintz(w, 21, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("TOGGLE_OVERLAYS") +
                   _(" - Toggle Overlays")).c_str());
-        mvwprintz(wbar, 22, 1, c_magenta, (inp_ctxt->get_desc("TOGGLE_EXPLORED") +
+        mvwprintz(w, 22, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("TOGGLE_EXPLORED") +
                   _(" - Toggle Explored")).c_str());
-        mvwprintz(wbar, 23, 1, c_magenta, (inp_ctxt->get_desc("HELP_KEYBINDINGS") +
+        mvwprintz(w, 23, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("HELP_KEYBINDINGS") +
                   _(" - Change keys")).c_str());
-        fold_and_print(wbar, 24, 1, 27, c_magenta, ("m, " + inp_ctxt->get_desc("QUIT") +
+        fold_and_print(w, 24, om_map_width + 1, 27, c_magenta, ("m, " + inp_ctxt->get_desc("QUIT") +
                        _(" - Return to game")).c_str());
     }
     point omt(cursx, cursy);
     const point om = overmapbuffer::omt_to_om_remain(omt);
-    mvwprintz(wbar, getmaxy(wbar) - 1, 1, c_red,
+    mvwprintz(w, getmaxy(w) - 1, om_map_width + 1, c_red,
               _("LEVEL %i, %d'%d, %d'%d"), z, om.x, omt.x, om.y, omt.y);
     // Done with all drawing!
     wrefresh(w);
-    wrefresh(wbar);
 }
 
 tripoint overmap::draw_overmap()
@@ -1726,14 +1722,7 @@ tripoint overmap::draw_overmap(int z)
 //Start drawing the overmap on the screen using the (m)ap command.
 tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const tripoint &select, const int iZoneIndex)
 {
-    g->w_omlegend = newwin(TERMY, 28, 0, TERMX - 28);
-    g->w_overmap = newwin(OVERMAP_WINDOW_HEIGHT, OVERMAP_WINDOW_WIDTH, 0, 0);
-
-    // Draw black padding space to avoid gap between map and legend
-    g->w_blackspace = newwin(TERMY, TERMX - 28, 0, 0);
-    mvwputch(g->w_blackspace, 0, 0, c_black, ' ');
-    wrefresh(g->w_blackspace);
-    delwin(g->w_blackspace);
+    WINDOW *w_map = newwin(TERMY, TERMX, 0, 0);
 
     tripoint ret = invalid_tripoint;
     tripoint curs(orig);
@@ -1765,7 +1754,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const 
     do {
         timeout( BLINK_SPEED );
         bool show_explored = uistate.overmap_blinking || uistate.overmap_show_overlays;
-        draw(g->w_overmap, g->w_omlegend, curs, orig, uistate.overmap_show_overlays, show_explored, &ictxt, debug_mongroup, iZoneIndex);
+        draw(w_map, curs, orig, uistate.overmap_show_overlays, show_explored, &ictxt, debug_mongroup, iZoneIndex);
         action = ictxt.handle_input();
         timeout(-1);
 
@@ -1837,7 +1826,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const 
             do {
                 tmp.x = locations[i].x;
                 tmp.y = locations[i].y;
-                draw(g->w_overmap, g->w_omlegend, tmp, orig, uistate.overmap_show_overlays, show_explored, NULL);
+                draw(w_map, tmp, orig, uistate.overmap_show_overlays, show_explored, NULL);
                 //Draw search box
                 draw_border(w_search);
                 mvwprintz(w_search, 1, 1, c_red, _("Find place:"));
@@ -1877,8 +1866,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const 
             }
         }
     } while (action != "QUIT" && action != "CONFIRM");
-    delwin(g->w_overmap);
-    delwin(g->w_omlegend);
+    delwin(w_map);
     erase();
     g->refresh_all();
     return ret;

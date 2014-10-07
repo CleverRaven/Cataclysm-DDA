@@ -51,8 +51,6 @@ extern int TERRAIN_WINDOW_TERM_WIDTH; // width of terrain window in terminal cha
 extern int TERRAIN_WINDOW_TERM_HEIGHT; // same for height
 extern int FULL_SCREEN_WIDTH; // width of "full screen" popups
 extern int FULL_SCREEN_HEIGHT; // height of "full screen" popups
-extern int OVERMAP_WINDOW_WIDTH; // width of overmap window
-extern int OVERMAP_WINDOW_HEIGHT; // height of overmap window
 
 enum game_message_type {
     m_good,    /* something good happend to the player character, eg. damage., decreasing in skill */
