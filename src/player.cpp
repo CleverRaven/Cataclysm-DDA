@@ -6770,37 +6770,33 @@ item player::remove_weapon()
  return tmp;
 }
 
-item player::reduce_charges(int position, long quantity) {
-    if (position == -1) {
-        if (!weapon.count_by_charges())
-        {
-            debugmsg("Tried to remove %s by charges, but item is not counted by charges",
-                    weapon.type->nname(1).c_str());
-        }
-
-        if (quantity > weapon.charges)
-        {
-            debugmsg("Charges: Tried to remove charges that do not exist, \
-                      removing maximum available charges instead");
-            quantity = weapon.charges;
-        }
-        if (weapon.charges <= quantity)
-        {
-            return remove_weapon();
-        }
-        weapon.charges -= quantity;
-        return weapon;
-    } else if (position < -1) {
-        debugmsg("Wearing charged items is not implemented.");
+item player::reduce_charges( int position, long quantity )
+{
+    item &it = i_at( position );
+    if( it.is_null() ) {
+        debugmsg( "invalid item position %d for reduce_charges", position );
         return ret_null;
-    } else {
-        return inv.reduce_charges(position, quantity);
     }
+    if( it.reduce_charges( quantity ) ) {
+        return i_rem( position );
+    }
+    item tmp( it );
+    tmp.charges = quantity;
+    return tmp;
 }
 
 item player::reduce_charges( item *it, long quantity )
 {
-    return reduce_charges( get_item_position( it ), quantity );
+    if( !has_item( it ) ) {
+        debugmsg( "invalid item (name %s) for reduce_charges", it->tname().c_str() );
+        return ret_null;
+    }
+    if( const_cast<item *>( it )->reduce_charges( quantity ) ) {
+        return i_rem( it );
+    }
+    item result( *it );
+    result.charges = quantity;
+    return result;
 }
 
 item player::i_rem(int pos)

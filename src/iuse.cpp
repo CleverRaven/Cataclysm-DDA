@@ -6117,7 +6117,7 @@ int iuse::turret(player *p, item *, bool)
     if (ammopos != INT_MIN) {
         item &ammoitem = p->inv.find_item(ammopos);
         ammo = std::min(ammoitem.charges, long(500));
-        p->inv.reduce_charges(ammopos, ammo);
+        p->reduce_charges(ammopos, ammo);
         p->add_msg_if_player(ngettext("You load %d x 9mm round into the turret.",
                                       "You load %d x 9mm rounds into the turret.", ammo), ammo);
     } else {
@@ -6182,7 +6182,7 @@ int iuse::turret_rifle(player *p, item *, bool)
     if (ammopos != INT_MIN) {
         item &ammoitem = p->inv.find_item(ammopos);
         ammo = std::min(ammoitem.charges, long(500));
-        p->inv.reduce_charges(ammopos, ammo);
+        p->reduce_charges(ammopos, ammo);
         p->add_msg_if_player(ngettext("You load %d x 5.56 round into the turret.",
                                       "You load %d x 5.56 rounds into the turret.", ammo), ammo);
     } else {

@@ -866,7 +866,21 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         item i_rem(const item *it);
         item remove_weapon();
         void remove_mission_items(int mission_id);
+        /**
+         * Remove charges from a specific item (given by its item position).
+         * The item must exist and it must be counted by charges.
+         * @param position Item position of the item.
+         * @param quantity The number of charges to remove, must not be larger than
+         * the current charges of the item.
+         * @return An item that contains the removed charges, it's effectively a
+         * copy of the item with the proper charges.
+         */
         item reduce_charges(int position, long quantity);
+        /**
+         * Remove charges from a specific item (given by a pointer to it).
+         * Otherwise identical to @ref reduce_charges(int,long)
+         * @param it A pointer to the item, it *must* exist.
+         */
         item reduce_charges(item *it, long quantity);
         item &i_at(int position);  // Returns the item with a given inventory position.
         /** Return the item position of the item with given invlet, return INT_MIN if

@@ -723,52 +723,6 @@ item inventory::remove_item(int position)
     return remove_item_internal(position);
 }
 
-// using this assumes the item has charges
-template<typename Locator>
-item inventory::reduce_charges_internal(const Locator &locator, long quantity)
-{
-    int pos = 0;
-    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
-        if (item_matches_locator(iter->front(), locator, pos)) {
-            if (!iter->front().count_by_charges()) {
-                debugmsg("Tried to remove %s by charges, but item is not counted by charges",
-                         iter->front().tname().c_str());
-            }
-            item ret = iter->front();
-            if (quantity > iter->front().charges) {
-                debugmsg("Charges: Tried to remove charges that does not exist, \
-                          removing maximum available charges instead");
-                quantity = iter->front().charges;
-            }
-            ret.charges = quantity;
-            iter->front().charges -= quantity;
-            if (iter->front().charges <= 0) {
-                items.erase(iter);
-            }
-            return ret;
-        }
-        ++pos;
-    }
-    debugmsg("Tried to reduce charges but could not find item.");
-    return nullitem;
-}
-
-// Instantiate for each type of Locator.
-item inventory::reduce_charges(int position, long quantity)
-{
-    return reduce_charges_internal(position, quantity);
-}
-
-item inventory::reduce_charges(const itype_id &type, long quantity)
-{
-    return reduce_charges_internal(type, quantity);
-}
-
-item inventory::reduce_charges(const item *ptr, long quantity)
-{
-    return reduce_charges_internal(ptr, quantity);
-}
-
 void inventory::dump(std::vector<item *> &dest)
 {
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {

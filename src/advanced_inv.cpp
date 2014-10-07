@@ -1086,7 +1086,7 @@ void advanced_inventory::display()
                 // onto the map/vehicle, if it fails, put them back into the inventory.
                 // If no item has actually been moved, continue.
                 if( by_charges ) {
-                    item moving_item = g->u.inv.reduce_charges( sitem->idx, amount_to_move );
+                    item moving_item = g->u.reduce_charges( sitem->idx, amount_to_move );
                     assert( !moving_item.is_null() );
                     if( !add_item( destarea, moving_item ) ) {
                         g->u.i_add( moving_item );

@@ -221,6 +221,15 @@ public:
  long num_charges();
 
     /**
+     * Reduce the charges of this item, only use for items counted by charges!
+     * The item must have enough charges for this (>= quantity) and be counted
+     * by charges.
+     * @param quantity How many charges should be removed.
+     * @return true if all charges have been removed. The item (as it's counted
+     * by charges) must be destroyed. False if there are charges remaining.
+     */
+    bool reduce_charges( long quantity );
+    /**
      * Returns true if the item is considered rotten.
      */
     bool rotten() const;

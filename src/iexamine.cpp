@@ -2105,7 +2105,7 @@ void iexamine::reload_furniture(player *p, map *m, const int examx, const int ex
     if (amount <= 0 || amount > max_amount) {
         return;
     }
-    p->inv.reduce_charges(pos, amount);
+    p->reduce_charges(pos, amount);
     std::vector<item> &items = m->i_at(examx, examy);
     for (size_t i = 0; i < items.size(); i++) {
         if (items[i].type == ammo) {

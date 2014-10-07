@@ -82,13 +82,9 @@ class inventory
         item remove_item(int position);
         std::list<item> reduce_stack(int position, int quantity);
         std::list<item> reduce_stack(const itype_id &type, int quantity);
-        item reduce_charges(int position, long quantity);
-        item reduce_charges(const itype_id &type, long quantity);
-        item reduce_charges(const item *ptr, long quantity);
 
         // amount of -1 removes the entire stack.
         template<typename Locator> std::list<item> reduce_stack(const Locator &type, int amount);
-        template<typename Locator> item reduce_charges(const Locator &type, long quantity);
 
         item &find_item(int position);
         item &item_by_type(itype_id type);
@@ -249,7 +245,6 @@ class inventory
         // we back those functions with a single internal function templated on the type of Locator.
         template<typename Locator> item remove_item_internal(const Locator &locator);
         template<typename Locator> std::list<item> reduce_stack_internal(const Locator &type, int amount);
-        template<typename Locator> item reduce_charges_internal(const Locator &type, long quantity);
 
         invstack items;
         bool sorted;
