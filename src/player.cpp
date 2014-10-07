@@ -7498,26 +7498,16 @@ bool player::has_item(item *it)
     return inv.has_item(it);
 }
 
+struct has_mission_item_filter {
+    int mission_id;
+    bool operator()(const item &it) {
+        return it.mission_id == mission_id;
+    }
+};
+
 bool player::has_mission_item(int mission_id) const
 {
-    if (mission_id == -1)
-    {
-        return false;
-    }
-    if (weapon.mission_id == mission_id)
-    {
-        return true;
-    }
-    for (auto &i : weapon.contents)
-    {
-        if (i.mission_id == mission_id)
-        return true;
-    }
-    if (inv.has_mission_item(mission_id))
-    {
-        return true;
-    }
-    return false;
+    return mission_id != -1 && has_item_with( has_mission_item_filter{ mission_id } );
 }
 
 bool player::i_add_or_drop(item& it, int qty) {

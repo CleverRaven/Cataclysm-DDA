@@ -1138,23 +1138,6 @@ int inventory::leak_level(std::string flag) const
     return ret;
 }
 
-bool inventory::has_mission_item(int mission_id) const
-{
-    for (invstack::const_iterator stack = items.begin(); stack != items.end(); ++stack) {
-        for (std::list<item>::const_iterator iter = stack->begin(); iter != stack->end(); ++iter) {
-            if (iter->mission_id == mission_id) {
-                return true;
-            }
-            for (auto &k : iter->contents) {
-                if (k.mission_id == mission_id) {
-                    return true;
-                }
-            }
-        }
-    }
-    return false;
-}
-
 int inventory::butcher_factor() const
 {
     int result = INT_MIN;
