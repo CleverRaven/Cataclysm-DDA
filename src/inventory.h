@@ -97,7 +97,6 @@ class inventory
 
         std::vector<std::pair<item *, int> > all_items_by_type(itype_id type);
         std::vector<item *> all_ammo(const ammotype &type);
-        std::vector<const item *> all_drinks() const;
         std::vector<const item *> all_items_with_flag( const std::string flag ) const;
 
         // Below, "amount" refers to quantity
@@ -128,7 +127,6 @@ class inventory
         int butcher_factor() const;
         bool has_artifact_with(art_effect_passive effect) const;
         bool has_liquid(itype_id type) const;
-        bool has_drink() const;
         item &watertight_container();
 
         // NPC/AI functions

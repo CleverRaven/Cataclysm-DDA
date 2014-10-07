@@ -940,24 +940,6 @@ std::vector<item *> inventory::all_ammo(const ammotype &type)
     return ret;
 }
 
-std::vector<const item *> inventory::all_drinks() const
-{
-    std::vector<const item *> ret;
-
-    for (invstack::const_iterator istack = items.begin(); istack != items.end(); ++istack) {
-        for (std::list<item>::const_iterator iitem = istack->begin(); iitem != istack->end(); ++iitem) {
-            if (iitem->is_drink()) {
-                ret.push_back(&*iitem);
-            } else if (!iitem->contents.empty())
-                if (iitem->contents[0].is_drink()) {
-                    ret.push_back(&iitem->contents[0]);
-                }
-        }
-    }
-
-    return ret;
-}
-
 int inventory::amount_of(itype_id it) const
 {
     return amount_of(it, true);
@@ -1214,17 +1196,6 @@ bool inventory::has_liquid(itype_id type) const
             if (has_capacity_for_liquid(it, liquid)) {
                 return true;
             }
-        }
-    }
-    return false;
-}
-
-bool inventory::has_drink() const
-{
-    for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter) {
-        const item &it = iter->front();
-        if (it.is_container() && !it.contents.empty()) {
-            return it.contents[0].is_drink();
         }
     }
     return false;

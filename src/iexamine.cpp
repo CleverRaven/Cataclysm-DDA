@@ -1538,6 +1538,12 @@ void iexamine::fvat_full(player *p, map *m, int examx, int examy)
     }
 }
 
+struct filter_is_drink {
+    bool operator()(const item &it) {
+        return it.is_drink();
+    }
+};
+
 void iexamine::keg(player *p, map *m, int examx, int examy)
 {
     int keg_cap = 600;
@@ -1552,22 +1558,19 @@ void iexamine::keg(player *p, map *m, int examx, int examy)
         }
     }
     if (!liquid_present) {
-        if ( !p->has_drink() ) {
+        // Get list of all drinks
+        auto drinks_inv = p->items_with( filter_is_drink() );
+        if ( drinks_inv.empty() ) {
             add_msg(m_info, _("You don't have any drinks to fill the %s with."), m->name(examx, examy).c_str());
             return;
-        }
-        // Get list of all drinks
-        std::vector<const item *> drinks_inv = p->inv.all_drinks();
-        if (!g->u.weapon.contents.empty() && g->u.weapon.contents[0].is_drink()) {
-            drinks_inv.push_back(&g->u.weapon.contents[0]);
         }
         // Make lists of unique drinks... about third time we do this, maybe we oughta make a function next time
         std::vector<itype_id> drink_types;
         std::vector<std::string> drink_names;
-        for (std::vector<const item *>::iterator it = drinks_inv.begin() ; it != drinks_inv.end(); it++) {
-            if (std::find(drink_types.begin(), drink_types.end(), (*it)->typeId()) == drink_types.end()) {
-                drink_types.push_back((*it)->typeId());
-                drink_names.push_back((*it)->tname());
+        for( auto &drink : drinks_inv ) {
+            if (std::find(drink_types.begin(), drink_types.end(), drink->typeId()) == drink_types.end()) {
+                drink_types.push_back(drink->typeId());
+                drink_names.push_back(drink->tname());
             }
         }
         // Choose drink to store in keg from list

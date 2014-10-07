@@ -7443,17 +7443,6 @@ int  player::leak_level( std::string flag ) const
     return leak_level;
 }
 
-bool player::has_drink()
-{
-    if (inv.has_drink()) {
-        return true;
-    }
-    if (weapon.is_container() && !weapon.contents.empty()) {
-        return weapon.contents[0].is_drink();
-    }
-    return false;
-}
-
 bool player::has_item_with_flag( std::string flag ) const
 {
     //check worn items for flag
