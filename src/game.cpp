@@ -924,7 +924,7 @@ void game::cleanup_at_end()
                                u.name.c_str());
         }
         if (!sLastWords.empty()) {
-            u.add_memorial_log( _("Last words: %s"), sLastWords.c_str() );
+            u.add_memorial_log( _("Last words: %s"), sLastWords.c_str(), _("Last words: %s"), sLastWords.c_str() );
         }
         save_player_data();
         move_save_to_graveyard();
