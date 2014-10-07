@@ -10,6 +10,8 @@
 #include <map>
 #include <bitset>
 
+bool item_is_blacklisted(const std::string &id);
+
 typedef std::string Item_tag;
 typedef std::string Group_tag;
 typedef std::vector<item> Item_list;

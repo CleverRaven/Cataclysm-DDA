@@ -5,6 +5,7 @@
 #include "game.h"
 #include "line.h"
 #include "options.h"
+#include "item_factory.h"
 #include "mapbuffer.h"
 #include "translations.h"
 #include "monstergenerator.h"
@@ -12,7 +13,6 @@
 #include <stdlib.h>
 #include <fstream>
 #include "debug.h"
-#include "item_factory.h"
 #include "messages.h"
 #include "mapsharing.h"
 
@@ -2877,6 +2877,9 @@ void map::spawn_item(const int x, const int y, const std::string &type_id,
                      const unsigned birthday, const int damlevel, const bool rand)
 {
     if(type_id == "null") {
+        return;
+    }
+    if(item_is_blacklisted(type_id)) {
         return;
     }
     // recurse to spawn (quantity - 1) items
