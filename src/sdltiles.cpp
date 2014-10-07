@@ -251,6 +251,8 @@ bool WinCreate()
 
     if (OPTIONS["FULLSCREEN"]) {
         window_flags |= SDL_WINDOW_FULLSCREEN;
+    }else {
+        window_flags |= SDL_WINDOW_RESIZABLE;
     }
 
     window = SDL_CreateWindow(version.c_str(),
@@ -1684,6 +1686,18 @@ int get_terminal_width() {
 
 int get_terminal_height() {
     return TERMINAL_HEIGHT;
+}
+
+int get_window_terminal_height() {
+    int w, h;
+    SDL_GetWindowSize(window, w, h);
+    return h / fontheight;
+}
+
+int get_window_terminal_width() {
+    int w, h;
+    SDL_GetWindowSize(window, w, h);
+    return h / fontwidth;
 }
 
 BitmapFont::BitmapFont(int w, int h)

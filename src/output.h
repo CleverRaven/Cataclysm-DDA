@@ -285,6 +285,12 @@ int get_terminal_width();
  */
 int get_terminal_height();
 
+/** Get the dimensions of the current window in terminal tiles.
+ */
+
+int get_window_terminal_width();
+int get_window_terminal_height();
+
 /**
  * Check whether we're in tile drawing mode. The most important
  * effect of this is that we don't need to draw to the ASCII
