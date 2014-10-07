@@ -113,7 +113,7 @@
         "addiction_potential" : 0,
         "nutrition" : 0,
         "description" : "A sample of sewage from a treatment plant.  Gross.",
-        "price" : 500,
+        "price" : 0,
         "material" : "null",
         "tool" : "null",
         "volume" : 1,
