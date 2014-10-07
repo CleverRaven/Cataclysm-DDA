@@ -113,6 +113,7 @@ struct map_deconstruct_info {
  * FLOWER - This furniture is a flower
  * SHRUB - This terrain is a shrub
  * TREE - This terrain is a tree
+ * HARVESTED - This terrain has been harvested so it won't bear any fruit
  * YOUNG - This terrain is a young tree
  * FUNGUS - Fungal covered
  *
@@ -126,7 +127,7 @@ struct map_deconstruct_info {
  * so much that strings produce a significant performance penalty. The following are equivalent:
  *  m->has_flag("FLAMMABLE");     //
  *  m->has_flag(TFLAG_FLAMMABLE); // ~ 20 x faster than the above, ( 2.5 x faster if the above uses static const std::string str_flammable("FLAMMABLE");
- * To add a new ter_bitflag, add below and add to init_ter_bitflag_map() in mapdata.cpp
+ * To add a new ter_bitflag, add below and add to init_ter_bitflags_map() in mapdata.cpp
  * Order does not matter.
  */
 enum ter_bitflags {
@@ -153,7 +154,8 @@ enum ter_bitflags {
     TFLAG_ROUGH,
     TFLAG_UNSTABLE,
     TFLAG_WALL,
-    TFLAG_DEEP_WATER
+    TFLAG_DEEP_WATER,
+    TFLAG_HARVESTED
 };
 extern std::map<std::string, ter_bitflags> ter_bitflags_map;
 void init_ter_bitflags_map();
@@ -184,7 +186,9 @@ struct ter_t {
  unsigned long bitflags; // bitfield of -certian- string flags which are heavily checked
  iexamine_function examine; //What happens when the terrain is examined
  std::string harvestable; //what will be harvested from this terrain?
- int harvest_season; //when will this terrain get harvested?
+ std::string transforms_into; // transform into what terrain?
+ int harvest_season; // when will this terrain get harvested?
+ int bloom_season; // when does this terrain bloom?
  std::string open; //open action: transform into terrain with matching id
  std::string close; //close action: transform into terrain with matching id
 
@@ -358,6 +362,10 @@ struct submap {
 
     inline void set_furn(int x, int y, furn_id furn) {
         frn[x][y] = furn;
+    }
+
+    inline void set_ter(int x, int y, ter_id terr) {
+        ter[x][y] = terr;
     }
 
     int get_radiation(int x, int y) {
@@ -535,7 +543,9 @@ extern ter_id t_null,
     t_paper,
     t_rock_wall, t_rock_wall_half,
     // Tree
-    t_tree, t_tree_young, t_tree_apple, t_tree_pear, t_tree_cherry, t_tree_peach, t_tree_apricot, t_tree_plum, t_tree_pine, t_tree_deadpine, t_underbrush, t_shrub, t_shrub_blueberry, t_shrub_strawberry, t_trunk,
+    t_tree, t_tree_young, t_tree_apple, t_tree_apple_harvested, t_tree_pear, t_tree_pear_harvested,
+    t_tree_cherry, t_tree_cherry_harvested, t_tree_peach, t_tree_peach_harvested, t_tree_apricot, t_tree_apricot_harvested,
+    t_tree_plum, t_tree_plum_harvested, t_tree_pine, t_tree_deadpine, t_underbrush, t_shrub, t_shrub_blueberry, t_shrub_strawberry, t_trunk,
     t_root_wall,
     t_wax, t_floor_wax,
     t_fence_v, t_fence_h, t_chainfence_v, t_chainfence_h, t_chainfence_posts,
