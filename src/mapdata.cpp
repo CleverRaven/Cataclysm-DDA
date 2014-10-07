@@ -495,7 +495,7 @@ void set_ter_ids() {
     t_rdoor_o=terfind("t_rdoor_o");
     t_door_locked_interior=terfind("t_door_locked_interior");
     t_door_locked=terfind("t_door_locked");
-    t_door_locked=terfind("t_door_locked_peep");
+    t_door_locked_peep=terfind("t_door_locked_peep");
     t_door_locked_alarm=terfind("t_door_locked_alarm");
     t_door_frame=terfind("t_door_frame");
     t_mdoor_frame=terfind("t_mdoor_frame");
