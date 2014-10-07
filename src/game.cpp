@@ -14062,7 +14062,7 @@ void game::update_stair_monsters()
                             if (resiststhrow && (g->u.is_throw_immune())) {
                                 //we have a judoka who isn't getting pushed but counterattacking now.
                                 mattack defend;
-                                defend.thrown_by_judo(&critter);
+                                defend.thrown_by_judo(&critter, -1);
                                 return;
                             }
                             std::string msg = "";

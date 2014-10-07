@@ -255,7 +255,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
 
         // DEFINING VALUES
         int hp;
-        int sp_timeout;
+        std::vector<int> sp_timeout;
         int def_chance;
         int friendly;
         int anger, morale;

@@ -375,7 +375,14 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         newmon->armor_bash = jo.get_int("armor_bash", 0);
         newmon->armor_cut = jo.get_int("armor_cut", 0);
         newmon->hp = jo.get_int("hp", 0);
-        newmon->sp_freq = jo.get_int("special_freq", 0);
+        if (jo.has_array("special_freq")) {
+            JsonArray jarr = jo.get_array("special_freq");
+            while (jarr.has_more()) {
+                newmon->sp_freq.push_back(jarr.next_int());
+            }
+        } else {
+            newmon->sp_freq.push_back(0);
+        }
         newmon->def_chance = jo.get_int("special_when_hit_freq", 0);
         newmon->luminance = jo.get_float("luminance", 0);
 
@@ -526,13 +533,20 @@ std::vector<void (mdeath::*)(monster *)> MonsterGenerator::get_death_functions(J
     return deaths;
 }
 
-MonAttackFunction MonsterGenerator::get_attack_function(JsonObject &jo, std::string member)
+std::vector<MonAttackFunction> MonsterGenerator::get_attack_function(JsonObject &jo, std::string member)
 {
-    if (attack_map.find(jo.get_string(member, "")) != attack_map.end()) {
-        return attack_map[jo.get_string(member)];
+    std::vector<MonAttackFunction> ret;
+    
+    std::set<std::string> attack_flags = jo.get_tags(member);
+    for (auto &i : attack_flags) {
+        ret.push_back(attack_map[i]);
     }
 
-    return attack_map["NONE"];
+    if (ret.empty()) {
+        ret.push_back(attack_map["NONE"]);
+    }
+    
+    return ret;
 }
 
 MonDefenseFunction MonsterGenerator::get_defense_function(JsonObject &jo, std::string member)

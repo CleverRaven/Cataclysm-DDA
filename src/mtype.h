@@ -163,10 +163,10 @@ struct mtype {
         death_drops;   // Name of item group that is used to create item dropped upon death, or empty
         float luminance;           // 0 is default, >0 gives luminance to lightmap
         int hp;
-        unsigned int sp_freq;     // How long sp_attack takes to charge
+        std::vector<unsigned int> sp_freq;     // How long sp_attack takes to charge
         std::vector<void (mdeath::*)(monster *)> dies; // What happens when this monster dies
         unsigned int def_chance; // How likely a special "defensive" move is to trigger (0-100%, default 0)
-        void (mattack::*sp_attack)(monster *); // This monster's special attack
+        std::vector<void (mattack::*)(monster *, int count)> sp_attack; // This monster's special attack
         // This monster's special "defensive" move that may trigger when the monster is attacked.
         // Note that this can be anything, and is not necessarily beneficial to the monster
         void (mdefense::*sp_defense)(monster *, const projectile *);

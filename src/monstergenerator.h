@@ -8,7 +8,7 @@
 #include <set>
 
 typedef void (mdeath::*MonDeathFunction)(monster *);
-typedef void (mattack::*MonAttackFunction)(monster *);
+typedef void (mattack::*MonAttackFunction)(monster *, int count);
 typedef void (mdefense::*MonDefenseFunction)(monster *, const projectile *);
 
 #define GetMType(x) MonsterGenerator::generator().get_mtype(x)
@@ -86,7 +86,7 @@ class MonsterGenerator
         // data acquisition
         std::set<std::string> get_tags(JsonObject &jo, std::string member);
         std::vector<void (mdeath::*)(monster *)> get_death_functions(JsonObject &jo, std::string member);
-        MonAttackFunction get_attack_function(JsonObject &jo, std::string member);
+        std::vector<MonAttackFunction> get_attack_function(JsonObject &jo, std::string member);
         MonDefenseFunction get_defense_function(JsonObject &jo, std::string member);
         template <typename T> std::set<T> get_set_from_tags(std::set<std::string> tags,
                 std::map<std::string, T> conversion_map, T fallback);

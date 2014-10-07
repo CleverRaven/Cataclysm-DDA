@@ -1147,7 +1147,7 @@ void trapfunc::shadow(Creature *c, int x, int y)
 
     if (tries < 5) {
         add_msg(m_warning, _("A shadow forms nearby."));
-        spawned.sp_timeout = rng(2, 10);
+        spawned.sp_timeout[0] = rng(2, 10);
         spawned.spawn(monx, mony);
         g->add_zombie(spawned);
         g->m.remove_trap(x, y);

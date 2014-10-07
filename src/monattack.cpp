@@ -22,11 +22,11 @@
 #include <limits>  // std::numeric_limits
 #define SKIPLINE(stream) stream.ignore(std::numeric_limits<std::streamsize>::max(), '\n')
 
-void mattack::antqueen(monster *z)
+void mattack::antqueen(monster *z, int count)
 {
     std::vector<point> egg_points;
     std::vector<int> ants;
-    z->sp_timeout = z->type->sp_freq; // Reset timer
+    z->sp_timeout[count] = z->type->sp_freq[count]; // Reset timer
     // Count up all adjacent tiles the contain at least one egg.
     for (int x = z->posx() - 2; x <= z->posx() + 2; x++) {
         for (int y = z->posy() - 2; y <= z->posy() + 2; y++) {
@@ -80,7 +80,7 @@ void mattack::antqueen(monster *z)
     }
 }
 
-void mattack::shriek(monster *z)
+void mattack::shriek(monster *z, int count)
 {
     int j;
     if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 4 ||
@@ -88,11 +88,11 @@ void mattack::shriek(monster *z)
         return;    // Out of range
     }
     z->moves -= 240;   // It takes a while
-    z->sp_timeout = z->type->sp_freq; // Reset timer
+    z->sp_timeout[count] = z->type->sp_freq[count]; // Reset timer
     g->sound(z->posx(), z->posy(), 50, _("a terrible shriek!"));
 }
 
-void mattack::howl(monster *z)
+void mattack::howl(monster *z, int count)
 {
     int j;
     if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 4 ||
@@ -100,11 +100,11 @@ void mattack::howl(monster *z)
         return; // Out of range
     }
     z->moves -= 200;   // It takes a while
-    z->sp_timeout = z->type->sp_freq; // Reset timer
+    z->sp_timeout[count] = z->type->sp_freq[count]; // Reset timer
     g->sound(z->posx(), z->posy(), 35, _("an ear-piercing howl!"));
 }
 
-void mattack::rattle(monster *z)
+void mattack::rattle(monster *z, int count)
 {
     int j;
     if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 4 ||
@@ -112,11 +112,11 @@ void mattack::rattle(monster *z)
         return;    // Out of range
     }
     z->moves -= 20;   // It takes a very short while
-    z->sp_timeout = z->type->sp_freq; // Reset timer
+    z->sp_timeout[count] = z->type->sp_freq[count]; // Reset timer
     g->sound(z->posx(), z->posy(), 10, _("a sibilant rattling sound!"));
 }
 
-void mattack::acid(monster *z)
+void mattack::acid(monster *z, int count)
 {
     int t;
     int junk = 0;
@@ -125,7 +125,7 @@ void mattack::acid(monster *z)
         return; // Can't see/reach you, no attack
     }
     z->moves -= 300;   // It takes a while
-    z->sp_timeout = z->type->sp_freq; // Reset timer
+    z->sp_timeout[count] = z->type->sp_freq[count]; // Reset timer
     g->sound(z->posx(), z->posy(), 4, _("a spitting noise."));
     int hitx = g->u.posx + rng(-2, 2), hity = g->u.posy + rng(-2, 2);
     std::vector<point> line = line_to(z->posx(), z->posy(), hitx, hity, junk);
@@ -149,7 +149,7 @@ void mattack::acid(monster *z)
     }
 }
 
-void mattack::shockstorm(monster *z)
+void mattack::shockstorm(monster *z, int count)
 {
     int t;
     int junk = 0;
@@ -158,7 +158,7 @@ void mattack::shockstorm(monster *z)
         return; // Can't see/reach you, no attack
     }
     z->moves -= 50;   // It takes a while
-    z->sp_timeout = z->type->sp_freq; // Reset timer
+    z->sp_timeout[count] = z->type->sp_freq[count]; // Reset timer
     add_msg(m_bad, _("A bolt of electricity arcs towards you!"));
     int tarx = g->u.posx + rng(-1, 1) + rng(-1, 1);// 3 in 9 chance of direct hit,
     int tary = g->u.posy + rng(-1, 1) + rng(-1, 1);// 4 in 9 chance of near hit
@@ -182,9 +182,9 @@ void mattack::shockstorm(monster *z)
 }
 
 
-void mattack::smokecloud(monster *z)
+void mattack::smokecloud(monster *z, int count)
 {
-    z->sp_timeout = z->type->sp_freq; // Reset timer
+    z->sp_timeout[count] = z->type->sp_freq[count]; // Reset timer
     const int monx = z->posx();
     const int mony = z->posy();
     int junk = 0;
@@ -217,7 +217,7 @@ void mattack::smokecloud(monster *z)
     }
 }
 
-void mattack::boomer(monster *z)
+void mattack::boomer(monster *z, int count)
 {
     int j;
     if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 3 ||
@@ -225,7 +225,7 @@ void mattack::boomer(monster *z)
         return;    // Out of range
     }
     std::vector<point> line = line_to(z->posx(), z->posy(), g->u.posx, g->u.posy, j);
-    z->sp_timeout = z->type->sp_freq; // Reset timer
+    z->sp_timeout[count] = z->type->sp_freq[count]; // Reset timer
     z->moves -= 250;   // It takes a while
     bool u_see = g->u_see(z->posx(), z->posy());
     if (u_see) {
@@ -253,7 +253,7 @@ void mattack::boomer(monster *z)
     }
 }
 
-void mattack::resurrect(monster *z)
+void mattack::resurrect(monster *z, int count)
 {
     if( z->get_speed() < z->get_speed_base() / 2) {
         return;    // We can only resurrect so many times!
@@ -282,7 +282,7 @@ void mattack::resurrect(monster *z)
     if (sees_necromancer) {
         add_msg(_("The %s throws its arms wide..."), z->name().c_str());
     }
-    z->sp_timeout = z->type->sp_freq; // Reset timer
+    z->sp_timeout[count] = z->type->sp_freq[count]; // Reset timer
     z->moves -= 500;   // It takes a while
     int raised = 0;
     for (auto &i : corpses) {
@@ -312,13 +312,13 @@ void mattack::resurrect(monster *z)
     }
 }
 
-void mattack::smash(monster *z)
+void mattack::smash(monster *z, int count)
 {
     int t, dist = rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy);
     if (dist > 1 || !g->sees_u(z->posx(), z->posy(), t)) {
         return;    // Out of range
     }
-    z->sp_timeout = z->type->sp_freq; // Reset timer
+    z->sp_timeout[count] = z->type->sp_freq[count]; // Reset timer
     // Costs lots of moves to give you a little bit of a chance to get away.
     z->moves -= 400;
 
@@ -340,13 +340,13 @@ void mattack::smash(monster *z)
                        z->type->melee_sides * z->type->melee_dice * 3 );
 }
 
-void mattack::science(monster *z) // I said SCIENCE again!
+void mattack::science(monster *z, int count) // I said SCIENCE again!
 {
     int t, dist = rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy);
     if (dist > 5 || !g->sees_u(z->posx(), z->posy(), t)) {
         return;    // Out of range
     }
-    z->sp_timeout = z->type->sp_freq; // Reset timer
+    z->sp_timeout[count] = z->type->sp_freq[count]; // Reset timer
     std::vector<point> free;
     for (int x = z->posx() - 1; x <= z->posx() + 1; x++) {
         for (int y = z->posy() - 1; y <= z->posy() + 1; y++) {
@@ -431,8 +431,9 @@ void mattack::science(monster *z) // I said SCIENCE again!
     }
 }
 
-void mattack::growplants(monster *z)
+void mattack::growplants(monster *z, int count)
 {
+    (void)count; //unused
     for (int i = -3; i <= 3; i++) {
         for (int j = -3; j <= 3; j++) {
             if (i == 0 && j == 0) {
@@ -589,9 +590,9 @@ void mattack::growplants(monster *z)
     }
 }
 
-void mattack::grow_vine(monster *z)
+void mattack::grow_vine(monster *z, int count)
 {
-    z->sp_timeout = z->type->sp_freq;
+    z->sp_timeout[count] = z->type->sp_freq[count];
     z->moves -= 100;
     monster vine(GetMType("mon_creeper_vine"));
     int xshift = rng(0, 2), yshift = rng(0, 2);
@@ -601,7 +602,7 @@ void mattack::grow_vine(monster *z)
                 yvine = z->posy() + (y + yshift) % 3 - 1;
             if (g->is_empty(xvine, yvine)) {
                 monster vine(GetMType("mon_creeper_vine"));
-                vine.sp_timeout = 5;
+                vine.sp_timeout[count] = 5;
                 vine.spawn(xvine, yvine);
                 g->add_zombie(vine);
             }
@@ -609,11 +610,11 @@ void mattack::grow_vine(monster *z)
     }
 }
 
-void mattack::vine(monster *z)
+void mattack::vine(monster *z, int count)
 {
     std::vector<point> grow;
     int vine_neighbors = 0;
-    z->sp_timeout = z->type->sp_freq;
+    z->sp_timeout[count] = z->type->sp_freq[count];
     z->moves -= 100;
     for (int x = z->posx() - 1; x <= z->posx() + 1; x++) {
         for (int y = z->posy() - 1; y <= z->posy() + 1; y++) {
@@ -629,7 +630,7 @@ void mattack::vine(monster *z)
                     d.add_damage( DT_CUT, 4 );
                     d.add_damage( DT_BASH, 4 );
                     g->u.deal_damage( z, bphit, d );
-                    z->sp_timeout = z->type->sp_freq;
+                    z->sp_timeout[count] = z->type->sp_freq[count];
                     z->moves -= 100;
                     return;
                 }
@@ -659,12 +660,12 @@ void mattack::vine(monster *z)
     }
     int index = rng(0, grow.size() - 1);
     monster vine(GetMType("mon_creeper_vine"));
-    vine.sp_timeout = 5;
+    vine.sp_timeout[count] = 5;
     vine.spawn(grow[index].x, grow[index].y);
     g->add_zombie(vine);
 }
 
-void mattack::spit_sap(monster *z)
+void mattack::spit_sap(monster *z, int count)
 {
     // TODO: Friendly biollantes?
     int t = 0;
@@ -674,7 +675,7 @@ void mattack::spit_sap(monster *z)
     }
 
     z->moves -= 150;
-    z->sp_timeout = z->type->sp_freq;
+    z->sp_timeout[count] = z->type->sp_freq[count];
 
     int dist = rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy);
     int deviation = rng(1, 10);
@@ -730,11 +731,11 @@ void mattack::spit_sap(monster *z)
     g->u.add_disease("sap", dam);
 }
 
-void mattack::triffid_heartbeat(monster *z)
+void mattack::triffid_heartbeat(monster *z, int count)
 {
     g->sound(z->posx(), z->posy(), 14, _("thu-THUMP."));
     z->moves -= 300;
-    z->sp_timeout = z->type->sp_freq;
+    z->sp_timeout[count] = z->type->sp_freq[count];
     if ((z->posx() < 0 || z->posx() >= SEEX * MAPSIZE) &&
         (z->posy() < 0 || z->posy() >= SEEY * MAPSIZE)   ) {
         return;
@@ -787,11 +788,11 @@ void mattack::triffid_heartbeat(monster *z)
     }
 }
 
-void mattack::fungus(monster *z)
+void mattack::fungus(monster *z, int count)
 {
     // TODO: Infect NPCs?
     z->moves -= 200;   // It takes a while
-    z->sp_timeout = z->type->sp_freq; // Reset timer
+    z->sp_timeout[count] = z->type->sp_freq[count]; // Reset timer
     if (g->u.has_trait("THRESH_MYCUS")) {
         z->friendly = 1;
     }
@@ -864,9 +865,9 @@ void mattack::fungus(monster *z)
     }
 }
 
-void mattack::fungus_haze(monster *z)
+void mattack::fungus_haze(monster *z, int count)
 {
-    z->sp_timeout = z->type->sp_freq; // Reset timer
+    z->sp_timeout[count] = z->type->sp_freq[count]; // Reset timer
     //~ That spore sound again
     g->sound(z->posx(), z->posy(), 10, _("Pouf!"));
     if (g->u_see(z->posx(), z->posy())) {
@@ -880,9 +881,9 @@ void mattack::fungus_haze(monster *z)
     }
 }
 
-void mattack::fungus_big_blossom(monster *z)
+void mattack::fungus_big_blossom(monster *z, int count)
 {
-    z->sp_timeout = z->type->sp_freq; // Reset timer
+    z->sp_timeout[count] = z->type->sp_freq[count]; // Reset timer
     bool firealarm = false;
     int monx = z->posx();
     int mony = z->posy();
@@ -930,13 +931,13 @@ void mattack::fungus_big_blossom(monster *z)
     }
 }
 
-void mattack::fungus_inject(monster *z)
+void mattack::fungus_inject(monster *z, int count)
 {
     if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 1) {
         return;
     }
 
-    z->sp_timeout = z->type->sp_freq; // Reset timer
+    z->sp_timeout[count] = z->type->sp_freq[count]; // Reset timer
     if (g->u.has_trait("THRESH_MARLOSS") || g->u.has_trait("THRESH_MYCUS")) {
         z->friendly = 1;
         return;
@@ -984,13 +985,13 @@ void mattack::fungus_inject(monster *z)
     g->u.practice( "dodge", z->type->melee_skill );
 
 }
-void mattack::fungus_bristle(monster *z)
+void mattack::fungus_bristle(monster *z, int count)
 {
     if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 1) {
         return;
     }
 
-    z->sp_timeout = z->type->sp_freq; // Reset timer
+    z->sp_timeout[count] = z->type->sp_freq[count]; // Reset timer
     if (g->u.has_trait("THRESH_MARLOSS") || g->u.has_trait("THRESH_MYCUS")) {
         z->friendly = 1;
         return;
@@ -1033,8 +1034,9 @@ void mattack::fungus_bristle(monster *z)
     g->u.practice( "dodge", z->type->melee_skill );
 }
 
-void mattack::fungus_growth(monster *z)
+void mattack::fungus_growth(monster *z, int count)
 {
+    (void)count; //unused
     // Young fungaloid growing into an adult
     if (g->u_see(z->posx(), z->posy())) {
         add_msg(m_warning, _("The %s grows into an adult!"),
@@ -1043,9 +1045,9 @@ void mattack::fungus_growth(monster *z)
     z->poly(GetMType("mon_fungaloid"));
 }
 
-void mattack::fungus_sprout(monster *z)
+void mattack::fungus_sprout(monster *z, int count)
 {
-    z->sp_timeout = z->type->sp_freq; // Reset timer
+    z->sp_timeout[count] = z->type->sp_freq[count]; // Reset timer
     for (int x = z->posx() - 1; x <= z->posx() + 1; x++) {
         for (int y = z->posy() - 1; y <= z->posy() + 1; y++) {
             if (g->u.posx == x && g->u.posy == y) {
@@ -1062,7 +1064,7 @@ void mattack::fungus_sprout(monster *z)
     }
 }
 
-void mattack::fungus_fortify(monster *z)
+void mattack::fungus_fortify(monster *z, int count)
 {
     bool mycus = false;
     bool peaceful = true;
@@ -1087,7 +1089,7 @@ void mattack::fungus_fortify(monster *z)
                 g->u.add_msg_if_player(m_good, _("You wake up in a marloss bush.  Almost *cradled* in it, actually, as though it grew there for you."));
                 //~ Beginning to hear the Mycus while conscious: this is it speaking
                 g->u.add_msg_if_player(m_good, _("assistance, on an arduous quest. unity. together we have reached the door. now to pass through..."));
-                z->sp_timeout = z->type->sp_freq; // Reset timer
+                z->sp_timeout[count] = z->type->sp_freq[count]; // Reset timer
                 return;
             } else {
                 peaceful = false; // You declined the offer.  Fight!
@@ -1098,7 +1100,7 @@ void mattack::fungus_fortify(monster *z)
     }
 
     bool fortified = false;
-    z->sp_timeout = z->type->sp_freq; // Reset timer
+    z->sp_timeout[count] = z->type->sp_freq[count]; // Reset timer
     for (int x = z->posx() - 1; x <= z->posx() + 1; x++) {
         for (int y = z->posy() - 1; y <= z->posy() + 1; y++) {
             if (g->u.posx == x && g->u.posy == y) {
@@ -1189,7 +1191,7 @@ void mattack::fungus_fortify(monster *z)
     }
 }
 
-void mattack::leap(monster *z)
+void mattack::leap(monster *z, int count)
 {
     int linet = 0;
     std::vector<point> options;
@@ -1242,7 +1244,7 @@ void mattack::leap(monster *z)
     }
 
     z->moves -= 150;
-    z->sp_timeout = z->type->sp_freq; // Reset timer
+    z->sp_timeout[count] = z->type->sp_freq[count]; // Reset timer
     point chosen = options[rng(0, options.size() - 1)];
     bool seen = g->u_see(z); // We can see them jump...
     z->setpos(chosen);
@@ -1252,13 +1254,13 @@ void mattack::leap(monster *z)
     }
 }
 
-void mattack::dermatik(monster *z)
+void mattack::dermatik(monster *z, int count)
 {
     if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 1) {
         return; // Too far to implant
     }
 
-    z->sp_timeout = z->type->sp_freq; // Reset timer
+    z->sp_timeout[count] = z->type->sp_freq[count]; // Reset timer
 
     if (g->u.uncanny_dodge()) {
         return;
@@ -1314,8 +1316,9 @@ void mattack::dermatik(monster *z)
     }
 }
 
-void mattack::dermatik_growth(monster *z)
+void mattack::dermatik_growth(monster *z, int count)
 {
+    (void)count; //unused
     // Dermatik larva growing into an adult
     if (g->u_see(z->posx(), z->posy())) {
         add_msg(m_warning, _("The %s dermatik larva grows into an adult!"),
@@ -1324,8 +1327,9 @@ void mattack::dermatik_growth(monster *z)
     z->poly(GetMType("mon_dermatik"));
 }
 
-void mattack::plant(monster *z)
+void mattack::plant(monster *z, int count)
 {
+    (void)count; //unused
     // Spores taking seed and growing into a fungaloid
     if (!g->spread_fungus(z->posx(), z->posy()) && one_in(20)) {
         if (g->u_see(z->posx(), z->posy())) {
@@ -1343,13 +1347,13 @@ void mattack::plant(monster *z)
     }
 }
 
-void mattack::disappear(monster *z)
+void mattack::disappear(monster *z, int count)
 {
-    (void)g; //unused
+    (void)count; //unused
     z->hp = 0;
 }
 
-void mattack::formblob(monster *z)
+void mattack::formblob(monster *z, int count)
 {
     bool didit = false;
     int thatmon = -1;
@@ -1411,13 +1415,13 @@ void mattack::formblob(monster *z)
             }
 
             z->moves = 0;
-            z->sp_timeout = z->type->sp_freq; // Reset timer
+            z->sp_timeout[count] = z->type->sp_freq[count]; // Reset timer
             return;
         }
     }
 }
 
-void mattack::callblobs( monster *z )
+void mattack::callblobs(monster *z, int count)
 {
     // The huge brain blob interposes other blobs between it and any threat.
     // For the moment just target the player, this gets a bit more complicated
@@ -1454,10 +1458,10 @@ void mattack::callblobs( monster *z )
         }
     }
     // This is telepathy, doesn't take any moves.
-    z->sp_timeout = z->type->sp_freq;
+    z->sp_timeout[count] = z->type->sp_freq[count];
 }
 
-void mattack::jackson( monster *z )
+void mattack::jackson(monster *z, int count)
 {
     // Jackson draws nearby zombies into the dance.
     std::list<monster *> allies;
@@ -1498,11 +1502,11 @@ void mattack::jackson( monster *z )
         }
     }
     // This is telepathy, doesn't take any moves.
-    z->sp_timeout = z->type->sp_freq;
+    z->sp_timeout[count] = z->type->sp_freq[count];
 }
 
 
-void mattack::dance(monster *z)
+void mattack::dance(monster *z, int count)
 {
     if (g->u_see(z->posx(), z->posy())) {
         switch (rng(1,10)) {
@@ -1538,11 +1542,12 @@ void mattack::dance(monster *z)
                 break;
         }
     }
-    z->sp_timeout = z->type->sp_freq; // Reset timer
+    z->sp_timeout[count] = z->type->sp_freq[count]; // Reset timer
 }
 
-void mattack::dogthing(monster *z)
+void mattack::dogthing(monster *z, int count)
 {
+    (void)count; //unused
     if (!one_in(3) || !g->u_see(z)) {
         return;
     }
@@ -1562,7 +1567,7 @@ void mattack::dogthing(monster *z)
     z->poly(GetMType("mon_headless_dog_thing"));
 }
 
-void mattack::tentacle(monster *z)
+void mattack::tentacle(monster *z, int count)
 {
     int t;
     if (!g->sees_u(z->posx(), z->posy(), t)) {
@@ -1570,7 +1575,7 @@ void mattack::tentacle(monster *z)
     }
     add_msg(m_bad, _("The %s lashes its tentacle at you!"), z->name().c_str());
     z->moves -= 100;
-    z->sp_timeout = z->type->sp_freq; // Reset timer
+    z->sp_timeout[count] = z->type->sp_freq[count]; // Reset timer
 
     std::vector<point> line = line_to(z->posx(), z->posy(), g->u.posx, g->u.posy, t);
     std::set<std::string> no_effects;
@@ -1599,7 +1604,7 @@ void mattack::tentacle(monster *z)
     g->u.practice( "dodge", z->type->melee_skill );
 }
 
-void mattack::vortex(monster *z)
+void mattack::vortex(monster *z, int count)
 {
     // Make sure that the player's butchering is interrupted!
     if (g->u.activity.type == ACT_BUTCHER &&
@@ -1608,7 +1613,7 @@ void mattack::vortex(monster *z)
         g->u.activity.type = ACT_NULL;
     }
     // Moves are NOT used up by this attack, as it is "passive"
-    z->sp_timeout = z->type->sp_freq;
+    z->sp_timeout[count] = z->type->sp_freq[count];
     // Before anything else, smash terrain!
     for (int x = z->posx() - 2; x <= z->posx() + 2; x++) {
         for (int y = z->posx() - 2; y <= z->posy() + 2; y++) {
@@ -1627,7 +1632,7 @@ void mattack::vortex(monster *z)
             }
             std::vector<point> from_monster = line_to(z->posx(), z->posy(), x, y, 0);
             while (!g->m.i_at(x, y).empty()) {
-                item thrown = g->m.i_at(x, y)[0];
+                item thrown = g->m.i_at(x, y)[count];
                 g->m.i_rem(x, y, 0);
                 int distance = 5 - (thrown.weight() / 1700);
                 if (distance > 0) {
@@ -1786,7 +1791,7 @@ void mattack::vortex(monster *z)
     } // Done with loop!
 }
 
-void mattack::gene_sting(monster *z)
+void mattack::gene_sting(monster *z, int count)
 {
     int j;
     if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 7 ||
@@ -1797,12 +1802,12 @@ void mattack::gene_sting(monster *z)
         return;
     }
     z->moves -= 150;
-    z->sp_timeout = z->type->sp_freq;
+    z->sp_timeout[count] = z->type->sp_freq[count];
     add_msg(m_bad, _("The %s shoots a dart into you!"), z->name().c_str());
     g->u.mutate();
 }
 
-void mattack::para_sting(monster *z)
+void mattack::para_sting(monster *z, int count)
 {
     int j;
     if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 4 ||
@@ -1813,14 +1818,15 @@ void mattack::para_sting(monster *z)
         return;
     }
     z->moves -= 150;
-    z->sp_timeout = z->type->sp_freq;
+    z->sp_timeout[count] = z->type->sp_freq[count];
     add_msg(m_bad, _("The %s shoots a dart into you!"), z->name().c_str());
     add_msg(m_bad, _("You feel poison enter your body!"));
     g->u.add_disease("paralyzepoison", 50, false, 1, 20, 100);
 }
 
-void mattack::triffid_growth(monster *z)
+void mattack::triffid_growth(monster *z, int count)
 {
+    (void)count; //unused
     // Young triffid growing into an adult
     if (g->u_see(z->posx(), z->posy())) {
         add_msg(m_warning, _("The %s young triffid grows into an adult!"),
@@ -1829,10 +1835,10 @@ void mattack::triffid_growth(monster *z)
     z->poly(GetMType("mon_triffid"));
 }
 
-void mattack::stare(monster *z)
+void mattack::stare(monster *z, int count)
 {
     z->moves -= 200;
-    z->sp_timeout = z->type->sp_freq;
+    z->sp_timeout[count] = z->type->sp_freq[count];
     int j;
     if (g->sees_u(z->posx(), z->posy(), j)) {
         add_msg(m_bad, _("The %s stares at you, and you shudder."), z->name().c_str());
@@ -1852,10 +1858,10 @@ void mattack::stare(monster *z)
     }
 }
 
-void mattack::fear_paralyze(monster *z)
+void mattack::fear_paralyze(monster *z, int count)
 {
     if (g->u_see(z->posx(), z->posy())) {
-        z->sp_timeout = z->type->sp_freq; // Reset timer
+        z->sp_timeout[count] = z->type->sp_freq[count]; // Reset timer
         if (g->u.has_artifact_with(AEP_PSYSHIELD)) {
             add_msg(_("The %s probes your mind, but is rebuffed!"), z->name().c_str());
         } else if (rng(1, 20) > g->u.int_cur) {
@@ -1868,7 +1874,7 @@ void mattack::fear_paralyze(monster *z)
     }
 }
 
-void mattack::photograph(monster *z)
+void mattack::photograph(monster *z, int count)
 {
     int t;
     if (z->faction_id == -1 ||
@@ -1876,7 +1882,7 @@ void mattack::photograph(monster *z)
         !g->sees_u(z->posx(), z->posy(), t)) {
         return;
     }
-    z->sp_timeout = z->type->sp_freq;
+    z->sp_timeout[count] = z->type->sp_freq[count];
     z->moves -= 150;
     add_msg(m_warning, _("The %s takes your picture!"), z->name().c_str());
     // TODO: Make the player known to the faction
@@ -1884,7 +1890,7 @@ void mattack::photograph(monster *z)
                  g->get_abs_levx(), g->get_abs_levy());
 }
 
-void mattack::tazer(monster *z)
+void mattack::tazer(monster *z, int count)
 {
     if (z->friendly != 0) {
       // friendly
@@ -1899,7 +1905,7 @@ void mattack::tazer(monster *z)
     if (g->u.uncanny_dodge()) {
         return;
     }
-    z->sp_timeout = z->type->sp_freq; // Reset timer
+    z->sp_timeout[count] = z->type->sp_freq[count]; // Reset timer
     z->moves -= 200;   // It takes a while
     if (g->u.has_artifact_with(AEP_RESIST_ELECTRICITY) || g->u.has_active_bionic("bio_faraday") ||
         g->u.worn_with_flag("ELECTRIC_IMMUNE")) { //Resistances applied.
@@ -1912,7 +1918,7 @@ void mattack::tazer(monster *z)
     g->u.moves -= shock * 20;
 }
 
-void mattack::smg(monster *z)
+void mattack::smg(monster *z, int count)
 {
     // Make sure our ammo isn't weird.
     if (z->ammo > 1000) {
@@ -1933,7 +1939,7 @@ void mattack::smg(monster *z)
     tmp.dex_cur = 8;
     tmp.per_cur = 12;
 
-    z->sp_timeout = z->type->sp_freq; // Reset timer
+    z->sp_timeout[count] = z->type->sp_freq[count]; // Reset timer
     Creature *target = NULL;
 
     if (z->friendly != 0) {
@@ -1988,7 +1994,7 @@ void mattack::smg(monster *z)
     }
 }
 
-void mattack::laser(monster *z)
+void mattack::laser(monster *z, int count)
 {
     bool sunlight = g->is_in_sunlight(z->posx(), z->posy());
     int fire_t = 0;
@@ -2004,13 +2010,13 @@ void mattack::laser(monster *z)
     tmp.dex_cur = 8;
     tmp.per_cur = 12;
 
-    z->sp_timeout = z->type->sp_freq; // Reset timer
+    z->sp_timeout[count] = z->type->sp_freq[count]; // Reset timer
     Creature *target = NULL;
 
     if (z->friendly != 0) {   // Attacking monsters, not the player!
         int boo_hoo;
         target = tmp.auto_find_hostile_target(18, boo_hoo, fire_t);
-        z->sp_timeout = z->type->sp_freq; // Reset timer
+        z->sp_timeout[count] = z->type->sp_freq[count]; // Reset timer
         if (target == NULL) {// Couldn't find any targets!
             if(boo_hoo > 0 && g->u_see(z->posx(), z->posy()) ) { // because that stupid oaf was in the way!
                 add_msg(m_warning, ngettext("Pointed in your direction, the %s emits an IFF warning beep.",
@@ -2058,7 +2064,7 @@ void mattack::laser(monster *z)
     }
 }
 
-void mattack::rifle_tur(monster *z)
+void mattack::rifle_tur(monster *z, int count)
 {
     // Make sure our ammo isn't weird.
     if (z->ammo > 2000) {
@@ -2079,7 +2085,7 @@ void mattack::rifle_tur(monster *z)
     tmp.dex_cur = 10;
     tmp.per_cur = 12;
 
-    z->sp_timeout = z->type->sp_freq; // Reset timer
+    z->sp_timeout[count] = z->type->sp_freq[count]; // Reset timer
     Creature *target = NULL;
 
     if (z->friendly != 0) {
@@ -2135,7 +2141,7 @@ void mattack::rifle_tur(monster *z)
     }
 }
 
-void mattack::frag_tur(monster *z) // This is for the bots, not a standalone turret
+void mattack::frag_tur(monster *z, int count) // This is for the bots, not a standalone turret
 {
     // Make sure our ammo isn't weird.
     if (z->ammo > 100) {
@@ -2156,7 +2162,7 @@ void mattack::frag_tur(monster *z) // This is for the bots, not a standalone tur
     tmp.dex_cur = 10;
     tmp.per_cur = 12;
 
-    z->sp_timeout = z->type->sp_freq; // Reset timer
+    z->sp_timeout[count] = z->type->sp_freq[count]; // Reset timer
     Creature *target = NULL;
 
     if (z->friendly != 0) {
@@ -2216,7 +2222,7 @@ void mattack::frag_tur(monster *z) // This is for the bots, not a standalone tur
     }
 }
 
-void mattack::bmg_tur(monster *z)
+void mattack::bmg_tur(monster *z, int count)
 {
     // Make sure our ammo isn't weird.
     if (z->ammo > 500) {
@@ -2237,7 +2243,7 @@ void mattack::bmg_tur(monster *z)
     tmp.dex_cur = 10;
     tmp.per_cur = 12;
 
-    z->sp_timeout = z->type->sp_freq; // Reset timer
+    z->sp_timeout[count] = z->type->sp_freq[count]; // Reset timer
     Creature *target = NULL;
 
     if (z->friendly != 0) {
@@ -2298,8 +2304,9 @@ void mattack::bmg_tur(monster *z)
     }
 }
 
-void mattack::tank_tur(monster *z)
+void mattack::tank_tur(monster *z, int count)
 {
+    (void)count; //unused
     // Make sure our ammo isn't weird.
     if (z->ammo > 40) {
         debugmsg("Generated too much ammo (%d) for %s in mattack::tank_tur", z->ammo, z->name().c_str());
@@ -2321,7 +2328,7 @@ void mattack::tank_tur(monster *z)
     tmp.dex_cur = 8;
     tmp.per_cur = 8;
 
-    z->sp_timeout = z->type->sp_freq; // Reset timer
+    z->sp_timeout[count] = z->type->sp_freq[count]; // Reset timer
     Creature *target = NULL;
 
     if (z->friendly != 0) {
@@ -2382,10 +2389,10 @@ void mattack::tank_tur(monster *z)
     }
 }
 
-void mattack::searchlight(monster *z)
+void mattack::searchlight(monster *z, int count)
 {
 
-    z->sp_timeout = z->type->sp_freq; // Reset timer
+    z->sp_timeout[count] = z->type->sp_freq[count]; // Reset timer
 
     int max_lamp_count = 3;
     if (z->hp < z->type->hp) {
@@ -2447,7 +2454,7 @@ void mattack::searchlight(monster *z)
                 }
 
         if (!generator_ok) {
-            item &settings = z->inv[0];
+            item &settings = z->inv[count];
             settings.item_vars["SL_POWER"] = "OFF";
 
             return;
@@ -2568,7 +2575,7 @@ void mattack::searchlight(monster *z)
     }
 }
 
-void mattack::flamethrower(monster *z)
+void mattack::flamethrower(monster *z, int count)
 {
     if (z->friendly != 0) {
       // friendly
@@ -2585,7 +2592,7 @@ void mattack::flamethrower(monster *z)
       tmp.dex_cur = 8;
       tmp.per_cur = 8;
 
-      z->sp_timeout = z->type->sp_freq; // Reset timer
+      z->sp_timeout[count] = z->type->sp_freq[count]; // Reset timer
       Creature *target = NULL;
 
       // Attacking monsters, not the player!
@@ -2623,7 +2630,7 @@ void mattack::flamethrower(monster *z)
         !g->sees_u(z->posx(), z->posy(), t)) {
         return;    // Out of range
     }
-    z->sp_timeout = z->type->sp_freq; // Reset timer
+    z->sp_timeout[count] = z->type->sp_freq[count]; // Reset timer
     z->moves -= 500;   // It takes a while
     std::vector<point> traj = line_to(z->posx(), z->posy(), g->u.posx, g->u.posy, t);
 
@@ -2642,12 +2649,12 @@ void mattack::flamethrower(monster *z)
     }
 }
 
-void mattack::copbot(monster *z)
+void mattack::copbot(monster *z, int count)
 {
     int t;
     bool sees_u = g->sees_u(z->posx(), z->posy(), t);
     bool cuffed = g->u.weapon.type->id == "e_handcuffs";
-    z->sp_timeout = z->type->sp_freq; // Reset timer
+    z->sp_timeout[count] = z->type->sp_freq[count]; // Reset timer
     if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 2 || !sees_u) {
         if (one_in(3)) {
             if (sees_u) {
@@ -2668,7 +2675,7 @@ Please put down your weapon.\""));
     // only taze uncuffed victims, erm, perpetrators
     mattack tmp;
     if (!cuffed) {
-        tmp.tazer(z);
+        tmp.tazer(z, -1);
         return;
     }
     // if cuffed don't attack the player, unless the bot is damaged
@@ -2680,8 +2687,9 @@ Please put down your weapon.\""));
     }
 }
 
-void mattack::chickenbot(monster *z)
+void mattack::chickenbot(monster *z, int count)
 {
+    (void)count; //unused
     int t, mode = 0;
     if (!g->sees_u(z->posx(), z->posy(), t)) {
         return;    // Can't see you!
@@ -2702,19 +2710,20 @@ void mattack::chickenbot(monster *z)
 
     switch (mode) {
     case 1:
-        this->tazer(z);
+        this->tazer(z, -1);
         break;
     case 2:
-        this->rifle_tur(z);
+        this->rifle_tur(z, -1);
         break;
     case 3:
-        this->frag_tur(z);
+        this->frag_tur(z, -1);
         break;
     }
 }
 
-void mattack::multi_robot(monster *z)
+void mattack::multi_robot(monster *z, int count)
 {
+    (void)count; //unused
     int t, mode = 0;
     if (!g->sees_u(z->posx(), z->posy(), t)) {
         return;    // Can't see you!
@@ -2738,29 +2747,29 @@ void mattack::multi_robot(monster *z)
 
     switch (mode) {
     case 1:
-        this->tazer(z);
+        this->tazer(z, -1);
         break;
     case 2:
-        this->flamethrower(z);
+        this->flamethrower(z, -1);
         break;
     case 3:
-        this->rifle_tur(z);
+        this->rifle_tur(z, -1);
         break;
     case 4:
-        this->frag_tur(z);
+        this->frag_tur(z, -1);
         break;
      case 5:
-        this->tank_tur(z);
+        this->tank_tur(z, -1);
         break;
     }
 }
 
-void mattack::ratking(monster *z)
+void mattack::ratking(monster *z, int count)
 {
     if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 50) {
         return;
     }
-    z->sp_timeout = z->type->sp_freq;    // Reset timer
+    z->sp_timeout[count] = z->type->sp_freq[count];    // Reset timer
 
     switch (rng(1, 5)) { // What do we say?
     case 1:
@@ -2784,15 +2793,16 @@ void mattack::ratking(monster *z)
     }
 }
 
-void mattack::generator(monster *z)
+void mattack::generator(monster *z, int count)
 {
+    (void)count; //unused
     g->sound(z->posx(), z->posy(), 100, "");
     if (int(calendar::turn) % 10 == 0 && z->hp < z->type->hp) {
         z->hp++;
     }
 }
 
-void mattack::upgrade(monster *z)
+void mattack::upgrade(monster *z, int count)
 {
     std::vector<int> targets;
     for (size_t i = 0; i < g->num_zombies(); i++) {
@@ -2804,7 +2814,7 @@ void mattack::upgrade(monster *z)
     if (targets.empty()) {
         return;
     }
-    z->sp_timeout = z->type->sp_freq; // Reset timer
+    z->sp_timeout[count] = z->type->sp_freq[count]; // Reset timer
     z->moves -= 150;   // It takes a while
 
     monster *target = &( g->zombie( targets[ rng(0, targets.size() - 1) ] ) );
@@ -2845,9 +2855,9 @@ void mattack::upgrade(monster *z)
     }
 }
 
-void mattack::breathe(monster *z)
+void mattack::breathe(monster *z, int count)
 {
-    z->sp_timeout = z->type->sp_freq; // Reset timer
+    z->sp_timeout[count] = z->type->sp_freq[count]; // Reset timer
     z->moves -= 100;   // It takes a while
 
     bool able = (z->type->id == "mon_breather_hub");
@@ -2877,19 +2887,19 @@ void mattack::breathe(monster *z)
     if (!valid.empty()) {
         point place = valid[ rng(0, valid.size() - 1) ];
         monster spawned(GetMType("mon_breather"));
-        spawned.sp_timeout = 12;
+        spawned.sp_timeout[count] = 12;
         spawned.spawn(place.x, place.y);
         g->add_zombie(spawned);
     }
 }
 
-void mattack::bite(monster *z)
+void mattack::bite(monster *z, int count)
 {
     if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 1) {
         return;
     }
 
-    z->sp_timeout = z->type->sp_freq; // Reset timer
+    z->sp_timeout[count] = z->type->sp_freq[count]; // Reset timer
     add_msg(_("The %s lunges forward!"), z->name().c_str());
     z->moves -= 100;
 
@@ -2933,18 +2943,18 @@ void mattack::bite(monster *z)
     g->u.practice( "dodge", z->type->melee_skill );
 }
 
-void mattack::brandish(monster *z)
+void mattack::brandish(monster *z, int count)
 {
     int linet;
     if (!g->sees_u(z->posx(), z->posy(), linet)) {
         return; // Only brandish if we can see you!
     }
-    z->sp_timeout = 10000; // Reset timer
+    z->sp_timeout[count] = 10000; // Reset timer
     add_msg(m_warning, _("He's brandishing a knife!"));
     add_msg(_("Quiet, quiet"));
 }
 
-void mattack::flesh_golem(monster *z)
+void mattack::flesh_golem(monster *z, int count)
 {
     if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 1) {
         if (one_in(12)) {
@@ -2954,12 +2964,12 @@ void mattack::flesh_golem(monster *z)
                 return; // Out of range
             }
             z->moves -= 200;
-            z->sp_timeout = z->type->sp_freq; // Reset timer
+            z->sp_timeout[count] = z->type->sp_freq[count]; // Reset timer
             g->sound(z->posx(), z->posy(), 80, _("a terrifying roar that nearly deafens you!"));
         }
         return;
     }
-    z->sp_timeout = z->type->sp_freq; // Reset timer
+    z->sp_timeout[count] = z->type->sp_freq[count]; // Reset timer
     add_msg(_("The %s swings a massive claw at you!"), z->name().c_str());
     z->moves -= 100;
 
@@ -2987,7 +2997,7 @@ void mattack::flesh_golem(monster *z)
     g->u.practice( "dodge", z->type->melee_skill );
 }
 
-void mattack::lunge(monster *z)
+void mattack::lunge(monster *z, int count)
 {
     if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 1) {
         if (one_in(5)) {
@@ -2997,12 +3007,12 @@ void mattack::lunge(monster *z)
                 return; // Out of range
             }
             z->moves += 200;
-            z->sp_timeout = z->type->sp_freq; // Reset timer
+            z->sp_timeout[count] = z->type->sp_freq[count]; // Reset timer
             add_msg(_("The %s lunges for you!"), z->name().c_str());
         }
         return;
     }
-    z->sp_timeout = z->type->sp_freq; // Reset timer
+    z->sp_timeout[count] = z->type->sp_freq[count]; // Reset timer
     add_msg(_("The %s lunges straight into you!"), z->name().c_str());
     z->moves -= 100;
 
@@ -3030,7 +3040,7 @@ void mattack::lunge(monster *z)
     g->u.practice( "dodge", z->type->melee_skill );
 }
 
-void mattack::longswipe(monster *z)
+void mattack::longswipe(monster *z, int count)
 {
     if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 1) {
         if (one_in(5)) {
@@ -3040,7 +3050,7 @@ void mattack::longswipe(monster *z)
                 return; // Out of range
             }
             z->moves -= 150;
-            z->sp_timeout = z->type->sp_freq; // Reset timer
+            z->sp_timeout[count] = z->type->sp_freq[count]; // Reset timer
             add_msg(_("The %s thrusts a claw at you!"), z->name().c_str());
 
             if (g->u.uncanny_dodge()) {
@@ -3063,7 +3073,7 @@ void mattack::longswipe(monster *z)
         }
         return;
     }
-    z->sp_timeout = z->type->sp_freq; // Reset timer
+    z->sp_timeout[count] = z->type->sp_freq[count]; // Reset timer
     add_msg(_("The %s slashes at your neck!"), z->name().c_str());
     z->moves -= 100;
 
@@ -3089,22 +3099,22 @@ void mattack::longswipe(monster *z)
 }
 
 
-void mattack::parrot(monster *z)
+void mattack::parrot(monster *z, int count)
 {
     if (one_in(20)) {
         z->moves -= 100;  // It takes a while
-        z->sp_timeout = z->type->sp_freq;  // Reset timer
+        z->sp_timeout[count] = z->type->sp_freq[count];  // Reset timer
         const SpeechBubble speech = get_speech( z->type->id );
         g->sound(z->posx(), z->posy(), speech.volume, speech.text);
     }
 }
 
-void mattack::darkman(monster *z)
+void mattack::darkman(monster *z, int count)
 {
     if( rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 40 ) {
         return;
     }
-    z->sp_timeout = z->type->sp_freq; // Reset timer
+    z->sp_timeout[count] = z->type->sp_freq[count]; // Reset timer
     std::vector<point> free;
     for( int x = z->posx() - 1; x <= z->posx() + 1; x++ ) {
         for( int y = z->posy() - 1; y <= z->posy() + 1; y++ ) {
@@ -3153,12 +3163,12 @@ void mattack::darkman(monster *z)
     g->u.add_disease( "darkness", 10 );
 }
 
-void mattack::slimespring(monster *z)
+void mattack::slimespring(monster *z, int count)
 {
     if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 30) {
         return;
     }
-    z->sp_timeout = z->type->sp_freq;    // Reset timer
+    z->sp_timeout[count] = z->type->sp_freq[count];    // Reset timer
 
     if (g->u.morale_level() <= 1) {
         switch (rng(1, 3)) { //~ Your slimes try to cheer you up!
@@ -3201,8 +3211,9 @@ void mattack::slimespring(monster *z)
     }
 }
 
-bool mattack::thrown_by_judo(monster *z)
+bool mattack::thrown_by_judo(monster *z, int count)
 {
+    (void)count; //unused
     // "Wimpy" Judo is about to pay off... :D
     if (g->u.is_throw_immune()) {
         // DX + Unarmed
@@ -3240,9 +3251,9 @@ bool mattack::thrown_by_judo(monster *z)
     }
 }
 
-void mattack::riotbot(monster *z)
+void mattack::riotbot(monster *z, int count)
 {
-    z->sp_timeout = z->type->sp_freq; // Reset timer
+    z->sp_timeout[count] = z->type->sp_freq[count]; // Reset timer
 
     const int monx = z->posx();
     const int mony = z->posy();
@@ -3431,12 +3442,12 @@ void mattack::riotbot(monster *z)
     return;
 }
 
-void mattack::bio_op_takedown(monster *z)
+void mattack::bio_op_takedown(monster *z, int count)
 {
     if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 1) {
         return;
     }
-    z->sp_timeout = z->type->sp_freq; // Reset timer
+    z->sp_timeout[count] = z->type->sp_freq[count]; // Reset timer
     add_msg(_("The %s mechanically grabs at you!"), z->name().c_str());
     z->moves -= 100;
 
@@ -3483,7 +3494,7 @@ void mattack::bio_op_takedown(monster *z)
             }
             g->u.add_effect("downed", 3);
         }
-    } else if (!thrown_by_judo(z)) {
+    } else if (!thrown_by_judo(z, -1)) {
         // Saved by the tentacle-bracing! :)
         hit = bp_torso;
         dam = rng(3, 9);
@@ -3493,8 +3504,9 @@ void mattack::bio_op_takedown(monster *z)
     g->u.practice( "dodge", z->type->melee_skill );
 }
 
-void mattack::suicide(monster *z)
+void mattack::suicide(monster *z, int count)
 {
+    (void)count; //unused
     if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 2) {
         return; //commit suicide when close enough to player
     }
