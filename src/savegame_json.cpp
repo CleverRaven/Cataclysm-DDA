@@ -452,8 +452,11 @@ void player::deserialize(JsonIn &jsin)
         start_location = g->scen->start_location();
     } else {
         scenario *generic_scenario = scenario::generic();
-        debugmsg("Tried to use non-existent scenario '%s'. Setting to generic '%s'.",
-                    scen_ident.c_str(), generic_scenario->ident().c_str());
+        // Only display error message if from a game file after scenarios existed.
+        if (savegame_loading_version > 20) { 
+            debugmsg("Tried to use non-existent scenario '%s'. Setting to generic '%s'.",
+                        scen_ident.c_str(), generic_scenario->ident().c_str());
+        }
         g->scen = generic_scenario;
     }
     temp_cur.fill( 5000 );
