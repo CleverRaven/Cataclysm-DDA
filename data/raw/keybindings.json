@@ -901,6 +901,18 @@
             }
         ]
     },
+	{
+        "type" : "keybinding",
+        "id": "REROLL_CHARACTER",
+        "category": "NEW_CHAR_DESCRIPTION",
+        "name": "Reroll Random Character",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"%"
+            }
+        ]
+    },
     {
         "type" : "keybinding",
         "id": "PICK_RANDOM_NAME",
