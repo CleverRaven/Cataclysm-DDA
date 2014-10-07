@@ -1,7 +1,6 @@
 #include <sstream>
 #include "inventory.h"
 #include "game.h"
-#include "mapdata.h"
 
 const std::string inv_chars =
     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()*+./:;=@[\\]^_{|}";
@@ -880,26 +879,6 @@ std::vector<std::pair<item *, int> > inventory::all_items_by_type(itype_id type)
     return ret;
 }
 
-std::vector<const item *> inventory::all_items_with_flag( const std::string flag ) const
-{
-    std::vector<const item *> ret;
-
-    for (invstack::const_iterator istack = items.begin(); istack != items.end(); ++istack) {
-        for (std::list<item>::const_iterator iitem = istack->begin(); iitem != istack->end(); ++iitem) {
-            if (iitem->has_flag(flag)) {
-                ret.push_back(&*iitem);
-            } else if (!iitem->contents.empty())
-                for (auto &k : iitem->contents) {
-                    if (k.has_flag(flag)) {
-                        ret.push_back(&k);
-                    }
-                }
-        }
-    }
-    return ret;
-}
-
-
 std::vector<item *> inventory::all_ammo(const ammotype &type)
 {
     std::vector<item *> ret;
@@ -1013,19 +992,6 @@ bool inventory::has_amount(itype_id it, int quantity, bool used_as_tool) const
 bool inventory::has_charges(itype_id it, long quantity) const
 {
     return (charges_of(it) >= quantity);
-}
-
-bool inventory::has_flag(std::string flag) const
-{
-    for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter) {
-        for (std::list<item>::const_iterator stack_iter = iter->begin(); stack_iter != iter->end();
-             ++stack_iter) {
-            if (stack_iter->has_flag(flag) || stack_iter->contains_with_flag(flag)) {
-                return true;
-            }
-        }
-    }
-    return false;
 }
 
 bool inventory::has_item(item *it) const

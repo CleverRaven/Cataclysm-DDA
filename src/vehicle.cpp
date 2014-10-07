@@ -593,11 +593,11 @@ void vehicle::use_controls()
         if((stereo_on || fuel_left(fuel_type_battery))) {
             stereo_on = !stereo_on;
             int music_index = 0;
-            std::vector<const item*> music_inv = g->u.inv.all_items_with_flag("CD");
+            std::vector<const item*> cd_inv = g->u.all_items_with_flag( "CD" );
             std::vector<itype_id> music_types;
             std::vector<std::string> music_names;
             add_msg((stereo_on) ? _("Loading...") : _("Ejecting..."));
-            if (!g->u.has_item_with_flag("CD")&& stereo_on == true) {
+            if( cd_inv.empty() && stereo_on ) {
                 add_msg(_("You don't have anything to play!"));
                 stereo_on = false;
             } else if (stereo_on == false) {
@@ -605,12 +605,12 @@ void vehicle::use_controls()
                 add_msg(_("Ejected the %s"), cd.tname().c_str());
                 g->u.i_add(cd);
             } else {
-            for (std::vector<const item*>::iterator it = music_inv.begin() ; it != music_inv.end(); it++){
-                if (std::find(music_types.begin(), music_types.end(), (*it)->typeId()) == music_types.end()){
-                music_types.push_back((*it)->typeId());
-                music_names.push_back((*it)->tname());
+                for( auto &cd : cd_inv ) {
+                    if( std::find( music_types.begin(), music_types.end(), cd->typeId() ) == music_types.end() ) {
+                        music_types.push_back( cd->typeId() );
+                        music_names.push_back( cd->tname() );
+                    }
                 }
-            }
             if (music_types.size() > 1) {
                 music_names.push_back(_("Cancel"));
                 music_index = menu_vec(false, _("Use which item?"), music_names) - 1;
@@ -626,7 +626,7 @@ void vehicle::use_controls()
                 return;
             } else {
                 add_msg(_("Inserted the %s"), music_names[music_index].c_str());
-                g->u.inv.remove_item(music_types[music_index]);
+                g->u.use_amount( music_types[music_index], 1 );
                 music_id = music_types[music_index];
             }
             }

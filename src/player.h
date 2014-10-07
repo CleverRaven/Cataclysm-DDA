@@ -837,6 +837,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
             }
             return result;
         }
+        /**
+         * All items that have the given flag (@ref item::has_flag).
+         */
+        std::vector<const item *> all_items_with_flag( const std::string flag ) const;
 
         item &i_add(item it);
         // Sets invlet and adds to inventory if possible, drops otherwise, returns true if either succeeded.

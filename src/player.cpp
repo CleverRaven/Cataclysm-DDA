@@ -7426,29 +7426,6 @@ int  player::leak_level( std::string flag ) const
     return leak_level;
 }
 
-bool player::has_item_with_flag( std::string flag ) const
-{
-    //check worn items for flag
-    if (worn_with_flag( flag ))
-    {
-        return true;
-    }
-
-    //check weapon for flag
-    if (weapon.has_flag( flag ) || weapon.contains_with_flag( flag ))
-    {
-        return true;
-    }
-
-    //check inventory items for flag
-    if (inv.has_flag( flag ))
-    {
-        return true;
-    }
-
-    return false;
-}
-
 std::set<char> player::allocated_invlets() const {
     std::set<char> invlets = inv.allocated_invlets();
 
@@ -11792,4 +11769,18 @@ void player::blossoms()
                 g->m.add_field( i, j, fd_fungal_haze, rng(1, 2));
         }
     }
+}
+
+std::vector<const item *> player::all_items_with_flag( const std::string flag ) const
+{
+    return items_with( [&flag]( const item & it ) {
+        return it.has_flag( flag );
+    } );
+}
+
+bool player::has_item_with_flag( std::string flag ) const
+{
+    return has_item_with( [&flag]( const item & it ) {
+        return it.has_flag( flag );
+    } );
 }

@@ -96,7 +96,6 @@ class inventory
 
         std::vector<std::pair<item *, int> > all_items_by_type(itype_id type);
         std::vector<item *> all_ammo(const ammotype &type);
-        std::vector<const item *> all_items_with_flag( const std::string flag ) const;
 
         // Below, "amount" refers to quantity
         //        "charges" refers to charges
@@ -112,7 +111,6 @@ class inventory
         bool has_tools (itype_id it, int quantity) const;
         bool has_components (itype_id it, int quantity) const;
         bool has_charges(itype_id it, long quantity) const;
-        bool has_flag(std::string flag) const; //Inventory item has flag
         bool has_item(item *it) const; // Looks for a specific item
         bool has_items_with_quality(std::string id, int level, int amount) const;
         bool has_gun_for_ammo(ammotype type) const;

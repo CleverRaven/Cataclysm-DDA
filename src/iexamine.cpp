@@ -1206,7 +1206,8 @@ void iexamine::dirtmound(player *p, map *m, int examx, int examy)
         add_msg(m_info, _("It is too dark to plant anything now."));
         return;
     }*/
-    if (!p->has_item_with_flag("SEED")) {
+    std::vector<const item *> seed_inv = p->all_items_with_flag( "SEED" );
+    if( seed_inv.empty() ) {
         add_msg(m_info, _("You have no seeds to plant."));
         return;
     }
@@ -1215,19 +1216,13 @@ void iexamine::dirtmound(player *p, map *m, int examx, int examy)
         return;
     }
 
-    // Get list of all inv+wielded seeds
-    std::vector<const item *> seed_inv = p->inv.all_items_with_flag("SEED");
-    if (g->u.weapon.has_flag("SEED")) {
-        seed_inv.push_back(&g->u.weapon);
-    }
-
     // Make lists of unique seed types and names for the menu(no multiple hemp seeds etc)
     std::vector<itype_id> seed_types;
     std::vector<std::string> seed_names;
-    for (std::vector<const item *>::iterator it = seed_inv.begin() ; it != seed_inv.end(); it++) {
-        if (std::find(seed_types.begin(), seed_types.end(), (*it)->typeId()) == seed_types.end()) {
-            seed_types.push_back((*it)->typeId());
-            seed_names.push_back((*it)->tname());
+    for( auto &seed : seed_inv ) {
+        if( std::find( seed_types.begin(), seed_types.end(), seed->typeId() ) == seed_types.end() ) {
+            seed_types.push_back( seed->typeId() );
+            seed_names.push_back( seed->tname() );
         }
     }
 
@@ -1253,14 +1248,7 @@ void iexamine::dirtmound(player *p, map *m, int examx, int examy)
     }
 
     // Actual planting
-    std::list<item> planted = p->inv.use_charges(seed_types[seed_index], 1);
-    if (planted.empty()) { // nothing was removed from inv => weapon is the SEED
-        if (g->u.weapon.charges > 1) {
-            g->u.weapon.charges--;
-        } else {
-            g->u.remove_weapon();
-        }
-    }
+    std::list<item> planted = p->use_charges( seed_types[seed_index], 1 );
     m->spawn_item(examx, examy, seed_types[seed_index], 1, 1, calendar::turn);
     m->set(examx, examy, t_dirt, f_plant_seed);
     p->moves -= 500;
@@ -1323,21 +1311,18 @@ void iexamine::aggie_plant(player *p, map *m, int examx, int examy)
             add_msg(m_info, _("This plant has already been fertilized."));
             return;
         }
-        if ( !p->has_item_with_flag("FERTILIZER") ) {
+        std::vector<const item *> f_inv = p->all_items_with_flag( "FERTILIZER" );
+        if( f_inv.empty() ) {
         add_msg(m_info, _("You have no fertilizer."));
         return;
         }
         if (query_yn(_("Fertilize plant"))) {
-        std::vector<const item *> f_inv = p->inv.all_items_with_flag("FERTILIZER");
-            if (g->u.weapon.contains_with_flag("FERTILIZER")) {
-            f_inv.push_back(&g->u.weapon.contents[0]);
-            }
         std::vector<itype_id> f_types;
         std::vector<std::string> f_names;
-            for (std::vector<const item *>::iterator it = f_inv.begin() ; it != f_inv.end(); it++) {
-                if (std::find(f_types.begin(), f_types.end(), (*it)->typeId()) == f_types.end()) {
-                    f_types.push_back((*it)->typeId());
-                    f_names.push_back((*it)->tname());
+            for( auto &f : f_inv ) {
+                if( std::find( f_types.begin(), f_types.end(), f->typeId() ) == f_types.end() ) {
+                    f_types.push_back( f->typeId() );
+                    f_names.push_back( f->tname() );
                 }
             }
             // Choose fertilizer from list
@@ -1354,7 +1339,7 @@ void iexamine::aggie_plant(player *p, map *m, int examx, int examy)
             if (f_index < 0) {
                 return;
             }
-            std::list<item> planted = p->inv.use_charges(f_types[f_index], 1);
+            std::list<item> planted = p->use_charges( f_types[f_index], 1 );
             if (planted.empty()) { // nothing was removed from inv => weapon is the SEED
                 if (g->u.weapon.charges > 1) {
                     g->u.weapon.charges--;
@@ -1398,23 +1383,19 @@ void iexamine::fvat_empty(player *p, map *m, int examx, int examy)
         }
     }
     if (!brew_present) {
-        if ( !p->has_item_with_flag("BREW") ) {
+        std::vector<const item *> b_inv = p->all_items_with_flag( "BREW" );
+        if( b_inv.empty() ) {
             add_msg(m_info, _("You have no brew to ferment."));
             return;
-        }
-        // Get list of all inv+wielded ferment-able items.
-        std::vector<const item *> b_inv = p->inv.all_items_with_flag("BREW");
-        if (g->u.weapon.contains_with_flag("BREW")) {
-            b_inv.push_back(&g->u.weapon.contents[0]);
         }
         // Make lists of unique typeids and names for the menu
         // Code shamelessly stolen from the crop planting function!
         std::vector<itype_id> b_types;
         std::vector<std::string> b_names;
-        for (std::vector<const item *>::iterator it = b_inv.begin() ; it != b_inv.end(); it++) {
-            if (std::find(b_types.begin(), b_types.end(), (*it)->typeId()) == b_types.end()) {
-                b_types.push_back((*it)->typeId());
-                b_names.push_back((*it)->tname());
+        for( auto &b : b_inv ) {
+            if( std::find( b_types.begin(), b_types.end(), b->typeId() ) == b_types.end() ) {
+                b_types.push_back( b->typeId() );
+                b_names.push_back( b->tname() );
             }
         }
         // Choose brew from list
