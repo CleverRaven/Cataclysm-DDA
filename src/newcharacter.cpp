@@ -61,7 +61,7 @@ Skill *random_skill();
 
 void save_template(player *u);
 
-int player::create(character_type type, std::string tempname)
+bool player::create(character_type type, std::string tempname)
 {
     weapon = item("null", 0);
 
@@ -245,7 +245,7 @@ int player::create(character_type type, std::string tempname)
             fin.open(filename.str().c_str());
             if (!fin.is_open()) {
                 debugmsg("Couldn't open %s!", filename.str().c_str());
-                return 0;
+                return false;
             }
             std::string(data);
             getline(fin, data);
@@ -287,10 +287,8 @@ int player::create(character_type type, std::string tempname)
     } while (tab >= 0 && tab <= NEWCHAR_TAB_MAX);
     delwin(w);
 
-    if (tab < -1) {
-        return -1;
-    } else if (tab < 0) {
-        return 0;
+    if (tab < 0) {
+        return false;
     }
 
     recalc_hp();
@@ -533,7 +531,7 @@ int player::create(character_type type, std::string tempname)
 
     // Ensure that persistent morale effects (e.g. Optimist) are present at the start.
     apply_persistent_morale();
-    return 1;
+    return true;
 }
 
 void draw_tabs(WINDOW *w, std::string sTab)
@@ -1589,7 +1587,6 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
     ctxt.register_action("NEXT_TAB");
     ctxt.register_action("HELP_KEYBINDINGS");
     ctxt.register_action("CHOOSE_LOCATION");
-    ctxt.register_action("REROLL_CHARACTER");
     ctxt.register_action("ANY_INPUT");
 
     uimenu select_location;
@@ -1704,15 +1701,8 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
                       _("Press %s to finish character creation or %s to go back and make revisions."),
                       ctxt.get_desc("NEXT_TAB").c_str(),
                       ctxt.get_desc("PREV_TAB").c_str());
-            if( type == PLTYPE_RANDOM ) {
-                    mvwprintz(w_guide, 1, 0, c_green, _("Press %s to save a template of this character."),
-                    ctxt.get_desc("SAVE_TEMPLATE").c_str());
-                    mvwprintz(w_guide, 1, 46, c_ltgreen, _("Press %s to re-roll."),
-                    ctxt.get_desc("REROLL_CHARACTER").c_str());
-            }else {
-                    mvwprintz(w_guide, 1, 0, c_green, _("Press %s to save a template of this character."),
-                    ctxt.get_desc("SAVE_TEMPLATE").c_str());
-            }
+            mvwprintz(w_guide, 1, 0, c_green, _("Press %s to save a template of this character."),
+                      ctxt.get_desc("SAVE_TEMPLATE").c_str());
             wrefresh(w_guide);
 
             redraw = false;
@@ -1803,15 +1793,6 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             delwin(w_skills);
             delwin(w_guide);
             return -1;
-        } else if (action == "REROLL_CHARACTER" && type == PLTYPE_RANDOM) {
-            delwin(w_name);
-            delwin(w_gender);
-            delwin(w_stats);
-            delwin(w_traits);
-            delwin(w_profession);
-            delwin(w_skills);
-            delwin(w_guide);
-            return -7;
         } else if (action == "SAVE_TEMPLATE") {
             if (points > 0) {
                 if(query_yn(_("You are attempting to save a template with unused points. "

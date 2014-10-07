@@ -397,21 +397,11 @@ bool game::opening_screen()
                         }
                         world_generator->set_active_world(world);
                         setup();
-                        int pgen = -1;
-                        while (pgen < 0) {
-                            //create will return -1 on re-randomize command, keeping the loop going
-                            //it will return 0 on exit, or 1 on success
-                            pgen = u.create((sel2 == 0) ? PLTYPE_CUSTOM :
-                                      ((sel2 == 2) ? PLTYPE_RANDOM : PLTYPE_NOW));
-                            if (pgen == -1) {
-                                u = player();
-                            }
-                        }
-                        if (pgen == 0) {
+                        if (!u.create((sel2 == 0) ? PLTYPE_CUSTOM :
+                                      ((sel2 == 2) ? PLTYPE_RANDOM : PLTYPE_NOW))) {
                             u = player();
                             continue;
                         }
-
                         werase(w_background);
                         wrefresh(w_background);
 
