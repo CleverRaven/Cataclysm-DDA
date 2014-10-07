@@ -89,6 +89,19 @@ void remove_ups_mod( item &it, player &p )
     it.item_tags.erase( "NO_RELOAD" );
 }
 
+// Checks that the player does not have an active item with LITCIG flag.
+bool check_litcig( player &u )
+{
+    auto cigs = u.items_with( []( const item & it ) {
+        return it.active && it.has_flag( "LITCIG" );
+    } );
+    if( cigs.empty() ) {
+        return true;
+    }
+    u.add_msg_if_player( m_info, _( "You're already smoking a %s!" ), cigs[0]->tname().c_str() );
+    return false;
+}
+
 static bool item_inscription(player *p, item *cut, std::string verb, std::string gerund,
                              bool carveable)
 {
@@ -829,12 +842,8 @@ int iuse::smoking_pipe(player *p, item *it, bool)
     std::vector<std::string> smokable_choices;
 
     // Fail fast(er) if we can't/shouldn't smoke.
-    std::vector<item *> active_items = p->inv.active_items();
-    for (item *i : active_items) {
-        if (i->has_flag("LITCIG")) {
-            p->add_msg_if_player(m_info, _("You're already smoking a %s!"), i->tname().c_str());
-            return 0;
-        }
+    if( !check_litcig( *p ) ) {
+        return 0;
     }
     if (!hasFire) {
         p->add_msg_if_player(m_info, _("You don't have anything to light it with!"));
@@ -922,12 +931,8 @@ int iuse::smoking(player *p, item *it, bool)
     bool hasFire = (p->has_charges("fire", 1));
 
     // make sure we're not already smoking something
-    std::vector<item *> active_items = p->inv.active_items();
-    for (auto iter : active_items) {
-        if (iter->has_flag("LITCIG")) {
-            p->add_msg_if_player(m_info, _("You're already smoking a %s!"), iter->tname().c_str());
-            return 0;
-        }
+    if( !check_litcig( *p ) ) {
+        return 0;
     }
 
     if (!hasFire) {
