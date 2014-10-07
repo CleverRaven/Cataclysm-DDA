@@ -994,22 +994,11 @@ bool inventory::has_charges(itype_id it, long quantity) const
     return (charges_of(it) >= quantity);
 }
 
-bool inventory::has_item(item *it) const
+bool inventory::has_item( const item *it ) const
 {
-    for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter) {
-        for (std::list<item>::const_iterator stack_iter = iter->begin(); stack_iter != iter->end();
-             ++stack_iter) {
-            if (it == &(*stack_iter)) {
-                return true;
-            }
-            for (auto &k : stack_iter->contents) {
-                if (it == &k) {
-                    return true;
-                }
-            }
-        }
-    }
-    return false;
+    return has_item_with( [&it]( const item & i ) {
+        return &i == it;
+    } );
 }
 
 bool inventory::has_items_with_quality(std::string id, int level, int amount) const

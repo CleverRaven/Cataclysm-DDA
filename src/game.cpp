@@ -5908,7 +5908,7 @@ point game::find_item(item *it)
     //Does an NPC have it?
     for (std::vector<npc *>::iterator npc = active_npc.begin();
          npc != active_npc.end(); ++npc) {
-        if ((*npc)->inv.has_item(it)) {
+        if ((*npc)->has_item(it)) {
             return point((*npc)->posx, (*npc)->posy);
         }
     }
@@ -5921,24 +5921,12 @@ point game::find_item(item *it)
     return point(-999, -999);
 }
 
-void game::remove_item(item *it)
+void game::remove_item(const item *it)
 {
     point ret;
-    if (it == &u.weapon) {
-        u.remove_weapon();
+    if( u.has_item( it ) ) {
+        u.i_rem( it );
         return;
-    }
-    if (!u.inv.remove_item(it).is_null()) {
-        return;
-    }
-    for (std::vector<item>::iterator worn = u.worn.begin();
-         worn != u.worn.end();) {
-        if (it == &*worn) {
-            worn = u.worn.erase(worn);
-            return;
-        } else {
-            worn++;
-        }
     }
     ret = m.find_item(it);
     if (ret.x != -1 && ret.y != -1) {
@@ -5949,21 +5937,10 @@ void game::remove_item(item *it)
             }
         }
     }
-    for (std::vector<npc *>::iterator npc = active_npc.begin();
-         npc != active_npc.end(); ++npc) {
-        if (it == &(*npc)->weapon) {
-            (*npc)->remove_weapon();
+    for( auto &npc : active_npc ) {
+        if( npc->has_item( it ) ) {
+            npc->i_rem( it );
             return;
-        }
-        if (!(*npc)->inv.remove_item(it).is_null()) {
-            return;
-        }
-        for (std::vector<item>::iterator worn = (*npc)->worn.begin();
-             worn != (*npc)->worn.end(); ++worn) {
-            if (it == &*worn) {
-                (*npc)->worn.erase(worn);
-                return;
-            }
         }
     }
 }

@@ -7445,17 +7445,11 @@ bool player::has_item(int position) {
     return !i_at(position).is_null();
 }
 
-bool player::has_item(item *it)
+bool player::has_item( const item *it ) const
 {
-    if (it == &weapon) {
-        return true;
-    }
-    for (auto &i : worn) {
-        if (it == &(i)) {
-            return true;
-        }
-    }
-    return inv.has_item(it);
+    return has_item_with( [&it]( const item & i ) {
+        return &i == it;
+    } );
 }
 
 struct has_mission_item_filter {

@@ -849,9 +849,23 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool has_active_item(const itype_id &id) const;
         long active_item_charges(itype_id id);
         void process_active_items();
-        item i_rem(int pos); // Remove item from inventory; returns ret_null on fail
         item i_rem(itype_id type);// Remove first item w/ this type; fail is ret_null
-        item i_rem(const item *it);// Remove specific item.
+        /**
+         * Remove a specific item from player possession. The item is compared
+         * by pointer. Contents of the item are removed as well.
+         * @param pos The item position of the item to be removed. The item *must*
+         * exists, use @ref has_item to check this.
+         * @return A copy of the removed item.
+         */
+        item i_rem(int pos);
+        /**
+         * Remove a specific item from player possession. The item is compared
+         * by pointer. Contents of the item are removed as well.
+         * @param it A pointer to the item to be removed. The item *must* exists
+         * in the players possession (one can use @ref has_item to check for this).
+         * @return A copy of the removed item.
+         */
+        item i_rem(const item *it);
         item remove_weapon();
         void remove_mission_items(int mission_id);
         item reduce_charges(int position, long quantity);
@@ -897,7 +911,12 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool has_item_with_flag( std::string flag )
         const; // Has a weapon, inventory item or worn item with flag
         bool has_item(int position);
-        bool has_item(item *it);  // Has a specific item
+        /**
+         * Check whether a specific item is in the players possession.
+         * The item is compared by pointer.
+         * @param it A pointer to the item to be looked for.
+         */
+        bool has_item(const item *it) const;
         /** Only use for UI things. Returns all invelts that are currently used in
          * the player inventory, the weapon slot and the worn items. */
         std::set<char> allocated_invlets() const;

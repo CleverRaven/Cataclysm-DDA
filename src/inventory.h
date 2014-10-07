@@ -71,6 +71,13 @@ class inventory
 
         void form_from_map(point origin, int distance, bool assign_invlet = true);
 
+        /**
+         * Remove a specific item from the inventory. The item is compared
+         * by pointer. Contents of the item are removed as well.
+         * @param it A pointer to the item to be removed. The item *must* exists
+         * in this inventory.
+         * @return A copy of the removed item.
+         */
         item remove_item(const item *it);
         item remove_item(int position);
         item remove_item(const itype_id &type);
@@ -111,7 +118,12 @@ class inventory
         bool has_tools (itype_id it, int quantity) const;
         bool has_components (itype_id it, int quantity) const;
         bool has_charges(itype_id it, long quantity) const;
-        bool has_item(item *it) const; // Looks for a specific item
+        /**
+         * Check whether a specific item is in this inventory.
+         * The item is compared by pointer.
+         * @param it A pointer to the item to be looked for.
+         */
+        bool has_item(const item *it) const;
         bool has_items_with_quality(std::string id, int level, int amount) const;
         bool has_gun_for_ammo(ammotype type) const;
         bool has_active_item(itype_id) const;
