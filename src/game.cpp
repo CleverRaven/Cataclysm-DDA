@@ -87,6 +87,7 @@ bool is_valid_in_w_terrain(int x, int y)
 game::game() :
     new_game(false),
     uquit(QUIT_NO),
+    remote_vehicle_maps(1),
     w_terrain(NULL),
     w_minimap(NULL),
     w_HP(NULL),

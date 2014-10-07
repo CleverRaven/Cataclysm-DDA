@@ -2725,8 +2725,6 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
     }
 }
 
-map remote_vehicle_maps(1);
-
 vehicle* find_vehicle(point &where)
 {
     // Is it in the reality bubble?
@@ -2739,10 +2737,10 @@ vehicle* find_vehicle(point &where)
 
     // Nope. Load up its submap...
     point veh_sm = overmapbuffer::ms_to_sm_copy(where);
-    remote_vehicle_maps.load_abs(veh_sm.x, veh_sm.y, g->levz, true);
+    g->remote_vehicle_maps.load_abs(veh_sm.x, veh_sm.y, g->levz, true);
 
-    point target_pos = remote_vehicle_maps.getlocal(where);
-    veh = remote_vehicle_maps.veh_at(target_pos.x, target_pos.y);
+    point target_pos = g->remote_vehicle_maps.getlocal(where);
+    veh = g->remote_vehicle_maps.veh_at(target_pos.x, target_pos.y);
 
     // ...and hand it over.
     return veh;
