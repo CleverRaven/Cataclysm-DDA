@@ -537,9 +537,9 @@ std::vector<MonAttackFunction> MonsterGenerator::get_attack_function(JsonObject 
 {
     std::vector<MonAttackFunction> ret;
     
-    std::set<std::string> attack_flags = jo.get_tags(member);
-    for (auto &i : attack_flags) {
-        ret.push_back(attack_map[i]);
+    JsonArray jsarr = jo.get_array(member);
+    while (jsarr.has_more()) {
+        ret.push_back(attack_map[jsarr.next_string()]);
     }
 
     if (ret.empty()) {
