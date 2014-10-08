@@ -12855,12 +12855,12 @@ bool game::plmove(int dx, int dy)
                         }
                         u.moves -= move_penalty;
                         if (move_penalty > 500) {
-                            if (one_in(3)) { // Nag only occasionally.
-                                add_msg( _("Moving the heavy %s is taking a lot of time!"), furntype.name.c_str() );
-                            }
+                            add_msg( _("Moving the heavy %s is taking a lot of time!"),
+                                     furntype.name.c_str() );
                         } else if (move_penalty > 200) {
                             if (one_in(3)) { // Nag only occasionally.
-                                add_msg( _("It takes some time to move the heavy %s."), furntype.name.c_str() );
+                                add_msg( _("It takes some time to move the heavy %s."),
+                                         furntype.name.c_str() );
                             }
                         }
                     }
