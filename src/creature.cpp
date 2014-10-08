@@ -538,28 +538,33 @@ void Creature::set_fake(const bool fake_value)
  */
 void Creature::add_effect(efftype_id eff_id, int dur, body_part bp, int intensity, bool permanent)
 {
-    // check if we already have it
-    std::pair <efftype_id, body_part> check_key (eff_id, bp);
-    auto found_effect = effects.find( check_key );
-
-    if (found_effect != effects.end()) {
-        effect &e = found_effect->second;
-        // if we do, mod the duration
-        e.mod_duration(dur);
-        // Adding a permanent effect makes it permanent
-        if( e.is_permanent() ) {
-            e.pause_effect();
+    bool found = false;
+    // Check if we already have it
+    auto matching_map = effects.find(eff_id);
+    if (matching_map != effects.end()) {
+        auto found_effect = effects[eff_id].find((int)bp);
+        if (found_effect != effects[eff_id].end()) {
+            found = true;
+            effect &e = found_effect->second;
+            // if we do, mod the duration
+            e.mod_duration(dur);
+            // Adding a permanent effect makes it permanent
+            if( e.is_permanent() ) {
+                e.pause_effect();
+            }
+            if( e.get_intensity() + intensity <= e.get_max_intensity() ) {
+                e.mod_intensity( intensity );
+            }
         }
-        if( e.get_intensity() + intensity <= e.get_max_intensity() ) {
-            e.mod_intensity( intensity );
-        }
-    } else {
+    }
+    
+    if (found == false) {
         // if we don't already have it then add a new one
         if (effect_types.find(eff_id) == effect_types.end()) {
             return;
         }
         effect new_eff(&effect_types[eff_id], dur, bp, intensity, permanent);
-        effects[check_key] = new_eff;
+        effects[eff_id][(int)bp] = new_eff;
         if (is_player()) { // only print the message if we didn't already have it
             if(effect_types[eff_id].get_apply_message() != "") {
                      add_msg(effect_types[eff_id].gain_game_message_type(),
@@ -586,38 +591,62 @@ void Creature::clear_effects()
 {
     effects.clear();
 }
-void Creature::remove_effect(efftype_id rem_id)
+void Creature::remove_effect(efftype_id eff_id, body_part bp)
 {
-    // remove all effects with this id
-    effects.erase( rem_id );
+    // num_bp means remove all of a given effect id
+    if (bp == num_bp) {
+        effects.erase( eff_id );
+    } else {
+        effects[eff_id].erase((int)bp);
+    }
 }
-bool Creature::has_effect(efftype_id eff_id) const
+bool Creature::has_effect(efftype_id eff_id, body_part bp) const
 {
-    // return if any effect in effects has this id
-    return effects.find( eff_id ) != effects.end();
+    // num_bp means anything targeted or not
+    if (bp == num_bp) {
+        return effects.find( eff_id ) != effects.end();
+    } else {
+        bool found = false;
+        for( auto maps = effects.begin(); maps != effects.end(); ++maps ) {
+            if (maps->first == eff_id) {
+                for( auto it = maps->second.begin(); it != maps->second.end(); ++it ) {
+                    found = it->first == (int)bp;
+                }
+            }
+        }
+        return found;
+    }
+}
+effect Creature::get_effect(efftype_id eff_id, body_part bp)
+{
+    return effects[eff_id][(int)bp];
 }
 void Creature::process_effects()
 {
-    for( auto it = effects.begin(); it != effects.end(); ++it ) {
-        if( !it->second.is_permanent() ) {
-            it->second.mod_duration( -1 );
-            add_msg( m_debug, "Duration %d", it->second.get_duration() );
+    for (auto maps = effects.begin(); maps != effects.end(); ++maps) { 
+        for( auto it = maps->second.begin(); it != maps->second.end(); ++it ) {
+            if( !it->second.is_permanent() ) {
+                it->second.mod_duration( -1 );
+                add_msg( m_debug, "Duration %d", it->second.get_duration() );
+            }
         }
-    }
-    for( auto it = effects.begin(); it != effects.end(); ) {
-        if( !it->second.is_permanent() && it->second.get_duration() <= 0 ) {
-            const effect_type *type = it->second.get_effect_type();
+        std::vector<std::string> rem_ids;
+        std::vector<body_part> rem_bps;
+        for( auto it = maps->second.begin(); it != maps->second.end(); ++it) {
+            if( !it->second.is_permanent() && it->second.get_duration() <= 0 ) {
+                rem_ids.push_back(it->second.get_id());
+                rem_bps.push_back(it->second.get_bp());
+            }
+        }
+        for (size_t i = 0; i < rem_ids.size(); ++i) {
+            const effect_type *type = get_effect(rem_ids[i], rem_bps[i]).get_effect_type();
             if(type->get_remove_message() != "") {
                 add_msg( type->lose_game_message_type(), _(type->get_remove_message().c_str()) );
             }
             g->u.add_memorial_log(
                 pgettext("memorial_male", type->get_remove_memorial_log().c_str() ),
                 pgettext("memorial_female", type->get_remove_memorial_log().c_str()) );
-            const auto id = it->second.get_id();
-            ++it;
-            remove_effect( id );
-        } else {
-            ++it;
+            remove_effect( rem_ids[i], rem_bps[i] );
         }
     }
 }

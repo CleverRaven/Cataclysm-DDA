@@ -118,8 +118,8 @@ class effect : public JsonSerializer, public JsonDeserializer
     protected:
         effect_type *eff_type;
         int duration;
-        int intensity;
         body_part bp;
+        int intensity;
         bool permanent;
 
 };

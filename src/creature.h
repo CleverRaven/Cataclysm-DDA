@@ -132,9 +132,10 @@ class Creature
         /** Gives chance to save via env resist, returns if successful */
         bool add_env_effect(efftype_id eff_id, body_part vector, int strength, int dur,
                             body_part bp = num_bp, int intensity = 1, bool permanent = false);
-        void remove_effect(efftype_id eff_id);
+        void remove_effect(efftype_id eff_id, body_part bp = num_bp);
         void clear_effects(); // remove all effects
-        bool has_effect(efftype_id eff_id) const;
+        bool has_effect(efftype_id eff_id, body_part bp = num_bp) const;
+        effect get_effect(efftype_id eff_id, body_part bp = num_bp);
 
         // Methods for setting/getting misc key/value pairs.
         void set_value( const std::string key, const std::string value );
@@ -321,7 +322,8 @@ class Creature
     protected:
         Creature *killer; // whoever killed us. this should be NULL unless we are dead
 
-        std::unordered_map<std::string, std::unordered_map<body_part, effect>> effects;
+        // Storing body_part as an int to make things easier for hash and JSON
+        std::unordered_map<std::string, std::unordered_map<int, effect>> effects;
         // Miscellaneous key/value pairs.
         std::unordered_map<std::string, std::string> values;
 

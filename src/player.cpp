@@ -2105,9 +2105,11 @@ void player::disp_info()
             effect_text.push_back(dis_description(next_illness));
         }
     }
-    for( auto effect_it = effects.begin(); effect_it != effects.end(); ++effect_it) {
-        effect_name.push_back( effect_it->second.disp_name() );
-        effect_text.push_back( effect_it->second.get_effect_type()->get_desc() );
+    for( auto maps = effects.begin(); maps != effects.end(); ++maps) {
+        for( auto effect_it = maps->second.begin(); effect_it != maps->second.end(); ++effect_it) {
+            effect_name.push_back( effect_it->second.disp_name() );
+            effect_text.push_back( effect_it->second.get_effect_type()->get_desc() );
+        }
     }
     if (abs(morale_level()) >= 100) {
         bool pos = (morale_level() > 0);
@@ -5410,74 +5412,76 @@ bool will_vomit(player& p, int chance)
 }
 void player::process_effects() {
     int psnChance;
-    for( auto effect_it = effects.begin(); effect_it != effects.end(); ++effect_it ) {
-        std::string id = effect_it->second.get_id();
-        if (id == "onfire") {
-            manage_fire_exposure(*this, 1);
-        } else if (id == "poison") {
-            psnChance = 150;
-            if (has_trait("POISRESIST")) {
-                psnChance *= 6;
-            } else {
-                mod_str_bonus(-2);
+    for( auto maps = effects.begin(); maps != effects.end(); ++maps ) {
+        for( auto effect_it = maps->second.begin(); effect_it != maps->second.end(); ++effect_it ) {
+            std::string id = effect_it->second.get_id();
+            if (id == "onfire") {
+                manage_fire_exposure(*this, 1);
+            } else if (id == "poison") {
+                psnChance = 150;
+                if (has_trait("POISRESIST")) {
+                    psnChance *= 6;
+                } else {
+                    mod_str_bonus(-2);
+                    mod_per_bonus(-1);
+                }
+                // Increased body mass means poison's less effective
+                if (has_trait("FAT")) {
+                    psnChance *= 1.5;
+                }
+                if (has_trait("LARGE") || has_trait("LARGE_OK")) {
+                    psnChance *= 2;
+                }
+                if (has_trait("HUGE") || has_trait("HUGE_OK")) {
+                    psnChance *= 3;
+                }
+                if ((one_in(psnChance)) && (!(has_trait("NOPAIN")))) {
+                    add_msg_if_player(m_bad, _("You're suddenly wracked with pain!"));
+                    mod_pain(1);
+                    apply_damage( nullptr, bp_torso, rng( 0, 2 ) * rng( 0, 1 ) );
+                }
                 mod_per_bonus(-1);
-            }
-            // Increased body mass means poison's less effective
-            if (has_trait("FAT")) {
-                psnChance *= 1.5;
-            }
-            if (has_trait("LARGE") || has_trait("LARGE_OK")) {
-                psnChance *= 2;
-            }
-            if (has_trait("HUGE") || has_trait("HUGE_OK")) {
-                psnChance *= 3;
-            }
-            if ((one_in(psnChance)) && (!(has_trait("NOPAIN")))) {
-                add_msg_if_player(m_bad, _("You're suddenly wracked with pain!"));
+                mod_dex_bonus(-1);
+                add_miss_reason(_("You feel bad inside."), 1);
+            } else if (id == "glare") {
+                mod_per_bonus(-1);
+                if (one_in(200)) {
+                    add_msg_if_player(m_bad, _("The sunlight's glare makes it hard to see."));
+                }
+            } else if (id == "smoke") {
+                // A hard limit on the duration of the smoke disease.
+                if( effect_it->second.get_duration() >= 600) {
+                    effect_it->second.set_duration(600);
+                }
+                mod_str_bonus(-1);
+                mod_dex_bonus(-1);
+                add_miss_reason(_("The smoke bothers you."), 1);
+                effect_it->second.set_intensity((effect_it->second.get_duration()+190)/200);
+                if( effect_it->second.get_duration() >= 10 && one_in(6)) {
+                    handle_cough(*this, effect_it->second.get_intensity());
+                }
+            } else if (id == "teargas") {
+                mod_str_bonus(-2);
+                mod_dex_bonus(-2);
+                add_miss_reason(_("The tear gas bothers you."), 2);
+                mod_per_bonus(-5);
+                if (one_in(3)) {
+                    handle_cough(*this, 4);
+                }
+            } else if (id == "relax_gas") {
+                mod_str_bonus(-3);
+                mod_dex_bonus(-3);
+                mod_int_bonus(-2);
+                mod_per_bonus(-4);
+            } else if ( id == "stung" ) {
                 mod_pain(1);
-                apply_damage( nullptr, bp_torso, rng( 0, 2 ) * rng( 0, 1 ) );
-            }
-            mod_per_bonus(-1);
-            mod_dex_bonus(-1);
-            add_miss_reason(_("You feel bad inside."), 1);
-        } else if (id == "glare") {
-            mod_per_bonus(-1);
-            if (one_in(200)) {
-                add_msg_if_player(m_bad, _("The sunlight's glare makes it hard to see."));
-            }
-        } else if (id == "smoke") {
-            // A hard limit on the duration of the smoke disease.
-            if( effect_it->second.get_duration() >= 600) {
-                effect_it->second.set_duration(600);
-            }
-            mod_str_bonus(-1);
-            mod_dex_bonus(-1);
-            add_miss_reason(_("The smoke bothers you."), 1);
-            effect_it->second.set_intensity((effect_it->second.get_duration()+190)/200);
-            if( effect_it->second.get_duration() >= 10 && one_in(6)) {
-                handle_cough(*this, effect_it->second.get_intensity());
-            }
-        } else if (id == "teargas") {
-            mod_str_bonus(-2);
-            mod_dex_bonus(-2);
-            add_miss_reason(_("The tear gas bothers you."), 2);
-            mod_per_bonus(-5);
-            if (one_in(3)) {
-                handle_cough(*this, 4);
-            }
-        } else if (id == "relax_gas") {
-            mod_str_bonus(-3);
-            mod_dex_bonus(-3);
-            mod_int_bonus(-2);
-            mod_per_bonus(-4);
-        } else if ( id == "stung" ) {
-            mod_pain(1);
-        } else if ( id == "boomered" ) {
-            mod_per_bonus(-5);
-            if (will_vomit(*this)) {
-                vomit();
-            } else if (one_in(3600)) {
-                add_msg_if_player(m_bad, _("You gag and retch."));
+            } else if ( id == "boomered" ) {
+                mod_per_bonus(-5);
+                if (will_vomit(*this)) {
+                    vomit();
+                } else if (one_in(3600)) {
+                    add_msg_if_player(m_bad, _("You gag and retch."));
+                }
             }
         }
     }

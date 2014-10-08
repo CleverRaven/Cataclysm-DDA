@@ -419,7 +419,7 @@ void trapfunc::snare_light(Creature *c, int x, int y)
     } else if (z != NULL) {
         switch (z->type->size) {
             case MS_TINY:
-                z->add_effect("beartrap", 1, 1, true);
+                z->add_effect("beartrap", 1, num_bp, 1, true);
                 // TODO: once the beartrap is an effect for players, combine the code above
                 z->apply_damage( nullptr, one_in( 2 ) ? bp_leg_l : bp_leg_r, 10);
                 break;
@@ -475,10 +475,10 @@ void trapfunc::snare_heavy(Creature *c, int x, int y)
         switch (z->type->size) {
             case MS_TINY:
                 damage = 20;
-                z->add_effect("beartrap", 1, 1, true);
+                z->add_effect("beartrap", 1, num_bp, 1, true);
                 break;
             case MS_SMALL:
-                z->add_effect("beartrap", 1, 1, true);
+                z->add_effect("beartrap", 1, num_bp, 1, true);
                 damage = 20;
                 break;
             case MS_MEDIUM:

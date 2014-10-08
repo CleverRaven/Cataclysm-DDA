@@ -1189,8 +1189,10 @@ void monster::drop_items_on_death()
 
 void monster::process_effects()
 {
-    for( auto effect_it = effects.begin(); effect_it != effects.end(); ++effect_it ) {
-        std::string id = effect_it->second.get_id();
+    for( auto maps = effects.begin(); maps != effects.end(); ++maps ) {
+        // Monsters don't have body parts, so all bp key values equal [(int)num_bp]
+        auto effect_it = maps->second[(int)num_bp];
+        std::string id = effect_it.get_id();
         if (id == "nasty_poisoned") {
             mod_speed_bonus( -rng(3, 5) );
             apply_damage( nullptr, bp_torso, rng( 3, 6 ) );
