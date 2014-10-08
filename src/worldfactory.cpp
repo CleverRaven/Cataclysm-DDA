@@ -160,8 +160,8 @@ WORLDPTR worldfactory::make_new_world(special_game_id special_type)
         return NULL;
     }
 
-    // look through worlds and see if worlname exists already. if so then just return
-    // it instead of making a new world
+    // Look through all worlds and see if a world named worldname already exists. If so, then just return it instead of
+    // making a new world.
     if (all_worlds.find(worldname) != all_worlds.end()) {
         return all_worlds[worldname];
     }
