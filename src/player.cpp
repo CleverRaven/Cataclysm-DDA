@@ -909,7 +909,7 @@ void player::update_bodytemp()
         // WINDCHILL
         const oter_id &cur_om_ter = overmap_buffer.ter(g->om_global_location());
         std::string omtername = otermap[cur_om_ter].name;
-        bool sheltered = g->is_sheltered(pos().x, pos().y);
+        bool sheltered = g->is_sheltered(posx, posy);
         bp_windpower = (float)bp_windpower*(1 - get_wind_resistance(body_part(i))/100.0);
         // Calculate windchill
         int windchill = get_local_windchill(g->get_temperature(), get_local_humidity(weather.humidity, g->weather, sheltered), bp_windpower, omtername, sheltered);

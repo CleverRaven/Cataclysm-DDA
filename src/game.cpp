@@ -5252,6 +5252,8 @@ void game::draw_sidebar()
     std::string omtername = otermap[cur_om_ter].name;
     bool sheltered = is_sheltered(u.pos().x, u.pos().y);
     int vehwindspeed = 0;
+    int vpart = -1;
+    vehicle *veh = g->m.veh_at (u.pos().x, u.pos().y, vpart);
     if (veh) vehwindspeed = veh->velocity;
     int windpower = weatherPoint.windpower + vehwindspeed;
     int windchill = get_local_windchill(get_temperature(), get_local_humidity(weatherPoint.humidity, weather, sheltered), windpower, omtername, sheltered);
@@ -7402,14 +7404,14 @@ bool game::is_sheltered(int x, int y)
     bool is_in_vehicle = false;
     int vpart = -1;
     vehicle *veh = m.veh_at(x, y, vpart);
-    
-    if (!m.is_outside(x, y)) 
+
+    if (!m.is_outside(x, y))
         is_inside = true;
     if (levz < 0)
-        is_underground = true;       
+        is_underground = true;
     if (veh && veh->is_inside(vpart))
         is_in_vehicle = true;
-        
+
     if (is_inside || is_underground || is_in_vehicle)
         return true;
     else
