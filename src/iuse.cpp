@@ -10456,13 +10456,13 @@ int iuse::cable_attach(player *p, item *it, bool)
             vehicle_part source_part(it->typeId(), vcoords.x, vcoords.y, it);
             source_part.target.first = target_global;
             source_part.target.second = target_veh->real_global_pos();
-            int new_part = source_veh->install_part(vcoords.x, vcoords.y, source_part);
+            source_veh->install_part(vcoords.x, vcoords.y, source_part);
 
             vcoords = g->m.veh_part_coordinates(target_local.x, target_local.y);
             vehicle_part target_part(it->typeId(), vcoords.x, vcoords.y, it);
             target_part.target.first = source_global;
             target_part.target.second = source_veh->real_global_pos();
-            new_part = target_veh->install_part(vcoords.x, vcoords.y, target_part);
+            target_veh->install_part(vcoords.x, vcoords.y, target_part);
 
             return 1; // Let the cable be destroyed.
         }

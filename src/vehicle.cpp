@@ -2746,6 +2746,59 @@ vehicle* find_vehicle(point &where)
     return veh;
 }
 
+template<typename Func>
+int traverse_vehicle_graph(vehicle* start_veh, int amount, Func action)
+{
+    // Breadth-first search! Initialize the queue with a pointer to ourselves and go!
+    std::queue< std::pair<vehicle*, int> > connected_vehs;
+    std::set<vehicle*> visited_vehs;
+    connected_vehs.push(std::make_pair(start_veh, 0));
+
+    while(amount > 0 && connected_vehs.size() > 0) {
+        auto current_node = connected_vehs.front();
+        vehicle* current_veh = current_node.first;
+        int current_loss = current_node.second;
+
+        visited_vehs.insert(current_veh);
+        connected_vehs.pop();
+
+        g->u.add_msg_if_player(m_debug, "Traversing graph with %d power", amount);
+
+        for(auto &p : current_veh->loose_parts) {
+            if(!current_veh->part_info(p).has_flag("POWER_TRANSFER")) {
+                continue; // ignore loose parts that aren't power transfer cables
+            }
+
+            auto target_veh = find_vehicle(current_veh->parts[p].target.second);
+            if(target_veh == nullptr || visited_vehs.count(target_veh) > 0) {
+                // Either no destination here (that vehicle's rolled away or off-map) or
+                // we've already looked at that vehicle.
+                continue;
+            }
+
+            // Add this connected vehicle to the queue of vehicles to search next,
+            // but only if we haven't seen this one before.
+            if(visited_vehs.count(target_veh) < 1) {
+                int target_loss = current_loss + current_veh->part_info(p).epower;
+                connected_vehs.push(std::make_pair(target_veh, target_loss));
+
+                float loss_amount = ((float)amount * (float)target_loss) / 100;
+                g->u.add_msg_if_player(m_debug, "Visiting remote %p with %d power (loss %f, which is %d percent)",
+                                        (void*)target_veh, amount, loss_amount, target_loss);
+
+                amount = action(target_veh, amount, (int)loss_amount);
+                g->u.add_msg_if_player(m_debug, "After remote %p, %d power", (void*)target_veh, amount);
+
+                if(amount < 1) {
+                    break; // No more charge to donate away.
+                }
+            }
+        }
+    }
+    return amount;
+}
+
+
 int vehicle::charge_battery (int amount, bool include_other_vehicles)
 {
     for(auto &f : fuel) {
@@ -2765,41 +2818,13 @@ int vehicle::charge_battery (int amount, bool include_other_vehicles)
         }
     }
 
+    auto charge_visitor = [] (vehicle* veh, int amount, int lost) {
+        g->u.add_msg_if_player(m_debug, "CH: %d", amount - lost);
+        return veh->charge_battery(amount - lost, false);
+    };
+
     if(amount > 0 && include_other_vehicles) { // still a bit of charge we could send out...
-        // Breadth-first search! Initialize the queue with a pointer to ourselves and go!
-        std::queue<vehicle*> connected_vehs;
-        std::set<vehicle*> visited_vehs;
-        connected_vehs.push(this);
-
-        while(amount > 0 && connected_vehs.size() > 0) {
-            vehicle* current_veh = connected_vehs.front();
-            visited_vehs.insert(current_veh);
-            connected_vehs.pop();
-
-            for(auto &p : current_veh->loose_parts) {
-                if(!current_veh->part_info(p).has_flag("POWER_TRANSFER")) {
-                    continue; // ignore loose parts that aren't power transfer cables
-                }
-
-                auto target_veh = find_vehicle(current_veh->parts[p].target.second);
-                if(target_veh == nullptr || visited_vehs.count(target_veh) > 0) {
-                    // Either no destination here (that vehicle's rolled away or off-map) or
-                    // we've already looked at that vehicle.
-                    continue;
-                }
-
-                // Add this connected vehicle to the queue of vehicles to search next,
-                // but only if we haven't seen this one before.
-                if(visited_vehs.count(target_veh) < 1) {
-                    connected_vehs.push(target_veh);
-
-                    amount = target_veh->charge_battery(amount, false);
-                    if(amount < 1) {
-                        break; // No more charge to donate away.
-                    }
-                }
-            }
-        }
+        amount = traverse_vehicle_graph(this, amount, charge_visitor);
     }
 
     return amount;
@@ -2827,41 +2852,12 @@ int vehicle::discharge_battery (int amount, bool recurse)
         }
     }
 
+    auto discharge_visitor = [] (vehicle* veh, int amount, int lost) {
+        g->u.add_msg_if_player(m_debug, "CH: %d", amount + lost);
+        return veh->discharge_battery(amount + lost, false);
+    };
     if(amount > 0 && recurse) { // need more power!
-        // Breadth-first search! Initialize the queue with a pointer to ourselves and go!
-        std::queue<vehicle*> connected_vehs;
-        std::set<vehicle*> visited_vehs;
-        connected_vehs.push(this);
-
-        while(amount > 0 && connected_vehs.size() > 0) {
-            vehicle* current_veh = connected_vehs.front();
-            visited_vehs.insert(current_veh);
-            connected_vehs.pop();
-
-            for(auto &p : current_veh->loose_parts) {
-                if(!current_veh->part_info(p).has_flag("POWER_TRANSFER")) {
-                    continue; // ignore loose parts that aren't power transfer cables
-                }
-
-                auto target_veh = find_vehicle(current_veh->parts[p].target.second);
-                if(target_veh == nullptr || visited_vehs.count(target_veh) > 0) {
-                    // Either no destination here (that vehicle's rolled away or off-map) or
-                    // we've already looked at that vehicle.
-                    continue;
-                }
-
-                // Add this connected vehicle to the queue of vehicles to search next,
-                // but only if we haven't seen this one before.
-                if(visited_vehs.count(target_veh) < 1) {
-                    connected_vehs.push(target_veh);
-
-                    amount = target_veh->discharge_battery(amount, false);
-                    if(amount < 1) {
-                        break; // No more sources of charge.
-                    }
-                }
-            }
-        }
+        amount = traverse_vehicle_graph(this, amount, discharge_visitor);
     }
 
     return amount; // non-zero if we weren't able to fulfill demand.
