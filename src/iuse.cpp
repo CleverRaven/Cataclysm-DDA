@@ -2223,6 +2223,10 @@ int iuse::marloss(player *p, item *it, bool t)
         p->add_msg_if_player(m_warning, _("After what happened that last time? uh-uh.  You're not eating that alien poison sac."));
         return 0;
     }
+    if (p->has_trait("THRESH_MYCUS")) {
+        p->add_msg_if_player(m_info, _("We no longer require this scaffolding.  We reserve it for other uses."));
+        return 0;
+    }
     // If we have the marloss in our veins, we are a "breeder" and will spread
     // the fungus.
     p->add_memorial_log(pgettext("memorial_male", "Ate a marloss berry."),
@@ -2333,6 +2337,10 @@ int iuse::marloss_seed(player *p, item *it, bool t)
     if (p->has_trait("MARLOSS_AVOID")) {
         //~"Uh-uh" is a sound used for "nope", "no", etc.  "Drek" is a borrowed synonym for "shit".
         p->add_msg_if_player(m_warning, _("After what happened that last time? uh-uh.  You're not eating that alien drek."));
+        return 0;
+    }
+    if (p->has_trait("THRESH_MYCUS")) {
+        p->add_msg_if_player(m_info, _("We no longer require this scaffolding.  We reserve it for other uses."));
         return 0;
     }
     if (!(query_yn(_("Sure you want to eat the %s? You could plant it in a mound of dirt."),
@@ -2449,6 +2457,10 @@ int iuse::marloss_gel(player *p, item *it, bool t)
     if (p->has_trait("MARLOSS_AVOID")) {
         //~"Uh-uh" is a sound used for "nope", "no", etc.
         p->add_msg_if_player(m_warning, _("After what happened that last time? uh-uh.  You're not eating that alien slime."));
+        return 0;
+    }
+    if (p->has_trait("THRESH_MYCUS")) {
+        p->add_msg_if_player(m_info, _("We no longer require this scaffolding.  We reserve it for other uses."));
         return 0;
     }
     // If we have the marloss in our veins, we are a "breeder" and will spread
