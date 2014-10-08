@@ -2063,12 +2063,7 @@ void game::update_weather()
 
 int game::get_temperature()
 {
-    point location = om_location();
-    int tmp_temperature = temperature;
-
-    tmp_temperature += m.temperature(u.posx, u.posy);
-
-    return tmp_temperature;
+    return temperature + m.temperature(u.posx, u.posy);
 }
 
 int game::assign_mission_id()
@@ -5259,7 +5254,7 @@ void game::draw_sidebar()
     int vehwindspeed = 0;
     if (veh) vehwindspeed = veh->velocity;
     int windpower = weatherPoint.windpower + vehwindspeed;
-    int windchill = get_local_windchill(weatherPoint.temperature, get_local_humidity(weatherPoint.humidity, weather, sheltered), windpower, omtername, sheltered);
+    int windchill = get_local_windchill(get_temperature(), get_local_humidity(weatherPoint.humidity, weather, sheltered), windpower, omtername, sheltered);
     display_temp += windchill;
 
     nc_color col_temp = c_blue;
