@@ -8942,7 +8942,7 @@ bool player::takeoff(int pos, bool autodrop, std::vector<item> *items)
                             } else {
                                 g->m.add_item_or_charges( posx, posy, worn[j] );
                             }
-                            add_msg(_("You take off your your %s."), worn[j].tname().c_str());
+                            add_msg(_("You take off your %s."), worn[j].tname().c_str());
                             worn.erase(worn.begin() + j);
                             // If we are before worn_index, erasing this element shifted its position by 1.
                             if (worn_index > j) {
@@ -8972,7 +8972,7 @@ bool player::takeoff(int pos, bool autodrop, std::vector<item> *items)
                 taken_off = false;
             }
             if( taken_off ) {
-                add_msg(_("You take off your your %s."), w.tname().c_str());
+                add_msg(_("You take off your %s."), w.tname().c_str());
                 worn.erase(worn.begin() + worn_index);
             }
         } else {
