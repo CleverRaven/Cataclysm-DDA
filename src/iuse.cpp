@@ -10405,7 +10405,7 @@ int iuse::cable_attach(player *p, item *it, bool)
             it->item_vars["source_x"] = string_format("%d", abspos.x);
             it->item_vars["source_y"] = string_format("%d", abspos.y);
             it->item_vars["source_z"] = string_format("%d", g->levz);
-            it->charges = 20;
+            it->process(p, point(p->xpos(), p->ypos()));
         }
         p->moves -= 15;
     }
@@ -10413,7 +10413,7 @@ int iuse::cable_attach(player *p, item *it, bool)
         int choice = -1;
         uimenu kmenu;
         kmenu.selected = 0;
-        kmenu.text = _("Using jumper cable:");
+        kmenu.text = _("Using cable:");
         kmenu.addentry(0, true, -1, _("Attach loose end of the cable"));
         kmenu.addentry(1, true, -1, _("Detach and re-spool the cable"));
         kmenu.addentry(-1, true, 'q', _("Cancel"));
@@ -10453,14 +10453,16 @@ int iuse::cable_attach(player *p, item *it, bool)
             }
 
             point vcoords = g->m.veh_part_coordinates(source_local.x, source_local.y);
-            int new_part = source_veh->install_part(vcoords.x, vcoords.y, "jumper_cable", -1, true);
-            source_veh->parts[new_part].target.first = target_global;
-            source_veh->parts[new_part].target.second = target_veh->real_global_pos();
+            vehicle_part source_part(it->typeId(), vcoords.x, vcoords.y, it);
+            source_part.target.first = target_global;
+            source_part.target.second = target_veh->real_global_pos();
+            int new_part = source_veh->install_part(vcoords.x, vcoords.y, source_part);
 
             vcoords = g->m.veh_part_coordinates(target_local.x, target_local.y);
-            new_part = target_veh->install_part(vcoords.x, vcoords.y, "jumper_cable", -1, true);
-            target_veh->parts[new_part].target.first = source_global;
-            target_veh->parts[new_part].target.second = source_veh->real_global_pos();
+            vehicle_part target_part(it->typeId(), vcoords.x, vcoords.y, it);
+            target_part.target.first = source_global;
+            target_part.target.second = source_veh->real_global_pos();
+            new_part = target_veh->install_part(vcoords.x, vcoords.y, target_part);
 
             return 1; // Let the cable be destroyed.
         }
