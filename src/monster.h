@@ -220,6 +220,9 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         void explode();
         // Let the monster die and let its body explode into gibs
         void die_in_explosion( Creature *source );
+        
+        virtual void add_effect(efftype_id eff_id, int dur, body_part bp = num_bp, int intensity = 1,
+                        bool permanent = false);
         int  get_armor_cut(body_part bp) const;   // Natural armor, plus any worn armor
         int  get_armor_bash(body_part bp) const;  // Natural armor, plus any worn armor
         int  get_dodge() const;       // Natural dodge, or 0 if we're occupied

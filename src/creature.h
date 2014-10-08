@@ -127,13 +127,11 @@ class Creature
         virtual int ypos() const = 0;
         virtual point pos() const = 0;
 
-        // should replace both player.add_disease and monster.add_effect
-        // these are nonvirtual since otherwise they can't be accessed with
-        // the old add_effect
-        void add_effect(efftype_id eff_id, int dur, int intensity = 1, bool permanent = false);
+        virtual void add_effect(efftype_id eff_id, int dur, body_part bp = num_bp, int intensity = 1,
+                        bool permanent = false);
+        /** Gives chance to save via env resist, returns if successful */
         bool add_env_effect(efftype_id eff_id, body_part vector, int strength, int dur,
-                            int intensity = 1, bool permanent =
-                                false); // gives chance to save via env resist, returns if successful
+                            body_part bp = num_bp, int intensity = 1, bool permanent = false);
         void remove_effect(efftype_id eff_id);
         void clear_effects(); // remove all effects
         bool has_effect(efftype_id eff_id) const;
@@ -323,8 +321,9 @@ class Creature
     protected:
         Creature *killer; // whoever killed us. this should be NULL unless we are dead
 
-        std::unordered_map<std::string, effect> effects;
-        // Miscelaneous key/value pairs.
+        // The int is a converted body_part, because apparently C++ and JSON both hate hashing body_part's
+        std::unordered_map<std::pair<std::string, int>, effect> effects;
+        // Miscellaneous key/value pairs.
         std::unordered_map<std::string, std::string> values;
 
         // used for innate bonuses like effects. weapon bonuses will be

@@ -40,3 +40,8 @@ void Character::load(JsonObject &jsin)
     Creature::load( jsin );
     // Add members of this class here:
 }
+
+void Character::add_effect(efftype_id eff_id, int dur, body_part bp, int intensity, bool permanent)
+{
+    Creature::add_effect(eff_id, dur, bp, intensity, permanent);
+}

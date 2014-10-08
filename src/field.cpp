@@ -1662,21 +1662,21 @@ void map::step_in_field(int x, int y)
                 // If the bees can get at you, they cause steadily increasing pain.
                 // TODO: Specific stinging messages.
                 times_stung += one_in(4) &&
-                    g->u.add_env_effect( "stung", bp_torso, density, 90, density );
+                    g->u.add_env_effect( "stung", bp_torso, density, 90, num_bp, density );
                 times_stung += one_in(4) &&
-                    g->u.add_env_effect( "stung", bp_torso, density, 90, density );
+                    g->u.add_env_effect( "stung", bp_torso, density, 90, num_bp, density );
                 times_stung += one_in(4) &&
-                    g->u.add_env_effect( "stung", bp_torso, density, 90, density );
+                    g->u.add_env_effect( "stung", bp_torso, density, 90, num_bp, density );
                 times_stung += one_in(4) &&
-                    g->u.add_env_effect( "stung", bp_torso, density, 90, density );
+                    g->u.add_env_effect( "stung", bp_torso, density, 90, num_bp, density );
                 times_stung += one_in(4) &&
-                    g->u.add_env_effect( "stung", bp_torso, density, 90, density );
+                    g->u.add_env_effect( "stung", bp_torso, density, 90, num_bp, density );
                 times_stung += one_in(4) &&
-                    g->u.add_env_effect( "stung", bp_torso, density, 90, density );
+                    g->u.add_env_effect( "stung", bp_torso, density, 90, num_bp, density );
                 times_stung += one_in(4) &&
-                    g->u.add_env_effect( "stung", bp_torso, density, 90, density );
+                    g->u.add_env_effect( "stung", bp_torso, density, 90, num_bp, density );
                 times_stung += one_in(4) &&
-                    g->u.add_env_effect( "stung", bp_torso, density, 90, density );
+                    g->u.add_env_effect( "stung", bp_torso, density, 90, num_bp, density );
                 switch( times_stung ) {
                 case 0:
                     // Woo, unscathed!

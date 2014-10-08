@@ -64,18 +64,20 @@ class effect : public JsonSerializer, public JsonDeserializer
 {
     public:
         effect();
-        effect(effect_type *eff_type, int dur, int nintensity, bool perm);
+        effect(effect_type *eff_type, int dur, body_part part, int nintensity, bool perm);
         effect(const effect &rhs);
         effect &operator=(const effect &rhs);
 
         std::string disp_name();
 
         effect_type *get_effect_type();
-        void do_effect(Creature &t); // applies the disease's effects
 
         int get_duration();
         void set_duration(int dur);
         void mod_duration(int dur);
+        
+        body_part get_bp();
+        void set_bp(body_part part);
 
         bool is_permanent();
         void pause_effect();
@@ -97,6 +99,7 @@ class effect : public JsonSerializer, public JsonDeserializer
             json.start_object();
             json.member("eff_type", eff_type != NULL ? eff_type->id : "");
             json.member("duration", duration);
+            json.member("bp", (int)bp);
             json.member("intensity", intensity);
             json.member("permanent", permanent);
             json.end_object();
@@ -107,6 +110,7 @@ class effect : public JsonSerializer, public JsonDeserializer
             JsonObject jo = jsin.get_object();
             eff_type = &effect_types[jo.get_string("eff_type")];
             duration = jo.get_int("duration");
+            bp = (body_part)jo.get_int("bp");
             intensity = jo.get_int("intensity");
             permanent = jo.get_bool("permanent");
         }
@@ -115,6 +119,7 @@ class effect : public JsonSerializer, public JsonDeserializer
         effect_type *eff_type;
         int duration;
         int intensity;
+        body_part bp;
         bool permanent;
 
 };

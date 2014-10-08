@@ -536,10 +536,11 @@ void Creature::set_fake(const bool fake_value)
 /*
  * Effect-related methods
  */
-void Creature::add_effect(efftype_id eff_id, int dur, int intensity, bool permanent)
+void Creature::add_effect(efftype_id eff_id, int dur, body_part bp, int intensity, bool permanent)
 {
     // check if we already have it
-    auto found_effect = effects.find( eff_id );
+    std::pair <efftype_id, body_part> check_key (eff_id, bp);
+    auto found_effect = effects.find( check_key );
 
     if (found_effect != effects.end()) {
         effect &e = found_effect->second;
@@ -557,8 +558,8 @@ void Creature::add_effect(efftype_id eff_id, int dur, int intensity, bool perman
         if (effect_types.find(eff_id) == effect_types.end()) {
             return;
         }
-        effect new_eff(&effect_types[eff_id], dur, intensity, permanent);
-        effects[eff_id] = new_eff;
+        effect new_eff(&effect_types[eff_id], dur, bp, intensity, permanent);
+        effects[check_key] = new_eff;
         if (is_player()) { // only print the message if we didn't already have it
             if(effect_types[eff_id].get_apply_message() != "") {
                      add_msg(effect_types[eff_id].gain_game_message_type(),
@@ -572,10 +573,10 @@ void Creature::add_effect(efftype_id eff_id, int dur, int intensity, bool perman
     }
 }
 bool Creature::add_env_effect(efftype_id eff_id, body_part vector, int strength, int dur,
-                              int intensity, bool permanent)
+                              body_part bp, int intensity, bool permanent)
 {
     if (dice(strength, 3) > dice(get_env_resist(vector), 3)) {
-        add_effect(eff_id, dur, intensity, permanent);
+        add_effect(eff_id, dur, bp, intensity, permanent);
         return true;
     } else {
         return false;

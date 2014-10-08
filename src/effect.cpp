@@ -75,13 +75,15 @@ int effect_type::get_max_intensity() const
 effect::effect() :
     eff_type(NULL),
     duration(0),
+    bp(num_bp),
     intensity(0),
     permanent(false)
 { }
 
-effect::effect(effect_type *peff_type, int dur, int nintensity, bool perm) :
+effect::effect(effect_type *peff_type, int dur, body_part part, int nintensity, bool perm) :
     eff_type(peff_type),
     duration(dur),
+    bp(part),
     intensity(nintensity),
     permanent(perm)
 { }
@@ -89,6 +91,7 @@ effect::effect(effect_type *peff_type, int dur, int nintensity, bool perm) :
 effect::effect(const effect &rhs) : JsonSerializer(), JsonDeserializer(),
     eff_type(rhs.eff_type),
     duration(rhs.duration),
+    bp(rhs.bp),
     intensity(rhs.intensity),
     permanent(rhs.permanent)
 { }
@@ -101,6 +104,7 @@ effect &effect::operator=(const effect &rhs)
 
     eff_type = rhs.eff_type;
     duration = rhs.duration;
+    bp = rhs.bp;
     intensity = rhs.intensity;
     permanent = rhs.permanent;
 
@@ -116,10 +120,6 @@ std::string effect::disp_name()
     }
     return ret.str();
 }
-void effect::do_effect(Creature &)
-{
-    return;
-}
 
 int effect::get_duration()
 {
@@ -132,6 +132,15 @@ void effect::set_duration(int dur)
 void effect::mod_duration(int dur)
 {
     duration += dur;
+}
+
+body_part effect::get_bp()
+{
+    return bp;
+}
+void effect::set_bp(body_part part)
+{
+    bp = part;
 }
 
 bool effect::is_permanent()

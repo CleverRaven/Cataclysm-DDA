@@ -15,6 +15,9 @@ class Character : public Creature
         field_id gibType() const;
         virtual bool is_warm() const override;
         virtual const std::string &symbol() const override;
+        
+        virtual void add_effect(efftype_id eff_id, int dur, body_part bp = num_bp, int intensity = 1,
+                        bool permanent = false);
 
     protected:
         Character();

@@ -356,6 +356,32 @@ class JsonIn
                 return false;
             }
         }
+        // object ~> unordered_map w/ pair key
+        template <typename T> bool read(std::unordered_map<std::pair<std::string, int>, T> &m)
+        {
+            if (!test_object()) {
+                return false;
+            }
+            try {
+                start_object();
+                m.clear();
+                while (!end_object()) {
+                    std::string first = get_member_name();
+                    int second = get_int();
+                    skip_pair_separator();
+                    std::pair<std::string, int> name (first, second);
+                    T element;
+                    if (read(element)) {
+                        m[name] = element;
+                    } else {
+                        skip_value();
+                    }
+                }
+                return true;
+            } catch (std::string e) {
+                return false;
+            }
+        }
 
         // error messages
         std::string line_number(int offset_modifier = 0); // for occasional use only
@@ -495,6 +521,21 @@ class JsonOut
             typename std::unordered_map<std::string, T>::const_iterator it;
             for (it = m.begin(); it != m.end(); ++it) {
                 write(it->first);
+                write_member_separator();
+                write(it->second);
+            }
+            end_object();
+        }
+        
+        // unordered_map w/ pair key ~> object
+        template <typename T> void write(const std::unordered_map<std::pair<std::string, int>, T> &m)
+        {
+            start_object();
+            typename std::unordered_map<std::string, T>::const_iterator it;
+            for (it = m.begin(); it != m.end(); ++it) {
+                write(it->first->first);
+                write_member_separator();
+                write(it->first->second);
                 write_member_separator();
                 write(it->second);
             }

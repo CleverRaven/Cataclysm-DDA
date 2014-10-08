@@ -1497,6 +1497,7 @@ void Creature::store( JsonOut &jsout ) const
 
     // killer is not stored, it's temporary anyway, any creature that has a non-null
     // killer is dead (as per definition) and should not be stored.
+    
     jsout.member( "effects", effects );
     jsout.member( "values", values );
 
@@ -1550,17 +1551,13 @@ void Creature::load( JsonObject &jsin )
     jsin.read( "pain", pain );
 
     killer = nullptr; // see Creature::load
-    if( jsin.has_array( "effects" ) ) {
-        // effects started out as a vector, then changed to an unordered map.
-        // This is the easiest way to maintain backwards compatibility.
-        JsonArray parray = jsin.get_array( "effects" );
-        while( parray.has_more() ) {
-            effect new_effect;
-            parray.read_next( new_effect );
-            effects[ new_effect.get_id() ] = new_effect;
+    
+    // Just too many changes here to maintain compatibility, so older characters get a free
+    // effects wipe. Since most long lasting effects are bad, this shouldn't be too bad for them.
+    if(savegame_loading_version >= 23) {
+        if( jsin.has_object( "effects" ) ) {
+            jsin.read( "effects", effects );
         }
-    } else if( jsin.has_object( "effects" ) ) {
-        jsin.read( "effects", effects );
     }
     jsin.read( "values", values );
 
