@@ -605,11 +605,13 @@
         "id" : "cube_van",
         "name" : "Cube Van",
         "blueprint" : [
+            ["     o "],
             ["O---+-O"],
             ["+==|#'|"],
             ["+==|o'>"],
             ["+==|#'|"],
-            ["O---+-O"]
+            ["O---+-O"],
+            ["     o "]
         ],
         "parts" : [
             {"x": 0, "y": 1, "part": "frame_vertical"},
@@ -637,8 +639,10 @@
             {"x": 1, "y": 2, "part": "windshield"},
             {"x": 1, "y": -1, "part": "frame_vertical"},
             {"x": 1, "y": -1, "part": "windshield"},
+            {"x": 1, "y": -2, "part": "wing_mirror"},
             {"x": 1, "y": 3, "part": "frame_vertical"},
             {"x": 1, "y": 3, "part": "windshield"},
+            {"x": 1, "y": 4, "part": "wing_mirror"},
             {"x": 2, "y": 0, "part": "frame_horizontal"},
             {"x": 2, "y": 0, "part": "halfboard_horizontal"},
             {"x": 2, "y": 1, "part": "frame_cover"},
