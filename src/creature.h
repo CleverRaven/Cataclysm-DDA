@@ -321,8 +321,7 @@ class Creature
     protected:
         Creature *killer; // whoever killed us. this should be NULL unless we are dead
 
-        // The int is a converted body_part, because apparently C++ and JSON both hate hashing body_part's
-        std::unordered_map<std::pair<std::string, int>, effect> effects;
+        std::unordered_map<std::string, std::unordered_map<body_part, effect>> effects;
         // Miscellaneous key/value pairs.
         std::unordered_map<std::string, std::string> values;
 
