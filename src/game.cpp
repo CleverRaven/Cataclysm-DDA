@@ -12846,7 +12846,13 @@ bool game::plmove(int dx, int dy)
                     u.moves -= str_req * 10;
                     // Additional penalty if we can't comfortably move it.
                     if( str_req > u.get_str() ) {
-                        int move_penalty = std::min(std::pow(str_req, 2.0) + 100.0, 1000.0);
+                        int move_penalty = std::pow(str_req, 2.0) + 100.0;
+                        if( move_penalty <= 1000 ) {
+                            u.moves -= 100;
+                            add_msg( m_bad, _("The %s is too heavy for you to budge."),
+                                     furntype.name.c_str() );
+                            return false;
+                        }
                         u.moves -= move_penalty;
                         if (move_penalty > 500) {
                             if (one_in(3)) { // Nag only occasionally.
