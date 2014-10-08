@@ -2111,7 +2111,7 @@
     },{
         "type" : "terrain",
         "id" : "t_tree_peach_harvested",
-        "name": "cherry tree",
+        "name": "peach tree",
         "symbol": "7",
         "color": "green",
         "move_cost": 0,
@@ -2140,8 +2140,8 @@
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
         "harvest_season": "SUMMER",
         "harvestable": "apricot",
-        "reverts_to": "t_tree_apricot_harvested",
-        "transforms_into": "harvest_tree_shrub",
+        "transforms_into": "t_tree_apricot_harvested",
+        "examine_action": "harvest_tree_shrub",
         "bash": {
             "str_min": 80, "str_max": 180,
             "sound": "crunch!",
