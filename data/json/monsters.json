@@ -1628,9 +1628,9 @@
     "death_drops": "mon_zombie_fireman_death_drops",
     "luminance":0,
     "hp":80,
-    "special_freq":[5],
+    "special_freq":[0],
     "death_function":["NORMAL"],
-    "special_attack":["BITE"],
+    "special_attack":["NONE"],
     "description":"A decaying human body clad in tattered firefighting gear.  It staggers aimlessly, reeking of smoke and decay.",
     "flags":["SEES", "HEARS", "STUMBLES", "WARM", "BASHES", "POISON", "BLEED", "ACIDPROOF", "NO_BREATHE", "VIS40", "REVIVES"],
     "categories":["CLASSIC"]
@@ -1717,9 +1717,9 @@
     "death_drops": "mon_zombie_cop_death_drops",
     "luminance":0,
     "hp":80,
-    "special_freq":[5],
+    "special_freq":[0],
     "death_function":["NORMAL"],
-    "special_attack":["BITE"],
+    "special_attack":["NONE"],
     "description":"A human body covered by a weather-beaten and badly damaged set of riot gear.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "BLEED", "NO_BREATHE", "VIS30", "REVIVES"],
     "categories":["CLASSIC"]
