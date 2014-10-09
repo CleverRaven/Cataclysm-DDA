@@ -1726,14 +1726,16 @@ tripoint overmap::draw_overmap(int z)
 //Start drawing the overmap on the screen using the (m)ap command.
 tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const tripoint &select, const int iZoneIndex)
 {
+    delwin(g->w_omlegend);
     g->w_omlegend = newwin(TERMY, 28, 0, TERMX - 28);
+    delwin(g->w_overmap);
     g->w_overmap = newwin(OVERMAP_WINDOW_HEIGHT, OVERMAP_WINDOW_WIDTH, 0, 0);
 
     // Draw black padding space to avoid gap between map and legend
+    delwin(g->w_blackspace);
     g->w_blackspace = newwin(TERMY, TERMX - 28, 0, 0);
     mvwputch(g->w_blackspace, 0, 0, c_black, ' ');
     wrefresh(g->w_blackspace);
-    delwin(g->w_blackspace);
 
     tripoint ret = invalid_tripoint;
     tripoint curs(orig);
@@ -1877,8 +1879,8 @@ tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const 
             }
         }
     } while (action != "QUIT" && action != "CONFIRM");
-    delwin(g->w_overmap);
-    delwin(g->w_omlegend);
+    werase(g->w_overmap);
+    werase(g->w_omlegend);
     erase();
     g->refresh_all();
     return ret;
