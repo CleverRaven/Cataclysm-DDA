@@ -33,7 +33,7 @@ int within_visual_range(monster *z, int max) {
     return dist;
 }
 
-npc make_fake_npc(monster *z, int str, int dex, int per) {
+npc make_fake_npc(monster *z, int str, int dex, int inte, int per) {
     npc tmp;
     tmp.name = _("The ") + z->name();
     tmp.set_fake(true);
@@ -42,6 +42,7 @@ npc make_fake_npc(monster *z, int str, int dex, int per) {
     tmp.posy = z->posy();
     tmp.str_cur = str;
     tmp.dex_cur = dex;
+    tmp.int_cur = inte;
     tmp.per_cur = per;
     return tmp;
 }
@@ -1916,7 +1917,7 @@ void mattack::smg(monster *z)
     }
     int fire_t = 0;
 
-    npc tmp = make_fake_npc(z, 16, 8, 12);
+    npc tmp = make_fake_npc(z, 16, 8, 8, 12);
     tmp.skillLevel("smg").level(8);
     tmp.skillLevel("gun").level(4);
 
@@ -1977,7 +1978,7 @@ void mattack::laser(monster *z)
     bool sunlight = g->is_in_sunlight(z->posx(), z->posy());
     int fire_t = 0;
 
-    npc tmp = make_fake_npc(z, 16, 8, 12);
+    npc tmp = make_fake_npc(z, 16, 8, 8, 12);
     tmp.skillLevel("rifle").level(8);
     tmp.skillLevel("gun").level(4);
 
@@ -2041,7 +2042,7 @@ void mattack::rifle_tur(monster *z)
     }
     int fire_t = 0;
 
-    npc tmp = make_fake_npc(z, 16, 10, 12);
+    npc tmp = make_fake_npc(z, 16, 10, 8, 12);
     tmp.skillLevel("rifle").level(8);
     tmp.skillLevel("gun").level(6);
 
@@ -2107,7 +2108,7 @@ void mattack::frag_tur(monster *z) // This is for the bots, not a standalone tur
     }
     int fire_t = 0;
 
-    npc tmp = make_fake_npc(z, 16, 10, 12);
+    npc tmp = make_fake_npc(z, 16, 10, 8, 12);
     tmp.skillLevel("launcher").level(8);
     tmp.skillLevel("gun").level(6);
 
@@ -2177,7 +2178,7 @@ void mattack::bmg_tur(monster *z)
     }
     int fire_t = 0;
 
-    npc tmp = make_fake_npc(z, 16, 10, 12);
+    npc tmp = make_fake_npc(z, 16, 10, 8, 12);
     tmp.skillLevel("rifle").level(8);
     tmp.skillLevel("gun").level(6);
 
@@ -2250,7 +2251,7 @@ void mattack::tank_tur(monster *z)
 
     // kevingranade KA101: yes, but make it really inaccurate
     // Sure thing.
-    npc tmp = make_fake_npc(z, 12, 8, 8);
+    npc tmp = make_fake_npc(z, 12, 8, 8, 8);
     tmp.skillLevel("launcher").level(2);
     tmp.skillLevel("gun").level(2);
 
@@ -2503,7 +2504,7 @@ void mattack::flamethrower(monster *z)
     if (z->friendly != 0) {
       // friendly
 
-      npc tmp = make_fake_npc(z, 12, 8, 8);
+      npc tmp = make_fake_npc(z, 12, 8, 8, 8);
       z->sp_timeout = z->type->sp_freq; // Reset timer
       Creature *target = NULL;
 
