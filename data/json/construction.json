@@ -1410,7 +1410,7 @@
         "post_terrain" : "f_anvil"
     },{
         "type" : "construction",
-        "description" : "Place forge",
+        "description" : "Place Forge",
         "category" : "FURN",
         "difficulty" : 0,
         "time" : 1,
@@ -1421,7 +1421,7 @@
         "post_terrain" : "f_forge"
     },{
         "type" : "construction",
-        "description" : "Place still",
+        "description" : "Place Still",
         "category" : "FURN",
         "difficulty" : 0,
         "time" : 1,
