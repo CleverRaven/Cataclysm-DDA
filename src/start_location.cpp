@@ -212,3 +212,25 @@ void start_location::setup( overmap *&cur_om, int &levx, int &levy, int &levz ) 
     levy = player_location.y - ( MAPSIZE / 2 );
     levz = omtstart.z;
 }
+
+void start_location::place_player( player &u ) const
+{
+    // Need the "real" map with it's inside/outside cache and the like.
+    map &m = g->m;
+    // Start us off somewhere in the shelter.
+    u.posx = SEEX * int( MAPSIZE / 2 ) + 5;
+    u.posy = SEEY * int( MAPSIZE / 2 ) + 6;
+
+    m.build_map_cache();
+    int tries = 0;
+    const bool must_be_inside = flags().count( "ALLOW_OUTSIDE" ) == 0;
+    while( ( ( must_be_inside && m.is_outside( u.posx, u.posy ) ) ||
+             m.move_cost( u.posx, u.posy ) == 0 ) && tries < 1000 ) {
+        tries++;
+        u.posx = ( SEEX * int( MAPSIZE / 2 ) ) + rng( 0, SEEX * 2 );
+        u.posy = ( SEEY * int( MAPSIZE / 2 ) ) + rng( 0, SEEY * 2 );
+    }
+    if( tries >= 1000 ) {
+        debugmsg( "Could not find starting place for character" );
+    }
+}

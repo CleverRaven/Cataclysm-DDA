@@ -9,6 +9,7 @@
 
 class overmap;
 class tinymap;
+class player;
 
 typedef std::map<std::string, class start_location> location_map;
 
@@ -34,6 +35,10 @@ class start_location
          * It also initializes the map at that points using @ref prepare_map.
          */
         void setup( overmap *&cur_om, int &levx, int &levy, int &levz) const;
+        /**
+         * Place the player somewher ein th reality bubble (g->m).
+         */
+        void place_player( player &u ) const;
 
     private:
         std::string _ident;

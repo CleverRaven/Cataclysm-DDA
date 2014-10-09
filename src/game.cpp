@@ -624,19 +624,9 @@ void game::start_game(std::string worldname)
     overmap_buffer.reveal(point(om_global_location().x, om_global_location().y), OPTIONS["DISTANCE_INITIAL_VISIBILITY"], 0);
     // Init the starting map at this location.
     m.load( levx, levy, levz, true, cur_om );
-
-    // Start us off somewhere in the shelter.
-    u.posx = SEEX * int(MAPSIZE / 2) + 5;
-    u.posy = SEEY * int(MAPSIZE / 2) + 6;
-
     m.build_map_cache();
-    int tries = 0;
-    const bool must_be_inside = start_loc.flags().count( "ALLOW_OUTSIDE" ) == 0;
-    while( ( ( must_be_inside && m.is_outside( u.posx, u.posy ) ) || m.move_cost( u.posx, u.posy ) == 0 ) && tries < 1000 ) {
-        tries++;
-        u.posx = (SEEX * int(MAPSIZE / 2)) + rng(0, SEEX * 2);
-        u.posy = (SEEY * int(MAPSIZE / 2)) + rng(0, SEEY * 2);
-    }
+    // Do this after the map cache has been build!
+    start_loc.place_player( u );
     u.moves = 0;
     u.reset_bonuses();
     u.process_turn(); // process_turn adds the initial move points
