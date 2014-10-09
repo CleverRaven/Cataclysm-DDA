@@ -1190,25 +1190,25 @@ void monster::drop_items_on_death()
 void monster::process_effects()
 {
     for( auto maps = effects.begin(); maps != effects.end(); ++maps ) {
-        // Monsters don't have body parts, so all bp key values equal [(int)num_bp]
-        auto effect_it = maps->second[(int)num_bp];
-        std::string id = effect_it.get_id();
-        if (id == "nasty_poisoned") {
-            mod_speed_bonus( -rng(3, 5) );
-            apply_damage( nullptr, bp_torso, rng( 3, 6 ) );
-        } if (id == "poisoned") {
-            mod_speed_bonus( -rng(0, 3) );
-            apply_damage( nullptr, bp_torso, rng( 1, 3 ) );
+        for (auto effect_it = maps->second.begin(); effect_it != maps->second.end(); ++effect_it) {
+            std::string id = effect_it->second.get_id();
+            if (id == "nasty_poisoned") {
+                mod_speed_bonus( -rng(3, 5) );
+                apply_damage( nullptr, bp_torso, rng( 3, 6 ) );
+            } if (id == "poisoned") {
+                mod_speed_bonus( -rng(0, 3) );
+                apply_damage( nullptr, bp_torso, rng( 1, 3 ) );
 
-        // MATERIALS-TODO: use fire resistance
-        } else if (id == "onfire") {
-            if (made_of("flesh") || made_of("iflesh"))
-                apply_damage( nullptr, bp_torso, rng( 3, 8 ) );
-            if (made_of("veggy"))
-                apply_damage( nullptr, bp_torso, rng( 10, 20 ) );
-            if (made_of("paper") || made_of("powder") || made_of("wood") || made_of("cotton") ||
-                made_of("wool"))
-                apply_damage( nullptr, bp_torso, rng( 15, 40 ) );
+            // MATERIALS-TODO: use fire resistance
+            } else if (id == "onfire") {
+                if (made_of("flesh") || made_of("iflesh"))
+                    apply_damage( nullptr, bp_torso, rng( 3, 8 ) );
+                if (made_of("veggy"))
+                    apply_damage( nullptr, bp_torso, rng( 10, 20 ) );
+                if (made_of("paper") || made_of("powder") || made_of("wood") || made_of("cotton") ||
+                    made_of("wool"))
+                    apply_damage( nullptr, bp_torso, rng( 15, 40 ) );
+            }
         }
     }
 

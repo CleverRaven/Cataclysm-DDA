@@ -623,6 +623,8 @@ effect Creature::get_effect(efftype_id eff_id, body_part bp)
 }
 void Creature::process_effects()
 {
+    std::vector<std::string> rem_ids;
+    std::vector<body_part> rem_bps;
     for (auto maps = effects.begin(); maps != effects.end(); ++maps) {
         for( auto it = maps->second.begin(); it != maps->second.end(); ++it ) {
             if( !it->second.is_permanent() ) {
@@ -630,24 +632,22 @@ void Creature::process_effects()
                 add_msg( m_debug, "Duration %d", it->second.get_duration() );
             }
         }
-        std::vector<std::string> rem_ids;
-        std::vector<body_part> rem_bps;
         for( auto it = maps->second.begin(); it != maps->second.end(); ++it) {
             if( !it->second.is_permanent() && it->second.get_duration() <= 0 ) {
                 rem_ids.push_back(it->second.get_id());
                 rem_bps.push_back(it->second.get_bp());
             }
         }
-        for (size_t i = 0; i < rem_ids.size(); ++i) {
-            const effect_type *type = get_effect(rem_ids[i], rem_bps[i]).get_effect_type();
-            if(type->get_remove_message() != "") {
-                add_msg( type->lose_game_message_type(), _(type->get_remove_message().c_str()) );
-            }
-            g->u.add_memorial_log(
-                pgettext("memorial_male", type->get_remove_memorial_log().c_str() ),
-                pgettext("memorial_female", type->get_remove_memorial_log().c_str()) );
-            remove_effect( rem_ids[i], rem_bps[i] );
+    }
+    for (size_t i = 0; i < rem_ids.size(); ++i) {
+        const effect_type *type = get_effect(rem_ids[i], rem_bps[i]).get_effect_type();
+        if(type->get_remove_message() != "") {
+            add_msg( type->lose_game_message_type(), _(type->get_remove_message().c_str()) );
         }
+        g->u.add_memorial_log(
+            pgettext("memorial_male", type->get_remove_memorial_log().c_str() ),
+            pgettext("memorial_female", type->get_remove_memorial_log().c_str()) );
+        remove_effect( rem_ids[i], rem_bps[i] );
     }
 }
 
