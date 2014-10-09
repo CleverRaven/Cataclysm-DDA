@@ -643,9 +643,9 @@ void game::start_game(std::string worldname)
     u.posy = SEEY * int(MAPSIZE / 2) + 6;
 
     m.build_map_cache();
-    // Make sure we spawn on an inside and valid location.
     int tries = 0;
-    while( (m.is_outside(u.posx, u.posy) || m.move_cost(u.posx, u.posy) == 0) && tries < 1000 ) {
+    const bool must_be_inside = start_loc.flags().count( "ALLOW_OUTSIDE" ) == 0;
+    while( ( ( must_be_inside && m.is_outside( u.posx, u.posy ) ) || m.move_cost( u.posx, u.posy ) == 0 ) && tries < 1000 ) {
         tries++;
         u.posx = (SEEX * int(MAPSIZE / 2)) + rng(0, SEEX * 2);
         u.posy = (SEEY * int(MAPSIZE / 2)) + rng(0, SEEY * 2);
