@@ -1,6 +1,7 @@
 #include "gamemode.h"
 #include "game.h"
 #include "itype.h"
+#include "item_factory.h"
 #include "mtype.h"
 #include "overmapbuffer.h"
 #include "crafting.h"
@@ -167,10 +168,10 @@ void defense_game::game_over()
 
 void defense_game::init_itypes()
 {
-    itypes["2x4"]->volume = 0;
-    itypes["2x4"]->weight = 0;
-    itypes["landmine"]->price = 300;
-    itypes["bot_turret"]->price = 6000;
+    item_controller->find_template( "2x4" )->volume = 0;
+    item_controller->find_template( "2x4" )->weight = 0;
+    item_controller->find_template( "landmine" )->price = 300;
+    item_controller->find_template( "bot_turret" )->price = 6000;
 }
 
 void defense_game::init_mtypes()
@@ -998,7 +999,7 @@ Press %s to buy everything in your cart, %s to buy nothing."),
             if (current_window == 1 && !items[category_selected].empty()) {
                 item_count[category_selected][item_selected]++;
                 itype_id tmp_itm = items[category_selected][item_selected];
-                total_price += caravan_price(g->u, itypes[tmp_itm]->price);
+                total_price += caravan_price(g->u, item( tmp_itm, 0 ).price() );
                 if (category_selected == CARAVAN_CART) { // Find the item in its category
                     for (int i = 1; i < NUM_CARAVAN_CATEGORIES; i++) {
                         for (unsigned j = 0; j < items[i].size(); j++) {
@@ -1030,7 +1031,7 @@ Press %s to buy everything in your cart, %s to buy nothing."),
                 item_count[category_selected][item_selected] > 0) {
                 item_count[category_selected][item_selected]--;
                 itype_id tmp_itm = items[category_selected][item_selected];
-                total_price -= caravan_price(g->u, itypes[tmp_itm]->price);
+                total_price -= caravan_price(g->u, item( tmp_itm, 0 ).price() );
                 if (category_selected == CARAVAN_CART) { // Find the item in its category
                     for (int i = 1; i < NUM_CARAVAN_CATEGORIES; i++) {
                         for (unsigned j = 0; j < items[i].size(); j++) {
@@ -1293,10 +1294,10 @@ void draw_caravan_items(WINDOW *w, std::vector<itype_id> *items,
     // Finally, print the item list on the right
     for (int i = offset; i <= offset + FULL_SCREEN_HEIGHT - 2 && i < (int)items->size(); i++) {
         mvwprintz(w, i - offset + 1, 40, (item_selected == i ? h_white : c_white),
-                  itypes[ (*items)[i] ]->nname((*counts)[i]).c_str());
+                  item_controller->nname( (*items)[i], (*counts)[i] ).c_str());
         wprintz(w, c_white, " x %2d", (*counts)[i]);
         if ((*counts)[i] > 0) {
-            unsigned price = caravan_price(g->u, itypes[(*items)[i]]->price * (*counts)[i]);
+            unsigned price = caravan_price(g->u, item( (*items)[i], 0 ).price() * (*counts)[i]);
             wprintz(w, (price > g->u.cash ? c_red : c_green), "($%6d)", price);
         }
     }

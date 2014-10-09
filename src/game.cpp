@@ -11316,7 +11316,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
             add_msg(_("Your %s starts charging."), u.weapon.tname().c_str());
             u.weapon.charges = 0;
             u.weapon.poison = 0;
-            u.weapon.curammo = dynamic_cast<it_ammo *>(itypes["charge_shot"]);
+            u.weapon.curammo = dynamic_cast<it_ammo *>(item_controller->find_template( "charge_shot" ));
             u.weapon.active = true;
             return;
         } else {
@@ -11327,7 +11327,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
 
     if (u.weapon.has_flag("NO_AMMO")) {
         u.weapon.charges = 1;
-        u.weapon.curammo = dynamic_cast<it_ammo *>(itypes["generic_no_ammo"]);
+        u.weapon.curammo = dynamic_cast<it_ammo *>(item_controller->find_template( "generic_no_ammo" ));
     }
 
     if ((u.weapon.has_flag("STR8_DRAW") && u.str_cur < 4) ||

@@ -3,6 +3,7 @@
 #include "vehicle.h"
 #include "overmapbuffer.h"
 #include "game.h"
+#include "item_factory.h"
 #include "output.h"
 #include "catacharset.h"
 #include "crafting.h"
@@ -287,13 +288,26 @@ void veh_interact::deallocate_windows()
     erase();
 }
 
+/**
+ * itype::charges_per_use of a tool (itype of given id)
+ */
+static int charges_per_use( const std::string &id )
+{
+    const it_tool *t = dynamic_cast<const it_tool *>( item_controller->find_template( id ) );
+    if( t == nullptr ) {
+        debugmsg( "item %s is not a tool as expected", id.c_str() );
+        return 0;
+    }
+    return t->charges_per_use;
+}
+
 void veh_interact::cache_tool_availability()
 {
     crafting_inv = g->crafting_inventory(&g->u);
 
-    int charges = dynamic_cast<it_tool *>(itypes["welder"])->charges_per_use;
-    int charges_oxy = dynamic_cast<it_tool *>(itypes["oxy_torch"])->charges_per_use;
-    int charges_crude = dynamic_cast<it_tool *>(itypes["welder_crude"])->charges_per_use;
+    int charges = charges_per_use( "welder" );
+    int charges_oxy = charges_per_use( "oxy_torch" );
+    int charges_crude = charges_per_use( "welder_crude" );
     has_wrench = crafting_inv.has_tools("wrench", 1) ||
                  crafting_inv.has_tools("toolset", 1) ||
                  crafting_inv.has_tools("survivor_belt", 1) ||
@@ -518,7 +532,7 @@ void veh_interact::do_install()
         fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
                        _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color>, either a <color_%4$s>powered welder</color> or <color_%5$s>duct tape</color>, and level <color_%6$s>%7$d</color> skill in mechanics.%8$s"),
                        has_comps ? "ltgreen" : "red",
-                       itypes[itm]->nname(1).c_str(),
+                       item_controller->nname( itm ).c_str(),
                        has_wrench ? "ltgreen" : "red",
                        (has_welder && has_goggles) ? "ltgreen" : "red",
                        has_duct_tape ? "ltgreen" : "red",
@@ -642,7 +656,7 @@ void veh_interact::do_repair()
                            _("You also need a <color_%1$s>wrench</color> and <color_%2$s>%3$s</color> to replace broken one."),
                            has_wrench ? "ltgreen" : "red",
                            has_comps ? "ltgreen" : "red",
-                           itypes[itm]->nname(1).c_str());
+                           item_controller->nname( itm ).c_str());
         }
         wrefresh (w_msg);
         const std::string action = main_context.handle_input();
@@ -1603,9 +1617,9 @@ void complete_vehicle ()
     int type = g->u.activity.values[7];
     std::string part_id = g->u.activity.str_values[0];
     std::vector<tool_comp> tools;
-    int welder_charges = dynamic_cast<it_tool *>(itypes["welder"])->charges_per_use;
-    int welder_oxy_charges = dynamic_cast<it_tool *>(itypes["oxy_torch"])->charges_per_use;
-    int welder_crude_charges = dynamic_cast<it_tool *>(itypes["welder_crude"])->charges_per_use;
+    int welder_charges = charges_per_use( "welder" );
+    int welder_oxy_charges = charges_per_use( "oxy_torch" );
+    int welder_crude_charges = charges_per_use( "welder_crude" );
     inventory crafting_inv = g->crafting_inventory(&g->u);
     const bool has_goggles = crafting_inv.has_tools("goggles_welding", 1) ||
                              g->u.has_bionic("bio_sunglasses") ||

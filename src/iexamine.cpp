@@ -520,7 +520,7 @@ void iexamine::cardreader(player *p, map *m, int examx, int examy)
                 }
             }
         } else {
-            add_msg(m_info, _("Looks like you need a %s."), itypes[card_type]->nname(1).c_str());
+            add_msg(m_info, _("Looks like you need a %s."), item_controller->nname( card_type ).c_str());
         }
     }
 }

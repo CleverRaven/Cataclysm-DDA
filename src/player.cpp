@@ -7654,12 +7654,12 @@ bool player::consume(int target_position)
                 // Check tools
                 bool has = has_amount(comest->tool, 1);
                 // Tools with charges need to have charges, not just be present.
-                if (itypes[comest->tool]->count_by_charges()) {
+                if (item_controller->count_by_charges( comest->tool )) {
                     has = has_charges(comest->tool, 1);
                 }
                 if (!has) {
                     add_msg_if_player(m_info, _("You need a %s to consume that!"),
-                                         itypes[comest->tool]->nname(1).c_str());
+                                         item_controller->nname( comest->tool ).c_str());
                     return false;
                 }
                 use_charges(comest->tool, 1); // Tools like lighters get used
@@ -7765,12 +7765,12 @@ bool player::eat(item *eaten, it_comest *comest)
     }
     if (comest->tool != "null") {
         bool has = has_amount(comest->tool, 1);
-        if (itypes[comest->tool]->count_by_charges()) {
+        if (item_controller->count_by_charges( comest->tool )) {
             has = has_charges(comest->tool, 1);
         }
         if (!has) {
             add_msg_if_player(m_info, _("You need a %s to consume that!"),
-                       itypes[comest->tool]->nname(1).c_str());
+                       item_controller->nname( comest->tool ).c_str());
             return false;
         }
     }
@@ -8038,7 +8038,7 @@ bool player::eat(item *eaten, it_comest *comest)
         else healall(excess_food /= 5);
     }
 
-    if (itypes[comest->tool]->is_tool()) {
+    if (item_controller->find_template( comest->tool )->is_tool()) {
         use_charges(comest->tool, 1); // Tools like lighters get used
     }
 
@@ -9178,7 +9178,7 @@ hint_rating player::rate_action_disassemble(item *it) {
              list_iter != cat_iter->second.end();
              ++list_iter) {
             recipe* cur_recipe = *list_iter;
-            if (it->type == itypes[cur_recipe->result] && cur_recipe->reversible) {
+            if (it->type->id == cur_recipe->result && cur_recipe->reversible) {
                 /* ok, a valid recipe exists for the item, and it is reversible
                    assign the activity
                    check tools are available
@@ -9922,7 +9922,7 @@ bool player::try_study_recipe(it_book *book)
                 rng(0, 4) <= (skillLevel(iter->first->skill_used) - iter->second) / 2) {
                 learn_recipe((recipe *)iter->first);
                 add_msg(m_good, _("Learned a recipe for %s from the %s."),
-                                itypes[iter->first->result]->nname(1).c_str(), book->nname(1).c_str());
+                                item_controller->nname( iter->first->result ).c_str(), book->nname(1).c_str());
                 return true;
             } else {
                 add_msg(_("Failed to learn a recipe from the %s."), book->nname(1).c_str());

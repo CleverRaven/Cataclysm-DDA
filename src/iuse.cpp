@@ -7428,7 +7428,7 @@ int iuse::LAW(player *p, item *it, bool, point)
     it->make("LAW");
     it->charges++;
     // When converting a tool to a gun, you need to set the current ammo type, this is usually done when a gun is reloaded.
-    it->curammo = dynamic_cast<it_ammo *>(itypes["66mm_HEAT"]);
+    it->curammo = dynamic_cast<it_ammo *>( item( "66mm_HEAT", 0 ).type );
     return it->type->charges_to_use();
 }
 

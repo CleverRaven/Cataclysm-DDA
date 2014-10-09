@@ -236,7 +236,7 @@ void player::fire_gun(int tarx, int tary, bool burst)
     if (weapon.has_flag("CHARGE")) { // It's a charger gun, so make up a type
         // Charges maxes out at 8.
         long charges = weapon.num_charges();
-        it_ammo *tmpammo = dynamic_cast<it_ammo *>(itypes["charge_shot"]);
+        it_ammo *tmpammo = dynamic_cast<it_ammo *>( item( "charge_shot", 0 ).type );
 
         tmpammo->damage = charges * charges;
         tmpammo->pierce = (charges >= 4 ? (charges - 3) * 2.5 : 0);

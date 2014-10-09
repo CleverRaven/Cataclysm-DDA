@@ -1020,14 +1020,14 @@ void item::deserialize(JsonObject &data)
 
     data.read( "curammo", ammotmp );
     if ( ammotmp != "null" ) {
-        curammo = dynamic_cast<it_ammo *>(itypes[ammotmp]);
+        curammo = dynamic_cast<it_ammo *>( item( ammotmp, 0 ).type );
     } else {
         curammo = NULL;
     }
 
     data.read( "covers", tmp_covers );
     if (is_armor() && tmp_covers.none()) {
-        it_armor *armor = dynamic_cast<it_armor *>(itypes[idtmp]);
+        it_armor *armor = dynamic_cast<it_armor *>( item( idtmp, 0 ).type );
         covers = armor->covers;
         if (armor->sided.any()) {
             bool left = one_in(2);
