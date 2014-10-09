@@ -6,6 +6,12 @@
     "target" : "shelter"
   },{
     "type" : "start_location",
+    "ident" : "boarded_house",
+    "name" : "Boared up house",
+    "target" : "house",
+    "flags" : ["BOARDED"]
+  },{
+    "type" : "start_location",
     "ident" : "house",
     "name" : "House",
     "target" : "house"
