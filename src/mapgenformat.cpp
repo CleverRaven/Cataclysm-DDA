@@ -90,44 +90,6 @@ void formatted_set_simple(map* m, const int startx, const int starty, const char
     }
 }
 
-void formatted_set_terrain(map* m, const int startx, const int starty, const char* cstr, ...)
-{
- internal::format_data fdata;
- va_list vl;
- va_start(vl,cstr);
- internal::format_effect* temp;
- while((temp = va_arg(vl,internal::format_effect*)))
- {
-  temp->execute(fdata);
-  delete temp;
- }
-
- fdata.fix_bindings(' ');
-
- va_end(vl);
-
- const char* p = cstr;
- int x = startx;
- int y = starty;
- while(*p != 0) {
-  if(*p == '\n') {
-   y++;
-   x = startx;
-  }
-  else {
-   if (fdata.fix_bindings(*p))
-   {
-    debugmsg("No binding for \'%c.\'", *p);
-   }
-   ter_id id = (ter_id)(*fdata.bindings[*p])(m, x, y);
-   if(id != t_null)
-    m->ter_set(x, y, id);
-   x++;
-  }
-  p++;
- }
-}
-
 std::shared_ptr<internal::format_effect> basic_bind(std::string characters, ...)
 {
  std::string temp;

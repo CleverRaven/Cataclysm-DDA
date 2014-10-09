@@ -25,7 +25,6 @@ namespace mapf
  * - possibly some other stuff
  * You will have specify the values you want to track with a parameter.
  */
-void formatted_set_terrain(map* m, const int startx, const int starty, const char* cstr, ...);
 void formatted_set_simple(map* m, const int startx, const int starty, const char* cstr,
                        std::shared_ptr<internal::format_effect> ter_b, std::shared_ptr<internal::format_effect> furn_b,
                        const bool empty_toilets = false);

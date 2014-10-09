@@ -1289,7 +1289,7 @@ void mapgen_road_four_way(map *m, oter_id terrain_type, mapgendata dat, int turn
             }
         }
         if (one_in(10)) { // Small trees in center
-            mapf::formatted_set_terrain(m, SEEX-2, SEEY-2,
+            mapf::formatted_set_simple(m, SEEX-2, SEEY-2,
 "\
  t t\n\
 t   t\n\
