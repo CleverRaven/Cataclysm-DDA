@@ -3823,6 +3823,7 @@ void mapgen_lmoe_under(map *m, oter_id, mapgendata dat, int, float) {
         m->place_items("shelter", 70, 18, 13, 20, 14, false, 0);
         m->place_items("novels", 70, 16, 3, 16, 5, false, 0);
         m->place_items("office", 50, 20, 7, 20, 7, false, 0);
+        m->place_items("bed", 60, 19, 3, 20, 4, false, 0);
 }
 
 
@@ -3957,6 +3958,8 @@ void mapgen_basement_survivalist(map *m, oter_id terrain_type, mapgendata dat, i
     m->place_items("lmoe_guns",  31, SEEX - 1,  7, SEEX,  7, false, 0);
     m->place_items("survival_tools", 83, SEEX - 1,  8, SEEX, 10, false, 0);
     m->place_items("manuals",  60, SEEX - 1, 11, SEEX, 11, false, 0);
+    m->place_items("bed",  60, 1, 1, 1, 2, false, 0);
+    m->place_items("bed",  60, SEEX * 2 - 2, 1, SEEX * 2 - 2, 2, false, 0);
     // Chance of zombies in the basement, only appear north of the anteroom the stairs are in.
     m->place_spawns("GROUP_ZOMBIE", 2, 1, 1, SEEX * 2 - 1, SEEX * 2 - 5, density);
 }
@@ -4478,6 +4481,9 @@ void mapgen_cabin_strange(map *m, oter_id, mapgendata dat, int, float)
                 if (m->ter(i, j) == t_floor) {
                     m->place_items("subway",  10, i, j, i, j, true, 0);
                 }
+                if (m->furn(i, j) == f_bed) {
+                    m->place_items("bed",  60, i, j, i, j, true, 0);
+                }
             }
         }
 
@@ -4541,6 +4547,9 @@ void mapgen_cabin_strange_b(map *m, oter_id, mapgendata dat, int, float)
                 }
                 if (m->ter(i, j) == t_dirtfloor) {
                     m->place_items("subway",  10, i, j, i, j, true, 0);
+                }
+                if (m->furn(i, j) == f_bed) {
+                    m->place_items("bed",  60, i, j, i, j, true, 0);
                 }
             }
         }
@@ -4640,6 +4649,7 @@ void mapgen_cabin(map *m, oter_id, mapgendata dat, int, float)
             m->place_items("dresser", 50, 19, 4, 19, 4, false, 0);
             m->place_items("softdrugs", 60, 8, 4, 9, 7, false, 0);
             m->place_items("livingroom", 50, 14, 12, 17, 15, false, 0);
+            m->place_items("bed", 60, 17, 4, 18, 5, false, 0);
             m->add_spawn("mon_zombie", rng(1, 5), 11, 12);
 
         } else {
@@ -4678,6 +4688,7 @@ void mapgen_cabin(map *m, oter_id, mapgendata dat, int, float)
             m->place_items("dresser", 70, 16, 10, 16, 10, false, 0);
             m->place_items("dresser", 70, 19, 10, 19, 10, false, 0);
             m->place_items("tools", 70, 5, 3, 9, 3, false, 0);
+            m->place_items("bed", 60, 17, 10, 18, 11, false, 0);
             m->add_spawn("mon_zombie", rng(1, 5), 7, 4);
         }
 
