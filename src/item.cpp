@@ -29,7 +29,7 @@ item::item(const std::string new_type, unsigned int turn, bool rand, int handed)
     init();
     type = item_controller->find_template( new_type );
     bday = turn;
-    corpse = type->corpse;
+    corpse = type->id == "corpse" ? GetMType( "mon_null" ) : nullptr;
     name = type->nname(1);
     if (type->is_gun()) {
         charges = 0;

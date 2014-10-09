@@ -111,8 +111,6 @@ public:
         return explosion_on_fire_data.power >= 0;
     }
 
-    mtype   *corpse;
-
     signed int melee_dam; // Bonus for melee damage; may be a penalty
     signed int melee_cut; // Cutting damage in melee
     signed int m_to_hit;  // To-hit bonus for melee combat; -5 to 5 is reasonable
@@ -232,7 +230,7 @@ public:
 
     itype() : id("null"), price(0), name("none"), name_plural("none"), description(), sym('#'),
         color(c_white), m1("null"), m2("null"), phase(SOLID), volume(0), stack_size(0),
-        weight(0), bigness_aspect(BIGNESS_ENGINE_NULL), qualities(), corpse(NULL),
+        weight(0), bigness_aspect(BIGNESS_ENGINE_NULL), qualities(),
         melee_dam(0), melee_cut(0), m_to_hit(0), item_tags(), techniques(), light_emission(),
         category(NULL) { }
 
@@ -242,7 +240,7 @@ public:
           signed int pmelee_cut, signed int pm_to_hit) : id(pid), price(pprice), name(pname),
         name_plural(pname_plural), description(pdes), sym(psym), color(pcolor), m1(pm1), m2(pm2),
         phase(pphase), volume(pvolume), stack_size(0), weight(pweight),
-        bigness_aspect(BIGNESS_ENGINE_NULL), qualities(), corpse(NULL), melee_dam(pmelee_dam),
+        bigness_aspect(BIGNESS_ENGINE_NULL), qualities(), melee_dam(pmelee_dam),
         melee_cut(pmelee_cut), m_to_hit(pm_to_hit), item_tags(), techniques(), light_emission(),
         category(NULL) { }
 
