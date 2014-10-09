@@ -356,7 +356,7 @@ class JsonIn
                 return false;
             }
         }
-        
+
         // error messages
         std::string line_number(int offset_modifier = 0); // for occasional use only
         void error(std::string message, int offset = 0); // ditto
