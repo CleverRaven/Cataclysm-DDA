@@ -6,8 +6,6 @@
 #include <fstream>
 #include <stdexcept>
 
-std::vector<std::string> artifact_itype_ids;
-
 std::map<std::string, itype *> itypes;
 
 

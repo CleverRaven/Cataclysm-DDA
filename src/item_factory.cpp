@@ -573,8 +573,6 @@ itype *Item_factory::find_template(Item_tag id)
     bad_itype->color = c_white;
     m_templates[id] = bad_itype;
     itypes[id] = bad_itype;
-    // Push the item definition on the artifact list so it gets saved/loaded from json.
-    artifact_itype_ids.push_back(id);
     return bad_itype;
 }
 
@@ -1147,7 +1145,6 @@ void Item_factory::clear_items_and_groups()
     // These containers are defined in itypedef.cpp
     // and initialzed there.
     // There are updated here when an item type is loaded
-    artifact_itype_ids.clear();
     itypes.clear();
 
     // Recreate this entry, now we are in the same state as
@@ -1715,4 +1712,15 @@ std::vector<Item_tag> Item_factory::get_all_itype_ids() const
 const std::map<Item_tag, itype *> &Item_factory::get_all_itypes() const
 {
     return m_templates;
+}
+
+Item_tag Item_factory::create_artifact_id() const
+{
+    Item_tag id;
+    int i = m_templates.size();
+    do {
+        id = string_format( "artifact_%d", i );
+        i++;
+    } while( !has_template( id ) );
+    return id;
 }

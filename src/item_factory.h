@@ -164,6 +164,10 @@ class Item_factory
          * Value is the itype instance (result of @ref find_template).
          */
         const std::map<Item_tag, itype *> &get_all_itypes() const;
+        /**
+         * Create a new (and currently unused) item type id.
+         */
+        Item_tag create_artifact_id() const;
     private:
         std::map<Item_tag, itype *> m_templates;
         itype  *m_missing_item;

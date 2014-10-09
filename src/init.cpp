@@ -346,8 +346,6 @@ void DynamicDataLoader::unload_data()
     iuse::reset_bullet_pulling();
     clear_overmap_specials();
 
-    // artifacts are not loaded from json, but must be unloaded anyway.
-    artifact_itype_ids.clear();
     // TODO:
     //    NameGenerator::generator().clear_names();
 }
