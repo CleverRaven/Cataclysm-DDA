@@ -535,7 +535,6 @@ class game
         void init_weather();
         void init_weather_anim();
         void init_morale();
-        void init_itypes();       // Initializes item types
         void init_skills() throw (std::string);
         void init_professions();
         void init_faction_data();

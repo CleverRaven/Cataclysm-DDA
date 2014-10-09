@@ -6,9 +6,6 @@
 #include <fstream>
 #include <stdexcept>
 
-std::map<std::string, itype *> itypes;
-
-
 // Members of iuse struct, which is slowly morphing into a class.
 bool itype::has_use() const
 {
@@ -60,55 +57,57 @@ int itype::invoke( player *p, item *it, bool active, point pos )
 }
 
 
-void game::init_itypes ()
+void Item_factory::init_old()
 {
+    auto &itypes = m_templates; // So I don't have to change that in the code below
+
     // First, the null object.  NOT REALLY AN OBJECT AT ALL.  More of a concept.
-    itypes["null"] =
-        new itype("null", 0, "none", "none", "", '#', c_white, "null", "null", PNULL, 0, 0, 0, 0, 0);
+    add_item_type(
+        new itype("null", 0, "none", "none", "", '#', c_white, "null", "null", PNULL, 0, 0, 0, 0, 0) );
     itypes["null"]->item_tags.insert( "PSEUDO" );
     // Corpse - a special item
-    itypes["corpse"] =
+    add_item_type(
         new itype("corpse", 0, "corpse", "corpses", _("A dead body."), '%', c_white, "null", "null", PNULL,
                   0, 0,
-                  0, 0, 1);
+                  0, 0, 1) );
     itypes["corpse"]->item_tags.insert("NO_UNLOAD");
     itypes["corpse"]->item_tags.insert( "PSEUDO" );
     // Fire - only appears in crafting recipes
-    itypes["fire"] =
+    add_item_type(
         new itype("fire", 0, "nearby fire", "none",
                   "Some fire - if you are reading this it's a bug! (itypdef:fire)",
-                  '$', c_red, "null", "null", PNULL, 0, 0, 0, 0, 0);
+                  '$', c_red, "null", "null", PNULL, 0, 0, 0, 0, 0) );
     itypes["fire"]->item_tags.insert( "PSEUDO" );
     // Integrated toolset - ditto
-    itypes["toolset"] =
+    add_item_type(
         new itype("toolset", 0, "integrated toolset", "none",
                   "A fake item. If you are reading this it's a bug! (itypdef:toolset)",
-                  '$', c_red, "null", "null", PNULL, 0, 0, 0, 0, 0);
+                  '$', c_red, "null", "null", PNULL, 0, 0, 0, 0, 0) );
     itypes["toolset"]->item_tags.insert( "PSEUDO" );
     // For smoking drugs
-    itypes["apparatus"] =
+    add_item_type(
         new itype("apparatus", 0, "a smoking device and a source of flame", "none",
                   "A fake item. If you are reading this it's a bug! (itypdef:apparatus)",
-                  '$', c_red, "null", "null", PNULL, 0, 0, 0, 0, 0);
+                  '$', c_red, "null", "null", PNULL, 0, 0, 0, 0, 0) );
     itypes["apparatus"]->item_tags.insert( "PSEUDO" );
     // For CVD Forging
-    itypes["cvd_machine"] =
+    add_item_type(
         new itype("cvd_machine", 0, "cvd machine", "none",
                   "A fake item. If you are reading this it's a bug! (itypdef:apparatus)",
-                  '$', c_red, "null", "null", PNULL, 0, 0, 0, 0, 0);
+                  '$', c_red, "null", "null", PNULL, 0, 0, 0, 0, 0) );
     itypes["cvd_machine"]->item_tags.insert( "PSEUDO" );
 
     // SOFTWARE
 #define SOFTWARE(id, name, name_plural, price, swtype, power, description) \
-    itypes[id]=new it_software(id, price, name, name_plural, description,\
-                               ' ', c_white, "null", "null", 0, 0, 0, 0, 0, swtype, power)
+    add_item_type( new it_software(id, price, name, name_plural, description,\
+                               ' ', c_white, "null", "null", 0, 0, 0, 0, 0, swtype, power) )
 
     //Macguffins
 #define MACGUFFIN(id, name, name_plural, price, sym, color, mat1, mat2, volume, wgt, dam, cut,\
                   to_hit, readable, function, description) \
-itypes[id]=new it_macguffin(id, price, name, name_plural, description,\
+    add_item_type( new it_macguffin(id, price, name, name_plural, description,\
                             sym, color, mat1, mat2, volume, wgt, dam, cut, to_hit, readable,\
-                            function)
+                            function) )
 
     SOFTWARE("software_useless", "misc software", "none", 300, SW_USELESS, 0, _("\
 A miscellaneous piece of hobby software. Probably useless."));

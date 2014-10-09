@@ -35,7 +35,6 @@ typedef std::string itype_id;
 class item_category;
 
 struct itype;
-extern std::map<std::string, itype *> itypes;
 
 typedef std::string ammotype;
 

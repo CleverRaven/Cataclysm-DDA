@@ -400,15 +400,6 @@ void Item_factory::add_category(const std::string &id, int sort_rank, const std:
     cat.name = name;
 }
 
-//Will eventually be deprecated - Loads existing item format into the item factory, and vice versa
-void Item_factory::init_old()
-{
-    //Copy the hardcoded template pointers to the factory list
-    m_templates.insert(itypes.begin(), itypes.end());
-    //Copy the JSON-derived items to the legacy list
-    itypes.insert(m_templates.begin(), m_templates.end());
-}
-
 inline int ammo_type_defined(const std::string &ammo)
 {
     if (ammo == "NULL" || ammo == "generic_no_ammo") {
@@ -557,10 +548,6 @@ itype *Item_factory::find_template(Item_tag id)
     if (found != m_templates.end()) {
         return found->second;
     }
-    found = itypes.find(id);
-    if (found != itypes.end()) {
-        return found->second;
-    }
 
     debugmsg("Missing item (check item_groups.json): %s", id.c_str());
     it_artifact_tool *bad_itype = new it_artifact_tool();
@@ -572,14 +559,18 @@ itype *Item_factory::find_template(Item_tag id)
     bad_itype->sym = '.';
     bad_itype->color = c_white;
     m_templates[id] = bad_itype;
-    itypes[id] = bad_itype;
     return bad_itype;
 }
 
 void Item_factory::add_item_type(itype *new_type)
 {
-    itypes[new_type->id] = new_type;
-    m_templates[new_type->id] = new_type;
+    if( new_type == nullptr ) {
+        debugmsg( "called Item_factory::add_item_type with nullptr" );
+        return;
+    }
+    auto &entry = m_templates[new_type->id];
+    delete entry;
+    entry = new_type;
 }
 
 
@@ -925,7 +916,6 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
         delete m_templates[new_id];
     }
     m_templates[new_id] = new_item_template;
-    itypes[new_id] = new_item_template;
 
     // And then proceed to assign the correct field
     new_item_template->price = jo.get_int("price");
@@ -1141,11 +1131,6 @@ void Item_factory::clear_items_and_groups()
         delete it->second;
     }
     m_templates.clear();
-
-    // These containers are defined in itypedef.cpp
-    // and initialzed there.
-    // There are updated here when an item type is loaded
-    itypes.clear();
 
     // Recreate this entry, now we are in the same state as
     // after the creation of this object

@@ -195,14 +195,7 @@ void game::load_core_data()
     // anyway.
     DynamicDataLoader::get_instance().unload_data();
     // Special handling for itypes created in itypedef.cpp
-    // First load those items into the global itypes map,
-    init_itypes();
-    // Make itypes and item_controller syncron.
     item_controller->init_old();
-    // Now item_controller and itypes have the same knowledge
-    // further loading happens through item_controller, which
-    // adds the new item types to both (its internal map and
-    // the global itypes).
 
     load_data_from_dir(FILENAMES["jsondir"]);
 }
@@ -236,7 +229,6 @@ game::~game()
     DynamicDataLoader::get_instance().unload_data();
     MAPBUFFER.reset();
     delete gamemode;
-    itypes.clear();
     delwin(w_terrain);
     delwin(w_minimap);
     delwin(w_HP);
