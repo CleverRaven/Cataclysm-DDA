@@ -925,8 +925,6 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
         // core data, we override it. This allows mods to change
         // item from core data.
         delete m_templates[new_id];
-    } else {
-        standard_itype_ids.push_back(new_id);
     }
     m_templates[new_id] = new_item_template;
     itypes[new_id] = new_item_template;
@@ -1150,7 +1148,6 @@ void Item_factory::clear_items_and_groups()
     // and initialzed there.
     // There are updated here when an item type is loaded
     artifact_itype_ids.clear();
-    standard_itype_ids.clear();
     itypes.clear();
 
     // Recreate this entry, now we are in the same state as
@@ -1703,4 +1700,19 @@ void Item_factory::debug_spawn()
         }
         menu2.query();
     }
+}
+
+std::vector<Item_tag> Item_factory::get_all_itype_ids() const
+{
+    std::vector<Item_tag> result;
+    result.reserve( m_templates.size() );
+    for( auto & p : m_templates ) {
+        result.push_back( p.first );
+    }
+    return result;
+}
+
+const std::map<Item_tag, itype *> &Item_factory::get_all_itypes() const
+{
+    return m_templates;
 }

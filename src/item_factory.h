@@ -152,6 +152,18 @@ class Item_factory
         // the item from the group. Returns false if the group doesn't exist.
         bool add_item_to_group(const std::string group_id, const std::string item_id, int weight);
 
+        /**
+         * A list of *all* known item type ids. Each is suitable as input to
+         * @ref find_template or as parameter to @ref item::item.
+         */
+        std::vector<Item_tag> get_all_itype_ids() const;
+        /**
+         * The map of all known item type instances.
+         * Key is the item type id (@ref itype::id, the parameter to
+         * @ref find_template).
+         * Value is the itype instance (result of @ref find_template).
+         */
+        const std::map<Item_tag, itype *> &get_all_itypes() const;
     private:
         std::map<Item_tag, itype *> m_templates;
         itype  *m_missing_item;

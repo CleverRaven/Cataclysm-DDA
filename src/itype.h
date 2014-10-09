@@ -31,7 +31,6 @@ enum item_cat {
 
 typedef std::string itype_id;
 extern std::vector<std::string> artifact_itype_ids;
-extern std::vector<std::string> standard_itype_ids;
 
 // see item_factory.h
 class item_category;

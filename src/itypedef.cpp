@@ -7,7 +7,6 @@
 #include <stdexcept>
 
 std::vector<std::string> artifact_itype_ids;
-std::vector<std::string> standard_itype_ids;
 
 std::map<std::string, itype *> itypes;
 
@@ -68,32 +67,38 @@ void game::init_itypes ()
     // First, the null object.  NOT REALLY AN OBJECT AT ALL.  More of a concept.
     itypes["null"] =
         new itype("null", 0, "none", "none", "", '#', c_white, "null", "null", PNULL, 0, 0, 0, 0, 0);
+    itypes["null"]->item_tags.insert( "PSEUDO" );
     // Corpse - a special item
     itypes["corpse"] =
         new itype("corpse", 0, "corpse", "corpses", _("A dead body."), '%', c_white, "null", "null", PNULL,
                   0, 0,
                   0, 0, 1);
     itypes["corpse"]->item_tags.insert("NO_UNLOAD");
+    itypes["corpse"]->item_tags.insert( "PSEUDO" );
     // Fire - only appears in crafting recipes
     itypes["fire"] =
         new itype("fire", 0, "nearby fire", "none",
                   "Some fire - if you are reading this it's a bug! (itypdef:fire)",
                   '$', c_red, "null", "null", PNULL, 0, 0, 0, 0, 0);
+    itypes["fire"]->item_tags.insert( "PSEUDO" );
     // Integrated toolset - ditto
     itypes["toolset"] =
         new itype("toolset", 0, "integrated toolset", "none",
                   "A fake item. If you are reading this it's a bug! (itypdef:toolset)",
                   '$', c_red, "null", "null", PNULL, 0, 0, 0, 0, 0);
+    itypes["toolset"]->item_tags.insert( "PSEUDO" );
     // For smoking drugs
     itypes["apparatus"] =
         new itype("apparatus", 0, "a smoking device and a source of flame", "none",
                   "A fake item. If you are reading this it's a bug! (itypdef:apparatus)",
                   '$', c_red, "null", "null", PNULL, 0, 0, 0, 0, 0);
+    itypes["apparatus"]->item_tags.insert( "PSEUDO" );
     // For CVD Forging
     itypes["cvd_machine"] =
         new itype("cvd_machine", 0, "cvd machine", "none",
                   "A fake item. If you are reading this it's a bug! (itypdef:apparatus)",
                   '$', c_red, "null", "null", PNULL, 0, 0, 0, 0, 0);
+    itypes["cvd_machine"]->item_tags.insert( "PSEUDO" );
 
     // SOFTWARE
 #define SOFTWARE(id, name, name_plural, price, swtype, power, description) \
@@ -125,16 +130,6 @@ Medical data on zombie blood."));
     MACGUFFIN("note", "note", "notes", 0, '?', c_white, "paper", "null", 1, 3, 0, 0, 0,
               true, &iuse::mcg_note, _("\
 A hand-written paper note."));
-
-    // Finally, add all the keys from the map to a vector of all possible items
-    for(std::map<std::string, itype *>::iterator iter = itypes.begin(); iter != itypes.end(); ++iter) {
-        if(iter->first == "null" || iter->first == "corpse" || iter->first == "toolset" ||
-           iter->first == "fire" || iter->first == "apparatus") {
-            // pseudo item, do not add to standard_itype_ids
-        } else {
-            standard_itype_ids.push_back(iter->first);
-        }
-    }
 }
 
 std::string ammo_name(std::string t)
