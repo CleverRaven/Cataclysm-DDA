@@ -1,14 +1,13 @@
 #ifndef ITEM_FACTORY_H
 #define ITEM_FACTORY_H
 
-#include "color.h"
 #include "json.h"
 #include "iuse.h"
-#include "enums.h"
 #include <string>
 #include <vector>
 #include <map>
 #include <bitset>
+#include <memory>
 
 bool item_is_blacklisted(const std::string &id);
 
@@ -17,8 +16,6 @@ typedef std::string Group_tag;
 typedef std::vector<item> Item_list;
 
 //For the iuse arguments
-class game;
-class player;
 class Item_spawn_data;
 class Item_group;
 class item;
@@ -234,6 +231,6 @@ class Item_factory
         std::map<Item_tag, use_function> iuse_function_list;
 };
 
-extern Item_factory *item_controller;
+extern std::unique_ptr<Item_factory> item_controller;
 
 #endif

@@ -1,5 +1,4 @@
 #include "item_factory.h"
-#include "rng.h"
 #include "enums.h"
 #include "json.h"
 #include "addiction.h"
@@ -8,19 +7,13 @@
 #include "bodypart.h"
 #include "crafting.h"
 #include "iuse_actor.h"
-#include "tile_id_data.h"
 #include "item.h"
-#include "game.h"
-#include "artifact.h"
+#include "mapdata.h"
+#include "debug.h"
+#include "construction.h"
 #include "text_snippets.h"
 #include <algorithm>
-#include <cstdlib>
-#include <iostream>
-#include <fstream>
 #include <sstream>
-#include <memory>
-#include <stdio.h>
-#include <bitset>
 
 static const std::string category_id_guns("guns");
 static const std::string category_id_ammo("ammo");
@@ -35,7 +28,7 @@ static const std::string category_id_cbm("bionics");
 static const std::string category_id_mutagen("mutagen");
 static const std::string category_id_other("other");
 
-Item_factory *item_controller = new Item_factory();
+std::unique_ptr<Item_factory> item_controller( new Item_factory() );
 
 typedef std::set<std::string> t_string_set;
 static t_string_set item_blacklist;
