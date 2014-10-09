@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cdda-ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-29 09:48+0400\n"
-"PO-Revision-Date: 2014-09-30 16:51+0000\n"
-"Last-Translator: TEATIME <teatime@r7.dion.ne.jp>\n"
+"POT-Creation-Date: 2014-10-06 09:16+0400\n"
+"PO-Revision-Date: 2014-10-07 14:57+0000\n"
+"Last-Translator: nono <nono.nono@aol.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2014-10-01 05:29+0000\n"
+"X-Launchpad-Export-Date: 2014-10-09 05:18+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: lang/json/AMMO_from_json.py
@@ -8218,6 +8218,8 @@ msgid ""
 "devices requiring a UPS off of your internal power, which is much more "
 "efficient than standard battery power."
 msgstr ""
+"義体にUPSの機能を統合します。通常のUPSよりはるかに効率的な電力の運用が行える"
+"でしょう。"
 
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
@@ -8226,6 +8228,8 @@ msgid ""
 "cost of a small amount of power.  Though exceptionally sharp, it will "
 "prevent you from holding anything else while extended."
 msgstr ""
+"前腕部に電力で出し入れする先端素材製のブレードを埋め込みます。非常に鋭く強力"
+"な武器ですが、伸ばしている間は何も掴むことが出来ません。"
 
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
@@ -8252,6 +8256,8 @@ msgid ""
 "allowing you to trigger your body's adrenaline response at the cost of some "
 "bionic power."
 msgstr ""
+"副腎にアドレナリン刺激装置を埋め込みます。この装置は電力を消費してアドレナリ"
+"ンラッシュを引き起こします。"
 
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
@@ -8259,6 +8265,8 @@ msgid ""
 "throughout your body, allowing you to purge yourself of absorbed radiation "
 "at the cost of some bionic power."
 msgstr ""
+"身体に先進的な圧力機構による血液濾過装置を埋め込みます。起動することで体内の"
+"放射線量を低減する事が出来ます。"
 
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
@@ -8266,6 +8274,8 @@ msgid ""
 "attempting to penetrate this field has a chance of being deflected at the "
 "cost of more energy.  Melee attacks will be stopped more often than bullets."
 msgstr ""
+"起動すると薄い力場の膜を纏います。被害を受ける際に追加で電力を消費してその威"
+"力を減衰し、ダメージを抑えます。"
 
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
@@ -8273,6 +8283,8 @@ msgid ""
 "field does not deflect penetration, but rather delivers a very strong shock, "
 "damaging unarmed attackers and those with a conductive weapon."
 msgstr ""
+"起動すると薄い電力の膜を纏います。この力場に接触した者は反対にダメージを受け"
+"るでしょう。性質上、非導電体を用いた攻撃に対しての反撃は行われません。"
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Active Defense System CBM"
@@ -8328,6 +8340,9 @@ msgid ""
 "dramatically, essentially freezing time.  You are still delicate, however, "
 "and violent or rapid movements may damage you due to friction."
 msgstr ""
+"莫大な電力を消費することで行動や反応の速度を爆発的に高め、相対的に静止した時"
+"間の中での行動が可能になります。しかしながらそれほどまでに急激な動きは摩擦や"
+"反作用によって身体を破壊するでしょう。"
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Battery System CBM"
@@ -8375,6 +8390,8 @@ msgid ""
 "for the highly successful Power Storage CBM.  Increases your power capacity "
 "by 250 units."
 msgstr ""
+"蓄電容量を250増加させる小型モジュールです。より発展した蓄電装置として"
+"DoubleTech社の手によって開発されました。"
 
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
@@ -8382,6 +8399,8 @@ msgid ""
 "Having at least one of these is a prerequisite to using powered bionics.  "
 "You will also need a power supply, found in another CBM."
 msgstr ""
+"蓄電容量を100増加させる小型モジュールです。これが無いとCBMは使えません。充電"
+"は別に発電用CBMが必要です。"
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Cranial Flashlight CBM"
@@ -8394,10 +8413,14 @@ msgid ""
 "are integrated directly into your spinal column.  Whilst active, you become "
 "deadly in hand-to-hand."
 msgstr ""
+"近接戦闘術といくつかの武道について収められたデータバンクとプロセッサを脊柱に"
+"組み込みます。起動すればそのデータ通りの近接戦闘を行うことが出来るでしょう。"
 
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid "Destructive interference eliminates all light within a 15 tile radius."
 msgstr ""
+"光を阻害する物質を散布する装置です。破壊的な干渉によって半径15タイル以内への"
+"光は届かなくなります。"
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Diamond Cornea CBM"
@@ -8420,6 +8443,8 @@ msgid ""
 "and steel objects at a cost of 1 power per throw, causing them to leave a "
 "trail of electricity that can cause additional damage."
 msgstr ""
+"腕に磁界発生装置を取り付けます。起動した状態で鉄や鋼など磁性体を投擲すると、"
+"威力と射程の増加に加え始点から着弾点までの間に電気の道が走ります。"
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Electromagnetic Unit CBM"
@@ -8436,6 +8461,8 @@ msgid ""
 "Embedded in your hand is a powerful electromagnet, allowing you to pull "
 "items made of iron over short distances."
 msgstr ""
+"手に強力な電磁石を埋め込みます。起動すると近くにある鉄製のアイテムを手元に引"
+"き寄せます。"
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Enhanced Hearing CBM"
@@ -8551,6 +8578,8 @@ msgid ""
 "energy banks, they will flit about your body, repairing damage and stopping "
 "bleeding."
 msgstr ""
+"体内に極小サイズのロボットを注入します。それらは電力を与えられると体内を飛び"
+"回り、出血を止め損傷部位を修復するため懸命に働きます。"
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Integrated Dosimeter CBM"
@@ -8566,7 +8595,7 @@ msgstr[0] "CBM: 内蔵工具セット"
 msgid ""
 "Interfaces your power system with the internal charging port on suits of "
 "power armor."
-msgstr ""
+msgstr "義体の電力をパワーアーマーに供給するためのシステムを追加します。"
 
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
@@ -8574,6 +8603,8 @@ msgid ""
 "power armor.  The Mk. II was designed by DoubleTech Inc., to meet the "
 "popularity of the Mk. II power armor series."
 msgstr ""
+"義体の電力をパワーアーマーに供給するためのシステムを追加します。人気を得た"
+"Mk. IIシリーズ用としてDoubleTech社の手によって開発されました。"
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Internal Chronometer CBM"
@@ -8616,12 +8647,16 @@ msgid ""
 "comparable to a flashbang grenade, blinding nearby enemies.  Speakers "
 "integrated into your body mimic the loud sound, deafening those nearby."
 msgstr ""
+"身体中にLEDとスピーカーを組み込みます。起動すると閃光手榴弾を使ったように強烈"
+"な光で周囲の敵を盲目にし、轟音で聴覚を奪います。"
 
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Lying just beneath your skin is a thin armor made of carbon nanotubes.  This "
 "reduces bashing damage by 2 and cutting damage by 4."
 msgstr ""
+"皮下にカーボンナノチューブ製の鎧を埋め込みます。打撃によるダメージを2、斬撃に"
+"よるダメージを4軽減します。"
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Membrane Oxygenator CBM"
@@ -8653,6 +8688,8 @@ msgid ""
 "You may use power to fire a short-ranged blast which will disable "
 "electronics and robots."
 msgstr ""
+"掌に小型のEMP発生装置を埋め込みます。隣接タイルに存在する電子機器やロボットに"
+"放射する事で、それらを無力化できます。"
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Muscle Augmentation CBM"
@@ -8665,6 +8702,8 @@ msgid ""
 "out of a dead body, cleanse it of impurities and convert it into drinkable "
 "water.  You must, however, have a container to store the water in."
 msgstr ""
+"掌に特殊なナノチューブを埋め込みます。それは死体から水分を抽出し不純物を完全"
+"に取り除いて飲用水に変換するシステムです。水を溜める容器は別に必要です。"
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Nictating Membrane CBM"
@@ -8687,6 +8726,8 @@ msgid ""
 "long range weapon is not incredibly damaging, but is very accurate, and has "
 "the potential to start fires."
 msgstr ""
+"指の一本に高性能な小型レーザーを埋め込みます。この遠隔武器は威力は小さいもの"
+"の命中精度は高く、更には着火による火災を引き起こすかもしれません。"
 
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
@@ -8695,6 +8736,8 @@ msgid ""
 "computers).  Skill in computers is important, and a failed use may damage "
 "your circuits."
 msgstr ""
+"指の一本にハッキングツールを埋め込みます。このツールはIDカードで開くゲートを"
+"ハックでき、成功すればそのまま侵入が可能です。――命の保証はしませんが。"
 
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
@@ -8702,6 +8745,8 @@ msgid ""
 "automatic system will quickly unlock all but the most advanced key locks "
 "without any skill required on the part of the user."
 msgstr ""
+"指の一本に電子ロックピックを埋め込みます。このツールは素早い鍵開けを可能にす"
+"るばかりか、防犯アラームを鳴らしてしまう危険性も抑えます。"
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Power Armor Interface CBM"
@@ -8783,6 +8828,7 @@ msgid ""
 "Small radiation sensors have been implanted throughout your body, allowing "
 "you to analyze your level of absorbed radiation."
 msgstr ""
+"小型の放射線量計を装着します。使用すると吸収した放射線のレベルを計測します。"
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid ""
@@ -8837,25 +8883,25 @@ msgstr[0] "CBM: 地中音波探知装置"
 msgid ""
 "The flesh on your arms has been replaced by a strong armor, protecting you "
 "greatly."
-msgstr ""
+msgstr "腕を頑丈なものにします。打撃や斬撃から部位を護ります。"
 
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "The flesh on your head has been replaced by a strong armor, protecting both "
 "your head and jaw regions."
-msgstr ""
+msgstr "頭部と顎を頑丈なものにします。打撃や斬撃から部位を護ります。"
 
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "The flesh on your legs has been replaced by a strong armor, protecting you "
 "greatly."
-msgstr ""
+msgstr "脚を頑丈なものにします。打撃や斬撃から部位を護ります。"
 
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "The flesh on your torso has been replaced by a strong armor, protecting you "
 "greatly."
-msgstr ""
+msgstr "胴体を頑丈なものにします。打撃や斬撃から部位を護ります。"
 
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
@@ -8884,6 +8930,9 @@ msgid ""
 "transporting your body up to 25 feet at the cost of much power.  Note that "
 "prolonged or frequent use may have dangerous side effects."
 msgstr ""
+"この極めて実験的な装置は25フィート以内の短距離へのテレポートを可能にします。"
+"しかしながら危険な副作用を伴いますので長期に渡る使用、あるいは短期間での頻繁"
+"な使用に注意してください。"
 
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
@@ -8899,6 +8948,8 @@ msgid ""
 "of altering your facial structure so as to subtly affect the reactions of "
 "others.  This grants a bonus to all social interactions."
 msgstr ""
+"電気化学的刺激を制御し表情を顔の構造ごと変化させるアプリケーションです。他者"
+"への印象を操ることで交渉の際にボーナスを得ます。"
 
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
@@ -8906,6 +8957,8 @@ msgid ""
 "which can be charged with bionic power to temporarily protect you from "
 "external electrical discharge."
 msgstr ""
+"体中に小型圧電キャパシタのネットワークを構築します。ネットワークを起動してい"
+"る間は外部からの放電を誘導し、身体を保護します。"
 
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
@@ -8941,6 +8994,8 @@ msgid ""
 "considerable cutting damage, but prevent you from holding anything else "
 "while extended."
 msgstr ""
+"指に電力で伸縮するアダマンチウム製の鉤爪を埋め込みます。高い攻撃力と命中力を"
+"有する武器ですが、伸ばしている間は何も掴むことが出来ません。"
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Water Extraction Unit CBM"
@@ -9002,7 +9057,7 @@ msgid ""
 "You are equipped with bionic stimulators which augment your hematopoiesis "
 "system, allowing you to accelerate white blood cell production using bionic "
 "power."
-msgstr ""
+msgstr "白血球の生産を加速させ、造血力を高める刺激装置を装着します。"
 
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
@@ -9027,6 +9082,9 @@ msgid ""
 "Targets are stunned briefly, take damage and additional stun upon impact "
 "with impassable terrain, and knockback any creatures they collide with."
 msgstr ""
+"強力な衝撃波を生み出す装置を取り付けます。近くのあらゆる存在をノックバックさ"
+"せ、さらにスタンさせます。このノックバックによって壁などに衝突した場合はダ"
+"メージと追加のスタンを与えます。"
 
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
@@ -9049,7 +9107,7 @@ msgstr ""
 msgid ""
 "You have been equipped with an internal atomic clock, ensuring that you will "
 "always know the current time."
-msgstr ""
+msgstr "体内に取り付ける原子時計です。常に正確な時刻を知る事が出来ます。"
 
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
@@ -9067,6 +9125,9 @@ msgid ""
 "double-edged blades four centimeters in length that do a small amount of "
 "unarmed slashing damage whenever your fingertips are uncovered."
 msgstr ""
+"爪と指の間に極薄で出し入れ自在の刃を埋め込みます。10本4cmの両刃の剣は攻撃の際"
+"に多少の追加ダメージを発生させるでしょう。当然指先が覆われていない場合に限り"
+"ますが。"
 
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
@@ -9074,12 +9135,16 @@ msgid ""
 "a blast of lightning at a target, leaving a trail of lightning in its wake, "
 "jumping to additional targets within 4 tiles of the previous target."
 msgstr ""
+"チェインライトニング発生装置を装着します。この稲妻は目標に向かった後、そこか"
+"ら4タイル以内にいる別の目標へと連鎖し飛んで行くという特徴があります。"
 
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your brain has been enhanced with bionic coprocessors, giving you a +2 bonus "
 "to intelligence."
 msgstr ""
+"大脳を補佐するコプロセッサを取り付け情報処理能力を高めます。知性に+2のボーナ"
+"スを得ます。"
 
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
@@ -9104,6 +9169,8 @@ msgid ""
 "shockwave.  While it will not do much damage to flexible creatures, stiff "
 "items such as walls, doors, and even robots will be severely damaged."
 msgstr ""
+"狭い範囲に破壊的な音波を放つ機構を取り付けます。壁やドアなど硬いオブジェクト"
+"を破壊するのに適していますが、強烈な騒音を発生させます。"
 
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
@@ -9111,6 +9178,8 @@ msgid ""
 "your tear ducts have been re-routed to your mouth.  When you cry, you must "
 "spit out or swallow your tears."
 msgstr ""
+"眼窩を保護レンズで覆い、涙管を口内に繋ぎます。眼が受けるであろう悪影響を防ぎ"
+"ます。"
 
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
@@ -9149,6 +9218,7 @@ msgid ""
 "Your feet are equipped with precision sonar equipment, allowing you to "
 "detect the movements of creatures below the ground."
 msgstr ""
+"足に精密なソナーを装着します。地中を動く生物の探知を可能にするでしょう。"
 
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
@@ -9173,6 +9243,8 @@ msgid ""
 "your energy banks to fire a damaging heat ray; however, you are unable to "
 "use or carry two-handed items, and may only fire handguns."
 msgstr ""
+"左腕をフュージョンブラスターアームに取り替えます。電力を使って熱線を射出する"
+"武器を得ますが、片腕を失うため両手持ちが出来なくなります。"
 
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
@@ -9188,12 +9260,15 @@ msgid ""
 "Your muscular system has been enhanced with myomer fibers, giving you a +2 "
 "bonus to strength."
 msgstr ""
+"筋肉にマイアマー繊維を加え筋量を増大させます。筋力に+2のボーナスを得ます。"
 
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your nervous system has been augmented with bionic processors, allowing you "
 "to dodge attacks beyond normal human capability, including bullets."
 msgstr ""
+"神経伝達系を生体プロセッサで拡張します。正常なヒトの能力を超えた回避力を手に"
+"入れる事が出来るでしょう、銃弾さえも躱せるかもしれません。"
 
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 #, no-python-format
@@ -9210,6 +9285,8 @@ msgid ""
 "allowing you to dull your senses at will.  However, the use of this system "
 "may cause delayed reaction time and drowsiness."
 msgstr ""
+"痛覚信号の伝達を任意で阻害できるよう神経系を改造します。起動することで鎮痛剤"
+"の服用と似た効果を得られますが、同様に反応力の低下と眠気を引き起こします。"
 
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
@@ -13357,11 +13434,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "Deluxe beans and rice"
-msgid_plural "deluxe beans and rice"
-msgstr[0] "豪華な豆飯(肉)"
-
-#: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "Deprotonated cocaine crystals, incredibly addictive and deleterious to brain "
 "chemistry."
@@ -13661,6 +13733,13 @@ msgstr ""
 msgid ""
 "Human flesh slices cured in brine and vacuum-packed.  Salty but tasty in a "
 "pinch.  "
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"Humans might call this a Grey Delicious apple: large, grey, and smells even "
+"better than the Marloss.  If they didn't reject it for its alien origins.  "
+"But we know better."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -15679,6 +15758,11 @@ msgid_plural "dehydrated vegetables"
 msgstr[0] "乾燥野菜"
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "deluxe beans and rice"
+msgid_plural "deluxe beans and rice"
+msgstr[0] "豪華な豆飯(肉)"
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid "deluxe cooked oatmeal"
 msgid_plural "deluxe cooked oatmeals"
 msgstr[0] "デラックスオートミール(調理済)"
@@ -16512,6 +16596,11 @@ msgstr[0] "突然変異した人間の腕"
 msgid "mutated leg"
 msgid_plural "mutated legs"
 msgstr[0] "突然変異した人間の脚"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "mycus fruit"
+msgid_plural "mycus fruits"
+msgstr[0] "ミカズフルーツ"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "nachos"
@@ -18105,6 +18194,11 @@ msgstr ""
 "の手により彫り込まれた物ではない。"
 
 #: lang/json/GENERIC_from_json.py
+msgid ""
+"A flat wooden club with sharp glass shards sticking to both of its sides."
+msgstr "鋭いガラス片を埋め込んだ両刃の木剣です。"
+
+#: lang/json/GENERIC_from_json.py
 msgid "A fluffy pillow to rest your head on when sleeping."
 msgstr ""
 
@@ -18440,6 +18534,11 @@ msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "A memory card, used.  Might be worth a look."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A metal cylinder with a small lens inside intended to be installed on a door."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -19612,6 +19711,11 @@ msgid ""
 "Owner's Handbook are included.  The perfect investment for a new family "
 "starting out!  Disassemble to unpack and enjoy."
 msgstr ""
+"この大きな箱はLeadworks LLCが皆様に送る特別な品でございます。内容物はオートリ"
+"ボルバーのL2031 Enforcer(ホルスター付属) 、ライフルのL1820 Long Ranger。付属"
+"物として修理用キットとキット用の電池、加えてガンオーナーズハンドブックのコ"
+"ピーが封入されております。新たな家族の門出に相応しい品であると自負しておりま"
+"す。開封してお使い下さい。"
 
 #: lang/json/GENERIC_from_json.py
 msgid ""
@@ -20313,6 +20417,11 @@ msgid "mace"
 msgid_plural "maces"
 msgstr[0] "メイス"
 
+#: lang/json/GENERIC_from_json.py
+msgid "makeshift macuahuitl"
+msgid_plural "makeshift macuahuitls"
+msgstr[0] "簡易マクアフティル"
+
 #: lang/json/GENERIC_from_json.py lang/json/terrain_from_json.py
 msgid "manhole cover"
 msgid_plural "manhole covers"
@@ -20447,6 +20556,11 @@ msgstr[0] "強化窓ガラス"
 msgid "pasta extruder"
 msgid_plural "pasta extruders"
 msgstr[0] "パスタ押出成形機"
+
+#: lang/json/GENERIC_from_json.py
+msgid "peephole"
+msgid_plural "peepholes"
+msgstr[0] "ドアスコープ"
 
 #: lang/json/GENERIC_from_json.py
 msgid "petrified eye"
@@ -21635,7 +21749,7 @@ msgstr ""
 msgid ""
 "A bow made from a single piece of wood, made specifically for the person "
 "using it."
-msgstr ""
+msgstr "簡易的に作った弓です。適切な知識がなければこんなものでしょう。"
 
 #: lang/json/GUN_from_json.py
 msgid ""
@@ -22125,6 +22239,8 @@ msgid ""
 "A wooden blowgun, easy to use and very accurate.  It uses darts as "
 "ammunition."
 msgstr ""
+"木製の吹き矢筒です。使い方は簡単でしかも正確に飛んでいきます。弾としてダーツ"
+"を使います。"
 
 #: lang/json/GUN_from_json.py
 msgid ""
@@ -22909,6 +23025,12 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/GUN_from_json.py
+msgid "RM298 HMG"
+msgid_plural "RM298 HMG"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GUN_from_json.py
 msgid "RM451 flamethrower"
 msgid_plural "RM451 flamethrowers"
 msgstr[0] ""
@@ -23419,6 +23541,14 @@ msgstr ""
 
 #: lang/json/GUN_from_json.py
 msgid ""
+"Utilizing a powerful and unusual caliber, the Rivtech RM298 heavy machine "
+"gun was designed for durability and extreme volume of sustained fire under "
+"the worst possible circumstances. Needs to be mounted because of extreme "
+"recoil."
+msgstr ""
+
+#: lang/json/GUN_from_json.py
+msgid ""
 "Utilizing a powerful and unusual caliber, the Rivtech RM614 light machine "
 "gun was designed for durability and extreme volume of sustained fire under "
 "the worst possible circumstances."
@@ -23795,6 +23925,12 @@ msgstr "車両部品"
 
 #: lang/json/MOD_INFO_from_json.py
 msgid ""
+"Adds a set of professions which correspond to classic Roguelike character "
+"archetypes."
+msgstr "古典的なローグライクに登場する職業セットを追加します。"
+
+#: lang/json/MOD_INFO_from_json.py
+msgid ""
 "Adds basic 3-D buildings. For testing z-levels and those who want to play "
 "with z-level buildings in their early state."
 msgstr ""
@@ -23816,6 +23952,10 @@ msgstr "自動化 - ガソリンスタンド"
 #: lang/json/MOD_INFO_from_json.py
 msgid "Boats"
 msgstr "追加 - ボート"
+
+#: lang/json/MOD_INFO_from_json.py
+msgid "Classic Roguelike Classes"
+msgstr "追加 - 古典的なローグライクの職業"
 
 #: lang/json/MOD_INFO_from_json.py
 msgid "DinoMod"
@@ -23878,6 +24018,10 @@ msgid "No Medieval Items"
 msgstr "削除 - 中世"
 
 #: lang/json/MOD_INFO_from_json.py
+msgid "No Monsters"
+msgstr "削除 - モンスター"
+
+#: lang/json/MOD_INFO_from_json.py
 msgid "No Powered Armor"
 msgstr "削除 - パワーアーマー"
 
@@ -23904,6 +24048,11 @@ msgstr "廃止 - 遠隔操作アイテム"
 #: lang/json/MOD_INFO_from_json.py
 msgid "Removes Rivtech firearms and ammunition."
 msgstr "Rivtech社製の銃器と弾薬を削除します。"
+
+#: lang/json/MOD_INFO_from_json.py
+msgid ""
+"Removes all monsters from the game, save for those in the WILDLIFE category."
+msgstr "野生動物以外の全モンスターをゲームから除外します。"
 
 #: lang/json/MOD_INFO_from_json.py
 msgid "Removes antique firearms and those that are no longer in production"
@@ -24934,8 +25083,11 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid ""
-"An enormous fungal tower, emerging from a bristling pack of tenrdils in the "
-"ground."
+"An enormous fungal tower.  On closer inspection, its cap is supported by "
+"LOTS of fungal tendrils of various thicknesses, emerging from yet more "
+"bristling tendrils at ground level.  Between this redundancy and their "
+"noticeable movement creating frequent gaps, it's tough to get a solid shot "
+"on the thing."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -27911,6 +28063,8 @@ msgid ""
 "rotating its blade 90 degrees, transforming it into a deadly giant blade on "
 "the end of a stick."
 msgstr ""
+"戦闘用に改造された農具です。刃の角度や持ち手のグリップ性など様々な調整によっ"
+"て草だけでなくゾンビも刈り倒せるようになりました。"
 
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -28642,6 +28796,8 @@ msgid ""
 "crowbar.  Use it to open locked doors without destroying them, or to lift "
 "manhole covers.  You could also wield it to fight with, in a pinch."
 msgstr ""
+"パイプの端を曲げてバールのような形にしたものです。ドアやマンホールの蓋をこじ"
+"開けるのに使えるでしょう。もちろん戦闘にも。"
 
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -28868,6 +29024,12 @@ msgid ""
 "This is a sharp, heavy knife.  It makes a good melee weapon, and is an ideal "
 "item for butchering corpses."
 msgstr "切れ味の鋭いずっしりとしたナイフです。死体の解体に最も適しています。"
+
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is a sharpened piece of charcoal that is almost guaranteed to make your "
+"hands all covered in charcoal. Use it to write something down."
+msgstr ""
 
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -29414,6 +29576,8 @@ msgid ""
 "be a giant blade on the end of a stick, it is incredibly awkward to use for "
 "anything but its intended purpose."
 msgstr ""
+"伸びた草や芝を刈り取るための農具です。長い棒に巨大な刃が付いている形状は一見"
+"強力な武器のように見えますが、実際のところ尋常ではない使いづらさです。"
 
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -29421,6 +29585,8 @@ msgid ""
 "be a massive curved blade on a handle, it is incredibly awkward to use for "
 "anything but its intended purpose."
 msgstr ""
+"伸びた草や芝を刈り取るための農具です。持ち手に湾曲した刃が付いている形状は一"
+"見強力な武器のように見えますが、実際のところ尋常ではない使いづらさです。"
 
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -31142,6 +31308,11 @@ msgid_plural "survival knives"
 msgstr[0] "サバイバルナイフ"
 
 #: lang/json/TOOL_from_json.py
+msgid "survival marker"
+msgid_plural "survival markers"
+msgstr[0] "サバイバルマーカー"
+
+#: lang/json/TOOL_from_json.py
 msgid "survivor's map"
 msgid_plural "survivor's maps"
 msgstr[0] "生存者が書き記した地図"
@@ -31196,7 +31367,7 @@ msgid "teleporter"
 msgid_plural "teleporters"
 msgstr[0] "瞬間移動装置"
 
-#: lang/json/TOOL_from_json.py
+#: lang/json/TOOL_from_json.py src/iexamine.cpp
 msgid "tent"
 msgid_plural "tents"
 msgstr[0] "テント"
@@ -32301,6 +32472,8 @@ msgid ""
 "always know the current time.  Additionally, it includes a silent alarm "
 "clock function."
 msgstr ""
+"体内に取り付ける原子時計です。常に正確な時刻を知る事が出来ます。無音目覚まし"
+"機能も付いています。"
 
 #: lang/json/bionic_from_json.py
 msgid ""
@@ -32550,6 +32723,10 @@ msgid "Fill Pit"
 msgstr "穴を埋める"
 
 #: lang/json/construction_from_json.py
+msgid "Glass Pit"
+msgstr "穴にガラスを仕掛ける"
+
+#: lang/json/construction_from_json.py
 msgid "Mine Downstair"
 msgstr "階下を採掘する"
 
@@ -32751,6 +32928,12 @@ msgid "NO! You will not allow this corruption to prevail!"
 msgstr ""
 
 #: lang/json/dream_from_json.py
+msgid ""
+"Non-Mycus sometimes reject the Marloss.  Our colonial efforts flourish with "
+"broad-minded guidance."
+msgstr ""
+
+#: lang/json/dream_from_json.py
 msgid "Oh, you should really patrol your territory again, maybe expand."
 msgstr ""
 
@@ -32759,11 +32942,31 @@ msgid "Oh.  No, that 'rex' thing was only a myth."
 msgstr ""
 
 #: lang/json/dream_from_json.py
+msgid ""
+"Our colonists are limitless.  We shall adapt to this world, as we adapt to "
+"all."
+msgstr ""
+
+#: lang/json/dream_from_json.py
+msgid "Red, blue, and yellow add together, don't they?"
+msgstr ""
+
+#: lang/json/dream_from_json.py
+msgid "Red, blue, and yellow cancel each other out, don't they?"
+msgstr ""
+
+#: lang/json/dream_from_json.py
 msgid "The Fury is so big! it's GONNA GET YOAAAAAH! *pant* only a dream."
 msgstr ""
 
 #: lang/json/dream_from_json.py
 msgid "The herd moves along and you with them, finding greener pastures."
+msgstr ""
+
+#: lang/json/dream_from_json.py
+msgid ""
+"The seething masses attempt to wall non-Mycus away from the Marloss.  We "
+"will adapt and defeat them."
 msgstr ""
 
 #: lang/json/dream_from_json.py
@@ -32780,12 +32983,26 @@ msgstr ""
 
 #: lang/json/dream_from_json.py
 msgid ""
+"The walking plants seek to harness us as a food source.  We will not allow "
+"that."
+msgstr ""
+
+#: lang/json/dream_from_json.py
+msgid ""
 "The years seem to fly past as you dream of carving great underground "
 "fastnesses."
 msgstr ""
 
 #: lang/json/dream_from_json.py
 msgid "There are underground Faults in the world.  Faults you should remedy."
+msgstr ""
+
+#: lang/json/dream_from_json.py
+msgid "We have been waiting a long time for a place such as this."
+msgstr ""
+
+#: lang/json/dream_from_json.py
+msgid "We will raise bountiful orchards and beautiful gardens."
 msgstr ""
 
 #: lang/json/dream_from_json.py
@@ -32863,6 +33080,10 @@ msgstr "理由は分かりませんが、動物園に関する夢を見ました
 #: lang/json/dream_from_json.py
 msgid "You dream of a home in the forests."
 msgstr "森林の中にある家の夢を見ました。"
+
+#: lang/json/dream_from_json.py
+msgid "You dream of a strange quest for a bush that grows grey apples."
+msgstr ""
 
 #: lang/json/dream_from_json.py
 msgid ""
@@ -32969,6 +33190,10 @@ msgstr "何かの憧れを感じました..."
 #: lang/json/dream_from_json.py
 msgid "You feel beautiful, and yet riven with worry..."
 msgstr "美しいと感じましたが、それは不安によって引き裂かれました。"
+
+#: lang/json/dream_from_json.py
+msgid "You feel like you're cracking a combination lock."
+msgstr ""
 
 #: lang/json/dream_from_json.py
 msgid "You feel smug, knowing that the Queen is dependent on you."
@@ -37432,6 +37657,18 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
+"Ever since you had that life-threatening reaction to that Marloss junk, you "
+"can't bear the thought of ever eating it again!"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid ""
+"Ever since you had that life-threatening reaction to those mutagen and "
+"purifier things, you can't bear the thought of ever using them again!"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid ""
 "Every inch of your skin is packed with chlorophyll and you have strong "
 "roots. Sleeping on diggable soil will satisfy any hunger you might have."
 msgstr ""
@@ -37574,6 +37811,12 @@ msgstr "虚弱"
 #: lang/json/mutation_from_json.py
 msgid "Freakishly Huge"
 msgstr "大柄(レベル3)"
+
+#: lang/json/mutation_from_json.py
+msgid ""
+"From time to time the Mycus requires protection from non-Mycus that, for "
+"whatever reason, wish it ill.  We have adapted to better carry out this task."
+msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid "Full Night Vision"
@@ -37937,6 +38180,22 @@ msgid "Lizard"
 msgstr "蜥蜴"
 
 #: lang/json/mutation_from_json.py
+msgid ""
+"Local organisms seem to regard open spore-dispersal as a danger, and attack "
+"the Mycus. Accordingly our local blossoms remain quiescent, until local "
+"guidance determines that it is safe to germinate. Rapid development taxes "
+"local nutrient reserves but ensures rapid and effective growth."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid ""
+"Local organisms seem to regard open spore-dispersal as a danger, and attack "
+"the Mycus. Accordingly our local spore sacs remain quiescent, until local "
+"guidance determines that it is safe to germinate. Rapid development taxes "
+"local nutrient reserves but ensures rapid and effective growth."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
 msgid "Long Fingernails"
 msgstr "長い指爪"
 
@@ -37967,6 +38226,14 @@ msgstr "虫顎"
 #: lang/json/mutation_from_json.py
 msgid "Marloss Carrier"
 msgstr "マーロスの媒介者"
+
+#: lang/json/mutation_from_json.py
+msgid "Marloss Gateway"
+msgstr "ミカズに近付きし者"
+
+#: lang/json/mutation_from_json.py
+msgid "Marloss Rejection"
+msgstr "拒絶反応(マーロス)"
 
 #: lang/json/mutation_from_json.py
 msgid "Marloss Vector"
@@ -38019,6 +38286,50 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid "Mouth Tentacles"
 msgstr "触手口"
+
+#: lang/json/mutation_from_json.py
+msgid "Mutagenic Aversion"
+msgstr "忌避反応(マーロス)"
+
+#: lang/json/mutation_from_json.py
+msgid "Mycus"
+msgstr "ミカズ"
+
+#: lang/json/mutation_from_json.py
+msgid "Mycus Bloom"
+msgstr "満開(ミカズ)"
+
+#: lang/json/mutation_from_json.py
+msgid "Mycus Blossoms"
+msgstr "開花(ミカズ)"
+
+#: lang/json/mutation_from_json.py
+msgid "Mycus Defender"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Mycus Feeder"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Mycus Fireproofing"
+msgstr "不燃性(ミカズ)"
+
+#: lang/json/mutation_from_json.py
+msgid "Mycus Flesh"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Mycus Identity"
+msgstr "帰属意識(ミカズ)"
+
+#: lang/json/mutation_from_json.py
+msgid "Mycus Spores"
+msgstr "胞子(ミカズ)"
+
+#: lang/json/mutation_from_json.py
+msgid "Mycus Sporogenesis"
+msgstr "胞子形成(ミカズ)"
 
 #: lang/json/mutation_from_json.py
 msgid "Nausea"
@@ -38870,6 +39181,43 @@ msgid "Vomitous"
 msgstr "慢性嘔吐感"
 
 #: lang/json/mutation_from_json.py
+msgid "We are the Mycus."
+msgstr "私はミカズです。"
+
+#: lang/json/mutation_from_json.py
+msgid ""
+"We have adapted local physical structure to Mycus physiology. Greatly "
+"reduces wet effects."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "We have developed local blossoms.  The Mycus must grow."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "We have developed local spore sacs.  The Mycus must grow."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid ""
+"We have incorporated the dense amphibole fibers used in Mycus core towers. "
+"Greatly reduces speed, but also damage, flammability, and wet effects."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid ""
+"We have streamlined our nutritional requirements.  We rely on the Mycus for "
+"sustenance, as it relies on us."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid ""
+"We have synchronized our local physiology with that of our reproductive "
+"systems.  Any spores we may encounter will not attempt to germinate inside "
+"the local system."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
 msgid "Weak Scent"
 msgstr "体臭が薄い"
 
@@ -39307,6 +39655,12 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid "You frequently let out a piercing howl."
 msgstr "頻繁に、遠吠えを上げます。"
+
+#: lang/json/mutation_from_json.py
+msgid ""
+"You get the feeling that you're on the cusp of becoming something greater "
+"than yourself."
+msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
@@ -41296,6 +41650,8 @@ msgid ""
 "A birdie is one under par, but how much is a zombie? Your clubhouse was "
 "overrun by the undead, and you fled with your trusty driving wedge."
 msgstr ""
+"バーディーは-1打です、ゾンビーはどのぐらいでしょうか？クラブハウスは死体の群"
+"れに襲われ、貴方は信頼するウェッジを持って脱出しました。"
 
 #. ~ Profession (male Golfer) description
 #: lang/json/professions_from_json.py
@@ -41303,6 +41659,24 @@ msgctxt "prof_desc_male"
 msgid ""
 "A birdie is one under par, but how much is a zombie? Your clubhouse was "
 "overrun by the undead, and you fled with your trusty driving wedge."
+msgstr ""
+"バーディーは-1打です、ゾンビーはどのぐらいでしょうか？クラブハウスは死体の群"
+"れに襲われ、貴方は信頼するウェッジを持って脱出しました。"
+
+#. ~ Profession (female Barbarian) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_female"
+msgid ""
+"A child of Crom hailing from the bitter north; you are a barbarian, as "
+"fearsome and formidable as the untamed land you call home."
+msgstr ""
+
+#. ~ Profession (male Barbarian) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
+msgid ""
+"A child of Crom hailing from the bitter north; you are a barbarian, as "
+"fearsome and formidable as the untamed land you call home."
 msgstr ""
 
 #. ~ Profession (female Security Guard) description
@@ -41314,6 +41688,8 @@ msgid ""
 "any particularly useful skills, but you do have some useful equipment since "
 "you were on the job when things started going south."
 msgstr ""
+"貴方は低賃金の警備員ですが、危険人物や泥棒を制圧する為の装備を支給されていま"
+"す。役立つ技能は何もないですが、役立つ支給品を持って逃げる事が出来ました。"
 
 #. ~ Profession (male Security Guard) description
 #: lang/json/professions_from_json.py
@@ -41324,6 +41700,8 @@ msgid ""
 "any particularly useful skills, but you do have some useful equipment since "
 "you were on the job when things started going south."
 msgstr ""
+"貴方は低賃金の警備員ですが、危険人物や泥棒を制圧する為の装備を支給されていま"
+"す。役立つ技能は何もないですが、役立つ支給品を持って逃げる事が出来ました。"
 
 #. ~ Profession (female Mall Security) description
 #: lang/json/professions_from_json.py
@@ -41343,6 +41721,64 @@ msgid ""
 "and pocket knife."
 msgstr ""
 
+#. ~ Profession (female Fighter) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_female"
+msgid ""
+"A master of arms and armor and a fearsome martial combatant; you are a "
+"fighter, forged in warfare and tempered on the battlefield."
+msgstr ""
+
+#. ~ Profession (male Fighter) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
+msgid ""
+"A master of arms and armor and a fearsome martial combatant; you are a "
+"fighter, forged in warfare and tempered on the battlefield."
+msgstr ""
+
+#. ~ Profession (female Rogue) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_female"
+msgid ""
+"A street urchin skilled in legerdemain and a deadly with a blade; you are a "
+"rogue, a resourceful trickster and master thief."
+msgstr ""
+
+#. ~ Profession (male Rogue) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
+msgid ""
+"A street urchin skilled in legerdemain and a deadly with a blade; you are a "
+"rogue, a resourceful trickster and master thief."
+msgstr ""
+
+#. ~ Profession (Sorceress) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_female"
+msgid ""
+"A wise student of ancient and forbidden knowledge; you are a wizard, a "
+"mystical practitioner of the (bionic) arcane arts."
+msgstr ""
+
+#. ~ Profession (Sorcerer) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
+msgid ""
+"A wise student of ancient and forbidden knowledge; you are a wizard, a "
+"mystical practitioner of the (bionic) arcane arts."
+msgstr ""
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_female"
+msgid "Ahistorical Reenactor"
+msgstr "歴史嫌い"
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_male"
+msgid "Ahistorical Reenactor"
+msgstr "歴史嫌い"
+
 #. ~ Profession (female Clown) description
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_female"
@@ -41352,7 +41788,7 @@ msgid ""
 "There's precious few balloon animals in your future now."
 msgstr ""
 "君の望みは全人類を笑顔にする事でした。学校を中退した後、誕生会などで子供達を"
-"笑顔する..それが世紀末が訪れるまでの夢だったのです。しかし、今となっては貴重"
+"笑顔する...それが世紀末が訪れるまでの夢だったのです。しかし、今となっては貴重"
 "な動物型の風船が手元に残るのみとなってしまいました。"
 
 #. ~ Profession (male Clown) description
@@ -41374,6 +41810,8 @@ msgid ""
 "Although you never got your driver's license, you've always loved cars.  At "
 "least now you'll never be wanting for materials."
 msgstr ""
+"貴方は免許書は持っていませんが、車を愛する一人です。今となっては部品の入手に"
+"困る事もないでしょう。"
 
 #. ~ Profession (male Home Mechanic) description
 #: lang/json/professions_from_json.py
@@ -41382,6 +41820,8 @@ msgid ""
 "Although you never got your driver's license, you've always loved cars.  At "
 "least now you'll never be wanting for materials."
 msgstr ""
+"貴方は免許書は持っていませんが、車を愛する一人です。今となっては部品の入手に"
+"困る事もないでしょう。"
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_female"
@@ -41421,6 +41861,9 @@ msgid ""
 "enhanced to operate in the most dire of emergency situations.  The end of "
 "the world definitely counts as a dire situation."
 msgstr ""
+"貴方は第二世代の機械化消防士です。貴方達は人工頭脳のオペレートによって災害状"
+"況を把握し、迅速な行動が可能なのです。当然ながら今回発生した災厄は超弩級の災"
+"害と言えるでしょう。さあ、出動です。"
 
 #. ~ Profession (male Bionic Firefighter) description
 #: lang/json/professions_from_json.py
@@ -41430,6 +41873,9 @@ msgid ""
 "enhanced to operate in the most dire of emergency situations.  The end of "
 "the world definitely counts as a dire situation."
 msgstr ""
+"貴方は第二世代の機械化消防士です。貴方達は人工頭脳のオペレートによって災害状"
+"況を把握し、迅速な行動が可能なのです。当然ながら今回発生した災厄は超弩級の災"
+"害と言えるでしょう。さあ、出動です。"
 
 #. ~ Profession (female Blackbelt) description
 #: lang/json/professions_from_json.py
@@ -41455,6 +41901,9 @@ msgid ""
 "is winter, and you hope the rag-tag collection of skills you learned from "
 "all those books can help you survive."
 msgstr ""
+"災厄の日、貴方は防空壕に避難しました。それからというもの、雑多に物を掻き集"
+"め、様々な本から生存術を学び、冬が訪れました。今から貴方が生き延びる事が出来"
+"るかどうかはそれらに懸かっています。"
 
 #. ~ Profession (male Sheltered Survivor) description
 #: lang/json/professions_from_json.py
@@ -41464,6 +41913,9 @@ msgid ""
 "is winter, and you hope the rag-tag collection of skills you learned from "
 "all those books can help you survive."
 msgstr ""
+"災厄の日、貴方は防空壕に避難しました。それからというもの、雑多に物を掻き集"
+"め、様々な本から生存術を学び、冬が訪れました。今から貴方が生き延びる事が出来"
+"るかどうかはそれらに懸かっています。"
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_female"
@@ -41484,6 +41936,16 @@ msgstr "舞踏室のダンサー"
 msgctxt "profession_male"
 msgid "Ballroom Dancer"
 msgstr "舞踏室のダンサー"
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_female"
+msgid "Barbarian"
+msgstr "蛮人"
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_male"
+msgid "Barbarian"
+msgstr "蛮人"
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_female"
@@ -41663,6 +42125,9 @@ msgid ""
 "but you managed to escape the carnage with a butchers knife and only a small "
 "collection of stains on your uniform."
 msgstr ""
+"うらッ！おらァ！普段から大きな肉を解体しているお陰でしょうか。肉切り包丁を振"
+"り回した結果、コック服に幾つかシミを増やしただけでキッチンから逃げ延びる事が"
+"出来ました。"
 
 #. ~ Profession (male Chef) description
 #: lang/json/professions_from_json.py
@@ -41672,6 +42137,9 @@ msgid ""
 "but you managed to escape the carnage with a butchers knife and only a small "
 "collection of stains on your uniform."
 msgstr ""
+"うらッ！おらァ！普段から大きな肉を解体しているお陰でしょうか。肉切り包丁を振"
+"り回した結果、コック服に幾つかシミを増やしただけでキッチンから逃げ延びる事が"
+"出来ました。"
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_female"
@@ -41703,6 +42171,10 @@ msgid ""
 "fulfilling your dream of hacking into a military mainframe, now.  That's a "
 "plus."
 msgstr ""
+"カフェイン剤を友に夜通しモニターを見つめる日々。貴方の前には世界がありまし"
+"た。ですが今、貴方の前には何もありません。唯一つ、もはや貴方は軍のメインフ"
+"レームをハックするという夢を叶えた所で何のトラブルに巻き込まれる事もないので"
+"す。それだけは喜んでいいでしょう。"
 
 #. ~ Profession (male Computer Hacker) description
 #: lang/json/professions_from_json.py
@@ -41714,6 +42186,10 @@ msgid ""
 "fulfilling your dream of hacking into a military mainframe, now.  That's a "
 "plus."
 msgstr ""
+"カフェイン剤を友に夜通しモニターを見つめる日々。貴方の前には世界がありまし"
+"た。ですが今、貴方の前には何もありません。唯一つ、もはや貴方は軍のメインフ"
+"レームをハックするという夢を叶えた所で何のトラブルに巻き込まれる事もないので"
+"す。それだけは喜んでいいでしょう。"
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_female"
@@ -41753,6 +42229,8 @@ msgid ""
 "and before you knew it you were turning tricks behind the local CVS just to "
 "score one more line."
 msgstr ""
+"コカイン、それは実にヤバい薬だ。貴方はその粉にかなりのお金を注ぎ込みました。"
+"薬屋チェーンの裏顧客になる前の話ですが。貴方はコカイン中毒を患っています。"
 
 #. ~ Profession (male Crackhead) description
 #: lang/json/professions_from_json.py
@@ -41762,6 +42240,8 @@ msgid ""
 "and before you knew it you were turning tricks behind the local CVS just to "
 "score one more line."
 msgstr ""
+"コカイン、それは実にヤバい薬だ。貴方はその粉にかなりのお金を注ぎ込みました。"
+"薬屋チェーンの裏顧客になる前の話ですが。貴方はコカイン中毒を患っています。"
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_female"
@@ -41851,6 +42331,9 @@ msgid ""
 "remorse for their part in the experiments forced on you and your genetic "
 "makeup) set you free."
 msgstr ""
+"貴方は自らの意志に反して実験台にされた被験者です。災厄の日、貴方が囚われた研"
+"究所は混乱の渦にありました。その時、おそらく罪悪感による物でしょう、一人の技"
+"術者が貴方を檻から解放したのです。とりあえず、自由だけは取り戻せました。"
 
 #. ~ Profession (male Unwilling Mutant) description
 #: lang/json/professions_from_json.py
@@ -41860,6 +42343,9 @@ msgid ""
 "remorse for their part in the experiments forced on you and your genetic "
 "makeup) set you free."
 msgstr ""
+"貴方は自らの意志に反して実験台にされた被験者です。災厄の日、貴方が囚われた研"
+"究所は混乱の渦にありました。その時、おそらく罪悪感による物でしょう、一人の技"
+"術者が貴方を檻から解放したのです。とりあえず、自由だけは取り戻せました。"
 
 #. ~ Profession (female Lost Submissive) description
 #: lang/json/professions_from_json.py
@@ -41870,6 +42356,8 @@ msgid ""
 "really kinky black leather.  Unfortunately, there's no safewords in the "
 "apocalypse."
 msgstr ""
+"過酷な運命によって貴方とご主人様は分かたれてしまいました。今の貴方が持つのは"
+"黒革のボンテージだけです。あいにく、この災厄にセーフワードは無いのです。"
 
 #. ~ Profession (male Lost Submissive) description
 #: lang/json/professions_from_json.py
@@ -41880,6 +42368,8 @@ msgid ""
 "really kinky black leather.  Unfortunately, there's no safewords in the "
 "apocalypse."
 msgstr ""
+"過酷な運命によって貴方とご主人様は分かたれてしまいました。今の貴方が持つのは"
+"黒革のボンテージだけです。あいにく、この災厄にセーフワードは無いのです。"
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_female"
@@ -41900,6 +42390,8 @@ msgid ""
 "nothing you'd want at your side more than your trusty bow.  So when it did, "
 "you made made sure to bring it along."
 msgstr ""
+"貴方は幼少の頃から狩りを愛し、弓を愛していました。そして世紀末の今、弓以上に"
+"信頼できるものなどある筈もありません。今こそそれを確かめる時です。"
 
 #. ~ Profession (male Bow Hunter) description
 #: lang/json/professions_from_json.py
@@ -41910,6 +42402,8 @@ msgid ""
 "nothing you'd want at your side more than your trusty bow.  So when it did, "
 "you made made sure to bring it along."
 msgstr ""
+"貴方は幼少の頃から狩りを愛し、弓を愛していました。そして世紀末の今、弓以上に"
+"信頼できるものなどある筈もありません。今こそそれを確かめる時です。"
 
 #. ~ Profession (female Chain Smoker) description
 #: lang/json/professions_from_json.py
@@ -41919,6 +42413,9 @@ msgid ""
 "hand.  Now, you're down to a single pack, and you hope you find more soon.  "
 "You start out with a strong nicotine addiction."
 msgstr ""
+"職場で貴方はいつも煙草を何箱も持ち歩いている人だと知られていました。しかし、"
+"今や手元に残っているのは1箱のみです。早く次の煙草を見つけなければなりません。"
+"貴方はニコチン中毒を患っています。"
 
 #. ~ Profession (male Chain Smoker) description
 #: lang/json/professions_from_json.py
@@ -41928,6 +42425,9 @@ msgid ""
 "hand.  Now, you're down to a single pack, and you hope you find more soon.  "
 "You start out with a strong nicotine addiction."
 msgstr ""
+"職場で貴方はいつも煙草を何箱も持ち歩いている人だと知られていました。しかし、"
+"今や手元に残っているのは1箱のみです。早く次の煙草を見つけなければなりません。"
+"貴方はニコチン中毒を患っています。"
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_female"
@@ -41958,6 +42458,16 @@ msgstr "ファーストフードの調理師"
 msgctxt "profession_male"
 msgid "Fast Food Cook"
 msgstr "ファーストフードの調理師"
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_female"
+msgid "Fighter"
+msgstr "戦士"
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_male"
+msgid "Fighter"
+msgstr "戦士"
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_female"
@@ -41998,6 +42508,9 @@ msgid ""
 "and training package, you are augmented with bionic muscles and an "
 "integrated toolset, both powered by standard batteries."
 msgstr ""
+"貴方は歩く工具です。 埋め込まれた油圧式筋肉と統合工具セット、電力供給用のバッ"
+"テリーシステムにより、手仕事でありながら産業機械に比肩する働きが可能なので"
+"す。"
 
 #. ~ Profession (male Industrial Cyborg) description
 #: lang/json/professions_from_json.py
@@ -42008,6 +42521,9 @@ msgid ""
 "and training package, you are augmented with bionic muscles and an "
 "integrated toolset, both powered by standard batteries."
 msgstr ""
+"貴方は歩く工具です。 埋め込まれた油圧式筋肉と統合工具セット、電力供給用のバッ"
+"テリーシステムにより、手仕事でありながら産業機械に比肩する働きが可能なので"
+"す。"
 
 #. ~ Profession (female Medical Resident) description
 #: lang/json/professions_from_json.py
@@ -42017,6 +42533,8 @@ msgid ""
 "experience.  You just hope it will be enough if the old adage of 'Doctor, "
 "heal thyself' ends up being required."
 msgstr ""
+"貴方は医大を出たばかりの実習生です。医師としての経験は無いに等しくとも、今は"
+"古い格言である「医師よ自らを癒やせ」を自分に言い聞かせています。"
 
 #. ~ Profession (male Medical Resident) description
 #: lang/json/professions_from_json.py
@@ -42026,6 +42544,8 @@ msgid ""
 "experience.  You just hope it will be enough if the old adage of 'Doctor, "
 "heal thyself' ends up being required."
 msgstr ""
+"貴方は医大を出たばかりの実習生です。医師としての経験は無いに等しくとも、今は"
+"古い格言である「医師よ自らを癒やせ」を自分に言い聞かせています。"
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_female"
@@ -42081,6 +42601,16 @@ msgstr "生き延びた生存者"
 msgctxt "profession_male"
 msgid "Hardened Survivor"
 msgstr "生き延びた生存者"
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_female"
+msgid "Historical Reenactor"
+msgstr "歴史好き"
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_male"
+msgid "Historical Reenactor"
+msgstr "歴史好き"
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_female"
@@ -42142,6 +42672,9 @@ msgid ""
 "your quick feet, you were among the lucky few to survive and escape from the "
 "creatures."
 msgstr ""
+"デビュー戦を控えていましたが、その前に災厄に見舞われてしまいました。化物に多"
+"くの人々が殺され、生存者はほんの一握りでした。優れた足のお陰で貴方は逃げ延び"
+"る事が出来たのです。"
 
 #. ~ Profession (male Basketball Player) description
 #: lang/json/professions_from_json.py
@@ -42153,6 +42686,9 @@ msgid ""
 "your quick feet, you were among the lucky few to survive and escape from the "
 "creatures."
 msgstr ""
+"デビュー戦を控えていましたが、その前に災厄に見舞われてしまいました。化物に多"
+"くの人々が殺され、生存者はほんの一握りでした。優れた足のお陰で貴方は逃げ延び"
+"る事が出来たのです。"
 
 #. ~ Profession (female Bionic Athlete) description
 #: lang/json/professions_from_json.py
@@ -42162,6 +42698,9 @@ msgid ""
 "Cyberolympics.  Now the only thing between you and death by zombie is your "
 "freakish cyborg strength."
 msgstr ""
+"まったくもって残念です、こんな事がなければサイバーオリンピック出場は決まって"
+"いたでしょうに。今や貴方に残された競技といえば、サイボーグの力とゾンビのどち"
+"らが勝っているのか、それを決める殺し合いだけなのですから。"
 
 #. ~ Profession (male Bionic Athlete) description
 #: lang/json/professions_from_json.py
@@ -42171,6 +42710,9 @@ msgid ""
 "Cyberolympics.  Now the only thing between you and death by zombie is your "
 "freakish cyborg strength."
 msgstr ""
+"まったくもって残念です、こんな事がなければサイバーオリンピック出場は決まって"
+"いたでしょうに。今や貴方に残された競技といえば、サイボーグの力とゾンビのどち"
+"らが勝っているのか、それを決める殺し合いだけなのですから。"
 
 #. ~ Profession (female Cop) description
 #: lang/json/professions_from_json.py
@@ -42181,6 +42723,10 @@ msgid ""
 "lucky to escape with your life.  Who's going to respect your authority when "
 "the government this badge represents might not even exist anymore?"
 msgstr ""
+"貴方達は通報を受け、救援の為に小さな町へ向かいました。しかしながら、直に貴方"
+"達も救援を待つ身になってしまいました。貴方がその状況を脱出できたのはただの幸"
+"運でしかありません。もはや警察バッジに何の意味があるでしょうか？ それを尊敬す"
+"る者もおらず、後ろ盾となる政府の威光も届かないのですから。"
 
 #. ~ Profession (male Cop) description
 #: lang/json/professions_from_json.py
@@ -42191,6 +42737,20 @@ msgid ""
 "lucky to escape with your life.  Who's going to respect your authority when "
 "the government this badge represents might not even exist anymore?"
 msgstr ""
+"貴方達は通報を受け、救援の為に小さな町へ向かいました。しかしながら、直に貴方"
+"達も救援を待つ身になってしまいました。貴方がその状況を脱出できたのはただの幸"
+"運でしかありません。もはや警察バッジに何の意味があるでしょうか？ それを尊敬す"
+"る者もおらず、後ろ盾となる政府の威光も届かないのですから。"
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_female"
+msgid "Knight"
+msgstr "騎士"
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_male"
+msgid "Knight"
+msgstr "騎士"
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_female"
@@ -42210,6 +42770,9 @@ msgid ""
 "for the premier anime convention in the Northeast.  It just had to be the "
 "day of the apocalypse.  At least you were ready in case your costume tore."
 msgstr ""
+"昨夜は夜遅くまでスナック片手にアニメを見て、今日のイベントを楽しみにしていま"
+"した。しかし訪れたのは災厄の日。この日のために用意したコスチュームは引き裂か"
+"れてしまいました。"
 
 #. ~ Profession (male Otaku) description
 #: lang/json/professions_from_json.py
@@ -42219,6 +42782,9 @@ msgid ""
 "for the premier anime convention in the Northeast.  It just had to be the "
 "day of the apocalypse.  At least you were ready in case your costume tore."
 msgstr ""
+"昨夜は夜遅くまでスナック片手にアニメを見て、今日のイベントを楽しみにしていま"
+"した。しかし訪れたのは災厄の日。この日のために用意したコスチュームは引き裂か"
+"れてしまいました。"
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_female"
@@ -42325,6 +42891,16 @@ msgctxt "profession_male"
 msgid "Military Recruit"
 msgstr "新兵"
 
+#: lang/json/professions_from_json.py
+msgctxt "profession_female"
+msgid "Monk"
+msgstr "修行僧"
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_male"
+msgid "Monk"
+msgstr "修行僧"
+
 #. ~ Profession (female Bionic Police Officer) description
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_female"
@@ -42333,6 +42909,9 @@ msgid ""
 "from the department's revolutionary Cybercop program.  Now, in these lawless "
 "times, you are truly the future of law enforcement."
 msgstr ""
+"職務中に致命傷を負った貴方は先端技術の力によりサイバーコップとして蘇りまし"
+"た。無法の世が訪れた今、正義の名の下に法を執行できるのは貴方しかいないので"
+"す！"
 
 #. ~ Profession (male Bionic Police Officer) description
 #: lang/json/professions_from_json.py
@@ -42342,6 +42921,9 @@ msgid ""
 "from the department's revolutionary Cybercop program.  Now, in these lawless "
 "times, you are truly the future of law enforcement."
 msgstr ""
+"職務中に致命傷を負った貴方は先端技術の力によりサイバーコップとして蘇りまし"
+"た。無法の世が訪れた今、正義の名の下に法を執行できるのは貴方しかいないので"
+"す！"
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_female"
@@ -42377,6 +42959,22 @@ msgctxt "prof_desc_male"
 msgid ""
 "Now instead of complaining about your fees, your clients try to eat your "
 "brain.  You can't tell which one is worse though."
+msgstr ""
+
+#. ~ Profession (female Ranger) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_female"
+msgid ""
+"One of the few who wander but are never lost; you are a ranger, wise in the "
+"ways of the forest and deadly with a bow."
+msgstr ""
+
+#. ~ Profession (male Ranger) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
+msgid ""
+"One of the few who wander but are never lost; you are a ranger, wise in the "
+"ways of the forest and deadly with a bow."
 msgstr ""
 
 #. ~ Profession (female Hardened Survivor) description
@@ -42453,6 +43051,8 @@ msgid ""
 "corporation as a representative and technical advisor, utilizing the "
 "incredible power of your cybernetically augmented mind."
 msgstr ""
+"災厄の日以前、貴方は大企業の技術顧問でした。機械化によって高められた貴方の知"
+"性は得難いものだったのです。"
 
 #. ~ Profession (male Bionic Boffin) description
 #: lang/json/professions_from_json.py
@@ -42462,6 +43062,8 @@ msgid ""
 "corporation as a representative and technical advisor, utilizing the "
 "incredible power of your cybernetically augmented mind."
 msgstr ""
+"災厄の日以前、貴方は大企業の技術顧問でした。機械化によって高められた貴方の知"
+"性は得難いものだったのです。"
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_female"
@@ -42484,6 +43086,16 @@ msgid "Punk Rock Girl"
 msgstr "パンクロックの少女"
 
 #: lang/json/professions_from_json.py
+msgctxt "profession_female"
+msgid "Ranger"
+msgstr "レンジャー"
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_male"
+msgid "Ranger"
+msgstr "レンジャー"
+
+#: lang/json/professions_from_json.py
 msgctxt "profession_male"
 msgid "Razor Boy"
 msgstr "機械少年"
@@ -42492,6 +43104,16 @@ msgstr "機械少年"
 msgctxt "profession_female"
 msgid "Razor Girl"
 msgstr "機械少女"
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_female"
+msgid "Rogue"
+msgstr "盗賊"
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_male"
+msgid "Rogue"
+msgstr "盗賊"
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_female"
@@ -42543,6 +43165,22 @@ msgctxt "profession_male"
 msgid "Senior Citizen"
 msgstr "高齢者"
 
+#. ~ Profession (female Monk) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_female"
+msgid ""
+"Servant to an exotic order of ascetics; you are a monk, a pious devotee with "
+"extensive knowledge of unarmed combat."
+msgstr ""
+
+#. ~ Profession (male Monk) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
+msgid ""
+"Servant to an exotic order of ascetics; you are a monk, a pious devotee with "
+"extensive knowledge of unarmed combat."
+msgstr ""
+
 #: lang/json/professions_from_json.py
 msgctxt "profession_female"
 msgid "Sheltered Survivor"
@@ -42572,6 +43210,10 @@ msgid ""
 "monsters that want you dead.  Your equipment is basic, but versatile - and "
 "with your skills, more than you need...  except your canteen's run out!"
 msgstr ""
+"貴方は生存術を文明から離れた土地で磨きました。貴方の知識はどれも基本的なもの"
+"ですが幅広い分野を修めています。死を求めて蠢く化物達が溢れだした今、その技術"
+"はとても役に立つでしょう。……まずは、空になった水筒をどうにかしないといけませ"
+"んが。"
 
 #. ~ Profession (male Survivalist) description
 #: lang/json/professions_from_json.py
@@ -42582,6 +43224,10 @@ msgid ""
 "monsters that want you dead.  Your equipment is basic, but versatile - and "
 "with your skills, more than you need...  except your canteen's run out!"
 msgstr ""
+"貴方は生存術を文明から離れた土地で磨きました。貴方の知識はどれも基本的なもの"
+"ですが幅広い分野を修めています。死を求めて蠢く化物達が溢れだした今、その技術"
+"はとても役に立つでしょう。……まずは、空になった水筒をどうにかしないといけませ"
+"んが。"
 
 #. ~ Profession (female Hobo) description
 #: lang/json/professions_from_json.py
@@ -42592,6 +43238,10 @@ msgid ""
 "bottle.  But society doesn't mean a thing anymore, and for all the crap "
 "thrown your way, you're still standing.  God damn, you need a drink."
 msgstr ""
+"貴方は社会の爪弾き者です。住居も家族も友人も持たず、ただ酒瓶だけが貴方を慰め"
+"てくれます。しかしもはや社会なんてものには何の価値もありません。貴方の前には"
+"あらゆるものがガラクタとして投げ出されているのです。クソッタレ、とりあえず酒"
+"を探そう。貴方はアルコール中毒を患っています。"
 
 #. ~ Profession (male Hobo) description
 #: lang/json/professions_from_json.py
@@ -42602,6 +43252,10 @@ msgid ""
 "bottle.  But society doesn't mean a thing anymore, and for all the crap "
 "thrown your way, you're still standing.  God damn, you need a drink."
 msgstr ""
+"貴方は社会の爪弾き者です。住居も家族も友人も持たず、ただ酒瓶だけが貴方を慰め"
+"てくれます。しかしもはや社会なんてものには何の価値もありません。貴方の前には"
+"あらゆるものがガラクタとして投げ出されているのです。クソッタレ、とりあえず酒"
+"を探そう。貴方はアルコール中毒を患っています。"
 
 #. ~ Profession (female Survivor) description
 #: lang/json/professions_from_json.py
@@ -42624,6 +43278,16 @@ msgstr ""
 "を無事に生き延びました。それこそが今言える全てです。"
 
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
+msgid "Sorcerer"
+msgstr "魔術師"
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_female"
+msgid "Sorceress"
+msgstr "魔女"
+
+#: lang/json/professions_from_json.py
 msgctxt "profession_female"
 msgid "Special Operator"
 msgstr "特殊作戦部隊員"
@@ -42662,6 +43326,22 @@ msgstr "生存者"
 msgctxt "profession_male"
 msgid "Survivor"
 msgstr "生存者"
+
+#. ~ Profession (female Knight) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_female"
+msgid ""
+"Sworn defender of the land; you are a knight, an educated warrior trained "
+"since childhood in the ways of honorable combat."
+msgstr ""
+
+#. ~ Profession (male Knight) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
+msgid ""
+"Sworn defender of the land; you are a knight, an educated warrior trained "
+"since childhood in the ways of honorable combat."
+msgstr ""
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_female"
@@ -42705,6 +43385,8 @@ msgid ""
 "conducting science.  You escaped along with the lucky civilians, but at "
 "least you kept your lab gear."
 msgstr ""
+"研究所よ、今までありがとう。貴方は科学の徒です。幸運にも逃げ延びる事は出来ま"
+"したが、これで研究所の設備は失ってしまいました。"
 
 #. ~ Profession (male Lab Technician) description
 #: lang/json/professions_from_json.py
@@ -42714,6 +43396,8 @@ msgid ""
 "conducting science.  You escaped along with the lucky civilians, but at "
 "least you kept your lab gear."
 msgstr ""
+"研究所よ、今までありがとう。貴方は科学の徒です。幸運にも逃げ延びる事は出来ま"
+"したが、これで研究所の設備は失ってしまいました。"
 
 #. ~ Profession (Punk Rock Girl) description
 #: lang/json/professions_from_json.py
@@ -42739,6 +43423,9 @@ msgid ""
 "jobs.  A shame he didn't manage it, himself.  No stranger to a spot of "
 "violence, you almost feel at home in this new world already."
 msgstr ""
+"ボスは言いました、どんな困難な仕事でもお前になら任せられると。あの方に恥をか"
+"かせる訳にはいきません。暴力の世界で生きてきた貴方にとって、この新世界は慣れ"
+"親しんだものなのですから。"
 
 #. ~ Profession (male Gangster) description
 #: lang/json/professions_from_json.py
@@ -42748,6 +43435,9 @@ msgid ""
 "jobs.  A shame he didn't manage it, himself.  No stranger to a spot of "
 "violence, you almost feel at home in this new world already."
 msgstr ""
+"ボスは言いました、どんな困難な仕事でもお前になら任せられると。あの方に恥をか"
+"かせる訳にはいきません。暴力の世界で生きてきた貴方にとって、この新世界は慣れ"
+"親しんだものなのですから。"
 
 #. ~ Profession (female Convict) description
 #: lang/json/professions_from_json.py
@@ -42789,6 +43479,9 @@ msgid ""
 "sleeper agent capable of silently eliminating your target while maintaining "
 "an innocuous appearance."
 msgstr ""
+"貴方の身体には何百万ドルもの秘密資金が投入されています。見た目からは全く判り"
+"ませんが、貴方はターゲットを秘密裏に排除するための仕込み刀など、様々な装置を"
+"埋め込まれた工作員なのです。"
 
 #. ~ Profession (male Bionic Assassin) description
 #: lang/json/professions_from_json.py
@@ -42798,6 +43491,9 @@ msgid ""
 "sleeper agent capable of silently eliminating your target while maintaining "
 "an innocuous appearance."
 msgstr ""
+"貴方の身体には何百万ドルもの秘密資金が投入されています。見た目からは全く判り"
+"ませんが、貴方はターゲットを秘密裏に排除するための仕込み刀など、様々な装置を"
+"埋め込まれた工作員なのです。"
 
 #. ~ Profession (Razor Girl) description
 #: lang/json/professions_from_json.py
@@ -42878,6 +43574,8 @@ msgid ""
 "than you ever were before, thanks to a suite of bionic systems powered by "
 "standard batteries.  Make the most of your second chance at life."
 msgstr ""
+"貴方は機械化手術の被験者となる事で一命を取り留めました。今やCBMのお陰で前より"
+"健康的な生活を送れるのです。第二の人生を始めましょう。"
 
 #. ~ Profession (male Bionic Patient) description
 #: lang/json/professions_from_json.py
@@ -42888,6 +43586,8 @@ msgid ""
 "than you ever were before, thanks to a suite of bionic systems powered by "
 "standard batteries.  Make the most of your second chance at life."
 msgstr ""
+"貴方は機械化手術の被験者となる事で一命を取り留めました。今やCBMのお陰で前より"
+"健康的な生活を送れるのです。第二の人生を始めましょう。"
 
 #. ~ Profession (female Patient) description
 #: lang/json/professions_from_json.py
@@ -42896,6 +43596,8 @@ msgid ""
 "When the diagnosis came back positive, you were willing to fight to keep "
 "living. Now, you must renew your vow of tenacity in these new times."
 msgstr ""
+"貴方は生きる為に病魔と戦う事を誓いました。そして今、その誓いを立て直さなけれ"
+"ばなりません。"
 
 #. ~ Profession (male Patient) description
 #: lang/json/professions_from_json.py
@@ -42904,6 +43606,8 @@ msgid ""
 "When the diagnosis came back positive, you were willing to fight to keep "
 "living. Now, you must renew your vow of tenacity in these new times."
 msgstr ""
+"貴方は生きる為に病魔と戦う事を誓いました。そして今、その誓いを立て直さなけれ"
+"ばなりません。"
 
 #. ~ Profession (female Archaeologist) description
 #: lang/json/professions_from_json.py
@@ -42932,6 +43636,8 @@ msgid ""
 "will tell if your status as a marvel of bionic technology will be enough to "
 "ensure your survival after the apocalypse."
 msgstr ""
+"貴方はスマートフォンを新型にする様な感覚で、CBMの改良を続けていました。最新機"
+"器がどれほど役に立つ物なのか、それはこの災厄で証明されるでしょう。"
 
 #. ~ Profession (male Commercial Cyborg) description
 #: lang/json/professions_from_json.py
@@ -42942,6 +43648,8 @@ msgid ""
 "will tell if your status as a marvel of bionic technology will be enough to "
 "ensure your survival after the apocalypse."
 msgstr ""
+"貴方はスマートフォンを新型にする様な感覚で、CBMの改良を続けていました。最新機"
+"器がどれほど役に立つ物なのか、それはこの災厄で証明されるでしょう。"
 
 #. ~ Profession (female Bionic Soldier) description
 #: lang/json/professions_from_json.py
@@ -42951,6 +43659,9 @@ msgid ""
 "programs, a prototype cyborg soldier.  You're still alive thanks to your "
 "augmentations, even after all your comrades fell to the undead."
 msgstr ""
+"貴方は軍の研究によって生み出された最新兵器、プロトタイプの機械化兵士です。戦"
+"友たちが次々とゾンビ化していく中、貴方だけ生き残れたのは機械の体のお陰なので"
+"す。"
 
 #. ~ Profession (male Bionic Soldier) description
 #: lang/json/professions_from_json.py
@@ -42960,6 +43671,9 @@ msgid ""
 "programs, a prototype cyborg soldier.  You're still alive thanks to your "
 "augmentations, even after all your comrades fell to the undead."
 msgstr ""
+"貴方は軍の研究によって生み出された最新兵器、プロトタイプの機械化兵士です。戦"
+"友たちが次々とゾンビ化していく中、貴方だけ生き残れたのは機械の体のお陰なので"
+"す。"
 
 #. ~ Profession (female Bionic Thief) description
 #: lang/json/professions_from_json.py
@@ -42969,6 +43683,9 @@ msgid ""
 "world.  All you have left are the tools of your trade and your impeccable "
 "style."
 msgstr ""
+"貴方は幾度も注目を集めた泥棒でした。しかしこの世界ではもはや何の意味も持ちま"
+"せん。優秀な仕事道具、少しの宝、そして完全無欠のスタイル。これらが貴方に残さ"
+"れた全てです。"
 
 #. ~ Profession (male Bionic Thief) description
 #: lang/json/professions_from_json.py
@@ -42978,6 +43695,9 @@ msgid ""
 "world.  All you have left are the tools of your trade and your impeccable "
 "style."
 msgstr ""
+"貴方は幾度も注目を集めた泥棒でした。しかしこの世界ではもはや何の意味も持ちま"
+"せん。優秀な仕事道具、少しの宝、そして完全無欠のスタイル。これらが貴方に残さ"
+"れた全てです。"
 
 #. ~ Profession (female Senior Citizen) description
 #: lang/json/professions_from_json.py
@@ -42987,6 +43707,8 @@ msgid ""
 "crazy! They ate your grandkids! But dagnabbit, you'll make them all pay for "
 "what they've done."
 msgstr ""
+"貴方がこれの血を見たのは先の戦争以来です。世界はおかしくなっちまった！孫が喰"
+"われた！クソッタレなこの世界にツケを払わせてやりましょう。"
 
 #. ~ Profession (male Senior Citizen) description
 #: lang/json/professions_from_json.py
@@ -42996,6 +43718,8 @@ msgid ""
 "crazy! They ate your grandkids! But dagnabbit, you'll make them all pay for "
 "what they've done."
 msgstr ""
+"貴方がこれの血を見たのは先の戦争以来です。世界はおかしくなっちまった！孫が喰"
+"われた！クソッタレなこの世界にツケを払わせてやりましょう。"
 
 #. ~ Profession (female Bionic Prepper) description
 #: lang/json/professions_from_json.py
@@ -43005,6 +43729,9 @@ msgid ""
 "and got additional survival training.  Now the end has come, and it is time "
 "to see if your efforts have paid off."
 msgstr ""
+"貴方は終末が訪れる事を知っていました。その日の為に生存に必要な技能を訓練し、"
+"有用そうなCBMも装着しておきました。災厄の日が訪れた今こそ、貴方の努力が報われ"
+"るかどうかが試されるのです。"
 
 #. ~ Profession (male Bionic Prepper) description
 #: lang/json/professions_from_json.py
@@ -43014,6 +43741,9 @@ msgid ""
 "and got additional survival training.  Now the end has come, and it is time "
 "to see if your efforts have paid off."
 msgstr ""
+"貴方は終末が訪れる事を知っていました。その日の為に生存に必要な技能を訓練し、"
+"有用そうなCBMも装着しておきました。災厄の日が訪れた今こそ、貴方の努力が報われ"
+"るかどうかが試されるのです。"
 
 #. ~ Profession (female Fisher) description
 #: lang/json/professions_from_json.py
@@ -43042,6 +43772,8 @@ msgid ""
 "You spent most of your life on a Harley, and it's only natural you spend the "
 "rest of it riding one."
 msgstr ""
+"貴方の人生はバイクと共にありました。これからの人生もバイクと共に過ごすのは当"
+"然のことです。"
 
 #. ~ Profession (male Biker) description
 #: lang/json/professions_from_json.py
@@ -43050,6 +43782,8 @@ msgid ""
 "You spent most of your life on a Harley, and it's only natural you spend the "
 "rest of it riding one."
 msgstr ""
+"貴方の人生はバイクと共にありました。これからの人生もバイクと共に過ごすのは当"
+"然のことです。"
 
 #. ~ Profession (female Trapper) description
 #: lang/json/professions_from_json.py
@@ -43059,6 +43793,8 @@ msgid ""
 "decent living off of your catches, and trapping tutorials.  Hopefully, your "
 "skills will come in useful against less conventional game."
 msgstr ""
+"貴方は父親と共に罠猟師をしていました。罠によって生計を立てられるように訓練を"
+"受けてきたのです。その技能を上手く使えばこの災厄を乗り切る事も可能でしょう。"
 
 #. ~ Profession (male Trapper) description
 #: lang/json/professions_from_json.py
@@ -43068,6 +43804,8 @@ msgid ""
 "decent living off of your catches, and trapping tutorials.  Hopefully, your "
 "skills will come in useful against less conventional game."
 msgstr ""
+"貴方は父親と共に罠猟師をしていました。罠によって生計を立てられるように訓練を"
+"受けてきたのです。その技能を上手く使えばこの災厄を乗り切る事も可能でしょう。"
 
 #. ~ Profession (female Ballroom Dancer) description
 #: lang/json/professions_from_json.py
@@ -43076,6 +43814,8 @@ msgid ""
 "You used to be a ballroom dancer before the cataclysm, and now you use your "
 "skills to save your life."
 msgstr ""
+"災厄の日以前、貴方は社交ダンスをしていました。そして今、貴方は生き延びる為に"
+"踊っています。"
 
 #. ~ Profession (male Ballroom Dancer) description
 #: lang/json/professions_from_json.py
@@ -43084,6 +43824,8 @@ msgid ""
 "You used to be a ballroom dancer before the cataclysm, and now you use your "
 "skills to save your life."
 msgstr ""
+"災厄の日以前、貴方は社交ダンスをしていました。そして今、貴方は生き延びる為に"
+"踊っています。"
 
 #. ~ Profession (female Beekeeper) description
 #: lang/json/professions_from_json.py
@@ -43093,6 +43835,8 @@ msgid ""
 "bees when the cataclysm struck, but at least you managed to grab some "
 "utensils and honey."
 msgstr ""
+"貴方はプロの養蜂家です。災厄のおかげで残念ながら蜂たちを手放すハメになりまし"
+"たが、幾つかの道具と蜂蜜だけは持って逃げる事が出来ました。"
 
 #. ~ Profession (male Beekeeper) description
 #: lang/json/professions_from_json.py
@@ -43102,6 +43846,8 @@ msgid ""
 "bees when the cataclysm struck, but at least you managed to grab some "
 "utensils and honey."
 msgstr ""
+"貴方はプロの養蜂家です。災厄のおかげで残念ながら蜂たちを手放すハメになりまし"
+"たが、幾つかの道具と蜂蜜だけは持って逃げる事が出来ました。"
 
 #. ~ Profession (female Fast Food Cook) description
 #: lang/json/professions_from_json.py
@@ -43110,6 +43856,8 @@ msgid ""
 "You used to work at a fancy fast food joint a week ago, but now you show the "
 "meaning of \"fast\" food by running for your life."
 msgstr ""
+"貴方は一週間前にファーストフードで働き始めました。そして、つい先ほど「早く食"
+"べる」という言葉の真の意味を理解した所です。貴方は命懸けで走っています。"
 
 #. ~ Profession (male Fast Food Cook) description
 #: lang/json/professions_from_json.py
@@ -43118,6 +43866,8 @@ msgid ""
 "You used to work at a fancy fast food joint a week ago, but now you show the "
 "meaning of \"fast\" food by running for your life."
 msgstr ""
+"貴方は一週間前にファーストフードで働き始めました。そして、つい先ほど「早く食"
+"べる」という言葉の真の意味を理解した所です。貴方は命懸けで走っています。"
 
 #. ~ Profession (female Handy Man) description
 #: lang/json/professions_from_json.py
@@ -43128,6 +43878,9 @@ msgid ""
 "and wonder - are your meager skills, and the few supplies you grabbed on the "
 "way out, sufficient to help it rebuild?"
 msgstr ""
+"貴方は金物屋で働き、多くの家を修復してきました。今、貴方の前に広がるのは廃墟"
+"と化した街並みです。貴方が持つのは未熟な腕と手元に残る僅かな資材だけです。果"
+"たして、この荒廃した世界を修復する事が出来るのでしょうか？"
 
 #. ~ Profession (male Handy Man) description
 #: lang/json/professions_from_json.py
@@ -43138,6 +43891,9 @@ msgid ""
 "and wonder - are your meager skills, and the few supplies you grabbed on the "
 "way out, sufficient to help it rebuild?"
 msgstr ""
+"貴方は金物屋で働き、多くの家を修復してきました。今、貴方の前に広がるのは廃墟"
+"と化した街並みです。貴方が持つのは未熟な腕と手元に残る僅かな資材だけです。果"
+"たして、この荒廃した世界を修復する事が出来るのでしょうか？"
 
 #. ~ Profession (female Electrician) description
 #: lang/json/professions_from_json.py
@@ -43148,6 +43904,11 @@ msgid ""
 "evac shelter when the cataclysm struck.  Unfortunately, you didn't finish "
 "wiring anything up except the computer - fat lot of good it's doing you now."
 msgstr ""
+"貴方は安っぽいオーナーの下でちっぽけな電気工事をしていました。しかし今日は違"
+"います、シェルターの配線という大きな仕事を任せられたのです。それがシェルター"
+"での作業中、まさに災害が襲ってくるなんて。まるで出来の悪い冗談の様です。残念"
+"ながらコンピュータの配線1つしか終わらせられませんでした、今となってはどうでも"
+"良い事でしょうが。"
 
 #. ~ Profession (male Electrician) description
 #: lang/json/professions_from_json.py
@@ -43158,6 +43919,11 @@ msgid ""
 "evac shelter when the cataclysm struck.  Unfortunately, you didn't finish "
 "wiring anything up except the computer - fat lot of good it's doing you now."
 msgstr ""
+"貴方は安っぽいオーナーの下でちっぽけな電気工事をしていました。しかし今日は違"
+"います、シェルターの配線という大きな仕事を任せられたのです。それがシェルター"
+"での作業中、まさに災害が襲ってくるなんて。まるで出来の悪い冗談の様です。残念"
+"ながらコンピュータの配線1つしか終わらせられませんでした、今となってはどうでも"
+"良い事でしょうが。"
 
 #. ~ Profession (female Baseball Player) description
 #: lang/json/professions_from_json.py
@@ -43167,6 +43933,9 @@ msgid ""
 "escaped with your equipment, but how long can you survive until your innings "
 "are up?"
 msgstr ""
+"貴方はマイナーリーグの野球チームのメンバーでした。ちょうど打順が回ってきた所"
+"で災厄に巻き込まれたので、道具を持って逃げる事が出来ました。貴方は何イニング"
+"生き残れるでしょうか？"
 
 #. ~ Profession (male Baseball Player) description
 #: lang/json/professions_from_json.py
@@ -43176,6 +43945,9 @@ msgid ""
 "escaped with your equipment, but how long can you survive until your innings "
 "are up?"
 msgstr ""
+"貴方はマイナーリーグの野球チームのメンバーでした。ちょうど打順が回ってきた所"
+"で災厄に巻き込まれたので、道具を持って逃げる事が出来ました。貴方は何イニング"
+"生き残れるでしょうか？"
 
 #. ~ Profession (female Military Recruit) description
 #: lang/json/professions_from_json.py
@@ -43186,6 +43958,9 @@ msgid ""
 "interrupted by a national emergency.  As far as you can tell, military "
 "command abandoned you in this hellhole when you missed the emergency evac."
 msgstr ""
+"貴方は軍に入る為に高校を中退しました。未だ訓練の途上でしたが国家非常事態宣言"
+"に伴って緊急招集され、新兵となったのです。唯一つ言える事は、貴方は放棄命令と"
+"共にこの地獄で見捨てられたという事です。"
 
 #. ~ Profession (male Military Recruit) description
 #: lang/json/professions_from_json.py
@@ -43196,6 +43971,9 @@ msgid ""
 "interrupted by a national emergency.  As far as you can tell, military "
 "command abandoned you in this hellhole when you missed the emergency evac."
 msgstr ""
+"貴方は軍に入る為に高校を中退しました。未だ訓練の途上でしたが国家非常事態宣言"
+"に伴って緊急招集され、新兵となったのです。唯一つ言える事は、貴方は放棄命令と"
+"共にこの地獄で見捨てられたという事です。"
 
 #. ~ Profession (female Student) description
 #: lang/json/professions_from_json.py
@@ -43205,6 +43983,9 @@ msgid ""
 "higher stakes.  There might even be something useful in one of these books "
 "you've been lugging around all year."
 msgstr ""
+"貴方は高校生でした。しかし今、直面している問題には学校のテスト以上に大きな物"
+"が賭かっています。貴方が普段から持ち歩いている本の中には役に立ちそうな物もあ"
+"るかもしれません。"
 
 #. ~ Profession (male Student) description
 #: lang/json/professions_from_json.py
@@ -43214,6 +43995,9 @@ msgid ""
 "higher stakes.  There might even be something useful in one of these books "
 "you've been lugging around all year."
 msgstr ""
+"貴方は高校生でした。しかし今、直面している問題には学校のテスト以上に大きな物"
+"が賭かっています。貴方が普段から持ち歩いている本の中には役に立ちそうな物もあ"
+"るかもしれません。"
 
 #. ~ Profession (female Hockey Player) description
 #: lang/json/professions_from_json.py
@@ -43223,6 +44007,9 @@ msgid ""
 "zombies.  It's just you and your hockey equipment versus the undead, but at "
 "least you can cross-check them now."
 msgstr ""
+"貴方はマイナーリーグのホッケーチームでキーパーをしていました。チームの大半が"
+"ゾンビ化するまでは。もはやホッケーの道具はゾンビと戦うためにあるのでしょう、"
+"当然クロスチェックしても反則は取られないのですから。"
 
 #. ~ Profession (male Hockey Player) description
 #: lang/json/professions_from_json.py
@@ -43232,6 +44019,9 @@ msgid ""
 "zombies.  It's just you and your hockey equipment versus the undead, but at "
 "least you can cross-check them now."
 msgstr ""
+"貴方はマイナーリーグのホッケーチームでキーパーをしていました。チームの大半が"
+"ゾンビ化するまでは。もはやホッケーの道具はゾンビと戦うためにあるのでしょう、"
+"当然クロスチェックしても反則は取られないのですから。"
 
 #. ~ Profession (female Professional Cyclist) description
 #: lang/json/professions_from_json.py
@@ -43242,6 +44032,9 @@ msgid ""
 "grand tours now, but as the saying goes: Life is like riding a bicycle, you "
 "got to keep moving."
 msgstr ""
+"貴方は若くして将来を嘱望された自転車乗りでした。こうなってはもはやグランツー"
+"ルに参加する事も無いでしょうが、諺にもあります。「人生とは自転車のようなもの"
+"だ。倒れないようにするには走らなければならない」と。"
 
 #. ~ Profession (male Professional Cyclist) description
 #: lang/json/professions_from_json.py
@@ -43252,6 +44045,9 @@ msgid ""
 "grand tours now, but as the saying goes: Life is like riding a bicycle, you "
 "got to keep moving."
 msgstr ""
+"貴方は若くして将来を嘱望された自転車乗りでした。こうなってはもはやグランツー"
+"ルに参加する事も無いでしょうが、諺にもあります。「人生とは自転車のようなもの"
+"だ。倒れないようにするには走らなければならない」と。"
 
 #. ~ Profession (Pizza Delivery Girl) description
 #: lang/json/professions_from_json.py
@@ -43281,6 +44077,9 @@ msgid ""
 "the world ended.  You ran into trouble coming out of class - but managed to "
 "keep ahold of the equipment you were carrying at the time."
 msgstr ""
+"災厄の日、貴方は専門学校で金属加工の実習を行っていました。実習が終わったその"
+"時、この事件に遭遇したのです。貴方は実習に使っていた道具を持って逃げる事が出"
+"来ました。"
 
 #. ~ Profession (male Blacksmith) description
 #: lang/json/professions_from_json.py
@@ -43290,6 +44089,9 @@ msgid ""
 "the world ended.  You ran into trouble coming out of class - but managed to "
 "keep ahold of the equipment you were carrying at the time."
 msgstr ""
+"災厄の日、貴方は専門学校で金属加工の実習を行っていました。実習が終わったその"
+"時、この事件に遭遇したのです。貴方は実習に使っていた道具を持って逃げる事が出"
+"来ました。"
 
 #. ~ Profession (female Roller Derby Player) description
 #: lang/json/professions_from_json.py
@@ -43319,6 +44121,8 @@ msgid ""
 "barely managed to escape with some soap and the most massively useful thing "
 "ever...  a towel."
 msgstr ""
+"災厄の日、貴方は熱いシャワーを浴びている最中でした。貴方はとっさに石鹸とその"
+"場にあった最も役立ちそうな物…タオルを掴んで逃げ出しました。"
 
 #. ~ Profession (male Shower Victim) description
 #: lang/json/professions_from_json.py
@@ -43328,6 +44132,8 @@ msgid ""
 "barely managed to escape with some soap and the most massively useful thing "
 "ever...  a towel."
 msgstr ""
+"災厄の日、貴方は熱いシャワーを浴びている最中でした。貴方はとっさに石鹸とその"
+"場にあった最も役立ちそうな物…タオルを掴んで逃げ出しました。"
 
 #. ~ Profession (female Farmer) description
 #: lang/json/professions_from_json.py
@@ -43345,6 +44151,40 @@ msgid ""
 "You were making a living by raising crops, when the cataclysm struck.  Now, "
 "with your trusty hoe and some seeds it's time to rebuild the Earth, one "
 "plant at a time."
+msgstr ""
+
+#. ~ Profession (female Ahistorical Reenactor) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_female"
+msgid ""
+"You were on your way to the Annual All New England Revolutionary War Living "
+"History exhibition when the end of the world made traditional gender roles "
+"obsolete."
+msgstr ""
+
+#. ~ Profession (male Ahistorical Reenactor) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
+msgid ""
+"You were on your way to the Annual All New England Revolutionary War Living "
+"History exhibition when the end of the world made traditional gender roles "
+"obsolete."
+msgstr ""
+
+#. ~ Profession (female Historical Reenactor) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_female"
+msgid ""
+"You were on your way to the Annual All New England Revolutionary War Living "
+"History exhibition when the end of the world permanently derailed your plans."
+msgstr ""
+
+#. ~ Profession (male Historical Reenactor) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
+msgid ""
+"You were on your way to the Annual All New England Revolutionary War Living "
+"History exhibition when the end of the world permanently derailed your plans."
 msgstr ""
 
 #. ~ Profession (female Novice Martial Artist) description
@@ -43372,6 +44212,9 @@ msgid ""
 "can tell, military command abandoned you in this hellhole when you missed "
 "the emergency evac."
 msgstr ""
+"貴方は特殊部隊というエリートの中でも群を抜くエリートです。その証拠に部隊の中"
+"で貴方だけが未だ生存しているのですから。唯一つ言える事は、貴方は放棄命令と共"
+"にこの地獄で見捨てられたという事です。"
 
 #. ~ Profession (male Special Operator) description
 #: lang/json/professions_from_json.py
@@ -43382,6 +44225,9 @@ msgid ""
 "can tell, military command abandoned you in this hellhole when you missed "
 "the emergency evac."
 msgstr ""
+"貴方は特殊部隊というエリートの中でも群を抜くエリートです。その証拠に部隊の中"
+"で貴方だけが未だ生存しているのですから。唯一つ言える事は、貴方は放棄命令と共"
+"にこの地獄で見捨てられたという事です。"
 
 #. ~ Profession (female Football Player) description
 #: lang/json/professions_from_json.py
@@ -43391,6 +44237,9 @@ msgid ""
 "and fans alike.  Now they just adore your brain.  You've still got your "
 "bulky football gear on."
 msgstr ""
+"貴方は地元アメフトチームのスタープレイヤーでした。そして今でも、貴方のファン"
+"だった奴らが貴方に群がろうと距離を詰めてくるのです。貴方はアメフトのかさばる"
+"装備を着けています。"
 
 #. ~ Profession (male Football Player) description
 #: lang/json/professions_from_json.py
@@ -43400,6 +44249,9 @@ msgid ""
 "and fans alike.  Now they just adore your brain.  You've still got your "
 "bulky football gear on."
 msgstr ""
+"貴方は地元アメフトチームのスタープレイヤーでした。そして今でも、貴方のファン"
+"だった奴らが貴方に群がろうと距離を詰めてくるのです。貴方はアメフトのかさばる"
+"装備を着けています。"
 
 #. ~ Profession (Maid) description
 #: lang/json/professions_from_json.py
@@ -43408,6 +44260,8 @@ msgid ""
 "You worked in a wealthy household, but after the cataclysm they took a "
 "family vacation to an unknown place, leaving you to fend for yourself."
 msgstr ""
+"貴方は大きなお屋敷で働いていましたが、災厄の日の後、雇い主一家は貴方を置い"
+"て、どことも知れぬ場所へ長期休暇に出かけてしまいました。"
 
 #. ~ Profession (Butler) description
 #: lang/json/professions_from_json.py
@@ -43416,6 +44270,8 @@ msgid ""
 "You worked in a wealthy household, but after the cataclysm they took a "
 "family vacation to an unknown place, leaving you to fend for yourself."
 msgstr ""
+"貴方は大きなお屋敷で働いていましたが、災厄の日の後、雇い主一家は貴方を置い"
+"て、どことも知れぬ場所へ長期休暇に出かけてしまいました。"
 
 #. ~ Profession (female Lumberjack) description
 #: lang/json/professions_from_json.py
@@ -43424,6 +44280,8 @@ msgid ""
 "You're a lumberjack, and you're okay.  You felled trees before before the "
 "world ended, but suspect the undead aren't nearly as tough."
 msgstr ""
+"貴方は木こりだ、だいじょうぶだー。災厄の前、貴方は木を伐っていました。だから"
+"貴方は気づけたのです、どうやら死体共は木ほど頑丈ではない様だと。"
 
 #. ~ Profession (male Lumberjack) description
 #: lang/json/professions_from_json.py
@@ -43432,6 +44290,8 @@ msgid ""
 "You're a lumberjack, and you're okay.  You felled trees before before the "
 "world ended, but suspect the undead aren't nearly as tough."
 msgstr ""
+"貴方は木こりだ、だいじょうぶだー。災厄の前、貴方は木を伐っていました。だから"
+"貴方は気づけたのです、どうやら死体共は木ほど頑丈ではない様だと。"
 
 #. ~ Profession (female Tweaker) description
 #: lang/json/professions_from_json.py
@@ -43441,6 +44301,8 @@ msgid ""
 "the only thing running through your head is where you're gonna find your "
 "next hit."
 msgstr ""
+"貴方は何が起こったか全く理解していません。頭にあるのは唯一つ、早く次にキメる"
+"クスリを探さないと。貴方はアンフェタミン中毒を患っています。"
 
 #. ~ Profession (male Tweaker) description
 #: lang/json/professions_from_json.py
@@ -43450,6 +44312,8 @@ msgid ""
 "the only thing running through your head is where you're gonna find your "
 "next hit."
 msgstr ""
+"貴方は何が起こったか全く理解していません。頭にあるのは唯一つ、早く次にキメる"
+"クスリを探さないと。貴方はアンフェタミン中毒を患っています。"
 
 #. ~ Profession (female Used Car Salesman) description
 #: lang/json/professions_from_json.py
@@ -43460,6 +44324,9 @@ msgid ""
 "around the block a time or two, and you'd charge way more than a dollar - "
 "and get it, too!"
 msgstr ""
+"貴方は金の為なら母親を売る事も厭わない人間だという非難の声を浴びてきました。"
+"しかし、そんな自分を捨てる時が来たのです。貴方は辺りを走り回りました、金以外"
+"の物を掻き集める為に。さあ、行きましょう！"
 
 #. ~ Profession (male Used Car Salesman) description
 #: lang/json/professions_from_json.py
@@ -43470,6 +44337,9 @@ msgid ""
 "around the block a time or two, and you'd charge way more than a dollar - "
 "and get it, too!"
 msgstr ""
+"貴方は金の為なら母親を売る事も厭わない人間だという非難の声を浴びてきました。"
+"しかし、そんな自分を捨てる時が来たのです。貴方は辺りを走り回りました、金以外"
+"の物を掻き集める為に。さあ、行きましょう！"
 
 #. ~ Profession (female Backpacker) description
 #: lang/json/professions_from_json.py
@@ -43520,6 +44390,9 @@ msgid ""
 "specialist: you have night vision, an alarm and a hacking module.  And it "
 "all runs off piles and piles of everyday household batteries."
 msgstr ""
+"貴方の身体には何百万ドルもの税金が投入されています。暗視装置にハッキング機"
+"器、危機察知用の生体アラーム…政府は貴方を諜報のスペシャリストへと改造したので"
+"す。それと、機器を動かす電力を市販の乾電池から補給できるようにも。"
 
 #. ~ Profession (male Bionic Agent) description
 #: lang/json/professions_from_json.py
@@ -43530,6 +44403,9 @@ msgid ""
 "specialist: you have night vision, an alarm and a hacking module.  And it "
 "all runs off piles and piles of everyday household batteries."
 msgstr ""
+"貴方の身体には何百万ドルもの税金が投入されています。暗視装置にハッキング機"
+"器、危機察知用の生体アラーム…政府は貴方を諜報のスペシャリストへと改造したので"
+"す。それと、機器を動かす電力を市販の乾電池から補給できるようにも。"
 
 #. ~ Profession (female Failed Cyborg) description
 #: lang/json/professions_from_json.py
@@ -43539,6 +44415,9 @@ msgid ""
 "but are filled with broken bionics.  At least your ethanol power supply "
 "still works."
 msgstr ""
+"貴方の身体に埋め込まれたCBMはポンコツです。大容量の蓄電装置を搭載していても、"
+"電力を供給されるべきCBMが壊れていては何の意味もありません。まともに動くのはエ"
+"タノール燃焼発電システムだけです。"
 
 #. ~ Profession (male Failed Cyborg) description
 #: lang/json/professions_from_json.py
@@ -43548,6 +44427,9 @@ msgid ""
 "but are filled with broken bionics.  At least your ethanol power supply "
 "still works."
 msgstr ""
+"貴方の身体に埋め込まれたCBMはポンコツです。大容量の蓄電装置を搭載していても、"
+"電力を供給されるべきCBMが壊れていては何の意味もありません。まともに動くのはエ"
+"タノール燃焼発電システムだけです。"
 
 #. ~ Profession (female Volunteer Mutant) description
 #: lang/json/professions_from_json.py
@@ -43557,6 +44439,9 @@ msgid ""
 "have fallen a bit short, but when the Cataclysm struck, you and the "
 "scientists were ready to put your new body to the test."
 msgstr ""
+"貴方には超人になる夢がありました。現在の技術ではそうは行かないと知りつつも被"
+"験者に志願したのです。災厄の日、それはちょうど貴方が新しい身体を手に入れた日"
+"でした。"
 
 #. ~ Profession (male Volunteer Mutant) description
 #: lang/json/professions_from_json.py
@@ -43566,6 +44451,9 @@ msgid ""
 "have fallen a bit short, but when the Cataclysm struck, you and the "
 "scientists were ready to put your new body to the test."
 msgstr ""
+"貴方には超人になる夢がありました。現在の技術ではそうは行かないと知りつつも被"
+"験者に志願したのです。災厄の日、それはちょうど貴方が新しい身体を手に入れた日"
+"でした。"
 
 #. ~ Profession (female Scoundrel) description
 #: lang/json/professions_from_json.py
@@ -43576,6 +44464,9 @@ msgid ""
 "consequences of your actions - all these skills have helped ensure your "
 "survival.  But how much longer will they hold out?"
 msgstr ""
+"貴方はならず者です。酒の席での喧嘩で戦い方と避け方を覚え、法に触れる卑怯な手"
+"も使ってきました。そして今、それら全ては生き延びる為の技能となりました。さ"
+"あ、どれだけ持ち堪えられるでしょうか？"
 
 #. ~ Profession (male Scoundrel) description
 #: lang/json/professions_from_json.py
@@ -43586,6 +44477,9 @@ msgid ""
 "consequences of your actions - all these skills have helped ensure your "
 "survival.  But how much longer will they hold out?"
 msgstr ""
+"貴方はならず者です。酒の席での喧嘩で戦い方と避け方を覚え、法に触れる卑怯な手"
+"も使ってきました。そして今、それら全ては生き延びる為の技能となりました。さ"
+"あ、どれだけ持ち堪えられるでしょうか？"
 
 #. ~ Profession (female Hitchhiker) description
 #: lang/json/professions_from_json.py
@@ -43624,6 +44518,8 @@ msgid ""
 "Your ska band broke up after the drummer became a zombie, now you're alone "
 "in the cataclysm with some cigarettes and your mp3 player."
 msgstr ""
+"スカバンドはドラマーがゾンビになった後に解散しました。現在、数本の煙草とMP3プ"
+"レーヤーを持ちながら、孤独に佇んでいます。"
 
 #. ~ Profession (female Mail Carrier) description
 #: lang/json/professions_from_json.py
@@ -43736,7 +44632,7 @@ msgstr "ショッピングセンター"
 
 #: lang/json/scenario_from_json.py
 msgid "Mall Cop"
-msgstr ""
+msgstr "ショッピングセンターの警備"
 
 #: lang/json/scenario_from_json.py
 msgid "Missed"
@@ -43776,16 +44672,16 @@ msgstr ""
 
 #: lang/json/scenario_from_json.py
 msgid ""
-"When the apocalypse broke out, you were funneled into a nearby shelter. Here "
-"you have lived, never leaving, lest the unknowns of the outside world hurt "
-"you. Supplies are running low, and for the first time since the cataclysm, "
-"you will be forced to face the outside world."
+"When the apocalypse broke out, you were funnelled into a nearby shelter. "
+"Here you have lived, never leaving, lest the unknowns of the outside world "
+"hurt you. Supplies are running low, and for the first time since the "
+"cataclysm, you will be forced to face the outside world."
 msgstr ""
 
 #: lang/json/scenario_from_json.py
 msgid ""
-"Whether due to stubborness,ignorance, or just plain bad luck, you missed the "
-"evacuation, and are stuck in a city full of the risen dead."
+"Whether due to stubbornness, ignorance, or just plain bad luck, you missed "
+"the evacuation, and are stuck in a city full of the risen dead."
 msgstr ""
 
 #: lang/json/scenario_from_json.py
@@ -44165,68 +45061,72 @@ msgstr ""
 #, no-python-format
 msgid "\"99% dead? I'd like to see a million zombies on Wall Street.\""
 msgstr ""
+"「99パーセントが死んだ？俺は百万のゾンビがウォール街を埋め尽くして欲しいぞ」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
 "\"A wood ax works pretty well against them. So does a machete, but you can't "
 "cut down a tree.\""
 msgstr ""
+"「斧は使いづらい。だからマチェットを使う。しかしマチェットでは木を切れない」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
 "\"All I've got is this keg of beer and an appetite. Come at me, apocalypse!\""
-msgstr ""
+msgstr "「俺にあるのはビール樽と食欲だけだ。さあ来い災厄！」"
 
 #: lang/json/snippet_from_json.py
 msgid "\"Am I the last one alive?\""
-msgstr ""
+msgstr "「わたし以外はみんなしんだの？」"
 
 #: lang/json/snippet_from_json.py
 msgid "\"Are they still human inside?\""
-msgstr ""
+msgstr "「あれはまだ人間の中にいる？」"
 
 #: lang/json/snippet_from_json.py
 msgid "\"BURN BURN BURN BURN BURN ALL BURN ALL BURN ALL BURN\""
-msgstr ""
+msgstr "「燃える 燃える 全て燃える 燃える 燃える 全ては燃える」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
 "\"Boyfriend stole my pistol while I was asleep. I locked him in the bathroom "
 "and set the house on fire. At least he attracted their attention.\""
 msgstr ""
+"「私が寝ている間に彼は私のピストルを盗んだ。 私は彼を浴室に閉じ込め家に火をつ"
+"けた。彼は時間稼ぎとして私の役に立てた」"
 
 #: lang/json/snippet_from_json.py
 msgid "\"Broadsword! Yeah!\""
-msgstr ""
+msgstr "「ブロードソードをゲット！よっしゃ！」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
 "\"Come to the bar if you see this, let's re-enact a zombie movie, friends.\""
-msgstr ""
+msgstr "「これを見たらバーに来てくれ。ゾンビ映画を再現しようぜ、友よ」"
 
 #: lang/json/snippet_from_json.py
 msgid "\"Crawled in through the vents. Whole office building is infested.\""
-msgstr ""
+msgstr "「通気口を介して感染しているようだ。オフィスビルは駄目だな」"
 
 #: lang/json/snippet_from_json.py
 msgid "\"DINT ATE THE MUSHROM\""
-msgstr ""
+msgstr "「きのこはたべるな」"
 
 #: lang/json/snippet_from_json.py
 msgid "\"DON'T EAT THE SLIME DON'T EAT THE SLIME DON'T EAT THE SLIME\""
-msgstr ""
+msgstr "「粘液は食べるな 粘液は食べるな 粘液は食べるな」"
 
 #: lang/json/snippet_from_json.py
 msgid "\"DON't bomB THe PORtals it MAKES iT WORSE\""
-msgstr ""
+msgstr "「ポータルを爆撃するな状況が悪化するだけ」"
 
 #: lang/json/snippet_from_json.py
 msgid "\"Don't fall down a nuclear silo, they left 'em all open\""
-msgstr ""
+msgstr "「核ミサイルのサイロに落ちるなよ。全部撃たれてるから底まで直通だぞ」"
 
 #: lang/json/snippet_from_json.py
 msgid "\"Don't keep your goddamn casings! They'll just weigh you down.\""
-msgstr ""
+msgstr "「ゴミを持ち続けるんじゃない！ガッカリするだろうが！」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -44239,53 +45139,57 @@ msgid ""
 "\"Everyone used their gas to get to another town... but it's the same story "
 "everywhere.\""
 msgstr ""
+"「誰もが別の街に逃げようと車で走り去った、だがどこの街でも同じ事が起きたと聞"
+"く」"
 
 #: lang/json/snippet_from_json.py
 msgid "\"Fuck aerodynamics, I want another engine!\""
-msgstr ""
+msgstr "「航空力学の畜生め、別のエンジンは無いのか！」"
 
 #: lang/json/snippet_from_json.py
 msgid "\"GOD CAN'T SAVE US\""
-msgstr ""
+msgstr "「神は我らを見捨てたもう」"
 
 #: lang/json/snippet_from_json.py
 msgid "\"Gas mask is nice and all, but I can hardly run with it on.\""
-msgstr ""
+msgstr "「ガスマスクは優秀。しかし付けたまま走るのは難しい」"
 
 #: lang/json/snippet_from_json.py
 msgid "\"Guns too loud. Crossbow too long. Running is best.\""
-msgstr ""
+msgstr "「銃はうるさい。クロスボウは長すぎ。車が一番」"
 
 #: lang/json/snippet_from_json.py
 msgid "\"I am one with the plants.\""
-msgstr ""
+msgstr "「私は植物と同化している」"
 
 #: lang/json/snippet_from_json.py
 msgid "\"I can wear three backpacks! Fuck, I'm good.\""
-msgstr ""
+msgstr "「俺はバックパックを3つも持てるぜ！俺、すごい！」"
 
 #: lang/json/snippet_from_json.py
 msgid "\"I don't have enough time to double tap. You don't either.\""
-msgstr ""
+msgstr "「俺にはダブルタップする余裕はない。お前もそうだろ？」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
 "\"I found some kind of stone pyramid with spikes. I feel... I feel like I'm "
 "being watched.\""
 msgstr ""
+"「トゲのついた三角錐の石を見つけた。それからだ…何かに見張られてるような気がす"
+"る」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
 "\"I get air conditioners, but... this whole laboratory is frozen to ice!\""
-msgstr ""
+msgstr "「俺はエアコンを手に入れた…だがこの研究所は氷漬けだ！」"
 
 #: lang/json/snippet_from_json.py
 msgid "\"I had a phobia of bees BEFORE they grew to enormous sizes.\""
-msgstr ""
+msgstr "「私は蜂恐怖症だった、巨大化する前は」"
 
 #: lang/json/snippet_from_json.py
 msgid "\"I just realized how damn demented those fliers are.\""
-msgstr ""
+msgstr "「空を飛ぶ糞野郎の存在に気づいた。発狂する」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -44298,90 +45202,108 @@ msgid ""
 "\"I made mushroom babies. My arms hurt. I hurt. I had mushroom babies. They "
 "are growing now.\""
 msgstr ""
+"「私はキノコの赤ちゃんを作った。私の腕は痛んだ。痛んだ。私はキノコの赤ちゃん"
+"を持っている。それは成長し続けている」"
 
 #: lang/json/snippet_from_json.py
 msgid "\"I propose a new currency: 9mm.\""
-msgstr ""
+msgstr "「私は新しい通貨の制定を提案する。9mm弾だ」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
 "\"I swear to God I've seen these plant things before! In a book, or "
 "something! I swear...\""
-msgstr ""
+msgstr "「おお神よ、私はあの植物を知っています！本か何かで！おお…」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
 "\"I thought my damn terminal cancer was bad enough... now the dead are "
 "rising?!\""
-msgstr ""
+msgstr "「私は末期癌に喘いでいた…しかし、今や死者が起き上がっているのだ」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
 "\"I took all the supplies. Don't follow me. I'm sorry, man. I have to look "
 "out for myself now.\""
 msgstr ""
+"「食べ物は全て貰って行くわ。追ってこないでよ。ごめんなさいね貴方。私は私の身"
+"が大切なの」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
 "\"I tried playing memorial music for my dead brother, on a radio. They must "
 "have been attracted to it. I can't see his grave through the crowd anymore.\""
 msgstr ""
+"「私はラジオで死んだ兄弟を悼む曲を流したのです。するとおそらく音楽に惹きつけ"
+"られたのでしょう。彼の墓は集まった群衆達によって取り囲まれ、もう見えなくなっ"
+"てしまいました」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
 "\"I used to be human. But... my arms... they are like tentacles. I slither "
 "along akin to a snail and I shed my feathers every day.\""
 msgstr ""
+"「私は人間だった。しかし今や私の腕は触手であり、私はカタツムリのようにぬるぬ"
+"ると這い、私は毎日羽を生え変わらせている」"
 
 #: lang/json/snippet_from_json.py
 msgid "\"I... I just put a muffler onto a... nail gun.\""
-msgstr ""
+msgstr "「私は…マフラーの上に…ネイルガンを置く」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
 "\"If you see a trail of dirt getting displaced in your direction... run. Run "
 "for your life.\""
 msgstr ""
+"「もしあなたが汚いものが這った痕を見つけたらそこから全力で離れなさい。命が惜"
+"しければ走って」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
 "\"Imagine if this spread to, like, Australia. Zombie kangaroos. Haha...\""
 msgstr ""
+"「イマジネーションが広がっていく 例えばオーストラリアにはゾンビカンガルーが "
+"ハハハ…」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
 "\"Is robbing a bank easier or harder now that all the guards are undead?\""
 msgstr ""
+"「警備員共がゾンビになってやがる今、銀行強盗は簡単になったのか難しくなったの"
+"か…どっちなんだろうな」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
 "\"Is that one pharmaceutical company gonna come out with a, like, cure for "
 "this anytime soon?\""
-msgstr ""
+msgstr "「製薬会社は治療薬を開発できるんでしょうか？」"
 
 #: lang/json/snippet_from_json.py
 msgid "\"It doesn't matter how you die. You're gonna turn into one of them.\""
 msgstr ""
+"「どいつがどのように死ぬかなんてどうでもいい。どうせ死体の一つになるだけだ」"
 
 #: lang/json/snippet_from_json.py
 msgid "\"Libraries are useless after the apocalypse.\""
-msgstr ""
+msgstr "「図書館なんて災厄後では無用の長物だな」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
 "\"Local auto shop is full of the things. And to think I worked with them on "
 "repairing cars... now they're just... fucking corpses.\""
-msgstr ""
+msgstr "「車を直すために修理工場に行った。そこにいたのは死体だけだった」"
 
 #: lang/json/snippet_from_json.py
 msgid "\"Make sure your car is REALLY stopped before you get out.\""
-msgstr ""
+msgstr "「降りる前に車が間違いなく止まっているかどうかを確認しろ」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
 "\"Most things can be taken out with a shotgun. More things can be taken out "
 "with a grenade. Imagine what a mini-nuke does.\""
 msgstr ""
+"「ほとんどの人は散弾銃を手にした。さらに手榴弾を手にした人もいた。では、小型"
+"核爆弾はどうなるだろうか」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -44394,21 +45316,25 @@ msgid ""
 "\"My friend gave me lit dynamite, but it hasn't exploded yet... I don't "
 "think that's supposed to happen. God help us.\""
 msgstr ""
+"「友人は私に点火されたダイナマイトをくれたが、それはまだ爆発していない。何が"
+"起きているのか分からない。私達を助けてよ神様」"
 
 #: lang/json/snippet_from_json.py
 msgid "\"My next-door neighbor had a katana in his basement!\""
-msgstr ""
+msgstr "「なんて幸運だ！隣人が地下室に刀を隠していたなんて！」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
 "\"My skin is crawling and I teleport every few minutes.. what is going o\""
-msgstr ""
+msgstr "「肌がむずむずして数分おきにテレポートしている…何が起こ」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
 "\"No wonder all the camps got overrun, they kept a goddamn zombie test "
 "subject! Each and every one of 'em!\""
 msgstr ""
+"「キャンプがゾンビで溢れてるのはそこで実験をしていたからだったなんて！そりゃ"
+"ゾンビの巣窟にもなるわ！」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -44419,43 +45345,48 @@ msgstr ""
 
 #: lang/json/snippet_from_json.py
 msgid "\"PINK TALL ONES RUN RUN RUN RUN RUN\""
-msgstr ""
+msgstr "「ピンクのおおきななにか。はしるはしるはしるはしる」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
 "\"River water around these parts is extremely safe. Probably more safe than "
 "the damn tap water at this point.\""
-msgstr ""
+msgstr "「川の水はおそらく安全です。あの忌々しい水道水よりは」"
 
 #: lang/json/snippet_from_json.py
 msgid "\"SHOOT YOURSELF, LET IT END QUICKLY\""
-msgstr ""
+msgstr "「自分自身を撃て。それで全てが終わる」"
 
 #: lang/json/snippet_from_json.py
 msgid "\"STAY AWAY FROM THE BIG ONES IN THE FOREST\""
-msgstr ""
+msgstr "「森にはデカイのがいるから近付くんじゃねぇぞ」"
 
 #: lang/json/snippet_from_json.py
 msgid "\"SWAMPS RUN SWAMPS NO SWAMPS RUN\""
-msgstr ""
+msgstr "「沼を走る 沼は嫌 沼を走る」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
 "\"Shopping carts become a lot more efficient when you plate-weld a trunk to "
 "them. Crate on wheels!\""
 msgstr ""
+"「ショッピングカートより溶接でトランクを作った方が効率的。車輪も忘れずにね」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
 "\"Some guy is walking through the horde without a scratch. Please tell me "
 "they're docile now. Please fucking tell me.\""
 msgstr ""
+"「群れの傍を無傷で通り抜けた男を見た。奴らをおとなしくする方法を教えてくれ。"
+"頼むから教えてくれ」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
 "\"Some of 'em are big. Real big. Don't stick around, I saw my mate get "
 "fucking torn in half!\""
 msgstr ""
+"「奴はクソデカい。マジでクソデカい。仲間がクソ真っ二つに引き裂かれたのを見ち"
+"まった。クソが」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -44468,7 +45399,7 @@ msgstr ""
 msgid ""
 "\"Somehow I managed to fit an entire goddamn lemon into this makeshift "
 "battery.\""
-msgstr ""
+msgstr "「どういうわけかレモンから電池を自作することに成功した」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -44481,36 +45412,40 @@ msgid ""
 "\"Squeeze some ammonia into zombie flesh and hold it tight. You smell like "
 "one of them! I think.\""
 msgstr ""
+"「汚染肉にアンモニアを加えて揉み込むとゾンビの匂いの出来上がり。コレを使え"
+"ば…」"
 
 #: lang/json/snippet_from_json.py
 msgid "\"Swamp water tastes good! An\""
-msgstr ""
+msgstr "「沼の水も美味しいじゃない！ これで」"
 
 #: lang/json/snippet_from_json.py
 msgid "\"THE GOO IS IN THE WATER DON'T DRINK WATER\""
-msgstr ""
+msgstr "「妙なものが水の中にいる。水は飲むな」"
 
 #: lang/json/snippet_from_json.py
 msgid "\"THE MARLEY WAS RIGHT\""
-msgstr ""
+msgstr "「MARLEYは素晴らしい」"
 
 #: lang/json/snippet_from_json.py
 msgid "\"THEY DON'T feel ANYTHING\""
-msgstr ""
+msgstr "「何も感じず何も考えず」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
 "\"The bricks of this bathroom look like a face. Haha... it's all I can focus "
 "on. At least let me shit before you break down the door. Please...\""
 msgstr ""
+"「バスルームのレンガが顔に見える。ハハ… それが僕に見える全て。ドアが壊れる前"
+"に便を出しきれるといいな。頼むよ…」"
 
 #: lang/json/snippet_from_json.py
 msgid "\"The copbots... the turrets... they just fucking ignore them.\""
-msgstr ""
+msgstr "「警官ロボットもタレットも、忌々しいゾンビ共を無視する役立たずだ」"
 
 #: lang/json/snippet_from_json.py
 msgid "\"The gas the gas the green gas spreads forever\""
-msgstr ""
+msgstr "「ガス、ガス、緑のガス。どこまでも広がる」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -44518,14 +45453,17 @@ msgid ""
 "Two, keep your iron sights lined up or succumb. Three, stay FAR WAY from all"
 "\""
 msgstr ""
+"「サバイバルには基本的なルールが5つある。一つ、見晴らしの良い場所を確保しろ。"
+"二つ、アイアンサイトを持て。無理なら死ね。三つ、全てから距離を取れ。さもなく"
+"ば死」"
 
 #: lang/json/snippet_from_json.py
 msgid "\"There's gotta be a better use of all this rebar...\""
-msgstr ""
+msgstr "「鉄筋を有効に活用する方法があるはずだ…」"
 
 #: lang/json/snippet_from_json.py
 msgid "\"They are NOT slow! They are NEVER slow!\""
-msgstr ""
+msgstr "「奴らはノロくない！奴らはノロくならない！」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -44538,106 +45476,123 @@ msgid ""
 "\"They said a walking cane was a useless weapon... but then I hit one of "
 "them with it.\""
 msgstr ""
+"「人々はステッキなど無用の武器だと言った。しかし今、私はそれで敵を打ち倒して"
+"いる」"
 
 #: lang/json/snippet_from_json.py
 msgid "\"This apocalypse will be good for the US financial crisis\""
-msgstr ""
+msgstr "「この災厄だって合衆国の金融危機が終わる頃には終わるだろうさ」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
 "\"This thing isn't a car any more. It's just a fucking mountain of metal on "
 "wheels, which I live in.\""
 msgstr ""
+"「これはもう車じゃない。車輪の上にくず鉄の山が乗ってるだけだ。だが俺はそこで"
+"生活している」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
 "\"Those evac shelters have basements. Remember when they were full of food? "
 "Every single one is fucking empty now...\""
 msgstr ""
+"「シェルターの地下には食料が貯蔵されてるんじゃなかったか？何一つありゃし"
+"ねぇ、空じゃねぇかクソが」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
 "\"Took a picture of a dead dog leaping right onto a soldier. Sweet fucking "
 "shot!\""
-msgstr ""
+msgstr "「兵士に飛びかかる瞬間のゾンビ犬の写真が撮れたぜ。超ベストショット！」"
 
 #: lang/json/snippet_from_json.py
 msgid "\"WHY DO ALL THE DEAD CHILDREN GO TO SCHOOL\""
-msgstr ""
+msgstr "「なぜ学校の子供達が全滅していたんだ」"
 
 #: lang/json/snippet_from_json.py
 msgid "\"What the hell are they mining for in these shafts?\""
-msgstr ""
+msgstr "「一体全体、この坑道はなんのために掘っているんだ？」"
 
 #: lang/json/snippet_from_json.py
 msgid "\"What was XEDRA doing, anyway?\""
-msgstr ""
+msgstr "「XEDRAはいったい何をした？」"
 
 #: lang/json/snippet_from_json.py
 msgid "\"What's with these pits... with, like, sli\""
-msgstr ""
+msgstr "「なんだこの穴は、粘液のようなものがたまっ」"
 
 #: lang/json/snippet_from_json.py
 msgid "\"Why are all the lawnmowers broken?!\""
-msgstr ""
+msgstr "「どうしてあちこちの芝刈り機が壊されているんだろう」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
 "\"Why would you ever hide in a damn gun store? The owner... he was a moron "
 "alright.\""
 msgstr ""
+"「どうしてこんな銃屋に隠れちまったんだ？ひとつ言えることは、オーナーはマヌケ"
+"野郎だってことだ」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
 "\"Why would you hide in a farm? Sure, it's isolated, but if they know where "
 "you are, you don't exactly have cover on all sides.\""
 msgstr ""
+"「どうして農場に隠れない？確かに孤立した場所だ。だがそれはお前らが集まらない"
+"からだ。お前らが集まれば全方位をカバーできるんだ」"
 
 #: lang/json/snippet_from_json.py
 msgid "\"You can't see them through the smoke but they can't either.\""
-msgstr ""
+msgstr "「煙の向こうは見えません」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
 "\"Your backpack's gonna weigh you down in the water. Hell, feel free to get "
 "naked. Nobody's going to judge your modesty.\""
 msgstr ""
+"「バックパックは水に沈む。泳ぐなら裸になれ。もはや慎み深さを問う人間などいな"
+"い」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
 "\"Zombies, walkers, dead ones, undead, reanimated, zed, animata, biters. Did "
 "I miss any?\""
 msgstr ""
+"「ゾンビ、歩く、死体、不死者、蘇った、Zの字、活発、噛む。何か見逃している？」"
 
 #: lang/json/snippet_from_json.py
 msgid "\"dog bit off my legs, magical hospital make all better\""
-msgstr ""
+msgstr "「犬に足を噛まれたら前より良くなった。魔法の病院にかかったようだ」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
 "\"got into a prison with a halligan bar. makes me wonder how they kept "
 "prisoners inside\""
 msgstr ""
+"「刑務所でハリガンバールを見つけた。囚人の脱走を防ぐ方策について思いを馳せ"
+"る」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
 "\"how DO I use THESE bionic THINGS? I just STUCK the wires IN my WRIST and "
 "now I CAN'T STOP twitching. AND now my LEG hurts! Is THAT acid?!\""
 msgstr ""
+"「CBMはいつもどうやて使っている？手首のキカイけいれんが止めらない なんか足も"
+"イタくな 酸！？」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
 "\"met schoolhouse of people, all crazy and mad they were, ate killed all of "
 "them, yum\""
-msgstr ""
+msgstr "「会った校舎の人たちは頭がイカレていたのでみんな殺して食べたおいし」"
 
 #: lang/json/snippet_from_json.py
 msgid "\"po p y fl ow er s don t ea at them\""
-msgstr ""
+msgstr "「ケ…の花…食べ……危険だ」"
 
 #: lang/json/snippet_from_json.py
 msgid "\"tHE Portal it's so COld\""
-msgstr ""
+msgstr "「ポータル超冷たい」"
 
 #: lang/json/snippet_from_json.py
 msgid "\"telportfd itont wall, amr gone\""
@@ -44646,6 +45601,8 @@ msgstr ""
 #: lang/json/snippet_from_json.py
 msgid "\"the eye it watches me it follows me everywhere help\""
 msgstr ""
+"「その目はいつでも私を見ていて、いつでも私についてきて、どこでも助けてくれ"
+"る」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -45061,10 +46018,13 @@ msgid ""
 "day He shall consume us all.  Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl "
 "fhtagn."
 msgstr ""
+"「Green Fever」に選ばれた仔等よ新世界へ征こう。我等にはあの御方の黒い炎に輝く"
+"眼が苦痛に歪むのが見えるであろう。あの御方は我等の献身を今や遅しと待っておら"
+"れるのだ。ふんぐるい むぐるうなふ くとぅるう るるいえ うがふなぐる ふたぐん"
 
 #: lang/json/snippet_from_json.py
 msgid "There is a splotch of blood on it. \"blood of the zombie king\""
-msgstr ""
+msgstr "「ゾンビ達の王の血」 紙には血痕が付着している。"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -45072,6 +46032,8 @@ msgid ""
 "colors and patterns, but no definite message other than \"104.4 all the "
 "best, all the time!\" in big yellow letters."
 msgstr ""
+"これはローカルラジオ局のチラシです。幾つもの鮮やかな色で模様が描かれていま"
+"す。黄色い字で大きく「104.4 いつも楽しく」と書かれています。"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -45082,6 +46044,11 @@ msgid ""
 "this one with a permanent marker.  It is now covered in rude images and "
 "racial epithets."
 msgstr ""
+"これはファーストフードチェーンのチラシです。男性が注文している横には若草色の"
+"シャツを着た美しい女性が、後部座席には楽しそうな子供が二人座っています。そし"
+"てこう書かれています。「バーガーとフライドポテト、それと笑顔を」隅の方に会社"
+"のロゴがあります。このチェーンの1つに行った誰かの書き込みがあります。この店は"
+"今クソみたいな落書きで埋め尽くされてるよ。"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -45090,6 +46057,10 @@ msgid ""
 "happy children sitting in the back seat.  The poster reads \"Burgers, fries, "
 "and a Smile.\" Down in one corner is a company logo."
 msgstr ""
+"これはファーストフードチェーンのチラシです。男性が注文している横には若草色の"
+"シャツを着た美しい女性が、後部座席には楽しそうな子供が二人座っています。そし"
+"てこう書かれています。「バーガーとフライドポテト、それと笑顔を」隅の方に会社"
+"のロゴがあります。"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -45097,6 +46068,8 @@ msgid ""
 "Italian holding a pizza, with the words \"its a goooood pizza\" written "
 "above his head."
 msgstr ""
+"これはローカルピザチェーンのチラシです。イタリア人らしき漫画のキャラクターが"
+"ピザを持っており、頭の上には「its a goooood pizza」と書いてあります。"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -45105,6 +46078,9 @@ msgid ""
 "above his head.  Someone has drawn an exaggerated mustache on the cartoon "
 "Italian, along with a pair of crude, oversized breasts."
 msgstr ""
+"これはローカルピザチェーンのチラシです。イタリア人らしき漫画のキャラクターが"
+"ピザを持っており、頭の上には「its a goooood pizza」と書いてあります。マジック"
+"で髭と胸が落書きされています。"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -45113,6 +46089,10 @@ msgid ""
 "walking towards the viewer.  At his side is his trusty cyberdog companion "
 "and in the background is an explosion."
 msgstr ""
+"これは映画「パックストーンの冒険6 ドッグマンの逆襲」の大判ポスターです。リボ"
+"ルバーとクレイモアを持ち革のジャケットを身に着けたマッチョな男性がこちらに向"
+"かって歩いています。彼の側にいるのは仲間のサイバードッグで、背景では爆発が起"
+"きています。"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -45120,6 +46100,8 @@ msgid ""
 "shot eye with a rather long block of information beneath it making some "
 "fairly exaggerated claims about the product."
 msgstr ""
+"これはコンタクトレンズの広告ポスターです。充血した眼の写真とかなり誇張された"
+"宣伝文句が並んでいます。"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -45128,6 +46110,9 @@ msgid ""
 "off, and written in jagged letters across the top in red crayon are the "
 "words \"ALL HAIL THE CRIMSON KING!\"."
 msgstr ""
+"これはコンタクトレンズの広告ポスターです。充血した眼が写っています。意味のあ"
+"る部分は破り取られ、赤いクレヨンで文字が書かれています。「ALL HAIL THE "
+"CRIMSON KING！」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -45137,6 +46122,10 @@ msgid ""
 "IS JUST!  YOU WILL BE DIVIDED FATHER AGAINST SON AND MOTHER AGAINST CHILD "
 "UNTO THE VERY LAST SINNER!"
 msgstr ""
+"これは匿名でばら撒かれた紙片です。写真のように正確な手書きによって転写された"
+"文章です。概ね狂人の戯言や福音書のパクリが綴られています。罪人達よ、大いなる"
+"バビロンに宣告されし裁きの時は近い！お前達は滅びを見届ける事しか出来ないの"
+"だ！父は息子と母は子供と対立するであろう最後の罪人が残るまで！"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -45148,6 +46137,11 @@ msgid ""
 "treatment camp by authorized agents of the United States military.  Thank "
 "you for your compliance."
 msgstr ""
+"これは連邦緊急事態管理庁(FEMA)からの公告です。幾つかの言語で「家から出るな」"
+"という類の文章が繰り返されています。米国政府は「Green Fever」の感染拡大防止策"
+"を講じており、現在救援部隊が罹災地へと向かっている。治安の悪化による混乱が懸"
+"念されるため、住宅等で孤立している者はFEMAキャンプの委任を受けた軍が迎えに行"
+"くまで待機を続けるように。皆様のご協力に感謝いたします。"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -45158,6 +46152,10 @@ msgid ""
 "frequently with soap and water.  In light of recent events, the CDC also "
 "recommends an annual flu vaccine for everyone 6 months of age and older."
 msgstr ""
+"これは疾病予防管理センター(CDC)からの告示です。幾つかの言語で繰り返し「Green "
+"Fever」と呼称される病気への注意勧告がなされています。CDCは咳やくしゃみを防ぐ"
+"ためのマスクと定期的に石鹸での手洗いを推奨し、また、6ヶ月以上インフルエンザの"
+"予防接種を受けていない人を対象にワクチンの摂取を勧告する。"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -45168,6 +46166,11 @@ msgid ""
 "reporting.  All official evacuation points are death-traps.  Secure supplies "
 "and escape the cities while there is still time."
 msgstr ""
+"これは匿名でばら撒かれた警告文です。雑な両面刷りのせいで読み取りづらいです"
+"が、概ね「嘘を信じるな」という類の文章が書かれています。「Green Fever」は爆発"
+"的に広がっている。軍が集めた人々はキャンプではなく死の収容所に送られている。"
+"メディアを信用するな。避難所は全てデストラップだ。まだ猶予は残されている、物"
+"資を集めて街から逃げるんだ。"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -45178,6 +46181,10 @@ msgid ""
 "authorized military personnel.  This curfew will remain in effect until "
 "further notice.  Stay indoors.  Violators will be shot on sight."
 msgstr ""
+"これは陸軍からの緊急の布告文です。幾つかの言語で短い文章が綴られています。大"
+"統領は戒厳令を発令した。市民は軍の指示に従い適切なFEMAキャンプへの避難が完了"
+"するまでの間、安全な場所で待機すること。この外出禁止令は以後の通知があるまで"
+"有効である。もう一度繰り返す、外に出るな。違反者は射殺する。"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -45186,6 +46193,9 @@ msgid ""
 "poster reads, \"Cascade Cola, for those special moments\" in bold white "
 "letters."
 msgstr ""
+"これは炭酸飲料の広告です。ビーチで夕日を見る幸せそうなカップルの写真です。二"
+"人の間にはコーラのボトルがあります。ポスターに白い太字で「特別な時間に。カス"
+"ケードコーラ」と書かれています。"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -45195,6 +46205,10 @@ msgid ""
 "letters.  Someone has colored in the sun with a black marker.  The words "
 "\"oh Discordia\" are scrawled across the top."
 msgstr ""
+"これは炭酸飲料の広告です。ビーチで夕日を見る幸せそうなカップルの写真です。二"
+"人の間にはコーラのボトルがあります。ポスターに白い太字で「特別な時間に。カス"
+"ケードコーラ」と書かれています。落書きされており、黒いマーカーで太陽が塗り潰"
+"され、上の方に「おお、ディスコルディアよ」と走り書きされています。"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -45202,6 +46216,9 @@ msgid ""
 "a robotic phoenix covered in flames. The captions read: \"Get the new Model "
 "28.tx Phoenix today!\" and \"Twenty8. See what you've been missing.\""
 msgstr ""
+"これはTwenty8社のCBM:赤外視の広告です。炎に包まれる不死鳥を象ったロボットが描"
+"かれています。そしてこう書かれています。「新モデル登場！28.tx フェニック"
+"ス！」「Twenty8はかつてない体験を貴方に」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -45209,6 +46226,8 @@ msgid ""
 "shows a picture of a dozen eyebots floating over a woman as she jogs through "
 "a park. The captions read: \"Built to Protect. Programmed to Serve.\""
 msgstr ""
+"これはDoubleTech社の法執行用ロボットの広告です。公園を走る女性と12台の監視ロ"
+"ボットが描かれています。「DoubleTech社。頑丈な造り。命令を順守」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -45217,6 +46236,9 @@ msgid ""
 "bomber painted as an American flag. The caption reads: \"Built to Protect. "
 "Programmed to Serve.\""
 msgstr ""
+"これはDoubleTech社の法執行用ロボットの広告です。ハクトウワシと星条旗が描かれ"
+"たB-2と共に飛ぶ監視ロボットが描かれています。そしてこう書かれています。"
+"「DoubleTech社。頑丈な造り。命令を順守」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -45225,6 +46247,9 @@ msgid ""
 "teargas and flame. The caption reads: \"DoubleTech Industries. Built to "
 "Protect. Programmed to Serve.\""
 msgstr ""
+"これはDoubleTech社の法執行用ロボットの広告です。催涙ガスと炎の中から姿を現す"
+"警官ロボットと監視ロボットが描かれています。そしてこう書かれています。"
+"「DoubleTech社。頑丈な造り。命令を順守」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -45233,6 +46258,9 @@ msgid ""
 "background a troop of boy scouts salutes the robot. The caption reads: "
 "\"Built to Protect. Programmed to Serve.\""
 msgstr ""
+"これはDoubleTech社の法執行用ロボットの広告です。胡椒スプレーと手錠を構える警"
+"官ロボットが描かれています。そしてこう書かれています。「DoubleTech社。頑丈な"
+"造り。命令を順守」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -45244,6 +46272,10 @@ msgid ""
 "The caption reads: \"A well-armed community is a SAFE community.  Leadworks, "
 "LLC.\""
 msgstr ""
+"これはLeadworks LLCの新天地開拓用スターターパックの広告です。若い夫婦がライフ"
+"ルとリボルバーを持ち、玄関に立って辺りを見回しています。他の家でも同じように"
+"武装して玄関に立っています。一方で子供達は遊び、老人達は菜園の世話をしていま"
+"す。そしてこう書かれています。「武装した地域は安全な地域です。Leadworks LLC」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -45252,6 +46284,9 @@ msgid ""
 "Sitting beside the plate is a block of brightly colored caseless ammunition. "
 "The caption reads:  \"Rivtech 8x40mm caseless. Nothing else comes close.\""
 msgstr ""
+"これはRivtech社の弾薬の広告です。装甲板の真ん中に穴が開いており、その横には派"
+"手な色の弾薬が写っています。そしてこう書かれています。「Rivtechの8x40mmケース"
+"レス弾。圧倒的な威力」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -45261,6 +46296,9 @@ msgid ""
 "approaching wildlife. The caption reads:  \"Rivtech caseless firearms. "
 "Superior stopping power.\""
 msgstr ""
+"これはRivtech社の銃器の広告です。3人のハンターの写真です。それぞれ異なる未来"
+"的な銃器を持ち、暴れる猛獣を射撃しています。そしてこう書かれています。"
+"「Rivtechのケースレス銃器の優れたストッピングパワー」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -45269,6 +46307,9 @@ msgid ""
 "legion of villainous looking characters. The caption reads:  \"Protect "
 "yourself with the Rivtech caseless automagnum!\""
 msgstr ""
+"これはRivtech社のハンドガンの広告です。ビジネススーツの2人組が悪人達をハンド"
+"ガンで屈服させる写真です。そしてこう書かれています。「自分の身は自分で守れ。"
+"Rivtechのケースレスオートマグ」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -45277,6 +46318,9 @@ msgid ""
 "viewer. The caption reads:  \"Rivtech caseless firearms proudly supports our "
 "Military.\""
 msgstr ""
+"これはRivtech社のライフルの広告です。人々に敬礼されて嬉しそうな兵士の写真で"
+"す。彼女の肩に未来的なライフルが掛かっているのが見て取れます。そしてこう書か"
+"れています。「Rivtechのケースレス銃器が軍の助けとなれれば光栄です」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -45290,6 +46334,13 @@ msgid ""
 "ataxia, amnesia, mania, stroke, neurodegeneration, malignalitaloptereosis, "
 "necrotizing fasciitis, recurrent flu, and pinkeye."
 msgstr ""
+"これはRivtech社の栄養ドリンク「ATOMIC POWER THIRST」の広告です。同位体RU-238"
+"の実という新しい味を宣伝するための物のようですが、スペースの大半は長ったらし"
+"い警告表示のリストで埋められています。不安、不眠、重度の不眠症、めまい、震"
+"え、吐き気、頭痛、嘔吐、妄想、幻覚、横紋筋融解症、内部熱傷、甲状腺癌、広範囲"
+"な内出血、上部消化管出血、下痢、不整脈、心血管虚脱、希死念慮、発作、運動失"
+"調、記憶喪失、躁病、脳卒中、神経変性、マダムミム病、壊死性筋膜炎、回帰性イン"
+"フルエンザ、および結膜炎。"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -45298,6 +46349,9 @@ msgid ""
 "looters and stepping over charred and smoking corpses. The caption reads: "
 "\"R.U.R. Technology you can Trust.\""
 msgstr ""
+"これはRobert's Universal Robots社の法執行用ロボットの広告です。暴徒を焼き払"
+"い、煙を上げる死体を踏みつける三脚式ロボットが描かれています。そしてこう書か"
+"れています。「R.U.R.社の製品は高い信頼性を誇っています」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -45307,6 +46361,10 @@ msgid ""
 "down over his eyes. The captions read: \"It's a tough job, so why should you "
 "have to do it?\" and \"R.U.R. Technology you can Trust.\""
 msgstr ""
+"これはRobert's Universal Robots社の作業用ロボットの広告です。レンガの山を運ぶ"
+"ロボットと、その後ろでヘルメットで顔を覆って寝る作業員が描かれています。そし"
+"てこう書かれています。「その辛い作業、貴方がやる必要はありますか？」「R.U.R."
+"社の製品は高い信頼性を誇っています」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -45315,6 +46373,9 @@ msgid ""
 "background a man in a suit reads a newspaper that shows soaring stock "
 "prices. The caption reads: \"R.U.R. Technology you can Trust.\""
 msgstr ""
+"これはRobert's Universal Robots社の作業用ロボットの広告です。ロボットにより自"
+"動化された工場と、新聞で株価の成長を確認するスーツを着た男性が描かれていま"
+"す。そしてこう書かれています。「R.U.R.社の製品は高い信頼性を誇っています」"
 
 #: lang/json/snippet_from_json.py
 #, no-python-format
@@ -45325,6 +46386,10 @@ msgid ""
 "up. In the background feral dogs gnaw on the man's discarded former limbs. "
 "The caption reads:  \"Spring Cleaning Sale! 20% off!\""
 msgstr ""
+"これはSybil's Cyber Boutiqueの広告です。鏡の前で機械の腕を輝かせる男性が描か"
+"れています。彼の両脇では血塗れのチェーンソーを持った露出過多なナース達がサム"
+"ズアップしており、背景では野犬が元は彼の物だったであろうヒトの腕に齧りついて"
+"います。そしてこう書かれています。「春の一掃セール！20%オフ！」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -45333,6 +46398,9 @@ msgid ""
 "foreground a blood-drenched doctor gives an exaggerated wink and two thumbs "
 "up. The caption reads: \"Holiday sales! Get the package deals!\""
 msgstr ""
+"これはSybil's Cyber Boutiqueの広告です。美女達に囲まれるオタクの男性が描かれ"
+"ています。手前では血塗れの医師がウィンクしながら両手でサムズアップしていま"
+"す。そしてこう書かれています。「休日セール中！複数箇所で更にお得！」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -45341,12 +46409,17 @@ msgid ""
 "patient is strapped to a chair but cheerfully gives two thumbs up. The "
 "caption reads: \"Free Plastic Surgery While You Wait!\""
 msgstr ""
+"これはSybil's Cyber Boutiqueの広告です。ビキニ姿の女性医師達が男性の顔の皮膚"
+"を切除する様子が描かれています。患者は椅子に縛り付けられながらも両手でサムズ"
+"アップしています。そしてこう書かれています。「迅速で自在な整形をお届け！」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
 "This is an advertisement for soda.  It shows a dark brown can of soda on a "
 "black background.  The label reads \"Spin\"."
 msgstr ""
+"これは炭酸飲料の広告です。黒い背景に暗褐色の缶が写っています。ラベルには"
+"「Spin」と書いてあります。"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -45355,6 +46428,10 @@ msgid ""
 "whiskey. A tiny obese devil sits on his shoulder and drinks a martini. The "
 "caption reads: \"Drink like there's no tomorrow!\""
 msgstr ""
+"これはDiet Devil社のCBM:エタノール燃焼装置の広告です。車を運転する少年の肩の"
+"上に太った小悪魔が座っており、少年はウィスキーのボトルを一気飲みし、小悪魔は"
+"マティーニのグラスをちびちび飲んでいます。そしてこう書かれています。「後先考"
+"えるな！いいから飲め！」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -45363,6 +46440,9 @@ msgid ""
 "is about to bite into a frosting-covered baby. The caption reads: \"Eat What "
 "You Want! How You Want! Who You Want!\""
 msgstr ""
+"これはDiet Devil社のCBM:体内炉の広告です。男性の肩の上に太った小悪魔が座って"
+"おり、男性は砂糖がまぶされた子供のようなものに齧り付こうとしています。そして"
+"こう書かれています。「何でも食べろ！自由に食べろ！好きな様に食べろ！」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -45371,6 +46451,10 @@ msgid ""
 "woman stares intently at a gigantic wedding cake covered with bacon and "
 "candybars. The caption reads: \"Burn calories! Burn!\""
 msgstr ""
+"これはDiet Devil社のCBM:新陳代謝相互変換装置の広告です。女性の肩の上に太った"
+"小悪魔が座っており、女性はベーコンやキャンディが刺さった巨大なウェディング"
+"ケーキに熱い視線を注いでいます。そしてこう書かれています。「燃やせ！カロリー"
+"を燃やせ！」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -45380,6 +46464,10 @@ msgid ""
 "\"Rivtech retractable monomolecular blade system. Failure is never an option."
 "\" and \"Rivtech Bionics, guaranteed for life.\""
 msgstr ""
+"これはRivtech社のCBM:単分子ブレードの広告です。それは怒れる熊から子供を守るた"
+"め、腕から剣を出して立ち向かう母親が描かれています。そしてこう書かれていま"
+"す。「Rivtechの単分子ブレード。買って損はさせません」「RivtechのCBMはより良い"
+"生活を保証します」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -45389,6 +46477,10 @@ msgid ""
 "synthetic adenosine triphosphate recovery system on the market.\" and "
 "\"Rivtech Bionics, guaranteed for life.\""
 msgstr ""
+"これはRivtech社のCBM:筋肉増強の広告です。赤い背景で吠える狼が描かれています。"
+"そしてこう書かれています。「Rivtechのマイアマー繊維は市販品の中で最も優秀な合"
+"成アデノシン三リン酸供給装置を有しています」「RivtechのCBMはより良い生活を保"
+"証します」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -45398,6 +46490,10 @@ msgid ""
 "system. The latest in synthetic high-performance glycoprotein deposition "
 "technology.\" and \"Rivtech Bionics, guaranteed for life.\""
 msgstr ""
+"これはRivtech社のCBM:シナプス加速装置の広告です。赤い背景で舞い上がるカラスが"
+"描かれています。そしてこう書かれています。「第6世代では髄鞘形成を助けるレトロ"
+"ウイルスを採用し、神経伝達物質へと変化しやすい合成タンパク質の生成にも成功し"
+"ました」「RivtechのCBMはより良い生活を保証します」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -45407,6 +46503,9 @@ msgid ""
 "in quantum inductive piezochemical nerve stimulation technology.\" and "
 "\"Rivtech Bionics, guaranteed for life.\""
 msgstr ""
+"これはRivtech社のCBM:反射神経活性化の広告です。赤い背景で唸る黒猫が描かれてい"
+"ます。そしてこう書かれています。「Rivtechの神経刺激装置は他者を圧倒する飛躍的"
+"な進化を遂げています」「RivtechのCBMはより良い生活を保証します」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -45415,6 +46514,9 @@ msgid ""
 "captions read: \"Get the new Model 28.xx Hawk-Eye!\" and \"Twenty8. See what "
 "you've been missing.\""
 msgstr ""
+"これはTwenty8社のCBM:ダイヤモンド角膜の広告です。電子機器を嘴で攫う鷹が描かれ"
+"ています。そしてこう書かれています。「新モデル登場！28.xx ホークアイ！」"
+"「Twenty8はかつてない体験を貴方に」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -45423,6 +46525,9 @@ msgid ""
 "captions read: \"Get the new Model 28.bx Eagle-Eye!\" and \"Twenty8. See "
 "what you've been missing.\""
 msgstr ""
+"これはTwenty8社のCBM:ダイヤモンド角膜の広告です。電子機器を爪で掴む鷲が描かれ"
+"ています。そしてこう書かれています。「新モデル登場！28.bx イーグルアイ！」"
+"「Twenty8はかつてない体験を貴方に」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -45431,6 +46536,9 @@ msgid ""
 "\"Get the new Model 28.hx Night-Owl!\" and \"Twenty8. See what you've been "
 "missing.\""
 msgstr ""
+"これはTwenty8社のCBM:暗視の広告です。電子機器に飛び掛かる梟が描かれています。"
+"そしてこう書かれています。「新モデル登場！28.hx ナイトオウル！」「Twenty8はか"
+"つてない体験を貴方に」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -45439,6 +46547,9 @@ msgid ""
 "captions read: \"Get the new Model 28.vx Vulture today!\" and \"Twenty8. See "
 "what you've been missing.\""
 msgstr ""
+"これはTwenty8社のCBM:臭跡視の広告です。電子機器と骨の山の上に腰掛けるコンドル"
+"が描かれています。そしてこう書かれています。「新モデル登場！28.vx ヴァル"
+"チャー！」「Twenty8はかつてない体験を貴方に」"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -45447,6 +46558,9 @@ msgid ""
 "\"Improving the world, one tank at a time.\" is written across the top in "
 "small letters."
 msgstr ""
+"これはソーラーカーのポスターです。車は小さな動物のいる緑豊かな郊外を走ってい"
+"ます。一番上には「世界のために、1タンクずつ減らそう」というスローガンが小さめ"
+"の文字で書かれています。"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -45456,6 +46570,10 @@ msgid ""
 "Someone used a blue pen to write \"who gives a shit\" across the slogan and "
 "put X's over the eyes of all the animals."
 msgstr ""
+"これはソーラーカーのポスターです。車は小さな動物のいる緑豊かな郊外を走ってい"
+"ます。一番上には「世界のために、1タンクずつ減らそう」というスローガンが小さめ"
+"の文字で書かれています。青いペンで文字が書かれています。「知るかボケ！」さら"
+"に動物の目という目にはX印が加えられています。"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -47819,12 +48937,20 @@ msgid "boarded up damaged door"
 msgstr "損傷した板張りドア"
 
 #: lang/json/terrain_from_json.py
+msgid "boarded up damaged door with peephole"
+msgstr "ドアスコープが付いた損傷した板張り補強ドア"
+
+#: lang/json/terrain_from_json.py
 msgid "boarded up damaged reinforced door"
 msgstr "損傷した板張り補強ドア"
 
 #: lang/json/terrain_from_json.py
 msgid "boarded up door"
 msgstr "板張りされたドア"
+
+#: lang/json/terrain_from_json.py
+msgid "boarded up door with peephole"
+msgstr "ドアスコープが付いた損傷した板張りドア"
 
 #: lang/json/terrain_from_json.py
 msgid "boarded up reinforced door"
@@ -47919,6 +49045,10 @@ msgid "closed wood door"
 msgstr "閉じたドア(木)"
 
 #: lang/json/terrain_from_json.py
+msgid "closed wood door with peephole"
+msgstr "ドアスコープが付いた閉じたドア(木)"
+
+#: lang/json/terrain_from_json.py
 msgid "closed wooden gate"
 msgstr "閉じた門(木)"
 
@@ -47943,6 +49073,10 @@ msgid "corpse filled pit"
 msgstr "死体で満たされた穴"
 
 #: lang/json/terrain_from_json.py
+msgid "covered glass pit"
+msgstr "ガラス落とし穴"
+
+#: lang/json/terrain_from_json.py
 msgid "covered pit"
 msgstr "落とし穴"
 
@@ -47964,7 +49098,7 @@ msgstr "メリッとひびが入る音が聞こえました。"
 
 #: lang/json/terrain_from_json.py
 msgid "current transformer"
-msgstr ""
+msgstr "変流器"
 
 #: lang/json/terrain_from_json.py
 msgid "cvd control panel"
@@ -47985,6 +49119,10 @@ msgstr "損傷した電気通信機器収納棚"
 #: lang/json/terrain_from_json.py
 msgid "damaged wood door"
 msgstr "損傷したドア(木)"
+
+#: lang/json/terrain_from_json.py
+msgid "damaged wood door with peephole"
+msgstr "ドアスコープが付いた損傷したドア(木)"
 
 #: lang/json/terrain_from_json.py
 msgid "dark pedestal"
@@ -48008,7 +49146,7 @@ msgstr "床(土)"
 
 #: lang/json/terrain_from_json.py
 msgid "disconnect switch"
-msgstr ""
+msgstr "断路器"
 
 #: lang/json/terrain_from_json.py
 msgid "downward slope"
@@ -48078,6 +49216,10 @@ msgstr "給油ポンプ"
 msgid "glass crunching!"
 msgstr "ガラスをバリバリと踏み砕く音が聞こえました！"
 
+#: lang/json/terrain_from_json.py lang/json/trap_from_json.py
+msgid "glass pit"
+msgstr "ガラス穴"
+
 #: lang/json/terrain_from_json.py
 msgid "glass wall"
 msgstr "壁(ガラス)"
@@ -48128,7 +49270,7 @@ msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "large switchgear"
-msgstr ""
+msgstr "大型開閉装置"
 
 #: lang/json/terrain_from_json.py lang/json/trap_from_json.py
 msgid "lava"
@@ -48140,7 +49282,7 @@ msgstr "明るい台座"
 
 #: lang/json/terrain_from_json.py
 msgid "lightning arrester"
-msgstr ""
+msgstr "避雷器"
 
 #: lang/json/terrain_from_json.py
 msgid "linoleum tile"
@@ -48169,6 +49311,10 @@ msgstr "マンホール"
 #: lang/json/terrain_from_json.py
 msgid "marloss bush"
 msgstr "マーロスベリーの低木"
+
+#: lang/json/terrain_from_json.py
+msgid "marloss tree"
+msgstr "木(マーロス)"
 
 #: lang/json/terrain_from_json.py
 msgid "mechanical winch"
@@ -48243,6 +49389,10 @@ msgid "open wood door"
 msgstr "開いたドア(木)"
 
 #: lang/json/terrain_from_json.py
+msgid "open wood door with peephole"
+msgstr "ドアスコープが付いた開いたドア(木)"
+
+#: lang/json/terrain_from_json.py
 msgid "open wooden gate"
 msgstr "開いた門(木)"
 
@@ -48304,7 +49454,7 @@ msgstr "プールの水"
 
 #: lang/json/terrain_from_json.py
 msgid "potential transformer"
-msgstr ""
+msgstr "計器用変圧器"
 
 #: lang/json/terrain_from_json.py
 msgid "pow!"
@@ -48436,7 +49586,7 @@ msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "small switchgear"
-msgstr ""
+msgstr "小型開閉装置"
 
 #: lang/json/terrain_from_json.py
 msgid "smashed gas pump"
@@ -48592,6 +49742,10 @@ msgstr "切断中"
 
 #: lang/json/tool_quality_from_json.py
 msgid "digging"
+msgstr "掘削中"
+
+#: lang/json/tool_quality_from_json.py
+msgid "drilling"
 msgstr "掘削中"
 
 #: lang/json/tool_quality_from_json.py
@@ -49642,6 +50796,30 @@ msgid "Intelligence - 1;   Occasional cravings"
 msgstr "知性 -1 / 低い依存性"
 
 #: src/addiction.cpp
+msgid "Marloss Cravings"
+msgstr "依存症状(マーロス/高)"
+
+#: src/addiction.cpp
+msgid "Marloss Desire"
+msgstr "依存症状(マーロス/中)"
+
+#: src/addiction.cpp
+msgid "Marloss Longing"
+msgstr "依存症状(マーロス/低)"
+
+#: src/addiction.cpp
+msgid "Marloss berries"
+msgstr "マーロスベリー"
+
+#: src/addiction.cpp
+msgid "Marloss gel"
+msgstr "ゼラチン(マーロス)"
+
+#: src/addiction.cpp
+msgid "Marloss seeds"
+msgstr "種(マーロス)"
+
+#: src/addiction.cpp
 msgid "Mutation Withdrawal"
 msgstr "禁断症状(変異原物質)"
 
@@ -49676,8 +50854,8 @@ msgid "Perception - 2;   Intelligence - 2;  Frequent cravings."
 msgstr "感覚 -2 / 知性 -2 / 強い依存性"
 
 #: src/addiction.cpp
-msgid "Sleeping Pill Dependance"
-msgstr "禁断症状(睡眠薬)"
+msgid "Sleeping Pill Dependence"
+msgstr "依存症状(睡眠薬)"
 
 #: src/addiction.cpp
 #, c-format
@@ -49729,6 +50907,18 @@ msgid "You could use some nicotine."
 msgstr ""
 
 #: src/addiction.cpp
+msgid "You daydream about luscious pink berries as big as your fist."
+msgstr ""
+
+#: src/addiction.cpp
+msgid "You daydream about nutty cyan seeds as big as your hand."
+msgstr ""
+
+#: src/addiction.cpp
+msgid "You daydream about succulent, pale golden gel, sweet but light."
+msgstr ""
+
+#: src/addiction.cpp
 msgid ""
 "You daydream what it'd be like if you were *different*.  Different is good."
 msgstr ""
@@ -49756,6 +50946,18 @@ msgstr "睡眠薬が無いと眠り辛くなるかもしれない。"
 #: src/addiction.cpp
 msgid "You need some nicotine."
 msgstr "ニコチンが必要だ。"
+
+#: src/addiction.cpp
+msgid "You should try some of that golden gel."
+msgstr ""
+
+#: src/addiction.cpp
+msgid "You should try some of those cyan seeds."
+msgstr ""
+
+#: src/addiction.cpp
+msgid "You should try some of those pink berries."
+msgstr ""
 
 #: src/addiction.cpp
 msgid "You so miss the exquisite rainbow of post-humanity."
@@ -54347,6 +55549,10 @@ msgid "Meth Comedown"
 msgstr "精神消沈"
 
 #: src/disease.cpp
+msgid "Mycal wrath fills our fibers, and we grow turgid."
+msgstr ""
+
+#: src/disease.cpp
 msgid "No one should be asked to handle this trip."
 msgstr ""
 
@@ -54687,6 +55893,7 @@ msgid "That weed was the shiz-nittlebam snip-snap-sack."
 msgstr ""
 
 #: src/disease.cpp src/iuse.cpp src/map.cpp src/monattack.cpp src/mondeath.cpp
+#: src/player.cpp
 #, c-format
 msgid "The %s is covered in tiny spores!"
 msgstr "%sは微量の胞子に覆われました！"
@@ -54814,6 +56021,18 @@ msgstr "高体温(胴/軽)"
 #: src/disease.cpp
 msgid "Wasted"
 msgstr "飲み潰れ"
+
+#: src/disease.cpp
+msgid "We have many colonists awaiting passage."
+msgstr ""
+
+#: src/disease.cpp
+msgid "We have mistakenly colonized a local guide!  Purging now."
+msgstr ""
+
+#: src/disease.cpp
+msgid "We require repose; our fibers are nearly spent..."
+msgstr ""
 
 #: src/disease.cpp
 msgid "Webbed"
@@ -58699,6 +59918,10 @@ msgid "Failed to save game data"
 msgstr "ゲームデータのセーブに失敗しました。"
 
 #: src/game.cpp
+msgid "Failed to save player data"
+msgstr ""
+
+#: src/game.cpp
 msgid "Failed to save the maps"
 msgstr "マップのセーブに失敗しました。"
 
@@ -58847,6 +60070,11 @@ msgid "Last Words:"
 msgstr "最後の言葉:"
 
 #: src/game.cpp
+#, c-format
+msgid "Last words: %s"
+msgstr "最後の言葉: %s"
+
+#: src/game.cpp
 msgid "Learn all melee styles"
 msgstr ""
 
@@ -58895,14 +60123,6 @@ msgstr ""
 #: src/game.cpp
 msgid "Monster in the way. Auto-move canceled."
 msgstr "移動先にモンスターが存在します。自動移動を取り消しました。"
-
-#: src/game.cpp
-#, c-format
-msgid ""
-"Monster spotted--run mode is on! (%s to turn it off or %s to ignore monster.)"
-msgstr ""
-"モンスターを発見しました-走行モードを有効化しました！(%sで無効、%sでモンス"
-"ターを無視)"
 
 #: src/game.cpp
 msgid "Monsters"
@@ -59060,6 +60280,10 @@ msgstr ""
 #: src/game.cpp
 msgid "Open where?"
 msgstr "どこを開きますか？"
+
+#: src/game.cpp
+msgid "Our fibers strain with renewed wrath!"
+msgstr ""
 
 #: src/game.cpp
 #, c-format
@@ -59348,11 +60572,6 @@ msgid ""
 "Spotted %s--safe mode is on! (%s to turn it off or %s to ignore monster.)"
 msgstr ""
 "%sを発見しました-セーフモードを有効化します！(%sで無効、%sでモンスターを無視)"
-
-#: src/game.cpp
-#, c-format
-msgid "Spotted %s--safe mode is on! (%s to turn it off.)"
-msgstr "%sを発見しました-セーフモードを有効化します！(%sで無効)"
 
 #: src/game.cpp
 msgid "Status Window [@]"
@@ -59970,6 +61189,11 @@ msgstr "正午まで待機"
 #: src/game.cpp
 msgid "Wait till weather changes"
 msgstr "天候が変わるまで待機"
+
+#: src/game.cpp
+#, c-format
+msgid "We have detected a %s."
+msgstr ""
 
 #: src/game.cpp
 msgid "Wear item:"
@@ -60669,22 +61893,11 @@ msgid "You mount the %s on your %s, ready to store gear."
 msgstr ""
 
 #: src/game.cpp
+#, c-format
 msgid ""
-"You need a UPS with at least 20 charges or an advanced UPS with at least 12 "
+"You need a UPS with at least %d charges or an advanced UPS with at least %d "
 "charges to fire that!"
-msgstr "撃つにはUPS(20チャージ)かUPS改(12チャージ)が必要です！"
-
-#: src/game.cpp
-msgid ""
-"You need a UPS with at least 40 charges or an advanced UPS with at least 24 "
-"charges to fire that!"
-msgstr "撃つにはUPS(40チャージ)かUPS改(24チャージ)が必要です！"
-
-#: src/game.cpp
-msgid ""
-"You need a UPS with at least 5 charges or an advanced UPS with at least 3 "
-"charges to fire that!"
-msgstr "撃つにはUPS(5チャージ)かUPS改(3チャージ)が必要です！"
+msgstr "撃つにはUPS(%dチャージ)かUPS改(%dチャージ)が必要です！"
 
 #: src/game.cpp
 msgid "You need a free arm to drive!"
@@ -61195,6 +62408,10 @@ msgstr ""
 #: src/game.cpp
 msgid "[q]uit"
 msgstr "[q]終了"
+
+#: src/game.cpp
+msgid "a hostile survivor"
+msgstr ""
 
 #: src/game.cpp
 msgid "a huge boom!"
@@ -62482,6 +63699,10 @@ msgid "Add a message to the sign with spray paint?"
 msgstr ""
 
 #: src/iexamine.cpp
+msgid "Additional nourishment is available."
+msgstr ""
+
+#: src/iexamine.cpp
 msgid "Attempt to crack the safe?"
 msgstr ""
 
@@ -62545,6 +63766,10 @@ msgstr[1] ""
 #: src/iexamine.cpp
 msgid "Do what with the curtains?"
 msgstr "カーテンで何をしますか？"
+
+#: src/iexamine.cpp
+msgid "Do what with the door?"
+msgstr ""
 
 #: src/iexamine.cpp
 msgid "Failure! No gas pumps found!"
@@ -62622,7 +63847,7 @@ msgstr "飲む"
 
 #: src/iexamine.cpp
 msgid "Home"
-msgstr ""
+msgstr "自宅"
 
 #: src/iexamine.cpp
 #, c-format
@@ -62715,12 +63940,20 @@ msgid "One of your cash cards must be charged before you can move money!"
 msgstr "振替にはどちらかのキャッシュカードを充電する必要があります！"
 
 #: src/iexamine.cpp
+msgid "Open door."
+msgstr "ドアを開く"
+
+#: src/iexamine.cpp
 msgid "Out of order."
 msgstr "故障しています。"
 
 #: src/iexamine.cpp
 msgid "Overwrite the existing message on the sign with spray paint?"
 msgstr ""
+
+#: src/iexamine.cpp
+msgid "Peek through peephole."
+msgstr "ドアスコープを覗く"
 
 #: src/iexamine.cpp
 msgid "Peek through the curtains."
@@ -62859,12 +64092,8 @@ msgstr "IDカードを読み込ませますか？"
 
 #: src/iexamine.cpp
 #, c-format
-msgid "Take down %s?"
+msgid "Take down the %s?"
 msgstr "%sを分解しますか？"
-
-#: src/iexamine.cpp
-msgid "Take down your tent?"
-msgstr "テントを分解しますか？"
 
 #: src/iexamine.cpp
 msgid "Tear down the curtains."
@@ -62905,6 +64134,10 @@ msgid "The %s is now ready for bottling."
 msgstr ""
 
 #: src/iexamine.cpp
+msgid "The fence is no match for your freerunning abilities."
+msgstr ""
+
+#: src/iexamine.cpp
 msgid "The nearby doors slide into the floor."
 msgstr ""
 
@@ -62937,7 +64170,27 @@ msgid "The safe resists your attempt at cracking it."
 msgstr ""
 
 #: src/iexamine.cpp
+msgid "The seed blooms forth!  We have brought true beauty to this world."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "The seed blossoms into a flower-looking fungus."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "The seed blossoms rather rapidly..."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "The shrub offers up a fruit, then crumbles into a fungal bed."
+msgstr ""
+
+#: src/iexamine.cpp
 msgid "The tree is dormant and uninteresting."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "The tree offers up a fruit, then shrivels into a fungal tree."
 msgstr ""
 
 #: src/iexamine.cpp
@@ -63076,6 +64329,18 @@ msgid "Use which seed?"
 msgstr "どの種を蒔きますか？"
 
 #: src/iexamine.cpp
+msgid ""
+"We have altered this unit's configuration to extract and provide local "
+"nutriment.  The Mycus provides."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid ""
+"We have located a particularly vital nutrient deposit underneath this "
+"location."
+msgstr ""
+
+#: src/iexamine.cpp
 msgid "Welcome to AutoGas!"
 msgstr "オートガスにようこそ！"
 
@@ -63132,6 +64397,10 @@ msgstr "振替が出来るのは、自分専用のキャッシュカード(充�
 #: src/iexamine.cpp
 msgid "You cannot get to the curtains from the outside."
 msgstr "外側からカーテンを外す事は出来ません。"
+
+#: src/iexamine.cpp
+msgid "You cannot look through the peephole from the outside."
+msgstr ""
 
 #: src/iexamine.cpp
 msgid "You carefully peek through the curtains."
@@ -63287,8 +64556,16 @@ msgid "You need two cash cards before you can move money!"
 msgstr "振替にはキャッシュカードが2つ必要です！"
 
 #: src/iexamine.cpp
+msgid "You open the door."
+msgstr "ドアを開きました。"
+
+#: src/iexamine.cpp
 msgid "You overwrite the previous message on the sign with your graffiti"
 msgstr ""
+
+#: src/iexamine.cpp
+msgid "You peek through the peephole."
+msgstr "ドアスコープを覗きました。"
 
 #: src/iexamine.cpp
 msgid "You place a plank of wood over the pit."
@@ -63337,13 +64614,10 @@ msgstr ""
 msgid "You successfully crack the safe!"
 msgstr ""
 
-#: src/iexamine.cpp
-msgid "You take down the shelter"
-msgstr "シェルターを分解しました。"
-
-#: src/iexamine.cpp
-msgid "You take down the tent"
-msgstr "テントを分解しました。"
+#: src/iexamine.cpp src/map.cpp
+#, c-format
+msgid "You take down the %s."
+msgstr "%sを分解しました。"
 
 #: src/iexamine.cpp
 msgid "You tear the curtains and curtain rod off the windowframe."
@@ -63397,6 +64671,10 @@ msgstr "ガソリンの価格(単位): "
 #, c-format
 msgid "about %d %s"
 msgstr ""
+
+#: src/iexamine.cpp
+msgid "shelter"
+msgstr "シェルター"
 
 #: src/input.cpp src/requirements.cpp
 msgid " or "
@@ -63568,6 +64846,10 @@ msgstr " (温かい)"
 #: src/item.cpp
 msgid " (lit)"
 msgstr " (点火)"
+
+#: src/item.cpp
+msgid " (old)"
+msgstr " (古い)"
 
 #: src/item.cpp
 msgid " (owned)"
@@ -64697,6 +65979,41 @@ msgctxt "memorial_male"
 msgid "Adapted to underground living."
 msgstr ""
 
+#. ~"Uh-uh" is a sound used for "nope", "no", etc.
+#: src/iuse.cpp
+msgid ""
+"After what happened that last time? uh-uh.  You're not drinking that "
+"chemical stuff."
+msgstr ""
+
+#. ~"Uh-uh" is a sound used for "nope", "no", etc.  "Drek" is a borrowed synonym for "shit".
+#: src/iuse.cpp
+msgid ""
+"After what happened that last time? uh-uh.  You're not eating that alien "
+"drek."
+msgstr ""
+
+#. ~"Uh-uh" is a sound used for "nope", "no", etc.
+#: src/iuse.cpp
+msgid ""
+"After what happened that last time? uh-uh.  You're not eating that alien "
+"poison sac."
+msgstr ""
+
+#. ~"Uh-uh" is a sound used for "nope", "no", etc.
+#: src/iuse.cpp
+msgid ""
+"After what happened that last time? uh-uh.  You're not eating that alien "
+"slime."
+msgstr ""
+
+#. ~"Uh-uh" is a sound used for "nope", "no", etc.
+#: src/iuse.cpp
+msgid ""
+"After what happened that last time? uh-uh.  You're not injecting that "
+"chemical stuff."
+msgstr ""
+
 #: src/iuse.cpp
 msgid "Ahh, there it is. You can feel the mutagen again."
 msgstr ""
@@ -64739,6 +66056,12 @@ msgid "Arm what?"
 msgstr ""
 
 #: src/iuse.cpp
+msgid ""
+"As the apple settles in, you feel ecstasy radiating through every part of "
+"your body..."
+msgstr ""
+
+#: src/iuse.cpp
 msgid "As the mutagen hits you, your ears twitch and you stifle a yipe."
 msgstr ""
 
@@ -64769,14 +66092,19 @@ msgid "As you press the plunger, it all goes so bright..."
 msgstr ""
 
 #: src/iuse.cpp
+msgid ""
+"As, in time, shall we adapt to better welcome those who have not received us."
+msgstr ""
+
+#: src/iuse.cpp
 msgctxt "memorial_female"
 msgid "Ate a marloss berry."
-msgstr "マーロスベリーを食べた。"
+msgstr "マーロスベリーを食べました。"
 
 #: src/iuse.cpp
 msgctxt "memorial_male"
 msgid "Ate a marloss berry."
-msgstr "マーロスベリーを食べた。"
+msgstr "マーロスベリーを食べました。"
 
 #: src/iuse.cpp
 msgctxt "memorial_female"
@@ -64834,6 +66162,16 @@ msgstr "電池が消耗しています。"
 
 #: src/iuse.cpp
 msgctxt "memorial_female"
+msgid "Became one with the Mycus."
+msgstr "ミカズと一体となりました。"
+
+#: src/iuse.cpp
+msgctxt "memorial_male"
+msgid "Became one with the Mycus."
+msgstr "ミカズと一体となりました。"
+
+#: src/iuse.cpp
+msgctxt "memorial_female"
 msgid "Became one with the bears."
 msgstr ""
 
@@ -64850,6 +66188,10 @@ msgstr ""
 #: src/iuse.cpp
 msgctxt "memorial_male"
 msgid "Began living the dreams."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Best to stay clear of that alien crap in future."
 msgstr ""
 
 #: src/iuse.cpp
@@ -64899,6 +66241,16 @@ msgstr ""
 
 #: src/iuse.cpp
 msgid "Burn and Pillage!"
+msgstr ""
+
+#: src/iuse.cpp
+msgctxt "memorial_female"
+msgid "Burned out a particularly nasty fungal infestation."
+msgstr ""
+
+#: src/iuse.cpp
+msgctxt "memorial_male"
+msgid "Burned out a particularly nasty fungal infestation."
 msgstr ""
 
 #: src/iuse.cpp
@@ -65097,6 +66449,16 @@ msgstr ""
 msgid "Deinem Flammenschwert ist der Brennstoff ausgegangen!"
 msgstr ""
 
+#: src/iuse.cpp
+msgctxt "memorial_female"
+msgid "Destroyed a harmful invader."
+msgstr ""
+
+#: src/iuse.cpp
+msgctxt "memorial_male"
+msgid "Destroyed a harmful invader."
+msgstr ""
+
 #. ~ (Flammenschwert) "The flames on your sword die out."
 #: src/iuse.cpp
 msgid "Die Flamme deines Schwertes erlischt."
@@ -65190,9 +66552,17 @@ msgid "Eternal Night"
 msgstr "永遠の夜"
 
 #: src/iuse.cpp
+msgid "Even now, our fruits adapt to better serve local physiology."
+msgstr ""
+
+#: src/iuse.cpp
 msgid ""
 "Everything goes green for a second.\n"
 "            It's painfully beautiful..."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Examine the center square to pack it up again."
 msgstr ""
 
 #: src/iuse.cpp
@@ -65379,10 +66749,6 @@ msgid "Insufficient power"
 msgstr ""
 
 #: src/iuse.cpp
-msgid "Invalid Direction"
-msgstr "無効な選択"
-
-#: src/iuse.cpp
 msgid "Invalid Placement."
 msgstr ""
 
@@ -65397,6 +66763,11 @@ msgstr "猛烈な痛みが走ります！"
 #: src/iuse.cpp
 msgid "It itches a little."
 msgstr "むず痒さを感じました。"
+
+#: src/iuse.cpp
+msgid ""
+"It was probably that marloss--how did you know to call it \"marloss\" anyway?"
+msgstr ""
 
 #: src/iuse.cpp
 msgid "It's dead."
@@ -65607,6 +66978,16 @@ msgid "Oops.  You must've blacked out for a minute there."
 msgstr ""
 
 #: src/iuse.cpp
+msgctxt "memorial_female"
+msgid "Opened the Marloss Gateway."
+msgstr ""
+
+#: src/iuse.cpp
+msgctxt "memorial_male"
+msgid "Opened the Marloss Gateway."
+msgstr ""
+
+#: src/iuse.cpp
 msgid "Ouch, the cuffs shock you!"
 msgstr ""
 
@@ -65639,14 +67020,6 @@ msgstr ""
 #: src/iuse.cpp
 msgid "Pictures of a concert of popular band."
 msgstr ""
-
-#: src/iuse.cpp
-msgid "Pitch the tent towards where (3x3 clear area)?"
-msgstr "どこにテントを張りますか(3x3の場所が必要)？"
-
-#: src/iuse.cpp
-msgid "Pitch the tent towards where (5x5 clear area)?"
-msgstr "どこにテントを張りますか(5x5の場所が必要)？"
 
 #: src/iuse.cpp
 #, c-format
@@ -65705,8 +67078,9 @@ msgid "Put the dog food where?"
 msgstr "どこにドックフードを置きますか？"
 
 #: src/iuse.cpp
-msgid "Put up the shelter where?"
-msgstr "どこにシェルターを設置しますか？"
+#, c-format
+msgid "Put up the %s where (%dx%d clear area)?"
+msgstr "どこに%sを設置しますか(%dx%dの場所が必要)？"
 
 #: src/iuse.cpp
 msgid "Put what?"
@@ -65960,6 +67334,26 @@ msgid "Strange...there's nothing in the picture?"
 msgstr ""
 
 #: src/iuse.cpp
+msgctxt "memorial_female"
+msgid "Suffered Marloss Rejection."
+msgstr ""
+
+#: src/iuse.cpp
+msgctxt "memorial_male"
+msgid "Suffered Marloss Rejection."
+msgstr ""
+
+#: src/iuse.cpp
+msgctxt "memorial_female"
+msgid "Suffered a toxic marloss/mutagen reaction."
+msgstr ""
+
+#: src/iuse.cpp
+msgctxt "memorial_male"
+msgid "Suffered a toxic marloss/mutagen reaction."
+msgstr ""
+
+#: src/iuse.cpp
 #, c-format
 msgid "Sure you want to eat the %s? You could plant it in a mound of dirt."
 msgstr ""
@@ -66079,8 +67473,19 @@ msgid "That vehicle has no fuel to siphon."
 msgstr "その車両には吸い出すだけの燃料が入っていない。"
 
 #: src/iuse.cpp
+#, c-format
+msgid ""
+"That was some toxic %s!  Let's stick with Marloss next time, that's safe."
+msgstr ""
+
+#: src/iuse.cpp
 msgid "That water does not contain any fish, try a river instead."
 msgstr "その水源には魚が存在しない様です。河川で試しましょう。"
+
+#: src/iuse.cpp
+#, c-format
+msgid "The %s burns white-hot inside you, and you collapse to the ground!"
+msgstr ""
 
 #: src/iuse.cpp
 #, c-format
@@ -66117,6 +67522,11 @@ msgstr "%sに噴霧しました！"
 #, c-format
 msgid "The %s isn't a pistol!"
 msgstr "%sはハンドガンではない！"
+
+#: src/iuse.cpp
+#, c-format
+msgid "The %s sears your insides white-hot, and you collapse to the ground!"
+msgstr ""
 
 #: src/iuse.cpp
 #, c-format
@@ -66201,6 +67611,12 @@ msgstr ""
 
 #: src/iuse.cpp
 msgid "The advanced UPS powers off with a soft hum."
+msgstr ""
+
+#: src/iuse.cpp
+msgid ""
+"The apple tastes amazing, and you finish it quickly, not even noticing the "
+"lack of any core or seeds."
 msgstr ""
 
 #: src/iuse.cpp
@@ -66367,6 +67783,10 @@ msgid "The muscle spasms start to go away."
 msgstr ""
 
 #: src/iuse.cpp
+msgid "The natives have a saying: \"E Pluribus Unum\"  Out of many, one."
+msgstr ""
+
+#: src/iuse.cpp
 msgid "The pain in your joints goes away."
 msgstr ""
 
@@ -66468,6 +67888,10 @@ msgid "There isn't anything new on the map."
 msgstr ""
 
 #: src/iuse.cpp
+msgid "There isn't enough space in that direction."
+msgstr ""
+
+#: src/iuse.cpp
 #, c-format
 msgid "There's no point in cutting a %s."
 msgstr ""
@@ -66514,6 +67938,10 @@ msgid "They reply, \"Sorry, you're on your own!\""
 msgstr ""
 
 #: src/iuse.cpp
+msgid "This apple tastes really weird!  You're not sure it's good for you..."
+msgstr ""
+
+#: src/iuse.cpp
 msgid "This berry is delicious, and very filling!"
 msgstr ""
 
@@ -66527,6 +67955,10 @@ msgstr ""
 
 #: src/iuse.cpp
 msgid "This can be used to repair other items, not itself."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "This is a contaminant.  We reject it from the Mycus."
 msgstr ""
 
 #: src/iuse.cpp
@@ -66761,6 +68193,28 @@ msgstr ""
 
 #: src/iuse.cpp
 msgid "Wasted time, these pictures do not provoke your senses."
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "We empty the %s and reflexively dispense spores onto the mess."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "We must eliminate this contaminant at the earliest opportunity."
+msgstr ""
+
+#. ~ The Mycus does not use the term (or encourage the concept of) "you".  The PC is a local/native organism, but is now the Mycus.
+#. ~ It still understands the concept, but uninitelligent fungaloids and mind-bent symbiotes should not need it.
+#. ~ We are the Mycus.
+#: src/iuse.cpp
+msgid "We welcome into us.  We have endured long in this forbidding world."
+msgstr ""
+
+#: src/iuse.cpp
+msgid ""
+"We welcome the union of our lines in our local guide.  We will prosper, and "
+"unite this world."
 msgstr ""
 
 #: src/iuse.cpp
@@ -67391,8 +68845,25 @@ msgstr "少し眩暈がしました。"
 msgid "You feel a burning sensation under your skin that quickly fades away."
 msgstr "急速に皮膚に溶け込み、火照りを感じました。"
 
+#. ~ Recall that Marloss mutations made you feel warmth spreading throughout your body.  That's gone.
+#: src/iuse.cpp
+msgid "You feel a cold burn inside, as though everything warm has left you."
+msgstr ""
+
 #: src/iuse.cpp
 msgid "You feel a distinct burning inside, but it passes."
+msgstr ""
+
+#: src/iuse.cpp
+msgid ""
+"You feel a familiar warmth, but suddenly it surges into an excruciating burn "
+"as you convulse, vomiting, and black out..."
+msgstr ""
+
+#: src/iuse.cpp
+msgid ""
+"You feel a familiar warmth, but suddenly it surges into painful burning as "
+"you convulse and collapse to the ground..."
 msgstr ""
 
 #: src/iuse.cpp
@@ -67413,6 +68884,10 @@ msgstr ""
 
 #: src/iuse.cpp
 msgid "You feel an urge to...patrol? the forests?"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You feel better all over."
 msgstr ""
 
 #: src/iuse.cpp
@@ -67679,18 +69154,6 @@ msgstr ""
 #, c-format
 msgid "You need a %s."
 msgstr "%sが必要です。"
-
-#: src/iuse.cpp
-msgid "You need a 3x3 flat space to place a shelter."
-msgstr "シェルターを設置するには3x3の平坦な空間が必要です。"
-
-#: src/iuse.cpp
-msgid "You need a 3x3 flat space to place a tent."
-msgstr "テントを張るには3x3の平坦な空間が必要です。"
-
-#: src/iuse.cpp
-msgid "You need a 5x5 flat space to place this tent."
-msgstr "テントを張るには5x5の平坦な空間が必要です。"
 
 #: src/iuse.cpp
 msgid "You need a fabrication skill of 1 to use this repair kit."
@@ -67994,8 +69457,9 @@ msgid "You set the timer to %d."
 msgstr ""
 
 #: src/iuse.cpp
-msgid "You set up the tent on the ground."
-msgstr "地面にテントを張りました。"
+#, c-format
+msgid "You set up the %s on the ground."
+msgstr ""
 
 #: src/iuse.cpp
 #, c-format
@@ -68300,6 +69764,12 @@ msgstr "殺菌剤を自分に使用しました。"
 msgid "You used to have a dog like this..."
 msgstr ""
 
+#: src/iuse.cpp src/monattack.cpp
+msgid ""
+"You wake up in a marloss bush.  Almost *cradled* in it, actually, as though "
+"it grew there for you."
+msgstr ""
+
 #: src/iuse.cpp
 msgid "You want to power a UPS with another UPS?  Very clever."
 msgstr ""
@@ -68564,6 +70034,12 @@ msgid "Your electric carver dies."
 msgstr "電動ナイフが壊れました。"
 
 #: src/iuse.cpp
+msgid ""
+"Your eyes roll back in your head.  Everything dissolves into a blissful "
+"haze..."
+msgstr ""
+
+#: src/iuse.cpp
 msgid "Your head pounds like a sore tooth as something inside of it dies."
 msgstr ""
 
@@ -68782,10 +70258,6 @@ msgid "not bad"
 msgstr "普通"
 
 #: src/iuse.cpp
-msgid "permanent_marker"
-msgstr "油性マジック"
-
-#: src/iuse.cpp
 msgid "plastic chunks"
 msgstr "プラスチックの欠片"
 
@@ -68814,6 +70286,13 @@ msgstr "ジジジジ..."
 #: src/iuse.cpp
 msgid "tactical tonfa"
 msgstr "タクティカルトンファー"
+
+#. ~ Beginning to hear the Mycus while conscious: that's it speaking
+#: src/iuse.cpp
+msgid ""
+"unity. together we have reached the door. we provide the final key. now to "
+"pass through..."
+msgstr ""
 
 #: src/iuse.cpp
 msgid "you realize that it's best not to dig"
@@ -70212,11 +71691,6 @@ msgstr "%sの制御を失いました。"
 #, c-format
 msgid "You take %d damage by the power of the impact!"
 msgstr "衝撃で%dのダメージを受けました！"
-
-#: src/map.cpp
-#, c-format
-msgid "You take down the %s."
-msgstr ""
 
 #: src/map.cpp src/monattack.cpp src/mondeath.cpp
 msgid "You're covered in tiny spores!"
@@ -72747,6 +74221,16 @@ msgstr "電気ボルトが弧を描いて迫ってきた！"
 msgid "A few corpses rise from the dead!"
 msgstr "数体の死体が蘇りました！"
 
+#. ~ %s is bodypart name in accusative.
+#: src/monattack.cpp
+#, c-format
+msgid "A fungal tendril bursts forth from the earth and pierces your %s!"
+msgstr ""
+
+#: src/monattack.cpp
+msgid "A fungal tendril bursts forth from the earth!"
+msgstr ""
+
 #: src/monattack.cpp
 #, c-format
 msgid "A glob of acid hits the %s!"
@@ -72871,7 +74355,7 @@ msgstr[1] ""
 #. ~ the sound of a fungus releasing spores
 #. ~ That spore sound again
 #. ~ the sound of a fungus dying
-#: src/monattack.cpp src/mondeath.cpp
+#: src/monattack.cpp src/mondeath.cpp src/player.cpp
 msgid "Pouf!"
 msgstr "ポフッという音が聞こえました！"
 
@@ -73129,6 +74613,11 @@ msgstr ""
 msgid "The %s raises its arms in the air!"
 msgstr ""
 
+#: src/monattack.cpp
+#, c-format
+msgid "The %s seems to wave you toward the tower..."
+msgstr ""
+
 #: src/monattack.cpp src/ranged.cpp
 #, c-format
 msgid "The %s shatters!"
@@ -73176,6 +74665,11 @@ msgstr "%sは樹液を吐き出しましたが...命中しなかった。"
 
 #: src/monattack.cpp
 #, c-format
+msgid "The %s spreads its tendrils.  It seems as though it's expecting you..."
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
 msgid "The %s stares at you, and you shudder."
 msgstr ""
 
@@ -73202,6 +74696,11 @@ msgstr ""
 #: src/monattack.cpp
 #, c-format
 msgid "The %s swipes at you with a barbed tendril!"
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
+msgid "The %s takes aim, and spears at you with a massive tendril!"
 msgstr ""
 
 #: src/monattack.cpp
@@ -73237,6 +74736,12 @@ msgstr "%sは頭上に降り立とうとしましたが、咄嗟に回避しま�
 #: src/monattack.cpp
 #, c-format
 msgid "The %s unsuccessfully attempts to shock you."
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
+msgid ""
+"The %s works several tendrils into your arms, legs, torso, and even neck..."
 msgstr ""
 
 #: src/monattack.cpp
@@ -73337,6 +74842,11 @@ msgstr ""
 msgid "The tongue of flame hits the %s!"
 msgstr ""
 
+#: src/monattack.cpp
+msgid ""
+"The tower extends and aims several tendrils from its depths.  Hold still?"
+msgstr ""
+
 #. ~ %s is bodypart name in accusative.
 #: src/monattack.cpp
 #, c-format
@@ -73368,6 +74878,16 @@ msgstr ""
 #. ~Sound of a giant fungal blossom inhaling
 #: src/monattack.cpp
 msgid "WOOOSH!"
+msgstr ""
+
+#: src/monattack.cpp
+msgctxt "memorial_female"
+msgid "Was shown to the Marloss Gateway."
+msgstr ""
+
+#: src/monattack.cpp
+msgctxt "memorial_male"
+msgid "Was shown to the Marloss Gatweay."
 msgstr ""
 
 #. ~There will be a .50BMG shell sent at high speed to your location next turn.
@@ -73416,6 +74936,10 @@ msgid ""
 "for medical help."
 msgstr ""
 
+#: src/monattack.cpp
+msgid "You feel millions of live spores pumping into you..."
+msgstr ""
+
 #: src/monattack.cpp src/player.cpp
 msgid "You feel poison enter your body!"
 msgstr ""
@@ -73447,6 +74971,12 @@ msgstr ""
 
 #: src/monattack.cpp
 msgid "You secure yourself using your tentacles!"
+msgstr ""
+
+#: src/monattack.cpp
+msgid ""
+"You see a clear golden liquid pump through the tendrils--and then lose "
+"consciousness."
 msgstr ""
 
 #: src/monattack.cpp
@@ -73561,6 +75091,13 @@ msgstr ""
 #: src/monattack.cpp
 #, c-format
 msgid "and slams you, face first, to the ground for %d damage!"
+msgstr ""
+
+#. ~ Beginning to hear the Mycus while conscious: this is it speaking
+#: src/monattack.cpp
+msgid ""
+"assistance, on an arduous quest. unity. together we have reached the door. "
+"now to pass through..."
 msgstr ""
 
 #: src/monattack.cpp
@@ -73755,23 +75292,8 @@ msgstr ""
 
 #: src/monmove.cpp
 #, c-format
-msgid "The %s burns horribly in the sunlight!"
-msgstr "%sは日光によって全身が燃え始めました！"
-
-#: src/monmove.cpp
-#, c-format
 msgid ""
 "The %s flows around the objects on the floor and they are quickly dissolved!"
-msgstr ""
-
-#: src/monmove.cpp
-#, c-format
-msgid "The %s is visibly regenerating!"
-msgstr ""
-
-#: src/monmove.cpp
-#, c-format
-msgid "The %s seems a little healthier."
 msgstr ""
 
 #: src/monmove.cpp
@@ -73890,13 +75412,28 @@ msgstr "%2$sに%1$sの攻撃が命中しました。"
 
 #: src/monster.cpp
 #, c-format
+msgid "The %s burns horribly in the sunlight!"
+msgstr "%sは日光によって全身が燃え始めました！"
+
+#: src/monster.cpp
+#, c-format
 msgid "The %s hits the %s!"
 msgstr "%2$sに%1$sの攻撃が命中しました！"
 
 #: src/monster.cpp
 #, c-format
+msgid "The %s is visibly regenerating!"
+msgstr ""
+
+#: src/monster.cpp
+#, c-format
 msgid "The %s misses the %s!"
 msgstr "%1$sは%2$sにぶつかりました！"
+
+#: src/monster.cpp
+#, c-format
+msgid "The %s seems a little healthier."
+msgstr ""
 
 #: src/monster.cpp
 #, c-format
@@ -80287,6 +81824,10 @@ msgid "Marloss Bliss"
 msgstr "マーロスの至福感"
 
 #: src/player.cpp
+msgid "Marloss Craving"
+msgstr "マーロス依存症"
+
+#: src/player.cpp
 msgid "Masochism"
 msgstr "被虐性愛"
 
@@ -80955,7 +82496,7 @@ msgstr "膨張"
 
 #: src/player.cpp
 msgid "Ugh, you can't drink that!"
-msgstr ""
+msgstr "うっ...それは飲めません。"
 
 #. ~ You really don't like wearing the Uncomfy Gear
 #: src/player.cpp
@@ -80988,6 +82529,10 @@ msgstr "渇き **"
 #, c-format
 msgid "Warm%s"
 msgstr "暑い%s"
+
+#: src/player.cpp
+msgid "We can't eat that.  It's not right for us."
+msgstr ""
 
 #: src/player.cpp
 msgid "Weapon:"
@@ -82330,6 +83875,10 @@ msgid "<npcname> falls in a spiked pit!"
 msgstr "<npcname>は串刺し穴に落ちました！"
 
 #: src/trapfunc.cpp
+msgid "<npcname> falls in pit filled with glass shards!"
+msgstr ""
+
+#: src/trapfunc.cpp
 msgid "<npcname> steps in a puddle of thick goo."
 msgstr ""
 
@@ -82469,6 +84018,16 @@ msgstr "穴に落ちました。"
 msgctxt "memorial_male"
 msgid "Fell in a pit."
 msgstr "穴に落ちました。"
+
+#: src/trapfunc.cpp
+msgctxt "memorial_female"
+msgid "Fell into a pit filled with glass shards."
+msgstr ""
+
+#: src/trapfunc.cpp
+msgctxt "memorial_male"
+msgid "Fell into a pit filled with glass shards."
+msgstr ""
 
 #: src/trapfunc.cpp
 msgctxt "memorial_female"
@@ -82614,8 +84173,17 @@ msgid "The air shimmers around you..."
 msgstr ""
 
 #: src/trapfunc.cpp
+#, c-format
+msgid "The glass shards slash your %s!"
+msgstr ""
+
+#: src/trapfunc.cpp
 msgid "The rope catches something!"
 msgstr "ロープが何かを捕らえました！"
+
+#: src/trapfunc.cpp
+msgid "The shards shatter!"
+msgstr ""
 
 #: src/trapfunc.cpp
 msgid "The snare has no effect on <npcname>!"
@@ -82760,6 +84328,10 @@ msgid "VRMMMMMM"
 msgstr "ブゥゥゥゥゥゥン"
 
 #: src/trapfunc.cpp
+msgid "You avoid the glass shards within."
+msgstr ""
+
+#: src/trapfunc.cpp
 msgid "You avoid the spikes within."
 msgstr ""
 
@@ -82770,6 +84342,10 @@ msgstr "射撃を回避しました！"
 #: src/trapfunc.cpp
 msgid "You fall down a level!"
 msgstr "下の階層に落下しました！"
+
+#: src/trapfunc.cpp
+msgid "You fall in a pit filled with glass shards!"
+msgstr ""
 
 #: src/trapfunc.cpp
 msgid "You fall in a pit!"
