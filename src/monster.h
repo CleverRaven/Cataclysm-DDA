@@ -227,6 +227,14 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         int  hit_roll() const;  // For the purposes of comparing to player::dodge_roll()
         int  dodge_roll();  // For the purposes of comparing to player::hit_roll()
         int  fall_damage() const; // How much a fall hurts us
+        
+        /** Resets a given special to its monster type cooldown value, an index of -1 does nothing. */
+        void reset_special(int index);
+        /** Resets a given special to a value between 0 and its monster type cooldown value.
+          * An index of -1 does nothing. */
+        void reset_special_rng(int index);
+        /** Sets a given special to the given value, an index of -1 does nothing. */
+        void set_special(int index, int time);
 
         void die(Creature *killer); //this is the die from Creature, it calls kill_mon
         void drop_items_on_death();
@@ -255,7 +263,6 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
 
         // DEFINING VALUES
         int hp;
-        int sp_timeout;
         int def_chance;
         int friendly;
         int anger, morale;
@@ -302,6 +309,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         int ammo;
 
     private:
+        std::vector<int> sp_timeout;
         std::vector <point> plans;
         int _posx, _posy;
         bool dead;
