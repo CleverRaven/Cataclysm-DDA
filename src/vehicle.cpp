@@ -1,5 +1,6 @@
 #include "vehicle.h"
 #include "map.h"
+#include "mapbuffer.h"
 #include "output.h"
 #include "game.h"
 #include "item.h"
@@ -2725,7 +2726,7 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
     }
 }
 
-vehicle* find_vehicle(point &where)
+vehicle* vehicle::find_vehicle(point &where)
 {
     // Is it in the reality bubble?
     point veh_local = g->m.getlocal(where);
@@ -2736,18 +2737,32 @@ vehicle* find_vehicle(point &where)
     }
 
     // Nope. Load up its submap...
-    point veh_sm = overmapbuffer::ms_to_sm_copy(where);
-    g->remote_vehicle_maps.load_abs(veh_sm.x, veh_sm.y, g->levz, true);
+    point veh_in_sm = where;
+    point veh_sm = overmapbuffer::ms_to_sm_remain(veh_in_sm);
 
-    point target_pos = g->remote_vehicle_maps.getlocal(where);
-    veh = g->remote_vehicle_maps.veh_at(target_pos.x, target_pos.y);
+    auto sm = MAPBUFFER.lookup_submap(veh_sm.x, veh_sm.y, g->levz);
+    if(sm == nullptr) {
+        return nullptr;
+    }
+
+
+    // ...find the right vehicle inside it...
+    for(size_t i = 0; i < sm->vehicles.size(); i++) {
+        vehicle* found_veh = sm->vehicles[i];
+        point veh_location(found_veh->posx, found_veh->posy);
+
+        if(veh_in_sm == veh_location) {
+            veh = found_veh;
+            break;
+        }
+    }
 
     // ...and hand it over.
     return veh;
 }
 
 template<typename Func>
-int traverse_vehicle_graph(vehicle* start_veh, int amount, Func action)
+int vehicle::traverse_vehicle_graph(vehicle* start_veh, int amount, Func action)
 {
     // Breadth-first search! Initialize the queue with a pointer to ourselves and go!
     std::queue< std::pair<vehicle*, int> > connected_vehs;
@@ -3725,6 +3740,12 @@ void vehicle::gain_moves()
     // cruise control TODO: enable for NPC?
     if (player_in_control(&g->u) && cruise_on && cruise_velocity != velocity )
         thrust (cruise_velocity > velocity? 1 : -1);
+
+    // Force off-map vehicles to load by visiting them every time we gain moves.
+    // Shouldn't be too expensive if there aren't fifty trillion vehicles in the graph...
+    // ...and if there are, it's the player's fault for putting them there.
+    auto nil_visitor = [] (vehicle*, int amount, int) { return amount; };
+    traverse_vehicle_graph(this, 1, nil_visitor);
 
     if( check_environmental_effects ) {
         check_environmental_effects = do_environmental_effects();

@@ -383,8 +383,6 @@ class game
         std::map<int, weather_segment> weather_log;
         overmap *cur_om;
         map m;
-        map remote_vehicle_maps; // Contains vehicles from outside the reality bubble when
-        // vehicles inside it need to charge or discharge energy remotely (e.g. by jumper cable)
 
         int levx, levy, levz; // Placement inside the overmap
         /** Absolute values of lev[xyz] (includes the offset of cur_om) */

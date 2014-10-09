@@ -276,6 +276,29 @@ private:
     // Do stuff like clean up blood and produce smoke from broken parts. Returns false if nothing needs doing.
     bool do_environmental_effects();
 
+    /**
+     * Find a possibly off-map vehicle. If necessary, loads up its submap through
+     * the global MAPBUFFER and pulls it from there. For this reason, you should only
+     * give it the coordinates of the origin tile of a target vehicle.
+     * @param where Location of the other vehicle's origin tile.
+     */
+    vehicle* find_vehicle(point &where);
+
+    /**
+     * Traverses the graph of connected vehicles, starting from start_veh, and continuing
+     * along all vehicles connected by some kind of POWER_TRANSFER part.
+     * @param start_vehicle The vehicle to start traversing from. NB: the start_vehicle is
+     * assumed to have been already visited!
+     * @param amount An amount of power to traverse with. This is passed back to the visitor,
+     * and reset to the visitor's return value at each step.
+     * @param visitor A function(vehicle* veh, int amount, int loss) returning int. The function
+     * may do whatever it desires, and may be a lambda (including a capturing lambda).
+     * NB: returning 0 from a visitor will stop traversal immediately!
+     * @return The last visitor's return value.
+     */
+    template<typename Func>
+    int traverse_vehicle_graph(vehicle* start_veh, int amount, Func visitor);
+
 public:
     vehicle (std::string type_id = "null", int veh_init_fuel = -1, int veh_init_status = -1);
     ~vehicle ();
