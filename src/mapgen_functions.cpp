@@ -470,7 +470,7 @@ void mapgen_dirtlot(map *m, oter_id, mapgendata, int, float)
         }
     }
     if (one_in(4)) {
-        m->add_vehicle ("flatbed_truck", 12, 12, 90, -1, -1);
+        m->add_vehicle ("pickup", 12, 12, 90, -1, -1);
     }
 }
 // todo: more region_settings for forest biome
@@ -1601,8 +1601,10 @@ void mapgen_bridge(map *m, oter_id terrain_type, mapgendata dat, int turn, float
         int vx = rng (10, 12);
         int vy = rng (10, 12);
         int rc = rng(1, 10);
-        if (rc <= 5) {
+        if (rc <= 3) {
             m->add_vehicle ("car", vx, vy, one_in(2)? 90 : 180, 0, -1);
+        } else if (rc <= 6) {
+            m->add_vehicle ("pickup", vx, vy, one_in(2)? 90 : 180, 0, -1);
         } else if (rc <= 8) {
             m->add_vehicle ("flatbed_truck", vx, vy, one_in(2)? 90 : 180, 0, -1);
         } else if (rc <= 9) {
@@ -1645,8 +1647,10 @@ void mapgen_highway(map *m, oter_id terrain_type, mapgendata dat, int turn, floa
         int vx = rng (10, 12);
         int vy = rng (10, 12);
         int rc = rng(1, 10);
-        if (rc <= 5) {
+        if (rc <= 3) {
             m->add_vehicle ("car", vx, vy, one_in(2)? 90 : 180, 0, -1);
+        } else if (rc <= 6) {
+            m->add_vehicle ("pickup", vx, vy, one_in(2)? 90 : 180, 0, -1);
         } else if (rc <= 8) {
             m->add_vehicle ("flatbed_truck", vx, vy, one_in(2)? 90 : 180, 0, -1);
         } else if (rc <= 9) {
