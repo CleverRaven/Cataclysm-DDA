@@ -71,8 +71,8 @@
         "bashing": 8,
         "cutting": 0,
         "to_hit": -1,
-        "min-bigness": 30,
-        "max-bigness": 30,
+        "min-bigness": 2,
+        "max-bigness": 2,
         "category": "veh_parts",
         "bigness-aspect": "WHEEL_DIAMETER"
     },

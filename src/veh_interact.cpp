@@ -333,11 +333,8 @@ void veh_interact::cache_tool_availability()
                 crafting_inv.has_components( "wheel_bicycle", 1 ) ||
                 crafting_inv.has_components( "wheel_motorbike", 1 ) ||
                 crafting_inv.has_components( "wheel_small", 1 ) ||
-                crafting_inv.has_components( "wheel_wheelchair", 1 ) ||
-                crafting_inv.has_components( "wheel_caster", 1 ) ||
                 crafting_inv.has_components( "wheel_wood", 1 ) ||
-                crafting_inv.has_components( "wheel_wood_b", 1 ) ||
-                crafting_inv.has_components( "hd_steel_drum", 1 );
+                crafting_inv.has_components( "wheel_wood_b", 1 );
 }
 
 /**
