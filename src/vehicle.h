@@ -459,7 +459,7 @@ public:
     point real_global_pos() const;
 
 // Checks how much certain fuel left in tanks.
-    int fuel_left (const ammotype & ftype);
+    int fuel_left (const ammotype & ftype, bool recurse=false);
     int fuel_capacity (const ammotype & ftype);
 
     // refill fuel tank(s) with given type of fuel

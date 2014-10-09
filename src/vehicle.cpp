@@ -583,7 +583,7 @@ void vehicle::use_controls()
         add_msg((cruise_on) ? _("Cruise control turned on") : _("Cruise control turned off"));
         break;
     case toggle_lights:
-        if(lights_on || fuel_left(fuel_type_battery) ) {
+        if(lights_on || fuel_left(fuel_type_battery, true) ) {
             lights_on = !lights_on;
             add_msg((lights_on) ? _("Headlights turned on") : _("Headlights turned off"));
         } else {
@@ -591,7 +591,7 @@ void vehicle::use_controls()
         }
         break;
     case toggle_stereo:
-        if((stereo_on || fuel_left(fuel_type_battery))) {
+        if((stereo_on || fuel_left(fuel_type_battery, true))) {
             stereo_on = !stereo_on;
             int music_index = 0;
             std::vector<const item*> cd_inv = g->u.all_items_with_flag( "CD" );
@@ -639,7 +639,7 @@ void vehicle::use_controls()
         if( overhead_lights_on ) {
             overhead_lights_on = false;
             add_msg(_("Overhead lights turned off"));
-        } else if( fuel_left(fuel_type_battery) ) {
+        } else if( fuel_left(fuel_type_battery, true) ) {
             overhead_lights_on = true;
             add_msg(_("Overhead lights turned on"));
         } else {
@@ -657,7 +657,7 @@ void vehicle::use_controls()
         if( fridge_on ) {
             fridge_on = false;
             add_msg(_("Fridge turned off"));
-        } else if (fuel_left(fuel_type_battery)) {
+        } else if (fuel_left(fuel_type_battery, true)) {
             fridge_on = true;
             add_msg(_("Fridge turned on"));
         } else {
@@ -668,7 +668,7 @@ void vehicle::use_controls()
         if( recharger_on ) {
             recharger_on = false;
             add_msg(_("Recharger turned off"));
-        } else if (fuel_left(fuel_type_battery)) {
+        } else if (fuel_left(fuel_type_battery, true)) {
             recharger_on = true;
             add_msg(_("Recharger turned on"));
         } else {
@@ -796,7 +796,7 @@ void vehicle::use_controls()
             overmap_buffer.remove_vehicle( this );
             tracking_on = false;
             add_msg(_("tracking device disabled"));
-        } else if (fuel_left(fuel_type_battery))
+        } else if (fuel_left(fuel_type_battery, true))
         {
             overmap_buffer.add_vehicle( this );
             tracking_on = true;
@@ -2102,7 +2102,7 @@ void vehicle::center_of_mass(int &x, int &y)
     y = int(yf + 0.5);
 }
 
-int vehicle::fuel_left (const ammotype & ftype)
+int vehicle::fuel_left (const ammotype & ftype, bool recurse)
 {
     int fl = 0;
     for(auto &p : fuel) {
@@ -2110,6 +2110,18 @@ int vehicle::fuel_left (const ammotype & ftype)
             fl += parts[p].amount;
         }
     }
+
+    if(recurse && ftype == fuel_type_battery) {
+        auto fuel_counting_visitor = [&] (vehicle* veh, int amount, int) {
+            return amount + veh->fuel_left(ftype, false);
+        };
+
+        // HAX: add 1 to the initial amount so traversal doesn't immediately stop just
+        // 'cause we have 0 fuel left in the current vehicle. Subtract the 1 immediately
+        // after traversal.
+        fl = traverse_vehicle_graph(this, fl + 1, fuel_counting_visitor) - 1;
+    }
+
     return fl;
 }
 
@@ -2744,7 +2756,6 @@ vehicle* vehicle::find_vehicle(point &where)
     if(sm == nullptr) {
         return nullptr;
     }
-
 
     // ...find the right vehicle inside it...
     for(size_t i = 0; i < sm->vehicles.size(); i++) {
