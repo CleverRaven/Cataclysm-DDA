@@ -866,17 +866,19 @@ void monster::load(JsonObject &data)
     data.read("wandf", wandf);
     data.read("hp", hp);
     
-    JsonArray parray = data.get_array("sp_timeout");
-    if ( !parray.empty() ) {
-        int ptimeout = 0;
-        while ( parray.has_more() ) {
-            if ( parray.read_next(ptimeout) ) {
-                sp_timeout.push_back(ptimeout);
+    if (data.has_array("sp_timeout")) {
+        JsonArray parray = data.get_array("sp_timeout");
+        if ( !parray.empty() ) {
+            int ptimeout = 0;
+            while ( parray.has_more() ) {
+                if ( parray.read_next(ptimeout) ) {
+                    sp_timeout.push_back(ptimeout);
+                }
             }
         }
     }
-    while (sp_timeout.size() < type->sp_freq.size()) {
-        sp_timeout.push_back(0);
+    for (size_t i = sp_timeout.size(); i < type->sp_freq.size(); ++i) {
+        sp_timeout.push_back(rng(0, type->sp_freq[i]));
     }
     
     data.read("friendly", friendly);
