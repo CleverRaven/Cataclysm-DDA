@@ -356,31 +356,7 @@ class JsonIn
                 return false;
             }
         }
-        // object ~> unordered_map w/ int key
-        template <typename T> bool read(std::unordered_map<int, T> &m)
-        {
-            if (!test_object()) {
-                return false;
-            }
-            try {
-                start_object();
-                m.clear();
-                while (!end_object()) {
-                    int key = get_int();
-                    skip_pair_separator();
-                    T element;
-                    if (read(element)) {
-                        m[key] = element;
-                    } else {
-                        skip_value();
-                    }
-                }
-                return true;
-            } catch (std::string e) {
-                return false;
-            }
-        }
-
+        
         // error messages
         std::string line_number(int offset_modifier = 0); // for occasional use only
         void error(std::string message, int offset = 0); // ditto
@@ -517,18 +493,6 @@ class JsonOut
         {
             start_object();
             typename std::unordered_map<std::string, T>::const_iterator it;
-            for (it = m.begin(); it != m.end(); ++it) {
-                write(it->first);
-                write_member_separator();
-                write(it->second);
-            }
-            end_object();
-        }
-        // unordered_map w/ int key ~> object
-        template <typename T> void write(const std::unordered_map<int, T> &m)
-        {
-            start_object();
-            typename std::unordered_map<int, T>::const_iterator it;
             for (it = m.begin(); it != m.end(); ++it) {
                 write(it->first);
                 write_member_separator();

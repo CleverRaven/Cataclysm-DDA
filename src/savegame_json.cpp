@@ -1498,7 +1498,18 @@ void Creature::store( JsonOut &jsout ) const
     // killer is not stored, it's temporary anyway, any creature that has a non-null
     // killer is dead (as per definition) and should not be stored.
     
-    jsout.member( "effects", effects );
+    // Because JSON requires string keys we need to convert our int keys
+    std::unordered_map<std::string, std::unordered_map<std::string, effect>> tmp_map;
+    for (auto maps : effects) {
+        for (auto i : maps.second) {
+            std::ostringstream convert;
+            convert << i.first;
+            tmp_map[maps.first][convert.str()] = i.second;
+        }
+    }
+    jsout.member( "effects", tmp_map );
+    
+    
     jsout.member( "values", values );
 
     jsout.member( "str_bonus", str_bonus );
@@ -1556,7 +1567,18 @@ void Creature::load( JsonObject &jsin )
     // effects wipe. Since most long lasting effects are bad, this shouldn't be too bad for them.
     if(savegame_loading_version >= 23) {
         if( jsin.has_object( "effects" ) ) {
-            jsin.read( "effects", effects );
+            // Because JSON requires string keys we need to convert back to our int keys
+            std::unordered_map<std::string, std::unordered_map<std::string, effect>> tmp_map;
+            jsin.read( "effects", tmp_map );
+            int key_num;
+            for (auto maps : tmp_map) {
+                for (auto i : maps.second) {
+                    if ( !(std::istringstream(i.first) >> key_num) ) {
+                        key_num = 0;
+                    }
+                    effects[maps.first][key_num] = i.second;
+                }
+            }
         }
     }
     jsin.read( "values", values );

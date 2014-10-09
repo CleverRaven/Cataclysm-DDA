@@ -595,7 +595,7 @@ void Creature::remove_effect(efftype_id eff_id, body_part bp)
 {
     // num_bp means remove all of a given effect id
     if (bp == num_bp) {
-        effects.erase( eff_id );
+        effects[eff_id].clear();
     } else {
         effects[eff_id].erase((int)bp);
     }
@@ -623,7 +623,7 @@ effect Creature::get_effect(efftype_id eff_id, body_part bp)
 }
 void Creature::process_effects()
 {
-    for (auto maps = effects.begin(); maps != effects.end(); ++maps) { 
+    for (auto maps = effects.begin(); maps != effects.end(); ++maps) {
         for( auto it = maps->second.begin(); it != maps->second.end(); ++it ) {
             if( !it->second.is_permanent() ) {
                 it->second.mod_duration( -1 );
