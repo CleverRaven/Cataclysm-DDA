@@ -505,6 +505,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         break;
 
                     case fd_acid:
+                    {
+                        std::vector<item> contents;
                         if (has_flag("SWIMMABLE", x, y)) { // Dissipate faster in water
                             cur->setFieldAge(cur->getFieldAge() + 20);
                         }
@@ -526,16 +528,16 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             if (melting->damage >= 5) {
                                 //Destroy the object, age the field.
                                 cur->setFieldAge(cur->getFieldAge() + melting->volume());
-                                for (std::vector<item>::iterator cont =
-                                         it->contents.begin();
-                                     cont != it->contents.end(); ++cont) {
-                                    i_at(x, y).push_back(*cont);
-                                }
+                                contents.insert( contents.begin(), it->contents.begin(), it->contents.end() );
                                 it = i_at(x, y).erase(it);
                             } else {
                                 it++;
                             }
                         }
+                        for( auto &c : contents ) {
+                            add_item_or_charges( x, y, c );
+                        }
+                    }
                         break;
 
                         // Use the normal aging logic below this switch

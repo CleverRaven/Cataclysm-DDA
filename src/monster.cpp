@@ -29,7 +29,6 @@ monster::monster()
  wandf = 0;
  hp = 60;
  moves = 0;
- sp_timeout = 0;
  def_chance = 0;
  friendly = 0;
  anger = 0;
@@ -56,7 +55,9 @@ monster::monster(mtype *t)
  moves = type->speed;
  Creature::set_speed_base(type->speed);
  hp = type->hp;
- sp_timeout = rng(0, type->sp_freq);
+ for (size_t i = 0; i < type->sp_freq.size(); ++i) {
+    sp_timeout.push_back(rng(0, type->sp_freq[i]));
+ }
  def_chance = type->def_chance;
  friendly = 0;
  anger = t->agro;
@@ -83,7 +84,9 @@ monster::monster(mtype *t, int x, int y)
  moves = type->speed;
  Creature::set_speed_base(type->speed);
  hp = type->hp;
- sp_timeout = type->sp_freq;
+ for (size_t i = 0; i < type->sp_freq.size(); ++i) {
+    sp_timeout.push_back(type->sp_freq[i]);
+ }
  def_chance = type->def_chance;
  friendly = 0;
  anger = type->agro;
@@ -133,7 +136,9 @@ void monster::poly(mtype *t)
  anger = type->agro;
  morale = type->morale;
  hp = int(hp_percentage * type->hp);
- sp_timeout = type->sp_freq;
+ for (size_t i = 0; i < type->sp_freq.size(); ++i) {
+    sp_timeout.push_back(type->sp_freq[i]);
+ }
  def_chance = type->def_chance;
 }
 
@@ -996,6 +1001,36 @@ int monster::fall_damage() const
  }
 
  return 0;
+}
+
+void monster::reset_special(int index)
+{
+    if (index < 0) {
+        return;
+    }
+    
+    sp_timeout[index] = type->sp_freq[index];
+}
+
+void monster::reset_special_rng(int index)
+{
+    if (index < 0) {
+        return;
+    }
+    
+    sp_timeout[index] = rng(0, type->sp_freq[index]);
+}
+
+void monster::set_special(int index, int time)
+{
+    if (index < 0) {
+        return;
+    }
+    
+    if (time < 0) {
+        time = 0;
+    }
+    sp_timeout[index] = time;
 }
 
 void monster::explode()

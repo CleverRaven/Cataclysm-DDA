@@ -5908,7 +5908,7 @@ point game::find_item(item *it)
     //Does an NPC have it?
     for (std::vector<npc *>::iterator npc = active_npc.begin();
          npc != active_npc.end(); ++npc) {
-        if ((*npc)->inv.has_item(it)) {
+        if ((*npc)->has_item(it)) {
             return point((*npc)->posx, (*npc)->posy);
         }
     }
@@ -5921,24 +5921,12 @@ point game::find_item(item *it)
     return point(-999, -999);
 }
 
-void game::remove_item(item *it)
+void game::remove_item(const item *it)
 {
     point ret;
-    if (it == &u.weapon) {
-        u.remove_weapon();
+    if( u.has_item( it ) ) {
+        u.i_rem( it );
         return;
-    }
-    if (!u.inv.remove_item(it).is_null()) {
-        return;
-    }
-    for (std::vector<item>::iterator worn = u.worn.begin();
-         worn != u.worn.end();) {
-        if (it == &*worn) {
-            worn = u.worn.erase(worn);
-            return;
-        } else {
-            worn++;
-        }
     }
     ret = m.find_item(it);
     if (ret.x != -1 && ret.y != -1) {
@@ -5949,21 +5937,10 @@ void game::remove_item(item *it)
             }
         }
     }
-    for (std::vector<npc *>::iterator npc = active_npc.begin();
-         npc != active_npc.end(); ++npc) {
-        if (it == &(*npc)->weapon) {
-            (*npc)->remove_weapon();
+    for( auto &npc : active_npc ) {
+        if( npc->has_item( it ) ) {
+            npc->i_rem( it );
             return;
-        }
-        if (!(*npc)->inv.remove_item(it).is_null()) {
-            return;
-        }
-        for (std::vector<item>::iterator worn = (*npc)->worn.begin();
-             worn != (*npc)->worn.end(); ++worn) {
-            if (it == &*worn) {
-                (*npc)->worn.erase(worn);
-                return;
-            }
         }
     }
 }
@@ -8544,7 +8521,7 @@ bool pet_menu(monster *z)
             g->u.i_add(rope_6);
         } else {
             z->add_effect("tied", 1, num_bp, 1, true);
-            g->u.inv.remove_item("rope_6");
+            g->u.use_amount( "rope_6", 1 );
         }
 
         return true;
@@ -12804,12 +12781,20 @@ bool game::plmove(int dx, int dy)
                     bool src_item_ok = ( m.furn_at(fpos.x, fpos.y).has_flag("CONTAINER") ||
                                          m.furn_at(fpos.x, fpos.y).has_flag("SEALED") );
 
+                    int str_req = furntype.move_str_req;
+                    // Factor in weight of items contained in the furniture.
+                    int furniture_contents_weight = 0;
+                    for( auto contained_item : m.i_at( fpos.x, fpos.y ) ) {
+                        furniture_contents_weight += contained_item.weight();
+                    }
+                    str_req += furniture_contents_weight / 4000;
+
                     if ( ! canmove ) {
                         add_msg( _("The %s collides with something."), furntype.name.c_str() );
                         u.moves -= 50; // "oh was that your foot? Sorry :-O"
                         return false;
-                    } else if ( !m.can_move_furniture( fpos.x, fpos.y, &u ) &&
-                                one_in(std::max(20 - furntype.move_str_req - u.str_cur, 2)) ) {
+                    } else if ( str_req > u.get_str() &&
+                                one_in(std::max(20 - str_req - u.get_str(), 2)) ) {
                         add_msg(m_bad, _("You strain yourself trying to move the heavy %s!"),
                                 furntype.name.c_str() );
                         u.moves -= 100;
@@ -12822,7 +12807,8 @@ bool game::plmove(int dx, int dy)
                     }
 
                     if ( pulling_furniture ) {
-                        // normalize movecost for pulling: furniture moves into our current square -then- we move away
+                        // normalize movecost for pulling:
+                        // furniture moves into our current square -then- we move away
                         if ( furncost < 0 ) {
                             // this will make our exit-tile move cost 0
                             movecost_modifier += m.ter_at(fpos.x, fpos.y).movecost;
@@ -12834,19 +12820,24 @@ bool game::plmove(int dx, int dy)
                         }
                     }
 
-                    int str_req = furntype.move_str_req;
                     u.moves -= str_req * 10;
                     // Additional penalty if we can't comfortably move it.
-                    if (!m.can_move_furniture(fpos.x, fpos.y, &u)) {
-                        int move_penalty = std::min(std::pow(str_req, 2.0) + 100.0, 1000.0);
+                    if( str_req > u.get_str() ) {
+                        int move_penalty = std::pow(str_req, 2.0) + 100.0;
+                        if( move_penalty <= 1000 ) {
+                            u.moves -= 100;
+                            add_msg( m_bad, _("The %s is too heavy for you to budge."),
+                                     furntype.name.c_str() );
+                            return false;
+                        }
                         u.moves -= move_penalty;
                         if (move_penalty > 500) {
-                            if (one_in(3)) { // Nag only occasionally.
-                                add_msg( _("Moving the heavy %s is taking a lot of time!"), furntype.name.c_str() );
-                            }
+                            add_msg( _("Moving the heavy %s is taking a lot of time!"),
+                                     furntype.name.c_str() );
                         } else if (move_penalty > 200) {
                             if (one_in(3)) { // Nag only occasionally.
-                                add_msg( _("It takes some time to move the heavy %s."), furntype.name.c_str() );
+                                add_msg( _("It takes some time to move the heavy %s."),
+                                         furntype.name.c_str() );
                             }
                         }
                     }
@@ -14062,7 +14053,7 @@ void game::update_stair_monsters()
                             if (resiststhrow && (g->u.is_throw_immune())) {
                                 //we have a judoka who isn't getting pushed but counterattacking now.
                                 mattack defend;
-                                defend.thrown_by_judo(&critter);
+                                defend.thrown_by_judo(&critter, -1);
                                 return;
                             }
                             std::string msg = "";

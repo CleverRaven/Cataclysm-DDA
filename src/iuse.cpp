@@ -89,6 +89,19 @@ void remove_ups_mod( item &it, player &p )
     it.item_tags.erase( "NO_RELOAD" );
 }
 
+// Checks that the player does not have an active item with LITCIG flag.
+bool check_litcig( player &u )
+{
+    auto cigs = u.items_with( []( const item & it ) {
+        return it.active && it.has_flag( "LITCIG" );
+    } );
+    if( cigs.empty() ) {
+        return true;
+    }
+    u.add_msg_if_player( m_info, _( "You're already smoking a %s!" ), cigs[0]->tname().c_str() );
+    return false;
+}
+
 static bool item_inscription(player *p, item *cut, std::string verb, std::string gerund,
                              bool carveable)
 {
@@ -829,12 +842,8 @@ int iuse::smoking_pipe(player *p, item *it, bool)
     std::vector<std::string> smokable_choices;
 
     // Fail fast(er) if we can't/shouldn't smoke.
-    std::vector<item *> active_items = p->inv.active_items();
-    for (item *i : active_items) {
-        if (i->has_flag("LITCIG")) {
-            p->add_msg_if_player(m_info, _("You're already smoking a %s!"), i->tname().c_str());
-            return 0;
-        }
+    if( !check_litcig( *p ) ) {
+        return 0;
     }
     if (!hasFire) {
         p->add_msg_if_player(m_info, _("You don't have anything to light it with!"));
@@ -922,12 +931,8 @@ int iuse::smoking(player *p, item *it, bool)
     bool hasFire = (p->has_charges("fire", 1));
 
     // make sure we're not already smoking something
-    std::vector<item *> active_items = p->inv.active_items();
-    for (auto iter : active_items) {
-        if (iter->has_flag("LITCIG")) {
-            p->add_msg_if_player(m_info, _("You're already smoking a %s!"), iter->tname().c_str());
-            return 0;
-        }
+    if( !check_litcig( *p ) ) {
+        return 0;
     }
 
     if (!hasFire) {
@@ -3856,11 +3861,14 @@ static radio_tower *find_radio_station(int frequency)
 int iuse::directional_antenna(player *p, item *it, bool)
 {
     // Find out if we have an active radio
-    item radio = p->i_of_type("radio_on");
-    if (radio.typeId() != "radio_on") {
+    auto radios = p->items_with( []( const item & it ) {
+        return it.typeId() == "radio_on";
+    } );
+    if( radios.empty() ) {
         add_msg(m_info, _("Must have an active radio to check for signal direction."));
         return 0;
     }
+    const item radio = *radios.front();
     // Find the radio station its tuned to (if any)
     radio_tower *tower = find_radio_station(radio.frequency);
     if (tower == NULL) {
@@ -6109,7 +6117,7 @@ int iuse::turret(player *p, item *, bool)
     if (ammopos != INT_MIN) {
         item &ammoitem = p->inv.find_item(ammopos);
         ammo = std::min(ammoitem.charges, long(500));
-        p->inv.reduce_charges(ammopos, ammo);
+        p->reduce_charges(ammopos, ammo);
         p->add_msg_if_player(ngettext("You load %d x 9mm round into the turret.",
                                       "You load %d x 9mm rounds into the turret.", ammo), ammo);
     } else {
@@ -6174,7 +6182,7 @@ int iuse::turret_rifle(player *p, item *, bool)
     if (ammopos != INT_MIN) {
         item &ammoitem = p->inv.find_item(ammopos);
         ammo = std::min(ammoitem.charges, long(500));
-        p->inv.reduce_charges(ammopos, ammo);
+        p->reduce_charges(ammopos, ammo);
         p->add_msg_if_player(ngettext("You load %d x 5.56 round into the turret.",
                                       "You load %d x 5.56 rounds into the turret.", ammo), ammo);
     } else {
@@ -7737,7 +7745,7 @@ int iuse::artifact(player *p, item *it, bool)
             case AEA_GROWTH: {
                 monster tmptriffid(GetMType("mon_null"), p->posx, p->posy);
                 mattack tmpattack;
-                tmpattack.growplants(&tmptriffid);
+                tmpattack.growplants(&tmptriffid, -1);
             }
             break;
 
@@ -7840,7 +7848,7 @@ int iuse::artifact(player *p, item *it, bool)
                              !g->m.sees(monx, mony, p->posx, p->posy, 10, junk));
                     if (tries < 5) {
                         num_spawned++;
-                        spawned.sp_timeout = rng(8, 20);
+                        spawned.reset_special_rng(0);
                         spawned.spawn(monx, mony);
                         g->add_zombie(spawned);
                     }

@@ -213,11 +213,6 @@ void monster::move()
         return;
     }
 
-    // First, use the special attack, if we can!
-    if (sp_timeout > 0) {
-        sp_timeout--;
-    }
-
     //The monster can consume objects it stands on. Check if there are any.
     //If there are. Consume them.
     if (has_flag(MF_ABSORBS)) {
@@ -230,12 +225,19 @@ void monster::move()
             g->m.i_clear(posx(), posy());
         }
     }
+    
+    // First, use the special attack, if we can!
+    for (size_t i = 0; i < sp_timeout.size(); ++i) {
+        if (sp_timeout[i] > 0) {
+            sp_timeout[i]--;
+        }
 
-    if( sp_timeout == 0 && (friendly == 0 || has_flag(MF_FRIENDLY_SPECIAL)) &&
-        !has_effect("pacified") ) {
-        mattack ma;
-        if(!is_hallucination()) {
-            (ma.*type->sp_attack)(this);
+        if( sp_timeout[i] == 0 && (friendly == 0 || has_flag(MF_FRIENDLY_SPECIAL)) &&
+            !has_effect("pacified") ) {
+            mattack ma;
+            if(!is_hallucination()) {
+                (ma.*type->sp_attack[i])(this, i);
+            }
         }
     }
     if (moves < 0) {

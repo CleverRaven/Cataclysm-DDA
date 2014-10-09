@@ -71,25 +71,26 @@ class inventory
 
         void form_from_map(point origin, int distance, bool assign_invlet = true);
 
-        item remove_item(item *it);
+        /**
+         * Remove a specific item from the inventory. The item is compared
+         * by pointer. Contents of the item are removed as well.
+         * @param it A pointer to the item to be removed. The item *must* exists
+         * in this inventory.
+         * @return A copy of the removed item.
+         */
+        item remove_item(const item *it);
         item remove_item(int position);
-        item remove_item(const itype_id &type);
         std::list<item> reduce_stack(int position, int quantity);
         std::list<item> reduce_stack(const itype_id &type, int quantity);
-        item reduce_charges(int position, long quantity);
-        item reduce_charges(const itype_id &type, long quantity);
-        item reduce_charges(const item *ptr, long quantity);
 
         // amount of -1 removes the entire stack.
         template<typename Locator> std::list<item> reduce_stack(const Locator &type, int amount);
-        template<typename Locator> item reduce_charges(const Locator &type, long quantity);
 
-        std::vector<item>  remove_mission_items(int mission_id);
         item &find_item(int position);
         item &item_by_type(itype_id type);
         item &item_or_container(itype_id type); // returns an item, or a container of it
 
-        int position_by_item(item *it);  // looks up an item (via pointer comparison)
+        int position_by_item(const item *it);  // looks up an item (via pointer comparison)
         int position_by_type(itype_id type);
         /** Return the item position of the item with given invlet, return INT_MIN if
          * the inventory does not have such an item with that invlet. Don't use this on npcs inventory. */
@@ -97,8 +98,6 @@ class inventory
 
         std::vector<std::pair<item *, int> > all_items_by_type(itype_id type);
         std::vector<item *> all_ammo(const ammotype &type);
-        std::vector<item *> all_drinks();
-        std::vector<item *> all_items_with_flag( const std::string flag );
 
         // Below, "amount" refers to quantity
         //        "charges" refers to charges
@@ -114,22 +113,20 @@ class inventory
         bool has_tools (itype_id it, int quantity) const;
         bool has_components (itype_id it, int quantity) const;
         bool has_charges(itype_id it, long quantity) const;
-        bool has_flag(std::string flag) const; //Inventory item has flag
-        bool has_item(item *it) const; // Looks for a specific item
+        /**
+         * Check whether a specific item is in this inventory.
+         * The item is compared by pointer.
+         * @param it A pointer to the item to be looked for.
+         */
+        bool has_item(const item *it) const;
         bool has_items_with_quality(std::string id, int level, int amount) const;
-        bool has_gun_for_ammo(ammotype type) const;
-        bool has_active_item(itype_id) const;
 
         static int num_items_at_position( int position );
 
         int leak_level(std::string flag) const; // level of leaked bad stuff from items
 
-        bool has_mission_item(int mission_id) const;
         int butcher_factor() const;
         bool has_artifact_with(art_effect_passive effect) const;
-        bool has_liquid(itype_id type) const;
-        bool has_drink() const;
-        item &watertight_container();
 
         // NPC/AI functions
         int worst_item_value(npc *p) const;
@@ -142,7 +139,6 @@ class inventory
 
         int weight() const;
         int volume() const;
-        long max_active_item_charges(itype_id id) const;
 
         void dump(std::vector<item *> &dest); // dumps contents into dest (does not delete contents)
 
@@ -165,6 +161,80 @@ class inventory
         void assign_empty_invlet(item &it, bool force = false);
 
         std::set<char> allocated_invlets() const;
+
+        template<typename T>
+        static void items_with_recursive( std::vector<const item *> &vec, const item &it, T filter )
+        {
+            if( filter( it ) ) {
+                vec.push_back( &it );
+            }
+            for( auto &c : it.contents ) {
+                items_with_recursive( vec, c, filter );
+            }
+        }
+        template<typename T>
+        static bool has_item_with_recursive( const item &it, T filter )
+        {
+            if( filter( it ) ) {
+                return true;
+            }
+            for( auto &c : it.contents ) {
+                if( has_item_with_recursive( c, filter ) ) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        template<typename T>
+        bool has_item_with(T filter) const
+        {
+            for( auto &stack : items ) {
+                for( auto &it : stack ) {
+                    if( has_item_with_recursive( it, filter ) ) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+        template<typename T>
+        std::vector<const item *> items_with(T filter) const
+        {
+            std::vector<const item *> result;
+            for( auto &stack : items ) {
+                for( auto &it : stack ) {
+                    inventory::items_with_recursive( result, it, filter );
+                }
+            }
+            return result;
+        }
+        template<typename T>
+        std::list<item> remove_items_with( T filter )
+        {
+            std::list<item> result;
+            for( auto items_it = items.begin(); items_it != items.end(); ) {
+                auto &stack = *items_it;
+                for( auto stack_it = stack.begin(); stack_it != stack.end(); ) {
+                    if( filter( *stack_it ) ) {
+                        result.push_back( std::move( *stack_it ) );
+                        stack_it = stack.erase( stack_it );
+                        if( stack_it == stack.begin() && !stack.empty() ) {
+                            // preserve the invlet when removing the first item of a stack
+                            stack_it->invlet = result.back().invlet;
+                        }
+                    } else {
+                        result.splice( result.begin(), stack_it->remove_items_with( filter ) );
+                        ++stack_it;
+                    }
+                }
+                if( stack.empty() ) {
+                    items_it = items.erase( items_it );
+                } else {
+                    ++items_it;
+                }
+            }
+            return result;
+        }
     private:
         // For each item ID, store a set of "favorite" inventory letters.
         std::map<std::string, std::vector<char> > invlet_cache;
@@ -174,7 +244,6 @@ class inventory
         // we back those functions with a single internal function templated on the type of Locator.
         template<typename Locator> item remove_item_internal(const Locator &locator);
         template<typename Locator> std::list<item> reduce_stack_internal(const Locator &type, int amount);
-        template<typename Locator> item reduce_charges_internal(const Locator &type, long quantity);
 
         invstack items;
         bool sorted;

@@ -865,7 +865,22 @@ void monster::load(JsonObject &data)
     data.read("wandy", wandy);
     data.read("wandf", wandf);
     data.read("hp", hp);
-    data.read("sp_timeout", sp_timeout);
+    
+    if (data.has_array("sp_timeout")) {
+        JsonArray parray = data.get_array("sp_timeout");
+        if ( !parray.empty() ) {
+            int ptimeout = 0;
+            while ( parray.has_more() ) {
+                if ( parray.read_next(ptimeout) ) {
+                    sp_timeout.push_back(ptimeout);
+                }
+            }
+        }
+    }
+    for (size_t i = sp_timeout.size(); i < type->sp_freq.size(); ++i) {
+        sp_timeout.push_back(rng(0, type->sp_freq[i]));
+    }
+    
     data.read("friendly", friendly);
     data.read("faction_id", faction_id);
     data.read("mission_id", mission_id);

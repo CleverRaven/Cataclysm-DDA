@@ -42,7 +42,6 @@ bool mapbuffer::add_submap(const tripoint &p, submap *sm)
         return false;
     }
 
-    sm->turn_last_touched = int(calendar::turn);
     submaps[p] = sm;
 
     return true;

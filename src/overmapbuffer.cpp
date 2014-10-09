@@ -10,6 +10,7 @@
 
 overmapbuffer overmap_buffer;
 
+/** Mathematical modulo (only for positive m): 0 <= result < m */
 inline int modulo(int v, int m);
 inline int divide(int v, int m);
 inline int divide(int v, int m, int &r);
@@ -24,11 +25,6 @@ std::string overmapbuffer::terrain_filename(int const x, int const y)
     std::stringstream filename;
 
     filename << world_generator->active_world->world_path << "/";
-
-    if (g->has_gametype()) {
-        filename << special_game_name(g->gametype()) << ".";
-    }
-
     filename << "o." << x << "." << y;
 
     return filename.str();
@@ -549,12 +545,6 @@ void overmapbuffer::spawn_monster(const int x, const int y, const int z)
             // is stored *after* it has gone out of bounds during shifting. When reloading
             // we only need the part that tells where on the sumap to put it.
             point ms( modulo( critter.posx(), SEEX ), modulo( critter.posy(), SEEY ) );
-            if( ms.x < 0 ) {
-                ms.x += SEEX;
-            }
-            if( ms.y < 0 ) {
-                ms.y += SEEY;
-            }
             assert( ms.x >= 0 && ms.x < SEEX );
             assert( ms.y >= 0 && ms.y < SEEX );
             ms.x += x * SEEX;
@@ -621,10 +611,11 @@ bool overmapbuffer::is_safe(int x, int y, int z)
 }
 
 inline int modulo(int v, int m) {
-    if (v >= 0) {
-        return v % m;
-    }
-    return (v - m + 1) % m;
+    // C++11: negative v and positive m result in negative v%m (or 0),
+    // but this is supposed to be mathematical modulo: 0 <= v%m < m,
+    const int r = v % m;
+    // Adding m in that (and only that) case.
+    return r >= 0 ? r : r + m;
 }
 
 inline int divide(int v, int m) {

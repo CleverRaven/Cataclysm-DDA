@@ -6684,27 +6684,9 @@ item& player::i_add(item it)
 
 bool player::has_active_item(const itype_id & id) const
 {
-    if (weapon.type->id == id && weapon.active)
-    {
-        return true;
-    }
-    return inv.has_active_item(id);
-}
-
-long player::active_item_charges(itype_id id)
-{
-    long max = 0;
-    if (weapon.type->id == id && weapon.active)
-    {
-        max = weapon.charges;
-    }
-
-    long inv_max = inv.max_active_item_charges(id);
-    if (inv_max > max)
-    {
-        max = inv_max;
-    }
-    return max;
+    return has_item_with( [id]( const item & it ) {
+        return it.active && it.typeId() == id;
+    } );
 }
 
 void player::process_active_items()
@@ -6790,54 +6772,33 @@ item player::remove_weapon()
  return tmp;
 }
 
-void player::remove_mission_items(int mission_id)
+item player::reduce_charges( int position, long quantity )
 {
-    if (mission_id == -1) {
-        return;
-    }
-    if (weapon.mission_id == mission_id) {
-        remove_weapon();
-    } else {
-        for (auto &i : weapon.contents) {
-            if (i.mission_id == mission_id) {
-                remove_weapon();
-            }
-        }
-    }
-    inv.remove_mission_items(mission_id);
-}
-
-item player::reduce_charges(int position, long quantity) {
-    if (position == -1) {
-        if (!weapon.count_by_charges())
-        {
-            debugmsg("Tried to remove %s by charges, but item is not counted by charges",
-                    weapon.type->nname(1).c_str());
-        }
-
-        if (quantity > weapon.charges)
-        {
-            debugmsg("Charges: Tried to remove charges that do not exist, \
-                      removing maximum available charges instead");
-            quantity = weapon.charges;
-        }
-        if (weapon.charges <= quantity)
-        {
-            return remove_weapon();
-        }
-        weapon.charges -= quantity;
-        return weapon;
-    } else if (position < -1) {
-        debugmsg("Wearing charged items is not implemented.");
+    item &it = i_at( position );
+    if( it.is_null() ) {
+        debugmsg( "invalid item position %d for reduce_charges", position );
         return ret_null;
-    } else {
-        return inv.reduce_charges(position, quantity);
     }
+    if( it.reduce_charges( quantity ) ) {
+        return i_rem( position );
+    }
+    item tmp( it );
+    tmp.charges = quantity;
+    return tmp;
 }
 
 item player::reduce_charges( item *it, long quantity )
 {
-    return reduce_charges( get_item_position( it ), quantity );
+    if( !has_item( it ) ) {
+        debugmsg( "invalid item (name %s) for reduce_charges", it->tname().c_str() );
+        return ret_null;
+    }
+    if( const_cast<item *>( it )->reduce_charges( quantity ) ) {
+        return i_rem( it );
+    }
+    item result( *it );
+    result.charges = quantity;
+    return result;
 }
 
 item player::i_rem(int pos)
@@ -6855,22 +6816,14 @@ item player::i_rem(int pos)
  return inv.remove_item(pos);
 }
 
-item player::i_rem(itype_id type)
+item player::i_rem(const item *it)
 {
-    if (weapon.type->id == type)
-    {
-        return remove_weapon();
+    auto tmp = remove_items_with( [&it] (const item &i) { return &i == it; } );
+    if( tmp.empty() ) {
+        debugmsg( "did not found item %s to remove it!", it->tname().c_str() );
+        return ret_null;
     }
-    return inv.remove_item(type);
-}
-
-item player::i_rem(item *it)
-{
-    if (&weapon == it)
-    {
-        return remove_weapon();
-    }
-    return inv.remove_item(it);
+    return tmp.front();
 }
 
 // Negative positions indicate weapon/clothing, 0 & positive indicate inventory
@@ -6886,19 +6839,6 @@ item& player::i_at(int position)
         }
     }
     return inv.find_item(position);
-}
-
-item& player::i_of_type(itype_id type)
-{
-    if (weapon.type->id == type) {
-        return weapon;
-    }
-    for (auto &i : worn) {
-        if (i.type->id == type) {
-            return i;
-        }
-    }
-    return inv.item_by_type(type);
 }
 
 int player::invlet_to_position( char invlet ) const
@@ -6917,7 +6857,7 @@ int player::invlet_to_position( char invlet ) const
     return inv.invlet_to_position( invlet );
 }
 
-int player::get_item_position(item* it) {
+int player::get_item_position(const item* it) {
     if (&weapon == it) {
         return -1;
     }
@@ -7446,40 +7386,6 @@ int  player::leak_level( std::string flag ) const
     return leak_level;
 }
 
-bool player::has_drink()
-{
-    if (inv.has_drink()) {
-        return true;
-    }
-    if (weapon.is_container() && !weapon.contents.empty()) {
-        return weapon.contents[0].is_drink();
-    }
-    return false;
-}
-
-bool player::has_item_with_flag( std::string flag ) const
-{
-    //check worn items for flag
-    if (worn_with_flag( flag ))
-    {
-        return true;
-    }
-
-    //check weapon for flag
-    if (weapon.has_flag( flag ) || weapon.contains_with_flag( flag ))
-    {
-        return true;
-    }
-
-    //check inventory items for flag
-    if (inv.has_flag( flag ))
-    {
-        return true;
-    }
-
-    return false;
-}
-
 std::set<char> player::allocated_invlets() const {
     std::set<char> invlets = inv.allocated_invlets();
 
@@ -7499,39 +7405,31 @@ bool player::has_item(int position) {
     return !i_at(position).is_null();
 }
 
-bool player::has_item(item *it)
+bool player::has_item( const item *it ) const
 {
-    if (it == &weapon) {
-        return true;
-    }
-    for (auto &i : worn) {
-        if (it == &(i)) {
-            return true;
-        }
-    }
-    return inv.has_item(it);
+    return has_item_with( [&it]( const item & i ) {
+        return &i == it;
+    } );
 }
 
-bool player::has_mission_item(int mission_id)
+struct has_mission_item_filter {
+    int mission_id;
+    bool operator()(const item &it) {
+        return it.mission_id == mission_id;
+    }
+};
+
+bool player::has_mission_item(int mission_id) const
 {
-    if (mission_id == -1)
-    {
-        return false;
+    return mission_id != -1 && has_item_with( has_mission_item_filter{ mission_id } );
+}
+
+void player::remove_mission_items( int mission_id )
+{
+    if( mission_id == -1 ) {
+        return;
     }
-    if (weapon.mission_id == mission_id)
-    {
-        return true;
-    }
-    for (auto &i : weapon.contents)
-    {
-        if (i.mission_id == mission_id)
-        return true;
-    }
-    if (inv.has_mission_item(mission_id))
-    {
-        return true;
-    }
-    return false;
+    remove_items_with( has_mission_item_filter { mission_id } );
 }
 
 bool player::i_add_or_drop(item& it, int qty) {
@@ -9048,7 +8946,7 @@ bool player::takeoff(int pos, bool autodrop, std::vector<item> *items)
                             } else {
                                 g->m.add_item_or_charges( posx, posy, worn[j] );
                             }
-                            add_msg(_("You take off your your %s."), worn[j].tname().c_str());
+                            add_msg(_("You take off your %s."), worn[j].tname().c_str());
                             worn.erase(worn.begin() + j);
                             // If we are before worn_index, erasing this element shifted its position by 1.
                             if (worn_index > j) {
@@ -9078,7 +8976,7 @@ bool player::takeoff(int pos, bool autodrop, std::vector<item> *items)
                 taken_off = false;
             }
             if( taken_off ) {
-                add_msg(_("You take off your your %s."), w.tname().c_str());
+                add_msg(_("You take off your %s."), w.tname().c_str());
                 worn.erase(worn.begin() + worn_index);
             }
         } else {
@@ -11093,6 +10991,14 @@ std::vector<item*> player::has_ammo(ammotype at)
     return result;
 }
 
+bool player::has_gun_for_ammo( const ammotype &at ) const
+{
+    return has_item_with( [at]( const item & it ) {
+        // item::ammo_type considers the active gunmod.
+        return it.is_gun() && it.ammo_type() == at;
+    } );
+}
+
 std::string player::weapname(bool charges)
 {
     if (!(weapon.is_tool() && dynamic_cast<it_tool*>(weapon.type)->max_charges <= 0) &&
@@ -11825,4 +11731,18 @@ void player::blossoms()
                 g->m.add_field( i, j, fd_fungal_haze, rng(1, 2));
         }
     }
+}
+
+std::vector<const item *> player::all_items_with_flag( const std::string flag ) const
+{
+    return items_with( [&flag]( const item & it ) {
+        return it.has_flag( flag );
+    } );
+}
+
+bool player::has_item_with_flag( std::string flag ) const
+{
+    return has_item_with( [&flag]( const item & it ) {
+        return it.has_flag( flag );
+    } );
 }

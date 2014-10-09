@@ -928,10 +928,11 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
         // core data, we override it. This allows mods to change
         // item from core data.
         delete m_templates[new_id];
+    } else {
+        standard_itype_ids.push_back(new_id);
     }
     m_templates[new_id] = new_item_template;
     itypes[new_id] = new_item_template;
-    standard_itype_ids.push_back(new_id);
 
     // And then proceed to assign the correct field
     new_item_template->price = jo.get_int("price");

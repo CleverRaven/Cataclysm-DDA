@@ -116,10 +116,6 @@ item::item(const std::string new_type, unsigned int turn, bool rand, int handed)
                 }
             }
         }
-        // clothing with variable size flag may sometimes be generated fitted
-        if( type->item_tags.count( "VARSIZE" ) > 0 && one_in( 3 ) ) {
-            item_tags.insert( "FIT" );
-        }
     }
     if(type->is_var_veh_part()) {
         it_var_veh_part* varcarpart = dynamic_cast<it_var_veh_part*>(type);
@@ -1139,7 +1135,7 @@ nc_color item::color(player *u) const
         if (u->weapon.is_gun() && u->weapon.ammo_type() == amtype) {
             ret = c_green;
         } else {
-            if (u->inv.has_gun_for_ammo(amtype)) {
+            if (u->has_gun_for_ammo(amtype)) {
                 ret = c_green;
             }
         }
@@ -3931,5 +3927,21 @@ bool item::process( player *carrier, point pos )
     if( has_flag( "CHARGE" ) && process_charger_gun( carrier, pos ) ) {
         return true;
     }
+    return false;
+}
+
+bool item::reduce_charges( long quantity )
+{
+    if( !count_by_charges() ) {
+        debugmsg( "Tried to remove %s by charges, but item is not counted by charges", tname().c_str() );
+        return false;
+    }
+    if( quantity > charges ) {
+        debugmsg( "Charges: Tried to remove charges that do not exist, removing maximum available charges instead" );
+    }
+    if( charges <= quantity ) {
+        return true;
+    }
+    charges -= quantity;
     return false;
 }

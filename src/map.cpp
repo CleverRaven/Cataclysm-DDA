@@ -1055,6 +1055,13 @@ std::string map::get_ter_harvestable(const int x, const int y) const {
 }
 
 /*
+ * Get the terrain transforms_into id (what will the terrain transforms into)
+ */
+ter_id map::get_ter_transforms_into(const int x, const int y) const {
+    return (ter_id)termap[ terlist[ ter(x,y) ].transforms_into ].loadid;
+}
+
+/*
  * Get the harvest season from the terrain
  */
 int map::get_ter_harvest_season(const int x, const int y) const {
@@ -2029,7 +2036,14 @@ void map::spawn_item_list(const std::vector<map_bash_item_drop> &items, int x, i
                     new_item.charges = numitems;
                     numitems = 1;
                 }
+                const bool varsize = new_item.has_flag( "VARSIZE" );
                 for(int a = 0; a < numitems; a++ ) {
+                    if( varsize && one_in( 3 ) ) {
+                        new_item.item_tags.insert( "FIT" );
+                    } else if( varsize ) {
+                        // might have been added previously
+                        new_item.item_tags.erase( "FIT" );
+                    }
                     add_item_or_charges(x, y, new_item);
                 }
             }
@@ -2889,6 +2903,9 @@ void map::spawn_item(const int x, const int y, const std::string &type_id,
     }
     // spawn the item
     item new_item(type_id, birthday, rand);
+    if( one_in( 3 ) && new_item.has_flag( "VARSIZE" ) ) {
+        new_item.item_tags.insert( "FIT" );
+    }
     spawn_an_item(x, y, new_item, charges, damlevel);
 }
 
@@ -4562,6 +4579,7 @@ void map::saven( const int worldx, const int worldy, const int worldz,
     const int abs_x = worldx + gridx;
     const int abs_y = worldy + gridy;
     dbg( D_INFO ) << "map::saven abs_x: " << abs_x << "  abs_y: " << abs_y;
+    submap_to_save->turn_last_touched = int(calendar::turn);
     MAPBUFFER.add_submap( abs_x, abs_y, worldz, submap_to_save );
 }
 
@@ -4682,9 +4700,9 @@ void map::loadn(const int worldx, const int worldy, const int worldz,
   }
 
   // plantEpoch is half a season; 3 epochs pass from plant to harvest
-  const int plantEpoch = 14400 * (int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] / 2;
+  const int plantEpoch = 14400 * int(calendar::season_length()) / 2;
 
-  // check plants
+  // check plants for crops and seasonal harvesting.
   for (int x = 0; x < SEEX; x++) {
     for (int y = 0; y < SEEY; y++) {
       furn_id furn = tmpsub->get_furn(x, y);
@@ -4702,9 +4720,16 @@ void map::loadn(const int worldx, const int worldy, const int worldz,
 
           // fixme; Lazy farmer drop rake on dirt mound. What happen rake?!
           tmpsub->itm[x][y].resize(1);
-
           tmpsub->itm[x][y][0].bday = seed.bday;
           tmpsub->set_furn(x, y, furn);
+        }
+      }
+      ter_id ter = tmpsub->ter[x][y];
+      //if the fruit-bearing season of the already harvested terrain has passed, make it harvestable again
+      if ((ter) && (terlist[ter].has_flag(TFLAG_HARVESTED))){
+        if ((terlist[ter].harvest_season != calendar::turn.get_season()) || 
+        (calendar::turn - tmpsub->turn_last_touched > calendar::season_length()*14400)){
+          tmpsub->set_ter(x, y, terfind(terlist[ter].transforms_into));
         }
       }
     }
@@ -4722,6 +4747,9 @@ void map::loadn(const int worldx, const int worldy, const int worldz,
         }
     }
   }
+
+  tmpsub->turn_last_touched = int(calendar::turn); // the last time we touched the submap, is right now.
+
  } else { // It doesn't exist; we must generate it!
   dbg(D_INFO|D_WARNING) << "map::loadn: Missing mapbuffer data. Regenerating.";
   tinymap tmp_map;
