@@ -56,6 +56,10 @@ start_location *start_location::find( const std::string ident )
     }
 }
 
+const std::set<std::string> &start_location::flags() const {
+    return _flags;
+}
+
 void start_location::load_location( JsonObject &jsonobj )
 {
     start_location new_location;
@@ -63,6 +67,7 @@ void start_location::load_location( JsonObject &jsonobj )
     new_location._ident = jsonobj.get_string("ident");
     new_location._name = jsonobj.get_string("name");
     new_location._target = jsonobj.get_string("target");
+    new_location._flags = jsonobj.get_tags("flags");
 
     _locations[new_location._ident] = new_location;
 }
