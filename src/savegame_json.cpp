@@ -24,6 +24,7 @@
 #include "crafting.h"
 #include "get_version.h"
 #include "monstergenerator.h"
+#include "item_factory.h"
 
 #include "savegame.h"
 #include "tile_id_data.h" // for monster::json_save
@@ -1623,4 +1624,32 @@ void Creature::load( JsonObject &jsin )
     jsin.read( "throw_resist", throw_resist );
 
     fake = false; // see Creature::load
+}
+
+void morale_point::deserialize( JsonIn &jsin )
+{
+    JsonObject jo = jsin.get_object();
+    type = static_cast<morale_type>( jo.get_int( "type_enum" ) );
+    std::string tmpitype;
+    if( jo.read( "item_type", tmpitype ) && item_controller->has_template( tmpitype ) ) {
+        item_type = item_controller->find_template( tmpitype );
+    }
+    jo.read( "bonus", bonus );
+    jo.read( "duration", duration );
+    jo.read( "decay_start", decay_start );
+    jo.read( "age", age );
+}
+
+void morale_point::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    json.member( "type_enum", static_cast<int>( type ) );
+    if( item_type != NULL ) {
+        json.member( "item_type", item_type->id );
+    }
+    json.member( "bonus", bonus );
+    json.member( "duration", duration );
+    json.member( "decay_start", decay_start );
+    json.member( "age", age );
+    json.end_object();
 }
