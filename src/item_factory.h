@@ -153,6 +153,16 @@ class Item_factory
         bool add_item_to_group(const std::string group_id, const std::string item_id, int weight);
 
         /**
+         * Returns the translated item name for the item with given id.
+         * The name is in the proper plural form as specified by the
+         * quantity parameter.
+         */
+        std::string nname(const Item_tag &id, unsigned int quantity = 1) const;
+        /**
+         * Whether the item is counted by charges, see @ref item::count_by_charges
+         */
+        bool count_by_charges(const Item_tag &id);
+        /**
          * A list of *all* known item type ids. Each is suitable as input to
          * @ref find_template or as parameter to @ref item::item.
          */
