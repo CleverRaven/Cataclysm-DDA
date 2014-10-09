@@ -2925,7 +2925,6 @@ void vehicle::idle() {
     if (stereo_on == true) {
         play_music();
     }
-    slow_leak();
 }
 
 void vehicle::slow_leak()

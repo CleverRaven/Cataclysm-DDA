@@ -454,6 +454,7 @@ void map::vehmove()
         for( size_t v = 0; v < vehs.size(); ++v ) {
             vehicle* veh = vehs[v].v;
             veh->gain_moves();
+            veh->slow_leak();
         }
     }
 
