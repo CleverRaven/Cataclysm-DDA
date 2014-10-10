@@ -225,8 +225,10 @@ public:
      * The item must have enough charges for this (>= quantity) and be counted
      * by charges.
      * @param quantity How many charges should be removed.
-     * @return true if all charges have been removed. The item (as it's counted
-     * by charges) must be destroyed. False if there are charges remaining.
+     * @return true if all charges would have been removed and the must be destroyed.
+     * The charges member is not changed in that case (for usage in `player::i_rem`
+     * which returns the removed item).
+     * False if there are charges remaining, the charges have been reduced in that case.
      */
     bool reduce_charges( long quantity );
     /**
