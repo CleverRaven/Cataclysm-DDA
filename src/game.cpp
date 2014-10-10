@@ -727,8 +727,9 @@ void game::create_starting_npcs()
         reserve_random_mission(ORIGIN_OPENER_NPC, om_location(), tmp->getID()));
 }
 
-void game::cleanup_at_end()
+int game::cleanup_at_end()
 {
+    // TODO: prompt the user for the action they want to take
     draw_sidebar();
     if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE) {
         // Save the factions', missions and set the NPC's overmap coords
@@ -959,6 +960,7 @@ void game::cleanup_at_end()
     }
     MAPBUFFER.reset();
     overmap_buffer.clear();
+    return true;
 }
 
 static int veh_lumi(vehicle *veh)
@@ -3896,15 +3898,13 @@ bool game::is_game_over()
     if (uquit != QUIT_NO) {
         return true;
     }
-    for (int i = 0; i <= hp_torso; i++) {
-        if (u.hp_cur[i] < 1) {
-            if (u.in_vehicle) {
-                g->m.unboard_vehicle(u.posx, u.posy);
-            }
-            u.place_corpse();
-            uquit = QUIT_DIED;
-            return true;
+    if(u.is_dead_state()) {
+        if (u.in_vehicle) {
+            g->m.unboard_vehicle(u.posx, u.posy);
         }
+        u.place_corpse();
+        uquit = QUIT_DIED;
+        return true;
     }
     return false;
 }

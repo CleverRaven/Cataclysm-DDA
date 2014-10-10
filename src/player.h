@@ -1052,6 +1052,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         int id; // A unique ID number, assigned by the game class private so it cannot be overwritten and cause save game corruptions.
         //NPCs also use this ID value. Values should never be reused.
+        int turn_died;
 };
 
 #endif
