@@ -43,7 +43,6 @@
 
 /* Utility functions in process_effects */
 static void manage_fire_exposure(player& p, int fireStrength = 1);
-static void handle_cough(player& p, int intensity = 1, int volume = 4);
 static bool will_vomit(player& p, int chance = 1000);
 
 std::map<std::string, trait> traits;
@@ -5385,19 +5384,19 @@ static void manage_fire_exposure(player &p, int fireStrength) {
         }
     }
 }
-static void handle_cough(player &p, int intensity, int loudness) {
-    if (p.is_player()) {
+void player::handle_cough(bool harmful, int loudness) {
+    if (!is_npc()) {
         add_msg(m_bad, _("You cough heavily."));
-        g->sound(p.posx, p.posy, loudness, "");
+        g->sound(posx, posy, loudness, "");
     } else {
-        g->sound(p.posx, p.posy, loudness, _("a hacking cough."));
+        g->sound(posx, posy, loudness, _("a hacking cough."));
     }
-    p.mod_moves(-80);
-    if (rng(1,6) < intensity) {
-        p.apply_damage(NULL, bp_torso, 1);
+    moves -= 80;
+    if (harmful && !one_in(4)) {
+        apply_damage( nullptr, bp_torso, 1 );
     }
-    if (p.has_disease("sleep") && intensity >= 2) {
-        p.wake_up(_("You wake up coughing."));
+    if (has_disease("sleep") && ((harmful && one_in(3)) || one_in(10)) ) {
+        wake_up(_("You wake up coughing."));
     }
 }
 bool will_vomit(player& p, int chance)
@@ -5414,6 +5413,80 @@ void player::process_effects() {
     int psnChance;
     for( auto maps = effects.begin(); maps != effects.end(); ++maps ) {
         for( auto effect_it = maps->second.begin(); effect_it != maps->second.end(); ++effect_it ) {
+            auto &it = *effect_it.second;
+            bool reduced = has_trait(it.get_resist_trait());
+            mod_str_bonus(it.get_mod("STR", reduced));
+            mod_dex_bonus(it.get_mod("DEX", reduced));
+            mod_per_bonus(it.get_mod("PER", reduced));
+            mod_int_bonus(it.get_mod("INT", reduced));
+            
+            double mod = 1;
+            if (!has_trait("NOPAIN") && it.get_mod("PAIN", reduced) > 0 &&
+                  it.get_max_val("PAIN", reduced) > pain) {
+                mod = 1;
+                if (it.get_sizing("PAIN")) {
+                    if (has_trait("FAT")) {
+                        mod *= 1.5;
+                    }
+                    if (has_trait("LARGE") || has_trait("LARGE_OK")) {
+                        mod *= 2;
+                    }
+                    if (has_trait("HUGE") || has_trait("HUGE_OK")) {
+                        mod *= 3;
+                    }
+                }
+                if(it.activated(calendar::turn, "PAIN", reduced, mod)) {
+                    add_msg_if_player(_("You're suddenly wracked with pain!"));
+                    mod_pain(it.get_mod("PAIN", reduced));
+                }
+            }
+
+            if (it.get_mod("HURT", reduced) > 0) {
+                mod = 1;
+                if (it.get_sizing("HURT")) {
+                    if (has_trait("FAT")) {
+                        mod *= 1.5;
+                    }
+                    if (has_trait("LARGE") || has_trait("LARGE_OK")) {
+                        mod *= 2;
+                    }
+                    if (has_trait("HUGE") || has_trait("HUGE_OK")) {
+                        mod *= 3;
+                    }
+                }
+                if(it.activated(calendar::turn, "HURT", reduced, mod)) {
+                    if (bp == num_bp) {
+                        apply_damage(nullptr, bp_torso, it.get_mod("HURT"));
+                    } else {
+                        body_part bp = it.get_bp();
+                        apply_damage(nullptr, bp, it.get_mod("HURT"));
+                    }
+                }
+            }
+
+            if (it.get_mod("PKILL", reduced) > 0) {
+                mod = it.get_addict_reduction("PKILL", addiction_level(ADD_PKILLER));
+                if(it.activated(calendar::turn, "PKILL", reduced, mod)) {
+                    if (bp == num_bp) {
+                        apply_damage(nullptr, bp_torso, it.get_mod("PKILL"));
+                    } else {
+                        body_part bp = it.get_bp();
+                        apply_damage(nullptr, bp, it.get_mod("PKILL"));
+                    }
+                }
+            }
+            
+            mod = 1;
+            if (it.activated(calendar::turn, "COUGH", reduced, mod)) {
+                cough(it.get_harmful_cough());
+            }
+            
+            mod = 1;
+            if (it.activated(calendar::turn, "VOMIT", reduced, mod)) {
+                vomit();
+            }
+
+        
             std::string id = effect_it->second.get_id();
             if (id == "onfire") {
                 manage_fire_exposure(*this, 1);
@@ -5458,7 +5531,7 @@ void player::process_effects() {
                 add_miss_reason(_("The smoke bothers you."), 1);
                 effect_it->second.set_intensity((effect_it->second.get_duration()+190)/200);
                 if( effect_it->second.get_duration() >= 10 && one_in(6)) {
-                    handle_cough(*this, effect_it->second.get_intensity());
+                    handle_cough();
                 }
             } else if (id == "teargas") {
                 mod_str_bonus(-2);
@@ -5466,7 +5539,7 @@ void player::process_effects() {
                 add_miss_reason(_("The tear gas bothers you."), 2);
                 mod_per_bonus(-5);
                 if (one_in(3)) {
-                    handle_cough(*this, 4);
+                    handle_cough(true);
                 }
             } else if (id == "relax_gas") {
                 mod_str_bonus(-3);

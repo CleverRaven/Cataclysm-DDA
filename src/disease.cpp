@@ -68,7 +68,6 @@ static void handle_alcohol(player& p, disease& dis);
 static void handle_bite_wound(player& p, disease& dis);
 static void handle_infected_wound(player& p, disease& dis);
 static void handle_recovery(player& p, disease& dis);
-static void handle_cough(player& p, int intensity = 1, int volume = 4, bool harmful = false);
 static void handle_deliriant(player& p, disease& dis);
 static void handle_evil(player& p, disease& dis);
 static void handle_insect_parasites(player& p, disease& dis);
@@ -986,7 +985,7 @@ void dis_effect(player &p, disease &dis)
             }
 
             if (!p.has_disease("took_flumed") && one_in(300)) {
-                handle_cough(p);
+                p.handle_cough();
             }
             break;
 
@@ -1011,7 +1010,7 @@ void dis_effect(player &p, disease &dis)
                     }
                 }
             if (!p.has_disease("took_flumed") && one_in(300)) {
-                handle_cough(p);
+                p.handle_cough();
             }
             if (!p.has_disease("took_flumed") || one_in(2)) {
                 if (one_in(3600) || will_vomit(p)) {
@@ -2858,7 +2857,7 @@ void manage_fungal_infection(player& p, disease& dis)
     if (!dis.permanent) {
         if (dis.duration > 3001) { // First hour symptoms
             if (one_in(160 + bonus)) {
-                handle_cough(p, 5, true);
+                p.handle_cough(true);
             }
             if (one_in(100 + bonus)) {
                 p.add_msg_if_player(m_warning, _("You feel nauseous."));
@@ -3378,23 +3377,6 @@ static void handle_recovery(player& p, disease& dis)
         }
         p.mod_dex_bonus(-1);
         p.add_miss_reason(_("Your wound distracts you."), 1);
-    }
-}
-
-static void handle_cough(player &p, int, int loudness, bool harmful)
-{
-    if (!p.is_npc()) {
-        add_msg(m_bad, _("You cough heavily."));
-        g->sound(p.posx, p.posy, loudness, "");
-    } else {
-        g->sound(p.posx, p.posy, loudness, _("a hacking cough."));
-    }
-    p.moves -= 80;
-    if (harmful && !one_in(4)) {
-        p.apply_damage( nullptr, bp_torso, 1 );
-    }
-    if (p.has_disease("sleep") && ((harmful && one_in(3)) || one_in(10)) ) {
-        p.wake_up(_("You wake up coughing."));
     }
 }
 

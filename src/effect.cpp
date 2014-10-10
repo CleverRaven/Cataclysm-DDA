@@ -528,6 +528,11 @@ void effect::mod_intensity(int nintensity)
     intensity += nintensity;
 }
 
+std::string effect::get_resist_trait()
+{
+    return eff_type->resist_trait;
+}
+
 int effect::get_mod(std::string arg, bool reduced)
 {
     float ret = 0;
@@ -639,6 +644,7 @@ int effect::get_amount(std::string arg, bool reduced)
             break;
         }
     }
+    return int(ret);
 }
 
 int effect::get_max_val(std::string arg, bool reduced)
@@ -668,129 +674,106 @@ int effect::get_max_val(std::string arg, bool reduced)
         }
     
     }
+    return int(ret);
 }
 
-bool effect::activated(unsigned int turn, std::string arg, bool reduced)
+bool effect::get_sizing(std::string arg)
 {
-    int tmp;
-    int tmp2;
+    switch(arg) {
+    case "PAIN":
+        return eff_type->pain_sizing;
+    case "HURT":
+        return eff_type->hurt_sizing;
+    }
+    return false;
+}
+
+bool effect::activated(unsigned int turn, std::string arg, bool reduced, double mod)
+{
+    int tick = 0;
+    int bot = 0;
+    int top = 0;
     if (!reduced) {
         switch (arg) {
         case "PAIN":
-            tmp = eff_type->base_mods.pain_tick.first + eff_type->scaling_mods.pain_tick.first * intensity;
-            if(tmp <= 0 || turn % tmp == 0) {
-                tmp = eff_type->base_mods.pain_chance_bot.first + eff_type->scaling_mods.pain_chance_bot.first * intensity;
-                tmp2 = eff_type->base_mods.pain_chance_top.first + eff_type->scaling_mods.pain_chance_top.first * intensity;
-                if(tmp > 0) {
-                    return x_in_y(tmp, tmp2);
-                } else {
-                    return one_in(tmp2);
-                }
-            }
+            tick = eff_type->base_mods.pain_tick.first + eff_type->scaling_mods.pain_tick.first * intensity;
+            bot = eff_type->base_mods.pain_chance_bot.first + eff_type->scaling_mods.pain_chance_bot.first * intensity;
+            top = eff_type->base_mods.pain_chance_top.first + eff_type->scaling_mods.pain_chance_top.first * intensity;
+            break;
         case "HURT":
-            tmp = eff_type->base_mods.hurt_tick.first + eff_type->scaling_mods.hurt_tick.first * intensity;
-            if(tmp <= 0 || turn % tmp == 0) {
-                tmp = eff_type->base_mods.hurt_chance_bot.first + eff_type->scaling_mods.hurt_chance_bot.first * intensity;
-                tmp2 = eff_type->base_mods.hurt_chance_top.first + eff_type->scaling_mods.hurt_chance_top.first * intensity;
-                if(tmp > 0) {
-                    return x_in_y(tmp, tmp2);
-                } else {
-                    return one_in(tmp2);
-                }
-            }
+            tick = eff_type->base_mods.hurt_tick.first + eff_type->scaling_mods.hurt_tick.first * intensity;
+            bot = eff_type->base_mods.hurt_chance_bot.first + eff_type->scaling_mods.hurt_chance_bot.first * intensity;
+            top = eff_type->base_mods.hurt_chance_top.first + eff_type->scaling_mods.hurt_chance_top.first * intensity;
+            break;
         case "PKILL":
-            tmp = eff_type->base_mods.pkill_tick.first + eff_type->scaling_mods.pkill_tick.first * intensity;
-            if(tmp <= 0 || turn % tmp == 0) {
-                tmp = eff_type->base_mods.pkill_chance_bot.first + eff_type->scaling_mods.pkill_chance_bot.first * intensity;
-                tmp2 = eff_type->base_mods.pkill_chance_top.first + eff_type->scaling_mods.pkill_chance_top.first * intensity;
-                if(tmp > 0) {
-                    return x_in_y(tmp, tmp2);
-                } else {
-                    return one_in(tmp2);
-                }
-            }
+            tick = eff_type->base_mods.pkill_tick.first + eff_type->scaling_mods.pkill_tick.first * intensity;
+            bot = eff_type->base_mods.pkill_chance_bot.first + eff_type->scaling_mods.pkill_chance_bot.first * intensity;
+            top = eff_type->base_mods.pkill_chance_top.first + eff_type->scaling_mods.pkill_chance_top.first * intensity;
+            break;
         case "COUGH":
-            tmp = eff_type->base_mods.cough_tick.first + eff_type->scaling_mods.cough_tick.first * intensity;
-            if(tmp <= 0 || turn % tmp == 0) {
-                tmp = eff_type->base_mods.cough_chance_bot.first + eff_type->scaling_mods.cough_chance_bot.first * intensity;
-                tmp2 = eff_type->base_mods.cough_chance_top.first + eff_type->scaling_mods.cough_chance_top.first * intensity;
-                if(tmp > 0) {
-                    return x_in_y(tmp, tmp2);
-                } else {
-                    return one_in(tmp2);
-                }
-            }
+            tick = eff_type->base_mods.cough_tick.first + eff_type->scaling_mods.cough_tick.first * intensity;
+            bot = eff_type->base_mods.cough_chance_bot.first + eff_type->scaling_mods.cough_chance_bot.first * intensity;
+            top = eff_type->base_mods.cough_chance_top.first + eff_type->scaling_mods.cough_chance_top.first * intensity;
+            break;
         case "VOMIT":
-            tmp = eff_type->base_mods.vomit_tick.first + eff_type->scaling_mods.vomit_tick.first * intensity;
-            if(tmp <= 0 || turn % tmp == 0) {
-                tmp = eff_type->base_mods.vomit_chance_bot.first + eff_type->scaling_mods.vomit_chance_bot.first * intensity;
-                tmp2 = eff_type->base_mods.vomit_chance_top.first + eff_type->scaling_mods.vomit_chance_top.first * intensity;
-                if(tmp > 0) {
-                    return x_in_y(tmp, tmp2);
-                } else {
-                    return one_in(tmp2);
-                }
-            }
-        }
+            tick = eff_type->base_mods.vomit_tick.first + eff_type->scaling_mods.vomit_tick.first * intensity;
+            bot = eff_type->base_mods.vomit_chance_bot.first + eff_type->scaling_mods.vomit_chance_bot.first * intensity;
+            top = eff_type->base_mods.vomit_chance_top.first + eff_type->scaling_mods.vomit_chance_top.first * intensity;
+            break;
     } else {
         switch (arg) {
         case "PAIN":
-            tmp = eff_type->base_mods.pain_tick.second + eff_type->scaling_mods.pain_tick.second * intensity;
-            if(tmp <= 0 || turn % tmp == 0) {
-                tmp = eff_type->base_mods.pain_chance_bot.second + eff_type->scaling_mods.pain_chance_bot.second * intensity;
-                tmp2 = eff_type->base_mods.pain_chance_top.second + eff_type->scaling_mods.pain_chance_top.second * intensity;
-                if(tmp > 0) {
-                    return x_in_y(tmp, tmp2);
-                } else {
-                    return one_in(tmp2);
-                }
-            }
+            tick = eff_type->base_mods.pain_tick.second + eff_type->scaling_mods.pain_tick.second * intensity;
+            bot = eff_type->base_mods.pain_chance_bot.second + eff_type->scaling_mods.pain_chance_bot.second * intensity;
+            top = eff_type->base_mods.pain_chance_top.second + eff_type->scaling_mods.pain_chance_top.second * intensity;
+            break;
         case "HURT":
-            tmp = eff_type->base_mods.hurt_tick.second + eff_type->scaling_mods.hurt_tick.second * intensity;
-            if(tmp <= 0 || turn % tmp == 0) {
-                tmp = eff_type->base_mods.hurt_chance_bot.second + eff_type->scaling_mods.hurt_chance_bot.second * intensity;
-                tmp2 = eff_type->base_mods.hurt_chance_top.second + eff_type->scaling_mods.hurt_chance_top.second * intensity;
-                if(tmp > 0) {
-                    return x_in_y(tmp, tmp2);
-                } else {
-                    return one_in(tmp2);
-                }
-            }
+            tick = eff_type->base_mods.hurt_tick.second + eff_type->scaling_mods.hurt_tick.second * intensity;
+            bot = eff_type->base_mods.hurt_chance_bot.second + eff_type->scaling_mods.hurt_chance_bot.second * intensity;
+            top = eff_type->base_mods.hurt_chance_top.second + eff_type->scaling_mods.hurt_chance_top.second * intensity;
+            break;
         case "PKILL":
-            tmp = eff_type->base_mods.pkill_tick.second + eff_type->scaling_mods.pkill_tick.second * intensity;
-            if(tmp <= 0 || turn % tmp == 0) {
-                tmp = eff_type->base_mods.pkill_chance_bot.second + eff_type->scaling_mods.pkill_chance_bot.second * intensity;
-                tmp2 = eff_type->base_mods.pkill_chance_top.second + eff_type->scaling_mods.pkill_chance_top.second * intensity;
-                if(tmp > 0) {
-                    return x_in_y(tmp, tmp2);
-                } else {
-                    return one_in(tmp2);
-                }
-            }
+            tick = eff_type->base_mods.pkill_tick.second + eff_type->scaling_mods.pkill_tick.second * intensity;
+            bot = eff_type->base_mods.pkill_chance_bot.second + eff_type->scaling_mods.pkill_chance_bot.second * intensity;
+            top = eff_type->base_mods.pkill_chance_top.second + eff_type->scaling_mods.pkill_chance_top.second * intensity;
+            break;
         case "COUGH":
-            tmp = eff_type->base_mods.cough_tick.second + eff_type->scaling_mods.cough_tick.second * intensity;
-            if(tmp <= 0 || turn % tmp == 0) {
-                tmp = eff_type->base_mods.cough_chance_bot.second + eff_type->scaling_mods.cough_chance_bot.second * intensity;
-                tmp2 = eff_type->base_mods.cough_chance_top.second + eff_type->scaling_mods.cough_chance_top.second * intensity;
-                if(tmp > 0) {
-                    return x_in_y(tmp, tmp2);
-                } else {
-                    return one_in(tmp2);
-                }
-            }
+            tick = eff_type->base_mods.cough_tick.second + eff_type->scaling_mods.cough_tick.second * intensity;
+            bot = eff_type->base_mods.cough_chance_bot.second + eff_type->scaling_mods.cough_chance_bot.second * intensity;
+            top = eff_type->base_mods.cough_chance_top.second + eff_type->scaling_mods.cough_chance_top.second * intensity;
+            break;
         case "VOMIT":
-            tmp = eff_type->base_mods.vomit_tick.second + eff_type->scaling_mods.vomit_tick.second * intensity;
-            if(tmp <= 0 || turn % tmp == 0) {
-                tmp = eff_type->base_mods.vomit_chance_bot.second + eff_type->scaling_mods.vomit_chance_bot.second * intensity;
-                tmp2 = eff_type->base_mods.vomit_chance_top.second + eff_type->scaling_mods.vomit_chance_top.second * intensity;
-                if(tmp > 0) {
-                    return x_in_y(tmp, tmp2);
-                } else {
-                    return one_in(tmp2);
-                }
-            }
+            tick = eff_type->base_mods.vomit_tick.second + eff_type->scaling_mods.vomit_tick.second * intensity;
+            bot = eff_type->base_mods.vomit_chance_bot.second + eff_type->scaling_mods.vomit_chance_bot.second * intensity;
+            top = eff_type->base_mods.vomit_chance_top.second + eff_type->scaling_mods.vomit_chance_top.second * intensity;
+            break;
         }
     }
+    if(tick <= 0 || turn % tick == 0) {
+        if(bot > 0) {
+            return x_in_y(bot * mod, top);
+        } else {
+            return one_in(top * mod);
+        }
+    }
+    return false;
+}
+
+double effect::get_addict_reduction(std::string arg, int addict_level)
+{
+    // TODO: convert this to JSON id's and values once we have JSON'ed addictions
+    switch (arg) {
+    case "PKILL":
+        return 1 / (addict_level * 2);
+    default:
+        return 1;
+    }
+    return 1;
+}
+
+bool effect::get_harmful_cough()
+{
+    return eff_type->harmful_cough;
 }
 
 effect_type *effect::get_effect_type()

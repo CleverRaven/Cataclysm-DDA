@@ -19,26 +19,26 @@ enum effect_rating {
 
 struct effect_mod_info {
     /** All pairs are unmodified,reduced */
-    std::pair<float, float> str_mod
-    std::pair<float, float> dex_mod
-    std::pair<float, float> per_mod
-    std::pair<float, float> int_mod
-    std::pair<int, int> speed_mod
+    std::pair<float, float> str_mod;
+    std::pair<float, float> dex_mod;
+    std::pair<float, float> per_mod;
+    std::pair<float, float> int_mod;
+    std::pair<int, int> speed_mod;
     
     std::pair<int, int> pain_amount;
-    std::pair<int, int> pain_min
-    std::pair<int, int> pain_max
-    std::pair<int, int> pain_max_val
-    std::pair<int, int> pain_chance_top
-    std::pair<int, int> pain_chance_bot
-    std::pair<int, int> pain_tick
+    std::pair<int, int> pain_min;
+    std::pair<int, int> pain_max;
+    std::pair<int, int> pain_max_val;
+    std::pair<int, int> pain_chance_top;
+    std::pair<int, int> pain_chance_bot;
+    std::pair<int, int> pain_tick;
 
     std::pair<int, int> hurt_amount;
-    std::pair<int, int> hurt_min
-    std::pair<int, int> hurt_max
-    std::pair<int, int> hurt_chance_top
-    std::pair<int, int> hurt_chance_bot
-    std::pair<int, int> hurt_tick
+    std::pair<int, int> hurt_min;
+    std::pair<int, int> hurt_max;
+    std::pair<int, int> hurt_chance_top;
+    std::pair<int, int> hurt_chance_bot;
+    std::pair<int, int> hurt_tick;
     
     std::pair<int, int> pkill_amount;
     std::pair<int, int> pkill_min;
@@ -48,13 +48,13 @@ struct effect_mod_info {
     std::pair<int, int> pkill_chance_bot;
     std::pair<int, int> pkill_tick;
 
-    std::pair<int, int> cough_chance_top
-    std::pair<int, int> cough_chance_bot
-    std::pair<int, int> cough_tick
+    std::pair<int, int> cough_chance_top;
+    std::pair<int, int> cough_chance_bot;
+    std::pair<int, int> cough_tick;
     
-    std::pair<int, int> vomit_chance_top
-    std::pair<int, int> vomit_chance_bot
-    std::pair<int, int> vomit_tick
+    std::pair<int, int> vomit_chance_top;
+    std::pair<int, int> vomit_chance_bot;
+    std::pair<int, int> vomit_tick;
     
     bool load(JsonObject &jsobj, std::string member);
 };
@@ -149,10 +149,17 @@ class effect : public JsonSerializer, public JsonDeserializer
         void set_intensity(int nintensity);
         void mod_intensity(int nintensity);
         
+        std::string get_resist_trait();
+        
         int get_mod(std::string arg, bool reduced = false);
         int get_amount(std::string arg, bool reduced = false);
         int get_max_val(std::string arg, bool reduced = false);
-        bool activated(unsigned int turn, std::string arg, bool reduced = false);
+        bool get_sizing(std::string arg);
+        /** mod modifies x in x_in_y or one_in(x) */
+        bool activated(unsigned int turn, std::string arg, bool reduced = false, double mod = 1);
+        
+        double get_addict_reduction(std::string arg, int addict_level);
+        bool get_harmful_cough();
 
         efftype_id get_id()
         {

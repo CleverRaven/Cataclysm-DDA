@@ -18,7 +18,7 @@ class Character : public Creature
         
         virtual void add_effect(efftype_id eff_id, int dur, body_part bp = num_bp, int intensity = 1,
                         bool permanent = false);
-
+                        
     protected:
         Character();
         Character(const Character &) = default;

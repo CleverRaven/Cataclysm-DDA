@@ -556,6 +556,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void apply_damage(Creature *source, body_part bp, int amount);
         /** Modifies a pain value by player traits before passing it to Creature::mod_pain() */
         void mod_pain(int npain);
+        
+        void handle_cough(bool harmful = false, int volume = 4);
 
         /** Heals a body_part for dam */
         void heal(body_part healed, int dam);
