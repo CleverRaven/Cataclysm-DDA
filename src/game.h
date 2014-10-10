@@ -66,6 +66,12 @@ enum quit_status {
     QUIT_ERROR
 };
 
+enum safe_mode_type {
+    SAFE_MODE_OFF = 0, // Moving always allowed
+    SAFE_MODE_ON = 1, // Moving allowed, but if a new monsters spawns, go to SAFE_MODE_STOP
+    SAFE_MODE_STOP = 2, // New monsters spotted, no movement allowed
+};
+
 // Refactoring into base monster class.
 
 struct monster_and_count {
@@ -195,6 +201,7 @@ class game
         bool is_empty(const int x, const int y); // True if no PC, no monster, move cost > 0
         bool isBetween(int test, int down, int up);
         bool is_in_sunlight(int x, int y); // Checks outdoors + sunny
+        bool is_sheltered(int x, int y); // Checks if indoors, underground or in a car.
         bool is_in_ice_lab(point location);
         bool revive_corpse(int x, int y, int n); // revives a corpse from an item pile
         bool revive_corpse(int x, int y,
@@ -319,7 +326,12 @@ class game
         std::list<std::pair<int, int>> multidrop();
         faction *list_factions(std::string title = "FACTIONS:");
         point find_item(item *it);
-        void remove_item(item *it);
+        /**
+         * Remove a specific item from the game. Contents of it
+         * are removed as well. The item is compared by pointer.
+         * @param it A pointer to the item that should be removed.
+         */
+        void remove_item(const item *it);
 
         recipe_map list_recipes()
         {
@@ -372,6 +384,7 @@ class game
         std::map<int, weather_segment> weather_log;
         overmap *cur_om;
         map m;
+
         int levx, levy, levz; // Placement inside the overmap
         /** Absolute values of lev[xyz] (includes the offset of cur_om) */
         int get_abs_levx() const;
@@ -393,12 +406,15 @@ class game
 
         int ter_view_x, ter_view_y;
         WINDOW *w_terrain;
+        WINDOW *w_overmap;
+        WINDOW *w_omlegend;
         WINDOW *w_minimap;
         WINDOW *w_HP;
         WINDOW *w_messages;
         WINDOW *w_location;
         WINDOW *w_status;
         WINDOW *w_status2;
+        WINDOW *w_blackspace;
         live_view liveview;
 
         // View offset based on the driving speed (if any)
@@ -472,6 +488,12 @@ class game
         bool opening_screen();// Warn about screen size, then present the main menu
         void mmenu_refresh_motd();
         void mmenu_refresh_credits();
+
+        /**
+         * Check whether movement is allowed according to safe mode settings.
+         * @return true if the movement is allowed, otherwise false.
+         */
+        bool check_save_mode_allowed();
 
         const int dangerous_proximity;
         bool narrow_sidebar;
@@ -724,10 +746,9 @@ class game
 
         int last_target; // The last monster targeted
         bool last_target_was_npc;
-        int run_mode; // 0 - Normal run always; 1 - Running allowed, but if a new
-        //  monsters spawns, go to 2 - No movement allowed
+        safe_mode_type safe_mode;
         std::vector<int> new_seen_mon;
-        int mostseen;  // # of mons seen last turn; if this increases, run_mode++
+        int mostseen;  // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
         bool autosafemode; // is autosafemode enabled?
         bool safemodeveh; // safemode while driving?
         int turnssincelastmon; // needed for auto run mode

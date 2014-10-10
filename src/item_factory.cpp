@@ -110,8 +110,6 @@ void Item_factory::finialize_item_blacklist()
             remove_item(itm, furnlist[i].bash.items);
         }
     }
-    item_blacklist.clear();
-    item_whitelist.clear();
 }
 
 void add_to_set(t_string_set &s, JsonObject &json, const std::string &name)
@@ -312,9 +310,7 @@ void Item_factory::init()
     iuse_function_list["LUMBER"] = &iuse::lumber;
     iuse_function_list["OXYTORCH"] = &iuse::oxytorch;
     iuse_function_list["HACKSAW"] = &iuse::hacksaw;
-    iuse_function_list["TENT"] = &iuse::tent;
-    iuse_function_list["LARGE_TENT"] = &iuse::large_tent;
-    iuse_function_list["SHELTER"] = &iuse::shelter;
+    iuse_function_list["PORTABLE_STRUCTURE"] = &iuse::portable_structure;
     iuse_function_list["TORCH_LIT"] = &iuse::torch_lit;
     iuse_function_list["BATTLETORCH_LIT"] = &iuse::battletorch_lit;
     iuse_function_list["BULLET_PULLER"] = &iuse::bullet_puller;
@@ -357,8 +353,11 @@ void Item_factory::init()
     iuse_function_list["EINKTABLETPC"] = &iuse::einktabletpc;
     iuse_function_list["CAMERA"] = &iuse::camera;
     iuse_function_list["EHANDCUFFS"] = &iuse::ehandcuffs;
+    iuse_function_list["CABLE_ATTACH"]  = &iuse::cable_attach;
+
     // MACGUFFINS
     iuse_function_list["MCG_NOTE"] = &iuse::mcg_note;
+
     // ARTIFACTS
     // This function is used when an artifact is activated
     // It examines the item's artifact-specific properties
@@ -932,10 +931,11 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
         // core data, we override it. This allows mods to change
         // item from core data.
         delete m_templates[new_id];
+    } else {
+        standard_itype_ids.push_back(new_id);
     }
     m_templates[new_id] = new_item_template;
     itypes[new_id] = new_item_template;
-    standard_itype_ids.push_back(new_id);
 
     // And then proceed to assign the correct field
     new_item_template->price = jo.get_int("price");

@@ -18,7 +18,7 @@ enum dis_type_enum {
 // Weather
 // Temperature, the order is important (dependent on bodypart.h)
  DI_COLD,
- DI_FROSTBITE,
+ DI_FROSTBITE, DI_FROSTBITE_RECOVERY,
  DI_HOT,
  DI_BLISTERS,
 // Diseases
@@ -81,6 +81,7 @@ void game::init_diseases() {
     disease_type_lookup["null"] = DI_NULL;
     disease_type_lookup["cold"] = DI_COLD;
     disease_type_lookup["frostbite"] = DI_FROSTBITE;
+    disease_type_lookup["frostbite_recovery"] = DI_FROSTBITE_RECOVERY;
     disease_type_lookup["hot"] = DI_HOT;
     disease_type_lookup["blisters"] = DI_BLISTERS;
     disease_type_lookup["infection"] = DI_INFECTION;
@@ -606,72 +607,23 @@ void dis_effect(player &p, disease &dis)
         case DI_FROSTBITE:
             switch(dis.bp) {
                 case bp_hand_l:
-                    switch(dis.intensity) {
-                        case 2:
-                            p.mod_dex_bonus(-2);
-                            p.add_miss_reason(_("You have trouble grasping with your numb fingers."), 2);
-                        case 1:
-                            if (one_in(2)) {
-                                if ((p.temp_cur[bp_hand_l] > BODYTEMP_COLD ||
-                                        p.temp_cur[bp_hand_r] > BODYTEMP_COLD) && p.pain < 40) {
-                                    p.mod_pain(1);
-                                }
-                                if (!sleeping && tempMsgTrigger) {
-                                    add_msg(m_bad, _("Your fingers itch."));
-                                }
-                            }
-                        default:
-                            break;
-                    }
-                    break;
                 case bp_hand_r:
                     switch(dis.intensity) {
                         case 2:
                             p.add_miss_reason(_("You have trouble grasping with your numb fingers."), 2);
                             p.mod_dex_bonus(-2);
-                        case 1:
-                            if (one_in(2)) {
-                                if ((p.temp_cur[bp_hand_l] > BODYTEMP_COLD ||
-                                        p.temp_cur[bp_hand_r] > BODYTEMP_COLD) && p.pain < 40) {
-                                    p.mod_pain(1);
-                                }
-                                if (!sleeping && tempMsgTrigger) {
-                                    add_msg(m_bad, _("Your fingers itch."));
-                                }
-                            }
                         default:
                             break;
                     }
                     break;
                 case bp_foot_l:
-                    switch(dis.intensity) {
-                        case 2:
-                            if ((p.temp_cur[bp_foot_l] > BODYTEMP_COLD ||
-                                  p.temp_cur[bp_foot_r] > BODYTEMP_COLD) && p.pain < 40 &&
-                                  one_in(2)) {
-                                p.mod_pain(1);
-                            }
-                            // Fall-through
-                        case 1:
-                            if (!sleeping && tempMsgTrigger && one_in(2)) {
-                                add_msg(m_bad, _("Your toes itch."));
-                            }
-                        default:
-                            break;
-                    }
-                    break;
                 case bp_foot_r:
                     switch(dis.intensity) {
                         case 2:
-                            if ((p.temp_cur[bp_foot_l] > BODYTEMP_COLD ||
-                                  p.temp_cur[bp_foot_r] > BODYTEMP_COLD) && p.pain < 40 &&
-                                  one_in(2)) {
-                                p.mod_pain(1);
-                            }
-                            // Fall-through
+                            // Speed is lowered.
                         case 1:
                             if (!sleeping && tempMsgTrigger && one_in(2)) {
-                                add_msg(m_bad, _("Your toes itch."));
+                                add_msg(m_bad, _("Your foot has gone numb."));
                             }
                         default:
                             break;
@@ -681,9 +633,6 @@ void dis_effect(player &p, disease &dis)
                     switch(dis.intensity) {
                         case 2:
                             p.mod_per_bonus(-2);
-                            if ((p.temp_cur[bp_mouth] > BODYTEMP_COLD && p.pain < 40)) {
-                                p.mod_pain(1);
-                            }
                         case 1:
                             p.mod_per_bonus(-1);
                             if (!sleeping && tempMsgTrigger) {
@@ -692,6 +641,33 @@ void dis_effect(player &p, disease &dis)
                         default:
                             break;
                     }
+                    break;
+                default: // Suppress compiler warnings [-Wswitch]
+                    break;
+            }
+            break;
+
+        case DI_FROSTBITE_RECOVERY:
+            switch(dis.bp) {
+                case bp_hand_l:
+                case bp_hand_r:
+                    if (!sleeping && tempMsgTrigger && one_in(2)) {
+                        add_msg(m_bad, _("Your fingers itch."));
+                    }
+                    if (p.pain < 40) p.mod_pain(1);
+                    break;
+                case bp_foot_l:
+                case bp_foot_r:
+                    if (!sleeping && tempMsgTrigger && one_in(2)) {
+                        add_msg(m_bad, _("Your toes itch."));
+                    }
+                    if (p.pain < 40) p.mod_pain(1);
+                    break;
+                case bp_mouth:
+                    if (!sleeping && tempMsgTrigger && one_in(2)) {
+                        add_msg(m_bad, _("Your face feels irritated."));
+                    }
+                    if (p.pain < 40) p.mod_pain(1);
                     break;
                 default: // Suppress compiler warnings [-Wswitch]
                     break;
@@ -1953,6 +1929,17 @@ std::string dis_name(disease& dis)
                 break; // function return "" in this case
         }
 
+    case DI_FROSTBITE_RECOVERY:
+        switch(dis.bp) {
+            case bp_hand_l:
+            case bp_hand_r: return _("Defrosting - hand");
+            case bp_foot_l:
+            case bp_foot_r: return _("Defrosting - foot");
+            case bp_mouth:  return _("Defrosting - head");
+            default: // Suppress compiler warning [-Wswitch]
+                break; // function return "" in this case
+        }
+
     case DI_HOT:
         switch (dis.bp) {
             case bp_head:
@@ -2279,6 +2266,8 @@ std::string dis_combined_name(disease& dis)
             return _("Cold");
         case DI_FROSTBITE:
             return _("Frostbite");
+        case DI_FROSTBITE_RECOVERY:
+            return _("Defrosting");
         case DI_HOT:
             return _("Hot");
         default: // Suppress compiler warnings [-Wswitch]
@@ -2481,6 +2470,17 @@ Your right leg is frostbitten from prolonged exposure to the cold. It is extreme
             default: // Suppress compiler warning [-Wswitch]
                 break;
             }
+        }
+
+    case DI_FROSTBITE_RECOVERY:
+        switch (dis.bp) {
+            case bp_hand_l: return _("The blood is starting to flow in your left hand again, causing pain as you begin to feel the damage the cold has wrought to your hand.");
+            case bp_hand_r: return _("The blood is starting to flow in your right hand again, causing pain as you begin to feel the damage the cold has wrought to your hand.");
+            case bp_foot_l: return _("The blood is starting to flow in your left foot again, causing pain as you begin to feel the damage the cold has wrought to your foot.");
+            case bp_foot_r: return _("The blood is starting to flow in your right foot again, causing pain as you begin to feel the damage the cold has wrought to your foot.");
+            case bp_mouth:  return _("The blood is starting to flow in your face again, causing pain as you begin to feel the damage the cold has wrought to your face.");
+            default: // Suppress compiler warning [-Wswitch]
+                break;
         }
 
     case DI_HOT:
@@ -3198,6 +3198,7 @@ static void handle_bite_wound(player& p, disease& dis)
                 p.add_disease("recover", 2 * (3601 - dis.duration) - 4800);
             }
             p.rem_disease("bite", dis.bp);
+            return;
         }
     }
 
@@ -3246,6 +3247,7 @@ static void handle_infected_wound(player& p, disease& dis)
                 p.add_disease("recover", 4 * (14401 - dis.duration + 3600) - 4800);
             }
             p.rem_disease("infected", dis.bp);
+            return;
         }
     }
 

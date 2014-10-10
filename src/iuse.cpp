@@ -89,6 +89,19 @@ void remove_ups_mod( item &it, player &p )
     it.item_tags.erase( "NO_RELOAD" );
 }
 
+// Checks that the player does not have an active item with LITCIG flag.
+bool check_litcig( player &u )
+{
+    auto cigs = u.items_with( []( const item & it ) {
+        return it.active && it.has_flag( "LITCIG" );
+    } );
+    if( cigs.empty() ) {
+        return true;
+    }
+    u.add_msg_if_player( m_info, _( "You're already smoking a %s!" ), cigs[0]->tname().c_str() );
+    return false;
+}
+
 static bool item_inscription(player *p, item *cut, std::string verb, std::string gerund,
                              bool carveable)
 {
@@ -829,12 +842,8 @@ int iuse::smoking_pipe(player *p, item *it, bool)
     std::vector<std::string> smokable_choices;
 
     // Fail fast(er) if we can't/shouldn't smoke.
-    std::vector<item *> active_items = p->inv.active_items();
-    for (item *i : active_items) {
-        if (i->has_flag("LITCIG")) {
-            p->add_msg_if_player(m_info, _("You're already smoking a %s!"), i->tname().c_str());
-            return 0;
-        }
+    if( !check_litcig( *p ) ) {
+        return 0;
     }
     if (!hasFire) {
         p->add_msg_if_player(m_info, _("You don't have anything to light it with!"));
@@ -922,12 +931,8 @@ int iuse::smoking(player *p, item *it, bool)
     bool hasFire = (p->has_charges("fire", 1));
 
     // make sure we're not already smoking something
-    std::vector<item *> active_items = p->inv.active_items();
-    for (auto iter : active_items) {
-        if (iter->has_flag("LITCIG")) {
-            p->add_msg_if_player(m_info, _("You're already smoking a %s!"), iter->tname().c_str());
-            return 0;
-        }
+    if( !check_litcig( *p ) ) {
+        return 0;
     }
 
     if (!hasFire) {
@@ -3856,11 +3861,14 @@ static radio_tower *find_radio_station(int frequency)
 int iuse::directional_antenna(player *p, item *it, bool)
 {
     // Find out if we have an active radio
-    item radio = p->i_of_type("radio_on");
-    if (radio.typeId() != "radio_on") {
+    auto radios = p->items_with( []( const item & it ) {
+        return it.typeId() == "radio_on";
+    } );
+    if( radios.empty() ) {
         add_msg(m_info, _("Must have an active radio to check for signal direction."));
         return 0;
     }
+    const item radio = *radios.front();
     // Find the radio station its tuned to (if any)
     radio_tower *tower = find_radio_station(radio.frequency);
     if (tower == NULL) {
@@ -4222,6 +4230,9 @@ int iuse::picklock(player *p, item *it, bool)
     } else if (type == t_door_locked || type == t_door_locked_alarm || type == t_door_locked_interior) {
         door_name = rm_prefix(_("<door_name>door"));
         new_type = t_door_c;
+    } else if (type == t_door_locked_peep) {
+        door_name = rm_prefix(_("<door_name>door"));
+        new_type = t_door_c_peep;
     } else if (type == t_door_bar_locked) {
         door_name = rm_prefix(_("<door_name>door"));
         new_type = t_door_bar_o;
@@ -4290,14 +4301,19 @@ bool pry_nails(player *p, ter_id &type, int dirx, int diry)
         boards = 4;
         newter = t_window_empty;
         p->add_msg_if_player(_("You pry the boards from the window frame."));
-    } else if ( type == t_door_boarded || type == t_door_boarded_damaged
-            || type == t_rdoor_boarded || type == t_rdoor_boarded_damaged ) {
+    } else if ( type == t_door_boarded || type == t_door_boarded_damaged ||
+            type == t_rdoor_boarded || type == t_rdoor_boarded_damaged || 
+            type == t_door_boarded_peep || type == t_door_boarded_damaged_peep ) {
         nails = 8;
         boards = 4;
         if (type == t_door_boarded) {
             newter = t_door_c;
         } else if (type == t_door_boarded_damaged) {
             newter = t_door_b;
+        } else if (type == t_door_boarded_peep) {
+            newter = t_door_c_peep;
+        } else if (type == t_door_boarded_damaged_peep) {
+            newter = t_door_b_peep;
         } else if (type == t_rdoor_boarded) {
             newter = t_rdoor_c;
         } else { // if (type == t_rdoor_boarded_damaged)
@@ -4364,6 +4380,12 @@ int iuse::crowbar(player *p, item *it, bool)
         succ_action = _("You pry open the door.");
         fail_action = _("You pry, but cannot pry open the door.");
         new_type = t_door_o;
+        noisy = true;
+        difficulty = 6;
+    } else if (type == t_door_locked_peep) {
+        succ_action = _("You pry open the door.");
+        fail_action = _("You pry, but cannot pry open the door.");
+        new_type = t_door_o_peep;
         noisy = true;
         difficulty = 6;
     } else if (type == t_door_bar_locked) {
@@ -6095,7 +6117,7 @@ int iuse::turret(player *p, item *, bool)
     if (ammopos != INT_MIN) {
         item &ammoitem = p->inv.find_item(ammopos);
         ammo = std::min(ammoitem.charges, long(500));
-        p->inv.reduce_charges(ammopos, ammo);
+        p->reduce_charges(ammopos, ammo);
         p->add_msg_if_player(ngettext("You load %d x 9mm round into the turret.",
                                       "You load %d x 9mm rounds into the turret.", ammo), ammo);
     } else {
@@ -6160,7 +6182,7 @@ int iuse::turret_rifle(player *p, item *, bool)
     if (ammopos != INT_MIN) {
         item &ammoitem = p->inv.find_item(ammopos);
         ammo = std::min(ammoitem.charges, long(500));
-        p->inv.reduce_charges(ammopos, ammo);
+        p->reduce_charges(ammopos, ammo);
         p->add_msg_if_player(ngettext("You load %d x 5.56 round into the turret.",
                                       "You load %d x 5.56 rounds into the turret.", ammo), ammo);
     } else {
@@ -7211,121 +7233,67 @@ int iuse::hacksaw(player *p, item *it, bool)
     return it->type->charges_to_use();
 }
 
-int iuse::tent(player *p, item *, bool)
+int iuse::portable_structure(player *p, item *it, bool)
 {
+    int radius = it->type->id == "large_tent_kit" ? 2 : 1;
+    furn_id floor =
+        it->type->id == "tent_kit"       ? f_groundsheet
+      : it->type->id == "large_tent_kit" ? f_large_groundsheet
+      :                                    f_skin_groundsheet;
+    furn_id wall =
+        it->type->id == "tent_kit"       ? f_canvas_wall
+      : it->type->id == "large_tent_kit" ? f_large_canvas_wall
+      :                                    f_skin_wall;
+    furn_id door =
+        it->type->id == "tent_kit"       ? f_canvas_door
+      : it->type->id == "large_tent_kit" ? f_large_canvas_door
+      :                                    f_skin_door;
+    furn_id center_floor =
+        it->type->id == "large_tent_kit" ? f_center_groundsheet
+                                         : floor;
+
+    int diam = 2*radius + 1;
+
     int dirx, diry;
-    if(!choose_adjacent(_("Pitch the tent towards where (3x3 clear area)?"), dirx, diry)) {
+    if (!choose_adjacent(
+            string_format(_("Put up the %s where (%dx%d clear area)?"),
+                it->tname().c_str(),
+                diam, diam),
+            dirx, diry)) {
         return 0;
     }
 
-    //must place the center of the tent two spaces away from player
-    //dirx and diry will be integratined with the player's position
-    int posx = dirx - p->posx;
-    int posy = diry - p->posy;
-    if(posx == 0 && posy == 0) {
-        p->add_msg_if_player(m_info, _("Invalid Direction"));
-        return 0;
-    }
-    posx = posx * 2 + p->posx;
-    posy = posy * 2 + p->posy;
-    for (int i = -1; i <= 1; i++) {
-        for (int j = -1; j <= 1; j++) {
+    // We place the center of the structure (radius + 1)
+    // spaces away from the player.
+    // First check there's enough room.
+    int posx = radius * (dirx - p->posx) + dirx;
+        //(radius + 1)*posx + p->posx;
+    int posy = radius * (diry - p->posy) + diry;
+    for (int i = -radius; i <= radius; i++) {
+        for (int j = -radius; j <= radius; j++) {
             if (!g->m.has_flag("FLAT", posx + i, posy + j) ||
-                g->m.has_furn(posx + i, posy + j)) {
-                add_msg(m_info, _("You need a 3x3 flat space to place a tent."));
+                    g->m.has_furn(posx + i, posy + j)) {
+                add_msg(m_info, _("There isn't enough space in that direction."));
                 return 0;
             }
         }
     }
-    for (int i = -1; i <= 1; i++) {
-        for (int j = -1; j <= 1; j++) {
-            g->m.furn_set(posx + i, posy + j, f_canvas_wall);
+    // Make a square of floor surrounded by wall.
+    for (int i = -radius; i <= radius; i++) {
+        for (int j = -radius; j <= radius; j++) {
+            g->m.furn_set(posx + i, posy + j, wall);
         }
     }
-    g->m.furn_set(posx, posy, f_groundsheet);
-    g->m.furn_set(posx - (dirx - p->posx), posy - (diry - p->posy), f_canvas_door);
-    add_msg(m_info, _("You set up the tent on the ground."));
-    return 1;
-}
-
-int iuse::large_tent(player *p, item *, bool)
-{
-    int dirx, diry;
-    if(!choose_adjacent(_("Pitch the tent towards where (5x5 clear area)?"), dirx, diry)) {
-        return 0;
-    }
-
-    //must place the center of the tent three spaces away from player
-    //dirx and diry will be integratined with the player's position
-    int posx = dirx - p->posx;
-    int posy = diry - p->posy;
-    if(posx == 0 && posy == 0) {
-        p->add_msg_if_player(m_info, _("Invalid Direction"));
-        return 0;
-    }
-    posx = posx * 3 + p->posx;
-    posy = posy * 3 + p->posy;
-    for (int i = -2; i <= 2; i++) {
-        for (int j = -2; j <= 2; j++) {
-            if (!g->m.has_flag("FLAT", posx + i, posy + j) ||
-                g->m.has_furn(posx + i, posy + j)) {
-                add_msg(m_info, _("You need a 5x5 flat space to place this tent."));
-                return 0;
-            }
+    for (int i = -(radius - 1); i <= (radius - 1); i++) {
+        for (int j = -(radius - 1); j <= (radius - 1); j++) {
+            g->m.furn_set(posx + i, posy + j, floor);
         }
     }
-    for (int i = -2; i <= 2; i++) {
-        for (int j = -2; j <= 2; j++) {
-            g->m.furn_set(posx + i, posy + j, f_large_canvas_wall);
-        }
-    }
-    for (int i = -1; i <= 1; i++) {
-        for (int j = -1; j <= 1; j++) {
-            g->m.furn_set(posx + i, posy + j, f_large_groundsheet);
-        }
-    }
-    // f_center_groundsheet instead of f_large_groundsheet so the
-    // iexamine function for the tent works properly
-    g->m.furn_set(posx, posy, f_center_groundsheet);
-    g->m.furn_set(posx - ((dirx - p->posx) * 2), posy - ((diry - p->posy) * 2), f_large_canvas_door);
-//    g->m.furn_set((posx - (dirx - p->posx) * 2), (posy - (diry - p->posy) * 2), f_large_canvas_door);
-    add_msg(m_info, _("You set up the tent on the ground."));
-    return 1;
-}
-
-int iuse::shelter(player *p, item *, bool)
-{
-    int dirx, diry;
-    if(!choose_adjacent(_("Put up the shelter where?"), dirx, diry)) {
-        return 0;
-    }
-
-    //must place the center of the tent two spaces away from player
-    //dirx and diry will be integratined with the player's position
-    int posx = dirx - p->posx;
-    int posy = diry - p->posy;
-    if(posx == 0 && posy == 0) {
-        p->add_msg_if_player(m_info, _("Invalid Direction"));
-        return 0;
-    }
-    posx = posx*2 + p->posx;
-    posy = posy*2 + p->posy;
-    for (int i = -1; i <= 1; i++) {
-        for (int j = -1; j <= 1; j++) {
-            if (!g->m.has_flag("FLAT", posx + i, posy + j) ||
-                g->m.has_furn(posx + i, posy + j)) {
-                add_msg(m_info, _("You need a 3x3 flat space to place a shelter."));
-                return 0;
-            }
-        }
-    }
-    for (int i = -1; i <= 1; i++) {
-        for (int j = -1; j <= 1; j++) {
-            g->m.furn_set(posx + i, posy + j, f_skin_wall);
-        }
-    }
-    g->m.furn_set(posx, posy, f_skin_groundsheet);
-    g->m.furn_set(posx - (dirx - p->posx), posy - (diry - p->posy), f_skin_door);
+    // Place the center floor and the door.
+    g->m.furn_set(posx, posy, center_floor);
+    g->m.furn_set(posx - radius*(dirx - p->posx), posy - radius*(diry - p->posy), door);
+    add_msg(m_info, _("You set up the %s on the ground."), it->tname().c_str());
+    add_msg(m_info, _("Examine the center square to pack it up again."), it->tname().c_str());
     return 1;
 }
 
@@ -7777,7 +7745,7 @@ int iuse::artifact(player *p, item *it, bool)
             case AEA_GROWTH: {
                 monster tmptriffid(GetMType("mon_null"), p->posx, p->posy);
                 mattack tmpattack;
-                tmpattack.growplants(&tmptriffid);
+                tmpattack.growplants(&tmptriffid, -1);
             }
             break;
 
@@ -7880,7 +7848,7 @@ int iuse::artifact(player *p, item *it, bool)
                              !g->m.sees(monx, mony, p->posx, p->posy, 10, junk));
                     if (tries < 5) {
                         num_spawned++;
-                        spawned.sp_timeout = rng(8, 20);
+                        spawned.reset_special_rng(0);
                         spawned.spawn(monx, mony);
                         g->add_zombie(spawned);
                     }
@@ -8793,10 +8761,9 @@ int iuse::robotcontrol(player *p, item *it, bool)
         return 0;
     }
 
-    int choice = -1;
-    choice = menu(true, _("Welcome to hackPRO!:"), _("Override IFF protocols"),
-                  _("Set friendly robots to passive mode"),
-                  _("Set friendly robots to combat mode"), _("Cancel"), NULL);
+    int choice = menu(true, _("Welcome to hackPRO!:"), _("Override IFF protocols"),
+                      _("Set friendly robots to passive mode"),
+                      _("Set friendly robots to combat mode"), _("Cancel"), NULL);
     switch( choice ) {
     case 1: { // attempt to make a robot friendly
         uimenu pick_robot;
@@ -9908,10 +9875,8 @@ int iuse::radiocaron(player *p, item *it, bool t)
         return 0;
     }
 
-    int choice = -1;
-
-    choice = menu(true, _("What do with activated RC car:"), _("Turn off"),
-                  _("Cancel"), NULL);
+    int choice = menu(true, _("What do with activated RC car:"), _("Turn off"),
+                      _("Cancel"), NULL);
 
     if (choice == 2) {
         return it->type->charges_to_use();
@@ -10411,6 +10376,96 @@ int iuse::multicooker(player *p, item *it, bool t)
 
         }
 
+    }
+
+    return 0;
+}
+
+int iuse::cable_attach(player *p, item *it, bool)
+{
+    if(it->item_vars.count("state") < 1) {
+        it->item_vars["state"] = "attach_first";
+    }
+
+    std::string initial_state = it->item_vars["state"];
+
+    if(initial_state == "attach_first") {
+        int posx, posy;
+        if(!choose_adjacent(_("Attach cable to vehicle where?"),posx,posy)) {
+            return 0;
+        }
+        auto veh = g->m.veh_at(posx, posy);
+        if (veh == nullptr) {
+            p->add_msg_if_player(_("There's no vehicle there."));
+            return 0;
+        } else {
+            point abspos = g->m.getabs(posx, posy);
+            it->active = true;
+            it->item_vars["state"] = "pay_out_cable";
+            it->item_vars["source_x"] = string_format("%d", abspos.x);
+            it->item_vars["source_y"] = string_format("%d", abspos.y);
+            it->item_vars["source_z"] = string_format("%d", g->levz);
+            it->process(p, point(p->xpos(), p->ypos()));
+        }
+        p->moves -= 15;
+    }
+    else if(initial_state == "pay_out_cable") {
+        int choice = -1;
+        uimenu kmenu;
+        kmenu.selected = 0;
+        kmenu.text = _("Using cable:");
+        kmenu.addentry(0, true, -1, _("Attach loose end of the cable"));
+        kmenu.addentry(1, true, -1, _("Detach and re-spool the cable"));
+        kmenu.addentry(-1, true, 'q', _("Cancel"));
+        kmenu.query();
+        choice = kmenu.ret;
+
+        if(choice == -1) {
+            return 0; // we did nothing.
+        } else if(choice == 1) {
+            it->reset_cable(p);
+            return 0;
+        }
+
+        int posx, posy;
+        if(!choose_adjacent(_("Attach cable to vehicle where?"),posx,posy)) {
+            return 0;
+        }
+        auto target_veh = g->m.veh_at(posx, posy);
+        if (target_veh == nullptr) {
+            p->add_msg_if_player(_("There's no vehicle there."));
+            return 0;
+        } else {
+            point source_global(atoi(it->item_vars["source_x"].c_str()),
+                                atoi(it->item_vars["source_y"].c_str()));
+            point source_local = g->m.getlocal(source_global);
+            auto source_veh = g->m.veh_at(source_local.x, source_local.y);
+
+            point target_global = g->m.getabs(posx, posy);
+            point target_local(posx, posy);
+
+            if(source_veh == nullptr) {
+                if( p != nullptr && p->has_item(it) ) {
+                    p->add_msg_if_player(m_bad, _("You notice the cable has come loose!"));
+                }
+                it->reset_cable(p);
+                return 0;
+            }
+
+            point vcoords = g->m.veh_part_coordinates(source_local.x, source_local.y);
+            vehicle_part source_part(it->typeId(), vcoords.x, vcoords.y, it);
+            source_part.target.first = target_global;
+            source_part.target.second = target_veh->real_global_pos();
+            source_veh->install_part(vcoords.x, vcoords.y, source_part);
+
+            vcoords = g->m.veh_part_coordinates(target_local.x, target_local.y);
+            vehicle_part target_part(it->typeId(), vcoords.x, vcoords.y, it);
+            target_part.target.first = source_global;
+            target_part.target.second = source_veh->real_global_pos();
+            target_veh->install_part(vcoords.x, vcoords.y, target_part);
+
+            return 1; // Let the cable be destroyed.
+        }
     }
 
     return 0;

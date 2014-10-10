@@ -113,7 +113,7 @@
         "addiction_potential" : 0,
         "nutrition" : 0,
         "description" : "A sample of sewage from a treatment plant.  Gross.",
-        "price" : 500,
+        "price" : 0,
         "material" : "null",
         "tool" : "null",
         "volume" : 1,
@@ -4569,7 +4569,6 @@
         "phase" : "solid",
         "charges" : 4,
         "bashing" : 0,
-        "flags" : ["EATEN_HOT"],
         "fun" : 14
     },
     {
@@ -6786,7 +6785,6 @@
         "phase" : "solid",
         "charges" : 1,
         "bashing" : 0,
-        "flags" : ["EATEN_HOT"],
         "fun" : 5
     },
     {
@@ -6816,7 +6814,6 @@
         "phase" : "solid",
         "charges" : 1,
         "bashing" : 0,
-        "flags" : ["EATEN_HOT"],
         "fun" : 5
     },
     {
@@ -8275,7 +8272,7 @@
         "weight" : 283,
         "color" : "light_green",
         "addiction_type" : "none",
-        "spoils_in" : 120,
+        "spoils_in" : 0,
         "stim" : 0,
         "container" : "bag_plastic",
         "to_hit" : 0,
@@ -9970,7 +9967,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "deluxe_beansnrice",
-        "name" : "Deluxe beans and rice",
+        "name" : "deluxe beans and rice",
         "name_plural" : "deluxe beans and rice",
         "weight" : 512,
         "color" : "brown",

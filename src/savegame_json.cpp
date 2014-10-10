@@ -452,8 +452,11 @@ void player::deserialize(JsonIn &jsin)
         start_location = g->scen->start_location();
     } else {
         scenario *generic_scenario = scenario::generic();
-        debugmsg("Tried to use non-existent scenario '%s'. Setting to generic '%s'.",
-                    scen_ident.c_str(), generic_scenario->ident().c_str());
+        // Only display error message if from a game file after scenarios existed.
+        if (savegame_loading_version > 20) { 
+            debugmsg("Tried to use non-existent scenario '%s'. Setting to generic '%s'.",
+                        scen_ident.c_str(), generic_scenario->ident().c_str());
+        }
         g->scen = generic_scenario;
     }
     temp_cur.fill( 5000 );
@@ -862,7 +865,22 @@ void monster::load(JsonObject &data)
     data.read("wandy", wandy);
     data.read("wandf", wandf);
     data.read("hp", hp);
-    data.read("sp_timeout", sp_timeout);
+    
+    if (data.has_array("sp_timeout")) {
+        JsonArray parray = data.get_array("sp_timeout");
+        if ( !parray.empty() ) {
+            int ptimeout = 0;
+            while ( parray.has_more() ) {
+                if ( parray.read_next(ptimeout) ) {
+                    sp_timeout.push_back(ptimeout);
+                }
+            }
+        }
+    }
+    for (size_t i = sp_timeout.size(); i < type->sp_freq.size(); ++i) {
+        sp_timeout.push_back(rng(0, type->sp_freq[i]));
+    }
+    
     data.read("friendly", friendly);
     data.read("faction_id", faction_id);
     data.read("mission_id", mission_id);
@@ -1208,9 +1226,13 @@ void vehicle_part::deserialize(JsonIn &jsin)
     data.read("amount", amount );
     data.read("blood", blood );
     data.read("bigness", bigness );
-    data.read( "flags", flags );
-    data.read( "passenger_id", passenger_id );
+    data.read("flags", flags );
+    data.read("passenger_id", passenger_id );
     data.read("items", items);
+    data.read("target_first_x", target.first.x);
+    data.read("target_first_y", target.first.y);
+    data.read("target_second_x", target.second.x);
+    data.read("target_second_y", target.second.y);
 }
 
 void vehicle_part::serialize(JsonOut &json) const
@@ -1226,6 +1248,10 @@ void vehicle_part::serialize(JsonOut &json) const
     json.member("flags", flags);
     json.member("passenger_id", passenger_id);
     json.member("items", items);
+    json.member("target_first_x", target.first.x);
+    json.member("target_first_y", target.first.y);
+    json.member("target_second_x", target.second.x);
+    json.member("target_second_y", target.second.y);
     json.end_object();
 }
 

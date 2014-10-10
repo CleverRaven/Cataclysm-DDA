@@ -410,6 +410,8 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```ODDTURN``` Only on during odd turns.
 - ```EVENTURN``` Only on during even turns.
 - ```RECHARGE``` Recharge items with the same flag. ( Currently only the rechargeable battery mod. )
+- ```UNMOUNT_ON_MOVE``` Dismount this part when the vehicle moves. Doesn't drop the part, unless you give it special handling.
+- ```POWER_TRANSFER``` Transmits power to and from an attached thingy (probably a vehicle)
 
 ## Ammo
 
@@ -708,6 +710,8 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```RADIO_ACTIVATION``` It is activated by a remote control (also requires RADIOSIGNAL_*).
 - ```FISH_GOOD``` When used for fishing, it's a good tool (requires that the matching use_action has been set).
 - ```FISH_POOR``` When used for fishing, it's a poor tool (requires that the matching use_action has been set).
+- ```CABLE_SPOOL``` This item is a cable spool and must be processed as such. It has an internal "state" variable which may be in the states "attach_first" or "pay_out_cable" -- in the latter case, set its charges to `max_charges - dist(here, point(vars["source_x"], vars["source_y"]))`. If this results in 0 or a negative number, set its state back to "attach_first".
+- ```NO_DROP``` An item with this flag should never actually be dropped. Used internally to signal that an item was created, but that it is unwanted. Needless to say, don't use this in an item definition.
 
 ### Flags that apply to items, not to item types.
 Those flags are added by the game code to specific items (that specific welder, not *all* welders).
@@ -860,6 +864,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```ATOMIC_BATTERY```
 - ```FISHING_BASIC``` Use a fishing rod
 - ```JET_INJECTOR``` Inject some jet drugs right into your veins.
+- ```CABLE_ATTACH``` This item is a cable spool. Use it to try to attach to a vehicle.
 
 ## Skills
 

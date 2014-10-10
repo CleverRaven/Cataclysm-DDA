@@ -5,6 +5,7 @@
 #include "game.h"
 #include "line.h"
 #include "options.h"
+#include "item_factory.h"
 #include "mapbuffer.h"
 #include "translations.h"
 #include "monstergenerator.h"
@@ -12,7 +13,6 @@
 #include <stdlib.h>
 #include <fstream>
 #include "debug.h"
-#include "item_factory.h"
 #include "messages.h"
 #include "mapsharing.h"
 
@@ -85,20 +85,34 @@ VehicleList map::get_vehicles(const int sx, const int sy, const int ex, const in
 
 vehicle* map::veh_at(const int x, const int y, int &part_num)
 {
- // This function is called A LOT. Move as much out of here as possible.
- if (!veh_in_active_range || !inbounds(x, y))
-  return NULL;    // Out-of-bounds - null vehicle
- if(!veh_exists_at[x][y])
-  return NULL;    // cache cache indicates no vehicle. This should optimize a great deal.
- std::pair<int,int> point(x,y);
- std::map< std::pair<int,int>, std::pair<vehicle*,int> >::iterator it;
- if ((it = veh_cached_parts.find(point)) != veh_cached_parts.end())
- {
-  part_num = it->second.second;
-  return it->second.first;
- }
- debugmsg ("vehicle part cache cache indicated vehicle not found: %d %d",x,y);
- return NULL;
+    // This function is called A LOT. Move as much out of here as possible.
+    if (!veh_in_active_range || !inbounds(x, y)) {
+        return NULL;    // Out-of-bounds - null vehicle
+    }
+    if(!veh_exists_at[x][y]) {
+        return NULL;    // cache cache indicates no vehicle. This should optimize a great deal.
+    }
+    std::pair<int,int> point(x,y);
+    std::map< std::pair<int,int>, std::pair<vehicle*,int> >::iterator it;
+    if ((it = veh_cached_parts.find(point)) != veh_cached_parts.end()) {
+        part_num = it->second.second;
+        return it->second.first;
+    }
+    debugmsg ("vehicle part cache cache indicated vehicle not found: %d %d",x,y);
+    return NULL;
+}
+
+point map::veh_part_coordinates(const int x, const int y)
+{
+    int part_num;
+    vehicle* veh = veh_at(x, y, part_num);
+
+    if(veh == nullptr) {
+        return point(0,0);
+    }
+
+    auto part = veh->parts[part_num];
+    return point(part.mount_dx, part.mount_dy);
 }
 
 vehicle* map::veh_at(const int x, const int y)
@@ -384,6 +398,8 @@ bool map::displace_vehicle (int &x, int &y, const int dx, const int dy, bool tes
             upd_y = psg->posy;
         }
     }
+
+    veh->shed_loose_parts();
     for (auto &p : veh->parts) {
         p.precalc_dx[0] = p.precalc_dx[1];
         p.precalc_dy[0] = p.precalc_dy[1];
@@ -438,8 +454,7 @@ void map::vehmove()
         for( size_t v = 0; v < vehs.size(); ++v ) {
             vehicle* veh = vehs[v].v;
             veh->gain_moves();
-            veh->power_parts();
-            veh->idle();
+            veh->slow_leak();
         }
     }
 
@@ -1055,6 +1070,13 @@ std::string map::get_ter_harvestable(const int x, const int y) const {
 }
 
 /*
+ * Get the terrain transforms_into id (what will the terrain transforms into)
+ */
+ter_id map::get_ter_transforms_into(const int x, const int y) const {
+    return (ter_id)termap[ terlist[ ter(x,y) ].transforms_into ].loadid;
+}
+
+/*
  * Get the harvest season from the terrain
  */
 int map::get_ter_harvest_season(const int x, const int y) const {
@@ -1430,12 +1452,12 @@ int map::bash_rating(const int str, const int x, const int y)
     } else if ( ter_at(x, y).bash.str_max != -1 ) {
         ter_smash = true;
     }
-    
+
     if (!furn_smash && !ter_smash) {
     //There must be a vehicle there!
         return 10;
     }
-    
+
     int bash_min = 0;
     int bash_max = 0;
     if (furn_smash) {
@@ -1450,7 +1472,7 @@ int map::bash_rating(const int str, const int x, const int y)
     } else if (str >= bash_max) {
         return 10;
     }
-    
+
     return (10 * (str - bash_min)) / (bash_max - bash_min);
 }
 
@@ -1472,7 +1494,7 @@ void map::make_rubble(const int x, const int y, furn_id rubble_type, bool items,
         if (move_cost(x, y) <= 0) {
             ter_set(x, y, floor_type);
         }
-        
+
         furn_set(x, y, rubble_type);
     }
     if (items) {
@@ -2029,7 +2051,14 @@ void map::spawn_item_list(const std::vector<map_bash_item_drop> &items, int x, i
                     new_item.charges = numitems;
                     numitems = 1;
                 }
+                const bool varsize = new_item.has_flag( "VARSIZE" );
                 for(int a = 0; a < numitems; a++ ) {
+                    if( varsize && one_in( 3 ) ) {
+                        new_item.item_tags.insert( "FIT" );
+                    } else if( varsize ) {
+                        // might have been added previously
+                        new_item.item_tags.erase( "FIT" );
+                    }
                     add_item_or_charges(x, y, new_item);
                 }
             }
@@ -2154,6 +2183,7 @@ void map::shoot(const int x, const int y, int &dam,
         }
     } else if( 0 == terrain.id.compare("t_door_c") ||
                0 == terrain.id.compare("t_door_locked") ||
+               0 == terrain.id.compare("t_door_locked_peep") ||
                0 == terrain.id.compare("t_door_locked_alarm") ) {
         dam -= rng(15, 30);
         if (dam > 0) {
@@ -2377,7 +2407,7 @@ bool map::hit_with_acid( const int x, const int y )
     if( t == t_wall_glass_v || t == t_wall_glass_h || t == t_wall_glass_v_alarm || t == t_wall_glass_h_alarm ||
         t == t_vat ) {
         ter_set( x, y, t_floor );
-    } else if( t == t_door_c || t == t_door_locked || t == t_door_locked_alarm ) {
+    } else if( t == t_door_c || t == t_door_locked || t == t_door_locked_peep || t == t_door_locked_alarm ) {
         if( one_in( 3 ) ) {
             ter_set( x, y, t_door_b );
         }
@@ -2878,6 +2908,9 @@ void map::spawn_item(const int x, const int y, const std::string &type_id,
     if(type_id == "null") {
         return;
     }
+    if(item_is_blacklisted(type_id)) {
+        return;
+    }
     // recurse to spawn (quantity - 1) items
     for(unsigned i = 1; i < quantity; i++)
     {
@@ -2885,6 +2918,9 @@ void map::spawn_item(const int x, const int y, const std::string &type_id,
     }
     // spawn the item
     item new_item(type_id, birthday, rand);
+    if( one_in( 3 ) && new_item.has_flag( "VARSIZE" ) ) {
+        new_item.item_tags.insert( "FIT" );
+    }
     spawn_an_item(x, y, new_item, charges, damlevel);
 }
 
@@ -2955,7 +2991,8 @@ bool map::add_item_or_charges(const int x, const int y, item new_item, int overf
 
         return false;
     }
-    if( (new_item.made_of(LIQUID) && has_flag("SWIMMABLE", x, y)) || has_flag("DESTROY_ITEM", x, y) ) {
+    if( (new_item.made_of(LIQUID) && has_flag("SWIMMABLE", x, y)) ||
+            has_flag("DESTROY_ITEM", x, y) || new_item.has_flag("NO_DROP") ) {
         // Silently fail on mundane things that prevent item spawn.
         return false;
     }
@@ -4558,6 +4595,7 @@ void map::saven( const int worldx, const int worldy, const int worldz,
     const int abs_x = worldx + gridx;
     const int abs_y = worldy + gridy;
     dbg( D_INFO ) << "map::saven abs_x: " << abs_x << "  abs_y: " << abs_y;
+    submap_to_save->turn_last_touched = int(calendar::turn);
     MAPBUFFER.add_submap( abs_x, abs_y, worldz, submap_to_save );
 }
 
@@ -4678,9 +4716,9 @@ void map::loadn(const int worldx, const int worldy, const int worldz,
   }
 
   // plantEpoch is half a season; 3 epochs pass from plant to harvest
-  const int plantEpoch = 14400 * (int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] / 2;
+  const int plantEpoch = 14400 * int(calendar::season_length()) / 2;
 
-  // check plants
+  // check plants for crops and seasonal harvesting.
   for (int x = 0; x < SEEX; x++) {
     for (int y = 0; y < SEEY; y++) {
       furn_id furn = tmpsub->get_furn(x, y);
@@ -4698,9 +4736,16 @@ void map::loadn(const int worldx, const int worldy, const int worldz,
 
           // fixme; Lazy farmer drop rake on dirt mound. What happen rake?!
           tmpsub->itm[x][y].resize(1);
-
           tmpsub->itm[x][y][0].bday = seed.bday;
           tmpsub->set_furn(x, y, furn);
+        }
+      }
+      ter_id ter = tmpsub->ter[x][y];
+      //if the fruit-bearing season of the already harvested terrain has passed, make it harvestable again
+      if ((ter) && (terlist[ter].has_flag(TFLAG_HARVESTED))){
+        if ((terlist[ter].harvest_season != calendar::turn.get_season()) || 
+        (calendar::turn - tmpsub->turn_last_touched > calendar::season_length()*14400)){
+          tmpsub->set_ter(x, y, terfind(terlist[ter].transforms_into));
         }
       }
     }
@@ -4718,6 +4763,9 @@ void map::loadn(const int worldx, const int worldy, const int worldz,
         }
     }
   }
+
+  tmpsub->turn_last_touched = int(calendar::turn); // the last time we touched the submap, is right now.
+
  } else { // It doesn't exist; we must generate it!
   dbg(D_INFO|D_WARNING) << "map::loadn: Missing mapbuffer data. Regenerating.";
   tinymap tmp_map;

@@ -33,6 +33,7 @@
 #include "file_wrapper.h"
 #include "mod_manager.h"
 #include "path_info.h"
+#include "mapbuffer.h"
 #include "mapsharing.h"
 #include "messages.h"
 #include "pickup.h"
@@ -88,14 +89,17 @@ game::game() :
     new_game(false),
     uquit(QUIT_NO),
     w_terrain(NULL),
+    w_overmap(NULL),
+    w_omlegend(NULL),
     w_minimap(NULL),
     w_HP(NULL),
     w_messages(NULL),
     w_location(NULL),
     w_status(NULL),
     w_status2(NULL),
+    w_blackspace(NULL),
     dangerous_proximity(5),
-    run_mode(1),
+    safe_mode(SAFE_MODE_ON),
     mostseen(0),
     gamemode(NULL),
     lookHeight(13),
@@ -252,11 +256,17 @@ game::~game()
 // defined in sdltiles.cpp
 void to_map_font_dimension(int &w, int &h);
 void from_map_font_dimension(int &w, int &h);
+void to_overmap_font_dimension(int &w, int &h);
+void reinitialize_framebuffer();
 #else
 // unchanged, nothing to be translated without tiles
 void to_map_font_dimension(int &, int &) { }
 void from_map_font_dimension(int &, int &) { }
+void to_overmap_font_dimension(int &, int &) { }
+//in pure curses, the framebuffer won't need reinitializing
+void reinitialize_framebuffer() { }
 #endif
+
 
 void game::init_ui()
 {
@@ -361,6 +371,18 @@ void game::init_ui()
     // Set up the main UI windows.
     w_terrain = newwin(TERRAIN_WINDOW_HEIGHT, TERRAIN_WINDOW_WIDTH, VIEW_OFFSET_Y, VIEW_OFFSET_X);
     werase(w_terrain);
+
+    /**
+     * Doing the same thing as above for the overmap
+     */
+    static const int OVERMAP_LEGEND_WIDTH = 28;
+    OVERMAP_WINDOW_HEIGHT = TERMY;
+    OVERMAP_WINDOW_WIDTH = TERMX - OVERMAP_LEGEND_WIDTH;
+    to_overmap_font_dimension(OVERMAP_WINDOW_WIDTH, OVERMAP_WINDOW_HEIGHT);
+
+    //Bring the framebuffer to the maximum required dimensions
+    //Otherwise it segfaults when the overmap needs a bigger buffer size than it provides
+    reinitialize_framebuffer();
 
     int minimapX, minimapY; // always MINIMAP_WIDTH x MINIMAP_HEIGHT in size
     int hpX, hpY, hpW, hpH;
@@ -575,7 +597,7 @@ void game::start_game(std::string worldname)
     determine_starting_season();
     nextweather = calendar::turn;
     weatherSeed = rand();
-    run_mode = (OPTIONS["SAFEMODE"] ? 1 : 0);
+    safe_mode = (OPTIONS["SAFEMODE"] ? SAFE_MODE_ON : SAFE_MODE_OFF);
     mostseen = 0; // ...and mostseen is 0, we haven't seen any monsters yet.
 
     init_autosave();
@@ -924,7 +946,9 @@ int game::cleanup_at_end()
                                pgettext("memorial_female", "%s was killed."),
                                u.name.c_str());
         }
-        u.add_memorial_log( _("Last words: %s"), sLastWords.c_str() );
+        if (!sLastWords.empty()) {
+            u.add_memorial_log( _("Last words: %s"), sLastWords.c_str(), _("Last words: %s"), sLastWords.c_str() );
+        }
         save_player_data();
         move_save_to_graveyard();
         write_memorial_file(sLastWords);
@@ -1421,7 +1445,23 @@ bool game::do_turn()
         }
     }
     update_scent();
+
     m.vehmove();
+    // Process power and fuel consumption for all vehicles, including off-map ones.
+    // m.vehmove used to do this, but now it only give them moves instead.
+    for(auto it = MAPBUFFER.begin(); it != MAPBUFFER.end(); ++it) {
+        tripoint sm_loc = it->first;
+        point sm_topleft = overmapbuffer::sm_to_ms_copy(sm_loc.x, sm_loc.y);
+
+        submap* sm = it->second;
+
+        for(size_t i = 0; i < sm->vehicles.size(); i++) {
+            auto veh = sm->vehicles[i];
+
+            veh->power_parts();
+            veh->idle(m.inbounds(sm_topleft.x, sm_topleft.y));
+        }
+    }
     m.process_fields();
     m.process_active_items();
     m.step_in_field(u.posx, u.posy);
@@ -2103,12 +2143,7 @@ void game::update_weather()
 
 int game::get_temperature()
 {
-    point location = om_location();
-    int tmp_temperature = temperature;
-
-    tmp_temperature += m.temperature(u.posx, u.posy);
-
-    return tmp_temperature;
+    return temperature + m.temperature(u.posx, u.posy);
 }
 
 int game::assign_mission_id()
@@ -2330,14 +2365,12 @@ void game::wrap_up_mission(int id)
     }
     switch (miss->type->goal) {
     case MGOAL_FIND_ITEM:
-        if (u.has_charges(miss->type->item_id, miss->item_count)){
+        if( item( miss->type->item_id, 0 ).count_by_charges() ) {
             u.use_charges(miss->type->item_id, miss->item_count);
-            break;
-        }
-        else{
+        } else {
             u.use_amount(miss->type->item_id, miss->item_count);
-            break;
         }
+        break;
     case MGOAL_FIND_ANY_ITEM:
         u.remove_mission_items(miss->uid);
         break;
@@ -3168,13 +3201,7 @@ bool game::handle_action()
         break; // handled above
 
     case ACTION_PAUSE:
-        if (run_mode == 2 && ((OPTIONS["SAFEMODEVEH"]) ||
-                              !(u.controlling_vehicle))) { // Monsters around and we don't wanna pause
-            monster &critter = critter_tracker.find(new_seen_mon.back());
-            add_msg(m_warning, _("Spotted %s--safe mode is on! (%s to turn it off.)"),
-                    critter.name().c_str(),
-                    press_x(ACTION_TOGGLE_SAFEMODE).c_str());
-        } else {
+        if( check_save_mode_allowed() ) {
             u.pause();
         }
         break;
@@ -3612,13 +3639,13 @@ bool game::handle_action()
         break;
 
     case ACTION_TOGGLE_SAFEMODE:
-        if (run_mode == 0 ) {
-            run_mode = 1;
+        if (safe_mode == SAFE_MODE_OFF ) {
+            safe_mode = SAFE_MODE_ON;
             mostseen = 0;
             add_msg(m_info, _("Safe mode ON!"));
         } else {
             turnssincelastmon = 0;
-            run_mode = 0;
+            safe_mode = SAFE_MODE_OFF;
             if (autosafemode) {
                 add_msg(m_info, _("Safe mode OFF! (Auto safe mode still enabled!)"));
             } else {
@@ -3638,14 +3665,14 @@ bool game::handle_action()
         break;
 
     case ACTION_IGNORE_ENEMY:
-        if (run_mode == 2) {
+        if (safe_mode == SAFE_MODE_STOP) {
             add_msg(m_info, _("Ignoring enemy!"));
             for(std::vector<int>::iterator it = new_seen_mon.begin();
                 it != new_seen_mon.end(); ++it) {
                 monster &critter = critter_tracker.find(*it);
                 critter.ignoring = rl_dist(point(u.posx, u.posy), critter.pos());
             }
-            run_mode = 1;
+            safe_mode = SAFE_MODE_ON;
         }
         break;
 
@@ -4475,6 +4502,7 @@ void game::debug()
             }
             m.clear_vehicle_cache();
             m.vehicle_list.clear();
+
             const int nlevx = tmp.x * 2 - int(MAPSIZE / 2);
             const int nlevy = tmp.y * 2 - int(MAPSIZE / 2);
             cur_om = &overmap_buffer.get_om_global(tmp.x, tmp.y);
@@ -5289,8 +5317,21 @@ void game::draw_sidebar()
         mvwprintz(w_location, 0, 18, weather_data[weather].color, "%s", weather_data[weather].name.c_str());
     }
 
-    nc_color col_temp = c_blue;
     int display_temp = get_temperature();
+    // Apply windchill
+    w_point weatherPoint = weatherGen.get_weather(u.pos(), calendar::turn);
+    const oter_id &cur_om_ter = overmap_buffer.ter(g->om_global_location());
+    std::string omtername = otermap[cur_om_ter].name;
+    bool sheltered = is_sheltered(u.pos().x, u.pos().y);
+    int vehwindspeed = 0;
+    int vpart = -1;
+    vehicle *veh = g->m.veh_at (u.pos().x, u.pos().y, vpart);
+    if (veh) vehwindspeed = veh->velocity;
+    int windpower = weatherPoint.windpower + vehwindspeed;
+    int windchill = get_local_windchill(get_temperature(), get_local_humidity(weatherPoint.humidity, weather, sheltered), windpower, omtername, sheltered);
+    display_temp += windchill;
+
+    nc_color col_temp = c_blue;
     if (display_temp >= 90) {
         col_temp = c_red;
     } else if (display_temp >= 75) {
@@ -5303,19 +5344,19 @@ void game::draw_sidebar()
         col_temp = c_ltblue;
     }
 
-    wprintz( w_location, col_temp, " %s", print_temperature( display_temp ).c_str() );
+    wprintz( w_location, col_temp, " %s", print_temperature( display_temp ).c_str());
     wrefresh(w_location);
 
     //Safemode coloring
     WINDOW *day_window = sideStyle ? w_status2 : w_status;
     mvwprintz(day_window, 0, sideStyle ? 0 : 41, c_white, _("%s, day %d"),
               season_name_uc[calendar::turn.get_season()].c_str(), calendar::turn.days() + 1);
-    if (run_mode != 0 || autosafemode != 0) {
+    if (safe_mode != SAFE_MODE_OFF || autosafemode != 0) {
         int iPercent = int((turnssincelastmon * 100) / OPTIONS["AUTOSAFEMODETURNS"]);
         wmove(w_status, sideStyle ? 4 : 1, getmaxx(w_status) - 4);
         const char *letters[] = { "S", "A", "F", "E" };
         for (int i = 0; i < 4; i++) {
-            nc_color c = (run_mode == 0 && iPercent < (i + 1) * 25) ? c_red : c_green;
+            nc_color c = (safe_mode == SAFE_MODE_OFF && iPercent < (i + 1) * 25) ? c_red : c_green;
             wprintz(w_status, c, letters[i]);
         }
     }
@@ -5678,7 +5719,11 @@ void game::draw_minimap()
             } else {
                 const oter_id &cur_ter = overmap_buffer.ter(omx, omy, levz);
                 ter_sym = otermap[cur_ter].sym;
-                ter_color = otermap[cur_ter].color;
+                if (overmap_buffer.is_explored(omx, omy, levz)) {
+                    ter_color = c_dkgray;
+                } else {
+                    ter_color = otermap[cur_ter].color;
+                }
             }
             if (!drew_mission && targ.x == omx && targ.y == omy) {
                 // If there is a mission target, and it's not on the same
@@ -5908,7 +5953,7 @@ point game::find_item(item *it)
     //Does an NPC have it?
     for (std::vector<npc *>::iterator npc = active_npc.begin();
          npc != active_npc.end(); ++npc) {
-        if ((*npc)->inv.has_item(it)) {
+        if ((*npc)->has_item(it)) {
             return point((*npc)->posx, (*npc)->posy);
         }
     }
@@ -5921,24 +5966,12 @@ point game::find_item(item *it)
     return point(-999, -999);
 }
 
-void game::remove_item(item *it)
+void game::remove_item(const item *it)
 {
     point ret;
-    if (it == &u.weapon) {
-        u.remove_weapon();
+    if( u.has_item( it ) ) {
+        u.i_rem( it );
         return;
-    }
-    if (!u.inv.remove_item(it).is_null()) {
-        return;
-    }
-    for (std::vector<item>::iterator worn = u.worn.begin();
-         worn != u.worn.end();) {
-        if (it == &*worn) {
-            worn = u.worn.erase(worn);
-            return;
-        } else {
-            worn++;
-        }
     }
     ret = m.find_item(it);
     if (ret.x != -1 && ret.y != -1) {
@@ -5949,21 +5982,10 @@ void game::remove_item(item *it)
             }
         }
     }
-    for (std::vector<npc *>::iterator npc = active_npc.begin();
-         npc != active_npc.end(); ++npc) {
-        if (it == &(*npc)->weapon) {
-            (*npc)->remove_weapon();
+    for( auto &npc : active_npc ) {
+        if( npc->has_item( it ) ) {
+            npc->i_rem( it );
             return;
-        }
-        if (!(*npc)->inv.remove_item(it).is_null()) {
-            return;
-        }
-        for (std::vector<item>::iterator worn = (*npc)->worn.begin();
-             worn != (*npc)->worn.end(); ++worn) {
-            if (it == &*worn) {
-                (*npc)->worn.erase(worn);
-                return;
-            }
         }
     }
 }
@@ -6085,7 +6107,7 @@ int game::mon_info(WINDOW *w)
                 if (mondist <= iProxyDist) {
                     bool passmon = false;
                     if (critter.ignoring > 0) {
-                        if (run_mode != 1) {
+                        if (safe_mode != SAFE_MODE_ON) {
                             critter.ignoring = 0;
                         } else if (mondist > critter.ignoring / 2 || mondist < 6) {
                             passmon = true;
@@ -6153,18 +6175,18 @@ int game::mon_info(WINDOW *w)
             cancel_activity_query(_("Monsters spotted!"));
         }
         turnssincelastmon = 0;
-        if (run_mode == 1) {
-            run_mode = 2; // Stop movement!
+        if (safe_mode == SAFE_MODE_ON) {
+            safe_mode = SAFE_MODE_STOP; // Stop movement!
         }
     } else if (autosafemode && newseen == 0) { // Auto-safemode
         turnssincelastmon++;
-        if (turnssincelastmon >= OPTIONS["AUTOSAFEMODETURNS"] && run_mode == 0) {
-            run_mode = 1;
+        if (turnssincelastmon >= OPTIONS["AUTOSAFEMODETURNS"] && safe_mode == SAFE_MODE_OFF) {
+            safe_mode = SAFE_MODE_ON;
         }
     }
 
-    if (newseen == 0 && run_mode == 2) {
-        run_mode = 1;
+    if (newseen == 0 && safe_mode == SAFE_MODE_STOP) {
+        safe_mode = SAFE_MODE_ON;
     }
 
     mostseen = newseen;
@@ -7461,6 +7483,27 @@ bool game::is_in_sunlight(int x, int y)
             (weather == WEATHER_CLEAR || weather == WEATHER_SUNNY));
 }
 
+bool game::is_sheltered(int x, int y)
+{
+    bool is_inside = false;
+    bool is_underground = false;
+    bool is_in_vehicle = false;
+    int vpart = -1;
+    vehicle *veh = m.veh_at(x, y, vpart);
+
+    if (!m.is_outside(x, y))
+        is_inside = true;
+    if (levz < 0)
+        is_underground = true;
+    if (veh && veh->is_inside(vpart))
+        is_in_vehicle = true;
+
+    if (is_inside || is_underground || is_in_vehicle)
+        return true;
+    else
+        return false;
+}
+
 bool game::is_in_ice_lab(point location)
 {
     oter_id cur_ter = cur_om->ter(location.x, location.y, levz);
@@ -8544,7 +8587,7 @@ bool pet_menu(monster *z)
             g->u.i_add(rope_6);
         } else {
             z->add_effect("tied", 1, 1, true);
-            g->u.inv.remove_item("rope_6");
+            g->u.use_amount( "rope_6", 1 );
         }
 
         return true;
@@ -12354,11 +12397,7 @@ void game::chat()
 
 void game::pldrive(int x, int y)
 {
-    if (run_mode == 2 && (OPTIONS["SAFEMODEVEH"])) { // Monsters around and we don't wanna run
-        add_msg(m_warning, _("Monster spotted--run mode is on! "
-                             "(%s to turn it off or %s to ignore monster.)"),
-                press_x(ACTION_TOGGLE_SAFEMODE).c_str(),
-                from_sentence_case(press_x(ACTION_IGNORE_ENEMY)).c_str());
+    if( !check_save_mode_allowed() ) {
         return;
     }
     int part = -1;
@@ -12401,15 +12440,33 @@ void game::pldrive(int x, int y)
     }
 }
 
+bool game::check_save_mode_allowed()
+{
+    if( safe_mode != SAFE_MODE_STOP ) {
+        return true;
+    }
+    // Currently driving around, ignore the monster, they have no chance against a proper car anyway (-:
+    if( u.controlling_vehicle && !OPTIONS["SAFEMODEVEH"] ) {
+        return true;
+    }
+    // Monsters around and we don't wanna run
+    std::string spotted_creature_name;
+    if( new_seen_mon.empty() ) {
+        // naming consistent with code in game::mon_info
+        spotted_creature_name = _( "a hostile survivor" );
+    } else {
+        spotted_creature_name = zombie( new_seen_mon.back() ).name();
+    }
+    add_msg( m_warning,
+             _( "Spotted %s--safe mode is on! (%s to turn it off or %s to ignore monster.)" ),
+             spotted_creature_name.c_str(), press_x( ACTION_TOGGLE_SAFEMODE ).c_str(),
+             from_sentence_case( press_x( ACTION_IGNORE_ENEMY ) ).c_str() );
+    return false;
+}
+
 bool game::plmove(int dx, int dy)
 {
-    if (run_mode == 2) {
-        // Monsters around and we don't wanna run
-        monster &critter = critter_tracker.find(new_seen_mon.back());
-        add_msg(m_warning, _("Spotted %s--safe mode is on! (%s to turn it off or %s to ignore monster.)"),
-                critter.name().c_str(),
-                press_x(ACTION_TOGGLE_SAFEMODE).c_str(),
-                from_sentence_case(press_x(ACTION_IGNORE_ENEMY)).c_str());
+    if( !check_save_mode_allowed() ) {
         return false;
     }
     int x = 0;
@@ -12790,12 +12847,20 @@ bool game::plmove(int dx, int dy)
                     bool src_item_ok = ( m.furn_at(fpos.x, fpos.y).has_flag("CONTAINER") ||
                                          m.furn_at(fpos.x, fpos.y).has_flag("SEALED") );
 
+                    int str_req = furntype.move_str_req;
+                    // Factor in weight of items contained in the furniture.
+                    int furniture_contents_weight = 0;
+                    for( auto contained_item : m.i_at( fpos.x, fpos.y ) ) {
+                        furniture_contents_weight += contained_item.weight();
+                    }
+                    str_req += furniture_contents_weight / 4000;
+
                     if ( ! canmove ) {
                         add_msg( _("The %s collides with something."), furntype.name.c_str() );
                         u.moves -= 50; // "oh was that your foot? Sorry :-O"
                         return false;
-                    } else if ( !m.can_move_furniture( fpos.x, fpos.y, &u ) &&
-                                one_in(std::max(20 - furntype.move_str_req - u.str_cur, 2)) ) {
+                    } else if ( str_req > u.get_str() &&
+                                one_in(std::max(20 - str_req - u.get_str(), 2)) ) {
                         add_msg(m_bad, _("You strain yourself trying to move the heavy %s!"),
                                 furntype.name.c_str() );
                         u.moves -= 100;
@@ -12808,7 +12873,8 @@ bool game::plmove(int dx, int dy)
                     }
 
                     if ( pulling_furniture ) {
-                        // normalize movecost for pulling: furniture moves into our current square -then- we move away
+                        // normalize movecost for pulling:
+                        // furniture moves into our current square -then- we move away
                         if ( furncost < 0 ) {
                             // this will make our exit-tile move cost 0
                             movecost_modifier += m.ter_at(fpos.x, fpos.y).movecost;
@@ -12820,19 +12886,24 @@ bool game::plmove(int dx, int dy)
                         }
                     }
 
-                    int str_req = furntype.move_str_req;
                     u.moves -= str_req * 10;
                     // Additional penalty if we can't comfortably move it.
-                    if (!m.can_move_furniture(fpos.x, fpos.y, &u)) {
-                        int move_penalty = std::min(std::pow(str_req, 2.0) + 100.0, 1000.0);
+                    if( str_req > u.get_str() ) {
+                        int move_penalty = std::pow(str_req, 2.0) + 100.0;
+                        if( move_penalty <= 1000 ) {
+                            u.moves -= 100;
+                            add_msg( m_bad, _("The %s is too heavy for you to budge."),
+                                     furntype.name.c_str() );
+                            return false;
+                        }
                         u.moves -= move_penalty;
                         if (move_penalty > 500) {
-                            if (one_in(3)) { // Nag only occasionally.
-                                add_msg( _("Moving the heavy %s is taking a lot of time!"), furntype.name.c_str() );
-                            }
+                            add_msg( _("Moving the heavy %s is taking a lot of time!"),
+                                     furntype.name.c_str() );
                         } else if (move_penalty > 200) {
                             if (one_in(3)) { // Nag only occasionally.
-                                add_msg( _("It takes some time to move the heavy %s."), furntype.name.c_str() );
+                                add_msg( _("It takes some time to move the heavy %s."),
+                                         furntype.name.c_str() );
                             }
                         }
                     }
@@ -13286,7 +13357,7 @@ bool game::plmove(int dx, int dy)
             u.moves -= 100;
         } else if (m.furn(x, y) != f_safe_c && m.open_door(x, y, !m.is_outside(u.posx, u.posy))) {
             u.moves -= 100;
-        } else if (m.ter(x, y) == t_door_locked || m.ter(x, y) == t_door_locked_alarm ||
+        } else if (m.ter(x, y) == t_door_locked || m.ter(x, y) == t_door_locked_peep || m.ter(x, y) == t_door_locked_alarm ||
                    m.ter(x, y) == t_door_locked_interior) {
             u.moves -= 100;
             add_msg(_("That door is locked!"));
@@ -14048,7 +14119,7 @@ void game::update_stair_monsters()
                             if (resiststhrow && (g->u.is_throw_immune())) {
                                 //we have a judoka who isn't getting pushed but counterattacking now.
                                 mattack defend;
-                                defend.thrown_by_judo(&critter);
+                                defend.thrown_by_judo(&critter, -1);
                                 return;
                             }
                             std::string msg = "";

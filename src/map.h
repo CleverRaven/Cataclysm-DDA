@@ -283,6 +283,13 @@ class map
   */
  vehicle* veh_at(const int x, const int y);// checks, if tile is occupied by vehicle
 
+ /**
+  * Vehicle-relative coordinates from reality bubble coordinates, if a vehicle
+  * actually exists here.
+  * Returns 0,0 if no vehicle exists there (use veh_at to check if it exists first)
+  */
+ point veh_part_coordinates(const int x, const int y);
+
  // put player on vehicle at x,y
  void board_vehicle(int x, int y, player *p);
  void unboard_vehicle(const int x, const int y);//remove player from vehicle at x,y
@@ -321,8 +328,9 @@ class map
 // Terrain
  ter_id ter(const int x, const int y) const; // Terrain integer id at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
  std::string get_ter(const int x, const int y) const; // Terrain string id at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
- std::string get_ter_harvestable(const int x, const int y) const; //harvestable of the terrain
- int get_ter_harvest_season(const int x, const int y) const; //get season to harvest the terrain 
+ std::string get_ter_harvestable(const int x, const int y) const; // harvestable of the terrain
+ ter_id get_ter_transforms_into(const int x, const int y) const; // get the terrain id to transform to
+ int get_ter_harvest_season(const int x, const int y) const; // get season to harvest the terrain
  ter_t & ter_at(const int x, const int y) const; // Terrain at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
 
  void ter_set(const int x, const int y, const ter_id new_terrain);

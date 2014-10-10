@@ -470,7 +470,7 @@ void mapgen_dirtlot(map *m, oter_id, mapgendata, int, float)
         }
     }
     if (one_in(4)) {
-        m->add_vehicle ("flatbed_truck", 12, 12, 90, -1, -1);
+        m->add_vehicle ("pickup", 12, 12, 90, -1, -1);
     }
 }
 // todo: more region_settings for forest biome
@@ -1601,8 +1601,10 @@ void mapgen_bridge(map *m, oter_id terrain_type, mapgendata dat, int turn, float
         int vx = rng (10, 12);
         int vy = rng (10, 12);
         int rc = rng(1, 10);
-        if (rc <= 5) {
+        if (rc <= 3) {
             m->add_vehicle ("car", vx, vy, one_in(2)? 90 : 180, 0, -1);
+        } else if (rc <= 6) {
+            m->add_vehicle ("pickup", vx, vy, one_in(2)? 90 : 180, 0, -1);
         } else if (rc <= 8) {
             m->add_vehicle ("flatbed_truck", vx, vy, one_in(2)? 90 : 180, 0, -1);
         } else if (rc <= 9) {
@@ -1645,8 +1647,10 @@ void mapgen_highway(map *m, oter_id terrain_type, mapgendata dat, int turn, floa
         int vx = rng (10, 12);
         int vy = rng (10, 12);
         int rc = rng(1, 10);
-        if (rc <= 5) {
+        if (rc <= 3) {
             m->add_vehicle ("car", vx, vy, one_in(2)? 90 : 180, 0, -1);
+        } else if (rc <= 6) {
+            m->add_vehicle ("pickup", vx, vy, one_in(2)? 90 : 180, 0, -1);
         } else if (rc <= 8) {
             m->add_vehicle ("flatbed_truck", vx, vy, one_in(2)? 90 : 180, 0, -1);
         } else if (rc <= 9) {
@@ -2296,24 +2300,36 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2, mapgenda
         case 1:
             m->furn_set(x1 + 1, y1 + 2, f_bed);
             m->furn_set(x1 + 1, y1 + 3, f_bed);
+            m->place_items("bed", 60, x1 + 1, y1 + 2, x1 + 1, y1 + 2, false, 0);
+            m->place_items("bed", 60, x1 + 1, y1 + 3, x1 + 1, y1 + 3, false, 0);
             break;
         case 2:
             m->furn_set(x1 + 2, y2 - 1, f_bed);
             m->furn_set(x1 + 3, y2 - 1, f_bed);
+            m->place_items("bed", 60, x1 + 2, y2 - 1, x1 + 2, y2 - 1, false, 0);
+            m->place_items("bed", 60, x1 + 2, y2 - 1, x1 + 2, y2 - 1, false, 0);
             break;
         case 3:
             m->furn_set(x2 - 1, y2 - 3, f_bed);
             m->furn_set(x2 - 1, y2 - 2, f_bed);
+            m->place_items("bed", 60, x2 - 1, y2 - 3, x2 - 1, y2 - 3, false, 0);
+            m->place_items("bed", 60, x2 - 1, y2 - 2, x2 - 1, y2 - 2, false, 0);
             break;
         case 4:
             m->furn_set(x2 - 3, y1 + 1, f_bed);
             m->furn_set(x2 - 2, y1 + 1, f_bed);
+            m->place_items("bed", 60, x2 - 3, y1 + 1, x2 - 3, y1 + 1, false, 0);
+            m->place_items("bed", 60, x2 - 2, y1 + 1, x2 - 2, y1 + 1, false, 0);
             break;
         case 5:
             m->furn_set(int((x1 + x2) / 2)    , y2 - 1, f_bed);
             m->furn_set(int((x1 + x2) / 2) + 1, y2 - 1, f_bed);
             m->furn_set(int((x1 + x2) / 2)    , y2 - 2, f_bed);
             m->furn_set(int((x1 + x2) / 2) + 1, y2 - 2, f_bed);
+            m->place_items("bed", 60, int((x1 + x2) / 2), y2 - 1, int((x1 + x2) / 2), y2 - 1, false, 0);
+            m->place_items("bed", 60, int((x1 + x2) / 2) + 1, y2 - 1, int((x1 + x2) / 2) + 1, y2 - 1, false, 0);
+            m->place_items("bed", 60, int((x1 + x2) / 2), y2 - 2, int((x1 + x2) / 2), y2 - 2, false, 0);
+            m->place_items("bed", 60, int((x1 + x2) / 2) + 1, y2 - 2, int((x1 + x2) / 2) + 1, y2 - 2, false, 0);
             break;
         }
         switch (rng(1, 4)) {
@@ -2535,12 +2551,12 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
             m->ter_set(lw, rn + 4, t_window_domestic);
         }
         if (one_in(2)) { // Placement of the main door
-            m->ter_set(rng(lw + 2, mw - 1), tw, (one_in(6) ? t_door_c : t_door_locked));
+            m->ter_set(rng(lw + 2, mw - 1), tw, (one_in(6) ? (one_in(6) ? t_door_c : t_door_c_peep) : (one_in(6) ? t_door_locked : t_door_locked_peep)));
             if (one_in(5)) { // Placement of side door
                 m->ter_set(rw, rng(tw + 2, cw - 2), (one_in(6) ? t_door_c : t_door_locked));
             }
         } else {
-            m->ter_set(rng(mw + 1, rw - 2), tw, (one_in(6) ? t_door_c : t_door_locked));
+            m->ter_set(rng(mw + 1, rw - 2), tw, (one_in(6) ? (one_in(6) ? t_door_c : t_door_c_peep) : (one_in(6) ? t_door_locked : t_door_locked_peep)));
             if (one_in(5)) {
                 m->ter_set(lw, rng(tw + 2, cw - 2), (one_in(6) ? t_door_c : t_door_locked));
             }

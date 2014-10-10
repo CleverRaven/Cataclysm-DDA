@@ -67,8 +67,10 @@ void mission_start::infect_npc(mission *miss)
   return;
  }
  p->add_disease("infection", 1, true);
- // make sure they don't have any antibiotics
- while ( !p->inv.remove_item("antibiotics").is_null() ) { /* empty */ }
+    // make sure they don't have any antibiotics
+    p->remove_items_with( []( const item & it ) {
+        return it.typeId() == "antibiotics";
+    } );
 }
 
 void mission_start::place_dog(mission *miss)

@@ -221,6 +221,17 @@ public:
  long num_charges();
 
     /**
+     * Reduce the charges of this item, only use for items counted by charges!
+     * The item must have enough charges for this (>= quantity) and be counted
+     * by charges.
+     * @param quantity How many charges should be removed.
+     * @return true if all charges would have been removed and the must be destroyed.
+     * The charges member is not changed in that case (for usage in `player::i_rem`
+     * which returns the removed item).
+     * False if there are charges remaining, the charges have been reduced in that case.
+     */
+    bool reduce_charges( long quantity );
+    /**
      * Returns true if the item is considered rotten.
      */
     bool rotten() const;
@@ -324,9 +335,15 @@ protected:
     bool process_artifact(player *carrier, point pos);
     bool process_wet(player *carrier, point pos);
     bool process_litcig(player *carrier, point pos);
+    bool process_cable(player *carrier, point pos);
     bool process_tool(player *carrier, point pos);
     bool process_charger_gun(player *carrier, point pos);
 public:
+    /**
+     * Helper to bring a cable back to its initial state.
+     */
+    void reset_cable(player* carrier);
+
     /**
      * Whether the item should be processed (by calling @ref process) each turn.
      * This is only a hint, used by the map to avoid coping the item when it
@@ -391,6 +408,28 @@ public:
  it_ammo* curammo;
 
  std::vector<item> contents;
+
+        /**
+         * Recursively check the contents of this item and remove those items
+         * that match the filter. Note that this function does *not* match
+         * the filter against *this* item, only against the contents.
+         * @return The removed items, the list may be empty if no items matches.
+         */
+        template<typename T>
+        std::list<item> remove_items_with( T filter )
+        {
+            std::list<item> result;
+            for( auto it = contents.begin(); it != contents.end(); ) {
+                if( filter( *it ) ) {
+                    result.push_back( std::move( *it ) );
+                    it = contents.erase( it );
+                } else {
+                    result.splice( result.begin(), it->remove_items_with( filter ) );
+                    ++it;
+                }
+            }
+            return result;
+        }
 
 private:
  std::string name;

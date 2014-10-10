@@ -114,7 +114,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         player &operator=(player &&) = default;
 
         // newcharacter.cpp
-        bool create(character_type type, std::string tempname = "");
+        int create(character_type type, std::string tempname = "");
         /** Returns the set "my_traits" */
         std::vector<std::string> get_traits() const;
         /** Empties the trait list */
@@ -727,6 +727,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int shoe_type_count(const itype_id &it) const;
         /** Returns true if the player is wearing power armor */
         bool is_wearing_power_armor(bool *hasHelmet = NULL) const;
+        /** Returns wind resistance provided by armor, etc **/
+        int get_wind_resistance(body_part bp) const;
 
         int adjust_for_focus(int amount);
         void practice( Skill *s, int amount, int cap = 99 );
@@ -755,27 +757,149 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         std::string weapname(bool charges = true);
 
+        /**
+         * Test whether an item in the possession of this player match a
+         * certain filter.
+         * The items might be inside other items (containers / quiver / etc.),
+         * the filter is recursively applied to all item contents.
+         * If this returns true, the vector returned by @ref items_with
+         * (with the same filter) will be non-empty.
+         * @param filter some object that when invoked with the () operator
+         * returns true for item that should checked for.
+         * @return Returns true when at least one item matches the filter,
+         * if no item matches the filter it returns false.
+         */
+        template<typename T>
+        bool has_item_with(T filter) const
+        {
+            if( inv.has_item_with( filter ) ) {
+                return true;
+            }
+            if( !weapon.is_null() && inventory::has_item_with_recursive( weapon, filter ) ) {
+                return true;
+            }
+            for( auto &w : worn ) {
+                if( inventory::has_item_with_recursive( w, filter ) ) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        /**
+         * Gather all items that match a certain filter.
+         * The returned vector contains pointers to items in the possession
+         * of this player (can be weapon, worn items or inventory).
+         * The items might be inside other items (containers / quiver / etc.),
+         * the filter is recursively applied to all item contents.
+         * The items should not be changed directly, the pointers can be used
+         * with @ref i_rem, @ref reduce_charges. The pointers are *not* suitable
+         * for @ref get_item_position because the returned index can only
+         * refer to items directly in the inventory (e.g. -1 means the weapon,
+         * there is no index for the content of the weapon).
+         * @param filter some object that when invoked with the () operator
+         * returns true for item that should be returned.
+         */
+        template<typename T>
+        std::vector<const item *> items_with(T filter) const
+        {
+            auto result = inv.items_with( filter );
+            if( !weapon.is_null() ) {
+                inventory::items_with_recursive( result, weapon, filter );
+            }
+            for( auto &w : worn ) {
+                inventory::items_with_recursive( result, w, filter );
+            }
+            return result;
+        }
+        /**
+         * Removes the items that match the given filter.
+         * The returned items are a copy of the removed item.
+         * If no item has been removed, an empty list will be returned.
+         */
+        template<typename T>
+        std::list<item> remove_items_with( T filter )
+        {
+            // player usually interacts with items in the inventory the most (?)
+            std::list<item> result = inv.remove_items_with( filter );
+            for( auto it = worn.begin(); it != worn.end(); ) {
+                if( filter( *it ) ) {
+                    result.push_back( std::move( *it ) );
+                    it = worn.erase( it );
+                } else {
+                    result.splice( result.begin(), it->remove_items_with( filter ) );
+                    ++it;
+                }
+            }
+            if( !weapon.is_null() ) {
+                if( filter( weapon ) ) {
+                    result.push_back( remove_weapon() );
+                } else {
+                    result.splice( result.begin(), weapon.remove_items_with( filter ) );
+                }
+            }
+            return result;
+        }
+        /**
+         * All items that have the given flag (@ref item::has_flag).
+         */
+        std::vector<const item *> all_items_with_flag( const std::string flag ) const;
+
         item &i_add(item it);
         // Sets invlet and adds to inventory if possible, drops otherwise, returns true if either succeeded.
         // An optional qty can be provided (and will perform better than separate calls).
         bool i_add_or_drop(item &it, int qty = 1);
+        /**
+         * Whether the player carries an active item of the given item type.
+         */
         bool has_active_item(const itype_id &id) const;
-        long active_item_charges(itype_id id);
         void process_active_items();
-        item i_rem(int pos); // Remove item from inventory; returns ret_null on fail
-        item i_rem(itype_id type);// Remove first item w/ this type; fail is ret_null
-        item i_rem(item *it);// Remove specific item.
+        /**
+         * Remove a specific item from player possession. The item is compared
+         * by pointer. Contents of the item are removed as well.
+         * @param pos The item position of the item to be removed. The item *must*
+         * exists, use @ref has_item to check this.
+         * @return A copy of the removed item.
+         */
+        item i_rem(int pos);
+        /**
+         * Remove a specific item from player possession. The item is compared
+         * by pointer. Contents of the item are removed as well.
+         * @param it A pointer to the item to be removed. The item *must* exists
+         * in the players possession (one can use @ref has_item to check for this).
+         * @return A copy of the removed item.
+         */
+        item i_rem(const item *it);
         item remove_weapon();
         void remove_mission_items(int mission_id);
+        /**
+         * Remove charges from a specific item (given by its item position).
+         * The item must exist and it must be counted by charges.
+         * @param position Item position of the item.
+         * @param quantity The number of charges to remove, must not be larger than
+         * the current charges of the item.
+         * @return An item that contains the removed charges, it's effectively a
+         * copy of the item with the proper charges.
+         */
         item reduce_charges(int position, long quantity);
+        /**
+         * Remove charges from a specific item (given by a pointer to it).
+         * Otherwise identical to @ref reduce_charges(int,long)
+         * @param it A pointer to the item, it *must* exist.
+         */
         item reduce_charges(item *it, long quantity);
         item &i_at(int position);  // Returns the item with a given inventory position.
-        item &i_of_type(itype_id type); // Returns the first item with this type
         /** Return the item position of the item with given invlet, return INT_MIN if
          * the player does not have such an item with that invlet. Don't use this on npcs.
          * Only use the invlet in the user interface, otherwise always use the item position. */
         int invlet_to_position(char invlet) const;
-        int get_item_position(item *it);  // looks up an item (via pointer comparison)
+        /**
+         * Returns the item position (suitable for @ref i_at or similar) of a
+         * specific item.
+         * NOTE: this only works for items outside of containers, in the main inventory,
+         * the weapon or worn items, If the item is a pointer to an item inside a
+         * container, it wont work.
+         */
+        int get_item_position(const item *it);
         const martialart &get_combat_style() const; // Returns the combat style object
         std::vector<item *> inv_dump(); // Inventory + weapon + worn (for death, etc)
         void place_corpse(); // put corpse+inventory on map at the place where this is.
@@ -807,16 +931,24 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         // Check for free container space for the whole liquid item
         bool has_container_for(const item &liquid);
-        bool has_drink();
         bool has_item_with_flag( std::string flag )
         const; // Has a weapon, inventory item or worn item with flag
         bool has_item(int position);
-        bool has_item(item *it);  // Has a specific item
+        /**
+         * Check whether a specific item is in the players possession.
+         * The item is compared by pointer.
+         * @param it A pointer to the item to be looked for.
+         */
+        bool has_item(const item *it) const;
         /** Only use for UI things. Returns all invelts that are currently used in
          * the player inventory, the weapon slot and the worn items. */
         std::set<char> allocated_invlets() const;
-        bool has_mission_item(int mission_id); // Has item with mission_id
+        bool has_mission_item(int mission_id) const; // Has item with mission_id
         std::vector<item *> has_ammo(ammotype at); // Returns a list of the ammo
+        /**
+         * Check whether the player has a gun that uses the given type of ammo.
+         */
+        bool has_gun_for_ammo( const ammotype &at ) const;
 
         bool has_weapon() const;
         // Check if the player can pickup stuff (fails if wielding

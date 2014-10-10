@@ -4725,7 +4725,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "TENT"
+    "use_action": "PORTABLE_STRUCTURE"
   },
   {
     "id": "large_tent_kit",
@@ -4747,7 +4747,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "LARGE_TENT"
+    "use_action": "PORTABLE_STRUCTURE"
   },
   {
     "id": "torch",
@@ -5719,7 +5719,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "SHELTER"
+    "use_action": "PORTABLE_STRUCTURE"
   },
 
   {
@@ -6161,7 +6161,8 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "battery",
-    "revert_to": "null"
+    "revert_to": "null",
+    "qualities": [["DRILL", 3]]
   },
 
   {
@@ -6982,7 +6983,7 @@
     "price": 100,
     "material": ["steel", "wood"],
     "weight": 15142,
-    "volume": 1001,
+    "volume": 40,
     "bashing": 0,
     "cutting": 0,
     "to_hit": -2,
@@ -7363,7 +7364,7 @@
     "name": "RM42 fighting knife",
     "name_plural": "RM42 fighting knives",
     "description": "This sturdy matte black Rivtech combat dagger features a long and slim double-edged blade with a spear-point and a distinctive slip-resistant grip.  Originally manufactured for the military, it was very popular in films and among collectors due to its fearsome appearance.",
-    "price": 600,
+    "price": 45000,
     "material": ["ceramic", "plastic"],
     "techniques": ["RAPID", "WBLOCK_1"],
     "weight": 188,

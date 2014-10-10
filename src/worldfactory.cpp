@@ -160,8 +160,8 @@ WORLDPTR worldfactory::make_new_world(special_game_id special_type)
         return NULL;
     }
 
-    // look through worlds and see if worlname exists already. if so then just return
-    // it instead of making a new world
+    // Look through all worlds and see if a world named worldname already exists. If so, then just return it instead of
+    // making a new world.
     if (all_worlds.find(worldname) != all_worlds.end()) {
         return all_worlds[worldname];
     }
@@ -269,7 +269,7 @@ bool worldfactory::save_world(WORLDPTR world, bool is_conversion)
         for (auto it = world->world_options.begin();
              it != world->world_options.end(); ++it) {
             fout << "#" << it->second.getTooltip() << std::endl;
-            fout << "#Default: " << it->second.getDefaultText() << std::endl;
+            fout << "#" << it->second.getDefaultText() << std::endl;
             fout << it->first << " " << it->second.getValue() << std::endl << std::endl;
         }
         fclose_exclusive(fout, woption.str().c_str());
@@ -308,7 +308,6 @@ std::map<std::string, WORLDPTR> worldfactory::get_all_worlds()
             bool no_options = true;
             std::vector<std::string> detected_world_op = file_finder::get_files_from_path(WORLD_OPTION_FILE,
                     world_dirs[i], false);
-            std::string world_op_file = WORLD_OPTION_FILE;
             if ( ! detected_world_op.empty() ) {
                 no_options = false;
             }

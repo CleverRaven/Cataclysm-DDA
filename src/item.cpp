@@ -116,10 +116,6 @@ item::item(const std::string new_type, unsigned int turn, bool rand, int handed)
                 }
             }
         }
-        // clothing with variable size flag may sometimes be generated fitted
-        if( type->item_tags.count( "VARSIZE" ) > 0 && one_in( 3 ) ) {
-            item_tags.insert( "FIT" );
-        }
     }
     if(type->is_var_veh_part()) {
         it_var_veh_part* varcarpart = dynamic_cast<it_var_veh_part*>(type);
@@ -1139,7 +1135,7 @@ nc_color item::color(player *u) const
         if (u->weapon.is_gun() && u->weapon.ammo_type() == amtype) {
             ret = c_green;
         } else {
-            if (u->inv.has_gun_for_ammo(amtype)) {
+            if (u->has_gun_for_ammo(amtype)) {
                 ret = c_green;
             }
         }
@@ -3769,6 +3765,56 @@ bool item::process_litcig( player *carrier, point pos )
     return false;
 }
 
+bool item::process_cable( player *p, point pos )
+{
+    if( item_vars["state"] != "pay_out_cable" ) {
+        return false;
+    }
+
+    int source_x = atoi(item_vars["source_x"].c_str());
+    int source_y = atoi(item_vars["source_y"].c_str());
+    int source_z = atoi(item_vars["source_z"].c_str());
+
+    point relpos= g->m.getlocal(source_x, source_y);
+    auto veh = g->m.veh_at(relpos.x, relpos.y);
+    if( veh == nullptr || source_z != g->levz ) {
+        if( p != nullptr && p->has_item(this) ) {
+            p->add_msg_if_player(m_bad, _("You notice the cable has come loose!"));
+        }
+        reset_cable(p);
+        return false;
+    }
+
+    point abspos = g->m.getabs(pos.x, pos.y);
+
+    int distance = rl_dist(abspos.x, abspos.y, source_x, source_y);
+    int max_charges = type->maximum_charges();
+    charges = max_charges - distance;
+
+    if( charges < 1 ) {
+        if( p != nullptr && p->has_item(this) ) {
+            p->add_msg_if_player(m_bad, _("The over-extended cable breaks loose!"));
+        }
+        reset_cable(p);
+    }
+
+    return false;
+}
+
+void item::reset_cable( player* p )
+{
+    int max_charges = type->maximum_charges();
+
+    item_vars["state"] = "attach_first";
+    active = false;
+    charges = max_charges;
+
+    if ( p != nullptr ) {
+        p->add_msg_if_player(m_info, _("You reel in the cable."));
+        p->moves -= charges * 10;
+    }
+}
+
 bool item::process_wet( player * /*carrier*/, point /*pos*/ )
 {
     item_counter--;
@@ -3925,11 +3971,31 @@ bool item::process( player *carrier, point pos )
     if( has_flag( "LITCIG" ) && process_litcig( carrier, pos ) ) {
         return true;
     }
+    if( has_flag( "CABLE_SPOOL" ) ) {
+        // DO NOT process this as a tool! It really isn't!
+        return process_cable(carrier, pos);
+    }
     if( is_tool() && process_tool( carrier, pos ) ) {
         return true;
     }
     if( has_flag( "CHARGE" ) && process_charger_gun( carrier, pos ) ) {
         return true;
     }
+    return false;
+}
+
+bool item::reduce_charges( long quantity )
+{
+    if( !count_by_charges() ) {
+        debugmsg( "Tried to remove %s by charges, but item is not counted by charges", tname().c_str() );
+        return false;
+    }
+    if( quantity > charges ) {
+        debugmsg( "Charges: Tried to remove charges that do not exist, removing maximum available charges instead" );
+    }
+    if( charges <= quantity ) {
+        return true;
+    }
+    charges -= quantity;
     return false;
 }

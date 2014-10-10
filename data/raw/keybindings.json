@@ -198,6 +198,10 @@
             {
                 "input_method":"keyboard",
                 "key":"a"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"A"
             }
         ]
     },
@@ -210,6 +214,10 @@
             {
                 "input_method":"keyboard",
                 "key":"r"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"R"
             }
         ]
     },
@@ -222,6 +230,10 @@
             {
                 "input_method":"keyboard",
                 "key":"c"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"C"
             }
         ]
     },
@@ -233,7 +245,11 @@
         "bindings":[
             {
                 "input_method":"keyboard",
-                "key":","
+                "key":"m"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"M"
             }
         ]
     },
@@ -246,6 +262,10 @@
             {
                 "input_method":"keyboard",
                 "key":"e"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"E"
             }
         ]
     },
@@ -258,6 +278,10 @@
             {
                 "input_method":"keyboard",
                 "key":"d"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"D"
             }
         ]
     },
@@ -294,6 +318,10 @@
             {
                 "input_method":"keyboard",
                 "key":"t"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"T"
             }
         ]
     },
@@ -306,6 +334,10 @@
             {
                 "input_method":"keyboard",
                 "key":"s"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"S"
             }
         ]
     },
@@ -901,6 +933,18 @@
             }
         ]
     },
+	{
+        "type" : "keybinding",
+        "id": "REROLL_CHARACTER",
+        "category": "NEW_CHAR_DESCRIPTION",
+        "name": "Reroll Random Character",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"%"
+            }
+        ]
+    },
     {
         "type" : "keybinding",
         "id": "PICK_RANDOM_NAME",
@@ -1471,6 +1515,10 @@
             {
                 "input_method":"keyboard",
                 "key":"a"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"A"
             }
         ]
     },
@@ -1483,6 +1531,10 @@
             {
                 "input_method":"keyboard",
                 "key":"r"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"R"
             }
         ]
     },
@@ -1519,6 +1571,10 @@
             {
                 "input_method":"keyboard",
                 "key":"m"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"M"
             }
         ]
     },
@@ -1531,6 +1587,10 @@
             {
                 "input_method":"keyboard",
                 "key":"e"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"E"
             }
         ]
     },
@@ -1543,6 +1603,10 @@
             {
                 "input_method":"keyboard",
                 "key":"d"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"D"
             }
         ]
     },

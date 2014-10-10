@@ -172,6 +172,7 @@ public:
     int lumber              (player *, item *, bool);
     int oxytorch            (player *, item *, bool);
     int hacksaw             (player *, item *, bool);
+    int portable_structure  (player *, item *, bool);
     int tent                (player *, item *, bool);
     int large_tent          (player *, item *, bool);
     int shelter             (player *, item *, bool);
@@ -217,6 +218,7 @@ public:
     int einktabletpc        (player *, item *, bool);
     int camera              (player *, item *, bool);
     int ehandcuffs          (player *, item *, bool);
+    int cable_attach        (player *, item *, bool);
 
 // MACGUFFINS
     int mcg_note            (player *, item *, bool);

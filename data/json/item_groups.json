@@ -88,6 +88,7 @@
     "type" : "item_group",
     "id" : "road",
     "items":[
+      ["jumper_cable", 5],
       ["muffler", 30],
       ["pipe", 20],
       ["motor", 2],
@@ -670,6 +671,7 @@
     "type" : "item_group",
     "id" : "home_hw",
     "items":[
+      ["jumper_cable", 3],
       ["superglue", 30],
       ["string_6", 2],
       ["string_36", 40],
@@ -722,7 +724,8 @@
       ["charcoal", 20],
       ["toolbox", 2],
       ["knitting_needles", 10],
-      ["sheath", 15]
+      ["sheath", 15],
+      ["peephole", 2]
     ]
   },{
     "type" : "item_group",
@@ -1717,6 +1720,8 @@
     "type" : "item_group",
     "id" : "hardware",
     "items":[
+      ["jumper_cable", 10],
+      ["jumper_cable_heavy", 2],
       ["superglue", 30],
       ["chain", 20],
       ["rope_6", 4],
@@ -1771,7 +1776,8 @@
       ["sheath", 10],
       ["multitool", 6],
       ["survnote", 1],
-      ["fertilizer_commercial",30]
+      ["fertilizer_commercial",30],
+      ["peephole", 25]
     ]
   },{
     "type" : "item_group",
@@ -1835,6 +1841,7 @@
     "type" : "item_group",
     "id" : "mischw",
     "items":[
+      ["jumper_cable", 4],
       ["2x4", 60],
       ["machete", 5],
       ["boots_steel", 50],
@@ -2390,7 +2397,7 @@
       ["bubblewrap", 50],
       ["cig_butt", 30],
       {"item": "lighter", "prob": 60, "charges-min": 0, "charges-max": 10 },
-      { "item": "matches", "prob": 60, "charges-min": 0, "charges-max": 20 },
+      {"item": "matches", "prob": 60, "charges-min": 0, "charges-max": 20 },
       ["syringe", 8],
       ["rag", 1],
       ["hairpin", 1],
@@ -4726,7 +4733,8 @@
       ["pistol_flintlock", 1],
       ["survnote", 5],
       ["radio_car_box", 1],
-      ["radiocontrol", 3]
+      ["radiocontrol", 3],
+      ["peephole", 1]
     ]
   },{
     "type" : "item_group",
@@ -4934,6 +4942,8 @@
     "type" : "item_group",
     "id" : "mechanics",
     "items":[
+      ["jumper_cable", 15],
+      ["jumper_cable_heavy", 5],
       ["wrench", 30],
       ["stereo", 25],
       ["frame", 20],
@@ -5260,6 +5270,7 @@
     "type" : "item_group",
     "id" : "electronics",
     "items":[
+      ["jumper_cable_heavy", 10],
       ["superglue", 30],
       ["electrohack", 3],
       ["processor", 15],
@@ -8727,6 +8738,40 @@
       ["bio_emp", 20],
       ["bio_chain_lightning", 15],
       ["bio_adrenaline", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "vault_wanderer",
+    "items" : [
+      ["jumpsuit", 90],
+      ["mask_filter", 10],
+      ["battery", 10],
+      {"item": "radio", "prob": 10, "charges-min": 10, "charges-max": 95 },
+      ["boots_combat", 20],
+      {"item": "bandages", "prob": 10, "charges-min": 1, "charges-max": 3 },
+      {"item": "cig", "prob": 30, "charges-min": 1, "charges-max": 20 },
+      ["knife_combat", 10],
+      ["vest", 15],
+      ["glasses_safety", 15],
+      ["9mm", 15],
+      ["m9", 10],
+      ["water_clean", 10],
+      {"item": "eyedrops", "prob": 10, "charges-min": 1, "charges-max": 10 },
+      {"item": "pda", "prob": 20, "charges-min": 10, "charges-max": 95 },
+      ["screwdriver", 10],
+      ["id_science", 5],
+      ["cleansuit", 10],
+      ["coat_lab", 20],
+      ["glasses_eye", 30],
+      {"item": "rad_monitor", "prob": 10, "charges-min": 2, "charges-max": 20 },
+      {"item": "geiger_off", "prob": 10, "charges-min": 10, "charges-max": 95 },
+      ["tool_belt", 15],
+      ["panties", 20],
+      ["boy_shorts", 20],
+      ["bra", 20],
+      ["undershirt", 40],
+      ["boxer_shorts", 30],
+      ["briefs", 30]
     ]
   }
 ]

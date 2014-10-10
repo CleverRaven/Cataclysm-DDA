@@ -736,6 +736,39 @@
         }
     },{
         "type" : "terrain",
+        "id" : "t_door_c_peep",
+        "name": "closed wood door with peephole",
+        "symbol": "+",
+        "color": "brown",
+        "move_cost": 0,
+        "flags": [
+            "FLAMMABLE_ASH", "DOOR", "NOITEM",
+            "SUPPORTS_ROOF", "BARRICADABLE_DOOR"
+        ],
+        "examine_action": "door_peephole",
+        "open": "t_door_o_peep",
+        "deconstruct": {
+            "ter_set": "t_door_frame",
+            "items": [
+                { "item": "peephole", "amount": 1 },
+                { "item": "2x4", "amount": 4 },
+                { "item": "nail", "amount": 12, "minamount": 6 }
+            ]
+        },
+        "bash": {
+            "str_min": 8, "str_max": 80, "str_min_blocked": 15, "str_max_blocked": 100,
+            "sound": "smash!",
+            "sound_fail": "whump!",
+            "ter_set": "t_door_b_peep",
+            "items": [
+                { "item": "peephole", "amount": 1, "chance": 75 },
+                { "item": "2x4", "amount": 1, "chance": 25 },
+                { "item": "splinter", "amount": 2, "minamount": 1 },
+                { "item": "nail", "amount": 2, "minamount": 0 }
+            ]
+        }
+    },{
+        "type" : "terrain",
         "id" : "t_door_b",
         "name": "damaged wood door",
         "symbol": "&",
@@ -751,6 +784,30 @@
             "sound_fail": "whump!",
             "ter_set": "t_door_frame",
             "items": [
+                { "item": "2x4", "amount": 2, "minamount": 1 },
+                { "item": "nail", "amount": 4, "minamount": 1 },
+                { "item": "splinter", "amount": 4, "minamount": 1 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_door_b_peep",
+        "name": "damaged wood door with peephole",
+        "//": "There's no need for a use-peephole, because the door is transparent",
+        "symbol": "&",
+        "color": "brown",
+        "move_cost": 0,
+        "flags": [
+            "TRANSPARENT", "FLAMMABLE_ASH", "NOITEM",
+            "SUPPORTS_ROOF", "REDUCE_SCENT", "BARRICADABLE_DOOR_DAMAGED"
+        ],
+        "bash": {
+            "str_min": 5, "str_max": 70, "str_min_blocked": 7, "str_max_blocked": 90,
+            "sound": "crash!",
+            "sound_fail": "whump!",
+            "ter_set": "t_door_frame",
+            "items": [
+				{ "item": "2x4", "amount": 1, "minamount": 0 },
                 { "item": "2x4", "amount": 2, "minamount": 1 },
                 { "item": "nail", "amount": 4, "minamount": 1 },
                 { "item": "splinter", "amount": 4, "minamount": 1 }
@@ -781,6 +838,38 @@
             "sound_fail": "whump!",
             "ter_set": "t_door_frame",
             "items": [
+                { "item": "2x4", "amount": 3, "minamount": 1 },
+                { "item": "nail", "amount": 6, "minamount": 1 },
+                { "item": "splinter", "amount": 6, "minamount": 2 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_door_o_peep",
+        "name": "open wood door with peephole",
+        "symbol": "'",
+        "color": "brown",
+        "move_cost": 2,
+        "flags": [
+            "FLAMMABLE_ASH", "TRANSPARENT", "SUPPORTS_ROOF",
+            "FLAT", "BARRICADABLE_DOOR"
+        ],
+        "deconstruct": {
+            "ter_set": "t_door_frame",
+            "items": [
+				{ "item": "peephole", "amount": 1 },
+                { "item": "2x4", "amount": 4 },
+                { "item": "nail", "amount": 12, "minamount": 6 }
+            ]
+        },
+        "close": "t_door_c_peep",
+        "bash": {
+            "str_min": 5, "str_max": 80, "str_min_blocked": 7, "str_max_blocked": 100,
+            "sound": "crash!",
+            "sound_fail": "whump!",
+            "ter_set": "t_door_frame",
+            "items": [
+				{ "item": "peephole", "amount": 1, "minamount": 0 },
                 { "item": "2x4", "amount": 3, "minamount": 1 },
                 { "item": "nail", "amount": 6, "minamount": 1 },
                 { "item": "splinter", "amount": 6, "minamount": 2 }
@@ -898,6 +987,7 @@
             "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF",
             "OPENCLOSE_INSIDE", "REDUCE_SCENT"
         ],
+        "examine_action": "door_peephole",
         "open": "t_door_o",
         "bash": {
             "str_min": 8, "str_max": 80, "str_min_blocked": 15, "str_max_blocked": 100,
@@ -905,6 +995,31 @@
             "sound_fail": "whump!",
             "ter_set": "t_door_b",
             "items": [
+                { "item": "2x4", "amount": 1, "chance": 25 },
+                { "item": "splinter", "amount": 2, "minamount": 1 },
+                { "item": "nail", "amount": 2, "minamount": 0 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_door_locked_peep",
+        "name": "closed wood door",
+        "symbol": "+",
+        "color": "brown",
+        "move_cost": 0,
+        "flags": [
+            "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF",
+            "OPENCLOSE_INSIDE", "REDUCE_SCENT"
+        ],
+        "open": "t_door_o_peep",
+        "examine_action": "door_peephole",
+        "bash": {
+            "str_min": 8, "str_max": 80, "str_min_blocked": 15, "str_max_blocked": 100,
+            "sound": "smash!",
+            "sound_fail": "whump!",
+            "ter_set": "t_door_b_peep",
+            "items": [
+				{ "item": "peephole", "amount": 1, "chance": 75 },
                 { "item": "2x4", "amount": 1, "chance": 25 },
                 { "item": "splinter", "amount": 2, "minamount": 1 },
                 { "item": "nail", "amount": 2, "minamount": 0 }
@@ -1106,6 +1221,26 @@
         }
     },{
         "type" : "terrain",
+        "id" : "t_door_boarded_peep",
+        "name": "boarded up door with peephole",
+        "symbol": "#",
+        "color": "brown",
+        "move_cost": 0,
+        "examine_action": "door_peephole",
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "bash": {
+            "str_min": 15, "str_max": 80, "str_min_blocked": 17, "str_max_blocked": 100,
+            "sound": "crash!",
+            "sound_fail": "wham!",
+            "ter_set": "t_door_b_peep",
+            "items": [
+                { "item": "2x4", "amount": 3, "minamount": 1 },
+                { "item": "nail", "amount": 10, "minamount": 2 },
+                { "item": "splinter", "amount": 2, "minamount": 1 }
+            ]
+        }
+    },{
+        "type" : "terrain",
         "id" : "t_rdoor_boarded",
         "name": "boarded up reinforced door",
         "symbol": "#",
@@ -1139,6 +1274,27 @@
             "items": [
                 { "item": "2x4", "amount": 16, "minamount": 2},
                 { "item": "nail", "amount": 54, "minamount": 6},
+                { "item": "splinter", "amount": 1 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_door_boarded_damaged_peep",
+        "name": "boarded up damaged door with peephole",
+        "symbol": "#",
+        "color": "brown",
+        "move_cost": 0,
+        "examine_action": "door_peephole",
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "bash": {
+            "str_min": 10, "str_max": 40, "str_min_blocked": 9, "str_max_blocked": 50,
+            "sound": "crash!",
+            "sound_fail": "wham!",
+            "ter_set": "t_door_frame",
+            "items": [
+                { "item": "peephole", "amount": 1, "chance": 75 },
+                { "item": "2x4", "amount": 8, "minamount": 1},
+                { "item": "nail", "amount": 20, "minamount": 2},
                 { "item": "splinter", "amount": 1 }
             ]
         }
@@ -1808,7 +1964,30 @@
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
         "harvest_season": "AUTUMN",
         "harvestable": "apple",
-        "examine_action": "harvest_tree",
+        "examine_action": "harvest_tree_shrub",
+        "transforms_into": "t_tree_apple_harvested",
+        "bash": {
+            "str_min": 80, "str_max": 180,
+            "sound": "crunch!",
+            "sound_fail": "whack!",
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "stick", "amount": 10, "minamount": 3 },
+                { "item": "splinter", "amount": 25, "minamount": 10 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_tree_apple_harvested",
+        "name": "apple tree",
+        "symbol": "7",
+        "color": "green",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED"],
+        "harvest_season": "AUTUMN",
+        "harvestable": "apple",
+        "examine_action": "harvest_tree_shrub",
+        "transforms_into": "t_tree_apple",
         "bash": {
             "str_min": 80, "str_max": 180,
             "sound": "crunch!",
@@ -1829,7 +2008,30 @@
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
         "harvest_season": "AUTUMN",
         "harvestable": "pear",
-        "examine_action": "harvest_tree",
+        "examine_action": "harvest_tree_shrub",
+        "transforms_into": "t_tree_pear_harvested",
+        "bash": {
+            "str_min": 80, "str_max": 180,
+            "sound": "crunch!",
+            "sound_fail": "whack!",
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "stick", "amount": 10, "minamount": 3 },
+                { "item": "splinter", "amount": 25, "minamount": 10 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_tree_pear_harvested",
+        "name": "pear tree",
+        "symbol": "7",
+        "color": "green",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED"],
+        "harvest_season": "AUTUMN",
+        "harvestable": "pear",
+        "examine_action": "harvest_tree_shrub",
+        "transforms_into": "t_tree_pear",
         "bash": {
             "str_min": 80, "str_max": 180,
             "sound": "crunch!",
@@ -1850,7 +2052,30 @@
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
         "harvest_season": "SUMMER",
         "harvestable": "cherries",
-        "examine_action": "harvest_tree",
+        "examine_action": "harvest_tree_shrub",
+        "transforms_into": "t_tree_cherry_harvested",
+        "bash": {
+            "str_min": 80, "str_max": 180,
+            "sound": "crunch!",
+            "sound_fail": "whack!",
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "stick", "amount": 10, "minamount": 3 },
+                { "item": "splinter", "amount": 25, "minamount": 10 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_tree_cherry_harvested",
+        "name": "cherry tree",
+        "symbol": "7",
+        "color": "green",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED"],
+        "harvest_season": "SUMMER",
+        "harvestable": "cherries",
+        "examine_action": "harvest_tree_shrub",
+        "transforms_into": "t_tree_cherry",
         "bash": {
             "str_min": 80, "str_max": 180,
             "sound": "crunch!",
@@ -1871,7 +2096,30 @@
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
         "harvest_season": "SUMMER",
         "harvestable": "peach",
-        "examine_action": "harvest_tree",
+        "examine_action": "harvest_tree_shrub",
+        "transforms_into": "t_tree_peach_harvested",
+        "bash": {
+            "str_min": 80, "str_max": 180,
+            "sound": "crunch!",
+            "sound_fail": "whack!",
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "stick", "amount": 10, "minamount": 3 },
+                { "item": "splinter", "amount": 25, "minamount": 10 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_tree_peach_harvested",
+        "name": "peach tree",
+        "symbol": "7",
+        "color": "green",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED"],
+        "harvest_season": "SUMMER",
+        "harvestable": "peach",
+        "examine_action": "harvest_tree_shrub",
+        "transforms_into": "t_tree_peach",
         "bash": {
             "str_min": 80, "str_max": 180,
             "sound": "crunch!",
@@ -1892,7 +2140,30 @@
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
         "harvest_season": "SUMMER",
         "harvestable": "apricot",
-        "examine_action": "harvest_tree",
+        "transforms_into": "t_tree_apricot_harvested",
+        "examine_action": "harvest_tree_shrub",
+        "bash": {
+            "str_min": 80, "str_max": 180,
+            "sound": "crunch!",
+            "sound_fail": "whack!",
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "stick", "amount": 10, "minamount": 3 },
+                { "item": "splinter", "amount": 25, "minamount": 10 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_tree_apricot_harvested",
+        "name": "apricot tree",
+        "symbol": "7",
+        "color": "green",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED"],
+        "harvest_season": "SUMMER",
+        "harvestable": "apricot",
+        "examine_action": "harvest_tree_shrub",
+        "transforms_into": "t_tree_apricot",
         "bash": {
             "str_min": 80, "str_max": 180,
             "sound": "crunch!",
@@ -1913,7 +2184,30 @@
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
         "harvest_season": "SUMMER",
         "harvestable": "plums",
-        "examine_action": "harvest_tree",
+        "examine_action": "harvest_tree_shrub",
+        "transforms_into": "t_tree_plum_harvested",
+        "bash": {
+            "str_min": 80, "str_max": 180,
+            "sound": "crunch!",
+            "sound_fail": "whack!",
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "stick", "amount": 10, "minamount": 3 },
+                { "item": "splinter", "amount": 25, "minamount": 10 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_tree_plum_harvested",
+        "name": "plum tree",
+        "symbol": "7",
+        "color": "green",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED"],
+        "harvest_season": "SUMMER",
+        "harvestable": "plums",
+        "examine_action": "harvest_tree_shrub",
+        "transforms_into": "t_tree_plum",
         "bash": {
             "str_min": 80, "str_max": 180,
             "sound": "crunch!",
@@ -2003,10 +2297,29 @@
         "symbol": "#",
         "color": "ltgreen",
         "move_cost": 8,
-        "flags": [
-            "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT"
-        ],
-        "examine_action": "shrub_blueberry",
+        "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT"],
+        "harvest_season": "SUMMER",
+        "harvestable": "blueberries",
+        "transforms_into": "t_shrub_blueberry_harvested",
+        "examine_action": "harvest_tree_shrub",
+        "bash": {
+            "str_min": 4, "str_max": 60,
+            "sound": "crunch.",
+            "sound_fail": "brush.",
+            "ter_set": "t_underbrush"
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_shrub_blueberry_harvested",
+        "name": "blueberry bush",
+        "symbol": "#",
+        "color": "green",
+        "move_cost": 8,
+        "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED"],
+        "harvest_season": "SUMMER",
+        "harvestable": "blueberries",
+        "transforms_into": "t_shrub_blueberry",
+        "examine_action": "harvest_tree_shrub",
         "bash": {
             "str_min": 4, "str_max": 60,
             "sound": "crunch.",
@@ -2020,10 +2333,29 @@
         "symbol": "#",
         "color": "ltgreen",
         "move_cost": 8,
-        "flags": [
-            "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT"
-        ],
-        "examine_action": "shrub_strawberry",
+        "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT"],
+        "harvest_season": "SUMMER",
+        "harvestable": "strawberries",
+        "transforms_into": "t_shrub_strawberry_harvested",
+        "examine_action": "harvest_tree_shrub",
+        "bash": {
+            "str_min": 4, "str_max": 60,
+            "sound": "crunch.",
+            "sound_fail": "brush.",
+            "ter_set": "t_underbrush"
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_shrub_strawberry_harvested",
+        "name": "strawberry bush",
+        "symbol": "#",
+        "color": "green",
+        "move_cost": 8,
+        "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED"],
+        "harvest_season": "SUMMER",
+        "harvestable": "strawberries",
+        "transforms_into": "t_shrub_strawberry",
+        "examine_action": "harvest_tree_shrub",
         "bash": {
             "str_min": 4, "str_max": 60,
             "sound": "crunch.",

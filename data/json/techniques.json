@@ -6,7 +6,7 @@
         "dummy" : true,
         "messages" : [
             "You parry %s",
-            "<npcname> block %s"
+            "<npcname> parries %s"
         ]
     },{
         "type" : "technique",
@@ -15,7 +15,7 @@
         "dummy" : true,
         "messages" : [
             "You block %s",
-            "<npcname> block %s"
+            "<npcname> blocks %s"
         ]
     },{
         "type" : "technique",
@@ -24,7 +24,7 @@
         "dummy" : true,
         "messages" : [
             "You shield against %s",
-            "<npcname> block %s"
+            "<npcname> shields against %s"
         ]
     },{
         "type" : "technique",
