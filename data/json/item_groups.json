@@ -88,6 +88,7 @@
     "type" : "item_group",
     "id" : "road",
     "items":[
+      ["jumper_cable", 5],
       ["muffler", 30],
       ["pipe", 20],
       ["motor", 2],
@@ -670,6 +671,7 @@
     "type" : "item_group",
     "id" : "home_hw",
     "items":[
+      ["jumper_cable", 3],
       ["superglue", 30],
       ["string_6", 2],
       ["string_36", 40],
@@ -1718,6 +1720,8 @@
     "type" : "item_group",
     "id" : "hardware",
     "items":[
+      ["jumper_cable", 10],
+      ["jumper_cable_heavy", 2],
       ["superglue", 30],
       ["chain", 20],
       ["rope_6", 4],
@@ -1837,6 +1841,7 @@
     "type" : "item_group",
     "id" : "mischw",
     "items":[
+      ["jumper_cable", 4],
       ["2x4", 60],
       ["machete", 5],
       ["boots_steel", 50],
@@ -4937,6 +4942,8 @@
     "type" : "item_group",
     "id" : "mechanics",
     "items":[
+      ["jumper_cable", 15],
+      ["jumper_cable_heavy", 5],
       ["wrench", 30],
       ["stereo", 25],
       ["frame", 20],
@@ -5263,6 +5270,7 @@
     "type" : "item_group",
     "id" : "electronics",
     "items":[
+      ["jumper_cable_heavy", 10],
       ["superglue", 30],
       ["electrohack", 3],
       ["processor", 15],

@@ -384,6 +384,7 @@ class game
         std::map<int, weather_segment> weather_log;
         overmap *cur_om;
         map m;
+
         int levx, levy, levz; // Placement inside the overmap
         /** Absolute values of lev[xyz] (includes the offset of cur_om) */
         int get_abs_levx() const;

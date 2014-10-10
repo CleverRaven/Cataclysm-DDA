@@ -335,9 +335,15 @@ protected:
     bool process_artifact(player *carrier, point pos);
     bool process_wet(player *carrier, point pos);
     bool process_litcig(player *carrier, point pos);
+    bool process_cable(player *carrier, point pos);
     bool process_tool(player *carrier, point pos);
     bool process_charger_gun(player *carrier, point pos);
 public:
+    /**
+     * Helper to bring a cable back to its initial state.
+     */
+    void reset_cable(player* carrier);
+
     /**
      * Whether the item should be processed (by calling @ref process) each turn.
      * This is only a hint, used by the map to avoid coping the item when it

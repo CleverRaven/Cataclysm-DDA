@@ -3848,5 +3848,67 @@
             {"item": "steel_chunk", "min": 2, "max": 4},
             {"item": "scrap", "min": 2, "max": 4}
         ]
+    },
+
+    {
+        "type" : "vehicle_part",
+        "id" : "jumper_cable",
+        "name" : "jumper cable",
+        "symbol" : "{",
+        "color" : "yellow",
+        "broken_symbol" : "*",
+        "broken_color" : "dark_gray",
+        "damage_modifier" : 10,
+        "epower" : 1,
+        "//" : "Epower for POWER_TRANSFER stuff is how much percentage-wise loss there is in transmission",
+        "durability" : 120,
+        "item" : "jumper_cable",
+        "difficulty" : 1,
+        "flags" : ["NOINSTALL", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER"],
+        "breaks_into" : [
+            {"item": "cable", "min": 1, "max": 10},
+            {"item": "plastic_chunk", "min": 1, "max": 2}
+        ]
+    },
+
+    {
+        "type" : "vehicle_part",
+        "id" : "jumper_cable_heavy",
+        "name" : "heavy-duty cable",
+        "symbol" : "{",
+        "color" : "yellow",
+        "broken_symbol" : "*",
+        "broken_color" : "dark_gray",
+        "damage_modifier" : 10,
+        "durability" : 120,
+        "epower" : 5,
+        "//" : "Epower for POWER_TRANSFER stuff is how much percentage-wise loss there is in transmission",
+        "item" : "jumper_cable_heavy",
+        "difficulty" : 1,
+        "flags" : ["NOINSTALL", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER"],
+        "breaks_into" : [
+            {"item": "wire", "min": 4, "max": 8},
+            {"item": "plastic_chunk", "min": 4, "max": 8}
+        ]
+    },
+
+    {
+        "type" : "vehicle_part",
+        "id" : "jumper_cable_debug",
+        "name" : "Shiny Cable",
+        "symbol" : "{",
+        "color" : "yellow",
+        "broken_symbol" : "*",
+        "broken_color" : "dark_gray",
+        "epower" : 0,
+        "//" : "Epower for POWER_TRANSFER stuff is how much percentage-wise loss there is in transmission",
+        "damage_modifier" : 10,
+        "durability" : 120,
+        "item" : "jumper_cable_debug",
+        "difficulty" : 1,
+        "flags" : ["NOINSTALL", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER"],
+        "breaks_into" : [
+            {"item": "jumper_cable_debug", "min": 1, "max": 1}
+        ]
     }
 ]

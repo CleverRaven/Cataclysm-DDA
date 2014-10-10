@@ -10380,3 +10380,93 @@ int iuse::multicooker(player *p, item *it, bool t)
 
     return 0;
 }
+
+int iuse::cable_attach(player *p, item *it, bool)
+{
+    if(it->item_vars.count("state") < 1) {
+        it->item_vars["state"] = "attach_first";
+    }
+
+    std::string initial_state = it->item_vars["state"];
+
+    if(initial_state == "attach_first") {
+        int posx, posy;
+        if(!choose_adjacent(_("Attach cable to vehicle where?"),posx,posy)) {
+            return 0;
+        }
+        auto veh = g->m.veh_at(posx, posy);
+        if (veh == nullptr) {
+            p->add_msg_if_player(_("There's no vehicle there."));
+            return 0;
+        } else {
+            point abspos = g->m.getabs(posx, posy);
+            it->active = true;
+            it->item_vars["state"] = "pay_out_cable";
+            it->item_vars["source_x"] = string_format("%d", abspos.x);
+            it->item_vars["source_y"] = string_format("%d", abspos.y);
+            it->item_vars["source_z"] = string_format("%d", g->levz);
+            it->process(p, point(p->xpos(), p->ypos()));
+        }
+        p->moves -= 15;
+    }
+    else if(initial_state == "pay_out_cable") {
+        int choice = -1;
+        uimenu kmenu;
+        kmenu.selected = 0;
+        kmenu.text = _("Using cable:");
+        kmenu.addentry(0, true, -1, _("Attach loose end of the cable"));
+        kmenu.addentry(1, true, -1, _("Detach and re-spool the cable"));
+        kmenu.addentry(-1, true, 'q', _("Cancel"));
+        kmenu.query();
+        choice = kmenu.ret;
+
+        if(choice == -1) {
+            return 0; // we did nothing.
+        } else if(choice == 1) {
+            it->reset_cable(p);
+            return 0;
+        }
+
+        int posx, posy;
+        if(!choose_adjacent(_("Attach cable to vehicle where?"),posx,posy)) {
+            return 0;
+        }
+        auto target_veh = g->m.veh_at(posx, posy);
+        if (target_veh == nullptr) {
+            p->add_msg_if_player(_("There's no vehicle there."));
+            return 0;
+        } else {
+            point source_global(atoi(it->item_vars["source_x"].c_str()),
+                                atoi(it->item_vars["source_y"].c_str()));
+            point source_local = g->m.getlocal(source_global);
+            auto source_veh = g->m.veh_at(source_local.x, source_local.y);
+
+            point target_global = g->m.getabs(posx, posy);
+            point target_local(posx, posy);
+
+            if(source_veh == nullptr) {
+                if( p != nullptr && p->has_item(it) ) {
+                    p->add_msg_if_player(m_bad, _("You notice the cable has come loose!"));
+                }
+                it->reset_cable(p);
+                return 0;
+            }
+
+            point vcoords = g->m.veh_part_coordinates(source_local.x, source_local.y);
+            vehicle_part source_part(it->typeId(), vcoords.x, vcoords.y, it);
+            source_part.target.first = target_global;
+            source_part.target.second = target_veh->real_global_pos();
+            source_veh->install_part(vcoords.x, vcoords.y, source_part);
+
+            vcoords = g->m.veh_part_coordinates(target_local.x, target_local.y);
+            vehicle_part target_part(it->typeId(), vcoords.x, vcoords.y, it);
+            target_part.target.first = source_global;
+            target_part.target.second = source_veh->real_global_pos();
+            target_veh->install_part(vcoords.x, vcoords.y, target_part);
+
+            return 1; // Let the cable be destroyed.
+        }
+    }
+
+    return 0;
+}

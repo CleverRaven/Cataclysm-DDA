@@ -85,20 +85,34 @@ VehicleList map::get_vehicles(const int sx, const int sy, const int ex, const in
 
 vehicle* map::veh_at(const int x, const int y, int &part_num)
 {
- // This function is called A LOT. Move as much out of here as possible.
- if (!veh_in_active_range || !inbounds(x, y))
-  return NULL;    // Out-of-bounds - null vehicle
- if(!veh_exists_at[x][y])
-  return NULL;    // cache cache indicates no vehicle. This should optimize a great deal.
- std::pair<int,int> point(x,y);
- std::map< std::pair<int,int>, std::pair<vehicle*,int> >::iterator it;
- if ((it = veh_cached_parts.find(point)) != veh_cached_parts.end())
- {
-  part_num = it->second.second;
-  return it->second.first;
- }
- debugmsg ("vehicle part cache cache indicated vehicle not found: %d %d",x,y);
- return NULL;
+    // This function is called A LOT. Move as much out of here as possible.
+    if (!veh_in_active_range || !inbounds(x, y)) {
+        return NULL;    // Out-of-bounds - null vehicle
+    }
+    if(!veh_exists_at[x][y]) {
+        return NULL;    // cache cache indicates no vehicle. This should optimize a great deal.
+    }
+    std::pair<int,int> point(x,y);
+    std::map< std::pair<int,int>, std::pair<vehicle*,int> >::iterator it;
+    if ((it = veh_cached_parts.find(point)) != veh_cached_parts.end()) {
+        part_num = it->second.second;
+        return it->second.first;
+    }
+    debugmsg ("vehicle part cache cache indicated vehicle not found: %d %d",x,y);
+    return NULL;
+}
+
+point map::veh_part_coordinates(const int x, const int y)
+{
+    int part_num;
+    vehicle* veh = veh_at(x, y, part_num);
+
+    if(veh == nullptr) {
+        return point(0,0);
+    }
+
+    auto part = veh->parts[part_num];
+    return point(part.mount_dx, part.mount_dy);
 }
 
 vehicle* map::veh_at(const int x, const int y)
@@ -384,6 +398,8 @@ bool map::displace_vehicle (int &x, int &y, const int dx, const int dy, bool tes
             upd_y = psg->posy;
         }
     }
+
+    veh->shed_loose_parts();
     for (auto &p : veh->parts) {
         p.precalc_dx[0] = p.precalc_dx[1];
         p.precalc_dy[0] = p.precalc_dy[1];
@@ -438,8 +454,7 @@ void map::vehmove()
         for( size_t v = 0; v < vehs.size(); ++v ) {
             vehicle* veh = vehs[v].v;
             veh->gain_moves();
-            veh->power_parts();
-            veh->idle();
+            veh->slow_leak();
         }
     }
 
@@ -2976,7 +2991,8 @@ bool map::add_item_or_charges(const int x, const int y, item new_item, int overf
 
         return false;
     }
-    if( (new_item.made_of(LIQUID) && has_flag("SWIMMABLE", x, y)) || has_flag("DESTROY_ITEM", x, y) ) {
+    if( (new_item.made_of(LIQUID) && has_flag("SWIMMABLE", x, y)) ||
+            has_flag("DESTROY_ITEM", x, y) || new_item.has_flag("NO_DROP") ) {
         // Silently fail on mundane things that prevent item spawn.
         return false;
     }

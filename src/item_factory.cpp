@@ -353,8 +353,11 @@ void Item_factory::init()
     iuse_function_list["EINKTABLETPC"] = &iuse::einktabletpc;
     iuse_function_list["CAMERA"] = &iuse::camera;
     iuse_function_list["EHANDCUFFS"] = &iuse::ehandcuffs;
+    iuse_function_list["CABLE_ATTACH"]  = &iuse::cable_attach;
+
     // MACGUFFINS
     iuse_function_list["MCG_NOTE"] = &iuse::mcg_note;
+
     // ARTIFACTS
     // This function is used when an artifact is activated
     // It examines the item's artifact-specific properties

@@ -1226,9 +1226,13 @@ void vehicle_part::deserialize(JsonIn &jsin)
     data.read("amount", amount );
     data.read("blood", blood );
     data.read("bigness", bigness );
-    data.read( "flags", flags );
-    data.read( "passenger_id", passenger_id );
+    data.read("flags", flags );
+    data.read("passenger_id", passenger_id );
     data.read("items", items);
+    data.read("target_first_x", target.first.x);
+    data.read("target_first_y", target.first.y);
+    data.read("target_second_x", target.second.x);
+    data.read("target_second_y", target.second.y);
 }
 
 void vehicle_part::serialize(JsonOut &json) const
@@ -1244,6 +1248,10 @@ void vehicle_part::serialize(JsonOut &json) const
     json.member("flags", flags);
     json.member("passenger_id", passenger_id);
     json.member("items", items);
+    json.member("target_first_x", target.first.x);
+    json.member("target_first_y", target.first.y);
+    json.member("target_second_x", target.second.x);
+    json.member("target_second_y", target.second.y);
     json.end_object();
 }
 

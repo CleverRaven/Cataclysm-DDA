@@ -33,6 +33,7 @@
 #include "file_wrapper.h"
 #include "mod_manager.h"
 #include "path_info.h"
+#include "mapbuffer.h"
 #include "mapsharing.h"
 #include "messages.h"
 #include "pickup.h"
@@ -1442,7 +1443,23 @@ bool game::do_turn()
         }
     }
     update_scent();
+
     m.vehmove();
+    // Process power and fuel consumption for all vehicles, including off-map ones.
+    // m.vehmove used to do this, but now it only give them moves instead.
+    for(auto it = MAPBUFFER.begin(); it != MAPBUFFER.end(); ++it) {
+        tripoint sm_loc = it->first;
+        point sm_topleft = overmapbuffer::sm_to_ms_copy(sm_loc.x, sm_loc.y);
+
+        submap* sm = it->second;
+
+        for(size_t i = 0; i < sm->vehicles.size(); i++) {
+            auto veh = sm->vehicles[i];
+
+            veh->power_parts();
+            veh->idle(m.inbounds(sm_topleft.x, sm_topleft.y));
+        }
+    }
     m.process_fields();
     m.process_active_items();
     m.step_in_field(u.posx, u.posy);
@@ -4485,6 +4502,7 @@ void game::debug()
             }
             m.clear_vehicle_cache();
             m.vehicle_list.clear();
+
             const int nlevx = tmp.x * 2 - int(MAPSIZE / 2);
             const int nlevy = tmp.y * 2 - int(MAPSIZE / 2);
             cur_om = &overmap_buffer.get_om_global(tmp.x, tmp.y);

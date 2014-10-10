@@ -3765,6 +3765,56 @@ bool item::process_litcig( player *carrier, point pos )
     return false;
 }
 
+bool item::process_cable( player *p, point pos )
+{
+    if( item_vars["state"] != "pay_out_cable" ) {
+        return false;
+    }
+
+    int source_x = atoi(item_vars["source_x"].c_str());
+    int source_y = atoi(item_vars["source_y"].c_str());
+    int source_z = atoi(item_vars["source_z"].c_str());
+
+    point relpos= g->m.getlocal(source_x, source_y);
+    auto veh = g->m.veh_at(relpos.x, relpos.y);
+    if( veh == nullptr || source_z != g->levz ) {
+        if( p != nullptr && p->has_item(this) ) {
+            p->add_msg_if_player(m_bad, _("You notice the cable has come loose!"));
+        }
+        reset_cable(p);
+        return false;
+    }
+
+    point abspos = g->m.getabs(pos.x, pos.y);
+
+    int distance = rl_dist(abspos.x, abspos.y, source_x, source_y);
+    int max_charges = type->maximum_charges();
+    charges = max_charges - distance;
+
+    if( charges < 1 ) {
+        if( p != nullptr && p->has_item(this) ) {
+            p->add_msg_if_player(m_bad, _("The over-extended cable breaks loose!"));
+        }
+        reset_cable(p);
+    }
+
+    return false;
+}
+
+void item::reset_cable( player* p )
+{
+    int max_charges = type->maximum_charges();
+
+    item_vars["state"] = "attach_first";
+    active = false;
+    charges = max_charges;
+
+    if ( p != nullptr ) {
+        p->add_msg_if_player(m_info, _("You reel in the cable."));
+        p->moves -= charges * 10;
+    }
+}
+
 bool item::process_wet( player * /*carrier*/, point /*pos*/ )
 {
     item_counter--;
@@ -3920,6 +3970,10 @@ bool item::process( player *carrier, point pos )
     }
     if( has_flag( "LITCIG" ) && process_litcig( carrier, pos ) ) {
         return true;
+    }
+    if( has_flag( "CABLE_SPOOL" ) ) {
+        // DO NOT process this as a tool! It really isn't!
+        return process_cable(carrier, pos);
     }
     if( is_tool() && process_tool( carrier, pos ) ) {
         return true;
