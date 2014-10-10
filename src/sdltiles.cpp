@@ -388,7 +388,8 @@ void WinDestroy()
 };
 
 inline void FillRectDIB(SDL_Rect &rect, unsigned char color) {
-    if( SDL_SetRenderDrawColor( renderer, windowsPalette[color].r, windowsPalette[color].g, windowsPalette[color].b, 255 ) != 0 ) {
+    if( SDL_SetRenderDrawColor( renderer, windowsPalette[color].r, windowsPalette[color].g,
+                                windowsPalette[color].b, 255 ) != 0 ) {
         dbg(D_ERROR) << "SDL_SetRenderDrawColor failed: " << SDL_GetError();
     }
     if( SDL_RenderFillRect( renderer, &rect ) != 0 ) {
@@ -449,7 +450,8 @@ SDL_Texture *CachedTTFFont::create_glyph(const std::string &ch, int color)
     const int wf = utf8_wrapper( ch ).display_width();
     // Note: bits per pixel must be 8 to be synchron with the surface
     // that TTF_RenderGlyph above returns. This is important for SDL_BlitScaled
-    SDL_Surface *surface = SDL_CreateRGBSurface(0, fontwidth * wf, fontheight, 32, rmask, gmask, bmask, amask);
+    SDL_Surface *surface = SDL_CreateRGBSurface(0, fontwidth * wf, fontheight, 32,
+                                                rmask, gmask, bmask, amask);
     if (surface == NULL) {
         dbg( D_ERROR ) << "CreateRGBSurface failed: " << SDL_GetError();
         SDL_Texture *glyph = SDL_CreateTextureFromSurface(renderer, sglyph);
@@ -624,9 +626,11 @@ void invalidate_framebuffer(int x, int y, int width, int height)
 void reinitialize_framebuffer()
 {
     //Re-initialize the framebuffer with new values.
-    framebuffer.resize(std::max(TERMY, std::max(OVERMAP_WINDOW_HEIGHT, TERRAIN_WINDOW_HEIGHT)));
-    for (int i = 0; i < std::max(TERMY, std::max(OVERMAP_WINDOW_HEIGHT, TERRAIN_WINDOW_HEIGHT)); i++) {
-        framebuffer[i].chars.assign(std::max(TERMX, std::max(OVERMAP_WINDOW_WIDTH, TERRAIN_WINDOW_WIDTH)), cursecell(""));
+    const int new_height = std::max(TERMY, std::max(OVERMAP_WINDOW_HEIGHT, TERRAIN_WINDOW_HEIGHT));
+    const int new_width = std::max(TERMX, std::max(OVERMAP_WINDOW_WIDTH, TERRAIN_WINDOW_WIDTH));
+    framebuffer.resize( new_height );
+    for( int i = 0; i < new_height; i++ ) {
+        framebuffer[i].chars.assign( new_width, cursecell("") );
     }
 }
 
@@ -653,10 +657,12 @@ void curses_drawwindow(WINDOW *win)
         // When the terrain updates, predraw a black space around its edge
         // to keep various former interface elements from showing through the gaps
         // TODO: Maybe track down screen changes and use g->w_blackspace to draw this instead
-        FillRectDIB(win->x * fontwidth, (win->y + TERRAIN_WINDOW_TERM_HEIGHT - 1) * fontheight, TERRAIN_WINDOW_TERM_WIDTH * fontwidth,
-                     fontheight, COLOR_BLACK); //Gap between terrain and lower window edge
-        FillRectDIB((win->x + TERRAIN_WINDOW_TERM_WIDTH - 1) * fontwidth, win->y * fontheight, fontwidth,
-                     TERRAIN_WINDOW_TERM_HEIGHT * fontheight, COLOR_BLACK); //Gap between terrain and sidebar
+        //Gap between terrain and lower window edge
+        FillRectDIB(win->x * fontwidth, (win->y + TERRAIN_WINDOW_TERM_HEIGHT - 1) * fontheight,
+                    TERRAIN_WINDOW_TERM_WIDTH * fontwidth, fontheight, COLOR_BLACK);
+        //Gap between terrain and sidebar
+        FillRectDIB((win->x + TERRAIN_WINDOW_TERM_WIDTH - 1) * fontwidth, win->y * fontheight,
+                    fontwidth, TERRAIN_WINDOW_TERM_HEIGHT * fontheight, COLOR_BLACK);
         // Special font for the terrain window
         update = map_font->draw_window(win);
     } else if (g && win == g->w_overmap && overmap_font != NULL) {
@@ -746,10 +752,11 @@ bool Font::draw_window( WINDOW *win, int offsetx, int offsety )
 
             Everything else works on strict equality because there aren't yet IDs for some of them.
             */
-            if ( win == g->w_terrain || win == g->w_minimap || win == g->w_HP || win == g->w_status || win == g->w_status2 || win == g->w_messages ||
-               win == g->w_location ) {
-                if ( winBuffer == g->w_terrain || winBuffer == g->w_minimap || winBuffer == g->w_HP || winBuffer == g->w_status ||
-               winBuffer == g->w_status2 || winBuffer == g->w_messages || winBuffer == g->w_location ) {
+            if ( win == g->w_terrain || win == g->w_minimap || win == g->w_HP || win == g->w_status ||
+                 win == g->w_status2 || win == g->w_messages || win == g->w_location ) {
+                if ( winBuffer == g->w_terrain || winBuffer == g->w_minimap ||
+                     winBuffer == g->w_HP || winBuffer == g->w_status || winBuffer == g->w_status2 ||
+                     winBuffer == g->w_messages || winBuffer == g->w_location ) {
                     oldWinCompatible = true;
                 }
             }else if ( win == g->w_overmap || win == g->w_omlegend ){
@@ -1342,7 +1349,8 @@ WINDOW *curses_init(void)
         overmap_fontwidth = config.get_int("overmap_fontwidth", fontwidth);
         overmap_fontheight = config.get_int("overmap_fontheight", fontheight);
         overmap_fontsize = config.get_int("overmap_fontsize", fontsize);
-        overmap_typeface = config.get_string("overmap_typeface", typeface);        jsonstream.close();
+        overmap_typeface = config.get_string("overmap_typeface", typeface);
+        jsonstream.close();
     } else { // User fontdata is missed. Try to load legacy fontdata.
         std::ifstream InStream(FILENAMES["legacy_fontdata"].c_str(), std::ifstream::binary);
         if(InStream.good()) {
@@ -1366,8 +1374,8 @@ WINDOW *curses_init(void)
             assure_dir_exist(FILENAMES["config_dir"]);
             std::ofstream OutStream(FILENAMES["fontdata"].c_str(), std::ofstream::binary);
             if(!OutStream.good()) {
-                dbg(D_ERROR) << "Can't save user fontdata file.\n"
-                << "Check permissions for: " << FILENAMES["fontdata"];
+                dbg(D_ERROR) << "Can't save user fontdata file.\n" <<
+                    "Check permissions for: " << FILENAMES["fontdata"];
                 return NULL;
             }
             JsonOut jOut(OutStream, true); // pretty-print
@@ -1389,9 +1397,8 @@ WINDOW *curses_init(void)
             OutStream << "\n";
             OutStream.close();
         } else {
-            dbg(D_ERROR) << "Can't load fontdata files.\n"
-            << "Check permissions for:\n" << FILENAMES["legacy_fontdata"] << "\n"
-            << FILENAMES["fontdata"];
+            dbg(D_ERROR) << "Can't load fontdata files.\n" << "Check permissions for:\n" <<
+                FILENAMES["legacy_fontdata"] << "\n" << FILENAMES["fontdata"];
             return NULL;
         }
     }
@@ -1433,7 +1440,8 @@ WINDOW *curses_init(void)
         return NULL;
     }
     map_font = Font::load_font(map_typeface, map_fontsize, map_fontwidth, map_fontheight);
-    overmap_font = Font::load_font(overmap_typeface, overmap_fontsize, overmap_fontwidth, overmap_fontheight);
+    overmap_font = Font::load_font( overmap_typeface, overmap_fontsize,
+                                    overmap_fontwidth, overmap_fontheight );
     mainwin = newwin(get_terminal_height(), get_terminal_width(),0,0);
     return mainwin;   //create the 'stdscr' window and return its ref
 }
@@ -1666,7 +1674,8 @@ bool input_context::get_coordinates(WINDOW* capture_win, int& x, int& y) {
     const int win_right = win_left + (capture_win->width * fw);
     const int win_bottom = win_top + (capture_win->height * fh);
     // Check if click is within bounds of the window we care about
-    if (coordinate_x < win_left || coordinate_x > win_right || coordinate_y < win_top || coordinate_y > win_bottom) {
+    if( coordinate_x < win_left || coordinate_x > win_right ||
+        coordinate_y < win_top || coordinate_y > win_bottom ) {
         return false;
     }
     const int selected_column = (coordinate_x - win_left) / fw;
@@ -1848,7 +1857,8 @@ void CachedTTFFont::load_font(std::string typeface, int fontsize)
         fontsize = fontheight - 1;
     }
     // SDL_ttf handles bitmap fonts size incorrectly
-    if (typeface.length() > 4 && strcasecmp(typeface.substr(typeface.length() - 4).c_str(), ".fon") == 0) {
+    if( typeface.length() > 4 &&
+        strcasecmp(typeface.substr(typeface.length() - 4).c_str(), ".fon") == 0 ) {
         faceIndex = test_face_size(typeface, fontsize, faceIndex);
     }
     font = TTF_OpenFontIndex(typeface.c_str(), fontsize, faceIndex);
