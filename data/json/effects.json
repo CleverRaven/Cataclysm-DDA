@@ -2,155 +2,155 @@
     {
         "type": "effect_type",
         "id": "hit_by_player",
-        "name": "Hit By Player",
-        "desc": "AI tag for when monsters are hit by player. This is a bug if you have it."
+        "name": ["Hit By Player"],
+        "desc": ["AI tag for when monsters are hit by player. This is a bug if you have it."]
     },
     {
         "type": "effect_type",
         "id": "docile",
-        "name": "Docile Monster",
-        "desc": "AI tag for when monsters are tamed. This is a bug if you have it."
+        "name": ["Docile Monster"],
+        "desc": ["AI tag for when monsters are tamed. This is a bug if you have it."]
     },
     {
         "type": "effect_type",
         "id": "controlled",
-        "name": "Controlled Monster",
-        "desc": "AI tag for when monsters are being controlled by another. This is a bug if you have it."
+        "name": ["Controlled Monster"],
+        "desc": ["AI tag for when monsters are being controlled by another. This is a bug if you have it."]
     },
     {
         "type": "effect_type",
         "id": "run",
-        "name": "Hit-and-run Running",
-        "desc": "AI tag for when hit-and-run monsters run away. This is a bug if you have it."
+        "name": ["Hit-and-run Running"],
+        "desc": ["AI tag for when hit-and-run monsters run away. This is a bug if you have it."]
     },
     {
         "type": "effect_type",
         "id": "bounced",
-        "name": "Bounced",
-        "desc": "A bouncing effect has bounced to you lately."
+        "name": ["Bounced"],
+        "desc": ["A bouncing effect has bounced to you lately."]
     },
     {
         "type": "effect_type",
         "id": "targeted",
-        "name": "Targeted By Turret",
-        "desc": "A turret is targeting you!",
+        "name": ["Targeted By Turret"],
+        "desc": ["A turret is targeting you!"],
         "rating": "bad"
     },
     {
         "type": "effect_type",
         "id": "downed",
-        "name": "Downed",
-        "desc": "You're knocked to the ground.  You have to get up before you can move.",
-        "apply_message":"You're knocked to the floor!",
+        "name": ["Downed"],
+        "desc": ["You're knocked to the ground.  You have to get up before you can move."],
+        "apply_message": "You're knocked to the floor!",
         "rating": "bad"
     },
     {
         "type": "effect_type",
         "id": "stunned",
-        "name": "Stunned",
-        "apply_message":"You're stunned!",
-        "desc": "Your movement is randomized.",
+        "name": ["Stunned"],
+        "apply_message": "You're stunned!",
+        "desc": ["Your movement is randomized."],
         "rating": "bad"
     },
     {
         "type": "effect_type",
         "id": "onfire",
-        "name": "On Fire",
-        "desc": "Loss of health - Entire Body\nYour clothing and other equipment may be consumed by the flames.",
-        "remove_memorial_log":"Put out the fire.",
-        "apply_message":"You're on fire!",
-        "apply_memorial_log":"Caught on fire.",
+        "name": ["On Fire"],
+        "desc": ["Loss of health - Entire Body\nYour clothing and other equipment may be consumed by the flames."],
+        "remove_memorial_log": "Put out the fire.",
+        "apply_message": "You're on fire!",
+        "apply_memorial_log": "Caught on fire.",
         "rating": "bad"
     },
     {
         "type": "effect_type",
         "id": "bouldering",
-        "name": "Unstable footing",
-        "desc": "Your footing is unstable.  It's more difficult to fight while standing here.",
-        "apply_message":"You balance on the rubble.",
+        "name": ["Unstable footing"],
+        "desc": ["Your footing is unstable.  It's more difficult to fight while standing here."],
+        "apply_message": "You balance on the rubble.",
         "rating": "bad"
     },
     {
         "type": "effect_type",
         "id": "blind",
-        "name": "Blind",
-        "desc": "Range of Sight: 0",
-        "apply_message":"You're blinded!",
+        "name": ["Blind"],
+        "desc": ["Range of Sight: 0"],
+        "apply_message": "You're blinded!",
         "rating": "bad"
     },
     {
         "type": "effect_type",
         "id": "deaf",
-        "name": "Deaf",
-        "desc": "Sounds will not be reported.  You cannot talk with NPCs.",
-        "apply_message":"You're deafened!",
+        "name": ["Deaf"],
+        "desc": ["Sounds will not be reported.  You cannot talk with NPCs."],
+        "apply_message": "You're deafened!",
         "rating": "bad"
     },
     {
         "type": "effect_type",
         "id": "stung",
-        "name": "Stung",
-        "desc": "Causes constant pain.",
+        "name": ["Stung"],
+        "desc": ["Causes constant pain."],
         "rating": "bad"
     },
     {
         "type": "effect_type",
         "id": "poison",
-        "name": "Poisoned",
-        "desc": "Perception - 1;   Dexterity - 1;   Strength - 2 IF not resistant\nOccasional pain and/or damage.",
+        "name": ["Poisoned"],
+        "desc": ["Perception - 1;   Dexterity - 1;   Strength - 2 IF not resistant\nOccasional pain and/or damage."],
         "rating": "bad"
     },
     {
         "type": "effect_type",
         "id": "poisoned",
-        "name": "Poisoned",
-        "desc": "Perception - 1;   Dexterity - 1;   Strength - 2 IF not resistant\nOccasional pain and/or damage.",
+        "name": ["Poisoned"],
+        "desc": ["Perception - 1;   Dexterity - 1;   Strength - 2 IF not resistant\nOccasional pain and/or damage."],
         "rating": "bad"
     },
     {
         "type": "effect_type",
         "id": "nasty_poisoned",
-        "name": "Poisoned",
-        "desc": "Perception - 1;   Dexterity - 1;   Strength - 2 IF not resistant\nOccasional pain and/or damage.",
+        "name": ["Poisoned"],
+        "desc": ["Perception - 1;   Dexterity - 1;   Strength - 2 IF not resistant\nOccasional pain and/or damage."],
         "rating": "bad"
     },
     {
         "type": "effect_type",
         "id": "beartrap",
-        "name": "Stuck in beartrap",
-        "desc": "You can't move!",
+        "name": ["Stuck in beartrap"],
+        "desc": ["You can't move!"],
         "rating": "bad"
     },
     {
         "type": "effect_type",
         "id": "glare",
-        "name": "Glare",
-        "desc": "Perception - 1",
-        "apply_message":"The sunlight's glare makes it hard to see.",
+        "name": ["Glare"],
+        "desc": ["Perception - 1"],
+        "apply_message": "The sunlight's glare makes it hard to see.",
         "rating": "bad"
     },
     {
         "type": "effect_type",
         "id": "smoke",
-        "name": "Smoke",
-        "desc": "Strength - 1;   Dexterity - 1;\nOccasionally you will cough, costing movement and creating noise.\nLoss of health - Torso",
-        "apply_message":"You inhale a lungful of thick smoke.",
+        "name": ["Smoke"],
+        "desc": ["Strength - 1;   Dexterity - 1;\nOccasionally you will cough, costing movement and creating noise.\nLoss of health - Torso"],
+        "apply_message": "You inhale a lungful of thick smoke.",
         "rating": "bad"
     },
     {
         "type": "effect_type",
         "id": "teargas",
-        "name": "Tear gas",
-        "desc": "Strength - 2;   Dexterity - 2;   Intelligence - 1;   Perception - 4\nOccasionally you will cough, costing movement and creating noise.\nLoss of health - Torso",
-        "apply_message":"You inhale a lungful of tear gas.",
+        "name": ["Tear gas"],
+        "desc": ["Strength - 2;   Dexterity - 2;   Intelligence - 1;   Perception - 4\nOccasionally you will cough, costing movement and creating noise.\nLoss of health - Torso"],
+        "apply_message": "You inhale a lungful of tear gas.",
         "rating": "bad"
     },
     {
         "type": "effect_type",
         "id": "boomered",
-        "name": "Boomered",
-        "desc": "Perception - 5\nRange of Sight: 1;   All sight is tinted magenta.",
-        "apply_message":"You're covered in bile!",
+        "name": ["Boomered"],
+        "desc": ["Perception - 5\nRange of Sight: 1;   All sight is tinted magenta."],
+        "apply_message": "You're covered in bile!",
         "rating": "bad"
     },
     {
@@ -172,15 +172,15 @@
     {
         "type": "effect_type",
         "id": "webbed",
-        "apply_message":"You're covered in webs!",
+        "apply_message": "You're covered in webs!",
         "rating": "bad"
     },
     {
-        "apply_memorial_log":"Contracted an infection.",
+        "apply_memorial_log": "Contracted an infection.",
         "type": "effect_type",
         "id": "infected",
-        "remove_memorial_log":"Recovered from an infection... this time.",
-        "apply_message":"Your bite wound feels infected",
+        "remove_memorial_log": "Recovered from an infection... this time.",
+        "apply_message": "Your bite wound feels infected",
         "rating": "bad"
     },
     {
@@ -196,11 +196,11 @@
         "id": "rat"
     },
     {
-        "apply_memorial_log":"Received a deep bite wound.",
+        "apply_memorial_log": "Received a deep bite wound.",
         "type": "effect_type",
         "id": "bite",
-        "remove_memorial_log":"Recoverd from a bite wound.",
-        "apply_message":"The bite wound feels really deep...",
+        "remove_memorial_log": "Recoverd from a bite wound.",
+        "apply_message": "The bite wound feels really deep...",
         "rating": "bad"
     },
     {
@@ -234,7 +234,7 @@
     {
         "type": "effect_type",
         "id": "slimed",
-        "apply_message":"You're covered in thick goo!",
+        "apply_message": "You're covered in thick goo!",
         "rating": "bad"
     },
     {
@@ -264,7 +264,7 @@
     {
         "type": "effect_type",
         "id": "sap",
-        "apply_message":"You're coated in sap!",
+        "apply_message": "You're coated in sap!",
         "rating": "bad"
     },
     {
@@ -272,11 +272,11 @@
         "id": "viper_combo"
     },
     {
-        "apply_memorial_log":"Caught a cold.",
+        "apply_memorial_log": "Caught a cold.",
         "type": "effect_type",
         "id": "common_cold",
-        "remove_memorial_log":"Got over the cold.",
-        "apply_message":"You feel a cold coming on...",
+        "remove_memorial_log": "Got over the cold.",
+        "apply_message": "You feel a cold coming on...",
         "rating": "bad"
     },
     {
@@ -304,15 +304,15 @@
         "id": "asked_for_item"
     },
     {
-      "type": "effect_type",
-      "id": "jetinjector",
-      "apply_message":"You feel a rush as the chemicals flow through your body!",
-      "rating": "good"
+        "type": "effect_type",
+        "id": "jetinjector",
+        "apply_message": "You feel a rush as the chemicals flow through your body!",
+        "rating": "good"
     },
     {
         "type": "effect_type",
         "id": "adrenaline",
-        "apply_message":"You feel a surge of adrenaline!",
+        "apply_message": "You feel a surge of adrenaline!",
         "rating": "good"
     },
     {
@@ -336,7 +336,7 @@
         "id": "grack"
     },
     {
-        "remove_memorial_log":"Cured the fungal infection.",
+        "remove_memorial_log": "Cured the fungal infection.",
         "type": "effect_type",
         "id": "fungus",
         "rating": "bad"
@@ -350,26 +350,26 @@
         "id": "high"
     },
     {
-        "remove_message":"Your vision starts to blur.",
+        "remove_message": "Your vision starts to blur.",
         "type": "effect_type",
         "id": "contacts",
-        "name": "Contact Lenses",
-        "desc": "You are wearing contact lenses.",
-        "apply_message":"You can see more clearly.",
+        "name": ["Contact Lenses"],
+        "desc": ["You are wearing contact lenses."],
+        "apply_message": "You can see more clearly.",
         "rating": "good"
     },
     {
         "type": "effect_type",
         "id": "formication",
-        "apply_message":"Your skin feels extremely itchy!",
+        "apply_message": "Your skin feels extremely itchy!",
         "rating": "bad"
     },
     {
-        "apply_memorial_log":"Caught the flu.",
+        "apply_memorial_log": "Caught the flu.",
         "type": "effect_type",
         "id": "flu",
-        "remove_memorial_log":"Got over the flu.",
-        "apply_message":"You feel a flu coming on...",
+        "remove_memorial_log": "Got over the flu.",
+        "apply_message": "You feel a flu coming on...",
         "rating": "bad"
     },
     {
@@ -387,19 +387,19 @@
     {
         "type": "effect_type",
         "id": "amigara",
-        "apply_message":"You can't look away from the faultline...",
+        "apply_message": "You can't look away from the faultline...",
         "rating": "bad"
     },
     {
         "type": "effect_type",
         "id": "lying_down",
-        "apply_message":"You lie down to go to sleep...",
+        "apply_message": "You lie down to go to sleep...",
         "rating": "neutral"
     },
     {
         "type": "effect_type",
         "id": "heavysnare",
-        "apply_message":"You are snared.",
+        "apply_message": "You are snared.",
         "rating": "bad"
     },
     {
@@ -415,10 +415,10 @@
         "id": "pkill1"
     },
     {
-        "remove_message":"You wake up.",
+        "remove_message": "You wake up.",
         "type": "effect_type",
         "id": "sleep",
-        "rating":"neutral"
+        "rating": "neutral"
     },
     {
         "type": "effect_type",
@@ -431,25 +431,25 @@
     {
         "type": "effect_type",
         "id": "asthma",
-        "apply_message":"You can't breathe... asthma attack!",
+        "apply_message": "You can't breathe... asthma attack!",
         "rating": "bad"
     },
     {
         "type": "effect_type",
         "id": "lightsnare",
-        "apply_message":"You are snared.",
+        "apply_message": "You are snared.",
         "rating": "bad"
     },
     {
         "type": "effect_type",
         "id": "crushed",
-        "apply_message":"The ceiling collapses on you!",
+        "apply_message": "The ceiling collapses on you!",
         "rating": "bad"
     },
     {
         "type": "effect_type",
         "id": "stemcell_treatment",
-        "apply_message":"It is excruciating.",
+        "apply_message": "It is excruciating.",
         "rating": "bad"
     },
     {
@@ -459,7 +459,7 @@
     {
         "type": "effect_type",
         "id": "weed_high",
-        "apply_message":"You feel lightheaded."
+        "apply_message": "You feel lightheaded."
     },
     {
         "type": "effect_type",
@@ -500,10 +500,10 @@
     {
         "type": "effect_type",
         "id": "relax_gas",
-        "name": "Relaxation gas",
-        "desc": "Strength - 3;   Dexterity - 3;   Intelligence - 2;   Perception - 4\nYou are thoroughly relaxed and don't feel like moving.  Fighting? Too much effort.",
-        "apply_message":"You inhale sweetish gas.",
-        "remove_message":"The slackness leaves your muscles.",
+        "name": ["Relaxation gas"],
+        "desc": ["Strength - 3;   Dexterity - 3;   Intelligence - 2;   Perception - 4\nYou are thoroughly relaxed and don't feel like moving.  Fighting? Too much effort."],
+        "apply_message": "You inhale sweetish gas.",
+        "remove_message": "The slackness leaves your muscles.",
         "rating": "bad"
     }
 ]
