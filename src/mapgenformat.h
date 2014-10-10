@@ -33,7 +33,6 @@ std::shared_ptr<internal::format_effect> basic_bind(std::string characters, ...)
 std::shared_ptr<internal::format_effect> ter_str_bind(std::string characters, ...);
 std::shared_ptr<internal::format_effect> furn_str_bind(std::string characters, ...);
 std::shared_ptr<internal::format_effect> simple_method_bind(std::string characters, ...);
-std::shared_ptr<internal::format_effect> end();
 
 // Anything specified in here isn't finalized
 namespace internal

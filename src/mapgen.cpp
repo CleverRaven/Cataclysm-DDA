@@ -1048,7 +1048,7 @@ void mapgen_lua(map * m,oter_id id,mapgendata md ,int t,float d, const std::stri
  *     *   *  ***\n\
  *     *   * *   *\n\
  *****  ***  *   *\n\
-", mapf::basic_bind("*", t_paper), mapf::end()); // should never happen: overmap loader skips lua mapgens on !LUA builds.
+", mapf::basic_bind("*", t_paper), mapf::basic_bind("")); // should never happen: overmap loader skips lua mapgens on !LUA builds.
 
 #endif
 }

@@ -170,11 +170,6 @@ std::shared_ptr<internal::format_effect> simple_method_bind(std::string characte
  return std::shared_ptr<internal::format_effect>(new internal::format_effect(characters, determiners));
 }
 
-std::shared_ptr<internal::format_effect> end()
-{
- return std::shared_ptr<internal::format_effect>();
-}
-
 namespace internal
 {
  format_effect::format_effect(std::string characters, std::vector<std::shared_ptr<determine_terrain> > &determiners)

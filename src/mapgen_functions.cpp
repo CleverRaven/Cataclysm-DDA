@@ -1297,7 +1297,7 @@ t   t\n\
 t   t\n\
  t t\n\
 ",
-            mapf::basic_bind("t", t_tree_young), mapf::end());
+            mapf::basic_bind("t", t_tree_young), mapf::basic_bind(""));
         }
         if (one_in(14)) { // Rows of small trees
             int gap = rng(2, 4);
