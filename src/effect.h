@@ -17,6 +17,48 @@ enum effect_rating {
     e_mixed     // the effect has good and bad parts to the one who has it
 };
 
+struct effect_mod_info {
+    /** All pairs are unmodified,reduced */
+    std::pair<float, float> str_mod
+    std::pair<float, float> dex_mod
+    std::pair<float, float> per_mod
+    std::pair<float, float> int_mod
+    std::pair<int, int> speed_mod
+    
+    std::pair<int, int> pain_amount;
+    std::pair<int, int> pain_min
+    std::pair<int, int> pain_max
+    std::pair<int, int> pain_max_val
+    std::pair<int, int> pain_chance_top
+    std::pair<int, int> pain_chance_bot
+    std::pair<int, int> pain_tick
+
+    std::pair<int, int> hurt_amount;
+    std::pair<int, int> hurt_min
+    std::pair<int, int> hurt_max
+    std::pair<int, int> hurt_chance_top
+    std::pair<int, int> hurt_chance_bot
+    std::pair<int, int> hurt_tick
+    
+    std::pair<int, int> pkill_amount;
+    std::pair<int, int> pkill_min;
+    std::pair<int, int> pkill_max;
+    std::pair<int, int> pkill_max_val;
+    std::pair<int, int> pkill_chance_top;
+    std::pair<int, int> pkill_chance_bot;
+    std::pair<int, int> pkill_tick;
+
+    std::pair<int, int> cough_chance_top
+    std::pair<int, int> cough_chance_bot
+    std::pair<int, int> cough_tick
+    
+    std::pair<int, int> vomit_chance_top
+    std::pair<int, int> vomit_chance_bot
+    std::pair<int, int> vomit_tick
+    
+    bool load(JsonObject &jsobj, std::string member);
+};
+
 class effect_type
 {
         friend void load_effect_type(JsonObject &jo);
@@ -25,13 +67,12 @@ class effect_type
         effect_type();
         effect_type(const effect_type &rhs);
 
-
         efftype_id id;
 
-        std::string get_name();
-        std::string get_desc();
-
         effect_rating get_rating() const;
+        
+        bool use_name_ints();
+        bool use_desc_ints();
 
         // Appropriate game_message_type when effect is optained.
         game_message_type gain_game_message_type() const;
@@ -46,11 +87,27 @@ class effect_type
         int get_max_intensity() const;
 
     protected:
-        int max_intensity;
         bool permanent;
+        int max_intensity;
+        int dur_add_perc;
+        int int_add_val;
+        int int_decay_step;
+        int int_decay_tick;
+        bool main_parts_only;
+        std::string resist_trait;
+        
+        bool pain_sizing;
+        bool hurt_sizing;
+        bool harmful_cough;
+        // Once addictions are JSON-ized it should be trivial to convert this to a 
+        // "generic" addiction reduces value
+        bool pkill_addict_reduces;
 
-        std::string name;
-        std::string desc;
+        std::vector<std::string> name;
+        std::string speed_mod_name;
+        std::vector<std::string> desc;
+        std::vector<std::string> reduced_desc;
+        bool part_descs;
 
         effect_rating rating;
 
@@ -58,6 +115,9 @@ class effect_type
         std::string apply_memorial_log;
         std::string remove_message;
         std::string remove_memorial_log;
+        
+        effect_mod_info base_mods;
+        effect_mod_info scaling_mods;
 };
 
 class effect : public JsonSerializer, public JsonDeserializer
@@ -69,6 +129,7 @@ class effect : public JsonSerializer, public JsonDeserializer
         effect &operator=(const effect &rhs);
 
         std::string disp_name();
+        std::string disp_desc(bool reduced = false);
 
         effect_type *get_effect_type();
 
@@ -87,6 +148,11 @@ class effect : public JsonSerializer, public JsonDeserializer
         int get_max_intensity();
         void set_intensity(int nintensity);
         void mod_intensity(int nintensity);
+        
+        int get_mod(std::string arg, bool reduced = false);
+        int get_amount(std::string arg, bool reduced = false);
+        int get_max_val(std::string arg, bool reduced = false);
+        bool activated(unsigned int turn, std::string arg, bool reduced = false);
 
         efftype_id get_id()
         {
