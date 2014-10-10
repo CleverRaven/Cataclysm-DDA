@@ -4450,20 +4450,20 @@ void mapgen_cabin_strange(map *m, oter_id, mapgendata dat, int, float)
   w.............|d.bb.| \n\
   |.............+..bb.w \n\
   |-+|-w-==-w-|-|.....| \n\
-  |r.|ssssssss|r+.....| \n\
+  |L.|ssssssss|r+.....| \n\
   |--|ssssssss|-|--w--| \n\
      ssCssssCss         \n\
   ^                 ^   \n",
-                                   mapf::basic_bind("% ^ f F G H u a A b C . - | t + = D w T S e o h c d r s O >", t_shrub, t_tree,
+                                   mapf::basic_bind("% ^ f F G H u a A b C . - | t + = D w T S e o h c d r s O > L", t_shrub, t_tree,
                                            t_fence_h, t_fence_v, t_fencegate_c, t_floor,   t_floor,    t_floor, t_floor,    t_floor, t_column,
                                            t_floor, t_wall_h, t_wall_v,  t_floor, t_door_c, t_door_boarded, t_door_locked_interior,
                                            t_window_boarded, t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor,   t_floor,
-                                           t_sidewalk, t_floor, t_stairs_down),
-                                   mapf::basic_bind("% ^ f F G H u a A b C . - | t + = D w T S e o h c d r s O >", f_null,  f_null,
+                                           t_sidewalk, t_floor, t_stairs_down, t_floor),
+                                   mapf::basic_bind("% ^ f F G H u a A b C . - | t + = D w T S e o h c d r s O > L", f_null,  f_null,
                                            f_null,    f_null,    f_null,        f_bathtub, f_cupboard, f_sofa,  f_armchair, f_bed,   f_null,
                                            f_null,  f_null,   f_null,    f_table, f_null,   f_null,         f_null,                 f_null,
                                            f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_dresser, f_rack,  f_null,     f_oven,
-                                           f_null));
+                                           f_null, f_locker));
         for (int i = 0; i <= 23; i++) {
             for (int j = 0; j <= 23; j++) {
                 if (m->furn(i, j) == f_fridge) {
@@ -4472,7 +4472,7 @@ void mapgen_cabin_strange(map *m, oter_id, mapgendata dat, int, float)
                 if (m->furn(i, j) == f_cupboard) {
                     m->place_items("cannedfood",  30, i, j, i, j, true, 0);
                 }
-                if (m->furn(i, j) == f_rack || m->furn(i, j) == f_dresser) {
+                if (m->furn(i, j) == f_rack || m->furn(i, j) == f_dresser || m->furn(i, j) == f_locker) {
                     m->place_items("dresser",  40, i, j, i, j, true, 0);
                 }
                 if (m->furn(i, j) == f_bookcase) {
@@ -4481,7 +4481,7 @@ void mapgen_cabin_strange(map *m, oter_id, mapgendata dat, int, float)
                 if (m->ter(i, j) == t_floor) {
                     m->place_items("subway",  10, i, j, i, j, true, 0);
                 }
-                if (m->furn(i, j) == f_bed) {
+                if (m->furn(i, j) == f_locker) {
                     m->place_items("bed",  60, i, j, i, j, true, 0);
                 }
             }
@@ -4549,7 +4549,7 @@ void mapgen_cabin_strange_b(map *m, oter_id, mapgendata dat, int, float)
                     m->place_items("subway",  10, i, j, i, j, true, 0);
                 }
                 if (m->furn(i, j) == f_bed) {
-                    m->place_items("bed",  60, i, j, i, j, true, 0);
+                    m->place_items("bed",  40, i, j, i, j, true, 0);
                 }
             }
         }
