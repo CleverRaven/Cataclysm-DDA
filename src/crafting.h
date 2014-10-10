@@ -83,20 +83,15 @@ struct recipe : public requirements {
            std::string &to_use, std::map<std::string, int> &to_require, int pdiff,
            bool preversible, bool pautolearn, int plearn_dis, int pmult, bool ppaired,
            std::vector<byproduct> &bps) :
-        ident (pident), id (pid), result (pres), cat(pcat), subcat(psubcat), difficulty (pdiff),
+        ident (pident), id (pid), result (pres), byproducts(bps), cat(pcat), subcat(psubcat), difficulty (pdiff),
         reversible (preversible), autolearn (pautolearn), learn_by_disassembly (plearn_dis),
-        result_mult(pmult), paired(ppaired)
+        result_mult(pmult), paired(ppaired), batch(1)
     {
         skill_used = to_use.size() ? Skill::skill(to_use) : NULL;
         if(!to_require.empty()) {
             for(std::map<std::string, int>::iterator iter = to_require.begin(); iter != to_require.end();
                 ++iter) {
                 required_skills[Skill::skill(iter->first)] = iter->second;
-            }
-        }
-        if(!bps.empty()) {
-            for(auto &val : bps) {
-                byproducts.push_back(val);
             }
         }
     }
