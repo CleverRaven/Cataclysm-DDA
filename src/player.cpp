@@ -2107,7 +2107,7 @@ void player::disp_info()
     for( auto maps = effects.begin(); maps != effects.end(); ++maps) {
         for( auto effect_it = maps->second.begin(); effect_it != maps->second.end(); ++effect_it) {
             effect_name.push_back( effect_it->second.disp_name() );
-            effect_text.push_back( effect_it->second.get_effect_type()->get_desc() );
+            effect_text.push_back( effect_it->second.disp_desc() );
         }
     }
     if (abs(morale_level()) >= 100) {
@@ -5384,7 +5384,7 @@ static void manage_fire_exposure(player &p, int fireStrength) {
         }
     }
 }
-void player::handle_cough(bool harmful, int loudness) {
+void player::cough(bool harmful, int loudness) {
     if (!is_npc()) {
         add_msg(m_bad, _("You cough heavily."));
         g->sound(posx, posy, loudness, "");
@@ -5413,7 +5413,7 @@ void player::process_effects() {
     int psnChance;
     for( auto maps = effects.begin(); maps != effects.end(); ++maps ) {
         for( auto effect_it = maps->second.begin(); effect_it != maps->second.end(); ++effect_it ) {
-            auto &it = *effect_it.second;
+            auto &it = effect_it->second;
             bool reduced = has_trait(it.get_resist_trait());
             mod_str_bonus(it.get_mod("STR", reduced));
             mod_dex_bonus(it.get_mod("DEX", reduced));
@@ -5421,6 +5421,7 @@ void player::process_effects() {
             mod_int_bonus(it.get_mod("INT", reduced));
             
             double mod = 1;
+            body_part bp = it.get_bp();
             if (!has_trait("NOPAIN") && it.get_mod("PAIN", reduced) > 0 &&
                   it.get_max_val("PAIN", reduced) > pain) {
                 mod = 1;
@@ -5458,7 +5459,6 @@ void player::process_effects() {
                     if (bp == num_bp) {
                         apply_damage(nullptr, bp_torso, it.get_mod("HURT"));
                     } else {
-                        body_part bp = it.get_bp();
                         apply_damage(nullptr, bp, it.get_mod("HURT"));
                     }
                 }
@@ -5470,7 +5470,6 @@ void player::process_effects() {
                     if (bp == num_bp) {
                         apply_damage(nullptr, bp_torso, it.get_mod("PKILL"));
                     } else {
-                        body_part bp = it.get_bp();
                         apply_damage(nullptr, bp, it.get_mod("PKILL"));
                     }
                 }
@@ -5531,7 +5530,7 @@ void player::process_effects() {
                 add_miss_reason(_("The smoke bothers you."), 1);
                 effect_it->second.set_intensity((effect_it->second.get_duration()+190)/200);
                 if( effect_it->second.get_duration() >= 10 && one_in(6)) {
-                    handle_cough();
+                    cough();
                 }
             } else if (id == "teargas") {
                 mod_str_bonus(-2);
@@ -5539,7 +5538,7 @@ void player::process_effects() {
                 add_miss_reason(_("The tear gas bothers you."), 2);
                 mod_per_bonus(-5);
                 if (one_in(3)) {
-                    handle_cough(true);
+                    cough(true);
                 }
             } else if (id == "relax_gas") {
                 mod_str_bonus(-3);

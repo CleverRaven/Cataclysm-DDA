@@ -130,6 +130,7 @@ class effect : public JsonSerializer, public JsonDeserializer
 
         std::string disp_name();
         std::string disp_desc(bool reduced = false);
+        bool use_part_descs();
 
         effect_type *get_effect_type();
 

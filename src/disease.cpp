@@ -985,7 +985,7 @@ void dis_effect(player &p, disease &dis)
             }
 
             if (!p.has_disease("took_flumed") && one_in(300)) {
-                p.handle_cough();
+                p.cough();
             }
             break;
 
@@ -1010,7 +1010,7 @@ void dis_effect(player &p, disease &dis)
                     }
                 }
             if (!p.has_disease("took_flumed") && one_in(300)) {
-                p.handle_cough();
+                p.cough();
             }
             if (!p.has_disease("took_flumed") || one_in(2)) {
                 if (one_in(3600) || will_vomit(p)) {
@@ -2857,7 +2857,7 @@ void manage_fungal_infection(player& p, disease& dis)
     if (!dis.permanent) {
         if (dis.duration > 3001) { // First hour symptoms
             if (one_in(160 + bonus)) {
-                p.handle_cough(true);
+                p.cough(true);
             }
             if (one_in(100 + bonus)) {
                 p.add_msg_if_player(m_warning, _("You feel nauseous."));

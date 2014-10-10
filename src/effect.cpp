@@ -7,7 +7,7 @@
 std::map<std::string, effect_type> effect_types;
 
 bool effect_mod_info::load(JsonObject &jsobj, std::string member) {
-    if jsobj.has_object(member) {
+    if (jsobj.has_object(member)) {
         JsonObject j = jsobj.get_object(member);
         if(j.has_member("str_mod")) {
             JsonArray jsarr = j.get_array("str_mod");
@@ -222,7 +222,7 @@ bool effect_mod_info::load(JsonObject &jsobj, std::string member) {
             if (jsarr.size() >= 2) {
                 pkill_chance_bot.second = jsarr.get_int(1);
             } else {
-                pkill_chance_bot = pkill_chance_bot.first;
+                pkill_chance_bot.second = pkill_chance_bot.first;
             }
         }
         if(j.has_member("pkill_tick")) {
@@ -288,6 +288,10 @@ bool effect_mod_info::load(JsonObject &jsobj, std::string member) {
                 vomit_tick.second = vomit_tick.first;
             }
         }
+        
+        return true;
+    } else {
+        return false;
     }
 }
 
@@ -419,31 +423,31 @@ std::string effect::disp_name()
 std::string effect::disp_desc(bool reduced)
 {
     std::stringstream ret;
-    int tmp = get_str_mod(reduced);
+    int tmp = get_mod("STR", reduced);
     if (tmp > 0) {
         ret << string_format(_("Strength +%d;  "), tmp);
     } else if (tmp < 0) {
         ret << string_format(_("Strength %d;  "), tmp);
     }
-    tmp = get_dex_mod(reduced);
+    tmp = get_mod("DEX", reduced);
     if (tmp > 0) {
         ret << string_format(_("Dexterity +%d;  "), tmp);
     } else if (tmp < 0) {
         ret << string_format(_("Dexterity %d;  "), tmp);
     }
-    tmp = get_per_mod(reduced);
+    tmp = get_mod("PER", reduced);
     if (tmp > 0) {
         ret << string_format(_("Perception +%d;  "), tmp);
     } else if (tmp < 0) {
         ret << string_format(_("Perception %d;  "), tmp);
     }
-    tmp = get_int_mod(reduced);
+    tmp = get_mod("INT", reduced);
     if (tmp > 0) {
         ret << string_format(_("Intelligence +%d;  "), tmp);
     } else if (tmp < 0) {
         ret << string_format(_("Intelligence %d;  "), tmp);
     }
-    tmp = get_speed_mod(reduced);
+    tmp = get_mod("SPEED", reduced);
     if (tmp > 0) {
         ret << string_format(_("Speed +%d;  "), tmp);
     } else if (tmp < 0) {
@@ -453,27 +457,32 @@ std::string effect::disp_desc(bool reduced)
     if (ret.str() != "") {
         ret << "\n";
     }
-    if (eff_type->use_part_descs()) {
+    if (use_part_descs()) {
         // Used for effect descriptions, "Your body_part_name is ..."
         ret << _("Your ") << body_part_name(bp).c_str() << " ";
     }
-    std::string tmp;
+    std::string tmp_str;
     if (eff_type->use_desc_ints()) {
         if (reduced) {
-            tmp = eff_type->reduced_desc[intensity - 1];
+            tmp_str = eff_type->reduced_desc[intensity - 1];
         } else {
-            tmp = eff_type->desc[intensity - 1];
+            tmp_str = eff_type->desc[intensity - 1];
         }
     } else {
         if (reduced) {
-            tmp = eff_type->reduced_desc[0];
+            tmp_str = eff_type->reduced_desc[0];
         } else {
-            tmp = eff_type->desc[0];
+            tmp_str = eff_type->desc[0];
         }
     }
-    ret << _(tmp.c_str());
+    ret << _(tmp_str.c_str());
 
     return ret.str();
+}
+
+bool effect::use_part_descs()
+{
+    return eff_type->part_descs;
 }
 
 int effect::get_duration()
@@ -537,74 +546,56 @@ int effect::get_mod(std::string arg, bool reduced)
 {
     float ret = 0;
     if (!reduced) {
-        switch (arg) {
-        case "STR":
+        if (arg == "STR") {
             ret += eff_type->base_mods.str_mod.first;
             ret += eff_type->scaling_mods.str_mod.first * intensity;
-            break;
-        case "DEX":
+        } else if (arg == "DEX") {
             ret += eff_type->base_mods.dex_mod.first;
             ret += eff_type->scaling_mods.dex_mod.first * intensity;
-            break;
-        case "PER":
+        } else if (arg == "PER") {
             ret += eff_type->base_mods.per_mod.first;
             ret += eff_type->scaling_mods.per_mod.first * intensity;
-            break;
-        case "INT":
+        } else if (arg == "INT") {
             ret += eff_type->base_mods.int_mod.first;
             ret += eff_type->scaling_mods.int_mod.first * intensity;
-            break;
-        case "SPEED":
+        } else if (arg == "SPEED") {
             ret += eff_type->base_mods.speed_mod.first;
             ret += eff_type->scaling_mods.speed_mod.first * intensity;
-            break;
-        case "PAIN":
+        } else if (arg == "PAIN") {
             ret += rng(eff_type->base_mods.pain_min.first + eff_type->scaling_mods.pain_min.first * intensity,
                     eff_type->base_mods.pain_max.first + eff_type->scaling_mods.pain_max.first * intensity);
-            break;
-        case "HURT":
+        } else if (arg == "HURT") {
             ret += rng(eff_type->base_mods.hurt_min.first + eff_type->scaling_mods.hurt_min.first * intensity,
                     eff_type->base_mods.hurt_max.first + eff_type->scaling_mods.hurt_max.first * intensity);
-            break;
-        case "PKILL":
+        } else if (arg == "PKILL") {
             ret += rng(eff_type->base_mods.pkill_min.first + eff_type->scaling_mods.pkill_min.first * intensity,
                     eff_type->base_mods.pkill_max.first + eff_type->scaling_mods.pkill_max.first * intensity);
-            break;
         }
     } else {
-        switch (arg) {
-        case "STR":
+        if (arg == "STR") {
             ret += eff_type->base_mods.str_mod.second;
             ret += eff_type->scaling_mods.str_mod.second * intensity;
-            break;
-        case "DEX":
+        } else if (arg == "DEX") {
             ret += eff_type->base_mods.dex_mod.second;
             ret += eff_type->scaling_mods.dex_mod.second * intensity;
-            break;
-        case "PER":
+        } else if (arg == "PER") {
             ret += eff_type->base_mods.per_mod.second;
             ret += eff_type->scaling_mods.per_mod.second * intensity;
-            break;
-        case "INT":
+        } else if (arg == "INT") {
             ret += eff_type->base_mods.int_mod.second;
             ret += eff_type->scaling_mods.int_mod.second * intensity;
-            break;
-        case "SPEED":
+        } else if (arg == "SPEED") {
             ret += eff_type->base_mods.speed_mod.second;
             ret += eff_type->scaling_mods.speed_mod.second * intensity;
-            break;
-        case "PAIN":
+        } else if (arg == "PAIN") {
             ret += rng(eff_type->base_mods.pain_min.second + eff_type->scaling_mods.pain_min.second * intensity,
                     eff_type->base_mods.pain_max.second + eff_type->scaling_mods.pain_max.second * intensity);
-            break;
-        case "HURT":
+        } else if (arg == "HURT") {
             ret += rng(eff_type->base_mods.hurt_min.second + eff_type->scaling_mods.hurt_min.second * intensity,
                     eff_type->base_mods.hurt_max.second + eff_type->scaling_mods.hurt_max.second * intensity);
-            break;
-        case "PKILL":
+        } else if (arg == "PKILL") {
             ret += rng(eff_type->base_mods.pkill_min.second + eff_type->scaling_mods.pkill_min.second * intensity,
                     eff_type->base_mods.pkill_max.second + eff_type->scaling_mods.pkill_max.second * intensity);
-            break;
         }
     }
     return int(ret);
@@ -614,34 +605,26 @@ int effect::get_amount(std::string arg, bool reduced)
 {
     float ret = 0;
     if (!reduced) {
-        switch (arg) {
-        case "PAIN":
+        if (arg == "PAIN") {
             ret += eff_type->base_mods.pain_amount.first;
             ret += eff_type->scaling_mods.pain_amount.first * intensity;
-            break;
-        case "HURT":
+        } else if (arg == "HURT") {
             ret += eff_type->base_mods.hurt_amount.first;
             ret += eff_type->scaling_mods.hurt_amount.first * intensity;
-            break;
-        case "PKILL":
+        } else if (arg == "PKILL") {
             ret += eff_type->base_mods.pkill_amount.first;
             ret += eff_type->scaling_mods.pkill_amount.first * intensity;
-            break;
         }
     } else {
-        switch (arg) {
-        case "PAIN":
+        if (arg == "PAIN") {
             ret += eff_type->base_mods.pain_amount.second;
             ret += eff_type->scaling_mods.pain_amount.second * intensity;
-            break;
-        case "HURT":
+        } else if (arg == "HURT") {
             ret += eff_type->base_mods.hurt_amount.second;
             ret += eff_type->scaling_mods.hurt_amount.second * intensity;
-            break;
-        case "PKILL":
+        } else if (arg == "PKILL") {
             ret += eff_type->base_mods.pkill_amount.second;
             ret += eff_type->scaling_mods.pkill_amount.second * intensity;
-            break;
         }
     }
     return int(ret);
@@ -651,26 +634,20 @@ int effect::get_max_val(std::string arg, bool reduced)
 {
     float ret = 0;
     if (!reduced) {
-        switch (arg) {
-        case "PAIN":
+        if (arg == "PAIN") {
             ret += eff_type->base_mods.pain_max_val.first;
             ret += eff_type->scaling_mods.pain_max_val.first * intensity;
-            break;
-        case "PKILL":
+        } else if (arg == "PKILL") {
             ret += eff_type->base_mods.pkill_max_val.first;
             ret += eff_type->scaling_mods.pkill_max_val.first * intensity;
-            break;
         }
     } else {
-        switch (arg) {
-        case "PAIN":
+        if (arg == "PAIN") {
             ret += eff_type->base_mods.pain_max_val.second;
             ret += eff_type->scaling_mods.pain_max_val.second * intensity;
-            break;
-        case "PKILL":
+        } else if (arg == "PKILL") {
             ret += eff_type->base_mods.pkill_max_val.second;
             ret += eff_type->scaling_mods.pkill_max_val.second * intensity;
-            break;
         }
     
     }
@@ -679,10 +656,9 @@ int effect::get_max_val(std::string arg, bool reduced)
 
 bool effect::get_sizing(std::string arg)
 {
-    switch(arg) {
-    case "PAIN":
+    if (arg == "PAIN") {
         return eff_type->pain_sizing;
-    case "HURT":
+    } else if ("HURT") {
         return eff_type->hurt_sizing;
     }
     return false;
@@ -694,59 +670,48 @@ bool effect::activated(unsigned int turn, std::string arg, bool reduced, double 
     int bot = 0;
     int top = 0;
     if (!reduced) {
-        switch (arg) {
-        case "PAIN":
+        if (arg == "PAIN") {
             tick = eff_type->base_mods.pain_tick.first + eff_type->scaling_mods.pain_tick.first * intensity;
             bot = eff_type->base_mods.pain_chance_bot.first + eff_type->scaling_mods.pain_chance_bot.first * intensity;
             top = eff_type->base_mods.pain_chance_top.first + eff_type->scaling_mods.pain_chance_top.first * intensity;
-            break;
-        case "HURT":
+        } else if (arg == "HURT") {
             tick = eff_type->base_mods.hurt_tick.first + eff_type->scaling_mods.hurt_tick.first * intensity;
             bot = eff_type->base_mods.hurt_chance_bot.first + eff_type->scaling_mods.hurt_chance_bot.first * intensity;
             top = eff_type->base_mods.hurt_chance_top.first + eff_type->scaling_mods.hurt_chance_top.first * intensity;
-            break;
-        case "PKILL":
+        } else if (arg == "PKILL") {
             tick = eff_type->base_mods.pkill_tick.first + eff_type->scaling_mods.pkill_tick.first * intensity;
             bot = eff_type->base_mods.pkill_chance_bot.first + eff_type->scaling_mods.pkill_chance_bot.first * intensity;
             top = eff_type->base_mods.pkill_chance_top.first + eff_type->scaling_mods.pkill_chance_top.first * intensity;
-            break;
-        case "COUGH":
+        } else if (arg == "COUGH") {
             tick = eff_type->base_mods.cough_tick.first + eff_type->scaling_mods.cough_tick.first * intensity;
             bot = eff_type->base_mods.cough_chance_bot.first + eff_type->scaling_mods.cough_chance_bot.first * intensity;
             top = eff_type->base_mods.cough_chance_top.first + eff_type->scaling_mods.cough_chance_top.first * intensity;
-            break;
-        case "VOMIT":
+        } else if (arg == "VOMIT") {
             tick = eff_type->base_mods.vomit_tick.first + eff_type->scaling_mods.vomit_tick.first * intensity;
             bot = eff_type->base_mods.vomit_chance_bot.first + eff_type->scaling_mods.vomit_chance_bot.first * intensity;
             top = eff_type->base_mods.vomit_chance_top.first + eff_type->scaling_mods.vomit_chance_top.first * intensity;
-            break;
+        }
     } else {
-        switch (arg) {
-        case "PAIN":
+        if (arg == "PAIN") {
             tick = eff_type->base_mods.pain_tick.second + eff_type->scaling_mods.pain_tick.second * intensity;
             bot = eff_type->base_mods.pain_chance_bot.second + eff_type->scaling_mods.pain_chance_bot.second * intensity;
             top = eff_type->base_mods.pain_chance_top.second + eff_type->scaling_mods.pain_chance_top.second * intensity;
-            break;
-        case "HURT":
+        } else if (arg == "HURT") {
             tick = eff_type->base_mods.hurt_tick.second + eff_type->scaling_mods.hurt_tick.second * intensity;
             bot = eff_type->base_mods.hurt_chance_bot.second + eff_type->scaling_mods.hurt_chance_bot.second * intensity;
             top = eff_type->base_mods.hurt_chance_top.second + eff_type->scaling_mods.hurt_chance_top.second * intensity;
-            break;
-        case "PKILL":
+        } else if (arg == "PKILL") {
             tick = eff_type->base_mods.pkill_tick.second + eff_type->scaling_mods.pkill_tick.second * intensity;
             bot = eff_type->base_mods.pkill_chance_bot.second + eff_type->scaling_mods.pkill_chance_bot.second * intensity;
             top = eff_type->base_mods.pkill_chance_top.second + eff_type->scaling_mods.pkill_chance_top.second * intensity;
-            break;
-        case "COUGH":
+        } else if (arg == "COUGH") {
             tick = eff_type->base_mods.cough_tick.second + eff_type->scaling_mods.cough_tick.second * intensity;
             bot = eff_type->base_mods.cough_chance_bot.second + eff_type->scaling_mods.cough_chance_bot.second * intensity;
             top = eff_type->base_mods.cough_chance_top.second + eff_type->scaling_mods.cough_chance_top.second * intensity;
-            break;
-        case "VOMIT":
+        } else if (arg == "VOMIT") {
             tick = eff_type->base_mods.vomit_tick.second + eff_type->scaling_mods.vomit_tick.second * intensity;
             bot = eff_type->base_mods.vomit_chance_bot.second + eff_type->scaling_mods.vomit_chance_bot.second * intensity;
             top = eff_type->base_mods.vomit_chance_top.second + eff_type->scaling_mods.vomit_chance_top.second * intensity;
-            break;
         }
     }
     if(tick <= 0 || turn % tick == 0) {
@@ -762,10 +727,9 @@ bool effect::activated(unsigned int turn, std::string arg, bool reduced, double 
 double effect::get_addict_reduction(std::string arg, int addict_level)
 {
     // TODO: convert this to JSON id's and values once we have JSON'ed addictions
-    switch (arg) {
-    case "PKILL":
+    if (arg == "PKILL") {
         return 1 / (addict_level * 2);
-    default:
+    } else {
         return 1;
     }
     return 1;
@@ -786,8 +750,39 @@ void load_effect_type(JsonObject &jo)
     effect_type new_etype;
     new_etype.id = jo.get_string("id");
 
-    new_etype.name = jo.get_string("name", "");
-    new_etype.desc = jo.get_string("desc", "");
+    if(jo.has_member("name")) {
+        JsonArray jsarr = jo.get_array("name");
+        while (jsarr.has_more()) {
+            new_etype.name.push_back(_(jsarr.next_string().c_str()));
+        }
+    } else {
+        new_etype.name.push_back("");
+    }
+    new_etype.speed_mod_name = jo.get_string("speed_name", "");
+
+    if(jo.has_member("desc")) {
+        JsonArray jsarr = jo.get_array("desc");
+        while (jsarr.has_more()) {
+            new_etype.desc.push_back(_(jsarr.next_string().c_str()));
+        }
+    } else {
+        new_etype.desc.push_back("");
+    }
+    if(jo.has_member("reduced_desc")) {
+        JsonArray jsarr = jo.get_array("reduced_desc");
+        while (jsarr.has_more()) {
+            new_etype.reduced_desc.push_back(_(jsarr.next_string().c_str()));
+        }
+    } else if (jo.has_member("desc")) {
+        JsonArray jsarr = jo.get_array("desc");
+        while (jsarr.has_more()) {
+            new_etype.reduced_desc.push_back(_(jsarr.next_string().c_str()));
+        }
+    } else {
+        new_etype.reduced_desc.push_back("");
+    }
+    new_etype.part_descs = jo.get_bool("part_descs", false);
+
     if(jo.has_member("rating")) {
         std::string r = jo.get_string("rating");
         if(r == "good") {
@@ -808,8 +803,26 @@ void load_effect_type(JsonObject &jo)
     new_etype.remove_message = jo.get_string("remove_message", "");
     new_etype.apply_memorial_log = jo.get_string("apply_memorial_log", "");
     new_etype.remove_memorial_log = jo.get_string("remove_memorial_log", "");
+    
+    new_etype.resist_trait = jo.get_string("resist_trait", "");
 
+    new_etype.permanent = jo.get_bool("permanent", false);
+    
     new_etype.max_intensity = jo.get_int("max_intensity", 1);
+    new_etype.dur_add_perc = jo.get_int("dur_add_perc", 100);
+    new_etype.int_add_val = jo.get_int("int_add_val", 1);
+    new_etype.int_decay_step = jo.get_int("int_decay_step", 0);
+    new_etype.int_decay_tick = jo.get_int("int_decay_tick", 0);
+    
+    new_etype.main_parts_only = jo.get_bool("main_parts_only", false);
+    new_etype.pkill_addict_reduces = jo.get_bool("pkill_addict_reduces", false);
+    
+    new_etype.pain_sizing = jo.get_bool("pain_sizing", false);
+    new_etype.hurt_sizing = jo.get_bool("pain_sizing", false);
+    new_etype.harmful_cough = jo.get_bool("harmful_cough", false);
+    
+    new_etype.base_mods.load(jo, "base_mods");
+    new_etype.scaling_mods.load(jo, "scaling_mods");
 
     effect_types[new_etype.id] = new_etype;
 }
