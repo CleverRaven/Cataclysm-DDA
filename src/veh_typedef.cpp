@@ -25,7 +25,6 @@
 // If you use wrong config, installation of part will fail
 
 std::map<std::string, vpart_info> vehicle_part_types;
-std::vector<vpart_info> vehicle_part_int_types; // rapid lookup, for part_info etc
 
 std::map<std::string, vpart_bitflags> vpart_bitflag_map; // for data/json loading
 
@@ -157,20 +156,12 @@ void game::load_vehiclepart(JsonObject &jo)
         next_part.list_order = 5;
     }
 
-    if (vehicle_part_types.count(next_part.id) > 0) {
-        next_part.loadid = vehicle_part_types[next_part.id].loadid;
-        vehicle_part_int_types[next_part.loadid] = next_part;
-    } else {
-        next_part.loadid = vehicle_part_int_types.size();
-        vehicle_part_int_types.push_back(next_part);
-    }
     vehicle_part_types[next_part.id] = next_part;
 }
 
 void game::reset_vehicleparts()
 {
     vehicle_part_types.clear();
-    vehicle_part_int_types.clear();
 }
 
 /**

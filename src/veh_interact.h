@@ -34,7 +34,7 @@ class veh_interact
     public:
         int ddx;
         int ddy;
-        struct vpart_info *sel_vpart_info;
+        const struct vpart_info *sel_vpart_info;
         struct vehicle_part *sel_vehicle_part;
         char sel_cmd; //Command currently being run by the player
         int sel_type;
@@ -81,7 +81,7 @@ class veh_interact
         int part_at(int dx, int dy);
         void move_cursor(int dx, int dy);
         task_reason cant_do(char mode);
-        bool can_currently_install(vpart_info *vpart);
+        bool can_currently_install(const vpart_info *vpart);
         /** Move index (parameter pos) according to input action:
          * (up or down, single step or whole page).
          * @param pos index to change.
@@ -106,7 +106,7 @@ class veh_interact
         void display_stats();
         void display_name();
         void display_mode(char mode);
-        void display_list(size_t pos, std::vector<vpart_info> list);
+        void display_list(size_t pos, std::vector<const vpart_info*> list);
         size_t display_esc (WINDOW *w);
 
         void countDurability();
@@ -130,11 +130,11 @@ class veh_interact
         /* Vector of all vpart TYPES that can be mounted in the current square.
          * Can be converted to a vector<vpart_info>.
          * Updated whenever the cursor moves. */
-        std::vector<vpart_info> can_mount;
+        std::vector<const vpart_info*> can_mount;
 
         /* Vector of all wheel types. Used for changing wheels, so it only needs
          * to be built once. */
-        std::vector<vpart_info> wheel_types;
+        std::vector<const vpart_info*> wheel_types;
 
         /* Vector of vparts in the current square that can be repaired. Strictly a
          * subset of parts_here.

@@ -493,7 +493,7 @@ void veh_interact::do_install()
         }
     }
     while (true) {
-        sel_vpart_info = &(can_mount[pos]);
+        sel_vpart_info = can_mount[pos];
         display_list (pos, can_mount);
         itype_id itm = sel_vpart_info->item;
         bool has_comps = crafting_inv.has_components(itm, 1);
@@ -622,7 +622,7 @@ void veh_interact::do_repair()
     int pos = 0;
     while (true) {
         sel_vehicle_part = &veh->parts[parts_here[need_repair[pos]]];
-        sel_vpart_info = &(vehicle_part_types[sel_vehicle_part->id]);
+        sel_vpart_info = &sel_vehicle_part->get_vpart_info();
         werase (w_parts);
         veh->print_part_desc(w_parts, 0, parts_w, cpart, need_repair[pos]);
         wrefresh (w_parts);
@@ -708,8 +708,8 @@ void veh_interact::do_refill()
         fuel_choose.text = _("What to refill:");
         for( entry_num = 0; entry_num < ptanks.size(); entry_num++) {
             fuel_choose.addentry(entry_num, true, -1, "%s -> %s",
-                                 ammo_name(vehicle_part_types[ptanks[entry_num]->id].fuel_type).c_str(),
-                                 vehicle_part_types[ptanks[entry_num]->id].name.c_str());
+                                 ammo_name(ptanks[entry_num]->get_vpart_info().fuel_type).c_str(),
+                                 ptanks[entry_num]->get_vpart_info().name.c_str());
         }
         fuel_choose.addentry(entry_num, true, 'q', _("Cancel"));
         fuel_choose.query();
@@ -785,7 +785,7 @@ void veh_interact::do_remove()
     int pos = first;
     while (true) {
         sel_vehicle_part = &veh->parts[parts_here[pos]];
-        sel_vpart_info = &(vehicle_part_types[sel_vehicle_part->id]);
+        sel_vpart_info = &sel_vehicle_part->get_vpart_info();
         bool is_wheel = sel_vpart_info->has_flag("WHEEL");
         bool is_loose = sel_vpart_info->has_flag("UNMOUNT_ON_MOVE");
         werase (w_parts);
@@ -890,7 +890,7 @@ void veh_interact::do_tirechange()
     wrefresh (w_mode);
     int pos = 0;
     while (true) {
-        sel_vpart_info = &(wheel_types[pos]);
+        sel_vpart_info = wheel_types[pos];
         bool is_wheel = sel_vpart_info->has_flag("WHEEL");
         display_list (pos, wheel_types);
         itype_id itm = sel_vpart_info->item;
@@ -1007,7 +1007,7 @@ int veh_interact::part_at (int dx, int dy)
  * Affects coloring in display_list() and is also used to
  * sort can_mount so installable parts come first.
  */
-bool veh_interact::can_currently_install(vpart_info *vpart)
+bool veh_interact::can_currently_install(const vpart_info *vpart)
 {
     bool has_comps = crafting_inv.has_components(vpart->item, 1);
     bool has_skill = g->u.skillLevel("mechanics") >= vpart->difficulty;
@@ -1068,11 +1068,11 @@ void veh_interact::move_cursor (int dx, int dy)
              part_type_iterator != vehicle_part_types.end();
              ++part_type_iterator) {
             if (veh->can_mount(vdx, vdy, part_type_iterator->first)) {
-                vpart_info *vpi = &part_type_iterator->second;
+                const vpart_info *vpi = &part_type_iterator->second;
                 if (can_currently_install(vpi)) {
-                    can_mount.insert( can_mount.begin() + divider_index++, *vpi );
+                    can_mount.insert( can_mount.begin() + divider_index++, vpi );
                 } else {
-                    can_mount.push_back( *vpi );
+                    can_mount.push_back( vpi );
                 }
             }
         }
@@ -1085,7 +1085,7 @@ void veh_interact::move_cursor (int dx, int dy)
              part_type_iterator != vehicle_part_types.end();
              ++part_type_iterator) {
             if (part_type_iterator->second.has_flag("WHEEL")) {
-                wheel_types.push_back (part_type_iterator->second);
+                wheel_types.push_back (&part_type_iterator->second);
             }
         }
     }
@@ -1290,11 +1290,10 @@ void veh_interact::display_stats()
         std::string partName;
         mvwprintz(w_stats, y[6], x[6], c_ltgray, _("Most damaged: "));
         x[6] += utf8_width(_("Most damaged: ")) + 1;
-        std::string partID = veh->parts[mostDamagedPart].id;
-        vehicle_part part = veh->parts[mostDamagedPart];
-        int damagepercent = 100 * part.hp / vehicle_part_types[part.id].durability;
+        const vehicle_part &part = veh->parts[mostDamagedPart];
+        int damagepercent = 100 * part.hp / part.get_vpart_info().durability;
         nc_color damagecolor = getDurabilityColor(damagepercent);
-        partName = vehicle_part_types[partID].name;
+        partName = part.get_vpart_info().name;
         fold_and_print(w_stats, y[6], x[6], w[6], damagecolor, partName);
     }
 
@@ -1425,15 +1424,15 @@ size_t veh_interact::display_esc(WINDOW *win)
  * @param pos The current cursor position in the list.
  * @param list The list to display parts from.
  */
-void veh_interact::display_list(size_t pos, std::vector<vpart_info> list)
+void veh_interact::display_list(size_t pos, std::vector<const vpart_info*> list)
 {
     werase (w_list);
     size_t page = pos / page_size;
     for (size_t i = page * page_size; i < (page + 1) * page_size && i < list.size(); i++) {
         int y = i - page * page_size;
-        nc_color col = can_currently_install(&list[i]) ? c_white : c_dkgray;
-        mvwprintz(w_list, y, 3, pos == i ? hilite (col) : col, list[i].name.c_str());
-        mvwputch (w_list, y, 1, list[i].color, special_symbol(list[i].sym));
+        nc_color col = can_currently_install(list[i]) ? c_white : c_dkgray;
+        mvwprintz(w_list, y, 3, pos == i ? hilite (col) : col, list[i]->name.c_str());
+        mvwputch (w_list, y, 1, list[i]->color, special_symbol(list[i]->sym));
     }
     wrefresh (w_list);
 }
@@ -1449,7 +1448,7 @@ void veh_interact::countDurability()
             continue;
         }
         vehicle_part part = veh->parts[it];
-        int part_dur = vehicle_part_types[part.id].durability;
+        int part_dur = part.get_vpart_info().durability;
 
         sum += part.hp;
         max += part_dur;
@@ -1680,7 +1679,7 @@ void complete_vehicle ()
         veh->last_repair_turn = calendar::turn;
         if (veh->parts[vehicle_part].hp <= 0) {
             veh->break_part_into_pieces(vehicle_part, g->u.posx, g->u.posy);
-            used_item = consume_vpart_item (veh->parts[vehicle_part].id);
+            used_item = consume_vpart_item (veh->parts[vehicle_part].get_id());
             veh->parts[vehicle_part].bigness = used_item.bigness;
             tools.push_back(tool_comp("wrench", -1));
             tools.push_back(tool_comp("survivor_belt", -1));

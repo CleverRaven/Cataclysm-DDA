@@ -3166,7 +3166,7 @@ void map::process_active_items_in_vehicle(vehicle *cur_veh, submap * const curre
         // Cache the mount position and the type, to identify
         // the vehicle part in case cur_veh->parts got changed
         const point mnt(vp.precalc_dx[0], vp.precalc_dy[0]);
-        const int vp_type = vp.iid;
+        const auto vp_type = vp.get_id();
         // This is used in game::find_item. Because otherwise the
         // temporary item would nowhere to be found.
         tmp_active_item_pos.second = point(cur_veh->global_x() + vp.precalc_dx[0], cur_veh->global_y() + vp.precalc_dy[0]);
@@ -3221,7 +3221,7 @@ void map::process_active_items_in_vehicle(vehicle *cur_veh, submap * const curre
             cargo_parts = cur_veh->all_parts_with_feature(VPFLAG_CARGO, false);
             for(part_index = 0; part_index < cargo_parts.size(); part_index++) {
                 vehicle_part &vp = cur_veh->parts[cargo_parts[part_index]];
-                if(mnt.x == vp.precalc_dx[0] && mnt.y == vp.precalc_dy[0] && vp_type == vp.iid) {
+                if(mnt.x == vp.precalc_dx[0] && mnt.y == vp.precalc_dy[0] && vp_type == vp.get_id()) {
                     // Found it, this is the vehicle part we are currently iterating overall
                     // update the item vector (if the part index changed,
                     // the address of the item vector changed, too.

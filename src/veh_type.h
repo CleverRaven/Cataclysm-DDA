@@ -62,7 +62,6 @@ enum vpart_bitflags {
  * Other flags are self-explanatory in their names. */
 struct vpart_info {
     std::string id;         // unique identifier for this part
-    int loadid;             // # of loaded order, non-saved runtime optimization
     std::string name;       // part name, user-visible
     long sym;               // symbol of part as if it's looking north
     nc_color color;         // color
@@ -101,7 +100,6 @@ struct vpart_info {
 
 extern std::map<std::string, vpart_info> vehicle_part_types;
 extern const std::string legacy_vpart_id[74];
-extern std::vector<vpart_info> vehicle_part_int_types;
 extern std::map<std::string, vpart_bitflags> vpart_bitflag_map;
 extern void init_vpart_bitflag_map();
 
