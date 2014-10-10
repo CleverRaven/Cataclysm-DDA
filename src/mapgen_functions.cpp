@@ -3827,6 +3827,7 @@ void mapgen_lmoe_under(map *m, oter_id, mapgendata dat, int, float) {
         m->place_items("shelter", 70, 18, 13, 20, 14, false, 0);
         m->place_items("novels", 70, 16, 3, 16, 5, false, 0);
         m->place_items("office", 50, 20, 7, 20, 7, false, 0);
+        m->place_items("bed", 60, 19, 3, 20, 4, false, 0);
 }
 
 
@@ -3961,6 +3962,8 @@ void mapgen_basement_survivalist(map *m, oter_id terrain_type, mapgendata dat, i
     m->place_items("lmoe_guns",  31, SEEX - 1,  7, SEEX,  7, false, 0);
     m->place_items("survival_tools", 83, SEEX - 1,  8, SEEX, 10, false, 0);
     m->place_items("manuals",  60, SEEX - 1, 11, SEEX, 11, false, 0);
+    m->place_items("bed",  60, 1, 1, 1, 2, false, 0);
+    m->place_items("bed",  60, SEEX * 2 - 2, 1, SEEX * 2 - 2, 2, false, 0);
     // Chance of zombies in the basement, only appear north of the anteroom the stairs are in.
     m->place_spawns("GROUP_ZOMBIE", 2, 1, 1, SEEX * 2 - 1, SEEX * 2 - 5, density);
 }
@@ -4451,20 +4454,20 @@ void mapgen_cabin_strange(map *m, oter_id, mapgendata dat, int, float)
   w.............|d.bb.| \n\
   |.............+..bb.w \n\
   |-+|-w-==-w-|-|.....| \n\
-  |r.|ssssssss|r+.....| \n\
+  |L.|ssssssss|r+.....| \n\
   |--|ssssssss|-|--w--| \n\
      ssCssssCss         \n\
   ^                 ^   \n",
-                                   mapf::basic_bind("% ^ f F G H u a A b C . - | t + = D w T S e o h c d r s O >", t_shrub, t_tree,
+                                   mapf::basic_bind("% ^ f F G H u a A b C . - | t + = D w T S e o h c d r s O > L", t_shrub, t_tree,
                                            t_fence_h, t_fence_v, t_fencegate_c, t_floor,   t_floor,    t_floor, t_floor,    t_floor, t_column,
                                            t_floor, t_wall_h, t_wall_v,  t_floor, t_door_c, t_door_boarded, t_door_locked_interior,
                                            t_window_boarded, t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor,   t_floor,
-                                           t_sidewalk, t_floor, t_stairs_down),
-                                   mapf::basic_bind("% ^ f F G H u a A b C . - | t + = D w T S e o h c d r s O >", f_null,  f_null,
+                                           t_sidewalk, t_floor, t_stairs_down, t_floor),
+                                   mapf::basic_bind("% ^ f F G H u a A b C . - | t + = D w T S e o h c d r s O > L", f_null,  f_null,
                                            f_null,    f_null,    f_null,        f_bathtub, f_cupboard, f_sofa,  f_armchair, f_bed,   f_null,
                                            f_null,  f_null,   f_null,    f_table, f_null,   f_null,         f_null,                 f_null,
                                            f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_dresser, f_rack,  f_null,     f_oven,
-                                           f_null));
+                                           f_null, f_locker));
         for (int i = 0; i <= 23; i++) {
             for (int j = 0; j <= 23; j++) {
                 if (m->furn(i, j) == f_fridge) {
@@ -4473,7 +4476,7 @@ void mapgen_cabin_strange(map *m, oter_id, mapgendata dat, int, float)
                 if (m->furn(i, j) == f_cupboard) {
                     m->place_items("cannedfood",  30, i, j, i, j, true, 0);
                 }
-                if (m->furn(i, j) == f_rack || m->furn(i, j) == f_dresser) {
+                if (m->furn(i, j) == f_rack || m->furn(i, j) == f_dresser || m->furn(i, j) == f_locker) {
                     m->place_items("dresser",  40, i, j, i, j, true, 0);
                 }
                 if (m->furn(i, j) == f_bookcase) {
@@ -4481,6 +4484,9 @@ void mapgen_cabin_strange(map *m, oter_id, mapgendata dat, int, float)
                 }
                 if (m->ter(i, j) == t_floor) {
                     m->place_items("subway",  10, i, j, i, j, true, 0);
+                }
+                if (m->furn(i, j) == f_locker) {
+                    m->place_items("bed",  60, i, j, i, j, true, 0);
                 }
             }
         }
@@ -4545,6 +4551,9 @@ void mapgen_cabin_strange_b(map *m, oter_id, mapgendata dat, int, float)
                 }
                 if (m->ter(i, j) == t_dirtfloor) {
                     m->place_items("subway",  10, i, j, i, j, true, 0);
+                }
+                if (m->furn(i, j) == f_bed) {
+                    m->place_items("bed",  40, i, j, i, j, true, 0);
                 }
             }
         }
@@ -4644,6 +4653,7 @@ void mapgen_cabin(map *m, oter_id, mapgendata dat, int, float)
             m->place_items("dresser", 50, 19, 4, 19, 4, false, 0);
             m->place_items("softdrugs", 60, 8, 4, 9, 7, false, 0);
             m->place_items("livingroom", 50, 14, 12, 17, 15, false, 0);
+            m->place_items("bed", 60, 17, 4, 18, 5, false, 0);
             m->add_spawn("mon_zombie", rng(1, 5), 11, 12);
 
         } else {
@@ -4682,6 +4692,7 @@ void mapgen_cabin(map *m, oter_id, mapgendata dat, int, float)
             m->place_items("dresser", 70, 16, 10, 16, 10, false, 0);
             m->place_items("dresser", 70, 19, 10, 19, 10, false, 0);
             m->place_items("tools", 70, 5, 3, 9, 3, false, 0);
+            m->place_items("bed", 60, 17, 10, 18, 11, false, 0);
             m->add_spawn("mon_zombie", rng(1, 5), 7, 4);
         }
 
