@@ -497,3 +497,22 @@ bool requirements::remove_item( const std::string &type )
 {
     return remove_item( type, tools ) || remove_item( type, components );
 }
+
+std::list<item> requirements::use_tools( player &p, int batch ) const
+{
+    std::list<item> used;
+    for( auto & objs : tools ) {
+        g->consume_tools( &p, objs, batch );
+        // TODO: register the tools in the used list.
+    }
+    return used;
+}
+
+std::list<item> requirements::use_components( player &p, int batch ) const
+{
+    std::list<item> used;
+    for( auto & objs : components ) {
+        used.splice( used.end(), g->consume_items( &p, objs, batch ) );
+    }
+    return used;
+}

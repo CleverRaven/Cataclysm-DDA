@@ -167,6 +167,8 @@ struct requirements {
                         const inventory &crafting_inv, int batch = 1) const;
         int print_time(WINDOW *w, int ypos, int xpos, int width, nc_color col, int batch = 1) const;
 
+        std::list<item> use_tools(player &p, int batch = 1) const;
+        std::list<item> use_components(player &p, int batch = 1) const;
     private:
         bool check_enough_materials(const inventory &crafting_inv, int batch = 1) const;
         bool check_enough_materials(const item_comp &comp, const inventory &crafting_inv, int batch = 1) const;
