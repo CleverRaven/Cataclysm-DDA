@@ -419,7 +419,7 @@ public:
    * It will be marked specially.
    * @param debug_monstergroups Displays monster groups on the overmap.
    */
-  static void draw(WINDOW *w, const tripoint &center,
+  static void draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
             const tripoint &orig, bool blink, bool showExplored,
             input_context* inp_ctxt, bool debug_monstergroups = false,
             const int iZoneIndex = -1);
