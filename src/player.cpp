@@ -1332,8 +1332,9 @@ void player::update_bodytemp()
             }
             else if (frostbite_timer[i] >= 3600 && disease_intensity("frostbite", false, (body_part)i) == 1)
             {
-                // Worsens to frostbite
+                // Worsens to frostbite, stops recovery
                 add_disease("frostbite", 1, true, 2, 2, 0, 1, (body_part)i, false);
+                rem_disease("frostbite_recovery", (body_part)i);
             }
             else if (frostbite_timer[i] >= 1800 && disease_intensity("frostbite", false, (body_part)i) == 2)
             {
