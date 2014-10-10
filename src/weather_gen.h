@@ -11,9 +11,10 @@ struct w_point {
     double temperature;
     double humidity;
     double pressure;
+    double windpower;
     bool acidic;
 
-    w_point(double t, double h, double p, bool a = false) : temperature(t), humidity(h), pressure(p),
+    w_point(double t, double h, double p, double w, bool a = false) : temperature(t), humidity(h), pressure(p), windpower(w),
         acidic(a) { }
 };
 
@@ -32,7 +33,8 @@ class weather_generator
         w_point get_weather(const point &, const calendar &);
         weather_type get_weather_conditions(const point &, const calendar &);
         weather_type get_weather_conditions(const w_point &) const;
-        void test_weather();
+        int get_water_temperature();
+        void test_weather();    
 };
 
 #endif

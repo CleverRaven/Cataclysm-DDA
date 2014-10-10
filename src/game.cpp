@@ -2103,12 +2103,7 @@ void game::update_weather()
 
 int game::get_temperature()
 {
-    point location = om_location();
-    int tmp_temperature = temperature;
-
-    tmp_temperature += m.temperature(u.posx, u.posy);
-
-    return tmp_temperature;
+    return temperature + m.temperature(u.posx, u.posy);
 }
 
 int game::assign_mission_id()
@@ -5285,8 +5280,21 @@ void game::draw_sidebar()
         mvwprintz(w_location, 0, 18, weather_data[weather].color, "%s", weather_data[weather].name.c_str());
     }
 
-    nc_color col_temp = c_blue;
     int display_temp = get_temperature();
+    // Apply windchill
+    w_point weatherPoint = weatherGen.get_weather(u.pos(), calendar::turn);
+    const oter_id &cur_om_ter = overmap_buffer.ter(g->om_global_location());
+    std::string omtername = otermap[cur_om_ter].name;
+    bool sheltered = is_sheltered(u.pos().x, u.pos().y);
+    int vehwindspeed = 0;
+    int vpart = -1;
+    vehicle *veh = g->m.veh_at (u.pos().x, u.pos().y, vpart);
+    if (veh) vehwindspeed = veh->velocity;
+    int windpower = weatherPoint.windpower + vehwindspeed;
+    int windchill = get_local_windchill(get_temperature(), get_local_humidity(weatherPoint.humidity, weather, sheltered), windpower, omtername, sheltered);
+    display_temp += windchill;
+
+    nc_color col_temp = c_blue;
     if (display_temp >= 90) {
         col_temp = c_red;
     } else if (display_temp >= 75) {
@@ -5299,7 +5307,7 @@ void game::draw_sidebar()
         col_temp = c_ltblue;
     }
 
-    wprintz( w_location, col_temp, " %s", print_temperature( display_temp ).c_str() );
+    wprintz( w_location, col_temp, " %s", print_temperature( display_temp ).c_str());
     wrefresh(w_location);
 
     //Safemode coloring
@@ -7436,6 +7444,27 @@ bool game::is_in_sunlight(int x, int y)
 {
     return (m.is_outside(x, y) && light_level() >= 40 &&
             (weather == WEATHER_CLEAR || weather == WEATHER_SUNNY));
+}
+
+bool game::is_sheltered(int x, int y)
+{
+    bool is_inside = false;
+    bool is_underground = false;
+    bool is_in_vehicle = false;
+    int vpart = -1;
+    vehicle *veh = m.veh_at(x, y, vpart);
+
+    if (!m.is_outside(x, y))
+        is_inside = true;
+    if (levz < 0)
+        is_underground = true;
+    if (veh && veh->is_inside(vpart))
+        is_in_vehicle = true;
+
+    if (is_inside || is_underground || is_in_vehicle)
+        return true;
+    else
+        return false;
 }
 
 bool game::is_in_ice_lab(point location)
