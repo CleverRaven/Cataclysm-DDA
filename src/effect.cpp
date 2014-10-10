@@ -6,288 +6,65 @@
 
 std::map<std::string, effect_type> effect_types;
 
+static void extract_effect_float( JsonObject &j, std::string mod_type, std::pair<float, float> &mod_value)
+{
+    if(j.has_member(mod_type)) {
+        JsonArray jsarr = j.get_array(mod_type);
+        mod_value.first = jsarr.get_float(0);
+        if (jsarr.size() >= 2) {
+            mod_value.second = jsarr.get_float(1);
+        } else {
+            mod_value.second = mod_value.first;
+        }
+    }
+}
+static void extract_effect_int( JsonObject &j, std::string mod_type, std::pair<int, int> &mod_value)
+{
+    if(j.has_member(mod_type)) {
+        JsonArray jsarr = j.get_array(mod_type);
+        mod_value.first = jsarr.get_int(0);
+        if (jsarr.size() >= 2) {
+            mod_value.second = jsarr.get_int(1);
+        } else {
+            mod_value.second = mod_value.first;
+        }
+    }
+}
+
 bool effect_mod_info::load(JsonObject &jsobj, std::string member) {
     if (jsobj.has_object(member)) {
         JsonObject j = jsobj.get_object(member);
-        if(j.has_member("str_mod")) {
-            JsonArray jsarr = j.get_array("str_mod");
-            str_mod.first = jsarr.get_float(0);
-            if (jsarr.size() >= 2) {
-                str_mod.second = jsarr.get_float(1);
-            } else {
-                str_mod.second = str_mod.first;
-            }
-        }
-        if(j.has_member("dex_mod")) {
-            JsonArray jsarr = j.get_array("dex_mod");
-            dex_mod.first = jsarr.get_float(0);
-            if (jsarr.size() >= 2) {
-                dex_mod.second = jsarr.get_float(1);
-            } else {
-                dex_mod.second = dex_mod.first;
-            }
-        }
-        if(j.has_member("per_mod")) {
-            JsonArray jsarr = j.get_array("per_mod");
-            per_mod.first = jsarr.get_float(0);
-            if (jsarr.size() >= 2) {
-                per_mod.second = jsarr.get_float(1);
-            } else {
-                per_mod.second = per_mod.first;
-            }
-        }
-        if(j.has_member("int_mod")) {
-            JsonArray jsarr = j.get_array("int_mod");
-            int_mod.first = jsarr.get_float(0);
-            if (jsarr.size() >= 2) {
-                int_mod.second = jsarr.get_float(1);
-            } else {
-                int_mod.second = int_mod.first;
-            }
-        }
-        if(j.has_member("speed_mod")) {
-            JsonArray jsarr = j.get_array("speed_mod");
-            speed_mod.first = jsarr.get_float(0);
-            if (jsarr.size() >= 2) {
-                speed_mod.second = jsarr.get_float(1);
-            } else {
-                speed_mod.second = speed_mod.first;
-            }
-        }
-        if(j.has_member("pain_amount")) {
-            JsonArray jsarr = j.get_array("pain_amount");
-            pain_amount.first = jsarr.get_int(0);
-            if (jsarr.size() >= 2) {
-                pain_amount.second = jsarr.get_int(1);
-            } else {
-                pain_amount.second = pain_amount.first;
-            }
-        }
-        if(j.has_member("pain_min")) {
-            JsonArray jsarr = j.get_array("pain_min");
-            pain_min.first = jsarr.get_int(0);
-            if (jsarr.size() >= 2) {
-                pain_min.second = jsarr.get_int(1);
-            } else {
-                pain_min.second = pain_min.first;
-            }
-        }
-        if(j.has_member("pain_max")) {
-            JsonArray jsarr = j.get_array("pain_max");
-            pain_max.first = jsarr.get_int(0);
-            if (jsarr.size() >= 2) {
-                pain_max.second = jsarr.get_int(1);
-            } else {
-                pain_max.second = pain_max.first;
-            }
-        }
-        if(j.has_member("pain_max_val")) {
-            JsonArray jsarr = j.get_array("pain_max_val");
-            pain_max_val.first = jsarr.get_int(0);
-            if (jsarr.size() >= 2) {
-                pain_max_val.second = jsarr.get_int(1);
-            } else {
-                pain_max_val.second = pain_max_val.first;
-            }
-        }
-        if(j.has_member("pain_chance")) {
-            JsonArray jsarr = j.get_array("pain_chance");
-            pain_chance_top.first = jsarr.get_int(0);
-            if (jsarr.size() >= 2) {
-                pain_chance_top.second = jsarr.get_int(1);
-            } else {
-                pain_chance_top.second = pain_chance_top.first;
-            }
-        }
-        if(j.has_member("pain_chance_bot")) {
-            JsonArray jsarr = j.get_array("pain_chance_bot");
-            pain_chance_bot.first = jsarr.get_int(0);
-            if (jsarr.size() >= 2) {
-                pain_chance_bot.second = jsarr.get_int(1);
-            } else {
-                pain_chance_bot.second = pain_chance_bot.first;
-            }
-        }
-        if(j.has_member("pain_tick")) {
-            JsonArray jsarr = j.get_array("pain_tick");
-            pain_tick.first = jsarr.get_int(0);
-            if (jsarr.size() >= 2) {
-                pain_tick.second = jsarr.get_int(1);
-            } else {
-                pain_tick.second = pain_tick.first;
-            }
-        }
-        if(j.has_member("hurt_amount")) {
-            JsonArray jsarr = j.get_array("hurt_amount");
-            hurt_amount.first = jsarr.get_int(0);
-            if (jsarr.size() >= 2) {
-                hurt_amount.second = jsarr.get_int(1);
-            } else {
-                hurt_amount.second = hurt_amount.first;
-            }
-        }
-        if(j.has_member("hurt_min")) {
-            JsonArray jsarr = j.get_array("hurt_min");
-            hurt_min.first = jsarr.get_int(0);
-            if (jsarr.size() >= 2) {
-                hurt_min.second = jsarr.get_int(1);
-            } else {
-                hurt_min.second = hurt_min.first;
-            }
-        }
-        if(j.has_member("hurt_max")) {
-            JsonArray jsarr = j.get_array("hurt_max");
-            hurt_max.first = jsarr.get_int(0);
-            if (jsarr.size() >= 2) {
-                hurt_max.second = jsarr.get_int(1);
-            } else {
-                hurt_max.second = hurt_max.first;
-            }
-        }
-        if(j.has_member("hurt_chance")) {
-            JsonArray jsarr = j.get_array("hurt_chance");
-            hurt_chance_top.first = jsarr.get_int(0);
-            if (jsarr.size() >= 2) {
-                hurt_chance_top.second = jsarr.get_int(1);
-            } else {
-                hurt_chance_top.second = hurt_chance_top.first;
-            }
-        }
-        if(j.has_member("hurt_chance_bot")) {
-            JsonArray jsarr = j.get_array("hurt_chance_bot");
-            hurt_chance_bot.first = jsarr.get_int(0);
-            if (jsarr.size() >= 2) {
-                hurt_chance_bot.second = jsarr.get_int(1);
-            } else {
-                hurt_chance_bot.second = hurt_chance_bot.first;
-            }
-        }
-        if(j.has_member("hurt_tick")) {
-            JsonArray jsarr = j.get_array("hurt_tick");
-            hurt_tick.first = jsarr.get_int(0);
-            if (jsarr.size() >= 2) {
-                hurt_tick.second = jsarr.get_int(1);
-            } else {
-                hurt_tick.second = hurt_tick.first;
-            }
-        }
-        if(j.has_member("pkill_amount")) {
-            JsonArray jsarr = j.get_array("pkill_amount");
-            pkill_amount.first = jsarr.get_int(0);
-            if (jsarr.size() >= 2) {
-                pkill_amount.second = jsarr.get_int(1);
-            } else {
-                pkill_amount.second = pkill_amount.first;
-            }
-        }
-        if(j.has_member("pkill_min")) {
-            JsonArray jsarr = j.get_array("pkill_min");
-            pkill_min.first = jsarr.get_int(0);
-            if (jsarr.size() >= 2) {
-                pkill_min.second = jsarr.get_int(1);
-            } else {
-                pkill_min.second = pkill_min.first;
-            }
-        }
-        if(j.has_member("pkill_max")) {
-            JsonArray jsarr = j.get_array("pkill_max");
-            pkill_max.first = jsarr.get_int(0);
-            if (jsarr.size() >= 2) {
-                pkill_max.second = jsarr.get_int(1);
-            } else {
-                pkill_max.second = pkill_max.first;
-            }
-        }
-        if(j.has_member("pkill_max_val")) {
-            JsonArray jsarr = j.get_array("pkill_max_val");
-            pkill_max_val.first = jsarr.get_int(0);
-            if (jsarr.size() >= 2) {
-                pkill_max_val.second = jsarr.get_int(1);
-            } else {
-                pkill_max_val.second = pkill_max_val.first;
-            }
-        }
-        if(j.has_member("pkill_chance")) {
-            JsonArray jsarr = j.get_array("pkill_chance");
-            pkill_chance_top.first = jsarr.get_int(0);
-            if (jsarr.size() >= 2) {
-                pkill_chance_top.second = jsarr.get_int(1);
-            } else {
-                pkill_chance_top.second = pkill_chance_top.first;
-            }
-        }
-        if(j.has_member("pkill_chance_bot")) {
-            JsonArray jsarr = j.get_array("pkill_chance_bot");
-            pkill_chance_bot.first = jsarr.get_int(0);
-            if (jsarr.size() >= 2) {
-                pkill_chance_bot.second = jsarr.get_int(1);
-            } else {
-                pkill_chance_bot.second = pkill_chance_bot.first;
-            }
-        }
-        if(j.has_member("pkill_tick")) {
-            JsonArray jsarr = j.get_array("pkill_tick");
-            pkill_tick.first = jsarr.get_int(0);
-            if (jsarr.size() >= 2) {
-                pkill_tick.second = jsarr.get_int(1);
-            } else {
-                pkill_tick.second = pkill_tick.first;
-            }
-        }
-        if(j.has_member("cough_chance")) {
-            JsonArray jsarr = j.get_array("cough_chance");
-            cough_chance_top.first = jsarr.get_int(0);
-            if (jsarr.size() >= 2) {
-                cough_chance_top.second = jsarr.get_int(1);
-            } else {
-                cough_chance_top.second = cough_chance_top.first;
-            }
-        }
-        if(j.has_member("cough_chance_bot")) {
-            JsonArray jsarr = j.get_array("cough_chance_bot");
-            cough_chance_bot.first = jsarr.get_int(0);
-            if (jsarr.size() >= 2) {
-                cough_chance_bot.second = jsarr.get_int(1);
-            } else {
-                cough_chance_bot.second = cough_chance_bot.first;
-            }
-        }
-        if(j.has_member("cough_tick")) {
-            JsonArray jsarr = j.get_array("cough_tick");
-            cough_tick.first = jsarr.get_int(0);
-            if (jsarr.size() >= 2) {
-                cough_tick.second = jsarr.get_int(1);
-            } else {
-                cough_tick.second = cough_tick.first;
-            }
-        }
-        if(j.has_member("vomit_chance")) {
-            JsonArray jsarr = j.get_array("vomit_chance");
-            vomit_chance_top.first = jsarr.get_int(0);
-            if (jsarr.size() >= 2) {
-                vomit_chance_top.second = jsarr.get_int(1);
-            } else {
-                vomit_chance_top.second = vomit_chance_top.first;
-            }
-        }
-        if(j.has_member("vomit_chance_bot")) {
-            JsonArray jsarr = j.get_array("vomit_chance_bot");
-            vomit_chance_bot.first = jsarr.get_int(0);
-            if (jsarr.size() >= 2) {
-                vomit_chance_bot.second = jsarr.get_int(1);
-            } else {
-                vomit_chance_bot.second = vomit_chance_bot.first;
-            }
-        }
-        if(j.has_member("vomit_tick")) {
-            JsonArray jsarr = j.get_array("vomit_tick");
-            vomit_tick.first = jsarr.get_int(0);
-            if (jsarr.size() >= 2) {
-                vomit_tick.second = jsarr.get_int(1);
-            } else {
-                vomit_tick.second = vomit_tick.first;
-            }
-        }
+        extract_effect_float(j, "str_mod", str_mod);
+        extract_effect_float(j, "dex_mod", dex_mod);
+        extract_effect_float(j, "per_mod", per_mod);
+        extract_effect_float(j, "int_mod", int_mod);
+        extract_effect_int(j, "speed_mod", speed_mod);
+        extract_effect_int(j, "pain_amount", pain_amount);
+        extract_effect_int(j, "pain_min", pain_min);
+        extract_effect_int(j, "pain_max", pain_max);
+        extract_effect_int(j, "pain_max_val", pain_max_val);
+        extract_effect_int(j, "pain_chance", pain_chance_top);
+        extract_effect_int(j, "pain_chance_bot", pain_chance_bot);
+        extract_effect_int(j, "pain_tick", pain_tick);
+        extract_effect_int(j, "hurt_amount", hurt_amount);
+        extract_effect_int(j, "hurt_min", hurt_min);
+        extract_effect_int(j, "hurt_max", hurt_max);
+        extract_effect_int(j, "hurt_chance", hurt_chance_top);
+        extract_effect_int(j, "hurt_chance_bot", hurt_chance_bot);
+        extract_effect_int(j, "hurt_tick", hurt_tick);
+        extract_effect_int(j, "pkill_amount", pkill_amount);
+        extract_effect_int(j, "pkill_min", pkill_min);
+        extract_effect_int(j, "pkill_max", pkill_max);
+        extract_effect_int(j, "pkill_max_val", pkill_max_val);
+        extract_effect_int(j, "pkill_chance", pkill_chance_top);
+        extract_effect_int(j, "pkill_chance", pkill_chance_bot);
+        extract_effect_int(j, "pkill_tick", pkill_tick);
+        extract_effect_int(j, "cough_chance", cough_chance_top);
+        extract_effect_int(j, "cough_chance_bot", cough_chance_bot);
+        extract_effect_int(j, "cough_tick", cough_tick);
+        extract_effect_int(j, "vomit_chance", vomit_chance_top);
+        extract_effect_int(j, "vomit_chance_bot", vomit_chance_bot);
+        extract_effect_int(j, "vomit_tick", vomit_tick);
         
         return true;
     } else {
