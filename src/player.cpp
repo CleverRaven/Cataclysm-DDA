@@ -799,7 +799,7 @@ void player::update_bodytemp()
     int vpart = -1;
     vehicle *veh = g->m.veh_at (posx, posy, vpart);
     int vehwindspeed = 0;
-    if (veh) vehwindspeed = veh->velocity;
+    if (veh) vehwindspeed = veh->velocity / 100; // For mph
     int total_windpower = vehwindspeed + weather.windpower;
     // Temperature norms
     // Ambient normal temperature is lower while asleep

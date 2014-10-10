@@ -5326,7 +5326,7 @@ void game::draw_sidebar()
     int vehwindspeed = 0;
     int vpart = -1;
     vehicle *veh = g->m.veh_at (u.pos().x, u.pos().y, vpart);
-    if (veh) vehwindspeed = veh->velocity;
+    if (veh) vehwindspeed = veh->velocity / 100; // For mph
     int windpower = weatherPoint.windpower + vehwindspeed;
     int windchill = get_local_windchill(get_temperature(), get_local_humidity(weatherPoint.humidity, weather, sheltered), windpower, omtername, sheltered);
     display_temp += windchill;
