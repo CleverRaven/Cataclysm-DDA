@@ -22,6 +22,32 @@
 #include <limits>  // std::numeric_limits
 #define SKIPLINE(stream) stream.ignore(std::numeric_limits<std::streamsize>::max(), '\n')
 
+// shared utility functions
+int within_visual_range(monster *z, int max) {
+    int j, dist;
+    
+    dist = rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy);
+    if (dist > max || !g->sees_u(z->posx(), z->posy(), j)) {
+        return -1;    // Out of range
+    }
+    return dist;
+}
+
+npc make_fake_npc(monster *z, int str, int dex, int inte, int per) {
+    npc tmp;
+    tmp.name = _("The ") + z->name();
+    tmp.set_fake(true);
+    tmp.recoil = 0;
+    tmp.posx = z->posx();
+    tmp.posy = z->posy();
+    tmp.str_cur = str;
+    tmp.dex_cur = dex;
+    tmp.int_cur = inte;
+    tmp.per_cur = per;
+    return tmp;
+}
+
+
 void mattack::antqueen(monster *z, int index)
 {
     std::vector<point> egg_points;
@@ -82,11 +108,8 @@ void mattack::antqueen(monster *z, int index)
 
 void mattack::shriek(monster *z, int index)
 {
-    int j;
-    if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 4 ||
-        !g->sees_u(z->posx(), z->posy(), j)) {
-        return;    // Out of range
-    }
+    if (within_visual_range(z, 4) < 0) return;
+
     z->moves -= 240;   // It takes a while
     z->reset_special(index); // Reset timer
     g->sound(z->posx(), z->posy(), 50, _("a terrible shriek!"));
@@ -94,11 +117,8 @@ void mattack::shriek(monster *z, int index)
 
 void mattack::howl(monster *z, int index)
 {
-    int j;
-    if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 4 ||
-        !g->sees_u(z->posx(), z->posy(), j)) {
-        return; // Out of range
-    }
+    if (within_visual_range(z, 4) < 0) return;
+
     z->moves -= 200;   // It takes a while
     z->reset_special(index); // Reset timer
     g->sound(z->posx(), z->posy(), 35, _("an ear-piercing howl!"));
@@ -106,11 +126,8 @@ void mattack::howl(monster *z, int index)
 
 void mattack::rattle(monster *z, int index)
 {
-    int j;
-    if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 4 ||
-        !g->sees_u(z->posx(), z->posy(), j)) {
-        return;    // Out of range
-    }
+    if (within_visual_range(z, 4) < 0) return;
+
     z->moves -= 20;   // It takes a very short while
     z->reset_special(index); // Reset timer
     g->sound(z->posx(), z->posy(), 10, _("a sibilant rattling sound!"));
@@ -219,12 +236,12 @@ void mattack::smokecloud(monster *z, int index)
 
 void mattack::boomer(monster *z, int index)
 {
-    int j;
-    if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 3 ||
-        !g->sees_u(z->posx(), z->posy(), j)) {
-        return;    // Out of range
+    int dist = within_visual_range(z, 3);
+    if (dist < 0) {
+        return;
     }
-    std::vector<point> line = line_to(z->posx(), z->posy(), g->u.posx, g->u.posy, j);
+
+    std::vector<point> line = line_to(z->posx(), z->posy(), g->u.posx, g->u.posy, dist);
     z->reset_special(index); // Reset timer
     z->moves -= 250;   // It takes a while
     bool u_see = g->u_see(z->posx(), z->posy());
@@ -314,10 +331,10 @@ void mattack::resurrect(monster *z, int index)
 
 void mattack::smash(monster *z, int index)
 {
-    int t, dist = rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy);
-    if (dist > 1 || !g->sees_u(z->posx(), z->posy(), t)) {
-        return;    // Out of range
+    if (within_visual_range(z, 1) < 0) {
+        return;
     }
+
     z->reset_special(index); // Reset timer
     // Costs lots of moves to give you a little bit of a chance to get away.
     z->moves -= 400;
@@ -342,10 +359,11 @@ void mattack::smash(monster *z, int index)
 
 void mattack::science(monster *z, int index) // I said SCIENCE again!
 {
-    int t, dist = rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy);
-    if (dist > 5 || !g->sees_u(z->posx(), z->posy(), t)) {
-        return;    // Out of range
+    int dist = within_visual_range(z, 5);
+    if (dist < 0) {
+        return;
     }
+
     z->reset_special(index); // Reset timer
     std::vector<point> free;
     for (int x = z->posx() - 1; x <= z->posx() + 1; x++) {
@@ -667,16 +685,12 @@ void mattack::vine(monster *z, int index)
 void mattack::spit_sap(monster *z, int index)
 {
     // TODO: Friendly biollantes?
-    int t = 0;
-    if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 12 ||
-        !g->sees_u(z->posx(), z->posy(), t)) {
-        return;
-    }
+    int dist = within_visual_range(z, 12);
+    if (dist < 0) return;
 
     z->moves -= 150;
     z->reset_special(index); // Reset timer
 
-    int dist = rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy);
     int deviation = rng(1, 10);
     double missed_by = (.0325 * deviation * dist);
     std::set<std::string> no_effects;
@@ -708,6 +722,7 @@ void mattack::spit_sap(monster *z, int index)
     if (g->u_see(z->posx(), z->posy())) {
         add_msg(_("The %s spits sap!"), z->name().c_str());
     }
+    int t;
     g->m.sees(g->u.posx, g->u.posy, z->posx(), z->posy(), 60, t);
     std::vector<point> line = line_to(z->posx(), z->posy(), g->u.posx, g->u.posy, t);
     int dam = 5;
@@ -1792,11 +1807,8 @@ void mattack::vortex(monster *z, int index)
 
 void mattack::gene_sting(monster *z, int index)
 {
-    int j;
-    if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 7 ||
-        !g->sees_u(z->posx(), z->posy(), j)) {
-        return;    // Not within range and/or sight
-    }
+    if (within_visual_range(z, 7) < 0) return;
+
     if (g->u.uncanny_dodge()) {
         return;
     }
@@ -1808,11 +1820,8 @@ void mattack::gene_sting(monster *z, int index)
 
 void mattack::para_sting(monster *z, int index)
 {
-    int j;
-    if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 4 ||
-        !g->sees_u(z->posx(), z->posy(), j)) {
-        return;    // Not within range and/or sight
-    }
+    if (within_visual_range(z, 4) < 0) return;
+
     if (g->u.uncanny_dodge()) {
         return;
     }
@@ -1875,12 +1884,8 @@ void mattack::fear_paralyze(monster *z, int index)
 
 void mattack::photograph(monster *z, int index)
 {
-    int t;
-    if (z->faction_id == -1 ||
-        rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 6 ||
-        !g->sees_u(z->posx(), z->posy(), t)) {
-        return;
-    }
+    if (z->faction_id == -1 || (within_visual_range(z, 6) < 0)) return;
+
     z->reset_special(index); // Reset timer
     z->moves -= 150;
     add_msg(m_warning, _("The %s takes your picture!"), z->name().c_str());
@@ -1891,16 +1896,13 @@ void mattack::photograph(monster *z, int index)
 
 void mattack::tazer(monster *z, int index)
 {
+    if (within_visual_range(z, 2) < 0) return;
+
     if (z->friendly != 0) {
       // friendly
       return;
     }
  
-    int j;
-    if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 2 ||
-        !g->sees_u(z->posx(), z->posy(), j)) {
-        return; // Out of range
-    }
     if (g->u.uncanny_dodge()) {
         return;
     }
@@ -1926,17 +1928,9 @@ void mattack::smg(monster *z, int index)
     }
     int fire_t = 0;
 
-    npc tmp;
-    tmp.name = _("The ") + z->name();
-    tmp.set_fake(true);
+    npc tmp = make_fake_npc(z, 16, 8, 8, 12);
     tmp.skillLevel("smg").level(8);
     tmp.skillLevel("gun").level(4);
-    tmp.recoil = 0;
-    tmp.posx = z->posx();
-    tmp.posy = z->posy();
-    tmp.str_cur = 16;
-    tmp.dex_cur = 8;
-    tmp.per_cur = 12;
 
     z->reset_special(index); // Reset timer
     Creature *target = NULL;
@@ -1956,11 +1950,8 @@ void mattack::smg(monster *z, int index)
         }
     } else {
         // Not friendly; hence, firing at the player
-        if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 24 ||
-            !g->sees_u(z->posx(), z->posy(), fire_t)) {
-            // Can't see and can't reach the player
-            return;
-        }
+        if (within_visual_range(z, 24) < 0) return;
+
         if (!z->has_effect("targeted")) {
             g->sound(z->posx(), z->posy(), 6, _("beep-beep-beep!"));
             z->add_effect("targeted", 8);
@@ -1997,17 +1988,10 @@ void mattack::laser(monster *z, int index)
 {
     bool sunlight = g->is_in_sunlight(z->posx(), z->posy());
     int fire_t = 0;
-    npc tmp;
-    tmp.name = _("The ") + z->name();
-    tmp.set_fake(true);
+
+    npc tmp = make_fake_npc(z, 16, 8, 8, 12);
     tmp.skillLevel("rifle").level(8);
     tmp.skillLevel("gun").level(4);
-    tmp.recoil = 0;
-    tmp.posx = z->posx();
-    tmp.posy = z->posy();
-    tmp.str_cur = 16;
-    tmp.dex_cur = 8;
-    tmp.per_cur = 12;
 
     z->reset_special(index); // Reset timer
     Creature *target = NULL;
@@ -2027,11 +2011,8 @@ void mattack::laser(monster *z, int index)
         }
     } else {
         // Not friendly; hence, firing at the player
-        if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 24 ||
-            !g->sees_u(z->posx(), z->posy(), fire_t)) {
-            // Can't see and can't reach the player
-            return;
-        }
+        if (within_visual_range(z, 24) < 0) return;
+
         if (!z->has_effect("targeted")) {
             g->sound(z->posx(), z->posy(), 6, _("beep-beep-beep!"));
             z->add_effect("targeted", 8);
@@ -2072,17 +2053,9 @@ void mattack::rifle_tur(monster *z, int index)
     }
     int fire_t = 0;
 
-    npc tmp;
-    tmp.name = _("The ") + z->name();
-    tmp.set_fake(true);
+    npc tmp = make_fake_npc(z, 16, 10, 8, 12);
     tmp.skillLevel("rifle").level(8);
     tmp.skillLevel("gun").level(6);
-    tmp.recoil = 0;
-    tmp.posx = z->posx();
-    tmp.posy = z->posy();
-    tmp.str_cur = 16;
-    tmp.dex_cur = 10;
-    tmp.per_cur = 12;
 
     z->reset_special(index); // Reset timer
     Creature *target = NULL;
@@ -2102,12 +2075,9 @@ void mattack::rifle_tur(monster *z, int index)
         }
     } else {
         // Not friendly; hence, firing at the player
-        if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 36 ||
-            !g->sees_u(z->posx(), z->posy(), fire_t)) {
-            // Can't see and can't reach the player
-            // (This is a bit generous: 5.56 has 38 range.)
-            return;
-        }
+        // (This is a bit generous: 5.56 has 38 range.)
+        if (within_visual_range(z, 36) < 0) return;
+
         if (!z->has_effect("targeted")) {
             g->sound(z->posx(), z->posy(), 8, _("beep-beep."));
             z->add_effect("targeted", 8);
@@ -2149,17 +2119,9 @@ void mattack::frag_tur(monster *z, int index) // This is for the bots, not a sta
     }
     int fire_t = 0;
 
-    npc tmp;
-    tmp.name = _("The ") + z->name();
-    tmp.set_fake(true);
+    npc tmp = make_fake_npc(z, 16, 10, 8, 12);
     tmp.skillLevel("launcher").level(8);
     tmp.skillLevel("gun").level(6);
-    tmp.recoil = 0;
-    tmp.posx = z->posx();
-    tmp.posy = z->posy();
-    tmp.str_cur = 16;
-    tmp.dex_cur = 10;
-    tmp.per_cur = 12;
 
     z->reset_special(index); // Reset timer
     Creature *target = NULL;
@@ -2179,12 +2141,9 @@ void mattack::frag_tur(monster *z, int index) // This is for the bots, not a sta
         }
     } else {
         // Not friendly; hence, firing at the player
-        if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 38 ||
-            !g->sees_u(z->posx(), z->posy(), fire_t)) {
-            // Can't see and can't reach the player
-            // (Be grateful for safety precautions.  40mm frag has range 40.)
-            return;
-        }
+        // (Be grateful for safety precautions.  40mm frag has range 40.)
+        if (within_visual_range(z, 38) < 0) return;
+
         if (!z->has_effect("targeted")) {
             if (g->u_see(z->posx(), z->posy())) {
                 //~Potential grenading detected.
@@ -2230,17 +2189,9 @@ void mattack::bmg_tur(monster *z, int index)
     }
     int fire_t = 0;
 
-    npc tmp;
-    tmp.name = _("The ") + z->name();
-    tmp.set_fake(true);
+    npc tmp = make_fake_npc(z, 16, 10, 8, 12);
     tmp.skillLevel("rifle").level(8);
     tmp.skillLevel("gun").level(6);
-    tmp.recoil = 0;
-    tmp.posx = z->posx();
-    tmp.posy = z->posy();
-    tmp.str_cur = 16;
-    tmp.dex_cur = 10;
-    tmp.per_cur = 12;
 
     z->reset_special(index); // Reset timer
     Creature *target = NULL;
@@ -2260,12 +2211,9 @@ void mattack::bmg_tur(monster *z, int index)
         }
     } else {
         // Not friendly; hence, firing at the player
-        if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 40 ||
-            !g->sees_u(z->posx(), z->posy(), fire_t)) {
-            // Can't see and can't reach the player
-            // (Be grateful for safety precautions.  50BMG has range 90.)
-            return;
-        }
+        // (Be grateful for safety precautions.  50BMG has range 90.)
+        if (within_visual_range(z, 40) < 0) return;
+
         if (!z->has_effect("targeted")) {
             if (g->u_see(z->posx(), z->posy())) {
                 //~There will be a .50BMG shell sent at high speed to your location next turn.
@@ -2313,19 +2261,11 @@ void mattack::tank_tur(monster *z, int index)
     }
     int fire_t = 0;
 
-    npc tmp;
-    tmp.name = _("The ") + z->name();
-    tmp.set_fake(true);
     // kevingranade KA101: yes, but make it really inaccurate
     // Sure thing.
+    npc tmp = make_fake_npc(z, 12, 8, 8, 8);
     tmp.skillLevel("launcher").level(2);
     tmp.skillLevel("gun").level(2);
-    tmp.recoil = 0;
-    tmp.posx = z->posx();
-    tmp.posy = z->posy();
-    tmp.str_cur = 12;
-    tmp.dex_cur = 8;
-    tmp.per_cur = 8;
 
     z->reset_special(index); // Reset timer
     Creature *target = NULL;
@@ -2345,12 +2285,9 @@ void mattack::tank_tur(monster *z, int index)
         }
     } else {
         // Not friendly; hence, firing at the player
-        if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 50 ||
-            !g->sees_u(z->posx(), z->posy(), fire_t)) {
-            // Can't see and can't reach the player
-            // (Be grateful for safety precautions.)
-            return;
-        }
+        // (Be grateful for safety precautions.)
+        if (within_visual_range(z, 50) < 0) return;
+
         if (!z->has_effect("targeted")) {
             if (g->u_see(z->posx(), z->posy())) {
                 //~ There will be a 120mm HEAT shell sent at high speed to your location next turn.
@@ -2578,19 +2515,9 @@ void mattack::flamethrower(monster *z, int index)
 {
     if (z->friendly != 0) {
       // friendly
-
-      npc tmp;
-      tmp.name = _("The ") + z->name();
-      tmp.set_fake(true);
+      npc tmp = make_fake_npc(z, 12, 8, 8, 8);
       tmp.skillLevel("launcher").level(2);
       tmp.skillLevel("gun").level(2);
-      tmp.recoil = 0;
-      tmp.posx = z->posx();
-      tmp.posy = z->posy();
-      tmp.str_cur = 12;
-      tmp.dex_cur = 8;
-      tmp.per_cur = 8;
-
       z->reset_special(index); // Reset timer
       Creature *target = NULL;
 
@@ -2624,14 +2551,14 @@ void mattack::flamethrower(monster *z, int index)
       return;
     }
  
-    int t;
-    if (abs(g->u.posx - z->posx()) > 5 || abs(g->u.posy - z->posy()) > 5 ||
-        !g->sees_u(z->posx(), z->posy(), t)) {
-        return;    // Out of range
+    int dist = within_visual_range(z, 5);
+    if (dist < 0) {
+        return;
     }
+
     z->reset_special(index); // Reset timer
     z->moves -= 500;   // It takes a while
-    std::vector<point> traj = line_to(z->posx(), z->posy(), g->u.posx, g->u.posy, t);
+    std::vector<point> traj = line_to(z->posx(), z->posy(), g->u.posx, g->u.posy, dist);
 
     for (auto &i : traj) {
         // break out of attack if flame hits a wall
@@ -2654,7 +2581,7 @@ void mattack::copbot(monster *z, int index)
     bool sees_u = g->sees_u(z->posx(), z->posy(), t);
     bool cuffed = g->u.weapon.type->id == "e_handcuffs";
     z->reset_special(index); // Reset timer
-    if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 2 || !sees_u) {
+    if (within_visual_range(z, 2) < 0) {
         if (one_in(3)) {
             if (sees_u) {
                 if (g->u.unarmed_attack()) {
