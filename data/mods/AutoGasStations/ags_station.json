@@ -68,7 +68,7 @@
             ],
             
             "add": [
-                { "item": "gasoline", "x": 3, "y": 5, "repeat": [60000, 95000] }
+                { "item": "gasoline", "x": 3, "y": 5, "repeat": [1000, 4000] }
             ],
 
             "set": [
