@@ -225,6 +225,7 @@ void Pickup::pick_one_up( const point &pickup_target, std::vector<item> &here, v
 {
     int moves_taken = 100;
     bool picked_up = false;
+    int extra_moves_taken = 0;
     item &newit = here[ index ];
     item leftovers = newit;
 
@@ -245,7 +246,31 @@ void Pickup::pick_one_up( const point &pickup_target, std::vector<item> &here, v
     }
 
     if( newit.made_of(LIQUID) ) {
-        got_water = true;
+        if (!g->u.has_item_with_flag("IS_SPONGE")) {
+            got_water = true;
+        }else {
+            add_msg(m_info, _("You use your sponge to gather up the %s."), newit.display_name().c_str());
+            long oldamount = newit.charges;
+            if(g->handle_liquid(newit, true, false)) {
+                //handle_liquid returns true when the source is exhausted
+                picked_up = true;
+                //for consumable liquids, the time taken is 100 per portion
+                //for gasoline and lamp oil it's 100 per 100 units
+                extra_moves_taken = oldamount * 100;
+                if(newit.typeId() == "gasoline" || newit.typeId() == "lamp_oil") {
+                    extra_moves_taken /= 100;
+                }
+                extra_moves_taken -= moves_taken;
+            }else if(oldamount > newit.charges) {
+                //false means either partial move, or none, check to see which
+                //for consumable liquids, the time taken is 100 per portion
+                //for gasoline and lamp oil it's 100 per 100 units
+                extra_moves_taken = (oldamount - newit.charges) * 100;
+                if(newit.typeId() == "gasoline" || newit.typeId() == "lamp_oil") {
+                    extra_moves_taken /= 100;
+                }
+            }
+        }
     } else if (!g->u.can_pickWeight(newit.weight(), false)) {
         add_msg(m_info, _("The %s is too heavy!"), newit.display_name().c_str());
     } else if (!g->u.can_pickVolume(newit.volume())) {
@@ -319,6 +344,10 @@ void Pickup::pick_one_up( const point &pickup_target, std::vector<item> &here, v
     if(picked_up) {
         Pickup::remove_from_map_or_vehicle(pickup_target.x, pickup_target.y,
                                            veh, cargo_part, moves_taken, index);
+    }
+    if(extra_moves_taken > 0) {
+        //handle_liquid takes care of moving the liquids, this just ensures that proper time passes
+        g->u.moves -= extra_moves_taken;
     }
     if( quantity != 0 ) {
         bool to_map = veh == nullptr;
