@@ -605,11 +605,13 @@
         "id" : "cube_van",
         "name" : "Cube Van",
         "blueprint" : [
+            ["     o "],
             ["O---+-O"],
             ["+==|#'|"],
             ["+==|o'>"],
             ["+==|#'|"],
-            ["O---+-O"]
+            ["O---+-O"],
+            ["     o "]
         ],
         "parts" : [
             {"x": 0, "y": 1, "part": "frame_vertical"},
@@ -637,8 +639,10 @@
             {"x": 1, "y": 2, "part": "windshield"},
             {"x": 1, "y": -1, "part": "frame_vertical"},
             {"x": 1, "y": -1, "part": "windshield"},
+            {"x": 1, "y": -2, "part": "wing_mirror"},
             {"x": 1, "y": 3, "part": "frame_vertical"},
             {"x": 1, "y": 3, "part": "windshield"},
+            {"x": 1, "y": 4, "part": "wing_mirror"},
             {"x": 2, "y": 0, "part": "frame_horizontal"},
             {"x": 2, "y": 0, "part": "halfboard_horizontal"},
             {"x": 2, "y": 1, "part": "frame_cover"},
@@ -721,6 +725,7 @@
         "id" : "cube_van_cheap",
         "name" : "Low-End Cube Van",
         "blueprint" : [
+            ["     o "],
             ["O---+-O"],
             ["+==|#'|"],
             ["+==|o'>"],
@@ -753,6 +758,7 @@
             {"x": 1, "y": 2, "part": "windshield"},
             {"x": 1, "y": -1, "part": "frame_vertical"},
             {"x": 1, "y": -1, "part": "windshield"},
+            {"x": 1, "y": -2, "part": "wing_mirror"},
             {"x": 1, "y": 3, "part": "frame_vertical"},
             {"x": 1, "y": 3, "part": "windshield"},
             {"x": 2, "y": 0, "part": "frame_horizontal"},
@@ -837,12 +843,14 @@
         "id" : "semi_truck",
         "name" : "Semi Truck",
         "blueprint" : [
+                ["       o  "],
                 ["OO ---+-O-"],
                 ["OO=|#|#'|H"],
                 ["++-|o|o'|>"],
                 ["++-|o+o'|>"],
                 ["OO=|#|#'|H"],
-                ["OO ---+=O-"]
+                ["OO ---+=O-"],
+                ["       o  "]
         ],
         "parts" : [
             {"x": -2, "y": 2, "part": "hdframe_vertical_2"},
@@ -925,8 +933,10 @@
             {"x": 1, "y": 0, "part": "windshield"},
             {"x": 1, "y": 4, "part": "hdframe_vertical"},
             {"x": 1, "y": 4, "part": "windshield"},
+            {"x": 1, "y": 5, "part": "wing_mirror"},
             {"x": 1, "y": -1, "part": "hdframe_vertical"},
             {"x": 1, "y": -1, "part": "windshield"},
+            {"x": 1, "y": -2, "part": "wing_mirror"},
             {"x": -5, "y": 2, "part": "hdframe_cross"},
             {"x": -5, "y": 1, "part": "hdframe_cross"},
             {"x": -5, "y": 3, "part": "hdframe_horizontal"},
@@ -1729,6 +1739,7 @@
         "parts" : [
             {"x": 1, "y": -1, "part": "frame_nw"},
             {"x": 1, "y": -1, "part": "windshield"},
+            {"x": 1, "y": -2, "part": "wing_mirror"},
             {"x": 1, "y": 0, "part": "frame_horizontal"},
             {"x": 1, "y": 0, "part": "headlight"},
             {"x": 1, "y": 0, "part": "windshield"},
@@ -1739,6 +1750,7 @@
             {"x": 1, "y": 2, "part": "windshield"},
             {"x": 1, "y": 3, "part": "frame_ne"},
             {"x": 1, "y": 3, "part": "windshield"},
+            {"x": 1, "y": 4, "part": "wing_mirror"},
             {"x": 0, "y": -1, "part": "frame_vertical"},
             {"x": 0, "y": -1, "part": "wheel_wide"},
             {"x": 0, "y": -1, "part": "door"},
@@ -2699,11 +2711,13 @@
         "id" : "rv",
         "name" : "RV",
         "blueprint" : [
+            ["       o "],
             ["+OO---+-O"],
             ["|&==#|#'|"],
             ["|====+H'|"],
             ["|#==H|#'|"],
-            ["+OO-+-+-O"]
+            ["+OO-+-+-O"],
+            ["       o "]
         ],
         "parts" : [
             {"x": 0, "y": 1, "part": "frame_vertical_2"},
@@ -2736,8 +2750,10 @@
             {"x": 1, "y": 0, "part": "windshield"},
             {"x": 1, "y": 3, "part": "frame_vertical"},
             {"x": 1, "y": 3, "part": "windshield"},
+            {"x": 1, "y": 4, "part": "wing_mirror"},
             {"x": 1, "y": -1, "part": "frame_vertical"},
             {"x": 1, "y": -1, "part": "windshield"},
+            {"x": 1, "y": -2, "part": "wing_mirror"},
             {"x": 2, "y": 1, "part": "frame_horizontal"},
             {"x": 2, "y": 1, "part": "halfboard_horizontal"},
             {"x": 2, "y": 1, "part": "headlight"},
@@ -2857,11 +2873,13 @@
         "id" : "meth_lab",
         "name" : "Mobile Meth Lab",
         "blueprint" : [
+            ["       o "],
             ["+OO---+-O"],
             ["|&===|#'|"],
             ["|====+H'|"],
             ["|===H|#'|"],
-            ["+OO-+-+-O"]
+            ["+OO-+-+-O"],
+            ["       o "]
         ],
         "parts" : [
             {"x": 0, "y": 1, "part": "frame_vertical_2"},
@@ -2894,8 +2912,10 @@
             {"x": 1, "y": 0, "part": "windshield"},
             {"x": 1, "y": 3, "part": "frame_vertical"},
             {"x": 1, "y": 3, "part": "windshield"},
+            {"x": 1, "y": 4, "part": "wing_mirror"},
             {"x": 1, "y": -1, "part": "frame_vertical"},
             {"x": 1, "y": -1, "part": "windshield"},
+            {"x": 1, "y": -2, "part": "wing_mirror"},
             {"x": 2, "y": 1, "part": "frame_horizontal"},
             {"x": 2, "y": 1, "part": "halfboard_horizontal"},
             {"x": 2, "y": 1, "part": "headlight"},
@@ -3666,11 +3686,13 @@
         "id" : "ambulance",
         "name" : "Ambulance",
         "blueprint" : [
+            ["      o "],
             ["O----+-O"],
             ["|===|#'|"],
             ["+=#=|o'>"],
             ["|===|#'|"],
-            ["O--+-+-O"]
+            ["O--+-+-O"],
+            ["      o "]
         ],
         "parts" : [
             {"x": 0, "y": 1, "part": "frame_vertical"},
@@ -3698,8 +3720,10 @@
             {"x": 1, "y": 2, "part": "windshield"},
             {"x": 1, "y": -1, "part": "frame_vertical"},
             {"x": 1, "y": -1, "part": "windshield"},
+            {"x": 1, "y": -2, "part": "wing_mirror"},
             {"x": 1, "y": 3, "part": "frame_vertical"},
             {"x": 1, "y": 3, "part": "windshield"},
+            {"x": 1, "y": 4, "part": "wing_mirror"},
             {"x": 2, "y": 0, "part": "frame_horizontal"},
             {"x": 2, "y": 0, "part": "halfboard_horizontal"},
             {"x": 2, "y": 1, "part": "frame_cover"},
@@ -3808,11 +3832,13 @@
         "id" : "fire_truck",
         "name" : "Fire Truck",
         "blueprint" : [
+            ["        o"],
             ["|+++-+-+-"],
             ["|===|#*#*"],
             ["+===|=*H|"],
             ["|===|#*#*"],
-            ["|+++-+-+-"]
+            ["|+++-+-+-"],
+            ["        o"]
         ],
         "parts" : [
             {"x": 2, "y": -1, "part": "hdframe_nw"},
@@ -3832,6 +3858,7 @@
             {"x": 1, "y": -1, "part": "headlight"},
             {"x": 1, "y": -1, "part": "windshield"},
             {"x": 1, "y": -1, "part": "roof"},
+            {"x": 1, "y": -2, "part": "wing_mirror"},
             {"x": 1, "y": 0, "part": "hdframe_horizontal"},
             {"x": 1, "y": 0, "part": "windshield"},
             {"x": 1, "y": 0, "part": "roof"},
@@ -3845,6 +3872,7 @@
             {"x": 1, "y": 3, "part": "headlight"},
             {"x": 1, "y": 3, "part": "windshield"},
             {"x": 1, "y": 3, "part": "roof"},
+            {"x": 1, "y": 4, "part": "wing_mirror"},
             {"x": 0, "y": -1, "part": "hdframe_vertical"},
             {"x": 0, "y": -1, "part": "door"},
             {"x": 0, "y": -1, "part": "roof"},
