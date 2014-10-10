@@ -1427,13 +1427,16 @@ bool game::do_turn()
     // Process power and fuel consumption for all vehicles, including off-map ones.
     // m.vehmove used to do this, but now it only give them moves instead.
     for(auto it = MAPBUFFER.begin(); it != MAPBUFFER.end(); ++it) {
+        tripoint sm_loc = it->first;
+        point sm_topleft = overmapbuffer::sm_to_ms_copy(sm_loc.x, sm_loc.y);
+
         submap* sm = it->second;
 
         for(size_t i = 0; i < sm->vehicles.size(); i++) {
             auto veh = sm->vehicles[i];
 
             veh->power_parts();
-            veh->idle();
+            veh->idle(m.inbounds(sm_topleft.x, sm_topleft.y));
         }
     }
     m.process_fields();

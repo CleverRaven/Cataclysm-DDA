@@ -2340,7 +2340,7 @@ void vehicle::spew_smoke( double joules, int part )
  * load = how hard the engines are working, from 0.0 til 1.0
  * time = how many seconds to generated smoke for
  */
-void vehicle::noise_and_smoke( double load, double time )
+void vehicle::noise_and_smoke( double load, double time, bool on_map )
 {
     const int sound_levels[] = { 0, 15, 30, 60, 100, 140, 180, INT_MAX };
     const char *sound_msgs[] = { "", "hummm!", "whirrr!", "vroom!", "roarrr!", "ROARRR!",
@@ -2387,7 +2387,7 @@ void vehicle::noise_and_smoke( double load, double time )
         }
     }
 
-    if( (exhaust_part != -1) && engine_on ) { // No engine, no smoke
+    if( (exhaust_part != -1) && engine_on && on_map ) { // No engine, no smoke
         spew_smoke( mufflesmoke, exhaust_part );
     }
     // Even a car with engines off will make noise traveling at high speeds
@@ -2889,7 +2889,7 @@ int vehicle::discharge_battery (int amount, bool recurse)
     return amount; // non-zero if we weren't able to fulfill demand.
 }
 
-void vehicle::idle() {
+void vehicle::idle(bool on_map) {
     int engines_power = 0;
     float idle_rate;
 
@@ -2914,7 +2914,7 @@ void vehicle::idle() {
         idle_rate = (float)alternator_load / (float)engines_power;
         if (idle_rate < 0.01) idle_rate = 0.01; // minimum idle is 1% of full throttle
         consume_fuel(idle_rate);
-        noise_and_smoke( idle_rate );
+        noise_and_smoke( idle_rate, 6.0, on_map );
     }
     else {
         if (g->u_see(global_x(), global_y()) && engine_on) {

@@ -297,6 +297,15 @@ public:
     static void ms_to_sm(tripoint& p) { ms_to_sm(p.x, p.y); }
     static point ms_to_sm_remain(int &x, int &y);
     static point ms_to_sm_remain(point& p) { return ms_to_sm_remain(p.x, p.y); }
+    // submap back to map squares, basically: x *= SEEX
+    // Note: this gives you the map square coords of the top-left corner
+    // of the given submap.
+    static point sm_to_ms_copy(int x, int y);
+    static point sm_to_ms_copy(const point& p) { return sm_to_ms_copy(p.x, p.y); }
+    static tripoint sm_to_ms_copy(const tripoint& p);
+    static void sm_to_ms(int &x, int &y);
+    static void sm_to_ms(point& p) { sm_to_ms(p.x, p.y); }
+    static void sm_to_ms(tripoint& p) { sm_to_ms(p.x, p.y); }
     // map squares to overmap terrain, basically: x /= SEEX * 2
     static point ms_to_omt_copy(int x, int y);
     static point ms_to_omt_copy(const point& p) { return ms_to_omt_copy(p.x, p.y); }

@@ -737,6 +737,21 @@ point overmapbuffer::ms_to_sm_remain(int &x, int &y) {
 
 
 
+point overmapbuffer::sm_to_ms_copy(int x, int y) {
+    return point(x * SEEX, y * SEEY);
+}
+
+tripoint overmapbuffer::sm_to_ms_copy(const tripoint& p) {
+    return tripoint(p.x * SEEX, p.y * SEEY, p.z);
+}
+
+void overmapbuffer::sm_to_ms(int &x, int &y) {
+    x *= SEEX;
+    y *= SEEY;
+}
+
+
+
 point overmapbuffer::ms_to_omt_copy(int x, int y) {
     return point(divide(x, SEEX * 2), divide(y, SEEY * 2));
 }
