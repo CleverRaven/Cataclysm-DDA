@@ -488,6 +488,16 @@ void game::init_ui()
     werase(w_status2);
 }
 
+void game::reinit_ui()
+{
+    init_ui();
+    if(m){
+        refresh_all();
+    }else {
+        refresh();
+    }
+}
+
 void game::toggle_sidebar_style(void)
 {
     narrow_sidebar = !narrow_sidebar;

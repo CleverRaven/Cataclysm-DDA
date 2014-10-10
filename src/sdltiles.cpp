@@ -1075,6 +1075,15 @@ void CheckMessages()
     if (needupdate) {
         try_update();
     }
+
+    if(g && OVERMAP_WINDOW_HEIGHT) {
+        if(get_window_terminal_height() != get_terminal_height() || get_window_terminal_width() != get_terminal_width()) {
+            TERMINAL_HEIGHT = get_window_terminal_height();
+            TERMINAL_WIDTH = get_window_terminal_width();
+            g->reinit_ui();
+        }
+    }
+
 #endif
     if(quit) {
         endwin();
@@ -1690,14 +1699,14 @@ int get_terminal_height() {
 
 int get_window_terminal_height() {
     int w, h;
-    SDL_GetWindowSize(window, w, h);
+    SDL_GetWindowSize(window, &w, &h);
     return h / fontheight;
 }
 
 int get_window_terminal_width() {
     int w, h;
-    SDL_GetWindowSize(window, w, h);
-    return h / fontwidth;
+    SDL_GetWindowSize(window, &w, &h);
+    return w / fontwidth;
 }
 
 BitmapFont::BitmapFont(int w, int h)
