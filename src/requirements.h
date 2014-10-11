@@ -194,4 +194,35 @@ struct requirements {
         static const T *find_by_type(const std::vector< std::vector<T> > &vec, const std::string &type);
 };
 
+struct requirements_with_name : public requirements {
+    /**
+        * User displayed string that names this requirement,
+        * used to let the user choose which one to use.
+        */
+    std::string name;
+
+    void load( JsonObject &jsobj );
+};
+
+/**
+ * A list of alternative requirements, only one of them must be fulfilled.
+ */
+struct multi_requirements {
+    std::vector<requirements_with_name> alternatives;
+
+    bool can_make_with_inventory( const inventory &inv ) const;
+
+    int print( WINDOW *w, int ypos, int xpos, int width, nc_color col,
+               const inventory &crafting_inv ) const;
+
+    // Loads a single requirement
+    void load( JsonObject &jsobj );
+    // Loads a list of requirements
+    void load( JsonArray &jsarr );
+
+    void check_consistency(const std::string &display_name) const;
+
+    void use_components_and_tools( player &u, const inventory &inv ) const;
+};
+
 #endif

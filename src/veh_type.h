@@ -2,10 +2,11 @@
 #define VEH_TYPE_H
 
 #include "color.h"
-#include "itype.h"
 #include <memory>
 
-struct requirements;
+typedef std::string itype_id;
+
+struct multi_requirements;
 
 /**
  * Represents an entry in the breaks_into list.
@@ -104,15 +105,15 @@ struct vpart_info {
      * The item part itself (e.g. the wheel item) is queried separately
      * and must *not* be included here.
      */
-    std::unique_ptr<requirements> installation;
+    std::unique_ptr<multi_requirements> installation;
     /**
      * What is required to remove this item.
      */
-    std::unique_ptr<requirements> removal;
+    std::unique_ptr<multi_requirements> removal;
     /**
      * What is required to repair this part.
      */
-    std::unique_ptr<requirements> repair;
+    std::unique_ptr<multi_requirements> repair;
     /**
      * If true, scales the repair requirements according to the relative
      * hp of the part. If the hp are nearly 100%, the repair requirements are

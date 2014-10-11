@@ -117,12 +117,16 @@ void game::load_vehiclepart(JsonObject &jo)
         next_part.breaks_into.push_back(next_break_entry);
     }
 
-    next_part.installation.reset( new requirements() );
+    next_part.installation.reset( new multi_requirements() );
     if( jo.has_object( "installation" ) ) {
         auto obj = jo.get_object( "installation" );
         next_part.installation->load( obj );
+    } else if( jo.has_array( "installation" ) ) {
+        auto arr = jo.get_array( "installation" );
+        next_part.installation->load( arr );
     } else {
-        requirements &r = *next_part.installation;
+        next_part.installation->alternatives.resize( 1 );
+        requirements &r = next_part.installation->alternatives.front();
         const std::string t = jo.get_string( "installation", "welder" );
         if( t == "welder" ) {
             r.qualities.resize(1);
@@ -147,12 +151,16 @@ void game::load_vehiclepart(JsonObject &jo)
         }
     }
 
-    next_part.removal.reset( new requirements() );
+    next_part.removal.reset( new multi_requirements() );
     if( jo.has_object( "removal" ) ) {
         auto obj = jo.get_object( "removal" );
         next_part.removal->load( obj );
+    } else if( jo.has_array( "removal" ) ) {
+        auto arr = jo.get_array( "removal" );
+        next_part.removal->load( arr );
     } else {
-        requirements &r = *next_part.removal;
+        next_part.removal->alternatives.resize( 1 );
+        requirements &r = next_part.removal->alternatives.front();
         const std::string t = jo.get_string( "removal", "hacksaw" );
         if( t == "hacksaw" ) {
             r.qualities.resize(1);
@@ -174,12 +182,16 @@ void game::load_vehiclepart(JsonObject &jo)
         }
     }
 
-    next_part.repair.reset( new requirements() );
+    next_part.repair.reset( new multi_requirements() );
     if( jo.has_object( "repair" ) ) {
         auto obj = jo.get_object( "repair" );
         next_part.repair->load( obj );
+    } else if( jo.has_array( "repair" ) ) {
+        auto arr = jo.get_array( "repair" );
+        next_part.repair->load( arr );
     } else {
-        requirements &r = *next_part.repair;
+        next_part.repair->alternatives.resize( 1 );
+        requirements &r = next_part.repair->alternatives.front();
         const std::string t = jo.get_string( "repair", "welder" );
         if( t == "welder" ) {
             r.tools.resize(2);

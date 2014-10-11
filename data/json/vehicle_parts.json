@@ -827,7 +827,28 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : [],
-        "installation" : "duct_tape",
+        "installation" : [
+            {
+                "name": "duct taped",
+                "qualities": [
+                    [ { "id": "WRENCH", "level": 1 } ]
+                ],
+                "tools": [
+                    [ [ "duct_tape", 100 ], [ "toolbox", 100 ] ]
+                ],
+                "time": 0, "//": "unused, but requireded by the requirments class"
+            },
+            {
+                "name": "nailed",
+                "qualities": [
+                    [ { "id": "HAMMER", "level": 1 } ]
+                ],
+                "components": [
+                    [ [ "nail", 40 ] ]
+                ],
+                "time": 0, "//": "unused, but requireded by the requirments class"
+            }
+        ],
         "repair" : "duct_tape",
         "removal" : "hacksaw",
         "breaks_into" : [

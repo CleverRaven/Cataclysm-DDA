@@ -498,7 +498,7 @@ void veh_interact::do_install()
     }
     while (true) {
         sel_vpart_info = can_mount[pos];
-        const requirements &req = *sel_vpart_info->installation;
+        const auto &req = *sel_vpart_info->installation;
         display_list (pos, can_mount);
         itype_id itm = sel_vpart_info->item;
         bool has_comps = crafting_inv.has_components(itm, 1);
@@ -522,8 +522,7 @@ void veh_interact::do_install()
         werase (w_msg);
         werase (w_req);
         int posy = 0;
-        posy += req.print_tools( w_req, posy, 0, req_w, c_white, crafting_inv );
-        posy += req.print_components( w_req, posy, 0, req_w, c_white, crafting_inv );
+        posy += req.print( w_req, posy, 0, req_w, c_white, crafting_inv );
         fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
                        _("Needs level <color_%1$s>%2$d</color> skill in mechanics.%3$s"),
                        has_skill ? "ltgreen" : "red",
@@ -1627,8 +1626,7 @@ void complete_vehicle ()
     switch (cmd) {
     case 'i':
         sel_vpart_info = &vehicle_part_types[part_id];
-        sel_vpart_info->installation->use_components( g->u );
-        sel_vpart_info->installation->use_tools( g->u );
+        sel_vpart_info->installation->use_components_and_tools( g->u, crafting_inv );
 
         used_item = consume_vpart_item (part_id);
         partnum = veh->install_part (dx, dy, part_id, used_item);
