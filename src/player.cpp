@@ -763,7 +763,6 @@ Warmth  Temperature (Comfortable)    Temperature (Very cold)    Notes
 100      -41C / -41.8F               -71C / -95.8F
 
 WIND POWER
-
 Except for the last entry, pressures are sort of made up...
 
 Breeze : 5mph (1015 hPa)
@@ -772,16 +771,6 @@ Moderate Gale : 30 mph (990 hPa)
 Storm : 50 mph (970 hPa)
 Hurricane : 100 mph (920 hPa)
 HURRICANE : 185 mph (880 hPa) [Ref: Hurricane Wilma]
-
-Wind chill is calculated via the equation developped by the US Navy
-Wind is determined by current pressure. Chart below.
-Wind chill is negated by clothing and being indoors.
-TODO:
-Frostbite should be affected by windchill
-Wind direction... will have to wait until a proper wind map can be done.. :x
-    > It will influence fire spread
-    > It will make items tumble
-
 */
 
 void player::update_bodytemp()
@@ -1282,9 +1271,10 @@ void player::update_bodytemp()
             // Windchill reduced by your armor
             int FBwindPower = total_windpower * (1 - get_wind_resistance(body_part(i))/100.0);
             // This has been broken down into 8 zones
-            // Low risk zones (stops are frostnip)
-            if ((Ftemperature < 30 && Ftemperature >= 10) ||
-                (Ftemperature < 10 && Ftemperature >= -5 && FBwindPower < 20 && -4*Ftemperature + 3*FBwindPower - 20 >= 0) )
+            // Low risk zones (stops at frostnip)
+            if (temp_cur[i] < BODYTEMP_NORM &&
+                ((Ftemperature < 30 && Ftemperature >= 10) ||
+                 (Ftemperature < 10 && Ftemperature >= -5 && FBwindPower < 20 && -4*Ftemperature + 3*FBwindPower - 20 >= 0)) )
             {
                 if (frostbite_timer[i] < 2000) frostbite_timer[i] += 3;
                 if (one_in(100) && !has_disease("frostbite", (body_part)i)) {
@@ -1292,10 +1282,11 @@ void player::update_bodytemp()
                 }
             }
             // Medium risk zones
-            else if ((Ftemperature < 10 && Ftemperature >= -5 && FBwindPower < 20 && -4*Ftemperature + 3*FBwindPower - 20 < 0) ||
-                     (Ftemperature < 10 && Ftemperature >= -5 && FBwindPower >= 20) ||
-                     (Ftemperature < -5 && FBwindPower < 10) ||
-                     (Ftemperature < -5 && FBwindPower >= 10 && -4*Ftemperature + 3*FBwindPower - 170 >= 0) )
+            else if (temp_cur[i] < BODYTEMP_NORM &&
+                     ((Ftemperature < 10 && Ftemperature >= -5 && FBwindPower < 20 && -4*Ftemperature + 3*FBwindPower - 20 < 0) ||
+                      (Ftemperature < 10 && Ftemperature >= -5 && FBwindPower >= 20) ||
+                      (Ftemperature < -5 && FBwindPower < 10) ||
+                      (Ftemperature < -5 && FBwindPower >= 10 && -4*Ftemperature + 3*FBwindPower - 170 >= 0)) )
             {
                 frostbite_timer[i] += 8;
                 if (one_in(100) && disease_intensity("frostbite", false, (body_part)i) != 1) {
@@ -1303,8 +1294,9 @@ void player::update_bodytemp()
                 }
             }
             // High risk zones
-            else if ((Ftemperature < -5 && FBwindPower >= 10 && -4*Ftemperature + 3*FBwindPower - 170 < 0) ||
-                     (Ftemperature < -35 && FBwindPower >= 10) )
+            else if (temp_cur[i] < BODYTEMP_NORM &&
+                     ((Ftemperature < -5 && FBwindPower >= 10 && -4*Ftemperature + 3*FBwindPower - 170 < 0) ||
+                      (Ftemperature < -35 && FBwindPower >= 10)) )
             {
                 frostbite_timer[i] += 72;
                 if (one_in(100) && disease_intensity("frostbite", false, (body_part)i) != 1) {
