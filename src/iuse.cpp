@@ -2632,7 +2632,7 @@ int iuse::mycus(player *p, item *it, bool t)
             }
         }
     } else if (p->has_trait("THRESH_MYCUS")) {
-        if (one_in(25)) {
+        if (one_in(10)) {
             p->mutate_category("MUTCAT_MYCUS");
             p->hunger += 10;
             p->fatigue += 5;
