@@ -2308,12 +2308,16 @@ int iuse::marloss(player *p, item *it, bool t)
         p->toggle_mutation("MARLOSS_BLUE");
         p->toggle_mutation("MARLOSS");
         p->toggle_mutation("MARLOSS_AVOID"); // And if you survive it's etched in your RNA, so you're unlikely to repeat the experiment.
+        p->rem_addiction(ADD_MARLOSS_R);
+        p->rem_addiction(ADD_MARLOSS_B);
+        p->rem_addiction(ADD_MARLOSS_Y);
     } else if ( (p->has_trait("MARLOSS_BLUE") && p->has_trait("MARLOSS_YELLOW")) && (!p->has_trait("MARLOSS")) ) {
         p->add_msg_if_player(m_bad, _("You feel a familiar warmth, but suddenly it surges into painful burning as you convulse and collapse to the ground..."));
         p->fall_asleep((400 - p->int_cur * 5));
         p->toggle_mutation("MARLOSS_BLUE");
         p->toggle_mutation("MARLOSS_YELLOW");
         p->toggle_mutation("THRESH_MARLOSS");
+        p->rem_addiction(ADD_MARLOSS_R);
         g->m.ter_set(p->posx, p->posy, t_marloss);
         p->add_memorial_log(pgettext("memorial_male", "Opened the Marloss Gateway."),
                         pgettext("memorial_female", "Opened the Marloss Gateway."));
@@ -2325,6 +2329,7 @@ int iuse::marloss(player *p, item *it, bool t)
         p->toggle_mutation("MARLOSS");
         p->add_addiction(ADD_MARLOSS_B, 60);
         p->add_addiction(ADD_MARLOSS_Y, 60);
+        p->rem_addiction(ADD_MARLOSS_R);
     }
     return it->type->charges_to_use();
 }
@@ -2428,12 +2433,16 @@ int iuse::marloss_seed(player *p, item *it, bool t)
         p->toggle_mutation("MARLOSS_BLUE");
         p->toggle_mutation("MARLOSS");
         p->toggle_mutation("MARLOSS_AVOID"); // And if you survive it's etched in your RNA, so you're unlikely to repeat the experiment.
+        p->rem_addiction(ADD_MARLOSS_R);
+        p->rem_addiction(ADD_MARLOSS_B);
+        p->rem_addiction(ADD_MARLOSS_Y);
     } else if ( (p->has_trait("MARLOSS") && p->has_trait("MARLOSS_YELLOW")) && (!p->has_trait("MARLOSS_BLUE")) ) {
         p->add_msg_if_player(m_bad, _("You feel a familiar warmth, but suddenly it surges into painful burning as you convulse and collapse to the ground..."));
         p->fall_asleep((400 - p->int_cur * 5));
         p->toggle_mutation("MARLOSS");
         p->toggle_mutation("MARLOSS_YELLOW");
         p->toggle_mutation("THRESH_MARLOSS");
+        p->rem_addiction(ADD_MARLOSS_B);
         g->m.ter_set(p->posx, p->posy, t_marloss);
         p->add_memorial_log(pgettext("memorial_male", "Opened the Marloss Gateway."),
                         pgettext("memorial_female", "Opened the Marloss Gateway."));
@@ -2445,6 +2454,7 @@ int iuse::marloss_seed(player *p, item *it, bool t)
         p->toggle_mutation("MARLOSS_BLUE");
         p->add_addiction(ADD_MARLOSS_R, 60);
         p->add_addiction(ADD_MARLOSS_Y, 60);
+        p->rem_addiction(ADD_MARLOSS_B);
     }
     return it->type->charges_to_use();
 }
@@ -2544,11 +2554,15 @@ int iuse::marloss_gel(player *p, item *it, bool t)
         p->toggle_mutation("MARLOSS_BLUE");
         p->toggle_mutation("MARLOSS");
         p->toggle_mutation("MARLOSS_AVOID"); // And if you survive it's etched in your RNA, so you're unlikely to repeat the experiment.
+        p->rem_addiction(ADD_MARLOSS_R);
+        p->rem_addiction(ADD_MARLOSS_B);
+        p->rem_addiction(ADD_MARLOSS_Y);
     } else if ( (p->has_trait("MARLOSS_BLUE") && p->has_trait("MARLOSS")) && (!p->has_trait("MARLOSS_YELLOW")) ) {
         p->add_msg_if_player(m_bad, _("You feel a familiar warmth, but suddenly it surges into painful burning as you convulse and collapse to the ground..."));
         p->fall_asleep((400 - p->int_cur * 5));
         p->toggle_mutation("MARLOSS_BLUE");
         p->toggle_mutation("MARLOSS");
+        p->rem_addiction(ADD_MARLOSS_Y);
         p->toggle_mutation("THRESH_MARLOSS");
         g->m.ter_set(p->posx, p->posy, t_marloss);
         p->add_memorial_log(pgettext("memorial_male", "Opened the Marloss Gateway."),
@@ -2561,6 +2575,7 @@ int iuse::marloss_gel(player *p, item *it, bool t)
         p->toggle_mutation("MARLOSS_YELLOW");
         p->add_addiction(ADD_MARLOSS_R, 60);
         p->add_addiction(ADD_MARLOSS_B, 60);
+        p->rem_addiction(ADD_MARLOSS_Y);
     }
     return it->type->charges_to_use();
 }
@@ -2611,6 +2626,11 @@ int iuse::mycus(player *p, item *it, bool t)
             p->thirst += 10;
             p->add_morale(MORALE_MARLOSS, 25, 200); // still covers up mutation pain
         }
+        for (int x = p->posx - 2; x <= p->posx + 2; x++) {
+            for (int y = p->posy - 2; y <= p->posy + 2; y++) {
+                g->m.marlossify(x, y);
+            }
+        }
     } else if (p->has_trait("THRESH_MYCUS")) {
         if (one_in(25)) {
             p->mutate_category("MUTCAT_MYCUS");
@@ -2620,6 +2640,11 @@ int iuse::mycus(player *p, item *it, bool t)
         }
         p->pkill += 10;
         p->stim += 10;
+        for (int x = p->posx - 3; x <= p->posx + 3; x++) {
+            for (int y = p->posy - 3; y <= p->posy + 3; y++) {
+                g->m.marlossify(x, y);
+            }
+        }
     } else { // In case someone gets one without having been adapted first.
         // Marloss is the Mycus' method of co-opting humans.  Mycus fruit is for symbiotes' maintenance and development.
         p->add_msg_if_player(_("This apple tastes really weird!  You're not sure it's good for you..."));
