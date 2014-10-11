@@ -5629,8 +5629,12 @@ void player::suffer()
     if( has_trait("ROOTS3") && g->m.has_flag("DIGGABLE", posx, posy) && !shoe_factor) {
         if (one_in(100)) {
             add_msg(m_good, _("This soil is delicious!"));
-            hunger -= 2;
-            thirst -= 2;
+            if (hunger > -20) {
+                hunger -= 2;
+            }
+            if (thirst > -20) {
+                thirst -= 2;
+            }
             mod_healthy_mod(10);
             // No losing oneself in the fertile embrace of rich
             // New England loam.  But it can be a near thing.
@@ -5638,8 +5642,12 @@ void player::suffer()
                 focus_pool--;
             }
         } else if (one_in(50)){
-            hunger--;
-            thirst--;
+            if (hunger > -20) {
+                hunger--;
+            }
+            if (thirst > -20) {
+                thirst--;
+            }
             mod_healthy_mod(5);
         }
     }
@@ -8274,17 +8282,20 @@ void player::rooted_message() const
 
 void player::rooted()
 // Should average a point every two minutes or so; ground isn't uniformly fertile
-// If being able to "overfill" is a serious balance issue, will revisit
-// Otherwise, nutrient intake via roots can fill past the "Full" point, WAI
+// Overfiling triggered hibernation checks, so capping.
 {
     double shoe_factor = footwear_factor();
     if( (has_trait("ROOTS2") || has_trait("ROOTS3")) &&
         g->m.has_flag("DIGGABLE", posx, posy) &&
         !shoe_factor ) {
         if( one_in(20 / shoe_factor) ) {
-            hunger--;
-            thirst--;
-            mod_healthy_mod(10);
+            if (hunger > -20) {
+                hunger--;
+            }
+            if (thirst > -20) {
+                thirst--;
+            }
+            mod_healthy_mod(5);
         }
     }
 }
@@ -9798,8 +9809,12 @@ void player::do_read( item *book )
             if( (has_trait("ROOTS2") || has_trait("ROOTS3")) &&
                 g->m.has_flag("DIGGABLE", posx, posy) &&
                 !foot_factor ) {
-                hunger -= root_factor * foot_factor;
-                thirst -= root_factor * foot_factor;
+                if (hunger > -20) {
+                    hunger -= root_factor * foot_factor;
+                }
+                if (thirst > -20) {
+                    thirst -= root_factor * foot_factor;
+                }
                 mod_healthy_mod(root_factor * foot_factor);
             }
             if (activity.type != ACT_NULL) {
