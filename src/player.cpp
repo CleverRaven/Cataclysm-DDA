@@ -1260,7 +1260,7 @@ void player::update_bodytemp()
             int FBwindPower = total_windpower * (1 - get_wind_resistance(body_part(i)) / 100.0);
             // This has been broken down into 8 zones
             // Low risk zones (stops at frostnip)
-            if( temp_cur[i] < BODYTEMP_NORM &&
+            if( temp_cur[i] < BODYTEMP_COLD &&
                 ((Ftemperature < 30 && Ftemperature >= 10) ||
                  (Ftemperature < 10 && Ftemperature >= -5 &&
                   FBwindPower < 20 && -4 * Ftemperature + 3 * FBwindPower - 20 >= 0)) ) {
@@ -1272,7 +1272,7 @@ void player::update_bodytemp()
                             body_part_name(body_part(i)).c_str());
                 }
                 // Medium risk zones
-            } else if( temp_cur[i] < BODYTEMP_NORM &&
+            } else if( temp_cur[i] < BODYTEMP_COLD &&
                        ((Ftemperature < 10 && Ftemperature >= -5 && FBwindPower < 20 &&
                          -4 * Ftemperature + 3 * FBwindPower - 20 < 0) ||
                         (Ftemperature < 10 && Ftemperature >= -5 && FBwindPower >= 20) ||
@@ -1285,7 +1285,7 @@ void player::update_bodytemp()
                             body_part_name(body_part(i)).c_str());
                 }
                 // High risk zones
-            } else if (temp_cur[i] < BODYTEMP_NORM &&
+            } else if (temp_cur[i] < BODYTEMP_COLD &&
                        ((Ftemperature < -5 && FBwindPower >= 10 &&
                          -4 * Ftemperature + 3 * FBwindPower - 170 < 0) ||
                         (Ftemperature < -35 && FBwindPower >= 10)) ) {
