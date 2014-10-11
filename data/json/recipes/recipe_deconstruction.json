@@ -1989,25 +1989,6 @@
   "components": [ [ [ "steel_plate", 10 ] ], [ [ "steel_lump", 70 ] ] ]
 },{
     "type" : "recipe",
-    "result": "fish_bowl",
-    "id_suffix": "uncraft",
-    "category": "CC_NONCRAFT",
-    "subcategory": "CSC_NONCRAFT",
-    "difficulty": 0,
-    "time": 500,
-    "reversible": true,
-    "autolearn": false,
-  "components": [
-    [
-    [ "jar_3l_glass", 1 ]
-    ],
-	[
-	[ "water_clean", 8 ]
-	],
-	[ "fish", 1 ]
-	]
-},{
-    "type" : "recipe",
     "result": "roadmap",
     "id_suffix": "uncraft",
     "category": "CC_NONCRAFT",
