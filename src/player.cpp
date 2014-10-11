@@ -4191,19 +4191,6 @@ void player::pause()
         }
     }
 
-    // Meditation boost for Toad Style, obsolete
-    if (weapon.type->id == "style_toad" && activity.type == ACT_NULL) {
-        int arm_amount = 1 + (int_cur - 6) / 3 + (per_cur - 6) / 3;
-        int arm_max = (int_cur + per_cur) / 2;
-        if (arm_amount > 3) {
-            arm_amount = 3;
-        }
-        if (arm_max > 20) {
-            arm_max = 20;
-        }
-        add_disease("armor_boost", 2, false, arm_amount, arm_max);
-    }
-
     // Train swimming if underwater
     if (underwater) {
         practice( "swimming", 1 );
@@ -10345,7 +10332,6 @@ int player::get_armor_bash_base(body_part bp) const
     if (has_trait("SHELL") && bp == bp_torso) {
         ret += 6;
     }
-    ret += rng(0, disease_intensity("armor_boost"));
     return ret;
 }
 
@@ -10404,7 +10390,6 @@ int player::get_armor_cut_base(body_part bp) const
     if (has_trait("SHELL") && bp == bp_torso) {
         ret += 14;
     }
-    ret += rng(0, disease_intensity("armor_boost"));
     return ret;
 }
 

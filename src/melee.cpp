@@ -483,8 +483,6 @@ bool player::scored_crit(int target_dodge)
   for (int i = 0; i > weapon.type->m_to_hit; i--)
    chance /= 2;
  }
- if (rng(0, 99) < chance + 4 * disease_intensity("attack_boost") + 4 * mabuff_tohit_bonus())
-  num_crits++;
 
 // Dexterity to-hit roll
 // ... except sometimes we don't use dexterity!
@@ -528,8 +526,6 @@ bool player::scored_crit(int target_dodge)
   for (int i = 3; i > best_skill; i--)
    chance /= 2;
  }
- if (rng(0, 99) < chance + 4 * disease_intensity("attack_boost") + 4 * mabuff_tohit_bonus())
-  num_crits++;
 
  if (num_crits == 3)
   return true;
@@ -675,8 +671,6 @@ int player::roll_bash_damage(bool crit)
         bash_dam = rng(bash_dam, skill + int(stat / 2));
 
     ret += bash_dam;
-
-    ret += disease_intensity("damage_boost");
 
     // Finally, extra crit effects
     if (crit) {
@@ -2216,8 +2210,6 @@ int attack_speed(player &u)
   move_cost *= .9;
  if (u.has_trait("HOLLOW_BONES"))
   move_cost *= .8;
-
- move_cost -= u.disease_intensity("speed_boost");
 
  if (move_cost < 25)
   return 25;

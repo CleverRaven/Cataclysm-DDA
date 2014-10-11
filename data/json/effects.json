@@ -1,5 +1,6 @@
 [
     {
+        "//": "AI EFFECTS BELOW THIS",
         "type": "effect_type",
         "id": "hit_by_player",
         "name": ["Hit By Player"],
@@ -25,6 +26,15 @@
     },
     {
         "type": "effect_type",
+        "id": "asked_to_lead"
+    },
+    {
+        "type": "effect_type",
+        "id": "asked_for_item"
+    },
+    {
+        "//": "TARGETING EFFECTS BELOW THIS",
+        "type": "effect_type",
         "id": "bounced",
         "name": ["Bounced"],
         "desc": ["A bouncing effect has bounced to you lately."]
@@ -37,6 +47,7 @@
         "rating": "bad"
     },
     {
+        "//": "ACTUAL PLAYER EFFECTS START HERE",
         "type": "effect_type",
         "id": "downed",
         "name": ["Downed"],
@@ -176,9 +187,9 @@
         "rating": "bad"
     },
     {
-        "apply_memorial_log": "Contracted an infection.",
         "type": "effect_type",
         "id": "infected",
+        "apply_memorial_log": "Contracted an infection.",
         "remove_memorial_log": "Recovered from an infection... this time.",
         "apply_message": "Your bite wound feels infected",
         "rating": "bad"
@@ -196,16 +207,12 @@
         "id": "rat"
     },
     {
-        "apply_memorial_log": "Received a deep bite wound.",
         "type": "effect_type",
         "id": "bite",
+        "apply_memorial_log": "Received a deep bite wound.",
         "remove_memorial_log": "Recoverd from a bite wound.",
         "apply_message": "The bite wound feels really deep...",
         "rating": "bad"
-    },
-    {
-        "type": "effect_type",
-        "id": "ma_buff"
     },
     {
         "type": "effect_type",
@@ -226,10 +233,6 @@
     {
         "type": "effect_type",
         "id": "foodpoison"
-    },
-    {
-        "type": "effect_type",
-        "id": "speed_boost"
     },
     {
         "type": "effect_type",
@@ -272,9 +275,9 @@
         "id": "viper_combo"
     },
     {
-        "apply_memorial_log": "Caught a cold.",
         "type": "effect_type",
         "id": "common_cold",
+        "apply_memorial_log": "Caught a cold.",
         "remove_memorial_log": "Got over the cold.",
         "apply_message": "You feel a cold coming on...",
         "rating": "bad"
@@ -282,10 +285,6 @@
     {
         "type": "effect_type",
         "id": "alarm_clock"
-    },
-    {
-        "type": "effect_type",
-        "id": "asked_to_lead"
     },
     {
         "type": "effect_type",
@@ -298,10 +297,6 @@
     {
         "type": "effect_type",
         "id": "attention"
-    },
-    {
-        "type": "effect_type",
-        "id": "asked_for_item"
     },
     {
         "type": "effect_type",
@@ -325,10 +320,6 @@
     },
     {
         "type": "effect_type",
-        "id": "dodge_boost"
-    },
-    {
-        "type": "effect_type",
         "id": "cig"
     },
     {
@@ -336,9 +327,9 @@
         "id": "grack"
     },
     {
-        "remove_memorial_log": "Cured the fungal infection.",
         "type": "effect_type",
         "id": "fungus",
+        "remove_memorial_log": "Cured the fungal infection.",
         "rating": "bad"
     },
     {
@@ -350,12 +341,12 @@
         "id": "high"
     },
     {
-        "remove_message": "Your vision starts to blur.",
         "type": "effect_type",
         "id": "contacts",
         "name": ["Contact Lenses"],
         "desc": ["You are wearing contact lenses."],
         "apply_message": "You can see more clearly.",
+        "remove_message": "Your vision starts to blur.",
         "rating": "good"
     },
     {
@@ -365,9 +356,9 @@
         "rating": "bad"
     },
     {
-        "apply_memorial_log": "Caught the flu.",
         "type": "effect_type",
         "id": "flu",
+        "apply_memorial_log": "Caught the flu.",
         "remove_memorial_log": "Got over the flu.",
         "apply_message": "You feel a flu coming on...",
         "rating": "bad"
@@ -379,10 +370,6 @@
     {
         "type": "effect_type",
         "id": "took_prozac"
-    },
-    {
-        "type": "effect_type",
-        "id": "armor_boost"
     },
     {
         "type": "effect_type",
@@ -415,9 +402,9 @@
         "id": "pkill1"
     },
     {
-        "remove_message": "You wake up.",
         "type": "effect_type",
         "id": "sleep",
+        "remove_message": "You wake up.",
         "rating": "neutral"
     },
     {
@@ -468,14 +455,6 @@
     {
         "type": "effect_type",
         "id": "valium"
-    },
-    {
-        "type": "effect_type",
-        "id": "damage_boost"
-    },
-    {
-        "type": "effect_type",
-        "id": "attack_boost"
     },
     {
         "type": "effect_type",
