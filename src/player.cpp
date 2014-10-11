@@ -2098,6 +2098,7 @@ void player::disp_info()
     unsigned line;
     std::vector<std::string> effect_name;
     std::vector<std::string> effect_text;
+    std::string tmp = "";
     for (auto &next_illness : illness) {
         if (dis_name(next_illness).size() > 0) {
             effect_name.push_back(dis_name(next_illness));
@@ -2106,8 +2107,11 @@ void player::disp_info()
     }
     for( auto maps = effects.begin(); maps != effects.end(); ++maps) {
         for( auto effect_it = maps->second.begin(); effect_it != maps->second.end(); ++effect_it) {
-            effect_name.push_back( effect_it->second.disp_name() );
-            effect_text.push_back( effect_it->second.disp_desc() );
+            tmp = effect_it->second.disp_name();
+            if (tmp != "") {
+                effect_name.push_back( tmp );
+                effect_text.push_back( effect_it->second.disp_desc() );
+            }
         }
     }
     if (abs(morale_level()) >= 100) {
@@ -5397,6 +5401,11 @@ bool will_vomit(player& p, int chance)
     return ((stomachUpset || hasNausea) && !suppressed);
 }
 void player::process_effects() {
+    //Special Removals
+    if (has_effect("darkness") && g->is_in_sunlight(posx, posy)) {
+        remove_effect("darkness");
+    }
+    
     int psnChance;
     for( auto maps = effects.begin(); maps != effects.end(); ++maps ) {
         for( auto effect_it = maps->second.begin(); effect_it != maps->second.end(); ++effect_it ) {

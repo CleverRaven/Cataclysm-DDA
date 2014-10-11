@@ -180,7 +180,11 @@ void player::load(JsonObject &data)
     }
 
     data.read("ma_styles", ma_styles);
-    data.read("illness", illness);
+    // Just too many changes here to maintain compatibility, so older characters get a free
+    // diseases wipe. Since most long lasting diseases are bad, this shouldn't be too bad for them.
+    if(savegame_loading_version >= 23) {
+        data.read("illness", illness);
+    }
 
     data.read( "addictions", addictions );
     data.read( "my_bionics", my_bionics );

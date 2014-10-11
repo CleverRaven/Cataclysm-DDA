@@ -26,25 +26,69 @@
     },
     {
         "type": "effect_type",
-        "id": "asked_to_lead"
+        "id": "asked_to_lead",
+        "name": ["Asked to Lead"],
+        "desc": ["AI tag for asking to lead NPCs. This is a bug if you have it."]
     },
     {
         "type": "effect_type",
-        "id": "asked_for_item"
+        "id": "asked_to_follow",
+        "name": ["Asked to Follow"],
+        "desc": ["AI tag for asking to NPCs to follow you. This is a bug if you have it."]
     },
     {
-        "//": "TARGETING EFFECTS BELOW THIS",
         "type": "effect_type",
-        "id": "bounced",
-        "name": ["Bounced"],
-        "desc": ["A bouncing effect has bounced to you lately."]
+        "id": "asked_for_item",
+        "name": ["Asked for Item"],
+        "desc": ["AI tag for asking NPCs for items. This is a bug if you have it."]
+    },
+    {
+        "type": "effect_type",
+        "id": "catch_up",
+        "name": ["Catch Up"],
+        "desc": ["AI tag for telling NPCs to catch up. This is a bug if you have it."]
+    },
+    {
+        "type": "effect_type",
+        "id": "infection",
+        "name": ["Infection"],
+        "desc": ["AI tag used for the infected NPC quest. This is a bug if you have it."]
+    },
+    {
+        "type": "effect_type",
+        "id": "pet",
+        "name": ["Pet"],
+        "desc": ["AI tag used for pet critters. This is a bug if you have it."]
+    },
+    {
+        "type": "effect_type",
+        "id": "pacified",
+        "name": ["Pacified"],
+        "desc": ["AI tag used for pacified critters. This is a bug if you have it."]
+    },
+    {
+        "type": "effect_type",
+        "id": "has_bag",
+        "name": ["Has Bag"],
+        "desc": ["AI tag used for critters holding your bags. This is a bug if you have it."]
+    },
+    {
+        "type": "effect_type",
+        "id": "tied",
+        "name": ["Tied Up"],
+        "desc": ["AI tag used for tied up critters. This is a bug if you have it."]
     },
     {
         "type": "effect_type",
         "id": "targeted",
-        "name": ["Targeted By Turret"],
-        "desc": ["A turret is targeting you!"],
-        "rating": "bad"
+        "name": ["Turret is Targeted"],
+        "desc": ["AI tag used for turret targeting sounds. This is a bug if you have it."]
+    },
+    {
+        "type": "effect_type",
+        "id": "bounced",
+        "name": ["Bounced"],
+        "desc": ["AI tag used for bouncing ammo targeting. This is a bug if you have it."]
     },
     {
         "//": "ACTUAL PLAYER EFFECTS START HERE",
@@ -53,6 +97,13 @@
         "name": ["Downed"],
         "desc": ["You're knocked to the ground.  You have to get up before you can move."],
         "apply_message": "You're knocked to the floor!",
+        "rating": "bad"
+    },
+    {
+        "type": "effect_type",
+        "id": "darkness",
+        "apply_message": "Your vision flickers and goes gray!",
+        "remove_message": "The world flickers back to normality.",
         "rating": "bad"
     },
     {
@@ -272,10 +323,6 @@
     },
     {
         "type": "effect_type",
-        "id": "viper_combo"
-    },
-    {
-        "type": "effect_type",
         "id": "common_cold",
         "apply_memorial_log": "Caught a cold.",
         "remove_memorial_log": "Got over the cold.",
@@ -391,10 +438,6 @@
     },
     {
         "type": "effect_type",
-        "id": "asked_to_follow"
-    },
-    {
-        "type": "effect_type",
         "id": "hot"
     },
     {
@@ -410,10 +453,6 @@
     {
         "type": "effect_type",
         "id": "pkill3"
-    },
-    {
-        "type": "effect_type",
-        "id": "catch_up"
     },
     {
         "type": "effect_type",
@@ -450,27 +489,7 @@
     },
     {
         "type": "effect_type",
-        "id": "infection"
-    },
-    {
-        "type": "effect_type",
         "id": "valium"
-    },
-    {
-        "type": "effect_type",
-        "id": "pet"
-    },
-    {
-        "type": "effect_type",
-        "id": "pacified"
-    },
-    {
-        "type": "effect_type",
-        "id": "has_bag"
-    },
-    {
-        "type": "effect_type",
-        "id": "tied"
     },
     {
         "type": "effect_type",

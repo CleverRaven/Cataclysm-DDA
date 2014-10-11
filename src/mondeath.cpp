@@ -547,9 +547,9 @@ void mdeath::ratking(monster *z)
 
 void mdeath::darkman(monster *z)
 {
-    g->u.rem_disease("darkness");
+    g->u.remove_effect("darkness");
     if (g->u_see(z)) {
-        add_msg(m_good, _("The %s melts away. And the world returns to normaliity"), z->name().c_str());
+        add_msg(m_good, _("The %s melts away."), z->name().c_str());
     }
 }
 

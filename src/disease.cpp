@@ -45,7 +45,7 @@ enum dis_type_enum {
 // Bite wound infected (dependent on bodypart.h)
  DI_INFECTED,
 // Inflicted by an NPC
- DI_ASKED_TO_FOLLOW, DI_ASKED_TO_LEAD, DI_ASKED_FOR_ITEM,
+ DI_ASKED_FOR_ITEM,
  DI_ASKED_TO_TRAIN, DI_ASKED_PERSONAL_INFO,
 // Martial arts-related buffs
  DI_MA_BUFF,
@@ -141,8 +141,6 @@ void game::init_diseases() {
     disease_type_lookup["attention"] = DI_ATTENTION;
     disease_type_lookup["evil"] = DI_EVIL;
     disease_type_lookup["infected"] = DI_INFECTED;
-    disease_type_lookup["asked_to_follow"] = DI_ASKED_TO_FOLLOW;
-    disease_type_lookup["asked_to_lead"] = DI_ASKED_TO_LEAD;
     disease_type_lookup["asked_for_item"] = DI_ASKED_FOR_ITEM;
     disease_type_lookup["asked_to_train"] = DI_ASKED_TO_TRAIN;
     disease_type_lookup["asked_personal_info"] = DI_ASKED_PERSONAL_INFO;
@@ -2873,7 +2871,7 @@ void manage_fungal_infection(player& p, disease& dis)
             }
             if (will_vomit(p, 800 + bonus * 4) || one_in(2000 + bonus * 10)) {
                 p.add_msg_player_or_npc(m_bad, _("You vomit a thick, gray goop."),
-                                               _("<npcname> vomits a thick, grey goop.") );
+                                               _("<npcname> vomits a thick, gray goop.") );
 
                 int awfulness = rng(0,70);
                 p.moves = -200;

@@ -9353,7 +9353,7 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
                 if (u.has_effect("boomered")) {
                     mvwputch_inv(w_terrain, POSY + (ly - u.posy), POSX + (lx - u.posx), c_pink, '#');
 
-                } else if (u.has_disease("darkness")) {
+                } else if (u.has_effect("darkness")) {
                     mvwputch_inv(w_terrain, POSY + (ly - u.posy), POSX + (lx - u.posx), c_dkgray, '#');
 
                 } else {

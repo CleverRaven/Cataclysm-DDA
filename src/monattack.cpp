@@ -3158,7 +3158,7 @@ void mattack::darkman(monster *z, int index)
         add_msg(_("\"Please dont\""));
         break;
     }
-    g->u.add_disease( "darkness", 10 );
+    g->u.add_effect( "darkness", 1, num_bp, 1, true );
 }
 
 void mattack::slimespring(monster *z, int index)

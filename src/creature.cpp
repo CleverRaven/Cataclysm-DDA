@@ -593,11 +593,30 @@ void Creature::clear_effects()
 }
 void Creature::remove_effect(efftype_id eff_id, body_part bp)
 {
+    if (effects.find(eff_id) == effects.end()) {
+        //Effect doesn't exist, so do nothing
+        return;
+    }
+    
+    if (is_player()) { // only print the message if we didn't already have it
+        if(effect_types[eff_id].get_apply_message() != "") {
+                 add_msg(effect_types[eff_id].lose_game_message_type(),
+                         _(effect_types[eff_id].get_remove_message().c_str()));
+        }
+        g->u.add_memorial_log(pgettext("memorial_male",
+                                       effect_types[eff_id].get_remove_memorial_log().c_str()),
+                              pgettext("memorial_female",
+                                       effect_types[eff_id].get_remove_memorial_log().c_str()));
+    }
+    
     // num_bp means remove all of a given effect id
     if (bp == num_bp) {
-        effects[eff_id].clear();
+        effects.erase(eff_id);
     } else {
         effects[eff_id].erase((int)bp);
+        if (effects[eff_id].empty()) {
+            effects.erase(eff_id);
+        }
     }
 }
 bool Creature::has_effect(efftype_id eff_id, body_part bp) const
@@ -640,13 +659,6 @@ void Creature::process_effects()
         }
     }
     for (size_t i = 0; i < rem_ids.size(); ++i) {
-        const effect_type *type = get_effect(rem_ids[i], rem_bps[i]).get_effect_type();
-        if(type->get_remove_message() != "") {
-            add_msg( type->lose_game_message_type(), _(type->get_remove_message().c_str()) );
-        }
-        g->u.add_memorial_log(
-            pgettext("memorial_male", type->get_remove_memorial_log().c_str() ),
-            pgettext("memorial_female", type->get_remove_memorial_log().c_str()) );
         remove_effect( rem_ids[i], rem_bps[i] );
     }
 }

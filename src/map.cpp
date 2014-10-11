@@ -4074,7 +4074,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
         tercol = (bright_light) ? c_white : c_ltgreen;
     } else if (low_light) {
         tercol = c_dkgray;
-    } else if (u.has_disease("darkness")) {
+    } else if (u.has_effect("darkness")) {
         tercol = c_dkgray;
     }
 
