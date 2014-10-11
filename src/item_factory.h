@@ -82,9 +82,14 @@ class Item_factory
         void add_item_type( itype *new_type );
 
         /**
-         * Return a random item type from the given item group.
+         * Returns a random item type from the given item group.
+         * Returns @ref EMPTY_GROUP_ITEM_ID if the groups is empty or undefined.
          */
         const Item_tag id_from(Item_tag group_tag);
+        /**
+         * Item id used by @ref id_from to indicate an invalid or empty group.
+         */
+        static const Item_tag EMPTY_GROUP_ITEM_ID;
         /**
          * Return a random item from the item group, handles packaged food where id_from returns the container.
          */
@@ -177,7 +182,6 @@ class Item_factory
         Item_tag create_artifact_id() const;
     private:
         std::map<Item_tag, itype *> m_templates;
-        itype  *m_missing_item;
         typedef std::map<Group_tag, Item_spawn_data *> GroupMap;
         GroupMap m_template_groups;
 

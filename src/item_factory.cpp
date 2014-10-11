@@ -132,15 +132,6 @@ Item_factory::~Item_factory()
 Item_factory::Item_factory()
 {
     init();
-    m_missing_item = new itype();
-    // intentionally left untranslated
-    // because using _() at global scope is problematic,
-    // and if this appears it's a bug anyway.
-    m_missing_item->name = "Error: Item Missing.";
-    m_missing_item->name_plural = "Error: Item Missing.";
-    m_missing_item->description =
-        "There is only the space where an object should be, but isn't. No item template of this type exists.";
-    m_templates["MISSING_ITEM"] = m_missing_item;
 }
 
 void Item_factory::init()
@@ -587,7 +578,7 @@ const Item_tag Item_factory::id_from(const Item_tag group_tag)
         item it = group_iter->second->create_single(calendar::turn);
         return it.type->id;
     } else {
-        return "MISSING_ITEM";
+        return EMPTY_GROUP_ITEM_ID;
     }
 }
 
@@ -1116,18 +1107,9 @@ void Item_factory::clear_items_and_groups()
 
     for (std::map<Item_tag, itype *>::iterator it = m_templates.begin(); it != m_templates.end();
          ++it) {
-        if (m_missing_item == it->second) {
-            // No need to delete m_missing_item,
-            // it will be used again and must always exist
-            continue;
-        }
         delete it->second;
     }
     m_templates.clear();
-
-    // Recreate this entry, now we are in the same state as
-    // after the creation of this object
-    m_templates["MISSING_ITEM"] = m_missing_item;
 }
 
 Item_group *make_group_or_throw(Item_spawn_data *&isd, Item_group::Type t)
@@ -1716,3 +1698,5 @@ bool Item_factory::count_by_charges( const Item_tag &id )
 {
     return find_template( id )->count_by_charges();
 }
+
+const Item_tag Item_factory::EMPTY_GROUP_ITEM_ID( "MISSING_ITEM" );

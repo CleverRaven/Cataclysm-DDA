@@ -127,6 +127,16 @@ Medical data on zombie blood."));
     MACGUFFIN("note", "note", "notes", 0, '?', c_white, "paper", "null", 1, 3, 0, 0, 0,
               true, &iuse::mcg_note, _("\
 A hand-written paper note."));
+
+    itype *m_missing_item = new itype();
+    // intentionally left untranslated
+    // because using _() at global scope is problematic,
+    // and if this appears it's a bug anyway.
+    m_missing_item->name = "Error: Item Missing.";
+    m_missing_item->name_plural = "Error: Item Missing.";
+    m_missing_item->description =
+        "There is only the space where an object should be, but isn't. No item template of this type exists.";
+    add_item_type( m_missing_item );
 }
 
 std::string ammo_name(std::string t)
