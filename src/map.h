@@ -19,7 +19,6 @@
 #include "monster.h"
 #include "npc.h"
 #include "vehicle.h"
-#include "graffiti.h"
 #include "lightmap.h"
 #include "coordinates.h"
 //TODO: include comments about how these variables work. Where are they used. Are they constant etc.
@@ -542,8 +541,10 @@ void add_corpse(int x, int y);
  void add_camp(const std::string& name, const int x, const int y);
 
 // Graffiti
- graffiti graffiti_at(int x, int y);
- bool add_graffiti(int x, int y, std::string contents);
+    bool has_graffiti_at(int x, int y) const;
+    const std::string &graffiti_at(int x, int y) const;
+    void set_graffiti(int x, int y, const std::string &contents);
+    void delete_graffiti(int x, int y);
 
 // mapgen.cpp functions
  void generate(const int x, const int y, const int z, const int turn);
@@ -599,7 +600,7 @@ void add_corpse(int x, int y);
     point getlocal(const int x, const int y ) const;
     point getlocal(const point p) const { return getlocal(p.x, p.y); }
  bool inboundsabs(const int x, const int y);
- bool inbounds(const int x, const int y);
+ bool inbounds(const int x, const int y) const;
 
  int getmapsize() { return my_MAPSIZE; };
 

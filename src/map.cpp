@@ -4075,7 +4075,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
         tercol = veh->part_color(veh_part);
     }
     // If there's graffiti here, change background color
-    if(graffiti_at(x,y).contents) {
+    if( has_graffiti_at( x, y ) ) {
         graf = true;
     }
 
@@ -4960,31 +4960,50 @@ const std::set<point> &map::trap_locations(trap_id t) const
     return empty_set;
 }
 
-bool map::inbounds(const int x, const int y)
+bool map::inbounds(const int x, const int y) const
 {
  return (x >= 0 && x < SEEX * my_MAPSIZE && y >= 0 && y < SEEY * my_MAPSIZE);
 }
 
-bool map::add_graffiti(int x, int y, std::string contents)
+void map::set_graffiti( int x, int y, const std::string &contents )
 {
-  int lx, ly;
-  submap * const current_submap = get_submap_at(x, y, lx, ly);
-  current_submap->set_graffiti(lx, ly, graffiti(contents));
-  return true;
+    if( !inbounds( x, y ) ) {
+        return;
+    }
+    int lx, ly;
+    submap *const current_submap = get_submap_at( x, y, lx, ly );
+    current_submap->set_graffiti( lx, ly, contents );
 }
 
-graffiti map::graffiti_at(int x, int y)
+void map::delete_graffiti( int x, int y )
 {
- if (!inbounds(x, y))
-  return graffiti();
-/*
- int nonant;
- cast_to_nonant(x, y, nonant);
-*/
- int lx, ly;
- submap * const current_submap = get_submap_at(x, y, lx, ly);
+    if( !inbounds( x, y ) ) {
+        return;
+    }
+    int lx, ly;
+    submap *const current_submap = get_submap_at( x, y, lx, ly );
+    current_submap->delete_graffiti( lx, ly );
+}
 
- return current_submap->get_graffiti(lx, ly);
+const std::string &map::graffiti_at( int x, int y ) const
+{
+    if( !inbounds( x, y ) ) {
+        static const std::string empty_string;
+        return empty_string;
+    }
+    int lx, ly;
+    submap *const current_submap = get_submap_at( x, y, lx, ly );
+    return current_submap->get_graffiti( lx, ly );
+}
+
+bool map::has_graffiti_at( int x, int y ) const
+{
+    if( !inbounds( x, y ) ) {
+        return false;
+    }
+    int lx, ly;
+    submap *const current_submap = get_submap_at( x, y, lx, ly );
+    return current_submap->has_graffiti( lx, ly );
 }
 
 long map::determine_wall_corner(const int x, const int y, const long orig_sym)

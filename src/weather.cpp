@@ -72,7 +72,7 @@ std::pair<int, int> rain_or_acid_level( const int wt )
         return std::make_pair(0, (wt == WEATHER_ACID_RAIN  ? 8 : 4 ));
     } else if (wt == WEATHER_DRIZZLE ) {
         return std::make_pair(4, 0);
-        // why isnt this in weather data. now we have multiple rain/turn scales =[
+        // why isn't this in weather data. now we have multiple rain/turn scales =[
     } else if ( wt ==  WEATHER_RAINY || wt == WEATHER_THUNDER || wt == WEATHER_LIGHTNING ) {
         return std::make_pair(8, 0);
         /// @todo bucket of melted snow?
@@ -562,10 +562,10 @@ int get_local_windchill(double temperature, double humidity, double windpower, s
 {
     /**
     *  A player is sheltered if he is underground, in a car, or indoors.
-    **/  
-    
+    **/
+
     int tmpwind = windpower;
-    tmpwind = (float)(tmpwind*0.44704); // Conver to meters per second.
+    tmpwind = (float)(tmpwind*0.44704); // Convert to meters per second.
     int Ctemperature = (temperature - 32) * 5/9; // Convert to celsius.
 
     // Over map terrain may modify the effect of wind.
@@ -577,9 +577,9 @@ int get_local_windchill(double temperature, double humidity, double windpower, s
         tmpwind *= 0.5;
     else if ( omtername == "forest_thick" || omtername == "hive")
         tmpwind *= 0.4;
-        
-    
-    
+
+
+
     /// Source : http://en.wikipedia.org/wiki/Wind_chill#Australian_Apparent_Temperature
     int windchill = (0.33 * ((humidity / 100.00) * 6.105 * exp((17.27 * Ctemperature)/(237.70 + Ctemperature))) - 0.70*tmpwind - 4.00);
 
@@ -600,7 +600,7 @@ int get_local_humidity(double humidity, weather_type weather, bool sheltered)
     {
         tmphumidity = 100;
     }
-    
+
     return tmphumidity;
 }
 

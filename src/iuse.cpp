@@ -2223,6 +2223,10 @@ int iuse::marloss(player *p, item *it, bool t)
         p->add_msg_if_player(m_warning, _("After what happened that last time? uh-uh.  You're not eating that alien poison sac."));
         return 0;
     }
+    if (p->has_trait("THRESH_MYCUS")) {
+        p->add_msg_if_player(m_info, _("We no longer require this scaffolding.  We reserve it for other uses."));
+        return 0;
+    }
     // If we have the marloss in our veins, we are a "breeder" and will spread
     // the fungus.
     p->add_memorial_log(pgettext("memorial_male", "Ate a marloss berry."),
@@ -2304,12 +2308,16 @@ int iuse::marloss(player *p, item *it, bool t)
         p->toggle_mutation("MARLOSS_BLUE");
         p->toggle_mutation("MARLOSS");
         p->toggle_mutation("MARLOSS_AVOID"); // And if you survive it's etched in your RNA, so you're unlikely to repeat the experiment.
+        p->rem_addiction(ADD_MARLOSS_R);
+        p->rem_addiction(ADD_MARLOSS_B);
+        p->rem_addiction(ADD_MARLOSS_Y);
     } else if ( (p->has_trait("MARLOSS_BLUE") && p->has_trait("MARLOSS_YELLOW")) && (!p->has_trait("MARLOSS")) ) {
         p->add_msg_if_player(m_bad, _("You feel a familiar warmth, but suddenly it surges into painful burning as you convulse and collapse to the ground..."));
         p->fall_asleep((400 - p->int_cur * 5));
         p->toggle_mutation("MARLOSS_BLUE");
         p->toggle_mutation("MARLOSS_YELLOW");
         p->toggle_mutation("THRESH_MARLOSS");
+        p->rem_addiction(ADD_MARLOSS_R);
         g->m.ter_set(p->posx, p->posy, t_marloss);
         p->add_memorial_log(pgettext("memorial_male", "Opened the Marloss Gateway."),
                         pgettext("memorial_female", "Opened the Marloss Gateway."));
@@ -2321,6 +2329,7 @@ int iuse::marloss(player *p, item *it, bool t)
         p->toggle_mutation("MARLOSS");
         p->add_addiction(ADD_MARLOSS_B, 60);
         p->add_addiction(ADD_MARLOSS_Y, 60);
+        p->rem_addiction(ADD_MARLOSS_R);
     }
     return it->type->charges_to_use();
 }
@@ -2333,6 +2342,10 @@ int iuse::marloss_seed(player *p, item *it, bool t)
     if (p->has_trait("MARLOSS_AVOID")) {
         //~"Uh-uh" is a sound used for "nope", "no", etc.  "Drek" is a borrowed synonym for "shit".
         p->add_msg_if_player(m_warning, _("After what happened that last time? uh-uh.  You're not eating that alien drek."));
+        return 0;
+    }
+    if (p->has_trait("THRESH_MYCUS")) {
+        p->add_msg_if_player(m_info, _("We no longer require this scaffolding.  We reserve it for other uses."));
         return 0;
     }
     if (!(query_yn(_("Sure you want to eat the %s? You could plant it in a mound of dirt."),
@@ -2420,12 +2433,16 @@ int iuse::marloss_seed(player *p, item *it, bool t)
         p->toggle_mutation("MARLOSS_BLUE");
         p->toggle_mutation("MARLOSS");
         p->toggle_mutation("MARLOSS_AVOID"); // And if you survive it's etched in your RNA, so you're unlikely to repeat the experiment.
+        p->rem_addiction(ADD_MARLOSS_R);
+        p->rem_addiction(ADD_MARLOSS_B);
+        p->rem_addiction(ADD_MARLOSS_Y);
     } else if ( (p->has_trait("MARLOSS") && p->has_trait("MARLOSS_YELLOW")) && (!p->has_trait("MARLOSS_BLUE")) ) {
         p->add_msg_if_player(m_bad, _("You feel a familiar warmth, but suddenly it surges into painful burning as you convulse and collapse to the ground..."));
         p->fall_asleep((400 - p->int_cur * 5));
         p->toggle_mutation("MARLOSS");
         p->toggle_mutation("MARLOSS_YELLOW");
         p->toggle_mutation("THRESH_MARLOSS");
+        p->rem_addiction(ADD_MARLOSS_B);
         g->m.ter_set(p->posx, p->posy, t_marloss);
         p->add_memorial_log(pgettext("memorial_male", "Opened the Marloss Gateway."),
                         pgettext("memorial_female", "Opened the Marloss Gateway."));
@@ -2437,6 +2454,7 @@ int iuse::marloss_seed(player *p, item *it, bool t)
         p->toggle_mutation("MARLOSS_BLUE");
         p->add_addiction(ADD_MARLOSS_R, 60);
         p->add_addiction(ADD_MARLOSS_Y, 60);
+        p->rem_addiction(ADD_MARLOSS_B);
     }
     return it->type->charges_to_use();
 }
@@ -2449,6 +2467,10 @@ int iuse::marloss_gel(player *p, item *it, bool t)
     if (p->has_trait("MARLOSS_AVOID")) {
         //~"Uh-uh" is a sound used for "nope", "no", etc.
         p->add_msg_if_player(m_warning, _("After what happened that last time? uh-uh.  You're not eating that alien slime."));
+        return 0;
+    }
+    if (p->has_trait("THRESH_MYCUS")) {
+        p->add_msg_if_player(m_info, _("We no longer require this scaffolding.  We reserve it for other uses."));
         return 0;
     }
     // If we have the marloss in our veins, we are a "breeder" and will spread
@@ -2532,11 +2554,15 @@ int iuse::marloss_gel(player *p, item *it, bool t)
         p->toggle_mutation("MARLOSS_BLUE");
         p->toggle_mutation("MARLOSS");
         p->toggle_mutation("MARLOSS_AVOID"); // And if you survive it's etched in your RNA, so you're unlikely to repeat the experiment.
+        p->rem_addiction(ADD_MARLOSS_R);
+        p->rem_addiction(ADD_MARLOSS_B);
+        p->rem_addiction(ADD_MARLOSS_Y);
     } else if ( (p->has_trait("MARLOSS_BLUE") && p->has_trait("MARLOSS")) && (!p->has_trait("MARLOSS_YELLOW")) ) {
         p->add_msg_if_player(m_bad, _("You feel a familiar warmth, but suddenly it surges into painful burning as you convulse and collapse to the ground..."));
         p->fall_asleep((400 - p->int_cur * 5));
         p->toggle_mutation("MARLOSS_BLUE");
         p->toggle_mutation("MARLOSS");
+        p->rem_addiction(ADD_MARLOSS_Y);
         p->toggle_mutation("THRESH_MARLOSS");
         g->m.ter_set(p->posx, p->posy, t_marloss);
         p->add_memorial_log(pgettext("memorial_male", "Opened the Marloss Gateway."),
@@ -2549,6 +2575,7 @@ int iuse::marloss_gel(player *p, item *it, bool t)
         p->toggle_mutation("MARLOSS_YELLOW");
         p->add_addiction(ADD_MARLOSS_R, 60);
         p->add_addiction(ADD_MARLOSS_B, 60);
+        p->rem_addiction(ADD_MARLOSS_Y);
     }
     return it->type->charges_to_use();
 }
@@ -2582,11 +2609,14 @@ int iuse::mycus(player *p, item *it, bool t)
         p->add_msg_if_player(m_good, _("We welcome the union of our lines in our local guide.  We will prosper, and unite this world."));
         p->add_msg_if_player(m_good, _("Even now, our fruits adapt to better serve local physiology."));
         p->add_msg_if_player(m_good, _("As, in time, shall we adapt to better welcome those who have not received us."));
-        for (int x = p->posx - 2; x <= p->posx + 2; x++) {
-            for (int y = p->posy - 2; y <= p->posy + 2; y++) {
+        for (int x = p->posx - 3; x <= p->posx + 3; x++) {
+            for (int y = p->posy - 3; y <= p->posy + 3; y++) {
                 g->m.marlossify(x, y);
             }
         }
+        p->rem_addiction(ADD_MARLOSS_R);
+        p->rem_addiction(ADD_MARLOSS_B);
+        p->rem_addiction(ADD_MARLOSS_Y);
     }
     else if (p->has_trait("THRESH_MYCUS") && !p->has_trait("M_DEPENDENT")) { // OK, now set the hook.
         if (!one_in(3)) {
@@ -2596,8 +2626,13 @@ int iuse::mycus(player *p, item *it, bool t)
             p->thirst += 10;
             p->add_morale(MORALE_MARLOSS, 25, 200); // still covers up mutation pain
         }
+        for (int x = p->posx - 2; x <= p->posx + 2; x++) {
+            for (int y = p->posy - 2; y <= p->posy + 2; y++) {
+                g->m.marlossify(x, y);
+            }
+        }
     } else if (p->has_trait("THRESH_MYCUS")) {
-        if (one_in(25)) {
+        if (one_in(10)) {
             p->mutate_category("MUTCAT_MYCUS");
             p->hunger += 10;
             p->fatigue += 5;
@@ -2605,6 +2640,11 @@ int iuse::mycus(player *p, item *it, bool t)
         }
         p->pkill += 10;
         p->stim += 10;
+        for (int x = p->posx - 3; x <= p->posx + 3; x++) {
+            for (int y = p->posy - 3; y <= p->posy + 3; y++) {
+                g->m.marlossify(x, y);
+            }
+        }
     } else { // In case someone gets one without having been adapted first.
         // Marloss is the Mycus' method of co-opting humans.  Mycus fruit is for symbiotes' maintenance and development.
         p->add_msg_if_player(_("This apple tastes really weird!  You're not sure it's good for you..."));
@@ -7898,22 +7938,13 @@ int iuse::spray_can(player *p, item *it, bool)
     if (message.empty()) {
         return 0;
     } else {
-        if (g->m.add_graffiti(p->posx, p->posy, message)) {
+        g->m.set_graffiti( p->posx, p->posy, message );
             add_msg(
                 ismarker ?
                 _("You write a message on the ground.") :
                 _("You spray a message on the ground.")
             );
             p->moves -= 2 * message.length();
-        } else {
-            add_msg(
-                ismarker ?
-                _("You fail to write a message here.") :
-                _("You fail to spray a message here.")
-            );
-
-            return 0;
-        }
     }
     return it->type->charges_to_use();
 }

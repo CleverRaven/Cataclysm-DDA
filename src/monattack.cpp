@@ -25,7 +25,7 @@
 // shared utility functions
 int within_visual_range(monster *z, int max) {
     int j, dist;
-    
+
     dist = rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy);
     if (dist > max || !g->sees_u(z->posx(), z->posy(), j)) {
         return -1;    // Out of range
@@ -1902,7 +1902,7 @@ void mattack::tazer(monster *z, int index)
       // friendly
       return;
     }
- 
+
     if (g->u.uncanny_dodge()) {
         return;
     }
@@ -2550,7 +2550,7 @@ void mattack::flamethrower(monster *z, int index)
 
       return;
     }
- 
+
     int dist = within_visual_range(z, 5);
     if (dist < 0) {
         return;
@@ -2604,8 +2604,8 @@ Please put down your weapon.\""));
         tmp.tazer(z, -1);
         return;
     }
-    // if cuffed don't attack the player, unless the bot is damaged
-    // presumably beacuse of the player's actions
+    // If cuffed don't attack the player, unless the bot is damaged
+    // presumably because of the player's actions
     if (z->hp == z->type->hp) {
         z->anger = 1;
     } else {
@@ -3070,7 +3070,7 @@ void mattack::darkman(monster *z, int index)
         add_msg(_("\"Let us help you\""));
         break;
     case 3:
-        add_msg(_("\" We wish you no harm \""));
+        add_msg(_("\"We wish you no harm\""));
         break;
     case 4:
         add_msg(_("\"Do not fear\""));

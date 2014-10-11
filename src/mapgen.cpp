@@ -1035,7 +1035,7 @@ void mapgen_lua(map * m,oter_id id,mapgendata md ,int t,float d, const std::stri
 #else
     (void)scr;
     mapgen_crater(m,id,md,t,d);
-    mapf::formatted_set_terrain(m, 0, 6,
+    mapf::formatted_set_simple(m, 0, 6,
 "\
     *   *  ***\n\
     **  * *   *\n\
@@ -1048,7 +1048,7 @@ void mapgen_lua(map * m,oter_id id,mapgendata md ,int t,float d, const std::stri
  *     *   *  ***\n\
  *     *   * *   *\n\
  *****  ***  *   *\n\
-", mapf::basic_bind("*", t_paper), mapf::end()); // should never happen: overmap loader skips lua mapgens on !LUA builds.
+", mapf::basic_bind("*", t_paper), mapf::basic_bind("")); // should never happen: overmap loader skips lua mapgens on !LUA builds.
 
 #endif
 }
