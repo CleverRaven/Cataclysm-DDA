@@ -2594,11 +2594,14 @@ int iuse::mycus(player *p, item *it, bool t)
         p->add_msg_if_player(m_good, _("We welcome the union of our lines in our local guide.  We will prosper, and unite this world."));
         p->add_msg_if_player(m_good, _("Even now, our fruits adapt to better serve local physiology."));
         p->add_msg_if_player(m_good, _("As, in time, shall we adapt to better welcome those who have not received us."));
-        for (int x = p->posx - 2; x <= p->posx + 2; x++) {
-            for (int y = p->posy - 2; y <= p->posy + 2; y++) {
+        for (int x = p->posx - 3; x <= p->posx + 3; x++) {
+            for (int y = p->posy - 3; y <= p->posy + 3; y++) {
                 g->m.marlossify(x, y);
             }
         }
+        p->rem_addiction(ADD_MARLOSS_R);
+        p->rem_addiction(ADD_MARLOSS_B);
+        p->rem_addiction(ADD_MARLOSS_Y);
     }
     else if (p->has_trait("THRESH_MYCUS") && !p->has_trait("M_DEPENDENT")) { // OK, now set the hook.
         if (!one_in(3)) {

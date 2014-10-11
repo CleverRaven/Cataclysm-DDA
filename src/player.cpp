@@ -5321,9 +5321,17 @@ void player::rem_addiction(add_type type)
     for (size_t i = 0; i < addictions.size(); i++) {
         if (addictions[i].type == type) {
             //~ %s is addiction name
-            add_memorial_log(pgettext("memorial_male", "Overcame addiction to %s."),
+            if (has_trait("THRESH_MYCUS") && ((type == ADD_MARLOSS_R) || (type == ADD_MARLOSS_B) ||
+              (type == ADD_MARLOSS_Y))) {
+                  add_memorial_log(pgettext("memorial_male", "Transcended addiction to %s."),
+                            pgettext("memorial_female", "Transcended addiction to %s."),
+                            addiction_type_name(type).c_str());
+            }
+            else {
+                add_memorial_log(pgettext("memorial_male", "Overcame addiction to %s."),
                             pgettext("memorial_female", "Overcame addiction to %s."),
                             addiction_type_name(type).c_str());
+            }
             addictions.erase(addictions.begin() + i);
             return;
         }
