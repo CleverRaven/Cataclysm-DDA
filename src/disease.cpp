@@ -45,12 +45,9 @@ enum dis_type_enum {
 // Bite wound infected (dependent on bodypart.h)
  DI_INFECTED,
 // Inflicted by an NPC
- DI_ASKED_FOR_ITEM,
  DI_ASKED_TO_TRAIN, DI_ASKED_PERSONAL_INFO,
 // Martial arts-related buffs
  DI_MA_BUFF,
-// NPC-only
- DI_CATCH_UP,
  // Lack/sleep
  DI_LACKSLEEP,
  // Grabbed (from MA or monster)
@@ -141,10 +138,8 @@ void game::init_diseases() {
     disease_type_lookup["attention"] = DI_ATTENTION;
     disease_type_lookup["evil"] = DI_EVIL;
     disease_type_lookup["infected"] = DI_INFECTED;
-    disease_type_lookup["asked_for_item"] = DI_ASKED_FOR_ITEM;
     disease_type_lookup["asked_to_train"] = DI_ASKED_TO_TRAIN;
     disease_type_lookup["asked_personal_info"] = DI_ASKED_PERSONAL_INFO;
-    disease_type_lookup["catch_up"] = DI_CATCH_UP;
     disease_type_lookup["weed_high"] = DI_WEED_HIGH;
     disease_type_lookup["ma_buff"] = DI_MA_BUFF;
     disease_type_lookup["lack_sleep"] = DI_LACKSLEEP;
