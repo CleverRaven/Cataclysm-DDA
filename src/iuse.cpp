@@ -7898,22 +7898,13 @@ int iuse::spray_can(player *p, item *it, bool)
     if (message.empty()) {
         return 0;
     } else {
-        if (g->m.add_graffiti(p->posx, p->posy, message)) {
+        g->m.set_graffiti( p->posx, p->posy, message );
             add_msg(
                 ismarker ?
                 _("You write a message on the ground.") :
                 _("You spray a message on the ground.")
             );
             p->moves -= 2 * message.length();
-        } else {
-            add_msg(
-                ismarker ?
-                _("You fail to write a message here.") :
-                _("You fail to spray a message here.")
-            );
-
-            return 0;
-        }
     }
     return it->type->charges_to_use();
 }
