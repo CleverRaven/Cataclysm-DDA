@@ -136,6 +136,7 @@ void monster::poly(mtype *t)
  anger = type->agro;
  morale = type->morale;
  hp = int(hp_percentage * type->hp);
+ sp_timeout.clear();
  for (size_t i = 0; i < type->sp_freq.size(); ++i) {
     sp_timeout.push_back(type->sp_freq[i]);
  }

@@ -120,8 +120,8 @@
 },{
   "type" : "recipe",
   "result": "marble",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_CONTAINERS",
+  "category": "CC_AMMO",
+  "subcategory": "CSC_AMMO_OTHER",
   "skill_used": "fabrication",
   "difficulty": 6,
   "time": 60000,
