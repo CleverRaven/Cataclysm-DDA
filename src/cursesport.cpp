@@ -7,8 +7,8 @@
 #include <cstring> // strlen
 
 /**
- * Whoever cares, btw. not my base design, buit this is how it works:
- * In absent of a native curses libaray, this is a simple implemention to
+ * Whoever cares, btw. not my base design, but this is how it works:
+ * In absent of a native curses library, this is a simple implementation to
  * store the data that would be given to the curses system.
  * It is later displayed using code in sdltiles.cpp. This file only contains
  * the curses interface.

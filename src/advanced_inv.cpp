@@ -518,8 +518,8 @@ void advanced_inv_area::init()
                 canputitems = g->m.can_put_items( g->u.posx + offx, g->u.posy + offy );
                 max_size = MAX_ITEM_IN_SQUARE;
                 max_volume = g->m.max_volume( g->u.posx + offx, g->u.posy + offy );
-                if( g->m.graffiti_at( g->u.posx + offx, g->u.posy + offy ).contents ) {
-                    desc = g->m.graffiti_at( g->u.posx + offx, g->u.posy + offy ).contents->c_str();
+                if( g->m.has_graffiti_at( g->u.posx + offx, g->u.posy + offy ) ) {
+                    desc = g->m.graffiti_at( g->u.posx + offx, g->u.posy + offy );
                 }
             }
             break;
