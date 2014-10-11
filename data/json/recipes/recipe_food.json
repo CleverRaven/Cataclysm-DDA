@@ -7989,7 +7989,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "sugar_fried",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
@@ -7998,23 +7998,11 @@
   "time": 3500,
   "reversible": false,
   "autolearn": true,
-  "qualities":[
-    {"id":"COOK","level":2,"amount":1}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 1 ],
-      [ "toolset", 2 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "qualities":[ {"id":"COOK","level":2,"amount":1} ],
+  "tools": [ [ [ "hotplate", 2 ], [ "char_smoker", 1 ], [ "toolset", 2 ], [ "fire", -1 ] ] ],
   "components": [
-    [
-      [ "sugar", 1 ]
-    ],
-	[
-	  [ "water_clean", 1 ]
-	]
+    [ [ "sugar", 1 ] ],
+    [ [ "water_clean", 1 ] ]
   ]
 }
 ]
