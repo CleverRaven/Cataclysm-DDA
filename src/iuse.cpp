@@ -4302,7 +4302,7 @@ bool pry_nails(player *p, ter_id &type, int dirx, int diry)
         newter = t_window_empty;
         p->add_msg_if_player(_("You pry the boards from the window frame."));
     } else if ( type == t_door_boarded || type == t_door_boarded_damaged ||
-            type == t_rdoor_boarded || type == t_rdoor_boarded_damaged || 
+            type == t_rdoor_boarded || type == t_rdoor_boarded_damaged ||
             type == t_door_boarded_peep || type == t_door_boarded_damaged_peep ) {
         nails = 8;
         boards = 4;
@@ -6029,8 +6029,8 @@ int iuse::pheromone(player *p, item *it, bool)
         return 0;
     }
 
-    p->add_msg_player_or_npc(_("You squeeze the pheremone ball.."),
-                             _("<npcname> squeezes the pheremone ball..."));
+    p->add_msg_player_or_npc(_("You squeeze the pheromone ball..."),
+                             _("<npcname> squeezes the pheromone ball..."));
 
     p->moves -= 15;
 
