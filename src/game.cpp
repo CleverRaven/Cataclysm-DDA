@@ -3355,7 +3355,7 @@ bool game::handle_action()
 
     case ACTION_OPEN:
         if (u.has_active_mutation("SHELL2")) {
-            add_msg(m_info, _("You can't open doors while you're in your shell."));
+            add_msg(m_info, _("You can't open things while you're in your shell."));
         } else {
             open();
         }
@@ -3363,7 +3363,7 @@ bool game::handle_action()
 
     case ACTION_CLOSE:
         if (u.has_active_mutation("SHELL2")) {
-            add_msg(m_info, _("You can't close doors while you're in your shell."));
+            add_msg(m_info, _("You can't close things while you're in your shell."));
         } else {
             close(mouse_action_x, mouse_action_y);
         }
