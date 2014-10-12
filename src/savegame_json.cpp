@@ -865,7 +865,7 @@ void monster::load(JsonObject &data)
     data.read("wandy", wandy);
     data.read("wandf", wandf);
     data.read("hp", hp);
-    
+
     if (data.has_array("sp_timeout")) {
         JsonArray parray = data.get_array("sp_timeout");
         if ( !parray.empty() ) {
@@ -880,7 +880,7 @@ void monster::load(JsonObject &data)
     for (size_t i = sp_timeout.size(); i < type->sp_freq.size(); ++i) {
         sp_timeout.push_back(rng(0, type->sp_freq[i]));
     }
-    
+
     data.read("friendly", friendly);
     data.read("faction_id", faction_id);
     data.read("mission_id", mission_id);
@@ -894,8 +894,11 @@ void monster::load(JsonObject &data)
     data.read("plans", plans);
 
     data.read("inv", inv);
-    if (!data.read("ammo", ammo)) {
-        ammo = 100;
+    if( data.has_int("ammo") && !type->starting_ammo.empty() ) {
+        // Legacy loading for ammo.
+        normalize_ammo( data.get_int("ammo") );
+    } else {
+        data.read("ammo", ammo);
     }
 }
 

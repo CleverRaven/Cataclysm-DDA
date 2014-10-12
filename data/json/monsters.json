@@ -4996,6 +4996,7 @@
     "special_freq":[2],
     "death_function":"EXPLODE",
     "special_attack":["SMG"],
+    "starting_ammo" : {"9mm":100},
     "description":"The Northrop Watchman X-1 is a production series of heavily armored combat robots.  Initially designed for military patrol and escort service, it rolls on a set of hydraulic treads and is armed with a 3\"/50 caliber gun.",
     "flags":["SEES", "HEARS", "BASHES", "ATTACKMON", "ELECTRONIC", "NO_BREATHE", "VIS50"]
     },{
@@ -5159,6 +5160,7 @@
     "special_freq":[4],
     "death_function":"EXPLODE",
     "special_attack":["CHICKENBOT"],
+    "starting_ammo" : {"556":1000, "40mm_frag":100},
     "description":"The Northrup ATSV, a massive, heavily-armed and armored robot walking on a pair of reverse-jointed legs.  Armed with a 40mm anti-vehicle grenade launcher, 5.56 anti-personnel gun, and the ability to electrify itself against attackers, it is an effective automated sentry, though production was limited due to a legal dispute.",
     "flags":["SEES", "VIS50", "HEARS", "BASHES", "NO_BREATHE", "ELECTRONIC", "FRIENDLY_SPECIAL"]
     },{
@@ -5193,6 +5195,7 @@
     "special_freq":[3],
     "death_function":"BROKEN",
     "special_attack":["MULTI_ROBOT"],
+    "starting_ammo" : {"556":1000, "40mm_frag":100, "120mm_HEAT":40},
     "description":"The Northrup Emancipator is the first and only automated tank ever produced, made shortly after the split-up of Northrup Grumman.  Clad in depleted uranium plating, and armed with advanced munitions and a 120-mm gun, it is capable of delivering extraordinary firepower.",
     "flags":["SEES", "VIS50", "HEARS", "GOODHEARING", "NOHEAD", "BASHES", "DESTROYS", "ATTACKMON", "NO_BREATHE", "ELECTRONIC", "FRIENDLY_SPECIAL"]
     },{
@@ -5227,6 +5230,7 @@
     "special_freq":[1],
     "death_function":"EXPLODE",
     "special_attack":["SMG"],
+    "starting_ammo" : {"9mm":100},
     "description":"The General Atomics TX-1 Guardian, a small, pill-shaped automated gun turret using state of the art ATR systems to dynamically reorient itself to new friends and enemies alike.  The two SMG barrels can swivel a full 360 degrees.",
     "flags":["SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE", "FRIENDLY_SPECIAL"]
     },{
@@ -5295,6 +5299,7 @@
     "special_freq":[1],
     "death_function":"EXPLODE",
     "special_attack":["RIFLE_TUR"],
+    "starting_ammo" : {"556":100},
     "description":"Leadworks LLC's T-4A1 Sentry.  It features improved firmware over General Atomics' TX-1 9mm model and an automated M4 carbine.",
     "flags":["SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE", "FRIENDLY_SPECIAL"]
     },{
@@ -5329,6 +5334,7 @@
     "special_freq":[1],
     "death_function":"EXPLODE",
     "special_attack":["BMG_TUR"],
+    "starting_ammo" : {"50bmg":100},
     "description":"Leadworks LLC's T-107A1 Interdictor, an automated .50BMG antimateriel rifle.  Credited with forestalling countless car-bombing attempts, it has always been kept under extremely tight control, so as to itself maintain extremely tight control of its area.  And then the Cataclysm struck.",
     "flags":["SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE", "FRIENDLY_SPECIAL"]
     },{

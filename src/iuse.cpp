@@ -6164,7 +6164,7 @@ int iuse::turret(player *p, item *, bool)
         p->add_msg_if_player(m_info,
                              _("If you had standard factory-built 9mm bullets, you could load the turret."));
     }
-    mturret.ammo = ammo;
+    mturret.ammo["9mm"] = ammo;
     if (rng(0, p->int_cur / 2) + p->skillLevel("electronics") / 2 +
         p->skillLevel("computer") < rng(0, 6)) {
         p->add_msg_if_player(m_warning, _("The turret scans you and makes angry beeping noises!"));
@@ -6229,7 +6229,7 @@ int iuse::turret_rifle(player *p, item *, bool)
         p->add_msg_if_player(m_info,
                              _("If you had standard factory-built 5.56 bullets, you could load the turret."));
     }
-    mturret.ammo = ammo;
+    mturret.ammo["556"] = ammo;
     if (rng(0, p->int_cur / 2) + p->skillLevel("electronics") / 2 +
         p->skillLevel("computer") < rng(0, 6)) {
         p->add_msg_if_player(m_warning, _("The turret scans you and makes angry beeping noises!"));
