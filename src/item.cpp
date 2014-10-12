@@ -2621,12 +2621,16 @@ int item::range(player *p)
         return 0;
     // Just use the raw ammo range for now.
     // we do NOT want to use the parent gun's range.
-    if(mode == "MODE_AUX") {
-        item* gunmod = active_gunmod();
-        if(gunmod && gunmod->curammo)
-            return gunmod->curammo->range;
-        else
-            return 0;
+    if( mode == "MODE_AUX" ) {
+        item *gunmod = active_gunmod();
+        int mod_range = 0;
+        if( gunmod ) {
+            mod_range += dynamic_cast<it_gunmod *>(gunmod->type)->range;
+            if( gunmod->curammo) {
+                mod_range += gunmod->curammo->range;
+            }
+        }
+        return mod_range;
     }
 
     // Ammoless weapons use weapon's range only
