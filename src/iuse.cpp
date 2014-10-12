@@ -2785,7 +2785,7 @@ int iuse::lens_fire(player *p, item *it, bool)
         it->charges = 1; // workaround since the prep_firestarter_use requires charges to light a fire
     } else {
         it->charges = 0;
-        p->add_msg_if_player(_("You need more sunlight to light a fire with this."));
+        p->add_msg_if_player(_("You need direct sunlight to light a fire with this."));
         
     }
     if (prep_firestarter_use(p, it, posx, posy)) {
