@@ -1882,6 +1882,7 @@
             {"x": -8, "y": 0, "part": "roof"},
             {"x": -8, "y": 1, "part": "frame_vertical_2"},
             {"x": -8, "y": 1, "part": "aisle_horizontal"},
+            {"x": -8, "y": 1, "part": "roof"},
             {"x": -8, "y": 2, "part": "frame_vertical_2"},
             {"x": -8, "y": 2, "part": "bed"},
             {"x": -8, "y": 2, "part": "roof"},
