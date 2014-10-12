@@ -1067,6 +1067,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         std::vector <addiction> addictions;
 
         recipe *lastrecipe;
+        int last_batch;
         itype_id lastconsumed;        //used in crafting.cpp and construction.cpp
 
         //Dumps all memorial events into a single newline-delimited string

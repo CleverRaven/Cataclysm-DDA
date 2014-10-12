@@ -1836,8 +1836,11 @@ void game::activity_on_finish()
     case ACT_LONGCRAFT:
         complete_craft();
         u.activity.type = ACT_NULL;
-        if (making_would_work(u.lastrecipe)) {
-            make_all_craft(u.lastrecipe);
+        {
+            int batch_size = u.activity.values.front();
+            if( making_would_work( u.lastrecipe, batch_size ) ) {
+                make_all_craft(u.lastrecipe, batch_size);
+            }
         }
         break;
     case ACT_FORAGE:

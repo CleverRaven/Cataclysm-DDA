@@ -174,6 +174,7 @@ player::player() : Character(), name("")
  sight_boost = 0;
  sight_boost_cap = 0;
  lastrecipe = NULL;
+ last_batch = 0;
  lastconsumed = itype_id("null");
  next_expected_position.x = -1;
  next_expected_position.y = -1;
