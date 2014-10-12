@@ -12151,6 +12151,7 @@ void game::unload(item &it)
     int has_shotgun2 = -1;
     int has_shotgun3 = -1;
     int has_auxflamer = -1;
+    int has_rail_xbow = -1;
     if (it.is_gun()) {
         spare_mag = it.has_gunmod("spare_mag");
         has_m203 = it.has_gunmod("m203");
@@ -12159,6 +12160,7 @@ void game::unload(item &it)
         has_shotgun2 = it.has_gunmod("masterkey");
         has_shotgun3 = it.has_gunmod("rm121aux");
         has_auxflamer = it.has_gunmod("aux_flamer");
+        has_rail_xbow = it.has_gunmod("gun_crossbow");
     }
     if (it.is_container() ||
         (it.charges == 0 &&
@@ -12168,7 +12170,8 @@ void game::unload(item &it)
          (has_shotgun == -1 || it.contents[has_shotgun].charges <= 0) &&
          (has_shotgun2 == -1 || it.contents[has_shotgun2].charges <= 0) &&
          (has_shotgun3 == -1 || it.contents[has_shotgun3].charges <= 0) &&
-         (has_auxflamer == -1 || it.contents[has_auxflamer].charges <= 0))) {
+         (has_auxflamer == -1 || it.contents[has_auxflamer].charges <= 0) &&
+         (has_rail_xbow == -1 || it.contents[has_rail_xbow].charges <= 0) )) {
         if (it.contents.empty()) {
             if (it.is_gun()) {
                 add_msg(m_info, _("Your %s isn't loaded, and is not modified."),
@@ -12253,6 +12256,10 @@ void game::unload(item &it)
         // Then try an auxiliary flamethrower
         else if (has_auxflamer != -1 && weapon->contents[has_auxflamer].charges > 0) {
             weapon = &weapon->contents[has_auxflamer];
+        }
+        // Then try a rail-mounted crossbow.
+        else if (has_rail_xbow != -1 && weapon->contents[has_rail_xbow].charges > 0) {
+            weapon = &weapon->contents[has_rail_xbow];
         }
     }
 
