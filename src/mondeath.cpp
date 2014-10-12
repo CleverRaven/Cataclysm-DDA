@@ -549,7 +549,7 @@ void mdeath::darkman(monster *z)
 {
     g->u.rem_disease("darkness");
     if (g->u_see(z)) {
-        add_msg(m_good, _("The %s melts away. And the world returns to normaliity"), z->name().c_str());
+        add_msg(m_good, _("The %s melts away. And the world returns to normality."), z->name().c_str());
     }
 }
 

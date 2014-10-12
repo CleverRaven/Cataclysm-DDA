@@ -9438,8 +9438,8 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
                 mvwprintz(w_info, 1, lookWidth - 1, c_ltgreen, _("F"));
             }
 
-            if (m.graffiti_at(lx, ly).contents) {
-                mvwprintw(w_info, ++off + 1, 1, _("Graffiti: %s"), m.graffiti_at(lx, ly).contents->c_str());
+            if( m.has_graffiti_at( lx, ly ) ) {
+                mvwprintw(w_info, ++off + 1, 1, _("Graffiti: %s"), m.graffiti_at( lx, ly ).c_str() );
             }
 
             wrefresh(w_info);
@@ -12982,9 +12982,8 @@ bool game::plmove(int dx, int dy)
         if (signage.size()) {
             add_msg(m_info, _("The sign says: %s"), signage.c_str());
         }
-        std::string *graffiti = m.graffiti_at(x, y).contents;
-        if (graffiti) {
-            add_msg(_("Written here: %s"), utf8_truncate(*graffiti, 40).c_str());
+        if( m.has_graffiti_at( x, y ) ) {
+            add_msg(_("Written here: %s"), utf8_truncate(m.graffiti_at( x, y ), 40).c_str());
         }
         if (m.has_flag("ROUGH", x, y) && (!u.in_vehicle)) {
             bool ter_or_furn = m.has_flag_ter( "ROUGH", x, y );

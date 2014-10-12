@@ -879,3 +879,30 @@ void submap::delete_vehicles()
     }
     vehicles.clear();
 }
+
+static const std::string COSMETICS_GRAFFITI( "GRAFFITI" );
+
+bool submap::has_graffiti( int x, int y ) const
+{
+    return cosmetics[x][y].count( COSMETICS_GRAFFITI ) > 0;
+}
+
+const std::string &submap::get_graffiti( int x, int y ) const
+{
+    const auto it = cosmetics[x][y].find( COSMETICS_GRAFFITI );
+    if( it == cosmetics[x][y].end() ) {
+        static const std::string empty_string;
+        return empty_string;
+    }
+    return it->second;
+}
+
+void submap::set_graffiti( int x, int y, const std::string &new_graffiti )
+{
+    cosmetics[x][y][COSMETICS_GRAFFITI] = new_graffiti;
+}
+
+void submap::delete_graffiti( int x, int y )
+{
+    cosmetics[x][y].erase( COSMETICS_GRAFFITI );
+}

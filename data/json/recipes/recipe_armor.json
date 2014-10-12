@@ -6459,10 +6459,11 @@
     "autolearn": false,
     "book_learn": [
         ["textbook_weapwest", 5], ["textbook_weapeast", 5],
-        ["textbook_armwest", 5], ["textbook_armeast", 5] ],
+        ["textbook_armwest", 5], ["textbook_armeast", 5]
+    ],
     "qualities":[
         {"id":"HAMMER","level":1,"amount":1},
-	{"id":"CUT","level":1,"amount":1}
+        {"id":"CUT","level":1,"amount":1}
     ],
     "components": [
         [ [ "leather", 10 ] ],
@@ -6850,7 +6851,7 @@
     ]
    ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "helmet_kabuto",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -6860,52 +6861,44 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_armeast", 8 ]],
-    "qualities": [
-       {"id":"HAMMER","level":3,"amount":1} ],
+  "qualities": [ {"id":"HAMMER","level":3,"amount":1} ],
   "tools": [
-     [
-      ["tongs", -1]
-     ],
-     [
-      ["chisel", -1]
-     ],
-     [
-      ["anvil", -1]
-     ],
-     [
-      ["crucible", -1]
-     ],
-     [
-      ["forge", 450], ["char_forge", 90], ["oxy_torch", 90]
-     ]
-    ],
-  "components":
-   [
-    [
-     [ "steel_lump", 12 ]
-    ],
-    [
-     [ "fur", 14 ],
-     [ "leather", 14 ]
-    ],
-    [
-     [ "rag", 4 ]
-    ]
-   ]
+    [ ["tongs", -1] ],
+    [ ["chisel", -1] ],
+    [ ["anvil", -1] ],
+    [ ["crucible", -1] ],
+    [ ["forge", 450], ["char_forge", 90], ["oxy_torch", 90] ]
+  ],
+  "components": [
+    [ [ "steel_lump", 12 ] ],
+    [ [ "fur", 14 ], [ "leather", 14 ] ],
+    [ [ "rag", 4 ] ]
+  ]
 },{
   "type" : "recipe",
   "result": "helmet_netting",
   "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_TORSO",
+  "subcategory": "CSC_ARMOR_HEAD",
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 18000,
   "reversible": false,
   "autolearn": true,
+  "components": [ [ [ "thread", 500 ], [ "sinew", 500], [ "plant_fibre", 500] ] ]
+},{
+  "type" : "recipe",
+  "result": "plastic_shopping_bag",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_STORAGE",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities": [ {"id":"CUT","level":1,"amount":1} ],
   "components": [
-    [
-      [ "thread", 500 ], [ "sinew", 500], [ "plant_fibre", 500]
-    ]
+    [ [ "string_36", 2 ] ],
+    [ [ "bag_plastic", 8 ] ]
   ]
 }
 ]

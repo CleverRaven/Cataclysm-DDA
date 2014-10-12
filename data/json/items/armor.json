@@ -220,7 +220,7 @@
         "environmental_protection" : 0,
         "encumbrance": 0,
         "bashing" : 2,
-        "flags": ["VARSIZE", "STURDY", "WATER_FRIENDLY"],
+        "flags": ["VARSIZE", "STURDY", "WATER_FRIENDLY", "SKINTIGHT"],
         "coverage": 50,
         "material_thickness" : 1
     },
@@ -236,6 +236,7 @@
         "storage" : 0,
         "symbol" : "[",
         "description" : "Heavy plastic armor for your upper torso.  Normally worn by football players.",
+        "flags" : ["BELTED"],
         "price" : 11000,
         "material" : ["plastic", "cotton"],
         "volume" : 28,
@@ -1036,7 +1037,7 @@
         "environmental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : -4,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "OUTER"],
         "coverage" : 65,
         "material_thickness" : 3
     },
@@ -1111,7 +1112,7 @@
         "environmental_protection" : 0,
         "encumbrance" : 1,
         "bashing" : -2,
-        "flags" : ["VARSIZE", "POCKETS"],
+        "flags" : ["VARSIZE", "POCKETS", "OUTER"],
         "coverage" : 95,
         "material_thickness" : 2
     },
@@ -1689,6 +1690,7 @@
         "storage" : 4,
         "symbol" : "[",
         "description" : "A full body fursuit in the form of an anthropomorphic wolf.  It is quite encumbering and has little storage but is very warm.",
+        "flags" : ["OUTER"],
         "price" : 14500,
         "material" : ["cotton", "null"],
         "volume" : 48,
@@ -1721,7 +1723,7 @@
         "environmental_protection" : 0,
         "encumbrance" : 3,
         "bashing" : -3,
-        "flags" : ["VARSIZE", "FANCY", "POCKETS"],
+        "flags" : ["VARSIZE", "FANCY", "POCKETS", "OUTER"],
         "coverage" : 90,
         "material_thickness" : 2
     },
@@ -1761,6 +1763,7 @@
         "storage" : 4,
         "symbol" : "[",
         "description" : "A full-body costume in the form of an anthropomorphic dinosaur.  It is quite encumbering and has little storage but is very warm.",
+        "flags" : ["OUTER"],
         "price" : 14500,
         "material" : ["cotton", "null"],
         "volume" : 48,
@@ -1793,7 +1796,7 @@
         "environmental_protection" : 1,
         "encumbrance" : 2,
         "bashing" : -3,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "SKINTIGHT"],
         "coverage" : 75,
         "material_thickness" : 2
     },
@@ -1841,7 +1844,7 @@
         "environmental_protection" : 1,
         "encumbrance" : 1,
         "bashing" : -3,
-        "flags" : ["VARSIZE", "FANCY"],
+        "flags" : ["VARSIZE", "FANCY", "SKINTIGHT"],
         "coverage" : 75,
         "material_thickness" : 3
     },
@@ -1997,7 +2000,7 @@
         "id" : "beekeeping_suit",
         "name" : "beekeeping suit",
         "weight" : 1587,
-        "color" : "white", 
+        "color" : "white",
         "covers" : ["LEGS", "TORSO", "ARMS"],
         "to_hit" : -5,
         "storage" : 8,
@@ -2012,7 +2015,7 @@
         "environmental_protection" : 1,
         "encumbrance" : 1,
         "bashing" : -5,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "OUTER"],
         "coverage" : 100,
         "material_thickness" : 2
     },
@@ -2036,7 +2039,7 @@
         "environmental_protection" : 1,
         "encumbrance" : 2,
         "bashing" : -2,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "OUTER"],
         "coverage" : 100,
         "material_thickness" : 1
     },
@@ -2086,7 +2089,7 @@
         "environmental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : -2,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "OUTER"],
         "coverage" : 100,
         "material_thickness" : 2
     },
@@ -2209,7 +2212,7 @@
         "environmental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : -5,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "SKINTIGHT"],
         "coverage" : 45,
         "material_thickness" : 1
     },
@@ -2798,7 +2801,7 @@
         "environmental_protection" : 0,
         "encumbrance" : 4,
         "bashing" : 8,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "OUTER"],
         "coverage" : 90,
         "material_thickness" : 5
     },
@@ -3214,7 +3217,7 @@
         "environmental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : -5,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "SKINTIGHT"],
         "coverage" : 5,
         "material_thickness" : 1
     },
@@ -3238,7 +3241,7 @@
         "environmental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : -3,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "SKINTIGHT"],
         "coverage" : 5,
         "material_thickness" : 1
     },
@@ -3262,7 +3265,7 @@
         "environmental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : -2,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "SKINTIGHT"],
         "coverage" : 5,
         "material_thickness" : 2
     },
@@ -3278,6 +3281,7 @@
         "storage" : 0,
         "symbol" : "[",
         "description" : "Rags tied around your feet.  Not much of an improvement over being barefoot, still better than nothing.",
+        "flags" : ["SKINTIGHT"],
         "price" : 500,
         "material" : ["cotton", "null"],
         "volume" : 1,
@@ -3506,7 +3510,7 @@
         "environmental_protection" : 0,
         "encumbrance" : 1,
         "bashing" : -5,
-        "flags" : ["VARSIZE", "POCKETS", "HOOD"],
+        "flags" : ["VARSIZE", "POCKETS", "HOOD", "OUTER"],
         "coverage" : 90,
         "material_thickness" : 2
     },
@@ -3530,7 +3534,7 @@
         "environmental_protection" : 0,
         "encumbrance" : 1,
         "bashing" : -3,
-        "flags" : ["VARSIZE", "POCKETS"],
+        "flags" : ["VARSIZE", "POCKETS", "OUTER"],
         "coverage" : 90,
         "material_thickness" : 3
     },
@@ -3554,7 +3558,7 @@
         "environmental_protection" : 0,
         "encumbrance" : 1,
         "bashing" : -3,
-        "flags" : ["VARSIZE", "POCKETS"],
+        "flags" : ["VARSIZE", "POCKETS", "OUTER"],
         "coverage" : 90,
         "material_thickness" : 4
     },
@@ -3602,7 +3606,7 @@
         "environmental_protection" : 1,
         "encumbrance" : 2,
         "bashing" : -2,
-        "flags" : ["VARSIZE", "POCKETS"],
+        "flags" : ["VARSIZE", "POCKETS", "OUTER"],
         "coverage" : 90,
         "material_thickness" : 3
     },
@@ -3627,7 +3631,7 @@
         "environmental_protection" : 0,
         "encumbrance" : 1,
         "bashing" : 6,
-        "flags" : ["VARSIZE", "STURDY"],
+        "flags" : ["VARSIZE", "STURDY", "SKINTIGHT"],
         "coverage" : 85,
         "material_thickness" : 3
     },
@@ -3678,7 +3682,7 @@
         "environmental_protection" : 0,
         "encumbrance" : 1,
         "bashing" : 6,
-        "flags" : ["VARSIZE", "STURDY"],
+        "flags" : ["VARSIZE", "STURDY", "BELTED"],
         "coverage" : 85,
         "material_thickness" : 4
     },
@@ -3704,7 +3708,7 @@
         "environmental_protection" : 0,
         "encumbrance" : 3,
         "bashing" : 8,
-        "flags" : ["VARSIZE", "STURDY"],
+        "flags" : ["VARSIZE", "STURDY", "BELTED"],
         "coverage" : 85,
         "material_thickness" : 5
     },
@@ -3730,7 +3734,7 @@
         "environmental_protection" : 0,
         "encumbrance" : 4,
         "bashing" : 8,
-        "flags" : ["VARSIZE", "STURDY"],
+        "flags" : ["VARSIZE", "STURDY", "BELTED"],
         "coverage" : 85,
         "material_thickness" : 5
     },
@@ -3756,7 +3760,7 @@
         "environmental_protection" : 0,
         "encumbrance" : 2,
         "bashing" : 6,
-        "flags" : ["VARSIZE", "STURDY"],
+        "flags" : ["VARSIZE", "STURDY", "BELTED"],
         "coverage" : 85,
         "material_thickness" : 5
     },
@@ -3782,7 +3786,7 @@
         "environmental_protection" : 0,
         "encumbrance" : 2,
         "bashing" : 6,
-        "flags" : ["VARSIZE", "STURDY"],
+        "flags" : ["VARSIZE", "STURDY", "BELTED"],
         "coverage" : 85,
         "material_thickness" : 5
     },
@@ -3808,7 +3812,7 @@
         "environmental_protection" : 0,
         "encumbrance" : 6,
         "bashing" : 6,
-        "flags" : ["VARSIZE", "STURDY"],
+        "flags" : ["VARSIZE", "STURDY", "BELTED"],
         "coverage" : 85,
         "material_thickness" : 4
     },
@@ -3905,7 +3909,7 @@
         "environmental_protection" : 1,
         "encumbrance" : 0,
         "bashing" : -5,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "OUTER"],
         "coverage" : 85,
         "material_thickness" : 2
     },
@@ -3978,7 +3982,7 @@
         "environmental_protection" : 0,
         "encumbrance" : 4,
         "bashing" : 2,
-        "flags" : ["FLOATATION","WATER_FRIENDLY"],
+        "flags" : ["FLOATATION","WATER_FRIENDLY","BELTED"],
         "coverage" : 40,
         "material_thickness" : 4
     },
@@ -4264,6 +4268,7 @@
         "storage" : 14,
         "symbol" : "[",
         "description" : "A light vest covered in pockets and straps for storage.",
+        "flags" : ["BELTED"],
         "price" : 3900,
         "material" : ["cotton", "null"],
         "volume" : 4,
@@ -4296,7 +4301,7 @@
         "environmental_protection" : 1,
         "encumbrance" : 1,
         "bashing" : -2,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "OUTER"],
         "coverage" : 95,
         "material_thickness" : 3
     },
@@ -4344,7 +4349,7 @@
         "environmental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : -3,
-        "flags" : ["VARSIZE", "WATER_FRIENDLY"],
+        "flags" : ["VARSIZE", "WATER_FRIENDLY", "BELTED"],
         "coverage" : 20,
         "material_thickness" : 2
     },
@@ -4446,7 +4451,7 @@
         "environmental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : -5,
-        "flags" : ["VARSIZE", "WATER_FRIENDLY"],
+        "flags" : ["VARSIZE", "WATER_FRIENDLY", "BELTED"],
         "coverage" : 30,
         "material_thickness" : 5
     },
@@ -4472,7 +4477,7 @@
         "environmental_protection" : 2,
         "encumbrance" : 1,
         "bashing" : -5,
-        "flags" : ["STURDY"],
+        "flags" : ["STURDY", "BELTED"],
         "coverage" : 50,
         "material_thickness" : 4
     },
@@ -4489,6 +4494,7 @@
         "storage" : 0,
         "symbol" : "[",
         "description" : "A pair of arm guards hammered out from metal.  Perfect for the Post-Apocalyptic Warrior look.",
+        "flags" : ["BELTED"],
         "//" : "They're not actually FANCY, so calling them 'very stylish' seemed inaccurate.",
         "price" : 30000,
         "material" : ["iron", "null"],
@@ -4823,7 +4829,7 @@
         "environmental_protection" : 6,
         "encumbrance" : 0,
         "bashing" : -5,
-        "flags" : ["WATER_FRIENDLY","WATERPROOF"],
+        "flags" : ["WATER_FRIENDLY","WATERPROOF","SKINTIGHT"],
         "coverage" : 100,
         "material_thickness" : 1
     },
@@ -5664,7 +5670,7 @@
         "environmental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : -5,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "SKINTIGHT"],
         "coverage" : 95,
         "material_thickness" : 2
     },
@@ -6176,6 +6182,7 @@
         "storage" : 4,
         "symbol" : "[",
         "description" : "A webbing of strings worn on a helmet, to attach camouflage or other necessary things.",
+        "flags" : ["BELTED"],
         "price" : 2000,
         "material" : ["cotton", "null"],
         "volume" : 0,
@@ -6794,7 +6801,6 @@
         "cutting" : 0,
         "warmth" : 0,
         "environmental_protection" : 0,
-        "flags" : ["BELTED"],
         "phase" : "solid"
     },
     {
@@ -7457,7 +7463,7 @@
         "environmental_protection" : 1,
         "encumbrance" : 5,
         "bashing" : -5,
-        "flags" : ["OVERSIZE"],
+        "flags" : ["OVERSIZE", "OUTER"],
         "material_thickness" : 1
     },
     {
@@ -7625,7 +7631,7 @@
         "encumbrance" : 1,
         "bashing" : -5,
         "coverage" : 85,
-        "flags" : ["OVERSIZE"],
+        "flags" : ["OUTER", "OVERSIZE"],
         "material_thickness" : 2
     },
     {
@@ -7673,7 +7679,7 @@
         "encumbrance" : 1,
         "bashing" : -5,
         "coverage" : 65,
-        "flags" : ["OVERSIZE", "HOOD", "OUTER"],
+        "flags" : ["OVERSIZE", "HOOD", "OUTER", "VARSIZE"],
         "material_thickness" : 2
     },
     {
@@ -7697,7 +7703,7 @@
         "encumbrance" : 5,
         "bashing" : -5,
         "coverage" : 65,
-        "flags" : ["OVERSIZE", "HOOD", "WATERPROOF", "OUTER"],
+        "flags" : ["OVERSIZE", "HOOD", "WATERPROOF", "OUTER", "VARSIZE"],
         "material_thickness" : 1
     },
     {
@@ -7721,7 +7727,7 @@
         "encumbrance" : 1,
         "bashing" : -5,
         "coverage" : 65,
-        "flags" : ["OVERSIZE", "HOOD", "OUTER"],
+        "flags" : ["OVERSIZE", "HOOD", "OUTER", "VARSIZE"],
         "material_thickness" : 2
     },
     {
@@ -7745,7 +7751,7 @@
         "encumbrance" : 1,
         "bashing" : -5,
         "coverage" : 65,
-        "flags" : ["OVERSIZE", "HOOD", "OUTER"],
+        "flags" : ["OVERSIZE", "HOOD", "OUTER", "VARSIZE"],
         "material_thickness" : 2
     },
     {
@@ -7769,7 +7775,7 @@
         "encumbrance" : 0,
         "bashing" : -5,
         "coverage" : 95,
-        "flags" : ["OVERSIZE", "OUTER"],
+        "flags" : ["OVERSIZE", "OUTER", "VARSIZE"],
         "material_thickness" : 2
     },
     {
@@ -8026,7 +8032,7 @@
         "encumbrance" : 7,
         "bashing" : 0,
         "symbol" : "[",
-        "flags" : ["WATER_FRIENDLY"],
+        "flags" : ["WATER_FRIENDLY", "OUTER"],
         "coverage" : 75,
         "material_thickness" : 1
     },
@@ -8050,7 +8056,7 @@
         "encumbrance" : 7,
         "bashing" : 0,
         "symbol" : "[",
-        "flags" : ["WATER_FRIENDLY"],
+        "flags" : ["WATER_FRIENDLY", "OUTER"],
         "coverage" : 75,
         "material_thickness" : 1
     },
@@ -8102,7 +8108,7 @@
         "environmental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : -5,
-        "flags" : ["VARSIZE", "WATER_FRIENDLY"],
+        "flags" : ["VARSIZE", "WATER_FRIENDLY", "BELTED"],
         "coverage" : 30,
         "material_thickness" : 5
     },
@@ -8119,6 +8125,7 @@
         "storage" : 0,
         "symbol" : "[",
         "description" : "A pair of leg guards hammered out from metal.  Very stylish.",
+        "flags" : ["BELTED"],
         "price" : 40000,
         "material" : ["iron", "null"],
         "volume" : 22,
@@ -8254,7 +8261,7 @@
     {
         "type" : "ARMOR",
         "id" : "jacket_chef",
-        "name" : "chefs jacket",
+        "name" : "chef's jacket",
         "weight" : 720,
         "color" : "white",
         "covers" : ["TORSO", "ARMS"],
@@ -8262,6 +8269,7 @@
         "storage" : 5,
         "symbol" : "[",
         "description" : "This double-breasted uniform is unusually thick to protect against the heat of the kitchen.",
+        "flags" : ["OUTER"],
         "price" : 7000,
         "material" : ["cotton", "null"],
         "volume" : 7,
@@ -8320,7 +8328,7 @@
         "environmental_protection" : 0,
         "encumbrance" : 4,
         "bashing" : 6,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "OUTER"],
         "volume": 62,
         "coverage" : 90,
         "material_thickness" : 3
@@ -8337,6 +8345,7 @@
         "storage" : 0,
         "symbol" : "O",
         "description" : "A crude form of armor made from stacked paper and rolls of duct tape, this breastplate offers a surprising amount of protection.",
+        "flags" : ["BELTED"],
         "price" : 4200,
         "material" : ["paper", "null"],
         "volume" : 38,
@@ -8356,6 +8365,7 @@
         "name_plural" : "pairs of 2-by-arm guards",
         "category" : "armor",
         "description" : "A pair of improvised arm guards made from broken pieces of a two by four that are tied to your arms with rags and string, they offer good protection but are really uncomfortable to wear.",
+        "flags" : ["BELTED"],
         "weight" : 300,
         "techniques" : ["WBLOCK_1"],
         "color" : "brown",
@@ -8382,6 +8392,7 @@
         "name_plural" : "pairs of 2-by-shin guards",
         "category" : "armor",
         "description" : "A pair of improvised shin guards made from broken pieces of a two by four that are tied to your shins with rags and string, they offer good protection but are really hard to run with.",
+        "flags" : ["BELTED"],
         "weight" : 300,
         "color" : "brown",
         "covers" : ["LEGS"],
@@ -9323,7 +9334,7 @@
         "environmental_protection" : 0,
         "encumbrance" : 3,
         "bashing" : 8,
-        "flags" : ["VARSIZE", "OUTER"],
+        "flags" : ["VARSIZE", "OUTER", "STURDY"],
         "coverage" : 100,
         "material_thickness" : 3
     },
@@ -9401,7 +9412,7 @@
         "environmental_protection" : 0,
         "encumbrance" : 2,
         "bashing" : 8,
-        "flags" : ["VARSIZE", "STURDY"],
+        "flags" : ["VARSIZE", "STURDY", "OUTER"],
         "coverage" : 75,
         "material_thickness" : 3
     },
@@ -9452,7 +9463,7 @@
         "environmental_protection" : 1,
         "encumbrance" : 2,
         "bashing" : -2,
-        "flags" : ["VARSIZE", "POCKETS"],
+        "flags" : ["VARSIZE", "POCKETS", "BELTED"],
         "coverage" : 60,
         "material_thickness" : 3
     },
@@ -9541,6 +9552,7 @@
         "material_thickness" : 0,
         "storage" : 0,
         "description" : "A shiny pair of black cat ears on a headband.  It does nothing, but there's no reason not to look good even if no one's looking.",
+        "flags" : ["FANCY"],
         "weight" : 20,
         "to_hit" : 0,
         "color" : "dark_gray",
@@ -9564,6 +9576,7 @@
         "material_thickness" : 0,
         "storage" : 0,
         "description" : "A fuzzy pair of brownish cat ears on a headband.  It does nothing, but there's no reason not to look good even if no one's looking.",
+        "flags" : ["FANCY"],
         "weight" : 20,
         "to_hit" : 0,
         "color" : "brown",
@@ -9586,6 +9599,7 @@
         "material_thickness" : 0,
         "storage" : 0,
         "description" : "A glossy black leather tail weighted down with tiny beads of plastic.  Sways behind you when you walk.",
+        "flags" : ["FANCY"],
         "weight" : 80,
         "to_hit" : 0,
         "color" : "dark_gray",
@@ -9608,6 +9622,7 @@
         "material_thickness" : 0,
         "storage" : 0,
         "description" : "A fuzzy tawny tail weighted down with tiny beads of plastic.  Sways behind you when you walk.",
+        "flags" : ["FANCY"],
         "weight" : 80,
         "to_hit" : 0,
         "color" : "brown",
@@ -9630,6 +9645,7 @@
         "material_thickness" : 0,
         "storage" : 0,
         "description" : "A decorative 'collar' made out of fur.  Complete with a little bell hanging from the front.  Don't worry, it's silent.",
+        "flags" : ["FANCY"],
         "weight" : 10,
         "to_hit" : 0,
         "color" : "brown",
@@ -9725,6 +9741,7 @@
         "material_thickness" : 0,
         "storage" : 0,
         "description" : "A black leather 'collar' with a bell dangling from the front.  Don't worry, the bell is silent.",
+        "flags" : ["FANCY"],
         "weight" : 10,
         "to_hit" : 0,
         "color" : "dark_gray",
@@ -9893,6 +9910,7 @@
         "storage" : 30,
         "symbol" : "[",
         "description" : "A large sheet tied into a crude over the shoulder sling.",
+        "flags" : ["BELTED"],
         "price" : 100,
         "material" : ["cotton", "null"],
         "volume" : 20,
@@ -10103,7 +10121,7 @@
         "warmth" : 0,
         "environmental_protection" : 0,
         "phase" : "solid",
-        "flags" : ["FANCY"]
+        "flags" : ["FANCY", "SKINTIGHT"]
     },
     {
         "type" : "ARMOR",
@@ -10127,7 +10145,7 @@
         "warmth" : 0,
         "environmental_protection" : 0,
         "phase" : "solid",
-        "flags" : ["SUPER_FANCY"]
+        "flags" : ["SUPER_FANCY", "SKINTIGHT"]
     },
     {
         "type" : "ARMOR",
@@ -10149,7 +10167,7 @@
         "environmental_protection" : 1,
         "encumbrance" : 2,
         "bashing" : -2,
-        "flags" : ["VARSIZE", "POCKETS"],
+        "flags" : ["VARSIZE", "POCKETS", "OUTER", "FANCY"],
         "coverage" : 90,
         "material_thickness" : 3
     },
@@ -10174,7 +10192,7 @@
         "environmental_protection" : 0,
         "encumbrance" : 1,
         "bashing" : -4,
-        "flags" : ["VARSIZE", "POCKETS"],
+        "flags" : ["VARSIZE", "POCKETS", "FANCY"],
         "coverage" : 95,
         "material_thickness" : 2
     },
@@ -10199,7 +10217,7 @@
         "environmental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : 1,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "FANCY"],
         "coverage" : 60,
         "material_thickness" : 2
     },
@@ -10224,7 +10242,7 @@
         "environmental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : -5,
-        "flags" : ["RIGHT", "WATER_FRIENDLY"],
+        "flags" : ["RIGHT", "WATER_FRIENDLY", "FANCY"],
         "coverage" : 95,
         "material_thickness" : 2
     },
@@ -10324,7 +10342,7 @@
         "flags" : ["VARSIZE", "POCKETS"],
         "coverage" : 95,
         "material_thickness" : 2
-    },    
+    },
     {
         "type" : "ARMOR",
         "id" : "technician_shirt_gray",
