@@ -272,7 +272,7 @@ void game::activity_on_turn_pickup()
     std::list<int> quantities;
 
     if( !from_vehicle &&
-        g->m.i_at(pickup_target.x + u.xpos(), pickup_target.y + u.ypos()).size() <= 0 ) {
+        g->m.item_stack_at(pickup_target.x + u.xpos(), pickup_target.y + u.ypos()).size() <= 0 ) {
         g->u.cancel_activity();
         return;
     }
@@ -309,15 +309,8 @@ static void move_items( point source, point destination,
     source.y += g->u.ypos();
     destination.x += g->u.xpos();
     destination.y += g->u.ypos();
-    int veh_root_part = -1;
-    vehicle *veh = g->m.veh_at( source.x, source.y, veh_root_part );
-    int cargo_part = -1;
-    if( veh != nullptr ) {
-        cargo_part = veh->part_with_feature( veh_root_part, "CARGO", false );
-    }
 
-    std::vector<item> &here = (cargo_part >= 0) ?
-        veh->parts[cargo_part].items : g->m.i_at( source.x, source.y );
+    auto here = g->m.item_stack_at_vehicle( source.x, source.y );
 
     std::vector<item> dropped_items;
     std::vector<item> dropped_worn;
@@ -327,56 +320,49 @@ static void move_items( point source, point destination,
         indices.pop_back();
         quantities.pop_back();
 
-        item &temp_item = here[index];
-        item leftovers = temp_item.clone();
+        auto current_item = here.at(index);
+
+        item leftovers = current_item->clone();
 
         if( quantity != 0 ) {
             // Reinserting leftovers happens after item removal to avoid stacking issues.
-            int leftover_charges = temp_item.charges - quantity;
+            int leftover_charges = current_item->charges - quantity;
             if (leftover_charges > 0) {
                 leftovers.charges = leftover_charges;
-                here[index].charges = quantity;
+                auto modify = current_item.modify();
+                modify.charges = quantity;
+                modify.commit();
             }
         }
 
         // Check that we can pick it up.
-        if( !temp_item.made_of(LIQUID) ) {
+        if( !current_item->made_of(LIQUID) ) {
             // Is it too bulky? We'll have to use our hands, then.
-            if( !g->u.can_pickVolume(temp_item.volume()) && g->u.is_armed() ) {
+            if( !g->u.can_pickVolume(current_item->volume()) && g->u.is_armed() ) {
                 g->u.moves -= 20; // Pretend to be unwielding our gun.
             }
 
             // Is it too heavy? It'll take a while...
-            if( !g->u.can_pickWeight(temp_item.weight(), true) ) {
-                int overweight = temp_item.weight() - (g->u.weight_capacity() - g->u.weight_carried());
+            if( !g->u.can_pickWeight(current_item->weight(), true) ) {
+                int overweight = current_item->weight() - (g->u.weight_capacity() - g->u.weight_carried());
 
                 // ...like one move cost per 100 grams over your leftover carry capacity.
                 g->u.moves -= int(overweight / 100);
             }
 
             // Drop it first since we're going to delete the original.
-            dropped_items.push_back( temp_item );
+            dropped_items.push_back( *current_item );
             g->drop( dropped_items, dropped_worn, 0, destination.x, destination.y );
 
             // Remove from map.
-            if( veh != nullptr && cargo_part >= 0 ) {
-                veh->remove_item( cargo_part, index );
-            } else {
-                g->m.i_rem( source.x, source.y, index );
-            }
+            current_item.erase();
             g->u.moves -= 100;
 
         }
 
         // If we didn't pick up a whole stack, put the remainder back where it came from.
         if( quantity != 0 ) {
-            bool to_map = veh != nullptr;
-            if( !to_map ) {
-                to_map = !veh->add_item( cargo_part, leftovers );
-            }
-            if( to_map ){
-                g->m.add_item_or_charges( source.x, source.y, leftovers );
-            }
+            here.push_back(leftovers);
         }
 
         dropped_items.clear();
