@@ -3056,7 +3056,7 @@ C..C..C...|hhh|#########\n\
         }
 
         if (ice_lab) {
-            int temperature = -20 + 30 * (zlevel);
+            int temperature = std::max(-100, -20 + 30 * (zlevel));
             set_temperature(x, y, temperature);
         }
 
@@ -3904,7 +3904,7 @@ ff.......|....|WWWWWWWW|\n\
         }
 
         if ( ice_lab ) {
-            int temperature = -20 + 30 * (g->levz);
+            int temperature = std::max(-100, -20 + 30 * (g->levz));
             set_temperature(x, y, temperature);
 
             tw = is_ot_type("ice_lab", t_north) ? 0 : 2;
