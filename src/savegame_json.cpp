@@ -453,7 +453,7 @@ void player::deserialize(JsonIn &jsin)
     } else {
         scenario *generic_scenario = scenario::generic();
         // Only display error message if from a game file after scenarios existed.
-        if (savegame_loading_version > 20) { 
+        if (savegame_loading_version > 20) {
             debugmsg("Tried to use non-existent scenario '%s'. Setting to generic '%s'.",
                         scen_ident.c_str(), generic_scenario->ident().c_str());
         }
@@ -468,7 +468,7 @@ void player::deserialize(JsonIn &jsin)
 
     frostbite_timer.fill( 0 );
     data.read( "frostbite_timer", frostbite_timer );
-    
+
     body_wetness.fill( 0 );
     data.read( "body_wetness", body_wetness );
 
