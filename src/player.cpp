@@ -4643,7 +4643,6 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
         }
         else if (dealt_dams.total_damage() > 0 && source->has_flag(MF_BADVENOM)) {
             add_msg_if_player(m_bad, _("You feel poison flood your body, wracking you with pain..."));
-            add_disease("badpoison", 40, false, 1, 20, 100);
             add_effect("badpoison", 40);
         }
         else if (dealt_dams.total_damage() > 0 && source->has_flag(MF_PARALYZE)) {
@@ -5388,7 +5387,7 @@ void player::process_effects() {
         remove_effect("darkness");
     }
     
-    int psnChance;
+    //Human only effects
     for( auto maps = effects.begin(); maps != effects.end(); ++maps ) {
         for( auto effect_it = maps->second.begin(); effect_it != maps->second.end(); ++effect_it ) {
             auto &it = effect_it->second;
@@ -5397,6 +5396,7 @@ void player::process_effects() {
             mod_dex_bonus(it.get_mod("DEX", reduced));
             mod_per_bonus(it.get_mod("PER", reduced));
             mod_int_bonus(it.get_mod("INT", reduced));
+            mod_speed_bonus(it.get_mod("SPEED", reduced));
             
             double mod = 1;
             body_part bp = it.get_bp();
@@ -5464,32 +5464,6 @@ void player::process_effects() {
             std::string id = effect_it->second.get_id();
             if (id == "onfire") {
                 manage_fire_exposure(*this, 1);
-            } else if (id == "poison") {
-                psnChance = 150;
-                if (has_trait("POISRESIST")) {
-                    psnChance *= 6;
-                } else {
-                    mod_str_bonus(-2);
-                    mod_per_bonus(-1);
-                }
-                // Increased body mass means poison's less effective
-                if (has_trait("FAT")) {
-                    psnChance *= 1.5;
-                }
-                if (has_trait("LARGE") || has_trait("LARGE_OK")) {
-                    psnChance *= 2;
-                }
-                if (has_trait("HUGE") || has_trait("HUGE_OK")) {
-                    psnChance *= 3;
-                }
-                if ((one_in(psnChance)) && (!(has_trait("NOPAIN")))) {
-                    add_msg_if_player(m_bad, _("You're suddenly wracked with pain!"));
-                    mod_pain(1);
-                    apply_damage( nullptr, bp_torso, rng( 0, 2 ) * rng( 0, 1 ) );
-                }
-                mod_per_bonus(-1);
-                mod_dex_bonus(-1);
-                add_miss_reason(_("You feel bad inside."), 1);
             } else if (id == "glare") {
                 mod_per_bonus(-1);
                 if (one_in(200)) {

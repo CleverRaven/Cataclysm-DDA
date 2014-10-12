@@ -244,12 +244,12 @@ int iuse::royal_jelly(player *p, item *it, bool)
         p->remove_effect("blind");
     }
     if (p->has_effect("poison") || p->has_disease("foodpoison") ||
-        p->has_disease("badpoison") || p->has_disease("paralyzepoison") ||
+        p->has_effect("badpoison") || p->has_disease("paralyzepoison") ||
         p->has_disease("tetanus") || p->has_effect("stung")) {
         message = _("You feel much better!");
         p->remove_effect("poison");
         p->remove_effect("stung");
-        p->rem_disease("badpoison");
+        p->remove_effect("badpoison");
         p->rem_disease("foodpoison");
         p->rem_disease("paralyzepoison");
         p->rem_disease("tetanus");

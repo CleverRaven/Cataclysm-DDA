@@ -159,6 +159,8 @@ class effect : public JsonSerializer, public JsonDeserializer
         int get_amount(std::string arg, bool reduced = false);
         int get_max_val(std::string arg, bool reduced = false);
         bool get_sizing(std::string arg);
+        /** returns the approximate percentage chance of activating, used for descriptions */
+        double get_percentage(std::string arg, bool reduced = false);
         /** mod modifies x in x_in_y or one_in(x) */
         bool activated(unsigned int turn, std::string arg, bool reduced = false, double mod = 1);
         

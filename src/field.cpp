@@ -1586,7 +1586,7 @@ void map::step_in_field(int x, int y)
                     (!inside || (cur->getFieldDensity() == 3 && inside)) ) {
                     inhaled = g->u.add_env_effect("poison", bp_mouth, 5, 30);
                 } else if( cur->getFieldDensity() == 3 && !inside ) {
-                    inhaled = g->u.infect("badpoison", bp_mouth, 5, 30);
+                    inhaled = g->u.add_env_effect("badpoison", bp_mouth, 5, 30);
                 } else if( cur->getFieldDensity() == 1 && (!inside) ) {
                     inhaled = g->u.add_env_effect("poison", bp_mouth, 2, 20);
                 }

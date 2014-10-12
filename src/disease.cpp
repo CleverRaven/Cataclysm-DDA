@@ -29,7 +29,7 @@ enum dis_type_enum {
 // Monsters
  DI_SAP, DI_SPORES, DI_FUNGUS, DI_SLIMED,
  DI_LYING_DOWN, DI_SLEEP, DI_ALARM_CLOCK,
- DI_PARALYZEPOISON, DI_BLEED, DI_BADPOISON, DI_FOODPOISON, DI_SHAKES,
+ DI_PARALYZEPOISON, DI_BLEED, DI_FOODPOISON, DI_SHAKES,
  DI_DERMATIK, DI_FORMICATION,
  DI_WEBBED,
  DI_RAT, DI_BITE,
@@ -95,7 +95,6 @@ void game::init_diseases() {
     disease_type_lookup["sleep"] = DI_SLEEP;
     disease_type_lookup["alarm_clock"] = DI_ALARM_CLOCK;
     disease_type_lookup["bleed"] = DI_BLEED;
-    disease_type_lookup["badpoison"] = DI_BADPOISON;
     disease_type_lookup["paralyzepoison"] = DI_PARALYZEPOISON;
     disease_type_lookup["foodpoison"] = DI_FOODPOISON;
     disease_type_lookup["shakes"] = DI_SHAKES;
@@ -401,18 +400,7 @@ void dis_effect(player &p, disease &dis)
     int bonus;
     dis_type_enum disType = disease_type_lookup[dis.type];
     int grackPower = 500;
-    int BMB = 0; // Body Mass Bonus
-    if (p.has_trait("FAT")) {
-        BMB += 25;
-    }
-    if (p.has_trait("LARGE") || p.has_trait("LARGE_OK")) {
-        BMB += 100;
-    }
-    if (p.has_trait("HUGE") || p.has_trait("HUGE_OK")) {
-        BMB += 200;
-    }
-    bool inflictBadPsnPain = (!p.has_trait("POISRESIST") && one_in(100 + BMB)) ||
-                                (p.has_trait("POISRESIST") && one_in(500 + BMB));
+
     switch(disType) {
         case DI_COLD:
             switch(dis.bp) {
@@ -1280,22 +1268,6 @@ void dis_effect(player &p, disease &dis)
             }
             break;
 
-        case DI_BADPOISON:
-            if( inflictBadPsnPain && !p.has_trait("NOPAIN") ) {
-                p.add_msg_if_player(m_bad, _("You're suddenly wracked with pain!"));
-                p.mod_pain( 2 );
-                p.apply_damage( nullptr, bp_torso, rng( 0, 2 ) );
-            }
-            p.mod_per_bonus(-2);
-            p.mod_dex_bonus(-2);
-            p.add_miss_reason(_("You feel bad inside."), 2);
-            if (!p.has_trait("POISRESIST")) {
-                p.mod_str_bonus(-3);
-            } else {
-                p.mod_str_bonus(-1);
-            }
-            break;
-
         case DI_PARALYZEPOISON:
             p.mod_dex_bonus(-(dis.intensity / 3));
             p.add_miss_reason(_("You feel stiff."), dis.intensity / 3);
@@ -1848,7 +1820,6 @@ int disease_speed_boost(disease dis)
 
         case DI_SAP:        return -25;
         case DI_SLIMED:     return -25;
-        case DI_BADPOISON:  return -10;
         case DI_FOODPOISON: return -20;
         case DI_WEBBED:     return (dis.duration / 5 ) * -25;
         case DI_ADRENALINE: return (dis.duration > 150 ? 40 : -10);
@@ -2090,7 +2061,6 @@ std::string dis_name(disease& dis)
         }
     }
 
-    case DI_BADPOISON: return _("Badly Poisoned");
     case DI_FOODPOISON: return _("Food Poisoning");
     case DI_SHAKES: return _("Shakes");
     case DI_FORMICATION:
@@ -2653,17 +2623,6 @@ Your right foot is blistering from the intense heat. It is extremely painful.");
             stream << string_format(_("Dexterity - %d"), dexpen);
         }
         return stream.str();
-
-    case DI_BADPOISON:
-        if (g->u.has_trait("NOPAIN")) {
-            return _("Perception - 2;   Dexterity - 2;\n"
-                     "Strength - 3 IF not resistant, -1 otherwise\n"
-                     "Frequent damage.");
-        } else {
-            return _("Perception - 2;   Dexterity - 2;\n"
-                     "Strength - 3 IF not resistant, -1 otherwise\n"
-                     "Frequent pain and/or damage.");
-        }
 
     case DI_FOODPOISON:
         if (g->u.has_trait("NOPAIN")) {

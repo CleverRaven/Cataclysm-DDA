@@ -1421,13 +1421,13 @@ void player::perform_special_attacks(Creature &t)
  }
 
  if (can_poison && ((has_trait("POISONOUS")) || (has_trait("POISONOUS2")))) {
-    if ((has_trait("POISONOUS")) && !t.has_effect("poisoned")) {
+    if (has_trait("POISONOUS"))) {
         t.add_msg_if_player(m_good, _("You poison %s!"), target.c_str());
-        t.add_effect("poisoned", 6);
+        t.add_effect("poison", 6);
     }
-    else if ((has_trait("POISONOUS2")) && (!(t.has_effect("nasty_poisoned")))) {
+    else if (has_trait("POISONOUS2")) {
         t.add_msg_if_player(m_good, _("You inject your venom into %s!"), target.c_str());
-        t.add_effect("nasty_poisoned", 6);
+        t.add_effect("nasty_poison", 6);
     }
  }
 }

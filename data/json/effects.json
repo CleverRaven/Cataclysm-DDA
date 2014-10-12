@@ -114,8 +114,8 @@
         "type": "effect_type",
         "id": "stunned",
         "name": ["Stunned"],
-        "apply_message": "You're stunned!",
         "desc": ["Your movement is randomized."],
+        "apply_message": "You're stunned!",
         "rating": "bad"
     },
     {
@@ -151,21 +151,24 @@
         "name": ["Deaf"],
         "desc": ["Sounds will not be reported.  You cannot talk with NPCs."],
         "apply_message": "You're deafened!",
+        "remove_message": "You can hear again!",
         "rating": "bad"
     },
     {
         "type": "effect_type",
         "id": "stung",
         "name": ["Stung"],
-        "desc": ["Causes constant pain."],
-        "rating": "bad"
+        "desc": ["You have been stung!"],
+        "rating": "bad",
+        "base_mods": {
+            "pain_min": [1],
+        }
     },
     {
         "type": "effect_type",
         "id": "poison",
         "name": ["Poisoned"],
-        "desc": [Occasional pain and/or damage."],
-        "reduced_desc": [Rare pain and/or damage."],
+        "desc": ["You have been poisoned!"],
         "rating": "bad",
         "resist_trait": "POISRESIST",
         "pain_sizing": true,
@@ -178,23 +181,57 @@
             "pain_min": [1],
             "pain_chance": [150, 900],
             "hurt_min": [1],
-            "hurt_max": [2],
             "hurt_chance": [450, 2700]
         },
     },
     {
         "type": "effect_type",
-        "id": "poisoned",
-        "name": ["Poisoned"],
-        "desc": ["Perception - 1;   Dexterity - 1;   Strength - 2 IF not resistant\nOccasional pain and/or damage."],
-        "rating": "bad"
+        "id": "badpoison",
+        "name": ["Badly Poisoned"],
+        "desc": ["You have been badly poisoned!"],
+        "rating": "bad",
+        "resist_trait": "POISRESIST",
+        "pain_sizing": true,
+        "hurt_sizing": true,
+        "main_parts_only": true,
+        "base_mods": {
+            "per_mod": [-2],
+            "dex_mod": [-2],
+            "str_mod": [-3, -1],
+            "speed_mod": [-10],
+            "pain_min": [2],
+            "pain_chance": [100, 500],
+            "hurt_min": [1],
+            "hurt_max": [2],
+            "hurt_chance": [300, 1800]
+        }
+    },
+    ---WIP---
+    {
+        "type": "effect_type",
+        "id": "foodpoison",
+        "name": ["Food Poisoning"],
+        "desc": ["Your stomach is extremely upset, and you are quite nauseous."],
+        "rating": "bad",
+        "resist_trait": "POISRESIST",
+        "pain_sizing": true,
+        "hurt_sizing": true,
+        "main_parts_only": true,
+        "base_mods": {
+            "per_mod": [-2],
+            "dex_mod": [-2],
+            "str_mod": [-3, -1],
+            "speed_mod": [-10],
+            "pain_min": [2],
+            "pain_chance": [100, 600],
+            "hurt_min": [1],
+            "hurt_max": [2],
+            "hurt_chance": [300, 1800]
+        }
     },
     {
         "type": "effect_type",
-        "id": "nasty_poisoned",
-        "name": ["Poisoned"],
-        "desc": ["Perception - 1;   Dexterity - 1;   Strength - 2 IF not resistant\nOccasional pain and/or damage."],
-        "rating": "bad"
+        "id": "paralyzepoison"
     },
     {
         "type": "effect_type",
@@ -303,10 +340,6 @@
     },
     {
         "type": "effect_type",
-        "id": "foodpoison"
-    },
-    {
-        "type": "effect_type",
         "id": "slimed",
         "apply_message": "You're covered in thick goo!",
         "rating": "bad"
@@ -314,10 +347,6 @@
     {
         "type": "effect_type",
         "id": "hallu"
-    },
-    {
-        "type": "effect_type",
-        "id": "paralyzepoison"
     },
     {
         "type": "effect_type",
@@ -497,10 +526,6 @@
         "id": "stemcell_treatment",
         "apply_message": "It is excruciating.",
         "rating": "bad"
-    },
-    {
-        "type": "effect_type",
-        "id": "badpoison"
     },
     {
         "type": "effect_type",

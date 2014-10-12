@@ -665,6 +665,7 @@ effect Creature::get_effect(efftype_id eff_id, body_part bp)
 }
 void Creature::process_effects()
 {
+    // Decay/removal of effects
     std::vector<std::string> rem_ids;
     std::vector<body_part> rem_bps;
     for (auto maps = effects.begin(); maps != effects.end(); ++maps) {

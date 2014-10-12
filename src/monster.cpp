@@ -1235,16 +1235,23 @@ void monster::drop_items_on_death()
 
 void monster::process_effects()
 {
+    // Monster only effects
+    int mod = 1;
     for( auto maps = effects.begin(); maps != effects.end(); ++maps ) {
         for (auto effect_it = maps->second.begin(); effect_it != maps->second.end(); ++effect_it) {
+            auto &it = effect_it->second;
+            // Monsters don't get trait-based reduction
+            bool reduced = false;
+            
+            mod_speed_bonus(it.get_mod("SPEED", reduced));
+            
+            if (it.get_mod("HURT", reduced) > 0) {
+                if(it.activated(calendar::turn, "HURT", reduced, mod)) {
+                    apply_damage(nullptr, bp_torso, it.get_mod("HURT"));
+                }
+            }
+            
             std::string id = effect_it->second.get_id();
-            if (id == "nasty_poisoned") {
-                mod_speed_bonus( -rng(3, 5) );
-                apply_damage( nullptr, bp_torso, rng( 3, 6 ) );
-            } if (id == "poisoned") {
-                mod_speed_bonus( -rng(0, 3) );
-                apply_damage( nullptr, bp_torso, rng( 1, 3 ) );
-
             // MATERIALS-TODO: use fire resistance
             } else if (id == "onfire") {
                 if (made_of("flesh") || made_of("iflesh"))
