@@ -617,7 +617,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```PURIFIER``` Removes negative mutations.
 - ```MARLOSS``` "As you eat the berry, you have a near-religious experience, feeling at one with your surroundings..."
 - ```DOGFOOD``` Makes a dog friendly.
-- ```CATFOOD```Makes a cat friendly.
+- ```CATFOOD``` Makes a cat friendly.
 
 ### Flags
 
@@ -625,6 +625,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```USE_EAT_VERB``` "You drink your %s." or "You eat your %s."
 - ```FERTILIZER``` Works as fertilizer for farming.
 - ```SEED``` Plantable seed for farming.
+- ```LENS``` Can be used for making fires via focusing light rays.
 - ```MUTAGEN_STRONG``` Chance of mutating several times.
 - ```MUTAGEN_PLANT``` Causes mutation in the plant branch.
 - ```MUTAGEN_INSECT``` Causes mutation in the insect branch.

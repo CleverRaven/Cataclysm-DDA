@@ -5227,12 +5227,9 @@
         "environmental_protection" : 1,
         "encumbrance" : 0,
         "bashing" : -3,
-        "flags" : ["WATER_FRIENDLY"],
+        "flags" : ["WATER_FRIENDLY","LENS"],
         "coverage" : 75,
         "material_thickness" : 1,
-        "max_charges": 1,
-        "initial_charges": 0,
-        "charges_per_use": 0,
         "use_action": "LENS_FIRE"
     },
     {
@@ -5434,10 +5431,7 @@
         "bashing" : -3,
         "coverage" : 20,
         "material_thickness" : 1,
-        "flags" : ["SUPER_FANCY"],
-        "max_charges": 1,
-        "initial_charges": 0,
-        "charges_per_use": 0,
+        "flags" : ["SUPER_FANCY","LENS"],
         "use_action": "LENS_FIRE"
     },
     {

@@ -331,14 +331,12 @@
         "description": "A high-quality lens, useful for focusing or diffusing light. Can be used to light fires by focusing light rays.",
         "price": 120000,
         "material": "glass",
+        "flags": [ "LENS" ],
         "weight": 340,
         "volume": 0,
         "bashing": -8,
         "cutting": 0,
         "to_hit": -3,
-        "max_charges": 1,
-        "initial_charges": 0,
-        "charges_per_use": 0,
         "use_action": "LENS_FIRE"
   },{
         "type":"GENERIC",
@@ -952,14 +950,12 @@
         "description": "A tool useful for seeing long distances.  Simply carrying this item in your inventory will double the distance that is mapped around you during your travels. You can also use them to light fires by focusing light rays",
         "price": 30000,
         "material": ["plastic", "glass"],
+        "flags": [ "LENS" ],
         "weight": 708,
         "volume": 2,
         "bashing": 6,
         "cutting": 0,
         "to_hit": -1,
-        "max_charges": 1,
-        "initial_charges": 0,
-        "charges_per_use": 0,
         "use_action": "LENS_FIRE"
     },
     {
