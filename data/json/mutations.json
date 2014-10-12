@@ -3048,19 +3048,23 @@
         "id" : "NAUSEA",
         "name" : "Nausea",
         "points" : -3,
-        "description" : "You feel nauseous almost constantly, and are more liable to throw up from food poisoning, alcohol, etc.",
+        "description" : "You feel nauseous almost constantly, and are more liable to throw up from food poisoning, alcohol, etc.  You can, if desired, think yourself into vomiting, too.",
         "prereqs" : ["WEAKSTOMACH"],
         "changes_to" : ["VOMITOUS", "EATPOISON"],
-        "category" : ["MUTCAT_ALPHA"]
+        "category" : ["MUTCAT_ALPHA"],
+        "active" : true,
+        "time" : 0
     },{
         "type" : "mutation",
         "id" : "VOMITOUS",
         "name" : "Vomitous",
         "points" : -8,
-        "description" : "You have a major digestive disorder, which causes you to vomit frequently.",
+        "description" : "You have a major digestive disorder.  Though it causes you to vomit frequently, you have found that you can trigger your vomit reflex on demand, too.",
         "prereqs" : ["NAUSEA"],
         "changes_to" : ["EATPOISON"],
-        "category" : ["MUTCAT_SLIME", "MUTCAT_RAT", "MUTCAT_MEDICAL", "MUTCAT_ELFA"]
+        "category" : ["MUTCAT_SLIME", "MUTCAT_RAT", "MUTCAT_MEDICAL", "MUTCAT_ELFA"],
+        "active" : true,
+        "time" : 0
     },{
         "type" : "mutation",
         "id" : "HUNGER",
