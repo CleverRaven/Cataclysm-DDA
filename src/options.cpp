@@ -875,7 +875,7 @@ void initOptions()
     optionNames["winter"] = _("Winter");
     OPTIONS["INITIAL_SEASON"] = cOpt("world_default", _("Initial season"),
                                      _("Season the game starts in."),
-                                     "spring,summer,autumn,winter", "spring");
+                                     "spring,summer,autumn,winter", "summer");
 
     OPTIONS["SEASON_LENGTH"] = cOpt("world_default", _("Season length"),
                                     _("Season length, in days."),
