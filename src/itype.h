@@ -403,7 +403,17 @@ struct it_gun : public virtual itype {
 };
 
 struct it_gunmod : public virtual itype {
-    signed int dispersion, damage, loudness, clip, recoil, burst;
+    // Used by gunmods with a firing mode,
+    // this should be supported by assigning a gun itype to the item as well.
+    int dispersion;
+    int damage;
+    int loudness;
+    int clip;
+    int recoil;
+    int burst;
+    int range;
+    Skill *skill_used;
+    // Rest of the attributes are properly part of a gunmod.
     ammotype newtype;
     std::set<std::string> acceptible_ammo_types;
     bool used_on_pistol;
@@ -413,20 +423,16 @@ struct it_gunmod : public virtual itype {
     bool used_on_bow;
     bool used_on_crossbow;
     bool used_on_launcher;
-    Skill *skill_used;
     std::string location;
 
-    virtual bool is_gunmod() const
-    {
+    virtual bool is_gunmod() const {
         return true;
     }
 
     it_gunmod() : itype(), dispersion(0), damage(0), loudness(0), clip(0), recoil(0), burst(0),
-        newtype(), acceptible_ammo_types(), used_on_pistol(false), used_on_shotgun(false),
-        used_on_smg(false), used_on_rifle(false), used_on_bow(false), used_on_crossbow(false),
-        used_on_launcher(false), skill_used(NULL), location()
-    {
-    }
+        range(0), skill_used(NULL), newtype(), acceptible_ammo_types(), used_on_pistol(false),
+        used_on_shotgun(false), used_on_smg(false), used_on_rifle(false), used_on_bow(false),
+        used_on_crossbow(false), used_on_launcher(false), location() {}
 };
 
 struct it_armor : public virtual itype {
