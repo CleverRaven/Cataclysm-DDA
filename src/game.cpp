@@ -1712,21 +1712,21 @@ void game::activity_on_turn_refill_vehicle()
     for(int i = -1; i <= 1; i++) {
         for(int j = -1; j <= 1; j++) {
             if(m.ter(u.posx + i, u.posy + j) == t_gas_pump || m.ter_at(u.posx + i, u.posy + j).id == "t_gas_pump_a") {
-                for( auto it = m.i_at(u.posx + i, u.posy + j).begin();
-                     it != m.i_at(u.posx + i, u.posy + j).end();) {
+                auto items = m.item_stack_at(u.posx + i, u.posy + j);
+                for( auto it = items.begin(); it != items.end(); it++) {
                     if (it->type->id == "gasoline") {
-                        item *gas = &*it;
+                        auto gas = it.modify();
                         int lack = (veh->fuel_capacity("gasoline") - veh->fuel_left("gasoline")) < 200 ?
                                    (veh->fuel_capacity("gasoline") - veh->fuel_left("gasoline")) : 200;
-                        if (gas->charges > lack) {
+                        if (gas.charges > lack) {
                             veh->refill("gasoline", lack);
-                            gas->charges -= lack;
+                            gas.charges -= lack;
+                            gas.commit();
                             u.activity.moves_left -= 100;
-                            it++;
                         } else {
                             add_msg(m_bad, _("With a clang and a shudder, the gasoline pump goes silent."));
-                            veh->refill ("gasoline", gas->charges);
-                            it = m.i_at(u.posx + i, u.posy + j).erase(it);
+                            veh->refill ("gasoline", gas.charges);
+                            it.erase();
                             u.activity.moves_left = 0;
                         }
                         i = 2;
