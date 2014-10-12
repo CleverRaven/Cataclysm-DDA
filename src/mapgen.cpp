@@ -11107,7 +11107,7 @@ int map::place_items(items_location loc, int chance, int x1, int y1,
             lets_spawn -= 1.0;
 
             // Might contain one item or several that belong together like guns & their ammo
-            const Item_list items = item_controller->create_from_group(loc, 0);
+            const Item_list items = item_controller->create_from_group(loc, calendar::start);
             int tries = 0;
             do {
                 px = rng(x1, x2);

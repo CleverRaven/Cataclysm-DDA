@@ -593,8 +593,7 @@ void game::start_game(std::string worldname)
     }
 
     new_game = true;
-    calendar::turn = HOURS(ACTIVE_WORLD_OPTIONS["INITIAL_TIME"]);
-    determine_starting_season();
+    start_calendar();
     nextweather = calendar::turn;
     weatherSeed = rand();
     safe_mode = (OPTIONS["SAFEMODE"] ? SAFE_MODE_ON : SAFE_MODE_OFF);
@@ -14972,18 +14971,19 @@ void game::process_artifact(item *it, player *p, bool wielded)
     p->dex_cur = p->get_dex();
     p->per_cur = p->get_per();
 }
-void game::determine_starting_season()
+void game::start_calendar()
 {
+    calendar::start = HOURS(ACTIVE_WORLD_OPTIONS["INITIAL_TIME"]);
     if( g->scen->has_flag("SPR_START") || g->scen->has_flag("SUM_START") ||
         g->scen->has_flag("AUT_START") || g->scen->has_flag("WIN_START") ) {
         if( g->scen->has_flag("SPR_START") ) {
             ; // Do nothing;
         } else if( g->scen->has_flag("SUM_START") ) {
-            calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"]);
+            calendar::start += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"]);
         } else if( g->scen->has_flag("AUT_START") ) {
-            calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 2);
+            calendar::start += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 2);
         } else if( g->scen->has_flag("WIN_START") ) {
-            calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 3);
+            calendar::start += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 3);
         } else {
             debugmsg("The Unicorn");
         }
@@ -14991,13 +14991,14 @@ void game::determine_starting_season()
         if( ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "spring" ) {
             ; // Do nothing.
         } else if( ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "summer") {
-            calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"]);
+            calendar::start += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"]);
         } else if( ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "autumn" ) {
-            calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 2);
+            calendar::start += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 2);
         } else {
-            calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 3);
+            calendar::start += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 3);
         }
     }
+    calendar::turn = calendar::start;
 }
 void game::add_artifact_messages(std::vector<art_effect_passive> effects)
 {
