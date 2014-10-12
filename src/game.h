@@ -344,7 +344,7 @@ class game
          * Returns the recipe that is used to disassemble the given item type.
          * Returns NULL if there is no recipe to disassemble the item type.
          */
-        recipe *get_disassemble_recipe(const itype_id &ype);
+        const recipe *get_disassemble_recipe(const itype_id &ype);
         /**
          * Check if the player can disassemble the item dis_item with the recipe
          * cur_recipe and the inventory crafting_inv.
@@ -352,7 +352,8 @@ class game
          * (if disassembled item is counted by charges).
          * If print_msg is true show a message about missing tools/charges.
          */
-        bool can_disassemble(item *dis_item, recipe *cur_recipe, inventory &crafting_inv, bool print_msg);
+        bool can_disassemble(item *dis_item, const recipe *cur_recipe,
+                             inventory &crafting_inv, bool print_msg);
 
         bool has_gametype() const
         {
@@ -576,23 +577,23 @@ class game
         void long_craft();                   // See crafting.cpp
         bool crafting_allowed();             // See crafting.cpp
         bool crafting_can_see();             // See crafting.cpp
-        recipe *select_crafting_recipe( int &batch_size );    // See crafting.cpp
-        bool making_would_work(recipe *r, int batch_size);   // See crafting.cpp
+        const recipe *select_crafting_recipe( int &batch_size );    // See crafting.cpp
+        bool making_would_work(std::string id_to_make, int batch_size);   // See crafting.cpp
         bool is_container_eligible_for_crafting(item &cont); // See crafting.cpp
         std::vector<item> get_eligible_containers_for_crafting();    // See crafting.cpp
-        bool check_eligible_containers_for_crafting(recipe *r, int batch = 1);  // See crafting.cpp
-        bool can_make(recipe *r, int batch_size); // See crafting.cpp
-        void make_craft(recipe *making, int batch_size); // See crafting.cpp
-        void make_all_craft(recipe *making, int batch_size); // See crafting.cpp
+        bool check_eligible_containers_for_crafting(const recipe *r, int batch = 1);
+        bool can_make(const recipe *r, int batch_size); // See crafting.cpp
+        void make_craft(std::string id, int batch_size); // See crafting.cpp
+        void make_all_craft(std::string id, int batch_size); // See crafting.cpp
         void complete_craft();               // See crafting.cpp
-        void pick_recipes(const inventory &crafting_inv, std::vector<recipe *> &current,
+        void pick_recipes(const inventory &crafting_inv, std::vector<const recipe *> &current,
                           std::vector<bool> &available, craft_cat tab, craft_subcat subtab,
                           std::string filter);// crafting.cpp
-        void batch_recipes(const inventory &crafting_inv, std::vector<recipe *> &current,
-                          std::vector<bool> &available, recipe* r);// crafting.cpp
+        void batch_recipes(const inventory &crafting_inv, std::vector<const recipe *> &current,
+                           std::vector<bool> &available, const recipe* r);// crafting.cpp
         void disassemble(int pos = INT_MAX);       // See crafting.cpp
         void complete_disassemble();         // See crafting.cpp
-        recipe *recipe_by_index(int index);  // See crafting.cpp
+        const recipe *recipe_by_index(int index);  // See crafting.cpp
 
         // Forcefully close a door at (x, y).
         // The function checks for creatures/items/vehicles at that point and

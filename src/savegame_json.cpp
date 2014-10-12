@@ -478,7 +478,7 @@ void player::deserialize(JsonIn &jsin)
         learned_recipes.clear();
         while ( parray.has_more() ) {
             if ( parray.read_next(pstr) ) {
-                learned_recipes[ pstr ] = recipe_by_name( pstr );
+                learned_recipes[ pstr ] = (recipe *)recipe_by_name( pstr );
             }
         }
     }

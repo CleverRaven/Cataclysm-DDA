@@ -62,7 +62,7 @@ struct recipe : public requirements {
 
     //Create a string list to describe the skill requirements fir this recipe
     // Format: skill_name(amount), skill_name(amount)
-    std::string required_skills_string();
+    std::string required_skills_string() const;
 
     recipe()
     {
@@ -105,8 +105,9 @@ struct recipe : public requirements {
 
     bool can_make_with_inventory(const inventory &crafting_inv, int batch = 1) const;
 
-    int print_items(WINDOW *w, int ypos, int xpos, nc_color col, int batch = 1);
-    void print_item(WINDOW *w, int ypos, int xpos, nc_color col, const byproduct &bp, int batch = 1);
+    int print_items(WINDOW *w, int ypos, int xpos, nc_color col, int batch = 1) const;
+    void print_item(WINDOW *w, int ypos, int xpos, nc_color col, const byproduct &bp,
+                    int batch = 1) const;
 };
 
 typedef std::vector<recipe *> recipe_list;
@@ -123,7 +124,7 @@ void load_recipe_category(JsonObject &jsobj);
 void reset_recipe_categories();
 void load_recipe(JsonObject &jsobj);
 void reset_recipes();
-recipe *recipe_by_name(std::string name);
+const recipe *recipe_by_name(std::string name);
 void finalize_recipes();
 // Show the "really disassemble?" query along with a list of possible results.
 // Returns false if the player answered no to the query.

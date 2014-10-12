@@ -4662,13 +4662,12 @@ void game::debug()
     case 13: {
         add_msg(_("Recipe debug."));
         add_msg(_("Your eyes blink rapidly as knowledge floods your brain."));
-        for( recipe_map::iterator cat_iter = recipes.begin();
-             cat_iter != recipes.end(); ++cat_iter ) {
-            for( recipe_list::iterator list_iter = cat_iter->second.begin();
+        for( auto cat_iter = recipes.begin(); cat_iter != recipes.end(); ++cat_iter ) {
+            for( auto list_iter = cat_iter->second.begin();
                  list_iter != cat_iter->second.end(); ++list_iter ) {
-                recipe *cur_recipe = *list_iter;
+                const recipe *cur_recipe = *list_iter;
                 if (!(u.learned_recipes.find(cur_recipe->ident) != u.learned_recipes.end()))  {
-                    u.learn_recipe(cur_recipe);
+                    u.learn_recipe( (recipe *)cur_recipe );
                 }
             }
         }
@@ -11469,7 +11468,7 @@ void game::butcher()
     // than get items to disassemble
     for (size_t i = 0; i < items.size(); i++) {
         if (items[i].type->id != "corpse" || items[i].corpse == NULL) {
-            recipe *cur_recipe = get_disassemble_recipe(items[i].type->id);
+            const recipe *cur_recipe = get_disassemble_recipe(items[i].type->id);
             if (cur_recipe != NULL && can_disassemble(&items[i], cur_recipe, crafting_inv, false)) {
                 corpses.push_back(i);
                 has_item = true;
@@ -11527,7 +11526,7 @@ void game::butcher()
 
     item &dis_item = items[corpses[butcher_corpse_index]];
     if (dis_item.corpse == NULL) {
-        recipe *cur_recipe = get_disassemble_recipe(dis_item.type->id);
+        const recipe *cur_recipe = get_disassemble_recipe(dis_item.type->id);
         assert(cur_recipe != NULL); // tested above
         if( !query_dissamble( dis_item ) ) {
             return;
