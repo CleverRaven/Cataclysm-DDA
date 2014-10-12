@@ -3931,7 +3931,9 @@ bool game::is_game_over()
         u.place_corpse();
         uquit = QUIT_DIED;
         // create entries for deathcam prompt
-        std::vector<uimenu_entry> ents;
+        std::vector<uimenu_entry> ents = {
+            {1, "a"}
+        };
         // show the prompt on the lowest tile stretched across the terrain view
         uimenu deathcam_ui(VIEW_OFFSET_X, TERRAIN_WINDOW_TERM_WIDTH,
                 (VIEW_OFFSET_Y + TERRAIN_WINDOW_TERM_HEIGHT - 1),
