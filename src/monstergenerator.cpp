@@ -375,6 +375,7 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         newmon->armor_bash = jo.get_int("armor_bash", 0);
         newmon->armor_cut = jo.get_int("armor_cut", 0);
         newmon->hp = jo.get_int("hp", 0);
+        jo.read("starting_ammo", newmon->starting_ammo);
         if (jo.has_array("special_freq")) {
             JsonArray jarr = jo.get_array("special_freq");
             while (jarr.has_more()) {

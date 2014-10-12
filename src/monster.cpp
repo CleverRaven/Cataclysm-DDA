@@ -41,7 +41,6 @@ monster::monster()
  unique_name = "";
  hallucination = false;
  ignoring = 0;
- ammo = 100;
 }
 
 monster::monster(mtype *t)
@@ -70,7 +69,7 @@ monster::monster(mtype *t)
  unique_name = "";
  hallucination = false;
  ignoring = 0;
- ammo = 100;
+ ammo = t->starting_ammo;
 }
 
 monster::monster(mtype *t, int x, int y)
@@ -99,7 +98,7 @@ monster::monster(mtype *t, int x, int y)
  unique_name = "";
  hallucination = false;
  ignoring = 0;
- ammo = 100;
+ ammo = t->starting_ammo;
 }
 
 monster::~monster()
@@ -927,7 +926,7 @@ int monster::hit_roll() const {
             return 0;
         }
     }
-    
+
     return dice(type->melee_skill, 10);
 }
 
@@ -1002,7 +1001,7 @@ void monster::reset_special(int index)
     if (index < 0) {
         return;
     }
-    
+
     sp_timeout[index] = type->sp_freq[index];
 }
 
@@ -1011,7 +1010,7 @@ void monster::reset_special_rng(int index)
     if (index < 0) {
         return;
     }
-    
+
     sp_timeout[index] = rng(0, type->sp_freq[index]);
 }
 
@@ -1020,11 +1019,29 @@ void monster::set_special(int index, int time)
     if (index < 0) {
         return;
     }
-    
+
     if (time < 0) {
         time = 0;
     }
     sp_timeout[index] = time;
+}
+
+void monster::normalize_ammo( const int old_ammo )
+{
+    int total_ammo = 0;
+    // Sum up the ammo entries to get a ratio.
+    for( const auto &ammo_entry : type->starting_ammo ) {
+        total_ammo += ammo_entry.second;
+    }
+    if( total_ammo == 0 ) {
+        // Should never happen, but protect us from a div/0 if it does.
+        return;
+    }
+    // Previous code gave robots 100 rounds of ammo.
+    // This reassigns whatever is left from that in the appropriate proportions.
+    for( const auto &ammo_entry : type->starting_ammo ) {
+        ammo[ammo_entry.first] = (old_ammo * ammo_entry.second) / (100 * total_ammo);
+    }
 }
 
 void monster::explode()
