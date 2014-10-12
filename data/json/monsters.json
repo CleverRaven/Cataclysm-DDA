@@ -5299,7 +5299,7 @@
     "special_freq":[1],
     "death_function":"EXPLODE",
     "special_attack":["RIFLE_TUR"],
-    "starting_ammo" : {"556":2000},
+    "starting_ammo" : {"556":100},
     "description":"Leadworks LLC's T-4A1 Sentry.  It features improved firmware over General Atomics' TX-1 9mm model and an automated M4 carbine.",
     "flags":["SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE", "FRIENDLY_SPECIAL"]
     },{
@@ -5334,7 +5334,7 @@
     "special_freq":[1],
     "death_function":"EXPLODE",
     "special_attack":["BMG_TUR"],
-    "starting_ammo" : {"50bmg":500},
+    "starting_ammo" : {"50bmg":100},
     "description":"Leadworks LLC's T-107A1 Interdictor, an automated .50BMG antimateriel rifle.  Credited with forestalling countless car-bombing attempts, it has always been kept under extremely tight control, so as to itself maintain extremely tight control of its area.  And then the Cataclysm struck.",
     "flags":["SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE", "FRIENDLY_SPECIAL"]
     },{
