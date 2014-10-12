@@ -176,7 +176,7 @@
     "symbol": "o",
     "color": "green",
     "name": "magnifying glass",
-    "description": "This is a magnifying glass. May be useful for starting fires during sunny skies.",
+    "description": "This is a magnifying glass.  May be useful for starting fires during sunny skies.",
     "price": 2000,
     "material": ["glass", "plastic"],
     "flags": [ "LENS" ],
