@@ -525,13 +525,8 @@ void complete_construction()
 
     g->u.practice( built->skill, std::max(built->difficulty, 1) * 10,
                    (int)(built->difficulty * 1.25) );
-    for (auto it = built->components.begin(); it != built->components.end(); ++it) {
-        // Tried issuing rope for WEB_ROPE here.  Didn't arrive in time for the
-        // gear check.  Ultimately just coded a bypass in crafting.cpp.
-        if (!it->empty()) {
-            g->consume_items(&(g->u), *it);
-        }
-    }
+    built->use_components( g->u );
+    built->use_tools( g->u );
 
     // Make the terrain change
     int terx = g->u.activity.placement.x, tery = g->u.activity.placement.y;

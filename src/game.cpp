@@ -7893,7 +7893,7 @@ bool game::vehicle_near()
 
 bool game::refill_vehicle_part(vehicle &veh, vehicle_part *part, bool test)
 {
-    vpart_info part_info = vehicle_part_types[part->id];
+    const vpart_info &part_info = part->get_vpart_info();
     if (!part_info.has_flag("FUEL_TANK")) {
         return false;
     }

@@ -11,6 +11,9 @@
         "item" : "NULL",
         "difficulty" : 0,
         "flags" : ["NOINSTALL"],
+        "installation" : { "time" : 0 },
+        "repair" : { "time" : 0 },
+        "removal" : { "time" : 0 },
         "breaks_into" : []
     },{
         "type" : "vehicle_part",
@@ -29,6 +32,9 @@
         "flags" : [
             "SEAT", "BOARDABLE", "CARGO", "BELTABLE"
         ],
+        "installation" : "duct_tape",
+        "repair" : "duct_tape",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "leather", "min": 1, "max": 5},
             {"item": "steel_lump", "min": 3, "max": 5},
@@ -51,6 +57,9 @@
         "flags": [
             "TRACK", "UNMOUNT_ON_DAMAGE"
             ],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into": [
             {"item": "scrap", "min": 0, "max": 2}
         ]
@@ -70,6 +79,9 @@
         "flags" : [
             "SEAT", "BOARDABLE"
         ],
+        "installation" : "duct_tape",
+        "repair" : "duct_tape",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "leather", "min": 0, "max": 1},
             {"item": "scrap", "min": 1, "max": 2}
@@ -90,6 +102,9 @@
         "flags" : [
             "SEAT", "BOARDABLE", "FOLDABLE"
         ],
+        "installation" : "duct_tape",
+        "repair" : "duct_tape",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "rag", "min": 1, "max": 6}
         ]
@@ -110,6 +125,9 @@
         "flags" : [
             "BED", "BOARDABLE", "CARGO", "MOUNTABLE"
         ],
+        "installation" : "duct_tape",
+        "repair" : "duct_tape",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "leather", "min": 1, "max": 5},
             {"item": "steel_lump", "min": 3, "max": 5},
@@ -129,6 +147,9 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : ["MOUNTABLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -147,6 +168,9 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : ["MOUNTABLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -165,6 +189,9 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : ["MOUNTABLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -183,6 +210,9 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : ["MOUNTABLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -201,6 +231,9 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : ["MOUNTABLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -219,6 +252,9 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : ["MOUNTABLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -237,6 +273,9 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : ["MOUNTABLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -255,6 +294,9 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : ["MOUNTABLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -273,6 +315,9 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : ["MOUNTABLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -291,6 +336,9 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : ["MOUNTABLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -309,6 +357,9 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : ["MOUNTABLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "pipe", "min": 0, "max": 4},
             {"item": "scrap", "min": 2, "max": 4}
@@ -326,6 +377,9 @@
         "difficulty" : 3,
         "location" : "structure",
         "flags" : ["MOUNTABLE", "FOLDABLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_chunk", "min": 0, "max": 2},
             {"item": "scrap", "min": 1, "max": 2}
@@ -343,6 +397,9 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : ["MOUNTABLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -361,6 +418,9 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : ["MOUNTABLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "pipe", "min": 0, "max": 4},
             {"item": "scrap", "min": 2, "max": 4}
@@ -378,6 +438,9 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : ["MOUNTABLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "pipe", "min": 0, "max": 4},
             {"item": "scrap", "min": 2, "max": 4}
@@ -395,6 +458,9 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : ["MOUNTABLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "pipe", "min": 0, "max": 4},
             {"item": "scrap", "min": 2, "max": 4}
@@ -412,6 +478,9 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : ["MOUNTABLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "pipe", "min": 0, "max": 4},
             {"item": "scrap", "min": 2, "max": 4}
@@ -429,6 +498,9 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : ["MOUNTABLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "pipe", "min": 0, "max": 4},
             {"item": "scrap", "min": 2, "max": 4}
@@ -446,6 +518,9 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : ["MOUNTABLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "pipe", "min": 0, "max": 4},
             {"item": "scrap", "min": 2, "max": 4}
@@ -463,6 +538,9 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : ["MOUNTABLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "pipe", "min": 0, "max": 4},
             {"item": "scrap", "min": 2, "max": 4}
@@ -480,6 +558,9 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : ["MOUNTABLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -498,6 +579,9 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : ["MOUNTABLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -516,6 +600,9 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : ["MOUNTABLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -534,6 +621,9 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : ["MOUNTABLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -552,6 +642,9 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : ["MOUNTABLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "scrap", "min": 1, "max": 4}
         ]
@@ -568,6 +661,9 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : ["MOUNTABLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -586,6 +682,9 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : ["MOUNTABLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -604,6 +703,9 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : ["MOUNTABLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -622,6 +724,9 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : ["MOUNTABLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -640,6 +745,9 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : ["MOUNTABLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -658,6 +766,9 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : ["MOUNTABLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -676,6 +787,9 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : [],
+        "installation" : "duct_tape",
+        "repair" : "duct_tape",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9},
             {"item": "nail", "min": 5, "max": 10}
@@ -693,6 +807,9 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : [],
+        "installation" : "duct_tape",
+        "repair" : "duct_tape",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9},
             {"item": "nail", "min": 5, "max": 10}
@@ -710,6 +827,30 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : [],
+        "installation" : [
+            {
+                "name": "duct taped",
+                "qualities": [
+                    [ { "id": "WRENCH", "level": 1 } ]
+                ],
+                "tools": [
+                    [ [ "duct_tape", 100 ], [ "toolbox", 100 ] ]
+                ],
+                "time": 0, "//": "unused, but requireded by the requirments class"
+            },
+            {
+                "name": "nailed",
+                "qualities": [
+                    [ { "id": "HAMMER", "level": 1 } ]
+                ],
+                "components": [
+                    [ [ "nail", 40 ] ]
+                ],
+                "time": 0, "//": "unused, but requireded by the requirments class"
+            }
+        ],
+        "repair" : "duct_tape",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9},
             {"item": "nail", "min": 5, "max": 10}
@@ -727,6 +868,9 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : [],
+        "installation" : "duct_tape",
+        "repair" : "duct_tape",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9},
             {"item": "nail", "min": 5, "max": 10}
@@ -744,6 +888,9 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : [],
+        "installation" : "duct_tape",
+        "repair" : "duct_tape",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9},
             {"item": "nail", "min": 5, "max": 10}
@@ -761,6 +908,9 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : [],
+        "installation" : "duct_tape",
+        "repair" : "duct_tape",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9},
             {"item": "nail", "min": 5, "max": 10}
@@ -778,6 +928,9 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : [],
+        "installation" : "duct_tape",
+        "repair" : "duct_tape",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9},
             {"item": "nail", "min": 5, "max": 10}
@@ -795,6 +948,9 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : [],
+        "installation" : "duct_tape",
+        "repair" : "duct_tape",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9},
             {"item": "nail", "min": 5, "max": 10}
@@ -812,6 +968,9 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : [],
+        "installation" : "duct_tape",
+        "repair" : "duct_tape",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9},
             {"item": "nail", "min": 5, "max": 10}
@@ -829,6 +988,9 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : [],
+        "installation" : "duct_tape",
+        "repair" : "duct_tape",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9},
             {"item": "nail", "min": 5, "max": 10}
@@ -846,6 +1008,9 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : [],
+        "installation" : "duct_tape",
+        "repair" : "duct_tape",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9},
             {"item": "nail", "min": 5, "max": 10}
@@ -1033,6 +1198,9 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OPAQUE", "OBSTACLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 3, "max": 5},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -1051,6 +1219,9 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OPAQUE", "OBSTACLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 3, "max": 5},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -1069,6 +1240,9 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OPAQUE", "OBSTACLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 3, "max": 5},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -1087,6 +1261,9 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OPAQUE", "OBSTACLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 3, "max": 5},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -1105,6 +1282,9 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OPAQUE", "OBSTACLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 3, "max": 5},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -1123,6 +1303,9 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OPAQUE", "OBSTACLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 3, "max": 5},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -1141,6 +1324,9 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OPAQUE", "OBSTACLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 7},
             {"item": "steel_chunk", "min": 5, "max": 6},
@@ -1159,6 +1345,9 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OPAQUE", "OBSTACLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 7},
             {"item": "steel_chunk", "min": 5, "max": 6},
@@ -1177,6 +1366,9 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OPAQUE", "OBSTACLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 7},
             {"item": "steel_chunk", "min": 5, "max": 6},
@@ -1195,6 +1387,9 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OPAQUE", "OBSTACLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 7},
             {"item": "steel_chunk", "min": 5, "max": 6},
@@ -1213,6 +1408,9 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OPAQUE", "OBSTACLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 7},
             {"item": "steel_chunk", "min": 5, "max": 6},
@@ -1231,6 +1429,9 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OPAQUE", "OBSTACLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 7},
             {"item": "steel_chunk", "min": 5, "max": 6},
@@ -1249,6 +1450,9 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OPAQUE", "OBSTACLE"],
+        "installation" : "duct_tape",
+        "repair" : "duct_tape",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9}
         ]
@@ -1265,6 +1469,9 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OPAQUE", "OBSTACLE"],
+        "installation" : "duct_tape",
+        "repair" : "duct_tape",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9}
         ]
@@ -1281,6 +1488,9 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OPAQUE", "OBSTACLE"],
+        "installation" : "duct_tape",
+        "repair" : "duct_tape",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9}
         ]
@@ -1297,6 +1507,9 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OPAQUE", "OBSTACLE"],
+        "installation" : "duct_tape",
+        "repair" : "duct_tape",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9}
         ]
@@ -1313,6 +1526,9 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OPAQUE", "OBSTACLE"],
+        "installation" : "duct_tape",
+        "repair" : "duct_tape",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9}
         ]
@@ -1329,6 +1545,9 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OPAQUE", "OBSTACLE"],
+        "installation" : "duct_tape",
+        "repair" : "duct_tape",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9}
         ]
@@ -1345,6 +1564,9 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OBSTACLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 3, "max": 5},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -1363,6 +1585,9 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OBSTACLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 3, "max": 5},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -1381,6 +1606,9 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OBSTACLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 3, "max": 5},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -1399,6 +1627,9 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OBSTACLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 3, "max": 5},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -1417,6 +1648,9 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OBSTACLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 3, "max": 5},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -1435,6 +1669,9 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OBSTACLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 3, "max": 5},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -1453,6 +1690,9 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OBSTACLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 3, "max": 5},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -1471,6 +1711,9 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OBSTACLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 3, "max": 5},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -1489,6 +1732,9 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OBSTACLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "pipe", "min": 0, "max": 1}
         ]
@@ -1505,6 +1751,9 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OBSTACLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "pipe", "min": 0, "max": 1}
         ]
@@ -1521,6 +1770,9 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OBSTACLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "pipe", "min": 0, "max": 1}
         ]
@@ -1537,6 +1789,9 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OBSTACLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "pipe", "min": 0, "max": 1}
         ]
@@ -1553,6 +1808,9 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OBSTACLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "pipe", "min": 0, "max": 1}
         ]
@@ -1569,6 +1827,9 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OBSTACLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "pipe", "min": 0, "max": 1}
         ]
@@ -1585,6 +1846,9 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OBSTACLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "pipe", "min": 0, "max": 1}
         ]
@@ -1601,6 +1865,9 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OBSTACLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "pipe", "min": 0, "max": 1}
         ]
@@ -1617,6 +1884,9 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OBSTACLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 3, "max": 5},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -1635,6 +1905,9 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OBSTACLE"],
+        "installation" : "duct_tape",
+        "repair" : "duct_tape",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9}
         ]
@@ -1651,6 +1924,9 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OBSTACLE"],
+        "installation" : "duct_tape",
+        "repair" : "duct_tape",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9}
         ]
@@ -1667,6 +1943,9 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OBSTACLE"],
+        "installation" : "duct_tape",
+        "repair" : "duct_tape",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9}
         ]
@@ -1683,6 +1962,9 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OBSTACLE"],
+        "installation" : "duct_tape",
+        "repair" : "duct_tape",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9}
         ]
@@ -1699,6 +1981,9 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OBSTACLE"],
+        "installation" : "duct_tape",
+        "repair" : "duct_tape",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9}
         ]
@@ -1715,6 +2000,9 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OBSTACLE"],
+        "installation" : "duct_tape",
+        "repair" : "duct_tape",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9}
         ]
@@ -1731,6 +2019,9 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OBSTACLE"],
+        "installation" : "duct_tape",
+        "repair" : "duct_tape",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9}
         ]
@@ -1747,6 +2038,9 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OBSTACLE"],
+        "installation" : "duct_tape",
+        "repair" : "duct_tape",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9}
         ]
@@ -1763,6 +2057,9 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["AISLE", "BOARDABLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -1781,6 +2078,9 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["AISLE", "BOARDABLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -1800,6 +2100,9 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["AISLE", "BOARDABLE", "CARGO", "COVERED"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -1818,6 +2121,9 @@
         "item" : "sheet_metal",
         "difficulty" : 3,
         "location" : "center",
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "flags" : ["OBSTACLE", "OPAQUE", "CARGO", "COVERED"]
     },{
         "type":"vehicle_part",
@@ -1832,6 +2138,9 @@
         "item" : "sheet_metal",
         "difficulty" : 3,
         "location" : "center",
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "flags" : ["OBSTACLE", "OPAQUE", "CARGO", "COVERED"]
     },{
         "type" : "vehicle_part",
@@ -1846,6 +2155,9 @@
         "difficulty" : 1,
         "location" : "roof",
         "flags" : ["ROOF", "FOLDABLE"],
+        "installation" : "duct_tape",
+        "repair" : "duct_tape",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "rag", "min": 3, "max": 6}
         ]
@@ -1862,6 +2174,9 @@
         "difficulty" : 1,
         "location" : "roof",
         "flags" : ["ROOF"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 1, "max": 3},
             {"item": "steel_chunk", "min": 3, "max": 4},
@@ -1880,6 +2195,9 @@
         "difficulty" : 1,
         "location" : "roof",
         "flags" : ["ROOF"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 2, "max": 4},
             {"item": "steel_chunk", "min": 3, "max": 5},
@@ -1899,6 +2217,9 @@
         "difficulty" : 2,
         "location" : "center",
         "flags" : ["OBSTACLE", "OPENABLE", "BOARDABLE", "WINDOW"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -1918,6 +2239,9 @@
         "difficulty" : 2,
         "location" : "center",
         "flags" : ["OBSTACLE", "OPAQUE", "OPENABLE", "BOARDABLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -1937,6 +2261,9 @@
         "difficulty" : 2,
         "location" : "center",
         "flags" : ["OBSTACLE", "OPAQUE", "OPENABLE", "ROOF", "BOARDABLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -1957,6 +2284,9 @@
         "difficulty" : 2,
         "location" : "center",
         "flags" : ["CARGO", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "COVERED"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -1977,6 +2307,9 @@
         "difficulty" : 4,
         "location" : "center",
         "flags" : ["CARGO", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "COVERED"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -1996,6 +2329,9 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OVER", "OBSTACLE", "WINDOW"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "glass_shard", "min": 3, "max": 6}
         ]
@@ -2013,6 +2349,9 @@
         "difficulty" : 2,
         "location" : "structure",
         "flags" : ["UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : []
     },{
         "type" : "vehicle_part",
@@ -2028,6 +2367,9 @@
         "difficulty" : 2,
         "location" : "structure",
         "flags" : ["UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : []
     },{
         "type" : "vehicle_part",
@@ -2043,6 +2385,9 @@
         "difficulty" : 2,
         "location" : "structure",
         "flags" : ["UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : []
     },{
         "type" : "vehicle_part",
@@ -2059,6 +2404,9 @@
         "difficulty" : 4,
         "location" : "under",
         "flags" : ["WHEEL", "VARIABLE_SIZE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 1, "max": 2},
             {"item": "steel_chunk", "min": 1, "max": 2},
@@ -2079,6 +2427,9 @@
         "difficulty" : 5,
         "location" : "under",
         "flags" : ["WHEEL", "VARIABLE_SIZE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 2, "max": 3},
             {"item": "steel_chunk", "min": 2, "max": 3},
@@ -2099,6 +2450,9 @@
         "difficulty" : 6,
         "location" : "under",
         "flags" : ["WHEEL", "VARIABLE_SIZE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 2, "max": 3},
             {"item": "steel_chunk", "min": 2, "max": 3},
@@ -2139,6 +2493,9 @@
         "difficulty" : 2,
         "location" : "under",
         "flags" : ["WHEEL", "STABLE", "VARIABLE_SIZE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 0, "max": 1},
             {"item": "steel_chunk", "min": 1, "max": 2},
@@ -2159,6 +2516,9 @@
         "difficulty" : 2,
         "location" : "under",
         "flags" : ["WHEEL", "STABLE", "VARIABLE_SIZE", "FOLDABLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 0, "max": 1},
             {"item": "steel_chunk", "min": 1, "max": 2},
@@ -2179,6 +2539,9 @@
         "difficulty" : 1,
         "location" : "under",
         "flags" : ["WHEEL", "VARIABLE_SIZE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 0, "max": 1},
             {"item": "steel_chunk", "min": 1, "max": 2},
@@ -2199,6 +2562,9 @@
         "difficulty" : 2,
         "location" : "under",
         "flags" : ["WHEEL", "VARIABLE_SIZE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 1, "max": 3},
             {"item": "steel_chunk", "min": 1, "max": 3},
@@ -2219,6 +2585,9 @@
         "difficulty" : 2,
         "location" : "under",
         "flags" : ["WHEEL", "VARIABLE_SIZE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 1, "max": 1},
             {"item": "steel_chunk", "min": 1, "max": 3},
@@ -2239,6 +2608,9 @@
         "difficulty" : 1,
         "location" : "under",
         "flags" : ["WHEEL", "STABLE", "VARIABLE_SIZE", "FOLDABLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 0, "max": 1},
             {"item": "steel_chunk", "min": 1, "max": 2},
@@ -2258,6 +2630,9 @@
         "difficulty" : 2,
         "location" : "under",
         "flags" : ["WHEEL", "VARIABLE_SIZE"],
+        "installation" : "duct_tape",
+        "repair" : "duct_tape",
+        "removal" : "jack",
         "breaks_into" : [
             {"item": "2x4", "min": 0, "max": 4},
             {"item": "nail", "min": 5, "max": 15}]
@@ -2276,6 +2651,9 @@
         "difficulty" : 2,
         "location" : "under",
         "flags" : ["WHEEL", "VARIABLE_SIZE"],
+        "installation" : "duct_tape",
+        "repair" : "duct_tape",
+        "removal" : "jack",
         "breaks_into" : [
             {"item": "2x4", "min": 0, "max": 4},
             {"item": "nail", "min": 5, "max": 15},
@@ -2296,6 +2674,9 @@
         "difficulty" : 2,
         "location" : "engine_block",
         "flags" : ["ENGINE", "VARIABLE_SIZE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 5, "max": 10},
             {"item": "steel_chunk", "min": 5, "max": 10},
@@ -2317,6 +2698,9 @@
         "difficulty" : 2,
         "location" : "engine_block",
         "flags" : ["ENGINE", "VARIABLE_SIZE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 10, "max": 20},
             {"item": "steel_chunk", "min": 10, "max": 20},
@@ -2337,6 +2721,9 @@
         "difficulty" : 3,
         "location" : "engine_block",
         "flags" : ["ENGINE", "VARIABLE_SIZE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 20, "max": 30},
             {"item": "steel_chunk", "min": 20, "max": 30},
@@ -2358,6 +2745,9 @@
         "difficulty" : 4,
         "location" : "engine_block",
         "flags" : ["ENGINE", "VARIABLE_SIZE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 30, "max": 40},
             {"item": "steel_chunk", "min": 30, "max": 40},
@@ -2379,6 +2769,9 @@
         "difficulty" : 4,
         "location" : "engine_block",
         "flags" : ["ENGINE", "VARIABLE_SIZE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 40, "max": 50},
             {"item": "steel_chunk", "min": 40, "max": 50},
@@ -2400,6 +2793,9 @@
         "difficulty" : 8,
         "location" : "engine_block",
         "flags" : ["ENGINE", "VARIABLE_SIZE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 45, "max": 58},
             {"item": "steel_chunk", "min": 45, "max": 58},
@@ -2422,6 +2818,9 @@
         "difficulty" : 3,
         "location" : "engine_block",
         "flags" : ["ENGINE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 3, "max": 5},
             {"item": "steel_chunk", "min": 3, "max": 5},
@@ -2445,6 +2844,9 @@
         "difficulty" : 4,
         "location" : "engine_block",
         "flags" : ["ENGINE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 30, "max": 40},
             {"item": "steel_chunk", "min": 30, "max": 40},
@@ -2491,6 +2893,9 @@
         "difficulty" : 6,
         "location" : "engine_block",
         "flags" : ["ENGINE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 10, "max": 15},
             {"item": "steel_chunk", "min": 10, "max": 15},
@@ -2512,6 +2917,9 @@
         "difficulty" : 1,
         "location" : "engine_block",
         "flags" : ["PEDALS", "ENGINE", "FOLDABLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_chunk", "min": 1, "max": 2},
             {"item": "scrap", "min": 0, "max": 2}
@@ -2532,6 +2940,9 @@
         "difficulty" : 1,
         "location" : "engine_block",
         "flags" : ["HAND_RIMS", "ENGINE", "FOLDABLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_chunk", "min": 1, "max": 2},
             {"item": "scrap", "min": 0, "max": 2}
@@ -2552,6 +2963,9 @@
         "difficulty" : 1,
         "location" : "fuel_source",
         "flags" : ["FUEL_TANK"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 1, "max": 2},
             {"item": "scrap", "min": 1, "max": 2}
@@ -2572,6 +2986,9 @@
         "difficulty" : 1,
         "location" : "fuel_source",
         "flags" : ["FUEL_TANK"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 1, "max": 1},
             {"item": "steel_chunk", "min": 1, "max": 2},
@@ -2612,6 +3029,9 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : ["UNMOUNT_ON_DAMAGE", "FUEL_TANK", "PROTRUSION"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : []
     },{
         "type" : "vehicle_part",
@@ -2629,6 +3049,9 @@
         "difficulty" : 1,
         "location" : "fuel_source",
         "flags" : ["FUEL_TANK"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "scrap", "min": 1, "max": 2}
         ]
@@ -2648,6 +3071,9 @@
         "difficulty" : 2,
         "location" : "fuel_source",
         "flags" : ["FUEL_TANK"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 5, "max": 10},
             {"item": "steel_chunk", "min": 5, "max": 10},
@@ -2670,6 +3096,9 @@
         "difficulty" : 7,
         "location" : "fuel_source",
         "flags" : ["FUEL_TANK"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 6, "max": 11},
             {"item": "steel_chunk", "min": 6, "max": 11},
@@ -2691,6 +3120,9 @@
         "difficulty" : 1,
         "location" : "fuel_source",
         "flags" : ["FUEL_TANK"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 1, "max": 1},
             {"item": "steel_chunk", "min": 1, "max": 2},
@@ -2712,6 +3144,9 @@
         "difficulty" : 1,
         "location" : "fuel_source",
         "flags" : ["FUEL_TANK"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 1, "max": 1},
             {"item": "steel_chunk", "min": 1, "max": 2},
@@ -2733,6 +3168,9 @@
         "difficulty" : 3,
         "location" : "center",
         "flags" : ["CARGO", "OBSTACLE", "FRIDGE", "COVERED"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 8, "max": 13},
             {"item": "steel_chunk", "min": 8, "max": 13},
@@ -2754,6 +3192,9 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["CARGO", "COVERED"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -2774,6 +3215,9 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["CARGO", "BOARDABLE", "COVERED"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -2812,6 +3256,9 @@
         "item" : "wire",
         "difficulty" : 1,
         "location" : "center",
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "flags" : ["CARGO", "BOARDABLE", "FOLDABLE"]
     },{
         "type" : "vehicle_part",
@@ -2827,6 +3274,9 @@
         "item" : "basket",
         "difficulty" : 1,
         "location" : "center",
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "flags" : ["CARGO", "BOARDABLE"]
     },{
         "type" : "vehicle_part",
@@ -2843,6 +3293,9 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["CARGO", "OBSTACLE"],
+        "installation" : "duct_tape",
+        "repair" : "duct_tape",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "2x4", "min": 1, "max": 6},
             {"item": "splinter", "min": 4, "max": 6},
@@ -2861,6 +3314,9 @@
         "item" : "vehicle_controls",
         "difficulty" : 3,
         "flags" : ["CONTROLS", "FOLDABLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 1, "max": 1},
             {"item": "steel_chunk", "min": 1, "max": 3},
@@ -2880,6 +3336,9 @@
         "item" : "muffler",
         "difficulty" : 2,
         "flags" : ["MUFFLER"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 3, "max": 5},
             {"item": "steel_chunk", "min": 3, "max": 5},
@@ -2900,6 +3359,9 @@
         "difficulty" : 1,
         "location" : "on_seat",
         "flags" : ["SEATBELT"],
+        "installation" : "duct_tape",
+        "repair" : "duct_tape",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "string_36", "min": 0, "max": 3}
         ]
@@ -2918,6 +3380,9 @@
         "difficulty" : 2,
         "location" : "on_seat",
         "flags" : ["SEATBELT"],
+        "installation" : "duct_tape",
+        "repair" : "duct_tape",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "string_36", "min": 0, "max": 3}
         ]
@@ -2936,6 +3401,9 @@
         "location": "on_windshield",
         "difficulty": 1,
         "flags": ["OPENABLE", "OPENCLOSE_INSIDE", "OPAQUE", "CURTAIN"],
+        "installation" : "duct_tape",
+        "repair" : "duct_tape",
+        "removal" : "hacksaw",
         "breaks_into": []
     },{
         "type" : "vehicle_part",
@@ -2952,6 +3420,9 @@
         "difficulty" : 6,
         "location" : "on_roof",
         "flags" : ["SOLAR_PANEL"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 2, "max": 4},
             {"item": "steel_chunk", "min": 2, "max": 4},
@@ -2973,6 +3444,9 @@
         "difficulty" : 6,
         "location" : "on_roof",
         "flags" : ["SOLAR_PANEL"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 7},
             {"item": "steel_chunk", "min": 4, "max": 7},
@@ -2994,6 +3468,9 @@
         "difficulty" : 8,
         "location" : "on_roof",
         "flags" : ["SOLAR_PANEL"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 2, "max": 4},
             {"item": "steel_chunk", "min": 2, "max": 4},
@@ -3015,6 +3492,9 @@
         "difficulty" : 9,
         "location" : "on_roof",
         "flags" : ["SOLAR_PANEL"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 7},
             {"item": "steel_chunk", "min": 4, "max": 7},
@@ -3036,6 +3516,9 @@
         "difficulty" : 12,
         "location" : "on_roof",
         "flags" : ["SOLAR_PANEL"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 4},
             {"item": "steel_chunk", "min": 4, "max": 4},
@@ -3055,6 +3538,9 @@
         "item": "water_faucet",
         "difficulty": 1,
         "flags": ["FAUCET"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "scrap", "min": 1, "max": 3}
         ]
@@ -3073,6 +3559,9 @@
         "difficulty" : 4,
         "location" : "center",
         "flags" : ["CARGO", "OBSTACLE", "KITCHEN", "COVERED"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 30, "max": 40},
             {"item": "steel_chunk", "min": 30, "max": 40},
@@ -3095,6 +3584,9 @@
         "difficulty" : 4,
         "location" : "center",
         "flags" : ["CARGO", "OBSTACLE", "WELDRIG", "COVERED"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 3, "max": 6},
             {"item": "steel_chunk", "min": 3, "max": 6},
@@ -3116,6 +3608,9 @@
         "difficulty" : 4,
         "location" : "center",
         "flags" : ["CARGO", "OBSTACLE", "CRAFTRIG", "COVERED"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 7},
             {"item": "steel_chunk", "min": 4, "max": 7},
@@ -3142,6 +3637,9 @@
         "difficulty" : 4,
         "location" : "center",
         "flags" : ["CARGO", "OBSTACLE", "CHEMLAB", "COVERED"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 7},
             {"item": "steel_chunk", "min": 4, "max": 7},
@@ -3163,6 +3661,9 @@
         "difficulty" : 3,
         "location" : "center",
         "flags" : ["OBSTACLE", "FORGE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 5},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -3184,6 +3685,9 @@
         "difficulty" : 6,
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "m249", "min": 0, "max": 1}
         ]
@@ -3202,6 +3706,9 @@
         "difficulty" : 7,
         "location" : "on_roof",
         "flags" : ["TURRET"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "flamethrower", "min": 0, "max": 1}
         ]
@@ -3220,6 +3727,9 @@
         "difficulty" : 7,
         "location" : "on_roof",
         "flags" : ["TURRET"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "plasma_rifle", "min": 0, "max": 1}
         ]
@@ -3239,6 +3749,9 @@
         "size" : 10,
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "ftk93", "min": 0, "max": 1}
         ]
@@ -3257,6 +3770,9 @@
         "difficulty" : 7,
         "location" : "on_roof",
         "flags" : ["TURRET"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "nx17", "min": 0, "max": 1}
         ]
@@ -3276,6 +3792,9 @@
         "size" : 1600,
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "m2browning", "min": 0, "max": 1}
         ]
@@ -3295,6 +3814,9 @@
         "size" : 480,
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "mark19", "min": 0, "max": 1}
         ]
@@ -3311,6 +3833,9 @@
         "difficulty" : 3,
         "location" : "armor",
         "flags" : ["ARMOR"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9}
         ]
@@ -3327,6 +3852,9 @@
         "difficulty" : 3,
         "location" : "armor",
         "flags" : ["ARMOR"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -3345,6 +3873,9 @@
         "difficulty" : 4,
         "location" : "armor",
         "flags" : ["ARMOR"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -3364,6 +3895,9 @@
         "difficulty" : 3,
         "location" : "armor",
         "flags" : ["ARMOR", "SHARP"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -3383,6 +3917,9 @@
         "difficulty" : 4,
         "location" : "armor",
         "flags" : ["ARMOR"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -3401,6 +3938,9 @@
         "difficulty" : 6,
         "location" : "armor",
         "flags" : ["ARMOR"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -3422,6 +3962,9 @@
         "item" : "flashlight",
         "difficulty" : 1,
         "flags" : ["CONE_LIGHT"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "scrap", "min": 0, "max": 2}
         ]
@@ -3440,6 +3983,9 @@
         "item" : "headlight_reinforced",
         "difficulty" : 1,
         "flags" : ["CONE_LIGHT"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "scrap", "min": 0, "max": 2}
         ]
@@ -3457,6 +4003,9 @@
         "difficulty" : 6,
         "location" : "center",
         "flags" : ["OBSTACLE", "WINDOW"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "glass_shard", "min": 3, "max": 6},
             {"item": "wire", "min": 4, "max": 8}
@@ -3475,6 +4024,9 @@
         "item" : "horn_bicycle",
         "difficulty" : 1,
         "flags" : ["HORN"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "scrap", "min": 0, "max": 1}
         ]
@@ -3492,6 +4044,9 @@
         "item" : "horn_car",
         "difficulty" : 3,
         "flags" : ["HORN"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "scrap", "min": 0, "max": 2}
         ]
@@ -3509,6 +4064,9 @@
         "item" : "horn_big",
         "difficulty" : 3,
         "flags" : ["HORN"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_chunk", "min": 0, "max": 1}
         ]
@@ -3527,6 +4085,9 @@
         "item" : "battery_motorbike",
         "difficulty" : 2,
         "flags" : ["FUEL_TANK"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 7},
             {"item": "steel_chunk", "min": 4, "max": 7},
@@ -3547,6 +4108,9 @@
         "item" : "battery_car",
         "difficulty" : 2,
         "flags" : ["FUEL_TANK"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 6, "max": 9},
             {"item": "steel_chunk", "min": 6, "max": 9},
@@ -3567,6 +4131,9 @@
         "item" : "battery_truck",
         "difficulty" : 2,
         "flags" : ["FUEL_TANK"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 8, "max": 12},
             {"item": "steel_chunk", "min": 8, "max": 12},
@@ -3588,6 +4155,9 @@
         "item" : "alternator_motorbike",
         "difficulty" : 3,
         "flags" : ["ALTERNATOR"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 2, "max": 5},
             {"item": "steel_chunk", "min": 2, "max": 5},
@@ -3608,6 +4178,9 @@
         "item" : "alternator_car",
         "difficulty" : 3,
         "flags" : ["ALTERNATOR"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 3, "max": 6},
             {"item": "steel_chunk", "min": 3, "max": 6},
@@ -3628,6 +4201,9 @@
         "item" : "alternator_truck",
         "difficulty" : 3,
         "flags" : ["ALTERNATOR"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 7},
             {"item": "steel_chunk", "min": 4, "max": 7},
@@ -3647,6 +4223,9 @@
         "difficulty" : 2,
         "location" : "center",
         "flags" : ["OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -3666,6 +4245,9 @@
         "difficulty" : 3,
         "location" : "center",
         "flags" : ["OPAQUE", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -3685,6 +4267,9 @@
         "difficulty" : 2,
         "location" : "center",
         "flags" : ["OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -3706,6 +4291,9 @@
         "difficulty" : 1,
         "location" : "on_roof",
         "flags" : ["CIRCLE_LIGHT", "ODDTURN"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_chunk", "min": 0, "max": 1},
             {"item": "scrap", "min": 1, "max": 1}
@@ -3726,6 +4314,9 @@
         "difficulty" : 1,
         "location" : "on_roof",
         "flags" : ["CIRCLE_LIGHT", "EVENTURN"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_chunk", "min": 0, "max": 1},
             {"item": "scrap", "min": 1, "max": 1}
@@ -3744,6 +4335,9 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["AISLE", "BOARDABLE", "CARGO", "COVERED"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 6, "max": 8},
             {"item": "steel_chunk", "min": 6, "max": 8},
@@ -3765,6 +4359,9 @@
         "difficulty" : 1,
         "location" : "on_roof",
         "flags" : ["CIRCLE_LIGHT"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_chunk", "min": 0, "max": 2},
             {"item": "scrap", "min": 1, "max": 2}
@@ -3785,6 +4382,9 @@
         "difficulty" : 3,
         "location" : "on_cargo",
         "flags" : ["INTERNAL", "RECHARGE"],
+        "installation" : "welder",
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_chunk", "min": 0, "max": 2},
             {"item": "scrap", "min": 1, "max": 2},
@@ -3804,6 +4404,9 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : ["MIRROR", "PROTRUSION", "UNMOUNT_ON_DAMAGE"],
+        "installation" : "duct_tape",
+        "repair" : "duct_tape",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "glass_shard", "min": 0, "max": 2}
         ]
@@ -3822,6 +4425,17 @@
         "item" : "stereo",
         "difficulty" : 2,
         "flags" : ["STEREO"],
+        "installation" : {
+            "qualities": [
+                [ { "id": "SCREW_FINE", "level": 1 } ]
+            ],
+            "tools": [
+                [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ]
+            ],
+            "time": 0, "//": "unused, but requireded by the requirments class"
+        },
+        "repair" : "welder",
+        "removal" : "hacksaw",
         "breaks_into" : [
             {"item": "steel_lump", "min": 3, "max": 5},
             {"item": "steel_chunk", "min": 3, "max": 5},

@@ -8,6 +8,7 @@
 #include "itype.h"
 #include <sstream>
 #include "calendar.h"
+#include "ui.h"
 
 quality::quality_map quality::qualities;
 
@@ -496,4 +497,108 @@ bool requirements::remove_item( const std::string &type, std::vector< std::vecto
 bool requirements::remove_item( const std::string &type )
 {
     return remove_item( type, tools ) || remove_item( type, components );
+}
+
+std::list<item> requirements::use_tools( player &p, int batch ) const
+{
+    std::list<item> used;
+    for( auto & objs : tools ) {
+        g->consume_tools( &p, objs, batch );
+        // TODO: register the tools in the used list.
+    }
+    return used;
+}
+
+std::list<item> requirements::use_components( player &p, int batch ) const
+{
+    std::list<item> used;
+    for( auto & objs : components ) {
+        used.splice( used.end(), g->consume_items( &p, objs, batch ) );
+    }
+    return used;
+}
+
+bool multi_requirements::can_make_with_inventory( const inventory &inv ) const
+{
+    bool can_do = alternatives.empty(); // no requirements means it's possible
+    for( auto & req : alternatives ) {
+        if( req.can_make_with_inventory( inv ) ) {
+            can_do = true;
+            // continue with the remaining requirements to update the ::available setting of them
+        }
+    }
+    return can_do;
+}
+
+int multi_requirements::print( WINDOW *w, int ypos, int xpos, int width, nc_color col,
+                               const inventory &crafting_inv ) const
+{
+    const int oldy = ypos;
+    for( auto it = alternatives.begin(); it != alternatives.end(); ++it ) {
+        if( it != alternatives.begin() ) {
+            mvwprintz( w, ypos, xpos, c_white, _( "OR:" ) );
+            ypos++;
+        }
+        ypos += it->print_tools( w, ypos, xpos + 3, width - 3, col, crafting_inv );
+        ypos += it->print_components( w, ypos, xpos + 3, width - 3, col, crafting_inv );
+    }
+    return ypos - oldy;
+}
+
+void multi_requirements::check_consistency( const std::string &display_name ) const
+{
+    for( auto & req : alternatives ) {
+        req.check_consistency( display_name );
+    }
+}
+
+void requirements_with_name::load( JsonObject &jsobj )
+{
+    requirements::load( jsobj );
+    // TODO: translate me! Do it! Do it now!
+    name = jsobj.get_string( "name", "" );
+}
+
+void multi_requirements::load( JsonObject &jsobj )
+{
+    alternatives.resize( 1 );
+    alternatives.front().load( jsobj );
+}
+
+void multi_requirements::load( JsonArray &jsarr )
+{
+    alternatives.resize( jsarr.size() );
+    for( int i = 0; i < jsarr.size(); ++i ) {
+        auto obj = jsarr.get_object( i );
+        alternatives[i].load( obj );
+    }
+}
+
+void multi_requirements::use_components_and_tools( player &u, const inventory &inv ) const
+{
+    if( alternatives.empty() ) {
+        return;
+    }
+    if( alternatives.size() == 1 ) {
+        alternatives.front().use_components( u );
+        alternatives.front().use_tools( u );
+        return;
+    }
+    uimenu menu;
+    menu.text = _( "Choose items/tools to use" );
+    std::vector<std::string> choises;
+    for( size_t i = 0; i < alternatives.size(); ++i ) {
+        if( alternatives[i].can_make_with_inventory( inv ) ) {
+            menu.addentry( i, true, -1, alternatives[i].name );
+        } else {
+            menu.addentry( i, false, -1, alternatives[i].name );
+        }
+    }
+    menu.query();
+    const size_t index = menu.ret;
+    if( index >= alternatives.size() ) {
+        return;
+    }
+    alternatives[index].use_components( u );
+    alternatives[index].use_tools( u );
 }

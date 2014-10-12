@@ -70,7 +70,7 @@ struct vehicle_prototype
 struct vehicle_part : public JsonSerializer, public JsonDeserializer
 {
     vehicle_part(const std::string &sid = "", int dx = 0, int dy = 0,
-                 const item *it = NULL) : id("null"), iid(0), mount_dx(dx), mount_dy(dy),
+                 const item *it = NULL) : id("null"), vpinfo(nullptr), mount_dx(dx), mount_dy(dy),
                  hp(0), blood(0), bigness(0), inside(false), removed(false), flags(0),
                  passenger_id(0), amount(0), target(point(0,0),point(0,0)) {
         precalc_dx[0] = precalc_dx[1] = -1;
@@ -88,8 +88,10 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
 
     static const int passenger_flag = 1;
 
+private:
     std::string id;         // id in map of parts (vehicle_part_types key)
-    int iid;                // same as above, for lookup via int
+    const vpart_info *vpinfo; // pointer to the vehicle part info, matching the type of this part
+public:
     int mount_dx;           // mount point on the forward/backward axis
     int mount_dy;           // mount point on the left/right axis
     int precalc_dx[2];      // mount_dx translated to face.dir [0] and turn_dir [1]
@@ -119,7 +121,7 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
             return false;
         }
         id = str;
-        iid = vpit->second.loadid;
+        vpinfo = &vpit->second;
         return true;
     }
 
@@ -140,6 +142,14 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
      * It includes hp, fuel, bigness, ...
      */
     void properties_from_item( const item &used_item );
+    const std::string &get_id() const
+    {
+        return id;
+    }
+    const vpart_info &get_vpart_info() const
+    {
+        return *vpinfo;
+    }
 };
 
 /**
@@ -336,7 +346,7 @@ public:
     void play_music();
 
 // get vpart type info for part number (part at given vector index)
-    vpart_info& part_info (int index, bool include_removed = false) const;
+    const vpart_info& part_info (int index, bool include_removed = false) const;
 
 // check if certain part can be mounted at certain position (not accounting frame direction)
     bool can_mount (int dx, int dy, std::string id);

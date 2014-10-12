@@ -266,12 +266,12 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
     for (size_t p = 0; p < parts.size(); p++)
     {
         if (part_flag(p, "VARIABLE_SIZE")){ // generate its bigness attribute.?
-            if(consistent_bignesses.count(parts[p].id) < 1){
+            if(consistent_bignesses.count(parts[p].get_id()) < 1){
                 //generate an item for this type, & cache its bigness
                 item tmp (part_info(p).item, 0);
-                consistent_bignesses[parts[p].id] = tmp.bigness;
+                consistent_bignesses[parts[p].get_id()] = tmp.bigness;
             }
-            parts[p].bigness = consistent_bignesses[parts[p].id];
+            parts[p].bigness = consistent_bignesses[parts[p].get_id()];
         }
         if (part_flag(p, "FUEL_TANK")) {   // set fuel status
           parts[p].amount = part_info(p).size * veh_fuel_mult / 100;
@@ -852,7 +852,7 @@ void vehicle::honk_horn()
         const int horn_x = global_x() + parts[p].precalc_dx[0];
         const int horn_y = global_y() + parts[p].precalc_dy[0];
         //Determine sound
-        vpart_info &horn_type=part_info(p);
+        const vpart_info &horn_type = part_info(p);
         if( horn_type.bonus >= 40 ){
             g->sound( horn_x, horn_y, horn_type.bonus, _("HOOOOORNK!") );
         } else if( horn_type.bonus >= 20 ){
@@ -879,15 +879,15 @@ void vehicle::play_music()
         iuse::play_music( &(g->u), point(radio_x, radio_y), 15 );
     }
 }
-vpart_info& vehicle::part_info (int index, bool include_removed) const
+
+const vpart_info& vehicle::part_info (int index, bool include_removed) const
 {
-    if (index < (int)parts.size()) {
+    if( index >= 0 && index < (int)parts.size() ) {
         if (!parts[index].removed || include_removed) {
-            return vehicle_part_int_types[parts[index].iid];
-            // slow autovivication // vehicle_part_types[parts[index].id];
+            return parts[index].get_vpart_info();
         }
     }
-    return vehicle_part_int_types[0];//"null"];
+    return vehicle_part_types["null"];
 }
 
 // engines & alternators all have power.
@@ -972,7 +972,7 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
     }
 
     //It also has to be a real part, not the null part
-    const vpart_info part = vehicle_part_types[id];
+    const vpart_info &part = vehicle_part_types[id];
     if(part.has_flag("NOINSTALL")) {
         return false;
     }
@@ -992,7 +992,7 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
     //No part type can stack with itself, or any other part in the same slot
     for( std::vector<int>::const_iterator part_it = parts_in_square.begin();
          part_it != parts_in_square.end(); ++part_it ) {
-        const vpart_info other_part = vehicle_part_types[parts[*part_it].id];
+        const vpart_info &other_part = parts[*part_it].get_vpart_info();
 
         //Parts with no location can stack with each other (but not themselves)
         if(part.id == other_part.id ||
@@ -1298,7 +1298,7 @@ int vehicle::install_part( int dx, int dy, const vehicle_part &new_part )
 
 void vehicle_part::properties_from_item( const item &used_item )
 {
-    const vpart_info &vpinfo = vehicle_part_int_types[iid];
+    const vpart_info &vpinfo = get_vpart_info();
     if( used_item.type->is_var_veh_part() ) {
         bigness = used_item.bigness;
     }
@@ -1322,7 +1322,7 @@ void vehicle_part::properties_from_item( const item &used_item )
 
 item vehicle_part::properties_to_item() const
 {
-    const vpart_info &vpinfo = vehicle_part_int_types[iid];
+    const vpart_info &vpinfo = get_vpart_info();
     item tmp( vpinfo.item, calendar::turn );
     if( tmp.type->is_var_veh_part() ) {
         tmp.bigness = bigness;
@@ -1701,7 +1701,7 @@ int vehicle::index_of_part(vehicle_part *part, bool check_removed)
       if (!check_removed && next_part.removed) {
         continue;
       }
-      if(part->id == next_part.id &&
+      if(part->get_id() == next_part.get_id() &&
               part->mount_dx == next_part.mount_dx &&
               part->mount_dy == next_part.mount_dy &&
               part->hp == next_part.hp) {
@@ -1789,7 +1789,7 @@ std::string vehicle::part_id_string(int p, char &part_mod)
     }
 
     int displayed_part = part_displayed_at(parts[p].mount_dx, parts[p].mount_dy);
-    idinfo = parts[displayed_part].id;
+    idinfo = parts[displayed_part].get_id();
 
     if (part_flag (displayed_part, VPFLAG_OPENABLE) && parts[displayed_part].open) {
         part_mod = 1; // open
@@ -2933,7 +2933,7 @@ void vehicle::slow_leak()
     // damaged batteries self-discharge without leaking
     for( size_t p = 0; p < fuel.size(); ++p ) {
         vehicle_part &part = parts[fuel[p]];
-        vpart_info pinfo = part_info( fuel[p] );
+        const vpart_info &pinfo = part_info( fuel[p] );
         if( pinfo.fuel_type != fuel_type_gasoline &&
             pinfo.fuel_type != fuel_type_battery && pinfo.fuel_type != fuel_type_water ) {
             // Not a liquid fuel or battery
@@ -3592,7 +3592,7 @@ int vehicle::stored_volume(int part) {
 
 int vehicle::max_volume(int part) {
     if (part_flag(part, "CARGO")) {
-        return vehicle_part_types[parts[part].id].size;
+        return parts[part].get_vpart_info().size;
     }
     return 0;
 }
@@ -3812,9 +3812,9 @@ void vehicle::refresh()
 
     // Main loop over all vehicle parts.
     for( size_t p = 0; p < parts.size(); p++ ) {
-        const vpart_info& vpi = part_info( p );
         if( parts[p].removed )
             continue;
+        const vpart_info& vpi = part_info( p );
         if( vpi.has_flag(VPFLAG_LIGHT) || vpi.has_flag(VPFLAG_CONE_LIGHT) ) {
             lights.push_back( p );
             lights_epower += vpi.epower;
@@ -4372,7 +4372,7 @@ void vehicle::open(int part_index)
 {
   if(!part_info(part_index).has_flag("OPENABLE")) {
     debugmsg("Attempted to open non-openable part %d (%s) on a %s!", part_index,
-               vehicle_part_types[parts[part_index].id].name.c_str(), name.c_str());
+               parts[part_index].get_vpart_info().name.c_str(), name.c_str());
   } else {
     open_or_close(part_index, true);
   }
@@ -4387,7 +4387,7 @@ void vehicle::close(int part_index)
 {
   if(!part_info(part_index).has_flag("OPENABLE")) {
     debugmsg("Attempted to close non-closeable part %d (%s) on a %s!", part_index,
-               vehicle_part_types[parts[part_index].id].name.c_str(), name.c_str());
+               parts[part_index].get_vpart_info().name.c_str(), name.c_str());
   } else {
     open_or_close(part_index, false);
   }

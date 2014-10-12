@@ -1323,14 +1323,8 @@ void game::complete_craft()
 
     // If we're here, the craft was a success!
     // Use up the components and tools
-    std::list<item> used;
-    for (auto it = making->components.begin(); it != making->components.end(); ++it) {
-        std::list<item> tmp = consume_items(&u, *it, making->batch);
-        used.splice(used.end(), tmp);
-    }
-    for (auto it = making->tools.begin(); it != making->tools.end(); ++it) {
-        consume_tools(&u, *it, making->batch);
-    }
+    std::list<item> used = making->use_components( u, making->batch );
+    making->use_tools( u, making->batch );
 
     // Set up the new item, and assign an inventory letter if available
     std::vector<item> newits = making->create_results(making->batch, handed);
