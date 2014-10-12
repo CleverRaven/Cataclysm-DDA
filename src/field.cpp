@@ -1664,21 +1664,21 @@ void map::step_in_field(int x, int y)
                 // If the bees can get at you, they cause steadily increasing pain.
                 // TODO: Specific stinging messages.
                 times_stung += one_in(4) &&
-                    g->u.add_env_effect( "stung", bp_torso, density, 90, num_bp, density );
+                    g->u.add_env_effect( "stung", bp_torso, density, 90, num_bp );
                 times_stung += one_in(4) &&
-                    g->u.add_env_effect( "stung", bp_torso, density, 90, num_bp, density );
+                    g->u.add_env_effect( "stung", bp_torso, density, 90, num_bp );
                 times_stung += one_in(4) &&
-                    g->u.add_env_effect( "stung", bp_torso, density, 90, num_bp, density );
+                    g->u.add_env_effect( "stung", bp_torso, density, 90, num_bp );
                 times_stung += one_in(4) &&
-                    g->u.add_env_effect( "stung", bp_torso, density, 90, num_bp, density );
+                    g->u.add_env_effect( "stung", bp_torso, density, 90, num_bp );
                 times_stung += one_in(4) &&
-                    g->u.add_env_effect( "stung", bp_torso, density, 90, num_bp, density );
+                    g->u.add_env_effect( "stung", bp_torso, density, 90, num_bp );
                 times_stung += one_in(4) &&
-                    g->u.add_env_effect( "stung", bp_torso, density, 90, num_bp, density );
+                    g->u.add_env_effect( "stung", bp_torso, density, 90, num_bp );
                 times_stung += one_in(4) &&
-                    g->u.add_env_effect( "stung", bp_torso, density, 90, num_bp, density );
+                    g->u.add_env_effect( "stung", bp_torso, density, 90, num_bp );
                 times_stung += one_in(4) &&
-                    g->u.add_env_effect( "stung", bp_torso, density, 90, num_bp, density );
+                    g->u.add_env_effect( "stung", bp_torso, density, 90, num_bp );
                 switch( times_stung ) {
                 case 0:
                     // Woo, unscathed!
@@ -1868,7 +1868,7 @@ void map::mon_in_field(int x, int y, monster *z)
         case fd_relax_gas:
             if ((z->made_of("flesh") || z->made_of("hflesh") || z->made_of("veggy") || z->made_of("iflesh")) &&
                 !z->has_flag(MF_NO_BREATHE)) {
-                z->add_effect("stunned", rng(cur->getFieldDensity() * 4, cur->getFieldDensity() * 8));
+                z->add_effect("stunned", rng(cur->getFieldDensity() * 4));
             }
             break;
 

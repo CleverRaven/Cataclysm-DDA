@@ -2633,7 +2633,7 @@ int iuse::dogfood(player *p, item *, bool)
         if (g->zombie(mon_dex).type->id == "mon_dog") {
             p->add_msg_if_player(m_good, _("The dog seems to like you!"));
             g->zombie(mon_dex).friendly = -1;
-            g->zombie(mon_dex).add_effect("pet", 1, num_bp, 1, true);
+            g->zombie(mon_dex).add_effect("pet", 1, num_bp, true);
         } else {
             p->add_msg_if_player(_("The %s seems quite unimpressed!"),
                                  g->zombie(mon_dex).name().c_str());
@@ -6751,7 +6751,7 @@ int iuse::dog_whistle(player *p, item *it, bool)
                 if (u_see) {
                     p->add_msg_if_player(_("Your %s goes docile."), g->zombie(i).name().c_str());
                 }
-                g->zombie(i).add_effect("docile", 1, num_bp, 1, true);
+                g->zombie(i).add_effect("docile", 1, num_bp, true);
             }
         }
     }
@@ -8826,7 +8826,7 @@ int iuse::robotcontrol(player *p, item *it, bool)
                 if (g->zombie(i).friendly != 0 && g->zombie(i).type->in_species("ROBOT")) {
                     p->add_msg_if_player(_("A following %s goes into passive mode."),
                                          g->zombie(i).name().c_str());
-                    g->zombie(i).add_effect("docile", 1, num_bp, 1, true);
+                    g->zombie(i).add_effect("docile", 1, num_bp, true);
                     f = 1;
                 }
             }
@@ -10069,7 +10069,7 @@ bool multicooker_hallu(player *p)
 
                 monster m(GetMType("mon_hallu_multicooker"));
                 m.hallucination = true;
-                m.add_effect("run", 1, num_bp, 1, true);
+                m.add_effect("run", 1, num_bp, true);
                 m.spawn(random_point.x, random_point.y);
                 g->add_zombie(m);
             } else {

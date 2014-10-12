@@ -541,8 +541,11 @@ bool Creature::move_effects()
     return true;
 }
  
-void Creature::add_effect(efftype_id eff_id, int dur, body_part bp, int intensity, bool permanent)
+void Creature::add_effect(efftype_id eff_id, int dur, body_part bp, bool permanent, int intensity)
 {
+    if (effect_types[eff_id].get_main_parts()) {
+        bp = mutate_to_main_part(bp);
+    }
     bool found = false;
     // Check if we already have it
     auto matching_map = effects.find(eff_id);
@@ -583,10 +586,10 @@ void Creature::add_effect(efftype_id eff_id, int dur, body_part bp, int intensit
     }
 }
 bool Creature::add_env_effect(efftype_id eff_id, body_part vector, int strength, int dur,
-                              body_part bp, int intensity, bool permanent)
+                              body_part bp, bool permanent, int intensity)
 {
     if (dice(strength, 3) > dice(get_env_resist(vector), 3)) {
-        add_effect(eff_id, dur, bp, intensity, permanent);
+        add_effect(eff_id, dur, bp, permanent, intensity);
         return true;
     } else {
         return false;
@@ -651,16 +654,7 @@ void Creature::process_effects()
     std::vector<body_part> rem_bps;
     for (auto maps = effects.begin(); maps != effects.end(); ++maps) {
         for( auto it = maps->second.begin(); it != maps->second.end(); ++it ) {
-            if( !it->second.is_permanent() ) {
-                it->second.mod_duration( -1 );
-                add_msg( m_debug, "Duration %d", it->second.get_duration() );
-            }
-        }
-        for( auto it = maps->second.begin(); it != maps->second.end(); ++it) {
-            if( !it->second.is_permanent() && it->second.get_duration() <= 0 ) {
-                rem_ids.push_back(it->second.get_id());
-                rem_bps.push_back(it->second.get_bp());
-            }
+            it->second.decay(rem_ids, rem_bps, calendar::turn);
         }
     }
     for (size_t i = 0; i < rem_ids.size(); ++i) {

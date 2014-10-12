@@ -129,11 +129,11 @@ class Creature
         /** Processes move stopping effects. Returns false if movement is stopped */
         virtual bool move_effects();
         
-        virtual void add_effect(efftype_id eff_id, int dur, body_part bp = num_bp, int intensity = 1,
-                        bool permanent = false);
+        virtual void add_effect(efftype_id eff_id, int dur, body_part bp = num_bp, bool permanent = false,
+                                int intensity = 1);
         /** Gives chance to save via env resist, returns if successful */
         bool add_env_effect(efftype_id eff_id, body_part vector, int strength, int dur,
-                            body_part bp = num_bp, int intensity = 1, bool permanent = false);
+                            body_part bp = num_bp, bool permanent = false, int intensity = 1);
         void remove_effect(efftype_id eff_id, body_part bp = num_bp);
         void clear_effects(); // remove all effects
         bool has_effect(efftype_id eff_id, body_part bp = num_bp) const;

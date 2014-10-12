@@ -222,8 +222,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         void die_in_explosion( Creature *source );
         
         virtual bool move_effects();
-        virtual void add_effect(efftype_id eff_id, int dur, body_part bp = num_bp, int intensity = 1,
-                        bool permanent = false);
+        virtual void add_effect(efftype_id eff_id, int dur, body_part bp = num_bp, bool permanent = false,
+                                int intensity = 1);
         int  get_armor_cut(body_part bp) const;   // Natural armor, plus any worn armor
         int  get_armor_bash(body_part bp) const;  // Natural armor, plus any worn armor
         int  get_dodge() const;       // Natural dodge, or 0 if we're occupied

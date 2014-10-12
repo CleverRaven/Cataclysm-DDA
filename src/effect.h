@@ -71,8 +71,8 @@ class effect_type
 
         effect_rating get_rating() const;
         
-        bool use_name_ints();
-        bool use_desc_ints();
+        bool use_name_ints() const;
+        bool use_desc_ints() const;
 
         // Appropriate game_message_type when effect is optained.
         game_message_type gain_game_message_type() const;
@@ -85,6 +85,7 @@ class effect_type
         std::string get_remove_memorial_log() const;
 
         int get_max_intensity() const;
+        bool get_main_parts() const;
 
     protected:
         bool permanent;
@@ -133,6 +134,8 @@ class effect : public JsonSerializer, public JsonDeserializer
         bool use_part_descs();
 
         effect_type *get_effect_type();
+        
+        void decay(std::vector<std::string> &rem_ids, std::vector<body_part> &rem_bps, unsigned int turn);
 
         int get_duration();
         void set_duration(int dur);
@@ -161,6 +164,7 @@ class effect : public JsonSerializer, public JsonDeserializer
         
         double get_addict_mod(std::string arg, int addict_level);
         bool get_harmful_cough();
+        int get_dur_add_perc()
 
         efftype_id get_id()
         {

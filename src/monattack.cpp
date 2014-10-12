@@ -244,7 +244,7 @@ void mattack::boomer(monster *z, int index)
     }
     if (!g->u.uncanny_dodge()) {
         if (rng(0, 10) > g->u.get_dodge() || one_in(g->u.get_dodge())) {
-            g->u.add_env_effect("boomered", bp_eyes, 3, 12, num_bp, 1, false);
+            g->u.add_env_effect("boomered", bp_eyes, 3, 12);
         } else if (u_see) {
             add_msg(_("You dodge it!"));
         }
@@ -1453,7 +1453,7 @@ void mattack::callblobs(monster *z, int index)
         int trash = 0;
         (*ally)->set_dest( post.x, post.y, trash );
         if (!(*ally)->has_effect("controlled")) {
-            (*ally)->add_effect("controlled", 1, num_bp, 1, true);
+            (*ally)->add_effect("controlled", 1, num_bp, true);
         }
     }
     // This is telepathy, doesn't take any moves.
@@ -1491,7 +1491,7 @@ void mattack::jackson(monster *z, int index)
         int trash = 0;
         (*ally)->set_dest( post.x, post.y, trash );
         if (!(*ally)->has_effect("controlled")) {
-            (*ally)->add_effect("controlled", 1, num_bp, 1, true);
+            (*ally)->add_effect("controlled", 1, num_bp, true);
         }
     }
     // Did we convert anybody?
@@ -3158,7 +3158,7 @@ void mattack::darkman(monster *z, int index)
         add_msg(_("\"Please dont\""));
         break;
     }
-    g->u.add_effect( "darkness", 1, num_bp, 1, true );
+    g->u.add_effect( "darkness", 1, num_bp, true );
 }
 
 void mattack::slimespring(monster *z, int index)

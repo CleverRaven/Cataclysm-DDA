@@ -96,12 +96,12 @@ effect_rating effect_type::get_rating() const
     return rating;
 }
 
-bool effect_type::use_name_ints()
+bool effect_type::use_name_ints() const
 {
     return ((size_t)max_intensity <= name.size());
 }
 
-bool effect_type::use_desc_ints()
+bool effect_type::use_desc_ints() const
 {
     return ((size_t)max_intensity <= desc.size());
 }
@@ -155,6 +155,10 @@ std::string effect_type::get_remove_memorial_log() const
 int effect_type::get_max_intensity() const
 {
     return max_intensity;
+}
+bool effect_type::get_main_parts() const
+{
+    return main_parts_only;
 }
 
 effect::effect() :
@@ -271,6 +275,29 @@ std::string effect::disp_desc(bool reduced)
     ret << _(tmp_str.c_str());
 
     return ret.str();
+}
+
+void decay(std::vector<std::string> &rem_ids, std::vector<body_part> &rem_bps, unsigned int turn)
+{
+    if (!is_permanent()) {
+        duration -= 1;
+        add_msg( m_debug, "ID: %s, Duration %d", get_id(), duration )
+    }
+    if (intensity < 1) {
+        add_msg( m_debug, "Bad intensity, ID: %s", get_id() )
+        intensity = 1;
+    } else if (intensity > 1) {
+        if (eff_type->int_decay_tick != 0 && turn % eff_type->int_decay_tick == 0) {
+            intensity += eff_type->int_decay_step;
+        }
+    }
+    if (intensity > eff_type->max_intensity) {
+        intensity = eff_type->max_intensity;
+    }
+    if (duration <= 0) {
+        rem_ids.push_back(get_id());
+        rem_bps.push_back(bp);
+    }
 }
 
 bool effect::use_part_descs()

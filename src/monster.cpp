@@ -918,10 +918,10 @@ bool monster::move_effects()
     return Creature::move_effects();
 }
 
-void monster::add_effect(efftype_id eff_id, int dur, body_part bp, int intensity, bool permanent)
+void monster::add_effect(efftype_id eff_id, int dur, body_part bp, bool permanent, int intensity)
 {
     bp = num_bp;
-    Creature::add_effect(eff_id, dur, bp, intensity, permanent);
+    Creature::add_effect(eff_id, dur, bp, permanent, intensity);
 }
 
 int monster::get_armor_cut(body_part bp) const

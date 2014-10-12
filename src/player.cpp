@@ -5131,17 +5131,7 @@ void player::add_disease(dis_type type, int duration, bool permanent,
     }
 
     if (main_parts_only) {
-        if (part == bp_eyes || part == bp_mouth) {
-            part = bp_head;
-        } else if (part == bp_hand_l) {
-            part = bp_arm_l;
-        } else if (part == bp_hand_r) {
-            part = bp_arm_r;
-        } else if (part == bp_foot_l) {
-            part = bp_leg_l;
-        } else if (part == bp_foot_r) {
-            part = bp_leg_r;
-        }
+        part = mutate_to_main_part(part);
     }
 
     bool found = false;

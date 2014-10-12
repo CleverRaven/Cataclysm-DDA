@@ -55,7 +55,7 @@ bool Character::move_effects()
     }
     return Creature::move_effects();
 }
-void Character::add_effect(efftype_id eff_id, int dur, body_part bp, int intensity, bool permanent)
+void Character::add_effect(efftype_id eff_id, int dur, body_part bp, bool permanent, int intensity)
 {
-    Creature::add_effect(eff_id, dur, bp, intensity, permanent);
+    Creature::add_effect(eff_id, dur, bp, permanent, intensity);
 }

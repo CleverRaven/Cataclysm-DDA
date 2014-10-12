@@ -7486,8 +7486,8 @@ bool game::revive_corpse(int x, int y, item *it)
     critter.no_extra_death_drops = true;
 
     if (it->item_vars["zlave"] == "zlave"){
-        critter.add_effect("pacified", 1, num_bp, 1, true);
-        critter.add_effect("pet", 1, num_bp, 1, true);
+        critter.add_effect("pacified", 1, num_bp, true);
+        critter.add_effect("pet", 1, num_bp, true);
     }
 
     add_zombie(critter);
@@ -8377,7 +8377,7 @@ bool pet_menu(monster *z)
             g->u.posy = y;
 
             if (t) {
-                z->add_effect("tied", 1, num_bp, 1, true);
+                z->add_effect("tied", 1, num_bp, true);
             }
 
             add_msg(_("You swap positions with your %s."), pet_name.c_str());
@@ -8435,7 +8435,7 @@ bool pet_menu(monster *z)
 
         g->u.i_rem(pos);
 
-        z->add_effect("has_bag", 1, num_bp, 1, true);
+        z->add_effect("has_bag", 1, num_bp, true);
 
         g->u.moves -= 200;
 
@@ -8520,7 +8520,7 @@ bool pet_menu(monster *z)
             item rope_6("rope_6", 0);
             g->u.i_add(rope_6);
         } else {
-            z->add_effect("tied", 1, num_bp, 1, true);
+            z->add_effect("tied", 1, num_bp, true);
             g->u.use_amount( "rope_6", 1 );
         }
 
@@ -12940,7 +12940,7 @@ bool game::plmove(int dx, int dy)
             }
         }
         if (m.has_flag("UNSTABLE", x, y)) {
-            u.add_effect("bouldering", 1, num_bp, 1, true);
+            u.add_effect("bouldering", 1, num_bp, true);
         } else if (u.has_effect("bouldering")) {
             u.remove_effect("bouldering");
         }
@@ -13033,7 +13033,7 @@ bool game::plmove(int dx, int dy)
                                         critter.name().c_str());
                             }
                         } else {
-                            critter.add_effect("docile", 1, num_bp, 1, true);
+                            critter.add_effect("docile", 1, num_bp, true);
                             add_msg(_("The %s ."), critter.name().c_str());
                             if (one_in(3)) {
                                 add_msg(_("The %s lets out a whirring noise and starts to follow you."),

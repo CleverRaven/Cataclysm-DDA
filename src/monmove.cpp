@@ -756,7 +756,7 @@ int monster::move_to(int x, int y, bool force)
         apply_damage( nullptr, bp_torso, rng( 1, 2 ) );
     }
     if (g->m.has_flag("UNSTABLE", x, y)) {
-        add_effect("bouldering", 1, num_bp, 1, true);
+        add_effect("bouldering", 1, num_bp, true);
     } else if (has_effect("bouldering")) {
         remove_effect("bouldering");
     }
