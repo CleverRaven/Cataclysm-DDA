@@ -42,6 +42,8 @@ struct wrapped_vehicle{
 typedef std::vector<wrapped_vehicle> VehicleList;
 typedef std::vector< std::list<item*> > itemslice;
 
+class item_stack;
+
 /**
  * Manage and cache data about a part of the map.
  *
@@ -384,11 +386,11 @@ class map
  int bash_strength(const int x, const int y);
  /** Returns min_str of the furniture or terrain at x,y */
  int bash_resistance(const int x, const int y);
- /** Returns a success rating from -1 to 10 for a given tile based on a set strength, used for AI movement planning 
+ /** Returns a success rating from -1 to 10 for a given tile based on a set strength, used for AI movement planning
   *  Values roughly correspond to 10% increment chances of success on a given bash, rounded down. -1 means the square is not bashable */
  int bash_rating(const int str, const int x, const int y);
- 
- /** Generates rubble at the given location, if overwrite is true it just writes on top of what currently exists 
+
+ /** Generates rubble at the given location, if overwrite is true it just writes on top of what currently exists
   *  floor_type is only used if there is a non-bashable wall at the location or with overwrite = true */
  void make_rubble(const int x, const int y, furn_id rubble_type = f_rubble, bool items = false,
                     ter_id floor_type = t_dirt, bool overwrite = false);
@@ -473,7 +475,20 @@ void add_corpse(int x, int y);
  void set_temperature(const int x, const int y, const int temperature); // Set temperature for all four submap quadrants
 
 // Items
+ /**
+  * Get a wrapper around the item stack on the map at the given position.
+  */
+ item_stack item_stack_at(int x, int y);
+
+ /**
+  * Gets a wrapper around an item stack at the given position.
+  *
+  * The stack will be retrieved from the vehicle part if there's a vehicle part there.
+  * Otherwise it will be from the map/ground.
+  */
+ item_stack item_stack_at_vehicle(int x, int y);
  std::vector<item>& i_at(int x, int y);
+
  itemslice i_stacked(std::vector<item>& items);
  item water_from(const int x, const int y);
  item swater_from(const int x, const int y);
@@ -709,5 +724,85 @@ friend class editmap;
 public:
  tinymap(int mapsize = 2);
 };
+
+/**
+ * Iterator/accessor class for item stacks.
+ *
+ * This can either refer to a stack on a map, as returned by
+ * @ref map::i_at, or to a stack in a vehicle, as returned by
+ * @ref vehicle_part::get_items()
+ *
+ * Take care not to store references to this object that could
+ * outlive the respective map/vehicle instance. Generally, when
+ * fetching an instance of this class, it should be immediately
+ * used and discarded.
+ */
+class item_stack {
+protected:
+    friend class map;
+
+    item_stack() :
+        map_container(NULL), is_vehicle(false), x(-1), y(-1), part(-1), items(NULL) { }
+
+    item_stack(map *container, int x, int y, std::vector<item> *items) :
+        map_container(container), is_vehicle(false), x(x), y(y), part(-1), items(items) { }
+
+    item_stack(vehicle *container, int part, std::vector<item> *items) :
+        vehicle_container(container), is_vehicle(true), x(-1), y(-1), part(part), items(items) { }
+
+    union {
+        map *map_container;
+        vehicle *vehicle_container;
+    };
+    bool is_vehicle;
+    int x, y; // same as supplied to map::i_at
+    int part;
+    std::vector<item> *items; // direct reference into submap::itm
+public:
+    class iterator;
+
+    class item_modifier : public item {
+    public:
+        item_modifier(iterator& iter)
+            : iter(iter) { };
+        void commit();
+        void operator=(const item& other);
+    protected:
+        friend class iterator;
+        iterator& iter;
+    };
+
+    class iterator {
+    public:
+        item_modifier modify();
+        // remove current item
+        // bonus: keep the iterator valid
+        // bonus: add the content of the item to the vector, keeping the iterator valid
+        void erase();
+        // other iterator functions:
+        iterator& operator++();
+        iterator& operator++(int);
+        iterator operator+(int);
+        const item& operator*() const;
+        bool operator!=(const iterator& other) const;
+        const item* operator->() const;
+
+        iterator(const item_stack *stack, int stack_index);
+    protected:
+        friend class item_modifier;
+        void commit(const item_modifier& it);
+        const item_stack *stack;
+        int stack_index;
+    };
+    iterator end();
+    iterator begin();
+    iterator at(int index);
+    // direct access like std::vector
+    const item &operator[](size_t index);
+    void push_back(const item& new_item);
+    size_t size() const;
+    bool empty() const;
+};
+
 
 #endif
