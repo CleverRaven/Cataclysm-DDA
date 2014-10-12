@@ -159,7 +159,7 @@ class effect : public JsonSerializer, public JsonDeserializer
         /** mod modifies x in x_in_y or one_in(x) */
         bool activated(unsigned int turn, std::string arg, bool reduced = false, double mod = 1);
         
-        double get_addict_reduction(std::string arg, int addict_level);
+        double get_addict_mod(std::string arg, int addict_level);
         bool get_harmful_cough();
 
         efftype_id get_id()

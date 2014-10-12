@@ -54,8 +54,8 @@
         "id": "infection",
         "name": ["Infection"],
         "desc": ["AI tag used for the infected NPC quest. This is a bug if you have it."],
-        "base_mods" : {
-            "speed_mod" : [-80]
+        "base_mods": {
+            "speed_mod": [-80]
         },
     },
     {
@@ -103,7 +103,6 @@
         "apply_message": "You're knocked to the floor!",
         "rating": "bad"
     },
-    -WIP MARKER-
     {
         "type": "effect_type",
         "id": "darkness",
@@ -164,9 +163,25 @@
         "type": "effect_type",
         "id": "poison",
         "name": ["Poisoned"],
-        "desc": ["Perception - 1;   Dexterity - 1;   Strength - 2 IF not resistant\nOccasional pain and/or damage."],
-        "rating": "bad"
+        "desc": [Occasional pain and/or damage."],
+        "reduced_desc": [Rare pain and/or damage."],
+        "rating": "bad",
+        "resist_trait": "POISRESIST",
+        "pain_sizing": true,
+        "hurt_sizing": true,
+        "main_parts_only": true,
+        "base_mods": {
+            "per_mod": [-2, -1],
+            "dex_mod": [-1, -1],
+            "str_mod": [-2, 0],
+            "pain_min": [1],
+            "pain_chance": [150, 900],
+            "hurt_min": [1],
+            "hurt_max": [2],
+            "hurt_chance": [450, 2700]
+        },
     },
+    --WIP--
     {
         "type": "effect_type",
         "id": "poisoned",

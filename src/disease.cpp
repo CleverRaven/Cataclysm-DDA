@@ -38,7 +38,7 @@ enum dis_type_enum {
   DI_HALLU, DI_VISUALS, DI_IODINE, DI_DATURA, DI_TOOK_XANAX, DI_TOOK_PROZAC,
   DI_TOOK_FLUMED, DI_ADRENALINE, DI_JETINJECTOR, DI_ASTHMA, DI_GRACK, DI_METH, DI_VALIUM,
 // Traps
- DI_BEARTRAP, DI_LIGHTSNARE, DI_HEAVYSNARE, DI_IN_PIT, DI_STUNNED,
+ DI_BEARTRAP, DI_LIGHTSNARE, DI_HEAVYSNARE, DI_IN_PIT,
 // Other
  DI_AMIGARA, DI_STEMCELL_TREATMENT, DI_TELEGLOW, DI_ATTENTION, DI_EVIL,
 // Bite wound infected (dependent on bodypart.h)
@@ -128,7 +128,6 @@ void game::init_diseases() {
     disease_type_lookup["lightsnare"] = DI_LIGHTSNARE;
     disease_type_lookup["heavysnare"] = DI_HEAVYSNARE;
     disease_type_lookup["in_pit"] = DI_IN_PIT;
-    disease_type_lookup["stunned"] = DI_STUNNED;
     disease_type_lookup["amigara"] = DI_AMIGARA;
     disease_type_lookup["stemcell_treatment"] = DI_STEMCELL_TREATMENT;
     disease_type_lookup["teleglow"] = DI_TELEGLOW;
@@ -191,9 +190,6 @@ bool dis_msg(dis_type type_string) {
         break;
     case DI_ASTHMA:
         add_msg(m_bad, _("You can't breathe... asthma attack!"));
-        break;
-    case DI_STUNNED:
-        add_msg(m_bad, _("You're stunned!"));
         break;
     case DI_AMIGARA:
         add_msg(m_bad, _("You can't look away from the faultline..."));
@@ -2049,7 +2045,6 @@ std::string dis_name(disease& dis)
     }
 
     case DI_SLIMED: return _("Slimed");
-    case DI_STUNNED: return _("Stunned");
     case DI_BLEED:
     {
         std::string status = "";
@@ -2641,8 +2636,6 @@ Your right foot is blistering from the intense heat. It is extremely painful.");
 
     case DI_SLIMED:
         return _("Speed -25%;   Dexterity - 2");
-
-    case DI_STUNNED: return _("Your movement is randomized.");
 
     case DI_BLEED:
         switch (dis.intensity) {

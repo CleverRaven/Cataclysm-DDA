@@ -6,7 +6,7 @@
 
 std::map<std::string, effect_type> effect_types;
 
-static void extract_effect_float( JsonObject &j, std::string mod_type, std::pair<float, float> &mod_value)
+static void extract_effect_float( JsonObject &j, std::string mod_type, std::pair<float, float> &mod_value, std::string backup)
 {
     if(j.has_member(mod_type)) {
         JsonArray jsarr = j.get_array(mod_type);
@@ -16,12 +16,28 @@ static void extract_effect_float( JsonObject &j, std::string mod_type, std::pair
         } else {
             mod_value.second = mod_value.first;
         }
+    } else if (j.has_member(backup)) {
+        JsonArray jsarr = j.get_array(backup);
+        mod_value.first = jsarr.get_float(0);
+        if (jsarr.size() >= 2) {
+            mod_value.second = jsarr.get_float(1);
+        } else {
+            mod_value.second = mod_value.first;
+        }
     }
 }
-static void extract_effect_int( JsonObject &j, std::string mod_type, std::pair<int, int> &mod_value)
+static void extract_effect_int( JsonObject &j, std::string mod_type, std::pair<int, int> &mod_value, std::string backup)
 {
     if(j.has_member(mod_type)) {
         JsonArray jsarr = j.get_array(mod_type);
+        mod_value.first = jsarr.get_int(0);
+        if (jsarr.size() >= 2) {
+            mod_value.second = jsarr.get_int(1);
+        } else {
+            mod_value.second = mod_value.first;
+        }
+    } else if(j.has_member(backup)) {
+        JsonArray jsarr = j.get_array(backup);
         mod_value.first = jsarr.get_int(0);
         if (jsarr.size() >= 2) {
             mod_value.second = jsarr.get_int(1);
@@ -34,37 +50,37 @@ static void extract_effect_int( JsonObject &j, std::string mod_type, std::pair<i
 bool effect_mod_info::load(JsonObject &jsobj, std::string member) {
     if (jsobj.has_object(member)) {
         JsonObject j = jsobj.get_object(member);
-        extract_effect_float(j, "str_mod", str_mod);
-        extract_effect_float(j, "dex_mod", dex_mod);
-        extract_effect_float(j, "per_mod", per_mod);
-        extract_effect_float(j, "int_mod", int_mod);
-        extract_effect_int(j, "speed_mod", speed_mod);
-        extract_effect_int(j, "pain_amount", pain_amount);
-        extract_effect_int(j, "pain_min", pain_min);
-        extract_effect_int(j, "pain_max", pain_max);
-        extract_effect_int(j, "pain_max_val", pain_max_val);
-        extract_effect_int(j, "pain_chance", pain_chance_top);
-        extract_effect_int(j, "pain_chance_bot", pain_chance_bot);
-        extract_effect_int(j, "pain_tick", pain_tick);
-        extract_effect_int(j, "hurt_amount", hurt_amount);
-        extract_effect_int(j, "hurt_min", hurt_min);
-        extract_effect_int(j, "hurt_max", hurt_max);
-        extract_effect_int(j, "hurt_chance", hurt_chance_top);
-        extract_effect_int(j, "hurt_chance_bot", hurt_chance_bot);
-        extract_effect_int(j, "hurt_tick", hurt_tick);
-        extract_effect_int(j, "pkill_amount", pkill_amount);
-        extract_effect_int(j, "pkill_min", pkill_min);
-        extract_effect_int(j, "pkill_max", pkill_max);
-        extract_effect_int(j, "pkill_max_val", pkill_max_val);
-        extract_effect_int(j, "pkill_chance", pkill_chance_top);
-        extract_effect_int(j, "pkill_chance", pkill_chance_bot);
-        extract_effect_int(j, "pkill_tick", pkill_tick);
-        extract_effect_int(j, "cough_chance", cough_chance_top);
-        extract_effect_int(j, "cough_chance_bot", cough_chance_bot);
-        extract_effect_int(j, "cough_tick", cough_tick);
-        extract_effect_int(j, "vomit_chance", vomit_chance_top);
-        extract_effect_int(j, "vomit_chance_bot", vomit_chance_bot);
-        extract_effect_int(j, "vomit_tick", vomit_tick);
+        extract_effect_float(j, "str_mod", str_mod, "");
+        extract_effect_float(j, "dex_mod", dex_mod, "");
+        extract_effect_float(j, "per_mod", per_mod, "");
+        extract_effect_float(j, "int_mod", int_mod, "");
+        extract_effect_int(j, "speed_mod", speed_mod, "");
+        extract_effect_int(j, "pain_amount", pain_amount, "");
+        extract_effect_int(j, "pain_min", pain_min, "");
+        extract_effect_int(j, "pain_max", pain_max, "pain_min");
+        extract_effect_int(j, "pain_max_val", pain_max_val, "");
+        extract_effect_int(j, "pain_chance", pain_chance_top, "");
+        extract_effect_int(j, "pain_chance_bot", pain_chance_bot, "");
+        extract_effect_int(j, "pain_tick", pain_tick, "");
+        extract_effect_int(j, "hurt_amount", hurt_amount, "");
+        extract_effect_int(j, "hurt_min", hurt_min, "");
+        extract_effect_int(j, "hurt_max", hurt_max, "hurt_min");
+        extract_effect_int(j, "hurt_chance", hurt_chance_top, "");
+        extract_effect_int(j, "hurt_chance_bot", hurt_chance_bot, "");
+        extract_effect_int(j, "hurt_tick", hurt_tick, "");
+        extract_effect_int(j, "pkill_amount", pkill_amount, "");
+        extract_effect_int(j, "pkill_min", pkill_min, "");
+        extract_effect_int(j, "pkill_max", pkill_max, "pkill_min");
+        extract_effect_int(j, "pkill_max_val", pkill_max_val, "");
+        extract_effect_int(j, "pkill_chance", pkill_chance_top, "");
+        extract_effect_int(j, "pkill_chance", pkill_chance_bot, "");
+        extract_effect_int(j, "pkill_tick", pkill_tick, "");
+        extract_effect_int(j, "cough_chance", cough_chance_top, "");
+        extract_effect_int(j, "cough_chance_bot", cough_chance_bot, "");
+        extract_effect_int(j, "cough_tick", cough_tick, "");
+        extract_effect_int(j, "vomit_chance", vomit_chance_top, "");
+        extract_effect_int(j, "vomit_chance_bot", vomit_chance_bot, "");
+        extract_effect_int(j, "vomit_tick", vomit_tick, "");
         
         return true;
     } else {
@@ -516,7 +532,7 @@ bool effect::activated(unsigned int turn, std::string arg, bool reduced, double 
     return false;
 }
 
-double effect::get_addict_reduction(std::string arg, int addict_level)
+double effect::get_addict_mod(std::string arg, int addict_level)
 {
     // TODO: convert this to JSON id's and values once we have JSON'ed addictions
     if (arg == "PKILL") {

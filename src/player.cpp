@@ -1637,18 +1637,23 @@ void player::set_underwater(bool u)
 
 nc_color player::basic_symbol_color() const
 {
- if (has_effect("onfire"))
-  return c_red;
- if (has_effect("stunned"))
-  return c_ltblue;
- if (has_effect("boomered"))
-  return c_pink;
- if (underwater)
-  return c_blue;
- if (has_active_bionic("bio_cloak") || has_artifact_with(AEP_INVISIBLE) ||
-    has_active_optcloak() || has_trait("DEBUG_CLOAK"))
-  return c_dkgray;
- return c_white;
+    if (has_effect("onfire")) {
+        return c_red;
+    }
+    if (has_effect("stunned")) {
+        return c_ltblue;
+    }
+    if (has_effect("boomered")) {
+        return c_pink;
+    }
+    if (underwater) {
+        return c_blue;
+    }
+    if (has_active_bionic("bio_cloak") || has_artifact_with(AEP_INVISIBLE) ||
+          has_active_optcloak() || has_trait("DEBUG_CLOAK")) {
+        return c_dkgray;
+    }
+    return c_white;
 }
 
 void player::load_info(std::string data)
@@ -4635,7 +4640,6 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
     if( source != NULL ) {
         if (dealt_dams.total_damage() > 0 && source->has_flag(MF_VENOM)) {
             add_msg_if_player(m_bad, _("You're poisoned!"));
-            add_disease("poison", 30, false, 1, 20, 100);
             add_effect("poison", 30);
         }
         else if (dealt_dams.total_damage() > 0 && source->has_flag(MF_BADVENOM)) {
@@ -5426,7 +5430,7 @@ void player::process_effects() {
             double mod = 1;
             body_part bp = it.get_bp();
             if (!has_trait("NOPAIN") && it.get_mod("PAIN", reduced) > 0 &&
-                  it.get_max_val("PAIN", reduced) > pain) {
+                  (it.get_max_val("PAIN", reduced) > pain || it.get_max_val("PAIN", reduced) == 0)) {
                 mod = 1;
                 if (it.get_sizing("PAIN")) {
                     if (has_trait("FAT")) {
@@ -5467,14 +5471,11 @@ void player::process_effects() {
                 }
             }
 
-            if (it.get_mod("PKILL", reduced) > 0) {
-                mod = it.get_addict_reduction("PKILL", addiction_level(ADD_PKILLER));
+            if (it.get_mod("PKILL", reduced) > 0 && (it.get_max_val("PKILL", reduced) > pkill || 
+                  it.get_max_val("PKILL", reduced) == 0)) {
+                mod = it.get_addict_mod("PKILL", addiction_level(ADD_PKILLER));
                 if(it.activated(calendar::turn, "PKILL", reduced, mod)) {
-                    if (bp == num_bp) {
-                        apply_damage(nullptr, bp_torso, it.get_mod("PKILL"));
-                    } else {
-                        apply_damage(nullptr, bp, it.get_mod("PKILL"));
-                    }
+                    pkill += it.get_mod("PKILL", reduced);
                 }
             }
             
