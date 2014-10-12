@@ -20,6 +20,7 @@
 #include <vector>
 #include <sstream>
 #include <algorithm>
+#include <cmath>
 
 #define RADIO_PER_TURN 25 // how many characters per turn of radio
 
@@ -2709,7 +2710,7 @@ int iuse::catfood(player *p, item *, bool)
 
 bool prep_firestarter_use(player *p, item *it, int &posx, int &posy)
 {
-    if (it->charges == 0) {
+    if (it->charges == 0){
         return false;
     }
     if (p->is_underwater()) {
@@ -2772,6 +2773,33 @@ int iuse::primitive_fire(player *p, item *it, bool)
             p->add_msg_if_player(_("You try to light a fire, but fail."));
         }
         p->practice("survival", 10);
+        return it->type->charges_to_use();
+    }
+    return 0;
+}
+
+int iuse::lens_fire(player *p, item *it, bool)
+{
+    int posx, posy;
+    if ((g->weather == WEATHER_CLEAR) || (g->weather == WEATHER_SUNNY)){
+        it->charges = 1; // workaround since the prep_firestarter_use requires charges to light a fire
+    } else {
+        it->charges = 0;
+        p->add_msg_if_player(_("You need more sunlight to light a fire with this."));
+        
+    }
+    if (prep_firestarter_use(p, it, posx, posy)) {
+        // base moves based on sunlight levels... 1 minute at full sunlight (60 lighting), ~25 minutes at clear skies (40 lighting) 
+        const float moves_base = pow((60/g->natural_light_level()),8) * 60000 ;
+        // always 100% chance to succeed, but survival 0 takes 3 * the time at survival 2
+        // basically 33% success at 0 survival with each skill level adding 33% more... but the player tries again until the fire is lit.
+        float moves_modifier = 1/((p->skillLevel("survival"))*0.33 + 0.33);
+        if (moves_modifier > 1) {
+            moves_modifier = 1;
+        }
+        p->moves -= int(moves_base * moves_modifier);
+        resolve_firestarter_use(p, it, posx, posy);
+        p->practice("survival", 5);
         return it->type->charges_to_use();
     }
     return 0;

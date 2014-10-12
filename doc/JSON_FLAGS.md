@@ -100,9 +100,7 @@ List of known flags, used in both terrain.json and furniture.json
 - ```fungus``` Release spores as the terrain crumbles away.
 - ```dirtmound``` Plant seeds and plants.
 - ```aggie_plant``` Harvest plants.
-- ```tree_apple``` Pick an apple tree.
-- ```shrub_blueberry``` Pick a blueberry bush.
-- ```shrub_strawberry``` Pick a strawberry bush.
+- ```harvest_tree_shrub``` Harvest a fruit tree or shrub.
 - ```shrub_marloss``` Pick a marloss bush.
 - ```shrub_wildveggies``` Pick a wild veggies shrub.
 - ```recycler``` Recycle metal objects.
@@ -724,6 +722,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```NONE``` Do nothing.
 - ```LIGHTER``` Light a fire.
 - ```PRIMITIVE_FIRE``` Attempt to light a fire with a high chance of failure.
+- ```LENS_FIRE``` Create a fire via a lens/magnifying glass in sunny days.
 - ```SEW``` Sew clothing.
 - ```SCISSORS``` Cut up clothing.
 - ```HAMMER``` Pry boards off of windows, doors and fences.

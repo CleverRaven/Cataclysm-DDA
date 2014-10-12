@@ -171,6 +171,29 @@
   },
 
   {
+    "id": "magnifying_glass",
+    "type": "TOOL",
+    "symbol": "o",
+    "color": "brown",
+    "name": "magnifying glass",
+    "description": "This is a magnifying glass. May be useful for starting fires during sunny skies.",
+    "price": 2000,
+    "material": ["glass", "plastic"],
+    "weight": 400,
+    "volume": 1,
+    "bashing": 0,
+    "cutting": -5,
+    "to_hit": -1,
+    "max_charges": 1,
+    "initial_charges": 0,
+    "charges_per_use": 1,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "LENS_FIRE"
+  },
+
+  {
     "id": "rock_quern",
     "type": "TOOL",
     "symbol": ":",
