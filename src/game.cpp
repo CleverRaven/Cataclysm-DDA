@@ -7815,11 +7815,12 @@ void game::activity_on_turn_pulp()
     pulp_power *= 20; // constant multiplier to get the chance right
     int moves = 0;
     int &num_corpses = u.activity.index; // use this to collect how many corpse are pulped
-    for( std::vector<item>::iterator it = m.i_at(smashx, smashy).begin();
-         it != m.i_at(smashx, smashy).end(); ++it ) {
+    auto stack = m.item_stack_at(smashx, smashy);
+    for( auto it = stack.begin(); it != stack.end(); ++it ) {
         if (!(it->type->id == "corpse" && it->damage < full_pulp_threshold)) {
             continue; // no corpse or already pulped
         }
+        auto pulp_item = it.modify();
         int damage = pulp_power / it->volume();
         //Determine corpse's blood type.
         field_id type_blood = it->corpse->bloodType();
@@ -7828,7 +7829,7 @@ void game::activity_on_turn_pulp()
             // Increase damage as we keep smashing,
             // to insure that we eventually smash the target.
             if (x_in_y(pulp_power, it->volume())) {
-                it->damage++;
+                pulp_item.damage++;
                 u.handle_melee_wear();
             }
             // Splatter some blood around
@@ -7841,11 +7842,12 @@ void game::activity_on_turn_pulp()
                     }
                 }
             }
-            if (it->damage >= full_pulp_threshold) {
-                it->damage = full_pulp_threshold;
-                it->active = false;
+            if (pulp_item.damage >= full_pulp_threshold) {
+                pulp_item.damage = full_pulp_threshold;
+                pulp_item.active = false;
                 num_corpses++;
             }
+            pulp_item.commit();
             if (moves >= u.moves) {
                 // enough for this turn;
                 u.moves -= moves;
