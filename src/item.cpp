@@ -3083,7 +3083,7 @@ itype_id item::typeId() const
     return type->id;
 }
 
-item item::clone(bool rand) {
+item item::clone(bool rand) const {
     return item(type->id, bday, rand);
 }
 
