@@ -3648,5 +3648,202 @@
             {"item": "steel_chunk", "min": 2, "max": 4},
             {"item": "scrap", "min": 2, "max": 4}
         ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "seat_wood",
+        "name" : "wooden seat",
+        "symbol" : "#",
+        "color" : "brown",
+        "broken_symbol" : "*",
+        "broken_color" : "brown",
+        "damage_modifier" : 60,
+        "durability" : 125,
+        "item" : "frame_wood",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : [
+            "SEAT", "BOARDABLE", "BELTABLE"
+        ],
+        "breaks_into" : [
+            {"item": "splinter", "min": 7, "max": 9}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "spike_wood",
+        "name" : "wooden spike",
+        "symbol" : ".",
+        "color" : "brown",
+        "broken_symbol" : "x",
+        "broken_color" : "brown",
+        "damage_modifier" : 115,
+        "durability" : 150,
+        "item" : "pointy_stick",
+        "difficulty" : 2,
+        "location" : "structure",
+        "flags" : ["UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION"],
+        "breaks_into" : []
+    },{
+        "type" : "vehicle_part",
+        "id" : "sting_bee",
+        "name" : "bee sting",
+        "symbol" : ".",
+        "color" : "white",
+        "broken_symbol" : "x",
+        "broken_color" : "white",
+        "damage_modifier" : 200,
+        "durability" : 160,
+        "item" : "bee_sting",
+        "difficulty" : 2,
+        "location" : "structure",
+        "flags" : ["UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION"],
+        "breaks_into" : []
+    },{
+        "type" : "vehicle_part",
+        "id" : "sting_wasp",
+        "name" : "wasp sting",
+        "symbol" : ".",
+        "color" : "white",
+        "broken_symbol" : "x",
+        "broken_color" : "white",
+        "damage_modifier" : 190,
+        "durability" : 155,
+        "item" : "wasp_sting",
+        "difficulty" : 2,
+        "location" : "structure",
+        "flags" : ["UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION"],
+        "breaks_into" : []
+    },{
+        "type" : "vehicle_part",
+        "id" : "sting_fungal",
+        "name" : "fungal sting",
+        "symbol" : ".",
+        "color" : "white",
+        "broken_symbol" : "x",
+        "broken_color" : "white",
+        "damage_modifier" : 190,
+        "durability" : 160,
+        "item" : "fighter_sting",
+        "difficulty" : 2,
+        "location" : "structure",
+        "flags" : ["UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION"],
+        "breaks_into" : []
+    },{
+        "type" : "vehicle_part",
+        "id" : "door_wood",
+        "name" : "wooden door",
+        "symbol" : "+",
+        "color" : "brown",
+        "broken_symbol" : "&",
+        "broken_color" : "brown",
+        "damage_modifier" : 75,
+        "durability" : 160,
+        "item" : "frame_wood",
+        "difficulty" : 2,
+        "location" : "center",
+        "flags" : ["OBSTACLE", "OPENABLE", "BOARDABLE", "WINDOW"],
+        "breaks_into" : [
+            {"item": "splinter", "min": 7, "max": 9}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "roof_wood",
+        "name" : "wooden roof",
+        "symbol" : "#",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "dark_gray",
+        "durability" : 130,
+        "item" : "frame_wood",
+        "difficulty" : 1,
+        "location" : "roof",
+        "flags" : ["ROOF"],
+        "breaks_into" : [
+            {"item": "splinter", "min": 7, "max": 9}
+        ]
+	},{
+        "type" : "vehicle_part",
+        "id" : "stone_wheel",
+        "name" : "stone wheel",
+        "symbol" : "|",
+        "color" : "brown",
+        "broken_symbol" : "x",
+        "broken_color" : "brown",
+        "damage_modifier" : 70,
+        "durability" : 120,
+        "wheel_width" : 3,
+        "item" : "wheel_stone",
+        "difficulty" : 2,
+        "location" : "under",
+        "flags" : ["WHEEL", "VARIABLE_SIZE"],
+        "breaks_into" : [
+            {"item": "pebble", "min": 1, "max": 10}
+    },{
+        "type" : "vehicle_part",
+        "id" : "plating_stone",
+        "name" : "stone plating",
+        "symbol" : ")",
+        "color" : "light_gray",
+        "broken_symbol" : ")",
+        "broken_color" : "light_gray",
+        "durability" : 1100,
+        "item" : "stone_plate",
+        "difficulty" : 4,
+        "location" : "armor",
+        "flags" : ["ARMOR"],
+        "breaks_into" : [
+            {"item": "rock", "min": 2, "max": 12},
+            {"item": "pebble", "min": 1, "max": 12}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "plating_chitin",
+        "name" : "chitin plating",
+        "symbol" : ")",
+        "color" : "yellow",
+        "broken_symbol" : ")",
+        "broken_color" : "yellow",
+        "durability" : 480,
+        "item" : "chitin_plate",
+        "difficulty" : 3,
+        "location" : "armor",
+        "flags" : ["ARMOR"],
+        "breaks_into" : [
+            {"item": "chitin_piece", "min": 2, "max": 12}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "plating_bone",
+        "name" : "bone plating",
+        "symbol" : ")",
+        "color" : "white",
+        "broken_symbol" : ")",
+        "broken_color" : "white",
+        "durability" : 340,
+        "item" : "bone_plate",
+        "difficulty" : 3,
+        "location" : "armor",
+        "flags" : ["ARMOR"],
+        "breaks_into" : [
+            {"item": "bone", "min": 0, "max": 5}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "metal_wheel",
+        "name" : "metal wheel",
+        "symbol" : "|",
+        "color" : "light_gray",
+        "broken_symbol" : "x",
+        "broken_color" : "light_gray",
+        "damage_modifier" : 70,
+        "durability" : 180,
+        "wheel_width" : 3,
+        "item" : "wheel_metal",
+        "difficulty" : 2,
+        "location" : "under",
+        "flags" : ["WHEEL", "VARIABLE_SIZE"],
+        "breaks_into" : [
+            {"item": "scrap", "min": 4, "max": 6},
+			{"item": "steel_chunk", "min": 2, "max": 3},
+			{"item": "pebble", "min": 2, "max": 3}
     }
 ]

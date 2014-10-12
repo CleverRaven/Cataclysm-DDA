@@ -883,5 +883,53 @@
         "bashing" : 0,
         "cutting" : 0,
         "price" : 800
+    },
+    {
+        "type":"GENERIC",
+        "id": "stone_plate",
+        "symbol": "]",
+        "color": "light_gray",
+        "name": "stone armor kit",
+        "description": "An extremely heavy stone plating for a vehicle.",
+        "price": 1200,
+        "material": ["stone", "null"],
+        "weight": 53924,
+        "volume": 55,
+        "bashing": 8,
+        "cutting": 0,
+        "to_hit": -4,
+        "category": "veh_parts"
+    },
+    {
+        "type":"GENERIC",
+        "id": "chitin_plate",
+        "symbol": "]",
+        "color": "yellow",
+        "name": "chitin armor kit",
+        "description": "Light chitin plating made for a vehicle.",
+        "price": 1200,
+        "material": ["chitin", "null"],
+        "weight": 7934,
+        "volume": 22,
+        "bashing": 8,
+        "cutting": 0,
+        "to_hit": -4,
+        "category": "veh_parts"
+    },
+	{
+        "type":"GENERIC",
+        "id": "bone_plate",
+        "symbol": "]",
+        "color": "white",
+        "name": "bone armor kit",
+        "description": "Bone plating made for a vehicle.",
+        "price": 1200,
+        "material": ["bone", "null"],
+        "weight": 11302,
+        "volume": 38,
+        "bashing": 8,
+        "cutting": 0,
+        "to_hit": -4,
+        "category": "veh_parts"
     }
 ]

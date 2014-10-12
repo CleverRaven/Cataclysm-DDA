@@ -4313,5 +4313,32 @@
     "burst": 0,
     "clip_size": 5,
     "reload": 200
-  }
+  },
+  {
+    "id": "rm440",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "dark_gray",
+    "name": "RM440 mounted shotgun",
+    "description": "Utilizing a powerful and unusual caliber, the Rivtech RM440 caseless automatic heavy shotgun was designed with durability and overwhelming power in mind. It looks like this gun was meant to be mounted on some kind of vehicle.",
+    "price": 600000,
+    "material": ["superalloy", "ceramic"],
+    "flags": ["MODE_BURST", "WATERPROOF_GUN", "NEVER_JAMS", "MOUNTED_GUN"],
+    "skill": "shotgun",
+    "ammo": "20x66mm",
+    "weight": 41200,
+    "volume": 24,
+    "bashing": 14,
+    "cutting": 0,
+    "to_hit": -3,
+    "ranged_damage": 1,
+    "range": 6,
+    "dispersion": 12,
+    "recoil": 8,
+    "durability": 9,
+    "burst": 7,
+    "clip_size": 140,
+    "reload": 2800,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+  },
 ]
