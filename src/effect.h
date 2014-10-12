@@ -125,7 +125,7 @@ class effect : public JsonSerializer, public JsonDeserializer
 {
     public:
         effect();
-        effect(effect_type *eff_type, int dur, body_part part, int nintensity, bool perm);
+        effect(effect_type *eff_type, int dur, body_part part, bool perm, int nintensity);
         effect(const effect &rhs);
         effect &operator=(const effect &rhs);
 
@@ -164,7 +164,8 @@ class effect : public JsonSerializer, public JsonDeserializer
         
         double get_addict_mod(std::string arg, int addict_level);
         bool get_harmful_cough();
-        int get_dur_add_perc()
+        int get_dur_add_perc();
+        int get_int_add_val();
 
         efftype_id get_id()
         {
@@ -178,8 +179,8 @@ class effect : public JsonSerializer, public JsonDeserializer
             json.member("eff_type", eff_type != NULL ? eff_type->id : "");
             json.member("duration", duration);
             json.member("bp", (int)bp);
-            json.member("intensity", intensity);
             json.member("permanent", permanent);
+            json.member("intensity", intensity);
             json.end_object();
         }
         using JsonDeserializer::deserialize;
@@ -189,16 +190,16 @@ class effect : public JsonSerializer, public JsonDeserializer
             eff_type = &effect_types[jo.get_string("eff_type")];
             duration = jo.get_int("duration");
             bp = (body_part)jo.get_int("bp");
-            intensity = jo.get_int("intensity");
             permanent = jo.get_bool("permanent");
+            intensity = jo.get_int("intensity");
         }
 
     protected:
         effect_type *eff_type;
         int duration;
         body_part bp;
-        int intensity;
         bool permanent;
+        int intensity;
 
 };
 

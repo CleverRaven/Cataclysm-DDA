@@ -554,14 +554,22 @@ void Creature::add_effect(efftype_id eff_id, int dur, body_part bp, bool permane
         if (found_effect != effects[eff_id].end()) {
             found = true;
             effect &e = found_effect->second;
-            // if we do, mod the duration
-            e.mod_duration(dur);
+            // if we do, mod the duration, factoring in the mod value
+            e.mod_duration(dur * e.get_dur_add_perc() / 100);
             // Adding a permanent effect makes it permanent
             if( e.is_permanent() ) {
                 e.pause_effect();
             }
-            if( e.get_intensity() + intensity <= e.get_max_intensity() ) {
-                e.mod_intensity( intensity );
+            // Intensity uses the type'd step size if it already exists
+            if (e.get_int_add_val() != 0) {
+                e.mod_intensity(e.get_int_add_val);
+                
+                // Bound it by [1, max intensity]
+                if( e.get_intensity() > e.get_max_intensity() ) {
+                    e.set_intensity( e.get_max_intensity() );
+                } else if ( e.get_intensity() < 1) {
+                    e.set_intensity( 1 );
+                }
             }
         }
     }
@@ -571,7 +579,14 @@ void Creature::add_effect(efftype_id eff_id, int dur, body_part bp, bool permane
         if (effect_types.find(eff_id) == effect_types.end()) {
             return;
         }
-        effect new_eff(&effect_types[eff_id], dur, bp, intensity, permanent);
+        effect new_eff(&effect_types[eff_id], dur, bp, permanent, intensity);
+        // Bound new effect intensity at [1, max intensity]
+        if (new_eff.get_intensity() < 1) {
+            add_msg( m_debug, "Bad intensity, ID: %s", new_eff.get_id() );
+            new_eff.set_intensity(1);
+        } else if (new_eff.get_intensity() > new_eff.get_max_intensity()) {
+            new_eff.set_intensity(new_eff.get_max_intensity());
+        }
         effects[eff_id][(int)bp] = new_eff;
         if (is_player()) { // only print the message if we didn't already have it
             if(effect_types[eff_id].get_apply_message() != "") {

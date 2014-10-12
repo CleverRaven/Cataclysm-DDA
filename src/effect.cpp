@@ -165,24 +165,24 @@ effect::effect() :
     eff_type(NULL),
     duration(0),
     bp(num_bp),
-    intensity(0),
-    permanent(false)
+    permanent(false),
+    intensity(0)
 { }
 
 effect::effect(effect_type *peff_type, int dur, body_part part, int nintensity, bool perm) :
     eff_type(peff_type),
     duration(dur),
     bp(part),
-    intensity(nintensity),
-    permanent(perm)
+    permanent(perm),
+    intensity(nintensity)
 { }
 
 effect::effect(const effect &rhs) : JsonSerializer(), JsonDeserializer(),
     eff_type(rhs.eff_type),
     duration(rhs.duration),
     bp(rhs.bp),
-    intensity(rhs.intensity),
-    permanent(rhs.permanent)
+    permanent(rhs.permanent),
+    intensity(rhs.intensity)
 { }
 
 effect &effect::operator=(const effect &rhs)
@@ -194,8 +194,8 @@ effect &effect::operator=(const effect &rhs)
     eff_type = rhs.eff_type;
     duration = rhs.duration;
     bp = rhs.bp;
-    intensity = rhs.intensity;
     permanent = rhs.permanent;
+    intensity = rhs.intensity;
 
     return *this;
 }
@@ -573,6 +573,14 @@ double effect::get_addict_mod(std::string arg, int addict_level)
 bool effect::get_harmful_cough()
 {
     return eff_type->harmful_cough;
+}
+int effect::get_dur_add_perc()
+{
+    return eff_type->dur_add_perc;
+}
+int effect::get_int_add_val()
+{
+    return eff_type->int_add_val;
 }
 
 effect_type *effect::get_effect_type()
