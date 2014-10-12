@@ -419,7 +419,6 @@ public:
             const tripoint &orig, bool blink,
             input_context* inp_ctxt, bool debug_monstergroups = false,
             const int iZoneIndex = -1);
-
   // Overmap zones
   void place_zones();
   // Overall terrain

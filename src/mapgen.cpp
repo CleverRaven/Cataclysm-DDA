@@ -60,17 +60,10 @@ void map::generate(const int x, const int y, const int z, const int turn)
         // TODO: memory leak if the code below throws before the submaps get stored/deleted!
     }
 
-<<<<<<< HEAD
-    // x, and y are submap coordinates, local to om -> make them global,
-    // than convert to overmap terrain coordinates
-    int overx = x + om->pos().x * OMAPX * 2;
-    int overy = y + om->pos().y * OMAPY * 2;
-=======
-    unsigned zones = 0;
     // x, and y are submap coordinates, convert to overmap terrain coordinates
     int overx = x;
     int overy = y;
->>>>>>> 0fc901ca4e8f846417cc29ff1b50ad08ad0c3373
+
     overmapbuffer::sm_to_omt(overx, overy);
     const regional_settings *rsettings = &overmap_buffer.get_settings(overx, overy, z);
     oter_id t_above = overmap_buffer.ter(overx, overy, z + 1);
@@ -127,13 +120,13 @@ void map::generate(const int x, const int y, const int z, const int turn)
     }
 
     // TODO: make sure new monster groups work with post process
-    int idx = om->in_zone(tripoint(overx, overy, z));
-    if(idx != -1){
-        overmap_zone omz = om->zones[idx];
-        // max size: 16, min size: 1-2.
-        int strength = omz.size - omz.distance_from_center(tripoint(overx, overy, z));
-        post_process(omz.z, strength);
-    }
+//    int idx = om->in_zone(tripoint(overx, overy, z));
+//    if(idx != -1){
+//        overmap_zone omz = om->zones[idx];
+//        // max size: 16, min size: 1-2.
+//        int strength = omz.size - omz.distance_from_center(tripoint(overx, overy, z));
+//        post_process(omz.z, strength);
+//    }
 
     // Okay, we know who are neighbors are.  Let's draw!
     // And finally save used submaps and delete the rest.
@@ -1066,7 +1059,6 @@ void mapgen_lua(map * m,oter_id id,mapgendata md ,int t,float d, const std::stri
 #endif
 }
 
-<<<<<<< HEAD
 void map::loot()
 {
     for(int x = 0; x < 24; x++)
@@ -1143,8 +1135,10 @@ void map::entriffidate(int strength){
     if(strength > 16) strength = 16;
     const int calc_max = 20;
 
-    for(int x = 0; x < 24; x++){
-        for(int y = 0; y < 24; y++){
+    int x;
+    int y;
+    for(x = 0; x < 24; x++){
+        for(y = 0; y < 24; y++){
             std::string terid = this->ter_at(x, y).id;
 
             // cover the walls in vines
@@ -1154,11 +1148,14 @@ void map::entriffidate(int strength){
                    (ter_at(x+1, y).id == "t_dirt") || (ter_at(x+1, y).id == "t_grass") ||
                    (ter_at(x-1, y).id == "t_dirt") || (ter_at(x-1, y).id == "t_grass"))
                 {
+                    /*
                     if(terid == "t_wall_h"){
                         ter_set(x, y, "t_vine_wall_h");
                     } else if(terid == "t_wall_v"){
                         ter_set(x, y, "t_vine_wall_v");
                     }
+                    */
+                    add_field(x, y, fd_vines, 2);
                 }
             }
             // bust through some of the pavement
@@ -1184,6 +1181,11 @@ void map::entriffidate(int strength){
                 }
             }
         }
+    }
+
+    // TODO scale by strength
+    for(int n = rng(3, 6); n > 0; n--){
+        add_field(random_outdoor_tile(), fd_vines, rng(1,3), 0);
     }
 }
 
@@ -1242,6 +1244,14 @@ void map::fungalize(int strength){
             }
         }
     }
+}
+
+// clear spawns and replace with spawns from group
+void map::translate_mon_group(string group)
+{
+    const point omt = overmapbuffer::sm_to_omt_copy( get_abs_sub().x, get_abs_sub().y );
+    const oter_id &oid = overmap_buffer.ter( omt.x, omt.y, get_abs_sub().z );
+    overmap_buffer.get_existing(0,0)->zg[]
 }
 
 // distance is distance from current point to the center of the zone, used to calculate density
@@ -1308,13 +1318,11 @@ void map::post_process(omzone_type zones, int distance)
 */
 }
 
-=======
 #ifdef LUA
 void mapgen_function_lua::generate( map *m, oter_id terrain_type, mapgendata dat, int t, float d ) {
     mapgen_lua(m, terrain_type, dat, t, d, scr );
 }
 #endif
->>>>>>> 0fc901ca4e8f846417cc29ff1b50ad08ad0c3373
 
 /////////////
 // TODO: clean up variable shadowing in this function

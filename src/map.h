@@ -166,6 +166,9 @@ class map
  void clear_spawns();
  void clear_traps();
 
+ // translate monsters in area to monsters from specified group, used in post processing
+ void translate_mon_group(string group);
+
 // Movement and LOS
 
  /**
@@ -505,6 +508,7 @@ void add_corpse(int x, int y);
  void fungalize(int distance);
 
  void post_process(omzone_type zones, int distance);
+ void generate(const int x, const int y, const int z, const int turn);
  void place_spawns(std::string group, const int chance,
                    const int x1, const int y1, const int x2, const int y2, const float density);
  void place_gas_pump(const int x, const int y, const int charges);

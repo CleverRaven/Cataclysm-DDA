@@ -4,6 +4,7 @@
 #include "color.h"
 #include "json.h"
 #include "enums.h"
+#include "line.h"
 #include <string>
 #include <vector>
 #include <list>
@@ -41,8 +42,8 @@ struct overmap_zone {
     std::set<tripoint> points;
     int size;
     int distance_from_center(tripoint p) {return rl_dist(center, p);}
-    bool contains_tripoint(tripoint p) {return (points.find(p) != points.end());
-}
+    bool contains_tripoint(tripoint p) {return (points.find(p) != points.end());}
+};
 
 struct overmap_spawns {
     overmap_spawns(): group("GROUP_NULL"), min_population(0), max_population(0),
