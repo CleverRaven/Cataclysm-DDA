@@ -2649,21 +2649,48 @@ void map::set_temperature(const int x, const int y, int new_temperature)
     temperature(x + SEEX, y + SEEY) = new_temperature;
 }
 
-std::vector<item> &map::i_at(const int x, const int y)
+item_stack map::item_stack_at(const int x, const int y)
 {
- if (!INBOUNDS(x, y)) {
-  nulitems.clear();
-  return nulitems;
- }
-/*
- int nonant;
- cast_to_nonant(x, y, nonant);
-*/
+    if (!INBOUNDS(x, y)) {
+        return item_stack();
+    }
 
- int lx, ly;
- submap * const current_submap = get_submap_at(x, y, lx, ly);
+    int lx, ly;
+    submap * const current_submap = get_submap_at(x, y, lx, ly);
 
- return current_submap->itm[lx][ly];
+    return item_stack(this, x, y, &(current_submap->itm[lx][ly]));
+}
+
+item_stack map::item_stack_at_vehicle(const int x, const int y)
+{
+    if (!INBOUNDS(x, y)) {
+        return item_stack();
+    }
+
+    int veh_root_part = -1;
+    vehicle *veh = veh_at( x, y, veh_root_part );
+    int cargo_part = -1;
+    if( veh != nullptr ) {
+        cargo_part = veh->part_with_feature( veh_root_part, "CARGO", false );
+    }
+
+    if (cargo_part >= 0) {
+        return item_stack(veh, cargo_part, &veh->parts[cargo_part].items);
+    } else {
+        return item_stack_at(x, y);
+    }
+}
+
+std::vector<item>& map::i_at(int x, int y) {
+    if (!INBOUNDS(x, y)) {
+        nulitems.clear();
+        return nulitems;
+    }
+
+    int lx, ly;
+    submap * const current_submap = get_submap_at(x, y, lx, ly);
+
+    return current_submap->itm[lx][ly];
 }
 
 itemslice map::i_stacked(std::vector<item>& items)
@@ -4743,7 +4770,7 @@ void map::loadn(const int worldx, const int worldy, const int worldz,
       ter_id ter = tmpsub->ter[x][y];
       //if the fruit-bearing season of the already harvested terrain has passed, make it harvestable again
       if ((ter) && (terlist[ter].has_flag(TFLAG_HARVESTED))){
-        if ((terlist[ter].harvest_season != calendar::turn.get_season()) || 
+        if ((terlist[ter].harvest_season != calendar::turn.get_season()) ||
         (calendar::turn - tmpsub->turn_last_touched > calendar::season_length()*14400)){
           tmpsub->set_ter(x, y, terfind(terlist[ter].transforms_into));
         }
@@ -5625,4 +5652,101 @@ void map::add_road_vehicles(bool city, int facing)
             }
         }
     }
+}
+
+// Item stack functions.
+item_stack::iterator item_stack::begin() {
+    return item_stack::iterator(this, 0);
+}
+
+item_stack::iterator item_stack::end() {
+    return item_stack::iterator(this, this->size());
+}
+
+item_stack::iterator item_stack::at(int index) {
+    return begin() + index;
+}
+
+size_t item_stack::size() const {
+    if (!items) {
+        return 0;
+    }
+    return items->size();
+}
+
+bool item_stack::empty() const {
+    if (!items) {
+        return 1;
+    }
+    return items->empty();
+}
+
+const item &item_stack::operator[](size_t index) {
+    return (*items)[index];
+}
+
+item_stack::item_modifier item_stack::iterator::modify() {
+    item_stack::item_modifier rval(*this);
+    rval = (*stack->items)[stack_index];
+    return rval;
+}
+
+void item_stack::push_back(const item& new_item) {
+    if (!is_vehicle) {
+        map_container->add_item_or_charges(x, y, new_item);
+    } else {
+        vehicle_container->add_item(part, new_item);
+    }
+}
+
+void item_stack::iterator::erase() {
+    if (!stack->is_vehicle) {
+        stack->map_container->i_rem(stack->x, stack->y, stack_index);
+    } else {
+        stack->vehicle_container->remove_item(stack->part, stack_index);
+    }
+    stack_index--;
+}
+
+item_stack::iterator& item_stack::iterator::operator++(int) {
+    stack_index++;
+    return *this;
+}
+
+item_stack::iterator& item_stack::iterator::operator++() {
+    stack_index++;
+    return *this;
+}
+
+item_stack::iterator item_stack::iterator::operator+(int offset) {
+    iterator rval = *this;
+    rval.stack_index += offset;
+    return rval;
+}
+
+bool item_stack::iterator::operator!=(const item_stack::iterator& other) const {
+    return (stack_index != other.stack_index);
+}
+
+const item& item_stack::iterator::operator*() const {
+    return *(this->operator->());
+}
+
+const item* item_stack::iterator::operator->() const {
+    return &(*stack->items)[stack_index];
+}
+
+void item_stack::iterator::commit(const item_modifier& it) {
+    (*stack->items)[stack_index] = it;
+}
+
+item_stack::iterator::iterator(const item_stack *stack, int stack_index)
+    : stack(stack), stack_index(stack_index) { }
+
+void item_stack::item_modifier::operator=(const item& other) {
+    item::operator=(other);
+}
+
+void item_stack::item_modifier::commit() {
+    iter.commit(*this);
 }

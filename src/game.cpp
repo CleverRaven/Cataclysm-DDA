@@ -1712,21 +1712,21 @@ void game::activity_on_turn_refill_vehicle()
     for(int i = -1; i <= 1; i++) {
         for(int j = -1; j <= 1; j++) {
             if(m.ter(u.posx + i, u.posy + j) == t_gas_pump || m.ter_at(u.posx + i, u.posy + j).id == "t_gas_pump_a") {
-                for( auto it = m.i_at(u.posx + i, u.posy + j).begin();
-                     it != m.i_at(u.posx + i, u.posy + j).end();) {
+                auto items = m.item_stack_at(u.posx + i, u.posy + j);
+                for( auto it = items.begin(); it != items.end(); it++) {
                     if (it->type->id == "gasoline") {
-                        item *gas = &*it;
+                        auto gas = it.modify();
                         int lack = (veh->fuel_capacity("gasoline") - veh->fuel_left("gasoline")) < 200 ?
                                    (veh->fuel_capacity("gasoline") - veh->fuel_left("gasoline")) : 200;
-                        if (gas->charges > lack) {
+                        if (gas.charges > lack) {
                             veh->refill("gasoline", lack);
-                            gas->charges -= lack;
+                            gas.charges -= lack;
+                            gas.commit();
                             u.activity.moves_left -= 100;
-                            it++;
                         } else {
                             add_msg(m_bad, _("With a clang and a shudder, the gasoline pump goes silent."));
-                            veh->refill ("gasoline", gas->charges);
-                            it = m.i_at(u.posx + i, u.posy + j).erase(it);
+                            veh->refill ("gasoline", gas.charges);
+                            it.erase();
                             u.activity.moves_left = 0;
                         }
                         i = 2;
@@ -7815,11 +7815,12 @@ void game::activity_on_turn_pulp()
     pulp_power *= 20; // constant multiplier to get the chance right
     int moves = 0;
     int &num_corpses = u.activity.index; // use this to collect how many corpse are pulped
-    for( std::vector<item>::iterator it = m.i_at(smashx, smashy).begin();
-         it != m.i_at(smashx, smashy).end(); ++it ) {
+    auto stack = m.item_stack_at(smashx, smashy);
+    for( auto it = stack.begin(); it != stack.end(); ++it ) {
         if (!(it->type->id == "corpse" && it->damage < full_pulp_threshold)) {
             continue; // no corpse or already pulped
         }
+        auto pulp_item = it.modify();
         int damage = pulp_power / it->volume();
         //Determine corpse's blood type.
         field_id type_blood = it->corpse->bloodType();
@@ -7828,7 +7829,7 @@ void game::activity_on_turn_pulp()
             // Increase damage as we keep smashing,
             // to insure that we eventually smash the target.
             if (x_in_y(pulp_power, it->volume())) {
-                it->damage++;
+                pulp_item.damage++;
                 u.handle_melee_wear();
             }
             // Splatter some blood around
@@ -7841,11 +7842,12 @@ void game::activity_on_turn_pulp()
                     }
                 }
             }
-            if (it->damage >= full_pulp_threshold) {
-                it->damage = full_pulp_threshold;
-                it->active = false;
+            if (pulp_item.damage >= full_pulp_threshold) {
+                pulp_item.damage = full_pulp_threshold;
+                pulp_item.active = false;
                 num_corpses++;
             }
+            pulp_item.commit();
             if (moves >= u.moves) {
                 // enough for this turn;
                 u.moves -= moves;
