@@ -244,6 +244,7 @@
             "speed_mod": [-5, -3]
         }
     },
+    --WIP--
     {
         "type": "effect_type",
         "id": "beartrap",

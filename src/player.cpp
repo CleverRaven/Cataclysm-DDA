@@ -5391,12 +5391,24 @@ void player::process_effects() {
         for( auto effect_it = maps->second.begin(); effect_it != maps->second.end(); ++effect_it ) {
             auto &it = effect_it->second;
             bool reduced = has_trait(it.get_resist_trait());
+            
+            // Handle miss messages
+            if (it.get_miss_string() != "") {
+                int weight = 1;
+                if (it.get_miss_weight() < 0) {
+                    weight = abs(it.get_miss_weight());
+                }
+                add_miss_reason(_(it.get_miss_string()), weight);
+            }
+            
+            // Handle stat changes
             mod_str_bonus(it.get_mod("STR", reduced));
             mod_dex_bonus(it.get_mod("DEX", reduced));
             mod_per_bonus(it.get_mod("PER", reduced));
             mod_int_bonus(it.get_mod("INT", reduced));
             mod_speed_bonus(it.get_mod("SPEED", reduced));
             
+            // Handle Pain
             double mod = 1;
             body_part bp = it.get_bp();
             if (!has_trait("NOPAIN") && it.get_mod("PAIN", reduced) > 0 &&
@@ -5419,6 +5431,7 @@ void player::process_effects() {
                 }
             }
 
+            // Handle Damage
             if (it.get_mod("HURT", reduced) > 0) {
                 mod = 1;
                 if (it.get_sizing("HURT")) {
@@ -5441,6 +5454,7 @@ void player::process_effects() {
                 }
             }
 
+            // Handle painkillers
             if (it.get_mod("PKILL", reduced) > 0 && (it.get_max_val("PKILL", reduced) > pkill || 
                   it.get_max_val("PKILL", reduced) == 0)) {
                 mod = it.get_addict_mod("PKILL", addiction_level(ADD_PKILLER));
@@ -5449,17 +5463,19 @@ void player::process_effects() {
                 }
             }
             
+            // Handle coughing
             mod = 1;
             if (it.activated(calendar::turn, "COUGH", reduced, mod)) {
                 cough(it.get_harmful_cough());
             }
             
+            // Handle vomiting
             mod = 1;
             if (it.activated(calendar::turn, "VOMIT", reduced, mod)) {
                 vomit();
             }
 
-        
+            // Still hardcoded stuff
             std::string id = effect_it->second.get_id();
             if (id == "onfire") {
                 manage_fire_exposure(*this, 1);

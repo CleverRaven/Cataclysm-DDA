@@ -781,6 +781,15 @@ int effect::get_int_add_val()
     return eff_type->int_add_val;
 }
 
+std::string effect::get_miss_string()
+{
+    return eff_type->miss_string;
+}
+int effect::get_miss_weight()
+{
+    return eff_type->miss_weight;
+}
+
 effect_type *effect::get_effect_type()
 {
     return eff_type;
@@ -854,6 +863,9 @@ void load_effect_type(JsonObject &jo)
     new_etype.int_add_val = jo.get_int("int_add_val", 0);
     new_etype.int_decay_step = jo.get_int("int_decay_step", 0);
     new_etype.int_decay_tick = jo.get_int("int_decay_tick", 0);
+    
+    new_etype.miss_string = jo.get_string("miss_string", "");
+    new_etype.miss_weight = jo.get_string("miss_weight", 1);
     
     new_etype.main_parts_only = jo.get_bool("main_parts_only", false);
     new_etype.pkill_addict_reduces = jo.get_bool("pkill_addict_reduces", false);

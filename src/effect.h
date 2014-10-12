@@ -96,6 +96,8 @@ class effect_type
         int int_decay_tick;
         bool main_parts_only;
         std::string resist_trait;
+        std::string miss_string;
+        int miss_weight;
         
         bool pain_sizing;
         bool hurt_sizing;
@@ -168,6 +170,9 @@ class effect : public JsonSerializer, public JsonDeserializer
         bool get_harmful_cough();
         int get_dur_add_perc();
         int get_int_add_val();
+        
+        std::string get_miss_string();
+        int get_miss_weight();
 
         efftype_id get_id()
         {
