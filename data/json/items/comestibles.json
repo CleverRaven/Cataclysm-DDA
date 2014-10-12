@@ -16100,7 +16100,7 @@
         "healthy" : 1,
         "addiction_potential" : 0,
         "nutrition" : 16,
-        "description" : "Dehydrated fruit flakes.  With proper storage, this dried food will remain edible for an incredibly long time.",
+        "description" : "Dehydrated fruit flakes.  With proper storage, this dried food will remain edible for an incredibly long time. They are useful for several cooking recipes",
         "price" : 9000,
         "material" : "fruit",
         "tool" : "null",
