@@ -1376,22 +1376,29 @@ int item::price() const
         // maximal damage is 4, maximal reduction is 1/10 of the value.
         ret -= ret * static_cast<double>( damage ) / 40;
     }
-    if( curammo != nullptr && charges > 0 ) {
-        item tmp( curammo->id, 0 );
-        tmp.charges = charges;
-        ret += tmp.price();
-    }
     // The price from the json data is for the default-sized stack, like the volume
     // calculation.
     if( count_by_charges() || made_of( LIQUID ) ) {
         ret = ret * charges / static_cast<double>( max_charges() );
     }
-    if( is_tool() && curammo == nullptr ) {
-        // If the tool uses specific ammo (like gasoline) it is handled above.
-        const it_tool *itt = dynamic_cast<const it_tool*>( type );
-        if( itt->def_charges > 0 ) {
-            // Full value when charges == default charges, otherwise scalled down
-            ret = ret * std::max<long>( 0, charges ) / static_cast<double>( itt->def_charges );
+    const it_tool* ttype = dynamic_cast<const it_tool*>( type );
+    if( curammo != nullptr && charges > 0 ) {
+        item tmp( curammo->id, 0 );
+        tmp.charges = charges;
+        ret += tmp.price();
+    } else if( ttype != nullptr && curammo == nullptr ) {
+        if( charges > 0 && ttype->ammo != "NULL" ) {
+            // Tools sometimes don't have a curammo, when they should, e.g. flashlight
+            // that has been reloaded, apparently item::reload does not set curammo for tools.
+            item tmp( default_ammo( ttype->ammo ), 0 );
+            tmp.charges = charges;
+            ret += tmp.price();
+        } else if( ttype->def_charges > 0 && ttype->ammo == "NULL" ) {
+            // If the tool uses specific ammo (like gasoline) it is handled above.
+            // This case is for tools that have no ammo, but charges (e.g. spray can)
+            // Full value when charges == default charges, otherwise scaled down
+            // (e.g. half price for half full spray).
+            ret = ret * charges / static_cast<double>( ttype->def_charges );
         }
     }
     for (size_t i = 0; i < contents.size(); i++) {
