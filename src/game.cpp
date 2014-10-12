@@ -889,7 +889,7 @@ void game::cleanup_at_end()
         std::string sTemp = _("Survived:");
         mvwprintz(w_rip, iInfoLine++, (FULL_SCREEN_WIDTH / 2) - 5, c_ltgray, sTemp.c_str());
 
-        int iDays = int(calendar::turn.get_turn() / DAYS(1));
+        int iDays = int((calendar::turn.get_turn() - calendar::start.get_turn()) / DAYS(1));
 
         std::stringstream ssTemp;
         ssTemp << iDays;
