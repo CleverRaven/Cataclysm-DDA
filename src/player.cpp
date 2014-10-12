@@ -862,8 +862,12 @@ void player::update_bodytemp()
         if (has_trait("DOWN")) {
             floor_mut_warmth += 250;
         }
+        // Curl up in your shell to conserve heat & stay warm
+        if (has_active_mutation("SHELL2")) {
+            floor_mut_warmth += 200;
+        }
         // DOWN doesn't provide floor insulation, though.
-        // Non-light fur does.
+        // Non-light fur or being in one's shell does.
         if ( (!(has_trait("DOWN"))) && (floor_mut_warmth >= 200)) {
             if (floor_bedding_warmth < 0) {
                 floor_bedding_warmth = 0;
@@ -1130,6 +1134,10 @@ void player::update_bodytemp()
         // Fat deposits don't hold in much heat, but don't shift for temp
         if( has_trait("FAT") ) {
             temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 200 : 200);
+        }
+        // Being in the shell holds in heat, but lets out less in summer :-/
+        if( has_active_mutation("SHELL2") ) {
+            temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 500 : 750);
         }
         // Disintegration
         if (has_trait("ROT1")) {
@@ -1693,17 +1701,25 @@ void player::set_underwater(bool u)
 
 nc_color player::basic_symbol_color() const
 {
- if (has_effect("onfire"))
-  return c_red;
- if (has_effect("stunned"))
-  return c_ltblue;
- if (has_effect("boomered"))
-  return c_pink;
- if (underwater)
-  return c_blue;
+ if (has_effect("onfire")) {
+    return c_red;
+ }
+ if (has_effect("stunned")) {
+    return c_ltblue;
+ }
+ if (has_effect("boomered")) {
+    return c_pink;
+ }
+ if (has_active_mutation("SHELL2")) {
+    return c_magenta;
+ }
+ if (underwater) {
+    return c_blue;
+ }
  if (has_active_bionic("bio_cloak") || has_artifact_with(AEP_INVISIBLE) ||
-    has_active_optcloak() || has_trait("DEBUG_CLOAK"))
+    has_active_optcloak() || has_trait("DEBUG_CLOAK")) {
   return c_dkgray;
+ }
  return c_white;
 }
 
@@ -4055,6 +4071,9 @@ void player::recalc_sight_limits()
                 !has_trait("MEMBRANE") && !worn_with_flag("SWIM_GOGGLES") &&
                 (!(has_trait("PER_SLIME_OK"))))) {
         sight_max = 1;
+    } else if (has_active_mutation("SHELL2")) {
+        // You can kinda see out a bit.
+        sight_max = 2;
     } else if ( (has_trait("MYOPIC") || has_trait("URSINE_EYE")) &&
             !is_wearing("glasses_eye") && !is_wearing("glasses_monocle") &&
             !is_wearing("glasses_bifocal") && !has_effect("contacts")) {
@@ -4103,6 +4122,9 @@ int player::unimpaired_range()
  int ret = DAYLIGHT_LEVEL;
  if (has_trait("PER_SLIME")) {
     ret = 6;
+ }
+ if (has_active_mutation("SHELL2")) {
+    ret = 2;
  }
  if (has_disease("in_pit")) {
     ret = 1;
@@ -4191,8 +4213,11 @@ bool player::sight_impaired()
 
 bool player::has_two_arms() const
 {
- if (has_bionic("bio_blaster") || hp_cur[hp_arm_l] < 10 || hp_cur[hp_arm_r] < 10)
-  return false;
+ if ((has_bionic("bio_blaster") || hp_cur[hp_arm_l] < 10 || hp_cur[hp_arm_r] < 10) ||
+   has_active_mutation("SHELL2")) {
+    // You can't effectively use both arms to wield something when they're in your shell
+    return false;
+ }
  return true;
 }
 
@@ -6319,8 +6344,8 @@ void player::vomit()
 void player::drench(int saturation, int flags)
 {
     // OK, water gets in your AEP suit or whatever.  It wasn't built to keep you dry.
-    if ( (has_trait("DEBUG_NOTEMP")) || ((is_waterproof(flags)) &&
-        (!(g->m.has_flag(TFLAG_DEEP_WATER, posx, posy)))) ) {
+    if ( (has_trait("DEBUG_NOTEMP")) || (has_active_mutation("SHELL2")) ||
+      ((is_waterproof(flags)) && (!(g->m.has_flag(TFLAG_DEEP_WATER, posx, posy)))) ) {
         return;
     }
 
@@ -6544,6 +6569,9 @@ int player::volume_capacity() const
     }
     if (has_trait("SHELL")) {
         ret += 16;
+    }
+    if (has_trait("SHELL2") && !has_active_mutation("SHELL2")) {
+        ret += 24;
     }
     if (has_trait("PACKMULE")) {
         ret = int(ret * 1.4);
@@ -8569,7 +8597,7 @@ hint_rating player::rate_action_wear(item *it)
     if (it->covers.test(bp_head) && has_trait("HORNS_CURLED")) {
         return HINT_IFFY;
     }
-    if (it->covers.test(bp_torso) && has_trait("SHELL")) {
+    if (it->covers.test(bp_torso) && (has_trait("SHELL") || has_trait("SHELL2")))  {
         return HINT_IFFY;
     }
     if (it->covers.test(bp_head) && !it->made_of("wool") &&
@@ -8898,11 +8926,11 @@ bool player::wear_item(item *to_wear, bool interactive)
             return false;
         }
 
-        if (to_wear->covers.test(bp_torso) && has_trait("SHELL"))
+        if (to_wear->covers.test(bp_torso) && (has_trait("SHELL") || has_trait("SHELL2")) )
         {
             if(interactive)
             {
-                add_msg(m_info, _("You cannot wear anything over your shell."));
+                add_msg(m_info, _("You cannot fit that over your shell."));
             }
             return false;
         }
@@ -9911,6 +9939,7 @@ void player::try_to_sleep()
     const ter_id ter_at_pos = g->m.ter(posx, posy);
     const furn_id furn_at_pos = g->m.furn(posx, posy);
     bool plantsleep = false;
+    bool in_shell = false;
     if (has_trait("CHLOROMORPH")) {
         plantsleep = true;
         if( (ter_at_pos == t_dirt || ter_at_pos == t_pit ||
@@ -9926,10 +9955,15 @@ void player::try_to_sleep()
             add_msg(m_bad, _("Your roots scrabble ineffectively at the unyielding surface."));
         }
     }
+    if (has_active_mutation("SHELL2")) {
+        // Your shell's interior is a comfortable place to sleep.
+        in_shell = true;
+    }
     if( (furn_at_pos == f_bed || furn_at_pos == f_makeshift_bed ||
          trap_at_pos == tr_cot || trap_at_pos == tr_rollmat ||
          trap_at_pos == tr_fur_rollmat || furn_at_pos == f_armchair ||
          furn_at_pos == f_sofa || furn_at_pos == f_hay || ter_at_pos == t_improvised_shelter ||
+         (in_shell) ||
          (veh && veh->part_with_feature (vpart, "SEAT") >= 0) ||
          (veh && veh->part_with_feature (vpart, "BED") >= 0)) &&
         (!(plantsleep)) ) {
@@ -9947,15 +9981,23 @@ bool player::can_sleep()
 {
  int sleepy = 0;
  bool plantsleep = false;
- if (has_addiction(ADD_SLEEP))
-  sleepy -= 3;
- if (has_trait("INSOMNIA"))
-  sleepy -= 8;
- if (has_trait("EASYSLEEPER"))
-  sleepy += 8;
- if (has_trait("CHLOROMORPH"))
-  plantsleep = true;
-
+ bool in_shell = false;
+   if (has_addiction(ADD_SLEEP)) {
+      sleepy -= 3;
+   }
+   if (has_trait("INSOMNIA")) {
+      sleepy -= 8;
+   }
+   if (has_trait("EASYSLEEPER")) {
+      sleepy += 8;
+   }
+   if (has_trait("CHLOROMORPH")) {
+      plantsleep = true;
+   }
+   if (has_active_mutation("SHELL2")) {
+      // Your shell's interior is a comfortable place to sleep.
+      in_shell = true;
+   }
  int vpart = -1;
  vehicle *veh = g->m.veh_at (posx, posy, vpart);
  const trap_id trap_at_pos = g->m.tr_at(posx, posy);
@@ -9963,9 +10005,9 @@ bool player::can_sleep()
  const furn_id furn_at_pos = g->m.furn(posx, posy);
  if ( ((veh && veh->part_with_feature (vpart, "BED") >= 0) ||
      furn_at_pos == f_makeshift_bed || trap_at_pos == tr_cot ||
-     furn_at_pos == f_sofa || furn_at_pos == f_hay) &&
+     furn_at_pos == f_sofa || furn_at_pos == f_hay || (in_shell)) &&
      (!(plantsleep)) ) {
-  sleepy += 4;
+    sleepy += 4;
  }
  else if ( ((veh && veh->part_with_feature (vpart, "SEAT") >= 0) ||
       trap_at_pos == tr_rollmat || trap_at_pos == tr_fur_rollmat ||
@@ -10150,6 +10192,12 @@ int player::get_wind_resistance(body_part bp) const
         }
     }
 
+    // Your shell provides complete wind protection if you're inside it
+    if (has_active_mutation("SHELL2")) {
+        totalCoverage = 100;
+        return totalCoverage;
+    }
+
     totalCoverage = 100 - totalExposed*100;
 
     return totalCoverage;
@@ -10309,6 +10357,9 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
     if ( has_trait("WINGS_BUTTERFLY") && (bp == bp_torso )) {
         ret += 1;
     }
+    if ( has_trait("SHELL2") && (bp == bp_torso )) {
+        ret += 1;
+    }
     if ((bp == bp_hand_l || bp == bp_hand_r) &&
         (has_trait("ARM_TENTACLES") || has_trait("ARM_TENTACLES_4") ||
          has_trait("ARM_TENTACLES_8")) ) {
@@ -10393,6 +10444,13 @@ int player::get_armor_bash_base(body_part bp) const
     if (has_trait("SHELL") && bp == bp_torso) {
         ret += 6;
     }
+    if (has_trait("SHELL2") && !has_active_mutation("SHELL2") && bp == bp_torso) {
+        ret += 9;
+    }
+    if (has_active_mutation("SHELL2")) {
+        // Limbs & head are safe inside the shell! :D
+        ret += 9;
+    }
     ret += rng(0, disease_intensity("armor_boost"));
     return ret;
 }
@@ -10451,6 +10509,13 @@ int player::get_armor_cut_base(body_part bp) const
     }
     if (has_trait("SHELL") && bp == bp_torso) {
         ret += 14;
+    }
+    if (has_trait("SHELL2") && !has_active_mutation("SHELL2") && bp == bp_torso) {
+        ret += 17;
+    }
+    if (has_active_mutation("SHELL2")) {
+        // Limbs & head are safe inside the shell! :D
+        ret += 17;
     }
     ret += rng(0, disease_intensity("armor_boost"));
     return ret;

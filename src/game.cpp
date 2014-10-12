@@ -3354,27 +3354,45 @@ bool game::handle_action()
         break;
 
     case ACTION_OPEN:
-        open();
+        if (u.has_active_mutation("SHELL2")) {
+            add_msg(m_info, _("You can't open doors while you're in your shell."));
+        } else {
+            open();
+        }
         break;
 
     case ACTION_CLOSE:
-        close(mouse_action_x, mouse_action_y);
+        if (u.has_active_mutation("SHELL2")) {
+            add_msg(m_info, _("You can't close doors while you're in your shell."));
+        } else {
+            close(mouse_action_x, mouse_action_y);
+        }
         break;
 
     case ACTION_SMASH:
         if (veh_ctrl) {
             handbrake();
+        } else if (u.has_active_mutation("SHELL2")) {
+            add_msg(m_info, _("You can't smash things while you're in your shell."));
         } else {
             smash();
         }
         break;
 
     case ACTION_EXAMINE:
-        examine(mouse_action_x, mouse_action_y);
+        if (u.has_active_mutation("SHELL2")) {
+            add_msg(m_info, _("You can't examine your surroundings while you're in your shell."));
+        } else {
+            examine(mouse_action_x, mouse_action_y);
+        }
         break;
 
     case ACTION_ADVANCEDINV:
-        advanced_inv();
+        if (u.has_active_mutation("SHELL2")) {
+            add_msg(m_info, _("You can't move mass quantities while you're in your shell."));
+        } else {
+            advanced_inv();
+        }
         break;
 
     case ACTION_PICKUP:
@@ -3382,11 +3400,19 @@ bool game::handle_action()
         break;
 
     case ACTION_GRAB:
-        grab();
+        if (u.has_active_mutation("SHELL2")) {
+            add_msg(m_info, _("You can't grab things while you're in your shell."));
+        } else {
+            grab();
+        }
         break;
 
     case ACTION_BUTCHER:
-        butcher();
+        if (u.has_active_mutation("SHELL2")) {
+            add_msg(m_info, _("You can't butcher while you're in your shell."));
+        } else {
+            butcher();
+        }
         break;
 
     case ACTION_CHAT:
@@ -3398,7 +3424,11 @@ bool game::handle_action()
         break;
 
     case ACTION_PEEK:
-        peek();
+        if (u.has_active_mutation("SHELL2")) {
+            add_msg(m_info, _("You can't peek around corners while you're in your shell."));
+        } else {
+            peek();
+        }
         break;
 
     case ACTION_LIST_ITEMS: {
@@ -3460,6 +3490,8 @@ bool game::handle_action()
         break;
 
     case ACTION_USE:
+        // Shell-users are presumed to be able to mess with their inventories, etc
+        // while in the shell.  Eating, gear-changing, and item use are OK.
         use_item();
         break;
 
@@ -3480,6 +3512,7 @@ bool game::handle_action()
         break;
 
     case ACTION_READ:
+        // Shell-users are presumed to have the book just at an opening and read it that way
         read();
         break;
 
@@ -3500,10 +3533,15 @@ bool game::handle_action()
         break;
 
     case ACTION_THROW:
-        plthrow();
+        if (u.has_active_mutation("SHELL2")) {
+            add_msg(m_info, _("You can't effectively throw while you're in your shell."));
+        } else {
+            plthrow();
+        }
         break;
 
     case ACTION_FIRE:
+        // Shell-users may fire a *single-handed* weapon out a port, if need be.
         plfire(false, mouse_action_x, mouse_action_y);
         break;
 
@@ -3516,11 +3554,16 @@ bool game::handle_action()
         break;
 
     case ACTION_DROP:
+        // You CAN drop things to your own tile while in the shell.
         drop();
         break;
 
     case ACTION_DIR_DROP:
-        drop_in_direction();
+        if (u.has_active_mutation("SHELL2")) {
+            add_msg(m_info, _("You can't drop things to another tile while you're in your shell."));
+        } else {
+            drop_in_direction();
+        }
         break;
     case ACTION_BIONICS:
         u.power_bionics();
@@ -3541,15 +3584,27 @@ bool game::handle_action()
         break;
 
     case ACTION_CRAFT:
-        craft();
+        if (u.has_active_mutation("SHELL2")) {
+            add_msg(m_info, _("You can't craft while you're in your shell."));
+        } else {
+            craft();
+        }
         break;
 
     case ACTION_RECRAFT:
-        recraft();
+        if (u.has_active_mutation("SHELL2")) {
+            add_msg(m_info, _("You can't craft while you're in your shell."));
+        } else {
+            recraft();
+        }
         break;
 
     case ACTION_LONGCRAFT:
-        long_craft();
+        if (u.has_active_mutation("SHELL2")) {
+            add_msg(m_info, _("You can't craft while you're in your shell."));
+        } else {
+            long_craft();
+        }
         break;
 
     case ACTION_DISASSEMBLE:
@@ -3563,7 +3618,9 @@ bool game::handle_action()
 
     case ACTION_CONSTRUCT:
         if (u.in_vehicle) {
-            add_msg(m_info, _("You can't construct while in vehicle."));
+            add_msg(m_info, _("You can't construct while in a vehicle."));
+        } else if (u.has_active_mutation("SHELL2")) {
+            add_msg(m_info, _("You can't construct while you're in your shell."));
         } else {
             construction_menu();
         }
@@ -3633,7 +3690,11 @@ bool game::handle_action()
         break;
 
     case ACTION_CONTROL_VEHICLE:
-        control_vehicle();
+        if (u.has_active_mutation("SHELL2")) {
+            add_msg(m_info, _("You can't operate a vehicle while you're in your shell."));
+        } else {
+            control_vehicle();
+        }
         break;
 
     case ACTION_TOGGLE_SAFEMODE:
@@ -12466,7 +12527,10 @@ bool game::check_save_mode_allowed()
 
 bool game::plmove(int dx, int dy)
 {
-    if( !check_save_mode_allowed() ) {
+    if( (!check_save_mode_allowed()) || u.has_active_mutation("SHELL2") ) {
+        if ( u.has_active_mutation("SHELL2")) {
+            add_msg(m_warning, _("You can't move while in your shell.  Deactivate it to go mobile."));
+        }
         return false;
     }
     int x = 0;
