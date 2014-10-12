@@ -226,25 +226,26 @@ void fill_funnels(int rain_depth_mm_per_hour, bool acid, trap_id t)
     const std::set<point> &funnel_locs = g->m.trap_locations(t);
     std::set<point>::const_iterator i;
     for (i = funnel_locs.begin(); i != funnel_locs.end(); ++i) {
-        item *c = NULL;
         int maxcontains = 0;
         point loc = *i;
-        std::vector<item> &items = g->m.i_at(loc.x, loc.y);
+        auto items = g->m.item_stack_at(loc.x, loc.y);
+        auto found_item = items.end();
         if (one_in(turns_per_charge)) { // todo; fixme. todo; fixme
             //add_msg("%d mm/h %d tps %.4f: fill",int(calendar::turn),rain_depth_mm_per_hour,turns_per_charge);
             // This funnel has collected some rain! Put the rain in the largest
             // container here which is either empty or contains some mixture of
             // impure water and acid.
-            for (size_t j = 0; j < items.size(); j++) {
-                item *it = &(items[j]);
+            for (auto it = items.begin(); it != items.end(); it++) {
                 if ( it->is_funnel_container( maxcontains ) ) {
-                    c = it;
+                    found_item = it;
                 }
             }
 
-            if (c != NULL) {
-                c->add_rain_to_container(acid, 1);
-                c->bday = int(calendar::turn);
+            if (found_item != items.end()) {
+                auto modify = found_item.modify();
+                modify.add_rain_to_container(acid, 1);
+                modify.bday = int(calendar::turn);
+                modify.commit();
             }
         }
     }
