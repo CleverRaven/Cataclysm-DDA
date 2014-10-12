@@ -154,6 +154,38 @@ body_part random_body_part(bool main_parts_only)
     }
 }
 
+body_part mutate_to_main_part(body_part bp)
+{
+    switch (bp) {
+    case bp_torso:
+        return bp_torso;
+
+    case bp_head:
+    case bp_eyes:
+    case bp_mouth:
+        return bp_head;
+
+    case bp_arm_l:
+    case bp_hand_l:
+        return bp_arm_l;
+
+    case bp_arm_r:
+    case bp_hand_r:
+        return bp_arm_r;
+
+    case bp_leg_l:
+    case bp_foot_l:
+        return bp_leg_l;
+
+    case bp_leg_r:
+    case bp_foot_r:
+        return bp_leg_r;
+
+    default:
+        return num_bp;
+    }
+}
+
 void init_body_parts()
 {
     body_parts["TORSO"] = bp_torso;
