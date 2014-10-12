@@ -49,12 +49,14 @@
         "desc": ["AI tag for telling NPCs to catch up. This is a bug if you have it."],
         "max_intensity": 15
     },
-    ---
     {
         "type": "effect_type",
         "id": "infection",
         "name": ["Infection"],
-        "desc": ["AI tag used for the infected NPC quest. This is a bug if you have it."]
+        "desc": ["AI tag used for the infected NPC quest. This is a bug if you have it."],
+        "base_mods" : {
+            "speed_mod" : [-80]
+        },
     },
     {
         "type": "effect_type",
@@ -101,6 +103,7 @@
         "apply_message": "You're knocked to the floor!",
         "rating": "bad"
     },
+    -WIP MARKER-
     {
         "type": "effect_type",
         "id": "darkness",

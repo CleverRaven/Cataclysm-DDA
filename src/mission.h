@@ -99,7 +99,7 @@ struct mission_place { // Return true if [posx,posy] is valid in overmap
 struct mission_start {
     void standard           ( mission *); // Standard for its goal type
     void join               ( mission *); // NPC giving mission joins your party
-    void infect_npc         ( mission *); // DI_INFECTION, remove antibiotics
+    void infect_npc         ( mission *); // "infection", remove antibiotics
     void place_dog          ( mission *); // Put a dog in a house!
     void place_zombie_mom   ( mission *); // Put a zombie mom in a house!
     void place_zombie_bay   ( mission *); // Put a boss zombie in the refugee/evac center back bay

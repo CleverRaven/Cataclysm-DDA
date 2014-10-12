@@ -907,6 +907,17 @@ void monster::die_in_explosion(Creature* source)
     die( source );
 }
 
+bool monster::move_effects()
+{
+    if (has_effect("beartrap") || has_effect("tied")) {
+        return false;
+    }
+    if (has_effect("downed")) {
+        return false;
+    }
+    return Creature::move_effects();
+}
+
 void monster::add_effect(efftype_id eff_id, int dur, body_part bp, int intensity, bool permanent)
 {
     bp = num_bp;

@@ -1364,6 +1364,12 @@ void player::recalc_speed_bonus()
     for (auto &i : illness) {
         mod_speed_bonus(disease_speed_boost(i));
     }
+    for (auto maps : effects) {
+        for (auto i : maps.second) {
+            bool reduced = has_trait(i.second.get_resist_trait());
+            mod_speed_bonus(i.second.get_mod("SPEED", reduced));
+        }
+    }
 
     // add martial arts speed bonus
     mod_speed_bonus(mabuff_speed_bonus());
@@ -5400,6 +5406,7 @@ bool will_vomit(player& p, int chance)
         (antiEmetics && !drunk && !one_in(chance));
     return ((stomachUpset || hasNausea) && !suppressed);
 }
+
 void player::process_effects() {
     //Special Removals
     if (has_effect("darkness") && g->is_in_sunlight(posx, posy)) {
@@ -6154,7 +6161,7 @@ void player::suffer()
         add_msg(m_bad, _("Your vision pixelates!"));
         add_disease("visuals", 100);
     }
-    if (has_bionic("bio_spasm") && one_in(3000) && !has_disease("downed")) {
+    if (has_bionic("bio_spasm") && one_in(3000) && !has_effect("downed")) {
         add_msg(m_bad, _("Your malfunctioning bionic causes you to spasm and fall to the floor!"));
         mod_pain(1);
         add_effect("stunned", 1);

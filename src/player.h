@@ -143,7 +143,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         {
             return true;
         }
-
+        
         /** Processes long-term effects */
         void process_effects(); // Process long-term effects
 

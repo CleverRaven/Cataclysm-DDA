@@ -22,7 +22,6 @@ enum dis_type_enum {
  DI_HOT,
  DI_BLISTERS,
 // Diseases
- DI_INFECTION,
  DI_COMMON_COLD, DI_FLU, DI_RECOVER, DI_TAPEWORM, DI_BLOODWORMS, DI_BRAINWORM, DI_PAINCYSTS,
  DI_TETANUS,
 // Fields - onfire moved to effects
@@ -39,7 +38,7 @@ enum dis_type_enum {
   DI_HALLU, DI_VISUALS, DI_IODINE, DI_DATURA, DI_TOOK_XANAX, DI_TOOK_PROZAC,
   DI_TOOK_FLUMED, DI_ADRENALINE, DI_JETINJECTOR, DI_ASTHMA, DI_GRACK, DI_METH, DI_VALIUM,
 // Traps
- DI_BEARTRAP, DI_LIGHTSNARE, DI_HEAVYSNARE, DI_IN_PIT, DI_STUNNED, DI_DOWNED,
+ DI_BEARTRAP, DI_LIGHTSNARE, DI_HEAVYSNARE, DI_IN_PIT, DI_STUNNED,
 // Other
  DI_AMIGARA, DI_STEMCELL_TREATMENT, DI_TELEGLOW, DI_ATTENTION, DI_EVIL,
 // Bite wound infected (dependent on bodypart.h)
@@ -79,7 +78,6 @@ void game::init_diseases() {
     disease_type_lookup["frostbite"] = DI_FROSTBITE;
     disease_type_lookup["hot"] = DI_HOT;
     disease_type_lookup["blisters"] = DI_BLISTERS;
-    disease_type_lookup["infection"] = DI_INFECTION;
     disease_type_lookup["common_cold"] = DI_COMMON_COLD;
     disease_type_lookup["flu"] = DI_FLU;
     disease_type_lookup["recover"] = DI_RECOVER;
@@ -131,7 +129,6 @@ void game::init_diseases() {
     disease_type_lookup["heavysnare"] = DI_HEAVYSNARE;
     disease_type_lookup["in_pit"] = DI_IN_PIT;
     disease_type_lookup["stunned"] = DI_STUNNED;
-    disease_type_lookup["downed"] = DI_DOWNED;
     disease_type_lookup["amigara"] = DI_AMIGARA;
     disease_type_lookup["stemcell_treatment"] = DI_STEMCELL_TREATMENT;
     disease_type_lookup["teleglow"] = DI_TELEGLOW;
@@ -197,9 +194,6 @@ bool dis_msg(dis_type type_string) {
         break;
     case DI_STUNNED:
         add_msg(m_bad, _("You're stunned!"));
-        break;
-    case DI_DOWNED:
-        add_msg(m_bad, _("You're knocked to the floor!"));
         break;
     case DI_AMIGARA:
         add_msg(m_bad, _("You can't look away from the faultline..."));
@@ -1856,7 +1850,6 @@ int disease_speed_boost(disease dis)
         case DI_PARALYZEPOISON:
             return dis.intensity * -5;
 
-        case DI_INFECTION:  return -80;
         case DI_SAP:        return -25;
         case DI_SLIMED:     return -25;
         case DI_BADPOISON:  return -10;
@@ -2057,7 +2050,6 @@ std::string dis_name(disease& dis)
 
     case DI_SLIMED: return _("Slimed");
     case DI_STUNNED: return _("Stunned");
-    case DI_DOWNED: return _("Downed");
     case DI_BLEED:
     {
         std::string status = "";
@@ -2651,8 +2643,6 @@ Your right foot is blistering from the intense heat. It is extremely painful.");
         return _("Speed -25%;   Dexterity - 2");
 
     case DI_STUNNED: return _("Your movement is randomized.");
-
-    case DI_DOWNED: return _("You're knocked to the ground.  You have to get up before you can move.");
 
     case DI_BLEED:
         switch (dis.intensity) {

@@ -243,16 +243,16 @@ void monster::move()
     if (moves < 0) {
         return;
     }
+    if (!move_effects()) {
+        moves = 0;
+        return;
+    }
     if (has_flag(MF_IMMOBILE)) {
         moves = 0;
         return;
     }
     if (has_effect("stunned")) {
         stumble(false);
-        moves = 0;
-        return;
-    }
-    if (has_effect("downed")) {
         moves = 0;
         return;
     }
@@ -717,11 +717,6 @@ int monster::move_to(int x, int y, bool force)
 {
     // Make sure that we can move there, unless force is true.
     if(!force) if(!g->is_empty(x, y) || !can_move_to(x, y)) {
-        return 0;
-    }
-
-    if (has_effect("beartrap") || has_effect("tied")) {
-        moves = 0;
         return 0;
     }
 

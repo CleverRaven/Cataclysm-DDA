@@ -104,7 +104,7 @@ void npc::move()
         add_msg( m_debug, "address_player %s", npc_action_name(action).c_str() );
         if (action == npc_undecided) {
             if (mission == NPC_MISSION_SHELTER || mission == NPC_MISSION_BASE || mission == NPC_MISSION_SHOPKEEP
-                || mission == NPC_MISSION_GUARD || has_disease("infection")) {
+                || mission == NPC_MISSION_GUARD || has_effect("infection")) {
                 action = npc_pause;
             } else if (has_new_items) {
                 action = scan_new_items(target);
@@ -995,9 +995,8 @@ bool npc::can_move_to(int x, int y) const
 
 void npc::move_to(int x, int y)
 {
-
-    if (has_effect("downed")) {
-        moves -= 100;
+    if (!move_effects()) {
+        mod_moves(-100);
         return;
     }
     if (recoil > 0) { // Start by dropping recoil a little

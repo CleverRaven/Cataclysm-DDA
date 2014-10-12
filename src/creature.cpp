@@ -536,6 +536,11 @@ void Creature::set_fake(const bool fake_value)
 /*
  * Effect-related methods
  */
+bool Creature::move_effects()
+{
+    return true;
+}
+ 
 void Creature::add_effect(efftype_id eff_id, int dur, body_part bp, int intensity, bool permanent)
 {
     bool found = false;

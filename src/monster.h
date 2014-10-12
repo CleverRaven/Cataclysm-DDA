@@ -221,6 +221,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         // Let the monster die and let its body explode into gibs
         void die_in_explosion( Creature *source );
         
+        virtual bool move_effects();
         virtual void add_effect(efftype_id eff_id, int dur, body_part bp = num_bp, int intensity = 1,
                         bool permanent = false);
         int  get_armor_cut(body_part bp) const;   // Natural armor, plus any worn armor

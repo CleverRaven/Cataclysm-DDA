@@ -41,6 +41,20 @@ void Character::load(JsonObject &jsin)
     // Add members of this class here:
 }
 
+bool Character::move_effects()
+{
+    if (has_effect("downed")) {
+        if (rng(0, 40) > get_dex() + int(get_str() / 2)) {
+            add_msg_if_player(_("You struggle to stand."));
+            return false;
+        } else {
+            add_msg_if_player(_("You stand up."));
+            remove_effect("downed");
+            return false;
+        }
+    }
+    return Creature::move_effects();
+}
 void Character::add_effect(efftype_id eff_id, int dur, body_part bp, int intensity, bool permanent)
 {
     Creature::add_effect(eff_id, dur, bp, intensity, permanent);

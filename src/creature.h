@@ -126,6 +126,9 @@ class Creature
         virtual int ypos() const = 0;
         virtual point pos() const = 0;
 
+        /** Processes move stopping effects. Returns false if movement is stopped */
+        virtual bool move_effects();
+        
         virtual void add_effect(efftype_id eff_id, int dur, body_part bp = num_bp, int intensity = 1,
                         bool permanent = false);
         /** Gives chance to save via env resist, returns if successful */

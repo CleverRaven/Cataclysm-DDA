@@ -12401,6 +12401,10 @@ bool game::plmove(int dx, int dy)
     if( !check_save_mode_allowed() ) {
         return false;
     }
+    if (!u.move_effects()) {
+        mod_moves(-100);
+        return false;
+    }
     int x = 0;
     int y = 0;
     if (u.has_effect("stunned")) {
@@ -12509,18 +12513,6 @@ bool game::plmove(int dx, int dy)
         } else {
             add_msg(m_good, _("You escape the pit!"));
             u.rem_disease("in_pit");
-        }
-    }
-    if (u.has_effect("downed")) {
-        if (rng(0, 40) > u.dex_cur + int(u.str_cur / 2)) {
-            add_msg(_("You struggle to stand."));
-            u.moves -= 100;
-            return false;
-        } else {
-            add_msg(_("You stand up."));
-            u.remove_effect("downed");
-            u.moves -= 100;
-            return false;
         }
     }
 
