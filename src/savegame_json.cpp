@@ -344,7 +344,7 @@ void player::serialize(JsonOut &json) const
 
     // crafting etc
     json.member( "activity", activity );
-    json.member( "backlog", activity );
+    json.member( "backlog", backlog );
 
     // mutations; just like traits but can be removed.
     json.member( "mutations", my_mutations );
