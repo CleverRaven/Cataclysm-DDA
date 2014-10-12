@@ -1378,7 +1378,7 @@ void dis_effect(player &p, disease &dis)
                     p.mod_healthy_mod(-10);
                     p.apply_damage( nullptr, bp_head, rng( 1, 2 ) );
                     if (!p.has_effect("blind")) {
-                    p.add_msg_if_player(m_bad, _("You can't see!"));
+                    p.add_msg_if_player(m_bad, _("Your vision goes black!"));
                     p.add_effect("blind", rng(5, 20));
                   }
                 }

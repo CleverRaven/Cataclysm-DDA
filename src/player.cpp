@@ -42,7 +42,6 @@
 #include <fstream>
 
 /* Utility functions in process_effects */
-static void manage_fire_exposure(player& p, int fireStrength = 1);
 static bool will_vomit(player& p, int chance = 1000);
 
 std::map<std::string, trait> traits;
@@ -911,7 +910,7 @@ void player::update_bodytemp()
         }
         // TILES
         int tile_strength = 0;
-        // Being on fire increases very intensly the convergeant temperature.
+        // Being on fire increases very intensely the convergent temperature.
         if (has_effect("onfire")) {
             temp_conv[i] += 15000;
         }
@@ -5357,24 +5356,6 @@ bool player::siphon(vehicle *veh, ammotype desired_liquid)
     }
 }
 
-static void manage_fire_exposure(player &p, int fireStrength) {
-    // TODO: this should be determined by material properties
-    if (!p.has_trait("M_SKIN2")) {
-        p.hurtall(3*fireStrength);
-    }
-    for (size_t i = 0; i < p.worn.size(); i++) {
-        item tmp = p.worn[i];
-        bool burnVeggy = (tmp.made_of("veggy") || tmp.made_of("paper"));
-        bool burnFabric = ((tmp.made_of("cotton") || tmp.made_of("wool")) && one_in(10*fireStrength));
-        bool burnPlastic = ((tmp.made_of("plastic")) && one_in(50*fireStrength));
-        if (burnVeggy || burnFabric || burnPlastic) {
-            p.worn.erase(p.worn.begin() + i);
-            if (i != 0) {
-                i--;
-            }
-        }
-    }
-}
 void player::cough(bool harmful, int loudness) {
     if (!is_npc()) {
         add_msg(m_bad, _("You cough heavily."));
@@ -5553,6 +5534,25 @@ void player::process_effects() {
     }
 
     Creature::process_effects();
+}
+
+void player::manage_fire_exposure(int fireStrength) {
+    // TODO: this should be determined by material properties
+    if (!has_trait("M_SKIN2")) {
+        hurtall(3*fireStrength);
+    }
+    for (size_t i = 0; i < worn.size(); i++) {
+        item tmp = worn[i];
+        bool burnVeggy = (tmp.made_of("veggy") || tmp.made_of("paper"));
+        bool burnFabric = ((tmp.made_of("cotton") || tmp.made_of("wool")) && one_in(10*fireStrength));
+        bool burnPlastic = ((tmp.made_of("plastic")) && one_in(50*fireStrength));
+        if (burnVeggy || burnFabric || burnPlastic) {
+            worn.erase(worn.begin() + i);
+            if (i != 0) {
+                i--;
+            }
+        }
+    }
 }
 
 void player::suffer()

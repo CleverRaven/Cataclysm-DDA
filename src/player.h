@@ -146,6 +146,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         
         /** Processes long-term effects */
         void process_effects(); // Process long-term effects
+        /** Manages fire exposure effects */
+        void manage_fire_exposure(int fireStrength = 1);
 
         virtual bool is_npc() const
         {

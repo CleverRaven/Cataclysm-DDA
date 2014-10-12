@@ -142,6 +142,7 @@
         "name": ["Blind"],
         "desc": ["Range of Sight: 0"],
         "apply_message": "You're blinded!",
+        "remove_message": "Your sight returns!",
         "rating": "bad"
     },
     {
@@ -181,7 +182,6 @@
             "hurt_chance": [450, 2700]
         },
     },
-    --WIP--
     {
         "type": "effect_type",
         "id": "poisoned",

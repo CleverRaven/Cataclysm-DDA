@@ -240,7 +240,7 @@ int iuse::royal_jelly(player *p, item *it, bool)
         p->rem_disease("tapeworm");
     }
     if (p->has_effect("blind")) {
-        message = _("Your sight returns!");
+        message = "";
         p->remove_effect("blind");
     }
     if (p->has_effect("poison") || p->has_disease("foodpoison") ||
