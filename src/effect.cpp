@@ -357,7 +357,7 @@ std::string effect::disp_desc(bool reduced)
     return ret.str();
 }
 
-void decay(std::vector<std::string> &rem_ids, std::vector<body_part> &rem_bps, unsigned int turn)
+void effect::decay(std::vector<std::string> &rem_ids, std::vector<body_part> &rem_bps, unsigned int turn)
 {
     if (!is_permanent()) {
         duration -= 1;
@@ -851,7 +851,7 @@ void load_effect_type(JsonObject &jo)
     
     new_etype.max_intensity = jo.get_int("max_intensity", 1);
     new_etype.dur_add_perc = jo.get_int("dur_add_perc", 100);
-    new_etype.int_add_val = jo.get_int("int_add_val", 1);
+    new_etype.int_add_val = jo.get_int("int_add_val", 0);
     new_etype.int_decay_step = jo.get_int("int_decay_step", 0);
     new_etype.int_decay_tick = jo.get_int("int_decay_tick", 0);
     

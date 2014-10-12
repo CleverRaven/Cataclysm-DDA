@@ -4647,7 +4647,6 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
         }
         else if (dealt_dams.total_damage() > 0 && source->has_flag(MF_PARALYZE)) {
             add_msg_if_player(m_bad, _("You feel poison enter your body!"));
-            add_disease("paralyzepoison", 100, false, 1, 20, 100);
             add_effect("paralyzepoison", 100);
         }
 
@@ -6266,15 +6265,18 @@ void player::vomit()
     thirst += quench_loss;
     moves -= 100;
     for (auto &i : illness) {
-        if (i.type == "foodpoison") {
-            i.duration -= 300;
-            if (i.duration < 0) {
-                rem_disease(i.type);
-            }
-        } else if (i.type == "drunk") {
+        if (i.type == "drunk") {
             i.duration -= rng(1, 5) * 100;
             if (i.duration < 0) {
                 rem_disease(i.type);
+            }
+        }
+    }
+    for( auto maps = effects.begin(); maps != effects.end(); ++maps ) {
+        for( auto effect_it = maps->second.begin(); effect_it != maps->second.end(); ++effect_it ) {
+            auto &it = effect_it->second;
+            if (it.get_id() == "foodpoison") {
+                it.mod_duration(-300);
             }
         }
     }
@@ -7905,7 +7907,7 @@ bool player::eat(item *eaten, it_comest *comest)
         add_msg(m_bad, _("Ick, this %s doesn't taste so good..."), eaten->tname().c_str());
         if (!has_trait("SAPROVORE") && !has_trait("EATDEAD") &&
        (!has_bionic("bio_digestion") || one_in(3))) {
-            add_disease("foodpoison", rng(60, (comest->nutr + 1) * 60));
+            add_effect("foodpoison", rng(60, (comest->nutr + 1) * 60));
         }
         consume_effects(eaten, comest, spoiled);
     } else if ((spoiled) && has_trait("SAPROPHAGE")) {
@@ -7942,7 +7944,7 @@ bool player::eat(item *eaten, it_comest *comest)
             if (eaten->poison >= rng(2, 4)) {
                 add_effect("poison", eaten->poison * 100);
             }
-            add_disease("foodpoison", eaten->poison * 300);
+            add_effect("foodpoison", eaten->poison * 300);
         }
     }
 

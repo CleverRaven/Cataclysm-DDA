@@ -243,15 +243,15 @@ int iuse::royal_jelly(player *p, item *it, bool)
         message = "";
         p->remove_effect("blind");
     }
-    if (p->has_effect("poison") || p->has_disease("foodpoison") ||
-        p->has_effect("badpoison") || p->has_disease("paralyzepoison") ||
+    if (p->has_effect("poison") || p->has_effect("foodpoison") ||
+        p->has_effect("badpoison") || p->has_effect("paralyzepoison") ||
         p->has_disease("tetanus") || p->has_effect("stung")) {
         message = _("You feel much better!");
         p->remove_effect("poison");
         p->remove_effect("stung");
         p->remove_effect("badpoison");
-        p->rem_disease("foodpoison");
-        p->rem_disease("paralyzepoison");
+        p->remove_effect("foodpoison");
+        p->remove_effect("paralyzepoison");
         p->rem_disease("tetanus");
     }
     if (p->has_disease("asthma")) {
@@ -1311,7 +1311,7 @@ int iuse::poison(player *p, item *it, bool)
         return it->type->charges_to_use();
     }
     p->add_effect("poison", 600);
-    p->add_disease("foodpoison", 1800);
+    p->add_effect("foodpoison", 1800);
     return it->type->charges_to_use();
 }
 

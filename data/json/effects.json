@@ -206,7 +206,6 @@
             "hurt_chance": [300, 1800]
         }
     },
-    ---WIP---
     {
         "type": "effect_type",
         "id": "foodpoison",
@@ -214,24 +213,36 @@
         "desc": ["Your stomach is extremely upset, and you are quite nauseous."],
         "rating": "bad",
         "resist_trait": "POISRESIST",
-        "pain_sizing": true,
-        "hurt_sizing": true,
-        "main_parts_only": true,
         "base_mods": {
-            "per_mod": [-2],
-            "dex_mod": [-2],
+            "per_mod": [-1],
+            "dex_mod": [-1],
             "str_mod": [-3, -1],
-            "speed_mod": [-10],
-            "pain_min": [2],
-            "pain_chance": [100, 600],
-            "hurt_min": [1],
-            "hurt_max": [2],
-            "hurt_chance": [300, 1800]
+            "speed_mod": [-20],
+            "pain_min": [1],
+            "pain_chance": [300, 900],
+            "vomit_chance": [600, 1200]
         }
     },
     {
         "type": "effect_type",
         "id": "paralyzepoison"
+        "name": [ "Slowed", "Slowed", "Slowed", "Slowed", "Slowed",
+            "Sluggish", "Sluggish", "Sluggish", "Sluggish", "Sluggish",
+            "Partially Paralyzed", "Partially Paralyzed", "Partially Paralyzed",
+            "Partially Paralyzed", "Partially Paralyzed",
+            "Totally Paralyzed", "Totally Paralyzed", "Totally Paralyzed",
+            "Totally Paralyzed", "Totally Paralyzed"
+        ],
+        "desc": ["You are being slowed by a paralyzing poison!"],
+        "rating": "bad",
+        "max_intensity": 20,
+        "resist_trait": "POISRESIST",
+        "int_add_val": 1,
+        "int_decay_tick": 100,
+        "scaling_mods": {
+            "dex_mod": [-.34, -.17],
+            "speed_mod": [-5, -3]
+        }
     },
     {
         "type": "effect_type",
