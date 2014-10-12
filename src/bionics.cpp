@@ -1068,7 +1068,7 @@ void bionics_install_failure(player *u, it_bionic *type, int success)
         break;
 
     case 3:
-        if (u->num_bionics() <= failure_level) {
+        if (u->num_bionics() <= failure_level && u->max_power_level == 0) {
             add_msg(m_bad, _("All of your existing bionics are lost!"));
         } else {
             add_msg(m_bad, _("Some of your existing bionics are lost!"));
