@@ -15,6 +15,7 @@
 #include "path_info.h"
 #include "mapsharing.h"
 
+#include <iostream>
 #include <ctime>
 #include <sys/stat.h>
 #include <signal.h>
@@ -203,6 +204,14 @@ int main(int argc, char *argv[])
         }
     }
 
+    if (!assure_dir_exist(FILENAMES["user_dir"].c_str())) {
+        std::cout << "Can't open or create "
+                  << FILENAMES["user_dir"].c_str()
+                  << ". Check permissions."
+                  << std::endl;
+        exit(1);
+    }
+
     setupDebug();
     // Options strings loaded with system locale
     initOptions();
@@ -231,11 +240,6 @@ int main(int argc, char *argv[])
     // First load and initialize everything that does not
     // depend on the mods.
     try {
-        if (!assure_dir_exist(FILENAMES["user_dir"].c_str())) {
-            debugmsg("Can't open or create %s. Check permissions.",
-                     FILENAMES["user_dir"].c_str());
-            exit_handler(-999);
-        }
         g->load_static_data();
         if (verifyexit) {
             if(g->game_error()) {
