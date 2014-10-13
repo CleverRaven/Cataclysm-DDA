@@ -376,14 +376,6 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         newmon->armor_cut = jo.get_int("armor_cut", 0);
         newmon->hp = jo.get_int("hp", 0);
         jo.read("starting_ammo", newmon->starting_ammo);
-        if (jo.has_array("special_freq")) {
-            JsonArray jarr = jo.get_array("special_freq");
-            while (jarr.has_more()) {
-                newmon->sp_freq.push_back(jarr.next_int());
-            }
-        } else {
-            newmon->sp_freq.push_back(0);
-        }
         newmon->def_chance = jo.get_int("special_when_hit_freq", 0);
         newmon->luminance = jo.get_float("luminance", 0);
 
@@ -401,8 +393,11 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         }
 
         newmon->dies = get_death_functions(jo, "death_function");
-        newmon->sp_attack = get_attack_function(jo, "special_attack");
         newmon->sp_defense = get_defense_function(jo, "special_when_hit");
+
+        if (jo.has_array("special_attacks")) {
+            load_special_attacks(newmon, jo, "special_attacks");
+        }
 
         std::set<std::string> flags, anger_trig, placate_trig, fear_trig;
         flags = jo.get_tags("flags");
@@ -534,20 +529,19 @@ std::vector<void (mdeath::*)(monster *)> MonsterGenerator::get_death_functions(J
     return deaths;
 }
 
-std::vector<MonAttackFunction> MonsterGenerator::get_attack_function(JsonObject &jo, std::string member)
-{
-    std::vector<MonAttackFunction> ret;
-    
-    JsonArray jsarr = jo.get_array(member);
-    while (jsarr.has_more()) {
-        ret.push_back(attack_map[jsarr.next_string()]);
-    }
+void MonsterGenerator::load_special_attacks(mtype *m, JsonObject &jo, std::string member) {
+  m->sp_attack.clear(); // there is a devious NULL there from mtype init
+  JsonArray outer = jo.get_array(member);
+  while (outer.has_more()) {
+    JsonArray inner = outer.next_array();
+    m->sp_attack.push_back(attack_map[inner.get_string(0)]);
+    m->sp_freq.push_back(inner.get_int(1));
+  }
 
-    if (ret.empty()) {
-        ret.push_back(attack_map["NONE"]);
-    }
-    
-    return ret;
+  if (m->sp_attack.empty()) {
+    m->sp_attack.push_back(attack_map["NONE"]);
+    m->sp_freq.push_back(0);
+  }
 }
 
 MonDefenseFunction MonsterGenerator::get_defense_function(JsonObject &jo, std::string member)
