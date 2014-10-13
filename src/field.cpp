@@ -1868,7 +1868,7 @@ void map::mon_in_field(int x, int y, monster *z)
         case fd_relax_gas:
             if ((z->made_of("flesh") || z->made_of("hflesh") || z->made_of("veggy") || z->made_of("iflesh")) &&
                 !z->has_flag(MF_NO_BREATHE)) {
-                z->add_effect("stunned", rng(cur->getFieldDensity() * 4));
+                z->add_effect("stunned", rng(cur->getFieldDensity() * 4, cur->getFieldDensity() * 8));
             }
             break;
 

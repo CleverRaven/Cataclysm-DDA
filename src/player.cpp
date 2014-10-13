@@ -5398,7 +5398,7 @@ void player::process_effects() {
                 if (it.get_miss_weight() < 0) {
                     weight = abs(it.get_miss_weight());
                 }
-                add_miss_reason(_(it.get_miss_string()), weight);
+                add_miss_reason(_(it.get_miss_string().c_str()), weight);
             }
             
             // Handle stat changes
@@ -5478,7 +5478,7 @@ void player::process_effects() {
             // Still hardcoded stuff
             std::string id = effect_it->second.get_id();
             if (id == "onfire") {
-                manage_fire_exposure(*this, 1);
+                manage_fire_exposure(1);
             } else if (id == "glare") {
                 mod_per_bonus(-1);
                 if (one_in(200)) {

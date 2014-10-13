@@ -562,7 +562,7 @@ void Creature::add_effect(efftype_id eff_id, int dur, body_part bp, bool permane
             }
             // Intensity uses the type'd step size if it already exists
             if (e.get_int_add_val() != 0) {
-                e.mod_intensity(e.get_int_add_val);
+                e.mod_intensity(e.get_int_add_val());
                 
                 // Bound it by [1, max intensity]
                 if( e.get_intensity() > e.get_max_intensity() ) {
@@ -582,7 +582,7 @@ void Creature::add_effect(efftype_id eff_id, int dur, body_part bp, bool permane
         effect new_eff(&effect_types[eff_id], dur, bp, permanent, intensity);
         // Bound new effect intensity at [1, max intensity]
         if (new_eff.get_intensity() < 1) {
-            add_msg( m_debug, "Bad intensity, ID: %s", new_eff.get_id() );
+            add_msg( m_debug, "Bad intensity, ID: %s", new_eff.get_id().c_str() );
             new_eff.set_intensity(1);
         } else if (new_eff.get_intensity() > new_eff.get_max_intensity()) {
             new_eff.set_intensity(new_eff.get_max_intensity());

@@ -1286,7 +1286,7 @@ void monster::process_effects()
             
             std::string id = effect_it->second.get_id();
             // MATERIALS-TODO: use fire resistance
-            } else if (id == "onfire") {
+            if (id == "onfire") {
                 if (made_of("flesh") || made_of("iflesh"))
                     apply_damage( nullptr, bp_torso, rng( 3, 8 ) );
                 if (made_of("veggy"))

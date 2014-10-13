@@ -169,7 +169,7 @@ effect::effect() :
     intensity(0)
 { }
 
-effect::effect(effect_type *peff_type, int dur, body_part part, int nintensity, bool perm) :
+effect::effect(effect_type *peff_type, int dur, body_part part, bool perm, int nintensity) :
     eff_type(peff_type),
     duration(dur),
     bp(part),
@@ -281,7 +281,7 @@ std::string effect::disp_desc(bool reduced)
     }
     if (constant.size() > 0) {
         ret << _("Constant: ");
-        for (size_t i = 0; i < constant.size(), i++) {
+        for (size_t i = 0; i < constant.size(); i++) {
             if (i == 0) {
                 // No comma on the first one
                 ret << constant[i];
@@ -293,7 +293,7 @@ std::string effect::disp_desc(bool reduced)
     }
     if (frequent.size() > 0) {
         ret << _("Frequent: ");
-        for (size_t i = 0; i < frequent.size(), i++) {
+        for (size_t i = 0; i < frequent.size(); i++) {
             if (i == 0) {
                 // No comma on the first one
                 ret << frequent[i];
@@ -305,7 +305,7 @@ std::string effect::disp_desc(bool reduced)
     }
     if (uncommon.size() > 0) {
         ret << _("Uncommon: ");
-        for (size_t i = 0; i < uncommon.size(), i++) {
+        for (size_t i = 0; i < uncommon.size(); i++) {
             if (i == 0) {
                 // No comma on the first one
                 ret << uncommon[i];
@@ -317,7 +317,7 @@ std::string effect::disp_desc(bool reduced)
     }
     if (rare.size() > 0) {
         ret << _("Rare: ");
-        for (size_t i = 0; i < rare.size(), i++) {
+        for (size_t i = 0; i < rare.size(); i++) {
             if (i == 0) {
                 // No comma on the first one
                 ret << rare[i];
@@ -361,10 +361,10 @@ void effect::decay(std::vector<std::string> &rem_ids, std::vector<body_part> &re
 {
     if (!is_permanent()) {
         duration -= 1;
-        add_msg( m_debug, "ID: %s, Duration %d", get_id(), duration )
+        add_msg( m_debug, "ID: %s, Duration %d", get_id().c_str(), duration );
     }
     if (intensity < 1) {
-        add_msg( m_debug, "Bad intensity, ID: %s", get_id() )
+        add_msg( m_debug, "Bad intensity, ID: %s", get_id().c_str() );
         intensity = 1;
     } else if (intensity > 1) {
         if (eff_type->int_decay_tick != 0 && turn % eff_type->int_decay_tick == 0) {
@@ -865,7 +865,7 @@ void load_effect_type(JsonObject &jo)
     new_etype.int_decay_tick = jo.get_int("int_decay_tick", 0);
     
     new_etype.miss_string = jo.get_string("miss_string", "");
-    new_etype.miss_weight = jo.get_string("miss_weight", 1);
+    new_etype.miss_weight = jo.get_int("miss_weight", 1);
     
     new_etype.main_parts_only = jo.get_bool("main_parts_only", false);
     new_etype.pkill_addict_reduces = jo.get_bool("pkill_addict_reduces", false);

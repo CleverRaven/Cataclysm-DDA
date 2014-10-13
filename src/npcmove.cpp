@@ -999,7 +999,7 @@ void npc::move_to(int x, int y)
         mod_moves(-100);
         return;
     }
-    if (m.has_flag("UNSTABLE", x, y)) {
+    if (g->m.has_flag("UNSTABLE", x, y)) {
         add_effect("bouldering", 1, num_bp, true);
     } else if (has_effect("bouldering")) {
         remove_effect("bouldering");

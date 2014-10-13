@@ -56,7 +56,7 @@
         "desc": ["AI tag used for the infected NPC quest. This is a bug if you have it."],
         "base_mods": {
             "speed_mod": [-80]
-        },
+        }
     },
     {
         "type": "effect_type",
@@ -161,7 +161,7 @@
         "desc": ["You have been stung!"],
         "rating": "bad",
         "base_mods": {
-            "pain_min": [1],
+            "pain_min": [1]
         }
     },
     {
@@ -183,7 +183,7 @@
             "pain_chance": [150, 900],
             "hurt_min": [1],
             "hurt_chance": [450, 2700]
-        },
+        }
     },
     {
         "type": "effect_type",
@@ -229,7 +229,7 @@
     },
     {
         "type": "effect_type",
-        "id": "paralyzepoison"
+        "id": "paralyzepoison",
         "name": [ "Slowed", "Slowed", "Slowed", "Slowed", "Slowed",
             "Sluggish", "Sluggish", "Sluggish", "Sluggish", "Sluggish",
             "Partially Paralyzed", "Partially Paralyzed", "Partially Paralyzed",

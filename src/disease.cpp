@@ -386,7 +386,6 @@ void dis_effect(player &p, disease &dis)
 {
     bool sleeping = p.has_disease("sleep");
     bool tempMsgTrigger = one_in(400);
-    int bonus;
     dis_type_enum disType = disease_type_lookup[dis.type];
     int grackPower = 500;
 

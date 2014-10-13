@@ -12402,7 +12402,7 @@ bool game::plmove(int dx, int dy)
         return false;
     }
     if (!u.move_effects()) {
-        mod_moves(-100);
+        u.moves -= 100;
         return false;
     }
     int x = 0;

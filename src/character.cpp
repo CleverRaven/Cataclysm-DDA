@@ -1,4 +1,5 @@
 #include "character.h"
+#include "game.h"
 
 Character::Character()
 {
@@ -57,8 +58,10 @@ bool Character::move_effects()
             remove_effect("lightsnare");
             add_msg_player_or_npc(m_good, _("You free yourself from the light snare!"),
                                     _("<npcname> frees themselves from the light snare!"));
-            g->m.spawn_item(xpos(), ypos(), "string_36");
-            g->m.spawn_item(xpos(), ypos(), "snare_trigger");
+            item string("string_36", calendar::turn);
+            item snare("snare_trigger", calendar::turn);
+            g->m.add_item_or_charges(xpos(), ypos(), string);
+            g->m.add_item_or_charges(xpos(), ypos(), snare);
         } else {
             add_msg_if_player(m_bad, _("You try to free yourself from the light snare, but can't get loose!"));
         }
@@ -69,8 +72,10 @@ bool Character::move_effects()
             remove_effect("heavysnare");
             add_msg_player_or_npc(m_good, _("You free yourself from the heavy snare!"),
                                     _("<npcname> frees themselves from the heavy snare!"));
-            g->m.spawn_item(xpos(), ypos(), "rope_6");
-            g->m.spawn_item(xpos(), ypos(), "snare_trigger");
+            item rope("rope_6", calendar::turn);
+            item snare("snare_trigger", calendar::turn);
+            g->m.add_item_or_charges(xpos(), ypos(), rope);
+            g->m.add_item_or_charges(xpos(), ypos(), snare);
         } else {
             add_msg_if_player(m_bad, _("You try to free yourself from the heavy snare, but can't get loose!"));
         }
@@ -86,7 +91,8 @@ bool Character::move_effects()
             remove_effect("beartrap");
             add_msg_player_or_npc(m_good, _("You free yourself from the bear trap!"),
                                     _("<npcname> frees themselves from the bear trap!"));
-            g->m.spawn_item(xpos(), ypos(), "beartrap");
+            item beartrap("beartrap", calendar::turn);
+            g->m.add_item_or_charges(xpos(), ypos(), beartrap);
         } else {
             add_msg_if_player(m_bad, _("You try to free yourself from the bear trap, but can't get loose!"));
         }
