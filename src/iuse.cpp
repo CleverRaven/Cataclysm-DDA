@@ -2626,25 +2626,9 @@ int iuse::mycus(player *p, item *it, bool t)
             p->thirst += 10;
             p->add_morale(MORALE_MARLOSS, 25, 200); // still covers up mutation pain
         }
-        for (int x = p->posx - 2; x <= p->posx + 2; x++) {
-            for (int y = p->posy - 2; y <= p->posy + 2; y++) {
-                g->m.marlossify(x, y);
-            }
-        }
     } else if (p->has_trait("THRESH_MYCUS")) {
-        if (one_in(10)) {
-            p->mutate_category("MUTCAT_MYCUS");
-            p->hunger += 10;
-            p->fatigue += 5;
-            p->thirst += 10;
-        }
-        p->pkill += 10;
-        p->stim += 10;
-        for (int x = p->posx - 3; x <= p->posx + 3; x++) {
-            for (int y = p->posy - 3; y <= p->posy + 3; y++) {
-                g->m.marlossify(x, y);
-            }
-        }
+        p->pkill += 5;
+        p->stim += 5;
     } else { // In case someone gets one without having been adapted first.
         // Marloss is the Mycus' method of co-opting humans.  Mycus fruit is for symbiotes' maintenance and development.
         p->add_msg_if_player(_("This apple tastes really weird!  You're not sure it's good for you..."));
@@ -6164,7 +6148,7 @@ int iuse::turret(player *p, item *, bool)
         p->add_msg_if_player(m_info,
                              _("If you had standard factory-built 9mm bullets, you could load the turret."));
     }
-    mturret.ammo = ammo;
+    mturret.ammo["9mm"] = ammo;
     if (rng(0, p->int_cur / 2) + p->skillLevel("electronics") / 2 +
         p->skillLevel("computer") < rng(0, 6)) {
         p->add_msg_if_player(m_warning, _("The turret scans you and makes angry beeping noises!"));
@@ -6229,7 +6213,7 @@ int iuse::turret_rifle(player *p, item *, bool)
         p->add_msg_if_player(m_info,
                              _("If you had standard factory-built 5.56 bullets, you could load the turret."));
     }
-    mturret.ammo = ammo;
+    mturret.ammo["556"] = ammo;
     if (rng(0, p->int_cur / 2) + p->skillLevel("electronics") / 2 +
         p->skillLevel("computer") < rng(0, 6)) {
         p->add_msg_if_player(m_warning, _("The turret scans you and makes angry beeping noises!"));
@@ -9011,7 +8995,7 @@ bool einkpc_download_memory_card(player *p, item *eink, item *mc)
 
         mc->item_vars["MC_RECIPE"] = "";
 
-        std::vector<recipe *> candidates;
+        std::vector<const recipe *> candidates;
         recipe_map recipes = g->list_recipes();
 
         for (recipe_map::iterator map_iter = recipes.begin(); map_iter != recipes.end(); ++map_iter) {
@@ -9039,7 +9023,7 @@ bool einkpc_download_memory_card(player *p, item *eink, item *mc)
 
         if (candidates.size() > 0) {
 
-            recipe *r = candidates[rng(0, candidates.size() - 1)];
+            const recipe *r = candidates[rng(0, candidates.size() - 1)];
             const std::string rident = r->ident;
 
             const item dummy(r->result, 0);
@@ -10266,7 +10250,7 @@ int iuse::multicooker(player *p, item *it, bool t)
 
             dmenu.addentry(d_cancel, true, 'q', _("Cancel"));
 
-            std::vector<recipe *> dishes;
+            std::vector<const recipe *> dishes;
 
             inventory crafting_inv = g->crafting_inventory(&g->u);
             //add some tools and qualities. we can't add this qualities to json, because multicook must be used only by activating, not as component other crafts.
@@ -10304,7 +10288,7 @@ int iuse::multicooker(player *p, item *it, bool t)
             if (d_cancel == choice) {
                 return 0;
             } else {
-                recipe *meal = dishes[choice - 1];
+                const recipe *meal = dishes[choice - 1];
                 int mealtime;
                 if (it->item_vars["MULTI_COOK_UPGRADE"] == "UPGRADE") {
                     mealtime = meal->time;

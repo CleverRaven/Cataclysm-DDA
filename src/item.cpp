@@ -757,8 +757,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
             if (!(book->recipes.empty())) {
                 std::string recipes = "";
                 size_t index = 1;
-                for (std::map<recipe*, int>::iterator iter = book->recipes.begin();
-                     iter != book->recipes.end(); ++iter, ++index) {
+                for( auto iter = book->recipes.begin();
+                     iter != book->recipes.end(); ++iter, ++index ) {
                     if(g->u.knows_recipe(iter->first)) {
                         recipes += "<color_ltgray>";
                     }
@@ -822,7 +822,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
     if (!components.empty()) {
         dump->push_back( iteminfo( "DESCRIPTION", string_format( _("Made from: %s"), components_to_string().c_str() ) ) );
     } else {
-        recipe *dis_recipe = g->get_disassemble_recipe( type->id );
+        const recipe *dis_recipe = g->get_disassemble_recipe( type->id );
         if( dis_recipe != nullptr ) {
             std::ostringstream buffer;
             for( auto it = dis_recipe->components.begin(); it != dis_recipe->components.end(); ++it ) {
@@ -2621,12 +2621,16 @@ int item::range(player *p)
         return 0;
     // Just use the raw ammo range for now.
     // we do NOT want to use the parent gun's range.
-    if(mode == "MODE_AUX") {
-        item* gunmod = active_gunmod();
-        if(gunmod && gunmod->curammo)
-            return gunmod->curammo->range;
-        else
-            return 0;
+    if( mode == "MODE_AUX" ) {
+        item *gunmod = active_gunmod();
+        int mod_range = 0;
+        if( gunmod ) {
+            mod_range += dynamic_cast<it_gunmod *>(gunmod->type)->range;
+            if( gunmod->curammo) {
+                mod_range += gunmod->curammo->range;
+            }
+        }
+        return mod_range;
     }
 
     // Ammoless weapons use weapon's range only

@@ -1921,10 +1921,11 @@ void mattack::tazer(monster *z, int index)
 
 void mattack::smg(monster *z, int index)
 {
+    const std::string ammo_type("9mm");
     // Make sure our ammo isn't weird.
-    if (z->ammo > 1000) {
-        debugmsg("Generated too much ammo (%d) for %s in mattack::smg", z->ammo, z->name().c_str());
-        z->ammo = 1000;
+    if (z->ammo[ammo_type] > 1000) {
+        debugmsg("Generated too much ammo (%d) for %s in mattack::smg", z->ammo[ammo_type], z->name().c_str());
+        z->ammo[ammo_type] = 1000;
     }
     int fire_t = 0;
 
@@ -1962,7 +1963,7 @@ void mattack::smg(monster *z, int index)
     }
     z->moves -= 150;   // It takes a while
 
-    if (z->ammo <= 0) {
+    if (z->ammo[ammo_type] <= 0) {
         if (one_in(3)) {
             g->sound(z->posx(), z->posy(), 2, _("a chk!"));
         } else if (one_in(4)) {
@@ -1974,11 +1975,11 @@ void mattack::smg(monster *z, int index)
         add_msg(m_warning, _("The %s fires its smg!"), z->name().c_str());
     }
     tmp.weapon = item("hk_mp5", 0);
-    tmp.weapon.curammo = dynamic_cast<it_ammo *>(itypes["9mm"]);
-    tmp.weapon.charges = std::max(z->ammo, 10);
-    z->ammo -= tmp.weapon.charges;
+    tmp.weapon.curammo = dynamic_cast<it_ammo *>(itypes[ammo_type]);
+    tmp.weapon.charges = std::max(z->ammo[ammo_type], 10);
+    z->ammo[ammo_type] -= tmp.weapon.charges;
     tmp.fire_gun(target->xpos(), target->ypos(), true);
-    z->ammo += tmp.weapon.charges;
+    z->ammo[ammo_type] += tmp.weapon.charges;
     if (target == &g->u) {
         z->add_effect("targeted", 3);
     }
@@ -2046,10 +2047,11 @@ void mattack::laser(monster *z, int index)
 
 void mattack::rifle_tur(monster *z, int index)
 {
+    const std::string ammo_type("556");
     // Make sure our ammo isn't weird.
-    if (z->ammo > 2000) {
-        debugmsg("Generated too much ammo (%d) for %s in mattack::rifle_tur", z->ammo, z->name().c_str());
-        z->ammo = 2000;
+    if (z->ammo[ammo_type] > 2000) {
+        debugmsg("Generated too much ammo (%d) for %s in mattack::rifle_tur", z->ammo[ammo_type], z->name().c_str());
+        z->ammo[ammo_type] = 2000;
     }
     int fire_t = 0;
 
@@ -2088,7 +2090,7 @@ void mattack::rifle_tur(monster *z, int index)
     }
     z->moves -= 150;   // It takes a while
 
-    if (z->ammo <= 0) {
+    if (z->ammo[ammo_type] <= 0) {
         if (one_in(3)) {
             g->sound(z->posx(), z->posy(), 2, _("a chk!"));
         } else if (one_in(4)) {
@@ -2100,11 +2102,11 @@ void mattack::rifle_tur(monster *z, int index)
         add_msg(m_warning, _("The %s opens up with its rifle!"), z->name().c_str());
     }
     tmp.weapon = item("m4a1", 0);
-    tmp.weapon.curammo = dynamic_cast<it_ammo *>(itypes["556"]);
-    tmp.weapon.charges = std::max(z->ammo, 30);
-    z->ammo -= tmp.weapon.charges;
+    tmp.weapon.curammo = dynamic_cast<it_ammo *>(itypes[ammo_type]);
+    tmp.weapon.charges = std::max(z->ammo[ammo_type], 30);
+    z->ammo[ammo_type] -= tmp.weapon.charges;
     tmp.fire_gun(target->xpos(), target->ypos(), true);
-    z->ammo += tmp.weapon.charges;
+    z->ammo[ammo_type] += tmp.weapon.charges;
     if (target == &g->u) {
         z->add_effect("targeted", 3);
     }
@@ -2112,10 +2114,11 @@ void mattack::rifle_tur(monster *z, int index)
 
 void mattack::frag_tur(monster *z, int index) // This is for the bots, not a standalone turret
 {
+    const std::string ammo_type("40mm_frag");
     // Make sure our ammo isn't weird.
-    if (z->ammo > 100) {
-        debugmsg("Generated too much ammo (%d) for %s in mattack::frag_tur", z->ammo, z->name().c_str());
-        z->ammo = 100;
+    if (z->ammo[ammo_type] > 100) {
+        debugmsg("Generated too much ammo (%d) for %s in mattack::frag_tur", z->ammo[ammo_type], z->name().c_str());
+        z->ammo[ammo_type] = 100;
     }
     int fire_t = 0;
 
@@ -2158,7 +2161,7 @@ void mattack::frag_tur(monster *z, int index) // This is for the bots, not a sta
     }
     z->moves -= 150;   // It takes a while
 
-    if (z->ammo <= 0) {
+    if (z->ammo[ammo_type] <= 0) {
         if (one_in(3)) {
             g->sound(z->posx(), z->posy(), 2, _("a chk!"));
         } else if (one_in(4)) {
@@ -2170,11 +2173,11 @@ void mattack::frag_tur(monster *z, int index) // This is for the bots, not a sta
         add_msg(m_warning, _("The %s's grenade launcher fires!"), z->name().c_str());
     }
     tmp.weapon = item("mgl", 0);
-    tmp.weapon.curammo = dynamic_cast<it_ammo *>(itypes["40mm_frag"]);
-    tmp.weapon.charges = std::max(z->ammo, 30);
-    z->ammo -= tmp.weapon.charges;
+    tmp.weapon.curammo = dynamic_cast<it_ammo *>(itypes[ammo_type]);
+    tmp.weapon.charges = std::max(z->ammo[ammo_type], 30);
+    z->ammo[ammo_type] -= tmp.weapon.charges;
     tmp.fire_gun(target->xpos(), target->ypos(), true);
-    z->ammo += tmp.weapon.charges;
+    z->ammo[ammo_type] += tmp.weapon.charges;
     if (target == &g->u) {
         z->add_effect("targeted", 3);
     }
@@ -2182,10 +2185,11 @@ void mattack::frag_tur(monster *z, int index) // This is for the bots, not a sta
 
 void mattack::bmg_tur(monster *z, int index)
 {
+    const std::string ammo_type("50bmg");
     // Make sure our ammo isn't weird.
-    if (z->ammo > 500) {
-        debugmsg("Generated too much ammo (%d) for %s in mattack::bmg_tur", z->ammo, z->name().c_str());
-        z->ammo = 500;
+    if (z->ammo[ammo_type] > 500) {
+        debugmsg("Generated too much ammo (%d) for %s in mattack::bmg_tur", z->ammo[ammo_type], z->name().c_str());
+        z->ammo[ammo_type] = 500;
     }
     int fire_t = 0;
 
@@ -2228,7 +2232,7 @@ void mattack::bmg_tur(monster *z, int index)
     }
     z->moves -= 150;   // It takes a while
 
-    if (z->ammo <= 0) {
+    if (z->ammo[ammo_type] <= 0) {
         if (one_in(3)) {
             g->sound(z->posx(), z->posy(), 2, _("a chk!"));
         } else if (one_in(4)) {
@@ -2241,11 +2245,11 @@ void mattack::bmg_tur(monster *z, int index)
         add_msg(m_warning, _("The %s aims and fires!"), z->name().c_str());
     }
     tmp.weapon = item("m107a1", 0);
-    tmp.weapon.curammo = dynamic_cast<it_ammo *>(itypes["50bmg"]);
-    tmp.weapon.charges = std::max(z->ammo, 30);
-    z->ammo -= tmp.weapon.charges;
+    tmp.weapon.curammo = dynamic_cast<it_ammo *>(itypes[ammo_type]);
+    tmp.weapon.charges = std::max(z->ammo[ammo_type], 30);
+    z->ammo[ammo_type] -= tmp.weapon.charges;
     tmp.fire_gun(target->xpos(), target->ypos(), false);
-    z->ammo += tmp.weapon.charges;
+    z->ammo[ammo_type] += tmp.weapon.charges;
     if (target == &g->u) {
         z->add_effect("targeted", 3);
     }
@@ -2254,10 +2258,11 @@ void mattack::bmg_tur(monster *z, int index)
 void mattack::tank_tur(monster *z, int index)
 {
     (void)index; //unused
+    const std::string ammo_type("120mm_HEAT");
     // Make sure our ammo isn't weird.
-    if (z->ammo > 40) {
-        debugmsg("Generated too much ammo (%d) for %s in mattack::tank_tur", z->ammo, z->name().c_str());
-        z->ammo = 40;
+    if (z->ammo[ammo_type] > 40) {
+        debugmsg("Generated too much ammo (%d) for %s in mattack::tank_tur", z->ammo[ammo_type], z->name().c_str());
+        z->ammo[ammo_type] = 40;
     }
     int fire_t = 0;
 
@@ -2303,7 +2308,7 @@ void mattack::tank_tur(monster *z, int index)
     }
     z->moves -= 150;   // It takes a while
 
-    if (z->ammo <= 0) {
+    if (z->ammo[ammo_type] <= 0) {
         if (one_in(3)) {
             g->sound(z->posx(), z->posy(), 2, _("a chk!"));
         } else if (one_in(4)) {
@@ -2315,11 +2320,11 @@ void mattack::tank_tur(monster *z, int index)
         add_msg(m_warning, _("The %s's 120mm cannon fires!"), z->name().c_str());
     }
     tmp.weapon = item("TANK", 0);
-    tmp.weapon.curammo = dynamic_cast<it_ammo *>(itypes["120mm_HEAT"]);
-    tmp.weapon.charges = std::max(z->ammo, 5);
-    z->ammo -= tmp.weapon.charges;
+    tmp.weapon.curammo = dynamic_cast<it_ammo *>(itypes[ammo_type]);
+    tmp.weapon.charges = std::max(z->ammo[ammo_type], 5);
+    z->ammo[ammo_type] -= tmp.weapon.charges;
     tmp.fire_gun(target->xpos(), target->ypos(), false);
-    z->ammo += tmp.weapon.charges;
+    z->ammo[ammo_type] += tmp.weapon.charges;
     if (target == &g->u) {
         z->add_effect("targeted", 3);
     }
