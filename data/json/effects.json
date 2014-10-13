@@ -169,6 +169,7 @@
         "id": "poison",
         "name": ["Poisoned"],
         "desc": ["You have been poisoned!"],
+        "miss_message": "You feel bad inside.",
         "rating": "bad",
         "resist_trait": "POISRESIST",
         "pain_sizing": true,
@@ -189,6 +190,8 @@
         "id": "badpoison",
         "name": ["Badly Poisoned"],
         "desc": ["You have been badly poisoned!"],
+        "miss_message": "You feel bad inside.",
+        "miss_weight": 2,
         "rating": "bad",
         "resist_trait": "POISRESIST",
         "pain_sizing": true,
@@ -211,6 +214,7 @@
         "id": "foodpoison",
         "name": ["Food Poisoning"],
         "desc": ["Your stomach is extremely upset, and you are quite nauseous."],
+        "miss_message": "Your stomach bothers you.",
         "rating": "bad",
         "resist_trait": "POISRESIST",
         "base_mods": {
@@ -234,6 +238,8 @@
             "Totally Paralyzed", "Totally Paralyzed"
         ],
         "desc": ["You are being slowed by a paralyzing poison!"],
+        "miss_message": "You feel stiff.",
+        "miss_weight": 3,
         "rating": "bad",
         "max_intensity": 20,
         "resist_trait": "POISRESIST",
@@ -244,12 +250,28 @@
             "speed_mod": [-5, -3]
         }
     },
-    --WIP--
+    {
+        "type": "effect_type",
+        "id": "lightsnare",
+        "name": ["Stuck in a light snare"],
+        "desc": ["You can't move until you get free!"],
+        "apply_message": "You are snared!",
+        "rating": "bad"
+    },
+    {
+        "type": "effect_type",
+        "id": "heavysnare",
+        "name": ["Stuck in a heavy snare"],
+        "desc": ["You can't move until you get free!"],
+        "apply_message": "You are snared!",
+        "rating": "bad"
+    },
     {
         "type": "effect_type",
         "id": "beartrap",
         "name": ["Stuck in beartrap"],
-        "desc": ["You can't move!"],
+        "desc": ["You can't move until you get free!"],
+        "apply_message": "You are caught!",
         "rating": "bad"
     },
     {
@@ -493,12 +515,6 @@
     },
     {
         "type": "effect_type",
-        "id": "heavysnare",
-        "apply_message": "You are snared.",
-        "rating": "bad"
-    },
-    {
-        "type": "effect_type",
         "id": "hot"
     },
     {
@@ -519,12 +535,6 @@
         "type": "effect_type",
         "id": "asthma",
         "apply_message": "You can't breathe... asthma attack!",
-        "rating": "bad"
-    },
-    {
-        "type": "effect_type",
-        "id": "lightsnare",
-        "apply_message": "You are snared.",
         "rating": "bad"
     },
     {
