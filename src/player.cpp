@@ -173,7 +173,7 @@ player::player() : Character(), name("")
  sight_max = 9999;
  sight_boost = 0;
  sight_boost_cap = 0;
- lastrecipe = NULL;
+ last_batch = 0;
  lastconsumed = itype_id("null");
  next_expected_position.x = -1;
  next_expected_position.y = -1;
@@ -9699,8 +9699,8 @@ void player::do_read( item *book )
         if (!(reading->recipes.empty())) {
             std::string recipes = "";
             size_t index = 1;
-            for (std::map<recipe*, int>::iterator iter = reading->recipes.begin();
-                 iter != reading->recipes.end(); ++iter, ++index) {
+            for( auto iter = reading->recipes.begin();
+                 iter != reading->recipes.end(); ++iter, ++index ) {
                 recipes += item( iter->first->result, 0 ).type->nname(1);
                 if(index == reading->recipes.size() - 1) {
                     recipes += _(" and "); // Who gives a fuck about an oxford comma?
@@ -9845,8 +9845,7 @@ bool player::has_identified( std::string item_id ) const
 
 bool player::can_study_recipe(it_book* book)
 {
-    for (std::map<recipe*, int>::iterator iter = book->recipes.begin();
-         iter != book->recipes.end(); ++iter) {
+    for( auto iter = book->recipes.begin(); iter != book->recipes.end(); ++iter ) {
         if (!knows_recipe(iter->first) &&
             (iter->first->skill_used == NULL || skillLevel(iter->first->skill_used) >= iter->second)) {
             return true;
@@ -9857,8 +9856,7 @@ bool player::can_study_recipe(it_book* book)
 
 bool player::studied_all_recipes(it_book* book)
 {
-    for (std::map<recipe*, int>::iterator iter = book->recipes.begin();
-         iter != book->recipes.end(); ++iter) {
+    for( auto iter = book->recipes.begin(); iter != book->recipes.end(); ++iter ) {
         if (!knows_recipe(iter->first)) {
             return false;
         }
@@ -9868,14 +9866,13 @@ bool player::studied_all_recipes(it_book* book)
 
 bool player::try_study_recipe(it_book *book)
 {
-    for (std::map<recipe*, int>::iterator iter = book->recipes.begin();
-         iter != book->recipes.end(); ++iter) {
+    for( auto iter = book->recipes.begin(); iter != book->recipes.end(); ++iter ) {
         if (!knows_recipe(iter->first) &&
             (iter->first->skill_used == NULL ||
              skillLevel(iter->first->skill_used) >= iter->second)) {
             if (iter->first->skill_used == NULL ||
                 rng(0, 4) <= (skillLevel(iter->first->skill_used) - iter->second) / 2) {
-                learn_recipe(iter->first);
+                learn_recipe((recipe *)iter->first);
                 add_msg(m_good, _("Learned a recipe for %s from the %s."),
                                 itypes[iter->first->result]->nname(1).c_str(), book->nname(1).c_str());
                 return true;

@@ -9011,7 +9011,7 @@ bool einkpc_download_memory_card(player *p, item *eink, item *mc)
 
         mc->item_vars["MC_RECIPE"] = "";
 
-        std::vector<recipe *> candidates;
+        std::vector<const recipe *> candidates;
         recipe_map recipes = g->list_recipes();
 
         for (recipe_map::iterator map_iter = recipes.begin(); map_iter != recipes.end(); ++map_iter) {
@@ -9039,7 +9039,7 @@ bool einkpc_download_memory_card(player *p, item *eink, item *mc)
 
         if (candidates.size() > 0) {
 
-            recipe *r = candidates[rng(0, candidates.size() - 1)];
+            const recipe *r = candidates[rng(0, candidates.size() - 1)];
             const std::string rident = r->ident;
 
             const item dummy(r->result, 0);
@@ -10266,7 +10266,7 @@ int iuse::multicooker(player *p, item *it, bool t)
 
             dmenu.addentry(d_cancel, true, 'q', _("Cancel"));
 
-            std::vector<recipe *> dishes;
+            std::vector<const recipe *> dishes;
 
             inventory crafting_inv = g->crafting_inventory(&g->u);
             //add some tools and qualities. we can't add this qualities to json, because multicook must be used only by activating, not as component other crafts.
@@ -10304,7 +10304,7 @@ int iuse::multicooker(player *p, item *it, bool t)
             if (d_cancel == choice) {
                 return 0;
             } else {
-                recipe *meal = dishes[choice - 1];
+                const recipe *meal = dishes[choice - 1];
                 int mealtime;
                 if (it->item_vars["MULTI_COOK_UPGRADE"] == "UPGRADE") {
                     mealtime = meal->time;

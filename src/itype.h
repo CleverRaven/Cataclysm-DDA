@@ -494,7 +494,7 @@ struct it_book : public virtual itype {
     unsigned int time;  // How long, in 10-turns (aka minutes), it takes to read
     // "To read" means getting 1 skill point, not all of em
     int chapters; //Fun books have chapters; after all are read, the book is less fun
-    std::map<recipe *, int> recipes; //what recipes can be learned from this book
+    std::map<const recipe *, int> recipes; //what recipes can be learned from this book
     virtual bool is_book() const
     {
         return true;

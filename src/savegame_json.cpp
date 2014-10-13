@@ -344,7 +344,7 @@ void player::serialize(JsonOut &json) const
 
     // crafting etc
     json.member( "activity", activity );
-    json.member( "backlog", activity );
+    json.member( "backlog", backlog );
 
     // mutations; just like traits but can be removed.
     json.member( "mutations", my_mutations );
@@ -453,7 +453,7 @@ void player::deserialize(JsonIn &jsin)
     } else {
         scenario *generic_scenario = scenario::generic();
         // Only display error message if from a game file after scenarios existed.
-        if (savegame_loading_version > 20) { 
+        if (savegame_loading_version > 20) {
             debugmsg("Tried to use non-existent scenario '%s'. Setting to generic '%s'.",
                         scen_ident.c_str(), generic_scenario->ident().c_str());
         }
@@ -468,7 +468,7 @@ void player::deserialize(JsonIn &jsin)
 
     frostbite_timer.fill( 0 );
     data.read( "frostbite_timer", frostbite_timer );
-    
+
     body_wetness.fill( 0 );
     data.read( "body_wetness", body_wetness );
 
@@ -478,7 +478,7 @@ void player::deserialize(JsonIn &jsin)
         learned_recipes.clear();
         while ( parray.has_more() ) {
             if ( parray.read_next(pstr) ) {
-                learned_recipes[ pstr ] = recipe_by_name( pstr );
+                learned_recipes[ pstr ] = (recipe *)recipe_by_name( pstr );
             }
         }
     }
