@@ -1442,7 +1442,7 @@
         "threshreq" : ["THRESH_MYCUS"],
         "category" : ["MUTCAT_MYCUS"],
         "active"     :    true,
-        "cost"       :    10,
+        "cost"       :    8,
         "time"       :    0,
         "hunger"     :    true,
         "thirst"     :    true
@@ -1475,7 +1475,7 @@
         "threshreq" : ["THRESH_MYCUS"],
         "category" : ["MUTCAT_MYCUS"],
         "active"     :    true,
-        "cost"       :    15,
+        "cost"       :    10,
         "time"       :    0,
         "hunger"     :    true,
         "thirst"     :    true,
