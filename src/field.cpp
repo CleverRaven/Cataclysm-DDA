@@ -439,9 +439,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
 {
     // Realistically this is always true, this function only gets called if fields exist.
     bool found_field = false;
-    // A pointer to the current field effect.
-    // Used to modify or otherwise get information on the field effect to update.
-    field_entry *cur = NULL;
     //Holds m.field_at(x,y).findField(fd_some_field) type returns.
     // Just to avoid typing that long string for a temp value.
     field_entry *tmpfld = NULL;
@@ -461,10 +458,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
             field &curfield = current_submap->fld[locx][locy];
             for( auto it = curfield.begin(); it != curfield.end();) {
                 //Iterating through all field effects in the submap's field.
-                cur = it->second;
-                if(cur == NULL) {
-                    continue;    //This shouldn't happen ever, but pointer safety is number one.
-                }
+                field_entry * cur = const_cast<field_entry*>( &it->second );
 
                 curtype = cur->getFieldType();
                 // Setting our return value. fd_null really doesn't exist anymore,
@@ -1392,7 +1386,6 @@ void map::step_in_field(int x, int y)
 {
     // A copy of the current field for reference. Do not add fields to it, use map::add_field
     field &curfield = field_at(x, y);
-    field_entry *cur = NULL; // The current field effect.
     int veh_part; // vehicle part existing on this tile.
     vehicle *veh = NULL; // Vehicle reference if there is one.
     bool inside = false; // Are we inside?
@@ -1410,10 +1403,7 @@ void map::step_in_field(int x, int y)
     // When removing a field, do field_list_it = curfield.removeField(type) and continue
     // This ensures proper iteration through the fields.
     for( auto field_list_it = curfield.begin(); field_list_it != curfield.end(); ){
-        cur = field_list_it->second;
-        // Shouldn't happen unless you free memory of field entries manually
-        // (hint: don't do that)... Pointer safety.
-        if(cur == NULL) continue;
+        field_entry * cur = const_cast<field_entry*>( &field_list_it->second );
 
         //Do things based on what field effect we are currently in.
         switch (cur->getFieldType()) {
@@ -1736,13 +1726,10 @@ void map::mon_in_field(int x, int y, monster *z)
         return; // Digging monsters are immune to fields
     }
     field &curfield = field_at(x, y);
-    field_entry *cur = NULL;
 
     int dam = 0;
     for( auto field_list_it = curfield.begin(); field_list_it != curfield.end(); ) {
-        cur = field_list_it->second;
-        //shouldn't happen unless you free memory of field entries manually (hint: don't do that)
-        if(cur == NULL) continue;
+        field_entry * cur = const_cast<field_entry*>( &field_list_it->second );
 
         switch (cur->getFieldType()) {
         case fd_null:
@@ -2081,33 +2068,21 @@ Good for checking for exitence of a field: if(myfield.findField(fd_fire)) would 
 */
 field_entry *field::findField( const field_id field_to_find )
 {
-    field_entry *tmp = NULL;
-    std::map<field_id, field_entry *>::iterator it = field_list.find( field_to_find );
+    const auto it = field_list.find( field_to_find );
     if( it != field_list.end() ) {
-        if( it->second == NULL ) {
-            //In the event someone deleted the field_entry memory somewhere else clean up the list.
-            field_list.erase( it );
-        } else {
-            return it->second;
-        }
+        return &it->second;
     }
-    return tmp;
-};
+    return nullptr;
+}
 
 const field_entry *field::findFieldc( const field_id field_to_find )
 {
-    const field_entry *tmp = NULL;
-    std::map<field_id, field_entry *>::iterator it = field_list.find( field_to_find );
+    const auto it = field_list.find( field_to_find );
     if( it != field_list.end() ) {
-        if( it->second == NULL ) {
-            //In the event someone deleted the field_entry memory somewhere else clean up the list.
-            field_list.erase( it );
-        } else {
-            return it->second;
-        }
+        return &it->second;
     }
-    return tmp;
-};
+    return nullptr;
+}
 
 /*
 Function: addfield
@@ -2118,15 +2093,15 @@ If you wish to modify an already existing field use findField and modify the res
 Density defaults to 1, and age to 0 (permanent) if not specified.
 */
 bool field::addField(const field_id field_to_add, const int new_density, const int new_age){
-    std::map<field_id, field_entry*>::iterator it = field_list.find(field_to_add);
+    auto it = field_list.find(field_to_add);
     if (fieldlist[field_to_add].priority >= fieldlist[draw_symbol].priority)
         draw_symbol = field_to_add;
     if(it != field_list.end()) {
         //Already exists, but lets update it. This is tentative.
-        it->second->setFieldDensity(it->second->getFieldDensity() + new_density);
+        it->second.setFieldDensity(it->second.getFieldDensity() + new_density);
         return false;
     }
-    field_list[field_to_add]=new field_entry(field_to_add, new_density, new_age);
+    field_list[field_to_add] = field_entry(field_to_add, new_density, new_age);
     return true;
 };
 
@@ -2135,15 +2110,10 @@ Function: removeField
 Removes the field entry with a type equal to the field_id parameter.
 Returns the next iterator or field_list.end().
 */
-std::map<field_id, field_entry*>::iterator field::removeField(const field_id field_to_remove){
-    std::map<field_id, field_entry*>::iterator it = field_list.find(field_to_remove);
-    std::map<field_id, field_entry*>::iterator next = it;
+std::map<field_id, field_entry>::iterator field::removeField(const field_id field_to_remove){
+    auto it = field_list.find(field_to_remove);
     if(it != field_list.end()) {
-        ++next;
-        field_entry* tmp = it->second;
-        delete tmp;
-        field_list.erase(it);
-        it = next;
+        field_list.erase(it++);
         if (field_list.empty()) {
             draw_symbol = fd_null;
         } else {
@@ -2167,12 +2137,12 @@ unsigned int field::fieldCount() const
     return field_list.size();
 }
 
-std::map<field_id, field_entry*>::const_iterator field::begin()
+std::map<field_id, field_entry>::const_iterator field::begin()
 {
     return field_list.begin();
 }
 
-std::map<field_id, field_entry*>::const_iterator field::end()
+std::map<field_id, field_entry>::const_iterator field::end()
 {
     return field_list.end();
 }
@@ -2186,18 +2156,14 @@ field_id field::fieldSymbol() const
     return draw_symbol;
 }
 
-std::map<field_id, field_entry *>::iterator field::replaceField( field_id old_field,
+std::map<field_id, field_entry >::iterator field::replaceField( field_id old_field,
         field_id new_field )
 {
-    std::map<field_id, field_entry *>::iterator it = field_list.find( old_field );
-    std::map<field_id, field_entry *>::iterator next = it;
-    ++next;
-
+    auto it = field_list.find( old_field );
     if( it != field_list.end() ) {
-        field_entry *tmp = it->second;
-        tmp->setFieldType( new_field );
-        field_list.erase( it );
-        it = next;
+        field_entry tmp = it->second;
+        tmp.setFieldType( new_field );
+        field_list.erase( it++ );
         field_list[new_field] = tmp;
         if( draw_symbol == old_field ) {
             draw_symbol = new_field;
@@ -2210,7 +2176,7 @@ int field::move_cost() const
 {
     int current_cost = 0;
     for( auto & fld : field_list ) {
-        current_cost += fld.second->move_cost();
+        current_cost += fld.second.move_cost();
     }
     return current_cost;
 }

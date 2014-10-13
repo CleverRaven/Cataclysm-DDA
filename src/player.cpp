@@ -11360,8 +11360,8 @@ point player::adjacent_tile()
                 dangerous_fields = 0;
                 auto &tmpfld = g->m.field_at(i, j);
                 for( auto &fld : tmpfld ) {
-                    const field_entry *cur = fld.second;
-                    if( cur->is_dangerous() ) {
+                    const field_entry &cur = fld.second;
+                    if( cur.is_dangerous() ) {
                         dangerous_fields++;
                     }
                 }

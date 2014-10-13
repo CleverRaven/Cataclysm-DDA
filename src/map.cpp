@@ -1238,7 +1238,7 @@ bool map::trans(const int x, const int y)
         field &curfield = field_at( x,y );
         for( auto &fld : curfield ) {
                 //If ANY field blocks vision, the tile does.
-                if(!fieldlist[fld.second->getFieldType()].transparent[fld.second->getFieldDensity() - 1]) {
+                if(!fieldlist[fld.second.getFieldType()].transparent[fld.second.getFieldDensity() - 1]) {
                     return false;
                 }
         }
@@ -5127,7 +5127,7 @@ void map::build_transparency_cache()
 
             field &curfield = field_at(x,y);
             for( auto &fld : curfield ) {
-                const field_entry * cur = fld.second;
+                const field_entry * cur = &fld.second;
                     if( !fieldlist[cur->getFieldType()].transparent[cur->getFieldDensity() - 1] ) {
                         // Fields are either transparent or not, however we want some to be translucent
                         switch(cur->getFieldType()) {

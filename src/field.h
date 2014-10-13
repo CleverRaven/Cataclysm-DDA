@@ -190,7 +190,7 @@ public:
     bool addField(const field_id field_to_add,const int new_density = 1, const int new_age = 0);
 
     //Removes the field entry with a type equal to the field_id parameter. Returns the next iterator.
-    std::map<field_id, field_entry*>::iterator removeField(const field_id field_to_remove);
+    std::map<field_id, field_entry>::iterator removeField(const field_id field_to_remove);
 
     //Returns the number of fields existing on the current tile.
     unsigned int fieldCount() const;
@@ -199,22 +199,22 @@ public:
     //This can be changed to return whatever you think the most important field to draw is.
     field_id fieldSymbol() const;
 
-    std::map<field_id, field_entry*>::iterator replaceField(field_id old_field, field_id new_field);
+    std::map<field_id, field_entry>::iterator replaceField(field_id old_field, field_id new_field);
 
     //Returns the vector iterator to begin searching through the list.
     //Note: If you are using "field_at" function, set the return to a temporary field variable! If you somehow
     //query an out of bounds field location it returns a different field every inquery. This means that
     //the start and end iterators won't match up and will crash the system.
-    std::map<field_id, field_entry*>::const_iterator begin();
+    std::map<field_id, field_entry>::const_iterator begin();
 
     //Returns the vector iterator to end searching through the list.
-    std::map<field_id, field_entry*>::const_iterator end();
+    std::map<field_id, field_entry>::const_iterator end();
 
     //Returns the total move cost from all fields
     int move_cost() const;
 
 private:
-    std::map<field_id, field_entry*> field_list; //A pointer lookup table of all field effects on the current tile.    //Draw_symbol currently is equal to the last field added to the square. You can modify this behavior in the class functions if you wish.
+    std::map<field_id, field_entry> field_list; //A pointer lookup table of all field effects on the current tile.    //Draw_symbol currently is equal to the last field added to the square. You can modify this behavior in the class functions if you wish.
     field_id draw_symbol;
 };
 

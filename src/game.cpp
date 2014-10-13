@@ -8860,7 +8860,7 @@ void game::print_fields_info(int lx, int ly, WINDOW *w_look, int column, int &li
 {
     field &tmpfield = m.field_at(lx, ly);
     for( auto &fld : tmpfield ) {
-        const field_entry *cur = fld.second;
+        const field_entry *cur = &fld.second;
         mvwprintz(w_look, line++, column, fieldlist[cur->getFieldType()].color[cur->getFieldDensity() - 1],
                   "%s",
                   fieldlist[cur->getFieldType()].name[cur->getFieldDensity() - 1].c_str());
@@ -12739,8 +12739,8 @@ bool game::plmove(int dx, int dy)
         //Ask for EACH bad field, maybe not? Maybe say "theres X bad shit in there don't do it."
         field &tmpfld = m.field_at(x, y);
         for( auto &fld : tmpfld ) {
-            const field_entry *cur = fld.second;
-            field_id curType = cur->getFieldType();
+            const field_entry &cur = fld.second;
+            field_id curType = cur.getFieldType();
             bool dangerous = false;
 
             switch (curType) {
@@ -12759,10 +12759,10 @@ bool game::plmove(int dx, int dy)
                               !u.has_trait("M_IMMUNE"));
                 break;
             default:
-                dangerous = cur->is_dangerous();
+                dangerous = cur.is_dangerous();
                 break;
             }
-            if ((dangerous) && !query_yn(_("Really step into that %s?"), cur->name().c_str())) {
+            if ((dangerous) && !query_yn(_("Really step into that %s?"), cur.name().c_str())) {
                 return false;
             }
         }
