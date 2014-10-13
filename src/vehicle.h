@@ -72,7 +72,7 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     vehicle_part(const std::string &sid = "", int dx = 0, int dy = 0,
                  const item *it = NULL) : id("null"), iid(0), mount_dx(dx), mount_dy(dy),
                  hp(0), blood(0), bigness(0), inside(false), removed(false), flags(0),
-                 passenger_id(0), amount(0) {
+                 passenger_id(0), amount(0), target(point(0,0),point(0,0)) {
         precalc_dx[0] = precalc_dx[1] = -1;
         precalc_dy[0] = precalc_dy[1] = -1;
         if (!sid.empty()) {
@@ -108,6 +108,9 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
         int open;           // door is open
         int direction;      // direction the part is facing
     };
+    std::pair<point,point> target;  // coordinates for some kind of target; jumper cables use this
+                    // Two coord pairs are stored: actual target point, and target vehicle center.
+                    // Both cases use absolute coordinates (relative to world origin)
     std::vector<item> items;// inventory
 
     bool setid(const std::string str) {
@@ -273,6 +276,29 @@ private:
     // Do stuff like clean up blood and produce smoke from broken parts. Returns false if nothing needs doing.
     bool do_environmental_effects();
 
+    /**
+     * Find a possibly off-map vehicle. If necessary, loads up its submap through
+     * the global MAPBUFFER and pulls it from there. For this reason, you should only
+     * give it the coordinates of the origin tile of a target vehicle.
+     * @param where Location of the other vehicle's origin tile.
+     */
+    vehicle* find_vehicle(point &where);
+
+    /**
+     * Traverses the graph of connected vehicles, starting from start_veh, and continuing
+     * along all vehicles connected by some kind of POWER_TRANSFER part.
+     * @param start_vehicle The vehicle to start traversing from. NB: the start_vehicle is
+     * assumed to have been already visited!
+     * @param amount An amount of power to traverse with. This is passed back to the visitor,
+     * and reset to the visitor's return value at each step.
+     * @param visitor A function(vehicle* veh, int amount, int loss) returning int. The function
+     * may do whatever it desires, and may be a lambda (including a capturing lambda).
+     * NB: returning 0 from a visitor will stop traversal immediately!
+     * @return The last visitor's return value.
+     */
+    template<typename Func>
+    int traverse_vehicle_graph(vehicle* start_veh, int amount, Func visitor);
+
 public:
     vehicle (std::string type_id = "null", int veh_init_fuel = -1, int veh_init_status = -1);
     ~vehicle ();
@@ -327,6 +353,12 @@ public:
 
     bool remove_part (int p);
     void part_removal_cleanup ();
+
+    /**
+     * Remove a part from a targeted remote vehicle. Useful for, e.g. power cables that have
+     * a vehicle part on both sides.
+     */
+    void remove_remote_part(int part_num);
 
     const std::string get_label(int x, int y);
     void set_label(int x, int y, const std::string text);
@@ -427,7 +459,7 @@ public:
     point real_global_pos() const;
 
 // Checks how much certain fuel left in tanks.
-    int fuel_left (const ammotype & ftype);
+    int fuel_left (const ammotype & ftype, bool recurse=false);
     int fuel_capacity (const ammotype & ftype);
 
     // refill fuel tank(s) with given type of fuel
@@ -445,9 +477,17 @@ public:
 
     void power_parts ();
 
-    void charge_battery (int amount);
+    /**
+     * Try to charge our (and, optionally, connected vehicles') batteries by the given amount.
+     * @return amount of charge left over.
+     */
+    int charge_battery (int amount, bool recurse = true);
 
-    int discharge_battery (int amount);
+    /**
+     * Try to discharge our (and, optionally, connected vehicles') batteries by the given amount.
+     * @return amount of request unfulfilled (0 if totally successful).
+     */
+    int discharge_battery (int amount, bool recurse = true);
 
 // get the total mass of vehicle, including cargo and passengers
     int total_mass ();
@@ -478,7 +518,7 @@ public:
     void spew_smoke( double joules, int part );
 
     // Loop through engines and generate noise and smoke for each one
-    void noise_and_smoke( double load, double time = 6.0 );
+    void noise_and_smoke( double load, double time = 6.0, bool on_map = true );
 
 // Calculate area covered by wheels and, optionally count number of wheels
     float wheels_area (int *cnt = 0);
@@ -502,7 +542,7 @@ public:
     bool valid_wheel_config ();
 
 // idle fuel consumption
-    void idle ();
+    void idle (bool on_map = true);
 
 // leak from broken tanks
     void slow_leak ();
@@ -578,6 +618,7 @@ public:
     bool shift_if_needed();
 
     void leak_fuel (int p);
+    void shed_loose_parts();
 
     // Cycle through available turret modes
     void cycle_turret_mode();
@@ -625,6 +666,7 @@ public:
     std::vector<int> engines;          // List of engine indices
     std::vector<int> reactors;         // List of reactor indices
     std::vector<int> solar_panels;     // List of solar panel indices
+    std::vector<int> loose_parts;      // List of UNMOUNT_ON_MOVE parts
     std::vector<int> wheelcache;
     std::vector<vehicle_item_spawn> item_spawns; //Possible starting items
     std::set<std::string> tags;        // Properties of the vehicle

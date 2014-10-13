@@ -19,7 +19,6 @@
 #include "monster.h"
 #include "npc.h"
 #include "vehicle.h"
-#include "graffiti.h"
 #include "lightmap.h"
 #include "coordinates.h"
 //TODO: include comments about how these variables work. Where are they used. Are they constant etc.
@@ -283,6 +282,13 @@ class map
   */
  vehicle* veh_at(const int x, const int y);// checks, if tile is occupied by vehicle
 
+ /**
+  * Vehicle-relative coordinates from reality bubble coordinates, if a vehicle
+  * actually exists here.
+  * Returns 0,0 if no vehicle exists there (use veh_at to check if it exists first)
+  */
+ point veh_part_coordinates(const int x, const int y);
+
  // put player on vehicle at x,y
  void board_vehicle(int x, int y, player *p);
  void unboard_vehicle(const int x, const int y);//remove player from vehicle at x,y
@@ -535,8 +541,10 @@ void add_corpse(int x, int y);
  void add_camp(const std::string& name, const int x, const int y);
 
 // Graffiti
- graffiti graffiti_at(int x, int y);
- bool add_graffiti(int x, int y, std::string contents);
+    bool has_graffiti_at(int x, int y) const;
+    const std::string &graffiti_at(int x, int y) const;
+    void set_graffiti(int x, int y, const std::string &contents);
+    void delete_graffiti(int x, int y);
 
 // mapgen.cpp functions
  void generate(const int x, const int y, const int z, const int turn);
@@ -592,7 +600,7 @@ void add_corpse(int x, int y);
     point getlocal(const int x, const int y ) const;
     point getlocal(const point p) const { return getlocal(p.x, p.y); }
  bool inboundsabs(const int x, const int y);
- bool inbounds(const int x, const int y);
+ bool inbounds(const int x, const int y) const;
 
  int getmapsize() { return my_MAPSIZE; };
 

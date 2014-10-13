@@ -731,6 +731,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int shoe_type_count(const itype_id &it) const;
         /** Returns true if the player is wearing power armor */
         bool is_wearing_power_armor(bool *hasHelmet = NULL) const;
+        /** Returns wind resistance provided by armor, etc **/
+        int get_wind_resistance(body_part bp) const;
 
         int adjust_for_focus(int amount);
         void practice( Skill *s, int amount, int cap = 99 );
@@ -1068,7 +1070,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         std::vector <addiction> addictions;
 
-        recipe *lastrecipe;
+        std::string lastrecipe;
+        int last_batch;
         itype_id lastconsumed;        //used in crafting.cpp and construction.cpp
 
         //Dumps all memorial events into a single newline-delimited string

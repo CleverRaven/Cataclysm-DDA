@@ -287,7 +287,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         int staircount;
 
         // Ammunition if we use a gun.
-        int ammo;
+        std::map<std::string, int> ammo;
 
     private:
         std::vector<int> sp_timeout;
@@ -296,6 +296,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         bool dead;
         /** Attack another monster */
         void hit_monster(monster &other);
+        /** Legacy loading logic for monsters that are packing ammo. **/
+        void normalize_ammo( const int old_ammo );
 
     protected:
         void store(JsonOut &jsout) const;

@@ -10,7 +10,6 @@
 #include "enums.h"
 #include "computer.h"
 #include "vehicle.h"
-#include "graffiti.h"
 #include "basecamp.h"
 #include "iexamine.h"
 #include "field.h"
@@ -376,17 +375,10 @@ struct submap {
         rad[x][y] = radiation;
     }
 
-    inline const graffiti& get_graffiti(int x, int y) {
-        // return value must be const, or else somebody might
-        // be able to modify the graffiti without going through
-        // the setter
-
-        return graf[x][y];
-    }
-
-    inline void set_graffiti(int x, int y, const graffiti& value) {
-        graf[x][y] = value;
-    }
+    bool has_graffiti( int x, int y ) const;
+    const std::string &get_graffiti( int x, int y ) const;
+    void set_graffiti( int x, int y, const std::string &new_graffiti );
+    void delete_graffiti( int x, int y );
 
     // Signage is a pretend union between furniture on a square and stored
     // writing on the square. When both are present, we have signage.
@@ -422,7 +414,6 @@ struct submap {
     trap_id            trp[SEEX][SEEY];  // Trap on each square
     field              fld[SEEX][SEEY];  // Field on each square
     int                rad[SEEX][SEEY];  // Irradiation of each square
-    graffiti           graf[SEEX][SEEY]; // Graffiti on each square
     std::map<std::string, std::string> cosmetics[SEEX][SEEY]; // Textual "visuals" for each square.
 
     int active_item_count;

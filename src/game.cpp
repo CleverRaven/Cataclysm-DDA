@@ -33,6 +33,7 @@
 #include "file_wrapper.h"
 #include "mod_manager.h"
 #include "path_info.h"
+#include "mapbuffer.h"
 #include "mapsharing.h"
 #include "messages.h"
 #include "pickup.h"
@@ -88,12 +89,15 @@ game::game() :
     new_game(false),
     uquit(QUIT_NO),
     w_terrain(NULL),
+    w_overmap(NULL),
+    w_omlegend(NULL),
     w_minimap(NULL),
     w_HP(NULL),
     w_messages(NULL),
     w_location(NULL),
     w_status(NULL),
     w_status2(NULL),
+    w_blackspace(NULL),
     dangerous_proximity(5),
     safe_mode(SAFE_MODE_ON),
     mostseen(0),
@@ -252,11 +256,17 @@ game::~game()
 // defined in sdltiles.cpp
 void to_map_font_dimension(int &w, int &h);
 void from_map_font_dimension(int &w, int &h);
+void to_overmap_font_dimension(int &w, int &h);
+void reinitialize_framebuffer();
 #else
 // unchanged, nothing to be translated without tiles
 void to_map_font_dimension(int &, int &) { }
 void from_map_font_dimension(int &, int &) { }
+void to_overmap_font_dimension(int &, int &) { }
+//in pure curses, the framebuffer won't need reinitializing
+void reinitialize_framebuffer() { }
 #endif
+
 
 void game::init_ui()
 {
@@ -361,6 +371,18 @@ void game::init_ui()
     // Set up the main UI windows.
     w_terrain = newwin(TERRAIN_WINDOW_HEIGHT, TERRAIN_WINDOW_WIDTH, VIEW_OFFSET_Y, VIEW_OFFSET_X);
     werase(w_terrain);
+
+    /**
+     * Doing the same thing as above for the overmap
+     */
+    static const int OVERMAP_LEGEND_WIDTH = 28;
+    OVERMAP_WINDOW_HEIGHT = TERMY;
+    OVERMAP_WINDOW_WIDTH = TERMX - OVERMAP_LEGEND_WIDTH;
+    to_overmap_font_dimension(OVERMAP_WINDOW_WIDTH, OVERMAP_WINDOW_HEIGHT);
+
+    //Bring the framebuffer to the maximum required dimensions
+    //Otherwise it segfaults when the overmap needs a bigger buffer size than it provides
+    reinitialize_framebuffer();
 
     int minimapX, minimapY; // always MINIMAP_WIDTH x MINIMAP_HEIGHT in size
     int hpX, hpY, hpW, hpH;
@@ -1421,7 +1443,23 @@ bool game::do_turn()
         }
     }
     update_scent();
+
     m.vehmove();
+    // Process power and fuel consumption for all vehicles, including off-map ones.
+    // m.vehmove used to do this, but now it only give them moves instead.
+    for(auto it = MAPBUFFER.begin(); it != MAPBUFFER.end(); ++it) {
+        tripoint sm_loc = it->first;
+        point sm_topleft = overmapbuffer::sm_to_ms_copy(sm_loc.x, sm_loc.y);
+
+        submap* sm = it->second;
+
+        for(size_t i = 0; i < sm->vehicles.size(); i++) {
+            auto veh = sm->vehicles[i];
+
+            veh->power_parts();
+            veh->idle(m.inbounds(sm_topleft.x, sm_topleft.y));
+        }
+    }
     m.process_fields();
     m.process_active_items();
     m.step_in_field(u.posx, u.posy);
@@ -1798,8 +1836,11 @@ void game::activity_on_finish()
     case ACT_LONGCRAFT:
         complete_craft();
         u.activity.type = ACT_NULL;
-        if (making_would_work(u.lastrecipe)) {
-            make_all_craft(u.lastrecipe);
+        {
+            int batch_size = u.activity.values.front();
+            if( making_would_work( u.lastrecipe, batch_size ) ) {
+                make_all_craft(u.lastrecipe, batch_size);
+            }
         }
         break;
     case ACT_FORAGE:
@@ -2103,12 +2144,7 @@ void game::update_weather()
 
 int game::get_temperature()
 {
-    point location = om_location();
-    int tmp_temperature = temperature;
-
-    tmp_temperature += m.temperature(u.posx, u.posy);
-
-    return tmp_temperature;
+    return temperature + m.temperature(u.posx, u.posy);
 }
 
 int game::assign_mission_id()
@@ -2330,14 +2366,12 @@ void game::wrap_up_mission(int id)
     }
     switch (miss->type->goal) {
     case MGOAL_FIND_ITEM:
-        if (u.has_charges(miss->type->item_id, miss->item_count)){
+        if( item( miss->type->item_id, 0 ).count_by_charges() ) {
             u.use_charges(miss->type->item_id, miss->item_count);
-            break;
-        }
-        else{
+        } else {
             u.use_amount(miss->type->item_id, miss->item_count);
-            break;
         }
+        break;
     case MGOAL_FIND_ANY_ITEM:
         u.remove_mission_items(miss->uid);
         break;
@@ -4471,6 +4505,7 @@ void game::debug()
             }
             m.clear_vehicle_cache();
             m.vehicle_list.clear();
+
             const int nlevx = tmp.x * 2 - int(MAPSIZE / 2);
             const int nlevy = tmp.y * 2 - int(MAPSIZE / 2);
             cur_om = &overmap_buffer.get_om_global(tmp.x, tmp.y);
@@ -4627,13 +4662,12 @@ void game::debug()
     case 13: {
         add_msg(_("Recipe debug."));
         add_msg(_("Your eyes blink rapidly as knowledge floods your brain."));
-        for( recipe_map::iterator cat_iter = recipes.begin();
-             cat_iter != recipes.end(); ++cat_iter ) {
-            for( recipe_list::iterator list_iter = cat_iter->second.begin();
+        for( auto cat_iter = recipes.begin(); cat_iter != recipes.end(); ++cat_iter ) {
+            for( auto list_iter = cat_iter->second.begin();
                  list_iter != cat_iter->second.end(); ++list_iter ) {
-                recipe *cur_recipe = *list_iter;
+                const recipe *cur_recipe = *list_iter;
                 if (!(u.learned_recipes.find(cur_recipe->ident) != u.learned_recipes.end()))  {
-                    u.learn_recipe(cur_recipe);
+                    u.learn_recipe( (recipe *)cur_recipe );
                 }
             }
         }
@@ -5285,8 +5319,21 @@ void game::draw_sidebar()
         mvwprintz(w_location, 0, 18, weather_data[weather].color, "%s", weather_data[weather].name.c_str());
     }
 
-    nc_color col_temp = c_blue;
     int display_temp = get_temperature();
+    // Apply windchill
+    w_point weatherPoint = weatherGen.get_weather(u.pos(), calendar::turn);
+    const oter_id &cur_om_ter = overmap_buffer.ter(g->om_global_location());
+    std::string omtername = otermap[cur_om_ter].name;
+    bool sheltered = is_sheltered(u.pos().x, u.pos().y);
+    int vehwindspeed = 0;
+    int vpart = -1;
+    vehicle *veh = g->m.veh_at (u.pos().x, u.pos().y, vpart);
+    if (veh) vehwindspeed = veh->velocity / 100; // For mph
+    int windpower = weatherPoint.windpower + vehwindspeed;
+    int windchill = get_local_windchill(get_temperature(), get_local_humidity(weatherPoint.humidity, weather, sheltered), windpower, omtername, sheltered);
+    display_temp += windchill;
+
+    nc_color col_temp = c_blue;
     if (display_temp >= 90) {
         col_temp = c_red;
     } else if (display_temp >= 75) {
@@ -5299,7 +5346,7 @@ void game::draw_sidebar()
         col_temp = c_ltblue;
     }
 
-    wprintz( w_location, col_temp, " %s", print_temperature( display_temp ).c_str() );
+    wprintz( w_location, col_temp, " %s", print_temperature( display_temp ).c_str());
     wrefresh(w_location);
 
     //Safemode coloring
@@ -7259,8 +7306,8 @@ void game::emp_blast(int x, int y)
             if (critter.type->id == "mon_turret" && one_in(3)) {
                 add_msg(_("The %s beeps erratically and deactivates!"), critter.name().c_str());
                 m.spawn_item(x, y, "bot_turret", 1, 0, calendar::turn);
-                if (critter.ammo > 0) {
-                    m.spawn_item(x, y, "9mm", 1, critter.ammo, calendar::turn);
+                if (critter.ammo["9mm"] > 0) {
+                    m.spawn_item(x, y, "9mm", 1, critter.ammo["9mm"], calendar::turn);
                 }
                 remove_zombie(mondex);
             } else if (critter.type->id == "mon_laserturret" && one_in(3)) {
@@ -7271,8 +7318,8 @@ void game::emp_blast(int x, int y)
                 add_msg(_("The %s beeps erratically and deactivates!"), critter.name().c_str());
                 remove_zombie(mondex);
                 m.spawn_item(x, y, "bot_rifleturret", 1, 0, calendar::turn);
-                if (critter.ammo > 0) {
-                    m.spawn_item(x, y, "556", 1, critter.ammo, calendar::turn);
+                if (critter.ammo["556"] > 0) {
+                    m.spawn_item(x, y, "556", 1, critter.ammo["556"], calendar::turn);
                 }
             } else if (critter.type->id == "mon_manhack" && one_in(6)) {
                 add_msg(_("The %s flies erratically and drops from the air!"), critter.name().c_str());
@@ -7436,6 +7483,27 @@ bool game::is_in_sunlight(int x, int y)
 {
     return (m.is_outside(x, y) && light_level() >= 40 &&
             (weather == WEATHER_CLEAR || weather == WEATHER_SUNNY));
+}
+
+bool game::is_sheltered(int x, int y)
+{
+    bool is_inside = false;
+    bool is_underground = false;
+    bool is_in_vehicle = false;
+    int vpart = -1;
+    vehicle *veh = m.veh_at(x, y, vpart);
+
+    if (!m.is_outside(x, y))
+        is_inside = true;
+    if (levz < 0)
+        is_underground = true;
+    if (veh && veh->is_inside(vpart))
+        is_in_vehicle = true;
+
+    if (is_inside || is_underground || is_in_vehicle)
+        return true;
+    else
+        return false;
 }
 
 bool game::is_in_ice_lab(point location)
@@ -9372,8 +9440,8 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
                 mvwprintz(w_info, 1, lookWidth - 1, c_ltgreen, _("F"));
             }
 
-            if (m.graffiti_at(lx, ly).contents) {
-                mvwprintw(w_info, ++off + 1, 1, _("Graffiti: %s"), m.graffiti_at(lx, ly).contents->c_str());
+            if( m.has_graffiti_at( lx, ly ) ) {
+                mvwprintw(w_info, ++off + 1, 1, _("Graffiti: %s"), m.graffiti_at( lx, ly ).c_str() );
             }
 
             wrefresh(w_info);
@@ -11398,7 +11466,7 @@ void game::butcher()
     // than get items to disassemble
     for (size_t i = 0; i < items.size(); i++) {
         if (items[i].type->id != "corpse" || items[i].corpse == NULL) {
-            recipe *cur_recipe = get_disassemble_recipe(items[i].type->id);
+            const recipe *cur_recipe = get_disassemble_recipe(items[i].type->id);
             if (cur_recipe != NULL && can_disassemble(&items[i], cur_recipe, crafting_inv, false)) {
                 corpses.push_back(i);
                 has_item = true;
@@ -11456,7 +11524,7 @@ void game::butcher()
 
     item &dis_item = items[corpses[butcher_corpse_index]];
     if (dis_item.corpse == NULL) {
-        recipe *cur_recipe = get_disassemble_recipe(dis_item.type->id);
+        const recipe *cur_recipe = get_disassemble_recipe(dis_item.type->id);
         assert(cur_recipe != NULL); // tested above
         if( !query_dissamble( dis_item ) ) {
             return;
@@ -12083,6 +12151,7 @@ void game::unload(item &it)
     int has_shotgun2 = -1;
     int has_shotgun3 = -1;
     int has_auxflamer = -1;
+    int has_rail_xbow = -1;
     if (it.is_gun()) {
         spare_mag = it.has_gunmod("spare_mag");
         has_m203 = it.has_gunmod("m203");
@@ -12091,6 +12160,7 @@ void game::unload(item &it)
         has_shotgun2 = it.has_gunmod("masterkey");
         has_shotgun3 = it.has_gunmod("rm121aux");
         has_auxflamer = it.has_gunmod("aux_flamer");
+        has_rail_xbow = it.has_gunmod("gun_crossbow");
     }
     if (it.is_container() ||
         (it.charges == 0 &&
@@ -12100,7 +12170,8 @@ void game::unload(item &it)
          (has_shotgun == -1 || it.contents[has_shotgun].charges <= 0) &&
          (has_shotgun2 == -1 || it.contents[has_shotgun2].charges <= 0) &&
          (has_shotgun3 == -1 || it.contents[has_shotgun3].charges <= 0) &&
-         (has_auxflamer == -1 || it.contents[has_auxflamer].charges <= 0))) {
+         (has_auxflamer == -1 || it.contents[has_auxflamer].charges <= 0) &&
+         (has_rail_xbow == -1 || it.contents[has_rail_xbow].charges <= 0) )) {
         if (it.contents.empty()) {
             if (it.is_gun()) {
                 add_msg(m_info, _("Your %s isn't loaded, and is not modified."),
@@ -12185,6 +12256,10 @@ void game::unload(item &it)
         // Then try an auxiliary flamethrower
         else if (has_auxflamer != -1 && weapon->contents[has_auxflamer].charges > 0) {
             weapon = &weapon->contents[has_auxflamer];
+        }
+        // Then try a rail-mounted crossbow.
+        else if (has_rail_xbow != -1 && weapon->contents[has_rail_xbow].charges > 0) {
+            weapon = &weapon->contents[has_rail_xbow];
         }
     }
 
@@ -12906,9 +12981,8 @@ bool game::plmove(int dx, int dy)
         if (signage.size()) {
             add_msg(m_info, _("The sign says: %s"), signage.c_str());
         }
-        std::string *graffiti = m.graffiti_at(x, y).contents;
-        if (graffiti) {
-            add_msg(_("Written here: %s"), utf8_truncate(*graffiti, 40).c_str());
+        if( m.has_graffiti_at( x, y ) ) {
+            add_msg(_("Written here: %s"), utf8_truncate(m.graffiti_at( x, y ), 40).c_str());
         }
         if (m.has_flag("ROUGH", x, y) && (!u.in_vehicle)) {
             bool ter_or_furn = m.has_flag_ter( "ROUGH", x, y );
@@ -12986,8 +13060,8 @@ bool game::plmove(int dx, int dy)
                     if (query_yn(_("Deactivate the turret?"))) {
                         u.moves -= 100;
                         m.spawn_item(x, y, "bot_turret", 1, 0, calendar::turn);
-                        if (critter.ammo > 0) {
-                            m.spawn_item(x, y, "9mm", 1, critter.ammo, calendar::turn);
+                        if (critter.ammo["9mm"] > 0) {
+                            m.spawn_item(x, y, "9mm", 1, critter.ammo["9mm"], calendar::turn);
                         }
                         remove_zombie(mondex);
                     }
@@ -13003,8 +13077,8 @@ bool game::plmove(int dx, int dy)
                     if (query_yn(_("Deactivate the rifle turret?"))) {
                         u.moves -= 100;
                         m.spawn_item(x, y, "bot_rifleturret", 1, 0, calendar::turn);
-                        if (critter.ammo > 0) {
-                            m.spawn_item(x, y, "556", 1, critter.ammo, calendar::turn);
+                        if (critter.ammo["556"] > 0) {
+                            m.spawn_item(x, y, "556", 1, critter.ammo["556"], calendar::turn);
                         }
                         remove_zombie(mondex);
                     }

@@ -807,7 +807,7 @@
             "sound_fail": "whump!",
             "ter_set": "t_door_frame",
             "items": [
-				{ "item": "2x4", "amount": 1, "minamount": 0 },
+                { "item": "2x4", "amount": 1, "minamount": 0 },
                 { "item": "2x4", "amount": 2, "minamount": 1 },
                 { "item": "nail", "amount": 4, "minamount": 1 },
                 { "item": "splinter", "amount": 4, "minamount": 1 }
@@ -857,7 +857,7 @@
         "deconstruct": {
             "ter_set": "t_door_frame",
             "items": [
-				{ "item": "peephole", "amount": 1 },
+                { "item": "peephole", "amount": 1 },
                 { "item": "2x4", "amount": 4 },
                 { "item": "nail", "amount": 12, "minamount": 6 }
             ]
@@ -869,7 +869,7 @@
             "sound_fail": "whump!",
             "ter_set": "t_door_frame",
             "items": [
-				{ "item": "peephole", "amount": 1, "minamount": 0 },
+                { "item": "peephole", "amount": 1, "minamount": 0 },
                 { "item": "2x4", "amount": 3, "minamount": 1 },
                 { "item": "nail", "amount": 6, "minamount": 1 },
                 { "item": "splinter", "amount": 6, "minamount": 2 }
@@ -1019,7 +1019,7 @@
             "sound_fail": "whump!",
             "ter_set": "t_door_b_peep",
             "items": [
-				{ "item": "peephole", "amount": 1, "chance": 75 },
+                { "item": "peephole", "amount": 1, "chance": 75 },
                 { "item": "2x4", "amount": 1, "chance": 25 },
                 { "item": "splinter", "amount": 2, "minamount": 1 },
                 { "item": "nail", "amount": 2, "minamount": 0 }

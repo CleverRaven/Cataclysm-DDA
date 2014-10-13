@@ -1,5 +1,6 @@
 #include "vehicle.h"
 #include "map.h"
+#include "mapbuffer.h"
 #include "output.h"
 #include "game.h"
 #include "item.h"
@@ -582,7 +583,7 @@ void vehicle::use_controls()
         add_msg((cruise_on) ? _("Cruise control turned on") : _("Cruise control turned off"));
         break;
     case toggle_lights:
-        if(lights_on || fuel_left(fuel_type_battery) ) {
+        if(lights_on || fuel_left(fuel_type_battery, true) ) {
             lights_on = !lights_on;
             add_msg((lights_on) ? _("Headlights turned on") : _("Headlights turned off"));
         } else {
@@ -590,7 +591,7 @@ void vehicle::use_controls()
         }
         break;
     case toggle_stereo:
-        if((stereo_on || fuel_left(fuel_type_battery))) {
+        if((stereo_on || fuel_left(fuel_type_battery, true))) {
             stereo_on = !stereo_on;
             int music_index = 0;
             std::vector<const item*> cd_inv = g->u.all_items_with_flag( "CD" );
@@ -635,10 +636,12 @@ void vehicle::use_controls()
         }
         break;
     case toggle_overhead_lights:
-        if( !overhead_lights_on || fuel_left(fuel_type_battery) ) {
-            overhead_lights_on = !overhead_lights_on;
-            add_msg((overhead_lights_on) ? _("Overhead lights turned on") :
-                       _("Overhead lights turned off"));
+        if( overhead_lights_on ) {
+            overhead_lights_on = false;
+            add_msg(_("Overhead lights turned off"));
+        } else if( fuel_left(fuel_type_battery, true) ) {
+            overhead_lights_on = true;
+            add_msg(_("Overhead lights turned on"));
         } else {
             add_msg(_("The lights won't come on!"));
         }
@@ -651,19 +654,23 @@ void vehicle::use_controls()
         cycle_turret_mode();
         break;
     case toggle_fridge:
-        if( !fridge_on || fuel_left(fuel_type_battery) ) {
-            fridge_on = !fridge_on;
-            add_msg((fridge_on) ? _("Fridge turned on") :
-                       _("Fridge turned off"));
+        if( fridge_on ) {
+            fridge_on = false;
+            add_msg(_("Fridge turned off"));
+        } else if (fuel_left(fuel_type_battery, true)) {
+            fridge_on = true;
+            add_msg(_("Fridge turned on"));
         } else {
             add_msg(_("The fridge won't turn on!"));
         }
         break;
     case toggle_recharger:
-        if( !recharger_on || fuel_left(fuel_type_battery) ) {
-            recharger_on = !recharger_on;
-            add_msg((recharger_on) ? _("Recharger turned on") :
-                       _("Recharger turned off"));
+        if( recharger_on ) {
+            recharger_on = false;
+            add_msg(_("Recharger turned off"));
+        } else if (fuel_left(fuel_type_battery, true)) {
+            recharger_on = true;
+            add_msg(_("Recharger turned on"));
         } else {
             add_msg(_("The recharger won't turn on!"));
         }
@@ -789,7 +796,7 @@ void vehicle::use_controls()
             overmap_buffer.remove_vehicle( this );
             tracking_on = false;
             add_msg(_("tracking device disabled"));
-        } else if (fuel_left(fuel_type_battery))
+        } else if (fuel_left(fuel_type_battery, true))
         {
             overmap_buffer.add_vehicle( this );
             tracking_on = true;
@@ -1324,6 +1331,20 @@ item vehicle_part::properties_to_item() const
     // refill their (otherwise not refillable) tools
     if( tmp.type->is_tool() ) {
         tmp.charges = 0;
+    }
+    // Cables get special handling: their target coordinates need to remain
+    // stored, and if a cable actually drops, it should be half-connected.
+    if( tmp.has_flag("CABLE_SPOOL") ) {
+        point local_pos = g->m.getlocal(target.first);
+        if(g->m.veh_at(local_pos.x, local_pos.y) == nullptr) {
+            tmp.item_tags.insert("NO_DROP"); // That vehicle ain't there no more.
+        }
+
+        tmp.item_vars["source_x"] = string_format("%d", target.first.x);
+        tmp.item_vars["source_y"] = string_format("%d", target.first.y);
+        tmp.item_vars["source_z"] = string_format("%d", g->levz);
+        tmp.item_vars["state"] = "pay_out_cable";
+        tmp.active = true;
     }
     // translate part damage to item damage.
     // max damage is 4, min damage 0.
@@ -2081,7 +2102,7 @@ void vehicle::center_of_mass(int &x, int &y)
     y = int(yf + 0.5);
 }
 
-int vehicle::fuel_left (const ammotype & ftype)
+int vehicle::fuel_left (const ammotype & ftype, bool recurse)
 {
     int fl = 0;
     for(auto &p : fuel) {
@@ -2089,6 +2110,18 @@ int vehicle::fuel_left (const ammotype & ftype)
             fl += parts[p].amount;
         }
     }
+
+    if(recurse && ftype == fuel_type_battery) {
+        auto fuel_counting_visitor = [&] (vehicle* veh, int amount, int) {
+            return amount + veh->fuel_left(ftype, false);
+        };
+
+        // HAX: add 1 to the initial amount so traversal doesn't immediately stop just
+        // 'cause we have 0 fuel left in the current vehicle. Subtract the 1 immediately
+        // after traversal.
+        fl = traverse_vehicle_graph(this, fl + 1, fuel_counting_visitor) - 1;
+    }
+
     return fl;
 }
 
@@ -2307,7 +2340,7 @@ void vehicle::spew_smoke( double joules, int part )
  * load = how hard the engines are working, from 0.0 til 1.0
  * time = how many seconds to generated smoke for
  */
-void vehicle::noise_and_smoke( double load, double time )
+void vehicle::noise_and_smoke( double load, double time, bool on_map )
 {
     const int sound_levels[] = { 0, 15, 30, 60, 100, 140, 180, INT_MAX };
     const char *sound_msgs[] = { "", "hummm!", "whirrr!", "vroom!", "roarrr!", "ROARRR!",
@@ -2354,7 +2387,7 @@ void vehicle::noise_and_smoke( double load, double time )
         }
     }
 
-    if( (exhaust_part != -1) && engine_on ) { // No engine, no smoke
+    if( (exhaust_part != -1) && engine_on && on_map ) { // No engine, no smoke
         spew_smoke( mufflesmoke, exhaust_part );
     }
     // Even a car with engines off will make noise traveling at high speeds
@@ -2602,9 +2635,8 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
     }
 
     int battery_discharge = power_to_epower(fuel_capacity(fuel_type_battery) - fuel_left(fuel_type_battery));
-    if(engine_on && (battery_discharge - epower > 0)) {
-        // Not enough surplus epower to fully charge battery
-        // Produce additional epower from any alternators
+    if(engine_on) {
+        // If the engine is on, the alternators are working.
         int alternators_epower = 0;
         int alternators_power = 0;
         for( size_t p = 0; p < alternators.size(); ++p ) {
@@ -2614,16 +2646,8 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
             }
         }
         if(alternators_epower > 0) {
-            int alternator_output;
-            if (battery_discharge - epower > alternators_epower) {
-                alternator_output = alternators_epower;
-            }
-            else {
-                alternator_output = battery_discharge - epower;
-            }
-            alternator_load = (float)alternator_output / (float)alternators_epower *
-                (float)abs(alternators_power);
-            epower += alternator_output;
+            alternator_load = (float)abs(alternators_power);
+            epower += alternators_epower;
         }
     }
 
@@ -2714,7 +2738,94 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
     }
 }
 
-void vehicle::charge_battery (int amount)
+vehicle* vehicle::find_vehicle(point &where)
+{
+    // Is it in the reality bubble?
+    point veh_local = g->m.getlocal(where);
+    vehicle* veh = g->m.veh_at(veh_local.x, veh_local.y);
+
+    if (veh != nullptr) {
+        return veh;
+    }
+
+    // Nope. Load up its submap...
+    point veh_in_sm = where;
+    point veh_sm = overmapbuffer::ms_to_sm_remain(veh_in_sm);
+
+    auto sm = MAPBUFFER.lookup_submap(veh_sm.x, veh_sm.y, g->levz);
+    if(sm == nullptr) {
+        return nullptr;
+    }
+
+    // ...find the right vehicle inside it...
+    for(size_t i = 0; i < sm->vehicles.size(); i++) {
+        vehicle* found_veh = sm->vehicles[i];
+        point veh_location(found_veh->posx, found_veh->posy);
+
+        if(veh_in_sm == veh_location) {
+            veh = found_veh;
+            break;
+        }
+    }
+
+    // ...and hand it over.
+    return veh;
+}
+
+template<typename Func>
+int vehicle::traverse_vehicle_graph(vehicle* start_veh, int amount, Func action)
+{
+    // Breadth-first search! Initialize the queue with a pointer to ourselves and go!
+    std::queue< std::pair<vehicle*, int> > connected_vehs;
+    std::set<vehicle*> visited_vehs;
+    connected_vehs.push(std::make_pair(start_veh, 0));
+
+    while(amount > 0 && connected_vehs.size() > 0) {
+        auto current_node = connected_vehs.front();
+        vehicle* current_veh = current_node.first;
+        int current_loss = current_node.second;
+
+        visited_vehs.insert(current_veh);
+        connected_vehs.pop();
+
+        g->u.add_msg_if_player(m_debug, "Traversing graph with %d power", amount);
+
+        for(auto &p : current_veh->loose_parts) {
+            if(!current_veh->part_info(p).has_flag("POWER_TRANSFER")) {
+                continue; // ignore loose parts that aren't power transfer cables
+            }
+
+            auto target_veh = find_vehicle(current_veh->parts[p].target.second);
+            if(target_veh == nullptr || visited_vehs.count(target_veh) > 0) {
+                // Either no destination here (that vehicle's rolled away or off-map) or
+                // we've already looked at that vehicle.
+                continue;
+            }
+
+            // Add this connected vehicle to the queue of vehicles to search next,
+            // but only if we haven't seen this one before.
+            if(visited_vehs.count(target_veh) < 1) {
+                int target_loss = current_loss + current_veh->part_info(p).epower;
+                connected_vehs.push(std::make_pair(target_veh, target_loss));
+
+                float loss_amount = ((float)amount * (float)target_loss) / 100;
+                g->u.add_msg_if_player(m_debug, "Visiting remote %p with %d power (loss %f, which is %d percent)",
+                                        (void*)target_veh, amount, loss_amount, target_loss);
+
+                amount = action(target_veh, amount, (int)loss_amount);
+                g->u.add_msg_if_player(m_debug, "After remote %p, %d power", (void*)target_veh, amount);
+
+                if(amount < 1) {
+                    break; // No more charge to donate away.
+                }
+            }
+        }
+    }
+    return amount;
+}
+
+
+int vehicle::charge_battery (int amount, bool include_other_vehicles)
 {
     for(auto &f : fuel) {
         if(part_info(f).fuel_type == fuel_type_battery) {
@@ -2732,9 +2843,20 @@ void vehicle::charge_battery (int amount)
             }
         }
     }
+
+    auto charge_visitor = [] (vehicle* veh, int amount, int lost) {
+        g->u.add_msg_if_player(m_debug, "CH: %d", amount - lost);
+        return veh->charge_battery(amount - lost, false);
+    };
+
+    if(amount > 0 && include_other_vehicles) { // still a bit of charge we could send out...
+        amount = traverse_vehicle_graph(this, amount, charge_visitor);
+    }
+
+    return amount;
 }
 
-int vehicle::discharge_battery (int amount)
+int vehicle::discharge_battery (int amount, bool recurse)
 {
     int avail_charge;
 
@@ -2756,10 +2878,18 @@ int vehicle::discharge_battery (int amount)
         }
     }
 
-    return amount; // non-zero if discharge amount exceeds available battery charge
+    auto discharge_visitor = [] (vehicle* veh, int amount, int lost) {
+        g->u.add_msg_if_player(m_debug, "CH: %d", amount + lost);
+        return veh->discharge_battery(amount + lost, false);
+    };
+    if(amount > 0 && recurse) { // need more power!
+        amount = traverse_vehicle_graph(this, amount, discharge_visitor);
+    }
+
+    return amount; // non-zero if we weren't able to fulfill demand.
 }
 
-void vehicle::idle() {
+void vehicle::idle(bool on_map) {
     int engines_power = 0;
     float idle_rate;
 
@@ -2784,7 +2914,7 @@ void vehicle::idle() {
         idle_rate = (float)alternator_load / (float)engines_power;
         if (idle_rate < 0.01) idle_rate = 0.01; // minimum idle is 1% of full throttle
         consume_fuel(idle_rate);
-        noise_and_smoke( idle_rate );
+        noise_and_smoke( idle_rate, 6.0, on_map );
     }
     else {
         if (g->u_see(global_x(), global_y()) && engine_on) {
@@ -2795,7 +2925,6 @@ void vehicle::idle() {
     if (stereo_on == true) {
         play_music();
     }
-    slow_leak();
 }
 
 void vehicle::slow_leak()
@@ -3609,6 +3738,9 @@ void vehicle::place_spawn_items()
 void vehicle::gain_moves()
 {
     if (velocity) {
+        if (loose_parts.size() > 0) {
+            shed_loose_parts();
+        }
         of_turn = 1 + of_turn_carry;
     } else {
         of_turn = 0;
@@ -3618,6 +3750,12 @@ void vehicle::gain_moves()
     // cruise control TODO: enable for NPC?
     if (player_in_control(&g->u) && cruise_on && cruise_velocity != velocity )
         thrust (cruise_velocity > velocity? 1 : -1);
+
+    // Force off-map vehicles to load by visiting them every time we gain moves.
+    // Shouldn't be too expensive if there aren't fifty trillion vehicles in the graph...
+    // ...and if there are, it's the player's fault for putting them there.
+    auto nil_visitor = [] (vehicle*, int amount, int) { return amount; };
+    traverse_vehicle_graph(this, 1, nil_visitor);
 
     if( check_environmental_effects ) {
         check_environmental_effects = do_environmental_effects();
@@ -3652,6 +3790,7 @@ void vehicle::refresh()
     reactors.clear();
     solar_panels.clear();
     relative_parts.clear();
+    loose_parts.clear();
     lights_epower = 0;
     overhead_epower = 0;
     tracking_epower = 0;
@@ -3716,6 +3855,9 @@ void vehicle::refresh()
         if( vpi.has_flag("HAND_RIMS") ) {
             has_hand_rims = true;
         }
+        if( vpi.has_flag("UNMOUNT_ON_MOVE") ) {
+            loose_parts.push_back(p);
+        }
         // Build map of point -> all parts in that point
         point pt( parts[p].mount_dx, parts[p].mount_dy );
         // This will keep the parts at point pt sorted
@@ -3726,6 +3868,44 @@ void vehicle::refresh()
     precalc_mounts( 0, face.dir() );
     check_environmental_effects = true;
     insides_dirty = true;
+}
+
+void vehicle::remove_remote_part(int part_num) {
+    auto veh = find_vehicle(parts[part_num].target.second);
+
+    // If the target vehicle is still there, ask it to remove its part
+    if (veh != nullptr) {
+        int posx = global_x() + parts[part_num].precalc_dx[0];
+        int posy = global_y() + parts[part_num].precalc_dy[0];
+        point local_abs = g->m.getabs(posx, posy);
+
+        for( size_t j = 0; j < veh->loose_parts.size(); j++) {
+            int remote_partnum = veh->loose_parts[j];
+            auto remote_part = &veh->parts[remote_partnum];
+
+            if (veh->part_flag(remote_partnum, "POWER_TRANSFER") && remote_part->target.first == local_abs) {
+                veh->remove_part(remote_partnum);
+                return;
+            }
+        }
+    }
+}
+
+void vehicle::shed_loose_parts() {
+    for( size_t i = 0; i < loose_parts.size(); i++) {
+        if (part_flag(loose_parts[i], "POWER_TRANSFER")) {
+            remove_remote_part(loose_parts[i]);
+        }
+
+        auto part = &parts[loose_parts[i]];
+        int posx = global_x() + part->precalc_dx[0];
+        int posy = global_y() + part->precalc_dy[0];
+        item drop = part->properties_to_item();
+        g->m.add_item_or_charges(posx, posy, drop);
+
+        remove_part(loose_parts[i]);
+    }
+    loose_parts.clear();
 }
 
 void vehicle::refresh_insides ()

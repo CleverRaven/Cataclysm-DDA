@@ -108,7 +108,7 @@ void input_manager::init()
         if (action_contexts[default_context_id].count(action_id) > 0) {
             context = default_context_id;
         } else if (touched.count(a->second) == 0) {
-            // Note: movement keys are somewhoe special as the default in keymap
+            // Note: movement keys are somehow special as the default in keymap
             // does not contain the arrow keys, so we don't clear existing keybindings
             // for them.
             // If the keymap contains a binding for this action, erase all the
@@ -219,7 +219,7 @@ void input_manager::load(const std::string &file_name, bool is_user_preferences)
         // To be backwards compatible with keybindings.json from prior
         // experimental builds, we will detect user-created, local keybindings
         // with empty input_events and disregard them. When keybindings are
-        // later saved, these remants won't be saved.
+        // later saved, these remnants won't be saved.
         if (!is_user_preferences ||
             !events.empty() ||
             context == default_context_id ||
@@ -1142,7 +1142,7 @@ input_event input_manager::get_input_event(WINDOW * /*win*/)
             previously_pressed_key = key;
             return input_event( key, CATA_INPUT_KEYBOARD );
         }
-        // Now we have loaded an UTF-8 sequence (possbily several bytes)
+        // Now we have loaded an UTF-8 sequence (possibly several bytes)
         // but we should only return *one* key, so return the code point of it.
         const char *utf8str = rval.text.c_str();
         int len = rval.text.length();
