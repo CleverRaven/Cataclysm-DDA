@@ -515,18 +515,67 @@ void add_corpse(int x, int y);
  const std::set<point> &trap_locations(trap_id t) const;
 
 // Fields
- const field& field_at(const int x, const int y) const;
-
- int get_field_age(const point p, const field_id t);
- int get_field_strength(const point p, const field_id t);
- int adjust_field_age(const point p, const field_id t, const int offset);
- int adjust_field_strength(const point p, const field_id t, const int offset);
- int set_field_age(const point p, const field_id t, const int age, bool isoffset = false);
- int set_field_strength(const point p, const field_id t, const int str, bool isoffset = false);
- field_entry * get_field( const point p, const field_id t );
- bool add_field(const point p, const field_id t, const int density, const int age);
- bool add_field(const int x, const int y, const field_id t, const int density);
- void remove_field(const int x, const int y, const field_id field_to_remove);
+        /**
+         * Get the fields that are here. This is for querying and looking at it only,
+         * one can not change the fields.
+         * @param x,y The local map coordinates, if out of bounds, returns an empty field.
+         */
+        const field& field_at( const int x, const int y ) const;
+        /**
+         * Get the age of a field entry (@ref field_entry::age), if there is no
+         * field of that type, returns -1.
+         */
+        int get_field_age( const point p, const field_id t );
+        /**
+         * Get the density of a field entry (@ref field_entry::density),
+         * if there is no field of that type, returns 0.
+         */
+        int get_field_strength( const point p, const field_id t );
+        /**
+         * Increment/decrement age of field entry at point.
+         * @return resulting age or -1 if not present (does *not* create a new field).
+         */
+        int adjust_field_age( const point p, const field_id t, const int offset );
+        /**
+         * Increment/decrement density of field entry at point, creating if not present,
+         * removing if density becomes 0.
+         * @return resulting density, or 0 for not present (either removed or not created at all).
+         */
+        int adjust_field_strength( const point p, const field_id t, const int offset );
+        /**
+         * Set age of field entry at point.
+         * @return resulting age or -1 if not present (does *not* create a new field).
+         * @param isoffset If true, the given age value is added to the existing value,
+         * if false, the existing age is ignored and overridden.
+         */
+        int set_field_age( const point p, const field_id t, const int age, bool isoffset = false );
+        /**
+         * Set density of field entry at point, creating if not present,
+         * removing if density becomes 0.
+         * @return resulting density, or 0 for not present (either removed or not created at all).
+         * @param isoffset If true, the given str value is added to the existing value,
+         * if false, the existing density is ignored and overridden.
+         */
+        int set_field_strength( const point p, const field_id t, const int str, bool isoffset = false );
+        /**
+         * Get field of specific type at point.
+         * @return NULL if there is no such field entry at that place.
+         */
+        field_entry * get_field( const point p, const field_id t );
+        /**
+         * Add field entry at point, or set density if present
+         * @return false if the field could not be created (out of bounds), otherwise true.
+         */
+        bool add_field(const point p, const field_id t, const int density, const int age);
+        /**
+         * Add field entry at xy, or set density if present
+         * @return false if the field could not be created (out of bounds), otherwise true.
+         */
+        bool add_field(const int x, const int y, const field_id t, const int density);
+        /**
+         * Remove field entry at xy, ignored if the field entry is not present.
+         */
+        void remove_field( const int x, const int y, const field_id field_to_remove );
  bool process_fields(); // See fields.cpp
  bool process_fields_in_submap(submap * const current_submap, const int submap_x, const int submap_y); // See fields.cpp
  void step_in_field(const int x, const int y); // See fields.cpp

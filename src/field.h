@@ -97,12 +97,10 @@ extern field_t fieldlist[num_fields];
  */
 extern field_id field_from_ident(const std::string &field_ident);
 
-/*
-Class: field_entry
-An active or passive effect existing on a tile. Multiple different types can exist on one tile
-but there can be only one of each type (IE: one fire, one smoke cloud, etc). Each effect
-can vary in intensity (density) and age (usually used as a time to live).
-*/
+/**
+ * An active or passive effect existing on a tile.
+ * Each effect can vary in intensity (density) and age (usually used as a time to live).
+ */
 class field_entry {
 public:
     field_entry() {
@@ -142,9 +140,6 @@ public:
     //Allows you to modify the age of the current field entry.
     int setFieldAge(const int new_age);
 
-    //Get the move cost for this field
-    int getFieldMoveCost();
-
     //Returns if the current field is dangerous or not.
     bool is_dangerous() const
     {
@@ -170,42 +165,62 @@ private:
     bool is_alive; //True if this is an active field, false if it should be destroyed next check.
 };
 
-//Represents a variable sized collection of field entries on a given map square.
+/**
+ * A variable sized collection of field entries on a given map square.
+ * It contains one (at most) entry of each field type (e. g. one smoke entry and one
+ * fire entry, but not two fire entries).
+ * Use @ref findField to get the field entry of a specific type, or iterate over
+ * all entries via @ref begin and @ref end (allows range based iteration).
+ * There is @ref fieldSymbol to specific which field should be drawn on the map.
+*/
 class field{
 public:
-    //Field constructor
     field();
-    //Frees all memory assigned to the field's field_entry vector and general cleanup.
     ~field();
 
-    //Returns a field entry corresponding to the field_id parameter passed in.
-    //If no fields are found then a field_entry with type fd_null is returned.
+    /**
+     * Returns a field entry corresponding to the field_id parameter passed in.
+     * If no fields are found then nullptr is returned.
+     */
     field_entry* findField(const field_id field_to_find);
-    const field_entry* findFieldc(const field_id field_to_find) const; //for when you want a const field_entry.
-    const field_entry* findField(const field_id field_to_find) const; //for when you want a const field_entry, but don't know it
+    /**
+     * Returns a field entry corresponding to the field_id parameter passed in.
+     * If no fields are found then nullptr is returned.
+     */
+    const field_entry* findFieldc(const field_id field_to_find) const;
+    /**
+     * Returns a field entry corresponding to the field_id parameter passed in.
+     * If no fields are found then nullptr is returned.
+     */
+    const field_entry* findField(const field_id field_to_find) const;
 
-    //Inserts the given field_id into the field list for a given tile if it does not already exist.
-    //Returns false if the field_id already exists, true otherwise.
-    //If you wish to modify an already existing field use findField and modify the result.
-    //Density defaults to 1, and age to 0 (permanent) if not specified.
+    /**
+     * Inserts the given field_id into the field list for a given tile if it does not already exist.
+     * If you wish to modify an already existing field use findField and modify the result.
+     * Density defaults to 1, and age to 0 (permanent) if not specified.
+     * The density is added to an existing field entry, but the age is only used for newly added entries.
+     * @return false if the field_id already exists, true otherwise.
+     */
     bool addField(const field_id field_to_add,const int new_density = 1, const int new_age = 0);
 
-    //Removes the field entry with a type equal to the field_id parameter. Returns the next iterator.
+    /**
+     * Removes the field entry with a type equal to the field_id parameter.
+     * @return The iterator to the field after the removed on.
+     * The result might be the @ref end iterator.
+     */
     std::map<field_id, field_entry>::iterator removeField(const field_id field_to_remove);
 
     //Returns the number of fields existing on the current tile.
     unsigned int fieldCount() const;
 
-    //Returns the last added field from the tile for drawing purposes.
-    //This can be changed to return whatever you think the most important field to draw is.
+    /**
+     * Returns the id of the field that should be drawn.
+     */
     field_id fieldSymbol() const;
 
     std::map<field_id, field_entry>::iterator replaceField(field_id old_field, field_id new_field);
 
     //Returns the vector iterator to begin searching through the list.
-    //Note: If you are using "field_at" function, set the return to a temporary field variable! If you somehow
-    //query an out of bounds field location it returns a different field every inquery. This means that
-    //the start and end iterators won't match up and will crash the system.
     std::map<field_id, field_entry>::iterator begin();
     std::map<field_id, field_entry>::const_iterator begin() const;
 
@@ -213,7 +228,9 @@ public:
     std::map<field_id, field_entry>::iterator end();
     std::map<field_id, field_entry>::const_iterator end() const;
 
-    //Returns the total move cost from all fields
+    /**
+     * Returns the total move cost from all fields.
+     */
     int move_cost() const;
 
 private:

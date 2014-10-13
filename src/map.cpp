@@ -3657,18 +3657,10 @@ field &map::get_field( const int x, const int y )
     return current_submap->fld[lx][ly];
 }
 
-/*
- * Increment/decrement age of field type at point.
- * returns resulting age or -1 if not present.
- */
 int map::adjust_field_age(const point p, const field_id t, const int offset) {
     return set_field_age( p, t, offset, true);
 }
 
-/*
- * Increment/decrement strength of field type at point, creating if not present, removing if strength becomes 0
- * returns resulting strength, or 0 for not present
- */
 int map::adjust_field_strength(const point p, const field_id t, const int offset) {
     return set_field_strength(p, t, offset, true);
 }
@@ -3708,25 +3700,16 @@ int map::set_field_strength(const point p, const field_id t, const int str, bool
     return 0;
 }
 
-/*
- * get age of field type at point. -1 = not present
- */
 int map::get_field_age( const point p, const field_id t ) {
     field_entry * field_ptr = get_field( p, t );
     return ( field_ptr == NULL ? -1 : field_ptr->getFieldAge() );
 }
 
-/*
- * get strength of field type at point. 0 = not present
- */
 int map::get_field_strength( const point p, const field_id t ) {
     field_entry * field_ptr = get_field( p, t );
     return ( field_ptr == NULL ? 0 : field_ptr->getFieldDensity() );
 }
 
-/*
- * get field type at point. NULL if not present
- */
 field_entry * map::get_field( const point p, const field_id t ) {
     if (!INBOUNDS(p.x, p.y))
         return NULL;
@@ -3735,9 +3718,6 @@ field_entry * map::get_field( const point p, const field_id t ) {
     return current_submap->fld[lx][ly].findField(t);
 }
 
-/*
- * add field type at point, or set density if present
- */
 bool map::add_field(const point p, const field_id t, int density, const int age)
 {
     if (!INBOUNDS(p.x, p.y)) {
@@ -3754,30 +3734,22 @@ bool map::add_field(const point p, const field_id t, int density, const int age)
     int lx, ly;
     submap * const current_submap = get_submap_at(p.x, p.y, lx, ly);
 
-    if (!current_submap->fld[lx][ly].findField(t)) {
+    if( current_submap->fld[lx][ly].addField( t, density, age ) ) {
         // TODO: Update overall field_count appropriately.
         // This is the spirit of "fd_null" that it used to be.
         current_submap->field_count++; //Only adding it to the count if it doesn't exist.
     }
-    current_submap->fld[lx][ly].addField(t, density, age); //This will insert and/or update the field.
     if(g != NULL && this == &g->m && p.x == g->u.posx && p.y == g->u.posy) {
         step_in_field(p.x, p.y); //Hit the player with the field if it spawned on top of them.
     }
     return true;
 }
 
-/*
- * add field type at xy, or set denity if present
- */
 bool map::add_field(const int x, const int y, const field_id t, const int new_density)
 {
     return this->add_field(point(x,y), t, new_density, 0);
 }
 
-
-/*
- * remove field type at xy
- */
 void map::remove_field(const int x, const int y, const field_id field_to_remove)
 {
  if (!INBOUNDS(x, y)) {
