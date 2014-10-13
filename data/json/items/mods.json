@@ -819,6 +819,7 @@
         "mod_targets" : ["shotgun", "rifle", "crossbow"],
         "bashing" : 2,
         "flags" : ["MODE_AUX", "STR_RELOAD"],
+        "range" : 8,
         "ammo_modifier" : "bolt",
         "skill": "archery"
     },

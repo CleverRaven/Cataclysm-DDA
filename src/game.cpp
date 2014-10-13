@@ -1836,8 +1836,11 @@ void game::activity_on_finish()
     case ACT_LONGCRAFT:
         complete_craft();
         u.activity.type = ACT_NULL;
-        if (making_would_work(u.lastrecipe)) {
-            make_all_craft(u.lastrecipe);
+        {
+            int batch_size = u.activity.values.front();
+            if( making_would_work( u.lastrecipe, batch_size ) ) {
+                make_all_craft(u.lastrecipe, batch_size);
+            }
         }
         break;
     case ACT_FORAGE:
@@ -3354,27 +3357,45 @@ bool game::handle_action()
         break;
 
     case ACTION_OPEN:
-        open();
+        if (u.has_active_mutation("SHELL2")) {
+            add_msg(m_info, _("You can't open things while you're in your shell."));
+        } else {
+            open();
+        }
         break;
 
     case ACTION_CLOSE:
-        close(mouse_action_x, mouse_action_y);
+        if (u.has_active_mutation("SHELL2")) {
+            add_msg(m_info, _("You can't close things while you're in your shell."));
+        } else {
+            close(mouse_action_x, mouse_action_y);
+        }
         break;
 
     case ACTION_SMASH:
         if (veh_ctrl) {
             handbrake();
+        } else if (u.has_active_mutation("SHELL2")) {
+            add_msg(m_info, _("You can't smash things while you're in your shell."));
         } else {
             smash();
         }
         break;
 
     case ACTION_EXAMINE:
-        examine(mouse_action_x, mouse_action_y);
+        if (u.has_active_mutation("SHELL2")) {
+            add_msg(m_info, _("You can't examine your surroundings while you're in your shell."));
+        } else {
+            examine(mouse_action_x, mouse_action_y);
+        }
         break;
 
     case ACTION_ADVANCEDINV:
-        advanced_inv();
+        if (u.has_active_mutation("SHELL2")) {
+            add_msg(m_info, _("You can't move mass quantities while you're in your shell."));
+        } else {
+            advanced_inv();
+        }
         break;
 
     case ACTION_PICKUP:
@@ -3382,11 +3403,19 @@ bool game::handle_action()
         break;
 
     case ACTION_GRAB:
-        grab();
+        if (u.has_active_mutation("SHELL2")) {
+            add_msg(m_info, _("You can't grab things while you're in your shell."));
+        } else {
+            grab();
+        }
         break;
 
     case ACTION_BUTCHER:
-        butcher();
+        if (u.has_active_mutation("SHELL2")) {
+            add_msg(m_info, _("You can't butcher while you're in your shell."));
+        } else {
+            butcher();
+        }
         break;
 
     case ACTION_CHAT:
@@ -3398,7 +3427,11 @@ bool game::handle_action()
         break;
 
     case ACTION_PEEK:
-        peek();
+        if (u.has_active_mutation("SHELL2")) {
+            add_msg(m_info, _("You can't peek around corners while you're in your shell."));
+        } else {
+            peek();
+        }
         break;
 
     case ACTION_LIST_ITEMS: {
@@ -3460,6 +3493,8 @@ bool game::handle_action()
         break;
 
     case ACTION_USE:
+        // Shell-users are presumed to be able to mess with their inventories, etc
+        // while in the shell.  Eating, gear-changing, and item use are OK.
         use_item();
         break;
 
@@ -3480,6 +3515,7 @@ bool game::handle_action()
         break;
 
     case ACTION_READ:
+        // Shell-users are presumed to have the book just at an opening and read it that way
         read();
         break;
 
@@ -3500,10 +3536,15 @@ bool game::handle_action()
         break;
 
     case ACTION_THROW:
-        plthrow();
+        if (u.has_active_mutation("SHELL2")) {
+            add_msg(m_info, _("You can't effectively throw while you're in your shell."));
+        } else {
+            plthrow();
+        }
         break;
 
     case ACTION_FIRE:
+        // Shell-users may fire a *single-handed* weapon out a port, if need be.
         plfire(false, mouse_action_x, mouse_action_y);
         break;
 
@@ -3516,11 +3557,16 @@ bool game::handle_action()
         break;
 
     case ACTION_DROP:
+        // You CAN drop things to your own tile while in the shell.
         drop();
         break;
 
     case ACTION_DIR_DROP:
-        drop_in_direction();
+        if (u.has_active_mutation("SHELL2")) {
+            add_msg(m_info, _("You can't drop things to another tile while you're in your shell."));
+        } else {
+            drop_in_direction();
+        }
         break;
     case ACTION_BIONICS:
         u.power_bionics();
@@ -3541,15 +3587,27 @@ bool game::handle_action()
         break;
 
     case ACTION_CRAFT:
-        craft();
+        if (u.has_active_mutation("SHELL2")) {
+            add_msg(m_info, _("You can't craft while you're in your shell."));
+        } else {
+            craft();
+        }
         break;
 
     case ACTION_RECRAFT:
-        recraft();
+        if (u.has_active_mutation("SHELL2")) {
+            add_msg(m_info, _("You can't craft while you're in your shell."));
+        } else {
+            recraft();
+        }
         break;
 
     case ACTION_LONGCRAFT:
-        long_craft();
+        if (u.has_active_mutation("SHELL2")) {
+            add_msg(m_info, _("You can't craft while you're in your shell."));
+        } else {
+            long_craft();
+        }
         break;
 
     case ACTION_DISASSEMBLE:
@@ -3563,7 +3621,9 @@ bool game::handle_action()
 
     case ACTION_CONSTRUCT:
         if (u.in_vehicle) {
-            add_msg(m_info, _("You can't construct while in vehicle."));
+            add_msg(m_info, _("You can't construct while in a vehicle."));
+        } else if (u.has_active_mutation("SHELL2")) {
+            add_msg(m_info, _("You can't construct while you're in your shell."));
         } else {
             construction_menu();
         }
@@ -3633,7 +3693,11 @@ bool game::handle_action()
         break;
 
     case ACTION_CONTROL_VEHICLE:
-        control_vehicle();
+        if (u.has_active_mutation("SHELL2")) {
+            add_msg(m_info, _("You can't operate a vehicle while you're in your shell."));
+        } else {
+            control_vehicle();
+        }
         break;
 
     case ACTION_TOGGLE_SAFEMODE:
@@ -4659,13 +4723,12 @@ void game::debug()
     case 13: {
         add_msg(_("Recipe debug."));
         add_msg(_("Your eyes blink rapidly as knowledge floods your brain."));
-        for( recipe_map::iterator cat_iter = recipes.begin();
-             cat_iter != recipes.end(); ++cat_iter ) {
-            for( recipe_list::iterator list_iter = cat_iter->second.begin();
+        for( auto cat_iter = recipes.begin(); cat_iter != recipes.end(); ++cat_iter ) {
+            for( auto list_iter = cat_iter->second.begin();
                  list_iter != cat_iter->second.end(); ++list_iter ) {
-                recipe *cur_recipe = *list_iter;
+                const recipe *cur_recipe = *list_iter;
                 if (!(u.learned_recipes.find(cur_recipe->ident) != u.learned_recipes.end()))  {
-                    u.learn_recipe(cur_recipe);
+                    u.learn_recipe( (recipe *)cur_recipe );
                 }
             }
         }
@@ -7304,8 +7367,8 @@ void game::emp_blast(int x, int y)
             if (critter.type->id == "mon_turret" && one_in(3)) {
                 add_msg(_("The %s beeps erratically and deactivates!"), critter.name().c_str());
                 m.spawn_item(x, y, "bot_turret", 1, 0, calendar::turn);
-                if (critter.ammo > 0) {
-                    m.spawn_item(x, y, "9mm", 1, critter.ammo, calendar::turn);
+                if (critter.ammo["9mm"] > 0) {
+                    m.spawn_item(x, y, "9mm", 1, critter.ammo["9mm"], calendar::turn);
                 }
                 remove_zombie(mondex);
             } else if (critter.type->id == "mon_laserturret" && one_in(3)) {
@@ -7316,8 +7379,8 @@ void game::emp_blast(int x, int y)
                 add_msg(_("The %s beeps erratically and deactivates!"), critter.name().c_str());
                 remove_zombie(mondex);
                 m.spawn_item(x, y, "bot_rifleturret", 1, 0, calendar::turn);
-                if (critter.ammo > 0) {
-                    m.spawn_item(x, y, "556", 1, critter.ammo, calendar::turn);
+                if (critter.ammo["556"] > 0) {
+                    m.spawn_item(x, y, "556", 1, critter.ammo["556"], calendar::turn);
                 }
             } else if (critter.type->id == "mon_manhack" && one_in(6)) {
                 add_msg(_("The %s flies erratically and drops from the air!"), critter.name().c_str());
@@ -11466,7 +11529,7 @@ void game::butcher()
     // than get items to disassemble
     for (size_t i = 0; i < items.size(); i++) {
         if (items[i].type->id != "corpse" || items[i].corpse == NULL) {
-            recipe *cur_recipe = get_disassemble_recipe(items[i].type->id);
+            const recipe *cur_recipe = get_disassemble_recipe(items[i].type->id);
             if (cur_recipe != NULL && can_disassemble(&items[i], cur_recipe, crafting_inv, false)) {
                 corpses.push_back(i);
                 has_item = true;
@@ -11524,7 +11587,7 @@ void game::butcher()
 
     item &dis_item = items[corpses[butcher_corpse_index]];
     if (dis_item.corpse == NULL) {
-        recipe *cur_recipe = get_disassemble_recipe(dis_item.type->id);
+        const recipe *cur_recipe = get_disassemble_recipe(dis_item.type->id);
         assert(cur_recipe != NULL); // tested above
         if( !query_dissamble( dis_item ) ) {
             return;
@@ -12151,6 +12214,7 @@ void game::unload(item &it)
     int has_shotgun2 = -1;
     int has_shotgun3 = -1;
     int has_auxflamer = -1;
+    int has_rail_xbow = -1;
     if (it.is_gun()) {
         spare_mag = it.has_gunmod("spare_mag");
         has_m203 = it.has_gunmod("m203");
@@ -12159,6 +12223,7 @@ void game::unload(item &it)
         has_shotgun2 = it.has_gunmod("masterkey");
         has_shotgun3 = it.has_gunmod("rm121aux");
         has_auxflamer = it.has_gunmod("aux_flamer");
+        has_rail_xbow = it.has_gunmod("gun_crossbow");
     }
     if (it.is_container() ||
         (it.charges == 0 &&
@@ -12168,7 +12233,8 @@ void game::unload(item &it)
          (has_shotgun == -1 || it.contents[has_shotgun].charges <= 0) &&
          (has_shotgun2 == -1 || it.contents[has_shotgun2].charges <= 0) &&
          (has_shotgun3 == -1 || it.contents[has_shotgun3].charges <= 0) &&
-         (has_auxflamer == -1 || it.contents[has_auxflamer].charges <= 0))) {
+         (has_auxflamer == -1 || it.contents[has_auxflamer].charges <= 0) &&
+         (has_rail_xbow == -1 || it.contents[has_rail_xbow].charges <= 0) )) {
         if (it.contents.empty()) {
             if (it.is_gun()) {
                 add_msg(m_info, _("Your %s isn't loaded, and is not modified."),
@@ -12253,6 +12319,10 @@ void game::unload(item &it)
         // Then try an auxiliary flamethrower
         else if (has_auxflamer != -1 && weapon->contents[has_auxflamer].charges > 0) {
             weapon = &weapon->contents[has_auxflamer];
+        }
+        // Then try a rail-mounted crossbow.
+        else if (has_rail_xbow != -1 && weapon->contents[has_rail_xbow].charges > 0) {
+            weapon = &weapon->contents[has_rail_xbow];
         }
     }
 
@@ -12466,7 +12536,10 @@ bool game::check_save_mode_allowed()
 
 bool game::plmove(int dx, int dy)
 {
-    if( !check_save_mode_allowed() ) {
+    if( (!check_save_mode_allowed()) || u.has_active_mutation("SHELL2") ) {
+        if ( u.has_active_mutation("SHELL2")) {
+            add_msg(m_warning, _("You can't move while in your shell.  Deactivate it to go mobile."));
+        }
         return false;
     }
     int x = 0;
@@ -13061,8 +13134,8 @@ bool game::plmove(int dx, int dy)
                     if (query_yn(_("Deactivate the turret?"))) {
                         u.moves -= 100;
                         m.spawn_item(x, y, "bot_turret", 1, 0, calendar::turn);
-                        if (critter.ammo > 0) {
-                            m.spawn_item(x, y, "9mm", 1, critter.ammo, calendar::turn);
+                        if (critter.ammo["9mm"] > 0) {
+                            m.spawn_item(x, y, "9mm", 1, critter.ammo["9mm"], calendar::turn);
                         }
                         remove_zombie(mondex);
                     }
@@ -13078,8 +13151,8 @@ bool game::plmove(int dx, int dy)
                     if (query_yn(_("Deactivate the rifle turret?"))) {
                         u.moves -= 100;
                         m.spawn_item(x, y, "bot_rifleturret", 1, 0, calendar::turn);
-                        if (critter.ammo > 0) {
-                            m.spawn_item(x, y, "556", 1, critter.ammo, calendar::turn);
+                        if (critter.ammo["556"] > 0) {
+                            m.spawn_item(x, y, "556", 1, critter.ammo["556"], calendar::turn);
                         }
                         remove_zombie(mondex);
                     }

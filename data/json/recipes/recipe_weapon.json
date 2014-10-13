@@ -1203,7 +1203,7 @@
         "type" : "recipe",
   "result": "u_shotgun",
   "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_RANGED",
+  "subcategory": "CSC_WEAPON_MODS",
   "skill_used": "mechanics",
   "skills_required": [ "shotgun", 3 ],
   "difficulty": 6,

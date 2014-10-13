@@ -417,7 +417,7 @@ bool can_butcher_at(int x, int y)
                 has_corpse = true;
             }
         } else {
-            recipe *cur_recipe = g->get_disassemble_recipe(it->type->id);
+            const recipe *cur_recipe = g->get_disassemble_recipe(it->type->id);
             if (cur_recipe != NULL && g->can_disassemble(&*it, cur_recipe, crafting_inv, false)) {
                 has_item = true;
             }

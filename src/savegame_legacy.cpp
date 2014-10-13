@@ -1597,7 +1597,7 @@ void player::load_legacy(std::stringstream & dump)
  for (int i = 0; i < num_recipes; ++i)
  {
   dump >> rec_name;
-  learned_recipes[rec_name] = recipe_by_name(rec_name);
+  learned_recipes[rec_name] = (recipe *)recipe_by_name(rec_name);
  }
 
  int numstyles;
