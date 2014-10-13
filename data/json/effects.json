@@ -278,25 +278,44 @@
         "type": "effect_type",
         "id": "glare",
         "name": ["Glare"],
-        "desc": ["Perception - 1"],
+        "desc": ["The sun is in your eyes."],
         "apply_message": "The sunlight's glare makes it hard to see.",
-        "rating": "bad"
+        "rating": "bad",
+        "base_mods": {
+            "per_mod": [-1]
+        }
     },
     {
         "type": "effect_type",
         "id": "smoke",
         "name": ["Smoke"],
-        "desc": ["Strength - 1;   Dexterity - 1;\nOccasionally you will cough, costing movement and creating noise.\nLoss of health - Torso"],
+        "desc": ["You've inhaled a lungful of thick smoke."],
         "apply_message": "You inhale a lungful of thick smoke.",
-        "rating": "bad"
+        "rating": "bad",
+        "miss_message": "Your lungs burn from the smoke.",
+        "harmful_cough": true,
+        "base_mods" : {
+            "str_mod": [-1],
+            "dex_mod": [-1],
+            "cough_chance": [10]
+        }
     },
     {
         "type": "effect_type",
         "id": "teargas",
         "name": ["Tear gas"],
-        "desc": ["Strength - 2;   Dexterity - 2;   Intelligence - 1;   Perception - 4\nOccasionally you will cough, costing movement and creating noise.\nLoss of health - Torso"],
+        "desc": ["You've been exposed to tear gas!"],
         "apply_message": "You inhale a lungful of tear gas.",
-        "rating": "bad"
+        "rating": "bad",
+        "miss_message": "Your eyes burn from the tear gas.",
+        "miss_weight": 2,
+        "harmful_cough": true,
+        "base_mods": {
+            "str_mod": [-2],
+            "dex_mod": [-2],
+            "per_mod": [-5],
+            "cough_chance": [3]
+        }
     },
     {
         "type": "effect_type",
@@ -304,7 +323,11 @@
         "name": ["Boomered"],
         "desc": ["Perception - 5\nRange of Sight: 1;   All sight is tinted magenta."],
         "apply_message": "You're covered in bile!",
-        "rating": "bad"
+        "rating": "bad",
+        "base_mods": {
+            "per_mod": [-5],
+            "vomit_chance": [500],
+        }
     },
     {
         "type": "effect_type",

@@ -173,6 +173,8 @@ class effect : public JsonSerializer, public JsonDeserializer
         
         std::string get_miss_string();
         int get_miss_weight();
+        
+        std::string get_speed_name();
 
         efftype_id get_id()
         {

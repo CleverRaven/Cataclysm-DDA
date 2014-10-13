@@ -1569,7 +1569,7 @@ void dis_effect(player &p, disease &dis)
             }
             if (one_in(4000)) {
                 p.add_msg_if_player(m_bad, _("You're suddenly covered in ectoplasm."));
-                p.add_disease("boomered", 100);
+                p.add_effect("boomered", 100);
                 if (one_in(4)) {
                     p.rem_disease("teleglow");
                 }

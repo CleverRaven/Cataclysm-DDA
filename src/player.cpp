@@ -2726,6 +2726,17 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
             speed_effects[dis_text] += move_adjust;
         }
     }
+    
+    for( auto maps = effects.begin(); maps != effects.end(); ++maps ) {
+        for( auto effect_it = maps->second.begin(); effect_it != maps->second.end(); ++effect_it ) {
+            auto &it = effect_it->second;
+            bool reduced = has_trait(it.get_resist_trait());
+            move_adjust = it.get_mod("SPEED", reduced);
+        if (move_adjust != 0) {
+            dis_text = it.get_speed_name();
+            speed_effects[dis_text] += move_adjust;
+        }
+    }
 
     for (auto it = speed_effects.begin(); it != speed_effects.end(); ++it) {
         nc_color col = (it->second > 0 ? c_green : c_red);
@@ -5548,7 +5559,6 @@ void player::process_effects() {
             if (id == "onfire") {
                 manage_fire_exposure(1);
             } else if (id == "glare") {
-                mod_per_bonus(-1);
                 if (one_in(200)) {
                     add_msg_if_player(m_bad, _("The sunlight's glare makes it hard to see."));
                 }
@@ -5557,35 +5567,11 @@ void player::process_effects() {
                 if( effect_it->second.get_duration() >= 600) {
                     effect_it->second.set_duration(600);
                 }
-                mod_str_bonus(-1);
-                mod_dex_bonus(-1);
-                add_miss_reason(_("The smoke bothers you."), 1);
-                effect_it->second.set_intensity((effect_it->second.get_duration()+190)/200);
-                if( effect_it->second.get_duration() >= 10 && one_in(6)) {
-                    cough();
-                }
-            } else if (id == "teargas") {
-                mod_str_bonus(-2);
-                mod_dex_bonus(-2);
-                add_miss_reason(_("The tear gas bothers you."), 2);
-                mod_per_bonus(-5);
-                if (one_in(3)) {
-                    cough(true);
-                }
             } else if (id == "relax_gas") {
                 mod_str_bonus(-3);
                 mod_dex_bonus(-3);
                 mod_int_bonus(-2);
                 mod_per_bonus(-4);
-            } else if ( id == "stung" ) {
-                mod_pain(1);
-            } else if ( id == "boomered" ) {
-                mod_per_bonus(-5);
-                if (will_vomit(*this)) {
-                    vomit();
-                } else if (one_in(3600)) {
-                    add_msg_if_player(m_bad, _("You gag and retch."));
-                }
             }
         }
     }

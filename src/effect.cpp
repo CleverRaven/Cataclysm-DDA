@@ -791,6 +791,14 @@ int effect::get_miss_weight()
 {
     return eff_type->miss_weight;
 }
+std::string effect::get_speed_name()
+{
+    if (eff_type->speed_mod_name == "") {
+        return eff_type->name[0];
+    } else {
+        return eff_type->speed_mod_name;
+    }
+}
 
 effect_type *effect::get_effect_type()
 {
