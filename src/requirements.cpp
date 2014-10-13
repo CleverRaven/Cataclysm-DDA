@@ -126,6 +126,38 @@ void requirements::load( JsonObject &jsobj )
     jsarr = jsobj.get_array( "tools" );
     load_obj_list( jsarr, tools );
     time = jsobj.get_int( "time" );
+    difficulty = jsobj.get_int( "difficulty" );
+}
+
+int requirements::batch_time( int batch ) const
+{
+    // no benefits for a single craft
+    if (batch == 1) {
+        return time;
+    }
+    // master work gets no benefits
+    if (difficulty >= 20) {
+        return time * batch;
+    }
+
+    // always at least as a single craft.
+    double total_time = (double)time;
+    batch--;
+
+    double factor = 1.0 - ((20.0 - (double)difficulty) / 100.0);
+    while (batch > 0) {
+        total_time += (double)time * factor;
+        // cutoff at 10% of the original time.
+        if (factor > 0.1) {
+            factor *= factor;
+            if (factor < 0.1) {
+                factor = 0.1;
+            }
+        }
+        batch--;
+    }
+
+    return (int)total_time;
 }
 
 template<typename T>
@@ -256,7 +288,7 @@ int requirements::print_tools( WINDOW *w, int ypos, int xpos, int width, nc_colo
 
 int requirements::print_time( WINDOW *w, int ypos, int xpos, int width, nc_color col, int batch ) const
 {
-    const int turns = time * batch / 100;
+    const int turns = batch_time(batch) / 100;
     std::string text;
     if( turns < MINUTES( 1 ) ) {
         const int seconds = std::max( 1, turns * 6 );

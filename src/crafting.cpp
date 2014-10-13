@@ -360,6 +360,11 @@ bool recipe::can_make_with_inventory(const inventory &crafting_inv, int batch) c
     return requirements::can_make_with_inventory( crafting_inv, batch );
 }
 
+int recipe::get_batch_time(int batch) const
+{
+  return requirements::batch_time(batch);
+}
+
 void game::craft()
 {
     if (!crafting_allowed()) {
@@ -1162,7 +1167,7 @@ void game::make_craft(std::string id_to_make, int batch_size)
     if( recipe_to_make == nullptr ) {
         return;
     }
-    u.assign_activity(ACT_CRAFT, recipe_to_make->time * batch_size, recipe_to_make->id);
+    u.assign_activity(ACT_CRAFT, recipe_to_make->batch_time(batch_size), recipe_to_make->id);
     u.activity.values.push_back( batch_size );
     u.last_batch = batch_size;
     u.lastrecipe = id_to_make;
