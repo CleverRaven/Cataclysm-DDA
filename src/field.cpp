@@ -392,16 +392,16 @@ void map::spread_gas( field_entry *cur, int x, int y, field_id curtype,
 Function: create_hot_air
 Helper function that encapsulates the logic involved in creating hot air.
 */
-static void create_hot_air(map *m, int x, int y, int density)
+void map::create_hot_air( int x, int y, int density )
 {
     int counter = 0;
     while (counter < 5) {
         int dx = rng(-1, 1);
         int dy = rng(-1, 1);
-        if (density == 1)      m->add_field(x + dx, y + dy, fd_hot_air1, 1);
-        else if (density == 2) m->add_field(x + dx, y + dy, fd_hot_air2, 1);
-        else if (density == 3) m->add_field(x + dx, y + dy, fd_hot_air3, 1);
-        else if (density == 4) m->add_field(x + dx, y + dy, fd_hot_air4, 1);
+        if (density == 1)      add_field(x + dx, y + dy, fd_hot_air1, 1);
+        else if (density == 2) add_field(x + dx, y + dy, fd_hot_air2, 1);
+        else if (density == 3) add_field(x + dx, y + dy, fd_hot_air3, 1);
+        else if (density == 4) add_field(x + dx, y + dy, fd_hot_air4, 1);
         counter++;
     }
 }
@@ -938,7 +938,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 }
                             }
                         }
-                        create_hot_air( this, x, y, cur->getFieldDensity());
+                        create_hot_air( x, y, cur->getFieldDensity());
                     }
                     break;
 
@@ -1069,7 +1069,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             cur->setFieldDensity(3);
                             continue;
                         }
-                        create_hot_air( this, x, y, cur->getFieldDensity());
+                        create_hot_air( x, y, cur->getFieldDensity());
                         break;
 
                     case fd_flame_burst:
@@ -1080,7 +1080,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             cur->setFieldDensity(3);
                             continue;
                         }
-                        create_hot_air( this, x, y, cur->getFieldDensity());
+                        create_hot_air( x, y, cur->getFieldDensity());
                         break;
 
                     case fd_electricity:
@@ -1333,7 +1333,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             }
 
                             spread_gas( cur, x, y, curtype, 66, 40 );
-                            create_hot_air( this, x, y, cur->getFieldDensity());
+                            create_hot_air( x, y, cur->getFieldDensity());
                         }
                         break;
 

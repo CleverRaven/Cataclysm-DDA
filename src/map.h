@@ -655,6 +655,7 @@ protected:
 private:
     void spread_gas( field_entry *cur, int x, int y, field_id curtype,
                         int percent_spread, int outdoor_age_speedup );
+    void create_hot_air( int x, int y, int density );
 
  bool transparency_cache_dirty;
  bool outside_cache_dirty;
