@@ -1634,7 +1634,7 @@ bool map::has_nearby_fire(int x, int y, int radius)
     for(int dx = -radius; dx <= radius; dx++) {
         for(int dy = -radius; dy <= radius; dy++) {
             const point p(x + dx, y + dy);
-            if (field_at(p.x, p.y).findField(fd_fire) != 0) {
+            if( get_field( p, fd_fire ) != nullptr ) {
                 return true;
             }
             if (ter(p.x, p.y) == t_lava) {
@@ -1653,14 +1653,13 @@ void map::mop_spills(const int x, const int y) {
             i--;
         }
     }
-    field &fld = field_at(x, y);
-    fld.removeField(fd_blood);
-    fld.removeField(fd_blood_veggy);
-    fld.removeField(fd_blood_insect);
-    fld.removeField(fd_blood_invertebrate);
-    fld.removeField(fd_bile);
-    fld.removeField(fd_slime);
-    fld.removeField(fd_sludge);
+    remove_field( x, y, fd_blood );
+    remove_field( x, y, fd_blood_veggy );
+    remove_field( x, y, fd_blood_insect );
+    remove_field( x, y, fd_blood_invertebrate );
+    remove_field( x, y, fd_bile );
+    remove_field( x, y, fd_slime );
+    remove_field( x, y, fd_sludge );
     int vpart;
     vehicle *veh = veh_at(x, y, vpart);
     if(veh != 0) {
@@ -1776,7 +1775,7 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str,
     int sound_volume = 0;
     std::string sound;
     bool smashed_something = false;
-    if (field_at(x, y).findField(fd_web)) {
+    if( get_field( point( x, y ), fd_web ) != nullptr ) {
         smashed_something = true;
         remove_field(x, y, fd_web);
     }
@@ -2352,8 +2351,8 @@ void map::shoot(const int x, const int y, int &dam,
     }
 
     // Check fields?
-    field_entry *fieldhit = field_at(x, y).findField(fd_web);
-    if(fieldhit){
+    const field_entry *fieldhit = get_field( point( x, y ), fd_web );
+    if( fieldhit != nullptr ) {
         if (ammo_effects.count("INCENDIARY") || ammo_effects.count("FLAME")) {
             add_field(x, y, fd_fire, fieldhit->getFieldDensity() - 1);
         } else if (dam > 5 + fieldhit->getFieldDensity() * 5 &&
@@ -3033,8 +3032,7 @@ void map::add_item(const int x, const int y, item new_item, const int maxitems)
     if (has_flag("DESTROY_ITEM", x, y) || ((int)i_at(x,y).size() >= maxitems)) {
         return;
     }
-    field &fld = field_at(x, y);
-    if (new_item.has_flag("ACT_IN_FIRE") && (fld.findField(fd_fire) != 0)) {
+    if (new_item.has_flag("ACT_IN_FIRE") && get_field( point( x, y ), fd_fire ) != nullptr ) {
         new_item.active = true;
     }
 

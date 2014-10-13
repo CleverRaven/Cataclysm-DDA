@@ -7804,7 +7804,7 @@ void game::smash()
         return;
     }
 
-    if( m.field_at( smashx, smashy ).findField( fd_web ) ) {
+    if( m.get_field( point( smashx, smashy ), fd_web ) != nullptr ) {
         m.remove_field( smashx, smashy, fd_web );
         sound( smashx, smashy, 2, "" );
         add_msg( m_info, _( "You brush aside some webs." ) );

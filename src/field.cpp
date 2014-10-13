@@ -357,7 +357,7 @@ static void spread_gas( map *m, field_entry *cur, int x, int y, field_id curtype
         for( int b = -1; b <= 1; b++ ) {
             // Current field not a candidate.
             if( !(a || b) ) { continue; }
-            field_entry* tmpfld = m->field_at( x + a, y + b ).findField( curtype );
+            const field_entry* tmpfld = m->get_field( point( x + a, y + b ), curtype );
             // Candidates are existing weaker fields or navigable tiles with no field.
             if( ( tmpfld && tmpfld->getFieldDensity() < cur->getFieldDensity() ) ||
                 ( !tmpfld && m->move_cost( x + a, y + b ) > 0 ) ) {
@@ -842,9 +842,11 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                                     for (int i = 0; i < 3; i++) {
                                         for (int j = 0; j < 3; j++) {
-                                            int fx = x + (i % 3) - 1, fy = y + (j % 3) - 1;
-                                            tmpfld = field_at(fx, fy).findField(fd_fire);
-                                            if (tmpfld && tmpfld != cur) {
+                                            if( i == 1 && j == 1 ) {
+                                                continue;
+                                            }
+                                            const point pnt( x + (i % 3) - 1, y + (j % 3) - 1 );
+                                            if( get_field( pnt, fd_fire ) != nullptr ) {
                                                 adjacent_fires++;
                                             }
                                         }
@@ -909,13 +911,13 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                         bool nosmoke = true;
                                         for (int ii = -1; ii <= 1; ii++) {
                                             for (int jj = -1; jj <= 1; jj++) {
-                                                field &spreading_field = field_at(x + ii, y + jj);
-
-                                                tmpfld = spreading_field.findField(fd_fire);
-                                                int tmpflddens = ( tmpfld ? tmpfld->getFieldDensity() : 0 );
-                                                if ( ( tmpflddens == 3 ) || ( tmpflddens == 2 && one_in(4) ) ) {
+                                                const point pnt( x + ii, y + jj );
+                                                const field_entry *fire = get_field( pnt, fd_fire );
+                                                const field_entry *smoke = get_field( pnt, fd_smoke );
+                                                if( fire != nullptr && ( fire->getFieldDensity() == 3 ||
+                                                    ( fire->getFieldDensity() == 2 && one_in(4) ) ) ) {
                                                     smoke++; //The higher this gets, the more likely for smoke.
-                                                } else if (spreading_field.findField(fd_smoke)) {
+                                                } else if( smoke != nullptr ) {
                                                     nosmoke = false; //slightly, slightly, less likely to make smoke if there is already smoke
                                                 }
                                             }
@@ -1109,10 +1111,10 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 }
                                 if (valid.empty()) {    // Spread to adjacent space, then
                                     int px = x + rng(-1, 1), py = y + rng(-1, 1);
-                                    if (move_cost(px, py) > 0 && field_at(px, py).findField(fd_electricity) &&
-                                        field_at(px, py).findField(fd_electricity)->getFieldDensity() < 3) {
-                                        field_at(px, py).findField(fd_electricity)->setFieldDensity(field_at(px,
-                                                py).findField(fd_electricity)->getFieldDensity() + 1);
+                                    field_entry *elec = field_at( px, py ).findField( fd_electricity );
+                                    if (move_cost(px, py) > 0 && elec != nullptr &&
+                                        elec->getFieldDensity() < 3) {
+                                        elec->setFieldDensity( elec->getFieldDensity() + 1 );
                                         cur->setFieldDensity(cur->getFieldDensity() - 1);
                                     } else if (move_cost(px, py) > 0) {
                                         add_field(point(px, py), fd_electricity, 1, cur->getFieldAge() + 1);
@@ -1155,7 +1157,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 std::vector<point> valid;
                                 for (int xx = x - 1; xx <= x + 1; xx++) {
                                     for (int yy = y - 1; yy <= y + 1; yy++) {
-                                        if (field_at(xx, yy).findField(fd_push_items)) {
+                                        if( get_field( point( xx, yy ), fd_push_items ) != nullptr ) {
                                             valid.push_back( point(xx, yy) );
                                         }
                                     }
@@ -1242,9 +1244,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             cur->setFieldDensity(3);
                             for (int i = x - 5; i <= x + 5; i++) {
                                 for (int j = y - 5; j <= y + 5; j++) {
-                                    field &wandering_field = field_at(i, j);
-                                    if (wandering_field.findField(fd_acid)) {
-                                        if (wandering_field.findField(fd_acid)->getFieldDensity() == 0) {
+                                    const field_entry *acid = get_field( point( i, j ), fd_acid );
+                                    if( acid != nullptr && acid->getFieldDensity() == 0 ) {
                                             int newdens = 3 - (rl_dist(x, y, i, j) / 2) + (one_in(3) ? 1 : 0);
                                             if (newdens > 3) {
                                                 newdens = 3;
@@ -1252,7 +1253,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                             if (newdens > 0) {
                                                 add_field(i, j, fd_acid, newdens);
                                             }
-                                        }
                                     }
                                 }
                             }

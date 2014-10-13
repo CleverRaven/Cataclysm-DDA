@@ -5577,8 +5577,7 @@ int iuse::throwable_extinguisher_act(player *, item *it, bool)
     if (pos.x == -999 || pos.y == -999) {
         return 0;
     }
-    field &fld = g->m.field_at(pos.x, pos.y);
-    if (fld.findField(fd_fire) != 0) {
+    if( g->m.get_field( pos, fd_fire ) != nullptr ) {
         // Reduce the strength of fire (if any) in the target tile.
         g->m.adjust_field_strength(pos, fd_fire, 0 - 1);
         // Slightly reduce the strength of fire around and in the target tile.
