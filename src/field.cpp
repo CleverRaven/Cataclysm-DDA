@@ -2079,13 +2079,14 @@ Function: findField
 Returns a field entry corresponding to the field_id parameter passed in. If no fields are found then returns NULL.
 Good for checking for exitence of a field: if(myfield.findField(fd_fire)) would tell you if the field is on fire.
 */
-field_entry* field::findField(const field_id field_to_find){
-    field_entry* tmp = NULL;
-    std::map<field_id, field_entry*>::iterator it = field_list.find(field_to_find);
-    if(it != field_list.end()) {
-        if(it->second == NULL){
+field_entry *field::findField( const field_id field_to_find )
+{
+    field_entry *tmp = NULL;
+    std::map<field_id, field_entry *>::iterator it = field_list.find( field_to_find );
+    if( it != field_list.end() ) {
+        if( it->second == NULL ) {
             //In the event someone deleted the field_entry memory somewhere else clean up the list.
-            field_list.erase(it);
+            field_list.erase( it );
         } else {
             return it->second;
         }
@@ -2093,13 +2094,14 @@ field_entry* field::findField(const field_id field_to_find){
     return tmp;
 };
 
-const field_entry* field::findFieldc(const field_id field_to_find){
-    const field_entry* tmp = NULL;
-    std::map<field_id, field_entry*>::iterator it = field_list.find(field_to_find);
-    if(it != field_list.end()) {
-        if(it->second == NULL){
+const field_entry *field::findFieldc( const field_id field_to_find )
+{
+    const field_entry *tmp = NULL;
+    std::map<field_id, field_entry *>::iterator it = field_list.find( field_to_find );
+    if( it != field_list.end() ) {
+        if( it->second == NULL ) {
             //In the event someone deleted the field_entry memory somewhere else clean up the list.
-            field_list.erase(it);
+            field_list.erase( it );
         } else {
             return it->second;
         }
@@ -2184,32 +2186,35 @@ field_id field::fieldSymbol() const
     return draw_symbol;
 }
 
-std::map<field_id, field_entry*>::iterator field::replaceField(field_id old_field, field_id new_field)
+std::map<field_id, field_entry *>::iterator field::replaceField( field_id old_field,
+        field_id new_field )
 {
-    std::map<field_id, field_entry*>::iterator it = field_list.find(old_field);
-    std::map<field_id, field_entry*>::iterator next = it;
+    std::map<field_id, field_entry *>::iterator it = field_list.find( old_field );
+    std::map<field_id, field_entry *>::iterator next = it;
     ++next;
 
-    if(it != field_list.end()) {
-        field_entry* tmp = it->second;
-        tmp->setFieldType(new_field);
-        field_list.erase(it);
+    if( it != field_list.end() ) {
+        field_entry *tmp = it->second;
+        tmp->setFieldType( new_field );
+        field_list.erase( it );
         it = next;
         field_list[new_field] = tmp;
-        if (draw_symbol == old_field)
+        if( draw_symbol == old_field ) {
             draw_symbol = new_field;
+        }
     }
     return it;
 }
 
-int field::move_cost() const{
-    if(fieldCount() < 1){
+int field::move_cost() const
+{
+    if( fieldCount() < 1 ) {
         return 0;
     }
     int current_cost = 0;
-    for( std::map<field_id, field_entry*>::const_iterator current_field = field_list.begin();
+    for( std::map<field_id, field_entry *>::const_iterator current_field = field_list.begin();
          current_field != field_list.end();
-         ++current_field){
+         ++current_field ) {
         current_cost += current_field->second->move_cost();
     }
     return current_cost;
