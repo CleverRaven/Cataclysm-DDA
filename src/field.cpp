@@ -2148,9 +2148,9 @@ std::map<field_id, field_entry*>::iterator field::removeField(const field_id fie
             draw_symbol = fd_null;
         } else {
             draw_symbol = fd_null;
-            for(std::map<field_id, field_entry*>::iterator it2 = field_list.begin(); it2 != field_list.end(); ++it2) {
-                if (fieldlist[it2->first].priority >= fieldlist[draw_symbol].priority) {
-                    draw_symbol = it2->first;
+            for( auto &fld : field_list ) {
+                if (fieldlist[fld.first].priority >= fieldlist[draw_symbol].priority) {
+                    draw_symbol = fld.first;
                 }
             }
         }
@@ -2208,14 +2208,9 @@ std::map<field_id, field_entry *>::iterator field::replaceField( field_id old_fi
 
 int field::move_cost() const
 {
-    if( fieldCount() < 1 ) {
-        return 0;
-    }
     int current_cost = 0;
-    for( std::map<field_id, field_entry *>::const_iterator current_field = field_list.begin();
-         current_field != field_list.end();
-         ++current_field ) {
-        current_cost += current_field->second->move_cost();
+    for( auto & fld : field_list ) {
+        current_cost += fld.second->move_cost();
     }
     return current_cost;
 }

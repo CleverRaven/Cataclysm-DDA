@@ -1236,19 +1236,11 @@ bool map::trans(const int x, const int y)
     if( tertr ) {
         // Fields may obscure the view, too
         field &curfield = field_at( x,y );
-        if( curfield.fieldCount() > 0 ) {
-            field_entry *cur = NULL;
-            for( auto field_list_it = curfield.begin();
-                 field_list_it != curfield.end(); ++field_list_it ) {
-                cur = field_list_it->second;
-                if( cur == NULL ) {
-                    continue;
-                }
+        for( auto &fld : curfield ) {
                 //If ANY field blocks vision, the tile does.
-                if(!fieldlist[cur->getFieldType()].transparent[cur->getFieldDensity() - 1]) {
+                if(!fieldlist[fld.second->getFieldType()].transparent[fld.second->getFieldDensity() - 1]) {
                     return false;
                 }
-            }
         }
         return true; //no blockers found, this is transparent
     }
@@ -5134,15 +5126,8 @@ void map::build_transparency_cache()
             }
 
             field &curfield = field_at(x,y);
-            if(curfield.fieldCount() > 0){
-                field_entry *cur = NULL;
-                for( auto field_list_it = curfield.begin();
-                     field_list_it != curfield.end(); ++field_list_it ) {
-                    cur = field_list_it->second;
-                    if(cur == NULL) {
-                        continue;
-                    }
-
+            for( auto &fld : curfield ) {
+                const field_entry * cur = fld.second;
                     if( !fieldlist[cur->getFieldType()].transparent[cur->getFieldDensity() - 1] ) {
                         // Fields are either transparent or not, however we want some to be translucent
                         switch(cur->getFieldType()) {
@@ -5173,7 +5158,6 @@ void map::build_transparency_cache()
                         }
                     }
                     // TODO: [lightmap] Have glass reduce light as well
-                }
             }
         }
     }

@@ -541,18 +541,12 @@ void editmap::update_view(bool update_info)
         mvwprintw(w_info, off, 1, "%s %s", g->m.features(target.x, target.y).c_str(), extras.c_str());
         off++;  // 4-5
 
-        if (cur_field->fieldCount() > 0) {
-            for( auto field_list_it = cur_field->begin();
-                 field_list_it != cur_field->end(); ++field_list_it ) {
-                field_entry* cur = field_list_it->second;
-                if(cur == NULL) {
-                    continue;
-                }
+        for( auto &fld : *cur_field ) {
+                const field_entry* cur = fld.second;
                 mvwprintz(w_info, off, 1, fieldlist[cur->getFieldType()].color[cur->getFieldDensity()-1], _("field: %s (%d) density %d age %d"),
                           fieldlist[cur->getFieldType()].name[cur->getFieldDensity()-1].c_str(), cur->getFieldType(), cur->getFieldDensity(), cur->getFieldAge()
                          );
                 off++; // 5ish
-            }
         }
 
 

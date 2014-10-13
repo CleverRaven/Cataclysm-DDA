@@ -8859,16 +8859,8 @@ void game::print_terrain_info(int lx, int ly, WINDOW *w_look, int column, int &l
 void game::print_fields_info(int lx, int ly, WINDOW *w_look, int column, int &line)
 {
     field &tmpfield = m.field_at(lx, ly);
-    if (tmpfield.fieldCount() == 0) {
-        return;
-    }
-
-    field_entry *cur = NULL;
-    for( auto it = tmpfield.begin(); it != tmpfield.end(); ++it ) {
-        cur = it->second;
-        if (cur == NULL) {
-            continue;
-        }
+    for( auto &fld : tmpfield ) {
+        const field_entry *cur = fld.second;
         mvwprintz(w_look, line++, column, fieldlist[cur->getFieldType()].color[cur->getFieldDensity() - 1],
                   "%s",
                   fieldlist[cur->getFieldType()].name[cur->getFieldDensity() - 1].c_str());
@@ -12745,13 +12737,9 @@ bool game::plmove(int dx, int dy)
         u.set_underwater(false);
 
         //Ask for EACH bad field, maybe not? Maybe say "theres X bad shit in there don't do it."
-        field_entry *cur = NULL;
         field &tmpfld = m.field_at(x, y);
-        for( auto field_it = tmpfld.begin(); field_it != tmpfld.end(); ++field_it ) {
-            cur = field_it->second;
-            if (cur == NULL) {
-                continue;
-            }
+        for( auto &fld : tmpfld ) {
+            const field_entry *cur = fld.second;
             field_id curType = cur->getFieldType();
             bool dangerous = false;
 

@@ -105,14 +105,8 @@ void map::generate_lightmap()
                 add_light_source(sx, sy, 35 );
             }
 
-            field_entry *cur = NULL;
-            for( auto field_list_it = current_field.begin();
-                field_list_it != current_field.end(); ++field_list_it ) {
-                cur = field_list_it->second;
-
-                if(cur == NULL) {
-                    continue;
-                }
+            for( auto &fld : current_field ) {
+                const field_entry *cur = fld.second;
                 // TODO: [lightmap] Attach light brightness to fields
                 switch(cur->getFieldType()) {
                 case fd_fire:

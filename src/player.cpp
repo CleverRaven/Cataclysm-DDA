@@ -11345,8 +11345,6 @@ bool player::uncanny_dodge(bool is_u)
 point player::adjacent_tile()
 {
     std::vector<point> ret;
-    field_entry *cur = NULL;
-    field tmpfld;
     trap_id curtrap;
     int dangerous_fields;
     for( int i = posx - 1; i <= posx + 1; i++ ) {
@@ -11360,11 +11358,10 @@ point player::adjacent_tile()
                 (curtrap == tr_null || traplist[curtrap]->is_benign()) ) {
                 // only consider tile if unoccupied, passable and has no traps
                 dangerous_fields = 0;
-                tmpfld = g->m.field_at(i, j);
-                for( auto field_list_it = tmpfld.begin();
-                     field_list_it != tmpfld.end(); ++field_list_it ) {
-                    cur = field_list_it->second;
-                    if (cur != NULL && cur->is_dangerous()) {
+                auto &tmpfld = g->m.field_at(i, j);
+                for( auto &fld : tmpfld ) {
+                    const field_entry *cur = fld.second;
+                    if( cur->is_dangerous() ) {
                         dangerous_fields++;
                     }
                 }
