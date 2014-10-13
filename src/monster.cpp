@@ -251,7 +251,7 @@ int monster::print_info(WINDOW* w, int vStart, int vLines, int column) const
         wprintz(w, h_white, _("On ground"));
     } else if (has_effect("stunned")) {
         wprintz(w, h_white, _("Stunned"));
-    } else if (has_effect("beartrap")) {
+    } else if (has_effect("lightsnare") || has_effect("heavysnare") || has_effect("beartrap")) {
         wprintz(w, h_white, _("Trapped"));
     } else if (has_effect("tied")) {
         wprintz(w, h_white, _("Tied"));
@@ -311,7 +311,8 @@ bool monster::is_symbol_highlighted() const
 nc_color monster::color_with_effects() const
 {
     nc_color ret = type->color;
-    if (has_effect("beartrap") || has_effect("stunned") || has_effect("downed") || has_effect("tied")) {
+    if (has_effect("beartrap") || has_effect("stunned") || has_effect("downed") || has_effect("tied") ||
+          has_effect("lightsnare") || has_effect("heavysnare")) {
         ret = hilite(ret);
     }
     if (has_effect("pacified")) {
@@ -909,10 +910,42 @@ void monster::die_in_explosion(Creature* source)
 
 bool monster::move_effects()
 {
-    if (has_effect("beartrap") || has_effect("tied")) {
+    if (has_effect("tied")) {
         return false;
     }
     if (has_effect("downed")) {
+        remove_effect("downed");
+        add_msg(_("The %s climbs to it's feet!"), name().c_str());
+        return false;
+    }
+    if (has_effect("lightsnare")) {
+        if(x_in_y(type->melee_dice * type->melee_sides, 12)) {
+            remove_effect("lightsnare");
+            g->m.spawn_item(xpos(), ypos(), "string_36");
+            g->m.spawn_item(xpos(), ypos(), "snare_trigger");
+            add_msg(_("The %s escapes the light snare!"), name().c_str());
+        }
+        return false;
+    }
+    if (has_effect("heavysnare")) {
+        if (type->melee_dice * type->melee_sides >= 7) {
+            if(x_in_y(type->melee_dice * type->melee_sides, 32)) {
+                remove_effect("lightsnare");
+                g->m.spawn_item(xpos(), ypos(), "rope_6");
+                g->m.spawn_item(xpos(), ypos(), "snare_trigger");
+                add_msg(_("The %s escapes the heavy snare!"), name().c_str());
+            }
+        }
+        return false;
+    }
+    if (has_effect("beartrap")) {
+        if (type->melee_dice * type->melee_sides >= 18) {
+            if(x_in_y(type->melee_dice * type->melee_sides, 200)) {
+                remove_effect("lightsnare");
+                g->m.spawn_item(xpos(), ypos(), "beartrap");
+                add_msg(_("The %s escapes the bear trap!"), name().c_str());
+            }
+        }
         return false;
     }
     return Creature::move_effects();
@@ -954,7 +987,7 @@ int monster::get_dodge() const
         return 0;
     }
     int ret = type->sk_dodge;
-    if (has_effect("beartrap") || has_effect("tied")) {
+    if (has_effect("lightsnare") || has_effect("heavysnare") || has_effect("beartrap") || has_effect("tied")) {
         ret /= 2;
     }
     if (moves <= 0 - 100 - get_speed()) {

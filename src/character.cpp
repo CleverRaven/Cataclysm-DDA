@@ -77,8 +77,8 @@ bool Character::move_effects()
         return false;
     }
     if (has_effect("beartrap")) {
-        /* Real bear traps can't be removed without the proper tools; eventually this should
-           allow the player two options: removal of the limb or removal of the trap from the ground
+        /* Real bear traps can't be removed without the proper tools or immense strength; eventually this should
+           allow normal players two options: removal of the limb or removal of the trap from the ground
            (at which point the player could later remove it from the leg with the right tools). 
            As such we are currently making it a bit easier for players and NPC's to get out of bear traps.
         */

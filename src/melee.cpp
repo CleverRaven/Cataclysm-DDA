@@ -548,7 +548,13 @@ int player::get_dodge() const
     if (has_disease("sleep") || has_disease("lying_down")) {return 0;}
     if (activity.type != ACT_NULL) {return 0;}
 
-    return Creature::get_dodge();
+    int ret = Creature::get_dodge();
+    
+    // Chop in half if we are unable to move
+    if (has_effect("beartrap") || has_effect("lightsnare") || has_effect("heavysnare")) {
+        ret /= 2;
+    }
+    return ret;
 }
 
 int player::dodge_roll()

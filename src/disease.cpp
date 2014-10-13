@@ -38,7 +38,7 @@ enum dis_type_enum {
   DI_HALLU, DI_VISUALS, DI_IODINE, DI_DATURA, DI_TOOK_XANAX, DI_TOOK_PROZAC,
   DI_TOOK_FLUMED, DI_ADRENALINE, DI_JETINJECTOR, DI_ASTHMA, DI_GRACK, DI_METH, DI_VALIUM,
 // Traps
- DI_BEARTRAP, DI_LIGHTSNARE, DI_HEAVYSNARE, DI_IN_PIT,
+ DI_IN_PIT,
 // Other
  DI_AMIGARA, DI_STEMCELL_TREATMENT, DI_TELEGLOW, DI_ATTENTION, DI_EVIL,
 // Bite wound infected (dependent on bodypart.h)
@@ -121,9 +121,6 @@ void game::init_diseases() {
     disease_type_lookup["asthma"] = DI_ASTHMA;
     disease_type_lookup["grack"] = DI_GRACK;
     disease_type_lookup["meth"] = DI_METH;
-    disease_type_lookup["beartrap"] = DI_BEARTRAP;
-    disease_type_lookup["lightsnare"] = DI_LIGHTSNARE;
-    disease_type_lookup["heavysnare"] = DI_HEAVYSNARE;
     disease_type_lookup["in_pit"] = DI_IN_PIT;
     disease_type_lookup["amigara"] = DI_AMIGARA;
     disease_type_lookup["stemcell_treatment"] = DI_STEMCELL_TREATMENT;
@@ -206,12 +203,6 @@ bool dis_msg(dis_type type_string) {
         add_msg(m_bad, _("Your bite wound feels infected."));
         g->u.add_memorial_log(pgettext("memorial_male", "Contracted an infection."),
                               pgettext("memorial_female", "Contracted an infection."));
-        break;
-    case DI_LIGHTSNARE:
-        add_msg(m_bad, _("You are snared."));
-        break;
-    case DI_HEAVYSNARE:
-        add_msg(m_bad, _("You are snared."));
         break;
     case DI_LACKSLEEP:
         add_msg(m_warning, _("You are too tired to function well."));
@@ -1650,20 +1641,6 @@ void dis_effect(player &p, disease &dis)
 
         case DI_BITE:
             handle_bite_wound(p, dis);
-            break;
-
-        case DI_LIGHTSNARE:
-            p.moves = -500;
-            if(one_in(10)) {
-                add_msg(_("You attempt to free yourself from the snare."));
-            }
-            break;
-
-        case DI_HEAVYSNARE:
-            p.moves = -500;
-            if(one_in(20)) {
-                add_msg(_("You attempt to free yourself from the snare."));
-            }
             break;
 
         case DI_INFECTED:

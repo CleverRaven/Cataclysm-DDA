@@ -10,22 +10,6 @@ class map;
 class game;
 class item;
 
-enum monster_effect_type {
-    ME_NULL = 0,
-    ME_BEARTRAP,        // Stuck in beartrap
-    ME_ONFIRE,          // Lit aflame
-    ME_STUNNED,         // Stumbling briefly
-    ME_DOWNED,          // Knocked down
-    ME_BLIND,           // Can't use sight
-    ME_DEAF,            // Can't use hearing
-    ME_TARGETED,        // Targeting locked on--for robots that shoot guns
-    ME_DOCILE,          // Don't attack other monsters--for tame monster
-    ME_HIT_BY_PLAYER,   // We shot or hit them
-    ME_RUN,             // For hit-and-run monsters; we're running for a bit;
-    ME_BOUNCED,
-    NUM_MONSTER_EFFECTS
-};
-
 enum monster_attitude {
     MATT_NULL = 0,
     MATT_FRIEND,
@@ -36,12 +20,6 @@ enum monster_attitude {
     MATT_ATTACK,
     MATT_ZLAVE,
     NUM_MONSTER_ATTITUDES
-};
-
-struct monster_effect {
-    monster_effect_type type;
-    int duration;
-    monster_effect(monster_effect_type T, int D) : type (T), duration (D) {}
 };
 
 class monster : public Creature, public JsonSerializer, public JsonDeserializer
