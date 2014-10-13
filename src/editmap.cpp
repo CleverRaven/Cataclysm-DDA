@@ -542,8 +542,8 @@ void editmap::update_view(bool update_info)
         off++;  // 4-5
 
         if (cur_field->fieldCount() > 0) {
-            for( auto field_list_it = cur_field->getFieldStart();
-                 field_list_it != cur_field->getFieldEnd(); ++field_list_it ) {
+            for( auto field_list_it = cur_field->begin();
+                 field_list_it != cur_field->end(); ++field_list_it ) {
                 field_entry* cur = field_list_it->second;
                 if(cur == NULL) {
                     continue;
@@ -1052,8 +1052,8 @@ int editmap::edit_fld()
                 it != target_list.end(); ++it) {
                 field *t_field = &g->m.field_at(it->x, it->y);
                 if ( t_field->fieldCount() > 0 ) {
-                    for ( auto field_list_it = t_field->getFieldStart();
-                          field_list_it != t_field->getFieldEnd(); /* noop */ ) {
+                    for ( auto field_list_it = t_field->begin();
+                          field_list_it != t_field->end(); /* noop */ ) {
                         field_id rmid = field_list_it->first;
                         field_list_it = t_field->removeField( rmid );
                         if ( it->x == target.x && it->y == target.y ) {

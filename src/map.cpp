@@ -1238,8 +1238,8 @@ bool map::trans(const int x, const int y)
         field &curfield = field_at( x,y );
         if( curfield.fieldCount() > 0 ) {
             field_entry *cur = NULL;
-            for( auto field_list_it = curfield.getFieldStart();
-                 field_list_it != curfield.getFieldEnd(); ++field_list_it ) {
+            for( auto field_list_it = curfield.begin();
+                 field_list_it != curfield.end(); ++field_list_it ) {
                 cur = field_list_it->second;
                 if( cur == NULL ) {
                     continue;
@@ -5136,8 +5136,8 @@ void map::build_transparency_cache()
             field &curfield = field_at(x,y);
             if(curfield.fieldCount() > 0){
                 field_entry *cur = NULL;
-                for( auto field_list_it = curfield.getFieldStart();
-                     field_list_it != curfield.getFieldEnd(); ++field_list_it ) {
+                for( auto field_list_it = curfield.begin();
+                     field_list_it != curfield.end(); ++field_list_it ) {
                     cur = field_list_it->second;
                     if(cur == NULL) {
                         continue;

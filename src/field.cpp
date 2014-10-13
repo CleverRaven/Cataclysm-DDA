@@ -459,7 +459,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
             // get a copy of the field variable from the submap;
             // contains all the pointers to the real field effects.
             field &curfield = current_submap->fld[locx][locy];
-            for( auto it = curfield.getFieldStart(); it != curfield.getFieldEnd();) {
+            for( auto it = curfield.begin(); it != curfield.end();) {
                 //Iterating through all field effects in the submap's field.
                 cur = it->second;
                 if(cur == NULL) {
@@ -1409,7 +1409,7 @@ void map::step_in_field(int x, int y)
     // Iterate through all field effects on this tile.
     // When removing a field, do field_list_it = curfield.removeField(type) and continue
     // This ensures proper iteration through the fields.
-    for( auto field_list_it = curfield.getFieldStart(); field_list_it != curfield.getFieldEnd(); ){
+    for( auto field_list_it = curfield.begin(); field_list_it != curfield.end(); ){
         cur = field_list_it->second;
         // Shouldn't happen unless you free memory of field entries manually
         // (hint: don't do that)... Pointer safety.
@@ -1720,7 +1720,7 @@ void map::step_in_field(int x, int y)
             //Suppress warnings
             break;
         }
-        if (field_list_it != curfield.getFieldEnd()) {
+        if (field_list_it != curfield.end()) {
             // It may have became the last one as a result of a field
             // being removed, in which case incrementing would make us
             // pass on by, so only increment if that's not the case
@@ -1739,7 +1739,7 @@ void map::mon_in_field(int x, int y, monster *z)
     field_entry *cur = NULL;
 
     int dam = 0;
-    for( auto field_list_it = curfield.getFieldStart(); field_list_it != curfield.getFieldEnd(); ) {
+    for( auto field_list_it = curfield.begin(); field_list_it != curfield.end(); ) {
         cur = field_list_it->second;
         //shouldn't happen unless you free memory of field entries manually (hint: don't do that)
         if(cur == NULL) continue;
@@ -1999,7 +1999,7 @@ void map::mon_in_field(int x, int y, monster *z)
             break;
         }
 
-        if (field_list_it != curfield.getFieldEnd()) {
+        if (field_list_it != curfield.end()) {
             // It may have became the last one as a result of a field
             // being removed, in which case incrementing would make us
             // pass on by, so only increment if that's not the case
@@ -2164,12 +2164,12 @@ unsigned int field::fieldCount() const
     return field_list.size();
 }
 
-std::map<field_id, field_entry*>::const_iterator field::getFieldStart()
+std::map<field_id, field_entry*>::const_iterator field::begin()
 {
     return field_list.begin();
 }
 
-std::map<field_id, field_entry*>::const_iterator field::getFieldEnd()
+std::map<field_id, field_entry*>::const_iterator field::end()
 {
     return field_list.end();
 }

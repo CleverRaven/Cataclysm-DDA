@@ -106,8 +106,8 @@ void map::generate_lightmap()
             }
 
             field_entry *cur = NULL;
-            for( auto field_list_it = current_field.getFieldStart();
-                field_list_it != current_field.getFieldEnd(); ++field_list_it ) {
+            for( auto field_list_it = current_field.begin();
+                field_list_it != current_field.end(); ++field_list_it ) {
                 cur = field_list_it->second;
 
                 if(cur == NULL) {
