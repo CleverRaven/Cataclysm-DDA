@@ -656,7 +656,9 @@ double effect::get_percentage(std::string arg, bool reduced)
         ret = 1 / (top_base + top_scale);
     }
     // Divide by ticks between rolls
-    ret = ret / tick;
+    if (tick > 1) {
+        ret = ret / tick;
+    }
     // Multiply by 100 to convert to percentages
     ret *= 100;
     return ret;
