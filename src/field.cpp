@@ -370,7 +370,7 @@ void map::spread_gas( field_entry *cur, int x, int y, field_id curtype,
     int current_age = cur->getFieldAge();
     if (current_density > 1 && current_age > 0 && !spread.empty()) {
         point p = spread[ rng( 0, spread.size() - 1 ) ];
-        field_entry *candidate_field = field_at(p.x, p.y).findField( curtype );
+        field_entry *candidate_field = get_field(p.x, p.y).findField( curtype );
         int candidate_density = candidate_field ? candidate_field->getFieldDensity() : 0;
         // Nearby gas grows thicker, and ages are shared.
         int age_fraction = 0.5 + current_age / current_density;
@@ -381,7 +381,7 @@ void map::spread_gas( field_entry *cur, int x, int y, field_id curtype,
             cur->setFieldAge(current_age - age_fraction);
         // Or, just create a new field.
         } else if ( add_field( p.x, p.y, curtype, 1 ) ) {
-            field_at(p.x, p.y).findField( curtype )->setFieldAge(age_fraction);
+            get_field(p.x, p.y).findField( curtype )->setFieldAge(age_fraction);
             cur->setFieldDensity( current_density - 1 );
             cur->setFieldAge(current_age - age_fraction);
         }
@@ -458,7 +458,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
             field &curfield = current_submap->fld[locx][locy];
             for( auto it = curfield.begin(); it != curfield.end();) {
                 //Iterating through all field effects in the submap's field.
-                field_entry * cur = const_cast<field_entry*>( &it->second );
+                field_entry * cur = &it->second;
 
                 curtype = cur->getFieldType();
                 // Setting our return value. fd_null really doesn't exist anymore,
@@ -812,7 +812,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     for (int j = 0; j < 3 && cur->getFieldAge() < 0; j++) {
                                         int fx = x + ((i + starti) % 3) - 1;
                                         int fy = y + ((j + startj) % 3) - 1;
-                                        tmpfld = field_at(fx, fy).findField(fd_fire);
+                                        tmpfld = get_field(fx, fy).findField(fd_fire);
                                         if (tmpfld && tmpfld != cur && cur->getFieldAge() < 0 &&
                                             tmpfld->getFieldDensity() < 3 &&
                                             (in_pit == (ter(fx, fy) == t_pit))) {
@@ -879,7 +879,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             for (int j = 0; j < 3; j++) {
                                 int fx = x + ((i + starti) % 3) - 1, fy = y + ((j + startj) % 3) - 1;
                                 if (INBOUNDS(fx, fy)) {
-                                    field &nearby_field = field_at(fx, fy);
+                                    field &nearby_field = get_field(fx, fy);
                                     field_entry *nearwebfld = nearby_field.findField(fd_web);
                                     int spread_chance = 25 * (cur->getFieldDensity() - 1);
                                     if (nearwebfld) {
@@ -1048,7 +1048,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     case fd_gas_vent:
                         for (int i = x - 1; i <= x + 1; i++) {
                             for (int j = y - 1; j <= y + 1; j++) {
-                                field &wandering_field = field_at(i, j);
+                                field &wandering_field = get_field(i, j);
                                 tmpfld = wandering_field.findField(fd_toxic_gas);
                                 if (tmpfld && tmpfld->getFieldDensity() < 3) {
                                     tmpfld->setFieldDensity(tmpfld->getFieldDensity() + 1);
@@ -1111,7 +1111,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 }
                                 if (valid.empty()) {    // Spread to adjacent space, then
                                     int px = x + rng(-1, 1), py = y + rng(-1, 1);
-                                    field_entry *elec = field_at( px, py ).findField( fd_electricity );
+                                    field_entry *elec = get_field( px, py ).findField( fd_electricity );
                                     if (move_cost(px, py) > 0 && elec != nullptr &&
                                         elec->getFieldDensity() < 3) {
                                         elec->setFieldDensity( elec->getFieldDensity() + 1 );
@@ -1293,7 +1293,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     squares_in_direction( x, y, g->u.xpos(), g->u.ypos() );
                                 for( auto new_position = candidate_positions.begin();
                                      new_position != candidate_positions.end(); ++new_position ) {
-                                    field &target_field = field_at( new_position->x,
+                                    field &target_field = get_field( new_position->x,
                                                                     new_position->y );
                                     // Only shift if there are no bees already there.
                                     // TODO: Figure out a way to merge bee fields without allowing
@@ -1385,7 +1385,7 @@ If you wish for a field effect to do something over time (propagate, interact wi
 void map::step_in_field(int x, int y)
 {
     // A copy of the current field for reference. Do not add fields to it, use map::add_field
-    field &curfield = field_at(x, y);
+    field &curfield = get_field(x, y);
     int veh_part; // vehicle part existing on this tile.
     vehicle *veh = NULL; // Vehicle reference if there is one.
     bool inside = false; // Are we inside?
@@ -1403,7 +1403,7 @@ void map::step_in_field(int x, int y)
     // When removing a field, do field_list_it = curfield.removeField(type) and continue
     // This ensures proper iteration through the fields.
     for( auto field_list_it = curfield.begin(); field_list_it != curfield.end(); ){
-        field_entry * cur = const_cast<field_entry*>( &field_list_it->second );
+        field_entry * cur = &field_list_it->second;
 
         //Do things based on what field effect we are currently in.
         switch (cur->getFieldType()) {
@@ -1725,11 +1725,11 @@ void map::mon_in_field(int x, int y, monster *z)
     if (z->digging()) {
         return; // Digging monsters are immune to fields
     }
-    field &curfield = field_at(x, y);
+    field &curfield = get_field(x, y);
 
     int dam = 0;
     for( auto field_list_it = curfield.begin(); field_list_it != curfield.end(); ) {
-        field_entry * cur = const_cast<field_entry*>( &field_list_it->second );
+        field_entry * cur = &field_list_it->second;
 
         switch (cur->getFieldType()) {
         case fd_null:
@@ -2075,13 +2075,18 @@ field_entry *field::findField( const field_id field_to_find )
     return nullptr;
 }
 
-const field_entry *field::findFieldc( const field_id field_to_find )
+const field_entry *field::findFieldc( const field_id field_to_find ) const
 {
     const auto it = field_list.find( field_to_find );
     if( it != field_list.end() ) {
         return &it->second;
     }
     return nullptr;
+}
+
+const field_entry *field::findField( const field_id field_to_find ) const
+{
+    return findFieldc( field_to_find );
 }
 
 /*
@@ -2137,12 +2142,22 @@ unsigned int field::fieldCount() const
     return field_list.size();
 }
 
-std::map<field_id, field_entry>::const_iterator field::begin()
+std::map<field_id, field_entry>::iterator field::begin()
 {
     return field_list.begin();
 }
 
-std::map<field_id, field_entry>::const_iterator field::end()
+std::map<field_id, field_entry>::const_iterator field::begin() const
+{
+    return field_list.begin();
+}
+
+std::map<field_id, field_entry>::iterator field::end()
+{
+    return field_list.end();
+}
+
+std::map<field_id, field_entry>::const_iterator field::end() const
 {
     return field_list.end();
 }

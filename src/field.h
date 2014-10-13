@@ -181,7 +181,8 @@ public:
     //Returns a field entry corresponding to the field_id parameter passed in.
     //If no fields are found then a field_entry with type fd_null is returned.
     field_entry* findField(const field_id field_to_find);
-    const field_entry* findFieldc(const field_id field_to_find); //for when you want a const field_entry.
+    const field_entry* findFieldc(const field_id field_to_find) const; //for when you want a const field_entry.
+    const field_entry* findField(const field_id field_to_find) const; //for when you want a const field_entry, but don't know it
 
     //Inserts the given field_id into the field list for a given tile if it does not already exist.
     //Returns false if the field_id already exists, true otherwise.
@@ -205,10 +206,12 @@ public:
     //Note: If you are using "field_at" function, set the return to a temporary field variable! If you somehow
     //query an out of bounds field location it returns a different field every inquery. This means that
     //the start and end iterators won't match up and will crash the system.
-    std::map<field_id, field_entry>::const_iterator begin();
+    std::map<field_id, field_entry>::iterator begin();
+    std::map<field_id, field_entry>::const_iterator begin() const;
 
     //Returns the vector iterator to end searching through the list.
-    std::map<field_id, field_entry>::const_iterator end();
+    std::map<field_id, field_entry>::iterator end();
+    std::map<field_id, field_entry>::const_iterator end() const;
 
     //Returns the total move cost from all fields
     int move_cost() const;

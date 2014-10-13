@@ -1235,7 +1235,7 @@ bool map::trans(const int x, const int y)
     }
     if( tertr ) {
         // Fields may obscure the view, too
-        field &curfield = field_at( x,y );
+        const field &curfield = field_at( x,y );
         for( auto &fld : curfield ) {
                 //If ANY field blocks vision, the tile does.
                 if(!fieldlist[fld.second.getFieldType()].transparent[fld.second.getFieldDensity() - 1]) {
@@ -1577,7 +1577,7 @@ bool map::moppable_items_at(const int x, const int y)
             return true;
         }
     }
-    field &fld = field_at(x, y);
+    const field &fld = field_at(x, y);
     if(fld.findField(fd_blood) != 0 || fld.findField(fd_blood_veggy) != 0 ||
           fld.findField(fd_blood_insect) != 0 || fld.findField(fd_blood_invertebrate) != 0
           || fld.findField(fd_bile) != 0 || fld.findField(fd_slime) != 0 ||
@@ -3631,17 +3631,30 @@ void map::remove_trap(const int x, const int y)
 /*
  * Get wrapper for all fields at xy
  */
-field& map::field_at(const int x, const int y)
+const field &map::field_at( const int x, const int y ) const
 {
- if (!INBOUNDS(x, y)) {
-  nulfield = field();
-  return nulfield;
- }
+    if( !inbounds( x, y ) ) {
+        nulfield = field();
+        return nulfield;
+    }
 
- int lx, ly;
- submap * const current_submap = get_submap_at(x, y, lx, ly);
+    int lx, ly;
+    submap *const current_submap = get_submap_at( x, y, lx, ly );
 
- return current_submap->fld[lx][ly];
+    return current_submap->fld[lx][ly];
+}
+
+field &map::get_field( const int x, const int y )
+{
+    if( !inbounds( x, y ) ) {
+        nulfield = field();
+        return nulfield;
+    }
+
+    int lx, ly;
+    submap *const current_submap = get_submap_at( x, y, lx, ly );
+
+    return current_submap->fld[lx][ly];
 }
 
 /*
@@ -3970,7 +3983,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
     const ter_id curr_ter = ter(x,y);
     const furn_id curr_furn = furn(x,y);
     const trap_id curr_trap = tr_at(x, y);
-    field &curr_field = field_at(x, y);
+    const field &curr_field = field_at(x, y);
     const std::vector<item> &curr_items = i_at(x, y);
     long sym;
     bool hi = false;
@@ -5123,7 +5136,7 @@ void map::build_transparency_cache()
                 continue;
             }
 
-            field &curfield = field_at(x,y);
+            const field &curfield = field_at(x,y);
             for( auto &fld : curfield ) {
                 const field_entry * cur = &fld.second;
                     if( !fieldlist[cur->getFieldType()].transparent[cur->getFieldDensity() - 1] ) {

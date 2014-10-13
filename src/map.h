@@ -515,7 +515,7 @@ void add_corpse(int x, int y);
  const std::set<point> &trap_locations(trap_id t) const;
 
 // Fields
- field& field_at(const int x, const int y);
+ const field& field_at(const int x, const int y) const;
 
  int get_field_age(const point p, const field_id t);
  int get_field_strength(const point p, const field_id t);
@@ -632,7 +632,7 @@ protected:
 
  std::vector<item> nulitems; // Returned when &i_at() is asked for an OOB value
  ter_id nulter;  // Returned when &ter() is asked for an OOB value
- field nulfield; // Returned when &field_at() is asked for an OOB value
+ mutable field nulfield; // Returned when &field_at() is asked for an OOB value
  vehicle nulveh; // Returned when &veh_at() is asked for an OOB value
  int null_temperature;  // Because radiation does it too
 
@@ -653,6 +653,7 @@ protected:
     void set_abs_sub(const int x, const int y, const int z);
 
 private:
+    field& get_field(const int x, const int y);
     void spread_gas( field_entry *cur, int x, int y, field_id curtype,
                         int percent_spread, int outdoor_age_speedup );
     void create_hot_air( int x, int y, int density );

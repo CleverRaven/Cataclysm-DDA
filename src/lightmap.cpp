@@ -73,7 +73,7 @@ void map::generate_lightmap()
         for(int sy = 0; sy < LIGHTMAP_CACHE_Y; ++sy) {
             const ter_id terrain = ter(sx, sy);
             const std::vector<item> &items = i_at(sx, sy);
-            field &current_field = field_at(sx, sy);
+            const field &current_field = field_at(sx, sy);
             // When underground natural_light is 0, if this changes we need to revisit
             // Only apply this whole thing if the player is inside,
             // buildings will be shadowed when outside looking in.

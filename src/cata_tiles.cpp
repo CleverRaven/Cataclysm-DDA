@@ -978,7 +978,7 @@ bool cata_tiles::draw_trap(int x, int y)
 bool cata_tiles::draw_field_or_item(int x, int y)
 {
     // check for field
-    field &f = g->m.field_at(x, y);
+    const field &f = g->m.field_at(x, y);
     // check for items
     const std::vector<item> &items = g->m.i_at(x, y);
     field_id f_id = f.fieldSymbol();
