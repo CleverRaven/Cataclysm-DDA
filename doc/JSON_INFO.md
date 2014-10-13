@@ -548,6 +548,15 @@ The contents of use_action fields can either be a string indicating a built-in f
     "fields_produced" : {"cracksmoke" : 2}, // Fields to produce, mostly used for smoke.
     "charges_needed" : { "fire" : 1 }, // Charges to use in the process of consuming the drug.
     "tools_needed" : { "apparatus" : -1 } // Tool needed to use the drug.
+},
+"use_action": {
+    "type": "place_monster", // place a turrent / manhack / whatever monster on the map
+    "monster_id": "mon_manhack", // monster id, see monsters.json
+    "difficulty": 4, // difficulty for programming it (manhacks have 4, turrets 6, ...)
+    "hostile_msg": "It's hostile!", // (optional) message when programming the monster failed and it's hostile.
+    "friendly_msg": "Good!", // (optional) message when the monster is programmed properly and it's friendly.
+    "place_randomly": true, // if true: places the monser randomly around the player, if false: let the player decide where to put it (default: false)
+    "moves": 60 // how many move points the action takes.
 }
 ```
 ###Random descriptions

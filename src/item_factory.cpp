@@ -287,10 +287,6 @@ void Item_factory::init()
     iuse_function_list["MININUKE"] = &iuse::mininuke;
     iuse_function_list["PHEROMONE"] = &iuse::pheromone;
     iuse_function_list["PORTAL"] = &iuse::portal;
-    iuse_function_list["MANHACK"] = &iuse::manhack;
-    iuse_function_list["TURRET"] = &iuse::turret;
-    iuse_function_list["TURRET_LASER"] = &iuse::turret_laser;
-    iuse_function_list["TURRET_RIFLE"] = &iuse::turret_rifle;
     iuse_function_list["UPS_OFF"] = &iuse::UPS_off;
     iuse_function_list["UPS_ON"] = &iuse::UPS_on;
     iuse_function_list["adv_UPS_OFF"] = &iuse::adv_UPS_off;
@@ -1444,6 +1440,15 @@ use_function Item_factory::use_from_object(JsonObject obj)
         obj.read("stat_adjustments", actor->stat_adjustments);
         obj.read("fields_produced", actor->fields_produced);
         return use_function(actor.release());
+    } else if( type == "place_monster" ) {
+        std::unique_ptr<place_monster_iuse> actor( new place_monster_iuse() );
+        actor->mtype_id = obj.get_string( "monster_id" );
+        obj.read( "friendly_msg", actor->friendly_msg );
+        obj.read( "hostile_msg", actor->hostile_msg );
+        obj.read( "difficulty", actor->difficulty );
+        obj.read( "moves", actor->moves );
+        obj.read( "place_randomly", actor->place_randomly );
+        return use_function( actor.release() );
     } else {
         debugmsg("unknown use_action type %s", type.c_str());
         return use_function();
