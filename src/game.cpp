@@ -12659,6 +12659,9 @@ bool game::plmove(int dx, int dy)
             }
             draw_hit_mon(x, y, critter, critter.is_dead());
             return false;
+        } else if( critter.has_flag( MF_IMMOBILE ) ) {
+            add_msg( m_info, _( "You can't displace your %s." ), critter.name().c_str() );
+            return false;
         } else {
             displace = true;
         }
@@ -13202,10 +13205,6 @@ bool game::plmove(int dx, int dy)
         if (displace) { // We displaced a friendly monster!
             // Immobile monsters can't be displaced.
             monster &critter = zombie(mondex);
-            if (critter.has_flag(MF_IMMOBILE)) {
-                    add_msg(m_info, _("You can't displace your %s."), critter.name().c_str());
-                    return false;
-            } // critter is immobile or special
             critter.move_to(u.posx, u.posy,
                             true); // Force the movement even though the player is there right now.
             add_msg(_("You displace the %s."), critter.name().c_str());
