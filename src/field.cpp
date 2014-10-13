@@ -336,7 +336,7 @@ field_id field_from_ident(const std::string &field_ident)
 Function: spread_gas
 Helper function that encapsulates the logic involved in gas spread.
 */
-static void spread_gas( map *m, field_entry *cur, int x, int y, field_id curtype,
+void map::spread_gas( field_entry *cur, int x, int y, field_id curtype,
                         int percent_spread, int outdoor_age_speedup )
 {
     // Reset nearby scents to zero
@@ -346,7 +346,7 @@ static void spread_gas( map *m, field_entry *cur, int x, int y, field_id curtype
         }
     }
     // Dissapate faster outdoors.
-    if (m->is_outside(x, y)) { cur->setFieldAge( cur->getFieldAge() + outdoor_age_speedup ); }
+    if (is_outside(x, y)) { cur->setFieldAge( cur->getFieldAge() + outdoor_age_speedup ); }
 
     // Bail out if we don't meet the spread chance.
     if( rng(1, 100) > percent_spread ) { return; }
@@ -357,10 +357,10 @@ static void spread_gas( map *m, field_entry *cur, int x, int y, field_id curtype
         for( int b = -1; b <= 1; b++ ) {
             // Current field not a candidate.
             if( !(a || b) ) { continue; }
-            const field_entry* tmpfld = m->get_field( point( x + a, y + b ), curtype );
+            const field_entry* tmpfld = get_field( point( x + a, y + b ), curtype );
             // Candidates are existing weaker fields or navigable tiles with no field.
             if( ( tmpfld && tmpfld->getFieldDensity() < cur->getFieldDensity() ) ||
-                ( !tmpfld && m->move_cost( x + a, y + b ) > 0 ) ) {
+                ( !tmpfld && move_cost( x + a, y + b ) > 0 ) ) {
                 spread.push_back( point( x + a, y + b ) );
             }
         }
@@ -370,7 +370,7 @@ static void spread_gas( map *m, field_entry *cur, int x, int y, field_id curtype
     int current_age = cur->getFieldAge();
     if (current_density > 1 && current_age > 0 && !spread.empty()) {
         point p = spread[ rng( 0, spread.size() - 1 ) ];
-        field_entry *candidate_field = m->field_at(p.x, p.y).findField( curtype );
+        field_entry *candidate_field = field_at(p.x, p.y).findField( curtype );
         int candidate_density = candidate_field ? candidate_field->getFieldDensity() : 0;
         // Nearby gas grows thicker, and ages are shared.
         int age_fraction = 0.5 + current_age / current_density;
@@ -380,8 +380,8 @@ static void spread_gas( map *m, field_entry *cur, int x, int y, field_id curtype
             candidate_field->setFieldAge(candidate_field->getFieldAge() + age_fraction);
             cur->setFieldAge(current_age - age_fraction);
         // Or, just create a new field.
-        } else if ( m->add_field( p.x, p.y, curtype, 1 ) ) {
-            m->field_at(p.x, p.y).findField( curtype )->setFieldAge(age_fraction);
+        } else if ( add_field( p.x, p.y, curtype, 1 ) ) {
+            field_at(p.x, p.y).findField( curtype )->setFieldAge(age_fraction);
             cur->setFieldDensity( current_density - 1 );
             cur->setFieldAge(current_age - age_fraction);
         }
@@ -943,19 +943,19 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     break;
 
                     case fd_smoke:
-                        spread_gas( this, cur, x, y, curtype, 80, 50 );
+                        spread_gas( cur, x, y, curtype, 80, 50 );
                         break;
 
                     case fd_tear_gas:
-                        spread_gas( this, cur, x, y, curtype, 33, 30 );
+                        spread_gas( cur, x, y, curtype, 33, 30 );
                         break;
 
                     case fd_relax_gas:
-                        spread_gas( this, cur, x, y, curtype, 25, 50 );
+                        spread_gas( cur, x, y, curtype, 25, 50 );
                         break;
 
                     case fd_fungal_haze:
-                        spread_gas( this, cur, x, y, curtype, 33,  5);
+                        spread_gas( cur, x, y, curtype, 33,  5);
                         int mondex;
                         mondex = g->mon_at(x, y);
                         if (g->m.move_cost(x, y) > 0) {
@@ -978,15 +978,15 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         break;
 
                     case fd_toxic_gas:
-                        spread_gas( this, cur, x, y, curtype, 50, 30 );
+                        spread_gas( cur, x, y, curtype, 50, 30 );
                         break;
 
                     case fd_cigsmoke:
-                        spread_gas( this, cur, x, y, curtype, 250, 65 );
+                        spread_gas( cur, x, y, curtype, 250, 65 );
                         break;
 
                     case fd_weedsmoke: {
-                        spread_gas( this, cur, x, y, curtype, 200, 60 );
+                        spread_gas( cur, x, y, curtype, 200, 60 );
 
                         if(one_in(20)) {
                             int npcdex = g->npc_at(x, y);
@@ -1002,7 +1002,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         break;
 
                     case fd_methsmoke: {
-                        spread_gas( this, cur, x, y, curtype, 175, 70 );
+                        spread_gas( cur, x, y, curtype, 175, 70 );
 
                         if(one_in(20)) {
                             int npcdex = g->npc_at(x, y);
@@ -1017,7 +1017,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         break;
 
                     case fd_cracksmoke: {
-                        spread_gas( this, cur, x, y, curtype, 175, 80 );
+                        spread_gas( cur, x, y, curtype, 175, 80 );
 
                         if(one_in(20)) {
                             int npcdex = g->npc_at(x, y);
@@ -1034,7 +1034,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     case fd_nuke_gas: {
                         int extra_radiation = rng(0, cur->getFieldDensity());
                         adjust_radiation(x, y, extra_radiation);
-                        spread_gas( this, cur, x, y, curtype, 50, 10 );
+                        spread_gas( cur, x, y, curtype, 50, 10 );
                         break;
                     }
 
@@ -1042,7 +1042,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     case fd_hot_air2:
                     case fd_hot_air3:
                     case fd_hot_air4:
-                        spread_gas( this, cur, x, y, curtype, 100, 1000 );
+                        spread_gas( cur, x, y, curtype, 100, 1000 );
                         break;
 
                     case fd_gas_vent:
@@ -1307,7 +1307,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     }
                                 }
                             } else {
-                                spread_gas( this, cur, x, y, curtype, 5, 0 );
+                                spread_gas( cur, x, y, curtype, 5, 0 );
                             }
                         }
                         break;
@@ -1332,7 +1332,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     }
                             }
 
-                            spread_gas( this, cur, x, y, curtype, 66, 40 );
+                            spread_gas( cur, x, y, curtype, 66, 40 );
                             create_hot_air( this, x, y, cur->getFieldDensity());
                         }
                         break;
