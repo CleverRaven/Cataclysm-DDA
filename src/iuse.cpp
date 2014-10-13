@@ -2626,25 +2626,9 @@ int iuse::mycus(player *p, item *it, bool t)
             p->thirst += 10;
             p->add_morale(MORALE_MARLOSS, 25, 200); // still covers up mutation pain
         }
-        for (int x = p->posx - 2; x <= p->posx + 2; x++) {
-            for (int y = p->posy - 2; y <= p->posy + 2; y++) {
-                g->m.marlossify(x, y);
-            }
-        }
     } else if (p->has_trait("THRESH_MYCUS")) {
-        if (one_in(10)) {
-            p->mutate_category("MUTCAT_MYCUS");
-            p->hunger += 10;
-            p->fatigue += 5;
-            p->thirst += 10;
-        }
-        p->pkill += 10;
-        p->stim += 10;
-        for (int x = p->posx - 3; x <= p->posx + 3; x++) {
-            for (int y = p->posy - 3; y <= p->posy + 3; y++) {
-                g->m.marlossify(x, y);
-            }
-        }
+        p->pkill += 5;
+        p->stim += 5;
     } else { // In case someone gets one without having been adapted first.
         // Marloss is the Mycus' method of co-opting humans.  Mycus fruit is for symbiotes' maintenance and development.
         p->add_msg_if_player(_("This apple tastes really weird!  You're not sure it's good for you..."));

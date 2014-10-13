@@ -95,6 +95,9 @@ void player::activate_mutation(int b)
     else if (traits[mut].id == "SHOUT3"){
         g->sound(posx, posy, 20 + 4 * str_cur, _("You let out a piercing howl!"));
     }
+    else if ((traits[mut].id == "NAUSEA") || (traits[mut].id == "VOMITOUS") ){
+        g->u.vomit();
+    }
     else if (traits[mut].id == "M_FERTILE"){
         g->u.spores();
     }

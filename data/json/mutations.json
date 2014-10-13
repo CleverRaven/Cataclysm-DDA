@@ -1442,7 +1442,7 @@
         "threshreq" : ["THRESH_MYCUS"],
         "category" : ["MUTCAT_MYCUS"],
         "active"     :    true,
-        "cost"       :    10,
+        "cost"       :    8,
         "time"       :    0,
         "hunger"     :    true,
         "thirst"     :    true
@@ -1475,7 +1475,7 @@
         "threshreq" : ["THRESH_MYCUS"],
         "category" : ["MUTCAT_MYCUS"],
         "active"     :    true,
-        "cost"       :    15,
+        "cost"       :    10,
         "time"       :    0,
         "hunger"     :    true,
         "thirst"     :    true,
@@ -3048,19 +3048,23 @@
         "id" : "NAUSEA",
         "name" : "Nausea",
         "points" : -3,
-        "description" : "You feel nauseous almost constantly, and are more liable to throw up from food poisoning, alcohol, etc.",
+        "description" : "You feel nauseous almost constantly, and are more liable to throw up from food poisoning, alcohol, etc.  You can, if desired, think yourself into vomiting, too.",
         "prereqs" : ["WEAKSTOMACH"],
         "changes_to" : ["VOMITOUS", "EATPOISON"],
-        "category" : ["MUTCAT_ALPHA"]
+        "category" : ["MUTCAT_ALPHA"],
+        "active" : true,
+        "time" : 0
     },{
         "type" : "mutation",
         "id" : "VOMITOUS",
         "name" : "Vomitous",
         "points" : -8,
-        "description" : "You have a major digestive disorder, which causes you to vomit frequently.",
+        "description" : "You have a major digestive disorder.  Though it causes you to vomit frequently, you have found that you can trigger your vomit reflex on demand, too.",
         "prereqs" : ["NAUSEA"],
         "changes_to" : ["EATPOISON"],
-        "category" : ["MUTCAT_SLIME", "MUTCAT_RAT", "MUTCAT_MEDICAL", "MUTCAT_ELFA"]
+        "category" : ["MUTCAT_SLIME", "MUTCAT_RAT", "MUTCAT_MEDICAL", "MUTCAT_ELFA"],
+        "active" : true,
+        "time" : 0
     },{
         "type" : "mutation",
         "id" : "HUNGER",
@@ -3795,14 +3799,32 @@
         "points" : -5,
         "visibility" : 8,
         "ugliness" : 3,
-        "mixed_effect" : true,
         "description" : "You have grown a thick shell over your torso, providing excellent armor. You find you can use the empty space as 16 storage space, but cannot wear anything on your torso. Somewhat reduces wet effects.",
         "prereqs" : ["CHITIN"],
         "cancels" : ["CHITIN3"],
+        "changes_to" : ["SHELL2"],
         "category" : ["MUTCAT_CEPHALOPOD"],
         "wet_protection" : [
             { "part" : "TORSO", "ignored" : 26 }
         ]
+    },{
+        "type" : "mutation",
+        "id" : "SHELL2",
+        "name" : "Roomy Shell",
+        "points" : -1,
+        "visibility" : 10,
+        "ugliness" : 3,
+        "mixed_effect" : true,
+        "description" : "Your protective shell has grown large enough to accomodate--if need be--your whole body.  Activate to pull your head and limbs into your shell, trading mobility and vision for warmth, protection, and shelter.",
+        "prereqs" : ["SHELL"],
+        "threshreq" : ["THRESH_CEPHALOPOD"],
+        "category" : ["MUTCAT_CEPHALOPOD"],
+        "wet_protection" : [
+            { "part" : "TORSO", "ignored" : 26 }
+        ],
+        "active"     :    true,
+        "//" : "Needs to be nonzero so it stays on, but there's no charge for using your shell",
+        "time"       :    100
     },{
         "type" : "mutation",
         "id" : "LEG_TENTACLES",
