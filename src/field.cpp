@@ -2064,14 +2064,15 @@ int field_entry::setFieldAge(const int new_age){
     return age;
 }
 
-field::field(){
-    draw_symbol = fd_null;
-    dirty = false;
-};
+field::field()
+    : field_list()
+    , draw_symbol( fd_null )
+{
+}
 
-field::~field(){
-    if(dirty) return;
-};
+field::~field()
+{
+}
 
 /*
 Function: findField

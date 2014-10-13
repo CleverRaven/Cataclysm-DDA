@@ -216,7 +216,6 @@ public:
 private:
     std::map<field_id, field_entry*> field_list; //A pointer lookup table of all field effects on the current tile.    //Draw_symbol currently is equal to the last field added to the square. You can modify this behavior in the class functions if you wish.
     field_id draw_symbol;
-    bool dirty; //true if this is a copy of the class, false otherwise.
 };
 
 #endif
