@@ -985,7 +985,7 @@ void dis_effect(player &p, disease &dis)
             } if (dis.duration > 4000 && one_in(64)) {
                   p.mod_pain(rng(-1, -8));
             } if ((!p.has_effect("hallu")) && (dis.duration > 5000 && one_in(4))) {
-                  p.add_effect("hallu", rng(200, 1000));
+                  p.add_effect("hallu", 3600);
             } if (dis.duration > 6000 && one_in(128)) {
                   p.mod_pain(rng(-3, -24));
                   if (dis.duration > 8000 && one_in(16)) {

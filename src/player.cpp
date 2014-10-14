@@ -5743,7 +5743,7 @@ void player::hardcoded_effects(effect it)
             g->m.add_field(posx, posy, playerBloodType(), 1);
         }
     } else if (id == "hallu") {
-        // TODO: Redo this
+        // TODO: Redo this to allow for variable durations
         // Time intervals are drawn from the old ones based on 3600 (6-hour) duration.
         static bool puked = false;
         int maxDuration = 3600;
