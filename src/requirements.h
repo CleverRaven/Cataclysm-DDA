@@ -136,9 +136,20 @@ struct requirements {
          */
         int time;
         /**
-         * Recipe difficulty, used for batch time falloff calculation.
+         * Recipe difficulty, or carpenter skill needed for construction.
          */
         int difficulty;
+        /**
+         * Variables for holding batch crafting time reduction parameters.
+         *
+         * batch_rscale - maximum achievable time reduction, as percentage
+         *                of the original time. if zero then the recipe has
+         *                no batch crafting time reduction.
+         * batch_rsize  - minimum batch size to needed to reach the above.
+         */
+        double batch_rscale;
+        int batch_rsize;
+
         /**
          * Load @ref tools, @ref qualities and @ref components from
          * the json object. Assumes them to be in sub-objects.

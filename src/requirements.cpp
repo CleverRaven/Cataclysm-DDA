@@ -8,6 +8,7 @@
 #include "itype.h"
 #include <sstream>
 #include "calendar.h"
+#include <cmath>
 
 quality::quality_map quality::qualities;
 
@@ -127,34 +128,28 @@ void requirements::load( JsonObject &jsobj )
     load_obj_list( jsarr, tools );
     time = jsobj.get_int( "time" );
     difficulty = jsobj.get_int( "difficulty" );
+    if (jsobj.has_array( "batch_time_factors" )) {
+        jsarr = jsobj.get_array( "batch_time_factors" );
+        batch_rscale = (double)jsarr.get_int(0) / 100.0;
+        batch_rsize = jsarr.get_int(1);
+    } else {
+        batch_rscale = 0.0;
+        batch_rsize = 0;
+    }
 }
 
 int requirements::batch_time( int batch ) const
 {
-    // no benefits for a single craft
-    if (batch == 1) {
-        return time;
-    }
-    // master work gets no benefits
-    if (difficulty >= 20) {
+    if (batch_rscale == 0.0) {
         return time * batch;
     }
 
-    // always at least as a single craft.
-    double total_time = (double)time;
-    batch--;
-
-    double factor = 1.0 - ((20.0 - (double)difficulty) / 100.0);
-    while (batch > 0) {
-        total_time += (double)time * factor;
-        // cutoff at 10% of the original time.
-        if (factor > 0.1) {
-            factor *= factor;
-            if (factor < 0.1) {
-                factor = 0.1;
-            }
-        }
-        batch--;
+    double total_time = 0.0;
+    double scale = batch_rsize / 12.0; // close enough
+    for (int x = 0; x < batch; x++) {
+        // scaled logistic function output
+        double logf = (2.0/(1.0+exp(-((double)x/scale)))) - 1.0;
+        total_time += (double)time * (1.0 - (batch_rscale * logf));
     }
 
     return (int)total_time;
