@@ -549,8 +549,8 @@ void trapfunc::goo(Creature *c, int x, int y)
         monster *z = dynamic_cast<monster *>(c);
         player *n = dynamic_cast<player *>(c);
         if (n != NULL) {
-            n->infect("slimed", bp_foot_l, 6, 20);
-            n->infect("slimed", bp_foot_r, 6, 20);
+            n->add_env_effect("slimed", bp_foot_l, 6, 20);
+            n->add_env_effect("slimed", bp_foot_r, 6, 20);
             if (one_in(3)) {
                 n->add_msg_if_player(m_bad, _("The acidic goo eats away at your feet."));
                 n->deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, 5 ) );

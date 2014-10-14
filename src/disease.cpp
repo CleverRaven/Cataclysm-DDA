@@ -26,9 +26,8 @@ enum dis_type_enum {
 // Fields - onfire moved to effects
  DI_CRUSHED,
 // Monsters
- DI_SAP, DI_SLIMED,
+ DI_SAP,
  DI_LYING_DOWN, DI_SLEEP, DI_ALARM_CLOCK,
- DI_BLEED,
  DI_DERMATIK, DI_FORMICATION,
  DI_BITE,
 // Food & Drugs
@@ -84,11 +83,9 @@ void game::init_diseases() {
     disease_type_lookup["paincysts"] = DI_PAINCYSTS;
     disease_type_lookup["crushed"] = DI_CRUSHED;
     disease_type_lookup["sap"] = DI_SAP;
-    disease_type_lookup["slimed"] = DI_SLIMED;
     disease_type_lookup["lying_down"] = DI_LYING_DOWN;
     disease_type_lookup["sleep"] = DI_SLEEP;
     disease_type_lookup["alarm_clock"] = DI_ALARM_CLOCK;
-    disease_type_lookup["bleed"] = DI_BLEED;
     disease_type_lookup["dermatik"] = DI_DERMATIK;
     disease_type_lookup["formication"] = DI_FORMICATION;
     disease_type_lookup["bite"] = DI_BITE;
@@ -137,9 +134,6 @@ bool dis_msg(dis_type type_string) {
         break;
     case DI_SAP:
         add_msg(m_bad, _("You're coated in sap!"));
-        break;
-    case DI_SLIMED:
-        add_msg(m_bad, _("You're covered in thick goo!"));
         break;
     case DI_LYING_DOWN:
         add_msg(_("You lie down to go to sleep..."));
@@ -882,16 +876,6 @@ void dis_effect(player &p, disease &dis)
             p.add_miss_reason(_("The sap's too sticky for you to fight effectively."), 3);
             break;
 
-        case DI_SLIMED:
-            p.mod_dex_bonus(-2);
-            p.add_miss_reason(_("This goo makes you slip."), 2);
-            if (will_vomit(p, 2100)) {
-                p.vomit();
-            } else if (one_in(4800)) {
-                p.add_msg_if_player(m_bad, _("You gag and retch."));
-            }
-            break;
-
         case DI_LYING_DOWN:
             p.moves = 0;
             if (p.can_sleep()) {
@@ -1084,21 +1068,6 @@ void dis_effect(player &p, disease &dis)
             p.mod_dex_bonus(-1);
             p.add_miss_reason(_("That critter's jumping around like a jitterbug! It needs to mellow out."), 1);
             p.mod_per_bonus(-1);
-            break;
-
-        case DI_BLEED:
-            // Presuming that during the first-aid process you're putting pressure
-            // on the wound or otherwise suppressing the flow. (Kits contain either
-            // quikclot or bandages per the recipe.)
-            if ( (one_in(6 / dis.intensity)) && (!(p.activity.type == ACT_FIRSTAID)) ) {
-                p.add_msg_player_or_npc(m_bad, _("You lose some blood."),
-                                               _("<npcname> loses some blood.") );
-                p.mod_pain(1);
-                p.apply_damage( nullptr, dis.bp, 1 );
-                p.mod_per_bonus(-1);
-                p.mod_str_bonus(-1);
-                g->m.add_field(p.posx, p.posy, p.playerBloodType(), 1);
-            }
             break;
 
         case DI_TAPEWORM:
@@ -1541,7 +1510,6 @@ int disease_speed_boost(disease dis)
         break;
 
         case DI_SAP:        return -25;
-        case DI_SLIMED:     return -25;
         case DI_WEBBED:     return (dis.duration / 5 ) * -25;
         case DI_ADRENALINE: return (dis.duration > 150 ? 40 : -10);
         case DI_ASTHMA:     return 0 - int(dis.duration / 5);
@@ -1687,40 +1655,6 @@ std::string dis_name(disease& dis)
     case DI_COMMON_COLD: return _("Common Cold");
     case DI_FLU: return _("Influenza");
     case DI_SAP: return _("Sap-coated");
-
-    case DI_SLIMED: return _("Slimed");
-    case DI_BLEED:
-    {
-        std::string status = "";
-        switch (dis.intensity) {
-        case 1: status = _("Bleeding - "); break;
-        case 2: status = _("Bad Bleeding - "); break;
-        case 3: status = _("Heavy Bleeding - "); break;
-        }
-        switch (dis.bp) {
-            case bp_head:
-                status += _("Head");
-                break;
-            case bp_torso:
-                status += _("Torso");
-                break;
-            case bp_arm_l:
-                status += _("Left Arm");
-                break;
-            case bp_arm_r:
-                status += _("Right Arm");
-                break;
-            case bp_leg_l:
-                status += _("Left Leg");
-                break;
-            case bp_leg_r:
-                status += _("Right Leg");
-                break;
-            default: // Suppress compiler warning [-Wswitch]
-                break;
-        }
-        return status;
-    }
 
     case DI_FORMICATION:
     {
@@ -2187,19 +2121,6 @@ Your right leg is frostbitten from prolonged exposure to the cold. It is extreme
 
     case DI_SAP:
         return _("Dexterity - 3;   Speed - 25");
-
-    case DI_SLIMED:
-        return _("Speed -25%;   Dexterity - 2");
-
-    case DI_BLEED:
-        switch (dis.intensity) {
-            case 1:
-                return _("You are slowly losing blood.");
-            case 2:
-                return _("You are losing blood.");
-            case 3:
-                return _("You are rapidly loosing blood.");
-        }
 
     case DI_FORMICATION:
     {

@@ -955,7 +955,7 @@ void load_effect_type(JsonObject &jo)
     new_etype.pkill_addict_reduces = jo.get_bool("pkill_addict_reduces", false);
     
     new_etype.pain_sizing = jo.get_bool("pain_sizing", false);
-    new_etype.hurt_sizing = jo.get_bool("pain_sizing", false);
+    new_etype.hurt_sizing = jo.get_bool("hurt_sizing", false);
     new_etype.harmful_cough = jo.get_bool("harmful_cough", false);
     
     new_etype.base_mods.load(jo, "base_mods");

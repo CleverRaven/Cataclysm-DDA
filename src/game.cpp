@@ -5586,7 +5586,7 @@ nc_color game::limb_color(player *p, body_part bp, bool bleed, bool bite, bool i
 
     int color_bit = 0;
     nc_color i_color = c_ltgray;
-    if (bleed && p->has_disease("bleed", bp)) {
+    if (bleed && p->has_effect("bleed", bp)) {
         color_bit += 1;
     }
     if (bite && p->has_disease("bite", bp)) {

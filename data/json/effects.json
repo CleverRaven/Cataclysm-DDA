@@ -511,13 +511,43 @@
     },
     {
         "type": "effect_type",
-        "id": "bleed"
+        "id": "bleed",
+        "name": [
+            "Bleeding",
+            "Bad Bleeding",
+            "Heavy Bleeding
+        ],
+        "desc": [
+            "You are slowly losing blood.",
+            "You are losing blood.",
+            "You are rapidly losing blood."
+        ],
+        "main_parts_only": true,
+        "apply_message": "You're bleeding!",
+        "rating": "bad",
+        "max_intensity": 3,
+        "int_decay_tick": 120,
+        "int_decay_step": 1,
+        "int_add_val": 1,
+        "base_mods": {
+            "str_mod": [-1],
+            "per_mod": [-1]
+        }
     },
     {
         "type": "effect_type",
         "id": "slimed",
+        "name": ["Slimed"],
+        "desc": ["You're covered in thick goo!"],
         "apply_message": "You're covered in thick goo!",
-        "rating": "bad"
+        "rating": "bad",
+        "miss_message": "This goo makes you slip",
+        "miss_weight": 2,
+        "base_mods": {
+            "dex_mod": [-2],
+            "speed_mod": [-25],
+            "vomit_chance": [2100]
+        }
     },
     {
         "type": "effect_type",

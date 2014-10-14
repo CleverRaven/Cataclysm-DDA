@@ -4725,9 +4725,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
         if (source->has_flag(MF_BLEED) && dealt_dams.total_damage() > 6 &&
             dealt_dams.type_damage(DT_CUT) > 0) {
             // Maybe should only be if DT_CUT > 6... Balance question
-            add_msg_if_player(m_bad, _("You're Bleeding!"));
-            // Only place bleed effect added to player in code
-            add_disease("bleed", 60, false, 1, 3, 120, 1, bp, true);
+            add_effect("bleed", 60, bp);
         }
 
         if ( source->has_flag(MF_GRABS)) {
@@ -5716,6 +5714,17 @@ void player::hardcoded_effects(effect it)
                 add_msg(m_bad, _("You feel nauseous!"));
                 it.mod_duration(3);
             }
+        }
+    } else if (id == "bleed") {
+        // Presuming that during the first-aid process you're putting pressure
+        // on the wound or otherwise suppressing the flow. (Kits contain either
+        // quikclot or bandages per the recipe.)
+        if ( one_in(6 / it.get_intensity()) && activity.type != ACT_FIRSTAID ) {
+            add_msg_player_or_npc(m_bad, _("You lose some blood."),
+                                           _("<npcname> loses some blood.") );
+            mod_pain(1);
+            apply_damage( nullptr, it.get_bp(), 1 );
+            g->m.add_field(posx, posy, playerBloodType(), 1);
         }
     }
 }

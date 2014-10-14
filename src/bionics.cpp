@@ -405,7 +405,7 @@ void player::activate_bionic(int b)
             pkill = pain;
         }
     } else if (bio.id == "bio_nanobots") {
-        rem_disease("bleed");
+        remove_effect("bleed");
         healall(4);
     } else if (bio.id == "bio_night") {
         if (calendar::turn % 5) {

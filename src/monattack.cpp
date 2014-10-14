@@ -1377,7 +1377,7 @@ void mattack::formblob(monster *z, int index)
             if (g->u.posx == z->posx() + i && g->u.posy == z->posy() + i) {
                 // If we hit the player, cover them with slime
                 didit = true;
-                g->u.add_disease("slimed", rng(0, z->hp));
+                g->u.add_effect("slimed", rng(0, z->hp));
             } else if (thatmon != -1) {
                 monster &othermon = g->zombie(thatmon);
                 // Hit a monster.  If it's a blob, give it our speed.  Otherwise, blobify it?
@@ -3025,7 +3025,7 @@ void mattack::longswipe(monster *z, int index)
     //~ %d is damage value.
     add_msg(m_bad, _("Your throat is slashed for %d damage!"), dam);
     g->u.deal_damage( z, hit, damage_instance( DT_CUT, dam ) );
-    g->u.add_disease("bleed", 100, false, 1, 1, 0, -1, hit, true);
+    g->u.add_effect("bleed", 100, hit);
     g->u.practice( "dodge", z->type->melee_skill );
 }
 
@@ -3118,7 +3118,7 @@ void mattack::slimespring(monster *z, int index)
         }
     }
     if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) <= 3) {
-        if ( (g->u.has_disease("bleed")) || (g->u.has_disease("bite")) ) {
+        if ( (g->u.has_effect("bleed")) || (g->u.has_disease("bite")) ) {
             add_msg(_("\"let me help!\""));
             // Yes, your slimespring(s) handle/don't all Bad Damage at the same time.
             if (g->u.has_disease("bite")) {
@@ -3129,9 +3129,9 @@ void mattack::slimespring(monster *z, int index)
                     add_msg(_("The slime flows over you, but your gouges still ache."));
                 }
             }
-            if (g->u.has_disease("bleed")) {
+            if (g->u.has_effect("bleed")) {
                 if (one_in(2)) {
-                    g->u.rem_disease("bleed");
+                    g->u.remove_effect("bleed");
                     add_msg(m_good, _("The slime seals up your leaks!"));
                 } else {
                     add_msg(_("The slime flows over you, but your fluids are still leaking."));
