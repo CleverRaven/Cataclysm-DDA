@@ -105,7 +105,6 @@ void load_recipe(JsonObject &jsobj)
     std::string category = jsobj.get_string("category");
     std::string subcategory = jsobj.get_string("subcategory", "");
 
-    int difficulty = jsobj.get_int("difficulty");
     bool autolearn = jsobj.get_bool("autolearn");
     // optional
     bool reversible = jsobj.get_bool("reversible", false);
@@ -154,7 +153,7 @@ void load_recipe(JsonObject &jsobj)
     int id = check_recipe_ident(rec_name, jsobj);
 
     recipe *rec = new recipe(rec_name, id, result, category, subcategory, skill_used,
-                             requires_skills, difficulty, reversible, autolearn,
+                             requires_skills, reversible, autolearn,
                              learn_by_disassembly, result_mult, paired, bps);
     rec->load(jsobj);
 
