@@ -1637,6 +1637,11 @@ void game::activity_on_turn()
         u.cancel_activity();
         advanced_inv();
         break;
+    case ACT_START_FIRE:
+        u.activity.moves_left -= 100; // based on time
+        u.rooted();
+        u.pause();
+        break;
     default:
         // Based on speed, not time
         u.activity.moves_left -= u.moves;
@@ -1885,6 +1890,9 @@ void game::activity_on_finish()
         // Do nothing, the only way this happens is if we set this activity after
         // entering the advanced inventory menu as an activity, and we want it to play out.
         break;
+    case ACT_START_FIRE:
+        activity_on_finish_start_fire();
+        break;
     default:
         u.activity.type = ACT_NULL;
     }
@@ -1968,6 +1976,16 @@ void game::activity_on_finish_firstaid()
     // Erase activity and values.
     u.activity.type = ACT_NULL;
     u.activity.values.clear();
+}
+
+void game::activity_on_finish_start_fire()
+{
+    item &it = u.i_at(u.activity.position);
+    const int dirx = u.activity.placement.x;
+    const int diry = u.activity.placement.y;
+    iuse tmp;
+    tmp.resolve_firestarter_use(&u, &it, dirx, diry);
+    u.activity.type = ACT_NULL;
 }
 
 void game::activity_on_finish_fish()

@@ -20,7 +20,6 @@
 #include <vector>
 #include <sstream>
 #include <algorithm>
-#include <cmath>
 
 #define RADIO_PER_TURN 25 // how many characters per turn of radio
 
@@ -2739,11 +2738,13 @@ bool prep_firestarter_use(player *p, item *it, int &posx, int &posy)
     }
 }
 
-void resolve_firestarter_use(player *p, item *, int posx, int posy)
+int iuse::resolve_firestarter_use(player *p, item *, int posx, int posy)
 {
+    p->add_msg_if_player(m_info, _("firestarter x: %d y:%d"), posx , posy);
     if (g->m.add_field(point(posx, posy), fd_fire, 1, 100)) {
         p->add_msg_if_player(_("You successfully light a fire."));
     }
+    return 0;
 }
 
 int iuse::lighter(player *p, item *it, bool)
@@ -2761,17 +2762,20 @@ int iuse::primitive_fire(player *p, item *it, bool)
 {
     int posx, posy;
     if (prep_firestarter_use(p, it, posx, posy)) {
-        p->moves -= 500;
-        const int skillLevel = p->skillLevel("survival");
-        const int sides = 10;
-        const int base_dice = 3;
-        // aiming for ~50% success at skill level 3, and possible but unheard of at level 0
-        const int difficulty = (base_dice + 3) * sides / 2;
-        if (dice(skillLevel + base_dice, 10) >= difficulty) {
-            resolve_firestarter_use(p, it, posx, posy);
-        } else {
-            p->add_msg_if_player(_("You try to light a fire, but fail."));
+        float skillLevel = float(p->skillLevel("survival"));
+        // success chance is 100% but time spent is min 5 minutes at skill=5 and it increases for lower skill levels.
+        // max time is 1 hour for 0 survival
+        const float moves_base = 5*1000;
+        if (skillLevel < 1) {
+            skillLevel = 0.536; // avoid dividing by zero. scaled so that skill level 0 means 60 minutes work
         }
+        float moves_modifier = (std::pow((5/skillLevel),1.113)); // at survival=5 modifier=1, at survival=1 modifier=~6
+        if (moves_modifier < 1){
+            moves_modifier = 1; // activity time improvement is capped at skillevel 5
+        }
+        p->add_msg_if_player(m_info, _("At your skill level, it will take around %d minutes to light a fire."), int((moves_base * moves_modifier)/1000));
+        p->assign_activity(ACT_START_FIRE, int(moves_base * moves_modifier), -1, p->get_item_position(it), it->tname());
+        p->activity.placement = point(posx, posy);
         p->practice("survival", 10);
         return it->type->charges_to_use();
     }
@@ -2783,16 +2787,17 @@ int iuse::lens_fire(player *p, item *it, bool)
     int posx, posy;
     if ((g->weather == WEATHER_CLEAR) || (g->weather == WEATHER_SUNNY)) {
         if (prep_firestarter_use(p, it, posx, posy)){
-            // base moves based on sunlight levels... 1 minute at full sunlight (60 lighting), ~25 minutes at clear skies (40 lighting) 
-            const float moves_base = pow((60/g->natural_light_level()),8) * 60000 ;
+            // base moves based on sunlight levels... 1 minute when sunny (80 lighting), ~10 minutes when clear (60 lighting) 
+            const float moves_base = (std::pow((80/g->natural_light_level()),8)) * 1000 ;
             // always 100% chance to succeed, but survival 0 takes 3 * the time at survival 2
             // basically 33% success at 0 survival with each skill level adding 33% more... but the player tries again until the fire is lit.
             float moves_modifier = 1/((p->skillLevel("survival"))*0.33 + 0.33);
             if (moves_modifier > 1) {
                 moves_modifier = 1;
             }
-            p->moves -= int(moves_base * moves_modifier);
-            resolve_firestarter_use(p, it, posx, posy);
+            p->add_msg_if_player(m_info, _("In this weather, it will take around %d minutes to light a fire."), int((moves_base * moves_modifier)/1000));
+            p->assign_activity(ACT_START_FIRE, int(moves_base * moves_modifier), -1, p->get_item_position(it), it->tname());
+            p->activity.placement = point(posx, posy);
             p->practice("survival", 5);
         }
     } else {

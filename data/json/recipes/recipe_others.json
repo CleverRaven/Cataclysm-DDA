@@ -5242,7 +5242,7 @@
   "tools": [
     [ ["hotplate", 4], ["toolset", 4], ["fire", -1] ],
     [ ["mold_plastic", -1] ]
-    ]
+    ],
   "components": [ [ [ "bag_plastic", 3 ] ] ]
   }
 ]
