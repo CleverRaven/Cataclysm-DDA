@@ -5489,6 +5489,21 @@ void player::process_effects() {
                 add_miss_reason(_(it.get_miss_string().c_str()), weight);
             }
             
+            // Handle Radiation
+            double mod = 1;
+            if (it.get_mod("RAD", reduced) > 0 &&
+                  (it.get_max_val("RAD", reduced) > radiation || it.get_max_val("RAD", reduced) == 0)) {
+                mod = 1;
+                if(it.activated(calendar::turn, "RAD", reduced, mod)) {
+                    radiation += it.get_mod("RAD", reduced));
+                    // Radiation can't go negative
+                    if (radiation < 0) {
+                        radiation = 0;
+                    }
+                }
+            }
+            
+            
             // Handle stat changes
             mod_str_bonus(it.get_mod("STR", reduced));
             mod_dex_bonus(it.get_mod("DEX", reduced));
@@ -5497,7 +5512,6 @@ void player::process_effects() {
             mod_speed_bonus(it.get_mod("SPEED", reduced));
             
             // Handle Pain
-            double mod = 1;
             body_part bp = it.get_bp();
             if (!has_trait("NOPAIN") && it.get_mod("PAIN", reduced) > 0 &&
                   (it.get_max_val("PAIN", reduced) > pain || it.get_max_val("PAIN", reduced) == 0)) {

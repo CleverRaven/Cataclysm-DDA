@@ -472,7 +472,11 @@
     },
     {
         "type": "effect_type",
-        "id": "iodine"
+        "id": "iodine",
+        "base_mods": {
+            "rad_chance": [16],
+            "rad_min": [-1]
+        }
     },
     {
         "type": "effect_type",

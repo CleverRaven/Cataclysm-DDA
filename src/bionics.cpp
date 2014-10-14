@@ -489,7 +489,7 @@ void player::activate_bionic(int b)
         if (has_disease("hallu") || has_effect("visuals")) {
             bad.push_back(_("Magic Mushroom"));
         }
-        if (has_disease("iodine")) {
+        if (has_effect("iodine")) {
             good.push_back(_("Iodine"));
         }
         if (has_disease("datura")) {
@@ -554,7 +554,7 @@ void player::activate_bionic(int b)
         rem_disease("high");
         rem_disease("hallu");
         remove_effect("visuals");
-        rem_disease("iodine");
+        remove_effect("iodine");
         rem_disease("datura");
         rem_disease("took_xanax");
         rem_disease("took_prozac");

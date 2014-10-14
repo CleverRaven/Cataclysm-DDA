@@ -1371,7 +1371,7 @@ int iuse::sleep(player *p, item *it, bool)
 
 int iuse::iodine(player *p, item *it, bool)
 {
-    p->add_disease("iodine", 1200);
+    p->add_effect("iodine", 1200);
     p->add_msg_if_player(_("You take an iodine tablet."));
     return it->type->charges_to_use();
 }

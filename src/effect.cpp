@@ -73,8 +73,15 @@ bool effect_mod_info::load(JsonObject &jsobj, std::string member) {
         extract_effect_int(j, "pkill_max", pkill_max, "pkill_min");
         extract_effect_int(j, "pkill_max_val", pkill_max_val, "");
         extract_effect_int(j, "pkill_chance", pkill_chance_top, "");
-        extract_effect_int(j, "pkill_chance", pkill_chance_bot, "");
+        extract_effect_int(j, "pkill_chance_bot", pkill_chance_bot, "");
         extract_effect_int(j, "pkill_tick", pkill_tick, "");
+        extract_effect_int(j, "rad_amount", pkill_amount, "");
+        extract_effect_int(j, "rad_min", rad_min, "");
+        extract_effect_int(j, "rad_max", rad_max, "rad_min");
+        extract_effect_int(j, "rad_max_val", rad_max_val, "");
+        extract_effect_int(j, "rad_chance", rad_chance_top, "");
+        extract_effect_int(j, "rad_chance_bot", rad_chance_bot, "");
+        extract_effect_int(j, "rad_tick", rad_tick, "");
         extract_effect_int(j, "cough_chance", cough_chance_top, "");
         extract_effect_int(j, "cough_chance_bot", cough_chance_bot, "");
         extract_effect_int(j, "cough_tick", cough_tick, "");
@@ -252,7 +259,7 @@ std::string effect::disp_desc(bool reduced)
         ret << "\n";
     }
     
-    // Then print pain/damage/coughing/vomiting, we don't display pkill
+    // Then print pain/damage/coughing/vomiting, we don't display pkill or radiation
     std::vector<std::string> constant;
     std::vector<std::string> frequent;
     std::vector<std::string> uncommon;
@@ -488,6 +495,9 @@ int effect::get_mod(std::string arg, bool reduced)
         } else if (arg == "PKILL") {
             ret += rng(eff_type->base_mods.pkill_min.first + eff_type->scaling_mods.pkill_min.first * intensity,
                     eff_type->base_mods.pkill_max.first + eff_type->scaling_mods.pkill_max.first * intensity);
+        } else if (arg == "RAD") {
+            ret += rng(eff_type->base_mods.rad_min.first + eff_type->scaling_mods.rad_min.first * intensity,
+                    eff_type->base_mods.rad_max.first + eff_type->scaling_mods.rad_max.first * intensity);
         }
     } else {
         if (arg == "STR") {
@@ -514,6 +524,9 @@ int effect::get_mod(std::string arg, bool reduced)
         } else if (arg == "PKILL") {
             ret += rng(eff_type->base_mods.pkill_min.second + eff_type->scaling_mods.pkill_min.second * intensity,
                     eff_type->base_mods.pkill_max.second + eff_type->scaling_mods.pkill_max.second * intensity);
+        } else if (arg == "RAD") {
+            ret += rng(eff_type->base_mods.rad_min.second + eff_type->scaling_mods.rad_min.second * intensity,
+                    eff_type->base_mods.rad_max.second + eff_type->scaling_mods.rad_max.second * intensity);
         }
     }
     return int(ret);
@@ -532,6 +545,9 @@ int effect::get_amount(std::string arg, bool reduced)
         } else if (arg == "PKILL") {
             ret += eff_type->base_mods.pkill_amount.first;
             ret += eff_type->scaling_mods.pkill_amount.first * intensity;
+        } else if (arg == "RAD") {
+            ret += eff_type->base_mods.rad_amount.first;
+            ret += eff_type->scaling_mods.rad_amount.first * intensity;
         }
     } else {
         if (arg == "PAIN") {
@@ -543,6 +559,9 @@ int effect::get_amount(std::string arg, bool reduced)
         } else if (arg == "PKILL") {
             ret += eff_type->base_mods.pkill_amount.second;
             ret += eff_type->scaling_mods.pkill_amount.second * intensity;
+        } else if (arg == "RAD") {
+            ret += eff_type->base_mods.rad_amount.second;
+            ret += eff_type->scaling_mods.rad_amount.second * intensity;
         }
     }
     return int(ret);
@@ -558,6 +577,9 @@ int effect::get_max_val(std::string arg, bool reduced)
         } else if (arg == "PKILL") {
             ret += eff_type->base_mods.pkill_max_val.first;
             ret += eff_type->scaling_mods.pkill_max_val.first * intensity;
+        } else if (arg == "RAD") {
+            ret += eff_type->base_mods.rad_max_val.first;
+            ret += eff_type->scaling_mods.rad_max_val.first * intensity;
         }
     } else {
         if (arg == "PAIN") {
@@ -566,6 +588,9 @@ int effect::get_max_val(std::string arg, bool reduced)
         } else if (arg == "PKILL") {
             ret += eff_type->base_mods.pkill_max_val.second;
             ret += eff_type->scaling_mods.pkill_max_val.second * intensity;
+        } else if (arg == "RAD") {
+            ret += eff_type->base_mods.rad_max_val.second;
+            ret += eff_type->scaling_mods.rad_max_val.second * intensity;
         }
     
     }
@@ -621,6 +646,12 @@ double effect::get_percentage(std::string arg, bool reduced)
             top_scale = eff_type->scaling_mods.vomit_chance_top.first * intensity;
             bot_base = eff_type->base_mods.vomit_chance_bot.first;
             bot_scale = eff_type->scaling_mods.vomit_chance_bot.first * intensity;
+        } else if (arg == "RAD") {
+            tick = eff_type->base_mods.rad_tick.first + eff_type->scaling_mods.rad_tick.first * intensity;
+            top_base = eff_type->base_mods.rad_chance_top.first;
+            top_scale = eff_type->scaling_mods.rad_chance_top.first * intensity;
+            bot_base = eff_type->base_mods.rad_chance_bot.first;
+            bot_scale = eff_type->scaling_mods.rad_chance_bot.first * intensity;
         }
     } else {
         if (arg == "PAIN") {
@@ -653,6 +684,12 @@ double effect::get_percentage(std::string arg, bool reduced)
             top_scale = eff_type->scaling_mods.vomit_chance_top.second * intensity;
             bot_base = eff_type->base_mods.vomit_chance_bot.second;
             bot_scale = eff_type->scaling_mods.vomit_chance_bot.second * intensity;
+        } else if (arg == "RAD") {
+            tick = eff_type->base_mods.rad_tick.second + eff_type->scaling_mods.rad_tick.second * intensity;
+            top_base = eff_type->base_mods.rad_chance_top.second;
+            top_scale = eff_type->scaling_mods.rad_chance_top.second * intensity;
+            bot_base = eff_type->base_mods.rad_chance_bot.second;
+            bot_scale = eff_type->scaling_mods.rad_chance_bot.second * intensity;
         }
     }
     
@@ -721,6 +758,12 @@ bool effect::activated(unsigned int turn, std::string arg, bool reduced, double 
             top_scale = eff_type->scaling_mods.vomit_chance_top.first * intensity;
             bot_base = eff_type->base_mods.vomit_chance_bot.first;
             bot_scale = eff_type->scaling_mods.vomit_chance_bot.first * intensity;
+        } else if (arg == "RAD") {
+            tick = eff_type->base_mods.rad_tick.first + eff_type->scaling_mods.rad_tick.first * intensity;
+            top_base = eff_type->base_mods.rad_chance_top.first;
+            top_scale = eff_type->scaling_mods.rad_chance_top.first * intensity;
+            bot_base = eff_type->base_mods.rad_chance_bot.first;
+            bot_scale = eff_type->scaling_mods.rad_chance_bot.first * intensity;
         }
     } else {
         if (arg == "PAIN") {
@@ -753,6 +796,12 @@ bool effect::activated(unsigned int turn, std::string arg, bool reduced, double 
             top_scale = eff_type->scaling_mods.vomit_chance_top.second * intensity;
             bot_base = eff_type->base_mods.vomit_chance_bot.second;
             bot_scale = eff_type->scaling_mods.vomit_chance_bot.second * intensity;
+        } else if (arg == "RAD") {
+            tick = eff_type->base_mods.rad_tick.second + eff_type->scaling_mods.rad_tick.second * intensity;
+            top_base = eff_type->base_mods.rad_chance_top.second;
+            top_scale = eff_type->scaling_mods.rad_chance_top.second * intensity;
+            bot_base = eff_type->base_mods.rad_chance_bot.second;
+            bot_scale = eff_type->scaling_mods.rad_chance_bot.second * intensity;
         }
     }
     // If both top values = 0 then it should never trigger

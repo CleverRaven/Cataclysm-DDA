@@ -47,6 +47,14 @@ struct effect_mod_info {
     std::pair<int, int> pkill_chance_top;
     std::pair<int, int> pkill_chance_bot;
     std::pair<int, int> pkill_tick;
+    
+    std::pair<int, int> rad_amount;
+    std::pair<int, int> rad_min;
+    std::pair<int, int> rad_max;
+    std::pair<int, int> rad_max_val;
+    std::pair<int, int> rad_chance_top;
+    std::pair<int, int> rad_chance_bot;
+    std::pair<int, int> rad_tick;
 
     std::pair<int, int> cough_chance_top;
     std::pair<int, int> cough_chance_bot;
