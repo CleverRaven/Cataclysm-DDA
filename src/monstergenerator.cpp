@@ -530,18 +530,18 @@ std::vector<void (mdeath::*)(monster *)> MonsterGenerator::get_death_functions(J
 }
 
 void MonsterGenerator::load_special_attacks(mtype *m, JsonObject &jo, std::string member) {
-  m->sp_attack.clear(); // there is a devious NULL there from mtype init
-  JsonArray outer = jo.get_array(member);
-  while (outer.has_more()) {
-    JsonArray inner = outer.next_array();
-    m->sp_attack.push_back(attack_map[inner.get_string(0)]);
-    m->sp_freq.push_back(inner.get_int(1));
-  }
+    m->sp_attack.clear(); // there is a devious NULL there from mtype init
+    JsonArray outer = jo.get_array(member);
+    while (outer.has_more()) {
+        JsonArray inner = outer.next_array();
+        m->sp_attack.push_back(attack_map[inner.get_string(0)]);
+        m->sp_freq.push_back(inner.get_int(1));
+    }
 
-  if (m->sp_attack.empty()) {
-    m->sp_attack.push_back(attack_map["NONE"]);
-    m->sp_freq.push_back(0);
-  }
+    if (m->sp_attack.empty()) {
+        m->sp_attack.push_back(attack_map["NONE"]);
+        m->sp_freq.push_back(0);
+    }
 }
 
 MonDefenseFunction MonsterGenerator::get_defense_function(JsonObject &jo, std::string member)
