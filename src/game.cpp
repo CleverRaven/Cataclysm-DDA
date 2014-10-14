@@ -7379,7 +7379,7 @@ void game::emp_blast(int x, int y)
             }
             if( !mon_item_id.empty() && deact_chance != 0 && one_in( deact_chance ) ) {
                 add_msg(_("The %s beeps erratically and deactivates!"), critter.name().c_str());
-                m.spawn_item( x, y, mon_item_id, 1, 0, calendar::turn );
+                m.add_item_or_charges( x, y, critter.to_item() );
                 for( auto & ammodef : critter.ammo ) {
                     if( ammodef.second > 0 ) {
                         m.spawn_item( x, y, ammodef.first, 1, ammodef.second, calendar::turn );
@@ -12552,7 +12552,7 @@ bool game::disable_robot( const point p )
             return false;
         }
         u.moves -= 100;
-        m.spawn_item( p.x, p.y, mon_item_id, 1, 0, calendar::turn );
+        m.add_item_or_charges( p.x, p.y, critter.to_item() );
         for( auto & ammodef : critter.ammo ) {
             if( ammodef.second > 0 ) {
                 m.spawn_item( p.x, p.y, ammodef.first, 1, ammodef.second, calendar::turn );
