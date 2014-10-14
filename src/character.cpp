@@ -98,6 +98,15 @@ bool Character::move_effects()
         }
         return false;
     }
+    if (has_effect("in_pit")) {
+        if (rng(0, 40) > get_str() + int(get_dex() / 2)) {
+            add_msg_if_player(m_bad, _("You try to escape the pit, but slip back in."));
+            return false;
+        } else {
+            add_msg_if_player(m_good, _("You escape the pit!"));
+            remove_effect("in_pit");
+        }
+    }
     return Creature::move_effects();
 }
 void Character::add_effect(efftype_id eff_id, int dur, body_part bp, bool permanent, int intensity)

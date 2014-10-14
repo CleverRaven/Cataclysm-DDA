@@ -910,12 +910,15 @@ void monster::die_in_explosion(Creature* source)
 
 bool monster::move_effects()
 {
+    bool u_see_me = g->u_see(this);
     if (has_effect("tied")) {
         return false;
     }
     if (has_effect("downed")) {
         remove_effect("downed");
-        add_msg(_("The %s climbs to it's feet!"), name().c_str());
+        if (u_see_me) {
+            add_msg(_("The %s climbs to it's feet!"), name().c_str());
+        }
         return false;
     }
     if (has_effect("lightsnare")) {
@@ -923,7 +926,9 @@ bool monster::move_effects()
             remove_effect("lightsnare");
             g->m.spawn_item(xpos(), ypos(), "string_36");
             g->m.spawn_item(xpos(), ypos(), "snare_trigger");
-            add_msg(_("The %s escapes the light snare!"), name().c_str());
+            if (u_see_me) {
+                add_msg(_("The %s escapes the light snare!"), name().c_str());
+            }
         }
         return false;
     }
@@ -933,7 +938,9 @@ bool monster::move_effects()
                 remove_effect("lightsnare");
                 g->m.spawn_item(xpos(), ypos(), "rope_6");
                 g->m.spawn_item(xpos(), ypos(), "snare_trigger");
-                add_msg(_("The %s escapes the heavy snare!"), name().c_str());
+                if (u_see_me) {
+                    add_msg(_("The %s escapes the heavy snare!"), name().c_str());
+                }
             }
         }
         return false;
@@ -943,10 +950,22 @@ bool monster::move_effects()
             if(x_in_y(type->melee_dice * type->melee_sides, 200)) {
                 remove_effect("lightsnare");
                 g->m.spawn_item(xpos(), ypos(), "beartrap");
-                add_msg(_("The %s escapes the bear trap!"), name().c_str());
+                if (u_see_me) {
+                    add_msg(_("The %s escapes the bear trap!"), name().c_str());
+                }
             }
         }
         return false;
+    }
+    if (has_effect("in_pit")) {
+        if (rng(0, 40) > type->melee_dice * type->melee_sides) {
+            return false;
+        } else {
+            if (u_see_me) {
+                add_msg(_("The %s escapes the pit!"), name().c_str());
+            }
+            remove_effect("in_pit");
+        }
     }
     return Creature::move_effects();
 }
@@ -1291,8 +1310,8 @@ void monster::process_effects()
     for( auto maps = effects.begin(); maps != effects.end(); ++maps ) {
         for (auto effect_it = maps->second.begin(); effect_it != maps->second.end(); ++effect_it) {
             auto &it = effect_it->second;
-            // Monsters don't get trait-based reduction
-            bool reduced = false;
+            // Monsters don't get trait-based reduction, but they do get effect based reduction
+            bool reduced = has_effect(it.get_resist_effect());
             
             mod_speed_bonus(it.get_mod("SPEED", reduced));
             

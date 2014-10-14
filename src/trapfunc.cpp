@@ -612,6 +612,7 @@ void trapfunc::pit(Creature *c, int x, int y)
         c->add_msg_player_or_npc(m_bad, _("You fall in a pit!"), _("<npcname> falls in a pit!"));
         c->add_memorial_log(pgettext("memorial_male", "Fell in a pit."),
                             pgettext("memorial_female", "Fell in a pit."));
+        c->add_effect("in_pit", 1, num_bp, true);
         monster *z = dynamic_cast<monster *>(c);
         player *n = dynamic_cast<player *>(c);
         if (n != NULL) {
@@ -629,9 +630,7 @@ void trapfunc::pit(Creature *c, int x, int y)
                     n->add_msg_if_player(_("You land nimbly."));
                 }
             }
-            n->add_disease("in_pit", 1, true);
         } else if (z != NULL) {
-            z->moves = -1000;
             z->apply_damage( nullptr, bp_torso, eff * rng(10, 20));
         }
     }
@@ -648,6 +647,7 @@ void trapfunc::pit_spikes(Creature *c, int x, int y)
                                  _("<npcname> falls in a spiked pit!"));
         c->add_memorial_log(pgettext("memorial_male", "Fell into a spiked pit."),
                             pgettext("memorial_female", "Fell into a spiked pit."));
+        c->add_effect("in_pit", 1, num_bp, true);
         monster *z = dynamic_cast<monster *>(c);
         player *n = dynamic_cast<player *>(c);
         if (n != NULL) {
@@ -690,9 +690,7 @@ void trapfunc::pit_spikes(Creature *c, int x, int y)
                       n->add_disease("tetanus",1,true);
               }
             }
-            n->add_disease("in_pit", 1, true);
         } else if (z != NULL) {
-            z->moves = -1000;
             z->apply_damage( nullptr, bp_torso, rng(20, 50));
         }
     }
@@ -721,6 +719,7 @@ void trapfunc::pit_glass(Creature *c, int x, int y)
                                  _("<npcname> falls in pit filled with glass shards!"));
         c->add_memorial_log(pgettext("memorial_male", "Fell into a pit filled with glass shards."),
                             pgettext("memorial_female", "Fell into a pit filled with glass shards."));
+        c->add_effect("in_pit", 1, num_bp, true);
         monster *z = dynamic_cast<monster *>(c);
         player *n = dynamic_cast<player *>(c);
         if (n != NULL) {
@@ -767,9 +766,7 @@ void trapfunc::pit_glass(Creature *c, int x, int y)
                       n->add_disease("tetanus",1,true);
               }
             }
-            n->add_disease("in_pit", 1, true);
         } else if (z != NULL) {
-            z->moves = -1000;
             z->apply_damage( nullptr, bp_torso, rng(20, 50));
         }
     }

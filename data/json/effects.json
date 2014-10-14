@@ -321,7 +321,7 @@
         "type": "effect_type",
         "id": "boomered",
         "name": ["Boomered"],
-        "desc": ["Perception - 5\nRange of Sight: 1;   All sight is tinted magenta."],
+        "desc": ["Range of Sight: 1;  You are covered in magenta bile!"],
         "apply_message": "You're covered in bile!",
         "rating": "bad",
         "base_mods": {
@@ -335,7 +335,9 @@
     },
     {
         "type": "effect_type",
-        "id": "in_pit"
+        "id": "in_pit",
+        "name": ["Stuck in Pit"],
+        "desc": ["You're stuck in a pit.  Sight distance is limited and you have to climb out."]
     },
     {
         "type": "effect_type",

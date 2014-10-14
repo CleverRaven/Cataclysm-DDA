@@ -12580,17 +12580,6 @@ bool game::plmove(int dx, int dy)
         }
     }
 
-    if (u.has_disease("in_pit")) {
-        if (rng(0, 40) > u.str_cur + int(u.dex_cur / 2)) {
-            add_msg(m_bad, _("You try to escape the pit, but slip back in."));
-            u.moves -= 100;
-            return false;
-        } else {
-            add_msg(m_good, _("You escape the pit!"));
-            u.rem_disease("in_pit");
-        }
-    }
-
     // GRAB: pre-action checking.
     int vpart0 = -1, vpart1 = -1, dpart = -1;
     vehicle *veh0 = m.veh_at(u.posx, u.posy, vpart0);

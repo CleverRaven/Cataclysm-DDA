@@ -501,7 +501,7 @@ void player::activate_bionic(int b)
         if (has_disease("took_prozac")) {
             good.push_back(_("Prozac"));
         }
-        if (has_disease("took_flumed")) {
+        if (has_effect("took_flumed")) {
             good.push_back(_("Antihistamines"));
         }
         if (has_disease("adrenaline")) {
@@ -558,7 +558,7 @@ void player::activate_bionic(int b)
         rem_disease("datura");
         rem_disease("took_xanax");
         rem_disease("took_prozac");
-        rem_disease("took_flumed");
+        remove_effect("took_flumed");
         rem_disease("adrenaline");
         rem_disease("meth");
         pkill = 0;

@@ -96,6 +96,7 @@ class effect_type
         int int_decay_tick;
         bool main_parts_only;
         std::string resist_trait;
+        std::string resist_effect;
         std::string miss_string;
         int miss_weight;
         
@@ -156,6 +157,7 @@ class effect : public JsonSerializer, public JsonDeserializer
         void mod_intensity(int nintensity);
         
         std::string get_resist_trait();
+        std::string get_resist_effect();
         
         int get_mod(std::string arg, bool reduced = false);
         int get_amount(std::string arg, bool reduced = false);

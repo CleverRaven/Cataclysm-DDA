@@ -36,9 +36,7 @@ enum dis_type_enum {
 // Food & Drugs
  DI_PKILL1, DI_PKILL2, DI_PKILL3, DI_PKILL_L, DI_DRUNK, DI_CIG, DI_HIGH, DI_WEED_HIGH,
   DI_HALLU, DI_VISUALS, DI_IODINE, DI_DATURA, DI_TOOK_XANAX, DI_TOOK_PROZAC,
-  DI_TOOK_FLUMED, DI_ADRENALINE, DI_JETINJECTOR, DI_ASTHMA, DI_GRACK, DI_METH, DI_VALIUM,
-// Traps
- DI_IN_PIT,
+  DI_ADRENALINE, DI_JETINJECTOR, DI_ASTHMA, DI_GRACK, DI_METH, DI_VALIUM,
 // Other
  DI_AMIGARA, DI_STEMCELL_TREATMENT, DI_TELEGLOW, DI_ATTENTION, DI_EVIL,
 // Bite wound infected (dependent on bodypart.h)
@@ -116,13 +114,11 @@ void game::init_diseases() {
     disease_type_lookup["datura"] = DI_DATURA;
     disease_type_lookup["took_xanax"] = DI_TOOK_XANAX;
     disease_type_lookup["took_prozac"] = DI_TOOK_PROZAC;
-    disease_type_lookup["took_flumed"] = DI_TOOK_FLUMED;
     disease_type_lookup["adrenaline"] = DI_ADRENALINE;
     disease_type_lookup["jetinjector"] = DI_JETINJECTOR;
     disease_type_lookup["asthma"] = DI_ASTHMA;
     disease_type_lookup["grack"] = DI_GRACK;
     disease_type_lookup["meth"] = DI_METH;
-    disease_type_lookup["in_pit"] = DI_IN_PIT;
     disease_type_lookup["amigara"] = DI_AMIGARA;
     disease_type_lookup["stemcell_treatment"] = DI_STEMCELL_TREATMENT;
     disease_type_lookup["teleglow"] = DI_TELEGLOW;
@@ -908,7 +904,7 @@ void dis_effect(player &p, disease &dis)
             if (int(calendar::turn) % 50 == 0) {
                 p.fatigue++;
             }
-            if (p.has_disease("took_flumed")) {
+            if (p.has_effect("took_flumed")) {
             p.mod_str_bonus(-1);
             p.mod_int_bonus(-1);
             } else {
@@ -919,7 +915,7 @@ void dis_effect(player &p, disease &dis)
                 p.mod_per_bonus(-1);
             }
 
-            if (!p.has_disease("took_flumed") && one_in(300)) {
+            if (!p.has_effect"took_flumed") && one_in(300)) {
                 p.cough();
             }
             break;
@@ -931,7 +927,7 @@ void dis_effect(player &p, disease &dis)
             if (int(calendar::turn) % 50 == 0) {
                 p.fatigue++;
             }
-            if (p.has_disease("took_flumed")) {
+            if (p.has_effect("took_flumed")) {
                 p.mod_str_bonus(-2);
                 p.mod_int_bonus(-1);
                 } else {
@@ -944,10 +940,10 @@ void dis_effect(player &p, disease &dis)
                         p.mod_pain(1);
                     }
                 }
-            if (!p.has_disease("took_flumed") && one_in(300)) {
+            if (!p.has_effect("took_flumed") && one_in(300)) {
                 p.cough();
             }
-            if (!p.has_disease("took_flumed") || one_in(2)) {
+            if (!p.has_effect("took_flumed") || one_in(2)) {
                 if (one_in(3600) || will_vomit(p)) {
                     p.vomit();
                 }
@@ -2047,9 +2043,6 @@ std::string dis_name(disease& dis)
 
     case DI_DATURA: return _("Experiencing Datura");
 
-
-    case DI_IN_PIT: return _("Stuck in Pit");
-
     case DI_STEMCELL_TREATMENT: return _("Stem cell treatment");
     case DI_BITE:
     {
@@ -2672,8 +2665,6 @@ Your right foot is blistering from the intense heat. It is extremely painful.");
         else
             return _(
             "Speed -40;   Strength - 3;   Dexterity - 2;   Intelligence - 2");
-
-    case DI_IN_PIT: return _("You're stuck in a pit.  Sight distance is limited and you have to climb out.");
 
     case DI_BITE: return _("You have a nasty bite wound.");
     case DI_INFECTED: return _("You have an infected wound.");

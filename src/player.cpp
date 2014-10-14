@@ -1426,7 +1426,8 @@ void player::recalc_speed_bonus()
     }
     for (auto maps : effects) {
         for (auto i : maps.second) {
-            bool reduced = has_trait(i.second.get_resist_trait());
+            bool reduced = has_trait(i.second.get_resist_trait()) ||
+                            has_effect(i.second.get_resist_effect();
             mod_speed_bonus(i.second.get_mod("SPEED", reduced));
         }
     }
@@ -2730,7 +2731,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
     for( auto maps = effects.begin(); maps != effects.end(); ++maps ) {
         for( auto effect_it = maps->second.begin(); effect_it != maps->second.end(); ++effect_it ) {
             auto &it = effect_it->second;
-            bool reduced = has_trait(it.get_resist_trait());
+            bool reduced = has_trait(it.get_resist_trait()) || has_effect(it.get_resist_effect());
             move_adjust = it.get_mod("SPEED", reduced);
         if (move_adjust != 0) {
             dis_text = it.get_speed_name();
@@ -4075,7 +4076,7 @@ void player::recalc_sight_limits()
     // Set sight_max.
     if (has_effect("blind")) {
         sight_max = 0;
-    } else if (has_disease("in_pit") ||
+    } else if (has_effect("in_pit") ||
             (has_effect("boomered") && (!(has_trait("PER_SLIME_OK")))) ||
             (underwater && !has_bionic("bio_membrane") &&
                 !has_trait("MEMBRANE") && !worn_with_flag("SWIM_GOGGLES") &&
@@ -4130,7 +4131,7 @@ int player::unimpaired_range()
  if (has_trait("PER_SLIME")) {
     ret = 6;
  }
- if (has_disease("in_pit")) {
+ if (has_effect("in_pit")) {
     ret = 1;
   }
  if (has_effect("blind")) {
@@ -5469,7 +5470,7 @@ void player::process_effects() {
     for( auto maps = effects.begin(); maps != effects.end(); ++maps ) {
         for( auto effect_it = maps->second.begin(); effect_it != maps->second.end(); ++effect_it ) {
             auto &it = effect_it->second;
-            bool reduced = has_trait(it.get_resist_trait());
+            bool reduced = has_trait(it.get_resist_trait()) || has_effect(it.get_resist_effect());
             
             // Handle miss messages
             if (it.get_miss_string() != "") {

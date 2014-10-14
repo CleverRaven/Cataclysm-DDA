@@ -441,6 +441,10 @@ std::string effect::get_resist_trait()
 {
     return eff_type->resist_trait;
 }
+std::string effect::get_resist_effect()
+{
+    return eff_type->resist_effect;
+}
 
 int effect::get_mod(std::string arg, bool reduced)
 {
@@ -865,6 +869,7 @@ void load_effect_type(JsonObject &jo)
     new_etype.remove_memorial_log = jo.get_string("remove_memorial_log", "");
     
     new_etype.resist_trait = jo.get_string("resist_trait", "");
+    new_etype.resist_effect = jo.get_string("resist_effect", "");
 
     new_etype.permanent = jo.get_bool("permanent", false);
     
