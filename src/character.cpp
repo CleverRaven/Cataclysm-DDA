@@ -48,8 +48,20 @@ bool Character::move_effects()
         if (rng(0, 40) > get_dex() + int(get_str() / 2)) {
             add_msg_if_player(_("You struggle to stand."));
         } else {
-            add_msg_if_player(_("You stand up."));
+            add_msg_player_or_npc(m_good, _("You stand up."),
+                                    _("<npcname> stands up."));
             remove_effect("downed");
+        }
+        return false;
+    }
+    if (has_effect("webbed")) {
+        effect web = get_effect("webbed", num_bp);
+        if (x_in_y(get_str(), 6 * web.get_intensity()) {
+            add_msg_player_or_npc(m_good, _("You free yourself from the webs!"),
+                                    _("<npcname> frees themselves from the webs!"));
+            remove_effect("webbed");
+        } else {
+            add_msg_if_player(_("You try to free yourself from the webs, but can't get loose!"));
         }
         return false;
     }
@@ -103,7 +115,8 @@ bool Character::move_effects()
             add_msg_if_player(m_bad, _("You try to escape the pit, but slip back in."));
             return false;
         } else {
-            add_msg_if_player(m_good, _("You escape the pit!"));
+            add_msg_player_or_npc(m_good, _("You escape the pit!"),
+                                    _("<npcname> escapes the pit!"));
             remove_effect("in_pit");
         }
     }

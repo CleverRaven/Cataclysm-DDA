@@ -1,5 +1,9 @@
 [
     {
+        "type": "effect_type",
+        "id": "null"
+    },
+    {
         "//": "AI EFFECTS BELOW THIS",
         "type": "effect_type",
         "id": "hit_by_player",
@@ -378,15 +382,23 @@
             "pkill_min": [1]
         }
     },
-    {
-        "type": "effect_type",
-        "id": "null"
-    },
+    -WIP-
     {
         "type": "effect_type",
         "id": "webbed",
+        "name": ["Webbed"],
+        "desc": ["You are covered in webs!"],
         "apply_message": "You're covered in webs!",
-        "rating": "bad"
+        "rating": "bad",
+        "miss_message": "The webs constrict your movement.",
+        "miss_weight": 4,
+        "max_intensity": 3,
+        "base_mods": {
+            "speed_mod": [-15]
+        },
+        "scaling_mods": {
+            "speed_mod": [-5]
+        }
     },
     {
         "type": "effect_type",

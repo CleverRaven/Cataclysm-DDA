@@ -31,7 +31,6 @@ enum dis_type_enum {
  DI_LYING_DOWN, DI_SLEEP, DI_ALARM_CLOCK,
  DI_BLEED, DI_SHAKES,
  DI_DERMATIK, DI_FORMICATION,
- DI_WEBBED,
  DI_RAT, DI_BITE,
 // Food & Drugs
  DI_DRUNK, DI_CIG, DI_HIGH, DI_WEED_HIGH,
@@ -97,7 +96,6 @@ void game::init_diseases() {
     disease_type_lookup["shakes"] = DI_SHAKES;
     disease_type_lookup["dermatik"] = DI_DERMATIK;
     disease_type_lookup["formication"] = DI_FORMICATION;
-    disease_type_lookup["webbed"] = DI_WEBBED;
     disease_type_lookup["rat"] = DI_RAT;
     disease_type_lookup["bite"] = DI_BITE;
     disease_type_lookup["drunk"] = DI_DRUNK;
@@ -156,9 +154,6 @@ bool dis_msg(dis_type type_string) {
         break;
     case DI_FORMICATION:
         add_msg(m_bad, _("Your skin feels extremely itchy!"));
-        break;
-    case DI_WEBBED:
-        add_msg(m_bad, _("You're covered in webs!"));
         break;
     case DI_DRUNK:
     case DI_HIGH:
@@ -1293,12 +1288,6 @@ void dis_effect(player &p, disease &dis)
             }
             break;
 
-        case DI_WEBBED:
-            p.mod_str_bonus(-2);
-            p.mod_dex_bonus(-4);
-            p.add_miss_reason(_("The webs constrict your movement."), 4);
-            break;
-
         case DI_RAT:
             p.mod_int_bonus(-(int(dis.duration / 20)));
             p.mod_str_bonus(-(int(dis.duration / 50)));
@@ -1980,7 +1969,6 @@ std::string dis_name(disease& dis)
         }
         return status;
     }
-    case DI_WEBBED: return _("Webbed");
     case DI_RAT: return _("Ratting");
     case DI_DRUNK:
         if (dis.duration > 2200) return _("Wasted");
@@ -2529,23 +2517,6 @@ Your right foot is blistering from the intense heat. It is extremely painful.");
         }
         return stream.str();
     }
-
-    case DI_WEBBED:
-        if (dis.duration < 5) {
-            return _("Strength - 1;   Dexterity - 4");
-        }
-        if (dis.duration >= 5 && dis.duration < 10){
-                    return _(
-        "Strength - 1;   Dexterity - 4;   Speed - 25");
-        }
-        else if (dis.duration >= 10 && dis.duration < 15){
-                    return _(
-        "Strength - 1;   Dexterity - 4;   Speed - 50");
-        }
-        else if (dis.duration >= 15){
-                    return _(
-        "Strength - 1;   Dexterity - 4;   Speed - 75");
-        }
 
     case DI_RAT:
     {
