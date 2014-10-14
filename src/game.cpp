@@ -15046,31 +15046,19 @@ void game::process_artifact(item *it, player *p, bool wielded)
 }
 void game::start_calendar()
 {
-    calendar::start = HOURS(ACTIVE_WORLD_OPTIONS["INITIAL_TIME"]);
-    if( g->scen->has_flag("SPR_START") || g->scen->has_flag("SUM_START") ||
-        g->scen->has_flag("AUT_START") || g->scen->has_flag("WIN_START") ) {
-        if( g->scen->has_flag("SPR_START") ) {
-            ; // Do nothing;
-        } else if( g->scen->has_flag("SUM_START") ) {
-            calendar::start += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"]);
-        } else if( g->scen->has_flag("AUT_START") ) {
-            calendar::start += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 2);
-        } else if( g->scen->has_flag("WIN_START") ) {
-            calendar::start += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 3);
-        } else {
-            debugmsg("The Unicorn");
-        }
-    } else {
-        if( ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "spring" ) {
-            ; // Do nothing.
-        } else if( ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "summer") {
-            calendar::start += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"]);
-        } else if( ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "autumn" ) {
-            calendar::start += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 2);
-        } else {
-            calendar::start += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 3);
-        }
-    }
+    std::string init_season = ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue();
+    int season_spans =
+        g->scen->has_flag("SPR_START") ? 0
+      : g->scen->has_flag("SUM_START") ? 1
+      : g->scen->has_flag("AUT_START") ? 2
+      : g->scen->has_flag("WIN_START") ? 3
+      : init_season == "spring"        ? 0
+      : init_season == "summer"        ? 1
+      : init_season == "autumn"        ? 2
+      :                                  3;
+    calendar::start =
+        DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * season_spans) +
+        HOURS(ACTIVE_WORLD_OPTIONS["INITIAL_TIME"]);
     calendar::turn = calendar::start;
 }
 void game::add_artifact_messages(std::vector<art_effect_passive> effects)
