@@ -5583,8 +5583,24 @@ void player::process_effects() {
 void player::hardcoded_effects(effect it)
 {
     std::string id = it.get_id();
+    int dur = it.get_duration();
     if (id == "onfire") {
-        manage_fire_exposure(1);
+        // TODO: this should be determined by material properties
+        if (!has_trait("M_SKIN2")) {
+            hurtall(3);
+        }
+        for (size_t i = 0; i < worn.size(); i++) {
+            item tmp = worn[i];
+            bool burnVeggy = (tmp.made_of("veggy") || tmp.made_of("paper"));
+            bool burnFabric = ((tmp.made_of("cotton") || tmp.made_of("wool")) && one_in(10));
+            bool burnPlastic = ((tmp.made_of("plastic")) && one_in(50));
+            if (burnVeggy || burnFabric || burnPlastic) {
+                worn.erase(worn.begin() + i);
+                if (i != 0) {
+                    i--;
+                }
+            }
+        }
     } else if (id == "glare") {
         if (one_in(200)) {
             add_msg_if_player(m_bad, _("The sunlight's glare makes it hard to see."));
@@ -5618,7 +5634,7 @@ void player::hardcoded_effects(effect it)
                 add_msg_if_player(m_warning, _("You smell and taste mushrooms."));
             }
             it.mod_duration(1);
-            if (it.get_duration() > 600) {
+            if (dur > 600) {
                 it.mod_intensity(1);
             }
             break;
@@ -5639,7 +5655,7 @@ void player::hardcoded_effects(effect it)
                 apply_damage( nullptr, bp_torso, awfulness / std::max( p.str_cur, 1 ) ); // can't be healthy
             }
             it.mod_duration(1);
-            if (it.get_duration() > 3600) {
+            if (dur > 3600) {
                 it.mod_intensity(1);
             }
             break;
@@ -5697,8 +5713,8 @@ void player::hardcoded_effects(effect it)
             break;
         }
     } else if (id == "rat") {
-        it.set_intensity(it.get_duration() / 10);
-        if (rng(0, 100) < it.get_duration() / 10) {
+        it.set_intensity(dur / 10);
+        if (rng(0, 100) < dur / 10) {
             if (!one_in(5)) {
                 mutate_category("MUTCAT_RAT");
                 it.mult_duration(.2);
@@ -5706,7 +5722,7 @@ void player::hardcoded_effects(effect it)
                 mutate_category("MUTCAT_TROGLOBITE");
                 it.mult_duration(.33);
             }
-        } else if (rng(0, 100) < it.get_duration() / 8) {
+        } else if (rng(0, 100) < dur / 8) {
             if (one_in(3)) {
                 vomit();
                 it.mod_duration(-10);
@@ -5726,24 +5742,84 @@ void player::hardcoded_effects(effect it)
             apply_damage( nullptr, it.get_bp(), 1 );
             g->m.add_field(posx, posy, playerBloodType(), 1);
         }
-    }
-}
-
-void player::manage_fire_exposure(int fireStrength) {
-    // TODO: this should be determined by material properties
-    if (!has_trait("M_SKIN2")) {
-        hurtall(3*fireStrength);
-    }
-    for (size_t i = 0; i < worn.size(); i++) {
-        item tmp = worn[i];
-        bool burnVeggy = (tmp.made_of("veggy") || tmp.made_of("paper"));
-        bool burnFabric = ((tmp.made_of("cotton") || tmp.made_of("wool")) && one_in(10*fireStrength));
-        bool burnPlastic = ((tmp.made_of("plastic")) && one_in(50*fireStrength));
-        if (burnVeggy || burnFabric || burnPlastic) {
-            worn.erase(worn.begin() + i);
-            if (i != 0) {
-                i--;
+    } else if (id == "hallu") {
+        // TODO: Redo this
+        // Time intervals are drawn from the old ones based on 3600 (6-hour) duration.
+        static bool puked = false;
+        int maxDuration = 3600;
+        int comeupTime = int(maxDuration*0.9);
+        int noticeTime = int(comeupTime + (maxDuration-comeupTime)/2);
+        int peakTime = int(maxDuration*0.8);
+        int comedownTime = int(maxDuration*0.3);
+        // Baseline
+        if (dur == noticeTime) {
+            add_msg_if_player(m_warning, _("You feel a little strange."));
+        } else if (dur == comeupTime) {
+            // Coming up
+            if (one_in(2)) {
+                add_msg_if_player(m_warning, _("The world takes on a dreamlike quality."));
+            } else if (one_in(3)) {
+                add_msg_if_player(m_warning, _("You have a sudden nostalgic feeling."));
+            } else if (one_in(5)) {
+                add_msg_if_player(m_warning, _("Everything around you is starting to breathe."));
+            } else {
+                add_msg_if_player(m_warning, _("Something feels very, very wrong."));
             }
+        } else if (dur > peakTime && dur < comeupTime) {
+            if ((one_in(200) || will_vomit(p, 50)) && !puked) {
+                add_msg_if_player(m_bad, _("You feel sick to your stomach."));
+                hunger -= 2;
+                if (one_in(6)) {
+                    vomit();
+                    if (one_in(2)) {
+                        // we've vomited enough for now
+                        puked = true;
+                    }
+                }
+            }
+            if (is_npc() && one_in(200)) {
+                std::string npcText;
+                switch(rng(1,4)) {
+                    case 1:
+                        npcText = "\"I think it's starting to kick in.\"";
+                        break;
+                    case 2:
+                        npcText = "\"Oh God, what's happening?\"";
+                        break;
+                    case 3:
+                        npcText = "\"Of course... it's all fractals!\"";
+                        break;
+                    default:
+                        npcText = "\"Huh?  What was that?\"";
+                        break;
+
+                }
+                int loudness = 20 + str_cur - int_cur;
+                loudness = (loudness > 5 ? loudness : 5);
+                loudness = (loudness < 30 ? loudness : 30);
+                g->sound(posx, posy, loudness, _(npcText.c_str()));
+            }
+        } else if (dur == peakTime) {
+            // Visuals start
+            add_msg_if_player(m_bad, _("Fractal patterns dance across your vision."));
+            add_effect("visuals", peakTime - comedownTime);
+        } else if (dur > comedownTime && dur < peakTime) {
+            // Full symptoms
+            mod_per_bonus(-2);
+            mod_int_bonus(-1);
+            mod_dex_bonus(-2);
+            add_miss_reason(_("Dancing fractals distract you."), 2);
+            mod_str_bonus(-1);
+            if (one_in(50)) {
+                g->spawn_hallucination();
+            }
+        } else if (dur == comedownTime) {
+            if (one_in(42)) {
+                add_msg_if_player(_("Everything looks SO boring now."));
+            } else {
+                add_msg_if_player(_("Things are returning to normal."));
+            }
+            puked = false;
         }
     }
 }
@@ -5993,7 +6069,7 @@ void player::suffer()
             int i;
             switch(rng(0, 11)) {
                 case 0:
-                    add_disease("hallu", 3600);
+                    add_effect("hallu", 3600);
                     break;
                 case 1:
                     add_effect("visuals", rng(15, 60));

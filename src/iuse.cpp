@@ -1325,8 +1325,8 @@ int iuse::fun_hallu(player *p, item *it, bool)
 
     //Fake a normal food morale effect
     p->add_morale(MORALE_FOOD_GOOD, 18, 36, 60, 30, false, comest);
-    if (!p->has_disease("hallu")) {
-        p->add_disease("hallu", 3600);
+    if (!p->has_effect("hallu")) {
+        p->add_effect("hallu", 3600);
     }
     return it->type->charges_to_use();
 }
@@ -1334,7 +1334,7 @@ int iuse::fun_hallu(player *p, item *it, bool)
 int iuse::thorazine(player *p, item *it, bool)
 {
     p->fatigue += 5;
-    p->rem_disease("hallu");
+    p->remove_effect("hallu");
     p->remove_effect("visuals");
     p->rem_disease("high");
     if (!p->has_disease("dermatik")) {
@@ -10178,7 +10178,7 @@ int iuse::multicooker(player *p, item *it, bool t)
             return 0;
         }
 
-        if (p->has_disease("hallu") || p->has_effect("visuals")) {
+        if (p->has_effect("hallu") || p->has_effect("visuals")) {
             if (multicooker_hallu(p)) {
                 return 0;
             }

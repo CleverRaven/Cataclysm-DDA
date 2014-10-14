@@ -32,7 +32,7 @@ enum dis_type_enum {
  DI_BITE,
 // Food & Drugs
  DI_DRUNK, DI_CIG, DI_HIGH, DI_WEED_HIGH,
-  DI_HALLU, DI_DATURA, DI_TOOK_XANAX, DI_TOOK_PROZAC,
+  DI_DATURA, DI_TOOK_XANAX, DI_TOOK_PROZAC,
   DI_ADRENALINE, DI_JETINJECTOR, DI_ASTHMA, DI_GRACK, DI_METH, DI_VALIUM,
 // Other
  DI_AMIGARA, DI_STEMCELL_TREATMENT, DI_TELEGLOW, DI_ATTENTION, DI_EVIL,
@@ -59,7 +59,6 @@ static void handle_alcohol(player& p, disease& dis);
 static void handle_bite_wound(player& p, disease& dis);
 static void handle_infected_wound(player& p, disease& dis);
 static void handle_recovery(player& p, disease& dis);
-static void handle_deliriant(player& p, disease& dis);
 static void handle_evil(player& p, disease& dis);
 static void handle_insect_parasites(player& p, disease& dis);
 
@@ -93,7 +92,6 @@ void game::init_diseases() {
     disease_type_lookup["valium"] = DI_VALIUM;
     disease_type_lookup["cig"] = DI_CIG;
     disease_type_lookup["high"] = DI_HIGH;
-    disease_type_lookup["hallu"] = DI_HALLU;
     disease_type_lookup["datura"] = DI_DATURA;
     disease_type_lookup["took_xanax"] = DI_TOOK_XANAX;
     disease_type_lookup["took_prozac"] = DI_TOOK_PROZAC;
@@ -986,8 +984,8 @@ void dis_effect(player &p, disease &dis)
                   p.focus_pool--;
             } if (dis.duration > 4000 && one_in(64)) {
                   p.mod_pain(rng(-1, -8));
-            } if ((!p.has_disease ("hallu")) && (dis.duration > 5000 && one_in(4))) {
-                  p.add_disease("hallu", rng(200, 1000));
+            } if ((!p.has_effect("hallu")) && (dis.duration > 5000 && one_in(4))) {
+                  p.add_effect("hallu", rng(200, 1000));
             } if (dis.duration > 6000 && one_in(128)) {
                   p.mod_pain(rng(-3, -24));
                   if (dis.duration > 8000 && one_in(16)) {
@@ -1176,10 +1174,6 @@ void dis_effect(player &p, disease &dis)
             }
             break;
 
-        case DI_HALLU:
-            handle_deliriant(p, dis);
-        break;
-
         case DI_ADRENALINE:
             if (dis.duration > 150) {
                 // 5 minutes positive effects; 15 if Mycus Defender
@@ -1360,8 +1354,8 @@ void dis_effect(player &p, disease &dis)
                         p.rem_disease("teleglow");
                     }
                 }
-                if (one_in(5000) && !p.has_disease("hallu")) {
-                    p.add_disease("hallu", 3600);
+                if (one_in(5000) && !p.has_effect("hallu")) {
+                    p.add_effect("hallu", 3600);
                     if (one_in(5)) {
                         p.rem_disease("teleglow");
                     }
@@ -2665,88 +2659,6 @@ static void handle_recovery(player& p, disease& dis)
         }
         p.mod_dex_bonus(-1);
         p.add_miss_reason(_("Your wound distracts you."), 1);
-    }
-}
-
-static void handle_deliriant(player& p, disease& dis)
-{
-    // To be redone.
-    // Time intervals are drawn from the old ones based on 3600 (6-hour) duration.
-    static bool puked = false;
-    int maxDuration = 3600;
-    int comeupTime = int(maxDuration*0.9);
-    int noticeTime = int(comeupTime + (maxDuration-comeupTime)/2);
-    int peakTime = int(maxDuration*0.8);
-    int comedownTime = int(maxDuration*0.3);
-    // Baseline
-    if (dis.duration == noticeTime) {
-        p.add_msg_if_player(m_warning, _("You feel a little strange."));
-    } else if (dis.duration == comeupTime) {
-        // Coming up
-        if (one_in(2)) {
-            p.add_msg_if_player(m_warning, _("The world takes on a dreamlike quality."));
-        } else if (one_in(3)) {
-            p.add_msg_if_player(m_warning, _("You have a sudden nostalgic feeling."));
-        } else if (one_in(5)) {
-            p.add_msg_if_player(m_warning, _("Everything around you is starting to breathe."));
-        } else {
-            p.add_msg_if_player(m_warning, _("Something feels very, very wrong."));
-        }
-    } else if (dis.duration > peakTime && dis.duration < comeupTime) {
-        if ((one_in(200) || will_vomit(p, 50)) && !puked) {
-            p.add_msg_if_player(m_bad, _("You feel sick to your stomach."));
-            p.hunger -= 2;
-            if (one_in(6)) {
-                p.vomit();
-                if (one_in(2)) {
-                    // we've vomited enough for now
-                    puked = true;
-                }
-            }
-        }
-        if (p.is_npc() && one_in(200)) {
-            std::string npcText;
-            switch(rng(1,4)) {
-                case 1:
-                    npcText = "\"I think it's starting to kick in.\"";
-                    break;
-                case 2:
-                    npcText = "\"Oh God, what's happening?\"";
-                    break;
-                case 3:
-                    npcText = "\"Of course... it's all fractals!\"";
-                    break;
-                default:
-                    npcText = "\"Huh?  What was that?\"";
-                    break;
-
-            }
-            int loudness = 20 + p.str_cur - p.int_cur;
-            loudness = (loudness > 5 ? loudness : 5);
-            loudness = (loudness < 30 ? loudness : 30);
-            g->sound(p.posx, p.posy, loudness, _(npcText.c_str()));
-        }
-    } else if (dis.duration == peakTime) {
-        // Visuals start
-        p.add_msg_if_player(m_bad, _("Fractal patterns dance across your vision."));
-        p.add_effect("visuals", peakTime - comedownTime);
-    } else if (dis.duration > comedownTime && dis.duration < peakTime) {
-        // Full symptoms
-        p.mod_per_bonus(-2);
-        p.mod_int_bonus(-1);
-        p.mod_dex_bonus(-2);
-        p.add_miss_reason(_("Dancing fractals distract you."), 2);
-        p.mod_str_bonus(-1);
-        if (one_in(50)) {
-            g->spawn_hallucination();
-        }
-    } else if (dis.duration == comedownTime) {
-        if (one_in(42)) {
-            p.add_msg_if_player(_("Everything looks SO boring now."));
-        } else {
-            p.add_msg_if_player(_("Things are returning to normal."));
-        }
-        puked = false;
     }
 }
 

@@ -50,8 +50,8 @@ void addict_effect(addiction &add)
             add_msg(m_bad, _("Your hands start shaking... you need a drink bad!"));
             g->u.add_morale(MORALE_CRAVING_ALCOHOL, -35, -120);
             g->u.add_effect("shakes", 50);
-        } else if (!g->u.has_disease("hallu") && rng(10, 1600) < in) {
-            g->u.add_disease("hallu", 3600);
+        } else if (!g->u.has_effect("hallu") && rng(10, 1600) < in) {
+            g->u.add_effect("hallu", 3600);
         }
         break;
 
@@ -119,8 +119,8 @@ void addict_effect(addiction &add)
             add_msg(m_bad, _("You stop suddenly, feeling bewildered."));
             g->cancel_activity();
             g->u.moves -= 300;
-        } else if (!g->u.has_disease("hallu") && one_in(20) && 8 + dice(2, 80) < in) {
-            g->u.add_disease("hallu", 3600);
+        } else if (!g->u.has_effect("hallu") && one_in(20) && 8 + dice(2, 80) < in) {
+            g->u.add_effect("hallu", 3600);
         }
     }
     break;
@@ -189,8 +189,8 @@ void addict_effect(addiction &add)
             add_msg(m_bad, _("You're shaking... you need some diazepam!"));
             g->u.add_morale(MORALE_CRAVING_DIAZEPAM, -35, -120);
             g->u.add_effect("shakes", 50);
-        } else if (!g->u.has_disease("hallu") && rng(10, 3200) < in) {
-            g->u.add_disease("hallu", 3600);
+        } else if (!g->u.has_effect("hallu") && rng(10, 3200) < in) {
+            g->u.add_effect("hallu", 3600);
         } else if (one_in(50) && dice(3, 50) < in) {
             add_msg(m_bad, _("You throw up heavily!"));
             g->cancel_activity_query(_("Throwing up."));

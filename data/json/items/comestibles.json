@@ -14194,7 +14194,7 @@
         "use_action" : {
             "type" : "consume_drug",
             "activation_message" : "You eat the pink tablet.",
-            "diseases" : { "hallu" : 3600 }
+            "effects" : { "hallu" : 3600 }
         },
         "stim" : 20,
         "container" : "null",

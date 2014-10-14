@@ -486,8 +486,8 @@ void player::activate_bionic(int b)
         if (has_disease("weed_high")) {
             good.push_back(_("THC Intoxication"));
         }
-        if (has_disease("hallu") || has_effect("visuals")) {
-            bad.push_back(_("Magic Mushroom"));
+        if (has_effect("hallu") || has_effect("visuals")) {
+            bad.push_back(_("Hallucinations"));
         }
         if (has_effect("iodine")) {
             good.push_back(_("Iodine"));
@@ -552,7 +552,7 @@ void player::activate_bionic(int b)
         rem_disease("drunk");
         rem_disease("cig");
         rem_disease("high");
-        rem_disease("hallu");
+        remove_effect("hallu");
         remove_effect("visuals");
         remove_effect("iodine");
         rem_disease("datura");
