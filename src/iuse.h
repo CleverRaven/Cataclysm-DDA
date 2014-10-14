@@ -75,6 +75,7 @@ public:
 // TOOLS
     int firestarter         (player *, item *, bool);
     int resolve_firestarter_use(player *p, item *, int posx, int posy);
+    int calculate_time_for_lens_fire (player *p, float light_level);
     int sew                 (player *, item *, bool);
     int extra_battery       (player *, item *, bool);
     int rechargeable_battery(player *, item *, bool);

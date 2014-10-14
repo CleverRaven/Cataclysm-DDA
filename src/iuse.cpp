@@ -2746,6 +2746,17 @@ int iuse::resolve_firestarter_use(player *p, item *, int posx, int posy)
     return 0;
 }
 
+int iuse::calculate_time_for_lens_fire (player *p, float light_level) {
+    // base moves based on sunlight levels... 1 minute when sunny (80 lighting), ~10 minutes when clear (60 lighting)
+    float moves_base = (std::pow((80/light_level),8)) * 1000 ;
+    // survival 0 takes 3 * moves_base, survival 1 takes 1,5 * moves_base, max moves capped at moves_base
+    float moves_modifier = 1/((p->skillLevel("survival"))*0.33 + 0.33);
+    if (moves_modifier < 1) {
+        moves_modifier = 1;
+    }
+    return int(moves_base * moves_modifier);
+}
+
 int iuse::firestarter(player *p, item *it, bool t)
 {
     int posx, posy;
@@ -2753,19 +2764,12 @@ int iuse::firestarter(player *p, item *it, bool t)
         if (((g->weather == WEATHER_CLEAR) || (g->weather == WEATHER_SUNNY)) // needs the correct weather, light and to be outside
         && (g->natural_light_level() >= 60 ) && !(g->m.has_flag("INDOORS", p->posx, p->posy))) {
             if (prep_firestarter_use(p, it, posx, posy)) {
-                // base moves based on sunlight levels... 1 minute when sunny (80 lighting), ~10 minutes when clear (60 lighting) 
-                const float moves_base = (std::pow((80/g->natural_light_level()),8)) * 1000 ;
-                // success chance 100%, but survival 0 takes 3 * the time at survival 2
-                // basically 33% success at 0 survival with each skill level adding 33% more... but the player tries again until the fire is lit.
-                float moves_modifier = 1/((p->skillLevel("survival"))*0.33 + 0.33);
-                if (moves_modifier < 1) {
-                    moves_modifier = 1;
-                }
-                const int turns = int (moves_base * moves_modifier);
+                const int turns = calculate_time_for_lens_fire(p, g->natural_light_level()); // turns needed for activity
                 if (turns/1000 > 1) { // if it takes less than a minute, no need to inform the player about time
-                    p->add_msg_if_player(m_info, _("In this weather, it will take around %d minutes to light a fire."), turns/1000);
+                    p->add_msg_if_player(m_info, _("If the current weather holds, it will take around %d minutes to light a fire."), turns/1000);
                 }
                 p->assign_activity(ACT_START_FIRE, turns, -1, p->get_item_position(it), it->tname());
+                p->activity.values.push_back(g->natural_light_level()); // keep natural_light_level for comparing throughout the activity
                 p->activity.placement = point(posx, posy);
                 p->practice("survival", 5);
             }

@@ -1639,7 +1639,7 @@ void game::activity_on_turn()
         break;
     case ACT_START_FIRE:
         u.activity.moves_left -= 100; // based on time
-        if (u.i_at(u.activity.position).has_flag("LENS")) { // if using a lens, handle changes in weather
+        if (u.i_at(u.activity.position).has_flag("LENS")) { // if using a lens, handle potential changes in weather
             activity_on_turn_start_fire_lens();
         }
         u.rooted();
@@ -1750,12 +1750,19 @@ void game::activity_on_turn_refill_vehicle()
 
 void game::activity_on_turn_start_fire_lens()
 {
-    // if the weather changes, we cannot start a fire with a lens
-    if (!((g->weather == WEATHER_CLEAR) || (g->weather == WEATHER_SUNNY)) || !(g->natural_light_level() >= 60 )) {
+    float natural_light_level = g->natural_light_level();
+    // if the weather changes, we cannot start a fire with a lens. abort activity
+    if (!((g->weather == WEATHER_CLEAR) || (g->weather == WEATHER_SUNNY)) || !( natural_light_level >= 60 )) {
         add_msg(m_bad, _("There is not enough sunlight to start a fire now. You stop trying."));
         u.cancel_activity();
+    } else if (natural_light_level != u.activity.values.back()) { // when lighting changes we recalculate the time needed
+        float previous_natural_light_level = u.activity.values.back();
+        u.activity.values.pop_back();
+        u.activity.values.push_back(natural_light_level); // update light level
+        iuse tmp;
+        float progress_left = float(u.activity.moves_left)/float(tmp.calculate_time_for_lens_fire(&g->u, previous_natural_light_level));
+        u.activity.moves_left = int(progress_left*(tmp.calculate_time_for_lens_fire(&g->u, natural_light_level))); // update moves left
     }
-    // todo: recalculate the time needed to light the fire, depending on lighting changes
 }
 
 void game::activity_on_finish()
@@ -15209,4 +15216,3 @@ int game::get_abs_levz() const
 {
     return levx;
 }
-
