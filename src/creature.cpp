@@ -678,6 +678,10 @@ void Creature::process_effects()
     std::vector<body_part> rem_bps;
     for (auto maps = effects.begin(); maps != effects.end(); ++maps) {
         for( auto it = maps->second.begin(); it != maps->second.end(); ++it ) {
+            if (it->second.get_removes_effect() != "") {
+                rem_ids.push_back(it->second.get_removes_effect());
+                rem_bps.push_back(num_bp);
+            }
             it->second.decay(rem_ids, rem_bps, calendar::turn);
         }
     }

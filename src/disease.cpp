@@ -20,7 +20,6 @@ enum dis_type_enum {
  DI_COLD,
  DI_FROSTBITE, DI_FROSTBITE_RECOVERY,
  DI_HOT,
- DI_BLISTERS,
 // Diseases
  DI_COMMON_COLD, DI_FLU, DI_RECOVER, DI_TAPEWORM, DI_BLOODWORMS, DI_BRAINWORM, DI_PAINCYSTS,
  DI_TETANUS,
@@ -29,7 +28,7 @@ enum dis_type_enum {
 // Monsters
  DI_SAP, DI_SLIMED,
  DI_LYING_DOWN, DI_SLEEP, DI_ALARM_CLOCK,
- DI_BLEED, DI_SHAKES,
+ DI_BLEED,
  DI_DERMATIK, DI_FORMICATION,
  DI_BITE,
 // Food & Drugs
@@ -75,7 +74,6 @@ void game::init_diseases() {
     disease_type_lookup["frostbite"] = DI_FROSTBITE;
     disease_type_lookup["frostbite_recovery"] = DI_FROSTBITE_RECOVERY;
     disease_type_lookup["hot"] = DI_HOT;
-    disease_type_lookup["blisters"] = DI_BLISTERS;
     disease_type_lookup["common_cold"] = DI_COMMON_COLD;
     disease_type_lookup["flu"] = DI_FLU;
     disease_type_lookup["recover"] = DI_RECOVER;
@@ -91,7 +89,6 @@ void game::init_diseases() {
     disease_type_lookup["sleep"] = DI_SLEEP;
     disease_type_lookup["alarm_clock"] = DI_ALARM_CLOCK;
     disease_type_lookup["bleed"] = DI_BLEED;
-    disease_type_lookup["shakes"] = DI_SHAKES;
     disease_type_lookup["dermatik"] = DI_DERMATIK;
     disease_type_lookup["formication"] = DI_FORMICATION;
     disease_type_lookup["bite"] = DI_BITE;
@@ -604,66 +601,6 @@ void dis_effect(player &p, disease &dis)
                         add_msg(m_bad, _("Your face feels irritated."));
                     }
                     if (p.pain < 40) p.mod_pain(1);
-                    break;
-                default: // Suppress compiler warnings [-Wswitch]
-                    break;
-            }
-            break;
-
-        case DI_BLISTERS:
-            switch(dis.bp) {
-                case bp_hand_l:
-                    p.mod_dex_bonus(-1);
-                    p.add_miss_reason(_("Your blistered left hand distracts you."), 1);
-                    if ( p.pain < 35 && one_in(2)) {
-                        p.mod_pain(1);
-                    }
-                    if (one_in(4)) {
-                        p.hp_cur[hp_arm_r]--;
-                    } else {
-                        p.hp_cur[hp_arm_l]--;
-                    }
-                    break;
-                case bp_hand_r:
-                    p.mod_dex_bonus(-1);
-                    p.add_miss_reason(_("Your blistered right hand distracts you."), 1);
-                    if ( p.pain < 35 && one_in(2)) {
-                        p.mod_pain(1);
-                    }
-                    if (one_in(4)) {
-                        p.hp_cur[hp_arm_r]--;
-                    } else {
-                        p.hp_cur[hp_arm_l]--;
-                    }
-                    break;
-                case bp_foot_l:
-                    p.mod_str_bonus(-1);
-                    if (p.pain < 35 && one_in(2)) {
-                        p.mod_pain(1);
-                    }
-                    if (one_in(4)) {
-                        p.hp_cur[hp_leg_r]--;
-                    } else {
-                        p.hp_cur[hp_leg_l]--;
-                    }
-                    break;
-                case bp_foot_r:
-                    p.mod_str_bonus(-1);
-                    if (p.pain < 35 && one_in(2)) {
-                        p.mod_pain(1);
-                    }
-                    if (one_in(4)) {
-                        p.hp_cur[hp_leg_r]--;
-                    } else {
-                        p.hp_cur[hp_leg_l]--;
-                    }
-                    break;
-                case bp_mouth:
-                    p.mod_per_bonus(-1);
-                    p.hp_cur[hp_head]--;
-                    if (p.pain < 35) {
-                        p.mod_pain(1);
-                    }
                     break;
                 default: // Suppress compiler warnings [-Wswitch]
                     break;
@@ -1243,15 +1180,6 @@ void dis_effect(player &p, disease &dis)
             }
             break;
 
-        case DI_SHAKES:
-            if (p.has_disease("valium")) {
-               p.rem_disease("shakes");
-            }
-            p.mod_dex_bonus(-4);
-            p.add_miss_reason(_("You tremble."), 4);
-            p.mod_str_bonus(-1);
-            break;
-
         case DI_DERMATIK:
             if (p.has_trait("PARAIMMUNE")) {
                p.rem_disease("dermatik");
@@ -1454,7 +1382,7 @@ void dis_effect(player &p, disease &dis)
             } if (dis.duration > 2400) {
                 // 8 teleports
                 if (one_in(10000 - dis.duration) && !p.has_disease("valium")) {
-                    p.add_disease("shakes", rng(40, 80));
+                    p.add_effect("shakes", rng(40, 80));
                 }
                 if (one_in(12000 - dis.duration)) {
                     p.add_msg_if_player(m_bad, _("Your vision is filled with bright lights..."));
@@ -1756,32 +1684,6 @@ std::string dis_name(disease& dis)
                 break; // function return "" in this case
         }
 
-    case DI_BLISTERS:
-        switch(dis.bp) {
-            case bp_mouth:
-                return _("Blisters - face");
-            case bp_torso:
-                return _("Blisters - torso");
-            case bp_arm_l:
-                return _("Blisters - Left Arm");
-            case bp_arm_r:
-                return _("Blisters - Right Arm");
-            case bp_hand_l:
-                return _("Blisters - Left Hand");
-            case bp_hand_r:
-                return _("Blisters - Right Hand");
-            case bp_leg_l:
-                return _("Blisters - Left Leg");
-            case bp_leg_r:
-                return _("Blisters - Right Leg");
-            case bp_foot_l:
-                return _("Blisters - Left Foot");
-            case bp_foot_r:
-                return _("Blisters - Right Foot");
-            default: // Suppress compiler warning [-Wswitch]
-                break;
-        }
-
     case DI_COMMON_COLD: return _("Common Cold");
     case DI_FLU: return _("Influenza");
     case DI_SAP: return _("Sap-coated");
@@ -1820,7 +1722,6 @@ std::string dis_name(disease& dis)
         return status;
     }
 
-    case DI_SHAKES: return _("Shakes");
     case DI_FORMICATION:
     {
         std::string status = "";
@@ -2268,79 +2169,6 @@ Your right leg is frostbitten from prolonged exposure to the cold. It is extreme
                 break;
         }
 
-    case DI_BLISTERS:
-      if (g->u.has_trait("NOPAIN")) {
-        switch (dis.bp) {
-            case bp_mouth:
-                return _("\
-Your face is blistering from the intense heat.");
-            case bp_torso:
-                return _("\
-Your torso is blistering from the intense heat.");
-            case bp_arm_l:
-                return _("\
-Your left arm is blistering from the intense heat.");
-            case bp_arm_r:
-                return _("\
-Your right arm is blistering from the intense heat.");
-            case bp_hand_l:
-                return _("\
-Your left hand is blistering from the intense heat.");
-            case bp_hand_r:
-                return _("\
-Your right hand is blistering from the intense heat.");
-            case bp_leg_l:
-                return _("\
-Your left leg is blistering from the intense heat.");
-            case bp_leg_r:
-                return _("\
-Your right leg is blistering from the intense heat.");
-            case bp_foot_l:
-                return _("\
-Your left foot is blistering from the intense heat.");
-            case bp_foot_r:
-                return _("\
-Your right foot is blistering from the intense heat.");
-            default: // Suppress compiler warning [-Wswitch]
-                break;
-        }
-      } else {
-          switch (dis.bp) {
-            case bp_mouth:
-                return _("\
-Your face is blistering from the intense heat. It is extremely painful.");
-            case bp_torso:
-                return _("\
-Your torso is blistering from the intense heat. It is extremely painful.");
-            case bp_arm_l:
-                return _("\
-Your left arm is blistering from the intense heat. It is extremely painful.");
-            case bp_arm_r:
-                return _("\
-Your right arm is blistering from the intense heat. It is extremely painful.");
-            case bp_hand_l:
-                return _("\
-Your left hand is blistering from the intense heat. It is extremely painful.");
-            case bp_hand_r:
-                return _("\
-Your right hand is blistering from the intense heat. It is extremely painful.");
-            case bp_leg_l:
-                return _("\
-Your left leg is blistering from the intense heat. It is extremely painful.");
-            case bp_leg_r:
-                return _("\
-Your right leg is blistering from the intense heat. It is extremely painful.");
-            case bp_foot_l:
-                return _("\
-Your left foot is blistering from the intense heat. It is extremely painful.");
-            case bp_foot_r:
-                return _("\
-Your right foot is blistering from the intense heat. It is extremely painful.");
-            default: // Suppress compiler warning [-Wswitch]
-                break;
-          }
-      }
-
     case DI_COMMON_COLD:
         return _(
         "Increased thirst;   Frequent coughing\n"
@@ -2372,9 +2200,6 @@ Your right foot is blistering from the intense heat. It is extremely painful.");
             case 3:
                 return _("You are rapidly loosing blood.");
         }
-
-    case DI_SHAKES:
-        return _("Strength - 1;   Dexterity - 4");
 
     case DI_FORMICATION:
     {

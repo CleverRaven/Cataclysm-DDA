@@ -911,7 +911,8 @@ void player::update_bodytemp()
             temp_conv[i] -= 1.5 * fatigue;
         }
         // CONVECTION HEAT SOURCES (generates body heat, helps fight frostbite)
-        int blister_count = 0; // If the counter is high, your skin starts to burn
+        // Bark : lowers blister count to -100; harder to get blisters
+        int blister_count = (has_trait("BARK") ? -100 : 0); // If the counter is high, your skin starts to burn
         for (int j = -6 ; j <= 6 ; j++) {
             for (int k = -6 ; k <= 6 ; k++) {
                 int heat_intensity = 0;
@@ -1036,12 +1037,12 @@ void player::update_bodytemp()
         }
         // Bionic "Thermal Dissipation" says it prevents fire damage up to 2000F.
         // 500 is picked at random...
-        if( (has_bionic("bio_heatsink") || is_wearing("rm13_armor_on")) && blister_count < 500 ) {
-            blister_count = (has_trait("BARK") ? -100 : 0);
+        if( has_bionic("bio_heatsink") || is_wearing("rm13_armor_on")) {
+            blister_count -= 500;
         }
         // BLISTERS : Skin gets blisters from intense heat exposure.
         if( blister_count - 10 * get_env_resist(body_part(i)) > 20 ) {
-            add_disease("blisters", 1, false, 1, 1, 0, 1, (body_part)i, -1);
+            add_effect("blisters", 1, (body_part)i);
         }
         // BLOOD LOSS : Loss of blood results in loss of body heat
         int blood_loss = 0;
@@ -1103,7 +1104,6 @@ void player::update_bodytemp()
             break;
         }
         // MUTATIONS and TRAITS
-        // Bark : lowers blister count to -100; harder to get blisters
         // Lightly furred
         if( has_trait("LIGHTFUR") ) {
             temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 250 : 500);
@@ -6007,7 +6007,7 @@ void player::suffer()
                     break;
                 case 6:
                     add_msg(m_bad, _("You start to shake uncontrollably."));
-                    add_disease("shakes", 10 * rng(2, 5));
+                    add_effect("shakes", 10 * rng(2, 5));
                     break;
                 case 7:
                     for (i = 0; i < 10; i++) {
@@ -6033,11 +6033,11 @@ void player::suffer()
                     break;
             }
         }
-        if (has_trait("JITTERY") && !has_disease("shakes")) {
+        if (has_trait("JITTERY") && !has_effect("shakes")) {
             if (stim > 50 && one_in(300 - stim)) {
-                add_disease("shakes", 300 + stim);
+                add_effect("shakes", 300 + stim);
             } else if (hunger > 80 && one_in(500 - hunger)) {
-                add_disease("shakes", 400);
+                add_effect("shakes", 400);
             }
         }
 
@@ -6345,7 +6345,7 @@ void player::suffer()
     if (has_bionic("bio_shakes") && power_level > 24 && one_in(1200)) {
         add_msg(m_bad, _("Your bionics short-circuit, causing you to tremble and shiver."));
         power_level -= 25;
-        add_disease("shakes", 50);
+        add_effect("shakes", 50);
     }
     if (has_bionic("bio_leaky") && one_in(500)) {
         mod_healthy_mod(-50);

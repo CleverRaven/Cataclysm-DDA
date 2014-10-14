@@ -3731,7 +3731,7 @@ bool item::process_litcig( player *carrier, point pos )
             carrier->moves -= 15;
         }
 
-        if( ( carrier->has_disease( "shakes" ) && one_in( 10 ) ) ||
+        if( ( carrier->has_effect( "shakes" ) && one_in( 10 ) ) ||
             ( carrier->has_trait( "JITTERY" ) && one_in( 200 ) ) ) {
             carrier->add_msg_if_player( m_bad, _( "Your shaking hand causes you to drop your %s." ),
                                         tname().c_str() );

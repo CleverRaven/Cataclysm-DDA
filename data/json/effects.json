@@ -481,10 +481,33 @@
     {
         "type": "effect_type",
         "id": "shakes"
+        "name": ["Shakes"],
+        "desc": ["Your hands just won't stop shaking."],
+        "miss_message": "You tremble",
+        "miss_weight": 4,
+        "base_mods": {
+            "str_mod": [-1],
+            "dex_mod": [-4]
+        }
     },
     {
         "type": "effect_type",
-        "id": "blisters"
+        "id": "blisters",
+        "name": ["Blisters"],
+        "desc": ["is blistering from the intense heat."],
+        "main_parts_only": true,
+        "part_descs": true,
+        "miss_message": "Your blisters distract you",
+        "base_mods": {
+            "dex_mod": [-1],
+            "str_mod": [-1],
+            "per_mod": [-1],
+            "pain_max_val": [35],
+            "pain_chance": [2],
+            "pain_min": [1],
+            "hurt_chance": [4],
+            "hurt_min": [1]
+        }
     },
     {
         "type": "effect_type",
@@ -657,7 +680,8 @@
     },
     {
         "type": "effect_type",
-        "id": "valium"
+        "id": "valium",
+        "removes_effect": "shakes"
     },
     {
         "type": "effect_type",

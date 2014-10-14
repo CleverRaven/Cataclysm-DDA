@@ -1192,8 +1192,8 @@ int iuse::anticonvulsant(player *p, item *it, bool)
     }
     p->add_disease("valium", duration);
     p->add_disease("high", duration);
-    if (p->has_disease("shakes")) {
-        p->rem_disease("shakes");
+    if (p->has_effect("shakes")) {
+        p->remove_effect("shakes");
         p->add_msg_if_player(m_good, _("You stop shaking."));
     }
     return it->type->charges_to_use();
