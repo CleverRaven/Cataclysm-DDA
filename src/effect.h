@@ -85,11 +85,13 @@ class effect_type
         std::string get_remove_memorial_log() const;
 
         int get_max_intensity() const;
+        int get_max_duration() const;
         bool get_main_parts() const;
 
     protected:
         bool permanent;
         int max_intensity;
+        int max_duration;
         int dur_add_perc;
         int int_add_val;
         int int_decay_step;
@@ -141,6 +143,7 @@ class effect : public JsonSerializer, public JsonDeserializer
         void decay(std::vector<std::string> &rem_ids, std::vector<body_part> &rem_bps, unsigned int turn);
 
         int get_duration();
+        int get_max_duration();
         void set_duration(int dur);
         void mod_duration(int dur);
         

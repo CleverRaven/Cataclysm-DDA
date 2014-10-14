@@ -34,7 +34,7 @@ enum dis_type_enum {
  DI_WEBBED,
  DI_RAT, DI_BITE,
 // Food & Drugs
- DI_PKILL1, DI_PKILL2, DI_PKILL3, DI_PKILL_L, DI_DRUNK, DI_CIG, DI_HIGH, DI_WEED_HIGH,
+ DI_DRUNK, DI_CIG, DI_HIGH, DI_WEED_HIGH,
   DI_HALLU, DI_VISUALS, DI_IODINE, DI_DATURA, DI_TOOK_XANAX, DI_TOOK_PROZAC,
   DI_ADRENALINE, DI_JETINJECTOR, DI_ASTHMA, DI_GRACK, DI_METH, DI_VALIUM,
 // Other
@@ -100,10 +100,6 @@ void game::init_diseases() {
     disease_type_lookup["webbed"] = DI_WEBBED;
     disease_type_lookup["rat"] = DI_RAT;
     disease_type_lookup["bite"] = DI_BITE;
-    disease_type_lookup["pkill1"] = DI_PKILL1;
-    disease_type_lookup["pkill2"] = DI_PKILL2;
-    disease_type_lookup["pkill3"] = DI_PKILL3;
-    disease_type_lookup["pkill_l"] = DI_PKILL_L;
     disease_type_lookup["drunk"] = DI_DRUNK;
     disease_type_lookup["valium"] = DI_VALIUM;
     disease_type_lookup["cig"] = DI_CIG;
@@ -1075,33 +1071,6 @@ void dis_effect(player &p, disease &dis)
                         add_msg(m_bad, _("Your bones feel like they're crumbling."));
                         p.hp_cur[i] -= rng(0,8);
                     }
-                }
-            }
-            break;
-
-        case DI_PKILL1:
-            if (dis.duration <= 70 && dis.duration % 7 == 0 && p.pkill < 15) {
-                p.pkill++;
-            }
-            break;
-
-        case DI_PKILL2:
-            if (dis.duration % 7 == 0 && (one_in(p.addiction_level(ADD_PKILLER)*2))) {
-                p.pkill += 2;
-            }
-            break;
-
-        case DI_PKILL3:
-            if (dis.duration % 2 == 0 && (one_in(p.addiction_level(ADD_PKILLER)*2))) {
-                p.pkill++;
-            }
-            break;
-
-        case DI_PKILL_L:
-            {
-                bool painkillerOK = p.pkill < 40 && (one_in(p.addiction_level(ADD_PKILLER)*2));
-                if (dis.duration % 20 == 0 && painkillerOK) {
-                    p.pkill++;
                 }
             }
             break;

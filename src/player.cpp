@@ -5563,11 +5563,6 @@ void player::process_effects() {
                 if (one_in(200)) {
                     add_msg_if_player(m_bad, _("The sunlight's glare makes it hard to see."));
                 }
-            } else if (id == "smoke") {
-                // A hard limit on the duration of the smoke disease.
-                if( effect_it->second.get_duration() >= 600) {
-                    effect_it->second.set_duration(600);
-                }
             } else if (id == "relax_gas") {
                 mod_str_bonus(-3);
                 mod_dex_bonus(-3);
@@ -6351,9 +6346,9 @@ void player::vomit()
             }
         }
     }
-    rem_disease("pkill1");
-    rem_disease("pkill2");
-    rem_disease("pkill3");
+    remove_effect("pkill1");
+    remove_effect("pkill2");
+    remove_effect("pkill3");
     rem_disease("sleep");
 }
 

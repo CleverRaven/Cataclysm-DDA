@@ -294,6 +294,7 @@
         "rating": "bad",
         "miss_message": "Your lungs burn from the smoke.",
         "harmful_cough": true,
+        "max_duration": 600,
         "base_mods" : {
             "str_mod": [-1],
             "dex_mod": [-1],
@@ -341,7 +342,41 @@
     },
     {
         "type": "effect_type",
-        "id": "pkill2"
+        "id": "pkill1",
+        "max_duration": 240
+        "base_mods": {
+            "pkill_tick": [7],
+            "pkill_min": [1],
+            "pkill_max_val": [15]
+        }
+    },
+    {
+        "type": "effect_type",
+        "id": "pkill2",
+        "pkill_addict_reduces": true,
+        "base_mods": {
+            "pkill_tick": [7],
+            "pkill_min": [2]
+        }
+    },
+    {
+        "type": "effect_type",
+        "id": "pkill3",
+        "pkill_addict_reduces": true,
+        "base_mods": {
+            "pkill_tick": [2],
+            "pkill_min": [1]
+        }
+    },
+    {
+        "type": "effect_type",
+        "id": "pkill_l",
+        "pkill_addict_reduces": true,
+        "base_mods": {
+            "pkill_max_val": [40],
+            "pkill_tick": [20],
+            "pkill_min": [1]
+        }
     },
     {
         "type": "effect_type",
@@ -414,10 +449,6 @@
     {
         "type": "effect_type",
         "id": "dermatik"
-    },
-    {
-        "type": "effect_type",
-        "id": "pkill_l"
     },
     {
         "type": "effect_type",
@@ -542,19 +573,12 @@
         "type": "effect_type",
         "id": "hot"
     },
-    {
-        "type": "effect_type",
-        "id": "pkill1"
-    },
+
     {
         "type": "effect_type",
         "id": "sleep",
         "remove_message": "You wake up.",
         "rating": "neutral"
-    },
-    {
-        "type": "effect_type",
-        "id": "pkill3"
     },
     {
         "type": "effect_type",

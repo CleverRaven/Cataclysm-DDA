@@ -156,6 +156,10 @@ int effect_type::get_max_intensity() const
 {
     return max_intensity;
 }
+int effect_type::get_max_duration() const
+{
+    return max_duration;
+}
 bool effect_type::get_main_parts() const
 {
     return main_parts_only;
@@ -388,6 +392,10 @@ bool effect::use_part_descs()
 int effect::get_duration()
 {
     return duration;
+}
+int effect::get_max_duration()
+{
+    return eff_type->get_max_duration();
 }
 void effect::set_duration(int dur)
 {
@@ -874,6 +882,7 @@ void load_effect_type(JsonObject &jo)
     new_etype.permanent = jo.get_bool("permanent", false);
     
     new_etype.max_intensity = jo.get_int("max_intensity", 1);
+    new_etype.max_duration = jo.get_int("max_duration", 0);
     new_etype.dur_add_perc = jo.get_int("dur_add_perc", 100);
     new_etype.int_add_val = jo.get_int("int_add_val", 0);
     new_etype.int_decay_step = jo.get_int("int_decay_step", 0);

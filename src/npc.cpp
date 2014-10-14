@@ -1716,8 +1716,8 @@ bool npc::has_painkiller()
 
 bool npc::took_painkiller() const
 {
- return (has_disease("pkill1") || has_disease("pkill2") ||
-         has_disease("pkill3") || has_disease("pkill_l"));
+ return (has_effect("pkill1") || has_effect("pkill2") ||
+         has_effect("pkill3") || has_effect("pkill_l"));
 }
 
 bool npc::is_friend() const
