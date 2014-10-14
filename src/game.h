@@ -789,6 +789,7 @@ class game
         void activity_on_turn_vibe();
         void activity_on_turn_refill_vehicle();
         void activity_on_turn_pulp();
+        void activity_on_turn_start_fire_lens();
         void activity_on_finish();
         void activity_on_finish_reload();
         void activity_on_finish_train();

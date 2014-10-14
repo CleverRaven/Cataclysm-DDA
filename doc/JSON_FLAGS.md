@@ -625,7 +625,8 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```USE_EAT_VERB``` "You drink your %s." or "You eat your %s."
 - ```FERTILIZER``` Works as fertilizer for farming.
 - ```SEED``` Plantable seed for farming.
-- ```LENS``` Can be used for making fires via focusing light rays.
+- ```LENS``` Lens items can make fires via focusing light rays.
+- ```FIRE_DRILL``` Item will start fires in the primitive way.
 - ```MUTAGEN_STRONG``` Chance of mutating several times.
 - ```MUTAGEN_PLANT``` Causes mutation in the plant branch.
 - ```MUTAGEN_INSECT``` Causes mutation in the insect branch.
@@ -721,9 +722,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 ### Use actions
 
 - ```NONE``` Do nothing.
-- ```LIGHTER``` Light a fire.
-- ```PRIMITIVE_FIRE``` Attempt to light a fire with a high chance of failure.
-- ```LENS_FIRE``` Create a fire via a lens/magnifying glass in sunny days.
+- ```FIRESTARTER``` Light a fire with a lens, primitive tools or lighters.
 - ```SEW``` Sew clothing.
 - ```SCISSORS``` Cut up clothing.
 - ```HAMMER``` Pry boards off of windows, doors and fences.

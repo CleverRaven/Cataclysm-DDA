@@ -338,7 +338,7 @@
         "bashing": -8,
         "cutting": 0,
         "to_hit": -3,
-        "use_action": "LENS_FIRE"
+        "use_action": "FIRESTARTER"
   },
   {
         "type":"GENERIC",
@@ -958,7 +958,7 @@
         "bashing": 6,
         "cutting": 0,
         "to_hit": -1,
-        "use_action": "LENS_FIRE"
+        "use_action": "FIRESTARTER"
     },
     {
         "type":"GENERIC",

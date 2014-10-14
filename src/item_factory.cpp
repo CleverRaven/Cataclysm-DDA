@@ -160,7 +160,6 @@ void Item_factory::init()
     iuse_function_list["RAW_FISH"] = &iuse::raw_fish;
     iuse_function_list["RAW_WILDVEG"] = &iuse::raw_wildveg;
     iuse_function_list["SEWAGE"] = &iuse::sewage;
-
     iuse_function_list["HONEYCOMB"] = &iuse::honeycomb;
     iuse_function_list["ROYAL_JELLY"] = &iuse::royal_jelly;
     iuse_function_list["BANDAGE"] = &iuse::bandage;
@@ -213,10 +212,7 @@ void Item_factory::init()
     iuse_function_list["CATFOOD"] = &iuse::catfood;
 
     // TOOLS
-    iuse_function_list["LIGHTER"] = &iuse::lighter;
-    iuse_function_list["PRIMITIVE_FIRE"] = &iuse::primitive_fire;
-    iuse_function_list["LENS_FIRE"] = &iuse::lens_fire;
-    iuse_function_list["REF_LIT"] = &iuse::ref_lit;
+    iuse_function_list["FIRESTARTER"] = &iuse::firestarter;
     iuse_function_list["SEW"] = &iuse::sew;
     iuse_function_list["EXTRA_BATTERY"] = &iuse::extra_battery;
     iuse_function_list["RECHARGEABLE_BATTERY"] = &iuse::rechargeable_battery;
