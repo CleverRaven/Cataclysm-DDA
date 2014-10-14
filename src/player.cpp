@@ -5477,6 +5477,9 @@ void player::process_effects() {
             auto &it = effect_it->second;
             bool reduced = has_trait(it.get_resist_trait()) || has_effect(it.get_resist_effect());
             
+            // Still hardcoded stuff, do this first since some modify their other traits
+            hardcoded_effects(it);
+            
             // Handle miss messages
             if (it.get_miss_string() != "") {
                 int weight = 1;
@@ -5559,9 +5562,6 @@ void player::process_effects() {
             if (it.activated(calendar::turn, "VOMIT", reduced, mod)) {
                 vomit();
             }
-
-            // Still hardcoded stuff
-            hardcoded_effects(it);
         }
     }
 
@@ -5683,6 +5683,25 @@ void player::hardcoded_effects(effect it)
                 apply_damage( nullptr, bp_arm_r, 999 );
             }
             break;
+        }
+    } else if (id == "rat") {
+        it.set_intensity(it.get_duration() / 10);
+        if (rng(0, 100) < it.get_duration() / 10) {
+            if (!one_in(5)) {
+                mutate_category("MUTCAT_RAT");
+                it.mult_duration(.2);
+            } else {
+                mutate_category("MUTCAT_TROGLOBITE");
+                it.mult_duration(.33);
+            }
+        } else if (rng(0, 100) < it.get_duration() / 8) {
+            if (one_in(3)) {
+                vomit();
+                it.mod_duration(-10);
+            } else {
+                add_msg(m_bad, _("You feel nauseous!"));
+                it.mod_duration(3);
+            }
         }
     }
 }
@@ -5954,7 +5973,7 @@ void player::suffer()
                     add_disease("hallu", 3600);
                     break;
                 case 1:
-                    add_disease("visuals", rng(15, 60));
+                    add_effect("visuals", rng(15, 60));
                     break;
                 case 2:
                     add_msg(m_warning, _("From the south you hear glass breaking."));
@@ -6299,9 +6318,9 @@ void player::suffer()
         power_level >= max_power_level * .75) {
         mod_str_bonus(-3);
     }
-    if (has_bionic("bio_trip") && one_in(500) && !has_disease("visuals")) {
+    if (has_bionic("bio_trip") && one_in(500) && !has_effect("visuals")) {
         add_msg(m_bad, _("Your vision pixelates!"));
-        add_disease("visuals", 100);
+        add_effect("visuals", 100);
     }
     if (has_bionic("bio_spasm") && one_in(3000) && !has_effect("downed")) {
         add_msg(m_bad, _("Your malfunctioning bionic causes you to spasm and fall to the floor!"));

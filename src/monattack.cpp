@@ -2720,7 +2720,7 @@ void mattack::ratking(monster *z, int index)
         break;
     }
     if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) <= 10) {
-        g->u.add_disease("rat", 30);
+        g->u.add_effect("rat", 30);
     }
 }
 

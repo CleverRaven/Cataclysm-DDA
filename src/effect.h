@@ -84,8 +84,6 @@ class effect_type
         std::string get_remove_message() const;
         std::string get_remove_memorial_log() const;
 
-        int get_max_intensity() const;
-        int get_max_duration() const;
         bool get_main_parts() const;
 
     protected:
@@ -146,6 +144,7 @@ class effect : public JsonSerializer, public JsonDeserializer
         int get_max_duration();
         void set_duration(int dur);
         void mod_duration(int dur);
+        void mult_duration(double dur);
         
         body_part get_bp();
         void set_bp(body_part part);

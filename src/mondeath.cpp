@@ -518,7 +518,7 @@ void mdeath::broken(monster *z) {
 
 void mdeath::ratking(monster *z)
 {
-    g->u.rem_disease("rat");
+    g->u.remove_effect("rat");
     if (g->u_see(z)) {
         add_msg(m_warning, _("Rats suddenly swarm into view."));
     }

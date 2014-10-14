@@ -449,16 +449,26 @@
         "base_mods": {
             "speed_mod": [-10],
             "str_mod": [-1],
-            "dex_mod": [-1],
+            "dex_mod": [-1]
         }
     },
     {
         "type": "effect_type",
-        "id": "visuals"
+        "id": "visuals",
+        "name": ["Hallucinating"],
+        "desc": ["You can't trust everything that you see."]
     },
     {
         "type": "effect_type",
-        "id": "rat"
+        "id": "rat",
+        "name": ["Ratting"],
+        "desc": ["You feel nauseated and rat-like."],
+        "max_intensity": 100,
+        "scaling_mods": {
+            "int_mod": [-.5],
+            "str_mod": [-.2],
+            "per_mod": [-.4]
+        }
     },
     {
         "type": "effect_type",

@@ -5473,7 +5473,7 @@ void game::draw_ter(int posx, int posy)
     }
     wrefresh(w_terrain);
 
-    if (u.has_disease("visuals") || (u.has_disease("hot_head") &&
+    if (u.has_effect("visuals") || (u.has_disease("hot_head") &&
                                      u.disease_intensity("hot_head") != 1)) {
         hallucinate(posx, posy);
     }

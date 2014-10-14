@@ -1335,7 +1335,7 @@ int iuse::thorazine(player *p, item *it, bool)
 {
     p->fatigue += 5;
     p->rem_disease("hallu");
-    p->rem_disease("visuals");
+    p->remove_effect("visuals");
     p->rem_disease("high");
     if (!p->has_disease("dermatik")) {
         p->rem_disease("formication");
@@ -10178,7 +10178,7 @@ int iuse::multicooker(player *p, item *it, bool t)
             return 0;
         }
 
-        if (p->has_disease("hallu") || p->has_disease("visuals")) {
+        if (p->has_disease("hallu") || p->has_effect("visuals")) {
             if (multicooker_hallu(p)) {
                 return 0;
             }

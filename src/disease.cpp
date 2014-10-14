@@ -31,10 +31,10 @@ enum dis_type_enum {
  DI_LYING_DOWN, DI_SLEEP, DI_ALARM_CLOCK,
  DI_BLEED, DI_SHAKES,
  DI_DERMATIK, DI_FORMICATION,
- DI_RAT, DI_BITE,
+ DI_BITE,
 // Food & Drugs
  DI_DRUNK, DI_CIG, DI_HIGH, DI_WEED_HIGH,
-  DI_HALLU, DI_VISUALS, DI_IODINE, DI_DATURA, DI_TOOK_XANAX, DI_TOOK_PROZAC,
+  DI_HALLU, DI_IODINE, DI_DATURA, DI_TOOK_XANAX, DI_TOOK_PROZAC,
   DI_ADRENALINE, DI_JETINJECTOR, DI_ASTHMA, DI_GRACK, DI_METH, DI_VALIUM,
 // Other
  DI_AMIGARA, DI_STEMCELL_TREATMENT, DI_TELEGLOW, DI_ATTENTION, DI_EVIL,
@@ -94,14 +94,12 @@ void game::init_diseases() {
     disease_type_lookup["shakes"] = DI_SHAKES;
     disease_type_lookup["dermatik"] = DI_DERMATIK;
     disease_type_lookup["formication"] = DI_FORMICATION;
-    disease_type_lookup["rat"] = DI_RAT;
     disease_type_lookup["bite"] = DI_BITE;
     disease_type_lookup["drunk"] = DI_DRUNK;
     disease_type_lookup["valium"] = DI_VALIUM;
     disease_type_lookup["cig"] = DI_CIG;
     disease_type_lookup["high"] = DI_HIGH;
     disease_type_lookup["hallu"] = DI_HALLU;
-    disease_type_lookup["visuals"] = DI_VISUALS;
     disease_type_lookup["iodine"] = DI_IODINE;
     disease_type_lookup["datura"] = DI_DATURA;
     disease_type_lookup["took_xanax"] = DI_TOOK_XANAX;
@@ -1089,11 +1087,11 @@ void dis_effect(player &p, disease &dis)
             } if (dis.duration > 7000 && p.focus_pool >= 1) {
                   p.focus_pool--;
             } if (dis.duration > 8000 && one_in(256)) {
-                  p.add_disease("visuals", rng(40, 200));
+                  p.add_effect("visuals", rng(40, 200));
                   p.mod_pain(rng(-8, -40));
             } if (dis.duration > 12000 && one_in(256)) {
                   add_msg(m_bad, _("There's some kind of big machine in the sky."));
-                  p.add_disease("visuals", rng(80, 400));
+                  p.add_effect("visuals", rng(80, 400));
                   if (one_in(32)) {
                         add_msg(m_bad, _("It's some kind of electric snake, coming right at you!"));
                         p.mod_pain(rng(4, 40));
@@ -1101,7 +1099,7 @@ void dis_effect(player &p, disease &dis)
                   }
             } if (dis.duration > 14000 && one_in(128)) {
                   add_msg(m_bad, _("Order us some golf shoes, otherwise we'll never get out of this place alive."));
-                  p.add_disease("visuals", rng(400, 2000));
+                  p.add_effect("visuals", rng(400, 2000));
                   if (one_in(8)) {
                   add_msg(m_bad, _("The possibility of physical and mental collapse is now very real."));
                     if (one_in(2) || will_vomit(p, 10)) {
@@ -1222,9 +1220,9 @@ void dis_effect(player &p, disease &dis)
                 if(one_in(1024)) {
                     p.mod_healthy_mod(-10);
                     p.apply_damage( nullptr, bp_head, rng( 0, 1 ) );
-                    if (!p.has_disease("visuals")) {
+                    if (!p.has_effect("visuals")) {
                     add_msg(m_bad, _("Your vision is getting fuzzy."));
-                    p.add_disease("visuals", rng(10, 600));
+                    p.add_effect("visuals", rng(10, 600));
                   }
                 }
                 if(one_in(4096)) {
@@ -1266,29 +1264,6 @@ void dis_effect(player &p, disease &dis)
                p.rem_disease("dermatik");
             } else {
                 handle_insect_parasites(p, dis);
-            }
-            break;
-
-        case DI_RAT:
-            p.mod_int_bonus(-(int(dis.duration / 20)));
-            p.mod_str_bonus(-(int(dis.duration / 50)));
-            p.mod_per_bonus(-(int(dis.duration / 25)));
-            if (rng(0, 100) < dis.duration / 10) {
-                if (!one_in(5)) {
-                    p.mutate_category("MUTCAT_RAT");
-                    dis.duration /= 5;
-                } else {
-                    p.mutate_category("MUTCAT_TROGLOBITE");
-                    dis.duration /= 3;
-                }
-            } else if (rng(0, 100) < dis.duration / 8) {
-                if (one_in(3)) {
-                    p.vomit();
-                    dis.duration -= 10;
-                } else {
-                    add_msg(m_bad, _("You feel nauseous!"));
-                    dis.duration += 3;
-                }
             }
             break;
 
@@ -1885,7 +1860,6 @@ std::string dis_name(disease& dis)
         }
         return status;
     }
-    case DI_RAT: return _("Ratting");
     case DI_DRUNK:
         if (dis.duration > 2200) return _("Wasted");
         if (dis.duration > 1400) return _("Trashed");
@@ -1894,7 +1868,6 @@ std::string dis_name(disease& dis)
 
     case DI_CIG: return _("Nicotine");
     case DI_HIGH: return _("High");
-    case DI_VISUALS: return _("Hallucinating");
 
     case DI_ADRENALINE:
         if (dis.duration > 150) return _("Adrenaline Rush");
@@ -2425,24 +2398,6 @@ Your right foot is blistering from the intense heat. It is extremely painful.");
         return stream.str();
     }
 
-    case DI_RAT:
-    {
-        intpen = int(dis.duration / 20);
-        perpen = int(dis.duration / 25);
-        strpen = int(dis.duration / 50);
-        stream << _("You feel nauseated and rat-like.\n");
-        if (intpen > 0) {
-            stream << string_format(_("Intelligence - %d;   "), intpen);
-        }
-        if (perpen > 0) {
-            stream << string_format(_("Perception - %d;   "), perpen);
-        }
-        if (strpen > 0) {
-            stream << string_format(_("Strength - %d;   "), strpen);
-        }
-        return stream.str();
-    }
-
     case DI_DRUNK:
     {
         perpen = int(dis.duration / 1000);
@@ -2477,8 +2432,6 @@ Your right foot is blistering from the intense heat. It is extremely painful.");
 
     case DI_HIGH:
         return _("Intelligence - 1;   Perception - 1");
-
-    case DI_VISUALS: return _("You can't trust everything that you see.");
 
     case DI_DATURA: return _("Buy the ticket, take the ride.  The datura has you now.");
 
@@ -3037,7 +2990,7 @@ static void handle_deliriant(player& p, disease& dis)
     } else if (dis.duration == peakTime) {
         // Visuals start
         p.add_msg_if_player(m_bad, _("Fractal patterns dance across your vision."));
-        p.add_disease("visuals", peakTime - comedownTime);
+        p.add_effect("visuals", peakTime - comedownTime);
     } else if (dis.duration > comedownTime && dis.duration < peakTime) {
         // Full symptoms
         p.mod_per_bonus(-2);

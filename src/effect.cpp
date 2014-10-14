@@ -152,14 +152,6 @@ std::string effect_type::get_remove_memorial_log() const
 {
     return remove_memorial_log;
 }
-int effect_type::get_max_intensity() const
-{
-    return max_intensity;
-}
-int effect_type::get_max_duration() const
-{
-    return max_duration;
-}
 bool effect_type::get_main_parts() const
 {
     return main_parts_only;
@@ -395,7 +387,7 @@ int effect::get_duration()
 }
 int effect::get_max_duration()
 {
-    return eff_type->get_max_duration();
+    return eff_type->max_duration;
 }
 void effect::set_duration(int dur)
 {
@@ -404,6 +396,10 @@ void effect::set_duration(int dur)
 void effect::mod_duration(int dur)
 {
     duration += dur;
+}
+void effect::mult_duration(double dur)
+{
+    duration *= dur;
 }
 
 body_part effect::get_bp()
@@ -434,15 +430,25 @@ int effect::get_intensity()
 }
 int effect::get_max_intensity()
 {
-    return eff_type->get_max_intensity();
+    return eff_type->max_intensity;
 }
 void effect::set_intensity(int nintensity)
 {
     intensity = nintensity;
+    if (intensity > eff_type->max_intensity) {
+        intensity = eff_type->max_intensity;
+    } else if (intensity < 1) {
+        intensity = 1;
+    }
 }
 void effect::mod_intensity(int nintensity)
 {
     intensity += nintensity;
+    if (intensity > eff_type->max_intensity) {
+        intensity = eff_type->max_intensity;
+    } else if (intensity < 1) {
+        intensity = 1;
+    }
 }
 
 std::string effect::get_resist_trait()
