@@ -360,11 +360,6 @@ bool recipe::can_make_with_inventory(const inventory &crafting_inv, int batch) c
     return requirements::can_make_with_inventory( crafting_inv, batch );
 }
 
-int recipe::get_batch_time(int batch) const
-{
-  return requirements::batch_time(batch);
-}
-
 void game::craft()
 {
     if (!crafting_allowed()) {
