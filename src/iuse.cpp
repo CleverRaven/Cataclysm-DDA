@@ -225,9 +225,9 @@ int iuse::royal_jelly(player *p, item *it, bool)
     // TODO: Add other diseases here; royal jelly is a cure-all!
     p->pkill += 5;
     std::string message;
-    if (p->has_disease("fungus")) {
+    if (p->has_effect("fungus")) {
         message = _("You feel cleansed inside!");
-        p->rem_disease("fungus");
+        p->remove_effect("fungus");
     }
     if (p->has_disease("dermatik") || p->has_disease("bloodworms") ||
         p->has_disease("paincysts") || p->has_disease("brainworm") ||
@@ -1065,18 +1065,17 @@ int iuse::fungicide(player *p, item *it, bool)
         return false;
     }
     p->add_msg_if_player(_("You use your fungicide."));
-    if (p->has_disease("fungus") && (one_in(3))) {
-        p->rem_disease("fungus");
+    if (p->has_effect("fungus") && (one_in(3))) {
+        p->remove_effect("fungus");
         p->add_msg_if_player(m_warning,
                              _("You feel a burning sensation under your skin that quickly fades away."));
     }
-    if (p->has_disease("spores") && (one_in(2))) {
-        if (!p->has_disease("fungus")) {
+    if (p->has_effect("spores") && (one_in(2))) {
+        if (!p->has_effect("fungus")) {
             p->add_msg_if_player(m_warning, _("Your skin grows warm for a moment."));
         }
-        int fungus_int = p->disease_intensity("spores", true);
-        p->rem_disease("spores");
-        int spore_count = rng(fungus_int / 5, fungus_int);
+        p->remove_effect("spores");
+        int spore_count = rng(1, 6);
         if (spore_count > 0) {
             monster spore(GetMType("mon_spore"));
             for (int i = p->posx - 1; i <= p->posx + 1; i++) {
@@ -1122,13 +1121,13 @@ int iuse::antifungal(player *p, item *it, bool)
         return false;
     }
     p->add_msg_if_player(_("You take some antifungal medication."));
-    if (p->has_disease("fungus")) {
-        p->rem_disease("fungus");
+    if (p->has_effect("fungus")) {
+        p->remove_effect("fungus");
         p->add_msg_if_player(m_warning,
                              _("You feel a burning sensation under your skin that quickly fades away."));
     }
-    if (p->has_disease("spores")) {
-        if (!p->has_disease("fungus")) {
+    if (p->has_effect("spores")) {
+        if (!p->has_effect("fungus")) {
             p->add_msg_if_player(m_warning, _("Your skin grows warm for a moment."));
         }
     }
@@ -8556,7 +8555,7 @@ int iuse::jet_injector(player *p, item *it, bool)
         p->rem_disease("infected");
         p->rem_disease("bite");
         p->rem_disease("bleed");
-        p->rem_disease("fungus");
+        p->remove_effect("fungus");
         p->rem_disease("dermatik");
         p->radiation += 4;
         p->healall(20);

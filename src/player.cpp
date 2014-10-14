@@ -5465,6 +5465,11 @@ void player::process_effects() {
     if (has_effect("darkness") && g->is_in_sunlight(posx, posy)) {
         remove_effect("darkness");
     }
+    if (has_effect("fungus") && has_trait("M_IMMUNE")) {
+        vomit();
+        remove_effect("fungus");
+        add_msg_if_player(m_bad,  _("We have mistakenly colonized a local guide!  Purging now."));
+    }
     
     //Human only effects
     for( auto maps = effects.begin(); maps != effects.end(); ++maps ) {
@@ -5556,23 +5561,130 @@ void player::process_effects() {
             }
 
             // Still hardcoded stuff
-            std::string id = effect_it->second.get_id();
-            if (id == "onfire") {
-                manage_fire_exposure(1);
-            } else if (id == "glare") {
-                if (one_in(200)) {
-                    add_msg_if_player(m_bad, _("The sunlight's glare makes it hard to see."));
-                }
-            } else if (id == "relax_gas") {
-                mod_str_bonus(-3);
-                mod_dex_bonus(-3);
-                mod_int_bonus(-2);
-                mod_per_bonus(-4);
-            }
+            hardcoded_effects(it);
         }
     }
 
     Creature::process_effects();
+}
+
+void player::hardcoded_effects(effect it)
+{
+    std::string id = it.get_id();
+    if (id == "onfire") {
+        manage_fire_exposure(1);
+    } else if (id == "glare") {
+        if (one_in(200)) {
+            add_msg_if_player(m_bad, _("The sunlight's glare makes it hard to see."));
+        }
+    } else if (id == "relax_gas") {
+        mod_str_bonus(-3);
+        mod_dex_bonus(-3);
+        mod_int_bonus(-2);
+        mod_per_bonus(-4);
+    } else if (id == "spores") {
+        // Equivalent to X in 150000 + health * 100
+        if ((!has_trait("M_IMMUNE")) && (one_in(100) && x_in_y(it.get_intensity(), 150 + get_healthy() / 10)) ) {
+            add_effect("fungus", 1, num_bp, true);
+            if (is_player()) {
+                add_memorial_log(pgettext("memorial_male", "Contracted a fungal infection."),
+                                   pgettext("memorial_female", "Contracted a fungal infection."));
+            }
+        }
+    } else if (id == "fungus") {
+        int bonus = get_healthy() / 10 + (has_trait(it.get_resist_trait()) ? 100 : 0);
+        int intense = it.get_intensity();
+        switch (intense) {
+        case 1: // First hour symptoms
+            if (one_in(160 + bonus)) {
+                cough(true);
+            }
+            if (one_in(100 + bonus)) {
+                add_msg_if_player(m_warning, _("You feel nauseous."));
+            }
+            if (one_in(100 + bonus)) {
+                add_msg_if_player(m_warning, _("You smell and taste mushrooms."));
+            }
+            it.mod_duration(1);
+            if (it.get_duration() > 600) {
+                it.mod_intensity(1);
+            }
+            break;
+        case 2: // Five hours of worse symptoms
+            if (one_in(600 + bonus * 3)) {
+                add_msg_if_player(m_bad,  _("You spasm suddenly!"));
+                moves -= 100;
+                apply_damage( nullptr, bp_torso, 5 );
+            }
+            if (will_vomit(p, 800 + bonus * 4) || one_in(2000 + bonus * 10)) {
+                add_msg_player_or_npc(m_bad, _("You vomit a thick, gray goop."),
+                                               _("<npcname> vomits a thick, gray goop.") );
+
+                int awfulness = rng(0,70);
+                moves = -200;
+                hunger += awfulness;
+                thirst += awfulness;
+                apply_damage( nullptr, bp_torso, awfulness / std::max( p.str_cur, 1 ) ); // can't be healthy
+            }
+            it.mod_duration(1);
+            if (it.get_duration() > 3600) {
+                it.mod_intensity(1);
+            }
+            break;
+        case 3: // Permanent symptoms
+            if (one_in(1000 + bonus * 8)) {
+                add_msg_player_or_npc(m_bad,  _("You vomit thousands of live spores!"),
+                                              _("<npcname> vomits thousands of live spores!") );
+
+                moves = -500;
+                int sporex, sporey;
+                monster spore(GetMType("mon_spore"));
+                for (int i = -1; i <= 1; i++) {
+                    for (int j = -1; j <= 1; j++) {
+                        if (i == 0 && j == 0) {
+                            continue;
+                        }
+                        sporex = posx + i;
+                        sporey = posy + j;
+                        if (g->m.move_cost(sporex, sporey) > 0) {
+                            const int zid = g->mon_at(sporex, sporey);
+                            if (zid >= 0) {  // Spores hit a monster
+                                if (g->u_see(sporex, sporey) &&
+                                      !g->zombie(zid).type->in_species("FUNGUS")) {
+                                    add_msg(_("The %s is covered in tiny spores!"),
+                                               g->zombie(zid).name().c_str());
+                                }
+                                monster &critter = g->zombie( zid );
+                                if( !critter.make_fungus() ) {
+                                    critter.die( &this ); // Counts as kill by player
+                                }
+                            } else if (one_in(4) && g->num_zombies() <= 1000){
+                                spore.spawn(sporex, sporey);
+                                g->add_zombie(spore);
+                            }
+                        }
+                    }
+                }
+            // We're fucked
+            } else if (one_in(6000 + bonus * 20)) {
+                if(hp_cur[hp_arm_l] <= 0 || hp_cur[hp_arm_r] <= 0) {
+                    if(hp_cur[hp_arm_l] <= 0 && hp_cur[hp_arm_r] <= 0) {
+                        add_msg_player_or_npc(m_bad, _("The flesh on your broken arms bulges. Fungus stalks burst through!"),
+                        _("<npcname>'s broken arms bulge. Fungus stalks burst out of the bulges!"));
+                    } else {
+                        add_msg_player_or_npc(m_bad, _("The flesh on your broken and unbroken arms bulge. Fungus stalks burst through!"),
+                        _("<npcname>'s arms bulge. Fungus stalks burst out of the bulges!"));
+                    }
+                } else {
+                    add_msg_player_or_npc(m_bad, _("Your hands bulge. Fungus stalks burst through the bulge!"),
+                        _("<npcname>'s hands bulge. Fungus stalks burst through the bulge!"));
+                }
+                apply_damage( nullptr, bp_arm_l, 999 );
+                apply_damage( nullptr, bp_arm_r, 999 );
+            }
+            break;
+        }
+    }
 }
 
 void player::manage_fire_exposure(int fireStrength) {

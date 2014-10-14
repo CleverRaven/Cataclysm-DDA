@@ -844,22 +844,22 @@ void mattack::fungus(monster *z, int index)
                         return;
                     }
                     bool hit = false;
-                    if (one_in(4) && g->u.infect("spores", bp_head, 3, 90, false, 1, 3, 120, 1, true)) {
+                    if (one_in(4) && g->u.add_env_effect("spores", bp_head, 3, 90, bp_head)) {
                         hit = true;
                     }
-                    if (one_in(2) && g->u.infect("spores", bp_torso, 3, 90, false, 1, 3, 120, 1, true)) {
+                    if (one_in(2) && g->u.add_env_effect("spores", bp_torso, 3, 90, bp_torso)) {
                         hit = true;
                     }
-                    if (one_in(4) && g->u.infect("spores", bp_arm_l, 3, 90, false, 1, 3, 120, 1, true)) {
+                    if (one_in(4) && g->u.add_env_effect("spores", bp_arm_l, 3, 90, bp_arm_l)) {
                         hit = true;
                     }
-                    if (one_in(4) && g->u.infect("spores", bp_arm_r, 3, 90, false, 1, 3, 120, 1, true)) {
+                    if (one_in(4) && g->u.add_env_effect("spores", bp_arm_r, 3, 90, bp_arm_r)) {
                         hit = true;
                     }
-                    if (one_in(4) && g->u.infect("spores", bp_leg_l, 3, 90, false, 1, 3, 120, 1, true)) {
+                    if (one_in(4) && g->u.add_env_effect("spores", bp_leg_l, 3, 90, bp_leg_l)) {
                         hit = true;
                     }
-                    if (one_in(4) && g->u.infect("spores", bp_leg_r, 3, 90, false, 1, 3, 120, 1, true)) {
+                    if (one_in(4) && g->u.add_env_effect("spores", bp_leg_r, 3, 90, bp_leg_r)) {
                         hit = true;
                     }
                     if ((hit) && (g->u.has_trait("TAIL_CATTLE") &&
@@ -987,7 +987,7 @@ void mattack::fungus_inject(monster *z, int index)
                 body_part_name_accusative(hit).c_str());
 
         if(one_in(10 - dam)) {
-            g->u.add_disease("fungus", 100, false, 1, 1, 0, -1);
+            g->u.add_effect("fungus", 100, num_bp, true);
             add_msg(m_warning, _("You feel thousands of live spores pumping into you..."));
         }
     } else {
@@ -1036,7 +1036,7 @@ void mattack::fungus_bristle(monster *z, int index)
                 body_part_name_accusative(hit).c_str());
 
         if(one_in(15 - dam)) {
-            g->u.add_disease("fungus", 200, false, 1, 1, 0, -1);
+            g->u.add_effect("fungus", 200, num_bp, true);
             add_msg(m_warning, _("You feel thousands of live spores pumping into you..."));
         }
     } else {
@@ -1192,7 +1192,7 @@ void mattack::fungus_fortify(monster *z, int index)
                 //~ 1$s is monster name, 2$s bodypart in accusative
                 add_msg(m_bad, _("The %1$s sinks its point into your %2$s!"), z->name().c_str(),
                     body_part_name_accusative(hit).c_str());
-                g->u.add_disease("fungus", 400, false, 1, 1, 0, -1);
+                g->u.add_effect("fungus", 400, num_bp, true);
                 add_msg(m_warning, _("You feel millions of live spores pumping into you..."));
                 } else {
                     //~ 1$s is monster name, 2$s bodypart in accusative

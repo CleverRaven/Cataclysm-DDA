@@ -27,7 +27,7 @@ enum dis_type_enum {
 // Fields - onfire moved to effects
  DI_CRUSHED,
 // Monsters
- DI_SAP, DI_SPORES, DI_FUNGUS, DI_SLIMED,
+ DI_SAP, DI_SLIMED,
  DI_LYING_DOWN, DI_SLEEP, DI_ALARM_CLOCK,
  DI_BLEED, DI_SHAKES,
  DI_DERMATIK, DI_FORMICATION,
@@ -86,8 +86,6 @@ void game::init_diseases() {
     disease_type_lookup["paincysts"] = DI_PAINCYSTS;
     disease_type_lookup["crushed"] = DI_CRUSHED;
     disease_type_lookup["sap"] = DI_SAP;
-    disease_type_lookup["spores"] = DI_SPORES;
-    disease_type_lookup["fungus"] = DI_FUNGUS;
     disease_type_lookup["slimed"] = DI_SLIMED;
     disease_type_lookup["lying_down"] = DI_LYING_DOWN;
     disease_type_lookup["sleep"] = DI_SLEEP;
@@ -350,10 +348,6 @@ void dis_remove_memorial(dis_type type_string) {
     case DI_FLU:
       g->u.add_memorial_log(pgettext("memorial_male", "Got over the flu."),
                             pgettext("memorial_female", "Got over the flu."));
-      break;
-    case DI_FUNGUS:
-      g->u.add_memorial_log(pgettext("memorial_male", "Cured the fungal infection."),
-                            pgettext("memorial_female", "Cured the fungal infection."));
       break;
     case DI_BITE:
       g->u.add_memorial_log(pgettext("memorial_male", "Recovered from a bite wound."),
@@ -954,19 +948,6 @@ void dis_effect(player &p, disease &dis)
             p.add_miss_reason(_("The sap's too sticky for you to fight effectively."), 3);
             break;
 
-        case DI_SPORES:
-            // Equivalent to X in 150000 + health * 100
-            if ((!g->u.has_trait("M_IMMUNE")) && (one_in(100) && x_in_y(dis.intensity, 150 + p.get_healthy() / 10)) ) {
-                p.add_disease("fungus", 3601, false, 1, 1, 0, -1);
-                g->u.add_memorial_log(pgettext("memorial_male", "Contracted a fungal infection."),
-                                      pgettext("memorial_female", "Contracted a fungal infection."));
-            }
-            break;
-
-        case DI_FUNGUS:
-            manage_fungal_infection(p, dis);
-            break;
-
         case DI_SLIMED:
             p.mod_dex_bonus(-2);
             p.add_miss_reason(_("This goo makes you slip."), 2);
@@ -1530,7 +1511,7 @@ void dis_effect(player &p, disease &dis)
             }
             if (one_in(10000)) {
                 if (!g->u.has_trait("M_IMMUNE")) {
-                    p.add_disease("fungus", 3601, false, 1, 1, 0, -1);
+                    p.add_effect("fungus", 1, num_bp, true);
                 } else {
                     p.add_msg_if_player(m_info, _("We have many colonists awaiting passage."));
                 }
@@ -1662,38 +1643,6 @@ int disease_speed_boost(disease dis)
                     return 0;
             }
         break;
-
-        case DI_SPORES:
-            switch (dis.bp) {
-                case bp_head:
-                    switch (dis.intensity) {
-                        case 1: return -10;
-                        case 2: return -15;
-                        case 3: return -20;
-                    }
-                case bp_torso:
-                    switch (dis.intensity) {
-                        case 1: return -15;
-                        case 2: return -20;
-                        case 3: return -25;
-                    }
-                case bp_arm_l:
-                case bp_arm_r:
-                    switch (dis.intensity) {
-                        case 1: return -3;
-                        case 2: return -5;
-                        case 3: return -8;
-                    }
-                case bp_leg_l:
-                case bp_leg_r:
-                    switch (dis.intensity) {
-                        case 1: return -3;
-                        case 2: return -5;
-                        case 3: return -8;
-                    }
-                default:
-                    return 0;
-            }
 
         case DI_SAP:        return -25;
         case DI_SLIMED:     return -25;
@@ -1868,39 +1817,6 @@ std::string dis_name(disease& dis)
     case DI_COMMON_COLD: return _("Common Cold");
     case DI_FLU: return _("Influenza");
     case DI_SAP: return _("Sap-coated");
-
-    case DI_SPORES:
-    {
-        std::string status = "";
-        switch (dis.intensity) {
-        case 1: status = _("Spore dusted - "); break;
-        case 2: status = _("Spore covered - "); break;
-        case 3: status = _("Spore coated - "); break;
-        }
-        switch (dis.bp) {
-            case bp_head:
-                status += _("Head");
-                break;
-            case bp_torso:
-                status += _("Torso");
-                break;
-            case bp_arm_l:
-                status += _("Left Arm");
-                break;
-            case bp_arm_r:
-                status += _("Right Arm");
-                break;
-            case bp_leg_l:
-                status += _("Left Leg");
-                break;
-            case bp_leg_r:
-                status += _("Right Leg");
-                break;
-            default: // Suppress compile warning [-Wswitch]
-                break;
-        }
-        return status;
-    }
 
     case DI_SLIMED: return _("Slimed");
     case DI_BLEED:
@@ -2092,8 +2008,6 @@ std::string dis_combined_name(disease& dis)
     // Maximum length of returned string is 19 characters
     dis_type_enum type = disease_type_lookup[dis.type];
     switch (type) {
-        case DI_SPORES:
-            return _("Spore covered");
         case DI_COLD:
             return _("Cold");
         case DI_FROSTBITE:
@@ -2480,13 +2394,6 @@ Your right foot is blistering from the intense heat. It is extremely painful.");
     case DI_SAP:
         return _("Dexterity - 3;   Speed - 25");
 
-    case DI_SPORES:
-        speed_pen = disease_speed_boost(dis);
-        stream << string_format(_(
-                "Speed %d%%\n"
-                "You can feel the tiny spores sinking directly into your flesh."), speed_pen);
-        return stream.str();
-
     case DI_SLIMED:
         return _("Speed -25%;   Dexterity - 2");
 
@@ -2623,100 +2530,6 @@ Your right foot is blistering from the intense heat. It is extremely painful.");
     default: break;
     }
     return "Who knows?  This is probably a bug. (disease.cpp:dis_description)";
-}
-
-void manage_fungal_infection(player& p, disease& dis)
-{
-    if (g->u.has_trait("M_IMMUNE")) { // Just in case
-        p.vomit();
-        p.rem_disease("fungus");
-        p.add_msg_if_player(m_bad,  _("We have mistakenly colonized a local guide!  Purging now."));
-    }
-    int bonus = p.get_healthy() / 10 + (p.has_trait("POISRESIST") ? 100 : 0);
-    p.moves -= 10;
-    p.mod_str_bonus(-1);
-    p.mod_dex_bonus(-1);
-    p.add_miss_reason(_("You feel sick inside."), 1);
-    if (!dis.permanent) {
-        if (dis.duration > 3001) { // First hour symptoms
-            if (one_in(160 + bonus)) {
-                p.cough(true);
-            }
-            if (one_in(100 + bonus)) {
-                p.add_msg_if_player(m_warning, _("You feel nauseous."));
-            }
-            if (one_in(100 + bonus)) {
-                p.add_msg_if_player(m_warning, _("You smell and taste mushrooms."));
-            }
-        } else if (dis.duration > 1) { // Five hours of worse symptoms
-            if (one_in(600 + bonus * 3)) {
-                p.add_msg_if_player(m_bad,  _("You spasm suddenly!"));
-                p.moves -= 100;
-                p.apply_damage( nullptr, bp_torso, 5 );
-            }
-            if (will_vomit(p, 800 + bonus * 4) || one_in(2000 + bonus * 10)) {
-                p.add_msg_player_or_npc(m_bad, _("You vomit a thick, gray goop."),
-                                               _("<npcname> vomits a thick, gray goop.") );
-
-                int awfulness = rng(0,70);
-                p.moves = -200;
-                p.hunger += awfulness;
-                p.thirst += awfulness;
-                p.apply_damage( nullptr, bp_torso, awfulness / std::max( p.str_cur, 1 ) ); // can't be healthy
-            }
-        } else {
-            p.add_disease("fungus", 1, true, 1, 1, 0, -1);
-        }
-    } else if (one_in(1000 + bonus * 8)) {
-        p.add_msg_player_or_npc(m_bad,  _("You vomit thousands of live spores!"),
-                                        _("<npcname> vomits thousands of live spores!") );
-
-        p.moves = -500;
-        int sporex, sporey;
-        monster spore(GetMType("mon_spore"));
-        for (int i = -1; i <= 1; i++) {
-            for (int j = -1; j <= 1; j++) {
-                if (i == 0 && j == 0) {
-                    continue;
-                }
-                sporex = p.posx + i;
-                sporey = p.posy + j;
-                if (g->m.move_cost(sporex, sporey) > 0) {
-                    const int zid = g->mon_at(sporex, sporey);
-                    if (zid >= 0) {  // Spores hit a monster
-                        if (g->u_see(sporex, sporey) &&
-                              !g->zombie(zid).type->in_species("FUNGUS")) {
-                            add_msg(_("The %s is covered in tiny spores!"),
-                                       g->zombie(zid).name().c_str());
-                        }
-                        monster &critter = g->zombie( zid );
-                        if( !critter.make_fungus() ) {
-                            critter.die( &p ); // counts as kill by player
-                        }
-                    } else if (one_in(4) && g->num_zombies() <= 1000){
-                        spore.spawn(sporex, sporey);
-                        g->add_zombie(spore);
-                    }
-                }
-            }
-        }
-    // we're fucked
-    } else if (one_in(6000 + bonus * 20)) {
-        if(p.hp_cur[hp_arm_l] <= 0 || p.hp_cur[hp_arm_r] <= 0) {
-            if(p.hp_cur[hp_arm_l] <= 0 && p.hp_cur[hp_arm_r] <= 0) {
-                p.add_msg_player_or_npc(m_bad, _("The flesh on your broken arms bulges. Fungus stalks burst through!"),
-                _("<npcname>'s broken arms bulge. Fungus stalks burst out of the bulges!"));
-            } else {
-                p.add_msg_player_or_npc(m_bad, _("The flesh on your broken arm bulges, your unbroken arm also bulges. Fungus stalks burst through!"),
-                _("<npcname>'s arms bulge. Fungus stalks burst out of the bulges!"));
-            }
-        } else {
-            p.add_msg_player_or_npc(m_bad, _("Your hands bulge. Fungus stalks burst through the bulge!"),
-                _("<npcname>'s hands bulge. Fungus stalks burst through the bulge!"));
-        }
-        p.apply_damage( nullptr, bp_arm_l, 999 );
-        p.apply_damage( nullptr, bp_arm_r, 999 );
-    }
 }
 
 void manage_sleep(player& p, disease& dis)

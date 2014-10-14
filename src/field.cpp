@@ -1563,8 +1563,8 @@ void map::step_in_field(int x, int y)
 
         case fd_fungal_haze:
             if (!g->u.has_trait("M_IMMUNE") && (!inside || (inside && one_in(4))) ) {
-                g->u.infect("fungus", bp_mouth, 4, 100, true, 2, 4, 1, 1);
-                g->u.infect("fungus", bp_eyes, 4, 100, true, 2, 4, 1, 1);
+                g->u.add_env_effect("fungus", bp_mouth, 4, 100, num_bp, true);
+                g->u.add_env_effect("fungus", bp_eyes, 4, 100, num_bp, true);
             }
             break;
 
