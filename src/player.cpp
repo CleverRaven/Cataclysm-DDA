@@ -1178,27 +1178,34 @@ void player::update_bodytemp()
         int temp_after = temp_cur[i];
         // PENALTIES
         if (temp_cur[i] < BODYTEMP_FREEZING) {
-            add_disease("cold", 1, false, 3, 3, 0, 1, (body_part)i, false);
+            add_effect("cold", 1, (body_part)i, true, 3);
         } else if( temp_cur[i] < BODYTEMP_VERY_COLD ) {
-            add_disease("cold", 1, false, 2, 2, 0, 1, (body_part)i, false);
+            add_effect("cold", 1, (body_part)i, true, 2);
         } else if( temp_cur[i] < BODYTEMP_COLD ) {
-            add_disease("cold", 1, false, 1, 1, 0, 1, (body_part)i, false);
+            add_effect("cold", 1, (body_part)i, true, 1);
         } else if( temp_cur[i] > BODYTEMP_SCORCHING ) {
             // If body temp rises over 15000, disease.cpp ("hot_head") acts weird and the player will die
-            add_disease("hot",  1, false, 3, 3, 0, 1, (body_part)i, false);
+            add_effect("hot", 1, (body_part)i, true, 3);
         } else if( temp_cur[i] > BODYTEMP_VERY_HOT ) {
-            add_disease("hot",  1, false, 2, 2, 0, 1, (body_part)i, false);
+            add_effect("hot", 1, (body_part)i, true, 2);
         } else if( temp_cur[i] > BODYTEMP_HOT ) {
-            add_disease("hot",  1, false, 1, 1, 0, 1, (body_part)i, false);
+            add_effect("hot", 1, (body_part)i, true, 1);
         } else {
-            rem_disease("cold", (body_part)i);
-            rem_disease("hot", (body_part)i);
+            if (temp_cur[i] >= BODYTEMP_COLD) {
+                remove_effect("cold", (body_part)i);
+            }
+            if (temp_cur[i] <= BODYTEMP_HOT) {
+                remove_effect("hot", (body_part)i);
+            }
         }
         // MORALE : a negative morale_pen means the player is cold
         // Intensity multiplier is negative for cold, positive for hot
-        int intensity_mult = - disease_intensity("cold", false, (body_part)i) +
-                             disease_intensity("hot", false, (body_part)i);
-        if( has_disease("cold", (body_part)i) || has_disease("hot", (body_part)i) ) {
+        effect cold = get_effect("cold", (body_part)i);
+        int cold_int = cold.get_id() != "null" ? cold.get_intensity() : 0;
+        effect hot = get_effect("hot", (body_part)i);
+        int hot_int = cold.get_id() != "null" ? hot.get_intensity() : 0;
+        int intensity_mult = hot_int - cold_int;
+        if( has_effect("cold", (body_part)i) || has_effect("hot", (body_part)i) ) {
             switch (i) {
             case bp_head:
             case bp_torso:
@@ -5584,6 +5591,9 @@ void player::hardcoded_effects(effect it)
 {
     std::string id = it.get_id();
     int dur = it.get_duration();
+    int intense = it.get_intensity();
+    body_part bp = it.get_bp();
+    bool sleeping = has_effect("sleep");
     if (id == "onfire") {
         // TODO: this should be determined by material properties
         if (!has_trait("M_SKIN2")) {
@@ -5612,7 +5622,7 @@ void player::hardcoded_effects(effect it)
         mod_per_bonus(-4);
     } else if (id == "spores") {
         // Equivalent to X in 150000 + health * 100
-        if ((!has_trait("M_IMMUNE")) && (one_in(100) && x_in_y(it.get_intensity(), 150 + get_healthy() / 10)) ) {
+        if ((!has_trait("M_IMMUNE")) && (one_in(100) && x_in_y(intense, 150 + get_healthy() / 10)) ) {
             add_effect("fungus", 1, num_bp, true);
             if (is_player()) {
                 add_memorial_log(pgettext("memorial_male", "Contracted a fungal infection."),
@@ -5621,7 +5631,6 @@ void player::hardcoded_effects(effect it)
         }
     } else if (id == "fungus") {
         int bonus = get_healthy() / 10 + (has_trait(it.get_resist_trait()) ? 100 : 0);
-        int intense = it.get_intensity();
         switch (intense) {
         case 1: // First hour symptoms
             if (one_in(160 + bonus)) {
@@ -5735,11 +5744,11 @@ void player::hardcoded_effects(effect it)
         // Presuming that during the first-aid process you're putting pressure
         // on the wound or otherwise suppressing the flow. (Kits contain either
         // quikclot or bandages per the recipe.)
-        if ( one_in(6 / it.get_intensity()) && activity.type != ACT_FIRSTAID ) {
+        if ( one_in(6 / intense) && activity.type != ACT_FIRSTAID ) {
             add_msg_player_or_npc(m_bad, _("You lose some blood."),
                                            _("<npcname> loses some blood.") );
             mod_pain(1);
-            apply_damage( nullptr, it.get_bp(), 1 );
+            apply_damage( nullptr, bp, 1 );
             g->m.add_field(posx, posy, playerBloodType(), 1);
         }
     } else if (id == "hallu") {
@@ -5820,6 +5829,405 @@ void player::hardcoded_effects(effect it)
                 add_msg_if_player(_("Things are returning to normal."));
             }
             puked = false;
+        }
+    } else if (id == "cold") {
+        bool msg_trig = one_in(400);
+        switch(bp) {
+        case bp_head:
+            switch(intense) {
+            case 3:
+                mod_int_bonus(-2);
+                if (!sleeping && msg_trig) {
+                    add_msg_if_player(_("Your thoughts are unclear."));
+                }
+            case 2:
+                mod_int_bonus(-1);
+            default:
+                break;
+            }
+            break;
+        case bp_mouth:
+            switch(intense) {
+            case 3:
+                mod_per_bonus(-2);
+            case 2:
+                mod_per_bonus(-1);
+                if (!sleeping && msg_trig) {
+                    add_msg_if_player(m_bad, _("Your face is stiff from the cold."));
+                }
+            default:
+                break;
+            }
+            break;
+        case bp_torso:
+            switch(intense) {
+            case 3:
+                mod_dex_bonus(-2);
+                add_miss_reason(_("You quiver from the cold."), 2);
+                if (!sleeping && msg_trig) {
+                    add_msg_if_player(m_bad, _("Your torso is freezing cold. You should put on a few more layers."));
+                }
+            case 2:
+                mod_dex_bonus(-2);
+                add_miss_reason(_("Your shivering makes you unsteady."), 2);
+            }
+            break;
+        case bp_arm_l:
+            switch(intense) {
+            case 3:
+                mod_dex_bonus(-1);
+            case 2:
+                mod_dex_bonus(-1);
+                add_miss_reason(_("Your left arm trembles from the cold."), 1);
+                if (!sleeping && msg_trig && one_in(2)) {
+                    add_msg_if_player(m_bad, _("Your left arm is shivering."));
+                }
+            default:
+                break;
+            }
+            break;
+        case bp_arm_r:
+            switch(intense) {
+            case 3:
+                mod_dex_bonus(-1);
+            case 2:
+                mod_dex_bonus(-1);
+                add_miss_reason(_("Your right arm trembles from the cold."), 1);
+                if (!sleeping && msg_trig && one_in(2)) {
+                    add_msg_if_player(m_bad, _("Your right arm is shivering."));
+                }
+            default:
+                break;
+            }
+            break;
+        case bp_hand_l:
+            switch(intense) {
+            case 3:
+                mod_dex_bonus(-1);
+            case 2:
+                mod_dex_bonus(-1);
+                add_miss_reason(_("Your left hand quivers in the cold."), 1);
+                if (!sleeping && msg_trig && one_in(2)) {
+                    add_msg_if_player(m_bad, _("Your left hand feels like ice."));
+                }
+            default:
+                break;
+            }
+            break;
+        case bp_hand_r:
+            switch(intense) {
+            case 3:
+                mod_dex_bonus(-1);
+            case 2:
+                mod_dex_bonus(-1);
+                add_miss_reason(_("Your right hand trembles in the cold."), 1);
+                if (!sleeping && msg_trig && one_in(2)) {
+                    add_msg_if_player(m_bad, _("Your right hand feels like ice."));
+                }
+            default:
+                break;
+            }
+            break;
+        case bp_leg_l:
+            switch(intense) {
+            case 3:
+                mod_dex_bonus(-1);
+                add_miss_reason(_("Your legs uncontrollably shake from the cold."), 1);
+                mod_str_bonus(-1);
+                if (!sleeping && msg_trig && one_in(2)) {
+                    add_msg_if_player(m_bad, _("Your left leg trembles against the relentless cold."));
+                }
+            case 2:
+                mod_dex_bonus(-1);
+                add_miss_reason(_("Your legs unsteadily shiver against the cold."), 1);
+                mod_str_bonus(-1);
+            default:
+                break;
+            }
+            break;
+        case bp_leg_r:
+            switch(intense) {
+            case 3:
+                mod_dex_bonus(-1);
+                mod_str_bonus(-1);
+                if (!sleeping && msg_trig && one_in(2)) {
+                    add_msg_if_player(m_bad, _("Your right leg trembles against the relentless cold."));
+                }
+            case 2:
+                mod_dex_bonus(-1);
+                mod_str_bonus(-1);
+            default:
+                break;
+            }
+            break;
+        case bp_foot_l:
+            switch(intense) {
+            case 3:
+                mod_dex_bonus(-1);
+                add_miss_reason(_("Your left foot is as nimble as a block of ice."), 1);
+                mod_str_bonus(-1);
+                break;
+            case 2:
+                mod_dex_bonus(-1);
+                add_miss_reason(_("Your freezing left foot messes up your balance."), 1);
+                if (!sleeping && msg_trig && one_in(2)) {
+                    add_msg_if_player(m_bad, _("Your left foot feels frigid."));
+                }
+            default:
+                break;
+            }
+            break;
+        case bp_foot_r:
+            switch(intense) {
+            case 3:
+                mod_dex_bonus(-1);
+                add_miss_reason(_("Your right foot is as nimble as a block of ice."), 1);
+                mod_str_bonus(-1);
+                break;
+            case 2:
+                mod_dex_bonus(-1);
+                add_miss_reason(_("Your freezing right foot messes up your balance."), 1);
+                if (!sleeping && msg_trig && one_in(2)) {
+                    add_msg_if_player(m_bad, _("Your right foot feels frigid."));
+                }
+            default:
+                break;
+            }
+            break;
+        default: // Suppress compiler warning [-Wswitch]
+            break;
+        }
+    } else if (id == "hot") {
+        switch(bp) {
+        case bp_head:
+            switch(intense) {
+            case 3:
+                if (int(calendar::turn) % 150 == 0) {
+                    thirst++;
+                }
+                if (pain < 40) {
+                    mod_pain(1);
+                }
+                if (!sleeping && msg_trig) {
+                    add_msg_if_player(m_bad, _("Your head is pounding from the heat."));
+                }
+                // Fall-through
+            case 2:
+                if (int(calendar::turn) % 300 == 0) {
+                    thirst++;
+                }
+                // Hallucinations handled in game.cpp
+                if (one_in(std::min(14500, 15000 - temp_cur[bp_head]))) {
+                    vomit();
+                }
+                if (pain < 20) {
+                    mod_pain(1);
+                }
+                if (!sleeping && msg_trig) {
+                    add_msg_if_player(m_bad, _("The heat is making you see things."));
+                }
+                break;
+            default: // Suppress compiler warning [-Wswitch]
+                break;
+            }
+            break;
+        case bp_mouth:
+            switch(intense) {
+            case 3:
+                if (int(calendar::turn) % 150 == 0) {
+                    thirst++;
+                }
+                if (pain < 30) {
+                    mod_pain(1);
+                }
+                // Fall-through
+            case 2:
+                if (int(calendar::turn) % 300 == 0) {
+                    thirst++;
+                }
+                break;
+            default:
+                break;
+            }
+            break;
+        case bp_torso:
+            switch(intense) {
+            case 3:
+                if (int(calendar::turn) % 150 == 0) {
+                    thirst++;
+                }
+                mod_str_bonus(-1);
+                if (!sleeping && msg_trig) {
+                    add_msg_if_player(m_bad, _("You are sweating profusely."));
+                }
+                // Fall-through
+            case 2:
+                if (int(calendar::turn) % 300 == 0) {
+                    thirst++;
+                }
+                mod_str_bonus(-1);
+                break;
+            default:
+                break;
+            }
+            break;
+        case bp_arm_l:
+            switch(intense) {
+            case 3 :
+                if (one_in(2)) {
+                    if (int(calendar::turn) % 150 == 0) {
+                        thirst++;
+                    }
+                    if (pain < 30) {
+                        mod_pain(1);
+                    }
+                }
+                // Fall-through
+            case 2:
+                if (one_in(2)) {
+                    if (int(calendar::turn) % 300 == 0) {
+                        thirst++;
+                    }
+                }
+                break;
+            default:
+                break;
+            }
+            break;
+        case bp_arm_r:
+            switch(intense) {
+                case 3 :
+                    if (one_in(2)) {
+                        if (int(calendar::turn) % 150 == 0) {
+                            thirst++;
+                        }
+                        if (pain < 30) {
+                            mod_pain(1);
+                        }
+                    }
+                    // Fall-through
+                case 2:
+                    if (one_in(2)) {
+                        if (int(calendar::turn) % 300 == 0) {
+                            thirst++;
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+            break;
+        case bp_hand_l:
+            switch(dis.intensity) {
+            case 3:
+                p.mod_dex_bonus(-1);
+                // Fall-through
+            case 2:
+                p.add_miss_reason(_("Your left hand's too sweaty to grip well."), 1);
+                p.mod_dex_bonus(-1);
+            default:
+                break;
+            }
+            break;
+        case bp_hand_r:
+            switch(intense) {
+            case 3:
+                mod_dex_bonus(-1);
+                // Fall-through
+            case 2:
+                mod_dex_bonus(-1);
+                add_miss_reason(_("Your right hand's too sweaty to grip well."), 1);
+                break;
+            default:
+                break;
+            }
+            break;
+        case bp_leg_l:
+            switch (intense) {
+            case 3 :
+                if (one_in(2)) {
+                    if (int(calendar::turn) % 150 == 0) {
+                        thirst++;
+                    }
+                    if (pain < 30) {
+                        mod_pain(1);
+                    }
+                    if (!sleeping && msg_trig) {
+                        add_msg_if_player(m_bad, _("Your left leg is cramping up."));
+                    }
+                }
+                // Fall-through
+            case 2:
+                if (one_in(2)) {
+                    if (int(calendar::turn) % 300 == 0) {
+                        thirst++;
+                    }
+                }
+                break;
+            default:
+                break;
+            }
+            break;
+        case bp_leg_r:
+            switch (intense) {
+            case 3 :
+                if (one_in(2)) {
+                    if (int(calendar::turn) % 150 == 0) {
+                        thirst++;
+                    }
+                    if (pain < 30) {
+                        mod_pain(1);
+                    }
+                    if (!sleeping && msg_trig) {
+                        add_msg_if_player(m_bad, _("Your right leg is cramping up."));
+                    }
+                }
+                // Fall-through
+            case 2:
+                if (one_in(2)) {
+                    if (int(calendar::turn) % 300 == 0) {
+                        thirst++;
+                    }
+                }
+                break;
+            default:
+                break;
+            }
+            break;
+        case bp_foot_l:
+            switch (intense) {
+            case 3:
+                if (one_in(2)) {
+                    if (pain < 30) {
+                        mod_pain(1);
+                    }
+                    if (!sleeping && msg_trig) {
+                        add_msg_if_player(m_bad, _("Your left foot is swelling in the heat."));
+                    }
+                }
+                break;
+            default:
+                break;
+            }
+            break;
+        case bp_foot_r:
+            switch (intense) {
+            case 3:
+                if (one_in(2)) {
+                    if (pain < 30) {
+                        mod_pain(1);
+                    }
+                    if (!sleeping && msg_trig) {
+                        add_msg_if_player(m_bad, _("Your right foot is swelling in the heat."));
+                    }
+                }
+                break;
+            default:
+                break;
+            }
+            break;
+        default: // Suppress compiler warning [-Wswitch]
+            break;
         }
     }
 }

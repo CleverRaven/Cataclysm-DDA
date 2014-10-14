@@ -129,8 +129,10 @@ class Creature
         /** Processes move stopping effects. Returns false if movement is stopped */
         virtual bool move_effects();
         
+        /** Adds or modifies an effect. If intensity is given it will set the effect intensity
+            to the given value, or as close as max_intensity values permit. */
         virtual void add_effect(efftype_id eff_id, int dur, body_part bp = num_bp, bool permanent = false,
-                                int intensity = 1);
+                                int intensity = 0);
         /** Gives chance to save via env resist, returns if successful */
         bool add_env_effect(efftype_id eff_id, body_part vector, int strength, int dur,
                             body_part bp = num_bp, bool permanent = false, int intensity = 1);

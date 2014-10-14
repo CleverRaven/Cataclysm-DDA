@@ -555,7 +555,49 @@
     },
     {
         "type": "effect_type",
-        "id": "cold"
+        "id": "cold",
+        "name": [
+            "Chilly",
+            "Cold",
+            "Freezing"
+        ],
+        "desc": [
+            "is exposed to the cold.",
+            "is very exposed to the cold."
+            "is dangerously cold!"
+        ],
+        "speed_name": ["Cold"],
+        "max_intensity": 3,
+        "part_descs": true,
+        "base_mods": {
+            "speed_mod": [5]
+        },
+        "scaling_mods": {
+            "speed_mod": [-7]
+        }
+    },
+    {
+        "type": "effect_type",
+        "id": "hot",
+        "name": [
+            "Warm",
+            "Hot",
+            "Scorching"
+        ],
+        "desc": [
+            "feels warm.",
+            "is sweating from the heat."
+            "is sweating profusely!"
+        ],
+        "speed_name": ["Hot"],
+        "max_intensity": 3,
+        "part_descs": true,
+        "base_mods": {
+            "speed_mod": [5]
+        },
+        "scaling_mods": {
+            "speed_mod": [-7]
+        }
     },
     {
         "type": "effect_type",
@@ -674,11 +716,6 @@
         "apply_message": "You lie down to go to sleep...",
         "rating": "neutral"
     },
-    {
-        "type": "effect_type",
-        "id": "hot"
-    },
-
     {
         "type": "effect_type",
         "id": "sleep",

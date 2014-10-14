@@ -564,8 +564,12 @@ void Creature::add_effect(efftype_id eff_id, int dur, body_part bp, bool permane
             if( e.is_permanent() ) {
                 e.pause_effect();
             }
-            // Intensity uses the type'd step size if it already exists
-            if (e.get_int_add_val() != 0) {
+            // Set intensity if value is given
+            if (intensity > 0) {
+                e.set_intensity(intensity);
+                
+            // Else intensity uses the type'd step size if it already exists
+            } else if (e.get_int_add_val() != 0) {
                 e.mod_intensity(e.get_int_add_val());
                 
                 // Bound it by [1, max intensity]
@@ -669,7 +673,12 @@ bool Creature::has_effect(efftype_id eff_id, body_part bp) const
 }
 effect Creature::get_effect(efftype_id eff_id, body_part bp)
 {
-    return effects[eff_id][(int)bp];
+    if(effects.find(eff_id) != effects.end()) {
+        if (effects[eff_id].find((int)bp)) != effects[eff_id].end()) {
+            return effects[eff_id][(int)bp];
+        }
+    }
+    return effect("null", 0, num_bp, false, 1);
 }
 void Creature::process_effects()
 {
