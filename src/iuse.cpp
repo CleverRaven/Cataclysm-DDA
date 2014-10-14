@@ -2755,7 +2755,7 @@ int iuse::firestarter(player *p, item *it, bool t)
             if (prep_firestarter_use(p, it, posx, posy)) {
                 // base moves based on sunlight levels... 1 minute when sunny (80 lighting), ~10 minutes when clear (60 lighting) 
                 const float moves_base = (std::pow((80/g->natural_light_level()),8)) * 1000 ;
-                // always 100% chance to succeed, but survival 0 takes 3 * the time at survival 2
+                // success chance 100%, but survival 0 takes 3 * the time at survival 2
                 // basically 33% success at 0 survival with each skill level adding 33% more... but the player tries again until the fire is lit.
                 float moves_modifier = 1/((p->skillLevel("survival"))*0.33 + 0.33);
                 if (moves_modifier < 1) {

@@ -168,6 +168,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "flags": [ "FIRE_DRILL" ],
     "use_action": "FIRESTARTER"
   },
 

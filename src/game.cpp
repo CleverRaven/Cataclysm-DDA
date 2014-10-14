@@ -1751,8 +1751,9 @@ void game::activity_on_turn_refill_vehicle()
 void game::activity_on_turn_start_fire_lens()
 {
     // if the weather changes, we cannot start a fire with a lens
-    if (!((g->weather == WEATHER_CLEAR) || (g->weather == WEATHER_SUNNY)) || !(g->natural_light_level() >= 60 )) { 
-        u.activity.moves_left = 0;
+    if (!((g->weather == WEATHER_CLEAR) || (g->weather == WEATHER_SUNNY)) || !(g->natural_light_level() >= 60 )) {
+        add_msg(m_bad, _("There is not enough sunlight to start a fire now. You stop trying."));
+        u.cancel_activity();
     }
     // todo: recalculate the time needed to light the fire, depending on lighting changes
 }
@@ -1991,16 +1992,12 @@ void game::activity_on_finish_firstaid()
 
 void game::activity_on_finish_start_fire()
 {
-    if (!((g->weather == WEATHER_CLEAR) || (g->weather == WEATHER_SUNNY)) || !(g->natural_light_level() >= 60 )) {
-        add_msg(m_bad, _("There is not enough sunlight to start a fire now. You stop trying."));
-    } else {
         item &it = u.i_at(u.activity.position);
         const int dirx = u.activity.placement.x;
         const int diry = u.activity.placement.y;
         iuse tmp;
         tmp.resolve_firestarter_use(&u, &it, dirx, diry);
-    }
-    u.activity.type = ACT_NULL;
+        u.activity.type = ACT_NULL;
 }
 
 void game::activity_on_finish_fish()
