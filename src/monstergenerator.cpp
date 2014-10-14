@@ -394,10 +394,7 @@ void MonsterGenerator::load_monster(JsonObject &jo)
 
         newmon->dies = get_death_functions(jo, "death_function");
         newmon->sp_defense = get_defense_function(jo, "special_when_hit");
-
-        if (jo.has_array("special_attacks")) {
-            load_special_attacks(newmon, jo, "special_attacks");
-        }
+        load_special_attacks(newmon, jo, "special_attacks");
 
         std::set<std::string> flags, anger_trig, placate_trig, fear_trig;
         flags = jo.get_tags("flags");
@@ -530,12 +527,16 @@ std::vector<void (mdeath::*)(monster *)> MonsterGenerator::get_death_functions(J
 }
 
 void MonsterGenerator::load_special_attacks(mtype *m, JsonObject &jo, std::string member) {
-    m->sp_attack.clear(); // there is a devious NULL there from mtype init
-    JsonArray outer = jo.get_array(member);
-    while (outer.has_more()) {
-        JsonArray inner = outer.next_array();
-        m->sp_attack.push_back(attack_map[inner.get_string(0)]);
-        m->sp_freq.push_back(inner.get_int(1));
+    m->sp_attack.clear(); // make sure we're running with
+    m->sp_freq.clear();   // everything cleared
+
+    if (jo.has_array(member)) {
+        JsonArray outer = jo.get_array(member);
+        while (outer.has_more()) {
+            JsonArray inner = outer.next_array();
+            m->sp_attack.push_back(attack_map[inner.get_string(0)]);
+            m->sp_freq.push_back(inner.get_int(1));
+        }
     }
 
     if (m->sp_attack.empty()) {
