@@ -12546,14 +12546,7 @@ bool game::disable_robot( const point p )
         return false;
     }
     const auto mid = critter.type->id;
-    std::string mon_item_id;
-    if( mid == "mon_turret" ) {
-        mon_item_id = "bot_turret";
-    } else if( mid == "mon_laserturret" ) {
-        mon_item_id = "bot_laserturret";
-    } else if( mid == "mon_turret_rifle" ) {
-        mon_item_id = "bot_rifleturret";
-    }
+    const auto mon_item_id = critter.type->revert_to_itype;
     if( !mon_item_id.empty() ) {
         if( !query_yn( _( "Deactivate the %s?" ), critter.name().c_str() ) ) {
             return false;
@@ -12569,12 +12562,12 @@ bool game::disable_robot( const point p )
         return true;
     }
     // Manhacks are special, they have their own menu here.
-    if( mid == "mon_manhack" && query_yn( _( "Reprogram the manhack?" ) ) ) {
+    if( mid == "mon_manhack" ) {
         int choice = 0;
         if( critter.has_effect( "docile" ) ) {
-            choice = menu( true, _( "Do what?" ), _( "Engage targets." ), _( "Deactivate." ), NULL );
+            choice = menu( true, _( "Reprogram the manhack?" ), _( "Engage targets." ), _( "Cancel" ), NULL );
         } else {
-            choice = menu( true, _( "Do what?" ), _( "Follow me." ), _( "Deactivate." ), NULL );
+            choice = menu( true, _( "Reprogram the manhack?" ), _( "Follow me." ), _( "Cancel" ), NULL );
         }
         switch( choice ) {
             case 1:
@@ -12594,12 +12587,6 @@ bool game::disable_robot( const point p )
                 }
                 u.moves -= 100;
                 return true;
-            case 2:
-                m.spawn_item( p.x, p.y, "bot_manhack", 1, 0, calendar::turn );
-                remove_zombie( mondex );
-                u.moves -= 100;
-                return true;
-            }
         }
     }
     return false;

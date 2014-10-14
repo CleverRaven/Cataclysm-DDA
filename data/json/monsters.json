@@ -4917,6 +4917,7 @@
     "armor_bash":0,
     "armor_cut":6,
     "item_chance":10,
+    "revert_to_itype": "bot_manhack",
     "death_drops": {
         "groups": [
             [ "robots", 4 ],
@@ -5219,6 +5220,7 @@
     "armor_bash":14,
     "armor_cut":16,
     "item_chance":80,
+    "revert_to_itype": "bot_turret",
     "death_drops": {
         "groups": [
             [ "robots", 10 ],
@@ -5254,6 +5256,7 @@
     "armor_bash":14,
     "armor_cut":16,
     "item_chance":80,
+    "revert_to_itype": "bot_laserturret",
     "death_drops": {
         "groups": [
             [ "robots", 10 ],
@@ -5288,6 +5291,7 @@
     "armor_bash":14,
     "armor_cut":16,
     "item_chance":80,
+    "revert_to_itype": "bot_rifleturret",
     "death_drops": {
         "groups": [
             [ "robots", 9 ],
