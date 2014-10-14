@@ -12579,7 +12579,6 @@ bool game::disable_robot( const point p )
                     }
                 } else {
                     critter.add_effect( "docile", 1, 1, true );
-                    add_msg( _( "The %s ." ), critter.name().c_str() );
                     if( one_in( 3 ) ) {
                         add_msg( _( "The %s lets out a whirring noise and starts to follow you." ),
                                  critter.name().c_str() );
