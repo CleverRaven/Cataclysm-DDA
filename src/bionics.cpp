@@ -16,8 +16,6 @@
 
 std::map<bionic_id, bionic_data *> bionics;
 std::vector<bionic_id> faulty_bionics;
-std::vector<bionic_id> power_source_bionics;
-std::vector<bionic_id> unpowered_bionics;
 
 void bionics_install_failure(player *u, it_bionic *type, int success);
 
@@ -1125,8 +1123,6 @@ void reset_bionics()
     }
     bionics.clear();
     faulty_bionics.clear();
-    power_source_bionics.clear();
-    unpowered_bionics.clear();
 }
 
 void load_bionic(JsonObject &jsobj)
@@ -1142,12 +1138,6 @@ void load_bionic(JsonObject &jsobj)
 
     if (faulty) {
         faulty_bionics.push_back(id);
-    }
-    if (power_source) {
-        power_source_bionics.push_back(id);
-    }
-    if (!active) {
-        unpowered_bionics.push_back(id);
     }
 
     bionics[id] = new bionic_data(name, power_source, active, cost, time, description, faulty);
