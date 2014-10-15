@@ -1,0 +1,19 @@
+# Este mensaje debe tener 16 líneas de largo como máximo.
+# El largo máximo de una línea es de 68 caracteres; la línea siguiente es para usar de referencia
+####################################################################
+Cambios principales de la v0.A Kaufman:
+* Organizador de mods (activa y desactiva contenido agregado)
+* Pantalla completa.
+* Muchas mutaciones, y una progresión más detallada de las mutaciones.
+* Mejores opciones de visualización al conducir un vehículo.
+* Categorías de elementos, agarrar objetos por cantidad, ver interior de los vehículos.
+* Guardado y cargado de mapas mucho más rápido, debido a la fragmentación.
+* Movimiento y revisión por mouse.
+* Pesca y heladeras funcionales...
+* Compatibilidad retroactiva con las partidas guardades en 0.8 y 0.9.
+
+Para ver las discusiones recientes y noticas sobre el Cataclysm DDA, por favor, visita:
+Página: http://www.cataclysmdda.com/
+Wiki: http://wiki.cataclysmdda.com/
+
+Durante el juego, puedes acceder a las opciones mediante el menú de ayuda (?2).
