@@ -8544,7 +8544,8 @@ int iuse::jet_injector(player *p, item *it, bool)
         return 0;
     } else {
         p->add_msg_if_player(_("You inject yourself with the jet injector."));
-        p->add_disease("jetinjector", 200);
+        // Intensity is 2 here because intensity = 1 is the comedown
+        p->add_effect("jetinjector", 200, num_bp, false, 2);
         p->pkill += 20;
         p->stim += 10;
         p->rem_disease("infected");
@@ -8556,9 +8557,11 @@ int iuse::jet_injector(player *p, item *it, bool)
         p->healall(20);
     }
 
-    if (p->has_disease("jetinjector") &&
-        p->disease_duration("jetinjector") > 200) {
-        p->add_msg_if_player(m_warning, _("Your heart is beating alarmingly fast!"));
+    if (p->has_effect("jetinjector") {
+        effect jet = p->get_effect("jetinjector");
+        if (jet.get_id() != "null" && jet.get_duration() > 200) {
+            p->add_msg_if_player(m_warning, _("Your heart is beating alarmingly fast!"));
+        }
     }
     return it->type->charges_to_use();
 }

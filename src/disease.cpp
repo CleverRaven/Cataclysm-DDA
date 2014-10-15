@@ -26,7 +26,7 @@ enum dis_type_enum {
 // Food & Drugs
  DI_DRUNK, DI_CIG, DI_HIGH, DI_WEED_HIGH,
   DI_DATURA,
-  DI_ADRENALINE, DI_JETINJECTOR, DI_ASTHMA, DI_GRACK, DI_METH, DI_VALIUM,
+  DI_ADRENALINE, DI_ASTHMA, DI_GRACK, DI_METH, DI_VALIUM,
 // Other
  DI_AMIGARA, DI_STEMCELL_TREATMENT, DI_TELEGLOW,
 // Bite wound infected (dependent on bodypart.h)
@@ -76,7 +76,6 @@ void game::init_diseases() {
     disease_type_lookup["high"] = DI_HIGH;
     disease_type_lookup["datura"] = DI_DATURA;
     disease_type_lookup["adrenaline"] = DI_ADRENALINE;
-    disease_type_lookup["jetinjector"] = DI_JETINJECTOR;
     disease_type_lookup["asthma"] = DI_ASTHMA;
     disease_type_lookup["grack"] = DI_GRACK;
     disease_type_lookup["meth"] = DI_METH;
@@ -112,9 +111,6 @@ bool dis_msg(dis_type type_string) {
         } else {
             add_msg(m_good, _("Mycal wrath fills our fibers, and we grow turgid."));
         }
-        break;
-    case DI_JETINJECTOR:
-        add_msg(_("You feel a rush as the chemicals flow through your body!"));
         break;
     case DI_ASTHMA:
         add_msg(m_bad, _("You can't breathe... asthma attack!"));
@@ -610,24 +606,6 @@ void dis_effect(player &p, disease &dis)
             }
             break;
 
-        case DI_JETINJECTOR:
-            if (dis.duration > 50) {
-                // 15 minutes positive effects
-                p.mod_str_bonus(1);
-                p.mod_dex_bonus(1);
-                p.mod_per_bonus(1);
-            } else if (dis.duration == 50) {
-                // 5 minutes come-down
-                p.add_msg_if_player(m_bad, _("The jet injector's chemicals wear off.  You feel AWFUL!"));
-            } else {
-                p.mod_str_bonus(-1);
-                p.mod_dex_bonus(-2);
-                p.add_miss_reason(_("Your body longs for more chemicals."), 2);
-                p.mod_int_bonus(-1);
-                p.mod_per_bonus(-2);
-            }
-            break;
-
         case DI_ASTHMA:
             if (dis.duration > 1200) {
                 p.add_msg_if_player(m_bad, _("Your asthma overcomes you.\nYou asphyxiate."));
@@ -868,10 +846,6 @@ std::string dis_name(disease& dis)
         if (dis.duration > 150) return _("Adrenaline Rush");
         else return _("Adrenaline Comedown");
 
-    case DI_JETINJECTOR:
-        if (dis.duration > 150) return _("Chemical Rush");
-        else return _("Chemical Comedown");
-
     case DI_ASTHMA:
         if (dis.duration > 800) return _("Heavy Asthma");
         else return _("Asthma");
@@ -1041,14 +1015,6 @@ std::string dis_description(disease& dis)
         else
             return _(
             "Strength - 2;   Dexterity - 1;   Intelligence - 1;   Perception - 1");
-
-    case DI_JETINJECTOR:
-        if (dis.duration > 50)
-            return _(
-            "Strength + 1;   Dexterity + 1; Perception + 1");
-        else
-            return _(
-            "Strength - 1;   Dexterity - 2;   Intelligence - 1;   Perception - 2");
 
     case DI_ASTHMA:
         return string_format(_("Speed - %d%%;   Strength - 2;   Dexterity - 3"), int(dis.duration / 5));

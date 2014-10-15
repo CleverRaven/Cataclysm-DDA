@@ -1144,16 +1144,18 @@ bool game::do_turn()
         u.add_memorial_log(pgettext("memorial_male", "Died of a drug overdose."),
                            pgettext("memorial_female", "Died of a drug overdose."));
         u.hp_cur[hp_torso] = 0;
-    } else if (u.has_disease("jetinjector") &&
-               u.disease_duration("jetinjector") > 400) {
-        if (!(u.has_trait("NOPAIN"))) {
-            add_msg(m_bad, _("Your heart spasms painfully and stops."));
-        } else {
-            add_msg(_("Your heart spasms and stops."));
-        }
-        u.add_memorial_log(pgettext("memorial_male", "Died of a healing stimulant overdose."),
-                           pgettext("memorial_female", "Died of a healing stimulant overdose."));
-        u.hp_cur[hp_torso] = 0;
+    } else if (u.has_disease("jetinjector")) {
+            effect jet = u.get_effect("jetinjector")
+            if (jet.get_id() != "null" && jet.get_duration() > 400) {
+                if (!(u.has_trait("NOPAIN"))) {
+                    add_msg(m_bad, _("Your heart spasms painfully and stops."));
+                } else {
+                    add_msg(_("Your heart spasms and stops."));
+                }
+                u.add_memorial_log(pgettext("memorial_male", "Died of a healing stimulant overdose."),
+                                   pgettext("memorial_female", "Died of a healing stimulant overdose."));
+                u.hp_cur[hp_torso] = 0;
+            }
     } else if (u.has_disease("datura") && u.disease_duration("datura") > 14000 && one_in(512)) {
         if (!(u.has_trait("NOPAIN"))) {
             add_msg(m_bad, _("Your heart spasms painfully and stops, dragging you back to reality as you die."));

@@ -442,6 +442,7 @@ void effect::decay(std::vector<std::string> &rem_ids, std::vector<body_part> &re
     } else if (intensity > 1) {
         if (eff_type->int_decay_tick != 0 && turn % eff_type->int_decay_tick == 0) {
             intensity += eff_type->int_decay_step;
+            
         }
     }
     if (intensity > eff_type->max_intensity) {
