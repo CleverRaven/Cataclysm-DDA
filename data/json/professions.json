@@ -62,10 +62,11 @@
         "items": {
             "both": [
                 "jeans",
-                "tshirt",
+                "longshirt",
                 "socks",
-                "jacket_light",
-                "sneakers",
+                "coat_winter",
+                "boots_winter",
+                "knit_scarf",
                 "pockknife",
                 "water_clean",
                 "matches"
