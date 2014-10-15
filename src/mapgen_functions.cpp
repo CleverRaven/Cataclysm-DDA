@@ -3700,7 +3700,7 @@ void mapgen_shelter(map *m, oter_id, mapgendata dat, int, float) {
         m->spawn_item(lx, 5, "jacket_evac");
         m->spawn_item(lx, 5, "emer_blanket");
         if (one_in(3)) {
-            int lxa = rng(5 , 8)
+            int lxa = rng(5 , 8);
             m->spawn_item(lxa, 5, "jacket_evac");
             m->spawn_item(lxa, 5, "emer_blanket");
             if (one_in(2)) {
