@@ -3133,7 +3133,15 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "MANHACK"
+    "use_action": {
+        "type": "place_monster",
+        "monster_id": "mon_manhack",
+        "difficulty": 4,
+        "hostile_msg": "You misprogram the manhack; it's hostile!",
+        "friendly_msg": "The manhack flies from your hand and surveys the area!",
+        "place_randomly": true,
+        "moves": 60
+    }
   },
   {
     "id": "bot_turret",
@@ -3155,7 +3163,12 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "TURRET"
+    "use_action": {
+        "type": "place_monster",
+        "monster_id": "mon_turret",
+        "difficulty": 6,
+        "moves": 100
+    }
   },
   {
     "id": "bot_laserturret",
@@ -3177,7 +3190,12 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "TURRET_LASER"
+    "use_action": {
+        "type": "place_monster",
+        "monster_id": "mon_laserturret",
+        "difficulty": 6,
+        "moves": 100
+    }
   },
   {
     "id": "bot_rifleturret",
@@ -3199,7 +3217,12 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "TURRET_RIFLE"
+    "use_action": {
+        "type": "place_monster",
+        "monster_id": "mon_turret_rifle",
+        "difficulty": 6,
+        "moves": 100
+    }
   },
   {
     "id": "UPS_off",

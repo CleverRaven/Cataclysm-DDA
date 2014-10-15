@@ -6700,6 +6700,25 @@
   ]
 },{
         "type" : "recipe",
+  "result": "brew_vinegar",
+  "result_mult" : 7,
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 8000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "water", 10 ], [ "water_clean", 10 ]
+    ],
+    [
+      [ "juice", 14 ], [ "apple_cider", 7 ], [ "fruit_wine", 21 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "taint_tornado",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",

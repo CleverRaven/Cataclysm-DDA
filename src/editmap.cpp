@@ -157,10 +157,10 @@ void editmap_hilight::draw( editmap * hm, bool update ) {
                     t_sym = furniture_type.sym;
                     t_col = furniture_type.color;
                 }
-                field *t_field = &g->m.field_at(x, y);
+                const field *t_field = &g->m.field_at(x, y);
                 if ( t_field->fieldCount() > 0 ) {
                     field_id t_ftype = t_field->fieldSymbol();
-                    field_entry *t_fld = t_field->findField( t_ftype );
+                    const field_entry *t_fld = t_field->findField( t_ftype );
                     if ( t_fld != NULL ) {
                         t_col =  fieldlist[t_ftype].color[t_fld->getFieldDensity()-1];
                         t_sym = fieldlist[t_ftype].sym;
@@ -427,7 +427,7 @@ void editmap::update_view(bool update_info)
     target_frn = g->m.furn(target.x, target.y);
     furn_t furniture_type = furnlist[target_frn];
 
-    cur_field = &g->m.field_at(target.x, target.y);
+    cur_field = &g->m.get_field(target.x, target.y);
     cur_trap = g->m.tr_at(target.x, target.y);
     const Creature *critter = g->critter_at( target.x, target.y );
 
@@ -465,10 +465,10 @@ void editmap::update_view(bool update_info)
                     t_sym = furniture_type.sym;
                     t_col = furniture_type.color;
                 }
-                field *t_field = &g->m.field_at(x, y);
+                const field *t_field = &g->m.field_at(x, y);
                 if ( t_field->fieldCount() > 0 ) {
                     field_id t_ftype = t_field->fieldSymbol();
-                    field_entry *t_fld = t_field->findField( t_ftype );
+                    const field_entry *t_fld = t_field->findField( t_ftype );
                     if ( t_fld != NULL ) {
                         t_col =  fieldlist[t_ftype].color[t_fld->getFieldDensity()-1];
                         t_sym = fieldlist[t_ftype].sym;
@@ -541,18 +541,12 @@ void editmap::update_view(bool update_info)
         mvwprintw(w_info, off, 1, "%s %s", g->m.features(target.x, target.y).c_str(), extras.c_str());
         off++;  // 4-5
 
-        if (cur_field->fieldCount() > 0) {
-            for( auto field_list_it = cur_field->getFieldStart();
-                 field_list_it != cur_field->getFieldEnd(); ++field_list_it ) {
-                field_entry* cur = field_list_it->second;
-                if(cur == NULL) {
-                    continue;
-                }
+        for( auto &fld : *cur_field ) {
+                const field_entry* cur = &fld.second;
                 mvwprintz(w_info, off, 1, fieldlist[cur->getFieldType()].color[cur->getFieldDensity()-1], _("field: %s (%d) density %d age %d"),
                           fieldlist[cur->getFieldType()].name[cur->getFieldDensity()-1].c_str(), cur->getFieldType(), cur->getFieldDensity(), cur->getFieldAge()
                          );
                 off++; // 5ish
-            }
         }
 
 
@@ -1024,7 +1018,7 @@ int editmap::edit_fld()
             if ( fdens != fsel_dens || target_list.size() > 1 ) {
                 for(std::vector<point>::iterator it = target_list.begin();
                     it != target_list.end(); ++it) {
-                    field *t_field = &g->m.field_at(it->x, it->y);
+                    field *t_field = &g->m.get_field(it->x, it->y);
                     field_entry *t_fld = t_field->findField((field_id)idx);
                     int t_dens = 0;
                     if ( t_fld != NULL ) {
@@ -1050,10 +1044,10 @@ int editmap::edit_fld()
         } else if ( fmenu.selected == 0 && fmenu.keypress == '\n' ) {
             for(std::vector<point>::iterator it = target_list.begin();
                 it != target_list.end(); ++it) {
-                field *t_field = &g->m.field_at(it->x, it->y);
+                field *t_field = &g->m.get_field(it->x, it->y);
                 if ( t_field->fieldCount() > 0 ) {
-                    for ( auto field_list_it = t_field->getFieldStart();
-                          field_list_it != t_field->getFieldEnd(); /* noop */ ) {
+                    for ( auto field_list_it = t_field->begin();
+                          field_list_it != t_field->end(); /* noop */ ) {
                         field_id rmid = field_list_it->first;
                         field_list_it = t_field->removeField( rmid );
                         if ( it->x == target.x && it->y == target.y ) {
