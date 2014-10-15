@@ -3,6 +3,7 @@
 #include "game.h"
 #include "monster.h"
 #include <sstream>
+#include <algorithm>
 
 iuse_transform::~iuse_transform()
 {
@@ -306,7 +307,7 @@ iuse_actor *place_monster_iuse::clone() const
     return new place_monster_iuse(*this);
 }
 
-long place_monster_iuse::use( player *p, item *, bool ) const
+long place_monster_iuse::use( player *p, item *it, bool ) const
 {
     monster newmon( GetMType( mtype_id ) );
     point target;
@@ -356,6 +357,9 @@ long place_monster_iuse::use( player *p, item *, bool ) const
                               ammo_item.type->nname( ammo_item.charges ).c_str(), newmon.name().c_str() );
         amdef.second = ammo_item.charges;
     }
+    const int damfac = 5 - std::max<int>( 0, it->damage ); // 5 (no damage) ... 1 (max damage)
+    // One hp at least, everything else would be unfair (happens only to monster with *very* low hp),
+    newmon.hp = std::max( 1, newmon.hp * damfac / 5 );
     if( rng( 0, p->int_cur / 2 ) + p->skillLevel( "electronics" ) / 2 + p->skillLevel( "computer" ) <
         rng( 0, difficulty ) ) {
         if( hostile_msg.empty() ) {

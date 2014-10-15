@@ -7363,29 +7363,29 @@ void game::emp_blast(int x, int y)
     if (mondex != -1) {
         monster &critter = critter_tracker.find(mondex);
         if (critter.has_flag(MF_ELECTRONIC)) {
-            // TODO: Add flag to mob instead.
-            if (critter.type->id == "mon_turret" && one_in(3)) {
+            int deact_chance = 0;
+            const auto mon_item_id = critter.type->revert_to_itype;
+            switch( critter.get_size() ) {
+                case MS_TINY:
+                    deact_chance = 6;
+                    break;
+                case MS_SMALL:
+                    deact_chance = 3;
+                    break;
+                default:
+                    // Currently not used, I have no idea what chances bigger bots should have,
+                    // Maybe export this to json?
+                    break;
+            }
+            if( !mon_item_id.empty() && deact_chance != 0 && one_in( deact_chance ) ) {
                 add_msg(_("The %s beeps erratically and deactivates!"), critter.name().c_str());
-                m.spawn_item(x, y, "bot_turret", 1, 0, calendar::turn);
-                if (critter.ammo["9mm"] > 0) {
-                    m.spawn_item(x, y, "9mm", 1, critter.ammo["9mm"], calendar::turn);
+                m.add_item_or_charges( x, y, critter.to_item() );
+                for( auto & ammodef : critter.ammo ) {
+                    if( ammodef.second > 0 ) {
+                        m.spawn_item( x, y, ammodef.first, 1, ammodef.second, calendar::turn );
+                    }
                 }
                 remove_zombie(mondex);
-            } else if (critter.type->id == "mon_laserturret" && one_in(3)) {
-                add_msg(_("The %s beeps erratically and deactivates!"), critter.name().c_str());
-                remove_zombie(mondex);
-                m.spawn_item(x, y, "bot_laserturret", 1, 0, calendar::turn);
-            } else if (critter.type->id == "mon_turret_rifle" && one_in(3)) {
-                add_msg(_("The %s beeps erratically and deactivates!"), critter.name().c_str());
-                remove_zombie(mondex);
-                m.spawn_item(x, y, "bot_rifleturret", 1, 0, calendar::turn);
-                if (critter.ammo["556"] > 0) {
-                    m.spawn_item(x, y, "556", 1, critter.ammo["556"], calendar::turn);
-                }
-            } else if (critter.type->id == "mon_manhack" && one_in(6)) {
-                add_msg(_("The %s flies erratically and drops from the air!"), critter.name().c_str());
-                remove_zombie(mondex);
-                m.spawn_item(x, y, "bot_manhack", 1, 0, calendar::turn);
             } else {
                 add_msg(_("The EMP blast fries the %s!"), critter.name().c_str());
                 int dam = dice(10, 10);
@@ -12526,6 +12526,63 @@ bool game::check_save_mode_allowed()
     return false;
 }
 
+bool game::disable_robot( const point p )
+{
+    const int mondex = mon_at( p.x, p.y );
+    if( mondex == -1 ) {
+        return false;
+    }
+    monster &critter = zombie( mondex );
+    if( critter.friendly == 0 ) {
+        // Can only disable / reprogram friendly monsters
+        return false;
+    }
+    const auto mid = critter.type->id;
+    const auto mon_item_id = critter.type->revert_to_itype;
+    if( !mon_item_id.empty() ) {
+        if( !query_yn( _( "Deactivate the %s?" ), critter.name().c_str() ) ) {
+            return false;
+        }
+        u.moves -= 100;
+        m.add_item_or_charges( p.x, p.y, critter.to_item() );
+        for( auto & ammodef : critter.ammo ) {
+            if( ammodef.second > 0 ) {
+                m.spawn_item( p.x, p.y, ammodef.first, 1, ammodef.second, calendar::turn );
+            }
+        }
+        remove_zombie( mondex );
+        return true;
+    }
+    // Manhacks are special, they have their own menu here.
+    if( mid == "mon_manhack" ) {
+        int choice = 0;
+        if( critter.has_effect( "docile" ) ) {
+            choice = menu( true, _( "Reprogram the manhack?" ), _( "Engage targets." ), _( "Cancel" ), NULL );
+        } else {
+            choice = menu( true, _( "Reprogram the manhack?" ), _( "Follow me." ), _( "Cancel" ), NULL );
+        }
+        switch( choice ) {
+            case 1:
+                if( critter.has_effect( "docile" ) ) {
+                    critter.remove_effect( "docile" );
+                    if( one_in( 3 ) ) {
+                        add_msg( _( "The %s hovers momentarily as it surveys the area." ),
+                                 critter.name().c_str() );
+                    }
+                } else {
+                    critter.add_effect( "docile", 1, 1, true );
+                    if( one_in( 3 ) ) {
+                        add_msg( _( "The %s lets out a whirring noise and starts to follow you." ),
+                                 critter.name().c_str() );
+                    }
+                }
+                u.moves -= 100;
+                return true;
+        }
+    }
+    return false;
+}
+
 bool game::plmove(int dx, int dy)
 {
     if( (!check_save_mode_allowed()) || u.has_active_mutation("SHELL2") ) {
@@ -12546,6 +12603,10 @@ bool game::plmove(int dx, int dy)
 
     dbg(D_PEDANTIC_INFO) << "game:plmove: From (" << u.posx << "," << u.posy << ") to (" << x << "," <<
                          y << ")";
+
+    if( disable_robot( point( x, y ) ) ) {
+        return false;
+    }
 
     // Check if our movement is actually an attack on a monster
     int mondex = mon_at(x, y);
@@ -12575,6 +12636,9 @@ bool game::plmove(int dx, int dy)
                 critter.die( &g->u );
             }
             draw_hit_mon(x, y, critter, critter.is_dead());
+            return false;
+        } else if( critter.has_flag( MF_IMMOBILE ) ) {
+            add_msg( m_info, _( "You can't displace your %s." ), critter.name().c_str() );
             return false;
         } else {
             displace = true;
@@ -13115,82 +13179,6 @@ bool game::plmove(int dx, int dy)
         if (displace) { // We displaced a friendly monster!
             // Immobile monsters can't be displaced.
             monster &critter = zombie(mondex);
-            if (critter.has_flag(MF_IMMOBILE)) {
-                // ...except that turrets can be picked up.
-                // TODO: Make there a flag, instead of hard-coded to mon_turret
-                if (critter.type->id == "mon_turret") {
-                    if (query_yn(_("Deactivate the turret?"))) {
-                        u.moves -= 100;
-                        m.spawn_item(x, y, "bot_turret", 1, 0, calendar::turn);
-                        if (critter.ammo["9mm"] > 0) {
-                            m.spawn_item(x, y, "9mm", 1, critter.ammo["9mm"], calendar::turn);
-                        }
-                        remove_zombie(mondex);
-                    }
-                    return false;
-                } else if (critter.type->id == "mon_laserturret") {
-                    if (query_yn(_("Deactivate the laser turret?"))) {
-                        remove_zombie(mondex);
-                        u.moves -= 100;
-                        m.spawn_item(x, y, "bot_laserturret", 1, 0, calendar::turn);
-                    }
-                    return false;
-                } else if (critter.type->id == "mon_turret_rifle") {
-                    if (query_yn(_("Deactivate the rifle turret?"))) {
-                        u.moves -= 100;
-                        m.spawn_item(x, y, "bot_rifleturret", 1, 0, calendar::turn);
-                        if (critter.ammo["556"] > 0) {
-                            m.spawn_item(x, y, "556", 1, critter.ammo["556"], calendar::turn);
-                        }
-                        remove_zombie(mondex);
-                    }
-                    return false;
-                } else {
-                    add_msg(m_info, _("You can't displace your %s."), critter.name().c_str());
-                    return false;
-                }
-                // Force the movement even though the player is there right now.
-                critter.move_to(u.posx, u.posy, true);
-                add_msg(_("You displace the %s."), critter.name().c_str());
-            } else if (critter.type->id == "mon_manhack") {
-                if (query_yn(_("Reprogram the manhack?"))) {
-                    int choice = 0;
-                    if (critter.has_effect("docile")) {
-                        choice = menu(true, _("Do what?"), _("Engage targets."), _("Deactivate."), NULL);
-                    } else {
-                        choice = menu(true, _("Do what?"), _("Follow me."), _("Deactivate."), NULL);
-                    }
-                    switch (choice) {
-                    case 1: {
-                        if (critter.has_effect("docile")) {
-                            critter.remove_effect("docile");
-                            if (one_in(3)) {
-                                add_msg(_("The %s hovers momentarily as it surveys the area."),
-                                        critter.name().c_str());
-                            }
-                        } else {
-                            critter.add_effect("docile", 1, 1, true);
-                            add_msg(_("The %s ."), critter.name().c_str());
-                            if (one_in(3)) {
-                                add_msg(_("The %s lets out a whirring noise and starts to follow you."),
-                                        critter.name().c_str());
-                            }
-                        }
-                        break;
-                    }
-                    case 2: {
-                        remove_zombie(mondex);
-                        m.spawn_item(x, y, "bot_manhack", 1, 0, calendar::turn);
-                        break;
-                    }
-                    default: {
-                        return false;
-                    }
-                    }
-                    u.moves -= 100;
-                }
-                return false;
-            } // critter is immobile or special
             critter.move_to(u.posx, u.posy,
                             true); // Force the movement even though the player is there right now.
             add_msg(_("You displace the %s."), critter.name().c_str());

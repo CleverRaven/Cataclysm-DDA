@@ -386,6 +386,7 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         }
         newmon->def_chance = jo.get_int("special_when_hit_freq", 0);
         newmon->luminance = jo.get_float("luminance", 0);
+        newmon->revert_to_itype = jo.get_string( "revert_to_itype", "" );
 
         if (jo.has_string("death_drops")) {
             newmon->death_drops = jo.get_string("death_drops");
@@ -603,6 +604,10 @@ void MonsterGenerator::check_monster_definitions() const
         if (!mon->death_drops.empty() && !item_controller->has_group(mon->death_drops)) {
             debugmsg("monster %s has unknown death drop item group: %s", mon->id.c_str(),
                      mon->death_drops.c_str());
+        }
+        if( !mon->revert_to_itype.empty() && !item_controller->has_template( mon->revert_to_itype ) ) {
+            debugmsg("monster %s has unknown revert_to_itype: %s", mon->id.c_str(),
+                     mon->revert_to_itype.c_str());
         }
     }
 }

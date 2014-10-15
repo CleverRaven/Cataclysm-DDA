@@ -308,6 +308,13 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         // Ammunition if we use a gun.
         std::map<std::string, int> ammo;
 
+        /**
+         * Convert this monster into an item (see @ref mtype::revet_to_itype).
+         * Only useful for robots and the like, the monster must have at least
+         * a non-empty item id as revet_to_itype.
+         */
+        item to_item() const;
+
     private:
         std::vector<int> sp_timeout;
         std::vector <point> plans;
