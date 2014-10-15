@@ -626,12 +626,7 @@ int iuse::disinfectant(player *p, item *it, bool)
 int iuse::xanax(player *p, item *it, bool)
 {
     p->add_msg_if_player(_("You take some %s."), it->tname().c_str());
-
-    if (!p->has_disease("took_xanax")) {
-        p->add_disease("took_xanax", 900);
-    } else {
-        p->add_disease("took_xanax", 200);
-    }
+    p->add_effect("took_xanax", 900);
     return it->type->charges_to_use();
 }
 
@@ -1351,8 +1346,8 @@ int iuse::thorazine(player *p, item *it, bool)
 
 int iuse::prozac(player *p, item *it, bool)
 {
-    if (!p->has_disease("took_prozac") && p->morale_level() < 0) {
-        p->add_disease("took_prozac", 7200);
+    if (!p->has_effect("took_prozac") && p->morale_level() < 0) {
+        p->add_effect("took_prozac", 7200);
     } else {
         p->stim += 3;
     }

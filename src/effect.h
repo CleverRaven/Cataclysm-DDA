@@ -48,6 +48,15 @@ struct effect_mod_info {
     std::pair<int, int> pkill_chance_bot;
     std::pair<int, int> pkill_tick;
     
+    std::pair<int, int> stim_amount;
+    std::pair<int, int> stim_min;
+    std::pair<int, int> stim_max;
+    std::pair<int, int> stim_min_val;
+    std::pair<int, int> stim_max_val;
+    std::pair<int, int> stim_chance_top;
+    std::pair<int, int> stim_chance_bot;
+    std::pair<int, int> stim_tick;
+    
     std::pair<int, int> rad_amount;
     std::pair<int, int> rad_min;
     std::pair<int, int> rad_max;
@@ -197,6 +206,7 @@ class effect : public JsonSerializer, public JsonDeserializer
         
         int get_mod(std::string arg, bool reduced = false);
         int get_amount(std::string arg, bool reduced = false);
+        int get_min_val(std::string arg, bool reduced = false);
         int get_max_val(std::string arg, bool reduced = false);
         bool get_sizing(std::string arg);
         /** returns the approximate percentage chance of activating, used for descriptions */

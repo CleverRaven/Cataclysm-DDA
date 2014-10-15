@@ -540,11 +540,11 @@ void player::apply_persistent_morale()
         {
             pen = 0;
         }
-        if (has_disease("took_xanax"))
+        if (has_effect("took_xanax"))
         {
             pen = int(pen / 7);
         }
-        else if (has_disease("took_prozac"))
+        else if (has_effect("took_prozac"))
         {
             pen = int(pen / 2);
         }
@@ -626,7 +626,7 @@ void player::apply_persistent_morale()
         if (has_trait("MASOCHIST") && (bonus > 25)) {
             bonus = 25;
         }
-        if (has_disease("took_prozac")) {
+        if (has_effect("took_prozac")) {
             bonus = int(bonus / 3);
         }
         if (bonus != 0) {
@@ -5478,38 +5478,67 @@ void player::add_eff_effects(effect e, bool reduced)
         }
     }
     // Add pkill
-    if (e.get_amount("PKILL", reduced) > 0 && e.get_max_val("PKILL", reduced) > pkill) {
+    if (e.get_amount("PKILL", reduced) > 0 &&
+        (it.get_max_val("PKILL", reduced) > pkill || it.get_max_val("PKILL", reduced) == 0)) {
         pkill += e.get_amount("PKILL", reduced);
         if (pkill > e.get_max_val("PKILL", reduced)) {
             pkill = e.get_max_val("PKILL", reduced);
         }
     }
     // Add radiation
-    if (e.get_amount("RAD", reduced) > 0 && e.get_max_val("RAD", reduced) > radiation) {
+    if (e.get_amount("RAD", reduced) > 0 &&
+        (it.get_max_val("RAD", reduced) > radiation || it.get_max_val("RAD", reduced) == 0)) {
         radiation += e.get_amount("RAD", reduced);
         if (radiation > e.get_max_val("RAD", reduced)) {
             radiation = e.get_max_val("RAD", reduced);
         }
     }
+    // Add stim
+    if (e.get_amount("STIM", reduced) > 0 &&
+        (it.get_max_val("STIM", reduced) > stim || it.get_max_val("STIM", reduced) == 0) &&
+        (it.get_min_val("STIM", reduced) < stim || it.get_min_val("STIM", reduced) == 0)) {
+        stim += e.get_amount("STIM", reduced);
+        // Bound to [min, max]
+        if (stim > e.get_max_val("STIM", reduced)) {
+            stim = e.get_max_val("STIM", reduced);
+        } else if (stim < e.get_min_val("STIM", reduced)) {
+            stim = e.get_min_val("STIM", reduced);
+        }
+    }
     // Add hunger
-    if (e.get_amount("HUNGER", reduced) > 0 && e.get_max_val("HUNGER", reduced) > hunger) {
+    if (e.get_amount("HUNGER", reduced) > 0 &&
+        (it.get_max_val("HUNGER", reduced) > hunger || it.get_max_val("HUNGER", reduced) == 0) &&
+        (it.get_min_val("HUNGER", reduced) < hunger || it.get_min_val("HUNGER", reduced) == 0)) {
         hunger += e.get_amount("HUNGER", reduced);
+        // Bound to [min, max]
         if (hunger > e.get_max_val("HUNGER", reduced)) {
             hunger = e.get_max_val("HUNGER", reduced);
+        } else if (hunger < e.get_min_val("HUNGER", reduced)) {
+            hunger = e.get_min_val("HUNGER", reduced);
         }
     }
     // Add thirst
-    if (e.get_amount("THIRST", reduced) > 0 && e.get_max_val("THIRST", reduced) > thirst) {
+    if (e.get_amount("THIRST", reduced) > 0 &&
+        (it.get_max_val("THIRST", reduced) > thirst || it.get_max_val("THIRST", reduced) == 0) &&
+        (it.get_min_val("THIRST", reduced) < thirst || it.get_min_val("THIRST", reduced) == 0)) {
         thirst += e.get_amount("THIRST", reduced);
+        // Bound to [min, max]
         if (thirst > e.get_max_val("THIRST", reduced)) {
             thirst = e.get_max_val("THIRST", reduced);
+        } else if (thirst < e.get_min_val("THIRST", reduced)) {
+            thirst = e.get_min_val("THIRST", reduced);
         }
     }
     // Add fatigue
-    if (e.get_amount("FATIGUE", reduced) > 0 && e.get_max_val("FATIGUE", reduced) > fatigue) {
+    if (e.get_amount("FATIGUE", reduced) > 0 &&
+        (it.get_max_val("FATIGUE", reduced) > fatigue || it.get_max_val("FATIGUE", reduced) == 0) &&
+        (it.get_min_val("FATIGUE", reduced) < fatigue || it.get_min_val("FATIGUE", reduced) == 0)) {
         fatigue += e.get_amount("FATIGUE", reduced);
+        // Bound to [min, max]
         if (fatigue > e.get_max_val("FATIGUE", reduced)) {
             fatigue = e.get_max_val("FATIGUE", reduced);
+        } else if (fatigue < e.get_min_val("FATIGUE", reduced)) {
+            fatigue = e.get_min_val("FATIGUE", reduced);
         }
     }
     Creature::add_eff_effects();
@@ -5548,30 +5577,67 @@ void player::process_effects() {
                 add_miss_reason(_(it.get_miss_string().c_str()), weight);
             }
             
+            // Handle stim
+            if (it.get_mod("STIM", reduced) > 0 &&
+                  (it.get_max_val("STIM", reduced) > stim || it.get_max_val("STIM", reduced) == 0) &&
+                  (it.get_min_val("STIM", reduced) < stim || it.get_min_val("STIM", reduced) == 0)) {
+                mod = 1;
+                if(it.activated(calendar::turn, "STIM", reduced, mod)) {
+                    stim += it.get_mod("STIM", reduced));
+                    // Bound it to [min, max]
+                    if (it.get_max_val("STIM", reduced) < stim && it.get_max_val("STIM", reduced) != 0) {
+                        stim = it.get_max_val("STIM", reduced);
+                    } else if (it.get_min_val("STIM", reduced) > stim && it.get_min_val("STIM", reduced) != 0) {
+                        stim = it.get_min_val("STIM", reduced);
+                    }
+                }
+            }
+            
             // Handle hunger
             if (it.get_mod("HUNGER", reduced) > 0 &&
-                  (it.get_max_val("HUNGER", reduced) > hunger || it.get_max_val("HUNGER", reduced) == 0)) {
+                  (it.get_max_val("HUNGER", reduced) > hunger || it.get_max_val("HUNGER", reduced) == 0) &&
+                  (it.get_min_val("HUNGER", reduced) < hunger || it.get_min_val("HUNGER", reduced) == 0)) {
                 mod = 1;
                 if(it.activated(calendar::turn, "HUNGER", reduced, mod)) {
                     hunger += it.get_mod("HUNGER", reduced));
+                    // Bound it to [min, max]
+                    if (it.get_max_val("HUNGER", reduced) < hunger && it.get_max_val("HUNGER", reduced) != 0) {
+                        hunger = it.get_max_val("HUNGER", reduced);
+                    } else if (it.get_min_val("HUNGER", reduced) > hunger && it.get_min_val("HUNGER", reduced) != 0) {
+                        hunger = it.get_min_val("HUNGER", reduced);
+                    }
                 }
             }
             
             // Handle thirst
             if (it.get_mod("THIRST", reduced) > 0 &&
-                  (it.get_max_val("THIRST", reduced) > thirst || it.get_max_val("THIRST", reduced) == 0)) {
+                  (it.get_max_val("THIRST", reduced) > thirst || it.get_max_val("THIRST", reduced) == 0) &&
+                  (it.get_min_val("THIRST", reduced) < thirst || it.get_min_val("THIRST", reduced) == 0)) {
                 mod = 1;
                 if(it.activated(calendar::turn, "THIRST", reduced, mod)) {
                     thirst += it.get_mod("THIRST", reduced));
+                    // Bound it to [min, max]
+                    if (it.get_max_val("THIRST", reduced) < thirst && it.get_max_val("THIRST", reduced) != 0) {
+                        thirst = it.get_max_val("THIRST", reduced);
+                    } else if (it.get_min_val("THIRST", reduced) > thirst && it.get_min_val("THIRST", reduced) != 0) {
+                        thirst = it.get_min_val("THIRST", reduced);
+                    }
                 }
             }
             
             // Handle fatigue
             if (it.get_mod("FATIGUE", reduced) > 0 &&
-                  (it.get_max_val("FATIGUE", reduced) > fatigue || it.get_max_val("FATIGUE", reduced) == 0)) {
+                  (it.get_max_val("FATIGUE", reduced) > fatigue || it.get_max_val("FATIGUE", reduced) == 0) &&
+                  (it.get_min_val("FATIGUE", reduced) < fatigue || it.get_min_val("FATIGUE", reduced) == 0)) {
                 mod = 1;
                 if(it.activated(calendar::turn, "FATIGUE", reduced, mod)) {
                     fatigue += it.get_mod("FATIGUE", reduced));
+                    // Bound it to [min, max]
+                    if (it.get_max_val("FATIGUE", reduced) < fatigue && it.get_max_val("FATIGUE", reduced) != 0) {
+                        fatigue = it.get_max_val("FATIGUE", reduced);
+                    } else if (it.get_min_val("FATIGUE", reduced) > fatigue && it.get_min_val("FATIGUE", reduced) != 0) {
+                        fatigue = it.get_min_val("FATIGUE", reduced);
+                    }
                 }
             }
             
@@ -5641,8 +5707,8 @@ void player::process_effects() {
             }
 
             // Handle painkillers
-            if (it.get_mod("PKILL", reduced) > 0 && (it.get_max_val("PKILL", reduced) > pkill || 
-                  it.get_max_val("PKILL", reduced) == 0)) {
+            if (it.get_mod("PKILL", reduced) > 0 &&
+                (it.get_max_val("PKILL", reduced) > pkill || it.get_max_val("PKILL", reduced) == 0)) {
                 mod = it.get_addict_mod("PKILL", addiction_level(ADD_PKILLER));
                 if(it.activated(calendar::turn, "PKILL", reduced, mod)) {
                     pkill += it.get_mod("PKILL", reduced);
@@ -7382,7 +7448,7 @@ int player::morale_level()
     }
 
     // Prozac reduces negative morale by 75%.
-    if (has_disease("took_prozac") && ret < 0) {
+    if (has_effect("took_prozac") && ret < 0) {
         ret = int(ret / 4);
     }
 

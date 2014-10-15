@@ -980,6 +980,15 @@ bool monster::move_effects()
     return Creature::move_effects();
 }
 
+void add_eff_effects(effect e, bool reduced)
+{
+    if (e.get_amount("HURT", reduced) > 0) {
+        if(e.activated(calendar::turn, "HURT", reduced, mod)) {
+            apply_damage(nullptr, bp_torso, e.get_amount("HURT", reduced));
+        }
+    }
+    Creature::add_eff_effects();
+}
 void monster::add_effect(efftype_id eff_id, int dur, body_part bp, bool permanent, int intensity)
 {
     bp = num_bp;
@@ -1327,7 +1336,7 @@ void monster::process_effects()
             
             if (it.get_mod("HURT", reduced) > 0) {
                 if(it.activated(calendar::turn, "HURT", reduced, mod)) {
-                    apply_damage(nullptr, bp_torso, it.get_mod("HURT"));
+                    apply_damage(nullptr, bp_torso, it.get_mod("HURT", reduced));
                 }
             }
             

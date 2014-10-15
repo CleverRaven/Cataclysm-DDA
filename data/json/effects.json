@@ -340,6 +340,20 @@
     },
     {
         "type": "effect_type",
+        "id": "took_xanax",
+        "dur_add_perc": 22,
+        "base_mods": {
+            "stim_tick": [25],
+            "stim_min":[-1],
+            "stim_min_val":[-1],
+        }
+    },
+    {
+        "type": "effect_type",
+        "id": "took_prozac"
+    },
+    {
+        "type": "effect_type",
         "id": "in_pit",
         "name": ["Stuck in Pit"],
         "desc": ["You're stuck in a pit.  Sight distance is limited and you have to climb out."]
@@ -737,10 +751,6 @@
     },
     {
         "type": "effect_type",
-        "id": "took_xanax"
-    },
-    {
-        "type": "effect_type",
         "id": "evil"
     },
     {
@@ -791,10 +801,6 @@
     {
         "type": "effect_type",
         "id": "drunk"
-    },
-    {
-        "type": "effect_type",
-        "id": "took_prozac"
     },
     {
         "type": "effect_type",

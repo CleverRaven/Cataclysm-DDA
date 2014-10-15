@@ -83,6 +83,15 @@ bool effect_mod_info::load(JsonObject &jsobj, std::string member) {
         extract_effect_int(j, "pkill_chance_bot", pkill_chance_bot, "");
         extract_effect_int(j, "pkill_tick", pkill_tick, "");
         
+        extract_effect_int(j, "stim_amount", stim_amount, "");
+        extract_effect_int(j, "stim_min", stim_min, "");
+        extract_effect_int(j, "stim_max", stim_max, "stim_min");
+        extract_effect_int(j, "stim_min_val", stim_min_val, "");
+        extract_effect_int(j, "stim_max_val", stim_max_val, "");
+        extract_effect_int(j, "stim_chance", stim_chance_top, "");
+        extract_effect_int(j, "stim_chance_bot", stim_chance_bot, "");
+        extract_effect_int(j, "stim_tick", stim_tick, "");
+        
         extract_effect_int(j, "rad_amount", rad_amount, "");
         extract_effect_int(j, "rad_min", rad_min, "");
         extract_effect_int(j, "rad_max", rad_max, "rad_min");
@@ -94,6 +103,7 @@ bool effect_mod_info::load(JsonObject &jsobj, std::string member) {
         extract_effect_int(j, "hunger_amount", hunger_amount, "");
         extract_effect_int(j, "hunger_min", hunger_min, "");
         extract_effect_int(j, "hunger_max", hunger_max, "hunger_min");
+        extract_effect_int(j, "hunger_min_val", hunger_min_val, "");
         extract_effect_int(j, "hunger_max_val", hunger_max_val, "");
         extract_effect_int(j, "hunger_chance", hunger_chance_top, "");
         extract_effect_int(j, "hunger_chance_bot", hunger_chance_bot, "");
@@ -102,6 +112,7 @@ bool effect_mod_info::load(JsonObject &jsobj, std::string member) {
         extract_effect_int(j, "thirst_amount", thirst_amount, "");
         extract_effect_int(j, "thirst_min", thirst_min, "");
         extract_effect_int(j, "thirst_max", thirst_max, "thirst_min");
+        extract_effect_int(j, "thirst_min_val", thirst_min_val, "");
         extract_effect_int(j, "thirst_max_val", thirst_max_val, "");
         extract_effect_int(j, "thirst_chance", thirst_chance_top, "");
         extract_effect_int(j, "thirst_chance_bot", thirst_chance_bot, "");
@@ -110,6 +121,7 @@ bool effect_mod_info::load(JsonObject &jsobj, std::string member) {
         extract_effect_int(j, "fatigue_amount", fatigue_amount, "");
         extract_effect_int(j, "fatigue_min", fatigue_min, "");
         extract_effect_int(j, "fatigue_max", fatigue_max, "fatigue_min");
+        extract_effect_int(j, "fatigue_min_val", fatigue_min_val, "");
         extract_effect_int(j, "fatigue_max_val", fatigue_max_val, "");
         extract_effect_int(j, "fatigue_chance", fatigue_chance_top, "");
         extract_effect_int(j, "fatigue_chance_bot", fatigue_chance_bot, "");
@@ -559,6 +571,9 @@ int effect::get_mod(std::string arg, bool reduced)
         } else if (arg == "PKILL") {
             ret += rng(base.pkill_min.first + scale.pkill_min.first * intensity,
                     base.pkill_max.first + scale.pkill_max.first * intensity);
+        } else if (arg == "STIM") {
+            ret += rng(base.stim_min.first + scale.stim_min.first * intensity,
+                    base.stim_max.first + scale.stim_max.first * intensity);
         } else if (arg == "RAD") {
             ret += rng(base.rad_min.first + scale.rad_min.first * intensity,
                     base.rad_max.first + scale.rad_max.first * intensity);
@@ -597,6 +612,9 @@ int effect::get_mod(std::string arg, bool reduced)
         } else if (arg == "PKILL") {
             ret += rng(base.pkill_min.second + scale.pkill_min.second * intensity,
                     base.pkill_max.second + scale.pkill_max.second * intensity);
+        } else if (arg == "STIM") {
+            ret += rng(base.stim_min.second + scale.stim_min.second * intensity,
+                    base.stim_max.second + scale.stim_max.second * intensity);
         } else if (arg == "RAD") {
             ret += rng(base.rad_min.second + scale.rad_min.second * intensity,
                     base.rad_max.second + scale.rad_max.second * intensity);
@@ -629,6 +647,9 @@ int effect::get_amount(std::string arg, bool reduced)
         } else if (arg == "PKILL") {
             ret += base.pkill_amount.first;
             ret += scale.pkill_amount.first * intensity;
+        } else if (arg == "STIM") {
+            ret += base.stim_amount.first;
+            ret += scale.stim_amount.first * intensity;
         } else if (arg == "RAD") {
             ret += base.rad_amount.first;
             ret += scale.rad_amount.first * intensity;
@@ -652,6 +673,9 @@ int effect::get_amount(std::string arg, bool reduced)
         } else if (arg == "PKILL") {
             ret += base.pkill_amount.second;
             ret += scale.pkill_amount.second * intensity;
+        } else if (arg == "STIM") {
+            ret += base.stim_amount.second;
+            ret += scale.stim_amount.second * intensity;
         } else if (arg == "RAD") {
             ret += base.rad_amount.second;
             ret += scale.rad_amount.second * intensity;
@@ -669,6 +693,44 @@ int effect::get_amount(std::string arg, bool reduced)
     return int(ret);
 }
 
+int effect::get_min_val(std::string arg, bool reduced)
+{
+    float ret = 0;
+    auto &base = eff_type->base_mods;
+    auto &scale = eff_type->scaling_mods;
+    if (!reduced) {
+        if (arg == "STIM") {
+            ret += base.stim_min_val.first;
+            ret += scale.stim_min_val.first * intensity;
+        } else if (arg == "HUNGER") {
+            ret += base.hunger_min_val.first;
+            ret += scale.hunger_min_val.first * intensity;
+        } else if (arg == "THIRST") {
+            ret += base.thirst_min_val.first;
+            ret += scale.thirst_min_val.first * intensity;
+        } else if (arg == "FATIGUE") {
+            ret += base.fatigue_min_val.first;
+            ret += scale.fatigue_min_val.first * intensity;
+        }
+    } else {
+        if (arg == "STIM") {
+            ret += base.stim_min_val.second;
+            ret += scale.stim_min_val.second * intensity;
+        } else if (arg == "HUNGER") {
+            ret += base.hunger_min_val.second;
+            ret += scale.hunger_min_val.second * intensity;
+        } else if (arg == "THIRST") {
+            ret += base.thirst_min_val.second;
+            ret += scale.thirst_min_val.second * intensity;
+        } else if (arg == "FATIGUE") {
+            ret += base.fatigue_min_val.second;
+            ret += scale.fatigue_min_val.second * intensity;
+        }
+    
+    }
+    return int(ret);
+}
+
 int effect::get_max_val(std::string arg, bool reduced)
 {
     float ret = 0;
@@ -681,6 +743,9 @@ int effect::get_max_val(std::string arg, bool reduced)
         } else if (arg == "PKILL") {
             ret += base.pkill_max_val.first;
             ret += scale.pkill_max_val.first * intensity;
+        } else if (arg == "STIM") {
+            ret += base.stim_max_val.first;
+            ret += scale.stim_max_val.first * intensity;
         } else if (arg == "RAD") {
             ret += base.rad_max_val.first;
             ret += scale.rad_max_val.first * intensity;
@@ -701,6 +766,9 @@ int effect::get_max_val(std::string arg, bool reduced)
         } else if (arg == "PKILL") {
             ret += base.pkill_max_val.second;
             ret += scale.pkill_max_val.second * intensity;
+        } else if (arg == "STIM") {
+            ret += base.stim_max_val.second;
+            ret += scale.stim_max_val.second * intensity;
         } else if (arg == "RAD") {
             ret += base.rad_max_val.second;
             ret += scale.rad_max_val.second * intensity;
@@ -753,6 +821,12 @@ static void get_activation_vals(std::string arg, bool reduced, effect_mod_info b
             top_scale = scale.pkill_chance_top.first * intensity;
             bot_base = base.pkill_chance_bot.first;
             bot_scale = scale.pkill_chance_bot.first * intensity;
+        } else if (arg == "STIM") {
+            tick = base.stim_tick.first + scale.stim_tick.first * intensity;
+            top_base = base.stim_chance_top.first;
+            top_scale = scale.stim_chance_top.first * intensity;
+            bot_base = base.stim_chance_bot.first;
+            bot_scale = scale.stim_chance_bot.first * intensity;
         } else if (arg == "COUGH") {
             tick = base.cough_tick.first + scale.cough_tick.first * intensity;
             top_base = base.cough_chance_top.first;
@@ -809,6 +883,12 @@ static void get_activation_vals(std::string arg, bool reduced, effect_mod_info b
             top_scale = scale.pkill_chance_top.second * intensity;
             bot_base = base.pkill_chance_bot.second;
             bot_scale = scale.pkill_chance_bot.second * intensity;
+        } else if (arg == "STIM") {
+            tick = base.stim_tick.second + scale.stim_tick.second * intensity;
+            top_base = base.stim_chance_top.second;
+            top_scale = scale.stim_chance_top.second * intensity;
+            bot_base = base.stim_chance_bot.second;
+            bot_scale = scale.stim_chance_bot.second * intensity;
         } else if (arg == "COUGH") {
             tick = base.cough_tick.second + scale.cough_tick.second * intensity;
             top_base = base.cough_chance_top.second;

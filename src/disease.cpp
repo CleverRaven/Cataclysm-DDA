@@ -25,7 +25,7 @@ enum dis_type_enum {
  DI_BITE,
 // Food & Drugs
  DI_DRUNK, DI_CIG, DI_HIGH, DI_WEED_HIGH,
-  DI_DATURA, DI_TOOK_XANAX, DI_TOOK_PROZAC,
+  DI_DATURA,
   DI_ADRENALINE, DI_JETINJECTOR, DI_ASTHMA, DI_GRACK, DI_METH, DI_VALIUM,
 // Other
  DI_AMIGARA, DI_STEMCELL_TREATMENT, DI_TELEGLOW, DI_ATTENTION, DI_EVIL,
@@ -76,8 +76,6 @@ void game::init_diseases() {
     disease_type_lookup["cig"] = DI_CIG;
     disease_type_lookup["high"] = DI_HIGH;
     disease_type_lookup["datura"] = DI_DATURA;
-    disease_type_lookup["took_xanax"] = DI_TOOK_XANAX;
-    disease_type_lookup["took_prozac"] = DI_TOOK_PROZAC;
     disease_type_lookup["adrenaline"] = DI_ADRENALINE;
     disease_type_lookup["jetinjector"] = DI_JETINJECTOR;
     disease_type_lookup["asthma"] = DI_ASTHMA;
@@ -473,12 +471,6 @@ void dis_effect(player &p, disease &dis)
                   }
             }
         }
-            break;
-
-        case DI_TOOK_XANAX:
-            if (dis.duration % 25 == 0 && (p.stim > 0 || one_in(2))) {
-                p.stim--;
-            }
             break;
 
         case DI_DRUNK:

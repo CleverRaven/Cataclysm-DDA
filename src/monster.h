@@ -199,6 +199,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         void die_in_explosion( Creature *source );
         
         virtual bool move_effects();
+        /** Handles effect application effects. */
+        virtual void add_eff_effects(effect e, bool reduced)
         virtual void add_effect(efftype_id eff_id, int dur, body_part bp = num_bp, bool permanent = false,
                                 int intensity = 1);
         int  get_armor_cut(body_part bp) const;   // Natural armor, plus any worn armor
