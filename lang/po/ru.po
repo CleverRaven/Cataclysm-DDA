@@ -25,9 +25,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-06 09:16+0400\n"
-"PO-Revision-Date: 2014-10-07 17:02+0000\n"
-"Last-Translator: Алексей <vozhban@yandex.ru>\n"
+"POT-Creation-Date: 2014-10-13 09:40+0400\n"
+"PO-Revision-Date: 2014-10-14 11:10+0000\n"
+"Last-Translator: Woratiklis\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/cataclysm-dda/"
 "language/ru/)\n"
 "Language: ru\n"
@@ -1248,6 +1248,8 @@ msgid ""
 "A handful of New England sand. If you had a stoked furnace, you could turn "
 "it into glass. Otherwise, it's only good for making cement."
 msgstr ""
+"Горстка песка Новой Англии. Если у вас есть печь, вы могли бы превратить его "
+"в стекло. В противном случае, песок пригоден только для изготовления цемента."
 
 #: lang/json/AMMO_from_json.py
 msgid "A handful of darts, useful as ammunition for blowguns."
@@ -1271,6 +1273,9 @@ msgid ""
 "fairs, but pretty useless as ammo. Maybe something could be crafted from "
 "this stuff…"
 msgstr ""
+"Горстка мелких кусков известняка. Полезен для экспериментов на научных "
+"выставках, но довольно бесполезен, как боеприпасы. Возможно, что-то может "
+"быть изготовлено из этого материала..."
 
 #: lang/json/AMMO_from_json.py
 msgid ""
@@ -2789,6 +2794,16 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid ""
+"This is gasoline mixed with some other components to make it stick to the "
+"surface and increase burning temperature, meant to be used with a "
+"flamethrower."
+msgstr ""
+"Это бензин смешанный с различными компонентами, которые позволяют ему "
+"прилипать к поверхностям и повышают температуру горения. Предназначен для "
+"использования в огнемётах."
+
+#: lang/json/AMMO_from_json.py
+msgid ""
 "This is the armor piercing cartridge with a steel penetrator, it was "
 "introduced in 1998. There is a tungsten carbide variant too, it is "
 "unavailable in the US though."
@@ -3310,9 +3325,9 @@ msgstr[2] "свинца"
 #: lang/json/AMMO_from_json.py
 msgid "limestone"
 msgid_plural "limestone"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "известняк"
+msgstr[1] "известняка"
+msgstr[2] "известняка"
 
 #: lang/json/AMMO_from_json.py
 msgid "lye powder"
@@ -3376,6 +3391,13 @@ msgid_plural "nails"
 msgstr[0] "гвоздь"
 msgstr[1] "гвоздя"
 msgstr[2] "гвоздей"
+
+#: lang/json/AMMO_from_json.py
+msgid "napalm"
+msgid_plural "napalm"
+msgstr[0] "напалм"
+msgstr[1] "напалм"
+msgstr[2] "напалм"
 
 #: lang/json/AMMO_from_json.py
 msgid "nicotine liquid"
@@ -3856,9 +3878,9 @@ msgstr[2] "сигаретных бумаг"
 #: lang/json/AMMO_from_json.py lang/json/terrain_from_json.py
 msgid "sand"
 msgid_plural "sand"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "песок"
+msgstr[1] "песка"
+msgstr[2] "песка"
 
 #: lang/json/AMMO_from_json.py
 msgid "sharpened metal arrow"
@@ -6550,7 +6572,7 @@ msgstr ""
 msgid ""
 "Hiding under here will not protect you from the monsters, but it'll keep you "
 "warm."
-msgstr ""
+msgstr "Прятание под ним не защитит вас от монстров, но защитит от холода."
 
 #: lang/json/ARMOR_from_json.py
 msgid "Hiding under here will not protect you from the monsters."
@@ -7436,11 +7458,11 @@ msgstr[1] "клетчатых штанов"
 msgstr[2] "клетчатых штанов"
 
 #: lang/json/ARMOR_from_json.py
-msgid "chefs jacket"
-msgid_plural "chefs jackets"
-msgstr[0] "жакет шеф-повара"
-msgstr[1] "жакета шеф-повара"
-msgstr[2] "жакетов шеф-повара"
+msgid "chef's jacket"
+msgid_plural "chef's jackets"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: lang/json/ARMOR_from_json.py
 msgid "chest rig"
@@ -7585,9 +7607,9 @@ msgstr[2] "часов ныряльщика"
 #: lang/json/ARMOR_from_json.py
 msgid "down-filled blanket"
 msgid_plural "down-filled blankets"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "пуховое одеяло"
+msgstr[1] "пуховых одеяла"
+msgstr[2] "пуховых одеял"
 
 #: lang/json/ARMOR_from_json.py
 msgid "dragon skin vest"
@@ -14545,6 +14567,10 @@ msgstr ""
 "плохо, но прилипает к нёбу."
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "A caffeinated, carbonated drink, flavored with vanilla."
+msgstr "Газированный кофеиновый напиток с ароматом ванили."
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "A cake coated in the thickest icing you've ever seen.  Someone has written "
 "guff in quotation marks on it..."
@@ -14565,10 +14591,6 @@ msgstr ""
 "Консервированная свинина неестественно розового цвета, не особо вкусная и "
 "странно растягивается. Ветчина SPAM достаточно питательна. Крайне "
 "неаппетитно, но вполне сытно."
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "A carbonated drink, flavored with vanilla."
-msgstr "Газировка с ароматом ванили."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -14827,6 +14849,8 @@ msgid ""
 "A handful of candy wafers, in assorted flavors: orange, lemon, lime, clove, "
 "chocolate, wintergreen, cinnamon, and licorice.  Yum!"
 msgstr ""
+"Горстка вафельных конфет с разнообразными вкусами: апельсин, лимон, лайм, "
+"гвоздика, шоколад, грушанки, корица и солодки. Вкусно!"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A handful of deep fried chicken.  So bad it's good."
@@ -15498,6 +15522,8 @@ msgid ""
 "A tasty collection of wild herbs including violet, sassafras, mint, clover, "
 "purslane, and burdock."
 msgstr ""
+"Вкусный набор из диких трав, включающий в себя фиалку, шафран, мяту, клевер, "
+"портулак и лопух."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A tasty cooked morel mushroom."
@@ -16277,10 +16303,9 @@ msgstr ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "Dehydrated fruit flakes.  With proper storage, this dried food will remain "
-"edible for an incredibly long time."
+"edible for an incredibly long time. They are useful for several cooking "
+"recipes"
 msgstr ""
-"Сушёные кусочки фруктов. При правильном хранении эта высушенная еда будет "
-"оставаться съедобной невероятно долго."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -17393,6 +17418,10 @@ msgid "So-called ramen noodles.  Can be eaten raw."
 msgstr "Рамен - лапша быстрого приготовления. Можно есть в сыром виде."
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "Some caramel. Still bad for your health."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "Some damned fool put honey on this peanut butter sandwich, who in their "
 "right mind- oh wait this is pretty good."
@@ -17914,7 +17943,7 @@ msgstr "Вода с солью. Непригодна для питья."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Water with sugar or honey added.  Tastes okay."
-msgstr ""
+msgstr "Вода с добавлением сахара или мёда. На вкус нормально."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Water, the stuff of life, the best thirst-quencher available."
@@ -18541,6 +18570,13 @@ msgid_plural "canned veggies"
 msgstr[0] "консервированная зелень"
 msgstr[1] "консервированной зелени"
 msgstr[2] "консервированной зелени"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "caramel"
+msgid_plural "caramel"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "carrot"
@@ -19280,9 +19316,9 @@ msgstr[2] "сушёных овощей"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "deluxe beans and rice"
 msgid_plural "deluxe beans and rice"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "шикарный рис с бобами"
+msgstr[1] "шикарного риса с бобами"
+msgstr[2] "шикарного риса с бобами"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "deluxe cooked oatmeal"
@@ -19673,8 +19709,8 @@ msgstr[2] "семян конопли"
 msgid "herbal tea"
 msgid_plural "herbal tea"
 msgstr[0] "травяной чай"
-msgstr[1] "травяных чая"
-msgstr[2] "травяных чая"
+msgstr[1] "травяной чай"
+msgstr[2] "травяной чай"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "heroin"
@@ -21443,9 +21479,9 @@ msgstr[2] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "sweet water"
 msgid_plural "sweet water"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "сладкая вода"
+msgstr[1] "сладкая вода"
+msgstr[2] "сладкая вода"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "taco"
@@ -21912,7 +21948,7 @@ msgstr "Закрывающаяся стеклянная бутылка, вмещ
 
 #: lang/json/CONTAINER_from_json.py
 msgid "A resealable plastic bottle, holds 250 ml of liquid."
-msgstr ""
+msgstr "Закрывающаяся пластиковая бутылка, вмещает 250 мл жидкости."
 
 #: lang/json/CONTAINER_from_json.py
 msgid "A resealable plastic bottle, holds 500 ml of liquid."
@@ -22147,9 +22183,9 @@ msgstr[2] "малых бензобаков"
 #: lang/json/CONTAINER_from_json.py
 msgid "small plastic bottle"
 msgid_plural "small plastic bottles"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "небольшая пластиковая бутылка"
+msgstr[1] "небольшие пластиковые бутылки"
+msgstr[2] "небольших пластиковых бутылок"
 
 #: lang/json/CONTAINER_from_json.py
 msgid "small waterskin"
@@ -23315,6 +23351,12 @@ msgid "A small fan, used to propel air around a room."
 msgstr ""
 "Небольшой вентилятор, используемый для циркулирования воздуха по всей "
 "комнате."
+
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A small frame made of few pieces of wood, held together by rope.  Useful for "
+"crafting."
+msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "A small hand mirror."
@@ -25231,6 +25273,13 @@ msgid_plural "leather patches"
 msgstr[0] "кожаный лоскут"
 msgstr[1] "кожаных лоскута"
 msgstr[2] "кожаных лоскутов"
+
+#: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
+msgid "light wooden frame"
+msgid_plural "light wooden frames"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "limestone shard"
@@ -29332,6 +29381,12 @@ msgstr ""
 
 #: lang/json/GUN_from_json.py
 msgid ""
+"This is a laser cannon stripped from the barrel of a TX-5LR Cerberus laser "
+"turret that has been modified to use UPS power for firing."
+msgstr ""
+
+#: lang/json/GUN_from_json.py
+msgid ""
 "This is a nailgun that has been jury-rigged to be a more effective weapon "
 "with the addition of a short barrel, a stock, and a hand guard."
 msgstr ""
@@ -29609,6 +29664,13 @@ msgstr[2] "термоядерных ружей"
 #: lang/json/GUN_from_json.py
 msgid "grip"
 msgstr "рукоять"
+
+#: lang/json/GUN_from_json.py
+msgid "handheld laser cannon"
+msgid_plural "handheld laser cannons"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: lang/json/GUN_from_json.py
 msgid "heavy crossbow"
@@ -34290,6 +34352,13 @@ msgstr ""
 
 #: lang/json/TOOL_from_json.py
 msgid ""
+"A jumper cable, like you've seen many times before: it's a short multi-"
+"stranded copper cable with power leads on either end, whose purpose is to "
+"transfer power from one vehicle to another."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid ""
 "A kiln filled with wood which will become charcoal after a slow period of "
 "burning."
 msgstr ""
@@ -34344,6 +34413,13 @@ msgid ""
 msgstr ""
 "Длинный деревянный шест, к обоим концам которого прикреплено по бензопиле. "
 "Включен и постоянно тратит бензин. Для выключения используйте его ещё раз."
+
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A long, thick, heavy-duty cable with power leads on either end. It looks "
+"like you could use it to hook up two vehicles to each other, though you "
+"expect the power loss would be noticeable."
+msgstr ""
 
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -34773,6 +34849,13 @@ msgid_plural "Rising Suns (on)"
 msgstr[0] "Восходящее Солнце (вкл)"
 msgstr[1] "Восходящих Солнца (вкл)"
 msgstr[2] "Восходящих Солнц (вкл)"
+
+#: lang/json/TOOL_from_json.py lang/json/vehicle_part_from_json.py
+msgid "Shiny Cable"
+msgid_plural "Shiny Cables"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -37100,6 +37183,13 @@ msgstr ""
 
 #: lang/json/TOOL_from_json.py
 msgid ""
+"This is the cable of the gods: 50 meters long, no power loss, light as a "
+"feather and fits in a matchbook. You're sure this wasn't supposed to exist, "
+"and the way it shimmers makes you uneasy."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid ""
 "This massive combat knife features a hollow handle with a compass built into "
 "the pommel and a row of fearsome looking saw teeth along the back of its "
 "blade."
@@ -38312,6 +38402,13 @@ msgstr[0] "тяжелые силки"
 msgstr[1] "тяжелых силков"
 msgstr[2] "тяжелых силков"
 
+#: lang/json/TOOL_from_json.py lang/json/vehicle_part_from_json.py
+msgid "heavy-duty cable"
+msgid_plural "heavy-duty cables"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
 #: lang/json/TOOL_from_json.py
 msgid "hedge trimmer (off)"
 msgid_plural "hedge trimmers (off)"
@@ -38437,6 +38534,13 @@ msgid_plural "jacqueshammers"
 msgstr[0] "отпойный молоток"
 msgstr[1] "отпойных молотка"
 msgstr[2] "отпойных молотков"
+
+#: lang/json/TOOL_from_json.py lang/json/vehicle_part_from_json.py
+msgid "jumper cable"
+msgid_plural "jumper cables"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: lang/json/TOOL_from_json.py
 msgid "kinetic bullet puller"
@@ -40909,12 +41013,12 @@ msgid "Place Anvil"
 msgstr "Поставить наковальню"
 
 #: lang/json/construction_from_json.py
-msgid "Place forge"
-msgstr "Поставить кузню"
+msgid "Place Forge"
+msgstr ""
 
 #: lang/json/construction_from_json.py
-msgid "Place still"
-msgstr "Поставить дистиллятор"
+msgid "Place Still"
+msgstr ""
 
 #: lang/json/construction_from_json.py
 msgid "Realign Fence"
@@ -44018,6 +44122,10 @@ msgstr "Переназвать транспорт"
 #: lang/json/keybinding_from_json.py
 msgid "Repair part"
 msgstr "Починить деталь"
+
+#: lang/json/keybinding_from_json.py
+msgid "Reroll Random Character"
+msgstr ""
 
 #: lang/json/keybinding_from_json.py
 msgid "Reset filter"
@@ -47313,6 +47421,10 @@ msgid "Robust Genetics"
 msgstr "Отличная генетика"
 
 #: lang/json/mutation_from_json.py
+msgid "Roomy Shell"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
 msgid "Rooter"
 msgstr "Корневой"
 
@@ -48416,10 +48528,9 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "You feel nauseous almost constantly, and are more liable to throw up from "
-"food poisoning, alcohol, etc."
+"food poisoning, alcohol, etc.  You can, if desired, think yourself into "
+"vomiting, too."
 msgstr ""
-"Вы практически постоянно чувствуете тошноту, и вас чаще рвёт от ядовитой "
-"пищи, алкоголя и т.п."
 
 #: lang/json/mutation_from_json.py
 #, no-python-format
@@ -48631,9 +48742,10 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"You have a major digestive disorder, which causes you to vomit frequently."
+"You have a major digestive disorder.  Though it causes you to vomit "
+"frequently, you have found that you can trigger your vomit reflex on demand, "
+"too."
 msgstr ""
-"У вас сильное пищеварительное расстройство, которое вызывает частую рвоту."
 
 #: lang/json/mutation_from_json.py
 msgid ""
@@ -50001,6 +50113,13 @@ msgstr ""
 "Ваши лапы стали еще больше. Ловкость рук заметно упала: постоянная "
 "скованность ладоней 2, серьезные проблемы с производством и никаких "
 "перчаток. Но вы можете грести еще эффективнее."
+
+#: lang/json/mutation_from_json.py
+msgid ""
+"Your protective shell has grown large enough to accomodate--if need be--your "
+"whole body.  Activate to pull your head and limbs into your shell, trading "
+"mobility and vision for warmth, protection, and shelter."
+msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
@@ -57042,8 +57161,8 @@ msgstr "<npcname> наносит рубящий удар ногой по %s"
 
 #: lang/json/technique_from_json.py
 #, python-format
-msgid "<npcname> block %s"
-msgstr "<npcname> блокирует %s"
+msgid "<npcname> blocks %s"
+msgstr ""
 
 #: lang/json/technique_from_json.py
 #, python-format
@@ -57210,6 +57329,11 @@ msgid "<npcname> makes serpentine hand motions at %s"
 msgstr ""
 
 #: lang/json/technique_from_json.py
+#, python-format
+msgid "<npcname> parries %s"
+msgstr ""
+
+#: lang/json/technique_from_json.py
 msgid "<npcname> performs the Crane Wing!"
 msgstr "<npcname> выполняет \"крыло журавля\"!"
 
@@ -57276,6 +57400,11 @@ msgstr ""
 #: lang/json/technique_from_json.py
 #, python-format
 msgid "<npcname> sends %s reeling!"
+msgstr ""
+
+#: lang/json/technique_from_json.py
+#, python-format
+msgid "<npcname> shields against %s"
 msgstr ""
 
 #: lang/json/technique_from_json.py
@@ -59677,6 +59806,10 @@ msgid "Motorcycle Chassis"
 msgstr "шасси мотоцикла"
 
 #: lang/json/vehicle_from_json.py
+msgid "Pickup Truck"
+msgstr ""
+
+#: lang/json/vehicle_from_json.py
 msgid "Police Car"
 msgstr "Полицейская машина"
 
@@ -59889,6 +60022,10 @@ msgid "kitchen unit"
 msgstr "автокухня"
 
 #: lang/json/vehicle_part_from_json.py
+msgid "light wooden handle"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
 msgid "military composite armor"
 msgstr "военная композитная броня"
 
@@ -59971,6 +60108,10 @@ msgstr "складной кузов"
 #: lang/json/vehicle_part_from_json.py
 msgid "tracking device"
 msgstr "устройство слежения"
+
+#: lang/json/vehicle_part_from_json.py
+msgid "travois"
+msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "trunk"
@@ -64750,6 +64891,22 @@ msgid "Dave's not here, man."
 msgstr ""
 
 #: src/disease.cpp
+msgid "Defrosting"
+msgstr ""
+
+#: src/disease.cpp
+msgid "Defrosting - foot"
+msgstr ""
+
+#: src/disease.cpp
+msgid "Defrosting - hand"
+msgstr ""
+
+#: src/disease.cpp
+msgid "Defrosting - head"
+msgstr ""
+
+#: src/disease.cpp
 msgctxt "memorial_female"
 msgid "Dermatik eggs hatched."
 msgstr "Вылупились яйца дерматика."
@@ -65381,6 +65538,36 @@ msgid "The bees have started escaping your teeth."
 msgstr ""
 
 #: src/disease.cpp
+msgid ""
+"The blood is starting to flow in your face again, causing pain as you begin "
+"to feel the damage the cold has wrought to your face."
+msgstr ""
+
+#: src/disease.cpp
+msgid ""
+"The blood is starting to flow in your left foot again, causing pain as you "
+"begin to feel the damage the cold has wrought to your foot."
+msgstr ""
+
+#: src/disease.cpp
+msgid ""
+"The blood is starting to flow in your left hand again, causing pain as you "
+"begin to feel the damage the cold has wrought to your hand."
+msgstr ""
+
+#: src/disease.cpp
+msgid ""
+"The blood is starting to flow in your right foot again, causing pain as you "
+"begin to feel the damage the cold has wrought to your foot."
+msgstr ""
+
+#: src/disease.cpp
+msgid ""
+"The blood is starting to flow in your right hand again, causing pain as you "
+"begin to feel the damage the cold has wrought to your hand."
+msgstr ""
+
+#: src/disease.cpp
 msgid "The cold wakes you up."
 msgstr "Холод разбудил вас."
 
@@ -65939,6 +66126,10 @@ msgid "Your comedown throws you off."
 msgstr ""
 
 #: src/disease.cpp
+msgid "Your face feels irritated."
+msgstr ""
+
+#: src/disease.cpp
 msgid "Your face feels numb."
 msgstr "Ваше лицо чувствует онемение."
 
@@ -66007,6 +66198,10 @@ msgstr "У вас дрожат пальцы."
 #: src/disease.cpp
 msgid "Your flesh crawls; insects tear through the flesh and begin to emerge!"
 msgstr "Ваша плоть лопается. Из разрывов выползают насекомые!"
+
+#: src/disease.cpp
+msgid "Your foot has gone numb."
+msgstr ""
 
 #: src/disease.cpp
 msgid "Your freezing left foot messes up your balance."
@@ -70349,6 +70544,11 @@ msgstr "Вы не можете сдвинуть %s. Слишком тяжело!
 
 #: src/game.cpp
 #, c-format
+msgid "The %s is too heavy for you to budge."
+msgstr ""
+
+#: src/game.cpp
+#, c-format
 msgid "The %s is too unstable to remove anything."
 msgstr ""
 
@@ -70873,12 +71073,28 @@ msgid "You can't butcher while driving!"
 msgstr "Вы не можете заниматься разделкой за рулём!"
 
 #: src/game.cpp
+msgid "You can't butcher while you're in your shell."
+msgstr ""
+
+#: src/game.cpp
 msgid "You can't chat while deaf!"
 msgstr "Вы не можете общаться во время глухоты!"
 
 #: src/game.cpp
-msgid "You can't construct while in vehicle."
-msgstr "Вы не можете строить находясь в транспорте."
+msgid "You can't close things while you're in your shell."
+msgstr ""
+
+#: src/game.cpp
+msgid "You can't construct while in a vehicle."
+msgstr ""
+
+#: src/game.cpp
+msgid "You can't construct while you're in your shell."
+msgstr ""
+
+#: src/game.cpp
+msgid "You can't craft while you're in your shell."
+msgstr ""
 
 #: src/game.cpp
 msgid "You can't disassemble items while driving."
@@ -70910,6 +71126,18 @@ msgid "You can't drive the vehicle from here. You need controls!"
 msgstr "Здесь нет руля, чтобы управлять транспортом!"
 
 #: src/game.cpp
+msgid "You can't drop things to another tile while you're in your shell."
+msgstr ""
+
+#: src/game.cpp
+msgid "You can't effectively throw while you're in your shell."
+msgstr ""
+
+#: src/game.cpp
+msgid "You can't examine your surroundings while you're in your shell."
+msgstr ""
+
+#: src/game.cpp
 msgid "You can't fire your weapon, it's too heavy..."
 msgstr ""
 
@@ -70922,6 +71150,10 @@ msgid "You can't go up here!"
 msgstr "Вы не можете здесь подняться!"
 
 #: src/game.cpp
+msgid "You can't grab things while you're in your shell."
+msgstr ""
+
+#: src/game.cpp
 #, c-format
 msgid "You can't mix loads in your %s."
 msgstr "Вы не можете смешивать содержимое в вашем %s"
@@ -70932,7 +71164,27 @@ msgid "You can't move %s while standing on it!"
 msgstr "Вы не можете  двигать %s, пока стоите на нём!"
 
 #: src/game.cpp
+msgid "You can't move mass quantities while you're in your shell."
+msgstr ""
+
+#: src/game.cpp
+msgid "You can't move while in your shell.  Deactivate it to go mobile."
+msgstr ""
+
+#: src/game.cpp
 msgid "You can't muster up the effort to throw anything..."
+msgstr ""
+
+#: src/game.cpp
+msgid "You can't open things while you're in your shell."
+msgstr ""
+
+#: src/game.cpp
+msgid "You can't operate a vehicle while you're in your shell."
+msgstr ""
+
+#: src/game.cpp
+msgid "You can't peek around corners while you're in your shell."
 msgstr ""
 
 #: src/game.cpp
@@ -70956,6 +71208,10 @@ msgstr "Вы не можете убрать частично обеднённы�
 #, c-format
 msgid "You can't seal that %s!"
 msgstr "Вы не можете закрыть %s!"
+
+#: src/game.cpp
+msgid "You can't smash things while you're in your shell."
+msgstr ""
 
 #: src/game.cpp
 #, c-format
@@ -72708,13 +72964,12 @@ msgstr "Типы предметов:"
 
 #: src/help.cpp
 msgid ""
-"Keep an eye on the weather. At night, sleeping might be difficult if you "
-"don't have a warm place to rest your head. Be sure to protect your "
-"extremities from frostbite and to keep your distance from large fires."
+"Keep an eye on the weather. Wind and humidity will exacerbate dire "
+"conditions, so seek shelter if you're unable to withstand them. Staying dry "
+"is important, especially if conditions are so low that they would cause "
+"frostbite. If you're having trouble staying warm over night, make a pile of "
+"clothing on the floor to sleep on."
 msgstr ""
-"Следите за погодой. Уснуть холодной ночью будет трудно, если вы не "
-"позаботились об обогреве головы. Удостоверьтесь, что защитили свои "
-"конечности от обморожения, и не подходите близко к бушующему огню."
 
 #: src/help.cpp
 msgid ""
@@ -73638,10 +73893,6 @@ msgid "Beloved customer"
 msgstr "Любимый клиент"
 
 #: src/iexamine.cpp
-msgid "Blueberries ripen in summer."
-msgstr "Черника созревает летом."
-
-#: src/iexamine.cpp
 msgid "Bulletin Board"
 msgstr "Доска объявлений"
 
@@ -74010,10 +74261,6 @@ msgid "Store which drink?"
 msgstr ""
 
 #: src/iexamine.cpp
-msgid "Strawberries ripen in summer."
-msgstr "Земляника созревает летом."
-
-#: src/iexamine.cpp
 msgid "Swipe your ID card?"
 msgstr "Вставить ID карту?"
 
@@ -74113,10 +74360,6 @@ msgid "The shrub offers up a fruit, then crumbles into a fungal bed."
 msgstr ""
 
 #: src/iexamine.cpp
-msgid "The tree is dormant and uninteresting."
-msgstr ""
-
-#: src/iexamine.cpp
 msgid "The tree offers up a fruit, then shrivels into a fungal tree."
 msgstr ""
 
@@ -74147,6 +74390,11 @@ msgstr ""
 #, c-format
 msgid "This %s can not be reloaded!"
 msgstr "Нельзя перезарядить %s."
+
+#: src/iexamine.cpp
+#, c-format
+msgid "This %s has already been harvested. Harvest it again next year."
+msgstr ""
 
 #: src/iexamine.cpp
 msgid "This flower has a heady aroma."
@@ -74841,7 +75089,7 @@ msgstr ""
 msgid "%1$s on the %2$s is: "
 msgstr ""
 
-#. ~ This is a string to construct the item name as it is displayed. This format string has been added for maximum flexibility. The strings are: %1$s: Damage text (eg. “bruised”. %2$s: burn adjectives (eg. “burnt”). %3$s: sided adjectives (eg. "left"). %4$s: tool modifier text (eg. “atomic”). %5$s: vehicle part text (eg. “3.8-Liter”. $6$s: main item text (eg. “apple”), %7$s: tags (eg. “ (wet) (fits)”).
+#. ~ This is a string to construct the item name as it is displayed. This format string has been added for maximum flexibility. The strings are: %1$s: Damage text (eg. “bruised”). %2$s: burn adjectives (eg. “burnt”). %3$s: sided adjectives (eg. "left"). %4$s: tool modifier text (eg. “atomic”). %5$s: vehicle part text (eg. “3.8-Liter”). $6$s: main item text (eg. “apple”). %7$s: tags (eg. “ (wet) (fits)”).
 #: src/item.cpp
 #, c-format
 msgid "%1$s%2$s%3$s%4$s%5$s%6$s%7$s"
@@ -75373,6 +75621,10 @@ msgid "The mouth. "
 msgstr "Рот. "
 
 #: src/item.cpp
+msgid "The over-extended cable breaks loose!"
+msgstr ""
+
+#: src/item.cpp
 msgid "The right arm. "
 msgstr "Правая рука."
 
@@ -75538,6 +75790,10 @@ msgstr ""
 msgid "You need to read this book to see its contents."
 msgstr "Нужно прочитать книгу, чтобы узнать её содержимое."
 
+#: src/item.cpp src/iuse.cpp
+msgid "You notice the cable has come loose!"
+msgstr ""
+
 #: src/item.cpp
 #, c-format
 msgid "You pick up %d %s."
@@ -75545,6 +75801,10 @@ msgid_plural "You pick up %d %s."
 msgstr[0] "Вы подняли %d %s."
 msgstr[1] "Вы подняли %d %s."
 msgstr[2] "Вы подняли %d %s."
+
+#: src/item.cpp
+msgid "You reel in the cable."
+msgstr ""
 
 #: src/item.cpp src/iuse.cpp
 #, c-format
@@ -75855,8 +76115,8 @@ msgid "<door_status>destroy"
 msgstr "<door_status>сломали"
 
 #: src/iuse.cpp
-msgid "<npcname> squeezes the pheremone ball..."
-msgstr "<npcname> сжал железу с феромоном…"
+msgid "<npcname> squeezes the pheromone ball..."
+msgstr ""
 
 #: src/iuse.cpp
 msgid "<plural>fur"
@@ -76114,6 +76374,14 @@ msgstr ""
 #: src/iuse.cpp
 msgctxt "memorial_male"
 msgid "Ate some marloss jelly."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Attach cable to vehicle where?"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Attach loose end of the cable"
 msgstr ""
 
 #: src/iuse.cpp
@@ -76437,6 +76705,10 @@ msgstr ""
 #: src/iuse.cpp
 msgctxt "memorial_male"
 msgid "Destroyed a harmful invader."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Detach and re-spool the cable"
 msgstr ""
 
 #. ~ (Flammenschwert) "The flames on your sword die out."
@@ -78149,6 +78421,10 @@ msgid "Using boots:"
 msgstr "Использовать ботинки:"
 
 #: src/iuse.cpp
+msgid "Using cable:"
+msgstr ""
+
+#: src/iuse.cpp
 msgid "Using hotplate:"
 msgstr "Использование плиты:"
 
@@ -78189,6 +78465,10 @@ msgstr ""
 
 #: src/iuse.cpp
 msgid "We must eliminate this contaminant at the earliest opportunity."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "We no longer require this scaffolding.  We reserve it for other uses."
 msgstr ""
 
 #. ~ The Mycus does not use the term (or encourage the concept of) "you".  The PC is a local/native organism, but is now the Mycus.
@@ -78819,16 +79099,8 @@ msgid "You extinguish the lighter."
 msgstr "Вы потушили зажигалку."
 
 #: src/iuse.cpp
-msgid "You fail to spray a message here."
-msgstr "Вы не смогли написать здесь сообщение."
-
-#: src/iuse.cpp
 msgid "You fail to stop the bleeding."
 msgstr "Вам не удалось остановить кровотечение."
-
-#: src/iuse.cpp
-msgid "You fail to write a message here."
-msgstr "У вас не получается писать на этом месте."
 
 #: src/iuse.cpp
 #, c-format
@@ -79556,8 +79828,8 @@ msgid "You squeak as the shot hits you."
 msgstr ""
 
 #: src/iuse.cpp
-msgid "You squeeze the pheremone ball.."
-msgstr "Вы сжали железу с феромоном…"
+msgid "You squeeze the pheromone ball..."
+msgstr ""
 
 #: src/iuse.cpp
 msgid "You stagger with a piercing headache!"
@@ -84323,10 +84595,6 @@ msgid "Description: [NONE]\n"
 msgstr "Описание: [НЕТ]\n"
 
 #: src/monattack.cpp
-msgid "\" We wish you no harm \""
-msgstr "\"Мы не желаем вам зла\""
-
-#: src/monattack.cpp
 msgid "\"Do not fear\""
 msgstr "\"Не бойся\""
 
@@ -84365,6 +84633,10 @@ msgstr "\"Мы дружелюбны\""
 #: src/monattack.cpp
 msgid "\"We can help you\""
 msgstr "\"Мы можем помочь\""
+
+#: src/monattack.cpp
+msgid "\"We wish you no harm\""
+msgstr ""
 
 #: src/monattack.cpp
 msgid "\"YOU... ARE FILTH...\""
@@ -85389,8 +85661,8 @@ msgstr "%s тает!"
 
 #: src/mondeath.cpp
 #, c-format
-msgid "The %s melts away. And the world returns to normaliity"
-msgstr "%s прекращает действие. И мир возвращается к нормальной жизни"
+msgid "The %s melts away. And the world returns to normality."
+msgstr ""
 
 #: src/mondeath.cpp
 #, c-format
@@ -86100,6 +86372,11 @@ msgstr ""
 #, c-format
 msgid "Press %s to pick a random name."
 msgstr "Нажмите %s для случайного имени."
+
+#: src/newcharacter.cpp
+#, c-format
+msgid "Press %s to re-roll."
+msgstr ""
 
 #: src/newcharacter.cpp
 #, c-format
@@ -92251,7 +92528,6 @@ msgctxt "memorial_female"
 msgid "Overcame addiction to %s."
 msgstr "Избавилась от зависимости к %s."
 
-#. ~ %s is addiction name
 #: src/player.cpp
 #, c-format
 msgctxt "memorial_male"
@@ -92793,6 +93069,18 @@ msgstr "Черты:"
 
 #: src/player.cpp
 #, c-format
+msgctxt "memorial_female"
+msgid "Transcended addiction to %s."
+msgstr ""
+
+#: src/player.cpp
+#, c-format
+msgctxt "memorial_male"
+msgid "Transcended addiction to %s."
+msgstr ""
+
+#: src/player.cpp
+#, c-format
 msgid "Trap detection level: %d       "
 msgstr "Обнаружение ловушек:  %d       "
 
@@ -93007,6 +93295,10 @@ msgid "You cannot attach a brass catcher to your %s."
 msgstr ""
 
 #: src/player.cpp
+msgid "You cannot fit that over your shell."
+msgstr ""
+
+#: src/player.cpp
 #, c-format
 msgid "You cannot fit the %s over your muzzle."
 msgstr "Вы не можете надеть %s на свою морду."
@@ -93056,10 +93348,6 @@ msgstr ""
 #, c-format
 msgid "You cannot wear a helmet over your %s."
 msgstr "Вы не можете надеть шлем поверх %s."
-
-#: src/player.cpp
-msgid "You cannot wear anything over your shell."
-msgstr "Вы не можете надеть что-либо из-за панциря."
 
 #: src/player.cpp
 msgid "You cannot wear footwear on your hooves."
@@ -93225,12 +93513,6 @@ msgstr "Все рецепты, изложенные в данной книге, 
 msgid "You learn a little about %s! (%d%%)"
 msgstr "Вы узнали немного про %s! (%d%%)"
 
-#. ~ %s is bodypart
-#: src/player.cpp
-#, c-format
-msgid "You lose sensation in your %s."
-msgstr "Вы не чувствуете ваших %s."
-
 #: src/player.cpp
 #, c-format
 msgid "You need a %s to consume that!"
@@ -93339,8 +93621,8 @@ msgstr "Вас пронизывает болезненный электриче�
 
 #: src/player.cpp
 #, c-format
-msgid "You take off your your %s."
-msgstr "Вы сняли %s."
+msgid "You take off your %s."
+msgstr ""
 
 #: src/player.cpp
 msgid "You throw up everything you just ate!"
@@ -93459,12 +93741,6 @@ msgstr ""
 "Ваш %s не имеет места для модификации %s. Чтобы убрать модификации, "
 "активируйте оружие."
 
-#. ~ %s is bodypart
-#: src/player.cpp
-#, c-format
-msgid "Your %s hardens from the frostbite!"
-msgstr "Ваш %s онемел от холода!"
-
 #: src/player.cpp
 #, c-format
 msgid "Your %s has %d charge but needs %d."
@@ -93536,6 +93812,21 @@ msgstr ""
 #, c-format
 msgid "Your %s skill won't be improved.  Read anyway?"
 msgstr "Ваш навык %s не будет улучшен. Всё равно читать?"
+
+#: src/player.cpp
+#, c-format
+msgid "Your %s will be frostbitten any minute now!!"
+msgstr ""
+
+#: src/player.cpp
+#, c-format
+msgid "Your %s will be frostbitten within the hour!"
+msgstr ""
+
+#: src/player.cpp
+#, c-format
+msgid "Your %s will be frostnipped in the next few hours."
+msgstr ""
 
 #: src/player.cpp
 msgid "Your arachnid limbs get in the way."
@@ -94820,6 +95111,13 @@ msgstr "брррРРММ*ПУМП!*"
 #: src/tutorial.cpp
 msgid "John Smith"
 msgstr "Джон Смит"
+
+#: src/tutorial.cpp
+msgid ""
+"You're saving a tutorial - the tutorial world lacks certain features of "
+"normal worlds. Weird things might happen when you load this save. You have "
+"been warned."
+msgstr ""
 
 #: src/veh_interact.cpp
 #, c-format
