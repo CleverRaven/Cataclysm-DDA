@@ -1479,7 +1479,10 @@ int iuse::chew(player *p, item *it, bool)
 
 static int marloss_reject_mutagen( player *p, item *it )
 {
-    if( it->type->can_use( "MYCUS" ) ) {
+    // I've been unable to replicate the rejections on marloss berries
+    // but best to be careful-KA101.
+    if( (it->type->can_use( "MYCUS" )) || (it->type->can_use( "MARLOSS" )) ||
+      (it->type->can_use( "MARLOSS_SEED" )) || (it->type->can_use( "MARLOSS_GEL" )) ) {
         return 0;
     }
     if (p->has_trait("THRESH_MARLOSS")) {
