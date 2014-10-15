@@ -3056,7 +3056,7 @@ C..C..C...|hhh|#########\n\
         }
 
         if (ice_lab) {
-            int temperature = -20 + 30 * (zlevel);
+            int temperature = std::max(-100, -20 + 30 * (zlevel));
             set_temperature(x, y, temperature);
         }
 
@@ -3904,7 +3904,7 @@ ff.......|....|WWWWWWWW|\n\
         }
 
         if ( ice_lab ) {
-            int temperature = -20 + 30 * (g->levz);
+            int temperature = std::max(-100, -20 + 30 * (g->levz));
             set_temperature(x, y, temperature);
 
             tw = is_ot_type("ice_lab", t_north) ? 0 : 2;
@@ -11107,7 +11107,7 @@ int map::place_items(items_location loc, int chance, int x1, int y1,
             lets_spawn -= 1.0;
 
             // Might contain one item or several that belong together like guns & their ammo
-            const Item_list items = item_controller->create_from_group(loc, 0);
+            const Item_list items = item_controller->create_from_group(loc, calendar::start);
             int tries = 0;
             do {
                 px = rng(x1, x2);

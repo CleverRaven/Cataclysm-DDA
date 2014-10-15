@@ -138,6 +138,7 @@ class calendar
         std::string textify_period(); // "1 second" "2 hours" "two days"
         std::string day_of_week() const;
 
+        static   calendar start;
         static   calendar turn;
 };
 #endif

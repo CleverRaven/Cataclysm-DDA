@@ -434,10 +434,12 @@ void dis_effect(player &p, disease &dis)
                                 (p.has_trait("POISRESIST") && one_in(500 + BMB));
     switch(disType) {
         case DI_COLD:
+            #define COLD_DMG(part) do {if (one_in(10)) {p.hp_cur[part]--;}} while (0)
             switch(dis.bp) {
                 case bp_head:
                     switch(dis.intensity) {
                         case 3:
+                            COLD_DMG(hp_head);
                             p.mod_int_bonus(-2);
                             if (!sleeping && tempMsgTrigger) {
                                 add_msg(_("Your thoughts are unclear."));
@@ -465,6 +467,7 @@ void dis_effect(player &p, disease &dis)
                     switch(dis.intensity) {
                         case 3:
                             // Speed -20
+                            COLD_DMG(hp_torso);
                             p.mod_dex_bonus(-2);
                             p.add_miss_reason(_("You quiver from the cold."), 2);
                             if (!sleeping && tempMsgTrigger) {
@@ -479,6 +482,7 @@ void dis_effect(player &p, disease &dis)
                 case bp_arm_l:
                     switch(dis.intensity) {
                         case 3:
+                            COLD_DMG(hp_arm_l);
                             p.mod_dex_bonus(-1);
                         case 2:
                             p.mod_dex_bonus(-1);
@@ -493,6 +497,7 @@ void dis_effect(player &p, disease &dis)
                 case bp_arm_r:
                     switch(dis.intensity) {
                         case 3:
+                            COLD_DMG(hp_arm_r);
                             p.mod_dex_bonus(-1);
                         case 2:
                             p.mod_dex_bonus(-1);
@@ -507,6 +512,7 @@ void dis_effect(player &p, disease &dis)
                 case bp_hand_l:
                     switch(dis.intensity) {
                         case 3:
+                            COLD_DMG(hp_arm_l);
                             p.mod_dex_bonus(-1);
                         case 2:
                             p.mod_dex_bonus(-1);
@@ -521,6 +527,7 @@ void dis_effect(player &p, disease &dis)
                 case bp_hand_r:
                     switch(dis.intensity) {
                         case 3:
+                            COLD_DMG(hp_arm_r);
                             p.mod_dex_bonus(-1);
                         case 2:
                             p.mod_dex_bonus(-1);
@@ -535,6 +542,7 @@ void dis_effect(player &p, disease &dis)
                 case bp_leg_l:
                     switch(dis.intensity) {
                         case 3:
+                            COLD_DMG(hp_leg_l);
                             p.mod_dex_bonus(-1);
                             p.add_miss_reason(_("Your legs uncontrollably shake from the cold."), 1);
                             p.mod_str_bonus(-1);
@@ -552,6 +560,7 @@ void dis_effect(player &p, disease &dis)
                 case bp_leg_r:
                     switch(dis.intensity) {
                         case 3:
+                            COLD_DMG(hp_leg_r);
                             p.mod_dex_bonus(-1);
                             p.mod_str_bonus(-1);
                             if (!sleeping && tempMsgTrigger && one_in(2)) {
@@ -567,6 +576,7 @@ void dis_effect(player &p, disease &dis)
                 case bp_foot_l:
                     switch(dis.intensity) {
                         case 3:
+                            COLD_DMG(hp_leg_l);
                             p.mod_dex_bonus(-1);
                             p.add_miss_reason(_("Your left foot is as nimble as a block of ice."), 1);
                             p.mod_str_bonus(-1);
@@ -584,6 +594,7 @@ void dis_effect(player &p, disease &dis)
                 case bp_foot_r:
                     switch(dis.intensity) {
                         case 3:
+                            COLD_DMG(hp_leg_r);
                             p.mod_dex_bonus(-1);
                             p.add_miss_reason(_("Your right foot is as nimble as a block of ice."), 1);
                             p.mod_str_bonus(-1);
