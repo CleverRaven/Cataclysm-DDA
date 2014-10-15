@@ -1263,6 +1263,10 @@ void player::update_bodytemp()
                                warmth((body_part)i) * 0.2 - 20 * wetness_percentage / 100;
             // Windchill reduced by your armor
             int FBwindPower = total_windpower * (1 - get_wind_resistance(body_part(i)) / 100.0);
+            
+            effect frostbite = get_effect("frostbite", (body_part)i);
+            int intense = frostbite.get_id() != "null" ? frostbite.get_intensity() : 0;
+
             // This has been broken down into 8 zones
             // Low risk zones (stops at frostnip)
             if( temp_cur[i] < BODYTEMP_COLD &&
@@ -1272,7 +1276,7 @@ void player::update_bodytemp()
                 if( frostbite_timer[i] < 2000 ) {
                     frostbite_timer[i] += 3;
                 }
-                if( one_in(100) && !has_disease("frostbite", (body_part)i)) {
+                if( one_in(100) && !has_effect("frostbite", (body_part)i)) {
                     add_msg(m_bad, _("Your %s will be frostnipped in the next few hours."),
                             body_part_name(body_part(i)).c_str());
                 }
@@ -1285,7 +1289,7 @@ void player::update_bodytemp()
                         (Ftemperature < -5 && FBwindPower >= 10 &&
                          -4 * Ftemperature + 3 * FBwindPower - 170 >= 0)) ) {
                 frostbite_timer[i] += 8;
-                if (one_in(100) && disease_intensity("frostbite", false, (body_part)i) != 1) {
+                if (one_in(100) && intense < 2) {
                     add_msg(m_bad, _("Your %s will be frostbitten within the hour!"),
                             body_part_name(body_part(i)).c_str());
                 }
@@ -1295,7 +1299,7 @@ void player::update_bodytemp()
                          -4 * Ftemperature + 3 * FBwindPower - 170 < 0) ||
                         (Ftemperature < -35 && FBwindPower >= 10)) ) {
                 frostbite_timer[i] += 72;
-                if (one_in(100) && disease_intensity("frostbite", false, (body_part)i) != 1) {
+                if (one_in(100) && intense < 2) {
                     add_msg(m_bad, _("Your %s will be frostbitten any minute now!!"),
                             body_part_name(body_part(i)).c_str());
                 }
@@ -1311,22 +1315,20 @@ void player::update_bodytemp()
                 // This ensures that the player will recover in at most 3 hours.
                 frostbite_timer[i] = 4200;
             }
-            if( frostbite_timer[i] == 0 ) {
-                rem_disease("frostbite", (body_part)i);
-                rem_disease("frostbite_recovery", (body_part)i);
-            } else if( frostbite_timer[i] >= 1800 && !has_disease("frostbite", (body_part)i) ) {
-                // We get frostnip
-                add_disease("frostbite", 1, true, 1, 1, 0, 1, (body_part)i, false);
-            } else if( frostbite_timer[i] >= 3600 &&
-                       disease_intensity("frostbite", false, (body_part)i) == 1 ) {
-                // Worsens to frostbite, stops recovery
-                add_disease("frostbite", 1, true, 2, 2, 0, 1, (body_part)i, false);
-                rem_disease("frostbite_recovery", (body_part)i);
-            } else if( frostbite_timer[i] >= 1800 &&
-                       disease_intensity("frostbite", false, (body_part)i) == 2 ) {
-                // Recovers from frostbite
-                add_disease("frostbite", 1, true, 1, 1, 0, 1, (body_part)i, false);
-                add_disease("frostbite_recovery", 1, true, 1, 1, 0, 1, (body_part)i, false);
+            // Frostbite, no recovery possible
+            if (frostbite_timer[i] >= 3600) {
+                add_effect("frostbite", 1, (body_part)i, true, 2);
+                remove_effect("frostbite_recovery", (body_part)i);
+            // Else frostnip, add recovery if we were frostbitten
+            } else if (frostbite_timer[i] >= 1800) {
+                if (intense == 2) {
+                    add_effect("frostbite_recovery", 1, (body_part)i, true);
+                }
+                add_effect("frostbite", 1, (body_part)i, true, 1);
+            // Else fully recovered
+            } else if (frostbite_timer[i] == 0) {
+                remove_effect("frostbite", (body_part)i);
+                remove_effect("frostbite_recovery", (body_part)i);
             }
         }
         // Warn the player if condition worsens
@@ -6227,6 +6229,46 @@ void player::hardcoded_effects(effect it)
             }
             break;
         default: // Suppress compiler warning [-Wswitch]
+            break;
+        }
+    } else if (id == "frostbite") {
+        switch(bp) {
+        case bp_hand_l:
+        case bp_hand_r:
+            switch(intense) {
+            case 2:
+                add_miss_reason(_("You have trouble grasping with your numb fingers."), 2);
+                mod_dex_bonus(-2);
+            default:
+                break;
+            }
+            break;
+        case bp_foot_l:
+        case bp_foot_r:
+            switch(intense) {
+            case 2:
+            case 1:
+                if (!sleeping && msg_trig && one_in(2)) {
+                    add_msg_if_player(m_bad, _("Your foot has gone numb."));
+                }
+            default:
+                break;
+            }
+            break;
+        case bp_mouth:
+            switch(intense) {
+            case 2:
+                mod_per_bonus(-2);
+            case 1:
+                mod_per_bonus(-1);
+                if (!sleeping && msg_trig) {
+                    add_msg_if_player(m_bad, _("Your face feels numb."));
+                }
+            default:
+                break;
+            }
+            break;
+        default: // Suppress compiler warnings [-Wswitch]
             break;
         }
     }

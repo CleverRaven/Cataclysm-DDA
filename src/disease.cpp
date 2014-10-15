@@ -15,9 +15,6 @@
 // Used only internally for fast lookups.
 enum dis_type_enum {
  DI_NULL,
-// Weather
-// Temperature, the order is important (dependent on bodypart.h)
- DI_FROSTBITE, DI_FROSTBITE_RECOVERY,
 // Diseases
  DI_COMMON_COLD, DI_FLU, DI_RECOVER, DI_TAPEWORM, DI_BLOODWORMS, DI_BRAINWORM, DI_PAINCYSTS,
  DI_TETANUS,
@@ -66,8 +63,6 @@ void game::init_diseases() {
     // Initialize the disease lookup table.
 
     disease_type_lookup["null"] = DI_NULL;
-    disease_type_lookup["frostbite"] = DI_FROSTBITE;
-    disease_type_lookup["frostbite_recovery"] = DI_FROSTBITE_RECOVERY;
     disease_type_lookup["common_cold"] = DI_COMMON_COLD;
     disease_type_lookup["flu"] = DI_FLU;
     disease_type_lookup["recover"] = DI_RECOVER;
@@ -353,77 +348,7 @@ void dis_effect(player &p, disease &dis)
     dis_type_enum disType = disease_type_lookup[dis.type];
     int grackPower = 500;
 
-    switch(disType) {
-        case DI_FROSTBITE:
-            switch(dis.bp) {
-                case bp_hand_l:
-                case bp_hand_r:
-                    switch(dis.intensity) {
-                        case 2:
-                            p.add_miss_reason(_("You have trouble grasping with your numb fingers."), 2);
-                            p.mod_dex_bonus(-2);
-                        default:
-                            break;
-                    }
-                    break;
-                case bp_foot_l:
-                case bp_foot_r:
-                    switch(dis.intensity) {
-                        case 2:
-                            // Speed is lowered.
-                        case 1:
-                            if (!sleeping && tempMsgTrigger && one_in(2)) {
-                                add_msg(m_bad, _("Your foot has gone numb."));
-                            }
-                        default:
-                            break;
-                    }
-                    break;
-                case bp_mouth:
-                    switch(dis.intensity) {
-                        case 2:
-                            p.mod_per_bonus(-2);
-                        case 1:
-                            p.mod_per_bonus(-1);
-                            if (!sleeping && tempMsgTrigger) {
-                                add_msg(m_bad, _("Your face feels numb."));
-                            }
-                        default:
-                            break;
-                    }
-                    break;
-                default: // Suppress compiler warnings [-Wswitch]
-                    break;
-            }
-            break;
-
-        case DI_FROSTBITE_RECOVERY:
-            switch(dis.bp) {
-                case bp_hand_l:
-                case bp_hand_r:
-                    if (!sleeping && tempMsgTrigger && one_in(2)) {
-                        add_msg(m_bad, _("Your fingers itch."));
-                    }
-                    if (p.pain < 40) p.mod_pain(1);
-                    break;
-                case bp_foot_l:
-                case bp_foot_r:
-                    if (!sleeping && tempMsgTrigger && one_in(2)) {
-                        add_msg(m_bad, _("Your toes itch."));
-                    }
-                    if (p.pain < 40) p.mod_pain(1);
-                    break;
-                case bp_mouth:
-                    if (!sleeping && tempMsgTrigger && one_in(2)) {
-                        add_msg(m_bad, _("Your face feels irritated."));
-                    }
-                    if (p.pain < 40) p.mod_pain(1);
-                    break;
-                default: // Suppress compiler warnings [-Wswitch]
-                    break;
-            }
-            break;
-            
+    switch(disType) {            
         case DI_COMMON_COLD:
             if (int(calendar::turn) % 300 == 0) {
                 p.thirst++;
@@ -1070,20 +995,7 @@ int disease_speed_boost(disease dis)
 {
     dis_type_enum type = disease_type_lookup[dis.type];
     switch (type) {
-        case DI_FROSTBITE:
-            switch (dis.bp) {
-                case bp_foot_l:
-                case bp_foot_r:
-                    switch (dis.intensity) {
-                        case 2 : return -2;
-                    }
-                default:
-                    return 0;
-            }
-            break;
-
         case DI_SAP:        return -25;
-        case DI_WEBBED:     return (dis.duration / 5 ) * -25;
         case DI_ADRENALINE: return (dis.duration > 150 ? 40 : -10);
         case DI_ASTHMA:     return 0 - int(dis.duration / 5);
         case DI_GRACK:      return +20000;
@@ -1101,37 +1013,6 @@ std::string dis_name(disease& dis)
     dis_type_enum type = disease_type_lookup[dis.type];
     switch (type) {
     case DI_NULL: return "";
-
-    case DI_FROSTBITE:
-        switch(dis.bp) {
-            case bp_hand_l:
-            case bp_hand_r:
-                switch (dis.intensity) {
-                case 1: return _("Frostnip - hand");
-                case 2: return _("Frostbite - hand");}
-            case bp_foot_l:
-            case bp_foot_r:
-                switch (dis.intensity) {
-                case 1: return _("Frostnip - foot");
-                case 2: return _("Frostbite - foot");}
-            case bp_mouth:
-                switch (dis.intensity) {
-                case 1: return _("Frostnip - face");
-                case 2: return _("Frostbite - face");}
-            default: // Suppress compiler warning [-Wswitch]
-                break; // function return "" in this case
-        }
-
-    case DI_FROSTBITE_RECOVERY:
-        switch(dis.bp) {
-            case bp_hand_l:
-            case bp_hand_r: return _("Defrosting - hand");
-            case bp_foot_l:
-            case bp_foot_r: return _("Defrosting - foot");
-            case bp_mouth:  return _("Defrosting - head");
-            default: // Suppress compiler warning [-Wswitch]
-                break; // function return "" in this case
-        }
 
     case DI_COMMON_COLD: return _("Common Cold");
     case DI_FLU: return _("Influenza");
@@ -1290,10 +1171,6 @@ std::string dis_combined_name(disease& dis)
     // Maximum length of returned string is 19 characters
     dis_type_enum type = disease_type_lookup[dis.type];
     switch (type) {
-        case DI_FROSTBITE:
-            return _("Frostbite");
-        case DI_FROSTBITE_RECOVERY:
-            return _("Defrosting");
         default: // Suppress compiler warnings [-Wswitch]
             break;
     }
@@ -1309,130 +1186,6 @@ std::string dis_description(disease& dis)
 
     case DI_NULL:
         return _("None");
-
-    case DI_FROSTBITE:
-        if (g->u.has_trait("NOPAIN")) {
-            switch(dis.bp) {
-            case bp_hand_l:
-                switch (dis.intensity) {
-                case 1: return _("\
-Your left hand is frostnipped from the prolonged exposure to the cold and have gone numb.");
-                case 2: return _("\
-Your left hand is frostbitten from the prolonged exposure to the cold. The tissues in your hand is frozen.");
-                }
-            case bp_hand_r:
-                switch (dis.intensity) {
-                case 1: return _("\
-Your right hand is frostnipped from the prolonged exposure to the cold and have gone numb.");
-                case 2: return _("\
-Your right hand is frostbitten from the prolonged exposure to the cold. The tissues in your hand is frozen.");
-                }
-            case bp_foot_l:
-                switch (dis.intensity) {
-                case 1: return _("\
-Your left foot is frostnipped from the prolonged exposure to the cold and have gone numb.");
-                case 2: return _("\
-Your left foot is frostbitten from the prolonged exposure to the cold. The tissues in your foot is frozen.");
-                }
-            case bp_foot_r:
-                switch (dis.intensity) {
-                case 1: return _("\
-Your right foot is frostnipped from the prolonged exposure to the cold and have gone numb.");
-                case 2: return _("\
-Your right foot is frostbitten from the prolonged exposure to the cold. The tissues in your foot is frozen.");
-                }
-            case bp_mouth:
-                switch (dis.intensity) {
-                case 1: return _("\
-Your face is frostnipped from the prolonged exposure to the cold and has gone numb.");
-                case 2: return _("\
-Your face is frostbitten from the prolonged exposure to the cold. The tissues in your face are frozen.");
-                }
-            case bp_torso:
-                return _("\
-Your torso is frostbitten from prolonged exposure to the cold.");
-            case bp_arm_l:
-                return _("\
-Your left arm is frostbitten from prolonged exposure to the cold.");
-            case bp_arm_r:
-                return _("\
-Your right arm is frostbitten from prolonged exposure to the cold.");
-            case bp_leg_l:
-                return _("\
-Your left leg is frostbitten from prolonged exposure to the cold.");
-            case bp_leg_r:
-                return _("\
-Your right leg is frostbitten from prolonged exposure to the cold.");
-            default: // Suppress compiler warning [-Wswitch]
-                break;
-          }
-        } else {
-            switch(dis.bp) {
-            case bp_hand_l:
-                switch (dis.intensity) {
-                case 1: return _("\
-Your left hand is frostnipped from the prolonged exposure to the cold and have gone numb. When the blood begins to flow, it will be painful.");
-                case 2: return _("\
-Your left hand is frostbitten from the prolonged exposure to the cold. The tissues in your hand is frozen.");
-                }
-            case bp_hand_r:
-                switch (dis.intensity) {
-                case 1: return _("\
-Your right hand is frostnipped from the prolonged exposure to the cold and have gone numb. When the blood begins to flow, it will be painful.");
-                case 2: return _("\
-Your right hand is frostbitten from the prolonged exposure to the cold. The tissues in your hand is frozen.");
-                }
-            case bp_foot_l:
-                switch (dis.intensity) {
-                case 1: return _("\
-Your left foot is frostnipped from the prolonged exposure to the cold and have gone numb. When the blood begins to flow, it will be painful.");
-                case 2: return _("\
-Your left foot is frostbitten from the prolonged exposure to the cold. The tissues in your foot is frozen.");
-                }
-            case bp_foot_r:
-                switch (dis.intensity) {
-                case 1: return _("\
-Your right foot is frostnipped from the prolonged exposure to the cold and have gone numb. When the blood begins to flow, it will be painful.");
-                case 2: return _("\
-Your right foot is frostbitten from the prolonged exposure to the cold. The tissues in your foot is frozen.");
-                }
-            case bp_mouth:
-                switch (dis.intensity) {
-                case 1: return _("\
-Your face is frostnipped from the prolonged exposure to the cold and has gone numb. When the blood begins to flow, it will be painful.");
-                case 2: return _("\
-Your face is frostbitten from the prolonged exposure to the cold. The tissues in your face are frozen.");
-                }
-            case bp_torso:
-                return _("\
-Your torso is frostbitten from prolonged exposure to the cold. It is extremely painful.");
-            case bp_arm_l:
-                return _("\
-Your left arm is frostbitten from prolonged exposure to the cold. It is extremely painful.");
-            case bp_arm_r:
-                return _("\
-Your right arm is frostbitten from prolonged exposure to the cold. It is extremely painful.");
-            case bp_leg_l:
-                return _("\
-Your left leg is frostbitten from prolonged exposure to the cold. It is extremely painful.");
-            case bp_leg_r:
-                return _("\
-Your right leg is frostbitten from prolonged exposure to the cold. It is extremely painful.");
-            default: // Suppress compiler warning [-Wswitch]
-                break;
-            }
-        }
-
-    case DI_FROSTBITE_RECOVERY:
-        switch (dis.bp) {
-            case bp_hand_l: return _("The blood is starting to flow in your left hand again, causing pain as you begin to feel the damage the cold has wrought to your hand.");
-            case bp_hand_r: return _("The blood is starting to flow in your right hand again, causing pain as you begin to feel the damage the cold has wrought to your hand.");
-            case bp_foot_l: return _("The blood is starting to flow in your left foot again, causing pain as you begin to feel the damage the cold has wrought to your foot.");
-            case bp_foot_r: return _("The blood is starting to flow in your right foot again, causing pain as you begin to feel the damage the cold has wrought to your foot.");
-            case bp_mouth:  return _("The blood is starting to flow in your face again, causing pain as you begin to feel the damage the cold has wrought to your face.");
-            default: // Suppress compiler warning [-Wswitch]
-                break;
-        }
 
     case DI_COMMON_COLD:
         return _(

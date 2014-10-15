@@ -400,6 +400,11 @@
         }
     },
     {
+        "//":  "This is still using the disease system",
+        "type": "effect_type",
+        "id": "recover"
+    },
+    {
         "//": "This is still using the disease system",
         "type": "effect_type",
         "id": "infected",
@@ -425,7 +430,7 @@
             "Spore covered",
             "Spore coated"
         ],
-        "speed_name": ["Spore covered"],
+        "speed_name": "Spore covered",
         "desc": ["You can feel the tiny spores sinking directly into your flesh."],
         "max_intensity": 3,
         "int_decay_tick": 120,
@@ -492,25 +497,6 @@
     },
     {
         "type": "effect_type",
-        "id": "blisters",
-        "name": ["Blisters"],
-        "desc": ["is blistering from the intense heat."],
-        "main_parts_only": true,
-        "part_descs": true,
-        "miss_message": "Your blisters distract you",
-        "base_mods": {
-            "dex_mod": [-1],
-            "str_mod": [-1],
-            "per_mod": [-1],
-            "pain_max_val": [35],
-            "pain_chance": [2],
-            "pain_min": [1],
-            "hurt_chance": [4],
-            "hurt_min": [1]
-        }
-    },
-    {
-        "type": "effect_type",
         "id": "bleed",
         "name": [
             "Bleeding",
@@ -566,7 +552,7 @@
             "is very exposed to the cold."
             "is dangerously cold!"
         ],
-        "speed_name": ["Cold"],
+        "speed_name": "Cold",
         "max_intensity": 3,
         "part_descs": true,
         "base_mods": {
@@ -589,7 +575,7 @@
             "is sweating from the heat."
             "is sweating profusely!"
         ],
-        "speed_name": ["Hot"],
+        "speed_name": "Hot",
         "max_intensity": 3,
         "part_descs": true,
         "base_mods": {
@@ -601,11 +587,59 @@
     },
     {
         "type": "effect_type",
-        "id": "dermatik"
+        "id": "frostbite",
+        "name": [
+            "Frostnip",
+            "Frostbite"
+        ],
+        "desc": [
+            "is frostnipped and has gone numb."
+            "is frostbitten! Its tissues are frozen from the cold!"
+        ],
+        "part_descs": true,
+        "speed_name": "Frostbite",
+        "dur_add_perc": 0,
+        "base_mods": {
+            "speed_mod": [5]
+        },
+        "scaling_mods": {
+            "speed_mod": [-5]
+        }
     },
     {
         "type": "effect_type",
-        "id": "frostbite"
+        "id": "frostbite_recovery",
+        "name": ["Defrosting"],
+        "desc": ["is starting to feel the damage cold has wrought."],
+        "part_descs": true,
+        "base_mods": {
+            "pain_max_val": [40],
+            "pain_chance": [2],
+            "pain_min": [1]
+        }
+    }
+    {
+        "type": "effect_type",
+        "id": "blisters",
+        "name": ["Blisters"],
+        "desc": ["is blistering from the intense heat."],
+        "main_parts_only": true,
+        "part_descs": true,
+        "miss_message": "Your blisters distract you",
+        "base_mods": {
+            "dex_mod": [-1],
+            "str_mod": [-1],
+            "per_mod": [-1],
+            "pain_max_val": [35],
+            "pain_chance": [2],
+            "pain_min": [1],
+            "hurt_chance": [4],
+            "hurt_min": [1]
+        }
+    },
+    {
+        "type": "effect_type",
+        "id": "dermatik"
     },
     {
         "type": "effect_type",
@@ -648,10 +682,6 @@
         "id": "adrenaline",
         "apply_message": "You feel a surge of adrenaline!",
         "rating": "good"
-    },
-    {
-        "type": "effect_type",
-        "id": "recover"
     },
     {
         "type": "effect_type",
