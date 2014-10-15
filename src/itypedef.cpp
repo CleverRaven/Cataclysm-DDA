@@ -52,12 +52,12 @@ bool itype::is_sided(body_part bp) const
     return armor->sided.test(bp);
 }
 
-int itype::invoke( player *p, item *it, bool active )
+int itype::invoke( player *p, item *it, bool active, point pos )
 {
     int charges_to_use = 0;
     for( auto method = use_methods.begin();
          charges_to_use >= 0 && method != use_methods.end(); ++method ) {
-        charges_to_use = method->call( p, it, active );
+        charges_to_use = method->call( p, it, active, pos );
     }
     return charges_to_use;
 }
@@ -65,8 +65,6 @@ int itype::invoke( player *p, item *it, bool active )
 
 void game::init_itypes ()
 {
-
-
     // First, the null object.  NOT REALLY AN OBJECT AT ALL.  More of a concept.
     itypes["null"] =
         new itype("null", 0, "none", "none", "", '#', c_white, "null", "null", PNULL, 0, 0, 0, 0, 0);

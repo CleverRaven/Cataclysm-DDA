@@ -1993,7 +1993,7 @@ void game::activity_on_finish_firstaid()
 {
     item &it = u.i_at(u.activity.position);
     iuse tmp;
-    tmp.completefirstaid(&u, &it, false);
+    tmp.completefirstaid(&u, &it, false, u.pos());
     u.reduce_charges(u.activity.position, 1);
     // Erase activity and values.
     u.activity.type = ACT_NULL;
@@ -2003,10 +2003,8 @@ void game::activity_on_finish_firstaid()
 void game::activity_on_finish_start_fire()
 {
         item &it = u.i_at(u.activity.position);
-        const int dirx = u.activity.placement.x;
-        const int diry = u.activity.placement.y;
         iuse tmp;
-        tmp.resolve_firestarter_use(&u, &it, dirx, diry);
+        tmp.resolve_firestarter_use(&u, &it, u.activity.placement);
         u.activity.type = ACT_NULL;
 }
 
@@ -8676,7 +8674,7 @@ bool pet_menu(monster *z)
 
             item ball("pheromone", 0);
             iuse pheromone;
-            pheromone.pheromone(&(g->u), &ball, true);
+            pheromone.pheromone(&(g->u), &ball, true, g->u.pos());
         }
 
     }
