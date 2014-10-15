@@ -5477,6 +5477,9 @@ void player::process_effects() {
         remove_effect("fungus");
         add_msg_if_player(m_bad,  _("We have mistakenly colonized a local guide!  Purging now."));
     }
+    if (has_trait("PARAIMMUNE")) {
+       remove_effect("dermatik");
+    }
     
     //Human only effects
     for( auto maps = effects.begin(); maps != effects.end(); ++maps ) {
@@ -6270,6 +6273,62 @@ void player::hardcoded_effects(effect it)
             break;
         default: // Suppress compiler warnings [-Wswitch]
             break;
+        }
+    } else if (id == "dermatik") {
+        bool triggered = false;
+        int formication_chance = 600;
+        if (dur < 2400) {
+            formication_chance += 2400 - dur;
+        }
+        if (one_in(formication_chance)) {
+            add_disease("formication", 600, false, 1, 3, 0, 1, dis.bp, true);
+        }
+        if (dur < 14400 && one_in(2400)) {
+            vomit();
+        }
+        if (dur > 14400) {
+            // Spawn some larvae!
+            // Choose how many insects; more for large characters
+            int num_insects = rng(1, std::min(3, str_max / 3));
+            apply_damage( nullptr, bp, rng( 2, 4 ) * num_insects );
+            // Figure out where they may be placed
+            add_msg_player_or_npc( m_bad, _("Your flesh crawls; insects tear through the flesh and begin to emerge!"),
+                _("Insects begin to emerge from <npcname>'s skin!") );
+            monster grub(GetMType("mon_dermatik_larva"));
+            for (int i = posx - 1; i <= posx + 1; i++) {
+                for (int j = posy - 1; j <= posy + 1; j++) {
+                    if (num_insects == 0) {
+                        break;
+                    } else if (i == 0 && j == 0) {
+                        continue;
+                    }
+                    if (g->mon_at(i, j) == -1) {
+                        grub.spawn(i, j);
+                        if (one_in(3)) {
+                            grub.friendly = -1;
+                        } else {
+                            grub.friendly = 0;
+                        }
+                        g->add_zombie(grub);
+                        num_insects--;
+                    }
+                }
+                if (num_insects == 0) {
+                    break;
+                }
+            }
+            add_memorial_log(pgettext("memorial_male", "Dermatik eggs hatched."),
+                               pgettext("memorial_female", "Dermatik eggs hatched."));
+            rem_disease("formication", bp);
+            moves -= 600;
+            triggered = true;
+        }
+        if (triggered) {
+            // Set ourselves up for removal
+            it.set_duration(0);
+        } else {
+            // Count duration up
+            it.mod_duration(1);
         }
     }
 }

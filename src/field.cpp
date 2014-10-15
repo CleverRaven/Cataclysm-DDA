@@ -1472,7 +1472,7 @@ void map::step_in_field(int x, int y)
             //Sap causes the player to get sap disease, slowing them down.
             if( g->u.in_vehicle ) break; //sap does nothing to cars.
             add_msg(m_bad, _("The sap sticks to you!"));
-            g->u.add_disease("sap", cur->getFieldDensity() * 2);
+            g->u.add_effect("sap", cur->getFieldDensity() * 2);
             if (cur->getFieldDensity() == 1) {
                 field_list_it = curfield.removeField( fd_sap );
                 continue;

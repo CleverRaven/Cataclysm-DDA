@@ -21,9 +21,8 @@ enum dis_type_enum {
 // Fields - onfire moved to effects
  DI_CRUSHED,
 // Monsters
- DI_SAP,
  DI_LYING_DOWN, DI_SLEEP, DI_ALARM_CLOCK,
- DI_DERMATIK, DI_FORMICATION,
+ DI_FORMICATION,
  DI_BITE,
 // Food & Drugs
  DI_DRUNK, DI_CIG, DI_HIGH, DI_WEED_HIGH,
@@ -55,7 +54,6 @@ static void handle_bite_wound(player& p, disease& dis);
 static void handle_infected_wound(player& p, disease& dis);
 static void handle_recovery(player& p, disease& dis);
 static void handle_evil(player& p, disease& dis);
-static void handle_insect_parasites(player& p, disease& dis);
 
 static bool will_vomit(player& p, int chance = 1000);
 
@@ -72,11 +70,9 @@ void game::init_diseases() {
     disease_type_lookup["tetanus"] = DI_TETANUS;
     disease_type_lookup["paincysts"] = DI_PAINCYSTS;
     disease_type_lookup["crushed"] = DI_CRUSHED;
-    disease_type_lookup["sap"] = DI_SAP;
     disease_type_lookup["lying_down"] = DI_LYING_DOWN;
     disease_type_lookup["sleep"] = DI_SLEEP;
     disease_type_lookup["alarm_clock"] = DI_ALARM_CLOCK;
-    disease_type_lookup["dermatik"] = DI_DERMATIK;
     disease_type_lookup["formication"] = DI_FORMICATION;
     disease_type_lookup["bite"] = DI_BITE;
     disease_type_lookup["drunk"] = DI_DRUNK;
@@ -120,9 +116,6 @@ bool dis_msg(dis_type type_string) {
         break;
     case DI_CRUSHED:
         add_msg(m_bad, _("The ceiling collapses on you!"));
-        break;
-    case DI_SAP:
-        add_msg(m_bad, _("You're coated in sap!"));
         break;
     case DI_LYING_DOWN:
         add_msg(_("You lie down to go to sleep..."));
@@ -410,11 +403,6 @@ void dis_effect(player &p, disease &dis)
             */
             break;
 
-        case DI_SAP:
-            p.mod_dex_bonus(-3);
-            p.add_miss_reason(_("The sap's too sticky for you to fight effectively."), 3);
-            break;
-
         case DI_LYING_DOWN:
             p.moves = 0;
             if (p.can_sleep()) {
@@ -685,14 +673,6 @@ void dis_effect(player &p, disease &dis)
                 if(one_in(256)) {
                     p.fatigue++;
                 }
-            }
-            break;
-
-        case DI_DERMATIK:
-            if (p.has_trait("PARAIMMUNE")) {
-               p.rem_disease("dermatik");
-            } else {
-                handle_insect_parasites(p, dis);
             }
             break;
 
@@ -995,7 +975,6 @@ int disease_speed_boost(disease dis)
 {
     dis_type_enum type = disease_type_lookup[dis.type];
     switch (type) {
-        case DI_SAP:        return -25;
         case DI_ADRENALINE: return (dis.duration > 150 ? 40 : -10);
         case DI_ASTHMA:     return 0 - int(dis.duration / 5);
         case DI_GRACK:      return +20000;
@@ -1016,7 +995,6 @@ std::string dis_name(disease& dis)
 
     case DI_COMMON_COLD: return _("Common Cold");
     case DI_FLU: return _("Influenza");
-    case DI_SAP: return _("Sap-coated");
 
     case DI_FORMICATION:
     {
@@ -1202,9 +1180,6 @@ std::string dis_description(disease& dis)
     case DI_CRUSHED: return "If you're seeing this, there is a bug in disease.cpp!";
 
     case DI_STEMCELL_TREATMENT: return _("Your insides are shifting in strange ways as the treatment takes effect.");
-
-    case DI_SAP:
-        return _("Dexterity - 3;   Speed - 25");
 
     case DI_FORMICATION:
     {
@@ -1805,56 +1780,6 @@ static void handle_evil(player& p, disease& dis)
         p.add_miss_reason(_("Why waste your time on that insignificant speck?"), -dex_mod);
         p.mod_int_bonus(-(dis.duration > 4500 ? 10 : int(dis.duration / 450)));
         p.mod_per_bonus(-(dis.duration > 4000 ? 10 : int(dis.duration / 400)));
-    }
-}
-
-static void handle_insect_parasites(player& p, disease& dis)
-{
-    int formication_chance = 600;
-    if (dis.duration > 12001) {
-        formication_chance += 2400 - (14401 - dis.duration);
-    }
-    if (one_in(formication_chance)) {
-        p.add_disease("formication", 600, false, 1, 3, 0, 1, dis.bp, true);
-    }
-    if (dis.duration > 1 && one_in(2400)) {
-        p.vomit();
-    }
-    if (dis.duration == 1) {
-        // Spawn some larvae!
-        // Choose how many insects; more for large characters
-        int num_insects = rng(1, std::min(3, p.str_max / 3));
-        p.apply_damage( nullptr, dis.bp, rng( 2, 4 ) * num_insects );
-        // Figure out where they may be placed
-        p.add_msg_player_or_npc( m_bad, _("Your flesh crawls; insects tear through the flesh and begin to emerge!"),
-            _("Insects begin to emerge from <npcname>'s skin!") );
-        monster grub(GetMType("mon_dermatik_larva"));
-        for (int i = p.posx - 1; i <= p.posx + 1; i++) {
-            for (int j = p.posy - 1; j <= p.posy + 1; j++) {
-                if (num_insects == 0) {
-                    break;
-                } else if (i == 0 && j == 0) {
-                    continue;
-                }
-                if (g->mon_at(i, j) == -1) {
-                    grub.spawn(i, j);
-                    if (one_in(3)) {
-                        grub.friendly = -1;
-                    } else {
-                        grub.friendly = 0;
-                    }
-                    g->add_zombie(grub);
-                    num_insects--;
-                }
-            }
-            if (num_insects == 0) {
-                break;
-            }
-        }
-        p.add_memorial_log(pgettext("memorial_male", "Dermatik eggs hatched."),
-                           pgettext("memorial_female", "Dermatik eggs hatched."));
-        p.rem_disease("formication", dis.bp);
-        p.moves -= 600;
     }
 }
 

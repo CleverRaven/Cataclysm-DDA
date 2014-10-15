@@ -742,7 +742,7 @@ void mattack::spit_sap(monster *z, int index)
     }
     add_msg(m_bad, _("A glob of sap hits you!"));
     g->u.deal_damage( z, bp_torso, damage_instance( DT_BASH, dam ) );
-    g->u.add_disease("sap", dam);
+    g->u.add_effect("sap", dam);
 }
 
 void mattack::triffid_heartbeat(monster *z, int index)
@@ -1324,7 +1324,7 @@ void mattack::dermatik(monster *z, int index)
     add_msg(m_bad, _("The %1$s sinks its ovipositor into your %2$s!"), z->name().c_str(),
             body_part_name_accusative(targeted).c_str());
     if (!g->u.has_trait("PARAIMMUNE")) {
-        g->u.add_disease("dermatik", 14401, false, 1, 1, 0, 0, targeted, true);
+        g->u.add_effect("dermatik", 1, targeted, true);
         g->u.add_memorial_log(pgettext("memorial_male", "Injected with dermatik eggs."),
                               pgettext("memorial_female", "Injected with dermatik eggs."));
     }

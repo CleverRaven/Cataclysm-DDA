@@ -447,7 +447,7 @@ void player::activate_bionic(int b)
         if (has_effect("fungus")) {
             bad.push_back(_("Fungal Parasite"));
         }
-        if (has_disease("dermatik")) {
+        if (has_effect("dermatik")) {
             bad.push_back(_("Insect Parasite"));
         }
         if (has_effect("stung")) {
@@ -540,7 +540,7 @@ void player::activate_bionic(int b)
     } else if(bio.id == "bio_blood_filter") {
         add_msg(m_neutral, _("You activate your blood filtration system."));
         remove_effect("fungus");
-        rem_disease("dermatik");
+        remove_effect("dermatik");
         rem_disease("bloodworms");
         rem_disease("tetanus");
         remove_effect("poison");

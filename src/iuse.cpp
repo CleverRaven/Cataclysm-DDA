@@ -229,11 +229,11 @@ int iuse::royal_jelly(player *p, item *it, bool)
         message = _("You feel cleansed inside!");
         p->remove_effect("fungus");
     }
-    if (p->has_disease("dermatik") || p->has_disease("bloodworms") ||
+    if (p->has_effect("dermatik") || p->has_disease("bloodworms") ||
         p->has_disease("paincysts") || p->has_disease("brainworm") ||
         p->has_disease("tapeworm")) {
         message = _("You feel cleansed inside!");
-        p->rem_disease("dermatik");
+        p->remove_effect("dermatik");
         p->rem_disease("bloodworms");
         p->rem_disease("paincysts");
         p->rem_disease("brainworm");
@@ -1141,8 +1141,8 @@ int iuse::antiparasitic(player *p, item *it, bool)
         return false;
     }
     p->add_msg_if_player(_("You take some antiparasitic medication."));
-    if (p->has_disease("dermatik")) {
-        p->rem_disease("dermatik");
+    if (p->has_effect("dermatik")) {
+        p->remove_effect("dermatik");
         p->add_msg_if_player(m_good, _("The itching sensation under your skin fades away."));
     }
     if (p->has_disease("tapeworm")) {
@@ -1337,7 +1337,7 @@ int iuse::thorazine(player *p, item *it, bool)
     p->remove_effect("hallu");
     p->remove_effect("visuals");
     p->rem_disease("high");
-    if (!p->has_disease("dermatik")) {
+    if (!p->has_effect("dermatik")) {
         p->rem_disease("formication");
     }
     if (one_in(50)) {  // adverse reaction
@@ -8556,7 +8556,7 @@ int iuse::jet_injector(player *p, item *it, bool)
         p->rem_disease("bite");
         p->remove_effect("bleed");
         p->remove_effect("fungus");
-        p->rem_disease("dermatik");
+        p->remove_effect("dermatik");
         p->radiation += 4;
         p->healall(20);
     }

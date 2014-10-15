@@ -644,8 +644,16 @@
     {
         "type": "effect_type",
         "id": "sap",
+        "name": ["Sap-coated"],
+        "desc": ["You're coated in sap!"],
         "apply_message": "You're coated in sap!",
-        "rating": "bad"
+        "rating": "bad",
+        "miss_message": "The sap's too sticky for you to fight effectively.",
+        "miss_weight": 3,
+        "base_mods": {
+            "speed_mod": [-25],
+            "dex_mod": [-3]
+        }
     },
     {
         "type": "effect_type",
