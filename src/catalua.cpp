@@ -16,9 +16,9 @@
 
 #ifdef LUA
 extern "C" {
-#include "lua.h"
-#include "lualib.h"
-#include "lauxlib.h"
+#include <lu5.1/lua.h>
+#include <lu5.1/lualib.h>
+#include <lu5.1/lauxlib.h>
 }
 
 lua_State *lua_state;
