@@ -156,6 +156,7 @@
                 "pants",
                 "socks",
                 "dress_shoes",
+                "knit_scarf",
                 "sewing_kit",
                 "thread",
                 "scissors"
@@ -655,6 +656,7 @@
                 "9mm",
                 "socks",
                 "dress_shoes",
+                "knit_scarf",
                 "cig",
                 "switchblade",
                 "lighter",
@@ -770,6 +772,7 @@
                 "dress_shirt",
                 "socks",
                 "dress_shoes",
+                "knit_scarf",
                 "cig",
                 "lighter"
             ],
@@ -828,6 +831,7 @@
         "items": {
             "both": [
                 "pants",
+                "knit_scarf",
                 "whiskey",
                 "gin",
                 "bum_wine",
@@ -927,6 +931,7 @@
         "items": {
             "both": [
                 "suit",
+                "knit_scarf",
                 "socks",
                 "dress_shoes"
             ],
@@ -943,7 +948,7 @@
         "type": "profession",
         "ident": "bow_hunter",
         "name": "Bow Hunter",
-        "description": "Ever since you were a child you loved hunting, and you soon took a liking to the challenge of hunting with a bow.  Why, if the world ended there's nothing you'd want at your side more than your trusty bow.  So when it did, you made made sure to bring it along.",
+        "description": "Ever since you were a child you loved hunting, and you soon took a liking to the challenge of hunting with a bow.  Why, if the world ended there's nothing you'd want at your side more than your trusty bow.  So when it did, you made sure to bring it along.",
         "points": 2,
         "skills": [
             {
@@ -954,6 +959,7 @@
         "items": {
             "both": [
                 "army_top",
+                "knit_scarf",
                 "socks",
                 "boots_steel",
                 "pants_cargo",
@@ -1017,6 +1023,7 @@
                 "boots",
                 "hat_hunting",
                 "jacket_flannel",
+                "knit_scarf",
                 "ax"
             ],
             "male": [
@@ -1040,6 +1047,7 @@
                 "jeans",
                 "sneakers",
                 "tshirt",
+                "knit_scarf",
                 "socks",
                 "fun_survival"
             ],
@@ -1233,6 +1241,7 @@
         "items": {
             "both": [
                 "socks",
+                "knit_scarf",
                 "dress_shoes"
             ],
             "male": [
@@ -1265,6 +1274,7 @@
                 "dress_shirt",
                 "socks",
                 "dress_shoes",
+                "knit_scarf",
                 "gold_watch",
                 "briefcase_smg",
                 "pda",
@@ -1374,6 +1384,7 @@
                 "pants",
                 "socks",
                 "boots",
+                "knit_scarf",
                 "coat_lab",
                 "glasses_safety"
             ],
@@ -1594,6 +1605,7 @@
                 "suit",
                 "dress_shoes",
                 "gold_watch",
+                "knit_scarf",
                 "briefcase",
                 "pda",
                 "file",
@@ -1678,6 +1690,7 @@
             "both": [
                 "dress_shoes",
                 "socks",
+                "knit_scarf",
                 "suit"
             ],
             "male": [
@@ -1720,6 +1733,7 @@
             "both": [
                 "dress_shoes",
                 "dress_shirt",
+                "knit_scarf",
                 "wristwatch"
             ],
             "male": [
@@ -1839,6 +1853,7 @@
                 "boots",
                 "hat_hunting",
                 "jacket_flannel",
+                "knit_scarf",
                 "beartrap",
                 "knife_hunting",
                 "tobacco",
@@ -1937,6 +1952,7 @@
                 "ref_lighter",
                 "socks",
                 "dress_shoes",
+                "knit_scarf",
                 "cane"
             ],
             "male": [
@@ -2238,6 +2254,7 @@
                 "wristwatch",
                 "leather_belt",
                 "postman_shorts",
+                "knit_scarf",
                 "socks",
                 "sneakers"
             ],
@@ -2446,6 +2463,7 @@
                 "tieclip",
                 "socks",
                 "dress_shoes",
+                "knit_scarf",
                 "wristwatch",
                 "cell_phone",
                 "pda",
@@ -2629,6 +2647,7 @@
                 "boots",
                 "pants",
                 "jacket_leather",
+                "knit_scarf",
                 "holster",
                 "sw_619",
                 "38_special",
@@ -2699,6 +2718,7 @@
                 "jeans",
                 "tshirt",
                 "backpack",
+                "knit_scarf",
                 "multitool",
                 "hoe",
                 "socks",
@@ -2911,6 +2931,7 @@
                 "fishing_waders",
                 "knife_hunting",
                 "moonshine",
+                "knit_scarf",
                 "lighter",
                 "fishing_rod_professional",
                 "fish_trap",
