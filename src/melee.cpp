@@ -559,17 +559,44 @@ int player::dodge_roll()
 {
     if ( (shoe_type_count("roller_blades") == 2 && one_in((get_dex() + get_skill_level("dodge")) / 3 )) ||
           (shoe_type_count("roller_blades") == 1 && one_in((get_dex() + get_skill_level("dodge")) / 8 ))) {
-        if (!has_disease("downed")) {
-            add_msg_if_player(_("Fighting on wheels is hard!"));
+        // Skaters have a 67% chance to avoid knockdown, and get up a turn quicker.
+        if (has_trait("PROF_SKATER")) {
+            if (one_in(3)) {
+                if (!has_disease("downed")) {
+                    add_msg_if_player(m_bad, _("You overbalance and stumble!"));
+                }
+                add_disease("downed", 2);
+            }
+            else {
+                add_msg_if_player(m_good, _("You nearly fall, but recover thanks to your skating experience."));
+            }
         }
-        add_disease("downed", 3);
+        else {
+            if (!has_disease("downed")) {
+            add_msg_if_player(_("Fighting on wheels is hard!"));
+            }
+            add_disease("downed", 3);
+        }
     }
     //Fighting on a pair of quad skates isn't so hard, but fighting while wearing a single skate is.
     if (shoe_type_count("rollerskates") == 1 && one_in((get_dex() + get_skill_level("dodge")) / 8 )) {
-        if (!has_disease("downed")) {
-            add_msg_if_player(_("Fighting on wheels is hard!"));
+        if (has_trait("PROF_SKATER")) {
+            if (one_in(3)) {
+                if (!has_disease("downed")) {
+                    add_msg_if_player(m_bad, _("You overbalance and stumble!"));
+                }
+                add_disease("downed", 2);
+            }
+            else {
+                add_msg_if_player(m_good, _("You nearly fall, but recover thanks to your skating experience."));
+            }
         }
-        add_disease("downed", 3);
+        else {
+            if (!has_disease("downed")) {
+                add_msg_if_player(_("Fighting on wheels is hard!"));
+            }
+            add_disease("downed", 3);
+            }
     }
     if (has_effect("bouldering")) {
         if(one_in(get_dex())) {

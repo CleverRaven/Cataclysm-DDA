@@ -4055,6 +4055,34 @@
         "threshold": true
     },{
         "type" : "mutation",
+        "id" : "PROF_POLICE",
+        "name" : "Police Officer",
+        "points" : 0,
+        "description" : "You are a duly sworn law enforcement official, with jurisdiction throughout the New England region thanks to interstate agreements.  Whether that means anything now is another question.",
+        "valid": false,
+        "purifiable": false,
+        "profession": true
+    },{
+        "type" : "mutation",
+        "id" : "PROF_MED",
+        "name" : "MD",
+        "points" : 0,
+        "//" : "In the US, a medical 'residency' is essentially an extended post-graduate on-the-job medical training.  The idea here is that hopsital computer systems would recognize the PC as a valid user and grant access.",
+        "description" : "You were just beginning your residency when the cataclysm struck.  Though \"your\" hospital is likely overrun, you could likely claim emergency privileges elsewhere.  If anyone cares about that sort of thing anymore.",
+        "valid": false,
+        "purifiable": false,
+        "profession": true
+    },{
+        "type" : "mutation",
+        "id" : "PROF_SKATER",
+        "name" : "Skater",
+        "points" : 0,
+        "description" : "You spent a lot of time actively maneuvering on skates before the cataclysm, and are better at staying on your feet when checked or blocked.",
+        "valid": false,
+        "purifiable": false,
+        "profession": true
+    },{
+        "type" : "mutation",
         "id" : "DEBUG_NIGHTVISION",
         "name" : "Debug Vision",
         "points" : 99,
