@@ -658,10 +658,25 @@
     {
         "type": "effect_type",
         "id": "common_cold",
+        "name": ["Common Cold"],
+        "desc": ["Increased thirst;  Symptoms alleviated by medication (cough syrup)."]
         "apply_memorial_log": "Caught a cold.",
         "remove_memorial_log": "Got over the cold.",
         "apply_message": "You feel a cold coming on...",
-        "rating": "bad"
+        "rating": "bad",
+        "resist_effect": "took_flumed",
+        "miss_message": "You're too stuffed up to fight effectively.",
+        "base_mods": {
+            "thirst_tick": [300],
+            "thirst_min": [1],
+            "fatigue_tick": [50],
+            "fatigue_min": [1],
+            "str_mod": [-3, -1],
+            "dex_mod": [-1, 0],
+            "per_mod": [-1, 0],
+            "int_mod": [-2, -1],
+            "cough_chance": [300, 0]
+        }
     },
     {
         "type": "effect_type",

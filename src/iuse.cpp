@@ -258,9 +258,9 @@ int iuse::royal_jelly(player *p, item *it, bool)
         message = _("Your breathing clears up!");
         p->rem_disease("asthma");
     }
-    if (p->has_disease("common_cold") || p->has_disease("flu")) {
+    if (p->has_effect("common_cold") || p->has_disease("flu")) {
         message = _("You feel healthier!");
-        p->rem_disease("common_cold");
+        p->remove_effect("common_cold");
         p->rem_disease("flu");
     }
     p->add_msg_if_player(m_good, message.c_str());

@@ -16,7 +16,7 @@
 enum dis_type_enum {
  DI_NULL,
 // Diseases
- DI_COMMON_COLD, DI_FLU, DI_RECOVER, DI_TAPEWORM, DI_BLOODWORMS, DI_BRAINWORM, DI_PAINCYSTS,
+ DI_FLU, DI_RECOVER, DI_TAPEWORM, DI_BLOODWORMS, DI_BRAINWORM, DI_PAINCYSTS,
  DI_TETANUS,
 // Fields - onfire moved to effects
  DI_CRUSHED,
@@ -61,7 +61,6 @@ void game::init_diseases() {
     // Initialize the disease lookup table.
 
     disease_type_lookup["null"] = DI_NULL;
-    disease_type_lookup["common_cold"] = DI_COMMON_COLD;
     disease_type_lookup["flu"] = DI_FLU;
     disease_type_lookup["recover"] = DI_RECOVER;
     disease_type_lookup["tapeworm"] = DI_TAPEWORM;
@@ -104,11 +103,6 @@ void game::init_diseases() {
 bool dis_msg(dis_type type_string) {
     dis_type_enum type = disease_type_lookup[type_string];
     switch (type) {
-    case DI_COMMON_COLD:
-        add_msg(m_bad, _("You feel a cold coming on..."));
-        g->u.add_memorial_log(pgettext("memorial_male", "Caught a cold."),
-                              pgettext("memorial_female", "Caught a cold."));
-        break;
     case DI_FLU:
         add_msg(m_bad, _("You feel a flu coming on..."));
         g->u.add_memorial_log(pgettext("memorial_male", "Caught the flu."),
@@ -311,10 +305,6 @@ void dis_remove_memorial(dis_type type_string) {
   dis_type_enum type = disease_type_lookup[type_string];
 
   switch(type) {
-    case DI_COMMON_COLD:
-      g->u.add_memorial_log(pgettext("memorial_male", "Got over the cold."),
-                            pgettext("memorial_female", "Got over the cold."));
-      break;
     case DI_FLU:
       g->u.add_memorial_log(pgettext("memorial_male", "Got over the flu."),
                             pgettext("memorial_female", "Got over the flu."));
@@ -341,30 +331,7 @@ void dis_effect(player &p, disease &dis)
     dis_type_enum disType = disease_type_lookup[dis.type];
     int grackPower = 500;
 
-    switch(disType) {            
-        case DI_COMMON_COLD:
-            if (int(calendar::turn) % 300 == 0) {
-                p.thirst++;
-            }
-            if (int(calendar::turn) % 50 == 0) {
-                p.fatigue++;
-            }
-            if (p.has_effect("took_flumed")) {
-            p.mod_str_bonus(-1);
-            p.mod_int_bonus(-1);
-            } else {
-                p.mod_str_bonus(-3);
-                p.mod_dex_bonus(-1);
-                p.add_miss_reason(_("You're too stuffed up to fight effectively."), 1);
-                p.mod_int_bonus(-2);
-                p.mod_per_bonus(-1);
-            }
-
-            if (!p.has_effect"took_flumed") && one_in(300)) {
-                p.cough();
-            }
-            break;
-
+    switch(disType) {
         case DI_FLU:
             if (int(calendar::turn) % 300 == 0) {
                 p.thirst++;
@@ -993,7 +960,6 @@ std::string dis_name(disease& dis)
     switch (type) {
     case DI_NULL: return "";
 
-    case DI_COMMON_COLD: return _("Common Cold");
     case DI_FLU: return _("Influenza");
 
     case DI_FORMICATION:
@@ -1164,12 +1130,6 @@ std::string dis_description(disease& dis)
 
     case DI_NULL:
         return _("None");
-
-    case DI_COMMON_COLD:
-        return _(
-        "Increased thirst;   Frequent coughing\n"
-        "Strength - 3;   Dexterity - 1;   Intelligence - 2;   Perception - 1\n"
-        "Symptoms alleviated by medication (cough syrup).");
 
     case DI_FLU:
         return _(

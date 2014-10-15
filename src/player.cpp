@@ -1013,7 +1013,7 @@ void player::update_bodytemp()
         if( has_disease("flu") && i == bp_head ) {
             temp_conv[i] += 1500;
         }
-        if( has_disease("common_cold") ) {
+        if( has_effect("common_cold") ) {
             temp_conv[i] -= 750;
         }
         // BIONICS
@@ -5154,12 +5154,12 @@ void player::get_sick()
         return;
     }
 
-    if (!has_disease("flu") && !has_disease("common_cold") &&
+    if (!has_disease("flu") && !has_effect("common_cold") &&
         one_in(900 + get_healthy() + (has_trait("DISRESISTANT") ? 300 : 0))) {
         if (one_in(6)) {
             infect("flu", bp_mouth, 3, rng(40000, 80000));
         } else {
-            infect("common_cold", bp_mouth, 3, rng(20000, 60000));
+            add_env_effect("common_cold", bp_mouth, 3, rng(20000, 60000));
         }
     }
 }
@@ -5467,6 +5467,54 @@ bool will_vomit(player& p, int chance)
     return ((stomachUpset || hasNausea) && !suppressed);
 }
 
+void player::add_eff_effects(effect e, bool reduced)
+{
+    // Add hurt
+    if (it.get_amount("HURT", reduced) > 0) {
+        if (bp == num_bp) {
+            apply_damage(nullptr, bp_torso, it.get_mod("HURT"));
+        } else {
+            apply_damage(nullptr, bp, it.get_mod("HURT"));
+        }
+    }
+    // Add pkill
+    if (e.get_amount("PKILL", reduced) > 0 && e.get_max_val("PKILL", reduced) > pkill) {
+        pkill += e.get_amount("PKILL", reduced);
+        if (pkill > e.get_max_val("PKILL", reduced)) {
+            pkill = e.get_max_val("PKILL", reduced);
+        }
+    }
+    // Add radiation
+    if (e.get_amount("RAD", reduced) > 0 && e.get_max_val("RAD", reduced) > radiation) {
+        radiation += e.get_amount("RAD", reduced);
+        if (radiation > e.get_max_val("RAD", reduced)) {
+            radiation = e.get_max_val("RAD", reduced);
+        }
+    }
+    // Add hunger
+    if (e.get_amount("HUNGER", reduced) > 0 && e.get_max_val("HUNGER", reduced) > hunger) {
+        hunger += e.get_amount("HUNGER", reduced);
+        if (hunger > e.get_max_val("HUNGER", reduced)) {
+            hunger = e.get_max_val("HUNGER", reduced);
+        }
+    }
+    // Add thirst
+    if (e.get_amount("THIRST", reduced) > 0 && e.get_max_val("THIRST", reduced) > thirst) {
+        thirst += e.get_amount("THIRST", reduced);
+        if (thirst > e.get_max_val("THIRST", reduced)) {
+            thirst = e.get_max_val("THIRST", reduced);
+        }
+    }
+    // Add fatigue
+    if (e.get_amount("FATIGUE", reduced) > 0 && e.get_max_val("FATIGUE", reduced) > fatigue) {
+        fatigue += e.get_amount("FATIGUE", reduced);
+        if (fatigue > e.get_max_val("FATIGUE", reduced)) {
+            fatigue = e.get_max_val("FATIGUE", reduced);
+        }
+    }
+    Creature::add_eff_effects();
+}
+
 void player::process_effects() {
     //Special Removals
     if (has_effect("darkness") && g->is_in_sunlight(posx, posy)) {
@@ -5486,6 +5534,7 @@ void player::process_effects() {
         for( auto effect_it = maps->second.begin(); effect_it != maps->second.end(); ++effect_it ) {
             auto &it = effect_it->second;
             bool reduced = has_trait(it.get_resist_trait()) || has_effect(it.get_resist_effect());
+            double mod = 1;
             
             // Still hardcoded stuff, do this first since some modify their other traits
             hardcoded_effects(it);
@@ -5499,8 +5548,34 @@ void player::process_effects() {
                 add_miss_reason(_(it.get_miss_string().c_str()), weight);
             }
             
+            // Handle hunger
+            if (it.get_mod("HUNGER", reduced) > 0 &&
+                  (it.get_max_val("HUNGER", reduced) > hunger || it.get_max_val("HUNGER", reduced) == 0)) {
+                mod = 1;
+                if(it.activated(calendar::turn, "HUNGER", reduced, mod)) {
+                    hunger += it.get_mod("HUNGER", reduced));
+                }
+            }
+            
+            // Handle thirst
+            if (it.get_mod("THIRST", reduced) > 0 &&
+                  (it.get_max_val("THIRST", reduced) > thirst || it.get_max_val("THIRST", reduced) == 0)) {
+                mod = 1;
+                if(it.activated(calendar::turn, "THIRST", reduced, mod)) {
+                    thirst += it.get_mod("THIRST", reduced));
+                }
+            }
+            
+            // Handle fatigue
+            if (it.get_mod("FATIGUE", reduced) > 0 &&
+                  (it.get_max_val("FATIGUE", reduced) > fatigue || it.get_max_val("FATIGUE", reduced) == 0)) {
+                mod = 1;
+                if(it.activated(calendar::turn, "FATIGUE", reduced, mod)) {
+                    fatigue += it.get_mod("FATIGUE", reduced));
+                }
+            }
+            
             // Handle Radiation
-            double mod = 1;
             if (it.get_mod("RAD", reduced) > 0 &&
                   (it.get_max_val("RAD", reduced) > radiation || it.get_max_val("RAD", reduced) == 0)) {
                 mod = 1;
@@ -5512,7 +5587,6 @@ void player::process_effects() {
                     }
                 }
             }
-            
             
             // Handle stat changes
             mod_str_bonus(it.get_mod("STR", reduced));

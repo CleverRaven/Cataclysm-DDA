@@ -540,6 +540,17 @@ bool Creature::move_effects()
 {
     return true;
 }
+
+void Creature::add_eff_effects(effect e, bool reduced)
+{
+    // Add pain
+    if (e.get_amount("PAIN", reduced) > 0 && e.get_max_val("PAIN", reduced) > pain) {
+        mod_pain(e.get_amount("PAIN", reduced);
+        if (pain > e.get_max_val("PAIN", reduced)) {
+            pain = e.get_max_val("PAIN", reduced);
+        }
+    }
+}
  
 void Creature::add_effect(efftype_id eff_id, int dur, body_part bp, bool permanent, int intensity)
 {
@@ -579,6 +590,7 @@ void Creature::add_effect(efftype_id eff_id, int dur, body_part bp, bool permane
                     e.set_intensity( 1 );
                 }
             }
+            add_eff_effects(e, reduced);
         }
     }
     
@@ -610,6 +622,7 @@ void Creature::add_effect(efftype_id eff_id, int dur, body_part bp, bool permane
                                   pgettext("memorial_female",
                                            effect_types[eff_id].get_apply_memorial_log().c_str()));
         }
+        add_eff_effects(e, reduced);
     }
 }
 bool Creature::add_env_effect(efftype_id eff_id, body_part vector, int strength, int dur,
@@ -738,6 +751,10 @@ std::string Creature::get_value( const std::string key ) const
 void Creature::mod_pain(int npain)
 {
     pain += npain;
+    // Pain should never go negative
+    if (pain < 0) {
+        pain = 0;
+    }
 }
 void Creature::mod_moves(int nmoves)
 {

@@ -55,6 +55,30 @@ struct effect_mod_info {
     std::pair<int, int> rad_chance_top;
     std::pair<int, int> rad_chance_bot;
     std::pair<int, int> rad_tick;
+    
+    std::pair<int, int> hunger_amount;
+    std::pair<int, int> hunger_min;
+    std::pair<int, int> hunger_max;
+    std::pair<int, int> hunger_max_val;
+    std::pair<int, int> hunger_chance_top;
+    std::pair<int, int> hunger_chance_bot;
+    std::pair<int, int> hunger_tick;
+    
+    std::pair<int, int> thirst_amount;
+    std::pair<int, int> thirst_min;
+    std::pair<int, int> thirst_max;
+    std::pair<int, int> thirst_max_val;
+    std::pair<int, int> thirst_chance_top;
+    std::pair<int, int> thirst_chance_bot;
+    std::pair<int, int> thirst_tick;
+    
+    std::pair<int, int> fatigue_amount;
+    std::pair<int, int> fatigue_min;
+    std::pair<int, int> fatigue_max;
+    std::pair<int, int> fatigue_max_val;
+    std::pair<int, int> fatigue_chance_top;
+    std::pair<int, int> fatigue_chance_bot;
+    std::pair<int, int> fatigue_tick;
 
     std::pair<int, int> cough_chance_top;
     std::pair<int, int> cough_chance_bot;

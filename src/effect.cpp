@@ -6,6 +6,10 @@
 
 std::map<std::string, effect_type> effect_types;
 
+static void get_activation_vals(std::string arg, bool reduced, effect_mod_info base, effect_mod_info scale, 
+                                double &tick, double &top_base, double &top_scale, double &bot_base,
+                                double &bot_scale);
+
 static void extract_effect_float( JsonObject &j, std::string mod_type, std::pair<float, float> &mod_value, std::string backup)
 {
     if(j.has_member(mod_type)) {
@@ -55,6 +59,7 @@ bool effect_mod_info::load(JsonObject &jsobj, std::string member) {
         extract_effect_float(j, "per_mod", per_mod, "");
         extract_effect_float(j, "int_mod", int_mod, "");
         extract_effect_int(j, "speed_mod", speed_mod, "");
+        
         extract_effect_int(j, "pain_amount", pain_amount, "");
         extract_effect_int(j, "pain_min", pain_min, "");
         extract_effect_int(j, "pain_max", pain_max, "pain_min");
@@ -62,12 +67,14 @@ bool effect_mod_info::load(JsonObject &jsobj, std::string member) {
         extract_effect_int(j, "pain_chance", pain_chance_top, "");
         extract_effect_int(j, "pain_chance_bot", pain_chance_bot, "");
         extract_effect_int(j, "pain_tick", pain_tick, "");
+        
         extract_effect_int(j, "hurt_amount", hurt_amount, "");
         extract_effect_int(j, "hurt_min", hurt_min, "");
         extract_effect_int(j, "hurt_max", hurt_max, "hurt_min");
         extract_effect_int(j, "hurt_chance", hurt_chance_top, "");
         extract_effect_int(j, "hurt_chance_bot", hurt_chance_bot, "");
         extract_effect_int(j, "hurt_tick", hurt_tick, "");
+        
         extract_effect_int(j, "pkill_amount", pkill_amount, "");
         extract_effect_int(j, "pkill_min", pkill_min, "");
         extract_effect_int(j, "pkill_max", pkill_max, "pkill_min");
@@ -75,16 +82,43 @@ bool effect_mod_info::load(JsonObject &jsobj, std::string member) {
         extract_effect_int(j, "pkill_chance", pkill_chance_top, "");
         extract_effect_int(j, "pkill_chance_bot", pkill_chance_bot, "");
         extract_effect_int(j, "pkill_tick", pkill_tick, "");
-        extract_effect_int(j, "rad_amount", pkill_amount, "");
+        
+        extract_effect_int(j, "rad_amount", rad_amount, "");
         extract_effect_int(j, "rad_min", rad_min, "");
         extract_effect_int(j, "rad_max", rad_max, "rad_min");
         extract_effect_int(j, "rad_max_val", rad_max_val, "");
         extract_effect_int(j, "rad_chance", rad_chance_top, "");
         extract_effect_int(j, "rad_chance_bot", rad_chance_bot, "");
         extract_effect_int(j, "rad_tick", rad_tick, "");
+        
+        extract_effect_int(j, "hunger_amount", hunger_amount, "");
+        extract_effect_int(j, "hunger_min", hunger_min, "");
+        extract_effect_int(j, "hunger_max", hunger_max, "hunger_min");
+        extract_effect_int(j, "hunger_max_val", hunger_max_val, "");
+        extract_effect_int(j, "hunger_chance", hunger_chance_top, "");
+        extract_effect_int(j, "hunger_chance_bot", hunger_chance_bot, "");
+        extract_effect_int(j, "hunger_tick", hunger_tick, "");
+        
+        extract_effect_int(j, "thirst_amount", thirst_amount, "");
+        extract_effect_int(j, "thirst_min", thirst_min, "");
+        extract_effect_int(j, "thirst_max", thirst_max, "thirst_min");
+        extract_effect_int(j, "thirst_max_val", thirst_max_val, "");
+        extract_effect_int(j, "thirst_chance", thirst_chance_top, "");
+        extract_effect_int(j, "thirst_chance_bot", thirst_chance_bot, "");
+        extract_effect_int(j, "thirst_tick", thirst_tick, "");   
+        
+        extract_effect_int(j, "fatigue_amount", fatigue_amount, "");
+        extract_effect_int(j, "fatigue_min", fatigue_min, "");
+        extract_effect_int(j, "fatigue_max", fatigue_max, "fatigue_min");
+        extract_effect_int(j, "fatigue_max_val", fatigue_max_val, "");
+        extract_effect_int(j, "fatigue_chance", fatigue_chance_top, "");
+        extract_effect_int(j, "fatigue_chance_bot", fatigue_chance_bot, "");
+        extract_effect_int(j, "fatigue_tick", fatigue_tick, "");
+        
         extract_effect_int(j, "cough_chance", cough_chance_top, "");
         extract_effect_int(j, "cough_chance_bot", cough_chance_bot, "");
         extract_effect_int(j, "cough_tick", cough_tick, "");
+        
         extract_effect_int(j, "vomit_chance", vomit_chance_top, "");
         extract_effect_int(j, "vomit_chance_bot", vomit_chance_bot, "");
         extract_effect_int(j, "vomit_tick", vomit_tick, "");
@@ -474,63 +508,83 @@ std::string effect::get_removes_effect()
 int effect::get_mod(std::string arg, bool reduced)
 {
     float ret = 0;
+    auto &base = eff_type->base_mods;
+    auto &scale = eff_type->scaling_mods;
     if (!reduced) {
         if (arg == "STR") {
-            ret += eff_type->base_mods.str_mod.first;
-            ret += eff_type->scaling_mods.str_mod.first * intensity;
+            ret += base.str_mod.first;
+            ret += scale.str_mod.first * intensity;
         } else if (arg == "DEX") {
-            ret += eff_type->base_mods.dex_mod.first;
-            ret += eff_type->scaling_mods.dex_mod.first * intensity;
+            ret += base.dex_mod.first;
+            ret += scale.dex_mod.first * intensity;
         } else if (arg == "PER") {
-            ret += eff_type->base_mods.per_mod.first;
-            ret += eff_type->scaling_mods.per_mod.first * intensity;
+            ret += base.per_mod.first;
+            ret += scale.per_mod.first * intensity;
         } else if (arg == "INT") {
-            ret += eff_type->base_mods.int_mod.first;
-            ret += eff_type->scaling_mods.int_mod.first * intensity;
+            ret += base.int_mod.first;
+            ret += scale.int_mod.first * intensity;
         } else if (arg == "SPEED") {
-            ret += eff_type->base_mods.speed_mod.first;
-            ret += eff_type->scaling_mods.speed_mod.first * intensity;
+            ret += base.speed_mod.first;
+            ret += scale.speed_mod.first * intensity;
         } else if (arg == "PAIN") {
-            ret += rng(eff_type->base_mods.pain_min.first + eff_type->scaling_mods.pain_min.first * intensity,
-                    eff_type->base_mods.pain_max.first + eff_type->scaling_mods.pain_max.first * intensity);
+            ret += rng(base.pain_min.first + scale.pain_min.first * intensity,
+                    base.pain_max.first + scale.pain_max.first * intensity);
         } else if (arg == "HURT") {
-            ret += rng(eff_type->base_mods.hurt_min.first + eff_type->scaling_mods.hurt_min.first * intensity,
-                    eff_type->base_mods.hurt_max.first + eff_type->scaling_mods.hurt_max.first * intensity);
+            ret += rng(base.hurt_min.first + scale.hurt_min.first * intensity,
+                    base.hurt_max.first + scale.hurt_max.first * intensity);
         } else if (arg == "PKILL") {
-            ret += rng(eff_type->base_mods.pkill_min.first + eff_type->scaling_mods.pkill_min.first * intensity,
-                    eff_type->base_mods.pkill_max.first + eff_type->scaling_mods.pkill_max.first * intensity);
+            ret += rng(base.pkill_min.first + scale.pkill_min.first * intensity,
+                    base.pkill_max.first + scale.pkill_max.first * intensity);
         } else if (arg == "RAD") {
-            ret += rng(eff_type->base_mods.rad_min.first + eff_type->scaling_mods.rad_min.first * intensity,
-                    eff_type->base_mods.rad_max.first + eff_type->scaling_mods.rad_max.first * intensity);
+            ret += rng(base.rad_min.first + scale.rad_min.first * intensity,
+                    base.rad_max.first + scale.rad_max.first * intensity);
+        } else if (arg == "HUNGER") {
+            ret += rng(base.hunger_min.first + scale.hunger_min.first * intensity,
+                    base.hunger_max.first + scale.hunger_max.first * intensity);
+        } else if (arg == "THIRST") {
+            ret += rng(base.thirst_min.first + scale.thirst_min.first * intensity,
+                    base.thirst_max.first + scale.thirst_max.first * intensity);
+        } else if (arg == "FATIGUE") {
+            ret += rng(base.fatigue_min.first + scale.fatigue_min.first * intensity,
+                    base.fatigue_max.first + scale.fatigue_max.first * intensity);
         }
     } else {
         if (arg == "STR") {
-            ret += eff_type->base_mods.str_mod.second;
-            ret += eff_type->scaling_mods.str_mod.second * intensity;
+            ret += base.str_mod.second;
+            ret += scale.str_mod.second * intensity;
         } else if (arg == "DEX") {
-            ret += eff_type->base_mods.dex_mod.second;
-            ret += eff_type->scaling_mods.dex_mod.second * intensity;
+            ret += base.dex_mod.second;
+            ret += scale.dex_mod.second * intensity;
         } else if (arg == "PER") {
-            ret += eff_type->base_mods.per_mod.second;
-            ret += eff_type->scaling_mods.per_mod.second * intensity;
+            ret += base.per_mod.second;
+            ret += scale.per_mod.second * intensity;
         } else if (arg == "INT") {
-            ret += eff_type->base_mods.int_mod.second;
-            ret += eff_type->scaling_mods.int_mod.second * intensity;
+            ret += base.int_mod.second;
+            ret += scale.int_mod.second * intensity;
         } else if (arg == "SPEED") {
-            ret += eff_type->base_mods.speed_mod.second;
-            ret += eff_type->scaling_mods.speed_mod.second * intensity;
+            ret += base.speed_mod.second;
+            ret += scale.speed_mod.second * intensity;
         } else if (arg == "PAIN") {
-            ret += rng(eff_type->base_mods.pain_min.second + eff_type->scaling_mods.pain_min.second * intensity,
-                    eff_type->base_mods.pain_max.second + eff_type->scaling_mods.pain_max.second * intensity);
+            ret += rng(base.pain_min.second + scale.pain_min.second * intensity,
+                    base.pain_max.second + scale.pain_max.second * intensity);
         } else if (arg == "HURT") {
-            ret += rng(eff_type->base_mods.hurt_min.second + eff_type->scaling_mods.hurt_min.second * intensity,
-                    eff_type->base_mods.hurt_max.second + eff_type->scaling_mods.hurt_max.second * intensity);
+            ret += rng(base.hurt_min.second + scale.hurt_min.second * intensity,
+                    base.hurt_max.second + scale.hurt_max.second * intensity);
         } else if (arg == "PKILL") {
-            ret += rng(eff_type->base_mods.pkill_min.second + eff_type->scaling_mods.pkill_min.second * intensity,
-                    eff_type->base_mods.pkill_max.second + eff_type->scaling_mods.pkill_max.second * intensity);
+            ret += rng(base.pkill_min.second + scale.pkill_min.second * intensity,
+                    base.pkill_max.second + scale.pkill_max.second * intensity);
         } else if (arg == "RAD") {
-            ret += rng(eff_type->base_mods.rad_min.second + eff_type->scaling_mods.rad_min.second * intensity,
-                    eff_type->base_mods.rad_max.second + eff_type->scaling_mods.rad_max.second * intensity);
+            ret += rng(base.rad_min.second + scale.rad_min.second * intensity,
+                    base.rad_max.second + scale.rad_max.second * intensity);
+        } else if (arg == "HUNGER") {
+            ret += rng(base.hunger_min.second + scale.hunger_min.second * intensity,
+                    base.hunger_max.second + scale.hunger_max.second * intensity);
+        } else if (arg == "THIRST") {
+            ret += rng(base.thirst_min.second + scale.thirst_min.second * intensity,
+                    base.thirst_max.second + scale.thirst_max.second * intensity);
+        } else if (arg == "FATIGUE") {
+            ret += rng(base.fatigue_min.second + scale.fatigue_min.second * intensity,
+                    base.fatigue_max.second + scale.fatigue_max.second * intensity);
         }
     }
     return int(ret);
@@ -539,33 +593,53 @@ int effect::get_mod(std::string arg, bool reduced)
 int effect::get_amount(std::string arg, bool reduced)
 {
     float ret = 0;
+    auto &base = eff_type->base_mods;
+    auto &scale = eff_type->scaling_mods;
     if (!reduced) {
         if (arg == "PAIN") {
-            ret += eff_type->base_mods.pain_amount.first;
-            ret += eff_type->scaling_mods.pain_amount.first * intensity;
+            ret += base.pain_amount.first;
+            ret += scale.pain_amount.first * intensity;
         } else if (arg == "HURT") {
-            ret += eff_type->base_mods.hurt_amount.first;
-            ret += eff_type->scaling_mods.hurt_amount.first * intensity;
+            ret += base.hurt_amount.first;
+            ret += scale.hurt_amount.first * intensity;
         } else if (arg == "PKILL") {
-            ret += eff_type->base_mods.pkill_amount.first;
-            ret += eff_type->scaling_mods.pkill_amount.first * intensity;
+            ret += base.pkill_amount.first;
+            ret += scale.pkill_amount.first * intensity;
         } else if (arg == "RAD") {
-            ret += eff_type->base_mods.rad_amount.first;
-            ret += eff_type->scaling_mods.rad_amount.first * intensity;
+            ret += base.rad_amount.first;
+            ret += scale.rad_amount.first * intensity;
+        } else if (arg == "HUNGER") {
+            ret += base.hunger_amount.first;
+            ret += scale.hunger_amount.first * intensity;
+        } else if (arg == "THIRST") {
+            ret += base.thirst_amount.first;
+            ret += scale.thirst_amount.first * intensity;
+        } else if (arg == "FATIGUE") {
+            ret += base.fatigue_amount.first;
+            ret += scale.fatigue_amount.first * intensity;
         }
     } else {
         if (arg == "PAIN") {
-            ret += eff_type->base_mods.pain_amount.second;
-            ret += eff_type->scaling_mods.pain_amount.second * intensity;
+            ret += base.pain_amount.second;
+            ret += scale.pain_amount.second * intensity;
         } else if (arg == "HURT") {
-            ret += eff_type->base_mods.hurt_amount.second;
-            ret += eff_type->scaling_mods.hurt_amount.second * intensity;
+            ret += base.hurt_amount.second;
+            ret += scale.hurt_amount.second * intensity;
         } else if (arg == "PKILL") {
-            ret += eff_type->base_mods.pkill_amount.second;
-            ret += eff_type->scaling_mods.pkill_amount.second * intensity;
+            ret += base.pkill_amount.second;
+            ret += scale.pkill_amount.second * intensity;
         } else if (arg == "RAD") {
-            ret += eff_type->base_mods.rad_amount.second;
-            ret += eff_type->scaling_mods.rad_amount.second * intensity;
+            ret += base.rad_amount.second;
+            ret += scale.rad_amount.second * intensity;
+        } else if (arg == "HUNGER") {
+            ret += base.hunger_amount.second;
+            ret += scale.hunger_amount.second * intensity;
+        } else if (arg == "THIRST") {
+            ret += base.thirst_amount.second;
+            ret += scale.thirst_amount.second * intensity;
+        } else if (arg == "FATIGUE") {
+            ret += base.fatigue_amount.second;
+            ret += scale.fatigue_amount.second * intensity;
         }
     }
     return int(ret);
@@ -574,27 +648,47 @@ int effect::get_amount(std::string arg, bool reduced)
 int effect::get_max_val(std::string arg, bool reduced)
 {
     float ret = 0;
+    auto &base = eff_type->base_mods;
+    auto &scale = eff_type->scaling_mods;
     if (!reduced) {
         if (arg == "PAIN") {
-            ret += eff_type->base_mods.pain_max_val.first;
-            ret += eff_type->scaling_mods.pain_max_val.first * intensity;
+            ret += base.pain_max_val.first;
+            ret += scale.pain_max_val.first * intensity;
         } else if (arg == "PKILL") {
-            ret += eff_type->base_mods.pkill_max_val.first;
-            ret += eff_type->scaling_mods.pkill_max_val.first * intensity;
+            ret += base.pkill_max_val.first;
+            ret += scale.pkill_max_val.first * intensity;
         } else if (arg == "RAD") {
-            ret += eff_type->base_mods.rad_max_val.first;
-            ret += eff_type->scaling_mods.rad_max_val.first * intensity;
+            ret += base.rad_max_val.first;
+            ret += scale.rad_max_val.first * intensity;
+        } else if (arg == "HUNGER") {
+            ret += base.hunger_max_val.first;
+            ret += scale.hunger_max_val.first * intensity;
+        } else if (arg == "THIRST") {
+            ret += base.thirst_max_val.first;
+            ret += scale.thirst_max_val.first * intensity;
+        } else if (arg == "FATIGUE") {
+            ret += base.fatigue_max_val.first;
+            ret += scale.fatigue_max_val.first * intensity;
         }
     } else {
         if (arg == "PAIN") {
-            ret += eff_type->base_mods.pain_max_val.second;
-            ret += eff_type->scaling_mods.pain_max_val.second * intensity;
+            ret += base.pain_max_val.second;
+            ret += scale.pain_max_val.second * intensity;
         } else if (arg == "PKILL") {
-            ret += eff_type->base_mods.pkill_max_val.second;
-            ret += eff_type->scaling_mods.pkill_max_val.second * intensity;
+            ret += base.pkill_max_val.second;
+            ret += scale.pkill_max_val.second * intensity;
         } else if (arg == "RAD") {
-            ret += eff_type->base_mods.rad_max_val.second;
-            ret += eff_type->scaling_mods.rad_max_val.second * intensity;
+            ret += base.rad_max_val.second;
+            ret += scale.rad_max_val.second * intensity;
+        } else if (arg == "HUNGER") {
+            ret += base.hunger_max_val.second;
+            ret += scale.hunger_max_val.second * intensity;
+        } else if (arg == "THIRST") {
+            ret += base.thirst_max_val.second;
+            ret += scale.thirst_max_val.second * intensity;
+        } else if (arg == "FATIGUE") {
+            ret += base.fatigue_max_val.second;
+            ret += scale.fatigue_max_val.second * intensity;
         }
     
     }
@@ -611,6 +705,126 @@ bool effect::get_sizing(std::string arg)
     return false;
 }
 
+static void get_activation_vals(std::string arg, bool reduced, effect_mod_info base, effect_mod_info scale, 
+                                double &tick, double &top_base, double &top_scale, double &bot_base,
+                                double &bot_scale)
+{
+    // Get the tick, top, and bottom values for specific argument type
+    if (!reduced) {
+        if (arg == "PAIN") {
+            tick = base.pain_tick.first + scale.pain_tick.first * intensity;
+            top_base = base.pain_chance_top.first;
+            top_scale = scale.pain_chance_top.first * intensity;
+            bot_base = base.pain_chance_bot.first;
+            bot_scale = scale.pain_chance_bot.first * intensity;
+        } else if (arg == "HURT") {
+            tick = base.hurt_tick.first + scale.hurt_tick.first * intensity;
+            top_base = base.hurt_chance_top.first;
+            top_scale = scale.hurt_chance_top.first * intensity;
+            bot_base = base.hurt_chance_bot.first;
+            bot_scale = scale.hurt_chance_bot.first * intensity;
+        } else if (arg == "PKILL") {
+            tick = base.pkill_tick.first + scale.pkill_tick.first * intensity;
+            top_base = base.pkill_chance_top.first;
+            top_scale = scale.pkill_chance_top.first * intensity;
+            bot_base = base.pkill_chance_bot.first;
+            bot_scale = scale.pkill_chance_bot.first * intensity;
+        } else if (arg == "COUGH") {
+            tick = base.cough_tick.first + scale.cough_tick.first * intensity;
+            top_base = base.cough_chance_top.first;
+            top_scale = scale.cough_chance_top.first * intensity;
+            bot_base = base.cough_chance_bot.first;
+            bot_scale = scale.cough_chance_bot.first * intensity;
+        } else if (arg == "VOMIT") {
+            tick = base.vomit_tick.first + scale.vomit_tick.first * intensity;
+            top_base = base.vomit_chance_top.first;
+            top_scale = scale.vomit_chance_top.first * intensity;
+            bot_base = base.vomit_chance_bot.first;
+            bot_scale = scale.vomit_chance_bot.first * intensity;
+        } else if (arg == "RAD") {
+            tick = base.rad_tick.first + scale.rad_tick.first * intensity;
+            top_base = base.rad_chance_top.first;
+            top_scale = scale.rad_chance_top.first * intensity;
+            bot_base = base.rad_chance_bot.first;
+            bot_scale = scale.rad_chance_bot.first * intensity;
+        } else if (arg == "HUNGER") {
+            tick = base.hunger_tick.first + scale.hunger_tick.first * intensity;
+            top_base = base.hunger_chance_top.first;
+            top_scale = scale.hunger_chance_top.first * intensity;
+            bot_base = base.hunger_chance_bot.first;
+            bot_scale = scale.hunger_chance_bot.first * intensity;
+        } else if (arg == "THIRST") {
+            tick = base.thirst_tick.first + scale.thirst_tick.first * intensity;
+            top_base = base.thirst_chance_top.first;
+            top_scale = scale.thirst_chance_top.first * intensity;
+            bot_base = base.thirst_chance_bot.first;
+            bot_scale = scale.thirst_chance_bot.first * intensity;
+        } else if (arg == "FATIGUE") {
+            tick = base.fatigue_tick.first + scale.fatigue_tick.first * intensity;
+            top_base = base.fatigue_chance_top.first;
+            top_scale = scale.fatigue_chance_top.first * intensity;
+            bot_base = base.fatigue_chance_bot.first;
+            bot_scale = scale.fatigue_chance_bot.first * intensity;
+        }
+    } else {
+        if (arg == "PAIN") {
+            tick = base.pain_tick.second + scale.pain_tick.second * intensity;
+            top_base = base.pain_chance_top.second;
+            top_scale = scale.pain_chance_top.second * intensity;
+            bot_base = base.pain_chance_bot.second;
+            bot_scale = scale.pain_chance_bot.second * intensity;
+        } else if (arg == "HURT") {
+            tick = base.hurt_tick.second + scale.hurt_tick.second * intensity;
+            top_base = base.hurt_chance_top.second;
+            top_scale = scale.hurt_chance_top.second * intensity;
+            bot_base = base.hurt_chance_bot.second;
+            bot_scale = scale.hurt_chance_bot.second * intensity;
+        } else if (arg == "PKILL") {
+            tick = base.pkill_tick.second + scale.pkill_tick.second * intensity;
+            top_base = base.pkill_chance_top.second;
+            top_scale = scale.pkill_chance_top.second * intensity;
+            bot_base = base.pkill_chance_bot.second;
+            bot_scale = scale.pkill_chance_bot.second * intensity;
+        } else if (arg == "COUGH") {
+            tick = base.cough_tick.second + scale.cough_tick.second * intensity;
+            top_base = base.cough_chance_top.second;
+            top_scale = scale.cough_chance_top.second * intensity;
+            bot_base = base.cough_chance_bot.second;
+            bot_scale = scale.cough_chance_bot.second * intensity;
+        } else if (arg == "VOMIT") {
+            tick = base.vomit_tick.second + scale.vomit_tick.second * intensity;
+            top_base = base.vomit_chance_top.second;
+            top_scale = scale.vomit_chance_top.second * intensity;
+            bot_base = base.vomit_chance_bot.second;
+            bot_scale = scale.vomit_chance_bot.second * intensity;
+        } else if (arg == "RAD") {
+            tick = base.rad_tick.second + scale.rad_tick.second * intensity;
+            top_base = base.rad_chance_top.second;
+            top_scale = scale.rad_chance_top.second * intensity;
+            bot_base = base.rad_chance_bot.second;
+            bot_scale = scale.rad_chance_bot.second * intensity;
+        } else if (arg == "HUNGER") {
+            tick = base.hunger_tick.second + scale.hunger_tick.second * intensity;
+            top_base = base.hunger_chance_top.second;
+            top_scale = scale.hunger_chance_top.second * intensity;
+            bot_base = base.hunger_chance_bot.second;
+            bot_scale = scale.hunger_chance_bot.second * intensity;
+        } else if (arg == "THIRST") {
+            tick = base.thirst_tick.second + scale.thirst_tick.second * intensity;
+            top_base = base.thirst_chance_top.second;
+            top_scale = scale.thirst_chance_top.second * intensity;
+            bot_base = base.thirst_chance_bot.second;
+            bot_scale = scale.thirst_chance_bot.second * intensity;
+        } else if (arg == "FATIGUE") {
+            tick = base.fatigue_tick.second + scale.fatigue_tick.second * intensity;
+            top_base = base.fatigue_chance_top.second;
+            top_scale = scale.fatigue_chance_top.second * intensity;
+            bot_base = base.fatigue_chance_bot.second;
+            bot_scale = scale.fatigue_chance_bot.second * intensity;
+        }
+    }
+}
+
 double effect::get_percentage(std::string arg, bool reduced)
 {
     double tick = 0;
@@ -618,85 +832,9 @@ double effect::get_percentage(std::string arg, bool reduced)
     double top_scale = 0;
     double bot_base = 0;
     double bot_scale = 0;
-    // Get the tick, top, and bottom values for specific argument type
-    if (!reduced) {
-        if (arg == "PAIN") {
-            tick = eff_type->base_mods.pain_tick.first + eff_type->scaling_mods.pain_tick.first * intensity;
-            top_base = eff_type->base_mods.pain_chance_top.first;
-            top_scale = eff_type->scaling_mods.pain_chance_top.first * intensity;
-            bot_base = eff_type->base_mods.pain_chance_bot.first;
-            bot_scale = eff_type->scaling_mods.pain_chance_bot.first * intensity;
-        } else if (arg == "HURT") {
-            tick = eff_type->base_mods.hurt_tick.first + eff_type->scaling_mods.hurt_tick.first * intensity;
-            top_base = eff_type->base_mods.hurt_chance_top.first;
-            top_scale = eff_type->scaling_mods.hurt_chance_top.first * intensity;
-            bot_base = eff_type->base_mods.hurt_chance_bot.first;
-            bot_scale = eff_type->scaling_mods.hurt_chance_bot.first * intensity;
-        } else if (arg == "PKILL") {
-            tick = eff_type->base_mods.pkill_tick.first + eff_type->scaling_mods.pkill_tick.first * intensity;
-            top_base = eff_type->base_mods.pkill_chance_top.first;
-            top_scale = eff_type->scaling_mods.pkill_chance_top.first * intensity;
-            bot_base = eff_type->base_mods.pkill_chance_bot.first;
-            bot_scale = eff_type->scaling_mods.pkill_chance_bot.first * intensity;
-        } else if (arg == "COUGH") {
-            tick = eff_type->base_mods.cough_tick.first + eff_type->scaling_mods.cough_tick.first * intensity;
-            top_base = eff_type->base_mods.cough_chance_top.first;
-            top_scale = eff_type->scaling_mods.cough_chance_top.first * intensity;
-            bot_base = eff_type->base_mods.cough_chance_bot.first;
-            bot_scale = eff_type->scaling_mods.cough_chance_bot.first * intensity;
-        } else if (arg == "VOMIT") {
-            tick = eff_type->base_mods.vomit_tick.first + eff_type->scaling_mods.vomit_tick.first * intensity;
-            top_base = eff_type->base_mods.vomit_chance_top.first;
-            top_scale = eff_type->scaling_mods.vomit_chance_top.first * intensity;
-            bot_base = eff_type->base_mods.vomit_chance_bot.first;
-            bot_scale = eff_type->scaling_mods.vomit_chance_bot.first * intensity;
-        } else if (arg == "RAD") {
-            tick = eff_type->base_mods.rad_tick.first + eff_type->scaling_mods.rad_tick.first * intensity;
-            top_base = eff_type->base_mods.rad_chance_top.first;
-            top_scale = eff_type->scaling_mods.rad_chance_top.first * intensity;
-            bot_base = eff_type->base_mods.rad_chance_bot.first;
-            bot_scale = eff_type->scaling_mods.rad_chance_bot.first * intensity;
-        }
-    } else {
-        if (arg == "PAIN") {
-            tick = eff_type->base_mods.pain_tick.second + eff_type->scaling_mods.pain_tick.second * intensity;
-            top_base = eff_type->base_mods.pain_chance_top.second;
-            top_scale = eff_type->scaling_mods.pain_chance_top.second * intensity;
-            bot_base = eff_type->base_mods.pain_chance_bot.second;
-            bot_scale = eff_type->scaling_mods.pain_chance_bot.second * intensity;
-        } else if (arg == "HURT") {
-            tick = eff_type->base_mods.hurt_tick.second + eff_type->scaling_mods.hurt_tick.second * intensity;
-            top_base = eff_type->base_mods.hurt_chance_top.second;
-            top_scale = eff_type->scaling_mods.hurt_chance_top.second * intensity;
-            bot_base = eff_type->base_mods.hurt_chance_bot.second;
-            bot_scale = eff_type->scaling_mods.hurt_chance_bot.second * intensity;
-        } else if (arg == "PKILL") {
-            tick = eff_type->base_mods.pkill_tick.second + eff_type->scaling_mods.pkill_tick.second * intensity;
-            top_base = eff_type->base_mods.pkill_chance_top.second;
-            top_scale = eff_type->scaling_mods.pkill_chance_top.second * intensity;
-            bot_base = eff_type->base_mods.pkill_chance_bot.second;
-            bot_scale = eff_type->scaling_mods.pkill_chance_bot.second * intensity;
-        } else if (arg == "COUGH") {
-            tick = eff_type->base_mods.cough_tick.second + eff_type->scaling_mods.cough_tick.second * intensity;
-            top_base = eff_type->base_mods.cough_chance_top.second;
-            top_scale = eff_type->scaling_mods.cough_chance_top.second * intensity;
-            bot_base = eff_type->base_mods.cough_chance_bot.second;
-            bot_scale = eff_type->scaling_mods.cough_chance_bot.second * intensity;
-        } else if (arg == "VOMIT") {
-            tick = eff_type->base_mods.vomit_tick.second + eff_type->scaling_mods.vomit_tick.second * intensity;
-            top_base = eff_type->base_mods.vomit_chance_top.second;
-            top_scale = eff_type->scaling_mods.vomit_chance_top.second * intensity;
-            bot_base = eff_type->base_mods.vomit_chance_bot.second;
-            bot_scale = eff_type->scaling_mods.vomit_chance_bot.second * intensity;
-        } else if (arg == "RAD") {
-            tick = eff_type->base_mods.rad_tick.second + eff_type->scaling_mods.rad_tick.second * intensity;
-            top_base = eff_type->base_mods.rad_chance_top.second;
-            top_scale = eff_type->scaling_mods.rad_chance_top.second * intensity;
-            bot_base = eff_type->base_mods.rad_chance_bot.second;
-            bot_scale = eff_type->scaling_mods.rad_chance_bot.second * intensity;
-        }
-    }
-    
+    auto &base = eff_type->base_mods;
+    auto &scale = eff_type->scaling_mods;
+    get_activation_vals(arg, reduced, base, scale, tick, top_base, top_scale, bot_base, bot_scale);
     // If both top values = 0 then it should never trigger
     if (top_base == 0 && top_scale == 0) {
         return 0;
@@ -725,89 +863,20 @@ double effect::get_percentage(std::string arg, bool reduced)
 
 bool effect::activated(unsigned int turn, std::string arg, bool reduced, double mod)
 {
-    int tick = 0;
-    int top_base = 0;
-    int top_scale = 0;
-    int bot_base = 0;
-    int bot_scale = 0;
-    // Get the tick, top, and bottom values for specific argument type
-    if (!reduced) {
-        if (arg == "PAIN") {
-            tick = eff_type->base_mods.pain_tick.first + eff_type->scaling_mods.pain_tick.first * intensity;
-            top_base = eff_type->base_mods.pain_chance_top.first;
-            top_scale = eff_type->scaling_mods.pain_chance_top.first * intensity;
-            bot_base = eff_type->base_mods.pain_chance_bot.first;
-            bot_scale = eff_type->scaling_mods.pain_chance_bot.first * intensity;
-        } else if (arg == "HURT") {
-            tick = eff_type->base_mods.hurt_tick.first + eff_type->scaling_mods.hurt_tick.first * intensity;
-            top_base = eff_type->base_mods.hurt_chance_top.first;
-            top_scale = eff_type->scaling_mods.hurt_chance_top.first * intensity;
-            bot_base = eff_type->base_mods.hurt_chance_bot.first;
-            bot_scale = eff_type->scaling_mods.hurt_chance_bot.first * intensity;
-        } else if (arg == "PKILL") {
-            tick = eff_type->base_mods.pkill_tick.first + eff_type->scaling_mods.pkill_tick.first * intensity;
-            top_base = eff_type->base_mods.pkill_chance_top.first;
-            top_scale = eff_type->scaling_mods.pkill_chance_top.first * intensity;
-            bot_base = eff_type->base_mods.pkill_chance_bot.first;
-            bot_scale = eff_type->scaling_mods.pkill_chance_bot.first * intensity;
-        } else if (arg == "COUGH") {
-            tick = eff_type->base_mods.cough_tick.first + eff_type->scaling_mods.cough_tick.first * intensity;
-            top_base = eff_type->base_mods.cough_chance_top.first;
-            top_scale = eff_type->scaling_mods.cough_chance_top.first * intensity;
-            bot_base = eff_type->base_mods.cough_chance_bot.first;
-            bot_scale = eff_type->scaling_mods.cough_chance_bot.first * intensity;
-        } else if (arg == "VOMIT") {
-            tick = eff_type->base_mods.vomit_tick.first + eff_type->scaling_mods.vomit_tick.first * intensity;
-            top_base = eff_type->base_mods.vomit_chance_top.first;
-            top_scale = eff_type->scaling_mods.vomit_chance_top.first * intensity;
-            bot_base = eff_type->base_mods.vomit_chance_bot.first;
-            bot_scale = eff_type->scaling_mods.vomit_chance_bot.first * intensity;
-        } else if (arg == "RAD") {
-            tick = eff_type->base_mods.rad_tick.first + eff_type->scaling_mods.rad_tick.first * intensity;
-            top_base = eff_type->base_mods.rad_chance_top.first;
-            top_scale = eff_type->scaling_mods.rad_chance_top.first * intensity;
-            bot_base = eff_type->base_mods.rad_chance_bot.first;
-            bot_scale = eff_type->scaling_mods.rad_chance_bot.first * intensity;
-        }
-    } else {
-        if (arg == "PAIN") {
-            tick = eff_type->base_mods.pain_tick.second + eff_type->scaling_mods.pain_tick.second * intensity;
-            top_base = eff_type->base_mods.pain_chance_top.second;
-            top_scale = eff_type->scaling_mods.pain_chance_top.second * intensity;
-            bot_base = eff_type->base_mods.pain_chance_bot.second;
-            bot_scale = eff_type->scaling_mods.pain_chance_bot.second * intensity;
-        } else if (arg == "HURT") {
-            tick = eff_type->base_mods.hurt_tick.second + eff_type->scaling_mods.hurt_tick.second * intensity;
-            top_base = eff_type->base_mods.hurt_chance_top.second;
-            top_scale = eff_type->scaling_mods.hurt_chance_top.second * intensity;
-            bot_base = eff_type->base_mods.hurt_chance_bot.second;
-            bot_scale = eff_type->scaling_mods.hurt_chance_bot.second * intensity;
-        } else if (arg == "PKILL") {
-            tick = eff_type->base_mods.pkill_tick.second + eff_type->scaling_mods.pkill_tick.second * intensity;
-            top_base = eff_type->base_mods.pkill_chance_top.second;
-            top_scale = eff_type->scaling_mods.pkill_chance_top.second * intensity;
-            bot_base = eff_type->base_mods.pkill_chance_bot.second;
-            bot_scale = eff_type->scaling_mods.pkill_chance_bot.second * intensity;
-        } else if (arg == "COUGH") {
-            tick = eff_type->base_mods.cough_tick.second + eff_type->scaling_mods.cough_tick.second * intensity;
-            top_base = eff_type->base_mods.cough_chance_top.second;
-            top_scale = eff_type->scaling_mods.cough_chance_top.second * intensity;
-            bot_base = eff_type->base_mods.cough_chance_bot.second;
-            bot_scale = eff_type->scaling_mods.cough_chance_bot.second * intensity;
-        } else if (arg == "VOMIT") {
-            tick = eff_type->base_mods.vomit_tick.second + eff_type->scaling_mods.vomit_tick.second * intensity;
-            top_base = eff_type->base_mods.vomit_chance_top.second;
-            top_scale = eff_type->scaling_mods.vomit_chance_top.second * intensity;
-            bot_base = eff_type->base_mods.vomit_chance_bot.second;
-            bot_scale = eff_type->scaling_mods.vomit_chance_bot.second * intensity;
-        } else if (arg == "RAD") {
-            tick = eff_type->base_mods.rad_tick.second + eff_type->scaling_mods.rad_tick.second * intensity;
-            top_base = eff_type->base_mods.rad_chance_top.second;
-            top_scale = eff_type->scaling_mods.rad_chance_top.second * intensity;
-            bot_base = eff_type->base_mods.rad_chance_bot.second;
-            bot_scale = eff_type->scaling_mods.rad_chance_bot.second * intensity;
-        }
-    }
+    double dtick = 0;
+    double dtop_base = 0;
+    double dtop_scale = 0;
+    double dbot_base = 0;
+    double dbot_scale = 0;
+    auto &base = eff_type->base_mods;
+    auto &scale = eff_type->scaling_mods;
+    get_activation_vals(arg, reduced, base, scale, dtick, dtop_base, dtop_scale, dbot_base, dbot_scale);
+    // Convert to ints
+    int tick = dtick;
+    int top_base = dtop_base;
+    int top_scale = dtop_scale;
+    int bot_base = dbot_base;
+    int bot_scale = dbot_scale;
     // If both top values = 0 then it should never trigger
     if (top_base == 0 && top_scale == 0) {
         return false;

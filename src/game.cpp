@@ -1351,7 +1351,7 @@ bool game::do_turn()
         if (u.pain > 0) {
             u.pain -= 1 + int(u.pain / 10);
         } else if (u.pain < 0) {
-            u.pain++;
+            u.pain = 0;
         }
         // Mutation healing effects
         if (u.has_trait("FASTHEALER2") && one_in(5)) {

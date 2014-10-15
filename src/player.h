@@ -144,6 +144,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
             return true;
         }
         
+        /** Handles effect application effects. */
+        virtual void add_eff_effects(effect e, bool reduced)
         /** Processes long-term effects */
         void process_effects();
         /** Handles the still hardcoded effects */
