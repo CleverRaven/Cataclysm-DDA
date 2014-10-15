@@ -5703,10 +5703,6 @@ void player::hardcoded_effects(effect it)
         // Equivalent to X in 150000 + health * 100
         if ((!has_trait("M_IMMUNE")) && (one_in(100) && x_in_y(intense, 150 + get_healthy() / 10)) ) {
             add_effect("fungus", 1, num_bp, true);
-            if (is_player()) {
-                add_memorial_log(pgettext("memorial_male", "Contracted a fungal infection."),
-                                   pgettext("memorial_female", "Contracted a fungal infection."));
-            }
         }
     } else if (id == "fungus") {
         int bonus = get_healthy() / 10 + (has_trait(it.get_resist_trait()) ? 100 : 0);
@@ -6081,26 +6077,14 @@ void player::hardcoded_effects(effect it)
         case bp_head:
             switch(intense) {
             case 3:
-                if (int(calendar::turn) % 150 == 0) {
-                    thirst++;
-                }
-                if (pain < 40) {
-                    mod_pain(1);
-                }
                 if (!sleeping && msg_trig) {
                     add_msg_if_player(m_bad, _("Your head is pounding from the heat."));
                 }
                 // Fall-through
             case 2:
-                if (int(calendar::turn) % 300 == 0) {
-                    thirst++;
-                }
                 // Hallucinations handled in game.cpp
                 if (one_in(std::min(14500, 15000 - temp_cur[bp_head]))) {
                     vomit();
-                }
-                if (pain < 20) {
-                    mod_pain(1);
                 }
                 if (!sleeping && msg_trig) {
                     add_msg_if_player(m_bad, _("The heat is making you see things."));
@@ -6110,90 +6094,19 @@ void player::hardcoded_effects(effect it)
                 break;
             }
             break;
-        case bp_mouth:
-            switch(intense) {
-            case 3:
-                if (int(calendar::turn) % 150 == 0) {
-                    thirst++;
-                }
-                if (pain < 30) {
-                    mod_pain(1);
-                }
-                // Fall-through
-            case 2:
-                if (int(calendar::turn) % 300 == 0) {
-                    thirst++;
-                }
-                break;
-            default:
-                break;
-            }
-            break;
         case bp_torso:
             switch(intense) {
             case 3:
-                if (int(calendar::turn) % 150 == 0) {
-                    thirst++;
-                }
                 mod_str_bonus(-1);
                 if (!sleeping && msg_trig) {
                     add_msg_if_player(m_bad, _("You are sweating profusely."));
                 }
                 // Fall-through
             case 2:
-                if (int(calendar::turn) % 300 == 0) {
-                    thirst++;
-                }
                 mod_str_bonus(-1);
                 break;
             default:
                 break;
-            }
-            break;
-        case bp_arm_l:
-            switch(intense) {
-            case 3 :
-                if (one_in(2)) {
-                    if (int(calendar::turn) % 150 == 0) {
-                        thirst++;
-                    }
-                    if (pain < 30) {
-                        mod_pain(1);
-                    }
-                }
-                // Fall-through
-            case 2:
-                if (one_in(2)) {
-                    if (int(calendar::turn) % 300 == 0) {
-                        thirst++;
-                    }
-                }
-                break;
-            default:
-                break;
-            }
-            break;
-        case bp_arm_r:
-            switch(intense) {
-                case 3 :
-                    if (one_in(2)) {
-                        if (int(calendar::turn) % 150 == 0) {
-                            thirst++;
-                        }
-                        if (pain < 30) {
-                            mod_pain(1);
-                        }
-                    }
-                    // Fall-through
-                case 2:
-                    if (one_in(2)) {
-                        if (int(calendar::turn) % 300 == 0) {
-                            thirst++;
-                        }
-                    }
-                    break;
-                default:
-                    break;
             }
             break;
         case bp_hand_l:
@@ -6225,21 +6138,8 @@ void player::hardcoded_effects(effect it)
             switch (intense) {
             case 3 :
                 if (one_in(2)) {
-                    if (int(calendar::turn) % 150 == 0) {
-                        thirst++;
-                    }
-                    if (pain < 30) {
-                        mod_pain(1);
-                    }
                     if (!sleeping && msg_trig) {
                         add_msg_if_player(m_bad, _("Your left leg is cramping up."));
-                    }
-                }
-                // Fall-through
-            case 2:
-                if (one_in(2)) {
-                    if (int(calendar::turn) % 300 == 0) {
-                        thirst++;
                     }
                 }
                 break;
@@ -6251,21 +6151,8 @@ void player::hardcoded_effects(effect it)
             switch (intense) {
             case 3 :
                 if (one_in(2)) {
-                    if (int(calendar::turn) % 150 == 0) {
-                        thirst++;
-                    }
-                    if (pain < 30) {
-                        mod_pain(1);
-                    }
                     if (!sleeping && msg_trig) {
                         add_msg_if_player(m_bad, _("Your right leg is cramping up."));
-                    }
-                }
-                // Fall-through
-            case 2:
-                if (one_in(2)) {
-                    if (int(calendar::turn) % 300 == 0) {
-                        thirst++;
                     }
                 }
                 break;
@@ -6277,9 +6164,6 @@ void player::hardcoded_effects(effect it)
             switch (intense) {
             case 3:
                 if (one_in(2)) {
-                    if (pain < 30) {
-                        mod_pain(1);
-                    }
                     if (!sleeping && msg_trig) {
                         add_msg_if_player(m_bad, _("Your left foot is swelling in the heat."));
                     }
@@ -6293,9 +6177,6 @@ void player::hardcoded_effects(effect it)
             switch (intense) {
             case 3:
                 if (one_in(2)) {
-                    if (pain < 30) {
-                        mod_pain(1);
-                    }
                     if (!sleeping && msg_trig) {
                         add_msg_if_player(m_bad, _("Your right foot is swelling in the heat."));
                     }

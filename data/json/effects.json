@@ -446,6 +446,7 @@
     {
         "type": "effect_type",
         "id": "fungus",
+        "apply_memorial_log": "Contracted a fungal infection.",
         "remove_memorial_log": "Cured the fungal infection.",
         "miss_message": "You feel sick inside."
         "rating": "bad",
@@ -579,10 +580,19 @@
         "max_intensity": 3,
         "part_descs": true,
         "base_mods": {
-            "speed_mod": [5]
+            "speed_mod": [5],
+            "thirst_min": [-1],
+            "thirst_tick": [400],
+            "thirst_chance": [2],
+            "pain_max_val": [-10],
+            "pain_min": [1],
+            "pain_chance": [2]
         },
         "scaling_mods": {
-            "speed_mod": [-7]
+            "speed_mod": [-7],
+            "thirst_min": [1]
+            "thirst_tick": [-100]
+            "pain_max_val": [10],
         }
     },
     {
