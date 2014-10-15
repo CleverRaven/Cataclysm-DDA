@@ -361,7 +361,7 @@ void weather_effect::very_wet()
 void weather_effect::thunder()
 {
     very_wet();
-    if (one_in(THUNDER_CHANCE)) {
+    if (!g->u.is_deaf() && one_in(THUNDER_CHANCE)) {
         if (g->levz >= 0) {
             add_msg(_("You hear a distant rumble of thunder."));
         } else if (g->u.has_trait("GOODHEARING") && one_in(1 - 2 * g->levz)) {
