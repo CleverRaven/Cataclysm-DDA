@@ -253,6 +253,8 @@ def get_outfile(json_object_type):
 
 use_action_msgs = {
     "msg",
+    "friendly_msg",
+    "hostile_msg",
     "need_fire_msg",
     "need_charges_msg",
     "non_interactive_msg",

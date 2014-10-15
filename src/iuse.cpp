@@ -1479,7 +1479,10 @@ int iuse::chew(player *p, item *it, bool)
 
 static int marloss_reject_mutagen( player *p, item *it )
 {
-    if( it->type->can_use( "MYCUS" ) ) {
+    // I've been unable to replicate the rejections on marloss berries
+    // but best to be careful-KA101.
+    if( (it->type->can_use( "MYCUS" )) || (it->type->can_use( "MARLOSS" )) ||
+      (it->type->can_use( "MARLOSS_SEED" )) || (it->type->can_use( "MARLOSS_GEL" )) ) {
         return 0;
     }
     if (p->has_trait("THRESH_MARLOSS")) {
@@ -5577,8 +5580,7 @@ int iuse::throwable_extinguisher_act(player *, item *it, bool)
     if (pos.x == -999 || pos.y == -999) {
         return 0;
     }
-    field &fld = g->m.field_at(pos.x, pos.y);
-    if (fld.findField(fd_fire) != 0) {
+    if( g->m.get_field( pos, fd_fire ) != nullptr ) {
         // Reduce the strength of fire (if any) in the target tile.
         g->m.adjust_field_strength(pos, fd_fire, 0 - 1);
         // Slightly reduce the strength of fire around and in the target tile.
@@ -6093,136 +6095,6 @@ int iuse::portal(player *p, item *it, bool)
     }
     g->m.add_trap(p->posx + rng(-2, 2), p->posy + rng(-2, 2), tr_portal);
     return it->type->charges_to_use();
-}
-
-int iuse::manhack(player *p, item *, bool)
-{
-    std::vector<point> valid; // Valid spawn locations
-    for (int x = p->posx - 1; x <= p->posx + 1; x++) {
-        for (int y = p->posy - 1; y <= p->posy + 1; y++) {
-            if (g->is_empty(x, y)) {
-                valid.push_back(point(x, y));
-            }
-        }
-    }
-    if (valid.empty()) { // No valid points!
-        p->add_msg_if_player(m_info, _("There is no adjacent square to release the manhack in!"));
-        return 0;
-    }
-    int index = rng(0, valid.size() - 1);
-    p->moves -= 60;
-    monster m_manhack(GetMType("mon_manhack"), valid[index].x, valid[index].y);
-    if (rng(0, p->int_cur / 2) + p->skillLevel("electronics") / 2 +
-        p->skillLevel("computer") < rng(0, 4)) {
-        p->add_msg_if_player(m_bad, _("You misprogram the manhack; it's hostile!"));
-    } else {
-        p->add_msg_if_player(_("The manhack flies from your hand and surveys the area!"));
-        m_manhack.friendly = -1;
-    }
-    g->add_zombie(m_manhack);
-    return 1;
-}
-
-int iuse::turret(player *p, item *, bool)
-{
-    int dirx, diry;
-    if (!choose_adjacent(_("Place the turret where?"), dirx, diry)) {
-        return 0;
-    }
-    if (!g->is_empty(dirx, diry)) {
-        p->add_msg_if_player(m_info, _("You cannot place a turret there."));
-        return 0;
-    }
-
-    p->moves -= 100;
-    monster mturret(GetMType("mon_turret"), dirx, diry);
-    const int ammopos = p->inv.position_by_type("9mm");
-    int ammo = 0;
-    if (ammopos != INT_MIN) {
-        item &ammoitem = p->inv.find_item(ammopos);
-        ammo = std::min(ammoitem.charges, long(500));
-        p->reduce_charges(ammopos, ammo);
-        p->add_msg_if_player(ngettext("You load %d x 9mm round into the turret.",
-                                      "You load %d x 9mm rounds into the turret.", ammo), ammo);
-    } else {
-        p->add_msg_if_player(m_info,
-                             _("If you had standard factory-built 9mm bullets, you could load the turret."));
-    }
-    mturret.ammo["9mm"] = ammo;
-    if (rng(0, p->int_cur / 2) + p->skillLevel("electronics") / 2 +
-        p->skillLevel("computer") < rng(0, 6)) {
-        p->add_msg_if_player(m_warning, _("The turret scans you and makes angry beeping noises!"));
-    } else {
-        p->add_msg_if_player(m_warning, _("The turret emits an IFF beep as it scans you."));
-        mturret.friendly = -1;
-    }
-    g->add_zombie(mturret);
-    return 1;
-}
-
-
-int iuse::turret_laser(player *p, item *, bool)
-{
-    int dirx, diry;
-    if (!choose_adjacent(_("Place the turret where?"), dirx, diry)) {
-        return 0;
-    }
-    if (!g->is_empty(dirx, diry)) {
-        p->add_msg_if_player(m_info, _("You cannot place a turret there."));
-        return 0;
-    }
-
-    p->moves -= 100;
-    monster mturret(GetMType("mon_laserturret"), dirx, diry);
-    if (rng(0, p->int_cur / 2) + p->skillLevel("electronics") / 2 +
-        p->skillLevel("computer") < rng(0, 6)) {
-        p->add_msg_if_player(m_warning, _("The laser turret scans you and makes angry beeping noises!"));
-    } else {
-        p->add_msg_if_player(m_warning, _("The laser turret emits an IFF beep as it scans you."));
-        mturret.friendly = -1;
-    }
-    if (!g->is_in_sunlight(mturret.posx(), mturret.posy())) {
-        p->add_msg_if_player(_("A flashing LED on the laser turret appears to indicate low light."));
-    }
-    g->add_zombie(mturret);
-    return 1;
-}
-
-int iuse::turret_rifle(player *p, item *, bool)
-{
-    int dirx, diry;
-    if (!choose_adjacent(_("Place the turret where?"), dirx, diry)) {
-        return 0;
-    }
-    if (!g->is_empty(dirx, diry)) {
-        p->add_msg_if_player(m_info, _("You cannot place a turret there."));
-        return 0;
-    }
-
-    p->moves -= 100;
-    monster mturret(GetMType("mon_turret_rifle"), dirx, diry);
-    const int ammopos = p->inv.position_by_type("556");
-    int ammo = 0;
-    if (ammopos != INT_MIN) {
-        item &ammoitem = p->inv.find_item(ammopos);
-        ammo = std::min(ammoitem.charges, long(500));
-        p->reduce_charges(ammopos, ammo);
-        p->add_msg_if_player(ngettext("You load %d x 5.56 round into the turret.",
-                                      "You load %d x 5.56 rounds into the turret.", ammo), ammo);
-    } else {
-        p->add_msg_if_player(m_info,
-                             _("If you had standard factory-built 5.56 bullets, you could load the turret."));
-    }
-    mturret.ammo["556"] = ammo;
-    if (rng(0, p->int_cur / 2) + p->skillLevel("electronics") / 2 +
-        p->skillLevel("computer") < rng(0, 6)) {
-        p->add_msg_if_player(m_warning, _("The turret scans you and makes angry beeping noises!"));
-    } else {
-        p->add_msg_if_player(m_warning, _("The turret emits an IFF beep as it scans you."));
-        mturret.friendly = -1;
-    }
-    g->add_zombie(mturret);
-    return 1;
 }
 
 int iuse::UPS_off(player *p, item *it, bool)

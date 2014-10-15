@@ -709,6 +709,14 @@ class game
 
 
         void rcdrive(int dx, int dy); //driving radio car
+        /**
+         * If there is a robot (that can be disabled), query the player
+         * and try to disable it.
+         * @return true if the robot has been disabled or a similar action has
+         * been done. false if the player did not choose any action and the function
+         * has effectively done nothing.
+         */
+        bool disable_robot( point p );
 
         void update_scent();     // Updates the scent map
         bool is_game_over();     // Returns true if the player quit or died

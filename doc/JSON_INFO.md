@@ -138,6 +138,7 @@ The syntax listed here is still valid.
 "fear_triggers" : ["SOUND", etc],	// What makes the monster afraid. See JSON_FLAGS.md for a full list
 "anger_triggers" : ["PLAYER_CLOSE"],// What makes the monster angry. See JSON_FLAGS.md for a full list
 "placate_triggers" : ["MEAT"],		// What calms the monster. See JSON_FLAGS.md for a full list
+"revert_to_itype": "bot_turret",    // (optional) if not empty and a valid item id, the monster (usually a robot) can be converted into this item by the player (only when it's already friendly).
 "categories" : ["WILDLIFE"]			// Monster categories. Can be NULL, CLASSIC (only mobs found in classic zombie movies) or WILDLIFE (natural animals). If they are not CLASSIC or WILDLIFE, they will not spawn in classic mode
 ```	
 ###NAMES
@@ -548,6 +549,15 @@ The contents of use_action fields can either be a string indicating a built-in f
     "fields_produced" : {"cracksmoke" : 2}, // Fields to produce, mostly used for smoke.
     "charges_needed" : { "fire" : 1 }, // Charges to use in the process of consuming the drug.
     "tools_needed" : { "apparatus" : -1 } // Tool needed to use the drug.
+},
+"use_action": {
+    "type": "place_monster", // place a turrent / manhack / whatever monster on the map
+    "monster_id": "mon_manhack", // monster id, see monsters.json
+    "difficulty": 4, // difficulty for programming it (manhacks have 4, turrets 6, ...)
+    "hostile_msg": "It's hostile!", // (optional) message when programming the monster failed and it's hostile.
+    "friendly_msg": "Good!", // (optional) message when the monster is programmed properly and it's friendly.
+    "place_randomly": true, // if true: places the monser randomly around the player, if false: let the player decide where to put it (default: false)
+    "moves": 60 // how many move points the action takes.
 }
 ```
 ###Random descriptions

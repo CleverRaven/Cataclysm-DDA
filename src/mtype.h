@@ -179,6 +179,11 @@ struct mtype {
          * in both monster types fulfills that test.
          */
         bool same_species( const mtype &other ) const;
+        /**
+         * If this is not empty, the monster can be converted into an item
+         * of this type (if it's friendly).
+         */
+        itype_id revert_to_itype;
 
         // Used to fetch the properly pluralized monster type name
         std::string nname(unsigned int quantity = 1) const;
