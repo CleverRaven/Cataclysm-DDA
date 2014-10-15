@@ -14866,7 +14866,7 @@ void game::process_artifact(item *it, player *p, bool wielded)
 
         case AEP_EVIL:
             if (one_in(150)) { // Once every 15 minutes, on average
-                p->add_disease("evil", 300);
+                p->add_effect("evil", 300);
                 if (it->is_armor()) {
                     add_msg(_("You have an urge to wear the %s."),
                             it->tname().c_str());

@@ -6366,6 +6366,80 @@ void player::hardcoded_effects(effect it)
             moves -= 150;
             apply_damage( nullptr, bp, 1 );
         }
+    } else if (id == "evil") {
+        bool lesserEvil = false;  // Worn or wielded; diminished effects
+        if (weapon.is_artifact() && weapon.is_tool()) {
+            it_artifact_tool *tool = dynamic_cast<it_artifact_tool*>(weapon.type);
+            for (std::vector<art_effect_passive>::iterator i = tool->effects_carried.begin();
+                 i != tool->effects_carried.end(); ++i) {
+                if (*i == AEP_EVIL) {
+                    lesserEvil = true;
+                }
+            }
+            for (std::vector<art_effect_passive>::iterator i = tool->effects_wielded.begin();
+                 i != tool->effects_wielded.end(); ++i) {
+                if (*i == AEP_EVIL) {
+                    lesserEvil = true;
+                }
+            }
+        }
+        for (std::vector<item>::iterator i = p.worn.begin(); !lesserEvil && i != p.worn.end(); ++i) {
+            if (i->is_artifact()) {
+                it_artifact_armor *armor = dynamic_cast<it_artifact_armor*>(i->type);
+                for (std::vector<art_effect_passive>::iterator effect =
+                         armor->effects_worn.begin();
+                     effect != armor->effects_worn.end(); ++effect) {
+                    if (*effect == AEP_EVIL) {
+                        lesserEvil = true;
+                    }
+                }
+            }
+        }
+        if (lesserEvil) {
+            // Only minor effects, some even good!
+            mod_str_bonus(dur > 4500 ? 10 : int(dur / 450));
+            if (dur < 600) {
+                mod_dex_bonus(1);
+            } else {
+                int dex_mod = -(dur > 3600 ? 10 : int((dur - 600) / 300));
+                mod_dex_bonus(dex_mod);
+                add_miss_reason(_("Why waste your time on that insignificant speck?"), -dex_mod);
+            }
+            mod_int_bonus(-(dur > 3000 ? 10 : int((dur - 500) / 250)));
+            mod_per_bonus(-(dur > 4800 ? 10 : int((dur - 800) / 400)));
+        } else {
+            // Major effects, all bad.
+            mod_str_bonus(-(dur > 5000 ? 10 : int(dur / 500)));
+            int dex_mod = -(dur > 6000 ? 10 : int(dur / 600));
+            mod_dex_bonus(dex_mod);
+            add_miss_reason(_("Why waste your time on that insignificant speck?"), -dex_mod);
+            mod_int_bonus(-(dur > 4500 ? 10 : int(dur / 450)));
+            mod_per_bonus(-(dur > 4000 ? 10 : int(dur / 400)));
+        }
+    } else if (id == attention) {
+        if (one_in(100000 / dur) && one_in(100000 / dur) && one_in(250)) {
+            MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup("GROUP_NETHER");
+            monster beast(GetMType(spawn_details.name));
+            int x, y;
+            int tries = 0;
+            do {
+                x = posx + rng(-4, 4);
+                y = posy + rng(-4, 4);
+                tries++;
+            } while (((x == posx && y == posy) || g->mon_at(x, y) != -1) && tries < 10);
+            if (tries < 10) {
+                if (g->m.move_cost(x, y) == 0) {
+                    g->m.make_rubble(x, y, f_rubble_rock, true);
+                }
+                beast.spawn(x, y);
+                g->add_zombie(beast);
+                if (g->u_see(x, y)) {
+                    g->cancel_activity_query(_("A monster appears nearby!"));
+                    add_msg_if_player(m_warning, _("A portal opens nearby, and a monster crawls through!"));
+                }
+                it.mult_duration(.25);
+            }
+        }
     }
 }
 
@@ -6991,7 +7065,7 @@ void player::suffer()
 
     // Artifact effects
     if (has_artifact_with(AEP_ATTENTION)) {
-        add_disease("attention", 3);
+        add_effect("attention", 3);
     }
 
     // check for limb mending every 1000 turns (~1.6 hours)

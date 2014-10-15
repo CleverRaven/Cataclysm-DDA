@@ -7830,7 +7830,7 @@ int iuse::artifact(player *p, item *it, bool)
 
             case AEA_ATTENTION:
                 p->add_msg_if_player(m_warning, _("You feel like your action has attracted attention."));
-                p->add_disease("attention", 600 * rng(1, 3));
+                p->add_effect("attention", 600 * rng(1, 3));
                 break;
 
             case AEA_TELEGLOW:

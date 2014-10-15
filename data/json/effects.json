@@ -747,10 +747,6 @@
     },
     {
         "type": "effect_type",
-        "id": "alarm_clock"
-    },
-    {
-        "type": "effect_type",
         "id": "evil"
     },
     {
@@ -810,18 +806,6 @@
     },
     {
         "type": "effect_type",
-        "id": "lying_down",
-        "apply_message": "You lie down to go to sleep...",
-        "rating": "neutral"
-    },
-    {
-        "type": "effect_type",
-        "id": "sleep",
-        "remove_message": "You wake up.",
-        "rating": "neutral"
-    },
-    {
-        "type": "effect_type",
         "id": "asthma",
         "apply_message": "You can't breathe... asthma attack!",
         "rating": "bad"
@@ -860,5 +844,21 @@
         "apply_message": "You inhale sweetish gas.",
         "remove_message": "The slackness leaves your muscles.",
         "rating": "bad"
+    },
+    {
+        "type": "effect_type",
+        "id": "lying_down",
+        "apply_message": "You lie down to go to sleep...",
+        "rating": "neutral"
+    },
+    {
+        "type": "effect_type",
+        "id": "sleep",
+        "remove_message": "You wake up.",
+        "rating": "neutral"
+    },
+    {
+        "type": "effect_type",
+        "id": "alarm_clock"
     }
 ]

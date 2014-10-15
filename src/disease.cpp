@@ -28,7 +28,7 @@ enum dis_type_enum {
   DI_DATURA,
   DI_ADRENALINE, DI_JETINJECTOR, DI_ASTHMA, DI_GRACK, DI_METH, DI_VALIUM,
 // Other
- DI_AMIGARA, DI_STEMCELL_TREATMENT, DI_TELEGLOW, DI_ATTENTION, DI_EVIL,
+ DI_AMIGARA, DI_STEMCELL_TREATMENT, DI_TELEGLOW,
 // Bite wound infected (dependent on bodypart.h)
  DI_INFECTED,
 // Inflicted by an NPC
@@ -52,7 +52,6 @@ static void handle_alcohol(player& p, disease& dis);
 static void handle_bite_wound(player& p, disease& dis);
 static void handle_infected_wound(player& p, disease& dis);
 static void handle_recovery(player& p, disease& dis);
-static void handle_evil(player& p, disease& dis);
 
 static bool will_vomit(player& p, int chance = 1000);
 
@@ -84,8 +83,6 @@ void game::init_diseases() {
     disease_type_lookup["amigara"] = DI_AMIGARA;
     disease_type_lookup["stemcell_treatment"] = DI_STEMCELL_TREATMENT;
     disease_type_lookup["teleglow"] = DI_TELEGLOW;
-    disease_type_lookup["attention"] = DI_ATTENTION;
-    disease_type_lookup["evil"] = DI_EVIL;
     disease_type_lookup["infected"] = DI_INFECTED;
     disease_type_lookup["asked_to_train"] = DI_ASKED_TO_TRAIN;
     disease_type_lookup["asked_personal_info"] = DI_ASKED_PERSONAL_INFO;
@@ -792,36 +789,6 @@ void dis_effect(player &p, disease &dis)
                 }
                 p.rem_disease("teleglow");
             }
-            break;
-
-        case DI_ATTENTION:
-            if (one_in(100000 / dis.duration) && one_in(100000 / dis.duration) && one_in(250)) {
-                MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup("GROUP_NETHER");
-                monster beast(GetMType(spawn_details.name));
-                int x, y;
-                int tries = 0;
-                do {
-                    x = p.posx + rng(-4, 4);
-                    y = p.posy + rng(-4, 4);
-                    tries++;
-                } while (((x == p.posx && y == p.posy) || g->mon_at(x, y) != -1) && tries < 10);
-                if (tries < 10) {
-                    if (g->m.move_cost(x, y) == 0) {
-                        g->m.make_rubble(x, y, f_rubble_rock, true);
-                    }
-                    beast.spawn(x, y);
-                    g->add_zombie(beast);
-                    if (g->u_see(x, y)) {
-                        g->cancel_activity_query(_("A monster appears nearby!"));
-                        add_msg(m_warning, _("A portal opens nearby, and a monster crawls through!"));
-                    }
-                    dis.duration /= 4;
-                }
-            }
-            break;
-
-        case DI_EVIL:
-            handle_evil(p, dis);
             break;
 
         case DI_BITE:
@@ -1557,62 +1524,6 @@ static void handle_recovery(player& p, disease& dis)
         }
         p.mod_dex_bonus(-1);
         p.add_miss_reason(_("Your wound distracts you."), 1);
-    }
-}
-
-static void handle_evil(player& p, disease& dis)
-{
-    bool lesserEvil = false;  // Worn or wielded; diminished effects
-    if (p.weapon.is_artifact() && p.weapon.is_tool()) {
-        it_artifact_tool *tool = dynamic_cast<it_artifact_tool*>(p.weapon.type);
-        for (std::vector<art_effect_passive>::iterator it =
-                 tool->effects_carried.begin();
-             it != tool->effects_carried.end(); ++it) {
-            if (*it == AEP_EVIL) {
-                lesserEvil = true;
-            }
-        }
-        for (std::vector<art_effect_passive>::iterator it =
-                 tool->effects_wielded.begin();
-             it != tool->effects_wielded.end(); ++it) {
-            if (*it == AEP_EVIL) {
-                lesserEvil = true;
-            }
-        }
-    }
-    for (std::vector<item>::iterator it = p.worn.begin();
-         !lesserEvil && it != p.worn.end(); ++it) {
-        if (it->is_artifact()) {
-            it_artifact_armor *armor = dynamic_cast<it_artifact_armor*>(it->type);
-            for (std::vector<art_effect_passive>::iterator effect =
-                     armor->effects_worn.begin();
-                 effect != armor->effects_worn.end(); ++effect) {
-                if (*effect == AEP_EVIL) {
-                    lesserEvil = true;
-                }
-            }
-        }
-    }
-    if (lesserEvil) {
-        // Only minor effects, some even good!
-        p.mod_str_bonus(dis.duration > 4500 ? 10 : int(dis.duration / 450));
-        if (dis.duration < 600) {
-            p.mod_dex_bonus(1);
-        } else {
-            int dex_mod = -(dis.duration > 3600 ? 10 : int((dis.duration - 600) / 300));
-            p.mod_dex_bonus(dex_mod);
-            p.add_miss_reason(_("Why waste your time on that insignificant speck?"), -dex_mod);
-        }
-        p.mod_int_bonus(-(dis.duration > 3000 ? 10 : int((dis.duration - 500) / 250)));
-        p.mod_per_bonus(-(dis.duration > 4800 ? 10 : int((dis.duration - 800) / 400)));
-    } else {
-        // Major effects, all bad.
-        p.mod_str_bonus(-(dis.duration > 5000 ? 10 : int(dis.duration / 500)));
-        int dex_mod = -(dis.duration > 6000 ? 10 : int(dis.duration / 600));
-        p.mod_dex_bonus(dex_mod);
-        p.add_miss_reason(_("Why waste your time on that insignificant speck?"), -dex_mod);
-        p.mod_int_bonus(-(dis.duration > 4500 ? 10 : int(dis.duration / 450)));
-        p.mod_per_bonus(-(dis.duration > 4000 ? 10 : int(dis.duration / 400)));
     }
 }
 
