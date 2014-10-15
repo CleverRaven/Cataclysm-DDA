@@ -258,10 +258,10 @@ int iuse::royal_jelly(player *p, item *it, bool)
         message = _("Your breathing clears up!");
         p->rem_disease("asthma");
     }
-    if (p->has_effect("common_cold") || p->has_disease("flu")) {
+    if (p->has_effect("common_cold") || p->has_effect("flu")) {
         message = _("You feel healthier!");
         p->remove_effect("common_cold");
-        p->rem_disease("flu");
+        p->remove_effect("flu");
     }
     p->add_msg_if_player(m_good, message.c_str());
     return it->type->charges_to_use();
@@ -1338,7 +1338,7 @@ int iuse::thorazine(player *p, item *it, bool)
     p->remove_effect("visuals");
     p->rem_disease("high");
     if (!p->has_effect("dermatik")) {
-        p->rem_disease("formication");
+        p->remove_effect("formication");
     }
     if (one_in(50)) {  // adverse reaction
         p->add_msg_if_player(m_bad, _("You feel completely exhausted."));

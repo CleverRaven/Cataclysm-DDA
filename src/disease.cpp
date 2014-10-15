@@ -16,13 +16,12 @@
 enum dis_type_enum {
  DI_NULL,
 // Diseases
- DI_FLU, DI_RECOVER, DI_TAPEWORM, DI_BLOODWORMS, DI_BRAINWORM, DI_PAINCYSTS,
+ DI_RECOVER, DI_TAPEWORM, DI_BLOODWORMS, DI_BRAINWORM, DI_PAINCYSTS,
  DI_TETANUS,
 // Fields - onfire moved to effects
  DI_CRUSHED,
 // Monsters
  DI_LYING_DOWN, DI_SLEEP, DI_ALARM_CLOCK,
- DI_FORMICATION,
  DI_BITE,
 // Food & Drugs
  DI_DRUNK, DI_CIG, DI_HIGH, DI_WEED_HIGH,
@@ -61,7 +60,6 @@ void game::init_diseases() {
     // Initialize the disease lookup table.
 
     disease_type_lookup["null"] = DI_NULL;
-    disease_type_lookup["flu"] = DI_FLU;
     disease_type_lookup["recover"] = DI_RECOVER;
     disease_type_lookup["tapeworm"] = DI_TAPEWORM;
     disease_type_lookup["bloodworms"] = DI_BLOODWORMS;
@@ -72,7 +70,6 @@ void game::init_diseases() {
     disease_type_lookup["lying_down"] = DI_LYING_DOWN;
     disease_type_lookup["sleep"] = DI_SLEEP;
     disease_type_lookup["alarm_clock"] = DI_ALARM_CLOCK;
-    disease_type_lookup["formication"] = DI_FORMICATION;
     disease_type_lookup["bite"] = DI_BITE;
     disease_type_lookup["drunk"] = DI_DRUNK;
     disease_type_lookup["valium"] = DI_VALIUM;
@@ -103,19 +100,11 @@ void game::init_diseases() {
 bool dis_msg(dis_type type_string) {
     dis_type_enum type = disease_type_lookup[type_string];
     switch (type) {
-    case DI_FLU:
-        add_msg(m_bad, _("You feel a flu coming on..."));
-        g->u.add_memorial_log(pgettext("memorial_male", "Caught the flu."),
-                              pgettext("memorial_female", "Caught the flu."));
-        break;
     case DI_CRUSHED:
         add_msg(m_bad, _("The ceiling collapses on you!"));
         break;
     case DI_LYING_DOWN:
         add_msg(_("You lie down to go to sleep..."));
-        break;
-    case DI_FORMICATION:
-        add_msg(m_bad, _("Your skin feels extremely itchy!"));
         break;
     case DI_DRUNK:
     case DI_HIGH:
@@ -305,10 +294,6 @@ void dis_remove_memorial(dis_type type_string) {
   dis_type_enum type = disease_type_lookup[type_string];
 
   switch(type) {
-    case DI_FLU:
-      g->u.add_memorial_log(pgettext("memorial_male", "Got over the flu."),
-                            pgettext("memorial_female", "Got over the flu."));
-      break;
     case DI_BITE:
       g->u.add_memorial_log(pgettext("memorial_male", "Recovered from a bite wound."),
                             pgettext("memorial_female", "Recovered from a bite wound."));
@@ -332,36 +317,6 @@ void dis_effect(player &p, disease &dis)
     int grackPower = 500;
 
     switch(disType) {
-        case DI_FLU:
-            if (int(calendar::turn) % 300 == 0) {
-                p.thirst++;
-            }
-            if (int(calendar::turn) % 50 == 0) {
-                p.fatigue++;
-            }
-            if (p.has_effect("took_flumed")) {
-                p.mod_str_bonus(-2);
-                p.mod_int_bonus(-1);
-                } else {
-                    p.mod_str_bonus(-4);
-                    p.mod_dex_bonus(-2);
-                    p.add_miss_reason(_("You can barely keep your balance with this flu, let alone swing accurately."), 2);
-                    p.mod_int_bonus(-2);
-                    p.mod_per_bonus(-1);
-                    if (p.pain < 15) {
-                        p.mod_pain(1);
-                    }
-                }
-            if (!p.has_effect("took_flumed") && one_in(300)) {
-                p.cough();
-            }
-            if (!p.has_effect("took_flumed") || one_in(2)) {
-                if (one_in(3600) || will_vomit(p)) {
-                    p.vomit();
-                }
-            }
-            break;
-
         case DI_CRUSHED:
             p.hurtall(10);
             /*  This could be developed on later, for instance
@@ -643,25 +598,6 @@ void dis_effect(player &p, disease &dis)
             }
             break;
 
-        case DI_FORMICATION:
-            p.mod_int_bonus(-(dis.intensity));
-            p.mod_str_bonus(-(int(dis.intensity / 3)));
-            if (x_in_y(dis.intensity, 100 + 50 * p.get_int())) {
-                if (!p.is_npc()) {
-                    //~ %s is bodypart in accusative.
-                     add_msg(m_warning, _("You start scratching your %s!"),
-                                              body_part_name_accusative(dis.bp).c_str());
-                     g->cancel_activity();
-                } else if (g->u_see(p.posx, p.posy)) {
-                    //~ 1$s is NPC name, 2$s is bodypart in accusative.
-                    add_msg(_("%1$s starts scratching their %2$s!"), p.name.c_str(),
-                                       body_part_name_accusative(dis.bp).c_str());
-                }
-                p.moves -= 150;
-                p.apply_damage( nullptr, dis.bp, 1 );
-            }
-            break;
-
         case DI_ADRENALINE:
             if (dis.duration > 150) {
                 // 5 minutes positive effects; 15 if Mycus Defender
@@ -748,7 +684,7 @@ void dis_effect(player &p, disease &dis)
                 } else if (one_in(500)) {
                     p.add_msg_if_player(m_bad, _("You notice a large abscess. You pick at it."));
                     body_part bp = random_body_part(true);
-                    p.add_disease("formication", 600, false, 1, 3, 0, 1, bp, true);
+                    add_effect("formication", 600, bp);
                     p.mod_pain(1);
                 } else if (one_in(500)) {
                     p.add_msg_if_player(m_bad, _("You feel so sick, like you've been poisoned, but you need more. So much more."));
@@ -959,41 +895,7 @@ std::string dis_name(disease& dis)
     dis_type_enum type = disease_type_lookup[dis.type];
     switch (type) {
     case DI_NULL: return "";
-
-    case DI_FLU: return _("Influenza");
-
-    case DI_FORMICATION:
-    {
-        std::string status = "";
-        switch (dis.intensity) {
-        case 1: status = _("Itchy skin - "); break;
-        case 2: status = _("Writhing skin - "); break;
-        case 3: status = _("Bugs in skin - "); break;
-        }
-        switch (dis.bp) {
-            case bp_head:
-                status += _("Head");
-                break;
-            case bp_torso:
-                status += _("Torso");
-                break;
-            case bp_arm_l:
-                status += _("Left Arm");
-                break;
-            case bp_arm_r:
-                status += _("Right Arm");
-                break;
-            case bp_leg_l:
-                status += _("Left Leg");
-                break;
-            case bp_leg_r:
-                status += _("Right Leg");
-                break;
-            default: // Suppress compiler warning [-Wswitch]
-                break;
-        }
-        return status;
-    }
+    
     case DI_DRUNK:
         if (dis.duration > 2200) return _("Wasted");
         if (dis.duration > 1400) return _("Trashed");
@@ -1131,30 +1033,9 @@ std::string dis_description(disease& dis)
     case DI_NULL:
         return _("None");
 
-    case DI_FLU:
-        return _(
-        "Increased thirst;   Frequent coughing;   Occasional vomiting\n"
-        "Strength - 4;   Dexterity - 2;   Intelligence - 2;   Perception - 1\n"
-        "Symptoms alleviated by medication (cough syrup).");
-
     case DI_CRUSHED: return "If you're seeing this, there is a bug in disease.cpp!";
 
     case DI_STEMCELL_TREATMENT: return _("Your insides are shifting in strange ways as the treatment takes effect.");
-
-    case DI_FORMICATION:
-    {
-        intpen = int(dis.intensity);
-        strpen = int(dis.intensity / 3);
-        stream << _("You stop to scratch yourself frequently; high intelligence helps you resist\n"
-        "this urge.\n");
-        if (intpen > 0) {
-            stream << string_format(_("Intelligence - %d;   "), intpen);
-        }
-        if (strpen > 0) {
-            stream << string_format(_("Strength - %d;   "), strpen);
-        }
-        return stream.str();
-    }
 
     case DI_DRUNK:
     {

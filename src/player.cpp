@@ -1010,7 +1010,7 @@ void player::update_bodytemp()
             temp_conv[i] += 500;
         }
         // DISEASES
-        if( has_disease("flu") && i == bp_head ) {
+        if( has_effect("flu") && i == bp_head ) {
             temp_conv[i] += 1500;
         }
         if( has_effect("common_cold") ) {
@@ -5154,10 +5154,10 @@ void player::get_sick()
         return;
     }
 
-    if (!has_disease("flu") && !has_effect("common_cold") &&
+    if (!has_effect("flu") && !has_effect("common_cold") &&
         one_in(900 + get_healthy() + (has_trait("DISRESISTANT") ? 300 : 0))) {
         if (one_in(6)) {
-            infect("flu", bp_mouth, 3, rng(40000, 80000));
+            add_env_effect("flu", bp_mouth, 3, rng(40000, 80000));
         } else {
             add_env_effect("common_cold", bp_mouth, 3, rng(20000, 60000));
         }
@@ -6236,7 +6236,7 @@ void player::hardcoded_effects(effect it)
             formication_chance += 2400 - dur;
         }
         if (one_in(formication_chance)) {
-            add_disease("formication", 600, false, 1, 3, 0, 1, dis.bp, true);
+            add_effect("formication", 600, bp);
         }
         if (dur < 14400 && one_in(2400)) {
             vomit();
@@ -6274,7 +6274,7 @@ void player::hardcoded_effects(effect it)
             }
             add_memorial_log(pgettext("memorial_male", "Dermatik eggs hatched."),
                                pgettext("memorial_female", "Dermatik eggs hatched."));
-            rem_disease("formication", bp);
+            remove_effect("formication", bp);
             moves -= 600;
             triggered = true;
         }
@@ -6284,6 +6284,21 @@ void player::hardcoded_effects(effect it)
         } else {
             // Count duration up
             it.mod_duration(1);
+        }
+    } else if (id == "formication") {
+        if (x_in_y(intense, 100 + 50 * get_int())) {
+            if (!is_npc()) {
+                //~ %s is bodypart in accusative.
+                 add_msg(m_warning, _("You start scratching your %s!"),
+                                          body_part_name_accusative(bp).c_str());
+                 g->cancel_activity();
+            } else if (g->u_see(posx, posy)) {
+                //~ 1$s is NPC name, 2$s is bodypart in accusative.
+                add_msg(_("%1$s starts scratching their %2$s!"), name.c_str(),
+                                   body_part_name_accusative(bp).c_str());
+            }
+            moves -= 150;
+            apply_damage( nullptr, bp, 1 );
         }
     }
 }
@@ -6578,7 +6593,7 @@ void player::suffer()
                     break;
                 case 11:
                     body_part bp = random_body_part(true);
-                    add_disease("formication", 600, false, 1, 3, 0, 1, bp, true);
+                    add_effect("formication", 600, bp);
                     break;
             }
         }
@@ -6902,10 +6917,10 @@ void player::suffer()
     if (has_bionic("bio_sleepy") && one_in(500)) {
         fatigue++;
     }
-    if (has_bionic("bio_itchy") && one_in(500) && !has_disease("formication")) {
+    if (has_bionic("bio_itchy") && one_in(500) && !has_effect("formication")) {
         add_msg(m_bad, _("Your malfunctioning bionic itches!"));
       body_part bp = random_body_part(true);
-        add_disease("formication", 100, false, 1, 3, 0, 1, bp, true);
+        add_effect("formication", 100, bp);
     }
 
     // Artifact effects

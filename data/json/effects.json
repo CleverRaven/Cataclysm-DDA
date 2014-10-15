@@ -653,6 +653,24 @@
     },
     {
         "type": "effect_type",
+        "id": "formication",
+        "name": [
+            "Itchy skin",
+            "Writhing skin",
+            "Bugs in skin"
+        ],
+        "desc": ["You stop to scratch yourself frequently; high INT helps you resist the urge."]
+        "apply_message": "Your skin feels extremely itchy!",
+        "rating": "bad",
+        "main_parts_only": true,
+        "max_intensity": 3,
+        "scaling_mods": {
+            "str_mod": [-.34],
+            "int_mod": [-1]
+        }
+    },
+    {
+        "type": "effect_type",
         "id": "sap",
         "name": ["Sap-coated"],
         "desc": ["You're coated in sap!"],
@@ -669,7 +687,7 @@
         "type": "effect_type",
         "id": "common_cold",
         "name": ["Common Cold"],
-        "desc": ["Increased thirst;  Symptoms alleviated by medication (cough syrup)."]
+        "desc": ["Symptoms alleviated by medication (cough syrup)."]
         "apply_memorial_log": "Caught a cold.",
         "remove_memorial_log": "Got over the cold.",
         "apply_message": "You feel a cold coming on...",
@@ -686,6 +704,31 @@
             "per_mod": [-1, 0],
             "int_mod": [-2, -1],
             "cough_chance": [300, 0]
+        }
+    },
+    {
+        "type": "effect_type",
+        "id": "flu",
+        "name: ["Influenza"],
+        "desc": ["Symptoms alleviated by medication (cough syrup)."],
+        "apply_memorial_log": "Caught the flu.",
+        "remove_memorial_log": "Got over the flu.",
+        "apply_message": "You feel a flu coming on...",
+        "rating": "bad",
+        "resist_effect": "took_flumed",
+        "base_mods": {
+            "thirst_tick": [300],
+            "thirst_min": [1],
+            "fatigue_tick": [50],
+            "fatigue_min": [1],
+            "str_mod": [-4, -2],
+            "dex_mod": [-2, 0],
+            "per_mod": [-1, 0],
+            "int_mod": [-2, -1]
+            "pain_max_val": [15],
+            "pain_min": [1, 0],
+            "cough_chance": [300, 0],
+            "vomit_chance": [3600, 7200]
         }
     },
     {
@@ -744,20 +787,6 @@
         "apply_message": "You can see more clearly.",
         "remove_message": "Your vision starts to blur.",
         "rating": "good"
-    },
-    {
-        "type": "effect_type",
-        "id": "formication",
-        "apply_message": "Your skin feels extremely itchy!",
-        "rating": "bad"
-    },
-    {
-        "type": "effect_type",
-        "id": "flu",
-        "apply_memorial_log": "Caught the flu.",
-        "remove_memorial_log": "Got over the flu.",
-        "apply_message": "You feel a flu coming on...",
-        "rating": "bad"
     },
     {
         "type": "effect_type",

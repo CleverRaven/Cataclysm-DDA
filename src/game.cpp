@@ -621,7 +621,7 @@ void game::start_game(std::string worldname)
     player_start.save();
     if (g->scen->has_flag("INFECTED")){u.add_disease("infected", 14401, false, 1, 1, 0, 0, random_body_part(), true);}
     if (g->scen->has_flag("BAD_DAY")){
-        u.add_disease("flu", 10000);
+        u.add_effect("flu", 10000);
         u.add_disease("drunk", 2700 - (12 * u.str_max));
         u.add_morale(MORALE_FEELING_BAD,-100,50,50,50);
     }

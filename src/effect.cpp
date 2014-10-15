@@ -298,26 +298,50 @@ std::string effect::disp_desc(bool reduced)
     std::vector<std::string> frequent;
     std::vector<std::string> uncommon;
     std::vector<std::string> rare;
-    double chances [4] = {get_percentage("PAIN", reduced), get_percentage("HURT", reduced),
-                            get_percentage("COUGH", reduced), get_percentage("VOMIT", reduced)};
-    std::string strings [4] = {_("pain"),_("damage"),_("coughing"),_("vomiting")};
+    double chances[7] = {get_percentage("PAIN", reduced), get_percentage("HURT", reduced),
+                            get_percentage("THIRST", reduced), get_percentage("HUNGER", reduced),
+                            get_percentage("FATIGUE", reduced), get_percentage("COUGH", reduced),
+                            get_percentage("VOMIT", reduced)};
+    int vals[7] = {get_mod("PAIN", reduced), get_mod("HURT", reduced), get_mod("THIRST", reduced),
+                    get_mod("HUNGER", reduced), get_mod("FATIGUE", reduced),
+                    get_mod("COUGH", reduced), get_mod("VOMIT", reduced)};
+    std::string pos_strings[7] = {_("pain"),_("damage"),_("thirst"),_("hunger"),_("fatigue"),
+                                _("coughing"),_("vomiting")};
+    std::string neg_strings[7] = {_("pain"),_("damage"),_("quench"),_("sate"),_("rest"),
+                                _("coughing"),_("vomiting")};
     for (int i = 0; i < 4; i++) {
-        // +50% chance
-        if (chances[i] >= 50) {
-            constant.push_back(strings[i]);
-        // +1% chance
-        } else if (chances[i] >= 1) {
-            constant.push_back(strings[i]);
-        // +.4% chance
-        } else if (chances[i] >= .4) {
-            uncommon.push_back(strings[i]);
-        // <.4% chance
-        } else if (chances[i] != 0) {
-            rare.push_back(strings[i]);
+        if (vals[i] > 0) {
+            // +50% chance
+            if (chances[i] >= 50) {
+                constant.push_back(pos_strings[i]);
+            // +1% chance
+            } else if (chances[i] >= 1) {
+                constant.push_back(pos_strings[i]);
+            // +.4% chance
+            } else if (chances[i] >= .4) {
+                uncommon.push_back(pos_strings[i]);
+            // <.4% chance
+            } else if (chances[i] != 0) {
+                rare.push_back(pos_strings[i]);
+            }
+        } else if (vals[i] < 0) {
+            // +50% chance
+            if (chances[i] >= 50) {
+                constant.push_back(neg_strings[i]);
+            // +1% chance
+            } else if (chances[i] >= 1) {
+                constant.push_back(neg_strings[i]);
+            // +.4% chance
+            } else if (chances[i] >= .4) {
+                uncommon.push_back(neg_strings[i]);
+            // <.4% chance
+            } else if (chances[i] != 0) {
+                rare.push_back(neg_strings[i]);
+            }
         }
     }
     if (constant.size() > 0) {
-        ret << _("Constant: ");
+        ret << _("Const: ");
         for (size_t i = 0; i < constant.size(); i++) {
             if (i == 0) {
                 // No comma on the first one
@@ -329,7 +353,7 @@ std::string effect::disp_desc(bool reduced)
         ret << " ";
     }
     if (frequent.size() > 0) {
-        ret << _("Frequent: ");
+        ret << _("Freq: ");
         for (size_t i = 0; i < frequent.size(); i++) {
             if (i == 0) {
                 // No comma on the first one
@@ -341,7 +365,7 @@ std::string effect::disp_desc(bool reduced)
         ret << " ";
     }
     if (uncommon.size() > 0) {
-        ret << _("Uncommon: ");
+        ret << _("Unfreq: ");
         for (size_t i = 0; i < uncommon.size(); i++) {
             if (i == 0) {
                 // No comma on the first one
