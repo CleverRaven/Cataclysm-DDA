@@ -1415,7 +1415,7 @@
         "difficulty" : 0,
         "time" : 1,
         "components" : [
-            [ [ "forge", 1 ] ]
+            [ [ "char_forge", 1 ] ]
         ],
         "pre_special" : "check_empty",
         "post_terrain" : "f_forge"
