@@ -7801,7 +7801,12 @@ bool player::eat(item *eaten, it_comest *comest)
     if (overeating && !has_trait("HIBERNATE") && !has_trait("EATHEALTH") && !is_npc() &&
         !has_trait("SLIMESPAWNER") && !query_yn(_("You're full.  Force yourself to eat?"))) {
         return false;
+    } else if (has_trait("GOURMAND") && hunger < 0 && comest->nutr >= 5) {
+        if (!query_yn(_("You're fed.  Try to pack more in anyway?"))) {
+            return false;
+        }
     }
+    
     int temp_nutr = comest->nutr;
     int temp_quench = comest->quench;
     if (hiberfood && !is_npc() && (((hunger - temp_nutr) < -60) || ((thirst - temp_quench) < -60)) && has_active_mutation("HIBERNATE")){
