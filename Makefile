@@ -130,8 +130,8 @@ ifdef CLANG
     OTHERS += -stdlib=libc++
   endif
   ifdef CCACHE
-    CXX = ccache $(CROSS)clang++ -Qunused-arguments
-    LD  = ccache $(CROSS)clang++ -Qunused-arguments
+    CXX = CCACHE_CPP2=1 $(CROSS)clang++
+    LD  = CCACHE_CPP2=1 $(CROSS)clang++
   else
     CXX = $(CROSS)clang++
     LD  = $(CROSS)clang++
