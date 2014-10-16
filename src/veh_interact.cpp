@@ -220,6 +220,7 @@ void veh_interact::allocate_windows()
     page_size = list_h;
 
     wrefresh(w_border);
+    delwin( w_border );
     display_grid();
     display_name();
     display_stats();
