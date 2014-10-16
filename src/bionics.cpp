@@ -180,25 +180,41 @@ void player::power_bionics()
                 mvwprintz(wBio, list_start_y, second_column, c_ltgray, _("None"));
             } else {
                 for (size_t i = scroll_position; i < active.size(); i++) {
+                    bionic_data *b = bionics[active[i]->id];
                     if (list_start_y + static_cast<int>(i) ==
                         (menu_mode == "examining" ? DESCRIPTION_LINE_Y : HEIGHT - 1)) {
                         break;
                     }
-                    if (active[i]->powered && !bionics[active[i]->id]->power_source) {
+                    if (active[i]->powered && !b->power_source) {
                         type = c_red;
-                    } else if (bionics[active[i]->id]->power_source && !active[i]->powered) {
+                    } else if (b->power_source && !active[i]->powered) {
                         type = c_ltcyan;
-                    } else if (bionics[active[i]->id]->power_source && active[i]->powered) {
+                    } else if (b->power_source && active[i]->powered) {
                         type = c_ltgreen;
                     } else {
                         type = c_ltred;
                     }
                     mvwputch(wBio, list_start_y + i, second_column, type, active[i]->invlet);
-                    mvwprintz(wBio, list_start_y + i, second_column + 2, type,
-                              (active[i]->powered ? _("%s - ON") : _("%s - %d PU / %d turns")),
-                              bionics[active[i]->id]->name.c_str(),
-                              bionics[active[i]->id]->power_cost,
-                              bionics[active[i]->id]->charge_time);
+                    std::stringstream suffix;
+                    if (b->power_cost) {
+                        suffix << " - " <<
+                            string_format(_("%d PU"), b->power_cost) <<
+                            (b->charge_time
+                              ? string_format(
+                                    b->charge_time == 1 ? _(" / turn") : _(" / %d turns"),
+                                    b->charge_time)
+                              : _(" / use"));
+                    }
+                    if (b->charge_time) {
+                        suffix << " - " <<
+                            (active[i]->powered ? _("ON") : _("OFF"));
+                    }
+                    int namelen = WIDTH - second_column - 1 // border
+                        - suffix.str().length()
+                        - 1  // invlet
+                        - 1; // space after invlet.
+                    wprintz(wBio, type, (" " + b->name.substr(0, namelen)).c_str());
+                    wprintz(wBio, type, suffix.str().c_str());
                 }
             }
 
