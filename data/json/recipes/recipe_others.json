@@ -4064,38 +4064,6 @@
     ]
    ]
 },{
-    "type" : "recipe",
-  "result": "magnifying_glass",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_TOOLS",
-  "skill_used": "fabrication",
-  "difficulty": 2,
-  "time": 10000,
-  "reversible": true,
-  "autolearn": true,
-  "tools": [
-     [
-      [ "mold_plastic", -1 ]
-     ],
-     [
-      [ "fire", -1 ],
-      [ "toolset", 10 ],
-      [ "soldering_iron", 10 ]
-     ]
-    ],
-  "components":
-   [
-    [
-     [ "plastic_chunk", 4 ]
-    ],
-    [
-     [ "lens", 1 ]
-    ],
-    [
-     [ "wire", 1 ]
-    ]
-   ]
-},{
         "type" : "recipe",
   "result": "crackpipe",
   "category": "CC_OTHER",
@@ -5216,33 +5184,33 @@
      [ [ "scrap", 7 ] ]
   ]
   },{
-  "type": "recipe",
-  "result": "survival_marker",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_TOOLS",
-  "skill_used": "fabrication",
-  "skills_required": [ "fabrication", 2 ],
-  "difficulty": 2,
-  "time": 50000,
-  "reversible": false,
-  "autolearn": true,
-  "components": [ [ [ "charcoal", 1 ] ] ],
-  "qualities":[ {"id":"CUT","level":1,"amount":1} ]
+    "type": "recipe",
+    "result": "survival_marker",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ "fabrication", 2 ],
+    "difficulty": 2,
+    "time": 50000,
+    "reversible": false,
+    "autolearn": true,
+    "components": [ [ [ "charcoal", 1 ] ] ],
+    "qualities":[ {"id":"CUT","level":1,"amount":1} ]
   },{
-  "type" : "recipe",
-  "result": "plastic_chunk",
-  "id_suffix": "from_plastic_bags",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_MATERIALS",
-  "skill_used": "fabrication",
-  "difficulty": 0,
-  "time": 10000,
-  "reversible": false,
-  "autolearn": true,
-  "tools": [
-    [ ["hotplate", 4], ["toolset", 4], ["fire", -1] ],
-    [ ["mold_plastic", -1] ]
+    "type" : "recipe",
+    "result": "plastic_chunk",
+    "id_suffix": "from_plastic_bags",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 0,
+    "time": 10000,
+    "reversible": false,
+    "autolearn": true,
+    "tools": [
+      [ ["hotplate", 4], ["toolset", 4], ["fire", -1] ],
+      [ ["mold_plastic", -1] ]
     ],
-  "components": [ [ [ "bag_plastic", 3 ] ] ]
+    "components": [ [ [ "bag_plastic", 3 ] ] ]
   }
 ]
