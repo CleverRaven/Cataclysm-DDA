@@ -751,6 +751,14 @@ void game::create_starting_npcs()
 
 int game::cleanup_at_end()
 {
+	// create entries for deathcam prompt
+	std::vector<uimenu_entry> ents = {
+		{1, true, ' ', "Press space to see the after-effects of your death."}
+	};
+	// show the prompt on the lowest tile stretched across the terrain view
+	uimenu deathcam_ui(VIEW_OFFSET_X, TERRAIN_WINDOW_TERM_WIDTH,
+			(VIEW_OFFSET_Y + TERRAIN_WINDOW_TERM_HEIGHT - 1),
+			"deathcam", ents);
     draw_sidebar();
     if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE) {
         // Save the factions', missions and set the NPC's overmap coords
@@ -3994,14 +4002,6 @@ bool game::is_game_over()
         }
         u.place_corpse();
         uquit = QUIT_DIED;
-        // create entries for deathcam prompt
-        std::vector<uimenu_entry> ents = {
-            {1, true, ' ', "Press space to see the after-effects of your death."}
-        };
-        // show the prompt on the lowest tile stretched across the terrain view
-        uimenu deathcam_ui(VIEW_OFFSET_X, TERRAIN_WINDOW_TERM_WIDTH,
-                (VIEW_OFFSET_Y + TERRAIN_WINDOW_TERM_HEIGHT - 1),
-                "deathcam", ents);
         return true;
     }
     return false;
