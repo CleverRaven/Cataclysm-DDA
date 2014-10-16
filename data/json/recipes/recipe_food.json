@@ -6703,7 +6703,7 @@
   "result": "brew_vinegar",
   "result_mult" : 7,
   "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_DRINKS",
+  "subcategory": "CSC_FOOD_OTHER",
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 8000,
