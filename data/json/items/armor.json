@@ -5241,7 +5241,7 @@
         "to_hit" : -2,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "A pair of glasses for the near-sighted.  You can use them to focus the sunlight.",
+        "description" : "A pair of glasses for the near-sighted.  Useless for anyone else.",
         "price" : 7900,
         "material" : ["glass", "plastic"],
         "volume" : 1,
@@ -5251,10 +5251,9 @@
         "environmental_protection" : 1,
         "encumbrance" : 0,
         "bashing" : -3,
-        "flags" : ["WATER_FRIENDLY","LENS"],
+        "flags" : ["WATER_FRIENDLY"],
         "coverage" : 75,
-        "material_thickness" : 1,
-        "use_action": "FIRESTARTER"
+        "material_thickness" : 1
     },
     {
         "type" : "ARMOR",
@@ -5442,7 +5441,7 @@
         "to_hit" : -2,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "An essential article of the gentleman's apparel.  Also corrects near-sightedness.  You can use this to focus the sunlight.",
+        "description" : "An essential article of the gentleman's apparel.  Also negates near-sight.",
         "price" : 4000,
         "//": "DDA monocle is optical-grade.  Costume ones go for about $10.",
         "material" : ["glass", "plastic"],
@@ -5455,8 +5454,7 @@
         "bashing" : -3,
         "coverage" : 20,
         "material_thickness" : 1,
-        "flags" : ["SUPER_FANCY","LENS"],
-        "use_action": "FIRESTARTER"
+        "flags" : ["SUPER_FANCY"]
     },
     {
         "type" : "ARMOR",
