@@ -1473,6 +1473,16 @@ std::string rm_prefix(std::string str, char c1, char c2)
     return str;
 }
 
+std::string trim_to(const std::string &text, size_t length)
+{
+    const size_t width = utf8_width(text.c_str());
+    if(width <= length) {
+        return text;
+    }
+    const size_t bytes_offset = cursorx_to_position(text.c_str(), length - 1, NULL, -1);
+    return text.substr(0, bytes_offset) + "…";
+}
+
 // draw a menu item like strign with highlighted shortcut character
 // Example: <w>ield, m<o>ve
 // returns: output length (in console cells)
