@@ -18,6 +18,8 @@
 # Build types:
 # Debug (no optimizations)
 #  Default
+# ccache (use compilation caches)
+#  make CCACHE=1
 # Release (turn on optimizations)
 #  make RELEASE=1
 # Tiles (uses SDL rather than ncurses)
@@ -100,8 +102,13 @@ W32ODIRTILES = objwin/tiles
 DDIR = .deps
 
 OS  = $(shell uname -s)
-CXX = $(CROSS)g++
-LD  = $(CROSS)g++
+ifdef CCACHE
+  CXX = ccache $(CROSS)g++
+  LD  = ccache $(CROSS)g++
+else
+  CXX = $(CROSS)g++
+  LD  = $(CROSS)g++
+endif
 RC  = $(CROSS)windres
 
 # enable optimizations. slow to build
@@ -122,8 +129,13 @@ ifdef CLANG
   ifeq ($(NATIVE), osx)
     OTHERS += -stdlib=libc++
   endif
-  CXX = $(CROSS)clang++
-  LD  = $(CROSS)clang++
+  ifdef CCACHE
+    CXX = ccache $(CROSS)clang++ -Qunused-arguments
+    LD  = ccache $(CROSS)clang++ -Qunused-arguments
+  else
+    CXX = $(CROSS)clang++
+    LD  = $(CROSS)clang++
+  endif
   WARNINGS = -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-type-limits -Wno-narrowing
 endif
 
