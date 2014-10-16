@@ -3793,11 +3793,13 @@ int iuse::water_purifier(player *p, item *it, bool)
 int iuse::two_way_radio(player *p, item *it, bool)
 {
     WINDOW *w = newwin(6, 36, (TERMY - 6) / 2, (TERMX - 36) / 2);
+    WINDOW_PTR wptr(w);
     draw_border(w);
     // TODO: More options here.  Thoughts...
     //       > Respond to the SOS of an NPC
     //       > Report something to a faction
     //       > Call another player
+    // TODO: Should probably be a ui menu anyway.
     fold_and_print(w, 1, 1, 999, c_white,
                    _(
                        "1: Radio a faction for help...\n"
@@ -3878,9 +3880,7 @@ int iuse::two_way_radio(player *p, item *it, bool)
     } else {
         return 0;
     }
-    werase(w);
-    wrefresh(w);
-    delwin(w);
+    wptr.reset();
     refresh();
     return it->type->charges_to_use();
 }
@@ -5923,9 +5923,11 @@ int iuse::firecracker_pack(player *p, item *it, bool)
         return 0;
     }
     WINDOW *w = newwin(5, 41, (TERMY - 5) / 2, (TERMX - 41) / 2);
+    WINDOW_PTR wptr( w );
     draw_border(w);
     int mid_x = getmaxx(w) / 2;
     int tmpx = 5;
+    // TODO: Should probably be a input box anyway.
     mvwprintz(w, 1, 2, c_white, _("How many do you want to light? (1-%d)"), it->charges);
     mvwprintz(w, 2, mid_x, c_white, "1");
     tmpx += shortcut_print(w, 3, tmpx, c_white, c_ltred, _("<I>ncrease")) + 1;

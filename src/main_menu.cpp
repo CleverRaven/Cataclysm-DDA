@@ -184,6 +184,7 @@ bool game::opening_screen()
     world_generator->get_all_worlds();
 
     WINDOW *w_background = newwin(TERMY, TERMX, 0, 0);
+    WINDOW_PTR w_backgroundptr( w_background );
     werase(w_background);
     wrefresh(w_background);
 
@@ -201,6 +202,7 @@ bool game::opening_screen()
     const int y0 = (TERMY - total_h) / 2;
 
     WINDOW *w_open = newwin(total_h, total_w, y0, x0);
+    WINDOW_PTR w_openptr( w_open );
 
     const int iMenuOffsetX = 2;
     int iMenuOffsetY = total_h - 3;
@@ -336,8 +338,6 @@ bool game::opening_screen()
                     display_help();
                 } else if (sel1 == 8) {
                     uquit = QUIT_MENU;
-                    delwin(w_open);
-                    delwin(w_background);
                     return false;
                 } else {
                     sel2 = 0;
@@ -802,8 +802,8 @@ bool game::opening_screen()
             }
         }
     }
-    delwin(w_open);
-    delwin(w_background);
+    w_openptr.reset();
+    w_backgroundptr.reset();
     if (start == false) {
         uquit = QUIT_MENU;
     } else {
