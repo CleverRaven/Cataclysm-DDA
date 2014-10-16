@@ -210,10 +210,10 @@ void player::power_bionics()
                             (active[i]->powered ? _("ON") : _("OFF"));
                     }
                     int namelen = WIDTH - second_column - 1 // border
-                        - suffix.str().length()
+                        - utf8_width(suffix.str().c_str())
                         - 1  // invlet
                         - 1; // space after invlet.
-                    wprintz(wBio, type, (" " + b->name.substr(0, namelen)).c_str());
+                    wprintz(wBio, type, (" " + trim_to(b->name, namelen)).c_str());
                     wprintz(wBio, type, suffix.str().c_str());
                 }
             }
