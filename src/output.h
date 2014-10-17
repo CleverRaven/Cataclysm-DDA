@@ -295,6 +295,7 @@ int get_terminal_height();
  * be a lot of switching around in the map drawing code.
  */
 bool is_draw_tiles_mode();
+bool saveScreenshotBMP(std::string filepath);
 
 void play_music(std::string playlist);
 void play_sound(std::string identifier);

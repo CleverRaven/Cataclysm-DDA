@@ -2843,6 +2843,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action("zoom_in");
     ctxt.register_action("toggle_sidebar_style");
     ctxt.register_action("toggle_fullscreen");
+    ctxt.register_action("snap_screenshot");
     ctxt.register_action("action_menu");
     ctxt.register_action("ANY_INPUT");
     ctxt.register_action("COORDINATE");
@@ -3748,6 +3749,18 @@ bool game::handle_action()
     case ACTION_TOGGLE_FULLSCREEN:
         toggle_fullscreen();
         break;
+
+    case ACTION_SCREENSHOT: {
+        //not sure if separate function is better or already exists
+        int ss_ctr = 0;
+        std::string shotpath = "";
+        do{
+            shotpath = FILENAMES["screenshotsdir"] + "screenshot" + static_cast<std::ostringstream*>( &(std::ostringstream() << ss_ctr) )->str() + ".bmp";
+            ss_ctr++;
+        }while( access(shotpath.c_str(), F_OK) != -1 && ss_ctr < 1000);
+        saveScreenshotBMP(shotpath.c_str());
+    }
+    break;
 
     case ACTION_DISPLAY_SCENT:
         if (MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger()) {

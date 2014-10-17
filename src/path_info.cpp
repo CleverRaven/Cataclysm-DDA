@@ -68,6 +68,7 @@ void PATH_INFO::update_datadir()
     update_pathname("namesdir", FILENAMES["datadir"] + "names/");
     update_pathname("motddir", FILENAMES["datadir"] + "motd/");
     update_pathname("creditsdir", FILENAMES["datadir"] + "credits/");
+    update_pathname("screenshotsdir", FILENAMES["datadir"] + "screenshots/");
 
     // Shared files
     update_pathname("motd", FILENAMES["motddir"] + "en.motd");
