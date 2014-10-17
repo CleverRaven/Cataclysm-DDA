@@ -7221,6 +7221,7 @@ int iuse::torch_lit(player *p, item *it, bool t)
                 it->charges -= 1;
                 it->make("torch");
                 it->active = false;
+                return 0;
             }
             break;
             case 2: {
@@ -7228,11 +7229,11 @@ int iuse::torch_lit(player *p, item *it, bool t)
                 if (prep_firestarter_use(p, it, dirx, diry)) {
                     p->moves -= 5;
                     resolve_firestarter_use(p, it, dirx, diry);
+                    return it->type->charges_to_use();
                 }
             }
         }
     }
-    return it->type->charges_to_use();
 }
 
 
@@ -7261,6 +7262,7 @@ int iuse::battletorch_lit(player *p, item *it, bool t)
                 it->charges -= 1;
                 it->make("battletorch");
                 it->active = false;
+                return 0;
             }
             break;
             case 2: {
@@ -7268,11 +7270,11 @@ int iuse::battletorch_lit(player *p, item *it, bool t)
                 if (prep_firestarter_use(p, it, dirx, diry)) {
                     p->moves -= 5;
                     resolve_firestarter_use(p, it, dirx, diry);
+                    return it->type->charges_to_use();
                 }
             }
         }
     }
-    return it->type->charges_to_use();
 }
 
 iuse::bullet_pulling_t iuse::bullet_pulling_recipes;
