@@ -1174,7 +1174,7 @@ void game::make_all_craft(std::string id_to_make, int batch_size)
     if( recipe_to_make == nullptr ) {
         return;
     }
-    u.assign_activity(ACT_LONGCRAFT, recipe_to_make->time, recipe_to_make->id);
+    u.assign_activity(ACT_LONGCRAFT, recipe_to_make->batch_time(batch_size), recipe_to_make->id);
     u.activity.values.push_back( batch_size );
     u.last_batch = batch_size;
     u.lastrecipe = id_to_make;
