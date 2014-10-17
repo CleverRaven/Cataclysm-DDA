@@ -233,7 +233,6 @@ void construction_menu()
 
         if (update_info) {
             update_info = false;
-            std::string current_desc = constructs[select];
             // Clear out lines for tools & materials
             for (int i = 1; i < iMaxY - 1; i++) {
                 for (int j = 31; j < 79; j++) {
@@ -242,6 +241,7 @@ void construction_menu()
             }
 
             if (!constructs.empty()) {
+                std::string current_desc = constructs[select];
                 // Print instructions for toggling recipe hiding.
                 mvwprintz(w_con, iMaxY - 3, 31, c_white, _("Press %s to toggle unavailable constructions."), ctxt.get_desc("TOGGLE_UNAVAILABLE_CONSTRUCTIONS").c_str());
                 mvwprintz(w_con, iMaxY - 2, 31, c_white, _("Press %s to view and edit key-bindings."), ctxt.get_desc("HELP_KEYBINDINGS").c_str());
