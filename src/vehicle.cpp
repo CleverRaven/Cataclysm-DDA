@@ -16,12 +16,13 @@
 
 #include "debug.h"
 
-const ammotype fuel_types[num_fuel_types] = { "gasoline", "battery", "plutonium", "plasma", "water" };
+const ammotype fuel_types[num_fuel_types] = { "gasoline", "diesel", "battery", "plutonium", "plasma", "water" };
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;
  *   assemble "structure" once here instead of repeatedly later.
  */
 static const std::string fuel_type_gasoline("gasoline");
+static const std::string fuel_type_diesel("diesel");
 static const std::string fuel_type_battery("battery");
 static const std::string fuel_type_plutonium("plutonium");
 static const std::string fuel_type_plasma("plasma");

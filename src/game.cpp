@@ -8062,6 +8062,11 @@ bool game::refill_vehicle_part(vehicle &veh, vehicle_part *part, bool test)
         if (part->amount == max_fuel) {
             add_msg(m_good, _("The tank is full."));
         }
+    } else if (ftype == "diesel") {
+        add_msg(_("You refill %s's fuel tank."), veh.name.c_str());
+        if (part->amount == max_fuel) {
+            add_msg(m_good, _("The tank is full."));
+        }
     } else if (ftype == "plutonium") {
         add_msg(_("You refill %s's reactor."), veh.name.c_str());
         if (part->amount == max_fuel) {
@@ -10587,7 +10592,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
         return false;
     }
 
-    if (liquid.type->id == "gasoline" && vehicle_near() && query_yn(_("Refill vehicle?"))) {
+    if ( (liquid.type->id == "gasoline" || liquid.type->id == "diesel") && vehicle_near() && query_yn(_("Refill vehicle?"))) {
         int vx = u.posx, vy = u.posy;
         refresh_all();
         if (!choose_adjacent(_("Refill vehicle where?"), vx, vy)) {
@@ -10598,7 +10603,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
             add_msg(m_info, _("There isn't any vehicle there."));
             return false;
         }
-        const ammotype ftype = "gasoline";
+        const ammotype ftype = liquid.type->id;
         int fuel_cap = veh->fuel_capacity(ftype);
         int fuel_amnt = veh->fuel_left(ftype);
         if (fuel_cap <= 0) {
