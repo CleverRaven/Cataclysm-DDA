@@ -470,6 +470,7 @@ void defense_game::setup()
     WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                        (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0,
                        (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
+    WINDOW_PTR wptr( w );
     int selection = 1;
     refresh_setup(w, selection);
 
@@ -894,6 +895,7 @@ void defense_game::caravan()
     unsigned total_price = 0;
 
     WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, 0, 0);
+    WINDOW_PTR wptr( w );
 
     int offset = 0, item_selected = 0, category_selected = 0;
 

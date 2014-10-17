@@ -1637,14 +1637,6 @@ void game::activity_on_turn()
         u.cancel_activity();
         advanced_inv();
         break;
-    case ACT_START_FIRE:
-        u.activity.moves_left -= 100; // based on time
-        if (u.i_at(u.activity.position).has_flag("LENS")) { // if using a lens, handle potential changes in weather
-            activity_on_turn_start_fire_lens();
-        }
-        u.rooted();
-        u.pause();
-        break;
     default:
         // Based on speed, not time
         u.activity.moves_left -= u.moves;
@@ -1748,112 +1740,6 @@ void game::activity_on_turn_refill_vehicle()
     u.pause();
 }
 
-void game::activity_on_turn_start_fire_lens()
-{
-    float natural_light_level = g->natural_light_level();
-    // if the weather changes, we cannot start a fire with a lens. abort activity
-    if (!((g->weather == WEATHER_CLEAR) || (g->weather == WEATHER_SUNNY)) || !( natural_light_level >= 60 )) {
-        add_msg(m_bad, _("There is not enough sunlight to start a fire now. You stop trying."));
-        u.cancel_activity();
-    } else if (natural_light_level != u.activity.values.back()) { // when lighting changes we recalculate the time needed
-        float previous_natural_light_level = u.activity.values.back();
-        u.activity.values.pop_back();
-        u.activity.values.push_back(natural_light_level); // update light level
-        iuse tmp;
-        float progress_left = float(u.activity.moves_left)/float(tmp.calculate_time_for_lens_fire(&g->u, previous_natural_light_level));
-        u.activity.moves_left = int(progress_left*(tmp.calculate_time_for_lens_fire(&g->u, natural_light_level))); // update moves left
-    }
-}
-
-void game::activity_on_finish()
-{
-    switch (u.activity.type) {
-    case ACT_RELOAD:
-        activity_on_finish_reload();
-        break;
-    case ACT_READ:
-        u.do_read(&(u.i_at(u.activity.position)));
-        break;
-    case ACT_WAIT:
-    case ACT_WAIT_WEATHER:
-        add_msg(_("You finish waiting."));
-        u.activity.type = ACT_NULL;
-        break;
-    case ACT_CRAFT:
-        complete_craft();
-        u.activity.type = ACT_NULL;
-        break;
-    case ACT_LONGCRAFT:
-        complete_craft();
-        u.activity.type = ACT_NULL;
-        {
-            int batch_size = u.activity.values.front();
-            if( making_would_work( u.lastrecipe, batch_size ) ) {
-                make_all_craft(u.lastrecipe, batch_size);
-            }
-        }
-        break;
-    case ACT_FORAGE:
-        forage();
-        u.activity.type = ACT_NULL;
-        break;
-    case ACT_DISASSEMBLE:
-        complete_disassemble();
-        u.activity.type = ACT_NULL;
-        break;
-    case ACT_BUTCHER:
-        complete_butcher(u.activity.index);
-        u.activity.type = ACT_NULL;
-        break;
-    case ACT_VEHICLE:
-        activity_on_finish_vehicle();
-        break;
-    case ACT_BUILD:
-        complete_construction();
-        u.activity.type = ACT_NULL;
-        break;
-    case ACT_TRAIN:
-        activity_on_finish_train();
-        break;
-    case ACT_FIRSTAID:
-        activity_on_finish_firstaid();
-        break;
-    case ACT_FISH:
-        activity_on_finish_fish();
-        break;
-    case ACT_PICKAXE:
-        on_finish_activity_pickaxe(&u);
-        u.activity.type = ACT_NULL;
-        break;
-    case ACT_VIBE:
-        add_msg(m_good, _("You feel much better."));
-        u.activity.type = ACT_NULL;
-        break;
-    case ACT_MAKE_ZLAVE:
-        activity_on_finish_make_zlave();
-        u.activity.type = ACT_NULL;
-        break;
-    case ACT_PICKUP:
-    case ACT_MOVE_ITEMS:
-        // Do nothing, the only way this happens is if we set this activity after
-        // entering the advanced inventory menu as an activity, and we want it to play out.
-        break;
-    case ACT_START_FIRE:
-        activity_on_finish_start_fire();
-        break;
-    default:
-        u.activity.type = ACT_NULL;
-    }
-    if (u.activity.type == ACT_NULL) {
-        // Make sure data of previous activity is cleared
-        u.activity = player_activity();
-        if( !u.backlog.empty() && u.backlog.front().auto_resume ) {
-            u.activity = u.backlog.front();
-            u.backlog.pop_front();
-        }
-    }
-}
-
 void game::activity_on_finish_make_zlave()
 {
     static const int full_pulp_threshold = 4;
@@ -1928,6 +1814,93 @@ void game::activity_on_finish_make_zlave()
     }
 }
 
+
+void game::activity_on_finish()
+{
+    switch (u.activity.type) {
+    case ACT_RELOAD:
+        activity_on_finish_reload();
+        break;
+    case ACT_READ:
+        u.do_read(&(u.i_at(u.activity.position)));
+        break;
+    case ACT_WAIT:
+    case ACT_WAIT_WEATHER:
+        add_msg(_("You finish waiting."));
+        u.activity.type = ACT_NULL;
+        break;
+    case ACT_CRAFT:
+        complete_craft();
+        u.activity.type = ACT_NULL;
+        break;
+    case ACT_LONGCRAFT:
+        complete_craft();
+        u.activity.type = ACT_NULL;
+        {
+            int batch_size = u.activity.values.front();
+            if( making_would_work( u.lastrecipe, batch_size ) ) {
+                make_all_craft(u.lastrecipe, batch_size);
+            }
+        }
+        break;
+    case ACT_FORAGE:
+        forage();
+        u.activity.type = ACT_NULL;
+        break;
+    case ACT_DISASSEMBLE:
+        complete_disassemble();
+        u.activity.type = ACT_NULL;
+        break;
+    case ACT_BUTCHER:
+        complete_butcher(u.activity.index);
+        u.activity.type = ACT_NULL;
+        break;
+    case ACT_VEHICLE:
+        activity_on_finish_vehicle();
+        break;
+    case ACT_BUILD:
+        complete_construction();
+        u.activity.type = ACT_NULL;
+        break;
+    case ACT_TRAIN:
+        activity_on_finish_train();
+        break;
+    case ACT_FIRSTAID:
+        activity_on_finish_firstaid();
+        break;
+    case ACT_FISH:
+        activity_on_finish_fish();
+        break;
+    case ACT_PICKAXE:
+        on_finish_activity_pickaxe(&u);
+        u.activity.type = ACT_NULL;
+        break;
+    case ACT_VIBE:
+        add_msg(m_good, _("You feel much better."));
+        u.activity.type = ACT_NULL;
+        break;
+    case ACT_MAKE_ZLAVE:
+        activity_on_finish_make_zlave();
+        u.activity.type = ACT_NULL;
+        break;
+    case ACT_PICKUP:
+    case ACT_MOVE_ITEMS:
+        // Do nothing, the only way this happens is if we set this activity after
+        // entering the advanced inventory menu as an activity, and we want it to play out.
+        break;
+    default:
+        u.activity.type = ACT_NULL;
+    }
+    if (u.activity.type == ACT_NULL) {
+        // Make sure data of previous activity is cleared
+        u.activity = player_activity();
+        if( !u.backlog.empty() && u.backlog.front().auto_resume ) {
+            u.activity = u.backlog.front();
+            u.backlog.pop_front();
+        }
+    }
+}
+
 void game::activity_on_finish_reload()
 {
     item *reloadable = NULL;
@@ -1998,16 +1971,6 @@ void game::activity_on_finish_firstaid()
     // Erase activity and values.
     u.activity.type = ACT_NULL;
     u.activity.values.clear();
-}
-
-void game::activity_on_finish_start_fire()
-{
-        item &it = u.i_at(u.activity.position);
-        const int dirx = u.activity.placement.x;
-        const int diry = u.activity.placement.y;
-        iuse tmp;
-        tmp.resolve_firestarter_use(&u, &it, dirx, diry);
-        u.activity.type = ACT_NULL;
 }
 
 void game::activity_on_finish_fish()
@@ -2621,6 +2584,7 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position)
         const std::string str = oThisItem.info(true, &vThisItem);
         const std::string item_name = oThisItem.tname();
         WINDOW *w = newwin(TERMY - VIEW_OFFSET_Y * 2, iWidth, VIEW_OFFSET_Y, iStartX + VIEW_OFFSET_X);
+        WINDOW_PTR wptr( w );
 
         wmove(w, 1, 2);
         wprintz(w, c_white, "%s", item_name.c_str());
@@ -15265,3 +15229,4 @@ int game::get_abs_levz() const
 {
     return levx;
 }
+

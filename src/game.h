@@ -798,7 +798,6 @@ class game
         void activity_on_turn_vibe();
         void activity_on_turn_refill_vehicle();
         void activity_on_turn_pulp();
-        void activity_on_turn_start_fire_lens();
         void activity_on_finish();
         void activity_on_finish_reload();
         void activity_on_finish_train();
@@ -806,7 +805,7 @@ class game
         void activity_on_finish_fish();
         void activity_on_finish_vehicle();
         void activity_on_finish_make_zlave();
-        void activity_on_finish_start_fire();
+
         void move_save_to_graveyard();
         bool save_player_data();
 };

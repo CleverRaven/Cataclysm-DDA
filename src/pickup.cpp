@@ -514,6 +514,8 @@ void Pickup::pick_up(int posx, int posy, int min)
 
     WINDOW *w_pickup    = newwin(pickupH, pickupW, pickupY, pickupX);
     WINDOW *w_item_info = newwin(itemsH,  itemsW,  itemsY,  itemsX);
+    WINDOW_PTR w_pickupptr( w_pickup );
+    WINDOW_PTR w_item_infoptr( w_item_info );
 
     int ch = ' ';
     int start = 0, cur_it;
@@ -747,12 +749,8 @@ void Pickup::pick_up(int posx, int posy, int min)
         } while (ch != ' ' && ch != '\n' && ch != KEY_ESCAPE);
 
         if (ch != '\n') {
-            werase(w_pickup);
-            wrefresh(w_pickup);
-            werase(w_item_info);
-            wrefresh(w_item_info);
-            delwin(w_pickup);
-            delwin(w_item_info);
+            w_pickupptr.reset();
+            w_item_infoptr.reset();
             add_msg(_("Never mind."));
             g->reenter_fullscreen();
             g->refresh_all();
@@ -776,12 +774,6 @@ void Pickup::pick_up(int posx, int posy, int min)
     }
 
     g->reenter_fullscreen();
-    werase(w_pickup);
-    wrefresh(w_pickup);
-    werase(w_item_info);
-    wrefresh(w_item_info);
-    delwin(w_pickup);
-    delwin(w_item_info);
 }
 
 //helper function for Pickup::pick_up
