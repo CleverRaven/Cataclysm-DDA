@@ -7356,7 +7356,7 @@ bb|,,,,,,,,,,,,,,,,,,|##\n\
                         } else {
                             add_spawn("mon_zombie_brute", rng(0, 1), i, j);
                         }
-                    }					
+                    }
                 }
             }
             if (t_west == "prison_b_entrance") {
@@ -11040,10 +11040,17 @@ void map::place_spawns(std::string group, const int chance,
 
 void map::place_gas_pump(int x, int y, int charges)
 {
-    item gas("gasoline", 0);
-    gas.charges = charges;
-    add_item(x, y, gas);
-    ter_set(x, y, t_gas_pump);
+    if (one_in(6)) {
+        item diesel(itypes["diesel"], 0);
+        diesel.charges = charges;
+        add_item(x, y, diesel);
+        ter_set(x, y, t_diesel_pump);
+    } else {
+        item gas(itypes["gasoline"], 0);
+        gas.charges = charges;
+        add_item(x, y, gas);
+        ter_set(x, y, t_gas_pump);
+    }
 }
 
 void map::place_toilet(int x, int y, int charges)
