@@ -127,7 +127,7 @@ class game
         void delete_world(std::string worldname, bool delete_folder);
         std::vector<std::string> list_active_characters();
         void write_memorial_file(std::string sLastWords);
-        int cleanup_at_end();
+        void cleanup_at_end();
         void determine_starting_season();
         bool do_turn();
         void draw();

@@ -749,17 +749,25 @@ void game::create_starting_npcs()
         reserve_random_mission(ORIGIN_OPENER_NPC, om_location(), tmp->getID()));
 }
 
-int game::cleanup_at_end()
+void game::cleanup_at_end()
 {
-	// create entries for deathcam prompt
-	std::vector<uimenu_entry> ents = {
-		{1, true, ' ', "Press space to see the after-effects of your death."}
-	};
-	// show the prompt on the lowest tile stretched across the terrain view
-	uimenu deathcam_ui(VIEW_OFFSET_X, TERRAIN_WINDOW_TERM_WIDTH,
-			(VIEW_OFFSET_Y + TERRAIN_WINDOW_TERM_HEIGHT - 1),
-			"deathcam", ents);
     draw_sidebar();
+    // only show this prompt if you die, not if you quit
+    if(u.get_deathcam() == DC_ON) {
+        if((int(calendar::turn) - u.get_turn_of_death()) >= DEATHCAM_LENGTH) { // DEATHCAM_LENGTH set to 25
+            u.set_deathcam(DC_DONE);
+            debugmsg("deathcam set off [turn %d]", int(calendar::turn));
+        }
+    }
+    if((uquit == QUIT_DIED) && (u.get_deathcam() == DC_OFF)) {
+        if((query_yn("Watch the last moments of your life?")) == true) {
+            u.set_deathcam(DC_ON);
+            debugmsg("deathcam set on [turn %d]", int(calendar::turn));
+        }
+    }
+    if(u.get_deathcam() == DC_ON) {
+        return;
+    }
     if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE) {
         // Save the factions', missions and set the NPC's overmap coords
         // Npcs are saved in the overmap.
@@ -991,7 +999,7 @@ int game::cleanup_at_end()
     }
     MAPBUFFER.reset();
     overmap_buffer.clear();
-    return true;
+    return;
 }
 
 static int veh_lumi(vehicle *veh)
@@ -1116,7 +1124,6 @@ bool game::do_turn()
 {
     if (is_game_over()) {
         cleanup_at_end();
-        return true;
     }
     // Actual stuff
     if (new_game) {
@@ -1432,7 +1439,6 @@ bool game::do_turn()
 
                 if (is_game_over()) {
                     cleanup_at_end();
-                    return true;
                 }
             }
         } else {
@@ -4584,8 +4590,9 @@ void game::debug()
                       _("Remove all monsters"),    // 19
                       _("Display hordes"), // 20
                       _("Test Item Group"), // 21
+                      _("Damage Self"), //22
 #ifdef LUA
-                      _("Lua Command"), // 22
+                      _("Lua Command"), // 23
 #endif
                       _("Cancel"),
                       NULL);
@@ -4987,8 +4994,15 @@ void game::debug()
     }
     break;
 
-#ifdef LUA
     case 22: {
+        int dbg_damage = query_int("Damage self for how much? hp: %d", u.hp_cur[hp_torso]);
+        u.hp_cur[hp_torso] -= dbg_damage;
+        draw_sidebar();
+    }
+    break;
+
+#ifdef LUA
+    case 23: {
         std::string luacode = string_input_popup(_("Lua:"), 60, "");
         call_lua(luacode);
     }

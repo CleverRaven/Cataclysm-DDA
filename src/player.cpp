@@ -443,6 +443,9 @@ void player::reset_stats()
 
 void player::process_turn()
 {
+    if(is_dead_state()) {
+        return;
+    }
     Creature::process_turn();
 
     // Didn't just pick something up
