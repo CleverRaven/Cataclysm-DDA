@@ -2798,7 +2798,6 @@ int iuse::ref_lit(player *p, item *it, bool t)
                     resolve_firestarter_use(p, it, dirx, diry);
                     return it->type->charges_to_use();
                 }
-
             }
         }
     }
@@ -7234,6 +7233,7 @@ int iuse::torch_lit(player *p, item *it, bool t)
             }
         }
     }
+    return it->type->charges_to_use();
 }
 
 
@@ -7275,6 +7275,7 @@ int iuse::battletorch_lit(player *p, item *it, bool t)
             }
         }
     }
+    return it->type->charges_to_use();
 }
 
 iuse::bullet_pulling_t iuse::bullet_pulling_recipes;
