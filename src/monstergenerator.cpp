@@ -376,7 +376,6 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         newmon->armor_cut = jo.get_int("armor_cut", 0);
         newmon->hp = jo.get_int("hp", 0);
         jo.read("starting_ammo", newmon->starting_ammo);
-        newmon->def_chance = jo.get_int("special_when_hit_freq", 0);
         newmon->luminance = jo.get_float("luminance", 0);
         newmon->revert_to_itype = jo.get_string( "revert_to_itype", "" );
 
@@ -394,7 +393,7 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         }
 
         newmon->dies = get_death_functions(jo, "death_function");
-        newmon->sp_defense = get_defense_function(jo, "special_when_hit");
+        load_special_defense(newmon, jo, "special_when_hit");
         load_special_attacks(newmon, jo, "special_attacks");
 
         std::set<std::string> flags, anger_trig, placate_trig, fear_trig;
@@ -546,14 +545,18 @@ void MonsterGenerator::load_special_attacks(mtype *m, JsonObject &jo, std::strin
     }
 }
 
-MonDefenseFunction MonsterGenerator::get_defense_function(JsonObject &jo, std::string member)
-{
-    if (defense_map.find(jo.get_string(member, "")) != defense_map.end()) {
-        return defense_map[jo.get_string(member)];
+void MonsterGenerator::load_special_defense(mtype *m, JsonObject &jo, std::string member) {
+    if (jo.has_array(member)) {
+        JsonArray jsarr = jo.get_array(member);
+        m->sp_defense = defense_map[jsarr.get_string(0)];
+        m->def_chance = jsarr.get_int(1);
     }
 
-    return defense_map["NONE"];
+    if (m->sp_defense == NULL) {
+        m->sp_defense = defense_map["NONE"];
+    }
 }
+
 template <typename T>
 std::set<T> MonsterGenerator::get_set_from_tags(std::set<std::string> tags,
         std::map<std::string, T> conversion_map, T fallback)
