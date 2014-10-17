@@ -2696,7 +2696,7 @@ int iuse::catfood(player *p, item *, bool)
 
 bool prep_firestarter_use(player *p, item *it, int &posx, int &posy)
 {
-    if (it->charges == 0) {
+    if ((it->charges == 0) && (!it->has_flag("LENS"))){ // lenses do not need charges
         return false;
     }
     if (p->is_underwater()) {
@@ -2725,84 +2725,110 @@ bool prep_firestarter_use(player *p, item *it, int &posx, int &posy)
     }
 }
 
-void resolve_firestarter_use(player *p, item *, int posx, int posy)
+int iuse::resolve_firestarter_use(player *p, item *, int posx, int posy)
 {
     if (g->m.add_field(point(posx, posy), fd_fire, 1, 100)) {
         p->add_msg_if_player(_("You successfully light a fire."));
     }
-}
-
-int iuse::lighter(player *p, item *it, bool)
-{
-    int dirx, diry;
-    if (prep_firestarter_use(p, it, dirx, diry)) {
-        p->moves -= 15;
-        resolve_firestarter_use(p, it, dirx, diry);
-        return it->type->charges_to_use();
-    }
     return 0;
 }
 
-int iuse::primitive_fire(player *p, item *it, bool)
+int iuse::calculate_time_for_lens_fire (player *p, float light_level) {
+    // base moves based on sunlight levels... 1 minute when sunny (80 lighting), ~10 minutes when clear (60 lighting)
+    float moves_base = (std::pow((80/light_level),8)) * 1000 ;
+    // survival 0 takes 3 * moves_base, survival 1 takes 1,5 * moves_base, max moves capped at moves_base
+    float moves_modifier = 1/((p->skillLevel("survival"))*0.33 + 0.33);
+    if (moves_modifier < 1) {
+        moves_modifier = 1;
+    }
+    return int(moves_base * moves_modifier);
+}
+
+int iuse::firestarter(player *p, item *it, bool t)
 {
     int posx, posy;
-    if (prep_firestarter_use(p, it, posx, posy)) {
-        p->moves -= 500;
-        const int skillLevel = p->skillLevel("survival");
-        const int sides = 10;
-        const int base_dice = 3;
-        // aiming for ~50% success at skill level 3, and possible but unheard of at level 0
-        const int difficulty = (base_dice + 3) * sides / 2;
-        if (dice(skillLevel + base_dice, 10) >= difficulty) {
-            resolve_firestarter_use(p, it, posx, posy);
+    if (it->has_flag("LENS")) {
+        if (((g->weather == WEATHER_CLEAR) || (g->weather == WEATHER_SUNNY)) // needs the correct weather, light and to be outside
+        && (g->natural_light_level() >= 60 ) && !(g->m.has_flag("INDOORS", p->posx, p->posy))) {
+            if (prep_firestarter_use(p, it, posx, posy)) {
+                const int turns = calculate_time_for_lens_fire(p, g->natural_light_level()); // turns needed for activity
+                if (turns/1000 > 1) { // if it takes less than a minute, no need to inform the player about time
+                    p->add_msg_if_player(m_info, _("If the current weather holds, it will take around %d minutes to light a fire."), turns/1000);
+                }
+                p->assign_activity(ACT_START_FIRE, turns, -1, p->get_item_position(it), it->tname());
+                p->activity.values.push_back(g->natural_light_level()); // keep natural_light_level for comparing throughout the activity
+                p->activity.placement = point(posx, posy);
+                p->practice("survival", 5);
+            }
         } else {
-            p->add_msg_if_player(_("You try to light a fire, but fail."));
+        p->add_msg_if_player(_("You need direct sunlight to light a fire with this."));
         }
-        p->practice("survival", 10);
-        return it->type->charges_to_use();
-    }
-    return 0;
-}
-
-int iuse::ref_lit(player *p, item *it, bool t)
-{
-    if (p->is_underwater()) {
-        p->add_msg_if_player(_("The lighter is extinguished."));
-        it->make("ref_lighter");
-        it->active = false;
-        return 0;
-    }
-    if (t) {
-        if (it->charges < it->type->charges_to_use()) {
-            p->add_msg_if_player(_("The lighter burns out."));
+    } else if (it->has_flag("FIRE_DRILL")) {
+        if (prep_firestarter_use(p, it, posx, posy)) {
+            float skillLevel = float(p->skillLevel("survival"));
+            // success chance is 100% but time spent is min 5 minutes at skill=5 and it increases for lower skill levels.
+            // max time is 1 hour for 0 survival
+            const float moves_base = 5*1000;
+            if (skillLevel < 1) {
+                skillLevel = 0.536; // avoid dividing by zero. scaled so that skill level 0 means 60 minutes work
+            }
+            float moves_modifier = (std::pow((5/skillLevel),1.113)); // at survival=5 modifier=1, at survival=1 modifier=~6
+            if (moves_modifier < 1) {
+                moves_modifier = 1; // activity time improvement is capped at skillevel 5
+            }
+            const int turns = int (moves_base * moves_modifier);
+            p->add_msg_if_player(m_info, _("At your skill level, it will take around %d minutes to light a fire."), turns/1000);
+            p->assign_activity(ACT_START_FIRE, turns, -1, p->get_item_position(it), it->tname());
+            p->activity.placement = point(posx, posy);
+            p->practice("survival", 10);
+            it->charges -= it->type->charges_to_use()*(std::round(moves_modifier)); // charges used tied with moves_modifier (range 1 to 12)
+            return 0;
+        }
+    } else if (it->has_flag("REFILLABLE_LIGHTER")) {
+        if (p->is_underwater()) {
+            p->add_msg_if_player(_("The lighter is extinguished."));
             it->make("ref_lighter");
             it->active = false;
+            return 0;
         }
-    } else if (it->charges <= 0) {
-        p->add_msg_if_player(_("The %s winks out."), it->tname().c_str());
-    } else { // Turning it off
-        int choice = menu(true, _("refillable lighter (lit)"), _("extinguish"),
-                          _("light something"), _("cancel"), NULL);
-        switch (choice) {
-            case 1: {
-                p->add_msg_if_player(_("You extinguish the lighter."));
+        if (t) {
+            if (it->charges < it->type->charges_to_use()) {
+                p->add_msg_if_player(_("The lighter burns out."));
                 it->make("ref_lighter");
                 it->active = false;
-                return 0;
             }
-            break;
-            case 2: {
-                int dirx, diry;
-                if (prep_firestarter_use(p, it, dirx, diry)) {
-                    p->moves -= 15;
-                    resolve_firestarter_use(p, it, dirx, diry);
-                    return it->type->charges_to_use();
+        } else if (it->charges <= 0) {
+            p->add_msg_if_player(_("The %s winks out."), it->tname().c_str());
+        } else { // Turning it off
+            p->add_msg_if_player(_("turn off runs"));
+            int choice = menu(true, _("refillable lighter (lit)"), _("extinguish"),
+                              _("light something"), _("cancel"), NULL);
+            switch (choice) {
+                case 1: {
+                    p->add_msg_if_player(_("You extinguish the lighter."));
+                    it->make("ref_lighter");
+                    it->active = false;
+                    return 0;
                 }
-
+                break;
+                case 2: {
+                    if (prep_firestarter_use(p, it, posx, posy)) {
+                        p->moves -= 15;
+                        resolve_firestarter_use(p, it, posx, posy);
+                        return it->type->charges_to_use();
+                    }
+                }
             }
         }
+        return it->type->charges_to_use();
+    } else { // common ligher or matches
+        if (prep_firestarter_use(p, it, posx, posy)) {
+            p->moves -= 15;
+            resolve_firestarter_use(p, it, posx, posy);
+            return it->type->charges_to_use();
+        }
     }
-    return it->type->charges_to_use();
+    return 0;
 }
 
 int iuse::sew(player *p, item *it, bool)

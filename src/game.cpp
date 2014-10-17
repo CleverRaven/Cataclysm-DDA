@@ -1637,6 +1637,14 @@ void game::activity_on_turn()
         u.cancel_activity();
         advanced_inv();
         break;
+    case ACT_START_FIRE:
+        u.activity.moves_left -= 100; // based on time
+        if (u.i_at(u.activity.position).has_flag("LENS")) { // if using a lens, handle potential changes in weather
+            activity_on_turn_start_fire_lens();
+        }
+        u.rooted();
+        u.pause();
+        break;
     default:
         // Based on speed, not time
         u.activity.moves_left -= u.moves;
@@ -1740,80 +1748,22 @@ void game::activity_on_turn_refill_vehicle()
     u.pause();
 }
 
-void game::activity_on_finish_make_zlave()
+void game::activity_on_turn_start_fire_lens()
 {
-    static const int full_pulp_threshold = 4;
-
-    std::vector<item> &items = g->m.i_at(u.posx, u.posy);
-    std::string corpse_name = u.activity.str_values[0];
-    item *body = NULL;
-
-    for (auto it = items.begin(); it != items.end(); ++it) {
-        if (it->display_name() == corpse_name) {
-            body = &(*it);
-        }
-    }
-
-    if (body == NULL) {
-        add_msg(m_info, _("There's no corpse to make into a zombie slave!"));
-        return;
-    }
-
-    int success = u.activity.values[0];
-
-    if (success > 0) {
-
-        u.practice("firstaid", rng(2, 5));
-        u.practice("survival", rng(2, 5));
-
-        u.add_msg_if_player(m_good,
-                            _("You slice muscles and tendons, and remove body parts until you're confident the zombie won't be able to attack you when it reainmates."));
-
-        body->item_vars["zlave"] = "zlave";
-        //take into account the chance that the body yet can regenerate not as we need.
-        if (one_in(10)) {
-            body->item_vars["zlave"] = "mutilated";
-        }
-
-    } else {
-
-        if (success > -20) {
-
-            u.practice("firstaid", rng(3, 6));
-            u.practice("survival", rng(3, 6));
-
-            u.add_msg_if_player(m_warning,
-                                _("You hack into the corpse and chop off some body parts.  You think the zombie won't be able to attack when it reanimates."));
-
-            success += rng(1, 20);
-
-            if (success > 0 && !one_in(5)) {
-                body->item_vars["zlave"] = "zlave";
-            } else {
-                body->item_vars["zlave"] = "mutilated";
-            }
-
-        } else {
-
-            u.practice("firstaid", rng(1, 8));
-            u.practice("survival", rng(1, 8));
-
-            int pulp = rng(1, full_pulp_threshold);
-
-            body->damage += pulp;
-
-            if (body->damage >= full_pulp_threshold) {
-                body->damage = full_pulp_threshold;
-                body->active = false;
-
-                u.add_msg_if_player(m_warning, _("You cut up the corpse too much, it is thoroughly pulped."));
-            } else {
-                u.add_msg_if_player(m_warning, _("You cut into the corpse trying to make it unable to attack, but you don't think you have it right."));
-            }
-        }
+    float natural_light_level = g->natural_light_level();
+    // if the weather changes, we cannot start a fire with a lens. abort activity
+    if (!((g->weather == WEATHER_CLEAR) || (g->weather == WEATHER_SUNNY)) || !( natural_light_level >= 60 )) {
+        add_msg(m_bad, _("There is not enough sunlight to start a fire now. You stop trying."));
+        u.cancel_activity();
+    } else if (natural_light_level != u.activity.values.back()) { // when lighting changes we recalculate the time needed
+        float previous_natural_light_level = u.activity.values.back();
+        u.activity.values.pop_back();
+        u.activity.values.push_back(natural_light_level); // update light level
+        iuse tmp;
+        float progress_left = float(u.activity.moves_left)/float(tmp.calculate_time_for_lens_fire(&g->u, previous_natural_light_level));
+        u.activity.moves_left = int(progress_left*(tmp.calculate_time_for_lens_fire(&g->u, natural_light_level))); // update moves left
     }
 }
-
 
 void game::activity_on_finish()
 {
@@ -1888,6 +1838,9 @@ void game::activity_on_finish()
         // Do nothing, the only way this happens is if we set this activity after
         // entering the advanced inventory menu as an activity, and we want it to play out.
         break;
+    case ACT_START_FIRE:
+        activity_on_finish_start_fire();
+        break;
     default:
         u.activity.type = ACT_NULL;
     }
@@ -1897,6 +1850,80 @@ void game::activity_on_finish()
         if( !u.backlog.empty() && u.backlog.front().auto_resume ) {
             u.activity = u.backlog.front();
             u.backlog.pop_front();
+        }
+    }
+}
+
+void game::activity_on_finish_make_zlave()
+{
+    static const int full_pulp_threshold = 4;
+
+    std::vector<item> &items = g->m.i_at(u.posx, u.posy);
+    std::string corpse_name = u.activity.str_values[0];
+    item *body = NULL;
+
+    for (auto it = items.begin(); it != items.end(); ++it) {
+        if (it->display_name() == corpse_name) {
+            body = &(*it);
+        }
+    }
+
+    if (body == NULL) {
+        add_msg(m_info, _("There's no corpse to make into a zombie slave!"));
+        return;
+    }
+
+    int success = u.activity.values[0];
+
+    if (success > 0) {
+
+        u.practice("firstaid", rng(2, 5));
+        u.practice("survival", rng(2, 5));
+
+        u.add_msg_if_player(m_good,
+                            _("You slice muscles and tendons, and remove body parts until you're confident the zombie won't be able to attack you when it reainmates."));
+
+        body->item_vars["zlave"] = "zlave";
+        //take into account the chance that the body yet can regenerate not as we need.
+        if (one_in(10)) {
+            body->item_vars["zlave"] = "mutilated";
+        }
+
+    } else {
+
+        if (success > -20) {
+
+            u.practice("firstaid", rng(3, 6));
+            u.practice("survival", rng(3, 6));
+
+            u.add_msg_if_player(m_warning,
+                                _("You hack into the corpse and chop off some body parts.  You think the zombie won't be able to attack when it reanimates."));
+
+            success += rng(1, 20);
+
+            if (success > 0 && !one_in(5)) {
+                body->item_vars["zlave"] = "zlave";
+            } else {
+                body->item_vars["zlave"] = "mutilated";
+            }
+
+        } else {
+
+            u.practice("firstaid", rng(1, 8));
+            u.practice("survival", rng(1, 8));
+
+            int pulp = rng(1, full_pulp_threshold);
+
+            body->damage += pulp;
+
+            if (body->damage >= full_pulp_threshold) {
+                body->damage = full_pulp_threshold;
+                body->active = false;
+
+                u.add_msg_if_player(m_warning, _("You cut up the corpse too much, it is thoroughly pulped."));
+            } else {
+                u.add_msg_if_player(m_warning, _("You cut into the corpse trying to make it unable to attack, but you don't think you have it right."));
+            }
         }
     }
 }
@@ -1971,6 +1998,16 @@ void game::activity_on_finish_firstaid()
     // Erase activity and values.
     u.activity.type = ACT_NULL;
     u.activity.values.clear();
+}
+
+void game::activity_on_finish_start_fire()
+{
+        item &it = u.i_at(u.activity.position);
+        const int dirx = u.activity.placement.x;
+        const int diry = u.activity.placement.y;
+        iuse tmp;
+        tmp.resolve_firestarter_use(&u, &it, dirx, diry);
+        u.activity.type = ACT_NULL;
 }
 
 void game::activity_on_finish_fish()
@@ -15229,4 +15266,3 @@ int game::get_abs_levz() const
 {
     return levx;
 }
-

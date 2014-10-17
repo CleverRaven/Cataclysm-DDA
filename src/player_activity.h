@@ -33,6 +33,7 @@ enum activity_type {    // expanded this enum for readability
     ACT_PICKUP,
     ACT_MOVE_ITEMS,
     ACT_ADV_INVENTORY,
+    ACT_START_FIRE,
     NUM_ACTIVITIES
 };
 
