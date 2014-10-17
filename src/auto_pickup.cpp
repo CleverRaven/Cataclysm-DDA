@@ -36,14 +36,19 @@ void show_auto_pickup()
 
     WINDOW *w_auto_pickup_options = newwin(FULL_SCREEN_HEIGHT / 2, FULL_SCREEN_WIDTH / 2,
                                            iOffsetY + (FULL_SCREEN_HEIGHT / 2) / 2, iOffsetX + (FULL_SCREEN_WIDTH / 2) / 2);
+    WINDOW_PTR w_auto_pickup_optionsptr( w_auto_pickup_options );
     WINDOW *w_auto_pickup_help = newwin((FULL_SCREEN_HEIGHT / 2) - 2, FULL_SCREEN_WIDTH * 3 / 4,
                                         7 + iOffsetY + (FULL_SCREEN_HEIGHT / 2) / 2, iOffsetX + 19 / 2);
+    WINDOW_PTR w_auto_pickup_helpptr( w_auto_pickup_help );
 
     WINDOW *w_auto_pickup_border = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX);
+    WINDOW_PTR w_auto_pickup_borderptr( w_auto_pickup_border );
     WINDOW *w_auto_pickup_header = newwin(iHeaderHeight, FULL_SCREEN_WIDTH - 2, 1 + iOffsetY,
                                           1 + iOffsetX);
+    WINDOW_PTR w_auto_pickup_headerptr( w_auto_pickup_header );
     WINDOW *w_auto_pickup = newwin(iContentHeight, FULL_SCREEN_WIDTH - 2, iHeaderHeight + 1 + iOffsetY,
                                    1 + iOffsetX);
+    WINDOW_PTR w_auto_pickupptr( w_auto_pickup );
 
     draw_border(w_auto_pickup_border);
     mvwputch(w_auto_pickup_border, 3,  0, c_ltgray, LINE_XXXO); // |-
@@ -322,12 +327,6 @@ void show_auto_pickup()
             save_reset_changes(true);
         }
     }
-
-    werase(w_auto_pickup);
-    werase(w_auto_pickup_border);
-    werase(w_auto_pickup_header);
-    werase(w_auto_pickup_options);
-    werase(w_auto_pickup_help);
 }
 
 void test_pattern(int iCurrentPage, int iCurrentLine)
@@ -359,7 +358,9 @@ void test_pattern(int iCurrentPage, int iCurrentLine)
     std::stringstream sTemp;
 
     WINDOW *w_test_rule_border = newwin(iContentHeight + 2, iContentWidth, iOffsetY, iOffsetX);
+    WINDOW_PTR w_test_rule_borderptr( w_test_rule_border );
     WINDOW *w_test_rule_content = newwin(iContentHeight, iContentWidth - 2, 1 + iOffsetY, 1 + iOffsetX);
+    WINDOW_PTR w_test_rule_contentptr( w_test_rule_content );
 
     draw_border(w_test_rule_border);
 
@@ -430,9 +431,6 @@ void test_pattern(int iCurrentPage, int iCurrentLine)
             break;
         }
     }
-
-    werase(w_test_rule_border);
-    werase(w_test_rule_content);
 }
 
 void load_auto_pickup(bool bCharacter)

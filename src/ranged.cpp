@@ -845,6 +845,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
     int top    = sideStyle ? getbegy(w_messages) : (getbegy(w_minimap) + getmaxy(w_minimap));
     int left   = getbegx(w_messages);
     WINDOW *w_target = newwin(height, width, top, left);
+    WINDOW_PTR w_targetptr( w_target );
     draw_border(w_target);
     mvwprintz(w_target, 0, 2, c_white, "< ");
     if (!relevent) { // currently targetting vehicle to refill with fuel
