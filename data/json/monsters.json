@@ -1699,9 +1699,8 @@
     "luminance":1,
     "hp":85,
     "death_function":["NORMAL"],
-    "special_when_hit_freq":100,
     "special_attacks":[["SHOCKSTORM", 25], ["BITE", 5]],
-    "special_when_hit":"ZAPBACK",
+    "special_when_hit":["ZAPBACK", 100],
     "description":"A human body with pale blue flesh, crackling with electrical energy.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "ELECTRIC", "CBM_CIV", "NO_BREATHE",  "VIS40", "REVIVES"]
     },{
@@ -4370,10 +4369,9 @@
     "armor_cut":0,
     "luminance":0,
     "hp":60,
-    "special_when_hit_freq":100,
     "death_function":"MELT",
     "special_attacks":[["DISAPPEAR", 20]],
-    "special_when_hit":"ZAPBACK",
+    "special_when_hit":["ZAPBACK", 100],
     "description":"A strange moving darkness, bringing with it the softest of whispers.",
     "flags":["SEES", "HEARS", "GOODHEARING", "SMELLS", "NOHEAD", "HARDTOSHOOT", "GRABS", "WEBWALK", "FLIES", "PLASTIC", "SUNDEATH", "ELECTRIC", "ACIDPROOF", "HIT_AND_RUN", "NO_BREATHE", "VIS50"]
     },{
@@ -5519,9 +5517,8 @@
     "luminance":1,
     "hp":120,
     "death_function":["NORMAL"],
-    "special_when_hit_freq":75,
     "special_attacks":[["BIO_OP_TAKEDOWN", 20]],
-    "special_when_hit":"ZAPBACK",
+    "special_when_hit":["ZAPBACK", 75],
     "description":"This armored and augmented soldier's bionics crackle with energy.  Worse, it appears to remember its training.",
     "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "BLEED", "CBM_OP", "ACIDPROOF", "NO_BREATHE", "VIS50", "REVIVES"]
     },{
@@ -5665,8 +5662,7 @@
     },
     "luminance":0,
     "hp":80,
-    "special_when_hit_freq":300,
-    "special_when_hit":"ZAPBACK",
+    "special_when_hit":["ZAPBACK", 300],
     "death_function":"BROKEN",
     "special_attacks":[["RIOTBOT", 1]],
     "description":"Nonviolent riot-control bot.  Designed to suppress riots and make mass arrests of those participating.  Though its relaxation gas is by far its best-known weapon, it carries a blinding flash and a low-powered stungun for self-defense--in addition to its supply of electronic handcuffs.",
@@ -5724,9 +5720,8 @@
     "luminance":2,
     "hp":300,
     "death_function":["NORMAL"],
-    "special_when_hit_freq":75,
     "special_attacks":[["SHOCKSTORM", 15], ["SMASH", 30]],
-    "special_when_hit":"ZAPBACK",
+    "special_when_hit":["ZAPBACK", 75],
     "description":"A huge beast covered in visible scarring from what you can only guess was 'research'. Being near it, you can hear a slight humming, like that of an electrical transformer.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "ELECTRIC", "CBM_SUBS", "NO_BREATHE", "VIS40", "REVIVES"]
     }
