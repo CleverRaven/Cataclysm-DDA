@@ -1919,41 +1919,46 @@ bool saveScreenshotBMP(std::string filepath) {
     SDL_Renderer* SDLRenderer = renderer;
     SDL_Surface* saveSurface = NULL;
     SDL_Surface* infoSurface = NULL;
+    bool ss_OK = true;
+    unsigned char * pixels;
+
     infoSurface = SDL_GetWindowSurface(SDLWindow);
-    if (infoSurface == NULL) {
+
+    ss_OK = (infoSurface != NULL);
+    if (!ss_OK) {
         std::cerr << "Failed to create info surface from window in saveScreenshotBMP(string), SDL_GetError() - " << SDL_GetError() << "\n";
-    } else {
-        unsigned char * pixels = new (std::nothrow) unsigned char[infoSurface->w * infoSurface->h * infoSurface->format->BytesPerPixel];
-        if (pixels == 0) {
-            std::cerr << "Unable to allocate memory for screenshot pixel data buffer!\n";
-            SDL_FreeSurface(infoSurface);
-            infoSurface = NULL;
-            return false;
-        } else {
-            if (SDL_RenderReadPixels(SDLRenderer, &infoSurface->clip_rect, infoSurface->format->format, pixels, infoSurface->w * infoSurface->format->BytesPerPixel) != 0) {
-                std::cerr << "Failed to read pixel data from SDL_Renderer object. SDL_GetError() - " << SDL_GetError() << "\n";
-                pixels = NULL;
-                SDL_FreeSurface(infoSurface);
-                infoSurface = NULL;
-                return false;
-            } else {
-                saveSurface = SDL_CreateRGBSurfaceFrom(pixels, infoSurface->w, infoSurface->h, infoSurface->format->BitsPerPixel, infoSurface->w * infoSurface->format->BytesPerPixel, infoSurface->format->Rmask, infoSurface->format->Gmask, infoSurface->format->Bmask, infoSurface->format->Amask);
-                if (saveSurface == NULL) {
-                    std::cerr << "Couldn't create SDL_Surface from renderer pixel data. SDL_GetError() - " << SDL_GetError() << "\n";
-                    SDL_FreeSurface(infoSurface);
-                    infoSurface = NULL;
-                    return false;
-                }
-                SDL_SaveBMP(saveSurface, filepath.c_str());
-                SDL_FreeSurface(saveSurface);
-                saveSurface = NULL;
-            }
-            delete[] pixels;
-        }
-        SDL_FreeSurface(infoSurface);
-        infoSurface = NULL;
     }
-    return true;
+    if (ss_OK) {
+        pixels = new (std::nothrow) unsigned char[infoSurface->w * infoSurface->h * infoSurface->format->BytesPerPixel];
+        ss_OK = (pixels != 0);
+        if (!ss_OK) {
+            std::cerr << "Unable to allocate memory for screenshot pixel data buffer!\n";
+        }
+    }
+    if (ss_OK) {
+        ss_OK = (SDL_RenderReadPixels(SDLRenderer, &infoSurface->clip_rect, infoSurface->format->format, pixels, infoSurface->w * infoSurface->format->BytesPerPixel) == 0);
+        if (!ss_OK) {
+            std::cerr << "Failed to read pixel data from SDL_Renderer object. SDL_GetError() - " << SDL_GetError() << "\n";
+        }
+    }
+    if (ss_OK) {
+        saveSurface = SDL_CreateRGBSurfaceFrom(pixels, infoSurface->w, infoSurface->h, infoSurface->format->BitsPerPixel, infoSurface->w * infoSurface->format->BytesPerPixel, infoSurface->format->Rmask, infoSurface->format->Gmask, infoSurface->format->Bmask, infoSurface->format->Amask);
+        ss_OK = (saveSurface != NULL);
+        if (!ss_OK) {
+            std::cerr << "Couldn't create SDL_Surface from renderer pixel data. SDL_GetError() - " << SDL_GetError() << "\n";
+        }
+    }
+    if (ss_OK) {
+            //got this far, it's gotta work
+        SDL_SaveBMP(saveSurface, filepath.c_str());
+    }
+
+    SDL_FreeSurface(saveSurface);
+    saveSurface = NULL;
+    delete[] pixels;
+    SDL_FreeSurface(infoSurface);
+    infoSurface = NULL;
+    return ss_OK;
 }
 
 struct music_playlist {

@@ -3751,14 +3751,20 @@ bool game::handle_action()
         break;
 
     case ACTION_SCREENSHOT: {
-        //not sure if separate function is better or already exists
+    #ifdef TILES
+        if( !assure_dir_exist( FILENAMES["screenshotsdir"] ) ) {
+            debugmsg( "Could not create screenshot path %s", FILENAMES["screenshotsdir"].c_str() );
+        }
         int ss_ctr = 0;
         std::string shotpath = "";
         do{
-            shotpath = FILENAMES["screenshotsdir"] + "screenshot" + static_cast<std::ostringstream*>( &(std::ostringstream() << ss_ctr) )->str() + ".bmp";
+            std::ostringstream buffer;
+            buffer << FILENAMES["screenshotsdir"] << "screenshot" << ss_ctr << ".bmp";
+            shotpath = buffer.str();
             ss_ctr++;
         }while( access(shotpath.c_str(), F_OK) != -1 && ss_ctr < 1000);
         saveScreenshotBMP(shotpath.c_str());
+    #endif
     }
     break;
 
