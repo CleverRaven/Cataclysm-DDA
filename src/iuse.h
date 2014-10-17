@@ -73,9 +73,9 @@ public:
     int catfood             (player*, item*, bool);
 
 // TOOLS
-    int lighter             (player *, item *, bool);
-    int primitive_fire      (player *, item *, bool);
-    int ref_lit             (player *, item *, bool);
+    int firestarter         (player *, item *, bool);
+    int resolve_firestarter_use(player *p, item *, int posx, int posy);
+    int calculate_time_for_lens_fire (player *p, float light_level);
     int sew                 (player *, item *, bool);
     int extra_battery       (player *, item *, bool);
     int rechargeable_battery(player *, item *, bool);
