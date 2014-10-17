@@ -1887,7 +1887,8 @@
       ["misc_repairkit", 5],
       ["tool_belt", 30],
       ["knitting_needles", 1],
-      ["survnote", 1]
+      ["survnote", 1],
+      ["material_quicklime", 10]
     ]
   },{
     "type" : "item_group",
@@ -7282,7 +7283,8 @@
       ["antiparasitic", 2],
       ["survnote", 1],
       ["toolbox", 1],
-      ["diazepam", 1]
+      ["diazepam", 1],
+      ["material_quicklime", 10]
     ]
   },{
     "type" : "item_group",
@@ -8553,7 +8555,8 @@
       ["bullwhip", 30],
       ["distaff_spindle", 2],
       ["carding_paddles", 2],
-      ["scythe", 40]
+      ["scythe", 40],
+      ["material_quicklime", 30]
     ]
   },{
 "type" : "item_group",
