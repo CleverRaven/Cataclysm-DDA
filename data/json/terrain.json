@@ -3019,6 +3019,23 @@
         }
     },{
         "type" : "terrain",
+        "id" : "t_diesel_pump",
+        "name": "diesel pump",
+        "symbol": "&",
+        "color": "green",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "FLAMMABLE", "NOITEM", "SEALED", "CONTAINER", "REDUCE_SCENT"],
+        "examine_action": "gaspump"
+    },{
+        "type" : "terrain",
+        "id" : "t_diesel_pump_smashed",
+        "name": "smashed diesel pump",
+        "symbol": "&",
+        "color": "ltgreen",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "NOITEM", "REDUCE_SCENT"]
+    },{
+        "type" : "terrain",
         "id" : "t_atm",
         "name": "ATM",
         "symbol": "&",
