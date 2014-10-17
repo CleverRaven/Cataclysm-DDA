@@ -1313,8 +1313,8 @@ void veh_interact::display_stats()
     // "Fuel usage (safe): " is renamed to "Fuel usage: ".
     mvwprintz(w_stats, y[9], x[9], c_ltgray,  _("Fuel usage:     "));
     x[9] += utf8_width(_("Fuel usage:     "));
-    ammotype fuel_types[3] = { "gasoline", "battery", "plasma" };
-    nc_color fuel_colors[3] = { c_ltred, c_yellow, c_ltblue };
+    ammotype fuel_types[4] = { "gasoline", "diesel", "battery", "plasma" };
+    nc_color fuel_colors[4] = { c_ltred, c_green, c_yellow, c_ltblue };
     bool first = true;
     int fuel_name_length = 0;
     for (int i = 0; i < 3; ++i) {
