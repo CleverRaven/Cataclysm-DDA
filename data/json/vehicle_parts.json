@@ -2407,6 +2407,69 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "diesel_engine_v6",
+        "name" : "V6 diesel engine",
+        "symbol" : "*",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "epower" : -200,
+        "fuel_type" : "diesel",
+        "item" : "v6_diesel",
+        "difficulty" : 5,
+        "location" : "engine_block",
+        "flags" : ["ENGINE", "VARIABLE_SIZE"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 30, "max": 40},
+            {"item": "steel_chunk", "min": 30, "max": 40},
+            {"item": "scrap", "min": 30, "max": 40}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "diesel_engine_v8",
+        "name" : "V8 diesel engine",
+        "symbol" : "*",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "epower" : -400,
+        "fuel_type" : "diesel",
+        "item" : "v8_diesel",
+        "difficulty" : 5,
+        "location" : "engine_block",
+        "flags" : ["ENGINE", "VARIABLE_SIZE"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 30, "max": 40},
+            {"item": "steel_chunk", "min": 30, "max": 40},
+            {"item": "scrap", "min": 30, "max": 40}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "diesel_engine_i6",
+        "name" : "straight-6 diesel engine",
+        "symbol" : "*",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "epower" : -300,
+        "fuel_type" : "diesel",
+        "item" : "i6_diesel",
+        "difficulty" : 5,
+        "location" : "engine_block",
+        "flags" : ["ENGINE", "VARIABLE_SIZE"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 30, "max": 40},
+            {"item": "steel_chunk", "min": 30, "max": 40},
+            {"item": "scrap", "min": 30, "max": 40}
+        ]
+    },{
+        "type" : "vehicle_part",
         "id" : "engine_electric",
         "name" : "electric motor",
         "symbol" : "*",
