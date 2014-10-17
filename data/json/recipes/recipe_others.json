@@ -4570,6 +4570,9 @@
      ],
 	 [
 	  [ "water", 2 ], [ "water_clean", 2 ], [ "salt_water", 2 ]
+	 ],
+	 [
+	  [ "material_quicklime", 2 ], [ "meal_bone", 2 ]
 	 ]
     ]
 },{
