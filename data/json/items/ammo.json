@@ -2515,7 +2515,7 @@
         "name" : "diesel",
         "name_plural" : "diesel",
         "symbol" : "=",
-        "color" : "green",
+        "color" : "dark_grey",
         "description" : "Diesel fuel. Made from a by-product of the gasoline making process.",
         "material" : "null",
         "volume" : 1,
