@@ -845,6 +845,10 @@ void vehicle::start_engine()
 
 void vehicle::honk_horn()
 {
+    if (!fuel_left(fuel_type_battery, true)) {
+        return;
+    }
+
     for( size_t p = 0; p < parts.size(); ++p ) {
         if( ! part_flag( p, "HORN" ) )
             continue;
