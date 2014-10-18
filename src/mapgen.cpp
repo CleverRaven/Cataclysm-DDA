@@ -7834,6 +7834,9 @@ s_____,_____,_____,_____\n",
                 } else if (this->furn(i, j) == f_counter && x_in_y(1, 5)) {
                     place_items("magazines", 30,  i,  j, i,  j, false, 0);
                 }
+                if (this->furn(i, j) == f_bed) (
+                    place_item("bed", 60, i, j, i, j, false, 0);
+                )
             }
         }
         place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
@@ -7894,6 +7897,9 @@ ________________________\n\
                 } else if (this->furn(i, j) == f_counter && x_in_y(1, 5)) {
                     place_items("magazines", 30,  i,  j, i,  j, false, 0);
                 }
+                if (this->furn(i, j) == f_bed) (
+                    place_item("bed", 60, i, j, i, j, false, 0);
+                )
             }
         }
         if (density > 1) {
@@ -7967,6 +7973,9 @@ ____,_____,_____,_____s\n",
                 } else if (this->furn(i, j) == f_counter && x_in_y(1, 5)) {
                     place_items("magazines", 30,  i,  j, i,  j, false, 0);
                 }
+                if (this->furn(i, j) == f_bed) (
+                    place_item("bed", 60, i, j, i, j, false, 0);
+                )
             }
         }
         place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
@@ -8035,6 +8044,9 @@ s    |c....|c....|c....|\n",
                 } else if (this->furn(i, j) == f_sink && x_in_y(2, 5)) {
                     spawn_item(i, j, "towel", 3);
                 }
+                if (this->furn(i, j) == f_bed) (
+                    place_item("bed", 60, i, j, i, j, false, 0);
+                )
             }
         }
         if (density > 1) {
@@ -8107,6 +8119,9 @@ c...d|t.........t|....c|\n",
                 } else if (this->furn(i, j) == f_sink && x_in_y(2, 5)) {
                     spawn_item(i, j, "towel", 3);
                 }
+                if (this->furn(i, j) == f_bed) (
+                    place_item("bed", 60, i, j, i, j, false, 0);
+                )
             }
         }
         if (density > 1) {
@@ -8179,6 +8194,9 @@ h....|h....|h....|    s \n\
                 } else if (this->furn(i, j) == f_sink && x_in_y(2, 5)) {
                     spawn_item(i, j, "towel", 3);
                 }
+                if (this->furn(i, j) == f_bed) (
+                    place_item("bed", 60, i, j, i, j, false, 0);
+                )
             }
         }
         if (density > 1) {
