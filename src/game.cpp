@@ -12300,8 +12300,7 @@ void game::unload(item &it)
     } else {
         newam = item(default_ammo(weapon->ammo_type()), calendar::turn);
     }
-    if (weapon->typeId() == "adv_UPS_off" || weapon->typeId() == "adv_UPS_on" ||
-        weapon->typeId() == "rm13_armor" || weapon->typeId() == "rm13_armor_on") {
+    if( weapon->ammo_type() == "plutonium" ) {
         int chargesPerPlutonium = 500;
         int chargesRemoved = weapon->charges - (weapon->charges % chargesPerPlutonium);;
         int plutoniumRemoved = chargesRemoved / chargesPerPlutonium;

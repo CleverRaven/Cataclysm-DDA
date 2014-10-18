@@ -1447,8 +1447,7 @@ int item::weight() const
     } else if (type->is_gun() && charges >= 1) {
         ret += curammo->weight * charges;
     } else if (type->is_tool() && charges >= 1 && ammo_type() != "NULL") {
-        if (typeId() == "adv_UPS_off" || typeId() == "adv_UPS_on" || has_flag("ATOMIC_AMMO") ||
-            typeId() == "rm13_armor" || typeId() == "rm13_armor_on") {
+        if( ammo_type() == "plutonium" ) {
             ret += item_controller->find_template(default_ammo(this->ammo_type()))->weight * charges / 500;
         } else {
             ret += item_controller->find_template(default_ammo(this->ammo_type()))->weight * charges;
@@ -2789,12 +2788,8 @@ int item::pick_reload_ammo(player &u, bool interactive)
             am.insert(am.end(), tmpammo.begin(), tmpammo.end());
         }
     } else { //non-gun.
-        // this is probably a tool.  Check if it uses atomic power instead of batteries
-        if (has_flag("ATOMIC_AMMO")) {
-            am = u.has_ammo("plutonium");
-        } else {
-            am = u.has_ammo(ammo_type());
-        }
+        // this is probably a tool.
+        am = u.has_ammo( ammo_type() );
     }
 
     if (am.empty()) {
@@ -2999,9 +2994,7 @@ bool item::reload(player &u, int pos)
             reload_target->charges++;
             ammo_to_use->charges--;
         }
-        else if (reload_target->typeId() == "adv_UPS_off" ||
-                 reload_target->typeId() == "adv_UPS_on" || reload_target->has_flag("ATOMIC_AMMO") ||
-                 reload_target->typeId() == "rm13_armor" || reload_target->typeId() == "rm13_armor_on") {
+        else if( reload_target->ammo_type() == "plutonium" ) {
             int charges_per_plut = 500;
             long max_plut = floor( static_cast<float>((max_load - reload_target->charges) /
                                                       charges_per_plut) );
