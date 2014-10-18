@@ -405,7 +405,7 @@ task_reason veh_interact::cant_do (char mode)
         has_skill = g->u.skillLevel("mechanics") >= 2 || can_remove_wheel;
         break;
     case 's': // siphon mode
-        valid_target = veh->fuel_left("gasoline") > 0;
+        valid_target = (veh->fuel_left("gasoline") > 0 || veh->fuel_left("diesel") > 0;
         has_tools = has_siphon;
         break;
     case 'c': // change tire
