@@ -98,7 +98,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "LIGHTER"
+    "use_action": "FIRESTARTER"
   },
 
   {
@@ -121,7 +121,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "LIGHTER"
+    "use_action": "FIRESTARTER"
   },
 
   {
@@ -144,7 +144,8 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "PRIMITIVE_FIRE"
+    "flags": [ "FIRE_DRILL" ],
+    "use_action": "FIRESTARTER"
   },
 
   {
@@ -167,7 +168,32 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "PRIMITIVE_FIRE"
+    "flags": [ "FIRE_DRILL" ],
+    "use_action": "FIRESTARTER"
+  },
+
+  {
+    "id": "magnifying_glass",
+    "type": "TOOL",
+    "symbol": "o",
+    "color": "green",
+    "name": "magnifying glass",
+    "description": "This is a magnifying glass.  May be useful for starting fires during sunny skies.",
+    "price": 2000,
+    "material": ["glass", "plastic"],
+    "flags": [ "LENS" ],
+    "weight": 400,
+    "volume": 1,
+    "bashing": 0,
+    "cutting": -5,
+    "to_hit": -1,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "use_action": "FIRESTARTER"
   },
 
   {
@@ -6882,7 +6908,7 @@
     "description": "This is a lighter featuring a flip top cover and refuelable tank.  It is lit.",
     "price": 35000,
     "material": "aluminum",
-    "flags": ["FIRE", "LIGHT_4", "FLAMING"],
+    "flags": ["FIRE", "LIGHT_4", "FLAMING", "REFILLABLE_LIGHTER"],
     "weight": 20,
     "volume": 0,
     "bashing": 0,
@@ -6894,7 +6920,7 @@
     "turns_per_charge": 10,
     "ammo": "gasoline",
     "revert_to": "ref_lighter",
-    "use_action": "REF_LIT"
+    "use_action": "FIRESTARTER"
   },
 
   {

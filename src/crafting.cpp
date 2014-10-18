@@ -663,6 +663,9 @@ const recipe *game::select_crafting_recipe( int &batch_size )
             }
             ypos += current[line]->print_components(w_data, ypos, 30, FULL_SCREEN_WIDTH - 30 - 1, col,
                                                     crafting_inv, (batch) ? line + 1 : 1);
+            if(!u.knows_recipe( current[line] )) {
+                mvwprintz(w_data, ypos++, 30, col, _("Recipe not memorized yet"));
+            }
 
             if ( isWide ) {
                 if ( lastid != current[line]->id ) {
