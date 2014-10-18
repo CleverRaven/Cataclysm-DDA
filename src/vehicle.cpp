@@ -817,7 +817,7 @@ void vehicle::start_engine()
     // TODO: Make chance of success based on engine condition.
     for( size_t p = 0; p < engines.size(); ++p ) {
         if(parts[engines[p]].hp > 0) {
-            if(part_info(engines[p]).fuel_type == fuel_type_gasoline) {
+            if(part_info(engines[p]).fuel_type == fuel_type_gasoline || part_info(engines[p]).fuel_type == fuel_type_diesel) {
                 int engine_power = part_power(engines[p]);
                 if(engine_power < 50) {
                     // Small engines can be pull-started
