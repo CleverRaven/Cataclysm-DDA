@@ -3825,7 +3825,7 @@
   "subcategory": "CSC_ARMOR_HANDS",
   "skill_used": "tailor",
   "difficulty": 0,
-  "time": 500,
+  "time": 10000,
   "reversible": true,
   "autolearn": true,
   "components": [
@@ -6925,36 +6925,6 @@
     ],
     [
       [ "bag_plastic", 8 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "chestrags",
-  "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_TORSO",
-  "skill_used": "tailor",
-  "difficulty": 0,
-  "time": 500,
-  "reversible": true,
-  "autolearn": true,
-  "components": [
-    [
-      [ "rag", 10 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "headrags",
-  "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_HEAD",
-  "skill_used": "tailor",
-  "difficulty": 0,
-  "time": 500,
-  "reversible": true,
-  "autolearn": true,
-  "components": [
-    [
-      [ "rag", 6 ]
     ]
   ]
 }
