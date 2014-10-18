@@ -2371,7 +2371,7 @@ void vehicle::noise_and_smoke( double load, double time, bool on_map )
             double max_pwr = double(power_to_epower(part_power(p, true)))/40000;
             double cur_pwr = load * max_pwr;
 
-            if( part_info(p).fuel_type == fuel_type_gasoline || part_info(p).fuel_type == fuel_type_gasoline ) {
+            if( part_info(p).fuel_type == fuel_type_gasoline || part_info(p).fuel_type == fuel_type_diesel ) {
                 double j = power_to_epower(part_power(p, true)) * load * time * muffle;
                 if( (exhaust_part == -1) && engine_on ) {
                     spew_smoke( j, p );
