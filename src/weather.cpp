@@ -7,6 +7,7 @@
 #include "messages.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
+#include "math.h"
 
 /**
  * \defgroup Weather "Weather and its implications."
@@ -564,9 +565,9 @@ int get_local_windchill(double temperature, double humidity, double windpower, s
     *  A player is sheltered if he is underground, in a car, or indoors.
     **/
 
-    int tmpwind = windpower;
-    tmpwind = (float)(tmpwind*0.44704); // Convert to meters per second.
-    int Ctemperature = (temperature - 32) * 5/9; // Convert to celsius.
+    double tmpwind = windpower;
+    double tmptemp = temperature;
+    double windchill = 0;
 
     // Over map terrain may modify the effect of wind.
     if (sheltered)
@@ -578,15 +579,28 @@ int get_local_windchill(double temperature, double humidity, double windpower, s
     else if ( omtername == "forest_thick" || omtername == "hive")
         tmpwind *= 0.4;
 
+    if (tmptemp < 50) {
+        /// Model 1, cold wind chill (only valid for temps below 50F)
+        /// Is also used as a standard in North America.
 
+        // Temperature is removed at the end, because get_local_windchill is meant to calculate the difference.
+        // Source : http://en.wikipedia.org/wiki/Wind_chill#North_American_and_United_Kingdom_wind_chill_index
+        windchill = 13.12 + 0.6215*tmptemp - 11.37*(pow(windpower,0.16)) + 0.3965*tmptemp*(pow(windpower,0.16)) - tmptemp;
+    } else {
+        /// Model 2, warm wind chill
 
-    /// Source : http://en.wikipedia.org/wiki/Wind_chill#Australian_Apparent_Temperature
-    int windchill = (0.33 * ((humidity / 100.00) * 6.105 * exp((17.27 * Ctemperature)/(237.70 + Ctemperature))) - 0.70*tmpwind - 4.00);
+        // Source : http://en.wikipedia.org/wiki/Wind_chill#Australian_Apparent_Temperature
+        tmpwind = (float)(tmpwind*0.44704); // Convert to meters per second.
+        tmptemp = (tmptemp - 32) * 5/9; // Convert to celsius.
 
-    windchill = windchill * 9/5; // Convert to Fahrenheit, but omit the '+ 32' because we are only dealing with a piece of the felt air temperature equation.
+        windchill = (0.33 * ((humidity / 100.00) * 6.105 * exp((17.27 * tmptemp)/(237.70 + tmptemp))) - 0.70*tmpwind - 4.00);
+        // Convert to Fahrenheit, but omit the '+ 32' because we are only dealing with a piece of the felt air temperature equation.
+        windchill = windchill * 9/5;
+    }
 
-    return windchill;
+    return (int)windchill;
 
+// windchill always returns 1. Dumb C++ error?
 }
 
 int get_local_humidity(double humidity, weather_type weather, bool sheltered)

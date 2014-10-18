@@ -5405,7 +5405,7 @@ void game::draw_sidebar()
 
         wprintz(time_window, c_white, "]");
     }
-
+    
     const oter_id &cur_ter = overmap_buffer.ter(om_global_location());
 
     std::string tername = otermap[cur_ter].name;
@@ -5448,6 +5448,11 @@ void game::draw_sidebar()
     wprintz( w_location, col_temp, " %s", print_temperature( display_temp ).c_str());
     wrefresh(w_location);
 
+    // Debug items
+    if (u.has_item_with_flag("THERMOMETER") && u.has_item_with_flag("HYGROMETER") && u.has_item_with_flag("BAROMETER")) {
+        add_msg("Temperature: %d, pressure: %d, humidity: %d, windchill: %d", (int)weatherPoint.temperature, (int)weatherPoint.pressure, (int)weatherPoint.humidity, windchill);
+    }
+    
     //Safemode coloring
     WINDOW *day_window = sideStyle ? w_status2 : w_status;
     mvwprintz(day_window, 0, sideStyle ? 0 : 41, c_white, _("%s, day %d"),
