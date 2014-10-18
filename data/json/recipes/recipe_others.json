@@ -4548,32 +4548,32 @@
      [
       [ "crucible", -1 ]
      ],
-	 [
+     [
       [ "sheet_metal", -1 ]
      ],
      [
       [ "forge", 25], [ "char_forge", 5 ]
      ],
-	 [
+     [
       [ "hotplate", 15], [ "chemistry_set", 15], [ "toolset", 15] 
-	 ]
+     ]
     ],
   "components": [
-	 [
-	  [ "material_sand", 10 ]
-	 ],
-	 [
-	  [ "ammonia", 1 ]
-	 ],
+     [
+      [ "material_sand", 10 ]
+     ],
+     [
+      [ "ammonia", 1 ]
+     ],
      [
       [ "salt", 2 ], [ "salt_water", 2 ]
      ],
-	 [
-	  [ "water", 2 ], [ "water_clean", 2 ], [ "salt_water", 2 ]
-	 ],
-	 [
-	  [ "material_quicklime", 2 ], [ "meal_bone", 2 ]
-	 ]
+     [
+      [ "water", 2 ], [ "water_clean", 2 ], [ "salt_water", 2 ]
+     ],
+     [
+      [ "material_quicklime", 2 ], [ "meal_bone", 2 ]
+     ]
     ]
 },{
   "type" : "recipe",
