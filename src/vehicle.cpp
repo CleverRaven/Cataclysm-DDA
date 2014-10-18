@@ -2937,7 +2937,7 @@ void vehicle::slow_leak()
     for( size_t p = 0; p < fuel.size(); ++p ) {
         vehicle_part &part = parts[fuel[p]];
         vpart_info pinfo = part_info( fuel[p] );
-        if( pinfo.fuel_type != fuel_type_gasoline &&
+        if( pinfo.fuel_type != fuel_type_gasoline && pinfo.fuel_type != fuel_type_diesel &&
             pinfo.fuel_type != fuel_type_battery && pinfo.fuel_type != fuel_type_water ) {
             // Not a liquid fuel or battery
             continue;
