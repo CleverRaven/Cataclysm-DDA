@@ -10442,29 +10442,5 @@
         "flags" : ["VARSIZE", "SKINTIGHT"],
         "coverage" : 80,
         "material_thickness" : 0
-    },
-    {
-        "type" : "ARMOR",
-        "id" : "debug_weather_reader",
-        "name" : "pocket meterologist",
-        "name_plural" : "pocket meterologists",
-        "volume" : 1,
-        "material_thickness" : 0,
-        "storage" : 0,
-        "description" : "A debug tool that reads temperature, humidity and pressure.",
-        "weight" : 0,
-        "to_hit" : -1,
-        "color" : "white",
-        "encumbrance" : 0,
-        "price" : 0,
-        "material" : "plastic",
-        "flags" : ["THERMOMETER", "HYGROMETER", "BAROMETER"],
-        "coverage" : 1,
-        "symbol" : "[",
-        "bashing" : 0,
-        "cutting" : 0,
-        "warmth" : 0,
-        "environmental_protection" : 0,
-        "phase" : "solid"
     }
 ]

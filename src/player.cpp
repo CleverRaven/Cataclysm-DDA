@@ -789,7 +789,7 @@ void player::update_bodytemp()
     vehicle *veh = g->m.veh_at( posx, posy, vpart );
     int vehwindspeed = 0;
     if( veh ) {
-        vehwindspeed = veh->velocity / 100;    // For mph
+        vehwindspeed = abs(veh->velocity / 100); // For mph
     }
     int total_windpower = vehwindspeed + weather.windpower;
     // Temperature norms

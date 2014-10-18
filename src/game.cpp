@@ -5427,7 +5427,7 @@ void game::draw_sidebar()
     int vehwindspeed = 0;
     int vpart = -1;
     vehicle *veh = g->m.veh_at (u.pos().x, u.pos().y, vpart);
-    if (veh) vehwindspeed = veh->velocity / 100; // For mph
+    if (veh) vehwindspeed = abs(veh->velocity / 100); // For mph
     int windpower = weatherPoint.windpower + vehwindspeed;
     int windchill = get_local_windchill(get_temperature(), get_local_humidity(weatherPoint.humidity, weather, sheltered), windpower, omtername, sheltered);
     display_temp += windchill;
@@ -5447,11 +5447,6 @@ void game::draw_sidebar()
 
     wprintz( w_location, col_temp, " %s", print_temperature( display_temp ).c_str());
     wrefresh(w_location);
-
-    // Debug items
-    if (u.has_item_with_flag("THERMOMETER") && u.has_item_with_flag("HYGROMETER") && u.has_item_with_flag("BAROMETER")) {
-        add_msg("Temperature: %d, pressure: %d, humidity: %d, windchill: %d", (int)weatherPoint.temperature, (int)weatherPoint.pressure, (int)weatherPoint.humidity, windchill);
-    }
     
     //Safemode coloring
     WINDOW *day_window = sideStyle ? w_status2 : w_status;
