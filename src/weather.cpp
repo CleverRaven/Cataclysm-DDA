@@ -585,12 +585,14 @@ int get_local_windchill(double temperature, double humidity, double windpower, s
 
         // Temperature is removed at the end, because get_local_windchill is meant to calculate the difference.
         // Source : http://en.wikipedia.org/wiki/Wind_chill#North_American_and_United_Kingdom_wind_chill_index
-        windchill = 13.12 + 0.6215*tmptemp - 11.37*(pow(windpower,0.16)) + 0.3965*tmptemp*(pow(windpower,0.16)) - tmptemp;
+        windchill = 35.74 + 0.6215*tmptemp - 35.75*(pow(tmpwind, 0.16)) + 0.4275*tmptemp*(pow(tmpwind, 0.16)) - tmptemp;
+        if (tmpwind < 4)
+            windchill = 0; // This model fails when there is 0 wind.
     } else {
         /// Model 2, warm wind chill
 
         // Source : http://en.wikipedia.org/wiki/Wind_chill#Australian_Apparent_Temperature
-        tmpwind = (float)(tmpwind*0.44704); // Convert to meters per second.
+        tmpwind = tmpwind*0.44704; // Convert to meters per second.
         tmptemp = (tmptemp - 32) * 5/9; // Convert to celsius.
 
         windchill = (0.33 * ((humidity / 100.00) * 6.105 * exp((17.27 * tmptemp)/(237.70 + tmptemp))) - 0.70*tmpwind - 4.00);
@@ -598,9 +600,7 @@ int get_local_windchill(double temperature, double humidity, double windpower, s
         windchill = windchill * 9/5;
     }
 
-    return (int)windchill;
-
-// windchill always returns 1. Dumb C++ error?
+    return windchill;
 }
 
 int get_local_humidity(double humidity, weather_type weather, bool sheltered)

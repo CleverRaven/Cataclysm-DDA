@@ -907,6 +907,15 @@ void player::update_bodytemp()
             adjusted_temp += water_temperature - Ctemperature; // Swap out air temp for water temp.
             windchill = 0;
         }
+        // Warn the player that wind is going to be a problem.
+        if (windchill < -10 && one_in(100)) {
+            add_msg(m_bad, _("The wind is making you feel quite cold."));
+        } else if (windchill < -20 && one_in(50)) {
+            add_msg(m_bad, _("The wind is very strong, you should find some more wind-resistant clothing."));
+        } else if (windchill < -30 && one_in(20)) {
+            add_msg(m_bad, _("Your clothing is not providing enough protection from the wind!"));
+        }        
+        
         // Convergeant temperature is affected by ambient temperature,
         // clothing warmth, and body wetness.
         temp_conv[i] = BODYTEMP_NORM + adjusted_temp + windchill * 100 + clothing_warmth_adjustement;
