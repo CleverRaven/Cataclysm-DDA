@@ -2479,7 +2479,9 @@
    "components": [
      [
       [ "meat_tainted", 5 ],
- 	  [ "veggy_tainted", 5 ]
+      [ "dry_meat_tainted", 5 ],
+      [ "veggy_tainted", 5 ],
+      [ "dry_veggy_tainted", 5 ]
      ]
  },{
          "type" : "recipe",
