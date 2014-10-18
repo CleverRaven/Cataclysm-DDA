@@ -2300,6 +2300,8 @@ int vehicle::safe_velocity (bool fueled)
 
             if ( part_info(p).fuel_type == fuel_type_gasoline ) {
                 m2c = 60;
+            } else if( part_info(p).fuel_type == fuel_type_diesel ) {
+                m2c = 65;
             } else if( part_info(p).fuel_type == fuel_type_plasma ) {
                 m2c = 75;
             } else if( part_info(p).fuel_type == fuel_type_battery ) {
@@ -2369,7 +2371,7 @@ void vehicle::noise_and_smoke( double load, double time, bool on_map )
             double max_pwr = double(power_to_epower(part_power(p, true)))/40000;
             double cur_pwr = load * max_pwr;
 
-            if( part_info(p).fuel_type == fuel_type_gasoline ) {
+            if( part_info(p).fuel_type == fuel_type_gasoline || part_info(p).fuel_type == fuel_type_gasoline ) {
                 double j = power_to_epower(part_power(p, true)) * load * time * muffle;
                 if( (exhaust_part == -1) && engine_on ) {
                     spew_smoke( j, p );
@@ -2571,9 +2573,9 @@ bool vehicle::valid_wheel_config ()
  */
 void vehicle::consume_fuel( double load = 1.0 )
 {
-    ammotype ftypes[3] = { fuel_type_gasoline, fuel_type_battery, fuel_type_plasma };
-    int ftype_coeff[3] = {                100,                 1,              100 };
-    for( int ft = 0; ft < 3; ft++ ) {
+    ammotype ftypes[4] = { fuel_type_gasoline, fuel_type_diesel, fuel_type_battery, fuel_type_plasma };
+    int ftype_coeff[4] = {                100,              100,                 1,              100 };
+    for( int ft = 0; ft < 4; ft++ ) {
         double amnt_precise = double(basic_consumption(ftypes[ft])) / ftype_coeff[ft];
         float st = strain() * 10;
         amnt_precise *= load * (1.0 + st * st);

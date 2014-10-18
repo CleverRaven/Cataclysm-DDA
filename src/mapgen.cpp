@@ -11041,12 +11041,12 @@ void map::place_spawns(std::string group, const int chance,
 void map::place_gas_pump(int x, int y, int charges)
 {
     if (one_in(6)) {
-        item diesel(itypes["diesel"], 0);
+        item diesel("diesel", 0);
         diesel.charges = charges;
         add_item(x, y, diesel);
         ter_set(x, y, t_diesel_pump);
     } else {
-        item gas(itypes["gasoline"], 0);
+        item gas("gasoline", 0);
         gas.charges = charges;
         add_item(x, y, gas);
         ter_set(x, y, t_gas_pump);
