@@ -619,7 +619,9 @@
   "components": [
     [
       [ "meat_tainted", 3 ],
+	  [ "dry_meat_tainted", 3 ],
       [ "veggy_tainted", 5 ],
+	  [ "dry_veggy_tainted", 5 ],
       [ "slime_scrap", 5 ],
       [ "fetus", 1 ],
       [ "arm", 2 ],
@@ -689,6 +691,7 @@
     ],
     [
       [ "veggy_tainted", 3 ],
+	  [ "dry_veggy_tainted", 3 ],
       [ "biollante_bud", 1 ],
       [ "datura_seed", 16 ]
     ],
@@ -940,6 +943,7 @@
     ],
     [
       [ "fish", 2 ],
+	  [ "dry_fish", 2 ],
       [ "can_sardine", 1 ],
       [ "can_tuna", 1 ],
       [ "can_salmon", 1 ],
@@ -1004,7 +1008,8 @@
       [ "mutagen", 1 ]
     ],
     [
-      [ "meat_tainted", 3 ]
+      [ "meat_tainted", 3 ],
+	  [ "dry_meat_tainted", 3 ]
     ],
     [
       [ "ammonia", 1 ],
@@ -1065,7 +1070,8 @@
       [ "mutagen", 1 ]
     ],
     [
-      [ "meat", 3 ]
+      [ "meat", 3 ],
+	  [ "dry_meat", 3 ]
     ],
     [
       [ "ammonia", 1 ],
@@ -1126,7 +1132,8 @@
       [ "mutagen", 1 ]
     ],
     [
-      [ "meat", 3 ]
+      [ "meat", 3 ],
+	  [ "dry_meat", 3 ]
     ],
     [
       [ "ammonia", 1 ],
@@ -1187,7 +1194,8 @@
       [ "mutagen", 1 ]
     ],
     [
-      [ "meat", 3 ]
+      [ "meat", 3 ],
+	  [ "dry_meat", 3 ]
     ],
     [
       [ "ammonia", 1 ],
@@ -1248,7 +1256,8 @@
       [ "mutagen", 1 ]
     ],
     [
-      [ "meat", 3 ]
+      [ "meat", 3 ],
+	  [ "dry_meat", 3 ]
     ],
     [
       [ "ammonia", 1 ],
@@ -1309,7 +1318,8 @@
       [ "mutagen", 1 ]
     ],
     [
-      [ "meat", 3 ]
+      [ "meat", 3 ],
+	  [ "dry_meat", 3 ]
     ],
     [
       [ "ammonia", 1 ],
@@ -1371,7 +1381,9 @@
     ],
     [
       [ "meat_tainted", 3 ],
-      [ "can_chowder", 1 ]
+	  [ "dry_meat_tainted", 3 ],
+      [ "can_chowder", 1 ],
+	  [ "can_clams", 1 ]
     ],
     [
       [ "ammonia", 1 ],
@@ -1554,7 +1566,8 @@
       [ "mutagen", 1 ]
     ],
     [
-      [ "meat", 3 ]
+      [ "meat", 3 ],
+	  [ "dry_meat", 3 ]
     ],
     [
       [ "ammonia", 1 ],
@@ -1782,7 +1795,8 @@
       [ "mutagen_bird", 2 ]
     ],
     [
-      [ "purifier", 4 ]
+      [ "purifier", 4 ],
+	  [ "iv_purifier", 2 ]
     ]
   ]
 },{
@@ -1965,7 +1979,8 @@
       [ "mutagen_bird", 1 ]
     ],
     [
-      [ "purifier", 1 ]
+      [ "purifier", 1 ],
+	  [ "iv_purifier", 1 ]
     ]
   ]
 },{
@@ -2417,10 +2432,153 @@
   "book_learn": [["adv_chemistry", 2] , ["textbook_chemistry", 2] , ["recipe_labchem", 3] , ["atomic_survival", 2]],
   "qualities":[ {"id" : "CHEM", "level" : 1, "amount" : 1} ],
   "components": [
-    [ [ "jug_plastic", 1 ], [ "jar_3l_glass",1 ] ],
+    [ [ "jug_plastic", 1 ], [ "jar_3l_glass", 1 ] ],
     [ [ "fertilizer_liquid", 4 ], [ "fertilizer_commercial", 4 ] ],
     [ [ "gasoline", 400 ], [ "sugar", 8 ] ],
     [ [ "string_6", 1 ], [ "rag", 1] ]
+  ]
+},{
+         "type" : "recipe",
+   "result": "speedball",
+   "category": "CC_CHEM",
+   "subcategory": "CSC_CHEM_DRUGS",
+   "skill_used": "cooking",
+   "difficulty": 0,
+   "time": 500,
+   "reversible": false,
+   "autolearn": false,
+   "book_learn": [["textbook_chemistry", 7] , ["adv_chemistry", 7] , ["atomic_survival", 6] , [ "recipe_labchem", 6]],
+   "components": [
+     [
+       [ "coke", 2 ]
+     ],
+     [
+       [ "heroin", 2 ],
+ 	  [ "morphine", 4]
+     ]
+   ]
+ },{
+         "type" : "recipe",
+   "result": "slime_scrap",
+   "id_suffix": "from_tainted",
+   "category": "CC_CHEM",
+   "subcategory": "CSC_CHEM_CHEMICALS",
+   "skill_used": "cooking",
+   "difficulty": 6,
+   "time": 35000,
+   "reversible": false,
+   "autolearn": false,
+   "book_learn": [[ "recipe_creepy", 7 ], [ "recipe_serum", 7 ]],
+   "qualities":[
+ 	{"id":"CUT","level":1,"amount":1}
+   ], "tools": [
+     [
+      [ "chemistry_set", 20 ]
+     ]
+   ],
+   "components": [
+     [
+      [ "meat_tainted", 5 ],
+      [ "dry_meat_tainted", 5 ],
+      [ "veggy_tainted", 5 ],
+      [ "dry_veggy_tainted", 5 ]
+     ]
+ },{
+         "type" : "recipe",
+   "result": "slime_scrap",
+   "id_suffix": "from_mutagen",
+   "category": "CC_CHEM",
+   "subcategory": "CSC_CHEM_CHEMICALS",
+   "skill_used": "cooking",
+   "difficulty": 6,
+   "time": 50000,
+   "reversible": false,
+   "autolearn": false,
+   "book_learn": [[ "recipe_creepy", 7 ], [ "recipe_serum", 7 ]],
+   "tools": [
+     [
+       [ "chemistry_set", 20 ]
+     ]
+   ],
+   "components": [
+     [
+      [ "mutagen", 1 ],
+      [ "mutagen_plant", 1 ],
+      [ "mutagen_insect", 1 ],
+      [ "mutagen_spider", 1 ],
+      [ "mutagen_slime", 1 ],
+      [ "mutagen_fish", 1 ],
+      [ "mutagen_rat", 1 ],
+      [ "mutagen_beast", 1 ],
+      [ "mutagen_ursine", 1 ],
+      [ "mutagen_feline", 1 ],
+      [ "mutagen_lupine", 1 ],
+      [ "mutagen_cattle", 1 ],
+      [ "mutagen_cephalopod", 1 ],
+      [ "mutagen_bird", 1 ],
+      [ "mutagen_lizard", 1 ],
+      [ "mutagen_troglobite", 1 ],
+      [ "mutagen_medical", 1 ],
+      [ "mutagen_chimera", 1 ],
+      [ "mutagen_alpha", 1 ],
+      [ "mutagen_elfa", 1 ],
+      [ "mutagen_raptor", 1 ],
+      [ "iv_mutagen", 1 ],
+      [ "iv_mutagen_plant", 1 ],
+      [ "iv_mutagen_insect", 1 ],
+      [ "iv_mutagen_spider", 1 ],
+      [ "iv_mutagen_slime", 1 ],
+      [ "iv_mutagen_fish", 1 ],
+      [ "iv_mutagen_rat", 1 ],
+      [ "iv_mutagen_beast", 1 ],
+      [ "iv_mutagen_ursine", 1 ],
+      [ "iv_mutagen_feline", 1 ],
+      [ "iv_mutagen_lupine", 1 ],
+      [ "iv_mutagen_cattle", 1 ],
+      [ "iv_mutagen_cephalopod", 1 ],
+      [ "iv_mutagen_bird", 1 ],
+      [ "iv_mutagen_lizard", 1 ],
+      [ "iv_mutagen_troglobite", 1 ],
+      [ "iv_mutagen_medical", 1 ],
+      [ "iv_mutagen_chimera", 1 ],
+      [ "iv_mutagen_alpha", 1 ],
+      [ "iv_mutagen_elfa", 1 ],
+      [ "iv_mutagen_raptor", 1 ],
+     ]
+ },{
+        "type" : "recipe",
+  "result": "soap",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_CHEMICALS",
+  "skill_used": "cooking",
+  "difficulty": 6,
+  "time": 45000,
+  "reversible": false,
+    "qualities" : [
+    {"id":"CHEM","level":1,"amount":1}
+	],
+  "autolearn": true,
+  "tools": [
+    [
+      [ "chemistry_set", 18 ],
+      [ "hotplate", 18 ],
+      [ "toolset", 18 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "tallow", 5 ],
+	  [ "lard", 5 ],
+	  [ "cooking_oil", 5 ]
+    ],
+    [
+      [ "lye_powder", 20 ]
+    ],
+	[
+	  [ "water", 1 ],
+	  [ "water_clean", 1 ]
+  ]
   ]
 }
 ]
