@@ -329,16 +329,18 @@
         "name": "high-quality lens",
         "name_plural": "high-quality lenses",
         "category": "spare_parts",
-        "description": "A high-quality lens, useful for focusing or diffusing light.",
+        "description": "A high-quality lens, useful for focusing or diffusing light.  Might be useful for starting a fire.",
         "price": 120000,
         "material": "glass",
+        "flags": [ "LENS" ],
         "weight": 340,
         "volume": 0,
         "bashing": -8,
         "cutting": 0,
-        "to_hit": -3
-    },
-    {
+        "to_hit": -3,
+        "use_action": "FIRESTARTER"
+  },
+  {
         "type":"GENERIC",
         "id": "burnt_out_bionic",
         "symbol": ",",
@@ -947,14 +949,16 @@
         "color": "dark_gray",
         "name": "pair of binoculars",
         "name_plural": "pairs of binoculars",
-        "description": "A tool useful for seeing long distances.  Simply carrying this item in your inventory will double the distance that is mapped around you during your travels.",
+        "description": "A tool useful for seeing long distances.  Simply carrying this item in your inventory will double the distance that is mapped around you during your travels.  You could also use them to focus the sunlight",
         "price": 30000,
         "material": ["plastic", "glass"],
+        "flags": [ "LENS" ],
         "weight": 708,
         "volume": 2,
         "bashing": 6,
         "cutting": 0,
-        "to_hit": -1
+        "to_hit": -1,
+        "use_action": "FIRESTARTER"
     },
     {
         "type":"GENERIC",
