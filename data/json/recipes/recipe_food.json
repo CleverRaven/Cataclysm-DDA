@@ -240,8 +240,7 @@
   "difficulty": 0,
   "time": 3000,
   "reversible": false,
-  "autolearn": false,
-  "book_learn": [[ "cookbook_human", 0 ]],
+  "autolearn": true,
   "qualities":[
     {"id":"CONTAIN","level":1,"amount":1}
   ], "components": [
@@ -436,8 +435,7 @@
   "difficulty": 2,
   "time": 18000,
   "reversible": false,
-  "autolearn": false,
-  "book_learn": [[ "cookbook_human", 2 ]],
+  "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -1085,8 +1083,7 @@
   "difficulty": 3,
   "time": 12000,
   "reversible": false,
-  "autolearn": false,
-  "book_learn": [[ "cookbook_human", 3 ]],
+  "autolearn": true,
   "qualities" : [
      {"id":"COOK","level":1,"amount":1} ],
   "tools": [
@@ -5496,7 +5493,8 @@
     [
       [ "bleach", 2 ],
       [ "oxy_powder", 200 ],
-      [ "purifier", 1 ]
+      [ "purifier", 1 ],
+	  [ "iv_purifier", 1]
     ]
   ]
 },{
@@ -8017,5 +8015,107 @@
 	  [ "water_clean", 1 ]
 	]
   ]
-}
+},{
+         "type" : "recipe",
+   "result": "meat_tainted",
+   "byproducts": { "id" : "meat_tainted", "amount" : 4 },
+   "category": "CC_FOOD",
+   "subcategory": "CSC_FOOD_MEAT",
+   "skill_used": "cooking",
+   "difficulty": 0,
+   "time": 500,
+   "reversible": false,
+   "autolearn": false,
+   "book_learn": [[ "recipe_creepy", 5 ], [ "recipe_serum", 6 ]],
+   "qualities":[
+     {"id":"CONTAIN","level":1,"amount":1},
+ 	{"id":"CUT","level":1,"amount":1}
+   ],
+   "components": [
+     [
+       [ "meat", 5 ],
+ 	  [ "human_flesh", 5 ],
+ 	  [ "dry_meat", 5 ],
+ 	  [ "dry_hflesh", 5]
+     ],
+ 	[
+ 	  [ "slime_scrap", 1 ]
+ 	]
+   ]
+ },{
+         "type" : "recipe",
+   "result": "veggy_tainted",
+   "byproducts": { "id" : "veggy_tainted", "amount" : 4 },
+   "category": "CC_FOOD",
+   "subcategory": "CSC_FOOD_VEGGI",
+   "skill_used": "cooking",
+   "difficulty": 0,
+   "time": 500,
+   "reversible": false,
+   "autolearn": false,
+   "book_learn": [[ "recipe_creepy", 5 ], [ "recipe_serum", 6 ]],
+   "qualities":[
+     {"id":"CONTAIN","level":1,"amount":1},
+ 	{"id":"CUT","level":1,"amount":1}
+   ],
+   "components": [
+     [
+       [ "veggy", 5 ],
+ 	  [ "veggy_wild", 5 ],
+ 	  [ "wild_herbs", 100 ],
+ 	  [ "dry_veggy", 5 ]
+     ],
+ 	[
+ 	  [ "slime_scrap", 1 ]
+ 	]
+   ]
+ },{
+         "type" : "recipe",
+   "result": "dry_meat_tainted",
+   "category": "CC_FOOD",
+   "subcategory": "CSC_FOOD_MEAT",
+   "skill_used": "cooking",
+   "difficulty": 2,
+   "time": 18000,
+   "reversible": false,
+   "autolearn": false,
+   "book_learn": [[ "recipe_creepy", 5 ], [ "recipe_serum", 6 ]],
+   "qualities":[
+ 	{"id":"CUT","level":1,"amount":1}
+   ],  "tools": [
+     [
+       [ "dehydrator", 25 ],
+       [ "char_smoker", 5 ]
+     ]
+   ],
+   "components": [
+     [
+       [ "meat_tainted", 2 ]
+     ]
+   ]
+ },{
+         "type" : "recipe",
+   "result": "dry_veggy_tainted",
+   "category": "CC_FOOD",
+   "subcategory": "CSC_FOOD_VEGGI",
+   "skill_used": "cooking",
+   "difficulty": 2,
+   "time": 18000,
+   "reversible": false,
+   "autolearn": false,
+   "book_learn": [[ "recipe_creepy", 5 ], [ "recipe_serum", 6 ]],
+   "qualities":[
+ 	{"id":"CUT","level":1,"amount":1}
+   ],  "tools": [
+     [
+       [ "dehydrator", 25 ],
+       [ "char_smoker", 5 ]
+     ]
+   ],
+   "components": [
+     [
+       [ "veggy_tainted", 2 ]
+     ]
+   ]
+ }
 ]
