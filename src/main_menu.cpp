@@ -259,6 +259,10 @@ bool game::opening_screen()
     u = player();
 
     while(!start) {
+        if(w_background->width != TERMX || w_background->height != TERMY){
+            g->reinit_ui();
+            return opening_screen();
+        }
         print_menu(w_open, sel1, iMenuOffsetX, iMenuOffsetY, (sel1 == 0 || sel1 == 7) ? false : true);
 
         if (layer == 1) {

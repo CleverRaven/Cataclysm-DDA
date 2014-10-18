@@ -110,6 +110,7 @@ class game
         bool game_quit(); // True if we actually quit the game - used in main.cpp
         bool game_error();
         bool new_game;    // Is true if game has just started or loaded, false otherwise
+        bool game_inprogress;
         quit_status uquit;    // used in main.cpp to determine what type of quit
         void serialize(std::ofstream &fout);  // for save
         void unserialize(std::ifstream &fin);  // for load
