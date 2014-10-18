@@ -4163,20 +4163,20 @@ int vehicle::damage_direct (int p, int dmg, int type)
         if (part_flag(p, "FUEL_TANK"))
         {
             ammotype ft = part_info(p).fuel_type;
-            if (ft == fuel_type_gasoline || ft == fuel_type_plasma)
+            if (ft == fuel_type_gasoline  || ft == fuel_type_diesel || ft == fuel_type_plasma)
             {
                 int pow = parts[p].amount / 40;
     //            debugmsg ("damage check dmg=%d pow=%d", dmg, pow);
                 if (parts[p].hp <= 0)
                     leak_fuel (p);
                 if (type == 2 ||
-                    (one_in (ft == fuel_type_gasoline ? 2 : 4) && pow > 5 && rng (75, 150) < dmg))
+                    (one_in ((ft == fuel_type_gasoline || ft == fuel_type_diesel) ? 2 : 4) && pow > 5 && rng (75, 150) < dmg))
                 {
                     g->u.add_memorial_log(pgettext("memorial_male","The fuel tank of the %s exploded!"),
                         pgettext("memorial_female", "The fuel tank of the %s exploded!"),
                         name.c_str());
                     g->explosion (global_x() + parts[p].precalc_dx[0], global_y() + parts[p].precalc_dy[0],
-                                pow, 0, ft == fuel_type_gasoline);
+                                pow, 0, (ft == fuel_type_gasoline || ft == fuel_type_diesel));
                     parts[p].hp = 0;
                 }
             }
