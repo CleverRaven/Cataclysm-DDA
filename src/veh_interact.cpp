@@ -1765,14 +1765,13 @@ void complete_vehicle ()
         }
         break;
     case 's':
-
         for (int x = g->u.posx - 1; x < g->u.posx + 2; x++) {
             for (int y = g->u.posy - 1; y < g->u.posy + 2; y++) {
                 fillv = g->m.veh_at(x, y);
                 if ( fillv != NULL &&
                      fillv != veh &&
                      foundv.find( point(fillv->posx, fillv->posy) ) == foundv.end() &&
-                     fillv->fuel_capacity("gasoline") > 0 ) {
+                     (fillv->fuel_capacity("gasoline") > 0 || fillv->fuel_capacity("gasoline") > 0)) {
                     foundv[point(fillv->posx, fillv->posy)] = fillv;
                 }
             }
