@@ -3874,7 +3874,7 @@ bool item::process_tool( player *carrier, point pos )
         }
     } else {
         if( carrier != nullptr && has_flag( "USE_UPS" ) && charges < charges_used ) {
-            carrier->add_msg_if_player( m_info, _( "You need an active UPS to run %s!" ), tname().c_str() );
+            carrier->add_msg_if_player( m_info, _( "You need an UPS to run %s!" ), tname().c_str() );
         }
         // TODO: iuse functions should expect a nullptr as player, but many of them
         // don't and therefor will fail.

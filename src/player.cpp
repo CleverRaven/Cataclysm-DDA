@@ -54,6 +54,8 @@ std::string morale_data[NUM_MORALE_TYPES];
 
 stats player_stats;
 
+static const itype_id OPTICAL_CLOAK_ITEM_ID( "optical_cloak" );
+
 void game::init_morale()
 {
     std::string tmp_morale_data[NUM_MORALE_TYPES] = {
@@ -3807,10 +3809,13 @@ bool player::in_climate_control()
     bool regulated_area=false;
     // Check
     if(has_active_bionic("bio_climate")) { return true; }
-    if ((is_wearing("rm13_armor_on")) || (is_wearing_power_armor() &&
-        (has_active_UPS() || has_active_bionic("bio_power_armor_interface") || has_active_bionic("bio_power_armor_interface_mkII"))))
-    {
-        return true;
+    for( auto &w : worn ) {
+        if( w.typeId() == "rm13_armor_on" ) {
+            return true;
+        }
+        if( w.active && dynamic_cast<it_armor*>( w.type )->is_power_armor() ) {
+            return true;
+        }
     }
     if(int(calendar::turn) >= next_climate_control_check)
     {
@@ -3873,14 +3878,14 @@ bool player::has_bionic(const bionic_id & b) const
     return false;
 }
 
-bool player::has_active_optcloak() const {
-  static const std::string str_optical_cloak("optical_cloak");
-
-  if (has_active_UPS() && is_wearing(str_optical_cloak)) {
-    return true;
-  } else {
+bool player::has_active_optcloak() const
+{
+    for( auto &w : worn ) {
+        if( w.active && w.typeId() == OPTICAL_CLOAK_ITEM_ID ) {
+            return true;
+        }
+    }
     return false;
-  }
 }
 
 bool player::has_active_bionic(const bionic_id & b) const
@@ -6811,18 +6816,51 @@ void player::process_active_items()
         }
     }
 
-    // Drain UPS if using optical cloak.
-    // TODO: Move somewhere else.
-    long ch_UPS = charges_of("UPS");
-    if (ch_UPS > 0 && is_wearing("optical_cloak")) {
-        // Drain UPS.
-        if ( ch_UPS >= 40 ) {
-            use_charges("UPS", 40);
-            if (ch_UPS < 200 && one_in(3))
-                add_msg_if_player( m_warning, _("Your optical cloak flickers for a moment!"));
+    long ch_UPS = charges_of( "UPS" );
+    item *cloak = nullptr;
+    item *power_armor = nullptr;
+    // Manual iteration because we only care about *worn* active items.
+    for( auto &w : worn ) {
+        if( !w.active ) {
+            continue;
+        }
+        if( w.typeId() == OPTICAL_CLOAK_ITEM_ID ) {
+            cloak = &w;
+        }
+        // Only the main power armor item can be active, the other ones (hauling frame, helmet) aren't.
+        if( power_armor == nullptr && dynamic_cast<it_armor*>( w.type )->is_power_armor() ) {
+            power_armor = &w;
+        }
+    }
+    if( cloak != nullptr ) {
+        if( ch_UPS >= 40 ) {
+            use_charges( "UPS", 40 );
+            if( ch_UPS < 200 && one_in( 3 ) ) {
+                add_msg_if_player( m_warning, _( "Your optical cloak flickers for a moment!" ) );
+            }
+        } else if( ch_UPS > 0 ) {
+            use_charges( "UPS", ch_UPS );
         } else {
-            // Drain last power.
-            use_charges("UPS", ch_UPS);
+            add_msg_if_player( m_warning, _( "Your optical cloak flickers for a moment as it becomes opaque." ) );
+            // Bypass the "you deactivate the ..." message
+            cloak->active = false;
+        }
+    }
+    static const std::string BIO_POWER_ARMOR_INTERFACE( "bio_power_armor_interface" );
+    static const std::string BIO_POWER_ARMOR_INTERFACE_MK_II( "bio_power_armor_interface_mkII" );
+    const bool has_power_armor_interface = ( has_active_bionic( BIO_POWER_ARMOR_INTERFACE ) ||
+                                             has_active_bionic( BIO_POWER_ARMOR_INTERFACE_MK_II ) ) &&
+                                           power_level > 0;
+    // For power armor that is powered via the armor interface bionic, energy is consumed by that bionic
+    // (it's an active bionic consuming power on its own). The bionic is preferred over UPS usage.
+    // Only if the character does not have that bionic it falls back to the UPS.
+    if( power_armor != nullptr && !has_power_armor_interface ) {
+        if( ch_UPS > 0 ) {
+            use_charges( "UPS", 4 );
+        } else {
+            add_msg_if_player( m_warning, _( "Your power armor disengages." ) );
+            // Bypass the "you deactivate the ..." message
+            power_armor->active = false;
         }
     }
     // Load all items that use the UPS to their minimal functional charge,
@@ -9252,11 +9290,6 @@ bool player::has_enough_charges( const item &it, bool show_msg ) const
     return true;
 }
 
-bool player::has_active_UPS() const
-{
-    return has_bionic("bio_ups") || has_amount("UPS_off", 1) || has_amount("adv_UPS_off", 1);
-}
-
 void player::use(int inventory_position)
 {
     item* used = &i_at(inventory_position);
@@ -9290,8 +9323,8 @@ void player::use(int inventory_position)
         if( used->has_flag( "USE_UPS" ) ) {
             use_charges( "UPS", charges_used );
             //Replace 1 with charges it needs to use.
-            if( used->active && !has_active_UPS() && used->charges <= 1  ) {
-                add_msg_if_player( m_info, _( "You need an active UPS of some kind for this %s to work continuously." ), used->tname().c_str() );
+            if( used->active && used->charges <= 1 && !has_charges( "UPS", 1 ) ) {
+                add_msg_if_player( m_info, _( "You need an UPS of some kind for this %s to work continuously." ), used->tname().c_str() );
             }
         } else {
             used->charges -= std::min( used->charges, charges_used );
@@ -10236,6 +10269,13 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
     int ret = 0;
     double layer[MAX_CLOTHING_LAYER] = { };
     int level = 0;
+    bool is_wearing_active_power_armor = false;
+    for( auto &w : worn ) {
+        if( w.active && dynamic_cast<it_armor*>( w.type )->is_power_armor() ) {
+            is_wearing_active_power_armor = true;
+            break;
+        }
+    }
 
     const it_armor* armor = NULL;
     for (size_t i = 0; i < worn.size(); ++i) {
@@ -10257,10 +10297,7 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
             }
 
             layer[level]++;
-            if( armor->is_power_armor() &&
-                (has_active_UPS() ||
-                 has_active_bionic("bio_power_armor_interface") ||
-                 has_active_bionic("bio_power_armor_interface_mkII")) ) {
+            if( armor->is_power_armor() && is_wearing_active_power_armor ) {
                 armorenc += std::max( 0, armor->encumber - 4);
             } else {
                 armorenc += armor->encumber;

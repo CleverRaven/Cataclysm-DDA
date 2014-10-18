@@ -7752,6 +7752,11 @@
         "encumbrance" : 5,
         "bashing" : -5,
         "coverage" : 65,
+        "use_action": {
+            "type": "ups_based_armor",
+            "activate_msg": "Your optical cloak flickers as it becomes transparent",
+            "deactive_msg": "Your optical cloak flickers for a moment as it becomes opaque."
+        },
         "flags" : ["OVERSIZE", "HOOD", "WATERPROOF", "OUTER", "VARSIZE"],
         "material_thickness" : 1
     },
@@ -7850,6 +7855,10 @@
         "encumbrance" : 5,
         "bashing" : 1,
         "flags" : ["WATERPROOF", "STURDY", "ELECTRIC_IMMUNE"],
+        "use_action": {
+            "type": "ups_based_armor",
+            "activate_msg": "Your power armor engages."
+        },
         "coverage" : 100,
         "material_thickness" : 11
     },
@@ -7902,6 +7911,10 @@
         "encumbrance" : 4,
         "bashing" : 1,
         "flags" : ["WATERPROOF", "STURDY", "ELECTRIC_IMMUNE"],
+        "use_action": {
+            "type": "ups_based_armor",
+            "activate_msg": "Your power armor engages."
+        },
         "coverage" : 100,
         "material_thickness" : 9
     },
@@ -7954,6 +7967,10 @@
         "encumbrance" : 6,
         "bashing" : 1,
         "flags" : ["WATERPROOF", "STURDY", "ELECTRIC_IMMUNE"],
+        "use_action": {
+            "type": "ups_based_armor",
+            "activate_msg": "Your power armor engages."
+        },
         "coverage" : 100,
         "material_thickness" : 12
     },

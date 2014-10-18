@@ -1392,6 +1392,12 @@ use_function Item_factory::use_from_object(JsonObject obj)
         obj.read( "moves", actor->moves );
         obj.read( "place_randomly", actor->place_randomly );
         return use_function( actor.release() );
+    } else if( type == "ups_based_armor" ) {
+        std::unique_ptr<ups_based_armor_actor> actor( new ups_based_armor_actor() );
+        obj.read( "activate_msg", actor->activate_msg );
+        obj.read( "deactive_msg", actor->deactive_msg );
+        obj.read( "out_of_power_msg", actor->out_of_power_msg );
+        return use_function( actor.release() );
     } else {
         debugmsg("unknown use_action type %s", type.c_str());
         return use_function();
