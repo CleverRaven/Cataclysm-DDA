@@ -2800,7 +2800,6 @@ int iuse::firestarter(player *p, item *it, bool t)
         } else if (it->charges <= 0) {
             p->add_msg_if_player(_("The %s winks out."), it->tname().c_str());
         } else { // Turning it off
-            p->add_msg_if_player(_("turn off runs"));
             int choice = menu(true, _("refillable lighter (lit)"), _("extinguish"),
                               _("light something"), _("cancel"), NULL);
             switch (choice) {
