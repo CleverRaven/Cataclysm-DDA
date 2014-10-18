@@ -102,7 +102,7 @@
             { "point":[0,2,-1], "overmap": "sewage_treatment_under"},
             { "point":[1,2,-1], "overmap": "sewage_treatment_under"}
         ],
-        "locations" : [ "land" ], "//":"what special locations does it spawn",
+        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
         "city_distance" : [10, 20], "//":"how far from a city it should be",
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [0, 4], "//":"how many per overmap",
