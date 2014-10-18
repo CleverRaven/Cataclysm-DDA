@@ -15,7 +15,6 @@
 #include "path_info.h"
 #include "mapsharing.h"
 
-#include <iostream>
 #include <ctime>
 #include <sys/stat.h>
 #include <signal.h>
@@ -205,10 +204,8 @@ int main(int argc, char *argv[])
     }
 
     if (!assure_dir_exist(FILENAMES["user_dir"].c_str())) {
-        std::cout << "Can't open or create "
-                  << FILENAMES["user_dir"].c_str()
-                  << ". Check permissions."
-                  << std::endl;
+        printf("Can't open or create %s. Check permissions.\n",
+               FILENAMES["user_dir"].c_str());
         exit(1);
     }
 
