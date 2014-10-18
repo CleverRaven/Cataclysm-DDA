@@ -842,7 +842,7 @@ void veh_interact::do_siphon()
     int msg_width = getmaxx(w_msg);
     switch (reason) {
     case INVALID_TARGET:
-        mvwprintz(w_msg, 0, 1, c_ltred, _("The vehicle has no gasoline to siphon."));
+        mvwprintz(w_msg, 0, 1, c_ltred, _("The vehicle has no fuel left to siphon."));
         wrefresh (w_msg);
         return;
     case LACK_TOOLS:
