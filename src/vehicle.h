@@ -518,7 +518,7 @@ public:
     void spew_smoke( double joules, int part );
 
     // Loop through engines and generate noise and smoke for each one
-    void noise_and_smoke( double load, double time = 6.0, bool on_map = true );
+    void noise_and_smoke( double load, double time = 6.0 );
 
 // Calculate area covered by wheels and, optionally count number of wheels
     float wheels_area (int *cnt = 0);
