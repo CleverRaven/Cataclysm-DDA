@@ -268,10 +268,6 @@ void Item_factory::init()
     iuse_function_list["MININUKE"] = &iuse::mininuke;
     iuse_function_list["PHEROMONE"] = &iuse::pheromone;
     iuse_function_list["PORTAL"] = &iuse::portal;
-    iuse_function_list["UPS_OFF"] = &iuse::UPS_off;
-    iuse_function_list["UPS_ON"] = &iuse::UPS_on;
-    iuse_function_list["adv_UPS_OFF"] = &iuse::adv_UPS_off;
-    iuse_function_list["adv_UPS_ON"] = &iuse::adv_UPS_on;
     iuse_function_list["TAZER"] = &iuse::tazer;
     iuse_function_list["TAZER2"] = &iuse::tazer2;
     iuse_function_list["SHOCKTONFA_OFF"] = &iuse::shocktonfa_off;

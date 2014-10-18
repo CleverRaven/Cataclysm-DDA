@@ -3853,7 +3853,7 @@ bool item::process_tool( player *carrier, point pos )
             if( charges > charges_used ) {
                 charges -= charges_used;
                 charges_used = 0;
-            } else if( carrier->use_charges_if_avail( "UPS_on", charges_used ) ) {
+            } else if( carrier->use_charges_if_avail( "UPS", charges_used ) ) {
                 charges_used = 0;
             }
         } else if( charges > 0 ) {
@@ -3899,7 +3899,7 @@ bool item::process_charger_gun( player *carrier, point pos )
         return false;
     }
     if( charges == 8 ) { // Maintaining charge takes less power.
-        if( carrier->use_charges_if_avail( "UPS_on", 4 ) ) {
+        if( carrier->use_charges_if_avail( "UPS", 4 ) ) {
             poison++;
         } else {
             poison--;
@@ -3917,7 +3917,7 @@ bool item::process_charger_gun( player *carrier, point pos )
             carrier->add_msg_player_or_npc( m_warning, _( "Your %s beeps alarmingly." ), _( "<npcname>'s %s beeps alarmingly." ), tname().c_str() );
         }
     } else { // We're chargin it up!
-        if( carrier->use_charges_if_avail( "UPS_on", 1 + charges ) ) {
+        if( carrier->use_charges_if_avail( "UPS", 1 + charges ) ) {
             poison++;
         } else {
             poison--;

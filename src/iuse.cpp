@@ -3127,8 +3127,7 @@ int iuse::ups_battery(player *p, item *, bool, point)
         p->add_msg_if_player(_("That item has already had its battery modded to use a UPS!"));
         return 0;
     }
-    if( modded->typeId() == "UPS_on" || modded->typeId() == "UPS_off" ||
-        modded->typeId() == "adv_UPS_on" || modded->typeId() == "adv_UPS_off" ) {
+    if( modded->typeId() == "UPS_off" || modded->typeId() == "adv_UPS_off" ) {
         p->add_msg_if_player( _( "You want to power a UPS with another UPS?  Very clever." ) );
         return 0;
     }
@@ -6108,97 +6107,6 @@ int iuse::portal(player *p, item *it, bool, point)
         return 0;
     }
     g->m.add_trap(p->posx + rng(-2, 2), p->posy + rng(-2, 2), tr_portal);
-    return it->type->charges_to_use();
-}
-
-int iuse::UPS_off(player *p, item *it, bool, point)
-{
-    if (it->charges == 0) {
-        p->add_msg_if_player(m_info, _("The power supply's batteries are dead."));
-        return 0;
-    } else {
-        p->add_msg_if_player(_("You turn the power supply on."));
-        if (p->is_wearing("optical_cloak")) {
-            p->add_msg_if_player(_("Your optical cloak flickers as it becomes transparent."));
-        }
-        if (p->is_wearing_power_armor()) {
-            p->add_msg_if_player(_("Your power armor engages."));
-        }
-        it->make("UPS_on");
-        it->active = true;
-    }
-    return it->type->charges_to_use();
-}
-
-int iuse::UPS_on(player *p, item *it, bool t, point)
-{
-    if (t) { // Normal use
-        if (p->is_wearing_power_armor() &&
-            !p->has_active_bionic("bio_power_armor_interface") &&
-            !p->has_active_bionic("bio_power_armor_interface_mkII") &&
-            !p->has_active_item("adv_UPS_on")) { // Use better power sources first
-            it->charges -= 4;
-
-            if (it->charges < 0) {
-                it->charges = 0;
-            }
-        }
-    } else { // Turning it off
-        p->add_msg_if_player(_("The UPS powers off with a soft hum."));
-        if (p->is_wearing_power_armor()) {
-            p->add_msg_if_player(_("Your power armor disengages."));
-        }
-        if (p->is_wearing("optical_cloak")) {
-            p->add_msg_if_player(_("Your optical cloak flickers for a moment as it becomes opaque."));
-        }
-        it->make("UPS_off");
-        it->active = false;
-        return 0;
-    }
-    return it->type->charges_to_use();
-}
-
-int iuse::adv_UPS_off(player *p, item *it, bool, point)
-{
-    if (it->charges == 0) {
-        p->add_msg_if_player(_("The power supply has depleted the plutonium."));
-    } else {
-        p->add_msg_if_player(_("You turn the power supply on."));
-        if (p->is_wearing("optical_cloak")) {
-            p->add_msg_if_player(_("Your optical cloak becomes transparent."));
-        }
-        if (p->is_wearing_power_armor()) {
-            p->add_msg_if_player(_("Your power armor engages."));
-        }
-        it->make("adv_UPS_on");
-        it->active = true;
-    }
-    return it->type->charges_to_use();
-}
-
-int iuse::adv_UPS_on(player *p, item *it, bool t, point)
-{
-    if (t) { // Normal use
-        if (p->is_wearing_power_armor() &&
-            !p->has_active_bionic("bio_power_armor_interface") &&
-            !p->has_active_bionic("bio_power_armor_interface_mkII")) {
-            it->charges -= 2; // Use better power sources first
-
-            if (it->charges < 0) {
-                it->charges = 0;
-            }
-        }
-    } else { // Turning it off
-        p->add_msg_if_player(_("The advanced UPS powers off with a soft hum."));
-        if (p->is_wearing_power_armor()) {
-            p->add_msg_if_player(_("Your power armor disengages."));
-        }
-        if (p->is_wearing("optical_cloak")) {
-            p->add_msg_if_player(_("Your optical cloak becomes opaque."));
-        }
-        it->make("adv_UPS_off");
-        it->active = false;
-    }
     return it->type->charges_to_use();
 }
 
