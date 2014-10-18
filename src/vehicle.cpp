@@ -4200,7 +4200,7 @@ void vehicle::leak_fuel (int p)
     if (!part_flag(p, "FUEL_TANK"))
         return;
     ammotype ft = part_info(p).fuel_type;
-    if (ft == fuel_type_gasoline)
+    if (ft == fuel_type_gasoline || ft == fuel_type_diesel)
     {
         int x = global_x();
         int y = global_y();
@@ -4213,8 +4213,8 @@ void vehicle::leak_fuel (int p)
                         parts[p].amount = 0;
                         return;
                     }
-                    g->m.spawn_item(i, j, fuel_type_gasoline);
-                    g->m.spawn_item(i, j, fuel_type_gasoline);
+                    g->m.spawn_item(i, j, ft);
+                    g->m.spawn_item(i, j, ft);
                     parts[p].amount -= 100;
                 }
     }
