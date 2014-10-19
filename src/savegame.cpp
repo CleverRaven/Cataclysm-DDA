@@ -75,6 +75,7 @@ void game::serialize(std::ofstream & fout) {
         json.start_object();
         // basic game state information.
         json.member("turn", (int)calendar::turn);
+        json.member("calendar_start", (int)calendar::start);
         json.member( "last_target", (int)last_target );
         json.member( "run_mode", (int)safe_mode );
         json.member( "mostseen", mostseen );
@@ -185,12 +186,13 @@ void game::unserialize(std::ifstream & fin)
     std::string linebuf;
     std::stringstream linein;
 
-    int tmpturn, tmpspawn, tmprun, tmptar, comx, comy;
+    int tmpturn, tmpcalstart = 0, tmpspawn, tmprun, tmptar, comx, comy;
     JsonIn jsin(fin);
     try {
         JsonObject data = jsin.get_object();
 
         data.read("turn",tmpturn);
+        data.read("calendar_start",tmpcalstart);
         data.read("last_target",tmptar);
         data.read("run_mode", tmprun);
         data.read("mostseen", mostseen);
@@ -202,6 +204,7 @@ void game::unserialize(std::ifstream & fin)
         data.read("om_y",comy);
 
         calendar::turn = tmpturn;
+        calendar::start = tmpcalstart;
         nextspawn = tmpspawn;
 
         cur_om = &overmap_buffer.get(comx, comy);
