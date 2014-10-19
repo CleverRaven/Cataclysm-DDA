@@ -6791,7 +6791,7 @@ bool player::has_active_item(const itype_id & id) const
 
 void player::process_active_items()
 {
-    if( weapon.process( this, pos(), false ) ) {
+    if( weapon.needs_processing() && weapon.process( this, pos(), false ) ) {
         weapon = ret_null;
     }
 
@@ -6805,7 +6805,7 @@ void player::process_active_items()
 
     // worn items
     for (size_t i = 0; i < worn.size(); i++) {
-        if( worn[i].process( this, pos(), false ) ) {
+        if( worn[i].needs_processing() && worn[i].process( this, pos(), false ) ) {
             worn.erase(worn.begin() + i);
             i--;
         }
