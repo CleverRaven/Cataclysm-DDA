@@ -1450,6 +1450,7 @@ bool game::do_turn()
     for(auto it = MAPBUFFER.begin(); it != MAPBUFFER.end(); ++it) {
         tripoint sm_loc = it->first;
         point sm_topleft = overmapbuffer::sm_to_ms_copy(sm_loc.x, sm_loc.y);
+        point in_reality = m.getlocal(sm_topleft);
 
         submap* sm = it->second;
 
@@ -1457,7 +1458,7 @@ bool game::do_turn()
             auto veh = sm->vehicles[i];
 
             veh->power_parts();
-            veh->idle(m.inbounds(sm_topleft.x, sm_topleft.y));
+            veh->idle(m.inbounds(in_reality.x, in_reality.y));
         }
     }
     m.process_fields();
