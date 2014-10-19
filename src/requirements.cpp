@@ -145,7 +145,7 @@ int requirements::batch_time( int batch ) const
     }
 
     double total_time = 0.0;
-    double scale = batch_rsize / 12.0; // close enough
+    double scale = batch_rsize / 6.0; // At batch_rsize, incremental time increase is 99.5% of batch_rscale
     for (int x = 0; x < batch; x++) {
         // scaled logistic function output
         double logf = (2.0/(1.0+exp(-((double)x/scale)))) - 1.0;
