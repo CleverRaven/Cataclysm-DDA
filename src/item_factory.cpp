@@ -1555,7 +1555,7 @@ const use_function *Item_factory::get_iuse(const std::string &id)
     return &iuse_function_list.at(id);
 }
 
-const std::string &Item_factory::calc_category(itype *it)
+const std::string &Item_factory::calc_category( const itype *it )
 {
     if (it->is_gun()) {
         return category_id_guns;
@@ -1570,7 +1570,7 @@ const std::string &Item_factory::calc_category(itype *it)
         return category_id_clothing;
     }
     if (it->is_food()) {
-        it_comest *comest = dynamic_cast<it_comest *>(it);
+        const it_comest *comest = dynamic_cast<const it_comest *>( it );
         return (comest->comesttype == "MED" ? category_id_drugs : category_id_food);
     }
     if (it->is_book()) {

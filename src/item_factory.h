@@ -137,7 +137,7 @@ class Item_factory
         void load_item_category(JsonObject &jo);
 
         // Determine and return the category id of the given type
-        const std::string &calc_category(itype *ity);
+        const std::string &calc_category( const itype *ity );
         // Get the category from the category id.
         // This will never return 0.
         // The returned value stays valid as long as this Item_factory
