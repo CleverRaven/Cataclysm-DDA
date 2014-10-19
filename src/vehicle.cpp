@@ -845,12 +845,14 @@ void vehicle::start_engine()
 
 void vehicle::honk_horn()
 {
+    const bool no_power = !fuel_left(fuel_type_battery, true);
+
     for( size_t p = 0; p < parts.size(); ++p ) {
         if( ! part_flag( p, "HORN" ) )
             continue;
         //Only bicycle horn doesn't need electricity to work
         vpart_info &horn_type=part_info(p);
-        if( (horn_type.id != "horn_bicycle") && !fuel_left(fuel_type_battery, true) ){
+        if( (horn_type.id != "horn_bicycle") && no_power ){
             continue;
         }
         //Get global position of horn
