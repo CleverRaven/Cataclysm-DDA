@@ -1791,7 +1791,7 @@ bool item::can_revive()
     return false;
 }
 
-bool item::ready_to_revive()
+bool item::ready_to_revive( point pos )
 {
     if(can_revive() == false) {
         return false;
@@ -1807,12 +1807,8 @@ bool item::ready_to_revive()
     {
         // If we're a special revival zombie, wait to get up until the player is nearby.
         const bool isReviveSpecial = has_flag("REVIVE_SPECIAL");
-        if (isReviveSpecial)
-        {
-
-            point p = g->find_item(this);
-
-            const int distance = rl_dist(p.x, p.y, g->u.posx, g->u.posy);
+        if( isReviveSpecial ) {
+            const int distance = rl_dist(pos.x, pos.y, g->u.posx, g->u.posy);
             if (distance > 3) {
                 return false;
             }
@@ -3672,7 +3668,7 @@ bool item::process_corpse( player *carrier, point pos )
     if( corpse == nullptr ) {
         return false;
     }
-    if( !ready_to_revive() ) {
+    if( !ready_to_revive( pos ) ) {
         return false;
     }
     if( rng( 0, volume() ) > burnt && g->revive_corpse( pos.x, pos.y, this ) ) {

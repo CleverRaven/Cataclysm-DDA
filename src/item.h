@@ -277,7 +277,7 @@ public:
     int fridge;
 
  int brewing_time();
- bool ready_to_revive(); // used for corpses
+ bool ready_to_revive( point pos ); // used for corpses
  void detonate(point p) const;
  bool can_revive();      // test if item is a corpse and can be revived
 // light emission, determined by type->light_emission (LIGHT_???) tag (circular),
