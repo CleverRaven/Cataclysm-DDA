@@ -3105,7 +3105,7 @@ void map::process_active_items_in_submap(submap * const current_submap, int grid
                 // and use that copy to process it
                 tmp_active_item_pos.first = items[n];
                 items.erase(items.begin() + n);
-                if( !tmp_active_item_pos.first.process( nullptr, tmp_active_item_pos.second ) ) {
+                if( !tmp_active_item_pos.first.process( nullptr, tmp_active_item_pos.second, false ) ) {
                     // Not destroyed, must be inserted again, but make sure
                     // we don't insert far behind the end of the vector
                     n = std::min(items.size(), n);
@@ -3188,7 +3188,7 @@ void map::process_active_items_in_vehicle(vehicle *cur_veh, submap * const curre
             // and use that copy to process it
             tmp_active_item_pos.first = *it;
             items_in_part->erase(items_in_part->begin() + n);
-            if( !tmp_active_item_pos.first.process( nullptr, tmp_active_item_pos.second ) ) {
+            if( !tmp_active_item_pos.first.process( nullptr, tmp_active_item_pos.second, false ) ) {
                 // item still exist, most likely it didn't just explode,
                 // put it back
                 items_in_part->insert(items_in_part->begin() + n, tmp_active_item_pos.first);

@@ -493,6 +493,8 @@ void add_corpse(int x, int y);
  bool is_full(const int x, const int y, const int addvolume = -1, const int addnumber = -1 );
  bool add_item_or_charges(const int x, const int y, item new_item, int overflow_radius = 2);
  void process_active_items();
+ // Safely trigger or update an item on the map.
+ bool process_item( std::vector<item> &items, size_t n, point location, bool activate );
 
  std::list<item> use_amount_square( const int x, const int y, const itype_id type,
                                     int &quantity, const bool use_container );

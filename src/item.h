@@ -321,11 +321,13 @@ public:
      * @param pos The location of the item on the map, same system as
      * @ref player::pos used. If the item is carried, it should be the
      * location of the carrier.
+     * @param passive Whether the item should be activated (true), or
+     * processed as an active item.
      * @return true if the item has been destroyed by the processing. The caller
      * should than delete the item wherever it was stored.
      * Returns false if the item is not destroyed.
      */
-    bool process(player *carrier, point pos);
+    bool process(player *carrier, point pos, bool activate);
 protected:
     // Sub-functions of @ref process, they handle the processing for different
     // processing types, just to make the process function cleaner.

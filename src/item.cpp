@@ -3945,14 +3945,18 @@ bool item::process_charger_gun( player *carrier, point pos )
     return false;
 }
 
-bool item::process( player *carrier, point pos )
+bool item::process( player *carrier, point pos, bool activate )
 {
     for( auto it = contents.begin(); it != contents.end(); ) {
-        if( it->process( carrier, pos ) ) {
+        if( it->process( carrier, pos, activate ) ) {
             it = contents.erase( it );
         } else {
             ++it;
         }
+    }
+    if( activate ) {
+        it_tool *tmp = dynamic_cast<it_tool *>( type );
+        return tmp->invoke( carrier != nullptr ? carrier : &g->u, this, false, pos );
     }
     // How this works: it checks what kind of processing has to be done
     // (e.g. for food, for drying towels, lit cigars), and if that matches,
