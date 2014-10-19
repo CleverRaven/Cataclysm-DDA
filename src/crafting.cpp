@@ -105,7 +105,6 @@ void load_recipe(JsonObject &jsobj)
     std::string category = jsobj.get_string("category");
     std::string subcategory = jsobj.get_string("subcategory", "");
 
-    int difficulty = jsobj.get_int("difficulty");
     bool autolearn = jsobj.get_bool("autolearn");
     // optional
     bool reversible = jsobj.get_bool("reversible", false);
@@ -154,7 +153,7 @@ void load_recipe(JsonObject &jsobj)
     int id = check_recipe_ident(rec_name, jsobj);
 
     recipe *rec = new recipe(rec_name, id, result, category, subcategory, skill_used,
-                             requires_skills, difficulty, reversible, autolearn,
+                             requires_skills, reversible, autolearn,
                              learn_by_disassembly, result_mult, paired, bps);
     rec->load(jsobj);
 
@@ -1165,7 +1164,7 @@ void game::make_craft(std::string id_to_make, int batch_size)
     if( recipe_to_make == nullptr ) {
         return;
     }
-    u.assign_activity(ACT_CRAFT, recipe_to_make->time * batch_size, recipe_to_make->id);
+    u.assign_activity(ACT_CRAFT, recipe_to_make->batch_time(batch_size), recipe_to_make->id);
     u.activity.values.push_back( batch_size );
     u.last_batch = batch_size;
     u.lastrecipe = id_to_make;
@@ -1178,7 +1177,7 @@ void game::make_all_craft(std::string id_to_make, int batch_size)
     if( recipe_to_make == nullptr ) {
         return;
     }
-    u.assign_activity(ACT_LONGCRAFT, recipe_to_make->time, recipe_to_make->id);
+    u.assign_activity(ACT_LONGCRAFT, recipe_to_make->batch_time(batch_size), recipe_to_make->id);
     u.activity.values.push_back( batch_size );
     u.last_batch = batch_size;
     u.lastrecipe = id_to_make;
