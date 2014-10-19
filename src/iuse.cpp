@@ -9809,36 +9809,11 @@ void sendRadioSignal(player *p, std::string signal)
             g->sound(p->posx, p->posy, 6, "beep.");
 
             it_tool *tmp = dynamic_cast<it_tool *>(it.type);
-            tmp->invoke(p, &it, it.active, p->pos());
+            tmp->invoke(p, &it, false, p->pos());
         }
     }
 
-    std::list<std::pair<tripoint, item *> > rc_pairs = g->m.get_rc_items();
-    for( auto rc_pair = rc_pairs.begin(); rc_pair != rc_pairs.end(); ++rc_pair ) {
-        tripoint item_position = rc_pair->first;
-        item *rc_item = rc_pair->second;
-        if (rc_item->has_flag("RADIO_ACTIVATION") && rc_item->has_flag(signal)) {
-
-            g->sound(item_position.x, item_position.y, 6, "beep.");
-            if (rc_item->has_flag("BOMB")) {
-                rc_item->charges = 0;
-            }
-            it_tool *tmp = dynamic_cast<it_tool *>(rc_item->type);
-            tmp->invoke( p, rc_item, rc_item->active, p->pos() );
-        }
-
-        if( rc_item->has_flag("RADIO_CONTAINER") ) {
-            if( !rc_item->contents.empty() && rc_item->contents[0].has_flag( signal ) ) {
-                itype_id bomb_type = rc_item->contents[0].type->id;
-
-                rc_item->make(bomb_type);
-                rc_item->charges = 0;
-                rc_item->active = true;
-                it_tool *tmp = dynamic_cast<it_tool *>(rc_item->type);
-                tmp->invoke( p, rc_item, true, p->pos() );
-            }
-        }
-    }
+    g->m.trigger_rc_items( signal );
 }
 
 int iuse::radiocontrol(player *p, item *it, bool t, point)

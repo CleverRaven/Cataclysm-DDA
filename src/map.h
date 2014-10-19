@@ -505,6 +505,8 @@ void add_corpse(int x, int y);
 
  std::list<std::pair<tripoint, item *> > get_rc_items( int x = -1, int y = -1, int z = -1 );
 
+ void trigger_rc_items( std::string signal );
+
 // Traps
  std::string trap_get(const int x, const int y) const;
  void trap_set(const int x, const int y, const std::string & sid);

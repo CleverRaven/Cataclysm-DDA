@@ -3496,6 +3496,35 @@ std::list<std::pair<tripoint, item *> > map::get_rc_items( int x, int y, int z )
     return rc_pairs;
 }
 
+void map::trigger_rc_items( std::string signal )
+{
+    point pos;
+    for( pos.x = 0; pos.x < SEEX * MAPSIZE; pos.x++ ) {
+        for( pos.y = 0; pos.y < SEEY * MAPSIZE; pos.y++ ) {
+            std::vector<item> &items = i_at( pos.x, pos.y );
+            for( size_t n = 0; n < items.size(); n++ ) {
+                if( items[n].has_flag("RADIO_ACTIVATION") && items[n].has_flag(signal) ) {
+                    g->sound(pos.x, pos.y, 6, "beep.");
+                    if( items[n].has_flag("BOMB") ) {
+                        // Set charges to 0 to ensure it detonates.
+                        items[n].charges = 0;
+                    }
+                    process_item( items, n, pos, true );
+                } else if( items[n].has_flag("RADIO_CONTAINER") && !items[n].contents.empty() &&
+                           items[n].contents[0].has_flag( signal ) ) {
+                    // A bomb is the only thing meaningfully placed in a container,
+                    // If that changes, this needs logic to handle the alternative.
+                    itype_id bomb_type = items[n].contents[0].type->id;
+
+                    items[n].make(bomb_type);
+                    items[n].charges = 0;
+                    process_item( items, n, pos, true );
+                }
+            }
+        }
+    }
+}
+
 std::string map::trap_get(const int x, const int y) const {
     return traplist[ tr_at(x, y) ]->id;
 }
