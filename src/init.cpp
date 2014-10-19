@@ -368,8 +368,7 @@ void DynamicDataLoader::finalize_loaded_data()
 
 void DynamicDataLoader::check_consistency()
 {
-    item_controller->check_itype_definitions();
-    item_controller->check_items_of_groups_exist();
+    item_controller->check_definitions();
     MonsterGenerator::generator().check_monster_definitions();
     MonsterGroupManager::check_group_definitions();
     check_recipe_definitions();

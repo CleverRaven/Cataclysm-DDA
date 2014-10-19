@@ -129,10 +129,9 @@ class Item_factory
 
         // Check that all items referenced in the groups
         // do actually exist (are defined)
-        void check_items_of_groups_exist() const;
         // Check consistency in itype definitions
         // like: valid material, valid tool
-        void check_itype_definitions() const;
+        void check_definitions() const;
 
         void load_item_category(JsonObject &jo);
 

@@ -125,7 +125,7 @@ void Item_factory::load_item_whitelist(JsonObject &json)
 
 Item_factory::~Item_factory()
 {
-    clear_items_and_groups();
+    reset();
 }
 
 //Every item factory comes with a missing item
@@ -422,7 +422,7 @@ void Item_factory::check_ammo_type(std::ostream &msg, const std::string &ammo) c
     msg << string_format("there is no actual ammo of type %s defined", ammo.c_str()) << "\n";
 }
 
-void Item_factory::check_itype_definitions() const
+void Item_factory::check_definitions() const
 {
     std::ostringstream main_stream;
     for (std::map<Item_tag, itype *>::const_iterator it = m_templates.begin(); it != m_templates.end();
@@ -511,10 +511,6 @@ void Item_factory::check_itype_definitions() const
         getch();
         werase(stdscr);
     }
-}
-
-void Item_factory::check_items_of_groups_exist() const
-{
     for (GroupMap::const_iterator a = m_template_groups.begin(); a != m_template_groups.end(); a++) {
         a->second->check_consistency();
     }
