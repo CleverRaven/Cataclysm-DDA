@@ -845,10 +845,6 @@ void vehicle::start_engine()
 
 void vehicle::honk_horn()
 {
-    if (!fuel_left(fuel_type_battery, true)) {
-        return;
-    }
-
     for( size_t p = 0; p < parts.size(); ++p ) {
         if( ! part_flag( p, "HORN" ) )
             continue;
@@ -857,6 +853,9 @@ void vehicle::honk_horn()
         const int horn_y = global_y() + parts[p].precalc_dy[0];
         //Determine sound
         vpart_info &horn_type=part_info(p);
+        if( (horn_type.id != "horn_bicycle") && !fuel_left(fuel_type_battery, true) ){
+            continue;
+        }
         if( horn_type.bonus >= 40 ){
             g->sound( horn_x, horn_y, horn_type.bonus, _("HOOOOORNK!") );
         } else if( horn_type.bonus >= 20 ){
