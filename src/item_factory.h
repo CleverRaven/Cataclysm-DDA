@@ -50,7 +50,7 @@ class Item_factory
         Item_factory();
         ~Item_factory();
         void init();
-        void clear_items_and_groups();
+        void reset();
         void init_old();
         void register_iuse_lua(const std::string &name, int lua_function);
 

@@ -318,7 +318,7 @@ void DynamicDataLoader::unload_data()
     // Mission types are not loaded from json, but they depend on
     // the overmap terrain + items and that gets loaded from json.
     g->mission_types.clear();
-    item_controller->clear_items_and_groups();
+    item_controller->reset();
     mutations_category.clear();
     mutation_data.clear();
     traits.clear();

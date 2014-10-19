@@ -1094,7 +1094,7 @@ bool Item_factory::is_mod_target(JsonObject &jo, std::string member, std::string
     return is_included;
 }
 
-void Item_factory::clear_items_and_groups()
+void Item_factory::reset()
 {
     // clear groups
     for (GroupMap::iterator ig = m_template_groups.begin(); ig != m_template_groups.end(); ++ig) {
