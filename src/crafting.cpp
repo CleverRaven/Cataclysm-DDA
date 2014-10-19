@@ -482,7 +482,7 @@ const recipe *game::select_crafting_recipe( int &batch_size )
     WINDOW *w_data = newwin(dataHeight, width, headHeight + subHeadHeight, wStart);
 
     const int iInfoWidth = width - FULL_SCREEN_WIDTH - 3;
-    std::vector<std::string> folded;
+    std::string item_info_text;
     craft_cat tab = first_craft_cat();
     craft_subcat subtab = first_craft_subcat( tab );
     std::vector<const recipe *> current;
@@ -670,17 +670,12 @@ const recipe *game::select_crafting_recipe( int &batch_size )
                 if ( lastid != current[line]->id ) {
                     lastid = current[line]->id;
                     tmp = current[line]->create_result();
-                    folded = foldstring(tmp.info(true), iInfoWidth);
+                    item_info_text = tmp.info( true );
                 }
-                int maxline = (int)folded.size() > dataHeight ? dataHeight : (int)folded.size();
-
                 mvwprintz(w_data, 0, FULL_SCREEN_WIDTH + 1, col, "%s",
                           utf8_truncate(tmp.type->nname(1), iInfoWidth).c_str());
 
-                for(int i = 1; i < maxline; i++) {
-                    mvwprintz(w_data, i, FULL_SCREEN_WIDTH + 1, col, "%s", folded[i].c_str() );
-                }
-
+                fold_and_print( w_data, 1, FULL_SCREEN_WIDTH + 1, iInfoWidth, col, item_info_text );
             }
 
         }

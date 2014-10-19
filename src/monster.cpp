@@ -1336,7 +1336,7 @@ bool monster::make_fungus()
       tid == "mon_zombie_brute_shocker") {
         polypick = 2; // Necro and Master have enough Goo to resist conversion.
         // Firefighter, hazmat, and scarred/beekeeper have the PPG on.
-    } else if (tid == "mon_zombie_necro" || tid == "mon_zombie_master" || tid == "mon_zombie_firefighter" ||
+    } else if (tid == "mon_zombie_necro" || tid == "mon_zombie_master" || tid == "mon_zombie_fireman" ||
       tid == "mon_zombie_hazmat" || tid == "mon_beekeeper") {
         return true;
     } else if (tid == "mon_boomer" || tid == "mon_zombie_gasbag" || tid == "mon_zombie_smoker") {
