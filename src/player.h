@@ -145,7 +145,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         }
         
         /** Handles effect application effects. */
-        virtual void add_eff_effects(effect e, bool reduced)
+        virtual void add_eff_effects(effect e, bool reduced);
         /** Processes long-term effects */
         void process_effects();
         /** Handles the still hardcoded effects */
@@ -212,7 +212,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void update_body_wetness();
 
         /** Returns true if the player has the entered trait */
-        bool has_trait(const std::string &flag) const;
+        virtual bool has_trait(const std::string &flag) const;
         /** Returns true if the player has the entered starting trait */
         bool has_base_trait(const std::string &flag) const;
         /** Returns true if the player has a conflicting trait to the entered trait

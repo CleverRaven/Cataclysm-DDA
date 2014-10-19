@@ -68,6 +68,7 @@ struct effect_mod_info {
     std::pair<int, int> hunger_amount;
     std::pair<int, int> hunger_min;
     std::pair<int, int> hunger_max;
+    std::pair<int, int> hunger_min_val;
     std::pair<int, int> hunger_max_val;
     std::pair<int, int> hunger_chance_top;
     std::pair<int, int> hunger_chance_bot;
@@ -76,6 +77,7 @@ struct effect_mod_info {
     std::pair<int, int> thirst_amount;
     std::pair<int, int> thirst_min;
     std::pair<int, int> thirst_max;
+    std::pair<int, int> thirst_min_val;
     std::pair<int, int> thirst_max_val;
     std::pair<int, int> thirst_chance_top;
     std::pair<int, int> thirst_chance_bot;
@@ -84,6 +86,7 @@ struct effect_mod_info {
     std::pair<int, int> fatigue_amount;
     std::pair<int, int> fatigue_min;
     std::pair<int, int> fatigue_max;
+    std::pair<int, int> fatigue_min_val;
     std::pair<int, int> fatigue_max_val;
     std::pair<int, int> fatigue_chance_top;
     std::pair<int, int> fatigue_chance_bot;
@@ -163,7 +166,7 @@ class effect_type
         std::vector<std::string> reduced_desc;
         bool part_descs;
         
-        std::vector<std::pair<std::string, effect_rating>> decay_msgs;
+        std::vector<std::pair<std::string, game_message_type>> decay_msgs;
 
         effect_rating rating;
 
@@ -190,7 +193,7 @@ class effect : public JsonSerializer, public JsonDeserializer
 
         effect_type *get_effect_type();
         
-        void decay(std::vector<std::string> &rem_ids, std::vector<body_part> &rem_bps, unsigned int turn, Creature *victim);
+        void decay(std::vector<std::string> &rem_ids, std::vector<body_part> &rem_bps, unsigned int turn, bool player);
 
         int get_duration();
         int get_max_duration();
@@ -219,6 +222,9 @@ class effect : public JsonSerializer, public JsonDeserializer
         int get_min_val(std::string arg, bool reduced = false);
         int get_max_val(std::string arg, bool reduced = false);
         bool get_sizing(std::string arg);
+        void get_activation_vals(std::string arg, bool reduced, effect_mod_info base, effect_mod_info scale, 
+                                double &tick, double &top_base, double &top_scale, double &bot_base,
+                                double &bot_scale);
         /** returns the approximate percentage chance of activating, used for descriptions */
         double get_percentage(std::string arg, bool reduced = false);
         /** mod modifies x in x_in_y or one_in(x) */

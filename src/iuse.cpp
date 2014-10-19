@@ -20,6 +20,7 @@
 #include <vector>
 #include <sstream>
 #include <algorithm>
+#include <cmath>
 
 #define RADIO_PER_TURN 25 // how many characters per turn of radio
 
@@ -2775,7 +2776,7 @@ int iuse::firestarter(player *p, item *it, bool t)
             p->assign_activity(ACT_START_FIRE, turns, -1, p->get_item_position(it), it->tname());
             p->activity.placement = point(posx, posy);
             p->practice("survival", 10);
-            it->charges -= it->type->charges_to_use()*(std::round(moves_modifier)); // charges used tied with moves_modifier (range 1 to 12)
+            it->charges -= it->type->charges_to_use()*(round(moves_modifier)); // charges used tied with moves_modifier (range 1 to 12)
             return 0;
         }
     } else if (it->has_flag("REFILLABLE_LIGHTER")) {
@@ -8436,7 +8437,7 @@ int iuse::jet_injector(player *p, item *it, bool)
         p->healall(20);
     }
 
-    if (p->has_effect("jetinjector") {
+    if (p->has_effect("jetinjector")) {
         effect jet = p->get_effect("jetinjector");
         if (jet.get_id() != "null" && jet.get_duration() > 200) {
             p->add_msg_if_player(m_warning, _("Your heart is beating alarmingly fast!"));

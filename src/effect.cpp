@@ -6,10 +6,6 @@
 
 std::map<std::string, effect_type> effect_types;
 
-static void get_activation_vals(std::string arg, bool reduced, effect_mod_info base, effect_mod_info scale, 
-                                double &tick, double &top_base, double &top_scale, double &bot_base,
-                                double &bot_scale);
-
 static void extract_effect_float( JsonObject &j, std::string mod_type, std::pair<float, float> &mod_value, std::string backup)
 {
     if(j.has_member(mod_type)) {
@@ -209,37 +205,37 @@ bool effect_type::get_main_parts() const
 {
     return main_parts_only;
 }
-bool effect_type::load_miss_msgs(JsonObject &jsobj, std::string member)
+bool effect_type::load_miss_msgs(JsonObject &jo, std::string member)
 {
-    if (jsobj.has_object(member)) {
+    if (jo.has_object(member)) {
         JsonArray outer = jo.get_array(member);
         while (outer.has_more()) {
             JsonArray inner = outer.next_array();
-            miss_msgs.push_back(std::make_pair(inner.get_string(0), inner.get_int(1));
+            miss_msgs.push_back(std::make_pair(inner.get_string(0), inner.get_int(1)));
         }
         return true;
     }
     return false;
 }
-bool effect_type::load_decay_msgs(JsonObject &jsobj, std::string member)
+bool effect_type::load_decay_msgs(JsonObject &jo, std::string member)
 {
-    if (jsobj.has_object(member)) {
+    if (jo.has_object(member)) {
         JsonArray outer = jo.get_array(member);
         while (outer.has_more()) {
             JsonArray inner = outer.next_array();
             std::string msg = inner.get_string(0);
             std::string r = inner.get_string(1);
-            effect_rating rate = e_neutral;
+            game_message_type rate = m_neutral;
             if(r == "good") {
-                rate = e_good;
+                rate = m_good;
             } else if(r == "neutral" ) {
-                rate = e_neutral;
+                rate = m_neutral;
             } else if(r == "bad" ) {
-                rate = e_bad;
+                rate = m_bad;
             } else if(r == "mixed" ) {
-                rate = e_mixed;
+                rate = m_mixed;
             } else {
-                rate = e_neutral;
+                rate = m_neutral;
             }
             decay_msgs.push_back(std::make_pair(msg, rate));
         }
@@ -469,7 +465,7 @@ std::string effect::disp_desc(bool reduced)
     return ret.str();
 }
 
-void effect::decay(std::vector<std::string> &rem_ids, std::vector<body_part> &rem_bps, unsigned int turn, Creature *victim)
+void effect::decay(std::vector<std::string> &rem_ids, std::vector<body_part> &rem_bps, unsigned int turn, bool player)
 {
     // Decay duration if not permanent
     if (!is_permanent()) {
@@ -499,9 +495,9 @@ void effect::decay(std::vector<std::string> &rem_ids, std::vector<body_part> &re
         intensity = eff_type->max_intensity;
     }
     // Display decay message if available
-    if (tmp_int > intensity && decay_msgs.size() > intensity) {
+    if (player && tmp_int > intensity && eff_type->decay_msgs.size() > (size_t)intensity) {
         // -1 because intensity = 1 is the first message
-        victim->add_msg_if_player(decay_msgs[intensity - 1].second, decay_msgs[intenisty - 1].second)
+        add_msg(eff_type->decay_msgs[intensity - 1].second, eff_type->decay_msgs[intensity - 1].first.c_str());
     }
     
     // Add to removal list if duration is <= 0
@@ -855,7 +851,7 @@ bool effect::get_sizing(std::string arg)
     return false;
 }
 
-static void get_activation_vals(std::string arg, bool reduced, effect_mod_info base, effect_mod_info scale, 
+void effect::get_activation_vals(std::string arg, bool reduced, effect_mod_info base, effect_mod_info scale, 
                                 double &tick, double &top_base, double &top_scale, double &bot_base,
                                 double &bot_scale)
 {
@@ -1088,10 +1084,6 @@ int effect::get_int_add_val()
 std::vector<std::pair<std::string, int>> effect::get_miss_msgs()
 {
     return eff_type->miss_msgs;
-}
-std::vector<int> effect::get_miss_weights()
-{
-    return eff_type->miss_weights;
 }
 std::string effect::get_speed_name()
 {

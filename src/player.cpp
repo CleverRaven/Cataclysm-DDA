@@ -1444,7 +1444,7 @@ void player::recalc_speed_bonus()
     for (auto maps : effects) {
         for (auto i : maps.second) {
             bool reduced = has_trait(i.second.get_resist_trait()) ||
-                            has_effect(i.second.get_resist_effect();
+                            has_effect(i.second.get_resist_effect());
             mod_speed_bonus(i.second.get_mod("SPEED", reduced));
         }
     }
@@ -2752,10 +2752,11 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
         for( auto effect_it = maps->second.begin(); effect_it != maps->second.end(); ++effect_it ) {
             auto &it = effect_it->second;
             bool reduced = has_trait(it.get_resist_trait()) || has_effect(it.get_resist_effect());
-            move_adjust = it.get_mod("SPEED", reduced);
-        if (move_adjust != 0) {
-            dis_text = it.get_speed_name();
-            speed_effects[dis_text] += move_adjust;
+            int move_adjust = it.get_mod("SPEED", reduced);
+            if (move_adjust != 0) {
+                dis_text = it.get_speed_name();
+                speed_effects[dis_text] += move_adjust;
+            }
         }
     }
 
@@ -5489,17 +5490,18 @@ bool will_vomit(player& p, int chance)
 
 void player::add_eff_effects(effect e, bool reduced)
 {
+    body_part bp = e.get_bp();
     // Add hurt
-    if (it.get_amount("HURT", reduced) > 0) {
+    if (e.get_amount("HURT", reduced) > 0) {
         if (bp == num_bp) {
-            apply_damage(nullptr, bp_torso, it.get_mod("HURT"));
+            apply_damage(nullptr, bp_torso, e.get_mod("HURT"));
         } else {
-            apply_damage(nullptr, bp, it.get_mod("HURT"));
+            apply_damage(nullptr, bp, e.get_mod("HURT"));
         }
     }
     // Add pkill
     if (e.get_amount("PKILL", reduced) > 0 &&
-        (it.get_max_val("PKILL", reduced) > pkill || it.get_max_val("PKILL", reduced) == 0)) {
+        (e.get_max_val("PKILL", reduced) > pkill || e.get_max_val("PKILL", reduced) == 0)) {
         pkill += e.get_amount("PKILL", reduced);
         if (pkill > e.get_max_val("PKILL", reduced)) {
             pkill = e.get_max_val("PKILL", reduced);
@@ -5507,7 +5509,7 @@ void player::add_eff_effects(effect e, bool reduced)
     }
     // Add radiation
     if (e.get_amount("RAD", reduced) > 0 &&
-        (it.get_max_val("RAD", reduced) > radiation || it.get_max_val("RAD", reduced) == 0)) {
+        (e.get_max_val("RAD", reduced) > radiation || e.get_max_val("RAD", reduced) == 0)) {
         radiation += e.get_amount("RAD", reduced);
         if (radiation > e.get_max_val("RAD", reduced)) {
             radiation = e.get_max_val("RAD", reduced);
@@ -5515,8 +5517,8 @@ void player::add_eff_effects(effect e, bool reduced)
     }
     // Add stim
     if (e.get_amount("STIM", reduced) > 0 &&
-        (it.get_max_val("STIM", reduced) > stim || it.get_max_val("STIM", reduced) == 0) &&
-        (it.get_min_val("STIM", reduced) < stim || it.get_min_val("STIM", reduced) == 0)) {
+        (e.get_max_val("STIM", reduced) > stim || e.get_max_val("STIM", reduced) == 0) &&
+        (e.get_min_val("STIM", reduced) < stim || e.get_min_val("STIM", reduced) == 0)) {
         stim += e.get_amount("STIM", reduced);
         // Bound to [min, max]
         if (stim > e.get_max_val("STIM", reduced)) {
@@ -5527,8 +5529,8 @@ void player::add_eff_effects(effect e, bool reduced)
     }
     // Add hunger
     if (e.get_amount("HUNGER", reduced) > 0 &&
-        (it.get_max_val("HUNGER", reduced) > hunger || it.get_max_val("HUNGER", reduced) == 0) &&
-        (it.get_min_val("HUNGER", reduced) < hunger || it.get_min_val("HUNGER", reduced) == 0)) {
+        (e.get_max_val("HUNGER", reduced) > hunger || e.get_max_val("HUNGER", reduced) == 0) &&
+        (e.get_min_val("HUNGER", reduced) < hunger || e.get_min_val("HUNGER", reduced) == 0)) {
         hunger += e.get_amount("HUNGER", reduced);
         // Bound to [min, max]
         if (hunger > e.get_max_val("HUNGER", reduced)) {
@@ -5539,8 +5541,8 @@ void player::add_eff_effects(effect e, bool reduced)
     }
     // Add thirst
     if (e.get_amount("THIRST", reduced) > 0 &&
-        (it.get_max_val("THIRST", reduced) > thirst || it.get_max_val("THIRST", reduced) == 0) &&
-        (it.get_min_val("THIRST", reduced) < thirst || it.get_min_val("THIRST", reduced) == 0)) {
+        (e.get_max_val("THIRST", reduced) > thirst || e.get_max_val("THIRST", reduced) == 0) &&
+        (e.get_min_val("THIRST", reduced) < thirst || e.get_min_val("THIRST", reduced) == 0)) {
         thirst += e.get_amount("THIRST", reduced);
         // Bound to [min, max]
         if (thirst > e.get_max_val("THIRST", reduced)) {
@@ -5551,8 +5553,8 @@ void player::add_eff_effects(effect e, bool reduced)
     }
     // Add fatigue
     if (e.get_amount("FATIGUE", reduced) > 0 &&
-        (it.get_max_val("FATIGUE", reduced) > fatigue || it.get_max_val("FATIGUE", reduced) == 0) &&
-        (it.get_min_val("FATIGUE", reduced) < fatigue || it.get_min_val("FATIGUE", reduced) == 0)) {
+        (e.get_max_val("FATIGUE", reduced) > fatigue || e.get_max_val("FATIGUE", reduced) == 0) &&
+        (e.get_min_val("FATIGUE", reduced) < fatigue || e.get_min_val("FATIGUE", reduced) == 0)) {
         fatigue += e.get_amount("FATIGUE", reduced);
         // Bound to [min, max]
         if (fatigue > e.get_max_val("FATIGUE", reduced)) {
@@ -5561,7 +5563,7 @@ void player::add_eff_effects(effect e, bool reduced)
             fatigue = e.get_min_val("FATIGUE", reduced);
         }
     }
-    Creature::add_eff_effects();
+    Creature::add_eff_effects(e, reduced);
 }
 
 void player::process_effects() {
@@ -5602,7 +5604,7 @@ void player::process_effects() {
                   (it.get_min_val("STIM", reduced) < stim || it.get_min_val("STIM", reduced) == 0)) {
                 mod = 1;
                 if(it.activated(calendar::turn, "STIM", reduced, mod)) {
-                    stim += it.get_mod("STIM", reduced));
+                    stim += it.get_mod("STIM", reduced);
                     // Bound it to [min, max]
                     if (it.get_max_val("STIM", reduced) < stim && it.get_max_val("STIM", reduced) != 0) {
                         stim = it.get_max_val("STIM", reduced);
@@ -5618,7 +5620,7 @@ void player::process_effects() {
                   (it.get_min_val("HUNGER", reduced) < hunger || it.get_min_val("HUNGER", reduced) == 0)) {
                 mod = 1;
                 if(it.activated(calendar::turn, "HUNGER", reduced, mod)) {
-                    hunger += it.get_mod("HUNGER", reduced));
+                    hunger += it.get_mod("HUNGER", reduced);
                     // Bound it to [min, max]
                     if (it.get_max_val("HUNGER", reduced) < hunger && it.get_max_val("HUNGER", reduced) != 0) {
                         hunger = it.get_max_val("HUNGER", reduced);
@@ -5634,7 +5636,7 @@ void player::process_effects() {
                   (it.get_min_val("THIRST", reduced) < thirst || it.get_min_val("THIRST", reduced) == 0)) {
                 mod = 1;
                 if(it.activated(calendar::turn, "THIRST", reduced, mod)) {
-                    thirst += it.get_mod("THIRST", reduced));
+                    thirst += it.get_mod("THIRST", reduced);
                     // Bound it to [min, max]
                     if (it.get_max_val("THIRST", reduced) < thirst && it.get_max_val("THIRST", reduced) != 0) {
                         thirst = it.get_max_val("THIRST", reduced);
@@ -5650,7 +5652,7 @@ void player::process_effects() {
                   (it.get_min_val("FATIGUE", reduced) < fatigue || it.get_min_val("FATIGUE", reduced) == 0)) {
                 mod = 1;
                 if(it.activated(calendar::turn, "FATIGUE", reduced, mod)) {
-                    fatigue += it.get_mod("FATIGUE", reduced));
+                    fatigue += it.get_mod("FATIGUE", reduced);
                     // Bound it to [min, max]
                     if (it.get_max_val("FATIGUE", reduced) < fatigue && it.get_max_val("FATIGUE", reduced) != 0) {
                         fatigue = it.get_max_val("FATIGUE", reduced);
@@ -5665,7 +5667,7 @@ void player::process_effects() {
                   (it.get_max_val("RAD", reduced) > radiation || it.get_max_val("RAD", reduced) == 0)) {
                 mod = 1;
                 if(it.activated(calendar::turn, "RAD", reduced, mod)) {
-                    radiation += it.get_mod("RAD", reduced));
+                    radiation += it.get_mod("RAD", reduced);
                     // Radiation can't go negative
                     if (radiation < 0) {
                         radiation = 0;
@@ -5758,6 +5760,7 @@ void player::hardcoded_effects(effect it)
     int intense = it.get_intensity();
     body_part bp = it.get_bp();
     bool sleeping = has_effect("sleep");
+    bool msg_trig = one_in(400);
     if (id == "onfire") {
         // TODO: this should be determined by material properties
         if (!has_trait("M_SKIN2")) {
@@ -5813,7 +5816,7 @@ void player::hardcoded_effects(effect it)
                 moves -= 100;
                 apply_damage( nullptr, bp_torso, 5 );
             }
-            if (will_vomit(p, 800 + bonus * 4) || one_in(2000 + bonus * 10)) {
+            if (will_vomit(*this, 800 + bonus * 4) || one_in(2000 + bonus * 10)) {
                 add_msg_player_or_npc(m_bad, _("You vomit a thick, gray goop."),
                                                _("<npcname> vomits a thick, gray goop.") );
 
@@ -5821,7 +5824,7 @@ void player::hardcoded_effects(effect it)
                 moves = -200;
                 hunger += awfulness;
                 thirst += awfulness;
-                apply_damage( nullptr, bp_torso, awfulness / std::max( p.str_cur, 1 ) ); // can't be healthy
+                apply_damage( nullptr, bp_torso, awfulness / std::max( str_cur, 1 ) ); // can't be healthy
             }
             it.mod_duration(1);
             if (dur > 3600) {
@@ -5853,7 +5856,7 @@ void player::hardcoded_effects(effect it)
                                 }
                                 monster &critter = g->zombie( zid );
                                 if( !critter.make_fungus() ) {
-                                    critter.die( &this ); // Counts as kill by player
+                                    critter.die( this ); // Counts as kill by player
                                 }
                             } else if (one_in(4) && g->num_zombies() <= 1000){
                                 spore.spawn(sporex, sporey);
@@ -5935,7 +5938,7 @@ void player::hardcoded_effects(effect it)
                 add_msg_if_player(m_warning, _("Something feels very, very wrong."));
             }
         } else if (dur > peakTime && dur < comeupTime) {
-            if ((one_in(200) || will_vomit(p, 50)) && !puked) {
+            if ((one_in(200) || will_vomit(*this, 50)) && !puked) {
                 add_msg_if_player(m_bad, _("You feel sick to your stomach."));
                 hunger -= 2;
                 if (one_in(6)) {
@@ -5991,7 +5994,6 @@ void player::hardcoded_effects(effect it)
             puked = false;
         }
     } else if (id == "cold") {
-        bool msg_trig = one_in(400);
         switch(bp) {
         case bp_head:
             switch(intense) {
@@ -6195,13 +6197,13 @@ void player::hardcoded_effects(effect it)
             }
             break;
         case bp_hand_l:
-            switch(dis.intensity) {
+            switch(intense) {
             case 3:
-                p.mod_dex_bonus(-1);
+                mod_dex_bonus(-1);
                 // Fall-through
             case 2:
-                p.add_miss_reason(_("Your left hand's too sweaty to grip well."), 1);
-                p.mod_dex_bonus(-1);
+                add_miss_reason(_("Your left hand's too sweaty to grip well."), 1);
+                mod_dex_bonus(-1);
             default:
                 break;
             }
@@ -6402,7 +6404,7 @@ void player::hardcoded_effects(effect it)
                 }
             }
         }
-        for (std::vector<item>::iterator i = p.worn.begin(); !lesserEvil && i != p.worn.end(); ++i) {
+        for (std::vector<item>::iterator i = worn.begin(); !lesserEvil && i != worn.end(); ++i) {
             if (i->is_artifact()) {
                 it_artifact_armor *armor = dynamic_cast<it_artifact_armor*>(i->type);
                 for (std::vector<art_effect_passive>::iterator effect =
@@ -6435,7 +6437,7 @@ void player::hardcoded_effects(effect it)
             mod_int_bonus(-(dur > 4500 ? 10 : int(dur / 450)));
             mod_per_bonus(-(dur > 4000 ? 10 : int(dur / 400)));
         }
-    } else if (id == attention) {
+    } else if (id == "attention") {
         if (one_in(100000 / dur) && one_in(100000 / dur) && one_in(250)) {
             MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup("GROUP_NETHER");
             monster beast(GetMType(spawn_details.name));

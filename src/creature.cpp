@@ -545,7 +545,7 @@ void Creature::add_eff_effects(effect e, bool reduced)
 {
     // Add pain
     if (e.get_amount("PAIN", reduced) > 0 && e.get_max_val("PAIN", reduced) > pain) {
-        mod_pain(e.get_amount("PAIN", reduced);
+        mod_pain(e.get_amount("PAIN", reduced));
         if (pain > e.get_max_val("PAIN", reduced)) {
             pain = e.get_max_val("PAIN", reduced);
         }
@@ -590,7 +590,6 @@ void Creature::add_effect(efftype_id eff_id, int dur, body_part bp, bool permane
                     e.set_intensity( 1 );
                 }
             }
-            add_eff_effects(e, reduced);
         }
     }
     
@@ -600,6 +599,7 @@ void Creature::add_effect(efftype_id eff_id, int dur, body_part bp, bool permane
             return;
         }
         effect new_eff(&effect_types[eff_id], dur, bp, permanent, intensity);
+        effect &e = new_eff;
         // Bound to max duration
         if (e.get_duration() > e.get_max_duration()) {
             e.set_duration(e.get_max_duration());
@@ -622,6 +622,7 @@ void Creature::add_effect(efftype_id eff_id, int dur, body_part bp, bool permane
                                   pgettext("memorial_female",
                                            effect_types[eff_id].get_apply_memorial_log().c_str()));
         }
+        bool reduced = has_effect(e.get_resist_effect()) || has_trait(e.get_resist_trait());
         add_eff_effects(e, reduced);
     }
 }
@@ -687,11 +688,11 @@ bool Creature::has_effect(efftype_id eff_id, body_part bp) const
 effect Creature::get_effect(efftype_id eff_id, body_part bp)
 {
     if(effects.find(eff_id) != effects.end()) {
-        if (effects[eff_id].find((int)bp)) != effects[eff_id].end()) {
+        if (effects[eff_id].find((int)bp) != effects[eff_id].end()) {
             return effects[eff_id][(int)bp];
         }
     }
-    return effect("null", 0, num_bp, false, 1);
+    return effect();
 }
 void Creature::process_effects()
 {
@@ -704,12 +705,18 @@ void Creature::process_effects()
                 rem_ids.push_back(it->second.get_removes_effect());
                 rem_bps.push_back(num_bp);
             }
-            it->second.decay(rem_ids, rem_bps, calendar::turn, this);
+            it->second.decay(rem_ids, rem_bps, calendar::turn, is_player());
         }
     }
     for (size_t i = 0; i < rem_ids.size(); ++i) {
         remove_effect( rem_ids[i], rem_bps[i] );
     }
+}
+
+bool Creature::has_trait(const std::string &flag) const
+{
+    (void)flag;
+    return false;
 }
 
 void Creature::update_health(int base_threshold)

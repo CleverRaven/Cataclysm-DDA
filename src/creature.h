@@ -130,7 +130,7 @@ class Creature
         virtual bool move_effects();
         
         /** Handles effect application effects. */
-        virtual void add_eff_effects(effect e, bool reduced)
+        virtual void add_eff_effects(effect e, bool reduced);
         
         /** Adds or modifies an effect. If intensity is given it will set the effect intensity
             to the given value, or as close as max_intensity values permit. */
@@ -150,6 +150,9 @@ class Creature
         std::string get_value( const std::string key ) const;
 
         virtual void process_effects(); // runs all the effects on the Creature
+        
+        /** Returns true if the player has the entered trait, returns false for non-humans */
+        virtual bool has_trait(const std::string &flag) const;
 
         /** Handles health fluctuations over time */
         virtual void update_health(int base_threshold = 0);

@@ -1145,7 +1145,7 @@ bool game::do_turn()
                            pgettext("memorial_female", "Died of a drug overdose."));
         u.hp_cur[hp_torso] = 0;
     } else if (u.has_disease("jetinjector")) {
-            effect jet = u.get_effect("jetinjector")
+            effect jet = u.get_effect("jetinjector");
             if (jet.get_id() != "null" && jet.get_duration() > 400) {
                 if (!(u.has_trait("NOPAIN"))) {
                     add_msg(m_bad, _("Your heart spasms painfully and stops."));
@@ -12608,7 +12608,7 @@ bool game::disable_robot( const point p )
                                  critter.name().c_str() );
                     }
                 } else {
-                    critter.add_effect( "docile", 1, 1, true );
+                    critter.add_effect( "docile", 1, num_bp, true );
                     if( one_in( 3 ) ) {
                         add_msg( _( "The %s lets out a whirring noise and starts to follow you." ),
                                  critter.name().c_str() );

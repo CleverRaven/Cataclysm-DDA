@@ -56,7 +56,7 @@ bool Character::move_effects()
     }
     if (has_effect("webbed")) {
         effect web = get_effect("webbed", num_bp);
-        if (x_in_y(get_str(), 6 * web.get_intensity()) {
+        if (x_in_y(get_str(), 6 * web.get_intensity())) {
             add_msg_player_or_npc(m_good, _("You free yourself from the webs!"),
                                     _("<npcname> frees themselves from the webs!"));
             remove_effect("webbed");

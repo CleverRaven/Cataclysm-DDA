@@ -45,7 +45,6 @@ std::map<std::string, dis_type_enum> disease_type_lookup;
 
 // Todo: Move helper functions into a DiseaseHandler Class.
 // Should standardize parameters so we can make function pointers.
-static void manage_fungal_infection(player& p, disease& dis);
 static void manage_sleep(player& p, disease& dis);
 
 static void handle_alcohol(player& p, disease& dis);
@@ -302,8 +301,6 @@ void dis_remove_memorial(dis_type type_string) {
 
 void dis_effect(player &p, disease &dis)
 {
-    bool sleeping = p.has_disease("sleep");
-    bool tempMsgTrigger = one_in(400);
     dis_type_enum disType = disease_type_lookup[dis.type];
     int grackPower = 500;
 
@@ -651,7 +648,7 @@ void dis_effect(player &p, disease &dis)
                 } else if (one_in(500)) {
                     p.add_msg_if_player(m_bad, _("You notice a large abscess. You pick at it."));
                     body_part bp = random_body_part(true);
-                    add_effect("formication", 600, bp);
+                    p.add_effect("formication", 600, bp);
                     p.mod_pain(1);
                 } else if (one_in(500)) {
                     p.add_msg_if_player(m_bad, _("You feel so sick, like you've been poisoned, but you need more. So much more."));
@@ -953,7 +950,7 @@ std::string dis_combined_name(disease& dis)
 
 std::string dis_description(disease& dis)
 {
-    int strpen, dexpen, intpen, perpen, speed_pen;
+    int strpen, dexpen, intpen, perpen;
     std::stringstream stream;
     dis_type_enum type = disease_type_lookup[dis.type];
     switch (type) {

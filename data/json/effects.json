@@ -173,7 +173,7 @@
         "id": "poison",
         "name": ["Poisoned"],
         "desc": ["You have been poisoned!"],
-        "miss_messages": [["You feel bad inside.", 1]]
+        "miss_messages": [["You feel bad inside.", 1]],
         "rating": "bad",
         "resist_trait": "POISRESIST",
         "pain_sizing": true,
@@ -328,7 +328,7 @@
         "rating": "bad",
         "base_mods": {
             "per_mod": [-5],
-            "vomit_chance": [500],
+            "vomit_chance": [500]
         }
     },
     {
@@ -342,7 +342,7 @@
         "base_mods": {
             "stim_tick": [25],
             "stim_min":[-1],
-            "stim_min_val":[-1],
+            "stim_min_val":[-1]
         }
     },
     {
@@ -358,7 +358,7 @@
     {
         "type": "effect_type",
         "id": "pkill1",
-        "max_duration": 240
+        "max_duration": 240,
         "base_mods": {
             "pkill_tick": [7],
             "pkill_min": [1],
@@ -496,7 +496,7 @@
     },
     {
         "type": "effect_type",
-        "id": "shakes"
+        "id": "shakes",
         "name": ["Shakes"],
         "desc": ["Your hands just won't stop shaking."],
         "miss_messages": [["You tremble", 4]],
@@ -511,7 +511,7 @@
         "name": [
             "Bleeding",
             "Bad Bleeding",
-            "Heavy Bleeding
+            "Heavy Bleeding"
         ],
         "desc": [
             "You are slowly losing blood.",
@@ -557,7 +557,7 @@
         ],
         "desc": [
             "is exposed to the cold.",
-            "is very exposed to the cold."
+            "is very exposed to the cold.",
             "is dangerously cold!"
         ],
         "speed_name": "Cold",
@@ -580,7 +580,7 @@
         ],
         "desc": [
             "feels warm.",
-            "is sweating from the heat."
+            "is sweating from the heat.",
             "is sweating profusely!"
         ],
         "speed_name": "Hot",
@@ -597,9 +597,9 @@
         },
         "scaling_mods": {
             "speed_mod": [-7],
-            "thirst_min": [1]
-            "thirst_tick": [-100]
-            "pain_max_val": [10],
+            "thirst_min": [1],
+            "thirst_tick": [-100],
+            "pain_max_val": [10]
         }
     },
     {
@@ -610,7 +610,7 @@
             "Frostbite"
         ],
         "desc": [
-            "is frostnipped and has gone numb."
+            "is frostnipped and has gone numb.",
             "is frostbitten! Its tissues are frozen from the cold!"
         ],
         "part_descs": true,
@@ -634,7 +634,7 @@
             "pain_chance": [2],
             "pain_min": [1]
         }
-    }
+    },
     {
         "type": "effect_type",
         "id": "blisters",
@@ -666,7 +666,7 @@
             "Writhing skin",
             "Bugs in skin"
         ],
-        "desc": ["You stop to scratch yourself frequently; high INT helps you resist the urge."]
+        "desc": ["You stop to scratch yourself frequently; high INT helps you resist the urge."],
         "apply_message": "Your skin feels extremely itchy!",
         "rating": "bad",
         "main_parts_only": true,
@@ -693,13 +693,13 @@
         "type": "effect_type",
         "id": "common_cold",
         "name": ["Common Cold"],
-        "desc": ["Symptoms alleviated by medication (cough syrup)."]
+        "desc": ["Symptoms alleviated by medication (cough syrup)."],
         "apply_memorial_log": "Caught a cold.",
         "remove_memorial_log": "Got over the cold.",
         "apply_message": "You feel a cold coming on...",
         "rating": "bad",
         "resist_effect": "took_flumed",
-        "miss_messages": [["You're too stuffed up to fight effectively.", 1]]
+        "miss_messages": [["You're too stuffed up to fight effectively.", 1]],
         "base_mods": {
             "thirst_tick": [300],
             "thirst_min": [1],
@@ -715,7 +715,7 @@
     {
         "type": "effect_type",
         "id": "flu",
-        "name: ["Influenza"],
+        "name": ["Influenza"],
         "desc": ["Symptoms alleviated by medication (cough syrup)."],
         "apply_memorial_log": "Caught the flu.",
         "remove_memorial_log": "Got over the flu.",
@@ -730,7 +730,7 @@
             "str_mod": [-4, -2],
             "dex_mod": [-2, 0],
             "per_mod": [-1, 0],
-            "int_mod": [-2, -1]
+            "int_mod": [-2, -1],
             "pain_max_val": [15],
             "pain_min": [1, 0],
             "cough_chance": [300, 0],
@@ -777,8 +777,8 @@
         "type": "effect_type",
         "id": "adrenaline",
         "name": [
-            "Adrenaline Comedown,
-            "Adrenaline Rush
+            "Adrenaline Comedown",
+            "Adrenaline Rush"
         ],
         "desc": [
             "You feel completely drained.",

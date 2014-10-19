@@ -923,7 +923,7 @@ bool monster::move_effects()
     }
     if (has_effect("webbed")) {
         effect web = get_effect("webbed", num_bp);
-        if (x_in_y(type->melee_dice * type->melee_sides, 6 * web.get_intensity()) {
+        if (x_in_y(type->melee_dice * type->melee_sides, 6 * web.get_intensity())) {
             if (u_see_me) {
                 add_msg(_("The %s breaks free of the webs!"), name().c_str());
             }
@@ -980,14 +980,14 @@ bool monster::move_effects()
     return Creature::move_effects();
 }
 
-void add_eff_effects(effect e, bool reduced)
+void monster::add_eff_effects(effect e, bool reduced)
 {
     if (e.get_amount("HURT", reduced) > 0) {
-        if(e.activated(calendar::turn, "HURT", reduced, mod)) {
+        if(e.activated(calendar::turn, "HURT", reduced)) {
             apply_damage(nullptr, bp_torso, e.get_amount("HURT", reduced));
         }
     }
-    Creature::add_eff_effects();
+    Creature::add_eff_effects(e, reduced);
 }
 void monster::add_effect(efftype_id eff_id, int dur, body_part bp, bool permanent, int intensity)
 {
