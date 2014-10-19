@@ -593,8 +593,7 @@ void game::start_game(std::string worldname)
     }
 
     new_game = true;
-    calendar::turn = HOURS(ACTIVE_WORLD_OPTIONS["INITIAL_TIME"]);
-    determine_starting_season();
+    start_calendar();
     nextweather = calendar::turn;
     weatherSeed = rand();
     safe_mode = (OPTIONS["SAFEMODE"] ? SAFE_MODE_ON : SAFE_MODE_OFF);
@@ -887,17 +886,30 @@ void game::cleanup_at_end()
             }
         }
 
-        std::string sTemp = _("Survived:");
-        mvwprintz(w_rip, iInfoLine++, (FULL_SCREEN_WIDTH / 2) - 5, c_ltgray, sTemp.c_str());
-
-        int iDays = int(calendar::turn.get_turn() / DAYS(1));
-
+        std::string sTemp;
         std::stringstream ssTemp;
-        ssTemp << iDays;
-        mvwprintz(w_rip, iInfoLine++, (FULL_SCREEN_WIDTH / 2) - 5, c_magenta, ssTemp.str().c_str());
 
-        sTemp = (iDays == 1) ? _("day") : _("days");
-        wprintz(w_rip, c_white, (" " + sTemp).c_str());
+        int days_survived = int(calendar::turn.get_turn() / DAYS(1));
+        int days_adventured = int((calendar::turn.get_turn() - calendar::start.get_turn()) / DAYS(1));
+
+        for (int lifespan = 0; lifespan < 2; ++lifespan) {
+            // Show the second, "Adventured", lifespan
+            // only if it's different from the first.
+            if (lifespan && days_adventured == days_survived) {
+                continue;
+            }
+
+            sTemp = lifespan ? _("Adventured:") : _("Survived:");
+            mvwprintz(w_rip, iInfoLine++, (FULL_SCREEN_WIDTH / 2) - 5, c_ltgray, (sTemp + " ").c_str());
+
+            int iDays = lifespan ? days_adventured : days_survived;
+            ssTemp << iDays;
+            wprintz(w_rip, c_magenta, ssTemp.str().c_str());
+            ssTemp.str("");
+
+            sTemp = (iDays == 1) ? _("day") : _("days");
+            wprintz(w_rip, c_white, (" " + sTemp).c_str());
+        }
 
         int iTotalKills = 0;
 
@@ -909,7 +921,6 @@ void game::cleanup_at_end()
             }
         }
 
-        ssTemp.str("");
         ssTemp << iTotalKills;
 
         sTemp = _("Kills:");
@@ -15059,32 +15070,22 @@ void game::process_artifact(item *it, player *p, bool wielded)
     p->dex_cur = p->get_dex();
     p->per_cur = p->get_per();
 }
-void game::determine_starting_season()
+void game::start_calendar()
 {
-    if( g->scen->has_flag("SPR_START") || g->scen->has_flag("SUM_START") ||
-        g->scen->has_flag("AUT_START") || g->scen->has_flag("WIN_START") ) {
-        if( g->scen->has_flag("SPR_START") ) {
-            ; // Do nothing;
-        } else if( g->scen->has_flag("SUM_START") ) {
-            calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"]);
-        } else if( g->scen->has_flag("AUT_START") ) {
-            calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 2);
-        } else if( g->scen->has_flag("WIN_START") ) {
-            calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 3);
-        } else {
-            debugmsg("The Unicorn");
-        }
-    } else {
-        if( ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "spring" ) {
-            ; // Do nothing.
-        } else if( ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "summer") {
-            calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"]);
-        } else if( ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "autumn" ) {
-            calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 2);
-        } else {
-            calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 3);
-        }
-    }
+    std::string init_season = ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue();
+    int season_spans =
+        g->scen->has_flag("SPR_START") ? 0
+      : g->scen->has_flag("SUM_START") ? 1
+      : g->scen->has_flag("AUT_START") ? 2
+      : g->scen->has_flag("WIN_START") ? 3
+      : init_season == "spring"        ? 0
+      : init_season == "summer"        ? 1
+      : init_season == "autumn"        ? 2
+      :                                  3;
+    calendar::start =
+        DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * season_spans) +
+        HOURS(ACTIVE_WORLD_OPTIONS["INITIAL_TIME"]);
+    calendar::turn = calendar::start;
 }
 void game::add_artifact_messages(std::vector<art_effect_passive> effects)
 {
