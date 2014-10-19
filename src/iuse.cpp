@@ -8405,7 +8405,7 @@ int iuse::adrenaline_injector(player *p, item *it, bool)
     item syringe( "syringe", it->bday );
     p->i_add( syringe );
     p->add_effect("adrenaline", 200);
-    if (p->has_disease("adrenaline")) {
+    if (p->has_effect("adrenaline")) {
         //Massively boost stimulant level, risking death on an extended chain
         p->stim += 80;
     }

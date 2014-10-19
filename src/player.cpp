@@ -1208,12 +1208,19 @@ void player::update_bodytemp()
         }
         // MORALE : a negative morale_pen means the player is cold
         // Intensity multiplier is negative for cold, positive for hot
-        effect cold = get_effect("cold", (body_part)i);
-        int cold_int = cold.get_id() != "null" ? cold.get_intensity() : 0;
-        effect hot = get_effect("hot", (body_part)i);
-        int hot_int = cold.get_id() != "null" ? hot.get_intensity() : 0;
-        int intensity_mult = hot_int - cold_int;
         if( has_effect("cold", (body_part)i) || has_effect("hot", (body_part)i) ) {
+            int cold_int = 0;
+            int hot_int = 0;
+            if (has_effect("cold", (body_part)i) {
+                effect cold = get_effect("cold", (body_part)i);
+                cold_int = cold.get_intensity();
+            }
+            if (has_effect("hot", (body_part)i) {
+                effect hot = get_effect("hot", (body_part)i);
+                hot_int = hot.get_intensity();
+            }
+            int intensity_mult = hot_int - cold_int;
+            
             switch (i) {
             case bp_head:
             case bp_torso:

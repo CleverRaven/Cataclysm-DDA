@@ -757,9 +757,10 @@
             "You feel the rush of stimulants in your body!"
         ],
         "apply_message": "You feel a rush as the chemicals flow through your body!",
+        "decay_messages": [["The jet injector's chemicals wear off.  You feel AWFUL!", "bad"]],
         "rating": "good",
         "max_intensity": 2,
-        "int_decay_factor": 50,
+        "int_dur_factor": 50,
         "base_mods": {
             "str_mod": [-3],
             "dex_mod": [-5],
@@ -786,12 +787,53 @@
         ],
         "apply_message": "You feel a surge of adrenaline!",
         "rating": "good",
+        "decay_messages": [["Your adrenaline rush wears off.  You feel AWFUL!", "bad"]],
+        "miss_messages": [["Your comedown throws you off.", 1]],
+        "int_dur_factor": 150,
         "dur_add_perc": 15,
         "base_mods": {
-            "speed_mod": [-60]
+            "speed_mod": [-60],
+            "str_mod": [-9],
+            "dex_mod": [-5],
+            "int_mod": [6],
+            "per_mod": [-3]
         },
         "scaling_mods": {
-            "speed_mod": [50]
+            "speed_mod": [50],
+            "str_mod": [7],
+            "dex_mod": [4],
+            "int_mod": [-7],
+            "per_mod": [2]
+        }
+    },
+    {
+        "type": "effect_type",
+        "id": "adrenaline_mycus",
+        "name": [
+            "Mycus Respite",
+            "Mycus Wrath"
+        ],
+        "desc": [
+            "Our fibers are stretched near breaking.  Local power diverted to regenerate.",
+            "Our enemies are near, and violent action is imminent.  We are turgid."
+        ],
+        "apply_message": "Mycal wrath fills our fibers, and we grow turgid.",
+        "rating": "good",
+        "decay_messages": [["We require repose; our fibers are nearly spent...", "bad"]],
+        "int_dur_factor": 150,
+        "base_mods": {
+            "speed_mod": [-60],
+            "str_mod": [-9],
+            "dex_mod": [-5],
+            "int_mod": [6],
+            "per_mod": [-3]
+        },
+        "scaling_mods": {
+            "speed_mod": [50],
+            "str_mod": [7],
+            "dex_mod": [4],
+            "int_mod": [-7],
+            "per_mod": [2]
         }
     },
     {

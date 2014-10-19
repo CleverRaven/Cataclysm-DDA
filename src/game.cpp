@@ -1144,7 +1144,7 @@ bool game::do_turn()
         u.add_memorial_log(pgettext("memorial_male", "Died of a drug overdose."),
                            pgettext("memorial_female", "Died of a drug overdose."));
         u.hp_cur[hp_torso] = 0;
-    } else if (u.has_disease("jetinjector")) {
+    } else if (u.has_effect("jetinjector")) {
             effect jet = u.get_effect("jetinjector");
             if (jet.get_id() != "null" && jet.get_duration() > 400) {
                 if (!(u.has_trait("NOPAIN"))) {
@@ -6260,13 +6260,16 @@ int game::mon_info(WINDOW *w)
                 if (u.has_trait("M_DEFENDER")) {
                     if (critter.type->in_species("PLANT")) {
                         add_msg(m_warning, _("We have detected a %s."), critter.name().c_str());
-                        if (!u.has_effect("adrenaline")){
-                            u.add_effect("adrenaline", 300); // Message handled in disease.cpp
-                        } else if (u.has_effect("adrenaline") && (u.get_effect("adrenaline").get_duration() < 150) ) {
-                            // Triffids present.  We ain't got TIME to adrenaline comedown!
-                            u.add_effect("adrenaline", 150);
-                            u.mod_pain(3); // Does take it out of you, though
-                            add_msg(m_info, _("Our fibers strain with renewed wrath!"));
+                        if (!u.has_effect("adrenaline_mycus")){
+                            u.add_effect("adrenaline_mycus", 300);
+                        } else {
+                            effect adren = u.get_effect("adrenaline_mycus");
+                            if (adren.get_intensity() == 1) {
+                                // Triffids present.  We ain't got TIME to adrenaline comedown!
+                                u.add_effect("adrenaline_mycus", 150);
+                                u.mod_pain(3); // Does take it out of you, though
+                                add_msg(m_info, _("Our fibers strain with renewed wrath!"));
+                            }
                         }
                     }
                 }

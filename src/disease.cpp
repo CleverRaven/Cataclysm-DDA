@@ -25,8 +25,7 @@ enum dis_type_enum {
  DI_BITE,
 // Food & Drugs
  DI_DRUNK, DI_CIG, DI_HIGH, DI_WEED_HIGH,
-  DI_DATURA,
-  DI_ADRENALINE, DI_ASTHMA, DI_GRACK, DI_METH, DI_VALIUM,
+  DI_DATURA, DI_ASTHMA, DI_GRACK, DI_METH, DI_VALIUM,
 // Other
  DI_AMIGARA, DI_STEMCELL_TREATMENT, DI_TELEGLOW,
 // Bite wound infected (dependent on bodypart.h)
@@ -74,7 +73,6 @@ void game::init_diseases() {
     disease_type_lookup["cig"] = DI_CIG;
     disease_type_lookup["high"] = DI_HIGH;
     disease_type_lookup["datura"] = DI_DATURA;
-    disease_type_lookup["adrenaline"] = DI_ADRENALINE;
     disease_type_lookup["asthma"] = DI_ASTHMA;
     disease_type_lookup["grack"] = DI_GRACK;
     disease_type_lookup["meth"] = DI_METH;
@@ -103,13 +101,6 @@ bool dis_msg(dis_type type_string) {
     case DI_HIGH:
     case DI_WEED_HIGH:
         add_msg(m_warning, _("You feel lightheaded."));
-        break;
-    case DI_ADRENALINE:
-        if (!g->u.has_trait("M_DEFENDER")) {
-            add_msg(m_good, _("You feel a surge of adrenaline!"));
-        } else {
-            add_msg(m_good, _("Mycal wrath fills our fibers, and we grow turgid."));
-        }
         break;
     case DI_ASTHMA:
         add_msg(m_bad, _("You can't breathe... asthma attack!"));
@@ -577,29 +568,6 @@ void dis_effect(player &p, disease &dis)
                 if(one_in(256)) {
                     p.fatigue++;
                 }
-            }
-            break;
-
-        case DI_ADRENALINE:
-            if (dis.duration > 150) {
-                // 5 minutes positive effects; 15 if Mycus Defender
-                p.mod_str_bonus(5);
-                p.mod_dex_bonus(3);
-                p.mod_int_bonus(-8);
-                p.mod_per_bonus(1);
-            } else if (dis.duration == 150) {
-                // 15 minutes come-down
-                if (g->u.has_trait("M_DEFENDER")) {
-                    p.add_msg_if_player(m_bad, _("We require repose; our fibers are nearly spent..."));
-                } else {
-                    p.add_msg_if_player(m_bad, _("Your adrenaline rush wears off.  You feel AWFUL!"));
-                }
-            } else {
-                p.mod_str_bonus(-2);
-                p.mod_dex_bonus(-1);
-                p.add_miss_reason(_("Your comedown throws you off."), 1);
-                p.mod_int_bonus(-1);
-                p.mod_per_bonus(-1);
             }
             break;
 

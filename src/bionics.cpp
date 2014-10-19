@@ -497,8 +497,11 @@ void player::activate_bionic(int b)
         if (has_effect("took_flumed")) {
             good.push_back(_("Antihistamines"));
         }
-        if (has_disease("adrenaline")) {
+        if (has_effect("adrenaline")) {
             good.push_back(_("Adrenaline Spike"));
+        }
+        if (has_effect("adrenaline_mycus")) {
+            good.push_back(_("Mycal Spike"));
         }
         if (has_disease("tapeworm")) {  // This little guy is immune to the blood filter though, as he lives in your bowels.
             good.push_back(_("Intestinal Parasite"));
@@ -552,7 +555,7 @@ void player::activate_bionic(int b)
         remove_effect("took_xanax");
         remove_effect("took_prozac");
         remove_effect("took_flumed");
-        rem_disease("adrenaline");
+        remove_effect("adrenaline");
         rem_disease("meth");
         pkill = 0;
         stim = 0;
@@ -601,10 +604,10 @@ void player::activate_bionic(int b)
     }
     if(bio.id == "bio_adrenaline") {
         add_msg(m_neutral, _("You activate your adrenaline pump."));
-        if (has_disease("adrenaline")) {
-            add_disease("adrenaline", 50);
+        if (has_effect("adrenaline")) {
+            add_effect("adrenaline", 50);
         } else {
-            add_disease("adrenaline", 200);
+            add_effect("adrenaline", 200);
         }
     } else if(bio.id == "bio_claws") {
         if (weapon.type->id == "bio_claws_weapon") {
