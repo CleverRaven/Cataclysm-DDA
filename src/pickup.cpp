@@ -503,28 +503,6 @@ void Pickup::pick_up(int posx, int posy, int min)
     maxitems = (maxitems < minmaxitems ? minmaxitems : (maxitems > maxmaxitems ? maxmaxitems :
                 maxitems ));
 
-    int pickupH = maxitems + pickupBorderRows;
-    int pickupW = getmaxx(g->w_messages);
-    int pickupY = VIEW_OFFSET_Y;
-    int pickupX = getbegx(g->w_messages);
-
-    int itemsW = pickupW;
-    int itemsY = sideStyle ? pickupY + pickupH : TERMY - itemsH;
-    int itemsX = pickupX;
-
-    WINDOW *w_pickup    = newwin(pickupH, pickupW, pickupY, pickupX);
-    WINDOW *w_item_info = newwin(itemsH,  itemsW,  itemsY,  itemsX);
-    WINDOW_PTR w_pickupptr( w_pickup );
-    WINDOW_PTR w_item_infoptr( w_item_info );
-
-    int ch = ' ';
-    int start = 0, cur_it;
-    int new_weight = g->u.weight_carried(), new_volume = g->u.volume_carried();
-    bool update = true;
-    mvwprintw(w_pickup, 0, 0, _("PICK UP"));
-    int selected = 0;
-    int last_selected = -1;
-
     int itemcount = 0;
     std::map<int, unsigned int> pickup_count; // Count of how many we'll pick up from each stack
 
@@ -534,6 +512,28 @@ void Pickup::pick_up(int posx, int posy, int min)
             return;
         }
     } else {
+        int pickupH = maxitems + pickupBorderRows;
+        int pickupW = getmaxx(g->w_messages);
+        int pickupY = VIEW_OFFSET_Y;
+        int pickupX = getbegx(g->w_messages);
+
+        int itemsW = pickupW;
+        int itemsY = sideStyle ? pickupY + pickupH : TERMY - itemsH;
+        int itemsX = pickupX;
+
+        WINDOW *w_pickup    = newwin(pickupH, pickupW, pickupY, pickupX);
+        WINDOW *w_item_info = newwin(itemsH,  itemsW,  itemsY,  itemsX);
+        WINDOW_PTR w_pickupptr( w_pickup );
+        WINDOW_PTR w_item_infoptr( w_item_info );
+
+        int ch = ' ';
+        int start = 0, cur_it;
+        int new_weight = g->u.weight_carried(), new_volume = g->u.volume_carried();
+        bool update = true;
+        mvwprintw(w_pickup, 0, 0, _("PICK UP"));
+        int selected = 0;
+        int last_selected = -1;
+
         if(g->was_fullscreen) {
             g->draw_ter();
         }
