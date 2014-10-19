@@ -1449,23 +1449,21 @@ int iuse::blech(player *p, item *it, bool, point)
 int iuse::plantblech(player *p, item *it, bool, point pos)
 {
     if (p->has_trait("THRESH_PLANT")) {
-    double multiplier = -1;
+        double multiplier = -1;
         if (p->has_trait("CHLOROMORPH")) {
             multiplier = -3;
             p->add_msg_if_player(m_good, _("The meal is revitalizing."));
         } else{
             p->add_msg_if_player(m_good, _("Oddly enough, this doesn't taste so bad."));
         }
-    it_comest *food = dynamic_cast<it_comest*>(it->type);
-    //reverses the harmful values of drinking fertilizer
-    p->hunger += food->nutr * multiplier;
-    p->thirst -= food->quench * multiplier;
-    p->mod_healthy_mod(food->healthy * multiplier);
-    p->add_morale(MORALE_FOOD_GOOD, -10 * multiplier, 60, 60, 30, false, food);
-    return it->type->charges_to_use();
-    }
-    else {
-    //return it->type->charges_to_use();
+        it_comest *food = dynamic_cast<it_comest*>(it->type);
+        //reverses the harmful values of drinking fertilizer
+        p->hunger += food->nutr * multiplier;
+        p->thirst -= food->quench * multiplier;
+        p->mod_healthy_mod(food->healthy * multiplier);
+        p->add_morale(MORALE_FOOD_GOOD, -10 * multiplier, 60, 60, 30, false, food);
+        return it->type->charges_to_use();
+    } else {
         return blech( p, it, true, pos );
     }
 }
