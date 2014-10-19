@@ -2772,8 +2772,7 @@ void map::i_rem(const int x, const int y, item* it)
 {
     std::vector<item>& map_items = i_at(x, y);
 
-    for(auto iter = map_items.begin(); iter < map_items.end(); iter++)
-    {
+    for( auto iter = map_items.begin(); iter < map_items.end(); iter++ ) {
         //delete the item if the pointer memory addresses are the same
         if(it == &*iter) {
             map_items.erase(iter);
@@ -2784,32 +2783,27 @@ void map::i_rem(const int x, const int y, item* it)
 
 void map::i_clear(const int x, const int y)
 {
- i_at(x, y).clear();
+    i_at(x, y).clear();
 }
 
 void map::spawn_an_item(const int x, const int y, item new_item,
                         const long charges, const int damlevel)
 {
-    if (charges && new_item.charges > 0)
-    {
+    if( charges && new_item.charges > 0 ) {
         //let's fail silently if we specify charges for an item that doesn't support it
         new_item.charges = charges;
     }
     new_item = new_item.in_its_container();
-    if ((new_item.made_of(LIQUID) && has_flag("SWIMMABLE", x, y)) ||
-        has_flag("DESTROY_ITEM", x, y))
-    {
+    if( (new_item.made_of(LIQUID) && has_flag("SWIMMABLE", x, y)) ||
+        has_flag("DESTROY_ITEM", x, y) ) {
         return;
     }
     // bounds checking for damage level
-    if (damlevel < -1)
-    {
+    if( damlevel < -1 ) {
         new_item.damage = -1;
-    } else if (damlevel > 4)
-    {
+    } else if( damlevel > 4 ) {
         new_item.damage = 4;
-    } else
-    {
+    } else {
         new_item.damage = damlevel;
     }
     add_item_or_charges(x, y, new_item);
