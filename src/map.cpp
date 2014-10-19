@@ -3484,9 +3484,7 @@ std::list<std::pair<tripoint, item *> > map::get_rc_items( int x, int y, int z )
             }
             std::vector<item> &item_stack = i_at( pos.x, pos.y );
             for( auto item_ref = item_stack.begin(); item_ref != item_stack.end(); ++item_ref ) {
-                if( ( item_ref->has_flag("RADIO_ACTIVATION") ||
-                      item_ref->has_flag("RADIO_CONTAINER") ) &&
-                    item_ref->active ) {
+                if( item_ref->has_flag("RADIO_ACTIVATION") || item_ref->has_flag("RADIO_CONTAINER") ) {
                     rc_pairs.push_back( std::make_pair( pos, &(*item_ref) ) );
                 }
             }

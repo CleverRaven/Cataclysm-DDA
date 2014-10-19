@@ -14,8 +14,12 @@ iuse_actor *iuse_transform::clone() const
     return new iuse_transform(*this);
 }
 
-long iuse_transform::use(player *p, item *it, bool, point /*pos*/) const
+long iuse_transform::use(player *p, item *it, bool t, point /*pos*/) const
 {
+    if( t ) {
+        // Invoked from active item processing, do nothing.
+        return 0;
+    }
     if (need_fire > 0 && p != NULL && p->is_underwater()) {
         p->add_msg_if_player(m_info, _("You can't do that while underwater"));
         return 0;
@@ -52,8 +56,11 @@ long iuse_transform::use(player *p, item *it, bool, point /*pos*/) const
         // -1 is for items that can not have any charges at all.
         target->charges = target_charges;
     }
+    // Active item handling has gotten complicated, so having this consume charges itself
+    // instead of passing it off to the caller.
+    target->charges -= std::min(charges_to_use, (int)target->charges);
     p->moves -= moves;
-    return charges_to_use;
+    return 0;
 }
 
 
@@ -107,7 +114,7 @@ extern std::vector<point> points_for_gas_cloud(const point &center, int radius);
 long explosion_iuse::use(player *p, item *it, bool t, point pos) const
 {
     // This is used for active items, their charges are autmatically
-    // decremented, therfor this function always returns 0.
+    // decremented, therfore this function always returns 0.
     if (t) {
         if (sound_volume >= 0) {
             g->sound(pos.x, pos.y, sound_volume, sound_msg);
@@ -154,7 +161,7 @@ long explosion_iuse::use(player *p, item *it, bool t, point pos) const
             }
         }
     }
-    return 0;
+    return 1;
 }
 
 
