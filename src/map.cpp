@@ -3501,13 +3501,17 @@ void map::trigger_rc_items( std::string signal )
         for( pos.y = 0; pos.y < SEEY * MAPSIZE; pos.y++ ) {
             std::vector<item> &items = i_at( pos.x, pos.y );
             for( size_t n = 0; n < items.size(); n++ ) {
+                int adjust_active_item_count = 0;
+                bool trigger_item = false;
+                // Grab this value here so it isn't overwritten by item::make().
+                bool previously_active = items[n].needs_processing();
                 if( items[n].has_flag("RADIO_ACTIVATION") && items[n].has_flag(signal) ) {
                     g->sound(pos.x, pos.y, 6, "beep.");
                     if( items[n].has_flag("BOMB") ) {
                         // Set charges to 0 to ensure it detonates.
                         items[n].charges = 0;
                     }
-                    process_item( items, n, pos, true );
+                    trigger_item = true;
                 } else if( items[n].has_flag("RADIO_CONTAINER") && !items[n].contents.empty() &&
                            items[n].contents[0].has_flag( signal ) ) {
                     // A bomb is the only thing meaningfully placed in a container,
@@ -3516,7 +3520,19 @@ void map::trigger_rc_items( std::string signal )
 
                     items[n].make(bomb_type);
                     items[n].charges = 0;
-                    process_item( items, n, pos, true );
+                    trigger_item = true;
+                }
+                if( trigger_item ) {
+                    bool item_destroyed = process_item( items, n, pos, true );
+                    if( previously_active && (item_destroyed || !items[n].needs_processing()) ) {
+                        adjust_active_item_count = -1;
+                    } else if( !previously_active &&
+                               (item_destroyed || items[n].needs_processing()) ) {
+                        adjust_active_item_count = 1;
+                    }
+                    if( adjust_active_item_count != 0 ) {
+                        get_submap_at( pos.x, pos.y )->active_item_count += adjust_active_item_count;
+                    }
                 }
             }
         }
