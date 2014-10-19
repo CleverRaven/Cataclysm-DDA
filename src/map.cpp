@@ -3132,8 +3132,6 @@ bool map::process_item( std::vector<item> &items, size_t n, point location, bool
     return true;
 }
 
-extern std::pair<item, point> tmp_active_item_pos;
-
 void map::process_active_items_in_vehicles(submap * const current_submap)
 {
     std::vector<vehicle*> &veh_in_nonant = current_submap->vehicles;
@@ -3163,9 +3161,8 @@ void map::process_active_items_in_vehicle(vehicle *cur_veh, submap * const curre
         // the vehicle part in case cur_veh->parts got changed
         const point mnt(vp.precalc_dx[0], vp.precalc_dy[0]);
         const int vp_type = vp.iid;
-        // This is used in game::find_item. Because otherwise the
-        // temporary item would nowhere to be found.
-        tmp_active_item_pos.second = point(cur_veh->global_x() + vp.precalc_dx[0], cur_veh->global_y() + vp.precalc_dy[0]);
+        const point item_location( cur_veh->global_x() + vp.precalc_dx[0],
+                                   cur_veh->global_y() + vp.precalc_dy[0] );
         std::vector<item> *items_in_part = &vp.items;
         const bool fridge_here = cur_veh->fridge_on && cur_veh->part_flag(part, VPFLAG_FRIDGE);
         for(int n = items_in_part->size() - 1; n >= 0; n--) {
@@ -3192,12 +3189,12 @@ void map::process_active_items_in_vehicle(vehicle *cur_veh, submap * const curre
             }
             // make a temporary copy, remove the item (in advance)
             // and use that copy to process it
-            tmp_active_item_pos.first = *it;
+            item temp_copy = *it;
             items_in_part->erase(items_in_part->begin() + n);
-            if( !tmp_active_item_pos.first.process( nullptr, tmp_active_item_pos.second, false ) ) {
+            if( !temp_copy.process( nullptr, item_location, false ) ) {
                 // item still exist, most likely it didn't just explode,
                 // put it back
-                items_in_part->insert(items_in_part->begin() + n, tmp_active_item_pos.first);
+                items_in_part->insert( items_in_part->begin() + n, temp_copy );
                 continue;
             }
             n--; // to process the correct next item.
