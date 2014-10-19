@@ -3085,14 +3085,11 @@ void map::process_active_items()
     }
 }
 
-extern std::pair<item, point> tmp_active_item_pos;
-
 void map::process_active_items_in_submap(submap * const current_submap, int gridx, int gridy)
 {
     for (int i = 0; i < SEEX; i++) {
         for (int j = 0; j < SEEY; j++) {
-            tmp_active_item_pos.second.x = gridx * SEEX + i;
-            tmp_active_item_pos.second.y = gridy * SEEY + j;
+            point location( gridx * SEEX + i, gridy * SEEY + j );
             std::vector<item> &items = current_submap->itm[i][j];
             //Do a count-down loop, as some items may be removed
             for (size_t n = 0; n < items.size(); n++) {
@@ -3101,32 +3098,41 @@ void map::process_active_items_in_submap(submap * const current_submap, int grid
                 if( !items[n].needs_processing() ) {
                     continue;
                 }
-                // make a temporary copy, remove the item (in advance)
-                // and use that copy to process it
-                tmp_active_item_pos.first = items[n];
-                items.erase(items.begin() + n);
-                if( !tmp_active_item_pos.first.process( nullptr, tmp_active_item_pos.second, false ) ) {
-                    // Not destroyed, must be inserted again, but make sure
-                    // we don't insert far behind the end of the vector
-                    n = std::min(items.size(), n);
-                    items.insert(items.begin() + n, tmp_active_item_pos.first);
-                    // Other note: the address of the items vector is
-                    // not affected by any explosion, but they could reduce
-                    // the amount of items in it.
-                    continue;
+                if( process_item( items, n, location, false ) ) {
+                    // Item is destroyed, don't reinsert it.
+                    // Note: this might lead to items not being processed:
+                    // vector: 10 glass items, mininuke, mininuke
+                    // the first nuke explodes, destroys some of the glass items
+                    // now the index of the second nuke is not 11, but less, but
+                    // one can not know which it is now.
+                    current_submap->active_item_count--;
+                    n--;
                 }
-                // Item is destroyed, don't reinsert it.
-                // Note: this might lead to items not being processed:
-                // vector: 10 glass items, mininuke, mininuke
-                // the first nuke explodes, destroys some of the glass items
-                // now the index of the second nuke is not 11, but less, but
-                // one can not know which it is now.
-                current_submap->active_item_count--;
-                n--;
             }
         }
     }
 }
+
+bool map::process_item( std::vector<item> &items, size_t n, point location, bool activate )
+{
+    // make a temporary copy, remove the item (in advance)
+    // and use that copy to process it
+    item temp_item = items[n];
+    items.erase( items.begin() + n );
+    if( !temp_item.process( nullptr, location, activate ) ) {
+        // Not destroyed, must be inserted again, but make sure
+        // we don't insert far behind the end of the vector
+        n = std::min( items.size(), n );
+        items.insert( items.begin() + n, temp_item );
+        // Other note: the address of the items vector is
+        // not affected by any explosion, but they could reduce
+        // the amount of items in it.
+        return false;
+    }
+    return true;
+}
+
+extern std::pair<item, point> tmp_active_item_pos;
 
 void map::process_active_items_in_vehicles(submap * const current_submap)
 {
