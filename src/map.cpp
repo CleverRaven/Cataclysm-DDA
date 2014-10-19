@@ -2787,23 +2787,6 @@ void map::i_clear(const int x, const int y)
  i_at(x, y).clear();
 }
 
-point map::find_item(const item *it)
-{
-    point ret;
-    for (ret.x = 0; ret.x < SEEX * my_MAPSIZE; ret.x++) {
-        for (ret.y = 0; ret.y < SEEY * my_MAPSIZE; ret.y++) {
-            for (auto &i : i_at(ret.x, ret.y)) {
-                if (it == &i) {
-                    return ret;
-                }
-            }
-        }
-    }
-    ret.x = -1;
-    ret.y = -1;
-    return ret;
-}
-
 void map::spawn_an_item(const int x, const int y, item new_item,
                         const long charges, const int damlevel)
 {
