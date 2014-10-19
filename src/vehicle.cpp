@@ -647,7 +647,6 @@ void vehicle::use_controls()
         }
         break;
     case activate_horn:
-        add_msg(_("You honk the horn!"));
         honk_horn();
         break;
     case toggle_turrets:
@@ -845,25 +844,37 @@ void vehicle::start_engine()
 
 void vehicle::honk_horn()
 {
-    if (!fuel_left(fuel_type_battery, true)) {
-        return;
-    }
+    const bool no_power = ! fuel_left( fuel_type_battery, true );
+    bool honked = false;
 
     for( size_t p = 0; p < parts.size(); ++p ) {
-        if( ! part_flag( p, "HORN" ) )
+        if( ! part_flag( p, "HORN" ) ) {
             continue;
+        }
+        //Only bicycle horn doesn't need electricity to work
+        vpart_info &horn_type = part_info( p );
+        if( ( horn_type.id != "horn_bicycle" ) && no_power ) {
+            continue;
+        }
+        if( ! honked ) {
+            add_msg( _("You honk the horn!") );
+            honked = true;
+        }
         //Get global position of horn
         const int horn_x = global_x() + parts[p].precalc_dx[0];
         const int horn_y = global_y() + parts[p].precalc_dy[0];
         //Determine sound
-        vpart_info &horn_type=part_info(p);
-        if( horn_type.bonus >= 40 ){
+        if( horn_type.bonus >= 40 ) {
             g->sound( horn_x, horn_y, horn_type.bonus, _("HOOOOORNK!") );
-        } else if( horn_type.bonus >= 20 ){
+        } else if( horn_type.bonus >= 20 ) {
             g->sound( horn_x, horn_y, horn_type.bonus, _("BEEEP!") );
-        } else{
+        } else {
             g->sound( horn_x, horn_y, horn_type.bonus, _("honk.") );
         }
+    }
+
+    if( ! honked ) {
+        add_msg( _("You honk the horn, but nothing happens.") );
     }
 }
 
