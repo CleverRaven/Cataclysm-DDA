@@ -858,7 +858,7 @@ void check_furniture_and_terrain()
         const ter_t &t = *a;
         check_bash_items(t.bash, t.id, true);
         check_decon_items(t.deconstruct, t.id, true);
-        if( termap.count( t.transforms_into ) == 0 ) {
+        if( !t.transforms_into.empty() && termap.count( t.transforms_into ) == 0 ) {
             debugmsg( "invalid transforms_into %s for %s", t.transforms_into.c_str(), t.id.c_str() );
         }
         if( !t.open.empty() && termap.count( t.open ) == 0 ) {
