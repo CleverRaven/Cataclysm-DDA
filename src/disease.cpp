@@ -25,7 +25,7 @@ enum dis_type_enum {
  DI_BITE,
 // Food & Drugs
  DI_DRUNK, DI_CIG, DI_HIGH, DI_WEED_HIGH,
-  DI_DATURA, DI_ASTHMA, DI_GRACK, DI_METH, DI_VALIUM,
+  DI_DATURA, DI_ASTHMA, DI_GRACK, DI_VALIUM,
 // Other
  DI_AMIGARA, DI_STEMCELL_TREATMENT, DI_TELEGLOW,
 // Bite wound infected (dependent on bodypart.h)
@@ -75,7 +75,6 @@ void game::init_diseases() {
     disease_type_lookup["datura"] = DI_DATURA;
     disease_type_lookup["asthma"] = DI_ASTHMA;
     disease_type_lookup["grack"] = DI_GRACK;
-    disease_type_lookup["meth"] = DI_METH;
     disease_type_lookup["amigara"] = DI_AMIGARA;
     disease_type_lookup["stemcell_treatment"] = DI_STEMCELL_TREATMENT;
     disease_type_lookup["teleglow"] = DI_TELEGLOW;
@@ -594,42 +593,6 @@ void dis_effect(player &p, disease &dis)
             p.mod_per_bonus(grackPower);
             break;
 
-        case DI_METH:
-            if (dis.duration > 200) {
-                p.mod_str_bonus(1);
-                p.mod_dex_bonus(2);
-                p.mod_int_bonus(2);
-                p.mod_per_bonus(3);
-            } else {
-                p.mod_str_bonus(-3);
-                p.mod_dex_bonus(-2);
-                p.add_miss_reason(_("The bees have started escaping your teeth."), 2);
-                p.mod_int_bonus(-1);
-                p.mod_per_bonus(-2);
-                if (one_in(150)) {
-                    p.add_msg_if_player(m_bad, _("You feel paranoid. They're watching you."));
-                    p.mod_pain(1);
-                    p.fatigue += dice(1,6);
-                } else if (one_in(500)) {
-                    p.add_msg_if_player(m_bad, _("You feel like you need less teeth. You pull one out, and it is rotten to the core."));
-                    p.mod_pain(1);
-                } else if (one_in(500)) {
-                    p.add_msg_if_player(m_bad, _("You notice a large abscess. You pick at it."));
-                    body_part bp = random_body_part(true);
-                    p.add_effect("formication", 600, bp);
-                    p.mod_pain(1);
-                } else if (one_in(500)) {
-                    p.add_msg_if_player(m_bad, _("You feel so sick, like you've been poisoned, but you need more. So much more."));
-                    p.vomit();
-                    p.fatigue += dice(1,6);
-                }
-                p.fatigue += 1;
-            }
-            if (will_vomit(p, 2000)) {
-                p.vomit();
-            }
-            break;
-
         case DI_TELEGLOW:
             // Default we get around 300 duration points per teleport (possibly more
             // depending on the source).
@@ -782,7 +745,6 @@ int disease_speed_boost(disease dis)
     switch (type) {
         case DI_ASTHMA:     return 0 - int(dis.duration / 5);
         case DI_GRACK:      return +20000;
-        case DI_METH:       return (dis.duration > 600 ? 50 : -40);
         case DI_LACKSLEEP:  return -5;
         case DI_GRABBED:    return -25;
         default:            break;
@@ -811,10 +773,6 @@ std::string dis_name(disease& dis)
         else return _("Asthma");
 
     case DI_GRACK: return _("RELEASE THE GRACKEN!!!!");
-
-    case DI_METH:
-        if (dis.duration > 200) return _("High on Meth");
-        else return _("Meth Comedown");
 
     case DI_DATURA: return _("Experiencing Datura");
 
@@ -970,15 +928,6 @@ std::string dis_description(disease& dis)
         return string_format(_("Speed - %d%%;   Strength - 2;   Dexterity - 3"), int(dis.duration / 5));
 
     case DI_GRACK: return _("Unleashed the Gracken.");
-
-    case DI_METH:
-        if (dis.duration > 200)
-            return _(
-            "Speed +50;   Strength + 2;   Dexterity + 2;\n"
-            "Intelligence + 3;   Perception + 3");
-        else
-            return _(
-            "Speed -40;   Strength - 3;   Dexterity - 2;   Intelligence - 2");
 
     case DI_BITE: return _("You have a nasty bite wound.");
     case DI_INFECTED: return _("You have an infected wound.");

@@ -789,6 +789,7 @@
         "rating": "good",
         "decay_messages": [["Your adrenaline rush wears off.  You feel AWFUL!", "bad"]],
         "miss_messages": [["Your comedown throws you off.", 1]],
+        "max_intensity": 2,
         "int_dur_factor": 150,
         "dur_add_perc": 15,
         "base_mods": {
@@ -820,6 +821,7 @@
         "apply_message": "Mycal wrath fills our fibers, and we grow turgid.",
         "rating": "good",
         "decay_messages": [["We require repose; our fibers are nearly spent...", "bad"]],
+        "max_intensity": 2,
         "int_dur_factor": 150,
         "base_mods": {
             "speed_mod": [-60],
@@ -838,7 +840,30 @@
     },
     {
         "type": "effect_type",
-        "id": "meth"
+        "id": "meth",
+        "name": [
+            "Meth comedown",
+            "High on Meth"
+        ],
+        "max_intensity": 2,
+        "int_dur_factor": 200,
+        "base_mods": {
+            "speed_mod": [-130],
+            "str_mod": [-7],
+            "dex_mod": [-6],
+            "int_mod": [-4],
+            "per_mod": [-7],
+            "vomit_chance": [2000],
+            "fatigue_min": [-1]
+        },
+        "scaling_mods": {
+            "speed_mod": [90],
+            "str_mod": [4],
+            "dex_mod": [4],
+            "int_mod": [3],
+            "per_mod": [5],
+            "fatigue_min": [1]
+        }
     },
     {
         "type": "effect_type",

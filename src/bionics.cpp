@@ -470,7 +470,7 @@ void player::activate_bionic(int b)
         if (has_disease("cig")) {
             good.push_back(_("Nicotine"));
         }
-        if (has_disease("meth")) {
+        if (has_effect("meth")) {
             good.push_back(_("Methamphetamines"));
         }
         if (has_disease("high")) {
@@ -556,7 +556,7 @@ void player::activate_bionic(int b)
         remove_effect("took_prozac");
         remove_effect("took_flumed");
         remove_effect("adrenaline");
-        rem_disease("meth");
+        remove_effect("meth");
         pkill = 0;
         stim = 0;
     } else if(bio.id == "bio_evap") {

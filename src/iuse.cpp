@@ -1271,13 +1271,13 @@ int iuse::meth(player *p, item *it, bool)
     } else {
         p->add_msg_if_player(_("You snort some crystal meth."));
     }
-    if (!p->has_disease("meth")) {
+    if (!p->has_effect("meth")) {
         duration += 600;
     }
     if (duration > 0) {
         int hungerpen = (p->str_cur < 10 ? 20 : 40 - p->str_cur);
         p->hunger -= hungerpen;
-        p->add_disease("meth", duration);
+        p->add_effect("meth", duration);
     }
     return it->type->charges_to_use();
 }
