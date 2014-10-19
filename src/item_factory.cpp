@@ -566,7 +566,7 @@ Item_list Item_factory::create_from_group(Group_tag group, int created_at)
 }
 
 //Returns a random template name from the list of all templates.
-const Item_tag Item_factory::id_from(const Item_tag group_tag)
+const Item_tag Item_factory::id_from(const Group_tag group_tag)
 {
     GroupMap::iterator group_iter = m_template_groups.find(group_tag);
     //If the tag isn't found, just return a reference to missing item.
@@ -579,7 +579,7 @@ const Item_tag Item_factory::id_from(const Item_tag group_tag)
 }
 
 //Returns a random item from the list of all templates
-const item Item_factory::item_from(const Item_tag group_tag)
+const item Item_factory::item_from(const Group_tag group_tag)
 {
     GroupMap::iterator group_iter = m_template_groups.find(group_tag);
     //If the tag isn't found, just return a reference to missing item.
@@ -604,7 +604,7 @@ Item_spawn_data *Item_factory::get_group(const Item_tag &group_tag)
     return NULL;
 }
 
-bool Item_factory::group_contains_item(Item_tag group_tag, Item_tag item)
+bool Item_factory::group_contains_item(Group_tag group_tag, Item_tag item)
 {
     Item_spawn_data *current_group = m_template_groups.find(group_tag)->second;
     if (current_group) {
@@ -1201,7 +1201,7 @@ void Item_factory::load_item_group(JsonObject &jsobj)
     load_item_group(jsobj, group_id, subtype);
 }
 
-void Item_factory::load_item_group(JsonObject &jsobj, const std::string &group_id,
+void Item_factory::load_item_group(JsonObject &jsobj, const Group_tag &group_id,
                                    const std::string &subtype)
 {
     Item_spawn_data *&isd = m_template_groups[group_id];
@@ -1584,7 +1584,7 @@ const std::string &Item_factory::calc_category( const itype *it )
     return category_id_other;
 }
 
-std::vector<std::string> Item_factory::get_all_group_names()
+std::vector<Group_tag> Item_factory::get_all_group_names()
 {
     std::vector<std::string> rval;
     GroupMap::iterator it;
@@ -1594,7 +1594,7 @@ std::vector<std::string> Item_factory::get_all_group_names()
     return rval;
 }
 
-bool Item_factory::add_item_to_group(const std::string group_id, const std::string item_id,
+bool Item_factory::add_item_to_group(const Group_tag group_id, const Item_tag item_id,
                                      int chance)
 {
     if (m_template_groups.find(group_id) == m_template_groups.end()) {

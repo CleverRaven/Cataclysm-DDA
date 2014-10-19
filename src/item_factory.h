@@ -109,7 +109,7 @@ class Item_factory
          * ("old" is a distribution, too).
          * @throw std::string if the json object contains invalid data.
          */
-        void load_item_group(JsonObject &jsobj, const std::string &ident, const std::string &subtype);
+        void load_item_group(JsonObject &jsobj, const Group_tag &ident, const std::string &subtype);
         /**
          * Check whether an item group of that id exists.
          */
@@ -122,7 +122,7 @@ class Item_factory
          * Returns a random item type id from the given item group.
          * Returns @ref EMPTY_GROUP_ITEM_ID if the group is empty or undefined.
          */
-        const Item_tag id_from(Item_tag group_tag);
+        const Item_tag id_from(Group_tag group_tag);
         /**
          * Item id used by @ref id_from to indicate an invalid or empty group.
          */
@@ -130,7 +130,7 @@ class Item_factory
         /**
          * Return a random item from the item group, handles packaged food where id_from returns the container.
          */
-        const item item_from(Item_tag group_tag);
+        const item item_from(Group_tag group_tag);
         /**
          * Check whether a specific item group contains a specific item.
          * This is used for the "trader_avoid" item group to specify what items npc should not spawn
@@ -138,7 +138,7 @@ class Item_factory
          * @param group_tag Item group ident.
          * @param item Item type ident.
          */
-        bool group_contains_item(Item_tag group_tag, Item_tag item);
+        bool group_contains_item(Group_tag group_tag, Group_tag item);
         /**
          * Create items from the given group. It creates as many items as the
          * group definition requests.
@@ -156,7 +156,7 @@ class Item_factory
          * Returns the idents of all item groups that are known.
          * This is meant to be accessed at startup by lua to do mod-related modifications of groups.
          */
-        std::vector<std::string> get_all_group_names();
+        std::vector<Group_tag> get_all_group_names();
         /**
          * Sets the chance of the specified item in the group.
          * This is meant to be accessed at startup by lua to do mod-related modifications of groups.
@@ -164,7 +164,7 @@ class Item_factory
          * group.
          * @return false if the group doesn't exist.
          */
-        bool add_item_to_group(const std::string group_id, const std::string item_id, int weight);
+        bool add_item_to_group(const Group_tag group_id, const Item_tag item_id, int weight);
         /*@}*/
 
 
