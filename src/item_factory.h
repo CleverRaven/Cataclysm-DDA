@@ -52,7 +52,7 @@ class Item_factory
         void init();
         void clear_items_and_groups();
         void init_old();
-        void register_iuse_lua(const char *name, int lua_function);
+        void register_iuse_lua(const std::string &name, int lua_function);
 
         void load_item_group(JsonObject &jsobj);
         // Same as other load_item_group, but takes the ident, subtype
