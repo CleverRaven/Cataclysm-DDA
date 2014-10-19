@@ -1197,6 +1197,15 @@ void manage_sleep(player& p, disease& dis)
             if( !dream.empty() ) {
                 add_msg( "%s", dream.c_str() );
             }
+            // Mycus folks upgrade in their sleep.
+            if (p.has_trait("THRESH_MYCUS")) {
+                if (one_in(8)) {
+                    p.mutate_category("MUTCAT_MYCUS");
+                    p.hunger += 10;
+                    p.fatigue += 5;
+                    p.thirst += 10;
+                }
+            }
         }
     }
 

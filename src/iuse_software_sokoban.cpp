@@ -254,6 +254,7 @@ int sokoban_game::start_game()
     parse_level();
 
     WINDOW *w_sokoban = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX);
+    WINDOW_PTR w_sokobanptr( w_sokoban );
     draw_border(w_sokoban);
     center_print(w_sokoban, 0, hilite(c_white), _("Sokoban"));
 

@@ -110,17 +110,20 @@ void player::power_bionics()
     int START_X = (TERMX - WIDTH) / 2;
     int START_Y = (TERMY - HEIGHT) / 2;
     WINDOW *wBio = newwin(HEIGHT, WIDTH, START_Y, START_X);
+    WINDOW_PTR wBioptr( wBio );
 
     // Description window @ the bottom of the bio window
     int DESCRIPTION_START_Y = START_Y + HEIGHT - DESCRIPTION_HEIGHT - 1;
     int DESCRIPTION_LINE_Y = DESCRIPTION_START_Y - START_Y - 1;
     WINDOW *w_description = newwin(DESCRIPTION_HEIGHT, WIDTH - 2,
                                    DESCRIPTION_START_Y, START_X + 1);
+    WINDOW_PTR w_descriptionptr( w_description );
 
     // Title window
     int TITLE_START_Y = START_Y + 1;
     int HEADER_LINE_Y = TITLE_HEIGHT + 1; // + lines with text in titlebar, local
     WINDOW *w_title = newwin(TITLE_HEIGHT, WIDTH - 2, TITLE_START_Y, START_X + 1);
+    WINDOW_PTR w_titleptr( w_title );
 
     int scroll_position = 0;
     int second_column = 32 + (TERMX - FULL_SCREEN_WIDTH) /
@@ -295,11 +298,9 @@ void player::power_bionics()
                                (weapon_id == "bio_blade_weapon" && bio_id == "bio_blade_weapon")) {
 
                         // this will clear the bionics menu for targeting purposes
-                        werase(wBio);
-                        wrefresh(wBio);
-                        delwin(w_title);
-                        delwin(w_description);
-                        delwin(wBio);
+                        wBioptr.reset();
+                        w_titleptr.reset();
+                        w_descriptionptr.reset();
                         g->draw();
                         activate_bionic(b);
 
@@ -312,7 +313,7 @@ void player::power_bionics()
                         continue;
                     }
                     // Action done, leave screen
-                    break;
+                    return;
                 } else {
                     popup(_("\
 You can not activate %s!  To read a description of \
@@ -328,14 +329,6 @@ You can not activate %s!  To read a description of \
                 wrefresh(w_description);
             }
         }
-    }
-    //if we activated a bionic, already killed the windows
-    if(!(menu_mode == "activating")) {
-        werase(wBio);
-        wrefresh(wBio);
-        delwin(w_title);
-        delwin(w_description);
-        delwin(wBio);
     }
 }
 

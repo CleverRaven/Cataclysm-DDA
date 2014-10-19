@@ -1690,7 +1690,7 @@ void iexamine::keg(player *p, map *m, int examx, int examy)
 void iexamine::pick_plant(player *p, map *m, int examx, int examy,
                           std::string itemType, int new_ter, bool seeds)
 {
-    if (!query_yn(_("Pick %s?"), m->tername(examx, examy).c_str())) {
+    if (!query_yn(_("Harvest the %s?"), m->tername(examx, examy).c_str())) {
         none(p, m, examx, examy);
         return;
     }
@@ -1739,11 +1739,12 @@ void iexamine::harvest_tree_shrub(player *p, map *m, int examx, int examy)
         add_msg(m_info, _("This %s has already been harvested. Harvest it again next year."), m->tername(examx, examy).c_str());
         return;
     }
-    if(!query_yn(_("Harvest from the %s?"), m->tername(examx, examy).c_str())) {
-        none(p, m, examx, examy);
-        return;
+    
+    bool seeds = false;
+    if (m->has_flag("SHRUB", examx, examy)) { // if shrub, it gives seeds. todo -> trees give seeds(?) -> trees plantable
+        seeds = true;
     }
-    pick_plant(p, m, examx, examy, m->get_ter_harvestable(examx, examy), m->get_ter_transforms_into(examx, examy));
+    pick_plant(p, m, examx, examy, m->get_ter_harvestable(examx, examy), m->get_ter_transforms_into(examx, examy), seeds);
 }
 
 void iexamine::tree_pine(player *p, map *m, int examx, int examy)

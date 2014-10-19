@@ -860,8 +860,12 @@ void player::update_bodytemp()
         if (has_trait("DOWN")) {
             floor_mut_warmth += 250;
         }
+        // Curl up in your shell to conserve heat & stay warm
+        if (has_active_mutation("SHELL2")) {
+            floor_mut_warmth += 200;
+        }
         // DOWN doesn't provide floor insulation, though.
-        // Non-light fur does.
+        // Non-light fur or being in one's shell does.
         if ( (!(has_trait("DOWN"))) && (floor_mut_warmth >= 200)) {
             if (floor_bedding_warmth < 0) {
                 floor_bedding_warmth = 0;
@@ -1128,6 +1132,10 @@ void player::update_bodytemp()
         // Fat deposits don't hold in much heat, but don't shift for temp
         if( has_trait("FAT") ) {
             temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 200 : 200);
+        }
+        // Being in the shell holds in heat, but lets out less in summer :-/
+        if( has_active_mutation("SHELL2") ) {
+            temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 500 : 750);
         }
         // Disintegration
         if (has_trait("ROT1")) {
@@ -1715,6 +1723,9 @@ nc_color player::basic_symbol_color() const
     }
     if (has_effect("boomered")) {
         return c_pink;
+    }
+    if (has_active_mutation("SHELL2")) {
+        return c_magenta;
     }
     if (underwater) {
         return c_blue;
@@ -4091,6 +4102,9 @@ void player::recalc_sight_limits()
                 !has_trait("MEMBRANE") && !worn_with_flag("SWIM_GOGGLES") &&
                 (!(has_trait("PER_SLIME_OK"))))) {
         sight_max = 1;
+    } else if (has_active_mutation("SHELL2")) {
+        // You can kinda see out a bit.
+        sight_max = 2;
     } else if ( (has_trait("MYOPIC") || has_trait("URSINE_EYE")) &&
             !is_wearing("glasses_eye") && !is_wearing("glasses_monocle") &&
             !is_wearing("glasses_bifocal") && !has_effect("contacts")) {
@@ -4139,6 +4153,9 @@ int player::unimpaired_range()
  int ret = DAYLIGHT_LEVEL;
  if (has_trait("PER_SLIME")) {
     ret = 6;
+ }
+ if (has_active_mutation("SHELL2")) {
+    ret = 2;
  }
  if (has_effect("in_pit")) {
     ret = 1;
@@ -4227,8 +4244,11 @@ bool player::sight_impaired()
 
 bool player::has_two_arms() const
 {
- if (has_bionic("bio_blaster") || hp_cur[hp_arm_l] < 10 || hp_cur[hp_arm_r] < 10)
-  return false;
+ if ((has_bionic("bio_blaster") || hp_cur[hp_arm_l] < 10 || hp_cur[hp_arm_r] < 10) ||
+   has_active_mutation("SHELL2")) {
+    // You can't effectively use both arms to wield something when they're in your shell
+    return false;
+ }
  return true;
 }
 
@@ -6518,8 +6538,12 @@ void player::suffer()
     if( has_trait("ROOTS3") && g->m.has_flag("DIGGABLE", posx, posy) && !shoe_factor) {
         if (one_in(100)) {
             add_msg(m_good, _("This soil is delicious!"));
-            hunger -= 2;
-            thirst -= 2;
+            if (hunger > -20) {
+                hunger -= 2;
+            }
+            if (thirst > -20) {
+                thirst -= 2;
+            }
             mod_healthy_mod(10);
             // No losing oneself in the fertile embrace of rich
             // New England loam.  But it can be a near thing.
@@ -6527,8 +6551,12 @@ void player::suffer()
                 focus_pool--;
             }
         } else if (one_in(50)){
-            hunger--;
-            thirst--;
+            if (hunger > -20) {
+                hunger--;
+            }
+            if (thirst > -20) {
+                thirst--;
+            }
             mod_healthy_mod(5);
         }
     }
@@ -7203,8 +7231,8 @@ void player::vomit()
 void player::drench(int saturation, int flags)
 {
     // OK, water gets in your AEP suit or whatever.  It wasn't built to keep you dry.
-    if ( (has_trait("DEBUG_NOTEMP")) || ((is_waterproof(flags)) &&
-        (!(g->m.has_flag(TFLAG_DEEP_WATER, posx, posy)))) ) {
+    if ( (has_trait("DEBUG_NOTEMP")) || (has_active_mutation("SHELL2")) ||
+      ((is_waterproof(flags)) && (!(g->m.has_flag(TFLAG_DEEP_WATER, posx, posy)))) ) {
         return;
     }
 
@@ -7428,6 +7456,9 @@ int player::volume_capacity() const
     }
     if (has_trait("SHELL")) {
         ret += 16;
+    }
+    if (has_trait("SHELL2") && !has_active_mutation("SHELL2")) {
+        ret += 24;
     }
     if (has_trait("PACKMULE")) {
         ret = int(ret * 1.4);
@@ -8656,7 +8687,12 @@ bool player::eat(item *eaten, it_comest *comest)
     if (overeating && !has_trait("HIBERNATE") && !has_trait("EATHEALTH") && !is_npc() &&
         !has_trait("SLIMESPAWNER") && !query_yn(_("You're full.  Force yourself to eat?"))) {
         return false;
+    } else if (has_trait("GOURMAND") && hunger < 0 && comest->nutr >= 5) {
+        if (!query_yn(_("You're fed.  Try to pack more in anyway?"))) {
+            return false;
+        }
     }
+    
     int temp_nutr = comest->nutr;
     int temp_quench = comest->quench;
     if (hiberfood && !is_npc() && (((hunger - temp_nutr) < -60) || ((thirst - temp_quench) < -60)) && has_active_mutation("HIBERNATE")){
@@ -9166,17 +9202,20 @@ void player::rooted_message() const
 
 void player::rooted()
 // Should average a point every two minutes or so; ground isn't uniformly fertile
-// If being able to "overfill" is a serious balance issue, will revisit
-// Otherwise, nutrient intake via roots can fill past the "Full" point, WAI
+// Overfiling triggered hibernation checks, so capping.
 {
     double shoe_factor = footwear_factor();
     if( (has_trait("ROOTS2") || has_trait("ROOTS3")) &&
         g->m.has_flag("DIGGABLE", posx, posy) &&
         !shoe_factor ) {
         if( one_in(20 / shoe_factor) ) {
-            hunger--;
-            thirst--;
-            mod_healthy_mod(10);
+            if (hunger > -20) {
+                hunger--;
+            }
+            if (thirst > -20) {
+                thirst--;
+            }
+            mod_healthy_mod(5);
         }
     }
 }
@@ -9450,7 +9489,7 @@ hint_rating player::rate_action_wear(item *it)
     if (it->covers.test(bp_head) && has_trait("HORNS_CURLED")) {
         return HINT_IFFY;
     }
-    if (it->covers.test(bp_torso) && has_trait("SHELL")) {
+    if (it->covers.test(bp_torso) && (has_trait("SHELL") || has_trait("SHELL2")))  {
         return HINT_IFFY;
     }
     if (it->covers.test(bp_head) && !it->made_of("wool") &&
@@ -9779,11 +9818,11 @@ bool player::wear_item(item *to_wear, bool interactive)
             return false;
         }
 
-        if (to_wear->covers.test(bp_torso) && has_trait("SHELL"))
+        if (to_wear->covers.test(bp_torso) && (has_trait("SHELL") || has_trait("SHELL2")) )
         {
             if(interactive)
             {
-                add_msg(m_info, _("You cannot wear anything over your shell."));
+                add_msg(m_info, _("You cannot fit that over your shell."));
             }
             return false;
         }
@@ -10690,8 +10729,12 @@ void player::do_read( item *book )
             if( (has_trait("ROOTS2") || has_trait("ROOTS3")) &&
                 g->m.has_flag("DIGGABLE", posx, posy) &&
                 !foot_factor ) {
-                hunger -= root_factor * foot_factor;
-                thirst -= root_factor * foot_factor;
+                if (hunger > -20) {
+                    hunger -= root_factor * foot_factor;
+                }
+                if (thirst > -20) {
+                    thirst -= root_factor * foot_factor;
+                }
                 mod_healthy_mod(root_factor * foot_factor);
             }
             if (activity.type != ACT_NULL) {
@@ -10785,6 +10828,7 @@ void player::try_to_sleep()
     const ter_id ter_at_pos = g->m.ter(posx, posy);
     const furn_id furn_at_pos = g->m.furn(posx, posy);
     bool plantsleep = false;
+    bool in_shell = false;
     if (has_trait("CHLOROMORPH")) {
         plantsleep = true;
         if( (ter_at_pos == t_dirt || ter_at_pos == t_pit ||
@@ -10800,10 +10844,15 @@ void player::try_to_sleep()
             add_msg(m_bad, _("Your roots scrabble ineffectively at the unyielding surface."));
         }
     }
+    if (has_active_mutation("SHELL2")) {
+        // Your shell's interior is a comfortable place to sleep.
+        in_shell = true;
+    }
     if( (furn_at_pos == f_bed || furn_at_pos == f_makeshift_bed ||
          trap_at_pos == tr_cot || trap_at_pos == tr_rollmat ||
          trap_at_pos == tr_fur_rollmat || furn_at_pos == f_armchair ||
          furn_at_pos == f_sofa || furn_at_pos == f_hay || ter_at_pos == t_improvised_shelter ||
+         (in_shell) ||
          (veh && veh->part_with_feature (vpart, "SEAT") >= 0) ||
          (veh && veh->part_with_feature (vpart, "BED") >= 0)) &&
         (!(plantsleep)) ) {
@@ -10821,15 +10870,23 @@ bool player::can_sleep()
 {
  int sleepy = 0;
  bool plantsleep = false;
- if (has_addiction(ADD_SLEEP))
-  sleepy -= 3;
- if (has_trait("INSOMNIA"))
-  sleepy -= 8;
- if (has_trait("EASYSLEEPER"))
-  sleepy += 8;
- if (has_trait("CHLOROMORPH"))
-  plantsleep = true;
-
+ bool in_shell = false;
+   if (has_addiction(ADD_SLEEP)) {
+      sleepy -= 3;
+   }
+   if (has_trait("INSOMNIA")) {
+      sleepy -= 8;
+   }
+   if (has_trait("EASYSLEEPER")) {
+      sleepy += 8;
+   }
+   if (has_trait("CHLOROMORPH")) {
+      plantsleep = true;
+   }
+   if (has_active_mutation("SHELL2")) {
+      // Your shell's interior is a comfortable place to sleep.
+      in_shell = true;
+   }
  int vpart = -1;
  vehicle *veh = g->m.veh_at (posx, posy, vpart);
  const trap_id trap_at_pos = g->m.tr_at(posx, posy);
@@ -10837,9 +10894,9 @@ bool player::can_sleep()
  const furn_id furn_at_pos = g->m.furn(posx, posy);
  if ( ((veh && veh->part_with_feature (vpart, "BED") >= 0) ||
      furn_at_pos == f_makeshift_bed || trap_at_pos == tr_cot ||
-     furn_at_pos == f_sofa || furn_at_pos == f_hay) &&
+     furn_at_pos == f_sofa || furn_at_pos == f_hay || (in_shell)) &&
      (!(plantsleep)) ) {
-  sleepy += 4;
+    sleepy += 4;
  }
  else if ( ((veh && veh->part_with_feature (vpart, "SEAT") >= 0) ||
       trap_at_pos == tr_rollmat || trap_at_pos == tr_fur_rollmat ||
@@ -11024,6 +11081,12 @@ int player::get_wind_resistance(body_part bp) const
         }
     }
 
+    // Your shell provides complete wind protection if you're inside it
+    if (has_active_mutation("SHELL2")) {
+        totalCoverage = 100;
+        return totalCoverage;
+    }
+
     totalCoverage = 100 - totalExposed*100;
 
     return totalCoverage;
@@ -11183,6 +11246,9 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
     if ( has_trait("WINGS_BUTTERFLY") && (bp == bp_torso )) {
         ret += 1;
     }
+    if ( has_trait("SHELL2") && (bp == bp_torso )) {
+        ret += 1;
+    }
     if ((bp == bp_hand_l || bp == bp_hand_r) &&
         (has_trait("ARM_TENTACLES") || has_trait("ARM_TENTACLES_4") ||
          has_trait("ARM_TENTACLES_8")) ) {
@@ -11267,6 +11333,13 @@ int player::get_armor_bash_base(body_part bp) const
     if (has_trait("SHELL") && bp == bp_torso) {
         ret += 6;
     }
+    if (has_trait("SHELL2") && !has_active_mutation("SHELL2") && bp == bp_torso) {
+        ret += 9;
+    }
+    if (has_active_mutation("SHELL2")) {
+        // Limbs & head are safe inside the shell! :D
+        ret += 9;
+    }
     return ret;
 }
 
@@ -11324,6 +11397,13 @@ int player::get_armor_cut_base(body_part bp) const
     }
     if (has_trait("SHELL") && bp == bp_torso) {
         ret += 14;
+    }
+    if (has_trait("SHELL2") && !has_active_mutation("SHELL2") && bp == bp_torso) {
+        ret += 17;
+    }
+    if (has_active_mutation("SHELL2")) {
+        // Limbs & head are safe inside the shell! :D
+        ret += 17;
     }
     return ret;
 }
@@ -12155,8 +12235,6 @@ bool player::uncanny_dodge(bool is_u)
 point player::adjacent_tile()
 {
     std::vector<point> ret;
-    field_entry *cur = NULL;
-    field tmpfld;
     trap_id curtrap;
     int dangerous_fields;
     for( int i = posx - 1; i <= posx + 1; i++ ) {
@@ -12170,11 +12248,10 @@ point player::adjacent_tile()
                 (curtrap == tr_null || traplist[curtrap]->is_benign()) ) {
                 // only consider tile if unoccupied, passable and has no traps
                 dangerous_fields = 0;
-                tmpfld = g->m.field_at(i, j);
-                for( auto field_list_it = tmpfld.getFieldStart();
-                     field_list_it != tmpfld.getFieldEnd(); ++field_list_it ) {
-                    cur = field_list_it->second;
-                    if (cur != NULL && cur->is_dangerous()) {
+                auto &tmpfld = g->m.field_at(i, j);
+                for( auto &fld : tmpfld ) {
+                    const field_entry &cur = fld.second;
+                    if( cur.is_dangerous() ) {
                         dangerous_fields++;
                     }
                 }

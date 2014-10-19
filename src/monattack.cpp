@@ -908,8 +908,8 @@ void mattack::fungus_big_blossom(monster *z, int index)
                 firealarm = true;
             }
             if (firealarm) {
-                g->m.field_at(i, j).removeField(fd_fire);
-                g->m.field_at(i, j).removeField(fd_smoke);
+                g->m.remove_field( i, j, fd_fire );
+                g->m.remove_field( i, j, fd_smoke );
                 g->m.add_field(i, j, fd_fungal_haze, 3);
             }
         }

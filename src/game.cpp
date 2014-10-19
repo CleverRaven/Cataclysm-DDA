@@ -1639,6 +1639,14 @@ void game::activity_on_turn()
         u.cancel_activity();
         advanced_inv();
         break;
+    case ACT_START_FIRE:
+        u.activity.moves_left -= 100; // based on time
+        if (u.i_at(u.activity.position).has_flag("LENS")) { // if using a lens, handle potential changes in weather
+            activity_on_turn_start_fire_lens();
+        }
+        u.rooted();
+        u.pause();
+        break;
     default:
         // Based on speed, not time
         u.activity.moves_left -= u.moves;
@@ -1742,80 +1750,22 @@ void game::activity_on_turn_refill_vehicle()
     u.pause();
 }
 
-void game::activity_on_finish_make_zlave()
+void game::activity_on_turn_start_fire_lens()
 {
-    static const int full_pulp_threshold = 4;
-
-    std::vector<item> &items = g->m.i_at(u.posx, u.posy);
-    std::string corpse_name = u.activity.str_values[0];
-    item *body = NULL;
-
-    for (auto it = items.begin(); it != items.end(); ++it) {
-        if (it->display_name() == corpse_name) {
-            body = &(*it);
-        }
-    }
-
-    if (body == NULL) {
-        add_msg(m_info, _("There's no corpse to make into a zombie slave!"));
-        return;
-    }
-
-    int success = u.activity.values[0];
-
-    if (success > 0) {
-
-        u.practice("firstaid", rng(2, 5));
-        u.practice("survival", rng(2, 5));
-
-        u.add_msg_if_player(m_good,
-                            _("You slice muscles and tendons, and remove body parts until you're confident the zombie won't be able to attack you when it reainmates."));
-
-        body->item_vars["zlave"] = "zlave";
-        //take into account the chance that the body yet can regenerate not as we need.
-        if (one_in(10)) {
-            body->item_vars["zlave"] = "mutilated";
-        }
-
-    } else {
-
-        if (success > -20) {
-
-            u.practice("firstaid", rng(3, 6));
-            u.practice("survival", rng(3, 6));
-
-            u.add_msg_if_player(m_warning,
-                                _("You hack into the corpse and chop off some body parts.  You think the zombie won't be able to attack when it reanimates."));
-
-            success += rng(1, 20);
-
-            if (success > 0 && !one_in(5)) {
-                body->item_vars["zlave"] = "zlave";
-            } else {
-                body->item_vars["zlave"] = "mutilated";
-            }
-
-        } else {
-
-            u.practice("firstaid", rng(1, 8));
-            u.practice("survival", rng(1, 8));
-
-            int pulp = rng(1, full_pulp_threshold);
-
-            body->damage += pulp;
-
-            if (body->damage >= full_pulp_threshold) {
-                body->damage = full_pulp_threshold;
-                body->active = false;
-
-                u.add_msg_if_player(m_warning, _("You cut up the corpse too much, it is thoroughly pulped."));
-            } else {
-                u.add_msg_if_player(m_warning, _("You cut into the corpse trying to make it unable to attack, but you don't think you have it right."));
-            }
-        }
+    float natural_light_level = g->natural_light_level();
+    // if the weather changes, we cannot start a fire with a lens. abort activity
+    if (!((g->weather == WEATHER_CLEAR) || (g->weather == WEATHER_SUNNY)) || !( natural_light_level >= 60 )) {
+        add_msg(m_bad, _("There is not enough sunlight to start a fire now. You stop trying."));
+        u.cancel_activity();
+    } else if (natural_light_level != u.activity.values.back()) { // when lighting changes we recalculate the time needed
+        float previous_natural_light_level = u.activity.values.back();
+        u.activity.values.pop_back();
+        u.activity.values.push_back(natural_light_level); // update light level
+        iuse tmp;
+        float progress_left = float(u.activity.moves_left)/float(tmp.calculate_time_for_lens_fire(&g->u, previous_natural_light_level));
+        u.activity.moves_left = int(progress_left*(tmp.calculate_time_for_lens_fire(&g->u, natural_light_level))); // update moves left
     }
 }
-
 
 void game::activity_on_finish()
 {
@@ -1890,6 +1840,9 @@ void game::activity_on_finish()
         // Do nothing, the only way this happens is if we set this activity after
         // entering the advanced inventory menu as an activity, and we want it to play out.
         break;
+    case ACT_START_FIRE:
+        activity_on_finish_start_fire();
+        break;
     default:
         u.activity.type = ACT_NULL;
     }
@@ -1899,6 +1852,80 @@ void game::activity_on_finish()
         if( !u.backlog.empty() && u.backlog.front().auto_resume ) {
             u.activity = u.backlog.front();
             u.backlog.pop_front();
+        }
+    }
+}
+
+void game::activity_on_finish_make_zlave()
+{
+    static const int full_pulp_threshold = 4;
+
+    std::vector<item> &items = g->m.i_at(u.posx, u.posy);
+    std::string corpse_name = u.activity.str_values[0];
+    item *body = NULL;
+
+    for (auto it = items.begin(); it != items.end(); ++it) {
+        if (it->display_name() == corpse_name) {
+            body = &(*it);
+        }
+    }
+
+    if (body == NULL) {
+        add_msg(m_info, _("There's no corpse to make into a zombie slave!"));
+        return;
+    }
+
+    int success = u.activity.values[0];
+
+    if (success > 0) {
+
+        u.practice("firstaid", rng(2, 5));
+        u.practice("survival", rng(2, 5));
+
+        u.add_msg_if_player(m_good,
+                            _("You slice muscles and tendons, and remove body parts until you're confident the zombie won't be able to attack you when it reainmates."));
+
+        body->item_vars["zlave"] = "zlave";
+        //take into account the chance that the body yet can regenerate not as we need.
+        if (one_in(10)) {
+            body->item_vars["zlave"] = "mutilated";
+        }
+
+    } else {
+
+        if (success > -20) {
+
+            u.practice("firstaid", rng(3, 6));
+            u.practice("survival", rng(3, 6));
+
+            u.add_msg_if_player(m_warning,
+                                _("You hack into the corpse and chop off some body parts.  You think the zombie won't be able to attack when it reanimates."));
+
+            success += rng(1, 20);
+
+            if (success > 0 && !one_in(5)) {
+                body->item_vars["zlave"] = "zlave";
+            } else {
+                body->item_vars["zlave"] = "mutilated";
+            }
+
+        } else {
+
+            u.practice("firstaid", rng(1, 8));
+            u.practice("survival", rng(1, 8));
+
+            int pulp = rng(1, full_pulp_threshold);
+
+            body->damage += pulp;
+
+            if (body->damage >= full_pulp_threshold) {
+                body->damage = full_pulp_threshold;
+                body->active = false;
+
+                u.add_msg_if_player(m_warning, _("You cut up the corpse too much, it is thoroughly pulped."));
+            } else {
+                u.add_msg_if_player(m_warning, _("You cut into the corpse trying to make it unable to attack, but you don't think you have it right."));
+            }
         }
     }
 }
@@ -1973,6 +2000,16 @@ void game::activity_on_finish_firstaid()
     // Erase activity and values.
     u.activity.type = ACT_NULL;
     u.activity.values.clear();
+}
+
+void game::activity_on_finish_start_fire()
+{
+        item &it = u.i_at(u.activity.position);
+        const int dirx = u.activity.placement.x;
+        const int diry = u.activity.placement.y;
+        iuse tmp;
+        tmp.resolve_firestarter_use(&u, &it, dirx, diry);
+        u.activity.type = ACT_NULL;
 }
 
 void game::activity_on_finish_fish()
@@ -2586,6 +2623,7 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position)
         const std::string str = oThisItem.info(true, &vThisItem);
         const std::string item_name = oThisItem.tname();
         WINDOW *w = newwin(TERMY - VIEW_OFFSET_Y * 2, iWidth, VIEW_OFFSET_Y, iStartX + VIEW_OFFSET_X);
+        WINDOW_PTR wptr( w );
 
         wmove(w, 1, 2);
         wprintz(w, c_white, "%s", item_name.c_str());
@@ -3359,27 +3397,45 @@ bool game::handle_action()
         break;
 
     case ACTION_OPEN:
-        open();
+        if (u.has_active_mutation("SHELL2")) {
+            add_msg(m_info, _("You can't open things while you're in your shell."));
+        } else {
+            open();
+        }
         break;
 
     case ACTION_CLOSE:
-        close(mouse_action_x, mouse_action_y);
+        if (u.has_active_mutation("SHELL2")) {
+            add_msg(m_info, _("You can't close things while you're in your shell."));
+        } else {
+            close(mouse_action_x, mouse_action_y);
+        }
         break;
 
     case ACTION_SMASH:
         if (veh_ctrl) {
             handbrake();
+        } else if (u.has_active_mutation("SHELL2")) {
+            add_msg(m_info, _("You can't smash things while you're in your shell."));
         } else {
             smash();
         }
         break;
 
     case ACTION_EXAMINE:
-        examine(mouse_action_x, mouse_action_y);
+        if (u.has_active_mutation("SHELL2")) {
+            add_msg(m_info, _("You can't examine your surroundings while you're in your shell."));
+        } else {
+            examine(mouse_action_x, mouse_action_y);
+        }
         break;
 
     case ACTION_ADVANCEDINV:
-        advanced_inv();
+        if (u.has_active_mutation("SHELL2")) {
+            add_msg(m_info, _("You can't move mass quantities while you're in your shell."));
+        } else {
+            advanced_inv();
+        }
         break;
 
     case ACTION_PICKUP:
@@ -3387,11 +3443,19 @@ bool game::handle_action()
         break;
 
     case ACTION_GRAB:
-        grab();
+        if (u.has_active_mutation("SHELL2")) {
+            add_msg(m_info, _("You can't grab things while you're in your shell."));
+        } else {
+            grab();
+        }
         break;
 
     case ACTION_BUTCHER:
-        butcher();
+        if (u.has_active_mutation("SHELL2")) {
+            add_msg(m_info, _("You can't butcher while you're in your shell."));
+        } else {
+            butcher();
+        }
         break;
 
     case ACTION_CHAT:
@@ -3403,7 +3467,11 @@ bool game::handle_action()
         break;
 
     case ACTION_PEEK:
-        peek();
+        if (u.has_active_mutation("SHELL2")) {
+            add_msg(m_info, _("You can't peek around corners while you're in your shell."));
+        } else {
+            peek();
+        }
         break;
 
     case ACTION_LIST_ITEMS: {
@@ -3465,6 +3533,8 @@ bool game::handle_action()
         break;
 
     case ACTION_USE:
+        // Shell-users are presumed to be able to mess with their inventories, etc
+        // while in the shell.  Eating, gear-changing, and item use are OK.
         use_item();
         break;
 
@@ -3485,6 +3555,7 @@ bool game::handle_action()
         break;
 
     case ACTION_READ:
+        // Shell-users are presumed to have the book just at an opening and read it that way
         read();
         break;
 
@@ -3505,10 +3576,15 @@ bool game::handle_action()
         break;
 
     case ACTION_THROW:
-        plthrow();
+        if (u.has_active_mutation("SHELL2")) {
+            add_msg(m_info, _("You can't effectively throw while you're in your shell."));
+        } else {
+            plthrow();
+        }
         break;
 
     case ACTION_FIRE:
+        // Shell-users may fire a *single-handed* weapon out a port, if need be.
         plfire(false, mouse_action_x, mouse_action_y);
         break;
 
@@ -3521,11 +3597,16 @@ bool game::handle_action()
         break;
 
     case ACTION_DROP:
+        // You CAN drop things to your own tile while in the shell.
         drop();
         break;
 
     case ACTION_DIR_DROP:
-        drop_in_direction();
+        if (u.has_active_mutation("SHELL2")) {
+            add_msg(m_info, _("You can't drop things to another tile while you're in your shell."));
+        } else {
+            drop_in_direction();
+        }
         break;
     case ACTION_BIONICS:
         u.power_bionics();
@@ -3546,15 +3627,27 @@ bool game::handle_action()
         break;
 
     case ACTION_CRAFT:
-        craft();
+        if (u.has_active_mutation("SHELL2")) {
+            add_msg(m_info, _("You can't craft while you're in your shell."));
+        } else {
+            craft();
+        }
         break;
 
     case ACTION_RECRAFT:
-        recraft();
+        if (u.has_active_mutation("SHELL2")) {
+            add_msg(m_info, _("You can't craft while you're in your shell."));
+        } else {
+            recraft();
+        }
         break;
 
     case ACTION_LONGCRAFT:
-        long_craft();
+        if (u.has_active_mutation("SHELL2")) {
+            add_msg(m_info, _("You can't craft while you're in your shell."));
+        } else {
+            long_craft();
+        }
         break;
 
     case ACTION_DISASSEMBLE:
@@ -3568,7 +3661,9 @@ bool game::handle_action()
 
     case ACTION_CONSTRUCT:
         if (u.in_vehicle) {
-            add_msg(m_info, _("You can't construct while in vehicle."));
+            add_msg(m_info, _("You can't construct while in a vehicle."));
+        } else if (u.has_active_mutation("SHELL2")) {
+            add_msg(m_info, _("You can't construct while you're in your shell."));
         } else {
             construction_menu();
         }
@@ -3638,7 +3733,11 @@ bool game::handle_action()
         break;
 
     case ACTION_CONTROL_VEHICLE:
-        control_vehicle();
+        if (u.has_active_mutation("SHELL2")) {
+            add_msg(m_info, _("You can't operate a vehicle while you're in your shell."));
+        } else {
+            control_vehicle();
+        }
         break;
 
     case ACTION_TOGGLE_SAFEMODE:
@@ -7304,29 +7403,29 @@ void game::emp_blast(int x, int y)
     if (mondex != -1) {
         monster &critter = critter_tracker.find(mondex);
         if (critter.has_flag(MF_ELECTRONIC)) {
-            // TODO: Add flag to mob instead.
-            if (critter.type->id == "mon_turret" && one_in(3)) {
+            int deact_chance = 0;
+            const auto mon_item_id = critter.type->revert_to_itype;
+            switch( critter.get_size() ) {
+                case MS_TINY:
+                    deact_chance = 6;
+                    break;
+                case MS_SMALL:
+                    deact_chance = 3;
+                    break;
+                default:
+                    // Currently not used, I have no idea what chances bigger bots should have,
+                    // Maybe export this to json?
+                    break;
+            }
+            if( !mon_item_id.empty() && deact_chance != 0 && one_in( deact_chance ) ) {
                 add_msg(_("The %s beeps erratically and deactivates!"), critter.name().c_str());
-                m.spawn_item(x, y, "bot_turret", 1, 0, calendar::turn);
-                if (critter.ammo["9mm"] > 0) {
-                    m.spawn_item(x, y, "9mm", 1, critter.ammo["9mm"], calendar::turn);
+                m.add_item_or_charges( x, y, critter.to_item() );
+                for( auto & ammodef : critter.ammo ) {
+                    if( ammodef.second > 0 ) {
+                        m.spawn_item( x, y, ammodef.first, 1, ammodef.second, calendar::turn );
+                    }
                 }
                 remove_zombie(mondex);
-            } else if (critter.type->id == "mon_laserturret" && one_in(3)) {
-                add_msg(_("The %s beeps erratically and deactivates!"), critter.name().c_str());
-                remove_zombie(mondex);
-                m.spawn_item(x, y, "bot_laserturret", 1, 0, calendar::turn);
-            } else if (critter.type->id == "mon_turret_rifle" && one_in(3)) {
-                add_msg(_("The %s beeps erratically and deactivates!"), critter.name().c_str());
-                remove_zombie(mondex);
-                m.spawn_item(x, y, "bot_rifleturret", 1, 0, calendar::turn);
-                if (critter.ammo["556"] > 0) {
-                    m.spawn_item(x, y, "556", 1, critter.ammo["556"], calendar::turn);
-                }
-            } else if (critter.type->id == "mon_manhack" && one_in(6)) {
-                add_msg(_("The %s flies erratically and drops from the air!"), critter.name().c_str());
-                remove_zombie(mondex);
-                m.spawn_item(x, y, "bot_manhack", 1, 0, calendar::turn);
             } else {
                 add_msg(_("The EMP blast fries the %s!"), critter.name().c_str());
                 int dam = dice(10, 10);
@@ -7745,7 +7844,7 @@ void game::smash()
         return;
     }
 
-    if( m.field_at( smashx, smashy ).findField( fd_web ) ) {
+    if( m.get_field( point( smashx, smashy ), fd_web ) != nullptr ) {
         m.remove_field( smashx, smashy, fd_web );
         sound( smashx, smashy, 2, "" );
         add_msg( m_info, _( "You brush aside some webs." ) );
@@ -8799,17 +8898,9 @@ void game::print_terrain_info(int lx, int ly, WINDOW *w_look, int column, int &l
 
 void game::print_fields_info(int lx, int ly, WINDOW *w_look, int column, int &line)
 {
-    field &tmpfield = m.field_at(lx, ly);
-    if (tmpfield.fieldCount() == 0) {
-        return;
-    }
-
-    field_entry *cur = NULL;
-    for( auto it = tmpfield.getFieldStart(); it != tmpfield.getFieldEnd(); ++it ) {
-        cur = it->second;
-        if (cur == NULL) {
-            continue;
-        }
+    const field &tmpfield = m.field_at(lx, ly);
+    for( auto &fld : tmpfield ) {
+        const field_entry *cur = &fld.second;
         mvwprintz(w_look, line++, column, fieldlist[cur->getFieldType()].color[cur->getFieldDensity() - 1],
                   "%s",
                   fieldlist[cur->getFieldType()].name[cur->getFieldDensity() - 1].c_str());
@@ -12473,9 +12564,69 @@ bool game::check_save_mode_allowed()
     return false;
 }
 
+bool game::disable_robot( const point p )
+{
+    const int mondex = mon_at( p.x, p.y );
+    if( mondex == -1 ) {
+        return false;
+    }
+    monster &critter = zombie( mondex );
+    if( critter.friendly == 0 ) {
+        // Can only disable / reprogram friendly monsters
+        return false;
+    }
+    const auto mid = critter.type->id;
+    const auto mon_item_id = critter.type->revert_to_itype;
+    if( !mon_item_id.empty() ) {
+        if( !query_yn( _( "Deactivate the %s?" ), critter.name().c_str() ) ) {
+            return false;
+        }
+        u.moves -= 100;
+        m.add_item_or_charges( p.x, p.y, critter.to_item() );
+        for( auto & ammodef : critter.ammo ) {
+            if( ammodef.second > 0 ) {
+                m.spawn_item( p.x, p.y, ammodef.first, 1, ammodef.second, calendar::turn );
+            }
+        }
+        remove_zombie( mondex );
+        return true;
+    }
+    // Manhacks are special, they have their own menu here.
+    if( mid == "mon_manhack" ) {
+        int choice = 0;
+        if( critter.has_effect( "docile" ) ) {
+            choice = menu( true, _( "Reprogram the manhack?" ), _( "Engage targets." ), _( "Cancel" ), NULL );
+        } else {
+            choice = menu( true, _( "Reprogram the manhack?" ), _( "Follow me." ), _( "Cancel" ), NULL );
+        }
+        switch( choice ) {
+            case 1:
+                if( critter.has_effect( "docile" ) ) {
+                    critter.remove_effect( "docile" );
+                    if( one_in( 3 ) ) {
+                        add_msg( _( "The %s hovers momentarily as it surveys the area." ),
+                                 critter.name().c_str() );
+                    }
+                } else {
+                    critter.add_effect( "docile", 1, 1, true );
+                    if( one_in( 3 ) ) {
+                        add_msg( _( "The %s lets out a whirring noise and starts to follow you." ),
+                                 critter.name().c_str() );
+                    }
+                }
+                u.moves -= 100;
+                return true;
+        }
+    }
+    return false;
+}
+
 bool game::plmove(int dx, int dy)
 {
-    if( !check_save_mode_allowed() ) {
+    if( (!check_save_mode_allowed()) || u.has_active_mutation("SHELL2") ) {
+        if ( u.has_active_mutation("SHELL2")) {
+            add_msg(m_warning, _("You can't move while in your shell.  Deactivate it to go mobile."));
+        }
         return false;
     }
     if (!u.move_effects()) {
@@ -12494,6 +12645,10 @@ bool game::plmove(int dx, int dy)
 
     dbg(D_PEDANTIC_INFO) << "game:plmove: From (" << u.posx << "," << u.posy << ") to (" << x << "," <<
                          y << ")";
+
+    if( disable_robot( point( x, y ) ) ) {
+        return false;
+    }
 
     // Check if our movement is actually an attack on a monster
     int mondex = mon_at(x, y);
@@ -12523,6 +12678,9 @@ bool game::plmove(int dx, int dy)
                 critter.die( &g->u );
             }
             draw_hit_mon(x, y, critter, critter.is_dead());
+            return false;
+        } else if( critter.has_flag( MF_IMMOBILE ) ) {
+            add_msg( m_info, _( "You can't displace your %s." ), critter.name().c_str() );
             return false;
         } else {
             displace = true;
@@ -12662,14 +12820,10 @@ bool game::plmove(int dx, int dy)
         u.set_underwater(false);
 
         //Ask for EACH bad field, maybe not? Maybe say "theres X bad shit in there don't do it."
-        field_entry *cur = NULL;
-        field &tmpfld = m.field_at(x, y);
-        for( auto field_it = tmpfld.getFieldStart(); field_it != tmpfld.getFieldEnd(); ++field_it ) {
-            cur = field_it->second;
-            if (cur == NULL) {
-                continue;
-            }
-            field_id curType = cur->getFieldType();
+        const field &tmpfld = m.field_at(x, y);
+        for( auto &fld : tmpfld ) {
+            const field_entry &cur = fld.second;
+            field_id curType = cur.getFieldType();
             bool dangerous = false;
 
             switch (curType) {
@@ -12688,10 +12842,10 @@ bool game::plmove(int dx, int dy)
                               !u.has_trait("M_IMMUNE"));
                 break;
             default:
-                dangerous = cur->is_dangerous();
+                dangerous = cur.is_dangerous();
                 break;
             }
-            if ((dangerous) && !query_yn(_("Really step into that %s?"), cur->name().c_str())) {
+            if ((dangerous) && !query_yn(_("Really step into that %s?"), cur.name().c_str())) {
                 return false;
             }
         }
@@ -13044,82 +13198,6 @@ bool game::plmove(int dx, int dy)
         if (displace) { // We displaced a friendly monster!
             // Immobile monsters can't be displaced.
             monster &critter = zombie(mondex);
-            if (critter.has_flag(MF_IMMOBILE)) {
-                // ...except that turrets can be picked up.
-                // TODO: Make there a flag, instead of hard-coded to mon_turret
-                if (critter.type->id == "mon_turret") {
-                    if (query_yn(_("Deactivate the turret?"))) {
-                        u.moves -= 100;
-                        m.spawn_item(x, y, "bot_turret", 1, 0, calendar::turn);
-                        if (critter.ammo["9mm"] > 0) {
-                            m.spawn_item(x, y, "9mm", 1, critter.ammo["9mm"], calendar::turn);
-                        }
-                        remove_zombie(mondex);
-                    }
-                    return false;
-                } else if (critter.type->id == "mon_laserturret") {
-                    if (query_yn(_("Deactivate the laser turret?"))) {
-                        remove_zombie(mondex);
-                        u.moves -= 100;
-                        m.spawn_item(x, y, "bot_laserturret", 1, 0, calendar::turn);
-                    }
-                    return false;
-                } else if (critter.type->id == "mon_turret_rifle") {
-                    if (query_yn(_("Deactivate the rifle turret?"))) {
-                        u.moves -= 100;
-                        m.spawn_item(x, y, "bot_rifleturret", 1, 0, calendar::turn);
-                        if (critter.ammo["556"] > 0) {
-                            m.spawn_item(x, y, "556", 1, critter.ammo["556"], calendar::turn);
-                        }
-                        remove_zombie(mondex);
-                    }
-                    return false;
-                } else {
-                    add_msg(m_info, _("You can't displace your %s."), critter.name().c_str());
-                    return false;
-                }
-                // Force the movement even though the player is there right now.
-                critter.move_to(u.posx, u.posy, true);
-                add_msg(_("You displace the %s."), critter.name().c_str());
-            } else if (critter.type->id == "mon_manhack") {
-                if (query_yn(_("Reprogram the manhack?"))) {
-                    int choice = 0;
-                    if (critter.has_effect("docile")) {
-                        choice = menu(true, _("Do what?"), _("Engage targets."), _("Deactivate."), NULL);
-                    } else {
-                        choice = menu(true, _("Do what?"), _("Follow me."), _("Deactivate."), NULL);
-                    }
-                    switch (choice) {
-                    case 1: {
-                        if (critter.has_effect("docile")) {
-                            critter.remove_effect("docile");
-                            if (one_in(3)) {
-                                add_msg(_("The %s hovers momentarily as it surveys the area."),
-                                        critter.name().c_str());
-                            }
-                        } else {
-                            critter.add_effect("docile", 1, num_bp, true);
-                            add_msg(_("The %s ."), critter.name().c_str());
-                            if (one_in(3)) {
-                                add_msg(_("The %s lets out a whirring noise and starts to follow you."),
-                                        critter.name().c_str());
-                            }
-                        }
-                        break;
-                    }
-                    case 2: {
-                        remove_zombie(mondex);
-                        m.spawn_item(x, y, "bot_manhack", 1, 0, calendar::turn);
-                        break;
-                    }
-                    default: {
-                        return false;
-                    }
-                    }
-                    u.moves -= 100;
-                }
-                return false;
-            } // critter is immobile or special
             critter.move_to(u.posx, u.posy,
                             true); // Force the movement even though the player is there right now.
             add_msg(_("You displace the %s."), critter.name().c_str());
@@ -15132,4 +15210,3 @@ int game::get_abs_levz() const
 {
     return levx;
 }
-

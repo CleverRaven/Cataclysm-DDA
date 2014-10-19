@@ -220,6 +220,7 @@ void veh_interact::allocate_windows()
     page_size = list_h;
 
     wrefresh(w_border);
+    delwin( w_border );
     display_grid();
     display_name();
     display_stats();
@@ -781,7 +782,11 @@ void veh_interact::do_remove()
     }
     mvwprintz(w_mode, 0, 1, c_ltgray, _("Choose a part here to remove:"));
     wrefresh (w_mode);
+
     int first = 0;
+    if(parts_here.size() > 1) {
+        first = 1;
+    }
     int pos = first;
     while (true) {
         sel_vehicle_part = &veh->parts[parts_here[pos]];

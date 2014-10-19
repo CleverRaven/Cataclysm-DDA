@@ -376,16 +376,8 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         newmon->armor_cut = jo.get_int("armor_cut", 0);
         newmon->hp = jo.get_int("hp", 0);
         jo.read("starting_ammo", newmon->starting_ammo);
-        if (jo.has_array("special_freq")) {
-            JsonArray jarr = jo.get_array("special_freq");
-            while (jarr.has_more()) {
-                newmon->sp_freq.push_back(jarr.next_int());
-            }
-        } else {
-            newmon->sp_freq.push_back(0);
-        }
-        newmon->def_chance = jo.get_int("special_when_hit_freq", 0);
         newmon->luminance = jo.get_float("luminance", 0);
+        newmon->revert_to_itype = jo.get_string( "revert_to_itype", "" );
 
         if (jo.has_string("death_drops")) {
             newmon->death_drops = jo.get_string("death_drops");
@@ -401,8 +393,8 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         }
 
         newmon->dies = get_death_functions(jo, "death_function");
-        newmon->sp_attack = get_attack_function(jo, "special_attack");
-        newmon->sp_defense = get_defense_function(jo, "special_when_hit");
+        load_special_defense(newmon, jo, "special_when_hit");
+        load_special_attacks(newmon, jo, "special_attacks");
 
         std::set<std::string> flags, anger_trig, placate_trig, fear_trig;
         flags = jo.get_tags("flags");
@@ -534,30 +526,37 @@ std::vector<void (mdeath::*)(monster *)> MonsterGenerator::get_death_functions(J
     return deaths;
 }
 
-std::vector<MonAttackFunction> MonsterGenerator::get_attack_function(JsonObject &jo, std::string member)
-{
-    std::vector<MonAttackFunction> ret;
-    
-    JsonArray jsarr = jo.get_array(member);
-    while (jsarr.has_more()) {
-        ret.push_back(attack_map[jsarr.next_string()]);
+void MonsterGenerator::load_special_attacks(mtype *m, JsonObject &jo, std::string member) {
+    m->sp_attack.clear(); // make sure we're running with
+    m->sp_freq.clear();   // everything cleared
+
+    if (jo.has_array(member)) {
+        JsonArray outer = jo.get_array(member);
+        while (outer.has_more()) {
+            JsonArray inner = outer.next_array();
+            m->sp_attack.push_back(attack_map[inner.get_string(0)]);
+            m->sp_freq.push_back(inner.get_int(1));
+        }
     }
 
-    if (ret.empty()) {
-        ret.push_back(attack_map["NONE"]);
+    if (m->sp_attack.empty()) {
+        m->sp_attack.push_back(attack_map["NONE"]);
+        m->sp_freq.push_back(0);
     }
-    
-    return ret;
 }
 
-MonDefenseFunction MonsterGenerator::get_defense_function(JsonObject &jo, std::string member)
-{
-    if (defense_map.find(jo.get_string(member, "")) != defense_map.end()) {
-        return defense_map[jo.get_string(member)];
+void MonsterGenerator::load_special_defense(mtype *m, JsonObject &jo, std::string member) {
+    if (jo.has_array(member)) {
+        JsonArray jsarr = jo.get_array(member);
+        m->sp_defense = defense_map[jsarr.get_string(0)];
+        m->def_chance = jsarr.get_int(1);
     }
 
-    return defense_map["NONE"];
+    if (m->sp_defense == NULL) {
+        m->sp_defense = defense_map["NONE"];
+    }
 }
+
 template <typename T>
 std::set<T> MonsterGenerator::get_set_from_tags(std::set<std::string> tags,
         std::map<std::string, T> conversion_map, T fallback)
@@ -603,6 +602,10 @@ void MonsterGenerator::check_monster_definitions() const
         if (!mon->death_drops.empty() && !item_controller->has_group(mon->death_drops)) {
             debugmsg("monster %s has unknown death drop item group: %s", mon->id.c_str(),
                      mon->death_drops.c_str());
+        }
+        if( !mon->revert_to_itype.empty() && !item_controller->has_template( mon->revert_to_itype ) ) {
+            debugmsg("monster %s has unknown revert_to_itype: %s", mon->id.c_str(),
+                     mon->revert_to_itype.c_str());
         }
     }
 }

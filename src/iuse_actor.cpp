@@ -1,7 +1,9 @@
 #include "iuse_actor.h"
 #include "item.h"
 #include "game.h"
+#include "monster.h"
 #include <sstream>
+#include <algorithm>
 
 iuse_transform::~iuse_transform()
 {
@@ -301,4 +303,89 @@ long consume_drug_iuse::use(player *p, item *it, bool) const
         }
     }
     return it->type->charges_to_use();
+}
+
+place_monster_iuse::~place_monster_iuse() {};
+
+iuse_actor *place_monster_iuse::clone() const
+{
+    return new place_monster_iuse(*this);
+}
+
+long place_monster_iuse::use( player *p, item *it, bool ) const
+{
+    monster newmon( GetMType( mtype_id ) );
+    point target;
+    if( place_randomly ) {
+        std::vector<point> valid;
+        for( int x = p->posx - 1; x <= p->posx + 1; x++ ) {
+            for( int y = p->posy - 1; y <= p->posy + 1; y++ ) {
+                if( g->is_empty( x, y ) ) {
+                    valid.push_back( point( x, y ) );
+                }
+            }
+        }
+        if( valid.empty() ) { // No valid points!
+            p->add_msg_if_player( m_info, _( "There is no adjacent square to release the %s in!" ),
+                                  newmon.name().c_str() );
+            return 0;
+        }
+        target = valid[rng( 0, valid.size() - 1 )];
+    } else {
+        const std::string query = string_format( _( "Place the %s where?" ), newmon.name().c_str() );
+        if( !choose_adjacent( query, target.x, target.y ) ) {
+            return 0;
+        }
+        if( !g->is_empty( target.x, target.y ) ) {
+            p->add_msg_if_player( m_info, _( "You cannot place a %s there." ), newmon.name().c_str() );
+            return 0;
+        }
+    }
+    p->moves -= moves;
+    newmon.spawn( target.x, target.y );
+    for( auto & amdef : newmon.ammo ) {
+        item ammo_item( amdef.first, 0 );
+        const int available = p->charges_of( amdef.first );
+        if( available == 0 ) {
+            amdef.second = 0;
+            p->add_msg_if_player( m_info,
+                                  _( "If you had standard factory-built %s bullets, you could load the %s." ),
+                                  ammo_item.type->nname( 2 ).c_str(), newmon.name().c_str() );
+            continue;
+        }
+        // Don't load more than the default from the the monster definition.
+        ammo_item.charges = std::min( available, amdef.second );
+        p->use_charges( amdef.first, ammo_item.charges );
+        //~ First %s is the ammo item (with plural form and count included), second is the monster name
+        p->add_msg_if_player( ngettext( "You load %d x %s round into the %s.",
+                                        "You load %d x %s rounds into the %s.", ammo_item.charges ), ammo_item.charges,
+                              ammo_item.type->nname( ammo_item.charges ).c_str(), newmon.name().c_str() );
+        amdef.second = ammo_item.charges;
+    }
+    const int damfac = 5 - std::max<int>( 0, it->damage ); // 5 (no damage) ... 1 (max damage)
+    // One hp at least, everything else would be unfair (happens only to monster with *very* low hp),
+    newmon.hp = std::max( 1, newmon.hp * damfac / 5 );
+    if( rng( 0, p->int_cur / 2 ) + p->skillLevel( "electronics" ) / 2 + p->skillLevel( "computer" ) <
+        rng( 0, difficulty ) ) {
+        if( hostile_msg.empty() ) {
+            p->add_msg_if_player( m_bad, _( "The %s scans you and makes angry beeping noises!" ),
+                                  newmon.name().c_str() );
+        } else {
+            p->add_msg_if_player( m_bad, "%s", _( hostile_msg.c_str() ) );
+        }
+    } else {
+        if( friendly_msg.empty() ) {
+            p->add_msg_if_player( m_warning, _( "The %s emits an IFF beep as it scans you." ),
+                                  newmon.name().c_str() );
+        } else {
+            p->add_msg_if_player( m_warning, "%s", _( friendly_msg.c_str() ) );
+        }
+        newmon.friendly = -1;
+    }
+    // TODO: add a flag instead of monster id or something?
+    if( newmon.type->id == "mon_laserturret" && !g->is_in_sunlight( newmon.posx(), newmon.posy() ) ) {
+        p->add_msg_if_player( _( "A flashing LED on the laser turret appears to indicate low light." ) );
+    }
+    g->add_zombie( newmon );
+    return 1;
 }

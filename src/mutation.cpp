@@ -95,6 +95,9 @@ void player::activate_mutation(int b)
     else if (traits[mut].id == "SHOUT3"){
         g->sound(posx, posy, 20 + 4 * str_cur, _("You let out a piercing howl!"));
     }
+    else if ((traits[mut].id == "NAUSEA") || (traits[mut].id == "VOMITOUS") ){
+        g->u.vomit();
+    }
     else if (traits[mut].id == "M_FERTILE"){
         g->u.spores();
     }
@@ -351,6 +354,11 @@ void player::power_mutations()
                         add_msg(m_neutral, _("%s powered off."), mut_data.name.c_str());
 
                         deactivate_mutation(b);
+                        delwin(w_title);
+                        delwin(w_description);
+                        delwin(wBio);
+                        // Action done, leave screen
+                        break;
                     } else if ((!traits[*tmp].hunger || (traits[*tmp].hunger && hunger <= 400)) || (!traits[*tmp].thirst || (traits[*tmp].thirst && thirst <= 400)) || (!traits[*tmp].fatigue || (traits[*tmp].fatigue && fatigue <= 400))){
 
                         // this will clear the mutations menu for targeting purposes
@@ -361,13 +369,13 @@ void player::power_mutations()
                         delwin(wBio);
                         g->draw();
                         activate_mutation(b);
+                        // Action done, leave screen
+                        break;
                     } else {
                         popup( _( "You don't have enough in you to activate your %s!" ), mut_data.name.c_str() );
                         redraw = true;
                         continue;
                     }
-                    // Action done, leave screen
-                    break;
                 } else {
                     popup(_("\
 You cannot activate %s!  To read a description of \

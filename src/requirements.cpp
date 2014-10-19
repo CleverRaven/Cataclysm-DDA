@@ -282,12 +282,19 @@ int requirements::print_time( WINDOW *w, int ypos, int xpos, int width, nc_color
 bool requirements::can_make_with_inventory( const inventory &crafting_inv, int batch ) const
 {
     bool retval = true;
-    // Doing this in several steps avoids C++ Short-circuit evaluation
-    // and makes sure that the available value is set for every entry
-    retval &= has_comps(crafting_inv, qualities);
-    retval &= has_comps(crafting_inv, tools, batch);
-    retval &= has_comps(crafting_inv, components, batch);
-    retval &= check_enough_materials(crafting_inv, batch);
+    // All functions must be called to update the available settings in the components.
+    if( !has_comps( crafting_inv, qualities ) ) {
+        retval = false;
+    }
+    if( !has_comps( crafting_inv, tools, batch ) ) {
+        retval = false;
+    }
+    if( !has_comps( crafting_inv, components, batch ) ) {
+        retval = false;
+    }
+    if( !check_enough_materials( crafting_inv, batch ) ) {
+        retval = false;
+    }
     return retval;
 }
 

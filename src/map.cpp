@@ -1235,20 +1235,12 @@ bool map::trans(const int x, const int y)
     }
     if( tertr ) {
         // Fields may obscure the view, too
-        field &curfield = field_at( x,y );
-        if( curfield.fieldCount() > 0 ) {
-            field_entry *cur = NULL;
-            for( auto field_list_it = curfield.getFieldStart();
-                 field_list_it != curfield.getFieldEnd(); ++field_list_it ) {
-                cur = field_list_it->second;
-                if( cur == NULL ) {
-                    continue;
-                }
+        const field &curfield = field_at( x,y );
+        for( auto &fld : curfield ) {
                 //If ANY field blocks vision, the tile does.
-                if(!fieldlist[cur->getFieldType()].transparent[cur->getFieldDensity() - 1]) {
+                if(!fieldlist[fld.second.getFieldType()].transparent[fld.second.getFieldDensity() - 1]) {
                     return false;
                 }
-            }
         }
         return true; //no blockers found, this is transparent
     }
@@ -1585,7 +1577,7 @@ bool map::moppable_items_at(const int x, const int y)
             return true;
         }
     }
-    field &fld = field_at(x, y);
+    const field &fld = field_at(x, y);
     if(fld.findField(fd_blood) != 0 || fld.findField(fd_blood_veggy) != 0 ||
           fld.findField(fd_blood_insect) != 0 || fld.findField(fd_blood_invertebrate) != 0
           || fld.findField(fd_bile) != 0 || fld.findField(fd_slime) != 0 ||
@@ -1642,7 +1634,7 @@ bool map::has_nearby_fire(int x, int y, int radius)
     for(int dx = -radius; dx <= radius; dx++) {
         for(int dy = -radius; dy <= radius; dy++) {
             const point p(x + dx, y + dy);
-            if (field_at(p.x, p.y).findField(fd_fire) != 0) {
+            if( get_field( p, fd_fire ) != nullptr ) {
                 return true;
             }
             if (ter(p.x, p.y) == t_lava) {
@@ -1661,14 +1653,13 @@ void map::mop_spills(const int x, const int y) {
             i--;
         }
     }
-    field &fld = field_at(x, y);
-    fld.removeField(fd_blood);
-    fld.removeField(fd_blood_veggy);
-    fld.removeField(fd_blood_insect);
-    fld.removeField(fd_blood_invertebrate);
-    fld.removeField(fd_bile);
-    fld.removeField(fd_slime);
-    fld.removeField(fd_sludge);
+    remove_field( x, y, fd_blood );
+    remove_field( x, y, fd_blood_veggy );
+    remove_field( x, y, fd_blood_insect );
+    remove_field( x, y, fd_blood_invertebrate );
+    remove_field( x, y, fd_bile );
+    remove_field( x, y, fd_slime );
+    remove_field( x, y, fd_sludge );
     int vpart;
     vehicle *veh = veh_at(x, y, vpart);
     if(veh != 0) {
@@ -1784,7 +1775,7 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str,
     int sound_volume = 0;
     std::string sound;
     bool smashed_something = false;
-    if (field_at(x, y).findField(fd_web)) {
+    if( get_field( point( x, y ), fd_web ) != nullptr ) {
         smashed_something = true;
         remove_field(x, y, fd_web);
     }
@@ -2360,8 +2351,8 @@ void map::shoot(const int x, const int y, int &dam,
     }
 
     // Check fields?
-    field_entry *fieldhit = field_at(x, y).findField(fd_web);
-    if(fieldhit){
+    const field_entry *fieldhit = get_field( point( x, y ), fd_web );
+    if( fieldhit != nullptr ) {
         if (ammo_effects.count("INCENDIARY") || ammo_effects.count("FLAME")) {
             add_field(x, y, fd_fire, fieldhit->getFieldDensity() - 1);
         } else if (dam > 5 + fieldhit->getFieldDensity() * 5 &&
@@ -3041,8 +3032,7 @@ void map::add_item(const int x, const int y, item new_item, const int maxitems)
     if (has_flag("DESTROY_ITEM", x, y) || ((int)i_at(x,y).size() >= maxitems)) {
         return;
     }
-    field &fld = field_at(x, y);
-    if (new_item.has_flag("ACT_IN_FIRE") && (fld.findField(fd_fire) != 0)) {
+    if (new_item.has_flag("ACT_IN_FIRE") && get_field( point( x, y ), fd_fire ) != nullptr ) {
         new_item.active = true;
     }
 
@@ -3641,31 +3631,36 @@ void map::remove_trap(const int x, const int y)
 /*
  * Get wrapper for all fields at xy
  */
-field& map::field_at(const int x, const int y)
+const field &map::field_at( const int x, const int y ) const
 {
- if (!INBOUNDS(x, y)) {
-  nulfield = field();
-  return nulfield;
- }
+    if( !inbounds( x, y ) ) {
+        nulfield = field();
+        return nulfield;
+    }
 
- int lx, ly;
- submap * const current_submap = get_submap_at(x, y, lx, ly);
+    int lx, ly;
+    submap *const current_submap = get_submap_at( x, y, lx, ly );
 
- return current_submap->fld[lx][ly];
+    return current_submap->fld[lx][ly];
 }
 
-/*
- * Increment/decrement age of field type at point.
- * returns resulting age or -1 if not present.
- */
+field &map::get_field( const int x, const int y )
+{
+    if( !inbounds( x, y ) ) {
+        nulfield = field();
+        return nulfield;
+    }
+
+    int lx, ly;
+    submap *const current_submap = get_submap_at( x, y, lx, ly );
+
+    return current_submap->fld[lx][ly];
+}
+
 int map::adjust_field_age(const point p, const field_id t, const int offset) {
     return set_field_age( p, t, offset, true);
 }
 
-/*
- * Increment/decrement strength of field type at point, creating if not present, removing if strength becomes 0
- * returns resulting strength, or 0 for not present
- */
 int map::adjust_field_strength(const point p, const field_id t, const int offset) {
     return set_field_strength(p, t, offset, true);
 }
@@ -3705,25 +3700,16 @@ int map::set_field_strength(const point p, const field_id t, const int str, bool
     return 0;
 }
 
-/*
- * get age of field type at point. -1 = not present
- */
 int map::get_field_age( const point p, const field_id t ) {
     field_entry * field_ptr = get_field( p, t );
     return ( field_ptr == NULL ? -1 : field_ptr->getFieldAge() );
 }
 
-/*
- * get strength of field type at point. 0 = not present
- */
 int map::get_field_strength( const point p, const field_id t ) {
     field_entry * field_ptr = get_field( p, t );
     return ( field_ptr == NULL ? 0 : field_ptr->getFieldDensity() );
 }
 
-/*
- * get field type at point. NULL if not present
- */
 field_entry * map::get_field( const point p, const field_id t ) {
     if (!INBOUNDS(p.x, p.y))
         return NULL;
@@ -3732,9 +3718,6 @@ field_entry * map::get_field( const point p, const field_id t ) {
     return current_submap->fld[lx][ly].findField(t);
 }
 
-/*
- * add field type at point, or set density if present
- */
 bool map::add_field(const point p, const field_id t, int density, const int age)
 {
     if (!INBOUNDS(p.x, p.y)) {
@@ -3751,30 +3734,22 @@ bool map::add_field(const point p, const field_id t, int density, const int age)
     int lx, ly;
     submap * const current_submap = get_submap_at(p.x, p.y, lx, ly);
 
-    if (!current_submap->fld[lx][ly].findField(t)) {
+    if( current_submap->fld[lx][ly].addField( t, density, age ) ) {
         // TODO: Update overall field_count appropriately.
         // This is the spirit of "fd_null" that it used to be.
         current_submap->field_count++; //Only adding it to the count if it doesn't exist.
     }
-    current_submap->fld[lx][ly].addField(t, density, age); //This will insert and/or update the field.
     if(g != NULL && this == &g->m && p.x == g->u.posx && p.y == g->u.posy) {
         step_in_field(p.x, p.y); //Hit the player with the field if it spawned on top of them.
     }
     return true;
 }
 
-/*
- * add field type at xy, or set denity if present
- */
 bool map::add_field(const int x, const int y, const field_id t, const int new_density)
 {
     return this->add_field(point(x,y), t, new_density, 0);
 }
 
-
-/*
- * remove field type at xy
- */
 void map::remove_field(const int x, const int y, const field_id field_to_remove)
 {
  if (!INBOUNDS(x, y)) {
@@ -3980,7 +3955,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
     const ter_id curr_ter = ter(x,y);
     const furn_id curr_furn = furn(x,y);
     const trap_id curr_trap = tr_at(x, y);
-    field &curr_field = field_at(x, y);
+    const field &curr_field = field_at(x, y);
     const std::vector<item> &curr_items = i_at(x, y);
     long sym;
     bool hi = false;
@@ -5133,16 +5108,9 @@ void map::build_transparency_cache()
                 continue;
             }
 
-            field &curfield = field_at(x,y);
-            if(curfield.fieldCount() > 0){
-                field_entry *cur = NULL;
-                for( auto field_list_it = curfield.getFieldStart();
-                     field_list_it != curfield.getFieldEnd(); ++field_list_it ) {
-                    cur = field_list_it->second;
-                    if(cur == NULL) {
-                        continue;
-                    }
-
+            const field &curfield = field_at(x,y);
+            for( auto &fld : curfield ) {
+                const field_entry * cur = &fld.second;
                     if( !fieldlist[cur->getFieldType()].transparent[cur->getFieldDensity() - 1] ) {
                         // Fields are either transparent or not, however we want some to be translucent
                         switch(cur->getFieldType()) {
@@ -5173,7 +5141,6 @@ void map::build_transparency_cache()
                         }
                     }
                     // TODO: [lightmap] Have glass reduce light as well
-                }
             }
         }
     }

@@ -160,7 +160,6 @@ void Item_factory::init()
     iuse_function_list["RAW_FISH"] = &iuse::raw_fish;
     iuse_function_list["RAW_WILDVEG"] = &iuse::raw_wildveg;
     iuse_function_list["SEWAGE"] = &iuse::sewage;
-
     iuse_function_list["HONEYCOMB"] = &iuse::honeycomb;
     iuse_function_list["ROYAL_JELLY"] = &iuse::royal_jelly;
     iuse_function_list["BANDAGE"] = &iuse::bandage;
@@ -213,9 +212,7 @@ void Item_factory::init()
     iuse_function_list["CATFOOD"] = &iuse::catfood;
 
     // TOOLS
-    iuse_function_list["LIGHTER"] = &iuse::lighter;
-    iuse_function_list["PRIMITIVE_FIRE"] = &iuse::primitive_fire;
-    iuse_function_list["REF_LIT"] = &iuse::ref_lit;
+    iuse_function_list["FIRESTARTER"] = &iuse::firestarter;
     iuse_function_list["SEW"] = &iuse::sew;
     iuse_function_list["EXTRA_BATTERY"] = &iuse::extra_battery;
     iuse_function_list["RECHARGEABLE_BATTERY"] = &iuse::rechargeable_battery;
@@ -287,10 +284,6 @@ void Item_factory::init()
     iuse_function_list["MININUKE"] = &iuse::mininuke;
     iuse_function_list["PHEROMONE"] = &iuse::pheromone;
     iuse_function_list["PORTAL"] = &iuse::portal;
-    iuse_function_list["MANHACK"] = &iuse::manhack;
-    iuse_function_list["TURRET"] = &iuse::turret;
-    iuse_function_list["TURRET_LASER"] = &iuse::turret_laser;
-    iuse_function_list["TURRET_RIFLE"] = &iuse::turret_rifle;
     iuse_function_list["UPS_OFF"] = &iuse::UPS_off;
     iuse_function_list["UPS_ON"] = &iuse::UPS_on;
     iuse_function_list["adv_UPS_OFF"] = &iuse::adv_UPS_off;
@@ -1445,6 +1438,15 @@ use_function Item_factory::use_from_object(JsonObject obj)
         obj.read("stat_adjustments", actor->stat_adjustments);
         obj.read("fields_produced", actor->fields_produced);
         return use_function(actor.release());
+    } else if( type == "place_monster" ) {
+        std::unique_ptr<place_monster_iuse> actor( new place_monster_iuse() );
+        actor->mtype_id = obj.get_string( "monster_id" );
+        obj.read( "friendly_msg", actor->friendly_msg );
+        obj.read( "hostile_msg", actor->hostile_msg );
+        obj.read( "difficulty", actor->difficulty );
+        obj.read( "moves", actor->moves );
+        obj.read( "place_randomly", actor->place_randomly );
+        return use_function( actor.release() );
     } else {
         debugmsg("unknown use_action type %s", type.c_str());
         return use_function();

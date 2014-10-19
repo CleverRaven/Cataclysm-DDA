@@ -1473,7 +1473,10 @@ int iuse::chew(player *p, item *it, bool)
 
 static int marloss_reject_mutagen( player *p, item *it )
 {
-    if( it->type->can_use( "MYCUS" ) ) {
+    // I've been unable to replicate the rejections on marloss berries
+    // but best to be careful-KA101.
+    if( (it->type->can_use( "MYCUS" )) || (it->type->can_use( "MARLOSS" )) ||
+      (it->type->can_use( "MARLOSS_SEED" )) || (it->type->can_use( "MARLOSS_GEL" )) ) {
         return 0;
     }
     if (p->has_trait("THRESH_MARLOSS")) {
@@ -2620,25 +2623,9 @@ int iuse::mycus(player *p, item *it, bool t)
             p->thirst += 10;
             p->add_morale(MORALE_MARLOSS, 25, 200); // still covers up mutation pain
         }
-        for (int x = p->posx - 2; x <= p->posx + 2; x++) {
-            for (int y = p->posy - 2; y <= p->posy + 2; y++) {
-                g->m.marlossify(x, y);
-            }
-        }
     } else if (p->has_trait("THRESH_MYCUS")) {
-        if (one_in(10)) {
-            p->mutate_category("MUTCAT_MYCUS");
-            p->hunger += 10;
-            p->fatigue += 5;
-            p->thirst += 10;
-        }
-        p->pkill += 10;
-        p->stim += 10;
-        for (int x = p->posx - 3; x <= p->posx + 3; x++) {
-            for (int y = p->posy - 3; y <= p->posy + 3; y++) {
-                g->m.marlossify(x, y);
-            }
-        }
+        p->pkill += 5;
+        p->stim += 5;
     } else { // In case someone gets one without having been adapted first.
         // Marloss is the Mycus' method of co-opting humans.  Mycus fruit is for symbiotes' maintenance and development.
         p->add_msg_if_player(_("This apple tastes really weird!  You're not sure it's good for you..."));
@@ -2703,7 +2690,7 @@ int iuse::catfood(player *p, item *, bool)
 
 bool prep_firestarter_use(player *p, item *it, int &posx, int &posy)
 {
-    if (it->charges == 0) {
+    if ((it->charges == 0) && (!it->has_flag("LENS"))){ // lenses do not need charges
         return false;
     }
     if (p->is_underwater()) {
@@ -2732,84 +2719,109 @@ bool prep_firestarter_use(player *p, item *it, int &posx, int &posy)
     }
 }
 
-void resolve_firestarter_use(player *p, item *, int posx, int posy)
+int iuse::resolve_firestarter_use(player *p, item *, int posx, int posy)
 {
     if (g->m.add_field(point(posx, posy), fd_fire, 1, 100)) {
         p->add_msg_if_player(_("You successfully light a fire."));
     }
-}
-
-int iuse::lighter(player *p, item *it, bool)
-{
-    int dirx, diry;
-    if (prep_firestarter_use(p, it, dirx, diry)) {
-        p->moves -= 15;
-        resolve_firestarter_use(p, it, dirx, diry);
-        return it->type->charges_to_use();
-    }
     return 0;
 }
 
-int iuse::primitive_fire(player *p, item *it, bool)
+int iuse::calculate_time_for_lens_fire (player *p, float light_level) {
+    // base moves based on sunlight levels... 1 minute when sunny (80 lighting), ~10 minutes when clear (60 lighting)
+    float moves_base = (std::pow((80/light_level),8)) * 1000 ;
+    // survival 0 takes 3 * moves_base, survival 1 takes 1,5 * moves_base, max moves capped at moves_base
+    float moves_modifier = 1/((p->skillLevel("survival"))*0.33 + 0.33);
+    if (moves_modifier < 1) {
+        moves_modifier = 1;
+    }
+    return int(moves_base * moves_modifier);
+}
+
+int iuse::firestarter(player *p, item *it, bool t)
 {
     int posx, posy;
-    if (prep_firestarter_use(p, it, posx, posy)) {
-        p->moves -= 500;
-        const int skillLevel = p->skillLevel("survival");
-        const int sides = 10;
-        const int base_dice = 3;
-        // aiming for ~50% success at skill level 3, and possible but unheard of at level 0
-        const int difficulty = (base_dice + 3) * sides / 2;
-        if (dice(skillLevel + base_dice, 10) >= difficulty) {
-            resolve_firestarter_use(p, it, posx, posy);
+    if (it->has_flag("LENS")) {
+        if (((g->weather == WEATHER_CLEAR) || (g->weather == WEATHER_SUNNY)) // needs the correct weather, light and to be outside
+        && (g->natural_light_level() >= 60 ) && !(g->m.has_flag("INDOORS", p->posx, p->posy))) {
+            if (prep_firestarter_use(p, it, posx, posy)) {
+                const int turns = calculate_time_for_lens_fire(p, g->natural_light_level()); // turns needed for activity
+                if (turns/1000 > 1) { // if it takes less than a minute, no need to inform the player about time
+                    p->add_msg_if_player(m_info, _("If the current weather holds, it will take around %d minutes to light a fire."), turns/1000);
+                }
+                p->assign_activity(ACT_START_FIRE, turns, -1, p->get_item_position(it), it->tname());
+                p->activity.values.push_back(g->natural_light_level()); // keep natural_light_level for comparing throughout the activity
+                p->activity.placement = point(posx, posy);
+                p->practice("survival", 5);
+            }
         } else {
-            p->add_msg_if_player(_("You try to light a fire, but fail."));
+        p->add_msg_if_player(_("You need direct sunlight to light a fire with this."));
         }
-        p->practice("survival", 10);
-        return it->type->charges_to_use();
-    }
-    return 0;
-}
-
-int iuse::ref_lit(player *p, item *it, bool t)
-{
-    if (p->is_underwater()) {
-        p->add_msg_if_player(_("The lighter is extinguished."));
-        it->make("ref_lighter");
-        it->active = false;
-        return 0;
-    }
-    if (t) {
-        if (it->charges < it->type->charges_to_use()) {
-            p->add_msg_if_player(_("The lighter burns out."));
+    } else if (it->has_flag("FIRE_DRILL")) {
+        if (prep_firestarter_use(p, it, posx, posy)) {
+            float skillLevel = float(p->skillLevel("survival"));
+            // success chance is 100% but time spent is min 5 minutes at skill=5 and it increases for lower skill levels.
+            // max time is 1 hour for 0 survival
+            const float moves_base = 5*1000;
+            if (skillLevel < 1) {
+                skillLevel = 0.536; // avoid dividing by zero. scaled so that skill level 0 means 60 minutes work
+            }
+            float moves_modifier = (std::pow((5/skillLevel),1.113)); // at survival=5 modifier=1, at survival=1 modifier=~6
+            if (moves_modifier < 1) {
+                moves_modifier = 1; // activity time improvement is capped at skillevel 5
+            }
+            const int turns = int (moves_base * moves_modifier);
+            p->add_msg_if_player(m_info, _("At your skill level, it will take around %d minutes to light a fire."), turns/1000);
+            p->assign_activity(ACT_START_FIRE, turns, -1, p->get_item_position(it), it->tname());
+            p->activity.placement = point(posx, posy);
+            p->practice("survival", 10);
+            it->charges -= it->type->charges_to_use()*(std::round(moves_modifier)); // charges used tied with moves_modifier (range 1 to 12)
+            return 0;
+        }
+    } else if (it->has_flag("REFILLABLE_LIGHTER")) {
+        if (p->is_underwater()) {
+            p->add_msg_if_player(_("The lighter is extinguished."));
             it->make("ref_lighter");
             it->active = false;
+            return 0;
         }
-    } else if (it->charges <= 0) {
-        p->add_msg_if_player(_("The %s winks out."), it->tname().c_str());
-    } else { // Turning it off
-        int choice = menu(true, _("refillable lighter (lit)"), _("extinguish"),
-                          _("light something"), _("cancel"), NULL);
-        switch (choice) {
-            case 1: {
-                p->add_msg_if_player(_("You extinguish the lighter."));
+        if (t) {
+            if (it->charges < it->type->charges_to_use()) {
+                p->add_msg_if_player(_("The lighter burns out."));
                 it->make("ref_lighter");
                 it->active = false;
-                return 0;
             }
-            break;
-            case 2: {
-                int dirx, diry;
-                if (prep_firestarter_use(p, it, dirx, diry)) {
-                    p->moves -= 15;
-                    resolve_firestarter_use(p, it, dirx, diry);
-                    return it->type->charges_to_use();
+        } else if (it->charges <= 0) {
+            p->add_msg_if_player(_("The %s winks out."), it->tname().c_str());
+        } else { // Turning it off
+            int choice = menu(true, _("refillable lighter (lit)"), _("extinguish"),
+                              _("light something"), _("cancel"), NULL);
+            switch (choice) {
+                case 1: {
+                    p->add_msg_if_player(_("You extinguish the lighter."));
+                    it->make("ref_lighter");
+                    it->active = false;
+                    return 0;
                 }
-
+                break;
+                case 2: {
+                    if (prep_firestarter_use(p, it, posx, posy)) {
+                        p->moves -= 15;
+                        resolve_firestarter_use(p, it, posx, posy);
+                        return it->type->charges_to_use();
+                    }
+                }
             }
         }
+        return it->type->charges_to_use();
+    } else { // common ligher or matches
+        if (prep_firestarter_use(p, it, posx, posy)) {
+            p->moves -= 15;
+            resolve_firestarter_use(p, it, posx, posy);
+            return it->type->charges_to_use();
+        }
     }
-    return it->type->charges_to_use();
+    return 0;
 }
 
 int iuse::sew(player *p, item *it, bool)
@@ -3775,11 +3787,13 @@ int iuse::water_purifier(player *p, item *it, bool)
 int iuse::two_way_radio(player *p, item *it, bool)
 {
     WINDOW *w = newwin(6, 36, (TERMY - 6) / 2, (TERMX - 36) / 2);
+    WINDOW_PTR wptr(w);
     draw_border(w);
     // TODO: More options here.  Thoughts...
     //       > Respond to the SOS of an NPC
     //       > Report something to a faction
     //       > Call another player
+    // TODO: Should probably be a ui menu anyway.
     fold_and_print(w, 1, 1, 999, c_white,
                    _(
                        "1: Radio a faction for help...\n"
@@ -3860,9 +3874,7 @@ int iuse::two_way_radio(player *p, item *it, bool)
     } else {
         return 0;
     }
-    werase(w);
-    wrefresh(w);
-    delwin(w);
+    wptr.reset();
     refresh();
     return it->type->charges_to_use();
 }
@@ -5587,8 +5599,7 @@ int iuse::throwable_extinguisher_act(player *, item *it, bool)
     if (pos.x == -999 || pos.y == -999) {
         return 0;
     }
-    field &fld = g->m.field_at(pos.x, pos.y);
-    if (fld.findField(fd_fire) != 0) {
+    if( g->m.get_field( pos, fd_fire ) != nullptr ) {
         // Reduce the strength of fire (if any) in the target tile.
         g->m.adjust_field_strength(pos, fd_fire, 0 - 1);
         // Slightly reduce the strength of fire around and in the target tile.
@@ -5906,9 +5917,11 @@ int iuse::firecracker_pack(player *p, item *it, bool)
         return 0;
     }
     WINDOW *w = newwin(5, 41, (TERMY - 5) / 2, (TERMX - 41) / 2);
+    WINDOW_PTR wptr( w );
     draw_border(w);
     int mid_x = getmaxx(w) / 2;
     int tmpx = 5;
+    // TODO: Should probably be a input box anyway.
     mvwprintz(w, 1, 2, c_white, _("How many do you want to light? (1-%d)"), it->charges);
     mvwprintz(w, 2, mid_x, c_white, "1");
     tmpx += shortcut_print(w, 3, tmpx, c_white, c_ltred, _("<I>ncrease")) + 1;
@@ -6103,136 +6116,6 @@ int iuse::portal(player *p, item *it, bool)
     }
     g->m.add_trap(p->posx + rng(-2, 2), p->posy + rng(-2, 2), tr_portal);
     return it->type->charges_to_use();
-}
-
-int iuse::manhack(player *p, item *, bool)
-{
-    std::vector<point> valid; // Valid spawn locations
-    for (int x = p->posx - 1; x <= p->posx + 1; x++) {
-        for (int y = p->posy - 1; y <= p->posy + 1; y++) {
-            if (g->is_empty(x, y)) {
-                valid.push_back(point(x, y));
-            }
-        }
-    }
-    if (valid.empty()) { // No valid points!
-        p->add_msg_if_player(m_info, _("There is no adjacent square to release the manhack in!"));
-        return 0;
-    }
-    int index = rng(0, valid.size() - 1);
-    p->moves -= 60;
-    monster m_manhack(GetMType("mon_manhack"), valid[index].x, valid[index].y);
-    if (rng(0, p->int_cur / 2) + p->skillLevel("electronics") / 2 +
-        p->skillLevel("computer") < rng(0, 4)) {
-        p->add_msg_if_player(m_bad, _("You misprogram the manhack; it's hostile!"));
-    } else {
-        p->add_msg_if_player(_("The manhack flies from your hand and surveys the area!"));
-        m_manhack.friendly = -1;
-    }
-    g->add_zombie(m_manhack);
-    return 1;
-}
-
-int iuse::turret(player *p, item *, bool)
-{
-    int dirx, diry;
-    if (!choose_adjacent(_("Place the turret where?"), dirx, diry)) {
-        return 0;
-    }
-    if (!g->is_empty(dirx, diry)) {
-        p->add_msg_if_player(m_info, _("You cannot place a turret there."));
-        return 0;
-    }
-
-    p->moves -= 100;
-    monster mturret(GetMType("mon_turret"), dirx, diry);
-    const int ammopos = p->inv.position_by_type("9mm");
-    int ammo = 0;
-    if (ammopos != INT_MIN) {
-        item &ammoitem = p->inv.find_item(ammopos);
-        ammo = std::min(ammoitem.charges, long(500));
-        p->reduce_charges(ammopos, ammo);
-        p->add_msg_if_player(ngettext("You load %d x 9mm round into the turret.",
-                                      "You load %d x 9mm rounds into the turret.", ammo), ammo);
-    } else {
-        p->add_msg_if_player(m_info,
-                             _("If you had standard factory-built 9mm bullets, you could load the turret."));
-    }
-    mturret.ammo["9mm"] = ammo;
-    if (rng(0, p->int_cur / 2) + p->skillLevel("electronics") / 2 +
-        p->skillLevel("computer") < rng(0, 6)) {
-        p->add_msg_if_player(m_warning, _("The turret scans you and makes angry beeping noises!"));
-    } else {
-        p->add_msg_if_player(m_warning, _("The turret emits an IFF beep as it scans you."));
-        mturret.friendly = -1;
-    }
-    g->add_zombie(mturret);
-    return 1;
-}
-
-
-int iuse::turret_laser(player *p, item *, bool)
-{
-    int dirx, diry;
-    if (!choose_adjacent(_("Place the turret where?"), dirx, diry)) {
-        return 0;
-    }
-    if (!g->is_empty(dirx, diry)) {
-        p->add_msg_if_player(m_info, _("You cannot place a turret there."));
-        return 0;
-    }
-
-    p->moves -= 100;
-    monster mturret(GetMType("mon_laserturret"), dirx, diry);
-    if (rng(0, p->int_cur / 2) + p->skillLevel("electronics") / 2 +
-        p->skillLevel("computer") < rng(0, 6)) {
-        p->add_msg_if_player(m_warning, _("The laser turret scans you and makes angry beeping noises!"));
-    } else {
-        p->add_msg_if_player(m_warning, _("The laser turret emits an IFF beep as it scans you."));
-        mturret.friendly = -1;
-    }
-    if (!g->is_in_sunlight(mturret.posx(), mturret.posy())) {
-        p->add_msg_if_player(_("A flashing LED on the laser turret appears to indicate low light."));
-    }
-    g->add_zombie(mturret);
-    return 1;
-}
-
-int iuse::turret_rifle(player *p, item *, bool)
-{
-    int dirx, diry;
-    if (!choose_adjacent(_("Place the turret where?"), dirx, diry)) {
-        return 0;
-    }
-    if (!g->is_empty(dirx, diry)) {
-        p->add_msg_if_player(m_info, _("You cannot place a turret there."));
-        return 0;
-    }
-
-    p->moves -= 100;
-    monster mturret(GetMType("mon_turret_rifle"), dirx, diry);
-    const int ammopos = p->inv.position_by_type("556");
-    int ammo = 0;
-    if (ammopos != INT_MIN) {
-        item &ammoitem = p->inv.find_item(ammopos);
-        ammo = std::min(ammoitem.charges, long(500));
-        p->reduce_charges(ammopos, ammo);
-        p->add_msg_if_player(ngettext("You load %d x 5.56 round into the turret.",
-                                      "You load %d x 5.56 rounds into the turret.", ammo), ammo);
-    } else {
-        p->add_msg_if_player(m_info,
-                             _("If you had standard factory-built 5.56 bullets, you could load the turret."));
-    }
-    mturret.ammo["556"] = ammo;
-    if (rng(0, p->int_cur / 2) + p->skillLevel("electronics") / 2 +
-        p->skillLevel("computer") < rng(0, 6)) {
-        p->add_msg_if_player(m_warning, _("The turret scans you and makes angry beeping noises!"));
-    } else {
-        p->add_msg_if_player(m_warning, _("The turret emits an IFF beep as it scans you."));
-        mturret.friendly = -1;
-    }
-    g->add_zombie(mturret);
-    return 1;
 }
 
 int iuse::UPS_off(player *p, item *it, bool)

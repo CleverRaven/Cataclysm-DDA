@@ -298,7 +298,8 @@
       ["phonebook", 5],
       ["survnote", 1],
       ["radio_car_box", 2],
-      ["radiocontrol", 5]
+      ["radiocontrol", 5],
+      ["magnifying_glass", 2]
     ]
   },{
     "type" : "item_group",
@@ -725,7 +726,9 @@
       ["toolbox", 2],
       ["knitting_needles", 10],
       ["sheath", 15],
-      ["peephole", 2]
+      ["peephole", 2],
+      ["magnifying_glass", 5]
+      
     ]
   },{
     "type" : "item_group",
@@ -905,7 +908,8 @@
       ["holybook_scientology", 1],
       ["mouthpiece", 1],
       ["leathersandals", 25],
-      ["survnote", 2]
+      ["survnote", 2],
+      ["magnifying_glass", 2]
     ]
   },{
     "type":"item_group",
@@ -926,6 +930,7 @@
       ["sw_22", 5],
       ["glock_19", 5],
       ["usp_9mm", 4],
+      ["l_lookout_9mm", 5],
       ["l_sp_9mm", 4],
       ["l_mp_9mm", 1],
       ["cx4", 1],
@@ -1777,7 +1782,8 @@
       ["multitool", 6],
       ["survnote", 1],
       ["fertilizer_commercial",30],
-      ["peephole", 25]
+      ["peephole", 25],
+      ["magnifying_glass", 5]
     ]
   },{
     "type" : "item_group",
@@ -1886,7 +1892,8 @@
       ["misc_repairkit", 5],
       ["tool_belt", 30],
       ["knitting_needles", 1],
-      ["survnote", 1]
+      ["survnote", 1],
+      ["material_quicklime", 10]
     ]
   },{
     "type" : "item_group",
@@ -1926,7 +1933,8 @@
       ["camera_pro", 5],
       ["wristwatch", 15],
       ["radio_car_box", 3],
-      ["radiocontrol", 15]
+      ["radiocontrol", 15],
+      ["magnifying_glass", 4]
     ]
   },{
     "type" : "item_group",
@@ -2495,6 +2503,7 @@
       ["sw_22", 5],
       ["glock_19", 6],
       ["usp_9mm", 5],
+      ["l_lookout_9mm", 5],
       ["l_sp_9mm", 6],
       ["sw_619", 4],
       ["taurus_38", 4],
@@ -2511,6 +2520,7 @@
       ["raging_bull", 1],
       ["sw_500", 1],
       ["v29_cheap", 3],
+      ["l_bak_223", 3],
       ["rm99_pistol", 2],
       ["rm103a_pistol", 1]
     ]
@@ -2575,6 +2585,7 @@
       ["fn_fal", 16],
       ["acr", 4],
       ["ar15", 9],
+      ["l_bak_223", 6],
       ["l_mbr_223", 4],
       ["scar_l", 3],
       ["scar_h", 5],
@@ -2593,8 +2604,9 @@
     "items":[
       ["sig_mosquito", 5],
       ["sw_22", 5],
-      ["glock_19", 7],
+      ["glock_19", 6],
       ["usp_9mm", 6],
+      ["l_lookout_9mm", 5],
       ["l_sp_9mm", 6],
       ["l_mp_9mm", 3],
       ["sw_619", 4],
@@ -2638,6 +2650,7 @@
       ["browning_blr", 8],
       ["remington_700", 14],
       ["m14a", 10],
+      ["l_bak_223", 6],
       ["l_car_223", 3],
       ["l_mbr_223", 3],
       ["l_dsr_223", 3],
@@ -3858,7 +3871,8 @@
       ["survnote", 1],
       ["diazepam", 10],
       ["stethoscope", 35],
-      ["jar_3l_glass", 15]
+      ["jar_3l_glass", 15],
+      ["magnifying_glass", 5]
     ]
   },{
     "type" : "item_group",
@@ -4042,7 +4056,8 @@
       ["pocketwatch", 2],
       ["gold_watch", 2],
       ["sf_watch", 1],
-      ["survnote", 1]
+      ["survnote", 1],
+      ["magnifying_glass", 8]
     ]
   },{
     "type" : "item_group",
@@ -4734,7 +4749,8 @@
       ["survnote", 5],
       ["radio_car_box", 1],
       ["radiocontrol", 3],
-      ["peephole", 1]
+      ["peephole", 1],
+      ["magnifying_glass", 2]
     ]
   },{
     "type" : "item_group",
@@ -5462,7 +5478,8 @@
       ["holybook_kallisti", 1],
       ["holybook_scientology", 1],
       ["collarpin", 3],
-      ["survnote", 1]
+      ["survnote", 1],
+      ["magnifying_glass", 2]
     ]
   },{
     "type" : "item_group",
@@ -7276,7 +7293,9 @@
       ["antiparasitic", 2],
       ["survnote", 1],
       ["toolbox", 1],
-      ["diazepam", 1]
+      ["diazepam", 1],
+      ["magnifying_glass", 1],
+      ["material_quicklime", 10]
     ]
   },{
     "type" : "item_group",
@@ -7519,10 +7538,12 @@
       ["223", 2],
       ["20x66_shot", 2],
       ["glock_19", 5],
+      ["l_lookout_9mm", 5],
       ["l_sp_9mm", 5],
       ["shotgun_sawn", 4],
       ["uzi", 8],
       ["tec9", 10],
+      ["l_bak_223", 4],
       ["l_car_223", 3],
       ["l_mp_9mm", 4],
       ["l_mp_45", 7],
@@ -8545,7 +8566,8 @@
       ["bullwhip", 30],
       ["distaff_spindle", 2],
       ["carding_paddles", 2],
-      ["scythe", 40]
+      ["scythe", 40],
+      ["material_quicklime", 30]
     ]
   },{
 "type" : "item_group",
