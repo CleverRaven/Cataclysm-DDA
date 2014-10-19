@@ -647,7 +647,6 @@ void vehicle::use_controls()
         }
         break;
     case activate_horn:
-        add_msg(_("You honk the horn!"));
         honk_horn();
         break;
     case toggle_turrets:
@@ -846,6 +845,7 @@ void vehicle::start_engine()
 void vehicle::honk_horn()
 {
     const bool no_power = !fuel_left(fuel_type_battery, true);
+    bool honked = false;
 
     for( size_t p = 0; p < parts.size(); ++p ) {
         if( ! part_flag( p, "HORN" ) )
@@ -854,6 +854,10 @@ void vehicle::honk_horn()
         vpart_info &horn_type=part_info(p);
         if( (horn_type.id != "horn_bicycle") && no_power ){
             continue;
+        }
+        if( ! honked ) {
+            add_msg(_("You honk the horn!"));
+            honked = true;
         }
         //Get global position of horn
         const int horn_x = global_x() + parts[p].precalc_dx[0];
@@ -866,6 +870,10 @@ void vehicle::honk_horn()
         } else{
             g->sound( horn_x, horn_y, horn_type.bonus, _("honk.") );
         }
+    }
+
+    if (!honked) {
+        add_msg(_("You honk the horn, but nothing happens."));
     }
 }
 
