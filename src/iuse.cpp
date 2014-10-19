@@ -7636,7 +7636,7 @@ int iuse::artifact(player *p, item *it, bool)
 
             case AEA_ADRENALINE:
                 p->add_msg_if_player(m_good, _("You're filled with a roaring energy!"));
-                p->add_disease("adrenaline", rng(200, 250));
+                p->add_effect("adrenaline", rng(200, 250));
                 break;
 
             case AEA_MAP: {
@@ -8520,14 +8520,10 @@ int iuse::adrenaline_injector(player *p, item *it, bool)
 
     item syringe( "syringe", it->bday );
     p->i_add( syringe );
+    p->add_effect("adrenaline", 200);
     if (p->has_disease("adrenaline")) {
-        //Increase current surge by 3 minutes (if not on comedown)
-        p->add_disease("adrenaline", 30);
-        //Also massively boost stimulant level, risking death on an extended chain
+        //Massively boost stimulant level, risking death on an extended chain
         p->stim += 80;
-    } else {
-        //No current adrenaline surge: Give the full duration
-        p->add_disease("adrenaline", 200);
     }
 
     if (p->has_disease("asthma")) {

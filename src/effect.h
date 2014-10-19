@@ -126,21 +126,29 @@ class effect_type
         std::string get_remove_memorial_log() const;
 
         bool get_main_parts() const;
+    
+        bool load_miss_msgs(JsonObject &jsobj, std::string member);
+        bool load_decay_msgs(JsonObject &jsobj, std::string member);
 
     protected:
         bool permanent;
         int max_intensity;
         int max_duration;
+        
         int dur_add_perc;
         int int_add_val;
+        
         int int_decay_step;
         int int_decay_tick;
+        int int_dur_factor;
+        
         bool main_parts_only;
+        
         std::string resist_trait;
         std::string resist_effect;
         std::string removes_effect;
-        std::string miss_string;
-        int miss_weight;
+        
+        std::vector<std::pair<std::string, int>> miss_msgs;
         
         bool pain_sizing;
         bool hurt_sizing;
@@ -154,6 +162,8 @@ class effect_type
         std::vector<std::string> desc;
         std::vector<std::string> reduced_desc;
         bool part_descs;
+        
+        std::vector<std::pair<std::string, effect_rating>> decay_msgs;
 
         effect_rating rating;
 
@@ -180,7 +190,7 @@ class effect : public JsonSerializer, public JsonDeserializer
 
         effect_type *get_effect_type();
         
-        void decay(std::vector<std::string> &rem_ids, std::vector<body_part> &rem_bps, unsigned int turn);
+        void decay(std::vector<std::string> &rem_ids, std::vector<body_part> &rem_bps, unsigned int turn, Creature *victim);
 
         int get_duration();
         int get_max_duration();
@@ -219,8 +229,7 @@ class effect : public JsonSerializer, public JsonDeserializer
         int get_dur_add_perc();
         int get_int_add_val();
         
-        std::string get_miss_string();
-        int get_miss_weight();
+        std::vector<std::pair<std::string, int>> get_miss_msgs();
         
         std::string get_speed_name();
 

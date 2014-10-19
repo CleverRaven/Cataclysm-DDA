@@ -815,7 +815,6 @@ int disease_speed_boost(disease dis)
 {
     dis_type_enum type = disease_type_lookup[dis.type];
     switch (type) {
-        case DI_ADRENALINE: return (dis.duration > 150 ? 40 : -10);
         case DI_ASTHMA:     return 0 - int(dis.duration / 5);
         case DI_GRACK:      return +20000;
         case DI_METH:       return (dis.duration > 600 ? 50 : -40);
@@ -841,10 +840,6 @@ std::string dis_name(disease& dis)
 
     case DI_CIG: return _("Nicotine");
     case DI_HIGH: return _("High");
-
-    case DI_ADRENALINE:
-        if (dis.duration > 150) return _("Adrenaline Rush");
-        else return _("Adrenaline Comedown");
 
     case DI_ASTHMA:
         if (dis.duration > 800) return _("Heavy Asthma");
@@ -1006,16 +1001,6 @@ std::string dis_description(disease& dis)
         return _("Intelligence - 1;   Perception - 1");
 
     case DI_DATURA: return _("Buy the ticket, take the ride.  The datura has you now.");
-
-    case DI_ADRENALINE:
-        if (dis.duration > 150)
-            return _(
-            "Speed +80;   Strength + 5;   Dexterity + 3;\n"
-            "Intelligence - 8;   Perception + 1");
-        else
-            return _(
-            "Strength - 2;   Dexterity - 1;   Intelligence - 1;   Perception - 1");
-
     case DI_ASTHMA:
         return string_format(_("Speed - %d%%;   Strength - 2;   Dexterity - 3"), int(dis.duration / 5));
 

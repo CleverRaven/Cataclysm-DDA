@@ -173,7 +173,7 @@
         "id": "poison",
         "name": ["Poisoned"],
         "desc": ["You have been poisoned!"],
-        "miss_message": "You feel bad inside.",
+        "miss_messages": [["You feel bad inside.", 1]]
         "rating": "bad",
         "resist_trait": "POISRESIST",
         "pain_sizing": true,
@@ -194,8 +194,7 @@
         "id": "badpoison",
         "name": ["Badly Poisoned"],
         "desc": ["You have been badly poisoned!"],
-        "miss_message": "You feel bad inside.",
-        "miss_weight": 2,
+        "miss_messages": [["You feel bad inside.", 2]],
         "rating": "bad",
         "resist_trait": "POISRESIST",
         "pain_sizing": true,
@@ -218,7 +217,7 @@
         "id": "foodpoison",
         "name": ["Food Poisoning"],
         "desc": ["Your stomach is extremely upset, and you are quite nauseous."],
-        "miss_message": "Your stomach bothers you.",
+        "miss_messages": [["Your stomach bothers you.", 1]],
         "rating": "bad",
         "resist_trait": "POISRESIST",
         "base_mods": {
@@ -242,8 +241,7 @@
             "Totally Paralyzed", "Totally Paralyzed"
         ],
         "desc": ["You are being slowed by a paralyzing poison!"],
-        "miss_message": "You feel stiff.",
-        "miss_weight": 3,
+        "miss_messages": [["You feel stiff.", 3]],
         "rating": "bad",
         "max_intensity": 20,
         "resist_trait": "POISRESIST",
@@ -296,7 +294,7 @@
         "desc": ["You've inhaled a lungful of thick smoke."],
         "apply_message": "You inhale a lungful of thick smoke.",
         "rating": "bad",
-        "miss_message": "Your lungs burn from the smoke.",
+        "miss_messages": [["Your lungs burn from the smoke.", 1]],
         "harmful_cough": true,
         "max_duration": 600,
         "base_mods" : {
@@ -312,8 +310,7 @@
         "desc": ["You've been exposed to tear gas!"],
         "apply_message": "You inhale a lungful of tear gas.",
         "rating": "bad",
-        "miss_message": "Your eyes burn from the tear gas.",
-        "miss_weight": 2,
+        "miss_messages": [["Your eyes burn from the tear gas.", 2]],
         "harmful_cough": true,
         "base_mods": {
             "str_mod": [-2],
@@ -403,8 +400,7 @@
         "desc": ["You are covered in webs!"],
         "apply_message": "You're covered in webs!",
         "rating": "bad",
-        "miss_message": "The webs constrict your movement.",
-        "miss_weight": 4,
+        "miss_messages": [["The webs constrict your movement.", 4]],
         "max_intensity": 3,
         "base_mods": {
             "speed_mod": [-15]
@@ -462,7 +458,7 @@
         "id": "fungus",
         "apply_memorial_log": "Contracted a fungal infection.",
         "remove_memorial_log": "Cured the fungal infection.",
-        "miss_message": "You feel sick inside."
+        "miss_messages": [["You feel sick inside.", 1]],
         "rating": "bad",
         "max_intensity": 3,
         "resist_trait": "POISRESIST",
@@ -503,8 +499,7 @@
         "id": "shakes"
         "name": ["Shakes"],
         "desc": ["Your hands just won't stop shaking."],
-        "miss_message": "You tremble",
-        "miss_weight": 4,
+        "miss_messages": [["You tremble", 4]],
         "base_mods": {
             "str_mod": [-1],
             "dex_mod": [-4]
@@ -528,7 +523,6 @@
         "rating": "bad",
         "max_intensity": 3,
         "int_decay_tick": 120,
-        "int_decay_step": -1,
         "int_add_val": 1,
         "base_mods": {
             "str_mod": [-1],
@@ -542,8 +536,7 @@
         "desc": ["You're covered in thick goo!"],
         "apply_message": "You're covered in thick goo!",
         "rating": "bad",
-        "miss_message": "This goo makes you slip",
-        "miss_weight": 2,
+        "miss_messages": [["This goo makes you slip", 2]],
         "base_mods": {
             "dex_mod": [-2],
             "speed_mod": [-25],
@@ -649,7 +642,7 @@
         "desc": ["is blistering from the intense heat."],
         "main_parts_only": true,
         "part_descs": true,
-        "miss_message": "Your blisters distract you",
+        "miss_messages": [["Your blisters distract you", 1]],
         "base_mods": {
             "dex_mod": [-1],
             "str_mod": [-1],
@@ -690,8 +683,7 @@
         "desc": ["You're coated in sap!"],
         "apply_message": "You're coated in sap!",
         "rating": "bad",
-        "miss_message": "The sap's too sticky for you to fight effectively.",
-        "miss_weight": 3,
+        "miss_messages": [["The sap's too sticky for you to fight effectively.", 3]],
         "base_mods": {
             "speed_mod": [-25],
             "dex_mod": [-3]
@@ -707,7 +699,7 @@
         "apply_message": "You feel a cold coming on...",
         "rating": "bad",
         "resist_effect": "took_flumed",
-        "miss_message": "You're too stuffed up to fight effectively.",
+        "miss_messages": [["You're too stuffed up to fight effectively.", 1]]
         "base_mods": {
             "thirst_tick": [300],
             "thirst_min": [1],
@@ -767,8 +759,7 @@
         "apply_message": "You feel a rush as the chemicals flow through your body!",
         "rating": "good",
         "max_intensity": 2,
-        "int_decay_step": -1,
-        "int_decay_tick": 150,
+        "int_decay_factor": 50,
         "base_mods": {
             "str_mod": [-3],
             "dex_mod": [-5],
@@ -785,8 +776,23 @@
     {
         "type": "effect_type",
         "id": "adrenaline",
+        "name": [
+            "Adrenaline Comedown,
+            "Adrenaline Rush
+        ],
+        "desc": [
+            "You feel completely drained.",
+            "You feel the rush of adrenaline in your body!"
+        ],
         "apply_message": "You feel a surge of adrenaline!",
-        "rating": "good"
+        "rating": "good",
+        "dur_add_perc": 15,
+        "base_mods": {
+            "speed_mod": [-60]
+        },
+        "scaling_mods": {
+            "speed_mod": [50]
+        }
     },
     {
         "type": "effect_type",

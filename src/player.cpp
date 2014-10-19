@@ -4660,9 +4660,9 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
         }
     }
 
-    if (has_trait("ADRENALINE") && !has_disease("adrenaline") &&
+    if (has_trait("ADRENALINE") && !has_effect("adrenaline") &&
         (hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15)) {
-        add_disease("adrenaline", 200);
+        add_effect("adrenaline", 200);
     }
 
     int cut_dam = dealt_dams.type_damage(DT_CUT);
@@ -4837,9 +4837,9 @@ void player::apply_damage(Creature *source, body_part hurt, int dam)
 
     mod_pain( dam /2 );
 
-    if (has_trait("ADRENALINE") && !has_disease("adrenaline") &&
+    if (has_trait("ADRENALINE") && !has_effect("adrenaline") &&
         (hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15)) {
-        add_disease("adrenaline", 200);
+        add_effect("adrenaline", 200);
     }
     hp_cur[hurtpart] -= dam;
     if (hp_cur[hurtpart] < 0) {
@@ -5569,12 +5569,11 @@ void player::process_effects() {
             hardcoded_effects(it);
             
             // Handle miss messages
-            if (it.get_miss_string() != "") {
-                int weight = 1;
-                if (it.get_miss_weight() < 0) {
-                    weight = abs(it.get_miss_weight());
+            auto msgs = it.get_miss_msgs();
+            if (!msgs.empty()) {
+                for (auto i : msgs) {
+                    add_miss_reason(_(i.first.c_str()), i.second);
                 }
-                add_miss_reason(_(it.get_miss_string().c_str()), weight);
             }
             
             // Handle stim

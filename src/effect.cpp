@@ -209,6 +209,44 @@ bool effect_type::get_main_parts() const
 {
     return main_parts_only;
 }
+bool effect_type::load_miss_msgs(JsonObject &jsobj, std::string member)
+{
+    if (jsobj.has_object(member)) {
+        JsonArray outer = jo.get_array(member);
+        while (outer.has_more()) {
+            JsonArray inner = outer.next_array();
+            miss_msgs.push_back(std::make_pair(inner.get_string(0), inner.get_int(1));
+        }
+        return true;
+    }
+    return false;
+}
+bool effect_type::load_decay_msgs(JsonObject &jsobj, std::string member)
+{
+    if (jsobj.has_object(member)) {
+        JsonArray outer = jo.get_array(member);
+        while (outer.has_more()) {
+            JsonArray inner = outer.next_array();
+            std::string msg = inner.get_string(0);
+            std::string r = inner.get_string(1);
+            effect_rating rate = e_neutral;
+            if(r == "good") {
+                rate = e_good;
+            } else if(r == "neutral" ) {
+                rate = e_neutral;
+            } else if(r == "bad" ) {
+                rate = e_bad;
+            } else if(r == "mixed" ) {
+                rate = e_mixed;
+            } else {
+                rate = e_neutral;
+            }
+            decay_msgs.push_back(std::make_pair(msg, rate));
+        }
+        return true;
+    }
+    return false;
+}
 
 effect::effect() :
     eff_type(NULL),
@@ -251,6 +289,7 @@ effect &effect::operator=(const effect &rhs)
 
 std::string effect::disp_name()
 {
+    // End result should look like "name [L. Arm]"
     std::stringstream ret;
     if (eff_type->use_name_ints()) {
         ret << _(eff_type->name[intensity - 1].c_str());
@@ -406,9 +445,9 @@ std::string effect::disp_desc(bool reduced)
         ret << "\n";
     }
     
-    //Then print the effect description
+    // Then print the effect description
     if (use_part_descs()) {
-        //~ Used for effect descriptions, "Your body_part_name is ..."
+        //~ Used for effect descriptions, "Your (body_part_name) ..."
         ret << _("Your ") << body_part_name(bp).c_str() << " ";
     }
     std::string tmp_str;
@@ -430,24 +469,42 @@ std::string effect::disp_desc(bool reduced)
     return ret.str();
 }
 
-void effect::decay(std::vector<std::string> &rem_ids, std::vector<body_part> &rem_bps, unsigned int turn)
+void effect::decay(std::vector<std::string> &rem_ids, std::vector<body_part> &rem_bps, unsigned int turn, Creature *victim)
 {
+    // Decay duration if not permanent
     if (!is_permanent()) {
         duration -= 1;
         add_msg( m_debug, "ID: %s, Duration %d", get_id().c_str(), duration );
     }
+    // Store current intensity for comparison later
+    int tmp_int = intensity;
+    
+    // Fix bad intensities
     if (intensity < 1) {
         add_msg( m_debug, "Bad intensity, ID: %s", get_id().c_str() );
         intensity = 1;
     } else if (intensity > 1) {
+        // Decay intensity if necessary
         if (eff_type->int_decay_tick != 0 && turn % eff_type->int_decay_tick == 0) {
             intensity += eff_type->int_decay_step;
-            
         }
     }
+    // Force intensity if it is duration based
+    if (eff_type->int_dur_factor != 0) {
+        // + 1 here so that the lowest is intensity 1, not 0
+        intensity = (duration / eff_type->int_dur_factor) + 1;
+    }
+    // Bound intensity to [1, max_intensity]
     if (intensity > eff_type->max_intensity) {
         intensity = eff_type->max_intensity;
     }
+    // Display decay message if available
+    if (tmp_int > intensity && decay_msgs.size() > intensity) {
+        // -1 because intensity = 1 is the first message
+        victim->add_msg_if_player(decay_msgs[intensity - 1].second, decay_msgs[intenisty - 1].second)
+    }
+    
+    // Add to removal list if duration is <= 0
     if (duration <= 0) {
         rem_ids.push_back(get_id());
         rem_bps.push_back(bp);
@@ -1028,13 +1085,13 @@ int effect::get_int_add_val()
     return eff_type->int_add_val;
 }
 
-std::string effect::get_miss_string()
+std::vector<std::pair<std::string, int>> effect::get_miss_msgs()
 {
-    return eff_type->miss_string;
+    return eff_type->miss_msgs;
 }
-int effect::get_miss_weight()
+std::vector<int> effect::get_miss_weights()
 {
-    return eff_type->miss_weight;
+    return eff_type->miss_weights;
 }
 std::string effect::get_speed_name()
 {
@@ -1119,11 +1176,12 @@ void load_effect_type(JsonObject &jo)
     new_etype.max_duration = jo.get_int("max_duration", 0);
     new_etype.dur_add_perc = jo.get_int("dur_add_perc", 100);
     new_etype.int_add_val = jo.get_int("int_add_val", 0);
-    new_etype.int_decay_step = jo.get_int("int_decay_step", 0);
+    new_etype.int_decay_step = jo.get_int("int_decay_step", -1);
     new_etype.int_decay_tick = jo.get_int("int_decay_tick", 0);
+    new_etype.int_dur_factor = jo.get_int("int_dur_factor", 0);
     
-    new_etype.miss_string = jo.get_string("miss_string", "");
-    new_etype.miss_weight = jo.get_int("miss_weight", 1);
+    new_etype.load_miss_msgs(jo, "miss_messages");
+    new_etype.load_decay_msgs(jo, "decay_messages");
     
     new_etype.main_parts_only = jo.get_bool("main_parts_only", false);
     new_etype.pkill_addict_reduces = jo.get_bool("pkill_addict_reduces", false);

@@ -704,7 +704,7 @@ void Creature::process_effects()
                 rem_ids.push_back(it->second.get_removes_effect());
                 rem_bps.push_back(num_bp);
             }
-            it->second.decay(rem_ids, rem_bps, calendar::turn);
+            it->second.decay(rem_ids, rem_bps, calendar::turn, this);
         }
     }
     for (size_t i = 0; i < rem_ids.size(); ++i) {
