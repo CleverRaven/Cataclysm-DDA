@@ -1732,10 +1732,10 @@ void npc::activate_item(int position)
     item *it = &i_at(position);
     if (it->is_tool()) {
         it_tool *tool = dynamic_cast<it_tool *>(it->type);
-        tool->invoke(this, it, false);
+        tool->invoke(this, it, false, pos());
     } else if (it->is_food()) {
         it_comest *comest = dynamic_cast<it_comest *>(it->type);
-        comest->invoke(this, it, false);
+        comest->invoke(this, it, false, pos());
     }
 }
 

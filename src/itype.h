@@ -221,7 +221,7 @@ public:
     bool is_covering(body_part bp) const;
     /** Returns true if is_armor() and is sided on bp */
     bool is_sided(body_part bp) const;
-    int invoke( player *p, item *it, bool active );
+    int invoke( player *p, item *it, bool active, point pos );
 
     std::string dmg_adj(int dam)
     {
@@ -615,7 +615,7 @@ struct it_macguffin : public virtual itype {
                  std::string pdes, char psym, nc_color pcolor, std::string pm1, std::string pm2,
                  unsigned int pvolume, unsigned int pweight, signed int pmelee_dam,
                  signed int pmelee_cut, signed int pm_to_hit, bool preadable,
-                 int (iuse::*puse)(player *, item *, bool))
+                 int (iuse::*puse)(player *, item *, bool, point))
         : itype(pid, pprice, pname, pname_plural, pdes, psym, pcolor, pm1, pm2, SOLID, pvolume,
                 pweight, pmelee_dam, pmelee_cut, pm_to_hit)
     {

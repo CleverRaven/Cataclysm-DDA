@@ -2015,7 +2015,7 @@ void game::activity_on_finish_firstaid()
 {
     item &it = u.i_at(u.activity.position);
     iuse tmp;
-    tmp.completefirstaid(&u, &it, false);
+    tmp.completefirstaid(&u, &it, false, u.pos());
     u.reduce_charges(u.activity.position, 1);
     // Erase activity and values.
     u.activity.type = ACT_NULL;
@@ -2025,10 +2025,8 @@ void game::activity_on_finish_firstaid()
 void game::activity_on_finish_start_fire()
 {
         item &it = u.i_at(u.activity.position);
-        const int dirx = u.activity.placement.x;
-        const int diry = u.activity.placement.y;
         iuse tmp;
-        tmp.resolve_firestarter_use(&u, &it, dirx, diry);
+        tmp.resolve_firestarter_use(&u, &it, u.activity.placement);
         u.activity.type = ACT_NULL;
 }
 
@@ -6038,81 +6036,6 @@ bool game::u_see(const monster *critter)
     return u.sees(critter);
 }
 
-// temporary item and location of it for processing items
-// in vehicle cargo parts. See map::process_active_items_in_vehicle
-std::pair<item, point> tmp_active_item_pos(item(), point(-999, -999));
-/**
- * Attempts to find which map co-ordinates the specified item is located at,
- * looking at the player, the ground, NPCs, and vehicles in that order.
- * @param it A pointer to the item to find.
- * @return The location of the item, or (-999, -999) if it wasn't found.
- */
-point game::find_item(item *it)
-{
-    if (&tmp_active_item_pos.first == it) {
-        return tmp_active_item_pos.second;
-    }
-    //Does the player have it?
-    if (u.has_item(it)) {
-        return point(u.posx, u.posy);
-    }
-    //Is it in a vehicle?
-    for (std::set<vehicle *>::iterator veh_iterator = m.vehicle_list.begin();
-         veh_iterator != m.vehicle_list.end(); veh_iterator++) {
-        vehicle *next_vehicle = *veh_iterator;
-        std::vector<int> cargo_parts = next_vehicle->all_parts_with_feature("CARGO", false);
-        for (std::vector<int>::iterator part_index = cargo_parts.begin();
-             part_index != cargo_parts.end(); part_index++) {
-            std::vector<item> *items_in_part = &(next_vehicle->parts[*part_index].items);
-            for (int n = items_in_part->size() - 1; n >= 0; n--) {
-                if (&((*items_in_part)[n]) == it) {
-                    int mapx = next_vehicle->global_x() + next_vehicle->parts[*part_index].precalc_dx[0];
-                    int mapy = next_vehicle->global_y() + next_vehicle->parts[*part_index].precalc_dy[0];
-                    return point(mapx, mapy);
-                }
-            }
-        }
-    }
-    //Does an NPC have it?
-    for (std::vector<npc *>::iterator npc = active_npc.begin();
-         npc != active_npc.end(); ++npc) {
-        if ((*npc)->has_item(it)) {
-            return point((*npc)->posx, (*npc)->posy);
-        }
-    }
-    //Is it on the ground? (Check this last - takes the most time)
-    point ret = m.find_item(it);
-    if (ret.x != -1 && ret.y != -1) {
-        return ret;
-    }
-    //Not found anywhere
-    return point(-999, -999);
-}
-
-void game::remove_item(const item *it)
-{
-    point ret;
-    if( u.has_item( it ) ) {
-        u.i_rem( it );
-        return;
-    }
-    ret = m.find_item(it);
-    if (ret.x != -1 && ret.y != -1) {
-        for (size_t i = 0; i < m.i_at(ret.x, ret.y).size(); i++) {
-            if (it == &m.i_at(ret.x, ret.y)[i]) {
-                m.i_rem(ret.x, ret.y, i);
-                return;
-            }
-        }
-    }
-    for( auto &npc : active_npc ) {
-        if( npc->has_item( it ) ) {
-            npc->i_rem( it );
-            return;
-        }
-    }
-}
-
 Creature *game::is_hostile_nearby()
 {
     int distance = (OPTIONS["SAFEMODEPROXIMITY"] <= 0) ? 60 : OPTIONS["SAFEMODEPROXIMITY"];
@@ -8698,7 +8621,7 @@ bool pet_menu(monster *z)
 
             item ball("pheromone", 0);
             iuse pheromone;
-            pheromone.pheromone(&(g->u), &ball, true);
+            pheromone.pheromone(&(g->u), &ball, true, g->u.pos());
         }
 
     }

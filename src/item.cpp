@@ -1791,28 +1791,22 @@ bool item::can_revive()
     return false;
 }
 
-bool item::ready_to_revive()
+bool item::ready_to_revive( point pos )
 {
     if(can_revive() == false) {
         return false;
     }
     int age_in_hours = (int(calendar::turn) - bday) / (10 * 60);
     age_in_hours -= int((float)burnt / volume() * 24);
-    if (damage > 0)
-    {
+    if( damage > 0 ) {
         age_in_hours /= (damage + 1);
     }
     int rez_factor = 48 - age_in_hours;
-    if (age_in_hours > 6 && (rez_factor <= 0 || one_in(rez_factor)))
-    {
+    if( age_in_hours > 6 && (rez_factor <= 0 || one_in(rez_factor)) ) {
         // If we're a special revival zombie, wait to get up until the player is nearby.
         const bool isReviveSpecial = has_flag("REVIVE_SPECIAL");
-        if (isReviveSpecial)
-        {
-
-            point p = g->find_item(this);
-
-            const int distance = rl_dist(p.x, p.y, g->u.posx, g->u.posy);
+        if( isReviveSpecial ) {
+            const int distance = rl_dist(pos.x, pos.y, g->u.posx, g->u.posy);
             if (distance > 3) {
                 return false;
             }
@@ -1828,19 +1822,21 @@ bool item::ready_to_revive()
 
 bool item::goes_bad() const
 {
-    if (!is_food())
+    if (!is_food()) {
         return false;
+    }
     it_comest* food = dynamic_cast<it_comest*>(type);
     return (food->spoils != 0);
 }
 
 bool item::count_by_charges() const
 {
-    if (is_ammo())
+    if( is_ammo() ) {
         return true;
-    if (is_food()) {
+    }
+    if( is_food() ) {
         it_comest* food = dynamic_cast<it_comest*>(type);
-        return (food->charges > 1);
+        return food->charges > 1;
     }
     return false;
 }
@@ -1856,10 +1852,11 @@ long item::max_charges() const
 
 bool item::craft_has_charges()
 {
-    if (count_by_charges())
+    if (count_by_charges()) {
         return true;
-    else if (ammo_type() == "NULL")
+    } else if (ammo_type() == "NULL") {
         return true;
+    }
 
     return false;
 }
@@ -1875,55 +1872,58 @@ long item::num_charges()
             return charges;
         }
     }
-    if (is_gunmod() && mode == "MODE_AUX")
+    if( is_gunmod() && mode == "MODE_AUX" ) {
         return charges;
+    }
     return 0;
 }
 
 int item::weapon_value(player *p) const
 {
- if( is_null() )
-  return 0;
+    if( is_null() ) {
+        return 0;
+    }
 
- int my_value = 0;
- if (is_gun()) {
-  int gun_value = 14;
-  it_gun* gun = dynamic_cast<it_gun*>(type);
-  gun_value += gun->dmg_bonus;
-  gun_value += int(gun->burst / 2);
-  gun_value += int(gun->clip / 3);
-  gun_value -= int(gun->dispersion / 5);
-  gun_value *= (.5 + (.3 * p->skillLevel("gun")));
-  gun_value *= (.3 + (.7 * p->skillLevel(gun->skill_used)));
-  my_value += gun_value;
- }
+    int my_value = 0;
+    if (is_gun()) {
+        int gun_value = 14;
+        it_gun* gun = dynamic_cast<it_gun*>(type);
+        gun_value += gun->dmg_bonus;
+        gun_value += int(gun->burst / 2);
+        gun_value += int(gun->clip / 3);
+        gun_value -= int(gun->dispersion / 5);
+        gun_value *= (.5 + (.3 * p->skillLevel("gun")));
+        gun_value *= (.3 + (.7 * p->skillLevel(gun->skill_used)));
+        my_value += gun_value;
+    }
 
- my_value += int(type->melee_dam * (1   + .3 * p->skillLevel("bashing") +
-                                          .1 * p->skillLevel("melee")    ));
+    my_value += int(type->melee_dam * (1   + .3 * p->skillLevel("bashing") +
+                                       .1 * p->skillLevel("melee")    ));
 
- my_value += int(type->melee_cut * (1   + .4 * p->skillLevel("cutting") +
-                                          .1 * p->skillLevel("melee")    ));
+    my_value += int(type->melee_cut * (1   + .4 * p->skillLevel("cutting") +
+                                       .1 * p->skillLevel("melee")    ));
 
- my_value += int(type->m_to_hit  * (1.2 + .3 * p->skillLevel("melee")));
+    my_value += int(type->m_to_hit  * (1.2 + .3 * p->skillLevel("melee")));
 
- return my_value;
+    return my_value;
 }
 
 int item::melee_value(player *p)
 {
- if( is_null() )
-  return 0;
+    if( is_null() ) {
+        return 0;
+    }
 
- int my_value = 0;
- my_value += int(type->melee_dam * (1   + .3 * p->skillLevel("bashing") +
-                                          .1 * p->skillLevel("melee")    ));
+    int my_value = 0;
+    my_value += int(type->melee_dam * (1   + .3 * p->skillLevel("bashing") +
+                                       .1 * p->skillLevel("melee")    ));
 
- my_value += int(type->melee_cut * (1   + .4 * p->skillLevel("cutting") +
-                                          .1 * p->skillLevel("melee")    ));
+    my_value += int(type->melee_cut * (1   + .4 * p->skillLevel("cutting") +
+                                       .1 * p->skillLevel("melee")    ));
 
- my_value += int(type->m_to_hit  * (1.2 + .3 * p->skillLevel("melee")));
+    my_value += int(type->m_to_hit  * (1.2 + .3 * p->skillLevel("melee")));
 
- return my_value;
+    return my_value;
 }
 
 int item::bash_resist() const
@@ -3672,7 +3672,7 @@ bool item::process_corpse( player *carrier, point pos )
     if( corpse == nullptr ) {
         return false;
     }
-    if( !ready_to_revive() ) {
+    if( !ready_to_revive( pos ) ) {
         return false;
     }
     if( rng( 0, volume() ) > burnt && g->revive_corpse( pos.x, pos.y, this ) ) {
@@ -3844,7 +3844,7 @@ bool item::process_wet( player * /*carrier*/, point /*pos*/ )
     return true;
 }
 
-bool item::process_tool( player *carrier, point /*pos*/ )
+bool item::process_tool( player *carrier, point pos )
 {
     it_tool *tmp = dynamic_cast<it_tool *>( type );
     long charges_used = 0;
@@ -3874,7 +3874,7 @@ bool item::process_tool( player *carrier, point /*pos*/ )
     if( charges_used == 0 ) {
         // TODO: iuse functions should expect a nullptr as player, but many of them
         // don't and therefore will fail.
-        tmp->invoke( carrier != nullptr ? carrier : &g->u, this, true );
+        tmp->invoke( carrier != nullptr ? carrier : &g->u, this, true, pos );
         if( charges == -1 ) {
             // Signal that the item has destroyed itself.
             return true;
@@ -3885,7 +3885,7 @@ bool item::process_tool( player *carrier, point /*pos*/ )
         }
         // TODO: iuse functions should expect a nullptr as player, but many of them
         // don't and therefor will fail.
-        tmp->invoke( carrier != nullptr ? carrier : &g->u, this, false );
+        tmp->invoke( carrier != nullptr ? carrier : &g->u, this, false, pos );
         if( tmp->revert_to == "null" ) {
             return true; // reverts to nothing -> destroy the item
         }
@@ -3945,14 +3945,18 @@ bool item::process_charger_gun( player *carrier, point pos )
     return false;
 }
 
-bool item::process( player *carrier, point pos )
+bool item::process( player *carrier, point pos, bool activate )
 {
     for( auto it = contents.begin(); it != contents.end(); ) {
-        if( it->process( carrier, pos ) ) {
+        if( it->process( carrier, pos, activate ) ) {
             it = contents.erase( it );
         } else {
             ++it;
         }
+    }
+    if( activate ) {
+        it_tool *tmp = dynamic_cast<it_tool *>( type );
+        return tmp->invoke( carrier != nullptr ? carrier : &g->u, this, false, pos );
     }
     // How this works: it checks what kind of processing has to be done
     // (e.g. for food, for drying towels, lit cigars), and if that matches,

@@ -14,8 +14,12 @@ iuse_actor *iuse_transform::clone() const
     return new iuse_transform(*this);
 }
 
-long iuse_transform::use(player *p, item *it, bool /*t*/) const
+long iuse_transform::use(player *p, item *it, bool t, point /*pos*/) const
 {
+    if( t ) {
+        // Invoked from active item processing, do nothing.
+        return 0;
+    }
     if (need_fire > 0 && p != NULL && p->is_underwater()) {
         p->add_msg_if_player(m_info, _("You can't do that while underwater"));
         return 0;
@@ -52,8 +56,11 @@ long iuse_transform::use(player *p, item *it, bool /*t*/) const
         // -1 is for items that can not have any charges at all.
         target->charges = target_charges;
     }
+    // Active item handling has gotten complicated, so having this consume charges itself
+    // instead of passing it off to the caller.
+    target->charges -= std::min(charges_to_use, (int)target->charges);
     p->moves -= moves;
-    return charges_to_use;
+    return 0;
 }
 
 
@@ -67,14 +74,14 @@ iuse_actor *auto_iuse_transform::clone() const
     return new auto_iuse_transform(*this);
 }
 
-long auto_iuse_transform::use(player *p, item *it, bool t) const
+long auto_iuse_transform::use(player *p, item *it, bool t, point pos) const
 {
     if (t) {
         if (!when_underwater.empty() && p != NULL && p->is_underwater()) {
             // Dirty hack to display the "when unterwater" message instead of the normal message
             std::swap(const_cast<auto_iuse_transform *>(this)->when_underwater,
                       const_cast<auto_iuse_transform *>(this)->msg_transform);
-            const long tmp = iuse_transform::use(p, it, t);
+            const long tmp = iuse_transform::use(p, it, t, pos);
             std::swap(const_cast<auto_iuse_transform *>(this)->when_underwater,
                       const_cast<auto_iuse_transform *>(this)->msg_transform);
             return tmp;
@@ -87,7 +94,7 @@ long auto_iuse_transform::use(player *p, item *it, bool t) const
         // Activated by the player, but not allowed to do so
         return 0;
     }
-    return iuse_transform::use(p, it, t);
+    return iuse_transform::use(p, it, t, pos);
 }
 
 
@@ -104,14 +111,8 @@ iuse_actor *explosion_iuse::clone() const
 // defined in iuse.cpp
 extern std::vector<point> points_for_gas_cloud(const point &center, int radius);
 
-long explosion_iuse::use(player *p, item *it, bool t) const
+long explosion_iuse::use(player *p, item *it, bool t, point pos) const
 {
-    // This ise used for active items, their charges are autmatically
-    // decremented, therfor this function always returns 0.
-    const point pos = g->find_item(it);
-    if (pos.x == -999 || pos.y == -999) {
-        return 0;
-    }
     if (t) {
         if (sound_volume >= 0) {
             g->sound(pos.x, pos.y, sound_volume, sound_msg);
@@ -158,7 +159,7 @@ long explosion_iuse::use(player *p, item *it, bool t) const
             }
         }
     }
-    return 0;
+    return 1;
 }
 
 
@@ -172,7 +173,7 @@ iuse_actor *unfold_vehicle_iuse::clone() const
     return new unfold_vehicle_iuse(*this);
 }
 
-long unfold_vehicle_iuse::use(player *p, item *it, bool /*t*/) const
+long unfold_vehicle_iuse::use(player *p, item *it, bool /*t*/, point /*pos*/) const
 {
     if (p->is_underwater()) {
         p->add_msg_if_player(m_info, _("You can't do that while underwater."));
@@ -246,7 +247,7 @@ iuse_actor *consume_drug_iuse::clone() const
     return new consume_drug_iuse(*this);
 }
 
-long consume_drug_iuse::use(player *p, item *it, bool) const
+long consume_drug_iuse::use(player *p, item *it, bool, point) const
 {
     // Check prerequisites first.
     for( auto tool = tools_needed.cbegin(); tool != tools_needed.cend(); ++tool ) {
@@ -307,7 +308,7 @@ iuse_actor *place_monster_iuse::clone() const
     return new place_monster_iuse(*this);
 }
 
-long place_monster_iuse::use( player *p, item *it, bool ) const
+long place_monster_iuse::use( player *p, item *it, bool, point ) const
 {
     monster newmon( GetMType( mtype_id ) );
     point target;
@@ -353,8 +354,9 @@ long place_monster_iuse::use( player *p, item *it, bool ) const
         p->use_charges( amdef.first, ammo_item.charges );
         //~ First %s is the ammo item (with plural form and count included), second is the monster name
         p->add_msg_if_player( ngettext( "You load %d x %s round into the %s.",
-                                        "You load %d x %s rounds into the %s.", ammo_item.charges ), ammo_item.charges,
-                              ammo_item.type->nname( ammo_item.charges ).c_str(), newmon.name().c_str() );
+                                        "You load %d x %s rounds into the %s.", ammo_item.charges ),
+                              ammo_item.charges, ammo_item.type->nname( ammo_item.charges ).c_str(),
+                              newmon.name().c_str() );
         amdef.second = ammo_item.charges;
     }
     const int damfac = 5 - std::max<int>( 0, it->damage ); // 5 (no damage) ... 1 (max damage)
