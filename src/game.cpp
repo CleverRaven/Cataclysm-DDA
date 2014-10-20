@@ -10603,13 +10603,14 @@ void game::grab()
 bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *source,
                          item *cont)
 {
-    if (!liquid.made_of(LIQUID)) {
+    if( !liquid.made_of(LIQUID) ) {
         dbg(D_ERROR) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
         debugmsg("Tried to handle_liquid a non-liquid!");
         return false;
     }
 
-    if ( (liquid.type->id == "gasoline" || liquid.type->id == "diesel") && vehicle_near() && query_yn(_("Refill vehicle?"))) {
+    if( (liquid.type->id == "gasoline" || liquid.type->id == "diesel") &&
+         vehicle_near() && query_yn(_("Refill vehicle?")) ) {
         int vx = u.posx, vy = u.posy;
         refresh_all();
         if (!choose_adjacent(_("Refill vehicle where?"), vx, vy)) {
