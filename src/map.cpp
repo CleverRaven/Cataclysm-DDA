@@ -3178,7 +3178,7 @@ void map::process_items_in_vehicle(vehicle *cur_veh, submap *const current_subma
         const point item_location( cur_veh->global_x() + vp.precalc_dx[0],
                                    cur_veh->global_y() + vp.precalc_dy[0] );
         std::vector<item> *items_in_part = &vp.items;
-        for( int n = 0; n < items_in_part->size(); n++ ) {
+        for( size_t n = 0; n < items_in_part->size(); n++ ) {
             if( !processor( *items_in_part, n, item_location, cur_veh, part ) ) {
                 // If the item was NOT destroyed, we can skip the remainder,
                 // which handles fallout from the vehicle being damaged.
