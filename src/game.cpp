@@ -1731,21 +1731,23 @@ void game::activity_on_turn_refill_vehicle()
     }
     for(int i = -1; i <= 1; i++) {
         for(int j = -1; j <= 1; j++) {
-            if(m.ter(u.posx + i, u.posy + j) == t_gas_pump || m.ter_at(u.posx + i, u.posy + j).id == "t_gas_pump_a") {
+            if( m.ter(u.posx + i, u.posy + j) == t_gas_pump ||
+                m.ter_at(u.posx + i, u.posy + j).id == "t_gas_pump_a" ||
+                m.ter(u.posx +i, u.posy + j) == t_diesel_pump ) {
                 for( auto it = m.i_at(u.posx + i, u.posy + j).begin();
-                     it != m.i_at(u.posx + i, u.posy + j).end();) {
-                    if (it->type->id == "gasoline") {
+                     it != m.i_at(u.posx + i, u.posy + j).end(); ) {
+                    if( it->type->id == "gasoline" || it->type->id == "diesel" ) {
                         item *gas = &*it;
-                        int lack = (veh->fuel_capacity("gasoline") - veh->fuel_left("gasoline")) < 200 ?
-                                   (veh->fuel_capacity("gasoline") - veh->fuel_left("gasoline")) : 200;
+                        int lack = std::min( veh->fuel_capacity(it->type->id) -
+                                             veh->fuel_left(it->type->id),  200 );
                         if (gas->charges > lack) {
-                            veh->refill("gasoline", lack);
+                            veh->refill(it->type->id, lack);
                             gas->charges -= lack;
                             u.activity.moves_left -= 100;
                             it++;
                         } else {
-                            add_msg(m_bad, _("With a clang and a shudder, the gasoline pump goes silent."));
-                            veh->refill ("gasoline", gas->charges);
+                            add_msg(m_bad, _("With a clang and a shudder, the pump goes silent."));
+                            veh->refill (it->type->id, gas->charges);
                             it = m.i_at(u.posx + i, u.posy + j).erase(it);
                             u.activity.moves_left = 0;
                         }
