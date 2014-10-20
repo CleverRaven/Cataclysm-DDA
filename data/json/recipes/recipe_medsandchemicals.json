@@ -2432,6 +2432,7 @@
 },{
   "type" : "recipe",
   "result": "slime_scrap",
+  "byproducts": "slime_scrap",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_CHEMICALS",
   "skill_used": "cooking",
@@ -2449,8 +2450,8 @@
     ],
   "components": [
     [
-     [ "meat_tainted", 5 ],
-     [ "dry_meat_tainted", 5 ]
+     [ "meat_tainted", 1 ],
+     [ "dry_meat_tainted", 1 ]
     ]
 },{
   "type" : "recipe",
