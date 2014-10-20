@@ -1729,6 +1729,7 @@ void game::activity_on_turn_refill_vehicle()
         u.activity.moves_left = 0;
         return;
     }
+    bool fuel_pumped = false;
     for(int i = -1; i <= 1; i++) {
         for(int j = -1; j <= 1; j++) {
             if( m.ter(u.posx + i, u.posy + j) == t_gas_pump ||
@@ -1737,6 +1738,7 @@ void game::activity_on_turn_refill_vehicle()
                 for( auto it = m.i_at(u.posx + i, u.posy + j).begin();
                      it != m.i_at(u.posx + i, u.posy + j).end(); ) {
                     if( it->type->id == "gasoline" || it->type->id == "diesel" ) {
+                        fuel_pumped = true;
                         item *gas = &*it;
                         int lack = std::min( veh->fuel_capacity(it->type->id) -
                                              veh->fuel_left(it->type->id),  200 );
@@ -1758,6 +1760,12 @@ void game::activity_on_turn_refill_vehicle()
                 }
             }
         }
+    }
+    if( !fuel_pumped ) {
+        // Can't find any fuel, give up.
+        debugmsg("Can't find any fuel, cancelling pumping.");
+        u.cancel_activity();
+        return;
     }
     u.pause();
 }
