@@ -8069,12 +8069,7 @@ bool game::refill_vehicle_part(vehicle &veh, vehicle_part *part, bool test)
         if (part->amount == max_fuel) {
             add_msg(m_good, _("The battery is fully charged."));
         }
-    } else if (ftype == "gasoline") {
-        add_msg(_("You refill %s's fuel tank."), veh.name.c_str());
-        if (part->amount == max_fuel) {
-            add_msg(m_good, _("The tank is full."));
-        }
-    } else if (ftype == "diesel") {
+    } else if (ftype == "gasoline" || ftype == "diesel") {
         add_msg(_("You refill %s's fuel tank."), veh.name.c_str());
         if (part->amount == max_fuel) {
             add_msg(m_good, _("The tank is full."));
