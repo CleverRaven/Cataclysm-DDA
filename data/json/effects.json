@@ -247,6 +247,10 @@
         "resist_trait": "POISRESIST",
         "int_add_val": 1,
         "int_decay_tick": 100,
+        "base_mods": {
+            "dex_mod": [-.34, -.17],
+            "speed_mod": [-5, -3]
+        },
         "scaling_mods": {
             "dex_mod": [-.34, -.17],
             "speed_mod": [-5, -3]
@@ -403,7 +407,7 @@
         "miss_messages": [["The webs constrict your movement.", 4]],
         "max_intensity": 3,
         "base_mods": {
-            "speed_mod": [-15]
+            "speed_mod": [-20]
         },
         "scaling_mods": {
             "speed_mod": [-5]
@@ -480,6 +484,11 @@
         "name": ["Ratting"],
         "desc": ["You feel nauseated and rat-like."],
         "max_intensity": 100,
+        "base_mods": {
+            "int_mod": [-.5],
+            "str_mod": [-.2],
+            "per_mod": [-.4]
+        },
         "scaling_mods": {
             "int_mod": [-.5],
             "str_mod": [-.2],
@@ -564,7 +573,7 @@
         "max_intensity": 3,
         "part_descs": true,
         "base_mods": {
-            "speed_mod": [5]
+            "speed_mod": [-2]
         },
         "scaling_mods": {
             "speed_mod": [-7]
@@ -587,11 +596,9 @@
         "max_intensity": 3,
         "part_descs": true,
         "base_mods": {
-            "speed_mod": [5],
-            "thirst_min": [-1],
+            "speed_mod": [-2],
             "thirst_tick": [400],
             "thirst_chance": [2],
-            "pain_max_val": [-10],
             "pain_min": [1],
             "pain_chance": [2]
         },
@@ -616,9 +623,6 @@
         "part_descs": true,
         "speed_name": "Frostbite",
         "dur_add_perc": 0,
-        "base_mods": {
-            "speed_mod": [5]
-        },
         "scaling_mods": {
             "speed_mod": [-5]
         }
@@ -671,6 +675,10 @@
         "rating": "bad",
         "main_parts_only": true,
         "max_intensity": 3,
+        "base_mods": {
+            "str_mod": [-.34],
+            "int_mod": [-1]
+        },
         "scaling_mods": {
             "str_mod": [-.34],
             "int_mod": [-1]
@@ -762,10 +770,10 @@
         "max_intensity": 2,
         "int_dur_factor": 50,
         "base_mods": {
-            "str_mod": [-3],
-            "dex_mod": [-5],
-            "per_mod": [-5],
-            "int_mod": [-2]
+            "str_mod": [-1],
+            "dex_mod": [-2],
+            "per_mod": [-2],
+            "int_mod": [-1]
         },
         "scaling_mods": {
             "str_mod": [2],
@@ -793,11 +801,11 @@
         "int_dur_factor": 150,
         "dur_add_perc": 15,
         "base_mods": {
-            "speed_mod": [-60],
-            "str_mod": [-9],
-            "dex_mod": [-5],
-            "int_mod": [6],
-            "per_mod": [-3]
+            "speed_mod": [-10],
+            "str_mod": [-2],
+            "dex_mod": [-1],
+            "int_mod": [-1],
+            "per_mod": [-1]
         },
         "scaling_mods": {
             "speed_mod": [50],
@@ -824,11 +832,11 @@
         "max_intensity": 2,
         "int_dur_factor": 150,
         "base_mods": {
-            "speed_mod": [-60],
-            "str_mod": [-9],
-            "dex_mod": [-5],
-            "int_mod": [6],
-            "per_mod": [-3]
+            "speed_mod": [-10],
+            "str_mod": [-2],
+            "dex_mod": [-1],
+            "int_mod": [-1],
+            "per_mod": [-1]
         },
         "scaling_mods": {
             "speed_mod": [50],
@@ -848,13 +856,12 @@
         "max_intensity": 2,
         "int_dur_factor": 200,
         "base_mods": {
-            "speed_mod": [-130],
-            "str_mod": [-7],
-            "dex_mod": [-6],
-            "int_mod": [-4],
-            "per_mod": [-7],
-            "vomit_chance": [2000],
-            "fatigue_min": [-1]
+            "speed_mod": [-40],
+            "str_mod": [-3],
+            "dex_mod": [-2],
+            "int_mod": [-1],
+            "per_mod": [-2],
+            "vomit_chance": [2000]
         },
         "scaling_mods": {
             "speed_mod": [90],
@@ -876,10 +883,8 @@
         "max_intensity": 2,
         "int_dur_factor": 600,
         "base_mods": {
-            "str_mod": [1],
-            "dex_mod": [1],
-            "int_mod": [2],
-            "per_mod": [2]
+            "int_mod": [1],
+            "per_mod": [1]
         },
         "scaling_mods": {
             "str_mod": [-1],

@@ -603,84 +603,84 @@ int effect::get_mod(std::string arg, bool reduced)
     if (!reduced) {
         if (arg == "STR") {
             ret += base.str_mod.first;
-            ret += scale.str_mod.first * intensity;
+            ret += scale.str_mod.first * (intensity - 1);
         } else if (arg == "DEX") {
             ret += base.dex_mod.first;
-            ret += scale.dex_mod.first * intensity;
+            ret += scale.dex_mod.first * (intensity - 1);
         } else if (arg == "PER") {
             ret += base.per_mod.first;
-            ret += scale.per_mod.first * intensity;
+            ret += scale.per_mod.first * (intensity - 1);
         } else if (arg == "INT") {
             ret += base.int_mod.first;
-            ret += scale.int_mod.first * intensity;
+            ret += scale.int_mod.first * (intensity - 1);
         } else if (arg == "SPEED") {
             ret += base.speed_mod.first;
-            ret += scale.speed_mod.first * intensity;
+            ret += scale.speed_mod.first * (intensity - 1);
         } else if (arg == "PAIN") {
-            ret += rng(base.pain_min.first + scale.pain_min.first * intensity,
-                    base.pain_max.first + scale.pain_max.first * intensity);
+            ret += rng(base.pain_min.first + scale.pain_min.first * (intensity - 1),
+                    base.pain_max.first + scale.pain_max.first * (intensity - 1));
         } else if (arg == "HURT") {
-            ret += rng(base.hurt_min.first + scale.hurt_min.first * intensity,
-                    base.hurt_max.first + scale.hurt_max.first * intensity);
+            ret += rng(base.hurt_min.first + scale.hurt_min.first * (intensity - 1),
+                    base.hurt_max.first + scale.hurt_max.first * (intensity - 1));
         } else if (arg == "PKILL") {
-            ret += rng(base.pkill_min.first + scale.pkill_min.first * intensity,
-                    base.pkill_max.first + scale.pkill_max.first * intensity);
+            ret += rng(base.pkill_min.first + scale.pkill_min.first * (intensity - 1),
+                    base.pkill_max.first + scale.pkill_max.first * (intensity - 1));
         } else if (arg == "STIM") {
-            ret += rng(base.stim_min.first + scale.stim_min.first * intensity,
-                    base.stim_max.first + scale.stim_max.first * intensity);
+            ret += rng(base.stim_min.first + scale.stim_min.first * (intensity - 1),
+                    base.stim_max.first + scale.stim_max.first * (intensity - 1));
         } else if (arg == "RAD") {
-            ret += rng(base.rad_min.first + scale.rad_min.first * intensity,
-                    base.rad_max.first + scale.rad_max.first * intensity);
+            ret += rng(base.rad_min.first + scale.rad_min.first * (intensity - 1),
+                    base.rad_max.first + scale.rad_max.first * (intensity - 1));
         } else if (arg == "HUNGER") {
-            ret += rng(base.hunger_min.first + scale.hunger_min.first * intensity,
-                    base.hunger_max.first + scale.hunger_max.first * intensity);
+            ret += rng(base.hunger_min.first + scale.hunger_min.first * (intensity - 1),
+                    base.hunger_max.first + scale.hunger_max.first * (intensity - 1));
         } else if (arg == "THIRST") {
-            ret += rng(base.thirst_min.first + scale.thirst_min.first * intensity,
-                    base.thirst_max.first + scale.thirst_max.first * intensity);
+            ret += rng(base.thirst_min.first + scale.thirst_min.first * (intensity - 1),
+                    base.thirst_max.first + scale.thirst_max.first * (intensity - 1));
         } else if (arg == "FATIGUE") {
-            ret += rng(base.fatigue_min.first + scale.fatigue_min.first * intensity,
-                    base.fatigue_max.first + scale.fatigue_max.first * intensity);
+            ret += rng(base.fatigue_min.first + scale.fatigue_min.first * (intensity - 1),
+                    base.fatigue_max.first + scale.fatigue_max.first * (intensity - 1));
         }
     } else {
         if (arg == "STR") {
             ret += base.str_mod.second;
-            ret += scale.str_mod.second * intensity;
+            ret += scale.str_mod.second * (intensity - 1);
         } else if (arg == "DEX") {
             ret += base.dex_mod.second;
-            ret += scale.dex_mod.second * intensity;
+            ret += scale.dex_mod.second * (intensity - 1);
         } else if (arg == "PER") {
             ret += base.per_mod.second;
-            ret += scale.per_mod.second * intensity;
+            ret += scale.per_mod.second * (intensity - 1);
         } else if (arg == "INT") {
             ret += base.int_mod.second;
-            ret += scale.int_mod.second * intensity;
+            ret += scale.int_mod.second * (intensity - 1);
         } else if (arg == "SPEED") {
             ret += base.speed_mod.second;
-            ret += scale.speed_mod.second * intensity;
+            ret += scale.speed_mod.second * (intensity - 1);
         } else if (arg == "PAIN") {
-            ret += rng(base.pain_min.second + scale.pain_min.second * intensity,
-                    base.pain_max.second + scale.pain_max.second * intensity);
+            ret += rng(base.pain_min.second + scale.pain_min.second * (intensity - 1),
+                    base.pain_max.second + scale.pain_max.second * (intensity - 1));
         } else if (arg == "HURT") {
-            ret += rng(base.hurt_min.second + scale.hurt_min.second * intensity,
-                    base.hurt_max.second + scale.hurt_max.second * intensity);
+            ret += rng(base.hurt_min.second + scale.hurt_min.second * (intensity - 1),
+                    base.hurt_max.second + scale.hurt_max.second * (intensity - 1));
         } else if (arg == "PKILL") {
-            ret += rng(base.pkill_min.second + scale.pkill_min.second * intensity,
-                    base.pkill_max.second + scale.pkill_max.second * intensity);
+            ret += rng(base.pkill_min.second + scale.pkill_min.second * (intensity - 1),
+                    base.pkill_max.second + scale.pkill_max.second * (intensity - 1));
         } else if (arg == "STIM") {
-            ret += rng(base.stim_min.second + scale.stim_min.second * intensity,
-                    base.stim_max.second + scale.stim_max.second * intensity);
+            ret += rng(base.stim_min.second + scale.stim_min.second * (intensity - 1),
+                    base.stim_max.second + scale.stim_max.second * (intensity - 1));
         } else if (arg == "RAD") {
-            ret += rng(base.rad_min.second + scale.rad_min.second * intensity,
-                    base.rad_max.second + scale.rad_max.second * intensity);
+            ret += rng(base.rad_min.second + scale.rad_min.second * (intensity - 1),
+                    base.rad_max.second + scale.rad_max.second * (intensity - 1));
         } else if (arg == "HUNGER") {
-            ret += rng(base.hunger_min.second + scale.hunger_min.second * intensity,
-                    base.hunger_max.second + scale.hunger_max.second * intensity);
+            ret += rng(base.hunger_min.second + scale.hunger_min.second * (intensity - 1),
+                    base.hunger_max.second + scale.hunger_max.second * (intensity - 1));
         } else if (arg == "THIRST") {
-            ret += rng(base.thirst_min.second + scale.thirst_min.second * intensity,
-                    base.thirst_max.second + scale.thirst_max.second * intensity);
+            ret += rng(base.thirst_min.second + scale.thirst_min.second * (intensity - 1),
+                    base.thirst_max.second + scale.thirst_max.second * (intensity - 1));
         } else if (arg == "FATIGUE") {
-            ret += rng(base.fatigue_min.second + scale.fatigue_min.second * intensity,
-                    base.fatigue_max.second + scale.fatigue_max.second * intensity);
+            ret += rng(base.fatigue_min.second + scale.fatigue_min.second * (intensity - 1),
+                    base.fatigue_max.second + scale.fatigue_max.second * (intensity - 1));
         }
     }
     return int(ret);
@@ -694,54 +694,54 @@ int effect::get_amount(std::string arg, bool reduced)
     if (!reduced) {
         if (arg == "PAIN") {
             ret += base.pain_amount.first;
-            ret += scale.pain_amount.first * intensity;
+            ret += scale.pain_amount.first * (intensity - 1);
         } else if (arg == "HURT") {
             ret += base.hurt_amount.first;
-            ret += scale.hurt_amount.first * intensity;
+            ret += scale.hurt_amount.first * (intensity - 1);
         } else if (arg == "PKILL") {
             ret += base.pkill_amount.first;
-            ret += scale.pkill_amount.first * intensity;
+            ret += scale.pkill_amount.first * (intensity - 1);
         } else if (arg == "STIM") {
             ret += base.stim_amount.first;
-            ret += scale.stim_amount.first * intensity;
+            ret += scale.stim_amount.first * (intensity - 1);
         } else if (arg == "RAD") {
             ret += base.rad_amount.first;
-            ret += scale.rad_amount.first * intensity;
+            ret += scale.rad_amount.first * (intensity - 1);
         } else if (arg == "HUNGER") {
             ret += base.hunger_amount.first;
-            ret += scale.hunger_amount.first * intensity;
+            ret += scale.hunger_amount.first * (intensity - 1);
         } else if (arg == "THIRST") {
             ret += base.thirst_amount.first;
-            ret += scale.thirst_amount.first * intensity;
+            ret += scale.thirst_amount.first * (intensity - 1);
         } else if (arg == "FATIGUE") {
             ret += base.fatigue_amount.first;
-            ret += scale.fatigue_amount.first * intensity;
+            ret += scale.fatigue_amount.first * (intensity - 1);
         }
     } else {
         if (arg == "PAIN") {
             ret += base.pain_amount.second;
-            ret += scale.pain_amount.second * intensity;
+            ret += scale.pain_amount.second * (intensity - 1);
         } else if (arg == "HURT") {
             ret += base.hurt_amount.second;
-            ret += scale.hurt_amount.second * intensity;
+            ret += scale.hurt_amount.second * (intensity - 1);
         } else if (arg == "PKILL") {
             ret += base.pkill_amount.second;
-            ret += scale.pkill_amount.second * intensity;
+            ret += scale.pkill_amount.second * (intensity - 1);
         } else if (arg == "STIM") {
             ret += base.stim_amount.second;
-            ret += scale.stim_amount.second * intensity;
+            ret += scale.stim_amount.second * (intensity - 1);
         } else if (arg == "RAD") {
             ret += base.rad_amount.second;
-            ret += scale.rad_amount.second * intensity;
+            ret += scale.rad_amount.second * (intensity - 1);
         } else if (arg == "HUNGER") {
             ret += base.hunger_amount.second;
-            ret += scale.hunger_amount.second * intensity;
+            ret += scale.hunger_amount.second * (intensity - 1);
         } else if (arg == "THIRST") {
             ret += base.thirst_amount.second;
-            ret += scale.thirst_amount.second * intensity;
+            ret += scale.thirst_amount.second * (intensity - 1);
         } else if (arg == "FATIGUE") {
             ret += base.fatigue_amount.second;
-            ret += scale.fatigue_amount.second * intensity;
+            ret += scale.fatigue_amount.second * (intensity - 1);
         }
     }
     return int(ret);
@@ -755,30 +755,30 @@ int effect::get_min_val(std::string arg, bool reduced)
     if (!reduced) {
         if (arg == "STIM") {
             ret += base.stim_min_val.first;
-            ret += scale.stim_min_val.first * intensity;
+            ret += scale.stim_min_val.first * (intensity - 1);
         } else if (arg == "HUNGER") {
             ret += base.hunger_min_val.first;
-            ret += scale.hunger_min_val.first * intensity;
+            ret += scale.hunger_min_val.first * (intensity - 1);
         } else if (arg == "THIRST") {
             ret += base.thirst_min_val.first;
-            ret += scale.thirst_min_val.first * intensity;
+            ret += scale.thirst_min_val.first * (intensity - 1);
         } else if (arg == "FATIGUE") {
             ret += base.fatigue_min_val.first;
-            ret += scale.fatigue_min_val.first * intensity;
+            ret += scale.fatigue_min_val.first * (intensity - 1);
         }
     } else {
         if (arg == "STIM") {
             ret += base.stim_min_val.second;
-            ret += scale.stim_min_val.second * intensity;
+            ret += scale.stim_min_val.second * (intensity - 1);
         } else if (arg == "HUNGER") {
             ret += base.hunger_min_val.second;
-            ret += scale.hunger_min_val.second * intensity;
+            ret += scale.hunger_min_val.second * (intensity - 1);
         } else if (arg == "THIRST") {
             ret += base.thirst_min_val.second;
-            ret += scale.thirst_min_val.second * intensity;
+            ret += scale.thirst_min_val.second * (intensity - 1);
         } else if (arg == "FATIGUE") {
             ret += base.fatigue_min_val.second;
-            ret += scale.fatigue_min_val.second * intensity;
+            ret += scale.fatigue_min_val.second * (intensity - 1);
         }
     
     }
@@ -793,48 +793,48 @@ int effect::get_max_val(std::string arg, bool reduced)
     if (!reduced) {
         if (arg == "PAIN") {
             ret += base.pain_max_val.first;
-            ret += scale.pain_max_val.first * intensity;
+            ret += scale.pain_max_val.first * (intensity - 1);
         } else if (arg == "PKILL") {
             ret += base.pkill_max_val.first;
-            ret += scale.pkill_max_val.first * intensity;
+            ret += scale.pkill_max_val.first * (intensity - 1);
         } else if (arg == "STIM") {
             ret += base.stim_max_val.first;
-            ret += scale.stim_max_val.first * intensity;
+            ret += scale.stim_max_val.first * (intensity - 1);
         } else if (arg == "RAD") {
             ret += base.rad_max_val.first;
-            ret += scale.rad_max_val.first * intensity;
+            ret += scale.rad_max_val.first * (intensity - 1);
         } else if (arg == "HUNGER") {
             ret += base.hunger_max_val.first;
-            ret += scale.hunger_max_val.first * intensity;
+            ret += scale.hunger_max_val.first * (intensity - 1);
         } else if (arg == "THIRST") {
             ret += base.thirst_max_val.first;
-            ret += scale.thirst_max_val.first * intensity;
+            ret += scale.thirst_max_val.first * (intensity - 1);
         } else if (arg == "FATIGUE") {
             ret += base.fatigue_max_val.first;
-            ret += scale.fatigue_max_val.first * intensity;
+            ret += scale.fatigue_max_val.first * (intensity - 1);
         }
     } else {
         if (arg == "PAIN") {
             ret += base.pain_max_val.second;
-            ret += scale.pain_max_val.second * intensity;
+            ret += scale.pain_max_val.second * (intensity - 1);
         } else if (arg == "PKILL") {
             ret += base.pkill_max_val.second;
-            ret += scale.pkill_max_val.second * intensity;
+            ret += scale.pkill_max_val.second * (intensity - 1);
         } else if (arg == "STIM") {
             ret += base.stim_max_val.second;
-            ret += scale.stim_max_val.second * intensity;
+            ret += scale.stim_max_val.second * (intensity - 1);
         } else if (arg == "RAD") {
             ret += base.rad_max_val.second;
-            ret += scale.rad_max_val.second * intensity;
+            ret += scale.rad_max_val.second * (intensity - 1);
         } else if (arg == "HUNGER") {
             ret += base.hunger_max_val.second;
-            ret += scale.hunger_max_val.second * intensity;
+            ret += scale.hunger_max_val.second * (intensity - 1);
         } else if (arg == "THIRST") {
             ret += base.thirst_max_val.second;
-            ret += scale.thirst_max_val.second * intensity;
+            ret += scale.thirst_max_val.second * (intensity - 1);
         } else if (arg == "FATIGUE") {
             ret += base.fatigue_max_val.second;
-            ret += scale.fatigue_max_val.second * intensity;
+            ret += scale.fatigue_max_val.second * (intensity - 1);
         }
     
     }
@@ -858,127 +858,127 @@ void effect::get_activation_vals(std::string arg, bool reduced, effect_mod_info 
     // Get the tick, top, and bottom values for specific argument type
     if (!reduced) {
         if (arg == "PAIN") {
-            tick = base.pain_tick.first + scale.pain_tick.first * intensity;
+            tick = base.pain_tick.first + scale.pain_tick.first * (intensity - 1);
             top_base = base.pain_chance_top.first;
-            top_scale = scale.pain_chance_top.first * intensity;
+            top_scale = scale.pain_chance_top.first * (intensity - 1);
             bot_base = base.pain_chance_bot.first;
-            bot_scale = scale.pain_chance_bot.first * intensity;
+            bot_scale = scale.pain_chance_bot.first * (intensity - 1);
         } else if (arg == "HURT") {
-            tick = base.hurt_tick.first + scale.hurt_tick.first * intensity;
+            tick = base.hurt_tick.first + scale.hurt_tick.first * (intensity - 1);
             top_base = base.hurt_chance_top.first;
-            top_scale = scale.hurt_chance_top.first * intensity;
+            top_scale = scale.hurt_chance_top.first * (intensity - 1);
             bot_base = base.hurt_chance_bot.first;
-            bot_scale = scale.hurt_chance_bot.first * intensity;
+            bot_scale = scale.hurt_chance_bot.first * (intensity - 1);
         } else if (arg == "PKILL") {
-            tick = base.pkill_tick.first + scale.pkill_tick.first * intensity;
+            tick = base.pkill_tick.first + scale.pkill_tick.first * (intensity - 1);
             top_base = base.pkill_chance_top.first;
-            top_scale = scale.pkill_chance_top.first * intensity;
+            top_scale = scale.pkill_chance_top.first * (intensity - 1);
             bot_base = base.pkill_chance_bot.first;
-            bot_scale = scale.pkill_chance_bot.first * intensity;
+            bot_scale = scale.pkill_chance_bot.first * (intensity - 1);
         } else if (arg == "STIM") {
-            tick = base.stim_tick.first + scale.stim_tick.first * intensity;
+            tick = base.stim_tick.first + scale.stim_tick.first * (intensity - 1);
             top_base = base.stim_chance_top.first;
-            top_scale = scale.stim_chance_top.first * intensity;
+            top_scale = scale.stim_chance_top.first * (intensity - 1);
             bot_base = base.stim_chance_bot.first;
-            bot_scale = scale.stim_chance_bot.first * intensity;
+            bot_scale = scale.stim_chance_bot.first * (intensity - 1);
         } else if (arg == "COUGH") {
-            tick = base.cough_tick.first + scale.cough_tick.first * intensity;
+            tick = base.cough_tick.first + scale.cough_tick.first * (intensity - 1);
             top_base = base.cough_chance_top.first;
-            top_scale = scale.cough_chance_top.first * intensity;
+            top_scale = scale.cough_chance_top.first * (intensity - 1);
             bot_base = base.cough_chance_bot.first;
-            bot_scale = scale.cough_chance_bot.first * intensity;
+            bot_scale = scale.cough_chance_bot.first * (intensity - 1);
         } else if (arg == "VOMIT") {
-            tick = base.vomit_tick.first + scale.vomit_tick.first * intensity;
+            tick = base.vomit_tick.first + scale.vomit_tick.first * (intensity - 1);
             top_base = base.vomit_chance_top.first;
-            top_scale = scale.vomit_chance_top.first * intensity;
+            top_scale = scale.vomit_chance_top.first * (intensity - 1);
             bot_base = base.vomit_chance_bot.first;
-            bot_scale = scale.vomit_chance_bot.first * intensity;
+            bot_scale = scale.vomit_chance_bot.first * (intensity - 1);
         } else if (arg == "RAD") {
-            tick = base.rad_tick.first + scale.rad_tick.first * intensity;
+            tick = base.rad_tick.first + scale.rad_tick.first * (intensity - 1);
             top_base = base.rad_chance_top.first;
-            top_scale = scale.rad_chance_top.first * intensity;
+            top_scale = scale.rad_chance_top.first * (intensity - 1);
             bot_base = base.rad_chance_bot.first;
-            bot_scale = scale.rad_chance_bot.first * intensity;
+            bot_scale = scale.rad_chance_bot.first * (intensity - 1);
         } else if (arg == "HUNGER") {
-            tick = base.hunger_tick.first + scale.hunger_tick.first * intensity;
+            tick = base.hunger_tick.first + scale.hunger_tick.first * (intensity - 1);
             top_base = base.hunger_chance_top.first;
-            top_scale = scale.hunger_chance_top.first * intensity;
+            top_scale = scale.hunger_chance_top.first * (intensity - 1);
             bot_base = base.hunger_chance_bot.first;
-            bot_scale = scale.hunger_chance_bot.first * intensity;
+            bot_scale = scale.hunger_chance_bot.first * (intensity - 1);
         } else if (arg == "THIRST") {
-            tick = base.thirst_tick.first + scale.thirst_tick.first * intensity;
+            tick = base.thirst_tick.first + scale.thirst_tick.first * (intensity - 1);
             top_base = base.thirst_chance_top.first;
-            top_scale = scale.thirst_chance_top.first * intensity;
+            top_scale = scale.thirst_chance_top.first * (intensity - 1);
             bot_base = base.thirst_chance_bot.first;
-            bot_scale = scale.thirst_chance_bot.first * intensity;
+            bot_scale = scale.thirst_chance_bot.first * (intensity - 1);
         } else if (arg == "FATIGUE") {
-            tick = base.fatigue_tick.first + scale.fatigue_tick.first * intensity;
+            tick = base.fatigue_tick.first + scale.fatigue_tick.first * (intensity - 1);
             top_base = base.fatigue_chance_top.first;
-            top_scale = scale.fatigue_chance_top.first * intensity;
+            top_scale = scale.fatigue_chance_top.first * (intensity - 1);
             bot_base = base.fatigue_chance_bot.first;
-            bot_scale = scale.fatigue_chance_bot.first * intensity;
+            bot_scale = scale.fatigue_chance_bot.first * (intensity - 1);
         }
     } else {
         if (arg == "PAIN") {
-            tick = base.pain_tick.second + scale.pain_tick.second * intensity;
+            tick = base.pain_tick.second + scale.pain_tick.second * (intensity - 1);
             top_base = base.pain_chance_top.second;
-            top_scale = scale.pain_chance_top.second * intensity;
+            top_scale = scale.pain_chance_top.second * (intensity - 1);
             bot_base = base.pain_chance_bot.second;
-            bot_scale = scale.pain_chance_bot.second * intensity;
+            bot_scale = scale.pain_chance_bot.second * (intensity - 1);
         } else if (arg == "HURT") {
-            tick = base.hurt_tick.second + scale.hurt_tick.second * intensity;
+            tick = base.hurt_tick.second + scale.hurt_tick.second * (intensity - 1);
             top_base = base.hurt_chance_top.second;
-            top_scale = scale.hurt_chance_top.second * intensity;
+            top_scale = scale.hurt_chance_top.second * (intensity - 1);
             bot_base = base.hurt_chance_bot.second;
-            bot_scale = scale.hurt_chance_bot.second * intensity;
+            bot_scale = scale.hurt_chance_bot.second * (intensity - 1);
         } else if (arg == "PKILL") {
-            tick = base.pkill_tick.second + scale.pkill_tick.second * intensity;
+            tick = base.pkill_tick.second + scale.pkill_tick.second * (intensity - 1);
             top_base = base.pkill_chance_top.second;
-            top_scale = scale.pkill_chance_top.second * intensity;
+            top_scale = scale.pkill_chance_top.second * (intensity - 1);
             bot_base = base.pkill_chance_bot.second;
-            bot_scale = scale.pkill_chance_bot.second * intensity;
+            bot_scale = scale.pkill_chance_bot.second * (intensity - 1);
         } else if (arg == "STIM") {
-            tick = base.stim_tick.second + scale.stim_tick.second * intensity;
+            tick = base.stim_tick.second + scale.stim_tick.second * (intensity - 1);
             top_base = base.stim_chance_top.second;
-            top_scale = scale.stim_chance_top.second * intensity;
+            top_scale = scale.stim_chance_top.second * (intensity - 1);
             bot_base = base.stim_chance_bot.second;
-            bot_scale = scale.stim_chance_bot.second * intensity;
+            bot_scale = scale.stim_chance_bot.second * (intensity - 1);
         } else if (arg == "COUGH") {
-            tick = base.cough_tick.second + scale.cough_tick.second * intensity;
+            tick = base.cough_tick.second + scale.cough_tick.second * (intensity - 1);
             top_base = base.cough_chance_top.second;
-            top_scale = scale.cough_chance_top.second * intensity;
+            top_scale = scale.cough_chance_top.second * (intensity - 1);
             bot_base = base.cough_chance_bot.second;
-            bot_scale = scale.cough_chance_bot.second * intensity;
+            bot_scale = scale.cough_chance_bot.second * (intensity - 1);
         } else if (arg == "VOMIT") {
-            tick = base.vomit_tick.second + scale.vomit_tick.second * intensity;
+            tick = base.vomit_tick.second + scale.vomit_tick.second * (intensity - 1);
             top_base = base.vomit_chance_top.second;
-            top_scale = scale.vomit_chance_top.second * intensity;
+            top_scale = scale.vomit_chance_top.second * (intensity - 1);
             bot_base = base.vomit_chance_bot.second;
-            bot_scale = scale.vomit_chance_bot.second * intensity;
+            bot_scale = scale.vomit_chance_bot.second * (intensity - 1);
         } else if (arg == "RAD") {
-            tick = base.rad_tick.second + scale.rad_tick.second * intensity;
+            tick = base.rad_tick.second + scale.rad_tick.second * (intensity - 1);
             top_base = base.rad_chance_top.second;
-            top_scale = scale.rad_chance_top.second * intensity;
+            top_scale = scale.rad_chance_top.second * (intensity - 1);
             bot_base = base.rad_chance_bot.second;
-            bot_scale = scale.rad_chance_bot.second * intensity;
+            bot_scale = scale.rad_chance_bot.second * (intensity - 1);
         } else if (arg == "HUNGER") {
-            tick = base.hunger_tick.second + scale.hunger_tick.second * intensity;
+            tick = base.hunger_tick.second + scale.hunger_tick.second * (intensity - 1);
             top_base = base.hunger_chance_top.second;
-            top_scale = scale.hunger_chance_top.second * intensity;
+            top_scale = scale.hunger_chance_top.second * (intensity - 1);
             bot_base = base.hunger_chance_bot.second;
-            bot_scale = scale.hunger_chance_bot.second * intensity;
+            bot_scale = scale.hunger_chance_bot.second * (intensity - 1);
         } else if (arg == "THIRST") {
-            tick = base.thirst_tick.second + scale.thirst_tick.second * intensity;
+            tick = base.thirst_tick.second + scale.thirst_tick.second * (intensity - 1);
             top_base = base.thirst_chance_top.second;
-            top_scale = scale.thirst_chance_top.second * intensity;
+            top_scale = scale.thirst_chance_top.second * (intensity - 1);
             bot_base = base.thirst_chance_bot.second;
-            bot_scale = scale.thirst_chance_bot.second * intensity;
+            bot_scale = scale.thirst_chance_bot.second * (intensity - 1);
         } else if (arg == "FATIGUE") {
-            tick = base.fatigue_tick.second + scale.fatigue_tick.second * intensity;
+            tick = base.fatigue_tick.second + scale.fatigue_tick.second * (intensity - 1);
             top_base = base.fatigue_chance_top.second;
-            top_scale = scale.fatigue_chance_top.second * intensity;
+            top_scale = scale.fatigue_chance_top.second * (intensity - 1);
             bot_base = base.fatigue_chance_bot.second;
-            bot_scale = scale.fatigue_chance_bot.second * intensity;
+            bot_scale = scale.fatigue_chance_bot.second * (intensity - 1);
         }
     }
 }
