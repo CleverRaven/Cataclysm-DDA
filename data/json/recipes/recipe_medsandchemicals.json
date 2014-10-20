@@ -1371,7 +1371,8 @@
     ],
     [
       [ "meat_tainted", 3 ],
-      [ "can_chowder", 1 ]
+      [ "can_chowder", 1 ],
+      [ "can_clams", 1 ]
     ],
     [
       [ "ammonia", 1 ],
@@ -1773,16 +1774,20 @@
   ],
   "components": [
     [
-      [ "mutagen_slime", 2 ]
+      [ "mutagen_slime", 2 ],
+      [ "iv_mutagen_slime", 1 ]
     ],
     [
-      [ "mutagen_plant", 2 ]
+      [ "mutagen_plant", 2 ],
+      [ "iv_mutagen_plant", 1 ]
     ],
     [
-      [ "mutagen_bird", 2 ]
+      [ "mutagen_bird", 2 ],
+      [ "iv_mutagen_bird", 1 ]
     ],
     [
-      [ "purifier", 4 ]
+      [ "purifier", 4 ],
+      [ "iv_purifier", 2 ]
     ]
   ]
 },{
@@ -1836,7 +1841,8 @@
   ],
   "components": [
     [
-      [ "mutagen_slime", 2 ]
+      [ "mutagen_slime", 2 ],
+      [ "iv_mutagen_slime", 1 ]
     ],
     [
       [ "mutagen_plant", 1 ]
@@ -2418,10 +2424,67 @@
   "book_learn": [["adv_chemistry", 2] , ["textbook_chemistry", 2] , ["recipe_labchem", 3] , ["atomic_survival", 2]],
   "qualities":[ {"id" : "CHEM", "level" : 1, "amount" : 1} ],
   "components": [
-    [ [ "jug_plastic", 1 ], [ "jar_3l_glass",1 ] ],
+    [ [ "jug_plastic", 1 ], [ "jar_3l_glass", 1 ] ],
     [ [ "fertilizer_liquid", 4 ], [ "fertilizer_commercial", 4 ] ],
     [ [ "gasoline", 400 ], [ "sugar", 8 ] ],
     [ [ "string_6", 1 ], [ "rag", 1] ]
   ]
+},{
+  "type" : "recipe",
+  "result": "slime_scrap",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_CHEMICALS",
+  "skill_used": "cooking",
+  "difficulty": 6,
+  "time": 45000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_creepy", 7 ], [ "recipe_serum", 7 ]],
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}],
+  "tools": [
+    [
+     [ "chemistry_set", 20 ]
+    ]
+    ],
+  "components": [
+    [
+     [ "meat_tainted", 5 ],
+     [ "dry_meat_tainted", 5 ]
+    ]
+},{
+  "type" : "recipe",
+  "result": "soap",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_CHEMICALS",
+  "skill_used": "cooking",
+  "difficulty": 6,
+  "time": 45000,
+  "reversible": false,
+  "qualities" : [
+    {"id":"CHEM","level":1,"amount":1}],
+  "autolearn": true,
+  "tools": [
+    [
+     [ "chemistry_set", 18 ],
+     [ "hotplate", 18 ],
+     [ "toolset", 18 ],
+     [ "fire", -1 ]
+    ]
+    ],
+  "components": [
+    [
+     [ "tallow", 5 ],
+     [ "lard", 5 ],
+     [ "cooking_oil", 5 ]
+    ],
+    [
+     [ "lye_powder", 20 ]
+    ],
+    [
+     [ "water", 1 ],
+     [ "water_clean", 1 ]
+    ]
+   ]
 }
 ]
