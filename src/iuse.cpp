@@ -230,12 +230,12 @@ int iuse::royal_jelly(player *p, item *it, bool)
         message = _("You feel cleansed inside!");
         p->remove_effect("fungus");
     }
-    if (p->has_effect("dermatik") || p->has_disease("bloodworms") ||
+    if (p->has_effect("dermatik") || p->has_effect("bloodworms") ||
         p->has_disease("paincysts") || p->has_disease("brainworm") ||
         p->has_effect("tapeworm")) {
         message = _("You feel cleansed inside!");
         p->remove_effect("dermatik");
-        p->rem_disease("bloodworms");
+        p->remove_effect("bloodworms");
         p->rem_disease("paincysts");
         p->rem_disease("brainworm");
         p->remove_effect("tapeworm");
@@ -655,9 +655,9 @@ int iuse::raw_meat(player *p, item *it, bool)
                           p->has_trait("EATHEALTH"))) {
         p->add_effect("tapeworm", 1, num_bp, true);
     }
-    if ((one_in(64)) && !(p->has_disease("bloodworms") || p->has_bionic("bio_digestion") ||
+    if ((one_in(64)) && !(p->has_effect("bloodworms") || p->has_bionic("bio_digestion") ||
                           p->has_trait("PARAIMMUNE"))) {
-        p->add_disease("bloodworms", 1, true);
+        p->add_effect("bloodworms", 1, num_bp, true);
     }
     if ((one_in(128)) && !(p->has_disease("brainworm") || p->has_bionic("bio_digestion") ||
                            p->has_trait("PARAIMMUNE"))) {
@@ -677,9 +677,9 @@ int iuse::raw_fat(player *p, item *it, bool)
                           p->has_trait("EATHEALTH"))) {
         p->add_effect("tapeworm", 1, num_bp, true);
     }
-    if ((one_in(128)) && !(p->has_disease("bloodworms") || p->has_bionic("bio_digestion") ||
+    if ((one_in(128)) && !(p->has_effect("bloodworms") || p->has_bionic("bio_digestion") ||
                            p->has_trait("PARAIMMUNE"))) {
-        p->add_disease("bloodworms", 1, true);
+        p->add_effect("bloodworms", 1, num_bp, true);
     }
     if ((one_in(128)) && !(p->has_disease("brainworm") || p->has_bionic("bio_digestion") ||
                            p->has_trait("PARAIMMUNE"))) {
@@ -690,9 +690,9 @@ int iuse::raw_fat(player *p, item *it, bool)
 
 int iuse::raw_bone(player *p, item *it, bool)
 {
-    if ((one_in(128)) && !(p->has_disease("bloodworms") || p->has_bionic("bio_digestion") ||
+    if ((one_in(128)) && !(p->has_effect("bloodworms") || p->has_bionic("bio_digestion") ||
                            p->has_trait("PARAIMMUNE"))) {
-        p->add_disease("bloodworms", 1, true);
+        p->add_effect("bloodworms", 1, num_bp, true);
     }
     return it->type->charges_to_use();
 }
@@ -704,9 +704,9 @@ int iuse::raw_fish(player *p, item *it, bool)
                            p->has_trait("EATHEALTH"))) {
         p->add_effect("tapeworm", 1, num_bp, true);
     }
-    if ((one_in(256)) && !(p->has_disease("bloodworms") || p->has_bionic("bio_digestion") ||
+    if ((one_in(256)) && !(p->has_effect("bloodworms") || p->has_bionic("bio_digestion") ||
                            p->has_trait("PARAIMMUNE"))) {
-        p->add_disease("bloodworms", 1, true);
+        p->add_effect("bloodworms", 1, num_bp, true);
     }
     if ((one_in(256)) && !(p->has_disease("brainworm") || p->has_bionic("bio_digestion") ||
                            p->has_trait("PARAIMMUNE"))) {
@@ -726,9 +726,9 @@ int iuse::raw_wildveg(player *p, item *it, bool)
                            p->has_trait("EATHEALTH"))) {
         p->add_effect("tapeworm", 1, num_bp, true);
     }
-    if ((one_in(256)) && !(p->has_disease("bloodworms") || p->has_bionic("bio_digestion") ||
+    if ((one_in(256)) && !(p->has_effect("bloodworms") || p->has_bionic("bio_digestion") ||
                            p->has_trait("PARAIMMUNE"))) {
-        p->add_disease("bloodworms", 1, true);
+        p->add_effect("bloodworms", 1, num_bp, true);
     }
     if ((one_in(512)) && !(p->has_disease("brainworm") || p->has_bionic("bio_digestion") ||
                            p->has_trait("PARAIMMUNE"))) {
@@ -1151,8 +1151,8 @@ int iuse::antiparasitic(player *p, item *it, bool)
             p->mod_pain(rng(8, 24));
         }
     }
-    if (p->has_disease("bloodworms")) {
-        p->rem_disease("bloodworms");
+    if (p->has_effect("bloodworms")) {
+        p->remove_effect("bloodworms");
         p->add_msg_if_player(_("Your skin prickles and your veins itch for a few moments."));
     }
     if (p->has_disease("brainworm")) {

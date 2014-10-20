@@ -1053,6 +1053,17 @@
     },
     {
         "type": "effect_type",
+        "id": "bloodworms",
+        "rating": "bad",
+        "base_mods": {
+            "thirst_tick": [100],
+            "thirst_min": [1],
+            "h_mod_chance": [512],
+            "h_mod_min": [-10]
+        }
+    },
+    {
+        "type": "effect_type",
         "id": "lying_down",
         "apply_message": "You lie down to go to sleep...",
         "rating": "neutral"

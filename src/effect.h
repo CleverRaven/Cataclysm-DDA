@@ -57,6 +57,24 @@ struct effect_mod_info {
     std::pair<int, int> stim_chance_bot;
     std::pair<int, int> stim_tick;
     
+    std::pair<int, int> health_amount;
+    std::pair<int, int> health_min;
+    std::pair<int, int> health_max;
+    std::pair<int, int> health_min_val;
+    std::pair<int, int> health_max_val;
+    std::pair<int, int> health_chance_top;
+    std::pair<int, int> health_chance_bot;
+    std::pair<int, int> health_tick;
+    
+    std::pair<int, int> h_mod_amount;
+    std::pair<int, int> h_mod_min;
+    std::pair<int, int> h_mod_max;
+    std::pair<int, int> h_mod_min_val;
+    std::pair<int, int> h_mod_max_val;
+    std::pair<int, int> h_mod_chance_top;
+    std::pair<int, int> h_mod_chance_bot;
+    std::pair<int, int> h_mod_tick;
+    
     std::pair<int, int> rad_amount;
     std::pair<int, int> rad_min;
     std::pair<int, int> rad_max;

@@ -88,6 +88,24 @@ bool effect_mod_info::load(JsonObject &jsobj, std::string member) {
         extract_effect_int(j, "stim_chance_bot", stim_chance_bot, "");
         extract_effect_int(j, "stim_tick", stim_tick, "");
         
+        extract_effect_int(j, "health_amount", health_amount, "");
+        extract_effect_int(j, "health_min", health_min, "");
+        extract_effect_int(j, "health_max", health_max, "health_min");
+        extract_effect_int(j, "health_min_val", health_min_val, "");
+        extract_effect_int(j, "health_max_val", health_max_val, "");
+        extract_effect_int(j, "health_chance", health_chance_top, "");
+        extract_effect_int(j, "health_chance_bot", health_chance_bot, "");
+        extract_effect_int(j, "health_tick", health_tick, "");
+        
+        extract_effect_int(j, "h_mod_amount", h_mod_amount, "");
+        extract_effect_int(j, "h_mod_min", h_mod_min, "");
+        extract_effect_int(j, "h_mod_max", h_mod_max, "h_mod_min");
+        extract_effect_int(j, "h_mod_min_val", h_mod_min_val, "");
+        extract_effect_int(j, "h_mod_max_val", h_mod_max_val, "");
+        extract_effect_int(j, "h_mod_chance", h_mod_chance_top, "");
+        extract_effect_int(j, "h_mod_chance_bot", h_mod_chance_bot, "");
+        extract_effect_int(j, "h_mod_tick", h_mod_tick, "");
+        
         extract_effect_int(j, "rad_amount", rad_amount, "");
         extract_effect_int(j, "rad_min", rad_min, "");
         extract_effect_int(j, "rad_max", rad_max, "rad_min");
@@ -640,6 +658,12 @@ int effect::get_mod(std::string arg, bool reduced)
         } else if (arg == "FATIGUE") {
             ret += rng(base.fatigue_min.first + scale.fatigue_min.first * (intensity - 1),
                     base.fatigue_max.first + scale.fatigue_max.first * (intensity - 1));
+        } else if (arg == "HEALTH") {
+            ret += rng(base.health_min.first + scale.health_min.first * (intensity - 1),
+                    base.health_max.first + scale.health_max.first * (intensity - 1));
+        } else if (arg == "H_MOD") {
+            ret += rng(base.h_mod_min.first + scale.h_mod_min.first * (intensity - 1),
+                    base.h_mod_max.first + scale.h_mod_max.first * (intensity - 1));
         }
     } else {
         if (arg == "STR") {
@@ -681,6 +705,12 @@ int effect::get_mod(std::string arg, bool reduced)
         } else if (arg == "FATIGUE") {
             ret += rng(base.fatigue_min.second + scale.fatigue_min.second * (intensity - 1),
                     base.fatigue_max.second + scale.fatigue_max.second * (intensity - 1));
+        } else if (arg == "HEALTH") {
+            ret += rng(base.health_min.second + scale.health_min.second * (intensity - 1),
+                    base.health_max.second + scale.health_max.second * (intensity - 1));
+        } else if (arg == "H_MOD") {
+            ret += rng(base.h_mod_min.second + scale.h_mod_min.second * (intensity - 1),
+                    base.h_mod_max.second + scale.h_mod_max.second * (intensity - 1));
         }
     }
     return int(ret);
@@ -716,6 +746,12 @@ int effect::get_amount(std::string arg, bool reduced)
         } else if (arg == "FATIGUE") {
             ret += base.fatigue_amount.first;
             ret += scale.fatigue_amount.first * (intensity - 1);
+        } else if (arg == "HEALTH") {
+            ret += base.health_amount.first;
+            ret += scale.health_amount.first * (intensity - 1);
+        } else if (arg == "H_MOD") {
+            ret += base.h_mod_amount.first;
+            ret += scale.h_mod_amount.first * (intensity - 1);
         }
     } else {
         if (arg == "PAIN") {
@@ -742,6 +778,12 @@ int effect::get_amount(std::string arg, bool reduced)
         } else if (arg == "FATIGUE") {
             ret += base.fatigue_amount.second;
             ret += scale.fatigue_amount.second * (intensity - 1);
+        } else if (arg == "HEALTH") {
+            ret += base.health_amount.second;
+            ret += scale.health_amount.second * (intensity - 1);
+        } else if (arg == "H_MOD") {
+            ret += base.h_mod_amount.second;
+            ret += scale.h_mod_amount.second * (intensity - 1);
         }
     }
     return int(ret);
@@ -765,6 +807,12 @@ int effect::get_min_val(std::string arg, bool reduced)
         } else if (arg == "FATIGUE") {
             ret += base.fatigue_min_val.first;
             ret += scale.fatigue_min_val.first * (intensity - 1);
+        } else if (arg == "HEALTH") {
+            ret += base.health_min_val.first;
+            ret += scale.health_min_val.first * (intensity - 1);
+        } else if (arg == "H_MOD") {
+            ret += base.h_mod_min_val.first;
+            ret += scale.h_mod_min_val.first * (intensity - 1);
         }
     } else {
         if (arg == "STIM") {
@@ -779,6 +827,12 @@ int effect::get_min_val(std::string arg, bool reduced)
         } else if (arg == "FATIGUE") {
             ret += base.fatigue_min_val.second;
             ret += scale.fatigue_min_val.second * (intensity - 1);
+        } else if (arg == "HEALTH") {
+            ret += base.health_min_val.second;
+            ret += scale.health_min_val.second * (intensity - 1);
+        } else if (arg == "H_MOD") {
+            ret += base.h_mod_min_val.second;
+            ret += scale.h_mod_min_val.second * (intensity - 1);
         }
     
     }
@@ -812,6 +866,12 @@ int effect::get_max_val(std::string arg, bool reduced)
         } else if (arg == "FATIGUE") {
             ret += base.fatigue_max_val.first;
             ret += scale.fatigue_max_val.first * (intensity - 1);
+        } else if (arg == "HEALTH") {
+            ret += base.health_max_val.first;
+            ret += scale.health_max_val.first * (intensity - 1);
+        } else if (arg == "H_MOD") {
+            ret += base.h_mod_max_val.first;
+            ret += scale.h_mod_max_val.first * (intensity - 1);
         }
     } else {
         if (arg == "PAIN") {
@@ -835,6 +895,12 @@ int effect::get_max_val(std::string arg, bool reduced)
         } else if (arg == "FATIGUE") {
             ret += base.fatigue_max_val.second;
             ret += scale.fatigue_max_val.second * (intensity - 1);
+        } else if (arg == "HEALTH") {
+            ret += base.health_max_val.second;
+            ret += scale.health_max_val.second * (intensity - 1);
+        } else if (arg == "H_MOD") {
+            ret += base.h_mod_max_val.second;
+            ret += scale.h_mod_max_val.second * (intensity - 1);
         }
     
     }
@@ -917,6 +983,18 @@ void effect::get_activation_vals(std::string arg, bool reduced, effect_mod_info 
             top_scale = scale.fatigue_chance_top.first * (intensity - 1);
             bot_base = base.fatigue_chance_bot.first;
             bot_scale = scale.fatigue_chance_bot.first * (intensity - 1);
+        } else if (arg == "HEALTH") {
+            tick = base.health_tick.first + scale.health_tick.first * (intensity - 1);
+            top_base = base.health_chance_top.first;
+            top_scale = scale.health_chance_top.first * (intensity - 1);
+            bot_base = base.health_chance_bot.first;
+            bot_scale = scale.health_chance_bot.first * (intensity - 1);
+        } else if (arg == "H_MOD") {
+            tick = base.h_mod_tick.first + scale.h_mod_tick.first * (intensity - 1);
+            top_base = base.h_mod_chance_top.first;
+            top_scale = scale.h_mod_chance_top.first * (intensity - 1);
+            bot_base = base.h_mod_chance_bot.first;
+            bot_scale = scale.h_mod_chance_bot.first * (intensity - 1);
         }
     } else {
         if (arg == "PAIN") {
@@ -979,6 +1057,18 @@ void effect::get_activation_vals(std::string arg, bool reduced, effect_mod_info 
             top_scale = scale.fatigue_chance_top.second * (intensity - 1);
             bot_base = base.fatigue_chance_bot.second;
             bot_scale = scale.fatigue_chance_bot.second * (intensity - 1);
+        } else if (arg == "HEALTH") {
+            tick = base.health_tick.second + scale.health_tick.second * (intensity - 1);
+            top_base = base.health_chance_top.second;
+            top_scale = scale.health_chance_top.second * (intensity - 1);
+            bot_base = base.health_chance_bot.second;
+            bot_scale = scale.health_chance_bot.second * (intensity - 1);
+        } else if (arg == "H_MOD") {
+            tick = base.h_mod_tick.second + scale.h_mod_tick.second * (intensity - 1);
+            top_base = base.h_mod_chance_top.second;
+            top_scale = scale.h_mod_chance_top.second * (intensity - 1);
+            bot_base = base.h_mod_chance_bot.second;
+            bot_scale = scale.h_mod_chance_bot.second * (intensity - 1);
         }
     }
 }

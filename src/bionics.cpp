@@ -506,7 +506,7 @@ void player::activate_bionic(int b)
         if (has_effect("tapeworm")) {  // This little guy is immune to the blood filter though, as he lives in your bowels.
             good.push_back(_("Intestinal Parasite"));
         }
-        if (has_disease("bloodworms")) {
+        if (has_effect("bloodworms")) {
             good.push_back(_("Hemolytic Parasites"));
         }
         if (has_disease("brainworm")) {  // This little guy is immune to the blood filter too, as he lives in your brain.
@@ -537,7 +537,7 @@ void player::activate_bionic(int b)
         add_msg(m_neutral, _("You activate your blood filtration system."));
         remove_effect("fungus");
         remove_effect("dermatik");
-        rem_disease("bloodworms");
+        remove_effect("bloodworms");
         rem_disease("tetanus");
         remove_effect("poison");
         remove_effect("stung");

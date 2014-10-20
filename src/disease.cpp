@@ -410,16 +410,6 @@ void dis_effect(player &p, disease &dis)
             }
             break;
 
-        case DI_BLOODWORMS:
-            if (p.has_trait("PARAIMMUNE")) {
-               p.rem_disease("bloodworms");
-            } else {
-                if(one_in(512)) {
-                    p.mod_healthy_mod(-10);
-                }
-            }
-            break;
-
         case DI_BRAINWORM:
             if (p.has_trait("PARAIMMUNE")) {
                p.rem_disease("brainworm");

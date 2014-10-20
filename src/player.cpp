@@ -5509,6 +5509,30 @@ void player::add_eff_effects(effect e, bool reduced)
             radiation = e.get_max_val("RAD", reduced);
         }
     }
+    // Add health mod
+    if (e.get_amount("H_MOD", reduced) > 0 &&
+        (e.get_max_val("H_MOD", reduced) > get_healthy_mod() || e.get_max_val("H_MOD", reduced) == 0) &&
+        (e.get_min_val("H_MOD", reduced) < get_healthy_mod() || e.get_min_val("H_MOD", reduced) == 0)) {
+        mod_healthy_mod(e.get_amount("H_MOD", reduced));
+        // Bound to [min, max]
+        if (get_healthy_mod() > e.get_max_val("H_MOD", reduced)) {
+            set_healthy_mod(e.get_max_val("H_MOD", reduced));
+        } else if (get_healthy_mod() < e.get_min_val("H_MOD", reduced)) {
+            set_healthy_mod(e.get_min_val("H_MOD", reduced));
+        }
+    }
+    // Add health
+    if (e.get_amount("HEALTH", reduced) > 0 &&
+        (e.get_max_val("HEALTH", reduced) > get_healthy() || e.get_max_val("HEALTH", reduced) == 0) &&
+        (e.get_min_val("HEALTH", reduced) < get_healthy() || e.get_min_val("HEALTH", reduced) == 0)) {
+        mod_healthy(e.get_amount("HEALTH", reduced));
+        // Bound to [min, max]
+        if (get_healthy() > e.get_max_val("HEALTH", reduced)) {
+            set_healthy(e.get_max_val("HEALTH", reduced));
+        } else if (get_healthy() < e.get_min_val("HEALTH", reduced)) {
+            set_healthy(e.get_min_val("HEALTH", reduced));
+        }
+    }
     // Add stim
     if (e.get_amount("STIM", reduced) > 0 &&
         (e.get_max_val("STIM", reduced) > stim || e.get_max_val("STIM", reduced) == 0) &&
@@ -5571,8 +5595,9 @@ void player::process_effects() {
         add_msg_if_player(m_bad,  _("We have mistakenly colonized a local guide!  Purging now."));
     }
     if (has_trait("PARAIMMUNE")) {
-       remove_effect("dermatik");
-       remove_effect("tapeworm");
+        remove_effect("dermatik");
+        remove_effect("tapeworm");
+        remove_effect("bloodworms");
     }
     if (has_trait("EATHEALTH")) {
         remove_effect("tapeworm");
@@ -5593,6 +5618,38 @@ void player::process_effects() {
             if (!msgs.empty()) {
                 for (auto i : msgs) {
                     add_miss_reason(_(i.first.c_str()), i.second);
+                }
+            }
+            
+            // Handle health mod
+            if (it.get_mod("H_MOD", reduced) > 0 &&
+                  (it.get_max_val("H_MOD", reduced) > get_healthy_mod() || it.get_max_val("H_MOD", reduced) == 0) &&
+                  (it.get_min_val("H_MOD", reduced) < get_healthy_mod() || it.get_min_val("H_MOD", reduced) == 0)) {
+                mod = 1;
+                if(it.activated(calendar::turn, "H_MOD", reduced, mod)) {
+                    mod_healthy_mod(it.get_mod("H_MOD", reduced));
+                    // Bound it to [min, max]
+                    if (it.get_max_val("H_MOD", reduced) < get_healthy_mod() && it.get_max_val("H_MOD", reduced) != 0) {
+                        set_healthy_mod(it.get_max_val("H_MOD", reduced));
+                    } else if (it.get_min_val("H_MOD", reduced) > get_healthy_mod() && it.get_min_val("H_MOD", reduced) != 0) {
+                        set_healthy_mod(it.get_min_val("H_MOD", reduced));
+                    }
+                }
+            }
+            
+            // Handle health
+            if (it.get_mod("HEALTH", reduced) > 0 &&
+                  (it.get_max_val("HEALTH", reduced) > get_healthy() || it.get_max_val("HEALTH", reduced) == 0) &&
+                  (it.get_min_val("HEALTH", reduced) < get_healthy() || it.get_min_val("HEALTH", reduced) == 0)) {
+                mod = 1;
+                if(it.activated(calendar::turn, "HEALTH", reduced, mod)) {
+                    mod_healthy(it.get_mod("HEALTH", reduced));
+                    // Bound it to [min, max]
+                    if (it.get_max_val("HEALTH", reduced) < get_healthy() && it.get_max_val("HEALTH", reduced) != 0) {
+                        set_healthy(it.get_max_val("HEALTH", reduced));
+                    } else if (it.get_min_val("HEALTH", reduced) > get_healthy() && it.get_min_val("HEALTH", reduced) != 0) {
+                        set_healthy(it.get_min_val("HEALTH", reduced));
+                    }
                 }
             }
             
