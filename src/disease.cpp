@@ -25,7 +25,7 @@ enum dis_type_enum {
  DI_BITE,
 // Food & Drugs
  DI_WEED_HIGH,
-  DI_DATURA, DI_ASTHMA, DI_VALIUM,
+  DI_DATURA, DI_VALIUM,
 // Other
  DI_STEMCELL_TREATMENT,
 // Bite wound infected (dependent on bodypart.h)
@@ -69,7 +69,6 @@ void game::init_diseases() {
     disease_type_lookup["bite"] = DI_BITE;
     disease_type_lookup["valium"] = DI_VALIUM;
     disease_type_lookup["datura"] = DI_DATURA;
-    disease_type_lookup["asthma"] = DI_ASTHMA;
     disease_type_lookup["stemcell_treatment"] = DI_STEMCELL_TREATMENT;
     disease_type_lookup["infected"] = DI_INFECTED;
     disease_type_lookup["asked_to_train"] = DI_ASKED_TO_TRAIN;
@@ -91,9 +90,6 @@ bool dis_msg(dis_type type_string) {
         break;
     case DI_WEED_HIGH:
         add_msg(m_warning, _("You feel lightheaded."));
-        break;
-    case DI_ASTHMA:
-        add_msg(m_bad, _("You can't breathe... asthma attack!"));
         break;
     case DI_STEMCELL_TREATMENT:
         add_msg(m_good, _("You receive a pureed bone & enamel injection into your eyeball."));
@@ -388,9 +384,9 @@ void dis_effect(player &p, disease &dis)
         {
                 p.mod_per_bonus(-6);
                 p.mod_dex_bonus(-3);
-                if (p.has_disease("asthma")) {
+                if (p.has_effect("asthma")) {
                     add_msg(m_good, _("You can breathe again!"));
-                    p.rem_disease("asthma");
+                    p.remove_effect("asthma");
               } if (p.thirst < 20 && one_in(8)) {
                   p.thirst++;
               } if (dis.duration > 1000 && p.focus_pool >= 1 && one_in(4)) {
@@ -533,22 +529,6 @@ void dis_effect(player &p, disease &dis)
             }
             break;
 
-        case DI_ASTHMA:
-            if (dis.duration > 1200) {
-                p.add_msg_if_player(m_bad, _("Your asthma overcomes you.\nYou asphyxiate."));
-                g->u.add_memorial_log(pgettext("memorial_male", "Succumbed to an asthma attack."),
-                                      pgettext("memorial_female", "Succumbed to an asthma attack."));
-                p.hurtall(500);
-            } else if (dis.duration > 700) {
-                if (one_in(20)) {
-                    p.add_msg_if_player(m_bad, _("You wheeze and gasp for air."));
-                }
-            }
-            p.mod_str_bonus(-2);
-            p.mod_dex_bonus(-3);
-            p.add_miss_reason(_("You're winded."), 3);
-            break;
-
         case DI_BITE:
             handle_bite_wound(p, dis);
             break;
@@ -595,7 +575,6 @@ int disease_speed_boost(disease dis)
 {
     dis_type_enum type = disease_type_lookup[dis.type];
     switch (type) {
-        case DI_ASTHMA:     return 0 - int(dis.duration / 5);
         case DI_LACKSLEEP:  return -5;
         case DI_GRABBED:    return -25;
         default:            break;
@@ -609,10 +588,6 @@ std::string dis_name(disease& dis)
     dis_type_enum type = disease_type_lookup[dis.type];
     switch (type) {
     case DI_NULL: return "";
-
-    case DI_ASTHMA:
-        if (dis.duration > 800) return _("Heavy Asthma");
-        else return _("Asthma");
 
     case DI_DATURA: return _("Experiencing Datura");
 
@@ -718,8 +693,6 @@ std::string dis_description(disease& dis)
     case DI_STEMCELL_TREATMENT: return _("Your insides are shifting in strange ways as the treatment takes effect.");
 
     case DI_DATURA: return _("Buy the ticket, take the ride.  The datura has you now.");
-    case DI_ASTHMA:
-        return string_format(_("Speed - %d%%;   Strength - 2;   Dexterity - 3"), int(dis.duration / 5));
 
     case DI_BITE: return _("You have a nasty bite wound.");
     case DI_INFECTED: return _("You have an infected wound.");

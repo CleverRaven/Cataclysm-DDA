@@ -965,8 +965,27 @@
     {
         "type": "effect_type",
         "id": "asthma",
+        "name": [
+            "Asthma",
+            "Asthma",
+            "Asthma",
+            "Asthma",
+            "Heavy Asthma"
+            "Heavy Asthma"
+        ],
         "apply_message": "You can't breathe... asthma attack!",
-        "rating": "bad"
+        "rating": "bad",
+        "max_intensity": 6,
+        "int_dur_factor": 200,
+        "miss_messages": [["You're winded.", 3]],
+        "base_mods": {
+            "str_mod": [-2],
+            "dex_mod": [-3],
+            "speed_mod": [-20]
+        },
+        "scaling_mods": {
+            "speed_mod": [-40]
+        }
     },
     {
         "type": "effect_type",

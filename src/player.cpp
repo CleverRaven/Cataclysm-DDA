@@ -6592,6 +6592,19 @@ void player::hardcoded_effects(effect it)
             add_msg_if_player(m_bad, _("You pass out."));
             fall_asleep(dur / 2);
         }
+    } else if (id == "asthma") {
+        if (dur > 1200) {
+            add_msg_if_player(m_bad, _("Your asthma overcomes you.\nYou asphyxiate."));
+            if (is_player()) {
+                add_memorial_log(pgettext("memorial_male", "Succumbed to an asthma attack."),
+                                  pgettext("memorial_female", "Succumbed to an asthma attack."));
+            }
+            hurtall(500);
+        } else if (dur > 700) {
+            if (one_in(20)) {
+                add_msg_if_player(m_bad, _("You wheeze and gasp for air."));
+            }
+        }
     }
 }
 
@@ -6948,7 +6961,7 @@ void player::suffer()
         if (auto_use) {
             use_charges("inhaler", 1);
         } else {
-            add_disease("asthma", 50 * rng(1, 4));
+            add_effect("asthma", 50 * rng(1, 4));
             if (!is_npc()) {
                 g->cancel_activity_query(_("You have an asthma attack!"));
             }

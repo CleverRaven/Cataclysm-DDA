@@ -255,9 +255,9 @@ int iuse::royal_jelly(player *p, item *it, bool)
         p->remove_effect("paralyzepoison");
         p->rem_disease("tetanus");
     }
-    if (p->has_disease("asthma")) {
+    if (p->has_effect("asthma")) {
         message = _("Your breathing clears up!");
-        p->rem_disease("asthma");
+        p->remove_effect("asthma");
     }
     if (p->has_effect("common_cold") || p->has_effect("flu")) {
         message = _("You feel healthier!");
@@ -1397,7 +1397,7 @@ int iuse::flusleep(player *p, item *it, bool)
 
 int iuse::inhaler(player *p, item *it, bool)
 {
-    p->rem_disease("asthma");
+    p->remove_effect("asthma");
     p->add_msg_if_player(_("You take a puff from your inhaler."));
     if (one_in(50)) {  // adverse reaction
         p->add_msg_if_player(m_bad, _("Your heart begins to race."));
@@ -1412,8 +1412,8 @@ int iuse::oxygen_bottle(player *p, item *it, bool)
     p->add_msg_if_player(_("You breathe deeply from the %s"), it->tname().c_str());
     if (p->has_effect("smoke")) {
         p->remove_effect("smoke");
-    } else if (p->has_disease("asthma")) {
-        p->rem_disease("asthma");
+    } else if (p->has_effect("asthma")) {
+        p->remove_effect("asthma");
     } else if (p->stim < 16) {
         p->stim += 8;
         p->pkill += 2;
@@ -8410,8 +8410,8 @@ int iuse::adrenaline_injector(player *p, item *it, bool)
         p->stim += 80;
     }
 
-    if (p->has_disease("asthma")) {
-        p->rem_disease("asthma");
+    if (p->has_effect("asthma")) {
+        p->remove_effect("asthma");
         p->add_msg_if_player(m_good, _("The adrenaline causes your asthma to clear."));
     }
     return it->type->charges_to_use();
