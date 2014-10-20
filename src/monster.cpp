@@ -922,8 +922,7 @@ bool monster::move_effects()
         return false;
     }
     if (has_effect("webbed")) {
-        effect web = get_effect("webbed", num_bp);
-        if (x_in_y(type->melee_dice * type->melee_sides, 6 * web.get_intensity())) {
+        if (x_in_y(type->melee_dice * type->melee_sides, 6 * get_effect_int("webbed"))) {
             if (u_see_me) {
                 add_msg(_("The %s breaks free of the webs!"), name().c_str());
             }

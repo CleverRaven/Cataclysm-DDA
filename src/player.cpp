@@ -1209,16 +1209,8 @@ void player::update_bodytemp()
         // MORALE : a negative morale_pen means the player is cold
         // Intensity multiplier is negative for cold, positive for hot
         if( has_effect("cold", (body_part)i) || has_effect("hot", (body_part)i) ) {
-            int cold_int = 0;
-            int hot_int = 0;
-            if (has_effect("cold", (body_part)i) {
-                effect cold = get_effect("cold", (body_part)i);
-                cold_int = cold.get_intensity();
-            }
-            if (has_effect("hot", (body_part)i) {
-                effect hot = get_effect("hot", (body_part)i);
-                hot_int = hot.get_intensity();
-            }
+            int cold_int = get_effect_int("cold", (body_part)i);
+            int hot_int = get_effect_int("hot", (body_part)i);
             int intensity_mult = hot_int - cold_int;
             
             switch (i) {
@@ -1279,8 +1271,7 @@ void player::update_bodytemp()
             // Windchill reduced by your armor
             int FBwindPower = total_windpower * (1 - get_wind_resistance(body_part(i)) / 100.0);
             
-            effect frostbite = get_effect("frostbite", (body_part)i);
-            int intense = frostbite.get_id() != "null" ? frostbite.get_intensity() : 0;
+            int intense = get_effect_int("frostbite", (body_part)i);
 
             // This has been broken down into 8 zones
             // Low risk zones (stops at frostnip)
@@ -2746,11 +2737,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
     for (auto &next_illness : illness) {
         int move_adjust = disease_speed_boost(next_illness);
         if (move_adjust != 0) {
-            if (dis_combined_name(next_illness) == "") {
-                dis_text = dis_name(next_illness);
-            } else {
-                dis_text = dis_combined_name(next_illness);
-            }
+            dis_text = dis_name(next_illness);
             speed_effects[dis_text] += move_adjust;
         }
     }
@@ -7142,7 +7129,7 @@ void player::mend()
             double mending_odds = 200.0; // 2 weeks, on average. (~20160 minutes / 100 minutes)
             double healing_factor = 1.0;
             // Studies have shown that alcohol and tobacco use delay fracture healing time
-            if(has_disease("cig") | addiction_level(ADD_CIG)) {
+            if(has_effect("cig") | addiction_level(ADD_CIG)) {
                 healing_factor *= 0.5;
             }
             if(has_disease("drunk") | addiction_level(ADD_ALCOHOL)) {

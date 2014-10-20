@@ -1145,8 +1145,7 @@ bool game::do_turn()
                            pgettext("memorial_female", "Died of a drug overdose."));
         u.hp_cur[hp_torso] = 0;
     } else if (u.has_effect("jetinjector")) {
-            effect jet = u.get_effect("jetinjector");
-            if (jet.get_id() != "null" && jet.get_duration() > 400) {
+            if (u.get_effect_dur("jetinjector") > 400) {
                 if (!(u.has_trait("NOPAIN"))) {
                     add_msg(m_bad, _("Your heart spasms painfully and stops."));
                 } else {
@@ -6263,8 +6262,7 @@ int game::mon_info(WINDOW *w)
                         if (!u.has_effect("adrenaline_mycus")){
                             u.add_effect("adrenaline_mycus", 300);
                         } else {
-                            effect adren = u.get_effect("adrenaline_mycus");
-                            if (adren.get_intensity() == 1) {
+                            if (u.get_effect_int("adrenaline_mycus") == 1) {
                                 // Triffids present.  We ain't got TIME to adrenaline comedown!
                                 u.add_effect("adrenaline_mycus", 150);
                                 u.mod_pain(3); // Does take it out of you, though

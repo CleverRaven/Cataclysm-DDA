@@ -140,9 +140,16 @@ class Creature
         bool add_env_effect(efftype_id eff_id, body_part vector, int strength, int dur,
                             body_part bp = num_bp, bool permanent = false, int intensity = 1);
         void remove_effect(efftype_id eff_id, body_part bp = num_bp);
-        void clear_effects(); // remove all effects
+        /** Remove all effects */
+        void clear_effects();
+        /** Check if creature has effect */
         bool has_effect(efftype_id eff_id, body_part bp = num_bp) const;
+        /** Get the effect that matches the given arguments */
         effect get_effect(efftype_id eff_id, body_part bp = num_bp);
+        /** Returns the duration of the matching effect. Returns 0 if effect doesn't exist. */
+        int get_effect_dur(efftype_id eff_id, body_part bp = num_bp);
+        /** Returns the intensity of the matching effect. Returns 0 if effect doesn't exist. */
+        int get_effect_int(efftype_id eff_id, body_part bp = num_bp);
 
         // Methods for setting/getting misc key/value pairs.
         void set_value( const std::string key, const std::string value );

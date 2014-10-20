@@ -693,7 +693,7 @@ npc_action npc::address_player()
         if (rl_dist(posx, posy, g->u.posx, g->u.posy) >= 12 ||
             !g->sees_u(posx, posy, linet)) {
             if(has_effect("catch_up")) {
-                int intense = get_effect("catch_up").get_intensity();
+                int intense = get_effect_int("catch_up");
                 if (intense < 10) {
                     say("<keep_up>");
                     add_effect("catch_up", 5);

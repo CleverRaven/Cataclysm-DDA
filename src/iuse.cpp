@@ -8438,8 +8438,7 @@ int iuse::jet_injector(player *p, item *it, bool)
     }
 
     if (p->has_effect("jetinjector")) {
-        effect jet = p->get_effect("jetinjector");
-        if (jet.get_id() != "null" && jet.get_duration() > 200) {
+        if (p->get_effect_dur("jetinjector") > 200) {
             p->add_msg_if_player(m_warning, _("Your heart is beating alarmingly fast!"));
         }
     }

@@ -694,6 +694,22 @@ effect Creature::get_effect(efftype_id eff_id, body_part bp)
     }
     return effect();
 }
+int Creature::get_effect_dur(efftype_id eff_id, body_part bp)
+{
+    if(has_effect(eff_id, bp)) {
+        effect tmp = get_effect(eff_id, bp);
+        return tmp.get_duration()
+    }
+    return 0;
+}
+int Creature::get_effect_int(efftype_id eff_id, body_part bp)
+{
+    if(has_effect(eff_id, bp)) {
+        effect tmp = get_effect(eff_id, bp);
+        return tmp.get_intensity()
+    }
+    return 0;
+}
 void Creature::process_effects()
 {
     // Decay/removal of effects
