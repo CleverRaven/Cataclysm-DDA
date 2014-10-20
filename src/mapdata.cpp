@@ -614,8 +614,8 @@ void set_ter_ids() {
     t_backboard=terfind("t_backboard");
     t_gas_pump=terfind("t_gas_pump");
     t_gas_pump_smashed=terfind("t_gas_pump_smashed");
-    t_gas_pump=terfind("t_diesel_pump");
-    t_gas_pump_smashed=terfind("t_diesel_pump_smashed");
+    t_diesel_pump=terfind("t_diesel_pump");
+    t_diesel_pump_smashed=terfind("t_diesel_pump_smashed");
     t_atm=terfind("t_atm");
     t_generator_broken=terfind("t_generator_broken");
     t_missile=terfind("t_missile");
