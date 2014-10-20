@@ -375,6 +375,19 @@ void cOpt::setValue(float fSetIn)
 }
 
 //set value
+void cOpt::setValue(int iSetIn)
+{
+    if (sType != "int") {
+        debugmsg("tried to set an int value to a %s option", sType.c_str());
+        return;
+    }
+    iSet = iSetIn;
+    if ( iSet < iMin || iSet > iMax ) {
+        iSet = iDefault;
+    }
+}
+
+//set value
 void cOpt::setValue(std::string sSetIn)
 {
     if (sType == "string") {
@@ -754,14 +767,30 @@ void initOptions()
     mOptionsSort["graphics"]++;
 
     OPTIONS["TERMINAL_X"] = cOpt("graphics", _("Terminal width"),
-                                 _("Set the size of the terminal along the X axis. Requires restart."),
-                                 80, 242, 80, COPT_POSIX_CURSES_HIDE
+                                 _("Set the size of the terminal along the X axis."),
+                                 80, 242, 80, COPT_SDL_HIDE
                                 );
 
     OPTIONS["TERMINAL_Y"] = cOpt("graphics", _("Terminal height"),
-                                 _("Set the size of the terminal along the Y axis. Requires restart."),
-                                 24, 187, 24, COPT_POSIX_CURSES_HIDE
+                                 _("Set the size of the terminal along the Y axis."),
+                                 24, 187, 24, COPT_SDL_HIDE
                                 );
+
+    OPTIONS["WINDOW_X"] = cOpt("graphics", _("Window width"),
+                                 _("Set the width of the visible window."),
+                                 320, 1920, 640, COPT_POSIX_CURSES_HIDE
+                                );
+
+    OPTIONS["WINDOW_Y"] = cOpt("graphics", _("Window height"),
+                                 _("Set the height of the visible window."),
+                                 200, 1080, 400, COPT_POSIX_CURSES_HIDE
+                                );
+
+    OPTIONS["WINDOW_KEEP"] = cOpt("graphics", _("Remember window size"),
+                                 _("If true, window size will be saved to options after drag-resizing."),
+                                 false, COPT_POSIX_CURSES_HIDE
+                                );
+
 
     mOptionsSort["graphics"]++;
 
@@ -778,7 +807,7 @@ void initOptions()
     mOptionsSort["graphics"]++;
 
     OPTIONS["FULLSCREEN"] = cOpt("graphics", _("Fullscreen"),
-                                 _("Starts Cataclysm in fullscreen-mode. Requires Restart."),
+                                 _("Starts Cataclysm in fullscreen-mode."),
                                  false, COPT_CURSES_HIDE
                                 );
 
@@ -1141,6 +1170,34 @@ void show_options(bool ingame)
                            OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getTooltip().c_str(),
                            OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText().c_str(),
                            new_window_height);
+        } else if (mPageItems[iCurrentPage][iCurrentLine] == "WINDOW_X") {
+            int new_terminal_x, new_window_width;
+            std::stringstream value_conversion(OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getValueName());
+
+            value_conversion >> new_window_width;
+            new_terminal_x = projected_terminal_width(new_window_width);
+
+            fold_and_print(w_options_tooltip, 0, 0, 78, c_white,
+                           ngettext("%s #%s -- The window will be %d symbol wide with the selected value.",
+                                    "%s #%s -- The window will be %d symbols wide with the selected value.",
+                                    new_terminal_x),
+                           OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getTooltip().c_str(),
+                           OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText().c_str(),
+                           new_terminal_x);
+        } else if (mPageItems[iCurrentPage][iCurrentLine] == "WINDOW_Y") {
+            int new_terminal_y, new_window_height;
+            std::stringstream value_conversion(OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getValueName());
+
+            value_conversion >> new_window_height;
+            new_terminal_y = projected_window_height(new_window_height);
+
+            fold_and_print(w_options_tooltip, 0, 0, 78, c_white,
+                           ngettext("%s #%s -- The window will be %d symbol tall with the selected value.",
+                                    "%s #%s -- The window will be %d symbols tall with the selected value.",
+                                    new_terminal_y),
+                           OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getTooltip().c_str(),
+                           OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText().c_str(),
+                           new_terminal_y);
         } else
 #endif
         {
@@ -1244,6 +1301,8 @@ void show_options(bool ingame)
         }
     }
 
+    bool wsize_changed = (OPTIONS_OLD["WINDOW_X"].getValue() != OPTIONS["WINDOW_X"].getValue() ||
+                          OPTIONS_OLD["WINDOW_Y"].getValue() != OPTIONS["WINDOW_Y"].getValue());
     used_tiles_changed = (OPTIONS_OLD["TILES"].getValue() != OPTIONS["TILES"].getValue()) ||
                          (OPTIONS_OLD["USE_TILES"] != OPTIONS["USE_TILES"]);
     bool lang_changed = OPTIONS_OLD["USE_LANG"].getValue() != OPTIONS["USE_LANG"].getValue();
