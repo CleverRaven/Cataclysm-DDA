@@ -113,8 +113,6 @@ extern std::vector<point> points_for_gas_cloud(const point &center, int radius);
 
 long explosion_iuse::use(player *p, item *it, bool t, point pos) const
 {
-    // This is used for active items, their charges are autmatically
-    // decremented, therfore this function always returns 0.
     if (t) {
         if (sound_volume >= 0) {
             g->sound(pos.x, pos.y, sound_volume, sound_msg);
