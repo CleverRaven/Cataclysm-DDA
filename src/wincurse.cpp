@@ -80,7 +80,7 @@ bool WinCreate()
         return false;
 
     // Adjust window size
-    uint32_t WndStyle = WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU | WS_VISIBLE; // Basic window, show on creation
+    uint32_t WndStyle = WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU | WS_VISIBLE | WS_SIZEBOX; // Basic window, show on creation
     RECT WndRect;
     WndRect.left   = WndRect.top = 0;
     WndRect.right  = WindowWidth;
@@ -279,6 +279,13 @@ LRESULT CALLBACK ProcessMessages(HWND__ *hWnd,unsigned int Msg,
         ValidateRect(WindowHandle,NULL);
         return 0;
 
+    case WM_SIZE:
+        RECT trect;
+        GetClientRect(WindowHandle, &trect);
+        WindowWidth = trect.right;
+        WindowHeight = trect.bottom;
+        return 0;
+
     case WM_DESTROY:
         exit(0); // A messy exit, but easy way to escape game loop
     };
@@ -435,6 +442,30 @@ int projected_window_width(int)
 int projected_window_height(int)
 {
     return OPTIONS["TERMINAL_Y"] * fontheight;
+}
+
+// Calculates the new terminal width of the window, given the actual width.
+int projected_terminal_width(int)
+{
+    return OPTIONS["WINDOW_X"] / fontwidth;
+}
+
+// Calculates the new terminal height of the window, given the actual height.
+int projected_terminal_height(int)
+{
+    return OPTIONS["WINDOW_Y"] / fontheight;
+}
+
+int get_window_terminal_height() {
+    RECT trect;
+    GetClientRect(WindowHandle, &trect);
+    return trect.bottom / fontheight;
+}
+
+int get_window_terminal_width() {
+    RECT trect;
+    GetClientRect(WindowHandle, &trect);
+    return trect.right / fontwidth;
 }
 
 //***********************************

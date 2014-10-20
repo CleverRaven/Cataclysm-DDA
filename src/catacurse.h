@@ -208,5 +208,6 @@ int projected_window_width(int column_count);
 int projected_window_height(int row_count);
 int projected_terminal_width(int width);
 int projected_terminal_height(int height);
-
+int get_window_terminal_width();
+int get_window_terminal_height();
 #endif

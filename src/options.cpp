@@ -1188,7 +1188,7 @@ void show_options(bool ingame)
             std::stringstream value_conversion(OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getValueName());
 
             value_conversion >> new_window_height;
-            new_terminal_y = projected_window_height(new_window_height);
+            new_terminal_y = projected_terminal_height(new_window_height);
 
             fold_and_print(w_options_tooltip, 0, 0, 78, c_white,
                            ngettext("%s #%s -- The window will be %d symbol tall with the selected value.",
@@ -1306,6 +1306,7 @@ void show_options(bool ingame)
                          (OPTIONS_OLD["USE_TILES"] != OPTIONS["USE_TILES"]);
     bool lang_changed = OPTIONS_OLD["USE_LANG"].getValue() != OPTIONS["USE_LANG"].getValue();
     if (bStuffChanged) {
+        curses_timeout(-1);
         if(query_yn(_("Save changes?"))) {
             save_options(ingame && bWorldStuffChanged);
         } else {
@@ -1333,6 +1334,14 @@ void show_options(bool ingame)
         } catch(std::string err) {
             popup(_("Loading the tileset failed: %s"), err.c_str());
             use_tiles = false;
+        }
+    }
+    if( wsize_changed ) {
+        //try and keep SDL calls limited to source files that deal specifically with them
+        try {
+            g->reinit_ui(true);
+        } catch(std::string err) {
+            debugmsg(_("Error trying to resize window: %s"), err.c_str());
         }
     }
 #endif // SDLTILES

@@ -105,7 +105,7 @@ class game
 
 
         void init_ui();
-        void reinit_ui();
+        void reinit_ui(bool from_options = false);
         void setup();
         bool game_quit(); // True if we actually quit the game - used in main.cpp
         bool game_error();

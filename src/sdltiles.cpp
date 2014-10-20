@@ -531,6 +531,21 @@ void BitmapFont::OutputChar(long t, int x, int y, unsigned char color)
 }
 
 #ifdef SDLTILES
+void resize_window(int w, int h, bool keep_position)
+{
+    if (keep_position) {
+        //save difference between current size and target size
+        int dw, dh, wx, wy;
+        SDL_GetWindowSize(window, &dw, &dh);
+        SDL_GetWindowPosition(window, &wx, &wy);
+        dw -= w;
+        dh -= h;
+        SDL_SetWindowPosition(window, std::max(0, wx + (dw / 2)), std::max(1, wy + (dh / 2)));
+    }
+    //resize window
+    SDL_SetWindowSize(window, w, h);
+}
+
 // only update if the set interval has elapsed
 void try_update()
 {
@@ -1019,6 +1034,7 @@ void CheckMessages()
                                 OPTIONS["WINDOW_Y"].setValue(WindowHeight);
                                 OPTIONS["TERMINAL_X"].setValue(TERMINAL_WIDTH);
                                 OPTIONS["TERMINAL_Y"].setValue(TERMINAL_HEIGHT);
+                                save_options(false);
                             }
 
                             g->reinit_ui();
@@ -1126,10 +1142,6 @@ void CheckMessages()
         exit(0);
     }
 }
-
-//void respec_renderer() {
-//
-//}
 
 // Check if text ends with suffix
 static bool ends_with(const std::string &text, const std::string &suffix) {
@@ -1467,7 +1479,7 @@ WINDOW *curses_init(void)
     TERMINAL_HEIGHT = OPTIONS["TERMINAL_Y"];
     #ifdef SDLTILES
     TERMINAL_WIDTH = OPTIONS["WINDOW_X"] / fontwidth;
-    TERMINAL_HEIGHT = OPTIONS["WINDOW_Y"] / fontwidth;
+    TERMINAL_HEIGHT = OPTIONS["WINDOW_Y"] / fontheight;
     #endif
     if(!WinCreate()) {
         return NULL;
