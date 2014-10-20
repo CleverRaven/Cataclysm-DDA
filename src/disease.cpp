@@ -25,7 +25,7 @@ enum dis_type_enum {
  DI_BITE,
 // Food & Drugs
  DI_DRUNK, DI_HIGH, DI_WEED_HIGH,
-  DI_DATURA, DI_ASTHMA, DI_GRACK, DI_VALIUM,
+  DI_DATURA, DI_ASTHMA, DI_VALIUM,
 // Other
  DI_AMIGARA, DI_STEMCELL_TREATMENT, DI_TELEGLOW,
 // Bite wound infected (dependent on bodypart.h)
@@ -73,7 +73,6 @@ void game::init_diseases() {
     disease_type_lookup["high"] = DI_HIGH;
     disease_type_lookup["datura"] = DI_DATURA;
     disease_type_lookup["asthma"] = DI_ASTHMA;
-    disease_type_lookup["grack"] = DI_GRACK;
     disease_type_lookup["amigara"] = DI_AMIGARA;
     disease_type_lookup["stemcell_treatment"] = DI_STEMCELL_TREATMENT;
     disease_type_lookup["teleglow"] = DI_TELEGLOW;
@@ -569,13 +568,6 @@ void dis_effect(player &p, disease &dis)
             p.add_miss_reason(_("You're winded."), 3);
             break;
 
-        case DI_GRACK:
-            p.mod_str_bonus(grackPower);
-            p.mod_dex_bonus(grackPower);
-            p.mod_int_bonus(grackPower);
-            p.mod_per_bonus(grackPower);
-            break;
-
         case DI_TELEGLOW:
             // Default we get around 300 duration points per teleport (possibly more
             // depending on the source).
@@ -727,7 +719,6 @@ int disease_speed_boost(disease dis)
     dis_type_enum type = disease_type_lookup[dis.type];
     switch (type) {
         case DI_ASTHMA:     return 0 - int(dis.duration / 5);
-        case DI_GRACK:      return +20000;
         case DI_LACKSLEEP:  return -5;
         case DI_GRABBED:    return -25;
         default:            break;
@@ -753,8 +744,6 @@ std::string dis_name(disease& dis)
     case DI_ASTHMA:
         if (dis.duration > 800) return _("Heavy Asthma");
         else return _("Asthma");
-
-    case DI_GRACK: return _("RELEASE THE GRACKEN!!!!");
 
     case DI_DATURA: return _("Experiencing Datura");
 
@@ -888,8 +877,6 @@ std::string dis_description(disease& dis)
     case DI_DATURA: return _("Buy the ticket, take the ride.  The datura has you now.");
     case DI_ASTHMA:
         return string_format(_("Speed - %d%%;   Strength - 2;   Dexterity - 3"), int(dis.duration / 5));
-
-    case DI_GRACK: return _("Unleashed the Gracken.");
 
     case DI_BITE: return _("You have a nasty bite wound.");
     case DI_INFECTED: return _("You have an infected wound.");

@@ -1247,7 +1247,7 @@ int iuse::grack(player *p, item *it, bool)
             duration += 10;
         }
         p->hunger -= 10;
-        p->add_disease("grack", duration);
+        p->add_effect("grack", duration);
         return it->type->charges_to_use();
     }
     return 0;
