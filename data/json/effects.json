@@ -1064,6 +1064,30 @@
     },
     {
         "type": "effect_type",
+        "id": "brainworm",
+        "rating": "bad",
+        "base_mods": {
+            "pain_chance": [512],
+            "pain_min": [2],
+            "pain_max": [8],
+            "h_mod_chance": [512],
+            "h_mod_min": [-10]
+        }
+    },
+    {
+        "type": "effect_type",
+        "id": "paincysts",
+        "rating": "bad",
+        "base_mods": {
+            "pain_chance": [256],
+            "pain_min": [1],
+            "pain_max": [4],
+            "fatigue_chance": [256],
+            "fatigue_min": [1]
+        }
+    },
+    {
+        "type": "effect_type",
         "id": "lying_down",
         "apply_message": "You lie down to go to sleep...",
         "rating": "neutral"

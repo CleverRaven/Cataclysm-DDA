@@ -231,13 +231,13 @@ int iuse::royal_jelly(player *p, item *it, bool)
         p->remove_effect("fungus");
     }
     if (p->has_effect("dermatik") || p->has_effect("bloodworms") ||
-        p->has_disease("paincysts") || p->has_disease("brainworm") ||
+        p->has_effect("paincysts") || p->has_effect("brainworm") ||
         p->has_effect("tapeworm")) {
         message = _("You feel cleansed inside!");
         p->remove_effect("dermatik");
         p->remove_effect("bloodworms");
-        p->rem_disease("paincysts");
-        p->rem_disease("brainworm");
+        p->remove_effect("paincysts");
+        p->remove_effect("brainworm");
         p->remove_effect("tapeworm");
     }
     if (p->has_effect("blind")) {
@@ -659,13 +659,13 @@ int iuse::raw_meat(player *p, item *it, bool)
                           p->has_trait("PARAIMMUNE"))) {
         p->add_effect("bloodworms", 1, num_bp, true);
     }
-    if ((one_in(128)) && !(p->has_disease("brainworm") || p->has_bionic("bio_digestion") ||
+    if ((one_in(128)) && !(p->has_effect("brainworm") || p->has_bionic("bio_digestion") ||
                            p->has_trait("PARAIMMUNE"))) {
-        p->add_disease("brainworm", 1, true);
+        p->add_effect("brainworm", 1, num_bp, true);
     }
-    if ((one_in(64)) && !(p->has_disease("paincysts") || p->has_bionic("bio_digestion") ||
+    if ((one_in(64)) && !(p->has_effect("paincysts") || p->has_bionic("bio_digestion") ||
                           p->has_trait("PARAIMMUNE"))) {
-        p->add_disease("paincysts", 1, true);
+        p->add_effect("paincysts", 1, num_bp, true);
     }
     return it->type->charges_to_use();
 }
@@ -681,9 +681,9 @@ int iuse::raw_fat(player *p, item *it, bool)
                            p->has_trait("PARAIMMUNE"))) {
         p->add_effect("bloodworms", 1, num_bp, true);
     }
-    if ((one_in(128)) && !(p->has_disease("brainworm") || p->has_bionic("bio_digestion") ||
+    if ((one_in(128)) && !(p->has_effect("brainworm") || p->has_bionic("bio_digestion") ||
                            p->has_trait("PARAIMMUNE"))) {
-        p->add_disease("brainworm", 1, true);
+        p->add_effect("brainworm", 1, num_bp, true);
     }
     return it->type->charges_to_use();
 }
@@ -708,13 +708,13 @@ int iuse::raw_fish(player *p, item *it, bool)
                            p->has_trait("PARAIMMUNE"))) {
         p->add_effect("bloodworms", 1, num_bp, true);
     }
-    if ((one_in(256)) && !(p->has_disease("brainworm") || p->has_bionic("bio_digestion") ||
+    if ((one_in(256)) && !(p->has_effect("brainworm") || p->has_bionic("bio_digestion") ||
                            p->has_trait("PARAIMMUNE"))) {
-        p->add_disease("brainworm", 1, true);
+        p->add_effect("brainworm", 1, num_bp, true);
     }
-    if ((one_in(256)) && !(p->has_disease("paincysts") || p->has_bionic("bio_digestion") ||
+    if ((one_in(256)) && !(p->has_effect("paincysts") || p->has_bionic("bio_digestion") ||
                            p->has_trait("PARAIMMUNE"))) {
-        p->add_disease("paincysts", 1, true);
+        p->add_effect("paincysts", 1, num_bp, true);
     }
     return it->type->charges_to_use();
 }
@@ -730,13 +730,13 @@ int iuse::raw_wildveg(player *p, item *it, bool)
                            p->has_trait("PARAIMMUNE"))) {
         p->add_effect("bloodworms", 1, num_bp, true);
     }
-    if ((one_in(512)) && !(p->has_disease("brainworm") || p->has_bionic("bio_digestion") ||
+    if ((one_in(512)) && !(p->has_effect("brainworm") || p->has_bionic("bio_digestion") ||
                            p->has_trait("PARAIMMUNE"))) {
-        p->add_disease("brainworm", 1, true);
+        p->add_effect("brainworm", 1, num_bp, true);
     }
-    if ((one_in(128)) && !(p->has_disease("paincysts") || p->has_bionic("bio_digestion") ||
+    if ((one_in(128)) && !(p->has_effect("paincysts") || p->has_bionic("bio_digestion") ||
                            p->has_trait("PARAIMMUNE"))) {
-        p->add_disease("paincysts", 1, true);
+        p->add_effect("paincysts", 1, num_bp, true);
     }
     return it->type->charges_to_use();
 }
@@ -1155,8 +1155,8 @@ int iuse::antiparasitic(player *p, item *it, bool)
         p->remove_effect("bloodworms");
         p->add_msg_if_player(_("Your skin prickles and your veins itch for a few moments."));
     }
-    if (p->has_disease("brainworm")) {
-        p->rem_disease("brainworm");
+    if (p->has_effect("brainworm")) {
+        p->remove_effect("brainworm");
         if (p->has_trait("NOPAIN")) {
             p->add_msg_if_player(m_good, _("The pressure inside your head feels better already."));
         } else {
@@ -1165,8 +1165,8 @@ int iuse::antiparasitic(player *p, item *it, bool)
             p->mod_pain(rng(8, 24));
         }
     }
-    if (p->has_disease("paincysts")) {
-        p->rem_disease("paincysts");
+    if (p->has_effect("paincysts")) {
+        p->remove_effect("paincysts");
         if (p->has_trait("NOPAIN")) {
             p->add_msg_if_player(m_good, _("The stiffness in your joints goes away."));
         } else {

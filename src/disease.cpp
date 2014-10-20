@@ -16,7 +16,7 @@
 enum dis_type_enum {
  DI_NULL,
 // Diseases
- DI_RECOVER, DI_BLOODWORMS, DI_BRAINWORM, DI_PAINCYSTS,
+ DI_RECOVER,
  DI_TETANUS,
 // Monsters
  DI_LYING_DOWN, DI_SLEEP, DI_ALARM_CLOCK,
@@ -52,10 +52,7 @@ void game::init_diseases() {
 
     disease_type_lookup["null"] = DI_NULL;
     disease_type_lookup["recover"] = DI_RECOVER;
-    disease_type_lookup["bloodworms"] = DI_BLOODWORMS;
-    disease_type_lookup["brainworm"] = DI_BRAINWORM;
     disease_type_lookup["tetanus"] = DI_TETANUS;
-    disease_type_lookup["paincysts"] = DI_PAINCYSTS;
     disease_type_lookup["lying_down"] = DI_LYING_DOWN;
     disease_type_lookup["sleep"] = DI_SLEEP;
     disease_type_lookup["alarm_clock"] = DI_ALARM_CLOCK;
@@ -407,47 +404,6 @@ void dis_effect(player &p, disease &dis)
                     p.mod_pain(rng(1, 10));
                 }
             }
-            }
-            break;
-
-        case DI_BRAINWORM:
-            if (p.has_trait("PARAIMMUNE")) {
-               p.rem_disease("brainworm");
-            } else {
-                if((one_in(512)) && (!p.has_trait("NOPAIN"))) {
-                    add_msg(m_bad, _("Your head hurts."));
-                    p.mod_pain(rng(2, 8));
-                }
-                if(one_in(1024)) {
-                    p.mod_healthy_mod(-10);
-                    p.apply_damage( nullptr, bp_head, rng( 0, 1 ) );
-                    if (!p.has_effect("visuals")) {
-                    add_msg(m_bad, _("Your vision is getting fuzzy."));
-                    p.add_effect("visuals", rng(10, 600));
-                  }
-                }
-                if(one_in(4096)) {
-                    p.mod_healthy_mod(-10);
-                    p.apply_damage( nullptr, bp_head, rng( 1, 2 ) );
-                    if (!p.has_effect("blind")) {
-                    p.add_msg_if_player(m_bad, _("Your vision goes black!"));
-                    p.add_effect("blind", rng(5, 20));
-                  }
-                }
-            }
-            break;
-
-        case DI_PAINCYSTS:
-            if (p.has_trait("PARAIMMUNE")) {
-               p.rem_disease("paincysts");
-            } else {
-                if((one_in(256)) && (!p.has_trait("NOPAIN"))) {
-                    add_msg(m_bad, _("Your joints ache."));
-                    p.mod_pain(rng(1, 4));
-                }
-                if(one_in(256)) {
-                    p.fatigue++;
-                }
             }
             break;
 

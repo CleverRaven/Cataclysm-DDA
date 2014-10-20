@@ -5598,6 +5598,8 @@ void player::process_effects() {
         remove_effect("dermatik");
         remove_effect("tapeworm");
         remove_effect("bloodworms");
+        remove_effect("brainworm");
+        remove_effect("paincysts");
     }
     if (has_trait("EATHEALTH")) {
         remove_effect("tapeworm");
@@ -6672,6 +6674,23 @@ void player::hardcoded_effects(effect it)
                     add_msg_if_player(m_bad, _("Your bones feel like they're crumbling."));
                     hp_cur[i] -= rng(0,8);
                 }
+            }
+        }
+    } else if (id == "brainworm") {
+        if(one_in(1024)) {
+            mod_healthy_mod(-10);
+            apply_damage( nullptr, bp_head, rng( 0, 1 ) );
+            if (!has_effect("visuals")) {
+                add_msg_if_player(m_bad, _("Your vision is getting fuzzy."));
+                add_effect("visuals", rng(10, 600));
+            }
+        }
+        if(one_in(4096)) {
+            mod_healthy_mod(-10);
+            apply_damage( nullptr, bp_head, rng( 1, 2 ) );
+            if (!p.has_effect("blind")) {
+                add_msg_if_player(m_bad, _("Your vision goes black!"));
+                add_effect("blind", rng(5, 20));
             }
         }
     }
