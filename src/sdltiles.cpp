@@ -255,9 +255,6 @@ bool WinCreate()
         window_flags |= SDL_WINDOW_RESIZABLE;
     }
 
-    SDL_DisplayMode desktopMode;
-    SDL_GetDesktopDisplayMode(0, &desktopMode);
-
     window = SDL_CreateWindow(version.c_str(),
             SDL_WINDOWPOS_CENTERED,
             SDL_WINDOWPOS_CENTERED,
@@ -270,19 +267,12 @@ bool WinCreate()
         dbg(D_ERROR) << "SDL_CreateWindow failed: " << SDL_GetError();
         return false;
     }
-//    if (window_flags & SDL_WINDOW_FULLSCREEN) {
-//        SDL_GetWindowSize(window, &WindowWidth, &WindowHeight);
-//        // Ignore previous values, use the whole window, but nothing more.
-//        TERMINAL_WIDTH = WindowWidth / fontwidth;
-//        TERMINAL_HEIGHT = WindowHeight / fontheight;
-//    }
 
     // Initialize framebuffer cache
     framebuffer.resize(TERMINAL_HEIGHT);
     for (int i = 0; i < TERMINAL_HEIGHT; i++) {
         framebuffer[i].chars.assign(TERMINAL_WIDTH, cursecell(""));
     }
-    SDL_SetWindowSize(window, desktopMode.w, desktopMode.h);
     const Uint32 wformat = SDL_GetWindowPixelFormat(window);
     format = SDL_AllocFormat(wformat);
     if(format == 0) {
@@ -308,7 +298,6 @@ bool WinCreate()
             return false;
         }
     }
-    SDL_SetWindowSize(window, WindowWidth, WindowHeight);
     if( SDL_SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_NONE ) != 0 ) {
         dbg( D_ERROR ) << "SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE) failed: " << SDL_GetError();
         // Ignored for now, rendering could still work
@@ -546,17 +535,10 @@ void BitmapFont::OutputChar(long t, int x, int y, unsigned char color)
 void try_update()
 {
     unsigned long now = SDL_GetTicks();
-    int rw, rh;
-    SDL_GetRendererOutputSize(renderer, &rw, &rh);
-    float sFx = WindowWidth / rw;
-    float sFy = WindowHeight / rh;
     if (now - lastupdate >= interval) {
-        // Select default target (the window), copy rendered buffer
-        // there, present it, select the buffer as target again.
         if( SDL_SetRenderTarget( renderer, NULL ) != 0 ) {
             dbg(D_ERROR) << "SDL_SetRenderTarget failed: " << SDL_GetError();
         }
-        SDL_RenderSetScale(renderer, sFx, sFy);
         if( SDL_RenderCopy( renderer, display_buffer, NULL, NULL ) != 0 ) {
             dbg(D_ERROR) << "SDL_RenderCopy failed: " << SDL_GetError();
         }
@@ -738,11 +720,19 @@ bool Font::draw_window( WINDOW *win, int offsetx, int offsety )
 
             // Avoid redrawing an unchanged tile by checking the framebuffer cache
             // TODO: handle caching when drawing normal windows over graphical tiles
-            const int fbysize = framebuffer.size();
-            const int fby = std::min(win->y + j, fbysize - 1);
-            const int fbxsize = framebuffer[fby].chars.size() - 1;
-            const int fbx = std::min(win->x + i, fbxsize);
+            const int fby = win->y + j;
+            const int fbx = win->x + i;
             cursecell &oldcell = framebuffer[fby].chars[fbx];
+
+
+//            const int fbxsize = framebuffer[fby].chars.size();
+//            const int fbysize = framebuffer.size();
+//            bool cell_valid = true;
+//            if(fby >= fbysize || fbx >= fbxsize){
+//                cell_valid = false;
+//            }
+
+
             //This creates a problem when map_font is different from the regular font
             //Specifically when showing the overmap
             //And in some instances of screen change, i.e. inventory.
@@ -993,6 +983,49 @@ void CheckMessages()
                 case SDL_WINDOWEVENT_RESTORED:
                     needupdate = true;
                     break;
+                case SDL_WINDOWEVENT_SIZE_CHANGED:
+                    if (display_buffer != NULL) {
+                        SDL_DestroyTexture(display_buffer);
+                        display_buffer = NULL;
+                    }
+                    if(g) {
+                //        if(get_window_terminal_height() != get_terminal_height() || get_window_terminal_width() != get_terminal_width()) {
+                            ///Window size changed. Resizing render target, reinitializing outputs
+                            WindowHeight = ev.window.data2;
+                            WindowWidth = ev.window.data1;
+                            TERMINAL_HEIGHT = std::max(WindowHeight / fontheight, 24);
+                            TERMINAL_WIDTH = std::max(WindowWidth / fontwidth, 80);
+                            SDL_Rect viewport;
+                            SDL_RenderGetViewport(renderer, &viewport);
+                            display_buffer = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGB888, SDL_TEXTUREACCESS_TARGET, WindowWidth, WindowHeight);
+                            if( display_buffer == nullptr ) {
+                                dbg( D_ERROR ) << "Failed to create window buffer: " << SDL_GetError();
+                            }
+
+                            if( SDL_SetRenderTarget( renderer, NULL ) != 0 ) {
+                                dbg( D_ERROR ) << "Failed to select render target: " << SDL_GetError();
+                            }
+                            viewport.w = WindowWidth;
+                            viewport.h = WindowHeight;
+                            SDL_RenderSetViewport(renderer, &viewport);
+//                            SDL_SetWindowSize(window, TERMINAL_WIDTH * fontwidth, TERMINAL_HEIGHT * fontheight);
+
+                            if( SDL_SetRenderTarget( renderer, display_buffer ) != 0 ) {
+                                dbg( D_ERROR ) << "Failed to select render target: " << SDL_GetError();
+                            }
+
+                            if(OPTIONS["WINDOW_KEEP"]) {
+                                OPTIONS["WINDOW_X"].setValue(WindowWidth);
+                                OPTIONS["WINDOW_Y"].setValue(WindowHeight);
+                                OPTIONS["TERMINAL_X"].setValue(TERMINAL_WIDTH);
+                                OPTIONS["TERMINAL_Y"].setValue(TERMINAL_HEIGHT);
+                            }
+
+                            g->reinit_ui();
+                //        }
+                    }
+                    needupdate = true;
+                    break;
                 default:
                     break;
                 }
@@ -1083,29 +1116,6 @@ void CheckMessages()
         }
     }
 #ifdef SDLTILES
-    if(g) {
-        if(get_window_terminal_height() != get_terminal_height() || get_window_terminal_width() != get_terminal_width()) {
-            ///Window size changed. Resizing render target, reinitializing outputs
-            TERMINAL_HEIGHT = std::max(get_window_terminal_height(), 24);
-            TERMINAL_WIDTH = std::max(get_window_terminal_width(), 80);
-            //SDL_SetWindowSize(window, TERMINAL_WIDTH * fontwidth, TERMINAL_HEIGHT * fontheight);
-            SDL_GetWindowSize(window, &WindowWidth, &WindowHeight);
-            if (display_buffer != NULL) {
-                SDL_DestroyTexture(display_buffer);
-                display_buffer = NULL;
-            }
-            display_buffer = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGB888, SDL_TEXTUREACCESS_TARGET, WindowWidth, WindowHeight);
-            if( display_buffer == nullptr ) {
-                dbg( D_ERROR ) << "Failed to create window buffer: " << SDL_GetError();
-            }
-            if( SDL_SetRenderTarget( renderer, display_buffer ) != 0 ) {
-                dbg( D_ERROR ) << "Failed to select render target: " << SDL_GetError();
-            }
-
-            g->reinit_ui();
-        }
-    }
-
     if (needupdate) {
         try_update();
     }
@@ -1116,6 +1126,10 @@ void CheckMessages()
         exit(0);
     }
 }
+
+//void respec_renderer() {
+//
+//}
 
 // Check if text ends with suffix
 static bool ends_with(const std::string &text, const std::string &suffix) {
@@ -1345,6 +1359,18 @@ int projected_window_height(int)
     return OPTIONS["TERMINAL_Y"] * fontheight;
 }
 
+// Calculates the new terminal width of the window, given the actual width.
+int projected_terminal_width(int)
+{
+    return OPTIONS["WINDOW_X"] / fontwidth;
+}
+
+// Calculates the new terminal height of the window, given the actual height.
+int projected_terminal_height(int)
+{
+    return OPTIONS["WINDOW_Y"] / fontheight;
+}
+
 // forward declaration
 void load_soundset();
 
@@ -1439,7 +1465,10 @@ WINDOW *curses_init(void)
 
     TERMINAL_WIDTH = OPTIONS["TERMINAL_X"];
     TERMINAL_HEIGHT = OPTIONS["TERMINAL_Y"];
-
+    #ifdef SDLTILES
+    TERMINAL_WIDTH = OPTIONS["WINDOW_X"] / fontwidth;
+    TERMINAL_HEIGHT = OPTIONS["WINDOW_Y"] / fontwidth;
+    #endif
     if(!WinCreate()) {
         return NULL;
     }

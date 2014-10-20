@@ -492,6 +492,9 @@ void game::init_ui()
 void game::reinit_ui()
 {
     init_ui();
+    if(mainwin->width != TERMX || mainwin->height != TERMY) {
+        wresize(mainwin, TERMY, TERMX);
+    }
     if(g->game_inprogress){
         refresh_all();
     }else {
@@ -508,7 +511,7 @@ void game::toggle_sidebar_style(void)
 
 void game::toggle_fullscreen(void)
 {
-#ifndef TILES
+#ifdef TILES
     if (TERMX > 121 || TERMY > 121) {
         return;
     }
