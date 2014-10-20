@@ -1034,7 +1034,13 @@
         "desc": ["Strength - 3;   Dexterity - 3;   Intelligence - 2;   Perception - 4\nYou are thoroughly relaxed and don't feel like moving.  Fighting? Too much effort."],
         "apply_message": "You inhale sweetish gas.",
         "remove_message": "The slackness leaves your muscles.",
-        "rating": "bad"
+        "rating": "bad",
+        "base_mods": {
+            "str_mod": [-3],
+            "dex_mod": [-3],
+            "int_mod": [-2],
+            "per_mod": [-4]
+        }
     },
     {
         "type": "effect_type",
