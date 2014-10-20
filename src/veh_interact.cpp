@@ -1801,8 +1801,7 @@ void complete_vehicle ()
         }
     { // Weird indention to avoid moving this whole block over 4 spaces.
         int menu_choice = -1;
-        if ( veh->fuel_left("gasoline") > 0 && veh->fuel_left("diesel") > 0 ) {
-
+        if( veh->fuel_left("gasoline") > 0 && veh->fuel_left("diesel") > 0 ) {
             uimenu smenu;
             smenu.text = _("Siphon what?");
             smenu.addentry(_("Gasoline"));
@@ -1811,48 +1810,48 @@ void complete_vehicle ()
             smenu.query();
             menu_choice = smenu.ret;
         }
-        if ( fillv != NULL ) {
+        if( fillv != NULL ) {
             int want = 0;
             int got = 0;
 
             if( menu_choice != -1 ) {
                 std::string choice = "none";
 
-                if ( menu_choice == 0) {
+                if ( menu_choice == 0 ) {
                     choice = "gasoline";
-                    want = fillv->fuel_capacity("gasoline")-fillv->fuel_left("gasoline");
+                    want = fillv->fuel_capacity("gasoline") - fillv->fuel_left("gasoline");
                     got = veh->drain("gasoline", want);
-                    fillv->refill("gasoline",got);
-                } else if ( menu_choice == 1) {
+                    fillv->refill("gasoline", got);
+                } else if( menu_choice == 1 ) {
                     choice = "diesel";
-                    want = fillv->fuel_capacity("diesel")-fillv->fuel_left("diesel");
+                    want = fillv->fuel_capacity("diesel") - fillv->fuel_left("diesel");
                     got = veh->drain("diesel", want);
-                    fillv->refill("diesel",got);
+                    fillv->refill("diesel", got);
                 } else {
                     choice = "none";
                     break;
                 }
                 add_msg(_("Siphoned %d units of %s from the %s into the %s%s"), got,
-                    choice.c_str(), veh->name.c_str(), fillv->name.c_str(),
-                    (got < want ? ", draining the tank completely." : ", receiving tank is full.") );
+                        choice.c_str(), veh->name.c_str(), fillv->name.c_str(),
+                        (got < want ? ", draining the tank completely." : ", receiving tank is full.") );
                 g->u.moves -= 200;
-            } else if ( veh->fuel_capacity("diesel") > 0 ) {
-                want = fillv->fuel_capacity("diesel")-fillv->fuel_left("diesel");
+            } else if( veh->fuel_capacity("diesel") > 0 ) {
+                want = fillv->fuel_capacity("diesel") - fillv->fuel_left("diesel");
                 got = veh->drain("diesel", want);
                 fillv->refill("diesel",got);
 
                 add_msg(_("Siphoned %d units of %s from the %s into the %s%s"), got,
-                    "diesel", veh->name.c_str(), fillv->name.c_str(),
-                    (got < want ? ", draining the tank completely." : ", receiving tank is full.") );
+                        "diesel", veh->name.c_str(), fillv->name.c_str(),
+                        (got < want ? ", draining the tank completely." : ", receiving tank is full.") );
                 g->u.moves -= 200;
-            } else if ( veh->fuel_capacity("gasoline") > 0 ) {
-                want = fillv->fuel_capacity("gasoline")-fillv->fuel_left("gasoline");
+            } else if( veh->fuel_capacity("gasoline") > 0 ) {
+                want = fillv->fuel_capacity("gasoline") - fillv->fuel_left("gasoline");
                 got = veh->drain("gasoline", want);
                 fillv->refill("gasoline",got);
 
                 add_msg(_("Siphoned %d units of %s from the %s into the %s%s"), got,
-                    "gasoline", veh->name.c_str(), fillv->name.c_str(),
-                    (got < want ? ", draining the tank completely." : ", receiving tank is full.") );
+                        "gasoline", veh->name.c_str(), fillv->name.c_str(),
+                        (got < want ? ", draining the tank completely." : ", receiving tank is full.") );
                 g->u.moves -= 200;
             } else {
                 add_msg(_("That vehicle has no fuel to siphon."));
@@ -1860,23 +1859,18 @@ void complete_vehicle ()
             }
         } else {
             if( menu_choice != -1 ) {
-                if ( menu_choice == 0 ) {
+                if( menu_choice == 0 ) {
                     g->u.siphon( veh, "gasoline" );
-                }
-                else if ( menu_choice == 1 ) {
+                } else if( menu_choice == 1 ) {
                     g->u.siphon( veh, "diesel" );
-                }
-                else {
+                } else {
                     break;
                 }
-            }
-            else if ( veh->fuel_left("diesel") > 0 ) {
+            } else if( veh->fuel_left("diesel") > 0 ) {
                 g->u.siphon( veh, "diesel" );
-            }
-            else if ( veh->fuel_left("gasoline") > 0 ) {
+            } else if( veh->fuel_left("gasoline") > 0 ) {
                 g->u.siphon( veh, "gasoline" );
-            }
-            else {
+            } else {
                 add_msg(_("That vehicle has no fuel to siphon."));
                 break;
             }
