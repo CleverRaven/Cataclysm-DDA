@@ -22,7 +22,7 @@ enum dis_type_enum {
  DI_LYING_DOWN, DI_SLEEP, DI_ALARM_CLOCK,
  DI_BITE,
 // Food & Drugs
-  DI_DATURA, DI_VALIUM,
+  DI_DATURA,
 // Bite wound infected (dependent on bodypart.h)
  DI_INFECTED,
 // Inflicted by an NPC
@@ -61,7 +61,6 @@ void game::init_diseases() {
     disease_type_lookup["sleep"] = DI_SLEEP;
     disease_type_lookup["alarm_clock"] = DI_ALARM_CLOCK;
     disease_type_lookup["bite"] = DI_BITE;
-    disease_type_lookup["valium"] = DI_VALIUM;
     disease_type_lookup["datura"] = DI_DATURA;
     disease_type_lookup["infected"] = DI_INFECTED;
     disease_type_lookup["asked_to_train"] = DI_ASKED_TO_TRAIN;
@@ -394,12 +393,6 @@ void dis_effect(player &p, disease &dis)
         }
             break;
 
-        case DI_VALIUM:
-            if (dis.duration % 25 == 0 && (p.stim > 0 || one_in(2))) {
-                p.stim--;
-            }
-            break;
-
         case DI_TAPEWORM:
             if (p.has_trait("PARAIMMUNE") || p.has_trait("EATHEALTH")) {
                p.rem_disease("tapeworm");
@@ -414,7 +407,7 @@ void dis_effect(player &p, disease &dis)
             if (p.has_trait("INFIMMUNE")) {
                p.rem_disease("tetanus");
             }
-            if (!p.has_disease("valium")) {
+            if (!p.has_effect("valium")) {
             p.mod_dex_bonus(-4);
             p.add_miss_reason(_("Your muscles are locking up and you can't fight effectively."), 4);
             if (one_in(512)) {

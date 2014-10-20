@@ -6551,7 +6551,7 @@ void player::hardcoded_effects(effect it)
             }
         } if (dur > 2400) {
             // 8 teleports
-            if (one_in(10000 - dur) && !has_disease("valium")) {
+            if (one_in(10000 - dur) && !has_effect("valium")) {
                 add_effect("shakes", rng(40, 80));
             }
             if (one_in(12000 - dur)) {

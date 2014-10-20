@@ -1015,7 +1015,13 @@
     {
         "type": "effect_type",
         "id": "valium",
-        "removes_effect": "shakes"
+        "removes_effect": "shakes",
+        "base_mods": {
+            "stim_tick": [25],
+            "stim_chance": [2],
+            "stim_min": [1],
+            "stim_min_val": [-1]
+        }
     },
     {
         "type": "effect_type",

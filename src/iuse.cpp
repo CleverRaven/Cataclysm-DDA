@@ -1186,7 +1186,7 @@ int iuse::anticonvulsant(player *p, item *it, bool)
     if (p->has_trait("LIGHTWEIGHT")) {
         duration += 1200;
     }
-    p->add_disease("valium", duration);
+    p->add_effect("valium", duration);
     p->add_effect("high", duration);
     if (p->has_effect("shakes")) {
         p->remove_effect("shakes");
