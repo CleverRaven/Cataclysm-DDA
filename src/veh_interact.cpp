@@ -1813,9 +1813,9 @@ void complete_vehicle ()
         if( fillv != NULL ) {
             int want = 0;
             int got = 0;
+            std::string choice = "none";
 
             if( menu_choice != -1 ) {
-                std::string choice = "none";
 
                 if ( menu_choice == 0 ) {
                     choice = "gasoline";
@@ -1831,31 +1831,28 @@ void complete_vehicle ()
                     choice = "none";
                     break;
                 }
-                add_msg(_("Siphoned %d units of %s from the %s into the %s%s"), got,
-                        choice.c_str(), veh->name.c_str(), fillv->name.c_str(),
-                        (got < want ? ", draining the tank completely." : ", receiving tank is full.") );
                 g->u.moves -= 200;
             } else if( veh->fuel_capacity("diesel") > 0 ) {
                 want = fillv->fuel_capacity("diesel") - fillv->fuel_left("diesel");
                 got = veh->drain("diesel", want);
                 fillv->refill("diesel",got);
-
-                add_msg(_("Siphoned %d units of %s from the %s into the %s%s"), got,
-                        "diesel", veh->name.c_str(), fillv->name.c_str(),
-                        (got < want ? ", draining the tank completely." : ", receiving tank is full.") );
                 g->u.moves -= 200;
             } else if( veh->fuel_capacity("gasoline") > 0 ) {
                 want = fillv->fuel_capacity("gasoline") - fillv->fuel_left("gasoline");
                 got = veh->drain("gasoline", want);
                 fillv->refill("gasoline",got);
-
-                add_msg(_("Siphoned %d units of %s from the %s into the %s%s"), got,
-                        "gasoline", veh->name.c_str(), fillv->name.c_str(),
-                        (got < want ? ", draining the tank completely." : ", receiving tank is full.") );
                 g->u.moves -= 200;
             } else {
                 add_msg(_("That vehicle has no fuel to siphon."));
                 break;
+            }
+            // Common message for all cases, no fuel case breaks and avoids it..
+            if( got < want ) {
+                add_msg(_("Siphoned %d units of %s from the %s into the %s, draining the tank."),
+                        got, choice.c_str(), veh->name.c_str(), fillv->name.c_str() );
+            } else {
+                add_msg(_("Siphoned %d units of %s from the %s into the %s, receiving tank is full."),
+                        got, choice.c_str(), veh->name.c_str(), fillv->name.c_str() );
             }
         } else {
             if( menu_choice != -1 ) {
