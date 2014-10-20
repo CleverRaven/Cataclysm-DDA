@@ -914,7 +914,13 @@
     },
     {
         "type": "effect_type",
-        "id": "high"
+        "id": "high",
+        "name": ["High"],
+        "apply_message": "You feel lightheaded.",
+        "base_mods": {
+            "int_mod": [-1],
+            "per_mod": [-1]
+        }
     },
     {
         "type": "effect_type",

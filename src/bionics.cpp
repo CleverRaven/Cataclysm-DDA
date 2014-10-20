@@ -426,11 +426,11 @@ void player::activate_bionic(int b)
             apply_damage( nullptr, bp_torso, rng( 5, 15 ) );
         }
         if (one_in(5)) {
-            add_disease("teleglow", rng(50, 400));
+            add_effect("teleglow", rng(50, 400));
         }
     } else if (bio.id == "bio_teleport") {
         g->teleport();
-        add_disease("teleglow", 300);
+        add_effect("teleglow", 300);
     }
     // TODO: More stuff here (and bio_blood_filter)
     else if(bio.id == "bio_blood_anal") {
@@ -473,7 +473,7 @@ void player::activate_bionic(int b)
         if (has_effect("meth")) {
             good.push_back(_("Methamphetamines"));
         }
-        if (has_disease("high")) {
+        if (has_effect("high")) {
             good.push_back(_("Intoxicant: Other"));
         }
         if (has_disease("weed_high")) {
@@ -547,7 +547,7 @@ void player::activate_bionic(int b)
         remove_effect("pkill_l");
         rem_disease("drunk");
         remove_effect("cig");
-        rem_disease("high");
+        remove_effect("high");
         remove_effect("hallu");
         remove_effect("visuals");
         remove_effect("iodine");

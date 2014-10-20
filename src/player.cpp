@@ -6476,6 +6476,117 @@ void player::hardcoded_effects(effect it)
                 fatigue += dice(1,6);
             }
         }
+    } else if (id == "teleglow") {
+        // Default we get around 300 duration points per teleport (possibly more
+        // depending on the source).
+        // TODO: Include a chance to teleport to the nether realm.
+        // TODO: This with regards to NPCS
+        if(!is_player()) {
+            // NO, no teleporting around the player because an NPC has teleglow!
+            return;
+        }
+        if (dur > 6000) {
+            // 20 teles (no decay; in practice at least 21)
+            if (one_in(1000 - ((dur - 6000) / 10))) {
+                if (!is_npc()) {
+                    add_msg(_("Glowing lights surround you, and you teleport."));
+                    add_memorial_log(pgettext("memorial_male", "Spontaneous teleport."),
+                                          pgettext("memorial_female", "Spontaneous teleport."));
+                }
+                g->teleport();
+                if (one_in(10)) {
+                    // Set ourselves up for removal
+                    it.set_duration(0);
+                }
+            }
+            if (one_in(1200 - ((dur - 6000) / 5)) && one_in(20)) {
+                if (!is_npc()) {
+                    add_msg(m_bad, _("You pass out."));
+                }
+                fall_asleep(1200);
+                if (one_in(6)) {
+                    // Set ourselves up for removal
+                    it.set_duration(0);
+                }
+            }
+        }
+        if (dur > 3600) {
+            // 12 teles
+            if (one_in(4000 - int(.25 * (dur - 3600)))) {
+                MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup("GROUP_NETHER");
+                monster beast(GetMType(spawn_details.name));
+                int x, y;
+                int tries = 0;
+                do {
+                    x = posx + rng(-4, 4);
+                    y = posy + rng(-4, 4);
+                    tries++;
+                    if (tries >= 10) {
+                        break;
+                    }
+                } while (((x == posx && y == posy) || g->mon_at(x, y) != -1));
+                if (tries < 10) {
+                    if (g->m.move_cost(x, y) == 0) {
+                        g->m.make_rubble(x, y, f_rubble_rock, true);
+                    }
+                    beast.spawn(x, y);
+                    g->add_zombie(beast);
+                    if (g->u_see(x, y)) {
+                        g->cancel_activity_query(_("A monster appears nearby!"));
+                        add_msg(m_warning, _("A portal opens nearby, and a monster crawls through!"));
+                    }
+                    if (one_in(2)) {
+                        // Set ourselves up for removal
+                        it.set_duration(0);
+                    }
+                }
+            }
+            if (one_in(3500 - int(.25 * (dur - 3600)))) {
+                add_msg_if_player(m_bad, _("You shudder suddenly."));
+                mutate();
+                if (one_in(4)) {
+                    // Set ourselves up for removal
+                    it.set_duration(0);
+                }
+            }
+        } if (dur > 2400) {
+            // 8 teleports
+            if (one_in(10000 - dur) && !has_disease("valium")) {
+                add_effect("shakes", rng(40, 80));
+            }
+            if (one_in(12000 - dur)) {
+                add_msg_if_player(m_bad, _("Your vision is filled with bright lights..."));
+                add_effect("blind", rng(10, 20));
+                if (one_in(8)) {
+                    // Set ourselves up for removal
+                    it.set_duration(0);
+                }
+            }
+            if (one_in(5000) && !has_effect("hallu")) {
+                add_effect("hallu", 3600);
+                if (one_in(5)) {
+                    // Set ourselves up for removal
+                    it.set_duration(0);
+                }
+            }
+        }
+        if (one_in(4000)) {
+            add_msg_if_player(m_bad, _("You're suddenly covered in ectoplasm."));
+            add_effect("boomered", 100);
+            if (one_in(4)) {
+                // Set ourselves up for removal
+                it.set_duration(0);
+            }
+        }
+        if (one_in(10000)) {
+            if (!has_trait("M_IMMUNE")) {
+                add_effect("fungus", 1, num_bp, true);
+            } else {
+                add_msg_if_player(m_info, _("We have many colonists awaiting passage."));
+            }
+            // Set ourselves up for removal
+            it.set_duration(0);
+        }
     }
 }
 

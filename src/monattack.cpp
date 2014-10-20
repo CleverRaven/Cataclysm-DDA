@@ -1850,7 +1850,7 @@ void mattack::stare(monster *z, int index)
     int j;
     if (g->sees_u(z->posx(), z->posy(), j)) {
         add_msg(m_bad, _("The %s stares at you, and you shudder."), z->name().c_str());
-        g->u.add_disease("teleglow", 800);
+        g->u.add_effect("teleglow", 800);
     } else {
         add_msg(m_bad, _("A piercing beam of light bursts forth!"));
         std::vector<point> sight = line_to(z->posx(), z->posy(), g->u.posx, g->u.posy, 0);

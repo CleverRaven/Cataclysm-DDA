@@ -1124,7 +1124,7 @@ void iexamine::flower_dandelion(player *p, map *m, int examx, int examy)
 void iexamine::flower_marloss(player *p, map *m, int examx, int examy)
 {
     if (calendar::turn.get_season() == WINTER) {
-        add_msg(m_info, _("This flower is still alive, desipte the harsh conditions..."));
+        add_msg(m_info, _("This flower is still alive, despite the harsh conditions..."));
     }
     if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) &&
          ((p->hunger) > 0) ) {
@@ -1136,7 +1136,7 @@ void iexamine::flower_marloss(player *p, map *m, int examx, int examy)
             p->moves -= 50; // Takes 30 seconds
             add_msg(m_bad, _("This flower tastes very wrong..."));
             // If you can drink flowers, you're post-thresh and the Mycus does not want you.
-            p->add_disease("teleglow", 100);
+            p->add_effect("teleglow", 100);
         }
     }
     if(!query_yn(_("Pick %s?"), m->furnname(examx, examy).c_str())) {

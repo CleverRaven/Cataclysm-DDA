@@ -1187,7 +1187,7 @@ int iuse::anticonvulsant(player *p, item *it, bool)
         duration += 1200;
     }
     p->add_disease("valium", duration);
-    p->add_disease("high", duration);
+    p->add_effect("high", duration);
     if (p->has_effect("shakes")) {
         p->remove_effect("shakes");
         p->add_msg_if_player(m_good, _("You stop shaking."));
@@ -1230,7 +1230,7 @@ int iuse::coke(player *p, item *it, bool)
         duration += 20;
     }
     p->hunger -= 8;
-    p->add_disease("high", duration);
+    p->add_effect("high", duration);
     return it->type->charges_to_use();
 }
 
@@ -1332,7 +1332,7 @@ int iuse::thorazine(player *p, item *it, bool)
     p->fatigue += 5;
     p->remove_effect("hallu");
     p->remove_effect("visuals");
-    p->rem_disease("high");
+    p->remove_effect("high");
     if (!p->has_effect("dermatik")) {
         p->remove_effect("formication");
     }
@@ -7719,7 +7719,7 @@ int iuse::artifact(player *p, item *it, bool)
 
             case AEA_TELEGLOW:
                 p->add_msg_if_player(m_warning, _("You feel unhinged."));
-                p->add_disease("teleglow", 100 * rng(3, 12));
+                p->add_effect("teleglow", 100 * rng(3, 12));
                 break;
 
             case AEA_NOISE:

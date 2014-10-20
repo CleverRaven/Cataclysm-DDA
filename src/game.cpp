@@ -7286,7 +7286,7 @@ void game::resonance_cascade(int x, int y)
         minglow = 0;
     }
     if (maxglow > 0) {
-        u.add_disease("teleglow", rng(minglow, maxglow) * 100);
+        u.add_effect("teleglow", rng(minglow, maxglow) * 100);
     }
     int startx = (x < 8 ? 0 : x - 8), endx = (x + 8 >= SEEX * 3 ? SEEX * 3 - 1 : x + 8);
     int starty = (y < 8 ? 0 : y - 8), endy = (y + 8 >= SEEY * 3 ? SEEY * 3 - 1 : y + 8);
@@ -14408,7 +14408,7 @@ void game::teleport(player *p, bool add_teleglow)
     bool is_u = (p == &u);
 
     if (add_teleglow) {
-        p->add_disease("teleglow", 300);
+        p->add_effect("teleglow", 300);
     }
     do {
         newx = p->posx + rng(0, SEEX * 2) - SEEX;

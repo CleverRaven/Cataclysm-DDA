@@ -1221,7 +1221,7 @@ void npc::form_opinion(player *u)
  else if (u->unarmed_attack())
   op_of_u.trust += 2;
 
- if (u->has_disease("high"))
+ if (u->has_effect("high"))
   op_of_u.trust -= 1;
  if (u->has_disease("drunk"))
   op_of_u.trust -= 2;

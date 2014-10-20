@@ -24,10 +24,10 @@ enum dis_type_enum {
  DI_LYING_DOWN, DI_SLEEP, DI_ALARM_CLOCK,
  DI_BITE,
 // Food & Drugs
- DI_DRUNK, DI_HIGH, DI_WEED_HIGH,
+ DI_DRUNK, DI_WEED_HIGH,
   DI_DATURA, DI_ASTHMA, DI_VALIUM,
 // Other
- DI_AMIGARA, DI_STEMCELL_TREATMENT, DI_TELEGLOW,
+ DI_AMIGARA, DI_STEMCELL_TREATMENT,
 // Bite wound infected (dependent on bodypart.h)
  DI_INFECTED,
 // Inflicted by an NPC
@@ -70,12 +70,10 @@ void game::init_diseases() {
     disease_type_lookup["bite"] = DI_BITE;
     disease_type_lookup["drunk"] = DI_DRUNK;
     disease_type_lookup["valium"] = DI_VALIUM;
-    disease_type_lookup["high"] = DI_HIGH;
     disease_type_lookup["datura"] = DI_DATURA;
     disease_type_lookup["asthma"] = DI_ASTHMA;
     disease_type_lookup["amigara"] = DI_AMIGARA;
     disease_type_lookup["stemcell_treatment"] = DI_STEMCELL_TREATMENT;
-    disease_type_lookup["teleglow"] = DI_TELEGLOW;
     disease_type_lookup["infected"] = DI_INFECTED;
     disease_type_lookup["asked_to_train"] = DI_ASKED_TO_TRAIN;
     disease_type_lookup["asked_personal_info"] = DI_ASKED_PERSONAL_INFO;
@@ -95,7 +93,6 @@ bool dis_msg(dis_type type_string) {
         add_msg(_("You lie down to go to sleep..."));
         break;
     case DI_DRUNK:
-    case DI_HIGH:
     case DI_WEED_HIGH:
         add_msg(m_warning, _("You feel lightheaded."));
         break;
@@ -461,11 +458,6 @@ void dis_effect(player &p, disease &dis)
             }
             break;
 
-        case DI_HIGH:
-            p.mod_int_bonus(-1);
-            p.mod_per_bonus(-1);
-            break;
-
         case DI_WEED_HIGH:
             p.mod_str_bonus(-1);
             p.mod_dex_bonus(-1);
@@ -568,110 +560,6 @@ void dis_effect(player &p, disease &dis)
             p.add_miss_reason(_("You're winded."), 3);
             break;
 
-        case DI_TELEGLOW:
-            // Default we get around 300 duration points per teleport (possibly more
-            // depending on the source).
-            // TODO: Include a chance to teleport to the nether realm.
-            // TODO: This with regards to NPCS
-            if(&p != &(g->u)) {
-                // NO, no teleporting around the player because an NPC has teleglow!
-                return;
-            }
-            if (dis.duration > 6000) {
-                // 20 teles (no decay; in practice at least 21)
-                if (one_in(1000 - ((dis.duration - 6000) / 10))) {
-                    if (!p.is_npc()) {
-                        add_msg(_("Glowing lights surround you, and you teleport."));
-                        g->u.add_memorial_log(pgettext("memorial_male", "Spontaneous teleport."),
-                                              pgettext("memorial_female", "Spontaneous teleport."));
-                    }
-                    g->teleport();
-                    if (one_in(10)) {
-                        p.rem_disease("teleglow");
-                    }
-                }
-                if (one_in(1200 - ((dis.duration - 6000) / 5)) && one_in(20)) {
-                    if (!p.is_npc()) {
-                        add_msg(m_bad, _("You pass out."));
-                    }
-                    p.fall_asleep(1200);
-                    if (one_in(6)) {
-                        p.rem_disease("teleglow");
-                    }
-                }
-            }
-            if (dis.duration > 3600) {
-                // 12 teles
-                if (one_in(4000 - int(.25 * (dis.duration - 3600)))) {
-                    MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup("GROUP_NETHER");
-                    monster beast(GetMType(spawn_details.name));
-                    int x, y;
-                    int tries = 0;
-                    do {
-                        x = p.posx + rng(-4, 4);
-                        y = p.posy + rng(-4, 4);
-                        tries++;
-                        if (tries >= 10) {
-                            break;
-                        }
-                    } while (((x == p.posx && y == p.posy) || g->mon_at(x, y) != -1));
-                    if (tries < 10) {
-                        if (g->m.move_cost(x, y) == 0) {
-                            g->m.make_rubble(x, y, f_rubble_rock, true);
-                        }
-                        beast.spawn(x, y);
-                        g->add_zombie(beast);
-                        if (g->u_see(x, y)) {
-                            g->cancel_activity_query(_("A monster appears nearby!"));
-                            add_msg(m_warning, _("A portal opens nearby, and a monster crawls through!"));
-                        }
-                        if (one_in(2)) {
-                            p.rem_disease("teleglow");
-                        }
-                    }
-                }
-                if (one_in(3500 - int(.25 * (dis.duration - 3600)))) {
-                    p.add_msg_if_player(m_bad, _("You shudder suddenly."));
-                    p.mutate();
-                    if (one_in(4))
-                    p.rem_disease("teleglow");
-                }
-            } if (dis.duration > 2400) {
-                // 8 teleports
-                if (one_in(10000 - dis.duration) && !p.has_disease("valium")) {
-                    p.add_effect("shakes", rng(40, 80));
-                }
-                if (one_in(12000 - dis.duration)) {
-                    p.add_msg_if_player(m_bad, _("Your vision is filled with bright lights..."));
-                    p.add_effect("blind", rng(10, 20));
-                    if (one_in(8)) {
-                        p.rem_disease("teleglow");
-                    }
-                }
-                if (one_in(5000) && !p.has_effect("hallu")) {
-                    p.add_effect("hallu", 3600);
-                    if (one_in(5)) {
-                        p.rem_disease("teleglow");
-                    }
-                }
-            }
-            if (one_in(4000)) {
-                p.add_msg_if_player(m_bad, _("You're suddenly covered in ectoplasm."));
-                p.add_effect("boomered", 100);
-                if (one_in(4)) {
-                    p.rem_disease("teleglow");
-                }
-            }
-            if (one_in(10000)) {
-                if (!g->u.has_trait("M_IMMUNE")) {
-                    p.add_effect("fungus", 1, num_bp, true);
-                } else {
-                    p.add_msg_if_player(m_info, _("We have many colonists awaiting passage."));
-                }
-                p.rem_disease("teleglow");
-            }
-            break;
-
         case DI_BITE:
             handle_bite_wound(p, dis);
             break;
@@ -738,8 +626,6 @@ std::string dis_name(disease& dis)
         if (dis.duration > 1400) return _("Trashed");
         if (dis.duration > 800)  return _("Drunk");
         else return _("Tipsy");
-
-    case DI_HIGH: return _("High");
 
     case DI_ASTHMA:
         if (dis.duration > 800) return _("Heavy Asthma");
@@ -870,9 +756,6 @@ std::string dis_description(disease& dis)
         }
         return stream.str();
     }
-
-    case DI_HIGH:
-        return _("Intelligence - 1;   Perception - 1");
 
     case DI_DATURA: return _("Buy the ticket, take the ride.  The datura has you now.");
     case DI_ASTHMA:
