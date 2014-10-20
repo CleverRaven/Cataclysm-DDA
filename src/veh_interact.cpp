@@ -1799,26 +1799,31 @@ void complete_vehicle ()
                 break;
             }
         }
+    { // Weird indention to avoid moving this whole block over 4 spaces.
+        int menu_choice = -1;
+        if ( veh->fuel_left("gasoline") > 0 && veh->fuel_left("diesel") > 0 ) {
+
+            uimenu smenu;
+            smenu.text = _("Siphon what?");
+            smenu.addentry(_("Gasoline"));
+            smenu.addentry(_("Diesel"));
+            smenu.addentry(_("Never mind"));
+            smenu.query();
+            menu_choice = smenu.ret;
+        }
         if ( fillv != NULL ) {
             int want = 0;
             int got = 0;
 
-            if ( veh->fuel_left("gasoline") > 0 && veh->fuel_left("diesel") > 0 ) {
+            if( menu_choice != -1 ) {
                 std::string choice = "none";
 
-                uimenu smenu;
-                smenu.text = _("Siphon what?");
-                smenu.addentry(_("Gasoline"));
-                smenu.addentry(_("Diesel"));
-                smenu.addentry(_("Never mind"));
-                smenu.query();
-
-                if ( smenu.ret == 0) {
+                if ( menu_choice == 0) {
                     choice = "gasoline";
                     want = fillv->fuel_capacity("gasoline")-fillv->fuel_left("gasoline");
                     got = veh->drain("gasoline", want);
                     fillv->refill("gasoline",got);
-                } else if ( smenu.ret == 1) {
+                } else if ( menu_choice == 1) {
                     choice = "diesel";
                     want = fillv->fuel_capacity("diesel")-fillv->fuel_left("diesel");
                     got = veh->drain("diesel", want);
@@ -1854,18 +1859,11 @@ void complete_vehicle ()
                 break;
             }
         } else {
-            if ( veh->fuel_left("gasoline") > 0 && veh->fuel_left("diesel") > 0 ) {
-                uimenu smenu;
-                smenu.text = _("Siphon what?");
-                smenu.addentry(_("Gasoline"));
-                smenu.addentry(_("Diesel"));
-                smenu.addentry(_("Never mind"));
-                smenu.query();
-
-                if ( smenu.ret == 0 ) {
+            if( menu_choice != -1 ) {
+                if ( menu_choice == 0 ) {
                     g->u.siphon( veh, "gasoline" );
                 }
-                else if ( smenu.ret == 1 ) {
+                else if ( menu_choice == 1 ) {
                     g->u.siphon( veh, "diesel" );
                 }
                 else {
@@ -1883,7 +1881,8 @@ void complete_vehicle ()
                 break;
             }
         }
-        break;
+    }
+    break;
     case 'c':
         parts = veh->parts_at_relative( dx, dy );
         if( parts.size() ) {
