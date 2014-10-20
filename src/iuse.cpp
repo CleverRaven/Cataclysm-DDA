@@ -872,11 +872,11 @@ int iuse::smoking_pipe(player *p, item *it, bool)
         p->use_charges("tobacco", 1);
         p->thirst += 1;
         p->hunger -= 2;
-        p->add_disease("cig", 200);
+        p->add_effect("cig", 200);
         for (int i = 0; i < 3; i++) {
             g->m.add_field(p->posx + int(rng(-2, 2)), p->posy + int(rng(-2, 2)), fd_cigsmoke, 2);
         }
-        if (p->disease_duration("cig") > (100 * (p->addiction_level(ADD_CIG)))) {
+        if (p->get_effect_dur("cig") > (100 * (p->addiction_level(ADD_CIG)))) {
             p->add_msg_if_player(m_bad, _("Ugh, too much smoke... you cough heavily."));
             g->sound(p->posx, p->posy, 10, "");
         }
@@ -982,7 +982,7 @@ int iuse::smoking(player *p, item *it, bool)
             weed_msg(p);
         }
     }
-    if (p->disease_duration("cig") > (100 * (p->addiction_level(ADD_CIG) + 1))) {
+    if (p->get_effect_dur("cig") > (100 * (p->addiction_level(ADD_CIG) + 1))) {
         p->add_msg_if_player(m_bad, _("Ugh, too much smoke... you feel nasty."));
     }
 
@@ -1006,8 +1006,8 @@ int iuse::ecig(player *p, item *it, bool)
 
     p->thirst += 1;
     p->hunger -= 1;
-    p->add_disease("cig", 100);
-    if (p->disease_duration("cig") > (100 * (p->addiction_level(ADD_CIG) + 1))) {
+    p->add_effect("cig", 100);
+    if (p->get_effect_dur("cig") > (100 * (p->addiction_level(ADD_CIG) + 1))) {
         p->add_msg_if_player(m_bad, _("Ugh, too much nicotine... you feel nasty."));
     }
     return it->type->charges_to_use();

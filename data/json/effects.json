@@ -867,7 +867,27 @@
     },
     {
         "type": "effect_type",
-        "id": "cig"
+        "id": "cig",
+        "name": ["Nicotine"],
+        "desc": [
+            "",
+            "You smoked too much"
+        ],
+        "max_intensity": 2,
+        "int_dur_factor": 600,
+        "base_mods": {
+            "str_mod": [1],
+            "dex_mod": [1],
+            "int_mod": [2],
+            "per_mod": [2]
+        },
+        "scaling_mods": {
+            "str_mod": [-1],
+            "dex_mod": [-1],
+            "int_mod": [-1],
+            "per_mod": [-1],
+            "vomit_chance": [500]
+        }
     },
     {
         "type": "effect_type",

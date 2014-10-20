@@ -24,7 +24,7 @@ enum dis_type_enum {
  DI_LYING_DOWN, DI_SLEEP, DI_ALARM_CLOCK,
  DI_BITE,
 // Food & Drugs
- DI_DRUNK, DI_CIG, DI_HIGH, DI_WEED_HIGH,
+ DI_DRUNK, DI_HIGH, DI_WEED_HIGH,
   DI_DATURA, DI_ASTHMA, DI_GRACK, DI_VALIUM,
 // Other
  DI_AMIGARA, DI_STEMCELL_TREATMENT, DI_TELEGLOW,
@@ -70,7 +70,6 @@ void game::init_diseases() {
     disease_type_lookup["bite"] = DI_BITE;
     disease_type_lookup["drunk"] = DI_DRUNK;
     disease_type_lookup["valium"] = DI_VALIUM;
-    disease_type_lookup["cig"] = DI_CIG;
     disease_type_lookup["high"] = DI_HIGH;
     disease_type_lookup["datura"] = DI_DATURA;
     disease_type_lookup["asthma"] = DI_ASTHMA;
@@ -463,22 +462,6 @@ void dis_effect(player &p, disease &dis)
             }
             break;
 
-        case DI_CIG:
-            if (dis.duration >= 600) { // Smoked too much
-                p.mod_str_bonus(-1);
-                p.mod_dex_bonus(-1);
-                p.add_miss_reason(
-                    _("You're winded from smoking."), 1);
-                if (dis.duration >= 1200 && (one_in(50) || will_vomit(p, 10))) {
-                    p.vomit();
-                }
-            } else {
-                // p.dex_cur++;
-                p.mod_int_bonus(1);
-                p.mod_per_bonus(1);
-            }
-            break;
-
         case DI_HIGH:
             p.mod_int_bonus(-1);
             p.mod_per_bonus(-1);
@@ -765,7 +748,6 @@ std::string dis_name(disease& dis)
         if (dis.duration > 800)  return _("Drunk");
         else return _("Tipsy");
 
-    case DI_CIG: return _("Nicotine");
     case DI_HIGH: return _("High");
 
     case DI_ASTHMA:
@@ -899,15 +881,6 @@ std::string dis_description(disease& dis)
         }
         return stream.str();
     }
-
-    case DI_CIG:
-        if (dis.duration >= 600)
-            return _(
-            "Strength - 1;   Dexterity - 1\n"
-            "You smoked too much.");
-        else
-            return _(
-            "Dexterity + 1;   Intelligence + 1;   Perception + 1");
 
     case DI_HIGH:
         return _("Intelligence - 1;   Perception - 1");

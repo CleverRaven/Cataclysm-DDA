@@ -3723,7 +3723,7 @@ bool item::process_litcig( player *carrier, point pos )
             }
             carrier->add_msg_if_player( m_info, _( "You take a puff of your %s." ), tname().c_str() );
             if( has_flag( "TOBACCO" ) ) {
-                carrier->add_disease( "cig", duration );
+                carrier->add_effect( "cig", duration );
             } else {
                 carrier->add_disease( "weed_high", duration / 2 );
             }
