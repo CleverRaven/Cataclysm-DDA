@@ -426,7 +426,7 @@ void mdeath::melt(monster *z)
 
 void mdeath::amigara(monster *z)
 {
-    if (!g->u.has_disease("amigara")) {
+    if (!g->u.has_effect("amigara")) {
         return;
     }
     int count = 0;
@@ -436,7 +436,7 @@ void mdeath::amigara(monster *z)
         }
     }
     if (count <= 1) { // We're the last!
-        g->u.rem_disease("amigara");
+        g->u.remove_effect("amigara");
         add_msg(_("Your obsession with the fault fades away..."));
         g->m.add_item_or_charges( z->posx(), z->posy(), item( new_artifact(), calendar::turn ) );
     }

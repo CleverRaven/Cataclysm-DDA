@@ -622,7 +622,7 @@ void game::start_game(std::string worldname)
     if (g->scen->has_flag("INFECTED")){u.add_disease("infected", 14401, false, 1, 1, 0, 0, random_body_part(), true);}
     if (g->scen->has_flag("BAD_DAY")){
         u.add_effect("flu", 10000);
-        u.add_disease("drunk", 2700 - (12 * u.str_max));
+        u.add_effect("drunk", 2700 - (12 * u.str_max));
         u.add_morale(MORALE_FEELING_BAD,-100,50,50,50);
     }
     levx -= int(int(MAPSIZE / 2) / 2);
@@ -12716,29 +12716,6 @@ bool game::plmove(int dx, int dy)
         u.melee_attack(*active_npc[npcdex], true);
         active_npc[npcdex]->make_angry();
         return false;
-    }
-
-    // Otherwise, actual movement, zomg
-    if (u.has_disease("amigara")) {
-        int curdist = 999, newdist = 999;
-        for (int cx = 0; cx < SEEX * MAPSIZE; cx++) {
-            for (int cy = 0; cy < SEEY * MAPSIZE; cy++) {
-                if (m.ter(cx, cy) == t_fault) {
-                    int dist = rl_dist(cx, cy, u.posx, u.posy);
-                    if (dist < curdist) {
-                        curdist = dist;
-                    }
-                    dist = rl_dist(cx, cy, x, y);
-                    if (dist < newdist) {
-                        newdist = dist;
-                    }
-                }
-            }
-        }
-        if (newdist > curdist) {
-            add_msg(m_info, _("You cannot pull yourself away from the faultline..."));
-            return false;
-        }
     }
 
     // GRAB: pre-action checking.

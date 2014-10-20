@@ -24,10 +24,10 @@ enum dis_type_enum {
  DI_LYING_DOWN, DI_SLEEP, DI_ALARM_CLOCK,
  DI_BITE,
 // Food & Drugs
- DI_DRUNK, DI_WEED_HIGH,
+ DI_WEED_HIGH,
   DI_DATURA, DI_ASTHMA, DI_VALIUM,
 // Other
- DI_AMIGARA, DI_STEMCELL_TREATMENT,
+ DI_STEMCELL_TREATMENT,
 // Bite wound infected (dependent on bodypart.h)
  DI_INFECTED,
 // Inflicted by an NPC
@@ -46,7 +46,6 @@ std::map<std::string, dis_type_enum> disease_type_lookup;
 // Should standardize parameters so we can make function pointers.
 static void manage_sleep(player& p, disease& dis);
 
-static void handle_alcohol(player& p, disease& dis);
 static void handle_bite_wound(player& p, disease& dis);
 static void handle_infected_wound(player& p, disease& dis);
 static void handle_recovery(player& p, disease& dis);
@@ -68,11 +67,9 @@ void game::init_diseases() {
     disease_type_lookup["sleep"] = DI_SLEEP;
     disease_type_lookup["alarm_clock"] = DI_ALARM_CLOCK;
     disease_type_lookup["bite"] = DI_BITE;
-    disease_type_lookup["drunk"] = DI_DRUNK;
     disease_type_lookup["valium"] = DI_VALIUM;
     disease_type_lookup["datura"] = DI_DATURA;
     disease_type_lookup["asthma"] = DI_ASTHMA;
-    disease_type_lookup["amigara"] = DI_AMIGARA;
     disease_type_lookup["stemcell_treatment"] = DI_STEMCELL_TREATMENT;
     disease_type_lookup["infected"] = DI_INFECTED;
     disease_type_lookup["asked_to_train"] = DI_ASKED_TO_TRAIN;
@@ -92,15 +89,11 @@ bool dis_msg(dis_type type_string) {
     case DI_LYING_DOWN:
         add_msg(_("You lie down to go to sleep..."));
         break;
-    case DI_DRUNK:
     case DI_WEED_HIGH:
         add_msg(m_warning, _("You feel lightheaded."));
         break;
     case DI_ASTHMA:
         add_msg(m_bad, _("You can't breathe... asthma attack!"));
-        break;
-    case DI_AMIGARA:
-        add_msg(m_bad, _("You can't look away from the faultline..."));
         break;
     case DI_STEMCELL_TREATMENT:
         add_msg(m_good, _("You receive a pureed bone & enamel injection into your eyeball."));
@@ -448,10 +441,6 @@ void dis_effect(player &p, disease &dis)
         }
             break;
 
-        case DI_DRUNK:
-            handle_alcohol(p, dis);
-            break;
-
         case DI_VALIUM:
             if (dis.duration % 25 == 0 && (p.stim > 0 || one_in(2))) {
                 p.stim--;
@@ -620,12 +609,6 @@ std::string dis_name(disease& dis)
     dis_type_enum type = disease_type_lookup[dis.type];
     switch (type) {
     case DI_NULL: return "";
-    
-    case DI_DRUNK:
-        if (dis.duration > 2200) return _("Wasted");
-        if (dis.duration > 1400) return _("Trashed");
-        if (dis.duration > 800)  return _("Drunk");
-        else return _("Tipsy");
 
     case DI_ASTHMA:
         if (dis.duration > 800) return _("Heavy Asthma");
@@ -733,29 +716,6 @@ std::string dis_description(disease& dis)
     case DI_CRUSHED: return "If you're seeing this, there is a bug in disease.cpp!";
 
     case DI_STEMCELL_TREATMENT: return _("Your insides are shifting in strange ways as the treatment takes effect.");
-
-    case DI_DRUNK:
-    {
-        perpen = int(dis.duration / 1000);
-        dexpen = int(dis.duration / 1000);
-        intpen = int(dis.duration /  700);
-        strpen = int(dis.duration / 1500);
-        if (strpen > 0) {
-            stream << string_format(_("Strength - %d;   "), strpen);
-        }
-        else if (dis.duration <= 600)
-            stream << _("Strength + 1;    ");
-        if (dexpen > 0) {
-            stream << string_format(_("Dexterity - %d;   "), dexpen);
-        }
-        if (intpen > 0) {
-            stream << string_format(_("Intelligence - %d;   "), intpen);
-        }
-        if (perpen > 0) {
-            stream << string_format(_("Perception - %d;   "), perpen);
-        }
-        return stream.str();
-    }
 
     case DI_DATURA: return _("Buy the ticket, take the ride.  The datura has you now.");
     case DI_ASTHMA:
@@ -1003,30 +963,6 @@ void manage_sleep(player& p, disease& dis)
     }
 }
 
-static void handle_alcohol(player& p, disease& dis)
-{
-    /*  We get 600 turns, or one hour, of DI_DRUNK for each drink we have (on avg).
-        Duration of DI_DRUNK is a good indicator of how much alcohol is in our system.
-    */
-    p.mod_per_bonus( - int(dis.duration / 1000));
-    p.mod_dex_bonus( - int(dis.duration / 1000));
-    p.add_miss_reason(_("You feel woozy."), int(dis.duration / 1000));
-    p.mod_int_bonus( - int(dis.duration /  700));
-    p.mod_str_bonus( - int(dis.duration / 1500));
-    if (dis.duration <= 600) {
-        p.mod_str_bonus(+1);
-    }
-    if (dis.duration > 2000 + 100 * dice(2, 100) &&
-        (will_vomit(p, 1) || one_in(20))) {
-        p.vomit();
-    }
-    bool readyForNap = one_in(500 - int(dis.duration / 80));
-    if (!p.has_disease("sleep") && dis.duration >= 4500 && readyForNap) {
-        p.add_msg_if_player(m_bad, _("You pass out."));
-        p.fall_asleep(dis.duration / 2);
-    }
-}
-
 static void handle_bite_wound(player& p, disease& dis)
 {
     // Recovery chance
@@ -1235,7 +1171,7 @@ static void handle_recovery(player& p, disease& dis)
 
 bool will_vomit(player& p, int chance)
 {
-    bool drunk = p.has_disease("drunk");
+    bool drunk = p.has_effect("drunk");
     bool antiEmetics = p.has_disease("weed_high");
     bool hasNausea = p.has_trait("NAUSEA") && one_in(chance*2);
     bool stomachUpset = p.has_trait("WEAKSTOMACH") && one_in(chance*3);

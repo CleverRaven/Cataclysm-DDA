@@ -994,7 +994,11 @@ double effect::get_percentage(std::string arg, bool reduced)
     auto &scale = eff_type->scaling_mods;
     get_activation_vals(arg, reduced, base, scale, tick, top_base, top_scale, bot_base, bot_scale);
     // If both top values = 0 then it should never trigger
-    if (top_base == 0 && top_scale == 0) {
+    if (top_base <= 0 && top_scale <= 0) {
+        return 0;
+    }
+    // It will also never trigger if top_base + top_scale <= 0
+    if (top_base + top_scale <= 0) {
         return 0;
     }
 
@@ -1036,7 +1040,11 @@ bool effect::activated(unsigned int turn, std::string arg, bool reduced, double 
     int bot_base = dbot_base;
     int bot_scale = dbot_scale;
     // If both top values = 0 then it should never trigger
-    if (top_base == 0 && top_scale == 0) {
+    if (top_base <= 0 && top_scale <= 0) {
+        return false;
+    }
+    // It will also never trigger if top_base + top_scale <= 0
+    if (top_base + top_scale <= 0) {
         return false;
     }
 

@@ -763,7 +763,7 @@ int iuse::alcohol(player *p, item *it, bool)
     if (!(p->has_trait("ALCMET"))) {
         p->pkill += 8;
     }
-    p->add_disease("drunk", duration);
+    p->add_effect("drunk", duration);
     return it->type->charges_to_use();
 }
 
@@ -786,7 +786,7 @@ int iuse::alcohol_weak(player *p, item *it, bool)
     if (!(p->has_trait("ALCMET"))) {
         p->pkill += 4;
     }
-    p->add_disease("drunk", duration);
+    p->add_effect("drunk", duration);
     return it->type->charges_to_use();
 }
 
@@ -814,7 +814,7 @@ int iuse::alcohol_strong(player *p, item *it, bool)
     if (!(p->has_trait("ALCMET"))) {
         p->pkill += 12;
     }
-    p->add_disease("drunk", duration);
+    p->add_effect("drunk", duration);
     return it->type->charges_to_use();
 }
 

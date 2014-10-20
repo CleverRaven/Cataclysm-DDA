@@ -1207,7 +1207,7 @@ void npc::form_opinion(player *u)
  if (u->stim > 20)
   op_of_u.fear++;
 
- if (u->has_disease("drunk"))
+ if (u->has_effect("drunk"))
   op_of_u.fear -= 2;
 
 // TRUST
@@ -1223,7 +1223,7 @@ void npc::form_opinion(player *u)
 
  if (u->has_effect("high"))
   op_of_u.trust -= 1;
- if (u->has_disease("drunk"))
+ if (u->has_effect("drunk"))
   op_of_u.trust -= 2;
  if (u->stim > 20 || u->stim < -20)
   op_of_u.trust -= 1;
@@ -1330,7 +1330,7 @@ int npc::player_danger(player *u) const
  if (u->stim > 20)
   ret++;
 
- if (u->has_disease("drunk"))
+ if (u->has_effect("drunk"))
   ret -= 2;
 
  return ret;

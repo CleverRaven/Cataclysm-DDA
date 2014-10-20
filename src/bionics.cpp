@@ -464,7 +464,7 @@ void player::activate_bionic(int b)
         if (has_effect("pkill_l")) {
             good.push_back(_("Slow-Release Painkiller"));
         }
-        if (has_disease("drunk")) {
+        if (has_effect("drunk")) {
             good.push_back(_("Alcohol"));
         }
         if (has_effect("cig")) {
@@ -545,7 +545,7 @@ void player::activate_bionic(int b)
         remove_effect("pkill2");
         remove_effect("pkill3");
         remove_effect("pkill_l");
-        rem_disease("drunk");
+        remove_effect("drunk");
         remove_effect("cig");
         remove_effect("high");
         remove_effect("hallu");

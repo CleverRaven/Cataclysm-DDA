@@ -933,7 +933,28 @@
     },
     {
         "type": "effect_type",
-        "id": "drunk"
+        "id": "drunk",
+        "name": [
+            "Tipsy",
+            "Drunk",
+            "Trashed",
+            "Wasted"
+        ],
+        "max_intensity": 4,
+        "apply_message": "You feel lightheaded.",
+        "int_dur_factor": 700,
+        "miss_messages": [["You feel woozy.", 1]],
+        "base_mods": {
+            "str_mod": [1],
+            "vomit_chance": [-60]
+        },
+        "scaling_mods": {
+            "str_mod": [-.72],
+            "per_mod": [-.7],
+            "dex_mod": [-.7],
+            "int_mod": [-1],
+            "vomit_chance": [20]
+        }
     },
     {
         "type": "effect_type",

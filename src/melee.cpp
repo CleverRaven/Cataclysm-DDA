@@ -194,9 +194,9 @@ int player::hit_roll() const
     // Drunken master makes us hit better
     if (has_trait("DRUNKEN")) {
         if (unarmed_attack()) {
-            numdice += int(disease_duration("drunk") / 300);
+            numdice += int(get_effect_dur("drunk") / 300);
         } else {
-            numdice += int(disease_duration("drunk") / 400);
+            numdice += int(get_effect_dur("drunk") / 400);
         }
     }
 
@@ -631,15 +631,16 @@ int player::roll_bash_damage(bool crit)
     ret = base_damage(true, stat);
 
     // Drunken Master damage bonuses
-    if (has_trait("DRUNKEN") && has_disease("drunk")) {
+    if (has_trait("DRUNKEN") && has_effect("drunk")) {
         // Remember, a single drink gives 600 levels of "drunk"
         int mindrunk, maxdrunk;
+        int drunk_dur = get_effect_dur("drunk");
         if (unarmed_attack()) {
-            mindrunk = disease_duration("drunk") / 600;
-            maxdrunk = disease_duration("drunk") / 250;
+            mindrunk = drunk_dur / 600;
+            maxdrunk = drunk_dur / 250;
         } else {
-            mindrunk = disease_duration("drunk") / 900;
-            maxdrunk = disease_duration("drunk") / 400;
+            mindrunk = drunk_dur / 900;
+            maxdrunk = drunk_dur / 400;
         }
         ret += rng(mindrunk, maxdrunk);
     }

@@ -4521,7 +4521,7 @@ int player::intimidation()
     if (stim > 20) {
         ret += 2;
     }
-    if (has_disease("drunk")) {
+    if (has_effect("drunk")) {
         ret -= 4;
     }
 
@@ -5473,7 +5473,7 @@ void player::cough(bool harmful, int loudness) {
 }
 bool will_vomit(player& p, int chance)
 {
-    bool drunk = p.has_disease("drunk");
+    bool drunk = p.has_effect("drunk");
     bool antiEmetics = p.has_disease("weed_high");
     bool hasNausea = p.has_trait("NAUSEA") && one_in(chance*2);
     bool stomachUpset = p.has_trait("WEAKSTOMACH") && one_in(chance*3);
@@ -6587,6 +6587,11 @@ void player::hardcoded_effects(effect it)
             // Set ourselves up for removal
             it.set_duration(0);
         }
+    } else if (id == "drunk") {
+        if (!has_disease("sleep") && dur >= 4500 && one_in(500 - int(dur / 80))) {
+            add_msg_if_player(m_bad, _("You pass out."));
+            fall_asleep(dur / 2);
+        }
     }
 }
 
@@ -7243,7 +7248,7 @@ void player::mend()
             if(has_effect("cig") | addiction_level(ADD_CIG)) {
                 healing_factor *= 0.5;
             }
-            if(has_disease("drunk") | addiction_level(ADD_ALCOHOL)) {
+            if(has_effect("drunk") | addiction_level(ADD_ALCOHOL)) {
                 healing_factor *= 0.5;
             }
 
@@ -7334,19 +7339,13 @@ void player::vomit()
     hunger += nut_loss;
     thirst += quench_loss;
     moves -= 100;
-    for (auto &i : illness) {
-        if (i.type == "drunk") {
-            i.duration -= rng(1, 5) * 100;
-            if (i.duration < 0) {
-                rem_disease(i.type);
-            }
-        }
-    }
     for( auto maps = effects.begin(); maps != effects.end(); ++maps ) {
         for( auto effect_it = maps->second.begin(); effect_it != maps->second.end(); ++effect_it ) {
             auto &it = effect_it->second;
             if (it.get_id() == "foodpoison") {
                 it.mod_duration(-300);
+            } else if (it.get_id() == "drunk" ) {
+                it.mod_duration(rng(-100, -500));
             }
         }
     }
