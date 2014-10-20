@@ -16,12 +16,13 @@
 
 #include "debug.h"
 
-const ammotype fuel_types[num_fuel_types] = { "gasoline", "battery", "plutonium", "plasma", "water" };
+const ammotype fuel_types[num_fuel_types] = { "gasoline", "diesel", "battery", "plutonium", "plasma", "water" };
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;
  *   assemble "structure" once here instead of repeatedly later.
  */
 static const std::string fuel_type_gasoline("gasoline");
+static const std::string fuel_type_diesel("diesel");
 static const std::string fuel_type_battery("battery");
 static const std::string fuel_type_plutonium("plutonium");
 static const std::string fuel_type_plasma("plasma");
@@ -815,7 +816,7 @@ void vehicle::start_engine()
     // TODO: Make chance of success based on engine condition.
     for( size_t p = 0; p < engines.size(); ++p ) {
         if(parts[engines[p]].hp > 0) {
-            if(part_info(engines[p]).fuel_type == fuel_type_gasoline) {
+            if(part_info(engines[p]).fuel_type == fuel_type_gasoline || part_info(engines[p]).fuel_type == fuel_type_diesel) {
                 int engine_power = part_power(engines[p]);
                 if(engine_power < 50) {
                     // Small engines can be pull-started
@@ -1047,7 +1048,7 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
         for(std::vector<int>::const_iterator it = parts_in_square.begin();
             it != parts_in_square.end(); ++it ) {
             if(part_info(*it).has_flag(VPFLAG_ENGINE) &&
-               part_info(*it).fuel_type == fuel_type_gasoline) {
+               (part_info(*it).fuel_type == fuel_type_gasoline || part_info(*it).fuel_type == fuel_type_diesel)) {
                 anchor_found = true;
             }
         }
@@ -2314,6 +2315,8 @@ int vehicle::safe_velocity (bool fueled)
 
             if ( part_info(p).fuel_type == fuel_type_gasoline ) {
                 m2c = 60;
+            } else if( part_info(p).fuel_type == fuel_type_diesel ) {
+                m2c = 65;
             } else if( part_info(p).fuel_type == fuel_type_plasma ) {
                 m2c = 75;
             } else if( part_info(p).fuel_type == fuel_type_battery ) {
@@ -2383,7 +2386,7 @@ void vehicle::noise_and_smoke( double load, double time )
             double max_pwr = double(power_to_epower(part_power(p, true)))/40000;
             double cur_pwr = load * max_pwr;
 
-            if( part_info(p).fuel_type == fuel_type_gasoline ) {
+            if( part_info(p).fuel_type == fuel_type_gasoline || part_info(p).fuel_type == fuel_type_diesel ) {
                 double j = power_to_epower(part_power(p, true)) * load * time * muffle;
                 if( (exhaust_part == -1) && engine_on ) {
                     spew_smoke( j, p );
@@ -2585,9 +2588,9 @@ bool vehicle::valid_wheel_config ()
  */
 void vehicle::consume_fuel( double load = 1.0 )
 {
-    ammotype ftypes[3] = { fuel_type_gasoline, fuel_type_battery, fuel_type_plasma };
-    int ftype_coeff[3] = {                100,                 1,              100 };
-    for( int ft = 0; ft < 3; ft++ ) {
+    ammotype ftypes[4] = { fuel_type_gasoline, fuel_type_diesel, fuel_type_battery, fuel_type_plasma };
+    int ftype_coeff[4] = {                100,              100,                 1,              100 };
+    for( int ft = 0; ft < 4; ft++ ) {
         double amnt_precise = double(basic_consumption(ftypes[ft])) / ftype_coeff[ft];
         float st = strain() * 10;
         amnt_precise *= load * (1.0 + st * st);
@@ -2621,7 +2624,7 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
         // Gas engines require epower to run for ignition system, ECU, etc.
         for( size_t p = 0; p < engines.size(); ++p ) {
             if(parts[engines[p]].hp > 0 &&
-               part_info(engines[p]).fuel_type == fuel_type_gasoline) {
+               (part_info(engines[p]).fuel_type == fuel_type_gasoline || part_info(engines[p]).fuel_type == fuel_type_diesel)) {
                 gas_epower += part_info(engines[p]).epower;
             }
         }
@@ -2952,7 +2955,7 @@ void vehicle::slow_leak()
     for( size_t p = 0; p < fuel.size(); ++p ) {
         vehicle_part &part = parts[fuel[p]];
         vpart_info pinfo = part_info( fuel[p] );
-        if( pinfo.fuel_type != fuel_type_gasoline &&
+        if( pinfo.fuel_type != fuel_type_gasoline && pinfo.fuel_type != fuel_type_diesel &&
             pinfo.fuel_type != fuel_type_battery && pinfo.fuel_type != fuel_type_water ) {
             // Not a liquid fuel or battery
             continue;
@@ -4178,20 +4181,20 @@ int vehicle::damage_direct (int p, int dmg, int type)
         if (part_flag(p, "FUEL_TANK"))
         {
             ammotype ft = part_info(p).fuel_type;
-            if (ft == fuel_type_gasoline || ft == fuel_type_plasma)
+            if (ft == fuel_type_gasoline  || ft == fuel_type_diesel || ft == fuel_type_plasma)
             {
                 int pow = parts[p].amount / 40;
     //            debugmsg ("damage check dmg=%d pow=%d", dmg, pow);
                 if (parts[p].hp <= 0)
                     leak_fuel (p);
                 if (type == 2 ||
-                    (one_in (ft == fuel_type_gasoline ? 2 : 4) && pow > 5 && rng (75, 150) < dmg))
+                    (one_in ((ft == fuel_type_gasoline || ft == fuel_type_diesel) ? 2 : 4) && pow > 5 && rng (75, 150) < dmg))
                 {
                     g->u.add_memorial_log(pgettext("memorial_male","The fuel tank of the %s exploded!"),
                         pgettext("memorial_female", "The fuel tank of the %s exploded!"),
                         name.c_str());
                     g->explosion (global_x() + parts[p].precalc_dx[0], global_y() + parts[p].precalc_dy[0],
-                                pow, 0, ft == fuel_type_gasoline);
+                                pow, 0, (ft == fuel_type_gasoline || ft == fuel_type_diesel));
                     parts[p].hp = 0;
                 }
             }
@@ -4215,7 +4218,7 @@ void vehicle::leak_fuel (int p)
     if (!part_flag(p, "FUEL_TANK"))
         return;
     ammotype ft = part_info(p).fuel_type;
-    if (ft == fuel_type_gasoline)
+    if (ft == fuel_type_gasoline || ft == fuel_type_diesel)
     {
         int x = global_x();
         int y = global_y();
@@ -4228,8 +4231,8 @@ void vehicle::leak_fuel (int p)
                         parts[p].amount = 0;
                         return;
                     }
-                    g->m.spawn_item(i, j, fuel_type_gasoline);
-                    g->m.spawn_item(i, j, fuel_type_gasoline);
+                    g->m.spawn_item(i, j, ft);
+                    g->m.spawn_item(i, j, ft);
                     parts[p].amount -= 100;
                 }
     }
