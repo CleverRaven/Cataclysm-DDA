@@ -492,8 +492,6 @@ void add_corpse(int x, int y);
  bool is_full(const int x, const int y, const int addvolume = -1, const int addnumber = -1 );
  bool add_item_or_charges(const int x, const int y, item new_item, int overflow_radius = 2);
  void process_active_items();
- // Safely trigger or update an item on the map.
- bool process_item( std::vector<item> &items, size_t n, point location, bool activate );
 
  std::list<item> use_amount_square( const int x, const int y, const itype_id type,
                                     int &quantity, const bool use_container );
@@ -742,9 +740,15 @@ private:
  vehicle *add_vehicle_to_map(vehicle *veh, const int x, const int y, const bool merge_wrecks = true);
  void add_item(const int x, const int y, item new_item, int maxitems = 64);
 
- void process_active_items_in_submap(submap * const current_submap, int gridx, int gridy);
- void process_active_items_in_vehicles(submap * const current_submap);
- void process_active_items_in_vehicle(vehicle *cur_veh, submap * const current_submap);
+ // Iterates over every item on the map, passing each item to the provided function.
+ template<typename T>
+ void process_items( bool active, T processor );
+ template<typename T>
+ void process_items_in_submap( submap *const current_submap, int gridx, int gridy, T processor );
+ template<typename T>
+ void process_items_in_vehicles( submap *const current_submap, T processor);
+ template<typename T>
+ void process_items_in_vehicle( vehicle *cur_veh, submap *const current_submap, T processor );
 
  float lm[MAPSIZE*SEEX][MAPSIZE*SEEY];
  float sm[MAPSIZE*SEEX][MAPSIZE*SEEY];

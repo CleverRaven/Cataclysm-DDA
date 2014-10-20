@@ -3047,50 +3047,7 @@ static void apply_in_fridge(item &it)
     }
 }
 
-void map::process_active_items()
-{
-    for (int gx = 0; gx < my_MAPSIZE; gx++) {
-        for (int gy = 0; gy < my_MAPSIZE; gy++) {
-            submap * const current_submap = get_submap_at_grid(gx, gy);
-            if (current_submap->active_item_count > 0) {
-                process_active_items_in_submap(current_submap, gx, gy);
-            }
-            if (!current_submap->vehicles.empty()) {
-                process_active_items_in_vehicles(current_submap);
-            }
-        }
-    }
-}
-
-void map::process_active_items_in_submap(submap * const current_submap, int gridx, int gridy)
-{
-    for (int i = 0; i < SEEX; i++) {
-        for (int j = 0; j < SEEY; j++) {
-            point location( gridx * SEEX + i, gridy * SEEY + j );
-            std::vector<item> &items = current_submap->itm[i][j];
-            //Do a count-down loop, as some items may be removed
-            for (size_t n = 0; n < items.size(); n++) {
-                // The following code is expensive, don't run it for non-active
-                // items, that would be useless anyway
-                if( !items[n].needs_processing() ) {
-                    continue;
-                }
-                if( process_item( items, n, location, false ) ) {
-                    // Item is destroyed, don't reinsert it.
-                    // Note: this might lead to items not being processed:
-                    // vector: 10 glass items, mininuke, mininuke
-                    // the first nuke explodes, destroys some of the glass items
-                    // now the index of the second nuke is not 11, but less, but
-                    // one can not know which it is now.
-                    current_submap->active_item_count--;
-                    n--;
-                }
-            }
-        }
-    }
-}
-
-bool map::process_item( std::vector<item> &items, size_t n, point location, bool activate )
+static bool process_item( std::vector<item> &items, size_t n, point location, bool activate )
 {
     // make a temporary copy, remove the item (in advance)
     // and use that copy to process it
@@ -3109,7 +3066,86 @@ bool map::process_item( std::vector<item> &items, size_t n, point location, bool
     return true;
 }
 
-void map::process_active_items_in_vehicles(submap * const current_submap)
+void map::process_active_items()
+{
+    process_items(
+        true,
+        [] ( std::vector<item> &items, size_t n, point location, vehicle *cur_veh, int part ) {
+            if( cur_veh ) {
+                const bool fridge_here = cur_veh->fridge_on && cur_veh->part_flag(part, VPFLAG_FRIDGE);
+                item &it = items[n];
+                if( fridge_here ) {
+                    apply_in_fridge(it);
+                }
+                if( it.has_flag("RECHARGE") &&
+                    cur_veh->part_with_feature(part, VPFLAG_RECHARGE) >= 0 &&
+                    cur_veh->recharger_on ) {
+                    int full_charge = dynamic_cast<it_tool*>(it.type)->max_charges;
+                    if (it.has_flag("DOUBLE_AMMO")) {
+                        full_charge = full_charge * 2;
+                    }
+                    if (it.is_tool() && full_charge > it.charges ) {
+                        if (one_in(10)) {
+                            it.charges++;
+                        }
+                    }
+                }
+            }
+            if( !items[n].needs_processing() ) {
+                return false;
+            }
+            return process_item( items, n, location, false );
+        } );
+}
+
+template<typename T>
+void map::process_items( bool active, T processor )
+{
+    for( int gx = 0; gx < my_MAPSIZE; gx++ ) {
+        for( int gy = 0; gy < my_MAPSIZE; gy++ ) {
+            submap *const current_submap = get_submap_at_grid(gx, gy);
+            // Vehicles first in case they get blown up and drop active items on the map.
+            if( !current_submap->vehicles.empty() ) {
+                process_items_in_vehicles(current_submap, processor);
+            }
+            if( !active || current_submap->active_item_count > 0) {
+                process_items_in_submap(current_submap, gx, gy, processor);
+            }
+        }
+    }
+}
+
+template<typename T>
+void map::process_items_in_submap( submap *const current_submap, int gridx, int gridy, T processor )
+{
+    for (int i = 0; i < SEEX; i++) {
+        for (int j = 0; j < SEEY; j++) {
+            point location( gridx * SEEX + i, gridy * SEEY + j );
+            std::vector<item> &items = current_submap->itm[i][j];
+            //Do a count-down loop, as some items may be removed
+            for (size_t n = 0; n < items.size(); n++) {
+                bool previously_active = items[n].active;
+                if( processor( items, n, location, nullptr, 0 ) ) {
+                    // Item is destroyed, don't reinsert it.
+                    // Note: this might lead to items not being processed:
+                    // vector: 10 glass items, mininuke, mininuke
+                    // the first nuke explodes, destroys some of the glass items
+                    // now the index of the second nuke is not 11, but less, but
+                    // one can not know which it is now.
+                    current_submap->active_item_count -= previously_active;
+                    n--;
+                } else if( previously_active && !items[n].active ) {
+                    current_submap->active_item_count--;
+                } else if( !previously_active && items[n].active ) {
+                    current_submap->active_item_count++;
+                }
+            }
+        }
+    }
+}
+
+template<typename T>
+void map::process_items_in_vehicles( submap *const current_submap, T processor )
 {
     std::vector<vehicle*> &veh_in_nonant = current_submap->vehicles;
     // a copy, important if the vehicle list changes because a
@@ -3121,14 +3157,15 @@ void map::process_active_items_in_vehicles(submap * const current_submap)
         if (std::find(veh_in_nonant.begin(), veh_in_nonant.end(), cur_veh) == veh_in_nonant.end()) {
             // vehicle not in the vehicle list of the nonant, has been
             // destroyed (or moved to another nonant?)
-            // Can't be sure that it still exist, so skip it
+            // Can't be sure that it still exists, so skip it
             continue;
         }
-        process_active_items_in_vehicle(cur_veh, current_submap);
+        process_items_in_vehicle(cur_veh, current_submap, processor);
     }
 }
 
-void map::process_active_items_in_vehicle(vehicle *cur_veh, submap * const current_submap)
+template<typename T>
+void map::process_items_in_vehicle(vehicle *cur_veh, submap *const current_submap, T processor)
 {
     std::vector<int> cargo_parts = cur_veh->all_parts_with_feature(VPFLAG_CARGO, false);
     for(size_t part_index = 0; part_index < cargo_parts.size(); part_index++) {
@@ -3141,37 +3178,10 @@ void map::process_active_items_in_vehicle(vehicle *cur_veh, submap * const curre
         const point item_location( cur_veh->global_x() + vp.precalc_dx[0],
                                    cur_veh->global_y() + vp.precalc_dy[0] );
         std::vector<item> *items_in_part = &vp.items;
-        const bool fridge_here = cur_veh->fridge_on && cur_veh->part_flag(part, VPFLAG_FRIDGE);
-        for(int n = items_in_part->size() - 1; n >= 0; n--) {
-            item *it = &(*items_in_part)[n];
-            if (fridge_here) {
-                apply_in_fridge(*it);
-            }
-            if (it->has_flag("RECHARGE") && cur_veh->part_with_feature(part, VPFLAG_RECHARGE) >= 0 &&
-                cur_veh->recharger_on) {
-                int full_charge = dynamic_cast<it_tool*>(it->type)->max_charges;
-                if (it->has_flag("DOUBLE_AMMO")) {
-                    full_charge = full_charge * 2;
-                }
-                if (it->is_tool() && full_charge > it->charges ) {
-                    if (one_in(10)) {
-                        it->charges++;
-                    }
-                }
-            }
-            // The following code is expensive, don't run it for non-active
-            // items, that would be useless anyway
-            if( !it->needs_processing() ) {
-                continue;
-            }
-            // make a temporary copy, remove the item (in advance)
-            // and use that copy to process it
-            item temp_copy = *it;
-            items_in_part->erase(items_in_part->begin() + n);
-            if( !temp_copy.process( nullptr, item_location, false ) ) {
-                // item still exist, most likely it didn't just explode,
-                // put it back
-                items_in_part->insert( items_in_part->begin() + n, temp_copy );
+        for( int n = 0; n < items_in_part->size(); n++ ) {
+            if( !processor( *items_in_part, n, item_location, cur_veh, part ) ) {
+                // If the item was NOT destroyed, we can skip the remainder,
+                // which handles fallout from the vehicle being damaged.
                 continue;
             }
             n--; // to process the correct next item.
