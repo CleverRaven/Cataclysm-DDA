@@ -109,6 +109,17 @@ bool Character::move_effects()
         }
         return false;
     }
+    if (has_effect("crushed")) {
+        // Strength helps in getting free, but dex also helps you worm your way out of the rubble
+        if(x_in_y(get_str() + get_dex() / 4, 100)) {
+            remove_effect("crushed");
+            add_msg_player_or_npc(m_good, _("You free yourself from the rubble!"),
+                                    _("<npcname> frees themselves from the rubble!"));
+        } else {
+            add_msg_if_player(m_bad, _("You try to free yourself from the rubble, but can't get loose!"));
+        }
+        return false;
+    }
     if (has_effect("amigara")) {
         int curdist = 999, newdist = 999;
         for (int cx = 0; cx < SEEX * MAPSIZE; cx++) {

@@ -966,6 +966,19 @@ bool monster::move_effects()
         }
         return false;
     }
+    if (has_effect("crushed")) {
+        // Strength helps in getting free, but dex also helps you worm your way out of the rubble
+        if(x_in_y(type->melee_dice * type->melee_sides, 100)) {
+            remove_effect("crushed");
+            if (u_see_me) {
+                add_msg(_("The %s frees itself from the rubble!"), name().c_str());
+            }
+        }
+        return false;
+    }
+    
+    // If we ever get more effects that force movement on success this will need to be reworked to
+    // only trigger success effects if /all/ rolls succeed
     if (has_effect("in_pit")) {
         if (rng(0, 40) > type->melee_dice * type->melee_sides) {
             return false;

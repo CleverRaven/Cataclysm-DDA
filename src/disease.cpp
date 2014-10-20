@@ -18,8 +18,6 @@ enum dis_type_enum {
 // Diseases
  DI_RECOVER, DI_TAPEWORM, DI_BLOODWORMS, DI_BRAINWORM, DI_PAINCYSTS,
  DI_TETANUS,
-// Fields - onfire moved to effects
- DI_CRUSHED,
 // Monsters
  DI_LYING_DOWN, DI_SLEEP, DI_ALARM_CLOCK,
  DI_BITE,
@@ -62,7 +60,6 @@ void game::init_diseases() {
     disease_type_lookup["brainworm"] = DI_BRAINWORM;
     disease_type_lookup["tetanus"] = DI_TETANUS;
     disease_type_lookup["paincysts"] = DI_PAINCYSTS;
-    disease_type_lookup["crushed"] = DI_CRUSHED;
     disease_type_lookup["lying_down"] = DI_LYING_DOWN;
     disease_type_lookup["sleep"] = DI_SLEEP;
     disease_type_lookup["alarm_clock"] = DI_ALARM_CLOCK;
@@ -82,9 +79,6 @@ void game::init_diseases() {
 bool dis_msg(dis_type type_string) {
     dis_type_enum type = disease_type_lookup[type_string];
     switch (type) {
-    case DI_CRUSHED:
-        add_msg(m_bad, _("The ceiling collapses on you!"));
-        break;
     case DI_LYING_DOWN:
         add_msg(_("You lie down to go to sleep..."));
         break;
@@ -279,14 +273,6 @@ void dis_effect(player &p, disease &dis)
     int grackPower = 500;
 
     switch(disType) {
-        case DI_CRUSHED:
-            p.hurtall(10);
-            /*  This could be developed on later, for instance
-                to deal different damage amounts to different body parts and
-                to account for helmets and other armor
-            */
-            break;
-
         case DI_LYING_DOWN:
             p.moves = 0;
             if (p.can_sleep()) {
@@ -687,8 +673,6 @@ std::string dis_description(disease& dis)
 
     case DI_NULL:
         return _("None");
-
-    case DI_CRUSHED: return "If you're seeing this, there is a bug in disease.cpp!";
 
     case DI_STEMCELL_TREATMENT: return _("Your insides are shifting in strange ways as the treatment takes effect.");
 
