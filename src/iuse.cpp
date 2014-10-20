@@ -232,13 +232,13 @@ int iuse::royal_jelly(player *p, item *it, bool)
     }
     if (p->has_effect("dermatik") || p->has_disease("bloodworms") ||
         p->has_disease("paincysts") || p->has_disease("brainworm") ||
-        p->has_disease("tapeworm")) {
+        p->has_effect("tapeworm")) {
         message = _("You feel cleansed inside!");
         p->remove_effect("dermatik");
         p->rem_disease("bloodworms");
         p->rem_disease("paincysts");
         p->rem_disease("brainworm");
-        p->rem_disease("tapeworm");
+        p->remove_effect("tapeworm");
     }
     if (p->has_effect("blind")) {
         message = "";
@@ -649,11 +649,11 @@ int iuse::atomic_caff(player *p, item *it, bool)
 
 int iuse::raw_meat(player *p, item *it, bool)
 {
-    if ((one_in(32)) && !(p->has_disease("tapeworm") || p->has_bionic("bio_digestion") ||
+    if ((one_in(32)) && !(p->has_effect("tapeworm") || p->has_bionic("bio_digestion") ||
                           p->has_trait("PARAIMMUNE") ||
                           // Hyper-Metabolism digests the thing before it can set up shop.
                           p->has_trait("EATHEALTH"))) {
-        p->add_disease("tapeworm", 1, true);
+        p->add_effect("tapeworm", 1, num_bp, true);
     }
     if ((one_in(64)) && !(p->has_disease("bloodworms") || p->has_bionic("bio_digestion") ||
                           p->has_trait("PARAIMMUNE"))) {
@@ -672,10 +672,10 @@ int iuse::raw_meat(player *p, item *it, bool)
 
 int iuse::raw_fat(player *p, item *it, bool)
 {
-    if ((one_in(64)) && !(p->has_disease("tapeworm") || p->has_bionic("bio_digestion") ||
+    if ((one_in(64)) && !(p->has_effect("tapeworm") || p->has_bionic("bio_digestion") ||
                           p->has_trait("PARAIMMUNE") ||
                           p->has_trait("EATHEALTH"))) {
-        p->add_disease("tapeworm", 1, true);
+        p->add_effect("tapeworm", 1, num_bp, true);
     }
     if ((one_in(128)) && !(p->has_disease("bloodworms") || p->has_bionic("bio_digestion") ||
                            p->has_trait("PARAIMMUNE"))) {
@@ -699,10 +699,10 @@ int iuse::raw_bone(player *p, item *it, bool)
 
 int iuse::raw_fish(player *p, item *it, bool)
 {
-    if ((one_in(256)) && !(p->has_disease("tapeworm") || p->has_bionic("bio_digestion") ||
+    if ((one_in(256)) && !(p->has_effect("tapeworm") || p->has_bionic("bio_digestion") ||
                            p->has_trait("PARAIMMUNE") ||
                            p->has_trait("EATHEALTH"))) {
-        p->add_disease("tapeworm", 1, true);
+        p->add_effect("tapeworm", 1, num_bp, true);
     }
     if ((one_in(256)) && !(p->has_disease("bloodworms") || p->has_bionic("bio_digestion") ||
                            p->has_trait("PARAIMMUNE"))) {
@@ -721,10 +721,10 @@ int iuse::raw_fish(player *p, item *it, bool)
 
 int iuse::raw_wildveg(player *p, item *it, bool)
 {
-    if ((one_in(512)) && !(p->has_disease("tapeworm") || p->has_bionic("bio_digestion") ||
+    if ((one_in(512)) && !(p->has_effect("tapeworm") || p->has_bionic("bio_digestion") ||
                            p->has_trait("PARAIMMUNE") ||
                            p->has_trait("EATHEALTH"))) {
-        p->add_disease("tapeworm", 1, true);
+        p->add_effect("tapeworm", 1, num_bp, true);
     }
     if ((one_in(256)) && !(p->has_disease("bloodworms") || p->has_bionic("bio_digestion") ||
                            p->has_trait("PARAIMMUNE"))) {
@@ -1141,8 +1141,8 @@ int iuse::antiparasitic(player *p, item *it, bool)
         p->remove_effect("dermatik");
         p->add_msg_if_player(m_good, _("The itching sensation under your skin fades away."));
     }
-    if (p->has_disease("tapeworm")) {
-        p->rem_disease("tapeworm");
+    if (p->has_effect("tapeworm")) {
+        p->remove_effect("tapeworm");
         p->hunger--;  // You just digested the tapeworm.
         if (p->has_trait("NOPAIN")) {
             p->add_msg_if_player(m_good, _("Your bowels clench as something inside them dies."));

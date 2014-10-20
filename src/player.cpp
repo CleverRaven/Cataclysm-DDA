@@ -5572,6 +5572,10 @@ void player::process_effects() {
     }
     if (has_trait("PARAIMMUNE")) {
        remove_effect("dermatik");
+       remove_effect("tapeworm");
+    }
+    if (has_trait("EATHEALTH")) {
+        remove_effect("tapeworm");
     }
     
     //Human only effects

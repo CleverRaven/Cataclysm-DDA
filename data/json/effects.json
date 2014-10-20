@@ -1044,6 +1044,15 @@
     },
     {
         "type": "effect_type",
+        "id": "tapeworm",
+        "rating": "bad",
+        "base_mods": {
+            "hunger_chance": [512],
+            "hunger_min": [1]
+        }
+    },
+    {
+        "type": "effect_type",
         "id": "lying_down",
         "apply_message": "You lie down to go to sleep...",
         "rating": "neutral"

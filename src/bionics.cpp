@@ -503,7 +503,7 @@ void player::activate_bionic(int b)
         if (has_effect("adrenaline_mycus")) {
             good.push_back(_("Mycal Spike"));
         }
-        if (has_disease("tapeworm")) {  // This little guy is immune to the blood filter though, as he lives in your bowels.
+        if (has_effect("tapeworm")) {  // This little guy is immune to the blood filter though, as he lives in your bowels.
             good.push_back(_("Intestinal Parasite"));
         }
         if (has_disease("bloodworms")) {

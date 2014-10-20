@@ -16,7 +16,7 @@
 enum dis_type_enum {
  DI_NULL,
 // Diseases
- DI_RECOVER, DI_TAPEWORM, DI_BLOODWORMS, DI_BRAINWORM, DI_PAINCYSTS,
+ DI_RECOVER, DI_BLOODWORMS, DI_BRAINWORM, DI_PAINCYSTS,
  DI_TETANUS,
 // Monsters
  DI_LYING_DOWN, DI_SLEEP, DI_ALARM_CLOCK,
@@ -52,7 +52,6 @@ void game::init_diseases() {
 
     disease_type_lookup["null"] = DI_NULL;
     disease_type_lookup["recover"] = DI_RECOVER;
-    disease_type_lookup["tapeworm"] = DI_TAPEWORM;
     disease_type_lookup["bloodworms"] = DI_BLOODWORMS;
     disease_type_lookup["brainworm"] = DI_BRAINWORM;
     disease_type_lookup["tetanus"] = DI_TETANUS;
@@ -391,16 +390,6 @@ void dis_effect(player &p, disease &dis)
                   }
             }
         }
-            break;
-
-        case DI_TAPEWORM:
-            if (p.has_trait("PARAIMMUNE") || p.has_trait("EATHEALTH")) {
-               p.rem_disease("tapeworm");
-            } else {
-                if(one_in(512)) {
-                    p.hunger++;
-                }
-            }
             break;
 
         case DI_TETANUS:
