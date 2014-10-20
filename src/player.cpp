@@ -5474,7 +5474,7 @@ void player::cough(bool harmful, int loudness) {
 bool will_vomit(player& p, int chance)
 {
     bool drunk = p.has_effect("drunk");
-    bool antiEmetics = p.has_disease("weed_high");
+    bool antiEmetics = p.has_effect("weed_high");
     bool hasNausea = p.has_trait("NAUSEA") && one_in(chance*2);
     bool stomachUpset = p.has_trait("WEAKSTOMACH") && one_in(chance*3);
     bool suppressed = (p.has_trait("STRONGSTOMACH") && one_in(2)) ||
@@ -6603,6 +6603,19 @@ void player::hardcoded_effects(effect it)
         } else if (dur > 700) {
             if (one_in(20)) {
                 add_msg_if_player(m_bad, _("You wheeze and gasp for air."));
+            }
+        }
+    } else if (id == "stemcell_tratment") {
+        // slightly repair broken limbs. (also nonbroken limbs (unless they're too healthy))
+        for (int i = 0; i < num_hp_parts; i++) {
+            if (one_in(6)) {
+                if (hp_cur[i] < rng(0, 40)) {
+                    add_msg_if_player(m_good, _("Your bones feel like rubber as they melt and remend."));
+                    hp_cur[i]+= rng(1,8);
+                } else if (hp_cur[i] > rng(10, 2000)) {
+                    add_msg_if_player(m_bad, _("Your bones feel like they're crumbling."));
+                    hp_cur[i] -= rng(0,8);
+                }
             }
         }
     }

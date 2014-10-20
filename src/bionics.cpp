@@ -476,7 +476,7 @@ void player::activate_bionic(int b)
         if (has_effect("high")) {
             good.push_back(_("Intoxicant: Other"));
         }
-        if (has_disease("weed_high")) {
+        if (has_effect("weed_high")) {
             good.push_back(_("THC Intoxication"));
         }
         if (has_effect("hallu") || has_effect("visuals")) {

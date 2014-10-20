@@ -3725,7 +3725,7 @@ bool item::process_litcig( player *carrier, point pos )
             if( has_flag( "TOBACCO" ) ) {
                 carrier->add_effect( "cig", duration );
             } else {
-                carrier->add_disease( "weed_high", duration / 2 );
+                carrier->add_effect( "weed_high", duration / 2 );
             }
             g->m.add_field( pos.x + rng( -1, 1 ), pos.y + rng( -1, 1 ), smoke_type, 2 );
             carrier->moves -= 15;
@@ -3765,7 +3765,7 @@ bool item::process_litcig( player *carrier, point pos )
         } else { // joint
             make( "joint_roach" );
             if( carrier != nullptr ) {
-                carrier->add_disease( "weed_high", 10 ); // one last puff
+                carrier->add_effect( "weed_high", 10 ); // one last puff
                 g->m.add_field( pos.x + rng( -1, 1 ), pos.y + rng( -1, 1 ), fd_weedsmoke, 2 );
                 weed_msg( carrier );
             }

@@ -882,7 +882,7 @@ int iuse::smoking_pipe(player *p, item *it, bool)
         }
         p->moves -= 250;
     } else if ("weed" == id_to_smoke) {
-        if (!(p->has_disease("weed_high"))) {
+        if (!(p->has_effect("weed_high"))) {
             p->add_msg_if_player(m_good, _("You smoke some weed.  Good stuff, man!"));
         } else {
             p->add_msg_if_player(m_info, _("You smoke some more weed."));
@@ -900,7 +900,7 @@ int iuse::smoking_pipe(player *p, item *it, bool)
         } else if (p->has_trait("LIGHTWEIGHT")) {
             duration = 120;
         }
-        p->add_disease("weed_high", duration);
+        p->add_effect("weed_high", duration);
         p->moves -= 40;
         // breathe out some smoke
         for (int i = 0; i < 3; i++) {
@@ -1211,7 +1211,7 @@ int iuse::weed_brownie(player *p, item *it, bool)
         p->pkill += 3;
         p->pkill *= 2;
     }
-    p->add_disease("weed_high", duration);
+    p->add_effect("weed_high", duration);
     p->moves -= 100;
     if (one_in(5)) {
         weed_msg(p);

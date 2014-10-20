@@ -22,10 +22,7 @@ enum dis_type_enum {
  DI_LYING_DOWN, DI_SLEEP, DI_ALARM_CLOCK,
  DI_BITE,
 // Food & Drugs
- DI_WEED_HIGH,
   DI_DATURA, DI_VALIUM,
-// Other
- DI_STEMCELL_TREATMENT,
 // Bite wound infected (dependent on bodypart.h)
  DI_INFECTED,
 // Inflicted by an NPC
@@ -66,11 +63,9 @@ void game::init_diseases() {
     disease_type_lookup["bite"] = DI_BITE;
     disease_type_lookup["valium"] = DI_VALIUM;
     disease_type_lookup["datura"] = DI_DATURA;
-    disease_type_lookup["stemcell_treatment"] = DI_STEMCELL_TREATMENT;
     disease_type_lookup["infected"] = DI_INFECTED;
     disease_type_lookup["asked_to_train"] = DI_ASKED_TO_TRAIN;
     disease_type_lookup["asked_personal_info"] = DI_ASKED_PERSONAL_INFO;
-    disease_type_lookup["weed_high"] = DI_WEED_HIGH;
     disease_type_lookup["ma_buff"] = DI_MA_BUFF;
     disease_type_lookup["lack_sleep"] = DI_LACKSLEEP;
     disease_type_lookup["grabbed"] = DI_GRABBED;
@@ -81,15 +76,6 @@ bool dis_msg(dis_type type_string) {
     switch (type) {
     case DI_LYING_DOWN:
         add_msg(_("You lie down to go to sleep..."));
-        break;
-    case DI_WEED_HIGH:
-        add_msg(m_warning, _("You feel lightheaded."));
-        break;
-    case DI_STEMCELL_TREATMENT:
-        add_msg(m_good, _("You receive a pureed bone & enamel injection into your eyeball."));
-        if (!(g->u.has_trait("NOPAIN"))) {
-            add_msg(m_bad, _("It is excruciating."));
-        }
         break;
     case DI_BITE:
         add_msg(m_bad, _("The bite wound feels really deep..."));
@@ -116,7 +102,7 @@ bool dis_msg(dis_type type_string) {
 }
 
 void weed_msg(player *p) {
-    int howhigh = p->disease_duration("weed_high");
+    int howhigh = p->get_effect_dur("weed_high");
     int smarts = p->get_int();
     if(howhigh > 125 && one_in(7)) {
         int msg = rng(0,5);
@@ -351,21 +337,6 @@ void dis_effect(player &p, disease &dis)
             manage_sleep(p, dis);
             break;
 
-        case DI_STEMCELL_TREATMENT:
-            // slightly repair broken limbs. (also nonbroken limbs (unless they're too healthy))
-            for (int i = 0; i < num_hp_parts; i++) {
-                if (one_in(6)) {
-                    if (p.hp_cur[i] < rng(0, 40)) {
-                        add_msg(m_good, _("Your bones feel like rubber as they melt and remend."));
-                        p.hp_cur[i]+= rng(1,8);
-                    } else if (p.hp_cur[i] > rng(10, 2000)) {
-                        add_msg(m_bad, _("Your bones feel like they're crumbling."));
-                        p.hp_cur[i] -= rng(0,8);
-                    }
-                }
-            }
-            break;
-
         case DI_DATURA:
         {
                 p.mod_per_bonus(-6);
@@ -427,13 +398,6 @@ void dis_effect(player &p, disease &dis)
             if (dis.duration % 25 == 0 && (p.stim > 0 || one_in(2))) {
                 p.stim--;
             }
-            break;
-
-        case DI_WEED_HIGH:
-            p.mod_str_bonus(-1);
-            p.mod_dex_bonus(-1);
-            p.add_miss_reason(_("That critter's jumping around like a jitterbug! It needs to mellow out."), 1);
-            p.mod_per_bonus(-1);
             break;
 
         case DI_TAPEWORM:
@@ -577,7 +541,6 @@ std::string dis_name(disease& dis)
 
     case DI_DATURA: return _("Experiencing Datura");
 
-    case DI_STEMCELL_TREATMENT: return _("Stem cell treatment");
     case DI_BITE:
     {
         std::string status = "";
@@ -673,9 +636,6 @@ std::string dis_description(disease& dis)
 
     case DI_NULL:
         return _("None");
-
-    case DI_STEMCELL_TREATMENT: return _("Your insides are shifting in strange ways as the treatment takes effect.");
-
     case DI_DATURA: return _("Buy the ticket, take the ride.  The datura has you now.");
 
     case DI_BITE: return _("You have a nasty bite wound.");
@@ -1129,7 +1089,7 @@ static void handle_recovery(player& p, disease& dis)
 bool will_vomit(player& p, int chance)
 {
     bool drunk = p.has_effect("drunk");
-    bool antiEmetics = p.has_disease("weed_high");
+    bool antiEmetics = p.has_effect("weed_high");
     bool hasNausea = p.has_trait("NAUSEA") && one_in(chance*2);
     bool stomachUpset = p.has_trait("WEAKSTOMACH") && one_in(chance*3);
     bool suppressed = (p.has_trait("STRONGSTOMACH") && one_in(2)) ||

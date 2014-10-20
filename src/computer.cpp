@@ -711,7 +711,7 @@ INITIATING STANDARD TREMOR TEST..."));
 
     case COMPACT_STEMCELL_TREATMENT:
         g->u.moves -= 70;
-        g->u.add_disease("stemcell_treatment", 120);
+        g->u.add_effect("stemcell_treatment", 120);
         print_line(_("The machine injects your eyeball with the solution \n\
 of pureed bone & LSD."));
         query_any(_("Press any key..."));
