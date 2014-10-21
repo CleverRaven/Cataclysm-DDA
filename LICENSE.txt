@@ -1,1 +1,3 @@
 Cataclysm is licensed under the Creative Commons Attribution-ShareAlike 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/ or send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
+
+The Square font (data/font/square.ttf) is copyright Wouter van Oortmerssen, licensed under Creative Commons Attribution 3.0 Unported License. See http://strlen.com/square for more information.

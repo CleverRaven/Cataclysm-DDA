@@ -7982,21 +7982,21 @@ bool player::has_active_item(const itype_id & id) const
 
 void player::process_active_items()
 {
-    if( weapon.process( this, pos() ) ) {
+    if( weapon.needs_processing() && weapon.process( this, pos(), false ) ) {
         weapon = ret_null;
     }
 
     std::vector<item *> inv_active = inv.active_items();
     for (std::vector<item *>::iterator iter = inv_active.begin(); iter != inv_active.end(); ++iter) {
         item *tmp_it = *iter;
-        if( tmp_it->process( this, pos() ) ) {
+        if( tmp_it->process( this, pos(), false ) ) {
             inv.remove_item(tmp_it);
         }
     }
 
     // worn items
     for (size_t i = 0; i < worn.size(); i++) {
-        if( worn[i].process( this, pos() ) ) {
+        if( worn[i].needs_processing() && worn[i].process( this, pos(), false ) ) {
             worn.erase(worn.begin() + i);
             i--;
         }
@@ -8771,22 +8771,22 @@ int player::drink_from_hands(item& water) {
 }
 
 
-bool player::consume(int pos)
+bool player::consume(int target_position)
 {
     item *to_eat = NULL;
     it_comest *comest = NULL;
     int which = -3; // Helps us know how to delete the item which got eaten
 
-    if(pos == INT_MIN) {
+    if(target_position == INT_MIN) {
         add_msg_if_player( m_info, _("You do not have that item."));
         return false;
     } if (is_underwater()) {
         add_msg_if_player( m_info, _("You can't do that while underwater."));
         return false;
-    } else if( pos < -1 ) {
+    } else if( target_position < -1 ) {
         add_msg_if_player( m_info, _( "You can't eat worn items, you have to take them off." ) );
         return false;
-    } else if (pos == -1) {
+    } else if (target_position == -1) {
         // Consume your current weapon
         if (weapon.is_food_container(this)) {
             to_eat = &weapon.contents[0];
@@ -8807,7 +8807,7 @@ bool player::consume(int pos)
         }
     } else {
         // Consume item from inventory
-        item& it = inv.find_item(pos);
+        item& it = inv.find_item(target_position);
         if (it.is_food_container(this)) {
             to_eat = &(it.contents[0]);
             which = 1;
@@ -8857,7 +8857,7 @@ bool player::consume(int pos)
             }
             if (comest->has_use()) {
                 //Check special use
-                amount_used = comest->invoke(this, to_eat, false);
+                amount_used = comest->invoke(this, to_eat, false, pos());
                 if( amount_used <= 0 ) {
                     return false;
                 }
@@ -8917,11 +8917,11 @@ bool player::consume(int pos)
             weapon.contents.erase(weapon.contents.begin());
             add_msg_if_player(_("You are now wielding an empty %s."), weapon.tname().c_str());
         } else if (which == 0) {
-            inv.remove_item(pos);
+            inv.remove_item(target_position);
         } else if (which >= 0) {
-            item& it = inv.find_item(pos);
+            item& it = inv.find_item(target_position);
             it.contents.erase(it.contents.begin());
-            const bool do_restack = inv.const_stack(pos).size() > 1;
+            const bool do_restack = inv.const_stack(target_position).size() > 1;
             if (!is_npc()) {
                 bool drop_it = false;
                 if (OPTIONS["DROP_EMPTY"] == "no") {
@@ -8933,7 +8933,7 @@ bool player::consume(int pos)
                 }
                 if (drop_it) {
                     add_msg(_("You drop the empty %s."), it.tname().c_str());
-                    g->m.add_item_or_charges(posx, posy, inv.remove_item(pos));
+                    g->m.add_item_or_charges(posx, posy, inv.remove_item(target_position));
                 } else {
                     add_msg(m_info, _("%c - an empty %s"), it.invlet, it.tname().c_str());
                 }
@@ -9151,7 +9151,7 @@ bool player::eat(item *eaten, it_comest *comest)
     }
 
     if (comest->has_use()) {
-        to_eat = comest->invoke(this, eaten, false);
+        to_eat = comest->invoke(this, eaten, false, pos());
         if( to_eat <= 0 ) {
             return false;
         }
@@ -9811,14 +9811,14 @@ hint_rating player::rate_action_wear(item *it)
     return HINT_GOOD;
 }
 
-bool player::wear(int pos, bool interactive)
+bool player::wear(int inventory_position, bool interactive)
 {
     item* to_wear = NULL;
-    if (pos == -1)
+    if (inventory_position == -1)
     {
         to_wear = &weapon;
     }
-    else if( pos < -1 ) {
+    else if( inventory_position < -1 ) {
         if( interactive ) {
             add_msg( m_info, _( "You are already wearing that." ) );
         }
@@ -9826,7 +9826,7 @@ bool player::wear(int pos, bool interactive)
     }
     else
     {
-        to_wear = &inv.find_item(pos);
+        to_wear = &inv.find_item(inventory_position);
     }
 
     if (to_wear->is_null())
@@ -9844,7 +9844,7 @@ bool player::wear(int pos, bool interactive)
         return false;
     }
 
-    if (pos == -1)
+    if (inventory_position == -1)
     {
         weapon = ret_null;
     }
@@ -10223,13 +10223,13 @@ bool player::takeoff( item *target, bool autodrop, std::vector<item> *items)
     return takeoff( get_item_position( target ), autodrop, items );
 }
 
-bool player::takeoff(int pos, bool autodrop, std::vector<item> *items)
+bool player::takeoff(int inventory_position, bool autodrop, std::vector<item> *items)
 {
     bool taken_off = false;
-    if (pos == -1) {
+    if (inventory_position == -1) {
         taken_off = wield(NULL, autodrop);
     } else {
-        int worn_index = worn_position_to_index(pos);
+        int worn_index = worn_position_to_index(inventory_position);
         if (worn_index >= 0 && size_t(worn_index) < worn.size()) {
             item &w = worn[worn_index];
 
@@ -10484,9 +10484,9 @@ bool player::has_active_UPS() const
     return has_active_bionic("bio_ups") || has_amount("UPS_on", 1) || has_amount("adv_UPS_on", 1);
 }
 
-void player::use(int pos)
+void player::use(int inventory_position)
 {
-    item* used = &i_at(pos);
+    item* used = &i_at(inventory_position);
     item copy;
 
     if (used->is_null()) {
@@ -10501,7 +10501,7 @@ void player::use(int pos)
         if (!has_enough_charges(*used, true)) {
             return;
         }
-        const long charges_used = tool->invoke( this, used, false );
+        const long charges_used = tool->invoke( this, used, false, pos() );
         if (charges_used <= 0) {
             // Canceled or not used up or whatever
             return;
@@ -10635,14 +10635,14 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
     } else if (used->is_bionic()) {
         it_bionic* tmp = dynamic_cast<it_bionic*>(used->type);
         if (install_bionics(tmp)) {
-            i_rem(pos);
+            i_rem(inventory_position);
         }
         return;
     } else if (used->is_food() || used->is_food_container()) {
-        consume(pos);
+        consume(inventory_position);
         return;
     } else if (used->is_book()) {
-        read(pos);
+        read(inventory_position);
         return;
     } else if (used->is_gun()) {
         std::vector<item> &mods = used->contents;
@@ -10682,7 +10682,7 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
         moves -= int(used->reload_time(*this) / 2);
         return;
     } else if ( used->type->has_use() ) {
-        used->type->invoke(this, used, false);
+        used->type->invoke(this, used, false, pos());
         return;
     } else {
         add_msg(m_info, _("You can't do anything interesting with your %s."),
@@ -10745,7 +10745,7 @@ hint_rating player::rate_action_read(item *it)
  return HINT_GOOD;
 }
 
-void player::read(int pos)
+void player::read(int inventory_position)
 {
     vehicle *veh = g->m.veh_at (posx, posy);
     if (veh && veh->player_in_control (this)) {
@@ -10768,7 +10768,7 @@ void player::read(int pos)
     }
 
     // Find the object
-    item* it = &i_at(pos);
+    item* it = &i_at(inventory_position);
 
     if (it == NULL || it->is_null()) {
         add_msg(m_info, _("You do not have that item."));
@@ -10781,7 +10781,7 @@ void player::read(int pos)
         mac = dynamic_cast<it_macguffin*>(it->type);
     }
     if (mac != NULL) {
-        mac->invoke(this, it, false);
+        mac->invoke(this, it, false, pos());
         return;
     }
 
@@ -10814,7 +10814,7 @@ void player::read(int pos)
         // We're just skimming, so it's 10x faster.
         time /= 10;
 
-        activity = player_activity(ACT_READ, time - moves, -1, pos, "");
+        activity = player_activity(ACT_READ, time - moves, -1, inventory_position, "");
         // Never trigger studying when skimming the book.
         activity.values.push_back(0);
         moves = 0;
@@ -10887,7 +10887,7 @@ void player::read(int pos)
         time += (tmp->time * (tmp->intel - int_cur) * 100);
     }
 
-    activity = player_activity(ACT_READ, time, -1, pos, "");
+    activity = player_activity(ACT_READ, time, -1, inventory_position, "");
     // activity.get_value(0) == 1 means continuous studing until
     // the player gained the next skill level, this ensured by this:
     activity.values.push_back(study ? 1 : 0);
@@ -11071,7 +11071,7 @@ void player::do_read( item *book )
     }
 
     if( reading->has_use() ) {
-        reading->invoke( &g->u, book, false );
+        reading->invoke( &g->u, book, false, pos() );
     }
 
     activity.type = ACT_NULL;

@@ -918,6 +918,57 @@
     },
     {
         "type": "profession",
+        "ident": "detective",
+        "name": "Police Detective",
+        "description": "You were on the brink of a major breakthrough in your last homicide case when the Cataclysm struck. Now that suspect is dead. Everyone's dead. You need a smoke.",
+        "points": 4,
+        "items": {
+            "both": [
+                "pants",
+                "dress_shirt",
+		"skinny_tie",
+		"waistcoat",
+		"holster",
+		"trenchcoat",
+		"badge_detective",
+		"gloves_leather",
+		"knit_scarf",
+		"fedora",
+		"wristwatch",
+		"sw_610",
+		"40sw",
+                "socks",
+                "dress_shoes",
+                "cig",
+                "ref_lighter"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        },
+		"skills": [
+            {
+                "level": 3,
+                "name": "gun"
+            },
+            {
+                "level": 4,
+                "name": "pistol"
+            }
+        ],
+        "addictions": [
+            {
+                "intensity": 10,
+                "type": "nicotine"
+            }
+        ]
+    },
+    {
+        "type": "profession",
         "ident": "salesman",
         "name": "Used Car Salesman",
         "description": "You've been accused of being the sort of person who'd be willing to sell your own mother for a dollar.  It always left you insulted - you've been around the block a time or two, and you'd charge way more than a dollar - and get it, too!",

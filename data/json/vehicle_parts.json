@@ -2407,6 +2407,69 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "diesel_engine_v6",
+        "name" : "V6 diesel engine",
+        "symbol" : "*",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "epower" : -200,
+        "fuel_type" : "diesel",
+        "item" : "v6_diesel",
+        "difficulty" : 5,
+        "location" : "engine_block",
+        "flags" : ["ENGINE", "VARIABLE_SIZE"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 30, "max": 40},
+            {"item": "steel_chunk", "min": 30, "max": 40},
+            {"item": "scrap", "min": 30, "max": 40}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "diesel_engine_v8",
+        "name" : "V8 diesel engine",
+        "symbol" : "*",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "epower" : -400,
+        "fuel_type" : "diesel",
+        "item" : "v8_diesel",
+        "difficulty" : 5,
+        "location" : "engine_block",
+        "flags" : ["ENGINE", "VARIABLE_SIZE"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 30, "max": 40},
+            {"item": "steel_chunk", "min": 30, "max": 40},
+            {"item": "scrap", "min": 30, "max": 40}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "diesel_engine_i6",
+        "name" : "straight-6 diesel engine",
+        "symbol" : "*",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "epower" : -300,
+        "fuel_type" : "diesel",
+        "item" : "i6_diesel",
+        "difficulty" : 5,
+        "location" : "engine_block",
+        "flags" : ["ENGINE", "VARIABLE_SIZE"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 30, "max": 40},
+            {"item": "steel_chunk", "min": 30, "max": 40},
+            {"item": "scrap", "min": 30, "max": 40}
+        ]
+    },{
+        "type" : "vehicle_part",
         "id" : "engine_electric",
         "name" : "electric motor",
         "symbol" : "*",
@@ -2609,6 +2672,83 @@
         "size" : 110000,
         "fuel_type" : "gasoline",
         "item" : "55gal_drum",
+        "difficulty" : 1,
+        "location" : "structure",
+        "flags" : ["UNMOUNT_ON_DAMAGE", "FUEL_TANK", "PROTRUSION"],
+        "breaks_into" : []
+    },{
+        "type" : "vehicle_part",
+        "id" : "diesel_tank_small",
+        "name" : "diesel tank (small)",
+        "symbol" : "O",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 100,
+        "size" : 6000,
+        "fuel_type" : "diesel",
+        "item" : "metal_tank_small",
+        "difficulty" : 1,
+        "location" : "fuel_source",
+        "flags" : ["FUEL_TANK"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 1, "max": 2},
+            {"item": "scrap", "min": 1, "max": 2}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "diesel_tank",
+        "name" : "diesel tank",
+        "symbol" : "O",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 150,
+        "size" : 30000,
+        "fuel_type" : "diesel",
+        "item" : "metal_tank",
+        "difficulty" : 1,
+        "location" : "fuel_source",
+        "flags" : ["FUEL_TANK"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 1, "max": 1},
+            {"item": "steel_chunk", "min": 1, "max": 2},
+            {"item": "scrap", "min": 1, "max": 2}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "diesel_tank_little",
+        "name" : "diesel tank (little)",
+        "symbol" : "O",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 75,
+        "size" : 650,
+        "fuel_type" : "gasoline",
+        "item" : "metal_tank_little",
+        "difficulty" : 1,
+        "location" : "fuel_source",
+        "flags" : ["FUEL_TANK"],
+        "breaks_into" : [
+            {"item": "scrap", "min": 1, "max": 2}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "external_diesel_tank",
+        "name" : "externally mounted diesel tank",
+        "symbol" : "O",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 160,
+        "size" : 110000,
+        "fuel_type" : "diesel",
+        "item" : "metal_tank",
         "difficulty" : 1,
         "location" : "structure",
         "flags" : ["UNMOUNT_ON_DAMAGE", "FUEL_TANK", "PROTRUSION"],

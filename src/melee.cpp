@@ -705,7 +705,7 @@ int player::roll_cut_damage(bool crit)
     }
 
     if (unarmed_attack()) {
-        if (wearing_something_on(bp_hand_l)) {
+        if (!wearing_something_on(bp_hand_l)) {
             if (has_trait("CLAWS") || (has_active_mutation("CLAWS_RETRACT")) ) {
                 ret += 3;
             }
@@ -720,7 +720,7 @@ int player::roll_cut_damage(bool crit)
                 ret += rng(2, 3);
             }
         }
-        if (wearing_something_on(bp_hand_r)) {
+        if (!wearing_something_on(bp_hand_r)) {
             if (has_trait("CLAWS") || (has_active_mutation("CLAWS_RETRACT")) ) {
                 ret += 3;
             }
