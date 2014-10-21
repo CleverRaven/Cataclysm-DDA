@@ -511,6 +511,13 @@ int player::create(character_type type, std::string tempname)
         }
     }
 
+    // Get traits
+    std::vector<std::string> prof_traits = g->u.prof->traits();
+    for (std::vector<std::string>::const_iterator iter = prof_traits.begin();
+         iter != prof_traits.end(); ++iter) {
+         g->u.toggle_trait(*iter);
+    }
+
     // Likewise, the asthmatic start with their medication.
     if (has_trait("ASTHMA")) {
         tmp = item("inhaler", 0, false);
