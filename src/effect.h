@@ -10,6 +10,8 @@ class Creature;
 
 extern std::map<std::string, effect_type> effect_types;
 
+void weed_msg(player *p);
+
 enum effect_rating {
     e_good, // the effect is good for the one who has it.
     e_neutral,  // there is no effect or the effect is very nominal. This is the default.
