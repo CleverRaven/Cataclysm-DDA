@@ -23,9 +23,7 @@ enum dis_type_enum {
 // Bite wound infected (dependent on bodypart.h)
  DI_INFECTED,
 // Martial arts-related buffs
- DI_MA_BUFF,
- // Grabbed (from MA or monster)
- DI_GRABBED
+ DI_MA_BUFF
 };
 
 std::map<std::string, dis_type_enum> disease_type_lookup;
@@ -51,7 +49,6 @@ void game::init_diseases() {
     disease_type_lookup["bite"] = DI_BITE;
     disease_type_lookup["infected"] = DI_INFECTED;
     disease_type_lookup["ma_buff"] = DI_MA_BUFF;
-    disease_type_lookup["grabbed"] = DI_GRABBED;
 }
 
 bool dis_msg(dis_type type_string) {
@@ -69,9 +66,6 @@ bool dis_msg(dis_type type_string) {
         add_msg(m_bad, _("Your bite wound feels infected."));
         g->u.add_memorial_log(pgettext("memorial_male", "Contracted an infection."),
                               pgettext("memorial_female", "Contracted an infection."));
-        break;
-    case DI_GRABBED:
-        add_msg(m_bad, _("You have been grabbed."));
         break;
     default:
         return false;
@@ -340,12 +334,6 @@ void dis_effect(player &p, disease &dis)
               }
             }
             break;
-
-        case DI_GRABBED:
-            p.blocks_left -= dis.intensity;
-            p.dodges_left = 0;
-            p.rem_disease(dis.type);
-            break;
         default: // Other diseases don't have any effects. Suppress warning.
             break;
     }
@@ -355,7 +343,6 @@ int disease_speed_boost(disease dis)
 {
     dis_type_enum type = disease_type_lookup[dis.type];
     switch (type) {
-        case DI_GRABBED:    return -25;
         default:            break;
     }
     return 0;
@@ -447,7 +434,6 @@ std::string dis_name(disease& dis)
         } else
             return "Invalid martial arts buff";
 
-    case DI_GRABBED: return _("Grabbed");
     default: break;
     }
     return "";
@@ -472,9 +458,6 @@ std::string dis_description(disease& dis)
           return ma_buffs[dis.buff_id].description.c_str();
         else
           return "This is probably a bug.";
-
-    case DI_GRABBED: return _("You have been grabbed by an attacker. \n\
-    You cannot dodge and blocking is very difficult.");
     default: break;
     }
     return "Who knows?  This is probably a bug. (disease.cpp:dis_description)";

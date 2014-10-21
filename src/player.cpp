@@ -4760,7 +4760,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
                 add_msg_player_or_npc(m_good, _("You break the grab!"),
                                       _("<npcname> breaks the grab!"));
             } else {
-                add_disease("grabbed", 1, false, 1, 3, 1, 1);
+                add_effect("grabbed", 1);
             }
         }
     }
@@ -6764,6 +6764,11 @@ void player::hardcoded_effects(effect it)
                 }
             }
         }
+    } else if (id == "grabbed") {
+        blocks_left -= 1;
+        dodges_left = 0;
+        // Set ourselves up for removal
+        it.set_duration(0);
     }
 }
 

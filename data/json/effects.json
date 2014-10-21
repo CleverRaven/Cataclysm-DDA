@@ -1123,6 +1123,17 @@
     },
     {
         "type": "effect_type",
+        "id": "grabbed",
+        "name": ["Grabbed"],
+        "desc": ["You have been grabbed by an attack.\nYou cannot dodge and blocking is very difficult."],
+        "apply_message": "You have been grabbed.",
+        "rating": "bad",
+        "base_mods": {
+            "speed_mod": [-25]
+        }
+    },
+    {
+        "type": "effect_type",
         "id": "lack_sleep",
         "name": ["Lacking Sleep"],
         "desc": ["You haven't slept in a while, and it shows."],
