@@ -42,6 +42,18 @@
     },
     {
         "type": "effect_type",
+        "id": "asked_to_train",
+        "name": ["Asked to Train"],
+        "desc": ["AI tag for asking to NPCs to train you. This is a bug if you have it."]
+    },
+    {
+        "type": "effect_type",
+        "id": "asked_personal_info",
+        "name": ["Asked Info"],
+        "desc": ["AI tag for asking to NPCs for personal information. This is a bug if you have it."]
+    },
+    {
+        "type": "effect_type",
         "id": "asked_for_item",
         "name": ["Asked for Item"],
         "desc": ["AI tag for asking NPCs for items. This is a bug if you have it."]

@@ -24,8 +24,6 @@ enum dis_type_enum {
   DI_DATURA,
 // Bite wound infected (dependent on bodypart.h)
  DI_INFECTED,
-// Inflicted by an NPC
- DI_ASKED_TO_TRAIN, DI_ASKED_PERSONAL_INFO,
 // Martial arts-related buffs
  DI_MA_BUFF,
  // Lack/sleep
@@ -57,8 +55,6 @@ void game::init_diseases() {
     disease_type_lookup["bite"] = DI_BITE;
     disease_type_lookup["datura"] = DI_DATURA;
     disease_type_lookup["infected"] = DI_INFECTED;
-    disease_type_lookup["asked_to_train"] = DI_ASKED_TO_TRAIN;
-    disease_type_lookup["asked_personal_info"] = DI_ASKED_PERSONAL_INFO;
     disease_type_lookup["ma_buff"] = DI_MA_BUFF;
     disease_type_lookup["lack_sleep"] = DI_LACKSLEEP;
     disease_type_lookup["grabbed"] = DI_GRABBED;
