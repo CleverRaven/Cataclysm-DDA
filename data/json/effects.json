@@ -1109,6 +1109,20 @@
     },
     {
         "type": "effect_type",
+        "id": "datura",
+        "name": ["Experiencing Datura"],
+        "desc": ["Buy the ticket, take the ride.  The datura has you now."],
+        "rating": "bad",
+        "base_mods": {
+            "per_mod": [-6],
+            "dex_mod": [-3],
+            "thirst_chance": [8],
+            "thirst_min": [1],
+            "thirst_max_val": [20]
+        }
+    },
+    {
+        "type": "effect_type",
         "id": "lying_down",
         "apply_message": "You lie down to go to sleep...",
         "rating": "neutral"

@@ -485,7 +485,7 @@ void player::activate_bionic(int b)
         if (has_effect("iodine")) {
             good.push_back(_("Iodine"));
         }
-        if (has_disease("datura")) {
+        if (has_effect("datura")) {
             good.push_back(_("Anticholinergic Tropane Alkaloids"));
         }
         if (has_effect("took_xanax")) {
@@ -551,7 +551,7 @@ void player::activate_bionic(int b)
         remove_effect("hallu");
         remove_effect("visuals");
         remove_effect("iodine");
-        rem_disease("datura");
+        remove_effect("datura");
         remove_effect("took_xanax");
         remove_effect("took_prozac");
         remove_effect("took_flumed");

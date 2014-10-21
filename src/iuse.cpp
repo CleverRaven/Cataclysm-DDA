@@ -1374,7 +1374,7 @@ int iuse::iodine(player *p, item *it, bool)
 
 int iuse::datura(player *p, item *it, bool)
 {
-    p->add_disease("datura", rng(2000, 8000));
+    p->add_effect("datura", rng(2000, 8000));
     p->add_msg_if_player(_("You eat the datura seed."));
     return it->type->charges_to_use();
 }

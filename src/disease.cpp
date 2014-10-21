@@ -20,8 +20,6 @@ enum dis_type_enum {
 // Monsters
  DI_LYING_DOWN, DI_SLEEP, DI_ALARM_CLOCK,
  DI_BITE,
-// Food & Drugs
-  DI_DATURA,
 // Bite wound infected (dependent on bodypart.h)
  DI_INFECTED,
 // Martial arts-related buffs
@@ -53,7 +51,6 @@ void game::init_diseases() {
     disease_type_lookup["sleep"] = DI_SLEEP;
     disease_type_lookup["alarm_clock"] = DI_ALARM_CLOCK;
     disease_type_lookup["bite"] = DI_BITE;
-    disease_type_lookup["datura"] = DI_DATURA;
     disease_type_lookup["infected"] = DI_INFECTED;
     disease_type_lookup["ma_buff"] = DI_MA_BUFF;
     disease_type_lookup["lack_sleep"] = DI_LACKSLEEP;
@@ -326,63 +323,6 @@ void dis_effect(player &p, disease &dis)
             manage_sleep(p, dis);
             break;
 
-        case DI_DATURA:
-        {
-                p.mod_per_bonus(-6);
-                p.mod_dex_bonus(-3);
-                if (p.has_effect("asthma")) {
-                    add_msg(m_good, _("You can breathe again!"));
-                    p.remove_effect("asthma");
-              } if (p.thirst < 20 && one_in(8)) {
-                  p.thirst++;
-              } if (dis.duration > 1000 && p.focus_pool >= 1 && one_in(4)) {
-                  p.focus_pool--;
-            } if (dis.duration > 2000 && one_in(8) && p.stim < 20) {
-                  p.stim++;
-            } if (dis.duration > 3000 && p.focus_pool >= 1 && one_in(2)) {
-                  p.focus_pool--;
-            } if (dis.duration > 4000 && one_in(64)) {
-                  p.mod_pain(rng(-1, -8));
-            } if ((!p.has_effect("hallu")) && (dis.duration > 5000 && one_in(4))) {
-                  p.add_effect("hallu", 3600);
-            } if (dis.duration > 6000 && one_in(128)) {
-                  p.mod_pain(rng(-3, -24));
-                  if (dis.duration > 8000 && one_in(16)) {
-                      add_msg(m_bad, _("You're experiencing loss of basic motor skills and blurred vision.  Your mind recoils in horror, unable to communicate with your spinal column."));
-                      add_msg(m_bad, _("You stagger and fall!"));
-                      p.add_effect("downed",rng(1,4));
-                      if (one_in(8) || will_vomit(p, 10)) {
-                            p.vomit();
-                       }
-                  }
-            } if (dis.duration > 7000 && p.focus_pool >= 1) {
-                  p.focus_pool--;
-            } if (dis.duration > 8000 && one_in(256)) {
-                  p.add_effect("visuals", rng(40, 200));
-                  p.mod_pain(rng(-8, -40));
-            } if (dis.duration > 12000 && one_in(256)) {
-                  add_msg(m_bad, _("There's some kind of big machine in the sky."));
-                  p.add_effect("visuals", rng(80, 400));
-                  if (one_in(32)) {
-                        add_msg(m_bad, _("It's some kind of electric snake, coming right at you!"));
-                        p.mod_pain(rng(4, 40));
-                        p.vomit();
-                  }
-            } if (dis.duration > 14000 && one_in(128)) {
-                  add_msg(m_bad, _("Order us some golf shoes, otherwise we'll never get out of this place alive."));
-                  p.add_effect("visuals", rng(400, 2000));
-                  if (one_in(8)) {
-                  add_msg(m_bad, _("The possibility of physical and mental collapse is now very real."));
-                    if (one_in(2) || will_vomit(p, 10)) {
-                        add_msg(m_bad, _("No one should be asked to handle this trip."));
-                        p.vomit();
-                        p.mod_pain(rng(8, 40));
-                    }
-                  }
-            }
-        }
-            break;
-
         case DI_BITE:
             handle_bite_wound(p, dis);
             break;
@@ -442,8 +382,6 @@ std::string dis_name(disease& dis)
     dis_type_enum type = disease_type_lookup[dis.type];
     switch (type) {
     case DI_NULL: return "";
-
-    case DI_DATURA: return _("Experiencing Datura");
 
     case DI_BITE:
     {
@@ -540,7 +478,6 @@ std::string dis_description(disease& dis)
 
     case DI_NULL:
         return _("None");
-    case DI_DATURA: return _("Buy the ticket, take the ride.  The datura has you now.");
 
     case DI_BITE: return _("You have a nasty bite wound.");
     case DI_INFECTED: return _("You have an infected wound.");

@@ -1155,7 +1155,7 @@ bool game::do_turn()
                                    pgettext("memorial_female", "Died of a healing stimulant overdose."));
                 u.hp_cur[hp_torso] = 0;
             }
-    } else if (u.has_disease("datura") && u.disease_duration("datura") > 14000 && one_in(512)) {
+    } else if (u.has_effect("datura") && u.get_effect_dur("datura") > 14000 && one_in(512)) {
         if (!(u.has_trait("NOPAIN"))) {
             add_msg(m_bad, _("Your heart spasms painfully and stops, dragging you back to reality as you die."));
         } else {
