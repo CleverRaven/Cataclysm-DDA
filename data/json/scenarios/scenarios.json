@@ -125,5 +125,14 @@
     "professions" : ["cop","bionic_cop","detective"],
     "start_name": "Police Station",
     "flags" : ["SUR_START"]
-  }
+  },{
+    "type": "scenario",
+    "ident": "wilderness",
+    "name": "Wilderness",
+    "points" : 0,
+    "description": "You find yourself amongst trees. The screaming and the moaning is fainter this far from civilization, but you'd better know what you're doing out here.",
+    "start_name": "Forest",
+    "professions" : ["unemployed", "survivalist", "naturalist", "bow_hunter", "lumberjack"],
+    "allowed_locs" : ["forest"]
+    }
 ]
