@@ -1006,6 +1006,7 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     RAD_RESIST - Partially protects from ambient radiation.
     RAD_PROOF- Fully protects from ambient radiation.
     ELECTRIC_IMMUNE- Fully protects from electricity.
+    THERMOMETER - Shows current air temperature, along with weather.
     Container-only flags:
     SEALS
     RIGID

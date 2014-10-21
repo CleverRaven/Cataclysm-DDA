@@ -390,6 +390,7 @@ void player::activate_bionic(int b)
     std::vector<std::string> bad;
     int dirx, diry;
     item tmp_item;
+    w_point weatherPoint = g->weatherGen.get_weather(pos(), calendar::turn);
 
     if(bio.id == "bio_painkiller") {
         pkill += 6;
@@ -558,7 +559,7 @@ void player::activate_bionic(int b)
         stim = 0;
     } else if(bio.id == "bio_evap") {
         item water = item("water_clean", 0);
-        int humidity = g->weatherGen.get_weather(pos(), calendar::turn).humidity;
+        int humidity = weatherPoint.humidity;
         int water_charges = (humidity * 3.0) / 100.0 + 0.5;
         // At 50% relative humidity or more, the player will draw 2 units of water
         // At 16% relative humidity or less, the player will draw 0 units of water
@@ -800,6 +801,15 @@ void player::activate_bionic(int b)
     } else if(bio.id == "bio_shockwave") {
         g->shockwave(posx, posy, 3, 4, 2, 8, true);
         add_msg_if_player(m_neutral, _("You unleash a powerful shockwave!"));
+    } else if(bio.id == "bio_meteorologist") {
+        add_msg_if_player(m_neutral, _("Temperature: %d."), weatherPoint.temperature);
+        add_msg_if_player(m_neutral, _("Humidity: %d."), weatherPoint.humidity);
+        add_msg_if_player(m_neutral, _("Pressure: %d."), weatherPoint.pressure);
+        
+        /// Created a get_local_windpower() in weather.cpp ... needs arguments
+        
+        add_msg_if_player(m_neutral, _("Wind speed: %d."), ___);
+        add_msg_if_player(m_neutral, _("Feels like: %d."), ___);
     }
 }
 

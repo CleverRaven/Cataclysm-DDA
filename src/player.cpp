@@ -791,7 +791,10 @@ void player::update_bodytemp()
     if( veh ) {
         vehwindspeed = abs(veh->velocity / 100); // For mph
     }
-    int total_windpower = vehwindspeed + weather.windpower;
+    const oter_id &cur_om_ter = overmap_buffer.ter(g->om_global_location());
+    std::string omtername = otermap[cur_om_ter].name;
+    bool sheltered = g->is_sheltered(posx, posy);
+    int total_windpower = vehwindspeed + get_local_windpower(weather.windpower, omtername, sheltered);
     // Temperature norms
     // Ambient normal temperature is lower while asleep
     int ambient_norm = (has_disease("sleep") ? 3100 : 1900);
@@ -889,15 +892,13 @@ void player::update_bodytemp()
         float homeostasis_adjustement = (temp_cur[i] > BODYTEMP_NORM ? 30.0 : 60.0);
         int clothing_warmth_adjustement = homeostasis_adjustement * warmth(body_part(i));
         // WINDCHILL
-        const oter_id &cur_om_ter = overmap_buffer.ter(g->om_global_location());
-        std::string omtername = otermap[cur_om_ter].name;
-        bool sheltered = g->is_sheltered(posx, posy);
+
         bp_windpower = (float)bp_windpower * (1 - get_wind_resistance(body_part(i)) / 100.0);
         // Calculate windchill
         int windchill = get_local_windchill( g->get_temperature(),
                                              get_local_humidity(weather.humidity, g->weather,
                                                      sheltered),
-                                             bp_windpower, omtername, sheltered );
+                                             bp_windpower );
         // If you're standing in water, air temperature is replaced by water temperature. No wind.
         // Convert to C.
         int water_temperature = 100 * (g->weatherGen.get_water_temperature() - 32) * 5 / 9;

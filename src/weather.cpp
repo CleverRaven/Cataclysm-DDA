@@ -561,23 +561,9 @@ std::string print_temperature(float fahrenheit, int decimals)
 
 int get_local_windchill(double temperature, double humidity, double windpower, std::string omtername, bool sheltered)
 {
-    /**
-    *  A player is sheltered if he is underground, in a car, or indoors.
-    **/
-
-    double tmpwind = windpower;
     double tmptemp = temperature;
+    dobule tmpwind = windpower;
     double windchill = 0;
-
-    // Over map terrain may modify the effect of wind.
-    if (sheltered)
-        tmpwind  = 0.0;
-    else if ( omtername == "forest_water")
-        tmpwind *= 0.7;
-    else if ( omtername == "forest" )
-        tmpwind *= 0.5;
-    else if ( omtername == "forest_thick" || omtername == "hive")
-        tmpwind *= 0.4;
 
     if (tmptemp < 50) {
         /// Model 1, cold wind chill (only valid for temps below 50F)
@@ -616,6 +602,27 @@ int get_local_humidity(double humidity, weather_type weather, bool sheltered)
     }
 
     return tmphumidity;
+}
+
+int get_local_windpower(double windpower, std::string omtername = "no name", bool sheltered = false)
+{
+    /**
+    *  A player is sheltered if he is underground, in a car, or indoors.
+    **/
+
+    double tmpwind = windpower;
+    
+    // Over map terrain may modify the effect of wind.
+    if (sheltered)
+        tmpwind  = 0.0;
+    else if ( omtername == "forest_water")
+        tmpwind *= 0.7;
+    else if ( omtername == "forest" )
+        tmpwind *= 0.5;
+    else if ( omtername == "forest_thick" || omtername == "hive")
+        tmpwind *= 0.4;
+        
+    return tmpwind;
 }
 
 ///@}
