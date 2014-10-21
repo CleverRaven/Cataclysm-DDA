@@ -515,7 +515,7 @@ void player::activate_bionic(int b)
         if (has_effect("paincysts")) {  // These little guys are immune to the blood filter too, as they live in your muscles.
             good.push_back(_("Intramuscular Parasites"));
         }
-        if (has_disease("tetanus")) {  // Tetanus infection.
+        if (has_effect("tetanus")) {  // Tetanus infection.
             good.push_back(_("Clostridium Tetani Infection"));
         }
         if (good.empty() && bad.empty()) {
@@ -538,7 +538,7 @@ void player::activate_bionic(int b)
         remove_effect("fungus");
         remove_effect("dermatik");
         remove_effect("bloodworms");
-        rem_disease("tetanus");
+        remove_effect("tetanus");
         remove_effect("poison");
         remove_effect("stung");
         remove_effect("pkill1");

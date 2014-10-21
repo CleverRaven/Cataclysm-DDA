@@ -246,14 +246,14 @@ int iuse::royal_jelly(player *p, item *it, bool)
     }
     if (p->has_effect("poison") || p->has_effect("foodpoison") ||
         p->has_effect("badpoison") || p->has_effect("paralyzepoison") ||
-        p->has_disease("tetanus") || p->has_effect("stung")) {
+        p->has_effect("tetanus") || p->has_effect("stung")) {
         message = _("You feel much better!");
         p->remove_effect("poison");
         p->remove_effect("stung");
         p->remove_effect("badpoison");
         p->remove_effect("foodpoison");
         p->remove_effect("paralyzepoison");
-        p->rem_disease("tetanus");
+        p->remove_effect("tetanus");
     }
     if (p->has_effect("asthma")) {
         message = _("Your breathing clears up!");
@@ -1024,9 +1024,9 @@ int iuse::antibiotic(player *p, item *it, bool)
             p->add_disease("recover", std::max((14401 - infected_dur + 3600) - 4800, 0));
         }
     }
-    if (p->has_disease("tetanus")) {
+    if (p->has_effect("tetanus")) {
         if (one_in(3)) {
-            p->rem_disease("tetanus");
+            p->remove_effect("tetanus");
             p->add_msg_if_player(m_good, _("The muscle spasms start to go away."));
         } else {
             p->add_msg_if_player(m_warning, _("The medication does nothing to help the spasms."));

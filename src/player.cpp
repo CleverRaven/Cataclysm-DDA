@@ -6693,6 +6693,18 @@ void player::hardcoded_effects(effect it)
                 add_effect("blind", rng(5, 20));
             }
         }
+    } else if (id == "tetanus") {
+        if (!has_effect("valium")) {
+            add_miss_reason(_("Your muscles are locking up and you can't fight effectively."), 4);
+            if (one_in(512)) {
+                add_msg_if_player(m_bad, "Your muscles spasm.");
+                add_effect("downed",rng(1,4));
+                add_effect("stunned",rng(1,4));
+                if (one_in(10)) {
+                    mod_pain(rng(1, 10));
+                }
+            }
+        }
     }
 }
 

@@ -17,7 +17,6 @@ enum dis_type_enum {
  DI_NULL,
 // Diseases
  DI_RECOVER,
- DI_TETANUS,
 // Monsters
  DI_LYING_DOWN, DI_SLEEP, DI_ALARM_CLOCK,
  DI_BITE,
@@ -52,7 +51,6 @@ void game::init_diseases() {
 
     disease_type_lookup["null"] = DI_NULL;
     disease_type_lookup["recover"] = DI_RECOVER;
-    disease_type_lookup["tetanus"] = DI_TETANUS;
     disease_type_lookup["lying_down"] = DI_LYING_DOWN;
     disease_type_lookup["sleep"] = DI_SLEEP;
     disease_type_lookup["alarm_clock"] = DI_ALARM_CLOCK;
@@ -387,24 +385,6 @@ void dis_effect(player &p, disease &dis)
                   }
             }
         }
-            break;
-
-        case DI_TETANUS:
-            if (p.has_trait("INFIMMUNE")) {
-               p.rem_disease("tetanus");
-            }
-            if (!p.has_effect("valium")) {
-            p.mod_dex_bonus(-4);
-            p.add_miss_reason(_("Your muscles are locking up and you can't fight effectively."), 4);
-            if (one_in(512)) {
-                add_msg(m_bad, "Your muscles spasm.");
-                p.add_effect("downed",rng(1,4));
-                p.add_effect("stunned",rng(1,4));
-                if (one_in(10)) {
-                    p.mod_pain(rng(1, 10));
-                }
-            }
-            }
             break;
 
         case DI_BITE:

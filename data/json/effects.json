@@ -1088,6 +1088,15 @@
     },
     {
         "type": "effect_type",
+        "id": "tetanus",
+        "rating": "bad",
+        "resist_effect": "valium",
+        "base_mods": {
+            "dex_mod": [-4, 0]
+        }
+    },
+    {
+        "type": "effect_type",
         "id": "lying_down",
         "apply_message": "You lie down to go to sleep...",
         "rating": "neutral"

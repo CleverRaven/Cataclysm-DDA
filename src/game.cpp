@@ -13128,9 +13128,9 @@ bool game::plmove(int dx, int dy)
                         ter_or_furn ? m.tername(x, y).c_str() : m.furnname(x, y).c_str() );
             }
             if ((u.has_trait("INFRESIST")) && (one_in(1024))) {
-                u.add_disease("tetanus", 1, true);
+                u.add_effect("tetanus", 1, num_bp, true);
             } else if ((!u.has_trait("INFIMMUNE") || !u.has_trait("INFRESIST")) && (one_in(256))) {
-                u.add_disease("tetanus", 1, true);
+                u.add_effect("tetanus", 1, num_bp, true);
             }
         }
         if (m.has_flag("UNSTABLE", x, y)) {

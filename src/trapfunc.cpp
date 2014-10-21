@@ -82,10 +82,10 @@ void trapfunc::beartrap(Creature *c, int x, int y)
             n->deal_damage( nullptr, hit, d );
             
             if ((n->has_trait("INFRESIST")) && (one_in(512))) {
-                n->add_disease("tetanus", 1, true);
+                n->add_effect("tetanus", 1, num_bp, true);
             }
             else if ((!n->has_trait("INFIMMUNE") || !n->has_trait("INFRESIST")) && (one_in(128))) {
-                    n->add_disease("tetanus", 1, true);
+                    n->add_effect("tetanus", 1, num_bp, true);
             }
         }
     }
@@ -112,10 +112,10 @@ void trapfunc::board(Creature *c, int, int)
             c->deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, rng( 6, 10 ) ) );
             c->deal_damage( nullptr, bp_foot_r, damage_instance( DT_CUT, rng( 6, 10 ) ) );
               if ((n->has_trait("INFRESIST")) && (one_in(256))) {
-                  n->add_disease("tetanus",1,true);
+                  n->add_effect("tetanus", 1, num_bp, true);
               }
               else if ((!n->has_trait("INFIMMUNE") || !n->has_trait("INFRESIST")) && (one_in(35))) {
-                      n->add_disease("tetanus",1,true);
+                      n->add_effect("tetanus", 1, num_bp, true);
               }
         }
     }
@@ -684,10 +684,10 @@ void trapfunc::pit_spikes(Creature *c, int x, int y)
                 n->add_msg_if_player(m_bad, _("The spikes impale your %s!"), body_part_name_accusative(hit).c_str());
                 n->deal_damage( nullptr, hit, damage_instance( DT_CUT, damage ) );
               if ((n->has_trait("INFRESIST")) && (one_in(256))) {
-                  n->add_disease("tetanus",1,true);
+                  n->add_effect("tetanus", 1, num_bp, true);
               }
               else if ((!n->has_trait("INFIMMUNE") || !n->has_trait("INFRESIST")) && (one_in(35))) {
-                      n->add_disease("tetanus",1,true);
+                      n->add_effect("tetanus", 1, num_bp, true);
               }
             }
         } else if (z != NULL) {
@@ -760,10 +760,10 @@ void trapfunc::pit_glass(Creature *c, int x, int y)
                 n->add_msg_if_player(m_bad, _("The glass shards slash your %s!"), body_part_name_accusative(hit).c_str());
                 n->deal_damage( nullptr, hit, damage_instance( DT_CUT, damage ) );
               if ((n->has_trait("INFRESIST")) && (one_in(256))) {
-                  n->add_disease("tetanus",1,true);
+                  n->add_effect("tetanus", 1, num_bp, true);
               }
               else if ((!n->has_trait("INFIMMUNE") || !n->has_trait("INFRESIST")) && (one_in(35))) {
-                      n->add_disease("tetanus",1,true);
+                      n->add_effect("tetanus", 1, num_bp, true);
               }
             }
         } else if (z != NULL) {
