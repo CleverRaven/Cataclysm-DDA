@@ -24,8 +24,6 @@ enum dis_type_enum {
  DI_INFECTED,
 // Martial arts-related buffs
  DI_MA_BUFF,
- // Lack/sleep
- DI_LACKSLEEP,
  // Grabbed (from MA or monster)
  DI_GRABBED
 };
@@ -53,7 +51,6 @@ void game::init_diseases() {
     disease_type_lookup["bite"] = DI_BITE;
     disease_type_lookup["infected"] = DI_INFECTED;
     disease_type_lookup["ma_buff"] = DI_MA_BUFF;
-    disease_type_lookup["lack_sleep"] = DI_LACKSLEEP;
     disease_type_lookup["grabbed"] = DI_GRABBED;
 }
 
@@ -72,9 +69,6 @@ bool dis_msg(dis_type type_string) {
         add_msg(m_bad, _("Your bite wound feels infected."));
         g->u.add_memorial_log(pgettext("memorial_male", "Contracted an infection."),
                               pgettext("memorial_female", "Contracted an infection."));
-        break;
-    case DI_LACKSLEEP:
-        add_msg(m_warning, _("You are too tired to function well."));
         break;
     case DI_GRABBED:
         add_msg(m_bad, _("You have been grabbed."));
@@ -347,14 +341,6 @@ void dis_effect(player &p, disease &dis)
             }
             break;
 
-        case DI_LACKSLEEP:
-            p.mod_str_bonus(-1);
-            p.mod_dex_bonus(-1);
-            p.add_miss_reason(_("You don't have energy to fight."), 1);
-            p.mod_int_bonus(-2);
-            p.mod_per_bonus(-2);
-            break;
-
         case DI_GRABBED:
             p.blocks_left -= dis.intensity;
             p.dodges_left = 0;
@@ -369,7 +355,6 @@ int disease_speed_boost(disease dis)
 {
     dis_type_enum type = disease_type_lookup[dis.type];
     switch (type) {
-        case DI_LACKSLEEP:  return -5;
         case DI_GRABBED:    return -25;
         default:            break;
     }
@@ -462,7 +447,6 @@ std::string dis_name(disease& dis)
         } else
             return "Invalid martial arts buff";
 
-    case DI_LACKSLEEP: return _("Lacking Sleep");
     case DI_GRABBED: return _("Grabbed");
     default: break;
     }
@@ -489,8 +473,6 @@ std::string dis_description(disease& dis)
         else
           return "This is probably a bug.";
 
-    case DI_LACKSLEEP: return _("You haven't slept in a while, and it shows. \n\
-    You can't move as quickly and your stats just aren't where they should be.");
     case DI_GRABBED: return _("You have been grabbed by an attacker. \n\
     You cannot dodge and blocking is very difficult.");
     default: break;

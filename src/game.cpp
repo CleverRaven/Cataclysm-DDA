@@ -1218,7 +1218,7 @@ bool game::do_turn()
         if (u.fatigue >= 700) {
             if (calendar::turn % 50 == 0) {
                 add_msg(m_warning, _("You're too tired to stop yawning."));
-                u.add_disease("lack_sleep", 50);
+                u.add_effect("lack_sleep", 50);
             }
             if (one_in(50 + u.int_cur)) {
                 // Rivet's idea: look out for microsleeps!
@@ -1227,14 +1227,14 @@ bool game::do_turn()
         } else if (u.fatigue >= 575) {
             if (calendar::turn % 50 == 0) {
                 add_msg(m_warning, _("How much longer until bedtime?"));
-                u.add_disease("lack_sleep", 50);
+                u.add_effect("lack_sleep", 50);
             }
             if (one_in(100 + u.int_cur)) {
                 u.add_disease("sleep", 5);
             }
         } else if (u.fatigue >= 383 && calendar::turn % 50 == 0) {
             add_msg(m_warning, _("*yawn* You should really get some sleep."));
-            u.add_disease("lack_sleep", 50);
+            u.add_effect("lack_sleep", 50);
         }
     }
 

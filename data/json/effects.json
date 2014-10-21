@@ -1123,6 +1123,22 @@
     },
     {
         "type": "effect_type",
+        "id": "lack_sleep",
+        "name": ["Lacking Sleep"],
+        "desc": ["You haven't slept in a while, and it shows."],
+        "apply_message": "You are too tired to function well.",
+        "rating": "bad",
+        "miss_messages": [["You don't have energy to fight.", 1]],
+        "base_mods": {
+            "speed_mod": [-5],
+            "str_mod": [-1],
+            "dex_mod": [-1],
+            "int_mod": [-2],
+            "per_mod": [-2]
+        }
+    },
+    {
+        "type": "effect_type",
         "id": "lying_down",
         "apply_message": "You lie down to go to sleep...",
         "rating": "neutral"
