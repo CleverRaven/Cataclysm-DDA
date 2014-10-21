@@ -2967,7 +2967,8 @@
         "range" : 0,
         "dispersion" : 0,
         "recoil" : 0,
-        "count" : 1
+        "count" : 1,
+        "flags" : ["UNRECOVERABLE"]
     },
     {   "type" : "AMMO",
         "id" : "5x50dart",
