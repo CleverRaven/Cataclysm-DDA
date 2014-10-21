@@ -1493,23 +1493,55 @@ void map::step_in_field(int x, int y)
                     adjusted_intensity -= 1;
                 }
             }
-            if (adjusted_intensity == 1) {
-                add_msg(m_bad, _("You burn your legs and feet!"));
-                g->u.deal_damage( nullptr, bp_foot_l, damage_instance( DT_HEAT, rng( 2, 6 ) ) );
-                g->u.deal_damage( nullptr, bp_foot_r, damage_instance( DT_HEAT, rng( 2, 6 ) ) );
-                g->u.deal_damage( nullptr, bp_leg_l, damage_instance( DT_HEAT, rng( 1, 4 ) ) );
-                g->u.deal_damage( nullptr, bp_leg_r, damage_instance( DT_HEAT, rng( 1, 4 ) ) );
-            } else if (adjusted_intensity == 2) {
-                add_msg(m_bad, _("You're burning up!"));
-                g->u.deal_damage( nullptr, bp_leg_l, damage_instance( DT_HEAT, rng( 2, 6 ) ) );
-                g->u.deal_damage( nullptr, bp_leg_r, damage_instance( DT_HEAT, rng( 2, 6 ) ) );
-                g->u.deal_damage( nullptr, bp_torso, damage_instance( DT_HEAT, rng( 4, 9 ) ) );
-            } else if (adjusted_intensity == 3) {
-                add_msg(m_bad, _("You're set ablaze!"));
-                g->u.deal_damage( nullptr, bp_leg_l, damage_instance( DT_HEAT, rng( 2, 6 ) ) );
-                g->u.deal_damage( nullptr, bp_leg_r, damage_instance( DT_HEAT, rng( 2, 6 ) ) );
-                g->u.deal_damage( nullptr, bp_torso, damage_instance( DT_HEAT, rng( 4, 9 ) ) );
-                g->u.add_effect("onfire", 5); //lasting fire damage only from the strongest fires.
+            {
+                std::list<int> parts_burned;
+                int burn_min = 0;
+                int burn_max = 0;
+                std::string burn_message;
+                switch( adjusted_intensity ) {
+                case 3:
+                    burn_message = _("You're set ablaze!");
+                    burn_min = 4;
+                    burn_max = 12;
+                    parts_burned.push_back( bp_hand_l );
+                    parts_burned.push_back( bp_hand_r );
+                    parts_burned.push_back( bp_arm_l );
+                    parts_burned.push_back( bp_arm_r );
+                    // Only blasing fires set you ablaze.
+                    g->u.add_effect("onfire", 5);
+                    // Fallthrough intentional.
+                case 2:
+                    if( burn_message.empty() ) {
+                        burn_message = _("You're burning up!");
+                        burn_min = 2;
+                        burn_max = 9;
+                    }
+                    parts_burned.push_back( bp_torso );
+                    // Fallthrough intentional.
+                case 1:
+                    if( burn_message.empty() ) {
+                        burn_message = _("You burn your legs and feet!");
+                        burn_min = 1;
+                        burn_max = 6;
+                    }
+                    parts_burned.push_back( bp_foot_l );
+                    parts_burned.push_back( bp_foot_r );
+                    parts_burned.push_back( bp_leg_l );
+                    parts_burned.push_back( bp_leg_r );
+                }
+                if( g->u.is_on_ground() ) {
+                    // Lying in the fire is BAAAD news, hits every body part.
+                    burn_message = _("Your whole body is burning!");
+                    parts_burned.clear();
+                    for( int i = 0; i < num_bp; ++i ) {
+                        parts_burned.push_back( i );
+                    }
+                }
+                add_msg( m_bad, burn_message.c_str() );
+                for( auto part_burned : parts_burned ) {
+                    g->u.deal_damage( nullptr, (enum body_part)part_burned,
+                                      damage_instance( DT_HEAT, rng( burn_min, burn_max ) ) );
+                }
             }
             break;
 
