@@ -36,8 +36,6 @@ static void handle_bite_wound(player& p, disease& dis);
 static void handle_infected_wound(player& p, disease& dis);
 static void handle_recovery(player& p, disease& dis);
 
-static bool will_vomit(player& p, int chance = 1000);
-
 void game::init_diseases() {
     // Initialize the disease lookup table.
 
@@ -230,7 +228,6 @@ void dis_remove_memorial(dis_type type_string) {
 void dis_effect(player &p, disease &dis)
 {
     dis_type_enum disType = disease_type_lookup[dis.type];
-    int grackPower = 500;
 
     switch(disType) {
         case DI_LYING_DOWN:
@@ -441,7 +438,6 @@ std::string dis_name(disease& dis)
 
 std::string dis_description(disease& dis)
 {
-    int strpen, dexpen, intpen, perpen;
     std::stringstream stream;
     dis_type_enum type = disease_type_lookup[dis.type];
     switch (type) {
@@ -890,15 +886,4 @@ static void handle_recovery(player& p, disease& dis)
         p.mod_dex_bonus(-1);
         p.add_miss_reason(_("Your wound distracts you."), 1);
     }
-}
-
-bool will_vomit(player& p, int chance)
-{
-    bool drunk = p.has_effect("drunk");
-    bool antiEmetics = p.has_effect("weed_high");
-    bool hasNausea = p.has_trait("NAUSEA") && one_in(chance*2);
-    bool stomachUpset = p.has_trait("WEAKSTOMACH") && one_in(chance*3);
-    bool suppressed = (p.has_trait("STRONGSTOMACH") && one_in(2)) ||
-        (antiEmetics && !drunk && !one_in(chance));
-    return ((stomachUpset || hasNausea) && !suppressed);
 }

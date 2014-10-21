@@ -55,7 +55,7 @@ bool Character::move_effects()
         return false;
     }
     if (has_effect("webbed")) {
-        if (x_in_y(get_str(), 6 * get_effect_int("webbed")) {
+        if (x_in_y(get_str(), 6 * get_effect_int("webbed"))) {
             add_msg_player_or_npc(m_good, _("You free yourself from the webs!"),
                                     _("<npcname> frees themselves from the webs!"));
             remove_effect("webbed");
@@ -124,7 +124,7 @@ bool Character::move_effects()
         int curdist = 999, newdist = 999;
         for (int cx = 0; cx < SEEX * MAPSIZE; cx++) {
             for (int cy = 0; cy < SEEY * MAPSIZE; cy++) {
-                if (m.ter(cx, cy) == t_fault) {
+                if (g->m.ter(cx, cy) == t_fault) {
                     int dist = rl_dist(cx, cy, xpos(), ypos());
                     if (dist < curdist) {
                         curdist = dist;

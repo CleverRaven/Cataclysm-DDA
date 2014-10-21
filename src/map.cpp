@@ -2117,7 +2117,7 @@ void map::crush(const int x, const int y)
             crushed_player->deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .05 ) );
 
             // Pin whoever got hit
-            add_effect("crushed", 1, num_bp, true);
+            crushed_player->add_effect("crushed", 1, num_bp, true);
         }
     }
 
@@ -2129,7 +2129,7 @@ void map::crush(const int x, const int y)
         monhit->deal_damage(nullptr, bp_torso, damage_instance(DT_BASH, rng(0,25)));
 
         // Pin whoever got hit
-        add_effect("crushed", 1, num_bp, true);
+        monhit->add_effect("crushed", 1, num_bp, true);
     }
 
     vehicle *veh = veh_at(x, y, veh_part);

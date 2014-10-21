@@ -685,28 +685,30 @@ bool Creature::has_effect(efftype_id eff_id, body_part bp) const
         return found;
     }
 }
-effect Creature::get_effect(efftype_id eff_id, body_part bp)
+effect Creature::get_effect(efftype_id eff_id, body_part bp) const
 {
-    if(effects.find(eff_id) != effects.end()) {
-        if (effects[eff_id].find((int)bp) != effects[eff_id].end()) {
-            return effects[eff_id][(int)bp];
+    auto got_outer = effects.find(eff_id);
+    if(got_outer != effects.end()) {
+        auto got_inner = got_outer->second.find((int)bp);
+        if (got_inner != got_outer->second.end()) {
+            return got_inner->second;
         }
     }
     return effect();
 }
-int Creature::get_effect_dur(efftype_id eff_id, body_part bp)
+int Creature::get_effect_dur(efftype_id eff_id, body_part bp) const
 {
     if(has_effect(eff_id, bp)) {
         effect tmp = get_effect(eff_id, bp);
-        return tmp.get_duration()
+        return tmp.get_duration();
     }
     return 0;
 }
-int Creature::get_effect_int(efftype_id eff_id, body_part bp)
+int Creature::get_effect_int(efftype_id eff_id, body_part bp) const
 {
     if(has_effect(eff_id, bp)) {
         effect tmp = get_effect(eff_id, bp);
-        return tmp.get_intensity()
+        return tmp.get_intensity();
     }
     return 0;
 }

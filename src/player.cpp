@@ -6688,7 +6688,7 @@ void player::hardcoded_effects(effect it)
         if(one_in(4096)) {
             mod_healthy_mod(-10);
             apply_damage( nullptr, bp_head, rng( 1, 2 ) );
-            if (!p.has_effect("blind")) {
+            if (!has_effect("blind")) {
                 add_msg_if_player(m_bad, _("Your vision goes black!"));
                 add_effect("blind", rng(5, 20));
             }
@@ -6706,61 +6706,61 @@ void player::hardcoded_effects(effect it)
             }
         }
     } else if (id == "datura") {
-        if (p.has_effect("asthma")) {
-            add_msg(m_good, _("You can breathe again!"));
-            p.remove_effect("asthma");
+        if (has_effect("asthma")) {
+            add_msg_if_player(m_good, _("You can breathe again!"));
+            remove_effect("asthma");
         }
-        if (dis.duration > 1000 && p.focus_pool >= 1 && one_in(4)) {
-            p.focus_pool--;
+        if (dur > 1000 && focus_pool >= 1 && one_in(4)) {
+            focus_pool--;
         }
-        if (dis.duration > 2000 && one_in(8) && p.stim < 20) {
-            p.stim++;
+        if (dur > 2000 && one_in(8) && stim < 20) {
+            stim++;
         }
-        if (dis.duration > 3000 && p.focus_pool >= 1 && one_in(2)) {
-            p.focus_pool--;
+        if (dur > 3000 && focus_pool >= 1 && one_in(2)) {
+            focus_pool--;
         }
-        if (dis.duration > 4000 && one_in(64)) {
-            p.mod_pain(rng(-1, -8));
+        if (dur > 4000 && one_in(64)) {
+            mod_pain(rng(-1, -8));
         }
-        if ((!p.has_effect("hallu")) && (dis.duration > 5000 && one_in(4))) {
-            p.add_effect("hallu", 3600);
+        if ((!has_effect("hallu")) && (dur > 5000 && one_in(4))) {
+            add_effect("hallu", 3600);
         }
-        if (dis.duration > 6000 && one_in(128)) {
-            p.mod_pain(rng(-3, -24));
-            if (dis.duration > 8000 && one_in(16)) {
-                add_msg(m_bad, _("You're experiencing loss of basic motor skills and blurred vision.  Your mind recoils in horror, unable to communicate with your spinal column."));
-                add_msg(m_bad, _("You stagger and fall!"));
-                p.add_effect("downed",rng(1,4));
-                if (one_in(8) || will_vomit(p, 10)) {
-                    p.vomit();
+        if (dur > 6000 && one_in(128)) {
+            mod_pain(rng(-3, -24));
+            if (dur > 8000 && one_in(16)) {
+                add_msg_if_player(m_bad, _("You're experiencing loss of basic motor skills and blurred vision.  Your mind recoils in horror, unable to communicate with your spinal column."));
+                add_msg_if_player(m_bad, _("You stagger and fall!"));
+                add_effect("downed",rng(1,4));
+                if (one_in(8) || will_vomit(*this, 10)) {
+                    vomit();
                 }
             }
         }
-        if (dis.duration > 7000 && p.focus_pool >= 1) {
-            p.focus_pool--;
+        if (dur > 7000 && focus_pool >= 1) {
+            focus_pool--;
         }
-        if (dis.duration > 8000 && one_in(256)) {
-            p.add_effect("visuals", rng(40, 200));
-            p.mod_pain(rng(-8, -40));
+        if (dur > 8000 && one_in(256)) {
+            add_effect("visuals", rng(40, 200));
+            mod_pain(rng(-8, -40));
         }
-        if (dis.duration > 12000 && one_in(256)) {
-            add_msg(m_bad, _("There's some kind of big machine in the sky."));
-            p.add_effect("visuals", rng(80, 400));
+        if (dur > 12000 && one_in(256)) {
+            add_msg_if_player(m_bad, _("There's some kind of big machine in the sky."));
+            add_effect("visuals", rng(80, 400));
             if (one_in(32)) {
-                add_msg(m_bad, _("It's some kind of electric snake, coming right at you!"));
-                p.mod_pain(rng(4, 40));
-                p.vomit();
+                add_msg_if_player(m_bad, _("It's some kind of electric snake, coming right at you!"));
+                mod_pain(rng(4, 40));
+                vomit();
             }
         }
-        if (dis.duration > 14000 && one_in(128)) {
-            add_msg(m_bad, _("Order us some golf shoes, otherwise we'll never get out of this place alive."));
-            p.add_effect("visuals", rng(400, 2000));
+        if (dur > 14000 && one_in(128)) {
+            add_msg_if_player(m_bad, _("Order us some golf shoes, otherwise we'll never get out of this place alive."));
+            add_effect("visuals", rng(400, 2000));
             if (one_in(8)) {
-                add_msg(m_bad, _("The possibility of physical and mental collapse is now very real."));
-                if (one_in(2) || will_vomit(p, 10)) {
-                    add_msg(m_bad, _("No one should be asked to handle this trip."));
-                    p.vomit();
-                    p.mod_pain(rng(8, 40));
+                add_msg_if_player(m_bad, _("The possibility of physical and mental collapse is now very real."));
+                if (one_in(2) || will_vomit(*this, 10)) {
+                    add_msg_if_player(m_bad, _("No one should be asked to handle this trip."));
+                    vomit();
+                    mod_pain(rng(8, 40));
                 }
             }
         }
