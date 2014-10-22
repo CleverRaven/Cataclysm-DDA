@@ -309,6 +309,44 @@
             "bio_claws_weapon",
             "bio_blade_weapon"
         ]
+	},{
+		"type" : "martial_art",
+		"id" : "style_tentafu",
+		"name" : "Tenta-Fu"
+		"description": "Your arms have transformed into tentacles, but you're adapting. You've managed to develop a unique fighting style thanks to your new apendages."
+		
+		"techniques" : [
+			"tec_feint",
+			"tec_tenta_rapid",
+			"tec_tenta_grab",
+			"tec_tenta_feint",
+			"tec_tenta_wrap",
+			"tec_tenta_counter"
+			
+		],
+		"ondodge_buffs" : [
+            {
+                "id" : "tenta_dodge_buff",
+                "name" : "Tenta-Fu Counter",
+                "description" : "Extra to-hit after successful dodge",
+                "unarmed_allowed" : true,
+                "buff_duration" : 3,
+                "max_stacks": 4,
+                "hit_dex": 0.2
+            }
+        ],
+        "onmove_buffs" : [
+                  {
+                      "id" : "tenta_move_buff",
+                      "name" : "Squirming Tentacles",
+                      "description" : "+1 Dodge",
+                      "unarmed_allowed" : true,
+                      "min_unarmed" : 1,
+                      "buff_duration" : 2,
+                      "dodge" : 1,
+					  "dodges_bonus" : 1
+                  }
+        ]
     },{
         "type" : "martial_art",
         "id" : "style_zui_quan",
