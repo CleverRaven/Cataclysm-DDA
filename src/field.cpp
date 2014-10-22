@@ -360,7 +360,8 @@ void map::spread_gas( field_entry *cur, int x, int y, field_id curtype,
             const field_entry* tmpfld = get_field( point( x + a, y + b ), curtype );
             // Candidates are existing weaker fields or navigable tiles with no field.
             if( ( tmpfld && tmpfld->getFieldDensity() < cur->getFieldDensity() ) ||
-                ( !tmpfld && move_cost( x + a, y + b ) > 0 ) ) {
+                ( !tmpfld && move_cost( x + a, y + b ) > 0 ) ||
+                ( !tmpfld && has_flag("PERMEABLE")) ) {
                 spread.push_back( point( x + a, y + b ) );
             }
         }
