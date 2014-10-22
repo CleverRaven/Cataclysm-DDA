@@ -1445,7 +1445,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     // Check volume, this should work the same for inventory, map and vehicles
     if( unitvolume > 0 && unitvolume * amount > free_volume ) {
         const long volmax = free_volume / unitvolume;
-        if( volmax == 0 ) {
+        if( volmax <= 0 ) {
             popup( _( "Destination area is full.  Remove some items first." ) );
             redraw = true;
             return false;
@@ -1455,13 +1455,17 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     // Map and vehicles have a maximal item count, check that. Inventory does not have this.
     if( destarea != AIM_INVENTORY ) {
         const long cntmax = p.max_size - p.get_item_count();
-        if( cntmax == 0 ) {
+        if( cntmax <= 0 ) {
             // TODO: items by charges might still be able to be add to an existing stack!
             popup( _( "Destination area has too many items.  Remove some first." ) );
             redraw = true;
             return false;
         }
-        amount = std::min( cntmax, amount );
+        // Items by charge count as a single item, regardless of the charges. As long as the
+        // destination can hold another item, one can move all charges.
+        if( !by_charges ) {
+            amount = std::min( cntmax, amount );
+        }
     }
     // Inventory has a weight capacity, map and vehicle don't have that
     if( destarea == AIM_INVENTORY ) {
@@ -1469,7 +1473,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
         const int max_weight = ( g->u.weight_capacity() * 4 - g->u.weight_carried() ) * 1000;
         if( unitweight > 0 && unitweight * amount > max_weight ) {
             const long weightmax = max_weight / unitweight;
-            if( weightmax == 0 ) {
+            if( weightmax <= 0 ) {
                 popup( _( "This is too heavy!." ) );
                 redraw = true;
                 return false;
