@@ -240,8 +240,7 @@
   "difficulty": 0,
   "time": 3000,
   "reversible": false,
-  "autolearn": false,
-  "book_learn": [[ "cookbook_human", 0 ]],
+  "autolearn": true,
   "qualities":[
     {"id":"CONTAIN","level":1,"amount":1}
   ], "components": [
@@ -436,8 +435,7 @@
   "difficulty": 2,
   "time": 18000,
   "reversible": false,
-  "autolearn": false,
-  "book_learn": [[ "cookbook_human", 2 ]],
+  "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -1086,8 +1084,7 @@
   "difficulty": 3,
   "time": 12000,
   "reversible": false,
-  "autolearn": false,
-  "book_learn": [[ "cookbook_human", 3 ]],
+  "autolearn": true,
   "qualities" : [
      {"id":"COOK","level":1,"amount":1} ],
   "tools": [
@@ -8026,5 +8023,80 @@
     [ [ "sugar", 1 ] ],
     [ [ "water_clean", 1 ] ]
   ]
+},{
+  "type" : "recipe",
+  "result": "meat_tainted",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 5,
+  "time": 90000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_creepy", 5 ], [ "recipe_serum", 6 ]],
+  "qualities":[
+    {"id":"CONTAIN","level":1,"amount":1},
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+     [ "meat", 1 ],
+     [ "human_flesh", 1 ],
+     [ "rehydrated_meat", 1 ],
+     [ "rehydrated_hflesh", 1 ]
+    ],
+    [
+     [ "slime_scrap", 2 ]
+    ],
+    [
+     [ "water", 1 ]
+    ]
+   ]
+},{
+  "type" : "recipe",
+  "result": "dry_meat_tainted",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 18000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+  {"id":"CUT","level":1,"amount":1}],
+  "tools": [
+    [
+     [ "dehydrator", 25 ],
+     [ "char_smoker", 5 ]
+    ]
+  ],
+  "components": [
+    [
+     [ "meat_tainted", 2 ]
+    ]
+   ]
+},{
+  "type" : "recipe",
+  "result": "dry_veggy_tainted",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 18000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+  {"id":"CUT","level":1,"amount":1}],
+  "tools": [
+    [
+     [ "dehydrator", 25 ],
+     [ "char_smoker", 5 ]
+    ]
+  ],
+  "components": [
+    [
+     [ "veggy_tainted", 2 ]
+    ]
+   ]
 }
 ]
