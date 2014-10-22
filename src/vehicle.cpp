@@ -2081,7 +2081,7 @@ int vehicle::total_mass()
         if (parts[i].removed) {
           continue;
         }
-        m += itypes[part_info(i).item]->weight;
+        m += item_controller->find_template( part_info(i).item )->weight;
         for (auto &j : parts[i].items) {
             m += j.type->weight;
         }
@@ -2102,7 +2102,7 @@ void vehicle::center_of_mass(int &x, int &y)
           continue;
         }
         int m_part = 0;
-        m_part += itypes[part_info(i).item]->weight;
+        m_part += item_controller->find_template( part_info(i).item )->weight;
         for (auto &j : parts[i].items) {
             m_part += j.type->weight;
         }
@@ -2563,7 +2563,7 @@ bool vehicle::valid_wheel_config ()
         if (parts[p].removed) {
           continue;
         }
-        w2 = itypes[part_info(p).item]->weight;
+        w2 = item_controller->find_template( part_info(p).item )->weight;
         if (w2 < 1)
             continue;
         xo = xo * wo / (wo + w2) + parts[p].mount_dx * w2 / (wo + w2);
@@ -3315,8 +3315,9 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
     int degree = rng (70, 100);
 
     //Calculate damage resulting from d_E
-    material_type* vpart_item_mat1 = material_type::find_material(itypes[part_info(parm).item]->m1);
-    material_type* vpart_item_mat2 = material_type::find_material(itypes[part_info(parm).item]->m2);
+    const itype *type = item_controller->find_template( part_info( parm ).item );
+    material_type* vpart_item_mat1 = material_type::find_material(type->m1);
+    material_type* vpart_item_mat2 = material_type::find_material(type->m2);
     int vpart_dens;
     if(vpart_item_mat2->ident() == "null") {
         vpart_dens = vpart_item_mat1->density();
@@ -4251,7 +4252,7 @@ bool vehicle::fire_turret (int p, bool burst)
 {
     if (!part_flag (p, "TURRET"))
         return false;
-    it_gun *gun = dynamic_cast<it_gun*> (itypes[part_info(p).item]);
+    it_gun *gun = dynamic_cast<it_gun*> (item_controller->find_template( part_info( p ).item ));
     if (!gun) {
         return false;
     }
@@ -4282,7 +4283,7 @@ bool vehicle::fire_turret (int p, bool burst)
         if (fleft < 1) {
             return false;
         }
-        it_ammo *ammo = dynamic_cast<it_ammo*>(itypes[amt]);
+        it_ammo *ammo = dynamic_cast<it_ammo*>(item_controller->find_template( amt ));
         if (!ammo) {
             return false;
         }

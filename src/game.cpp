@@ -195,14 +195,7 @@ void game::load_core_data()
     // anyway.
     DynamicDataLoader::get_instance().unload_data();
     // Special handling for itypes created in itypedef.cpp
-    // First load those items into the global itypes map,
-    init_itypes();
-    // Make itypes and item_controller syncron.
     item_controller->init_old();
-    // Now item_controller and itypes have the same knowledge
-    // further loading happens through item_controller, which
-    // adds the new item types to both (its internal map and
-    // the global itypes).
 
     load_data_from_dir(FILENAMES["jsondir"]);
 }
@@ -236,7 +229,6 @@ game::~game()
     DynamicDataLoader::get_instance().unload_data();
     MAPBUFFER.reset();
     delete gamemode;
-    itypes.clear();
     delwin(w_terrain);
     delwin(w_minimap);
     delwin(w_HP);
@@ -4282,14 +4274,13 @@ bool game::save_artifacts()
 
         JsonOut json(fout);
         json.start_array();
-        for (std::vector<std::string>::iterator it =
-                 artifact_itype_ids.begin();
-             it != artifact_itype_ids.end(); ++it) {
-            it_artifact_tool *art = dynamic_cast<it_artifact_tool *>(itypes[*it]);
-            if (art) {
-                json.write(*art);
-            } else {
-                json.write(*(dynamic_cast<it_artifact_armor *>(itypes[*it])));
+        for( auto &p : item_controller->get_all_itypes() ) {
+            it_artifact_tool *art_tool = dynamic_cast<it_artifact_tool *>( p.second );
+            it_artifact_armor *art_armor = dynamic_cast<it_artifact_armor *>( p.second );
+            if( art_tool != nullptr ) {
+                json.write( *art_tool );
+            } else if( art_armor != nullptr ) {
+                json.write( *art_armor );
             }
         }
         json.end_array();
@@ -11317,7 +11308,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
             add_msg(_("Your %s starts charging."), u.weapon.tname().c_str());
             u.weapon.charges = 0;
             u.weapon.poison = 0;
-            u.weapon.curammo = dynamic_cast<it_ammo *>(itypes["charge_shot"]);
+            u.weapon.curammo = dynamic_cast<it_ammo *>(item_controller->find_template( "charge_shot" ));
             u.weapon.active = true;
             return;
         } else {
@@ -11328,7 +11319,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
 
     if (u.weapon.has_flag("NO_AMMO")) {
         u.weapon.charges = 1;
-        u.weapon.curammo = dynamic_cast<it_ammo *>(itypes["generic_no_ammo"]);
+        u.weapon.curammo = dynamic_cast<it_ammo *>(item_controller->find_template( "generic_no_ammo" ));
     }
 
     if ((u.weapon.has_flag("STR8_DRAW") && u.str_cur < 4) ||

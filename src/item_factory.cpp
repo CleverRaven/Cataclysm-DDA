@@ -1,5 +1,4 @@
 #include "item_factory.h"
-#include "rng.h"
 #include "enums.h"
 #include "json.h"
 #include "addiction.h"
@@ -8,19 +7,13 @@
 #include "bodypart.h"
 #include "crafting.h"
 #include "iuse_actor.h"
-#include "tile_id_data.h"
 #include "item.h"
-#include "game.h"
-#include "artifact.h"
+#include "mapdata.h"
+#include "debug.h"
+#include "construction.h"
 #include "text_snippets.h"
 #include <algorithm>
-#include <cstdlib>
-#include <iostream>
-#include <fstream>
 #include <sstream>
-#include <memory>
-#include <stdio.h>
-#include <bitset>
 
 static const std::string category_id_guns("guns");
 static const std::string category_id_ammo("ammo");
@@ -35,7 +28,7 @@ static const std::string category_id_cbm("bionics");
 static const std::string category_id_mutagen("mutagen");
 static const std::string category_id_other("other");
 
-Item_factory *item_controller = new Item_factory();
+std::unique_ptr<Item_factory> item_controller( new Item_factory() );
 
 typedef std::set<std::string> t_string_set;
 static t_string_set item_blacklist;
@@ -132,22 +125,13 @@ void Item_factory::load_item_whitelist(JsonObject &json)
 
 Item_factory::~Item_factory()
 {
-    clear_items_and_groups();
+    reset();
 }
 
 //Every item factory comes with a missing item
 Item_factory::Item_factory()
 {
     init();
-    m_missing_item = new itype();
-    // intentionally left untranslated
-    // because using _() at global scope is problematic,
-    // and if this appears it's a bug anyway.
-    m_missing_item->name = "Error: Item Missing.";
-    m_missing_item->name_plural = "Error: Item Missing.";
-    m_missing_item->description =
-        "There is only the space where an object should be, but isn't. No item template of this type exists.";
-    m_templates["MISSING_ITEM"] = m_missing_item;
 }
 
 void Item_factory::init()
@@ -400,15 +384,6 @@ void Item_factory::add_category(const std::string &id, int sort_rank, const std:
     cat.name = name;
 }
 
-//Will eventually be deprecated - Loads existing item format into the item factory, and vice versa
-void Item_factory::init_old()
-{
-    //Copy the hardcoded template pointers to the factory list
-    m_templates.insert(itypes.begin(), itypes.end());
-    //Copy the JSON-derived items to the legacy list
-    itypes.insert(m_templates.begin(), m_templates.end());
-}
-
 inline int ammo_type_defined(const std::string &ammo)
 {
     if (ammo == "NULL" || ammo == "generic_no_ammo") {
@@ -447,7 +422,7 @@ void Item_factory::check_ammo_type(std::ostream &msg, const std::string &ammo) c
     msg << string_format("there is no actual ammo of type %s defined", ammo.c_str()) << "\n";
 }
 
-void Item_factory::check_itype_definitions() const
+void Item_factory::check_definitions() const
 {
     std::ostringstream main_stream;
     for (std::map<Item_tag, itype *>::const_iterator it = m_templates.begin(); it != m_templates.end();
@@ -536,10 +511,6 @@ void Item_factory::check_itype_definitions() const
         getch();
         werase(stdscr);
     }
-}
-
-void Item_factory::check_items_of_groups_exist() const
-{
     for (GroupMap::const_iterator a = m_template_groups.begin(); a != m_template_groups.end(); a++) {
         a->second->check_consistency();
     }
@@ -557,10 +528,6 @@ itype *Item_factory::find_template(Item_tag id)
     if (found != m_templates.end()) {
         return found->second;
     }
-    found = itypes.find(id);
-    if (found != itypes.end()) {
-        return found->second;
-    }
 
     debugmsg("Missing item (check item_groups.json): %s", id.c_str());
     it_artifact_tool *bad_itype = new it_artifact_tool();
@@ -572,16 +539,18 @@ itype *Item_factory::find_template(Item_tag id)
     bad_itype->sym = '.';
     bad_itype->color = c_white;
     m_templates[id] = bad_itype;
-    itypes[id] = bad_itype;
-    // Push the item definition on the artifact list so it gets saved/loaded from json.
-    artifact_itype_ids.push_back(id);
     return bad_itype;
 }
 
 void Item_factory::add_item_type(itype *new_type)
 {
-    itypes[new_type->id] = new_type;
-    m_templates[new_type->id] = new_type;
+    if( new_type == nullptr ) {
+        debugmsg( "called Item_factory::add_item_type with nullptr" );
+        return;
+    }
+    auto &entry = m_templates[new_type->id];
+    delete entry;
+    entry = new_type;
 }
 
 
@@ -597,7 +566,7 @@ Item_list Item_factory::create_from_group(Group_tag group, int created_at)
 }
 
 //Returns a random template name from the list of all templates.
-const Item_tag Item_factory::id_from(const Item_tag group_tag)
+const Item_tag Item_factory::id_from(const Group_tag group_tag)
 {
     GroupMap::iterator group_iter = m_template_groups.find(group_tag);
     //If the tag isn't found, just return a reference to missing item.
@@ -605,12 +574,12 @@ const Item_tag Item_factory::id_from(const Item_tag group_tag)
         item it = group_iter->second->create_single(calendar::turn);
         return it.type->id;
     } else {
-        return "MISSING_ITEM";
+        return EMPTY_GROUP_ITEM_ID;
     }
 }
 
 //Returns a random item from the list of all templates
-const item Item_factory::item_from(const Item_tag group_tag)
+const item Item_factory::item_from(const Group_tag group_tag)
 {
     GroupMap::iterator group_iter = m_template_groups.find(group_tag);
     //If the tag isn't found, just return a reference to missing item.
@@ -635,7 +604,7 @@ Item_spawn_data *Item_factory::get_group(const Item_tag &group_tag)
     return NULL;
 }
 
-bool Item_factory::group_contains_item(Item_tag group_tag, Item_tag item)
+bool Item_factory::group_contains_item(Group_tag group_tag, Item_tag item)
 {
     Item_spawn_data *current_group = m_template_groups.find(group_tag)->second;
     if (current_group) {
@@ -925,11 +894,8 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
         // core data, we override it. This allows mods to change
         // item from core data.
         delete m_templates[new_id];
-    } else {
-        standard_itype_ids.push_back(new_id);
     }
     m_templates[new_id] = new_item_template;
-    itypes[new_id] = new_item_template;
 
     // And then proceed to assign the correct field
     new_item_template->price = jo.get_int("price");
@@ -1124,7 +1090,7 @@ bool Item_factory::is_mod_target(JsonObject &jo, std::string member, std::string
     return is_included;
 }
 
-void Item_factory::clear_items_and_groups()
+void Item_factory::reset()
 {
     // clear groups
     for (GroupMap::iterator ig = m_template_groups.begin(); ig != m_template_groups.end(); ++ig) {
@@ -1137,25 +1103,9 @@ void Item_factory::clear_items_and_groups()
 
     for (std::map<Item_tag, itype *>::iterator it = m_templates.begin(); it != m_templates.end();
          ++it) {
-        if (m_missing_item == it->second) {
-            // No need to delete m_missing_item,
-            // it will be used again and must always exist
-            continue;
-        }
         delete it->second;
     }
     m_templates.clear();
-
-    // These containers are defined in itypedef.cpp
-    // and initialzed there.
-    // There are updated here when an item type is loaded
-    artifact_itype_ids.clear();
-    standard_itype_ids.clear();
-    itypes.clear();
-
-    // Recreate this entry, now we are in the same state as
-    // after the creation of this object
-    m_templates["MISSING_ITEM"] = m_missing_item;
 }
 
 Item_group *make_group_or_throw(Item_spawn_data *&isd, Item_group::Type t)
@@ -1251,7 +1201,7 @@ void Item_factory::load_item_group(JsonObject &jsobj)
     load_item_group(jsobj, group_id, subtype);
 }
 
-void Item_factory::load_item_group(JsonObject &jsobj, const std::string &group_id,
+void Item_factory::load_item_group(JsonObject &jsobj, const Group_tag &group_id,
                                    const std::string &subtype)
 {
     Item_spawn_data *&isd = m_template_groups[group_id];
@@ -1601,7 +1551,7 @@ const use_function *Item_factory::get_iuse(const std::string &id)
     return &iuse_function_list.at(id);
 }
 
-const std::string &Item_factory::calc_category(itype *it)
+const std::string &Item_factory::calc_category( const itype *it )
 {
     if (it->is_gun()) {
         return category_id_guns;
@@ -1616,7 +1566,7 @@ const std::string &Item_factory::calc_category(itype *it)
         return category_id_clothing;
     }
     if (it->is_food()) {
-        it_comest *comest = dynamic_cast<it_comest *>(it);
+        const it_comest *comest = dynamic_cast<const it_comest *>( it );
         return (comest->comesttype == "MED" ? category_id_drugs : category_id_food);
     }
     if (it->is_book()) {
@@ -1634,7 +1584,7 @@ const std::string &Item_factory::calc_category(itype *it)
     return category_id_other;
 }
 
-std::vector<std::string> Item_factory::get_all_group_names()
+std::vector<Group_tag> Item_factory::get_all_group_names()
 {
     std::vector<std::string> rval;
     GroupMap::iterator it;
@@ -1644,7 +1594,7 @@ std::vector<std::string> Item_factory::get_all_group_names()
     return rval;
 }
 
-bool Item_factory::add_item_to_group(const std::string group_id, const std::string item_id,
+bool Item_factory::add_item_to_group(const Group_tag group_id, const Item_tag item_id,
                                      int chance)
 {
     if (m_template_groups.find(group_id) == m_template_groups.end()) {
@@ -1704,3 +1654,45 @@ void Item_factory::debug_spawn()
         menu2.query();
     }
 }
+
+std::vector<Item_tag> Item_factory::get_all_itype_ids() const
+{
+    std::vector<Item_tag> result;
+    result.reserve( m_templates.size() );
+    for( auto & p : m_templates ) {
+        result.push_back( p.first );
+    }
+    return result;
+}
+
+const std::map<Item_tag, itype *> &Item_factory::get_all_itypes() const
+{
+    return m_templates;
+}
+
+Item_tag Item_factory::create_artifact_id() const
+{
+    Item_tag id;
+    int i = m_templates.size();
+    do {
+        id = string_format( "artifact_%d", i );
+        i++;
+    } while( !has_template( id ) );
+    return id;
+}
+
+std::string Item_factory::nname( const Item_tag &id, unsigned int quantity ) const
+{
+    auto it = m_templates.find( id );
+    if( it != m_templates.end() ) {
+        return it->second->nname( quantity );
+    }
+    return string_format( _( "unknown item %s" ), id.c_str() );
+}
+
+bool Item_factory::count_by_charges( const Item_tag &id )
+{
+    return find_template( id )->count_by_charges();
+}
+
+const Item_tag Item_factory::EMPTY_GROUP_ITEM_ID( "MISSING_ITEM" );
