@@ -1461,7 +1461,11 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
             redraw = true;
             return false;
         }
-        amount = std::min( cntmax, amount );
+        // Items by charge count as a single item, regardless of the charges. As long as the
+        // destination can hold another item, one can move all charges.
+        if( !by_charges ) {
+            amount = std::min( cntmax, amount );
+        }
     }
     // Inventory has a weight capacity, map and vehicle don't have that
     if( destarea == AIM_INVENTORY ) {
