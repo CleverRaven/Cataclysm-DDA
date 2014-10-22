@@ -565,12 +565,12 @@
         "items": {
             "both" : [
                 "pocketwatch",
-                "knife_butter",
+                "knife_butter"
             ],
             "male": [
                 "tux",
                 "dress_shoes",
-                "briefs"
+                "briefs",
                 "socks"
             ],
             "female": [
@@ -578,7 +578,7 @@
                 "maid_dress",
                 "boots",
                 "bra",
-                "panties"
+                "panties",
                 "stockings"
             ]
         }
