@@ -128,7 +128,7 @@ bool advanced_inventory::get_square( const std::string action, aim_location &ret
         ret = AIM_SOUTHEAST;
     } else if( action == "ITEMS_AROUND" ) {
         ret = AIM_ALL;
-    } else if( action == "ITEMS_CONTAINER" ) {
+    } else if( action == "ITEMS_DRAGGED_CONTAINER" ) {
         ret = AIM_DRAGED;
     } else {
         return false;
@@ -1001,7 +1001,7 @@ void advanced_inventory::display()
     ctxt.register_action( "ITEMS_SE" );
     ctxt.register_action( "ITEMS_INVENTORY" );
     ctxt.register_action( "ITEMS_AROUND" );
-    ctxt.register_action( "ITEMS_CONTAINER" );
+    ctxt.register_action( "ITEMS_DRAGGED_CONTAINER" );
 
     exit = false;
     recalc = true;
