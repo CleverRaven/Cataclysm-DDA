@@ -559,10 +559,10 @@ std::string print_temperature(float fahrenheit, int decimals)
 
 }
 
-int get_local_windchill(double temperature, double humidity, double windpower, std::string omtername, bool sheltered)
+int get_local_windchill(double temperature, double humidity, double windpower)
 {
     double tmptemp = temperature;
-    dobule tmpwind = windpower;
+    double tmpwind = windpower;
     double windchill = 0;
 
     if (tmptemp < 50) {
@@ -604,14 +604,14 @@ int get_local_humidity(double humidity, weather_type weather, bool sheltered)
     return tmphumidity;
 }
 
-int get_local_windpower(double windpower, std::string omtername = "no name", bool sheltered = false)
+int get_local_windpower(double windpower, std::string omtername, bool sheltered)
 {
     /**
     *  A player is sheltered if he is underground, in a car, or indoors.
     **/
 
     double tmpwind = windpower;
-    
+
     // Over map terrain may modify the effect of wind.
     if (sheltered)
         tmpwind  = 0.0;
@@ -621,7 +621,7 @@ int get_local_windpower(double windpower, std::string omtername = "no name", boo
         tmpwind *= 0.5;
     else if ( omtername == "forest_thick" || omtername == "hive")
         tmpwind *= 0.4;
-        
+
     return tmpwind;
 }
 

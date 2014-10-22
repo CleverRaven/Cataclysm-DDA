@@ -654,7 +654,7 @@
     "faulty"     :    true,
     "description":    "Improperly installed wires cause a physical stiffness in most of your body, causing increased encumbrance."
     },{
-        "type" : "bionic"
+        "type" : "bionic",
         "id" : "bio_meteorologist",
     "name"       :    "Weather Reader",
     "active"     :    true,

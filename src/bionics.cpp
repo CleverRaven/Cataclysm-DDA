@@ -8,6 +8,7 @@
 #include "json.h"
 #include "messages.h"
 #include "item_factory.h"
+#include "overmapbuffer.h"
 #include <math.h>    //sqrt
 #include <algorithm> //std::min
 #include <sstream>
@@ -802,14 +803,29 @@ void player::activate_bionic(int b)
         g->shockwave(posx, posy, 3, 4, 2, 8, true);
         add_msg_if_player(m_neutral, _("You unleash a powerful shockwave!"));
     } else if(bio.id == "bio_meteorologist") {
-        add_msg_if_player(m_neutral, _("Temperature: %d."), weatherPoint.temperature);
-        add_msg_if_player(m_neutral, _("Humidity: %d."), weatherPoint.humidity);
-        add_msg_if_player(m_neutral, _("Pressure: %d."), weatherPoint.pressure);
-        
-        /// Created a get_local_windpower() in weather.cpp ... needs arguments
-        
-        add_msg_if_player(m_neutral, _("Wind speed: %d."), ___);
-        add_msg_if_player(m_neutral, _("Feels like: %d."), ___);
+        /// Need to add units
+        add_msg_if_player(m_neutral, _("Temperature: %s."), print_temperature(g->get_temperature()).c_str());
+        add_msg_if_player(m_neutral, _("Relative Humidity: %d%%."), get_local_humidity(weatherPoint.humidity, g->weather, g->is_sheltered(g->u.posx, g->u.posy)));
+        add_msg_if_player(m_neutral, _("Pressure: %dkPa."), (int)weatherPoint.pressure/10);
+        // Calculate local wind power
+        int vpart = -1;
+        vehicle *veh = g->m.veh_at( posx, posy, vpart );
+        int vehwindspeed = 0;
+        if( veh ) {
+            vehwindspeed = abs(veh->velocity / 100); // For mph
+        }
+        const oter_id &cur_om_ter = overmap_buffer.ter(g->om_global_location());
+        std::string omtername = otermap[cur_om_ter].name;
+        int windpower = vehwindspeed + get_local_windpower(weatherPoint.windpower, omtername, g->is_sheltered(g->u.posx, g->u.posy));
+        std::string swindpower;
+        if (OPTIONS["USE_METRIC_SPEEDS"] == "mph") {
+            swindpower = "mph";
+        }
+        else {
+            swindpower = "km/h";
+        }
+        add_msg_if_player(m_neutral, _("Wind Speed: %d%s."), windpower, swindpower.c_str());
+        add_msg_if_player(m_neutral, _("Feels Like: %s."), print_temperature(get_local_windchill(weatherPoint.temperature, weatherPoint.humidity, windpower) + g->get_temperature()).c_str());
     }
 }
 
