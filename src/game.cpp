@@ -13343,7 +13343,7 @@ bool game::plmove(int dx, int dy)
                 tunneldist > 0)) {
             //add 1 to tunnel distance for each impassable tile in the line
             tunneldist += 1;
-            if (tunneldist * 250 > u.power_level) { //oops, not enough energy! Tunneling costs 10 bionic power per impassable tile
+            if (tunneldist * 250 > u.power_level) { //oops, not enough energy! Tunneling costs 250 bionic power per impassable tile
                 add_msg(_("You try to quantum tunnel through the barrier but are reflected! Try again with more energy!"));
                 tunneldist = 0; //we didn't tunnel anywhere
                 break;
