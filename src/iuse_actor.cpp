@@ -408,7 +408,7 @@ long ups_based_armor_actor::use( player *p, item *it, bool t, point ) const
         return 0;
     }
     if( !it->active && !p->has_charges( "UPS", 1 ) ) {
-        p->add_msg_if_player( m_info, _( "You need some source of power for your %s (a simply UPS will do)." ), it->tname().c_str() );
+        p->add_msg_if_player( m_info, _( "You need some source of power for your %s (a simple UPS will do)." ), it->tname().c_str() );
         return 0;
     }
     if( it->active && !p->has_charges( "UPS", 1 ) ) {
