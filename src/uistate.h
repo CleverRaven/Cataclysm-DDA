@@ -23,6 +23,7 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
         int adv_inv_src;
         int adv_inv_dest;
         int adv_inv_last_popup_dest;
+        item *adv_inv_container;
         int ags_pay_gas_selected_pump;
         std::string adv_inv_leftfilter;
         std::string adv_inv_rightfilter;
@@ -66,6 +67,7 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
             adv_inv_last_coords.y = -999;
             adv_inv_leftfilter = "";
             adv_inv_rightfilter = "";
+            adv_inv_container = nullptr;
             editmap_nsa_viewmode = false;
             overmap_blinking = true;
             overmap_show_overlays = false;
