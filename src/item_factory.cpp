@@ -302,6 +302,7 @@ void Item_factory::init()
     iuse_function_list["QUIVER"] = &iuse::quiver;
     iuse_function_list["SHEATH_SWORD"] = &iuse::sheath_sword;
     iuse_function_list["SHEATH_KNIFE"] = &iuse::sheath_knife;
+    iuse_function_list["RIFLE_SLING"] = &iuse::rifle_sling;
     iuse_function_list["HOLSTER_PISTOL"] = &iuse::holster_pistol;
     iuse_function_list["HOLSTER_ANKLE"] = &iuse::holster_ankle;
     iuse_function_list["TOWEL"] = &iuse::towel;
@@ -443,7 +444,8 @@ void Item_factory::check_definitions() const
         }
         if( !type->snippet_category.empty() ) {
             if( !SNIPPET.has_category( type->snippet_category ) ) {
-                msg << string_format("snippet category %s without any snippets", type->id.c_str(), type->snippet_category.c_str()) << "\n";
+                msg << string_format("snippet category %s without any snippets", type->id.c_str(),
+                                     type->snippet_category.c_str()) << "\n";
             }
         }
         for (std::map<std::string, int>::const_iterator a = type->qualities.begin();
@@ -1659,7 +1661,7 @@ std::vector<Item_tag> Item_factory::get_all_itype_ids() const
 {
     std::vector<Item_tag> result;
     result.reserve( m_templates.size() );
-    for( auto & p : m_templates ) {
+    for( auto &p : m_templates ) {
         result.push_back( p.first );
     }
     return result;
