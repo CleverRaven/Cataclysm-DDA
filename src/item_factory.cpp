@@ -1710,9 +1710,4 @@ Item_tag Item_factory::create_artifact_id() const
     return id;
 }
 
-bool Item_factory::count_by_charges( const Item_tag &id )
-{
-    return find_template( id )->count_by_charges();
-}
-
 const Item_tag Item_factory::EMPTY_GROUP_ITEM_ID( "MISSING_ITEM" );

@@ -1304,7 +1304,7 @@ void iexamine::aggie_plant(player *p, map *m, int examx, int examy)
                 plantCount = 12;
             }
             m->spawn_item(examx, examy, seedType.substr(5), plantCount, 0, calendar::turn);
-            if(item_controller->find_template(seedType)->count_by_charges()) {
+            if( item::count_by_charges( seedType ) ) {
                 m->spawn_item(examx, examy, seedType, 1, rng(plantCount / 4, plantCount / 2));
             } else {
                 m->spawn_item(examx, examy, seedType, rng(plantCount / 4, plantCount / 2));

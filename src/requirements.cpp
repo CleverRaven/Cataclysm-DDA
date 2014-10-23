@@ -353,8 +353,7 @@ bool item_comp::has( const inventory &crafting_inv, int batch ) const
         }
     }
     const int cnt = std::abs( count ) * batch;
-    const itype *it = item_controller->find_template( type );
-    if( it->count_by_charges() ) {
+    if( item::count_by_charges( type ) ) {
         return crafting_inv.has_charges( type, cnt );
     } else {
         return crafting_inv.has_components( type, cnt );
@@ -369,10 +368,9 @@ std::string item_comp::get_color( bool has_one, const inventory &crafting_inv, i
         }
     }
     const int cnt = std::abs( count ) * batch;
-    const itype *it = item_controller->find_template( type );
     if( available == a_insufficent ) {
         return "brown";
-    } else if( it->count_by_charges() ) {
+    } else if( item::count_by_charges( type ) ) {
         if( crafting_inv.has_charges( type, cnt ) ) {
             return "green";
         }

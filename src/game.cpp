@@ -2465,7 +2465,7 @@ void game::wrap_up_mission(int id)
     }
     switch (miss->type->goal) {
     case MGOAL_FIND_ITEM:
-        if( item( miss->type->item_id, 0 ).count_by_charges() ) {
+        if( item::count_by_charges( miss->type->item_id ) ) {
             u.use_charges(miss->type->item_id, miss->item_count);
         } else {
             u.use_amount(miss->type->item_id, miss->item_count);

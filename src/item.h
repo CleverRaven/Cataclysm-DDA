@@ -504,6 +504,11 @@ public:
          * @ref tname, however this function does not include strings like "(fresh)".
          */
         static std::string nname( const itype_id &id, unsigned int quantity = 1 );
+        /**
+         * Whether the item is counted by charges, this is a static wrapper
+         * around @ref count_by_charges, that does not need an items instance.
+         */
+        static bool count_by_charges( const itype_id &id );
 
 private:
  std::string name;

@@ -1311,8 +1311,7 @@ std::vector<item> recipe::create_results(int batch, int handed) const
 {
     std::vector<item> items;
 
-    bool charges = item_controller->find_template(result)->count_by_charges();
-    if (!charges) {
+    if( !item::count_by_charges( result ) ) {
         for (int i = 0; i < batch; i++) {
             item newit = create_result(handed);
             items.push_back(newit);
@@ -1330,8 +1329,7 @@ std::vector<item> recipe::create_byproducts(int batch) const
 {
     std::vector<item> bps;
     for(auto &val : byproducts) {
-        bool charges = item_controller->find_template(val.result)->count_by_charges();
-        if (!charges) {
+        if( !item::count_by_charges( val.result ) ) {
             for (int i = 0; i < val.amount * batch; i++) {
                 item newit(val.result, calendar::turn, false);
                 if (!newit.craft_has_charges()) {
@@ -1591,7 +1589,7 @@ std::list<item> player::consume_items(const std::vector<item_comp> &components, 
         int count = (it->count > 0) ? it->count * batch : abs(it->count);
         bool pl = false, mp = false;
 
-        if (item_controller->find_template(type)->count_by_charges() && count > 0) {
+        if (item::count_by_charges(type) && count > 0) {
             if (has_charges(type, count)) {
                 player_has.push_back(*it);
                 pl = true;
@@ -1672,8 +1670,7 @@ std::list<item> player::consume_items(const std::vector<item_comp> &components, 
     }
 
     const point loc(posx, posy);
-    itype *itt = item_controller->find_template(selected_comp.type);
-    const bool by_charges = (itt->count_by_charges() && selected_comp.count > 0);
+    const bool by_charges = (item::count_by_charges( selected_comp.type ) && selected_comp.count > 0);
     // Count given to use_amount/use_charges, changed by those functions!
     int real_count = (selected_comp.count > 0) ? selected_comp.count * batch : abs(selected_comp.count);
     const bool in_container = (selected_comp.count < 0);

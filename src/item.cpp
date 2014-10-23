@@ -2037,14 +2037,7 @@ bool item::goes_bad() const
 
 bool item::count_by_charges() const
 {
-    if( is_ammo() ) {
-        return true;
-    }
-    if( is_food() ) {
-        it_comest* food = dynamic_cast<it_comest*>(type);
-        return food->charges > 1;
-    }
-    return false;
+    return type->count_by_charges();
 }
 
 long item::max_charges() const
@@ -4420,4 +4413,10 @@ std::string item::nname( const itype_id &id, unsigned int quantity )
 {
     const auto t = item_controller->find_template( id );
     return t->nname( quantity );
+}
+
+bool item::count_by_charges( const itype_id &id )
+{
+    const auto t = item_controller->find_template( id );
+    return t->count_by_charges();
 }

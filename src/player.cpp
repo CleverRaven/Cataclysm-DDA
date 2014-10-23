@@ -7857,7 +7857,7 @@ bool player::consume(int target_position)
                 // Check tools
                 bool has = has_amount(comest->tool, 1);
                 // Tools with charges need to have charges, not just be present.
-                if (item_controller->count_by_charges( comest->tool )) {
+                if( item::count_by_charges( comest->tool ) ) {
                     has = has_charges(comest->tool, 1);
                 }
                 if (!has) {
@@ -7968,7 +7968,7 @@ bool player::eat(item *eaten, it_comest *comest)
     }
     if (comest->tool != "null") {
         bool has = has_amount(comest->tool, 1);
-        if (item_controller->count_by_charges( comest->tool )) {
+        if( item::count_by_charges( comest->tool ) ) {
             has = has_charges(comest->tool, 1);
         }
         if (!has) {

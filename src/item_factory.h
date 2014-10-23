@@ -245,10 +245,6 @@ class Item_factory
         void finialize_item_blacklist();
 
         /**
-         * Whether the item is counted by charges, see @ref item::count_by_charges
-         */
-        bool count_by_charges(const Item_tag &id);
-        /**
          * A list of *all* known item type ids. Each is suitable as input to
          * @ref find_template or as parameter to @ref item::item.
          */
