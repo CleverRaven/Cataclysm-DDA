@@ -17228,7 +17228,7 @@
     },
     {
         "type" : "COMESTIBLE",
-        "id" : "dey_veggy_tainted",
+        "id" : "dry_veggy_tainted",
         "category": "other",
         "name" : "dehydrated tainted veggy",
         "name_plural" : "dehydrated tainted veggies",

@@ -2440,14 +2440,15 @@
   "qualities":[
     {"id":"CUT","level":1,"amount":1}],
   "tools": [
-    [
-     [ "chemistry_set", 20 ]
-    ]
+      [
+        [ "chemistry_set", 20 ]
+      ]
     ],
   "components": [
-    [
-     [ "meat_tainted", 1 ],
-     [ "dry_meat_tainted", 1 ]
+      [
+        [ "meat_tainted", 1 ],
+        [ "dry_meat_tainted", 1 ]
+      ]
     ]
 },{
   "type" : "recipe",
