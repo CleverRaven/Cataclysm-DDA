@@ -144,6 +144,8 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
             jo.read("adv_inv_src", adv_inv_src);
             jo.read("adv_inv_dest", adv_inv_dest);
             jo.read("adv_inv_last_popup_dest", adv_inv_last_popup_dest);
+            // to ensure that pointer is cleared after load
+            adv_inv_container = nullptr;
             jo.read("overmap_blinking", overmap_blinking);
             jo.read("overmap_show_overlays", overmap_show_overlays);
             jo.read("list_item_mon", list_item_mon);
