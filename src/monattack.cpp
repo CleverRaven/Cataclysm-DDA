@@ -1884,7 +1884,29 @@ void mattack::fear_paralyze(monster *z, int index)
 
 void mattack::photograph(monster *z, int index)
 {
-    if (z->faction_id == -1 || (within_visual_range(z, 6) < 0)) return;
+    if (z->faction_id == -1 || (within_visual_range(z, 6) < 0)) {
+        return;
+    }
+    
+    // Badges should NOT be swappable between roles.
+    // Hence separate checking.
+    // If you are in fact listed as a police officer
+    if (g->u.has_trait("PROF_POLICE")) {
+        // And you're wearing your badge
+        if (g->u.is_wearing("badge_deputy")) {
+            if (one_in(3)) {
+                add_msg(m_info, _("The %s flashes a LED and departs.  Human officer on scene."), z->name().c_str());
+                z->no_corpse_quiet = true;
+                z->die(nullptr);
+                return;
+            } else {
+                add_msg(m_info, _("The %s acknowledges you as an officer responding, but hangs around to watch."), z->name().c_str());
+                add_msg(m_info, _("Probably some now-obsolete Internal Affairs subroutine..."));
+                z->reset_special(index); // Reset timer
+                return;
+            }
+        }
+    }
 
     z->reset_special(index); // Reset timer
     z->moves -= 150;

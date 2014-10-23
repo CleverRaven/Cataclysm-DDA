@@ -891,6 +891,9 @@
                 "name": "pistol"
             }
         ],
+        "traits": [
+            "PROF_POLICE"
+        ],
         "items": {
             "both": [
                 "pants_army",
@@ -1479,6 +1482,9 @@
             "bio_infrared",
             "bio_metabolics",
             "bio_power_storage_mkII"
+        ],
+        "traits": [
+            "PROF_POLICE"
         ],
         "skills": [
             {
