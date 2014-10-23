@@ -1132,11 +1132,13 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         break;
 
                     case fd_fatigue:{
-                        std::string monids[9] = {"mon_flying_polyp", "mon_hunting_horror", "mon_mi_go", "mon_yugg", "mon_gelatin", "mon_flaming_eye", "mon_kreck", "mon_gracke", "mon_blank"};
+                        std::array<std::string, 9> monids = { { "mon_flying_polyp", "mon_hunting_horror",
+                        "mon_mi_go", "mon_yugg", "mon_gelatin", "mon_flaming_eye", "mon_kreck", "mon_gracke",
+                        "mon_blank" } };
                         if (cur->getFieldDensity() < 3 && int(calendar::turn) % 3600 == 0 && one_in(10)) {
                             cur->setFieldDensity(cur->getFieldDensity() + 1);
                         } else if (cur->getFieldDensity() == 3 && one_in(600)) { // Spawn nether creature!
-                            std::string type = monids[(rng(0, 9))];
+                            std::string type = monids[rng( 0, monids.size() - 1 )];
                             monster creature(GetMType(type));
                             creature.spawn(x + rng(-3, 3), y + rng(-3, 3));
                             g->add_zombie(creature);
