@@ -123,6 +123,28 @@ void game::init_morale()
     }
 }
 
+
+std::string morale_point::name() const
+{
+    // Start with the morale type's description.
+    std::string ret = morale_data[type];
+
+    // Get the name of the referenced item (if any).
+    std::string item_name = "";
+    if( item_type != NULL ) {
+        item_name = item_type->nname( 1 );
+    }
+
+    // Replace each instance of %i with the item's name.
+    size_t it = ret.find( "%i" );
+    while( it != std::string::npos ) {
+        ret.replace( it, 2, item_name );
+        it = ret.find( "%i" );
+    }
+
+    return ret;
+}
+
 player::player() : Character(), name("")
 {
  posx = 0;
@@ -3330,7 +3352,7 @@ void player::disp_morale()
     // Figure out how wide the name column needs to be.
     int name_column_width = 18;
     for (auto &i : morale) {
-        int length = i.name(morale_data).length();
+        int length = i.name().length();
         if ( length > name_column_width) {
             name_column_width = length;
         }
@@ -3353,7 +3375,7 @@ void player::disp_morale()
     // Print out the morale entries.
     for (size_t i = 0; i < morale.size(); i++)
     {
-        std::string name = morale[i].name(morale_data);
+        std::string name = morale[i].name();
         int bonus = net_morale(morale[i]);
 
         // Trim the name if need be.
