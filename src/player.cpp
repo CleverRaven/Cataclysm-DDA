@@ -11899,6 +11899,7 @@ void player::spores()
                             }
                         } else if (one_in(3) && g->num_zombies() <= 1000) { // Spawn a spore
                         spore.spawn(sporex, sporey);
+                        spore.friendly = -1;
                         g->add_zombie(spore);
                         }
                     }
