@@ -462,8 +462,13 @@
         ],
         "items": {
             "both": [
-                "pants_army",
+                "winter_pants_army",
                 "army_top",
+                "winter_jacket_army",
+                "helmet_liner",
+                "helmet_army",
+                "balclava",
+                "winter_gloves_army",
                 "socks",
                 "boots_combat",
                 "m4a1",
@@ -519,9 +524,11 @@
         ],
         "items": {
             "both": [
-                "pants_army",
-                "jacket_army",
+                "winter_pants_army",
+                "winter_jacket_army",
+                "balclava",
                 "beret",
+                "gloves_liner",
                 "gloves_tactical",
                 "socks",
                 "boots_combat",
@@ -1708,9 +1715,12 @@
         ],
         "items": {
             "both": [
-                "pants_army",
+                "winter_pants_army",
+                "winter_jacket_army",
+                "winter_gloves_army",
+                "balclava",
+                "beret",
                 "socks",
-                "jacket_army",
                 "boots_combat",
                 "rm51_assault_rifle",
                 "8mm_fmj",
