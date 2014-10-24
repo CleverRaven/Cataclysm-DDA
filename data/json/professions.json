@@ -1736,6 +1736,75 @@
         }
     },
     {
+        "type": "profession",
+        "ident": "bio_sniper",
+        "name": "Bionic Sniper",
+        "description": "Your bionics, equipment, and extensive field training enable you to drop targets from implausible distances, even after weeks of total isolation in enemy territory.",
+        "points": 6,
+        "CBMs":[
+            "bio_solar",
+            "bio_metabolics",
+            "bio_eye_enhancer",
+            "bio_climate",
+            "bio_evap",
+            "bio_lighter",
+            "bio_power_storage_mkII"
+        ],
+        "skills": [
+            {
+                "level": 4,
+                "name": "gun"
+            },
+            {
+                "level": 4,
+                "name": "rifle"
+            },
+            {
+                "level": 1,
+                "name": "survival"
+            },
+            {
+                "level": 1,
+                "name": "melee"
+            },
+            {
+                "level": 1,
+                "name": "dodge"
+            }
+        ],
+        "items": {
+            "both": [
+                "pants_army",
+                "army_top",
+                "jacket_army",
+                "gloves_tactical",
+                "rucksack",
+                "balclava",
+                "hat_boonie",
+                "socks",
+                "boots_combat",
+                "sheath",
+                "knife_combat",
+                "canteen",
+                "binoculars",
+                "tent_kit",
+                "rollmat",
+                "m2010",
+                "300_winmag",
+                "300_winmag",
+                "300_winmag",
+                "suppressor"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "sports_bra",
+                "boxer_shorts"
+            ]
+        }
+    },
+    {
         "type" : "profession",
         "ident": "bionic_spy",
         "name": "Bionic Agent",
