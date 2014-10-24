@@ -1743,12 +1743,10 @@
         "points": 6,
         "CBMs":[
             "bio_solar",
-            "bio_metabolics",
             "bio_eye_enhancer",
             "bio_climate",
             "bio_evap",
-            "bio_lighter",
-            "bio_power_storage_mkII"
+            "bio_power_storage_mkI"
         ],
         "skills": [
             {
@@ -1766,10 +1764,6 @@
             {
                 "level": 1,
                 "name": "melee"
-            },
-            {
-                "level": 1,
-                "name": "dodge"
             }
         ],
         "items": {
@@ -1788,6 +1782,7 @@
                 "canteen",
                 "binoculars",
                 "tent_kit",
+                "lighter",
                 "rollmat",
                 "m2010",
                 "300_winmag",
