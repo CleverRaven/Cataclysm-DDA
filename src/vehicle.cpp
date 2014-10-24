@@ -4433,6 +4433,7 @@ void vehicle::open_or_close(int part_index, bool opening)
 {
   parts[part_index].open = opening ? 1 : 0;
   insides_dirty = true;
+  g->m.set_transparency_cache_dirty();
 
   if(part_info(part_index).has_flag("MULTISQUARE")) {
     /* Find all other closed parts with the same ID in adjacent squares.
