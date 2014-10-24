@@ -10763,5 +10763,29 @@
         "coverage" : 100,
         "material_thickness" : 5
     },
-    
+    {
+        "type" : "ARMOR",
+        "id" : "aep_suit_xl",
+        "category" : "armor",
+        "name" : "XL AEP suit",
+        "weight" : 13400,
+        "color" : "light_red",
+        "covers" : ["LEGS", "TORSO", "ARMS"],
+        "to_hit" : -8,
+        "storage" : 16,
+        "symbol" : "[",
+        "description" : "An armored environmental protection suit.  Custom-built from a cleansuit and body armor, it provides excellent protection against both physical harm and ambient radiation.",
+        "price" : 140000,
+        "material" : ["kevlar", "plastic"],
+        "volume" : 54,
+        "cutting" : 0,
+        "warmth" : 35,
+        "phase" : "solid",
+        "environmental_protection" : 9,
+        "encumbrance" : 3,
+        "bashing" : -5,
+        "flags" : ["VARSIZE", "WATERPROOF", "HOOD", "RAINPROOF", "STURDY", "RAD_RESIST", "OUTER", "OVERSIZE"],
+        "coverage" : 100,
+        "material_thickness" : 3
+    },
 ]
