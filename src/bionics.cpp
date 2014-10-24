@@ -769,7 +769,7 @@ void player::activate_bionic(int b)
             return;
         }
         ter_id type = g->m.ter(dirx, diry);
-        if (type  == t_door_locked || type == t_door_locked_alarm || type == t_door_locked_interior ) {
+        if (type  == t_door_locked || type == t_door_locked_alarm || type == t_door_locked_interior || type  == t_door_locked_peep) {
             moves -= 40;
             std::string door_name = rm_prefix(_("<door_name>door"));
             add_msg_if_player(m_neutral, _("With a satisfying click, the lock on the %s opens."),
