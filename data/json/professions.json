@@ -1745,6 +1745,7 @@
             "bio_solar",
             "bio_eye_enhancer",
             "bio_climate",
+            "bio_evap",
             "bio_power_storage_mkI"
         ],
         "skills": [
@@ -1778,9 +1779,8 @@
                 "binoculars",
                 "tent_kit",
                 "rollmat",
-                "funnel",
                 "lighter",
-                "pan",
+                "mess_kit",
                 "m2010",
                 "300_winmag",
                 "300_winmag",
