@@ -1745,12 +1745,11 @@
             "bio_solar",
             "bio_eye_enhancer",
             "bio_climate",
-            "bio_evap",
             "bio_power_storage_mkI"
         ],
         "skills": [
             {
-                "level": 4,
+                "level": 3,
                 "name": "gun"
             },
             {
@@ -1760,10 +1759,6 @@
             {
                 "level": 1,
                 "name": "survival"
-            },
-            {
-                "level": 1,
-                "name": "melee"
             }
         ],
         "items": {
@@ -1782,10 +1777,11 @@
                 "canteen",
                 "binoculars",
                 "tent_kit",
-                "lighter",
                 "rollmat",
+                "funnel",
+                "lighter",
+                "pan",
                 "m2010",
-                "300_winmag",
                 "300_winmag",
                 "300_winmag",
                 "suppressor"
