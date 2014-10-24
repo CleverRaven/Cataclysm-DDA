@@ -11303,8 +11303,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
         return;
     }
     if (u.weapon.has_flag("CHARGE") && !u.weapon.active) {
-        if (u.has_charges("UPS_on", 1) ||
-            u.has_charges("adv_UPS_on", 1) || (u.has_active_bionic("bio_ups") && u.power_level >= 1)) {
+        if( u.has_charges( "UPS", 1) ) {
             add_msg(_("Your %s starts charging."), u.weapon.tname().c_str());
             u.weapon.charges = 0;
             u.weapon.poison = 0;
@@ -11413,9 +11412,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
         const int adv_ups_drain = std::min( 1, gun->ups_charges * 3 / 5 );
         const int bio_power_drain = std::min( 1, gun->ups_charges / 5 );
         if( !( u.has_charges( "UPS_off", ups_drain ) ||
-               u.has_charges( "UPS_on", ups_drain ) ||
                u.has_charges( "adv_UPS_off", adv_ups_drain ) ||
-               u.has_charges( "adv_UPS_on", adv_ups_drain ) ||
                (u.has_bionic( "bio_ups" ) && u.power_level >= bio_power_drain ) ) ) {
             add_msg( m_info,
                      _("You need a UPS with at least %d charges or an advanced UPS with at least %d charges to fire that!"),
@@ -12300,8 +12297,7 @@ void game::unload(item &it)
     } else {
         newam = item(default_ammo(weapon->ammo_type()), calendar::turn);
     }
-    if (weapon->typeId() == "adv_UPS_off" || weapon->typeId() == "adv_UPS_on" ||
-        weapon->typeId() == "rm13_armor" || weapon->typeId() == "rm13_armor_on") {
+    if( weapon->ammo_type() == "plutonium" ) {
         int chargesPerPlutonium = 500;
         int chargesRemoved = weapon->charges - (weapon->charges % chargesPerPlutonium);;
         int plutoniumRemoved = chargesRemoved / chargesPerPlutonium;

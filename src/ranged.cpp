@@ -351,9 +351,7 @@ void player::fire_gun(int tarx, int tary, bool burst)
     // cap our maximum burst size by the amount of UPS power left
     if (ups_drain > 0 || adv_ups_drain > 0 || bio_power_drain > 0)
         while (!(has_charges("UPS_off", ups_drain * num_shots) ||
-                 has_charges("UPS_on", ups_drain * num_shots) ||
                  has_charges("adv_UPS_off", adv_ups_drain * num_shots) ||
-                 has_charges("adv_UPS_on", adv_ups_drain * num_shots) ||
                  (has_bionic("bio_ups") && power_level >= (bio_power_drain * num_shots)))) {
             num_shots--;
         }
@@ -478,12 +476,8 @@ void player::fire_gun(int tarx, int tary, bool burst)
         // Drain UPS power
         if (has_charges("adv_UPS_off", adv_ups_drain)) {
             use_charges("adv_UPS_off", adv_ups_drain);
-        } else if (has_charges("adv_UPS_on", adv_ups_drain)) {
-            use_charges("adv_UPS_on", adv_ups_drain);
         } else if (has_charges("UPS_off", ups_drain)) {
             use_charges("UPS_off", ups_drain);
-        } else if (has_charges("UPS_on", ups_drain)) {
-            use_charges("UPS_on", ups_drain);
         } else if (has_bionic("bio_ups")) {
             charge_power(-1 * bio_power_drain);
         }

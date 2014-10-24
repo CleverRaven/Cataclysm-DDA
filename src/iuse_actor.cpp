@@ -386,3 +386,52 @@ long place_monster_iuse::use( player *p, item *it, bool, point ) const
     g->add_zombie( newmon );
     return 1;
 }
+
+ups_based_armor_actor::~ups_based_armor_actor() {};
+
+iuse_actor *ups_based_armor_actor::clone() const
+{
+    return new ups_based_armor_actor(*this);
+}
+
+long ups_based_armor_actor::use( player *p, item *it, bool t, point ) const
+{
+    if( p == nullptr ) {
+        return 0;
+    }
+    if( t ) {
+        // Normal, continuous usage, do nothing. The item is *not* charge-based.
+        return 0;
+    }
+    if( p->get_item_position( it ) >= -1 ) {
+        p->add_msg_if_player( m_info, _( "You should wear the %s before activating it." ), it->tname().c_str() );
+        return 0;
+    }
+    if( !it->active && !p->has_charges( "UPS", 1 ) ) {
+        p->add_msg_if_player( m_info, _( "You need some source of power for your %s (a simple UPS will do)." ), it->tname().c_str() );
+        return 0;
+    }
+    if( it->active && !p->has_charges( "UPS", 1 ) ) {
+        if( out_of_power_msg.empty() ) {
+            p->add_msg_if_player( m_info, _( out_of_power_msg.c_str() ), it->tname().c_str() );
+        } else {
+            p->add_msg_if_player( m_info, _( "Your %s powers down." ), it->tname().c_str() );
+        }
+        return 0;
+    }
+    it->active = !it->active;
+    if( it->active ) {
+        if( activate_msg.empty() ) {
+            p->add_msg_if_player( m_info, _( "You activate your %s." ), it->tname().c_str() );
+        } else {
+            p->add_msg_if_player( m_info, _( activate_msg.c_str() ) , it->tname().c_str() );
+        }
+    } else {
+        if( deactive_msg.empty() ) {
+            p->add_msg_if_player( m_info, _( "You deactivate your %s." ), it->tname().c_str() );
+        } else {
+            p->add_msg_if_player( m_info, _( deactive_msg.c_str() ) , it->tname().c_str() );
+        }
+    }
+    return 0;
+}

@@ -1934,6 +1934,11 @@ void item::load_legacy(std::stringstream & dump) {
         name = name.substr(2, name.size() - 3); // s/^ '(.*)'$/\1/
     }
 
+    if( idtmp == "UPS_on" ) {
+        idtmp = "UPS_off";
+    } else if( idtmp == "adv_UPS_on" ) {
+        idtmp = "adv_UPS_off" ;
+    }
     make(idtmp);
 
     invlet = char(lettmp);

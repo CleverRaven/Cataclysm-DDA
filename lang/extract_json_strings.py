@@ -253,6 +253,9 @@ def get_outfile(json_object_type):
     return os.path.join(to_dir, json_object_type + "_from_json.py")
 
 use_action_msgs = {
+    "activate_msg",
+    "deactive_msg",
+    "out_of_power_msg",
     "msg",
     "friendly_msg",
     "hostile_msg",
