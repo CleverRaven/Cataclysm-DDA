@@ -2484,5 +2484,75 @@
      [ "water_clean", 1 ]
     ]
    ]
+},{
+        "type" : "recipe",
+  "result": "dayquil",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_DRUGS",
+  "skill_used": "cooking",
+  "skills_required": [ "survival", 5 ],
+  "difficulty": 6,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CHEM","level":2,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 8 ],
+      [ "chemistry_set", 8 ],
+      [ "toolset", 8 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "wild_herbs", 50 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "sugar", 2 ]
+    ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "nyquil",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_DRUGS",
+  "skill_used": "cooking",
+  "skills_required": [ "survival", 5 ],
+  "difficulty": 6,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CHEM","level":2,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 8 ],
+      [ "chemistry_set", 8 ],
+      [ "toolset", 8 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "wild_herbs", 50 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "poppy_bud", 1 ]
+    ],
+    [
+      [ "poppy_flower", 1 ]
+    ]
+  ]
 }
 ]
