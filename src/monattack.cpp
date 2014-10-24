@@ -1907,6 +1907,16 @@ void mattack::photograph(monster *z, int index)
             }
         }
     }
+    
+    if (g->u.has_trait("PROF_FED")) {
+        // And you're wearing your badge
+        if (g->u.is_wearing("badge_marshal")) {
+            add_msg(m_info, _("The %s flashes a LED and departs.  The Feds have this."), z->name().c_str());
+            z->no_corpse_quiet = true;
+            z->die(nullptr);
+            return;
+        }
+    }
 
     z->reset_special(index); // Reset timer
     z->moves -= 150;

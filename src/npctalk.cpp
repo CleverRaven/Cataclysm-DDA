@@ -803,8 +803,11 @@ std::string dynamic_line(talk_topic topic, npc *p)
             return _("Watch your back out there.");
 
         case TALK_OLD_GUARD_REP:
-            if (g->u.is_wearing("badge_marshal"))
+            // The rep should know whether you're a sworn officer.
+            // TODO: wearing the badge w/o the trait => Bad Idea
+            if (g->u.has_trait("PROF_FED")) {
                 return _("Marshal...");
+            }
             return _("Citizen...");
 
         case TALK_OLD_GUARD_REP_NEW:

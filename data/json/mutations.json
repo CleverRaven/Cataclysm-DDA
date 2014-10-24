@@ -4064,6 +4064,15 @@
         "profession": true
     },{
         "type" : "mutation",
+        "id" : "PROF_FED",
+        "name" : "US Marshal",
+        "points" : 0,
+        "description" : "You are a duly sworn Federal marshal, with nationwide jurisdiction and the authority of the United States of America.",
+        "valid": false,
+        "purifiable": false,
+        "profession": true
+    },{
+        "type" : "mutation",
         "id" : "PROF_MED",
         "name" : "MD",
         "points" : 0,
