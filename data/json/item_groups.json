@@ -41,7 +41,8 @@
       ["candycigarette", 10],
       ["radio_car_box", 1],
       ["basketball", 8],
-      ["radiocontrol", 5]
+      ["radiocontrol", 5],
+      ["slingshot", 10]
     ]
   },{
     "type" : "item_group",
@@ -2329,7 +2330,9 @@
       ["fencing_foil", 10],
       ["fencing_sabre", 10],
       ["fencing_epee", 10],
-      ["survnote", 1]
+      ["survnote", 1],
+      ["slingshot", 10],
+      ["wristrocket", 5]
     ]
   },{
     "type" : "item_group",
