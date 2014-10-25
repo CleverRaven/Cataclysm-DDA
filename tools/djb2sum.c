@@ -1,8 +1,4 @@
-#include <ctype.h>
 #include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <getopt.h>
 
 
 int djb2_hash(unsigned char *str)
