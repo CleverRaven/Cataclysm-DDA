@@ -4126,7 +4126,7 @@
         "symbol" : ")",
         "color" : "yellow",
         "broken_symbol" : ")",
-        "broken_color" : "gray",
+        "broken_color" : "light_gray",
         "durability" : 480,
         "item" : "chitin_plate",
         "difficulty" : 3,
@@ -4143,7 +4143,7 @@
         "symbol" : ")",
         "color" : "white",
         "broken_symbol" : ")",
-        "broken_color" : "gray",
+        "broken_color" : "light_gray",
         "durability" : 400,
         "item" : "bone_plate",
         "difficulty" : 3,
@@ -4171,5 +4171,6 @@
         "breaks_into" : [
             {"item": "scrap", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 2, "max": 3}
-}
+        ]
+    }
 ]
