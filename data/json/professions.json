@@ -943,8 +943,8 @@
 		"knit_scarf",
 		"fedora",
 		"wristwatch",
-		"sw_610",
-		"40sw",
+		"l_sp_45",
+		"45_acp",
                 "socks",
                 "dress_shoes",
                 "cig",
@@ -964,7 +964,7 @@
                 "name": "gun"
             },
             {
-                "level": 4,
+                "level": 3,
                 "name": "pistol"
             }
         ],
