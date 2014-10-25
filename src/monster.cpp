@@ -1051,6 +1051,9 @@ void monster::explode()
         //Can't gib hallucinations
         return;
     }
+    if( type->has_flag( MF_NO_GIBS ) || type->has_flag( MF_VERMIN ) ) {
+        return;
+    }
     // Send body parts and blood all over!
     const itype_id meat = type->get_meat_itype();
     const field_id type_blood = bloodType();
