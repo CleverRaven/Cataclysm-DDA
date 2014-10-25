@@ -18,8 +18,8 @@ int djb2_hash(unsigned char *str)
 
 int main()
 {
-		char djb2_char[100];
-		fgets(djb2_char,100,stdin);
+		char djb2_char[1000];
+		fgets(djb2_char,1000,stdin);
 		printf("%u",djb2_hash((unsigned char *)djb2_char));
 
 
