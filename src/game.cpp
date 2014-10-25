@@ -194,8 +194,6 @@ void game::load_core_data()
     // core data can be loaded only once and must be first
     // anyway.
     DynamicDataLoader::get_instance().unload_data();
-    // Special handling for itypes created in itypedef.cpp
-    item_controller->init_old();
 
     load_data_from_dir(FILENAMES["jsondir"]);
 }
