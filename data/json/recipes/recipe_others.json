@@ -2442,32 +2442,33 @@
   "skills_required": [ "mechanics", 3 ],
   "difficulty": 5,
   "time": 10000,
-  "reversible": false,
+  "reversible": true,
   "autolearn": false,
   "book_learn": [["textbook_traps", 5] , ["manual_traps", 5] , ["howto_traps", 4] , ["recipe_bullets", 6]],
   "qualities" : [
     {"id":"SCREW","level":1,"amount":1}
   ], "components": [
     [
-      [ "superglue", 1 ]
+      [ "superglue", 1 ],
+      [ "duct_tape", 75 ]
     ],
     [
-      [ "can_food", 1 ],
+      [ "scrap", 3 ],
       [ "steel_chunk", 1 ],
       [ "canister_empty", 1 ],
-      [ "scrap", 3 ]
+      [ "can_food", 1 ]
     ],
     [
-      [ "nail", 100 ],
-      [ "bb", 200 ]
+      [ "bb", 200 ],
+      [ "nail", 100 ]
     ],
     [
+      [ "gunpowder", 72 ],
       [ "shot_bird", 30 ],
       [ "shot_00", 15 ],
       [ "shot_slug", 12 ],
       [ "gasoline", 600 ],
-      [ "grenade", 1 ],
-      [ "gunpowder", 72 ]
+      [ "grenade", 1 ]
     ]
   ]
 },{
@@ -5358,11 +5359,109 @@
     ],
   "components":
     [
+      [
+        [ "steel_lump", 5 ],
+        [ "steel_chunk", 20 ],
+        [ "scrap", 60 ]
+      ]
+    ]
+ },{
+    "type" : "recipe",
+  "result": "spring",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 6,
+  "time": 180000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools": [
+    [ ["tongs", -1] ],
+    [ ["chisel", -1] ],
+    [ ["anvil", -1] ],
+    [ ["swage", -1] ],
+    [ ["forge", 50], ["char_forge", 10], ["oxy_torch", 10] ]
+  ],
+  "components": [
+     [ [ "scrap", 7 ] ]
+  ]
+  },{
+  "type" : "recipe",
+  "result": "rebar",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "time": 90000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools": [
+    [ ["tongs", -1] ],
+    [ ["chisel", -1] ],
+    [ ["anvil", -1] ],
+    [ ["swage", -1] ],
+    [ ["forge", 50], ["char_forge", 10], ["oxy_torch", 10] ]
+  ],
+  "components": [
+     [ [ "scrap", 3 ] ]
+  ]
+  },{
+  "type" : "recipe",
+  "result": "jumper_cable",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "fabrication",
+  "skills_required": [ "electronics", 2 ],
+  "difficulty": 4,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+    ],
+  "tools": [
     [
-    [ "steel_lump", 5 ],
-    [ "steel_chunk", 20 ],
-    [ "scrap", 60 ]
+      [ "soldering_iron", 25 ]
     ]
+  ],
+  "components": [
+    [
+      [ "cable", 100 ]
+    ],
+    [
+      [ "scrap", 4 ]
+    ],
+    [
+      [ "duct_tape", 50 ]
     ]
-}
+  ]
+  },{
+  "type" : "recipe",
+  "result": "charcoal",
+  "byproducts": { "id" : "charcoal", "amount" : 3 },
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "fabrication",
+  "difficulty": 7,
+  "time": 180000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities": [
+        {"id":"HAMMER","level":3,"amount":1}
+      ],
+  "tools": [
+        [ "pickaxe", -1 ]
+      ],
+  "components": [
+      [
+        [ "coal", 1 ]
+      ]
+    ]
+  }
 ]
