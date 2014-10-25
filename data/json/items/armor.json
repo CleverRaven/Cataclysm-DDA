@@ -2755,7 +2755,7 @@
         "environmental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : -3,
-        "flags" : ["VARSIZE", "WATER_FRIENDLY", "STURDY", "BELTED"],
+        "flags" : ["VARSIZE", "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE"],
         "coverage" : 20,
         "material_thickness" : 2
     },
@@ -9991,7 +9991,7 @@
         "bashing" : 5,
         "coverage" : 10,
         "material_thickness" : 2,
-        "flags" : ["FANCY"]
+        "flags" : ["FANCY", "OVERSIZE"]
     },
     {
         "type" : "ARMOR",
@@ -10014,7 +10014,8 @@
         "encumbrance" : 3,
         "bashing" : 4,
         "coverage" : 4,
-        "material_thickness" : 1
+        "material_thickness" : 1,
+		"flags" : ["OVERSIZE"]
     },
     {
         "type" : "ARMOR",
