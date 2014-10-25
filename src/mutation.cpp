@@ -1096,9 +1096,9 @@ void mutation_effect(player &p, std::string mut)
     } else if (mut == "STR_ALPHA") {
         if (p.str_max <= 6) {
             p.str_max = 8;
-        } else if (p.per_max <= 7) {
+        } else if (p.str_max <= 7) {
             p.str_max = 11;
-        } else if (p.int_max <= 14) {
+        } else if (p.str_max <= 14) {
             p.str_max = 15;
         } else {
             p.str_max = 18;
@@ -1132,9 +1132,9 @@ void mutation_effect(player &p, std::string mut)
     } else if (mut == "DEX_ALPHA") {
         if (p.dex_max <= 6) {
             p.dex_max = 8;
-        } else if (p.per_max <= 7) {
+        } else if (p.dex_max <= 7) {
             p.dex_max = 11;
-        } else if (p.int_max <= 14) {
+        } else if (p.dex_max <= 14) {
             p.dex_max = 15;
         } else {
             p.dex_max = 18;
@@ -1181,7 +1181,7 @@ void mutation_effect(player &p, std::string mut)
             p.per_max = 8;
         } else if (p.per_max <= 7) {
             p.per_max = 11;
-        } else if (p.int_max <= 14) {
+        } else if (p.per_max <= 14) {
             p.per_max = 15;
         } else {
             p.per_max = 18;
