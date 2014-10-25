@@ -6878,7 +6878,7 @@ void player::process_active_items()
         }
     }
     if( weapon.has_flag( "USE_UPS" ) &&  ch_UPS_used < ch_UPS &&
-        weapon.charges < weapon.type->charges_to_use() ) {
+        weapon.charges < weapon.type->maximum_charges() ) {
         ch_UPS_used++;
         weapon.charges++;
     }
@@ -9303,6 +9303,10 @@ void player::use(int inventory_position)
     last_item = itype_id(used->type->id);
 
     if (used->is_tool()) {
+        if( !used->type->has_use() ) {
+            add_msg_if_player( _( "You can't do anything interesting with your %s." ), used->tname().c_str() );
+            return;
+        }
         it_tool *tool = dynamic_cast<it_tool*>(used->type);
         if (!has_enough_charges(*used, true)) {
             return;
