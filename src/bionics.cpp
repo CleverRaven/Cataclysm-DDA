@@ -779,19 +779,19 @@ void player::activate_bionic(int b)
         } else if(type == t_door_bar_locked) {
             moves -= 40;
             std::string door_name = rm_prefix(_("<door_name>door"));
-            add_msg_if_player(m_neutral, _("The %s swings open..."),
+            add_msg_if_player(m_neutral, _("The bars swing open..."),
                               door_name.c_str()); //Could better copy the messages from lockpick....
             g->m.ter_set(dirx, diry, t_door_bar_o);
         } else if(type == t_chaingate_l) {
             moves -= 40;
             std::string gate_name = rm_prefix (_("<door_name>gate"));
-            add_msg_if_player(m_neutral, _("With a satisfying click, the lock on the %s opens."),
+            add_msg_if_player(m_neutral, _("With a satisfying click, the chain-link gate opens."),
                               gate_name.c_str());
             g->m.ter_set(dirx, diry, t_chaingate_c);
         } else if (type  == t_door_locked_peep) {
             moves -= 40;
             std::string door_name = rm_prefix(_("<door_name>door"));
-            add_msg_if_player(m_neutral, _("With a satisfying click, the lock on the %s opens."),
+            add_msg_if_player(m_neutral, _("With a satisfying click, the peephole-door's lock opens."),
                               door_name.c_str());
             g->m.ter_set(dirx, diry, t_door_c_peep);
         } else if(type == t_door_c) {
