@@ -67,8 +67,6 @@ class Item_factory
          * This should be called once after all json data has been loaded.
          */
         void check_definitions() const;
-        /** Legacy function, you won't need it. It's only called from game.cpp */
-        void init_old();
         /**
          * Registers a LUA based iuse function.
          * @param name The name that is used in the json data to refer to the LUA function.
@@ -323,7 +321,9 @@ class Item_factory
         //Currently only used to body_part stuff, bitset size might need to be increased in the future
         void set_flag_by_string(std::bitset<13> &cur_flags, const std::string &new_flag,
                                 const std::string &flag_type);
+        void clear();
         void init();
+        void init_old();
 
         //iuse stuff
         std::map<Item_tag, use_function> iuse_function_list;
