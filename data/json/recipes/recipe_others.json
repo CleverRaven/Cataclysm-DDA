@@ -5291,5 +5291,78 @@
     [ ["mold_plastic", -1] ]
     ],
   "components": [ [ [ "bag_plastic", 3 ] ] ]
-  }
+  },{
+  "type" : "recipe",
+  "result": "chitin_plate",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "fabrication",
+  "difficulty": 5,
+  "time": 40000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+     [ "chitin_piece", 40 ]
+    ],
+    [
+     [ "rope_6", 4 ]
+    ]
+    ]
+ },{
+  "type" : "recipe",
+  "result": "bone_plate",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": 40000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+     [ "bone", 25 ]
+    ],
+    [
+     [ "rope_6", 5 ]
+    ]
+    ]
+ },{
+  "type" : "recipe",
+  "result": "wheel_metal",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_WEAPON_PARTS",
+  "skill_used": "fabrication",
+  "difficulty": 7,
+  "time": 360000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":3,"amount":1}],
+  "tools": [
+    [
+     ["tongs", -1]
+    ],
+    [
+     ["chisel", -1]
+    ],
+    [
+     ["anvil", -1]
+    ],
+    [
+     ["crucible", -1]
+    ],
+    [
+     ["forge", 250], ["char_forge", 50], ["oxy_torch", 50]
+    ]
+    ],
+  "components":
+    [
+    [
+    [ "steel_lump", 5 ],
+    [ "steel_chunk", 20 ],
+    [ "scrap", 60 ]
+    ]
+    ]
+}
 ]

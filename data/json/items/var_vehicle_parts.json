@@ -396,5 +396,24 @@
         "max-bigness": 700,
         "category": "veh_parts",
         "bigness-aspect": "ENGINE_DISPLACEMENT"
-    }
+    },
+   {
+       "type":"VAR_VEH_PART",
+       "id": "wheel_metal",
+       "symbol": "]",
+       "color": "light_gray",
+       "name": "metal wheel",
+       "description": "A simple metal wheel.",
+       "price": 1200,
+       "material": ["steel", "null"],
+       "weight": 18239,
+       "volume": 35,
+       "bashing": 8,
+       "cutting": 0,
+       "to_hit": -4,
+       "min-bigness": 20,
+       "max-bigness": 20,
+       "category": "veh_parts",
+       "bigness-aspect": "WHEEL_DIAMETER"
+     }
 ]
