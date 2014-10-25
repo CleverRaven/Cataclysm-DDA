@@ -90,7 +90,7 @@ void update_globals(lua_State *L)
 void Item_factory::register_iuse_lua(const std::string &name, int lua_function)
 {
     if( iuse_function_list.count( name ) > 0 ) {
-        debugmsg( "lua iuse function %s overrides existing iuse function", name.c_str() );
+        DebugLog(D_INFO, D_MAIN) << "lua iuse function " << name << " overrides existing iuse function";
     }
     iuse_function_list[name] = use_function(lua_function);
 }
