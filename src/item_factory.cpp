@@ -1679,7 +1679,7 @@ Item_tag Item_factory::create_artifact_id() const
     do {
         id = string_format( "artifact_%d", i );
         i++;
-    } while( !has_template( id ) );
+    } while( has_template( id ) );
     return id;
 }
 
