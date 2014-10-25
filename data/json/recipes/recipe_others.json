@@ -5456,12 +5456,14 @@
         {"id":"HAMMER","level":3,"amount":1}
       ],
   "tools": [
-        [ "pickaxe", -1 ]
-      ],
-  "components": [
-      [
-        [ "coal", 1 ]
-      ]
+    [
+        [ "pickaxe", 1 ]
     ]
+  ],
+  "components": [
+    [
+        [ "coal", 1 ]
+    ]
+  ]
   }
 ]
