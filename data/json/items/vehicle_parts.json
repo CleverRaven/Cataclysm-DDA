@@ -905,7 +905,7 @@
         "type":"TOOL",
         "id": "jumper_cable",
         "name": "jumper cable",
-        "description": "A jumper cable, like you've seen many times before: it's a short multi-stranded copper cable with power leads on either end, whose purpose is to transfer power from one vehicle to another.",
+        "description": "A jumper cable, like you've seen many times before: it's a short multi-stranded copper cable with power leads on either end, whose purpose is to share power between vehicles.",
         "to_hit": 1,
         "color": "light_blue",
         "symbol": "&",
