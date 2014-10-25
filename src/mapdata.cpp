@@ -401,6 +401,7 @@ ter_id t_null,
     // More embellishments than you can shake a stick at.
     t_sandbox, t_slide, t_monkey_bars, t_backboard,
     t_gas_pump, t_gas_pump_smashed,
+    t_diesel_pump, t_diesel_pump_smashed,
     t_atm,
     t_generator_broken,
     t_missile, t_missile_exploded,
@@ -613,6 +614,8 @@ void set_ter_ids() {
     t_backboard=terfind("t_backboard");
     t_gas_pump=terfind("t_gas_pump");
     t_gas_pump_smashed=terfind("t_gas_pump_smashed");
+    t_diesel_pump=terfind("t_diesel_pump");
+    t_diesel_pump_smashed=terfind("t_diesel_pump_smashed");
     t_atm=terfind("t_atm");
     t_generator_broken=terfind("t_generator_broken");
     t_missile=terfind("t_missile");
@@ -847,11 +850,26 @@ void check_furniture_and_terrain()
         const furn_t &f = *a;
         check_bash_items(f.bash, f.id, false);
         check_decon_items(f.deconstruct, f.id, false);
+        if( !f.open.empty() && furnmap.count( f.open ) == 0 ) {
+            debugmsg( "invalid furniture %s for opening %s", f.open.c_str(), f.id.c_str() );
+        }
+        if( !f.close.empty() && furnmap.count( f.close ) == 0 ) {
+            debugmsg( "invalid furniture %s for closing %s", f.close.c_str(), f.id.c_str() );
+        }
     }
     for(std::vector<ter_t>::const_iterator a = terlist.begin(); a != terlist.end(); ++a) {
         const ter_t &t = *a;
         check_bash_items(t.bash, t.id, true);
         check_decon_items(t.deconstruct, t.id, true);
+        if( !t.transforms_into.empty() && termap.count( t.transforms_into ) == 0 ) {
+            debugmsg( "invalid transforms_into %s for %s", t.transforms_into.c_str(), t.id.c_str() );
+        }
+        if( !t.open.empty() && termap.count( t.open ) == 0 ) {
+            debugmsg( "invalid terrain %s for opening %s", t.open.c_str(), t.id.c_str() );
+        }
+        if( !t.close.empty() && termap.count( t.close ) == 0 ) {
+            debugmsg( "invalid terrain %s for closing %s", t.close.c_str(), t.id.c_str() );
+        }
     }
 }
 

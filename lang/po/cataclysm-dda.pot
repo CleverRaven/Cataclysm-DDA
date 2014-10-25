@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.A\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-13 09:40+0400\n"
+"POT-Creation-Date: 2014-10-20 09:39+0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1199,6 +1199,16 @@ msgstr[1] ""
 msgid ""
 "Gasoline is a highly flammable liquid.  When under pressure, it has the "
 "potential for violent explosion."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
+msgid "diesel"
+msgid_plural "diesel"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/AMMO_from_json.py
+msgid "Diesel fuel. Made from a by-product of the gasoline making process."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
@@ -4859,6 +4869,18 @@ msgid ""
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
+msgid "emergency jacket"
+msgid_plural "emergency jackets"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/ARMOR_from_json.py
+msgid ""
+"A bright & cheaply made FEMA-issue windbreaker jacket with a hood.  One "
+"size, fits none.  Helps keep you unfrozen & visible for rescuers."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
 msgid "light jacket"
 msgid_plural "light jackets"
 msgstr[0] ""
@@ -5640,7 +5662,9 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/ARMOR_from_json.py
-msgid "A pair of glasses for the near-sighted.  Useless for anyone else."
+msgid ""
+"A pair of glasses for the near-sighted.  You can use them to focus the "
+"sunlight."
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
@@ -5731,7 +5755,8 @@ msgstr[1] ""
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
-"An essential article of the gentleman's apparel.  Also negates near-sight."
+"An essential article of the gentleman's apparel.  Also corrects near-"
+"sightedness.  You can use this to focus the sunlight."
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
@@ -6671,6 +6696,16 @@ msgstr[1] ""
 
 #: lang/json/ARMOR_from_json.py
 msgid "A tarnished silver star gives an air of authority to the wearer."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "detective badge"
+msgid_plural "detective badges"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "A tarnished golden shield gives an air of authority to the wearer."
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
@@ -16939,6 +16974,18 @@ msgid "Shockingly tart white vinegar."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "unfermented vinegar"
+msgid_plural "unfermented vinegars"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"Mixture of water, alcohol and fruit juice that will eventually become "
+"vinegar."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid "cooking oil"
 msgid_plural "cooking oil"
 msgstr[0] ""
@@ -18616,7 +18663,9 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/GENERIC_from_json.py
-msgid "A high-quality lens, useful for focusing or diffusing light."
+msgid ""
+"A high-quality lens, useful for focusing or diffusing light.  Might be "
+"useful for starting a fire."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -19048,7 +19097,7 @@ msgstr[1] ""
 msgid ""
 "A tool useful for seeing long distances.  Simply carrying this item in your "
 "inventory will double the distance that is mapped around you during your "
-"travels."
+"travels.  You could also use them to focus the sunlight"
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -22809,6 +22858,20 @@ msgid ""
 msgstr ""
 
 #: lang/json/GUN_from_json.py
+msgid "L2032 Lookout"
+msgid_plural "L2032 Lookout"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GUN_from_json.py
+msgid ""
+"After the Enforcer's success, Leadworks LLC reworked their autorevolver "
+"design to cater to the 9mm market.  The Lookout, released in 2032, takes "
+"advantage of the smaller 9mm to hold a seventh round, without sacrificing "
+"the ease of handling or handloading the Enforcer made legendary."
+msgstr ""
+
+#: lang/json/GUN_from_json.py
 msgid "S&W 619"
 msgid_plural "S&W 619"
 msgstr[0] ""
@@ -22969,6 +23032,20 @@ msgid ""
 "action of a semi-auto with the ease-of-handloading and style of a revolver.  "
 "It achieved overnight stardom when it appeared in \"Treasure Trail\", a "
 "popular space-Western series running from 2030 through 2037."
+msgstr ""
+
+#: lang/json/GUN_from_json.py
+msgid "L2037 Backup"
+msgid_plural "L2037 Backups"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GUN_from_json.py
+msgid ""
+"The companion sidearm for the L523 modular system, this beast of an "
+"autorevolver has ups and downs.  Unfortunately, it only chambers five "
+"rounds.  Fortunately, they're the same as those used in the L523: .223. (Or "
+"in military hands, 5.56.)"
 msgstr ""
 
 #: lang/json/GUN_from_json.py
@@ -24740,6 +24817,14 @@ msgid ""
 "The contents of this mod have been integrated into the game. This mod pack "
 "is deprecated and will eventually be removed. It is included to prevent "
 "warnings when moving from an older version of the game to a newer version."
+msgstr ""
+
+#: lang/json/MOD_INFO_from_json.py
+msgid "Mundane Zombies"
+msgstr ""
+
+#: lang/json/MOD_INFO_from_json.py
+msgid "Removes all special zombies from the game."
 msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
@@ -28326,6 +28411,18 @@ msgid ""
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
+msgid "magnifying glass"
+msgid_plural "magnifying glasss"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is a magnifying glass.  May be useful for starting fires during sunny "
+"skies."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
 msgid "quern"
 msgid_plural "querns"
 msgstr[0] ""
@@ -29882,6 +29979,14 @@ msgid "inactive manhack"
 msgid_plural "inactive manhacks"
 msgstr[0] ""
 msgstr[1] ""
+
+#: lang/json/TOOL_from_json.py
+msgid "You misprogram the manhack; it's hostile!"
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "The manhack flies from your hand and surveys the area!"
+msgstr ""
 
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -32784,6 +32889,38 @@ msgstr[1] ""
 
 #: lang/json/VAR_VEH_PART_from_json.py
 msgid "A small single-cylinder 2-stroke combustion engine."
+msgstr ""
+
+#: lang/json/VAR_VEH_PART_from_json.py
+#: lang/json/vehicle_part_from_json.py
+msgid "V6 diesel engine"
+msgid_plural "V6 diesel engines"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/VAR_VEH_PART_from_json.py
+msgid "A powerful 6-cylinder diesel engine."
+msgstr ""
+
+#: lang/json/VAR_VEH_PART_from_json.py
+#: lang/json/vehicle_part_from_json.py
+msgid "V8 diesel engine"
+msgid_plural "V8 diesel engines"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/VAR_VEH_PART_from_json.py
+msgid "A powerful 8-cylinder diesel engine."
+msgstr ""
+
+#: lang/json/VAR_VEH_PART_from_json.py
+msgid "I6 diesel engine"
+msgid_plural "I6 diesel engines"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/VAR_VEH_PART_from_json.py
+msgid "A powerful straight-6 diesel engine."
 msgstr ""
 
 #: lang/json/VAR_VEH_PART_from_json.py
@@ -43229,6 +43366,34 @@ msgstr ""
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_male"
+msgid "Police Detective"
+msgstr ""
+
+#. ~ Profession (male Police Detective) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
+msgid ""
+"You were on the brink of a major breakthrough in your last homicide case "
+"when the Cataclysm struck. Now that suspect is dead. Everyone's dead. You "
+"need a smoke."
+msgstr ""
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_female"
+msgid "Police Detective"
+msgstr ""
+
+#. ~ Profession (female Police Detective) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_female"
+msgid ""
+"You were on the brink of a major breakthrough in your last homicide case "
+"when the Cataclysm struck. Now that suspect is dead. Everyone's dead. You "
+"need a smoke."
+msgstr ""
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Used Car Salesman"
 msgstr ""
 
@@ -43269,7 +43434,7 @@ msgid ""
 "Ever since you were a child you loved hunting, and you soon took a liking to "
 "the challenge of hunting with a bow.  Why, if the world ended there's "
 "nothing you'd want at your side more than your trusty bow.  So when it did, "
-"you made made sure to bring it along."
+"you made sure to bring it along."
 msgstr ""
 
 #: lang/json/professions_from_json.py
@@ -43284,7 +43449,7 @@ msgid ""
 "Ever since you were a child you loved hunting, and you soon took a liking to "
 "the challenge of hunting with a bow.  Why, if the world ended there's "
 "nothing you'd want at your side more than your trusty bow.  So when it did, "
-"you made made sure to bring it along."
+"you made sure to bring it along."
 msgstr ""
 
 #: lang/json/professions_from_json.py
@@ -45855,6 +46020,30 @@ msgid ""
 "Young children are at play and older ones tend a large vegetable garden.  "
 "The caption reads: \"A well-armed community is a SAFE community.  Leadworks, "
 "LLC.\""
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"This is an advertisement for Leadworks LLC handguns.  It shows a picture of "
+"a bionic police officer assisting a young couple, who were being attacked by "
+"a gang of ruffians.  The caption reads: \"You don't have to void your "
+"warranty or wear out your thumb to achieve felon-stopping firepower. The "
+"L39B, tried and true by our fine cyborgs in blue, is available in .45 ACP "
+"for that extra punch, and we offer semiautomatic (but equally robust!) "
+"versions for the civilian market.  Leadworks, LLC.\""
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"This is an advertisement for Leadworks LLC modular weapons.  It shows a "
+"picture of an overworked-yet-grateful police sergeant assembling a sleek "
+"rifle, with similar-looking weapons racked neatly behind her.  The caption "
+"reads: \"Leadworks is proud to offer the L523 modular weapon system. No more "
+"must armorers stock and maintain stacks and stacks of rifles, carbines, and "
+"squad support weapons, juggling multiple incompatible ammunition types! Just "
+"procure a base unit for every trooper, and use our lightweight and portable "
+"conversion kits to swap from house-to-house CQB carbine to rooftop-patrol "
+"DSR, safely and cleanly!\""
 msgstr ""
 
 #: lang/json/snippet_from_json.py
@@ -49796,6 +49985,14 @@ msgid "smashed gas pump"
 msgstr ""
 
 #: lang/json/terrain_from_json.py
+msgid "diesel pump"
+msgstr ""
+
+#: lang/json/terrain_from_json.py
+msgid "smashed diesel pump"
+msgstr ""
+
+#: lang/json/terrain_from_json.py
 msgid "ATM"
 msgstr ""
 
@@ -50862,6 +51059,10 @@ msgid "V12 Engine"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
+msgid "straight-6 diesel engine"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
 msgid "foot pedals"
 msgstr ""
 
@@ -50883,6 +51084,22 @@ msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "externally mounted gas tank"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "diesel tank (small)"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "diesel tank"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "diesel tank (little)"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "externally mounted diesel tank"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -51031,11 +51248,12 @@ msgstr ""
 
 #: src/action.cpp src/editmap.cpp src/game.cpp
 #: src/game.cpp
+#: src/game.cpp src/iexamine.cpp
 #: src/iexamine.cpp
-#: src/iexamine.cpp src/inventory_ui.cpp
+#: src/iexamine.cpp src/inventory_ui.cpp src/iuse.cpp
 #: src/iuse.cpp
-#: src/iuse.cpp src/player.cpp
-#: src/player.cpp src/veh_interact.cpp src/vehicle.cpp
+#: src/player.cpp
+#: src/veh_interact.cpp src/vehicle.cpp
 msgid "Cancel"
 msgstr ""
 
@@ -54343,6 +54561,10 @@ msgstr ""
 #: src/crafting.cpp
 #, c-format
 msgid "Your skill level: %d"
+msgstr ""
+
+#: src/crafting.cpp
+msgid "Recipe not memorized yet"
 msgstr ""
 
 #: src/crafting.cpp
@@ -59393,6 +59615,10 @@ msgid "%s began their journey into the Cataclysm."
 msgstr ""
 
 #: src/game.cpp
+msgid "Adventured:"
+msgstr ""
+
+#: src/game.cpp
 msgid "Survived:"
 msgstr ""
 
@@ -59642,7 +59868,19 @@ msgid "You're too tired to continue."
 msgstr ""
 
 #: src/game.cpp
-msgid "With a clang and a shudder, the gasoline pump goes silent."
+msgid "With a clang and a shudder, the pump goes silent."
+msgstr ""
+
+#: src/game.cpp
+msgid "There is not enough sunlight to start a fire now. You stop trying."
+msgstr ""
+
+#: src/game.cpp
+msgid "You finish waiting."
+msgstr ""
+
+#: src/game.cpp
+msgid "You feel much better."
 msgstr ""
 
 #: src/game.cpp
@@ -59669,14 +59907,6 @@ msgstr ""
 msgid ""
 "You cut into the corpse trying to make it unable to attack, but you don't "
 "think you have it right."
-msgstr ""
-
-#: src/game.cpp
-msgid "You finish waiting."
-msgstr ""
-
-#: src/game.cpp
-msgid "You feel much better."
 msgstr ""
 
 #: src/game.cpp
@@ -60739,11 +60969,6 @@ msgstr ""
 #: src/game.cpp
 #, c-format
 msgid "The %s beeps erratically and deactivates!"
-msgstr ""
-
-#: src/game.cpp
-#, c-format
-msgid "The %s flies erratically and drops from the air!"
 msgstr ""
 
 #: src/game.cpp
@@ -61897,6 +62122,33 @@ msgid ""
 msgstr ""
 
 #: src/game.cpp
+#, c-format
+msgid "Deactivate the %s?"
+msgstr ""
+
+#: src/game.cpp
+msgid "Engage targets."
+msgstr ""
+
+#: src/game.cpp
+msgid "Reprogram the manhack?"
+msgstr ""
+
+#: src/game.cpp
+msgid "Follow me."
+msgstr ""
+
+#: src/game.cpp
+#, c-format
+msgid "The %s hovers momentarily as it surveys the area."
+msgstr ""
+
+#: src/game.cpp
+#, c-format
+msgid "The %s lets out a whirring noise and starts to follow you."
+msgstr ""
+
+#: src/game.cpp
 msgid "You can't move while in your shell.  Deactivate it to go mobile."
 msgstr ""
 
@@ -61914,6 +62166,11 @@ msgstr ""
 
 #: src/game.cpp
 msgid "You're too pacified to strike anything..."
+msgstr ""
+
+#: src/game.cpp
+#, c-format
+msgid "You can't displace your %s."
 msgstr ""
 
 #: src/game.cpp
@@ -62104,60 +62361,8 @@ msgid "The water puts out the flames!"
 msgstr ""
 
 #: src/game.cpp
-msgid "Deactivate the turret?"
-msgstr ""
-
-#: src/game.cpp
-msgid "Deactivate the laser turret?"
-msgstr ""
-
-#: src/game.cpp
-msgid "Deactivate the rifle turret?"
-msgstr ""
-
-#: src/game.cpp
-#, c-format
-msgid "You can't displace your %s."
-msgstr ""
-
-#: src/game.cpp
 #, c-format
 msgid "You displace the %s."
-msgstr ""
-
-#: src/game.cpp
-msgid "Reprogram the manhack?"
-msgstr ""
-
-#: src/game.cpp
-msgid "Deactivate."
-msgstr ""
-
-#: src/game.cpp
-msgid "Do what?"
-msgstr ""
-
-#: src/game.cpp
-msgid "Engage targets."
-msgstr ""
-
-#: src/game.cpp
-msgid "Follow me."
-msgstr ""
-
-#: src/game.cpp
-#, c-format
-msgid "The %s hovers momentarily as it surveys the area."
-msgstr ""
-
-#: src/game.cpp
-#, c-format
-msgid "The %s ."
-msgstr ""
-
-#: src/game.cpp
-#, c-format
-msgid "The %s lets out a whirring noise and starts to follow you."
 msgstr ""
 
 #: src/game.cpp src/live_view.cpp
@@ -64585,11 +64790,6 @@ msgstr ""
 #: src/iexamine.cpp
 #, c-format
 msgid "This %s has already been harvested. Harvest it again next year."
-msgstr ""
-
-#: src/iexamine.cpp
-#, c-format
-msgid "Harvest from the %s?"
 msgstr ""
 
 #: src/iexamine.cpp
@@ -67279,7 +67479,18 @@ msgid "You successfully light a fire."
 msgstr ""
 
 #: src/iuse.cpp
-msgid "You try to light a fire, but fail."
+#, c-format
+msgid ""
+"If the current weather holds, it will take around %d minutes to light a fire."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You need direct sunlight to light a fire with this."
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "At your skill level, it will take around %d minutes to light a fire."
 msgstr ""
 
 #: src/iuse.cpp
@@ -68013,7 +68224,7 @@ msgstr ""
 msgid "There's no vehicle there."
 msgstr ""
 
-#: src/iuse.cpp
+#: src/iuse.cpp src/veh_interact.cpp
 msgid "That vehicle has no fuel to siphon."
 msgstr ""
 
@@ -68031,6 +68242,7 @@ msgid "Container"
 msgstr ""
 
 #: src/iuse.cpp src/veh_interact.cpp
+#: src/veh_interact.cpp
 msgid "Never mind"
 msgstr ""
 
@@ -68038,7 +68250,7 @@ msgstr ""
 msgid "Fill which vehicle?"
 msgstr ""
 
-#: src/iuse.cpp src/veh_interact.cpp
+#: src/iuse.cpp
 #, c-format
 msgid "Siphoned %d unit of %s from the %s into the %s%s"
 msgid_plural "Siphoned %d units of %s from the %s into the %s%s"
@@ -68839,70 +69051,6 @@ msgstr ""
 
 #: src/iuse.cpp
 msgid "...and several nearby zombies turn friendly!"
-msgstr ""
-
-#: src/iuse.cpp
-msgid "There is no adjacent square to release the manhack in!"
-msgstr ""
-
-#: src/iuse.cpp
-msgid "You misprogram the manhack; it's hostile!"
-msgstr ""
-
-#: src/iuse.cpp
-msgid "The manhack flies from your hand and surveys the area!"
-msgstr ""
-
-#: src/iuse.cpp
-msgid "Place the turret where?"
-msgstr ""
-
-#: src/iuse.cpp
-msgid "You cannot place a turret there."
-msgstr ""
-
-#: src/iuse.cpp
-#, c-format
-msgid "You load %d x 9mm round into the turret."
-msgid_plural "You load %d x 9mm rounds into the turret."
-msgstr[0] ""
-msgstr[1] ""
-
-#: src/iuse.cpp
-msgid ""
-"If you had standard factory-built 9mm bullets, you could load the turret."
-msgstr ""
-
-#: src/iuse.cpp
-msgid "The turret scans you and makes angry beeping noises!"
-msgstr ""
-
-#: src/iuse.cpp
-msgid "The turret emits an IFF beep as it scans you."
-msgstr ""
-
-#: src/iuse.cpp
-msgid "The laser turret scans you and makes angry beeping noises!"
-msgstr ""
-
-#: src/iuse.cpp
-msgid "The laser turret emits an IFF beep as it scans you."
-msgstr ""
-
-#: src/iuse.cpp
-msgid "A flashing LED on the laser turret appears to indicate low light."
-msgstr ""
-
-#: src/iuse.cpp
-#, c-format
-msgid "You load %d x 5.56 round into the turret."
-msgid_plural "You load %d x 5.56 rounds into the turret."
-msgstr[0] ""
-msgstr[1] ""
-
-#: src/iuse.cpp
-msgid ""
-"If you had standard factory-built 5.56 bullets, you could load the turret."
 msgstr ""
 
 #: src/iuse.cpp
@@ -70533,6 +70681,48 @@ msgstr ""
 #: src/iuse_actor.cpp
 #, c-format
 msgid "You need %s to consume %s!"
+msgstr ""
+
+#: src/iuse_actor.cpp
+#, c-format
+msgid "There is no adjacent square to release the %s in!"
+msgstr ""
+
+#: src/iuse_actor.cpp
+#, c-format
+msgid "Place the %s where?"
+msgstr ""
+
+#: src/iuse_actor.cpp
+#, c-format
+msgid "You cannot place a %s there."
+msgstr ""
+
+#: src/iuse_actor.cpp
+#, c-format
+msgid "If you had standard factory-built %s bullets, you could load the %s."
+msgstr ""
+
+#. ~ First %s is the ammo item (with plural form and count included), second is the monster name
+#: src/iuse_actor.cpp
+#, c-format
+msgid "You load %d x %s round into the %s."
+msgid_plural "You load %d x %s rounds into the %s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/iuse_actor.cpp
+#, c-format
+msgid "The %s scans you and makes angry beeping noises!"
+msgstr ""
+
+#: src/iuse_actor.cpp
+#, c-format
+msgid "The %s emits an IFF beep as it scans you."
+msgstr ""
+
+#: src/iuse_actor.cpp
+msgid "A flashing LED on the laser turret appears to indicate low light."
 msgstr ""
 
 #: src/iuse_software.cpp
@@ -82759,6 +82949,10 @@ msgid "You're full.  Force yourself to eat?"
 msgstr ""
 
 #: src/player.cpp
+msgid "You're fed.  Try to pack more in anyway?"
+msgstr ""
+
+#: src/player.cpp
 msgid "You're adequately fueled. Prepare for hibernation?"
 msgstr ""
 
@@ -83667,6 +83861,10 @@ msgstr ""
 
 #: src/player_activity.cpp
 msgid " Stop interacting with inventory?"
+msgstr ""
+
+#: src/player_activity.cpp
+msgid " Stop lighting the fire?"
 msgstr ""
 
 #: src/ranged.cpp
@@ -84795,7 +84993,7 @@ msgid ""
 msgstr ""
 
 #: src/veh_interact.cpp
-msgid "The vehicle has no gasoline to siphon."
+msgid "The vehicle has no fuel left to siphon."
 msgstr ""
 
 #: src/veh_interact.cpp
@@ -85004,6 +85202,29 @@ msgid "You remove the broken %s from the %s."
 msgstr ""
 
 #: src/veh_interact.cpp
+msgid "Siphon what?"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "Gasoline"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "Diesel"
+msgstr ""
+
+#: src/veh_interact.cpp
+#, c-format
+msgid "Siphoned %d units of %s from the %s into the %s, draining the tank."
+msgstr ""
+
+#: src/veh_interact.cpp
+#, c-format
+msgid ""
+"Siphoned %d units of %s from the %s into the %s, receiving tank is full."
+msgstr ""
+
+#: src/veh_interact.cpp
 #, c-format
 msgid "You replace one of the %s's tires with a %s."
 msgstr ""
@@ -85180,10 +85401,6 @@ msgid "The lights won't come on!"
 msgstr ""
 
 #: src/vehicle.cpp
-msgid "You honk the horn!"
-msgstr ""
-
-#: src/vehicle.cpp
 msgid "Fridge turned off"
 msgstr ""
 
@@ -85301,11 +85518,19 @@ msgid "The %s's engine fails to start."
 msgstr ""
 
 #: src/vehicle.cpp
+msgid "You honk the horn!"
+msgstr ""
+
+#: src/vehicle.cpp
 msgid "HOOOOORNK!"
 msgstr ""
 
 #: src/vehicle.cpp
 msgid "BEEEP!"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "You honk the horn, but nothing happens."
 msgstr ""
 
 #. ~ 2.8-Liter engine

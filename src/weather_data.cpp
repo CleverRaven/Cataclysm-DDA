@@ -132,7 +132,10 @@ int weather_shift[4][NUM_WEATHER_TYPES][NUM_WEATHER_TYPES] = {
 void game::init_weather()
 {
     std::string tmp_season_name[4] = {
-        _("spring"), _("summer"), _("autumn"), _("winter")
+        pgettext( "season_name", "spring" ),
+        pgettext( "season_name", "summer" ),
+        pgettext( "season_name", "autumn" ),
+        pgettext( "season_name", "winter" )
     };
     for(int i = 0; i < 4; i++) {
         season_name[i] = tmp_season_name[i];

@@ -49,7 +49,6 @@ struct recipe : public requirements {
     craft_subcat subcat;
     Skill *skill_used;
     std::map<Skill *, int> required_skills;
-    int difficulty;
     bool reversible; // can the item be disassembled?
     bool autolearn; // do we learn it just by leveling skills?
     int learn_by_disassembly; // what level (if any) do we learn it by disassembly?
@@ -69,7 +68,6 @@ struct recipe : public requirements {
         id = 0;
         result = "null";
         skill_used = NULL;
-        difficulty = 0;
         reversible = false;
         autolearn = false;
         learn_by_disassembly = -1;
@@ -78,10 +76,10 @@ struct recipe : public requirements {
     }
 
     recipe(std::string pident, int pid, itype_id pres, craft_cat pcat, craft_subcat psubcat,
-           std::string &to_use, std::map<std::string, int> &to_require, int pdiff,
+           std::string &to_use, std::map<std::string, int> &to_require,
            bool preversible, bool pautolearn, int plearn_dis, int pmult, bool ppaired,
            std::vector<byproduct> &bps) :
-        ident (pident), id (pid), result (pres), byproducts(bps), cat(pcat), subcat(psubcat), difficulty (pdiff),
+        ident (pident), id (pid), result (pres), byproducts(bps), cat(pcat), subcat(psubcat),
         reversible (preversible), autolearn (pautolearn), learn_by_disassembly (plearn_dis),
         result_mult(pmult), paired(ppaired) {
         skill_used = to_use.size() ? Skill::skill(to_use) : NULL;

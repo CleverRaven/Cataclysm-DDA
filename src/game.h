@@ -128,7 +128,7 @@ class game
         std::vector<std::string> list_active_characters();
         void write_memorial_file(std::string sLastWords);
         void cleanup_at_end();
-        void determine_starting_season();
+        void start_calendar();
         bool do_turn();
         void draw();
         void draw_ter(int posx = -999, int posy = -999);
@@ -325,13 +325,6 @@ class game
         // Select items to drop.  Returns a list of pairs of position, quantity.
         std::list<std::pair<int, int>> multidrop();
         faction *list_factions(std::string title = "FACTIONS:");
-        point find_item(item *it);
-        /**
-         * Remove a specific item from the game. Contents of it
-         * are removed as well. The item is compared by pointer.
-         * @param it A pointer to the item that should be removed.
-         */
-        void remove_item(const item *it);
 
         recipe_map list_recipes()
         {
@@ -542,7 +535,6 @@ class game
         void init_weather();
         void init_weather_anim();
         void init_morale();
-        void init_itypes();       // Initializes item types
         void init_skills() throw (std::string);
         void init_professions();
         void init_faction_data();
