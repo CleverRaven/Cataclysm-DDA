@@ -104,6 +104,7 @@ struct map_deconstruct_info {
  * PLANT - A "furniture" that grows and fruits
  * LIQUIDCONT - Furniture that contains liquid, allows for contents to be accessed in some checks even if SEALED
  * OPENCLOSE_INSIDE - If it's a door (with an 'open' or 'close' field), it can only be opened or closed if you're inside.
+ * PERMEABLE - Allows gases to flow through unimpeded.
  *
  * Currently only used for Fungal conversions
  * WALL - This terrain is an upright obstacle
@@ -154,7 +155,8 @@ enum ter_bitflags {
     TFLAG_UNSTABLE,
     TFLAG_WALL,
     TFLAG_DEEP_WATER,
-    TFLAG_HARVESTED
+    TFLAG_HARVESTED,
+    TFLAG_PERMEABLE
 };
 extern std::map<std::string, ter_bitflags> ter_bitflags_map;
 void init_ter_bitflags_map();
