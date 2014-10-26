@@ -474,9 +474,8 @@ bool requirements::check_enough_materials( const item_comp &comp,
         return false;
     }
     const int cnt = std::abs( comp.count ) * batch;
-    const itype *it = item_controller->find_template( comp.type );
     const tool_comp *tq = find_by_type( tools, comp.type );
-    if( tq != nullptr ) {
+    if( tq != nullptr && tq->available == a_true ) {
         // The very same item type is also needed as tool!
         // Use charges of it, or use it by count?
         const int tc = tq->by_charges() ? 1 : std::abs( tq->count );
@@ -493,16 +492,14 @@ bool requirements::check_enough_materials( const item_comp &comp,
         // non-available even before this function is called.
         // Only ammo and (some) food is counted by charges, both are unlikely
         // to appear as tool, but it's possible /-:
-        bool has_comps;
-        if( it->count_by_charges() && comp.count > 0 ) {
-            has_comps = crafting_inv.has_charges( comp.type, cnt + tc );
-        } else {
-            has_comps = crafting_inv.has_components( comp.type, cnt + tc );
-        }
-        if( !has_comps && !crafting_inv.has_tools( comp.type, comp.count + tc ) ) {
+        const item_comp i_tmp( comp.type, cnt + tc );
+        const tool_comp t_tmp( comp.type, -( cnt + tc ) ); // not by charges!
+        // batch factor is explicitly 1, because it's already included in the count.
+        if( !i_tmp.has( crafting_inv, 1 ) && !t_tmp.has( crafting_inv, 1 ) ) {
             comp.available = a_insufficent;
         }
     }
+    const itype *it = item_controller->find_template( comp.type );
     for( const auto &ql : it->qualities ) {
         const quality_requirement *qr = find_by_type( qualities, ql.first );
         if( qr == nullptr || qr->level > ql.second ) {
