@@ -949,7 +949,7 @@ void game::cleanup_at_end()
         if (!sLastWords.empty()) {
             u.add_memorial_log( _("Last words: %s"), sLastWords.c_str(), _("Last words: %s"), sLastWords.c_str() );
         }
-        save_player_data();
+        // Struck the save_player_data here to forestall Weirdness
         move_save_to_graveyard();
         write_memorial_file(sLastWords);
         u.memorial_log.clear();
