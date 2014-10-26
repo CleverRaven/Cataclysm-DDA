@@ -2024,7 +2024,7 @@
       ["fencing_foil", 8],
       ["fencing_sabre", 8],
       ["fencing_epee", 8],
-      ["survnote", 1]
+      ["survnote", 1],
       ["halter_top", 50],
       ["linuxtshirt", 80]
     ]
@@ -2340,8 +2340,6 @@
       ["survnote", 1],
       ["slingshot", 10],
       ["wristrocket", 5]
-      ["halter_top", 50],
-      ["linuxtshirt", 80]
     ]
   },{
     "type" : "item_group",
@@ -2849,7 +2847,7 @@
       ["sundress", 50],
       ["dress_wedding", 1],
       ["postman_shorts", 5],
-      ["b_shorts", 15]
+      ["b_shorts", 15],
       ["kilt", 30],
       ["nanoskirt", 10]
     ]
@@ -2871,7 +2869,7 @@
       ["skinny_tie", 10],
       ["tieclip", 5],
       ["collarpin", 5],
-      ["postman_shirt", 5]
+      ["postman_shirt", 5],
       ["halter_top", 50],
       ["linuxtshirt", 80],
       ["sleeveless_tunic", 10]
@@ -4785,7 +4783,7 @@
       ["radiocontrol", 3],
       ["peephole", 1],
       ["magnifying_glass", 2],
-      ["ear_spool",30]
+      ["ear_spool",30],
       ["halter_top", 50],
       ["linuxtshirt", 80],
       ["kilt", 30],
@@ -4993,7 +4991,6 @@
       ["sheath", 5],
       ["holster", 4],
       ["survnote", 2]
-      ["linuxtshirt", 80]
     ]
   },{
     "type" : "item_group",
