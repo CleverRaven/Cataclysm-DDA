@@ -3079,7 +3079,7 @@
       ["kilt", 30],
       ["nanoskirt", 10],
       ["sleeveless_tunic", 10],
-      ["plug",30]
+      ["ear_spool",30]
       
     ]
   },{
@@ -4785,7 +4785,7 @@
       ["radiocontrol", 3],
       ["peephole", 1],
       ["magnifying_glass", 2],
-      ["plug",30]
+      ["ear_spool",30]
       ["halter_top", 50],
       ["linuxtshirt", 80],
       ["kilt", 30],
@@ -7645,7 +7645,7 @@
       ["tanto", 4],
       ["katana", 1],
       ["survnote", 3],
-      ["plug",30]
+      ["ear_spool",30]
     ]
   },{
     "type" : "item_group",
