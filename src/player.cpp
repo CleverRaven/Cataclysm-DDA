@@ -2532,7 +2532,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
         iBodyTempInt = (temp_conv[i] / 100.0) * 2 - 100; // Scale of -100 to +100
         iEnc = encumb(aBodyPart[i], iLayers, iArmorEnc);
         mvwprintz(w_encumb, i + 1, 1, c_ltgray, "%s", asText[i].c_str());
-        mvwprintz(w_encumb, i + 1, 8, c_ltgray, "(%d)", iLayers);
+        mvwprintz(w_encumb, i + 1, 8, c_ltgray, "(%d)", static_cast<int>( iLayers ) );
         mvwprintz(w_encumb, i + 1, 11, c_ltgray, "%*s%d%s%d=", (iArmorEnc < 0 || iArmorEnc > 9 ? 1 : 2),
                   " ", iArmorEnc, "+", iEnc - iArmorEnc);
         wprintz(w_encumb, encumb_color(iEnc), "%s%d", (iEnc < 0 || iEnc > 9 ? "" : " ") , iEnc);
@@ -2883,7 +2883,7 @@ detecting traps and other things of interest."));
                 } else {
                     mvwprintz(w_encumb, i + 1 - min, 1, c_ltgray, "%s", asText[i].c_str());
                 }
-                mvwprintz(w_encumb, i + 1 - min, 8, c_ltgray, "(%d)", iLayers);
+                mvwprintz(w_encumb, i + 1 - min, 8, c_ltgray, "(%d)", static_cast<int>( iLayers ) );
                 mvwprintz(w_encumb, i + 1 - min, 11, c_ltgray, "%*s%d%s%d=", (iArmorEnc < 0 || iArmorEnc > 9 ? 1 : 2),
                           " ", iArmorEnc, "+", iEnc - iArmorEnc);
                 wprintz(w_encumb, encumb_color(iEnc), "%s%d", (iEnc < 0 || iEnc > 9 ? "" : " ") , iEnc);
