@@ -5,6 +5,7 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 
 //********** Functor Base, Static and Class member accessors
 class TFunctor
@@ -59,6 +60,11 @@ template <class TClass> class ClassFunctionAccessor : public TFunctor
         ClassFunctionAccessor(TClass *ptr2obj, void (TClass::*fptr)(JsonObject &jo))
         {
             ptr_to_obj = ptr2obj;
+            _fptr = fptr;
+        }
+        ClassFunctionAccessor(const std::unique_ptr<TClass> &ptr2obj, void (TClass::*fptr)(JsonObject &jo))
+        {
+            ptr_to_obj = ptr2obj.get();
             _fptr = fptr;
         }
 

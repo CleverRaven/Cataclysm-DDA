@@ -41,7 +41,8 @@
       ["candycigarette", 10],
       ["radio_car_box", 1],
       ["basketball", 8],
-      ["radiocontrol", 5]
+      ["radiocontrol", 5],
+      ["slingshot", 10]
     ]
   },{
     "type" : "item_group",
@@ -298,7 +299,8 @@
       ["phonebook", 5],
       ["survnote", 1],
       ["radio_car_box", 2],
-      ["radiocontrol", 5]
+      ["radiocontrol", 5],
+      ["magnifying_glass", 2]
     ]
   },{
     "type" : "item_group",
@@ -725,7 +727,9 @@
       ["toolbox", 2],
       ["knitting_needles", 10],
       ["sheath", 15],
-      ["peephole", 2]
+      ["peephole", 2],
+      ["magnifying_glass", 5]
+      
     ]
   },{
     "type" : "item_group",
@@ -905,7 +909,8 @@
       ["holybook_scientology", 1],
       ["mouthpiece", 1],
       ["leathersandals", 25],
-      ["survnote", 2]
+      ["survnote", 2],
+      ["magnifying_glass", 2]
     ]
   },{
     "type":"item_group",
@@ -926,6 +931,7 @@
       ["sw_22", 5],
       ["glock_19", 5],
       ["usp_9mm", 4],
+      ["l_lookout_9mm", 5],
       ["l_sp_9mm", 4],
       ["l_mp_9mm", 1],
       ["cx4", 1],
@@ -1777,7 +1783,8 @@
       ["multitool", 6],
       ["survnote", 1],
       ["fertilizer_commercial",30],
-      ["peephole", 25]
+      ["peephole", 25],
+      ["magnifying_glass", 5]
     ]
   },{
     "type" : "item_group",
@@ -1886,7 +1893,8 @@
       ["misc_repairkit", 5],
       ["tool_belt", 30],
       ["knitting_needles", 1],
-      ["survnote", 1]
+      ["survnote", 1],
+      ["material_quicklime", 10]
     ]
   },{
     "type" : "item_group",
@@ -1926,7 +1934,8 @@
       ["camera_pro", 5],
       ["wristwatch", 15],
       ["radio_car_box", 3],
-      ["radiocontrol", 15]
+      ["radiocontrol", 15],
+      ["magnifying_glass", 4]
     ]
   },{
     "type" : "item_group",
@@ -2321,7 +2330,9 @@
       ["fencing_foil", 10],
       ["fencing_sabre", 10],
       ["fencing_epee", 10],
-      ["survnote", 1]
+      ["survnote", 1],
+      ["slingshot", 10],
+      ["wristrocket", 5]
     ]
   },{
     "type" : "item_group",
@@ -2495,6 +2506,7 @@
       ["sw_22", 5],
       ["glock_19", 6],
       ["usp_9mm", 5],
+      ["l_lookout_9mm", 5],
       ["l_sp_9mm", 6],
       ["sw_619", 4],
       ["taurus_38", 4],
@@ -2511,6 +2523,7 @@
       ["raging_bull", 1],
       ["sw_500", 1],
       ["v29_cheap", 3],
+      ["l_bak_223", 3],
       ["rm99_pistol", 2],
       ["rm103a_pistol", 1]
     ]
@@ -2575,6 +2588,7 @@
       ["fn_fal", 16],
       ["acr", 4],
       ["ar15", 9],
+      ["l_bak_223", 6],
       ["l_mbr_223", 4],
       ["scar_l", 3],
       ["scar_h", 5],
@@ -2593,8 +2607,9 @@
     "items":[
       ["sig_mosquito", 5],
       ["sw_22", 5],
-      ["glock_19", 7],
+      ["glock_19", 6],
       ["usp_9mm", 6],
+      ["l_lookout_9mm", 5],
       ["l_sp_9mm", 6],
       ["l_mp_9mm", 3],
       ["sw_619", 4],
@@ -2638,6 +2653,7 @@
       ["browning_blr", 8],
       ["remington_700", 14],
       ["m14a", 10],
+      ["l_bak_223", 6],
       ["l_car_223", 3],
       ["l_mbr_223", 3],
       ["l_dsr_223", 3],
@@ -2659,6 +2675,7 @@
       ["rm88_battle_rifle", 1],
       ["rm11b_sniper_rifle", 1],
       ["rm614_lmg", 1],
+      ["rm298", 1],
       ["rm2000_smg", 1],
       ["rm99_pistol", 1],
       ["rm103a_pistol", 1],
@@ -3027,6 +3044,9 @@
       ["boots_combat", 10],
       ["pants_army", 10],
       ["jacket_army", 10],
+      ["winter_pants_army", 10],
+      ["winter_jacket_army", 10],
+      ["winter_gloves_army", 10],
       ["army_top", 20],
       ["tux", 1],
       ["dress_wedding", 1],
@@ -3478,6 +3498,7 @@
       ["mobile_memory_card", 6],
       ["laptop", 2],
       ["badge_deputy", 5],
+      ["badge_detective", 5],
       ["gloves_leather", 45],
       ["gloves_tactical", 10],
       ["tac_helmet", 15],
@@ -3685,6 +3706,7 @@
       ["ar15", 15],
       ["m4a1", 9],
       ["h&k416a5", 9],
+      ["m1014", 5],
       ["m249", 2],
       ["m27iar", 2],
       ["ak47", 7],
@@ -3858,7 +3880,8 @@
       ["survnote", 1],
       ["diazepam", 10],
       ["stethoscope", 35],
-      ["jar_3l_glass", 15]
+      ["jar_3l_glass", 15],
+      ["magnifying_glass", 5]
     ]
   },{
     "type" : "item_group",
@@ -4042,7 +4065,8 @@
       ["pocketwatch", 2],
       ["gold_watch", 2],
       ["sf_watch", 1],
-      ["survnote", 1]
+      ["survnote", 1],
+      ["magnifying_glass", 8]
     ]
   },{
     "type" : "item_group",
@@ -4546,6 +4570,9 @@
       ["pants", 75],
       ["pants_army", 30],
       ["jacket_army", 30],
+      ["winter_pants_army", 10],
+      ["winter_jacket_army", 10],
+      ["winter_gloves_army", 10],
       ["army_top", 30],
       ["skirt", 75],
       ["skirt_leather", 5],
@@ -4734,7 +4761,8 @@
       ["survnote", 5],
       ["radio_car_box", 1],
       ["radiocontrol", 3],
-      ["peephole", 1]
+      ["peephole", 1],
+      ["magnifying_glass", 2]
     ]
   },{
     "type" : "item_group",
@@ -5462,7 +5490,8 @@
       ["holybook_kallisti", 1],
       ["holybook_scientology", 1],
       ["collarpin", 3],
-      ["survnote", 1]
+      ["survnote", 1],
+      ["magnifying_glass", 2]
     ]
   },{
     "type" : "item_group",
@@ -5694,11 +5723,7 @@
       ["flamethrower", 20],
       ["rm451_flamethrower", 5],
       ["m249", 30],
-      ["m4a1", 30],
-      ["m9", 30],
-      ["h&k416a5", 30],
       ["m27iar", 30],
-      ["m2010", 10],
       ["m2browning", 15],
       ["mark19", 15],
       ["556", 30],
@@ -5706,7 +5731,6 @@
       ["40mm_shot", 6],
       ["8mm_hvp", 4],
       ["556_incendiary", 10],
-      ["300_winmag", 10],
       ["rm802", 5],
       ["40mm_concussive", 7],
       ["40mm_flechette", 6],
@@ -5717,6 +5741,7 @@
       ["hk_g80", 5],
       ["12mm", 5],
       ["rm614_lmg", 2],
+      ["rm298", 1],
       ["m107a1", 8],
       ["50bmg", 12],
       ["50ss", 8],
@@ -5747,6 +5772,7 @@
       ["plasma", 8],
       ["m4a1", 10],
       ["h&k416a5", 10],
+      ["m1014", 3],
       ["m9", 10],
       ["9mm", 6],
       ["l_mbr_223", 6],
@@ -5816,6 +5842,9 @@
     "items":[
       ["pants_army", 30],
       ["jacket_army", 30],
+      ["winter_pants_army", 10],
+      ["winter_jacket_army", 10],
+      ["winter_gloves_army", 10],
       ["army_top", 30],
       ["kevlar", 10],
       ["modularvest", 15],
@@ -5919,6 +5948,7 @@
     "id" : "mil_armor_pants",
     "items":[
       ["pants_army", 30],
+      ["winter_pants_army", 10],
       ["pants", 75],
       ["pants_cargo", 70],
       ["legrig", 10],
@@ -6143,6 +6173,9 @@
       ["shorts_cargo", 50],
       ["pants_army", 30],
       ["jacket_army", 30],
+      ["winter_pants_army", 10],
+      ["winter_jacket_army", 10],
+      ["winter_gloves_army", 10],
       ["jumpsuit", 20],
       ["jacket_leather", 30],
       ["sleeveless_trenchcoat", 5],
@@ -6656,6 +6689,7 @@
       ["ak47", 16],
       ["m4a1", 7],
       ["h&k416a5", 3],
+      ["m1014", 1],
       ["steyr_aug", 6],
       ["v29", 1],
       ["nx17", 1],
@@ -6922,6 +6956,9 @@
       ["hose", 15],
       ["pants_army", 30],
       ["jacket_army", 30],
+      ["winter_pants_army", 10],
+      ["winter_jacket_army", 10],
+      ["winter_gloves_army", 10],
       ["army_top", 30],
       ["boots_combat", 10],
       ["gloves_tactical", 10],
@@ -6941,6 +6978,7 @@
       ["plut_cell", 10],
       ["m249", 1],
       ["rm614_lmg", 1],
+      ["rm298", 1],
       ["v8_combustion", 10],
       ["extinguisher", 20],
       ["radio", 20],
@@ -7014,6 +7052,9 @@
       ["boots_combat", 50],
       ["pants_army", 30],
       ["jacket_army", 30],
+      ["winter_pants_army", 10],
+      ["winter_jacket_army", 10],
+      ["winter_gloves_army", 10],
       ["army_top", 30],
       ["kevlar", 10],
       ["modularvest", 15],
@@ -7082,6 +7123,7 @@
       ["usp_45", 6],
       ["m4a1", 7],
       ["h&k416a5", 7],
+      ["m1014", 2],
       ["scar_l", 6],
       ["scar_h", 5],
       ["m249", 1],
@@ -7276,7 +7318,9 @@
       ["antiparasitic", 2],
       ["survnote", 1],
       ["toolbox", 1],
-      ["diazepam", 1]
+      ["diazepam", 1],
+      ["magnifying_glass", 1],
+      ["material_quicklime", 10]
     ]
   },{
     "type" : "item_group",
@@ -7519,10 +7563,12 @@
       ["223", 2],
       ["20x66_shot", 2],
       ["glock_19", 5],
+      ["l_lookout_9mm", 5],
       ["l_sp_9mm", 5],
       ["shotgun_sawn", 4],
       ["uzi", 8],
       ["tec9", 10],
+      ["l_bak_223", 4],
       ["l_car_223", 3],
       ["l_mp_9mm", 4],
       ["l_mp_45", 7],
@@ -8042,6 +8088,7 @@
       ["pants_cargo", 40],
       ["shorts_cargo", 22],
       ["pants_army", 28],
+      ["winter_pants_army", 10],
       ["bunker_pants", 14],
       ["pants_leather", 18],
       ["skirt", 6]
@@ -8545,7 +8592,8 @@
       ["bullwhip", 30],
       ["distaff_spindle", 2],
       ["carding_paddles", 2],
-      ["scythe", 40]
+      ["scythe", 40],
+      ["material_quicklime", 30]
     ]
   },{
 "type" : "item_group",

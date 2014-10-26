@@ -62,10 +62,11 @@
         "items": {
             "both": [
                 "jeans",
-                "tshirt",
+                "longshirt",
                 "socks",
-                "jacket_light",
-                "sneakers",
+                "coat_winter",
+                "boots_winter",
+                "knit_scarf",
                 "pockknife",
                 "water_clean",
                 "matches"
@@ -155,6 +156,7 @@
                 "pants",
                 "socks",
                 "dress_shoes",
+                "knit_scarf",
                 "sewing_kit",
                 "thread",
                 "scissors"
@@ -460,8 +462,13 @@
         ],
         "items": {
             "both": [
-                "pants_army",
+                "winter_pants_army",
                 "army_top",
+                "winter_jacket_army",
+                "helmet_liner",
+                "helmet_army",
+                "balclava",
+                "winter_gloves_army",
                 "socks",
                 "boots_combat",
                 "m4a1",
@@ -517,9 +524,11 @@
         ],
         "items": {
             "both": [
-                "pants_army",
-                "jacket_army",
+                "winter_pants_army",
+                "winter_jacket_army",
+                "balclava",
                 "beret",
+                "gloves_liner",
                 "gloves_tactical",
                 "socks",
                 "boots_combat",
@@ -563,20 +572,21 @@
         "items": {
             "both" : [
                 "pocketwatch",
-                "knife_butter",
-                "socks"
+                "knife_butter"
             ],
             "male": [
                 "tux",
                 "dress_shoes",
-                "briefs"
+                "briefs",
+                "socks"
             ],
             "female": [
                 "maid_hat",
                 "maid_dress",
                 "boots",
                 "bra",
-                "panties"
+                "panties",
+                "stockings"
             ]
         }
     },
@@ -657,6 +667,7 @@
                 "9mm",
                 "socks",
                 "dress_shoes",
+                "knit_scarf",
                 "cig",
                 "switchblade",
                 "lighter",
@@ -772,6 +783,7 @@
                 "dress_shirt",
                 "socks",
                 "dress_shoes",
+                "knit_scarf",
                 "cig",
                 "lighter"
             ],
@@ -830,6 +842,7 @@
         "items": {
             "both": [
                 "pants",
+                "knit_scarf",
                 "whiskey",
                 "gin",
                 "bum_wine",
@@ -905,7 +918,7 @@
                 "sheriffshirt",
                 "boots",
                 "holster",
-                "m1911",
+                "usp_45",
                 "45_acp"
             ],
             "male": [
@@ -916,6 +929,57 @@
                 "boy_shorts"
             ]
         }
+    },
+    {
+        "type": "profession",
+        "ident": "detective",
+        "name": "Police Detective",
+        "description": "You were on the brink of a major breakthrough in your last homicide case when the Cataclysm struck. Now that suspect is dead. Everyone's dead. You need a smoke.",
+        "points": 4,
+        "items": {
+            "both": [
+                "pants",
+                "dress_shirt",
+		"skinny_tie",
+		"waistcoat",
+		"holster",
+		"trenchcoat",
+		"badge_detective",
+		"gloves_leather",
+		"knit_scarf",
+		"fedora",
+		"wristwatch",
+		"l_sp_45",
+		"45_acp",
+                "socks",
+                "dress_shoes",
+                "cig",
+                "ref_lighter"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        },
+		"skills": [
+            {
+                "level": 3,
+                "name": "gun"
+            },
+            {
+                "level": 3,
+                "name": "pistol"
+            }
+        ],
+        "addictions": [
+            {
+                "intensity": 10,
+                "type": "nicotine"
+            }
+        ]
     },
     {
         "type": "profession",
@@ -932,6 +996,7 @@
         "items": {
             "both": [
                 "suit",
+                "knit_scarf",
                 "socks",
                 "dress_shoes"
             ],
@@ -948,7 +1013,7 @@
         "type": "profession",
         "ident": "bow_hunter",
         "name": "Bow Hunter",
-        "description": "Ever since you were a child you loved hunting, and you soon took a liking to the challenge of hunting with a bow.  Why, if the world ended there's nothing you'd want at your side more than your trusty bow.  So when it did, you made made sure to bring it along.",
+        "description": "Ever since you were a child you loved hunting, and you soon took a liking to the challenge of hunting with a bow.  Why, if the world ended there's nothing you'd want at your side more than your trusty bow.  So when it did, you made sure to bring it along.",
         "points": 2,
         "skills": [
             {
@@ -959,6 +1024,7 @@
         "items": {
             "both": [
                 "army_top",
+                "knit_scarf",
                 "socks",
                 "boots_steel",
                 "pants_cargo",
@@ -1022,6 +1088,7 @@
                 "boots",
                 "hat_hunting",
                 "jacket_flannel",
+                "knit_scarf",
                 "ax"
             ],
             "male": [
@@ -1045,6 +1112,7 @@
                 "jeans",
                 "sneakers",
                 "tshirt",
+                "knit_scarf",
                 "socks",
                 "fun_survival"
             ],
@@ -1238,6 +1306,7 @@
         "items": {
             "both": [
                 "socks",
+                "knit_scarf",
                 "dress_shoes"
             ],
             "male": [
@@ -1270,6 +1339,7 @@
                 "dress_shirt",
                 "socks",
                 "dress_shoes",
+                "knit_scarf",
                 "gold_watch",
                 "briefcase_smg",
                 "pda",
@@ -1379,6 +1449,7 @@
                 "pants",
                 "socks",
                 "boots",
+                "knit_scarf",
                 "coat_lab",
                 "glasses_safety"
             ],
@@ -1602,6 +1673,7 @@
                 "suit",
                 "dress_shoes",
                 "gold_watch",
+                "knit_scarf",
                 "briefcase",
                 "pda",
                 "file",
@@ -1652,13 +1724,76 @@
         ],
         "items": {
             "both": [
-                "pants_army",
+                "winter_pants_army",
+                "winter_jacket_army",
+                "winter_gloves_army",
+                "balclava",
+                "beret",
                 "socks",
-                "jacket_army",
                 "boots_combat",
                 "rm51_assault_rifle",
                 "8mm_fmj",
                 "8mm_fmj"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "sports_bra",
+                "boxer_shorts"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "bio_sniper",
+        "name": "Bionic Sniper",
+        "description": "Your bionics, equipment, and extensive field training enable you to drop targets from implausible distances, even after weeks of total isolation in enemy territory.",
+        "points": 6,
+        "CBMs":[
+            "bio_solar",
+            "bio_eye_enhancer",
+            "bio_climate",
+            "bio_evap",
+            "bio_power_storage_mkII"
+        ],
+        "skills": [
+            {
+                "level": 3,
+                "name": "gun"
+            },
+            {
+                "level": 4,
+                "name": "rifle"
+            },
+            {
+                "level": 1,
+                "name": "survival"
+            }
+        ],
+        "items": {
+            "both": [
+                "pants_army",
+                "army_top",
+                "jacket_army",
+                "gloves_tactical",
+                "rucksack",
+                "balclava",
+                "hat_boonie",
+                "socks",
+                "boots_combat",
+                "sheath",
+                "knife_combat",
+                "canteen",
+                "binoculars",
+                "tent_kit",
+                "rollmat",
+                "lighter",
+                "mil_mess_kit",
+                "m2010",
+                "300_winmag",
+                "300_winmag",
+                "suppressor"
             ],
             "male": [
                 "boxer_shorts"
@@ -1686,6 +1821,7 @@
             "both": [
                 "dress_shoes",
                 "socks",
+                "knit_scarf",
                 "suit"
             ],
             "male": [
@@ -1728,6 +1864,7 @@
             "both": [
                 "dress_shoes",
                 "dress_shirt",
+                "knit_scarf",
                 "wristwatch"
             ],
             "male": [
@@ -1847,6 +1984,7 @@
                 "boots",
                 "hat_hunting",
                 "jacket_flannel",
+                "knit_scarf",
                 "beartrap",
                 "knife_hunting",
                 "tobacco",
@@ -1945,6 +2083,7 @@
                 "ref_lighter",
                 "socks",
                 "dress_shoes",
+                "knit_scarf",
                 "cane"
             ],
             "male": [
@@ -2249,6 +2388,7 @@
                 "wristwatch",
                 "leather_belt",
                 "postman_shorts",
+                "knit_scarf",
                 "socks",
                 "sneakers"
             ],
@@ -2457,6 +2597,7 @@
                 "tieclip",
                 "socks",
                 "dress_shoes",
+                "knit_scarf",
                 "wristwatch",
                 "cell_phone",
                 "pda",
@@ -2640,6 +2781,7 @@
                 "boots",
                 "pants",
                 "jacket_leather",
+                "knit_scarf",
                 "holster",
                 "sw_619",
                 "38_special",
@@ -2713,6 +2855,7 @@
                 "jeans",
                 "tshirt",
                 "backpack",
+                "knit_scarf",
                 "multitool",
                 "hoe",
                 "socks",
@@ -2903,6 +3046,74 @@
     },
     {
         "type": "profession",
+        "ident": "naturalist",
+        "name": "Naturalist",
+        "description": "You have come to an understanding with Mother Nature over long years of self-imposed exile in the wilderness. The world as they knew it might have ended for your forsaken species, but you can hardly tell the difference.",
+        "points": 6,
+        "skills": [
+            {
+                "level": 6,
+                "name": "survival"
+            },
+            {
+                "level": 4,
+                "name": "fabrication"
+            },
+            {
+                "level": 3,
+                "name": "tailor"
+            },
+            {
+                "level": 1,
+                "name": "gun"
+            },
+            {
+                "level": 5,
+                "name": "archery"
+            },
+            {
+                "level": 3,
+                "name": "melee"
+            },
+            {
+                "level": 2,
+                "name": "dodge"
+            },
+            {
+                "level": 2,
+                "name": "swimming"
+            },
+            {
+                "level": 3,
+                "name": "cooking"
+            }
+        ],
+        "items": {
+            "both": [
+                "pants_fur",
+                "trenchcoat_fur",
+                "backpack_leather",
+                "boots_fur",
+                "gloves_fur",
+                "hat_fur",
+                "scarf_fur",
+                "quiver",
+                "sheath",
+                "shortbow",
+                "arrow_wood",
+                "arrow_wood",
+                "primitive_knife",
+                "shelter_kit",
+                "rock_pot",
+                "waterskin",
+                "fur_rollmat",
+                "fire_drill"
+            ]
+        },
+         "flags" : ["SCEN_ONLY"]
+    },
+    {
+        "type": "profession",
         "ident": "fisher",
         "name": "Fisher",
         "description": "You spent most of your days just fishing in the swamps getting by quietly on what you caught. You found the buzzing of insects enjoyable, but they got bigger and more mean. Now their horrible noises have you spooked- you just hope the fish aren't as nasty.",
@@ -2925,6 +3136,7 @@
                 "fishing_waders",
                 "knife_hunting",
                 "moonshine",
+                "knit_scarf",
                 "lighter",
                 "fishing_rod_professional",
                 "fish_trap",

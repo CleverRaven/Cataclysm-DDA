@@ -30,14 +30,11 @@ enum item_cat {
 };
 
 typedef std::string itype_id;
-extern std::vector<std::string> artifact_itype_ids;
-extern std::vector<std::string> standard_itype_ids;
 
 // see item_factory.h
 class item_category;
 
 struct itype;
-extern std::map<std::string, itype *> itypes;
 
 typedef std::string ammotype;
 
@@ -110,8 +107,6 @@ public:
     {
         return explosion_on_fire_data.power >= 0;
     }
-
-    mtype   *corpse;
 
     signed int melee_dam; // Bonus for melee damage; may be a penalty
     signed int melee_cut; // Cutting damage in melee
@@ -221,7 +216,7 @@ public:
     bool is_covering(body_part bp) const;
     /** Returns true if is_armor() and is sided on bp */
     bool is_sided(body_part bp) const;
-    int invoke( player *p, item *it, bool active );
+    int invoke( player *p, item *it, bool active, point pos );
 
     std::string dmg_adj(int dam)
     {
@@ -232,7 +227,7 @@ public:
 
     itype() : id("null"), price(0), name("none"), name_plural("none"), description(), sym('#'),
         color(c_white), m1("null"), m2("null"), phase(SOLID), volume(0), stack_size(0),
-        weight(0), bigness_aspect(BIGNESS_ENGINE_NULL), qualities(), corpse(NULL),
+        weight(0), bigness_aspect(BIGNESS_ENGINE_NULL), qualities(),
         melee_dam(0), melee_cut(0), m_to_hit(0), item_tags(), techniques(), light_emission(),
         category(NULL) { }
 
@@ -242,7 +237,7 @@ public:
           signed int pmelee_cut, signed int pm_to_hit) : id(pid), price(pprice), name(pname),
         name_plural(pname_plural), description(pdes), sym(psym), color(pcolor), m1(pm1), m2(pm2),
         phase(pphase), volume(pvolume), stack_size(0), weight(pweight),
-        bigness_aspect(BIGNESS_ENGINE_NULL), qualities(), corpse(NULL), melee_dam(pmelee_dam),
+        bigness_aspect(BIGNESS_ENGINE_NULL), qualities(), melee_dam(pmelee_dam),
         melee_cut(pmelee_cut), m_to_hit(pm_to_hit), item_tags(), techniques(), light_emission(),
         category(NULL) { }
 
@@ -615,7 +610,7 @@ struct it_macguffin : public virtual itype {
                  std::string pdes, char psym, nc_color pcolor, std::string pm1, std::string pm2,
                  unsigned int pvolume, unsigned int pweight, signed int pmelee_dam,
                  signed int pmelee_cut, signed int pm_to_hit, bool preadable,
-                 int (iuse::*puse)(player *, item *, bool))
+                 int (iuse::*puse)(player *, item *, bool, point))
         : itype(pid, pprice, pname, pname_plural, pdes, psym, pcolor, pm1, pm2, SOLID, pvolume,
                 pweight, pmelee_dam, pmelee_cut, pm_to_hit)
     {

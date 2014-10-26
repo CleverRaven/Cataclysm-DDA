@@ -40,6 +40,15 @@ int OVERMAP_WINDOW_WIDTH;
 
 scrollingcombattext SCT;
 
+void delwin_functor::operator()( WINDOW *w ) const {
+    if( w == nullptr ) {
+        return;
+    }
+    werase( w );
+    wrefresh( w );
+    delwin( w );
+}
+
 // utf8 version
 std::vector<std::string> foldstring ( std::string str, int width )
 {
@@ -939,6 +948,7 @@ int draw_item_info(const int iLeft, const int iWidth, const int iTop, const int 
 {
     WINDOW *win = newwin(iHeight, iWidth, iTop + VIEW_OFFSET_Y, iLeft + VIEW_OFFSET_X);
 
+    // TODO: So ... uhm ... who deletes the window?
     return draw_item_info(win, sItemName, vItemDisplay, vItemCompare,
                           selected, without_getch, without_border);
 }
@@ -1334,6 +1344,9 @@ void hit_animation(int iX, int iY, nc_color cColor, const std::string &cTile)
     WINDOW *w_hit = newwin(1, 1, iY + VIEW_OFFSET_Y, iX + VIEW_OFFSET_X);
     if (w_hit == NULL) {
         return; //we passed in negative values (semi-expected), so let's not segfault
+    }
+    if( w_hit_animation != nullptr ) {
+        delwin( w_hit_animation );
     }
     w_hit_animation = w_hit;
 

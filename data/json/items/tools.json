@@ -98,7 +98,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "LIGHTER"
+    "use_action": "FIRESTARTER"
   },
 
   {
@@ -121,7 +121,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "LIGHTER"
+    "use_action": "FIRESTARTER"
   },
 
   {
@@ -144,7 +144,8 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "PRIMITIVE_FIRE"
+    "flags": [ "FIRE_DRILL" ],
+    "use_action": "FIRESTARTER"
   },
 
   {
@@ -167,7 +168,32 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "PRIMITIVE_FIRE"
+    "flags": [ "FIRE_DRILL" ],
+    "use_action": "FIRESTARTER"
+  },
+
+  {
+    "id": "magnifying_glass",
+    "type": "TOOL",
+    "symbol": "o",
+    "color": "green",
+    "name": "magnifying glass",
+    "description": "This is a magnifying glass.  May be useful for starting fires during sunny skies.",
+    "price": 2000,
+    "material": ["glass", "plastic"],
+    "flags": [ "LENS" ],
+    "weight": 400,
+    "volume": 1,
+    "bashing": 0,
+    "cutting": -5,
+    "to_hit": -1,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "use_action": "FIRESTARTER"
   },
 
   {
@@ -3229,9 +3255,9 @@
     "type": "TOOL",
     "symbol": ";",
     "color": "light_gray",
-    "name": "UPS (off)",
-    "name_plural": "UPS's (off)",
-    "description": "This is a unified power supply, or UPS.  It is a device developed jointly by military and scientific interests for use in combat and the field.  The UPS is designed to power armor and some guns, but drains batteries quickly.  It is currently off.",
+    "name": "UPS",
+    "name_plural": "UPS's",
+    "description": "This is a unified power supply, or UPS.  It is a device developed jointly by military and scientific interests for use in combat and the field.  The UPS is designed to power armor and some guns, but drains batteries quickly.",
     "price": 280000,
     "material": ["aluminum", "plastic"],
     "weight": 680,
@@ -3244,32 +3270,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "battery",
-    "revert_to": "null",
-    "use_action": "UPS_OFF"
-  },
-
-  {
-    "id": "UPS_on",
-    "type": "TOOL",
-    "symbol": ";",
-    "color": "light_gray",
-    "name": "UPS (on)",
-    "name_plural": "UPS's (on)",
-    "description": "This is a unified power supply, or UPS.  It is a device developed jointly by military and scientific interests for use in combat and the field.  The UPS is designed to power armor and some guns, but drains batteries quickly.  It is currently on.",
-    "price": 280000,
-    "material": ["aluminum", "plastic"],
-    "weight": 680,
-    "volume": 10,
-    "bashing": 8,
-    "cutting": 0,
-    "to_hit": -1,
-    "max_charges": 1000,
-    "initial_charges": 0,
-    "charges_per_use": 0,
-    "turns_per_charge": 2,
-    "ammo": "battery",
-    "revert_to": "UPS_off",
-    "use_action": "UPS_ON"
+    "revert_to": "null"
   },
 
   {
@@ -3277,9 +3278,9 @@
     "type": "TOOL",
     "symbol": ";",
     "color": "light_green",
-    "name": "advanced UPS (off)",
-    "name_plural": "advanced UPS's (off)",
-    "description": "This is an advanced version of the unified power supply, or UPS.  This device has been significantly redesigned to provide better efficiency as well as to consume plutonium fuel cells rather than batteries.  It is currently off.",
+    "name": "advanced UPS",
+    "name_plural": "advanced UPS's",
+    "description": "This is an advanced version of the unified power supply, or UPS.  This device has been significantly redesigned to provide better efficiency as well as to consume plutonium fuel cells rather than batteries.",
     "price": 560000,
     "material": ["aluminum", "plastic"],
     "weight": 453,
@@ -3292,31 +3293,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "plutonium",
-    "revert_to": "null",
-    "use_action": "adv_UPS_OFF"
-  },
-  {
-     "id" : "adv_UPS_on",
-     "type" : "TOOL",
-     "symbol" : ";",
-     "color" : "light_green",
-     "name" : "advanced UPS (on)",
-     "name_plural" : "advanced UPS's (on)",
-     "description" : "This is an advanced version of the unified power supply, or UPS.  This device has been significantly redesigned to provide better efficiency as well as to consume plutonium fuel cells rather than batteries.  It is currently on.",
-     "price" : 560000,
-     "material" : ["aluminum", "plastic"],
-     "weight" : 453,
-     "volume" : 8,
-     "bashing" : 8,
-     "cutting" : 0,
-     "to_hit" : -1,
-     "max_charges" : 2500,
-     "initial_charges" : 0,
-     "charges_per_use" : 0,
-     "turns_per_charge" : 50,
-     "ammo" : "plutonium",
-     "revert_to" : "adv_UPS_off",
-     "use_action" : "adv_UPS_ON"
+    "revert_to": "null"
   },
 
   {
@@ -6882,7 +6859,7 @@
     "description": "This is a lighter featuring a flip top cover and refuelable tank.  It is lit.",
     "price": 35000,
     "material": "aluminum",
-    "flags": ["FIRE", "LIGHT_4", "FLAMING"],
+    "flags": ["FIRE", "LIGHT_4", "FLAMING", "REFILLABLE_LIGHTER"],
     "weight": 20,
     "volume": 0,
     "bashing": 0,
@@ -6894,7 +6871,7 @@
     "turns_per_charge": 10,
     "ammo": "gasoline",
     "revert_to": "ref_lighter",
-    "use_action": "REF_LIT"
+    "use_action": "FIRESTARTER"
   },
 
   {

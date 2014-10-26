@@ -31,7 +31,7 @@
   "result": "salt",
   "id_suffix": "from_salt_water",
   "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_DRINKS",
+  "subcategory": "CSC_FOOD_OTHER",
   "skill_used": "cooking",
   "difficulty": 0,
   "time": 90000,
@@ -240,8 +240,7 @@
   "difficulty": 0,
   "time": 3000,
   "reversible": false,
-  "autolearn": false,
-  "book_learn": [[ "cookbook_human", 0 ]],
+  "autolearn": true,
   "qualities":[
     {"id":"CONTAIN","level":1,"amount":1}
   ], "components": [
@@ -436,8 +435,7 @@
   "difficulty": 2,
   "time": 18000,
   "reversible": false,
-  "autolearn": false,
-  "book_learn": [[ "cookbook_human", 2 ]],
+  "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -456,7 +454,7 @@
         "type" : "recipe",
   "result": "dry_mushroom",
   "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_VEGGI",
+  "subcategory": "CSC_FOOD_OTHER",
   "skill_used": "cooking",
   "difficulty": 2,
   "skills_required": [ "survival", 5 ],
@@ -998,6 +996,7 @@
   "time": 20000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[20, 10],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
     {"id":"COOK","level":1,"amount":1}
@@ -1085,8 +1084,7 @@
   "difficulty": 3,
   "time": 12000,
   "reversible": false,
-  "autolearn": false,
-  "book_learn": [[ "cookbook_human", 3 ]],
+  "autolearn": true,
   "qualities" : [
      {"id":"COOK","level":1,"amount":1} ],
   "tools": [
@@ -1290,7 +1288,7 @@
         "type" : "recipe",
   "result": "morel_fried",
   "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_VEGGI",
+  "subcategory": "CSC_FOOD_OTHER",
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 8000,
@@ -2346,7 +2344,8 @@
   ],
   "components": [
     [
-      [ "coffee_raw", 1 ]
+      [ "coffee_raw", 1 ],
+      [ "coffee_syrup", 1 ]
     ],
     [
       [ "water", 1 ],
@@ -2625,6 +2624,7 @@
   "time": 40000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[50, 5],
   "qualities" : [
      {"id":"COOK","level":2,"amount":1} ],
   "tools": [
@@ -3435,7 +3435,7 @@
         "type" : "recipe",
   "result": "beans_cooked",
   "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_OTHER",
+  "subcategory": "CSC_FOOD_VEGGI",
   "skill_used": "cooking",
   "difficulty": 0,
   "time": 6000,
@@ -3515,7 +3515,7 @@
         "type" : "recipe",
   "result": "deluxe_veggy_beans",
   "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_OTHER",
+  "subcategory": "CSC_FOOD_VEGGI",
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 6000,
@@ -3637,7 +3637,7 @@
         "type" : "recipe",
   "result": "deluxe_veggy_rice",
   "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_OTHER",
+  "subcategory": "CSC_FOOD_VEGGI",
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 300,
@@ -3679,7 +3679,7 @@
         "type" : "recipe",
   "result": "beansnrice",
   "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_OTHER",
+  "subcategory": "CSC_FOOD_VEGGI",
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 6000,
@@ -3765,7 +3765,7 @@
         "type" : "recipe",
   "result": "deluxe_veggy_beansnrice",
   "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_OTHER",
+  "subcategory": "CSC_FOOD_VEGGI",
   "skill_used": "cooking",
   "difficulty": 2,
   "time": 9000,
@@ -6700,6 +6700,25 @@
   ]
 },{
         "type" : "recipe",
+  "result": "brew_vinegar",
+  "result_mult" : 7,
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 8000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "water", 10 ], [ "water_clean", 10 ]
+    ],
+    [
+      [ "juice", 14 ], [ "apple_cider", 7 ], [ "fruit_wine", 21 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "taint_tornado",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
@@ -7943,7 +7962,7 @@
         "type" : "recipe",
   "result": "sweet_water",
   "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_OTHER",
+  "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
   "difficulty": 0,
   "time": 1000,
@@ -7965,7 +7984,7 @@
   "result": "sugar",
   "id_suffix": "from_sweet_water",
   "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_DRINKS",
+  "subcategory": "CSC_FOOD_OTHER",
   "skill_used": "cooking",
   "difficulty": 0,
   "time": 90000,
@@ -8004,5 +8023,80 @@
     [ [ "sugar", 1 ] ],
     [ [ "water_clean", 1 ] ]
   ]
+},{
+  "type" : "recipe",
+  "result": "meat_tainted",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 5,
+  "time": 90000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_creepy", 5 ], [ "recipe_serum", 6 ]],
+  "qualities":[
+    {"id":"CONTAIN","level":1,"amount":1},
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+     [ "meat", 1 ],
+     [ "human_flesh", 1 ],
+     [ "rehydrated_meat", 1 ],
+     [ "rehydrated_hflesh", 1 ]
+    ],
+    [
+     [ "slime_scrap", 2 ]
+    ],
+    [
+     [ "water", 1 ]
+    ]
+   ]
+},{
+  "type" : "recipe",
+  "result": "dry_meat_tainted",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 18000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+  {"id":"CUT","level":1,"amount":1}],
+  "tools": [
+    [
+     [ "dehydrator", 25 ],
+     [ "char_smoker", 5 ]
+    ]
+  ],
+  "components": [
+    [
+     [ "meat_tainted", 2 ]
+    ]
+   ]
+},{
+  "type" : "recipe",
+  "result": "dry_veggy_tainted",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 18000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+  {"id":"CUT","level":1,"amount":1}],
+  "tools": [
+    [
+     [ "dehydrator", 25 ],
+     [ "char_smoker", 5 ]
+    ]
+  ],
+  "components": [
+    [
+     [ "veggy_tainted", 2 ]
+    ]
+   ]
 }
 ]

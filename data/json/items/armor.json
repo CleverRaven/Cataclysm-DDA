@@ -1093,6 +1093,31 @@
     },
     {
         "type" : "ARMOR",
+        "id" : "winter_pants_army",
+        "name" : "army winter pants",
+        "name_plural" : "army winter pants",
+        "weight" : 1000,
+        "color" : "white",
+        "covers" : ["LEGS"],
+        "to_hit" : 0,
+        "storage" : 10,
+        "symbol" : "[",
+        "description" : "A tough pair of pants lined with pockets, thickly padded for warmth.  Favored by the military.",
+        "price" : 4375,
+        "material" : ["cotton", "plastic"],
+        "volume" : 10,
+        "cutting" : 0,
+        "warmth" : 50,
+        "phase" : "solid",
+        "environmental_protection" : 0,
+        "encumbrance" : 2,
+        "bashing" : -2,
+        "flags" : ["VARSIZE", "POCKETS"],
+        "coverage" : 95,
+        "material_thickness" : 4
+    },
+    {
+        "type" : "ARMOR",
         "id" : "jacket_army",
         "name" : "army jacket",
         "name_plural" : "army jacket",
@@ -1115,6 +1140,55 @@
         "flags" : ["VARSIZE", "POCKETS", "OUTER"],
         "coverage" : 95,
         "material_thickness" : 2
+    },
+    {
+        "type" : "ARMOR",
+        "id" : "winter_jacket_army",
+        "name" : "army winter jacket",
+        "name_plural" : "army winter jackets",
+        "weight" : 1000,
+        "color" : "white",
+        "covers" : ["TORSO", "ARMS"],
+        "to_hit" : 0,
+        "storage" : 14,
+        "symbol" : "[",
+        "description" : "A tough hooded jacket with lots of pockets, thickly padded for warmth.  Favored by the military.",
+        "price" : 4375,
+        "material" : ["cotton", "plastic"],
+        "volume" : 12,
+        "cutting" : 0,
+        "warmth" : 50,
+        "phase" : "solid",
+        "environmental_protection" : 0,
+        "encumbrance" : 2,
+        "bashing" : -2,
+        "flags" : ["VARSIZE", "POCKETS", "HOOD", "OUTER"],
+        "coverage" : 95,
+        "material_thickness" : 4
+    },
+    {
+        "type" : "ARMOR",
+        "id" : "winter_gloves_army",
+        "name" : "pair of army winter gloves",
+        "name_plural" : "pairs of army winter gloves",
+        "weight" : 218,
+        "color" : "white",
+        "covers" : ["HANDS"],
+        "to_hit" : 1,
+        "storage" : 0,
+        "symbol" : "[",
+        "description" : "A pair of padded gloves. Favored by the military",
+        "price" : 8125,
+        "material" : ["cotton", "null"],
+        "volume" : 3,
+        "cutting" : 0,
+        "warmth" : 50,
+        "phase" : "solid",
+        "environmental_protection" : 0,
+        "encumbrance" : 2,
+        "bashing" : -5,
+        "coverage" : 100,
+        "material_thickness" : 4
     },
     {
         "type" : "ARMOR",
@@ -3492,6 +3566,30 @@
     },
     {
         "type" : "ARMOR",
+        "id" : "jacket_evac",
+        "name" : "emergency jacket",
+        "weight" : 197,
+        "color" : "cyan",
+        "covers" : ["TORSO", "ARMS"],
+        "to_hit" : 0,
+        "storage" : 2,
+        "symbol" : "[",
+        "description" : "A bright & cheaply made FEMA-issue windbreaker jacket with a hood.  One size, fits none.  Helps keep you unfrozen & visible for rescuers.",
+        "price" : 1000,
+        "material" : ["plastic", "cotton"],
+        "volume" : 9,
+        "cutting" : 0,
+        "warmth" : 25,
+        "phase" : "solid",
+        "environmental_protection" : 0,
+        "encumbrance" : 1,
+        "bashing" : -5,
+        "flags" : ["POCKETS", "HOOD", "OUTER"],
+        "coverage" : 90,
+        "material_thickness" : 1
+    },
+    {
+        "type" : "ARMOR",
         "id" : "jacket_light",
         "name" : "light jacket",
         "weight" : 227,
@@ -5217,7 +5315,7 @@
         "to_hit" : -2,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "A pair of glasses for the near-sighted.  Useless for anyone else.",
+        "description" : "A pair of glasses for the near-sighted.  You can use them to focus the sunlight.",
         "price" : 7900,
         "material" : ["glass", "plastic"],
         "volume" : 1,
@@ -5227,9 +5325,10 @@
         "environmental_protection" : 1,
         "encumbrance" : 0,
         "bashing" : -3,
-        "flags" : ["WATER_FRIENDLY"],
+        "flags" : ["WATER_FRIENDLY","LENS"],
         "coverage" : 75,
-        "material_thickness" : 1
+        "material_thickness" : 1,
+        "use_action": "FIRESTARTER"
     },
     {
         "type" : "ARMOR",
@@ -5417,7 +5516,7 @@
         "to_hit" : -2,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "An essential article of the gentleman's apparel.  Also negates near-sight.",
+        "description" : "An essential article of the gentleman's apparel.  Also corrects near-sightedness.  You can use this to focus the sunlight.",
         "price" : 4000,
         "//": "DDA monocle is optical-grade.  Costume ones go for about $10.",
         "material" : ["glass", "plastic"],
@@ -5430,7 +5529,8 @@
         "bashing" : -3,
         "coverage" : 20,
         "material_thickness" : 1,
-        "flags" : ["SUPER_FANCY"]
+        "flags" : ["SUPER_FANCY","LENS"],
+        "use_action": "FIRESTARTER"
     },
     {
         "type" : "ARMOR",
@@ -7421,6 +7521,29 @@
     },
     {
         "type" : "ARMOR",
+        "id" : "badge_detective",
+        "name" : "detective badge",
+        "volume" : 0,
+        "material_thickness" : 0,
+        "storage" : 0,
+        "description" : "A tarnished golden shield gives an air of authority to the wearer.",
+        "weight" : 60,
+        "to_hit" : 0,
+        "color" : "yellow",
+        "encumbrance" : 0,
+        "price" : 5000,
+        "material" : ["gold", "null"],
+        "coverage" : 0,
+        "bashing_protection" : 0,
+        "symbol" : "[",
+        "bashing" : 0,
+        "cutting" : 0,
+        "warmth" : 0,
+        "environmental_protection" : 0,
+        "phase" : "solid"
+    },
+    {
+        "type" : "ARMOR",
         "id" : "badge_marshal",
         "name" : "marshal badge",
         "volume" : 0,
@@ -7703,6 +7826,11 @@
         "encumbrance" : 5,
         "bashing" : -5,
         "coverage" : 65,
+        "use_action": {
+            "type": "ups_based_armor",
+            "activate_msg": "Your optical cloak flickers as it becomes transparent",
+            "deactive_msg": "Your optical cloak flickers for a moment as it becomes opaque."
+        },
         "flags" : ["OVERSIZE", "HOOD", "WATERPROOF", "OUTER", "VARSIZE"],
         "material_thickness" : 1
     },
@@ -7801,6 +7929,10 @@
         "encumbrance" : 5,
         "bashing" : 1,
         "flags" : ["WATERPROOF", "STURDY", "ELECTRIC_IMMUNE"],
+        "use_action": {
+            "type": "ups_based_armor",
+            "activate_msg": "Your power armor engages."
+        },
         "coverage" : 100,
         "material_thickness" : 11
     },
@@ -7853,6 +7985,10 @@
         "encumbrance" : 4,
         "bashing" : 1,
         "flags" : ["WATERPROOF", "STURDY", "ELECTRIC_IMMUNE"],
+        "use_action": {
+            "type": "ups_based_armor",
+            "activate_msg": "Your power armor engages."
+        },
         "coverage" : 100,
         "material_thickness" : 9
     },
@@ -7905,6 +8041,10 @@
         "encumbrance" : 6,
         "bashing" : 1,
         "flags" : ["WATERPROOF", "STURDY", "ELECTRIC_IMMUNE"],
+        "use_action": {
+            "type": "ups_based_armor",
+            "activate_msg": "Your power armor engages."
+        },
         "coverage" : 100,
         "material_thickness" : 12
     },
@@ -9851,7 +9991,7 @@
         "bashing" : 5,
         "coverage" : 10,
         "material_thickness" : 2,
-        "flags" : ["FANCY"]
+        "flags" : ["FANCY", "OVERSIZE"]
     },
     {
         "type" : "ARMOR",
@@ -9874,7 +10014,8 @@
         "encumbrance" : 3,
         "bashing" : 4,
         "coverage" : 4,
-        "material_thickness" : 1
+        "material_thickness" : 1,
+		"flags" : ["OVERSIZE"]
     },
     {
         "type" : "ARMOR",

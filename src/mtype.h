@@ -109,6 +109,7 @@ enum m_flag {
     MF_REVIVES,             // Monster corpse will revive after a short period of time
     MF_CHITIN,              // May produce chitin when butchered
     MF_VERMIN,              // Creature is too small for normal combat, butchering, etc.
+    MF_NO_GIBS,             // Creature won't leave gibs / meat chunks when killed with huge damage.
     MF_HUNTS_VERMIN,        // Creature uses vermin as a food source
     MF_SMALL_BITER,         // Creature can cause a painful, non-damaging bite
     MF_LARVA,               // Creature is a larva. Currently used for gib and blood handling.
@@ -179,6 +180,11 @@ struct mtype {
          * in both monster types fulfills that test.
          */
         bool same_species( const mtype &other ) const;
+        /**
+         * If this is not empty, the monster can be converted into an item
+         * of this type (if it's friendly).
+         */
+        itype_id revert_to_itype;
 
         // Used to fetch the properly pluralized monster type name
         std::string nname(unsigned int quantity = 1) const;

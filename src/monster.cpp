@@ -1051,6 +1051,9 @@ void monster::explode()
         //Can't gib hallucinations
         return;
     }
+    if( type->has_flag( MF_NO_GIBS ) || type->has_flag( MF_VERMIN ) ) {
+        return;
+    }
     // Send body parts and blood all over!
     const itype_id meat = type->get_meat_itype();
     const field_id type_blood = bloodType();
@@ -1336,7 +1339,7 @@ bool monster::make_fungus()
       tid == "mon_zombie_brute_shocker") {
         polypick = 2; // Necro and Master have enough Goo to resist conversion.
         // Firefighter, hazmat, and scarred/beekeeper have the PPG on.
-    } else if (tid == "mon_zombie_necro" || tid == "mon_zombie_master" || tid == "mon_zombie_firefighter" ||
+    } else if (tid == "mon_zombie_necro" || tid == "mon_zombie_master" || tid == "mon_zombie_fireman" ||
       tid == "mon_zombie_hazmat" || tid == "mon_beekeeper") {
         return true;
     } else if (tid == "mon_boomer" || tid == "mon_zombie_gasbag" || tid == "mon_zombie_smoker") {
@@ -1468,4 +1471,16 @@ void monster::add_msg_player_or_npc(game_message_type type, const char *, const 
 bool monster::is_dead() const
 {
     return dead || is_dead_state();
+}
+
+item monster::to_item() const
+{
+    if( type->revert_to_itype.empty() ) {
+        return item();
+    }
+    // Birthday is wrong, but the item created here does not use it anyway (I hope).
+    item result( type->revert_to_itype, calendar::turn );
+    const int damfac = std::max( 1, 5 * hp / type->hp ); // 1 ... 5 (or more for some monsters with hp > type->hp)
+    result.damage = std::max( 0, 5 - damfac ); // 4 ... 0
+    return result;
 }

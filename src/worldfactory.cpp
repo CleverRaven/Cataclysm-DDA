@@ -100,6 +100,7 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt )
         const int iOffsetY = (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0;
         // set up window
         WINDOW *wf_win = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX);
+        WINDOW_PTR wf_winptr( wf_win );
 
         int curtab = 0;
         int lasttab; // give placement memory to menus, sorta.
@@ -592,12 +593,15 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
 
     WINDOW *w_options = newwin(iContentHeight, FULL_SCREEN_WIDTH - 2, iTooltipHeight + 4 + iOffsetY,
                                1 + iOffsetX);
+    WINDOW_PTR w_optionsptr( w_options );
 
     WINDOW *w_options_tooltip = newwin(iTooltipHeight - 2, FULL_SCREEN_WIDTH - 2, 3 + iOffsetY,
                                        1 + iOffsetX);
+    WINDOW_PTR w_options_tooltipptr( w_options_tooltip );
 
     WINDOW *w_options_header = newwin(1, FULL_SCREEN_WIDTH - 2, iTooltipHeight + 3 + iOffsetY,
                                       1 + iOffsetX);
+    WINDOW_PTR w_options_headerptr( w_options_header );
 
     std::stringstream sTemp;
 
@@ -717,13 +721,9 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
             world->world_options[mPageItems[iWorldOptPage][iCurrentLine]].setPrev();
 
         } else if (action == "PREV_TAB") {
-            werase(w_options);
-            delwin(w_options);
             return -1;
 
         } else if (action == "NEXT_TAB") {
-            werase(w_options);
-            delwin(w_options);
             return 1;
 
         } else if (action == "QUIT") {
@@ -1044,6 +1044,7 @@ int worldfactory::show_worldgen_tab_confirm(WINDOW *win, WORLDPTR world)
 
     WINDOW *w_confirmation = newwin(iContentHeight, FULL_SCREEN_WIDTH - 2,
                                     iTooltipHeight + 2 + iOffsetY, 1 + iOffsetX);
+    WINDOW_PTR w_confirmationptr( w_confirmation );
 
     unsigned namebar_y = 1;
     unsigned namebar_x = 3 + utf8_width(_("World Name:"));
@@ -1099,17 +1100,12 @@ to continue, or <color_yellow>%s</color> to go back and review your world."), ct
                 }
             } else if (query_yn(_("Are you SURE you're finished?")) && valid_worldname(worldname)) {
                 world->world_name = worldname;
-                werase(w_confirmation);
-                delwin(w_confirmation);
-
                 return 1;
             } else {
                 continue;
             }
         } else if (action == "PREV_TAB") {
             world->world_name = worldname;
-            werase(w_confirmation);
-            delwin(w_confirmation);
             return -1;
         } else if (action == "PICK_RANDOM_WORLDNAME") {
             mvwprintz(w_confirmation, namebar_y, namebar_x, c_ltgray, "______________________________");

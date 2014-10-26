@@ -110,17 +110,20 @@ void player::power_bionics()
     int START_X = (TERMX - WIDTH) / 2;
     int START_Y = (TERMY - HEIGHT) / 2;
     WINDOW *wBio = newwin(HEIGHT, WIDTH, START_Y, START_X);
+    WINDOW_PTR wBioptr( wBio );
 
     // Description window @ the bottom of the bio window
     int DESCRIPTION_START_Y = START_Y + HEIGHT - DESCRIPTION_HEIGHT - 1;
     int DESCRIPTION_LINE_Y = DESCRIPTION_START_Y - START_Y - 1;
     WINDOW *w_description = newwin(DESCRIPTION_HEIGHT, WIDTH - 2,
                                    DESCRIPTION_START_Y, START_X + 1);
+    WINDOW_PTR w_descriptionptr( w_description );
 
     // Title window
     int TITLE_START_Y = START_Y + 1;
     int HEADER_LINE_Y = TITLE_HEIGHT + 1; // + lines with text in titlebar, local
     WINDOW *w_title = newwin(TITLE_HEIGHT, WIDTH - 2, TITLE_START_Y, START_X + 1);
+    WINDOW_PTR w_titleptr( w_title );
 
     int scroll_position = 0;
     int second_column = 32 + (TERMX - FULL_SCREEN_WIDTH) /
@@ -295,11 +298,9 @@ void player::power_bionics()
                                (weapon_id == "bio_blade_weapon" && bio_id == "bio_blade_weapon")) {
 
                         // this will clear the bionics menu for targeting purposes
-                        werase(wBio);
-                        wrefresh(wBio);
-                        delwin(w_title);
-                        delwin(w_description);
-                        delwin(wBio);
+                        wBioptr.reset();
+                        w_titleptr.reset();
+                        w_descriptionptr.reset();
                         g->draw();
                         activate_bionic(b);
 
@@ -312,7 +313,7 @@ void player::power_bionics()
                         continue;
                     }
                     // Action done, leave screen
-                    break;
+                    return;
                 } else {
                     popup(_("\
 You can not activate %s!  To read a description of \
@@ -328,14 +329,6 @@ You can not activate %s!  To read a description of \
                 wrefresh(w_description);
             }
         }
-    }
-    //if we activated a bionic, already killed the windows
-    if(!(menu_mode == "activating")) {
-        werase(wBio);
-        wrefresh(wBio);
-        delwin(w_title);
-        delwin(w_description);
-        delwin(wBio);
     }
 }
 
@@ -776,7 +769,7 @@ void player::activate_bionic(int b)
             return;
         }
         ter_id type = g->m.ter(dirx, diry);
-        if (type  == t_door_locked || type == t_door_locked_alarm || type == t_door_locked_interior ) {
+        if (type  == t_door_locked || type == t_door_locked_alarm || type == t_door_locked_interior) {
             moves -= 40;
             std::string door_name = rm_prefix(_("<door_name>door"));
             add_msg_if_player(m_neutral, _("With a satisfying click, the lock on the %s opens."),
@@ -786,15 +779,21 @@ void player::activate_bionic(int b)
         } else if(type == t_door_bar_locked) {
             moves -= 40;
             std::string door_name = rm_prefix(_("<door_name>door"));
-            add_msg_if_player(m_neutral, _("The %s swings open..."),
+            add_msg_if_player(m_neutral, _("The bars swing open..."),
                               door_name.c_str()); //Could better copy the messages from lockpick....
             g->m.ter_set(dirx, diry, t_door_bar_o);
         } else if(type == t_chaingate_l) {
             moves -= 40;
             std::string gate_name = rm_prefix (_("<door_name>gate"));
-            add_msg_if_player(m_neutral, _("With a satisfying click, the lock on the %s opens."),
+            add_msg_if_player(m_neutral, _("With a satisfying click, the chain-link gate opens."),
                               gate_name.c_str());
             g->m.ter_set(dirx, diry, t_chaingate_c);
+        } else if (type  == t_door_locked_peep) {
+            moves -= 40;
+            std::string door_name = rm_prefix(_("<door_name>door"));
+            add_msg_if_player(m_neutral, _("With a satisfying click, the peephole-door's lock opens."),
+                              door_name.c_str());
+            g->m.ter_set(dirx, diry, t_door_c_peep);
         } else if(type == t_door_c) {
             add_msg(m_info, _("That door isn't locked."));
         } else {

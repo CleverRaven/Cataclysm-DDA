@@ -551,6 +551,7 @@ extern ter_id t_null,
     // More embellishments than you can shake a stick at.
     t_sandbox, t_slide, t_monkey_bars, t_backboard,
     t_gas_pump, t_gas_pump_smashed,
+    t_diesel_pump, t_diesel_pump_smashed,
     t_atm,
     t_generator_broken,
     t_missile, t_missile_exploded,

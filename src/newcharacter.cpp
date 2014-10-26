@@ -796,6 +796,7 @@ int set_stats(WINDOW *w, player *u, int &points)
                 u->per_max++;
             }
         } else if (action == "PREV_TAB") {
+            delwin(w_description);
             return -1;
         } else if (action == "NEXT_TAB") {
             delwin(w_description);
@@ -1410,12 +1411,15 @@ int set_scenario(WINDOW *w, player *u, int &points)
 
     WINDOW *w_description = newwin(4, FULL_SCREEN_WIDTH - 2,
                                    FULL_SCREEN_HEIGHT - 5 + getbegy(w), 1 + getbegx(w));
+    WINDOW_PTR w_descriptionptr( w_description );
 
     WINDOW *w_profession = newwin(iContentHeight - 1, (FULL_SCREEN_WIDTH / 2) - 1,
                                   6 + getbegy(w),  (FULL_SCREEN_WIDTH / 2) + getbegx(w));
+    WINDOW_PTR w_professionptr( w_profession );
 
     WINDOW *w_location =   newwin(iContentHeight - 8, (FULL_SCREEN_WIDTH / 2) - 1,
                                   10 + getbegy(w), (FULL_SCREEN_WIDTH / 2) + getbegx(w));
+    WINDOW_PTR w_locationptr( w_location );
 
     std::vector<const scenario *> sorted_scens;
     for (scenmap::const_iterator iter = scenario::begin(); iter != scenario::end(); ++iter) {
@@ -1551,16 +1555,12 @@ int set_scenario(WINDOW *w, player *u, int &points)
 
 
         } else if (action == "PREV_TAB" && query_yn(_("Return to main menu?"))) {
-            delwin(w_description);
             return -1;
         } else if (action == "NEXT_TAB") {
             retval = 1;
         }
     } while (retval == 0);
 
-    delwin(w_description);
-    delwin(w_profession);
-    delwin(w_location);
     return retval;
 }
 
@@ -1573,14 +1573,22 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
     draw_tabs(w, _("DESCRIPTION"));
 
     WINDOW *w_name = newwin(2, 42, getbegy(w) + 6, getbegx(w) + 2);
+    WINDOW_PTR w_nameptr( w_name );
     WINDOW *w_gender = newwin(2, 32, getbegy(w) + 6, getbegx(w) + 47);
+    WINDOW_PTR w_genderptr( w_gender );
     WINDOW *w_location = newwin(1, 76, getbegy(w) + 8, getbegx(w) + 2);
+    WINDOW_PTR w_locationptr( w_location );
     WINDOW *w_stats = newwin(6, 16, getbegy(w) + 10, getbegx(w) + 2);
+    WINDOW_PTR w_statstptr( w_stats );
     WINDOW *w_traits = newwin(13, 24, getbegy(w) + 10, getbegx(w) + 24);
+    WINDOW_PTR w_traitsptr( w_traits );
     WINDOW *w_profession = newwin(1, 32, getbegy(w) + 10, getbegx(w) + 47);
+    WINDOW_PTR w_professionptr( w_profession );
     WINDOW *w_skills = newwin(9, 24, getbegy(w) + 12, getbegx(w) + 47);
+    WINDOW_PTR w_skillsptr( w_skills );
     WINDOW *w_guide = newwin(2, FULL_SCREEN_WIDTH - 4, getbegy(w) + 21, getbegx(w) + 2);
-
+    WINDOW_PTR w_guideptr( w_guide );
+                    
     mvwprintz(w, 3, 2, c_ltgray, _("Points left:%4d "), points);
 
     const unsigned namebar_pos = 1 + utf8_width(_("Name:"));
@@ -1779,45 +1787,17 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
                     continue;
                 } else {
                     u->pick_name();
-                    delwin(w_name);
-                    delwin(w_gender);
-                    delwin(w_stats);
-                    delwin(w_traits);
-                    delwin(w_profession);
-                    delwin(w_skills);
-                    delwin(w_guide);
                     return 1;
                 }
             } else if (query_yn(_("Are you SURE you're finished?"))) {
-                delwin(w_name);
-                delwin(w_gender);
-                delwin(w_stats);
-                delwin(w_traits);
-                delwin(w_profession);
-                delwin(w_skills);
-                delwin(w_guide);
                 return 1;
             } else {
                 redraw = true;
                 continue;
             }
         } else if (action == "PREV_TAB") {
-            delwin(w_name);
-            delwin(w_gender);
-            delwin(w_stats);
-            delwin(w_traits);
-            delwin(w_profession);
-            delwin(w_skills);
-            delwin(w_guide);
             return -1;
         } else if (action == "REROLL_CHARACTER" && type == PLTYPE_RANDOM) {
-            delwin(w_name);
-            delwin(w_gender);
-            delwin(w_stats);
-            delwin(w_traits);
-            delwin(w_profession);
-            delwin(w_skills);
-            delwin(w_guide);
             return -7;
         } else if (action == "SAVE_TEMPLATE") {
             if (points > 0) {

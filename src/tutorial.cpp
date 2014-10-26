@@ -186,9 +186,9 @@ void tutorial_game::post_action(action_id act)
   break;
 
  case ACTION_WEAR: {
-  itype *it = itypes[ g->u.last_item];
-  if (it->is_armor()) {
-   it_armor *armor = dynamic_cast<it_armor*>(it);
+  item it( g->u.last_item, 0 );
+  if (it.is_armor()) {
+   it_armor *armor = dynamic_cast<it_armor*>(it.type);
    if (armor->coverage >= 2 || armor->thickness >= 2)
     add_message(LESSON_WORE_ARMOR);
    if (armor->storage >= 20)
@@ -207,18 +207,18 @@ void tutorial_game::post_action(action_id act)
   add_message(LESSON_INTERACT);
 // Fall through to...
  case ACTION_PICKUP: {
-  itype *it = itypes[ g->u.last_item ];
-  if (it->is_armor())
+  item it( g->u.last_item, 0 );
+  if (it.is_armor())
    add_message(LESSON_GOT_ARMOR);
-  else if (it->is_gun())
+  else if (it.is_gun())
    add_message(LESSON_GOT_GUN);
-  else if (it->is_ammo())
+  else if (it.is_ammo())
    add_message(LESSON_GOT_AMMO);
-  else if (it->is_tool())
+  else if (it.is_tool())
    add_message(LESSON_GOT_TOOL);
-  else if (it->is_food())
+  else if (it.is_food())
    add_message(LESSON_GOT_FOOD);
-  else if (it->melee_dam > 7 || it->melee_cut > 5)
+  else if (it.type->melee_dam > 7 || it.type->melee_cut > 5)
    add_message(LESSON_GOT_WEAPON);
 
   if (g->u.volume_carried() > g->u.volume_capacity() - 2)

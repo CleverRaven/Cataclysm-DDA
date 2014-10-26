@@ -100,9 +100,7 @@ List of known flags, used in both terrain.json and furniture.json
 - ```fungus``` Release spores as the terrain crumbles away.
 - ```dirtmound``` Plant seeds and plants.
 - ```aggie_plant``` Harvest plants.
-- ```tree_apple``` Pick an apple tree.
-- ```shrub_blueberry``` Pick a blueberry bush.
-- ```shrub_strawberry``` Pick a strawberry bush.
+- ```harvest_tree_shrub``` Harvest a fruit tree or shrub.
 - ```shrub_marloss``` Pick a marloss bush.
 - ```shrub_wildveggies``` Pick a wild veggies shrub.
 - ```recycler``` Recycle metal objects.
@@ -226,6 +224,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```REVIVES``` Monster corpse will revive after a short period of time.
 - ```CHITIN``` May produce chitin when butchered.
 - ```VERMIN``` Creature is too small for normal combat, butchering etc.
+- ```NO_GIBS``` Does not leave gibs / meat chunks when killed with huge damage.
 - ```HUNTS_VERMIN``` Creature uses vermin as a food source.
 - ```SMALL_BITER``` Creature can cause a painful, non-damaging bite.
 - ```ABSORBS``` Consumes objects it moves over.
@@ -619,7 +618,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```PURIFIER``` Removes negative mutations.
 - ```MARLOSS``` "As you eat the berry, you have a near-religious experience, feeling at one with your surroundings..."
 - ```DOGFOOD``` Makes a dog friendly.
-- ```CATFOOD```Makes a cat friendly.
+- ```CATFOOD``` Makes a cat friendly.
 
 ### Flags
 
@@ -627,6 +626,8 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```USE_EAT_VERB``` "You drink your %s." or "You eat your %s."
 - ```FERTILIZER``` Works as fertilizer for farming.
 - ```SEED``` Plantable seed for farming.
+- ```LENS``` Lens items can make fires via focusing light rays.
+- ```FIRE_DRILL``` Item will start fires in the primitive way.
 - ```MUTAGEN_STRONG``` Chance of mutating several times.
 - ```MUTAGEN_PLANT``` Causes mutation in the plant branch.
 - ```MUTAGEN_INSECT``` Causes mutation in the insect branch.
@@ -722,8 +723,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 ### Use actions
 
 - ```NONE``` Do nothing.
-- ```LIGHTER``` Light a fire.
-- ```PRIMITIVE_FIRE``` Attempt to light a fire with a high chance of failure.
+- ```FIRESTARTER``` Light a fire with a lens, primitive tools or lighters.
 - ```SEW``` Sew clothing.
 - ```SCISSORS``` Cut up clothing.
 - ```HAMMER``` Pry boards off of windows, doors and fences.

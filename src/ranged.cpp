@@ -236,7 +236,7 @@ void player::fire_gun(int tarx, int tary, bool burst)
     if (weapon.has_flag("CHARGE")) { // It's a charger gun, so make up a type
         // Charges maxes out at 8.
         long charges = weapon.num_charges();
-        it_ammo *tmpammo = dynamic_cast<it_ammo *>(itypes["charge_shot"]);
+        it_ammo *tmpammo = dynamic_cast<it_ammo *>( item( "charge_shot", 0 ).type );
 
         tmpammo->damage = charges * charges;
         tmpammo->pierce = (charges >= 4 ? (charges - 3) * 2.5 : 0);
@@ -351,9 +351,7 @@ void player::fire_gun(int tarx, int tary, bool burst)
     // cap our maximum burst size by the amount of UPS power left
     if (ups_drain > 0 || adv_ups_drain > 0 || bio_power_drain > 0)
         while (!(has_charges("UPS_off", ups_drain * num_shots) ||
-                 has_charges("UPS_on", ups_drain * num_shots) ||
                  has_charges("adv_UPS_off", adv_ups_drain * num_shots) ||
-                 has_charges("adv_UPS_on", adv_ups_drain * num_shots) ||
                  (has_bionic("bio_ups") && power_level >= (bio_power_drain * num_shots)))) {
             num_shots--;
         }
@@ -478,12 +476,8 @@ void player::fire_gun(int tarx, int tary, bool burst)
         // Drain UPS power
         if (has_charges("adv_UPS_off", adv_ups_drain)) {
             use_charges("adv_UPS_off", adv_ups_drain);
-        } else if (has_charges("adv_UPS_on", adv_ups_drain)) {
-            use_charges("adv_UPS_on", adv_ups_drain);
         } else if (has_charges("UPS_off", ups_drain)) {
             use_charges("UPS_off", ups_drain);
-        } else if (has_charges("UPS_on", ups_drain)) {
-            use_charges("UPS_on", ups_drain);
         } else if (has_bionic("bio_ups")) {
             charge_power(-1 * bio_power_drain);
         }
@@ -845,6 +839,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
     int top    = sideStyle ? getbegy(w_messages) : (getbegy(w_minimap) + getmaxy(w_minimap));
     int left   = getbegx(w_messages);
     WINDOW *w_target = newwin(height, width, top, left);
+    WINDOW_PTR w_targetptr( w_target );
     draw_border(w_target);
     mvwprintz(w_target, 0, 2, c_white, "< ");
     if (!relevent) { // currently targetting vehicle to refill with fuel

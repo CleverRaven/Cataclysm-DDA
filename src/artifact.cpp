@@ -215,11 +215,6 @@ enum artifact_armor_form {
     NUM_ARTARMFORMS
 };
 
-std::string mk_artifact_id()
-{
-    return string_format("artifact_%d", (int) artifact_itype_ids.size());
-};
-
 //see below, move them so gettext and be applied properly
 artifact_shape_datum artifact_shape_data[ARTSHAPE_MAX];
 artifact_property_datum artifact_property_data[ARTPROP_MAX];
@@ -241,7 +236,7 @@ std::string artifact_name(std::string type);
 // Constructrs for artifact itypes.
 it_artifact_tool::it_artifact_tool() : it_tool()
 {
-    id = mk_artifact_id();
+    id = item_controller->create_artifact_id();
     ammo = "NULL";
     price = 0;
     def_charges = 0;
@@ -255,7 +250,7 @@ it_artifact_tool::it_artifact_tool() : it_tool()
 
 it_artifact_armor::it_artifact_armor() : it_armor()
 {
-    id = mk_artifact_id();
+    id = item_controller->create_artifact_id();
     price = 0;
 };
 
@@ -764,7 +759,6 @@ std::string new_artifact()
         if (one_in(8) && num_bad + num_good >= 4) {
             art->charge_type = ARTC_NULL;    // 1 in 8 chance that it can't recharge!
         }
-        artifact_itype_ids.push_back(art->id);
         item_controller->add_item_type( art );
         return art->id;
     } else { // Generate an armor artifact
@@ -874,7 +868,6 @@ std::string new_artifact()
             value += passive_effect_cost[passive_tmp];
             art->effects_worn.push_back(passive_tmp);
         }
-        artifact_itype_ids.push_back(art->id);
         item_controller->add_item_type( art );
         return art->id;
     }
@@ -984,7 +977,6 @@ std::string new_natural_artifact(artifact_natural_property prop)
         art->rand_charges.push_back(art->max_charges);
         art->charge_type = art_charge( rng(ARTC_NULL + 1, NUM_ARTCS - 1) );
     }
-    artifact_itype_ids.push_back(art->id);
     item_controller->add_item_type( art );
     return art->id;
 }
@@ -1015,7 +1007,6 @@ std::string architects_cube()
     art->description = _("The architect's cube.");
     art->effects_carried.push_back(AEP_SUPER_CLAIRVOYANCE);
     item_controller->add_item_type( art );
-    artifact_itype_ids.push_back(art->id);
     return art->id;
 }
 
@@ -1089,8 +1080,6 @@ void load_artifacts(const std::string &artfilename)
 
 void load_artifacts_from_ifstream(std::ifstream &f)
 {
-    // delete current artefact ids
-    artifact_itype_ids.clear();
     // read and create artifacts from json array in artifacts.gsav
     JsonIn artifact_json(f);
     artifact_json.start_array();
@@ -1100,12 +1089,10 @@ void load_artifacts_from_ifstream(std::ifstream &f)
         std::string id = jo.get_string("id");
         if (type == "artifact_tool") {
             it_artifact_tool *art = new it_artifact_tool(jo);
-            itypes[id] = art;
-            artifact_itype_ids.push_back(id);
+            item_controller->add_item_type( art );
         } else if (type == "artifact_armor") {
             it_artifact_armor *art = new it_artifact_armor(jo);
-            itypes[id] = art;
-            artifact_itype_ids.push_back(id);
+            item_controller->add_item_type( art );
         } else {
             throw jo.line_number() + ": unrecognized artifact type.";
         }

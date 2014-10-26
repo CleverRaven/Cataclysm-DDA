@@ -138,6 +138,7 @@ The syntax listed here is still valid.
 "fear_triggers" : ["SOUND", etc],	// What makes the monster afraid. See JSON_FLAGS.md for a full list
 "anger_triggers" : ["PLAYER_CLOSE"],// What makes the monster angry. See JSON_FLAGS.md for a full list
 "placate_triggers" : ["MEAT"],		// What calms the monster. See JSON_FLAGS.md for a full list
+"revert_to_itype": "bot_turret",    // (optional) if not empty and a valid item id, the monster (usually a robot) can be converted into this item by the player (only when it's already friendly).
 "categories" : ["WILDLIFE"]			// Monster categories. Can be NULL, CLASSIC (only mobs found in classic zombie movies) or WILDLIFE (natural animals). If they are not CLASSIC or WILDLIFE, they will not spawn in classic mode
 ```	
 ###NAMES
@@ -188,6 +189,7 @@ The syntax listed here is still valid.
 "time": 5000,                // Time to perform recipe (where 1000 ~= 10 turns ~= 1 minute game time)
 "reversible": false,         // Can be disassembled.
 "autolearn": true,           // Automatically learned upon gaining required skills
+"batch_time_factors": [25, 15], // Optional factors for batch crafting time reduction. First number specifies maximum crafting time reduction as percentage, and the second number the minimal batch size to reach that number. In this example given batch size of 20 the last 6 crafts will take only 3750 time units.
 "tools": [                   // Tools needed to craft
 [                            // Equivalent tools are surrounded by a single set of brackets []
   [ "hatchet", -1 ],         // Charges consumed when tool is used, -1 means no charges are consumed
@@ -557,6 +559,12 @@ The contents of use_action fields can either be a string indicating a built-in f
     "friendly_msg": "Good!", // (optional) message when the monster is programmed properly and it's friendly.
     "place_randomly": true, // if true: places the monser randomly around the player, if false: let the player decide where to put it (default: false)
     "moves": 60 // how many move points the action takes.
+},
+"use_action": {
+    "type": "ups_based_armor", // Armor that can be activated and uses power from an UPS, needs additional C++ code to work
+    "activate_msg": "You activate your foo.", // Message when the player activates the item.
+    "deactive_msg": "You deactivate your foo.", // Message when the player deactivates the item.
+    "out_of_power_msg": "Your foo runs out of power and deactivates itself." // Message when the UPS runs out of power and the item is deactivated automatically.
 }
 ```
 ###Random descriptions
