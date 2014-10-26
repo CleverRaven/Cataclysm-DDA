@@ -10700,7 +10700,7 @@
         "environmental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : -5,
-        "flags" : ["VARSIZE", "SUPER_FANCY"],
+        "flags" : ["VARSIZE", "FANCY"],
         "coverage" : 7,
         "material_thickness" : 1
     },
