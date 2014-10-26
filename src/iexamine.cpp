@@ -816,6 +816,7 @@ void iexamine::safe(player *p, map *m, int examx, int examy)
         if (u.is_deaf()) {
             add_msg(m_info, _("You can't crack a safe while deaf!"));
             return;
+        }
 
         if (success) {
             m->furn_set(examx, examy, f_safe_o);
