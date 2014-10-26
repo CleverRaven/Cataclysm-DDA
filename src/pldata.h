@@ -22,7 +22,8 @@ enum character_type {
     PLTYPE_RANDOM,
     PLTYPE_TEMPLATE,
     PLTYPE_NOW,
-    PLTYPE_MAX
+    PLTYPE_MAX,
+    PLTYPE_SCENARIO
 };
 
 typedef std::string dis_type;
