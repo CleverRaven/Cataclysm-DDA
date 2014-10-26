@@ -4531,5 +4531,13 @@
                 { "item": "steel_chunk", "amount": 6, "minamount": 4}
             ]
         }
+    },{
+        "type" : "terrain",
+        "id" : "t_pontoon",
+        "name": "pontoon bridge",
+        "symbol": "8",
+        "color": "brown",
+        "move_cost": 4,
+        "flags": ["TRANSPARENT", FLAT"]
     }
 ]
