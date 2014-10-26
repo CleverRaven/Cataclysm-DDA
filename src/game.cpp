@@ -14051,7 +14051,7 @@ void game::update_stair_monsters()
             }
         }
         // Randomize the stair choice
-        si = nearest[one_in(found)];
+        si = nearest[rng( 0, found - 1 )];
 
         // Attempt to spawn zombies.
         for (size_t i = 0; i < coming_to_stairs.size(); i++) {
