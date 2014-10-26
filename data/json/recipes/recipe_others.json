@@ -5444,7 +5444,7 @@
   },{
   "type" : "recipe",
   "result": "charcoal",
-  "byproducts": { "id" : "charcoal", "amount" : 3 },
+  "byproducts": { "id" : "charcoal", "amount" : 4 },
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
   "skill_used": "fabrication",
@@ -5457,7 +5457,7 @@
       ],
   "tools": [
     [
-        [ "pickaxe", 1 ]
+        [ "pickaxe", -1 ]
     ]
   ],
   "components": [
