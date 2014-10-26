@@ -4058,7 +4058,16 @@
         "id" : "PROF_POLICE",
         "name" : "Police Officer",
         "points" : 0,
-        "description" : "You are a duly sworn law enforcement official, with jurisdiction throughout the New England region thanks to interstate agreements.  Whether that means anything now is another question.",
+        "description" : "You are a duly sworn law enforcement officer, with jurisdiction throughout the New England region thanks to interstate agreements.  Whether that means anything now is another question.",
+        "valid": false,
+        "purifiable": false,
+        "profession": true
+    },{
+        "type" : "mutation",
+        "id" : "PROF_PD_DET",
+        "name" : "Police Detective",
+        "points" : 0,
+        "description" : "You are a duly sworn law enforcement investigator, with jurisdiction throughout the New England region thanks to interstate agreements.  Whether your shield means anything now is another question.",
         "valid": false,
         "purifiable": false,
         "profession": true
