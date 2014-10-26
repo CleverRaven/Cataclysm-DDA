@@ -1123,10 +1123,10 @@
       ["survnote", 1],
       ["b_shorts", 15],
       ["halter_top", 50],
-      ["linuxtshirt", 80],
-      ["kilt", 30],
+      ["linuxtshirt", 10],
+      ["kilt", 5],
       ["nanoskirt", 10],
-      ["sleeveless_tunic", 10]
+      ["sleeveless_tunic", 5]
     ]
   },{
     "type" : "item_group",
@@ -2026,7 +2026,7 @@
       ["fencing_epee", 8],
       ["survnote", 1],
       ["halter_top", 50],
-      ["linuxtshirt", 80]
+      ["linuxtshirt", 10]
     ]
   },{
     "type" : "item_group",
@@ -2848,7 +2848,7 @@
       ["dress_wedding", 1],
       ["postman_shorts", 5],
       ["b_shorts", 15],
-      ["kilt", 30],
+      ["kilt", 5],
       ["nanoskirt", 10]
     ]
   },{
@@ -2871,8 +2871,8 @@
       ["collarpin", 5],
       ["postman_shirt", 5],
       ["halter_top", 50],
-      ["linuxtshirt", 80],
-      ["sleeveless_tunic", 10]
+      ["linuxtshirt", 10],
+      ["sleeveless_tunic", 5]
     ]
   },{
     "type" : "item_group",
@@ -3073,10 +3073,10 @@
       ["maid_dress", 3],
       ["maid_hat", 3],
       ["halter_top", 50],
-      ["linuxtshirt", 80],
-      ["kilt", 30],
+      ["linuxtshirt", 10],
+      ["kilt", 5],
       ["nanoskirt", 10],
-      ["sleeveless_tunic", 10],
+      ["sleeveless_tunic", 5],
       ["ear_spool",30]
       
     ]
@@ -3121,7 +3121,7 @@
       ["multitool", 8],
       ["touring_suit", 20],
       ["helmet_motor", 14],
-      ["kilt", 75]
+      ["kilt", 5]
     ]
   },{
     "type" : "item_group",
@@ -4785,10 +4785,10 @@
       ["magnifying_glass", 2],
       ["ear_spool",30],
       ["halter_top", 50],
-      ["linuxtshirt", 80],
-      ["kilt", 30],
+      ["linuxtshirt", 10],
+      ["kilt", 5],
       ["nanoskirt", 10],
-      ["sleeveless_tunic", 10]
+      ["sleeveless_tunic", 5]
     ]
   },{
     "type" : "item_group",
@@ -8119,7 +8119,7 @@
       ["bunker_pants", 14],
       ["pants_leather", 18],
       ["skirt", 6],
-      ["kilt", 6]
+      ["kilt", 1]
     ]
   },{
     "type" : "item_group",
