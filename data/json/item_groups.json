@@ -1121,7 +1121,12 @@
       ["maid_hat", 3],
       ["knitting_needles", 1],
       ["survnote", 1],
-      ["b_shorts", 15]
+      ["b_shorts", 15],
+      ["halter_top", 50],
+      ["linuxtshirt", 80],
+      ["kilt", 30],
+      ["nanoskirt", 10],
+      ["sleeveless_tunic", 10]
     ]
   },{
     "type" : "item_group",
@@ -2020,6 +2025,8 @@
       ["fencing_sabre", 8],
       ["fencing_epee", 8],
       ["survnote", 1]
+      ["halter_top", 50],
+      ["linuxtshirt", 80]
     ]
   },{
     "type" : "item_group",
@@ -2333,6 +2340,8 @@
       ["survnote", 1],
       ["slingshot", 10],
       ["wristrocket", 5]
+      ["halter_top", 50],
+      ["linuxtshirt", 80]
     ]
   },{
     "type" : "item_group",
@@ -2841,6 +2850,8 @@
       ["dress_wedding", 1],
       ["postman_shorts", 5],
       ["b_shorts", 15]
+      ["kilt", 30],
+      ["nanoskirt", 10]
     ]
   },{
     "type" : "item_group",
@@ -2861,6 +2872,9 @@
       ["tieclip", 5],
       ["collarpin", 5],
       ["postman_shirt", 5]
+      ["halter_top", 50],
+      ["linuxtshirt", 80],
+      ["sleeveless_tunic", 10]
     ]
   },{
     "type" : "item_group",
@@ -3059,7 +3073,14 @@
       ["postman_shirt", 5],
       ["postman_hat", 5],
       ["maid_dress", 3],
-      ["maid_hat", 3]
+      ["maid_hat", 3],
+      ["halter_top", 50],
+      ["linuxtshirt", 80],
+      ["kilt", 30],
+      ["nanoskirt", 10],
+      ["sleeveless_tunic", 10],
+      ["plug",30]
+      
     ]
   },{
     "type" : "item_group",
@@ -3101,7 +3122,8 @@
       ["knife_swissarmy", 6],
       ["multitool", 8],
       ["touring_suit", 20],
-      ["helmet_motor", 14]
+      ["helmet_motor", 14],
+      ["kilt", 75]
     ]
   },{
     "type" : "item_group",
@@ -4762,7 +4784,13 @@
       ["radio_car_box", 1],
       ["radiocontrol", 3],
       ["peephole", 1],
-      ["magnifying_glass", 2]
+      ["magnifying_glass", 2],
+      ["plug",30]
+      ["halter_top", 50],
+      ["linuxtshirt", 80],
+      ["kilt", 30],
+      ["nanoskirt", 10],
+      ["sleeveless_tunic", 10]
     ]
   },{
     "type" : "item_group",
@@ -4965,6 +4993,7 @@
       ["sheath", 5],
       ["holster", 4],
       ["survnote", 2]
+      ["linuxtshirt", 80]
     ]
   },{
     "type" : "item_group",
@@ -7615,7 +7644,8 @@
       ["wakizashi", 1],
       ["tanto", 4],
       ["katana", 1],
-      ["survnote", 3]
+      ["survnote", 3],
+      ["plug",30]
     ]
   },{
     "type" : "item_group",
@@ -8091,7 +8121,8 @@
       ["winter_pants_army", 10],
       ["bunker_pants", 14],
       ["pants_leather", 18],
-      ["skirt", 6]
+      ["skirt", 6],
+      ["kilt", 6]
     ]
   },{
     "type" : "item_group",
