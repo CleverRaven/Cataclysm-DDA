@@ -1138,5 +1138,65 @@
             "You trip %s",
             "<npcname> trips %s"
         ]
+    },{
+		"type" : "technique",
+        "id" : "tec_tenta_grab",
+        "name" : "grab",
+        "min_unarmed" : 3,
+        "unarmed_allowed" : true,
+        "down_dur" : 1,
+        "messages" : [
+            "You grab %s with your tentacles",
+            "<npcname> grabs %s"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "tec_tenta_rapid",
+        "name" : "quick slap",
+        "min_unarmed" : 1,
+        "unarmed_allowed" : true,
+        "messages" : [
+            "You quickly tentacle slap %s",
+            "<npcname> quickly tentacle slaps %s"
+        ],
+        "speed_mult" : 0.5,
+        "bash_mult" : 0.66,
+        "cut_mult" : 0.66
+    },{
+        "type" : "technique",
+        "id" : "tec_tenta_feint",
+        "name" : "feint at",
+        "min_unarmed" : 2,
+        "unarmed_allowed" : true,
+        "defensive" : true,
+        "miss_recovery" : true,
+        "messages" : [
+            "You feint at %s",
+            "<npcname> feints at %s"
+        ]
+    },{
+		"type" : "technique",
+        "id" : "tec_tenta_wrap",
+        "name" : "wrap",
+        "min_unarmed" : 4,
+        "unarmed_allowed" : true,
+        "down_dur" : 2,
+        "messages" : [
+            "You wrap around %s with your tentacles",
+            "<npcname> wraps up %s"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "tec_tenta_counter",
+        "name" : "Counterattack",
+        "min_unarmed" : 5,
+        "unarmed_allowed" : true,
+        "block_counter": true,
+        "dodge_counter": true,
+        "speed_mult" : 0.5,
+        "messages" : [
+            "You quickly counter-attack %s",
+            "<npcname> quickly counter-attacks %s"
+        ]
     }
 ]
