@@ -38,6 +38,7 @@
 #include "messages.h"
 #include "pickup.h"
 #include "weather_gen.h"
+#include "powerups_ui.h"
 #include <map>
 #include <set>
 #include <algorithm>
@@ -3617,7 +3618,7 @@ bool game::handle_action()
         }
         break;
     case ACTION_BIONICS:
-        u.power_bionics();
+        u.draw_powerups_window();
         refresh_all();
         break;
     case ACTION_MUTATIONS:
