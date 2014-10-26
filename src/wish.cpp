@@ -195,8 +195,9 @@ void game::wishmutate( player *p )
             int rc = 0;
             std::string mstr = cb->vTraits[ wmenu.ret ];
             bool threshold = mutation_data[mstr].threshold;
+            bool profession = mutation_data[mstr].profession;
             //Manual override for the threshold-gaining
-            if (threshold) {
+            if (threshold || profession) {
                 if ( p->has_trait( mstr ) ) {
                     do {
                         p->remove_mutation(mstr );

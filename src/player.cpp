@@ -2545,16 +2545,22 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
     mvwprintz(w_traits, 0, 13 - utf8_width(title_TRAITS)/2, c_ltgray, title_TRAITS);
     std::sort(traitslist.begin(), traitslist.end(), trait_display_sort);
     for (size_t i = 0; i < traitslist.size() && i < trait_win_size_y; i++) {
-        if (mutation_data[traitslist[i]].threshold == true)
+        if ( (mutation_data[traitslist[i]].threshold == true) ||
+            (mutation_data[traitslist[i]].profession == true) ) {
             status = c_white;
-        else if (traits[traitslist[i]].mixed_effect == true)
+        }
+        else if (traits[traitslist[i]].mixed_effect == true) {
             status = c_pink;
-        else if (traits[traitslist[i]].points > 0)
+        }
+        else if (traits[traitslist[i]].points > 0) {
             status = c_ltgreen;
-        else if (traits[traitslist[i]].points < 0)
+        }
+        else if (traits[traitslist[i]].points < 0) {
             status = c_ltred;
-        else
+        }
+        else {
             status = c_yellow;
+        }
         mvwprintz(w_traits, i+1, 1, status, traits[traitslist[i]].name.c_str());
     }
     wrefresh(w_traits);
@@ -2977,16 +2983,22 @@ Perception %+.1f when throwing items."),
                 mvwprintz(w_traits, 1 + i - min, 1, c_ltgray, "                         ");
                 if (i > traits.size())
                     status = c_ltblue;
-                else if (mutation_data[traitslist[i]].threshold == true)
+                else if ( (mutation_data[traitslist[i]].threshold == true) ||
+                        (mutation_data[traitslist[i]].profession == true) ) {
                     status = c_white;
-                else if (traits[traitslist[i]].mixed_effect == true)
+                }
+                else if (traits[traitslist[i]].mixed_effect == true) {
                     status = c_pink;
-                else if (traits[traitslist[i]].points > 0)
+                }
+                else if (traits[traitslist[i]].points > 0) {
                     status = c_ltgreen;
-                else if (traits[traitslist[i]].points < 0)
+                }
+                else if (traits[traitslist[i]].points < 0) {
                     status = c_ltred;
-                else
+                }
+                else {
                     status = c_yellow;
+                }
                 if (i == line) {
                     mvwprintz(w_traits, 1 + i - min, 1, hilite(status), "%s",
                               traits[traitslist[i]].name.c_str());
@@ -3015,16 +3027,22 @@ Perception %+.1f when throwing items."),
                 mvwprintz(w_traits, 0, 13 - utf8_width(title_TRAITS)/2, c_ltgray, title_TRAITS);
                 for (size_t i = 0; i < traitslist.size() && i < trait_win_size_y; i++) {
                     mvwprintz(w_traits, i + 1, 1, c_black, "                         ");
-                    if (mutation_data[traitslist[i]].threshold == true)
+                    if ((mutation_data[traitslist[i]].threshold == true) ||
+                        (mutation_data[traitslist[i]].profession == true)) {
                         status = c_white;
-                    else if (traits[traitslist[i]].mixed_effect == true)
+                    }
+                    else if (traits[traitslist[i]].mixed_effect == true) {
                         status = c_pink;
-                    else if (traits[traitslist[i]].points > 0)
+                    }
+                    else if (traits[traitslist[i]].points > 0) {
                         status = c_ltgreen;
-                    else if (traits[traitslist[i]].points < 0)
+                    }
+                    else if (traits[traitslist[i]].points < 0) {
                         status = c_ltred;
-                    else
+                    }
+                    else {
                         status = c_yellow;
+                    }
                     mvwprintz(w_traits, i + 1, 1, status, "%s", traits[traitslist[i]].name.c_str());
                 }
                 wrefresh(w_traits);
