@@ -4533,11 +4533,27 @@
         }
     },{
         "type" : "terrain",
-        "id" : "t_pontoon",
+        "id" : "t_pontoon_sh",
         "name": "pontoon bridge",
         "symbol": "8",
         "color": "brown",
         "move_cost": 4,
         "flags": ["TRANSPARENT", "FLAT"]
+        "deconstruct": {
+            "ter_set": "t_water_sh",
+            "items": [
+                { "item": "2x4", "amount": 8 },
+            ]
+        },
+        "bash": {
+            "str_min": 8, "str_max": 80,
+            "sound": "smash!",
+            "sound_fail": "whump!",
+            "ter_set": "t_water_sh",
+            "items": [
+                { "item": "2x4", "amount": 2, "chance": 25 },
+                { "item": "splinter", "amount": 4, "minamount": 2 },
+            ]
+        }
     }
 ]
