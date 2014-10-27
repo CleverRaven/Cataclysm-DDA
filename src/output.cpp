@@ -468,6 +468,7 @@ bool query_yn(const char *mes, ...)
     std::string color_off = "</color>";
 
     char ch = '?';
+    int ich = -1; //int version of the return char, used to monitor input timeout
     bool result = true;
     bool gotkey = false;
 
@@ -481,8 +482,10 @@ bool query_yn(const char *mes, ...)
             result = (!force_uc && (ch == selectors[0])) || (ch == ucselectors[0]);
             break; // could move break past render to flash final choice once.
         } else {
-            // Everything else toggles the selection.
-            result = !result;
+            // Everything else toggles the selection, UNLESS the return was a timeout.
+            if (ich >= 0) {
+                result = !result;
+            }
         }
 
         // Additional query string ("Y/N") and uppercase hint, always has the same width!
@@ -514,7 +517,8 @@ bool query_yn(const char *mes, ...)
         fold_and_print(w, 1, 1, win_width, c_ltred, text + query);
         wrefresh(w);
 
-        ch = getch();
+        ich = getch();
+        ch = ich;
     };
 
     werase(w);

@@ -1345,6 +1345,7 @@ void show_options(bool ingame)
         }
     }
 #endif // SDLTILES
+    curses_timeout(100);
     delwin(w_options);
     delwin(w_options_border);
     delwin(w_options_header);

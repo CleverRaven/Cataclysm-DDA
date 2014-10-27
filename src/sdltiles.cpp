@@ -1368,16 +1368,16 @@ int projected_window_height(int)
     return OPTIONS["TERMINAL_Y"] * fontheight;
 }
 
-// Calculates the new width of the window, given the number of columns.
-int projected_window_width(int)
+// Calculates the new terminal width of the window, given the actual width.
+int projected_terminal_width(int)
 {
-    return OPTIONS["TERMINAL_X"] * fontwidth;
+    return OPTIONS["WINDOW_X"] / fontwidth;
 }
 
-// Calculates the new height of the window, given the number of rows.
-int projected_window_height(int)
+// Calculates the new terminal height of the window, given the actual height.
+int projected_terminal_height(int)
 {
-    return OPTIONS["TERMINAL_Y"] * fontheight;
+    return OPTIONS["WINDOW_Y"] / fontheight;
 }
 
 // forward declaration
