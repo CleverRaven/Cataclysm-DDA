@@ -340,9 +340,8 @@ void test_pattern(int iCurrentPage, int iCurrentLine)
 
     //Loop through all itemfactory items
     //TODO: somehow generate damaged, fitting or container items
-    for (std::vector<std::string>::iterator it = standard_itype_ids.begin();
-         it != standard_itype_ids.end(); ++it) {
-        sItemName = item_controller->find_template(*it)->nname(1);
+    for( auto &p : item_controller->get_all_itypes() ) {
+        sItemName = p.second->nname(1);
         if (vAutoPickupRules[iCurrentPage][iCurrentLine].bActive &&
             auto_pickup_match(sItemName, vAutoPickupRules[iCurrentPage][iCurrentLine].sRule)) {
             vMatchingItems.push_back(sItemName);
@@ -593,11 +592,8 @@ void createPickupRules(const std::string sItemNameIn)
                 }
             } else {
                 //Check include paterns against all itemfactory items
-                for (std::vector<std::string>::iterator itype_it =
-                         standard_itype_ids.begin();
-                     itype_it != standard_itype_ids.end(); ++itype_it) {
-                    sItemName = item_controller->
-                                find_template(*itype_it)->nname(1);
+                for( auto &p : item_controller->get_all_itypes() ) {
+                    sItemName = p.second->nname(1);
                     if (pattern_it->bActive &&
                         auto_pickup_match(sItemName, pattern_it->sRule)) {
                         mapAutoPickupItems[sItemName] = "true";

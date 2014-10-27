@@ -520,7 +520,7 @@ void iexamine::cardreader(player *p, map *m, int examx, int examy)
                 }
             }
         } else {
-            add_msg(m_info, _("Looks like you need a %s."), itypes[card_type]->nname(1).c_str());
+            add_msg(m_info, _("Looks like you need a %s."), item_controller->nname( card_type ).c_str());
         }
     }
 }
@@ -813,6 +813,10 @@ void iexamine::safe(player *p, map *m, int examx, int examy)
 
     if (query_yn(_("Attempt to crack the safe?"))) {
         bool success = true;
+        if (g->u.is_deaf()) {
+            add_msg(m_info, _("You can't crack a safe while deaf!"));
+            return;
+        }
 
         if (success) {
             m->furn_set(examx, examy, f_safe_o);

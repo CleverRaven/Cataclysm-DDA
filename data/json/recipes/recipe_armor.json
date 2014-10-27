@@ -350,7 +350,7 @@
   ],
   "components": [
     [
-      [ "leather", 7 ]
+      [ "leather", 10 ]
     ]
   ]
 },{
@@ -1567,7 +1567,7 @@
   ],
   "components": [
     [
-      [ "leather", 16 ]
+      [ "leather", 18 ]
     ]
   ]
 },{
@@ -3713,7 +3713,7 @@
   "autolearn": true,
   "components": [
     [
-      [ "rag", 4 ],
+      [ "rag", 6 ],
       [ "fur", 2 ],
       [ "leather", 1 ]
     ],

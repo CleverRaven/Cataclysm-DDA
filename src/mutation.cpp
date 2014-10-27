@@ -446,6 +446,7 @@ void player::mutate()
     for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
         std::string base_mutation = iter->first;
         bool thresh_save = mutation_data[base_mutation].threshold;
+        bool prof_save = mutation_data[base_mutation].profession;
         bool purify_save = mutation_data[base_mutation].purifiable;
 
         // ...that we have...
@@ -485,8 +486,8 @@ void player::mutate()
                 }
 
                 // mark for removal
-                // no removing Thresholds this way!
-                if(!in_cat && !thresh_save) {
+                // no removing Thresholds/Professions this way!
+                if(!in_cat && !thresh_save && !prof_save) {
                     // non-purifiable stuff should be pretty tenacious
                     // category-enforcement only targets it 25% of the time
                     // (purify_save defaults true, = false for non-purifiable)
@@ -666,6 +667,7 @@ void player::mutate_towards(std::string mut)
 
     // Check for threshhold mutation, if needed
     bool threshold = mutation_data[mut].threshold;
+    bool profession = mutation_data[mut].profession;
     bool has_threshreq = false;
     std::vector<std::string> threshreq = mutation_data[mut].threshreq;
 
@@ -673,6 +675,11 @@ void player::mutate_towards(std::string mut)
     // and aren't categorized--but if it does, just reroll
     if (threshold) {
         add_msg(_("You feel something straining deep inside you, yearning to be free..."));
+        mutate();
+        return;
+    }
+    if (profession) {
+        // Profession picks fail silently
         mutate();
         return;
     }
@@ -1096,9 +1103,9 @@ void mutation_effect(player &p, std::string mut)
     } else if (mut == "STR_ALPHA") {
         if (p.str_max <= 6) {
             p.str_max = 8;
-        } else if (p.per_max <= 7) {
+        } else if (p.str_max <= 7) {
             p.str_max = 11;
-        } else if (p.int_max <= 14) {
+        } else if (p.str_max <= 14) {
             p.str_max = 15;
         } else {
             p.str_max = 18;
@@ -1132,9 +1139,9 @@ void mutation_effect(player &p, std::string mut)
     } else if (mut == "DEX_ALPHA") {
         if (p.dex_max <= 6) {
             p.dex_max = 8;
-        } else if (p.per_max <= 7) {
+        } else if (p.dex_max <= 7) {
             p.dex_max = 11;
-        } else if (p.int_max <= 14) {
+        } else if (p.dex_max <= 14) {
             p.dex_max = 15;
         } else {
             p.dex_max = 18;
@@ -1181,7 +1188,7 @@ void mutation_effect(player &p, std::string mut)
             p.per_max = 8;
         } else if (p.per_max <= 7) {
             p.per_max = 11;
-        } else if (p.int_max <= 14) {
+        } else if (p.per_max <= 14) {
             p.per_max = 15;
         } else {
             p.per_max = 18;

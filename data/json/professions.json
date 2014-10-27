@@ -462,8 +462,13 @@
         ],
         "items": {
             "both": [
-                "pants_army",
+                "winter_pants_army",
                 "army_top",
+                "winter_jacket_army",
+                "helmet_liner",
+                "helmet_army",
+                "balclava",
+                "winter_gloves_army",
                 "socks",
                 "boots_combat",
                 "m4a1",
@@ -519,9 +524,11 @@
         ],
         "items": {
             "both": [
-                "pants_army",
-                "jacket_army",
+                "winter_pants_army",
+                "winter_jacket_army",
+                "balclava",
                 "beret",
+                "gloves_liner",
                 "gloves_tactical",
                 "socks",
                 "boots_combat",
@@ -565,20 +572,21 @@
         "items": {
             "both" : [
                 "pocketwatch",
-                "knife_butter",
-                "socks"
+                "knife_butter"
             ],
             "male": [
                 "tux",
                 "dress_shoes",
-                "briefs"
+                "briefs",
+                "socks"
             ],
             "female": [
                 "maid_hat",
                 "maid_dress",
                 "boots",
                 "bra",
-                "panties"
+                "panties",
+                "stockings"
             ]
         }
     },
@@ -593,6 +601,9 @@
                 "level": 3,
                 "name": "firstaid"
             }
+        ],
+        "traits": [
+            "PROF_MED"
         ],
         "items": {
             "both": [
@@ -896,6 +907,9 @@
                 "name": "pistol"
             }
         ],
+        "traits": [
+            "PROF_POLICE"
+        ],
         "items": {
             "both": [
                 "pants_army",
@@ -904,7 +918,7 @@
                 "sheriffshirt",
                 "boots",
                 "holster",
-                "m1911",
+                "usp_45",
                 "45_acp"
             ],
             "male": [
@@ -922,21 +936,24 @@
         "name": "Police Detective",
         "description": "You were on the brink of a major breakthrough in your last homicide case when the Cataclysm struck. Now that suspect is dead. Everyone's dead. You need a smoke.",
         "points": 4,
+        "traits": [
+            "PROF_PD_DET"
+        ],
         "items": {
             "both": [
                 "pants",
                 "dress_shirt",
-		"skinny_tie",
-		"waistcoat",
-		"holster",
-		"trenchcoat",
-		"badge_detective",
-		"gloves_leather",
-		"knit_scarf",
-		"fedora",
-		"wristwatch",
-		"sw_610",
-		"40sw",
+                "skinny_tie",
+                "waistcoat",
+                "holster",
+                "trenchcoat",
+                "badge_detective",
+                "gloves_leather",
+                "knit_scarf",
+                "fedora",
+                "wristwatch",
+                "l_sp_45",
+                "45_acp",
                 "socks",
                 "dress_shoes",
                 "cig",
@@ -956,7 +973,7 @@
                 "name": "gun"
             },
             {
-                "level": 4,
+                "level": 3,
                 "name": "pistol"
             }
         ],
@@ -1543,6 +1560,9 @@
             "bio_metabolics",
             "bio_power_storage_mkII"
         ],
+        "traits": [
+            "PROF_POLICE"
+        ],
         "skills": [
             {
                 "level": 1,
@@ -1707,13 +1727,76 @@
         ],
         "items": {
             "both": [
-                "pants_army",
+                "winter_pants_army",
+                "winter_jacket_army",
+                "winter_gloves_army",
+                "balclava",
+                "beret",
                 "socks",
-                "jacket_army",
                 "boots_combat",
                 "rm51_assault_rifle",
                 "8mm_fmj",
                 "8mm_fmj"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "sports_bra",
+                "boxer_shorts"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "bio_sniper",
+        "name": "Bionic Sniper",
+        "description": "Your bionics, equipment, and extensive field training enable you to drop targets from implausible distances, even after weeks of total isolation in enemy territory.",
+        "points": 6,
+        "CBMs":[
+            "bio_solar",
+            "bio_eye_enhancer",
+            "bio_climate",
+            "bio_evap",
+            "bio_power_storage_mkII"
+        ],
+        "skills": [
+            {
+                "level": 3,
+                "name": "gun"
+            },
+            {
+                "level": 4,
+                "name": "rifle"
+            },
+            {
+                "level": 1,
+                "name": "survival"
+            }
+        ],
+        "items": {
+            "both": [
+                "pants_army",
+                "army_top",
+                "jacket_army",
+                "gloves_tactical",
+                "rucksack",
+                "balclava",
+                "hat_boonie",
+                "socks",
+                "boots_combat",
+                "sheath",
+                "knife_combat",
+                "canteen",
+                "binoculars",
+                "tent_kit",
+                "rollmat",
+                "lighter",
+                "mil_mess_kit",
+                "m2010",
+                "300_winmag",
+                "300_winmag",
+                "suppressor"
             ],
             "male": [
                 "boxer_shorts"
@@ -2054,6 +2137,9 @@
         "name": "Hockey Player",
         "description": "You were a minor-league hockey goalie before the rest of your team became zombies.  It's just you and your hockey equipment versus the undead, but at least you can cross-check them now.",
         "points": 0,
+        "traits": [
+            "PROF_SKATER"
+        ],
         "items": {
             "both": [
                 "mask_hockey",
@@ -2736,6 +2822,9 @@
                 "name": "dodge"
             }
         ],
+        "traits": [
+            "PROF_SKATER"
+        ],
         "items": {
             "both": [
                 "under_armor_shorts",
@@ -2957,6 +3046,74 @@
                 "boy_shorts"
             ]
         }
+    },
+    {
+        "type": "profession",
+        "ident": "naturalist",
+        "name": "Naturalist",
+        "description": "You have come to an understanding with Mother Nature over long years of self-imposed exile in the wilderness. The world as they knew it might have ended for your forsaken species, but you can hardly tell the difference.",
+        "points": 6,
+        "skills": [
+            {
+                "level": 6,
+                "name": "survival"
+            },
+            {
+                "level": 4,
+                "name": "fabrication"
+            },
+            {
+                "level": 3,
+                "name": "tailor"
+            },
+            {
+                "level": 1,
+                "name": "gun"
+            },
+            {
+                "level": 5,
+                "name": "archery"
+            },
+            {
+                "level": 3,
+                "name": "melee"
+            },
+            {
+                "level": 2,
+                "name": "dodge"
+            },
+            {
+                "level": 2,
+                "name": "swimming"
+            },
+            {
+                "level": 3,
+                "name": "cooking"
+            }
+        ],
+        "items": {
+            "both": [
+                "pants_fur",
+                "trenchcoat_fur",
+                "backpack_leather",
+                "boots_fur",
+                "gloves_fur",
+                "hat_fur",
+                "scarf_fur",
+                "quiver",
+                "sheath",
+                "shortbow",
+                "arrow_wood",
+                "arrow_wood",
+                "primitive_knife",
+                "shelter_kit",
+                "rock_pot",
+                "waterskin",
+                "fur_rollmat",
+                "fire_drill"
+            ]
+        },
+         "flags" : ["SCEN_ONLY"]
     },
     {
         "type": "profession",

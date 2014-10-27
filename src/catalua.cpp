@@ -87,8 +87,11 @@ void update_globals(lua_State *L)
 
 // iuse abstraction to make iuse's both in lua and C++ possible
 // ------------------------------------------------------------
-void Item_factory::register_iuse_lua(const char *name, int lua_function)
+void Item_factory::register_iuse_lua(const std::string &name, int lua_function)
 {
+    if( iuse_function_list.count( name ) > 0 ) {
+        DebugLog(D_INFO, D_MAIN) << "lua iuse function " << name << " overrides existing iuse function";
+    }
     iuse_function_list[name] = use_function(lua_function);
 }
 

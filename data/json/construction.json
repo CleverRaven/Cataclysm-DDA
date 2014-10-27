@@ -1830,5 +1830,37 @@
         ],
         "pre_special" : "check_empty",
         "post_terrain" : "f_barricade_road"
+    },{
+        "type" : "construction",
+        "description" : "Build Pontoon Bridge", "//": "Set up pontoon bridge",
+        "category" : "CONSTRUCT",
+        "difficulty" : 5,
+        "time" : 80,
+        "qualities": [ [
+            { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 }
+        ] ],
+        "components" : [
+            [ [ "2x4",   8 ] ],
+            [ [ "rope_30", 1 ], [ "vine_30", 1 ] ],
+            [ [ "55gal_drum", 2 ], [ "30gal_drum", 2 ], [ "wooden_barrel", 2 ] ]
+        ],
+        "pre_terrain" : "t_water_dp",
+        "post_terrain" : "t_pontoon_dp"
+    },{
+        "type" : "construction",
+        "description" : "Build Dock/Shallow Bridge", "//": "Set up dock",
+        "category" : "CONSTRUCT",
+        "difficulty" : 4,
+        "time" : 80,
+        "qualities": [ [
+            { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 }
+        ] ],
+        "components" : [
+            [ [ "2x4",   6 ] ],
+            [ [ "log", 1 ] ],
+            [ [ "nail", 12  ] ]
+        ],
+        "pre_terrain" : "t_water_sh",
+        "post_terrain" : "t_dock"
     }
 ]

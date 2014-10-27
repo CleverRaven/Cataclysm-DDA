@@ -1895,10 +1895,11 @@
         "broken_color" : "cyan",
         "damage_modifier" : 80,
         "durability" : 225,
+        "size" : 10,
         "item" : "frame",
         "difficulty" : 2,
         "location" : "center",
-        "flags" : ["OBSTACLE", "OPENABLE", "BOARDABLE", "WINDOW"],
+        "flags" : ["CARGO", "OBSTACLE", "OPENABLE", "BOARDABLE", "WINDOW"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -1914,10 +1915,11 @@
         "broken_color" : "cyan",
         "damage_modifier" : 80,
         "durability" : 240,
+        "size" : 10,
         "item" : "frame",
         "difficulty" : 2,
         "location" : "center",
-        "flags" : ["OBSTACLE", "OPAQUE", "OPENABLE", "BOARDABLE"],
+        "flags" : ["CARGO", "OBSTACLE", "OPAQUE", "OPENABLE", "BOARDABLE"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -3989,7 +3991,6 @@
             {"item": "scrap", "min": 2, "max": 4}
         ]
     },
-
     {
         "type" : "vehicle_part",
         "id" : "jumper_cable",
@@ -4010,7 +4011,6 @@
             {"item": "plastic_chunk", "min": 1, "max": 2}
         ]
     },
-
     {
         "type" : "vehicle_part",
         "id" : "jumper_cable_heavy",
@@ -4031,7 +4031,6 @@
             {"item": "plastic_chunk", "min": 4, "max": 8}
         ]
     },
-
     {
         "type" : "vehicle_part",
         "id" : "jumper_cable_debug",
@@ -4049,6 +4048,129 @@
         "flags" : ["NOINSTALL", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER"],
         "breaks_into" : [
             {"item": "jumper_cable_debug", "min": 1, "max": 1}
+        ]
+    },
+    {
+        "type" : "vehicle_part",
+        "id" : "seat_wood",
+        "name" : "wooden seat",
+        "symbol" : "#",
+        "color" : "brown",
+        "broken_symbol" : "*",
+        "broken_color" : "brown",
+        "damage_modifier" : 60,
+        "durability" : 125,
+        "item" : "frame_wood",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["SEAT", "BOARDABLE", "BELTABLE"],
+        "breaks_into" : [
+            {"item": "splinter", "min": 7, "max": 9}
+        ]
+    },
+    {
+        "type" : "vehicle_part",
+        "id" : "spike_wood",
+        "name" : "wooden spike",
+        "symbol" : ".",
+        "color" : "brown",
+        "broken_symbol" : "x",
+        "broken_color" : "brown",
+        "damage_modifier" : 115,
+        "durability" : 150,
+        "item" : "pointy_stick",
+        "difficulty" : 2,
+        "location" : "structure",
+        "flags" : ["UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION"],
+        "breaks_into" : []
+    },
+    {
+        "type" : "vehicle_part",
+        "id" : "door_wood",
+        "name" : "wooden door",
+        "symbol" : "+",
+        "color" : "brown",
+        "broken_symbol" : "&",
+        "broken_color" : "brown",
+        "damage_modifier" : 75,
+        "durability" : 160,
+        "item" : "frame_wood",
+        "difficulty" : 2,
+        "location" : "center",
+        "flags" : ["OBSTACLE", "OPENABLE", "BOARDABLE", "WINDOW"],
+        "breaks_into" : [
+            {"item": "splinter", "min": 7, "max": 9}
+        ]
+    },
+    {
+        "type" : "vehicle_part",
+        "id" : "roof_wood",
+        "name" : "wooden roof",
+        "symbol" : "#",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "dark_gray",
+        "durability" : 130,
+        "item" : "frame_wood",
+        "difficulty" : 1,
+        "location" : "roof",
+        "flags" : ["ROOF"],
+        "breaks_into" : [
+            {"item": "splinter", "min": 7, "max": 9}
+        ]
+    },
+    {
+        "type" : "vehicle_part",
+        "id" : "plating_chitin",
+        "name" : "chitin plating",
+        "symbol" : ")",
+        "color" : "yellow",
+        "broken_symbol" : ")",
+        "broken_color" : "light_gray",
+        "durability" : 480,
+        "item" : "chitin_plate",
+        "difficulty" : 3,
+        "location" : "armor",
+        "flags" : ["ARMOR"],
+        "breaks_into" : [
+            {"item": "chitin_piece", "min": 2, "max": 12}
+        ]
+    },
+    {
+        "type" : "vehicle_part",
+        "id" : "plating_bone",
+        "name" : "bone plating",
+        "symbol" : ")",
+        "color" : "white",
+        "broken_symbol" : ")",
+        "broken_color" : "light_gray",
+        "durability" : 400,
+        "item" : "bone_plate",
+        "difficulty" : 3,
+        "location" : "armor",
+        "flags" : ["ARMOR"],
+        "breaks_into" : [
+            {"item": "bone", "min": 0, "max": 5}
+        ]
+    },
+    {
+        "type" : "vehicle_part",
+        "id" : "metal_wheel",
+        "name" : "metal wheel",
+        "symbol" : "|",
+        "color" : "light_gray",
+        "broken_symbol" : "x",
+        "broken_color" : "light_gray",
+        "damage_modifier" : 70,
+        "durability" : 180,
+        "wheel_width" : 3,
+        "item" : "wheel_metal",
+        "difficulty" : 2,
+        "location" : "under",
+        "flags" : ["WHEEL", "VARIABLE_SIZE"],
+        "breaks_into" : [
+            {"item": "scrap", "min": 4, "max": 6},
+            {"item": "steel_chunk", "min": 2, "max": 3}
         ]
     }
 ]

@@ -358,9 +358,10 @@ void map::spread_gas( field_entry *cur, int x, int y, field_id curtype,
             // Current field not a candidate.
             if( !(a || b) ) { continue; }
             const field_entry* tmpfld = get_field( point( x + a, y + b ), curtype );
-            // Candidates are existing weaker fields or navigable tiles with no field.
-            if( ( tmpfld && tmpfld->getFieldDensity() < cur->getFieldDensity() ) ||
-                ( !tmpfld && move_cost( x + a, y + b ) > 0 ) ) {
+            // Candidates are existing weaker fields or navigable/flagged tiles with no field.
+            if( (tmpfld && tmpfld->getFieldDensity() < cur->getFieldDensity() && 
+                 (move_cost( x + a, y + b ) > 0 || has_flag("PERMEABLE", x + a, y + b))) ||
+                (!tmpfld && (move_cost( x + a, y + b ) > 0 || has_flag("PERMEABLE", x + a, y + b))) ) {
                 spread.push_back( point( x + a, y + b ) );
             }
         }
@@ -1132,11 +1133,13 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         break;
 
                     case fd_fatigue:{
-                        std::string monids[9] = {"mon_flying_polyp", "mon_hunting_horror", "mon_mi_go", "mon_yugg", "mon_gelatin", "mon_flaming_eye", "mon_kreck", "mon_gracke", "mon_blank"};
+                        std::array<std::string, 9> monids = { { "mon_flying_polyp", "mon_hunting_horror",
+                        "mon_mi_go", "mon_yugg", "mon_gelatin", "mon_flaming_eye", "mon_kreck", "mon_gracke",
+                        "mon_blank" } };
                         if (cur->getFieldDensity() < 3 && int(calendar::turn) % 3600 == 0 && one_in(10)) {
                             cur->setFieldDensity(cur->getFieldDensity() + 1);
                         } else if (cur->getFieldDensity() == 3 && one_in(600)) { // Spawn nether creature!
-                            std::string type = monids[(rng(0, 9))];
+                            std::string type = monids[rng( 0, monids.size() - 1 )];
                             monster creature(GetMType(type));
                             creature.spawn(x + rng(-3, 3), y + rng(-3, 3));
                             g->add_zombie(creature);
@@ -1478,6 +1481,11 @@ void map::step_in_field(int x, int y)
             break;
 
         case fd_fire:
+            if( g->u.has_active_bionic("bio_heatsink") || g->u.is_wearing("rm13_armor_on") ||
+                g->u.has_trait("M_SKIN2") ) {
+                //heatsink, suit, or internal restructuring prevents ALL fire damage.
+                break;
+            }
             //Burn the player. Less so if you are in a car or ON a car.
             adjusted_intensity = cur->getFieldDensity();
             if( g->u.in_vehicle ) {
@@ -1487,25 +1495,54 @@ void map::step_in_field(int x, int y)
                     adjusted_intensity -= 1;
                 }
             }
-            if (!g->u.has_active_bionic("bio_heatsink") && !g->u.is_wearing("rm13_armor_on") &&
-              !g->u.has_trait("M_SKIN2")) { //heatsink, suit, or internal restructuring prevents ALL fire damage.
-                if (adjusted_intensity == 1) {
-                    add_msg(m_bad, _("You burn your legs and feet!"));
-                    g->u.deal_damage( nullptr, bp_foot_l, damage_instance( DT_HEAT, rng( 2, 6 ) ) );
-                    g->u.deal_damage( nullptr, bp_foot_r, damage_instance( DT_HEAT, rng( 2, 6 ) ) );
-                    g->u.deal_damage( nullptr, bp_leg_l, damage_instance( DT_HEAT, rng( 1, 4 ) ) );
-                    g->u.deal_damage( nullptr, bp_leg_r, damage_instance( DT_HEAT, rng( 1, 4 ) ) );
-                } else if (adjusted_intensity == 2) {
-                    add_msg(m_bad, _("You're burning up!"));
-                    g->u.deal_damage( nullptr, bp_leg_l, damage_instance( DT_HEAT, rng( 2, 6 ) ) );
-                    g->u.deal_damage( nullptr, bp_leg_r, damage_instance( DT_HEAT, rng( 2, 6 ) ) );
-                    g->u.deal_damage( nullptr, bp_torso, damage_instance( DT_HEAT, rng( 4, 9 ) ) );
-                } else if (adjusted_intensity == 3) {
-                    add_msg(m_bad, _("You're set ablaze!"));
-                    g->u.deal_damage( nullptr, bp_leg_l, damage_instance( DT_HEAT, rng( 2, 6 ) ) );
-                    g->u.deal_damage( nullptr, bp_leg_r, damage_instance( DT_HEAT, rng( 2, 6 ) ) );
-                    g->u.deal_damage( nullptr, bp_torso, damage_instance( DT_HEAT, rng( 4, 9 ) ) );
-                    g->u.add_effect("onfire", 5); //lasting fire damage only from the strongest fires.
+            {
+                std::list<int> parts_burned;
+                int burn_min = 0;
+                int burn_max = 0;
+                std::string burn_message;
+                switch( adjusted_intensity ) {
+                case 3:
+                    burn_message = _("You're set ablaze!");
+                    burn_min = 4;
+                    burn_max = 12;
+                    parts_burned.push_back( bp_hand_l );
+                    parts_burned.push_back( bp_hand_r );
+                    parts_burned.push_back( bp_arm_l );
+                    parts_burned.push_back( bp_arm_r );
+                    // Only blasing fires set you ablaze.
+                    g->u.add_effect("onfire", 5);
+                    // Fallthrough intentional.
+                case 2:
+                    if( burn_message.empty() ) {
+                        burn_message = _("You're burning up!");
+                        burn_min = 2;
+                        burn_max = 9;
+                    }
+                    parts_burned.push_back( bp_torso );
+                    // Fallthrough intentional.
+                case 1:
+                    if( burn_message.empty() ) {
+                        burn_message = _("You burn your legs and feet!");
+                        burn_min = 1;
+                        burn_max = 6;
+                    }
+                    parts_burned.push_back( bp_foot_l );
+                    parts_burned.push_back( bp_foot_r );
+                    parts_burned.push_back( bp_leg_l );
+                    parts_burned.push_back( bp_leg_r );
+                }
+                if( g->u.is_on_ground() ) {
+                    // Lying in the fire is BAAAD news, hits every body part.
+                    burn_message = _("Your whole body is burning!");
+                    parts_burned.clear();
+                    for( int i = 0; i < num_bp; ++i ) {
+                        parts_burned.push_back( i );
+                    }
+                }
+                add_msg( m_bad, burn_message.c_str() );
+                for( auto part_burned : parts_burned ) {
+                    g->u.deal_damage( nullptr, (enum body_part)part_burned,
+                                      damage_instance( DT_HEAT, rng( burn_min, burn_max ) ) );
                 }
             }
             break;

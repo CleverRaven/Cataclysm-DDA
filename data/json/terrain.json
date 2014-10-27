@@ -692,7 +692,7 @@
         "symbol": "\"",
         "color": "ltgray",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM"],
+        "flags": ["TRANSPARENT", "NOITEM", "PERMEABLE"],
         "bash": {
             "str_min": 60, "str_max": 250,
             "sound": "metal screeching!",
@@ -1089,7 +1089,7 @@
         "symbol": "+",
         "color": "cyan",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "SUPPORTS_ROOF"],
+        "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "PERMEABLE"],
         "bash": {
             "str_min": 10, "str_max": 150, "str_min_blocked": 15, "str_max_blocked": 175,
             "sound": "metal screeching!",
@@ -1148,7 +1148,7 @@
         "symbol": "+",
         "color": "cyan",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "DOOR"],
+        "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "DOOR", "PERMEABLE"],
         "open": "t_chaingate_o",
         "bash": {
             "str_min": 10, "str_max": 150, "str_min_blocked": 15, "str_max_blocked": 100,
@@ -1363,7 +1363,7 @@
         "symbol": "+",
         "color": "cyan",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["TRANSPARENT", "NOITEM", "SUPPORTS_ROOF", "PERMEABLE"],
         "open": "t_door_bar_o",
         "close": "t_door_bar_locked",
         "bash": {
@@ -1403,7 +1403,7 @@
         "symbol": "+",
         "color": "cyan",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM", "SUPPORTS_ROOF"],
+        "flags": ["TRANSPARENT", "NOITEM", "SUPPORTS_ROOF", "PERMEABLE"],
         "bash": {
             "str_min": 30, "str_max": 210, "str_min_blocked": 40, "str_max_blocked": 240,
             "sound": "metal screeching!",
@@ -2473,7 +2473,7 @@
         "color": "cyan",
         "move_cost": 0,
         "flags": [
-            "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "SUPPORTS_ROOF"
+            "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "SUPPORTS_ROOF", "PERMEABLE"
         ],
         "examine_action": "chainfence",
         "bash": {
@@ -2493,7 +2493,7 @@
         "color": "cyan",
         "move_cost": 0,
         "flags": [
-            "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "SUPPORTS_ROOF"
+            "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "SUPPORTS_ROOF", "PERMEABLE"
         ],
         "examine_action": "chainfence",
         "bash": {
@@ -4529,6 +4529,56 @@
             "items": [
                 { "item": "scrap", "amount": 12, "minamount": 10},
                 { "item": "steel_chunk", "amount": 6, "minamount": 4}
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_dock",
+        "name": "dock",
+        "symbol": "8",
+        "color": "brown",
+        "move_cost": 4,
+        "flags": ["TRANSPARENT", "FLAT"],
+        "deconstruct": {
+            "ter_set": "t_water_sh",
+            "items": [
+                { "item": "nail", "amount": 12, "minamount": 6 },
+                { "item": "2x4", "amount": 8 }
+            ]
+        },
+        "bash": {
+            "str_min": 8, "str_max": 80,
+            "sound": "smash!",
+            "sound_fail": "whump!",
+            "ter_set": "t_water_sh",
+            "items": [
+                { "item": "2x4", "amount": 2, "chance": 25 },
+                { "item": "splinter", "amount": 4, "minamount": 2 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_pontoon_dp",
+        "name": "pontoon bridge",
+        "symbol": "8",
+        "color": "brown",
+        "move_cost": 4,
+        "flags": ["TRANSPARENT", "FLAT"],
+        "deconstruct": {
+            "ter_set": "t_water_dp",
+            "items": [
+                { "item": "rope_6", "amount": 4, "minamount": 3 },
+                { "item": "2x4", "amount": 8 }
+            ]
+        },
+        "bash": {
+            "str_min": 8, "str_max": 80,
+            "sound": "smash!",
+            "sound_fail": "whump!",
+            "ter_set": "t_water_dp",
+            "items": [
+                { "item": "2x4", "amount": 2, "chance": 25 },
+                { "item": "splinter", "amount": 4, "minamount": 2 }
             ]
         }
     }

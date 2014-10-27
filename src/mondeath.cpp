@@ -507,6 +507,10 @@ void mdeath::focused_beam(monster *z)
 }
 
 void mdeath::broken(monster *z) {
+    // Bail out if flagged (simulates eyebot flying away)
+    if (z->no_corpse_quiet) {
+        return;
+    }
     std::string item_id = z->type->id;
     if (item_id.compare(0, 4, "mon_") == 0) {
         item_id.erase(0, 4);

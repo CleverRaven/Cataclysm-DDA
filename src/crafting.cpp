@@ -2058,7 +2058,7 @@ void remove_ammo(item *dis_item, player &p)
     if( dis_item->is_tool() && dis_item->charges > 0 && dis_item->ammo_type() != "NULL" ) {
         item ammodrop( default_ammo( dis_item->ammo_type() ), calendar::turn );
         ammodrop.charges = dis_item->charges;
-        if( dis_item->typeId() == "adv_UPS_off" || dis_item->typeId() == "adv_UPS_on" ) {
+        if( dis_item->ammo_type() == "plutonium" ) {
             ammodrop.charges /= 500;
         }
         if( ammodrop.made_of( LIQUID ) && &p == &g->u ) {

@@ -772,7 +772,7 @@ void player::activate_bionic(int b)
             return;
         }
         ter_id type = g->m.ter(dirx, diry);
-        if (type  == t_door_locked || type == t_door_locked_alarm || type == t_door_locked_interior ) {
+        if (type  == t_door_locked || type == t_door_locked_alarm || type == t_door_locked_interior) {
             moves -= 40;
             std::string door_name = rm_prefix(_("<door_name>door"));
             add_msg_if_player(m_neutral, _("With a satisfying click, the lock on the %s opens."),
@@ -782,15 +782,21 @@ void player::activate_bionic(int b)
         } else if(type == t_door_bar_locked) {
             moves -= 40;
             std::string door_name = rm_prefix(_("<door_name>door"));
-            add_msg_if_player(m_neutral, _("The %s swings open..."),
+            add_msg_if_player(m_neutral, _("The bars swing open..."),
                               door_name.c_str()); //Could better copy the messages from lockpick....
             g->m.ter_set(dirx, diry, t_door_bar_o);
         } else if(type == t_chaingate_l) {
             moves -= 40;
             std::string gate_name = rm_prefix (_("<door_name>gate"));
-            add_msg_if_player(m_neutral, _("With a satisfying click, the lock on the %s opens."),
+            add_msg_if_player(m_neutral, _("With a satisfying click, the chain-link gate opens."),
                               gate_name.c_str());
             g->m.ter_set(dirx, diry, t_chaingate_c);
+        } else if (type  == t_door_locked_peep) {
+            moves -= 40;
+            std::string door_name = rm_prefix(_("<door_name>door"));
+            add_msg_if_player(m_neutral, _("With a satisfying click, the peephole-door's lock opens."),
+                              door_name.c_str());
+            g->m.ter_set(dirx, diry, t_door_c_peep);
         } else if(type == t_door_c) {
             add_msg(m_info, _("That door isn't locked."));
         } else {
@@ -858,6 +864,12 @@ int bionic_manip_cos(int p_int, int s_electronics, int s_firstaid, int s_mechani
                    s_electronics * 4 +
                    s_firstaid    * 3 +
                    s_mechanics   * 1;
+    
+    // Medical residents have some idea what they're doing
+    if (g->u.has_trait("PROF_MED")) {
+        pl_skill += 3;
+        add_msg(m_neutral, _("You prep yourself to begin surgery."));
+    }
 
     // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
     float adjusted_skill = float (pl_skill) - std::min( float (40),
@@ -1010,6 +1022,10 @@ void bionics_install_failure(player *u, it_bionic *type, int success)
                    u->skillLevel("electronics") * 4 +
                    u->skillLevel("firstaid")    * 3 +
                    u->skillLevel("mechanics")   * 1;
+    // Medical resients get a substantial assist here
+    if (u->has_trait("PROF_MED")) {
+        pl_skill += 6;
+    }
 
     // for failure_level calculation, shift skill down to a float between ~0.4 - 30
     float adjusted_skill = float (pl_skill) - std::min( float (40),
@@ -1045,6 +1061,16 @@ void bionics_install_failure(player *u, it_bionic *type, int success)
         break;
     }
 
+    if (u->has_trait("PROF_MED")) {
+    //~"Complications" is USian medical-speak for "unintended damage from a medical procedure".
+        add_msg(m_neutral, _("Your training helps you minimize the complications."));
+    // In addition to the bonus, medical residents know enough OR protocol to avoid botching.
+    // Take MD and be immune to faulty bionics.
+        if (fail_type == 5) {
+            fail_type = rng(1,3);
+        }
+    }
+    
     if (fail_type == 3 && u->num_bionics() == 0) {
         fail_type = 2;    // If we have no bionics, take damage instead of losing some
     }

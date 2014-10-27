@@ -559,6 +559,12 @@ The contents of use_action fields can either be a string indicating a built-in f
     "friendly_msg": "Good!", // (optional) message when the monster is programmed properly and it's friendly.
     "place_randomly": true, // if true: places the monser randomly around the player, if false: let the player decide where to put it (default: false)
     "moves": 60 // how many move points the action takes.
+},
+"use_action": {
+    "type": "ups_based_armor", // Armor that can be activated and uses power from an UPS, needs additional C++ code to work
+    "activate_msg": "You activate your foo.", // Message when the player activates the item.
+    "deactive_msg": "You deactivate your foo.", // Message when the player deactivates the item.
+    "out_of_power_msg": "Your foo runs out of power and deactivates itself." // Message when the UPS runs out of power and the item is deactivated automatically.
 }
 ```
 ###Random descriptions
