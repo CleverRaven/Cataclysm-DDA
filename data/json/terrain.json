@@ -4533,8 +4533,8 @@
         }
     },{
         "type" : "terrain",
-        "id" : "t_pontoon_sh",
-        "name": "pontoon bridge",
+        "id" : "t_dock",
+        "name": "dock",
         "symbol": "8",
         "color": "brown",
         "move_cost": 4,
@@ -4542,7 +4542,7 @@
         "deconstruct": {
             "ter_set": "t_water_sh",
             "items": [
-                { "item": "rope_6", "amount": 4, "minamount": 3 },
+                { "item": "nail", "amount": 12, "minamount": 6 },
                 { "item": "2x4", "amount": 8 },
             ]
         },
