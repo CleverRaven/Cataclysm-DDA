@@ -671,7 +671,7 @@
   "subcategory": "CSC_WEAPON_EXPLOSIVE",
   "skill_used": "fabrication",
   "difficulty": 1,
-  "time": 750,
+  "time": 5000,
   "reversible": false,
   "autolearn": true,
   "qualities":[
