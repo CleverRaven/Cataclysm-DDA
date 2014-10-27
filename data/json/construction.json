@@ -1850,7 +1850,7 @@
         "type" : "construction",
         "description" : "Set up pontoon bridge over shallow water", "//": "Set up pontoon bridge",
         "category" : "CONSTRUCT",
-        "difficulty" : 6,
+        "difficulty" : 5,
         "time" : 80,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 }
