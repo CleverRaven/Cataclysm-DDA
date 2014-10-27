@@ -2487,8 +2487,8 @@
 },{
         "type" : "recipe",
   "result": "handflare",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_BULLETS",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_OTHER",
   "skill_used": "fabrication",
   "difficulty": 4,
   "time": 24000,
