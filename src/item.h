@@ -310,20 +310,20 @@ public:
  std::vector<material_type*> made_of_types() const;
  /**
   * Check we are made of at least one of a set (e.g. true if even
-  * one item of the passed in set matches).
+  * one item of the passed in set matches any material).
   * @param mat_idents Set of material ids.
   */
- bool made_of_any(std::vector<std::string> mat_idents) const;
+ bool made_of_any(std::vector<std::string> &mat_idents) const;
  /**
-  * Check we are not made of any of the materials (e.g. false if even
-  * one item of the passed in set matches).
+  * Check we are made of only the materials (e.g. false if we have
+  * one material not in the set).
   * @param mat_idents Set of material ids.
   */
- bool not_made_of(std::vector<std::string> mat_idents) const;
+ bool only_made_of(std::vector<std::string> &mat_idents) const;
  /**
   * Check we are made of this material (e.g. matches at least one
   * in our set.)
-  * @param mat_ident A material id.
+  * @param mat_idents Set of material ids.
   */
  bool made_of(std::string mat_ident) const;
  /**

@@ -2043,7 +2043,7 @@ std::vector<std::string> item::made_of() const
         // Corpses are only made of one type of material.
         materials_composed_of.push_back(corpse->mat);
     } else {
-        // Defensive copy of materials. 
+        // Defensive copy of materials.
         // More idiomatic to return a const reference?
         materials_composed_of = type->materials;
     }
@@ -2063,28 +2063,33 @@ std::vector<material_type*> item::made_of_types() const
     return material_types_composed_of;
 }
 
-bool item::made_of_any(std::vector<std::string> mat_idents) const
+bool item::made_of_any(std::vector<std::string> &mat_idents) const
 {
-    std::vector<std::string> mat_composed_of = made_of();
-    std::unordered_set<std::string> mat_intersects;
-
-    std::set_intersection(mat_idents.begin(), mat_idents.end(),
-                          mat_composed_of.begin(), mat_composed_of.end(),
-                          std::inserter(mat_intersects, mat_intersects.end()));
-
-    return mat_intersects.size() >= 1;
+    for( auto candidate_material : mat_idents ) {
+        for( auto target_material : made_of() ) {
+            if( candidate_material == target_material ) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
-bool item::not_made_of(std::vector<std::string> mat_idents) const
+bool item::only_made_of(std::vector<std::string> &mat_idents) const
 {
-    std::vector<std::string> mat_composed_of = made_of();
-    std::unordered_set<std::string> mat_intersects;
-
-    std::set_intersection(mat_idents.begin(), mat_idents.end(),
-                          mat_composed_of.begin(), mat_composed_of.end(),
-                          std::inserter(mat_intersects, mat_intersects.end()));
-
-    return mat_intersects.size() < mat_composed_of.size();
+    for( auto target_material : made_of() ) {
+        bool found = false;
+        for( auto candidate_material : mat_idents ) {
+            if( candidate_material == target_material ) {
+                found = true;
+                break;
+            }
+        }
+        if( !found ) {
+            return false;
+        }
+    }
+    return true;
 }
 
 bool item::made_of(std::string mat_ident) const
@@ -2092,7 +2097,7 @@ bool item::made_of(std::string mat_ident) const
     if (is_null()) {
         return false;
     }
-    
+
     std::vector<std::string> mat_composed_of = made_of();
     for (auto m : mat_composed_of) {
         if (m == mat_ident) {

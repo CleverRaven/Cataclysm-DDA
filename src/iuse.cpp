@@ -6631,7 +6631,7 @@ static bool valid_to_cut_up(player *p, item *it)
         }
         return false;
     }
-    if (it->not_made_of(material_id_white_list)) {
+    if( !it->only_made_of(material_id_white_list) ) {
         add_msg(m_info, _("The %s is made of material that cannot be cut up."), it->tname().c_str());
         return false;
     }
