@@ -3740,6 +3740,7 @@
       ["walther_ppk", 5],
       ["win70", 6],
       ["rifle_flintlock", 4],
+      ["carbine_flintlock", 4],
       ["mosin91_30", 5],
       ["mosin44", 5],
       ["l_HFPack", 1],
@@ -3774,6 +3775,7 @@
       ["sig_p230", 4],
       ["weatherby_5", 8],
       ["rifle_flintlock", 5],
+      ["carbine_flintlock", 4],
       ["pistol_flintlock", 9],
       ["flintlock_ammo", 7],
       ["mosin44", 5],
@@ -8566,6 +8568,7 @@
       ["brooch", 12],
       ["locket", 12],
       ["pistol_flintlock", 4],
+      ["carbine_flintlock", 4],
       ["rifle_flintlock", 4],
       ["boxing_gloves", 12]
     ]
@@ -8588,6 +8591,7 @@
       ["wakizashi_fake", 8],
       ["kris_fake", 8],
       ["pistol_flintlock", 4],
+      ["carbine_flintlock", 4],
       ["rifle_flintlock", 4],
       ["petrified_eye", 2]
     ]
@@ -8689,6 +8693,7 @@
 "id" : "museum_guns",
 "items" : [
       ["pistol_flintlock", 60],
+      ["carbine_flintlock", 4],
       ["rifle_flintlock", 60],
       ["flintlock_ammo", 60],
       ["colt_army", 50],
