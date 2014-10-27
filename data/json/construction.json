@@ -1834,7 +1834,7 @@
         "type" : "construction",
         "description" : "Set up pontoon bridge over deep water", "//": "Set up pontoon bridge",
         "category" : "CONSTRUCT",
-        "difficulty" : 6,
+        "difficulty" : 5,
         "time" : 80,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 }
@@ -1848,7 +1848,7 @@
         "post_terrain" : "t_pontoon_dp"
     },{
         "type" : "construction",
-        "description" : "Set up pontoon bridge over shallow water", "//": "Set up pontoon bridge",
+        "description" : "Set up basic dock over shallow water", "//": "Set up dock",
         "category" : "CONSTRUCT",
         "difficulty" : 5,
         "time" : 80,
@@ -1856,11 +1856,11 @@
             { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 }
         ] ],
         "components" : [
-            [ [ "2x4",   8 ] ],
-            [ [ "rope_30", 1 ], [ "vine_30", 1 ] ],
-            [ [ "55gal_drum", 1 ], [ "30gal_drum", 1 ], [ "wooden_barrel", 1 ] ]
+            [ [ "2x4",   6 ] ],
+            [ [ "log", 1 ] ],
+            [ [ "nail", 12  ] ]
         ],
         "pre_terrain" : "t_water_sh",
-        "post_terrain" : "t_pontoon_sh"
+        "post_terrain" : "t_dock"
     }
 ]
