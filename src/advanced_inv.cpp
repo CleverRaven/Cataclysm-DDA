@@ -1657,7 +1657,7 @@ item* advanced_inv_area::get_container()
             const invslice &stacks = g->u.inv.slice();
 
             // check index first
-            if (stacks.size() > uistate.adv_inv_container_index) {
+            if (stacks.size() > (size_t)uistate.adv_inv_container_index) {
                 auto &it = stacks[uistate.adv_inv_container_index]->front();
                 if( is_container_valid( &it ) ) {
                     container = &it;
@@ -1682,7 +1682,7 @@ item* advanced_inv_area::get_container()
                                       m.i_stacked( m.i_at( x , y ) );
 
             // check index first
-            if (stacks.size() > uistate.adv_inv_container_index) {
+            if (stacks.size() > (size_t)uistate.adv_inv_container_index) {
                 auto it = stacks[uistate.adv_inv_container_index].front();
                 if( is_container_valid( it ) ) {
                     container = it;
