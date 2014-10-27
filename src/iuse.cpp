@@ -7030,6 +7030,9 @@ int iuse::portable_structure(player *p, item *it, bool, point)
     for (int i = -radius; i <= radius; i++) {
         for (int j = -radius; j <= radius; j++) {
             if (!g->m.has_flag("FLAT", posx + i, posy + j) ||
+                 g->m.veh_at( posx + i, posy + j ) != nullptr ||
+                !g->is_empty( posx + i, posy + j ) ||
+                 g->critter_at( posx + i, posy + j ) != nullptr ||
                     g->m.has_furn(posx + i, posy + j)) {
                 add_msg(m_info, _("There isn't enough space in that direction."));
                 return 0;
