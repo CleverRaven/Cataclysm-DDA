@@ -1368,7 +1368,7 @@ bool game::do_turn()
             u.hurtall(1);
         }
 
-        if (u.radiation > 1 && one_in(3)) {
+        if (u.radiation > 0 && one_in(3)) {
             u.radiation--;
         }
         u.get_sick();
