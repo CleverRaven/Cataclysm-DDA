@@ -1832,7 +1832,7 @@
         "post_terrain" : "f_barricade_road"
     },{
         "type" : "construction",
-        "description" : "Set up pontoon bridge", "//": "Set up pontoon bridge",
+        "description" : "Set up pontoon bridge over deep water", "//": "Set up pontoon bridge",
         "category" : "CONSTRUCT",
         "difficulty" : 6,
         "time" : 80,
@@ -1845,6 +1845,22 @@
             [ [ "55gal_drum", 2 ], [ "30gal_drum", 2 ], [ "wooden_barrel", 2 ] ]
         ],
         "pre_terrain" : "t_water_dp",
-        "post_terrain" : "t_pontoon"
+        "post_terrain" : "t_pontoon_dp"
+    },{
+        "type" : "construction",
+        "description" : "Set up pontoon bridge over shallow water", "//": "Set up pontoon bridge",
+        "category" : "CONSTRUCT",
+        "difficulty" : 6,
+        "time" : 80,
+        "qualities": [ [
+            { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 }
+        ] ],
+        "components" : [
+            [ [ "2x4",   8 ] ],
+            [ [ "rope_30", 1 ], [ "vine_30", 1 ] ],
+            [ [ "55gal_drum", 2 ], [ "30gal_drum", 2 ], [ "wooden_barrel", 2 ] ]
+        ],
+        "pre_terrain" : "t_water_sh",
+        "post_terrain" : "t_pontoon_sh"
     }
 ]
