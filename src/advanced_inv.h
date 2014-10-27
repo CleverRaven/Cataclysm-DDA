@@ -68,9 +68,9 @@ struct advanced_inv_area {
     // maximal count / volume of items there.
     int max_size, max_volume;
 
-    advanced_inv_area(aim_location id, int hscreenx, int hscreeny, int offx, int offy, std::string name, std::string shortname) :
-        id(id), hscreenx(hscreenx), hscreeny(hscreeny), offx(offx), offy(offy), name(name), shortname(shortname),
-        x(0), y(0), canputitemsloc(false), veh(nullptr), vstor(-1), desc(""), volume(0), weight(0), max_size(0), max_volume(0)
+    advanced_inv_area( aim_location id, int hscreenx, int hscreeny, int offx, int offy, std::string name, std::string shortname ) :
+        id( id ), hscreenx( hscreenx ), hscreeny( hscreeny ), offx( offx ), offy( offy ), name( name ), shortname( shortname ),
+        x( 0 ), y( 0 ), canputitemsloc( false ), veh( nullptr ), vstor( -1 ), desc( "" ), volume( 0 ), weight( 0 ), max_size( 0 ), max_volume( 0 )
     {
     }
 
@@ -79,10 +79,11 @@ struct advanced_inv_area {
     int get_item_count() const;
     // Other area is actually the same item source, e.g. dragged vehicle to the south
     // and AIM_SOUTH
-    bool is_same(const advanced_inv_area &other) const;
-    bool canputitems(const advanced_inv_listitem *advitem = nullptr);
-    item* get_container() { return uistate.adv_inv_container; }
-    void set_container(item *container) { uistate.adv_inv_container = container; }
+    bool is_same( const advanced_inv_area &other ) const;
+    bool canputitems( const advanced_inv_listitem *advitem = nullptr );
+    item* get_container();
+    void set_container( const advanced_inv_listitem *advitem ) const;
+    bool is_container_valid( const item *it ) const;
 };
 
 // see item_factory.h

@@ -185,8 +185,7 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
             if ( pane.area == AIM_CONTAINER && squares[pane.area].get_container() != nullptr ) {
                 it_container *container = dynamic_cast<it_container *>(squares[pane.area].get_container()->type);
                 maxvolume = container->contains;
-            }
-            else {
+            } else {
                 if( squares[pane.area].veh != NULL && squares[pane.area].vstor >= 0 ) {
                     maxvolume = squares[pane.area].veh->max_volume( squares[pane.area].vstor );
                 } else {
@@ -444,9 +443,9 @@ int advanced_inventory::print_header( advanced_inventory_pane &pane, aim_locatio
         const char key = get_location_key( static_cast<aim_location>( i ) );
         const char *bracket = squares[i].veh == nullptr ? "[]" : "<>";
         nc_color bcolor = c_red, kcolor = c_red;
-        if (squares[i].canputitems(pane.get_cur_item_ptr())) {
-            bcolor = (area == i || (area == AIM_ALL && i != 0)) ? c_cyan : c_ltgray;
-            kcolor = (area == i) ? c_ltgreen : (i == sel) ? c_cyan : c_ltgray;
+        if( squares[i].canputitems( pane.get_cur_item_ptr() ) ) {
+            bcolor = ( area == i || ( area == AIM_ALL && i != 0 ) ) ? c_cyan : c_ltgray;
+            kcolor = ( area == i ) ? c_ltgreen : ( i == sel ) ? c_cyan : c_ltgray;
         }
         mvwprintz( window, squares[i].hscreenx, squares[i].hscreeny + ofs, bcolor, "%c", bracket[0] );
         wprintz( window, kcolor, "%c", key );
@@ -507,7 +506,7 @@ void advanced_inv_area::init()
             // location always valid, actual check is done in canputitems()
             // and depends on selected item in pane (if it is valid container)
             canputitemsloc = true;
-            if (get_container() == nullptr) {
+            if( get_container() == nullptr ) {
                 desc = _( "Invalid container" );
             }
             break;
@@ -705,18 +704,18 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square )
             square.weight += it.weight;
             items.push_back( it );
         }
-    } else if (square.id == AIM_CONTAINER) {
+    } else if( square.id == AIM_CONTAINER ) {
         item *cont = square.get_container();
-        if (cont != nullptr) {
-            if (!cont->is_container_empty()) {
+        if( cont != nullptr ) {
+            if( !cont->is_container_empty() ) {
                 // filtering does not make sense for liquid in container
-                item *it = &(square.get_container()->contents[0]);
+                item *it = &( square.get_container()->contents[0] );
                 advanced_inv_listitem ait( it, 0, 1, square.id );
                 square.volume += ait.volume;
                 square.weight += ait.weight;
-                items.push_back(ait);
+                items.push_back( ait );
             }
-            square.desc = cont->tname(1, false);
+            square.desc = cont->tname( 1, false );
         }
     } else {
         map &m = g->m;
@@ -1083,11 +1082,11 @@ void advanced_inventory::display()
                 // Window pointer must be unchanged!
                 std::swap( panes[left].window, panes[right].window );
                 redraw = true; // no recalculation needed, data has not changed
-            } else if( squares[changeSquare].canputitems(spane.get_cur_item_ptr()) ) {
-                if (changeSquare == AIM_CONTAINER) {
-                    squares[changeSquare].set_container(spane.get_cur_item_ptr()->it);
-                } else if (spane.area == AIM_CONTAINER) {
-                    squares[changeSquare].set_container(nullptr);
+            } else if( squares[changeSquare].canputitems( spane.get_cur_item_ptr() ) ) {
+                if( changeSquare == AIM_CONTAINER ) {
+                    squares[changeSquare].set_container( spane.get_cur_item_ptr() );
+                } else if( spane.area == AIM_CONTAINER ) {
+                    squares[changeSquare].set_container( nullptr );
                 }
                 spane.area = changeSquare;
                 spane.index = 0;
@@ -1120,13 +1119,12 @@ void advanced_inventory::display()
                 continue;
             }
             assert( amount_to_move > 0 );
-            if (destarea == AIM_CONTAINER) {
-                if (!move_content(*sitem->it, *squares[destarea].get_container())) {
+            if( destarea == AIM_CONTAINER ) {
+                if ( !move_content( *sitem->it, *squares[destarea].get_container() ) ) {
                     redraw = true;
                     continue;
                 }
-            }
-            else if( srcarea == AIM_INVENTORY ) {
+            } else if( srcarea == AIM_INVENTORY ) {
                 // from inventory: remove all items first, than try to put them
                 // onto the map/vehicle, if it fails, put them back into the inventory.
                 // If no item has actually been moved, continue.
@@ -1455,51 +1453,50 @@ bool advanced_inventory::add_item( aim_location destarea, const item &new_item )
 
 bool advanced_inventory::move_content(item &src_container, item &dest_container)
 {
-    if (!src_container.is_watertight_container()) {
-        popup(_("Source must be watertight container."));
+    if( !src_container.is_watertight_container() ) {
+        popup( _( "Source must be watertight container." ) );
         return false;
     }
-    if (src_container.is_container_empty()) {
-        popup(_("Source container is empty."));
+    if( src_container.is_container_empty() ) {
+        popup( _( "Source container is empty." ) );
         return false;
     }
-    if (dest_container.is_container_full()) {
-        popup(_("Target container is full."));
+    if( dest_container.is_container_full() ) {
+        popup( _( "Target container is full." ) );
         return false;
     }
 
     item &src = src_container.contents[0];
 
-    if (!src.made_of(LIQUID)) {
-        popup(_("You can unload only liquids into target container."));
+    if( !src.made_of(LIQUID) ) {
+        popup( _( "You can unload only liquids into target container." ) );
         return false;
     }
 
     int capacity = 0;
-    if (!dest_container.is_container_empty()) {
+    if( !dest_container.is_container_empty() ) {
         capacity = dest_container.get_remaining_capacity();
-    }
-    else {
+    } else {
         LIQUID_FILL_ERROR tmperr;
-        capacity = dest_container.get_remaining_capacity_for_liquid(src, tmperr);
+        capacity = dest_container.get_remaining_capacity_for_liquid( src, tmperr );
     }
-    int amount = std::min((long)capacity, src.charges);
+    int amount = std::min( (long)capacity, src.charges );
 
-    if (dest_container.is_container_empty()) {
-        dest_container.contents.push_back(item(src));
+    if( dest_container.is_container_empty() ) {
+        dest_container.contents.push_back( item( src ) );
         dest_container.contents[0].charges = amount;
-    }
-    else {
+        uistate.adv_inv_container_content_type = dest_container.contents[0].typeId();
+    } else {
         item &dest = dest_container.contents[0];
-        if (src.type->id != dest.type->id) {
-            popup(_("Mixing different liquids is not possible."));
+        if ( src.typeId() != dest.typeId() ) {
+            popup( _( "Mixing different liquids is not possible." ) );
             return false;
         }
         dest.charges += amount;
     }
     src.charges -= amount;
 
-    if (src.charges <= 0) {
+    if( src.charges <= 0 ) {
         src_container.contents.clear();
     }
 
@@ -1624,21 +1621,22 @@ bool advanced_inv_area::is_same( const advanced_inv_area &other ) const
     return false;
 }
 
-bool advanced_inv_area::canputitems(const advanced_inv_listitem *advitem)
+bool advanced_inv_area::canputitems( const advanced_inv_listitem *advitem )
 {
     bool canputitems = false;
     switch( id ) {
         case AIM_CONTAINER:
             item *it;
             it = nullptr;
-            if (advitem != nullptr && advitem->is_item_entry()) {
+
+            if( advitem != nullptr && advitem->is_item_entry() ) {
                 it = advitem->it;
             }
-            if (get_container() != nullptr) {
+            if( get_container() != nullptr ) {
                 it = get_container();
             }
 
-            if (it != nullptr) {
+            if( it != nullptr ) {
                 canputitems = it->is_watertight_container();
             }
             break;
@@ -1646,6 +1644,107 @@ bool advanced_inv_area::canputitems(const advanced_inv_listitem *advitem)
             canputitems = canputitemsloc;
     }
     return canputitems;
+}
+
+item* advanced_inv_area::get_container()
+{
+    item *container;
+    container = nullptr;
+
+    if( uistate.adv_inv_container_location != -1 ) {
+        // try to find valid container in the area
+        if( uistate.adv_inv_container_location == AIM_INVENTORY ) {
+            const invslice &stacks = g->u.inv.slice();
+
+            // check index first
+            if (stacks.size() > uistate.adv_inv_container_index) {
+                auto &it = stacks[uistate.adv_inv_container_index]->front();
+                if( is_container_valid( &it ) ) {
+                    container = &it;
+                }
+            }
+
+            // try entire area
+            if( container == nullptr ) {
+                for( size_t x = 0; x < stacks.size(); ++x ) {
+                    auto &it = stacks[x]->front();
+                    if( is_container_valid( &it ) ) {
+                        container = &it;
+                        uistate.adv_inv_container_index = x;
+                        break;
+                    }
+                }
+            }
+        } else {
+            map &m = g->m;
+            const itemslice &stacks = veh != nullptr ?
+                                      m.i_stacked( veh->parts[vstor].items ) :
+                                      m.i_stacked( m.i_at( x , y ) );
+
+            // check index first
+            if (stacks.size() > uistate.adv_inv_container_index) {
+                auto it = stacks[uistate.adv_inv_container_index].front();
+                if( is_container_valid( it ) ) {
+                    container = it;
+                }
+            }
+
+            // try entire area
+            if( container == nullptr ) {
+                for( size_t x = 0; x < stacks.size(); ++x ) {
+                    auto it = stacks[x].front();
+                    if( is_container_valid( it ) ) {
+                        container = it;
+                        uistate.adv_inv_container_index = x;
+                        break;
+                    }
+                }
+            }
+        }
+
+        // no valid container in the area, resetting container
+        if( container == nullptr ) {
+            set_container( nullptr );
+            desc = _( "Invalid container" );
+        }
+    }
+
+    return container;
+}
+
+void advanced_inv_area::set_container( const advanced_inv_listitem *advitem ) const
+{
+    if (advitem != nullptr) {
+        item *it( advitem->it );
+        uistate.adv_inv_container_location = advitem->area;
+        uistate.adv_inv_container_index = advitem->idx;
+        uistate.adv_inv_container_type = it->typeId();
+        uistate.adv_inv_container_content_type = ( !it->is_container_empty() ) ? it->contents[0].typeId() : "null";
+    } else {
+        uistate.adv_inv_container_location = -1;
+        uistate.adv_inv_container_index = 0;
+        uistate.adv_inv_container_type = "null";
+        uistate.adv_inv_container_content_type = "null";
+    }
+}
+
+bool advanced_inv_area::is_container_valid( const item *it ) const
+{
+    if( it != nullptr ) {
+        if( it->typeId() == uistate.adv_inv_container_type ) {
+            if( it->is_container_empty() ) {
+                if( uistate.adv_inv_container_content_type == "null" ) {
+                    return true;
+                }
+            } else {
+                if( it->contents[0].typeId() == uistate.adv_inv_container_content_type ) {
+                    return true;
+                }
+            }
+        }
+    }
+
+    return false;
 }
 
 void game::advanced_inv()
