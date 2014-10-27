@@ -1007,6 +1007,12 @@ void item::deserialize(JsonObject &data)
     if ( ! data.read( "name", name ) ) {
         name = type->nname(1);
     }
+    // Compatiblity for item type changes: for example soap changed from being a generic item
+    // (item::charges == -1) to comestible (and thereby counted by charges), old saves still have
+    // charges == -1, this fixes the charges value to the default charges.
+    if( count_by_charges() && charges < 0 ) {
+        charges = item( type->id, 0 ).charges;
+    }
 
     data.read( "invlet", lettmp );
     invlet = char(lettmp);
