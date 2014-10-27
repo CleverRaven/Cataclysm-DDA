@@ -272,11 +272,19 @@ void player::draw_powerups_window()
                         w_titleptr.reset();
                         w_descriptionptr.reset();
                         g->draw();
-                        activate_bionic(b);
+
+                        /*
+                        Activate selected unit and, if there is no dedicated message for it,
+                        print a generic message about activation
+                        */
+                        if (!activate_bionic(b)) {
+                                add_msg(m_neutral, _("You activate your %s."), bio_data.name.c_str());
+                        }
 
                         if (bio_id == "bio_cqb") {
                             pick_style();
                         }
+
                     } else {
                         popup( _( "You don't have enough power to activate the %s." ), bio_data.name.c_str() );
                         redraw = true;

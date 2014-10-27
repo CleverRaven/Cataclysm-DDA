@@ -48,8 +48,10 @@ bionic_id game::random_good_bionic() const
 //
 // Well, because like diseases, which are also in a Big Switch, bionics don't
 // share functions....
-void player::activate_bionic(int b)
+bool player::activate_bionic(int b)
 {
+    bool msg_printed = false;
+
     bionic bio = my_bionics[b];
     int power_cost = bionics[bio.id]->power_cost;
     if ((weapon.type->id == "bio_claws_weapon" && bio.id == "bio_claws_weapon") ||
@@ -63,7 +65,7 @@ void player::activate_bionic(int b)
         } else {
             add_msg(m_info, _("You cannot power your %s"), bionics[bio.id]->name.c_str());
         }
-        return;
+        return true;
     }
 
     if (my_bionics[b].powered && my_bionics[b].charge > 0) {
@@ -110,6 +112,7 @@ void player::activate_bionic(int b)
         moves += power_level;
         power_level = 0;
         add_msg(m_good, _("Your speed suddenly increases!"));
+        msg_printed = true;
         if (one_in(3)) {
             add_msg(m_bad, _("Your muscles tear with the strain."));
             apply_damage( nullptr, bp_arm_l, rng( 5, 10 ) );
@@ -224,7 +227,6 @@ void player::activate_bionic(int b)
         getch();
         delwin(w);
     } else if(bio.id == "bio_blood_filter") {
-        add_msg(m_neutral, _("You activate your blood filtration system."));
         rem_disease("fungus");
         rem_disease("dermatik");
         rem_disease("bloodworms");
@@ -277,15 +279,14 @@ void player::activate_bionic(int b)
 
     }
     if(bio.id == "bio_leukocyte") {
-        add_msg(m_neutral, _("You activate your leukocyte breeder system."));
         g->u.set_healthy(std::min(100, g->u.get_healthy() + 2));
         g->u.mod_healthy_mod(20);
     }
     if(bio.id == "bio_geiger") {
         add_msg(m_info, _("Your radiation level: %d"), radiation);
+        msg_printed = true;
     }
     if(bio.id == "bio_radscrubber") {
-        add_msg(m_neutral, _("You activate your radiation scrubber system."));
         if (radiation > 4) {
             radiation -= 5;
         } else {
@@ -293,13 +294,13 @@ void player::activate_bionic(int b)
         }
     }
     if(bio.id == "bio_adrenaline") {
-        add_msg(m_neutral, _("You activate your adrenaline pump."));
         if (has_disease("adrenaline")) {
             add_disease("adrenaline", 50);
         } else {
             add_disease("adrenaline", 200);
         }
     } else if(bio.id == "bio_claws") {
+        msg_printed = true;
         if (weapon.type->id == "bio_claws_weapon") {
             add_msg(m_neutral, _("You withdraw your claws."));
             weapon = ret_null;
@@ -307,7 +308,7 @@ void player::activate_bionic(int b)
             add_msg(m_info, _("Deactivate your %s first!"),
                     weapon.tname().c_str());
             power_level += bionics[bio.id]->power_cost;
-            return;
+            return true;
         } else if(weapon.type->id != "null") {
             add_msg(m_warning, _("Your claws extend, forcing you to drop your %s."),
                     weapon.tname().c_str());
@@ -320,6 +321,7 @@ void player::activate_bionic(int b)
             weapon.invlet = '#';
         }
     } else if(bio.id == "bio_blade") {
+        msg_printed = true;
         if (weapon.type->id == "bio_blade_weapon") {
             add_msg(m_neutral, _("You retract your blade."));
             weapon = ret_null;
@@ -327,7 +329,7 @@ void player::activate_bionic(int b)
             add_msg(m_info, _("Deactivate your %s first!"),
                     weapon.tname().c_str());
             power_level += bionics[bio.id]->power_cost;
-            return;
+            return true;
         } else if(weapon.type->id != "null") {
             add_msg(m_warning, _("Your blade extends, forcing you to drop your %s."),
                     weapon.tname().c_str());
@@ -340,6 +342,7 @@ void player::activate_bionic(int b)
             weapon.invlet = '#';
         }
     } else if(bio.id == "bio_blaster") {
+        msg_printed = true;
         tmp_item = weapon;
         weapon = item("bio_blaster_gun", 0);
         g->refresh_all();
@@ -349,6 +352,7 @@ void player::activate_bionic(int b)
         }
         weapon = tmp_item;
     } else if (bio.id == "bio_laser") {
+        msg_printed = true;
         tmp_item = weapon;
         weapon = item("bio_laser_gun", 0);
         g->refresh_all();
@@ -358,6 +362,7 @@ void player::activate_bionic(int b)
         }
         weapon = tmp_item;
     } else if(bio.id == "bio_chain_lightning") {
+        msg_printed = true;
         tmp_item = weapon;
         weapon = item("bio_lightning", 0);
         g->refresh_all();
@@ -367,6 +372,7 @@ void player::activate_bionic(int b)
         }
         weapon = tmp_item;
     } else if (bio.id == "bio_emp") {
+        msg_printed = true;
         if(choose_adjacent(_("Create an EMP where?"), dirx, diry)) {
             g->emp_blast(dirx, diry);
         } else {
@@ -374,9 +380,11 @@ void player::activate_bionic(int b)
         }
     } else if (bio.id == "bio_hydraulics") {
         add_msg(m_good, _("Your muscles hiss as hydraulic strength fills them!"));
+        msg_printed = true;
         // Sound of hissing hydraulic muscle! (not quite as loud as a car horn)
         g->sound(posx, posy, 19, _("HISISSS!"));
     } else if (bio.id == "bio_water_extractor") {
+        msg_printed = true;
         bool extracted = false;
         for (std::vector<item>::iterator it = g->m.i_at(posx, posy).begin();
              it != g->m.i_at(posx, posy).end(); ++it) {
@@ -457,9 +465,10 @@ void player::activate_bionic(int b)
         }
         moves -= 100;
     } else if(bio.id == "bio_lockpick") {
+        msg_printed = true;
         if(!choose_adjacent(_("Activate your bio lockpick where?"), dirx, diry)) {
             power_level += bionics["bio_lockpick"]->power_cost;
-            return;
+            return msg_printed;
         }
         ter_id type = g->m.ter(dirx, diry);
         if (type  == t_door_locked || type == t_door_locked_alarm || type == t_door_locked_interior) {
@@ -495,11 +504,14 @@ void player::activate_bionic(int b)
         }
     } else if(bio.id == "bio_flashbang") {
         add_msg_if_player(m_neutral, _("You activate your integrated flashbang generator!"));
+        msg_printed = true;
         g->flashbang(posx, posy, true);
     } else if(bio.id == "bio_shockwave") {
         g->shockwave(posx, posy, 3, 4, 2, 8, true);
         add_msg_if_player(m_neutral, _("You unleash a powerful shockwave!"));
+        msg_printed = true;
     }
+    return msg_printed;
 }
 
 void player::deactivate_bionic(int b)
