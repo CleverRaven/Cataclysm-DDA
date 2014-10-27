@@ -59,6 +59,7 @@ struct tool_comp : public component {
     bool has(const inventory &crafting_inv, int batch = 1) const;
     std::string to_string(int batch = 1) const;
     std::string get_color(bool has_one, const inventory &crafting_inv, int batch = 1) const;
+    bool by_charges() const;
 };
 
 struct item_comp : public component {

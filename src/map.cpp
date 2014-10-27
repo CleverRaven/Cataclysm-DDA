@@ -4038,8 +4038,9 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
             // If there are items and the field does not hide them,
             // the code handling items will override it.
             draw_item_sym = (f.sym == '%');
-            // If field priority is > 1, draw the field anyway as it obscures what's under it.
-            if( f.priority > 1 || (sym == '.' && f.sym != '%') ) {
+            // If field priority is > 1, and the field is set to hide items,
+            //draw the field as it obscures what's under it.
+            if( (f.sym != '%' && f.priority > 1) || (f.sym != '%' && sym == '.'))  {
                 // default terrain '.' and
                 // non-default field symbol -> field symbol overrides terrain
                 sym = f.sym;
@@ -4741,7 +4742,7 @@ void map::loadn(const int worldx, const int worldy, const int worldz,
       ter_id ter = tmpsub->ter[x][y];
       //if the fruit-bearing season of the already harvested terrain has passed, make it harvestable again
       if ((ter) && (terlist[ter].has_flag(TFLAG_HARVESTED))){
-        if ((terlist[ter].harvest_season != calendar::turn.get_season()) || 
+        if ((terlist[ter].harvest_season != calendar::turn.get_season()) ||
         (calendar::turn - tmpsub->turn_last_touched > calendar::season_length()*14400)){
           tmpsub->set_ter(x, y, terfind(terlist[ter].transforms_into));
         }
