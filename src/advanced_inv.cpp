@@ -1714,7 +1714,7 @@ item* advanced_inv_area::get_container()
 
 void advanced_inv_area::set_container( const advanced_inv_listitem *advitem ) const
 {
-    if (advitem != nullptr) {
+    if( advitem != nullptr ) {
         item *it( advitem->it );
         uistate.adv_inv_container_location = advitem->area;
         uistate.adv_inv_container_index = advitem->idx;
