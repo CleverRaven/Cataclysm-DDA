@@ -11597,7 +11597,7 @@ Creature *player::auto_find_hostile_target(int range, int &boo_hoo, int &fire_t)
         return NULL;
     }
     int t;
-    monster *target = NULL;
+    Creature *target = nullptr;
     const int iff_dist = 24; // iff check triggers at this distance
     int iff_hangle = 15; // iff safety margin (degrees). less accuracy, more paranoia
     int closest = range + 1;
@@ -11612,23 +11612,34 @@ Creature *player::auto_find_hostile_target(int range, int &boo_hoo, int &fire_t)
         }
         u_angle = g->m.coord_to_angle(posx, posy, g->u.posx, g->u.posy);
     }
+    std::vector<Creature*> targets;
     for (size_t i = 0; i < g->num_zombies(); i++) {
-        monster *m = &g->zombie(i);
-        if (m->friendly != 0) {
+        monster &m = g->zombie(i);
+        if (m.friendly != 0) {
             // friendly to the player, not a target for us
             continue;
         }
+        targets.push_back( &m );
+    }
+    for( auto &p : g->active_npc ) {
+        if( p->attitude != NPCATT_KILL ) {
+            // friendly to the player, not a target for us
+            continue;
+        }
+        targets.push_back( p );
+    }
+    for( auto &m : targets ) {
         if (!sees(m, t)) {
             // can't see nor sense it
             continue;
         }
-        int dist = rl_dist(posx, posy, m->posx(), m->posy());
+        int dist = rl_dist(posx, posy, m->xpos(), m->ypos());
         if (dist >= closest) {
             // Have a better target anyway, ignore this one.
             continue;
         }
         if (iff_trig) {
-            int tangle = g->m.coord_to_angle(posx, posy, m->posx(), m->posy());
+            int tangle = g->m.coord_to_angle(posx, posy, m->xpos(), m->ypos());
             int diff = abs(u_angle - tangle);
             if (diff + iff_hangle > 360 || diff < iff_hangle) {
                 // Player is in the way
