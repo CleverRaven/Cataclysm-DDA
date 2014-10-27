@@ -6,7 +6,7 @@
 
 class uimenu;
 
-typedef std::vector< std::list<item *> > itemslice;
+typedef std::vector< std::pair<item *, int> > itemslice;
 
 enum aim_location {
     AIM_INVENTORY,

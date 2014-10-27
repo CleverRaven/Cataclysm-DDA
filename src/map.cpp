@@ -2664,34 +2664,23 @@ itemslice map::i_stacked(std::vector<item>& items)
 
     //iterate through all items in the vector
     for (auto it = items.begin(); it != items.end(); it++) {
+        if( it->count_by_charges() ) {
+            // Those exists as a single item all the item anyway
+            islice.push_back( std::make_pair( &*it, 1 ) );
+            continue;
+        }
         bool list_exists = false;
 
         //iterate through stacked item lists
         for(auto curr = islice.begin(); curr != islice.end(); curr++) {
             //check if the ID exists
-            item *first_item = curr->front();
+            item *first_item = curr->first;
             if (first_item->type->id == it->type->id) {
                 //we've found the list of items with the same type ID
 
-                if (it->charges != -1 && (it->is_food() || it->is_ammo())) {
-                    //add charges to existing food/ammo item
-                    first_item->charges += it->charges;
-                    list_exists = true;
-                    break;
-                } else if (first_item->stacks_with(*it)) {
-                    if (first_item->is_food() && first_item->has_flag("HOT")) {
-                        int tmpcounter = (first_item->item_counter + it->item_counter) / 2;
-                        first_item->item_counter = tmpcounter;
-                        it->item_counter = tmpcounter;
-                    }
-                    else if (first_item->is_food() && first_item->has_flag("COLD")) {
-                        int tmpcounter = (first_item->item_counter + it->item_counter) / 2;
-                        first_item->item_counter = tmpcounter;
-                        it->item_counter = tmpcounter;
-                    }
-
+                if( first_item->stacks_with( *it ) ) {
                     //add it to the existing list
-                    curr->push_back(&*it);
+                    curr->second++;
                     list_exists = true;
                     break;
                 }
@@ -2699,12 +2688,8 @@ itemslice map::i_stacked(std::vector<item>& items)
         }
 
         if(!list_exists) {
-            //add the item to a new list
-            std::list<item*> newList;
-            newList.push_back(&*it);
-
             //insert the list into islice
-            islice.push_back(newList);
+            islice.push_back( std::make_pair( &*it, 1 ) );
         }
 
     } //end items loop
