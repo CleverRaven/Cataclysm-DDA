@@ -153,6 +153,7 @@ int werase(WINDOW *win);
 int start_color(void);
 int init_pair(short pair, short f, short b);
 int wmove(WINDOW *win, int y, int x);
+int wresize(WINDOW *win, int h, int w);
 int getnstr(char *str, int size);
 int clear(void);
 int clearok(WINDOW *win);
@@ -205,5 +206,8 @@ void init_interface();
 
 int projected_window_width(int column_count);
 int projected_window_height(int row_count);
-
+int projected_terminal_width(int width);
+int projected_terminal_height(int height);
+int get_window_terminal_width();
+int get_window_terminal_height();
 #endif

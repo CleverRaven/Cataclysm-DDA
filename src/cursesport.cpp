@@ -553,6 +553,35 @@ int clear(void)
     return wclear(mainwin);
 }
 
+int wresize(WINDOW *win, int h, int w)
+{
+    //resize window line vector
+    if (win->height > h) {
+        win->line.resize(h);
+    }else if (win->height < h) {
+        curseline templine;
+        templine.chars.assign(w, cursecell());
+        win->line.resize(h, templine);
+    }
+    //run loop to new window dimensions
+    for (int j = 0; j < h; j++) {
+        if (win->line[j].chars.size() < w){
+            win->line[j].chars.resize(w, cursecell());
+            win->line[j].touched = true;
+        }else if (win->line[j].chars.size() > w) {
+            win->line[j].chars.resize(w);
+            win->line[j].touched = true;
+        }else if (j >= win->height) {
+            //mark equal-length lines we've added above as touched
+            win->line[j].touched = true;
+        }
+    }
+    win->height = h;
+    win->width = w;
+    win->draw = true;
+    return 1;
+}
+
 //Ends the terminal, destroy everything
 int endwin(void)
 {
