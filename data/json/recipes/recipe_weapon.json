@@ -4564,7 +4564,8 @@
   "difficulty": 4,
   "time": 8000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "recipe_labchem", 7 ] , [ "textbook_anarch", 6 ] , [ "textbook_gaswarfare", 5 ]],
   "qualities" : [
     {"id":"SCREW","level":1,"amount":1}
   ], "components": [
@@ -4602,7 +4603,8 @@
   "difficulty": 6,
   "time": 40000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [[ "recipe_labchem", 7 ] , [ "textbook_anarch", 7 ]],
   "qualities" : [
     {"id":"SCREW","level":1,"amount":1}
   ], "components": [
