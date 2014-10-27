@@ -1832,7 +1832,7 @@
         "post_terrain" : "f_barricade_road"
     },{
         "type" : "construction",
-        "description" : "Set up pontoon bridge over deep water", "//": "Set up pontoon bridge",
+        "description" : "Build Pontoon Bridge", "//": "Set up pontoon bridge",
         "category" : "CONSTRUCT",
         "difficulty" : 5,
         "time" : 80,
@@ -1848,7 +1848,7 @@
         "post_terrain" : "t_pontoon_dp"
     },{
         "type" : "construction",
-        "description" : "Set up basic dock over shallow water", "//": "Set up dock",
+        "description" : "Build Dock/Shallow Bridge", "//": "Set up dock",
         "category" : "CONSTRUCT",
         "difficulty" : 4,
         "time" : 80,
