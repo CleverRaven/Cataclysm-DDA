@@ -1052,7 +1052,11 @@ void Item_factory::set_material_from_json( JsonObject& jo, std::string member,
     if( jo.has_array(member) ) {
         JsonArray jarr = jo.get_array(member);
         for( int i = 0; i < (int)jarr.size(); ++i ) {
-            new_item_template->materials.push_back(jarr.get_string(i));
+            std::string material_id = jarr.get_string(i);
+            if( material_id == "null" ) {
+                continue;
+            }
+            new_item_template->materials.push_back( material_id );
         }
     } else if( jo.has_string(member) ) {
         new_item_template->materials.push_back( jo.get_string(member) );
