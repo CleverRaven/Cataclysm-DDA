@@ -570,10 +570,10 @@ std::string print_windspeed(int windspeed, int decimals)
 
     if (OPTIONS["USE_METRIC_SPEEDS"] == "mph") {
         ret << windspeed;
-        return _("%s mph", ret.str().c_str();
+        return rmp_format(_("%s mph"), ret.str().c_str());
     } else {
         ret << windspeed*0.44704;
-        return _("%s m/s"), ret.str().c_str();
+        return rmp_format(_("%s m/s"), ret.str().c_str());
     }
 }
 
@@ -587,7 +587,7 @@ std::string print_humidity(int humidity, int decimals)
     ret << std::fixed;
 
     ret << humidity;
-    return rmp_format(_("%s %%", ret.str().c_str());
+    return rmp_format(_("%s %%"), ret.str().c_str());
 }
 
 /**
@@ -600,7 +600,7 @@ std::string print_pressure(int pressure, int decimals)
     ret << std::fixed;
 
     ret << pressure;
-    return rmp_format(_("%s kPa", ret.str().c_str());
+    return rmp_format(_("%s kPa"), ret.str().c_str());
 }
 
 

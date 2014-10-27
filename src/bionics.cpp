@@ -817,7 +817,7 @@ void player::activate_bionic(int b)
         std::string omtername = otermap[cur_om_ter].name;
         int windpower = vehwindspeed + get_local_windpower(weatherPoint.windpower, omtername, g->is_sheltered(g->u.posx, g->u.posy));
 
-        add_msg_if_player(m_neutral, _("Wind Speed: %s."), print_windspeed(windpower).c_str());
+        add_msg_if_player(m_neutral, _("Wind Speed: %s."), print_windspeed((float)windpower).c_str());
         add_msg_if_player(m_neutral, _("Feels Like: %s."), print_temperature(get_local_windchill(weatherPoint.temperature, weatherPoint.humidity, windpower) + g->get_temperature()).c_str());
     }
 }
