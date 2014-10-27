@@ -20,6 +20,8 @@
 #include <vector>
 #include <sstream>
 #include <algorithm>
+#include <unordered_set>
+#include <set>
 
 #define RADIO_PER_TURN 25 // how many characters per turn of radio
 
@@ -112,15 +114,14 @@ static bool item_inscription(player *p, item *cut, std::string verb, std::string
         add_msg(m_info, _("You can't %s an item that's not solid!"), lower_verb.c_str());
         return false;
     }
-    if (carveable && !(cut->made_of("wood") || cut->made_of("plastic") || cut->made_of("glass") ||
-                       cut->made_of("chitin") || cut->made_of("iron") || cut->made_of("steel") ||
+    if (carveable && !(cut->made_of("wood") || cut->made_of("plastic") ||
+                       cut->made_of("glass") || cut->made_of("chitin") ||
+                       cut->made_of("iron") || cut->made_of("steel") ||
                        cut->made_of("silver"))) {
         std::string lower_verb = verb;
         std::transform(lower_verb.begin(), lower_verb.end(), lower_verb.begin(), ::tolower);
-        std::string mtname = cut->get_material(1)->name();
-        std::transform(mtname.begin(), mtname.end(), mtname.begin(), ::tolower);
-        add_msg(m_info, _("You can't %1$s an item made of %2$s!"),
-                lower_verb.c_str(), mtname.c_str());
+        add_msg(m_info, _("You can't %1$s %2$s because of the material it is made of."),
+                lower_verb.c_str(), cut->display_name().c_str());
         return false;
     }
 
@@ -3301,112 +3302,6 @@ int iuse::fish_trap(player *p, item *it, bool t, point pos)
         }
         return 0;
     }
-}
-
-static bool valid_fabric(player *p, item *it, bool)
-{
-    if (it->type->id == "null") {
-        p->add_msg_if_player(m_info, _("You do not have that item!"));
-        return false;
-    }
-    if (it->type->id == "string_6" || it->type->id == "string_36" || it->type->id == "rope_30" ||
-        it->type->id == "rope_6") {
-        add_msg(m_info, _("You cannot cut that, you must disassemble it using the disassemble key"));
-        return false;
-    }
-    if (it->type->id == "rag" || it->type->id == "rag_bloody" || it->type->id == "leather") {
-        p->add_msg_if_player(m_info, _("There's no point in cutting a %s."), it->tname().c_str());
-        return false;
-    }
-    if (!it->made_of("cotton") && !it->made_of("leather") && !it->made_of("nomex")) {
-        add_msg(m_info, _("You can only slice items made of fabric or leather."));
-        return false;
-    }
-    if (it->is_container() && !it->contents.empty()) {
-        add_msg(m_info, _("That %s is not empty!"), it->tname().c_str());
-        return false;
-    }
-
-    return true;
-}
-
-int iuse::cut_up(player *p, item *it, item *cut, bool, point)
-{
-    p->moves -= 25 * cut->volume();
-    int count = cut->volume();
-    if (p->skillLevel("tailor") == 0) {
-        count = rng(0, count);
-    } else if (p->skillLevel("tailor") == 1 && count >= 2) {
-        count -= rng(0, 2);
-    }
-
-    if (dice(3, 3) > p->dex_cur) {
-        count -= rng(1, 3);
-    }
-
-    // damaged clothing has a chance to lose material
-    if (count > 0) {
-        float component_success_chance = std::min(std::pow(0.8, cut->damage), 1.0);
-        for (int i = count; i > 0; i--) {
-            if (component_success_chance < rng_float(0, 1)) {
-                count--;
-            }
-        }
-    }
-
-    //scrap_text is result string of worthless scraps
-    //sliced_text is result on a success
-    std::string scrap_text, sliced_text, type;
-    if (cut->made_of("cotton")) {
-        scrap_text = _("You clumsily cut the %s into useless ribbons.");
-        sliced_text = ngettext("You slice the %s into a rag.", "You slice the %1$s into %2$d rags.",
-                               count);
-        type = "rag";
-    } else if (cut->made_of("leather")) {
-        scrap_text = _("You clumsily cut the %s into useless scraps.");
-        sliced_text = ngettext("You slice the %s into a piece of leather.",
-                               "You slice the %1$s into %2$d pieces of leather.", count);
-        type = "leather";
-    } else {
-        scrap_text = _("You clumsily cut the %s into useless scraps.");
-        sliced_text = ngettext("You cut the %s into a piece of nomex.",
-                               "You slice the %1$s into %2$d pieces of nomex.", count);
-        type = "nomex";
-    }
-
-    remove_ammo(cut, *p);
-    int pos = p->get_item_position(cut);
-
-    if (count <= 0) {
-        p->add_msg_if_player(m_bad, scrap_text.c_str(), cut->tname().c_str());
-        p->i_rem(pos);
-        return it->type->charges_to_use();
-    }
-    p->add_msg_if_player(m_good, sliced_text.c_str(), cut->tname().c_str(), count);
-    item result(type, int(calendar::turn));
-    p->i_rem(pos);
-    p->i_add_or_drop(result, count);
-    return it->type->charges_to_use();
-}
-
-int iuse::scissors(player *p, item *it, bool t, point pos)
-{
-    int inventory_index = g->inv(_("Chop up what?"));
-    item *cut = &(p->i_at(inventory_index));
-
-    if (!valid_fabric(p, cut, t)) {
-        return 0;
-    }
-    if (cut == &p->weapon) {
-        if (!query_yn(_("You are wielding that, are you sure?"))) {
-            return 0;
-        }
-    } else if( inventory_index < -1 ) {
-        if (!query_yn(_("You're wearing that, are you sure?"))) {
-            return 0;
-        }
-    }
-    return cut_up(p, it, cut, t, pos);
 }
 
 int iuse::extinguisher(player *p, item *it, bool, point)
@@ -6710,175 +6605,220 @@ void make_zlave(player *p)
     p->activity.str_values.push_back(corpses[selected_corpse]->display_name());
 }
 
-int iuse::knife(player *p, item *it, bool t, point pos)
+// *it here is the item that is a candidate for being chopped up.
+static bool valid_to_cut_up(player *p, item *it)
 {
-    int choice = -1;
-    const int cut_fabric = 0;
-    const int carve_writing = 1;
-    const int cauterize = 2;
-    const int make_slave = 3;
-    const int cancel = 4;
-    int inventory_index;
+    int pos = p->get_item_position(it);
+    // If a material is made of different items than what is in this set, we
+    // do not cut it up.
+    std::vector<std::string> material_id_white_list;
+    material_id_white_list.push_back("cotton");
+    material_id_white_list.push_back("leather");
+    material_id_white_list.push_back("nomex");
+    material_id_white_list.push_back("kevlar");
+    material_id_white_list.push_back("plastic");
+    material_id_white_list.push_back("wood");
 
-    uimenu kmenu;
-    kmenu.selected = uistate.iuse_knife_selected;
-    kmenu.text = _("Using knife:");
-    kmenu.addentry(cut_fabric, true, -1, _("Cut up fabric/plastic/kevlar/wood"));
-    kmenu.addentry(carve_writing, true, -1, _("Carve writing on item"));
-    if ((p->has_disease("bite") || p->has_disease("bleed") || p->has_trait("MASOCHIST") ||
-         p->has_trait("MASOCHIST_MED") || p->has_trait("CENOBITE")) && !p->is_underwater()) {
-        if (!p->has_charges("fire", 4)) {
-            kmenu.addentry(cauterize, false, -1,
-                           _("You need a lighter with 4 charges before you can cauterize yourself."));
-        } else {
-            kmenu.addentry(cauterize, true, -1,
-                           ((p->has_disease("bite") || p->has_disease("bleed")) &&
-                            !p->is_underwater()) ? _("Cauterize") : _("Cauterize...for FUN!"));
+    if (it->is_null()) {
+        add_msg(m_info, _("You do not have that item."));
+        return false;
+    }
+    // There must be some historical significance to these items.
+    if (!it->is_salvageable()) {
+        add_msg(m_info, _("Can't salvage anything from %s."), it->tname().c_str());
+        if (it->is_disassemblable()) {
+            add_msg(m_info, _("Try disassembling the %s instead."), it->tname().c_str());
+        }
+        return false;
+    }
+    if( !it->only_made_of(material_id_white_list) ) {
+        add_msg(m_info, _("The %s is made of material that cannot be cut up."), it->tname().c_str());
+        return false;
+    }
+    if (it->is_container() && !it->contents.empty()) {
+        add_msg(m_info, _("Please empty the %s before cutting it up."), it->tname().c_str());
+        return false;
+    }
+    if (it->volume() == 0) {
+        add_msg(m_info, _("The %s is too small to salvage material from."), it->tname().c_str());
+        return false;
+    }
+    // Softer warnings at the end so we don't ask permission and then tell them no.
+    if (it == &p->weapon) {
+        if(!query_yn(_("You are wielding that, are you sure?"))) {
+            return 0;
+        }
+    } else if (pos < -1) {
+        if(!query_yn(_("You're wearing that, are you sure?"))) {
+            return 0;
         }
     }
 
-    if( p->skillLevel("survival") > 1 && p->skillLevel("firstaid") > 1 ) {
-        kmenu.addentry(make_slave, true, 'z', _("Make zombie slave"));
-    }
+    return true;
+}
 
-    kmenu.addentry(cancel, true, 'q', _("Cancel"));
-    kmenu.query();
-    choice = kmenu.ret;
-    if (choice < cauterize) {
-        uistate.iuse_knife_selected = choice;
-    }
+// function returns charges from *it during the cutting process of the *cut.
+// *it cuts
+// *cut gets cut
+static int cut_up(player *p, item *it, item *cut, bool)
+{
+    int pos = p->get_item_position(cut);
+    // total number of raw components == total volume of item.
+    // This can go awry if there is a volume / recipe mismatch.
+    int count = cut->volume();
+    // Chance of us losing a material component to entropy.
+    int entropy_threshold = std::max(5, 10 - p->skillLevel("fabrication"));
+    // What material components can we get back?
+    std::vector<std::string> cut_material_components = cut->made_of();
+    // What materials do we salvage (ids and counts).
+    std::map<std::string, int> materials_salvaged;
 
-    if (choice == cauterize) {
-        bool has_disease = p->has_disease("bite") || p->has_disease("bleed");
-        if (cauterize_effect(p, it, !has_disease)) {
-            p->use_charges("fire", 4);
-        }
-        return it->type->charges_to_use();
-    } else if (choice == cut_fabric) {
-        inventory_index = g->inv(_("Chop up what?"));
-    } else if (choice == carve_writing) {
-        inventory_index = g->inv(_("Carve writing on what?"));
-    } else if (choice == make_slave) {
-        make_zlave(p);
-        return 0;
-    } else {
-        return 0;
-    }
-
-    item *cut = &(p->i_at(inventory_index));
-
-    if (cut->is_null()) {
-        add_msg(m_info, _("You do not have that item!"));
-        return 0;
-    }
+    // Final just in case check (that perhaps was not done elsewhere);
     if (cut == it) {
-        add_msg(m_info, _("You can not cut the %s with itself!"), it->tname().c_str());
-        return 0;
-    }
-    if (cut == &p->weapon) {
-        if (!query_yn(_("You are wielding that, are you sure?"))) {
-            return 0;
-        }
-    } else if (inventory_index < -1) {
-        if (!query_yn(_("You're wearing that, are you sure?"))) {
-            return 0;
-        }
-    }
-
-    if (choice == carve_writing) {
-        item_inscription(p, cut, _("Carve"), _("Carved"), true);
+        add_msg(m_info, _("You can not cut the %s with itself."), it->tname().c_str());
         return 0;
     }
 
-    // let's handle the rest
-    int amount = cut->volume();
-    if (amount == 0) {
-        add_msg(m_info, _("This object is too small to salvage a meaningful quantity of anything from!"));
-        return 0;
+    // Time based on number of components.
+    p->moves -= 25 * count;
+    // Not much practice, and you won't get very far ripping things up.
+    Skill *isFab = Skill::skill("fabrication");
+    p->practice(isFab, rng(0, 5), 1);
+
+    // Higher fabrication, less chance of entropy, but still a chance.
+    if (rng(1, 10) <= entropy_threshold) {
+        count -= 1;
     }
-
-    std::string action = "cut";
-    std::string found_mat = "plastic";
-
-    item *result = NULL;
-    int count = amount;
-
-    //if we're going to cut up a bottle/waterskin,
-    //make sure it isn't full of liquid
-    if (cut->is_container() && !cut->contents.empty()) {
-        add_msg(m_info, _("That container is not empty!"));
-        return 0;
+    // Fail dex roll, potentially lose more parts.
+    if (dice(3, 4) > p->dex_cur) {
+        count -= rng(0, 2);
     }
-
-    if ((cut->made_of("cotton") || cut->made_of("leather") || cut->made_of("nomex"))) {
-        if (valid_fabric(p, cut, t)) {
-            cut_up(p, it, cut, t, pos);
-        }
-        return it->type->charges_to_use();
-    } else if (cut->made_of(found_mat.c_str()) ||
-               cut->made_of((found_mat = "kevlar").c_str())) { // TODO : extract a function
-        if (found_mat == "plastic") {
-            result = new item("plastic_chunk", int(calendar::turn));
-        } else {
-            result = new item("kevlar_plate", int(calendar::turn));
-        }
-
-    } else if (cut->made_of("wood")) {
-        action = "carve";
-        count = 2 * amount; // twice the volume, i.e. 12 skewers from 2x4 and heavy stick just as before.
-        result = new item("skewer", int(calendar::turn));
-    } else { // TODO: add the rest of the materials, gold and what not.
-        add_msg(m_info, _("Material of this item is not applicable for cutting up."));
-        return 0;
-    }
-    // check again
-    if (result == NULL) {
-        return 0;
-    }
-    if (cut->typeId() == result->typeId()) {
-        add_msg(m_info, _("There's no point in cutting a %s."), cut->tname().c_str());
-        return 0;
-    }
-
-    // damaged items has a chance to lose material
-    if (count > 0) {
+    // If more than 1 material component can still be be salvaged,
+    // chance of losing more components if the item is damaged.
+    // If the item being cut is not damaged, no additional losses will be incurred.
+    if (count > 0 && cut->damage > 0) {
         float component_success_chance = std::min(std::pow(0.8, cut->damage), 1.0);
-        for (int i = count; i > 0; i--) {
-            if (component_success_chance < rng_float(0, 1)) {
+        for(int i = count; i > 0; i--) {
+            if(component_success_chance < rng_float(0,1)) {
                 count--;
             }
         }
     }
 
-    if (action == "carve") {
-        if (count > 0) {
-            add_msg(ngettext("You carve the %1$s into %2$i %3$s.",
-                             "You carve the %1$s into %2$i %3$ss.", count),
-                    cut->tname().c_str(), count, result->tname().c_str());
-        } else {
-            add_msg(m_bad, _("You clumsily carve the %s into useless pieces."),
-                    cut->tname().c_str());
-        }
-    } else {
-        if (count > 0) {
-            add_msg(m_good, ngettext("You cut the %1$s into %2$i %3$s.",
-                                     "You cut the %1$s into %2$i %3$ss.", count),
-                    cut->tname().c_str(), count, result->tname().c_str());
-        } else {
-            add_msg(m_bad, _("You clumsily cut the %s into useless pieces."),
-                    cut->tname().c_str());
-        }
+    // Decided to split components evenly. Since salvage will likely change
+    // soon after I write this, I'll go with the one that is cleaner.
+    for (auto material : cut_material_components) {
+        material_type * mt = material_type::find_material(material);
+        std::string salvaged_id = mt->salvage_id();
+        float salvage_multiplier = mt->salvage_multiplier();
+        materials_salvaged[salvaged_id] = count * salvage_multiplier / cut_material_components.size();
     }
 
+    // Clean up before removing the item.
     remove_ammo(cut, *p);
-    // otherwise layout the goodies.
-    p->i_rem(inventory_index);
-    p->i_add_or_drop(*result, count);
+    // Original item has been consumed.
+    p->i_rem(pos);
 
-    // hear this helps with objects in dynamically allocated memory and
-    // their abandonment issues.
-    delete result;
+    add_msg(m_info, _("You try to salvage materials from the %s."), cut->tname().c_str());
+    for (auto salvaged : materials_salvaged) {
+        std::string mat_name = salvaged.first;
+        int amount = salvaged.second;
+        item result(mat_name, int(calendar::turn));
+        if (amount > 0) {
+            add_msg(m_good, ngettext("Salvaged %1$i %2$s.", "Salvaged %1$i %2$ss.", amount),
+                    amount, result.display_name().c_str());
+            p->i_add_or_drop(result, amount);
+        } else {
+            add_msg(m_bad, _("Could not salvage a %s."), result.display_name().c_str());
+        }
+    }
+    // No matter what, cutting has been done by the time we get here.
     return it->type->charges_to_use();
+}
+
+// item is what is doing the carving, item to be carved is chosen here.
+// Queries player for the item into which we will carve.
+// Return value is charges used (if any) for carving based on *it passed in.
+// Return value can be passed back from an iuse function.
+static int carve_writing(player *p, item *it)
+{
+    int pos = g->inv(_("Carve writing into what?"));
+    item *cut = &(p->i_at(pos));
+
+    if (cut->is_null()) {
+        add_msg(m_info, _("You do not have that item."));
+        return 0;
+    }
+    if (cut == it) {
+        add_msg(m_info, _("You can not cut the %s with itself."), it->tname().c_str());
+        return 0;
+    }
+
+    // Adding this check in as a formality, but I'm pretty sure whatever
+    // in reality items used to carve will not burn charges for writing.
+    if (item_inscription(p, cut, _("Carve"), _("Carved"), true)) {
+        return it->type->charges_to_use();
+    } else {
+        return 0;
+    }
+}
+
+static int cauterize_flame(player *p, item *it)
+{
+    bool has_disease = p->has_disease("bite") || p->has_disease("bleed");
+    bool did_cauterize = false;
+    if (!p->has_charges("fire", 4)) {
+        p->add_msg_if_player(m_info, _("You need a source of flame (4 charges worth) before you can cauterize yourself."));
+    } else if (has_disease && !p->is_underwater()) {
+        did_cauterize = cauterize_effect(p, it, !has_disease);
+    } else if (!has_disease && !p->is_underwater()) {
+        if ((p->has_trait("MASOCHIST") || p->has_trait("MASOCHIST_MED") || p->has_trait("CENOBITE")) &&
+            query_yn(_("Cauterize yourself for fun?"))) {
+            did_cauterize = cauterize_effect(p, it, true);
+        } else {
+            p->add_msg_if_player(m_info, _("You are not bleeding or bitten, there is no need to cauterize yourself."));
+        }
+    }
+    if (did_cauterize) {
+        p->use_charges("fire", 4);
+    }
+    return 0;
+}
+
+int iuse::knife(player *p, item *it, bool t, point)
+{
+    int choice = -1;
+    const int menu_cut_up_item = 0;
+    const int menu_carve_writing = 1;
+    const int menu_cauterize = 2;
+    const int menu_cancel = 4;
+    item *cut;
+
+    uimenu kmenu;
+    kmenu.text = _("Using cutting instrument:");
+    kmenu.addentry(menu_cut_up_item, true, -1, _("Cut up fabric/plastic/kevlar/wood/nomex"));
+    kmenu.addentry(menu_carve_writing, true, -1, _("Carve writing into item"));
+    kmenu.addentry(menu_cauterize, true, -1, _("Cauterize"));
+    kmenu.addentry(menu_cancel, true, 'q', _("Cancel"));
+    kmenu.query();
+    choice = kmenu.ret;
+
+    if (choice == menu_cauterize) {
+        cauterize_flame(p, it);
+        return it->type->charges_to_use();
+    } else if (choice == menu_cut_up_item) {
+        int inventory_index = g->inv(_("Cut up what?"));
+        cut = &(p->i_at(inventory_index));
+        if (!valid_to_cut_up(p, cut)) {
+            // Messages should have already been displayed.
+            return 0;
+        }
+        return cut_up(p, it, cut, t);
+    } else if (choice == menu_carve_writing) {
+        return carve_writing(p, it);
+    } else {
+        return 0;
+    }
 }
 
 int iuse::cut_log_into_planks(player *p, item *it)
