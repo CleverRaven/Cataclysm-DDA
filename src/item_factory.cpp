@@ -199,7 +199,6 @@ void Item_factory::init()
     iuse_function_list["SEW"] = &iuse::sew;
     iuse_function_list["EXTRA_BATTERY"] = &iuse::extra_battery;
     iuse_function_list["RECHARGEABLE_BATTERY"] = &iuse::rechargeable_battery;
-    iuse_function_list["SCISSORS"] = &iuse::scissors;
     iuse_function_list["EXTINGUISHER"] = &iuse::extinguisher;
     iuse_function_list["HAMMER"] = &iuse::hammer;
     iuse_function_list["DIRECTIONAL_ANTENNA"] = &iuse::directional_antenna;
@@ -422,15 +421,14 @@ void Item_factory::check_ammo_type(std::ostream &msg, const std::string &ammo) c
 void Item_factory::check_definitions() const
 {
     std::ostringstream main_stream;
-    for (std::map<Item_tag, itype *>::const_iterator it = m_templates.begin(); it != m_templates.end();
-         ++it) {
+    for( std::map<Item_tag, itype *>::const_iterator it = m_templates.begin();
+         it != m_templates.end(); ++it ) {
         std::ostringstream msg;
         const itype *type = it->second;
-        if (type->m1 != "null" && !material_type::has_material(type->m1)) {
-            msg << string_format("invalid material %s", type->m1.c_str()) << "\n";
-        }
-        if (type->m2 != "null" && !material_type::has_material(type->m2)) {
-            msg << string_format("invalid material %s", type->m2.c_str()) << "\n";
+        for( auto mat_id : type->materials ) {
+            if( mat_id != "null" && !material_type::has_material(mat_id) ) {
+                msg << string_format("invalid material %s", mat_id.c_str()) << "\n";
+            }
         }
         for (std::set<std::string>::const_iterator a = type->techniques.begin();
              a != type->techniques.end(); ++a) {
@@ -906,11 +904,10 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     new_item_template->sym = jo.get_string("symbol")[0];
     new_item_template->color = color_from_string(jo.get_string("color"));
     new_item_template->description = _(jo.get_string("description").c_str());
-    if (jo.has_member("material")) {
-        set_material_from_json(jo, "material", new_item_template);
+    if( jo.has_member("material") ){
+        set_material_from_json( jo, "material", new_item_template );
     } else {
-        new_item_template->m1 = "null";
-        new_item_template->m2 = "null";
+        new_item_template->materials.push_back("null");
     }
     Item_tag new_phase = "solid";
     if (jo.has_member("phase")) {
@@ -1048,23 +1045,25 @@ std::bitset<13> Item_factory::flags_from_json(JsonObject &jo, const std::string 
     return flag;
 }
 
-void Item_factory::set_material_from_json(JsonObject &jo, std::string member,
-        itype *new_item_template)
+void Item_factory::set_material_from_json( JsonObject& jo, std::string member,
+                                           itype *new_item_template )
 {
-    //If the value isn't found, just return a group of null materials
-    std::string material_list[2] = { "null", "null" };
-    if (jo.has_array(member)) {
+    // All materials need a type, even if it is "null", which seems to be the base type.
+    if( jo.has_array(member) ) {
         JsonArray jarr = jo.get_array(member);
-        if (jarr.size() > 2) {
-            debugmsg("Too many materials provided for item %s", new_item_template->id.c_str());
+        for( int i = 0; i < (int)jarr.size(); ++i ) {
+            std::string material_id = jarr.get_string(i);
+            if( material_id == "null" ) {
+                continue;
+            }
+            new_item_template->materials.push_back( material_id );
         }
-        material_list[0] = jarr.get_string(0);
-        material_list[1] = jarr.get_string(1);
-    } else if (jo.has_string(member)) {
-        material_list[0] = jo.get_string(member);
+    } else if( jo.has_string(member) ) {
+        new_item_template->materials.push_back( jo.get_string(member) );
+    } else {
+        // Default material.
+        new_item_template->materials.push_back("null");
     }
-    new_item_template->m1 = material_list[0];
-    new_item_template->m2 = material_list[1];
 }
 
 bool Item_factory::is_mod_target(JsonObject &jo, std::string member, std::string weapon)
