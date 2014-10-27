@@ -4538,6 +4538,6 @@
         "symbol": "8",
         "color": "brown",
         "move_cost": 4,
-        "flags": ["TRANSPARENT", FLAT"]
+        "flags": ["TRANSPARENT", "FLAT"]
     }
 ]
