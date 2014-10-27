@@ -10592,10 +10592,10 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "A t-shirt with a picture of Tux logo on it, underneath it says \"You wouldn't buy a car with the hood welded shut.\"",
+        "description" : "A t-shirt with a picture of the Tux mascot on it.  Underneath it says \"You wouldn't buy a car with the hood welded shut.\"",
         "snippet_category" : [
             { "id" : "tux",
-              "text" : "A t-shirt with a picture of Tux logo on it, underneath it says \"You wouldn't buy a car with the hood welded shut.\""
+              "text" : "A t-shirt with a picture of Tux, the Linux mascot!  It says \"You wouldn't buy a car with the hood welded shut.\""
             },
             { "id" : "ubuntusmartass",
               "text" : "A t-shirt with the Ubuntu logo on it, underneath it says \"Ubuntu is a South African word for 'I can't configure Debian'\""
@@ -10690,7 +10690,7 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "Aparently the microskirt wasn't short enough.",
+        "description" : "Apparently the microskirt wasn't short enough.",
         "price" : 3000,
         "material" : ["cotton", "null"],
         "volume" : 1,
