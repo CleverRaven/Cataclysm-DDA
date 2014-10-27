@@ -2507,8 +2507,8 @@
   "components": [
     [
       [ "handflare_dead", 1 ],
-	  [ "bottle_plastic_small", 1 ],
-	  [ "shotgun_hull", 4 ]
+      [ "bottle_plastic_small", 1 ],
+      [ "shotgun_hull", 4 ]
     ],
     [
       [ "plastic_chunk", 1 ]
