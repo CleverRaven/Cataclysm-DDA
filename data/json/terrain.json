@@ -4542,6 +4542,7 @@
         "deconstruct": {
             "ter_set": "t_water_sh",
             "items": [
+                { "item": "rope_6", "amount": 4, "minamount": 3 },
                 { "item": "2x4", "amount": 8 },
             ]
         },
@@ -4566,6 +4567,7 @@
         "deconstruct": {
             "ter_set": "t_water_dp",
             "items": [
+                { "item": "rope_6", "amount": 4, "minamount": 3 },
                 { "item": "2x4", "amount": 8 },
             ]
         },
