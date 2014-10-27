@@ -1850,7 +1850,7 @@
         "type" : "construction",
         "description" : "Set up basic dock over shallow water", "//": "Set up dock",
         "category" : "CONSTRUCT",
-        "difficulty" : 5,
+        "difficulty" : 4,
         "time" : 80,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 }
