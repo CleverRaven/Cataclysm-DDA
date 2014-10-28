@@ -377,7 +377,7 @@ item &inventory::add_item(item newit, bool keep_invlet, bool assign_invlet)
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
         std::list<item>::iterator it_ref = iter->begin();
         if (it_ref->type->id == newit.type->id) {
-            if (newit.charges != -1 && (newit.is_food() || newit.is_ammo())) {
+            if (newit.charges != -1 && newit.count_by_charges()) {
                 it_ref->charges += newit.charges;
                 return *it_ref;
             } else if (it_ref->stacks_with(newit)) {
@@ -460,8 +460,7 @@ void inventory::restack(player *p)
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
         for (invstack::iterator other = iter; other != items.end(); ++other) {
             if (iter != other && iter->front().type->id == other->front().type->id) {
-                if (other->front().charges != -1 && (other->front().is_food() ||
-                                                     other->front().is_ammo())) {
+                if (other->front().charges != -1 && other->front().count_by_charges()) {
                     iter->front().charges += other->front().charges;
                 } else if (iter->front().stacks_with(other->front())) {
                     iter->splice(iter->begin(), *other);
