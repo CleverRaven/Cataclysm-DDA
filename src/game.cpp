@@ -1248,6 +1248,11 @@ bool game::do_turn()
                     u.hunger++;
                 }
             }
+            if (u.has_trait("MET_RAT")) {
+                if (!one_in(3)) {
+                    u.hunger++;
+                }
+            }
             if (u.has_trait("HUNGER2")) {
                 u.hunger++;
             }
@@ -1301,6 +1306,11 @@ bool game::do_turn()
             // Sleepy folks gain fatigue faster; Very Sleepy is twice as fast as typical
             if (u.has_trait("SLEEPY")) {
                 if (one_in(3)) {
+                    u.fatigue++;
+                }
+            }
+            if (u.has_trait("MET_RAT")) {
+                if (one_in(2)) {
                     u.fatigue++;
                 }
             }
@@ -1580,6 +1590,9 @@ void game::process_activity()
 void on_turn_activity_pickaxe(player *p);
 void on_finish_activity_pickaxe(player *p);
 
+void on_turn_activity_burrow(player *p);
+void on_finish_activity_burrow(player *p);
+
 void game::activity_on_turn()
 {
     switch (u.activity.type) {
@@ -1595,6 +1608,12 @@ void game::activity_on_turn()
         u.activity.moves_left -= u.moves;
         u.moves = 0;
         on_turn_activity_pickaxe(&u);
+        break;
+    case ACT_BURROW:
+        // Based on speed, not time
+        u.activity.moves_left -= u.moves;
+        u.moves = 0;
+        on_turn_activity_burrow(&u);
         break;
     case ACT_GAME:
         // Takes care of u.activity.moves_left
@@ -1835,6 +1854,10 @@ void game::activity_on_finish()
         break;
     case ACT_PICKAXE:
         on_finish_activity_pickaxe(&u);
+        u.activity.type = ACT_NULL;
+        break;
+    case ACT_BURROW:
+        on_finish_activity_burrow(&u);
         u.activity.type = ACT_NULL;
         break;
     case ACT_VIBE:

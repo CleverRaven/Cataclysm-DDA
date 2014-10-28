@@ -3007,7 +3007,7 @@ void manage_sleep(player& p, disease& dis)
             p.fatigue -= 1 + one_in(recovery_chance);
             // You fatigue & recover faster with Sleepy
             // Very Sleepy, you just fatigue faster
-            if (p.has_trait("SLEEPY")) {
+            if (p.has_trait("SLEEPY") || p.has_trait("MET_RAT")) {
                 p.fatigue -=(1 + one_in(recovery_chance) / 2);
             }
             // Tireless folks recover fatigue really fast
@@ -3022,7 +3022,7 @@ void manage_sleep(player& p, disease& dis)
               (p.has_trait("FLIMSY3") && one_in(4)) ||
               (!(p.has_trait("FLIMSY")) && (!(p.has_trait("FLIMSY2"))) &&
                (!(p.has_trait("FLIMSY3"))))) {
-            if (p.has_trait("FASTHEALER")) {
+            if (p.has_trait("FASTHEALER") || p.has_trait("MET_RAT")) {
                 heal_chance += 100;
             } else if (p.has_trait("FASTHEALER2")) {
                 heal_chance += 150;

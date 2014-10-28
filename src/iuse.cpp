@@ -5117,7 +5117,7 @@ void on_turn_activity_pickaxe(player *p)
 {
     const int dirx = p->activity.placement.x;
     const int diry = p->activity.placement.y;
-    if (calendar::turn % MINUTES(1) == 0) { // each turn is to much
+    if (calendar::turn % MINUTES(1) == 0) { // each turn is too much
         //~ Sound of a Pickaxe at work!
         g->sound(dirx, diry, 30, _("CHNK! CHNK! CHNK!"));
     }
@@ -5154,6 +5154,40 @@ void on_finish_activity_pickaxe(player *p)
     if (it->charges == 0 && it->destroyed_at_zero_charges()) {
         p->i_rem(p->activity.position);
     }
+}
+
+void on_turn_activity_burrow(player *p)
+{
+    const int dirx = p->activity.placement.x;
+    const int diry = p->activity.placement.y;
+    if (calendar::turn % MINUTES(1) == 0) { // each turn is too much
+        //~ Sound of a Rat mutant burrowing!
+        g->sound(dirx, diry, 10, _("ScratchCrunchScrabbleScurry."));
+    }
+}
+
+void on_finish_activity_burrow(player *p)
+{
+    const int dirx = p->activity.placement.x;
+    const int diry = p->activity.placement.y;
+    if (g->m.is_bashable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
+        g->m.ter(dirx, diry) != t_tree) {
+        // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
+        // Not quite as bad as the pickaxe, though
+        p->hunger += 10;
+        p->fatigue += 15;
+        p->thirst += 10;
+        p->mod_pain(3 * rng(1, 3));
+        // Mining is construction work!
+        p->practice("carpentry", 5);
+    } else if (g->m.move_cost(dirx, diry) == 2 && g->levz == 0 &&
+               g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass) {
+        //Breaking up concrete on the surface? not nearly as bad
+        p->hunger += 5;
+        p->fatigue += 10;
+        p->thirst += 5;
+    }
+    g->m.destroy(dirx, diry, true);
 }
 
 int iuse::set_trap(player *p, item *it, bool, point)
