@@ -4428,6 +4428,7 @@ void map::save()
 void map::load_abs(const int wx, const int wy, const int wz, const bool update_vehicle)
 {
     traplocs.clear();
+    set_abs_sub( wx, wy, wz );
     for (int gridx = 0; gridx < my_MAPSIZE; gridx++) {
         for (int gridy = 0; gridy < my_MAPSIZE; gridy++) {
             loadn(wx, wy, wz, gridx, gridy, update_vehicle);
@@ -4614,10 +4615,6 @@ void map::loadn(const int worldx, const int worldy, const int worldz,
             return;
         }
     }
-
- if ( gridx == 0 && gridy == 0 ) {
-     set_abs_sub(absx, absy, worldz);
- }
 
     // New submap changes the content of the map and all caches must be recalculated
     set_transparency_cache_dirty();
