@@ -96,6 +96,19 @@ int fold_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color base
     return fold_and_print(w, begin_y, begin_x, width, base_color, text);
 }
 
+void print_colored_text( WINDOW *w, int x, int y, nc_color &color, nc_color base_color, const std::string &text )
+{
+    wmove( w, x, y );
+    const auto color_segments = split_by_color( text );
+    for( auto seg : color_segments ) {
+        if( !seg.empty() && seg[0] == '<' ) {
+            color = get_color_from_tag( seg, base_color );
+            seg = rm_prefix( seg );
+        }
+        wprintz( w, color, "%s", seg.c_str() );
+    }
+}
+
 // returns number of printed lines
 int fold_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color base_color,
                    const std::string &text)
@@ -104,17 +117,7 @@ int fold_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color base
     std::vector<std::string> textformatted;
     textformatted = foldstring(text, width);
     for (size_t line_num = 0; line_num < textformatted.size(); line_num++) {
-        wmove(w, line_num + begin_y, begin_x);
-        // split into colourable sections
-        std::vector<std::string> color_segments = split_by_color(textformatted[line_num]);
-        // for each section, get the colour, and print it
-        std::vector<std::string>::iterator it;
-        for (it = color_segments.begin(); it != color_segments.end(); ++it) {
-            if (!it->empty() && it->at(0) == '<') {
-                color = get_color_from_tag(*it, base_color);
-            }
-            wprintz(w, color, "%s", rm_prefix(*it).c_str());
-        }
+        print_colored_text( w, line_num + begin_y, begin_x, color, base_color, textformatted[line_num] );
     }
     return textformatted.size();
 }

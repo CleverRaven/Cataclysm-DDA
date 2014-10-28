@@ -96,6 +96,18 @@ enum game_message_type {
 nc_color msgtype_to_color(const game_message_type type, const bool bOldMsg = false);
 int msgtype_to_tilecolor(const game_message_type type, const bool bOldMsg = false);
 
+/**
+ * Print text with embedded color tags, x, y are in curses system.
+ * The text is not word wrapped, but may automatically be wrapped on new line characters or
+ * when it reaches the border of the window (both is done by the curses system).
+ * If the text contains no color tags, it's equivalent to a simple mvprintz.
+ * @param text The text to print.
+ * @param cur_color The current color (could have been set by a previously encountered color tag),
+ * change to a color according to the color tags that are in the text.
+ * @param base_color Base color that is used outside of any color tag.
+ **/
+void print_colored_text( WINDOW *w, int x, int y, nc_color &cur_color, nc_color base_color, const std::string &text );
+
 std::vector<std::string> foldstring (std::string str, int width);
 int fold_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color color, const char *mes,
                    ...);
