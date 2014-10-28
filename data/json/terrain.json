@@ -340,7 +340,7 @@
         "color": "brown",
         "move_cost": 0,
         "flags": [
-            "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "TRANSPARENT", "REDUCE_SCENT", "PERMEABLE"
+            "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "TRANSPARENT", "REDUCE_SCENT"
         ],
         "bash": {
             "str_min": 10, "str_max": 150,
@@ -359,7 +359,7 @@
         "color": "ltred",
         "move_cost": 0,
         "flags": [
-            "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "DOOR", "TRANSPARENT", "PERMEABLE"
+            "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "DOOR", "TRANSPARENT"
         ],
         "bash": {
             "str_min": 6, "str_max": 150,
@@ -3463,7 +3463,7 @@
         "symbol": "0",
         "color": "ltcyan",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "SEALED", "PLACE_ITEM", "WALL", "PERMEABLE"],
+        "flags": ["TRANSPARENT", "SEALED", "PLACE_ITEM", "WALL"],
         "bash": {
             "str_min": 2, "str_max": 80,
             "sound": "ker-rash!",
