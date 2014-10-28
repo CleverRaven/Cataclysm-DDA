@@ -208,7 +208,13 @@ public:
   * @param On success all consumed items will be stored here.
   */
  bool use_amount(const itype_id &it, int &quantity, bool use_container, std::list<item> &used);
-
+/**
+ * Fill container with liquid up to its capacity.
+ * @param liquid Liquid to fill the container with.
+ * @param err Contains error message if function returns false.
+ * @return Returns false in case of error
+ */
+ bool fill_with( item &liquid, std::string &err );
  bool has_flag(const std::string &f) const;
  bool contains_with_flag (std::string f) const;
  bool has_quality(std::string quality_id) const;
