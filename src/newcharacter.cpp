@@ -1062,6 +1062,7 @@ int set_profession(WINDOW *w, player *u, int &points)
     draw_tabs(w, _("PROFESSION"));
     int cur_id = 0;
     int retval = 0;
+    int desc_offset = 0;
     const int iContentHeight = FULL_SCREEN_HEIGHT - 10;
     int iStartPos = 0;
 
@@ -1195,9 +1196,25 @@ int set_profession(WINDOW *w, player *u, int &points)
         const size_t iwidth = getmaxx( w_items );
         const auto itextformatted = foldstring( buffer.str(), iwidth );
         size_t iheight = getmaxy( w_items );
+        const auto print_scroll_msg = itextformatted.size() > iheight;
+        if( print_scroll_msg ) {
+            // keep the last line free for a message to the player
+            iheight--;
+        }
+        int offset = std::max( 0, desc_offset );
+        if( itextformatted.size() <= iheight ) {
+            offset = 0;
+        } else if( offset + iheight >= itextformatted.size() ) {
+            offset = itextformatted.size() - iheight;
+        }
         nc_color color = c_ltgray;
-        for( size_t i = 0; i < itextformatted.size() && i < iheight; ++i ) {
-            print_colored_text( w_items, i, 0, color, c_ltgray, itextformatted[i] );
+        for( size_t i = 0; i + offset < itextformatted.size() && i < iheight; ++i ) {
+            print_colored_text( w_items, i, 0, color, c_ltgray, itextformatted[i + offset] );
+        }
+        if( print_scroll_msg ) {
+            mvwprintz( w_items, iheight, 0, c_ltgreen, _( "Press %1$s or %2$s to scroll." ),
+                        ctxt.get_desc("LEFT").c_str(),
+                        ctxt.get_desc("RIGHT").c_str() );
         }
 
         werase(w_genderswap);
@@ -1222,10 +1239,20 @@ int set_profession(WINDOW *w, player *u, int &points)
             if (cur_id > (int)sorted_profs.size() - 1) {
                 cur_id = 0;
             }
+            desc_offset = 0;
         } else if (action == "UP") {
             cur_id--;
             if (cur_id < 0) {
                 cur_id = sorted_profs.size() - 1;
+            }
+            desc_offset = 0;
+        } else if( action == "LEFT" ) {
+            if( desc_offset > 0 ) {
+                desc_offset--;
+            }
+        } else if( action == "RIGHT" ) {
+            if( desc_offset + iheight < itextformatted.size() ) {
+                desc_offset++;
             }
         } else if (action == "CONFIRM") {
             u->prof = profession::prof(sorted_profs[cur_id]->ident()); // we've got a const*
