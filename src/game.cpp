@@ -488,14 +488,10 @@ void game::reinit_ui(bool from_options)
         //window resize event will call this function right back
         resize_window(OPTIONS["WINDOW_X"], OPTIONS["WINDOW_Y"], true);
     }else {
-        if(mainwin->width != get_window_terminal_width() || mainwin->height != get_window_terminal_height()) {
-            wresize(mainwin, get_window_terminal_height(), get_window_terminal_width());
-        }
+        wresize(mainwin, get_terminal_height(), get_terminal_width());
         init_ui();
         if(g->game_inprogress){
             refresh_all();
-        }else {
-            //refresh();
         }
     }
 }
