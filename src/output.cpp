@@ -109,6 +109,32 @@ void print_colored_text( WINDOW *w, int x, int y, nc_color &color, nc_color base
     }
 }
 
+int print_scrollable( WINDOW *w, int begin_line, const std::string &text, nc_color base_color, const std::string &scroll_msg )
+{
+    const size_t wwidth = getmaxx( w );
+    const auto text_lines = foldstring( text, wwidth );
+    size_t wheight = getmaxy( w );
+    const auto print_scroll_msg = text_lines.size() > wheight;
+    if( print_scroll_msg && !scroll_msg.empty() ) {
+        // keep the last line free for a message to the player
+        wheight--;
+    }
+    if( begin_line < 0 || text_lines.size() <= wheight ) {
+        begin_line = 0;
+    } else if( begin_line + wheight >= text_lines.size() ) {
+        begin_line = text_lines.size() - wheight;
+    }
+    nc_color color = base_color;
+    for( size_t i = 0; i + begin_line < text_lines.size() && i < wheight; ++i ) {
+        print_colored_text( w, i, 0, color, base_color, text_lines[i + begin_line] );
+    }
+    if( print_scroll_msg && !scroll_msg.empty() ) {
+        color = c_white;
+        print_colored_text( w, wheight, 0, color, color, scroll_msg );
+    }
+    return std::max<int>( 0, text_lines.size() - wheight );
+}
+
 // returns number of printed lines
 int fold_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color base_color,
                    const std::string &text)

@@ -1193,29 +1193,10 @@ int set_profession(WINDOW *w, player *u, int &points)
         }
 
         werase( w_items );
-        const size_t iwidth = getmaxx( w_items );
-        const auto itextformatted = foldstring( buffer.str(), iwidth );
-        size_t iheight = getmaxy( w_items );
-        const auto print_scroll_msg = itextformatted.size() > iheight;
-        if( print_scroll_msg ) {
-            // keep the last line free for a message to the player
-            iheight--;
-        }
-        int offset = std::max( 0, desc_offset );
-        if( itextformatted.size() <= iheight ) {
-            offset = 0;
-        } else if( offset + iheight >= itextformatted.size() ) {
-            offset = itextformatted.size() - iheight;
-        }
-        nc_color color = c_ltgray;
-        for( size_t i = 0; i + offset < itextformatted.size() && i < iheight; ++i ) {
-            print_colored_text( w_items, i, 0, color, c_ltgray, itextformatted[i + offset] );
-        }
-        if( print_scroll_msg ) {
-            mvwprintz( w_items, iheight, 0, c_ltgreen, _( "Press %1$s or %2$s to scroll." ),
-                        ctxt.get_desc("LEFT").c_str(),
-                        ctxt.get_desc("RIGHT").c_str() );
-        }
+        const auto scroll_msg = string_format( _( "Press <color_light_green>%1$s</color> or <color_light_green>%2$s</color> to scroll." ),
+                                               ctxt.get_desc("LEFT").c_str(),
+                                               ctxt.get_desc("RIGHT").c_str() );
+        const int iheight = print_scrollable( w_items, desc_offset, buffer.str(), c_ltgray, scroll_msg );
 
         werase(w_genderswap);
         //~ Gender switch message. 1s - change key name, 2s - profession name.
@@ -1251,7 +1232,7 @@ int set_profession(WINDOW *w, player *u, int &points)
                 desc_offset--;
             }
         } else if( action == "RIGHT" ) {
-            if( desc_offset + iheight < itextformatted.size() ) {
+            if( desc_offset < iheight ) {
                 desc_offset++;
             }
         } else if (action == "CONFIRM") {
