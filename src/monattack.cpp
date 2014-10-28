@@ -2204,7 +2204,7 @@ void mattack::frag_tur(monster *z, int index) // This is for the bots, not a sta
             //~Potential grenading detected.
             add_msg(m_warning, _("Those laser dots don't seem very friendly...") );
             g->sound(z->posx(), z->posy(), 10, _("Targeting."));
-            z->add_effect("targeted", 8);
+            z->add_effect("targeted", 4);
             z->moves -= 100;
             return;
         }
@@ -2347,7 +2347,7 @@ void mattack::tank_tur(monster *z, int index)
             add_msg(m_warning, _("You're not sure why you've got a laser dot on you...") );
             //~ Sound of a tank turret swiveling into place
             g->sound(z->posx(), z->posy(), 10, _("whirrrrrclick."));
-            z->add_effect("targeted", 4);
+            z->add_effect("targeted", 2);
             z->moves -= 100;
             return;
         }
@@ -2373,7 +2373,7 @@ void mattack::tank_tur(monster *z, int index)
     tmp.fire_gun(target->xpos(), target->ypos(), false);
     z->ammo[ammo_type] += tmp.weapon.charges;
     if (target == &g->u) {
-        z->add_effect("targeted", 3);
+        z->add_effect("targeted", 2);
     }
 }
 
