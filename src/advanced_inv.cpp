@@ -1461,10 +1461,6 @@ bool advanced_inventory::move_content(item &src_container, item &dest_container)
         popup( _( "Source container is empty." ) );
         return false;
     }
-    if( dest_container.is_container_full() ) {
-        popup( _( "Target container is full." ) );
-        return false;
-    }
 
     item &src = src_container.contents[0];
 
@@ -1473,29 +1469,13 @@ bool advanced_inventory::move_content(item &src_container, item &dest_container)
         return false;
     }
 
-    int capacity = 0;
-    if( !dest_container.is_container_empty() ) {
-        capacity = dest_container.get_remaining_capacity();
-    } else {
-        LIQUID_FILL_ERROR tmperr;
-        capacity = dest_container.get_remaining_capacity_for_liquid( src, tmperr );
+    std::string err;
+    if( !dest_container.fill_with( src, err ) ) {
+        popup( err.c_str() );
+        return false;
     }
-    int amount = std::min( (long)capacity, src.charges );
 
-    if( dest_container.is_container_empty() ) {
-        dest_container.contents.push_back( item( src ) );
-        dest_container.contents[0].charges = amount;
-        uistate.adv_inv_container_content_type = dest_container.contents[0].typeId();
-    } else {
-        item &dest = dest_container.contents[0];
-        if ( src.typeId() != dest.typeId() ) {
-            popup( _( "Mixing different liquids is not possible." ) );
-            return false;
-        }
-        dest.charges += amount;
-    }
-    src.charges -= amount;
-
+    uistate.adv_inv_container_content_type = dest_container.contents[0].typeId();
     if( src.charges <= 0 ) {
         src_container.contents.clear();
     }
