@@ -1164,13 +1164,16 @@ int set_profession(WINDOW *w, player *u, int &points)
         }
 
         std::ostringstream buffer;
-        const auto prof_items = sorted_profs[cur_id]->items( u->male );
-        buffer << "<color_white>" << _( "Profession items:" ) << "</color>\n";
-        for( const auto &i : prof_items ) {
-            buffer << item_controller->nname( i.type_id ) << "\n";
+        const auto prof_addictions = sorted_profs[cur_id]->addictions();
+        if( !prof_addictions.empty() ) {
+            buffer << "<color_ltblue>" << _( "Addictions:" ) << "</color>\n";
+            for( const auto &a : prof_addictions ) {
+                const auto format = pgettext( "set_profession_addictions", "%1$s (%2$d)" );
+                buffer << string_format( format, addiction_name( a ).c_str(), a.intensity ) << "\n";
+            }
         }
         const auto prof_skills = sorted_profs[cur_id]->skills();
-        buffer << "<color_white>" << _( "Profession skills:" ) << "</color>\n";
+        buffer << "<color_ltblue>" << _( "Profession skills:" ) << "</color>\n";
         if( prof_skills.empty() ) {
             buffer << pgettext( "set_profession_skill", "None" ) << "\n";
         } else {
@@ -1183,13 +1186,10 @@ int set_profession(WINDOW *w, player *u, int &points)
                 buffer << string_format( format, skill->name().c_str(), sl.second ) << "\n";
             }
         }
-        const auto prof_addictions = sorted_profs[cur_id]->addictions();
-        if( !prof_addictions.empty() ) {
-            buffer << "<color_white>" << _( "Addictions:" ) << "</color>\n";
-            for( const auto &a : prof_addictions ) {
-                const auto format = pgettext( "set_profession_addictions", "%1$s (%2$d)" );
-                buffer << string_format( format, addiction_name( a ).c_str(), a.intensity ) << "\n";
-            }
+        const auto prof_items = sorted_profs[cur_id]->items( u->male );
+        buffer << "<color_ltblue>" << _( "Profession items:" ) << "</color>\n";
+        for( const auto &i : prof_items ) {
+            buffer << item_controller->nname( i.type_id ) << "\n";
         }
 
         werase( w_items );
