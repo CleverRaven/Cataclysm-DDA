@@ -149,7 +149,7 @@ public:
     bool is_of_ammo_type_or_contains_it(const ammotype &ammo_type_id) const;
 
  bool invlet_is_okay();
- bool stacks_with(item rhs);
+        bool stacks_with( const item &rhs ) const;
  void put_in(item payload);
  void add_rain_to_container(bool acid, int charges = 1);
 

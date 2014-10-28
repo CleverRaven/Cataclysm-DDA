@@ -261,32 +261,37 @@ bool item::invlet_is_okay()
     return (inv_chars.find(invlet) != std::string::npos);
 }
 
-bool item::stacks_with(item rhs)
+bool item::stacks_with( const item &rhs ) const
 {
-    bool stacks = (type   == rhs.type   && damage  == rhs.damage  &&
-    active == rhs.active && charges == rhs.charges &&
-    item_tags == rhs.item_tags &&
-    item_vars == rhs.item_vars &&
-    contents.size() == rhs.contents.size() &&
-    (!goes_bad() || bday == rhs.bday));
+    bool stacks = ( type   == rhs.type   && damage  == rhs.damage  &&
+                    active == rhs.active && charges == rhs.charges &&
+                    item_tags == rhs.item_tags &&
+                    item_vars == rhs.item_vars &&
+                    contents.size() == rhs.contents.size() &&
+                    ( !goes_bad() || bday == rhs.bday ) );
 
-    if ((corpse == NULL && rhs.corpse != NULL) ||
-    (corpse != NULL && rhs.corpse == NULL)   )
+    if( ( corpse == nullptr && rhs.corpse != nullptr ) ||
+        ( corpse != nullptr && rhs.corpse == nullptr ) ) {
         return false;
+    }
 
-    if (corpse != NULL && rhs.corpse != NULL &&
-    corpse->id != rhs.corpse->id)
+    if( corpse != NULL && rhs.corpse != NULL &&
+        corpse->id != rhs.corpse->id ) {
         return false;
+    }
 
-    if (contents.size() != rhs.contents.size())
+    if( contents.size() != rhs.contents.size() ) {
         return false;
+    }
 
-    if(is_var_veh_part())
-        if(bigness != rhs.bigness)
+    if( is_var_veh_part() ) {
+        if( bigness != rhs.bigness ) {
             return false;
+        }
+    }
 
-    for (size_t i = 0; i < contents.size() && stacks; i++) {
-        stacks &= contents[i].stacks_with(rhs.contents[i]);
+    for( size_t i = 0; i < contents.size() && stacks; i++ ) {
+        stacks &= contents[i].stacks_with( rhs.contents[i] );
     }
 
     return stacks;
