@@ -488,7 +488,9 @@ void game::reinit_ui(bool from_options)
         //window resize event will call this function right back
         resize_window(OPTIONS["WINDOW_X"], OPTIONS["WINDOW_Y"], true);
     }else {
+    #ifdef TILES
         wresize(mainwin, get_terminal_height(), get_terminal_width());
+    #endif
         init_ui();
         if(g->game_inprogress){
             refresh_all();
