@@ -91,6 +91,8 @@ int player::create(character_type type, std::string tempname)
             } else {
                 g->u.name = MAP_SHARING::getUsername();
             }
+        case PLTYPE_SCENARIO:
+            g->scen = scenario::weighted_random();
         case PLTYPE_RANDOM: {
             g->u.male = (rng(1, 100) > 50);
             if(!MAP_SHARING::isSharing()) {
@@ -98,7 +100,11 @@ int player::create(character_type type, std::string tempname)
             } else {
                 g->u.name = MAP_SHARING::getUsername();
             }
-            g->u.prof = profession::weighted_random();
+            if (g->scen != scenario::generic()) {
+              g->u.prof = g->scen->random_profession();
+            } else {
+              g->u.prof = profession::weighted_random();
+            }
             str_max = rng(6, 12);
             dex_max = rng(6, 12);
             int_max = rng(6, 12);
@@ -1719,7 +1725,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
                       _("Press %s to finish character creation or %s to go back and make revisions."),
                       ctxt.get_desc("NEXT_TAB").c_str(),
                       ctxt.get_desc("PREV_TAB").c_str());
-            if( type == PLTYPE_RANDOM ) {
+            if( type == PLTYPE_RANDOM || type == PLTYPE_SCENARIO ) {
                     mvwprintz(w_guide, 1, 0, c_green, _("Press %s to save a template of this character."),
                     ctxt.get_desc("SAVE_TEMPLATE").c_str());
                     mvwprintz(w_guide, 1, 46, c_ltgreen, _("Press %s to re-roll."),
@@ -1797,7 +1803,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             }
         } else if (action == "PREV_TAB") {
             return -1;
-        } else if (action == "REROLL_CHARACTER" && type == PLTYPE_RANDOM) {
+        } else if (action == "REROLL_CHARACTER" && (type == PLTYPE_RANDOM || type == PLTYPE_SCENARIO)) {
             return -7;
         } else if (action == "SAVE_TEMPLATE") {
             if (points > 0) {
