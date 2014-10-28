@@ -15,13 +15,8 @@
 // Used only internally for fast lookups.
 enum dis_type_enum {
  DI_NULL,
-// Diseases
- DI_RECOVER,
 // Monsters
  DI_LYING_DOWN, DI_SLEEP, DI_ALARM_CLOCK,
- DI_BITE,
-// Bite wound infected (dependent on bodypart.h)
- DI_INFECTED,
 // Martial arts-related buffs
  DI_MA_BUFF
 };
@@ -32,20 +27,13 @@ std::map<std::string, dis_type_enum> disease_type_lookup;
 // Should standardize parameters so we can make function pointers.
 static void manage_sleep(player& p, disease& dis);
 
-static void handle_bite_wound(player& p, disease& dis);
-static void handle_infected_wound(player& p, disease& dis);
-static void handle_recovery(player& p, disease& dis);
-
 void game::init_diseases() {
     // Initialize the disease lookup table.
 
     disease_type_lookup["null"] = DI_NULL;
-    disease_type_lookup["recover"] = DI_RECOVER;
     disease_type_lookup["lying_down"] = DI_LYING_DOWN;
     disease_type_lookup["sleep"] = DI_SLEEP;
     disease_type_lookup["alarm_clock"] = DI_ALARM_CLOCK;
-    disease_type_lookup["bite"] = DI_BITE;
-    disease_type_lookup["infected"] = DI_INFECTED;
     disease_type_lookup["ma_buff"] = DI_MA_BUFF;
 }
 
@@ -54,16 +42,6 @@ bool dis_msg(dis_type type_string) {
     switch (type) {
     case DI_LYING_DOWN:
         add_msg(_("You lie down to go to sleep..."));
-        break;
-    case DI_BITE:
-        add_msg(m_bad, _("The bite wound feels really deep..."));
-        g->u.add_memorial_log(pgettext("memorial_male", "Received a deep bite wound."),
-                              pgettext("memorial_female", "Received a deep bite wound."));
-        break;
-    case DI_INFECTED:
-        add_msg(m_bad, _("Your bite wound feels infected."));
-        g->u.add_memorial_log(pgettext("memorial_male", "Contracted an infection."),
-                              pgettext("memorial_female", "Contracted an infection."));
         break;
     default:
         return false;
@@ -89,14 +67,6 @@ void dis_remove_memorial(dis_type type_string) {
   dis_type_enum type = disease_type_lookup[type_string];
 
   switch(type) {
-    case DI_BITE:
-      g->u.add_memorial_log(pgettext("memorial_male", "Recovered from a bite wound."),
-                            pgettext("memorial_female", "Recovered from a bite wound."));
-      break;
-    case DI_INFECTED:
-      g->u.add_memorial_log(pgettext("memorial_male", "Recovered from an infection... this time."),
-                            pgettext("memorial_female", "Recovered from an infection... this time."));
-      break;
 
     default:
         break;
@@ -187,18 +157,6 @@ void dis_effect(player &p, disease &dis)
             manage_sleep(p, dis);
             break;
 
-        case DI_BITE:
-            handle_bite_wound(p, dis);
-            break;
-
-        case DI_INFECTED:
-            handle_infected_wound(p, dis);
-            break;
-
-        case DI_RECOVER:
-            handle_recovery(p, dis);
-            break;
-
         case DI_MA_BUFF:
             if (ma_buffs.find(dis.buff_id) != ma_buffs.end()) {
               ma_buff b = ma_buffs[dis.buff_id];
@@ -231,72 +189,6 @@ std::string dis_name(disease& dis)
     switch (type) {
     case DI_NULL: return "";
 
-    case DI_BITE:
-    {
-        std::string status = "";
-        if ((dis.duration > 2401) || (g->u.has_trait("INFIMMUNE"))) {status = _("Bite - ");
-        } else { status = _("Painful Bite - ");
-        }
-        switch (dis.bp) {
-            case bp_head:
-                status += _("Head");
-                break;
-            case bp_torso:
-                status += _("Torso");
-                break;
-            case bp_arm_l:
-                status += _("Left Arm");
-                break;
-            case bp_arm_r:
-                status += _("Right Arm");
-                break;
-            case bp_leg_l:
-                status += _("Left Leg");
-                break;
-            case bp_leg_r:
-                status += _("Right Leg");
-                break;
-            default: // Suppress compiler warning [-Wswitch]
-                break;
-        }
-        return status;
-    }
-    case DI_INFECTED:
-    {
-        std::string status = "";
-        if (dis.duration > 8401) {
-            status = _("Infected - ");
-        } else if (dis.duration > 3601) {
-            status = _("Badly Infected - ");
-        } else {
-            status = _("Pus Filled - ");
-        }
-        switch (dis.bp) {
-            case bp_head:
-                status += _("Head");
-                break;
-            case bp_torso:
-                status += _("Torso");
-                break;
-            case bp_arm_l:
-                status += _("Left Arm");
-                break;
-            case bp_arm_r:
-                status += _("Right Arm");
-                break;
-            case bp_leg_l:
-                status += _("Left Leg");
-                break;
-            case bp_leg_r:
-                status += _("Right Leg");
-                break;
-            default: // Suppress compiler warning [-Wswitch]
-                break;
-        }
-        return status;
-    }
-    case DI_RECOVER: return _("Recovering From Infection");
-
     case DI_MA_BUFF:
         if (ma_buffs.find(dis.buff_id) != ma_buffs.end()) {
             std::stringstream buf;
@@ -323,10 +215,6 @@ std::string dis_description(disease& dis)
 
     case DI_NULL:
         return _("None");
-
-    case DI_BITE: return _("You have a nasty bite wound.");
-    case DI_INFECTED: return _("You have an infected wound.");
-    case DI_RECOVER: return _("You are recovering from an infection.");
 
     case DI_MA_BUFF:
         if (ma_buffs.find(dis.buff_id) != ma_buffs.end())
@@ -558,211 +446,5 @@ void manage_sleep(player& p, disease& dis)
                 return;
             }
         }
-    }
-}
-
-static void handle_bite_wound(player& p, disease& dis)
-{
-    // Recovery chance
-    if(int(calendar::turn) % 10 == 1) {
-        int recover_factor = 100;
-        if (p.has_disease("recover")) {
-            recover_factor -= std::min(p.disease_duration("recover") / 720, 100);
-        }
-        // Infection Resist is exactly that: doesn't make the Deep Bites go away
-        // but it does make it much more likely they won't progress
-        if (p.has_trait("INFRESIST")) { recover_factor += 1000; }
-        recover_factor += p.get_healthy() / 10; // Health still helps if factor is zero
-        recover_factor = std::max(recover_factor, 0); // but can't hurt
-
-        if ((x_in_y(recover_factor, 108000)) || (p.has_trait("INFIMMUNE"))) {
-            //~ %s is bodypart name.
-            p.add_msg_if_player(m_good, _("Your %s wound begins to feel better."),
-                                 body_part_name(dis.bp).c_str());
-             //No recovery time threshold
-            if (((3601 - dis.duration) > 2400) && (!(p.has_trait("INFIMMUNE")))) {
-                p.add_disease("recover", 2 * (3601 - dis.duration) - 4800);
-            }
-            p.rem_disease("bite", dis.bp);
-            return;
-        }
-    }
-
-    // 3600 (6-hour) lifespan + 1 "tick" for conversion
-    if (dis.duration > 2401) {
-        // No real symptoms for 2 hours
-        if ((one_in(300)) && (!(p.has_trait("NOPAIN")))) {
-            //~ %s is bodypart name.
-            p.add_msg_if_player(m_bad, _("Your %s wound really hurts."),
-                                 body_part_name(dis.bp).c_str());
-        }
-    } else if (dis.duration > 1) {
-        // Then some pain for 4 hours
-        if ((one_in(100)) && (!(p.has_trait("NOPAIN")))) {
-            if (p.has_disease("sleep")) {
-                p.wake_up();
-            }
-            //~ %s is bodypart name.
-            p.add_msg_if_player(m_bad, _("Your %s wound feels swollen and painful."),
-                                 body_part_name(dis.bp).c_str());
-            if (p.pain < 10) {
-                p.mod_pain(1);
-            }
-        }
-        p.mod_dex_bonus(-1);
-        p.add_miss_reason(_("Your wound distracts you."), 1);
-    } else {
-        // Infection starts
-         // 1 day of timer + 1 tick
-        p.add_disease("infected", 14401, false, 1, 1, 0, 0, dis.bp, true);
-        p.rem_disease("bite", dis.bp);
-    }
-}
-
-static void handle_infected_wound(player& p, disease& dis)
-{
-    // Recovery chance
-    if(int(calendar::turn) % 10 == 1) {
-        if(x_in_y(100 + p.get_healthy() / 10, 864000)) {
-            //~ %s is bodypart name.
-            p.add_msg_if_player(m_good, _("Your %s wound begins to feel better."),
-                                 body_part_name(dis.bp).c_str());
-            if (dis.duration > 8401) {
-                p.add_disease("recover", 3 * (14401 - dis.duration + 3600) - 4800);
-            } else {
-                p.add_disease("recover", 4 * (14401 - dis.duration + 3600) - 4800);
-            }
-            p.rem_disease("infected", dis.bp);
-            return;
-        }
-    }
-
-    if (dis.duration > 8401) {
-        // 10 hours bad pain
-        if ((one_in(100)) && (!(p.has_trait("NOPAIN")))) {
-            if (p.has_disease("sleep")) {
-                p.wake_up();
-            }
-            //~ %s is bodypart name.
-            p.add_msg_if_player(m_bad, _("Your %s wound is incredibly painful."),
-                                 body_part_name(dis.bp).c_str());
-            if(p.pain < 30) {
-                p.mod_pain(1);
-            }
-        }
-        p.mod_str_bonus(-1);
-        p.mod_dex_bonus(-1);
-        p.add_miss_reason(_("Your wound distracts you."), 1);
-    } else if (dis.duration > 3601) {
-        // 8 hours of vomiting + pain
-        if (one_in(100)) {
-            if (p.has_disease("sleep")) {
-                p.wake_up();
-            }
-            //~ %s is bodypart name.
-            p.add_msg_if_player(m_bad, _("You feel feverish and nauseous, your %s wound has begun to turn green."),
-                  body_part_name(dis.bp).c_str());
-            p.vomit();
-            if(p.pain < 50) {
-                p.mod_pain(1);
-            }
-        }
-        p.mod_str_bonus(-2);
-        p.mod_dex_bonus(-2);
-        p.add_miss_reason(_("Your wound distracts you."), 2);
-    } else if (dis.duration > 1) {
-        // 6 hours extreme symptoms
-        if (one_in(100)) {
-            if (p.has_disease("sleep")) {
-                p.wake_up();
-                p.add_msg_if_player(m_warning, _("You feel terribly weak, standing up is nearly impossible."));
-            } else {
-                p.add_msg_if_player(m_warning, _("You can barely remain standing."));
-            }
-            p.vomit();
-            if(p.pain < 100) {
-                p.mod_pain(1);
-            }
-        }
-        p.mod_str_bonus(-3);
-        p.mod_dex_bonus(-3);
-        p.add_miss_reason(_("You can barely keep fighting."), 3);
-        if (!p.has_disease("sleep") && one_in(100)) {
-            add_msg(m_bad, _("You pass out."));
-            p.fall_asleep(60);
-        }
-    } else {
-        // Death. 24 hours after infection. Total time, 30 hours including bite.
-        if (p.has_disease("sleep")) {
-            p.rem_disease("sleep");
-        }
-        add_msg(m_bad, _("You succumb to the infection."));
-        g->u.add_memorial_log(pgettext("memorial_male", "Succumbed to the infection."),
-                              pgettext("memorial_female", "Succumbed to the infection."));
-        p.hurtall(500);
-    }
-}
-
-static void handle_recovery(player& p, disease& dis)
-{
-    if (dis.duration > 52800) {
-        if (one_in(100)) {
-            if (p.has_disease("sleep")) {
-                p.wake_up();
-                p.add_msg_if_player(m_warning, _("You feel terribly weak, standing up is nearly impossible."));
-            } else {
-                p.add_msg_if_player(m_warning, _("You can barely remain standing."));
-            }
-            p.vomit();
-            if(p.pain < 80) {
-                p.mod_pain(1);
-            }
-        }
-        p.mod_str_bonus(-3);
-        p.mod_dex_bonus(-3);
-        p.add_miss_reason(_("You can barely keep fighting."), 3);
-        if (!p.has_disease("sleep") && one_in(100)) {
-            add_msg(m_bad, _("You pass out."));
-            p.fall_asleep(60);
-        }
-    } else if (dis.duration > 33600) {
-        if (one_in(100)) {
-            if (p.has_disease("sleep")) {
-                p.wake_up();
-            }
-            p.add_msg_if_player(m_bad, _("You feel feverish and nauseous."));
-            p.vomit();
-            if(p.pain < 40) {
-                p.mod_pain(1);
-            }
-        }
-        p.mod_str_bonus(-2);
-        p.mod_dex_bonus(-2);
-        p.add_miss_reason(_("Your wound distracts you."), 2);
-    } else if (dis.duration > 9600) {
-        if ((one_in(100)) && (!(p.has_trait("NOPAIN")))) {
-            if (p.has_disease("sleep")) {
-                p.wake_up();
-            }
-            p.add_msg_if_player(m_bad, _("Your healing wound is incredibly painful."));
-            if(p.pain < 24) {
-                p.mod_pain(1);
-            }
-        }
-        p.mod_str_bonus(-1);
-        p.mod_dex_bonus(-1);
-        p.add_miss_reason(_("Your wound distracts you."), 1);
-    } else {
-        if ((one_in(100)) && (!(p.has_trait("NOPAIN")))) {
-            if (p.has_disease("sleep")) {
-                p.wake_up();
-            }
-            p.add_msg_if_player(m_bad, _("Your healing wound feels swollen and painful."));
-            if(p.pain < 8) {
-                p.mod_pain(1);
-            }
-        }
-        p.mod_dex_bonus(-1);
-        p.add_miss_reason(_("Your wound distracts you."), 1);
     }
 }

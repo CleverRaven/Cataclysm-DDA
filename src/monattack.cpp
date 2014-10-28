@@ -2910,12 +2910,12 @@ void mattack::bite(monster *z, int index)
                 body_part_name_accusative(hit).c_str());
 
         if(one_in(14 - dam)) {
-            if (g->u.has_disease("bite", hit)) {
-                g->u.add_disease("bite", 400, false, 1, 1, 0, -1, hit, true);
-            } else if (g->u.has_disease("infected", hit)) {
-                g->u.add_disease("infected", 250, false, 1, 1, 0, -1, hit, true);
+            if (g->u.has_effect("bite", hit)) {
+                g->u.add_effect("bite", 400, hit, true);
+            } else if (g->u.has_effect("infected", hit) {
+                g->u.add_effect("infected", 250, hit, true);
             } else {
-                g->u.add_disease("bite", 3601, false, 1, 1, 0, 0, hit, true); //6 hours + 1 "tick"
+                g->u.add_effect("bite", 1, hit, true);
             }
         }
     } else {
@@ -3171,12 +3171,12 @@ void mattack::slimespring(monster *z, int index)
         }
     }
     if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) <= 3) {
-        if ( (g->u.has_effect("bleed")) || (g->u.has_disease("bite")) ) {
+        if ( (g->u.has_effect("bleed")) || (g->u.has_effect("bite")) ) {
             add_msg(_("\"let me help!\""));
             // Yes, your slimespring(s) handle/don't all Bad Damage at the same time.
-            if (g->u.has_disease("bite")) {
+            if (g->u.has_effect("bite")) {
                 if (one_in(3)) {
-                    g->u.rem_disease("bite");
+                    g->u.remove_effect("bite");
                     add_msg(m_good, _("The slime cleans you out!"));
                 } else {
                     add_msg(_("The slime flows over you, but your gouges still ache."));

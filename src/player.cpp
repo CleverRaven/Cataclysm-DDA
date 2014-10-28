@@ -5614,6 +5614,13 @@ void player::process_effects() {
     if (has_trait("EATHEALTH")) {
         remove_effect("tapeworm");
     }
+    if (has_trait("INFIMMUNE")) {
+        if(has_effect("bite") || has_effect("infected")) {
+            remove_effect("bite");
+            remove_effect("infected");
+            remove_effect("recover");
+        }
+    }
     
     //Human only effects
     for( auto maps = effects.begin(); maps != effects.end(); ++maps ) {
@@ -6779,6 +6786,83 @@ void player::hardcoded_effects(effect it)
         dodges_left = 0;
         // Set ourselves up for removal
         it.set_duration(0);
+    } else if (id == "bite") {
+        bool recovered = false;
+        // Recovery chance
+        if (dur % 10 == 0)  {
+            int recover_factor = 100;
+            if (has_effect("recover")) {
+                recover_factor -= get_effect_dur("recover") / 600;
+            }
+            if (has_trait("INFRESIST")) {
+                recover_factor += 1000;
+            }
+            recover_factor += get_healthy() / 10;
+
+            if (x_in_y(recover_factor, 108000)) {
+                //~ %s is bodypart name.
+                add_msg_if_player(m_good, _("Your %s wound begins to feel better."),
+                                     body_part_name(bp).c_str());
+                // Set ourselves up for removal
+                it.set_duration(0);
+                recovered = true;
+            }
+        }
+        if (!recovered) {        
+            // Move up to infection
+            if (dur > 3600) {
+                add_effect("infected", 1, bp, true)
+                // Set ourselves up for removal
+                it.set_duration(0);
+            } else {
+                it.mod_duration(1);
+            }
+        }
+    } else if (id == "infected") {
+        bool recovered = false;
+        // Recovery chance
+        if (dur % 10 == 0)  {
+            int recover_factor = 100;
+            if (has_effect("recover")) {
+                recover_factor -= get_effect_dur("recover") / 600;
+            }
+            if (has_trait("INFRESIST")) {
+                recover_factor += 1000;
+            }
+            recover_factor += get_healthy() / 10;
+
+            if (x_in_y(recover_factor, 864000)) {
+                //~ %s is bodypart name.
+                add_msg_if_player(m_good, _("Your %s wound begins to feel better."),
+                                     body_part_name(bp).c_str());
+                add_effect("recover", 4 * dur);
+                // Set ourselves up for removal
+                it.set_duration(0);
+                recovered = true;
+            }
+        }
+        if (!recovered) {
+            // Death happens
+            if (dur > 14400) {
+                add_msg(m_bad, _("You succumb to the infection."));
+                g->u.add_memorial_log(pgettext("memorial_male", "Succumbed to the infection."),
+                                      pgettext("memorial_female", "Succumbed to the infection."));
+                p.hurtall(500);
+            } else if (intense == 3) {
+                if (!has_effect("sleep") && one_in(100)) {
+                    add_msg_if_player(m_bad, _("You pass out."));
+                    fall_asleep(60);
+                }
+            }
+            it.mod_duration(1);
+        }
+    } else if (id == "recover") {
+        if (intense == 3) {
+            if (!has_effect("sleep") && one_in(100)) {
+                add_msg_if_player(m_bad, _("You pass out."));
+                fall_asleep(60);
+            }
+        }
     }
 }
 

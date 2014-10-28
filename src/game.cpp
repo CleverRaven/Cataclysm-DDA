@@ -608,7 +608,9 @@ void game::start_game(std::string worldname)
     player_start.load( player_location.x, player_location.y, levz, false, cur_om );
     player_start.translate( t_window_domestic, t_curtains );
     player_start.save();
-    if (g->scen->has_flag("INFECTED")){u.add_disease("infected", 14401, false, 1, 1, 0, 0, random_body_part(), true);}
+    if (g->scen->has_flag("INFECTED")){
+        u.add_effect("infected", 1, random_body_part(), true);
+    }
     if (g->scen->has_flag("BAD_DAY")){
         u.add_effect("flu", 10000);
         u.add_effect("drunk", 2700 - (12 * u.str_max));
@@ -5691,10 +5693,10 @@ nc_color game::limb_color(player *p, body_part bp, bool bleed, bool bite, bool i
     if (bleed && p->has_effect("bleed", bp)) {
         color_bit += 1;
     }
-    if (bite && p->has_disease("bite", bp)) {
+    if (bite && p->has_effect("bite", bp)) {
         color_bit += 10;
     }
-    if (infect && p->has_disease("infected", bp)) {
+    if (infect && p->has_effect("infected", bp)) {
         color_bit += 100;
     }
     switch (color_bit) {

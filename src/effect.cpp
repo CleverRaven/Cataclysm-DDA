@@ -1251,7 +1251,7 @@ bool effect::activated(unsigned int turn, std::string arg, bool reduced, double 
     int top_scale = dtop_scale;
     int bot_base = dbot_base;
     int bot_scale = dbot_scale;
-    // If both top values = 0 then it should never trigger
+    // If both top values <= 0 then it should never trigger
     if (top_base <= 0 && top_scale <= 0) {
         return false;
     }

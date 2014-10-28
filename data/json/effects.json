@@ -426,27 +426,75 @@
         }
     },
     {
-        "//":  "This is still using the disease system",
         "type": "effect_type",
-        "id": "recover"
+        "id": "bite",
+        "name": [
+            "Bite",
+            "Painful Bite"
+        ],
+        "desc": ["You have a nasty bite wound."],
+        "apply_memorial_log": "Received a deep bite wound.",
+        "remove_memorial_log": "Recovered from a bite wound.",
+        "apply_message": "The bite wound feels really deep...",
+        "rating": "bad",
+        "int_dur_factor": 1200,
+        "scaling_mods": {
+            "dex_mod": [-1],
+            "pain_chance": [100],
+            "pain_min": [1],
+            "pain_max_val": [10]
+        }
     },
     {
-        "//": "This is still using the disease system",
         "type": "effect_type",
         "id": "infected",
+        "name": [
+            "Infected",
+            "Badly Infected",
+            "Pus Filled"
+        ],
+        "desc": ["You have an infected wound."],
         "apply_memorial_log": "Contracted an infection.",
         "remove_memorial_log": "Recovered from an infection... this time.",
         "apply_message": "Your bite wound feels infected",
-        "rating": "bad"
+        "rating": "bad",
+        "int_dur_factor": 4800,
+        "base_mods": {
+            "pain_chance": [100],
+            "pain_min": [1],
+            "pain_max_val": [30],
+            "str_mod": [-1],
+            "dex_mod": [-1],
+            "vomit_chance": [1000]
+        },
+        "scaling_mods": {
+            "pain_max_val": [30],
+            "str_mod": [-1],
+            "dex_mod": [-1],
+            "vomit_chance": [-400]
+        }
     },
     {
-        "//": "This is still using the disease system",
         "type": "effect_type",
-        "id": "bite",
-        "apply_memorial_log": "Received a deep bite wound.",
-        "remove_memorial_log": "Recoverd from a bite wound.",
-        "apply_message": "The bite wound feels really deep...",
-        "rating": "bad"
+        "id": "recover",
+        "name": ["Recovering From Infection"],
+        "desc": ["You are recovering from an infection."]
+        "rating": "bad",
+        "int_dur_factor": 19200,
+        "base_mods": {
+            "pain_chance": [100],
+            "pain_min": [1],
+            "pain_max_val": [30],
+            "str_mod": [-1],
+            "dex_mod": [-1],
+            "vomit_chance": [1000]
+        },
+        "scaling_mods": {
+            "pain_max_val": [30],
+            "str_mod": [-1],
+            "dex_mod": [-1],
+            "vomit_chance": [-400]
+        }
     },
     {
         "type": "effect_type",
