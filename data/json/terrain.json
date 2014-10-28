@@ -4588,7 +4588,7 @@
         "symbol": ".",
         "color": "dkgray",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "FLAT"]
+        "flags": ["TRANSPARENT", "FLAT"],
         "bash": {
             "str_min": 70, "str_max": 300,
             "sound": "concrete cracking and metal screeching!",
@@ -4602,7 +4602,7 @@
         "symbol": ".",
         "color": "yellow",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "FLAT"]
+        "flags": ["TRANSPARENT", "FLAT"],
         "bash": {
             "str_min": 70, "str_max": 300,
             "sound": "concrete cracking and metal screeching!",
@@ -4616,7 +4616,7 @@
         "symbol": ".",
         "color": "ltgray",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "FLAT"]
+        "flags": ["TRANSPARENT", "FLAT"],
         "bash": {
             "str_min": 70, "str_max": 300,
             "sound": "concrete cracking and metal screeching!",
@@ -4630,7 +4630,7 @@
         "symbol": ".",
         "color": "dkgray",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "FLAT"]
+        "flags": ["TRANSPARENT", "FLAT"],
         "bash": {
             "str_min": 70, "str_max": 300,
             "sound": "concrete cracking and metal screeching!",
@@ -4648,7 +4648,7 @@
         "symbol": ".",
         "color": "yellow",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "FLAT"]
+        "flags": ["TRANSPARENT", "FLAT"],
         "bash": {
             "str_min": 70, "str_max": 300,
             "sound": "concrete cracking and metal screeching!",
@@ -4666,7 +4666,7 @@
         "symbol": ".",
         "color": "ltgray",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "FLAT"]
+        "flags": ["TRANSPARENT", "FLAT"],
         "bash": {
             "str_min": 70, "str_max": 300,
             "sound": "concrete cracking and metal screeching!",
