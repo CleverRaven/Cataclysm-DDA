@@ -673,7 +673,10 @@ int player::roll_bash_damage(bool crit)
         bash_cap = 5 + stat + skill;
 
     if (unarmed_attack())
-        bash_dam = rng(0, int(stat / 2) + unarmed_skill);
+        if (weapon.has_flag("UNARMED_WEAPON"))
+            bash_dam = rng(0, int(stat / 2) + unarmed_skill + weapon.damage_bash());
+        else
+            bash_dam = rng(0, int(stat / 2) + unarmed_skill);
     else
         // 80%, 88%, 96%, 104%, 112%, 116%, 120%, 124%, 128%, 132%
         if (bashing_skill <= 5)
