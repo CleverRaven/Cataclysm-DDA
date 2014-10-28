@@ -82,8 +82,9 @@ struct advanced_inv_area {
     bool is_same( const advanced_inv_area &other ) const;
     bool canputitems( const advanced_inv_listitem *advitem = nullptr );
     item* get_container();
-    void set_container( const advanced_inv_listitem *advitem ) const;
+    void set_container( const advanced_inv_listitem *advitem );
     bool is_container_valid( const item *it ) const;
+    void set_container_position();
 };
 
 // see item_factory.h

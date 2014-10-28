@@ -503,6 +503,8 @@ void advanced_inv_area::init()
             }
             break;
         case AIM_CONTAINER:
+            // set container position based on location
+            set_container_position();
             // location always valid, actual check is done in canputitems()
             // and depends on selected item in pane (if it is valid container)
             canputitemsloc = true;
@@ -1692,7 +1694,7 @@ item* advanced_inv_area::get_container()
     return container;
 }
 
-void advanced_inv_area::set_container( const advanced_inv_listitem *advitem ) const
+void advanced_inv_area::set_container( const advanced_inv_listitem *advitem )
 {
     if( advitem != nullptr ) {
         item *it( advitem->it );
@@ -1700,6 +1702,7 @@ void advanced_inv_area::set_container( const advanced_inv_listitem *advitem ) co
         uistate.adv_inv_container_index = advitem->idx;
         uistate.adv_inv_container_type = it->typeId();
         uistate.adv_inv_container_content_type = ( !it->is_container_empty() ) ? it->contents[0].typeId() : "null";
+        set_container_position();
     } else {
         uistate.adv_inv_container_location = -1;
         uistate.adv_inv_container_index = 0;
@@ -1725,6 +1728,54 @@ bool advanced_inv_area::is_container_valid( const item *it ) const
     }
 
     return false;
+}
+
+void advanced_inv_area::set_container_position()
+{
+    int offx, offy;
+    switch ( uistate.adv_inv_container_location ) {
+        case AIM_DRAGED:
+            offx = g->u.grab_point.x; offy = g->u.grab_point.y;
+            break;
+        case AIM_SOUTHWEST:
+            offx = -1; offy = 1;
+            break;
+        case AIM_SOUTH:
+            offx = 0; offy = 1;
+            break;
+        case AIM_SOUTHEAST:
+            offx = 1; offy = 1;
+            break;
+        case AIM_WEST:
+            offx = -1; offy = 0;
+            break;
+        case AIM_EAST:
+            offx = 1; offy = 0;
+            break;
+        case AIM_NORTHWEST:
+            offx = -1; offy = -1;
+            break;
+        case AIM_NORTH:
+            offx = 0; offy = -1;
+            break;
+        case AIM_NORTHEAST:
+            offx = 1; offy = -1;
+            break;
+        default:
+            offx = 0; offy = 0;
+            break;
+    }
+
+    x = g->u.posx + offx;
+    y = g->u.posy + offy;
+
+    veh = g->m.veh_at( x, y, vstor );
+    if( veh ) {
+        vstor = veh->part_with_feature( vstor, "CARGO", false );
+    }
+    if( vstor < 0 ) {
+        veh = nullptr;
+    }
 }
 
 void game::advanced_inv()
