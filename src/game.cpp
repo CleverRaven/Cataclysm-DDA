@@ -1255,9 +1255,6 @@ bool game::do_turn()
             if (u.has_trait("HUNGER3")) {
                 u.hunger += 2;
             }
-            if (u.has_disease("tapeworm")) {
-                u.hunger++;
-            }
         }
         if ((!u.has_bionic("bio_recycler") || calendar::turn % 100 == 0) &&
             (!u.has_trait("PLANTSKIN") || !one_in(5)) &&
@@ -5579,8 +5576,7 @@ void game::draw_ter(int posx, int posy)
     }
     wrefresh(w_terrain);
 
-    if (u.has_effect("visuals") || (u.has_disease("hot_head") &&
-                                     u.disease_intensity("hot_head") != 1)) {
+    if (u.has_effect("visuals") || (u.get_effect_int("hot", bp_head) > 1)) {
         hallucinate(posx, posy);
     }
 }

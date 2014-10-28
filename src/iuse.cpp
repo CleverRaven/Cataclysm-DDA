@@ -2091,7 +2091,7 @@ int iuse::mut_iv(player *p, item *it, bool, point)
                 } else {
                     p->add_msg_if_player(m_bad, _("You stagger with a piercing headache!"));
                     p->pain += 8;
-                    p->add_disease("stunned", rng(3, 5));
+                    p->add_effect("stunned", rng(3, 5));
                 }
             } else if (p->mutation_category_level[primary] > 80) {
                 if (g->u.has_trait("NOPAIN")) {
@@ -2099,14 +2099,14 @@ int iuse::mut_iv(player *p, item *it, bool, point)
                 } else {
                     p->add_msg_if_player(m_bad, _("Your head throbs with memories of your life, before all this..."));
                     p->pain += 6;
-                    p->add_disease("stunned", rng(2, 4));
+                    p->add_effect("stunned", rng(2, 4));
                 }
             } else if (p->mutation_category_level[primary] > 60) {
                 if (g->u.has_trait("NOPAIN")) {
                     p->add_msg_if_player(m_bad, _("You feel Bugged."));
                 } else {
                     p->add_msg_if_player(m_bad, _("Images of your past life flash before you."));
-                    p->add_disease("stunned", rng(2, 3));
+                    p->add_effect("stunned", rng(2, 3));
                 }
             }
         }

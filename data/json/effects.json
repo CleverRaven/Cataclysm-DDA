@@ -1059,7 +1059,7 @@
         "id": "tapeworm",
         "rating": "bad",
         "base_mods": {
-            "hunger_chance": [512],
+            "hunger_chance": [50],
             "hunger_min": [1]
         }
     },

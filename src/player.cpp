@@ -1194,7 +1194,6 @@ void player::update_bodytemp()
         } else if( temp_cur[i] < BODYTEMP_COLD ) {
             add_effect("cold", 1, (body_part)i, true, 1);
         } else if( temp_cur[i] > BODYTEMP_SCORCHING ) {
-            // If body temp rises over 15000, disease.cpp ("hot_head") acts weird and the player will die
             add_effect("hot", 1, (body_part)i, true, 3);
         } else if( temp_cur[i] > BODYTEMP_VERY_HOT ) {
             add_effect("hot", 1, (body_part)i, true, 2);
@@ -7159,7 +7158,7 @@ void player::suffer()
         }
     }
 
-    if ((has_trait("ALBINO") || has_disease("datura")) && g->is_in_sunlight(posx, posy) && one_in(10)) {
+    if ((has_trait("ALBINO") || has_effect("datura")) && g->is_in_sunlight(posx, posy) && one_in(10)) {
         // Umbrellas and rain gear can also keep the sun off!
         // (No, really, I know someone who uses an umbrella when it's sunny out.)
         if (!((worn_with_flag("RAINPROOF")) || (weapon.has_flag("RAIN_PROTECT"))) ) {
