@@ -1171,21 +1171,23 @@ int set_profession(WINDOW *w, player *u, int &points)
         const auto prof_skills = sorted_profs[cur_id]->skills();
         buffer << "<color_white>" << _( "Profession skills:" ) << "</color>\n";
         if( prof_skills.empty() ) {
-            buffer << _( "None" ) << "\n";
+            buffer << pgettext( "set_profession_skill", "None" ) << "\n";
         } else {
             for( const auto &sl : prof_skills ) {
                 const auto skill = Skill::skill( sl.first );
                 if( skill == nullptr ) {
                     continue;  // skip unrecognized skills.
                 }
-                buffer << string_format( _( "%1$s (%2$d)" ), skill->name().c_str(), sl.second ) << "\n";
+                const auto format = pgettext( "set_profession_skill", "%1$s (%2$d)" );
+                buffer << string_format( format, skill->name().c_str(), sl.second ) << "\n";
             }
         }
         const auto prof_addictions = sorted_profs[cur_id]->addictions();
         if( !prof_addictions.empty() ) {
             buffer << "<color_white>" << _( "Addictions:" ) << "</color>\n";
             for( const auto &a : prof_addictions ) {
-                buffer << string_format( _( "%1$s (%2$d)" ), addiction_name( a ).c_str(), a.intensity ) << "\n";
+                const auto format = pgettext( "set_profession_addictions", "%1$s (%2$d)" );
+                buffer << string_format( format, addiction_name( a ).c_str(), a.intensity ) << "\n";
             }
         }
 
