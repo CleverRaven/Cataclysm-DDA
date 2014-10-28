@@ -4092,7 +4092,7 @@ void player::recalc_sight_limits()
             (has_effect("boomered") && (!(has_trait("PER_SLIME_OK")))) ||
             (underwater && !has_bionic("bio_membrane") &&
                 !has_trait("MEMBRANE") && !worn_with_flag("SWIM_GOGGLES") &&
-                (!(has_trait("PER_SLIME_OK"))))) {
+                !has_trait("CEPH_EYES") && !has_trait("PER_SLIME_OK") ) ) {
         sight_max = 1;
     } else if (has_active_mutation("SHELL2")) {
         // You can kinda see out a bit.
@@ -4112,7 +4112,8 @@ void player::recalc_sight_limits()
     if (has_trait("DEBUG_NIGHTVISION")) {
         sight_boost = 59;
         sight_boost_cap = 59;
-    } else if (has_nv() || has_trait("NIGHTVISION3") || has_trait("ELFA_FNV") || is_wearing("rm13_armor_on")) {
+    } else if (has_nv() || has_trait("NIGHTVISION3") || has_trait("ELFA_FNV") || is_wearing("rm13_armor_on") ||
+      (has_trait("CEPH_VISION")) ) {
         // Yes, I'm breaking the cap. I doubt the reality bubble shrinks at night.
         // BIRD_EYE represents excellent fine-detail vision so I think it works.
         if (has_trait("BIRD_EYE")) {
@@ -4224,8 +4225,9 @@ int player::clairvoyance() const
 bool player::sight_impaired()
 {
  return ((has_effect("boomered") && (!(has_trait("PER_SLIME_OK")))) ||
-  (underwater && !has_bionic("bio_membrane") && !has_trait("MEMBRANE")
-              && !worn_with_flag("SWIM_GOGGLES") && !(has_trait("PER_SLIME_OK"))) ||
+  (underwater && !has_bionic("bio_membrane") && !has_trait("MEMBRANE") &&
+              !worn_with_flag("SWIM_GOGGLES") && !has_trait("PER_SLIME_OK") &&
+              !has_trait("CEPH_EYES") ) ||
   ((has_trait("MYOPIC") || has_trait("URSINE_EYE") ) &&
                         !is_wearing("glasses_eye") &&
                         !is_wearing("glasses_monocle") &&
@@ -5639,7 +5641,7 @@ void player::suffer()
     }
 
     if (underwater) {
-        if (!has_trait("GILLS")) {
+        if (!has_trait("GILLS") && !has_trait("GILLS_CEPH")) {
             oxygen--;
         }
         if (oxygen < 12 && worn_with_flag("REBREATHER")) {
@@ -7813,7 +7815,7 @@ bool player::eat(item *eaten, it_comest *comest)
             return false;
         }
     }
-    
+
     int temp_nutr = comest->nutr;
     int temp_quench = comest->quench;
     if (hiberfood && !is_npc() && (((hunger - temp_nutr) < -60) || ((thirst - temp_quench) < -60)) && has_active_mutation("HIBERNATE")){
@@ -10159,7 +10161,10 @@ float player::fine_detail_vision_mod()
     if (has_trait("NIGHTVISION")) { vision_ii -= .5; }
     else if (has_trait("ELFA_NV")) { vision_ii -= 1; }
     else if (has_trait("NIGHTVISION2") || has_trait("FEL_NV")) { vision_ii -= 2; }
-    else if (has_trait("NIGHTVISION3") || has_trait("ELFA_FNV") || is_wearing("rm13_armor_on")) { vision_ii -= 3; }
+    else if (has_trait("NIGHTVISION3") || has_trait("ELFA_FNV") || is_wearing("rm13_armor_on")) ||
+      has_trait("CEPH_VISION") {
+        vision_ii -= 3;
+    }
 
     if (vision_ii < 1) { vision_ii = 1; }
     return vision_ii;

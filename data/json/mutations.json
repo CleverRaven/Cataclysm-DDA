@@ -892,6 +892,26 @@
         "category" : ["MUTCAT_TROGLOBITE", "MUTCAT_SPIDER"]
     },{
         "type" : "mutation",
+        "id" : "CEPH_EYES",
+        "name" : "Cephalopod Eyes",
+        "points" : 1,
+        "visibility" : 8,
+        "ugliness" : 5,
+        "description" : "Your eyes still bulge, yet your pupils look Different somehow.  Water doesn't seem to cause any trouble at all, though.",
+        "leads_to" : ["CEPH_VISION"],
+        "cancels" : ["BIRD_EYE", "LIZ_EYE", "FEL_EYE", "URSINE_EYE", "COMPOUND_EYES", "ELFAEYES"],
+        "category" : ["MUTCAT_CEPHALOPOD"]
+    },{
+        "type" : "mutation",
+        "id" : "CEPH_VISION",
+        "name" : "Cephalopod Vision",
+        "points" : 3,
+        "description" : "Your brain has caught up with your eyes.  You can see much better in the dark, but sunlight seems much brighter now.",
+        "prereqs" : ["CEPH_EYES"],
+        "cancels" : ["LIZ_IR", "FEL_NV", "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3", "ELFA_NV", "ELFA_FNV"],
+        "category" : ["MUTCAT_CEPHALOPOD"]
+    },{
+        "type" : "mutation",
         "id" : "ELFAEYES",
         "name" : "Fey Eyes",
         "points" : 1,
@@ -1063,7 +1083,19 @@
         "visibility" : 5,
         "ugliness" : 3,
         "description" : "You've grown a set of gills in your neck, allowing you to breathe underwater. Slightly increases wet benefits.",
-        "category" : ["MUTCAT_FISH", "MUTCAT_CEPHALOPOD"],
+        "category" : ["MUTCAT_FISH"],
+        "wet_protection" : [
+            { "part" : "HEAD", "good" : 1 }
+        ]
+    },{
+        "type" : "mutation",
+        "id" : "GILLS_CEPH",
+        "name" : "Cephalopod Gills",
+        "points" : 3,
+        "visibility" : 4,
+        "ugliness" : 4,
+        "description" : "You've grown a set of gills, running from your neck up behind your ears.  They allow you to breathe underwater and slightly increase wet benefits.",
+        "category" : ["MUTCAT_CEPHALOPOD"],
         "wet_protection" : [
             { "part" : "HEAD", "good" : 1 }
         ]
