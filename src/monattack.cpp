@@ -2201,10 +2201,8 @@ void mattack::frag_tur(monster *z, int index) // This is for the bots, not a sta
         if (within_visual_range(z, 38) < 0) return;
 
         if (!z->has_effect("targeted")) {
-            if (g->u_see(z->posx(), z->posy())) {
-                //~Potential grenading detected.
-                add_msg(m_warning, _("Those laser dots don't seem very friendly...") );
-            }
+            //~Potential grenading detected.
+            add_msg(m_warning, _("Those laser dots don't seem very friendly...") );
             g->sound(z->posx(), z->posy(), 10, _("Targeting."));
             z->add_effect("targeted", 8);
             z->moves -= 100;
@@ -2272,10 +2270,8 @@ void mattack::bmg_tur(monster *z, int index)
         if (within_visual_range(z, 40) < 0) return;
 
         if (!z->has_effect("targeted")) {
-            if (g->u_see(z->posx(), z->posy())) {
-                //~There will be a .50BMG shell sent at high speed to your location next turn.
-                add_msg(m_warning, _("Why is there a laser dot on your torso..?"));
-            }
+            //~There will be a .50BMG shell sent at high speed to your location next turn.
+            add_msg(m_warning, _("Why is there a laser dot on your torso..?"));
             g->sound(z->posx(), z->posy(), 10, _("Hostile detected."));
             z->add_effect("targeted", 8);
             z->moves -= 100;
@@ -2322,8 +2318,8 @@ void mattack::tank_tur(monster *z, int index)
     // kevingranade KA101: yes, but make it really inaccurate
     // Sure thing.
     npc tmp = make_fake_npc(z, 12, 8, 8, 8);
-    tmp.skillLevel("launcher").level(2);
-    tmp.skillLevel("gun").level(2);
+    tmp.skillLevel("launcher").level(1);
+    tmp.skillLevel("gun").level(1);
 
     z->reset_special(index); // Reset timer
     Creature *target = NULL;
@@ -2344,13 +2340,11 @@ void mattack::tank_tur(monster *z, int index)
     } else {
         // Not friendly; hence, firing at the player
         // (Be grateful for safety precautions.)
-        if (within_visual_range(z, 50) < 0) return;
+        if (within_visual_range(z, 48) < 0) return;
 
         if (!z->has_effect("targeted")) {
-            if (g->u_see(z->posx(), z->posy())) {
-                //~ There will be a 120mm HEAT shell sent at high speed to your location next turn.
-                add_msg(m_warning, _("You're not sure why you've got a laser dot on you...") );
-            }
+            //~ There will be a 120mm HEAT shell sent at high speed to your location next turn.
+            add_msg(m_warning, _("You're not sure why you've got a laser dot on you...") );
             //~ Sound of a tank turret swiveling into place
             g->sound(z->posx(), z->posy(), 10, _("whirrrrrclick."));
             z->add_effect("targeted", 4);
