@@ -257,7 +257,7 @@ void from_map_font_dimension(int &, int &) { }
 void to_overmap_font_dimension(int &, int &) { }
 //in pure curses, the framebuffer won't need reinitializing
 void reinitialize_framebuffer() { }
-void resize_window(int w, int h, bool keep_position) { }
+void resize_window(int , int , bool ) { }
 #endif
 
 
