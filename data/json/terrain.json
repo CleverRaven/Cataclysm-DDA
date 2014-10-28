@@ -1458,7 +1458,7 @@
         "symbol": "&",
         "color": "cyan",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM"],
+        "flags": ["TRANSPARENT", "NOITEM", "PERMEABLE"],
         "bash": {
             "str_min": 60, "str_max": 210, "str_min_blocked": 80, "str_max_blocked": 240,
             "sound": "metal screeching!",
