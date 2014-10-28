@@ -2964,11 +2964,21 @@ input_context game::get_player_input(std::string &action)
 
                 wPrint.vdrops.clear();
 
+
+                const int light_sight_range = u.sight_range( g->light_level() );
                 for (int i = 0; i < dropCount; i++) {
                     const int iRandX = rng(iStartX, iEndX - 1);
                     const int iRandY = rng(iStartY, iEndY - 1);
+                    const int mapx = iRandX + offset_x;
+                    const int mapy = iRandY + offset_y;
+                    const int distance = rl_dist( u.posx, u.posy, mapx, mapy );
 
-                    if (mapRain[iRandY][iRandX]) {
+                    if( m.is_outside( mapx, mapy ) &&
+                        ( m.light_at( mapx, mapy ) > LL_LOW ||
+                          distance <= light_sight_range ) &&
+                        m.pl_sees( u.posx, u.posy, mapx, mapy, distance ) &&
+                        !critter_at(mapx, mapy) ) {
+                        // Supress if a critter is there
                         wPrint.vdrops.push_back(std::make_pair(iRandX, iRandY));
                     }
                 }
@@ -5505,7 +5515,6 @@ void game::draw_critter(const Creature &critter, const point &center)
     }
     if( u.sees( &critter ) || &critter == &u ) {
         critter.draw( w_terrain, center.x, center.y, false );
-        mapRain[my][mx] = false;
         return;
     }
     const bool has_ir = u.has_active_bionic( "bio_infrared" ) ||
@@ -5516,13 +5525,11 @@ void game::draw_critter(const Creature &critter, const point &center)
                                     u.sight_range( DAYLIGHT_LEVEL ) );
     if( critter.is_warm() && has_ir && can_see ) {
         mvwputch( w_terrain, my, mx, c_red, '?' );
-        mapRain[my][mx] = false;
     }
 }
 
 void game::draw_ter(int posx, int posy)
 {
-    mapRain.clear();
     // posx/posy default to -999
     if (posx == -999) {
         posx = u.posx + u.view_offset_x;

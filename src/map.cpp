@@ -3885,7 +3885,6 @@ void map::draw(WINDOW* w, const point center)
    const int dist = rl_dist(g->u.posx, g->u.posy, realx, realy);
    int sight_range = light_sight_range;
    int low_sight_range = lowlight_sight_range;
-   bool bRainOutside = false;
    // While viewing indoor areas use lightmap model
    if (!is_outside(realx, realy)) {
     sight_range = natural_sight_range;
@@ -3893,7 +3892,6 @@ void map::draw(WINDOW* w, const point center)
    //and illuminated by source of light
    } else if (this->light_at(realx, realy) > LL_LOW || dist <= light_sight_range) {
     low_sight_range = std::max(g_light_level, natural_sight_range);
-    bRainOutside = true;
    }
 
    // I've moved this part above loops without even thinking that
@@ -3939,8 +3937,6 @@ void map::draw(WINDOW* w, const point center)
     else
      mvwputch(w, realy+getmaxy(w)/2 - center.y, realx+getmaxx(w)/2 - center.x, c_ltgray, '#');
    } else if (dist <= u_clairvoyance || can_see) {
-    if (bRainOutside && INBOUNDS(realx, realy) && is_outside(realx, realy))
-     g->mapRain[realy + getmaxy(w)/2 - center.y][realx + getmaxx(w)/2 - center.x] = true;
     drawsq(w, g->u, realx, realy, false, true, center.x, center.y,
            (dist > low_sight_range && LL_LIT > lit) ||
            (dist > sight_range && LL_LOW == lit),
