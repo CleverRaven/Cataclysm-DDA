@@ -562,7 +562,7 @@ std::string print_temperature(float fahrenheit, int decimals)
 /**
  * Print wind speed (and convert to m/s if km/h is enabled.)
  */
-std::string print_windspeed(int windspeed, int decimals)
+std::string print_windspeed(float windspeed, int decimals)
 {
     std::stringstream ret;
     ret.precision(decimals);
@@ -580,7 +580,7 @@ std::string print_windspeed(int windspeed, int decimals)
 /**
  * Print relative humidity (no conversions.)
  */
-std::string print_humidity(int humidity, int decimals)
+std::string print_humidity(float humidity, int decimals)
 {
     std::stringstream ret;
     ret.precision(decimals);
@@ -593,7 +593,7 @@ std::string print_humidity(int humidity, int decimals)
 /**
  * Print pressure (no conversions.)
  */
-std::string print_pressure(int pressure, int decimals)
+std::string print_pressure(float pressure, int decimals)
 {
     std::stringstream ret;
     ret.precision(decimals);
