@@ -674,7 +674,7 @@ std::string new_artifact()
             art->item_tags.insert( "SHEATH_SWORD" );
         }
         art->description = string_format(
-                               _("This is the %s.\nIt is the only one of its kind.\nIt may have unknown powers; use 'a' to activate them."),
+                               _("This is the %s.\nIt is the only one of its kind.\nIt may have unknown powers; try activating them."),
                                art->nname(1).c_str());
 
         // Finally, pick some powers
