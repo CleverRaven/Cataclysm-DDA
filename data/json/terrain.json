@@ -359,7 +359,7 @@
         "color": "ltred",
         "move_cost": 0,
         "flags": [
-            "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "DOOR", "TRANSPARENT", "PERMEABLE", "PERMEABLE"
+            "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "DOOR", "TRANSPARENT", "PERMEABLE"
         ],
         "bash": {
             "str_min": 6, "str_max": 150,
