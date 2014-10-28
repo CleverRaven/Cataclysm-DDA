@@ -553,7 +553,6 @@ static hp_part use_healing_item(player *p, item *it, int normal_power, int head_
     if (p->has_effect("infected", bp_healed)) {
         if (x_in_y(infect, 100)) {
             int infected_dur = p->get_effect_dur("infected", bp_healed);
-            int infected_int = p->get_effect_int("infected", bp_healed);
             p->remove_effect("infected", bp_healed);
             p->add_effect("recover", infected_dur);
             p->add_msg_if_player(m_good, _("You disinfect the wound."));
