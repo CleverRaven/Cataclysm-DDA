@@ -186,8 +186,6 @@ class consume_drug_iuse : public iuse_actor
         std::map<std::string, int> charges_needed;
         /** Tools needed, but not consumed, e.g. "smoking apparatus". **/
         std::map<std::string, int> tools_needed;
-        /** A disease or diseases (conditions) to give the player for the stated duration. **/
-        std::map<std::string, int> diseases;
         /** An effect or effects (conditions) to give the player for the stated duration. **/
         std::map<std::string, int> effects;
         /** A list of stats and adjustments to them. **/

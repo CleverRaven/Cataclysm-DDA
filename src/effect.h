@@ -41,6 +41,13 @@ struct effect_mod_info {
     std::pair<int, int> hurt_chance_top;
     std::pair<int, int> hurt_chance_bot;
     std::pair<int, int> hurt_tick;
+
+    std::pair<int, int> sleep_amount;
+    std::pair<int, int> sleep_min;
+    std::pair<int, int> sleep_max;
+    std::pair<int, int> sleep_chance_top;
+    std::pair<int, int> sleep_chance_bot;
+    std::pair<int, int> sleep_tick;
     
     std::pair<int, int> pkill_amount;
     std::pair<int, int> pkill_min;

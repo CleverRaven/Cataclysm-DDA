@@ -224,7 +224,7 @@ int iuse::honeycomb(player *p, item *it, bool, point)
 
 int iuse::royal_jelly(player *p, item *it, bool, point)
 {
-    // TODO: Add other diseases here; royal jelly is a cure-all!
+    // TODO: Add other effects here; royal jelly is a cure-all!
     p->pkill += 5;
     std::string message;
     if (p->has_effect("fungus")) {

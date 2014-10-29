@@ -480,22 +480,22 @@ std::string effect::disp_desc(bool reduced)
         ret << "\n";
     }
     
-    // Then print pain/damage/coughing/vomiting, we don't display pkill or radiation
+    // Then print pain/damage/coughing/vomiting, we don't display pkill, health, or radiation
     std::vector<std::string> constant;
     std::vector<std::string> frequent;
     std::vector<std::string> uncommon;
     std::vector<std::string> rare;
-    double chances[7] = {get_percentage("PAIN", reduced), get_percentage("HURT", reduced),
+    double chances[8] = {get_percentage("PAIN", reduced), get_percentage("HURT", reduced),
                             get_percentage("THIRST", reduced), get_percentage("HUNGER", reduced),
                             get_percentage("FATIGUE", reduced), get_percentage("COUGH", reduced),
-                            get_percentage("VOMIT", reduced)};
-    int vals[7] = {get_mod("PAIN", reduced), get_mod("HURT", reduced), get_mod("THIRST", reduced),
+                            get_percentage("VOMIT", reduced), get_percentage("SLEEP", reduced)};
+    int vals[8] = {get_mod("PAIN", reduced), get_mod("HURT", reduced), get_mod("THIRST", reduced),
                     get_mod("HUNGER", reduced), get_mod("FATIGUE", reduced),
                     get_mod("COUGH", reduced), get_mod("VOMIT", reduced)};
-    std::string pos_strings[7] = {_("pain"),_("damage"),_("thirst"),_("hunger"),_("fatigue"),
-                                _("coughing"),_("vomiting")};
-    std::string neg_strings[7] = {_("pain"),_("damage"),_("quench"),_("sate"),_("rest"),
-                                _("coughing"),_("vomiting")};
+    std::string pos_strings[8] = {_("pain"),_("damage"),_("thirst"),_("hunger"),_("fatigue"),
+                                _("coughing"),_("vomiting"),_("blackouts")};
+    std::string neg_strings[8] = {_("pain"),_("damage"),_("quench"),_("sate"),_("rest"),
+                                _("coughing"),_("vomiting"),_("blackouts")};
     for (int i = 0; i < 4; i++) {
         if (vals[i] > 0) {
             // +50% chance
@@ -762,6 +762,9 @@ int effect::get_mod(std::string arg, bool reduced)
         } else if (arg == "HURT") {
             ret += rng(base.hurt_min.first + scale.hurt_min.first * (intensity - 1),
                     base.hurt_max.first + scale.hurt_max.first * (intensity - 1));
+        } else if (arg == "SLEEP") {
+            ret += rng(base.hurt_min.first + scale.sleep_min.first * (intensity - 1),
+                    base.hurt_max.first + scale.sleep_max.first * (intensity - 1));
         } else if (arg == "PKILL") {
             ret += rng(base.pkill_min.first + scale.pkill_min.first * (intensity - 1),
                     base.pkill_max.first + scale.pkill_max.first * (intensity - 1));
@@ -809,6 +812,9 @@ int effect::get_mod(std::string arg, bool reduced)
         } else if (arg == "HURT") {
             ret += rng(base.hurt_min.second + scale.hurt_min.second * (intensity - 1),
                     base.hurt_max.second + scale.hurt_max.second * (intensity - 1));
+        } else if (arg == "SLEEP") {
+            ret += rng(base.hurt_min.second + scale.sleep_min.second * (intensity - 1),
+                    base.hurt_max.second + scale.sleep_max.second * (intensity - 1));
         } else if (arg == "PKILL") {
             ret += rng(base.pkill_min.second + scale.pkill_min.second * (intensity - 1),
                     base.pkill_max.second + scale.pkill_max.second * (intensity - 1));
@@ -850,6 +856,9 @@ int effect::get_amount(std::string arg, bool reduced)
         } else if (arg == "HURT") {
             ret += base.hurt_amount.first;
             ret += scale.hurt_amount.first * (intensity - 1);
+        } else if (arg == "SLEEP") {
+            ret += base.sleep_amount.first;
+            ret += scale.sleep_amount.first * (intensity - 1);
         } else if (arg == "PKILL") {
             ret += base.pkill_amount.first;
             ret += scale.pkill_amount.first * (intensity - 1);
@@ -882,6 +891,9 @@ int effect::get_amount(std::string arg, bool reduced)
         } else if (arg == "HURT") {
             ret += base.hurt_amount.second;
             ret += scale.hurt_amount.second * (intensity - 1);
+        } else if (arg == "SLEEP") {
+            ret += base.sleep_amount.second;
+            ret += scale.sleep_amount.second * (intensity - 1);
         } else if (arg == "PKILL") {
             ret += base.pkill_amount.second;
             ret += scale.pkill_amount.second * (intensity - 1);
@@ -1057,6 +1069,12 @@ void effect::get_activation_vals(std::string arg, bool reduced, effect_mod_info 
             top_scale = scale.hurt_chance_top.first * (intensity - 1);
             bot_base = base.hurt_chance_bot.first;
             bot_scale = scale.hurt_chance_bot.first * (intensity - 1);
+        } else if (arg == "SLEEP") {
+            tick = base.sleep_tick.first + scale.sleep_tick.first * (intensity - 1);
+            top_base = base.sleep_chance_top.first;
+            top_scale = scale.sleep_chance_top.first * (intensity - 1);
+            bot_base = base.sleep_chance_bot.first;
+            bot_scale = scale.sleep_chance_bot.first * (intensity - 1);
         } else if (arg == "PKILL") {
             tick = base.pkill_tick.first + scale.pkill_tick.first * (intensity - 1);
             top_base = base.pkill_chance_top.first;
@@ -1131,6 +1149,12 @@ void effect::get_activation_vals(std::string arg, bool reduced, effect_mod_info 
             top_scale = scale.hurt_chance_top.second * (intensity - 1);
             bot_base = base.hurt_chance_bot.second;
             bot_scale = scale.hurt_chance_bot.second * (intensity - 1);
+        } else if (arg == "SLEEP") {
+            tick = base.sleep_tick.second + scale.sleep_tick.second * (intensity - 1);
+            top_base = base.sleep_chance_top.second;
+            top_scale = scale.sleep_chance_top.second * (intensity - 1);
+            bot_base = base.sleep_chance_bot.second;
+            bot_scale = scale.sleep_chance_bot.second * (intensity - 1);
         } else if (arg == "PKILL") {
             tick = base.pkill_tick.second + scale.pkill_tick.second * (intensity - 1);
             top_base = base.pkill_chance_top.second;

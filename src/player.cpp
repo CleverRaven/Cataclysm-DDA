@@ -5474,6 +5474,10 @@ void player::add_eff_effects(effect e, bool reduced)
             apply_damage(nullptr, bp, e.get_mod("HURT"));
         }
     }
+    // Add sleep
+    if (e.get_amount("SLEEP", reduced) > 0) {
+        fall_asleep(e.get_mod("SLEEP"));
+    }
     // Add pkill
     if (e.get_amount("PKILL", reduced) > 0 &&
         (e.get_max_val("PKILL", reduced) > pkill || e.get_max_val("PKILL", reduced) == 0)) {
@@ -5770,6 +5774,14 @@ void player::process_effects() {
                     } else {
                         apply_damage(nullptr, bp, it.get_mod("HURT"));
                     }
+                }
+            }
+
+            // Handle Sleep
+            if (it.get_mod("SLEEP", reduced) > 0) {
+                mod = 1;
+                if(it.activated(calendar::turn, "SLEEP", reduced, mod)) {
+                    fall_asleep(it.get_mod("SLEEP"));
                 }
             }
 
