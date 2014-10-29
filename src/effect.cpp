@@ -1306,7 +1306,7 @@ double effect::get_addict_mod(std::string arg, int addict_level)
 {
     // TODO: convert this to JSON id's and values once we have JSON'ed addictions
     if (arg == "PKILL") {
-        if (pkill_addict_reduces) {
+        if (eff_type->pkill_addict_reduces) {
             return 1 / (addict_level * 2);
         } else {
             return 1;

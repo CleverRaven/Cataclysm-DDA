@@ -7894,7 +7894,6 @@ void player::vomit()
     remove_effect("pkill2");
     remove_effect("pkill3");
     wake_up();
-    return true;
 }
 
 void player::drench(int saturation, int flags)
