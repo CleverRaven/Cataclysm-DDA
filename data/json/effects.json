@@ -1206,7 +1206,8 @@
         "type": "effect_type",
         "id": "sleep",
         "remove_message": "You wake up.",
-        "rating": "neutral"
+        "rating": "neutral",
+        "max_intensity": 24
     },
     {
         "type": "effect_type",

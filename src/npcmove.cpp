@@ -198,7 +198,7 @@ void npc::execute_action(npc_action action, int target)
         /* TODO: Open a dialogue with the player, allowing us to ask if it's alright if
          * we get some sleep, how long watch shifts should be, etc.
          */
-        //add_disease("lying_down", 300);
+        //add_effect("lying_down", 300);
         if (is_friend() && g->u_see(posx, posy)) {
             say(_("I'm going to sleep."));
         }
@@ -655,7 +655,7 @@ npc_action npc::address_player()
     int linet;
     if ((attitude == NPCATT_TALK || attitude == NPCATT_TRADE) &&
         this->sees(g->u.posx, g->u.posy) && g->u.is_invisible() == false) {
-        if (g->u.has_disease("sleep")) {
+        if (g->u.in_sleep_state()) {
             // Leave sleeping characters alone.
             return npc_undecided;
         }

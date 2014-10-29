@@ -545,7 +545,9 @@ int player::get_dodge() const
 //Return numbers range from around 4 (starting player, no boosts) to 29 (20 DEX, 10 dodge, +9 mutations)
 {
     //If we're asleep or busy we can't dodge
-    if (has_disease("sleep") || has_disease("lying_down")) {return 0;}
+    if (in_sleep_state()) {
+        return 0;
+    }
     if (activity.type != ACT_NULL) {return 0;}
 
     int ret = Creature::get_dodge();
@@ -1274,9 +1276,8 @@ void player::dodge_hit(Creature *source, int) {
 bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam) {
 
     //Shouldn't block if player is asleep; this only seems to be used by player.
-    //g->u.has_disease("sleep") would work as well from looking at other block functions.
 
-    if (blocks_left < 1 || this->has_disease("sleep")) {
+    if (blocks_left < 1 || in_sleep_state()) {
         return false;
     }
     blocks_left--;

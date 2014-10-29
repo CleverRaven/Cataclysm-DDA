@@ -794,7 +794,7 @@ void player::update_bodytemp()
     int total_windpower = vehwindspeed + weather.windpower;
     // Temperature norms
     // Ambient normal temperature is lower while asleep
-    int ambient_norm = (has_disease("sleep") ? 3100 : 1900);
+    int ambient_norm = (has_effect("sleep") ? 3100 : 1900);
     // This gets incremented in the for loop and used in the morale calculation
     int morale_pen = 0;
     const trap_id trap_at_pos = g->m.tr_at(posx, posy);
@@ -806,7 +806,7 @@ void player::update_bodytemp()
     int floor_bedding_warmth = 0;
     // If the PC has fur, etc, that'll apply too
     int floor_mut_warmth = 0;
-    if( has_disease("sleep") || has_disease("lying_down") ) {
+    if( in_sleep_state() ) {
         // Search the floor for items
         std::vector<item> &floor_item = g->m.i_at(posx, posy);
         it_armor *floor_armor = NULL;
@@ -913,7 +913,7 @@ void player::update_bodytemp()
         // HUNGER
         temp_conv[i] -= hunger / 6 + 100;
         // FATIGUE
-        if( !has_disease("sleep") ) {
+        if( !has_effect("sleep") ) {
             temp_conv[i] -= 1.5 * fatigue;
         }
         // CONVECTION HEAT SOURCES (generates body heat, helps fight frostbite)
@@ -1158,7 +1158,7 @@ void player::update_bodytemp()
         // Chemical Imbalance
         // Added line in player::suffer()
         // FINAL CALCULATION : Increments current body temperature towards convergent.
-        if ( has_disease("sleep") || has_disease("lying_down")) {
+        if ( in_sleep_state() ) {
             int sleep_bonus = floor_bedding_warmth + floor_item_warmth + floor_mut_warmth;
             // Too warm, don't need items on the floor
             if ( temp_conv[i] > BODYTEMP_NORM ) {
@@ -4611,10 +4611,8 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
     dealt_damage_instance dealt_dams = Creature::deal_damage(source, bp, d); //damage applied here
     int dam = dealt_dams.total_damage(); //block reduction should be by applied this point
 
-    if (has_disease("sleep")) {
-        wake_up(_("You wake up!"));
-    } else if (has_disease("lying_down")) {
-        rem_disease("lying_down");
+    if (in_sleep_state()) {
+        wake_up();
     }
 
     if (is_player()) {
@@ -4804,10 +4802,8 @@ void player::mod_pain(int npain) {
     }
     if (!is_npc() && ((npain >= 1) && (rng(0, pain) >= 10))) {
         g->cancel_activity_query(_("Ouch, you were hurt!"));
-        if (has_disease("sleep")) {
-            wake_up(_("You wake up!"));
-        } else if (has_disease("lying_down")) {
-            rem_disease("lying_down");
+        if (in_sleep_state()) {
+            wake_up()
         }
     }
     Creature::mod_pain(npain);
@@ -4853,10 +4849,8 @@ void player::apply_damage(Creature *source, body_part hurt, int dam)
             debugmsg("Wacky body part hurt!");
             hurtpart = hp_torso;
     }
-    if (has_disease("sleep") && rng(0, dam) > 2) {
-        wake_up(_("You wake up!"));
-    } else if (has_disease("lying_down")) {
-        rem_disease("lying_down");
+    if (in_sleep_state()) {
+        wake_up();
     }
 
     if (dam <= 0) {
@@ -4964,10 +4958,8 @@ void player::hurtall(int dam)
 
 void player::hitall(int dam, int vary)
 {
-    if (has_disease("sleep")) {
-        wake_up(_("You wake up!"));
-    } else if (has_disease("lying_down")) {
-        rem_disease("lying_down");
+    if (in_sleep_state()) {
+        wake_up();
     }
 
     for (int i = 0; i < num_hp_parts; i++) {
@@ -5477,8 +5469,8 @@ void player::cough(bool harmful, int loudness) {
     if (harmful && !one_in(4)) {
         apply_damage( nullptr, bp_torso, 1 );
     }
-    if (has_disease("sleep") && ((harmful && one_in(3)) || one_in(10)) ) {
-        wake_up(_("You wake up coughing."));
+    if (has_effect("sleep") && ((harmful && one_in(3)) || one_in(10)) ) {
+        wake_up();
     }
 }
 bool will_vomit(player& p, int chance)
@@ -5615,11 +5607,12 @@ void player::process_effects() {
         remove_effect("tapeworm");
     }
     if (has_trait("INFIMMUNE")) {
-        if(has_effect("bite") || has_effect("infected")) {
-            remove_effect("bite");
-            remove_effect("infected");
-            remove_effect("recover");
-        }
+        remove_effect("bite");
+        remove_effect("infected");
+        remove_effect("recover");
+    }
+    if (!(has_effect("sleep") || has_effect("lying_down"))) {
+        remove_effect("alarm_clock");
     }
     
     //Human only effects
@@ -6663,7 +6656,7 @@ void player::hardcoded_effects(effect it)
             it.set_duration(0);
         }
     } else if (id == "drunk") {
-        if (!has_disease("sleep") && dur >= 4500 && one_in(500 - int(dur / 80))) {
+        if (!sleeping && dur >= 4500 && one_in(500 - int(dur / 80))) {
             add_msg_if_player(m_bad, _("You pass out."));
             fall_asleep(dur / 2);
         }
@@ -6849,7 +6842,7 @@ void player::hardcoded_effects(effect it)
                                       pgettext("memorial_female", "Succumbed to the infection."));
                 p.hurtall(500);
             } else if (intense == 3) {
-                if (!has_effect("sleep") && one_in(100)) {
+                if (!sleeping && one_in(100)) {
                     add_msg_if_player(m_bad, _("You pass out."));
                     fall_asleep(60);
                 }
@@ -6858,9 +6851,305 @@ void player::hardcoded_effects(effect it)
         }
     } else if (id == "recover") {
         if (intense == 3) {
-            if (!has_effect("sleep") && one_in(100)) {
+            if (!sleeping && one_in(100)) {
                 add_msg_if_player(m_bad, _("You pass out."));
                 fall_asleep(60);
+            }
+        }
+    } else if (id == "lying_down") {
+        set_moves(0);
+        if (can_sleep()) {
+            add_msg_if_player(_("You fall asleep."));
+            // Communicate to the player that he is using items on the floor
+            std::string item_name = is_snuggling();
+            if (item_name == "many") {
+                if (one_in(15) ) {
+                    add_msg_if_player(_("You nestle your pile of clothes for warmth."));
+                } else {
+                    add_msg_if_player(_("You use your pile of clothes for warmth."));
+                }
+            } else if (item_name != "nothing") {
+                if (one_in(15)) {
+                    add_msg_if_player(_("You snuggle your %s to keep warm."), item_name.c_str());
+                } else {
+                    add_msg_if_player(_("You use your %s to keep warm."), item_name.c_str());
+                }
+            }
+            if (has_trait("HIBERNATE") && (hunger < -60)) {
+                add_memorial_log(pgettext("memorial_male", "Entered hibernation."),
+                                   pgettext("memorial_female", "Entered hibernation."));
+                // 10 days' worth of round-the-clock Snooze.  Cata seasons default to 14 days.
+                fall_asleep(144000);
+            }
+            // If you're not fatigued enough for 10 days, you won't sleep the whole thing.
+            // In practice, the fatigue from filling the tank from (no msg) to Time For Bed
+            // will last about 8 days.
+            if (hunger >= -60) {
+                fall_asleep(6000); //10 hours, default max sleep time.
+            }
+            // Set ourselves up for removal
+            it.set_duration(0);
+        }
+        if (dur == 1 && !sleeping) {
+            add_msg_if_player(_("You try to sleep, but can't..."));
+        }
+    } else if (id == "sleep") {
+        p.moves = 0;
+        // Hibernating only kicks in whilst Engorged; separate tracking for hunger/thirst here
+        // as a safety catch.  One test subject managed to get two Colds during hibernation;
+        // since those add fatigue and dry out the character, the subject went for the full 10 days plus
+        // a little, and came out of it well into Parched.  Hibernating shouldn't endanger your
+        // life like that--but since there's much less fluid reserve than food reserve,
+        // simply using the same numbers won't work.
+        if((int(calendar::turn) % 350 == 0) && has_trait("HIBERNATE") && !(hunger > -60) && !(thirst >= 80)) {
+            int recovery_chance;
+            // Hibernators' metabolism slows down: you heal and recover Fatigue much more slowly.
+            // Accelerated recovery capped to 2x over 2 hours...well, it was ;-P
+            // After 16 hours of activity, equal to 7.25 hours of rest
+            if (intense < 24) {
+                it.mod_intensity(1);
+            } else if (intense < 1) {
+                it.set_intensity(1);
+            }
+            recovery_chance = 24 - intense + 1;
+            if (fatigue > 0) {
+                fatigue -= 1 + one_in(recovery_chance);
+            }
+            int heal_chance = get_healthy() / 4;
+            if ((has_trait("FLIMSY") && x_in_y(3, 4)) || (has_trait("FLIMSY2") && one_in(2)) ||
+                  (has_trait("FLIMSY3") && one_in(4)) ||
+                  (!has_trait("FLIMSY") && !has_trait("FLIMSY2") && !p.has_trait("FLIMSY3"))) {
+                if (has_trait("FASTHEALER")) {
+                    heal_chance += 100;
+                } else if (has_trait("FASTHEALER2")) {
+                    heal_chance += 150;
+                } else if (has_trait("REGEN")) {
+                    heal_chance += 200;
+                } else if (has_trait("SLOWHEALER")) {
+                    heal_chance += 13;
+                } else {
+                    heal_chance += 25;
+                }
+                healall(heal_chance / 100);
+                heal_chance %= 100;
+                if (x_in_y(heal_chance, 100)) {
+                    healall(1);
+                }
+            }
+
+            if (fatigue <= 0 && fatigue > -20) {
+                fatigue = -25;
+                add_msg_if_player(m_good, _("You feel well rested."));
+                it.set_duration(dice(3, 100));
+                p.add_memorial_log(pgettext("memorial_male", "Awoke from hibernation."),
+                                   pgettext("memorial_female", "Awoke from hibernation."));
+            }
+
+        // If you hit Very Thirsty, you kick up into regular Sleep as a safety precaution.
+        // See above.  No log note for you. :-/
+        } else if(int(calendar::turn) % 50 == 0) {
+            int recovery_chance;
+            // Accelerated recovery capped to 2x over 2 hours
+            // After 16 hours of activity, equal to 7.25 hours of rest
+            if (intense < 24) {
+                it.mod_intensity(1);
+            } else if (intense < 1) {
+                it.set_intensity(1);
+            }
+            recovery_chance = 24 - intense + 1;
+            if (fatigue > 0) {
+                fatigue -= 1 + one_in(recovery_chance);
+                // You fatigue & recover faster with Sleepy
+                // Very Sleepy, you just fatigue faster
+                if (has_trait("SLEEPY")) {
+                    fatigue -=(1 + one_in(recovery_chance) / 2);
+                }
+                // Tireless folks recover fatigue really fast
+                // as well as gaining it really slowly
+                // (Doesn't speed healing any, though...)
+                if (has_trait("WAKEFUL3")) {
+                    fatigue -=(2 + one_in(recovery_chance) / 2);
+                }
+            }
+            int heal_chance = get_healthy() / 4;
+            if ((has_trait("FLIMSY") && x_in_y(3, 4)) || (has_trait("FLIMSY2") && one_in(2)) ||
+                  (has_trait("FLIMSY3") && one_in(4)) ||
+                  (!has_trait("FLIMSY") && !p.has_trait("FLIMSY2") && !has_trait("FLIMSY3"))) {
+                if (has_trait("FASTHEALER")) {
+                    heal_chance += 100;
+                } else if (has_trait("FASTHEALER2")) {
+                    heal_chance += 150;
+                } else if (has_trait("REGEN")) {
+                    heal_chance += 200;
+                } else if (has_trait("SLOWHEALER")) {
+                    heal_chance += 13;
+                } else {
+                    heal_chance += 25;
+                }
+                healall(heal_chance / 100);
+                heal_chance %= 100;
+                if (x_in_y(heal_chance, 100)) {
+                    healall(1);
+                }
+            }
+
+            if (fatigue <= 0 && fatigue > -20) {
+                fatigue = -25;
+                add_msg_if_player(m_good, _("You feel well rested."));
+                it.set_duration(dice(3, 100));
+            }
+        }
+
+        if (int(calendar::turn) % 100 == 0 && !has_bionic("bio_recycler") && !(hunger < -60)) {
+            // Hunger and thirst advance more slowly while we sleep. This is the standard rate.
+            hunger--;
+            thirst--;
+        }
+
+        // Hunger and thirst advance *much* more slowly whilst we hibernate.
+        // (int (calendar::turn) % 50 would be zero burn.)
+        // Very Thirsty catch deliberately NOT applied here, to fend off Dehydration debuffs
+        // until the char wakes.  This was time-trial'd quite thoroughly,so kindly don't "rebalance"
+        // without a good explanation and taking a night to make sure it works
+        // with the extended sleep duration, OK?
+        if (int(calendar::turn) % 70 == 0 && !has_bionic("bio_recycler") && (hunger < -60)) {
+            hunger--;
+            thirst--;
+        }
+
+        if (int(calendar::turn) % 100 == 0 && has_trait("CHLOROMORPH") &&
+        g->is_in_sunlight(xpos(), ypos()) ) {
+            // Hunger and thirst fall before your Chloromorphic physiology!
+            if (hunger >= -30) {
+                hunger -= 5;
+            }
+            if (thirst >= -30) {
+                thirst -= 5;
+            }
+        }
+
+        // Check mutation category strengths to see if we're mutated enough to get a dream
+        std::string highcat = get_highest_category();
+        int highest = mutation_category_level[highcat];
+
+        // Determine the strength of effects or dreams based upon category strength
+        int strength = 0; // Category too weak for any effect or dream
+        if (crossed_threshold()) {
+            strength = 4; // Post-human.
+        } else if (highest >= 20 && highest < 35) {
+            strength = 1; // Low strength
+        } else if (highest >= 35 && highest < 50) {
+            strength = 2; // Medium strength
+        } else if (highest >= 50) {
+            strength = 3; // High strength
+        }
+
+        // Get a dream if category strength is high enough.
+        if (strength != 0) {
+            //Once every 6 / 3 / 2 hours, with a bit of randomness
+            if ((int(calendar::turn) % (3600 / strength) == 0) && one_in(3)) {
+                // Select a dream
+                std::string dream = get_category_dream(highcat, strength);
+                if( !dream.empty() ) {
+                    add_msg_if_player( "%s", dream.c_str() );
+                }
+                // Mycus folks upgrade in their sleep.
+                if (has_trait("THRESH_MYCUS")) {
+                    if (one_in(8)) {
+                        mutate_category("MUTCAT_MYCUS");
+                        hunger += 10;
+                        fatigue += 5;
+                        thirst += 10;
+                    }
+                }
+            }
+        }
+
+        bool woke_up = false;
+        int tirednessVal = rng(5, 200) + rng(0, abs(fatigue * 2 * 5));
+        if (has_trait("HEAVYSLEEPER2") && !has_trait("HIBERNATE")) {
+            // So you can too sleep through noon
+            if ((tirednessVal * 1.25) < g->light_level() && (fatigue < 10 || one_in(fatigue / 2))) {
+                add_msg_if_player(_("It's too bright to sleep."));
+                // Set ourselves up for removal
+                it.set_duration(0);
+                woke_up = true;
+            }
+         // Ursine hibernators would likely do so indoors.  Plants, though, might be in the sun.
+        } else if (has_trait("HIBERNATE")) {
+            if ((tirednessVal * 5) < g->light_level() && (fatigue < 10 || one_in(fatigue / 2))) {
+                add_msg_if_player(_("It's too bright to sleep."));
+                // Set ourselves up for removal
+                it.set_duration(0);
+                woke_up = true;
+            }
+        } else if (tirednessVal < g->light_level() && (fatigue < 10 || one_in(fatigue / 2))) {
+            add_msg(_("It's too bright to sleep."));
+            // Set ourselves up for removal
+            it.set_duration(0);
+            woke_up = true;
+        }
+
+        // Have we already woken up?
+        if (!woke_up) {
+            // Cold or heat may wake you up.
+            // Player will sleep through cold or heat if fatigued enough
+            for (int i = 0 ; i < num_bp ; i++) {
+                if (temp_cur[i] < BODYTEMP_VERY_COLD - fatigue / 2) {
+                    if (one_in(5000)) {
+                        add_msg_if_player(_("You toss and turn trying to keep warm."));
+                    }
+                    if (temp_cur[i] < BODYTEMP_FREEZING - fatigue / 2 ||
+                                        one_in(temp_cur[i] + 5000)) {
+                        add_msg_if_player(m_bad, _("It's too cold to sleep."));
+                        // Set ourselves up for removal
+                        it.set_duration(0);
+                        woke_up = true;
+                        break;
+                    }
+                } else if (temp_cur[i] > BODYTEMP_VERY_HOT + fatigue / 2) {
+                    if (one_in(5000)) {
+                        add_msg_if_player(_("You toss and turn in the heat."));
+                    }
+                    if (temp_cur[i] > BODYTEMP_SCORCHING + fatigue / 2 ||
+                                        one_in(15000 - temp_cur[i])) {
+                        add_msg_if_player(m_bad, _("It's too hot to sleep."));
+                        // Set ourselves up for removal
+                        it.set_duration(0);
+                        woke_up = true;
+                        break;
+                    }
+                }
+            }
+        }
+    } else if (id == "alarm_clock") {
+        if (has_effect("sleep")) {
+            if (dur == 1) {
+                if(has_bionic("bio_watch")) {
+                    // Normal alarm is volume 12, tested against (2/3/6)d15 for
+                    // normal/HEAVYSLEEPER/HEAVYSLEEPER2.
+                    //
+                    // It's much harder to ignore an alarm inside your own skull,
+                    // so this uses an effective volume of 20.
+                    const int volume = 20;
+                    if ( (!(has_trait("HEAVYSLEEPER") || has_trait("HEAVYSLEEPER2")) &&
+                          dice(2, 15) < volume) ||
+                          (p.has_trait("HEAVYSLEEPER") && dice(3, 15) < volume) ||
+                          (p.has_trait("HEAVYSLEEPER2") && dice(6, 15) < volume) ) {
+                        wake_up();
+                        add_msg_if_player(_("Your internal chronometer wakes you up."));
+                    } else {
+                        // 10 minute cyber-snooze
+                        it.mod_duration(100);
+                    }
+                } else {
+                    if(!g->sound(xpos(), ypos(), 12, _("beep-beep-beep!"))) {
+                        // 10 minute automatic snooze
+                        it.mod_duration(100);
+                    } else {
+                        add_msg_if_player(_("You turn off your alarm-clock."));
+                    }
+                }
             }
         }
     }
@@ -6969,8 +7258,6 @@ void player::suffer()
         if( it->duration <= 0 ) {
             continue;
         }
-        // Note: dis_effect might add or remove disease (DI_LYING_DOWN adds DI_SLEEP).
-        // therefor, no range-based iteration.
         dis_effect( *this, *it );
     }
 
@@ -6996,7 +7283,7 @@ void player::suffer()
         }
     }
 
-    if (!has_disease("sleep")) {
+    if (!in_sleep_state()) {
         if (weight_carried() > weight_capacity()) {
             // Starts at 1 in 25, goes down by 5 for every 50% more carried
             if (one_in(35 - 5 * weight_carried() / (weight_capacity() / 2))) {
@@ -7151,7 +7438,7 @@ void player::suffer()
                     break;
                 case 8:
                     add_msg(m_bad, _("It's a good time to lie down and sleep."));
-                    add_disease("lying_down", 200);
+                    add_effect("lying_down", 200);
                     break;
                 case 9:
                     add_msg(m_bad, _("You have the sudden urge to SCREAM!"));
@@ -7211,8 +7498,9 @@ void player::suffer()
             auto_use = false;
         }
 
-        if (has_disease("sleep")) {
-            wake_up(_("Your asthma wakes you up!"));
+        if (has_effect("sleep")) {
+            add_msg_if_player(_("You have an asthma attack!"));
+            wake_up();
             auto_use = false;
         }
 
@@ -7247,8 +7535,8 @@ void player::suffer()
         // (No, really, I know someone who uses an umbrella when it's sunny out.)
         if (!((worn_with_flag("RAINPROOF")) || (weapon.has_flag("RAIN_PROTECT"))) ) {
             add_msg(m_bad, _("The sunlight is really irritating."));
-            if (has_disease("sleep")) {
-                wake_up(_("You wake up!"));
+            if (in_sleep_state()) {
+                wake_up();
             }
             if (one_in(10)) {
                 mod_pain(1);
@@ -7260,8 +7548,8 @@ void player::suffer()
     if (has_trait("SUNBURN") && g->is_in_sunlight(posx, posy) && one_in(10)) {
         if (!((worn_with_flag("RAINPROOF")) || (weapon.has_flag("RAIN_PROTECT"))) ) {
         add_msg(m_bad, _("The sunlight burns your skin!"));
-        if (has_disease("sleep")) {
-            wake_up(_("You wake up!"));
+        if (in_sleep_state()) {
+            wake_up();
         }
         mod_pain(1);
         hurtall(1);
@@ -7524,7 +7812,7 @@ void player::mend()
             }
 
             // Bed rest speeds up mending
-            if(has_disease("sleep")) {
+            if(has_effect("sleep")) {
                 healing_factor *= 4.0;
             } else if(fatigue > 383) {
             // but being dead tired does not...
@@ -7623,7 +7911,7 @@ void player::vomit()
     remove_effect("pkill1");
     remove_effect("pkill2");
     remove_effect("pkill3");
-    rem_disease("sleep");
+    wake_up();
 }
 
 void player::drench(int saturation, int flags)
@@ -11226,9 +11514,9 @@ void player::try_to_sleep()
     if (has_trait("CHLOROMORPH")) {
         plantsleep = true;
         if( (ter_at_pos == t_dirt || ter_at_pos == t_pit ||
-             ter_at_pos == t_dirtmound || ter_at_pos == t_pit_shallow ||
-             ter_at_pos == t_grass) && (!(veh)) &&
-            (furn_at_pos == f_null) ) {
+              ter_at_pos == t_dirtmound || ter_at_pos == t_pit_shallow ||
+              ter_at_pos == t_grass) && !veh &&
+              furn_at_pos == f_null ) {
             add_msg(m_good, _("You relax as your roots embrace the soil."));
         } else if (veh) {
             add_msg(m_bad, _("It's impossible to sleep in this wheeled pot!"));
@@ -11242,107 +11530,95 @@ void player::try_to_sleep()
         // Your shell's interior is a comfortable place to sleep.
         in_shell = true;
     }
-    if( (furn_at_pos == f_bed || furn_at_pos == f_makeshift_bed ||
-         trap_at_pos == tr_cot || trap_at_pos == tr_rollmat ||
-         trap_at_pos == tr_fur_rollmat || furn_at_pos == f_armchair ||
-         furn_at_pos == f_sofa || furn_at_pos == f_hay || ter_at_pos == t_improvised_shelter ||
-         (in_shell) ||
-         (veh && veh->part_with_feature (vpart, "SEAT") >= 0) ||
-         (veh && veh->part_with_feature (vpart, "BED") >= 0)) &&
-        (!(plantsleep)) ) {
+    if( !plantsleep && (furn_at_pos == f_bed || furn_at_pos == f_makeshift_bed ||
+          trap_at_pos == tr_cot || trap_at_pos == tr_rollmat ||
+          trap_at_pos == tr_fur_rollmat || furn_at_pos == f_armchair ||
+          furn_at_pos == f_sofa || furn_at_pos == f_hay || ter_at_pos == t_improvised_shelter ||
+          (in_shell) || (veh && veh->part_with_feature (vpart, "SEAT") >= 0) ||
+          (veh && veh->part_with_feature (vpart, "BED") >= 0)) ) {
         add_msg(m_good, _("This is a comfortable place to sleep."));
-    } else if ((ter_at_pos != t_floor) && (!(plantsleep))) {
+    } else if (ter_at_pos != t_floor && !plantsleep) {
         add_msg( terlist[ter_at_pos].movecost <= 2 ?
                  _("It's a little hard to get to sleep on this %s.") :
                  _("It's hard to get to sleep on this %s."),
                  terlist[ter_at_pos].name.c_str() );
     }
-    add_disease("lying_down", 300);
+    add_effect("lying_down", 300);
 }
 
 bool player::can_sleep()
 {
- int sleepy = 0;
- bool plantsleep = false;
- bool in_shell = false;
-   if (has_addiction(ADD_SLEEP)) {
-      sleepy -= 3;
-   }
-   if (has_trait("INSOMNIA")) {
-      sleepy -= 8;
-   }
-   if (has_trait("EASYSLEEPER")) {
-      sleepy += 8;
-   }
-   if (has_trait("CHLOROMORPH")) {
-      plantsleep = true;
-   }
-   if (has_active_mutation("SHELL2")) {
-      // Your shell's interior is a comfortable place to sleep.
-      in_shell = true;
-   }
- int vpart = -1;
- vehicle *veh = g->m.veh_at (posx, posy, vpart);
- const trap_id trap_at_pos = g->m.tr_at(posx, posy);
- const ter_id ter_at_pos = g->m.ter(posx, posy);
- const furn_id furn_at_pos = g->m.furn(posx, posy);
- if ( ((veh && veh->part_with_feature (vpart, "BED") >= 0) ||
-     furn_at_pos == f_makeshift_bed || trap_at_pos == tr_cot ||
-     furn_at_pos == f_sofa || furn_at_pos == f_hay || (in_shell)) &&
-     (!(plantsleep)) ) {
-    sleepy += 4;
- }
- else if ( ((veh && veh->part_with_feature (vpart, "SEAT") >= 0) ||
-      trap_at_pos == tr_rollmat || trap_at_pos == tr_fur_rollmat ||
-      furn_at_pos == f_armchair || ter_at_pos == t_improvised_shelter) && (!(plantsleep)) ) {
-    sleepy += 3;
- }
- else if ( (furn_at_pos == f_bed) && (!(plantsleep)) ) {
-    sleepy += 5;
- }
- else if ( (ter_at_pos == t_floor) && (!(plantsleep)) ) {
-    sleepy += 1;
- }
- else if (plantsleep) {
-    if ((ter_at_pos == t_dirt || ter_at_pos == t_pit ||
-        ter_at_pos == t_dirtmound || ter_at_pos == t_pit_shallow) &&
-        furn_at_pos == f_null) {
-        sleepy += 10; // It's very easy for Chloromorphs to get to sleep on soil!
+    int sleepy = 0;
+    bool plantsleep = false;
+    bool in_shell = false;
+    if (has_addiction(ADD_SLEEP)) {
+        sleepy -= 3;
     }
-    else if ((ter_at_pos == t_grass) &&
-        furn_at_pos == f_null) {
-        sleepy += 5; // Not as much if you have to dig through stuff first
+    if (has_trait("INSOMNIA")) {
+        sleepy -= 8;
     }
-    else {
-        sleepy -= 999; // Sleep ain't happening
+    if (has_trait("EASYSLEEPER")) {
+        sleepy += 8;
     }
- }
- else
-  sleepy -= g->m.move_cost(posx, posy);
- if (fatigue < 192)
-  sleepy -= int( (192 - fatigue) / 4);
- else
-  sleepy += int((fatigue - 192) / 16);
- sleepy += rng(-8, 8);
- sleepy -= 2 * stim;
- if (sleepy > 0)
-  return true;
- return false;
+    if (has_trait("CHLOROMORPH")) {
+        plantsleep = true;
+    }
+    if (has_active_mutation("SHELL2")) {
+        // Your shell's interior is a comfortable place to sleep.
+        in_shell = true;
+    }
+    int vpart = -1;
+    vehicle *veh = g->m.veh_at (posx, posy, vpart);
+    const trap_id trap_at_pos = g->m.tr_at(posx, posy);
+    const ter_id ter_at_pos = g->m.ter(posx, posy);
+    const furn_id furn_at_pos = g->m.furn(posx, posy);
+    if ( !plantsleep && ((veh && veh->part_with_feature (vpart, "BED") >= 0) ||
+          furn_at_pos == f_makeshift_bed || trap_at_pos == tr_cot ||
+          furn_at_pos == f_sofa || furn_at_pos == f_hay || in_shell) ) {
+        sleepy += 4;
+    } else if ( !plantsleep && ((veh && veh->part_with_feature (vpart, "SEAT") >= 0) ||
+          trap_at_pos == tr_rollmat || trap_at_pos == tr_fur_rollmat ||
+          furn_at_pos == f_armchair || ter_at_pos == t_improvised_shelter) ) {
+        sleepy += 3;
+    } else if ( furn_at_pos == f_bed && !plantsleep ) {
+        sleepy += 5;
+    } else if ( ter_at_pos == t_floor && !plantsleep ) {
+        sleepy += 1;
+    } else if (plantsleep) {
+        if ((ter_at_pos == t_dirt || ter_at_pos == t_pit ||
+              ter_at_pos == t_dirtmound || ter_at_pos == t_pit_shallow) &&
+              furn_at_pos == f_null) {
+            sleepy += 10; // It's very easy for Chloromorphs to get to sleep on soil!
+        } else if (ter_at_pos == t_grass && furn_at_pos == f_null) {
+            sleepy += 5; // Not as much if you have to dig through stuff first
+        } else {
+            sleepy -= 999; // Sleep ain't happening
+        }
+    } else {
+        sleepy -= g->m.move_cost(posx, posy);
+    }
+    if (fatigue < 192) {
+        sleepy -= int( (192 - fatigue) / 4);
+    } else {
+        sleepy += int((fatigue - 192) / 16);
+    }
+    sleepy += rng(-8, 8);
+    sleepy -= 2 * stim;
+    if (sleepy > 0) {
+        return true;
+    }
+    return false;
 }
 
 void player::fall_asleep(int duration)
 {
-    add_disease("sleep", duration);
+    add_effect("sleep", duration);
 }
 
-void player::wake_up(const char * message)
+void player::wake_up()
 {
-    rem_disease("sleep");
-    if (message) {
-        add_msg_if_player(message);
-    } else {
-        add_msg_if_player(_("You wake up."));
-    }
+    remove_effect("sleep");
+    remove_effect("lying_down");
 }
 
 std::string player::is_snuggling()

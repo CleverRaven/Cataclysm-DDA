@@ -167,6 +167,9 @@ class Creature
         // not-quite-stats, maybe group these with stats later
         virtual void mod_pain(int npain);
         virtual void mod_moves(int nmoves);
+        virtual void set_moves(int nmoves);
+        
+        virtual bool in_sleep_state();
 
         /*
          * Get/set our killer, this is currently used exclusively to allow

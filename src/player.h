@@ -683,14 +683,14 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void do_read( item *book );
         /** Note that we've read a book at least once. **/
         bool has_identified( std::string item_id ) const;
-        /** Handles sleep attempts by the player, adds DIS_LYING_DOWN */
+        /** Handles sleep attempts by the player, adds "lying_down" */
         void try_to_sleep();
-        /** Checked each turn during DIS_LYING_DOWN, returns true if the player falls asleep */
-        bool can_sleep(); // Checked each turn during DIS_LYING_DOWN
-        /** Adds the sleeping disease to the player */
+        /** Checked each turn during "lying_down", returns true if the player falls asleep */
+        bool can_sleep();
+        /** Adds "sleep" to the player */
         void fall_asleep(int duration);
-        /** Removes the sleeping disease from the player, displaying message */
-        void wake_up(const char *message = NULL);
+        /** Removes "sleep" and "lying_down" from the player */
+        void wake_up();
         /** Checks to see if the player is using floor items to keep warm, and return the name of one such item if so */
         std::string is_snuggling();
         /** Returns a value used for things like reading and sewing based on light level */

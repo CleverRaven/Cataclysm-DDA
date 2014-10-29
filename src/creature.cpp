@@ -642,14 +642,14 @@ void Creature::clear_effects()
 }
 void Creature::remove_effect(efftype_id eff_id, body_part bp)
 {
-    if (effects.find(eff_id) == effects.end()) {
+    if (!has_effect(eff_id, bp)) {
         //Effect doesn't exist, so do nothing
         return;
     }
     
-    if (is_player()) { // only print the message if we didn't already have it
-        if(effect_types[eff_id].get_apply_message() != "") {
-                 add_msg(effect_types[eff_id].lose_game_message_type(),
+    if (is_player()) {
+        if(effect_types[eff_id].get_remove_message() != "") {
+            add_msg(effect_types[eff_id].lose_game_message_type(),
                          _(effect_types[eff_id].get_remove_message().c_str()));
         }
         g->u.add_memorial_log(pgettext("memorial_male",
@@ -658,7 +658,7 @@ void Creature::remove_effect(efftype_id eff_id, body_part bp)
                                        effect_types[eff_id].get_remove_memorial_log().c_str()));
     }
     
-    // num_bp means remove all of a given effect id
+    // num_bp means remove of all of a given effect id
     if (bp == num_bp) {
         effects.erase(eff_id);
     } else {
@@ -784,6 +784,15 @@ void Creature::mod_pain(int npain)
 void Creature::mod_moves(int nmoves)
 {
     moves += nmoves;
+}
+void Creature::set_moves(int nmoves)
+{
+    moves = nmoves;
+}
+
+bool Creature::in_sleep_state()
+{
+    return has_effect("sleep") || has_effect("lying_down");
 }
 
 /*
