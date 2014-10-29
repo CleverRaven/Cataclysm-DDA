@@ -405,6 +405,12 @@ public:
 // returns true if given flag is present for given part index
     bool part_flag (int p, const std::string &f) const;
     bool part_flag (int p, const vpart_bitflags &f) const;
+    
+//return true if given fuel type is present for given part index
+    bool part_fuel_type (int part, const std::string &fuel_type) const;
+    
+//true if combustion engines are on and part is a combustion engine, or not a combustion engine
+    bool part_is_combustion_enabled(int p) const;
 
 // Translate seat-relative mount coords into tile coords
     void coord_translate (int reldx, int reldy, int &dx, int &dy);
@@ -714,6 +720,7 @@ public:
     bool cruise_on;     // cruise control on/off
     bool reactor_on;    // reactor on/off
     bool engine_on;     // engine on/off
+    bool combustion_engine_on; //diesel and gasoline engines on/off
     bool has_pedals;
     bool has_paddles;
     bool has_hand_rims;
