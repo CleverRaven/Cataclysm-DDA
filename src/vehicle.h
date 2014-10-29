@@ -22,6 +22,7 @@ float get_collision_factor(float delta_v);
 
 #define num_fuel_types 6
 extern const ammotype fuel_types[num_fuel_types];
+extern const nc_color fuel_colors[num_fuel_types];
 #define k_mvel 200 //adjust this to balance collision damage
 
 // 0 - nothing, 1 - monster/player/npc, 2 - vehicle,

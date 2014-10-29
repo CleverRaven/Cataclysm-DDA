@@ -19,11 +19,6 @@
 #define ISNAN std::isnan
 #endif
 
-	const ammotype fuel_types[num_fuel_types] = { 
-		"gasoline", "diesel", "battery", "plutonium", "plasma", "water" };
-	const nc_color fuel_colors[num_fuel_types] = { 
-		c_ltred, c_brown, c_yellow, c_ltgreen, c_ltblue, c_ltcyan};
-
 /**
  * Creates a blank veh_interact window.
  */
