@@ -1954,9 +1954,14 @@ void vehicle::print_fuel_indicator (void *w, int y, int x, bool fullsize, bool v
     const char fsyms[5] = { 'E', '\\', '|', '/', 'F' };
     nc_color col_indf1 = c_ltgray;
     int yofs = 0;
+    
+    int max_gauge = 5;
+    int cur_gauge = 0;
+    
     for (int i = 0; i < num_fuel_types; i++) {
         int cap = fuel_capacity(fuel_types[i]);
         if (cap > 0 && ( basic_consumption(fuel_types[i]) > 0 || fullsize ) ) {
+            if (cur_gauge++ >= max_gauge) break;
             mvwprintz(win, y + yofs, x, col_indf1, "E...F");
             int amnt = cap > 0? fuel_left(fuel_types[i]) * 99 / cap : 0;
             int indf = (amnt / 20) % 5;
