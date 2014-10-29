@@ -564,6 +564,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void mod_pain(int npain);
         
         void cough(bool harmful = false, int volume = 4);
+        
+        void add_pain_msg(int val, body_part bp);
 
         /** Heals a body_part for dam */
         void heal(body_part healed, int dam);

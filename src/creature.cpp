@@ -543,6 +543,8 @@ bool Creature::move_effects()
 
 void Creature::add_eff_effects(effect e, bool reduced)
 {
+    (void)e;
+    (void)reduced;
     return;
 }
  
