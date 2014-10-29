@@ -1394,21 +1394,32 @@ std::vector<std::string> defense_game::pick_monster_wave()
 
 void defense_game::spawn_wave_monster(mtype *type)
 {
-    monster tmp(type);
-    if (location == DEFLOC_HOSPITAL || location == DEFLOC_MALL) {
-        // Always spawn to the north!
-        tmp.setpos(rng(SEEX * (MAPSIZE / 2), SEEX * (1 + MAPSIZE / 2)), SEEY);
-    } else if (one_in(2)) {
-        tmp.spawn(rng(SEEX * (MAPSIZE / 2), SEEX * (1 + MAPSIZE / 2)), rng(1, SEEY));
-        if (one_in(2)) {
-            tmp.setpos(tmp.posx(), SEEY * MAPSIZE - 1 - tmp.posy());
+    point pnt;
+    int tries = 0;
+    while( true ) {
+        if( location == DEFLOC_HOSPITAL || location == DEFLOC_MALL ) {
+            // Always spawn to the north!
+            pnt = point( rng( SEEX * ( MAPSIZE / 2 ), SEEX * ( 1 + MAPSIZE / 2 ) ), SEEY );
+        } else if( one_in( 2 ) ) {
+            pnt = point( rng( SEEX * ( MAPSIZE / 2 ), SEEX * ( 1 + MAPSIZE / 2 ) ), rng( 1, SEEY ) );
+            if( one_in( 2 ) ) {
+                pnt = point( pnt.x, SEEY * MAPSIZE - 1 - pnt.y );
+            }
+        } else {
+            pnt = point( rng( 1, SEEX ), rng( SEEY * ( MAPSIZE / 2 ), SEEY * ( 1 + MAPSIZE / 2 ) ) );
+            if( one_in( 2 ) ) {
+                pnt = point( SEEX * MAPSIZE - 1 - pnt.x, pnt.y );
+            }
         }
-    } else {
-        tmp.spawn(rng(1, SEEX), rng(SEEY * (MAPSIZE / 2), SEEY * (1 + MAPSIZE / 2)));
-        if (one_in(2)) {
-            tmp.setpos(SEEX * MAPSIZE - 1 - tmp.posx(), tmp.posy());
+        if( g->is_empty( pnt.x, pnt.y ) ) {
+            break;
+        }
+        if( tries++ == 1000 ) {
+            DebugLog( D_ERROR, DC_ALL ) << "could not find acceptable monster spawn location";
+            return;
         }
     }
+    monster tmp( type, pnt.x, pnt.y );
     tmp.wandx = g->u.posx;
     tmp.wandy = g->u.posy;
     tmp.wandf = 150;
