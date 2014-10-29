@@ -1437,9 +1437,6 @@ void player::recalc_speed_bonus()
 
     mod_speed_bonus(stim > 40 ? 40 : stim);
 
-    for (auto &i : illness) {
-        mod_speed_bonus(disease_speed_boost(i));
-    }
     for (auto maps : effects) {
         for (auto i : maps.second) {
             bool reduced = has_trait(i.second.get_resist_trait()) ||
@@ -2741,14 +2738,6 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
 
     std::map<std::string, int> speed_effects;
     std::string dis_text = "";
-    for (auto &next_illness : illness) {
-        int move_adjust = disease_speed_boost(next_illness);
-        if (move_adjust != 0) {
-            dis_text = dis_name(next_illness);
-            speed_effects[dis_text] += move_adjust;
-        }
-    }
-    
     for( auto maps = effects.begin(); maps != effects.end(); ++maps ) {
         for( auto effect_it = maps->second.begin(); effect_it != maps->second.end(); ++effect_it ) {
             auto &it = effect_it->second;
@@ -5261,15 +5250,6 @@ void player::add_disease(dis_type type, int duration, bool permanent,
     if (!found) {
         disease tmp(type, duration, intensity, part, permanent, decay);
         illness.push_back(tmp);
-
-        if (!is_npc()) {
-            if (dis_msg(type)) {
-                SCT.add(this->xpos(),
-                        this->ypos(),
-                        SOUTH,
-                        dis_name(tmp), m_info);
-            }
-        }
     }
 
     recalc_sight_limits();
@@ -5280,7 +5260,6 @@ void player::rem_disease(dis_type type, body_part part)
     for (auto &next_illness : illness) {
         if (next_illness.type == type && ( part == num_bp || next_illness.bp == part )) {
             next_illness.duration = -1;
-            dis_remove_memorial(type);
         }
     }
 
@@ -7276,7 +7255,6 @@ void player::suffer()
             next_illness.intensity--;
         }
         if (next_illness.duration <= 0 || next_illness.intensity == 0) {
-            dis_end_msg(*this, next_illness);
             it = illness.erase( it );
         } else {
             it++;

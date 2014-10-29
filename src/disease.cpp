@@ -28,37 +28,6 @@ void game::init_diseases() {
     disease_type_lookup["ma_buff"] = DI_MA_BUFF;
 }
 
-bool dis_msg(dis_type type_string) {
-    dis_type_enum type = disease_type_lookup[type_string];
-    switch (type) {
-    default:
-        return false;
-        break;
-    }
-
-    return true;
-}
-
-void dis_end_msg(player &p, disease &dis)
-{
-    switch (disease_type_lookup[dis.type]) {
-    default:
-        break;
-    }
-}
-
-void dis_remove_memorial(dis_type type_string) {
-
-  dis_type_enum type = disease_type_lookup[type_string];
-
-  switch(type) {
-
-    default:
-        break;
-  }
-
-}
-
 void dis_effect(player &p, disease &dis)
 {
     dis_type_enum disType = disease_type_lookup[dis.type];
@@ -78,15 +47,6 @@ void dis_effect(player &p, disease &dis)
         default: // Other diseases don't have any effects. Suppress warning.
             break;
     }
-}
-
-int disease_speed_boost(disease dis)
-{
-    dis_type_enum type = disease_type_lookup[dis.type];
-    switch (type) {
-        default:            break;
-    }
-    return 0;
 }
 
 std::string dis_name(disease& dis)
