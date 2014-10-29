@@ -140,8 +140,11 @@
         "move_cost": 2,
         "flags": ["TRANSPARENT", "FLAT"],
         "bash": {
-            "str_min": 999, "str_max": 999,
+            "destroy_only": true,
             "ter_set": "t_dirt"
+            "items": [
+                { "item": "rock", "amount": 4, "minamount": 2 }
+            ]
         }
     },{
         "type" : "terrain",
@@ -152,8 +155,11 @@
         "move_cost": 2,
         "flags": ["TRANSPARENT", "FLAT"],
         "bash": {
-            "str_min": 999, "str_max": 999,
+            "destroy_only": true,
             "ter_set": "t_dirt"
+            "items": [
+                { "item": "rock", "amount": 4, "minamount": 2 }
+            ]            
         }
     },{
         "type" : "terrain",
@@ -164,8 +170,11 @@
         "move_cost": 2,
         "flags": ["TRANSPARENT", "FLAT"],
         "bash": {
-            "str_min": 999, "str_max": 999,
+            "destroy_only": true,
             "ter_set": "t_dirt"
+            "items": [
+                { "item": "rock", "amount": 4, "minamount": 2 }
+            ]
         }
     },{
         "type" : "terrain",
@@ -176,8 +185,11 @@
         "move_cost": 2,
         "flags": ["TRANSPARENT", "FLAT"],
         "bash": {
-            "str_min": 999, "str_max": 999,
+            "destroy_only": true,
             "ter_set": "t_dirt"
+            "items": [
+                { "item": "rock", "amount": 4, "minamount": 2 }
+            ]
         }
     },{
         "type" : "terrain",
