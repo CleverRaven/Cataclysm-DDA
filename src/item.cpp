@@ -959,7 +959,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         }
         if (is_tool() && has_flag("USE_UPS")) {
             dump->push_back(iteminfo("DESCRIPTION",
-                _("This tool has been modified to use a universal power supply.")));
+                _("This tool has been modified to use a universal power supply and is not compatible with standard batteries.")));
         }
 
         if (has_flag("LEAK_DAM") && has_flag("RADIOACTIVE") && damage > 0) {
