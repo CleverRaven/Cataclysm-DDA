@@ -19,6 +19,11 @@
 #define ISNAN std::isnan
 #endif
 
+	const ammotype fuel_types[num_fuel_types] = { 
+		"gasoline", "diesel", "battery", "plutonium", "plasma", "water" };
+	const nc_color fuel_colors[num_fuel_types] = { 
+		c_ltred, c_brown, c_yellow, c_ltgreen, c_ltblue, c_ltcyan};
+
 /**
  * Creates a blank veh_interact window.
  */
@@ -1327,8 +1332,7 @@ void veh_interact::display_stats()
     // "Fuel usage (safe): " is renamed to "Fuel usage: ".
     mvwprintz(w_stats, y[9], x[9], c_ltgray,  _("Fuel usage:     "));
     x[9] += utf8_width(_("Fuel usage:     "));
-    ammotype fuel_types[4] = { "gasoline", "diesel", "battery", "plasma" };
-    nc_color fuel_colors[4] = { c_ltred, c_green, c_yellow, c_ltblue };
+
     bool first = true;
     int fuel_name_length = 0;
     for (int i = 0; i < 4; ++i) {
