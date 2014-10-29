@@ -149,7 +149,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Processes long-term effects */
         void process_effects();
         /** Handles the still hardcoded effects */
-        void hardcoded_effects(effect it);
+        void hardcoded_effects(effect &it);
         /** Handles vomiting modifiers */
         double vomit_mod();
 

@@ -5798,7 +5798,7 @@ void player::process_effects() {
     Creature::process_effects();
 }
 
-void player::hardcoded_effects(effect it)
+void player::hardcoded_effects(effect &it)
 {
     std::string id = it.get_id();
     int dur = it.get_duration();

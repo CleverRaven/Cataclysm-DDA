@@ -202,7 +202,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         /** Handles effect application effects. */
         virtual void add_eff_effects(effect e, bool reduced);
         virtual void add_effect(efftype_id eff_id, int dur, body_part bp = num_bp, bool permanent = false,
-                                int intensity = 1);
+                                int intensity = 0);
         int  get_armor_cut(body_part bp) const;   // Natural armor, plus any worn armor
         int  get_armor_bash(body_part bp) const;  // Natural armor, plus any worn armor
         int  get_dodge() const;       // Natural dodge, or 0 if we're occupied
