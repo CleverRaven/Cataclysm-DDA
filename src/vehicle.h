@@ -411,6 +411,9 @@ public:
     
 //true if the engine is currently active
     bool is_engine_enabled(int p) const;
+    
+//true if fuel type is consumed by current running engines
+    bool is_fuel_type_enabled(ammotype ft) const;
 
 // Translate seat-relative mount coords into tile coords
     void coord_translate (int reldx, int reldy, int &dx, int &dy);

@@ -519,7 +519,7 @@ void vehicle::use_controls()
                                                _("Enable hybrid controller."), 'y'));
     }
     if (has_hybrid_setup && hybrid_mode_on) {
-        options_choice.push_back(toggle_combustion_eng);
+        options_choice.push_back(toggle_electric_only_on);
         options_message.push_back(uimenu_entry((electric_only_on) ? _("Switch to non-electric mode.") :
                                                _("Switch to electric mode."), 'u'));
     }
@@ -611,9 +611,9 @@ void vehicle::use_controls()
         hybrid_mode_on = !hybrid_mode_on;
         add_msg((hybrid_mode_on) ? _("Hybrid mode turned on") : _("Hybrid mode turned off"));
         break;
-    case toggle_combustion_eng:
-        combustion_engine_on = !combustion_engine_on;
-        add_msg((combustion_engine_on) ? _("Switched to combustion engines") : _("Switched to electric engines"));
+    case toggle_electric_only_on:
+        electric_only_on = !electric_only_on;
+        add_msg((electric_only_on) ? _("Switched to electric engines") : _("Switched to non-electric engines"));
         break;
     case toggle_cruise_control:
         cruise_on = !cruise_on;
@@ -852,7 +852,7 @@ void vehicle::start_engine()
     // TODO: Make chance of success based on engine condition.
     for( size_t p = 0; p < engines.size(); ++p ) {
         if(parts[engines[p]].hp > 0) {
-            if(combustion_engine_on && (part_info(engines[p]).fuel_type == fuel_type_gasoline 
+            if(!electric_only_on && (part_info(engines[p]).fuel_type == fuel_type_gasoline 
                                     || part_info(engines[p]).fuel_type == fuel_type_diesel)) {
                 int engine_power = part_power(engines[p]);
                 if(engine_power < 50) {
@@ -1726,14 +1726,14 @@ bool vehicle::is_engine_enabled(int p) const
     //either hybrid mode is off, or engine is electric and should be on,
     //or engine is not electric and should be on
     return !hybrid_mode_on || 
-            (part_fuel_type(p, fuel_type_battery)) && electric_only_on)
-            (!part_fuel_type(p, fuel_type_battery)) && !electric_only_on)
+            (part_fuel_type(p, fuel_type_battery) && electric_only_on) ||
+            (!part_fuel_type(p, fuel_type_battery) && !electric_only_on);
 }
-bool vehicle::is_fuel_type_enabled(ammotype ft)
+bool vehicle::is_fuel_type_enabled(ammotype ft) const
 {
     //all fuel active when hybrid mode off, or electrics on, or non-electrics on
-    return !hybrid_mode_on || (ft == fuel_type_battery && electric_only_on) ||
-                                (ft != fuel_type_battery && !electric_only_on);
+    return !hybrid_mode_on || (ft.compare(fuel_type_battery) == 0 && electric_only_on) ||
+                                (ft.compare(fuel_type_battery) != 0 && !electric_only_on);
 }
 
 bool vehicle::part_flag( int part, const vpart_bitflags &flag) const
@@ -2278,6 +2278,9 @@ int vehicle::basic_consumption (const ammotype & ftype)
                 if(part_info(engines[p]).fuel_type == fuel_type_battery) {
                     // electric engine - use epower instead
                     fcon += abs(epower_to_power(part_epower(engines[p])));
+                    ///debuig
+                    add_msg(_("Electric engines draining"));
+
                 }
                 else {
                     fcon += part_power(engines[p]);
@@ -2669,8 +2672,9 @@ void vehicle::consume_fuel( double load = 1.0 )
     int ftype_coeff[4] = {                100,              100,                 1,              100 };
     for( int ft = 0; ft < 4; ft++ ) {
         //if engine type is off, skip fuel consume
-        if (!is_fuel_type_enabled(ftypes[i]))
+        if (!is_fuel_type_enabled(ftypes[ft]))
             continue;
+
 
         double amnt_precise = double(basic_consumption(ftypes[ft])) / ftype_coeff[ft];
         float st = strain() * 10;
@@ -2692,6 +2696,7 @@ void vehicle::consume_fuel( double load = 1.0 )
                 }
             }
         }
+
     }
 }
 
@@ -3165,12 +3170,7 @@ void vehicle::thrust (int thd) {
         {
             int percent_battery = (fuel_left(fuel_type_battery) * 99) 
                                     / fuel_capacity(fuel_type_battery);
-            //~ if (velocity > safe_velocity())
-            //~ {
-                //~ electric_only_on = false;
-                //~ add_msg(_("Your electric engines can't handle the speed."));
-                //~ add_msg(_("Your combustion engines start up."));
-            //~ } 
+
             if (percent_battery <= 5)
             {   
                 electric_only_on = false;
