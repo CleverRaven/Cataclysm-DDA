@@ -9679,10 +9679,6 @@ bool player::eat(item *eaten, it_comest *comest)
         add_msg_if_player(m_bad, _("Your stomach immediately revolts, you can't keep this disgusting stuff down."));
         if( !one_in(3) && (stomach_food || stomach_water) ) {
             vomit();
-        } else {
-            add_memorial_log(pgettext("memorial_male", "Threw up."),
-                             pgettext("memorial_female", "Threw up."));
-            add_msg( m_bad, _("You throw up everything you just ate!") );
         }
     }
     return true;
