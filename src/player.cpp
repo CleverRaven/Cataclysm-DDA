@@ -6244,6 +6244,9 @@ void player::mend()
         if(broken) {
             double mending_odds = 200.0; // 2 weeks, on average. (~20160 minutes / 100 minutes)
             double healing_factor = 1.0;
+            if (has_trait("REGEN_LIZ")) {
+                healing_factor = 20.0;
+            }
             // Studies have shown that alcohol and tobacco use delay fracture healing time
             if(has_disease("cig") | addiction_level(ADD_CIG)) {
                 healing_factor *= 0.5;
@@ -6291,18 +6294,34 @@ void player::mend()
                 case hp_arm_r:
                     part = bp_arm_r;
                     mended = is_wearing_on_bp("arm_splint", bp_arm_r) && x_in_y(healing_factor, mending_odds);
+                    if (mended == false && has_trait("REGEN_LIZ")) {
+                        healing_factor *= 0.2; // Splints aren't *strictly* necessary for your anatomy
+                        mended = x_in_y(healing_factor, mending_odds);
+                    }
                     break;
                 case hp_arm_l:
                     part = bp_arm_l;
                     mended = is_wearing_on_bp("arm_splint", bp_arm_l) && x_in_y(healing_factor, mending_odds);
+                    if (mended == false && has_trait("REGEN_LIZ")) {
+                        healing_factor *= 0.2; // But without them, you're looking at a much longer recovery.
+                        mended = x_in_y(healing_factor, mending_odds);
+                    }
                     break;
                 case hp_leg_r:
                     part = bp_leg_r;
                     mended = is_wearing_on_bp("leg_splint", bp_leg_r) && x_in_y(healing_factor, mending_odds);
+                    if (mended == false && has_trait("REGEN_LIZ")) {
+                        healing_factor *= 0.2;
+                        mended = x_in_y(healing_factor, mending_odds);
+                    }
                     break;
                 case hp_leg_l:
                     part = bp_leg_l;
                     mended = is_wearing_on_bp("leg_splint", bp_leg_l) && x_in_y(healing_factor, mending_odds);
+                    if (mended == false && has_trait("REGEN_LIZ")) {
+                        healing_factor *= 0.2;
+                        mended = x_in_y(healing_factor, mending_odds);
+                    }
                     break;
                 default:
                     // No mending for you!
