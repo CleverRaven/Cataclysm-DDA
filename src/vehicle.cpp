@@ -1717,7 +1717,7 @@ bool vehicle::part_fuel_type (int part, const std::string &fuel_type) const
     if (part < 0 || part >= (int)parts.size() || parts[part].removed) {
         return false;
     } else {
-        return (part_info(part).fuel_type.compare(fuel_type) == 0);
+        return (part_info(part).fuel_type == fuel_type);
     }
 }
 
@@ -1732,8 +1732,8 @@ bool vehicle::is_engine_enabled(int p) const
 bool vehicle::is_fuel_type_enabled(ammotype ft) const
 {
     //all fuel active when hybrid mode off, or electrics on, or non-electrics on
-    return !hybrid_mode_on || (ft.compare(fuel_type_battery) == 0 && electric_only_on) ||
-                                (ft.compare(fuel_type_battery) != 0 && !electric_only_on);
+    return !hybrid_mode_on || (ft == fuel_type_battery && electric_only_on) ||
+                                (ft != fuel_type_battery && !electric_only_on);
 }
 
 bool vehicle::part_flag( int part, const vpart_bitflags &flag) const
@@ -2274,12 +2274,10 @@ int vehicle::basic_consumption (const ammotype & ftype)
     for( size_t p = 0; p < engines.size(); ++p ) {
         if(ftype == part_info(engines[p]).fuel_type && parts[engines[p]].hp > 0) {
             //check if engine is on
-            if (is_engine_enabled(p)){
+            if (is_engine_enabled(engines[p])){
                 if(part_info(engines[p]).fuel_type == fuel_type_battery) {
                     // electric engine - use epower instead
                     fcon += abs(epower_to_power(part_epower(engines[p])));
-                    ///debuig
-                    add_msg(_("Electric engines draining"));
 
                 }
                 else {
@@ -2302,8 +2300,8 @@ int vehicle::total_power (bool fueled)
     for (size_t p = 0; p < parts.size(); p++) {
         if (part_flag(p, VPFLAG_ENGINE) \
             && is_engine_enabled(p)
-            && (fuel_left (part_info(p).fuel_type) 
-            || !fueled || ((part_info(p).fuel_type == fuel_type_muscle) && player_controlling &&
+            && (fuel_left (part_info(p).fuel_type) || !fueled || 
+            ((part_info(p).fuel_type == fuel_type_muscle) && player_controlling &&
               part_with_feature(part_under_player, VPFLAG_ENGINE) == (int)p)) && parts[p].hp > 0) {
             pwr += part_power(p);
             cnt++;
