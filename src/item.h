@@ -150,6 +150,13 @@ public:
 
  bool invlet_is_okay();
         bool stacks_with( const item &rhs ) const;
+        /**
+         * Merge charges of the other item into this item.
+         * @return true if the items have been merged, otherwise false.
+         * Merging is only done for items counted by charges (@ref count_by_charges) and
+         * items that stack together (@ref stacks_with).
+         */
+        bool merge_charges( const item &rhs );
  void put_in(item payload);
  void add_rain_to_container(bool acid, int charges = 1);
 

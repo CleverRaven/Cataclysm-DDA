@@ -3672,8 +3672,7 @@ bool vehicle::add_item (int part, item itm)
     // iterate anyway since we need a volume total
     for (auto &i : parts[part].items) {
         cur_volume += i.volume();
-        if( tryaddcharges && i.type->id == itm.type->id ) {
-            i.charges+=itm.charges;
+        if( tryaddcharges && i.merge_charges( itm ) ) {
             return true;
         }
     }

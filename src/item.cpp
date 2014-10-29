@@ -308,6 +308,19 @@ bool item::stacks_with( const item &rhs ) const
     return true;
 }
 
+bool item::merge_charges( const item &rhs )
+{
+    if( !count_by_charges() || !stacks_with( rhs ) ) {
+        return false;
+    }
+    // We'll just hope that the item counter represents the same thing for both items
+    if( item_counter > 0 || rhs.item_counter > 0 ) {
+        item_counter = ( item_counter * charges + rhs.item_counter * rhs.charges ) / ( charges + rhs.charges );
+    }
+    charges += rhs.charges;
+    return true;
+}
+
 void item::put_in(item payload)
 {
     contents.push_back(payload);

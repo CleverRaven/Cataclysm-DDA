@@ -2955,7 +2955,6 @@ bool map::add_item_or_charges(const int x, const int y, item new_item, int overf
     std::vector<point> ps = closest_points_first(overflow_radius, x, y);
     for(std::vector<point>::iterator p_it = ps.begin(); p_it != ps.end(); p_it++)
     {
-        itype_id add_type = new_item.type->id; // caching this here = ~25% speed increase
         if (!INBOUNDS(p_it->x, p_it->y) || new_item.volume() > this->free_volume(p_it->x, p_it->y) ||
                 has_flag("DESTROY_ITEM", p_it->x, p_it->y) || has_flag("NOITEM", p_it->x, p_it->y)){
             continue;
@@ -2964,9 +2963,7 @@ bool map::add_item_or_charges(const int x, const int y, item new_item, int overf
         if (tryaddcharges) {
             for (auto &i : i_at(p_it->x,p_it->y))
             {
-                if(i.type->id == add_type)
-                {
-                    i.charges += new_item.charges;
+                if( i.merge_charges( new_item ) ) {
                     return true;
                 }
             }
