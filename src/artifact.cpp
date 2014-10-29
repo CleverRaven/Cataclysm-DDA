@@ -667,11 +667,12 @@ std::string new_artifact()
                 art->create_name(newname.str());
             }
         }
+        // CHOP is a sword, STAB is a dagger
         if( art->item_tags.count( "CHOP" ) > 0 ) {
-            art->item_tags.insert( "SHEATH_KNIFE" );
+            art->item_tags.insert( "SHEATH_SWORD" );
         }
         if( art->item_tags.count( "STAB" ) > 0 ) {
-            art->item_tags.insert( "SHEATH_SWORD" );
+            art->item_tags.insert( "SHEATH_KNIFE" );
         }
         art->description = string_format(
                                _("This is the %s.\nIt is the only one of its kind.\nIt may have unknown powers; try activating them."),
@@ -1167,10 +1168,10 @@ void it_artifact_tool::deserialize(JsonObject &jo)
     }
 
     if( item_tags.count( "CHOP" ) > 0 ) {
-        item_tags.insert( "SHEATH_KNIFE" );
+        item_tags.insert( "SHEATH_SWORD" );
     }
     if( item_tags.count( "STAB" ) > 0 ) {
-        item_tags.insert( "SHEATH_SWORD" );
+        item_tags.insert( "SHEATH_KNIFE" );
     }
 }
 
