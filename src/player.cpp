@@ -5450,108 +5450,118 @@ void player::cough(bool harmful, int loudness) {
     }
 }
 
+void player::add_pain_msg(int val, body_part bp)
+{
+    if (has_trait("NOPAIN")) {
+        return;
+    }
+    if (bp == num_bp) {
+        if (val > 20) {
+            add_msg_if_player(_("Your body is wracked with excruciating pain!"));
+        } else if (val > 10) {
+            add_msg_if_player(_("Your body is wracked with terrible pain!"));
+        } else if (val > 5) {
+            add_msg_if_player(_("Your body is wracked with pain!"));
+        } else if (val > 1) {
+            add_msg_if_player(_("Your body pains you!"));
+        } else {
+            add_msg_if_player(_("Your body aches."));
+        }
+    } else {
+        if (val > 20) {
+            add_msg_if_player(_("Your %s is wracked with excruciating pain!"),
+                                body_part_name_accusative(bp).c_str());
+        } else if (val > 10) {
+            add_msg_if_player(_("Your %s is wracked with terrible pain!"),
+                                body_part_name_accusative(bp).c_str());
+        } else if (val > 5) {
+            add_msg_if_player(_("Your %s is wracked with pain!"),
+                                body_part_name_accusative(bp).c_str());
+        } else if (val > 1) {
+            add_msg_if_player(_("Your %s pains you!"),
+                                body_part_name_accusative(bp).c_str());
+        } else {
+            add_msg_if_player(_("Your %s aches."),
+                                body_part_name_accusative(bp).c_str());
+        }
+    }
+}
+
+static int bound_mod_to_vals(int val, int mod, int max, int min)
+{
+    if (val + mod > max && max != 0) {
+        mod = std::max(max - val, 0);
+    }
+    if (val + mod < min && min != 0) {
+        mod = std::min(min - val, 0);
+    }
+    return mod;
+}
+
 void player::add_eff_effects(effect e, bool reduced)
 {
     body_part bp = e.get_bp();
     // Add hurt
     if (e.get_amount("HURT", reduced) > 0) {
         if (bp == num_bp) {
+            add_msg_if_player(_("Your %s hurts!"), body_part_name_accusative(bp_torso).c_str());
             apply_damage(nullptr, bp_torso, e.get_mod("HURT"));
         } else {
+            add_msg_if_player(_("Your %s hurts!"), body_part_name_accusative(bp).c_str());
             apply_damage(nullptr, bp, e.get_mod("HURT"));
         }
     }
     // Add sleep
     if (e.get_amount("SLEEP", reduced) > 0) {
-        fall_asleep(e.get_mod("SLEEP"));
+        add_msg_if_player(_("You pass out!"));
+        fall_asleep(e.get_amount("SLEEP"));
     }
     // Add pkill
-    if (e.get_amount("PKILL", reduced) > 0 &&
-        (e.get_max_val("PKILL", reduced) > pkill || e.get_max_val("PKILL", reduced) == 0)) {
-        pkill += e.get_amount("PKILL", reduced);
-        if (pkill > e.get_max_val("PKILL", reduced)) {
-            pkill = e.get_max_val("PKILL", reduced);
-        }
+    if (e.get_amount("PKILL", reduced) > 0) {
+        pkill += bound_mod_to_vals(pkill, e.get_amount("PKILL", reduced),
+                        e.get_max_val("PKILL", reduced), 0);
     }
+
     // Add radiation
-    if (e.get_amount("RAD", reduced) > 0 &&
-        (e.get_max_val("RAD", reduced) > radiation || e.get_max_val("RAD", reduced) == 0)) {
-        radiation += e.get_amount("RAD", reduced);
-        if (radiation > e.get_max_val("RAD", reduced)) {
-            radiation = e.get_max_val("RAD", reduced);
-        }
+    if (e.get_amount("RAD", reduced) > 0) {
+        radiation += bound_mod_to_vals(radiation, e.get_amount("RAD", reduced),
+                        e.get_max_val("RAD", reduced), 0);
     }
     // Add health mod
-    if (e.get_amount("H_MOD", reduced) > 0 &&
-        (e.get_max_val("H_MOD", reduced) > get_healthy_mod() || e.get_max_val("H_MOD", reduced) == 0) &&
-        (e.get_min_val("H_MOD", reduced) < get_healthy_mod() || e.get_min_val("H_MOD", reduced) == 0)) {
-        mod_healthy_mod(e.get_amount("H_MOD", reduced));
-        // Bound to [min, max]
-        if (get_healthy_mod() > e.get_max_val("H_MOD", reduced)) {
-            set_healthy_mod(e.get_max_val("H_MOD", reduced));
-        } else if (get_healthy_mod() < e.get_min_val("H_MOD", reduced)) {
-            set_healthy_mod(e.get_min_val("H_MOD", reduced));
-        }
+    if (e.get_amount("H_MOD", reduced) > 0) {
+        mod_healthy_mod(bound_mod_to_vals(get_healthy_mod(), e.get_amount("H_MOD", reduced),
+                        e.get_max_val("H_MOD", reduced), e.get_min_val("H_MOD", reduced)));
     }
     // Add health
-    if (e.get_amount("HEALTH", reduced) > 0 &&
-        (e.get_max_val("HEALTH", reduced) > get_healthy() || e.get_max_val("HEALTH", reduced) == 0) &&
-        (e.get_min_val("HEALTH", reduced) < get_healthy() || e.get_min_val("HEALTH", reduced) == 0)) {
-        mod_healthy(e.get_amount("HEALTH", reduced));
-        // Bound to [min, max]
-        if (get_healthy() > e.get_max_val("HEALTH", reduced)) {
-            set_healthy(e.get_max_val("HEALTH", reduced));
-        } else if (get_healthy() < e.get_min_val("HEALTH", reduced)) {
-            set_healthy(e.get_min_val("HEALTH", reduced));
-        }
+    if (e.get_amount("HEALTH", reduced) > 0) {
+        mod_healthy(bound_mod_to_vals(get_healthy(), e.get_amount("HEALTH", reduced),
+                        e.get_max_val("HEALTH", reduced), e.get_min_val("HEALTH", reduced)));
     }
     // Add stim
-    if (e.get_amount("STIM", reduced) > 0 &&
-        (e.get_max_val("STIM", reduced) > stim || e.get_max_val("STIM", reduced) == 0) &&
-        (e.get_min_val("STIM", reduced) < stim || e.get_min_val("STIM", reduced) == 0)) {
-        stim += e.get_amount("STIM", reduced);
-        // Bound to [min, max]
-        if (stim > e.get_max_val("STIM", reduced)) {
-            stim = e.get_max_val("STIM", reduced);
-        } else if (stim < e.get_min_val("STIM", reduced)) {
-            stim = e.get_min_val("STIM", reduced);
-        }
+    if (e.get_amount("STIM", reduced) > 0) {
+        stim += bound_mod_to_vals(stim, e.get_amount("STIM", reduced),
+                        e.get_max_val("STIM", reduced), e.get_min_val("STIM", reduced));
     }
     // Add hunger
-    if (e.get_amount("HUNGER", reduced) > 0 &&
-        (e.get_max_val("HUNGER", reduced) > hunger || e.get_max_val("HUNGER", reduced) == 0) &&
-        (e.get_min_val("HUNGER", reduced) < hunger || e.get_min_val("HUNGER", reduced) == 0)) {
-        hunger += e.get_amount("HUNGER", reduced);
-        // Bound to [min, max]
-        if (hunger > e.get_max_val("HUNGER", reduced)) {
-            hunger = e.get_max_val("HUNGER", reduced);
-        } else if (hunger < e.get_min_val("HUNGER", reduced)) {
-            hunger = e.get_min_val("HUNGER", reduced);
-        }
+    if (e.get_amount("HUNGER", reduced) > 0) {
+        hunger += bound_mod_to_vals(hunger, e.get_amount("HUNGER", reduced),
+                        e.get_max_val("HUNGER", reduced), e.get_min_val("HUNGER", reduced));
     }
     // Add thirst
-    if (e.get_amount("THIRST", reduced) > 0 &&
-        (e.get_max_val("THIRST", reduced) > thirst || e.get_max_val("THIRST", reduced) == 0) &&
-        (e.get_min_val("THIRST", reduced) < thirst || e.get_min_val("THIRST", reduced) == 0)) {
-        thirst += e.get_amount("THIRST", reduced);
-        // Bound to [min, max]
-        if (thirst > e.get_max_val("THIRST", reduced)) {
-            thirst = e.get_max_val("THIRST", reduced);
-        } else if (thirst < e.get_min_val("THIRST", reduced)) {
-            thirst = e.get_min_val("THIRST", reduced);
-        }
+    if (e.get_amount("THIRST", reduced) > 0) {
+        thirst += bound_mod_to_vals(thirst, e.get_amount("THIRST", reduced),
+                        e.get_max_val("THIRST", reduced), e.get_min_val("THIRST", reduced));
     }
     // Add fatigue
-    if (e.get_amount("FATIGUE", reduced) > 0 &&
-        (e.get_max_val("FATIGUE", reduced) > fatigue || e.get_max_val("FATIGUE", reduced) == 0) &&
-        (e.get_min_val("FATIGUE", reduced) < fatigue || e.get_min_val("FATIGUE", reduced) == 0)) {
-        fatigue += e.get_amount("FATIGUE", reduced);
-        // Bound to [min, max]
-        if (fatigue > e.get_max_val("FATIGUE", reduced)) {
-            fatigue = e.get_max_val("FATIGUE", reduced);
-        } else if (fatigue < e.get_min_val("FATIGUE", reduced)) {
-            fatigue = e.get_min_val("FATIGUE", reduced);
-        }
+    if (e.get_amount("FATIGUE", reduced) > 0) {
+        fatigue += bound_mod_to_vals(fatigue, e.get_amount("FATIGUE", reduced),
+                        e.get_max_val("FATIGUE", reduced), e.get_min_val("FATIGUE", reduced));
+    }
+    // Add pain
+    if (e.get_amount("PAIN", reduced) > 0) {
+        add_pain_msg(e.get_amount("PAIN", reduced), bp);
+        mod_pain(bound_mod_to_vals(pain, e.get_amount("PAIN", reduced),
+                        e.get_max_val("PAIN", reduced), 0));
     }
     Creature::add_eff_effects(e, reduced);
 }
@@ -5572,16 +5582,18 @@ void player::process_effects() {
         remove_effect("bloodworms");
         remove_effect("brainworm");
         remove_effect("paincysts");
+        add_msg_if_player(m_good, _("Something writhes and inside of you as it dies."));
     }
     if (has_trait("EATHEALTH")) {
         remove_effect("tapeworm");
+        add_msg_if_player(m_good, _("Your bowels gurgle as something inside them dies."));
     }
     if (has_trait("INFIMMUNE")) {
         remove_effect("bite");
         remove_effect("infected");
         remove_effect("recover");
     }
-    if (!(has_effect("sleep") || has_effect("lying_down"))) {
+    if (!(in_sleep_state())) {
         remove_effect("alarm_clock");
     }
     
@@ -5591,6 +5603,8 @@ void player::process_effects() {
             auto &it = effect_it->second;
             bool reduced = has_trait(it.get_resist_trait()) || has_effect(it.get_resist_effect());
             double mod = 1;
+            body_part bp = it.get_bp();
+            int val = 0;
             
             // Still hardcoded stuff, do this first since some modify their other traits
             hardcoded_effects(it);
@@ -5604,107 +5618,71 @@ void player::process_effects() {
             }
             
             // Handle health mod
-            if (it.get_mod("H_MOD", reduced) > 0 &&
-                  (it.get_max_val("H_MOD", reduced) > get_healthy_mod() || it.get_max_val("H_MOD", reduced) == 0) &&
-                  (it.get_min_val("H_MOD", reduced) < get_healthy_mod() || it.get_min_val("H_MOD", reduced) == 0)) {
+            val = it.get_mod("H_MOD", reduced);
+            if (val != 0) {
                 mod = 1;
                 if(it.activated(calendar::turn, "H_MOD", reduced, mod)) {
-                    mod_healthy_mod(it.get_mod("H_MOD", reduced));
-                    // Bound it to [min, max]
-                    if (it.get_max_val("H_MOD", reduced) < get_healthy_mod() && it.get_max_val("H_MOD", reduced) != 0) {
-                        set_healthy_mod(it.get_max_val("H_MOD", reduced));
-                    } else if (it.get_min_val("H_MOD", reduced) > get_healthy_mod() && it.get_min_val("H_MOD", reduced) != 0) {
-                        set_healthy_mod(it.get_min_val("H_MOD", reduced));
-                    }
+                    mod_healthy_mod(bound_mod_to_vals(get_healthy_mod(), val,
+                                it.get_max_val("H_MOD", reduced), it.get_min_val("H_MOD", reduced)));
                 }
             }
             
             // Handle health
-            if (it.get_mod("HEALTH", reduced) > 0 &&
-                  (it.get_max_val("HEALTH", reduced) > get_healthy() || it.get_max_val("HEALTH", reduced) == 0) &&
-                  (it.get_min_val("HEALTH", reduced) < get_healthy() || it.get_min_val("HEALTH", reduced) == 0)) {
+            val = it.get_mod("HEALTH", reduced);
+            if (val != 0) {
                 mod = 1;
                 if(it.activated(calendar::turn, "HEALTH", reduced, mod)) {
-                    mod_healthy(it.get_mod("HEALTH", reduced));
-                    // Bound it to [min, max]
-                    if (it.get_max_val("HEALTH", reduced) < get_healthy() && it.get_max_val("HEALTH", reduced) != 0) {
-                        set_healthy(it.get_max_val("HEALTH", reduced));
-                    } else if (it.get_min_val("HEALTH", reduced) > get_healthy() && it.get_min_val("HEALTH", reduced) != 0) {
-                        set_healthy(it.get_min_val("HEALTH", reduced));
-                    }
+                    mod_healthy(bound_mod_to_vals(get_healthy(), val,
+                                it.get_max_val("HEALTH", reduced), it.get_min_val("HEALTH", reduced)));
                 }
             }
             
             // Handle stim
-            if (it.get_mod("STIM", reduced) > 0 &&
-                  (it.get_max_val("STIM", reduced) > stim || it.get_max_val("STIM", reduced) == 0) &&
-                  (it.get_min_val("STIM", reduced) < stim || it.get_min_val("STIM", reduced) == 0)) {
+            val = it.get_mod("STIM", reduced);
+            if (val != 0) {
                 mod = 1;
                 if(it.activated(calendar::turn, "STIM", reduced, mod)) {
-                    stim += it.get_mod("STIM", reduced);
-                    // Bound it to [min, max]
-                    if (it.get_max_val("STIM", reduced) < stim && it.get_max_val("STIM", reduced) != 0) {
-                        stim = it.get_max_val("STIM", reduced);
-                    } else if (it.get_min_val("STIM", reduced) > stim && it.get_min_val("STIM", reduced) != 0) {
-                        stim = it.get_min_val("STIM", reduced);
-                    }
+                    stim += bound_mod_to_vals(stim, val, it.get_max_val("STIM", reduced),
+                                                it.get_min_val("STIM", reduced));
                 }
             }
             
             // Handle hunger
-            if (it.get_mod("HUNGER", reduced) > 0 &&
-                  (it.get_max_val("HUNGER", reduced) > hunger || it.get_max_val("HUNGER", reduced) == 0) &&
-                  (it.get_min_val("HUNGER", reduced) < hunger || it.get_min_val("HUNGER", reduced) == 0)) {
+            val = it.get_mod("HUNGER", reduced);
+            if (val != 0) {
                 mod = 1;
                 if(it.activated(calendar::turn, "HUNGER", reduced, mod)) {
-                    hunger += it.get_mod("HUNGER", reduced);
-                    // Bound it to [min, max]
-                    if (it.get_max_val("HUNGER", reduced) < hunger && it.get_max_val("HUNGER", reduced) != 0) {
-                        hunger = it.get_max_val("HUNGER", reduced);
-                    } else if (it.get_min_val("HUNGER", reduced) > hunger && it.get_min_val("HUNGER", reduced) != 0) {
-                        hunger = it.get_min_val("HUNGER", reduced);
-                    }
+                    hunger += bound_mod_to_vals(hunger, val, it.get_max_val("HUNGER", reduced),
+                                                it.get_min_val("HUNGER", reduced));
                 }
             }
             
             // Handle thirst
-            if (it.get_mod("THIRST", reduced) > 0 &&
-                  (it.get_max_val("THIRST", reduced) > thirst || it.get_max_val("THIRST", reduced) == 0) &&
-                  (it.get_min_val("THIRST", reduced) < thirst || it.get_min_val("THIRST", reduced) == 0)) {
+            val = it.get_mod("THIRST", reduced);
+            if (val != 0) {
                 mod = 1;
                 if(it.activated(calendar::turn, "THIRST", reduced, mod)) {
-                    thirst += it.get_mod("THIRST", reduced);
-                    // Bound it to [min, max]
-                    if (it.get_max_val("THIRST", reduced) < thirst && it.get_max_val("THIRST", reduced) != 0) {
-                        thirst = it.get_max_val("THIRST", reduced);
-                    } else if (it.get_min_val("THIRST", reduced) > thirst && it.get_min_val("THIRST", reduced) != 0) {
-                        thirst = it.get_min_val("THIRST", reduced);
-                    }
+                    thirst += bound_mod_to_vals(thirst, val, it.get_max_val("THIRST", reduced),
+                                                it.get_min_val("THIRST", reduced));
                 }
             }
             
             // Handle fatigue
-            if (it.get_mod("FATIGUE", reduced) > 0 &&
-                  (it.get_max_val("FATIGUE", reduced) > fatigue || it.get_max_val("FATIGUE", reduced) == 0) &&
-                  (it.get_min_val("FATIGUE", reduced) < fatigue || it.get_min_val("FATIGUE", reduced) == 0)) {
+            val = it.get_mod("FATIGUE", reduced);
+            if (val != 0) {
                 mod = 1;
                 if(it.activated(calendar::turn, "FATIGUE", reduced, mod)) {
-                    fatigue += it.get_mod("FATIGUE", reduced);
-                    // Bound it to [min, max]
-                    if (it.get_max_val("FATIGUE", reduced) < fatigue && it.get_max_val("FATIGUE", reduced) != 0) {
-                        fatigue = it.get_max_val("FATIGUE", reduced);
-                    } else if (it.get_min_val("FATIGUE", reduced) > fatigue && it.get_min_val("FATIGUE", reduced) != 0) {
-                        fatigue = it.get_min_val("FATIGUE", reduced);
-                    }
+                    fatigue += bound_mod_to_vals(fatigue, val, it.get_max_val("FATIGUE", reduced),
+                                                it.get_min_val("FATIGUE", reduced));
                 }
             }
             
             // Handle Radiation
-            if (it.get_mod("RAD", reduced) > 0 &&
-                  (it.get_max_val("RAD", reduced) > radiation || it.get_max_val("RAD", reduced) == 0)) {
+            val = it.get_mod("RAD", reduced);
+            if (val != 0) {
                 mod = 1;
                 if(it.activated(calendar::turn, "RAD", reduced, mod)) {
-                    radiation += it.get_mod("RAD", reduced);
+                    radiation += bound_mod_to_vals(radiation, val, it.get_max_val("RAD", reduced), 0);
                     // Radiation can't go negative
                     if (radiation < 0) {
                         radiation = 0;
@@ -5720,9 +5698,8 @@ void player::process_effects() {
             mod_speed_bonus(it.get_mod("SPEED", reduced));
             
             // Handle Pain
-            body_part bp = it.get_bp();
-            if (!has_trait("NOPAIN") && it.get_mod("PAIN", reduced) > 0 &&
-                  (it.get_max_val("PAIN", reduced) > pain || it.get_max_val("PAIN", reduced) == 0)) {
+            val = it.get_mod("PAIN", reduced);
+            if (val != 0) {
                 mod = 1;
                 if (it.get_sizing("PAIN")) {
                     if (has_trait("FAT")) {
@@ -5736,13 +5713,14 @@ void player::process_effects() {
                     }
                 }
                 if(it.activated(calendar::turn, "PAIN", reduced, mod)) {
-                    add_msg_if_player(_("You're suddenly wracked with pain!"));
-                    mod_pain(it.get_mod("PAIN", reduced));
+                    add_pain_msg(val, bp);
+                    mod_pain(bound_mod_to_vals(pain, val, it.get_max_val("PAIN", reduced), 0));
                 }
             }
 
             // Handle Damage
-            if (it.get_mod("HURT", reduced) > 0) {
+            val = it.get_mod("HURT", reduced);
+            if (val != 0) {
                 mod = 1;
                 if (it.get_sizing("HURT")) {
                     if (has_trait("FAT")) {
@@ -5757,27 +5735,39 @@ void player::process_effects() {
                 }
                 if(it.activated(calendar::turn, "HURT", reduced, mod)) {
                     if (bp == num_bp) {
-                        apply_damage(nullptr, bp_torso, it.get_mod("HURT"));
+                        if (val > 5) {
+                            add_msg_if_player(_("Your %s HURTS!"), body_part_name_accusative(bp_torso).c_str());
+                        } else {
+                            add_msg_if_player(_("Your %s hurts!"), body_part_name_accusative(bp_torso).c_str());
+                        }
+                        apply_damage(nullptr, bp_torso, val);
                     } else {
-                        apply_damage(nullptr, bp, it.get_mod("HURT"));
+                        if (val > 5) {
+                            add_msg_if_player(_("Your %s HURTS!"), body_part_name_accusative(bp).c_str());
+                        } else {
+                            add_msg_if_player(_("Your %s hurts!"), body_part_name_accusative(bp).c_str());
+                        }
+                        apply_damage(nullptr, bp, val);
                     }
                 }
             }
 
             // Handle Sleep
-            if (it.get_mod("SLEEP", reduced) > 0) {
+            val = it.get_mod("SLEEP", reduced);
+            if (val != 0) {
                 mod = 1;
                 if(it.activated(calendar::turn, "SLEEP", reduced, mod)) {
-                    fall_asleep(it.get_mod("SLEEP"));
+                    add_msg_if_player(_("You pass out!"));
+                    fall_asleep(val);
                 }
             }
 
             // Handle painkillers
-            if (it.get_mod("PKILL", reduced) > 0 &&
-                (it.get_max_val("PKILL", reduced) > pkill || it.get_max_val("PKILL", reduced) == 0)) {
-                mod = it.get_addict_mod("PKILL", addiction_level(ADD_PKILLER));
+            val = it.get_mod("PKILL", reduced);
+            if (val != 0) {
+                mod = it.get_addict_mod("PKILL", addiction_level(ADD_PKILLER));;
                 if(it.activated(calendar::turn, "PKILL", reduced, mod)) {
-                    pkill += it.get_mod("PKILL", reduced);
+                    pkill += bound_mod_to_vals(pkill, val, it.get_max_val("PKILL", reduced), 0);
                 }
             }
             
@@ -6646,7 +6636,7 @@ void player::hardcoded_effects(effect &it)
                 add_msg_if_player(m_bad, _("You wheeze and gasp for air."));
             }
         }
-    } else if (id == "stemcell_tratment") {
+    } else if (id == "stemcell_treatment") {
         // slightly repair broken limbs. (also nonbroken limbs (unless they're too healthy))
         for (int i = 0; i < num_hp_parts; i++) {
             if (one_in(6)) {

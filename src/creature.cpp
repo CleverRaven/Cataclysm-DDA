@@ -543,13 +543,7 @@ bool Creature::move_effects()
 
 void Creature::add_eff_effects(effect e, bool reduced)
 {
-    // Add pain
-    if (e.get_amount("PAIN", reduced) > 0 && e.get_max_val("PAIN", reduced) > pain) {
-        mod_pain(e.get_amount("PAIN", reduced));
-        if (pain > e.get_max_val("PAIN", reduced)) {
-            pain = e.get_max_val("PAIN", reduced);
-        }
-    }
+    return;
 }
  
 void Creature::add_effect(efftype_id eff_id, int dur, body_part bp, bool permanent, int intensity)
