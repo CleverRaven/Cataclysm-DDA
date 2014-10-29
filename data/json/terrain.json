@@ -141,7 +141,7 @@
         "flags": ["TRANSPARENT", "FLAT"],
         "bash": {
             "destroy_only": true,
-            "ter_set": "t_dirt"
+            "ter_set": "t_dirt",
             "items": [
                 { "item": "rock", "amount": 4, "minamount": 2 }
             ]
@@ -156,7 +156,7 @@
         "flags": ["TRANSPARENT", "FLAT"],
         "bash": {
             "destroy_only": true,
-            "ter_set": "t_dirt"
+            "ter_set": "t_dirt",
             "items": [
                 { "item": "rock", "amount": 4, "minamount": 2 }
             ]            
@@ -171,7 +171,7 @@
         "flags": ["TRANSPARENT", "FLAT"],
         "bash": {
             "destroy_only": true,
-            "ter_set": "t_dirt"
+            "ter_set": "t_dirt",
             "items": [
                 { "item": "rock", "amount": 4, "minamount": 2 }
             ]
@@ -186,7 +186,7 @@
         "flags": ["TRANSPARENT", "FLAT"],
         "bash": {
             "destroy_only": true,
-            "ter_set": "t_dirt"
+            "ter_set": "t_dirt",
             "items": [
                 { "item": "rock", "amount": 4, "minamount": 2 }
             ]
