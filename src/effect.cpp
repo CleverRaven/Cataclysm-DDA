@@ -498,13 +498,14 @@ std::string effect::disp_desc(bool reduced)
                                 _("coughing"),_("vomiting"),_("blackouts")};
     for (int i = 0; i < 4; i++) {
         if (vals[i] > 0) {
-            // +50% chance
-            if (chances[i] >= 50) {
+            add_msg("%f", chances[i]);
+            // +50% chance, every other step
+            if (chances[i] >= 50.0) {
                 constant.push_back(pos_strings[i]);
-            // +1% chance
-            } else if (chances[i] >= 1) {
-                constant.push_back(pos_strings[i]);
-            // +.4% chance
+            // +1% chance, every 100 steps
+            } else if (chances[i] >= 1.0) {
+                frequent.push_back(pos_strings[i]);
+            // +.4% chance, every 250 steps
             } else if (chances[i] >= .4) {
                 uncommon.push_back(pos_strings[i]);
             // <.4% chance
@@ -512,13 +513,13 @@ std::string effect::disp_desc(bool reduced)
                 rare.push_back(pos_strings[i]);
             }
         } else if (vals[i] < 0) {
-            // +50% chance
-            if (chances[i] >= 50) {
+            // +50% chance, every other step
+            if (chances[i] >= 50.0) {
                 constant.push_back(neg_strings[i]);
-            // +1% chance
-            } else if (chances[i] >= 1) {
-                constant.push_back(neg_strings[i]);
-            // +.4% chance
+            // +1% chance, every 100 steps
+            } else if (chances[i] >= 1.0) {
+                frequent.push_back(neg_strings[i]);
+            // +.4% chance, every 250 steps
             } else if (chances[i] >= .4) {
                 uncommon.push_back(neg_strings[i]);
             // <.4% chance
@@ -1243,19 +1244,17 @@ double effect::get_percentage(std::string arg, bool reduced)
     if(bot_base != 0 && bot_scale != 0) {
         if (bot_base + bot_scale == 0) {
             // Special crash avoidance case, assume bot = 1 which means x_in_y(top, bot) = true
-            ret = 1;
+            ret = 100;
         } else {
-            ret = (top_base + top_scale) / (bot_base + bot_scale);
+            ret = 100 * (top_base + top_scale) / (bot_base + bot_scale);
         }
     } else {
-        ret = 1 / (top_base + top_scale);
+        ret = 100 / (top_base + top_scale);
     }
     // Divide by ticks between rolls
     if (tick > 1) {
         ret = ret / tick;
     }
-    // Multiply by 100 to convert to percentages
-    ret *= 100;
     return ret;
 }
 
