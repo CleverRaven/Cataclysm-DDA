@@ -409,9 +409,8 @@ public:
 //return true if given fuel type is present for given part index
     bool part_fuel_type (int part, const std::string &fuel_type) const;
     
-//true if combustion engines are on and part is a combustion engine, or not a combustion engine
-    bool part_is_combustion_enabled(int p) const;
-    bool part_is_electric_enabled(int p) const;
+//true if the engine is currently active
+    bool is_engine_enabled(int p) const;
 
 // Translate seat-relative mount coords into tile coords
     void coord_translate (int reldx, int reldy, int &dx, int &dy);
@@ -722,7 +721,7 @@ public:
     bool reactor_on;    // reactor on/off
     bool engine_on;     // engine on/off
     bool hybrid_mode_on; //hybrid engine on/off
-    bool combustion_engine_on; //diesel and gasoline engines on/off, opposite for electric engine
+    bool electric_only_on; //only electric engines are on
     bool has_pedals;
     bool has_paddles;
     bool has_hand_rims;
