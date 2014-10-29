@@ -568,7 +568,7 @@ void Creature::add_effect(efftype_id eff_id, int dur, body_part bp, bool permane
             // If we do, mod the duration, factoring in the mod value
             e.mod_duration(dur * e.get_dur_add_perc() / 100);
             // Limit to max duration
-            if (e.get_duration() > e.get_max_duration()) {
+            if (e.get_max_duration() > 0 && e.get_duration() > e.get_max_duration()) {
                 e.set_duration(e.get_max_duration());
             }
             // Adding a permanent effect makes it permanent
@@ -601,7 +601,7 @@ void Creature::add_effect(efftype_id eff_id, int dur, body_part bp, bool permane
         effect new_eff(&effect_types[eff_id], dur, bp, permanent, intensity);
         effect &e = new_eff;
         // Bound to max duration
-        if (e.get_duration() > e.get_max_duration()) {
+        if (e.get_max_duration() > 0 && e.get_duration() > e.get_max_duration()) {
             e.set_duration(e.get_max_duration());
         }
         // Bound new effect intensity at [1, max intensity]
