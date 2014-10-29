@@ -10189,6 +10189,26 @@ int iuse::cable_attach(player *p, item *it, bool, point)
             return 1; // Let the cable be destroyed.
         }
     }
+    
+    void hydration_pack( item &it, player &p )
+    {
+        if (it->contents.empty()) {
+            // only show HYDRATION_BAG items
+            int inventory_index = g->inv_for_flag("HYDRATION_BAG", _("Set up hydration bag?"), false);
+            item *put = &(p->i_at(inventory_index));
+            if (put == NULL || put->is_null()) {
+                p->add_msg_if_player(_("Never mind."));
+                return 0;
+            }
+        
+            std::string message;
+            message = _("You set up your %s in your %s.")
+            p->add_msg_if_player(message.c_str(), put->tname().c_str(), it->tname().c_str());
+        } else {
+            p->eat(it->contents[0])    
+        }    
+    }   
+    
 
     return 0;
 }
