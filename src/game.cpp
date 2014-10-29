@@ -5374,7 +5374,7 @@ void game::draw_sidebar()
     werase(w_status);
     werase(w_status2);
     if (!liveview.compact_view) {
-        liveview.hide(true, true);
+        liveview.hide(true, false);
     }
     u.disp_status(w_status, w_status2);
 
