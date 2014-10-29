@@ -1311,7 +1311,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     if (has_flag("RECHARGE")) {
         ret << _(" (rechargeable)");
     }
-    if (has_flag("USE_UPS")){
+    if (is_tool() && has_flag("USE_UPS")){
         ret << _(" (UPS)");
     }
 
