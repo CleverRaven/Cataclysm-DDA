@@ -465,13 +465,16 @@
             "pain_max_val": [30],
             "str_mod": [-1],
             "dex_mod": [-1],
-            "vomit_chance": [1000]
+            "vomit_chance": [1000],
+            "sleep_min": [60],
+            "sleep_chance": [-102]
         },
         "scaling_mods": {
             "pain_max_val": [30],
             "str_mod": [-1],
             "dex_mod": [-1],
-            "vomit_chance": [-400]
+            "vomit_chance": [-400],
+            "sleep_chance": [101]
         }
     },
     {
@@ -480,6 +483,7 @@
         "name": ["Recovering From Infection"],
         "desc": ["You are recovering from an infection."],
         "rating": "bad",
+        "max_intensity": 3,
         "int_dur_factor": 19200,
         "base_mods": {
             "pain_chance": [100],
@@ -487,13 +491,16 @@
             "pain_max_val": [30],
             "str_mod": [-1],
             "dex_mod": [-1],
-            "vomit_chance": [1000]
+            "vomit_chance": [1000],
+            "sleep_min": [60],
+            "sleep_chance": [-102]
         },
         "scaling_mods": {
             "pain_max_val": [30],
             "str_mod": [-1],
             "dex_mod": [-1],
-            "vomit_chance": [-400]
+            "vomit_chance": [-400],
+            "sleep_chance": [101]
         }
     },
     {
@@ -1013,18 +1020,22 @@
         ],
         "max_intensity": 4,
         "apply_message": "You feel lightheaded.",
-        "int_dur_factor": 700,
+        "int_dur_factor": 1000,
         "miss_messages": [["You feel woozy.", 1]],
         "base_mods": {
             "str_mod": [1],
-            "vomit_chance": [-60]
+            "vomit_chance": [-43],
+            "sleep_chance": [-1003],
+            "sleep_min": [2500],
+            "sleep_max": [3500]
         },
         "scaling_mods": {
-            "str_mod": [-.72],
-            "per_mod": [-.7],
-            "dex_mod": [-.7],
-            "int_mod": [-1],
-            "vomit_chance": [20]
+            "str_mod": [-.66],
+            "per_mod": [-1],
+            "dex_mod": [-1],
+            "int_mod": [-1.42],
+            "vomit_chance": [21],
+            "sleep_chance": [501]
         }
     },
     {

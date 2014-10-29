@@ -6646,11 +6646,6 @@ void player::hardcoded_effects(effect it)
             // Set ourselves up for removal
             it.set_duration(0);
         }
-    } else if (id == "drunk") {
-        if (!sleeping && dur >= 4500 && one_in(500 - int(dur / 80))) {
-            add_msg_if_player(m_bad, _("You pass out."));
-            fall_asleep(dur / 2);
-        }
     } else if (id == "asthma") {
         if (dur > 1200) {
             add_msg_if_player(m_bad, _("Your asthma overcomes you.\nYou asphyxiate."));
@@ -6832,20 +6827,8 @@ void player::hardcoded_effects(effect it)
                 add_memorial_log(pgettext("memorial_male", "Succumbed to the infection."),
                                       pgettext("memorial_female", "Succumbed to the infection."));
                 hurtall(500);
-            } else if (intense == 3) {
-                if (!sleeping && one_in(100)) {
-                    add_msg_if_player(m_bad, _("You pass out."));
-                    fall_asleep(60);
-                }
             }
             it.mod_duration(1);
-        }
-    } else if (id == "recover") {
-        if (intense == 3) {
-            if (!sleeping && one_in(100)) {
-                add_msg_if_player(m_bad, _("You pass out."));
-                fall_asleep(60);
-            }
         }
     } else if (id == "lying_down") {
         set_moves(0);
