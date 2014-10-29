@@ -150,6 +150,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void process_effects();
         /** Handles the still hardcoded effects */
         void hardcoded_effects(effect it);
+        /** Handles vomiting modifiers */
+        double vomit_mod();
 
         virtual bool is_npc() const
         {

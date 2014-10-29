@@ -41,9 +41,6 @@
 
 #include <fstream>
 
-/* Utility functions in process_effects */
-static bool will_vomit(player& p, int chance = 1000);
-
 std::map<std::string, trait> traits;
 extern std::map<std::string, martialart> ma_styles;
 std::vector<std::string> vStartingTraits[2];
@@ -5452,16 +5449,6 @@ void player::cough(bool harmful, int loudness) {
         wake_up();
     }
 }
-bool will_vomit(player& p, int chance)
-{
-    bool drunk = p.has_effect("drunk");
-    bool antiEmetics = p.has_effect("weed_high");
-    bool hasNausea = p.has_trait("NAUSEA") && one_in(chance*2);
-    bool stomachUpset = p.has_trait("WEAKSTOMACH") && one_in(chance*3);
-    bool suppressed = (p.has_trait("STRONGSTOMACH") && one_in(2)) ||
-        (antiEmetics && !drunk && !one_in(chance));
-    return ((stomachUpset || hasNausea) && !suppressed);
-}
 
 void player::add_eff_effects(effect e, bool reduced)
 {
@@ -5801,7 +5788,7 @@ void player::process_effects() {
             }
             
             // Handle vomiting
-            mod = 1;
+            mod = vomit_mod();
             if (it.activated(calendar::turn, "VOMIT", reduced, mod)) {
                 vomit();
             }
@@ -5869,7 +5856,7 @@ void player::hardcoded_effects(effect it)
                 moves -= 100;
                 apply_damage( nullptr, bp_torso, 5 );
             }
-            if (will_vomit(*this, 800 + bonus * 4) || one_in(2000 + bonus * 10)) {
+            if (x_in_y(vomit_mod(), (800 + bonus * 4)) || one_in(2000 + bonus * 10)) {
                 add_msg_player_or_npc(m_bad, _("You vomit a thick, gray goop."),
                                                _("<npcname> vomits a thick, gray goop.") );
 
@@ -5991,7 +5978,7 @@ void player::hardcoded_effects(effect it)
                 add_msg_if_player(m_warning, _("Something feels very, very wrong."));
             }
         } else if (dur > peakTime && dur < comeupTime) {
-            if ((one_in(200) || will_vomit(*this, 50)) && !puked) {
+            if ((one_in(200) || x_in_y(vomit_mod(), 50)) && !puked) {
                 add_msg_if_player(m_bad, _("You feel sick to your stomach."));
                 hunger -= 2;
                 if (one_in(6)) {
@@ -6727,7 +6714,7 @@ void player::hardcoded_effects(effect it)
                 add_msg_if_player(m_bad, _("You're experiencing loss of basic motor skills and blurred vision.  Your mind recoils in horror, unable to communicate with your spinal column."));
                 add_msg_if_player(m_bad, _("You stagger and fall!"));
                 add_effect("downed",rng(1,4));
-                if (one_in(8) || will_vomit(*this, 10)) {
+                if (one_in(8) || x_in_y(vomit_mod(), 10)) {
                     vomit();
                 }
             }
@@ -6753,7 +6740,7 @@ void player::hardcoded_effects(effect it)
             add_effect("visuals", rng(400, 2000));
             if (one_in(8)) {
                 add_msg_if_player(m_bad, _("The possibility of physical and mental collapse is now very real."));
-                if (one_in(2) || will_vomit(*this, 10)) {
+                if (one_in(2) || x_in_y(vomit_mod(), 10)) {
                     add_msg_if_player(m_bad, _("No one should be asked to handle this trip."));
                     vomit();
                     mod_pain(rng(8, 40));
@@ -7127,6 +7114,28 @@ void player::hardcoded_effects(effect it)
             }
         }
     }
+}
+
+double player::vomit_mod()
+{
+    double mod = 1;
+    if (has_effect("weed_high")) {
+        mod *= .1;
+    }
+    if (has_trait("STRONGSTOMACH")) {
+        mod *= .5;
+    }
+    if (has_trait("WEAKSTOMACH")) {
+        mod *= 2;
+    }
+    if (has_trait("NAUSEA")) {
+        mod *= 3;
+    }
+    if (has_trait("VOMITOUS")) {
+        mod *= 3;
+    }
+
+    return mod;
 }
 
 void player::suffer()
@@ -7885,6 +7894,7 @@ void player::vomit()
     remove_effect("pkill2");
     remove_effect("pkill3");
     wake_up();
+    return true;
 }
 
 void player::drench(int saturation, int flags)

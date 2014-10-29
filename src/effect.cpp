@@ -1285,7 +1285,8 @@ bool effect::activated(unsigned int turn, std::string arg, bool reduced, double 
     }
 
     // Else check if tick allows for triggering. If both bot values are zero the formula is 
-    // one_in(top * mod), else the formula is x_in_y(top * mod, bot)
+    // x_in_y(1, top) i.e. one_in(top), else the formula is x_in_y(top, bot),
+    // mod multiplies the overall percentage chances
     if(tick <= 0 || turn % tick == 0) {
         if(bot_base != 0 && bot_scale != 0) {
             if (bot_base + bot_scale == 0) {
@@ -1295,7 +1296,7 @@ bool effect::activated(unsigned int turn, std::string arg, bool reduced, double 
                 return x_in_y((top_base + top_scale) * mod, (bot_base + bot_scale));
             }
         } else {
-            return one_in((top_base + top_scale) * mod);
+            return x_in_y(mod, top_base + top_scale);
         }
     }
     return false;
@@ -1305,7 +1306,11 @@ double effect::get_addict_mod(std::string arg, int addict_level)
 {
     // TODO: convert this to JSON id's and values once we have JSON'ed addictions
     if (arg == "PKILL") {
-        return 1 / (addict_level * 2);
+        if (pkill_addict_reduces) {
+            return 1 / (addict_level * 2);
+        } else {
+            return 1;
+        }
     } else {
         return 1;
     }
