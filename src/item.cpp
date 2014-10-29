@@ -1959,13 +1959,13 @@ int item::bash_resist() const
         it_armor* tmp = dynamic_cast<it_armor*>(type);
         eff_thickness = ((tmp->thickness - damage <= 0) ? 1 : (tmp->thickness - damage));
     }
-    
+
     for (auto mat : mat_types) {
         resist += mat->bash_resist();
     }
     // Average based on number of materials.
     resist /= mat_types.size();
-    
+
     return (int)(resist * eff_thickness * adjustment);
 }
 
@@ -1989,13 +1989,13 @@ int item::cut_resist() const
         it_armor* tmp = dynamic_cast<it_armor*>(type);
         eff_thickness = ((tmp->thickness - damage <= 0) ? 1 : (tmp->thickness - damage));
     }
-    
+
     for (auto mat : mat_types) {
         resist += mat->cut_resist();
     }
     // Average based on number of materials.
     resist /= mat_types.size();
-    
+
     return (int)(resist * eff_thickness * adjustment);
 }
 
@@ -2014,13 +2014,13 @@ int item::acid_resist() const
     std::vector<material_type*> mat_types = made_of_types();
     // Not sure why cut and bash get an armor thickness bonus but acid doesn't,
     // but such is the way of the code.
-    
+
     for (auto mat : mat_types) {
         resist += mat->acid_resist();
     }
     // Average based on number of materials.
     resist /= mat_types.size();
-    
+
     return (int)(resist * adjustment);
 }
 
@@ -3331,6 +3331,47 @@ bool item::use_amount(const itype_id &it, int &quantity, bool use_container, std
     } else {
         return false;
     }
+}
+
+bool item::fill_with( item &liquid, std::string &err )
+{
+    LIQUID_FILL_ERROR error;
+    int remaining_capacity = get_remaining_capacity_for_liquid( liquid, error );
+    if( remaining_capacity <= 0 ) {
+        switch ( error ) {
+        case L_ERR_NO_MIX:
+            err = string_format( _( "You can't mix loads in your %s." ), tname().c_str() );
+            break;
+        case L_ERR_NOT_CONTAINER:
+            err = string_format( _( "That %s won't hold %s." ), tname().c_str(), liquid.tname().c_str());
+            break;
+        case L_ERR_NOT_WATERTIGHT:
+            err = string_format( _( "That %s isn't water-tight." ), tname().c_str());
+            break;
+        case L_ERR_NOT_SEALED:
+            err = string_format( _( "You can't seal that %s!" ), tname().c_str());
+            break;
+        case L_ERR_FULL:
+            err = string_format( _( "Your %s can't hold any more %s." ), tname().c_str(), liquid.tname().c_str());
+            break;
+        default:
+            break;
+        }
+        return false;
+    }
+
+    int amount = std::min( (long)remaining_capacity, liquid.charges );
+
+    if( !is_container_empty() ) {
+        contents[0].charges += amount;
+    } else {
+        item liquid_copy = liquid;
+        liquid_copy.charges = amount;
+        put_in( liquid_copy );
+    }
+    liquid.charges -= amount;
+
+    return true;
 }
 
 long item::charges_of(const itype_id &it) const
