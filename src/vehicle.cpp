@@ -515,7 +515,7 @@ void vehicle::use_controls()
     //add toggling of combustion engine types
     if (has_hybrid_setup) {
         options_choice.push_back(toggle_hybrid_ctl);
-        options_message.push_back(uimenu_entry((combustion_engine_on) ? _("Enable hybrid controller.") :
+        options_message.push_back(uimenu_entry((hybrid_mode_on) ? _("Enable hybrid controller.") :
                                                _("Disable hybrid controller."), 'o'));
     }
     if (has_hybrid_setup && hybrid_mode_on) {
@@ -1730,7 +1730,7 @@ bool vehicle::part_is_combustion_enabled(int p) const
 bool vehicle::part_is_electric_enabled(int p) const
 {
     return (part_fuel_type(p, fuel_type_battery)) == false ||
-                hybrid_mode_on == false || !combustion_engine_on);
+                hybrid_mode_on == false || !combustion_engine_on;
 }
 
 bool vehicle::part_flag( int part, const vpart_bitflags &flag) const
@@ -2270,12 +2270,15 @@ int vehicle::basic_consumption (const ammotype & ftype)
     int fcon = 0;
     for( size_t p = 0; p < engines.size(); ++p ) {
         if(ftype == part_info(engines[p]).fuel_type && parts[engines[p]].hp > 0) {
-            if(part_info(engines[p]).fuel_type == fuel_type_battery) {
-                // electric engine - use epower instead
-                fcon += abs(epower_to_power(part_epower(engines[p])));
-            }
-            else {
-                fcon += part_power(engines[p]);
+            //check if engine is on
+            if (part_is_combustion_enabled(p) && part_is_electric_enabled(p)){
+                if(part_info(engines[p]).fuel_type == fuel_type_battery) {
+                    // electric engine - use epower instead
+                    fcon += abs(epower_to_power(part_epower(engines[p])));
+                }
+                else {
+                    fcon += part_power(engines[p]);
+                }
             }
         }
     }
@@ -2663,9 +2666,12 @@ void vehicle::consume_fuel( double load = 1.0 )
     int ftype_coeff[4] = {                100,              100,                 1,              100 };
     for( int ft = 0; ft < 4; ft++ ) {
         //if combustion engines are off, skip fuel calculations
-        if (!combustion_engine_on && (ftypes[ft] == fuel_type_gasoline 
+        if ((hybrid_mode_on && !combustion_engine_on) && (ftypes[ft] == fuel_type_gasoline 
                                     || ftypes[ft] == fuel_type_diesel))
-            break;
+            continue;
+        //if electric engines are off, skip fuel calculations
+        if ((hybrid_mode_on && combustion_engine_on) && (ftypes[ft] == fuel_type_battery))
+            continue;
         double amnt_precise = double(basic_consumption(ftypes[ft])) / ftype_coeff[ft];
         float st = strain() * 10;
         amnt_precise *= load * (1.0 + st * st);
@@ -3154,11 +3160,27 @@ void vehicle::thrust (int thd) {
         noise_and_smoke( load );
         consume_fuel ();
         
-        //auto combustion engine on
-        int percent_battery = (fuel_left(fuel_type_battery) * 99) / fuel_capacity(fuel_type_battery);
-        if ((velocity > safe_velocity() || percent_battery <= 10) && !combustion_engine_on){
-            combustion_engine_on = true;
-            add_msg(_("Your combustion engines start up."));
+        //hybrid controller code logic
+        if (hybrid_mode_on && !combustion_engine_on)
+        {
+            int percent_battery = (fuel_left(fuel_type_battery) * 99) 
+                                    / fuel_capacity(fuel_type_battery);
+            if (velocity > safe_velocity())
+            {
+                combustion_engine_on = true;
+                add_msg(_("Your electric engines can't handle the speed."));
+                add_msg(_("Your combustion engines start up."));
+            } 
+            else if (percent_battery <= 5)
+            {   
+                combustion_engine_on = true;
+                add_msg(_("Warning, critical electrical power."));
+                add_msg(_("Your combustion engines start up."));
+            }
+            else if (percent_battery <= 8)
+            {
+                add_msg(_("Warning, low electrical power."));
+            }
         }
         
         //engine damage at high load
