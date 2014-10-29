@@ -49,7 +49,8 @@ enum vehicle_controls {
  toggle_engine,
  toggle_fridge,
  toggle_recharger,
- toggle_combustion_eng
+ toggle_combustion_eng,
+ toggle_hybrid_ctl
 };
 
 vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): type(type_id)
@@ -512,10 +513,15 @@ void vehicle::use_controls()
     options_message.push_back(uimenu_entry((cruise_on) ? _("Disable cruise control") :
                                            _("Enable cruise control"), 'c'));
     //add toggling of combustion engine types
-    if (has_hybrid_setup && engine_on) {
+    if (has_hybrid_setup) {
+        options_choice.push_back(toggle_hybrid_ctl);
+        options_message.push_back(uimenu_entry((combustion_engine_on) ? _("Enable hybrid controller.") :
+                                               _("Disable hybrid controller."), 'o'));
+    }
+    if (has_hybrid_setup && hybrid_mode_on) {
         options_choice.push_back(toggle_combustion_eng);
-        options_message.push_back(uimenu_entry((combustion_engine_on) ? _("Turn off combustion engines") :
-                                               _("Turn on combustion engines"), 'm'));
+        options_message.push_back(uimenu_entry((combustion_engine_on) ? _("Switch to electric mode.") :
+                                               _("Switch to combustion mode."), 'p'));
     }
 
     // Lights if they are there - Note you can turn them on even when damaged, they just don't work
@@ -601,6 +607,10 @@ void vehicle::use_controls()
     }
 
     switch(options_choice[select]) {
+    case toggle_hybrid_ctl:
+        hybrid_mode_on = !hybrid_mode_on;
+        add_msg((combustion_engine_on) ? _("Hybrid mode turned on") : _("Hybrid mode turned off"));
+        break;
     case toggle_combustion_eng:
         combustion_engine_on = !combustion_engine_on;
         add_msg((combustion_engine_on) ? _("Combustion engines turned on") : _("Combustion engines turned off"));
@@ -1715,7 +1725,12 @@ bool vehicle::part_fuel_type (int part, const std::string &fuel_type) const
 bool vehicle::part_is_combustion_enabled(int p) const
 {
     return (part_fuel_type(p, fuel_type_gasoline) || part_fuel_type(p, fuel_type_diesel)) == false ||
-                combustion_engine_on;
+                hybrid_mode_on == false || combustion_engine_on;
+}
+bool vehicle::part_is_electric_enabled(int p) const
+{
+    return (part_fuel_type(p, fuel_type_battery)) == false ||
+                hybrid_mode_on == false || !combustion_engine_on);
 }
 
 bool vehicle::part_flag( int part, const vpart_bitflags &flag) const
@@ -2276,7 +2291,9 @@ int vehicle::total_power (bool fueled)
     g->m.veh_at(g->u.posx, g->u.posy, part_under_player);
     bool player_controlling = player_in_control(&(g->u));
     for (size_t p = 0; p < parts.size(); p++) {
-        if (part_flag(p, VPFLAG_ENGINE) && part_is_combustion_enabled(p) && (fuel_left (part_info(p).fuel_type) 
+        if (part_flag(p, VPFLAG_ENGINE) \
+            && part_is_combustion_enabled(p) && part_is_electric_enabled(p)
+            && (fuel_left (part_info(p).fuel_type) 
             || !fueled || ((part_info(p).fuel_type == fuel_type_muscle) && player_controlling &&
               part_with_feature(part_under_player, VPFLAG_ENGINE) == (int)p)) && parts[p].hp > 0) {
             pwr += part_power(p);
@@ -2360,7 +2377,8 @@ int vehicle::safe_velocity (bool fueled)
     int pwrs = 0;
     int cnt = 0;
     for (size_t p = 0; p < parts.size(); p++) {
-        if (part_flag(p, VPFLAG_ENGINE) && part_is_combustion_enabled(p) &&
+        if (part_flag(p, VPFLAG_ENGINE) 
+            && part_is_combustion_enabled(p) && part_is_electric_enabled(p) &&
             (fuel_left (part_info(p).fuel_type) || !fueled || part_info(p).fuel_type == fuel_type_muscle) &&
             parts[p].hp > 0) {
             int m2c = 100;
@@ -2431,7 +2449,8 @@ void vehicle::noise_and_smoke( double load, double time )
 
     for( size_t e = 0; e < engines.size(); e++ ) {
         int p = engines[e];
-        if( parts[p].hp > 0 && part_is_combustion_enabled(p) &&
+        if( parts[p].hp > 0 
+                && part_is_combustion_enabled(p) && part_is_electric_enabled(p) &&
                 (fuel_left (part_info(p).fuel_type) ||
                  part_info(p).fuel_type == fuel_type_muscle) ) {
             double pwr = 10.0; // Default noise if nothing else found, shouldn't happen
@@ -3135,27 +3154,31 @@ void vehicle::thrust (int thd) {
         noise_and_smoke( load );
         consume_fuel ();
         
+        //auto combustion engine on
+        int percent_battery = (fuel_left(fuel_type_battery) * 99) / fuel_capacity(fuel_type_battery);
+        if ((velocity > safe_velocity() || percent_battery <= 10) && !combustion_engine_on){
+            combustion_engine_on = true;
+            add_msg(_("Your combustion engines start up."));
+        }
+        
         //engine damage at high load
         int strn = (int) (strain () * strain() * 100);
         
-        if (strn > 0 && !combustion_engine_on){
-            add_msg(_("Your electric engines can't handle the speed."));
-            add_msg(_("Starting combustion engines."));
-        } else {
-            for( size_t p = 0; p < parts.size(); p++ ) {
-                if( part_flag(p, VPFLAG_ENGINE) ) {
-                    if( part_is_combustion_enabled(p) && fuel_left(part_info(p).fuel_type) && parts[p].hp > 0 && rng (1, 100) < strn ) {
-                        int dmg = rng (strn * 2, strn * 4);
-                        damage_direct (p, dmg, 0);
-                        if(one_in(2)) {
-                         add_msg(_("Your engine emits a high pitched whine."));
-                        } else {
-                         add_msg(_("Your engine emits a loud grinding sound."));
-                        }
+
+        for( size_t p = 0; p < parts.size(); p++ ) {
+            if( part_flag(p, VPFLAG_ENGINE) ) {
+                if( part_is_combustion_enabled(p) && fuel_left(part_info(p).fuel_type) && parts[p].hp > 0 && rng (1, 100) < strn ) {
+                    int dmg = rng (strn * 2, strn * 4);
+                    damage_direct (p, dmg, 0);
+                    if(one_in(2)) {
+                     add_msg(_("Your engine emits a high pitched whine."));
+                    } else {
+                     add_msg(_("Your engine emits a loud grinding sound."));
                     }
                 }
             }
         }
+
     }
 
     if (skidding) {

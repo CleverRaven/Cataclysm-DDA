@@ -411,6 +411,7 @@ public:
     
 //true if combustion engines are on and part is a combustion engine, or not a combustion engine
     bool part_is_combustion_enabled(int p) const;
+    bool part_is_electric_enabled(int p) const;
 
 // Translate seat-relative mount coords into tile coords
     void coord_translate (int reldx, int reldy, int &dx, int &dy);
@@ -720,7 +721,8 @@ public:
     bool cruise_on;     // cruise control on/off
     bool reactor_on;    // reactor on/off
     bool engine_on;     // engine on/off
-    bool combustion_engine_on; //diesel and gasoline engines on/off
+    bool hybrid_mode_on; //hybrid engine on/off
+    bool combustion_engine_on; //diesel and gasoline engines on/off, opposite for electric engine
     bool has_pedals;
     bool has_paddles;
     bool has_hand_rims;
