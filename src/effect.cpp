@@ -347,7 +347,7 @@ bool effect_type::get_main_parts() const
 }
 bool effect_type::load_miss_msgs(JsonObject &jo, std::string member)
 {
-    if (jo.has_object(member)) {
+    if (jo.has_array(member)) {
         JsonArray outer = jo.get_array(member);
         while (outer.has_more()) {
             JsonArray inner = outer.next_array();
@@ -359,7 +359,7 @@ bool effect_type::load_miss_msgs(JsonObject &jo, std::string member)
 }
 bool effect_type::load_decay_msgs(JsonObject &jo, std::string member)
 {
-    if (jo.has_object(member)) {
+    if (jo.has_array(member)) {
         JsonArray outer = jo.get_array(member);
         while (outer.has_more()) {
             JsonArray inner = outer.next_array();
