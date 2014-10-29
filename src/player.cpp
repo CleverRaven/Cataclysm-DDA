@@ -4803,7 +4803,7 @@ void player::mod_pain(int npain) {
     if (!is_npc() && ((npain >= 1) && (rng(0, pain) >= 10))) {
         g->cancel_activity_query(_("Ouch, you were hurt!"));
         if (in_sleep_state()) {
-            wake_up()
+            wake_up();
         }
     }
     Creature::mod_pain(npain);
@@ -6804,7 +6804,7 @@ void player::hardcoded_effects(effect it)
         if (!recovered) {        
             // Move up to infection
             if (dur > 3600) {
-                add_effect("infected", 1, bp, true)
+                add_effect("infected", 1, bp, true);
                 // Set ourselves up for removal
                 it.set_duration(0);
             } else {
@@ -6838,9 +6838,9 @@ void player::hardcoded_effects(effect it)
             // Death happens
             if (dur > 14400) {
                 add_msg(m_bad, _("You succumb to the infection."));
-                g->u.add_memorial_log(pgettext("memorial_male", "Succumbed to the infection."),
+                add_memorial_log(pgettext("memorial_male", "Succumbed to the infection."),
                                       pgettext("memorial_female", "Succumbed to the infection."));
-                p.hurtall(500);
+                hurtall(500);
             } else if (intense == 3) {
                 if (!sleeping && one_in(100)) {
                     add_msg_if_player(m_bad, _("You pass out."));
@@ -6894,7 +6894,7 @@ void player::hardcoded_effects(effect it)
             add_msg_if_player(_("You try to sleep, but can't..."));
         }
     } else if (id == "sleep") {
-        p.moves = 0;
+        set_moves(0);
         // Hibernating only kicks in whilst Engorged; separate tracking for hunger/thirst here
         // as a safety catch.  One test subject managed to get two Colds during hibernation;
         // since those add fatigue and dry out the character, the subject went for the full 10 days plus
@@ -6918,7 +6918,7 @@ void player::hardcoded_effects(effect it)
             int heal_chance = get_healthy() / 4;
             if ((has_trait("FLIMSY") && x_in_y(3, 4)) || (has_trait("FLIMSY2") && one_in(2)) ||
                   (has_trait("FLIMSY3") && one_in(4)) ||
-                  (!has_trait("FLIMSY") && !has_trait("FLIMSY2") && !p.has_trait("FLIMSY3"))) {
+                  (!has_trait("FLIMSY") && !has_trait("FLIMSY2") && !has_trait("FLIMSY3"))) {
                 if (has_trait("FASTHEALER")) {
                     heal_chance += 100;
                 } else if (has_trait("FASTHEALER2")) {
@@ -6941,7 +6941,7 @@ void player::hardcoded_effects(effect it)
                 fatigue = -25;
                 add_msg_if_player(m_good, _("You feel well rested."));
                 it.set_duration(dice(3, 100));
-                p.add_memorial_log(pgettext("memorial_male", "Awoke from hibernation."),
+                add_memorial_log(pgettext("memorial_male", "Awoke from hibernation."),
                                    pgettext("memorial_female", "Awoke from hibernation."));
             }
 
@@ -6974,7 +6974,7 @@ void player::hardcoded_effects(effect it)
             int heal_chance = get_healthy() / 4;
             if ((has_trait("FLIMSY") && x_in_y(3, 4)) || (has_trait("FLIMSY2") && one_in(2)) ||
                   (has_trait("FLIMSY3") && one_in(4)) ||
-                  (!has_trait("FLIMSY") && !p.has_trait("FLIMSY2") && !has_trait("FLIMSY3"))) {
+                  (!has_trait("FLIMSY") && !has_trait("FLIMSY2") && !has_trait("FLIMSY3"))) {
                 if (has_trait("FASTHEALER")) {
                     heal_chance += 100;
                 } else if (has_trait("FASTHEALER2")) {
@@ -7134,8 +7134,8 @@ void player::hardcoded_effects(effect it)
                     const int volume = 20;
                     if ( (!(has_trait("HEAVYSLEEPER") || has_trait("HEAVYSLEEPER2")) &&
                           dice(2, 15) < volume) ||
-                          (p.has_trait("HEAVYSLEEPER") && dice(3, 15) < volume) ||
-                          (p.has_trait("HEAVYSLEEPER2") && dice(6, 15) < volume) ) {
+                          (has_trait("HEAVYSLEEPER") && dice(3, 15) < volume) ||
+                          (has_trait("HEAVYSLEEPER2") && dice(6, 15) < volume) ) {
                         wake_up();
                         add_msg_if_player(_("Your internal chronometer wakes you up."));
                     } else {

@@ -2912,7 +2912,7 @@ void mattack::bite(monster *z, int index)
         if(one_in(14 - dam)) {
             if (g->u.has_effect("bite", hit)) {
                 g->u.add_effect("bite", 400, hit, true);
-            } else if (g->u.has_effect("infected", hit) {
+            } else if (g->u.has_effect("infected", hit)) {
                 g->u.add_effect("infected", 250, hit, true);
             } else {
                 g->u.add_effect("bite", 1, hit, true);

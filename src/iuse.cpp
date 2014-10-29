@@ -1017,7 +1017,7 @@ int iuse::antibiotic(player *p, item *it, bool, point)
             // Add recovery effect for each infected wound
             int infected_tot = 0;
             for (int i = 0; i < num_bp; ++i) {
-                int infected_dur = p->get_effect_dur("infected", i);
+                int infected_dur = p->get_effect_dur("infected", body_part(i));
                 if (infected_dur > 0) {
                     infected_tot += infected_dur;
                 }

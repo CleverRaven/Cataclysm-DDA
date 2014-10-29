@@ -790,7 +790,7 @@ void Creature::set_moves(int nmoves)
     moves = nmoves;
 }
 
-bool Creature::in_sleep_state()
+bool Creature::in_sleep_state() const
 {
     return has_effect("sleep") || has_effect("lying_down");
 }

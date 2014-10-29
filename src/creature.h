@@ -169,7 +169,7 @@ class Creature
         virtual void mod_moves(int nmoves);
         virtual void set_moves(int nmoves);
         
-        virtual bool in_sleep_state();
+        virtual bool in_sleep_state() const;
 
         /*
          * Get/set our killer, this is currently used exclusively to allow

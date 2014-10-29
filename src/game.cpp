@@ -6599,7 +6599,7 @@ bool game::sound(int x, int y, int vol, std::string description, bool ambient)
             (u.has_trait("HEAVYSLEEPER2") && dice(6, 15) < vol - dist)) {
             //Not kidding about sleep-thru-firefight
             u.wake_up();
-            add_msg_if_player(m_warning, _("Something is making noise."));
+            add_msg(m_warning, _("Something is making noise."));
         } else {
             return false;
         }

@@ -478,7 +478,7 @@
         "type": "effect_type",
         "id": "recover",
         "name": ["Recovering From Infection"],
-        "desc": ["You are recovering from an infection."]
+        "desc": ["You are recovering from an infection."],
         "rating": "bad",
         "int_dur_factor": 19200,
         "base_mods": {
