@@ -1312,8 +1312,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         ret << _(" (rechargeable)");
     }
     if (has_flag("USE_UPS")){
-		ret << _(" (UPS)");
-	}
+        ret << _(" (UPS)");
+    }
 
     if (has_flag("ATOMIC_AMMO")) {
         toolmodtext = _("atomic ");
