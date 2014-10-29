@@ -267,14 +267,6 @@ profession* scenario::get_profession() const
 {
     return profession::prof(_profession);;
 }
-profession* scenario::random_profession() const
-{
-    std::vector<std::string> allowed_professions(_allowed_professions.begin(), _allowed_professions.end());
-    if (allowed_professions.size() == 0) {
-      return profession::generic();
-    }
-    return profession::prof(allowed_professions[rng(0, allowed_professions.size()-1)]);
-}
 std::string scenario::start_name() const
 {
     return _start_name;

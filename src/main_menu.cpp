@@ -211,7 +211,6 @@ bool game::opening_screen()
     vSubItems.push_back(pgettext("Main Menu|New Game", "<C>ustom Character"));
     vSubItems.push_back(pgettext("Main Menu|New Game", "<P>reset Character"));
     vSubItems.push_back(pgettext("Main Menu|New Game", "<R>andom Character"));
-    vSubItems.push_back(pgettext("Main Menu|New Game", "Random <S>cenario"));
     if(!MAP_SHARING::isSharing()) { // "Play Now" function doesn't play well together with shared maps
         vSubItems.push_back(pgettext("Main Menu|New Game", "Play <N>ow!"));
     }
@@ -370,11 +369,8 @@ bool game::opening_screen()
                 } else if (chInput == 'r' || chInput == 'R') {
                     sel2 = 2;
                     action = "CONFIRM";
-                } else if (chInput =='s' || chInput == 'S') {
-                     sel2 = 3;
-                     action = "CONFIRM";
                 } else if (chInput == 'n' || chInput == 'N') {
-                    sel2 = 4;
+                    sel2 = 3;
                     action = "CONFIRM";
                 } else if (action == "LEFT") {
                     sel2--;
@@ -391,11 +387,11 @@ bool game::opening_screen()
                     sel1 = 1;
                 }
                 if (action == "UP" || action == "CONFIRM") {
-                    if (sel2 == 0 || sel2 == 2 || sel2 == 3 || sel2 == 4) {
+                    if (sel2 == 0 || sel2 == 2 || sel2 == 3) {
                         // First load the mods, this is done by
                         // loading the world.
                         // Pick a world, suppressing prompts if it's "play now" mode.
-                        WORLDPTR world = world_generator->pick_world( sel2 != 4 );
+                        WORLDPTR world = world_generator->pick_world( sel2 != 3 );
                         if (world == NULL) {
                             continue;
                         }
@@ -406,7 +402,7 @@ bool game::opening_screen()
                             //create will return -1 on re-randomize command, keeping the loop going
                             //it will return 0 on exit, or 1 on success
                             pgen = u.create((sel2 == 0) ? PLTYPE_CUSTOM :
-                                      ((sel2 == 2) ? PLTYPE_RANDOM : ((sel2 == 3) ? PLTYPE_SCENARIO : PLTYPE_NOW)));
+                                      ((sel2 == 2) ? PLTYPE_RANDOM : PLTYPE_NOW));
                             if (pgen == -1) {
                                 u = player();
                             }
