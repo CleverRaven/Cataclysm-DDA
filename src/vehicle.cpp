@@ -515,13 +515,13 @@ void vehicle::use_controls()
     //add toggling of combustion engine types
     if (has_hybrid_setup) {
         options_choice.push_back(toggle_hybrid_ctl);
-        options_message.push_back(uimenu_entry((hybrid_mode_on) ? _("Enable hybrid controller.") :
-                                               _("Disable hybrid controller."), 'o'));
+        options_message.push_back(uimenu_entry((hybrid_mode_on) ? _("Disable hybrid controller.") :
+                                               _("Enable hybrid controller."), 'y'));
     }
     if (has_hybrid_setup && hybrid_mode_on) {
         options_choice.push_back(toggle_combustion_eng);
         options_message.push_back(uimenu_entry((combustion_engine_on) ? _("Switch to electric mode.") :
-                                               _("Switch to combustion mode."), 'p'));
+                                               _("Switch to combustion mode."), 'u'));
     }
 
     // Lights if they are there - Note you can turn them on even when damaged, they just don't work
@@ -609,11 +609,11 @@ void vehicle::use_controls()
     switch(options_choice[select]) {
     case toggle_hybrid_ctl:
         hybrid_mode_on = !hybrid_mode_on;
-        add_msg((combustion_engine_on) ? _("Hybrid mode turned on") : _("Hybrid mode turned off"));
+        add_msg((hybrid_mode_on) ? _("Hybrid mode turned on") : _("Hybrid mode turned off"));
         break;
     case toggle_combustion_eng:
         combustion_engine_on = !combustion_engine_on;
-        add_msg((combustion_engine_on) ? _("Combustion engines turned on") : _("Combustion engines turned off"));
+        add_msg((combustion_engine_on) ? _("Switched to combustion engines") : _("Switched to electric engines"));
         break;
     case toggle_cruise_control:
         cruise_on = !cruise_on;
