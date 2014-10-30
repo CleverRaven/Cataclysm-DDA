@@ -5469,6 +5469,7 @@
 },{
         "type" : "recipe",
   "result": "jug_plastic",
+  "id_suffix": "plastic-mod",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_CONTAINERS",
   "skill_used": "fabrication",
