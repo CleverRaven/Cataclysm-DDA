@@ -6714,12 +6714,13 @@ static int cut_up(player *p, item *it, item *cut, bool)
         materials_salvaged[salvaged_id] = count * salvage_multiplier / cut_material_components.size();
     }
 
+    add_msg(m_info, _("You try to salvage materials from the %s."), cut->tname().c_str());
+
     // Clean up before removing the item.
     remove_ammo(cut, *p);
     // Original item has been consumed.
     p->i_rem(pos);
 
-    add_msg(m_info, _("You try to salvage materials from the %s."), cut->tname().c_str());
     for (auto salvaged : materials_salvaged) {
         std::string mat_name = salvaged.first;
         int amount = salvaged.second;
