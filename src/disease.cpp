@@ -3492,33 +3492,13 @@ static void handle_deliriant(player& p, disease& dis)
 static void handle_evil(player& p, disease& dis)
 {
     bool lesserEvil = false;  // Worn or wielded; diminished effects
-    if (p.weapon.is_artifact() && p.weapon.is_tool()) {
-        it_artifact_tool *tool = dynamic_cast<it_artifact_tool*>(p.weapon.type);
-        for (std::vector<art_effect_passive>::iterator it =
-                 tool->effects_carried.begin();
-             it != tool->effects_carried.end(); ++it) {
-            if (*it == AEP_EVIL) {
+    if( p.weapon.has_effect_when_wielded( AEP_EVIL ) ) {
+        lesserEvil = true;
+    } else {
+        for( auto &i : p.worn ) {
+            if( i.has_effect_when_worn( AEP_EVIL ) ) {
                 lesserEvil = true;
-            }
-        }
-        for (std::vector<art_effect_passive>::iterator it =
-                 tool->effects_wielded.begin();
-             it != tool->effects_wielded.end(); ++it) {
-            if (*it == AEP_EVIL) {
-                lesserEvil = true;
-            }
-        }
-    }
-    for (std::vector<item>::iterator it = p.worn.begin();
-         !lesserEvil && it != p.worn.end(); ++it) {
-        if (it->is_artifact()) {
-            it_artifact_armor *armor = dynamic_cast<it_artifact_armor*>(it->type);
-            for (std::vector<art_effect_passive>::iterator effect =
-                     armor->effects_worn.begin();
-                 effect != armor->effects_worn.end(); ++effect) {
-                if (*effect == AEP_EVIL) {
-                    lesserEvil = true;
-                }
+                break;
             }
         }
     }

@@ -14,6 +14,7 @@
 #include "player_activity.h"
 #include "messages.h"
 #include "clzones.h"
+#include "artifact.h"
 
 #include <unordered_set>
 #include <bitset>
