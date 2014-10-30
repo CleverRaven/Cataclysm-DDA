@@ -522,7 +522,7 @@ public:
 // vehicle have fuel for are accounted
     int max_velocity (bool fueled = true);
 
-// Get safe velocity gained by combined power of all engines. If fueled == true, then only engines which
+// Get safe velocity gained by combined power of all engines currently enabled. If fueled == true, then only engines which
 // vehicle have fuel for are accounted
     int safe_velocity (bool fueled = true);
 
@@ -725,8 +725,11 @@ public:
     bool cruise_on;     // cruise control on/off
     bool reactor_on;    // reactor on/off
     bool engine_on;     // engine on/off
+    
     bool hybrid_mode_on; //hybrid engine on/off
     bool electric_only_on; //only electric engines are on
+    int safe_velocity_non_electric; //the safe velocity when other engines on
+    
     bool has_pedals;
     bool has_paddles;
     bool has_hand_rims;

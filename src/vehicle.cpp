@@ -515,13 +515,13 @@ void vehicle::use_controls()
     //add toggling of combustion engine types
     if (has_hybrid_setup) {
         options_choice.push_back(toggle_hybrid_ctl);
-        options_message.push_back(uimenu_entry((hybrid_mode_on) ? _("Disable hybrid controller.") :
-                                               _("Enable hybrid controller."), 'y'));
+        options_message.push_back(uimenu_entry((hybrid_mode_on) ? _("Disable hybrid controller") :
+                                               _("Enable hybrid controller"), 'y'));
     }
     if (has_hybrid_setup && hybrid_mode_on) {
         options_choice.push_back(toggle_electric_only_on);
-        options_message.push_back(uimenu_entry((electric_only_on) ? _("Switch to non-electric mode.") :
-                                               _("Switch to electric mode."), 'u'));
+        options_message.push_back(uimenu_entry((electric_only_on) ? _("Switch to non-electric mode") :
+                                               _("Switch to electric mode"), 'u'));
     }
 
     // Lights if they are there - Note you can turn them on even when damaged, they just don't work
@@ -608,11 +608,18 @@ void vehicle::use_controls()
 
     switch(options_choice[select]) {
     case toggle_hybrid_ctl:
+        if (hybrid_mode_on) {
+            electric_only_on = false;
+            safe_velocity_non_electric = 0;
+        }
         hybrid_mode_on = !hybrid_mode_on;
         add_msg((hybrid_mode_on) ? _("Hybrid mode turned on") : _("Hybrid mode turned off"));
         break;
     case toggle_electric_only_on:
+        //save max safe speed of non-electric engines
+        if (!electric_only_on) safe_velocity_non_electric = safe_velocity();
         electric_only_on = !electric_only_on;
+        hybrid_logic();
         add_msg((electric_only_on) ? _("Switched to electric engines") : _("Switched to non-electric engines"));
         break;
     case toggle_cruise_control:
@@ -3069,8 +3076,13 @@ void vehicle::hybrid_logic(){
     {
         int percent_battery = (fuel_left(fuel_type_battery) * 99) /
                                 fuel_capacity(fuel_type_battery);
-                                
-        if (percent_battery <= 5)
+        int safe_v = safe_velocity();
+        if (velocity > safe_v && safe_velocity_non_electric > safe_v){
+            electric_only_on = false;
+            add_msg(_("The load on your electric engines is too high."));
+            add_msg(_("Your combustion engines start up."));
+        }                        
+        else if (percent_battery <= 5)
         {   
             electric_only_on = false;
             add_msg(_("Warning, critical electrical power."));
