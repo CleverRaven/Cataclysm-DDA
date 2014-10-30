@@ -5442,31 +5442,57 @@
     ]
   ]
 },{
-"type" : "recipe",
-"result": "funnel",
-"category": "CC_OTHER",
-"subcategory": "CSC_OTHER_TOOLS",
-"skill_used": "fabrication",
-"difficulty": 4,
-"time": 30000,
-"reversible": false,
-"autolearn": true,
-"tools": [
-[
-["mold_plastic", -1]
-],
-[
-["hotplate", 5],
-["toolset", 5],
-["fire", -1]
-]
-],
-"components": [
-[
-["plastic_chunk", 3]
-]
-]
-  },{
+        "type" : "recipe",
+  "result": "funnel",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      ["mold_plastic", -1]
+    ],
+    [
+      ["hotplate", 5],
+      ["toolset", 5],
+      ["fire", -1]
+    ]
+    ],
+    "components": [
+    [
+      ["plastic_chunk", 3]
+    ]
+    ]
+},{
+        "type" : "recipe",
+  "result": "jug_plastic",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_CONTAINERS",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": 45000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      ["mold_plastic", -1]
+    ],
+    [
+      ["hotplate", 15],
+      ["toolset", 15],
+      ["fire", -1]
+    ]
+  ],
+  "components": [
+    [
+      ["plastic_chunk", 10]
+    ]
+  ]
+},{
+
   "type" : "recipe",
   "result": "charcoal",
   "byproducts": { "id" : "charcoal", "amount" : 4 },
