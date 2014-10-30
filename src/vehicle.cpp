@@ -524,7 +524,7 @@ void vehicle::use_controls()
     }
     else
     {
-        has_hybrid_setup = false
+        has_hybrid_setup = false;
         hybrid_mode_on = false;
     }
 
