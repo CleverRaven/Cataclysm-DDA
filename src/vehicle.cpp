@@ -613,9 +613,6 @@ void vehicle::use_controls()
         options_choice.push_back(toggle_hybrid_ctl);
         options_message.push_back(uimenu_entry((hybrid_mode_on) ? _("Switch to all engines") :
                                                _("Switch to selective engines"), 'y'));
-        if (!hybrid_mode_on){
-            reset_hybrid_state();
-        }
     }
     
     if (has_hybrid_setup && hybrid_mode_on) {
@@ -648,13 +645,10 @@ void vehicle::use_controls()
         add_msg((hybrid_mode_on) ? _("Selective engine control on") : _("All engines on"));
         if (!hybrid_mode_on) {
             reset_hybrid_state();
-        }else {
-            hybrid_get_safe_velocities();
         }
         break;
     case toggle_electric_only_on:
         //save max safe speed of non-electric & electric engines
-        hybrid_get_safe_velocities();
         
         electric_only_on = !electric_only_on;
         
@@ -893,17 +887,8 @@ void vehicle::use_controls()
 }
 
 void vehicle::hybrid_get_safe_velocities(){
-    //save max safe speed of non-electric & electric engines
-    if (!electric_only_on) safe_velocity_non_electric = safe_velocity();
-    else safe_velocity_electric = safe_velocity();
-    
-    electric_only_on = !electric_only_on;
-    
-    //save max safe speed of opposite type of engine
-    if (!electric_only_on) safe_velocity_non_electric = safe_velocity();
-    else safe_velocity_electric = safe_velocity();
-    //go back to original value
-    electric_only_on = !electric_only_on;
+    safe_velocity_non_electric = safe_velocity_hybrid(true,false);
+    safe_velocity_electric = safe_velocity_hybrid(true,true);
 }
 
 void vehicle::start_engine()
@@ -2473,6 +2458,41 @@ int vehicle::safe_velocity (bool fueled)
     return (int) (pwrs * k_dynamics() * k_mass()) * 80;
 }
 
+int vehicle::safe_velocity_hybrid (bool fueled, bool electric)
+{
+    int pwrs = 0;
+    int cnt = 0;
+    for (size_t p = 0; p < parts.size(); p++) {
+        if (part_flag(p, VPFLAG_ENGINE) &&
+            (part_info(p).fuel_type == fuel_type_battery || !electric) &&
+            (fuel_left (part_info(p).fuel_type) || !fueled || part_info(p).fuel_type == fuel_type_muscle) &&
+            parts[p].hp > 0) {
+            int m2c = 100;
+
+            if ( part_info(p).fuel_type == fuel_type_gasoline ) {
+                m2c = 60;
+            } else if( part_info(p).fuel_type == fuel_type_diesel ) {
+                m2c = 65;
+            } else if( part_info(p).fuel_type == fuel_type_plasma ) {
+                m2c = 75;
+            } else if( part_info(p).fuel_type == fuel_type_battery ) {
+                m2c = 90;
+            } else if( part_info(p).fuel_type == fuel_type_muscle ) {
+                m2c = 45;
+            }
+
+            pwrs += part_power(p) * m2c / 100;
+            cnt++;
+        } else if (part_flag(p, VPFLAG_ALTERNATOR) && parts[p].hp > 0) { // factor in m2c?
+            pwrs += part_power(p); // alternator parts have negative power
+        }
+    }
+    if (cnt > 0) {
+        pwrs = pwrs * 4 / (4 + cnt -1);
+    }
+    return (int) (pwrs * k_dynamics() * k_mass()) * 80;
+}
+
 void vehicle::spew_smoke( double joules, int part )
 {
     if( rng(1, 100000) > joules ) {
@@ -3124,7 +3144,9 @@ void vehicle::slow_leak()
 }
 
 void vehicle::hybrid_switch(){
+    
     if (hybrid_mode_on && hybrid_safety) {
+        hybrid_get_safe_velocities();
         int percent_battery = (fuel_left(fuel_type_battery) * 99) /
                                     fuel_capacity(fuel_type_battery);
         if (electric_only_on) {
@@ -3145,7 +3167,7 @@ void vehicle::hybrid_switch(){
             }
         } 
         //if batteries charged, switch to electric engines
-        else if (percent_battery > 80 && velocity <= safe_velocity_non_electric) {
+        else if (percent_battery > 80 && velocity <= safe_velocity_electric) {
             electric_only_on = true;
             add_msg(_("Vehicle sufficiently charged."));
             add_msg(_("Your electric engines take over."));
@@ -3315,7 +3337,8 @@ void vehicle::cruise_thrust (int amount)
     if (!amount) {
         return;
     }
-    int max_vel = (safe_velocity() * 11 / 10000 + 1) * 1000;
+    int max_vel = max_velocity();
+    //~ int max_vel = (safe_velocity() * 11 / 10000 + 1) * 1000;
     cruise_velocity += amount;
     cruise_velocity = cruise_velocity / abs(amount) * abs(amount);
     if (cruise_velocity > max_vel) {
