@@ -5496,6 +5496,8 @@ void map::add_road_vehicles(bool city, int facing)
                 add_vehicle("electric_car", veh_x, veh_y, facing, -1, 1);
             } else if(veh_type <= 95) {
                 add_vehicle("road_roller", veh_x, veh_y, facing, -1, 1);
+            } else if(veh_type <= 97) {
+                add_vehicle("hybrid_car", veh_x, veh_y, facing, -1, 1);
             } else {
                 add_vehicle("policecar", veh_x, veh_y, facing, -1, 1);
             }
