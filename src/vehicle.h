@@ -730,6 +730,8 @@ public:
     bool electric_only_on; //only electric engines are on
     bool hybrid_safety; //whether safety checks are performed while hybrid active
     int safe_velocity_non_electric; //the safe velocity when other engines on
+    int safe_velocity_electric; //the safe velocity when other engines on
+
     
     bool has_pedals;
     bool has_paddles;

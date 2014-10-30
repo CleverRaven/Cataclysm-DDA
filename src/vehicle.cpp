@@ -630,9 +630,15 @@ void vehicle::use_controls()
         add_msg((hybrid_mode_on) ? _("Hybrid mode turned on") : _("Hybrid mode turned off"));
         break;
     case toggle_electric_only_on:
-        //save max safe speed of non-electric engines
+        //save max safe speed of non-electric & electric engines
         if (!electric_only_on) safe_velocity_non_electric = safe_velocity();
+        else safe_velocity_electric = safe_velocity();
+        
         electric_only_on = !electric_only_on;
+        
+        if (!electric_only_on) safe_velocity_non_electric = safe_velocity();
+        else safe_velocity_electric = safe_velocity();
+        
         hybrid_logic();
         add_msg((electric_only_on) ? _("Switched to electric engines") : _("Switched to non-electric engines"));
         break;
@@ -3086,26 +3092,39 @@ void vehicle::slow_leak()
 
 void vehicle::hybrid_logic(){
     //if battery dips below 5 percent, start the main engines
-    if (hybrid_mode_on && electric_only_on && hybrid_safety)
+    if (hybrid_mode_on && hybrid_safety)
     {
         int percent_battery = (fuel_left(fuel_type_battery) * 99) /
-                                fuel_capacity(fuel_type_battery);
-        int safe_v = safe_velocity();
-        if (velocity > safe_v && safe_velocity_non_electric > safe_v){
-            electric_only_on = false;
-            add_msg(_("The load on your electric engines is too high."));
-            add_msg(_("Your combustion engines start up."));
-        }                        
-        else if (percent_battery <= 5)
-        {   
-            electric_only_on = false;
-            add_msg(_("Warning, critical electrical power."));
-            add_msg(_("Your combustion engines start up."));
-        }
-        else if (percent_battery <= 10 && one_in(4))
+                                    fuel_capacity(fuel_type_battery);
+        if (electric_only_on)
         {
             
-            add_msg(_("Warning, low electrical power."));
+            
+            if (velocity > safe_velocity_electric && safe_velocity_non_electric > safe_velocity_electric){
+                electric_only_on = false;
+                add_msg(_("The load on your electric engines is too high."));
+                add_msg(_("Your combustion engines take over."));
+            }
+            else if (percent_battery <= 5)
+            {   
+                electric_only_on = false;
+                add_msg(_("Warning, critical electrical power."));
+                add_msg(_("Your combustion engines take over."));
+            }
+            else if (percent_battery <= 10 && one_in(4))
+            {
+                
+                add_msg(_("Warning, low electrical power."));
+            }
+        } 
+        else 
+        {
+            if (percent_battery > 80 && velocity <= safe_velocity_non_electric)
+            {
+                electric_only_on = true;
+                add_msg(_("Vehicle sufficiently charged."));
+                add_msg(_("Your electric engines take over."));
+            }
         }
     }
 }
