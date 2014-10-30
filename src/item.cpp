@@ -957,6 +957,10 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
             dump->push_back(iteminfo("DESCRIPTION",
                 _("This tool has been modified to use a rechargeable power cell and is not compatible with standard batteries.")));
         }
+        if (is_tool() && has_flag("USE_UPS")) {
+            dump->push_back(iteminfo("DESCRIPTION",
+                _("This tool has been modified to use a universal power supply and is not compatible with standard batteries.")));
+        }
 
         if (has_flag("LEAK_DAM") && has_flag("RADIOACTIVE") && damage > 0) {
             dump->push_back(iteminfo("DESCRIPTION",
@@ -1306,6 +1310,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
 
     if (has_flag("RECHARGE")) {
         ret << _(" (rechargeable)");
+    }
+    if (is_tool() && has_flag("USE_UPS")){
+        ret << _(" (UPS)");
     }
 
     if (has_flag("ATOMIC_AMMO")) {
