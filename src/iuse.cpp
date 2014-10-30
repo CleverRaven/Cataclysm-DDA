@@ -2715,12 +2715,12 @@ static bool prep_firestarter_use(player *p, item *it, point &pos)
         p->add_msg_if_player(m_info, _("There is already a fire."));
         return false;
     }
-    if( !g->m.flammable_items_at(pos.x, pos.y) ||
+    if( g->m.flammable_items_at(pos.x, pos.y) ||
         g->m.has_flag("FLAMMABLE", pos.x, pos.y) || g->m.has_flag("FLAMMABLE_ASH", pos.x, pos.y) ) {
+        return true;
+    } else {
         p->add_msg_if_player(m_info, _("There's nothing to light there."));
         return false;
-    } else {
-        return true;
     }
 }
 
