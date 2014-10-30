@@ -499,8 +499,7 @@ void vehicle::use_controls()
             has_recharger = true;
         }
     }
-    if (has_electric_engine && has_non_electric_engine)
-        has_hybrid_setup = true;
+
 
     // Toggle engine on/off, stop driving if we are driving.
     if( !has_pedals && !has_hand_rims && !has_paddles && has_engine ) {
@@ -516,7 +515,20 @@ void vehicle::use_controls()
     options_choice.push_back(toggle_cruise_control);
     options_message.push_back(uimenu_entry((cruise_on) ? _("Disable cruise control") :
                                            _("Enable cruise control"), 'c'));
-    //add toggling of combustion engine types
+                                           
+                                           
+    //if there is an electric and other engine available
+    if (has_electric_engine && has_non_electric_engine)
+    {
+        has_hybrid_setup = true;
+    }
+    else
+    {
+        has_hybrid_setup = false
+        hybrid_mode_on = false;
+    }
+
+    
     if (has_hybrid_setup) {
         options_choice.push_back(toggle_hybrid_ctl);
         options_message.push_back(uimenu_entry((hybrid_mode_on) ? _("Disable hybrid controller") :
@@ -639,7 +651,7 @@ void vehicle::use_controls()
         if (!electric_only_on) safe_velocity_non_electric = safe_velocity();
         else safe_velocity_electric = safe_velocity();
         
-        hybrid_logic();
+        hybrid_switch();
         add_msg((electric_only_on) ? _("Switched to electric engines") : _("Switched to non-electric engines"));
         break;
     case toggle_cruise_control:
@@ -3090,13 +3102,13 @@ void vehicle::slow_leak()
     }
 }
 
-void vehicle::hybrid_logic(){
-    if (hybrid_mode_on && hybrid_safety)
-    {
+void vehicle::hybrid_switch(){
+    if (hybrid_mode_on && hybrid_safety) {
+        //should compute safe velocity for electric, and all other engines
+        
         int percent_battery = (fuel_left(fuel_type_battery) * 99) /
                                     fuel_capacity(fuel_type_battery);
-        if (electric_only_on)
-        {
+        if (electric_only_on) {
             //if car going too fast and other engines can support faster speeds
             if (velocity > safe_velocity_electric && safe_velocity_non_electric > safe_velocity_electric){
                 electric_only_on = false;
@@ -3104,27 +3116,24 @@ void vehicle::hybrid_logic(){
                 add_msg(_("Your combustion engines take over."));
             }
             //if battery low, switch to gas engines
-            else if (percent_battery <= 5)
-            {   
+            else if (percent_battery <= 5) {   
                 electric_only_on = false;
                 add_msg(_("Warning, critical electrical power."));
                 add_msg(_("Your combustion engines take over."));
             }
-            else if (percent_battery <= 10 && one_in(4))
-            {
+            else if (percent_battery <= 10 && one_in(4)) {
                 
                 add_msg(_("Warning, low electrical power."));
             }
         } 
         //if batteries charged, switch to electric engines
-        else if (percent_battery > 80 && velocity <= safe_velocity_non_electric)
-        {
+        else if (percent_battery > 80 && velocity <= safe_velocity_non_electric) {
 
             electric_only_on = true;
             add_msg(_("Vehicle sufficiently charged."));
             add_msg(_("Your electric engines take over."));
         }
-    }
+    } 
 }
 
 void vehicle::thrust (int thd) {
@@ -3192,6 +3201,8 @@ void vehicle::thrust (int thd) {
     if( load < 0.01 ) {
         load = 0.01;
     }
+    
+    
     // Ugly hack, use full engine power occasionally when thrusting slightly
     // up to cruise control speed. Loses some extra power when in reverse.
     if (thrusting && rng(1, accel) <= vel_inc ) {
@@ -3225,7 +3236,7 @@ void vehicle::thrust (int thd) {
         noise_and_smoke( load );
         consume_fuel ();
         
-        hybrid_logic();
+        
         
         //engine damage at high load
         int strn = (int) (strain () * strain() * 100);
@@ -3279,6 +3290,7 @@ void vehicle::thrust (int thd) {
     if (stereo_on == true) {
         play_music();
     }
+    hybrid_switch();
 }
 
 void vehicle::cruise_thrust (int amount)

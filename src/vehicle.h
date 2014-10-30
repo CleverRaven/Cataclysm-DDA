@@ -415,7 +415,7 @@ public:
 //true if fuel type is consumed by current running engines
     bool is_fuel_type_enabled(ammotype ft) const;
 //hybrid controller code logic, switches between engines at low battery
-    void hybrid_logic();
+    void hybrid_switch();
 
 // Translate seat-relative mount coords into tile coords
     void coord_translate (int reldx, int reldy, int &dx, int &dy);
@@ -726,6 +726,7 @@ public:
     bool reactor_on;    // reactor on/off
     bool engine_on;     // engine on/off
     
+    //these values only valid when hybrid mode is on
     bool hybrid_mode_on; //hybrid engine on/off
     bool electric_only_on; //only electric engines are on
     bool hybrid_safety; //whether safety checks are performed while hybrid active
