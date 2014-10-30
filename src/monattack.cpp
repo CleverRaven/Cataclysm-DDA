@@ -2185,7 +2185,7 @@ void mattack::frag_tur(monster *z, int index) // This is for the bots, not a sta
     if (z->friendly != 0) {
         // Attacking monsters, not the player!
         int boo_hoo;
-        target = tmp.auto_find_hostile_target(18, boo_hoo, fire_t);
+        target = tmp.auto_find_hostile_target(38, boo_hoo, fire_t);
         if (target == NULL) {// Couldn't find any targets!
             if(boo_hoo > 0 && g->u_see(z->posx(), z->posy()) ) { // because that stupid oaf was in the way!
                 add_msg(m_warning, ngettext("Pointed in your direction, the %s emits an IFF warning beep.",
@@ -2201,12 +2201,10 @@ void mattack::frag_tur(monster *z, int index) // This is for the bots, not a sta
         if (within_visual_range(z, 38) < 0) return;
 
         if (!z->has_effect("targeted")) {
-            if (g->u_see(z->posx(), z->posy())) {
-                //~Potential grenading detected.
-                add_msg(m_warning, _("Those laser dots don't seem very friendly...") );
-            }
+            //~Potential grenading detected.
+            add_msg(m_warning, _("Those laser dots don't seem very friendly...") );
             g->sound(z->posx(), z->posy(), 10, _("Targeting."));
-            z->add_effect("targeted", 8);
+            z->add_effect("targeted", 4);
             z->moves -= 100;
             return;
         }
@@ -2256,7 +2254,7 @@ void mattack::bmg_tur(monster *z, int index)
     if (z->friendly != 0) {
         // Attacking monsters, not the player!
         int boo_hoo;
-        target = tmp.auto_find_hostile_target(18, boo_hoo, fire_t);
+        target = tmp.auto_find_hostile_target(40, boo_hoo, fire_t);
         if (target == NULL) {// Couldn't find any targets!
             if(boo_hoo > 0 && g->u_see(z->posx(), z->posy()) ) { // because that stupid oaf was in the way!
                 add_msg(m_warning, ngettext("Pointed in your direction, the %s emits an IFF warning beep.",
@@ -2272,10 +2270,8 @@ void mattack::bmg_tur(monster *z, int index)
         if (within_visual_range(z, 40) < 0) return;
 
         if (!z->has_effect("targeted")) {
-            if (g->u_see(z->posx(), z->posy())) {
-                //~There will be a .50BMG shell sent at high speed to your location next turn.
-                add_msg(m_warning, _("Why is there a laser dot on your torso..?"));
-            }
+            //~There will be a .50BMG shell sent at high speed to your location next turn.
+            add_msg(m_warning, _("Why is there a laser dot on your torso..?"));
             g->sound(z->posx(), z->posy(), 10, _("Hostile detected."));
             z->add_effect("targeted", 8);
             z->moves -= 100;
@@ -2322,8 +2318,8 @@ void mattack::tank_tur(monster *z, int index)
     // kevingranade KA101: yes, but make it really inaccurate
     // Sure thing.
     npc tmp = make_fake_npc(z, 12, 8, 8, 8);
-    tmp.skillLevel("launcher").level(2);
-    tmp.skillLevel("gun").level(2);
+    tmp.skillLevel("launcher").level(1);
+    tmp.skillLevel("gun").level(1);
 
     z->reset_special(index); // Reset timer
     Creature *target = NULL;
@@ -2331,7 +2327,7 @@ void mattack::tank_tur(monster *z, int index)
     if (z->friendly != 0) {
         // Attacking monsters, not the player!
         int boo_hoo;
-        target = tmp.auto_find_hostile_target(18, boo_hoo, fire_t);
+        target = tmp.auto_find_hostile_target(48, boo_hoo, fire_t);
         if (target == NULL) {// Couldn't find any targets!
             if(boo_hoo > 0 && g->u_see(z->posx(), z->posy()) ) { // because that stupid oaf was in the way!
                 add_msg(m_warning, ngettext("Pointed in your direction, the %s emits an IFF warning beep.",
@@ -2344,16 +2340,14 @@ void mattack::tank_tur(monster *z, int index)
     } else {
         // Not friendly; hence, firing at the player
         // (Be grateful for safety precautions.)
-        if (within_visual_range(z, 50) < 0) return;
+        if (within_visual_range(z, 48) < 0) return;
 
         if (!z->has_effect("targeted")) {
-            if (g->u_see(z->posx(), z->posy())) {
-                //~ There will be a 120mm HEAT shell sent at high speed to your location next turn.
-                add_msg(m_warning, _("You're not sure why you've got a laser dot on you...") );
-            }
+            //~ There will be a 120mm HEAT shell sent at high speed to your location next turn.
+            add_msg(m_warning, _("You're not sure why you've got a laser dot on you...") );
             //~ Sound of a tank turret swiveling into place
             g->sound(z->posx(), z->posy(), 10, _("whirrrrrclick."));
-            z->add_effect("targeted", 4);
+            z->add_effect("targeted", 2);
             z->moves -= 100;
             return;
         }
@@ -2379,7 +2373,7 @@ void mattack::tank_tur(monster *z, int index)
     tmp.fire_gun(target->xpos(), target->ypos(), false);
     z->ammo[ammo_type] += tmp.weapon.charges;
     if (target == &g->u) {
-        z->add_effect("targeted", 3);
+        z->add_effect("targeted", 2);
     }
 }
 
