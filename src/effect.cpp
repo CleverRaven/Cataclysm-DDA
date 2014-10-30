@@ -193,6 +193,13 @@ bool effect_mod_info::load(JsonObject &jsobj, std::string member) {
         extract_effect_int(j, "hurt_chance_bot", hurt_chance_bot, "");
         extract_effect_int(j, "hurt_tick", hurt_tick, "");
         
+        extract_effect_int(j, "sleep_amount", sleep_amount, "");
+        extract_effect_int(j, "sleep_min", sleep_min, "");
+        extract_effect_int(j, "sleep_max", sleep_max, "sleep_min");
+        extract_effect_int(j, "sleep_chance", sleep_chance_top, "");
+        extract_effect_int(j, "sleep_chance_bot", sleep_chance_bot, "");
+        extract_effect_int(j, "sleep_tick", sleep_tick, "");
+        
         extract_effect_int(j, "pkill_amount", pkill_amount, "");
         extract_effect_int(j, "pkill_min", pkill_min, "");
         extract_effect_int(j, "pkill_max", pkill_max, "pkill_min");
@@ -1409,8 +1416,6 @@ void load_effect_type(JsonObject &jo)
     new_etype.resist_trait = jo.get_string("resist_trait", "");
     new_etype.resist_effect = jo.get_string("resist_effect", "");
     new_etype.removes_effect = jo.get_string("removes_effect", "");
-
-    new_etype.permanent = jo.get_bool("permanent", false);
     
     new_etype.max_intensity = jo.get_int("max_intensity", 1);
     new_etype.max_duration = jo.get_int("max_duration", 0);

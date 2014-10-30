@@ -161,7 +161,6 @@ class effect_type
         bool load_decay_msgs(JsonObject &jsobj, std::string member);
 
     protected:
-        bool permanent;
         int max_intensity;
         int max_duration;
         
