@@ -3091,20 +3091,19 @@ void vehicle::slow_leak()
 }
 
 void vehicle::hybrid_logic(){
-    //if battery dips below 5 percent, start the main engines
     if (hybrid_mode_on && hybrid_safety)
     {
         int percent_battery = (fuel_left(fuel_type_battery) * 99) /
                                     fuel_capacity(fuel_type_battery);
         if (electric_only_on)
         {
-            
-            
+            //if car going too fast and other engines can support faster speeds
             if (velocity > safe_velocity_electric && safe_velocity_non_electric > safe_velocity_electric){
                 electric_only_on = false;
                 add_msg(_("The load on your electric engines is too high."));
                 add_msg(_("Your combustion engines take over."));
             }
+            //if battery low, switch to gas engines
             else if (percent_battery <= 5)
             {   
                 electric_only_on = false;
@@ -3117,14 +3116,13 @@ void vehicle::hybrid_logic(){
                 add_msg(_("Warning, low electrical power."));
             }
         } 
-        else 
+        //if batteries charged, switch to electric engines
+        else if (percent_battery > 80 && velocity <= safe_velocity_non_electric)
         {
-            if (percent_battery > 80 && velocity <= safe_velocity_non_electric)
-            {
-                electric_only_on = true;
-                add_msg(_("Vehicle sufficiently charged."));
-                add_msg(_("Your electric engines take over."));
-            }
+
+            electric_only_on = true;
+            add_msg(_("Vehicle sufficiently charged."));
+            add_msg(_("Your electric engines take over."));
         }
     }
 }

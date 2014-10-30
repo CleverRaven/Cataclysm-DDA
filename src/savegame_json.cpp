@@ -1323,7 +1323,12 @@ void vehicle::deserialize(JsonIn &jsin)
     data.read("skidding", skidding);
     data.read("turret_mode", turret_mode);
     data.read("of_turn_carry", of_turn_carry);
-
+    data.read("hybrid_mode_on", hybrid_mode_on);
+    data.read("electric_only_on", electric_only_on);
+    data.read("hybrid_safety", hybrid_safety);
+    data.read("safe_velocity_non_electric", safe_velocity_non_electric);
+    data.read("safe_velocity_electric", safe_velocity_electric);
+   
     face.init (fdir);
     move.init (mdir);
     data.read("name", name);
@@ -1391,6 +1396,11 @@ void vehicle::serialize(JsonOut &json) const
     json.member( "parts", parts );
     json.member( "tags", tags );
     json.member( "labels", labels );
+    json.member( "hybrid_mode_on", hybrid_mode_on);
+    json.member( "electric_only_on", electric_only_on);
+    json.member( "hybrid_safety", hybrid_safety);
+    json.member( "safe_velocity_non_electric", safe_velocity_non_electric);
+    json.member( "safe_velocity_electric", safe_velocity_electric);
     json.end_object();
 }
 
