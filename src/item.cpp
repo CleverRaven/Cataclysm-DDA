@@ -12,6 +12,7 @@
 #include "helper.h" //to_string_int
 #include "messages.h"
 #include "disease.h"
+#include "artifact.h"
 
 #include <cmath> // floor
 #include <sstream>
@@ -4139,5 +4140,46 @@ bool item::reduce_charges( long quantity )
         return true;
     }
     charges -= quantity;
+    return false;
+}
+
+bool item::has_effect_when_wielded( art_effect_passive effect ) const
+{
+    const auto tool = dynamic_cast<const it_artifact_tool*>( type );
+    if( tool != nullptr ) {
+        auto &ew = tool->effects_wielded;
+        if( std::find( ew.begin(), ew.end(), effect ) != ew.end() ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool item::has_effect_when_worn( art_effect_passive effect ) const
+{
+    const auto armor = dynamic_cast<const it_artifact_armor*>( type );
+    if( armor != nullptr ) {
+        auto &ew = armor->effects_worn;
+        if( std::find( ew.begin(), ew.end(), effect ) != ew.end() ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool item::has_effect_when_carried( art_effect_passive effect ) const
+{
+    const auto tool = dynamic_cast<const it_artifact_tool*>( type );
+    if( tool != nullptr ) {
+        auto &ec = tool->effects_carried;
+        if( std::find( ec.begin(), ec.end(), effect ) != ec.end() ) {
+            return true;
+        }
+    }
+    for( auto &i : contents ) {
+        if( i.has_effect_when_carried( effect ) ) {
+            return true;
+        }
+    }
     return false;
 }

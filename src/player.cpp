@@ -7392,41 +7392,17 @@ bool player::is_waterproof(std::bitset<13> parts) const
 
 bool player::has_artifact_with(const art_effect_passive effect) const
 {
-    if (weapon.is_artifact() && weapon.is_tool()) {
-        it_artifact_tool *tool = dynamic_cast<it_artifact_tool*>(weapon.type);
-        for (auto &i : tool->effects_wielded) {
-            if (i == effect) {
-                return true;
-            }
-        }
-        for (auto &i : tool->effects_carried) {
-            if (i == effect) {
-                return true;
-            }
-        }
-    }
-    const bool has_in_inv = inv.has_item_with( [effect]( const item & it ) {
-        if( it.is_artifact() && it.is_tool() ) {
-            auto tool = dynamic_cast<const it_artifact_tool *>( it.type );
-            auto &ec = tool->effects_carried;
-            return std::find( ec.begin(), ec.end(), effect ) != ec.end();
-        }
-        return false;
-    } );
-    if( has_in_inv ) {
+    if( weapon.has_effect_when_wielded( effect ) ) {
         return true;
     }
-    for (auto &i : worn) {
-        if (i.is_artifact()) {
-            it_artifact_armor *armor = dynamic_cast<it_artifact_armor*>(i.type);
-            for (auto &j : armor->effects_worn) {
-                if (j == effect) {
-                    return true;
-                }
-            }
+    for( auto & i : worn ) {
+        if( i.has_effect_when_worn( effect ) ) {
+            return true;
         }
     }
-    return false;
+    return has_item_with( [effect]( const item & it ) {
+        return it.has_effect_when_carried( effect );
+    } );
 }
 
 bool player::has_amount(const itype_id &it, int quantity) const

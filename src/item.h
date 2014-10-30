@@ -8,6 +8,7 @@
 #include <bitset>
 #include <unordered_set>
 #include <set>
+#include "artifact.h"
 #include "itype.h"
 #include "mtype.h"
 
@@ -436,6 +437,19 @@ public:
  bool is_other() const; // Doesn't belong in other categories
  bool is_var_veh_part() const;
  bool is_artifact() const;
+
+        /**
+         * Does the item provide the artifact effect when it is wielded?
+         */
+        bool has_effect_when_wielded( art_effect_passive effect ) const;
+        /**
+         * Does the item provide the artifact effect when it is worn?
+         */
+        bool has_effect_when_worn( art_effect_passive effect ) const;
+        /**
+         * Does the item provide the artifact effect when it is carried?
+         */
+        bool has_effect_when_carried( art_effect_passive effect ) const;
 
     /**
      * Set the snippet text (description) of this specific item, using the snippet library.
