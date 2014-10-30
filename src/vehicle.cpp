@@ -852,8 +852,8 @@ void vehicle::start_engine()
     // TODO: Make chance of success based on engine condition.
     for( size_t p = 0; p < engines.size(); ++p ) {
         if(parts[engines[p]].hp > 0) {
-            if(!electric_only_on && (part_info(engines[p]).fuel_type == fuel_type_gasoline 
-                                    || part_info(engines[p]).fuel_type == fuel_type_diesel)) {
+            if(!electric_only_on && (part_info(engines[p]).fuel_type == fuel_type_gasoline ||
+                                    part_info(engines[p]).fuel_type == fuel_type_diesel)) {
                 int engine_power = part_power(engines[p]);
                 if(engine_power < 50) {
                     // Small engines can be pull-started
@@ -2298,9 +2298,8 @@ int vehicle::total_power (bool fueled)
     g->m.veh_at(g->u.posx, g->u.posy, part_under_player);
     bool player_controlling = player_in_control(&(g->u));
     for (size_t p = 0; p < parts.size(); p++) {
-        if (part_flag(p, VPFLAG_ENGINE) \
-            && is_engine_enabled(p)
-            && (fuel_left (part_info(p).fuel_type) || !fueled || 
+        if (part_flag(p, VPFLAG_ENGINE) && is_engine_enabled(p) &&
+            (fuel_left (part_info(p).fuel_type) || !fueled || 
             ((part_info(p).fuel_type == fuel_type_muscle) && player_controlling &&
               part_with_feature(part_under_player, VPFLAG_ENGINE) == (int)p)) && parts[p].hp > 0) {
             pwr += part_power(p);
@@ -2384,8 +2383,8 @@ int vehicle::safe_velocity (bool fueled)
     int pwrs = 0;
     int cnt = 0;
     for (size_t p = 0; p < parts.size(); p++) {
-        if (part_flag(p, VPFLAG_ENGINE) 
-            && is_engine_enabled(p) &&
+        if (part_flag(p, VPFLAG_ENGINE) &&
+            is_engine_enabled(p) &&
             (fuel_left (part_info(p).fuel_type) || !fueled || part_info(p).fuel_type == fuel_type_muscle) &&
             parts[p].hp > 0) {
             int m2c = 100;
@@ -2456,8 +2455,7 @@ void vehicle::noise_and_smoke( double load, double time )
 
     for( size_t e = 0; e < engines.size(); e++ ) {
         int p = engines[e];
-        if( parts[p].hp > 0 
-                && is_engine_enabled(p) &&
+        if( parts[p].hp > 0 && is_engine_enabled(p) &&
                 (fuel_left (part_info(p).fuel_type) ||
                  part_info(p).fuel_type == fuel_type_muscle) ) {
             double pwr = 10.0; // Default noise if nothing else found, shouldn't happen
@@ -3065,6 +3063,27 @@ void vehicle::slow_leak()
     }
 }
 
+void vehicle::hybrid_logic(){
+    //if battery dips below 5 percent, start the main engines
+    if (hybrid_mode_on && electric_only_on)
+    {
+        int percent_battery = (fuel_left(fuel_type_battery) * 99) /
+                                fuel_capacity(fuel_type_battery);
+                                
+        if (percent_battery <= 5)
+        {   
+            electric_only_on = false;
+            add_msg(_("Warning, critical electrical power."));
+            add_msg(_("Your combustion engines start up."));
+        }
+        else if (percent_battery <= 10 && one_in(4))
+        {
+            
+            add_msg(_("Warning, low electrical power."));
+        }
+    }
+}
+
 void vehicle::thrust (int thd) {
     if( velocity == 0 ) {
         turn_dir = face.dir();
@@ -3163,24 +3182,7 @@ void vehicle::thrust (int thd) {
         noise_and_smoke( load );
         consume_fuel ();
         
-        //hybrid controller code logic
-        if (hybrid_mode_on && electric_only_on)
-        {
-            int percent_battery = (fuel_left(fuel_type_battery) * 99) 
-                                    / fuel_capacity(fuel_type_battery);
-
-            if (percent_battery <= 5)
-            {   
-                electric_only_on = false;
-                add_msg(_("Warning, critical electrical power."));
-                add_msg(_("Your combustion engines start up."));
-            }
-            else if (percent_battery <= 10 && one_in(4))
-            {
-                
-                add_msg(_("Warning, low electrical power."));
-            }
-        }
+        hybrid_logic();
         
         //engine damage at high load
         int strn = (int) (strain () * strain() * 100);
