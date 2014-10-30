@@ -608,33 +608,33 @@ void defense_game::setup()
                 if (action == "LEFT" && initial_cash > 0) {
                     initial_cash -= 100;
                 }
-                if (action == "RIGHT" && initial_cash < 99900) {
+                if (action == "RIGHT" && initial_cash < 1000000) {
                     initial_cash += 100;
                 }
                 mvwprintz(w, 13, 20, c_black, "xxxxx");
-                mvwprintz(w, 13, NUMALIGN(initial_cash), c_yellow, "%d", initial_cash);
+                mvwprintz(w, 13, NUMALIGN(initial_cash), c_yellow, "%d", initial_cash / 100 );
                 break;
 
             case 8:
                 if (action == "LEFT" && cash_per_wave > 0) {
                     cash_per_wave -= 100;
                 }
-                if (action == "RIGHT" && cash_per_wave < 9900) {
+                if (action == "RIGHT" && cash_per_wave < 1000000) {
                     cash_per_wave += 100;
                 }
                 mvwprintz(w, 14, 21, c_black, "xxxx");
-                mvwprintz(w, 14, NUMALIGN(cash_per_wave), c_yellow, "%d", cash_per_wave);
+                mvwprintz(w, 14, NUMALIGN(cash_per_wave), c_yellow, "%d", cash_per_wave / 100 );
                 break;
 
             case 9:
                 if (action == "LEFT" && cash_increase > 0) {
                     cash_increase -= 50;
                 }
-                if (action == "RIGHT" && cash_increase < 9950) {
+                if (action == "RIGHT" && cash_increase < 1000000) {
                     cash_increase += 50;
                 }
                 mvwprintz(w, 15, 21, c_black, "xxxx");
-                mvwprintz(w, 15, NUMALIGN(cash_increase), c_yellow, "%d", cash_increase);
+                mvwprintz(w, 15, NUMALIGN(cash_increase), c_yellow, "%d", cash_increase / 100 );
                 break;
 
             case 10:
@@ -747,13 +747,13 @@ void defense_game::refresh_setup(WINDOW *w, int selection)
     mvwprintz(w, 11, 28, c_ltgray, _("The number of waves in between caravans."));
 
     mvwprintz(w, 13,  2, c_ltgray, _("Initial Cash:"));
-    mvwprintz(w, 13, NUMALIGN(initial_cash), SELCOL(7), "%d", initial_cash);
+    mvwprintz(w, 13, NUMALIGN(initial_cash), SELCOL(7), "%d", initial_cash / 100 );
     mvwprintz(w, 13, 28, c_ltgray, _("The amount of money the player starts with."));
     mvwprintz(w, 14,  2, c_ltgray, _("Cash for 1st Wave:"));
-    mvwprintz(w, 14, NUMALIGN(cash_per_wave), SELCOL(8), "%d", cash_per_wave);
+    mvwprintz(w, 14, NUMALIGN(cash_per_wave), SELCOL(8), "%d", cash_per_wave / 100 );
     mvwprintz(w, 14, 28, c_ltgray, _("The cash awarded for the first wave."));
     mvwprintz(w, 15,  2, c_ltgray, _("Cash Increase:"));
-    mvwprintz(w, 15, NUMALIGN(cash_increase), SELCOL(9), "%d", cash_increase);
+    mvwprintz(w, 15, NUMALIGN(cash_increase), SELCOL(9), "%d", cash_increase / 100 );
     mvwprintz(w, 15, 28, c_ltgray, _("The increase in the award each wave."));
 
     mvwprintz(w, 17,  2, c_ltgray, _("Enemy Selection:"));
