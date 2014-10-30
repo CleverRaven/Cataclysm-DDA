@@ -529,10 +529,10 @@ void utf8_wrapper::append(const utf8_wrapper &other)
     _display_width += other._display_width;
 }
 
-std::string utf8_wrapper::shorten(size_t maxlength) const
+std::string utf8_wrapper::shorten( size_t maxlength ) const
 {
-    if(length() <= maxlength) {
+    if( display_width() <= maxlength ) {
         return str();
     }
-    return substr(0, maxlength - 1).str() + "\u2026"; // 2026 is the utf8 for …
+    return substr_display( 0, maxlength - 1 ).str() + "\u2026"; // 2026 is the utf8 for …
 }
