@@ -585,8 +585,8 @@ void player::activate_bionic(int b)
     }
     if(bio.id == "bio_leukocyte") {
         add_msg(m_neutral, _("You activate your leukocyte breeder system."));
-        g->u.set_healthy(std::min(100, g->u.get_healthy() + 2));
-        g->u.mod_healthy_mod(20);
+        set_healthy(std::min(100, get_healthy() + 2));
+        mod_healthy_mod(20);
     }
     if(bio.id == "bio_geiger") {
         add_msg(m_info, _("Your radiation level: %d"), radiation);
@@ -1119,7 +1119,7 @@ void bionics_install_failure(player *u, it_bionic *type, int success)
                 int old_power = u->max_power_level;
                 add_msg(m_bad, _("You lose power capacity!"));
                 u->max_power_level = rng(0, u->max_power_level - 25);
-                g->u.add_memorial_log(pgettext("memorial_male", "Lost %d units of power capacity."),
+                u->add_memorial_log(pgettext("memorial_male", "Lost %d units of power capacity."),
                                       pgettext("memorial_female", "Lost %d units of power capacity."),
                                       old_power - u->max_power_level);
             }
