@@ -85,9 +85,8 @@ vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): t
     reactor_on = false;
     engine_on = false;
     
-    hybrid_mode_on = false;
-    hybrid_safety = true;
-    electric_only_on = false;
+    hybrid_mode_on = true;
+    reset_hybrid_state();
     
     has_pedals = false;
     has_paddles = false;
@@ -429,6 +428,13 @@ void vehicle::smash() {
     }
 }
 
+void vehicle::reset_hybrid_state(){
+    electric_only_on = true; 
+    hybrid_safety = true; 
+    safe_velocity_non_electric = 0; 
+    safe_velocity_electric = 0;
+}
+
 void vehicle::use_controls()
 {
     std::vector<vehicle_controls> options_choice;
@@ -526,6 +532,7 @@ void vehicle::use_controls()
     {
         has_hybrid_setup = false;
         hybrid_mode_on = false;
+        reset_hybrid_state();
     }
 
     
@@ -533,6 +540,9 @@ void vehicle::use_controls()
         options_choice.push_back(toggle_hybrid_ctl);
         options_message.push_back(uimenu_entry((hybrid_mode_on) ? _("Disable hybrid controller") :
                                                _("Enable hybrid controller"), 'y'));
+        if (!hybrid_mode_on){
+            reset_hybrid_state();
+        }
     }
     if (has_hybrid_setup && hybrid_mode_on) {
         options_choice.push_back(toggle_electric_only_on);
@@ -542,8 +552,8 @@ void vehicle::use_controls()
     
     if (has_hybrid_setup && hybrid_mode_on) {
         options_choice.push_back(toggle_hybrid_safety);
-        options_message.push_back(uimenu_entry((hybrid_safety) ? _("Disable hybrid safety checks") :
-                                               _("Enable hybrid safety checks"), 'i'));
+        options_message.push_back(uimenu_entry((hybrid_safety) ? _("Disable hybrid auto control") :
+                                               _("Enable hybrid auto control"), 'i'));
     }
 
     // Lights if they are there - Note you can turn them on even when damaged, they just don't work
@@ -631,15 +641,14 @@ void vehicle::use_controls()
     switch(options_choice[select]) {
     case toggle_hybrid_safety:
         hybrid_safety = !hybrid_safety;
-        add_msg((hybrid_safety) ? _("Hybrid safety features enabled") : _("Hybrid safety features disabled"));
+        add_msg((hybrid_safety) ? _("Hybrid auto control enabled") : _("Hybrid auto control disabled"));
         break;
     case toggle_hybrid_ctl:
-        if (hybrid_mode_on) {
-            electric_only_on = false;
-            safe_velocity_non_electric = 0;
-        }
         hybrid_mode_on = !hybrid_mode_on;
         add_msg((hybrid_mode_on) ? _("Hybrid mode turned on") : _("Hybrid mode turned off"));
+        if (!hybrid_mode_on) {
+            reset_hybrid_state();
+        }
         break;
     case toggle_electric_only_on:
         //save max safe speed of non-electric & electric engines
@@ -3104,8 +3113,6 @@ void vehicle::slow_leak()
 
 void vehicle::hybrid_switch(){
     if (hybrid_mode_on && hybrid_safety) {
-        //should compute safe velocity for electric, and all other engines
-        
         int percent_battery = (fuel_left(fuel_type_battery) * 99) /
                                     fuel_capacity(fuel_type_battery);
         if (electric_only_on) {
@@ -3122,13 +3129,11 @@ void vehicle::hybrid_switch(){
                 add_msg(_("Your combustion engines take over."));
             }
             else if (percent_battery <= 10 && one_in(4)) {
-                
                 add_msg(_("Warning, low electrical power."));
             }
         } 
         //if batteries charged, switch to electric engines
         else if (percent_battery > 80 && velocity <= safe_velocity_non_electric) {
-
             electric_only_on = true;
             add_msg(_("Vehicle sufficiently charged."));
             add_msg(_("Your electric engines take over."));
@@ -3201,7 +3206,7 @@ void vehicle::thrust (int thd) {
     if( load < 0.01 ) {
         load = 0.01;
     }
-    
+    hybrid_switch();
     
     // Ugly hack, use full engine power occasionally when thrusting slightly
     // up to cruise control speed. Loses some extra power when in reverse.
@@ -3290,7 +3295,7 @@ void vehicle::thrust (int thd) {
     if (stereo_on == true) {
         play_music();
     }
-    hybrid_switch();
+    
 }
 
 void vehicle::cruise_thrust (int amount)

@@ -416,6 +416,7 @@ public:
     bool is_fuel_type_enabled(ammotype ft) const;
 //hybrid controller code logic, switches between engines at low battery
     void hybrid_switch();
+    void reset_hybrid_state();
 
 // Translate seat-relative mount coords into tile coords
     void coord_translate (int reldx, int reldy, int &dx, int &dy);
