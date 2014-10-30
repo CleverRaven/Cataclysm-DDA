@@ -2428,28 +2428,8 @@ int vehicle::safe_velocity (bool fueled)
     int pwrs = 0;
     int cnt = 0;
     for (size_t p = 0; p < parts.size(); p++) {
-        if (part_flag(p, VPFLAG_ENGINE) &&
-            is_engine_enabled(p) &&
-            (fuel_left (part_info(p).fuel_type) || !fueled || part_info(p).fuel_type == fuel_type_muscle) &&
-            parts[p].hp > 0) {
-            int m2c = 100;
-
-            if ( part_info(p).fuel_type == fuel_type_gasoline ) {
-                m2c = 60;
-            } else if( part_info(p).fuel_type == fuel_type_diesel ) {
-                m2c = 65;
-            } else if( part_info(p).fuel_type == fuel_type_plasma ) {
-                m2c = 75;
-            } else if( part_info(p).fuel_type == fuel_type_battery ) {
-                m2c = 90;
-            } else if( part_info(p).fuel_type == fuel_type_muscle ) {
-                m2c = 45;
-            }
-
-            pwrs += part_power(p) * m2c / 100;
-            cnt++;
-        } else if (part_flag(p, VPFLAG_ALTERNATOR) && parts[p].hp > 0) { // factor in m2c?
-            pwrs += part_power(p); // alternator parts have negative power
+        if (part_flag(p, VPFLAG_ENGINE) && is_engine_enabled(p)){
+            pwrs += get_pwrs_of_engine(pwrs, p, fueled);
         }
     }
     if (cnt > 0) {
@@ -2464,33 +2444,40 @@ int vehicle::safe_velocity_hybrid (bool fueled, bool electric)
     int cnt = 0;
     for (size_t p = 0; p < parts.size(); p++) {
         if (part_flag(p, VPFLAG_ENGINE) &&
-            (part_info(p).fuel_type == fuel_type_battery || !electric) &&
-            (fuel_left (part_info(p).fuel_type) || !fueled || part_info(p).fuel_type == fuel_type_muscle) &&
-            parts[p].hp > 0) {
-            int m2c = 100;
-
-            if ( part_info(p).fuel_type == fuel_type_gasoline ) {
-                m2c = 60;
-            } else if( part_info(p).fuel_type == fuel_type_diesel ) {
-                m2c = 65;
-            } else if( part_info(p).fuel_type == fuel_type_plasma ) {
-                m2c = 75;
-            } else if( part_info(p).fuel_type == fuel_type_battery ) {
-                m2c = 90;
-            } else if( part_info(p).fuel_type == fuel_type_muscle ) {
-                m2c = 45;
-            }
-
-            pwrs += part_power(p) * m2c / 100;
-            cnt++;
-        } else if (part_flag(p, VPFLAG_ALTERNATOR) && parts[p].hp > 0) { // factor in m2c?
-            pwrs += part_power(p); // alternator parts have negative power
+            (part_info(p).fuel_type == fuel_type_battery || !electric)){
+            pwrs += get_pwrs_of_engine(pwrs, p, fueled);
         }
     }
     if (cnt > 0) {
         pwrs = pwrs * 4 / (4 + cnt -1);
     }
     return (int) (pwrs * k_dynamics() * k_mass()) * 80;
+}
+
+bool vehicle::get_pwrs_of_engine(int & pwrs, int p, bool fueled){
+    bool is_engine = false;
+    if ((fuel_left (part_info(p).fuel_type) || !fueled || part_info(p).fuel_type == fuel_type_muscle) &&
+        parts[p].hp > 0) {
+        int m2c = 100;
+
+        if ( part_info(p).fuel_type == fuel_type_gasoline ) {
+            m2c = 60;
+        } else if( part_info(p).fuel_type == fuel_type_diesel ) {
+            m2c = 65;
+        } else if( part_info(p).fuel_type == fuel_type_plasma ) {
+            m2c = 75;
+        } else if( part_info(p).fuel_type == fuel_type_battery ) {
+            m2c = 90;
+        } else if( part_info(p).fuel_type == fuel_type_muscle ) {
+            m2c = 45;
+        }
+
+        pwrs += part_power(p) * m2c / 100;
+        is_engine = true;
+    } else if (part_flag(p, VPFLAG_ALTERNATOR) && parts[p].hp > 0) { // factor in m2c?
+        pwrs += part_power(p); // alternator parts have negative power
+    }
+    return is_engine;
 }
 
 void vehicle::spew_smoke( double joules, int part )

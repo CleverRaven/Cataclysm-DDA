@@ -419,6 +419,7 @@ public:
     void reset_hybrid_state();
     void hybrid_get_safe_velocities();
     int safe_velocity_hybrid(bool fueled, bool electric);
+    bool get_pwrs_of_engine(int & pwrs, int p, bool fueled);
 
 // Translate seat-relative mount coords into tile coords
     void coord_translate (int reldx, int reldy, int &dx, int &dy);
