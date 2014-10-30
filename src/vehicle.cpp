@@ -1947,7 +1947,7 @@ int vehicle::print_part_desc(WINDOW *win, int y1, int width, int p, int hl /*= -
     return y;
 }
 
-void vehicle::print_fuel_indicator (void *w, int y, int x, bool fullsize, bool verbose, bool desc)
+void vehicle::print_fuel_indicator (void *w, int y, int x, bool fullsize, bool verbose, bool desc, bool isHorizontal)
 {
     WINDOW *win = (WINDOW *) w;
 
@@ -1955,13 +1955,16 @@ void vehicle::print_fuel_indicator (void *w, int y, int x, bool fullsize, bool v
     nc_color col_indf1 = c_ltgray;
     int yofs = 0;
     
-    int max_gauge = 5;
+    int max_gauge = (isHorizontal) ? 12 : 5;
     int cur_gauge = 0;
     
     for (int i = 0; i < num_fuel_types; i++) {
         int cap = fuel_capacity(fuel_types[i]);
         if (cap > 0 && ( basic_consumption(fuel_types[i]) > 0 || fullsize ) ) {
-            if (cur_gauge++ >= max_gauge) break;
+            if (cur_gauge++ >= max_gauge) {
+                wprintz(win, c_ltgray, "...", ammo_name(fuel_types[i]).c_str() );
+                break;
+            }
             mvwprintz(win, y + yofs, x, col_indf1, "E...F");
             int amnt = cap > 0? fuel_left(fuel_types[i]) * 99 / cap : 0;
             int indf = (amnt / 20) % 5;
