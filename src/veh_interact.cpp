@@ -1308,13 +1308,20 @@ void veh_interact::display_stats()
     if (mostDamagedPart != -1) {
         std::string partName;
         mvwprintz(w_stats, y[6], x[6], c_ltgray, _("Most damaged: "));
-        x[6] += utf8_width(_("Most damaged: ")) + 1;
+        const auto iw = utf8_width(_("Most damaged: ")) + 1;
+        x[6] += iw;
+        w[6] -= iw;
         std::string partID = veh->parts[mostDamagedPart].id;
         vehicle_part part = veh->parts[mostDamagedPart];
         int damagepercent = 100 * part.hp / vehicle_part_types[part.id].durability;
         nc_color damagecolor = getDurabilityColor(damagepercent);
         partName = vehicle_part_types[partID].name;
-        fold_and_print(w_stats, y[6], x[6], w[6], damagecolor, partName);
+        const auto hoff = fold_and_print(w_stats, y[6], x[6], w[6], damagecolor, partName);
+        // If fold_and_print did write on the next line(s), shift the following entries,
+        // hoff == 1 is already implied and expected - one line is consumed at least.
+        for( size_t i = 7; i < sizeof(y) / sizeof(y[0]); ++i) {
+            y[i] += hoff - 1;
+        }
     }
 
     fold_and_print(w_stats, y[7], x[7], w[7], c_ltgray,
