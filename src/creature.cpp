@@ -494,7 +494,7 @@ void Creature::deal_damage_handle_type(const damage_unit &du, body_part, int &da
     case DT_HEAT: // heat damage sets us on fire sometimes
         damage += adjusted_damage;
         pain += adjusted_damage / 4;
-        if (rng(0, 100) > (100 - 400 / (adjusted_damage + 3))) {
+        if( rng(0, 100) < adjusted_damage ) {
             add_effect("onfire", rng(1, 3));
         }
         break;

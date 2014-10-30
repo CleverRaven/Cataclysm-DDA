@@ -11,6 +11,8 @@ material_type::material_type()
 {
     _ident = "null";
     _name = "null";
+    _salvage_id = "null";
+    _salvage_multiplier = 1.0;
     _bash_resist = 0;
     _cut_resist = 0;
     _bash_dmg_verb = _("damages");
@@ -26,13 +28,16 @@ material_type::material_type()
 }
 
 material_type::material_type(std::string ident, std::string name,
+                             std::string salvage_id, float salvage_multiplier,
                              int bash_resist, int cut_resist,
                              std::string bash_dmg_verb, std::string cut_dmg_verb,
-                             std::string dmg_adj[], int acid_resist, int elec_resist, int fire_resist,
-                             int density)
+                             std::string dmg_adj[],
+                             int acid_resist, int elec_resist, int fire_resist, int density)
 {
     _ident = ident;
     _name = name;
+    _salvage_id = salvage_id;
+    _salvage_multiplier = salvage_multiplier;
     _bash_resist = bash_resist;
     _cut_resist = cut_resist;
     _bash_dmg_verb = bash_dmg_verb;
@@ -52,6 +57,8 @@ material_type::material_type(std::string ident)
     material_type *mat_type = find_material(ident);
     _ident = ident;
     _name = mat_type->name();
+    _salvage_id = mat_type->salvage_id();
+    _salvage_multiplier = mat_type->salvage_multiplier();
     _bash_resist = mat_type->bash_resist();
     _cut_resist = mat_type->cut_resist();
     _bash_dmg_verb = mat_type->bash_dmg_verb();
@@ -75,6 +82,8 @@ void material_type::load_material(JsonObject &jsobj)
 
     mat._ident = jsobj.get_string("ident");
     mat._name = _(jsobj.get_string("name").c_str());
+    mat._salvage_id = jsobj.get_string("salvage_id", "null");
+    mat._salvage_multiplier = jsobj.get_float("salvage_multiplier", 1.0);
     mat._bash_resist = jsobj.get_int("bash_resist");
     mat._cut_resist = jsobj.get_int("cut_resist");
     mat._bash_dmg_verb = _(jsobj.get_string("bash_dmg_verb").c_str());
@@ -158,6 +167,16 @@ std::string material_type::ident() const
 std::string material_type::name() const
 {
     return _name;
+}
+
+std::string material_type::salvage_id() const
+{
+    return _salvage_id;
+}
+
+float material_type::salvage_multiplier() const
+{
+    return _salvage_multiplier;
 }
 
 int material_type::bash_resist() const

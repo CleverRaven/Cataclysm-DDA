@@ -195,8 +195,9 @@ void game::wishmutate( player *p )
             int rc = 0;
             std::string mstr = cb->vTraits[ wmenu.ret ];
             bool threshold = mutation_data[mstr].threshold;
+            bool profession = mutation_data[mstr].profession;
             //Manual override for the threshold-gaining
-            if (threshold) {
+            if (threshold || profession) {
                 if ( p->has_trait( mstr ) ) {
                     do {
                         p->remove_mutation(mstr );
@@ -387,7 +388,9 @@ class wish_item_callback: public uimenu_callback
     public:
         bool incontainer;
         std::string msg;
-        wish_item_callback() : incontainer(false), msg("")
+        const std::vector<std::string> &standard_itype_ids;
+        wish_item_callback(const std::vector<std::string> &ids) : incontainer(false), msg("")
+            , standard_itype_ids( ids )
         {
         }
         virtual bool key(int key, int /*entnum*/, uimenu * /*menu*/)
@@ -433,6 +436,7 @@ void game::wishitem( player *p, int x, int y)
         debugmsg("game::wishitem(): invalid parameters");
         return;
     }
+    const std::vector<std::string> standard_itype_ids = item_controller->get_all_itype_ids();
     int amount = 1;
     uimenu wmenu;
     wmenu.w_x = 0;
@@ -440,7 +444,7 @@ void game::wishitem( player *p, int x, int y)
     wmenu.pad_right = ( TERMX / 2 > 40 ? TERMX - 40 : TERMX / 2 );
     wmenu.return_invalid = true;
     wmenu.selected = uistate.wishitem_selected;
-    wish_item_callback *cb = new wish_item_callback();
+    wish_item_callback *cb = new wish_item_callback( standard_itype_ids );
     wmenu.callback = cb;
 
     for (size_t i = 0; i < standard_itype_ids.size(); i++) {

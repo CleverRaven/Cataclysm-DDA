@@ -30,14 +30,11 @@ enum item_cat {
 };
 
 typedef std::string itype_id;
-extern std::vector<std::string> artifact_itype_ids;
-extern std::vector<std::string> standard_itype_ids;
 
 // see item_factory.h
 class item_category;
 
 struct itype;
-extern std::map<std::string, itype *> itypes;
 
 typedef std::string ammotype;
 
@@ -93,8 +90,9 @@ public:
     char sym;       // Symbol on the map
     nc_color color; // Color on the map (color.h)
 
-    std::string m1; // Main material
-    std::string m2; // Secondary material -- "null" if made of just 1 thing
+    // What we're made of (material names). .size() == made of nothing.
+    // MATERIALS WORK IN PROGRESS.
+    std::vector<std::string> materials; 
 
     phase_id phase; //e.g. solid, liquid, gas
 
@@ -110,8 +108,6 @@ public:
     {
         return explosion_on_fire_data.power >= 0;
     }
-
-    mtype   *corpse;
 
     signed int melee_dam; // Bonus for melee damage; may be a penalty
     signed int melee_cut; // Cutting damage in melee
@@ -221,28 +217,34 @@ public:
     bool is_covering(body_part bp) const;
     /** Returns true if is_armor() and is sided on bp */
     bool is_sided(body_part bp) const;
-    int invoke( player *p, item *it, bool active );
+    int invoke( player *p, item *it, bool active, point pos );
 
     std::string dmg_adj(int dam)
     {
-        return material_type::find_material(m1)->dmg_adj(dam);
+        std::string primary_mat_id = "null";
+        if (materials.size() > 0) {
+            primary_mat_id = materials[0];
+        }
+
+        return material_type::find_material(primary_mat_id)->dmg_adj(dam);
     }
 
     std::vector<use_function> use_methods;// Special effects of use
 
     itype() : id("null"), price(0), name("none"), name_plural("none"), description(), sym('#'),
-        color(c_white), m1("null"), m2("null"), phase(SOLID), volume(0), stack_size(0),
-        weight(0), bigness_aspect(BIGNESS_ENGINE_NULL), qualities(), corpse(NULL),
+        color(c_white), phase(SOLID), volume(0), stack_size(0),
+        weight(0), bigness_aspect(BIGNESS_ENGINE_NULL), qualities(),
         melee_dam(0), melee_cut(0), m_to_hit(0), item_tags(), techniques(), light_emission(),
-        category(NULL) { }
+        category(NULL)
+    {}
 
     itype(std::string pid, unsigned int pprice, std::string pname, std::string pname_plural,
-          std::string pdes, char psym, nc_color pcolor, std::string pm1, std::string pm2,
+          std::string pdes, char psym, nc_color pcolor, std::vector<std::string> pmaterials,
           phase_id pphase, unsigned int pvolume, unsigned int pweight, signed int pmelee_dam,
           signed int pmelee_cut, signed int pm_to_hit) : id(pid), price(pprice), name(pname),
-        name_plural(pname_plural), description(pdes), sym(psym), color(pcolor), m1(pm1), m2(pm2),
+        name_plural(pname_plural), description(pdes), sym(psym), color(pcolor), materials(pmaterials),
         phase(pphase), volume(pvolume), stack_size(0), weight(pweight),
-        bigness_aspect(BIGNESS_ENGINE_NULL), qualities(), corpse(NULL), melee_dam(pmelee_dam),
+        bigness_aspect(BIGNESS_ENGINE_NULL), qualities(), melee_dam(pmelee_dam),
         melee_cut(pmelee_cut), m_to_hit(pm_to_hit), item_tags(), techniques(), light_emission(),
         category(NULL) { }
 
@@ -471,15 +473,19 @@ struct it_armor : public virtual itype {
 
     std::string bash_dmg_verb()
     {
-        return m2 == "null" || !one_in(3) ?
-               material_type::find_material(m1)->bash_dmg_verb() :
-               material_type::find_material(m2)->bash_dmg_verb();
+        std::string chosen_mat_id = "null";
+        if (materials.size()) {
+            chosen_mat_id = materials[rng(0, materials.size() - 1)];
+        }
+        return material_type::find_material(chosen_mat_id)->bash_dmg_verb();
     }
     std::string cut_dmg_verb()
     {
-        return m2 == "null" || !one_in(3) ?
-               material_type::find_material(m1)->cut_dmg_verb() :
-               material_type::find_material(m2)->cut_dmg_verb();
+        std::string chosen_mat_id = "null";
+        if (materials.size()) {
+            chosen_mat_id = materials[rng(0, materials.size() - 1)];
+        }
+        return material_type::find_material(chosen_mat_id)->cut_dmg_verb();
     }
 };
 
@@ -611,13 +617,13 @@ struct it_macguffin : public virtual itype {
     {
         return true;
     }
-    it_macguffin(std::string pid, unsigned int pprice, std::string pname, std::string pname_plural,
-                 std::string pdes, char psym, nc_color pcolor, std::string pm1, std::string pm2,
-                 unsigned int pvolume, unsigned int pweight, signed int pmelee_dam,
-                 signed int pmelee_cut, signed int pm_to_hit, bool preadable,
-                 int (iuse::*puse)(player *, item *, bool))
-        : itype(pid, pprice, pname, pname_plural, pdes, psym, pcolor, pm1, pm2, SOLID, pvolume,
-                pweight, pmelee_dam, pmelee_cut, pm_to_hit)
+    it_macguffin(std::string pid, unsigned int pprice, std::string pname,
+                 std::string pname_plural, std::string pdes, char psym, nc_color pcolor,
+                 std::vector<std::string> pmaterial, unsigned int pvolume,
+                 unsigned int pweight, int pmelee_dam, int pmelee_cut, int pm_to_hit,
+                 bool preadable, int (iuse::*puse)(player *, item *, bool, point))
+        : itype(pid, pprice, pname, pname_plural, pdes, psym, pcolor, pmaterial, SOLID,
+                pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit)
     {
         readable = preadable;
         use_methods.push_back( puse );
@@ -633,11 +639,12 @@ struct it_software : public virtual itype {
         return true;
     }
 
-    it_software(std::string pid, unsigned int pprice, std::string pname, std::string pname_plural,
-                std::string pdes, char psym, nc_color pcolor, std::string pm1, std::string pm2,
-                unsigned int pvolume, unsigned int pweight, signed int pmelee_dam,
-                signed int pmelee_cut, signed int pm_to_hit, software_type pswtype, int ppower)
-        : itype(pid, pprice, pname, pname_plural, pdes, psym, pcolor, pm1, pm2, SOLID,
+    it_software(std::string pid, unsigned int pprice, std::string pname,
+                std::string pname_plural, std::string pdes, char psym, nc_color pcolor,
+                std::vector<std::string> pmaterial, unsigned int pvolume,
+                unsigned int pweight, int pmelee_dam, int pmelee_cut, int pm_to_hit,
+                software_type pswtype, int ppower)
+        : itype(pid, pprice, pname, pname_plural, pdes, psym, pcolor, pmaterial, SOLID,
                 pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit)
     {
         swtype = pswtype;
@@ -646,3 +653,4 @@ struct it_software : public virtual itype {
 };
 
 #endif
+

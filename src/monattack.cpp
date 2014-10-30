@@ -6,6 +6,7 @@
 #include "bodypart.h"
 #include "material.h"
 #include "json.h"
+#include "item_factory.h"
 #include "monstergenerator.h"
 #include "speech.h"
 #include "messages.h"
@@ -1884,7 +1885,59 @@ void mattack::fear_paralyze(monster *z, int index)
 
 void mattack::photograph(monster *z, int index)
 {
-    if (z->faction_id == -1 || (within_visual_range(z, 6) < 0)) return;
+    if (z->faction_id == -1 || (within_visual_range(z, 6) < 0)) {
+        return;
+    }
+    
+    // Badges should NOT be swappable between roles.
+    // Hence separate checking.
+    // If you are in fact listed as a police officer
+    if (g->u.has_trait("PROF_POLICE")) {
+        // And you're wearing your badge
+        if (g->u.is_wearing("badge_deputy")) {
+            if (one_in(3)) {
+                add_msg(m_info, _("The %s flashes a LED and departs.  Human officer on scene."), z->name().c_str());
+                z->no_corpse_quiet = true;
+                z->no_extra_death_drops = true;
+                z->die(nullptr);
+                return;
+            } else {
+                add_msg(m_info, _("The %s acknowledges you as an officer responding, but hangs around to watch."), z->name().c_str());
+                add_msg(m_info, _("Probably some now-obsolete Internal Affairs subroutine..."));
+                z->reset_special(index); // Reset timer
+                return;
+            }
+        }
+    }
+    
+    if (g->u.has_trait("PROF_PD_DET")) {
+        // And you have your shield on
+        if (g->u.is_wearing("badge_detective")) {
+            if (one_in(4)) {
+                add_msg(m_info, _("The %s flashes a LED and departs.  Human officer on scene."), z->name().c_str());
+                z->no_corpse_quiet = true;
+                z->no_extra_death_drops = true;
+                z->die(nullptr);
+                return;
+            } else {
+                add_msg(m_info, _("The %s acknowledges you as an officer responding, but hangs around to watch."), z->name().c_str());
+                add_msg(m_info, _("Ops used to do that in case you needed backup..."));
+                z->reset_special(index); // Reset timer
+                return;
+            }
+        }
+    }
+    
+    if (g->u.has_trait("PROF_FED")) {
+        // And you're wearing your badge
+        if (g->u.is_wearing("badge_marshal")) {
+            add_msg(m_info, _("The %s flashes a LED and departs.  The Feds have this."), z->name().c_str());
+            z->no_corpse_quiet = true;
+            z->no_extra_death_drops = true;
+            z->die(nullptr);
+            return;
+        }
+    }
 
     z->reset_special(index); // Reset timer
     z->moves -= 150;
@@ -1975,7 +2028,7 @@ void mattack::smg(monster *z, int index)
         add_msg(m_warning, _("The %s fires its smg!"), z->name().c_str());
     }
     tmp.weapon = item("hk_mp5", 0);
-    tmp.weapon.curammo = dynamic_cast<it_ammo *>(itypes[ammo_type]);
+    tmp.weapon.curammo = dynamic_cast<it_ammo *>(item_controller->find_template( ammo_type ));
     tmp.weapon.charges = std::max(z->ammo[ammo_type], 10);
     z->ammo[ammo_type] -= tmp.weapon.charges;
     tmp.fire_gun(target->xpos(), target->ypos(), true);
@@ -2037,7 +2090,7 @@ void mattack::laser(monster *z, int index)
         add_msg(m_warning, _("The %s's barrel spins and fires!"), z->name().c_str());
     }
     tmp.weapon = item("cerberus_laser", 0);
-    tmp.weapon.curammo = dynamic_cast<it_ammo *>(itypes["laser_capacitor"]);
+    tmp.weapon.curammo = dynamic_cast<it_ammo *>(item_controller->find_template( "laser_capacitor" ));
     tmp.weapon.charges = 100;
     tmp.fire_gun(target->xpos(), target->ypos(), true);
     if (target == &g->u) {
@@ -2102,7 +2155,7 @@ void mattack::rifle_tur(monster *z, int index)
         add_msg(m_warning, _("The %s opens up with its rifle!"), z->name().c_str());
     }
     tmp.weapon = item("m4a1", 0);
-    tmp.weapon.curammo = dynamic_cast<it_ammo *>(itypes[ammo_type]);
+    tmp.weapon.curammo = dynamic_cast<it_ammo *>(item_controller->find_template( ammo_type ));
     tmp.weapon.charges = std::max(z->ammo[ammo_type], 30);
     z->ammo[ammo_type] -= tmp.weapon.charges;
     tmp.fire_gun(target->xpos(), target->ypos(), true);
@@ -2173,7 +2226,7 @@ void mattack::frag_tur(monster *z, int index) // This is for the bots, not a sta
         add_msg(m_warning, _("The %s's grenade launcher fires!"), z->name().c_str());
     }
     tmp.weapon = item("mgl", 0);
-    tmp.weapon.curammo = dynamic_cast<it_ammo *>(itypes[ammo_type]);
+    tmp.weapon.curammo = dynamic_cast<it_ammo *>(item_controller->find_template( ammo_type ));
     tmp.weapon.charges = std::max(z->ammo[ammo_type], 30);
     z->ammo[ammo_type] -= tmp.weapon.charges;
     tmp.fire_gun(target->xpos(), target->ypos(), true);
@@ -2245,7 +2298,7 @@ void mattack::bmg_tur(monster *z, int index)
         add_msg(m_warning, _("The %s aims and fires!"), z->name().c_str());
     }
     tmp.weapon = item("m107a1", 0);
-    tmp.weapon.curammo = dynamic_cast<it_ammo *>(itypes[ammo_type]);
+    tmp.weapon.curammo = dynamic_cast<it_ammo *>(item_controller->find_template( ammo_type ));
     tmp.weapon.charges = std::max(z->ammo[ammo_type], 30);
     z->ammo[ammo_type] -= tmp.weapon.charges;
     tmp.fire_gun(target->xpos(), target->ypos(), false);
@@ -2320,7 +2373,7 @@ void mattack::tank_tur(monster *z, int index)
         add_msg(m_warning, _("The %s's 120mm cannon fires!"), z->name().c_str());
     }
     tmp.weapon = item("TANK", 0);
-    tmp.weapon.curammo = dynamic_cast<it_ammo *>(itypes[ammo_type]);
+    tmp.weapon.curammo = dynamic_cast<it_ammo *>(item_controller->find_template( ammo_type ));
     tmp.weapon.charges = std::max(z->ammo[ammo_type], 5);
     z->ammo[ammo_type] -= tmp.weapon.charges;
     tmp.fire_gun(target->xpos(), target->ypos(), false);

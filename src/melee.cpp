@@ -559,17 +559,44 @@ int player::dodge_roll()
 {
     if ( (shoe_type_count("roller_blades") == 2 && one_in((get_dex() + get_skill_level("dodge")) / 3 )) ||
           (shoe_type_count("roller_blades") == 1 && one_in((get_dex() + get_skill_level("dodge")) / 8 ))) {
-        if (!has_disease("downed")) {
-            add_msg_if_player(_("Fighting on wheels is hard!"));
+        // Skaters have a 67% chance to avoid knockdown, and get up a turn quicker.
+        if (has_trait("PROF_SKATER")) {
+            if (one_in(3)) {
+                if (!has_disease("downed")) {
+                    add_msg_if_player(m_bad, _("You overbalance and stumble!"));
+                }
+                add_disease("downed", 2);
+            }
+            else {
+                add_msg_if_player(m_good, _("You nearly fall, but recover thanks to your skating experience."));
+            }
         }
-        add_disease("downed", 3);
+        else {
+            if (!has_disease("downed")) {
+            add_msg_if_player(_("Fighting on wheels is hard!"));
+            }
+            add_disease("downed", 3);
+        }
     }
     //Fighting on a pair of quad skates isn't so hard, but fighting while wearing a single skate is.
     if (shoe_type_count("rollerskates") == 1 && one_in((get_dex() + get_skill_level("dodge")) / 8 )) {
-        if (!has_disease("downed")) {
-            add_msg_if_player(_("Fighting on wheels is hard!"));
+        if (has_trait("PROF_SKATER")) {
+            if (one_in(3)) {
+                if (!has_disease("downed")) {
+                    add_msg_if_player(m_bad, _("You overbalance and stumble!"));
+                }
+                add_disease("downed", 2);
+            }
+            else {
+                add_msg_if_player(m_good, _("You nearly fall, but recover thanks to your skating experience."));
+            }
         }
-        add_disease("downed", 3);
+        else {
+            if (!has_disease("downed")) {
+                add_msg_if_player(_("Fighting on wheels is hard!"));
+            }
+            add_disease("downed", 3);
+            }
     }
     if (has_effect("bouldering")) {
         if(one_in(get_dex())) {
@@ -645,14 +672,20 @@ int player::roll_bash_damage(bool crit)
     int bash_dam = int(stat / 2) + weapon.damage_bash(),
         bash_cap = 5 + stat + skill;
 
-    if (unarmed_attack())
-        bash_dam = rng(0, int(stat / 2) + unarmed_skill);
-    else
+    if (unarmed_attack()) {
+        if (weapon.has_flag("UNARMED_WEAPON")) {
+            bash_dam = rng(0, int(stat / 2) + unarmed_skill + weapon.damage_bash());
+        } else {
+            bash_dam = rng(0, int(stat / 2) + unarmed_skill);
+        }
+    } else {
         // 80%, 88%, 96%, 104%, 112%, 116%, 120%, 124%, 128%, 132%
-        if (bashing_skill <= 5)
+        if (bashing_skill <= 5) {
             ret *= 0.8 + 0.08 * bashing_skill;
-        else
+        } else {
             ret *= 0.92 + 0.04 * bashing_skill;
+        }
+    }
 
     if (crit) {
         bash_dam *= 1.5;
@@ -704,7 +737,7 @@ int player::roll_cut_damage(bool crit)
     }
 
     if (unarmed_attack()) {
-        if (wearing_something_on(bp_hand_l)) {
+        if (!wearing_something_on(bp_hand_l)) {
             if (has_trait("CLAWS") || (has_active_mutation("CLAWS_RETRACT")) ) {
                 ret += 3;
             }
@@ -719,7 +752,7 @@ int player::roll_cut_damage(bool crit)
                 ret += rng(2, 3);
             }
         }
-        if (wearing_something_on(bp_hand_r)) {
+        if (!wearing_something_on(bp_hand_r)) {
             if (has_trait("CLAWS") || (has_active_mutation("CLAWS_RETRACT")) ) {
                 ret += 3;
             }

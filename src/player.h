@@ -1216,7 +1216,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * Also checks if UPS from this player is used instead of item charges.
          */
         bool has_enough_charges(const item &it, bool show_msg) const;
-        bool has_active_UPS() const;
 
         bool can_study_recipe(it_book *book);
         bool try_study_recipe(it_book *book);

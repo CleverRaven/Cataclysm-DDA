@@ -44,6 +44,7 @@ class profession
         itypedecvec _starting_items_female;
         std::vector<addiction> _starting_addictions;
         std::vector<std::string> _starting_CBMs;
+        std::vector<std::string> _starting_traits;
         std::set<std::string> flags; // flags for some special properties of the profession
         StartingSkillList  _starting_skills;
 
@@ -51,6 +52,7 @@ class profession
         void add_item(const itypedec &entry, const std::string &gender);
         void add_addiction(add_type, int);
         void add_CBM(std::string CBM);
+        void add_trait(std::string trait);
         // Starting skills will boost the players level in those skills by a
         // given amount.
         void add_skill(const std::string &skill_name, const int level);
@@ -91,6 +93,7 @@ class profession
         itypedecvec items(bool male) const;
         std::vector<addiction> addictions() const;
         std::vector<std::string> CBMs() const;
+        std::vector<std::string> traits() const;
         const StartingSkillList skills() const;
 
         /**

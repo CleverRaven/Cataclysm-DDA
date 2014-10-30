@@ -224,6 +224,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```REVIVES``` Monster corpse will revive after a short period of time.
 - ```CHITIN``` May produce chitin when butchered.
 - ```VERMIN``` Creature is too small for normal combat, butchering etc.
+- ```NO_GIBS``` Does not leave gibs / meat chunks when killed with huge damage.
 - ```HUNTS_VERMIN``` Creature uses vermin as a food source.
 - ```SMALL_BITER``` Creature can cause a painful, non-damaging bite.
 - ```ABSORBS``` Consumes objects it moves over.
@@ -864,6 +865,16 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```FISHING_BASIC``` Use a fishing rod
 - ```JET_INJECTOR``` Inject some jet drugs right into your veins.
 - ```CABLE_ATTACH``` This item is a cable spool. Use it to try to attach to a vehicle.
+
+
+
+## Generic
+
+### Flags
+- ```UNRECOVERABLE``` Cannot be recovered from a disassembly.
+- ```NO_SALVAGE``` Item cannot be broken down through a salvage process. Best used when something should not be able to be broken down (i.e. base components like leather patches).
+
+
 
 ## Skills
 
