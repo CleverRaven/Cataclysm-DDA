@@ -6064,9 +6064,16 @@ void player::suffer()
         g->m.add_field(posx, posy, fd_web, 1); //this adds density to if its not already there.
     }
 
-    if (has_trait("RADIOGENIC") && int(calendar::turn) % 50 == 0 && radiation >= 10) {
-        radiation -= 10;
-        healall(1);
+    if (has_trait("RADIOGENIC") && int(calendar::turn) % 50 == 0 && radiation > 0) {
+        if (radiation > 10) {
+            radiation -= 10;
+            healall(1);
+        } else {
+            if(x_in_y(radiation, 10)) {
+                healall(1);
+            }
+            radiation = 0;
+        }
     }
 
     if (has_trait("RADIOACTIVE1")) {
