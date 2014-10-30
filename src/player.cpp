@@ -7405,7 +7405,15 @@ bool player::has_artifact_with(const art_effect_passive effect) const
             }
         }
     }
-    if (inv.has_artifact_with(effect)) {
+    const bool has_in_inv = inv.has_item_with( [effect]( const item & it ) {
+        if( it.is_artifact() && it.is_tool() ) {
+            auto tool = dynamic_cast<const it_artifact_tool *>( it.type );
+            auto &ec = tool->effects_carried;
+            return std::find( ec.begin(), ec.end(), effect ) != ec.end();
+        }
+        return false;
+    } );
+    if( has_in_inv ) {
         return true;
     }
     for (auto &i : worn) {
