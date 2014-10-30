@@ -5253,6 +5253,10 @@ int iuse::set_trap(player *p, item *it, bool, point)
         message << _("You place the makeshift funnel, waiting to collect rain.");
         type = tr_makeshift_funnel;
         practice = 0;
+    } else if (it->type->id == "leather_funnel") {
+        message << _("You place the leather funnel, waiting to collect rain.");
+        type = tr_leather_funnel;
+        practice = 0;
     } else if (it->type->id == "tripwire") {
         // Must have a connection between solid squares.
         if ((g->m.move_cost(posx, posy - 1) != 2 &&
