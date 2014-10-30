@@ -1030,7 +1030,7 @@
             "sleep_max": [3500]
         },
         "scaling_mods": {
-            "str_mod": [-.66],
+            "str_mod": [-.67],
             "per_mod": [-1],
             "dex_mod": [-1],
             "int_mod": [-1.42],
