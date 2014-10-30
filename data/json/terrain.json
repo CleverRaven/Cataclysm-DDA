@@ -138,7 +138,14 @@
         "symbol": ".",
         "color": "dkgray",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "FLAT"]
+        "flags": ["TRANSPARENT", "FLAT"],
+        "bash": {
+            "destroy_only": true,
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "rock", "amount": 10, "minamount": 2 }
+            ]
+        }
     },{
         "type" : "terrain",
         "id" : "t_pavement_y",
@@ -146,7 +153,14 @@
         "symbol": ".",
         "color": "yellow",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "FLAT"]
+        "flags": ["TRANSPARENT", "FLAT"],
+        "bash": {
+            "destroy_only": true,
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "rock", "amount": 10, "minamount": 2 }
+            ]            
+        }
     },{
         "type" : "terrain",
         "id" : "t_sidewalk",
@@ -154,7 +168,14 @@
         "symbol": ".",
         "color": "ltgray",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "FLAT"]
+        "flags": ["TRANSPARENT", "FLAT"],
+        "bash": {
+            "destroy_only": true,
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "rock", "amount": 10, "minamount": 2 }
+            ]
+        }
     },{
         "type" : "terrain",
         "id" : "t_concrete",
@@ -162,7 +183,14 @@
         "symbol": ".",
         "color": "ltgray",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "FLAT"]
+        "flags": ["TRANSPARENT", "FLAT"],
+        "bash": {
+            "destroy_only": true,
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "rock", "amount": 15, "minamount": 2 }
+            ]
+        }
     },{
         "type" : "terrain",
         "id" : "t_floor",
