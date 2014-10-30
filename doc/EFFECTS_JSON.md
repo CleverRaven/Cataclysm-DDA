@@ -393,6 +393,7 @@ As it moves up through the different intensities, its name will change. Its desc
 changes, with no additional description added.
 
 As it moves up through the intensity levels its effects will be:
+```C++
 Intensity 1
     +1 STR
     No other effects (since both "X_chance"s are negative)
@@ -417,4 +418,4 @@ Intensity 4
     0 - 3 * 1.43 =          -4 INT
     -43 + 3 * 21 = 20       "vomit_chance_bot" doesn't exist, so a 1 in 20 chance of vomiting. "vomit_tick" doesn't exist, so it rolls every turn.
     -1003 + 3 * 501 = 500   "sleep_chance_bot" doesn't exist, so a 1 in 500 chance of passing out for rng(2500, 3500) turns. "sleep_tick" doesn't exist, so it rolls every turn.
-    
+```
