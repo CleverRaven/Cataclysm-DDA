@@ -2388,7 +2388,8 @@ int vehicle::acceleration (bool fueled)
 
 int vehicle::max_velocity (bool fueled)
 {
-    return total_power (fueled) * 80;
+    //vehicles should have a max_velocity higher than the safe_velocity.
+    return std::max(total_power (fueled) * 80, safe_velocity());
 }
 
 bool vehicle::do_environmental_effects()
@@ -2547,8 +2548,9 @@ void vehicle::noise_and_smoke( double load, double time )
             noise = std::max(noise, pwr); // Only the loudest engine counts.
         }
     }
-
-    if( (exhaust_part != -1) && engine_on ) { // No engine, no smoke
+    // No engine, no smoke
+    if( (exhaust_part != -1) && engine_on && 
+        (is_fuel_type_enabled(fuel_type_gasoline) || is_fuel_type_enabled(fuel_type_diesel))) { 
         spew_smoke( mufflesmoke, exhaust_part );
     }
     // Even a car with engines off will make noise traveling at high speeds
