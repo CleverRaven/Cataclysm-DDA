@@ -8,6 +8,7 @@
 #include "veh_interact.h"
 #include "options.h"
 #include "auto_pickup.h"
+#include "gamemode.h"
 #include "mapbuffer.h"
 #include "debug.h"
 #include "editmap.h"
@@ -573,6 +574,16 @@ void game::setup()
 
     load_auto_pickup(false); // Load global auto pickup rules
     // back to menu for save loading, new game etc
+}
+
+bool game::has_gametype() const
+{
+    return gamemode && gamemode->id() != SGAME_NULL;
+}
+
+special_game_id game::gametype() const
+{
+    return gamemode != nullptr ? gamemode->id() : SGAME_NULL;
 }
 
 // Set up all default values for a new game

@@ -7,6 +7,13 @@
 #define sgn(x) (((x) < 0) ? -1 : 1)
 #endif
 
+enum special_game_id {
+    SGAME_NULL = 0,
+    SGAME_TUTORIAL,
+    SGAME_DEFENSE,
+    NUM_SPECIAL_GAMES
+};
+
 enum phase_id {
     PNULL, SOLID, LIQUID, GAS, PLASMA
 };
