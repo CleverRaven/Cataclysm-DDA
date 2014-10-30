@@ -6,6 +6,7 @@
 #include "path_info.h"
 #include "debug.h"
 #include "mapsharing.h"
+#include "gamemode.h"
 
 #include "name.h"
 
