@@ -50,7 +50,8 @@ enum vehicle_controls {
  toggle_fridge,
  toggle_recharger,
  toggle_electric_only_on,
- toggle_hybrid_ctl
+ toggle_hybrid_ctl,
+ toggle_hybrid_safety
 };
 
 vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): type(type_id)
@@ -83,8 +84,11 @@ vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): t
     insides_dirty = true;
     reactor_on = false;
     engine_on = false;
+    
     hybrid_mode_on = false;
+    hybrid_safety = true;
     electric_only_on = false;
+    
     has_pedals = false;
     has_paddles = false;
     has_hand_rims = false;
@@ -523,6 +527,12 @@ void vehicle::use_controls()
         options_message.push_back(uimenu_entry((electric_only_on) ? _("Switch to non-electric mode") :
                                                _("Switch to electric mode"), 'u'));
     }
+    
+    if (has_hybrid_setup && hybrid_mode_on) {
+        options_choice.push_back(toggle_hybrid_safety);
+        options_message.push_back(uimenu_entry((hybrid_safety) ? _("Disable hybrid safety checks") :
+                                               _("Enable hybrid safety checks"), 'i'));
+    }
 
     // Lights if they are there - Note you can turn them on even when damaged, they just don't work
     if (has_lights) {
@@ -607,6 +617,10 @@ void vehicle::use_controls()
     }
 
     switch(options_choice[select]) {
+    case toggle_hybrid_safety:
+        hybrid_safety = !hybrid_safety;
+        add_msg((hybrid_safety) ? _("Hybrid safety features enabled") : _("Hybrid safety features disabled"));
+        break;
     case toggle_hybrid_ctl:
         if (hybrid_mode_on) {
             electric_only_on = false;
@@ -3072,7 +3086,7 @@ void vehicle::slow_leak()
 
 void vehicle::hybrid_logic(){
     //if battery dips below 5 percent, start the main engines
-    if (hybrid_mode_on && electric_only_on)
+    if (hybrid_mode_on && electric_only_on && hybrid_safety)
     {
         int percent_battery = (fuel_left(fuel_type_battery) * 99) /
                                 fuel_capacity(fuel_type_battery);
