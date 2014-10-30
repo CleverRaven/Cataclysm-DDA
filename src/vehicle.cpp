@@ -3668,12 +3668,11 @@ bool vehicle::add_item (int part, item itm)
     }
     int cur_volume = 0;
     int add_volume = itm.volume();
-    bool tryaddcharges=(itm.charges  != -1 && (itm.is_food() || itm.is_ammo()));
+    bool tryaddcharges=(itm.charges  != -1 && itm.count_by_charges());
     // iterate anyway since we need a volume total
     for (auto &i : parts[part].items) {
         cur_volume += i.volume();
-        if( tryaddcharges && i.type->id == itm.type->id ) {
-            i.charges+=itm.charges;
+        if( tryaddcharges && i.merge_charges( itm ) ) {
             return true;
         }
     }

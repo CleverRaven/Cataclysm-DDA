@@ -725,7 +725,7 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square )
                                   m.i_stacked( square.veh->parts[square.vstor].items ) :
                                   m.i_stacked( m.i_at( square.x , square.y ) );
         for( size_t x = 0; x < stacks.size(); ++x ) {
-            advanced_inv_listitem it( stacks[x].front(), x, stacks[x].size(), square.id );
+            advanced_inv_listitem it( stacks[x].first, x, stacks[x].second, square.id );
             if( is_filtered( it ) ) {
                 continue;
             }
@@ -1665,7 +1665,7 @@ item* advanced_inv_area::get_container()
 
             // check index first
             if (stacks.size() > (size_t)uistate.adv_inv_container_index) {
-                auto it = stacks[uistate.adv_inv_container_index].front();
+                auto it = stacks[uistate.adv_inv_container_index].first;
                 if( is_container_valid( it ) ) {
                     container = it;
                 }
@@ -1674,7 +1674,7 @@ item* advanced_inv_area::get_container()
             // try entire area
             if( container == nullptr ) {
                 for( size_t x = 0; x < stacks.size(); ++x ) {
-                    auto it = stacks[x].front();
+                    auto it = stacks[x].first;
                     if( is_container_valid( it ) ) {
                         container = it;
                         uistate.adv_inv_container_index = x;

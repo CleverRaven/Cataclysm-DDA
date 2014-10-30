@@ -261,35 +261,64 @@ bool item::invlet_is_okay()
     return (inv_chars.find(invlet) != std::string::npos);
 }
 
-bool item::stacks_with(item rhs)
+bool item::stacks_with( const item &rhs ) const
 {
-    bool stacks = (type   == rhs.type   && damage  == rhs.damage  &&
-    active == rhs.active && charges == rhs.charges &&
-    item_tags == rhs.item_tags &&
-    item_vars == rhs.item_vars &&
-    contents.size() == rhs.contents.size() &&
-    (!goes_bad() || bday == rhs.bday));
-
-    if ((corpse == NULL && rhs.corpse != NULL) ||
-    (corpse != NULL && rhs.corpse == NULL)   )
+    if( type != rhs.type ) {
         return false;
-
-    if (corpse != NULL && rhs.corpse != NULL &&
-    corpse->id != rhs.corpse->id)
-        return false;
-
-    if (contents.size() != rhs.contents.size())
-        return false;
-
-    if(is_var_veh_part())
-        if(bigness != rhs.bigness)
-            return false;
-
-    for (size_t i = 0; i < contents.size() && stacks; i++) {
-        stacks &= contents[i].stacks_with(rhs.contents[i]);
     }
+    if( damage != rhs.damage ) {
+        return false;
+    }
+    if( active != rhs.active ) {
+        return false;
+    }
+    if( item_tags != rhs.item_tags ) {
+        return false;
+    }
+    if( item_vars != rhs.item_vars ) {
+        return false;
+    }
+    if( goes_bad() ) {
+        // If this goes bad, the other item should go bad, too. It only depends on the item type.
+        if( bday != rhs.bday ) {
+            return false;
+        }
+        if( rot != rhs.rot ) {
+            return false;
+        }
+    }
+    if( ( corpse == nullptr && rhs.corpse != nullptr ) ||
+        ( corpse != nullptr && rhs.corpse == nullptr ) ) {
+        return false;
+    }
+    if( corpse != nullptr && rhs.corpse != nullptr && corpse->id != rhs.corpse->id ) {
+        return false;
+    }
+    if( is_var_veh_part() && bigness != rhs.bigness ) {
+        return false;
+    }
+    if( contents.size() != rhs.contents.size() ) {
+        return false;
+    }
+    for( size_t i = 0; i < contents.size(); i++ ) {
+        if( !contents[i].stacks_with( rhs.contents[i] ) ) {
+            return false;
+        }
+    }
+    return true;
+}
 
-    return stacks;
+bool item::merge_charges( const item &rhs )
+{
+    if( !count_by_charges() || !stacks_with( rhs ) ) {
+        return false;
+    }
+    // We'll just hope that the item counter represents the same thing for both items
+    if( item_counter > 0 || rhs.item_counter > 0 ) {
+        item_counter = ( item_counter * charges + rhs.item_counter * rhs.charges ) / ( charges + rhs.charges );
+    }
+    charges += rhs.charges;
+    return true;
 }
 
 void item::put_in(item payload)
