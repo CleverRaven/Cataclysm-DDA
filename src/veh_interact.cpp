@@ -1327,11 +1327,10 @@ void veh_interact::display_stats()
     // "Fuel usage (safe): " is renamed to "Fuel usage: ".
     mvwprintz(w_stats, y[9], x[9], c_ltgray,  _("Fuel usage:     "));
     x[9] += utf8_width(_("Fuel usage:     "));
-    ammotype fuel_types[4] = { "gasoline", "diesel", "battery", "plasma" };
-    nc_color fuel_colors[4] = { c_ltred, c_green, c_yellow, c_ltblue };
+
     bool first = true;
     int fuel_name_length = 0;
-    for (int i = 0; i < 4; ++i) {
+    for (int i = 0; i < num_fuel_types; ++i) {
         int fuel_usage = veh->basic_consumption(fuel_types[i]);
         if (fuel_usage > 0) {
             fuel_name_length = std::max(fuel_name_length, utf8_width(ammo_name(fuel_types[i]).c_str()));
@@ -1359,7 +1358,8 @@ void veh_interact::display_stats()
     // Print fuel percentage & type name only if it fits in the window, 13 is width of "E...F 100% - "
     veh->print_fuel_indicator (w_stats, y[10], x[10], true,
                                (x[10] + 13 < stats_w),
-                               (x[10] + 13 + fuel_name_length < stats_w));
+                               (x[10] + 13 + fuel_name_length < stats_w),
+                               !vertical_menu);
 
     wrefresh(w_stats);
 }
