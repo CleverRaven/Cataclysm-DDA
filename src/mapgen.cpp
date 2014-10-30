@@ -13305,9 +13305,7 @@ void map::add_extra(map_extra type)
                 if (rng(1, 9) >= trig_dist(x, y, i, j)) {
                     marlossify(i, j);
                     if (one_in(15)) {
-                        monster creature(GetMType(monids[rng(0, 4)]));
-                        creature.spawn(i, j);
-                        g->add_zombie(creature);
+                        add_spawn( monids[rng( 0, 4 )], 1, i, j );
                     }
                 }
             }
