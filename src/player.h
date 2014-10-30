@@ -261,11 +261,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool uninstall_bionic(bionic_id b_id);
         /** Adds the entered amount to the player's bionic power_level */
         void charge_power(int amount);
-        /** Generates and handles the UI for player interaction with installed bionics */
-        void power_bionics();
+        /** Generates and handles the UI for player interaction with bionics and mutations */
+        void draw_powerups_window();
         void power_mutations();
         /** Handles bionic activation effects of the entered bionic */
-        void activate_bionic(int b);
+        bool activate_bionic(int b);
         void activate_mutation(int b);
         /** Handles bionic deactivation effects of the entered bionic */
         void deactivate_bionic(int b);

@@ -1,6 +1,7 @@
 #include "player.h"
 #include "mutation.h"
 #include "game.h"
+#include "powerups_ui.h"
 #include "translations.h"
 #include "messages.h"
 #include "monster.h"

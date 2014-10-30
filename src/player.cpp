@@ -1,6 +1,7 @@
 #include "player.h"
 #include "profession.h"
 #include "bionics.h"
+#include "powerups_ui.h"
 #include "mission.h"
 #include "game.h"
 #include "disease.h"
@@ -7820,7 +7821,7 @@ bool player::eat(item *eaten, it_comest *comest)
             return false;
         }
     }
-    
+
     int temp_nutr = comest->nutr;
     int temp_quench = comest->quench;
     if (hiberfood && !is_npc() && (((hunger - temp_nutr) < -60) || ((thirst - temp_quench) < -60)) && has_active_mutation("HIBERNATE")){
