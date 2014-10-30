@@ -521,40 +521,6 @@ void vehicle::use_controls()
     options_choice.push_back(toggle_cruise_control);
     options_message.push_back(uimenu_entry((cruise_on) ? _("Disable cruise control") :
                                            _("Enable cruise control"), 'c'));
-                                           
-                                           
-    //if there is an electric and other engine available
-    if (has_electric_engine && has_non_electric_engine)
-    {
-        has_hybrid_setup = true;
-    }
-    else
-    {
-        has_hybrid_setup = false;
-        hybrid_mode_on = false;
-        reset_hybrid_state();
-    }
-
-    
-    if (has_hybrid_setup) {
-        options_choice.push_back(toggle_hybrid_ctl);
-        options_message.push_back(uimenu_entry((hybrid_mode_on) ? _("Disable hybrid controller") :
-                                               _("Enable hybrid controller"), 'y'));
-        if (!hybrid_mode_on){
-            reset_hybrid_state();
-        }
-    }
-    if (has_hybrid_setup && hybrid_mode_on) {
-        options_choice.push_back(toggle_electric_only_on);
-        options_message.push_back(uimenu_entry((electric_only_on) ? _("Switch to non-electric mode") :
-                                               _("Switch to electric mode"), 'u'));
-    }
-    
-    if (has_hybrid_setup && hybrid_mode_on) {
-        options_choice.push_back(toggle_hybrid_safety);
-        options_message.push_back(uimenu_entry((hybrid_safety) ? _("Disable hybrid auto control") :
-                                               _("Enable hybrid auto control"), 'i'));
-    }
 
     // Lights if they are there - Note you can turn them on even when damaged, they just don't work
     if (has_lights) {
@@ -609,7 +575,7 @@ void vehicle::use_controls()
                                                 _("Enable tracking device"), 'g'));
 
     }
-
+    
     const bool can_be_folded = is_foldable();
     const bool is_convertible = (tags.count("convertible") > 0);
     if( can_be_folded || is_convertible ) {
@@ -623,7 +589,41 @@ void vehicle::use_controls()
         options_message.push_back(uimenu_entry(reactor_on ? _("Turn off reactor") :
                                                _("Turn on reactor"), 'k'));
     }
+    
+    //if there is an electric and other engine available
+    if (has_electric_engine && has_non_electric_engine)
+    {
+        has_hybrid_setup = true;
+    }
+    else
+    {
+        has_hybrid_setup = false;
+        hybrid_mode_on = false;
+        reset_hybrid_state();
+    }
+    
 
+    if (has_hybrid_setup && hybrid_mode_on) {
+        options_choice.push_back(toggle_electric_only_on);
+        options_message.push_back(uimenu_entry((electric_only_on) ? _("Switch to non-electric engines") :
+                                               _("Switch to electric engines"), 'u'));
+    }
+    
+    if (has_hybrid_setup) {
+        options_choice.push_back(toggle_hybrid_ctl);
+        options_message.push_back(uimenu_entry((hybrid_mode_on) ? _("Switch to all engines") :
+                                               _("Switch to selective engines"), 'y'));
+        if (!hybrid_mode_on){
+            reset_hybrid_state();
+        }
+    }
+    
+    if (has_hybrid_setup && hybrid_mode_on) {
+        options_choice.push_back(toggle_hybrid_safety);
+        options_message.push_back(uimenu_entry((hybrid_safety) ? _("Disable hybrid auto switch") :
+                                               _("Enable hybrid auto switch"), ' '));
+    }
+    
     options_choice.push_back(control_cancel);
     options_message.push_back(uimenu_entry(_("Do nothing"), ' '));
 
@@ -641,24 +641,22 @@ void vehicle::use_controls()
     switch(options_choice[select]) {
     case toggle_hybrid_safety:
         hybrid_safety = !hybrid_safety;
-        add_msg((hybrid_safety) ? _("Hybrid auto control enabled") : _("Hybrid auto control disabled"));
+        add_msg((hybrid_safety) ? _("Hybrid auto switch enabled") : _("Hybrid auto switch disabled"));
         break;
     case toggle_hybrid_ctl:
         hybrid_mode_on = !hybrid_mode_on;
-        add_msg((hybrid_mode_on) ? _("Hybrid mode turned on") : _("Hybrid mode turned off"));
+        add_msg((hybrid_mode_on) ? _("Selective engine control on") : _("All engines on"));
         if (!hybrid_mode_on) {
             reset_hybrid_state();
+        }else {
+            hybrid_get_safe_velocities();
         }
         break;
     case toggle_electric_only_on:
         //save max safe speed of non-electric & electric engines
-        if (!electric_only_on) safe_velocity_non_electric = safe_velocity();
-        else safe_velocity_electric = safe_velocity();
+        hybrid_get_safe_velocities();
         
         electric_only_on = !electric_only_on;
-        
-        if (!electric_only_on) safe_velocity_non_electric = safe_velocity();
-        else safe_velocity_electric = safe_velocity();
         
         hybrid_switch();
         add_msg((electric_only_on) ? _("Switched to electric engines") : _("Switched to non-electric engines"));
@@ -892,6 +890,20 @@ void vehicle::use_controls()
     case control_cancel:
         break;
     }
+}
+
+void vehicle::hybrid_get_safe_velocities(){
+    //save max safe speed of non-electric & electric engines
+    if (!electric_only_on) safe_velocity_non_electric = safe_velocity();
+    else safe_velocity_electric = safe_velocity();
+    
+    electric_only_on = !electric_only_on;
+    
+    //save max safe speed of opposite type of engine
+    if (!electric_only_on) safe_velocity_non_electric = safe_velocity();
+    else safe_velocity_electric = safe_velocity();
+    //go back to original value
+    electric_only_on = !electric_only_on;
 }
 
 void vehicle::start_engine()
@@ -3120,13 +3132,13 @@ void vehicle::hybrid_switch(){
             if (velocity > safe_velocity_electric && safe_velocity_non_electric > safe_velocity_electric){
                 electric_only_on = false;
                 add_msg(_("The load on your electric engines is too high."));
-                add_msg(_("Your combustion engines take over."));
+                add_msg(_("Your non-electric engines take over."));
             }
             //if battery low, switch to gas engines
             else if (percent_battery <= 5) {   
                 electric_only_on = false;
                 add_msg(_("Warning, critical electrical power."));
-                add_msg(_("Your combustion engines take over."));
+                add_msg(_("Your non-electric engines take over."));
             }
             else if (percent_battery <= 10 && one_in(4)) {
                 add_msg(_("Warning, low electrical power."));

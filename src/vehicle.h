@@ -417,6 +417,7 @@ public:
 //hybrid controller code logic, switches between engines at low battery
     void hybrid_switch();
     void reset_hybrid_state();
+    void hybrid_get_safe_velocities();
 
 // Translate seat-relative mount coords into tile coords
     void coord_translate (int reldx, int reldy, int &dx, int &dy);
