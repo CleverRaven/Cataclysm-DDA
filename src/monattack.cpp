@@ -3101,7 +3101,7 @@ void mattack::darkman(monster *z, int index)
             }
         }
     }
-    int free_index = rng( 0, -1 );
+    int free_index = rng( 0, free.size() - 1 );
     monster tmp( GetMType("mon_shadow") );
     z->moves -= 10;
     tmp.spawn( free[free_index].x, free[free_index].y );
