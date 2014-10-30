@@ -1030,7 +1030,10 @@ int draw_item_info(WINDOW *win, const std::string sItemName,
         } else {
             if (bStartNewLine) {
                 if (vItemDisplay[i].bDrawName) {
-                    mvwprintz(win, line_num, (without_border) ? 1 : 2, c_white, "%s", (vItemDisplay[i].sName).c_str());
+                    const auto b = without_border ? 1 : 2;
+                    const auto h = fold_and_print( win, line_num, b, getmaxx( win ) - b * 2,
+                                                   c_white, vItemDisplay[i].sName );
+                    line_num += h - 1;
                 }
                 bStartNewLine = false;
             } else {
