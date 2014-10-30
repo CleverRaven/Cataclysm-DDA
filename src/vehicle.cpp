@@ -3213,7 +3213,6 @@ void vehicle::thrust (int thd) {
         //engine damage at high load
         int strn = (int) (strain () * strain() * 100);
         
-
         for( size_t p = 0; p < parts.size(); p++ ) {
             if( part_flag(p, VPFLAG_ENGINE) ) {
                 if( is_engine_enabled(p) && fuel_left(part_info(p).fuel_type) && parts[p].hp > 0 && rng (1, 100) < strn ) {
