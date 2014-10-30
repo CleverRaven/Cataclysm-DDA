@@ -1,14 +1,13 @@
 #ifndef ITEM_FACTORY_H
 #define ITEM_FACTORY_H
 
-#include "color.h"
 #include "json.h"
 #include "iuse.h"
-#include "enums.h"
 #include <string>
 #include <vector>
 #include <map>
 #include <bitset>
+#include <memory>
 
 bool item_is_blacklisted(const std::string &id);
 
@@ -17,8 +16,6 @@ typedef std::string Group_tag;
 typedef std::vector<item> Item_list;
 
 //For the iuse arguments
-class game;
-class player;
 class Item_spawn_data;
 class Item_group;
 class item;
@@ -46,54 +43,100 @@ class item_category
         bool operator!=(const item_category &rhs) const;
 };
 
+/**
+ * Central item type management class.
+ * It contains a map of all item types, accessible via @ref find_template. Those item types are
+ * loaded from json via the load_* functions.
+ *
+ * It also contains all item groups that are used to spawn items.
+ *
+ * You usually use the single global instance @ref item_controller.
+ */
 class Item_factory
 {
     public:
-        //Setup
         Item_factory();
         ~Item_factory();
-        void init();
-        void clear_items_and_groups();
-        void init_old();
-        void register_iuse_lua(const char *name, int lua_function);
+        /**
+         * Reset the item factory. All item type definitions and item groups are erased.
+         */
+        void reset();
+        /**
+         * Check consistency of itype and item group definitions, for example
+         * valid material, valid tool, etc.
+         * This should be called once after all json data has been loaded.
+         */
+        void check_definitions() const;
+        /**
+         * Registers a LUA based iuse function.
+         * @param name The name that is used in the json data to refer to the LUA function.
+         * It is stored in @ref iuse_function_list, the iuse function can be requested with
+         * @ref get_iuse.
+         * @param lua_function The LUA id of the LUA function.
+         */
+        void register_iuse_lua(const std::string &name, int lua_function);
+        /**
+         * Get the iuse function function of the given name.
+         * @throw std::exception if no use function of that name is known.
+         */
+        const use_function *get_iuse( const std::string &id );
 
+
+        /**
+         * @name Item groups
+         *
+         * Item groups are used to spawn random items (in random amounts).
+         * You usually only need the @ref create_from_group function to create items from a group.
+         */
+        /*@{*/
+        /**
+         * Callback for the init system (@ref DynamicDataLoader), loads an item group definitions.
+         * @param jsobj The json object to load from.
+         * @throw std::string if the json object contains invalid data.
+         */
         void load_item_group(JsonObject &jsobj);
-        // Same as other load_item_group, but takes the ident, subtype
-        // from parameters instead of looking into the json object.
-        void load_item_group(JsonObject &jsobj, const std::string &ident, const std::string &subtype);
         /**
-         * Check if an item type is known to the Item_factory,
-         * (or if it can create it).
-         * If this function returns true, @ref find_template
-         * will never return the MISSING_ITEM or null-item type.
+         * Load a item group from json. It differs from the other load_item_group function as it
+         * uses the ident and subtype given as parameter and does not look up those things in
+         * the json data (the json object here does not need to have them).
+         * This is intended for inline definitions of item groups, e.g. in monster death drops:
+         * the item group there is embedded into the monster type definition.
+         * @param jsobj The json object to load from.
+         * @param ident The ident of the item that is to be loaded.
+         * @param subtype The type of the item group, either "collection", "distribution" or "old"
+         * ("old" is a distribution, too).
+         * @throw std::string if the json object contains invalid data.
          */
-        bool has_template(const Item_tag &id) const;
-
+        void load_item_group(JsonObject &jsobj, const Group_tag &ident, const std::string &subtype);
+        /**
+         * Check whether an item group of that id exists.
+         */
         bool has_group(const Group_tag &id) const;
+        /**
+         * Get the item group object. Returns null if the item group does not exists.
+         */
         Item_spawn_data *get_group(const Group_tag &id);
-
-        //Intermediary Methods - Will probably be removed at final stage
         /**
-         * Returns the itype with the given id.
-         * Never return NULL.
+         * Returns a random item type id from the given item group.
+         * Returns @ref EMPTY_GROUP_ITEM_ID if the group is empty or undefined.
          */
-        itype *find_template( Item_tag id );
-
+        const Item_tag id_from(Group_tag group_tag);
         /**
-         * Add a passed in itype to the collection of item types.
+         * Item id used by @ref id_from to indicate an invalid or empty group.
          */
-        void add_item_type( itype *new_type );
-
-        /**
-         * Return a random item type from the given item group.
-         */
-        const Item_tag id_from(Item_tag group_tag);
+        static const Item_tag EMPTY_GROUP_ITEM_ID;
         /**
          * Return a random item from the item group, handles packaged food where id_from returns the container.
          */
-        const item item_from(Item_tag group_tag);
-        bool group_contains_item(Item_tag group_tag, Item_tag item);
-
+        const item item_from(Group_tag group_tag);
+        /**
+         * Check whether a specific item group contains a specific item.
+         * This is used for the "trader_avoid" item group to specify what items npc should not spawn
+         * with.
+         * @param group_tag Item group ident.
+         * @param item Item type ident.
+         */
+        bool group_contains_item(Group_tag group_tag, Group_tag item);
         /**
          * Create items from the given group. It creates as many items as the
          * group definition requests.
@@ -103,11 +146,35 @@ class Item_factory
          * more than one item (or none at all!).
          * This function also creates ammo for guns, if this is requested
          * in the item group.
+         * @param group The ident of the item group.
+         * @param created_at The birthday of the items created by this function.
          */
         Item_list create_from_group(Group_tag group, int created_at);
+        /**
+         * Returns the idents of all item groups that are known.
+         * This is meant to be accessed at startup by lua to do mod-related modifications of groups.
+         */
+        std::vector<Group_tag> get_all_group_names();
+        /**
+         * Sets the chance of the specified item in the group.
+         * This is meant to be accessed at startup by lua to do mod-related modifications of groups.
+         * @param weight The relative weight of the item. A value of 0 removes the item from the
+         * group.
+         * @return false if the group doesn't exist.
+         */
+        bool add_item_to_group(const Group_tag group_id, const Item_tag item_id, int weight);
+        /*@}*/
 
-        void debug_spawn();
 
+        /**
+         * @name Item type loading
+         *
+         * These function load different instances of itype objects from json.
+         * The loaded item types are stored and can be accessed through @ref find_template.
+         * @param jo The json object to load data from.
+         * @throw std::string if the json object contains invalid data.
+         */
+        /*@{*/
         void load_ammo      (JsonObject &jo);
         void load_gun       (JsonObject &jo);
         void load_armor     (JsonObject &jo);
@@ -120,41 +187,92 @@ class Item_factory
         void load_generic   (JsonObject &jo);
         void load_bionic    (JsonObject &jo);
         void load_veh_part  (JsonObject &jo);
+        /*@}*/
+
+
+        /**
+         * @name Item categories
+         */
+        /*@{*/
+        /**
+         * Load item category definition from json. The loaded category is stored
+         * and can be accessed through @ref get_category.
+         * @param jo The json object to load data from.
+         * @throw std::string if the json object contains invalid data.
+         */
+        void load_item_category(JsonObject &jo);
+        /**
+         * Determine and return the category id of the given type based on the type of item.
+         * E.g. if the item type is food, it returns the id of the food category.
+         * This should only be used as fallback for item types that have no explicit category
+         * setting in the json data.
+         */
+        const std::string &calc_category( const itype *ity );
+        /**
+         * Get the category from the category id.
+         * This will never return null, a new category is created if the category does not exist.
+         * The returned value stays valid as long as this object is not reset nor deleted.
+         */
+        const item_category *get_category(const std::string &id);
+        /*@}*/
+
+
+        /**
+         * Check if an item type is known to the Item_factory.
+         * @param id Item type id (@ref itype::id).
+         */
+        bool has_template(const Item_tag &id) const;
+        /**
+         * Returns the itype with the given id.
+         * This function never returns null, if the item type is unknown, a new item type is
+         * generated, stored and returned.
+         * @param id Item type id (@ref itype::id).
+         */
+        itype *find_template( Item_tag id );
+        /**
+         * Add a passed in itype to the collection of item types.
+         * If the item type overrides an existing type, the existing type is deleted first.
+         * @param new_type The new item type, must not be null.
+         */
+        void add_item_type( itype *new_type );
+        /**
+         * Shows an menu to debug the item groups.
+         */
+        void debug_spawn();
 
         void load_item_blacklist(JsonObject &jo);
         void load_item_whitelist(JsonObject &jo);
         void finialize_item_blacklist();
 
-        // Check that all items referenced in the groups
-        // do actually exist (are defined)
-        void check_items_of_groups_exist() const;
-        // Check consistency in itype definitions
-        // like: valid material, valid tool
-        void check_itype_definitions() const;
 
-        void load_item_category(JsonObject &jo);
-
-        // Determine and return the category id of the given type
-        const std::string &calc_category(itype *ity);
-        // Get the category from the category id.
-        // This will never return 0.
-        // The returned value stays valid as long as this Item_factory
-        // stays valid.
-        const item_category *get_category(const std::string &id);
-
-        const use_function *get_iuse( const std::string &id );
-
-        // The below functions are meant to be accessed at startup by lua to
-        // do mod-related modifications of groups.
-        std::vector<std::string> get_all_group_names();
-
-        // Sets the chance of the specified item in the group. weight 0 will allow you to remove
-        // the item from the group. Returns false if the group doesn't exist.
-        bool add_item_to_group(const std::string group_id, const std::string item_id, int weight);
-
+        /**
+         * Returns the translated item name for the item with given id.
+         * The name is in the proper plural form as specified by the
+         * quantity parameter.
+         */
+        std::string nname(const Item_tag &id, unsigned int quantity = 1) const;
+        /**
+         * Whether the item is counted by charges, see @ref item::count_by_charges
+         */
+        bool count_by_charges(const Item_tag &id);
+        /**
+         * A list of *all* known item type ids. Each is suitable as input to
+         * @ref find_template or as parameter to @ref item::item.
+         */
+        std::vector<Item_tag> get_all_itype_ids() const;
+        /**
+         * The map of all known item type instances.
+         * Key is the item type id (@ref itype::id, the parameter to
+         * @ref find_template).
+         * Value is the itype instance (result of @ref find_template).
+         */
+        const std::map<Item_tag, itype *> &get_all_itypes() const;
+        /**
+         * Create a new (and currently unused) item type id.
+         */
+        Item_tag create_artifact_id() const;
     private:
         std::map<Item_tag, itype *> m_templates;
-        itype  *m_missing_item;
         typedef std::map<Group_tag, Item_spawn_data *> GroupMap;
         GroupMap m_template_groups;
 
@@ -203,11 +321,14 @@ class Item_factory
         //Currently only used to body_part stuff, bitset size might need to be increased in the future
         void set_flag_by_string(std::bitset<13> &cur_flags, const std::string &new_flag,
                                 const std::string &flag_type);
+        void clear();
+        void init();
+        void init_old();
 
         //iuse stuff
         std::map<Item_tag, use_function> iuse_function_list;
 };
 
-extern Item_factory *item_controller;
+extern std::unique_ptr<Item_factory> item_controller;
 
 #endif

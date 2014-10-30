@@ -9,6 +9,7 @@
 #include "player.h"
 #include "item_factory.h"
 #include "bionics.h"
+#include "mutation.h"
 #include "text_snippets.h"
 
 profession::profession()
@@ -75,6 +76,10 @@ void profession::load_profession(JsonObject &jsobj)
     jsarr = jsobj.get_array("CBMs");
     while (jsarr.has_more()) {
         prof.add_CBM(jsarr.next_string());
+    }
+    jsarr = jsobj.get_array("traits");
+    while (jsarr.has_more()) {
+        prof.add_trait(jsarr.next_string());
     }
     jsarr = jsobj.get_array("flags");
     while (jsarr.has_more()) {
@@ -187,6 +192,9 @@ void profession::check_definition() const
             debugmsg("bionic %s for profession %s does not exist", a->c_str(), _ident.c_str());
         }
     }
+    
+    // Yeah, could use a check for traits if you've got one that works.
+
     for (StartingSkillList::const_iterator a = _starting_skills.begin(); a != _starting_skills.end();
          ++a) {
         // Skill::skill shows a debug message if the skill is unknown
@@ -229,6 +237,11 @@ void profession::add_item(const itypedec &entry, const std::string &gender)
 void profession::add_CBM(std::string CBM)
 {
     _starting_CBMs.push_back(CBM);
+}
+
+void profession::add_trait(std::string trait)
+{
+    _starting_traits.push_back(trait);
 }
 
 void profession::add_addiction(add_type type, int intensity)
@@ -284,6 +297,11 @@ std::vector<addiction> profession::addictions() const
 std::vector<std::string> profession::CBMs() const
 {
     return _starting_CBMs;
+}
+
+std::vector<std::string> profession::traits() const
+{
+    return _starting_traits;
 }
 
 const profession::StartingSkillList profession::skills() const

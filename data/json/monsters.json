@@ -1359,7 +1359,7 @@
     "hp":300,
     "death_function":"MELT",
     "description":"A sluglike creature, eight feet long and the width of a refrigerator.  Its black body glistens as it oozes its way along the ground.  Eye stalks occasionally push their way out of the oily mass and look around.",
-    "flags":["NOHEAD", "SEES", "POISON", "HEARS", "REGENERATES_50", "SMELLS", "VIS30", "SLUDGEPROOF", "SLUDGETRAIL", "SWIMS", "FLAMMABLE"]
+    "flags":["NOHEAD", "SEES", "POISON", "HEARS", "REGENERATES_50", "SMELLS", "VIS30", "SLUDGEPROOF", "SLUDGETRAIL", "SWIMS", "FLAMMABLE", "NOGIB"]
     },{
         "type" : "MONSTER",
         "id" : "mon_zombie",
@@ -2363,7 +2363,7 @@
     "death_function":"MELT",
     "special_attacks":[["LUNGE", 20]],
     "description":"This rotting corpse seeps a glowing ooze from its lesions.  A strange tattered jumpsuit marks it as an oddity across the wasteland.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "VIS50"]
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "VIS50", "NOGIB"]
     },{
         "type" : "MONSTER",
         "id" : "mon_irradiated_wanderer_2",
@@ -2395,7 +2395,7 @@
     "death_function":"MELT",
     "special_attacks":[["LUNGE", 15]],
     "description":"This rotting corpse seeps a glowing ooze from its lesions.  A strange tattered jumpsuit marks it as an oddity across the wasteland.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "VIS50"]
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "VIS50", "NOGIB"]
     },{
         "type" : "MONSTER",
         "id" : "mon_irradiated_wanderer_3",
@@ -2427,7 +2427,7 @@
     "death_function":"MELT",
     "special_attacks":[["LUNGE", 10]],
     "description":"This rotting corpse seeps a glowing ooze from its lesions.  A strange tattered jumpsuit marks it as an oddity across the wasteland.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "VIS50"]
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "VIS50", "NOGIB"]
     },{
         "type" : "MONSTER",
         "id" : "mon_irradiated_wanderer_4",
@@ -2459,7 +2459,7 @@
     "death_function":"MELT",
     "special_attacks":[["LUNGE", 5]],
     "description":"This rotting corpse seeps a glowing ooze from its lesions.  A strange tattered jumpsuit marks it as an oddity across the wasteland.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "VIS50"]
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "VIS50", "NOGIB"]
     },{
         "type" : "MONSTER",
         "id" : "mon_charred_nightmare",
@@ -2491,7 +2491,7 @@
     "death_function":"MELT",
     "special_attacks":[["LONGSWIPE", 8]],
     "description":"Intense radiation has spurred a unique form of necrosis and regeneration, it is impossible to tell if this creature was ever human.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "VIS50"]
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "VIS50", "NOGIB"]
     },{
         "type" : "MONSTER",
         "id" : "mon_triffid",
@@ -2815,7 +2815,7 @@
     "death_function":"DISINTEGRATE",
     "special_attacks":[["PLANT", 500]],
     "description":"A mass of spores the size of a balled fist, wafting around in the air.",
-    "flags":["STUMBLES", "FLIES", "POISON", "NO_BREATHE", "NOHEAD", "FRIENDLY_SPECIAL"]
+    "flags":["STUMBLES", "FLIES", "POISON", "NO_BREATHE", "NOHEAD", "FRIENDLY_SPECIAL", "NO_GIBS"]
     },{
         "type" : "MONSTER",
         "id" : "mon_fungaloid_queen",
@@ -4007,7 +4007,7 @@
     "death_function":"MELT",
     "special_attacks":[["TENTACLE", 5]],
     "description":"An amorphous black creature, detaching and sprouting tentacles without any apparent pause.",
-    "flags":["SMELLS", "HEARS", "NOHEAD", "BASHES", "SWIMS", "ATTACKMON", "PLASTIC", "ACIDPROOF"]
+    "flags":["SMELLS", "HEARS", "NOHEAD", "BASHES", "SWIMS", "ATTACKMON", "PLASTIC", "ACIDPROOF", "NOGIB"]
     },{
         "type" : "MONSTER",
         "id" : "mon_human_snail",
@@ -4087,7 +4087,7 @@
     "death_function":"MELT",
     "special_attacks":[["VORTEX", 6]],
     "description":"A twisting spot in the air, with some kind of morphing mass at its center.",
-    "flags":["HEARS", "GOODHEARING", "STUMBLES", "NOHEAD", "HARDTOSHOOT", "FLIES", "PLASTIC", "NO_BREATHE", "FRIENDLY_SPECIAL"]
+    "flags":["HEARS", "GOODHEARING", "STUMBLES", "NOHEAD", "HARDTOSHOOT", "FLIES", "PLASTIC", "NO_BREATHE", "FRIENDLY_SPECIAL", "NOGIB"]
     },{
         "type" : "MONSTER",
         "id" : "mon_flying_polyp",
@@ -4112,7 +4112,7 @@
     "hp":350,
     "death_function":"MELT",
     "description":"An amorphous mound of twisting black flesh that flits through the air at incredible speeds.",
-    "flags":["SMELLS", "HEARS", "GOODHEARING", "NOHEAD", "BASHES", "FLIES", "ATTACKMON", "PLASTIC", "NO_BREATHE", "HIT_AND_RUN"]
+    "flags":["SMELLS", "HEARS", "GOODHEARING", "NOHEAD", "BASHES", "FLIES", "ATTACKMON", "PLASTIC", "NO_BREATHE", "HIT_AND_RUN", "NOGIB"]
     },{
         "type" : "MONSTER",
         "id" : "mon_hunting_horror",
@@ -4137,7 +4137,7 @@
     "hp":280,
     "death_function":"MELT",
     "description":"A man-sized worm-like creature that swoops around on bat-like wings.  Its form dramatically shifts and changes from moment to moment, although its gigantic eyes and teeth are always prominent.",
-    "flags":["SEES", "SMELLS", "HEARS", "NOHEAD", "HARDTOSHOOT", "FLIES", "PLASTIC", "SUNDEATH", "NO_BREATHE", "HIT_AND_RUN"],
+    "flags":["SEES", "SMELLS", "HEARS", "NOHEAD", "HARDTOSHOOT", "FLIES", "PLASTIC", "SUNDEATH", "NO_BREATHE", "HIT_AND_RUN", "NOGIB"],
     "anger_triggers":["STALK", "PLAYER_WEAK", "PLAYER_CLOSE", "FRIEND_ATTACKED"]
     },{
         "type" : "MONSTER",
@@ -4216,7 +4216,7 @@
     "death_function":"MELT",
     "special_attacks":[["FORMBLOB", 4]],
     "description":"A formless slime mold the size of a cow.  Crusty bits of cytoplasm fall away as it oozes across the ground.",
-    "flags":["SMELLS", "HEARS", "PLASTIC", "NO_BREATHE", "NOHEAD"],
+    "flags":["SMELLS", "HEARS", "PLASTIC", "NO_BREATHE", "NOHEAD", "NOGIB"],
     "phase":"LIQUID"
     },{
         "type" : "MONSTER",
@@ -4268,7 +4268,7 @@
     "hp":30,
     "death_function":"MELT",
     "description":"A fat humanoid the size of a dog, with twisted red flesh and a distended neck.  It scampers around, panting and grunting.",
-    "flags":["SEES", "SMELLS", "HEARS", "WARM", "BASHES", "HIT_AND_RUN", "NO_BREATHE", "VIS50", "BONES"]
+    "flags":["SEES", "SMELLS", "HEARS", "WARM", "BASHES", "HIT_AND_RUN", "NO_BREATHE", "VIS50", "BONES", "NOGIB"]
     },{
         "type" : "MONSTER",
         "id" : "mon_gracke",
@@ -4373,7 +4373,7 @@
     "special_attacks":[["DISAPPEAR", 20]],
     "special_when_hit":["ZAPBACK", 100],
     "description":"A strange moving darkness, bringing with it the softest of whispers.",
-    "flags":["SEES", "HEARS", "GOODHEARING", "SMELLS", "NOHEAD", "HARDTOSHOOT", "GRABS", "WEBWALK", "FLIES", "PLASTIC", "SUNDEATH", "ELECTRIC", "ACIDPROOF", "HIT_AND_RUN", "NO_BREATHE", "VIS50"]
+    "flags":["SEES", "HEARS", "GOODHEARING", "SMELLS", "NOHEAD", "HARDTOSHOOT", "GRABS", "WEBWALK", "FLIES", "PLASTIC", "SUNDEATH", "ELECTRIC", "ACIDPROOF", "HIT_AND_RUN", "NO_BREATHE", "VIS50", "NOGIB"]
     },{
         "type" : "MONSTER",
         "id" : "mon_darkman",
@@ -4451,7 +4451,7 @@
     "death_function":"MELT",
     "special_attacks":[["BREATHE", 8]],
     "description":"A weird mass of immobile pink goo.  It seems to breathe.",
-    "flags":["IMMOBILE"]
+    "flags":["IMMOBILE", "NOGIB"]
     },{
         "type" : "MONSTER",
         "id" : "mon_shadow_snake",
@@ -4477,7 +4477,7 @@
     "death_function":"MELT",
     "special_attacks":[["DISAPPEAR", 20]],
     "description":"A translucent black snake, long and fearsome looking.",
-    "flags":["SEES", "SMELLS", "WARM", "SWIMS", "LEATHER", "PLASTIC", "SUNDEATH"]
+    "flags":["SEES", "SMELLS", "WARM", "SWIMS", "LEATHER", "PLASTIC", "SUNDEATH", "NOGIB"]
     },{
         "type" : "MONSTER",
         "id" : "mon_shoggoth",
@@ -4503,7 +4503,7 @@
     "death_function":"MELT",
     "special_attacks":[["PARROT", 40]],
     "description":"A gargantuan protoplasmic blob, constantly reshaping, forming new pseudopods seemingly at will.  All over its body are eyes that form and disappear.  It looks at you with malice.",
-    "flags":["SEES", "SMELLS", "SWIMS", "PLASTIC", "SLUDGEPROOF", "ACID_BLOOD", "ACID_PROOF", "NOHEAD", "REGENERATES_50", "ABSORBS", "REGEN_MORALE"]
+    "flags":["SEES", "SMELLS", "SWIMS", "PLASTIC", "SLUDGEPROOF", "ACID_BLOOD", "ACID_PROOF", "NOHEAD", "REGENERATES_50", "ABSORBS", "REGEN_MORALE", "NOGIB"]
     },{
         "type" : "MONSTER",
         "id" : "mon_dementia",

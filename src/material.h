@@ -17,6 +17,8 @@ class material_type
     private:
         std::string _ident;
         std::string _name;
+        std::string _salvage_id; // this material turns into this item when salvaged
+        float _salvage_multiplier; // multiplier when salvaging.
         int _bash_resist;       // negative integers means susceptibility
         int _cut_resist;
         std::string _bash_dmg_verb;
@@ -32,10 +34,11 @@ class material_type
     public:
         material_type();
         material_type(std::string ident, std::string name,
+                      std::string salvage_id, float salvage_multiplier,
                       int bash_resist, int cut_resist,
                       std::string bash_dmg_verb, std::string cut_dmg_verb,
-                      std::string dmg_adj[], int acid_resist, int elec_resist, int fire_resist,
-                      int density);
+                      std::string dmg_adj[],
+                      int acid_resist, int elec_resist, int fire_resist, int density);
         material_type(std::string ident);
         static void load_material(JsonObject &jsobj);
 
@@ -52,6 +55,8 @@ class material_type
         bool is_null() const;
         std::string ident() const;
         std::string name() const;
+        std::string salvage_id() const;
+        float salvage_multiplier() const;
         int bash_resist() const;
         int cut_resist() const;
         std::string bash_dmg_verb() const;

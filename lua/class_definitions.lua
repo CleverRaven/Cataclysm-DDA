@@ -476,16 +476,6 @@ classes = {
                 type = "string",
                 writable = true
             },
-            material1 = {
-                type = "string",
-                cpp_name = "m1",
-                writable = true
-            },
-            material2 = {
-                type = "string",
-                cpp_name = "m2",
-                writable = true
-            },
             volume = {
                 type = "int",
                 writable = true

@@ -481,7 +481,6 @@ void add_corpse(int x, int y);
  void i_clear(const int x, const int y);
  void i_rem(const int x, const int y, const int index);
  void i_rem(const int x, const int y, item* it);
- point find_item(const item *it);
  void spawn_artifact( const int x, const int y );
  void spawn_natural_artifact( const int x, const int y, const artifact_natural_property prop );
  void spawn_item(const int x, const int y, const std::string &itype_id,
@@ -502,6 +501,8 @@ void add_corpse(int x, int y);
                               const long amount );
 
  std::list<std::pair<tripoint, item *> > get_rc_items( int x = -1, int y = -1, int z = -1 );
+
+ void trigger_rc_items( std::string signal );
 
 // Traps
  std::string trap_get(const int x, const int y) const;
@@ -739,9 +740,15 @@ private:
  vehicle *add_vehicle_to_map(vehicle *veh, const int x, const int y, const bool merge_wrecks = true);
  void add_item(const int x, const int y, item new_item, int maxitems = 64);
 
- void process_active_items_in_submap(submap * const current_submap, int gridx, int gridy);
- void process_active_items_in_vehicles(submap * const current_submap);
- void process_active_items_in_vehicle(vehicle *cur_veh, submap * const current_submap);
+ // Iterates over every item on the map, passing each item to the provided function.
+ template<typename T>
+ void process_items( bool active, T processor );
+ template<typename T>
+ void process_items_in_submap( submap *const current_submap, int gridx, int gridy, T processor );
+ template<typename T>
+ void process_items_in_vehicles( submap *const current_submap, T processor);
+ template<typename T>
+ void process_items_in_vehicle( vehicle *cur_veh, submap *const current_submap, T processor );
 
  float lm[MAPSIZE*SEEX][MAPSIZE*SEEY];
  float sm[MAPSIZE*SEEX][MAPSIZE*SEEY];

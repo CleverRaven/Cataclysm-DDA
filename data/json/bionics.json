@@ -506,7 +506,7 @@
     "active"     :    true,
     "cost"       :    1,
     "time"       :    1,
-    "description":    "Increases your body's wavelength, allowing you to quantum tunnel through walls, reappearing on the other side.  Power drain in standby is minimal, but each tile tunneled through costs 10 bionic power."
+    "description":    "Increases your body's wavelength, allowing you to quantum tunnel through walls, reappearing on the other side.  Power drain in standby is minimal, but each tile tunneled through costs 250 bionic power."
     },{
         "type" : "bionic",
         "id" : "bio_shockwave",

@@ -16,6 +16,8 @@
 #include <cmath> // floor
 #include <sstream>
 #include <algorithm>
+#include <unordered_set>
+#include <set>
 
 light_emission nolight = {0, 0, 0};
 
@@ -29,7 +31,7 @@ item::item(const std::string new_type, unsigned int turn, bool rand, int handed)
     init();
     type = item_controller->find_template( new_type );
     bday = turn;
-    corpse = type->corpse;
+    corpse = type->id == "corpse" ? GetMType( "mon_null" ) : nullptr;
     name = type->nname(1);
     if (type->is_gun()) {
         charges = 0;
@@ -215,9 +217,8 @@ void item::clear()
 
 bool item::is_null() const
 {
-    static const std::string s_null("null"); // used a lot, no need to repeat
-    // 'this' can't be null, you say? Wrong. Stupid vehicle interact window.
-    return (this == NULL || type == NULL || type->id == s_null);
+    static const std::string s_null("null"); // used alot, no need to repeat
+    return (type == nullptr || type->id == s_null);
 }
 
 item item::in_its_container()
@@ -394,14 +395,21 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         dump->push_back(iteminfo("BASE", _("Price: "), "<num>",
                                  (double)price() / 100, false, "$", true, true));
 
-        if (!get_material(1)->is_null()) {
-            std::string text;
-            if (get_material(2)->is_null()) {
-                text = string_format(_("Material: %s"), get_material(1)->name().c_str());
-            } else {
-                text = string_format(_("Material: %s, %s"), get_material(1)->name().c_str(), get_material(2)->name().c_str());
+        if (made_of().size() > 0) {
+            std::string material_list;
+            bool made_of_something = false;
+            for (auto next_material : made_of_types()) {
+                if (!next_material->is_null()) {
+                    if (made_of_something) {
+                        material_list.append(", ");
+                    }
+                    material_list.append(next_material->name());
+                    made_of_something = true;
+                }
             }
-            dump->push_back(iteminfo("BASE", text));
+            if (made_of_something) {
+                dump->push_back(iteminfo("BASE", string_format(_("Material: %s"), material_list.c_str())));
+            }
         }
 
         if ( debug == true ) {
@@ -1319,6 +1327,12 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     if(has_flag("LITCIG"))
         ret << _(" (lit)");
 
+    if( active && !is_food() && !is_corpse() && ( type->id.length() < 3 || type->id.compare( type->id.length() - 3, 3, "_on" ) != 0 ) ) {
+        // Usually the items whose ids end in "_on" have the "active" or "on" string already contained
+        // in their name, also food is active while it rots.
+        ret << _( " (active)" );
+    }
+
     tagtext = ret.str();
 
     ret.str("");
@@ -1447,8 +1461,7 @@ int item::weight() const
     } else if (type->is_gun() && charges >= 1) {
         ret += curammo->weight * charges;
     } else if (type->is_tool() && charges >= 1 && ammo_type() != "NULL") {
-        if (typeId() == "adv_UPS_off" || typeId() == "adv_UPS_on" || has_flag("ATOMIC_AMMO") ||
-            typeId() == "rm13_armor" || typeId() == "rm13_armor_on") {
+        if( ammo_type() == "plutonium" ) {
             ret += item_controller->find_template(default_ammo(this->ammo_type()))->weight * charges / 500;
         } else {
             ret += item_controller->find_template(default_ammo(this->ammo_type()))->weight * charges;
@@ -1791,28 +1804,22 @@ bool item::can_revive()
     return false;
 }
 
-bool item::ready_to_revive()
+bool item::ready_to_revive( point pos )
 {
     if(can_revive() == false) {
         return false;
     }
     int age_in_hours = (int(calendar::turn) - bday) / (10 * 60);
     age_in_hours -= int((float)burnt / volume() * 24);
-    if (damage > 0)
-    {
+    if( damage > 0 ) {
         age_in_hours /= (damage + 1);
     }
     int rez_factor = 48 - age_in_hours;
-    if (age_in_hours > 6 && (rez_factor <= 0 || one_in(rez_factor)))
-    {
+    if( age_in_hours > 6 && (rez_factor <= 0 || one_in(rez_factor)) ) {
         // If we're a special revival zombie, wait to get up until the player is nearby.
         const bool isReviveSpecial = has_flag("REVIVE_SPECIAL");
-        if (isReviveSpecial)
-        {
-
-            point p = g->find_item(this);
-
-            const int distance = rl_dist(p.x, p.y, g->u.posx, g->u.posy);
+        if( isReviveSpecial ) {
+            const int distance = rl_dist(pos.x, pos.y, g->u.posx, g->u.posy);
             if (distance > 3) {
                 return false;
             }
@@ -1828,19 +1835,21 @@ bool item::ready_to_revive()
 
 bool item::goes_bad() const
 {
-    if (!is_food())
+    if (!is_food()) {
         return false;
+    }
     it_comest* food = dynamic_cast<it_comest*>(type);
     return (food->spoils != 0);
 }
 
 bool item::count_by_charges() const
 {
-    if (is_ammo())
+    if( is_ammo() ) {
         return true;
-    if (is_food()) {
+    }
+    if( is_food() ) {
         it_comest* food = dynamic_cast<it_comest*>(type);
-        return (food->charges > 1);
+        return food->charges > 1;
     }
     return false;
 }
@@ -1856,10 +1865,11 @@ long item::max_charges() const
 
 bool item::craft_has_charges()
 {
-    if (count_by_charges())
+    if (count_by_charges()) {
         return true;
-    else if (ammo_type() == "NULL")
+    } else if (ammo_type() == "NULL") {
         return true;
+    }
 
     return false;
 }
@@ -1875,157 +1885,143 @@ long item::num_charges()
             return charges;
         }
     }
-    if (is_gunmod() && mode == "MODE_AUX")
+    if( is_gunmod() && mode == "MODE_AUX" ) {
         return charges;
+    }
     return 0;
 }
 
 int item::weapon_value(player *p) const
 {
- if( is_null() )
-  return 0;
+    if( is_null() ) {
+        return 0;
+    }
 
- int my_value = 0;
- if (is_gun()) {
-  int gun_value = 14;
-  it_gun* gun = dynamic_cast<it_gun*>(type);
-  gun_value += gun->dmg_bonus;
-  gun_value += int(gun->burst / 2);
-  gun_value += int(gun->clip / 3);
-  gun_value -= int(gun->dispersion / 5);
-  gun_value *= (.5 + (.3 * p->skillLevel("gun")));
-  gun_value *= (.3 + (.7 * p->skillLevel(gun->skill_used)));
-  my_value += gun_value;
- }
+    int my_value = 0;
+    if (is_gun()) {
+        int gun_value = 14;
+        it_gun* gun = dynamic_cast<it_gun*>(type);
+        gun_value += gun->dmg_bonus;
+        gun_value += int(gun->burst / 2);
+        gun_value += int(gun->clip / 3);
+        gun_value -= int(gun->dispersion / 5);
+        gun_value *= (.5 + (.3 * p->skillLevel("gun")));
+        gun_value *= (.3 + (.7 * p->skillLevel(gun->skill_used)));
+        my_value += gun_value;
+    }
 
- my_value += int(type->melee_dam * (1   + .3 * p->skillLevel("bashing") +
-                                          .1 * p->skillLevel("melee")    ));
+    my_value += int(type->melee_dam * (1   + .3 * p->skillLevel("bashing") +
+                                       .1 * p->skillLevel("melee")    ));
 
- my_value += int(type->melee_cut * (1   + .4 * p->skillLevel("cutting") +
-                                          .1 * p->skillLevel("melee")    ));
+    my_value += int(type->melee_cut * (1   + .4 * p->skillLevel("cutting") +
+                                       .1 * p->skillLevel("melee")    ));
 
- my_value += int(type->m_to_hit  * (1.2 + .3 * p->skillLevel("melee")));
+    my_value += int(type->m_to_hit  * (1.2 + .3 * p->skillLevel("melee")));
 
- return my_value;
+    return my_value;
 }
 
 int item::melee_value(player *p)
 {
- if( is_null() )
-  return 0;
+    if( is_null() ) {
+        return 0;
+    }
 
- int my_value = 0;
- my_value += int(type->melee_dam * (1   + .3 * p->skillLevel("bashing") +
-                                          .1 * p->skillLevel("melee")    ));
+    int my_value = 0;
+    my_value += int(type->melee_dam * (1   + .3 * p->skillLevel("bashing") +
+                                       .1 * p->skillLevel("melee")    ));
 
- my_value += int(type->melee_cut * (1   + .4 * p->skillLevel("cutting") +
-                                          .1 * p->skillLevel("melee")    ));
+    my_value += int(type->melee_cut * (1   + .4 * p->skillLevel("cutting") +
+                                       .1 * p->skillLevel("melee")    ));
 
- my_value += int(type->m_to_hit  * (1.2 + .3 * p->skillLevel("melee")));
+    my_value += int(type->m_to_hit  * (1.2 + .3 * p->skillLevel("melee")));
 
- return my_value;
+    return my_value;
 }
 
 int item::bash_resist() const
 {
-    int ret = 0;
+    int resist = 0;
+    int eff_thickness = 1;
+    // With the multiplying and dividing in previous code, the following
+    // is a coefficient equivalent to the bonuses and maluses hardcoded in
+    // previous versions. Adjust to make you happier/sadder.
+    float adjustment = 1.5;
 
-    if (is_null())
-        return 0;
+    if (is_null()) {
+        return resist;
+    }
 
-    const material_type* cur_mat1 = get_material(1);
-    const material_type* cur_mat2 = get_material(2);
-    if (is_armor())
-    {
+    std::vector<material_type*> mat_types = made_of_types();
+    // Armor gets an additional multiplier.
+    if (is_armor()) {
         // base resistance
         it_armor* tmp = dynamic_cast<it_armor*>(type);
-        int eff_thickness = ((tmp->thickness - damage <= 0) ? 1 : (tmp->thickness - damage));
+        eff_thickness = ((tmp->thickness - damage <= 0) ? 1 : (tmp->thickness - damage));
+    }
 
-        // assumes weighted sum of materials for items with 2 materials, 66% material 1 and 33% material 2
-        if (cur_mat2->is_null())
-        {
-            ret = eff_thickness * (3 * cur_mat1->bash_resist());
-        }
-        else
-        {
-            ret = eff_thickness * (cur_mat1->bash_resist() + cur_mat1->bash_resist() + cur_mat2->bash_resist());
-        }
+    for (auto mat : mat_types) {
+        resist += mat->bash_resist();
     }
-    else // for non-armor, just bash_resist
-    {
-        if (cur_mat2->is_null())
-        {
-            ret = 3 * cur_mat1->bash_resist();
-        }
-        else
-        {
-            ret = cur_mat1->bash_resist() + cur_mat1->bash_resist() + cur_mat2->bash_resist();
-        }
-    }
-    ret = ret * 0.5; //halve armour values for balance reasons
-    return ret;
+    // Average based on number of materials.
+    resist /= mat_types.size();
+
+    return (int)(resist * eff_thickness * adjustment);
 }
 
 int item::cut_resist() const
 {
-    int ret = 0;
+    int resist = 0;
+    int eff_thickness = 1;
+    // With the multiplying and dividing in previous code, the following
+    // is a coefficient equivalent to the bonuses and maluses hardcoded in
+    // previous versions. Adjust to make you happier/sadder.
+    float adjustment = 1.5;
 
-    if (is_null())
-        return 0;
+    if (is_null()) {
+        return resist;
+    }
 
-    const material_type* cur_mat1 = get_material(1);
-    const material_type* cur_mat2 = get_material(2);
-    if (is_armor())
-        {
+    std::vector<material_type*> mat_types = made_of_types();
+    // Armor gets an additional multiplier.
+    if (is_armor()) {
+        // base resistance
         it_armor* tmp = dynamic_cast<it_armor*>(type);
-        int eff_thickness = ((tmp->thickness - damage <= 0) ? 1 : (tmp->thickness - damage));
-
-        // assumes weighted sum of materials for items with 2 materials, 66% material 1 and 33% material 2
-        if (cur_mat2->is_null())
-        {
-            ret = eff_thickness * (3 * cur_mat1->cut_resist());
-
-        }
-        else
-        {
-            ret = eff_thickness * (cur_mat1->cut_resist() + cur_mat1->cut_resist() + cur_mat2->cut_resist());
-        }
+        eff_thickness = ((tmp->thickness - damage <= 0) ? 1 : (tmp->thickness - damage));
     }
-    else // for non-armor
-    {
-        if (cur_mat2->is_null())
-        {
-            ret = 3 * cur_mat1->cut_resist();
-        }
-        else
-        {
-            ret = cur_mat1->cut_resist() + cur_mat1->cut_resist() + cur_mat2->cut_resist();
-        }
+
+    for (auto mat : mat_types) {
+        resist += mat->cut_resist();
     }
-    ret = ret * 0.5; //halve armour values for balance reasons
-    return ret;
+    // Average based on number of materials.
+    resist /= mat_types.size();
+
+    return (int)(resist * eff_thickness * adjustment);
 }
 
 int item::acid_resist() const
 {
-    int ret = 0;
+    int resist = 0;
+    // With the multiplying and dividing in previous code, the following
+    // is a coefficient equivalent to the bonuses and maluses hardcoded in
+    // previous versions. Adjust to make you happier/sadder.
+    float adjustment = 1.5;
 
-    if (is_null())
-        return 0;
-
-    // similar weighted sum of acid resistances
-    const material_type* cur_mat1 = get_material(1);
-    const material_type* cur_mat2 = get_material(2);
-    if (cur_mat2->is_null())
-    {
-        ret = 3 * cur_mat1->acid_resist();
-    }
-    else
-    {
-        ret = cur_mat1->acid_resist() + cur_mat1->acid_resist() + cur_mat2->acid_resist();
+    if (is_null()) {
+        return resist;
     }
 
-    return ret;
+    std::vector<material_type*> mat_types = made_of_types();
+    // Not sure why cut and bash get an armor thickness bonus but acid doesn't,
+    // but such is the way of the code.
+
+    for (auto mat : mat_types) {
+        resist += mat->acid_resist();
+    }
+    // Average based on number of materials.
+    resist /= mat_types.size();
+
+    return (int)(resist * adjustment);
 }
 
 bool item::is_two_handed(player *u)
@@ -2037,54 +2033,102 @@ bool item::is_two_handed(player *u)
     return ((weight() / 113) > u->str_cur * 4);
 }
 
-bool item::made_of(std::string mat_ident) const
+std::vector<std::string> item::made_of() const
 {
-    if( is_null() )
-        return false;
-
-    if (corpse != NULL && typeId() == "corpse" )
-        return (corpse->mat == mat_ident);
-
-    return (type->m1 == mat_ident || type->m2 == mat_ident);
+    std::vector<std::string> materials_composed_of;
+    if (is_null()) {
+        // pass, we're not made of anything at the moment.
+        materials_composed_of.push_back("null");
+    } else if (is_corpse()) {
+        // Corpses are only made of one type of material.
+        materials_composed_of.push_back(corpse->mat);
+    } else {
+        // Defensive copy of materials.
+        // More idiomatic to return a const reference?
+        materials_composed_of = type->materials;
+    }
+    return materials_composed_of;
 }
 
-const material_type *item::get_material(int m) const
+std::vector<material_type*> item::made_of_types() const
 {
-    if (is_null() || m < 1 || m > 2) {
-        return material_type::base_material();
-    }
+    std::vector<std::string> materials_composed_of = made_of();
+    std::vector<material_type*> material_types_composed_of;
+    material_type *next_material;
 
-    if (corpse != NULL && typeId() == "corpse" ) {
-        if (m == 1) {
-            return material_type::find_material(corpse->mat);
+    for (auto mat_id : materials_composed_of) {
+        next_material = material_type::find_material(mat_id);
+        material_types_composed_of.push_back(next_material);
+    }
+    return material_types_composed_of;
+}
+
+bool item::made_of_any(std::vector<std::string> &mat_idents) const
+{
+    for( auto candidate_material : mat_idents ) {
+        for( auto target_material : made_of() ) {
+            if( candidate_material == target_material ) {
+                return true;
+            }
         }
-        // corpses have only one material
-        return material_type::base_material();
+    }
+    return false;
+}
+
+bool item::only_made_of(std::vector<std::string> &mat_idents) const
+{
+    for( auto target_material : made_of() ) {
+        bool found = false;
+        for( auto candidate_material : mat_idents ) {
+            if( candidate_material == target_material ) {
+                found = true;
+                break;
+            }
+        }
+        if( !found ) {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool item::made_of(std::string mat_ident) const
+{
+    if (is_null()) {
+        return false;
     }
 
-    return material_type::find_material(m == 1 ? type->m1 : type->m2);
+    std::vector<std::string> mat_composed_of = made_of();
+    for (auto m : mat_composed_of) {
+        if (m == mat_ident) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool item::made_of(phase_id phase) const
 {
-    if( is_null() )
+    if (is_null()) {
         return false;
-
+    }
     return (type->phase == phase);
 }
 
+
 bool item::conductive() const
 {
-    if( is_null() )
+    if (is_null()) {
         return false;
+    }
 
-    const material_type* cur_mat1 = get_material(1);
-    const material_type* cur_mat2 = get_material(2);
-
-    //Looks ugly, but prevents "null" 2nd material from making weapon conductive
-    //Unsure if there is a better way to determine 2nd material is "null"
-    return (cur_mat1->elec_resist() <= 0 || (!cur_mat2->is_null() &&
-                                             cur_mat2->elec_resist() <= 0));
+    // If any material does not resist electricity we are conductive.
+    for (auto mat : made_of_types()) {
+        if (!mat->is_null() && mat->elec_resist() <= 0) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool item::destroyed_at_zero_charges()
@@ -2280,10 +2324,26 @@ bool item::is_container_empty() const
 
 bool item::is_container_full() const
 {
-    if (is_container_empty())
+    if( is_container_empty() ) {
         return false;
-
+    }
     return get_remaining_capacity() == 0;
+}
+
+bool item::is_salvageable() const
+{
+    if( is_null() ) {
+        return false;
+    }
+    return !has_flag("NO_SALVAGE");
+}
+
+bool item::is_disassemblable() const
+{
+    if( is_null() ) {
+        return false;
+    }
+    return g->get_disassemble_recipe(typeId()) != NULL;
 }
 
 bool item::is_funnel_container(int &bigger_than) const
@@ -2789,12 +2849,8 @@ int item::pick_reload_ammo(player &u, bool interactive)
             am.insert(am.end(), tmpammo.begin(), tmpammo.end());
         }
     } else { //non-gun.
-        // this is probably a tool.  Check if it uses atomic power instead of batteries
-        if (has_flag("ATOMIC_AMMO")) {
-            am = u.has_ammo("plutonium");
-        } else {
-            am = u.has_ammo(ammo_type());
-        }
+        // this is probably a tool.
+        am = u.has_ammo( ammo_type() );
     }
 
     if (am.empty()) {
@@ -2999,9 +3055,7 @@ bool item::reload(player &u, int pos)
             reload_target->charges++;
             ammo_to_use->charges--;
         }
-        else if (reload_target->typeId() == "adv_UPS_off" ||
-                 reload_target->typeId() == "adv_UPS_on" || reload_target->has_flag("ATOMIC_AMMO") ||
-                 reload_target->typeId() == "rm13_armor" || reload_target->typeId() == "rm13_armor_on") {
+        else if( reload_target->ammo_type() == "plutonium" ) {
             int charges_per_plut = 500;
             long max_plut = floor( static_cast<float>((max_load - reload_target->charges) /
                                                       charges_per_plut) );
@@ -3049,15 +3103,11 @@ bool item::burn(int amount)
 
 bool item::flammable() const
 {
-    const material_type* cur_mat1 = get_material(1);
-    const material_type* cur_mat2 = get_material(2);
-    if( cur_mat1->is_null() && cur_mat2->is_null() ) {
-        // All materials null means it could be anything, or nothing (software)
-        // anyway, if it does not have a material, it does not burn.
-        return false;
+    int flammability = 0;
+    for( auto mat : made_of_types() ) {
+        flammability += mat->fire_resist();
     }
-
-    return ((cur_mat1->fire_resist() + cur_mat2->fire_resist()) <= 0);
+    return flammability <= 0;
 }
 
 std::ostream & operator<<(std::ostream & out, const item * it)
@@ -3281,6 +3331,47 @@ bool item::use_amount(const itype_id &it, int &quantity, bool use_container, std
     } else {
         return false;
     }
+}
+
+bool item::fill_with( item &liquid, std::string &err )
+{
+    LIQUID_FILL_ERROR error;
+    int remaining_capacity = get_remaining_capacity_for_liquid( liquid, error );
+    if( remaining_capacity <= 0 ) {
+        switch ( error ) {
+        case L_ERR_NO_MIX:
+            err = string_format( _( "You can't mix loads in your %s." ), tname().c_str() );
+            break;
+        case L_ERR_NOT_CONTAINER:
+            err = string_format( _( "That %s won't hold %s." ), tname().c_str(), liquid.tname().c_str());
+            break;
+        case L_ERR_NOT_WATERTIGHT:
+            err = string_format( _( "That %s isn't water-tight." ), tname().c_str());
+            break;
+        case L_ERR_NOT_SEALED:
+            err = string_format( _( "You can't seal that %s!" ), tname().c_str());
+            break;
+        case L_ERR_FULL:
+            err = string_format( _( "Your %s can't hold any more %s." ), tname().c_str(), liquid.tname().c_str());
+            break;
+        default:
+            break;
+        }
+        return false;
+    }
+
+    int amount = std::min( (long)remaining_capacity, liquid.charges );
+
+    if( !is_container_empty() ) {
+        contents[0].charges += amount;
+    } else {
+        item liquid_copy = liquid;
+        liquid_copy.charges = amount;
+        put_in( liquid_copy );
+    }
+    liquid.charges -= amount;
+
+    return true;
 }
 
 long item::charges_of(const itype_id &it) const
@@ -3672,7 +3763,7 @@ bool item::process_corpse( player *carrier, point pos )
     if( corpse == nullptr ) {
         return false;
     }
-    if( !ready_to_revive() ) {
+    if( !ready_to_revive( pos ) ) {
         return false;
     }
     if( rng( 0, volume() ) > burnt && g->revive_corpse( pos.x, pos.y, this ) ) {
@@ -3844,7 +3935,7 @@ bool item::process_wet( player * /*carrier*/, point /*pos*/ )
     return true;
 }
 
-bool item::process_tool( player *carrier, point /*pos*/ )
+bool item::process_tool( player *carrier, point pos )
 {
     it_tool *tmp = dynamic_cast<it_tool *>( type );
     long charges_used = 0;
@@ -3860,7 +3951,7 @@ bool item::process_tool( player *carrier, point /*pos*/ )
             if( charges > charges_used ) {
                 charges -= charges_used;
                 charges_used = 0;
-            } else if( carrier->use_charges_if_avail( "UPS_on", charges_used ) ) {
+            } else if( carrier->use_charges_if_avail( "UPS", charges_used ) ) {
                 charges_used = 0;
             }
         } else if( charges > 0 ) {
@@ -3874,18 +3965,18 @@ bool item::process_tool( player *carrier, point /*pos*/ )
     if( charges_used == 0 ) {
         // TODO: iuse functions should expect a nullptr as player, but many of them
         // don't and therefore will fail.
-        tmp->invoke( carrier != nullptr ? carrier : &g->u, this, true );
+        tmp->invoke( carrier != nullptr ? carrier : &g->u, this, true, pos );
         if( charges == -1 ) {
             // Signal that the item has destroyed itself.
             return true;
         }
     } else {
         if( carrier != nullptr && has_flag( "USE_UPS" ) && charges < charges_used ) {
-            carrier->add_msg_if_player( m_info, _( "You need an active UPS to run %s!" ), tname().c_str() );
+            carrier->add_msg_if_player( m_info, _( "You need an UPS to run %s!" ), tname().c_str() );
         }
         // TODO: iuse functions should expect a nullptr as player, but many of them
         // don't and therefor will fail.
-        tmp->invoke( carrier != nullptr ? carrier : &g->u, this, false );
+        tmp->invoke( carrier != nullptr ? carrier : &g->u, this, false, pos );
         if( tmp->revert_to == "null" ) {
             return true; // reverts to nothing -> destroy the item
         }
@@ -3906,7 +3997,7 @@ bool item::process_charger_gun( player *carrier, point pos )
         return false;
     }
     if( charges == 8 ) { // Maintaining charge takes less power.
-        if( carrier->use_charges_if_avail( "UPS_on", 4 ) ) {
+        if( carrier->use_charges_if_avail( "UPS", 4 ) ) {
             poison++;
         } else {
             poison--;
@@ -3924,7 +4015,7 @@ bool item::process_charger_gun( player *carrier, point pos )
             carrier->add_msg_player_or_npc( m_warning, _( "Your %s beeps alarmingly." ), _( "<npcname>'s %s beeps alarmingly." ), tname().c_str() );
         }
     } else { // We're chargin it up!
-        if( carrier->use_charges_if_avail( "UPS_on", 1 + charges ) ) {
+        if( carrier->use_charges_if_avail( "UPS", 1 + charges ) ) {
             poison++;
         } else {
             poison--;
@@ -3945,14 +4036,18 @@ bool item::process_charger_gun( player *carrier, point pos )
     return false;
 }
 
-bool item::process( player *carrier, point pos )
+bool item::process( player *carrier, point pos, bool activate )
 {
     for( auto it = contents.begin(); it != contents.end(); ) {
-        if( it->process( carrier, pos ) ) {
+        if( it->process( carrier, pos, activate ) ) {
             it = contents.erase( it );
         } else {
             ++it;
         }
+    }
+    if( activate ) {
+        it_tool *tmp = dynamic_cast<it_tool *>( type );
+        return tmp->invoke( carrier != nullptr ? carrier : &g->u, this, false, pos );
     }
     // How this works: it checks what kind of processing has to be done
     // (e.g. for food, for drying towels, lit cigars), and if that matches,

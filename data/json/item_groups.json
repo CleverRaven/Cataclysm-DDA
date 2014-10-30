@@ -41,7 +41,8 @@
       ["candycigarette", 10],
       ["radio_car_box", 1],
       ["basketball", 8],
-      ["radiocontrol", 5]
+      ["radiocontrol", 5],
+      ["slingshot", 10]
     ]
   },{
     "type" : "item_group",
@@ -1120,7 +1121,12 @@
       ["maid_hat", 3],
       ["knitting_needles", 1],
       ["survnote", 1],
-      ["b_shorts", 15]
+      ["b_shorts", 15],
+      ["halter_top", 30],
+      ["linuxtshirt", 10],
+      ["kilt", 5],
+      ["nanoskirt", 10],
+      ["sleeveless_tunic", 5]
     ]
   },{
     "type" : "item_group",
@@ -2018,7 +2024,9 @@
       ["fencing_foil", 8],
       ["fencing_sabre", 8],
       ["fencing_epee", 8],
-      ["survnote", 1]
+      ["survnote", 1],
+      ["halter_top", 30],
+      ["linuxtshirt", 10]
     ]
   },{
     "type" : "item_group",
@@ -2329,7 +2337,9 @@
       ["fencing_foil", 10],
       ["fencing_sabre", 10],
       ["fencing_epee", 10],
-      ["survnote", 1]
+      ["survnote", 1],
+      ["slingshot", 10],
+      ["wristrocket", 5]
     ]
   },{
     "type" : "item_group",
@@ -2672,6 +2682,7 @@
       ["rm88_battle_rifle", 1],
       ["rm11b_sniper_rifle", 1],
       ["rm614_lmg", 1],
+      ["rm298", 1],
       ["rm2000_smg", 1],
       ["rm99_pistol", 1],
       ["rm103a_pistol", 1],
@@ -2836,7 +2847,9 @@
       ["sundress", 50],
       ["dress_wedding", 1],
       ["postman_shorts", 5],
-      ["b_shorts", 15]
+      ["b_shorts", 15],
+      ["kilt", 5],
+      ["nanoskirt", 10]
     ]
   },{
     "type" : "item_group",
@@ -2856,7 +2869,10 @@
       ["skinny_tie", 10],
       ["tieclip", 5],
       ["collarpin", 5],
-      ["postman_shirt", 5]
+      ["postman_shirt", 5],
+      ["halter_top", 50],
+      ["linuxtshirt", 10],
+      ["sleeveless_tunic", 5]
     ]
   },{
     "type" : "item_group",
@@ -2964,7 +2980,7 @@
       ["shorts_cargo", 50],
       ["skirt", 75],
       ["skirt_leather", 5],
-      ["tshirt", 80],
+      ["tshirt", 70],
       ["longshirt", 80],
       ["polo_shirt", 65],
       ["dress_shirt", 60],
@@ -3040,6 +3056,9 @@
       ["boots_combat", 10],
       ["pants_army", 10],
       ["jacket_army", 10],
+      ["winter_pants_army", 10],
+      ["winter_jacket_army", 10],
+      ["winter_gloves_army", 10],
       ["army_top", 20],
       ["tux", 1],
       ["dress_wedding", 1],
@@ -3052,7 +3071,14 @@
       ["postman_shirt", 5],
       ["postman_hat", 5],
       ["maid_dress", 3],
-      ["maid_hat", 3]
+      ["maid_hat", 3],
+      ["halter_top", 50],
+      ["linuxtshirt", 20],
+      ["kilt", 5],
+      ["nanoskirt", 10],
+      ["sleeveless_tunic", 5],
+      ["ear_spool",30]
+      
     ]
   },{
     "type" : "item_group",
@@ -3094,7 +3120,8 @@
       ["knife_swissarmy", 6],
       ["multitool", 8],
       ["touring_suit", 20],
-      ["helmet_motor", 14]
+      ["helmet_motor", 14],
+      ["kilt", 5]
     ]
   },{
     "type" : "item_group",
@@ -3491,6 +3518,7 @@
       ["mobile_memory_card", 6],
       ["laptop", 2],
       ["badge_deputy", 5],
+      ["badge_detective", 5],
       ["gloves_leather", 45],
       ["gloves_tactical", 10],
       ["tac_helmet", 15],
@@ -3698,6 +3726,7 @@
       ["ar15", 15],
       ["m4a1", 9],
       ["h&k416a5", 9],
+      ["m1014", 5],
       ["m249", 2],
       ["m27iar", 2],
       ["ak47", 7],
@@ -3711,6 +3740,7 @@
       ["walther_ppk", 5],
       ["win70", 6],
       ["rifle_flintlock", 4],
+      ["carbine_flintlock", 4],
       ["mosin91_30", 5],
       ["mosin44", 5],
       ["l_HFPack", 1],
@@ -3745,6 +3775,7 @@
       ["sig_p230", 4],
       ["weatherby_5", 8],
       ["rifle_flintlock", 5],
+      ["carbine_flintlock", 4],
       ["pistol_flintlock", 9],
       ["flintlock_ammo", 7],
       ["mosin44", 5],
@@ -4561,6 +4592,9 @@
       ["pants", 75],
       ["pants_army", 30],
       ["jacket_army", 30],
+      ["winter_pants_army", 10],
+      ["winter_jacket_army", 10],
+      ["winter_gloves_army", 10],
       ["army_top", 30],
       ["skirt", 75],
       ["skirt_leather", 5],
@@ -4750,7 +4784,13 @@
       ["radio_car_box", 1],
       ["radiocontrol", 3],
       ["peephole", 1],
-      ["magnifying_glass", 2]
+      ["magnifying_glass", 2],
+      ["ear_spool",30],
+      ["halter_top", 40],
+      ["linuxtshirt", 15],
+      ["kilt", 5],
+      ["nanoskirt", 10],
+      ["sleeveless_tunic", 5]
     ]
   },{
     "type" : "item_group",
@@ -5711,11 +5751,7 @@
       ["flamethrower", 20],
       ["rm451_flamethrower", 5],
       ["m249", 30],
-      ["m4a1", 30],
-      ["m9", 30],
-      ["h&k416a5", 30],
       ["m27iar", 30],
-      ["m2010", 10],
       ["m2browning", 15],
       ["mark19", 15],
       ["556", 30],
@@ -5723,7 +5759,6 @@
       ["40mm_shot", 6],
       ["8mm_hvp", 4],
       ["556_incendiary", 10],
-      ["300_winmag", 10],
       ["rm802", 5],
       ["40mm_concussive", 7],
       ["40mm_flechette", 6],
@@ -5734,6 +5769,7 @@
       ["hk_g80", 5],
       ["12mm", 5],
       ["rm614_lmg", 2],
+      ["rm298", 1],
       ["m107a1", 8],
       ["50bmg", 12],
       ["50ss", 8],
@@ -5764,6 +5800,7 @@
       ["plasma", 8],
       ["m4a1", 10],
       ["h&k416a5", 10],
+      ["m1014", 3],
       ["m9", 10],
       ["9mm", 6],
       ["l_mbr_223", 6],
@@ -5833,6 +5870,9 @@
     "items":[
       ["pants_army", 30],
       ["jacket_army", 30],
+      ["winter_pants_army", 10],
+      ["winter_jacket_army", 10],
+      ["winter_gloves_army", 10],
       ["army_top", 30],
       ["kevlar", 10],
       ["modularvest", 15],
@@ -5936,6 +5976,7 @@
     "id" : "mil_armor_pants",
     "items":[
       ["pants_army", 30],
+      ["winter_pants_army", 10],
       ["pants", 75],
       ["pants_cargo", 70],
       ["legrig", 10],
@@ -6160,6 +6201,9 @@
       ["shorts_cargo", 50],
       ["pants_army", 30],
       ["jacket_army", 30],
+      ["winter_pants_army", 10],
+      ["winter_jacket_army", 10],
+      ["winter_gloves_army", 10],
       ["jumpsuit", 20],
       ["jacket_leather", 30],
       ["sleeveless_trenchcoat", 5],
@@ -6673,6 +6717,7 @@
       ["ak47", 16],
       ["m4a1", 7],
       ["h&k416a5", 3],
+      ["m1014", 1],
       ["steyr_aug", 6],
       ["v29", 1],
       ["nx17", 1],
@@ -6939,6 +6984,9 @@
       ["hose", 15],
       ["pants_army", 30],
       ["jacket_army", 30],
+      ["winter_pants_army", 10],
+      ["winter_jacket_army", 10],
+      ["winter_gloves_army", 10],
       ["army_top", 30],
       ["boots_combat", 10],
       ["gloves_tactical", 10],
@@ -6958,6 +7006,7 @@
       ["plut_cell", 10],
       ["m249", 1],
       ["rm614_lmg", 1],
+      ["rm298", 1],
       ["v8_combustion", 10],
       ["extinguisher", 20],
       ["radio", 20],
@@ -7031,6 +7080,9 @@
       ["boots_combat", 50],
       ["pants_army", 30],
       ["jacket_army", 30],
+      ["winter_pants_army", 10],
+      ["winter_jacket_army", 10],
+      ["winter_gloves_army", 10],
       ["army_top", 30],
       ["kevlar", 10],
       ["modularvest", 15],
@@ -7099,6 +7151,7 @@
       ["usp_45", 6],
       ["m4a1", 7],
       ["h&k416a5", 7],
+      ["m1014", 2],
       ["scar_l", 6],
       ["scar_h", 5],
       ["m249", 1],
@@ -7590,7 +7643,8 @@
       ["wakizashi", 1],
       ["tanto", 4],
       ["katana", 1],
-      ["survnote", 3]
+      ["survnote", 3],
+      ["ear_spool",30]
     ]
   },{
     "type" : "item_group",
@@ -8063,9 +8117,11 @@
       ["pants_cargo", 40],
       ["shorts_cargo", 22],
       ["pants_army", 28],
+      ["winter_pants_army", 10],
       ["bunker_pants", 14],
       ["pants_leather", 18],
-      ["skirt", 6]
+      ["skirt", 6],
+      ["kilt", 1]
     ]
   },{
     "type" : "item_group",
@@ -8512,6 +8568,7 @@
       ["brooch", 12],
       ["locket", 12],
       ["pistol_flintlock", 4],
+      ["carbine_flintlock", 4],
       ["rifle_flintlock", 4],
       ["boxing_gloves", 12]
     ]
@@ -8534,6 +8591,7 @@
       ["wakizashi_fake", 8],
       ["kris_fake", 8],
       ["pistol_flintlock", 4],
+      ["carbine_flintlock", 4],
       ["rifle_flintlock", 4],
       ["petrified_eye", 2]
     ]
@@ -8635,6 +8693,7 @@
 "id" : "museum_guns",
 "items" : [
       ["pistol_flintlock", 60],
+      ["carbine_flintlock", 4],
       ["rifle_flintlock", 60],
       ["flintlock_ammo", 60],
       ["colt_army", 50],

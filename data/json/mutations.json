@@ -4055,6 +4055,52 @@
         "threshold": true
     },{
         "type" : "mutation",
+        "id" : "PROF_POLICE",
+        "name" : "Police Officer",
+        "points" : 0,
+        "description" : "You are a duly sworn law enforcement officer, with jurisdiction throughout the New England region thanks to interstate agreements.  Whether that means anything now is another question.",
+        "valid": false,
+        "purifiable": false,
+        "profession": true
+    },{
+        "type" : "mutation",
+        "id" : "PROF_PD_DET",
+        "name" : "Police Detective",
+        "points" : 0,
+        "description" : "You are a duly sworn law enforcement investigator, with jurisdiction throughout the New England region thanks to interstate agreements.  Whether your shield means anything now is another question.",
+        "valid": false,
+        "purifiable": false,
+        "profession": true
+    },{
+        "type" : "mutation",
+        "id" : "PROF_FED",
+        "name" : "US Marshal",
+        "points" : 0,
+        "description" : "You are a duly sworn Federal marshal, with nationwide jurisdiction and the authority of the United States of America.",
+        "valid": false,
+        "purifiable": false,
+        "profession": true
+    },{
+        "type" : "mutation",
+        "id" : "PROF_MED",
+        "name" : "MD",
+        "points" : 0,
+        "//" : "In the US, a medical 'residency' is essentially an extended post-graduate, on-the-job medical training.  The idea here is that hopsital computer systems would recognize the PC as a valid user and grant access.",
+        "description" : "You were just through with the administrative formalities for your residency when the cataclysm struck.  \"Your\" hospital was overrun and evacuated, but there's always work for a good doctor.",
+        "valid": false,
+        "purifiable": false,
+        "profession": true
+    },{
+        "type" : "mutation",
+        "id" : "PROF_SKATER",
+        "name" : "Skater",
+        "points" : 0,
+        "description" : "You spent a lot of time actively maneuvering on skates before the cataclysm, and are better at staying on your feet when checked or blocked.",
+        "valid": false,
+        "purifiable": false,
+        "profession": true
+    },{
+        "type" : "mutation",
         "id" : "DEBUG_NIGHTVISION",
         "name" : "Debug Vision",
         "points" : 99,

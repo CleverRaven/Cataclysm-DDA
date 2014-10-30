@@ -54,6 +54,8 @@ std::string morale_data[NUM_MORALE_TYPES];
 
 stats player_stats;
 
+static const itype_id OPTICAL_CLOAK_ITEM_ID( "optical_cloak" );
+
 void game::init_morale()
 {
     std::string tmp_morale_data[NUM_MORALE_TYPES] = {
@@ -2530,7 +2532,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
         iBodyTempInt = (temp_conv[i] / 100.0) * 2 - 100; // Scale of -100 to +100
         iEnc = encumb(aBodyPart[i], iLayers, iArmorEnc);
         mvwprintz(w_encumb, i + 1, 1, c_ltgray, "%s", asText[i].c_str());
-        mvwprintz(w_encumb, i + 1, 8, c_ltgray, "(%d)", iLayers);
+        mvwprintz(w_encumb, i + 1, 8, c_ltgray, "(%d)", static_cast<int>( iLayers ) );
         mvwprintz(w_encumb, i + 1, 11, c_ltgray, "%*s%d%s%d=", (iArmorEnc < 0 || iArmorEnc > 9 ? 1 : 2),
                   " ", iArmorEnc, "+", iEnc - iArmorEnc);
         wprintz(w_encumb, encumb_color(iEnc), "%s%d", (iEnc < 0 || iEnc > 9 ? "" : " ") , iEnc);
@@ -2543,16 +2545,22 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
     mvwprintz(w_traits, 0, 13 - utf8_width(title_TRAITS)/2, c_ltgray, title_TRAITS);
     std::sort(traitslist.begin(), traitslist.end(), trait_display_sort);
     for (size_t i = 0; i < traitslist.size() && i < trait_win_size_y; i++) {
-        if (mutation_data[traitslist[i]].threshold == true)
+        if ( (mutation_data[traitslist[i]].threshold == true) ||
+            (mutation_data[traitslist[i]].profession == true) ) {
             status = c_white;
-        else if (traits[traitslist[i]].mixed_effect == true)
+        }
+        else if (traits[traitslist[i]].mixed_effect == true) {
             status = c_pink;
-        else if (traits[traitslist[i]].points > 0)
+        }
+        else if (traits[traitslist[i]].points > 0) {
             status = c_ltgreen;
-        else if (traits[traitslist[i]].points < 0)
+        }
+        else if (traits[traitslist[i]].points < 0) {
             status = c_ltred;
-        else
+        }
+        else {
             status = c_yellow;
+        }
         mvwprintz(w_traits, i+1, 1, status, traits[traitslist[i]].name.c_str());
     }
     wrefresh(w_traits);
@@ -2881,7 +2889,7 @@ detecting traps and other things of interest."));
                 } else {
                     mvwprintz(w_encumb, i + 1 - min, 1, c_ltgray, "%s", asText[i].c_str());
                 }
-                mvwprintz(w_encumb, i + 1 - min, 8, c_ltgray, "(%d)", iLayers);
+                mvwprintz(w_encumb, i + 1 - min, 8, c_ltgray, "(%d)", static_cast<int>( iLayers ) );
                 mvwprintz(w_encumb, i + 1 - min, 11, c_ltgray, "%*s%d%s%d=", (iArmorEnc < 0 || iArmorEnc > 9 ? 1 : 2),
                           " ", iArmorEnc, "+", iEnc - iArmorEnc);
                 wprintz(w_encumb, encumb_color(iEnc), "%s%d", (iEnc < 0 || iEnc > 9 ? "" : " ") , iEnc);
@@ -2975,16 +2983,22 @@ Perception %+.1f when throwing items."),
                 mvwprintz(w_traits, 1 + i - min, 1, c_ltgray, "                         ");
                 if (i > traits.size())
                     status = c_ltblue;
-                else if (mutation_data[traitslist[i]].threshold == true)
+                else if ( (mutation_data[traitslist[i]].threshold == true) ||
+                        (mutation_data[traitslist[i]].profession == true) ) {
                     status = c_white;
-                else if (traits[traitslist[i]].mixed_effect == true)
+                }
+                else if (traits[traitslist[i]].mixed_effect == true) {
                     status = c_pink;
-                else if (traits[traitslist[i]].points > 0)
+                }
+                else if (traits[traitslist[i]].points > 0) {
                     status = c_ltgreen;
-                else if (traits[traitslist[i]].points < 0)
+                }
+                else if (traits[traitslist[i]].points < 0) {
                     status = c_ltred;
-                else
+                }
+                else {
                     status = c_yellow;
+                }
                 if (i == line) {
                     mvwprintz(w_traits, 1 + i - min, 1, hilite(status), "%s",
                               traits[traitslist[i]].name.c_str());
@@ -3013,16 +3027,22 @@ Perception %+.1f when throwing items."),
                 mvwprintz(w_traits, 0, 13 - utf8_width(title_TRAITS)/2, c_ltgray, title_TRAITS);
                 for (size_t i = 0; i < traitslist.size() && i < trait_win_size_y; i++) {
                     mvwprintz(w_traits, i + 1, 1, c_black, "                         ");
-                    if (mutation_data[traitslist[i]].threshold == true)
+                    if ((mutation_data[traitslist[i]].threshold == true) ||
+                        (mutation_data[traitslist[i]].profession == true)) {
                         status = c_white;
-                    else if (traits[traitslist[i]].mixed_effect == true)
+                    }
+                    else if (traits[traitslist[i]].mixed_effect == true) {
                         status = c_pink;
-                    else if (traits[traitslist[i]].points > 0)
+                    }
+                    else if (traits[traitslist[i]].points > 0) {
                         status = c_ltgreen;
-                    else if (traits[traitslist[i]].points < 0)
+                    }
+                    else if (traits[traitslist[i]].points < 0) {
                         status = c_ltred;
-                    else
+                    }
+                    else {
                         status = c_yellow;
+                    }
                     mvwprintz(w_traits, i + 1, 1, status, "%s", traits[traitslist[i]].name.c_str());
                 }
                 wrefresh(w_traits);
@@ -3807,10 +3827,13 @@ bool player::in_climate_control()
     bool regulated_area=false;
     // Check
     if(has_active_bionic("bio_climate")) { return true; }
-    if ((is_wearing("rm13_armor_on")) || (is_wearing_power_armor() &&
-        (has_active_UPS() || has_active_bionic("bio_power_armor_interface") || has_active_bionic("bio_power_armor_interface_mkII"))))
-    {
-        return true;
+    for( auto &w : worn ) {
+        if( w.typeId() == "rm13_armor_on" ) {
+            return true;
+        }
+        if( w.active && dynamic_cast<it_armor*>( w.type )->is_power_armor() ) {
+            return true;
+        }
     }
     if(int(calendar::turn) >= next_climate_control_check)
     {
@@ -3873,14 +3896,14 @@ bool player::has_bionic(const bionic_id & b) const
     return false;
 }
 
-bool player::has_active_optcloak() const {
-  static const std::string str_optical_cloak("optical_cloak");
-
-  if (has_active_UPS() && is_wearing(str_optical_cloak)) {
-    return true;
-  } else {
+bool player::has_active_optcloak() const
+{
+    for( auto &w : worn ) {
+        if( w.active && w.typeId() == OPTICAL_CLOAK_ITEM_ID ) {
+            return true;
+        }
+    }
     return false;
-  }
 }
 
 bool player::has_active_bionic(const bionic_id & b) const
@@ -4899,12 +4922,7 @@ void player::heal(body_part healed, int dam)
             debugmsg("Wacky body part healed!");
             healpart = hp_torso;
     }
-    hp_cur[healpart] += dam;
-    if (hp_cur[healpart] > hp_max[healpart]) {
-        lifetime_stats()->damage_healed -= hp_cur[healpart] - hp_max[healpart];
-        hp_cur[healpart] = hp_max[healpart];
-    }
-    lifetime_stats()->damage_healed+=dam;
+    heal( healpart, dam );
 }
 
 void player::heal(hp_part healed, int dam)
@@ -4919,15 +4937,8 @@ void player::heal(hp_part healed, int dam)
 
 void player::healall(int dam)
 {
-    for (int i = 0; i < num_hp_parts; i++) {
-        if (hp_cur[i] > 0) {
-            hp_cur[i] += dam;
-            if (hp_cur[i] > hp_max[i]) {
-                lifetime_stats()->damage_healed -= hp_cur[i] - hp_max[i];
-                hp_cur[i] = hp_max[i];
-            }
-            lifetime_stats()->damage_healed += dam;
-        }
+    for( int healed_part = 0; healed_part < num_hp_parts; healed_part++) {
+        heal( (hp_part)healed_part, dam );
     }
 }
 
@@ -6791,43 +6802,76 @@ bool player::has_active_item(const itype_id & id) const
 
 void player::process_active_items()
 {
-    if( weapon.process( this, pos() ) ) {
+    if( weapon.needs_processing() && weapon.process( this, pos(), false ) ) {
         weapon = ret_null;
     }
 
     std::vector<item *> inv_active = inv.active_items();
     for (std::vector<item *>::iterator iter = inv_active.begin(); iter != inv_active.end(); ++iter) {
         item *tmp_it = *iter;
-        if( tmp_it->process( this, pos() ) ) {
+        if( tmp_it->process( this, pos(), false ) ) {
             inv.remove_item(tmp_it);
         }
     }
 
     // worn items
     for (size_t i = 0; i < worn.size(); i++) {
-        if( worn[i].process( this, pos() ) ) {
+        if( worn[i].needs_processing() && worn[i].process( this, pos(), false ) ) {
             worn.erase(worn.begin() + i);
             i--;
         }
     }
 
-    // Drain UPS if using optical cloak.
-    // TODO: Move somewhere else.
-    long ch_UPS = charges_of("UPS_on");
-    if (ch_UPS > 0 && is_wearing("optical_cloak")) {
-        // Drain UPS.
-        if ( ch_UPS >= 40 ) {
-            use_charges("UPS_on", 40);
-            if (ch_UPS < 200 && one_in(3))
-                add_msg_if_player( m_warning, _("Your optical cloak flickers for a moment!"));
+    long ch_UPS = charges_of( "UPS" );
+    item *cloak = nullptr;
+    item *power_armor = nullptr;
+    // Manual iteration because we only care about *worn* active items.
+    for( auto &w : worn ) {
+        if( !w.active ) {
+            continue;
+        }
+        if( w.typeId() == OPTICAL_CLOAK_ITEM_ID ) {
+            cloak = &w;
+        }
+        // Only the main power armor item can be active, the other ones (hauling frame, helmet) aren't.
+        if( power_armor == nullptr && dynamic_cast<it_armor*>( w.type )->is_power_armor() ) {
+            power_armor = &w;
+        }
+    }
+    if( cloak != nullptr ) {
+        if( ch_UPS >= 40 ) {
+            use_charges( "UPS", 40 );
+            if( ch_UPS < 200 && one_in( 3 ) ) {
+                add_msg_if_player( m_warning, _( "Your optical cloak flickers for a moment!" ) );
+            }
+        } else if( ch_UPS > 0 ) {
+            use_charges( "UPS", ch_UPS );
         } else {
-            // Drain last power.
-            use_charges("UPS_on", ch_UPS);
+            add_msg_if_player( m_warning, _( "Your optical cloak flickers for a moment as it becomes opaque." ) );
+            // Bypass the "you deactivate the ..." message
+            cloak->active = false;
+        }
+    }
+    static const std::string BIO_POWER_ARMOR_INTERFACE( "bio_power_armor_interface" );
+    static const std::string BIO_POWER_ARMOR_INTERFACE_MK_II( "bio_power_armor_interface_mkII" );
+    const bool has_power_armor_interface = ( has_active_bionic( BIO_POWER_ARMOR_INTERFACE ) ||
+                                             has_active_bionic( BIO_POWER_ARMOR_INTERFACE_MK_II ) ) &&
+                                           power_level > 0;
+    // For power armor that is powered via the armor interface bionic, energy is consumed by that bionic
+    // (it's an active bionic consuming power on its own). The bionic is preferred over UPS usage.
+    // Only if the character does not have that bionic it falls back to the UPS.
+    if( power_armor != nullptr && !has_power_armor_interface ) {
+        if( ch_UPS > 0 ) {
+            use_charges( "UPS", 4 );
+        } else {
+            add_msg_if_player( m_warning, _( "Your power armor disengages." ) );
+            // Bypass the "you deactivate the ..." message
+            power_armor->active = false;
         }
     }
     // Load all items that use the UPS to their minimal functional charge,
     // The tool is not really useful if its charges are below charges_to_use
-    ch_UPS = charges_of( "UPS_on" ); // might have been changed by cloak
+    ch_UPS = charges_of( "UPS" ); // might have been changed by cloak
     long ch_UPS_used = 0;
     for( size_t i = 0; i < inv.size() && ch_UPS_used < ch_UPS; i++ ) {
         item &it = inv.find_item(i);
@@ -6840,7 +6884,7 @@ void player::process_active_items()
         }
     }
     if( weapon.has_flag( "USE_UPS" ) &&  ch_UPS_used < ch_UPS &&
-        weapon.charges < weapon.type->charges_to_use() ) {
+        weapon.charges < weapon.type->maximum_charges() ) {
         ch_UPS_used++;
         weapon.charges++;
     }
@@ -6857,7 +6901,7 @@ void player::process_active_items()
         }
     }
     if( ch_UPS_used > 0 ) {
-        use_charges( "UPS_on", ch_UPS_used );
+        use_charges( "UPS", ch_UPS_used );
     }
 }
 
@@ -7176,15 +7220,6 @@ std::list<item> player::use_charges(itype_id it, long quantity)
                 return ret;
             }
         }
-        const long charges_on = std::min( quantity, charges_of( "UPS_on" ) );
-        if ( charges_on > 0 ) {
-            std::list<item> tmp = use_charges( "UPS_on", charges_on );
-            ret.splice(ret.end(), tmp);
-            quantity -= charges_on;
-            if (quantity <= 0) {
-                return ret;
-            }
-        }
         return ret;
     }
     if (weapon.use_charges(it, quantity, ret)) {
@@ -7228,22 +7263,7 @@ std::list<item> player::use_charges(itype_id it, long quantity)
             }
         }
     }
-    if ( it == "UPS_on" ) {
-        long quantity_adv = ceil(quantity * 0.6);
-        long avail_adv = charges_of("adv_UPS_on");
-        long adv_charges_to_use = std::min(avail_adv, quantity_adv);
-        if (adv_charges_to_use > 0) {
-            std::list<item> tmp = use_charges("adv_UPS_on", adv_charges_to_use);
-            ret.splice(ret.end(), tmp);
-            quantity -= static_cast<long>(adv_charges_to_use / 0.6);
-            if (quantity <= 0) {
-                return ret;
-            }
-        }
-    }
-    if ( power_level > 0 && (
-        (it == "UPS_off" && has_bionic( "bio_ups" )) ||
-        (it == "UPS_on" && has_active_bionic( "bio_ups" )))) {
+    if ( power_level > 0 && it == "UPS_off" && has_bionic( "bio_ups" ) ) {
         // Need always at least 1 power unit, to prevent exploits
         // and make sure power_level does not get negative
         long ch = std::max(1l, quantity / 10);
@@ -7445,14 +7465,7 @@ long player::charges_of(const itype_id &it) const
     // and as request for bionic UPS charges, both with their own multiplier
     if ( it == "UPS" ) {
         // This includes the UPS bionic (regardless of active state)
-        long quantity = charges_of( "UPS_off" );
-        // When the bionic is active, it is counted again as "UPS_on"
-        quantity += charges_of( "UPS_on" );
-        // therefor we have to remove it again:
-        if ( has_active_bionic( "bio_ups" ) ) {
-            quantity -= power_level * 10;
-        }
-        return quantity;
+        return charges_of( "UPS_off" );
     }
     // Now regular charges from all items (weapone,worn,inventory)
     long quantity = weapon.charges_of(it);
@@ -7466,13 +7479,8 @@ long player::charges_of(const itype_id &it) const
         // charges available, we must be able to remove at least N charges.
         quantity += static_cast<long>( floor( charges_of( "adv_UPS_off" ) / 0.6 ) );
     }
-    if ( it == "UPS_on" ) {
-        quantity += static_cast<long>( floor( charges_of( "adv_UPS_on" ) / 0.6 ) );
-    }
     if ( power_level > 0 ) {
         if ( it == "UPS_off" && has_bionic( "bio_ups" ) ) {
-            quantity += power_level * 10;
-        } else if ( it == "UPS_on" && has_active_bionic( "bio_ups" ) ) {
             quantity += power_level * 10;
         }
     }
@@ -7580,22 +7588,22 @@ int player::drink_from_hands(item& water) {
 }
 
 
-bool player::consume(int pos)
+bool player::consume(int target_position)
 {
     item *to_eat = NULL;
     it_comest *comest = NULL;
     int which = -3; // Helps us know how to delete the item which got eaten
 
-    if(pos == INT_MIN) {
+    if(target_position == INT_MIN) {
         add_msg_if_player( m_info, _("You do not have that item."));
         return false;
     } if (is_underwater()) {
         add_msg_if_player( m_info, _("You can't do that while underwater."));
         return false;
-    } else if( pos < -1 ) {
+    } else if( target_position < -1 ) {
         add_msg_if_player( m_info, _( "You can't eat worn items, you have to take them off." ) );
         return false;
-    } else if (pos == -1) {
+    } else if (target_position == -1) {
         // Consume your current weapon
         if (weapon.is_food_container(this)) {
             to_eat = &weapon.contents[0];
@@ -7616,7 +7624,7 @@ bool player::consume(int pos)
         }
     } else {
         // Consume item from inventory
-        item& it = inv.find_item(pos);
+        item& it = inv.find_item(target_position);
         if (it.is_food_container(this)) {
             to_eat = &(it.contents[0]);
             which = 1;
@@ -7654,19 +7662,19 @@ bool player::consume(int pos)
                 // Check tools
                 bool has = has_amount(comest->tool, 1);
                 // Tools with charges need to have charges, not just be present.
-                if (itypes[comest->tool]->count_by_charges()) {
+                if (item_controller->count_by_charges( comest->tool )) {
                     has = has_charges(comest->tool, 1);
                 }
                 if (!has) {
                     add_msg_if_player(m_info, _("You need a %s to consume that!"),
-                                         itypes[comest->tool]->nname(1).c_str());
+                                         item_controller->nname( comest->tool ).c_str());
                     return false;
                 }
                 use_charges(comest->tool, 1); // Tools like lighters get used
             }
             if (comest->has_use()) {
                 //Check special use
-                amount_used = comest->invoke(this, to_eat, false);
+                amount_used = comest->invoke(this, to_eat, false, pos());
                 if( amount_used <= 0 ) {
                     return false;
                 }
@@ -7698,10 +7706,10 @@ bool player::consume(int pos)
                 }
             }
             int charge = (to_eat->volume() + to_eat->weight()) / 9;
-            if (to_eat->type->m1 == "leather" || to_eat->type->m2 == "leather") {
+            if (to_eat->made_of("leather")) {
                 charge /= 4;
             }
-            if (to_eat->type->m1 == "wood" || to_eat->type->m2 == "wood") {
+            if (to_eat->made_of("wood")) {
                 charge /= 2;
             }
             charge_power(charge);
@@ -7726,11 +7734,11 @@ bool player::consume(int pos)
             weapon.contents.erase(weapon.contents.begin());
             add_msg_if_player(_("You are now wielding an empty %s."), weapon.tname().c_str());
         } else if (which == 0) {
-            inv.remove_item(pos);
+            inv.remove_item(target_position);
         } else if (which >= 0) {
-            item& it = inv.find_item(pos);
+            item& it = inv.find_item(target_position);
             it.contents.erase(it.contents.begin());
-            const bool do_restack = inv.const_stack(pos).size() > 1;
+            const bool do_restack = inv.const_stack(target_position).size() > 1;
             if (!is_npc()) {
                 bool drop_it = false;
                 if (OPTIONS["DROP_EMPTY"] == "no") {
@@ -7742,7 +7750,7 @@ bool player::consume(int pos)
                 }
                 if (drop_it) {
                     add_msg(_("You drop the empty %s."), it.tname().c_str());
-                    g->m.add_item_or_charges(posx, posy, inv.remove_item(pos));
+                    g->m.add_item_or_charges(posx, posy, inv.remove_item(target_position));
                 } else {
                     add_msg(m_info, _("%c - an empty %s"), it.invlet, it.tname().c_str());
                 }
@@ -7765,12 +7773,12 @@ bool player::eat(item *eaten, it_comest *comest)
     }
     if (comest->tool != "null") {
         bool has = has_amount(comest->tool, 1);
-        if (itypes[comest->tool]->count_by_charges()) {
+        if (item_controller->count_by_charges( comest->tool )) {
             has = has_charges(comest->tool, 1);
         }
         if (!has) {
             add_msg_if_player(m_info, _("You need a %s to consume that!"),
-                       itypes[comest->tool]->nname(1).c_str());
+                       item_controller->nname( comest->tool ).c_str());
             return false;
         }
     }
@@ -7960,7 +7968,7 @@ bool player::eat(item *eaten, it_comest *comest)
     }
 
     if (comest->has_use()) {
-        to_eat = comest->invoke(this, eaten, false);
+        to_eat = comest->invoke(this, eaten, false, pos());
         if( to_eat <= 0 ) {
             return false;
         }
@@ -8038,7 +8046,7 @@ bool player::eat(item *eaten, it_comest *comest)
         else healall(excess_food /= 5);
     }
 
-    if (itypes[comest->tool]->is_tool()) {
+    if (item_controller->find_template( comest->tool )->is_tool()) {
         use_charges(comest->tool, 1); // Tools like lighters get used
     }
 
@@ -8620,14 +8628,14 @@ hint_rating player::rate_action_wear(item *it)
     return HINT_GOOD;
 }
 
-bool player::wear(int pos, bool interactive)
+bool player::wear(int inventory_position, bool interactive)
 {
     item* to_wear = NULL;
-    if (pos == -1)
+    if (inventory_position == -1)
     {
         to_wear = &weapon;
     }
-    else if( pos < -1 ) {
+    else if( inventory_position < -1 ) {
         if( interactive ) {
             add_msg( m_info, _( "You are already wearing that." ) );
         }
@@ -8635,7 +8643,7 @@ bool player::wear(int pos, bool interactive)
     }
     else
     {
-        to_wear = &inv.find_item(pos);
+        to_wear = &inv.find_item(inventory_position);
     }
 
     if (to_wear->is_null())
@@ -8653,7 +8661,7 @@ bool player::wear(int pos, bool interactive)
         return false;
     }
 
-    if (pos == -1)
+    if (inventory_position == -1)
     {
         weapon = ret_null;
     }
@@ -9032,13 +9040,13 @@ bool player::takeoff( item *target, bool autodrop, std::vector<item> *items)
     return takeoff( get_item_position( target ), autodrop, items );
 }
 
-bool player::takeoff(int pos, bool autodrop, std::vector<item> *items)
+bool player::takeoff(int inventory_position, bool autodrop, std::vector<item> *items)
 {
     bool taken_off = false;
-    if (pos == -1) {
+    if (inventory_position == -1) {
         taken_off = wield(NULL, autodrop);
     } else {
-        int worn_index = worn_position_to_index(pos);
+        int worn_index = worn_position_to_index(inventory_position);
         if (worn_index >= 0 && size_t(worn_index) < worn.size()) {
             item &w = worn[worn_index];
 
@@ -9178,7 +9186,7 @@ hint_rating player::rate_action_disassemble(item *it) {
              list_iter != cat_iter->second.end();
              ++list_iter) {
             recipe* cur_recipe = *list_iter;
-            if (it->type == itypes[cur_recipe->result] && cur_recipe->reversible) {
+            if (it->type->id == cur_recipe->result && cur_recipe->reversible) {
                 /* ok, a valid recipe exists for the item, and it is reversible
                    assign the activity
                    check tools are available
@@ -9288,14 +9296,9 @@ bool player::has_enough_charges( const item &it, bool show_msg ) const
     return true;
 }
 
-bool player::has_active_UPS() const
+void player::use(int inventory_position)
 {
-    return has_active_bionic("bio_ups") || has_amount("UPS_on", 1) || has_amount("adv_UPS_on", 1);
-}
-
-void player::use(int pos)
-{
-    item* used = &i_at(pos);
+    item* used = &i_at(inventory_position);
     item copy;
 
     if (used->is_null()) {
@@ -9306,11 +9309,15 @@ void player::use(int pos)
     last_item = itype_id(used->type->id);
 
     if (used->is_tool()) {
+        if( !used->type->has_use() ) {
+            add_msg_if_player( _( "You can't do anything interesting with your %s." ), used->tname().c_str() );
+            return;
+        }
         it_tool *tool = dynamic_cast<it_tool*>(used->type);
         if (!has_enough_charges(*used, true)) {
             return;
         }
-        const long charges_used = tool->invoke( this, used, false );
+        const long charges_used = tool->invoke( this, used, false, pos() );
         if (charges_used <= 0) {
             // Canceled or not used up or whatever
             return;
@@ -9326,8 +9333,8 @@ void player::use(int pos)
         if( used->has_flag( "USE_UPS" ) ) {
             use_charges( "UPS", charges_used );
             //Replace 1 with charges it needs to use.
-            if( used->active && !has_active_UPS() && used->charges <= 1  ) {
-                add_msg_if_player( m_info, _( "You need an active UPS of some kind for this %s to work continuously." ), used->tname().c_str() );
+            if( used->active && used->charges <= 1 && !has_charges( "UPS", 1 ) ) {
+                add_msg_if_player( m_info, _( "You need an UPS of some kind for this %s to work continuously." ), used->tname().c_str() );
             }
         } else {
             used->charges -= std::min( used->charges, charges_used );
@@ -9444,14 +9451,14 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
     } else if (used->is_bionic()) {
         it_bionic* tmp = dynamic_cast<it_bionic*>(used->type);
         if (install_bionics(tmp)) {
-            i_rem(pos);
+            i_rem(inventory_position);
         }
         return;
     } else if (used->is_food() || used->is_food_container()) {
-        consume(pos);
+        consume(inventory_position);
         return;
     } else if (used->is_book()) {
-        read(pos);
+        read(inventory_position);
         return;
     } else if (used->is_gun()) {
         std::vector<item> &mods = used->contents;
@@ -9491,7 +9498,7 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
         moves -= int(used->reload_time(*this) / 2);
         return;
     } else if ( used->type->has_use() ) {
-        used->type->invoke(this, used, false);
+        used->type->invoke(this, used, false, pos());
         return;
     } else {
         add_msg(m_info, _("You can't do anything interesting with your %s."),
@@ -9554,7 +9561,7 @@ hint_rating player::rate_action_read(item *it)
  return HINT_GOOD;
 }
 
-void player::read(int pos)
+void player::read(int inventory_position)
 {
     vehicle *veh = g->m.veh_at (posx, posy);
     if (veh && veh->player_in_control (this)) {
@@ -9577,7 +9584,7 @@ void player::read(int pos)
     }
 
     // Find the object
-    item* it = &i_at(pos);
+    item* it = &i_at(inventory_position);
 
     if (it == NULL || it->is_null()) {
         add_msg(m_info, _("You do not have that item."));
@@ -9590,7 +9597,7 @@ void player::read(int pos)
         mac = dynamic_cast<it_macguffin*>(it->type);
     }
     if (mac != NULL) {
-        mac->invoke(this, it, false);
+        mac->invoke(this, it, false, pos());
         return;
     }
 
@@ -9623,7 +9630,7 @@ void player::read(int pos)
         // We're just skimming, so it's 10x faster.
         time /= 10;
 
-        activity = player_activity(ACT_READ, time - moves, -1, pos, "");
+        activity = player_activity(ACT_READ, time - moves, -1, inventory_position, "");
         // Never trigger studying when skimming the book.
         activity.values.push_back(0);
         moves = 0;
@@ -9696,7 +9703,7 @@ void player::read(int pos)
         time += (tmp->time * (tmp->intel - int_cur) * 100);
     }
 
-    activity = player_activity(ACT_READ, time, -1, pos, "");
+    activity = player_activity(ACT_READ, time, -1, inventory_position, "");
     // activity.get_value(0) == 1 means continuous studing until
     // the player gained the next skill level, this ensured by this:
     activity.values.push_back(study ? 1 : 0);
@@ -9880,7 +9887,7 @@ void player::do_read( item *book )
     }
 
     if( reading->has_use() ) {
-        reading->invoke( &g->u, book, false );
+        reading->invoke( &g->u, book, false, pos() );
     }
 
     activity.type = ACT_NULL;
@@ -9922,7 +9929,7 @@ bool player::try_study_recipe(it_book *book)
                 rng(0, 4) <= (skillLevel(iter->first->skill_used) - iter->second) / 2) {
                 learn_recipe((recipe *)iter->first);
                 add_msg(m_good, _("Learned a recipe for %s from the %s."),
-                                itypes[iter->first->result]->nname(1).c_str(), book->nname(1).c_str());
+                                item_controller->nname( iter->first->result ).c_str(), book->nname(1).c_str());
                 return true;
             } else {
                 add_msg(_("Failed to learn a recipe from the %s."), book->nname(1).c_str());
@@ -10272,6 +10279,13 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
     int ret = 0;
     double layer[MAX_CLOTHING_LAYER] = { };
     int level = 0;
+    bool is_wearing_active_power_armor = false;
+    for( auto &w : worn ) {
+        if( w.active && dynamic_cast<it_armor*>( w.type )->is_power_armor() ) {
+            is_wearing_active_power_armor = true;
+            break;
+        }
+    }
 
     const it_armor* armor = NULL;
     for (size_t i = 0; i < worn.size(); ++i) {
@@ -10293,10 +10307,7 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
             }
 
             layer[level]++;
-            if( armor->is_power_armor() &&
-                (has_active_UPS() ||
-                 has_active_bionic("bio_power_armor_interface") ||
-                 has_active_bionic("bio_power_armor_interface_mkII")) ) {
+            if( armor->is_power_armor() && is_wearing_active_power_armor ) {
                 armorenc += std::max( 0, armor->encumber - 4);
             } else {
                 armorenc += armor->encumber;
@@ -11586,7 +11597,7 @@ Creature *player::auto_find_hostile_target(int range, int &boo_hoo, int &fire_t)
         return NULL;
     }
     int t;
-    monster *target = NULL;
+    Creature *target = nullptr;
     const int iff_dist = 24; // iff check triggers at this distance
     int iff_hangle = 15; // iff safety margin (degrees). less accuracy, more paranoia
     int closest = range + 1;
@@ -11601,23 +11612,34 @@ Creature *player::auto_find_hostile_target(int range, int &boo_hoo, int &fire_t)
         }
         u_angle = g->m.coord_to_angle(posx, posy, g->u.posx, g->u.posy);
     }
+    std::vector<Creature*> targets;
     for (size_t i = 0; i < g->num_zombies(); i++) {
-        monster *m = &g->zombie(i);
-        if (m->friendly != 0) {
+        monster &m = g->zombie(i);
+        if (m.friendly != 0) {
             // friendly to the player, not a target for us
             continue;
         }
+        targets.push_back( &m );
+    }
+    for( auto &p : g->active_npc ) {
+        if( p->attitude != NPCATT_KILL ) {
+            // friendly to the player, not a target for us
+            continue;
+        }
+        targets.push_back( p );
+    }
+    for( auto &m : targets ) {
         if (!sees(m, t)) {
             // can't see nor sense it
             continue;
         }
-        int dist = rl_dist(posx, posy, m->posx(), m->posy());
+        int dist = rl_dist(posx, posy, m->xpos(), m->ypos());
         if (dist >= closest) {
             // Have a better target anyway, ignore this one.
             continue;
         }
         if (iff_trig) {
-            int tangle = g->m.coord_to_angle(posx, posy, m->posx(), m->posy());
+            int tangle = g->m.coord_to_angle(posx, posy, m->xpos(), m->ypos());
             int diff = abs(u_angle - tangle);
             if (diff + iff_hangle > 360 || diff < iff_hangle) {
                 // Player is in the way
@@ -11899,6 +11921,7 @@ void player::spores()
                             }
                         } else if (one_in(3) && g->num_zombies() <= 1000) { // Spawn a spore
                         spore.spawn(sporex, sporey);
+                        spore.friendly = -1;
                         g->add_zombie(spore);
                         }
                     }

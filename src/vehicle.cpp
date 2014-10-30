@@ -9,6 +9,7 @@
 #include <fstream>
 #include <sstream>
 #include <stdlib.h>
+#include <set>
 #include "cursesdef.h"
 #include "catacharset.h"
 #include "overmapbuffer.h"
@@ -16,12 +17,13 @@
 
 #include "debug.h"
 
-const ammotype fuel_types[num_fuel_types] = { "gasoline", "battery", "plutonium", "plasma", "water" };
+const ammotype fuel_types[num_fuel_types] = { "gasoline", "diesel", "battery", "plutonium", "plasma", "water" };
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;
  *   assemble "structure" once here instead of repeatedly later.
  */
 static const std::string fuel_type_gasoline("gasoline");
+static const std::string fuel_type_diesel("diesel");
 static const std::string fuel_type_battery("battery");
 static const std::string fuel_type_plutonium("plutonium");
 static const std::string fuel_type_plasma("plasma");
@@ -647,7 +649,6 @@ void vehicle::use_controls()
         }
         break;
     case activate_horn:
-        add_msg(_("You honk the horn!"));
         honk_horn();
         break;
     case toggle_turrets:
@@ -816,7 +817,7 @@ void vehicle::start_engine()
     // TODO: Make chance of success based on engine condition.
     for( size_t p = 0; p < engines.size(); ++p ) {
         if(parts[engines[p]].hp > 0) {
-            if(part_info(engines[p]).fuel_type == fuel_type_gasoline) {
+            if(part_info(engines[p]).fuel_type == fuel_type_gasoline || part_info(engines[p]).fuel_type == fuel_type_diesel) {
                 int engine_power = part_power(engines[p]);
                 if(engine_power < 50) {
                     // Small engines can be pull-started
@@ -845,21 +846,37 @@ void vehicle::start_engine()
 
 void vehicle::honk_horn()
 {
+    const bool no_power = ! fuel_left( fuel_type_battery, true );
+    bool honked = false;
+
     for( size_t p = 0; p < parts.size(); ++p ) {
-        if( ! part_flag( p, "HORN" ) )
+        if( ! part_flag( p, "HORN" ) ) {
             continue;
+        }
+        //Only bicycle horn doesn't need electricity to work
+        vpart_info &horn_type = part_info( p );
+        if( ( horn_type.id != "horn_bicycle" ) && no_power ) {
+            continue;
+        }
+        if( ! honked ) {
+            add_msg( _("You honk the horn!") );
+            honked = true;
+        }
         //Get global position of horn
         const int horn_x = global_x() + parts[p].precalc_dx[0];
         const int horn_y = global_y() + parts[p].precalc_dy[0];
         //Determine sound
-        vpart_info &horn_type=part_info(p);
-        if( horn_type.bonus >= 40 ){
+        if( horn_type.bonus >= 40 ) {
             g->sound( horn_x, horn_y, horn_type.bonus, _("HOOOOORNK!") );
-        } else if( horn_type.bonus >= 20 ){
+        } else if( horn_type.bonus >= 20 ) {
             g->sound( horn_x, horn_y, horn_type.bonus, _("BEEEP!") );
-        } else{
+        } else {
             g->sound( horn_x, horn_y, horn_type.bonus, _("honk.") );
         }
+    }
+
+    if( ! honked ) {
+        add_msg( _("You honk the horn, but nothing happens.") );
     }
 }
 
@@ -1032,7 +1049,7 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
         for(std::vector<int>::const_iterator it = parts_in_square.begin();
             it != parts_in_square.end(); ++it ) {
             if(part_info(*it).has_flag(VPFLAG_ENGINE) &&
-               part_info(*it).fuel_type == fuel_type_gasoline) {
+               (part_info(*it).fuel_type == fuel_type_gasoline || part_info(*it).fuel_type == fuel_type_diesel)) {
                 anchor_found = true;
             }
         }
@@ -2065,7 +2082,7 @@ int vehicle::total_mass()
         if (parts[i].removed) {
           continue;
         }
-        m += itypes[part_info(i).item]->weight;
+        m += item_controller->find_template( part_info(i).item )->weight;
         for (auto &j : parts[i].items) {
             m += j.type->weight;
         }
@@ -2086,7 +2103,7 @@ void vehicle::center_of_mass(int &x, int &y)
           continue;
         }
         int m_part = 0;
-        m_part += itypes[part_info(i).item]->weight;
+        m_part += item_controller->find_template( part_info(i).item )->weight;
         for (auto &j : parts[i].items) {
             m_part += j.type->weight;
         }
@@ -2299,6 +2316,8 @@ int vehicle::safe_velocity (bool fueled)
 
             if ( part_info(p).fuel_type == fuel_type_gasoline ) {
                 m2c = 60;
+            } else if( part_info(p).fuel_type == fuel_type_diesel ) {
+                m2c = 65;
             } else if( part_info(p).fuel_type == fuel_type_plasma ) {
                 m2c = 75;
             } else if( part_info(p).fuel_type == fuel_type_battery ) {
@@ -2340,7 +2359,7 @@ void vehicle::spew_smoke( double joules, int part )
  * load = how hard the engines are working, from 0.0 til 1.0
  * time = how many seconds to generated smoke for
  */
-void vehicle::noise_and_smoke( double load, double time, bool on_map )
+void vehicle::noise_and_smoke( double load, double time )
 {
     const int sound_levels[] = { 0, 15, 30, 60, 100, 140, 180, INT_MAX };
     const char *sound_msgs[] = { "", "hummm!", "whirrr!", "vroom!", "roarrr!", "ROARRR!",
@@ -2368,7 +2387,7 @@ void vehicle::noise_and_smoke( double load, double time, bool on_map )
             double max_pwr = double(power_to_epower(part_power(p, true)))/40000;
             double cur_pwr = load * max_pwr;
 
-            if( part_info(p).fuel_type == fuel_type_gasoline ) {
+            if( part_info(p).fuel_type == fuel_type_gasoline || part_info(p).fuel_type == fuel_type_diesel ) {
                 double j = power_to_epower(part_power(p, true)) * load * time * muffle;
                 if( (exhaust_part == -1) && engine_on ) {
                     spew_smoke( j, p );
@@ -2387,7 +2406,7 @@ void vehicle::noise_and_smoke( double load, double time, bool on_map )
         }
     }
 
-    if( (exhaust_part != -1) && engine_on && on_map ) { // No engine, no smoke
+    if( (exhaust_part != -1) && engine_on ) { // No engine, no smoke
         spew_smoke( mufflesmoke, exhaust_part );
     }
     // Even a car with engines off will make noise traveling at high speeds
@@ -2545,7 +2564,7 @@ bool vehicle::valid_wheel_config ()
         if (parts[p].removed) {
           continue;
         }
-        w2 = itypes[part_info(p).item]->weight;
+        w2 = item_controller->find_template( part_info(p).item )->weight;
         if (w2 < 1)
             continue;
         xo = xo * wo / (wo + w2) + parts[p].mount_dx * w2 / (wo + w2);
@@ -2570,9 +2589,9 @@ bool vehicle::valid_wheel_config ()
  */
 void vehicle::consume_fuel( double load = 1.0 )
 {
-    ammotype ftypes[3] = { fuel_type_gasoline, fuel_type_battery, fuel_type_plasma };
-    int ftype_coeff[3] = {                100,                 1,              100 };
-    for( int ft = 0; ft < 3; ft++ ) {
+    ammotype ftypes[4] = { fuel_type_gasoline, fuel_type_diesel, fuel_type_battery, fuel_type_plasma };
+    int ftype_coeff[4] = {                100,              100,                 1,              100 };
+    for( int ft = 0; ft < 4; ft++ ) {
         double amnt_precise = double(basic_consumption(ftypes[ft])) / ftype_coeff[ft];
         float st = strain() * 10;
         amnt_precise *= load * (1.0 + st * st);
@@ -2606,7 +2625,7 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
         // Gas engines require epower to run for ignition system, ECU, etc.
         for( size_t p = 0; p < engines.size(); ++p ) {
             if(parts[engines[p]].hp > 0 &&
-               part_info(engines[p]).fuel_type == fuel_type_gasoline) {
+               (part_info(engines[p]).fuel_type == fuel_type_gasoline || part_info(engines[p]).fuel_type == fuel_type_diesel)) {
                 gas_epower += part_info(engines[p]).epower;
             }
         }
@@ -2914,7 +2933,10 @@ void vehicle::idle(bool on_map) {
         idle_rate = (float)alternator_load / (float)engines_power;
         if (idle_rate < 0.01) idle_rate = 0.01; // minimum idle is 1% of full throttle
         consume_fuel(idle_rate);
-        noise_and_smoke( idle_rate, 6.0, on_map );
+
+        if (on_map) {
+            noise_and_smoke( idle_rate, 6.0 );
+        }
     }
     else {
         if (g->u_see(global_x(), global_y()) && engine_on) {
@@ -2934,7 +2956,7 @@ void vehicle::slow_leak()
     for( size_t p = 0; p < fuel.size(); ++p ) {
         vehicle_part &part = parts[fuel[p]];
         vpart_info pinfo = part_info( fuel[p] );
-        if( pinfo.fuel_type != fuel_type_gasoline &&
+        if( pinfo.fuel_type != fuel_type_gasoline && pinfo.fuel_type != fuel_type_diesel &&
             pinfo.fuel_type != fuel_type_battery && pinfo.fuel_type != fuel_type_water ) {
             // Not a liquid fuel or battery
             continue;
@@ -3294,14 +3316,13 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
     int degree = rng (70, 100);
 
     //Calculate damage resulting from d_E
-    material_type* vpart_item_mat1 = material_type::find_material(itypes[part_info(parm).item]->m1);
-    material_type* vpart_item_mat2 = material_type::find_material(itypes[part_info(parm).item]->m2);
-    int vpart_dens;
-    if(vpart_item_mat2->ident() == "null") {
-        vpart_dens = vpart_item_mat1->density();
-    } else {
-        vpart_dens = (vpart_item_mat1->density() + vpart_item_mat2->density())/2; //average
+    const itype *type = item_controller->find_template( part_info( parm ).item );
+    std::vector<std::string> vpart_item_mats = type->materials;
+    int vpart_dens = 0;
+    for (auto mat_id : vpart_item_mats) {
+        vpart_dens += material_type::find_material(mat_id)->density();
     }
+    vpart_dens /= vpart_item_mats.size(); // average
 
     //k=100 -> 100% damage on part
     //k=0 -> 100% damage on obj
@@ -4160,20 +4181,20 @@ int vehicle::damage_direct (int p, int dmg, int type)
         if (part_flag(p, "FUEL_TANK"))
         {
             ammotype ft = part_info(p).fuel_type;
-            if (ft == fuel_type_gasoline || ft == fuel_type_plasma)
+            if (ft == fuel_type_gasoline  || ft == fuel_type_diesel || ft == fuel_type_plasma)
             {
                 int pow = parts[p].amount / 40;
     //            debugmsg ("damage check dmg=%d pow=%d", dmg, pow);
                 if (parts[p].hp <= 0)
                     leak_fuel (p);
                 if (type == 2 ||
-                    (one_in (ft == fuel_type_gasoline ? 2 : 4) && pow > 5 && rng (75, 150) < dmg))
+                    (one_in ((ft == fuel_type_gasoline || ft == fuel_type_diesel) ? 2 : 4) && pow > 5 && rng (75, 150) < dmg))
                 {
                     g->u.add_memorial_log(pgettext("memorial_male","The fuel tank of the %s exploded!"),
                         pgettext("memorial_female", "The fuel tank of the %s exploded!"),
                         name.c_str());
                     g->explosion (global_x() + parts[p].precalc_dx[0], global_y() + parts[p].precalc_dy[0],
-                                pow, 0, ft == fuel_type_gasoline);
+                                pow, 0, (ft == fuel_type_gasoline || ft == fuel_type_diesel));
                     parts[p].hp = 0;
                 }
             }
@@ -4197,7 +4218,7 @@ void vehicle::leak_fuel (int p)
     if (!part_flag(p, "FUEL_TANK"))
         return;
     ammotype ft = part_info(p).fuel_type;
-    if (ft == fuel_type_gasoline)
+    if (ft == fuel_type_gasoline || ft == fuel_type_diesel)
     {
         int x = global_x();
         int y = global_y();
@@ -4210,8 +4231,8 @@ void vehicle::leak_fuel (int p)
                         parts[p].amount = 0;
                         return;
                     }
-                    g->m.spawn_item(i, j, fuel_type_gasoline);
-                    g->m.spawn_item(i, j, fuel_type_gasoline);
+                    g->m.spawn_item(i, j, ft);
+                    g->m.spawn_item(i, j, ft);
                     parts[p].amount -= 100;
                 }
     }
@@ -4230,7 +4251,7 @@ bool vehicle::fire_turret (int p, bool burst)
 {
     if (!part_flag (p, "TURRET"))
         return false;
-    it_gun *gun = dynamic_cast<it_gun*> (itypes[part_info(p).item]);
+    it_gun *gun = dynamic_cast<it_gun*> (item_controller->find_template( part_info( p ).item ));
     if (!gun) {
         return false;
     }
@@ -4261,7 +4282,7 @@ bool vehicle::fire_turret (int p, bool burst)
         if (fleft < 1) {
             return false;
         }
-        it_ammo *ammo = dynamic_cast<it_ammo*>(itypes[amt]);
+        it_ammo *ammo = dynamic_cast<it_ammo*>(item_controller->find_template( amt ));
         if (!ammo) {
             return false;
         }
@@ -4352,7 +4373,7 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, long char
         add_msg(_("The %s fires its %s!"), name.c_str(), part_info(p).name.c_str());
     }
     // Spawn a fake UPS to power any turreted weapons that need electricity.
-    item tmp_ups( "UPS_on", 0 );
+    item tmp_ups( "UPS_off", 0 );
     // Drain a ton of power
     tmp_ups.charges = drain( fuel_type_battery, 1000 );
     item &ups_ref = tmp.i_add(tmp_ups);
@@ -4411,6 +4432,7 @@ void vehicle::open_or_close(int part_index, bool opening)
 {
   parts[part_index].open = opening ? 1 : 0;
   insides_dirty = true;
+  g->m.set_transparency_cache_dirty();
 
   if(part_info(part_index).has_flag("MULTISQUARE")) {
     /* Find all other closed parts with the same ID in adjacent squares.
