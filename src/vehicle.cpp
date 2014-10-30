@@ -3324,10 +3324,17 @@ void vehicle::cruise_thrust (int amount)
     if (!amount) {
         return;
     }
+    int old_vel = cruise_velocity;
     int max_vel = max_velocity();
-    //~ int max_vel = (safe_velocity() * 11 / 10000 + 1) * 1000;
+    int safe_vel = safe_velocity();
     cruise_velocity += amount;
     cruise_velocity = cruise_velocity / abs(amount) * abs(amount);
+    //if cruise velocity skipped over maximum safe, set it to that
+    if (old_vel < safe_vel && cruise_velocity > safe_vel && 
+        cruise_velocity >0 && old_vel > 0){
+        cruise_velocity = safe_vel;
+    }
+    
     if (cruise_velocity > max_vel) {
         cruise_velocity = max_vel;
     } else {
