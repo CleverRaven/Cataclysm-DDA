@@ -1663,7 +1663,7 @@
     "ammo": "battery",
     "revert_to": "circsaw_off",
     "use_action": "CIRCSAW_ON",
-    "qualities": [["CUT", 1], ["BUTCHER", 60]]
+    "qualities": [["CUT", 1], ["SAW_W", 2], ["BUTCHER", 60]]
   },{
     "id": "combatsaw_off",
     "type": "TOOL",
