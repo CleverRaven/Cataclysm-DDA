@@ -2769,11 +2769,12 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
 
     // Consumers of epower
     int gas_epower = 0;
-    if(engine_on && !electric_only_on) {
+    if(engine_on) {
         // Gas engines require epower to run for ignition system, ECU, etc.
         for( size_t p = 0; p < engines.size(); ++p ) {
-            if(parts[engines[p]].hp > 0 &&
-               (part_info(engines[p]).fuel_type == fuel_type_gasoline || part_info(engines[p]).fuel_type == fuel_type_diesel)) {
+            ammotype fueltype = part_info(engines[p]).fuel_type;
+            if(parts[engines[p]].hp > 0 && is_engine_enabled(engines[p]) &&
+               (fueltype == fuel_type_gasoline || fueltype == fuel_type_diesel)) {
                 gas_epower += part_info(engines[p]).epower;
             }
         }
@@ -2789,11 +2790,11 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
     // Producers of epower
     epower += solar_epower();
 
-    if(engine_on && !electric_only_on) {
+    if(engine_on) {
         // Plasma engines generate epower if turned on
         int plasma_epower = 0;
         for( size_t p = 0; p < engines.size(); ++p ) {
-            if(parts[engines[p]].hp > 0 &&
+            if(parts[engines[p]].hp > 0 && is_engine_enabled(engines[p]) &&
                part_info(engines[p]).fuel_type == fuel_type_plasma) {
                 plasma_epower += part_info(engines[p]).epower;
             }
@@ -2802,12 +2803,13 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
     }
 
     int battery_discharge = power_to_epower(fuel_capacity(fuel_type_battery) - fuel_left(fuel_type_battery));
-    if(engine_on && !electric_only_on) {
+    if(engine_on) {
         // If the engine is on, the alternators are working.
         int alternators_epower = 0;
         int alternators_power = 0;
         for( size_t p = 0; p < alternators.size(); ++p ) {
-            if(parts[alternators[p]].hp > 0) {
+            ammotype fueltype = part_info(alternators[p]).fuel_type;
+            if (parts[alternators[p]].hp > 0 && is_fuel_type_enabled(fueltype)) {
                 alternators_epower += part_info(alternators[p]).epower;
                 alternators_power += part_power(alternators[p]);
             }
@@ -2895,7 +2897,7 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
         if(player_in_control(&g->u) || g->u_see(global_x(), global_y())) {
             add_msg("The %s's battery dies!",name.c_str());
         }
-        if(gas_epower < 0 && !electric_only_on) {
+        if(gas_epower < 0) {
             // Not enough epower to run gas engine ignition system
             engine_on = false;
             if(player_in_control(&g->u) || g->u_see(global_x(), global_y())) {
@@ -3330,8 +3332,9 @@ void vehicle::cruise_thrust (int amount)
     cruise_velocity += amount;
     cruise_velocity = cruise_velocity / abs(amount) * abs(amount);
     //if cruise velocity skipped over maximum safe, set it to that
-    if (old_vel < safe_vel && cruise_velocity > safe_vel && 
-        cruise_velocity >0 && old_vel > 0){
+    if (((old_vel < safe_vel && cruise_velocity > safe_vel) ||
+            (old_vel > safe_vel && cruise_velocity < safe_vel)) &&
+             cruise_velocity >0 && old_vel > 0){
         cruise_velocity = safe_vel;
     }
     
