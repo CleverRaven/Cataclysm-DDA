@@ -13333,6 +13333,7 @@ void map::create_anomaly(int cx, int cy, artifact_natural_property prop)
 {
     rough_circle(this, t_dirt, cx, cy, 11);
     rough_circle_furn(this, f_rubble, cx, cy, 5);
+    furn_set(cx, cy, f_null);
     switch (prop) {
     case ARTPROP_WRIGGLING:
     case ARTPROP_MOVING:
