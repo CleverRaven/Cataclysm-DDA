@@ -85,6 +85,7 @@ vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): t
     reactor_on = false;
     engine_on = false;
     
+    has_hybrid_setup = false;
     hybrid_mode_on = true;
     reset_hybrid_state();
     
@@ -387,6 +388,13 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
         }
 
     }
+    //check if vehicle is still a capable hybrid
+    scan_hybrid();
+    if (has_hybrid_setup){
+        hybrid_mode_on = true;
+        electric_only_on = true;
+        hybrid_safety = true;
+    }
 }
 /**
  * Smashes up a vehicle that has already been placed; used for generating
@@ -435,6 +443,22 @@ void vehicle::reset_hybrid_state(){
     safe_velocity_electric = 0;
 }
 
+void vehicle::scan_hybrid(){
+    bool has_el_engine = false;
+    bool has_non_el_engine = false;
+    for (size_t p = 0; p < parts.size(); p++) {
+        if (part_flag(p, "ENGINE")) {
+            //check if vehicle has electric engine or a fossil engine
+            if (part_fuel_type(p, fuel_type_battery))
+                has_el_engine = true;
+            else 
+                has_non_el_engine = true;
+        }
+    }
+    has_hybrid_setup = (has_el_engine && has_non_el_engine);
+    if (!has_hybrid_setup) reset_hybrid_state();
+}
+
 void vehicle::use_controls()
 {
     std::vector<vehicle_controls> options_choice;
@@ -461,9 +485,6 @@ void vehicle::use_controls()
     bool has_engine = false;
     bool has_fridge = false;
     bool has_recharger = false;
-    bool has_non_electric_engine = false;
-    bool has_electric_engine = false;
-    bool has_hybrid_setup = false;
     for (size_t p = 0; p < parts.size(); p++) {
         if (part_flag(p, "CONE_LIGHT")) {
             has_lights = true;
@@ -491,11 +512,6 @@ void vehicle::use_controls()
             has_reactor = true;
         }
         else if (part_flag(p, "ENGINE")) {
-            //check if vehicle has electric engine or a fossil engine
-            if (part_fuel_type(p, fuel_type_battery))
-                has_electric_engine = true;
-            else 
-                has_non_electric_engine = true;
             has_engine = true;
         }
         else if (part_flag(p, "FRIDGE")) {
@@ -590,18 +606,8 @@ void vehicle::use_controls()
                                                _("Turn on reactor"), 'k'));
     }
     
-    //if there is an electric and other engine available
-    if (has_electric_engine && has_non_electric_engine)
-    {
-        has_hybrid_setup = true;
-    }
-    else
-    {
-        has_hybrid_setup = false;
-        hybrid_mode_on = false;
-        reset_hybrid_state();
-    }
-    
+    //check if vehicle is still a capable hybrid
+    scan_hybrid();   
 
     if (has_hybrid_setup && hybrid_mode_on) {
         options_choice.push_back(toggle_electric_only_on);
@@ -1770,15 +1776,16 @@ bool vehicle::is_engine_enabled(int p) const
 {
     //either hybrid mode is off, or engine is electric and should be on,
     //or engine is not electric and should be on
-    return !hybrid_mode_on || 
+    return !has_hybrid_setup || !hybrid_mode_on || 
             (part_fuel_type(p, fuel_type_battery) && electric_only_on) ||
             (!part_fuel_type(p, fuel_type_battery) && !electric_only_on);
 }
 bool vehicle::is_fuel_type_enabled(ammotype ft) const
 {
     //all fuel active when hybrid mode off, or electrics on, or non-electrics on
-    return !hybrid_mode_on || (ft == fuel_type_battery && electric_only_on) ||
-                                (ft != fuel_type_battery && !electric_only_on);
+    return !has_hybrid_setup ||!hybrid_mode_on || 
+            (ft == fuel_type_battery && electric_only_on) ||
+            (ft != fuel_type_battery && !electric_only_on);
 }
 
 bool vehicle::part_flag( int part, const vpart_bitflags &flag) const

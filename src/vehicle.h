@@ -420,6 +420,7 @@ public:
     void hybrid_get_safe_velocities();
     int safe_velocity_hybrid(bool fueled, bool electric);
     bool get_pwrs_of_engine(int & pwrs, int p, bool fueled);
+    void scan_hybrid();
 
 // Translate seat-relative mount coords into tile coords
     void coord_translate (int reldx, int reldy, int &dx, int &dy);
@@ -731,6 +732,7 @@ public:
     bool engine_on;     // engine on/off
     
     //these values only valid when hybrid mode is on
+    bool has_hybrid_setup; //vehicle has electric and other engine
     bool hybrid_mode_on; //hybrid engine on/off
     bool electric_only_on; //only electric engines are on
     bool hybrid_safety; //whether safety checks are performed while hybrid active
