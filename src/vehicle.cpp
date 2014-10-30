@@ -48,7 +48,10 @@ enum vehicle_controls {
  toggle_reactor,
  toggle_engine,
  toggle_fridge,
- toggle_recharger
+ toggle_recharger,
+ toggle_electric_only_on,
+ toggle_hybrid_ctl,
+ toggle_hybrid_safety
 };
 
 vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): type(type_id)
@@ -81,6 +84,11 @@ vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): t
     insides_dirty = true;
     reactor_on = false;
     engine_on = false;
+    
+    has_hybrid_setup = false;
+    hybrid_mode_on = true;
+    reset_hybrid_state();
+    
     has_pedals = false;
     has_paddles = false;
     has_hand_rims = false;
@@ -380,6 +388,13 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
         }
 
     }
+    //check if vehicle is still a capable hybrid
+    scan_hybrid();
+    if (has_hybrid_setup){
+        hybrid_mode_on = true;
+        electric_only_on = true;
+        hybrid_safety = true;
+    }
 }
 /**
  * Smashes up a vehicle that has already been placed; used for generating
@@ -419,6 +434,29 @@ void vehicle::smash() {
             parts[part_index].amount = 0;
         }
     }
+}
+
+void vehicle::reset_hybrid_state(){
+    electric_only_on = true; 
+    hybrid_safety = true; 
+    safe_velocity_non_electric = 0; 
+    safe_velocity_electric = 0;
+}
+
+void vehicle::scan_hybrid(){
+    bool has_el_engine = false;
+    bool has_non_el_engine = false;
+    for (size_t p = 0; p < parts.size(); p++) {
+        if (part_flag(p, "ENGINE")) {
+            //check if vehicle has electric engine or a fossil engine
+            if (part_fuel_type(p, fuel_type_battery))
+                has_el_engine = true;
+            else 
+                has_non_el_engine = true;
+        }
+    }
+    has_hybrid_setup = (has_el_engine && has_non_el_engine);
+    if (!has_hybrid_setup) reset_hybrid_state();
 }
 
 void vehicle::use_controls()
@@ -484,6 +522,7 @@ void vehicle::use_controls()
         }
     }
 
+
     // Toggle engine on/off, stop driving if we are driving.
     if( !has_pedals && !has_hand_rims && !has_paddles && has_engine ) {
         options_choice.push_back(toggle_engine);
@@ -498,7 +537,6 @@ void vehicle::use_controls()
     options_choice.push_back(toggle_cruise_control);
     options_message.push_back(uimenu_entry((cruise_on) ? _("Disable cruise control") :
                                            _("Enable cruise control"), 'c'));
-
 
     // Lights if they are there - Note you can turn them on even when damaged, they just don't work
     if (has_lights) {
@@ -553,7 +591,7 @@ void vehicle::use_controls()
                                                 _("Enable tracking device"), 'g'));
 
     }
-
+    
     const bool can_be_folded = is_foldable();
     const bool is_convertible = (tags.count("convertible") > 0);
     if( can_be_folded || is_convertible ) {
@@ -567,7 +605,28 @@ void vehicle::use_controls()
         options_message.push_back(uimenu_entry(reactor_on ? _("Turn off reactor") :
                                                _("Turn on reactor"), 'k'));
     }
+    
+    //check if vehicle is still a capable hybrid
+    scan_hybrid();   
 
+    if (has_hybrid_setup && hybrid_mode_on) {
+        options_choice.push_back(toggle_electric_only_on);
+        options_message.push_back(uimenu_entry((electric_only_on) ? _("Switch to non-electric engines") :
+                                               _("Switch to electric engines"), 'u'));
+    }
+    
+    if (has_hybrid_setup) {
+        options_choice.push_back(toggle_hybrid_ctl);
+        options_message.push_back(uimenu_entry((hybrid_mode_on) ? _("Switch to all engines") :
+                                               _("Switch to selective engines"), 'y'));
+    }
+    
+    if (has_hybrid_setup && hybrid_mode_on) {
+        options_choice.push_back(toggle_hybrid_safety);
+        options_message.push_back(uimenu_entry((hybrid_safety) ? _("Disable hybrid auto switch") :
+                                               _("Enable hybrid auto switch"), ' '));
+    }
+    
     options_choice.push_back(control_cancel);
     options_message.push_back(uimenu_entry(_("Do nothing"), ' '));
 
@@ -583,6 +642,25 @@ void vehicle::use_controls()
     }
 
     switch(options_choice[select]) {
+    case toggle_hybrid_safety:
+        hybrid_safety = !hybrid_safety;
+        add_msg((hybrid_safety) ? _("Hybrid auto switch enabled") : _("Hybrid auto switch disabled"));
+        break;
+    case toggle_hybrid_ctl:
+        hybrid_mode_on = !hybrid_mode_on;
+        add_msg((hybrid_mode_on) ? _("Selective engine control on") : _("All engines on"));
+        if (!hybrid_mode_on) {
+            reset_hybrid_state();
+        }
+        break;
+    case toggle_electric_only_on:
+        //save max safe speed of non-electric & electric engines
+        
+        electric_only_on = !electric_only_on;
+        
+        hybrid_switch();
+        add_msg((electric_only_on) ? _("Switched to electric engines") : _("Switched to non-electric engines"));
+        break;
     case toggle_cruise_control:
         cruise_on = !cruise_on;
         add_msg((cruise_on) ? _("Cruise control turned on") : _("Cruise control turned off"));
@@ -814,13 +892,19 @@ void vehicle::use_controls()
     }
 }
 
+void vehicle::hybrid_get_safe_velocities(){
+    safe_velocity_non_electric = safe_velocity_hybrid(true,false);
+    safe_velocity_electric = safe_velocity_hybrid(true,true);
+}
+
 void vehicle::start_engine()
 {
     bool muscle_powered = false;
     // TODO: Make chance of success based on engine condition.
     for( size_t p = 0; p < engines.size(); ++p ) {
         if(parts[engines[p]].hp > 0) {
-            if(part_info(engines[p]).fuel_type == fuel_type_gasoline || part_info(engines[p]).fuel_type == fuel_type_diesel) {
+            if(!electric_only_on && (part_info(engines[p]).fuel_type == fuel_type_gasoline ||
+                                    part_info(engines[p]).fuel_type == fuel_type_diesel)) {
                 int engine_power = part_power(engines[p]);
                 if(engine_power < 50) {
                     // Small engines can be pull-started
@@ -1679,6 +1763,31 @@ bool vehicle::part_flag (int part, const std::string &flag) const
     }
 }
 
+bool vehicle::part_fuel_type (int part, const std::string &fuel_type) const
+{
+    if (part < 0 || part >= (int)parts.size() || parts[part].removed) {
+        return false;
+    } else {
+        return (part_info(part).fuel_type == fuel_type);
+    }
+}
+
+bool vehicle::is_engine_enabled(int p) const
+{
+    //either hybrid mode is off, or engine is electric and should be on,
+    //or engine is not electric and should be on
+    return !has_hybrid_setup || !hybrid_mode_on || 
+            (part_fuel_type(p, fuel_type_battery) && electric_only_on) ||
+            (!part_fuel_type(p, fuel_type_battery) && !electric_only_on);
+}
+bool vehicle::is_fuel_type_enabled(ammotype ft) const
+{
+    //all fuel active when hybrid mode off, or electrics on, or non-electrics on
+    return !has_hybrid_setup ||!hybrid_mode_on || 
+            (ft == fuel_type_battery && electric_only_on) ||
+            (ft != fuel_type_battery && !electric_only_on);
+}
+
 bool vehicle::part_flag( int part, const vpart_bitflags &flag) const
 {
    if (part < 0 || part >= (int)parts.size() || parts[part].removed) {
@@ -2164,6 +2273,8 @@ int vehicle::fuel_capacity (const ammotype & ftype)
     return cap;
 }
 
+
+
 int vehicle::refill (const ammotype & ftype, int amount)
 {
     for (size_t p = 0; p < parts.size(); p++)
@@ -2214,12 +2325,16 @@ int vehicle::basic_consumption (const ammotype & ftype)
     int fcon = 0;
     for( size_t p = 0; p < engines.size(); ++p ) {
         if(ftype == part_info(engines[p]).fuel_type && parts[engines[p]].hp > 0) {
-            if(part_info(engines[p]).fuel_type == fuel_type_battery) {
-                // electric engine - use epower instead
-                fcon += abs(epower_to_power(part_epower(engines[p])));
-            }
-            else {
-                fcon += part_power(engines[p]);
+            //check if engine is on
+            if (is_engine_enabled(engines[p])){
+                if(part_info(engines[p]).fuel_type == fuel_type_battery) {
+                    // electric engine - use epower instead
+                    fcon += abs(epower_to_power(part_epower(engines[p])));
+
+                }
+                else {
+                    fcon += part_power(engines[p]);
+                }
             }
         }
     }
@@ -2235,8 +2350,9 @@ int vehicle::total_power (bool fueled)
     g->m.veh_at(g->u.posx, g->u.posy, part_under_player);
     bool player_controlling = player_in_control(&(g->u));
     for (size_t p = 0; p < parts.size(); p++) {
-        if (part_flag(p, VPFLAG_ENGINE) && (fuel_left (part_info(p).fuel_type) || !fueled ||
-              ((part_info(p).fuel_type == fuel_type_muscle) && player_controlling &&
+        if (part_flag(p, VPFLAG_ENGINE) && is_engine_enabled(p) &&
+            (fuel_left (part_info(p).fuel_type) || !fueled || 
+            ((part_info(p).fuel_type == fuel_type_muscle) && player_controlling &&
               part_with_feature(part_under_player, VPFLAG_ENGINE) == (int)p)) && parts[p].hp > 0) {
             pwr += part_power(p);
             cnt++;
@@ -2279,7 +2395,8 @@ int vehicle::acceleration (bool fueled)
 
 int vehicle::max_velocity (bool fueled)
 {
-    return total_power (fueled) * 80;
+    //vehicles should have a max_velocity higher than the safe_velocity.
+    return std::max(total_power (fueled) * 80, safe_velocity());
 }
 
 bool vehicle::do_environmental_effects()
@@ -2319,34 +2436,56 @@ int vehicle::safe_velocity (bool fueled)
     int pwrs = 0;
     int cnt = 0;
     for (size_t p = 0; p < parts.size(); p++) {
-        if (part_flag(p, VPFLAG_ENGINE) &&
-            (fuel_left (part_info(p).fuel_type) || !fueled ||
-             part_info(p).fuel_type == fuel_type_muscle) &&
-            parts[p].hp > 0) {
-            int m2c = 100;
-
-            if ( part_info(p).fuel_type == fuel_type_gasoline ) {
-                m2c = 60;
-            } else if( part_info(p).fuel_type == fuel_type_diesel ) {
-                m2c = 65;
-            } else if( part_info(p).fuel_type == fuel_type_plasma ) {
-                m2c = 75;
-            } else if( part_info(p).fuel_type == fuel_type_battery ) {
-                m2c = 90;
-            } else if( part_info(p).fuel_type == fuel_type_muscle ) {
-                m2c = 45;
-            }
-
-            pwrs += part_power(p) * m2c / 100;
-            cnt++;
-        } else if (part_flag(p, VPFLAG_ALTERNATOR) && parts[p].hp > 0) { // factor in m2c?
-            pwrs += part_power(p); // alternator parts have negative power
+        if (part_flag(p, VPFLAG_ENGINE) && is_engine_enabled(p)){
+            pwrs += get_pwrs_of_engine(pwrs, p, fueled);
         }
     }
     if (cnt > 0) {
         pwrs = pwrs * 4 / (4 + cnt -1);
     }
     return (int) (pwrs * k_dynamics() * k_mass()) * 80;
+}
+
+int vehicle::safe_velocity_hybrid (bool fueled, bool electric)
+{
+    int pwrs = 0;
+    int cnt = 0;
+    for (size_t p = 0; p < parts.size(); p++) {
+        if (part_flag(p, VPFLAG_ENGINE) &&
+            (part_info(p).fuel_type == fuel_type_battery || !electric)){
+            pwrs += get_pwrs_of_engine(pwrs, p, fueled);
+        }
+    }
+    if (cnt > 0) {
+        pwrs = pwrs * 4 / (4 + cnt -1);
+    }
+    return (int) (pwrs * k_dynamics() * k_mass()) * 80;
+}
+
+bool vehicle::get_pwrs_of_engine(int & pwrs, int p, bool fueled){
+    bool is_engine = false;
+    if ((fuel_left (part_info(p).fuel_type) || !fueled || part_info(p).fuel_type == fuel_type_muscle) &&
+        parts[p].hp > 0) {
+        int m2c = 100;
+
+        if ( part_info(p).fuel_type == fuel_type_gasoline ) {
+            m2c = 60;
+        } else if( part_info(p).fuel_type == fuel_type_diesel ) {
+            m2c = 65;
+        } else if( part_info(p).fuel_type == fuel_type_plasma ) {
+            m2c = 75;
+        } else if( part_info(p).fuel_type == fuel_type_battery ) {
+            m2c = 90;
+        } else if( part_info(p).fuel_type == fuel_type_muscle ) {
+            m2c = 45;
+        }
+
+        pwrs += part_power(p) * m2c / 100;
+        is_engine = true;
+    } else if (part_flag(p, VPFLAG_ALTERNATOR) && parts[p].hp > 0) { // factor in m2c?
+        pwrs += part_power(p); // alternator parts have negative power
+    }
+    return is_engine;
 }
 
 void vehicle::spew_smoke( double joules, int part )
@@ -2391,7 +2530,7 @@ void vehicle::noise_and_smoke( double load, double time )
 
     for( size_t e = 0; e < engines.size(); e++ ) {
         int p = engines[e];
-        if( parts[p].hp > 0 &&
+        if( parts[p].hp > 0 && is_engine_enabled(p) &&
                 (fuel_left (part_info(p).fuel_type) ||
                  part_info(p).fuel_type == fuel_type_muscle) ) {
             double pwr = 10.0; // Default noise if nothing else found, shouldn't happen
@@ -2416,8 +2555,9 @@ void vehicle::noise_and_smoke( double load, double time )
             noise = std::max(noise, pwr); // Only the loudest engine counts.
         }
     }
-
-    if( (exhaust_part != -1) && engine_on ) { // No engine, no smoke
+    // No engine, no smoke
+    if( (exhaust_part != -1) && engine_on && 
+        (is_fuel_type_enabled(fuel_type_gasoline) || is_fuel_type_enabled(fuel_type_diesel))) { 
         spew_smoke( mufflesmoke, exhaust_part );
     }
     // Even a car with engines off will make noise traveling at high speeds
@@ -2603,6 +2743,11 @@ void vehicle::consume_fuel( double load = 1.0 )
     ammotype ftypes[4] = { fuel_type_gasoline, fuel_type_diesel, fuel_type_battery, fuel_type_plasma };
     int ftype_coeff[4] = {                100,              100,                 1,              100 };
     for( int ft = 0; ft < 4; ft++ ) {
+        //if engine type is off, skip fuel consume
+        if (!is_fuel_type_enabled(ftypes[ft]))
+            continue;
+
+
         double amnt_precise = double(basic_consumption(ftypes[ft])) / ftype_coeff[ft];
         float st = strain() * 10;
         amnt_precise *= load * (1.0 + st * st);
@@ -2623,6 +2768,7 @@ void vehicle::consume_fuel( double load = 1.0 )
                 }
             }
         }
+
     }
 }
 
@@ -2635,8 +2781,9 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
     if(engine_on) {
         // Gas engines require epower to run for ignition system, ECU, etc.
         for( size_t p = 0; p < engines.size(); ++p ) {
-            if(parts[engines[p]].hp > 0 &&
-               (part_info(engines[p]).fuel_type == fuel_type_gasoline || part_info(engines[p]).fuel_type == fuel_type_diesel)) {
+            ammotype fueltype = part_info(engines[p]).fuel_type;
+            if(parts[engines[p]].hp > 0 && is_engine_enabled(engines[p]) &&
+               (fueltype == fuel_type_gasoline || fueltype == fuel_type_diesel)) {
                 gas_epower += part_info(engines[p]).epower;
             }
         }
@@ -2656,7 +2803,7 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
         // Plasma engines generate epower if turned on
         int plasma_epower = 0;
         for( size_t p = 0; p < engines.size(); ++p ) {
-            if(parts[engines[p]].hp > 0 &&
+            if(parts[engines[p]].hp > 0 && is_engine_enabled(engines[p]) &&
                part_info(engines[p]).fuel_type == fuel_type_plasma) {
                 plasma_epower += part_info(engines[p]).epower;
             }
@@ -2670,7 +2817,8 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
         int alternators_epower = 0;
         int alternators_power = 0;
         for( size_t p = 0; p < alternators.size(); ++p ) {
-            if(parts[alternators[p]].hp > 0) {
+            ammotype fueltype = part_info(alternators[p]).fuel_type;
+            if (parts[alternators[p]].hp > 0 && is_fuel_type_enabled(fueltype)) {
                 alternators_epower += part_info(alternators[p]).epower;
                 alternators_power += part_power(alternators[p]);
             }
@@ -2926,7 +3074,7 @@ void vehicle::idle(bool on_map) {
     if( engine_on && total_power() > 0 && !has_pedals && !has_hand_rims && !has_paddles) {
         int strn = (int)(strain() * strain() * 100);
         for (size_t p = 0; p < parts.size(); p++) {
-            if (part_flag(p, VPFLAG_ENGINE)) {
+            if (part_flag(p, VPFLAG_ENGINE) && is_engine_enabled(p)) {
                 if (fuel_left(part_info(p).fuel_type) && parts[p].hp > 0) {
                     engines_power += part_power(p);
                     if (one_in(6) && rng(1, 100) < strn) {
@@ -2991,6 +3139,38 @@ void vehicle::slow_leak()
             part.amount -= leak_amount;
         }
     }
+}
+
+void vehicle::hybrid_switch(){
+    
+    if (hybrid_mode_on && hybrid_safety) {
+        hybrid_get_safe_velocities();
+        int percent_battery = (fuel_left(fuel_type_battery) * 99) /
+                                    fuel_capacity(fuel_type_battery);
+        if (electric_only_on) {
+            //if car going too fast and other engines can support faster speeds
+            if (velocity > safe_velocity_electric && safe_velocity_non_electric > safe_velocity_electric){
+                electric_only_on = false;
+                add_msg(_("The load on your electric engines is too high."));
+                add_msg(_("Your non-electric engines take over."));
+            }
+            //if battery low, switch to gas engines
+            else if (percent_battery <= 5) {   
+                electric_only_on = false;
+                add_msg(_("Warning, critical electrical power."));
+                add_msg(_("Your non-electric engines take over."));
+            }
+            else if (percent_battery <= 10 && one_in(4)) {
+                add_msg(_("Warning, low electrical power."));
+            }
+        } 
+        //if batteries charged, switch to electric engines
+        else if (percent_battery > 80 && velocity <= safe_velocity_electric) {
+            electric_only_on = true;
+            add_msg(_("Vehicle sufficiently charged."));
+            add_msg(_("Your electric engines take over."));
+        }
+    } 
 }
 
 void vehicle::thrust (int thd) {
@@ -3058,6 +3238,8 @@ void vehicle::thrust (int thd) {
     if( load < 0.01 ) {
         load = 0.01;
     }
+    hybrid_switch();
+    
     // Ugly hack, use full engine power occasionally when thrusting slightly
     // up to cruise control speed. Loses some extra power when in reverse.
     if (thrusting && rng(1, accel) <= vel_inc ) {
@@ -3090,12 +3272,15 @@ void vehicle::thrust (int thd) {
 
         noise_and_smoke( load );
         consume_fuel ();
-
+        
+        
+        
+        //engine damage at high load
         int strn = (int) (strain () * strain() * 100);
-
+        
         for( size_t p = 0; p < parts.size(); p++ ) {
             if( part_flag(p, VPFLAG_ENGINE) ) {
-                if( fuel_left(part_info(p).fuel_type) && parts[p].hp > 0 && rng (1, 100) < strn ) {
+                if( is_engine_enabled(p) && fuel_left(part_info(p).fuel_type) && parts[p].hp > 0 && rng (1, 100) < strn ) {
                     int dmg = rng (strn * 2, strn * 4);
                     damage_direct (p, dmg, 0);
                     if(one_in(2)) {
@@ -3106,6 +3291,7 @@ void vehicle::thrust (int thd) {
                 }
             }
         }
+
     }
 
     if (skidding) {
@@ -3141,6 +3327,7 @@ void vehicle::thrust (int thd) {
     if (stereo_on == true) {
         play_music();
     }
+    
 }
 
 void vehicle::cruise_thrust (int amount)
@@ -3148,9 +3335,18 @@ void vehicle::cruise_thrust (int amount)
     if (!amount) {
         return;
     }
-    int max_vel = (safe_velocity() * 11 / 10000 + 1) * 1000;
+    int old_vel = cruise_velocity;
+    int max_vel = max_velocity();
+    int safe_vel = safe_velocity();
     cruise_velocity += amount;
     cruise_velocity = cruise_velocity / abs(amount) * abs(amount);
+    //if cruise velocity skipped over maximum safe, set it to that
+    if (((old_vel < safe_vel && cruise_velocity > safe_vel) ||
+            (old_vel > safe_vel && cruise_velocity < safe_vel)) &&
+             cruise_velocity >0 && old_vel > 0){
+        cruise_velocity = safe_vel;
+    }
+    
     if (cruise_velocity > max_vel) {
         cruise_velocity = max_vel;
     } else {

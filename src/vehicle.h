@@ -405,6 +405,22 @@ public:
 // returns true if given flag is present for given part index
     bool part_flag (int p, const std::string &f) const;
     bool part_flag (int p, const vpart_bitflags &f) const;
+    
+//return true if given fuel type is present for given part index
+    bool part_fuel_type (int part, const std::string &fuel_type) const;
+    
+//true if the engine is currently active
+    bool is_engine_enabled(int p) const;
+    
+//true if fuel type is consumed by current running engines
+    bool is_fuel_type_enabled(ammotype ft) const;
+//hybrid controller code logic, switches between engines at low battery
+    void hybrid_switch();
+    void reset_hybrid_state();
+    void hybrid_get_safe_velocities();
+    int safe_velocity_hybrid(bool fueled, bool electric);
+    bool get_pwrs_of_engine(int & pwrs, int p, bool fueled);
+    void scan_hybrid();
 
 // Translate seat-relative mount coords into tile coords
     void coord_translate (int reldx, int reldy, int &dx, int &dy);
@@ -511,7 +527,7 @@ public:
 // vehicle have fuel for are accounted
     int max_velocity (bool fueled = true);
 
-// Get safe velocity gained by combined power of all engines. If fueled == true, then only engines which
+// Get safe velocity gained by combined power of all engines currently enabled. If fueled == true, then only engines which
 // vehicle have fuel for are accounted
     int safe_velocity (bool fueled = true);
 
@@ -714,6 +730,16 @@ public:
     bool cruise_on;     // cruise control on/off
     bool reactor_on;    // reactor on/off
     bool engine_on;     // engine on/off
+    
+    //these values only valid when hybrid mode is on
+    bool has_hybrid_setup; //vehicle has electric and other engine
+    bool hybrid_mode_on; //hybrid engine on/off
+    bool electric_only_on; //only electric engines are on
+    bool hybrid_safety; //whether safety checks are performed while hybrid active
+    int safe_velocity_non_electric; //the safe velocity when other engines on
+    int safe_velocity_electric; //the safe velocity when other engines on
+
+    
     bool has_pedals;
     bool has_paddles;
     bool has_hand_rims;
