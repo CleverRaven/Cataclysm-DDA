@@ -615,7 +615,7 @@
         "move_cost": 0,
         "flags": ["TRANSPARENT", "NOITEM", "SUPPORTS_ROOF", "WALL"],
         "bash": {
-            "str_min": 6, "str_max": 20,
+            "str_min": 4, "str_max": 12,
             "sound": "glass breaking!",
             "sound_fail": "whack!",
             "ter_set": "t_floor",
@@ -632,7 +632,7 @@
         "move_cost": 0,
         "flags": ["TRANSPARENT", "NOITEM", "SUPPORTS_ROOF", "WALL"],
         "bash": {
-            "str_min": 6, "str_max": 20,
+            "str_min": 4, "str_max": 12,
             "sound": "glass breaking!",
             "sound_fail": "whack!",
             "ter_set": "t_floor",
@@ -650,7 +650,7 @@
         "flags": [
             "TRANSPARENT", "ALARMED", "NOITEM", "SUPPORTS_ROOF", "WALL"],
         "bash": {
-            "str_min": 6, "str_max": 20,
+            "str_min": 4, "str_max": 12,
             "sound": "glass breaking!",
             "sound_fail": "whack!",
             "ter_set": "t_floor",
@@ -668,7 +668,7 @@
         "flags": [
             "TRANSPARENT", "ALARMED", "NOITEM", "SUPPORTS_ROOF", "WALL"],
         "bash": {
-            "str_min": 6, "str_max": 20,
+            "str_min": 4, "str_max": 12,
             "sound": "glass breaking!",
             "sound_fail": "whack!",
             "ter_set": "t_floor",
