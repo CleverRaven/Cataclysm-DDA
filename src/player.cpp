@@ -930,7 +930,7 @@ void player::update_bodytemp()
                 } else if (g->m.tr_at(posx + j, posy + k) == tr_lava ) {
                     heat_intensity = 3;
                 }
-                if (heat_intensity > 0 && g->u_see(posx + j, posy + k)) {
+                if (heat_intensity > 0 && sees(posx + j, posy + k)) {
                     // Ensure fire_dist >= 1 to avoid divide-by-zero errors.
                     int fire_dist = std::max(1, std::max(j, k));
                     if (frostbite_timer[i] > 0) {
@@ -1459,7 +1459,7 @@ void player::recalc_speed_bonus()
         }
     }
 
-    if (g->u.has_trait("M_SKIN2")) {
+    if (has_trait("M_SKIN2")) {
         mod_speed_bonus(-20); // Could be worse--you've got the armor from a (sessile!) Spire
     }
 
@@ -9894,7 +9894,7 @@ void player::do_read( item *book )
     }
 
     if( reading->has_use() ) {
-        reading->invoke( &g->u, book, false, pos() );
+        reading->invoke( this, book, false, pos() );
     }
 
     activity.type = ACT_NULL;
@@ -11924,7 +11924,7 @@ void player::spores()
                             }
                             monster &critter = g->zombie( mondex );
                             if( !critter.make_fungus() ) {
-                                critter.die(nullptr); // FIXME: needs a player reference
+                                critter.die( this );
                             }
                         } else if (one_in(3) && g->num_zombies() <= 1000) { // Spawn a spore
                         spore.spawn(sporex, sporey);

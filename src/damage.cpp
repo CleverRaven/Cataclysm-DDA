@@ -200,10 +200,12 @@ void ammo_effects(int x, int y, const std::set<std::string> &effects)
         g->flashbang(x, y);
     }
 
+    // TODO: g->u? Are NPC not allowed to use those weapons, or do they ignored the flag because they are stupid ncps and have no right to use those flags.
     if (!g->u.weapon.has_flag("NO_BOOM") && effects.count("FLAME")) {
         g->explosion(x, y, 4, 0, true);
     }
 
+    // TODO: g->u? Are NPC not allowed to use those weapons, or do they ignored the flag because they are stupid ncps and have no right to use those flags.
     if (g->u.weapon.has_flag("FLARE") || effects.count("FLARE")) {
         g->m.add_field(x, y, fd_fire, 1);
     }

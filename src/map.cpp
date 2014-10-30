@@ -862,7 +862,7 @@ bool map::vehproceed()
                 }
             }
             veh->handle_trap( wheel_x, wheel_y, w );
-            auto &item_vec = g->m.i_at( wheel_x, wheel_y );
+            auto &item_vec = i_at( wheel_x, wheel_y );
             for( auto it = item_vec.begin(); it != item_vec.end(); ) {
                 it->damage += rng( 0, 3 );
                 if( it->damage > 4 ) {
@@ -1822,6 +1822,7 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str,
             bash = &(ter_at(x,y).bash);
             smash_ter = true;
         }
+        // TODO: what if silent is true? What if this was done by a hulk, not the player?
         if (has_flag("ALARMED", x, y) && !g->event_queued(EVENT_WANTED)) {
             g->sound(x, y, 40, _("An alarm sounds!"));
             g->u.add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
@@ -1884,7 +1885,7 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str,
                     // furniture can't store dynamic data to disk. To prevent writing
                     // mysteriously appearing for a sign later built here, remove the
                     // writing from the submap.
-                    g->m.delete_signage(x, y);
+                    delete_signage(x, y);
                 } else if (smash_ter == true) {
                     ter_set(x, y, bash->ter_set);
                 } else {
