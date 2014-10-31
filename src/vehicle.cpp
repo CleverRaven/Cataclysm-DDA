@@ -621,11 +621,15 @@ void vehicle::use_controls()
     //brackets prevent initialisation errors
     case control_engines:
         {
-            int e_toggle = select_engine();
-            if (e_toggle >= 0 && e_toggle < (int)engines.size()){
-                toggle_specific_engine(e_toggle, !is_engine_on(e_toggle));
-                add_msg("Switched %s %s",part_info(engines[e_toggle]).name.c_str(), 
-                                                (is_engine_on(e_toggle)?"on":"off"));
+            int e_toggle = 0;
+            //show menu until user finishes
+            while(e_toggle >= 0 && e_toggle < (int)engines.size()){
+                e_toggle = select_engine();
+                if (e_toggle >= 0 && e_toggle < (int)engines.size()){
+                    toggle_specific_engine(e_toggle, !is_engine_on(e_toggle));
+                    add_msg("Switched %s %s",part_info(engines[e_toggle]).name.c_str(), 
+                                                    (is_engine_on(e_toggle)?"on":"off"));
+                }
             }
         }
         break;
