@@ -639,7 +639,7 @@ std::vector<std::string> text_types()
 
     text.push_back(string_format(_("\
 ~       Liquid\n\
-%%%%       Food\n\
+%%       Food\n\
 !       Medication\n\
 These are all consumed by using %s. They provide a certain amount of nutrition, quench your thirst, may \
 be a stimulant or a depressant, and may provide morale. There may also be more subtle effects."),

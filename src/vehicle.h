@@ -22,6 +22,7 @@ float get_collision_factor(float delta_v);
 
 #define num_fuel_types 6
 extern const ammotype fuel_types[num_fuel_types];
+extern const nc_color fuel_colors[num_fuel_types];
 #define k_mvel 200 //adjust this to balance collision damage
 
 // 0 - nothing, 1 - monster/player/npc, 2 - vehicle,
@@ -431,7 +432,7 @@ public:
 
 // Vehicle fuel indicator. Should probably rename to print_fuel_indicators and make a print_fuel_indicator(..., FUEL_TYPE);
     void print_fuel_indicator (void *w, int y, int x, bool fullsize = false,
-                               bool verbose = false, bool desc = false);
+                               bool verbose = false, bool desc = false, bool isHorizontal = false);
 
 // Precalculate mount points for (idir=0) - current direction or (idir=1) - next turn direction
     void precalc_mounts (int idir, int dir);

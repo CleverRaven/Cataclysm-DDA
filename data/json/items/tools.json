@@ -1663,7 +1663,7 @@
     "ammo": "battery",
     "revert_to": "circsaw_off",
     "use_action": "CIRCSAW_ON",
-    "qualities": [["CUT", 1], ["BUTCHER", 60]]
+    "qualities": [["CUT", 1], ["SAW_W", 2], ["BUTCHER", 60]]
   },{
     "id": "combatsaw_off",
     "type": "TOOL",
@@ -4980,6 +4980,29 @@
     "description": "This is a small, makeshift funnel used to collect rainwater.  Use it outside and place a container beneath it to collect water when it rains.",
     "price": 800,
     "material": "plastic",
+    "weight": 4,
+    "volume": 1,
+    "bashing": -8,
+    "cutting": 0,
+    "to_hit": 1,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "SET_TRAP"
+  },
+
+  {
+    "id": "leather_funnel",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "brown",
+    "name": "leather funnel",
+    "description": "This is a small, leather funnel used to collect rainwater.  Use it outside and place a container beneath it to collect water when it rains.",
+    "price": 800,
+    "material": "leather",
     "weight": 4,
     "volume": 1,
     "bashing": -8,

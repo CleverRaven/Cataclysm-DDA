@@ -1846,7 +1846,7 @@ int iuse::mut_iv(player *p, item *it, bool, point)
         p->fatigue += 20;
         p->thirst += 20;
         p->mutate_category("MUTCAT_CHIMERA");
-        if (!(g->u.has_trait("NOPAIN"))) {
+        if (!(p->has_trait("NOPAIN"))) {
             p->mod_pain(20);
             g->sound(p->posx, p->posy, 25 + 3 * p->str_cur, _("You roar in agony!!"));
             p->add_morale(MORALE_MUTAGEN_CHIMERA, -40, -200);
@@ -2091,7 +2091,7 @@ int iuse::mut_iv(player *p, item *it, bool, point)
             } else if (p->mutation_category_level[primary] > 100) {
                 //~NOPAIN is a post-Threshold trait, so you shouldn't
                 //~legitimately have it and get here!
-                if (g->u.has_trait("NOPAIN")) {
+                if (p->has_trait("NOPAIN")) {
                     p->add_msg_if_player(m_bad, _("You feel extremely Bugged."));
                 } else {
                     p->add_msg_if_player(m_bad, _("You stagger with a piercing headache!"));
@@ -2099,7 +2099,7 @@ int iuse::mut_iv(player *p, item *it, bool, point)
                     p->add_disease("stunned", rng(3, 5));
                 }
             } else if (p->mutation_category_level[primary] > 80) {
-                if (g->u.has_trait("NOPAIN")) {
+                if (p->has_trait("NOPAIN")) {
                     p->add_msg_if_player(m_bad, _("You feel very Bugged."));
                 } else {
                     p->add_msg_if_player(m_bad, _("Your head throbs with memories of your life, before all this..."));
@@ -2107,7 +2107,7 @@ int iuse::mut_iv(player *p, item *it, bool, point)
                     p->add_disease("stunned", rng(2, 4));
                 }
             } else if (p->mutation_category_level[primary] > 60) {
-                if (g->u.has_trait("NOPAIN")) {
+                if (p->has_trait("NOPAIN")) {
                     p->add_msg_if_player(m_bad, _("You feel Bugged."));
                 } else {
                     p->add_msg_if_player(m_bad, _("Images of your past life flash before you."));
@@ -2204,7 +2204,7 @@ int iuse::purify_iv(player *p, item *it, bool, point)
             p->add_msg_if_player(m_warning, _("You feel a distinct burning inside, but it passes."));
         }
         valid.erase(valid.begin() + index);
-        if (!(g->u.has_trait("NOPAIN"))) {
+        if (!(p->has_trait("NOPAIN"))) {
             p->mod_pain(2 * num_cured); //Hurts worse as it fixes more
             p->add_msg_if_player(m_warning, _("Feels like you're on fire, but you're OK."));
         }
@@ -2252,7 +2252,7 @@ int iuse::marloss(player *p, item *it, bool t, point pos)
                 }
                 bool moveOK = (g->m.move_cost(x, y) > 0);
                 bool monOK = g->mon_at(x, y) == -1;
-                bool posOK = (g->u.posx != x || g->u.posy != y);
+                bool posOK = (p->posx != x || p->posy != y);
                 if (moveOK && monOK && posOK &&
                     one_in(10 + 5 * trig_dist(x, y, p->posx, p->posy)) &&
                     (spore_spawned == 0 || one_in(spore_spawned * 2))) {
@@ -2298,7 +2298,7 @@ int iuse::marloss(player *p, item *it, bool t, point pos)
     } else if (effect == 8) {
         p->add_msg_if_player(m_bad, _("You take one bite, and immediately vomit!"));
         p->vomit();
-    } else if (g->u.crossed_threshold()) { // Mycus Rejection.  Goo already present fights off the fungus.
+    } else if (p->crossed_threshold()) { // Mycus Rejection.  Goo already present fights off the fungus.
         p->add_msg_if_player(m_bad, _("You feel a familiar warmth, but suddenly it surges into an excruciating burn as you convulse, vomiting, and black out..."));
         p->add_memorial_log(pgettext("memorial_male", "Suffered Marloss Rejection."),
                         pgettext("memorial_female", "Suffered Marloss Rejection."));
@@ -2377,7 +2377,7 @@ int iuse::marloss_seed(player *p, item *it, bool t, point pos)
                 }
                 bool moveOK = (g->m.move_cost(x, y) > 0);
                 bool monOK = g->mon_at(x, y) == -1;
-                bool posOK = (g->u.posx != x || g->u.posy != y);
+                bool posOK = (p->posx != x || p->posy != y);
                 if (moveOK && monOK && posOK &&
                     one_in(10 + 5 * trig_dist(x, y, p->posx, p->posy)) &&
                     (spore_spawned == 0 || one_in(spore_spawned * 2))) {
@@ -2423,7 +2423,7 @@ int iuse::marloss_seed(player *p, item *it, bool t, point pos)
     } else if (effect == 8) {
         p->add_msg_if_player(m_bad, _("You take one bite, and immediately vomit!"));
         p->vomit();
-    } else if (g->u.crossed_threshold()) { // Mycus Rejection.  Goo already present fights off the fungus.
+    } else if (p->crossed_threshold()) { // Mycus Rejection.  Goo already present fights off the fungus.
         p->add_msg_if_player(m_bad, _("You feel a familiar warmth, but suddenly it surges into an excruciating burn as you convulse, vomiting, and black out..."));
         p->add_memorial_log(pgettext("memorial_male", "Suffered Marloss Rejection."),
                         pgettext("memorial_female", "Suffered Marloss Rejection."));
@@ -2498,7 +2498,7 @@ int iuse::marloss_gel(player *p, item *it, bool t, point pos)
                 }
                 bool moveOK = (g->m.move_cost(x, y) > 0);
                 bool monOK = g->mon_at(x, y) == -1;
-                bool posOK = (g->u.posx != x || g->u.posy != y);
+                bool posOK = (p->posx != x || p->posy != y);
                 if (moveOK && monOK && posOK &&
                     one_in(10 + 5 * trig_dist(x, y, p->posx, p->posy)) &&
                     (spore_spawned == 0 || one_in(spore_spawned * 2))) {
@@ -2544,7 +2544,7 @@ int iuse::marloss_gel(player *p, item *it, bool t, point pos)
     } else if (effect == 8) {
         p->add_msg_if_player(m_bad, _("You take one bite, and immediately vomit!"));
         p->vomit();
-    } else if (g->u.crossed_threshold()) { // Mycus Rejection.  Goo already present fights off the fungus.
+    } else if (p->crossed_threshold()) { // Mycus Rejection.  Goo already present fights off the fungus.
         p->add_msg_if_player(m_bad, _("You feel a familiar warmth, but suddenly it surges into an excruciating burn as you convulse, vomiting, and black out..."));
         p->add_memorial_log(pgettext("memorial_male", "Suffered Marloss Rejection."),
                         pgettext("memorial_female", "Suffered Marloss Rejection."));
@@ -2715,12 +2715,12 @@ static bool prep_firestarter_use(player *p, item *it, point &pos)
         p->add_msg_if_player(m_info, _("There is already a fire."));
         return false;
     }
-    if( !g->m.flammable_items_at(pos.x, pos.y) ||
+    if( g->m.flammable_items_at(pos.x, pos.y) ||
         g->m.has_flag("FLAMMABLE", pos.x, pos.y) || g->m.has_flag("FLAMMABLE_ASH", pos.x, pos.y) ) {
+        return true;
+    } else {
         p->add_msg_if_player(m_info, _("There's nothing to light there."));
         return false;
-    } else {
-        return true;
     }
 }
 
@@ -3439,7 +3439,7 @@ static bool cauterize_effect(player *p, item *it, bool force = true)
     hp_part hpart = use_healing_item(p, it, -2, -2, -2, 100, 50, 0, force);
     if (hpart != num_hp_parts) {
         p->add_msg_if_player(m_neutral, _("You cauterize yourself."));
-        if (!(g->u.has_trait("NOPAIN"))) {
+        if (!(p->has_trait("NOPAIN"))) {
             p->mod_pain(15);
             p->add_msg_if_player(m_bad, _("It hurts like hell!"));
         } else {
@@ -3448,7 +3448,7 @@ static bool cauterize_effect(player *p, item *it, bool force = true)
         body_part bp = num_bp;
         p->hp_convert(hpart, bp);
         if (p->has_disease("bite", bp)) {
-            g->u.add_disease("bite", 2600, false, 1, 1, 0, -1, bp, true);
+            p->add_disease("bite", 2600, false, 1, 1, 0, -1, bp, true);
         }
         return true;
     }
@@ -3736,7 +3736,7 @@ int iuse::two_way_radio(player *p, item *it, bool, point)
         if (bonus >= 25) {
             popup(_("They reply, \"Help is on the way!\""));
             //~ %s is faction name
-            g->u.add_memorial_log(pgettext("memorial_male", "Called for help from %s."),
+            p->add_memorial_log(pgettext("memorial_male", "Called for help from %s."),
                                   pgettext("memorial_female", "Called for help from %s."),
                                   fac->name.c_str());
             /* Disabled until event::faction_id and associated code
@@ -3769,7 +3769,7 @@ int iuse::two_way_radio(player *p, item *it, bool, point)
             popup(ngettext("A reply!  %s says, \"I'm on my way; give me %d minute!\"",
                            "A reply!  %s says, \"I'm on my way; give me %d minutes!\"", coming->minutes_to_u()),
                   coming->name.c_str(), coming->minutes_to_u());
-            g->u.add_memorial_log(pgettext("memorial_male", "Called for help from %s."),
+            p->add_memorial_log(pgettext("memorial_male", "Called for help from %s."),
                                   pgettext("memorial_female", "Called for help from %s."),
                                   coming->name.c_str());
             coming->mission = NPC_MISSION_RESCUE_U;
@@ -4382,7 +4382,7 @@ int iuse::crowbar(player *p, item *it, bool, point)
             g->m.spawn_item(dirx, diry, "manhole_cover");
         }
         if (type == t_door_locked_alarm) {
-            g->u.add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
+            p->add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
                                   pgettext("memorial_female", "Set off an alarm."));
             g->sound(p->posx, p->posy, 40, _("An alarm sounds!"));
             if (!g->event_queued(EVENT_WANTED)) {
@@ -5117,9 +5117,21 @@ void on_turn_activity_pickaxe(player *p)
 {
     const int dirx = p->activity.placement.x;
     const int diry = p->activity.placement.y;
-    if (calendar::turn % MINUTES(1) == 0) { // each turn is to much
+    if (calendar::turn % MINUTES(1) == 0) { // each turn is too much
         //~ Sound of a Pickaxe at work!
         g->sound(dirx, diry, 30, _("CHNK! CHNK! CHNK!"));
+        if (p->activity.moves_left <= 91000 && p->activity.moves_left > 89000) {
+            p->add_msg_if_player(m_info, _("Ugh.  You figure it'll take about an hour and a half at this rate."));
+        }
+        if (p->activity.moves_left <= 71000 && p->activity.moves_left > 69000) {
+            p->add_msg_if_player(m_info, _("If it keeps up like this, you might be through in an hour."));
+        }
+        if (p->activity.moves_left <= 31000 && p->activity.moves_left > 29000) {
+            p->add_msg_if_player(m_info, _("Feels like you're making good progress.  Another half an hour, maybe?"));
+        }
+        if (p->activity.moves_left <= 11000 && p->activity.moves_left > 9000) {
+            p->add_msg_if_player(m_info, _("That's got it.  Ten more minutes of work and it's open."));
+        }
     }
 }
 
@@ -5154,6 +5166,52 @@ void on_finish_activity_pickaxe(player *p)
     if (it->charges == 0 && it->destroyed_at_zero_charges()) {
         p->i_rem(p->activity.position);
     }
+}
+
+void on_turn_activity_burrow(player *p)
+{
+    const int dirx = p->activity.placement.x;
+    const int diry = p->activity.placement.y;
+    if (calendar::turn % MINUTES(1) == 0) { // each turn is too much
+        //~ Sound of a Rat mutant burrowing!
+        g->sound(dirx, diry, 10, _("ScratchCrunchScrabbleScurry."));
+        if (p->activity.moves_left <= 91000 && p->activity.moves_left > 89000) {
+            p->add_msg_if_player(m_info, _("You figure it'll take about an hour and a half at this rate."));
+        }
+        if (p->activity.moves_left <= 71000 && p->activity.moves_left > 69000) {
+            p->add_msg_if_player(m_info, _("About an hour left to go."));
+        }
+        if (p->activity.moves_left <= 31000 && p->activity.moves_left > 29000) {
+            p->add_msg_if_player(m_info, _("Shouldn't be more than half an hour or so now!"));
+        }
+        if (p->activity.moves_left <= 11000 && p->activity.moves_left > 9000) {
+            p->add_msg_if_player(m_info, _("Almost there! Ten more minutes of work and you'll be through."));
+        }
+    }
+}
+
+void on_finish_activity_burrow(player *p)
+{
+    const int dirx = p->activity.placement.x;
+    const int diry = p->activity.placement.y;
+    if (g->m.is_bashable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
+        g->m.ter(dirx, diry) != t_tree) {
+        // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
+        // Not quite as bad as the pickaxe, though
+        p->hunger += 10;
+        p->fatigue += 15;
+        p->thirst += 10;
+        p->mod_pain(3 * rng(1, 3));
+        // Mining is construction work!
+        p->practice("carpentry", 5);
+    } else if (g->m.move_cost(dirx, diry) == 2 && g->levz == 0 &&
+               g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass) {
+        //Breaking up concrete on the surface? not nearly as bad
+        p->hunger += 5;
+        p->fatigue += 10;
+        p->thirst += 5;
+    }
+    g->m.destroy(dirx, diry, true);
 }
 
 int iuse::set_trap(player *p, item *it, bool, point)
@@ -5252,6 +5310,10 @@ int iuse::set_trap(player *p, item *it, bool, point)
     } else if (it->type->id == "makeshift_funnel") {
         message << _("You place the makeshift funnel, waiting to collect rain.");
         type = tr_makeshift_funnel;
+        practice = 0;
+    } else if (it->type->id == "leather_funnel") {
+        message << _("You place the leather funnel, waiting to collect rain.");
+        type = tr_leather_funnel;
         practice = 0;
     } else if (it->type->id == "tripwire") {
         // Must have a connection between solid squares.
@@ -6300,7 +6362,7 @@ void iuse::play_music( player *p, point source, int volume )
         }
     }
 
-    if( g->ambient_sound( source.x, source.y, volume, sound ) && !g->u.has_effect("music") ){
+    if( g->ambient_sound( source.x, source.y, volume, sound ) && !p->has_effect("music") ){
         p->add_effect("music", 1);
         p->add_morale(MORALE_MUSIC, 1, 50, 5, 2);
     }
@@ -6570,16 +6632,16 @@ void make_zlave(player *p)
         int duration = 300 * (5.0 / (float)p->skillLevel("survival"));
         int decayDelay = 30 * (5.0 / (float)p->skillLevel("survival"));
 
-        if (g->u.has_trait("PACIFIST")) {
+        if (p->has_trait("PACIFIST")) {
             moraleMalus *= 5;
             maxMalus *= 3;
-        } else if (g->u.has_trait("PRED1")) {
+        } else if (p->has_trait("PRED1")) {
             moraleMalus /= 4;
-        } else if (g->u.has_trait("PRED2")) {
+        } else if (p->has_trait("PRED2")) {
             moraleMalus /= 5;
         }
 
-        g->u.add_morale(MORALE_MUTILATE_CORPSE, moraleMalus, maxMalus, duration, decayDelay);
+        p->add_morale(MORALE_MUTILATE_CORPSE, moraleMalus, maxMalus, duration, decayDelay);
     }
 
     const int selected_corpse = amenu.ret - 1;
@@ -6714,12 +6776,13 @@ static int cut_up(player *p, item *it, item *cut, bool)
         materials_salvaged[salvaged_id] = count * salvage_multiplier / cut_material_components.size();
     }
 
+    add_msg(m_info, _("You try to salvage materials from the %s."), cut->tname().c_str());
+
     // Clean up before removing the item.
     remove_ammo(cut, *p);
     // Original item has been consumed.
     p->i_rem(pos);
 
-    add_msg(m_info, _("You try to salvage materials from the %s."), cut->tname().c_str());
     for (auto salvaged : materials_salvaged) {
         std::string mat_name = salvaged.first;
         int amount = salvaged.second;
@@ -9492,10 +9555,10 @@ int iuse::ehandcuffs(player *p, item *it, bool t, point pos)
 
             if (p->has_item(it) && p->weapon.type->id == "e_handcuffs") {
 
-                if (g->u.has_artifact_with(AEP_RESIST_ELECTRICITY) ||
-                    g->u.has_active_bionic("bio_faraday")) { //Artifact or bionic stops electricity.
+                if (p->has_artifact_with(AEP_RESIST_ELECTRICITY) ||
+                    p->has_active_bionic("bio_faraday")) { //Artifact or bionic stops electricity.
                     add_msg(_("The electricity flows around you."));
-                } else if (g->u.worn_with_flag("ELECTRIC_IMMUNE")) { //Artifact or bionic stops electricity.
+                } else if (p->worn_with_flag("ELECTRIC_IMMUNE")) { //Artifact or bionic stops electricity.
                     add_msg(_("Your armor safely grounds the electrical discharge."));
                 } else {
 
@@ -9503,7 +9566,7 @@ int iuse::ehandcuffs(player *p, item *it, bool t, point pos)
 
                     p->apply_damage(nullptr, bp_arm_l, rng(0, 2));
                     p->apply_damage(nullptr, bp_arm_r, rng(0, 2));
-                    g->u.mod_pain(rng(2, 5));
+                    p->mod_pain(rng(2, 5));
 
                 }
 
@@ -9977,7 +10040,7 @@ int iuse::multicooker(player *p, item *it, bool t, point pos)
                          (*list_iter)->subcat == "CSC_FOOD_VEGGI" ||
                          (*list_iter)->subcat == "CSC_FOOD_PASTA")) {
 
-                        if (g->u.knows_recipe((*list_iter))) {
+                        if (p->knows_recipe((*list_iter))) {
                             dishes.push_back(*list_iter);
                             const bool can_make = (*list_iter)->can_make_with_inventory(crafting_inv);
                             item dummy((*list_iter)->result, 0);

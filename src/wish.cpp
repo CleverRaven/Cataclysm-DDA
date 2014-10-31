@@ -269,7 +269,7 @@ class wish_monster_callback: public uimenu_callback
         void setup(uimenu *menu)
         {
             w_info = newwin(menu->w_height - 2, menu->pad_right, 1,
-                            menu->w_x + menu->w_width - 2 - menu->pad_right);
+                            menu->w_x + menu->w_width - 1 - menu->pad_right);
             padding = std::string( getmaxx(w_info), ' ' );
             werase(w_info);
             wrefresh(w_info);
