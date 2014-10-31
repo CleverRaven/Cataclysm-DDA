@@ -631,6 +631,12 @@ void vehicle::use_controls()
                                                     (is_engine_on(e_toggle)?"on":"off"));
                 }
             }
+            //if current velocity greater than new configuration safe speed
+            //drop down
+            int safe_vel = safe_velocity();
+            if (velocity > safe_vel){
+                cruise_velocity = safe_vel;
+            }
         }
         break;
     case toggle_cruise_control:
