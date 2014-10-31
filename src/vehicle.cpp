@@ -617,8 +617,11 @@ void vehicle::use_controls()
     case control_engines:
         {
             int e_toggle = select_engine();
-            if (e_toggle > 0 && e_toggle < (int)engines.size())
-                add_msg("Toggling %s.",part_info(engines[e_toggle]).name.c_str());
+            if (e_toggle >= 0 && e_toggle < (int)engines.size()){
+                toggle_specific_engine(e_toggle, !is_engine_on(e_toggle));
+                add_msg("Switched %s %s",part_info(engines[e_toggle]).name.c_str(), 
+                                                (is_engine_on(e_toggle)?"on":"off"));
+            }
         }
         break;
     case toggle_cruise_control:
