@@ -1598,7 +1598,7 @@
             "sound": "crunch!",
             "sound_fail": "whump.",
             "items": [
-                { "item": "forge", "amount": 1 }
+                { "item": "char_forge", "amount": 1 }
             ]
         }
     },{
