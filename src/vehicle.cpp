@@ -3148,16 +3148,26 @@ void vehicle::cruise_thrust (int amount)
     if (!amount) {
         return;
     }
-    int max_vel = (safe_velocity() * 11 / 10000 + 1) * 1000;
-    cruise_velocity += amount;
-    cruise_velocity = cruise_velocity / abs(amount) * abs(amount);
+    int safe_vel = safe_velocity();
+    int max_vel = (safe_vel * 11 / 10000 + 1) * 1000;
+    
+    //if the safe velocity is between the cruise velocity and its next value, set to safe velocity
+    //otherwise just increment by amount
+    if ((cruise_velocity < safe_vel && safe_vel < (cruise_velocity + amount)) || 
+        (cruise_velocity > safe_vel && safe_vel > (cruise_velocity + amount))){
+        cruise_velocity = safe_vel;
+    } else {
+        cruise_velocity += (cruise_velocity == safe_vel && amount < 0)? -1:amount;
+        //round to lowest multiple of amount
+        cruise_velocity = cruise_velocity / abs(amount) * abs(amount);
+    }
+
     if (cruise_velocity > max_vel) {
         cruise_velocity = max_vel;
-    } else {
-        if (-cruise_velocity > max_vel / 4) {
+    } else if (-cruise_velocity > max_vel / 4) {
             cruise_velocity = -max_vel / 4;
-        }
     }
+    
 }
 
 void vehicle::turn (int deg)
