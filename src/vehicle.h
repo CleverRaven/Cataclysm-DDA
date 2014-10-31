@@ -10,6 +10,7 @@
 #include <map>
 #include <string>
 #include <iosfwd>
+#include "ui.h"
 
 class map;
 class player;
@@ -647,6 +648,9 @@ public:
 
     // upgrades/refilling/etc. see veh_interact.cpp
     void interact ();
+    
+    // shows ui menu to select an engine
+    int select_engine();
 
     // return a vector w/ 'direction' & 'magnitude', in its own sense of the words.
     rl_vec2d velo_vec();

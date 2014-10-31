@@ -48,7 +48,8 @@ enum vehicle_controls {
  toggle_reactor,
  toggle_engine,
  toggle_fridge,
- toggle_recharger
+ toggle_recharger,
+ control_engines
 };
 
 vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): type(type_id)
@@ -421,6 +422,22 @@ void vehicle::smash() {
     }
 }
 
+int vehicle::select_engine(){
+    uimenu tmenu;
+    std::string name;
+    tmenu.text = _("Toggle which?");
+    for( size_t p = 0; p < engines.size(); ++p ) {
+        if(parts[engines[p]].hp > 0) {
+            name = part_info(engines[p]).name;
+            tmenu.addentry(p, true, -1, "%s", name.c_str());
+        }
+    }
+    
+    tmenu.addentry(-1, true, 'q', _("Cancel"));
+    tmenu.query();
+    return tmenu.ret;
+}
+
 void vehicle::use_controls()
 {
     std::vector<vehicle_controls> options_choice;
@@ -567,6 +584,11 @@ void vehicle::use_controls()
         options_message.push_back(uimenu_entry(reactor_on ? _("Turn off reactor") :
                                                _("Turn on reactor"), 'k'));
     }
+    // Turn the reactor on/off
+    if (has_engine) {
+        options_choice.push_back(control_engines);
+        options_message.push_back(uimenu_entry("Control individual engines", 'y'));
+    }
 
     options_choice.push_back(control_cancel);
     options_message.push_back(uimenu_entry(_("Do nothing"), ' '));
@@ -581,8 +603,15 @@ void vehicle::use_controls()
     if (select < 0) {
         return;
     }
-
+    
     switch(options_choice[select]) {
+    //brackets prevent initialisation errors
+    case control_engines:
+        {
+            select_engine();
+            ///do nothing
+        }
+        break;
     case toggle_cruise_control:
         cruise_on = !cruise_on;
         add_msg((cruise_on) ? _("Cruise control turned on") : _("Cruise control turned off"));
