@@ -123,7 +123,7 @@ class veh_interact
         int mostDamagedPart;
         
         //do_remove supporting operations
-        void try_remove_part(int veh_part_index, bool has_skill, int msg_width);
+        bool can_remove_part(int veh_part_index, int mech_skill, int msg_width);
         //do install support
         bool can_install_part(int msg_width, int engines, int dif_eng);
         //true if trying to install foot crank with electric engines for example

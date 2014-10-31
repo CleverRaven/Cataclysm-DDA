@@ -412,10 +412,11 @@ task_reason veh_interact::cant_do (char mode)
     case 'o': // remove mode
         enough_morale = g->u.morale_level() >= MIN_MORALE_CRAFT;
         valid_target = cpart >= 0 && 0 == veh->tags.count("convertible");
-        has_tools = (has_wrench && has_hacksaw) || can_remove_wheel ||
-            // UNMOUNT_ON_MOVE == loose enough to hand-remove
-            (cpart >= 0 && veh->part_with_feature(cpart, "UNMOUNT_ON_MOVE") >= 0) ||
-            (cpart >= 0 && veh->part_with_feature(cpart, "WRENCHABLE") >= 0 && has_wrench);
+        //~ has_tools = (has_wrench && has_hacksaw) || can_remove_wheel ||
+            //~ // UNMOUNT_ON_MOVE == loose enough to hand-remove
+            //~ (cpart >= 0 && veh->part_with_feature(cpart, "UNMOUNT_ON_MOVE") >= 0) ||
+            //~ (cpart >= 0 && veh->part_with_feature(cpart, "WRENCHABLE") >= 0 && has_wrench);
+        has_tools = true;
         part_free = parts_here.size() > 1 || (cpart >= 0 && veh->can_unmount(cpart));
         has_skill = g->u.skillLevel("mechanics") >= 2 || can_remove_wheel;
         break;
@@ -775,26 +776,49 @@ void veh_interact::do_refill()
     sel_cmd = 'f';
 }
 
-void veh_interact::try_remove_part(int veh_part_index, bool has_skill, int msg_width){
+bool veh_interact::can_remove_part(int veh_part_index, int mech_skill, int msg_width){
+    werase (w_msg);
     if (veh->can_unmount(veh_part_index)) {
         bool is_wheel = veh->part_flag(veh_part_index, "WHEEL");
         bool is_loose = veh->part_flag(veh_part_index, "UNMOUNT_ON_MOVE");
         bool is_wrenchable = veh->part_flag(veh_part_index, "WRENCHABLE");
-        if ((is_wheel && has_wrench && has_jack)|| (is_wrenchable && has_wrench) || (is_loose)) {
-            sel_cmd = 'o';
+        bool has_skill;
+        if (is_loose) has_skill = true;
+        else if (is_wrenchable) has_skill = (mech_skill >= 1)? true: false;
+        else has_skill = (mech_skill >= 2)? true: false;
+        //print necessary materials
+        if (is_wheel){
+            fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
+                           _("You need a <color_%1$s>wrench</color>, a <color_%2$s>jack</color> and <color_%3$s>level 2</color> mechanics skill to remove parts."),
+                           has_wrench ? "ltgreen" : "red",
+                           has_jack ? "ltgreen" : "red",
+                           has_skill ? "ltgreen" : "red");
+        }
+        else if (is_wrenchable) {
+            fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
+                           _("You need a <color_%1$s>wrench</color> and <color_%2$s>level 1</color> mechanics skill to remove this part."),
+                           has_wrench ? "ltgreen" : "red",
+                           has_skill ? "ltgreen" : "red");
         } else {
             fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
                            _("You need a <color_%1$s>wrench</color> and a <color_%2$s>hacksaw, cutting torch and goggles, or circular saw (off)</color> and <color_%3$s>level 2</color> mechanics skill to remove parts."),
                            has_wrench ? "ltgreen" : "red",
                            has_hacksaw ? "ltgreen" : "red",
                            has_skill ? "ltgreen" : "red");
-            wrefresh (w_msg);
+            
+        }
+        wrefresh (w_msg);
+        //check if have all necessary materials
+        if ((is_wheel && has_wrench && has_jack)|| (is_wrenchable && has_wrench) || (is_loose)) {
+            return true;
         }
     } else {
         mvwprintz(w_msg, 0, 1, c_ltred,
                   _("You cannot remove that part while something is attached to it."));
         wrefresh (w_msg);
     }
+    return false;
+    
 }
 
 /**
@@ -868,9 +892,10 @@ void veh_interact::do_remove()
         veh->print_part_desc (w_parts, 0, parts_w, cpart, pos);
         wrefresh (w_parts);
         //read input
+        bool can_remove = can_remove_part(parts_here[pos], has_skill, msg_width);
         const std::string action = main_context.handle_input();
-        if (action == "REMOVE" || action == "CONFIRM") {
-            try_remove_part(parts_here[pos], has_skill, msg_width);
+        if (can_remove && (action == "REMOVE" || action == "CONFIRM")) {
+            sel_cmd = 'o';
             break;
         } else if (action == "QUIT") {
             werase (w_parts);
@@ -880,6 +905,7 @@ void veh_interact::do_remove()
             break;
         } else {
             move_in_list(pos, action, parts_here.size());
+            
         }
     }
 }
