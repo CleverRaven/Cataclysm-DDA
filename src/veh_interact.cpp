@@ -777,7 +777,6 @@ void veh_interact::do_remove()
     werase (w_msg);
     int msg_width = getmaxx(w_msg);
     bool has_skill = g->u.skillLevel("mechanics") >= 2;
-    bool can_hacksaw = has_wrench && has_hacksaw && has_skill;
     switch (reason) {
     case LOW_MORALE:
         mvwprintz(w_msg, 0, 1, c_ltred, _("Your morale is too low to construct..."));
@@ -826,11 +825,14 @@ void veh_interact::do_remove()
     }
     int pos = first;
     while (true) {
+        //these variables seem to fetch the vehicle parts at specified position
         sel_vehicle_part = &veh->parts[parts_here[pos]];
         sel_vpart_info = &(vehicle_part_types[sel_vehicle_part->id]);
+        //redraw ui
         werase (w_parts);
         veh->print_part_desc (w_parts, 0, parts_w, cpart, pos);
         wrefresh (w_parts);
+        //read input
         const std::string action = main_context.handle_input();
         if (action == "REMOVE" || action == "CONFIRM") {
             try_remove_part(parts_here[pos], has_skill, msg_width);
