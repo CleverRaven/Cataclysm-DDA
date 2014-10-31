@@ -434,7 +434,7 @@ int vehicle::select_engine(){
         }
     }
     
-    tmenu.addentry(-1, true, 'q', _("Cancel"));
+    tmenu.addentry(-1, true, 'q', _("Finish"));
     tmenu.query();
     return tmenu.ret;
 }
