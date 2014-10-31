@@ -5120,6 +5120,18 @@ void on_turn_activity_pickaxe(player *p)
     if (calendar::turn % MINUTES(1) == 0) { // each turn is too much
         //~ Sound of a Pickaxe at work!
         g->sound(dirx, diry, 30, _("CHNK! CHNK! CHNK!"));
+        if (p->activity.moves_left <= 91000 && p->activity.moves_left > 89000) {
+            p->add_msg_if_player(m_info, _("Ugh.  You figure it'll take about an hour and a half at this rate."));
+        }
+        if (p->activity.moves_left <= 71000 && p->activity.moves_left > 69000) {
+            p->add_msg_if_player(m_info, _("If it keeps up like this, you might be through in an hour."));
+        }
+        if (p->activity.moves_left <= 31000 && p->activity.moves_left > 29000) {
+            p->add_msg_if_player(m_info, _("Feels like you're making good progress.  Another half an hour, maybe?"));
+        }
+        if (p->activity.moves_left <= 11000 && p->activity.moves_left > 9000) {
+            p->add_msg_if_player(m_info, _("That's got it.  Ten more minutes of work and it's open."));
+        }
     }
 }
 
@@ -5163,6 +5175,18 @@ void on_turn_activity_burrow(player *p)
     if (calendar::turn % MINUTES(1) == 0) { // each turn is too much
         //~ Sound of a Rat mutant burrowing!
         g->sound(dirx, diry, 10, _("ScratchCrunchScrabbleScurry."));
+        if (p->activity.moves_left <= 91000 && p->activity.moves_left > 89000) {
+            p->add_msg_if_player(m_info, _("You figure it'll take about an hour and a half at this rate."));
+        }
+        if (p->activity.moves_left <= 71000 && p->activity.moves_left > 69000) {
+            p->add_msg_if_player(m_info, _("About an hour left to go."));
+        }
+        if (p->activity.moves_left <= 31000 && p->activity.moves_left > 29000) {
+            p->add_msg_if_player(m_info, _("Shouldn't be more than half an hour or so now!"));
+        }
+        if (p->activity.moves_left <= 11000 && p->activity.moves_left > 9000) {
+            p->add_msg_if_player(m_info, _("Almost there! Ten more minutes of work and you'll be through."));
+        }
     }
 }
 
