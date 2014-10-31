@@ -3149,23 +3149,34 @@ void vehicle::cruise_thrust (int amount)
         return;
     }
     int safe_vel = safe_velocity();
-    int max_vel = (safe_vel * 11 / 10000 + 1) * 1000;
+    int max_vel = max_velocity();
+    int max_rev_vel = -max_vel / 4;
     
     //if the safe velocity is between the cruise velocity and its next value, set to safe velocity
-    //otherwise just increment by amount
     if ((cruise_velocity < safe_vel && safe_vel < (cruise_velocity + amount)) || 
         (cruise_velocity > safe_vel && safe_vel > (cruise_velocity + amount))){
         cruise_velocity = safe_vel;
     } else {
-        cruise_velocity += (cruise_velocity == safe_vel && amount < 0)? -1:amount;
-        //round to lowest multiple of amount
+        //if coming down from safe_velocity or max_velocity
+        //then take one, so cruise_velocity scales down a multiple of amount
+        if (amount < 0 && (cruise_velocity == safe_vel || cruise_velocity == max_vel)){
+            cruise_velocity += -1;
+        } 
+        //if not going up from max reverse velocity, increase by amount
+        else if ((amount > 0 && cruise_velocity == max_rev_vel) == false){
+            cruise_velocity += amount;
+        }
+        //integer round to lowest multiple of amount
+        //the result is always equal to the original or closer to zero
+        //even if negative
         cruise_velocity = cruise_velocity / abs(amount) * abs(amount);
     }
-
+    //can't have a cruise speed faster than max speed
+    //or reverse speed faster than max reverse speed
     if (cruise_velocity > max_vel) {
         cruise_velocity = max_vel;
-    } else if (-cruise_velocity > max_vel / 4) {
-            cruise_velocity = -max_vel / 4;
+    } else if (cruise_velocity < max_rev_vel) {
+            cruise_velocity = max_rev_vel;
     }
     
 }
