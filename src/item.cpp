@@ -925,12 +925,12 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         if (is_armor() && has_flag("BELTED")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
-                _("This piece of clothing is worn as a belt.")));
+                _("This piece of clothing is worn in the belted layer.")));
         }
         if (is_armor() && has_flag("OUTER")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
-                _("This piece of clothing is over other clothing.")));
+                _("This piece of clothing is worn over other clothing.")));
         }
         if (is_armor() && has_flag("OVERSIZE")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
@@ -980,7 +980,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         if (is_armor() && has_flag("FLOATATION")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
-                _("This piece of clothing prevents you from going underwater.")));
+                _("This piece of clothing prevents you from going underwater (including voluntary diving).")));
         }
         if (is_armor() && type->id == "rad_badge") {
             size_t i;
