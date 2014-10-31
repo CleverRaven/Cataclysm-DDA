@@ -107,6 +107,7 @@ tr_cot,
 tr_brazier,
 tr_funnel,
 tr_makeshift_funnel,
+tr_leather_funnel,
 tr_rollmat,
 tr_fur_rollmat,
 tr_beartrap,
@@ -150,6 +151,7 @@ void set_trap_ids()
     tr_brazier = trapfind("tr_brazier");
     tr_funnel = trapfind("tr_funnel");
     tr_makeshift_funnel = trapfind("tr_makeshift_funnel");
+    tr_leather_funnel = trapfind("tr_leather_funnel");
     tr_rollmat = trapfind("tr_rollmat");
     tr_fur_rollmat = trapfind("tr_fur_rollmat");
     tr_beartrap = trapfind("tr_beartrap");

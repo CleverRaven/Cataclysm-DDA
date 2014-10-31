@@ -67,8 +67,8 @@
         "points" : 2,
         "description" : "You heal a little faster than most; sleeping will heal more lost HP.",
         "starting_trait" : true,
-        "cancels" : ["ROT1", "ROT2", "ROT3", "SLOWHEALER"],
-        "changes_to" : ["FASTHEALER2"],
+        "cancels" : ["ROT1", "ROT2", "ROT3", "SLOWHEALER", "MET_RAT"],
+        "changes_to" : ["FASTHEALER2", "REGEN_LIZ"],
         "category" : ["MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
@@ -504,7 +504,7 @@
         "name" : "Sleepy",
         "points" : -1,
         "description" : "You need sleep more often, but still spend most of your time awake.",
-        "changes_to" : ["SLEEPY2"],
+        "changes_to" : ["SLEEPY2", "MET_RAT"],
         "starting_trait" : true,
         "cancels" : ["WAKEFUL", "WAKEFUL2", "WAKEFUL3"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_CHIMERA"]
@@ -892,6 +892,26 @@
         "category" : ["MUTCAT_TROGLOBITE", "MUTCAT_SPIDER"]
     },{
         "type" : "mutation",
+        "id" : "CEPH_EYES",
+        "name" : "Cephalopod Eyes",
+        "points" : 1,
+        "visibility" : 8,
+        "ugliness" : 5,
+        "description" : "Your eyes still bulge, yet your pupils look Different somehow.  Water doesn't seem to cause any trouble at all, though.",
+        "leads_to" : ["CEPH_VISION"],
+        "cancels" : ["BIRD_EYE", "LIZ_EYE", "FEL_EYE", "URSINE_EYE", "COMPOUND_EYES", "ELFAEYES"],
+        "category" : ["MUTCAT_CEPHALOPOD"]
+    },{
+        "type" : "mutation",
+        "id" : "CEPH_VISION",
+        "name" : "Cephalopod Vision",
+        "points" : 3,
+        "description" : "Your brain has caught up with your eyes.  You can see much better in the dark, but sunlight seems much brighter now.",
+        "prereqs" : ["CEPH_EYES"],
+        "cancels" : ["LIZ_IR", "FEL_NV", "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3", "ELFA_NV", "ELFA_FNV"],
+        "category" : ["MUTCAT_CEPHALOPOD"]
+    },{
+        "type" : "mutation",
         "id" : "ELFAEYES",
         "name" : "Fey Eyes",
         "points" : 1,
@@ -1009,6 +1029,18 @@
         "category" : ["MUTCAT_SLIME", "MUTCAT_TROGLOBITE"]
     },{
         "type" : "mutation",
+        "id" : "REGEN_LIZ",
+        "name" : "Reptilian Healing",
+        "points" : 5,
+        "valid" : false,
+        "purifiable" : false,
+        "description" : "Your broken limbs mend theselves without significant difficulty.",
+        "cancels" : ["ROT1", "ROT2", "ROT3"],
+        "prereqs" : ["FASTHEALER"],
+        "threshreq" : ["THRESH_LIZARD"],
+        "category" : ["MUTCAT_LIZARD"]
+    },{
+        "type" : "mutation",
         "id" : "WAKEFUL2",
         "name" : "Very Little Sleep",
         "points" : 3,
@@ -1044,6 +1076,18 @@
         "category" : ["MUTCAT_LIZARD", "MUTCAT_FISH", "MUTCAT_LUPINE", "MUTCAT_FELINE", "MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
+        "id" : "INCISORS",
+        "name" : "Incisors",
+        "points" : 2,
+        "visibility" : 3,
+        "ugliness" : 3,
+        "description" : "Your big teeth have grown in.  Folks had best show some more respect.",
+        "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "FANGS"],
+        "prereqs" : ["MUZZLE_RAT"],
+        "threshreq" : ["THRESH_RAT"],
+        "category" : ["MUTCAT_RAT"]
+    },{
+        "type" : "mutation",
         "id" : "MEMBRANE",
         "name" : "Nictitating Membrane",
         "points" : 1,
@@ -1063,7 +1107,19 @@
         "visibility" : 5,
         "ugliness" : 3,
         "description" : "You've grown a set of gills in your neck, allowing you to breathe underwater. Slightly increases wet benefits.",
-        "category" : ["MUTCAT_FISH", "MUTCAT_CEPHALOPOD"],
+        "category" : ["MUTCAT_FISH"],
+        "wet_protection" : [
+            { "part" : "HEAD", "good" : 1 }
+        ]
+    },{
+        "type" : "mutation",
+        "id" : "GILLS_CEPH",
+        "name" : "Cephalopod Gills",
+        "points" : 3,
+        "visibility" : 4,
+        "ugliness" : 4,
+        "description" : "You've grown a set of gills, running from your neck up behind your ears.  They allow you to breathe underwater and slightly increase wet benefits.",
+        "category" : ["MUTCAT_CEPHALOPOD"],
         "wet_protection" : [
             { "part" : "HEAD", "good" : 1 }
         ]
@@ -1498,9 +1554,36 @@
         "ugliness" : 2,
         "description" : "You have claws on the ends of your fingers. If you aren't wearing gloves, your unarmed attacks deal a minor amount of cutting damage.",
         "prereqs" : ["NAILS"],
-        "changes_to" : ["CLAWS_RETRACT"],
+        "changes_to" : ["CLAWS_RETRACT", "CLAWS_RAT"],
         "cancels" : ["TALONS"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_RAT", "MUTCAT_URSINE"]
+    },{
+        "type" : "mutation",
+        "id" : "CLAWS_RAT",
+        "name" : "Rat Claws",
+        "points" : 3,
+        "visibility" : 3,
+        "ugliness" : 4,
+        "description" : "Your claws have grown tougher and slightly gnarled.",
+        "prereqs" : ["CLAWS"],
+        "changes_to" : ["CLAWS_ST"],
+        "cancels" : ["TALONS", "CLAWS_RETRACT"],
+        "category" : ["MUTCAT_RAT"]
+    },{
+        "type" : "mutation",
+        "id" : "CLAWS_ST",
+        "name" : "Stainless Claws",
+        "points" : 6,
+        "visibility" : 3,
+        "ugliness" : 5,
+        "valid" : false,
+        "purifiable" : false,
+        "description" : "Your paws are bone, muscle, and claw with a thin layer of skin and fur.  They might as well be made of stainless steel.",
+        "prereqs" : ["CLAWS_RAT"],
+        "prereqs2" : ["PAWS"],
+        "threshreq" : ["THRESH_RAT"],
+        "cancels" : ["TALONS", "CLAWS_RETRACT"],
+        "category" : ["MUTCAT_RAT"]
     },{
         "type" : "mutation",
         "id" : "CLAWS_RETRACT",
@@ -1898,6 +1981,24 @@
         "threshreq" : ["THRESH_CHIMERA", "THRESH_RAT"],
         "category" : ["MUTCAT_RAT", "MUTCAT_CHIMERA"],
         "valid" : false
+    },{
+        "type" : "mutation",
+        "id" : "BURROW",
+        "name" : "Burrowing",
+        "points" : 10,
+        "valid" : false,
+        "purifiable" : false,
+        "description" : "Between your claws and teeth, you can tunnel through just about anything.",
+        "prereqs" : ["CLAWS_ST"],
+        "prereqs2" : ["INCISORS"],
+        "threshreq" : ["THRESH_RAT"],
+        "category" : ["MUTCAT_RAT"],
+        "active"     :    true,
+        "cost"       :    10,
+        "time"       :    0,
+        "hunger"     :    true,
+        "thirst"     :    true,
+        "fatigue"    :    true
     },{
         "type" : "mutation",
         "id" : "SABER_TEETH",
@@ -2473,8 +2574,18 @@
         "points" : 1,
         "visibility" : 3,
         "ugliness" : 1,
-        "description" : "You have a set of prominent rodent-like whiskers around your mouth. These make you more aware of vibrations in the air, and improve your ability to dodge very slightly.",
-        "category" : ["MUTCAT_RAT", "MUTCAT_FELINE"]
+        "description" : "You have a handsome set of feline whiskers around your mouth. These make you more aware of vibrations in the air, and improve your ability to dodge very slightly.",
+        "category" : ["MUTCAT_FELINE"]
+    },{
+        "type" : "mutation",
+        "id" : "WHISKERS_RAT",
+        "name" : "Wiry Whiskers",
+        "points" : 2,
+        "visibility" : 3,
+        "ugliness" : 1,
+        "description" : "You have a set of prominent rodent-like whiskers around your mouth. These make you more aware of vibrations in the air, and improve your ability to dodge slightly.",
+        "prereqs" : ["MUZZLE_RAT"],
+        "category" : ["MUTCAT_RAT"]
     },{
         "type" : "mutation",
         "id" : "FAT",
@@ -2970,7 +3081,7 @@
         "visibility" : 4,
         "ugliness" : 3,
         "description" : "Your face and jaw have begun...changing. Masks and such fit OK, but you're noticeably mutated.",
-        "changes_to" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "MINOTAUR", "MUZZLE", "MUZZLE_BEAR", "MUZZLE_LONG"],
+        "changes_to" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "MINOTAUR", "MUZZLE", "MUZZLE_BEAR", "MUZZLE_LONG", "MUZZLE_RAT"],
         "category" : ["MUTCAT_FELINE"]
     },{
         "type" : "mutation",
@@ -3008,6 +3119,17 @@
         "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "MINOTAUR", "MUZZLE_LONG", "MUZZLE"],
         "prereqs" : ["SNOUT"],
         "category" : ["MUTCAT_URSINE"]
+    },{
+        "type" : "mutation",
+        "id" : "MUZZLE_RAT",
+        "name" : "Ratlike Muzzle",
+        "points" : -1,
+        "visibility" : 6,
+        "ugliness" : 4,
+        "description" : "Your face and jaw have extended, giving you an alert and attentive appearance.",
+        "prereqs" : ["SNOUT"],
+        "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "MINOTAUR", "MUZZLE", "MUZZLE_BEAR", "MUZZLE_LONG", "SNOUT"],
+        "category" : ["MUTCAT_RAT"]
     },{
         "type" : "mutation",
         "id" : "MUZZLE_LONG",
@@ -3073,8 +3195,19 @@
         "description" : "You require more food than most people.",
         "starting_trait" : true,
         "cancels" : ["LIGHTEATER"],
-        "changes_to" :["HUNGER2"],
+        "changes_to" :["HUNGER2", "MET_RAT"],
         "category" : ["MUTCAT_RAT", "MUTCAT_ALPHA", "MUTCAT_MEDICAL", "MUTCAT_ELFA", "MUTCAT_BEAST", "MUTCAT_SLIME", "MUTCAT_RAPTOR", "MUTCAT_CHIMERA"]
+    },{
+        "type" : "mutation",
+        "id" : "MET_RAT",
+        "name" : "Rapid Metabolism",
+        "points" : -2,
+        "valid" : false,
+        "description" : "You require more resources than most, but heal more rapidly as well.",
+        "cancels" : ["LIGHTEATER", "FASTHEALER", "FASTHEALER2", "REGEN", "ROT1", "ROT2", "ROT3", "WAKEFUL", "WAKEFUL2", "WAKEFUL3"],
+        "prereqs" : ["HUNGER"],
+        "prereqs2" : ["SLEEPY"],
+        "category" : ["MUTCAT_RAT"]
     },{
         "type" : "mutation",
         "id" : "HUNGER2",
@@ -3235,7 +3368,7 @@
         "ugliness" : 2,
         "mixed_effect" : true,
         "description" : "Your hands have fused into quasi-paws. Fine manipulation is a challenge: permanent hand encumbrance of 1, difficulty with delicate craftwork, and your gloves don't fit. But they handle water better.",
-        "prereqs" : ["CLAWS", "CLAWS_RETRACT"],
+        "prereqs" : ["CLAWS", "CLAWS_RETRACT", "CLAWS_RAT"],
         "cancels" : ["TALONS", "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8"],
         "changes_to" : ["PAWS_LARGE"],
         "category" : ["MUTCAT_LUPINE", "MUTCAT_RAT", "MUTCAT_FELINE"]

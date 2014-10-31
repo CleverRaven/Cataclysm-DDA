@@ -405,8 +405,12 @@ void player::reset_stats()
     if (has_trait("TAIL_FLUFFY")) {
         mod_dodge_bonus(4);
     }
-    if (has_trait("WHISKERS")) {
+    // Whiskers don't work so well if they're covered
+    if (has_trait("WHISKERS") && !wearing_something_on(bp_mouth)) {
         mod_dodge_bonus(1);
+    }
+    if (has_trait("WHISKERS_RAT") && !wearing_something_on(bp_mouth)) {
+        mod_dodge_bonus(2);
     }
     if (has_trait("WINGS_BAT")) {
         mod_dodge_bonus(-3);
@@ -926,7 +930,7 @@ void player::update_bodytemp()
                 } else if (g->m.tr_at(posx + j, posy + k) == tr_lava ) {
                     heat_intensity = 3;
                 }
-                if (heat_intensity > 0 && g->u_see(posx + j, posy + k)) {
+                if (heat_intensity > 0 && sees(posx + j, posy + k)) {
                     // Ensure fire_dist >= 1 to avoid divide-by-zero errors.
                     int fire_dist = std::max(1, std::max(j, k));
                     if (frostbite_timer[i] > 0) {
@@ -1464,7 +1468,7 @@ void player::recalc_speed_bonus()
         }
     }
 
-    if (g->u.has_trait("M_SKIN2")) {
+    if (has_trait("M_SKIN2")) {
         mod_speed_bonus(-20); // Could be worse--you've got the armor from a (sessile!) Spire
     }
 
@@ -4103,7 +4107,7 @@ void player::recalc_sight_limits()
             (has_effect("boomered") && (!(has_trait("PER_SLIME_OK")))) ||
             (underwater && !has_bionic("bio_membrane") &&
                 !has_trait("MEMBRANE") && !worn_with_flag("SWIM_GOGGLES") &&
-                (!(has_trait("PER_SLIME_OK"))))) {
+                !has_trait("CEPH_EYES") && !has_trait("PER_SLIME_OK") ) ) {
         sight_max = 1;
     } else if (has_active_mutation("SHELL2")) {
         // You can kinda see out a bit.
@@ -4123,7 +4127,8 @@ void player::recalc_sight_limits()
     if (has_trait("DEBUG_NIGHTVISION")) {
         sight_boost = 59;
         sight_boost_cap = 59;
-    } else if (has_nv() || has_trait("NIGHTVISION3") || has_trait("ELFA_FNV") || is_wearing("rm13_armor_on")) {
+    } else if (has_nv() || has_trait("NIGHTVISION3") || has_trait("ELFA_FNV") || is_wearing("rm13_armor_on") ||
+      (has_trait("CEPH_VISION")) ) {
         // Yes, I'm breaking the cap. I doubt the reality bubble shrinks at night.
         // BIRD_EYE represents excellent fine-detail vision so I think it works.
         if (has_trait("BIRD_EYE")) {
@@ -4235,8 +4240,9 @@ int player::clairvoyance() const
 bool player::sight_impaired()
 {
  return ((has_effect("boomered") && (!(has_trait("PER_SLIME_OK")))) ||
-  (underwater && !has_bionic("bio_membrane") && !has_trait("MEMBRANE")
-              && !worn_with_flag("SWIM_GOGGLES") && !(has_trait("PER_SLIME_OK"))) ||
+  (underwater && !has_bionic("bio_membrane") && !has_trait("MEMBRANE") &&
+              !worn_with_flag("SWIM_GOGGLES") && !has_trait("PER_SLIME_OK") &&
+              !has_trait("CEPH_EYES") ) ||
   ((has_trait("MYOPIC") || has_trait("URSINE_EYE") ) &&
                         !is_wearing("glasses_eye") &&
                         !is_wearing("glasses_monocle") &&
@@ -6870,7 +6876,7 @@ void player::hardcoded_effects(effect &it)
             if ((has_trait("FLIMSY") && x_in_y(3, 4)) || (has_trait("FLIMSY2") && one_in(2)) ||
                   (has_trait("FLIMSY3") && one_in(4)) ||
                   (!has_trait("FLIMSY") && !has_trait("FLIMSY2") && !has_trait("FLIMSY3"))) {
-                if (has_trait("FASTHEALER")) {
+                if (has_trait("FASTHEALER") || has_trait("MET_RAT")) {
                     heal_chance += 100;
                 } else if (has_trait("FASTHEALER2")) {
                     heal_chance += 150;
@@ -6912,7 +6918,7 @@ void player::hardcoded_effects(effect &it)
                 fatigue -= 1 + one_in(recovery_chance);
                 // You fatigue & recover faster with Sleepy
                 // Very Sleepy, you just fatigue faster
-                if (has_trait("SLEEPY")) {
+                if (has_trait("SLEEPY") || has_trait("MET_RAT")) {
                     fatigue -=(1 + one_in(recovery_chance) / 2);
                 }
                 // Tireless folks recover fatigue really fast
@@ -6926,7 +6932,7 @@ void player::hardcoded_effects(effect &it)
             if ((has_trait("FLIMSY") && x_in_y(3, 4)) || (has_trait("FLIMSY2") && one_in(2)) ||
                   (has_trait("FLIMSY3") && one_in(4)) ||
                   (!has_trait("FLIMSY") && !has_trait("FLIMSY2") && !has_trait("FLIMSY3"))) {
-                if (has_trait("FASTHEALER")) {
+                if (has_trait("FASTHEALER") || has_trait("MET_RAT")) {
                     heal_chance += 100;
                 } else if (has_trait("FASTHEALER2")) {
                     heal_chance += 150;
@@ -7178,7 +7184,7 @@ void player::suffer()
     }
 
     if (underwater) {
-        if (!has_trait("GILLS")) {
+        if (!has_trait("GILLS") && !has_trait("GILLS_CEPH")) {
             oxygen--;
         }
         if (oxygen < 12 && worn_with_flag("REBREATHER")) {
@@ -7601,9 +7607,16 @@ void player::suffer()
         g->m.add_field(posx, posy, fd_web, 1); //this adds density to if its not already there.
     }
 
-    if (has_trait("RADIOGENIC") && int(calendar::turn) % 50 == 0 && radiation >= 10) {
-        radiation -= 10;
-        healall(1);
+    if (has_trait("RADIOGENIC") && int(calendar::turn) % 50 == 0 && radiation > 0) {
+        if (radiation > 10) {
+            radiation -= 10;
+            healall(1);
+        } else {
+            if(x_in_y(radiation, 10)) {
+                healall(1);
+            }
+            radiation = 0;
+        }
     }
 
     if (has_trait("RADIOACTIVE1")) {
@@ -7775,6 +7788,9 @@ void player::mend()
         if(broken) {
             double mending_odds = 200.0; // 2 weeks, on average. (~20160 minutes / 100 minutes)
             double healing_factor = 1.0;
+            if (has_trait("REGEN_LIZ")) {
+                healing_factor = 20.0;
+            }
             // Studies have shown that alcohol and tobacco use delay fracture healing time
             if(has_effect("cig") | addiction_level(ADD_CIG)) {
                 healing_factor *= 0.5;
@@ -7822,18 +7838,34 @@ void player::mend()
                 case hp_arm_r:
                     part = bp_arm_r;
                     mended = is_wearing_on_bp("arm_splint", bp_arm_r) && x_in_y(healing_factor, mending_odds);
+                    if (mended == false && has_trait("REGEN_LIZ")) {
+                        healing_factor *= 0.2; // Splints aren't *strictly* necessary for your anatomy
+                        mended = x_in_y(healing_factor, mending_odds);
+                    }
                     break;
                 case hp_arm_l:
                     part = bp_arm_l;
                     mended = is_wearing_on_bp("arm_splint", bp_arm_l) && x_in_y(healing_factor, mending_odds);
+                    if (mended == false && has_trait("REGEN_LIZ")) {
+                        healing_factor *= 0.2; // But without them, you're looking at a much longer recovery.
+                        mended = x_in_y(healing_factor, mending_odds);
+                    }
                     break;
                 case hp_leg_r:
                     part = bp_leg_r;
                     mended = is_wearing_on_bp("leg_splint", bp_leg_r) && x_in_y(healing_factor, mending_odds);
+                    if (mended == false && has_trait("REGEN_LIZ")) {
+                        healing_factor *= 0.2;
+                        mended = x_in_y(healing_factor, mending_odds);
+                    }
                     break;
                 case hp_leg_l:
                     part = bp_leg_l;
                     mended = is_wearing_on_bp("leg_splint", bp_leg_l) && x_in_y(healing_factor, mending_odds);
+                    if (mended == false && has_trait("REGEN_LIZ")) {
+                        healing_factor *= 0.2;
+                        mended = x_in_y(healing_factor, mending_odds);
+                    }
                     break;
                 default:
                     // No mending for you!
@@ -8919,33 +8951,17 @@ bool player::is_waterproof(std::bitset<13> parts) const
 
 bool player::has_artifact_with(const art_effect_passive effect) const
 {
-    if (weapon.is_artifact() && weapon.is_tool()) {
-        it_artifact_tool *tool = dynamic_cast<it_artifact_tool*>(weapon.type);
-        for (auto &i : tool->effects_wielded) {
-            if (i == effect) {
-                return true;
-            }
-        }
-        for (auto &i : tool->effects_carried) {
-            if (i == effect) {
-                return true;
-            }
-        }
-    }
-    if (inv.has_artifact_with(effect)) {
+    if( weapon.has_effect_when_wielded( effect ) ) {
         return true;
     }
-    for (auto &i : worn) {
-        if (i.is_artifact()) {
-            it_artifact_armor *armor = dynamic_cast<it_artifact_armor*>(i.type);
-            for (auto &j : armor->effects_worn) {
-                if (j == effect) {
-                    return true;
-                }
-            }
+    for( auto & i : worn ) {
+        if( i.has_effect_when_worn( effect ) ) {
+            return true;
         }
     }
-    return false;
+    return has_item_with( [effect]( const item & it ) {
+        return it.has_effect_when_carried( effect );
+    } );
 }
 
 bool player::has_amount(const itype_id &it, int quantity) const
@@ -9347,7 +9363,7 @@ bool player::eat(item *eaten, it_comest *comest)
             return false;
         }
     }
-    
+
     int temp_nutr = comest->nutr;
     int temp_quench = comest->quench;
     if (hiberfood && !is_npc() && (((hunger - temp_nutr) < -60) || ((thirst - temp_quench) < -60)) && has_active_mutation("HIBERNATE")){
@@ -10388,7 +10404,8 @@ bool player::wear_item(item *to_wear, bool interactive)
         }
 
         if (to_wear->covers.test(bp_mouth) &&
-            (has_trait("MUZZLE") || has_trait("MUZZLE_BEAR") || has_trait("MUZZLE_LONG")))
+            (has_trait("MUZZLE") || has_trait("MUZZLE_BEAR") || has_trait("MUZZLE_LONG") ||
+            has_trait("MUZZLE_RAT")))
         {
             if(interactive)
             {
@@ -11417,7 +11434,7 @@ void player::do_read( item *book )
     }
 
     if( reading->has_use() ) {
-        reading->invoke( &g->u, book, false, pos() );
+        reading->invoke( this, book, false, pos() );
     }
 
     activity.type = ACT_NULL;
@@ -11677,7 +11694,10 @@ float player::fine_detail_vision_mod()
     if (has_trait("NIGHTVISION")) { vision_ii -= .5; }
     else if (has_trait("ELFA_NV")) { vision_ii -= 1; }
     else if (has_trait("NIGHTVISION2") || has_trait("FEL_NV")) { vision_ii -= 2; }
-    else if (has_trait("NIGHTVISION3") || has_trait("ELFA_FNV") || is_wearing("rm13_armor_on")) { vision_ii -= 3; }
+    else if (has_trait("NIGHTVISION3") || has_trait("ELFA_FNV") || is_wearing("rm13_armor_on") ||
+      has_trait("CEPH_VISION")) {
+        vision_ii -= 3;
+    }
 
     if (vision_ii < 1) { vision_ii = 1; }
     return vision_ii;
@@ -13433,7 +13453,7 @@ void player::spores()
                             }
                             monster &critter = g->zombie( mondex );
                             if( !critter.make_fungus() ) {
-                                critter.die(nullptr); // FIXME: needs a player reference
+                                critter.die( this );
                             }
                         } else if (one_in(3) && g->num_zombies() <= 1000) { // Spawn a spore
                         spore.spawn(sporex, sporey);

@@ -52,6 +52,40 @@ void player::activate_mutation(int b)
         g->m.add_field(posx, posy, fd_web, 1);
         add_msg(_("You start spinning web with your spinnerets!"));
     }
+    else if (traits[mut].id == "BURROW"){
+        if (g->u.is_underwater()) {
+        add_msg_if_player(m_info, _("You can't do that while underwater."));
+        return;
+    }
+    int dirx, diry;
+    if (!choose_adjacent(_("Burrow where?"), dirx, diry)) {
+        return;
+    }
+
+    if (dirx == g->u.posx && diry == g->u.posy) {
+        add_msg_if_player(_("You've got places to go and critters to beat."));
+        add_msg_if_player(_("Let the lesser folks eat their hearts out."));
+        return;
+    }
+    int turns;
+    if (g->m.is_bashable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
+        g->m.ter(dirx, diry) != t_tree) {
+        // Takes about 100 minutes (not quite two hours) base time.
+        // Being better-adapted to the task means that skillful Survivors can do it almost twice as fast.
+        turns = (100000 - 5000 * g->u.skillLevel("carpentry"));
+    } else if (g->m.move_cost(dirx, diry) == 2 && g->levz == 0 &&
+               g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass) {
+        turns = 18000;
+    } else {
+        add_msg_if_player(m_info, _("You can't burrow there."));
+        return;
+    }
+    g->u.assign_activity(ACT_BURROW, turns, -1, 0);
+    g->u.activity.placement = point(dirx, diry);
+    add_msg_if_player(_("You tear into the %s with your teeth and claws."),
+                         g->m.tername(dirx, diry).c_str());
+    return; // handled when the activity finishes
+    }
     else if (traits[mut].id == "SLIMESPAWNER"){
         std::vector<point> valid;
         for (int x = posx - 1; x <= posx + 1; x++) {
@@ -96,26 +130,26 @@ void player::activate_mutation(int b)
         g->sound(posx, posy, 20 + 4 * str_cur, _("You let out a piercing howl!"));
     }
     else if ((traits[mut].id == "NAUSEA") || (traits[mut].id == "VOMITOUS") ){
-        g->u.vomit();
+        vomit();
     }
     else if (traits[mut].id == "M_FERTILE"){
-        g->u.spores();
+        spores();
     }
     else if (traits[mut].id == "M_BLOOM"){
-        g->u.blossoms();
+        blossoms();
     }
     else if (traits[mut].id == "VINES3"){
         int handed = 0;
         item newit("vine_30", calendar::turn, false, handed);
-        if (!g->u.can_pickVolume(newit.volume())) { //Accounts for result_mult
+        if (!can_pickVolume(newit.volume())) { //Accounts for result_mult
             add_msg(_("You detach a vine but don't have room to carry it, so you drop it."));
-            g->m.add_item_or_charges(g->u.posx, g->u.posy, newit);
-        } else if (!g->u.can_pickWeight(newit.weight(), !OPTIONS["DANGEROUS_PICKUPS"])) {
+            g->m.add_item_or_charges(posx, posy, newit);
+        } else if (!can_pickWeight(newit.weight(), !OPTIONS["DANGEROUS_PICKUPS"])) {
             add_msg(_("Your freshly-detached vine is too heavy to carry, so you drop it."));
-            g->m.add_item_or_charges(g->u.posx, g->u.posy, newit);
+            g->m.add_item_or_charges(posx, posy, newit);
         } else {
-            g->u.inv.assign_empty_invlet(newit);
-            newit = g->u.i_add(newit);
+            inv.assign_empty_invlet(newit);
+            newit = i_add(newit);
             add_msg(m_info, "%c - %s", newit.invlet == 0 ? ' ' : newit.invlet, newit.tname().c_str());
         }
     }

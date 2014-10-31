@@ -959,7 +959,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         spread_gas( cur, x, y, curtype, 33,  5);
                         int mondex;
                         mondex = g->mon_at(x, y);
-                        if (g->m.move_cost(x, y) > 0) {
+                        if (move_cost(x, y) > 0) {
                             if (mondex != -1) { // Haze'd!
                                 if (!g->zombie(mondex).type->in_species("FUNGUS") &&
                                   !g->zombie(mondex).type->has_flag("NO_BREATHE")) {

@@ -613,7 +613,7 @@ void Creature::add_effect(efftype_id eff_id, int dur, body_part bp, bool permane
                      add_msg(effect_types[eff_id].gain_game_message_type(),
                              _(effect_types[eff_id].get_apply_message().c_str()));
             }
-            g->u.add_memorial_log(pgettext("memorial_male",
+            add_memorial_log(pgettext("memorial_male",
                                            effect_types[eff_id].get_apply_memorial_log().c_str()),
                                   pgettext("memorial_female",
                                            effect_types[eff_id].get_apply_memorial_log().c_str()));
@@ -648,7 +648,7 @@ void Creature::remove_effect(efftype_id eff_id, body_part bp)
             add_msg(effect_types[eff_id].lose_game_message_type(),
                          _(effect_types[eff_id].get_remove_message().c_str()));
         }
-        g->u.add_memorial_log(pgettext("memorial_male",
+        add_memorial_log(pgettext("memorial_male",
                                        effect_types[eff_id].get_remove_memorial_log().c_str()),
                               pgettext("memorial_female",
                                        effect_types[eff_id].get_remove_memorial_log().c_str()));
