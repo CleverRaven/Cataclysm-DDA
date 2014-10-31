@@ -597,7 +597,7 @@ void vehicle::use_controls()
         options_message.push_back(uimenu_entry(reactor_on ? _("Turn off reactor") :
                                                _("Turn on reactor"), 'k'));
     }
-    // Turn the reactor on/off
+    // control an engine
     if (has_engine) {
         options_choice.push_back(control_engines);
         options_message.push_back(uimenu_entry("Control individual engines", 'y'));
