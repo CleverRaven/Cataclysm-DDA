@@ -439,11 +439,11 @@ int vehicle::select_engine(){
 }
 
 void vehicle::toggle_specific_engine(int p,bool on){
-    
+    parts[engines[p]].enabled = on;
 }
 
 bool vehicle::is_engine_on(int p){
-    
+    return parts[engines[p]].enabled;
 }
 
 void vehicle::use_controls()
@@ -617,7 +617,8 @@ void vehicle::use_controls()
     case control_engines:
         {
             int e_toggle = select_engine();
-            add_msg("Toggling %s.",part_info(engines[e_toggle]).name.c_str());
+            if (e_toggle > 0 && e_toggle < (int)engines.size())
+                add_msg("Toggling %s.",part_info(engines[e_toggle]).name.c_str());
         }
         break;
     case toggle_cruise_control:
