@@ -783,13 +783,12 @@ bool veh_interact::can_remove_part(int veh_part_index, int mech_skill, int msg_w
         bool is_loose = veh->part_flag(veh_part_index, "UNMOUNT_ON_MOVE");
         bool is_wrenchable = veh->part_flag(veh_part_index, "WRENCHABLE");
         bool has_skill;
-        if (is_loose) has_skill = true;
-        else if (is_wrenchable) has_skill = (mech_skill >= 1)? true: false;
+        if (is_wrenchable || is_loose) has_skill = (mech_skill >= 1)? true: false;
         else has_skill = (mech_skill >= 2)? true: false;
         //print necessary materials
         if (is_wheel){
             fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                           _("You need a <color_%1$s>wrench</color>, a <color_%2$s>jack</color> and <color_%3$s>level 2</color> mechanics skill to remove parts."),
+                           _("You need a <color_%1$s>wrench</color>, a <color_%2$s>jack</color> and <color_%3$s>level 2</color> mechanics skill to remove this part."),
                            has_wrench ? "ltgreen" : "red",
                            has_jack ? "ltgreen" : "red",
                            has_skill ? "ltgreen" : "red");
@@ -799,9 +798,14 @@ bool veh_interact::can_remove_part(int veh_part_index, int mech_skill, int msg_w
                            _("You need a <color_%1$s>wrench</color> and <color_%2$s>level 1</color> mechanics skill to remove this part."),
                            has_wrench ? "ltgreen" : "red",
                            has_skill ? "ltgreen" : "red");
-        } else {
+        } else if (is_loose) {
             fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                           _("You need a <color_%1$s>wrench</color> and a <color_%2$s>hacksaw, cutting torch and goggles, or circular saw (off)</color> and <color_%3$s>level 2</color> mechanics skill to remove parts."),
+                            _("You need <color_%1$s>level 1</color> mechanics skill to remove this part."),
+                           has_skill ? "ltgreen" : "red");
+        } 
+        else {
+            fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
+                           _("You need a <color_%1$s>wrench</color> and a <color_%2$s>hacksaw, cutting torch and goggles, or circular saw (off)</color> and <color_%3$s>level 2</color> mechanics skill to remove this part."),
                            has_wrench ? "ltgreen" : "red",
                            has_hacksaw ? "ltgreen" : "red",
                            has_skill ? "ltgreen" : "red");
@@ -835,7 +839,7 @@ void veh_interact::do_remove()
     display_mode('o');
     werase (w_msg);
     int msg_width = getmaxx(w_msg);
-    bool has_skill = g->u.skillLevel("mechanics") >= 2;
+    //bool has_skill = g->u.skillLevel("mechanics") >= 2;
     switch (reason) {
     case LOW_MORALE:
         mvwprintz(w_msg, 0, 1, c_ltred, _("Your morale is too low to construct..."));
@@ -892,7 +896,7 @@ void veh_interact::do_remove()
         veh->print_part_desc (w_parts, 0, parts_w, cpart, pos);
         wrefresh (w_parts);
         //read input
-        bool can_remove = can_remove_part(parts_here[pos], has_skill, msg_width);
+        bool can_remove = can_remove_part(parts_here[pos], g->u.skillLevel("mechanics"), msg_width);
         const std::string action = main_context.handle_input();
         if (can_remove && (action == "REMOVE" || action == "CONFIRM")) {
             sel_cmd = 'o';
