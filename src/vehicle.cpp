@@ -438,6 +438,14 @@ int vehicle::select_engine(){
     return tmenu.ret;
 }
 
+void vehicle::toggle_specific_engine(int p,bool on){
+    
+}
+
+bool vehicle::is_engine_on(int p){
+    
+}
+
 void vehicle::use_controls()
 {
     std::vector<vehicle_controls> options_choice;

@@ -73,7 +73,7 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
 {
     vehicle_part(const std::string &sid = "", int dx = 0, int dy = 0,
                  const item *it = NULL) : id("null"), iid(0), mount_dx(dx), mount_dy(dy),
-                 hp(0), blood(0), bigness(0), inside(false), removed(false), flags(0),
+                 hp(0), blood(0), bigness(0), inside(false), removed(false),enabled(1), flags(0),
                  passenger_id(0), amount(0), target(point(0,0),point(0,0)) {
         precalc_dx[0] = precalc_dx[1] = -1;
         precalc_dy[0] = precalc_dy[1] = -1;
@@ -102,6 +102,7 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     bool inside;            // if tile provides cover. WARNING: do not read it directly, use vehicle::is_inside() instead
     bool removed;           // TRUE if this part is removed. The part won't disappear until the end of the turn
                             // so our indices can remain consistent.
+    bool enabled;
     int flags;
     int passenger_id;       // carrying passenger
     union
@@ -651,6 +652,10 @@ public:
     
     // shows ui menu to select an engine
     int select_engine();
+    //returns whether the engine is enabled or not
+    bool is_engine_on(int p);
+    //mark engine as on or off
+    void toggle_specific_engine(int p, bool on);
 
     // return a vector w/ 'direction' & 'magnitude', in its own sense of the words.
     rl_vec2d velo_vec();
