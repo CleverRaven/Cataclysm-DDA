@@ -3081,7 +3081,7 @@
         "visibility" : 4,
         "ugliness" : 3,
         "description" : "Your face and jaw have begun...changing. Masks and such fit OK, but you're noticeably mutated.",
-        "changes_to" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "MINOTAUR", "MUZZLE", "MUZZLE_BEAR", "MUZZLE_LONG"],
+        "changes_to" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "MINOTAUR", "MUZZLE", "MUZZLE_BEAR", "MUZZLE_LONG", "MUZZLE_RAT"],
         "category" : ["MUTCAT_FELINE"]
     },{
         "type" : "mutation",
@@ -3127,7 +3127,8 @@
         "visibility" : 6,
         "ugliness" : 4,
         "description" : "Your face and jaw have extended, giving you an alert and attentive appearance.",
-        "changes_to" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "MINOTAUR", "MUZZLE", "MUZZLE_BEAR", "MUZZLE_LONG", "SNOUT"],
+        "prereqs" : ["SNOUT"],
+        "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "MINOTAUR", "MUZZLE", "MUZZLE_BEAR", "MUZZLE_LONG", "SNOUT"],
         "category" : ["MUTCAT_RAT"]
     },{
         "type" : "mutation",
