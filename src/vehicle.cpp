@@ -429,7 +429,8 @@ int vehicle::select_engine(){
     for( size_t p = 0; p < engines.size(); ++p ) {
         if(parts[engines[p]].hp > 0) {
             name = part_info(engines[p]).name;
-            tmenu.addentry(p, true, -1, "%s", name.c_str());
+            tmenu.addentry(p, true, -1, "[%s] %s",
+                            ((parts[engines[p]].enabled)? "x":" ") , name.c_str());
         }
     }
     
