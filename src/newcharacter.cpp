@@ -1433,6 +1433,14 @@ int set_scenario(WINDOW *w, player *u, int &points)
     // scenario_display_sort() keeps "Evacuee" at the top.
     std::sort(sorted_scens.begin(), sorted_scens.end(), scenario_display_sort);
 
+    // Select the current scenario, if possible.
+    for (size_t i = 0; i < sorted_scens.size(); ++i) {
+        if (sorted_scens[i]->ident() == g->scen->ident()) {
+            cur_id = i;
+            break;
+        }
+    }
+
     input_context ctxt("NEW_CHAR_SCENARIOS");
     ctxt.register_cardinal();
     ctxt.register_action("CONFIRM");
