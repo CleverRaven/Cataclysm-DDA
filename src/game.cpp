@@ -10700,6 +10700,10 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
         return true;
 
     } else { // filling up normal containers
+        if( infinite ) {
+            liquid.charges = LONG_MAX;
+        }
+
         std::string err;
         if( !cont->fill_with( liquid, err ) ) {
             add_msg( m_info, err.c_str() );
