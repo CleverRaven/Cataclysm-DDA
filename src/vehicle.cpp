@@ -470,6 +470,20 @@ bool vehicle::is_part_on(int p){
     return parts[p].enabled;
 }
 
+bool vehicle::is_active_engine_at(int x,int y){
+    for( size_t p = 0; p < engines.size(); ++p ) {
+        if (parts[engines[p]].enabled &&
+            parts[engines[p]].mount_dx == x &&
+            parts[engines[p]].mount_dy == y)
+            return true;
+    }
+    return false;
+}
+
+bool vehicle::is_alternator_on(int p){
+    return is_active_engine_at(parts[alternators[p]].mount_dx, parts[alternators[p]].mount_dy);
+}
+
 void vehicle::use_controls()
 {
     std::vector<vehicle_controls> options_choice;
@@ -2293,14 +2307,18 @@ int vehicle::total_power (bool fueled)
     int part_under_player;
     g->m.veh_at(g->u.posx, g->u.posy, part_under_player);
     bool player_controlling = player_in_control(&(g->u));
-    for (size_t p = 0; p < parts.size(); p++) {
-        if (part_flag(p, VPFLAG_ENGINE) && is_part_on(p) && (fuel_left (part_info(p).fuel_type) || !fueled ||
+    for (size_t e = 0; e < engines.size(); e++) {
+        int p = engines[e];
+        if (is_engine_on(e) && (fuel_left (part_info(p).fuel_type) || !fueled ||
               ((part_info(p).fuel_type == fuel_type_muscle) && player_controlling &&
               part_with_feature(part_under_player, VPFLAG_ENGINE) == (int)p)) && parts[p].hp > 0) {
             pwr += part_power(p);
             cnt++;
-        } else if (part_flag(p, VPFLAG_ALTERNATOR) &&
-                 parts[p].hp > 0) {
+        }
+    }
+    for (size_t a = 0; a < alternators.size();a++){
+        int p = alternators[a];
+        if (parts[p].hp > 0 && is_alternator_on(a)) {
             pwr += part_power(p); // alternators have negative power
         }
     }
@@ -2729,7 +2747,7 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
         int alternators_epower = 0;
         int alternators_power = 0;
         for( size_t p = 0; p < alternators.size(); ++p ) {
-            if(parts[alternators[p]].hp > 0) {
+            if(parts[alternators[p]].hp > 0 && is_alternator_on(p)) {
                 alternators_epower += part_info(alternators[p]).epower;
                 alternators_power += part_power(alternators[p]);
             }

@@ -657,6 +657,8 @@ public:
     //returns whether the engine is enabled or not
     bool is_engine_on(int p);
     bool is_part_on(int p);
+    bool is_active_engine_at(int x,int y);
+    bool is_alternator_on(int p);
     //mark engine as on or off
     void toggle_specific_engine(int p, bool on);
 
