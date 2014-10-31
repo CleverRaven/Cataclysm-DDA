@@ -429,7 +429,6 @@ void vehicle::control_engines(){
     for (size_t p = 0; p < engines.size(); ++p){
         if (parts[engines[p]].hp > 0 && parts[engines[p]].enabled){
             active_count++;
-            break;
         }
     }
     
