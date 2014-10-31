@@ -608,8 +608,8 @@ void vehicle::use_controls()
     //brackets prevent initialisation errors
     case control_engines:
         {
-            select_engine();
-            ///do nothing
+            int e_toggle = select_engine();
+            add_msg("Toggling %s.",part_info(engines[e_toggle]).name.c_str());
         }
         break;
     case toggle_cruise_control:
