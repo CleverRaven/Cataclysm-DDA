@@ -2770,7 +2770,7 @@
         "item" : "small_storage_battery",
         "difficulty" : 1,
         "location" : "fuel_source",
-        "flags" : ["FUEL_TANK", "WRENCHABLE"],
+        "flags" : ["FUEL_TANK", "TOOL_NONE"],
         "breaks_into" : [
             {"item": "scrap", "min": 1, "max": 2}
         ]
@@ -3708,7 +3708,7 @@
         "fuel_type" : "battery",
         "item" : "battery_truck",
         "difficulty" : 2,
-        "flags" : ["FUEL_TANK"],
+        "flags" : ["FUEL_TANK", "TOOL_WRENCH"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 8, "max": 12},
             {"item": "steel_chunk", "min": 8, "max": 12},

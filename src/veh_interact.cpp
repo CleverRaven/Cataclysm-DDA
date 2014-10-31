@@ -415,7 +415,7 @@ task_reason veh_interact::cant_do (char mode)
         //~ has_tools = (has_wrench && has_hacksaw) || can_remove_wheel ||
             //~ // UNMOUNT_ON_MOVE == loose enough to hand-remove
             //~ (cpart >= 0 && veh->part_with_feature(cpart, "UNMOUNT_ON_MOVE") >= 0) ||
-            //~ (cpart >= 0 && veh->part_with_feature(cpart, "WRENCHABLE") >= 0 && has_wrench);
+            //~ (cpart >= 0 && veh->part_with_feature(cpart, "TOOL_WRENCH") >= 0 && has_wrench);
         has_tools = true;
         part_free = parts_here.size() > 1 || (cpart >= 0 && veh->can_unmount(cpart));
         has_skill = g->u.skillLevel("mechanics") >= 2 || can_remove_wheel;
@@ -487,7 +487,8 @@ bool veh_interact::can_install_part(int msg_width, int engines, int dif_eng){
     bool has_skill = g->u.skillLevel("mechanics") >= sel_vpart_info->difficulty;
     bool has_tools = ((has_welder && has_goggles) || has_duct_tape) && has_wrench;
     bool has_skill2 = !is_engine || (g->u.skillLevel("mechanics") >= dif_eng);
-    bool is_wrenchable = sel_vpart_info->has_flag("WRENCHABLE");
+    bool is_wrenchable = sel_vpart_info->has_flag("TOOL_WRENCH");
+    bool is_hand_remove = sel_vpart_info->has_flag("TOOL_NONE");
     std::string engine_string = "";
     if (!drive_conflict){
         if (engines && is_engine) { // already has engine
@@ -508,6 +509,17 @@ bool veh_interact::can_install_part(int msg_width, int engines, int dif_eng){
                            engine_string.c_str());
             wrefresh (w_msg);
         }
+        else if (is_hand_remove) {
+            werase (w_msg);
+            fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
+                           _("Needs <color_%1$s>%2$s</color>,  and level <color_%3$s>%4$d</color> skill in mechanics.%5$s"),
+                           has_comps ? "ltgreen" : "red",
+                           item_controller->nname( itm ).c_str(),
+                           has_skill ? "ltgreen" : "red",
+                           sel_vpart_info->difficulty,
+                           engine_string.c_str());
+            wrefresh (w_msg);
+        }
         else {
             werase (w_msg);
             fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
@@ -522,7 +534,7 @@ bool veh_interact::can_install_part(int msg_width, int engines, int dif_eng){
                            engine_string.c_str());
             wrefresh (w_msg);
         }
-        if (has_comps && (has_tools || (is_wrenchable && has_wrench)) && has_skill && has_skill2) {
+        if (has_comps && (has_tools || (is_wrenchable && has_wrench) || (is_hand_remove)) && has_skill && has_skill2) {
             return true;
         }
     }
@@ -781,7 +793,8 @@ bool veh_interact::can_remove_part(int veh_part_index, int mech_skill, int msg_w
     if (veh->can_unmount(veh_part_index)) {
         bool is_wheel = veh->part_flag(veh_part_index, "WHEEL");
         bool is_loose = veh->part_flag(veh_part_index, "UNMOUNT_ON_MOVE");
-        bool is_wrenchable = veh->part_flag(veh_part_index, "WRENCHABLE");
+        bool is_wrenchable = veh->part_flag(veh_part_index, "TOOL_WRENCH");
+        bool is_hand_remove = veh->part_flag(veh_part_index, "TOOL_NONE");
         bool has_skill;
         if (is_wrenchable || is_loose) has_skill = (mech_skill >= 1)? true: false;
         else has_skill = (mech_skill >= 2)? true: false;
@@ -798,7 +811,7 @@ bool veh_interact::can_remove_part(int veh_part_index, int mech_skill, int msg_w
                            _("You need a <color_%1$s>wrench</color> and <color_%2$s>level 1</color> mechanics skill to remove this part."),
                            has_wrench ? "ltgreen" : "red",
                            has_skill ? "ltgreen" : "red");
-        } else if (is_loose) {
+        } else if (is_loose || is_hand_remove) {
             fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
                             _("You need <color_%1$s>level 1</color> mechanics skill to remove this part."),
                            has_skill ? "ltgreen" : "red");
