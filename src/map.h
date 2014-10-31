@@ -40,7 +40,7 @@ struct wrapped_vehicle{
 };
 
 typedef std::vector<wrapped_vehicle> VehicleList;
-typedef std::vector< std::list<item*> > itemslice;
+typedef std::vector< std::pair< item*, int > > itemslice;
 
 /**
  * Manage and cache data about a part of the map.

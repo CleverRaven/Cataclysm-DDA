@@ -96,6 +96,45 @@ int fold_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color base
     return fold_and_print(w, begin_y, begin_x, width, base_color, text);
 }
 
+void print_colored_text( WINDOW *w, int x, int y, nc_color &color, nc_color base_color, const std::string &text )
+{
+    wmove( w, x, y );
+    const auto color_segments = split_by_color( text );
+    for( auto seg : color_segments ) {
+        if( !seg.empty() && seg[0] == '<' ) {
+            color = get_color_from_tag( seg, base_color );
+            seg = rm_prefix( seg );
+        }
+        wprintz( w, color, "%s", seg.c_str() );
+    }
+}
+
+int print_scrollable( WINDOW *w, int begin_line, const std::string &text, nc_color base_color, const std::string &scroll_msg )
+{
+    const size_t wwidth = getmaxx( w );
+    const auto text_lines = foldstring( text, wwidth );
+    size_t wheight = getmaxy( w );
+    const auto print_scroll_msg = text_lines.size() > wheight;
+    if( print_scroll_msg && !scroll_msg.empty() ) {
+        // keep the last line free for a message to the player
+        wheight--;
+    }
+    if( begin_line < 0 || text_lines.size() <= wheight ) {
+        begin_line = 0;
+    } else if( begin_line + wheight >= text_lines.size() ) {
+        begin_line = text_lines.size() - wheight;
+    }
+    nc_color color = base_color;
+    for( size_t i = 0; i + begin_line < text_lines.size() && i < wheight; ++i ) {
+        print_colored_text( w, i, 0, color, base_color, text_lines[i + begin_line] );
+    }
+    if( print_scroll_msg && !scroll_msg.empty() ) {
+        color = c_white;
+        print_colored_text( w, wheight, 0, color, color, scroll_msg );
+    }
+    return std::max<int>( 0, text_lines.size() - wheight );
+}
+
 // returns number of printed lines
 int fold_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color base_color,
                    const std::string &text)
@@ -104,17 +143,7 @@ int fold_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color base
     std::vector<std::string> textformatted;
     textformatted = foldstring(text, width);
     for (size_t line_num = 0; line_num < textformatted.size(); line_num++) {
-        wmove(w, line_num + begin_y, begin_x);
-        // split into colourable sections
-        std::vector<std::string> color_segments = split_by_color(textformatted[line_num]);
-        // for each section, get the colour, and print it
-        std::vector<std::string>::iterator it;
-        for (it = color_segments.begin(); it != color_segments.end(); ++it) {
-            if (!it->empty() && it->at(0) == '<') {
-                color = get_color_from_tag(*it, base_color);
-            }
-            wprintz(w, color, "%s", rm_prefix(*it).c_str());
-        }
+        print_colored_text( w, line_num + begin_y, begin_x, color, base_color, textformatted[line_num] );
     }
     return textformatted.size();
 }
@@ -1001,7 +1030,10 @@ int draw_item_info(WINDOW *win, const std::string sItemName,
         } else {
             if (bStartNewLine) {
                 if (vItemDisplay[i].bDrawName) {
-                    mvwprintz(win, line_num, (without_border) ? 1 : 2, c_white, "%s", (vItemDisplay[i].sName).c_str());
+                    const auto b = without_border ? 1 : 2;
+                    const auto h = fold_and_print( win, line_num, b, getmaxx( win ) - b * 2,
+                                                   c_white, vItemDisplay[i].sName );
+                    line_num += h - 1;
                 }
                 bStartNewLine = false;
             } else {

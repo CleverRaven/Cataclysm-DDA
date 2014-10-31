@@ -96,6 +96,28 @@ enum game_message_type {
 nc_color msgtype_to_color(const game_message_type type, const bool bOldMsg = false);
 int msgtype_to_tilecolor(const game_message_type type, const bool bOldMsg = false);
 
+/**
+ * Print text with embedded color tags, x, y are in curses system.
+ * The text is not word wrapped, but may automatically be wrapped on new line characters or
+ * when it reaches the border of the window (both is done by the curses system).
+ * If the text contains no color tags, it's equivalent to a simple mvprintz.
+ * @param text The text to print.
+ * @param cur_color The current color (could have been set by a previously encountered color tag),
+ * change to a color according to the color tags that are in the text.
+ * @param base_color Base color that is used outside of any color tag.
+ **/
+void print_colored_text( WINDOW *w, int x, int y, nc_color &cur_color, nc_color base_color, const std::string &text );
+/**
+ * Print word wrapped text (with color tags) into the window.
+ * @param begin_line Line in the word wrapped text that is printed first (lines before that are not printed at all).
+ * @param base_color Color used outside of any color tags.
+ * @param scroll_msg Optional, can be empty. If not empty and the text does not fit the window, the string is printed
+ * on the last line (in light green), it should show how to scroll the text.
+ * @return The maximal scrollable offset ([number of lines to be printed] - [lines available in the window]).
+ * This allows the caller to restrict the begin_line number on future calls / when modified by the user.
+ */
+int print_scrollable( WINDOW *w, int begin_line, const std::string &text, nc_color base_color, const std::string &scroll_msg );
+
 std::vector<std::string> foldstring (std::string str, int width);
 int fold_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color color, const char *mes,
                    ...);

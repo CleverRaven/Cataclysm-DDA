@@ -1062,15 +1062,14 @@ int set_profession(WINDOW *w, player *u, int &points)
     draw_tabs(w, _("PROFESSION"));
     int cur_id = 0;
     int retval = 0;
+    int desc_offset = 0;
     const int iContentHeight = FULL_SCREEN_HEIGHT - 10;
     int iStartPos = 0;
 
     WINDOW *w_description = newwin(4, FULL_SCREEN_WIDTH - 2,
                                    FULL_SCREEN_HEIGHT - 5 + getbegy(w), 1 + getbegx(w));
 
-    WINDOW *w_items =       newwin(iContentHeight - 1, 25,  6 + getbegy(w), 24 + getbegx(w));
-    WINDOW *w_skills =      newwin(iContentHeight - 6, 30,  6 + getbegy(w), 49 + getbegx(w));
-    WINDOW *w_addictions =  newwin(5,                  30, 14 + getbegy(w), 49 + getbegx(w));
+    WINDOW *w_items =       newwin(iContentHeight - 1, 55,  6 + getbegy(w), 24 + getbegx(w));
     WINDOW *w_genderswap =  newwin(1,                  55,  5 + getbegy(w), 24 + getbegx(w));
 
     std::vector<const profession *> sorted_profs;
@@ -1163,43 +1162,41 @@ int set_profession(WINDOW *w, player *u, int &points)
             mvwprintz(w, 5 + i - iStartPos, 2, col,
                       sorted_profs[i]->gender_appropriate_name(u->male).c_str());
         }
-        auto prof_items = sorted_profs[cur_id]->items( u->male );
-        int line_offset = 1;
-        werase(w_items);
-        mvwprintz(w_items, 0, 0, COL_HEADER, _("Profession items:"));
-        for (size_t i = 0; i < prof_items.size() && line_offset + (int)i < getmaxy(w_items); i++) {
-            itype *it = item_controller->find_template(prof_items[i].type_id);
-            wprintz(w_items, c_ltgray, _("\n"));
-            line_offset += fold_and_print(w_items, i + line_offset, 0, getmaxx(w_items), c_ltgray,
-                                          it->nname(1)) - 1;
+
+        std::ostringstream buffer;
+        const auto prof_addictions = sorted_profs[cur_id]->addictions();
+        if( !prof_addictions.empty() ) {
+            buffer << "<color_ltblue>" << _( "Addictions:" ) << "</color>\n";
+            for( const auto &a : prof_addictions ) {
+                const auto format = pgettext( "set_profession_addictions", "%1$s (%2$d)" );
+                buffer << string_format( format, addiction_name( a ).c_str(), a.intensity ) << "\n";
+            }
         }
-        werase(w_skills);
-        profession::StartingSkillList prof_skills = sorted_profs[cur_id]->skills();
-        mvwprintz(w_skills, 0, 0, COL_HEADER, _("Profession skills:\n"));
-        if (!prof_skills.empty()) {
-            for (size_t i = 0; i < prof_skills.size(); i++) {
-                Skill *skill = Skill::skill(prof_skills[i].first);
-                if (skill == NULL) {
+        const auto prof_skills = sorted_profs[cur_id]->skills();
+        buffer << "<color_ltblue>" << _( "Profession skills:" ) << "</color>\n";
+        if( prof_skills.empty() ) {
+            buffer << pgettext( "set_profession_skill", "None" ) << "\n";
+        } else {
+            for( const auto &sl : prof_skills ) {
+                const auto skill = Skill::skill( sl.first );
+                if( skill == nullptr ) {
                     continue;  // skip unrecognized skills.
                 }
-                wprintz(w_skills, c_ltgray, _("%1$s (%2$d)\n"),
-                        skill->name().c_str(), prof_skills[i].second);
+                const auto format = pgettext( "set_profession_skill", "%1$s (%2$d)" );
+                buffer << string_format( format, skill->name().c_str(), sl.second ) << "\n";
             }
-        } else {
-            wprintz(w_skills, c_ltgray, _("None"));
+        }
+        const auto prof_items = sorted_profs[cur_id]->items( u->male );
+        buffer << "<color_ltblue>" << _( "Profession items:" ) << "</color>\n";
+        for( const auto &i : prof_items ) {
+            buffer << item_controller->nname( i.type_id ) << "\n";
         }
 
-        werase(w_addictions);
-        std::vector<addiction> prof_addictions = sorted_profs[cur_id]->addictions();
-        if (!prof_addictions.empty()) {
-            mvwprintz(w_addictions, 0, 0, COL_HEADER, _("Addictions:"));
-            int add_y = 1;
-            for (size_t i = 0; i < prof_addictions.size(); i++) {
-                add_y += fold_and_print(w_addictions, i + add_y, 0, getmaxx(w_addictions), c_ltgray,
-                                        _("%1$s (%2$d)"), addiction_name(prof_addictions[i]).c_str(),
-                                        prof_addictions[i].intensity) - 1;
-            }
-        }
+        werase( w_items );
+        const auto scroll_msg = string_format( _( "Press <color_light_green>%1$s</color> or <color_light_green>%2$s</color> to scroll." ),
+                                               ctxt.get_desc("LEFT").c_str(),
+                                               ctxt.get_desc("RIGHT").c_str() );
+        const int iheight = print_scrollable( w_items, desc_offset, buffer.str(), c_ltgray, scroll_msg );
 
         werase(w_genderswap);
         //~ Gender switch message. 1s - change key name, 2s - profession name.
@@ -1215,8 +1212,6 @@ int set_profession(WINDOW *w, player *u, int &points)
         wrefresh(w);
         wrefresh(w_description);
         wrefresh(w_items);
-        wrefresh(w_skills);
-        wrefresh(w_addictions);
         wrefresh(w_genderswap);
 
         const std::string action = ctxt.handle_input();
@@ -1225,10 +1220,20 @@ int set_profession(WINDOW *w, player *u, int &points)
             if (cur_id > (int)sorted_profs.size() - 1) {
                 cur_id = 0;
             }
+            desc_offset = 0;
         } else if (action == "UP") {
             cur_id--;
             if (cur_id < 0) {
                 cur_id = sorted_profs.size() - 1;
+            }
+            desc_offset = 0;
+        } else if( action == "LEFT" ) {
+            if( desc_offset > 0 ) {
+                desc_offset--;
+            }
+        } else if( action == "RIGHT" ) {
+            if( desc_offset < iheight ) {
+                desc_offset++;
             }
         } else if (action == "CONFIRM") {
             u->prof = profession::prof(sorted_profs[cur_id]->ident()); // we've got a const*
@@ -1244,8 +1249,6 @@ int set_profession(WINDOW *w, player *u, int &points)
 
     delwin(w_description);
     delwin(w_items);
-    delwin(w_skills);
-    delwin(w_addictions);
     delwin(w_genderswap);
     return retval;
 }
