@@ -267,6 +267,9 @@ bool item::stacks_with( const item &rhs ) const
     if( type != rhs.type ) {
         return false;
     }
+    if( !count_by_charges() && charges != rhs.charges ) {
+        return false;
+    }
     if( damage != rhs.damage ) {
         return false;
     }
