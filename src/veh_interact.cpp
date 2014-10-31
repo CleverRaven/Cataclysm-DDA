@@ -378,7 +378,7 @@ task_reason veh_interact::cant_do (char mode)
     case 'i': // install mode
         enough_morale = g->u.morale_level() >= MIN_MORALE_CRAFT;
         valid_target = !can_mount.empty() && 0 == veh->tags.count("convertible");
-        has_tools = has_wrench && ((has_welder && has_goggles) || has_duct_tape);
+        has_tools = true;
         break;
     case 'r': // repair mode
         enough_morale = g->u.morale_level() >= MIN_MORALE_CRAFT;
@@ -481,14 +481,15 @@ bool veh_interact::is_drive_conflict(int msg_width, int engines){
 bool veh_interact::can_install_part(int msg_width, int engines, int dif_eng){
     itype_id itm = sel_vpart_info->item;
     bool drive_conflict = is_drive_conflict(msg_width, engines);
-    bool eng = sel_vpart_info->has_flag("ENGINE");
+    bool is_engine = sel_vpart_info->has_flag("ENGINE");
     bool has_comps = crafting_inv.has_components(itm, 1);
     bool has_skill = g->u.skillLevel("mechanics") >= sel_vpart_info->difficulty;
     bool has_tools = ((has_welder && has_goggles) || has_duct_tape) && has_wrench;
-    bool has_skill2 = !eng || (g->u.skillLevel("mechanics") >= dif_eng);
+    bool has_skill2 = !is_engine || (g->u.skillLevel("mechanics") >= dif_eng);
+    bool is_wrenchable = sel_vpart_info->has_flag("WRENCHABLE");
     std::string engine_string = "";
     if (!drive_conflict){
-        if (engines && eng) { // already has engine
+        if (engines && is_engine) { // already has engine
             engine_string = string_format(
                                 _("  You also need level <color_%1$s>%2$d</color> skill in mechanics to install additional engines."),
                                 has_skill2 ? "ltgreen" : "red",
@@ -507,7 +508,7 @@ bool veh_interact::can_install_part(int msg_width, int engines, int dif_eng){
                        engine_string.c_str());
         wrefresh (w_msg);
     
-        if (has_comps && has_tools && has_skill && has_skill2) {
+        if (has_comps && (has_tools || (is_wrenchable && has_wrench)) && has_skill && has_skill2) {
             return true;
         }
     }
