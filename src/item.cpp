@@ -925,7 +925,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         if (is_armor() && has_flag("BELTED")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
-                _("This piece of clothing is worn in the belted layer.")));
+                _("This gear is strapped onto you.")));
         }
         if (is_armor() && has_flag("OUTER")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
