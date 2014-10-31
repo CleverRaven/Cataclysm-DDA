@@ -474,39 +474,41 @@ bool veh_interact::is_drive_conflict(int msg_width, int engines){
         fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltred,
                        _("That install would conflict with the existing drive system."));
         wrefresh (w_msg);
-        return false;
     }
-    return true;
+    return !can_install;
 }
 
 bool veh_interact::can_install_part(int msg_width, int engines, int dif_eng){
     itype_id itm = sel_vpart_info->item;
+    bool drive_conflict = is_drive_conflict(msg_width, engines);
     bool eng = sel_vpart_info->has_flag("ENGINE");
     bool has_comps = crafting_inv.has_components(itm, 1);
     bool has_skill = g->u.skillLevel("mechanics") >= sel_vpart_info->difficulty;
     bool has_tools = ((has_welder && has_goggles) || has_duct_tape) && has_wrench;
     bool has_skill2 = !eng || (g->u.skillLevel("mechanics") >= dif_eng);
     std::string engine_string = "";
-    if (engines && eng) { // already has engine
-        engine_string = string_format(
-                            _("  You also need level <color_%1$s>%2$d</color> skill in mechanics to install additional engines."),
-                            has_skill2 ? "ltgreen" : "red",
-                            dif_eng);
+    if (!drive_conflict){
+        if (engines && eng) { // already has engine
+            engine_string = string_format(
+                                _("  You also need level <color_%1$s>%2$d</color> skill in mechanics to install additional engines."),
+                                has_skill2 ? "ltgreen" : "red",
+                                dif_eng);
+        }
+        werase (w_msg);
+        fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
+                       _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color>, either a <color_%4$s>powered welder</color> or <color_%5$s>duct tape</color>, and level <color_%6$s>%7$d</color> skill in mechanics.%8$s"),
+                       has_comps ? "ltgreen" : "red",
+                       item_controller->nname( itm ).c_str(),
+                       has_wrench ? "ltgreen" : "red",
+                       (has_welder && has_goggles) ? "ltgreen" : "red",
+                       has_duct_tape ? "ltgreen" : "red",
+                       has_skill ? "ltgreen" : "red",
+                       sel_vpart_info->difficulty,
+                       engine_string.c_str());
+        wrefresh (w_msg);
     }
-    werase (w_msg);
-    fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                   _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color>, either a <color_%4$s>powered welder</color> or <color_%5$s>duct tape</color>, and level <color_%6$s>%7$d</color> skill in mechanics.%8$s"),
-                   has_comps ? "ltgreen" : "red",
-                   item_controller->nname( itm ).c_str(),
-                   has_wrench ? "ltgreen" : "red",
-                   (has_welder && has_goggles) ? "ltgreen" : "red",
-                   has_duct_tape ? "ltgreen" : "red",
-                   has_skill ? "ltgreen" : "red",
-                   sel_vpart_info->difficulty,
-                   engine_string.c_str());
-    wrefresh (w_msg);
-    if (has_comps && has_tools && has_skill && has_skill2) {
-        return is_drive_conflict(msg_width, engines);
+    if (has_comps && has_tools && has_skill && has_skill2 && !drive_conflict) {
+        return true;
     }
     return false;
 }
