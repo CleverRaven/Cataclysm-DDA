@@ -740,6 +740,28 @@ void veh_interact::do_refill()
     sel_cmd = 'f';
 }
 
+void veh_interact::try_remove_part(int veh_part_index, bool has_skill, int msg_width){
+    if (veh->can_unmount(veh_part_index)) {
+        bool is_wheel = veh->part_flag(veh_part_index, "WHEEL");
+        bool is_loose = veh->part_flag(veh_part_index, "UNMOUNT_ON_MOVE");
+        bool is_wrenchable = veh->part_flag(veh_part_index, "WRENCHABLE");
+        if ((is_wheel && has_wrench && has_jack)|| (is_wrenchable && has_wrench) || (is_loose)) {
+            sel_cmd = 'o';
+        } else {
+            fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
+                           _("You need a <color_%1$s>wrench</color> and a <color_%2$s>hacksaw, cutting torch and goggles, or circular saw (off)</color> and <color_%3$s>level 2</color> mechanics skill to remove parts."),
+                           has_wrench ? "ltgreen" : "red",
+                           has_hacksaw ? "ltgreen" : "red",
+                           has_skill ? "ltgreen" : "red");
+            wrefresh (w_msg);
+        }
+    } else {
+        mvwprintz(w_msg, 0, 1, c_ltred,
+                  _("You cannot remove that part while something is attached to it."));
+        wrefresh (w_msg);
+    }
+}
+
 /**
  * Handles removing a part from the vehicle.
  * @param reason INVALID_TARGET if there are no parts to remove,
@@ -806,33 +828,13 @@ void veh_interact::do_remove()
     while (true) {
         sel_vehicle_part = &veh->parts[parts_here[pos]];
         sel_vpart_info = &(vehicle_part_types[sel_vehicle_part->id]);
-        bool is_wheel = sel_vpart_info->has_flag("WHEEL");
-        bool is_loose = sel_vpart_info->has_flag("UNMOUNT_ON_MOVE");
-        bool is_wrenchable = sel_vpart_info->has_flag("WRENCHABLE");
         werase (w_parts);
         veh->print_part_desc (w_parts, 0, parts_w, cpart, pos);
         wrefresh (w_parts);
         const std::string action = main_context.handle_input();
         if (action == "REMOVE" || action == "CONFIRM") {
-            if (veh->can_unmount(parts_here[pos])) {
-                if (can_hacksaw || is_wheel || is_loose || is_wrenchable) {
-                    sel_cmd = 'o';
-                    return;
-                } else {
-                    fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                                   _("You need a <color_%1$s>wrench</color> and a <color_%2$s>hacksaw, cutting torch and goggles, or circular saw (off)</color> and <color_%3$s>level 2</color> mechanics skill to remove parts."),
-                                   has_wrench ? "ltgreen" : "red",
-                                   has_hacksaw ? "ltgreen" : "red",
-                                   has_skill ? "ltgreen" : "red");
-                    wrefresh (w_msg);
-                    return;
-                }
-            } else {
-                mvwprintz(w_msg, 0, 1, c_ltred,
-                          _("You cannot remove that part while something is attached to it."));
-                wrefresh (w_msg);
-                return;
-            }
+            try_remove_part(parts_here[pos], has_skill, msg_width);
+            break;
         } else if (action == "QUIT") {
             werase (w_parts);
             veh->print_part_desc (w_parts, 0, parts_w, cpart, -1);

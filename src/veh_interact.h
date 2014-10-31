@@ -121,6 +121,9 @@ class veh_interact
 
         /** Store the most damaged part's index, or -1 if they're all healthy. */
         int mostDamagedPart;
+        
+        //do_remove supporting operations
+        void try_remove_part(int veh_part_index, bool has_skill, int msg_width);
 
         /* true if current selected square has part with "FUEL_TANK flag and
          * they are not full. Otherwise will be false.
