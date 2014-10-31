@@ -495,19 +495,32 @@ bool veh_interact::can_install_part(int msg_width, int engines, int dif_eng){
                                 has_skill2 ? "ltgreen" : "red",
                                 dif_eng);
         }
-        werase (w_msg);
-        fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                       _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color>, either a <color_%4$s>powered welder</color> or <color_%5$s>duct tape</color>, and level <color_%6$s>%7$d</color> skill in mechanics.%8$s"),
-                       has_comps ? "ltgreen" : "red",
-                       item_controller->nname( itm ).c_str(),
-                       has_wrench ? "ltgreen" : "red",
-                       (has_welder && has_goggles) ? "ltgreen" : "red",
-                       has_duct_tape ? "ltgreen" : "red",
-                       has_skill ? "ltgreen" : "red",
-                       sel_vpart_info->difficulty,
-                       engine_string.c_str());
-        wrefresh (w_msg);
-    
+        if (is_wrenchable){
+            werase (w_msg);
+            fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
+                           _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color> and level <color_%4$s>%5$d</color> skill in mechanics.%6$s"),
+                           has_comps ? "ltgreen" : "red",
+                           item_controller->nname( itm ).c_str(),
+                           has_wrench ? "ltgreen" : "red",
+                           has_skill ? "ltgreen" : "red",
+                           sel_vpart_info->difficulty,
+                           engine_string.c_str());
+            wrefresh (w_msg);
+        }
+        else {
+            werase (w_msg);
+            fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
+                           _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color>, either a <color_%4$s>powered welder</color> or <color_%5$s>duct tape</color>, and level <color_%6$s>%7$d</color> skill in mechanics.%8$s"),
+                           has_comps ? "ltgreen" : "red",
+                           item_controller->nname( itm ).c_str(),
+                           has_wrench ? "ltgreen" : "red",
+                           (has_welder && has_goggles) ? "ltgreen" : "red",
+                           has_duct_tape ? "ltgreen" : "red",
+                           has_skill ? "ltgreen" : "red",
+                           sel_vpart_info->difficulty,
+                           engine_string.c_str());
+            wrefresh (w_msg);
+        }
         if (has_comps && (has_tools || (is_wrenchable && has_wrench)) && has_skill && has_skill2) {
             return true;
         }
