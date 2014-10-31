@@ -8874,7 +8874,8 @@ bool player::wear_item(item *to_wear, bool interactive)
         }
 
         if (to_wear->covers.test(bp_mouth) &&
-            (has_trait("MUZZLE") || has_trait("MUZZLE_BEAR") || has_trait("MUZZLE_LONG")))
+            (has_trait("MUZZLE") || has_trait("MUZZLE_BEAR") || has_trait("MUZZLE_LONG") ||
+            has_trait("MUZZLE_RAT")))
         {
             if(interactive)
             {
