@@ -632,7 +632,7 @@ void vehicle::use_controls()
                 }
             }
             //if current velocity greater than new configuration safe speed
-            //drop down
+            //drop down cruise velocity
             int safe_vel = safe_velocity();
             if (velocity > safe_vel){
                 cruise_velocity = safe_vel;
