@@ -424,11 +424,23 @@ void vehicle::smash() {
 
 void vehicle::control_engines(){
     int e_toggle = 0;
+    //count active engines
+    int active_count = 0;
+    for (size_t p = 0; p < engines.size(); ++p){
+        if (parts[engines[p]].hp > 0 && parts[engines[p]].enabled){
+            active_count++;
+            break;
+        }
+    }
+    
     //show menu until user finishes
     while(e_toggle >= 0 && e_toggle < (int)engines.size()){
         e_toggle = select_engine();
-        if (e_toggle >= 0 && e_toggle < (int)engines.size()){
+        if (e_toggle >= 0 && e_toggle < (int)engines.size() &&
+                (active_count > 1 || !is_engine_on(e_toggle))){
+            active_count += (!is_engine_on(e_toggle))?1:-1;
             toggle_specific_engine(e_toggle, !is_engine_on(e_toggle));
+            
             add_msg("Switched %s %s",part_info(engines[e_toggle]).name.c_str(), 
                                             (is_engine_on(e_toggle)?"on":"off"));
         }
@@ -508,6 +520,7 @@ void vehicle::use_controls()
     bool has_tracker = false;
     bool has_reactor = false;
     bool has_engine = false;
+    bool has_mult_engine = false;
     bool has_fridge = false;
     bool has_recharger = false;
     for (size_t p = 0; p < parts.size(); p++) {
@@ -537,6 +550,7 @@ void vehicle::use_controls()
             has_reactor = true;
         }
         else if (part_flag(p, "ENGINE")) {
+            has_mult_engine = has_engine;
             has_engine = true;
         }
         else if (part_flag(p, "FRIDGE")) {
@@ -631,7 +645,7 @@ void vehicle::use_controls()
                                                _("Turn on reactor"), 'k'));
     }
     // control an engine
-    if (has_engine) {
+    if (has_mult_engine) {
         options_choice.push_back(cont_engines);
         options_message.push_back(uimenu_entry("Control individual engines", 'y'));
     }
