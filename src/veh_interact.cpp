@@ -506,9 +506,10 @@ bool veh_interact::can_install_part(int msg_width, int engines, int dif_eng){
                        sel_vpart_info->difficulty,
                        engine_string.c_str());
         wrefresh (w_msg);
-    }
-    if (has_comps && has_tools && has_skill && has_skill2 && !drive_conflict) {
-        return true;
+    
+        if (has_comps && has_tools && has_skill && has_skill2) {
+            return true;
+        }
     }
     return false;
 }
