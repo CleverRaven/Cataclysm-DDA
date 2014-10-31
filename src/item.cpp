@@ -932,7 +932,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         } else if (is_armor()) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
-                _("This gear is generally as clothing.")));
+                _("This gear is generally worn as clothing.")));
         }
         if (is_armor() && has_flag("OVERSIZE")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
