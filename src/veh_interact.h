@@ -124,7 +124,9 @@ class veh_interact
         
         //do_remove supporting operations
         void try_remove_part(int veh_part_index, bool has_skill, int msg_width);
-
+        //do install support
+        bool can_install_part(int msg_width, int engines, int dif_eng);
+        bool is_drive_conflict(int msg_width, int engines);
         /* true if current selected square has part with "FUEL_TANK flag and
          * they are not full. Otherwise will be false.
          */

@@ -460,6 +460,57 @@ task_reason veh_interact::cant_do (char mode)
     return CAN_DO;
 }
 
+bool veh_interact::is_drive_conflict(int msg_width, int engines){
+    bool install_pedals = sel_vpart_info->has_flag("PEDALS");
+    bool install_hand_rims = sel_vpart_info->has_flag("HAND_RIMS");
+    bool install_paddles = sel_vpart_info->has_flag("PADDLES");
+    
+    bool install_muscle_engine = install_pedals || install_hand_rims || install_paddles;
+    bool has_muscle_engine = veh->has_pedals || veh->has_hand_rims || veh->has_paddles;
+    bool can_install = (engines == 0)|| (has_muscle_engine && install_muscle_engine) ||
+                                        (!has_muscle_engine && !install_muscle_engine);
+    if (!can_install) {
+        werase (w_msg);
+        fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltred,
+                       _("That install would conflict with the existing drive system."));
+        wrefresh (w_msg);
+        return false;
+    }
+    return true;
+}
+
+bool veh_interact::can_install_part(int msg_width, int engines, int dif_eng){
+    itype_id itm = sel_vpart_info->item;
+    bool eng = sel_vpart_info->has_flag("ENGINE");
+    bool has_comps = crafting_inv.has_components(itm, 1);
+    bool has_skill = g->u.skillLevel("mechanics") >= sel_vpart_info->difficulty;
+    bool has_tools = ((has_welder && has_goggles) || has_duct_tape) && has_wrench;
+    bool has_skill2 = !eng || (g->u.skillLevel("mechanics") >= dif_eng);
+    std::string engine_string = "";
+    if (engines && eng) { // already has engine
+        engine_string = string_format(
+                            _("  You also need level <color_%1$s>%2$d</color> skill in mechanics to install additional engines."),
+                            has_skill2 ? "ltgreen" : "red",
+                            dif_eng);
+    }
+    werase (w_msg);
+    fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
+                   _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color>, either a <color_%4$s>powered welder</color> or <color_%5$s>duct tape</color>, and level <color_%6$s>%7$d</color> skill in mechanics.%8$s"),
+                   has_comps ? "ltgreen" : "red",
+                   item_controller->nname( itm ).c_str(),
+                   has_wrench ? "ltgreen" : "red",
+                   (has_welder && has_goggles) ? "ltgreen" : "red",
+                   has_duct_tape ? "ltgreen" : "red",
+                   has_skill ? "ltgreen" : "red",
+                   sel_vpart_info->difficulty,
+                   engine_string.c_str());
+    wrefresh (w_msg);
+    if (has_comps && has_tools && has_skill && has_skill2) {
+        return is_drive_conflict(msg_width, engines);
+    }
+    return false;
+}
+
 /**
  * Handles installing a new part.
  * @param reason INVALID_TARGET if the square can't have anything installed,
@@ -511,47 +562,14 @@ void veh_interact::do_install()
     while (true) {
         sel_vpart_info = &(can_mount[pos]);
         display_list (pos, can_mount);
-        itype_id itm = sel_vpart_info->item;
-        bool has_comps = crafting_inv.has_components(itm, 1);
-        bool has_skill = g->u.skillLevel("mechanics") >= sel_vpart_info->difficulty;
-        bool has_tools = ((has_welder && has_goggles) || has_duct_tape) && has_wrench;
-        bool eng = sel_vpart_info->has_flag("ENGINE");
-        bool install_pedals = sel_vpart_info->has_flag("PEDALS");
-        bool install_hand_rims = sel_vpart_info->has_flag("HAND_RIMS");
-        bool install_paddles = sel_vpart_info->has_flag("PADDLES");
-        bool has_skill2 = !eng || (g->u.skillLevel("mechanics") >= dif_eng);
-        bool has_muscle_engine = veh->has_pedals || veh->has_hand_rims || veh->has_paddles;
-        bool install_muscle_engine = install_pedals || install_hand_rims || install_paddles;
-        std::string engine_string = "";
-        if (engines && eng) { // already has engine
-            engine_string = string_format(
-                                _("  You also need level <color_%1$s>%2$d</color> skill in mechanics to install additional engines."),
-                                has_skill2 ? "ltgreen" : "red",
-                                dif_eng);
-        }
-        werase (w_msg);
-        fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                       _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color>, either a <color_%4$s>powered welder</color> or <color_%5$s>duct tape</color>, and level <color_%6$s>%7$d</color> skill in mechanics.%8$s"),
-                       has_comps ? "ltgreen" : "red",
-                       item_controller->nname( itm ).c_str(),
-                       has_wrench ? "ltgreen" : "red",
-                       (has_welder && has_goggles) ? "ltgreen" : "red",
-                       has_duct_tape ? "ltgreen" : "red",
-                       has_skill ? "ltgreen" : "red",
-                       sel_vpart_info->difficulty,
-                       engine_string.c_str());
-        wrefresh (w_msg);
+
+        
+        bool can_install = can_install_part(msg_width, engines, dif_eng);
+        
         const std::string action = main_context.handle_input();
-        if ((action == "INSTALL" || action == "CONFIRM")  && has_comps && has_tools && has_skill &&
-            has_skill2) {
-            if (!(has_muscle_engine && eng) && !((engines > 0) && install_muscle_engine)) {
+        if (action == "INSTALL" || action == "CONFIRM"){
+            if (can_install) {
                 sel_cmd = 'i';
-                return;
-            } else {
-                werase (w_msg);
-                fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltred,
-                               _("That install would conflict with the existing drive system."));
-                wrefresh (w_msg);
                 return;
             }
         } else if (action == "QUIT") {
