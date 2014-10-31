@@ -2259,8 +2259,9 @@ int vehicle::basic_consumption (const ammotype & ftype)
 {
     int fcon = 0;
     for( size_t p = 0; p < engines.size(); ++p ) {
-        if(ftype == part_info(engines[p]).fuel_type && parts[engines[p]].hp > 0) {
-            if(part_info(engines[p]).fuel_type == fuel_type_battery && is_engine_on(p)) {
+        if(ftype == part_info(engines[p]).fuel_type && 
+            parts[engines[p]].hp > 0 && is_engine_on(p)) {
+            if(part_info(engines[p]).fuel_type == fuel_type_battery) {
                 // electric engine - use epower instead
                 fcon += abs(epower_to_power(part_epower(engines[p])));
             }
