@@ -98,12 +98,28 @@ int player::create(character_type type, std::string tempname)
             } else {
                 g->u.name = MAP_SHARING::getUsername();
             }
-            g->u.prof = profession::weighted_random();
+            if (OPTIONS["RANDOM_SCENARIO"]) {
+                std::vector<scenario *> scenarios;
+                for (scenmap::const_iterator iter = scenario::begin(); iter != scenario::end(); iter++) {
+                    if (!(OPTIONS["NO_CHALLENGE"] && (iter->second).has_flag("CHALLENGE"))) {
+                        scenarios.emplace_back(scenario::scen((iter->second).ident()));
+                    }
+                }
+                g->scen = scenarios[rng(0,scenarios.size() - 1)];
+                if (g->scen->profsize() > 0) {
+                    g->u.prof = g->scen->random_profession();
+                } else {
+                    g->u.prof = profession::weighted_random();
+                }
+                g->u.start_location = g->scen->start_location();
+            } else {
+                g->u.prof = profession::weighted_random();
+            }
             str_max = rng(6, 12);
             dex_max = rng(6, 12);
             int_max = rng(6, 12);
             per_max = rng(6, 12);
-            points = points - str_max - dex_max - int_max - per_max - g->u.prof->point_cost();
+            points = points - str_max - dex_max - int_max - per_max - g->u.prof->point_cost() - g->scen->point_cost();
             if (str_max > HIGH_STAT) {
                 points -= (str_max - HIGH_STAT);
             }

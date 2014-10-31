@@ -924,6 +924,18 @@ void initOptions()
                                    true
                                   );
 
+    mOptionsSort["world_default"]++;
+
+    OPTIONS["RANDOM_SCENARIO"] = cOpt("world_default", _("Random character and scenario"),
+                                     _("If true, when choosing to start with a random character also select a random scenario and profession."),
+                                     false
+                                    );
+
+    OPTIONS["NO_CHALLENGE"] = cOpt("world_default", _("No challenge scenarios"),
+                                       _("If true, exclude scenarios matching the challenge flag from random selection."),
+                                       false
+                                      );
+
     for (unsigned i = 0; i < vPages.size(); ++i) {
         mPageItems[i].resize(mOptionsSort[vPages[i].first]);
     }
