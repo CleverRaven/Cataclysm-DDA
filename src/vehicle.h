@@ -654,8 +654,10 @@ public:
     int select_engine();
     //returns whether the engine is enabled or not
     bool is_engine_on(int p);
+    bool is_part_on(int p);
     //mark engine as on or off
     void toggle_specific_engine(int p, bool on);
+
 
     // return a vector w/ 'direction' & 'magnitude', in its own sense of the words.
     rl_vec2d velo_vec();

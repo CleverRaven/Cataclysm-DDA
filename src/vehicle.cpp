@@ -447,6 +447,10 @@ bool vehicle::is_engine_on(int p){
     return parts[engines[p]].enabled;
 }
 
+bool vehicle::is_part_on(int p){
+    return parts[p].enabled;
+}
+
 void vehicle::use_controls()
 {
     std::vector<vehicle_controls> options_choice;
@@ -2256,7 +2260,7 @@ int vehicle::basic_consumption (const ammotype & ftype)
     int fcon = 0;
     for( size_t p = 0; p < engines.size(); ++p ) {
         if(ftype == part_info(engines[p]).fuel_type && parts[engines[p]].hp > 0) {
-            if(part_info(engines[p]).fuel_type == fuel_type_battery) {
+            if(part_info(engines[p]).fuel_type == fuel_type_battery && is_engine_on(p)) {
                 // electric engine - use epower instead
                 fcon += abs(epower_to_power(part_epower(engines[p])));
             }
@@ -2277,7 +2281,7 @@ int vehicle::total_power (bool fueled)
     g->m.veh_at(g->u.posx, g->u.posy, part_under_player);
     bool player_controlling = player_in_control(&(g->u));
     for (size_t p = 0; p < parts.size(); p++) {
-        if (part_flag(p, VPFLAG_ENGINE) && (fuel_left (part_info(p).fuel_type) || !fueled ||
+        if (part_flag(p, VPFLAG_ENGINE) && is_part_on(p) && (fuel_left (part_info(p).fuel_type) || !fueled ||
               ((part_info(p).fuel_type == fuel_type_muscle) && player_controlling &&
               part_with_feature(part_under_player, VPFLAG_ENGINE) == (int)p)) && parts[p].hp > 0) {
             pwr += part_power(p);
@@ -2361,7 +2365,7 @@ int vehicle::safe_velocity (bool fueled)
     int pwrs = 0;
     int cnt = 0;
     for (size_t p = 0; p < parts.size(); p++) {
-        if (part_flag(p, VPFLAG_ENGINE) &&
+        if (part_flag(p, VPFLAG_ENGINE) && is_part_on(p) &&
             (fuel_left (part_info(p).fuel_type) || !fueled ||
              part_info(p).fuel_type == fuel_type_muscle) &&
             parts[p].hp > 0) {
@@ -2433,7 +2437,7 @@ void vehicle::noise_and_smoke( double load, double time )
 
     for( size_t e = 0; e < engines.size(); e++ ) {
         int p = engines[e];
-        if( parts[p].hp > 0 &&
+        if( parts[p].hp > 0 && is_engine_on(e) &&
                 (fuel_left (part_info(p).fuel_type) ||
                  part_info(p).fuel_type == fuel_type_muscle) ) {
             double pwr = 10.0; // Default noise if nothing else found, shouldn't happen
@@ -2677,7 +2681,7 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
     if(engine_on) {
         // Gas engines require epower to run for ignition system, ECU, etc.
         for( size_t p = 0; p < engines.size(); ++p ) {
-            if(parts[engines[p]].hp > 0 &&
+            if(parts[engines[p]].hp > 0 && is_engine_on(p) &&
                (part_info(engines[p]).fuel_type == fuel_type_gasoline || part_info(engines[p]).fuel_type == fuel_type_diesel)) {
                 gas_epower += part_info(engines[p]).epower;
             }
@@ -2698,7 +2702,7 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
         // Plasma engines generate epower if turned on
         int plasma_epower = 0;
         for( size_t p = 0; p < engines.size(); ++p ) {
-            if(parts[engines[p]].hp > 0 &&
+            if(parts[engines[p]].hp > 0 && is_engine_on(p) &&
                part_info(engines[p]).fuel_type == fuel_type_plasma) {
                 plasma_epower += part_info(engines[p]).epower;
             }
@@ -3136,7 +3140,7 @@ void vehicle::thrust (int thd) {
         int strn = (int) (strain () * strain() * 100);
 
         for( size_t p = 0; p < parts.size(); p++ ) {
-            if( part_flag(p, VPFLAG_ENGINE) ) {
+            if( part_flag(p, VPFLAG_ENGINE) && is_part_on(p) ) {
                 if( fuel_left(part_info(p).fuel_type) && parts[p].hp > 0 && rng (1, 100) < strn ) {
                     int dmg = rng (strn * 2, strn * 4);
                     damage_direct (p, dmg, 0);
