@@ -414,7 +414,8 @@ task_reason veh_interact::cant_do (char mode)
         valid_target = cpart >= 0 && 0 == veh->tags.count("convertible");
         has_tools = (has_wrench && has_hacksaw) || can_remove_wheel ||
             // UNMOUNT_ON_MOVE == loose enough to hand-remove
-            (cpart >= 0 && veh->part_with_feature(cpart, "UNMOUNT_ON_MOVE") >= 0);
+            (cpart >= 0 && veh->part_with_feature(cpart, "UNMOUNT_ON_MOVE") >= 0) ||
+            (cpart >= 0 && veh->part_with_feature(cpart, "WRENCHABLE") >= 0 && has_wrench);
         part_free = parts_here.size() > 1 || (cpart >= 0 && veh->can_unmount(cpart));
         has_skill = g->u.skillLevel("mechanics") >= 2 || can_remove_wheel;
         break;
@@ -807,13 +808,14 @@ void veh_interact::do_remove()
         sel_vpart_info = &(vehicle_part_types[sel_vehicle_part->id]);
         bool is_wheel = sel_vpart_info->has_flag("WHEEL");
         bool is_loose = sel_vpart_info->has_flag("UNMOUNT_ON_MOVE");
+        bool is_wrenchable = sel_vpart_info->has_flag("WRENCHABLE");
         werase (w_parts);
         veh->print_part_desc (w_parts, 0, parts_w, cpart, pos);
         wrefresh (w_parts);
         const std::string action = main_context.handle_input();
         if (action == "REMOVE" || action == "CONFIRM") {
             if (veh->can_unmount(parts_here[pos])) {
-                if (can_hacksaw || is_wheel || is_loose) {
+                if (can_hacksaw || is_wheel || is_loose || is_wrenchable) {
                     sel_cmd = 'o';
                     return;
                 } else {
