@@ -1709,13 +1709,13 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         tmp.cut = 3;
         tmp.bash = 3;
         if (is_player()) {
-            tmp.text = string_format(_("You bite into %s!"),
+            tmp.text = string_format(_("You bite into %s with your ratlike incisors!"),
                                      target.c_str());
         } else if (male) {
-            tmp.text = string_format(_("%s bites %s!"),
+            tmp.text = string_format(_("%s bites %s with his ratlike incisors!"),
                                      name.c_str(), target.c_str());
         } else {
-            tmp.text = string_format(_("%s bites %s!"),
+            tmp.text = string_format(_("%s bites %s with her ratlike incisors!"),
                                      name.c_str(), target.c_str());
         }
         ret.push_back(tmp);
