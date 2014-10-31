@@ -49,7 +49,7 @@ enum vehicle_controls {
  toggle_engine,
  toggle_fridge,
  toggle_recharger,
- control_engines
+ cont_engines
 };
 
 vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): type(type_id)
@@ -422,6 +422,25 @@ void vehicle::smash() {
     }
 }
 
+void vehicle::control_engines(){
+    int e_toggle = 0;
+    //show menu until user finishes
+    while(e_toggle >= 0 && e_toggle < (int)engines.size()){
+        e_toggle = select_engine();
+        if (e_toggle >= 0 && e_toggle < (int)engines.size()){
+            toggle_specific_engine(e_toggle, !is_engine_on(e_toggle));
+            add_msg("Switched %s %s",part_info(engines[e_toggle]).name.c_str(), 
+                                            (is_engine_on(e_toggle)?"on":"off"));
+        }
+    }
+    //if current velocity greater than new configuration safe speed
+    //drop down cruise velocity
+    int safe_vel = safe_velocity();
+    if (velocity > safe_vel){
+        cruise_velocity = safe_vel;
+    }
+}
+
 int vehicle::select_engine(){
     uimenu tmenu;
     std::string name;
@@ -599,7 +618,7 @@ void vehicle::use_controls()
     }
     // control an engine
     if (has_engine) {
-        options_choice.push_back(control_engines);
+        options_choice.push_back(cont_engines);
         options_message.push_back(uimenu_entry("Control individual engines", 'y'));
     }
 
@@ -619,25 +638,8 @@ void vehicle::use_controls()
     
     switch(options_choice[select]) {
     //brackets prevent initialisation errors
-    case control_engines:
-        {
-            int e_toggle = 0;
-            //show menu until user finishes
-            while(e_toggle >= 0 && e_toggle < (int)engines.size()){
-                e_toggle = select_engine();
-                if (e_toggle >= 0 && e_toggle < (int)engines.size()){
-                    toggle_specific_engine(e_toggle, !is_engine_on(e_toggle));
-                    add_msg("Switched %s %s",part_info(engines[e_toggle]).name.c_str(), 
-                                                    (is_engine_on(e_toggle)?"on":"off"));
-                }
-            }
-            //if current velocity greater than new configuration safe speed
-            //drop down cruise velocity
-            int safe_vel = safe_velocity();
-            if (velocity > safe_vel){
-                cruise_velocity = safe_vel;
-            }
-        }
+    case cont_engines:
+        control_engines();
         break;
     case toggle_cruise_control:
         cruise_on = !cruise_on;

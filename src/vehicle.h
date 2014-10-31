@@ -650,6 +650,8 @@ public:
     // upgrades/refilling/etc. see veh_interact.cpp
     void interact ();
     
+    //main method for the control of individual engines
+    void control_engines();
     // shows ui menu to select an engine
     int select_engine();
     //returns whether the engine is enabled or not
