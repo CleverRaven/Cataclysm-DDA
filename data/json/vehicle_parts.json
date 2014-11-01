@@ -2787,7 +2787,7 @@
         "size" : 100000,
         "fuel_type" : "battery",
         "item" : "storage_battery",
-        "difficulty" : 2,
+        "difficulty" : 1,
         "location" : "fuel_source",
         "flags" : ["FUEL_TANK", "TOOL_NONE"],
         "breaks_into" : [
