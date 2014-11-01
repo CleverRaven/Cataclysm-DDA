@@ -13,7 +13,7 @@ You can dig down stairs with proper equipment.
 Scabbards, holsters and sheathable weapons.
 At high skills you can quick draw/attack with weapons.
 Fish spawn as distinct creatures, and they're used for fishing checks.
-Quivvers for arrows.
+Quivers for arrows.
 Furniture can act as a tool.
 Corpses rot and eventually disappear.
 Armor is assigned to a layer, and armor on different layers doesn't impose layering penalties.
@@ -26,14 +26,14 @@ Special support for mapsharing installs:
   locks around map files
 Language switch is dynamic now.
 Guns such as revolvers no longer eject casings when fired, they're instead ejected on reload.
-Internal furnace is toggleable so you're less likely to eat random objects by accident.
+Internal furnace and Battery System CBMs are toggleable so you're less likely to eat random objects by accident.
 Spending more time near traps has incremental chance of finding them, spotted traps are remembered.
 Thrown items above a trap-defined threshold will trigger traps.
 You can now peek through curtains and some doors.
 Smashing a broken window again clears out the broken glass (relatively quietly).
 Autopickup can get at anything you can reach, i.e. adjacent tiles.
 Can set exclusion zones for autopickup, so you can avoid accidentally picking up all your stuff in your base.
-Contents of books are unknown until first read (which ios faster than usual).
+Contents of books are unknown until first read (which is faster than usual).
 Can craft recipes if you have a book in range that provides it.
 Can learn recipes by practicing them.
 Roof of the vehicle you're currently in is not drawn.
@@ -67,6 +67,7 @@ Infrastructure:
 Switched to SDL 2.0.
 Made paths configurable for packaging and installation support.
 Finished pushing martial art definitions out to json.
+JSONized multi-tile building generation, leading to huger buildings.
 Tilesets can provide a per-category fallback tile to handle new monsters/items/whatever.
 Silenced all the warnings, now it's easier to keep new ones from cropping up.
 Lots of string handling infrastructure, making translated string handling easier.
@@ -109,9 +110,9 @@ Armor values nerfed.
 Mutagen spawn rates slashed.
 Overhauled mp3 player morale bonus to make micromanagement of it suboptimal.
 Amount of damage blocked by a block technique based on strength and skill of blocker.
-Removed damage to animals from acid rain.
+Removed acid rain until it can be made into a local event.
 Nerfed speed of many zombie animals.
-Starting professions supplied with cold-weather gear to match hthe expected climate.
+Starting professions supplied with cold-weather gear to match the expected climate.
 Standing in a fire less likely to ignite clothes.
 Lying in fire (when one or more legs is at 0HP) causes MUCH more damage.
 
@@ -126,6 +127,7 @@ Grappling hook.
 Many new house layouts.
 Wells and well digging.
 CQB CBM that provides martial art style.
+Warehouse building.
 Decorative terrain and furniture.
 Parasites and diseases from unsafe foods.
 Curtains for vehicle doors and windshields, privacy please!
@@ -134,6 +136,7 @@ Towel usable for many handy things (still not at HHGttG level).
 hehe, honey.
 Wearable rx12 auto-injector.
 E-cigs
+Motel locations.
 Slime mutants can slop through tight spaces, spawn friendly slimes.
 Some insect-like mutants can sip nectar from flowers (but at a cost...)
 Mutagen gives you wings! (butterfly wings)
@@ -169,7 +172,7 @@ Can take pictures of monsters and view them on laptops or tablets.
 Fish traps.
 A "Thrilling" monster easter egg.
 Riot control bot.
-Extensive mutation chain culminating with player effectively joining the MArloss faction.
+Extensive mutation chain culminating with player effectively joining the Marloss faction.
 Extensive expansion of Marloss monsters/structures.
 Various power substations, with new monsters.
 Diesel added as a vehicle fuel.
@@ -210,7 +213,7 @@ Extracted rain animation code from main drawing code.
 Bugfixes:
 No bleeding effect if your armor absorbs all the damage.
 Make game stop treating trees, walls, etc as hallucinatory with respect to vehicle collisions.
-Prevent drug furniture from hoovering up items.
+Prevent dragging furniture from hoovering up items.
 Option to force software rendering to work around hardware support issues.
 Players are ejected from vehicles when their seats are destroyed.
 Contents of items destroyed by interacting with them are dumped instead of being deleted.
