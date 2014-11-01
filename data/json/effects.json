@@ -260,11 +260,11 @@
         "int_add_val": 1,
         "int_decay_tick": 100,
         "base_mods": {
-            "dex_mod": [-.34, -.17],
+            "dex_mod": [-0.34, -0.17],
             "speed_mod": [-5, -3]
         },
         "scaling_mods": {
-            "dex_mod": [-.34, -.17],
+            "dex_mod": [-0.34, -0.17],
             "speed_mod": [-5, -3]
         }
     },
@@ -552,14 +552,14 @@
         "desc": ["You feel nauseated and rat-like."],
         "max_intensity": 100,
         "base_mods": {
-            "int_mod": [-.5],
-            "str_mod": [-.2],
-            "per_mod": [-.4]
+            "int_mod": [-0.5],
+            "str_mod": [-0.2],
+            "per_mod": [-0.4]
         },
         "scaling_mods": {
-            "int_mod": [-.5],
-            "str_mod": [-.2],
-            "per_mod": [-.4]
+            "int_mod": [-0.5],
+            "str_mod": [-0.2],
+            "per_mod": [-0.4]
         }
     },
     {
@@ -743,11 +743,11 @@
         "main_parts_only": true,
         "max_intensity": 3,
         "base_mods": {
-            "str_mod": [-.34],
+            "str_mod": [-0.34],
             "int_mod": [-1]
         },
         "scaling_mods": {
-            "str_mod": [-.34],
+            "str_mod": [-0.34],
             "int_mod": [-1]
         }
     },
@@ -1030,7 +1030,7 @@
             "sleep_max": [3500]
         },
         "scaling_mods": {
-            "str_mod": [-.67],
+            "str_mod": [-0.67],
             "per_mod": [-1],
             "dex_mod": [-1],
             "int_mod": [-1.42],
