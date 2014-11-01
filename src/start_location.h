@@ -7,6 +7,8 @@
 #include <map>
 #include <set>
 
+class tinymap;
+
 typedef std::map<std::string, class start_location> location_map;
 
 class start_location
@@ -24,6 +26,8 @@ class start_location
         static location_map::iterator end();
         static start_location *find( const std::string ident );
         static void load_location( JsonObject &jsonobj );
+
+        void prepare_map(tinymap &m) const;
 
     private:
         std::string _ident;

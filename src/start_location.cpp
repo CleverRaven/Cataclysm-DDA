@@ -1,6 +1,7 @@
 #include "start_location.h"
 #include "output.h"
 #include "debug.h"
+#include "map.h"
 
 static location_map _locations;
 
@@ -70,4 +71,9 @@ void start_location::load_location( JsonObject &jsonobj )
     new_location._flags = jsonobj.get_tags("flags");
 
     _locations[new_location._ident] = new_location;
+}
+
+void start_location::prepare_map( tinymap &m ) const
+{
+    m.translate( t_window_domestic, t_curtains );
 }

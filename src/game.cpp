@@ -39,6 +39,7 @@
 #include "messages.h"
 #include "pickup.h"
 #include "weather_gen.h"
+#include "start_location.h"
 #include <map>
 #include <set>
 #include <algorithm>
@@ -612,12 +613,13 @@ void game::start_game(std::string worldname)
     u.setID( assign_npc_id() ); // should be as soon as possible, but *after* load_master
     cur_om = &overmap_buffer.get(0, 0); // We start in the (0,0,0) overmap.
 
+    const start_location &start_loc = *start_location::find( u.start_location );
     // Find a random house on the map, and set us there.
-    cur_om->first_house(levx, levy, u.start_location);
+    cur_om->first_house( levx, levy, start_loc.target() );
     point player_location = overmapbuffer::omt_to_sm_copy( levx, levy );
     tinymap player_start;
     player_start.load( player_location.x, player_location.y, levz, false, cur_om );
-    player_start.translate( t_window_domestic, t_curtains );
+    start_loc.prepare_map( player_start );
     player_start.save();
     if (scen->has_flag("INFECTED")){u.add_disease("infected", 14401, false, 1, 1, 0, 0, random_body_part(), true);}
     if (scen->has_flag("BAD_DAY")){
