@@ -145,13 +145,13 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
             return true;
         }
         
-        /** Handles effect application effects. */
+        /** Handles human-specific effect application effects before calling Creature::add_eff_effects(). */
         virtual void add_eff_effects(effect e, bool reduced);
-        /** Processes long-term effects */
+        /** Processes human-specific effects effects before calling Creature::process_effects(). */
         void process_effects();
-        /** Handles the still hardcoded effects */
+        /** Handles the still hard-coded effects. */
         void hardcoded_effects(effect &it);
-        /** Handles vomiting modifiers */
+        /** Returns the modifier value used for vomiting effects. */
         double vomit_mod();
 
         virtual bool is_npc() const

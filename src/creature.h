@@ -126,7 +126,7 @@ class Creature
         virtual int ypos() const = 0;
         virtual point pos() const = 0;
 
-        /** Processes move stopping effects. Returns false if movement is stopped */
+        /** Processes move stopping effects. Returns false if movement is stopped. */
         virtual bool move_effects();
         
         /** Handles effect application effects. */
@@ -136,15 +136,18 @@ class Creature
             to the given value, or as close as max_intensity values permit. */
         virtual void add_effect(efftype_id eff_id, int dur, body_part bp = num_bp, bool permanent = false,
                                 int intensity = 0);
-        /** Gives chance to save via env resist, returns if successful */
+        /** Gives chance to save via environmental resist, returns false if resistance was successful. */
         bool add_env_effect(efftype_id eff_id, body_part vector, int strength, int dur,
                             body_part bp = num_bp, bool permanent = false, int intensity = 1);
+        /** Removes a listed effect, adding the removal memorial log if needed. bp = num_bp means to remove
+         *  all effects of a given type, targeted or untargeted. */
         void remove_effect(efftype_id eff_id, body_part bp = num_bp);
-        /** Remove all effects */
+        /** Remove all effects. */
         void clear_effects();
-        /** Check if creature has effect */
+        /** Check if creature has the matching effect. bp = num_bp means to check if the Creature has any effect
+         *  of the matching type, targeted or untargeted. */
         bool has_effect(efftype_id eff_id, body_part bp = num_bp) const;
-        /** Get the effect that matches the given arguments */
+        /** Return the effect that matches the given arguments exactly. */
         effect get_effect(efftype_id eff_id, body_part bp = num_bp) const;
         /** Returns the duration of the matching effect. Returns 0 if effect doesn't exist. */
         int get_effect_dur(efftype_id eff_id, body_part bp = num_bp) const;
@@ -156,7 +159,8 @@ class Creature
         void remove_value( const std::string key );
         std::string get_value( const std::string key ) const;
 
-        virtual void process_effects(); // runs all the effects on the Creature
+        /** Processes through all the effects on the Creature. */
+        virtual void process_effects();
         
         /** Returns true if the player has the entered trait, returns false for non-humans */
         virtual bool has_trait(const std::string &flag) const;

@@ -294,9 +294,13 @@ bool effect_type::use_name_ints() const
     return ((size_t)max_intensity <= name.size());
 }
 
-bool effect_type::use_desc_ints() const
+bool effect_type::use_desc_ints(bool reduced) const
 {
-    return ((size_t)max_intensity <= desc.size());
+    if (reduced) {
+        return ((size_t)max_intensity <= reduced_desc.size());
+    } else {
+        return ((size_t)max_intensity <= desc.size());
+    }
 }
 
 game_message_type effect_type::gain_game_message_type() const
@@ -556,11 +560,11 @@ std::string effect::disp_desc(bool reduced) const
     
     // Then print the effect description
     if (use_part_descs()) {
-        //~ Used for effect descriptions, "Your (body_part_name) ..."
-        ret << _("Your ") << body_part_name(bp).c_str() << " ";
+        //~ Used for effect descriptions, "Your (body_part_name) (effect description)"
+        ret << string_format(_("Your %s "), body_part_name(bp).c_str());
     }
     std::string tmp_str;
-    if (eff_type->use_desc_ints()) {
+    if (eff_type->use_desc_ints(reduced)) {
         if (reduced) {
             tmp_str = eff_type->reduced_desc[intensity - 1];
         } else {
@@ -636,14 +640,23 @@ int effect::get_max_duration() const
 void effect::set_duration(int dur)
 {
     duration = dur;
+    if (eff_type->max_duration > 0 && duration > eff_type->max_duration) {
+        duration = eff_type->max_duration;
+    }
 }
 void effect::mod_duration(int dur)
 {
     duration += dur;
+    if (eff_type->max_duration > 0 && duration > eff_type->max_duration) {
+        duration = eff_type->max_duration;
+    }
 }
 void effect::mult_duration(double dur)
 {
     duration *= dur;
+    if (eff_type->max_duration > 0 && duration > eff_type->max_duration) {
+        duration = eff_type->max_duration;
+    }
 }
 
 body_part effect::get_bp() const
@@ -764,7 +777,7 @@ int effect::get_avg_mod(std::string arg, bool reduced) const
         max += found->second * (intensity - 1);
     }
     if (int(max) != 0) {
-        // Return a random value between [min, max]
+        // Return an average of min and max
         return int((min + max) / 2);
     } else {
         // Return the min value

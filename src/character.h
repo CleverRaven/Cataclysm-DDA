@@ -16,7 +16,10 @@ class Character : public Creature
         virtual bool is_warm() const override;
         virtual const std::string &symbol() const override;
         
+        /** Processes effects which may prevent the Character from moving (bear traps, crushed, etc.).
+         *  Returns false if movement is stopped. */
         virtual bool move_effects();
+        /** Performs any Character-specific modifications to the arguments before passing to Creature::add_effect(). */
         virtual void add_effect(efftype_id eff_id, int dur, body_part bp = num_bp, bool permanent = false,
                                 int intensity = 0);
 

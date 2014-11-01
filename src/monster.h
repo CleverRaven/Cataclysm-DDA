@@ -198,11 +198,17 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         // Let the monster die and let its body explode into gibs
         void die_in_explosion( Creature *source );
         
+        /** Processes monster-specific effects effects before calling Creature::process_effects(). */
+        virtual void process_effects();
+        /** Processes effects which may prevent the monster from moving (bear traps, crushed, etc.).
+         *  Returns false if movement is stopped. */
         virtual bool move_effects();
-        /** Handles effect application effects. */
+        /** Handles any monster-specific effect application effects before calling Creature::add_eff_effects(). */
         virtual void add_eff_effects(effect e, bool reduced);
+        /** Performs any monster-specific modifications to the arguments before passing to Creature::add_effect(). */
         virtual void add_effect(efftype_id eff_id, int dur, body_part bp = num_bp, bool permanent = false,
                                 int intensity = 0);
+
         int  get_armor_cut(body_part bp) const;   // Natural armor, plus any worn armor
         int  get_armor_bash(body_part bp) const;  // Natural armor, plus any worn armor
         int  get_dodge() const;       // Natural dodge, or 0 if we're occupied
@@ -223,7 +229,6 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         void drop_items_on_death();
 
         // Other
-        void process_effects(); // Process long-term effects
         bool make_fungus();  // Makes this monster into a fungus version
         // Returns false if no such monster exists
         void make_friendly();
