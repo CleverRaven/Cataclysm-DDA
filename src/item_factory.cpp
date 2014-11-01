@@ -325,6 +325,7 @@ void Item_factory::init()
     iuse_function_list["CAMERA"] = &iuse::camera;
     iuse_function_list["EHANDCUFFS"] = &iuse::ehandcuffs;
     iuse_function_list["CABLE_ATTACH"]  = &iuse::cable_attach;
+    iuse_function_list["SURVIVOR_BELT"]  = &iuse::survivor_belt;
 
     // MACGUFFINS
     iuse_function_list["MCG_NOTE"] = &iuse::mcg_note;
