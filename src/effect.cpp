@@ -136,12 +136,14 @@ static void extract_effect( JsonObject &j, std::unordered_map<std::tuple<std::st
     if (j.has_member(mod_type)) {
         JsonArray jsarr = j.get_array(mod_type);
         val = jsarr.get_float(0);
+        // If a second value exists use it, else reduced_val = val.
         if (jsarr.size() >= 2) {
             reduced_val = jsarr.get_float(1);
         } else {
             reduced_val = val;
         }
     }
+    // Store values if they aren't zero.
     if (val != 0) {
         data[std::make_tuple(data_key, false, type_key, arg_key)] = val;
     }
@@ -315,7 +317,7 @@ game_message_type effect_type::gain_game_message_type() const
     case e_mixed:
         return m_mixed;
     default:
-        return m_neutral;  // should never happen
+        return m_neutral;  // Should never happen
     }
 }
 game_message_type effect_type::lose_game_message_type() const
@@ -330,7 +332,7 @@ game_message_type effect_type::lose_game_message_type() const
     case e_mixed:
         return m_mixed;
     default:
-        return m_neutral;  // should never happen
+        return m_neutral;  // Should never happen
     }
 }
 std::string effect_type::get_apply_message() const
@@ -410,6 +412,7 @@ std::string effect::disp_name() const
     return ret.str();
 }
 
+// Used in disp_desc()
 struct desc_freq {
     double chance;
     int val;
@@ -422,7 +425,7 @@ struct desc_freq {
 std::string effect::disp_desc(bool reduced) const
 {
     std::stringstream ret;
-    // First print stat changes
+    // First print stat changes, adding + if value is positive
     int tmp = get_avg_mod("STR", reduced);
     if (tmp > 0) {
         ret << string_format(_("Strength +%d;  "), tmp);
@@ -464,6 +467,8 @@ std::string effect::disp_desc(bool reduced) const
     std::vector<std::string> uncommon;
     std::vector<std::string> rare;
     std::vector<desc_freq> values;
+    // Add various desc_freq structs to values. If more effects wish to be placed in the descriptions this is the
+    // place to add them.
     values.push_back(desc_freq(get_percentage("PAIN", reduced), get_avg_mod("PAIN", reduced), _("pain"), _("pain")));
     values.push_back(desc_freq(get_percentage("HURT", reduced), get_avg_mod("HURT", reduced), _("damage"), _("damage")));
     values.push_back(desc_freq(get_percentage("THIRST", reduced), get_avg_mod("THIRST", reduced), _("thirst"), _("quench")));
@@ -640,6 +645,7 @@ int effect::get_max_duration() const
 void effect::set_duration(int dur)
 {
     duration = dur;
+    // Cap to max_duration if it exists
     if (eff_type->max_duration > 0 && duration > eff_type->max_duration) {
         duration = eff_type->max_duration;
     }
@@ -647,6 +653,7 @@ void effect::set_duration(int dur)
 void effect::mod_duration(int dur)
 {
     duration += dur;
+    // Cap to max_duration if it exists
     if (eff_type->max_duration > 0 && duration > eff_type->max_duration) {
         duration = eff_type->max_duration;
     }
@@ -654,6 +661,7 @@ void effect::mod_duration(int dur)
 void effect::mult_duration(double dur)
 {
     duration *= dur;
+    // Cap to max_duration if it exists
     if (eff_type->max_duration > 0 && duration > eff_type->max_duration) {
         duration = eff_type->max_duration;
     }
@@ -692,6 +700,7 @@ int effect::get_max_intensity() const
 void effect::set_intensity(int nintensity)
 {
     intensity = nintensity;
+    // Cap to [1, max_intensity]
     if (intensity > eff_type->max_intensity) {
         intensity = eff_type->max_intensity;
     } else if (intensity < 1) {
@@ -701,6 +710,7 @@ void effect::set_intensity(int nintensity)
 void effect::mod_intensity(int nintensity)
 {
     intensity += nintensity;
+    // Cap to [1, max_intensity]
     if (intensity > eff_type->max_intensity) {
         intensity = eff_type->max_intensity;
     } else if (intensity < 1) {
@@ -748,7 +758,7 @@ int effect::get_mod(std::string arg, bool reduced) const
         // Return a random value between [min, max]
         return int(rng(min, max));
     } else {
-        // Return the min value
+        // Else return the minimum value
         return min;
     }
 }
@@ -780,7 +790,7 @@ int effect::get_avg_mod(std::string arg, bool reduced) const
         // Return an average of min and max
         return int((min + max) / 2);
     } else {
-        // Return the min value
+        // Else return the minimum value
         return min;
     }
 }
@@ -845,7 +855,7 @@ double effect::get_percentage(std::string arg, bool reduced) const
     auto &mod_data = eff_type->mod_data;
     auto found_top_base = mod_data.find(std::make_tuple("base_mods", reduced, arg, "chance_top"));
     auto found_top_scale = mod_data.find(std::make_tuple("scaling_mods", reduced, arg, "chance_top"));
-    // convert to int or 0
+    // Convert to int or 0
     int top_base = 0;
     int top_scale = 0;
     if (found_top_base != mod_data.end()) {
@@ -915,7 +925,7 @@ bool effect::activated(unsigned int turn, std::string arg, bool reduced, double 
     auto &mod_data = eff_type->mod_data;
     auto found_top_base = mod_data.find(std::make_tuple("base_mods", reduced, arg, "chance_top"));
     auto found_top_scale = mod_data.find(std::make_tuple("scaling_mods", reduced, arg, "chance_top"));
-    // convert to int or 0
+    // Convert to int or 0
     int top_base = 0;
     int top_scale = 0;
     if (found_top_base != mod_data.end()) {
@@ -1012,6 +1022,7 @@ std::vector<std::pair<std::string, int>> effect::get_miss_msgs() const
 }
 std::string effect::get_speed_name() const
 {
+    // USes the speed_mod_name if one exists, else defaults to the first entry in "name".
     if (eff_type->speed_mod_name == "") {
         return eff_type->name[0];
     } else {
