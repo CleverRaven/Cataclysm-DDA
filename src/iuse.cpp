@@ -59,6 +59,7 @@ void remove_recharge_mod( item &it, player &p )
     p.i_add_or_drop( mod, 1 );
     it.item_tags.erase( "RECHARGE" );
     it.item_tags.erase( "NO_UNLOAD" );
+    it.item_tags.erase( "NO_RELOAD" );
 }
 
 void remove_atomic_mod( item &it, player &p )
