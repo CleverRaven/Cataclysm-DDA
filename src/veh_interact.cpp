@@ -583,7 +583,6 @@ void veh_interact::do_install()
         sel_vpart_info = &(can_mount[pos]);
         display_list (pos, can_mount);
 
-        
         bool can_install = can_install_part(msg_width, engines, dif_eng);
         
         const std::string action = main_context.handle_input();
@@ -812,11 +811,13 @@ bool veh_interact::can_remove_part(int veh_part_index, int mech_skill, int msg_w
                            has_wrench ? "ltgreen" : "red",
                            has_hacksaw ? "ltgreen" : "red",
                            has_skill ? "ltgreen" : "red");
-            
         }
         wrefresh (w_msg);
         //check if have all necessary materials
-        if (has_skill && ((is_wheel && has_wrench && has_jack)|| (is_wrenchable && has_wrench) || (is_loose || is_hand_remove))) {
+        if (has_skill && ((is_wheel && has_wrench && has_jack) || 
+                            (is_wrenchable && has_wrench) || 
+                            (is_loose || is_hand_remove) ||
+                            ((!is_wheel) && has_wrench && has_hacksaw) )) {
             return true;
         }
     } else {
