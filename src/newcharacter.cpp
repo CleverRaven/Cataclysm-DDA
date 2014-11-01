@@ -1585,7 +1585,9 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
     WINDOW_PTR w_statstptr( w_stats );
     WINDOW *w_traits = newwin(13, 24, getbegy(w) + 10, getbegx(w) + 24);
     WINDOW_PTR w_traitsptr( w_traits );
-    WINDOW *w_profession = newwin(1, 32, getbegy(w) + 10, getbegx(w) + 47);
+    WINDOW *w_scenario = newwin(1, 32, getbegy(w) + 10, getbegx(w) + 47);
+    WINDOW_PTR w_scenarioptr( w_scenario );
+    WINDOW *w_profession = newwin(1, 32, getbegy(w) + 11, getbegx(w) + 47);
     WINDOW_PTR w_professionptr( w_profession );
     WINDOW *w_skills = newwin(9, 24, getbegy(w) + 12, getbegx(w) + 47);
     WINDOW_PTR w_skillsptr( w_skills );
@@ -1765,6 +1767,11 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
         mvwprintz( w_location, 0, prompt_offset + utf8_width(_("Starting location:")) + 2,
                    c_ltgray, _(start_location::find(u->start_location)->name().c_str()));
         wrefresh(w_location);
+
+        werase(w_scenario);
+        mvwprintz(w_scenario, 0, 0, COL_HEADER, _("Scenario: "));
+        wprintz(w_scenario, c_ltgray, g->scen->gender_appropriate_name(u->male).c_str());
+        wrefresh(w_scenario);
 
         werase(w_profession);
         mvwprintz(w_profession, 0, 0, COL_HEADER, _("Profession: "));
