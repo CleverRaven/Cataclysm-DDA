@@ -1383,11 +1383,19 @@ use_function Item_factory::use_from_object(JsonObject obj)
         return use_function(actor.release());
     } else if (type == "consume_drug") {
         std::unique_ptr<consume_drug_iuse> actor(new consume_drug_iuse);
-        // Are these optional? The need to be.
         obj.read("activation_message", actor->activation_message);
         obj.read("charges_needed", actor->charges_needed);
         obj.read("tools_needed", actor->tools_needed);
-        obj.read("effects", actor->effects);
+        
+        if (obj.has_array("effects")) {
+            JsonArray jsarr = obj.get_array("effects");
+            while (jsarr.has_more()) {
+                JsonObject e = jsarr.next_object();
+                effect_data new_eff(e.get_string("id", "null"), e.get_int("duration", 0),
+                                    body_parts[e.get_string("bp", "NUM_BP")], e.get_bool("permanent", false));
+                actor->effects.push_back(new_eff);
+            }
+        }
         obj.read("stat_adjustments", actor->stat_adjustments);
         obj.read("fields_produced", actor->fields_produced);
         return use_function(actor.release());

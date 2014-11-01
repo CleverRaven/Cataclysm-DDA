@@ -271,14 +271,18 @@ long consume_drug_iuse::use(player *p, item *it, bool, point) const
         }
     }
     // Apply the various effects.
-    for( auto effect = effects.cbegin(); effect != effects.cend(); ++effect ) {
-        int duration = effect->second;
-        if (p->has_trait("TOLERANCE")) {
-            duration *= .8;
-        } else if (p->has_trait("LIGHTWEIGHT")) {
-            duration *= 1.2;
+    for( auto eff : effects ) {
+        if (eff.id == "null") {
+            continue;
         }
-        p->add_effect( effect->first, duration );
+        
+        int dur = eff.duration;
+        if (p->has_trait("TOLERANCE")) {
+            dur *= .8;
+        } else if (p->has_trait("LIGHTWEIGHT")) {
+            dur *= 1.2;
+        }
+        p->add_effect( eff.id, dur, eff.bp, eff.permanent );
     }
     for( auto stat = stat_adjustments.cbegin(); stat != stat_adjustments.cend(); ++stat ) {
         p->mod_stat( stat->first, stat->second );

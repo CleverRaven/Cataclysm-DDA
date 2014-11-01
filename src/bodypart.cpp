@@ -200,6 +200,7 @@ void init_body_parts()
     body_parts["LEG_R"]  = bp_leg_r;
     body_parts["FOOT_L"]  = bp_foot_l;
     body_parts["FOOT_R"]  = bp_foot_r;
+    body_parts["NUM_BP"] = num_bp;
 }
 
 std::string get_body_part_id(body_part bp)
