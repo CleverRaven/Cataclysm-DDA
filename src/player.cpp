@@ -4933,12 +4933,14 @@ void player::heal(body_part healed, int dam)
 
 void player::heal(hp_part healed, int dam)
 {
-    hp_cur[healed] += dam;
-    if (hp_cur[healed] > hp_max[healed]) {
-        lifetime_stats()->damage_healed -= hp_cur[healed] - hp_max[healed];
-        hp_cur[healed] = hp_max[healed];
+    if (hp_cur[healed] > 0) {
+        hp_cur[healed] += dam;
+        if (hp_cur[healed] > hp_max[healed]) {
+            lifetime_stats()->damage_healed -= hp_cur[healed] - hp_max[healed];
+            hp_cur[healed] = hp_max[healed];
+        }
+        lifetime_stats()->damage_healed += dam;
     }
-    lifetime_stats()->damage_healed += dam;
 }
 
 void player::healall(int dam)
