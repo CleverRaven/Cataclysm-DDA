@@ -88,6 +88,8 @@ vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): t
     is_locked = false;
     is_bad_hotwire = false;
     is_alarm = false;
+    //because alarm isnt a part yet,
+    alarm_epower = -200;
 
     //type can be null if the type_id parameter is omitted
     if(type != "null") {
@@ -2751,6 +2753,7 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
     if(tracking_on) epower += tracking_epower;
     if(fridge_on) epower += fridge_epower;
     if(recharger_on) epower += recharger_epower;
+    if (is_alarm) epower += alarm_epower;
 
     // Producers of epower
     epower += solar_epower();
@@ -2851,6 +2854,7 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
     }
 
     if(battery_deficit) {
+        is_alarm = false;
         lights_on = false;
         tracking_on = false;
         overhead_lights_on = false;
@@ -3064,7 +3068,8 @@ void vehicle::idle(bool on_map) {
 void vehicle::alarm(bool on_map){
     if (on_map && is_alarm && one_in(4)) {
         const char *sound_msgs[] = { "WHOOP WHOOP", "NEEeu NEEeu NEEeu", "BLEEEEEEP", "WREEP"};
-        g->ambient_sound( global_x(), global_y(), 85, sound_msgs[rng(0,3)]);
+        g->ambient_sound( global_x(), global_y(), (int) rng(45,100), sound_msgs[rng(0,3)]);
+        if (one_in(1000)) is_alarm = false;
     }
 }
 

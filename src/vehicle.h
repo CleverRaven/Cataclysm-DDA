@@ -761,6 +761,7 @@ public:
     int overhead_epower;   // total power of components with CIRCLE_LIGHT flag
     int tracking_epower; // total power consumed by tracking devices (why would you use more than one?)
     int fridge_epower; // total power consumed by fridges
+    int alarm_epower;
     int recharger_epower; // total power consumed by rechargers
     bool check_environmental_effects; // True if it has bloody or smoking parts
 };
