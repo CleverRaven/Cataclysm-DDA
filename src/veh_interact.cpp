@@ -371,13 +371,13 @@ task_reason veh_interact::cant_do (char mode)
     bool has_tools = false;
     bool part_free = true;
     bool has_skill = true;
-    bool can_remove_wheel = has_wrench && has_jack && wheel;
     bool pass_checks = false; // Used in refill only
 
     switch (mode) {
     case 'i': // install mode
         enough_morale = g->u.morale_level() >= MIN_MORALE_CRAFT;
         valid_target = !can_mount.empty() && 0 == veh->tags.count("convertible");
+        //tool checks processed later
         has_tools = true;
         break;
     case 'r': // repair mode
@@ -412,13 +412,10 @@ task_reason veh_interact::cant_do (char mode)
     case 'o': // remove mode
         enough_morale = g->u.morale_level() >= MIN_MORALE_CRAFT;
         valid_target = cpart >= 0 && 0 == veh->tags.count("convertible");
-        //~ has_tools = (has_wrench && has_hacksaw) || can_remove_wheel ||
-            //~ // UNMOUNT_ON_MOVE == loose enough to hand-remove
-            //~ (cpart >= 0 && veh->part_with_feature(cpart, "UNMOUNT_ON_MOVE") >= 0) ||
-            //~ (cpart >= 0 && veh->part_with_feature(cpart, "TOOL_WRENCH") >= 0 && has_wrench);
-        has_tools = true;
         part_free = parts_here.size() > 1 || (cpart >= 0 && veh->can_unmount(cpart));
-        has_skill = g->u.skillLevel("mechanics") >= 2 || can_remove_wheel;
+        //tool and skill checks processed later
+        has_tools = true;
+        has_skill = true;
         break;
     case 's': // siphon mode
         valid_target = (veh->fuel_left("gasoline") > 0 || veh->fuel_left("diesel") > 0);
@@ -562,14 +559,6 @@ void veh_interact::do_install()
         mvwprintz(w_msg, 0, 1, c_ltred, _("Cannot install any part here."));
         wrefresh (w_msg);
         return;
-    case LACK_TOOLS:
-        fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                       _("You need a <color_%1$s>wrench</color> and either a <color_%2$s>powered welder and goggles</color> or <color_%3$s>duct tape</color> to install parts."),
-                       has_wrench ? "ltgreen" : "red",
-                       (has_welder && has_goggles) ? "ltgreen" : "red",
-                       has_duct_tape ? "ltgreen" : "red");
-        wrefresh (w_msg);
-        return;
     case MOVING_VEHICLE:
         fold_and_print( w_msg, 0, 1, msg_width - 2, c_ltgray,
                         _( "You can't install parts while driving." ) );
@@ -582,6 +571,7 @@ void veh_interact::do_install()
     wrefresh (w_mode);
     int pos = 0;
     int engines = 0;
+    //count current engines
     int dif_eng = 0;
     for (size_t p = 0; p < veh->parts.size(); p++) {
         if (veh->part_flag (p, "ENGINE")) {
@@ -862,29 +852,11 @@ void veh_interact::do_remove()
         mvwprintz(w_msg, 0, 1, c_ltred, _("No parts here."));
         wrefresh (w_msg);
         return;
-    case LACK_TOOLS:
-        fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                       _("You need a <color_%1$s>wrench</color> and a <color_%2$s>hacksaw, cutting torch and goggles, or circular saw (off)</color> to remove parts."),
-                       has_wrench ? "ltgreen" : "red",
-                       has_hacksaw ? "ltgreen" : "red");
-        if(wheel) {
-            fold_and_print(w_msg, 1, 1, msg_width - 2, c_ltgray,
-                           _("To remove a wheel you need a <color_%1$s>wrench</color> and a <color_%2$s>jack</color>."),
-                           has_wrench ? "ltgreen" : "red",
-                           has_jack ? "ltgreen" : "red");
-        }
-        wrefresh (w_msg);
-        return;
     case NOT_FREE:
         mvwprintz(w_msg, 0, 1, c_ltred,
                   _("You cannot remove that part while something is attached to it."));
         wrefresh (w_msg);
         return;
-    case LACK_SKILL:
-        //~ mvwprintz(w_msg, 0, 1, c_ltred, _("You need level 2 mechanics skill to remove parts."));
-        //~ wrefresh (w_msg);
-        //~ return;
-        break;
     case MOVING_VEHICLE:
         fold_and_print( w_msg, 0, 1, msg_width - 2, c_ltgray,
                         _( "Better not remove something will driving." ) );
