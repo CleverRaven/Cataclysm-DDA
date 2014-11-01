@@ -131,7 +131,8 @@ void weed_msg(player *p) {
 static void extract_effect( JsonObject &j, std::unordered_map<std::tuple<std::string, bool, std::string, std::string>, double> &data,
                 std::string mod_type, std::string data_key, std::string type_key, std::string arg_key)
 {
-    double val, reduced_val = 0;
+    double val = 0;
+    double reduced_val = 0;
     if (j.has_member(mod_type)) {
         JsonArray jsarr = j.get_array(mod_type);
         val = jsarr.get_float(0);
@@ -832,7 +833,8 @@ double effect::get_percentage(std::string arg, bool reduced) const
     auto found_top_base = mod_data.find(std::make_tuple("base_mods", reduced, arg, "chance_top"));
     auto found_top_scale = mod_data.find(std::make_tuple("scaling_mods", reduced, arg, "chance_top"));
     // convert to int or 0
-    int top_base, top_scale = 0;
+    int top_base = 0;
+    int top_scale = 0;
     if (found_top_base != mod_data.end()) {
         top_base = found_top_base->second;
     }
@@ -849,7 +851,9 @@ double effect::get_percentage(std::string arg, bool reduced) const
     }
     
     // We only need to calculate these if we haven't already returned
-    int bot_base, bot_scale, tick = 0;
+    int bot_base = 0;
+    int bot_scale = 0;
+    int tick = 0;
     auto found_bot_base = mod_data.find(std::make_tuple("base_mods", reduced, arg, "chance_bot"));
     auto found_bot_scale = mod_data.find(std::make_tuple("scaling_mods", reduced, arg, "chance_bot"));
     auto found_tick_base = mod_data.find(std::make_tuple("base_mods", reduced, arg, "tick"));
@@ -899,7 +903,8 @@ bool effect::activated(unsigned int turn, std::string arg, bool reduced, double 
     auto found_top_base = mod_data.find(std::make_tuple("base_mods", reduced, arg, "chance_top"));
     auto found_top_scale = mod_data.find(std::make_tuple("scaling_mods", reduced, arg, "chance_top"));
     // convert to int or 0
-    int top_base, top_scale = 0;
+    int top_base = 0;
+    int top_scale = 0;
     if (found_top_base != mod_data.end()) {
         top_base = found_top_base->second;
     }
@@ -916,7 +921,9 @@ bool effect::activated(unsigned int turn, std::string arg, bool reduced, double 
     }
     
     // We only need to calculate these if we haven't already returned
-    int bot_base, bot_scale, tick = 0;
+    int bot_base = 0;
+    int bot_scale = 0;
+    int tick = 0;
     auto found_bot_base = mod_data.find(std::make_tuple("base_mods", reduced, arg, "chance_bot"));
     auto found_bot_scale = mod_data.find(std::make_tuple("scaling_mods", reduced, arg, "chance_bot"));
     auto found_tick_base = mod_data.find(std::make_tuple("base_mods", reduced, arg, "tick"));
