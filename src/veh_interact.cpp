@@ -796,7 +796,7 @@ bool veh_interact::can_remove_part(int veh_part_index, int mech_skill, int msg_w
         bool is_wrenchable = veh->part_flag(veh_part_index, "TOOL_WRENCH");
         bool is_hand_remove = veh->part_flag(veh_part_index, "TOOL_NONE");
         bool has_skill;
-        if (is_wrenchable || is_loose) has_skill = (mech_skill >= 1)? true: false;
+        if (is_wrenchable || is_loose || is_hand_remove) has_skill = (mech_skill >= 1)? true: false;
         else has_skill = (mech_skill >= 2)? true: false;
         //print necessary materials
         if (is_wheel){
@@ -826,7 +826,7 @@ bool veh_interact::can_remove_part(int veh_part_index, int mech_skill, int msg_w
         }
         wrefresh (w_msg);
         //check if have all necessary materials
-        if ((is_wheel && has_wrench && has_jack)|| (is_wrenchable && has_wrench) || (is_loose)) {
+        if (has_skill && ((is_wheel && has_wrench && has_jack)|| (is_wrenchable && has_wrench) || (is_loose || is_hand_remove))) {
             return true;
         }
     } else {
@@ -881,9 +881,10 @@ void veh_interact::do_remove()
         wrefresh (w_msg);
         return;
     case LACK_SKILL:
-        mvwprintz(w_msg, 0, 1, c_ltred, _("You need level 2 mechanics skill to remove parts."));
-        wrefresh (w_msg);
-        return;
+        //~ mvwprintz(w_msg, 0, 1, c_ltred, _("You need level 2 mechanics skill to remove parts."));
+        //~ wrefresh (w_msg);
+        //~ return;
+        break;
     case MOVING_VEHICLE:
         fold_and_print( w_msg, 0, 1, msg_width - 2, c_ltgray,
                         _( "Better not remove something will driving." ) );
