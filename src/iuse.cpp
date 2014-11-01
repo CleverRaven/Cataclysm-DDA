@@ -3062,6 +3062,7 @@ int iuse::rechargeable_battery(player *p, item *it, bool, point)
     modded->charges = it->charges;
     modded->item_tags.insert("RECHARGE");
     modded->item_tags.insert("NO_UNLOAD");
+    modded->item_tags.insert("NO_RELOAD");
     return 1;
 }
 
