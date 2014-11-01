@@ -170,6 +170,24 @@ void vehicle::add_missing_frames()
     }
 }
 
+void vehicle::add_missing_battery_case(){
+    //find battery mount id
+    for (auto &i : parts){
+        if (vehicle_part_types[i.id].has_flag("NEEDS_BATTERY_MOUNT")){
+            //add the battery mount
+            vehicle_part new_part;
+            new_part.setid("storage_battery_mount");
+            new_part.mount_dx = i.mount_dx;
+            new_part.mount_dy = i.mount_dy;
+            new_part.hp = vehicle_part_types["storage_battery_mount"].durability;
+            new_part.amount = 0;
+            new_part.blood = 0;
+            new_part.bigness = 0;
+            parts.push_back (new_part);
+        }
+    }
+}
+
 void vehicle::save (std::ofstream &stout)
 {
     serialize(stout);

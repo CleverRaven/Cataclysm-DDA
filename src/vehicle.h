@@ -256,6 +256,7 @@ private:
     void open_or_close(int part_index, bool opening);
     bool is_connected(vehicle_part &to, vehicle_part &from, vehicle_part &excluded);
     void add_missing_frames();
+    void add_missing_battery_case();
 
     // direct damage to part (armor protection and internals are not counted)
     // returns damage bypassed
