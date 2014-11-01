@@ -1172,6 +1172,10 @@ int set_profession(WINDOW *w, player *u, int &points)
                 buffer << string_format( format, addiction_name( a ).c_str(), a.intensity ) << "\n";
             }
         }
+        buffer << "<color_ltblue>" << _( "Profession traits:" ) << "</color>\n";
+        for( const auto &t : sorted_profs[cur_id]->traits() ) {
+            buffer << traits[ t ].name << "\n";
+        }
         const auto prof_skills = sorted_profs[cur_id]->skills();
         buffer << "<color_ltblue>" << _( "Profession skills:" ) << "</color>\n";
         if( prof_skills.empty() ) {
