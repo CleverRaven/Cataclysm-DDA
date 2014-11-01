@@ -2785,7 +2785,7 @@
         "damage_modifier" : 80,
         "durability" : 300,
         "item" : "battery_mount",
-        "difficulty" : 1,
+        "difficulty" : 4,
         "location" : "fuel_source",
         "flags" : ["BATTERY_MOUNT"],
         "breaks_into" : [
