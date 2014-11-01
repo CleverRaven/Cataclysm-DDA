@@ -2789,7 +2789,7 @@
         "item" : "storage_battery",
         "difficulty" : 2,
         "location" : "fuel_source",
-        "flags" : ["FUEL_TANK"],
+        "flags" : ["FUEL_TANK", "TOOL_NONE"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 5, "max": 10},
             {"item": "steel_chunk", "min": 5, "max": 10},
@@ -3668,7 +3668,7 @@
         "fuel_type" : "battery",
         "item" : "battery_motorbike",
         "difficulty" : 2,
-        "flags" : ["FUEL_TANK"],
+        "flags" : ["FUEL_TANK", "TOOL_WRENCH"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 7},
             {"item": "steel_chunk", "min": 4, "max": 7},
@@ -3688,7 +3688,7 @@
         "fuel_type" : "battery",
         "item" : "battery_car",
         "difficulty" : 2,
-        "flags" : ["FUEL_TANK"],
+        "flags" : ["FUEL_TANK", "TOOL_WRENCH"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 6, "max": 9},
             {"item": "steel_chunk", "min": 6, "max": 9},
