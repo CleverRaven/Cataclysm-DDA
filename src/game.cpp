@@ -8431,8 +8431,14 @@ void game::control_vehicle()
             inventory crafting_inv = crafting_inventory(&u);
             if (crafting_inv.has_tools("screwdriver", 1)){
                 if (query_yn(_("Attempt to hotwire vehicle?"))) {
-                    veh->is_locked = false;
-                    add_msg(_("You believe that the engine will now start."));
+                    if (u.skillLevel("mechanics")> (int)rng(3,10)){
+                        //try roll
+                        veh->is_locked = false;
+                        add_msg(_("You believe that the engine will now start."));
+                    } else {
+                        add_msg(_("You don't really know what you're doing."));
+                    }
+                    
                 } else {
                     add_msg(_("You don't find any keys in the %s."), veh->name.c_str());
                     add_msg(_("You leave the controls alone."));
