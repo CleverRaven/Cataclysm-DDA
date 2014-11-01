@@ -1197,6 +1197,20 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
             return false;
         }
     }
+    
+    //Storage battery must be installed on a BATTERY_MOUNT
+    if(vehicle_part_types[id].has_flag("NEEDS_BATTERY_MOUNT")) {
+        bool anchor_found = false;
+        for( std::vector<int>::const_iterator it = parts_in_square.begin();
+             it != parts_in_square.end(); ++it ) {
+            if(part_info(*it).has_flag("BATTERY_MOUNT")) {
+                anchor_found = true;
+            }
+        }
+        if(!anchor_found) {
+            return false;
+        }
+    }
 
     //Anything not explicitly denied is permitted
     return true;
@@ -1227,6 +1241,12 @@ bool vehicle::can_unmount (int p)
     if(part_flag(p, "WINDOW") && part_with_feature(p, "CURTAIN") >=0) {
         return false;
     }
+    
+    //Can't remove a battery mount if there's still a battery there
+    if(part_flag(p, "BATTERY_MOUNT") && part_with_feature(p, "NEEDS_BATTERY_MOUNT") >= 0) {
+        return false;
+    }
+
 
     //Structural parts have extra requirements
     if(part_info(p).location == part_location_structure) {
