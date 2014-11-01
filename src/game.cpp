@@ -5473,34 +5473,10 @@ void game::draw_sidebar()
         mvwprintz(w_location, 0, 18, weather_data[weather].color, "%s", weather_data[weather].name.c_str());
     }
 
-    int display_temp = get_temperature();
-    // Apply windchill
-    w_point weatherPoint = weatherGen.get_weather(u.pos(), calendar::turn);
-    const oter_id &cur_om_ter = overmap_buffer.ter(om_global_location());
-    std::string omtername = otermap[cur_om_ter].name;
-    bool sheltered = is_sheltered(u.pos().x, u.pos().y);
-    int vehwindspeed = 0;
-    int vpart = -1;
-    vehicle *veh = m.veh_at (u.pos().x, u.pos().y, vpart);
-    if (veh) vehwindspeed = veh->velocity / 100; // For mph
-    int windpower = weatherPoint.windpower + vehwindspeed;
-    int windchill = get_local_windchill(get_temperature(), get_local_humidity(weatherPoint.humidity, weather, sheltered), windpower, omtername, sheltered);
-    display_temp += windchill;
-
-    nc_color col_temp = c_blue;
-    if (display_temp >= 90) {
-        col_temp = c_red;
-    } else if (display_temp >= 75) {
-        col_temp = c_yellow;
-    } else if (display_temp >= 60) {
-        col_temp = c_ltgreen;
-    } else if (display_temp >= 50) {
-        col_temp = c_cyan;
-    } else if (display_temp > 32) {
-        col_temp = c_ltblue;
+    if (u.has_item_with_flag("THERMOMETER")) {
+        wprintz( w_location, c_white, " %s", print_temperature( get_temperature() ).c_str());
     }
 
-    wprintz( w_location, col_temp, " %s", print_temperature( display_temp ).c_str());
     wrefresh(w_location);
 
     //Safemode coloring

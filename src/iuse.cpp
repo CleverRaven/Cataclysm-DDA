@@ -10283,3 +10283,11 @@ int iuse::cable_attach(player *p, item *it, bool, point)
 
     return 0;
 }
+
+int iuse::pocket_meteorolgist(player *p, item *it, bool, point)
+{
+    w_point weatherPoint = g->weatherGen.get_weather(p->pos(), calendar::turn);
+    add_msg("Temperature: %d, pressure: %d, humidity: %d", (int)weatherPoint.temperature, (int)weatherPoint.pressure, (int)weatherPoint.humidity);
+
+    return 0;
+}

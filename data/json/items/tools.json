@@ -8431,5 +8431,29 @@
         "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
         "explosion_power": 80
     }
+  },
+  {
+    "id": "test_weather_reader",
+    "type": "TOOL",
+    "symbol": "*",
+    "color": "white",
+    "name": "pocket meterologist",
+    "name_plural": "pocket meterologists",
+    "description": "A debug tool that reads temperature, humidity and pressure.",
+    "price": 0,
+    "material": "plastic",
+    "weight": 1,
+    "volume": 1,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": -3,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "category": "tool",
+    "use_action": "POCKET_METEOROLOGIST",
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0
   }
 ]
