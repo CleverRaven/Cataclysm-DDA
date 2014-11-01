@@ -5473,7 +5473,7 @@ void game::draw_sidebar()
         mvwprintz(w_location, 0, 18, weather_data[weather].color, "%s", weather_data[weather].name.c_str());
     }
 
-    if (u.has_item_with_flag("THERMOMETER")) {
+    if (u.worn_with_flag("THERMOMETER")) {
         wprintz( w_location, c_white, " %s", print_temperature( get_temperature() ).c_str());
     }
 
