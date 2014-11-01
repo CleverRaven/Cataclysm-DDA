@@ -335,7 +335,7 @@ public:
 
 // Honk the vehicle's horn, if there are any
     void honk_horn();
-
+    
     void play_music();
 
 // get vpart type info for part number (part at given vector index)
@@ -641,7 +641,7 @@ public:
     bool is_foldable() const;
     // Restore parts of a folded vehicle.
     bool restore(const std::string &data);
-
+    bool interact_vehicle_locked(); //handles locked vehicles interaction
     /**
      *  Opens everything that can be opened on the same tile as `p`
      */
@@ -744,7 +744,6 @@ public:
     bool stereo_on;
     bool tracking_on;        // vehicle tracking on/off
     bool is_locked; //vehicle has no key
-    bool is_bad_hotwire; //vehicle has bad hotwiring attempt
     bool is_alarm;  //vehicle has alarm on
     int om_id;          // id of the om_vehicle struct corresponding to this vehicle
     bool overhead_lights_on; //circle lights on/off

@@ -86,7 +86,6 @@ vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): t
     has_paddles = false;
     has_hand_rims = false;
     is_locked = false;
-    is_bad_hotwire = false;
     is_alarm = false;
     //because alarm isnt a part yet,
     alarm_epower = -200;
@@ -511,6 +510,41 @@ bool vehicle::is_active_engine_at(int x,int y) {
 bool vehicle::is_alternator_on(int a) {
     return (parts[alternators[a]].hp > 0)  && is_active_engine_at(
         parts[alternators[a]].mount_dx, parts[alternators[a]].mount_dy );
+bool vehicle::interact_vehicle_locked()
+{
+    if (is_locked){
+        inventory crafting_inv = g->crafting_inventory(&g->u);
+        if (crafting_inv.has_tools("screwdriver", 1)){
+            if (query_yn(_("You don't find any keys in the %s. Attempt to hotwire vehicle?"), 
+                            name.c_str())) {
+                if ((g->u).skillLevel("mechanics")> (int)rng(3,10)){
+                    //success
+                    is_locked = false;
+                    add_msg(_("This wire will start the engine."));
+                    return true;
+                } else if (one_in(2)) {
+                    //soft fail
+                    is_locked = false;
+                    is_alarm = true;
+                    add_msg(_("Hmm, what does this wire do?"));
+                } else if (one_in(2)) {
+                    //hard fail
+                    is_alarm = true;
+                    add_msg(_("Hmm, what does this wire do?"));
+                } else {
+                    add_msg(_("You jam the screwdriver into the keyhole, nothing happens..."));
+                }
+                
+            } else {
+                add_msg(_("You don't find any keys in the %s."), name.c_str());
+                add_msg(_("You leave the controls alone."));
+            }
+        } else {
+            add_msg(_("You don't find any keys in the %s."), name.c_str());
+            add_msg(_("You could use a screwdriver to hotwire it."));
+        }
+    }
+    return !(is_locked);
 }
 
 void vehicle::use_controls()
@@ -519,6 +553,7 @@ void vehicle::use_controls()
     std::vector<uimenu_entry> options_message;
     int vpart;
     // Always have this option
+    if (!interact_vehicle_locked()) return;
     // Let go without turning the engine off.
     if (g->u.controlling_vehicle &&
         g->m.veh_at(g->u.posx, g->u.posy, vpart) == this) {

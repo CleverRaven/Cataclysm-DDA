@@ -599,7 +599,6 @@ class game
         bool vehicle_near ();
         void handbrake ();
         void control_vehicle(); // Use vehicle controls  '^'
-        bool interact_vehicle_locked(vehicle *veh); //do locked vehicle interactions, true if can interact
         void examine(int examx = -1, int examy = -1);// Examine nearby terrain  'e'
         void advanced_inv();
 
