@@ -1,5 +1,5 @@
-#ifndef _CALENDAR_H_
-#define _CALENDAR_H_
+#ifndef CALENDAR_H
+#define CALENDAR_H
 
 #include <string>
 
@@ -43,6 +43,7 @@ class calendar
 {
     private:
         // The basic data; note that "second" should always be a multiple of 6
+        int turn_number;
         int second;
         int minute;
         int hour;
@@ -73,11 +74,11 @@ class calendar
 
         void increment();   // Add one turn / 6 seconds
 
-        void standardize(); // Ensure minutes <= 59, hour <= 23, etc.
-
         int getHour(); // return hour
+        
+        void sync(); // Synchronize all variables to the turn_number
 
-        // Sunlight and day/night calcuations
+        // Sunlight and day/night calculations
         int minutes_past_midnight() const; // Useful for sunrise/set calculations
         moon_phase moon() const;  // Find phase of moon
         calendar sunrise() const; // Current time of sunrise
@@ -86,35 +87,58 @@ class calendar
         int sunlight() const;     // Current amount of sun/moonlight; uses preceding funcs
 
         // Basic accessors
-        int seconds() const {
+        int seconds() const
+        {
             return second;
         }
-        int minutes() const {
+        int minutes() const
+        {
             return minute;
         }
-        int hours() const {
+        int hours() const
+        {
             return hour;
         }
-        int days() const {
+        int days() const
+        {
             return day;
         }
-        season_type get_season() const {
+        season_type get_season() const
+        {
             return season;
         }
-        int years() const {
+        int years() const
+        {
             return year;
         }
 
-        void set_season(season_type new_season) {
-            season = new_season;
-        }
+        // Season and year lenght stuff
 
+        static int year_turns()
+        {
+            return DAYS(year_length());
+        }
+        static int year_length() // In days
+        {
+            return season_length() * 4;
+        }
+        static int season_length(); // In days
+
+        int turn_of_year() const
+        {
+            return turn_number % year_turns();
+        }
+        int day_of_year() const
+        {
+            return day + season_length() * season;
+        }
 
         // Print-friendly stuff
         std::string print_time(bool just_hour = false) const;
         std::string textify_period(); // "1 second" "2 hours" "two days"
         std::string day_of_week() const;
 
+        static   calendar start;
         static   calendar turn;
 };
-#endif // _CALENDAR_H_
+#endif

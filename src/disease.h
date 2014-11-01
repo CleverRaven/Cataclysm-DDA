@@ -1,5 +1,5 @@
-#ifndef _DISEASE_H_
-#define _DISEASE_H_
+#ifndef DISEASE_H
+#define DISEASE_H
 
 #include "rng.h"
 #include "game.h"
@@ -8,7 +8,7 @@
 
 class game;
 
-void dis_msg(dis_type type);
+bool dis_msg(dis_type type);
 
 void weed_msg(player *p);
 
@@ -20,9 +20,9 @@ void dis_effect(player &p, disease &dis);
 
 int disease_speed_boost(disease dis);
 
-std::string dis_name(disease& dis);
-std::string dis_combined_name(disease& dis);
+std::string dis_name(disease &dis);
+std::string dis_combined_name(disease &dis);
 
-std::string dis_description(disease& dis);
+std::string dis_description(disease &dis);
 
 #endif

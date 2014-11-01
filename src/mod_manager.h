@@ -37,12 +37,12 @@ struct MOD_INFORMATION {
     std::string type()
     {
         switch (_type) {
-            case MT_CORE:
-                return "CORE";
-                break;
-            case MT_SUPPLEMENTAL:
-                return "SUPPLEMENTAL";
-                break;
+        case MT_CORE:
+            return "CORE";
+            break;
+        case MT_SUPPLEMENTAL:
+            return "SUPPLEMENTAL";
+            break;
         }
     }
 };
@@ -165,4 +165,4 @@ class mod_ui
         void set_usable_mods();
 };
 
-#endif // MOD_MANAGER_H
+#endif

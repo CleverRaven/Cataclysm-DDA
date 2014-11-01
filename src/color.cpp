@@ -3,6 +3,7 @@
 #include "options.h"
 #include "rng.h"
 #include "output.h"
+#include "debug.h"
 
 #define HILIGHT COLOR_BLUE
 void init_colors()

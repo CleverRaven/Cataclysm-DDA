@@ -1,5 +1,5 @@
-#ifndef _MAP_H_
-#define _MAP_H_
+#ifndef MAP_H
+#define MAP_H
 
 #include "cursesdef.h"
 
@@ -8,15 +8,17 @@
 #include <string>
 #include <set>
 #include <map>
+#include <unordered_map>
+#include <unordered_set>
 
 #include "mapdata.h"
 #include "mapitems.h"
 #include "overmap.h"
 #include "item.h"
+#include "json.h"
 #include "monster.h"
 #include "npc.h"
 #include "vehicle.h"
-#include "graffiti.h"
 #include "lightmap.h"
 #include "coordinates.h"
 //TODO: include comments about how these variables work. Where are they used. Are they constant etc.
@@ -38,6 +40,7 @@ struct wrapped_vehicle{
 };
 
 typedef std::vector<wrapped_vehicle> VehicleList;
+typedef std::vector< std::pair< item*, int > > itemslice;
 
 /**
  * Manage and cache data about a part of the map.
@@ -119,11 +122,52 @@ class map
              const int view_center_x = -1, const int view_center_y = -1,
              const bool low_light = false, const bool bright_level = false);
 
-// File I/O
- void save(overmap *om, unsigned const int turn, const int x, const int y, const int z);
- void load(const int wx, const int wy, const int wz, const bool update_vehicles = true, overmap *om = NULL);
- void shift(const int wx, const int wy, const int wz, const int x, const int y);
- void spawn_monsters();
+    /**
+     * Add currently loaded submaps (in @ref grid) to the @ref mapbuffer.
+     * They will than be stored by that class and can be loaded from that class.
+     * This can be called several times, the mapbuffer takes care of adding
+     * the same submap several times. It should only be called after the map has
+     * been loaded.
+     * Submaps that have been loaded from the mapbuffer (and not generated) are
+     * already stored in the mapbuffer.
+     * TODO: determine if this is really needed? Submaps are already in the mapbuffer
+     * if they have been loaded from disc and the are added by map::generate, too.
+     * So when do they not appear in the mapbuffer?
+     */
+    void save();
+    /**
+     * Load submaps into @ref grid. This might create new submaps if
+     * the @ref mapbuffer can not deliver the requested submap (as it does
+     * not exist on disc).
+     * This must be called before the map can be used at all!
+     * @param om overmap to which the world coordinates are relative to.
+     * @param wx coordinates (relative to om) of the submap at grid[0]. This
+     * is in submap coordinates.
+     * @param wy see wx
+     * @param wz see wx, this is the z-level
+     * @param update_vehicles If true, add vehicles to the vehicle cache.
+     */
+    void load(const int wx, const int wy, const int wz, const bool update_vehicles, overmap *om);
+    /**
+     * Same as @ref load, but uses only global submap coordinates and
+     * has therefor no overmap pointer parameter.
+     */
+    void load_abs(const int wx, const int wy, const int wz, const bool update_vehicles);
+    /**
+     * Shift the map along the vector (sx,sy).
+     * This is like loading the map with coordinates derived from the current
+     * position of the map (@ref abs_sub) plus the shift vector.
+     * Note: the map must have been loaded before this can be called.
+     */
+    void shift(const int sx, const int sy);
+    /**
+     * Spawn monsters from submap spawn points and from the overmap.
+     * @param ignore_sight If true, monsters may spawn in the view of the player
+     * character (useful when the whole map has been loaded instead, e.g.
+     * when starting a new game, or after teleportation or after moving vertically).
+     * If false, monsters are not spawned in view of of player character.
+     */
+    void spawn_monsters(bool ignore_sight);
  void clear_spawns();
  void clear_traps();
 
@@ -202,6 +246,13 @@ class map
  bool accessable_furniture(const int Fx, const int Fy, const int Tx, const int Ty, const int range) const;
 
  /**
+  * Calculate next search points surrounding the current position.
+  * Points closer to the target come first.
+  * This method leads to straighter lines and prevents weird looking movements away from the target.
+  */
+ std::vector<point> getDirCircle(const int Fx, const int Fy, const int Tx, const int Ty);
+
+ /**
   * Calculate a best path using A*
   *
   * @param Fx, Fy The source location from which to path.
@@ -231,6 +282,13 @@ class map
   */
  vehicle* veh_at(const int x, const int y);// checks, if tile is occupied by vehicle
 
+ /**
+  * Vehicle-relative coordinates from reality bubble coordinates, if a vehicle
+  * actually exists here.
+  * Returns 0,0 if no vehicle exists there (use veh_at to check if it exists first)
+  */
+ point veh_part_coordinates(const int x, const int y);
+
  // put player on vehicle at x,y
  void board_vehicle(int x, int y, player *p);
  void unboard_vehicle(const int x, const int y);//remove player from vehicle at x,y
@@ -258,7 +316,6 @@ class map
  bool has_furn(const int x, const int y);
 
  furn_id furn(const int x, const int y) const; // Furniture at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
- int oldfurn(const int x, const int y) const; // Furniture at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
  std::string get_furn(const int x, const int y) const;
  furn_t & furn_at(const int x, const int y) const;
 
@@ -269,8 +326,10 @@ class map
  bool can_move_furniture( const int x, const int y, player * p = NULL);
 // Terrain
  ter_id ter(const int x, const int y) const; // Terrain integer id at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
- int oldter(const int x, const int y) const; // Temporary; the game is riddled with case statements requiring enum
  std::string get_ter(const int x, const int y) const; // Terrain string id at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
+ std::string get_ter_harvestable(const int x, const int y) const; // harvestable of the terrain
+ ter_id get_ter_transforms_into(const int x, const int y) const; // get the terrain id to transform to
+ int get_ter_harvest_season(const int x, const int y) const; // get season to harvest the terrain
  ter_t & ter_at(const int x, const int y) const; // Terrain at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
 
  void ter_set(const int x, const int y, const ter_id new_terrain);
@@ -291,6 +350,12 @@ class map
   * the player is at (x,y) or at an adjacent square).
   */
  bool sees_some_items(int x, int y, const player &u);
+ /**
+  * Check if the player could see items at (x,y) if there were
+  * any items. This is similar to @ref sees_some_items, but it
+  * does not check that there are actually any items.
+  */
+ bool could_see_items(int x, int y, const player &u);
 
 
  std::string features(const int x, const int y); // Words relevant to terrain (sharp, etc)
@@ -307,8 +372,27 @@ class map
  bool has_flag_ter_or_furn(const ter_bitflags flag, const int x, const int y) const; // checks terrain or furniture
  bool has_flag_ter_and_furn(const ter_bitflags flag, const int x, const int y) const; // checks terrain and furniture
 
- bool is_destructable(const int x, const int y);        // checks terrain and vehicles
- bool is_destructable_ter_furn(const int x, const int y);       // only checks terrain
+ /** Returns true if there is a bashable vehicle part or the furn/terrain is bashable at x,y */
+ bool is_bashable(const int x, const int y);
+ /** Returns true if the terrain at x,y is bashable */
+ bool is_bashable_ter(const int x, const int y);
+ /** Returns true if the furniture at x,y is bashable */
+ bool is_bashable_furn(const int x, const int y);
+ /** Returns true if the furniture or terrain at x,y is bashable */
+ bool is_bashable_ter_furn(const int x, const int y);
+ /** Returns max_str of the furniture or terrain at x,y */
+ int bash_strength(const int x, const int y);
+ /** Returns min_str of the furniture or terrain at x,y */
+ int bash_resistance(const int x, const int y);
+ /** Returns a success rating from -1 to 10 for a given tile based on a set strength, used for AI movement planning 
+  *  Values roughly correspond to 10% increment chances of success on a given bash, rounded down. -1 means the square is not bashable */
+ int bash_rating(const int str, const int x, const int y);
+ 
+ /** Generates rubble at the given location, if overwrite is true it just writes on top of what currently exists 
+  *  floor_type is only used if there is a non-bashable wall at the location or with overwrite = true */
+ void make_rubble(const int x, const int y, furn_id rubble_type = f_rubble, bool items = false,
+                    ter_id floor_type = t_dirt, bool overwrite = false);
+
  bool is_divable(const int x, const int y);
  bool is_outside(const int x, const int y);
  bool flammable_items_at(const int x, const int y);
@@ -333,6 +417,8 @@ void draw_square_ter(ter_id (*f)(), int x1, int y1, int x2, int y2);
 void draw_square_ter(const id_or_id & f, int x1, int y1, int x2, int y2);
 void draw_rough_circle(ter_id type, int x, int y, int rad);
 void draw_rough_circle(std::string type, int x, int y, int rad);
+void draw_rough_circle_furn(furn_id type, int x, int y, int rad);
+void draw_rough_circle_furn(std::string type, int x, int y, int rad);
 
 void add_corpse(int x, int y);
 
@@ -344,11 +430,22 @@ void add_corpse(int x, int y);
  void translate_radius(const ter_id from, const ter_id to, const float radi, const int uX, const int uY);
  bool close_door(const int x, const int y, const bool inside, const bool check_only);
  bool open_door(const int x, const int y, const bool inside, const bool check_only = false);
- // bash: if res pointer is supplied, res will contain absorbed impact or -1
- bool bash(const int x, const int y, const int str, std::string &sound, int *res = 0);
+ /** Makes spores at the respective x and y. source is used for kill counting */
+ void create_spores(const int x, const int y, Creature* source = NULL);
+ /** Checks if a square should collapse, returns the X for the one_in(X) collapse chance */
+ int collapse_check(const int x, const int y);
+ /** Causes a collapse at (x, y), such as from destroying a wall */
+ void collapse_at(const int x, const int y);
+ /** Returns a pair where first is whether something was smashed and second is if it was a success */
+ std::pair<bool, bool> bash(const int x, const int y, const int str, bool silent = false,
+                            bool destroy = false, vehicle *bashing_vehicle = nullptr);
  // spawn items from the list, see map_bash_item_drop
  void spawn_item_list(const std::vector<map_bash_item_drop> &items, int x, int y);
- void destroy(const int x, const int y, const bool makesound);
+ /** Keeps bashing a square until it can't be bashed anymore */
+ void destroy(const int x, const int y, const bool silent = false);
+ /** Keeps bashing a square until there is no more furniture */
+ void destroy_furn(const int x, const int y, const bool silent = false);
+ void crush(const int x, const int y);
  void shoot(const int x, const int y, int &dam, const bool hit_items,
             const std::set<std::string>& ammo_effects);
  bool hit_with_acid(const int x, const int y);
@@ -357,7 +454,12 @@ void add_corpse(int x, int y);
  bool has_adjacent_furniture(const int x, const int y);
  void mop_spills(const int x, const int y);
 
-// Radiation
+ // Signs
+ const std::string get_signage(const int x, const int y) const;
+ void set_signage(const int x, const int y, std::string message) const;
+ void delete_signage(const int x, const int y) const;
+
+ // Radiation
  int get_radiation(const int x, const int y) const; // Amount of radiation at (x, y);
  void set_radiation(const int x, const int y, const int value);
 
@@ -372,16 +474,18 @@ void add_corpse(int x, int y);
 
 // Items
  std::vector<item>& i_at(int x, int y);
+ itemslice i_stacked(std::vector<item>& items);
  item water_from(const int x, const int y);
  item swater_from(const int x, const int y);
  item acid_from(const int x, const int y);
  void i_clear(const int x, const int y);
  void i_rem(const int x, const int y, const int index);
- point find_item(const item *it);
- void spawn_artifact(const int x, const int y, artifact_natural_property prop = ARTPROP_NULL);
-    void spawn_item(const int x, const int y, const std::string &itype_id,
-                    const unsigned quantity=1, const long charges=0,
-                    const unsigned birthday=0, const int damlevel=0, const bool rand = true);
+ void i_rem(const int x, const int y, item* it);
+ void spawn_artifact( const int x, const int y );
+ void spawn_natural_artifact( const int x, const int y, const artifact_natural_property prop );
+ void spawn_item(const int x, const int y, const std::string &itype_id,
+                 const unsigned quantity=1, const long charges=0,
+                 const unsigned birthday=0, const int damlevel=0, const bool rand = true);
  int max_volume(const int x, const int y);
  int free_volume(const int x, const int y);
  int stored_volume(const int x, const int y);
@@ -389,10 +493,16 @@ void add_corpse(int x, int y);
  bool add_item_or_charges(const int x, const int y, item new_item, int overflow_radius = 2);
  void process_active_items();
 
- std::list<item> use_amount_square(const int x, const int y, const itype_id type, int &quantity, const bool use_container);
- std::list<item> use_amount(const point origin, const int range, const itype_id type, const int amount,
-                              const bool use_container = false);
- std::list<item> use_charges(const point origin, const int range, const itype_id type, const long amount);
+ std::list<item> use_amount_square( const int x, const int y, const itype_id type,
+                                    int &quantity, const bool use_container );
+ std::list<item> use_amount( const point origin, const int range, const itype_id type,
+                             const int amount, const bool use_container = false );
+ std::list<item> use_charges( const point origin, const int range, const itype_id type,
+                              const long amount );
+
+ std::list<std::pair<tripoint, item *> > get_rc_items( int x = -1, int y = -1, int z = -1 );
+
+ void trigger_rc_items( std::string signal );
 
 // Traps
  std::string trap_get(const int x, const int y) const;
@@ -403,26 +513,74 @@ void add_corpse(int x, int y);
  void add_trap(const int x, const int y, const trap_id t);
  void disarm_trap( const int x, const int y);
  void remove_trap(const int x, const int y);
- std::set<point> trap_locations(trap_id t);
+ const std::set<point> &trap_locations(trap_id t) const;
 
 // Fields
- field& field_at(const int x, const int y);
-
- int get_field_age(const point p, const field_id t);
- int get_field_strength(const point p, const field_id t);
- int adjust_field_age(const point p, const field_id t, const int offset);
- int adjust_field_strength(const point p, const field_id t, const int offset);
- int set_field_age(const point p, const field_id t, const int age, bool isoffset = false);
- int set_field_strength(const point p, const field_id t, const int str, bool isoffset = false);
- field_entry * get_field( const point p, const field_id t );
- bool add_field(const point p, const field_id t, unsigned int density, const int age);
- bool add_field(const int x, const int y, const field_id t, const unsigned char density);
- void remove_field(const int x, const int y, const field_id field_to_remove);
+        /**
+         * Get the fields that are here. This is for querying and looking at it only,
+         * one can not change the fields.
+         * @param x,y The local map coordinates, if out of bounds, returns an empty field.
+         */
+        const field& field_at( const int x, const int y ) const;
+        /**
+         * Get the age of a field entry (@ref field_entry::age), if there is no
+         * field of that type, returns -1.
+         */
+        int get_field_age( const point p, const field_id t );
+        /**
+         * Get the density of a field entry (@ref field_entry::density),
+         * if there is no field of that type, returns 0.
+         */
+        int get_field_strength( const point p, const field_id t );
+        /**
+         * Increment/decrement age of field entry at point.
+         * @return resulting age or -1 if not present (does *not* create a new field).
+         */
+        int adjust_field_age( const point p, const field_id t, const int offset );
+        /**
+         * Increment/decrement density of field entry at point, creating if not present,
+         * removing if density becomes 0.
+         * @return resulting density, or 0 for not present (either removed or not created at all).
+         */
+        int adjust_field_strength( const point p, const field_id t, const int offset );
+        /**
+         * Set age of field entry at point.
+         * @return resulting age or -1 if not present (does *not* create a new field).
+         * @param isoffset If true, the given age value is added to the existing value,
+         * if false, the existing age is ignored and overridden.
+         */
+        int set_field_age( const point p, const field_id t, const int age, bool isoffset = false );
+        /**
+         * Set density of field entry at point, creating if not present,
+         * removing if density becomes 0.
+         * @return resulting density, or 0 for not present (either removed or not created at all).
+         * @param isoffset If true, the given str value is added to the existing value,
+         * if false, the existing density is ignored and overridden.
+         */
+        int set_field_strength( const point p, const field_id t, const int str, bool isoffset = false );
+        /**
+         * Get field of specific type at point.
+         * @return NULL if there is no such field entry at that place.
+         */
+        field_entry * get_field( const point p, const field_id t );
+        /**
+         * Add field entry at point, or set density if present
+         * @return false if the field could not be created (out of bounds), otherwise true.
+         */
+        bool add_field(const point p, const field_id t, const int density, const int age);
+        /**
+         * Add field entry at xy, or set density if present
+         * @return false if the field could not be created (out of bounds), otherwise true.
+         */
+        bool add_field(const int x, const int y, const field_id t, const int density);
+        /**
+         * Remove field entry at xy, ignored if the field entry is not present.
+         */
+        void remove_field( const int x, const int y, const field_id field_to_remove );
  bool process_fields(); // See fields.cpp
  bool process_fields_in_submap(submap * const current_submap, const int submap_x, const int submap_y); // See fields.cpp
  void step_in_field(const int x, const int y); // See fields.cpp
  void mon_in_field(const int x, const int y, monster *z); // See fields.cpp
- void field_effect(int x, int y); //See fields.cpp
 
 // Computers
  computer* computer_at(const int x, const int y);
@@ -433,19 +591,23 @@ void add_corpse(int x, int y);
  void add_camp(const std::string& name, const int x, const int y);
 
 // Graffiti
- graffiti graffiti_at(int x, int y);
- bool add_graffiti(int x, int y, std::string contents);
+    bool has_graffiti_at(int x, int y) const;
+    const std::string &graffiti_at(int x, int y) const;
+    void set_graffiti(int x, int y, const std::string &contents);
+    void delete_graffiti(int x, int y);
 
 // mapgen.cpp functions
- void generate(overmap *om, const int x, const int y, const int z, const int turn);
+ void generate(const int x, const int y, const int z, const int turn);
  void post_process(unsigned zones);
  void place_spawns(std::string group, const int chance,
                    const int x1, const int y1, const int x2, const int y2, const float density);
  void place_gas_pump(const int x, const int y, const int charges);
  void place_toilet(const int x, const int y, const int charges = 6 * 4); // 6 liters at 250 ml per charge
  void place_vending(int x, int y, std::string type);
+ int place_npc(int x, int y, std::string type);
  int place_items(items_location loc, const int chance, const int x1, const int y1,
                   const int x2, const int y2, bool ongrass, const int turn, bool rand = true);
+ int put_items_from_loc(items_location loc, const int x, const int y, const int turn = 0);
 // put_items_from puts exactly num items, based on chances
  void put_items_from(items_location loc, const int num, const int x, const int y, const int turn = 0,
                     const int quantity = 0, const long charges = 0, const int damlevel = 0, const bool rand = true);
@@ -456,7 +618,6 @@ void add_corpse(int x, int y);
  void add_spawn(std::string type, const int count, const int x, const int y, bool friendly = false,
                 const int faction_id = -1, const int mission_id = -1,
                 std::string name = "NONE");
- void add_spawn(monster *mon);
  void create_anomaly(const int cx, const int cy, artifact_natural_property prop);
  vehicle *add_vehicle(std::string type, const int x, const int y, const int dir,
                       const int init_veh_fuel = -1, const int init_veh_status = -1,
@@ -473,14 +634,23 @@ void add_corpse(int x, int y);
  std::map< std::pair<int,int>, std::pair<vehicle*,int> > veh_cached_parts;
  bool veh_exists_at [SEEX * MAPSIZE][SEEY * MAPSIZE];
 
- point get_abs_sub() {
-   return abs_sub;
- };
- point getabs(const int x=0, const int y=0 );
- point getlocal(const int x, const int y );
- point getlocal( const point p ) { return getlocal(p.x, p.y); }
+    /** return @ref abs_sub */
+    tripoint get_abs_sub() const;
+    /**
+     * Translates local (to this map) coordinates of a square to
+     * global absolute coordinates. (x,y) is in the system that
+     * is used by the ter_at/furn_at/i_at functions.
+     * Output is in the same scale, but in global system.
+     */
+    point getabs(const int x, const int y) const;
+    point getabs(const point p) const { return getabs(p.x, p.y); }
+    /**
+     * Inverse of @ref getabs
+     */
+    point getlocal(const int x, const int y ) const;
+    point getlocal(const point p) const { return getlocal(p.x, p.y); }
  bool inboundsabs(const int x, const int y);
- bool inbounds(const int x, const int y);
+ bool inbounds(const int x, const int y) const;
 
  int getmapsize() { return my_MAPSIZE; };
 
@@ -490,10 +660,10 @@ void add_corpse(int x, int y);
  void add_road_vehicles(bool city, int facing);
 
 protected:
- void saven(overmap *om, unsigned const int turn, const int x, const int y, const int z,
+ void saven(const int x, const int y, const int z,
             const int gridx, const int gridy);
- bool loadn(const int x, const int y, const int z, const int gridx, const int gridy,
-            const  bool update_vehicles = true, overmap *om = NULL);
+ void loadn(const int x, const int y, const int z, const int gridx, const int gridy,
+            const  bool update_vehicles = true);
  void copy_grid(const int to, const int from);
  void draw_map(const oter_id terrain_type, const oter_id t_north, const oter_id t_east,
                 const oter_id t_south, const oter_id t_west, const oter_id t_neast,
@@ -512,19 +682,32 @@ protected:
 
  std::vector<item> nulitems; // Returned when &i_at() is asked for an OOB value
  ter_id nulter;  // Returned when &ter() is asked for an OOB value
- field nulfield; // Returned when &field_at() is asked for an OOB value
+ mutable field nulfield; // Returned when &field_at() is asked for an OOB value
  vehicle nulveh; // Returned when &veh_at() is asked for an OOB value
  int null_temperature;  // Because radiation does it too
 
  bool veh_in_active_range;
 
- point abs_sub; // same as x y in maps.txt, for 0,0 / grid[0]
- point abs_min; // same as above in absolute coordinates (submap(x,y) * 12)
- point abs_max; // same as abs_min + ( my_MAPSIZE * 12 )
- int world_z;   // same as
- void set_abs_sub(const int x, const int y, const int z); // set the above vars on map load/shift/etc
+    /**
+     * Absolute coordinates of first submap (get_submap_at(0,0))
+     * This is in submap coordinates (see overmapbuffer for explanation).
+     * It is set upon:
+     * - loading submap at grid[0],
+     * - generating submaps (@ref generate)
+     * - shifting the map with @ref shift
+     */
+    tripoint abs_sub;
+    /**
+     * Sets @ref abs_sub, see there. Uses the same coordinate system as @ref abs_sub.
+     */
+    void set_abs_sub(const int x, const int y, const int z);
 
 private:
+    field& get_field(const int x, const int y);
+    void spread_gas( field_entry *cur, int x, int y, field_id curtype,
+                        int percent_spread, int outdoor_age_speedup );
+    void create_hot_air( int x, int y, int density );
+
  bool transparency_cache_dirty;
  bool outside_cache_dirty;
 
@@ -539,6 +722,8 @@ private:
  submap *get_submap_at(int x, int y, int& offset_x, int& offset_y) const;
  submap *get_submap_at_grid(int gridx, int gridy) const;
 
+    void spawn_monsters( int gx, int gy, mongroup &group, bool ignore_sight );
+
  long determine_wall_corner(const int x, const int y, const long orig_sym);
  void cache_seen(const int fx, const int fy, const int tx, const int ty, const int max_range);
  // apply a circular light pattern immediately, however it's best to use...
@@ -549,15 +734,21 @@ private:
  void apply_light_arc(int x, int y, int angle, float luminance, int wideangle = 30 );
  void apply_light_ray(bool lit[MAPSIZE*SEEX][MAPSIZE*SEEY],
                       int sx, int sy, int ex, int ey, float luminance, bool trig_brightcalc = true);
+ void add_light_from_items( const int x, const int y, const std::vector<item> &items );
  void calc_ray_end(int angle, int range, int x, int y, int* outx, int* outy);
  void forget_traps(int gridx, int gridy);
  vehicle *add_vehicle_to_map(vehicle *veh, const int x, const int y, const bool merge_wrecks = true);
  void add_item(const int x, const int y, item new_item, int maxitems = 64);
 
- void process_active_items_in_submap(submap * const current_submap, int gridx, int gridy);
- void process_active_items_in_vehicles(submap * const current_submap, int gridx, int gridy);
- void process_active_items_in_vehicle(vehicle *cur_veh, submap * const current_submap, const int gridx, const int gridy);
- bool process_active_item(item *it, submap * const current_submap, const int gridx, const int gridy, const int i, const int j);
+ // Iterates over every item on the map, passing each item to the provided function.
+ template<typename T>
+ void process_items( bool active, T processor );
+ template<typename T>
+ void process_items_in_submap( submap *const current_submap, int gridx, int gridy, T processor );
+ template<typename T>
+ void process_items_in_vehicles( submap *const current_submap, T processor);
+ template<typename T>
+ void process_items_in_vehicle( vehicle *cur_veh, submap *const current_submap, T processor );
 
  float lm[MAPSIZE*SEEX][MAPSIZE*SEEY];
  float sm[MAPSIZE*SEEX][MAPSIZE*SEEY];

@@ -433,7 +433,7 @@
         "identstring" : "LEDGE",
         "legacy_id": 30,
         "name" : "ledge",
-        "color" : "black",
+        "color" : "i_cyan",
         "symbol" : " ",
         "visibility" : 0,
         "avoidance" : 99,
@@ -545,5 +545,33 @@
         "avoidance" : 99,
         "difficulty" : 99,
         "action" : "snake"
+    },{
+        "type" : "trap",
+        "id": "tr_glass_pit",
+        "identstring" : "GLASS_PIT",
+        "legacy_id": 40,
+        "name" : "glass pit",
+        "color" : "cyan",
+        "symbol" : "0",
+        "visibility" : 0,
+        "avoidance" : 8,
+        "difficulty" : 99,
+        "action" : "pit_glass"
+    },{
+        "type" : "trap",
+        "id": "tr_leather_funnel",
+        "identstring" : "LEATHER_FUNNEL",
+        "legacy_id": 41,
+        "name" : "leather funnel",
+        "color" : "brown",
+        "symbol" : "v",
+        "visibility" : -1,
+        "avoidance" : 0,
+        "difficulty" : 0,
+        "action" : "none",
+        "drops" : ["leather_funnel"],
+        "benign" : true,
+        "funnel_radius": 85
     }
+
 ]

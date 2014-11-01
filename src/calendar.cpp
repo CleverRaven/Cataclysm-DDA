@@ -5,10 +5,12 @@
 #include "translations.h"
 #include "game.h"
 
+calendar calendar::start;
 calendar calendar::turn;
 
 calendar::calendar()
 {
+    turn_number = 0;
     second = 0;
     minute = 0;
     hour = 0;
@@ -19,58 +21,30 @@ calendar::calendar()
 
 calendar::calendar(const calendar &copy)
 {
-    second = copy.second;
-    minute = copy.minute;
-    hour   = copy.hour;
-    day    = copy.day;
-    season = copy.season;
-    year   = copy.year;
+    turn_number   = copy.turn_number;
+    sync();
 }
 
 calendar::calendar(int Minute, int Hour, int Day, season_type Season, int Year)
 {
-    second = 0;
-    minute = Minute;
-    hour = Hour;
-    day = Day;
-    season = Season;
-    year = Year;
+    turn_number = MINUTES(Minute) + HOURS(Hour) + DAYS(Day) + Season * season_length() + Year * year_turns();
+    sync();
 }
 
 calendar::calendar(int turn)
 {
-    int minute_param = int(turn / 10);
-    int hour_param = minute_param / 60;
-    int day_param = hour_param / 24;
-    int season_param = int(day_param / OPTIONS["SEASON_LENGTH"]);
-    second = 6 * (turn % 10);
-    minute = minute_param % 60;
-    hour = hour_param % 24;
-    day = 1 + day_param % (int)OPTIONS["SEASON_LENGTH"];
-    season = season_type(season_param % 4);
-    year = season_param / 4;
+    turn_number = turn;
+    sync();
 }
 
 int calendar::get_turn() const
 {
-    int ret = second / 6;
-    ret += minute * 10;
-    ret += hour * 600;
-    ret += day * 14400;
-    ret += int(season) * 14400 * (int)OPTIONS["SEASON_LENGTH"];
-    ret += year * 14400 * 4 * (int)OPTIONS["SEASON_LENGTH"];
-    return ret;
+    return turn_number;
 }
 
 calendar::operator int() const
 {
-    int ret = second / 6;
-    ret += minute * 10;
-    ret += hour * 600;
-    ret += day * 14400;
-    ret += int(season) * 14400 * (int)OPTIONS["SEASON_LENGTH"];
-    ret += year * 14400 * 4 * (int)OPTIONS["SEASON_LENGTH"];
-    return ret;
+    return turn_number;
 }
 
 calendar &calendar::operator =(const calendar &rhs)
@@ -79,78 +53,44 @@ calendar &calendar::operator =(const calendar &rhs)
         return *this;
     }
 
-    second = rhs.second;
-    minute = rhs.minute;
-    hour = rhs.hour;
-    day = rhs.day;
-    season = rhs.season;
-    year = rhs.year;
+    turn_number = rhs.turn_number;
+    sync();
 
     return *this;
 }
 
 calendar &calendar::operator =(int rhs)
 {
-    int minute_param = int(rhs / 10);
-    int hour_param = minute_param / 60;
-    int day_param = hour_param / 24;
-    int season_param = int(day_param / OPTIONS["SEASON_LENGTH"]);
-    second = 6 * (rhs % 10);
-    minute = minute_param % 60;
-    hour = hour_param % 24;
-    day = day_param % (int)OPTIONS["SEASON_LENGTH"];
-    season = season_type(season_param % 4);
-    year = season_param / 4;
+    turn_number = rhs;
+    sync();
     return *this;
 }
 
 calendar &calendar::operator -=(const calendar &rhs)
 {
-    calendar tmp(rhs);
-    tmp.standardize();
-    second -= tmp.second;
-    minute -= tmp.minute;
-    hour   -= tmp.hour;
-    day    -= tmp.day;
-    int tmpseason = int(season) - int(tmp.season);
-    while (tmpseason < 0) {
-        year--;
-        tmpseason += 4;
-    }
-    season = season_type(tmpseason);
-    year -= tmp.year;
-    standardize();
+    turn_number -= rhs.turn_number;
+    sync();
     return *this;
 }
 
 calendar &calendar::operator -=(int rhs)
 {
-    calendar tmp(rhs);
-    *this -= tmp;
+    turn_number -= rhs;
+    sync();
     return *this;
 }
 
 calendar &calendar::operator +=(const calendar &rhs)
 {
-    second += rhs.second;
-    minute += rhs.minute;
-    hour   += rhs.hour;
-    day    += rhs.day;
-    int tmpseason = int(season) + int(rhs.season);
-    while (tmpseason >= 4) {
-        year++;
-        tmpseason -= 4;
-    }
-    season = season_type(tmpseason);
-    year += rhs.year;
-    standardize();
+    turn_number += rhs.turn_number;
+    sync();
     return *this;
 }
 
 calendar &calendar::operator +=(int rhs)
 {
-    second += rhs * 6;
-    standardize();
+    turn_number += rhs;
+    sync();
     return *this;
 }
 
@@ -160,12 +100,7 @@ bool calendar::operator ==(int rhs) const
 }
 bool calendar::operator ==(const calendar &rhs) const
 {
-    return (second == rhs.second &&
-            minute == rhs.minute &&
-            hour   == rhs.hour &&
-            day    == rhs.day &&
-            season == rhs.season &&
-            year   == rhs.year);
+    return turn_number == rhs.turn_number;
 }
 
 /*
@@ -198,41 +133,14 @@ calendar calendar::operator +(int rhs) const
 
 void calendar::increment()
 {
-    second += 6;
-    if (second >= 60) {
-        standardize();
-    }
+    turn_number++;
+    sync();
 }
 
 int calendar::getHour()
 {
+    sync();
     return hour;
-}
-
-void calendar::standardize()
-{
-    if (second >= 60) {
-        minute += second / 60;
-        second %= 60;
-    }
-    if (minute >= 60) {
-        hour += minute / 60;
-        minute %= 60;
-    }
-    if (hour >= 24) {
-        day += hour / 24;
-        hour %= 24;
-    }
-    int tmpseason = int(season);
-    if (day >= OPTIONS["SEASON_LENGTH"]) {
-        tmpseason += int(day / OPTIONS["SEASON_LENGTH"]);
-        day %= (int)OPTIONS["SEASON_LENGTH"];
-    }
-    if (tmpseason >= 4) {
-        year += tmpseason / 4;
-        tmpseason %= 4;
-    }
-    season = season_type(tmpseason);
 }
 
 int calendar::minutes_past_midnight() const
@@ -244,7 +152,7 @@ int calendar::minutes_past_midnight() const
 
 moon_phase calendar::moon() const
 {
-    int phase = int(day / (OPTIONS["SEASON_LENGTH"] / 4));
+    int phase = int(day / (season_length() / 4));
     //phase %= 4;   Redundant?
     if (phase == 3) {
         return MOON_HALF;
@@ -255,8 +163,7 @@ moon_phase calendar::moon() const
 
 calendar calendar::sunrise() const
 {
-    calendar ret;
-    int start_hour = 0, end_hour = 0;
+    int start_hour = 0, end_hour = 0, newhour = 0, newminute = 0;
     switch (season) {
     case SPRING:
         start_hour = SUNRISE_SOLSTICE;
@@ -275,20 +182,19 @@ calendar calendar::sunrise() const
         end_hour   = SUNRISE_SOLSTICE;
         break;
     }
-    double percent = double(double(day) / OPTIONS["SEASON_LENGTH"]);
+    double percent = double(double(day) / season_length());
     double time = double(start_hour) * (1. - percent) + double(end_hour) * percent;
 
-    ret.hour = int(time);
+    newhour = int(time);
     time -= int(time);
-    ret.minute = int(time * 60);
+    newminute = int(time * 60);
 
-    return ret;
+    return calendar (newminute, newhour, day, season, year);
 }
 
 calendar calendar::sunset() const
 {
-    calendar ret;
-    int start_hour = 0, end_hour = 0;
+    int start_hour = 0, end_hour = 0, newhour = 0, newminute = 0;
     switch (season) {
     case SPRING:
         start_hour = SUNSET_SOLSTICE;
@@ -307,23 +213,21 @@ calendar calendar::sunset() const
         end_hour   = SUNSET_SOLSTICE;
         break;
     }
-    double percent = double(double(day) / OPTIONS["SEASON_LENGTH"]);
+    double percent = double(double(day) / season_length());
     double time = double(start_hour) * (1. - percent) + double(end_hour) * percent;
 
-    ret.hour = int(time);
+    newhour = int(time);
     time -= int(time);
-    ret.minute = int(time * 60);
+    newminute = int(time * 60);
 
-    return ret;
+    return calendar (newminute, newhour, day, season, year);
 }
 
 bool calendar::is_night() const
 {
-    calendar sunrise_time = sunrise(), sunset_time = sunset();
-
     int mins         = minutes_past_midnight(),
-        sunrise_mins = sunrise_time.minutes_past_midnight(),
-        sunset_mins  = sunset_time.minutes_past_midnight();
+        sunrise_mins = sunrise().minutes_past_midnight(),
+        sunset_mins  = sunset().minutes_past_midnight();
 
     return (mins > sunset_mins + TWILIGHT_MINUTES || mins < sunrise_mins);
 }
@@ -334,13 +238,10 @@ int calendar::sunlight() const
     if( g->lightning_active ) {
         return DAYLIGHT_LEVEL;
     }
-    calendar sunrise_time = sunrise();
-    calendar sunset_time = sunset();
 
-    int mins = 0, sunrise_mins = 0, sunset_mins = 0;
-    mins = minutes_past_midnight();
-    sunrise_mins = sunrise_time.minutes_past_midnight();
-    sunset_mins = sunset_time.minutes_past_midnight();
+    int mins = minutes_past_midnight(),
+        sunrise_mins = sunrise().minutes_past_midnight(),
+        sunset_mins = sunset().minutes_past_midnight();
 
     int moonlight = 1 + int(moon()) * MOONLIGHT_LEVEL;
 
@@ -388,14 +289,16 @@ std::string calendar::print_time(bool just_hour) const
         if (hour_param == 0) {
             hour_param = 12;
         }
+        // Padding is removed as necessary to prevent clipping with SAFE notification in wide sidebar mode
+        std::string padding = hour_param < 10 ? " " : "";
         if (just_hour && hour < 12) {
             time_string << string_format(_("%d AM"), hour_param);
         } else if (just_hour) {
             time_string << string_format(_("%d PM"), hour_param);
         } else if (hour < 12) {
-            time_string << string_format(_("%d:%02d:%02d AM"), hour_param, minute, second);
+            time_string << string_format(_("%d:%02d:%02d%sAM"), hour_param, minute, second, padding.c_str());
         } else {
-            time_string << string_format(_("%d:%02d:%02d PM"), hour_param, minute, second);
+            time_string << string_format(_("%d:%02d:%02d%sPM"), hour_param, minute, second, padding.c_str());
         }
     }
 
@@ -404,7 +307,7 @@ std::string calendar::print_time(bool just_hour) const
 
 std::string calendar::textify_period()
 {
-    standardize();
+    sync();
     int am;
     const char *tx;
     // Describe the biggest time period, as "<am> <tx>s", am = amount, tx = name
@@ -465,8 +368,8 @@ std::string calendar::day_of_week() const
         WEDNESDAY = 6
     };
 
-    // calendar::day gets mangled by season transitions, so reclaculate days since start.
-    int current_day = day % 7;
+    // calendar::day gets mangled by season transitions, so recalculate days since start.
+    int current_day = turn_number / DAYS(1) % 7;
 
     std::string day_string;
 
@@ -481,7 +384,7 @@ std::string calendar::day_of_week() const
         day_string = _("Tuesday");
         break;
     case WEDNESDAY:
-        day_string = _("Wendsday");
+        day_string = _("Wednesday");
         break;
     case THURSDAY:
         day_string = _("Thursday");
@@ -495,4 +398,22 @@ std::string calendar::day_of_week() const
     }
 
     return day_string;
+}
+
+int calendar::season_length()
+{
+    if( ACTIVE_WORLD_OPTIONS.empty() || int(ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"]) == 0 ) {
+        return 14; // default
+    }
+    return int(ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"]);
+}
+
+void calendar::sync()
+{
+    year = turn_number / year_turns();
+    season = season_type(turn_number / DAYS(season_length()) % 4);
+    day = turn_number / DAYS(1) % season_length();
+    hour = turn_number / HOURS(1) % 24;
+    minute = turn_number / MINUTES(1) % 60;
+    second = (turn_number * 6) % 60;
 }

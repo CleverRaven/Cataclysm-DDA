@@ -1,3 +1,4 @@
+#include "gamemode.h"
 #include "game.h"
 #include "output.h"
 #include "action.h"
@@ -29,24 +30,37 @@ bool tutorial_game::init()
  g->u.per_cur = g->u.per_max;
  g->u.int_cur = g->u.int_max;
  g->u.dex_cur = g->u.dex_max;
+ 
+ for (int i = 0; i < num_hp_parts; i++) {
+        g->u.hp_cur[i] = g->u.hp_max[i];
+    }
+ 
  //~ default name for the tutorial
  g->u.name = _("John Smith");
  g->u.prof = profession::generic();
- g->levx = 100;
- g->levy = 100;
- g->cur_om = &overmap_buffer.get(0, 0);
- g->cur_om->make_tutorial();
- g->cur_om->save();
+    int lx = 50, ly = 50; // overmap terrain coordinates
+    g->cur_om = &overmap_buffer.get(0, 0);
+    for (int i = 0; i < OMAPX; i++) {
+        for (int j = 0; j < OMAPY; j++) {
+            g->cur_om->ter( i, j, -1 ) = "rock";
+            // Start with the overmap revealed
+            g->cur_om->seen( i, j, 0 ) = true;
+        }
+    }
+    g->cur_om->ter(lx, ly, 0) = "tutorial";
+    g->cur_om->ter(lx, ly, -1) = "tutorial";
+    g->cur_om->clear_mon_groups();
+    // to submap coordinates as it is supposed to be
+    g->levx = lx * 2;
+    g->levy = ly * 2;
+
  g->u.toggle_trait("QUICK");
- g->u.inv.push_back(item("lighter", 0, 'e'));
+ item lighter("lighter", 0);
+ lighter.invlet = 'e';
+ g->u.inv.add_item(lighter);
  g->u.skillLevel("gun").level(5);
  g->u.skillLevel("melee").level(5);
-// Start with the overmap revealed
- for (int x = 0; x < OMAPX; x++) {
-  for (int y = 0; y < OMAPY; y++)
-   g->cur_om->seen(x, y, 0) = true;
- }
- g->m.load(g->levx, g->levy, 0);
+ g->m.load(g->levx, g->levy, 0, true, g->cur_om);
  g->levz = 0;
  g->u.posx = 2;
  g->u.posy = 4;
@@ -115,8 +129,18 @@ void tutorial_game::per_turn()
   add_message(LESSON_PICKUP);
 }
 
-void tutorial_game::pre_action( action_id &)
+void tutorial_game::pre_action( action_id &act )
 {
+    switch( act ) {
+        case ACTION_SAVE:
+        case ACTION_QUICKSAVE:
+            popup( _( "You're saving a tutorial - the tutorial world lacks certain features of normal worlds. "
+                      "Weird things might happen when you load this save. You have been warned." ) );
+            break;
+        default:
+            // Other actions are fine.
+            break;
+    }
 }
 
 void tutorial_game::post_action(action_id act)
@@ -163,9 +187,9 @@ void tutorial_game::post_action(action_id act)
   break;
 
  case ACTION_WEAR: {
-  itype *it = itypes[ g->u.last_item];
-  if (it->is_armor()) {
-   it_armor *armor = dynamic_cast<it_armor*>(it);
+  item it( g->u.last_item, 0 );
+  if (it.is_armor()) {
+   it_armor *armor = dynamic_cast<it_armor*>(it.type);
    if (armor->coverage >= 2 || armor->thickness >= 2)
     add_message(LESSON_WORE_ARMOR);
    if (armor->storage >= 20)
@@ -184,18 +208,18 @@ void tutorial_game::post_action(action_id act)
   add_message(LESSON_INTERACT);
 // Fall through to...
  case ACTION_PICKUP: {
-  itype *it = itypes[ g->u.last_item ];
-  if (it->is_armor())
+  item it( g->u.last_item, 0 );
+  if (it.is_armor())
    add_message(LESSON_GOT_ARMOR);
-  else if (it->is_gun())
+  else if (it.is_gun())
    add_message(LESSON_GOT_GUN);
-  else if (it->is_ammo())
+  else if (it.is_ammo())
    add_message(LESSON_GOT_AMMO);
-  else if (it->is_tool())
+  else if (it.is_tool())
    add_message(LESSON_GOT_TOOL);
-  else if (it->is_food())
+  else if (it.is_food())
    add_message(LESSON_GOT_FOOD);
-  else if (it->melee_dam > 7 || it->melee_cut > 5)
+  else if (it.type->melee_dam > 7 || it.type->melee_cut > 5)
    add_message(LESSON_GOT_WEAPON);
 
   if (g->u.volume_carried() > g->u.volume_capacity() - 2)

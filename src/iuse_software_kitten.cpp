@@ -384,28 +384,28 @@ void robot_finds_kitten::process_input(int input, WINDOW *w)
     int check_y = robot.y;
 
     switch (input) {
-        case KEY_UP: /* up */
-            check_y--;
-            break;
-        case KEY_DOWN: /* down */
-            check_y++;
-            break;
-        case KEY_LEFT: /* left */
-            check_x--;
-            break;
-        case KEY_RIGHT: /* right */
-            check_x++;
-            break;
-        case 0:
-            break;
-        default: { /* invalid command */
-            for (int c = 0; c < rfkCOLS; c++) {
-                mvwputch (w, 0, c, c_white, ' ');
-                mvwputch (w, 1, c, c_white, ' ');
-            }
-            mvwprintz (w, 0, 0, c_white, _("Invalid command: Use direction keys or press 'q'."));
-            return;
+    case KEY_UP: /* up */
+        check_y--;
+        break;
+    case KEY_DOWN: /* down */
+        check_y++;
+        break;
+    case KEY_LEFT: /* left */
+        check_x--;
+        break;
+    case KEY_RIGHT: /* right */
+        check_x++;
+        break;
+    case 0:
+        break;
+    default: { /* invalid command */
+        for (int c = 0; c < rfkCOLS; c++) {
+            mvwputch (w, 0, c, c_white, ' ');
+            mvwputch (w, 1, c, c_white, ' ');
         }
+        mvwprintz (w, 0, 0, c_white, _("Invalid command: Use direction keys or press 'q'."));
+        return;
+    }
     }
 
     if (check_y < 3 || check_y > rfkLINES - 1 || check_x < 0 || check_x > rfkCOLS - 1) {

@@ -8,7 +8,6 @@
 #include "game.h"
 #include "color.h"
 #include "options.h"
-#include "mapbuffer.h"
 #include "debug.h"
 #include "item_factory.h"
 #include "monstergenerator.h"
@@ -48,7 +47,7 @@ int main(int argc, char *argv[])
 #ifdef PREFIX
 #define Q(STR) #STR
 #define QUOTE(STR) Q(STR)
-    init_base_path(std::string(QUOTE(PREFIX)));
+    PATH_INFO::init_base_path(std::string(QUOTE(PREFIX)));
 #else
     PATH_INFO::init_base_path("");
 #endif
@@ -141,12 +140,13 @@ int main(int argc, char *argv[])
         }
     }
     while (saved_argc) {
+        // All paths will decrement saved_argc and do not depend on it before this operation, so it is safe to do it in
+        // just one place, avoiding repeated code.
+        saved_argc--;
         if(std::string(saved_argv[0]) == "--worldmenu") {
-            saved_argc--;
             saved_argv++;
             MAP_SHARING::setWorldmenu(true);
         } else if(std::string(saved_argv[0]) == "--datadir") {
-            saved_argc--;
             saved_argv++;
             if(saved_argc) {
                 PATH_INFO::update_pathname("datadir", std::string(saved_argv[0]));
@@ -155,7 +155,6 @@ int main(int argc, char *argv[])
                 saved_argv++;
             }
         } else if(std::string(saved_argv[0]) == "--savedir") {
-            saved_argc--;
             saved_argv++;
             if(saved_argc) {
                 PATH_INFO::update_pathname("savedir", std::string(saved_argv[0]));
@@ -163,7 +162,6 @@ int main(int argc, char *argv[])
                 saved_argv++;
             }
         } else if(std::string(saved_argv[0]) == "--configdir") {
-            saved_argc--;
             saved_argv++;
             if(saved_argc) {
                 PATH_INFO::update_pathname("config_dir", std::string(saved_argv[0]));
@@ -172,7 +170,6 @@ int main(int argc, char *argv[])
                 saved_argv++;
             }
         } else if(std::string(saved_argv[0]) == "--optionfile") {
-            saved_argc--;
             saved_argv++;
             if(saved_argc) {
                 PATH_INFO::update_pathname("options", std::string(saved_argv[0]));
@@ -180,7 +177,6 @@ int main(int argc, char *argv[])
                 saved_argv++;
             }
         } else if(std::string(saved_argv[0]) == "--keymapfile") {
-            saved_argc--;
             saved_argv++;
             if(saved_argc) {
                 PATH_INFO::update_pathname("keymap", std::string(saved_argv[0]));
@@ -188,7 +184,6 @@ int main(int argc, char *argv[])
                 saved_argv++;
             }
         } else if(std::string(saved_argv[0]) == "--autopickupfile") {
-            saved_argc--;
             saved_argv++;
             if(saved_argc) {
                 PATH_INFO::update_pathname("autopickup", std::string(saved_argv[0]));
@@ -196,50 +191,33 @@ int main(int argc, char *argv[])
                 saved_argv++;
             }
         } else if(std::string(saved_argv[0]) == "--motdfile") {
-            saved_argc--;
             saved_argv++;
             if(saved_argc) {
                 PATH_INFO::update_pathname("motd", std::string(saved_argv[0]));
                 saved_argc--;
                 saved_argv++;
             }
-        } else { // ignore unknown args.
-            saved_argc--;
+        } else {
+            // Unknown arguments are ignored.
             saved_argv++;
         }
     }
 
-    // setup debug loggind
-#ifdef ENABLE_LOGGING
-    setupDebug();
-#endif
-    // set locale to system default
-    setlocale(LC_ALL, "");
-#ifdef LOCALIZE
-    const char *locale_dir;
-#ifdef __linux__
-    if (!FILENAMES["base_path"].empty()) {
-        locale_dir = std::string(FILENAMES["base_path"] + "share/locale").c_str();
-    } else {
-        locale_dir = "lang/mo";
+    if (!assure_dir_exist(FILENAMES["user_dir"].c_str())) {
+        printf("Can't open or create %s. Check permissions.\n",
+               FILENAMES["user_dir"].c_str());
+        exit(1);
     }
-#else
-    locale_dir = "lang/mo";
-#endif // __linux__
 
-    bindtextdomain("cataclysm-dda", locale_dir);
-    bind_textdomain_codeset("cataclysm-dda", "UTF-8");
-    textdomain("cataclysm-dda");
-#endif // LOCALIZE
-
-    // ncurses stuff
+    setupDebug();
+    // Options strings loaded with system locale
     initOptions();
-    load_options(); // For getting size options
-#ifdef LOCALIZE
-    setlocale(LC_ALL, OPTIONS["USE_LANG"].getValue().c_str());
-#endif // LOCALIZE
+    load_options();
+
+    set_language(true);
+
     if (initscr() == NULL) { // Initialize ncurses
-        DebugLog() << "initscr failed!\n";
+        DebugLog( D_ERROR, DC_ALL ) << "initscr failed!";
         return 1;
     }
     init_interface();
@@ -259,11 +237,6 @@ int main(int argc, char *argv[])
     // First load and initialize everything that does not
     // depend on the mods.
     try {
-        if (!assure_dir_exist(FILENAMES["user_dir"].c_str())) {
-            debugmsg("Can't open or create %s. Check permissions.",
-                     FILENAMES["user_dir"].c_str());
-            exit_handler(-999);
-        }
         g->load_static_data();
         if (verifyexit) {
             if(g->game_error()) {
@@ -292,7 +265,7 @@ int main(int argc, char *argv[])
         exit_handler(-999);
     }
 
-    // Now we do the actuall game
+    // Now we do the actual game.
 
     g->init_ui();
     if(g->game_error()) {
@@ -326,20 +299,22 @@ int main(int argc, char *argv[])
     return 0;
 }
 
-void exit_handler(int s) {
+void exit_handler(int s)
+{
     if (s != 2 || query_yn(_("Really Quit? All unsaved changes will be lost."))) {
         erase(); // Clear screen
         endwin(); // End ncurses
         int ret;
-        #if (defined _WIN32 || defined WINDOWS)
-            ret = system("cls"); // Tell the terminal to clear itself
-            ret = system("color 07");
-        #else
-            ret = system("clear"); // Tell the terminal to clear itself
-        #endif
+#if (defined _WIN32 || defined WINDOWS)
+        ret = system("cls"); // Tell the terminal to clear itself
+        ret = system("color 07");
+#else
+        ret = system("clear"); // Tell the terminal to clear itself
+#endif
         if (ret != 0) {
-            DebugLog() << "main.cpp:exit_handler(): system(\"clear\"): error returned\n";
+            DebugLog( D_ERROR, DC_ALL ) << "system(\"clear\"): error returned: " << ret;
         }
+        deinitDebug();
 
         if(g != NULL) {
             if(g->game_error()) {

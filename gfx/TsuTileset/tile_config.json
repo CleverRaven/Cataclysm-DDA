@@ -188,14 +188,12 @@
             "rotates":false
         },
         {
-            "id":"t_rubble",
+            "id":"f_rubble",
             "fg":83,
-            "bg":2,
             "rotates":false
         },
         {
-            "id":"t_ash",
-            "bg":2,
+            "id":"f_ash",
             "fg":1750,
             "rotates":false
         },
@@ -204,9 +202,8 @@
             "rotates":false
         },
         {
-            "id":"t_wreckage",
+            "id":"f_wreckage",
             "fg":84,
-            "bg":2,
             "rotates":false
         },
         {
@@ -12205,6 +12202,31 @@
             "fg":1776,
             "bg":2,
             "rotates":false
-      }
+      },
+        {
+          "rotates": false,
+          "id": "fd_hot_air1",
+          "fg": 1777
+        },
+        {
+          "rotates": false,
+          "id": "fd_hot_air2",
+          "fg": 1777
+        },
+        {
+          "rotates": false,
+          "id": "fd_hot_air3",
+          "fg": 1777
+        },
+        {
+          "rotates": false,
+          "id": "fd_hot_air4",
+          "fg": 1777
+        },
+        {
+          "rotates": false,
+          "id": "fd_spotlight",
+          "fg": 1777
+        }
     ]
 }

@@ -164,6 +164,14 @@
             "rotates":false
         },
         {
+            "id":"t_pit_glass",
+            "rotates":false
+        },
+        {
+            "id":"t_pit_glass_covered",
+            "rotates":false
+        },
+        {
             "id":"t_rock_floor",
             "bg":3,
             "rotates":false

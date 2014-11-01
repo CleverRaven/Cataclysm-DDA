@@ -138,6 +138,7 @@ The syntax listed here is still valid.
 "fear_triggers" : ["SOUND", etc],	// What makes the monster afraid. See JSON_FLAGS.md for a full list
 "anger_triggers" : ["PLAYER_CLOSE"],// What makes the monster angry. See JSON_FLAGS.md for a full list
 "placate_triggers" : ["MEAT"],		// What calms the monster. See JSON_FLAGS.md for a full list
+"revert_to_itype": "bot_turret",    // (optional) if not empty and a valid item id, the monster (usually a robot) can be converted into this item by the player (only when it's already friendly).
 "categories" : ["WILDLIFE"]			// Monster categories. Can be NULL, CLASSIC (only mobs found in classic zombie movies) or WILDLIFE (natural animals). If they are not CLASSIC or WILDLIFE, they will not spawn in classic mode
 ```	
 ###NAMES
@@ -152,6 +153,10 @@ The syntax listed here is still valid.
 "items":[              // ID's of items player starts with when selecting this profession
  "army_top",
  "boots_steel",
+ ["survnote", "snippet-id"],
+                       // Entries can also be an array containing the item id and a snippet id.
+                       // The id must match a snippet id from the snippet category that is
+                       // used by that item type.
  "jeans"
 ],
 "name":"Bow Hunter",   // In-game name displayed
@@ -181,9 +186,10 @@ The syntax listed here is still valid.
 "skill_used": "fabrication", // Skill trained and used for success checks
 "requires_skills": [["survival", 1], ["throw", 2]], // Skills required to unlock recipe
 "difficulty": 3,             // Difficulty of success check
-"time": 5000,                // Time to perform recipe
+"time": 5000,                // Time to perform recipe (where 1000 ~= 10 turns ~= 1 minute game time)
 "reversible": false,         // Can be disassembled.
 "autolearn": true,           // Automatically learned upon gaining required skills
+"batch_time_factors": [25, 15], // Optional factors for batch crafting time reduction. First number specifies maximum crafting time reduction as percentage, and the second number the minimal batch size to reach that number. In this example given batch size of 20 the last 6 crafts will take only 3750 time units.
 "tools": [                   // Tools needed to craft
 [                            // Equivalent tools are surrounded by a single set of brackets []
   [ "hatchet", -1 ],         // Charges consumed when tool is used, -1 means no charges are consumed
@@ -223,11 +229,6 @@ The syntax listed here is still valid.
 "name" : "submachine guns",  // In-game name displayed
 "description" : "Your skill with submachine guns and machine pistols. Halfway between a pistol and an assault rifle, these weapons fire and reload quickly, and may fire in bursts, but they are not very accurate.", // In-game description
 "tags" : ["gun_type"]  // Special flags (default: none)
-```
-###SNIPPETS
-```C++
-"category": "flier", // Category used
-	"text": "This is an advertisement for the Diet Devil brand Metabolic Exchange CBM.  It shows a picture of a tiny obese devil sitting on a woman's shoulder. The woman stares intently at a gigantic wedding cake covered with bacon and candybars. The caption reads: \"Burn calories! Burn!\"" // In-game description
 ```
 ###TRAITS/MUTATIONS
 ```C++
@@ -385,7 +386,7 @@ Never use `yellow` and `red`, those colors are reserved for sounds and infrared 
 "color" : "white",    // ASCII character colour
 "addiction_type" : "crack", // Addiction type
 "spoils_in" : 0,      // How long a comestible is good for. 0 = no spoilage
-"use_action" : "CRACK", // What effects a comestible has when used
+"use_action" : "CRACK", // What effects a comestible has when used, see special definitions below
 "stim" : 40,          // Stimulant effect
 "container" : "null", // What container stores this
 "to_hit" : 0,         // To-hit bonus if using it as a melee weapon
@@ -466,6 +467,7 @@ Never use `yellow` and `red`, those colors are reserved for sounds and infrared 
 "durability": 8,      // Resistance to damage/rusting, also determines misfire chance
 "burst": 5,           // Number of shots fired in burst mode
 "clip_size": 100,     // Maximum amount of ammo that can be loaded
+"ups_charges": 0,     // Additionally to the normal ammo (if any), a gun can require some charges from an UPS.
 "reload": 450         // Amount of time to reload, 100 = 6 seconds = 1 "turn"
 ```
 ###TOOLS
@@ -491,10 +493,82 @@ Never use `yellow` and `red`, those colors are reserved for sounds and infrared 
 "turns_per_charge": 20, // Charges consumed over time
 "ammo": "NULL",       // Ammo type used for reloading
 "revert_to": "torch_done", // Transforms into item when charges are expended
-"use_action": "TORCH_LIT" // Action performed when tool is used
+"use_action": "TORCH_LIT" // Action performed when tool is used, see special definition below
 ```
-###PAPERS
-Require the same values as items of type "GENERIC", additional a "snippet_category" entry:
+###USE ACTIONS
+The contents of use_action fields can either be a string indicating a built-in function to call when the item is activated (defined in iuse.cpp), or one of several special definitions that invoke a more structured function.
+```C++
+"use_action": {
+    "type": "transform",  // The type of method, in this case one that transforms the item.
+    "target": "gasoline_lantern_on", // The item to transform to.
+    "active": true,       // Whether the item is active once transformed.
+    "msg": "You turn the lamp on.", // Message to display when activated.
+    "need_fire": 1,                 // Whether fire is needed to activate.
+    "need_fire_msg": "You need a lighter!", // Message to display if there is no fire.
+    "need_charges": 1,                      // Number of charges the item needs to transform.
+    "need_charges_msg": "The lamp is empty." // Message to display if there aren't enough charges.
+    "target_charges" : 3, // Number of charges the transformed item has.
+    "container" : "jar",  // Container holding the target item.
+    "moves" : 500         // Moves required to transform the item in excess of a normal action.
+},
+"use_action": {
+    "type: : "auto_transform", // Like transform, but it transforms automatically when a condition is met.
+    "when_underwater" : "The candle is extinguished.", // Message to display if the item goes underwater, also cause the item to transform when it goes underwater.
+   "non_interactive_message" " "You can not deactivate the lightstrip.",  // Message to display if the player tries to activate the item, also prevents activation by player from working.
+},
+"use_action": {
+    "type": "explosion", // An item that explodes when it runs out of charges.
+    "sound_volume": 0, // Volume of a sound the item makes every turn.
+    "sound_msg": "Tick.", // Message describing sound the item makes every turn.
+    "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead.", // Message to display if the player tries to activate the item, prevents activation from succeeding if defined.
+    "explosion_power": 12, // Power of the resulting explosion.
+    "explosion_shrapnel": 28, // Power of shrapnel produced by explosion.
+    "explosion_fire" : 33, // Power of flames produced by explosion.
+    "explosion_blast" : 22, // Power of blast from explosion.
+    "draw_explosion_radius" : 5, // How large to draw the radius of the explosion.
+    "draw_explosion_color" : "ltblue", // The color to use when drawing the explosion.
+    "do_flashbang" : true, // Whether to do the flashbang effect.
+    "flashbang_player_immune" : true, // Whether the player is immune to the flashbang effect.
+    "fields_radius": 3, // The radius of spread for fields produced.
+    "fields_type": "fd_tear_gas", // The type of fields produced.
+    "fields_min_density": 3,
+    "fields_max_density": 3,
+    "emp_blast_radius": 4,
+    "scrambler_blast_radius": 4
+},
+"use_action": {
+    "type": "unfold_vehicle", // Transforms the item into a vehicle.
+    "vehicle_name": "bicycle", // Vehicle name to create.
+    "unfold_msg": "You painstakingly unfold the bicycle and make it ready to ride.", // Message to display when transforming.
+    "moves": 500 // Number of moves required in the process.
+},
+"use_action" : {
+    "type" : "consume_drug", // A drug the player can consume.
+    "activation_message" : "You smoke your crack rocks.  Mother would be proud.", // Message, ayup.
+    "diseases" : { "high": 15 }, // A disease to inflict and its duration.
+    "stat_adjustments": {"hunger" : -10}, // Adjustment to make to player stats.
+    "fields_produced" : {"cracksmoke" : 2}, // Fields to produce, mostly used for smoke.
+    "charges_needed" : { "fire" : 1 }, // Charges to use in the process of consuming the drug.
+    "tools_needed" : { "apparatus" : -1 } // Tool needed to use the drug.
+},
+"use_action": {
+    "type": "place_monster", // place a turrent / manhack / whatever monster on the map
+    "monster_id": "mon_manhack", // monster id, see monsters.json
+    "difficulty": 4, // difficulty for programming it (manhacks have 4, turrets 6, ...)
+    "hostile_msg": "It's hostile!", // (optional) message when programming the monster failed and it's hostile.
+    "friendly_msg": "Good!", // (optional) message when the monster is programmed properly and it's friendly.
+    "place_randomly": true, // if true: places the monser randomly around the player, if false: let the player decide where to put it (default: false)
+    "moves": 60 // how many move points the action takes.
+},
+"use_action": {
+    "type": "ups_based_armor", // Armor that can be activated and uses power from an UPS, needs additional C++ code to work
+    "activate_msg": "You activate your foo.", // Message when the player activates the item.
+    "deactive_msg": "You deactivate your foo.", // Message when the player deactivates the item.
+    "out_of_power_msg": "Your foo runs out of power and deactivates itself." // Message when the UPS runs out of power and the item is deactivated automatically.
+}
+```
+###Random descriptions
+Any item with a "snippet_category" entry will have random descriptions, based on that snippet category:
 ```
 "snippet_category": "newspaper",
 ```
@@ -503,6 +577,7 @@ The item descriptions are taken from snippets, which can be specified like this 
 {
     "type" : "snippet",
     "category" : "newspaper",
+    "id" : "snippet-id",          // id is optional, it's used when the snippet is referenced in the item list of professions
     "text": "your flavor text"
 }
 ```
@@ -511,10 +586,23 @@ or several snippets at once:
 {
     "type" : "snippet",
     "category" : "newspaper",
+    "text": [
+        "your flavor text",
+        "more flavor",
+        // entries can also bo of this form to have a id to reference that specific snippet.
+        { "id" : "snippet-id", "text" : "another flavor text" }
+    ]
     "text": [ "your flavor text", "another flavor text", "more flavor" ]
 }
 ```
 Multiple snippets for the same category are possible and actually recommended. The game will select a random one for each item of that type.
+
+One can also put the snippets directly in the item definition:
+```
+"snippet_category": [ "text 1", "text 2", "text 3" ],
+```
+This will automatically create a snippet category specific to that item and populate that category with the given snippets.
+The format also support snippet ids like above.
 
 #json jsons
 

@@ -92,6 +92,7 @@ int snake_game::start_game()
     int iOffsetY = (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0;
 
     WINDOW *w_snake = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX);
+    WINDOW_PTR w_snakeptr( w_snake );
     print_header(w_snake);
 
     //Snake start position
@@ -157,7 +158,8 @@ int snake_game::start_game()
             break;
         } else {
             //Add new position to map
-            mSnakeBody[vSnakeBody[vSnakeBody.size() - 1].first][vSnakeBody[vSnakeBody.size() - 1].second] = true;
+            mSnakeBody[vSnakeBody[vSnakeBody.size() - 1].first][vSnakeBody[vSnakeBody.size() - 1].second] =
+                true;
         }
 
         //Have we eaten the forbidden fruit?

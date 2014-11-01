@@ -16,7 +16,8 @@ void help_draw_dir(WINDOW *win, int line_y)
 {
     action_id movearray[] = {ACTION_MOVE_NW, ACTION_MOVE_N, ACTION_MOVE_NE,
                              ACTION_MOVE_W,  ACTION_PAUSE,  ACTION_MOVE_E,
-                             ACTION_MOVE_SW, ACTION_MOVE_S, ACTION_MOVE_SE};
+                             ACTION_MOVE_SW, ACTION_MOVE_S, ACTION_MOVE_SE
+                            };
     mvwprintz(win, line_y + 1, 0, c_white, _("\
   \\ | /     \\ | /\n\
    \\|/       \\|/ \n\
@@ -408,7 +409,12 @@ tool set. All recipes require one or more ingredients. These ARE used up in craf
 To craft items, press %s. There are seven categories: \
 Weapons, Ammo, Food, Chemicals, Electronics, Armor, and Other. In each major category \
 are several smaller sub-categories. While a few items require no particular skill \
-to create, the majority require you to have some knowledge:\n"),
+to create, the majority require you to have some knowledge. Sometimes a skilled \
+survivor will work out a given recipe from her or his knowledge of the skill, but \
+more often you will need reference material, commonly a book of some sort. Reading \
+such references gives a chance to memorize recipes outright, and you can also craft \
+while referring to the book: just have it handy when crafting. Different knowledge is \
+useful for different applications:\n"),
                                  press_x(ACTION_CRAFT, "", "").c_str()));
 
     text.push_back(_("\
@@ -578,8 +584,7 @@ or empty your hands, by pressing %s, then the key for the item you are currently
     text.push_back(string_format(_("\
 Most styles have a variety of special moves associated with them. Most have a skill requirement, \
 and will be unavailable until you reach a level of unarmed skill. You can check the moves by \
-examining your style via the inventory screen (%s key)."),
-                                 press_x(ACTION_INVENTORY, "", "").c_str()));
+pressing '?' in the pick style menu.")));
 
     text.push_back(_("\
 Many styles also have special effects unlocked under certain conditions. \
@@ -620,9 +625,10 @@ Try to keep your inventory as full as possible without being overloaded. You nev
 might need an item, most are good to sell, and you can easily drop unwanted items on the floor."));
 
     text.push_back(_("\
-Keep an eye on the weather. At night, sleeping might be difficult if \
-you don't have a warm place to rest your head. Be sure to protect your \
-extremities from frostbite and to keep your distance from large fires."));
+Keep an eye on the weather. Wind and humidity will exacerbate dire conditions, so seek shelter if \
+you're unable to withstand them. Staying dry is important, especially if conditions are so low \
+that they would cause frostbite. If you're having trouble staying warm over night, make a pile \
+of clothing on the floor to sleep on."));
 
     return text;
 }
@@ -633,7 +639,7 @@ std::vector<std::string> text_types()
 
     text.push_back(string_format(_("\
 ~       Liquid\n\
-%%%%       Food\n\
+%%       Food\n\
 !       Medication\n\
 These are all consumed by using %s. They provide a certain amount of nutrition, quench your thirst, may \
 be a stimulant or a depressant, and may provide morale. There may also be more subtle effects."),

@@ -1,5 +1,5 @@
-#ifndef _CREATURE_TRACKER_H_
-#define _CREATURE_TRACKER_H_
+#ifndef CREATURE_TRACKER_H
+#define CREATURE_TRACKER_H
 
 #include "monster.h"
 #include "creature.h"
@@ -20,10 +20,10 @@ class Creature_tracker
         void remove(const int idx);
         void clear();
         void rebuild_cache();
-        const std::vector<monster>& list() const;
+        const std::vector<monster> &list() const;
 
     private:
-        std::vector<monster*> _old_monsters_list;
+        std::vector<monster *> _old_monsters_list;
         std::map<point, int> _old_monsters_by_location;
         // Same as mon_at, but only returns id of dead critters.
         int dead_mon_at(point coords) const;

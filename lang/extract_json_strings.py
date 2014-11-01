@@ -19,10 +19,15 @@ not_json = {
 # these objects have no translatable strings
 ignorable = {
     "colordef",
+    "ITEM_BLACKLIST",
     "item_group",
     "mapgen",
     "monstergroup",
+    "MONSTER_BLACKLIST",
+    "MONSTER_WHITELIST",
     "monitems",
+    "npc", # FIXME right now this object is unextractable
+    "overmap_special",
     "recipe_category",
     "recipe_subcategory",
     "recipe",
@@ -51,6 +56,7 @@ automatically_convertible = {
     "construction",
     "CONTAINER",
     "dream",
+    "faction",
     "furniture",
     "GENERIC",
     "GUNMOD",
@@ -142,26 +148,36 @@ def extract_professions(item):
     outfile = get_outfile("professions")
     nm = item["name"]
     if type(nm) == dict:
-        writestr(outfile, nm["male"], comment="Male profession name")
-        writestr(outfile, nm["female"], comment="Female profession name")
-        writestr(outfile, item["description"],
-         comment="Profession ({0}/{1}) description".format(nm["male"], nm["female"]))
+        writestr(outfile, nm["male"], context="profession_male")
+        writestr(outfile, item["description"], context="prof_desc_male",
+                 comment="Profession ({}) description".format(nm["male"]))
+
+        writestr(outfile, nm["female"], context="profession_female")
+        writestr(outfile, item["description"], context="prof_desc_female",
+                 comment="Profession ({0}) description".format(nm["female"]))
     else:
-        # Add default constructed gender specific names, see profession.cpp
-        # They are optional. If missing, the (trnalsted) gender prefix is used
-        # to construct the name.
-        writestr(outfile, "male {0}".format(nm), comment="Male profession name (optional)")
-        writestr(outfile, "female {0}".format(nm), comment="Female profession name (optional)")
-        writestr(outfile, nm, comment="Profession name")
-        writestr(outfile, item["description"],
-         comment="Profession ({0}) description".format(nm))
+        writestr(outfile, nm, context="profession_male")
+        writestr(outfile, item["description"], context="prof_desc_male",
+                 comment="Profession (male {}) description".format(nm))
+
+        writestr(outfile, nm, context="profession_female")
+        writestr(outfile, item["description"], context="prof_desc_female",
+                 comment="Profession (female {}) description".format(nm))
+
+def extract_scenarios(item):
+    outfile = get_outfile("scenario")
+    # writestr will not write string if it is None.
+    for f in [ "name", "description", "start_name"]:
+        found = item.get(f, None)
+        writestr(outfile, found)
 
 # these objects need to have their strings specially extracted
 extract_specials = {
     "effect_type": extract_effect_type,
     "material": extract_material,
     "martial_art": extract_martial_art,
-    "profession": extract_professions
+    "profession": extract_professions,
+    "scenario": extract_scenarios
 }
 
 ##
@@ -237,11 +253,17 @@ def get_outfile(json_object_type):
     return os.path.join(to_dir, json_object_type + "_from_json.py")
 
 use_action_msgs = {
+    "activate_msg",
+    "deactive_msg",
+    "out_of_power_msg",
     "msg",
+    "friendly_msg",
+    "hostile_msg",
     "need_fire_msg",
     "need_charges_msg",
     "non_interactive_msg",
-    "unfold_msg"
+    "unfold_msg",
+    "activation_message"
 }
 
 def extract_use_action_msgs(outfile, use_action, kwargs):
@@ -288,6 +310,18 @@ def extract(item, infilename):
     if "sound" in item:
         writestr(outfile, item["sound"], **kwargs)
         wrote = True
+    if "snippet_category" in item and type(item["snippet_category"]) is list:
+        # snippet_category is either a simple string (the category ident)
+        # which is not translated, or an array of snippet texts.
+        for entry in item["snippet_category"]:
+            # Each entry is a json-object with an id and text
+            if type(entry) is dict:
+                writestr(outfile, entry["text"], **kwargs)
+                wrote = True
+            else:
+                # or a simple string
+                writestr(outfile, entry, **kwargs)
+                wrote = True
     if "bash" in item and type(item["bash"]) is dict:
         # entries of type technique have a bash member, too.
         # but it's a int, not an object.

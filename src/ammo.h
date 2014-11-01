@@ -1,5 +1,5 @@
-#ifndef _AMMO_H_
-#define _AMMO_H_
+#ifndef AMMO_H
+#define AMMO_H
 
 #include <string>
 #include <map>
@@ -28,9 +28,10 @@ class ammunition_type
         static ammunition_type *find_ammunition_type(std::string ident);
         // clear ammotype map, every ammotype pointer becames invalid!
         static void reset();
+        static void check_consistency();
 
         std::string name() const;
         std::string default_ammotype() const;
 };
 
-#endif // _AMMO_H_
+#endif

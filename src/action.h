@@ -1,5 +1,5 @@
-#ifndef _ACTION_H_
-#define _ACTION_H_
+#ifndef ACTION_H
+#define ACTION_H
 
 #include <vector>
 #include <map>
@@ -42,6 +42,7 @@ enum action_id {
     ACTION_LOOK,
     ACTION_PEEK,
     ACTION_LIST_ITEMS,
+    ACTION_ZONES,
     // Inventory Interaction (including quasi-inventories like bionics)
     ACTION_INVENTORY,
     ACTION_ADVANCEDINV,
@@ -64,6 +65,7 @@ enum action_id {
     ACTION_DROP,
     ACTION_DIR_DROP,
     ACTION_BIONICS,
+    ACTION_MUTATIONS,
     ACTION_SORT_ARMOR,
     // Long-term / special actions
     ACTION_WAIT,
@@ -94,7 +96,7 @@ enum action_id {
     ACTION_TOGGLE_FULLSCREEN,
     ACTION_DEBUG,
     ACTION_DISPLAY_SCENT,
-    ACTION_TOGGLE_DEBUGMON,
+    ACTION_TOGGLE_DEBUG_MODE,
     ACTION_ZOOM_OUT,
     ACTION_ZOOM_IN,
     ACTION_ACTIONMENU,
@@ -102,7 +104,8 @@ enum action_id {
 };
 
 // Load keybindings from disk
-void load_keyboard_settings(std::map<char, action_id> &keymap, std::string &keymap_file_loaded_from, std::set<action_id> &unbound_keymap);
+void load_keyboard_settings(std::map<char, action_id> &keymap, std::string &keymap_file_loaded_from,
+                            std::set<action_id> &unbound_keymap);
 std::string default_keymap_txt();
 // All keys bound to act
 std::vector<char> keys_bound_to(action_id act);

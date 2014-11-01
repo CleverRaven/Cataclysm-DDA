@@ -29,6 +29,9 @@
         "fear_triggers" : ["HURT"]
     },{
         "type" : "SPECIES",
+        "id" : "BLOB"
+    },{
+        "type" : "SPECIES",
         "id" : "FUNGUS",
         "fear_triggers" : ["HURT", "FIRE"]
     },{

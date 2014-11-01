@@ -18,6 +18,8 @@
 # Build types:
 # Debug (no optimizations)
 #  Default
+# ccache (use compilation caches)
+#  make CCACHE=1
 # Release (turn on optimizations)
 #  make RELEASE=1
 # Tiles (uses SDL rather than ncurses)
@@ -45,11 +47,15 @@
 # we don't check in code with new warnings, but we also have to disable some classes of warnings
 # for now as we get rid of them.  In non-release builds we want to show all the warnings,
 # even the ones we're allowing in release builds so they're visible to developers.
-RELEASE_FLAGS = -Werror -Wno-switch -Wno-sign-compare
+RELEASE_FLAGS = -Werror
 WARNINGS = -Wall -Wextra
 # Uncomment below to disable warnings
 #WARNINGS = -w
-DEBUG = -g
+ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Cygwin)
+  DEBUG = -g
+else
+  DEBUG = -g -D_GLIBCXX_DEBUG
+endif
 #PROFILE = -pg
 #OTHERS = -O3
 #DEFINES = -DNDEBUG
@@ -96,17 +102,22 @@ W32ODIRTILES = objwin/tiles
 DDIR = .deps
 
 OS  = $(shell uname -s)
-CXX = $(CROSS)g++
-LD  = $(CROSS)g++
+ifdef CCACHE
+  CXX = ccache $(CROSS)g++
+  LD  = ccache $(CROSS)g++
+else
+  CXX = $(CROSS)g++
+  LD  = $(CROSS)g++
+endif
 RC  = $(CROSS)windres
 
 # enable optimizations. slow to build
 ifdef RELEASE
   ifeq ($(NATIVE), osx)
-    OTHERS += -O3
+    CXXFLAGS += -O3
   else
-    OTHERS += -Os
-    OTHERS += -s
+    CXXFLAGS += -Os
+    LDFLAGS += -s
   endif
   # OTHERS += -mmmx -m3dnow -msse -msse2 -msse3 -mfpmath=sse -mtune=native
   # Strip symbols, generates smaller executable.
@@ -115,11 +126,20 @@ ifdef RELEASE
 endif
 
 ifdef CLANG
-  CXX = $(CROSS)clang++
-  LD  = $(CROSS)clang++
-  OTHERS = --std=c++98
-  WARNINGS = -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-unused-parameter -Wno-type-limits -Wno-narrowing
+  ifeq ($(NATIVE), osx)
+    OTHERS += -stdlib=libc++
+  endif
+  ifdef CCACHE
+    CXX = CCACHE_CPP2=1 $(CROSS)clang++
+    LD  = CCACHE_CPP2=1 $(CROSS)clang++
+  else
+    CXX = $(CROSS)clang++
+    LD  = $(CROSS)clang++
+  endif
+  WARNINGS = -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-type-limits -Wno-narrowing
 endif
+
+OTHERS += --std=c++11
 
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(PROFILE) $(OTHERS) -MMD
 
@@ -156,9 +176,12 @@ ifeq ($(NATIVE), osx)
   OSX_MIN = 10.5
   DEFINES += -DMACOSX
   CXXFLAGS += -mmacosx-version-min=$(OSX_MIN)
-  WARNINGS = -Werror -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-unused-parameter
+  WARNINGS = -Werror -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces
   ifeq ($(LOCALIZE), 1)
     LDFLAGS += -lintl
+    ifeq ($(MACPORTS), 1)
+      LDFLAGS += -L$(shell ncursesw5-config --libdir)
+    endif
   endif
   TARGETSYSTEM=LINUX
   ifneq ($(OS), Linux)
@@ -237,12 +260,13 @@ ifdef LUA
   BINDIST_EXTRAS  += $(LUA_DIR)
 endif
 
+ifdef SDL
+  TILES = 1
+endif
+
 ifdef TILES
   SDL = 1
   BINDIST_EXTRAS += gfx
-endif
-
-ifdef SDL
   ifeq ($(NATIVE),osx)
     ifdef FRAMEWORK
       DEFINES += -DOSX_SDL_FW
@@ -303,7 +327,8 @@ else
         ifeq ($(NATIVE), osx)
             LDFLAGS += -lncurses
         else
-            LDFLAGS += -lncursesw
+            LDFLAGS += $(shell ncursesw5-config --libs)
+            CXXFLAGS += $(shell ncursesw5-config --cflags)
         endif
       endif
       # Work around Cygwin not including gettext support in glibc
@@ -356,7 +381,7 @@ all: version $(TARGET) $(L10N)
 	@
 
 $(TARGET): $(ODIR) $(DDIR) $(OBJS)
-	$(LD) $(W32FLAGS) -o $(TARGET) $(DEFINES) $(CXXFLAGS) \
+	$(LD) $(W32FLAGS) -o $(TARGET) $(DEFINES) \
           $(OBJS) $(LDFLAGS)
 
 .PHONY: version json-verify
@@ -381,9 +406,6 @@ $(ODIR)/%.o: $(SRC_DIR)/%.cpp
 $(ODIR)/%.o: $(SRC_DIR)/%.rc
 	$(RC) $(RFLAGS) $< -o $@
 
-$(ODIR)/SDLMain.o: $(SRC_DIR)/SDLMain.m
-	$(CC) -c $(OSX_INC) $< -o $@
-
 version.cpp: version
 
 $(LUASRC_DIR)/catabindings.cpp: $(LUA_DIR)/class_definitions.lua $(LUASRC_DIR)/generate_bindings.lua
@@ -395,7 +417,7 @@ localization:
 	lang/compile_mo.sh $(LANGUAGES)
 
 $(CHKJSON_BIN): src/chkjson/chkjson.cpp src/json.cpp
-	$(CXX) -Isrc/chkjson -Isrc src/chkjson/chkjson.cpp src/json.cpp -o $(CHKJSON_BIN)
+	$(CXX) $(CXXFLAGS) -Isrc/chkjson -Isrc src/chkjson/chkjson.cpp src/json.cpp -o $(CHKJSON_BIN)
 
 json-check: $(CHKJSON_BIN)
 	./$(CHKJSON_BIN)
@@ -432,6 +454,8 @@ install: version $(TARGET)
 	cp -R --no-preserve=ownership data/names $(DATA_PREFIX)
 	cp -R --no-preserve=ownership data/raw $(DATA_PREFIX)
 	cp -R --no-preserve=ownership data/recycling $(DATA_PREFIX)
+	cp -R --no-preserve=ownership data/motd $(DATA_PREFIX)
+	cp -R --no-preserve=ownership data/credits $(DATA_PREFIX)
 ifdef TILES
 	cp -R --no-preserve=ownership gfx $(DATA_PREFIX)
 endif
@@ -440,7 +464,7 @@ ifdef LUA
 	install --mode=644 lua/autoexec.lua $(DATA_PREFIX)/lua
 	install --mode=644 lua/class_definitions.lua $(DATA_PREFIX)/lua
 endif
-	install --mode=644 data/changelog.txt data/credits data/motd data/cataicon.ico \
+	install --mode=644 data/changelog.txt data/cataicon.ico data/fontdata.json \
                    README.txt LICENSE.txt -t $(DATA_PREFIX)
 	mkdir -p $(LOCALE_DIR)
 	LOCALE_DIR=$(LOCALE_DIR) lang/compile_mo.sh
@@ -462,6 +486,7 @@ ctags: $(SOURCES) $(HEADERS)
 
 etags: $(SOURCES) $(HEADERS)
 	etags $(SOURCES) $(HEADERS)
+	find data/json -name "*.json" -print0 | xargs -0 -L 50 etags --append
 
 tests: $(ODIR) $(DDIR) $(OBJS)
 	$(MAKE) -C tests

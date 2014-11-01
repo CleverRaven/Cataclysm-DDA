@@ -1,7 +1,7 @@
 [
 {
         "type" : "recipe",
-   "result": "654",
+   "result": "reloaded_654",
    "category": "CC_AMMO",
    "subcategory": "CSC_AMMO_BULLETS",
    "skill_used": "fabrication",
@@ -23,29 +23,29 @@
     ],
     "components": [
        [
-         [ "654_casing", 60 ]
+         [ "654_casing", 30 ]
        ],
        [
-         [ "smrifle_primer", 60 ]
+         [ "smrifle_primer", 30 ]
        ],
        [
-         [ "gunpowder", 480 ]
+         [ "gunpowder", 300 ]
        ],
        [
-         [ "lead", 160 ],
-         [ "gold_small", 160 ],
-         [ "silver_small", 160 ],
-         [ "tin", 160 ],
-         [ "bismuth", 160 ],
-         [ "solder_wire", 160 ]
+         [ "lead", 150 ],
+         [ "gold_small", 150 ],
+         [ "silver_small", 150 ],
+         [ "tin", 150 ],
+         [ "bismuth", 150 ],
+         [ "solder_wire", 150 ]
        ],
        [
-         [ "cu_pipe", 4]
+         [ "cu_pipe", 3]
        ]
      ]
 },{
         "type" : "recipe",
-  "result": "545",
+  "result": "reloaded_545",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
   "skill_used": "fabrication",
@@ -67,30 +67,30 @@
   ],
   "components": [
     [
-      [ "545_casing", 60 ]
+      [ "545_casing", 30 ]
     ],
     [
-      [ "smrifle_primer", 60 ]
+      [ "smrifle_primer", 30 ]
     ],
     [
-      [ "gunpowder", 200 ]
+      [ "gunpowder", 150 ]
     ],
     [
-      [ "lead", 80 ],
-      [ "gold_small", 80 ],
-      [ "silver_small", 80 ],
-      [ "tin", 80 ],
-      [ "bismuth", 80 ],
-      [ "solder_wire", 80]
+      [ "lead", 60 ],
+      [ "gold_small", 60 ],
+      [ "silver_small", 60 ],
+      [ "tin", 60 ],
+      [ "bismuth", 60 ],
+      [ "solder_wire", 60]
     ],
     [
-      [ "cu_pipe", 4]
+      [ "cu_pipe", 3]
     ]
   ]
 
 },{
         "type" : "recipe",
-  "result": "545_ap",
+  "result": "reloaded_545_ap",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
   "skill_used": "fabrication",
@@ -112,24 +112,24 @@
   ],
   "components": [
     [
-      [ "545_casing", 60 ]
+      [ "545_casing", 30 ]
     ],
     [
-      [ "smrifle_primer", 60 ]
+      [ "smrifle_primer", 30 ]
     ],
     [
-      [ "gunpowder", 200 ]
+      [ "gunpowder", 150 ]
     ],
     [
-      [ "lead", 100 ],
-      [ "gold_small", 100 ],
-      [ "silver_small", 100 ],
-      [ "tin", 100 ],
-      [ "bismuth", 100 ],
-      [ "solder_wire", 100]
+      [ "lead", 90 ],
+      [ "gold_small", 90 ],
+      [ "silver_small", 90 ],
+      [ "tin", 90 ],
+      [ "bismuth", 90 ],
+      [ "solder_wire", 90]
     ],
     [
-      [ "cu_pipe", 4]
+      [ "cu_pipe", 3]
     ]
   ]
 },{
@@ -168,33 +168,31 @@
 ]
 },{
         "type" : "recipe",
-  "result": "cw-24hack",
+  "result": "autofire_654",
   "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_RANGED",
+  "subcategory": "CSC_WEAPON_MODS",
   "skill_used": "fabrication",
   "skills_required": [ "gun", 3],
-  "difficulty": 3,
-  "time": 15000,
+  "difficulty": 5,
+  "time": 13000,
   "reversible": false,
   "autolearn": false,
   "book_learn": [["recipe_igm", 1]],
+  "qualities" : [
+    {"id":"SCREW","level":1,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1}
+  ],
   "tools": [
     [
-      [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
-      [ "screwdriver", -1 ]
+      [ "goggles_welding", -1 ]
     ],
     [
       [ "welder", 30 ],
+      [ "toolset", 40 ],
       [ "welder_crude", 40]
     ]
   ],
   "components": [
-    [
-      [ "cw-24", 1 ]
-    ],
     [
       [ "pipe", 1]
     ],
@@ -203,42 +201,5 @@
       [ "scrap", 2]
     ]
    ]
-},{
-        "type" : "recipe",
-  "result": "cw-24m_hack",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_RANGED",
-  "skill_used": "fabrication",
-  "skills_required": [ "gun", 3],
-  "difficulty": 3,
-  "time": 15000,
-  "reversible": false,
-  "autolearn": false,
-  "book_learn": [["recipe_igm", 2]],
-  "tools": [
-    [
-      [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
-      [ "screwdriver", -1 ]
-    ],
-    [
-      [ "welder", 30 ],
-      [ "welder_crude", 40]
-    ]
-  ],
-  "components": [
-    [
-      [ "cw-24m", 1 ]
-    ],
-    [
-      [ "pipe", 1]
-    ],
-    [
-      [ "sheet_metal", 1],
-      [ "scrap", 2]
-    ]
-  ]
 }
 ]

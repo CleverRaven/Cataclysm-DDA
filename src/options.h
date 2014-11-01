@@ -1,10 +1,17 @@
-#ifndef _OPTIONS_H_
-#define _OPTIONS_H_
+#ifndef OPTIONS_H
+#define OPTIONS_H
 
 #include <string>
 #include <map>
+#include <unordered_map>
 #include <vector>
 #include <algorithm> //atoi
+
+typedef enum { COPT_NO_HIDE,
+               COPT_SDL_HIDE,
+               COPT_CURSES_HIDE,
+               COPT_POSIX_CURSES_HIDE
+             } copt_hide_t;
 
 class regional_settings;
 class options_data
@@ -28,24 +35,34 @@ class cOpt
 
         //string constructor
         cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
-             const std::string sItemsIn, std::string sDefaultIn);
+             const std::string sItemsIn, std::string sDefaultIn, copt_hide_t opt_hide);
 
         //bool constructor
         cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
-             const bool bDefaultIn);
+             const bool bDefaultIn, copt_hide_t opt_hide);
 
         //int constructor
         cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
-             const int iMinIn, int iMaxIn, int iDefaultIn);
+             const int iMinIn, int iMaxIn, int iDefaultIn, copt_hide_t opt_hide);
 
         //float constructor
         cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
-             const float fMinIn, float fMaxIn, float fDefaultIn, float fStepIn);
+             const float fMinIn, float fMaxIn, float fDefaultIn, float fStepIn, copt_hide_t opt_hide);
 
         //Default deconstructor
         ~cOpt() {};
 
+        void setSortPos(const std::string sPageIn);
+
         //helper functions
+        int getSortPos();
+
+        /**
+         * Option should be hidden in current build.
+         * @return true if option should be hidden, false if not.
+         */
+        bool is_hidden();
+
         std::string getPage();
         std::string getMenuText();
         std::string getTooltip();
@@ -53,7 +70,7 @@ class cOpt
 
         std::string getValue();
         std::string getValueName();
-        std::string getDefaultText();
+        std::string getDefaultText(const bool bTranslated = true);
 
         int getItemPos(const std::string sSearch);
 
@@ -78,6 +95,9 @@ class cOpt
         std::string sTooltip;
         std::string sType;
 
+        copt_hide_t hide;
+        int iSortPos;
+
         //sType == "string"
         std::string sSet;
         std::vector<std::string> vItems;
@@ -101,8 +121,10 @@ class cOpt
         float fStep;
 };
 
-extern std::map<std::string, cOpt> OPTIONS;
-extern std::map<std::string, cOpt> ACTIVE_WORLD_OPTIONS;
+extern std::unordered_map<std::string, cOpt> OPTIONS;
+extern std::unordered_map<std::string, cOpt> ACTIVE_WORLD_OPTIONS;
+extern std::map<int, std::vector<std::string> > mPageItems;
+extern int iWorldOptPage;
 
 extern options_data optionsdata;
 void initOptions();
@@ -113,6 +135,5 @@ void show_options(bool ingame = false);
 bool use_narrow_sidebar(); // short-circuits to on if terminal is too small
 
 std::string get_tileset_names(std::string dir_path);
-
 
 #endif

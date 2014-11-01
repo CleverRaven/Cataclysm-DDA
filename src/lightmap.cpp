@@ -9,6 +9,22 @@
 #define LIGHTMAP_CACHE_X SEEX * MAPSIZE
 #define LIGHTMAP_CACHE_Y SEEY * MAPSIZE
 
+void map::add_light_from_items( const int x, const int y, const std::vector<item> &items )
+{
+    for( auto & itm : items ) {
+        float ilum = 0.0; // brightness
+        int iwidth = 0; // 0-360 degrees. 0 is a circular light_source
+        int idir = 0;   // otherwise, it's a light_arc pointed in this direction
+        if( itm.getlight( ilum, iwidth, idir ) ) {
+            if( iwidth > 0 ) {
+                apply_light_arc( x, y, idir, ilum, iwidth );
+            } else {
+                add_light_source( x, y, ilum );
+            }
+        }
+    }
+}
+
 void map::generate_lightmap()
 {
     memset(lm, 0, sizeof(lm));
@@ -57,11 +73,11 @@ void map::generate_lightmap()
         for(int sy = 0; sy < LIGHTMAP_CACHE_Y; ++sy) {
             const ter_id terrain = ter(sx, sy);
             const std::vector<item> &items = i_at(sx, sy);
-            field &current_field = field_at(sx, sy);
+            const field &current_field = field_at(sx, sy);
             // When underground natural_light is 0, if this changes we need to revisit
             // Only apply this whole thing if the player is inside,
             // buildings will be shadowed when outside looking in.
-            if (natural_light > LIGHT_AMBIENT_LOW && !is_outside(g->u.posx, g->u.posy) ) {
+            if (natural_light > LIGHT_SOURCE_BRIGHT && !is_outside(g->u.posx, g->u.posy) ) {
                 if (!is_outside(sx, sy)) {
                     // Apply light sources for external/internal divide
                     for(int i = 0; i < 4; ++i) {
@@ -76,19 +92,7 @@ void map::generate_lightmap()
                     }
                 }
             }
-            for( std::vector<item>::const_iterator itm = items.begin(); itm != items.end(); ++itm ) {
-
-                float ilum = 0.0; // brightness
-                int iwidth = 0; // 0-360 degrees. 0 is a circular light_source
-                int idir = 0;   // otherwise, it's a light_arc pointed in this direction
-                if ( itm->getlight(ilum, iwidth, idir ) ) {
-                    if ( iwidth > 0 ) {
-                        apply_light_arc( sx, sy, idir, ilum, iwidth );
-                    } else {
-                        add_light_source(sx, sy, ilum);
-                    }
-                }
-            }
+            add_light_from_items( sx, sy, items );
             if(terrain == t_lava) {
                 add_light_source(sx, sy, 50 );
             }
@@ -97,18 +101,12 @@ void map::generate_lightmap()
                 add_light_source(sx, sy, 3 );
             }
 
-            if(terrain == t_emergency_light) {
-                add_light_source(sx, sy, 3 );
+            if(terrain == t_utility_light) {
+                add_light_source(sx, sy, 35 );
             }
 
-            field_entry *cur = NULL;
-            for(std::map<field_id, field_entry *>::iterator field_list_it = current_field.getFieldStart();
-                field_list_it != current_field.getFieldEnd(); ++field_list_it) {
-                cur = field_list_it->second;
-
-                if(cur == NULL) {
-                    continue;
-                }
+            for( auto &fld : current_field ) {
+                const field_entry *cur = &fld.second;
                 // TODO: [lightmap] Attach light brightness to fields
                 switch(cur->getFieldType()) {
                 case fd_fire:
@@ -135,15 +133,33 @@ void map::generate_lightmap()
                                            trigdist);    // kinda a hack as the square will still get marked
                     }
                     break;
+                case fd_incendiary:
+                    if (3 == cur->getFieldDensity()) {
+                        add_light_source(sx, sy, 30);
+                    } else if (2 == cur->getFieldDensity()) {
+                        add_light_source(sx, sy, 16);
+                    } else {
+                        add_light_source(sx, sy, 8);
+                    }
+                    break;
                 case fd_laser:
                     apply_light_source(sx, sy, 1, trigdist);
+                    break;
+                case fd_spotlight:
+                    add_light_source(sx, sy, 20);
+                    break;
+                case fd_dazzling:
+                    add_light_source(sx, sy, 2);
+                    break;
+                default:
+                    //Suppress warnings
                     break;
                 }
             }
         }
     }
 
-    for (int i = 0; i < g->num_zombies(); ++i) {
+    for (size_t i = 0; i < g->num_zombies(); ++i) {
         int mx = g->zombie(i).posx();
         int my = g->zombie(i).posy();
         if (INBOUNDS(mx, my)) {
@@ -161,42 +177,53 @@ void map::generate_lightmap()
 
     // Apply any vehicle light sources
     VehicleList vehs = get_vehicles();
-    for( size_t v = 0; v < vehs.size(); ++v ) {
-        if(vehs[v].v->lights_on) {
-            int dir = vehs[v].v->face.dir();
+    for( auto &vv : vehs ) {
+        vehicle *v = vv.v;
+        if(v->lights_on) {
+            int dir = v->face.dir();
             float veh_luminance = 0.0;
             float iteration = 1.0;
-            std::vector<int> light_indices = vehs[v].v->all_parts_with_feature(VPFLAG_CONE_LIGHT);
+            std::vector<int> light_indices = v->all_parts_with_feature(VPFLAG_CONE_LIGHT);
             for (std::vector<int>::iterator part = light_indices.begin();
                  part != light_indices.end(); ++part) {
-                veh_luminance += ( vehs[v].v->part_info(*part).bonus / iteration );
+                veh_luminance += ( v->part_info(*part).bonus / iteration );
                 iteration = iteration * 1.1;
             }
             if (veh_luminance > LL_LIT) {
                 for (std::vector<int>::iterator part = light_indices.begin();
                      part != light_indices.end(); ++part) {
-                    int px = vehs[v].x + vehs[v].v->parts[*part].precalc_dx[0];
-                    int py = vehs[v].y + vehs[v].v->parts[*part].precalc_dy[0];
+                    int px = vv.x + v->parts[*part].precalc_dx[0];
+                    int py = vv.y + v->parts[*part].precalc_dy[0];
                     if(INBOUNDS(px, py)) {
-                        apply_light_arc(px, py, dir + vehs[v].v->parts[*part].direction, veh_luminance, 45);
+                        apply_light_arc(px, py, dir + v->parts[*part].direction, veh_luminance, 45);
                     }
                 }
             }
         }
-        if(vehs[v].v->overhead_lights_on) {
-            std::vector<int> light_indices = vehs[v].v->all_parts_with_feature(VPFLAG_CIRCLE_LIGHT);
+        if(v->overhead_lights_on) {
+            std::vector<int> light_indices = v->all_parts_with_feature(VPFLAG_CIRCLE_LIGHT);
             for (std::vector<int>::iterator part = light_indices.begin();
                  part != light_indices.end(); ++part) {
-                if((calendar::turn % 2 && vehs[v].v->part_info(*part).has_flag(VPFLAG_ODDTURN)) ||
-                   (!(calendar::turn % 2) && vehs[v].v->part_info(*part).has_flag(VPFLAG_EVENTURN)) ||
-                   (!vehs[v].v->part_info(*part).has_flag(VPFLAG_EVENTURN) &&
-                    !vehs[v].v->part_info(*part).has_flag(VPFLAG_ODDTURN))) {
-                    int px = vehs[v].x + vehs[v].v->parts[*part].precalc_dx[0];
-                    int py = vehs[v].y + vehs[v].v->parts[*part].precalc_dy[0];
+                if((calendar::turn % 2 && v->part_info(*part).has_flag(VPFLAG_ODDTURN)) ||
+                   (!(calendar::turn % 2) && v->part_info(*part).has_flag(VPFLAG_EVENTURN)) ||
+                   (!v->part_info(*part).has_flag(VPFLAG_EVENTURN) &&
+                    !v->part_info(*part).has_flag(VPFLAG_ODDTURN))) {
+                    int px = vv.x + v->parts[*part].precalc_dx[0];
+                    int py = vv.y + v->parts[*part].precalc_dy[0];
                     if(INBOUNDS(px, py)) {
-                        add_light_source( px, py, vehs[v].v->part_info(*part).bonus );
+                        add_light_source( px, py, v->part_info(*part).bonus );
                     }
                 }
+            }
+        }
+        for( size_t p = 0; p < v->parts.size(); ++p ) {
+            int px = vv.x + v->parts[p].precalc_dx[0];
+            int py = vv.y + v->parts[p].precalc_dy[0];
+            if( !INBOUNDS( px, py ) ) {
+                continue;
+            }
+            if( v->part_flag( p, VPFLAG_CARGO ) && !v->part_flag( p, "COVERED" ) ) {
+                add_light_from_items( px, py, v->parts[p].items );
             }
         }
     }

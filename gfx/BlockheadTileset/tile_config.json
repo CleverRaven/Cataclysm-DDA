@@ -128,6 +128,7 @@
         },
         {
             "id":"t_hole",
+            "fg":0,
             "rotates":false
         },
         {
@@ -187,18 +188,66 @@
          "rotates":false, 
          "multitile" : false
         },
+        { 
+         "id" : "mon_zombie_crawler", 
+         "fg" :276,
+         "rotates":false, 
+         "multitile" : false
+        },
+        { 
+         "id" : "mon_zombie_hazmat", 
+         "fg" :278,
+         "rotates":false, 
+         "multitile" : false
+        },
+        { 
+         "id" : "mon_zombie_fireman", 
+         "fg" :277, 
+         "rotates":false, 
+         "multitile" : false
+        },
+        { 
+         "id" : "mon_zombie_survivor", 
+         "fg" :284, 
+         "rotates":false, 
+         "multitile" : false
+        },
+        { 
+         "id" : "mon_zombie_rot", 
+         "fg" :285, 
+         "rotates":false, 
+         "multitile" : false
+        },
+        { 
+         "id" : "mon_dog_skeleton", 
+         "fg" :280, 
+         "rotates":false, 
+         "multitile" : false
+        },
+        { 
+         "id" : "mon_dog_zombie_cop", 
+         "fg" :281,
+         "rotates":false, 
+         "multitile" : false
+        },
+        { 
+         "id" : "mon_dog_zombie_rot", 
+         "fg" :279,
+         "rotates":false, 
+         "multitile" : false
+        },
         {
             "id":"t_rock_floor",
             "bg":4,
             "rotates":false
         },
         {
-            "id":"t_rubble",
+            "id":"f_rubble",
             "bg":21,
             "rotates":false
         },
         {
-            "id":"t_ash",
+            "id":"f_ash",
             "bg":171,           
             "rotates":false
         },
@@ -226,40 +275,34 @@
          "multitile" : false
       }, 
         {
-            "id":"t_wreckage",
+            "id":"f_wreckage",
             "fg":2188,
             "multitile":true,
             "additional_tiles":
             [
                 {
                     "id": "center",
-                    "fg": 2189,
-                    "bg": 1
+                    "fg": 2189
                 },
                 {
                     "id": "corner",
-                    "fg": 2190,
-                    "bg": 1
+                    "fg": 2190
                 },
                 {
                     "id": "t_connection",
-                    "fg": 2191,
-                    "bg": 1
+                    "fg": 2191
                 },
                 {
                     "id": "edge",
-                    "fg": 2192,
-                    "bg": 1
+                    "fg": 2192
                 },
                 {
                     "id": "end_piece",
-                    "fg": 2193,
-                    "bg": 1
+                    "fg": 2193
                 },
                 {
                     "id": "unconnected",
-                    "fg": 2188,
-                    "bg": 1
+                    "fg": 2188
                 }
             ],
             "rotates":false
@@ -402,6 +445,12 @@
             "rotates":false
         },
         {
+            "id":"t_concrete",
+            "fg":87,
+            "bg":1,
+            "rotates":false
+        },
+        {
             "id":"t_concrete_v",
             "fg":87,
             "bg":1,
@@ -464,6 +513,7 @@
         {
             "id":"t_bars",
             "fg":90,
+            "bg":64,
             "rotates":false
         },
         {
@@ -563,14 +613,20 @@
         },
         {
             "id":"t_door_bar_c",
+            "fg":985,
+            "bg":64,
             "rotates":false
         },
         {
             "id":"t_door_bar_o",
+            "fg":986,
+            "bg":64,
             "rotates":false
         },
         {
             "id":"t_door_bar_locked",
+            "fg":987,
+            "bg":64,
             "rotates":false
         },
         {
@@ -3175,6 +3231,13 @@
          "rotates" : false, 
          "multitile" : false
       },
+      {
+         "id" : "novel_war", 
+         "fg" : 930, 
+         "bg" : 916, 
+         "rotates" : false, 
+         "multitile" : false
+      }, 
       { 
          "id" : "mag_dude", 
          "fg" : 902, 
@@ -3457,10 +3520,12 @@
         },
         {
             "id":"f_washer",
+            "fg":983,
             "rotates":false
         },
         {
             "id":"f_dryer",
+            "fg":984,
             "rotates":false
         },
         {
@@ -5343,6 +5408,20 @@
         {
             "id":"vp_solar_panel_v2",
             "fg":2226,
+            "bg":-1,
+            "rotates":true,      
+            "multitile":true,
+            "additional_tiles":
+            [
+                {
+                    "id":"broken",
+                    "fg":365
+                }
+            ]
+        },
+        {
+            "id":"vp_solar_panel_v3",
+            "fg":2227,
             "bg":-1,
             "rotates":true,      
             "multitile":true,
@@ -8353,6 +8432,13 @@
       { 
          "id" : "novel_road", 
          "fg" : 931, 
+         "bg" : 915, 
+         "rotates" : false, 
+         "multitile" : false
+      }, 
+      { 
+         "id" : "novel_satire", 
+         "fg" : 930, 
          "bg" : 915, 
          "rotates" : false, 
          "multitile" : false
@@ -14483,9 +14569,39 @@
       }, 
         {
           "rotates": false,
+          "id": "sharp_toothbrush",
+          "fg": 2228
+        },
+        {
+          "rotates": false,
           "id": "file",
          "fg" : 912, 
          "bg" : 936
+        },
+        {
+          "rotates": false,
+          "id": "fd_hot_air1",
+          "fg": 165
+        },
+        {
+          "rotates": false,
+          "id": "fd_hot_air2",
+          "fg": 165
+        },
+        {
+          "rotates": false,
+          "id": "fd_hot_air3",
+          "fg": 165
+        },
+        {
+          "rotates": false,
+          "id": "fd_hot_air4",
+          "fg": 165
+        },
+        {
+          "rotates": false,
+          "id": "fd_spotlight",
+          "fg": 165
         }
     ]
 }

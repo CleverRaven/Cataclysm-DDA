@@ -1,5 +1,6 @@
-#ifndef __CATACURSE__
-#define __CATACURSE__
+#ifndef CATACURSE_H
+#define CATACURSE_H
+
 #if (defined _WIN32 || defined WINDOWS)
 #ifndef _WIN32_WINNT
 #define _WIN32_WINNT 0x0500
@@ -15,31 +16,14 @@
 #include <stdio.h>
 #include <map>
 #include <vector>
-#include "json.h"
+#include <array>
+#include <string>
 typedef int chtype;
 typedef unsigned short attr_t;
 typedef unsigned int u_int32_t;
 
-// TODO: remove unused stuff
-
-#define __CHARTEXT 0x000000ff /* bits for 8-bit characters */             //<---------not used
-#define __NORMAL 0x00000000 /* Added characters are normal. */          //<---------not used
-#define __STANDOUT 0x00000100 /* Added characters are standout. */        //<---------not used
-#define __UNDERSCORE 0x00000200 /* Added characters are underscored. */ //<---------not used
-#define __REVERSE 0x00000400 /* Added characters are reverse             //<---------not used
-        video. */
-#define __BLINK  0x00000800 /* Added characters are blinking. */
-#define __DIM  0x00001000 /* Added characters are dim. */             //<---------not used
-#define __BOLD  0x00002000 /* Added characters are bold. */
-#define __BLANK  0x00004000 /* Added characters are blanked. */         //<---------not used
-#define __PROTECT 0x00008000 /* Added characters are protected. */       //<---------not used
-#define __ALTCHARSET 0x00010000 /* Added characters are ACS */          //<---------not used
-#define __COLOR  0x03fe0000 /* Color bits */
-#define __ATTRIBUTES 0x03ffff00 /* All 8-bit attribute bits */          //<---------not used
-
 //a pair of colors[] indexes, foreground and background
-typedef struct
-{
+typedef struct {
     int FG;//foreground index in colors[]
     int BG;//foreground index in colors[]
 } pairs;
@@ -53,44 +37,58 @@ typedef struct
 //} cursechar;
 
 //Individual lines, so that we can track changed lines
-typedef struct{
-bool touched;
-char *chars;
-int width_in_bytes;
-char *FG;
-char *BG;
-//cursechar chars [80];
-} curseline;
+struct cursecell {
+    std::string ch;
+    char FG;
+    char BG;
+    cursecell(std::string ch) : ch(ch), FG(0), BG(0) { }
+    cursecell() : cursecell(" ") { }
+
+    bool operator==(const cursecell &b) const {
+        return ch == b.ch && FG == b.FG && BG == b.BG;
+    }
+
+    cursecell& operator=(const cursecell &b) {
+        ch = b.ch;
+        FG = b.FG;
+        BG = b.BG;
+        return *this;
+    }
+};
+struct curseline {
+    bool touched;
+    std::vector<cursecell> chars;
+};
+
 //The curses window struct
 typedef struct {
-  int x;//left side of window
-  int y;//top side of window
-  int width;//width of the curses window
-  int height;//height of the curses window
-  int FG;//current foreground color from attron
-  int BG;//current background color from attron
-  bool inuse;// Does this window actually exist?
-  bool draw;//Tracks if the window text has been changed
-  int cursorx;//x location of the cursor
-  int cursory;//y location of the cursor
-  curseline *line;
+    int x;//left side of window
+    int y;//top side of window
+    int width;//width of the curses window
+    int height;//height of the curses window
+    int FG;//current foreground color from attron
+    int BG;//current background color from attron
+    bool inuse;// Does this window actually exist?
+    bool draw;//Tracks if the window text has been changed
+    int cursorx;//x location of the cursor
+    int cursory;//y location of the cursor
+    std::vector<curseline> line;
 
 } WINDOW;
 
-
-#define A_NORMAL __NORMAL
-#define A_STANDOUT __STANDOUT
-#define A_UNDERLINE __UNDERSCORE
-#define A_REVERSE __REVERSE
-#define A_BLINK  __BLINK
-#define A_DIM  __DIM
-#define A_BOLD  __BOLD
-#define A_BLANK  __BLANK
-#define A_PROTECT __PROTECT
-#define A_ALTCHARSET __ALTCHARSET
-#define A_ATTRIBUTES __ATTRIBUTES
-#define A_CHARTEXT __CHARTEXT
-#define A_COLOR  __COLOR
+#define A_NORMAL 0x00000000 /* Added characters are normal.         <---------not used */
+#define A_STANDOUT 0x00000100 /* Added characters are standout.     <---------not used */
+#define A_UNDERLINE 0x00000200 /* Added characters are underscored. <---------not used */
+#define A_REVERSE 0x00000400 /* Added characters are reverse        <---------not used */
+#define A_BLINK  0x00000800 /* Added characters are blinking. */
+#define A_DIM  0x00001000 /* Added characters are dim.              <---------not used */
+#define A_BOLD  0x00002000 /* Added characters are bold. */
+#define A_BLANK  0x00004000 /* Added characters are blanked.        <---------not used */
+#define A_PROTECT 0x00008000 /* Added characters are protected.     <---------not used */
+#define A_ALTCHARSET 0x00010000 /* Added characters are ACS         <---------not used */
+#define A_ATTRIBUTES 0x03ffff00 /* All 8-bit attribute bits         <---------not used */
+#define A_CHARTEXT 0x000000ff /* bits for 8-bit characters          <---------not used */
+#define A_COLOR  0x03fe0000 /* Color bits */
 
 #define COLOR_BLACK 0x00        //RGB{0,0,0}
 #define COLOR_RED 0x01        //RGB{196, 0, 0}
@@ -112,6 +110,7 @@ typedef struct {
 #define    KEY_RIGHT      0x105    /* right arrow*/
 #define    KEY_HOME       0x106    /* home key */                   //<---------not used
 #define    KEY_BACKSPACE  0x107    /* Backspace */                  //<---------not used
+#define    KEY_DC         0x151    /* Delete Character */
 #define    KEY_F(n)      (0x108+n) /* F1, F2, etc*/
 #define    KEY_NPAGE      0x152    /* page down */
 #define    KEY_PPAGE      0x153    /* page up */
@@ -130,7 +129,8 @@ extern WINDOW *stdscr;
 //Curses Functions
 WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x);
 int delwin(WINDOW *win);
-int wborder(WINDOW *win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, chtype tr, chtype bl, chtype br);
+int wborder(WINDOW *win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, chtype tr,
+            chtype bl, chtype br);
 
 int hline(chtype ch, int n);
 int vline(chtype ch, int n);
@@ -144,9 +144,9 @@ int mvwvline(WINDOW *win, int y, int x, chtype ch, int n);
 int wrefresh(WINDOW *win);
 int refresh(void);
 int getch(void);
-int wgetch(WINDOW* win);
+int wgetch(WINDOW *win);
 int mvgetch(int y, int x);
-int mvwgetch(WINDOW* win, int y, int x);
+int mvwgetch(WINDOW *win, int y, int x);
 int mvwprintw(WINDOW *win, int y, int x, const char *fmt, ...);
 int mvprintw(int y, int x, const char *fmt, ...);
 int werase(WINDOW *win);
@@ -171,7 +171,7 @@ int wattroff(WINDOW *win, int attrs);
 int attron(int attrs);
 int attroff(int attrs);
 int waddch(WINDOW *win, const chtype ch);
-int printw(const char *fmt,...);
+int printw(const char *fmt, ...);
 int getmaxx(WINDOW *win);
 int getmaxy(WINDOW *win);
 int getbegx(WINDOW *win);
@@ -184,15 +184,20 @@ void set_escdelay(int delay);//PORTABILITY, DUMMY FUNCTION
 int echo(void);
 int noecho(void);
 //non-curses functions, Do not call these in the main game code
-extern WINDOW* mainwin;
+extern WINDOW *mainwin;
 extern pairs *colorpairs;
-extern std::map< std::string,std::vector<int> > consolecolors;
-WINDOW* curses_init();
+// key is a color name from main_color_names,
+// value is a color in *BGR*. each vector has exactly 3 values.
+// see load_colors(Json...)
+extern std::map< std::string, std::vector<int> > consolecolors;
+// color names as read from the json file
+extern std::array<std::string, 16> main_color_names;
+WINDOW *curses_init();
 int curses_destroy();
-void curses_drawwindow(WINDOW* win);
+void curses_drawwindow(WINDOW *win);
 void curses_delay(int delay);
 void curses_timeout(int t);
-int curses_getch(WINDOW* win);
+int curses_getch(WINDOW *win);
 int curses_start_color();
 
 // Add interface specific (SDL/ncurses/wincurses) initializations here

@@ -1,0 +1,84 @@
+{
+    "type" : "mapgen",
+    "om_terrain" : ["office_tower_"],
+    "method": "json",
+    "weight": 250,
+    "_Building_Utility": {
+        "cell_map": {
+            "object_replace": [
+                "object",
+                "rows"
+            ]
+        },
+        "cell_num": {
+            "string_format": {
+                "office_tower_%s": [
+                    "om_terrain"
+                ]
+            }
+        }
+    },
+    "object": {
+        "fill_ter": "t_floor",
+        "rows": [],
+        "terrain": {
+            "/": "t_sky",
+            "~": "t_rock",
+            ">": "t_stairs_down",
+            "<": "t_stairs_up",
+            ".": "t_floor",
+            " ": "t_dirt",
+            "x": "t_console_broken",
+            ",": "t_pavement_y",
+            "_": "t_pavement",
+            "%": "t_shrub",
+            "+": "t_door_c",
+            "{": "t_rubble",
+            ")": "t_wreckage",
+            "}": "t_manhole_cover",
+            "@": "t_floor",
+            "2": "t_utility_light",
+            "b": "t_dirt",
+            "c": "t_floor",
+            "D": "t_door_metal_c",
+            "d": "t_floor",
+            "E": "t_elevator",
+            "G": "t_door_glass_c",
+            "H": "t_wall_glass_h",
+            "h": "t_floor",
+            "I": "t_column",
+            "k": "t_floor",
+            "L": "t_floor",
+            "l": "t_floor",
+            "n": "t_floor",
+            "o": "t_floor",
+            "^": "t_floor",
+            "p": "t_floor",
+            "R": "t_railing_v",
+            "r": "t_floor",
+            "S": "t_floor",
+            "s": "t_sidewalk",
+            "T": "t_floor",
+            "u": "t_floor",
+            "V": "t_wall_glass_v",
+            "X": "t_door_metal_locked",
+            "z": "t_floor"
+        },
+        "furniture": {
+            "@": "f_bed",
+            "b": "f_bench",
+            "c": "f_counter",
+            "d": "f_desk",
+            "h": "f_chair",
+            "l": "f_locker",
+            "n": "f_table",
+            "o": "f_bookcase",
+            "^": "f_indoor_plant",
+            "r": "f_rack",
+            "S": "f_sink",
+            "T": "f_toilet",
+            "U": "f_statue",
+            "z": "f_crate_c"
+        }
+    }
+}

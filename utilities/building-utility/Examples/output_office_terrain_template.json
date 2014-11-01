@@ -1,0 +1,162 @@
+[
+    {
+        "color": "white",
+        "id": "office_tower_1",
+        "mondensity": 2,
+        "name": "Office Tower",
+        "see_cost": 5,
+        "sidewalk": true,
+        "sym": 84,
+        "type": "overmap_terrain"
+    },
+    {
+        "color": "white",
+        "id": "office_tower_2",
+        "mondensity": 2,
+        "name": "Office Tower",
+        "see_cost": 5,
+        "sidewalk": true,
+        "sym": 84,
+        "type": "overmap_terrain"
+    },
+    {
+        "color": "white",
+        "id": "office_tower_3",
+        "mondensity": 2,
+        "name": "Office Tower",
+        "see_cost": 5,
+        "sidewalk": true,
+        "sym": 84,
+        "type": "overmap_terrain"
+    },
+    {
+        "color": "white",
+        "id": "office_tower_4",
+        "mondensity": 2,
+        "name": "Office Tower",
+        "see_cost": 5,
+        "sidewalk": true,
+        "sym": 84,
+        "type": "overmap_terrain"
+    },
+    {
+        "color": "white",
+        "id": "office_tower_5",
+        "mondensity": 2,
+        "name": "Office Tower",
+        "see_cost": 5,
+        "sidewalk": true,
+        "sym": 84,
+        "type": "overmap_terrain"
+    },
+    {
+        "color": "white",
+        "id": "office_tower_6",
+        "mondensity": 2,
+        "name": "Office Tower",
+        "see_cost": 5,
+        "sidewalk": true,
+        "sym": 84,
+        "type": "overmap_terrain"
+    },
+    {
+        "color": "white",
+        "id": "office_tower_7",
+        "mondensity": 2,
+        "name": "Office Tower",
+        "see_cost": 5,
+        "sidewalk": true,
+        "sym": 84,
+        "type": "overmap_terrain"
+    },
+    {
+        "color": "white",
+        "id": "office_tower_8",
+        "mondensity": 2,
+        "name": "Office Tower",
+        "see_cost": 5,
+        "sidewalk": true,
+        "sym": 84,
+        "type": "overmap_terrain"
+    },
+    {
+        "color": "white",
+        "id": "office_tower_9",
+        "mondensity": 2,
+        "name": "Office Tower",
+        "see_cost": 5,
+        "sidewalk": true,
+        "sym": 84,
+        "type": "overmap_terrain"
+    },
+    {
+        "color": "white",
+        "id": "office_tower_10",
+        "mondensity": 2,
+        "name": "Office Tower",
+        "see_cost": 5,
+        "sidewalk": true,
+        "sym": 84,
+        "type": "overmap_terrain"
+    },
+    {
+        "color": "white",
+        "id": "office_tower_11",
+        "mondensity": 2,
+        "name": "Office Tower",
+        "see_cost": 5,
+        "sidewalk": true,
+        "sym": 84,
+        "type": "overmap_terrain"
+    },
+    {
+        "color": "white",
+        "id": "office_tower_12",
+        "mondensity": 2,
+        "name": "Office Tower",
+        "see_cost": 5,
+        "sidewalk": true,
+        "sym": 84,
+        "type": "overmap_terrain"
+    },
+    {
+        "color": "white",
+        "id": "office_tower_13",
+        "mondensity": 2,
+        "name": "Office Tower",
+        "see_cost": 5,
+        "sidewalk": true,
+        "sym": 84,
+        "type": "overmap_terrain"
+    },
+    {
+        "color": "white",
+        "id": "office_tower_14",
+        "mondensity": 2,
+        "name": "Office Tower",
+        "see_cost": 5,
+        "sidewalk": true,
+        "sym": 84,
+        "type": "overmap_terrain"
+    },
+    {
+        "color": "white",
+        "id": "office_tower_15",
+        "mondensity": 2,
+        "name": "Office Tower",
+        "see_cost": 5,
+        "sidewalk": true,
+        "sym": 84,
+        "type": "overmap_terrain"
+    },
+    {
+        "color": "white",
+        "id": "office_tower_16",
+        "mondensity": 2,
+        "name": "Office Tower",
+        "see_cost": 5,
+        "sidewalk": true,
+        "sym": 84,
+        "type": "overmap_terrain"
+    }
+]
