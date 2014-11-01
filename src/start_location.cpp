@@ -3,6 +3,7 @@
 #include "debug.h"
 #include "map.h"
 #include "game.h"
+#include "overmapbuffer.h"
 
 static location_map _locations;
 
@@ -183,4 +184,25 @@ void start_location::prepare_map( tinymap &m ) const
     } else {
         m.translate( t_window_domestic, t_curtains );
     }
+}
+
+void start_location::setup( overmap *&cur_om, int &levx, int &levy, int &levz ) const
+{
+    // We start in the (0,0,0) overmap.
+    cur_om = &overmap_buffer.get( 0, 0 );
+    cur_om->first_house( levx, levy, target() );
+    const auto omtstart = tripoint( levx, levy, 0 );
+
+    // Now prepare the initial map (change terrain etc.)
+    const point player_location = overmapbuffer::omt_to_sm_copy( omtstart.x, omtstart.y );
+    tinymap player_start;
+    player_start.load( player_location.x, player_location.y, omtstart.z, false, cur_om );
+    prepare_map( player_start );
+    player_start.save();
+
+    // Setup game::levx/levy/levz - those are in submap coordinates!
+    // And the player is centered in the map
+    levx = player_location.x - ( MAPSIZE / 2 );
+    levy = player_location.y - ( MAPSIZE / 2 );
+    levz = omtstart.z;
 }

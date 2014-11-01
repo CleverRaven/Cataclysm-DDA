@@ -7,6 +7,7 @@
 #include <map>
 #include <set>
 
+class overmap;
 class tinymap;
 
 typedef std::map<std::string, class start_location> location_map;
@@ -27,13 +28,20 @@ class start_location
         static start_location *find( const std::string ident );
         static void load_location( JsonObject &jsonobj );
 
-        void prepare_map(tinymap &m) const;
+        /**
+         * Setup the player start location on the overmaps.
+         * This sets cur_om, levc, levy, levz (members of the game class, see there).
+         * It also initializes the map at that points using @ref prepare_map.
+         */
+        void setup( overmap *&cur_om, int &levx, int &levy, int &levz) const;
 
     private:
         std::string _ident;
         std::string _name;
         std::string _target;
         std::set<std::string> _flags;
+
+        void prepare_map(tinymap &m) const;
 };
 
 #endif

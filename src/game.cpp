@@ -611,30 +611,17 @@ void game::start_game(std::string worldname)
         create_factions();
     }
     u.setID( assign_npc_id() ); // should be as soon as possible, but *after* load_master
-    cur_om = &overmap_buffer.get(0, 0); // We start in the (0,0,0) overmap.
 
     const start_location &start_loc = *start_location::find( u.start_location );
-    // Find a random house on the map, and set us there.
-    cur_om->first_house( levx, levy, start_loc.target() );
-    point player_location = overmapbuffer::omt_to_sm_copy( levx, levy );
-    tinymap player_start;
-    player_start.load( player_location.x, player_location.y, levz, false, cur_om );
-    start_loc.prepare_map( player_start );
-    player_start.save();
     if (scen->has_flag("INFECTED")){u.add_disease("infected", 14401, false, 1, 1, 0, 0, random_body_part(), true);}
     if (scen->has_flag("BAD_DAY")){
         u.add_disease("flu", 10000);
         u.add_disease("drunk", 2700 - (12 * u.str_max));
         u.add_morale(MORALE_FEELING_BAD,-100,50,50,50);
     }
-    levx -= int(int(MAPSIZE / 2) / 2);
-    levy -= int(int(MAPSIZE / 2) / 2);
-    levz = 0;
+    start_loc.setup( cur_om, levx, levy, levz );
     // Start the overmap with out immediate neighborhood visible
-    overmap_buffer.reveal(point(levx, levy), OPTIONS["DISTANCE_INITIAL_VISIBILITY"], 0);
-    // Convert the overmap coordinates to submap coordinates
-    levx = levx * 2 - 1;
-    levy = levy * 2 - 1;
+    overmap_buffer.reveal(point(om_global_location().x, om_global_location().y), OPTIONS["DISTANCE_INITIAL_VISIBILITY"], 0);
     // Init the starting map at this location.
     m.load( levx, levy, levz, true, cur_om );
 
