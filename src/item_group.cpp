@@ -42,6 +42,7 @@ item Single_item_creator::create_single(int birthday, RecursionList &rec) const
             return item(null_item_id, birthday);
         }
         tmp = isd->create_single(birthday, rec);
+        rec.erase( rec.end() - 1 );
     } else if (type == S_NONE) {
         return item(null_item_id, birthday);
     }
@@ -79,6 +80,7 @@ Item_spawn_data::ItemList Single_item_creator::create(int birthday, RecursionLis
                 return result;
             }
             ItemList tmplist = isd->create(birthday, rec);
+            rec.erase( rec.end() - 1 );
             if (modifier.get() != NULL) {
                 for(ItemList::iterator a = tmplist.begin(); a != tmplist.end(); ++a) {
                     modifier->modify(*a);
