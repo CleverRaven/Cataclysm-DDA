@@ -1609,7 +1609,7 @@ void Creature::load( JsonObject &jsin )
     // effects wipe. Since most long lasting effects are bad, this shouldn't be too bad for them.
     if(savegame_loading_version >= 23) {
         if( jsin.has_object( "effects" ) ) {
-            // Because JSON requires string keys we need to convert back to our int keys
+            // Because JSON requires string keys we need to convert back to our bp keys
             std::unordered_map<std::string, std::unordered_map<std::string, effect>> tmp_map;
             jsin.read( "effects", tmp_map );
             int key_num;
@@ -1618,7 +1618,7 @@ void Creature::load( JsonObject &jsin )
                     if ( !(std::istringstream(i.first) >> key_num) ) {
                         key_num = 0;
                     }
-                    effects[maps.first][key_num] = i.second;
+                    effects[maps.first][(body_part)key_num] = i.second;
                 }
             }
         }

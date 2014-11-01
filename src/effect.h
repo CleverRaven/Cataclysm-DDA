@@ -208,89 +208,84 @@ class effect_type
 class effect : public JsonSerializer, public JsonDeserializer
 {
     public:
-        effect();
-        effect(effect_type *eff_type, int dur, body_part part, bool perm, int nintensity);
-        effect(const effect &rhs);
-        effect &operator=(const effect &rhs);
+        effect() :
+            eff_type(NULL),
+            duration(0),
+            bp(num_bp),
+            permanent(false),
+            intensity(1)
+        { }
+        effect(effect_type *peff_type, int dur, body_part part, bool perm, int nintensity) :
+            eff_type(peff_type),
+            duration(dur),
+            bp(part),
+            permanent(perm),
+            intensity(nintensity)
+        { }
+        effect(const effect &) = default;
+        effect &operator=(const effect &) = default;
 
-        std::string disp_name();
-        std::string disp_desc(bool reduced = false);
-        bool use_part_descs();
+        std::string disp_name() const;
+        std::string disp_desc(bool reduced = false) const;
+        bool use_part_descs() const;
 
-        effect_type *get_effect_type();
+        effect_type *get_effect_type() const;
         
         void decay(std::vector<std::string> &rem_ids, std::vector<body_part> &rem_bps, unsigned int turn, bool player);
 
-        int get_duration();
-        int get_max_duration();
+        int get_duration() const;
+        int get_max_duration() const;
         void set_duration(int dur);
         void mod_duration(int dur);
         void mult_duration(double dur);
         
-        body_part get_bp();
+        body_part get_bp() const;
         void set_bp(body_part part);
 
-        bool is_permanent();
+        bool is_permanent() const;
         void pause_effect();
         void unpause_effect();
 
-        int get_intensity();
-        int get_max_intensity();
+        int get_intensity() const;
+        int get_max_intensity() const;
         void set_intensity(int nintensity);
         void mod_intensity(int nintensity);
         
-        std::string get_resist_trait();
-        std::string get_resist_effect();
-        std::string get_removes_effect();
+        std::string get_resist_trait() const;
+        std::string get_resist_effect() const;
+        std::string get_removes_effect() const;
         
-        int get_mod(std::string arg, bool reduced = false);
-        int get_amount(std::string arg, bool reduced = false);
-        int get_min_val(std::string arg, bool reduced = false);
-        int get_max_val(std::string arg, bool reduced = false);
-        bool get_sizing(std::string arg);
+        int get_mod(std::string arg, bool reduced = false) const;
+        int get_amount(std::string arg, bool reduced = false) const;
+        int get_min_val(std::string arg, bool reduced = false) const;
+        int get_max_val(std::string arg, bool reduced = false) const;
+        bool get_sizing(std::string arg) const;
         void get_activation_vals(std::string arg, bool reduced, effect_mod_info base, effect_mod_info scale, 
                                 double &tick, double &top_base, double &top_scale, double &bot_base,
-                                double &bot_scale);
+                                double &bot_scale) const;
         /** returns the approximate percentage chance of activating, used for descriptions */
-        double get_percentage(std::string arg, bool reduced = false);
+        double get_percentage(std::string arg, bool reduced = false) const;
         /** mod modifies x in x_in_y or one_in(x) */
-        bool activated(unsigned int turn, std::string arg, bool reduced = false, double mod = 1);
+        bool activated(unsigned int turn, std::string arg, bool reduced = false, double mod = 1) const;
         
-        double get_addict_mod(std::string arg, int addict_level);
-        bool get_harmful_cough();
-        int get_dur_add_perc();
-        int get_int_add_val();
+        double get_addict_mod(std::string arg, int addict_level) const;
+        bool get_harmful_cough() const;
+        int get_dur_add_perc() const;
+        int get_int_add_val() const;
         
-        std::vector<std::pair<std::string, int>> get_miss_msgs();
+        std::vector<std::pair<std::string, int>> get_miss_msgs() const;
         
-        std::string get_speed_name();
+        std::string get_speed_name() const;
 
-        efftype_id get_id()
+        efftype_id get_id() const
         {
             return eff_type->id;
         }
 
         using JsonSerializer::serialize;
-        void serialize(JsonOut &json) const
-        {
-            json.start_object();
-            json.member("eff_type", eff_type != NULL ? eff_type->id : "");
-            json.member("duration", duration);
-            json.member("bp", (int)bp);
-            json.member("permanent", permanent);
-            json.member("intensity", intensity);
-            json.end_object();
-        }
+        void serialize(JsonOut &json) const;
         using JsonDeserializer::deserialize;
-        void deserialize(JsonIn &jsin)
-        {
-            JsonObject jo = jsin.get_object();
-            eff_type = &effect_types[jo.get_string("eff_type")];
-            duration = jo.get_int("duration");
-            bp = (body_part)jo.get_int("bp");
-            permanent = jo.get_bool("permanent");
-            intensity = jo.get_int("intensity");
-        }
+        void deserialize(JsonIn &jsin);
 
     protected:
         effect_type *eff_type;

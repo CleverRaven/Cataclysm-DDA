@@ -391,48 +391,9 @@ bool effect_type::load_decay_msgs(JsonObject &jo, std::string member)
     return false;
 }
 
-effect::effect() :
-    eff_type(NULL),
-    duration(0),
-    bp(num_bp),
-    permanent(false),
-    intensity(0)
-{ }
-
-effect::effect(effect_type *peff_type, int dur, body_part part, bool perm, int nintensity) :
-    eff_type(peff_type),
-    duration(dur),
-    bp(part),
-    permanent(perm),
-    intensity(nintensity)
-{ }
-
-effect::effect(const effect &rhs) : JsonSerializer(), JsonDeserializer(),
-    eff_type(rhs.eff_type),
-    duration(rhs.duration),
-    bp(rhs.bp),
-    permanent(rhs.permanent),
-    intensity(rhs.intensity)
-{ }
-
-effect &effect::operator=(const effect &rhs)
+std::string effect::disp_name() const
 {
-    if (this == &rhs) {
-        return *this;    // No self-assignment
-    }
-
-    eff_type = rhs.eff_type;
-    duration = rhs.duration;
-    bp = rhs.bp;
-    permanent = rhs.permanent;
-    intensity = rhs.intensity;
-
-    return *this;
-}
-
-std::string effect::disp_name()
-{
-    // End result should look like "name [L. Arm]"
+    // End result should look like "name (l. arm)" or "name [intensity] (l. arm)"
     std::stringstream ret;
     if (eff_type->use_name_ints()) {
         ret << _(eff_type->name[intensity - 1].c_str());
@@ -448,7 +409,16 @@ std::string effect::disp_name()
     return ret.str();
 }
 
-std::string effect::disp_desc(bool reduced)
+struct desc_freq {
+    double chance;
+    int val;
+    std::string pos_string;
+    std::string neg_string;
+    
+    desc_freq(double c, int v, std::string pos, std::string neg) : chance(c), val(v), pos_string(pos), neg_string(neg) {};
+};
+
+std::string effect::disp_desc(bool reduced) const
 {
     std::stringstream ret;
     // First print stat changes
@@ -492,46 +462,44 @@ std::string effect::disp_desc(bool reduced)
     std::vector<std::string> frequent;
     std::vector<std::string> uncommon;
     std::vector<std::string> rare;
-    double chances[8] = {get_percentage("PAIN", reduced), get_percentage("HURT", reduced),
-                            get_percentage("THIRST", reduced), get_percentage("HUNGER", reduced),
-                            get_percentage("FATIGUE", reduced), get_percentage("COUGH", reduced),
-                            get_percentage("VOMIT", reduced), get_percentage("SLEEP", reduced)};
-    int vals[8] = {get_mod("PAIN", reduced), get_mod("HURT", reduced), get_mod("THIRST", reduced),
-                    get_mod("HUNGER", reduced), get_mod("FATIGUE", reduced),
-                    get_mod("COUGH", reduced), get_mod("VOMIT", reduced)};
-    std::string pos_strings[8] = {_("pain"),_("damage"),_("thirst"),_("hunger"),_("fatigue"),
-                                _("coughing"),_("vomiting"),_("blackouts")};
-    std::string neg_strings[8] = {_("pain"),_("damage"),_("quench"),_("sate"),_("rest"),
-                                _("coughing"),_("vomiting"),_("blackouts")};
-    for (int i = 0; i < 4; i++) {
-        if (vals[i] > 0) {
-            add_msg("%f", chances[i]);
+    std::vector<desc_freq> values;
+    values.push_back(desc_freq(get_percentage("PAIN", reduced), get_mod("PAIN", reduced), _("pain"), _("pain")));
+    values.push_back(desc_freq(get_percentage("HURT", reduced), get_mod("HURT", reduced), _("damage"), _("damage")));
+    values.push_back(desc_freq(get_percentage("THIRST", reduced), get_mod("THIRST", reduced), _("thirst"), _("quench")));
+    values.push_back(desc_freq(get_percentage("HUNGER", reduced), get_mod("HUNGER", reduced), _("hunger"), _("sate")));
+    values.push_back(desc_freq(get_percentage("FATIGUE", reduced), get_mod("FATIGUE", reduced), _("fatigue"), _("rest")));
+    values.push_back(desc_freq(get_percentage("COUGH", reduced), get_mod("COUGH", reduced), _("coughing"), _("coughing")));
+    values.push_back(desc_freq(get_percentage("VOMIT", reduced), get_mod("VOMIT", reduced), _("vomiting"), _("vomiting")));
+    values.push_back(desc_freq(get_percentage("SLEEP", reduced), get_mod("SLEEP", reduced), _("blackouts"), _("blackouts")));
+
+    for (auto &i : values) {
+        if (i.val > 0) {
             // +50% chance, every other step
-            if (chances[i] >= 50.0) {
-                constant.push_back(pos_strings[i]);
+            if (i.chance >= 50.0) {
+                constant.push_back(i.pos_string);
             // +1% chance, every 100 steps
-            } else if (chances[i] >= 1.0) {
-                frequent.push_back(pos_strings[i]);
+            } else if (i.chance >= 1.0) {
+                frequent.push_back(i.pos_string);
             // +.4% chance, every 250 steps
-            } else if (chances[i] >= .4) {
-                uncommon.push_back(pos_strings[i]);
+            } else if (i.chance >= .4) {
+                uncommon.push_back(i.pos_string);
             // <.4% chance
-            } else if (chances[i] != 0) {
-                rare.push_back(pos_strings[i]);
+            } else if (i.chance != 0) {
+                rare.push_back(i.pos_string);
             }
-        } else if (vals[i] < 0) {
+        } else if (i.val < 0) {
             // +50% chance, every other step
-            if (chances[i] >= 50.0) {
-                constant.push_back(neg_strings[i]);
+            if (i.chance >= 50.0) {
+                constant.push_back(i.neg_string);
             // +1% chance, every 100 steps
-            } else if (chances[i] >= 1.0) {
-                frequent.push_back(neg_strings[i]);
+            } else if (i.chance >= 1.0) {
+                frequent.push_back(i.neg_string);
             // +.4% chance, every 250 steps
-            } else if (chances[i] >= .4) {
-                uncommon.push_back(neg_strings[i]);
+            } else if (i.chance >= .4) {
+                uncommon.push_back(i.neg_string);
             // <.4% chance
-            } else if (chances[i] != 0) {
-                rare.push_back(neg_strings[i]);
+            } else if (i.chance != 0) {
+                rare.push_back(i.neg_string);
             }
         }
     }
@@ -655,16 +623,16 @@ void effect::decay(std::vector<std::string> &rem_ids, std::vector<body_part> &re
     }
 }
 
-bool effect::use_part_descs()
+bool effect::use_part_descs() const
 {
     return eff_type->part_descs;
 }
 
-int effect::get_duration()
+int effect::get_duration() const
 {
     return duration;
 }
-int effect::get_max_duration()
+int effect::get_max_duration() const
 {
     return eff_type->max_duration;
 }
@@ -681,7 +649,7 @@ void effect::mult_duration(double dur)
     duration *= dur;
 }
 
-body_part effect::get_bp()
+body_part effect::get_bp() const
 {
     return bp;
 }
@@ -690,7 +658,7 @@ void effect::set_bp(body_part part)
     bp = part;
 }
 
-bool effect::is_permanent()
+bool effect::is_permanent() const
 {
     return permanent;
 }
@@ -703,11 +671,11 @@ void effect::unpause_effect()
     permanent = false;
 }
 
-int effect::get_intensity()
+int effect::get_intensity() const
 {
     return intensity;
 }
-int effect::get_max_intensity()
+int effect::get_max_intensity() const
 {
     return eff_type->max_intensity;
 }
@@ -730,20 +698,20 @@ void effect::mod_intensity(int nintensity)
     }
 }
 
-std::string effect::get_resist_trait()
+std::string effect::get_resist_trait() const
 {
     return eff_type->resist_trait;
 }
-std::string effect::get_resist_effect()
+std::string effect::get_resist_effect() const
 {
     return eff_type->resist_effect;
 }
-std::string effect::get_removes_effect()
+std::string effect::get_removes_effect() const
 {
     return eff_type->removes_effect;
 }
 
-int effect::get_mod(std::string arg, bool reduced)
+int effect::get_mod(std::string arg, bool reduced) const
 {
     float ret = 0;
     auto &base = eff_type->base_mods;
@@ -852,7 +820,7 @@ int effect::get_mod(std::string arg, bool reduced)
     return int(ret);
 }
 
-int effect::get_amount(std::string arg, bool reduced)
+int effect::get_amount(std::string arg, bool reduced) const
 {
     float ret = 0;
     auto &base = eff_type->base_mods;
@@ -931,7 +899,7 @@ int effect::get_amount(std::string arg, bool reduced)
     return int(ret);
 }
 
-int effect::get_min_val(std::string arg, bool reduced)
+int effect::get_min_val(std::string arg, bool reduced) const
 {
     float ret = 0;
     auto &base = eff_type->base_mods;
@@ -981,7 +949,7 @@ int effect::get_min_val(std::string arg, bool reduced)
     return int(ret);
 }
 
-int effect::get_max_val(std::string arg, bool reduced)
+int effect::get_max_val(std::string arg, bool reduced) const
 {
     float ret = 0;
     auto &base = eff_type->base_mods;
@@ -1049,7 +1017,7 @@ int effect::get_max_val(std::string arg, bool reduced)
     return int(ret);
 }
 
-bool effect::get_sizing(std::string arg)
+bool effect::get_sizing(std::string arg) const
 {
     if (arg == "PAIN") {
         return eff_type->pain_sizing;
@@ -1061,7 +1029,7 @@ bool effect::get_sizing(std::string arg)
 
 void effect::get_activation_vals(std::string arg, bool reduced, effect_mod_info base, effect_mod_info scale, 
                                 double &tick, double &top_base, double &top_scale, double &bot_base,
-                                double &bot_scale)
+                                double &bot_scale) const
 {
     // Get the tick, top, and bottom values for specific argument type
     if (!reduced) {
@@ -1227,7 +1195,7 @@ void effect::get_activation_vals(std::string arg, bool reduced, effect_mod_info 
     }
 }
 
-double effect::get_percentage(std::string arg, bool reduced)
+double effect::get_percentage(std::string arg, bool reduced) const
 {
     double tick = 0;
     double top_base = 0;
@@ -1265,7 +1233,7 @@ double effect::get_percentage(std::string arg, bool reduced)
     return ret;
 }
 
-bool effect::activated(unsigned int turn, std::string arg, bool reduced, double mod)
+bool effect::activated(unsigned int turn, std::string arg, bool reduced, double mod) const
 {
     double dtick = 0;
     double dtop_base = 0;
@@ -1308,39 +1276,38 @@ bool effect::activated(unsigned int turn, std::string arg, bool reduced, double 
     return false;
 }
 
-double effect::get_addict_mod(std::string arg, int addict_level)
+double effect::get_addict_mod(std::string arg, int addict_level) const
 {
     // TODO: convert this to JSON id's and values once we have JSON'ed addictions
     if (arg == "PKILL") {
         if (eff_type->pkill_addict_reduces) {
-            return 1 / (addict_level * 2);
+            return 1 / std::max(addict_level * 2, 1);
         } else {
             return 1;
         }
     } else {
         return 1;
     }
-    return 1;
 }
 
-bool effect::get_harmful_cough()
+bool effect::get_harmful_cough() const
 {
     return eff_type->harmful_cough;
 }
-int effect::get_dur_add_perc()
+int effect::get_dur_add_perc() const
 {
     return eff_type->dur_add_perc;
 }
-int effect::get_int_add_val()
+int effect::get_int_add_val() const
 {
     return eff_type->int_add_val;
 }
 
-std::vector<std::pair<std::string, int>> effect::get_miss_msgs()
+std::vector<std::pair<std::string, int>> effect::get_miss_msgs() const
 {
     return eff_type->miss_msgs;
 }
-std::string effect::get_speed_name()
+std::string effect::get_speed_name() const
 {
     if (eff_type->speed_mod_name == "") {
         return eff_type->name[0];
@@ -1349,7 +1316,7 @@ std::string effect::get_speed_name()
     }
 }
 
-effect_type *effect::get_effect_type()
+effect_type *effect::get_effect_type() const
 {
     return eff_type;
 }
@@ -1444,4 +1411,24 @@ void load_effect_type(JsonObject &jo)
 void reset_effect_types()
 {
     effect_types.clear();
+}
+
+void effect::serialize(JsonOut &json) const
+{
+    json.start_object();
+    json.member("eff_type", eff_type != NULL ? eff_type->id : "");
+    json.member("duration", duration);
+    json.member("bp", (int)bp);
+    json.member("permanent", permanent);
+    json.member("intensity", intensity);
+    json.end_object();
+}
+void effect::deserialize(JsonIn &jsin)
+{
+    JsonObject jo = jsin.get_object();
+    eff_type = &effect_types[jo.get_string("eff_type")];
+    duration = jo.get_int("duration");
+    bp = (body_part)jo.get_int("bp");
+    permanent = jo.get_bool("permanent");
+    intensity = jo.get_int("intensity");
 }

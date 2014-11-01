@@ -557,7 +557,7 @@ void Creature::add_effect(efftype_id eff_id, int dur, body_part bp, bool permane
     // Check if we already have it
     auto matching_map = effects.find(eff_id);
     if (matching_map != effects.end()) {
-        auto found_effect = effects[eff_id].find((int)bp);
+        auto found_effect = effects[eff_id].find(bp);
         if (found_effect != effects[eff_id].end()) {
             found = true;
             effect &e = found_effect->second;
@@ -607,7 +607,7 @@ void Creature::add_effect(efftype_id eff_id, int dur, body_part bp, bool permane
         } else if (new_eff.get_intensity() > new_eff.get_max_intensity()) {
             new_eff.set_intensity(new_eff.get_max_intensity());
         }
-        effects[eff_id][(int)bp] = new_eff;
+        effects[eff_id][bp] = new_eff;
         if (is_player()) { // only print the message if we didn't already have it
             if(effect_types[eff_id].get_apply_message() != "") {
                      add_msg(effect_types[eff_id].gain_game_message_type(),
@@ -658,7 +658,7 @@ void Creature::remove_effect(efftype_id eff_id, body_part bp)
     if (bp == num_bp) {
         effects.erase(eff_id);
     } else {
-        effects[eff_id].erase((int)bp);
+        effects[eff_id].erase(bp);
         if (effects[eff_id].empty()) {
             effects.erase(eff_id);
         }
@@ -670,22 +670,21 @@ bool Creature::has_effect(efftype_id eff_id, body_part bp) const
     if (bp == num_bp) {
         return effects.find( eff_id ) != effects.end();
     } else {
-        bool found = false;
-        for( auto maps = effects.begin(); maps != effects.end(); ++maps ) {
-            if (maps->first == eff_id) {
-                for( auto it = maps->second.begin(); it != maps->second.end(); ++it ) {
-                    found = it->first == (int)bp;
-                }
+        auto got_outer = effects.find(eff_id);
+        if(got_outer != effects.end()) {
+            auto got_inner = got_outer->second.find(bp);
+            if (got_inner != got_outer->second.end()) {
+                return true;
             }
         }
-        return found;
+        return false;
     }
 }
 effect Creature::get_effect(efftype_id eff_id, body_part bp) const
 {
     auto got_outer = effects.find(eff_id);
     if(got_outer != effects.end()) {
-        auto got_inner = got_outer->second.find((int)bp);
+        auto got_inner = got_outer->second.find(bp);
         if (got_inner != got_outer->second.end()) {
             return got_inner->second;
         }

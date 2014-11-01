@@ -343,7 +343,7 @@ class Creature
         Creature *killer; // whoever killed us. this should be NULL unless we are dead
 
         // Storing body_part as an int to make things easier for hash and JSON
-        std::unordered_map<std::string, std::unordered_map<int, effect>> effects;
+        std::unordered_map<std::string, std::unordered_map<body_part, effect, std::hash<int>>> effects;
         // Miscellaneous key/value pairs.
         std::unordered_map<std::string, std::string> values;
 
