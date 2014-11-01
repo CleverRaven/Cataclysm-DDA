@@ -2777,7 +2777,7 @@
     },{
         "type" : "vehicle_part",
         "id" : "storage_battery_mount",
-        "name" : "storage battery mount",
+        "name" : "storage battery case",
         "symbol" : "O",
         "color" : "light_gray",
         "broken_symbol" : "#",
