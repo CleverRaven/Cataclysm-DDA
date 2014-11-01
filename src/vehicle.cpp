@@ -223,13 +223,11 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
      }
     }
     
-    if (!destroyControls && one_in(3)) is_locked = true;
+    //chance car is locked
+    if (true) is_locked = true;
     
     //Provide some variety to non-mint vehicles
     if(veh_status != 0) {
-        //chance car is locked
-        
-
         //Leave engine running in some vehicles, if the engine has not been destroyed
         if(veh_fuel_mult > 0
                 && all_parts_with_feature("ENGINE", true).size() > 0
