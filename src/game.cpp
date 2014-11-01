@@ -8418,6 +8418,43 @@ void game::moving_vehicle_dismount(int tox, int toy)
     return;
 }
 
+bool game::interact_vehicle_locked(vehicle *veh)
+{
+    if (veh->is_locked){
+        inventory crafting_inv = crafting_inventory(&u);
+        if (crafting_inv.has_tools("screwdriver", 1)){
+            if (query_yn(_("You don't find any keys in the %s. Attempt to hotwire vehicle?"), 
+                            veh->name.c_str())) {
+                if (u.skillLevel("mechanics")> (int)rng(3,10)){
+                    //success
+                    veh->is_locked = false;
+                    add_msg(_("This wire will start the engine."));
+                    return true;
+                } else if (one_in(2)) {
+                    //soft fail
+                    veh->is_locked = false;
+                    veh->is_alarm = true;
+                    add_msg(_("Hmm, what does this wire do?"));
+                } else if (one_in(2)) {
+                    //hard fail
+                    veh->is_alarm = true;
+                    add_msg(_("Hmm, what does this wire do?"));
+                } else {
+                    add_msg(_("You jam the screwdriver into the keyhole, nothing happens..."));
+                }
+                
+            } else {
+                add_msg(_("You don't find any keys in the %s."), veh->name.c_str());
+                add_msg(_("You leave the controls alone."));
+            }
+        } else {
+            add_msg(_("You don't find any keys in the %s."), veh->name.c_str());
+            add_msg(_("You could use a screwdriver to hotwire it."));
+        }
+    }
+    return !(veh->is_locked);
+}
+
 void game::control_vehicle()
 {
     int veh_part;
@@ -8427,33 +8464,7 @@ void game::control_vehicle()
         veh->use_controls();
     } else if (veh && veh->part_with_feature(veh_part, "CONTROLS") >= 0
                && u.in_vehicle) {
-        if (veh->is_locked){
-            
-            inventory crafting_inv = crafting_inventory(&u);
-            if (crafting_inv.has_tools("screwdriver", 1)){
-                if (query_yn(_("You don't find any keys in the %s. Attempt to hotwire vehicle?"), 
-                                veh->name.c_str())) {
-                    if (u.skillLevel("mechanics")> (int)rng(3,10)){
-                        //try roll
-                        veh->is_locked = false;
-                        add_msg(_("You believe that the engine will now start."));
-                    } else if (one_in(2)) {
-                        veh->is_alarm = true;
-                        add_msg(_("What does this part do?"));
-                    } else {
-                        add_msg(_("You don't really know what you're doing."));
-                    }
-                    
-                } else {
-                    add_msg(_("You don't find any keys in the %s."), veh->name.c_str());
-                    add_msg(_("You leave the controls alone."));
-                }
-            } else {
-                add_msg(_("You don't find any keys in the %s."), veh->name.c_str());
-                add_msg(_("You could use a screwdriver to hotwire it."));
-            }
-        }
-        else {
+        if (interact_vehicle_locked(veh)){
             u.controlling_vehicle = true;
             add_msg(_("You take control of the %s."), veh->name.c_str());
             if (!veh->engine_on) {
@@ -8474,7 +8485,9 @@ void game::control_vehicle()
             add_msg(m_info, _("No controls there."));
             return;
         }
-        veh->use_controls();
+        if (interact_vehicle_locked(veh)){
+            veh->use_controls();
+        }
     }
 }
 
