@@ -1553,6 +1553,7 @@ int set_scenario(WINDOW *w, player *u, int &points)
             g->scen = scenario::scen(sorted_scens[cur_id]->ident());
             u->prof = g->scen->get_profession();
             u->empty_traits();
+            u->empty_skills();
             u->add_traits();
             points = OPTIONS["INITIAL_POINTS"] - sorted_scens[cur_id]->point_cost();
 
@@ -1869,8 +1870,15 @@ void player::empty_traits()
         }
     }
 }
-void player::add_traits()
+void player::empty_skills()
 {
+    for (auto iter = Skill::skills.begin(); iter != Skill::skills.end(); ++iter) {
+        SkillLevel &level = skillLevel(*iter);
+        level.level(0);
+    }
+}
+void player::add_traits()
+{ 
     for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
         if (g->scen->locked_traits(iter->first)) {
             toggle_trait(iter->first);
