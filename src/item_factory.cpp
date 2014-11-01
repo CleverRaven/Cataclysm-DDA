@@ -325,6 +325,7 @@ void Item_factory::init()
     iuse_function_list["CAMERA"] = &iuse::camera;
     iuse_function_list["EHANDCUFFS"] = &iuse::ehandcuffs;
     iuse_function_list["CABLE_ATTACH"]  = &iuse::cable_attach;
+    iuse_function_list["SURVIVOR_BELT"]  = &iuse::survivor_belt;
 
     // MACGUFFINS
     iuse_function_list["MCG_NOTE"] = &iuse::mcg_note;
@@ -1018,11 +1019,14 @@ void Item_factory::set_qualities_from_json(JsonObject &jo, std::string member,
         JsonArray jarr = jo.get_array(member);
         while (jarr.has_more()) {
             JsonArray curr = jarr.next_array();
-            new_item_template->qualities.insert(
-                std::pair<std::string, int>(curr.get_string(0), curr.get_int(1)));
+            const auto quali = std::pair<std::string, int>(curr.get_string(0), curr.get_int(1));
+            if( new_item_template->qualities.count( quali.first ) > 0 ) {
+                curr.throw_error( "Duplicated quality", 0 );
+            }
+            new_item_template->qualities.insert( quali );
         }
     } else {
-        debugmsg("Qualities list for item %s not an array", new_item_template->id.c_str());
+        jo.throw_error( "Qualities list is not an array", member );
     }
 }
 

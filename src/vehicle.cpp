@@ -2521,10 +2521,10 @@ float vehicle::strain ()
     int sv = safe_velocity();
     if (mv <= sv)
         mv = sv + 1;
-    if (velocity < safe_velocity())
+    if (velocity < safe_velocity() && velocity > -safe_velocity())
         return 0;
     else
-        return (float) (velocity - sv) / (float) (mv - sv);
+        return (float) (abs(velocity) - sv) / (float) (mv - sv);
 }
 
 bool vehicle::valid_wheel_config ()
@@ -3148,16 +3148,37 @@ void vehicle::cruise_thrust (int amount)
     if (!amount) {
         return;
     }
-    int max_vel = (safe_velocity() * 11 / 10000 + 1) * 1000;
-    cruise_velocity += amount;
-    cruise_velocity = cruise_velocity / abs(amount) * abs(amount);
+    int safe_vel = safe_velocity();
+    int max_vel = max_velocity();
+    int max_rev_vel = -max_vel / 4;
+    
+    //if the safe velocity is between the cruise velocity and its next value, set to safe velocity
+    if ((cruise_velocity < safe_vel && safe_vel < (cruise_velocity + amount)) || 
+        (cruise_velocity > safe_vel && safe_vel > (cruise_velocity + amount))){
+        cruise_velocity = safe_vel;
+    } else {
+        //if coming down from safe_velocity or max_velocity
+        //then take one, so cruise_velocity scales down a multiple of amount
+        if (amount < 0 && (cruise_velocity == safe_vel || cruise_velocity == max_vel)){
+            cruise_velocity += -1;
+        } 
+        //if not going up from max reverse velocity, increase by amount
+        else if ((amount > 0 && cruise_velocity == max_rev_vel) == false){
+            cruise_velocity += amount;
+        }
+        //integer round to lowest multiple of amount
+        //the result is always equal to the original or closer to zero
+        //even if negative
+        cruise_velocity = cruise_velocity / abs(amount) * abs(amount);
+    }
+    //can't have a cruise speed faster than max speed
+    //or reverse speed faster than max reverse speed
     if (cruise_velocity > max_vel) {
         cruise_velocity = max_vel;
-    } else {
-        if (-cruise_velocity > max_vel / 4) {
-            cruise_velocity = -max_vel / 4;
-        }
+    } else if (cruise_velocity < max_rev_vel) {
+            cruise_velocity = max_rev_vel;
     }
+    
 }
 
 void vehicle::turn (int deg)
