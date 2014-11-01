@@ -86,6 +86,8 @@ vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): t
     has_paddles = false;
     has_hand_rims = false;
     is_locked = false;
+    is_bad_hotwire = false;
+    is_alarm = false;
 
     //type can be null if the type_id parameter is omitted
     if(type != "null") {
@@ -3056,6 +3058,13 @@ void vehicle::idle(bool on_map) {
     }
     if (stereo_on == true) {
         play_music();
+    }
+}
+
+void vehicle::alarm(bool on_map){
+    if (on_map && is_alarm && one_in(4)) {
+        const char *sound_msgs[] = { "WHOOP WHOOP", "NEEeu NEEeu NEEeu", "BLEEEEEEP", "WREEP"};
+        g->ambient_sound( global_x(), global_y(), 85, sound_msgs[rng(0,3)]);
     }
 }
 

@@ -1482,6 +1482,7 @@ bool game::do_turn()
             veh->power_parts();
             if (sm_loc.z == levz) {
                 veh->idle(m.inbounds(in_reality.x, in_reality.y));
+                veh->alarm(m.inbounds(in_reality.x, in_reality.y));
             }
         }
     }
@@ -8430,11 +8431,15 @@ void game::control_vehicle()
             
             inventory crafting_inv = crafting_inventory(&u);
             if (crafting_inv.has_tools("screwdriver", 1)){
-                if (query_yn(_("Attempt to hotwire vehicle?"))) {
+                if (query_yn(_("You don't find any keys in the %s. Attempt to hotwire vehicle?"), 
+                                veh->name.c_str())) {
                     if (u.skillLevel("mechanics")> (int)rng(3,10)){
                         //try roll
                         veh->is_locked = false;
                         add_msg(_("You believe that the engine will now start."));
+                    } else if (one_in(2)) {
+                        veh->is_alarm = true;
+                        add_msg(_("What does this part do?"));
                     } else {
                         add_msg(_("You don't really know what you're doing."));
                     }

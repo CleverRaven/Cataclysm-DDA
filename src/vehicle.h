@@ -546,7 +546,7 @@ public:
 
 // idle fuel consumption
     void idle (bool on_map = true);
-
+    void alarm (bool on_map);
 // leak from broken tanks
     void slow_leak ();
 
@@ -743,7 +743,9 @@ public:
     bool lights_on;     // lights on/off
     bool stereo_on;
     bool tracking_on;        // vehicle tracking on/off
-    bool is_locked;
+    bool is_locked; //vehicle has no key
+    bool is_bad_hotwire; //vehicle has bad hotwiring attempt
+    bool is_alarm;  //vehicle has alarm on
     int om_id;          // id of the om_vehicle struct corresponding to this vehicle
     bool overhead_lights_on; //circle lights on/off
     bool fridge_on;     //fridge on/off
