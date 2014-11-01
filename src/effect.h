@@ -4,6 +4,63 @@
 #include "pldata.h"
 #include "json.h"
 #include "messages.h"
+#include <unordered_map>
+#include <tuple>
+
+// By default unordered_map doesn't have a hash for tuple, so we need to include one
+// This is taken almost directly from the boost library code
+// Function has to live in the std namespace 
+// so that it is picked up by argument-dependent name lookup (ADL).
+namespace std{
+    namespace
+    {
+
+        // Code from boost
+        // Reciprocal of the golden ratio helps spread entropy
+        //     and handles duplicates.
+        // See Mike Seymour in magic-numbers-in-boosthash-combine:
+        //     http://stackoverflow.com/questions/4948780
+
+        template <class T>
+        inline void hash_combine(std::size_t& seed, T const& v)
+        {
+            seed ^= hash<T>()(v) + 0x9e3779b9 + (seed<<6) + (seed>>2);
+        }
+
+        // Recursive template code derived from Matthieu M.
+        template <class Tuple, size_t Index = std::tuple_size<Tuple>::value - 1>
+        struct HashValueImpl
+        {
+            static void apply(size_t& seed, Tuple const& tuple)
+            {
+                HashValueImpl<Tuple, Index-1>::apply(seed, tuple);
+                hash_combine(seed, get<Index>(tuple));
+            }
+        };
+
+        template <class Tuple>
+        struct HashValueImpl<Tuple,0>
+        {
+            static void apply(size_t& seed, Tuple const& tuple)
+            {
+                hash_combine(seed, get<0>(tuple));
+            }
+        };
+    }
+
+    template <typename ... TT>
+    struct hash<std::tuple<TT...>> 
+    {
+        size_t
+        operator()(std::tuple<TT...> const& tt) const
+        {                                              
+            size_t seed = 0;                             
+            HashValueImpl<std::tuple<TT...> >::apply(seed, tt);    
+            return seed;                                 
+        }                                              
+
+    };
+}
 
 class effect_type;
 class Creature;
@@ -17,117 +74,6 @@ enum effect_rating {
     e_neutral,  // there is no effect or the effect is very nominal. This is the default.
     e_bad,      // the effect is bad for the one who has it
     e_mixed     // the effect has good and bad parts to the one who has it
-};
-
-struct effect_mod_info {
-    /** All pairs are unmodified,reduced */
-    std::pair<float, float> str_mod;
-    std::pair<float, float> dex_mod;
-    std::pair<float, float> per_mod;
-    std::pair<float, float> int_mod;
-    std::pair<int, int> speed_mod;
-    
-    std::pair<int, int> pain_amount;
-    std::pair<int, int> pain_min;
-    std::pair<int, int> pain_max;
-    std::pair<int, int> pain_max_val;
-    std::pair<int, int> pain_chance_top;
-    std::pair<int, int> pain_chance_bot;
-    std::pair<int, int> pain_tick;
-
-    std::pair<int, int> hurt_amount;
-    std::pair<int, int> hurt_min;
-    std::pair<int, int> hurt_max;
-    std::pair<int, int> hurt_chance_top;
-    std::pair<int, int> hurt_chance_bot;
-    std::pair<int, int> hurt_tick;
-
-    std::pair<int, int> sleep_amount;
-    std::pair<int, int> sleep_min;
-    std::pair<int, int> sleep_max;
-    std::pair<int, int> sleep_chance_top;
-    std::pair<int, int> sleep_chance_bot;
-    std::pair<int, int> sleep_tick;
-    
-    std::pair<int, int> pkill_amount;
-    std::pair<int, int> pkill_min;
-    std::pair<int, int> pkill_max;
-    std::pair<int, int> pkill_max_val;
-    std::pair<int, int> pkill_chance_top;
-    std::pair<int, int> pkill_chance_bot;
-    std::pair<int, int> pkill_tick;
-    
-    std::pair<int, int> stim_amount;
-    std::pair<int, int> stim_min;
-    std::pair<int, int> stim_max;
-    std::pair<int, int> stim_min_val;
-    std::pair<int, int> stim_max_val;
-    std::pair<int, int> stim_chance_top;
-    std::pair<int, int> stim_chance_bot;
-    std::pair<int, int> stim_tick;
-    
-    std::pair<int, int> health_amount;
-    std::pair<int, int> health_min;
-    std::pair<int, int> health_max;
-    std::pair<int, int> health_min_val;
-    std::pair<int, int> health_max_val;
-    std::pair<int, int> health_chance_top;
-    std::pair<int, int> health_chance_bot;
-    std::pair<int, int> health_tick;
-    
-    std::pair<int, int> h_mod_amount;
-    std::pair<int, int> h_mod_min;
-    std::pair<int, int> h_mod_max;
-    std::pair<int, int> h_mod_min_val;
-    std::pair<int, int> h_mod_max_val;
-    std::pair<int, int> h_mod_chance_top;
-    std::pair<int, int> h_mod_chance_bot;
-    std::pair<int, int> h_mod_tick;
-    
-    std::pair<int, int> rad_amount;
-    std::pair<int, int> rad_min;
-    std::pair<int, int> rad_max;
-    std::pair<int, int> rad_max_val;
-    std::pair<int, int> rad_chance_top;
-    std::pair<int, int> rad_chance_bot;
-    std::pair<int, int> rad_tick;
-    
-    std::pair<int, int> hunger_amount;
-    std::pair<int, int> hunger_min;
-    std::pair<int, int> hunger_max;
-    std::pair<int, int> hunger_min_val;
-    std::pair<int, int> hunger_max_val;
-    std::pair<int, int> hunger_chance_top;
-    std::pair<int, int> hunger_chance_bot;
-    std::pair<int, int> hunger_tick;
-    
-    std::pair<int, int> thirst_amount;
-    std::pair<int, int> thirst_min;
-    std::pair<int, int> thirst_max;
-    std::pair<int, int> thirst_min_val;
-    std::pair<int, int> thirst_max_val;
-    std::pair<int, int> thirst_chance_top;
-    std::pair<int, int> thirst_chance_bot;
-    std::pair<int, int> thirst_tick;
-    
-    std::pair<int, int> fatigue_amount;
-    std::pair<int, int> fatigue_min;
-    std::pair<int, int> fatigue_max;
-    std::pair<int, int> fatigue_min_val;
-    std::pair<int, int> fatigue_max_val;
-    std::pair<int, int> fatigue_chance_top;
-    std::pair<int, int> fatigue_chance_bot;
-    std::pair<int, int> fatigue_tick;
-
-    std::pair<int, int> cough_chance_top;
-    std::pair<int, int> cough_chance_bot;
-    std::pair<int, int> cough_tick;
-    
-    std::pair<int, int> vomit_chance_top;
-    std::pair<int, int> vomit_chance_bot;
-    std::pair<int, int> vomit_tick;
-    
-    bool load(JsonObject &jsobj, std::string member);
 };
 
 class effect_type
@@ -156,7 +102,9 @@ class effect_type
         std::string get_remove_memorial_log() const;
 
         bool get_main_parts() const;
-    
+
+        /** Loading helper functions */
+        bool load_mod_data(JsonObject &jsobj, std::string member);
         bool load_miss_msgs(JsonObject &jsobj, std::string member);
         bool load_decay_msgs(JsonObject &jsobj, std::string member);
 
@@ -201,8 +149,8 @@ class effect_type
         std::string remove_message;
         std::string remove_memorial_log;
         
-        effect_mod_info base_mods;
-        effect_mod_info scaling_mods;
+        /** Key order is ("base_mods"/"scaling_mods", reduced: bool, type of mod: "STR", desired argument: "tick") */
+        std::unordered_map<std::tuple<std::string, bool, std::string, std::string>, double> mod_data;
 };
 
 class effect : public JsonSerializer, public JsonDeserializer
@@ -256,13 +204,11 @@ class effect : public JsonSerializer, public JsonDeserializer
         std::string get_removes_effect() const;
         
         int get_mod(std::string arg, bool reduced = false) const;
+        int get_avg_mod(std::string arg, bool reduced = false) const;
         int get_amount(std::string arg, bool reduced = false) const;
         int get_min_val(std::string arg, bool reduced = false) const;
         int get_max_val(std::string arg, bool reduced = false) const;
         bool get_sizing(std::string arg) const;
-        void get_activation_vals(std::string arg, bool reduced, effect_mod_info base, effect_mod_info scale, 
-                                double &tick, double &top_base, double &top_scale, double &bot_base,
-                                double &bot_scale) const;
         /** returns the approximate percentage chance of activating, used for descriptions */
         double get_percentage(std::string arg, bool reduced = false) const;
         /** mod modifies x in x_in_y or one_in(x) */

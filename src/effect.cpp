@@ -128,155 +128,151 @@ void weed_msg(player *p) {
     }
 }
 
-static void extract_effect_float( JsonObject &j, std::string mod_type, std::pair<float, float> &mod_value, std::string backup)
+static void extract_effect( JsonObject &j, std::unordered_map<std::tuple<std::string, bool, std::string, std::string>, double> &data,
+                std::string mod_type, std::string data_key, std::string type_key, std::string arg_key)
 {
-    if(j.has_member(mod_type)) {
+    double val, reduced_val = 0;
+    if (j.has_member(mod_type)) {
         JsonArray jsarr = j.get_array(mod_type);
-        mod_value.first = jsarr.get_float(0);
+        val = jsarr.get_float(0);
         if (jsarr.size() >= 2) {
-            mod_value.second = jsarr.get_float(1);
+            reduced_val = jsarr.get_float(1);
         } else {
-            mod_value.second = mod_value.first;
-        }
-    } else if (j.has_member(backup)) {
-        JsonArray jsarr = j.get_array(backup);
-        mod_value.first = jsarr.get_float(0);
-        if (jsarr.size() >= 2) {
-            mod_value.second = jsarr.get_float(1);
-        } else {
-            mod_value.second = mod_value.first;
+            reduced_val = val;
         }
     }
-}
-static void extract_effect_int( JsonObject &j, std::string mod_type, std::pair<int, int> &mod_value, std::string backup)
-{
-    if(j.has_member(mod_type)) {
-        JsonArray jsarr = j.get_array(mod_type);
-        mod_value.first = jsarr.get_int(0);
-        if (jsarr.size() >= 2) {
-            mod_value.second = jsarr.get_int(1);
-        } else {
-            mod_value.second = mod_value.first;
-        }
-    } else if(j.has_member(backup)) {
-        JsonArray jsarr = j.get_array(backup);
-        mod_value.first = jsarr.get_int(0);
-        if (jsarr.size() >= 2) {
-            mod_value.second = jsarr.get_int(1);
-        } else {
-            mod_value.second = mod_value.first;
-        }
+    if (val != 0) {
+        data[std::make_tuple(data_key, false, type_key, arg_key)] = val;
+    }
+    if (reduced_val != 0) {
+        data[std::make_tuple(data_key, true, type_key, arg_key)] = val;
     }
 }
 
-bool effect_mod_info::load(JsonObject &jsobj, std::string member) {
+bool effect_type::load_mod_data(JsonObject &jsobj, std::string member) {
     if (jsobj.has_object(member)) {
         JsonObject j = jsobj.get_object(member);
-        extract_effect_float(j, "str_mod", str_mod, "");
-        extract_effect_float(j, "dex_mod", dex_mod, "");
-        extract_effect_float(j, "per_mod", per_mod, "");
-        extract_effect_float(j, "int_mod", int_mod, "");
-        extract_effect_int(j, "speed_mod", speed_mod, "");
         
-        extract_effect_int(j, "pain_amount", pain_amount, "");
-        extract_effect_int(j, "pain_min", pain_min, "");
-        extract_effect_int(j, "pain_max", pain_max, "pain_min");
-        extract_effect_int(j, "pain_max_val", pain_max_val, "");
-        extract_effect_int(j, "pain_chance", pain_chance_top, "");
-        extract_effect_int(j, "pain_chance_bot", pain_chance_bot, "");
-        extract_effect_int(j, "pain_tick", pain_tick, "");
+        // Stats first
+        //                          json field                  type key    arg key
+        extract_effect(j, mod_data, "str_mod",          member, "STR",      "min");
+        extract_effect(j, mod_data, "dex_mod",          member, "DEX",      "min");
+        extract_effect(j, mod_data, "per_mod",          member, "PER",      "min");
+        extract_effect(j, mod_data, "int_mod",          member, "INT",      "min");
+        extract_effect(j, mod_data, "speed_mod",        member, "SPEED",    "min");
         
-        extract_effect_int(j, "hurt_amount", hurt_amount, "");
-        extract_effect_int(j, "hurt_min", hurt_min, "");
-        extract_effect_int(j, "hurt_max", hurt_max, "hurt_min");
-        extract_effect_int(j, "hurt_chance", hurt_chance_top, "");
-        extract_effect_int(j, "hurt_chance_bot", hurt_chance_bot, "");
-        extract_effect_int(j, "hurt_tick", hurt_tick, "");
+        // Then pain
+        extract_effect(j, mod_data, "pain_amount",      member, "PAIN",     "amount");
+        extract_effect(j, mod_data, "pain_min",         member, "PAIN",     "min");
+        extract_effect(j, mod_data, "pain_max",         member, "PAIN",     "max");
+        extract_effect(j, mod_data, "pain_max_val",     member, "PAIN",     "max_val");
+        extract_effect(j, mod_data, "pain_chance",      member, "PAIN",     "chance_top");
+        extract_effect(j, mod_data, "pain_chance_bot",  member, "PAIN",     "chance_bot");
+        extract_effect(j, mod_data, "pain_tick",        member, "PAIN",     "tick");
         
-        extract_effect_int(j, "sleep_amount", sleep_amount, "");
-        extract_effect_int(j, "sleep_min", sleep_min, "");
-        extract_effect_int(j, "sleep_max", sleep_max, "sleep_min");
-        extract_effect_int(j, "sleep_chance", sleep_chance_top, "");
-        extract_effect_int(j, "sleep_chance_bot", sleep_chance_bot, "");
-        extract_effect_int(j, "sleep_tick", sleep_tick, "");
+        // Then hurt
+        extract_effect(j, mod_data, "hurt_amount",      member, "HURT",     "amount");
+        extract_effect(j, mod_data, "hurt_min",         member, "HURT",     "min");
+        extract_effect(j, mod_data, "hurt_max",         member, "HURT",     "max");
+        extract_effect(j, mod_data, "hurt_chance",      member, "HURT",     "chance_top");
+        extract_effect(j, mod_data, "hurt_chance_bot",  member, "HURT",     "chance_bot");
+        extract_effect(j, mod_data, "hurt_tick",        member, "HURT",     "tick");
         
-        extract_effect_int(j, "pkill_amount", pkill_amount, "");
-        extract_effect_int(j, "pkill_min", pkill_min, "");
-        extract_effect_int(j, "pkill_max", pkill_max, "pkill_min");
-        extract_effect_int(j, "pkill_max_val", pkill_max_val, "");
-        extract_effect_int(j, "pkill_chance", pkill_chance_top, "");
-        extract_effect_int(j, "pkill_chance_bot", pkill_chance_bot, "");
-        extract_effect_int(j, "pkill_tick", pkill_tick, "");
+        // Then sleep
+        extract_effect(j, mod_data, "sleep_amount",     member, "SLEEP",    "amount");
+        extract_effect(j, mod_data, "sleep_min",        member, "SLEEP",    "min");
+        extract_effect(j, mod_data, "sleep_max",        member, "SLEEP",    "max");
+        extract_effect(j, mod_data, "sleep_chance",     member, "SLEEP",    "chance_top");
+        extract_effect(j, mod_data, "sleep_chance_bot", member, "SLEEP",    "chance_bot");
+        extract_effect(j, mod_data, "sleep_tick",       member, "SLEEP",    "tick");
         
-        extract_effect_int(j, "stim_amount", stim_amount, "");
-        extract_effect_int(j, "stim_min", stim_min, "");
-        extract_effect_int(j, "stim_max", stim_max, "stim_min");
-        extract_effect_int(j, "stim_min_val", stim_min_val, "");
-        extract_effect_int(j, "stim_max_val", stim_max_val, "");
-        extract_effect_int(j, "stim_chance", stim_chance_top, "");
-        extract_effect_int(j, "stim_chance_bot", stim_chance_bot, "");
-        extract_effect_int(j, "stim_tick", stim_tick, "");
+        // Then pkill
+        extract_effect(j, mod_data, "pkill_amount",     member, "PKILL",    "amount");
+        extract_effect(j, mod_data, "pkill_min",        member, "PKILL",    "min");
+        extract_effect(j, mod_data, "pkill_max",        member, "PKILL",    "max");
+        extract_effect(j, mod_data, "pkill_max_val",    member, "PKILL",    "max_val");
+        extract_effect(j, mod_data, "pkill_chance",     member, "PKILL",    "chance_top");
+        extract_effect(j, mod_data, "pkill_chance_bot", member, "PKILL",    "chance_bot");
+        extract_effect(j, mod_data, "pkill_tick",       member, "PKILL",    "tick");
         
-        extract_effect_int(j, "health_amount", health_amount, "");
-        extract_effect_int(j, "health_min", health_min, "");
-        extract_effect_int(j, "health_max", health_max, "health_min");
-        extract_effect_int(j, "health_min_val", health_min_val, "");
-        extract_effect_int(j, "health_max_val", health_max_val, "");
-        extract_effect_int(j, "health_chance", health_chance_top, "");
-        extract_effect_int(j, "health_chance_bot", health_chance_bot, "");
-        extract_effect_int(j, "health_tick", health_tick, "");
+        // Then stim
+        extract_effect(j, mod_data, "stim_amount",      member, "STIM",     "amount");
+        extract_effect(j, mod_data, "stim_min",         member, "STIM",     "min");
+        extract_effect(j, mod_data, "stim_max",         member, "STIM",     "max");
+        extract_effect(j, mod_data, "stim_min_val",     member, "STIM",     "min_val");
+        extract_effect(j, mod_data, "stim_max_val",     member, "STIM",     "max_val");
+        extract_effect(j, mod_data, "stim_chance",      member, "STIM",     "chance_top");
+        extract_effect(j, mod_data, "stim_chance_bot",  member, "STIM",     "chance_bot");
+        extract_effect(j, mod_data, "stim_tick",        member, "STIM",     "tick");
         
-        extract_effect_int(j, "h_mod_amount", h_mod_amount, "");
-        extract_effect_int(j, "h_mod_min", h_mod_min, "");
-        extract_effect_int(j, "h_mod_max", h_mod_max, "h_mod_min");
-        extract_effect_int(j, "h_mod_min_val", h_mod_min_val, "");
-        extract_effect_int(j, "h_mod_max_val", h_mod_max_val, "");
-        extract_effect_int(j, "h_mod_chance", h_mod_chance_top, "");
-        extract_effect_int(j, "h_mod_chance_bot", h_mod_chance_bot, "");
-        extract_effect_int(j, "h_mod_tick", h_mod_tick, "");
+        // Then health
+        extract_effect(j, mod_data, "health_amount",    member, "HEALTH",   "amount");
+        extract_effect(j, mod_data, "health_min",       member, "HEALTH",   "min");
+        extract_effect(j, mod_data, "health_max",       member, "HEALTH",   "max");
+        extract_effect(j, mod_data, "health_min_val",   member, "HEALTH",   "min_val");
+        extract_effect(j, mod_data, "health_max_val",   member, "HEALTH",   "max_val");
+        extract_effect(j, mod_data, "health_chance",    member, "HEALTH",   "chance_top");
+        extract_effect(j, mod_data, "health_chance_bot",member, "HEALTH",   "chance_bot");
+        extract_effect(j, mod_data, "health_tick",      member, "HEALTH",   "tick");
         
-        extract_effect_int(j, "rad_amount", rad_amount, "");
-        extract_effect_int(j, "rad_min", rad_min, "");
-        extract_effect_int(j, "rad_max", rad_max, "rad_min");
-        extract_effect_int(j, "rad_max_val", rad_max_val, "");
-        extract_effect_int(j, "rad_chance", rad_chance_top, "");
-        extract_effect_int(j, "rad_chance_bot", rad_chance_bot, "");
-        extract_effect_int(j, "rad_tick", rad_tick, "");
+        // Then health mod
+        extract_effect(j, mod_data, "h_mod_amount",     member, "H_MOD",    "amount");
+        extract_effect(j, mod_data, "h_mod_min",        member, "H_MOD",    "min");
+        extract_effect(j, mod_data, "h_mod_max",        member, "H_MOD",    "max");
+        extract_effect(j, mod_data, "h_mod_min_val",    member, "H_MOD",    "min_val");
+        extract_effect(j, mod_data, "h_mod_max_val",    member, "H_MOD",    "max_val");
+        extract_effect(j, mod_data, "h_mod_chance",     member, "H_MOD",    "chance_top");
+        extract_effect(j, mod_data, "h_mod_chance_bot", member, "H_MOD",    "chance_bot");
+        extract_effect(j, mod_data, "h_mod_tick",       member, "H_MOD",    "tick");
         
-        extract_effect_int(j, "hunger_amount", hunger_amount, "");
-        extract_effect_int(j, "hunger_min", hunger_min, "");
-        extract_effect_int(j, "hunger_max", hunger_max, "hunger_min");
-        extract_effect_int(j, "hunger_min_val", hunger_min_val, "");
-        extract_effect_int(j, "hunger_max_val", hunger_max_val, "");
-        extract_effect_int(j, "hunger_chance", hunger_chance_top, "");
-        extract_effect_int(j, "hunger_chance_bot", hunger_chance_bot, "");
-        extract_effect_int(j, "hunger_tick", hunger_tick, "");
+        // Then radiation
+        extract_effect(j, mod_data, "rad_amount",       member, "RAD",      "amount");
+        extract_effect(j, mod_data, "rad_min",          member, "RAD",      "min");
+        extract_effect(j, mod_data, "rad_max",          member, "RAD",      "max");
+        extract_effect(j, mod_data, "rad_max_val",      member, "RAD",      "max_val");
+        extract_effect(j, mod_data, "rad_chance",       member, "RAD",      "chance_top");
+        extract_effect(j, mod_data, "rad_chance_bot",   member, "RAD",      "chance_bot");
+        extract_effect(j, mod_data, "rad_tick",         member, "RAD",      "tick");
         
-        extract_effect_int(j, "thirst_amount", thirst_amount, "");
-        extract_effect_int(j, "thirst_min", thirst_min, "");
-        extract_effect_int(j, "thirst_max", thirst_max, "thirst_min");
-        extract_effect_int(j, "thirst_min_val", thirst_min_val, "");
-        extract_effect_int(j, "thirst_max_val", thirst_max_val, "");
-        extract_effect_int(j, "thirst_chance", thirst_chance_top, "");
-        extract_effect_int(j, "thirst_chance_bot", thirst_chance_bot, "");
-        extract_effect_int(j, "thirst_tick", thirst_tick, "");   
+        // Then hunger
+        extract_effect(j, mod_data, "hunger_amount",    member, "HUNGER",   "amount");
+        extract_effect(j, mod_data, "hunger_min",       member, "HUNGER",   "min");
+        extract_effect(j, mod_data, "hunger_max",       member, "HUNGER",   "max");
+        extract_effect(j, mod_data, "hunger_min_val",   member, "HUNGER",   "min_val");
+        extract_effect(j, mod_data, "hunger_max_val",   member, "HUNGER",   "max_val");
+        extract_effect(j, mod_data, "hunger_chance",    member, "HUNGER",   "chance_top");
+        extract_effect(j, mod_data, "hunger_chance_bot",member, "HUNGER",   "chance_bot");
+        extract_effect(j, mod_data, "hunger_tick",      member, "HUNGER",   "tick");
         
-        extract_effect_int(j, "fatigue_amount", fatigue_amount, "");
-        extract_effect_int(j, "fatigue_min", fatigue_min, "");
-        extract_effect_int(j, "fatigue_max", fatigue_max, "fatigue_min");
-        extract_effect_int(j, "fatigue_min_val", fatigue_min_val, "");
-        extract_effect_int(j, "fatigue_max_val", fatigue_max_val, "");
-        extract_effect_int(j, "fatigue_chance", fatigue_chance_top, "");
-        extract_effect_int(j, "fatigue_chance_bot", fatigue_chance_bot, "");
-        extract_effect_int(j, "fatigue_tick", fatigue_tick, "");
+        // Then thirst
+        extract_effect(j, mod_data, "thirst_amount",    member, "THIRST",   "amount");
+        extract_effect(j, mod_data, "thirst_min",       member, "THIRST",   "min");
+        extract_effect(j, mod_data, "thirst_max",       member, "THIRST",   "max");
+        extract_effect(j, mod_data, "thirst_min_val",   member, "THIRST",   "min_val");
+        extract_effect(j, mod_data, "thirst_max_val",   member, "THIRST",   "max_val");
+        extract_effect(j, mod_data, "thirst_chance",    member, "THIRST",   "chance_top");
+        extract_effect(j, mod_data, "thirst_chance_bot",member, "THIRST",   "chance_bot");
+        extract_effect(j, mod_data, "thirst_tick",      member, "THIRST",   "tick");
         
-        extract_effect_int(j, "cough_chance", cough_chance_top, "");
-        extract_effect_int(j, "cough_chance_bot", cough_chance_bot, "");
-        extract_effect_int(j, "cough_tick", cough_tick, "");
+        // Then fatigue
+        extract_effect(j, mod_data, "fatigue_amount",    member, "FATIGUE",  "amount");
+        extract_effect(j, mod_data, "fatigue_min",       member, "FATIGUE",  "min");
+        extract_effect(j, mod_data, "fatigue_max",       member, "FATIGUE",  "max");
+        extract_effect(j, mod_data, "fatigue_min_val",   member, "FATIGUE",  "min_val");
+        extract_effect(j, mod_data, "fatigue_max_val",   member, "FATIGUE",  "max_val");
+        extract_effect(j, mod_data, "fatigue_chance",    member, "FATIGUE",  "chance_top");
+        extract_effect(j, mod_data, "fatigue_chance_bot",member, "FATIGUE",  "chance_bot");
+        extract_effect(j, mod_data, "fatigue_tick",      member, "FATIGUE",  "tick");
         
-        extract_effect_int(j, "vomit_chance", vomit_chance_top, "");
-        extract_effect_int(j, "vomit_chance_bot", vomit_chance_bot, "");
-        extract_effect_int(j, "vomit_tick", vomit_tick, "");
+        // Then coughing
+        extract_effect(j, mod_data, "cough_chance",     member, "COUGH",    "chance_top");
+        extract_effect(j, mod_data, "cough_chance_bot", member, "COUGH",    "chance_bot");
+        extract_effect(j, mod_data, "cough_tick",       member, "COUGH",    "tick");
+        
+        // Then vomiting
+        extract_effect(j, mod_data, "vomit_chance",     member, "VOMIT",    "chance_top");
+        extract_effect(j, mod_data, "vomit_chance_bot", member, "VOMIT",    "chance_bot");
+        extract_effect(j, mod_data, "vomit_tick",       member, "VOMIT",    "tick");
         
         return true;
     } else {
@@ -422,31 +418,31 @@ std::string effect::disp_desc(bool reduced) const
 {
     std::stringstream ret;
     // First print stat changes
-    int tmp = get_mod("STR", reduced);
+    int tmp = get_avg_mod("STR", reduced);
     if (tmp > 0) {
         ret << string_format(_("Strength +%d;  "), tmp);
     } else if (tmp < 0) {
         ret << string_format(_("Strength %d;  "), tmp);
     }
-    tmp = get_mod("DEX", reduced);
+    tmp = get_avg_mod("DEX", reduced);
     if (tmp > 0) {
         ret << string_format(_("Dexterity +%d;  "), tmp);
     } else if (tmp < 0) {
         ret << string_format(_("Dexterity %d;  "), tmp);
     }
-    tmp = get_mod("PER", reduced);
+    tmp = get_avg_mod("PER", reduced);
     if (tmp > 0) {
         ret << string_format(_("Perception +%d;  "), tmp);
     } else if (tmp < 0) {
         ret << string_format(_("Perception %d;  "), tmp);
     }
-    tmp = get_mod("INT", reduced);
+    tmp = get_avg_mod("INT", reduced);
     if (tmp > 0) {
         ret << string_format(_("Intelligence +%d;  "), tmp);
     } else if (tmp < 0) {
         ret << string_format(_("Intelligence %d;  "), tmp);
     }
-    tmp = get_mod("SPEED", reduced);
+    tmp = get_avg_mod("SPEED", reduced);
     if (tmp > 0) {
         ret << string_format(_("Speed +%d;  "), tmp);
     } else if (tmp < 0) {
@@ -463,14 +459,14 @@ std::string effect::disp_desc(bool reduced) const
     std::vector<std::string> uncommon;
     std::vector<std::string> rare;
     std::vector<desc_freq> values;
-    values.push_back(desc_freq(get_percentage("PAIN", reduced), get_mod("PAIN", reduced), _("pain"), _("pain")));
-    values.push_back(desc_freq(get_percentage("HURT", reduced), get_mod("HURT", reduced), _("damage"), _("damage")));
-    values.push_back(desc_freq(get_percentage("THIRST", reduced), get_mod("THIRST", reduced), _("thirst"), _("quench")));
-    values.push_back(desc_freq(get_percentage("HUNGER", reduced), get_mod("HUNGER", reduced), _("hunger"), _("sate")));
-    values.push_back(desc_freq(get_percentage("FATIGUE", reduced), get_mod("FATIGUE", reduced), _("fatigue"), _("rest")));
-    values.push_back(desc_freq(get_percentage("COUGH", reduced), get_mod("COUGH", reduced), _("coughing"), _("coughing")));
-    values.push_back(desc_freq(get_percentage("VOMIT", reduced), get_mod("VOMIT", reduced), _("vomiting"), _("vomiting")));
-    values.push_back(desc_freq(get_percentage("SLEEP", reduced), get_mod("SLEEP", reduced), _("blackouts"), _("blackouts")));
+    values.push_back(desc_freq(get_percentage("PAIN", reduced), get_avg_mod("PAIN", reduced), _("pain"), _("pain")));
+    values.push_back(desc_freq(get_percentage("HURT", reduced), get_avg_mod("HURT", reduced), _("damage"), _("damage")));
+    values.push_back(desc_freq(get_percentage("THIRST", reduced), get_avg_mod("THIRST", reduced), _("thirst"), _("quench")));
+    values.push_back(desc_freq(get_percentage("HUNGER", reduced), get_avg_mod("HUNGER", reduced), _("hunger"), _("sate")));
+    values.push_back(desc_freq(get_percentage("FATIGUE", reduced), get_avg_mod("FATIGUE", reduced), _("fatigue"), _("rest")));
+    values.push_back(desc_freq(get_percentage("COUGH", reduced), get_avg_mod("COUGH", reduced), _("coughing"), _("coughing")));
+    values.push_back(desc_freq(get_percentage("VOMIT", reduced), get_avg_mod("VOMIT", reduced), _("vomiting"), _("vomiting")));
+    values.push_back(desc_freq(get_percentage("SLEEP", reduced), get_avg_mod("SLEEP", reduced), _("blackouts"), _("blackouts")));
 
     for (auto &i : values) {
         if (i.val > 0) {
@@ -484,7 +480,7 @@ std::string effect::disp_desc(bool reduced) const
             } else if (i.chance >= .4) {
                 uncommon.push_back(i.pos_string);
             // <.4% chance
-            } else if (i.chance != 0) {
+            } else if (i.chance > 0) {
                 rare.push_back(i.pos_string);
             }
         } else if (i.val < 0) {
@@ -498,7 +494,7 @@ std::string effect::disp_desc(bool reduced) const
             } else if (i.chance >= .4) {
                 uncommon.push_back(i.neg_string);
             // <.4% chance
-            } else if (i.chance != 0) {
+            } else if (i.chance > 0) {
                 rare.push_back(i.neg_string);
             }
         }
@@ -713,306 +709,109 @@ std::string effect::get_removes_effect() const
 
 int effect::get_mod(std::string arg, bool reduced) const
 {
-    float ret = 0;
-    auto &base = eff_type->base_mods;
-    auto &scale = eff_type->scaling_mods;
-    if (!reduced) {
-        if (arg == "STR") {
-            ret += base.str_mod.first;
-            ret += scale.str_mod.first * (intensity - 1);
-        } else if (arg == "DEX") {
-            ret += base.dex_mod.first;
-            ret += scale.dex_mod.first * (intensity - 1);
-        } else if (arg == "PER") {
-            ret += base.per_mod.first;
-            ret += scale.per_mod.first * (intensity - 1);
-        } else if (arg == "INT") {
-            ret += base.int_mod.first;
-            ret += scale.int_mod.first * (intensity - 1);
-        } else if (arg == "SPEED") {
-            ret += base.speed_mod.first;
-            ret += scale.speed_mod.first * (intensity - 1);
-        } else if (arg == "PAIN") {
-            ret += rng(base.pain_min.first + scale.pain_min.first * (intensity - 1),
-                    base.pain_max.first + scale.pain_max.first * (intensity - 1));
-        } else if (arg == "HURT") {
-            ret += rng(base.hurt_min.first + scale.hurt_min.first * (intensity - 1),
-                    base.hurt_max.first + scale.hurt_max.first * (intensity - 1));
-        } else if (arg == "SLEEP") {
-            ret += rng(base.hurt_min.first + scale.sleep_min.first * (intensity - 1),
-                    base.hurt_max.first + scale.sleep_max.first * (intensity - 1));
-        } else if (arg == "PKILL") {
-            ret += rng(base.pkill_min.first + scale.pkill_min.first * (intensity - 1),
-                    base.pkill_max.first + scale.pkill_max.first * (intensity - 1));
-        } else if (arg == "STIM") {
-            ret += rng(base.stim_min.first + scale.stim_min.first * (intensity - 1),
-                    base.stim_max.first + scale.stim_max.first * (intensity - 1));
-        } else if (arg == "RAD") {
-            ret += rng(base.rad_min.first + scale.rad_min.first * (intensity - 1),
-                    base.rad_max.first + scale.rad_max.first * (intensity - 1));
-        } else if (arg == "HUNGER") {
-            ret += rng(base.hunger_min.first + scale.hunger_min.first * (intensity - 1),
-                    base.hunger_max.first + scale.hunger_max.first * (intensity - 1));
-        } else if (arg == "THIRST") {
-            ret += rng(base.thirst_min.first + scale.thirst_min.first * (intensity - 1),
-                    base.thirst_max.first + scale.thirst_max.first * (intensity - 1));
-        } else if (arg == "FATIGUE") {
-            ret += rng(base.fatigue_min.first + scale.fatigue_min.first * (intensity - 1),
-                    base.fatigue_max.first + scale.fatigue_max.first * (intensity - 1));
-        } else if (arg == "HEALTH") {
-            ret += rng(base.health_min.first + scale.health_min.first * (intensity - 1),
-                    base.health_max.first + scale.health_max.first * (intensity - 1));
-        } else if (arg == "H_MOD") {
-            ret += rng(base.h_mod_min.first + scale.h_mod_min.first * (intensity - 1),
-                    base.h_mod_max.first + scale.h_mod_max.first * (intensity - 1));
-        }
-    } else {
-        if (arg == "STR") {
-            ret += base.str_mod.second;
-            ret += scale.str_mod.second * (intensity - 1);
-        } else if (arg == "DEX") {
-            ret += base.dex_mod.second;
-            ret += scale.dex_mod.second * (intensity - 1);
-        } else if (arg == "PER") {
-            ret += base.per_mod.second;
-            ret += scale.per_mod.second * (intensity - 1);
-        } else if (arg == "INT") {
-            ret += base.int_mod.second;
-            ret += scale.int_mod.second * (intensity - 1);
-        } else if (arg == "SPEED") {
-            ret += base.speed_mod.second;
-            ret += scale.speed_mod.second * (intensity - 1);
-        } else if (arg == "PAIN") {
-            ret += rng(base.pain_min.second + scale.pain_min.second * (intensity - 1),
-                    base.pain_max.second + scale.pain_max.second * (intensity - 1));
-        } else if (arg == "HURT") {
-            ret += rng(base.hurt_min.second + scale.hurt_min.second * (intensity - 1),
-                    base.hurt_max.second + scale.hurt_max.second * (intensity - 1));
-        } else if (arg == "SLEEP") {
-            ret += rng(base.hurt_min.second + scale.sleep_min.second * (intensity - 1),
-                    base.hurt_max.second + scale.sleep_max.second * (intensity - 1));
-        } else if (arg == "PKILL") {
-            ret += rng(base.pkill_min.second + scale.pkill_min.second * (intensity - 1),
-                    base.pkill_max.second + scale.pkill_max.second * (intensity - 1));
-        } else if (arg == "STIM") {
-            ret += rng(base.stim_min.second + scale.stim_min.second * (intensity - 1),
-                    base.stim_max.second + scale.stim_max.second * (intensity - 1));
-        } else if (arg == "RAD") {
-            ret += rng(base.rad_min.second + scale.rad_min.second * (intensity - 1),
-                    base.rad_max.second + scale.rad_max.second * (intensity - 1));
-        } else if (arg == "HUNGER") {
-            ret += rng(base.hunger_min.second + scale.hunger_min.second * (intensity - 1),
-                    base.hunger_max.second + scale.hunger_max.second * (intensity - 1));
-        } else if (arg == "THIRST") {
-            ret += rng(base.thirst_min.second + scale.thirst_min.second * (intensity - 1),
-                    base.thirst_max.second + scale.thirst_max.second * (intensity - 1));
-        } else if (arg == "FATIGUE") {
-            ret += rng(base.fatigue_min.second + scale.fatigue_min.second * (intensity - 1),
-                    base.fatigue_max.second + scale.fatigue_max.second * (intensity - 1));
-        } else if (arg == "HEALTH") {
-            ret += rng(base.health_min.second + scale.health_min.second * (intensity - 1),
-                    base.health_max.second + scale.health_max.second * (intensity - 1));
-        } else if (arg == "H_MOD") {
-            ret += rng(base.h_mod_min.second + scale.h_mod_min.second * (intensity - 1),
-                    base.h_mod_max.second + scale.h_mod_max.second * (intensity - 1));
-        }
+    auto &mod_data = eff_type->mod_data;
+    double min = 0;
+    double max = 0;
+    // Get the minimum total
+    auto found = mod_data.find(std::make_tuple("base_mods", reduced, arg, "min"));
+    if (found != mod_data.end()) {
+        min += found->second;
     }
-    return int(ret);
+    found = mod_data.find(std::make_tuple("scaling_mods", reduced, arg, "min"));
+    if (found != mod_data.end()) {
+        min += found->second * (intensity - 1);
+    }
+    // Get the maximum total
+    found = mod_data.find(std::make_tuple("base_mods", reduced, arg, "max"));
+    if (found != mod_data.end()) {
+        max += found->second;
+    }
+    found = mod_data.find(std::make_tuple("scaling_mods", reduced, arg, "max"));
+    if (found != mod_data.end()) {
+        max += found->second * (intensity - 1);
+    }
+    if (int(max) != 0) {
+        // Return a random value between [min, max]
+        return int(rng(min, max));
+    } else {
+        // Return the min value
+        return min;
+    }
+}
+
+int effect::get_avg_mod(std::string arg, bool reduced) const
+{
+    auto &mod_data = eff_type->mod_data;
+    double min = 0;
+    double max = 0;
+    // Get the minimum total
+    auto found = mod_data.find(std::make_tuple("base_mods", reduced, arg, "min"));
+    if (found != mod_data.end()) {
+        min += found->second;
+    }
+    found = mod_data.find(std::make_tuple("scaling_mods", reduced, arg, "min"));
+    if (found != mod_data.end()) {
+        min += found->second * (intensity - 1);
+    }
+    // Get the maximum total
+    found = mod_data.find(std::make_tuple("base_mods", reduced, arg, "max"));
+    if (found != mod_data.end()) {
+        max += found->second;
+    }
+    found = mod_data.find(std::make_tuple("scaling_mods", reduced, arg, "max"));
+    if (found != mod_data.end()) {
+        max += found->second * (intensity - 1);
+    }
+    if (int(max) != 0) {
+        // Return a random value between [min, max]
+        return int((min + max) / 2);
+    } else {
+        // Return the min value
+        return min;
+    }
 }
 
 int effect::get_amount(std::string arg, bool reduced) const
 {
-    float ret = 0;
-    auto &base = eff_type->base_mods;
-    auto &scale = eff_type->scaling_mods;
-    if (!reduced) {
-        if (arg == "PAIN") {
-            ret += base.pain_amount.first;
-            ret += scale.pain_amount.first * (intensity - 1);
-        } else if (arg == "HURT") {
-            ret += base.hurt_amount.first;
-            ret += scale.hurt_amount.first * (intensity - 1);
-        } else if (arg == "SLEEP") {
-            ret += base.sleep_amount.first;
-            ret += scale.sleep_amount.first * (intensity - 1);
-        } else if (arg == "PKILL") {
-            ret += base.pkill_amount.first;
-            ret += scale.pkill_amount.first * (intensity - 1);
-        } else if (arg == "STIM") {
-            ret += base.stim_amount.first;
-            ret += scale.stim_amount.first * (intensity - 1);
-        } else if (arg == "RAD") {
-            ret += base.rad_amount.first;
-            ret += scale.rad_amount.first * (intensity - 1);
-        } else if (arg == "HUNGER") {
-            ret += base.hunger_amount.first;
-            ret += scale.hunger_amount.first * (intensity - 1);
-        } else if (arg == "THIRST") {
-            ret += base.thirst_amount.first;
-            ret += scale.thirst_amount.first * (intensity - 1);
-        } else if (arg == "FATIGUE") {
-            ret += base.fatigue_amount.first;
-            ret += scale.fatigue_amount.first * (intensity - 1);
-        } else if (arg == "HEALTH") {
-            ret += base.health_amount.first;
-            ret += scale.health_amount.first * (intensity - 1);
-        } else if (arg == "H_MOD") {
-            ret += base.h_mod_amount.first;
-            ret += scale.h_mod_amount.first * (intensity - 1);
-        }
-    } else {
-        if (arg == "PAIN") {
-            ret += base.pain_amount.second;
-            ret += scale.pain_amount.second * (intensity - 1);
-        } else if (arg == "HURT") {
-            ret += base.hurt_amount.second;
-            ret += scale.hurt_amount.second * (intensity - 1);
-        } else if (arg == "SLEEP") {
-            ret += base.sleep_amount.second;
-            ret += scale.sleep_amount.second * (intensity - 1);
-        } else if (arg == "PKILL") {
-            ret += base.pkill_amount.second;
-            ret += scale.pkill_amount.second * (intensity - 1);
-        } else if (arg == "STIM") {
-            ret += base.stim_amount.second;
-            ret += scale.stim_amount.second * (intensity - 1);
-        } else if (arg == "RAD") {
-            ret += base.rad_amount.second;
-            ret += scale.rad_amount.second * (intensity - 1);
-        } else if (arg == "HUNGER") {
-            ret += base.hunger_amount.second;
-            ret += scale.hunger_amount.second * (intensity - 1);
-        } else if (arg == "THIRST") {
-            ret += base.thirst_amount.second;
-            ret += scale.thirst_amount.second * (intensity - 1);
-        } else if (arg == "FATIGUE") {
-            ret += base.fatigue_amount.second;
-            ret += scale.fatigue_amount.second * (intensity - 1);
-        } else if (arg == "HEALTH") {
-            ret += base.health_amount.second;
-            ret += scale.health_amount.second * (intensity - 1);
-        } else if (arg == "H_MOD") {
-            ret += base.h_mod_amount.second;
-            ret += scale.h_mod_amount.second * (intensity - 1);
-        }
+    auto &mod_data = eff_type->mod_data;
+    double ret = 0;
+    auto found = mod_data.find(std::make_tuple("base_mods", reduced, arg, "amount"));
+    if (found != mod_data.end()) {
+        ret += found->second;
+    }
+    found = mod_data.find(std::make_tuple("scaling_mods", reduced, arg, "amount"));
+    if (found != mod_data.end()) {
+        ret += found->second * (intensity - 1);
     }
     return int(ret);
 }
 
 int effect::get_min_val(std::string arg, bool reduced) const
 {
-    float ret = 0;
-    auto &base = eff_type->base_mods;
-    auto &scale = eff_type->scaling_mods;
-    if (!reduced) {
-        if (arg == "STIM") {
-            ret += base.stim_min_val.first;
-            ret += scale.stim_min_val.first * (intensity - 1);
-        } else if (arg == "HUNGER") {
-            ret += base.hunger_min_val.first;
-            ret += scale.hunger_min_val.first * (intensity - 1);
-        } else if (arg == "THIRST") {
-            ret += base.thirst_min_val.first;
-            ret += scale.thirst_min_val.first * (intensity - 1);
-        } else if (arg == "FATIGUE") {
-            ret += base.fatigue_min_val.first;
-            ret += scale.fatigue_min_val.first * (intensity - 1);
-        } else if (arg == "HEALTH") {
-            ret += base.health_min_val.first;
-            ret += scale.health_min_val.first * (intensity - 1);
-        } else if (arg == "H_MOD") {
-            ret += base.h_mod_min_val.first;
-            ret += scale.h_mod_min_val.first * (intensity - 1);
-        }
-    } else {
-        if (arg == "STIM") {
-            ret += base.stim_min_val.second;
-            ret += scale.stim_min_val.second * (intensity - 1);
-        } else if (arg == "HUNGER") {
-            ret += base.hunger_min_val.second;
-            ret += scale.hunger_min_val.second * (intensity - 1);
-        } else if (arg == "THIRST") {
-            ret += base.thirst_min_val.second;
-            ret += scale.thirst_min_val.second * (intensity - 1);
-        } else if (arg == "FATIGUE") {
-            ret += base.fatigue_min_val.second;
-            ret += scale.fatigue_min_val.second * (intensity - 1);
-        } else if (arg == "HEALTH") {
-            ret += base.health_min_val.second;
-            ret += scale.health_min_val.second * (intensity - 1);
-        } else if (arg == "H_MOD") {
-            ret += base.h_mod_min_val.second;
-            ret += scale.h_mod_min_val.second * (intensity - 1);
-        }
-    
+    auto &mod_data = eff_type->mod_data;
+    double ret = 0;
+    auto found = mod_data.find(std::make_tuple("base_mods", reduced, arg, "min_val"));
+    if (found != mod_data.end()) {
+        ret += found->second;
+    }
+    found = mod_data.find(std::make_tuple("scaling_mods", reduced, arg, "min_val"));
+    if (found != mod_data.end()) {
+        ret += found->second * (intensity - 1);
     }
     return int(ret);
 }
 
 int effect::get_max_val(std::string arg, bool reduced) const
 {
-    float ret = 0;
-    auto &base = eff_type->base_mods;
-    auto &scale = eff_type->scaling_mods;
-    if (!reduced) {
-        if (arg == "PAIN") {
-            ret += base.pain_max_val.first;
-            ret += scale.pain_max_val.first * (intensity - 1);
-        } else if (arg == "PKILL") {
-            ret += base.pkill_max_val.first;
-            ret += scale.pkill_max_val.first * (intensity - 1);
-        } else if (arg == "STIM") {
-            ret += base.stim_max_val.first;
-            ret += scale.stim_max_val.first * (intensity - 1);
-        } else if (arg == "RAD") {
-            ret += base.rad_max_val.first;
-            ret += scale.rad_max_val.first * (intensity - 1);
-        } else if (arg == "HUNGER") {
-            ret += base.hunger_max_val.first;
-            ret += scale.hunger_max_val.first * (intensity - 1);
-        } else if (arg == "THIRST") {
-            ret += base.thirst_max_val.first;
-            ret += scale.thirst_max_val.first * (intensity - 1);
-        } else if (arg == "FATIGUE") {
-            ret += base.fatigue_max_val.first;
-            ret += scale.fatigue_max_val.first * (intensity - 1);
-        } else if (arg == "HEALTH") {
-            ret += base.health_max_val.first;
-            ret += scale.health_max_val.first * (intensity - 1);
-        } else if (arg == "H_MOD") {
-            ret += base.h_mod_max_val.first;
-            ret += scale.h_mod_max_val.first * (intensity - 1);
-        }
-    } else {
-        if (arg == "PAIN") {
-            ret += base.pain_max_val.second;
-            ret += scale.pain_max_val.second * (intensity - 1);
-        } else if (arg == "PKILL") {
-            ret += base.pkill_max_val.second;
-            ret += scale.pkill_max_val.second * (intensity - 1);
-        } else if (arg == "STIM") {
-            ret += base.stim_max_val.second;
-            ret += scale.stim_max_val.second * (intensity - 1);
-        } else if (arg == "RAD") {
-            ret += base.rad_max_val.second;
-            ret += scale.rad_max_val.second * (intensity - 1);
-        } else if (arg == "HUNGER") {
-            ret += base.hunger_max_val.second;
-            ret += scale.hunger_max_val.second * (intensity - 1);
-        } else if (arg == "THIRST") {
-            ret += base.thirst_max_val.second;
-            ret += scale.thirst_max_val.second * (intensity - 1);
-        } else if (arg == "FATIGUE") {
-            ret += base.fatigue_max_val.second;
-            ret += scale.fatigue_max_val.second * (intensity - 1);
-        } else if (arg == "HEALTH") {
-            ret += base.health_max_val.second;
-            ret += scale.health_max_val.second * (intensity - 1);
-        } else if (arg == "H_MOD") {
-            ret += base.h_mod_max_val.second;
-            ret += scale.h_mod_max_val.second * (intensity - 1);
-        }
-    
+    auto &mod_data = eff_type->mod_data;
+    double ret = 0;
+    auto found = mod_data.find(std::make_tuple("base_mods", reduced, arg, "max_val"));
+    if (found != mod_data.end()) {
+        ret += found->second;
+    }
+    found = mod_data.find(std::make_tuple("scaling_mods", reduced, arg, "max_val"));
+    if (found != mod_data.end()) {
+        ret += found->second * (intensity - 1);
     }
     return int(ret);
 }
@@ -1027,204 +826,65 @@ bool effect::get_sizing(std::string arg) const
     return false;
 }
 
-void effect::get_activation_vals(std::string arg, bool reduced, effect_mod_info base, effect_mod_info scale, 
-                                double &tick, double &top_base, double &top_scale, double &bot_base,
-                                double &bot_scale) const
-{
-    // Get the tick, top, and bottom values for specific argument type
-    if (!reduced) {
-        if (arg == "PAIN") {
-            tick = base.pain_tick.first + scale.pain_tick.first * (intensity - 1);
-            top_base = base.pain_chance_top.first;
-            top_scale = scale.pain_chance_top.first * (intensity - 1);
-            bot_base = base.pain_chance_bot.first;
-            bot_scale = scale.pain_chance_bot.first * (intensity - 1);
-        } else if (arg == "HURT") {
-            tick = base.hurt_tick.first + scale.hurt_tick.first * (intensity - 1);
-            top_base = base.hurt_chance_top.first;
-            top_scale = scale.hurt_chance_top.first * (intensity - 1);
-            bot_base = base.hurt_chance_bot.first;
-            bot_scale = scale.hurt_chance_bot.first * (intensity - 1);
-        } else if (arg == "SLEEP") {
-            tick = base.sleep_tick.first + scale.sleep_tick.first * (intensity - 1);
-            top_base = base.sleep_chance_top.first;
-            top_scale = scale.sleep_chance_top.first * (intensity - 1);
-            bot_base = base.sleep_chance_bot.first;
-            bot_scale = scale.sleep_chance_bot.first * (intensity - 1);
-        } else if (arg == "PKILL") {
-            tick = base.pkill_tick.first + scale.pkill_tick.first * (intensity - 1);
-            top_base = base.pkill_chance_top.first;
-            top_scale = scale.pkill_chance_top.first * (intensity - 1);
-            bot_base = base.pkill_chance_bot.first;
-            bot_scale = scale.pkill_chance_bot.first * (intensity - 1);
-        } else if (arg == "STIM") {
-            tick = base.stim_tick.first + scale.stim_tick.first * (intensity - 1);
-            top_base = base.stim_chance_top.first;
-            top_scale = scale.stim_chance_top.first * (intensity - 1);
-            bot_base = base.stim_chance_bot.first;
-            bot_scale = scale.stim_chance_bot.first * (intensity - 1);
-        } else if (arg == "COUGH") {
-            tick = base.cough_tick.first + scale.cough_tick.first * (intensity - 1);
-            top_base = base.cough_chance_top.first;
-            top_scale = scale.cough_chance_top.first * (intensity - 1);
-            bot_base = base.cough_chance_bot.first;
-            bot_scale = scale.cough_chance_bot.first * (intensity - 1);
-        } else if (arg == "VOMIT") {
-            tick = base.vomit_tick.first + scale.vomit_tick.first * (intensity - 1);
-            top_base = base.vomit_chance_top.first;
-            top_scale = scale.vomit_chance_top.first * (intensity - 1);
-            bot_base = base.vomit_chance_bot.first;
-            bot_scale = scale.vomit_chance_bot.first * (intensity - 1);
-        } else if (arg == "RAD") {
-            tick = base.rad_tick.first + scale.rad_tick.first * (intensity - 1);
-            top_base = base.rad_chance_top.first;
-            top_scale = scale.rad_chance_top.first * (intensity - 1);
-            bot_base = base.rad_chance_bot.first;
-            bot_scale = scale.rad_chance_bot.first * (intensity - 1);
-        } else if (arg == "HUNGER") {
-            tick = base.hunger_tick.first + scale.hunger_tick.first * (intensity - 1);
-            top_base = base.hunger_chance_top.first;
-            top_scale = scale.hunger_chance_top.first * (intensity - 1);
-            bot_base = base.hunger_chance_bot.first;
-            bot_scale = scale.hunger_chance_bot.first * (intensity - 1);
-        } else if (arg == "THIRST") {
-            tick = base.thirst_tick.first + scale.thirst_tick.first * (intensity - 1);
-            top_base = base.thirst_chance_top.first;
-            top_scale = scale.thirst_chance_top.first * (intensity - 1);
-            bot_base = base.thirst_chance_bot.first;
-            bot_scale = scale.thirst_chance_bot.first * (intensity - 1);
-        } else if (arg == "FATIGUE") {
-            tick = base.fatigue_tick.first + scale.fatigue_tick.first * (intensity - 1);
-            top_base = base.fatigue_chance_top.first;
-            top_scale = scale.fatigue_chance_top.first * (intensity - 1);
-            bot_base = base.fatigue_chance_bot.first;
-            bot_scale = scale.fatigue_chance_bot.first * (intensity - 1);
-        } else if (arg == "HEALTH") {
-            tick = base.health_tick.first + scale.health_tick.first * (intensity - 1);
-            top_base = base.health_chance_top.first;
-            top_scale = scale.health_chance_top.first * (intensity - 1);
-            bot_base = base.health_chance_bot.first;
-            bot_scale = scale.health_chance_bot.first * (intensity - 1);
-        } else if (arg == "H_MOD") {
-            tick = base.h_mod_tick.first + scale.h_mod_tick.first * (intensity - 1);
-            top_base = base.h_mod_chance_top.first;
-            top_scale = scale.h_mod_chance_top.first * (intensity - 1);
-            bot_base = base.h_mod_chance_bot.first;
-            bot_scale = scale.h_mod_chance_bot.first * (intensity - 1);
-        }
-    } else {
-        if (arg == "PAIN") {
-            tick = base.pain_tick.second + scale.pain_tick.second * (intensity - 1);
-            top_base = base.pain_chance_top.second;
-            top_scale = scale.pain_chance_top.second * (intensity - 1);
-            bot_base = base.pain_chance_bot.second;
-            bot_scale = scale.pain_chance_bot.second * (intensity - 1);
-        } else if (arg == "HURT") {
-            tick = base.hurt_tick.second + scale.hurt_tick.second * (intensity - 1);
-            top_base = base.hurt_chance_top.second;
-            top_scale = scale.hurt_chance_top.second * (intensity - 1);
-            bot_base = base.hurt_chance_bot.second;
-            bot_scale = scale.hurt_chance_bot.second * (intensity - 1);
-        } else if (arg == "SLEEP") {
-            tick = base.sleep_tick.second + scale.sleep_tick.second * (intensity - 1);
-            top_base = base.sleep_chance_top.second;
-            top_scale = scale.sleep_chance_top.second * (intensity - 1);
-            bot_base = base.sleep_chance_bot.second;
-            bot_scale = scale.sleep_chance_bot.second * (intensity - 1);
-        } else if (arg == "PKILL") {
-            tick = base.pkill_tick.second + scale.pkill_tick.second * (intensity - 1);
-            top_base = base.pkill_chance_top.second;
-            top_scale = scale.pkill_chance_top.second * (intensity - 1);
-            bot_base = base.pkill_chance_bot.second;
-            bot_scale = scale.pkill_chance_bot.second * (intensity - 1);
-        } else if (arg == "STIM") {
-            tick = base.stim_tick.second + scale.stim_tick.second * (intensity - 1);
-            top_base = base.stim_chance_top.second;
-            top_scale = scale.stim_chance_top.second * (intensity - 1);
-            bot_base = base.stim_chance_bot.second;
-            bot_scale = scale.stim_chance_bot.second * (intensity - 1);
-        } else if (arg == "COUGH") {
-            tick = base.cough_tick.second + scale.cough_tick.second * (intensity - 1);
-            top_base = base.cough_chance_top.second;
-            top_scale = scale.cough_chance_top.second * (intensity - 1);
-            bot_base = base.cough_chance_bot.second;
-            bot_scale = scale.cough_chance_bot.second * (intensity - 1);
-        } else if (arg == "VOMIT") {
-            tick = base.vomit_tick.second + scale.vomit_tick.second * (intensity - 1);
-            top_base = base.vomit_chance_top.second;
-            top_scale = scale.vomit_chance_top.second * (intensity - 1);
-            bot_base = base.vomit_chance_bot.second;
-            bot_scale = scale.vomit_chance_bot.second * (intensity - 1);
-        } else if (arg == "RAD") {
-            tick = base.rad_tick.second + scale.rad_tick.second * (intensity - 1);
-            top_base = base.rad_chance_top.second;
-            top_scale = scale.rad_chance_top.second * (intensity - 1);
-            bot_base = base.rad_chance_bot.second;
-            bot_scale = scale.rad_chance_bot.second * (intensity - 1);
-        } else if (arg == "HUNGER") {
-            tick = base.hunger_tick.second + scale.hunger_tick.second * (intensity - 1);
-            top_base = base.hunger_chance_top.second;
-            top_scale = scale.hunger_chance_top.second * (intensity - 1);
-            bot_base = base.hunger_chance_bot.second;
-            bot_scale = scale.hunger_chance_bot.second * (intensity - 1);
-        } else if (arg == "THIRST") {
-            tick = base.thirst_tick.second + scale.thirst_tick.second * (intensity - 1);
-            top_base = base.thirst_chance_top.second;
-            top_scale = scale.thirst_chance_top.second * (intensity - 1);
-            bot_base = base.thirst_chance_bot.second;
-            bot_scale = scale.thirst_chance_bot.second * (intensity - 1);
-        } else if (arg == "FATIGUE") {
-            tick = base.fatigue_tick.second + scale.fatigue_tick.second * (intensity - 1);
-            top_base = base.fatigue_chance_top.second;
-            top_scale = scale.fatigue_chance_top.second * (intensity - 1);
-            bot_base = base.fatigue_chance_bot.second;
-            bot_scale = scale.fatigue_chance_bot.second * (intensity - 1);
-        } else if (arg == "HEALTH") {
-            tick = base.health_tick.second + scale.health_tick.second * (intensity - 1);
-            top_base = base.health_chance_top.second;
-            top_scale = scale.health_chance_top.second * (intensity - 1);
-            bot_base = base.health_chance_bot.second;
-            bot_scale = scale.health_chance_bot.second * (intensity - 1);
-        } else if (arg == "H_MOD") {
-            tick = base.h_mod_tick.second + scale.h_mod_tick.second * (intensity - 1);
-            top_base = base.h_mod_chance_top.second;
-            top_scale = scale.h_mod_chance_top.second * (intensity - 1);
-            bot_base = base.h_mod_chance_bot.second;
-            bot_scale = scale.h_mod_chance_bot.second * (intensity - 1);
-        }
-    }
-}
-
 double effect::get_percentage(std::string arg, bool reduced) const
 {
-    double tick = 0;
-    double top_base = 0;
-    double top_scale = 0;
-    double bot_base = 0;
-    double bot_scale = 0;
-    auto &base = eff_type->base_mods;
-    auto &scale = eff_type->scaling_mods;
-    get_activation_vals(arg, reduced, base, scale, tick, top_base, top_scale, bot_base, bot_scale);
-    // If both top values = 0 then it should never trigger
+    auto &mod_data = eff_type->mod_data;
+    auto found_top_base = mod_data.find(std::make_tuple("base_mods", reduced, arg, "chance_top"));
+    auto found_top_scale = mod_data.find(std::make_tuple("scaling_mods", reduced, arg, "chance_top"));
+    // convert to int or 0
+    int top_base, top_scale = 0;
+    if (found_top_base != mod_data.end()) {
+        top_base = found_top_base->second;
+    }
+    if (found_top_scale != mod_data.end()) {
+        top_scale = found_top_scale->second * (intensity - 1);
+    }
+    // If both top values <= 0 then it should never trigger
     if (top_base <= 0 && top_scale <= 0) {
-        return 0;
+        return false;
     }
     // It will also never trigger if top_base + top_scale <= 0
     if (top_base + top_scale <= 0) {
-        return 0;
+        return false;
+    }
+    
+    // We only need to calculate these if we haven't already returned
+    int bot_base, bot_scale, tick = 0;
+    auto found_bot_base = mod_data.find(std::make_tuple("base_mods", reduced, arg, "chance_bot"));
+    auto found_bot_scale = mod_data.find(std::make_tuple("scaling_mods", reduced, arg, "chance_bot"));
+    auto found_tick_base = mod_data.find(std::make_tuple("base_mods", reduced, arg, "tick"));
+    auto found_tick_scale = mod_data.find(std::make_tuple("scaling_mods", reduced, arg, "tick"));
+    if (found_bot_base != mod_data.end()) {
+        bot_base = found_bot_base->second;
+    }
+    if (found_bot_scale != mod_data.end()) {
+        bot_scale = found_bot_scale->second * (intensity - 1);
+    }
+    if (found_tick_base != mod_data.end()) {
+        tick += found_tick_base->second;
+    }
+    if (found_bot_scale != mod_data.end()) {
+        tick += found_tick_scale->second * (intensity - 1);
+    }
+    // Tick is the exception where tick = 0 means tick = 1
+    if (tick == 0) {
+        tick = 1;
     }
 
     double ret = 0;
     // If both bot values are zero the formula is one_in(top), else the formula is x_in_y(top, bot)
     if(bot_base != 0 && bot_scale != 0) {
         if (bot_base + bot_scale == 0) {
-            // Special crash avoidance case, assume bot = 1 which means x_in_y(top, bot) = true
-            ret = 100;
+            // Special crash avoidance case, in most effect fields 0 = "nothing happens"
+            // so assume false here for consistency
+            ret = 0;
         } else {
-            ret = 100 * (top_base + top_scale) / (bot_base + bot_scale);
+            // Cast to double here to allow for partial percentages
+            ret = 100 * double(top_base + top_scale) / double(bot_base + bot_scale);
         }
     } else {
-        ret = 100 / (top_base + top_scale);
+        // Cast to double here to allow for partial percentages
+        ret = 100 / double(top_base + top_scale);
     }
     // Divide by ticks between rolls
     if (tick > 1) {
@@ -1235,20 +895,17 @@ double effect::get_percentage(std::string arg, bool reduced) const
 
 bool effect::activated(unsigned int turn, std::string arg, bool reduced, double mod) const
 {
-    double dtick = 0;
-    double dtop_base = 0;
-    double dtop_scale = 0;
-    double dbot_base = 0;
-    double dbot_scale = 0;
-    auto &base = eff_type->base_mods;
-    auto &scale = eff_type->scaling_mods;
-    get_activation_vals(arg, reduced, base, scale, dtick, dtop_base, dtop_scale, dbot_base, dbot_scale);
-    // Convert to ints
-    int tick = dtick;
-    int top_base = dtop_base;
-    int top_scale = dtop_scale;
-    int bot_base = dbot_base;
-    int bot_scale = dbot_scale;
+    auto &mod_data = eff_type->mod_data;
+    auto found_top_base = mod_data.find(std::make_tuple("base_mods", reduced, arg, "chance_top"));
+    auto found_top_scale = mod_data.find(std::make_tuple("scaling_mods", reduced, arg, "chance_top"));
+    // convert to int or 0
+    int top_base, top_scale = 0;
+    if (found_top_base != mod_data.end()) {
+        top_base = found_top_base->second;
+    }
+    if (found_top_scale != mod_data.end()) {
+        top_scale = found_top_scale->second * (intensity - 1);
+    }
     // If both top values <= 0 then it should never trigger
     if (top_base <= 0 && top_scale <= 0) {
         return false;
@@ -1257,15 +914,41 @@ bool effect::activated(unsigned int turn, std::string arg, bool reduced, double 
     if (top_base + top_scale <= 0) {
         return false;
     }
+    
+    // We only need to calculate these if we haven't already returned
+    int bot_base, bot_scale, tick = 0;
+    auto found_bot_base = mod_data.find(std::make_tuple("base_mods", reduced, arg, "chance_bot"));
+    auto found_bot_scale = mod_data.find(std::make_tuple("scaling_mods", reduced, arg, "chance_bot"));
+    auto found_tick_base = mod_data.find(std::make_tuple("base_mods", reduced, arg, "tick"));
+    auto found_tick_scale = mod_data.find(std::make_tuple("scaling_mods", reduced, arg, "tick"));
+    if (found_bot_base != mod_data.end()) {
+        bot_base = found_bot_base->second;
+    }
+    if (found_bot_scale != mod_data.end()) {
+        bot_scale = found_bot_scale->second * (intensity - 1);
+    }
+    if (found_tick_base != mod_data.end()) {
+        tick += found_tick_base->second;
+    }
+    if (found_bot_scale != mod_data.end()) {
+        tick += found_tick_scale->second * (intensity - 1);
+    }
+    // Tick is the exception where tick = 0 means tick = 1
+    if (tick == 0) {
+        tick = 1;
+    }
 
-    // Else check if tick allows for triggering. If both bot values are zero the formula is 
+    // Check if tick allows for triggering. If both bot values are zero the formula is 
     // x_in_y(1, top) i.e. one_in(top), else the formula is x_in_y(top, bot),
     // mod multiplies the overall percentage chances
-    if(tick <= 0 || turn % tick == 0) {
+    
+    // has to be an && here to avoid undefined behavior of turn % 0
+    if(tick > 0 && turn % tick == 0) {
         if(bot_base != 0 && bot_scale != 0) {
             if (bot_base + bot_scale == 0) {
-                // Special crash avoidance case, assume bot = 1 which means x_in_y(top, bot) = true
-                return true;
+                // Special crash avoidance case, in most effect fields 0 = "nothing happens"
+                // so assume false here for consistency
+                return false;
             } else {
                 return x_in_y((top_base + top_scale) * mod, (bot_base + bot_scale));
             }
@@ -1402,8 +1085,8 @@ void load_effect_type(JsonObject &jo)
     new_etype.hurt_sizing = jo.get_bool("hurt_sizing", false);
     new_etype.harmful_cough = jo.get_bool("harmful_cough", false);
     
-    new_etype.base_mods.load(jo, "base_mods");
-    new_etype.scaling_mods.load(jo, "scaling_mods");
+    new_etype.load_mod_data(jo, "base_mods");
+    new_etype.load_mod_data(jo, "scaling_mods");
 
     effect_types[new_etype.id] = new_etype;
 }
