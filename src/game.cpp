@@ -8426,8 +8426,22 @@ void game::control_vehicle()
         veh->use_controls();
     } else if (veh && veh->part_with_feature(veh_part, "CONTROLS") >= 0
                && u.in_vehicle) {
-        if (veh->is_locked)
-            add_msg(_("You don't find any keys in the %s."), veh->name.c_str());
+        if (veh->is_locked){
+            
+            inventory crafting_inv = crafting_inventory(&u);
+            if (crafting_inv.has_tools("screwdriver", 1)){
+                if (query_yn(_("Attempt to hotwire vehicle?"))) {
+                    veh->is_locked = false;
+                    add_msg(_("You believe that the engine will now start."));
+                } else {
+                    add_msg(_("You don't find any keys in the %s."), veh->name.c_str());
+                    add_msg(_("You leave the controls alone."));
+                }
+            } else {
+                add_msg(_("You don't find any keys in the %s."), veh->name.c_str());
+                add_msg(_("You could use a screwdriver to hotwire it."));
+            }
+        }
         else {
             u.controlling_vehicle = true;
             add_msg(_("You take control of the %s."), veh->name.c_str());

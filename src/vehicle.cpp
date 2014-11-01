@@ -222,7 +222,6 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
       destroyTires = true;
      }
     }
-    
     //chance car is locked
     if (true) is_locked = true;
     
