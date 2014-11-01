@@ -190,8 +190,14 @@ void start_location::setup( overmap *&cur_om, int &levx, int &levy, int &levz ) 
 {
     // We start in the (0,0,0) overmap.
     cur_om = &overmap_buffer.get( 0, 0 );
-    cur_om->first_house( levx, levy, target() );
-    const auto omtstart = tripoint( levx, levy, 0 );
+    tripoint omtstart = cur_om->find_random_omt( target() );
+    if( omtstart == overmap::invalid_tripoint ) {
+        // TODO (maybe): either regenerate the overmap (conflicts with existing characters there,
+        // that has to be checked. Or look at the neighboring overmaps, but one has to stop
+        // looking for it sometimes.
+        debugmsg( "Could not find starting overmap terrain %s", target().c_str() );
+        omtstart = tripoint( 0, 0, 0 );
+    }
 
     // Now prepare the initial map (change terrain etc.)
     const point player_location = overmapbuffer::omt_to_sm_copy( omtstart.x, omtstart.y );
