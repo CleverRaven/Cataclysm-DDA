@@ -154,7 +154,8 @@ std::string print_pressure(float pressure, int decimals = 0);
 
 int get_local_windchill(double temperature, double humidity, double windpower);
 int get_local_humidity(double humidity, weather_type weather, bool sheltered = false);
-int get_local_windpower(double windpower, std::string omtername = "no name", bool sheltered = false);
+int get_local_windpower(double windpower, std::string omtername = "no name",
+                        bool sheltered = false);
 
 void retroactively_fill_from_funnel( item *it, const trap_id t, const calendar &, const point &);
 

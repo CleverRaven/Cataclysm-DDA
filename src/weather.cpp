@@ -580,7 +580,7 @@ std::string print_windspeed(float windspeed, int decimals)
         ret << windspeed;
         return rmp_format(_("%s mph"), ret.str().c_str());
     } else {
-        ret << windspeed*0.44704;
+        ret << windspeed * 0.44704;
         return rmp_format(_("%s m/s"), ret.str().c_str());
     }
 }
@@ -624,19 +624,22 @@ int get_local_windchill(double temperature, double humidity, double windpower)
 
         // Temperature is removed at the end, because get_local_windchill is meant to calculate the difference.
         // Source : http://en.wikipedia.org/wiki/Wind_chill#North_American_and_United_Kingdom_wind_chill_index
-        windchill = 35.74 + 0.6215*tmptemp - 35.75*(pow(tmpwind, 0.16)) + 0.4275*tmptemp*(pow(tmpwind, 0.16)) - tmptemp;
-        if (tmpwind < 4)
-            windchill = 0; // This model fails when there is 0 wind.
+        windchill = 35.74 + 0.6215 * tmptemp - 35.75 * (pow(tmpwind,
+                    0.16)) + 0.4275 * tmptemp * (pow(tmpwind, 0.16)) - tmptemp;
+        if (tmpwind < 4) {
+            windchill = 0;    // This model fails when there is 0 wind.
+        }
     } else {
         /// Model 2, warm wind chill
 
         // Source : http://en.wikipedia.org/wiki/Wind_chill#Australian_Apparent_Temperature
-        tmpwind = tmpwind*0.44704; // Convert to meters per second.
-        tmptemp = (tmptemp - 32) * 5/9; // Convert to celsius.
+        tmpwind = tmpwind * 0.44704; // Convert to meters per second.
+        tmptemp = (tmptemp - 32) * 5 / 9; // Convert to celsius.
 
-        windchill = (0.33 * ((humidity / 100.00) * 6.105 * exp((17.27 * tmptemp)/(237.70 + tmptemp))) - 0.70*tmpwind - 4.00);
+        windchill = (0.33 * ((humidity / 100.00) * 6.105 * exp((17.27 * tmptemp) /
+                             (237.70 + tmptemp))) - 0.70 * tmpwind - 4.00);
         // Convert to Fahrenheit, but omit the '+ 32' because we are only dealing with a piece of the felt air temperature equation.
-        windchill = windchill * 9/5;
+        windchill = windchill * 9 / 5;
     }
 
     return windchill;
@@ -645,12 +648,10 @@ int get_local_windchill(double temperature, double humidity, double windpower)
 int get_local_humidity(double humidity, weather_type weather, bool sheltered)
 {
     int tmphumidity = humidity;
-    if (sheltered)
-    {
+    if (sheltered) {
         tmphumidity = humidity * (100 - humidity) / 100 + humidity; // norm for a house?
-    }
-    else if (weather == WEATHER_RAINY || weather == WEATHER_DRIZZLE || weather == WEATHER_THUNDER || weather == WEATHER_LIGHTNING)
-    {
+    } else if (weather == WEATHER_RAINY || weather == WEATHER_DRIZZLE || weather == WEATHER_THUNDER ||
+               weather == WEATHER_LIGHTNING) {
         tmphumidity = 100;
     }
 
@@ -666,14 +667,15 @@ int get_local_windpower(double windpower, std::string omtername, bool sheltered)
     double tmpwind = windpower;
 
     // Over map terrain may modify the effect of wind.
-    if (sheltered)
+    if (sheltered) {
         tmpwind  = 0.0;
-    else if ( omtername == "forest_water")
+    } else if ( omtername == "forest_water") {
         tmpwind *= 0.7;
-    else if ( omtername == "forest" )
+    } else if ( omtername == "forest" ) {
         tmpwind *= 0.5;
-    else if ( omtername == "forest_thick" || omtername == "hive")
+    } else if ( omtername == "forest_thick" || omtername == "hive") {
         tmpwind *= 0.4;
+    }
 
     return tmpwind;
 }
