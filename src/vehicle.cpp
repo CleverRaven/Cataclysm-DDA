@@ -302,6 +302,23 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
         if (part_flag(p, "BOARDABLE")) {      // no passengers
             parts[p].remove_flag(vehicle_part::passenger_flag);
         }
+        //for testing, this block should go inside veh_status == 0 check
+         if (part_flag(p, "CONTROLS") && has_alarm && parts[p].hp > 0){
+            //add alarm part to controls
+            vehicle_part alarm_part;
+            alarm_part.setid("alarm");
+            alarm_part.mount_dx = parts[p].mount_dx;
+            alarm_part.mount_dy = parts[p].mount_dy;
+            alarm_part.hp = vehicle_part_types["alarm"].durability;
+            alarm_part.amount = 0;
+            alarm_part.blood = 0;
+            alarm_part.bigness = 0;
+            parts.push_back (alarm_part);
+            is_locked = true;
+        }
+        if (has_no_key){
+            is_locked = true;
+        }
 
         // initial vehicle damage
         if (veh_status == 0) {
@@ -357,22 +374,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
          if (part_flag(p, "SOLAR_PANEL") && one_in(4)) {//Solar panels have a 1 in four chance of being broken.
             parts[p].hp= 0;
          }
-         if (part_flag(p, "CONTROLS") && has_alarm && parts[p].hp > 0){
-            //add alarm part to controls
-            vehicle_part alarm_part;
-            alarm_part.setid("alarm");
-            alarm_part.mount_dx = parts[p].mount_dx;
-            alarm_part.mount_dy = parts[p].mount_dy;
-            alarm_part.hp = vehicle_part_types["alarm"].durability;
-            alarm_part.amount = 0;
-            alarm_part.blood = 0;
-            alarm_part.bigness = 0;
-            parts.push_back (alarm_part);
-            is_locked = true;
-        }
-        if (has_no_key){
-            is_locked = true;
-        }
+
 
          /* Bloodsplatter the front-end parts. Assume anything with x > 0 is
           * the "front" of the vehicle (since the driver's seat is at (0, 0).
@@ -537,7 +539,7 @@ bool vehicle::is_alternator_on(int a) {
 bool vehicle::has_alarm_installed(){
     bool found_alarm = false;
     for (size_t s = 0; s < speciality.size(); s++){
-        if (part_flag(s, "ALARM")){
+        if (part_flag(speciality[s], "ALARM")){
             found_alarm = true;
             break;
         }
