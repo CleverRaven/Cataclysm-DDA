@@ -5,7 +5,7 @@
     "name": "Evacuee",
     "points" : 0,
     "description": "You have survived the initial wave of panic, and have achieved (relative) safety in one of the many government evac shelters.",
-    "allowed_locs": ["shelter","house","s_grocery","s_gun","s_garage","pawn","bank","mil_surplus","furniture","s_library","cabin","lmoe","boarded_house","field","forest"],
+    "allowed_locs": ["shelter","house","s_grocery","s_gun","s_garage","pawn","bank","mil_surplus","furniture","s_library","cabin","lmoe"],
     "start_name": "Anywhere"
   },{
     "type": "scenario",
@@ -13,7 +13,7 @@
     "name": "Missed",
     "points" : 0,
     "description": "Whether due to stubbornness, ignorance, or just plain bad luck, you missed the evacuation, and are stuck in a city full of the risen dead.",
-    "allowed_locs" : ["house","s_grocery","s_gun","s_garage","pawn","bank","mil_surplus","furniture","s_library"],
+    "allowed_locs" : ["house","s_grocery","s_gun","s_garage","pawn","bank","mil_surplus","furniture","s_library","boarded_house"],
     "start_name": "In Town"
   },{
     "type": "scenario",
