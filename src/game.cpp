@@ -1756,8 +1756,8 @@ void game::activity_on_turn_fill_water()
 
     item *container = &u.i_at(u.activity.position);
     item water = m.water_from(u.activity.placement.x, u.activity.placement.y);
-    // Fill up 3 charges per time
-    water.charges = 3;
+    // Fill up 10 charges per time
+    water.charges = 10;
     
     if (handle_liquid(water, true, true, NULL, container) == false) {
         u.activity.moves_left = 0;
@@ -1774,8 +1774,8 @@ void game::activity_on_turn_fill_swater()
 
     item *container = &u.i_at(u.activity.position);
     item swater = m.swater_from(u.activity.placement.x, u.activity.placement.y);
-    // Fill up 3 charges per time
-    swater.charges = 3;
+    // Fill up 10 charges per time
+    swater.charges = 10;
     
     if (handle_liquid(swater, true, true, NULL, container) == false) {
         u.activity.moves_left = 0;

@@ -1987,9 +1987,9 @@ void iexamine::water_source(player *p, map *m, const int examx, const int examy)
         // No container selected, try drinking from out hands
         p->drink_from_hands(water);
     } else {
-        // Turns needed is the number of liquid units / 3 * 100 (because 100 moves in a turn).
+        // Turns needed is the number of liquid units / 10 * 100 (because 100 moves in a turn).
         LIQUID_FILL_ERROR junk;
-        int turns = cont->get_remaining_capacity_for_liquid( water, junk ) / 3 * 100;
+        int turns = cont->get_remaining_capacity_for_liquid( water, junk ) / 10 * 100;
         // +100 turns to account for roundoff error
         turns += 100;
         if (turns > 0) {
@@ -2010,9 +2010,9 @@ void iexamine::swater_source(player *p, map *m, const int examx, const int examy
         // No container selected, try drinking from out hands
         p->drink_from_hands(swater);
     } else {
-        // Turns needed is the number of liquid units / 3 * 100 (because 100 moves in a turn).
+        // Turns needed is the number of liquid units / 10 * 100 (because 100 moves in a turn).
         LIQUID_FILL_ERROR junk;
-        int turns = cont->get_remaining_capacity_for_liquid( swater, junk ) / 3 * 100;
+        int turns = cont->get_remaining_capacity_for_liquid( swater, junk ) / 10 * 100;
         // +100 turns to account for roundoff error
         turns += 100;
         if (turns > 0) {
