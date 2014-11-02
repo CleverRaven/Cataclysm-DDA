@@ -1998,7 +1998,7 @@ void iexamine::water_source(player *p, map *m, const int examx, const int examy)
             p->assign_activity(ACT_FILL_LIQUID, turns, -1, p->get_item_position(cont), cont->tname());
             p->activity.str_values.push_back("water");
             p->activity.values.push_back(water.poison);
-            p->activity.values.push_back(swater.bday);
+            p->activity.values.push_back(water.bday);
         }
     }
 }
