@@ -214,22 +214,24 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
         veh_status = 0;
     }
     if (init_veh_status == 1) {
-     veh_status = 1;
-     if (one_in(10)) {           //  seats are destroyed 10%
-      destroySeats = true;
-     } else if (one_in(9)) {    //vehicle locked 10%
-         has_alarm = true;
-     } else if (one_in(5)) {    // controls are destroyed 16%
-      destroyControls = true;
-     } else if (one_in(5)) {    // battery, minireactor or gasoline tank are destroyed 13%
-      destroyTank = true;
-     } else if (one_in(5)) {   // engine are destroyed 10%
-      destroyEngine = true;
-     } else if (one_in(41)){   //1% chance locked with no alarm
-        has_no_key = true;
-     } else {                   // tires are destroyed 40%
-      destroyTires = true;
-     }
+        int rand = rng(1,100);
+        veh_status = 1;
+
+        if (rand <= 10) {           //  seats are destroyed 10%
+            destroySeats = true;
+        } else if (rand <= 20) {    //vehicle locked 10%
+            has_alarm = true;
+        } else if (rand <= 36) {    // controls are destroyed 16%
+            destroyControls = true;
+        } else if (rand <= 49) {    // battery, minireactor or gasoline tank are destroyed 13%
+            destroyTank = true;
+        } else if (rand <= 59) {   // engine are destroyed 10%
+            destroyEngine = true;
+        } else if (rand <= 65){   // 6% chance locked with no alarm
+            has_no_key = true;
+        } else {                   // tires are destroyed 35%
+            destroyTires = true;
+        }
     }
     //debug only
     has_alarm = true;
