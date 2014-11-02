@@ -641,7 +641,10 @@ public:
     bool is_foldable() const;
     // Restore parts of a folded vehicle.
     bool restore(const std::string &data);
-    bool interact_vehicle_locked(); //handles locked vehicles interaction
+    //handles locked vehicles interaction
+    bool interact_vehicle_locked(); 
+    //true if an alarm part is installed on the vehicle
+    bool has_alarm_installed();
     /**
      *  Opens everything that can be opened on the same tile as `p`
      */
@@ -692,6 +695,7 @@ public:
     std::vector<int> solar_panels;     // List of solar panel indices
     std::vector<int> loose_parts;      // List of UNMOUNT_ON_MOVE parts
     std::vector<int> wheelcache;
+    std::vector<int> speciality;        //List of parts that will not be on a vehicle very often, or which only one will be present
     std::vector<vehicle_item_spawn> item_spawns; //Possible starting items
     std::set<std::string> tags;        // Properties of the vehicle
 

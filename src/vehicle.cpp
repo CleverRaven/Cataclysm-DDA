@@ -70,6 +70,7 @@ vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): t
     fridge_epower = 0;
     recharger_epower = 0;
     tracking_epower = 0;
+    alarm_epower = 0;
     cruise_velocity = 0;
     music_id = "";
     skidding = false;
@@ -88,8 +89,6 @@ vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): t
     has_hand_rims = false;
     is_locked = false;
     is_alarm = false;
-    //because alarm isnt a part yet,
-    alarm_epower = -200;
 
     //type can be null if the type_id parameter is omitted
     if(type != "null") {
@@ -190,6 +189,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
     bool destroyEngine = false;
     bool destroyTires = false;
     bool has_alarm = false;
+    bool has_no_key = false;
     bool blood_covered = false;
     bool blood_inside = false;
 
@@ -225,7 +225,9 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
       destroyTank = true;
      } else if (one_in(5)) {   // engine are destroyed 10%
       destroyEngine = true;
-     } else {                   // tires are destroyed 41%
+     } else if (one_in(41)){   //1% chance locked with no alarm
+        has_no_key = true;
+     } else {                   // tires are destroyed 40%
       destroyTires = true;
      }
     }
@@ -300,18 +302,6 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
         if (part_flag(p, "BOARDABLE")) {      // no passengers
             parts[p].remove_flag(vehicle_part::passenger_flag);
         }
-        if (part_flag(p, "CONTROLS") && has_alarm && parts[p].hp > 0){
-            //add alarm part to controls
-            vehicle_part alarm_part;
-            alarm_part.setid("alarm");
-            alarm_part.mount_dx = parts[p].mount_dx;
-            alarm_part.mount_dy = parts[p].mount_dy;
-            alarm_part.hp = vehicle_part_types["alarm"].durability;
-            alarm_part.amount = 0;
-            alarm_part.blood = 0;
-            alarm_part.bigness = 0;
-            parts.push_back (alarm_part);
-        }
 
         // initial vehicle damage
         if (veh_status == 0) {
@@ -367,6 +357,22 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
          if (part_flag(p, "SOLAR_PANEL") && one_in(4)) {//Solar panels have a 1 in four chance of being broken.
             parts[p].hp= 0;
          }
+         if (part_flag(p, "CONTROLS") && has_alarm && parts[p].hp > 0){
+            //add alarm part to controls
+            vehicle_part alarm_part;
+            alarm_part.setid("alarm");
+            alarm_part.mount_dx = parts[p].mount_dx;
+            alarm_part.mount_dy = parts[p].mount_dy;
+            alarm_part.hp = vehicle_part_types["alarm"].durability;
+            alarm_part.amount = 0;
+            alarm_part.blood = 0;
+            alarm_part.bigness = 0;
+            parts.push_back (alarm_part);
+            is_locked = true;
+        }
+        if (has_no_key){
+            is_locked = true;
+        }
 
          /* Bloodsplatter the front-end parts. Assume anything with x > 0 is
           * the "front" of the vehicle (since the driver's seat is at (0, 0).
@@ -443,6 +449,7 @@ void vehicle::smash() {
     }
 }
 
+<<<<<<< HEAD
 void vehicle::control_engines() {
     int e_toggle = 0;
     //count active engines
@@ -526,6 +533,19 @@ bool vehicle::is_active_engine_at(int x,int y) {
 bool vehicle::is_alternator_on(int a) {
     return (parts[alternators[a]].hp > 0)  && is_active_engine_at(
         parts[alternators[a]].mount_dx, parts[alternators[a]].mount_dy );
+=======
+bool vehicle::has_alarm_installed(){
+    bool found_alarm = false;
+    for (size_t s = 0; s < speciality.size(); s++){
+        if (part_flag(s, "ALARM")){
+            found_alarm = true;
+            break;
+        }
+    }
+    return found_alarm;
+}
+
+>>>>>>> Added alarm flag to alarm. Removed hardcoded epower usage of alarm.
 bool vehicle::interact_vehicle_locked()
 {
     if (is_locked){
@@ -544,11 +564,11 @@ bool vehicle::interact_vehicle_locked()
                 } else if (one_in(2)) {
                     //soft fail
                     is_locked = false;
-                    is_alarm = true;
+                    is_alarm = has_alarm_installed();
                     add_msg(_("Hmm, what does this wire do?"));
                 } else {
                     //hard fail
-                    is_alarm = true;
+                    is_alarm = has_alarm_installed();
                     add_msg(_("Hmm, what does this wire do?"));
                 }
                 
@@ -3127,9 +3147,17 @@ void vehicle::idle(bool on_map) {
 
 void vehicle::alarm(bool on_map){
     if (on_map && is_alarm && one_in(4)) {
-        const char *sound_msgs[] = { "WHOOP WHOOP", "NEEeu NEEeu NEEeu", "BLEEEEEEP", "WREEP"};
-        g->ambient_sound( global_x(), global_y(), (int) rng(45,80), sound_msgs[rng(0,3)]);
-        if (one_in(100)) is_alarm = false;
+        //first check if the alarm is still installed
+        found_alarm = has_alarm_installed()
+
+        //if alarm found, make noise, else set alarm disabled
+        if (found_alarm){
+            const char *sound_msgs[] = { "WHOOP WHOOP", "NEEeu NEEeu NEEeu", "BLEEEEEEP", "WREEP"};
+            g->ambient_sound( global_x(), global_y(), (int) rng(45,80), sound_msgs[rng(0,3)]);
+            if (one_in(100)) is_alarm = false;
+        } else{
+            is_alarm = false;
+        }
     }
 }
 
@@ -4015,6 +4043,7 @@ void vehicle::refresh()
     solar_panels.clear();
     relative_parts.clear();
     loose_parts.clear();
+    speciality.clear();
     lights_epower = 0;
     overhead_epower = 0;
     tracking_epower = 0;
@@ -4081,6 +4110,9 @@ void vehicle::refresh()
         }
         if( vpi.has_flag("UNMOUNT_ON_MOVE") ) {
             loose_parts.push_back(p);
+        }
+        if (vpi.has_flag("ALARM")){
+            speciality.push_back(p);
         }
         // Build map of point -> all parts in that point
         point pt( parts[p].mount_dx, parts[p].mount_dy );
