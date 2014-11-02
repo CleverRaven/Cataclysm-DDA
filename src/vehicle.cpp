@@ -426,8 +426,8 @@ void vehicle::control_engines(){
     int e_toggle = 0;
     //count active engines
     int active_count = 0;
-    for (size_t p = 0; p < engines.size(); ++p){
-        if (is_engine_on(p)){
+    for (size_t e = 0; e < engines.size(); ++e){
+        if (is_engine_on(e)){
             active_count++;
         }
     }
@@ -456,11 +456,11 @@ int vehicle::select_engine(){
     uimenu tmenu;
     std::string name;
     tmenu.text = _("Toggle which?");
-    for( size_t p = 0; p < engines.size(); ++p ) {
-        if(parts[engines[p]].hp > 0) {
-            name = part_info(engines[p]).name;
-            tmenu.addentry(p, true, -1, "[%s] %s",
-                            ((parts[engines[p]].enabled)? "x":" ") , name.c_str());
+    for( size_t e = 0; e < engines.size(); ++e ) {
+        if(parts[engines[e]].hp > 0) {
+            name = part_info(engines[e]).name;
+            tmenu.addentry(e, true, -1, "[%s] %s",
+                            ((parts[engines[e]].enabled)? "x":" ") , name.c_str());
         }
     }
     
@@ -492,18 +492,18 @@ bool vehicle::is_part_on(int p){
 }
 
 bool vehicle::is_active_engine_at(int x,int y){
-    for( size_t p = 0; p < engines.size(); ++p ) {
-        if (is_engine_on(p) &&
-            parts[engines[p]].mount_dx == x &&
-            parts[engines[p]].mount_dy == y)
+    for( size_t e = 0; e < engines.size(); ++e ) {
+        if (is_engine_on(e) &&
+            parts[engines[e]].mount_dx == x &&
+            parts[engines[e]].mount_dy == y)
             return true;
     }
     return false;
 }
 
-bool vehicle::is_alternator_on(int p){
-    return (parts[alternators[p]].hp > 0)  && is_active_engine_at(
-                parts[alternators[p]].mount_dx, parts[alternators[p]].mount_dy);
+bool vehicle::is_alternator_on(int a){
+    return (parts[alternators[a]].hp > 0)  && is_active_engine_at(
+                parts[alternators[a]].mount_dx, parts[alternators[a]].mount_dy);
 }
 
 void vehicle::use_controls()
@@ -913,10 +913,10 @@ void vehicle::start_engine()
 {
     bool muscle_powered = false;
     // TODO: Make chance of success based on engine condition.
-    for( size_t p = 0; p < engines.size(); ++p ) {
-        if(parts[engines[p]].hp > 0) {
-            if(part_info(engines[p]).fuel_type == fuel_type_gasoline || part_info(engines[p]).fuel_type == fuel_type_diesel) {
-                int engine_power = part_power(engines[p]);
+    for( size_t e = 0; e < engines.size(); ++e ) {
+        if(parts[engines[e]].hp > 0) {
+            if(part_info(engines[e]).fuel_type == fuel_type_gasoline || part_info(engines[e]).fuel_type == fuel_type_diesel) {
+                int engine_power = part_power(engines[e]);
                 if(engine_power < 50) {
                     // Small engines can be pull-started
                     engine_on = true;
@@ -926,7 +926,7 @@ void vehicle::start_engine()
                         engine_on = true;
                     }
                 }
-            } else if (part_info(engines[p]).fuel_type == fuel_type_muscle) {
+            } else if (part_info(engines[e]).fuel_type == fuel_type_muscle) {
                 muscle_powered = true;
             } else {
                 // Electric & plasma engines
@@ -2307,14 +2307,14 @@ int vehicle::drain (const ammotype & ftype, int amount) {
 int vehicle::basic_consumption (const ammotype & ftype)
 {
     int fcon = 0;
-    for( size_t p = 0; p < engines.size(); ++p ) {
-        if(is_engine_type_on(p, ftype)) {
-            if(part_info(engines[p]).fuel_type == fuel_type_battery) {
+    for( size_t e = 0; e < engines.size(); ++e ) {
+        if(is_engine_type_on(e, ftype)) {
+            if(part_info(engines[e]).fuel_type == fuel_type_battery) {
                 // electric engine - use epower instead
-                fcon += abs(epower_to_power(part_epower(engines[p])));
+                fcon += abs(epower_to_power(part_epower(engines[e])));
             }
             else {
-                fcon += part_power(engines[p]);
+                fcon += part_power(engines[e]);
             }
         }
     }
@@ -2417,7 +2417,7 @@ int vehicle::safe_velocity (bool fueled)
 {
     int pwrs = 0;
     int cnt = 0;
-    for (int e = 0; e < (int)engines.size(); e++){
+    for (size_t e = 0; e < engines.size(); e++){
         if (is_engine_on(e) &&
             (!fueled || is_engine_type(e, fuel_type_muscle) || 
             fuel_left (part_info(engines[e]).fuel_type))) {
@@ -2734,10 +2734,10 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
     int gas_epower = 0;
     if(engine_on) {
         // Gas engines require epower to run for ignition system, ECU, etc.
-        for( size_t p = 0; p < engines.size(); ++p ) {
-            if(is_engine_type_on(p, fuel_type_gasoline) || 
-                is_engine_type_on(p, fuel_type_diesel)) {
-                gas_epower += part_info(engines[p]).epower;
+        for( size_t e = 0; e < engines.size(); ++e ) {
+            if(is_engine_type_on(e, fuel_type_gasoline) || 
+                is_engine_type_on(e, fuel_type_diesel)) {
+                gas_epower += part_info(engines[e]).epower;
             }
         }
         epower += gas_epower;
@@ -2755,9 +2755,9 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
     if(engine_on) {
         // Plasma engines generate epower if turned on
         int plasma_epower = 0;
-        for( size_t p = 0; p < engines.size(); ++p ) {
-            if(is_engine_type_on(p, fuel_type_plasma)) {
-                plasma_epower += part_info(engines[p]).epower;
+        for( size_t e = 0; e < engines.size(); ++e ) {
+            if(is_engine_type_on(e, fuel_type_plasma)) {
+                plasma_epower += part_info(engines[e]).epower;
             }
         }
         epower += plasma_epower;
@@ -3024,7 +3024,7 @@ void vehicle::idle(bool on_map) {
 
     if( engine_on && total_power() > 0 && !has_pedals && !has_hand_rims && !has_paddles) {
         int strn = (int)(strain() * strain() * 100);
-        for (int e = 0; e < (int)engines.size(); e++){
+        for (size_t e = 0; e < engines.size(); e++){
             size_t p = engines[e];
             if (fuel_left(part_info(p).fuel_type) && is_engine_on(e)) {
                 engines_power += part_power(p);
@@ -3190,7 +3190,7 @@ void vehicle::thrust (int thd) {
         consume_fuel ();
 
         int strn = (int) (strain () * strain() * 100);
-        for (int e = 0; e < (int)engines.size(); e++){
+        for (size_t e = 0; e < engines.size(); e++){
             size_t p = engines[e];
             if (is_engine_on(e) && fuel_left(part_info(p).fuel_type) && 
                 rng (1, 100) < strn ) {
