@@ -34,6 +34,12 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         virtual ~monster() override;
         monster &operator=(const monster &) = default;
         monster &operator=(monster &&) = default;
+        
+        virtual bool is_monster() const
+        {
+            return true;
+        }
+        
         void poly(mtype *t);
         void spawn(int x, int y); // All this does is moves the monster to x,y
         m_size get_size() const;

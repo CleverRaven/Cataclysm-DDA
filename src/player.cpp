@@ -4745,6 +4745,20 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
     //looks like this should be based off of dealtdams, not d as d has no damage reduction applied.
     // Skip all this if the damage isn't from a creature. e.g. an explosion.
     if( source != NULL ) {
+        // Add any monster on damage effects
+        if (source->is_monster() && dealt_dams.total_damage() > 0) {
+            monster *m = dynamic_cast<monster *>(source); if( m != NULL ) {
+                for (auto eff : m->type->atk_effs) {
+                    if (eff.id == "null") {
+                        continue;
+                    }
+                    if (x_in_y(eff.chance, 100)) {
+                        add_effect( eff.id, eff.duration, eff.bp, eff.permanent );
+                    }
+                }
+            }
+        }
+        
         if (dealt_dams.total_damage() > 0 && source->has_flag(MF_VENOM)) {
             add_msg_if_player(m_bad, _("You're poisoned!"));
             add_effect("poison", 30);

@@ -34,6 +34,10 @@ class Creature
         {
             return false;
         }
+        virtual bool is_monster() const
+        {
+            return false;
+        }
 
         // Fake is used to mark non-real creatures used temporarally,
         // such as fake NPCs that fire weapons to simulate turrets.
