@@ -2790,7 +2790,7 @@ int iuse::firestarter(player *p, item *it, bool t, point pos)
             p->activity.placement = pos;
             p->practice("survival", 10);
             // charges used tied with moves_modifier (range 1 to 12).
-            it->charges -= it->type->charges_to_use() * std::round(moves_modifier);
+            it->charges -= it->type->charges_to_use() * round(moves_modifier);
             return 0;
         }
     } else if (it->has_flag("REFILLABLE_LIGHTER")) {
