@@ -49,7 +49,8 @@ enum vehicle_controls {
  toggle_engine,
  toggle_fridge,
  toggle_recharger,
- cont_engines
+ cont_engines,
+ try_disarm_alarm
 };
 
 vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): type(type_id)
@@ -188,6 +189,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
     bool destroyTank = false;
     bool destroyEngine = false;
     bool destroyTires = false;
+    bool has_alarm = false;
     bool blood_covered = false;
     bool blood_inside = false;
 
@@ -622,6 +624,11 @@ void vehicle::use_controls()
                                                    _("Turn on the engine"), 'e'));
         }
     }
+    
+    if (is_alarm && !is_locked){
+        options_choice.push_back(try_disarm_alarm);
+        options_message.push_back(uimenu_entry(_("Try to disarm alarm."), 'z'));
+    }
 
     options_choice.push_back(toggle_cruise_control);
     options_message.push_back(uimenu_entry((cruise_on) ? _("Disable cruise control") :
@@ -718,6 +725,9 @@ void vehicle::use_controls()
     switch(options_choice[select]) {
     case cont_engines:
         control_engines();
+        case try_disarm_alarm:
+            is_alarm = !one_in(4);
+            add_msg((is_alarm) ? _("The alarm keeps going") : _("The alarm stops"));
         break;
     case toggle_cruise_control:
         cruise_on = !cruise_on;

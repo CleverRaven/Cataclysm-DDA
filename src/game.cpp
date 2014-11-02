@@ -8427,10 +8427,12 @@ void game::control_vehicle()
         veh->use_controls();
     } else if (veh && veh->part_with_feature(veh_part, "CONTROLS") >= 0
                && u.in_vehicle) {
-        u.controlling_vehicle = true;
-        add_msg(_("You take control of the %s."), veh->name.c_str());
-        if (!veh->engine_on) {
-            veh->start_engine();
+        if (veh->interact_vehicle_locked()){
+            u.controlling_vehicle = true;
+            add_msg(_("You take control of the %s."), veh->name.c_str());
+            if (!veh->engine_on) {
+                veh->start_engine();
+            }
         }
     } else {
         int examx, examy;
@@ -8446,7 +8448,9 @@ void game::control_vehicle()
             add_msg(m_info, _("No controls there."));
             return;
         }
-        veh->use_controls();
+        if (veh->interact_vehicle_locked()){
+            veh->use_controls();
+        }
     }
 }
 
