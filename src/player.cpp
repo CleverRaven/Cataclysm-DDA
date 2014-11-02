@@ -5833,10 +5833,6 @@ void player::hardcoded_effects(effect &it)
                 }
             }
         }
-    } else if (id == "glare") {
-        if (one_in(200)) {
-            add_msg_if_player(m_bad, _("The sunlight's glare makes it hard to see."));
-        }
     } else if (id == "spores") {
         // Equivalent to X in 150000 + health * 100
         if ((!has_trait("M_IMMUNE")) && (one_in(100) && x_in_y(intense, 150 + get_healthy() / 10)) ) {
