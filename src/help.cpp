@@ -632,17 +632,17 @@ of clothing on the floor to sleep on."));
 
     text.push_back(_("\
 Your clothing can sit in one of four layers on your body: next-to-skin, standard, over, and belted. \
-You can wear one item from each layer on a body part without incurring an encumberance penalty for \
+You can wear one item from each layer on a body part without incurring an encumbrance penalty for \
 too many worn items. Any items beyond the first on each layer add an additional point to the body \
-part's encumberance. (However, you can wear one additional item that would be encumberance 0 before \
+part's encumbrance. (However, you can wear one additional item that would be encumbrance 0 before \
 fitting, and is fitted anyway, without incurring that penalty.)"));
 
      text.push_back(_("\
 For example, on her torso, a character might wear a leather corset (next-to-skin), a leather touring \
-suit (standard), a trenchcoat (over), and a survivor's runner pack (belted). Her encumberance penalty \
-is 0. She could also wear one encumberance 0 fitted item on any layer without triggering the penalty: \
+suit (standard), a trenchcoat (over), and a survivor's runner pack (belted). Her encumbrance penalty \
+is 0. She could also wear one encumbrance 0 fitted item on any layer without triggering the penalty: \
 for example, a tank top (next-to-skin) or a t-shirt (standard). If she put on a tank top AND a \
-t-shirt, one of them would be penalized, bringing her encumberance to 1."));
+t-shirt, one of them would be penalized, bringing her encumbrance to 1."));
 
     return text;
 }
