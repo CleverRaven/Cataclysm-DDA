@@ -63,9 +63,10 @@
   "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
   "difficulty": 0,
-  "time": 5000,
+  "time": 15000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[67, 5],
   "qualities":[
     {"id":"COOK","level":1,"amount":1}
   ], "tools": [
@@ -88,9 +89,10 @@
   "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
   "difficulty": 0,
-  "time": 5000,
+  "time": 15000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[67, 5],
   "qualities":[
     {"id":"COOK","level":1,"amount":1}
   ], "tools": [
@@ -337,9 +339,10 @@
   "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
   "difficulty": 3,
-  "time": 12000,
+  "time": 60000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[83, 3],
   "qualities" : [
      {"id":"COOK","level":1,"amount":1} ],
   "tools": [
@@ -362,9 +365,10 @@
   "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
   "difficulty": 3,
-  "time": 12000,
+  "time": 60000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[83, 3],
   "qualities" : [
      {"id":"COOK","level":1,"amount":1} ],
   "tools": [
@@ -390,6 +394,7 @@
   "time": 18000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[67, 5],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -414,6 +419,7 @@
   "time": 18000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[67, 5],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -438,6 +444,7 @@
   "time": 18000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[67, 5],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -463,6 +470,7 @@
   "time": 9000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[67, 5],
   "tools": [
     [
       [ "dehydrator", 20 ],
@@ -485,6 +493,7 @@
   "time": 18000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[67, 5],
   "qualities" : [ {"id":"CUT","level":1,"amount":1} ],
   "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 5 ] ] ],
   "components": [ [ [ "egg_bird", 12 ], [ "egg_reptile", 12 ] ] ]
@@ -958,9 +967,10 @@
   "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
   "difficulty": 4,
-  "time": 18000,
+  "time": 60000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[83, 3],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
     {"id":"COOK","level":1,"amount":1}
@@ -995,10 +1005,10 @@
   "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
   "difficulty": 4,
-  "time": 20000,
+  "time": 60000,
   "reversible": false,
   "autolearn": true,
-  "batch_time_factors":[20, 10],
+  "batch_time_factors":[83, 3],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
     {"id":"COOK","level":1,"amount":1}
@@ -1030,6 +1040,7 @@
   "time": 18000,
   "reversible": false,
   "autolearn": false,
+  "batch_time_factors":[83, 3],
   "book_learn": [[ "cookbook_human", 4 ]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
@@ -1059,9 +1070,10 @@
   "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
   "difficulty": 0,
-  "time": 5000,
+  "time": 15000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[67, 5],
   "qualities":[
     {"id":"COOK","level":1,"amount":1}
   ], "tools": [
@@ -1084,9 +1096,10 @@
   "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
   "difficulty": 3,
-  "time": 12000,
+  "time": 60000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[83, 3],
   "qualities" : [
      {"id":"COOK","level":1,"amount":1} ],
   "tools": [
@@ -1109,9 +1122,10 @@
   "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
   "difficulty": 4,
-  "time": 18000,
+  "time": 60000,
   "reversible": false,
   "autolearn": false,
+  "batch_time_factors":[83, 3],
   "book_learn": [[ "cookbook_human", 4 ]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
