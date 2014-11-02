@@ -1198,7 +1198,7 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
         }
     }
     
-    //Storage battery must be installed on a BATTERY_MOUNT
+    //Swappable storage battery must be installed on a BATTERY_MOUNT
     if(vehicle_part_types[id].has_flag("NEEDS_BATTERY_MOUNT")) {
         bool anchor_found = false;
         for( std::vector<int>::const_iterator it = parts_in_square.begin();
