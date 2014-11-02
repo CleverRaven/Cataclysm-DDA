@@ -469,22 +469,22 @@ int vehicle::select_engine(){
     return tmenu.ret;
 }
 
-void vehicle::toggle_specific_engine(int p,bool on){
-    toggle_specific_part(engines[p],on);
+void vehicle::toggle_specific_engine(int e,bool on){
+    toggle_specific_part(engines[e],on);
 }
 void vehicle::toggle_specific_part(int p,bool on){
     parts[p].enabled = on;
 }
-bool vehicle::is_engine_type_on(int p, const ammotype  & ft){
-    return is_engine_on(p) && is_engine_type(p, ft);
+bool vehicle::is_engine_type_on(int e, const ammotype  & ft){
+    return is_engine_on(e) && is_engine_type(e, ft);
 }
 
-bool vehicle::is_engine_type(int p, const ammotype  & ft){
-    return part_info(engines[p]).fuel_type == ft;
+bool vehicle::is_engine_type(int e, const ammotype  & ft){
+    return part_info(engines[e]).fuel_type == ft;
 }
 
-bool vehicle::is_engine_on(int p){
-    return (parts[engines[p]].hp > 0) && is_part_on(engines[p]);
+bool vehicle::is_engine_on(int e){
+    return (parts[engines[e]].hp > 0) && is_part_on(engines[e]);
 }
 
 bool vehicle::is_part_on(int p){
