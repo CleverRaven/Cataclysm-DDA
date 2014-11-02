@@ -17,9 +17,9 @@
 #include "ui.h"
 #include "debug.h"
 
-const ammotype fuel_types[num_fuel_types] = { 
+const ammotype fuel_types[num_fuel_types] = {
 	"gasoline", "diesel", "battery", "plutonium", "plasma", "water" };
-const nc_color fuel_colors[num_fuel_types] = { 
+const nc_color fuel_colors[num_fuel_types] = {
 	c_ltred, c_brown, c_yellow, c_ltgreen, c_ltblue, c_ltcyan};
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;
@@ -422,7 +422,7 @@ void vehicle::smash() {
     }
 }
 
-void vehicle::control_engines(){
+void vehicle::control_engines() {
     int e_toggle = 0;
     //count active engines
     int active_count = 0;
@@ -431,79 +431,80 @@ void vehicle::control_engines(){
             active_count++;
         }
     }
-    
+
     //show menu until user finishes
-    while(e_toggle >= 0 && e_toggle < (int)engines.size()){
+    while( e_toggle >= 0 && e_toggle < (int)engines.size() ) {
         e_toggle = select_engine();
-        if (e_toggle >= 0 && e_toggle < (int)engines.size() &&
-                (active_count > 1 || !is_engine_on(e_toggle))){
-            active_count += (!is_engine_on(e_toggle))?1:-1;
+        if( e_toggle >= 0 && e_toggle < (int)engines.size() &&
+            (active_count > 1 || !is_engine_on(e_toggle)) ){
+            active_count += (!is_engine_on(e_toggle)) ? 1 : -1;
             toggle_specific_engine(e_toggle, !is_engine_on(e_toggle));
-            
-            add_msg(_("Switched %s %s"),part_info(engines[e_toggle]).name.c_str(), 
-                                            (is_engine_on(e_toggle)?_("on"):_("off")));
+
+            add_msg(_("Switched %s %s"),part_info(engines[e_toggle]).name.c_str(),
+                    (is_engine_on(e_toggle)?_("on"):_("off")));
         }
     }
-    //if current velocity greater than new configuration safe speed
-    //drop down cruise velocity
+    // if current velocity greater than new configuration safe speed
+    // drop down cruise velocity.
     int safe_vel = safe_velocity();
-    if (velocity > safe_vel){
+    if( velocity > safe_vel ) {
         cruise_velocity = safe_vel;
     }
 }
 
-int vehicle::select_engine(){
+int vehicle::select_engine() {
     uimenu tmenu;
     std::string name;
     tmenu.text = _("Toggle which?");
     for( size_t e = 0; e < engines.size(); ++e ) {
-        if(parts[engines[e]].hp > 0) {
+        if( parts[engines[e]].hp > 0 ) {
             name = part_info(engines[e]).name;
             tmenu.addentry(e, true, -1, "[%s] %s",
-                            ((parts[engines[e]].enabled)? "x":" ") , name.c_str());
+                            ((parts[engines[e]].enabled) ? "x" : " ") , name.c_str());
         }
     }
-    
+
     tmenu.addentry(-1, true, 'q', _("Finish"));
     tmenu.query();
     return tmenu.ret;
 }
 
-void vehicle::toggle_specific_engine(int e,bool on){
+void vehicle::toggle_specific_engine(int e,bool on) {
     toggle_specific_part(engines[e],on);
 }
-void vehicle::toggle_specific_part(int p,bool on){
+void vehicle::toggle_specific_part(int p,bool on) {
     parts[p].enabled = on;
 }
-bool vehicle::is_engine_type_on(int e, const ammotype  & ft){
+bool vehicle::is_engine_type_on(int e, const ammotype  & ft) {
     return is_engine_on(e) && is_engine_type(e, ft);
 }
 
-bool vehicle::is_engine_type(int e, const ammotype  & ft){
+bool vehicle::is_engine_type(int e, const ammotype  & ft) {
     return part_info(engines[e]).fuel_type == ft;
 }
 
-bool vehicle::is_engine_on(int e){
+bool vehicle::is_engine_on(int e) {
     return (parts[engines[e]].hp > 0) && is_part_on(engines[e]);
 }
 
-bool vehicle::is_part_on(int p){
+bool vehicle::is_part_on(int p) {
     return parts[p].enabled;
 }
 
-bool vehicle::is_active_engine_at(int x,int y){
+bool vehicle::is_active_engine_at(int x,int y) {
     for( size_t e = 0; e < engines.size(); ++e ) {
-        if (is_engine_on(e) &&
+        if( is_engine_on(e) &&
             parts[engines[e]].mount_dx == x &&
-            parts[engines[e]].mount_dy == y)
+            parts[engines[e]].mount_dy == y ) {
             return true;
+        }
     }
     return false;
 }
 
-bool vehicle::is_alternator_on(int a){
+bool vehicle::is_alternator_on(int a) {
     return (parts[alternators[a]].hp > 0)  && is_active_engine_at(
-                parts[alternators[a]].mount_dx, parts[alternators[a]].mount_dy);
+        parts[alternators[a]].mount_dx, parts[alternators[a]].mount_dy );
 }
 
 void vehicle::use_controls()
@@ -512,8 +513,6 @@ void vehicle::use_controls()
     std::vector<uimenu_entry> options_message;
     int vpart;
     // Always have this option
-
-
     // Let go without turning the engine off.
     if (g->u.controlling_vehicle &&
         g->m.veh_at(g->u.posx, g->u.posy, vpart) == this) {
