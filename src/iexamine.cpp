@@ -1995,7 +1995,9 @@ void iexamine::water_source(player *p, map *m, const int examx, const int examy)
                 // If it takes less than a minute, no need to inform the player about time.
                 p->add_msg_if_player(m_info, _("It will take around %d minutes to fill that container."), turns / 1000);
             }
-            p->assign_activity(ACT_FILL_WATER, turns, -1, p->get_item_position(cont), cont->tname());
+            p->assign_activity(ACT_FILL_LIQUID, turns, -1, p->get_item_position(cont), cont->tname());
+            p->activity.str_values.push_back("water");
+            p->activity.values.push_back(water.poison);
         }
     }
 }
@@ -2016,7 +2018,10 @@ void iexamine::swater_source(player *p, map *m, const int examx, const int examy
                 // If it takes less than a minute, no need to inform the player about time.
                 p->add_msg_if_player(m_info, _("It will take around %d minutes to fill that container."), turns / 1000);
             }
-            p->assign_activity(ACT_FILL_SWATER, turns, -1, p->get_item_position(cont), cont->tname());
+            p->assign_activity(ACT_FILL_LIQUID, turns, -1, p->get_item_position(cont), cont->tname());
+            p->activity.str_values.push_back("swater");
+            p->activity.values.push_back(swater.poison);
+            p->activity.values.push_back(swater.bday);
         }
     }
 }

@@ -35,8 +35,7 @@ enum activity_type {    // expanded this enum for readability
     ACT_MOVE_ITEMS,
     ACT_ADV_INVENTORY,
     ACT_START_FIRE,
-    ACT_FILL_WATER,
-    ACT_FILL_SWATER,
+    ACT_FILL_LIQUID,
     NUM_ACTIVITIES
 };
 
