@@ -52,6 +52,8 @@ bool player_activity::is_abortable() const
     case ACT_MOVE_ITEMS:
     case ACT_ADV_INVENTORY:
     case ACT_START_FIRE:
+    case ACT_FILL_WATER:
+    case ACT_FILL_SWATER:
         return true;
     default:
         return false;

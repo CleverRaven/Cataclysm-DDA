@@ -1679,6 +1679,12 @@ void game::activity_on_turn()
         u.rooted();
         u.pause();
         break;
+    case ACT_FILL_WATER:
+        activity_on_turn_fill_water();
+        break;
+    case ACT_FILL_SWATER:
+        activity_on_turn_fill_swater();
+        break;
     default:
         // Based on speed, not time
         u.activity.moves_left -= u.moves;
@@ -1740,6 +1746,42 @@ void game::activity_on_turn_vibe()
     // Vibrator requires that you be able to move around, stretch, etc, so doesn't play
     // well with roots.  Sorry.  :-(
 
+    u.pause();
+}
+
+void game::activity_on_turn_fill_water()
+{
+    //Filling a container takes time, not speed
+    u.activity.moves_left -= 100;
+
+    item *container = &u.i_at(u.activity.position);
+    item water = m.water_from(u.activity.placement.x, u.activity.placement.y);
+    // Fill up 3 charges per time
+    water.charges = 3;
+    
+    if (handle_liquid(water, true, true, NULL, container) == false) {
+        u.activity.moves_left = 0;
+    }
+
+    u.rooted();
+    u.pause();
+}
+
+void game::activity_on_turn_fill_swater()
+{
+    //Filling a container takes time, not speed
+    u.activity.moves_left -= 100;
+
+    item *container = &u.i_at(u.activity.position);
+    item swater = m.swater_from(u.activity.placement.x, u.activity.placement.y);
+    // Fill up 3 charges per time
+    swater.charges = 3;
+    
+    if (handle_liquid(swater, true, true, NULL, container) == false) {
+        u.activity.moves_left = 0;
+    }
+
+    u.rooted();
     u.pause();
 }
 
@@ -2050,10 +2092,10 @@ void game::activity_on_finish_firstaid()
 
 void game::activity_on_finish_start_fire()
 {
-        item &it = u.i_at(u.activity.position);
-        iuse tmp;
-        tmp.resolve_firestarter_use(&u, &it, u.activity.placement);
-        u.activity.type = ACT_NULL;
+    item &it = u.i_at(u.activity.position);
+    iuse tmp;
+    tmp.resolve_firestarter_use(&u, &it, u.activity.placement);
+    u.activity.type = ACT_NULL;
 }
 
 void game::activity_on_finish_fish()
