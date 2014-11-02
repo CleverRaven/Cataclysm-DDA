@@ -101,7 +101,7 @@ int player::create(character_type type, std::string tempname)
             if (OPTIONS["RANDOM_SCENARIO"]) {
                 std::vector<scenario *> scenarios;
                 for (scenmap::const_iterator iter = scenario::begin(); iter != scenario::end(); iter++) {
-                    if (!(OPTIONS["NO_CHALLENGE"] && (iter->second).has_flag("CHALLENGE"))) {
+                    if (!(iter->second).has_flag("CHALLENGE")) {
                         scenarios.emplace_back(scenario::scen((iter->second).ident()));
                     }
                 }

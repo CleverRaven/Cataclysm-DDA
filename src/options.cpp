@@ -931,11 +931,6 @@ void initOptions()
                                      false
                                     );
 
-    OPTIONS["NO_CHALLENGE"] = cOpt("world_default", _("No challenge scenarios"),
-                                       _("If true, exclude scenarios matching the challenge flag from random selection."),
-                                       true
-                                      );
-
     for (unsigned i = 0; i < vPages.size(); ++i) {
         mPageItems[i].resize(mOptionsSort[vPages[i].first]);
     }
