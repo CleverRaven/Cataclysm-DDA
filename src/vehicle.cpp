@@ -14,7 +14,7 @@
 #include "catacharset.h"
 #include "overmapbuffer.h"
 #include "messages.h"
-
+#include "ui.h"
 #include "debug.h"
 
 const ammotype fuel_types[num_fuel_types] = { 
@@ -427,7 +427,7 @@ void vehicle::control_engines(){
     //count active engines
     int active_count = 0;
     for (size_t p = 0; p < engines.size(); ++p){
-        if (parts[engines[p]].hp > 0 && parts[engines[p]].enabled){
+        if (is_engine_on(p)){
             active_count++;
         }
     }
@@ -470,11 +470,21 @@ int vehicle::select_engine(){
 }
 
 void vehicle::toggle_specific_engine(int p,bool on){
-    parts[engines[p]].enabled = on;
+    toggle_specific_part(engines[p],on);
+}
+void vehicle::toggle_specific_part(int p,bool on){
+    parts[p].enabled = on;
+}
+bool vehicle::is_engine_type_on(int p, const ammotype  & ft){
+    return is_engine_on(p) && is_engine_type(p, ft);
+}
+
+bool vehicle::is_engine_type(int p, const ammotype  & ft){
+    return part_info(engines[p]).fuel_type == ft;
 }
 
 bool vehicle::is_engine_on(int p){
-    return parts[engines[p]].enabled;
+    return (parts[engines[p]].hp > 0) && is_part_on(engines[p]);
 }
 
 bool vehicle::is_part_on(int p){
@@ -483,7 +493,7 @@ bool vehicle::is_part_on(int p){
 
 bool vehicle::is_active_engine_at(int x,int y){
     for( size_t p = 0; p < engines.size(); ++p ) {
-        if (parts[engines[p]].enabled &&
+        if (is_engine_on(p) &&
             parts[engines[p]].mount_dx == x &&
             parts[engines[p]].mount_dy == y)
             return true;
@@ -492,7 +502,8 @@ bool vehicle::is_active_engine_at(int x,int y){
 }
 
 bool vehicle::is_alternator_on(int p){
-    return is_active_engine_at(parts[alternators[p]].mount_dx, parts[alternators[p]].mount_dy);
+    return (parts[alternators[p]].hp > 0)  && is_active_engine_at(
+                parts[alternators[p]].mount_dx, parts[alternators[p]].mount_dy);
 }
 
 void vehicle::use_controls()
@@ -664,7 +675,6 @@ void vehicle::use_controls()
     }
     
     switch(options_choice[select]) {
-    //brackets prevent initialisation errors
     case cont_engines:
         control_engines();
         break;
@@ -2298,8 +2308,7 @@ int vehicle::basic_consumption (const ammotype & ftype)
 {
     int fcon = 0;
     for( size_t p = 0; p < engines.size(); ++p ) {
-        if(ftype == part_info(engines[p]).fuel_type && 
-            parts[engines[p]].hp > 0 && is_engine_on(p)) {
+        if(is_engine_type_on(p, ftype)) {
             if(part_info(engines[p]).fuel_type == fuel_type_battery) {
                 // electric engine - use epower instead
                 fcon += abs(epower_to_power(part_epower(engines[p])));
@@ -2323,15 +2332,15 @@ int vehicle::total_power (bool fueled)
     for (size_t e = 0; e < engines.size(); e++) {
         int p = engines[e];
         if (is_engine_on(e) && (fuel_left (part_info(p).fuel_type) || !fueled ||
-              ((part_info(p).fuel_type == fuel_type_muscle) && player_controlling &&
-              part_with_feature(part_under_player, VPFLAG_ENGINE) == (int)p)) && parts[p].hp > 0) {
+              (is_engine_type(e, fuel_type_muscle) && player_controlling &&
+              part_with_feature(part_under_player, VPFLAG_ENGINE) == (int)p))) {
             pwr += part_power(p);
             cnt++;
         }
     }
     for (size_t a = 0; a < alternators.size();a++){
         int p = alternators[a];
-        if (parts[p].hp > 0 && is_alternator_on(a)) {
+        if (is_alternator_on(a)) {
             pwr += part_power(p); // alternators have negative power
         }
     }
@@ -2408,30 +2417,32 @@ int vehicle::safe_velocity (bool fueled)
 {
     int pwrs = 0;
     int cnt = 0;
-    for (size_t p = 0; p < parts.size(); p++) {
-        if (part_flag(p, VPFLAG_ENGINE) && is_part_on(p) &&
-            (fuel_left (part_info(p).fuel_type) || !fueled ||
-             part_info(p).fuel_type == fuel_type_muscle) &&
-            parts[p].hp > 0) {
+    for (int e = 0; e < (int)engines.size(); e++){
+        if (is_engine_on(e) &&
+            (!fueled || is_engine_type(e, fuel_type_muscle) || 
+            fuel_left (part_info(engines[e]).fuel_type))) {
             int m2c = 100;
 
-            if ( part_info(p).fuel_type == fuel_type_gasoline ) {
+            if (is_engine_type(e, fuel_type_gasoline)) {
                 m2c = 60;
-            } else if( part_info(p).fuel_type == fuel_type_diesel ) {
+            } else if(is_engine_type(e, fuel_type_diesel)) {
                 m2c = 65;
-            } else if( part_info(p).fuel_type == fuel_type_plasma ) {
+            } else if(is_engine_type(e, fuel_type_plasma)) {
                 m2c = 75;
-            } else if( part_info(p).fuel_type == fuel_type_battery ) {
+            } else if(is_engine_type(e, fuel_type_battery)) {
                 m2c = 90;
-            } else if( part_info(p).fuel_type == fuel_type_muscle ) {
+            } else if(is_engine_type(e, fuel_type_muscle)) {
                 m2c = 45;
             }
 
-            pwrs += part_power(p) * m2c / 100;
+            pwrs += part_power(engines[e]) * m2c / 100;
             cnt++;
-        } else if (part_flag(p, VPFLAG_ALTERNATOR) && parts[p].hp > 0) { // factor in m2c?
-            pwrs += part_power(p); // alternator parts have negative power
         }
+    }
+    for (int a = 0; a < (int)alternators.size(); a++){
+         if (is_alternator_on(a)){
+            pwrs += part_power(alternators[a]); // alternator parts have negative power
+         }
     }
     if (cnt > 0) {
         pwrs = pwrs * 4 / (4 + cnt -1);
@@ -2481,14 +2492,13 @@ void vehicle::noise_and_smoke( double load, double time )
 
     for( size_t e = 0; e < engines.size(); e++ ) {
         int p = engines[e];
-        if( parts[p].hp > 0 && is_engine_on(e) &&
-                (fuel_left (part_info(p).fuel_type) ||
-                 part_info(p).fuel_type == fuel_type_muscle) ) {
+        if( is_engine_on(e) &&
+                (is_engine_type(e, fuel_type_muscle) || fuel_left (part_info(p).fuel_type)) ) {
             double pwr = 10.0; // Default noise if nothing else found, shouldn't happen
             double max_pwr = double(power_to_epower(part_power(p, true)))/40000;
             double cur_pwr = load * max_pwr;
 
-            if( part_info(p).fuel_type == fuel_type_gasoline || part_info(p).fuel_type == fuel_type_diesel ) {
+            if( is_engine_type(e, fuel_type_gasoline) || is_engine_type(e, fuel_type_diesel)) {
                 double j = power_to_epower(part_power(p, true)) * load * time * muffle;
                 if( (exhaust_part == -1) && engine_on ) {
                     spew_smoke( j, p );
@@ -2496,11 +2506,11 @@ void vehicle::noise_and_smoke( double load, double time )
                     mufflesmoke += j;
                 }
                 pwr = (cur_pwr*15 + max_pwr*3 + 5) * muffle;
-            } else if( part_info(p).fuel_type == fuel_type_plasma ) {
+            } else if(is_engine_type(e, fuel_type_plasma)) {
                 pwr = (cur_pwr*9 + 1) * muffle;
-            } else if( part_info(p).fuel_type == fuel_type_battery ) {
+            } else if(is_engine_type(e, fuel_type_battery)) {
                 pwr = cur_pwr*3;
-            } else if( part_info(p).fuel_type == fuel_type_muscle ) {
+            } else if(is_engine_type(e, fuel_type_battery)) {
                 pwr = cur_pwr*5;
             }
             noise = std::max(noise, pwr); // Only the loudest engine counts.
@@ -2725,8 +2735,8 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
     if(engine_on) {
         // Gas engines require epower to run for ignition system, ECU, etc.
         for( size_t p = 0; p < engines.size(); ++p ) {
-            if(parts[engines[p]].hp > 0 && is_engine_on(p) &&
-               (part_info(engines[p]).fuel_type == fuel_type_gasoline || part_info(engines[p]).fuel_type == fuel_type_diesel)) {
+            if(is_engine_type_on(p, fuel_type_gasoline) || 
+                is_engine_type_on(p, fuel_type_diesel)) {
                 gas_epower += part_info(engines[p]).epower;
             }
         }
@@ -2746,8 +2756,7 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
         // Plasma engines generate epower if turned on
         int plasma_epower = 0;
         for( size_t p = 0; p < engines.size(); ++p ) {
-            if(parts[engines[p]].hp > 0 && is_engine_on(p) &&
-               part_info(engines[p]).fuel_type == fuel_type_plasma) {
+            if(is_engine_type_on(p, fuel_type_plasma)) {
                 plasma_epower += part_info(engines[p]).epower;
             }
         }
@@ -2760,7 +2769,7 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
         int alternators_epower = 0;
         int alternators_power = 0;
         for( size_t p = 0; p < alternators.size(); ++p ) {
-            if(parts[alternators[p]].hp > 0 && is_alternator_on(p)) {
+            if(is_alternator_on(p)) {
                 alternators_epower += part_info(alternators[p]).epower;
                 alternators_power += part_power(alternators[p]);
             }
@@ -3015,18 +3024,17 @@ void vehicle::idle(bool on_map) {
 
     if( engine_on && total_power() > 0 && !has_pedals && !has_hand_rims && !has_paddles) {
         int strn = (int)(strain() * strain() * 100);
-        for (size_t p = 0; p < parts.size(); p++) {
-            if (part_flag(p, VPFLAG_ENGINE)) {
-                if (fuel_left(part_info(p).fuel_type) && parts[p].hp > 0) {
-                    engines_power += part_power(p);
-                    if (one_in(6) && rng(1, 100) < strn) {
-                        int dmg = rng(strn * 2, strn * 4);
-                        damage_direct(p, dmg, 0);
-                        if(one_in(2))
-                            add_msg(_("Your engine emits a high pitched whine."));
-                        else
-                            add_msg(_("Your engine emits a loud grinding sound."));
-                    }
+        for (int e = 0; e < (int)engines.size(); e++){
+            size_t p = engines[e];
+            if (fuel_left(part_info(p).fuel_type) && is_engine_on(e)) {
+                engines_power += part_power(p);
+                if (one_in(6) && rng(1, 100) < strn) {
+                    int dmg = rng(strn * 2, strn * 4);
+                    damage_direct(p, dmg, 0);
+                    if(one_in(2))
+                        add_msg(_("Your engine emits a high pitched whine."));
+                    else
+                        add_msg(_("Your engine emits a loud grinding sound."));
                 }
             }
         }
@@ -3182,17 +3190,16 @@ void vehicle::thrust (int thd) {
         consume_fuel ();
 
         int strn = (int) (strain () * strain() * 100);
-
-        for( size_t p = 0; p < parts.size(); p++ ) {
-            if( part_flag(p, VPFLAG_ENGINE) && is_part_on(p) ) {
-                if( fuel_left(part_info(p).fuel_type) && parts[p].hp > 0 && rng (1, 100) < strn ) {
-                    int dmg = rng (strn * 2, strn * 4);
-                    damage_direct (p, dmg, 0);
-                    if(one_in(2)) {
-                     add_msg(_("Your engine emits a high pitched whine."));
-                    } else {
-                     add_msg(_("Your engine emits a loud grinding sound."));
-                    }
+        for (int e = 0; e < (int)engines.size(); e++){
+            size_t p = engines[e];
+            if (is_engine_on(e) && fuel_left(part_info(p).fuel_type) && 
+                rng (1, 100) < strn ) {
+                int dmg = rng (strn * 2, strn * 4);
+                damage_direct (p, dmg, 0);
+                if(one_in(2)) {
+                 add_msg(_("Your engine emits a high pitched whine."));
+                } else {
+                 add_msg(_("Your engine emits a loud grinding sound."));
                 }
             }
         }

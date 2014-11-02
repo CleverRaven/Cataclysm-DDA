@@ -10,7 +10,7 @@
 #include <map>
 #include <string>
 #include <iosfwd>
-#include "ui.h"
+
 
 class map;
 class player;
@@ -654,13 +654,21 @@ public:
     void control_engines();
     // shows ui menu to select an engine
     int select_engine();
+    //returns whether the engine is enabled or not, and has fueltype
+    bool is_engine_type_on(int p, const ammotype & ft);
     //returns whether the engine is enabled or not
     bool is_engine_on(int p);
+    //returns whether the part is enabled or not
     bool is_part_on(int p);
+    //returns whether the engine uses specified fuel type
+    bool is_engine_type(int p, const ammotype  & ft);
+    //returns whether there is an active engine at vehicle coordinates
     bool is_active_engine_at(int x,int y);
+    //returns whether the alternator is operational
     bool is_alternator_on(int p);
     //mark engine as on or off
     void toggle_specific_engine(int p, bool on);
+    void toggle_specific_part(int p,bool on);
 
 
     // return a vector w/ 'direction' & 'magnitude', in its own sense of the words.
