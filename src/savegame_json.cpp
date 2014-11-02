@@ -1241,6 +1241,7 @@ void vehicle_part::deserialize(JsonIn &jsin)
     data.read("amount", amount );
     data.read("blood", blood );
     data.read("bigness", bigness );
+    data.read("enabled", enabled );
     data.read("flags", flags );
     data.read("passenger_id", passenger_id );
     data.read("items", items);
@@ -1260,6 +1261,7 @@ void vehicle_part::serialize(JsonOut &json) const
     json.member("amount", amount);
     json.member("blood", blood);
     json.member("bigness", bigness);
+    json.member("enabled", enabled);
     json.member("flags", flags);
     json.member("passenger_id", passenger_id);
     json.member("items", items);
