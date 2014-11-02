@@ -14,6 +14,7 @@
 #include "player_activity.h"
 #include "messages.h"
 #include "clzones.h"
+#include "artifact.h"
 
 #include <unordered_set>
 #include <bitset>
@@ -120,6 +121,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Empties the trait list */
         void empty_traits();
         void add_traits();
+        void empty_skills();
         /** Returns the id of a random starting trait that costs >= 0 points */
         std::string random_good_trait();
         /** Returns the id of a random starting trait that costs < 0 points */

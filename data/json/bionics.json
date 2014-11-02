@@ -653,5 +653,12 @@
     "name"       :    "Wire-induced Stiffness",
     "faulty"     :    true,
     "description":    "Improperly installed wires cause a physical stiffness in most of your body, causing increased encumbrance."
+    },{
+        "type" : "bionic",
+        "id" : "bio_meteorologist",
+    "name"       :    "Weather Reader",
+    "active"     :    true,
+    "cost"       :    25,
+    "description":    "A multitude of scientific instruments and sensors collect environemental data. The data is compiled and presented as a simple readout of the current weather."
     }
 ]

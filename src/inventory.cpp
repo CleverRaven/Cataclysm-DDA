@@ -376,30 +376,15 @@ item &inventory::add_item(item newit, bool keep_invlet, bool assign_invlet)
     // See if we can't stack this item.
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
         std::list<item>::iterator it_ref = iter->begin();
-        if (it_ref->type->id == newit.type->id) {
-            if (newit.charges != -1 && (newit.is_food() || newit.is_ammo())) {
-                it_ref->charges += newit.charges;
+        if( it_ref->stacks_with( newit ) ) {
+            if( it_ref->merge_charges( newit ) ) {
                 return *it_ref;
-            } else if (it_ref->stacks_with(newit)) {
-                if (it_ref->is_food() && it_ref->has_flag("HOT")) {
-                    int tmpcounter = (it_ref->item_counter + newit.item_counter) / 2;
-                    it_ref->item_counter = tmpcounter;
-                    newit.item_counter = tmpcounter;
-                }
-                if (it_ref->is_food() && it_ref->has_flag("COLD")) {
-                    int tmpcounter = (it_ref->item_counter + newit.item_counter) / 2;
-                    it_ref->item_counter = tmpcounter;
-                    newit.item_counter = tmpcounter;
-                }
-                newit.invlet = it_ref->invlet;
-                iter->push_back(newit);
-                return iter->back();
-            } else if (keep_invlet && assign_invlet && it_ref->invlet == newit.invlet) {
-                assign_empty_invlet(*it_ref);
             }
-        }
-        // If keep_invlet is true, we'll be forcing other items out of their current invlet.
-        else if (keep_invlet && assign_invlet && it_ref->invlet == newit.invlet) {
+            newit.invlet = it_ref->invlet;
+            iter->push_back( newit );
+            return iter->back();
+        } else if( keep_invlet && assign_invlet && it_ref->invlet == newit.invlet ) {
+            // If keep_invlet is true, we'll be forcing other items out of their current invlet.
             assign_empty_invlet(*it_ref);
         }
     }
@@ -459,14 +444,11 @@ void inventory::restack(player *p)
     // separate loop to ensure that ALL stacks are homogeneous
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
         for (invstack::iterator other = iter; other != items.end(); ++other) {
-            if (iter != other && iter->front().type->id == other->front().type->id) {
-                if (other->front().charges != -1 && (other->front().is_food() ||
-                                                     other->front().is_ammo())) {
+            if (iter != other && iter->front().stacks_with( other->front() ) ) {
+                if( other->front().count_by_charges() ) {
                     iter->front().charges += other->front().charges;
-                } else if (iter->front().stacks_with(other->front())) {
-                    iter->splice(iter->begin(), *other);
                 } else {
-                    continue;
+                    iter->splice(iter->begin(), *other);
                 }
                 other = items.erase(other);
                 --other;
@@ -515,8 +497,7 @@ void inventory::form_from_map(point origin, int range, bool assign_invlet)
                 add_item(fire);
             }
             if (terrain_id == t_water_sh || terrain_id == t_water_dp ||
-                terrain_id == t_water_pool || terrain_id == t_water_pump ||
-                terrain_id == t_sewage) {
+                terrain_id == t_water_pool || terrain_id == t_water_pump) {
                 item water("water", 0);
                 water.charges = 50;
                 add_item(water);

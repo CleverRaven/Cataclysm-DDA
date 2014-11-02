@@ -17,7 +17,10 @@
 
 #include "debug.h"
 
-const ammotype fuel_types[num_fuel_types] = { "gasoline", "diesel", "battery", "plutonium", "plasma", "water" };
+const ammotype fuel_types[num_fuel_types] = { 
+	"gasoline", "diesel", "battery", "plutonium", "plasma", "water" };
+const nc_color fuel_colors[num_fuel_types] = { 
+	c_ltred, c_brown, c_yellow, c_ltgreen, c_ltblue, c_ltcyan};
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;
  *   assemble "structure" once here instead of repeatedly later.
@@ -1944,25 +1947,33 @@ int vehicle::print_part_desc(WINDOW *win, int y1, int width, int p, int hl /*= -
     return y;
 }
 
-void vehicle::print_fuel_indicator (void *w, int y, int x, bool fullsize, bool verbose, bool desc)
+void vehicle::print_fuel_indicator (void *w, int y, int x, bool fullsize, bool verbose, bool desc, bool isHorizontal)
 {
     WINDOW *win = (WINDOW *) w;
-    const nc_color fcs[num_fuel_types] = { c_ltred, c_yellow, c_ltgreen, c_ltblue, c_ltcyan };
+
     const char fsyms[5] = { 'E', '\\', '|', '/', 'F' };
     nc_color col_indf1 = c_ltgray;
     int yofs = 0;
+    
+    int max_gauge = (isHorizontal) ? 12 : 5;
+    int cur_gauge = 0;
+    
     for (int i = 0; i < num_fuel_types; i++) {
         int cap = fuel_capacity(fuel_types[i]);
         if (cap > 0 && ( basic_consumption(fuel_types[i]) > 0 || fullsize ) ) {
+            if (cur_gauge++ >= max_gauge) {
+                wprintz(win, c_ltgray, "...", ammo_name(fuel_types[i]).c_str() );
+                break;
+            }
             mvwprintz(win, y + yofs, x, col_indf1, "E...F");
             int amnt = cap > 0? fuel_left(fuel_types[i]) * 99 / cap : 0;
             int indf = (amnt / 20) % 5;
-            mvwprintz(win, y + yofs, x + indf, fcs[i], "%c", fsyms[indf]);
+            mvwprintz(win, y + yofs, x + indf, fuel_colors[i], "%c", fsyms[indf]);
             if (verbose) {
                 if( debug_mode ) {
-                    mvwprintz(win, y + yofs, x + 6, fcs[i], "%d/%d", fuel_left(fuel_types[i]), cap);
+                    mvwprintz(win, y + yofs, x + 6, fuel_colors[i], "%d/%d", fuel_left(fuel_types[i]), cap);
                 } else {
-                    mvwprintz(win, y + yofs, x + 6, fcs[i], "%d", (fuel_left(fuel_types[i]) * 100) / cap);
+                    mvwprintz(win, y + yofs, x + 6, fuel_colors[i], "%d", (fuel_left(fuel_types[i]) * 100) / cap);
                     wprintz(win, c_ltgray, "%c", 045);
                 }
             }
@@ -2510,10 +2521,10 @@ float vehicle::strain ()
     int sv = safe_velocity();
     if (mv <= sv)
         mv = sv + 1;
-    if (velocity < safe_velocity())
+    if (velocity < safe_velocity() && velocity > -safe_velocity())
         return 0;
     else
-        return (float) (velocity - sv) / (float) (mv - sv);
+        return (float) (abs(velocity) - sv) / (float) (mv - sv);
 }
 
 bool vehicle::valid_wheel_config ()
@@ -3137,16 +3148,37 @@ void vehicle::cruise_thrust (int amount)
     if (!amount) {
         return;
     }
-    int max_vel = (safe_velocity() * 11 / 10000 + 1) * 1000;
-    cruise_velocity += amount;
-    cruise_velocity = cruise_velocity / abs(amount) * abs(amount);
+    int safe_vel = safe_velocity();
+    int max_vel = max_velocity();
+    int max_rev_vel = -max_vel / 4;
+    
+    //if the safe velocity is between the cruise velocity and its next value, set to safe velocity
+    if ((cruise_velocity < safe_vel && safe_vel < (cruise_velocity + amount)) || 
+        (cruise_velocity > safe_vel && safe_vel > (cruise_velocity + amount))){
+        cruise_velocity = safe_vel;
+    } else {
+        //if coming down from safe_velocity or max_velocity
+        //then take one, so cruise_velocity scales down a multiple of amount
+        if (amount < 0 && (cruise_velocity == safe_vel || cruise_velocity == max_vel)){
+            cruise_velocity += -1;
+        } 
+        //if not going up from max reverse velocity, increase by amount
+        else if ((amount > 0 && cruise_velocity == max_rev_vel) == false){
+            cruise_velocity += amount;
+        }
+        //integer round to lowest multiple of amount
+        //the result is always equal to the original or closer to zero
+        //even if negative
+        cruise_velocity = cruise_velocity / abs(amount) * abs(amount);
+    }
+    //can't have a cruise speed faster than max speed
+    //or reverse speed faster than max reverse speed
     if (cruise_velocity > max_vel) {
         cruise_velocity = max_vel;
-    } else {
-        if (-cruise_velocity > max_vel / 4) {
-            cruise_velocity = -max_vel / 4;
-        }
+    } else if (cruise_velocity < max_rev_vel) {
+            cruise_velocity = max_rev_vel;
     }
+    
 }
 
 void vehicle::turn (int deg)
@@ -3668,12 +3700,11 @@ bool vehicle::add_item (int part, item itm)
     }
     int cur_volume = 0;
     int add_volume = itm.volume();
-    bool tryaddcharges=(itm.charges  != -1 && (itm.is_food() || itm.is_ammo()));
+    bool tryaddcharges=(itm.charges  != -1 && itm.count_by_charges());
     // iterate anyway since we need a volume total
     for (auto &i : parts[part].items) {
         cur_volume += i.volume();
-        if( tryaddcharges && i.type->id == itm.type->id ) {
-            i.charges+=itm.charges;
+        if( tryaddcharges && i.merge_charges( itm ) ) {
             return true;
         }
     }

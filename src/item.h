@@ -8,6 +8,7 @@
 #include <bitset>
 #include <unordered_set>
 #include <set>
+#include "artifact.h"
 #include "itype.h"
 #include "mtype.h"
 
@@ -149,7 +150,14 @@ public:
     bool is_of_ammo_type_or_contains_it(const ammotype &ammo_type_id) const;
 
  bool invlet_is_okay();
- bool stacks_with(item rhs);
+        bool stacks_with( const item &rhs ) const;
+        /**
+         * Merge charges of the other item into this item.
+         * @return true if the items have been merged, otherwise false.
+         * Merging is only done for items counted by charges (@ref count_by_charges) and
+         * items that stack together (@ref stacks_with).
+         */
+        bool merge_charges( const item &rhs );
  void put_in(item payload);
  void add_rain_to_container(bool acid, int charges = 1);
 
@@ -429,6 +437,19 @@ public:
  bool is_other() const; // Doesn't belong in other categories
  bool is_var_veh_part() const;
  bool is_artifact() const;
+
+        /**
+         * Does the item provide the artifact effect when it is wielded?
+         */
+        bool has_effect_when_wielded( art_effect_passive effect ) const;
+        /**
+         * Does the item provide the artifact effect when it is worn?
+         */
+        bool has_effect_when_worn( art_effect_passive effect ) const;
+        /**
+         * Does the item provide the artifact effect when it is carried?
+         */
+        bool has_effect_when_carried( art_effect_passive effect ) const;
 
     /**
      * Set the snippet text (description) of this specific item, using the snippet library.

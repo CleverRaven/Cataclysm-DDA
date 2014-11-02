@@ -1,4 +1,5 @@
 #include "game.h"
+#include "gamemode.h"
 #include "debug.h"
 #include "input.h"
 #include "mapbuffer.h"

@@ -156,6 +156,8 @@
     {"id":"SAW_M","level":1,"amount":1}
   ], "components": [
     [
+      [ "steel_chunk", 1 ],
+      [ "scrap", 3 ],
       [ "knife_butter", 2 ]
     ]
   ]

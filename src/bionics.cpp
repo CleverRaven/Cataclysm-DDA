@@ -8,6 +8,7 @@
 #include "json.h"
 #include "messages.h"
 #include "item_factory.h"
+#include "overmapbuffer.h"
 #include <math.h>    //sqrt
 #include <algorithm> //std::min
 #include <sstream>
@@ -390,6 +391,7 @@ void player::activate_bionic(int b)
     std::vector<std::string> bad;
     int dirx, diry;
     item tmp_item;
+    w_point weatherPoint = g->weatherGen.get_weather(pos(), calendar::turn);
 
     if(bio.id == "bio_painkiller") {
         pkill += 6;
@@ -558,7 +560,7 @@ void player::activate_bionic(int b)
         stim = 0;
     } else if(bio.id == "bio_evap") {
         item water = item("water_clean", 0);
-        int humidity = g->weatherGen.get_weather(pos(), calendar::turn).humidity;
+        int humidity = weatherPoint.humidity;
         int water_charges = (humidity * 3.0) / 100.0 + 0.5;
         // At 50% relative humidity or more, the player will draw 2 units of water
         // At 16% relative humidity or less, the player will draw 0 units of water
@@ -585,8 +587,8 @@ void player::activate_bionic(int b)
     }
     if(bio.id == "bio_leukocyte") {
         add_msg(m_neutral, _("You activate your leukocyte breeder system."));
-        g->u.set_healthy(std::min(100, g->u.get_healthy() + 2));
-        g->u.mod_healthy_mod(20);
+        set_healthy(std::min(100, get_healthy() + 2));
+        mod_healthy_mod(20);
     }
     if(bio.id == "bio_geiger") {
         add_msg(m_info, _("Your radiation level: %d"), radiation);
@@ -806,6 +808,23 @@ void player::activate_bionic(int b)
     } else if(bio.id == "bio_shockwave") {
         g->shockwave(posx, posy, 3, 4, 2, 8, true);
         add_msg_if_player(m_neutral, _("You unleash a powerful shockwave!"));
+    } else if(bio.id == "bio_meteorologist") {
+        add_msg_if_player(m_neutral, _("Temperature: %s."), print_temperature(g->get_temperature()).c_str());
+        add_msg_if_player(m_neutral, _("Relative Humidity: %s."), print_humidity(get_local_humidity(weatherPoint.humidity, g->weather, g->is_sheltered(g->u.posx, g->u.posy))).c_str());
+        add_msg_if_player(m_neutral, _("Pressure: %s."), print_pressure((int)weatherPoint.pressure/10).c_str());
+        // Calculate local wind power
+        int vpart = -1;
+        vehicle *veh = g->m.veh_at( posx, posy, vpart );
+        int vehwindspeed = 0;
+        if( veh ) {
+            vehwindspeed = abs(veh->velocity / 100); // For mph
+        }
+        const oter_id &cur_om_ter = overmap_buffer.ter(g->om_global_location());
+        std::string omtername = otermap[cur_om_ter].name;
+        int windpower = vehwindspeed + get_local_windpower(weatherPoint.windpower, omtername, g->is_sheltered(g->u.posx, g->u.posy));
+
+        add_msg_if_player(m_neutral, _("Wind Speed: %s."), print_windspeed((float)windpower).c_str());
+        add_msg_if_player(m_neutral, _("Feels Like: %s."), print_temperature(get_local_windchill(weatherPoint.temperature, weatherPoint.humidity, windpower) + g->get_temperature()).c_str());
     }
 }
 
@@ -1119,7 +1138,7 @@ void bionics_install_failure(player *u, it_bionic *type, int success)
                 int old_power = u->max_power_level;
                 add_msg(m_bad, _("You lose power capacity!"));
                 u->max_power_level = rng(0, u->max_power_level - 25);
-                g->u.add_memorial_log(pgettext("memorial_male", "Lost %d units of power capacity."),
+                u->add_memorial_log(pgettext("memorial_male", "Lost %d units of power capacity."),
                                       pgettext("memorial_female", "Lost %d units of power capacity."),
                                       old_power - u->max_power_level);
             }

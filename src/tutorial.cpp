@@ -1,3 +1,4 @@
+#include "gamemode.h"
 #include "game.h"
 #include "output.h"
 #include "action.h"

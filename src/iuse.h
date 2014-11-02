@@ -214,6 +214,8 @@ public:
     int camera              (player *, item *, bool, point);
     int ehandcuffs          (player *, item *, bool, point);
     int cable_attach        (player *, item *, bool, point);
+    int pocket_meteorolgist (player *, item *, bool, point);
+    int survivor_belt       (player *, item *, bool, point);
 
 // MACGUFFINS
     int mcg_note            (player *, item *, bool, point);

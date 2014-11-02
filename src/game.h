@@ -20,7 +20,6 @@
 #include "calendar.h"
 #include "posix_time.h"
 #include "mutation.h"
-#include "gamemode.h"
 #include "live_view.h"
 #include "worldfactory.h"
 #include "creature_tracker.h"
@@ -80,6 +79,7 @@ struct monster_and_count {
     monster_and_count(monster M, int C) : critter (M), count (C) {};
 };
 
+struct special_game;
 struct mtype;
 struct mission_type;
 class map;
@@ -347,14 +347,8 @@ class game
         bool can_disassemble(item *dis_item, const recipe *cur_recipe,
                              inventory &crafting_inv, bool print_msg);
 
-        bool has_gametype() const
-        {
-            return gamemode && gamemode->id() != SGAME_NULL;
-        }
-        special_game_id gametype() const
-        {
-            return (gamemode) ? gamemode->id() : SGAME_NULL;
-        }
+        bool has_gametype() const;
+        special_game_id gametype() const;
 
         std::map<std::string, vehicle *> vtypes;
         void toggle_sidebar_style(void);

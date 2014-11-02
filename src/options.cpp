@@ -1352,8 +1352,10 @@ std::string options_header()
 void save_options(bool ingame)
 {
     std::ofstream fout;
-    fout.open(FILENAMES["options"].c_str());
+    const auto path = FILENAMES["options"];
+    fout.open(path.c_str());
     if(!fout.is_open()) {
+        popup( _( "Could not open the options file %s, check file permissions." ), path.c_str() );
         return;
     }
 
@@ -1375,6 +1377,9 @@ void save_options(bool ingame)
     }
 
     fout.close();
+    if( fout.fail() ) {
+        popup( _( "Failed to save the options to %s." ), path.c_str() );
+    }
     if ( ingame ) {
         world_generator->save_world( world_generator->active_world, false );
     }

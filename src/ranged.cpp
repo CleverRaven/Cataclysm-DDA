@@ -106,8 +106,9 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
             dealt_damage_instance dealt_dam;
             bool passed_through = critter->deal_projectile_attack(this, cur_missed_by, proj, dealt_dam) == 1;
             if (dealt_dam.total_damage() > 0) {
-                std::vector<point> blood_traj = trajectory;
+                std::vector<point> blood_traj = std::vector<point>();
                 blood_traj.insert(blood_traj.begin(), point(xpos(), ypos()));
+                blood_traj.insert(blood_traj.end(), point(critter->xpos(), critter->ypos()));
                 splatter( blood_traj, dam, critter );
             }
             if (!passed_through) {
