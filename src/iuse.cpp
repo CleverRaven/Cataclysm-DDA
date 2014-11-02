@@ -8835,8 +8835,10 @@ bool einkpc_download_memory_card(player *p, item *eink, item *mc)
                 const int dif = (*list_iter)->difficulty;
 
                 if (science) {
-                    if (dif >= 3 && one_in(dif + 1)) {
-                        candidates.push_back(*list_iter);
+                    if ((*list_iter)->cat != "CC_NONCRAFT") {
+                        if (dif >= 3 && one_in(dif + 1)) {
+                            candidates.push_back(*list_iter);
+                        }
                     }
                 } else {
                     if ((*list_iter)->cat == "CC_FOOD") {
