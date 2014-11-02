@@ -385,7 +385,7 @@ void player::power_mutations()
                     int b = tmp - &my_mutations[0];
                     if (traits[*tmp].powered) {
                         traits[*tmp].powered = false;
-                        add_msg(m_neutral, _("%s powered off."), mut_data.name.c_str());
+                        add_msg(m_neutral, _("You stop using your %s."), mut_data.name.c_str());
 
                         deactivate_mutation(b);
                         delwin(w_title);
