@@ -520,19 +520,20 @@ bool vehicle::interact_vehicle_locked()
                 if ((g->u).skillLevel("mechanics")> (int)rng(3,10)){
                     //success
                     is_locked = false;
-                    add_msg(_("This wire will start the engine."));
+                    add_msg(_("This wire will probably start the engine."));
                     return true;
+                } else if (one_in(2)) {
+                    //clean fail
+                    add_msg(_("You jam the screwdriver into the keyhole, nothing happens..."));
                 } else if (one_in(2)) {
                     //soft fail
                     is_locked = false;
                     is_alarm = true;
                     add_msg(_("Hmm, what does this wire do?"));
-                } else if (one_in(2)) {
+                } else {
                     //hard fail
                     is_alarm = true;
                     add_msg(_("Hmm, what does this wire do?"));
-                } else {
-                    add_msg(_("You jam the screwdriver into the keyhole, nothing happens..."));
                 }
                 
             } else {
@@ -3103,8 +3104,8 @@ void vehicle::idle(bool on_map) {
 void vehicle::alarm(bool on_map){
     if (on_map && is_alarm && one_in(4)) {
         const char *sound_msgs[] = { "WHOOP WHOOP", "NEEeu NEEeu NEEeu", "BLEEEEEEP", "WREEP"};
-        g->ambient_sound( global_x(), global_y(), (int) rng(45,100), sound_msgs[rng(0,3)]);
-        if (one_in(1000)) is_alarm = false;
+        g->ambient_sound( global_x(), global_y(), (int) rng(45,80), sound_msgs[rng(0,3)]);
+        if (one_in(100)) is_alarm = false;
     }
 }
 
