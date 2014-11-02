@@ -215,8 +215,10 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
     }
     if (init_veh_status == 1) {
      veh_status = 1;
-     if (one_in(5)) {           //  seats are destroyed 20%
+     if (one_in(10)) {           //  seats are destroyed 10%
       destroySeats = true;
+     } else if (one_in(9)) {    //vehicle locked 10%
+         has_alarm = true;
      } else if (one_in(5)) {    // controls are destroyed 16%
       destroyControls = true;
      } else if (one_in(5)) {    // battery, minireactor or gasoline tank are destroyed 13%
@@ -227,8 +229,8 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
       destroyTires = true;
      }
     }
-    //chance car is locked
-    if (true) is_locked = true;
+    //debug only
+    has_alarm = true;
     
     //Provide some variety to non-mint vehicles
     if(veh_status != 0) {
@@ -297,6 +299,18 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
         }
         if (part_flag(p, "BOARDABLE")) {      // no passengers
             parts[p].remove_flag(vehicle_part::passenger_flag);
+        }
+        if (part_flag(p, "CONTROLS") && has_alarm && parts[p].hp > 0){
+            //add alarm part to controls
+            vehicle_part alarm_part;
+            alarm_part.setid("alarm");
+            alarm_part.mount_dx = parts[p].mount_dx;
+            alarm_part.mount_dy = parts[p].mount_dy;
+            alarm_part.hp = vehicle_part_types["alarm"].durability;
+            alarm_part.amount = 0;
+            alarm_part.blood = 0;
+            alarm_part.bigness = 0;
+            parts.push_back (alarm_part);
         }
 
         // initial vehicle damage
