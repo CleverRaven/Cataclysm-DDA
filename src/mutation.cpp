@@ -181,7 +181,7 @@ void show_mutations_titlebar(WINDOW *window, player *p, std::string menu_mode)
         desc = _("<color_ltblue>Examining</color>  <color_yellow>!</color> to activate, <color_yellow>=</color> to reassign.");
     }
     fold_and_print(window, 0, cap_offset, desc_length, c_white, desc);
-    fold_and_print(window, 1, 0, desc_length, c_white, "Might need to use ? to assign the keys.");
+    fold_and_print(window, 1, 0, desc_length, c_white, _("Might need to use ? to assign the keys."));
 
     wrefresh(window);
 }
@@ -385,7 +385,7 @@ void player::power_mutations()
                     int b = tmp - &my_mutations[0];
                     if (traits[*tmp].powered) {
                         traits[*tmp].powered = false;
-                        add_msg(m_neutral, _("%s powered off."), mut_data.name.c_str());
+                        add_msg(m_neutral, _("You stop using your %s."), mut_data.name.c_str());
 
                         deactivate_mutation(b);
                         delwin(w_title);
@@ -1046,7 +1046,7 @@ void mutation_effect(player &p, std::string mut)
         bps.push_back(bp_mouth);
 
     } else if (mut == "MINOTAUR" || mut == "MUZZLE" || mut == "MUZZLE_BEAR" || mut == "MUZZLE_LONG" ||
-               mut == "PROBOSCIS") {
+               mut == "PROBOSCIS" || mut == "MUZZLE_RAT") {
         // Push off mouthwear
         bps.push_back(bp_mouth);
 
