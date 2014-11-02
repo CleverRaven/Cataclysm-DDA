@@ -3148,7 +3148,7 @@ void vehicle::idle(bool on_map) {
 void vehicle::alarm(bool on_map){
     if (on_map && is_alarm && one_in(4)) {
         //first check if the alarm is still installed
-        found_alarm = has_alarm_installed()
+        bool found_alarm = has_alarm_installed();
 
         //if alarm found, make noise, else set alarm disabled
         if (found_alarm){
