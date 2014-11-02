@@ -328,7 +328,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
           }
          }
          if (destroyTank) { // vehicle is disabled because no battery, minireactor or gasoline tank
-          if (part_flag(p, "FUEL_TANK")) {
+          if (part_flag(p, "FUEL_TANK") || part_flag(p, "NEEDS_BATTERY_MOUNT")) {
            parts[p].hp= 0;
            parts[p].amount = 0;
           }
