@@ -2562,7 +2562,7 @@
   "subcategory": "CSC_OTHER_MATERIALS",
   "skill_used": "fabrication",
   "difficulty": 4,
-  "time": 750,
+  "time": 10000,
   "reversible": true,
   "autolearn": true,
   "qualities":[
