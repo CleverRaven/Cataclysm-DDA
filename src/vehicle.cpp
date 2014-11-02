@@ -440,8 +440,8 @@ void vehicle::control_engines(){
             active_count += (!is_engine_on(e_toggle))?1:-1;
             toggle_specific_engine(e_toggle, !is_engine_on(e_toggle));
             
-            add_msg("Switched %s %s",part_info(engines[e_toggle]).name.c_str(), 
-                                            (is_engine_on(e_toggle)?"on":"off"));
+            add_msg(_("Switched %s %s"),part_info(engines[e_toggle]).name.c_str(), 
+                                            (is_engine_on(e_toggle)?_("on"):_("off")));
         }
     }
     //if current velocity greater than new configuration safe speed
@@ -657,7 +657,7 @@ void vehicle::use_controls()
     // control an engine
     if (has_mult_engine) {
         options_choice.push_back(cont_engines);
-        options_message.push_back(uimenu_entry("Control individual engines", 'y'));
+        options_message.push_back(uimenu_entry(_("Control individual engines"), 'y'));
     }
 
     options_choice.push_back(control_cancel);
