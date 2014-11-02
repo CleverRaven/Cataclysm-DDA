@@ -1,8 +1,74 @@
 # Effect data
 
-## Notes
-Currently players can only add untargeted effects through the JSON files. This should be
-changing soon, however.
+## How to give effects in-game?
+### Comestibles
+The first way to give a player an effect in-game is through the drug system. To do this your item
+must have a use_action of type "consume_drug".
+```C++
+    "use_action" : {
+        "type" : "consume_drug",
+        "activation_message" : "You take some oxycodone.",
+        "effects" : [
+            {
+                "id": "pkill3",
+                "duration": 20
+            },
+            {
+                "id": "pkill2",
+                "duration": 200
+            }
+        ]
+    },
+```
+Notice the "effects" field. Each effect has four potential fields:
+```C++
+"id" - Required
+"duration" - Required
+"bp" - This will cause the effect to target this body part specifically
+"permanent" - This means the placed effect will be permanent, and will never decrease in duration
+```
+Valid "bp" entries are (no entry means the effect is untargeted):
+```C++
+"TORSO"
+"HEAD"
+"EYES"
+"MOUTH"
+"ARM_L"
+"ARM_R"
+"HAND_L"
+"HAND_R"
+"LEG_L"
+"LEG_R"
+"FOOT_L"
+"FOOT_R"
+```
+
+### Creature attacks
+Creatures have a field that is almost identical to the one used in the "consume_drug" entry.
+```C++
+    "attack_effs": [
+        {
+            "//": "applying this multiple times makes intensity go up by 3 instead of 1",
+            "id": "paralyzepoison",
+            "duration": 33
+        },
+        {
+            "id": "paralyzepoison",
+            "duration": 33
+        },
+        {
+            "id": "paralyzepoison",
+            "duration": 33
+        }
+    ],
+```
+The entries in each effect function identically to the ones for "consume_drug" except creatures
+also have an additional field:
+```C++
+"chance" - The percentage chance of the effect being applied on a good hit, defaults to 100%
+```
+If a creature successfully damages the player and their chance roll succeeds they will apply
+all of the listed effects to the player one after another.
 
 ## Required fields
 ```C++
