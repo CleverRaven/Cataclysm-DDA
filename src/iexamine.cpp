@@ -1981,23 +1981,49 @@ void iexamine::trap(player *p, map *m, int examx, int examy)
 void iexamine::water_source(player *p, map *m, const int examx, const int examy)
 {
     item water = m->water_from(examx, examy);
-    // Try to handle first (bottling) drink after.
-    // changed boolean, large sources should be infinite
-    if (g->handle_liquid(water, true, true)) {
-        p->moves -= 100;
-    } else {
+    const std::string text = string_format(_("Container for %s"), water.tname().c_str());
+    item *cont = g->inv_map_for_liquid(water, text);
+    if (cont == NULL || cont->is_null()) {
+        // No container selected, try drinking from out hands
         p->drink_from_hands(water);
+    } else {
+        // Turns needed is the number of liquid units / 10 * 100 (because 100 moves in a turn).
+        LIQUID_FILL_ERROR junk;
+        int turns = cont->get_remaining_capacity_for_liquid( water, junk ) * 10;
+        if (turns > 0) {
+            if( turns/1000 > 1 ) {
+                // If it takes less than a minute, no need to inform the player about time.
+                p->add_msg_if_player(m_info, _("It will take around %d minutes to fill that container."), turns / 1000);
+            }
+            p->assign_activity(ACT_FILL_LIQUID, turns, -1, p->get_item_position(cont), cont->tname());
+            p->activity.str_values.push_back("water");
+            p->activity.values.push_back(water.poison);
+            p->activity.values.push_back(water.bday);
+        }
     }
 }
 void iexamine::swater_source(player *p, map *m, const int examx, const int examy)
 {
     item swater = m->swater_from(examx, examy);
-    // Try to handle first (bottling) drink after.
-    // changed boolean, large sources should be infinite
-    if (g->handle_liquid(swater, true, true)) {
-        p->moves -= 100;
-    } else {
+    const std::string text = string_format(_("Container for %s"), swater.tname().c_str());
+    item *cont = g->inv_map_for_liquid(swater, text);
+    if (cont == NULL || cont->is_null()) {
+        // No container selected, try drinking from out hands
         p->drink_from_hands(swater);
+    } else {
+        // Turns needed is the number of liquid units / 10 * 100 (because 100 moves in a turn).
+        LIQUID_FILL_ERROR junk;
+        int turns = cont->get_remaining_capacity_for_liquid( swater, junk ) * 10;
+        if (turns > 0) {
+            if( turns/1000 > 1 ) {
+                // If it takes less than a minute, no need to inform the player about time.
+                p->add_msg_if_player(m_info, _("It will take around %d minutes to fill that container."), turns / 1000);
+            }
+            p->assign_activity(ACT_FILL_LIQUID, turns, -1, p->get_item_position(cont), cont->tname());
+            p->activity.str_values.push_back("swater");
+            p->activity.values.push_back(swater.poison);
+            p->activity.values.push_back(swater.bday);
+        }
     }
 }
 void iexamine::acid_source(player *p, map *m, const int examx, const int examy)
