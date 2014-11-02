@@ -3007,7 +3007,7 @@ void manage_sleep(player& p, disease& dis)
             p.fatigue -= 1 + one_in(recovery_chance);
             // You fatigue & recover faster with Sleepy
             // Very Sleepy, you just fatigue faster
-            if (p.has_trait("SLEEPY")) {
+            if (p.has_trait("SLEEPY") || p.has_trait("MET_RAT")) {
                 p.fatigue -=(1 + one_in(recovery_chance) / 2);
             }
             // Tireless folks recover fatigue really fast
@@ -3022,7 +3022,7 @@ void manage_sleep(player& p, disease& dis)
               (p.has_trait("FLIMSY3") && one_in(4)) ||
               (!(p.has_trait("FLIMSY")) && (!(p.has_trait("FLIMSY2"))) &&
                (!(p.has_trait("FLIMSY3"))))) {
-            if (p.has_trait("FASTHEALER")) {
+            if (p.has_trait("FASTHEALER") || p.has_trait("MET_RAT")) {
                 heal_chance += 100;
             } else if (p.has_trait("FASTHEALER2")) {
                 heal_chance += 150;
@@ -3492,33 +3492,13 @@ static void handle_deliriant(player& p, disease& dis)
 static void handle_evil(player& p, disease& dis)
 {
     bool lesserEvil = false;  // Worn or wielded; diminished effects
-    if (p.weapon.is_artifact() && p.weapon.is_tool()) {
-        it_artifact_tool *tool = dynamic_cast<it_artifact_tool*>(p.weapon.type);
-        for (std::vector<art_effect_passive>::iterator it =
-                 tool->effects_carried.begin();
-             it != tool->effects_carried.end(); ++it) {
-            if (*it == AEP_EVIL) {
+    if( p.weapon.has_effect_when_wielded( AEP_EVIL ) ) {
+        lesserEvil = true;
+    } else {
+        for( auto &i : p.worn ) {
+            if( i.has_effect_when_worn( AEP_EVIL ) ) {
                 lesserEvil = true;
-            }
-        }
-        for (std::vector<art_effect_passive>::iterator it =
-                 tool->effects_wielded.begin();
-             it != tool->effects_wielded.end(); ++it) {
-            if (*it == AEP_EVIL) {
-                lesserEvil = true;
-            }
-        }
-    }
-    for (std::vector<item>::iterator it = p.worn.begin();
-         !lesserEvil && it != p.worn.end(); ++it) {
-        if (it->is_artifact()) {
-            it_artifact_armor *armor = dynamic_cast<it_artifact_armor*>(it->type);
-            for (std::vector<art_effect_passive>::iterator effect =
-                     armor->effects_worn.begin();
-                 effect != armor->effects_worn.end(); ++effect) {
-                if (*effect == AEP_EVIL) {
-                    lesserEvil = true;
-                }
+                break;
             }
         }
     }

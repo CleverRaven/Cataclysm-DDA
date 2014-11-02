@@ -6,6 +6,7 @@
 #include "path_info.h"
 #include "debug.h"
 #include "mapsharing.h"
+#include "gamemode.h"
 
 #include "name.h"
 
@@ -132,7 +133,6 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt )
     //debugmsg("worldpath: %s", path.str().c_str());
 
     if (!save_world(retworld)) {
-        popup( _( "Failed to save world!" ) );
         std::string worldname = retworld->world_name;
         std::vector<std::string>::iterator it = std::find(all_worldnames.begin(), all_worldnames.end(),
                                                 worldname);
@@ -262,7 +262,7 @@ bool worldfactory::save_world(WORLDPTR world, bool is_conversion)
     if (!is_conversion) {
         fopen_exclusive(fout, woption.str().c_str());
         if (!fout.is_open()) {
-            fout.close();
+            popup( _( "Could not open the world file %s, check file permissions." ), woption.str().c_str() );
             return false;
         }
         fout << world_options_header() << std::endl;
@@ -274,6 +274,9 @@ bool worldfactory::save_world(WORLDPTR world, bool is_conversion)
             fout << it->first << " " << it->second.getValue() << std::endl << std::endl;
         }
         fclose_exclusive(fout, woption.str().c_str());
+        if( fout.fail() ) {
+            popup( _( "Failed to save the world file to %s." ), woption.str().c_str() );
+        }
     }
     mman->save_mods_list(world);
     return true;

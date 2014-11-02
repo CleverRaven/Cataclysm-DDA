@@ -8,6 +8,7 @@
 #include <bitset>
 #include <unordered_set>
 #include <set>
+#include "artifact.h"
 #include "itype.h"
 #include "mtype.h"
 
@@ -149,7 +150,14 @@ public:
     bool is_of_ammo_type_or_contains_it(const ammotype &ammo_type_id) const;
 
  bool invlet_is_okay();
- bool stacks_with(item rhs);
+        bool stacks_with( const item &rhs ) const;
+        /**
+         * Merge charges of the other item into this item.
+         * @return true if the items have been merged, otherwise false.
+         * Merging is only done for items counted by charges (@ref count_by_charges) and
+         * items that stack together (@ref stacks_with).
+         */
+        bool merge_charges( const item &rhs );
  void put_in(item payload);
  void add_rain_to_container(bool acid, int charges = 1);
 
@@ -208,7 +216,13 @@ public:
   * @param On success all consumed items will be stored here.
   */
  bool use_amount(const itype_id &it, int &quantity, bool use_container, std::list<item> &used);
-
+/**
+ * Fill container with liquid up to its capacity.
+ * @param liquid Liquid to fill the container with.
+ * @param err Contains error message if function returns false.
+ * @return Returns false in case of error
+ */
+ bool fill_with( item &liquid, std::string &err );
  bool has_flag(const std::string &f) const;
  bool contains_with_flag (std::string f) const;
  bool has_quality(std::string quality_id) const;
@@ -423,6 +437,19 @@ public:
  bool is_other() const; // Doesn't belong in other categories
  bool is_var_veh_part() const;
  bool is_artifact() const;
+
+        /**
+         * Does the item provide the artifact effect when it is wielded?
+         */
+        bool has_effect_when_wielded( art_effect_passive effect ) const;
+        /**
+         * Does the item provide the artifact effect when it is worn?
+         */
+        bool has_effect_when_worn( art_effect_passive effect ) const;
+        /**
+         * Does the item provide the artifact effect when it is carried?
+         */
+        bool has_effect_when_carried( art_effect_passive effect ) const;
 
     /**
      * Set the snippet text (description) of this specific item, using the snippet library.

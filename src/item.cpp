@@ -12,6 +12,7 @@
 #include "helper.h" //to_string_int
 #include "messages.h"
 #include "disease.h"
+#include "artifact.h"
 
 #include <cmath> // floor
 #include <sstream>
@@ -261,35 +262,67 @@ bool item::invlet_is_okay()
     return (inv_chars.find(invlet) != std::string::npos);
 }
 
-bool item::stacks_with(item rhs)
+bool item::stacks_with( const item &rhs ) const
 {
-    bool stacks = (type   == rhs.type   && damage  == rhs.damage  &&
-    active == rhs.active && charges == rhs.charges &&
-    item_tags == rhs.item_tags &&
-    item_vars == rhs.item_vars &&
-    contents.size() == rhs.contents.size() &&
-    (!goes_bad() || bday == rhs.bday));
-
-    if ((corpse == NULL && rhs.corpse != NULL) ||
-    (corpse != NULL && rhs.corpse == NULL)   )
+    if( type != rhs.type ) {
         return false;
-
-    if (corpse != NULL && rhs.corpse != NULL &&
-    corpse->id != rhs.corpse->id)
-        return false;
-
-    if (contents.size() != rhs.contents.size())
-        return false;
-
-    if(is_var_veh_part())
-        if(bigness != rhs.bigness)
-            return false;
-
-    for (size_t i = 0; i < contents.size() && stacks; i++) {
-        stacks &= contents[i].stacks_with(rhs.contents[i]);
     }
+    if( !count_by_charges() && charges != rhs.charges ) {
+        return false;
+    }
+    if( damage != rhs.damage ) {
+        return false;
+    }
+    if( active != rhs.active ) {
+        return false;
+    }
+    if( item_tags != rhs.item_tags ) {
+        return false;
+    }
+    if( item_vars != rhs.item_vars ) {
+        return false;
+    }
+    if( goes_bad() ) {
+        // If this goes bad, the other item should go bad, too. It only depends on the item type.
+        if( bday != rhs.bday ) {
+            return false;
+        }
+        if( rot != rhs.rot ) {
+            return false;
+        }
+    }
+    if( ( corpse == nullptr && rhs.corpse != nullptr ) ||
+        ( corpse != nullptr && rhs.corpse == nullptr ) ) {
+        return false;
+    }
+    if( corpse != nullptr && rhs.corpse != nullptr && corpse->id != rhs.corpse->id ) {
+        return false;
+    }
+    if( is_var_veh_part() && bigness != rhs.bigness ) {
+        return false;
+    }
+    if( contents.size() != rhs.contents.size() ) {
+        return false;
+    }
+    for( size_t i = 0; i < contents.size(); i++ ) {
+        if( !contents[i].stacks_with( rhs.contents[i] ) ) {
+            return false;
+        }
+    }
+    return true;
+}
 
-    return stacks;
+bool item::merge_charges( const item &rhs )
+{
+    if( !count_by_charges() || !stacks_with( rhs ) ) {
+        return false;
+    }
+    // We'll just hope that the item counter represents the same thing for both items
+    if( item_counter > 0 || rhs.item_counter > 0 ) {
+        item_counter = ( item_counter * charges + rhs.item_counter * rhs.charges ) / ( charges + rhs.charges );
+    }
+    charges += rhs.charges;
+    return true;
 }
 
 void item::put_in(item payload)
@@ -888,6 +921,18 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
                 _("This piece of clothing lies close to the skin and layers easily.")));
+        } else if (is_armor() && has_flag("BELTED")) {
+            dump->push_back(iteminfo("DESCRIPTION", "--"));
+            dump->push_back(iteminfo("DESCRIPTION",
+                _("This gear is strapped onto you.")));
+        } else if (is_armor() && has_flag("OUTER")) {
+            dump->push_back(iteminfo("DESCRIPTION", "--"));
+            dump->push_back(iteminfo("DESCRIPTION",
+                _("This gear is generally worn over clothing.")));
+        } else if (is_armor()) {
+            dump->push_back(iteminfo("DESCRIPTION", "--"));
+            dump->push_back(iteminfo("DESCRIPTION",
+                _("This gear is generally worn as clothing.")));
         }
         if (is_armor() && has_flag("OVERSIZE")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
@@ -934,6 +979,11 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
             dump->push_back(iteminfo("DESCRIPTION",
                 _("This piece of clothing allows you to see much further under water.")));
         }
+        if (is_armor() && has_flag("FLOATATION")) {
+            dump->push_back(iteminfo("DESCRIPTION", "--"));
+            dump->push_back(iteminfo("DESCRIPTION",
+                _("This piece of clothing prevents you from going underwater (including voluntary diving).")));
+        }
         if (is_armor() && type->id == "rad_badge") {
             size_t i;
             for( i = 1; i < sizeof(rad_dosage_thresholds) / sizeof(rad_dosage_thresholds[0]); i++ ) {
@@ -956,6 +1006,10 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         if (is_tool() && has_flag("RECHARGE")) {
             dump->push_back(iteminfo("DESCRIPTION",
                 _("This tool has been modified to use a rechargeable power cell and is not compatible with standard batteries.")));
+        }
+        if (is_tool() && has_flag("USE_UPS")) {
+            dump->push_back(iteminfo("DESCRIPTION",
+                _("This tool has been modified to use a universal power supply and is not compatible with standard batteries.")));
         }
 
         if (has_flag("LEAK_DAM") && has_flag("RADIOACTIVE") && damage > 0) {
@@ -1306,6 +1360,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
 
     if (has_flag("RECHARGE")) {
         ret << _(" (rechargeable)");
+    }
+    if (is_tool() && has_flag("USE_UPS")){
+        ret << _(" (UPS)");
     }
 
     if (has_flag("ATOMIC_AMMO")) {
@@ -1959,13 +2016,13 @@ int item::bash_resist() const
         it_armor* tmp = dynamic_cast<it_armor*>(type);
         eff_thickness = ((tmp->thickness - damage <= 0) ? 1 : (tmp->thickness - damage));
     }
-    
+
     for (auto mat : mat_types) {
         resist += mat->bash_resist();
     }
     // Average based on number of materials.
     resist /= mat_types.size();
-    
+
     return (int)(resist * eff_thickness * adjustment);
 }
 
@@ -1989,13 +2046,13 @@ int item::cut_resist() const
         it_armor* tmp = dynamic_cast<it_armor*>(type);
         eff_thickness = ((tmp->thickness - damage <= 0) ? 1 : (tmp->thickness - damage));
     }
-    
+
     for (auto mat : mat_types) {
         resist += mat->cut_resist();
     }
     // Average based on number of materials.
     resist /= mat_types.size();
-    
+
     return (int)(resist * eff_thickness * adjustment);
 }
 
@@ -2014,13 +2071,13 @@ int item::acid_resist() const
     std::vector<material_type*> mat_types = made_of_types();
     // Not sure why cut and bash get an armor thickness bonus but acid doesn't,
     // but such is the way of the code.
-    
+
     for (auto mat : mat_types) {
         resist += mat->acid_resist();
     }
     // Average based on number of materials.
     resist /= mat_types.size();
-    
+
     return (int)(resist * adjustment);
 }
 
@@ -3333,6 +3390,47 @@ bool item::use_amount(const itype_id &it, int &quantity, bool use_container, std
     }
 }
 
+bool item::fill_with( item &liquid, std::string &err )
+{
+    LIQUID_FILL_ERROR error;
+    int remaining_capacity = get_remaining_capacity_for_liquid( liquid, error );
+    if( remaining_capacity <= 0 ) {
+        switch ( error ) {
+        case L_ERR_NO_MIX:
+            err = string_format( _( "You can't mix loads in your %s." ), tname().c_str() );
+            break;
+        case L_ERR_NOT_CONTAINER:
+            err = string_format( _( "That %s won't hold %s." ), tname().c_str(), liquid.tname().c_str());
+            break;
+        case L_ERR_NOT_WATERTIGHT:
+            err = string_format( _( "That %s isn't water-tight." ), tname().c_str());
+            break;
+        case L_ERR_NOT_SEALED:
+            err = string_format( _( "You can't seal that %s!" ), tname().c_str());
+            break;
+        case L_ERR_FULL:
+            err = string_format( _( "Your %s can't hold any more %s." ), tname().c_str(), liquid.tname().c_str());
+            break;
+        default:
+            break;
+        }
+        return false;
+    }
+
+    int amount = std::min( (long)remaining_capacity, liquid.charges );
+
+    if( !is_container_empty() ) {
+        contents[0].charges += amount;
+    } else {
+        item liquid_copy = liquid;
+        liquid_copy.charges = amount;
+        put_in( liquid_copy );
+    }
+    liquid.charges -= amount;
+
+    return true;
+}
+
 long item::charges_of(const itype_id &it) const
 {
     long count = 0;
@@ -4062,5 +4160,46 @@ bool item::reduce_charges( long quantity )
         return true;
     }
     charges -= quantity;
+    return false;
+}
+
+bool item::has_effect_when_wielded( art_effect_passive effect ) const
+{
+    const auto tool = dynamic_cast<const it_artifact_tool*>( type );
+    if( tool != nullptr ) {
+        auto &ew = tool->effects_wielded;
+        if( std::find( ew.begin(), ew.end(), effect ) != ew.end() ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool item::has_effect_when_worn( art_effect_passive effect ) const
+{
+    const auto armor = dynamic_cast<const it_artifact_armor*>( type );
+    if( armor != nullptr ) {
+        auto &ew = armor->effects_worn;
+        if( std::find( ew.begin(), ew.end(), effect ) != ew.end() ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool item::has_effect_when_carried( art_effect_passive effect ) const
+{
+    const auto tool = dynamic_cast<const it_artifact_tool*>( type );
+    if( tool != nullptr ) {
+        auto &ec = tool->effects_carried;
+        if( std::find( ec.begin(), ec.end(), effect ) != ec.end() ) {
+            return true;
+        }
+    }
+    for( auto &i : contents ) {
+        if( i.has_effect_when_carried( effect ) ) {
+            return true;
+        }
+    }
     return false;
 }

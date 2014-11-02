@@ -7960,7 +7960,7 @@
         "bashing" : 1,
         "coverage" : 100,
         "material_thickness" : 11,
-        "flags" : ["WATCH", "WATERPROOF", "STURDY"]
+        "flags" : ["WATCH", "WATERPROOF", "STURDY", "THERMOMETER"]
     },
     {
         "type" : "ARMOR",
@@ -8016,7 +8016,7 @@
         "bashing" : 1,
         "coverage" : 100,
         "material_thickness" : 9,
-        "flags" : ["WATCH", "WATERPROOF", "STURDY"]
+        "flags" : ["WATCH", "WATERPROOF", "STURDY", "THERMOMETER"]
     },
     {
         "type" : "ARMOR",
@@ -8072,7 +8072,7 @@
         "bashing" : 1,
         "coverage" : 100,
         "material_thickness" : 12,
-        "flags" : ["WATCH", "WATERPROOF", "STURDY"]
+        "flags" : ["WATCH", "WATERPROOF", "STURDY", "THERMOMETER"]
     },
     {
         "type" : "ARMOR",

@@ -672,14 +672,20 @@ int player::roll_bash_damage(bool crit)
     int bash_dam = int(stat / 2) + weapon.damage_bash(),
         bash_cap = 5 + stat + skill;
 
-    if (unarmed_attack())
-        bash_dam = rng(0, int(stat / 2) + unarmed_skill);
-    else
+    if (unarmed_attack()) {
+        if (weapon.has_flag("UNARMED_WEAPON")) {
+            bash_dam = rng(0, int(stat / 2) + unarmed_skill + weapon.damage_bash());
+        } else {
+            bash_dam = rng(0, int(stat / 2) + unarmed_skill);
+        }
+    } else {
         // 80%, 88%, 96%, 104%, 112%, 116%, 120%, 124%, 128%, 132%
-        if (bashing_skill <= 5)
+        if (bashing_skill <= 5) {
             ret *= 0.8 + 0.08 * bashing_skill;
-        else
+        } else {
             ret *= 0.92 + 0.04 * bashing_skill;
+        }
+    }
 
     if (crit) {
         bash_dam *= 1.5;
@@ -741,6 +747,10 @@ int player::roll_cut_damage(bool crit)
             if (has_trait("TALONS")) {
                 ret += 3 + (unarmed_skill > 8 ? 4 : unarmed_skill / 2);
             }
+            // Stainless Steel Claws do stabbing damage, too.
+            if (has_trait("CLAWS_RAT") || has_trait("CLAWS_ST")) {
+                ret += 1 + (unarmed_skill > 8 ? 4 : unarmed_skill / 2);
+            }
             //TODO: add acidproof check back to slime hands (probably move it elsewhere)
             if (has_trait("SLIME_HANDS")) {
                 ret += rng(2, 3);
@@ -755,6 +765,9 @@ int player::roll_cut_damage(bool crit)
             }
             if (has_trait("TALONS")) {
                 ret += 3 + (unarmed_skill > 8 ? 4 : unarmed_skill / 2);
+            }
+            if (has_trait("CLAWS_RAT") || has_trait("CLAWS_ST")) {
+                ret += 1 + (unarmed_skill > 8 ? 4 : unarmed_skill / 2);
             }
             //TODO: add acidproof check back to slime hands (probably move it elsewhere)
             if (has_trait("SLIME_HANDS")) {
@@ -784,27 +797,34 @@ int player::roll_stab_damage(bool crit)
     double ret = 0;
     //TODO: armor formula is z->get_armor_cut() - 3 * get_skill_level("stabbing")
 
+    int unarmed_skill = get_skill_level("unarmed");
     if (unarmed_attack()) {
         ret = 0;
         if (!wearing_something_on(bp_hand_l)) {
-            if (has_trait("CLAWS") || has_trait("CLAWS_RETRACT"))
+            if (has_trait("CLAWS") || has_trait("CLAWS_RETRACT")) {
                 ret += 3;
-            if (has_trait("NAILS"))
+            } if (has_trait("NAILS")) {
                 ret += .5;
-            if (has_bionic("bio_razors"))
+            } if (has_bionic("bio_razors")) {
                 ret += 2;
-            if (has_trait("THORNS"))
+            } if (has_trait("THORNS")) {
                 ret += 2;
+            } if (has_trait("CLAWS_ST")) {
+                ret += 3 + (unarmed_skill / 2);
+            }
         }
         if (!wearing_something_on(bp_hand_r)) {
-            if (has_trait("CLAWS") || has_trait("CLAWS_RETRACT"))
+            if (has_trait("CLAWS") || has_trait("CLAWS_RETRACT")) {
                 ret += 3;
-            if (has_trait("NAILS"))
+            } if (has_trait("NAILS")) {
                 ret += .5;
-            if (has_bionic("bio_razors"))
+            } if (has_bionic("bio_razors")) {
                 ret += 2;
-            if (has_trait("THORNS"))
+            } if (has_trait("THORNS")) {
                 ret += 2;
+            } if (has_trait("CLAWS_ST")) {
+                ret += 3 + (unarmed_skill / 2);
+            }
         }
     } else if (weapon.has_flag("SPEAR") || weapon.has_flag("STAB"))
         ret = weapon.damage_cut();
@@ -1667,10 +1687,11 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
     }
 
     // Having lupine or croc jaws makes it much easier to sink your fangs into people;
-    // Ursine/Feline, not so much
+    // Ursine/Feline, not so much.  Rat is marginally better.
     if (has_trait("FANGS") && (!wearing_something_on(bp_mouth)) &&
-        ((!has_trait("MUZZLE") && !has_trait("MUZZLE_LONG") &&
+        ((!has_trait("MUZZLE") && !has_trait("MUZZLE_LONG") && !has_trait("MUZZLE_RAT") &&
           one_in(20 - dex_cur - get_skill_level("unarmed"))) ||
+         (has_trait("MUZZLE_RAT") && one_in(19 - dex_cur - get_skill_level("unarmed"))) ||
          (has_trait("MUZZLE") && one_in(18 - dex_cur - get_skill_level("unarmed"))) ||
          (has_trait("MUZZLE_LONG") && one_in(15 - dex_cur - get_skill_level("unarmed"))))) {
         special_attack tmp;
@@ -1683,6 +1704,24 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
                                      name.c_str(), target.c_str());
         } else {
             tmp.text = string_format(_("%s sinks her fangs into %s!"),
+                                     name.c_str(), target.c_str());
+        }
+        ret.push_back(tmp);
+    }
+
+    if (has_trait("INCISORS") && one_in(18 - dex_cur - get_skill_level("unarmed")) &&
+        (!wearing_something_on(bp_mouth))) {
+        special_attack tmp;
+        tmp.cut = 3;
+        tmp.bash = 3;
+        if (is_player()) {
+            tmp.text = string_format(_("You bite into %s with your ratlike incisors!"),
+                                     target.c_str());
+        } else if (male) {
+            tmp.text = string_format(_("%s bites %s with his ratlike incisors!"),
+                                     name.c_str(), target.c_str());
+        } else {
+            tmp.text = string_format(_("%s bites %s with her ratlike incisors!"),
                                      name.c_str(), target.c_str());
         }
         ret.push_back(tmp);

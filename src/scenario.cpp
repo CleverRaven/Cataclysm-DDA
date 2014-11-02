@@ -183,6 +183,15 @@ void scenario::check_definitions()
     }
 }
 
+void check_traits( const std::set<std::string> &traits, const std::string &ident )
+{
+    for( auto &t : traits ) {
+        if( ::traits.count( t ) == 0 ) {
+            debugmsg( "trait %s for scenario %s does not exist", t.c_str(), ident.c_str() );
+        }
+    }
+}
+
 void scenario::check_definition() const
 {
     for (std::vector<std::string>::const_iterator a = _starting_items.begin(); a != _starting_items.end(); ++a) {
@@ -200,7 +209,9 @@ void scenario::check_definition() const
             debugmsg("item %s for scenario %s does not exist", a->c_str(), _ident.c_str());
         }
     }
-
+    check_traits( _allowed_traits, _ident );
+    check_traits( _forced_traits, _ident );
+    check_traits( _forbidden_traits, _ident );
 }
 
 bool scenario::has_initialized()

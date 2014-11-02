@@ -6,7 +6,7 @@
 #include "cursesdef.h"
 #include "catacharset.h"
 #include "input.h"
-#include "gamemode.h"
+#include "enums.h"
 
 #include <map>
 #include <unordered_map>

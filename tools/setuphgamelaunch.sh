@@ -35,6 +35,8 @@ fi
 cd Hgamelaunch
 
 echo "Building Hgamelaunch"
+cabal sandbox init
+cabal install --only-dependencies
 cabal configure
 cabal build
 
@@ -44,7 +46,8 @@ mkdir -p $1
 echo "Copying bin to $1"
 cp ./dist/build/Hgamelaunch/Hgamelaunch $1
 echo "Copying config dir to $1/config"
-cp -r ./config $1
+cp -rn ./config $1
+cp -r ./config/examples $1
 echo "Copying license to $1"
 cp ./LICENSE.md $1
 echo "Copying readme to $1"

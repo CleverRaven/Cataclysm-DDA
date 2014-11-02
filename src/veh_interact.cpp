@@ -1308,13 +1308,20 @@ void veh_interact::display_stats()
     if (mostDamagedPart != -1) {
         std::string partName;
         mvwprintz(w_stats, y[6], x[6], c_ltgray, _("Most damaged: "));
-        x[6] += utf8_width(_("Most damaged: ")) + 1;
+        const auto iw = utf8_width(_("Most damaged: ")) + 1;
+        x[6] += iw;
+        w[6] -= iw;
         std::string partID = veh->parts[mostDamagedPart].id;
         vehicle_part part = veh->parts[mostDamagedPart];
         int damagepercent = 100 * part.hp / vehicle_part_types[part.id].durability;
         nc_color damagecolor = getDurabilityColor(damagepercent);
         partName = vehicle_part_types[partID].name;
-        fold_and_print(w_stats, y[6], x[6], w[6], damagecolor, partName);
+        const auto hoff = fold_and_print(w_stats, y[6], x[6], w[6], damagecolor, partName);
+        // If fold_and_print did write on the next line(s), shift the following entries,
+        // hoff == 1 is already implied and expected - one line is consumed at least.
+        for( size_t i = 7; i < sizeof(y) / sizeof(y[0]); ++i) {
+            y[i] += hoff - 1;
+        }
     }
 
     fold_and_print(w_stats, y[7], x[7], w[7], c_ltgray,
@@ -1327,11 +1334,10 @@ void veh_interact::display_stats()
     // "Fuel usage (safe): " is renamed to "Fuel usage: ".
     mvwprintz(w_stats, y[9], x[9], c_ltgray,  _("Fuel usage:     "));
     x[9] += utf8_width(_("Fuel usage:     "));
-    ammotype fuel_types[4] = { "gasoline", "diesel", "battery", "plasma" };
-    nc_color fuel_colors[4] = { c_ltred, c_green, c_yellow, c_ltblue };
+
     bool first = true;
     int fuel_name_length = 0;
-    for (int i = 0; i < 4; ++i) {
+    for (int i = 0; i < num_fuel_types; ++i) {
         int fuel_usage = veh->basic_consumption(fuel_types[i]);
         if (fuel_usage > 0) {
             fuel_name_length = std::max(fuel_name_length, utf8_width(ammo_name(fuel_types[i]).c_str()));
@@ -1359,7 +1365,8 @@ void veh_interact::display_stats()
     // Print fuel percentage & type name only if it fits in the window, 13 is width of "E...F 100% - "
     veh->print_fuel_indicator (w_stats, y[10], x[10], true,
                                (x[10] + 13 < stats_w),
-                               (x[10] + 13 + fuel_name_length < stats_w));
+                               (x[10] + 13 + fuel_name_length < stats_w),
+                               !vertical_menu);
 
     wrefresh(w_stats);
 }

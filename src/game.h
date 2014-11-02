@@ -20,7 +20,6 @@
 #include "calendar.h"
 #include "posix_time.h"
 #include "mutation.h"
-#include "gamemode.h"
 #include "live_view.h"
 #include "worldfactory.h"
 #include "creature_tracker.h"
@@ -80,6 +79,7 @@ struct monster_and_count {
     monster_and_count(monster M, int C) : critter (M), count (C) {};
 };
 
+struct special_game;
 struct mtype;
 struct mission_type;
 class map;
@@ -347,14 +347,8 @@ class game
         bool can_disassemble(item *dis_item, const recipe *cur_recipe,
                              inventory &crafting_inv, bool print_msg);
 
-        bool has_gametype() const
-        {
-            return gamemode && gamemode->id() != SGAME_NULL;
-        }
-        special_game_id gametype() const
-        {
-            return (gamemode) ? gamemode->id() : SGAME_NULL;
-        }
+        bool has_gametype() const;
+        special_game_id gametype() const;
 
         std::map<std::string, vehicle *> vtypes;
         void toggle_sidebar_style(void);
@@ -394,8 +388,6 @@ class game
         ter_id dragging;
         std::vector<item> items_dragged;
         int weight_dragged; // Computed once, when you start dragging
-
-        std::map<int, std::map<int, bool> > mapRain;
 
         int ter_view_x, ter_view_y;
         WINDOW *w_terrain;
@@ -461,8 +453,7 @@ class game
         void draw_weather(weather_printable wPrint);
         void draw_sct();
         void draw_zones(const point &p_pointStart, const point &p_pointEnd, const point &p_pointOffset);
-        // Draw critter (if visible!) on its current position into w_terrain,
-        // also update mapRain to protect it from been overdrawn by rain.
+        // Draw critter (if visible!) on its current position into w_terrain.
         // @param center the center of view, same as when calling map::draw
         void draw_critter(const Creature &critter, const point &center);
 

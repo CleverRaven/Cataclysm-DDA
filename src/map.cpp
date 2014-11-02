@@ -862,7 +862,7 @@ bool map::vehproceed()
                 }
             }
             veh->handle_trap( wheel_x, wheel_y, w );
-            auto &item_vec = g->m.i_at( wheel_x, wheel_y );
+            auto &item_vec = i_at( wheel_x, wheel_y );
             for( auto it = item_vec.begin(); it != item_vec.end(); ) {
                 it->damage += rng( 0, 3 );
                 if( it->damage > 4 ) {
@@ -1822,6 +1822,7 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str,
             bash = &(ter_at(x,y).bash);
             smash_ter = true;
         }
+        // TODO: what if silent is true? What if this was done by a hulk, not the player?
         if (has_flag("ALARMED", x, y) && !g->event_queued(EVENT_WANTED)) {
             g->sound(x, y, 40, _("An alarm sounds!"));
             g->u.add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
@@ -1884,7 +1885,7 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str,
                     // furniture can't store dynamic data to disk. To prevent writing
                     // mysteriously appearing for a sign later built here, remove the
                     // writing from the submap.
-                    g->m.delete_signage(x, y);
+                    delete_signage(x, y);
                 } else if (smash_ter == true) {
                     ter_set(x, y, bash->ter_set);
                 } else {
@@ -2664,34 +2665,23 @@ itemslice map::i_stacked(std::vector<item>& items)
 
     //iterate through all items in the vector
     for (auto it = items.begin(); it != items.end(); it++) {
+        if( it->count_by_charges() ) {
+            // Those exists as a single item all the item anyway
+            islice.push_back( std::make_pair( &*it, 1 ) );
+            continue;
+        }
         bool list_exists = false;
 
         //iterate through stacked item lists
         for(auto curr = islice.begin(); curr != islice.end(); curr++) {
             //check if the ID exists
-            item *first_item = curr->front();
+            item *first_item = curr->first;
             if (first_item->type->id == it->type->id) {
                 //we've found the list of items with the same type ID
 
-                if (it->charges != -1 && (it->is_food() || it->is_ammo())) {
-                    //add charges to existing food/ammo item
-                    first_item->charges += it->charges;
-                    list_exists = true;
-                    break;
-                } else if (first_item->stacks_with(*it)) {
-                    if (first_item->is_food() && first_item->has_flag("HOT")) {
-                        int tmpcounter = (first_item->item_counter + it->item_counter) / 2;
-                        first_item->item_counter = tmpcounter;
-                        it->item_counter = tmpcounter;
-                    }
-                    else if (first_item->is_food() && first_item->has_flag("COLD")) {
-                        int tmpcounter = (first_item->item_counter + it->item_counter) / 2;
-                        first_item->item_counter = tmpcounter;
-                        it->item_counter = tmpcounter;
-                    }
-
+                if( first_item->stacks_with( *it ) ) {
                     //add it to the existing list
-                    curr->push_back(&*it);
+                    curr->second++;
                     list_exists = true;
                     break;
                 }
@@ -2699,12 +2689,8 @@ itemslice map::i_stacked(std::vector<item>& items)
         }
 
         if(!list_exists) {
-            //add the item to a new list
-            std::list<item*> newList;
-            newList.push_back(&*it);
-
             //insert the list into islice
-            islice.push_back(newList);
+            islice.push_back( std::make_pair( &*it, 1 ) );
         }
 
     } //end items loop
@@ -2966,11 +2952,10 @@ bool map::add_item_or_charges(const int x, const int y, item new_item, int overf
     }
 
 
-    bool tryaddcharges = (new_item.charges  != -1 && (new_item.is_food() || new_item.is_ammo()));
+    bool tryaddcharges = (new_item.charges  != -1 && new_item.count_by_charges());
     std::vector<point> ps = closest_points_first(overflow_radius, x, y);
     for(std::vector<point>::iterator p_it = ps.begin(); p_it != ps.end(); p_it++)
     {
-        itype_id add_type = new_item.type->id; // caching this here = ~25% speed increase
         if (!INBOUNDS(p_it->x, p_it->y) || new_item.volume() > this->free_volume(p_it->x, p_it->y) ||
                 has_flag("DESTROY_ITEM", p_it->x, p_it->y) || has_flag("NOITEM", p_it->x, p_it->y)){
             continue;
@@ -2979,9 +2964,7 @@ bool map::add_item_or_charges(const int x, const int y, item new_item, int overf
         if (tryaddcharges) {
             for (auto &i : i_at(p_it->x,p_it->y))
             {
-                if(i.type->id == add_type)
-                {
-                    i.charges += new_item.charges;
+                if( i.merge_charges( new_item ) ) {
                     return true;
                 }
             }
@@ -3885,7 +3868,6 @@ void map::draw(WINDOW* w, const point center)
    const int dist = rl_dist(g->u.posx, g->u.posy, realx, realy);
    int sight_range = light_sight_range;
    int low_sight_range = lowlight_sight_range;
-   bool bRainOutside = false;
    // While viewing indoor areas use lightmap model
    if (!is_outside(realx, realy)) {
     sight_range = natural_sight_range;
@@ -3893,7 +3875,6 @@ void map::draw(WINDOW* w, const point center)
    //and illuminated by source of light
    } else if (this->light_at(realx, realy) > LL_LOW || dist <= light_sight_range) {
     low_sight_range = std::max(g_light_level, natural_sight_range);
-    bRainOutside = true;
    }
 
    // I've moved this part above loops without even thinking that
@@ -3939,8 +3920,6 @@ void map::draw(WINDOW* w, const point center)
     else
      mvwputch(w, realy+getmaxy(w)/2 - center.y, realx+getmaxx(w)/2 - center.x, c_ltgray, '#');
    } else if (dist <= u_clairvoyance || can_see) {
-    if (bRainOutside && INBOUNDS(realx, realy) && is_outside(realx, realy))
-     g->mapRain[realy + getmaxy(w)/2 - center.y][realx + getmaxx(w)/2 - center.x] = true;
     drawsq(w, g->u, realx, realy, false, true, center.x, center.y,
            (dist > low_sight_range && LL_LIT > lit) ||
            (dist > sight_range && LL_LOW == lit),
