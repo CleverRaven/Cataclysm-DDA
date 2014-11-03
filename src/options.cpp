@@ -924,13 +924,6 @@ void initOptions()
                                    true
                                   );
 
-    mOptionsSort["world_default"]++;
-
-    OPTIONS["RANDOM_SCENARIO"] = cOpt("world_default", _("Random character and scenario"),
-                                     _("If true, when choosing to start with a random character also select a random scenario and profession."),
-                                     false
-                                    );
-
     for (unsigned i = 0; i < vPages.size(); ++i) {
         mPageItems[i].resize(mOptionsSort[vPages[i].first]);
     }

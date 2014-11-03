@@ -77,6 +77,7 @@ public:
     std::string description(bool male) const;
     std::string gender_req() const;
     std::string start_location() const;
+    std::string random_start_location() const;
     std::string start_name() const;
     profession* get_profession() const;
     profession* random_profession() const;
