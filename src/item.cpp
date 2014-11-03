@@ -267,6 +267,8 @@ bool item::stacks_with( const item &rhs ) const
     if( type != rhs.type ) {
         return false;
     }
+    // This function is also used to test whether items counted by charges should be merged, for that
+    // check the, the charges must be ignored. In all other cases (tools/guns), the charges are important.
     if( !count_by_charges() && charges != rhs.charges ) {
         return false;
     }
@@ -305,6 +307,10 @@ bool item::stacks_with( const item &rhs ) const
         return false;
     }
     for( size_t i = 0; i < contents.size(); i++ ) {
+        if( contents[i].charges != rhs.contents[i].charges ) {
+            // Don't stack *containers* with different sized contents.
+            return false;
+        }
         if( !contents[i].stacks_with( rhs.contents[i] ) ) {
             return false;
         }
