@@ -17342,6 +17342,7 @@
         "description" : "A carefully folded raw skin harvested from a fur-bearing animal.  You can cure it for storage and tanning, or eat it if you're desperate enough.",
         "price" : 0,
         "material" : ["fur", "flesh"],
+        "flags": ["NO_SALVAGE"],
         "tool" : "null",
         "volume" : 5,
         "cutting" : 0,
