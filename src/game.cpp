@@ -3811,8 +3811,8 @@ void game::update_scent()
     // note: this method needs an array that is one square larger on each side in the x direction
     // than the final scent matrix. I think this is fine since SCENT_RADIUS is less than
     // SEEX*MAPSIZE, but if that changes, this may need tweaking.
-    for (int x = scentmap_minx - 1; x <= scentmap_maxx + 1; x++) {
-        for (int y = scentmap_miny; y <= scentmap_maxy; y++) {
+    for (int x = scentmap_minx - 1; x <= scentmap_maxx + 1; ++x) {
+        for (int y = scentmap_miny; y <= scentmap_maxy; ++y) {
             // cache expensive flag checks, once per tile.
             if (y == scentmap_miny) {  // Setting y-1 y-0, when we are at the top row...
                 for (int i = y - 1; i <= y; ++i) {
@@ -3840,8 +3840,8 @@ void game::update_scent()
             }
         }
     }
-    for (int x = scentmap_minx; x <= scentmap_maxx; x++) {
-        for (int y = scentmap_miny; y <= scentmap_maxy; y++) {
+    for (int x = scentmap_minx; x <= scentmap_maxx; ++x) {
+        for (int y = scentmap_miny; y <= scentmap_maxy; ++y) {
             if (not blocks_scent[x][y]) {
                 // to how many neighboring squares do we diffuse out? (include our own square
                 // since we also include our own square when diffusing in)
