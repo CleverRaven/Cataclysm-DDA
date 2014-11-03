@@ -8483,7 +8483,7 @@
   },
 
   {
-    "id": "tanning_fur",
+    "id": "tanning_pelt",
     "type": "TOOL",
     "category" : "spare_parts",
     "symbol": ",",

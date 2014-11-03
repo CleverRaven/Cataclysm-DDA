@@ -40,6 +40,7 @@
         "description": "A small bolt of fur from an animal.  Can be made into warm clothing.",
         "price": 1000,
         "material": ["fur", "leather"],
+        "flags": ["NO_SALVAGE"],
         "weight": 114,
         "volume": 1,
         "bashing": -8,
@@ -4202,7 +4203,7 @@
     },
     {
         "type":"GENERIC",
-        "id": "cured_fur",
+        "id": "cured_pelt",
         "symbol": ",",
         "color": "brown",
         "name": "cured pelt",
@@ -4220,7 +4221,7 @@
     },
     {
         "type":"GENERIC",
-        "id": "tanned_fur",
+        "id": "tanned_pelt",
         "symbol": ",",
         "color": "brown",
         "name": "tanned pelt",

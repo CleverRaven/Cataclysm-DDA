@@ -856,7 +856,9 @@
     ],
     [
       [ "leather", 6 ],
-      [ "fur", 6 ]
+      [ "tanned_hide", 1 ],
+      [ "fur", 6 ],
+      [ "tanned_pelt", 1 ]
     ]
   ]
 },{
@@ -886,7 +888,9 @@
     ],
     [
       [ "leather", 14 ],
-      [ "fur", 14 ]
+      [ "tanned_hide", 2 ],
+      [ "fur", 14 ],
+      [ "tanned_pelt", 2 ]
     ]
   ]
 },{
@@ -916,7 +920,9 @@
     ],
     [
       [ "leather", 24 ],
-      [ "fur", 24 ]
+      [ "tanned_hide", 4 ],
+      [ "fur", 24 ],
+      [ "tanned_pelt", 4 ]
     ]
   ]
 },{
@@ -963,7 +969,8 @@
       [ "2x4", 5 ]
     ],
     [
-      [ "leather", 20 ]
+      [ "leather", 20 ],
+      [ "tanned_hide", 4 ]
     ],
     [
       [ "string_6", 10 ],
@@ -997,7 +1004,8 @@
       [ "2x4", 2 ]
     ],
     [
-      [ "leather", 4 ]
+      [ "leather", 4 ],
+      [ "tanned_hide", 1 ]
     ],
     [
       [ "sinew", 60 ],
@@ -1321,6 +1329,8 @@
       [ "leather", 12 ],
       [ "fur", 12 ],
       [ "rag", 20 ],
+      [ "tanned_hide", 3 ],
+      [ "tanned_pelt", 3 ],
       [ "sheet", 1 ]
     ]
   ]
@@ -1611,7 +1621,8 @@
   "components": [
     [
       ["rag", 30],
-      ["leather", 30]
+      ["leather", 30],
+      [ "tanned_hide", 5 ]
     ]
   ]  
 },{
@@ -5513,7 +5524,9 @@
   "components": [
     [
       [ "leather", 4 ],
-      [ "fur", 4 ]
+      [ "tanned_hide", 1 ],
+      [ "fur", 4 ],
+      [ "tanned_pelt", 1 ]
     ]
   ]
 },{
@@ -5611,12 +5624,12 @@
     ],
     [
       [ "cured_hide", 1 ],
-      [ "cured_fur", 1 ]
+      [ "cured_pelt", 1 ]
     ]
   ]
 },{
         "type" : "recipe",
-  "result": "cured_fur",
+  "result": "cured_pelt",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
   "skill_used": "survival",
@@ -5639,7 +5652,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "tanning_fur",
+  "result": "tanning_pelt",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
   "skill_used": "survival",
@@ -5682,7 +5695,7 @@
       [ "lard", 1 ]
     ],
     [
-      [ "cured_fur", 1 ]
+      [ "cured_pelt", 1 ]
     ]
   ]
 }
