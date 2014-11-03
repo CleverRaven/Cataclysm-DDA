@@ -4668,26 +4668,7 @@ void map::remove_rotten_items( std::vector<item> &items, const point &pnt ) cons
 void map::actualize( const int gridx, const int gridy )
 {
     submap *const tmpsub = get_submap_at_grid( gridx, gridy );
-    // check traps
-    std::map<point, trap_id> rain_backlog;
-    bool do_funnels = ( abs_sub.z >= 0 );
-    for( int x = 0; x < SEEX; x++ ) {
-        for( int y = 0; y < SEEY; y++ ) {
-            const trap_id t = tmpsub->get_trap( x, y );
-            if( t != tr_null ) {
-
-                const int fx = x + gridx * SEEX;
-                const int fy = y + gridy * SEEY;
-                traplocs[t].insert( point( fx, fy ) );
-                if( do_funnels &&
-                    traplist[t]->funnel_radius_mm > 0 &&             // funnel
-                    has_flag_ter_or_furn( TFLAG_INDOORS, fx, fy ) == false // we have no outside_cache
-                  ) {
-                    rain_backlog[point( x, y )] = t;
-                }
-            }
-        }
-    }
+    const bool do_funnels = ( abs_sub.z >= 0 );
 
     // check spoiled stuff, and fill up funnels while we're at it
     for( int x = 0; x < SEEX; x++ ) {
@@ -4700,9 +4681,15 @@ void map::actualize( const int gridx, const int gridy )
             int maxvolume = 0;
             bool do_container_check = false;
 
-            if( do_funnels && ! rain_backlog.empty() &&
-                rain_backlog.find( point( x, y ) ) != rain_backlog.end() ) {
-                do_container_check = true;
+            const auto trap_here = tmpsub->get_trap( x, y );
+            if( trap_here != tr_null ) {
+                traplocs[trap_here].insert( pnt );
+            }
+            if( trap_here != tr_null && do_funnels &&
+                traplist[trap_here]->funnel_radius_mm > 0 &&             // funnel
+                !has_flag_ter_or_furn( TFLAG_INDOORS, pnt.x, pnt.y ) // we have no outside_cache
+                ) {
+                    do_container_check = true;
             }
             int intidx = 0;
 
@@ -4719,9 +4706,8 @@ void map::actualize( const int gridx, const int gridy )
 
             if( do_container_check == true && biggest_container_idx != -1 ) {  // funnel: check. bucket: check
                 item *it = &tmpsub->itm[x][y][biggest_container_idx];
-                trap_id fun_trap_id = rain_backlog[point( x, y )];
                 // bucket: what inside??
-                retroactively_fill_from_funnel( it, fun_trap_id, calendar( calendar::turn ), point( x, y ) );
+                retroactively_fill_from_funnel( it, trap_here, calendar( calendar::turn ), point( x, y ) );
             }
 
         }
