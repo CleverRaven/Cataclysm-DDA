@@ -5574,8 +5574,27 @@
       [ "salt", 1 ]
     ],
     [
-      [ "raw_leather", 1 ],
-      [ "raw_fur", 1 ]
+      [ "raw_leather", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "cured_hide",
+  "id_suffix": "scraped",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "survival",
+  "skills_required": [ "cooking", 1 ],
+  "difficulty": 1,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "cured_pelt", 1 ]
     ]
   ]
 },{
@@ -5623,8 +5642,7 @@
       [ "lard", 1 ]
     ],
     [
-      [ "cured_hide", 1 ],
-      [ "cured_pelt", 1 ]
+      [ "cured_hide", 1 ]
     ]
   ]
 },{
@@ -5713,7 +5731,6 @@
   "autolearn": false,
   "book_learn": [["textbook_survival", 6], ["textbook_chemistry", 5], ["modern_tanner", 4]],
   "qualities":[
-    {"id":"CUT","level":1,"amount":1},
     {"id":"CHEM","level":1,"amount":1},
     {"id":"COOK","level":3,"amount":1},
     {"id":"BOIL","level":2,"amount":1},
@@ -5737,8 +5754,7 @@
       [ "aspirin", 10 ]
     ],
     [
-      [ "cured_hide", 1 ],
-      [ "cured_pelt", 1 ]
+      [ "cured_hide", 1 ]
     ]
   ]
 },{
@@ -5756,7 +5772,6 @@
   "autolearn": false,
   "book_learn": [["textbook_survival", 6], ["textbook_chemistry", 5], ["modern_tanner", 4]],
   "qualities":[
-    {"id":"CUT","level":1,"amount":1},
     {"id":"CHEM","level":1,"amount":1},
     {"id":"COOK","level":3,"amount":1},
     {"id":"BOIL","level":2,"amount":1},
