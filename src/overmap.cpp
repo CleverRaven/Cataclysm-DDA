@@ -1892,7 +1892,7 @@ tripoint overmap::find_random_omt( const std::string &omt_base_type ) const
     for( int i = 0; i < OMAPX; i++ ) {
         for( int j = 0; j < OMAPY; j++ ) {
             for( int k = -OVERMAP_DEPTH; k <= OVERMAP_HEIGHT; k++ ) {
-                if( check_ot_type( omt_base_type, i, j, k ) ) {
+                if( get_ter( i, j, k ).t().id_base == omt_base_type ) {
                     valid.push_back( tripoint( i, j, k ) );
                 }
             }
