@@ -3823,8 +3823,8 @@ void game::update_scent()
             sum_3_scent_y[y][x] = 0;
             squares_used_y[y][x] = 0;
             for (int i = y - 1; i <= y + 1; ++i) {
-                if (blocks_scent[x][i] == false) {
-                    if (reduces_scent[x][i] == true) {
+                if (not blocks_scent[x][i]) {
+                    if (reduces_scent[x][i]) {
                         // only 20% of scent can diffuse on REDUCE_SCENT squares
                         sum_3_scent_y[y][x] += 2 * grscent[x][i];
                         squares_used_y[y][x] += 2; // only 20% diffuses into REDUCE_SCENT squares
@@ -3838,7 +3838,7 @@ void game::update_scent()
     }
     for (int x = scentmap_minx; x <= scentmap_maxx; x++) {
         for (int y = scentmap_miny; y <= scentmap_maxy; y++) {
-            if (blocks_scent[x][y] == false) {
+            if (not blocks_scent[x][y]) {
                 // to how many neighboring squares do we diffuse out? (include our own square
                 // since we also include our own square when diffusing in)
                 int squares_used = squares_used_y[y][x - 1]
@@ -3846,7 +3846,7 @@ void game::update_scent()
                                    + squares_used_y[y][x + 1];
 
                 int this_diffusivity;
-                if (reduces_scent[x][y] == false) {
+                if (not reduces_scent[x][y]) {
                     this_diffusivity = diffusivity;
                 } else {
                     this_diffusivity = diffusivity / 5; //less air movement for REDUCE_SCENT square
