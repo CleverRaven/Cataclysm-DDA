@@ -464,7 +464,6 @@ void vehicle::smash() {
     }
 }
 
-<<<<<<< HEAD
 void vehicle::control_engines() {
     int e_toggle = 0;
     //count active engines
@@ -548,7 +547,7 @@ bool vehicle::is_active_engine_at(int x,int y) {
 bool vehicle::is_alternator_on(int a) {
     return (parts[alternators[a]].hp > 0)  && is_active_engine_at(
         parts[alternators[a]].mount_dx, parts[alternators[a]].mount_dy );
-=======
+}
 bool vehicle::has_alarm_installed(){
     bool found_alarm = false;
     for (size_t s = 0; s < speciality.size(); s++){
@@ -560,7 +559,6 @@ bool vehicle::has_alarm_installed(){
     return found_alarm;
 }
 
->>>>>>> Added alarm flag to alarm. Removed hardcoded epower usage of alarm.
 bool vehicle::interact_vehicle_locked()
 {
     if (is_locked){
@@ -774,9 +772,10 @@ void vehicle::use_controls()
     switch(options_choice[select]) {
     case cont_engines:
         control_engines();
-        case try_disarm_alarm:
-            is_alarm = !one_in(4);
-            add_msg((is_alarm) ? _("The alarm keeps going") : _("The alarm stops"));
+        break;
+    case try_disarm_alarm:
+        is_alarm = !one_in(4);
+        add_msg((is_alarm) ? _("The alarm keeps going") : _("The alarm stops"));
         break;
     case toggle_cruise_control:
         cruise_on = !cruise_on;
