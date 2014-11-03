@@ -4645,122 +4645,130 @@ void map::actualize( const int gridx, const int gridy )
     // check traps
     std::map<point, trap_id> rain_backlog;
     bool do_funnels = ( abs_sub.z >= 0 );
-    for (int x = 0; x < SEEX; x++) {
-        for (int y = 0; y < SEEY; y++) {
-            const trap_id t = tmpsub->get_trap(x, y);
-            if (t != tr_null) {
+    for( int x = 0; x < SEEX; x++ ) {
+        for( int y = 0; y < SEEY; y++ ) {
+            const trap_id t = tmpsub->get_trap( x, y );
+            if( t != tr_null ) {
 
                 const int fx = x + gridx * SEEX;
                 const int fy = y + gridy * SEEY;
-                traplocs[t].insert(point(fx, fy));
-                if ( do_funnels &&
-                     traplist[t]->funnel_radius_mm > 0 &&             // funnel
-                     has_flag_ter_or_furn(TFLAG_INDOORS, fx, fy) == false // we have no outside_cache
-                   ) {
-                    rain_backlog[point(x, y)] = t;
+                traplocs[t].insert( point( fx, fy ) );
+                if( do_funnels &&
+                    traplist[t]->funnel_radius_mm > 0 &&             // funnel
+                    has_flag_ter_or_furn( TFLAG_INDOORS, fx, fy ) == false // we have no outside_cache
+                  ) {
+                    rain_backlog[point( x, y )] = t;
                 }
             }
         }
     }
 
-  // check spoiled stuff, and fill up funnels while we're at it
-  for (int x = 0; x < SEEX; x++) {
-      for (int y = 0; y < SEEY; y++) {
-          int biggest_container_idx = -1;
-          int maxvolume = 0;
-          bool do_container_check = false;
+    // check spoiled stuff, and fill up funnels while we're at it
+    for( int x = 0; x < SEEX; x++ ) {
+        for( int y = 0; y < SEEY; y++ ) {
+            int biggest_container_idx = -1;
+            int maxvolume = 0;
+            bool do_container_check = false;
 
-          if ( do_funnels && ! rain_backlog.empty() &&
-               rain_backlog.find(point(x,y)) != rain_backlog.end() ) {
-              do_container_check = true;
-          }
-          int intidx = 0;
+            if( do_funnels && ! rain_backlog.empty() &&
+                rain_backlog.find( point( x, y ) ) != rain_backlog.end() ) {
+                do_container_check = true;
+            }
+            int intidx = 0;
 
-          for(std::vector<item, std::allocator<item> >::iterator it = tmpsub->itm[x][y].begin();
-              it != tmpsub->itm[x][y].end();) {
-              if ( do_container_check == true ) { // cannot link trap to mapitems
-                  if ( it->is_funnel_container(maxvolume) ) {                      // biggest
-                      biggest_container_idx = intidx;             // this will survive erases below, it ptr may not
-                  }
-              }
-              if (it->is_corpse()) {
-                  it->calc_rot(point(x,y));
+            for( std::vector<item, std::allocator<item> >::iterator it = tmpsub->itm[x][y].begin();
+                 it != tmpsub->itm[x][y].end(); ) {
+                if( do_container_check == true ) { // cannot link trap to mapitems
+                    if( it->is_funnel_container( maxvolume ) ) { // biggest
+                        biggest_container_idx = intidx; // this will survive erases below, it ptr may not
+                    }
+                }
+                if( it->is_corpse() ) {
+                    it->calc_rot( point( x, y ) );
 
-                  //remove corpse after 10 days (dependent on temperature)
-                  if(it->get_rot() > DAYS( 10 ) && !it->can_revive() ) {
-                      it = tmpsub->itm[x][y].erase(it);
-                  } else { ++it; intidx++; }
+                    //remove corpse after 10 days (dependent on temperature)
+                    if( it->get_rot() > DAYS( 10 ) && !it->can_revive() ) {
+                        it = tmpsub->itm[x][y].erase( it );
+                    } else {
+                        ++it;
+                        intidx++;
+                    }
 
-                  continue;
-              }
-              if(it->goes_bad() && biggest_container_idx != intidx) { // you never know...
-                  it->calc_rot(point(x,y));
-                  if( it->has_rotten_away() ) {
-                      it = tmpsub->itm[x][y].erase(it);
-                  } else { ++it; intidx++; }
-              } else { ++it; intidx++; }
-          }
+                    continue;
+                }
+                if( it->goes_bad() && biggest_container_idx != intidx ) { // you never know...
+                    it->calc_rot( point( x, y ) );
+                    if( it->has_rotten_away() ) {
+                        it = tmpsub->itm[x][y].erase( it );
+                    } else {
+                        ++it;
+                        intidx++;
+                    }
+                } else {
+                    ++it;
+                    intidx++;
+                }
+            }
 
-          if ( do_container_check == true && biggest_container_idx != -1 ) { // funnel: check. bucket: check
-              item * it = &tmpsub->itm[x][y][biggest_container_idx];
-              trap_id fun_trap_id = rain_backlog[point(x,y)];
-              retroactively_fill_from_funnel( it, fun_trap_id, calendar(calendar::turn), point(x,y) ); // bucket: what inside??
-          }
+            if( do_container_check == true && biggest_container_idx != -1 ) {  // funnel: check. bucket: check
+                item *it = &tmpsub->itm[x][y][biggest_container_idx];
+                trap_id fun_trap_id = rain_backlog[point( x, y )];
+                // bucket: what inside??
+                retroactively_fill_from_funnel( it, fun_trap_id, calendar( calendar::turn ), point( x, y ) );
+            }
 
-      }
-  }
-
-  // plantEpoch is half a season; 3 epochs pass from plant to harvest
-  const int plantEpoch = 14400 * int(calendar::season_length()) / 2;
-
-  // check plants for crops and seasonal harvesting.
-  for (int x = 0; x < SEEX; x++) {
-    for (int y = 0; y < SEEY; y++) {
-      furn_id furn = tmpsub->get_furn(x, y);
-      if (furn && furnlist[furn].has_flag("PLANT")) {
-          if( tmpsub->itm[x][y].empty() ) {
-              // No seed there anymore, we don't know what kind of plant it was.
-              tmpsub->set_furn( x, y, f_null );
-              continue;
-          }
-        item seed = tmpsub->itm[x][y][0];
-
-        while (calendar::turn > seed.bday + plantEpoch && furn < f_plant_harvest) {
-          furn = (furn_id((int)furn + 1));
-          seed.bday += plantEpoch;
-
-          // fixme; Lazy farmer drop rake on dirt mound. What happen rake?!
-          tmpsub->itm[x][y].resize(1);
-          tmpsub->itm[x][y][0].bday = seed.bday;
-          tmpsub->set_furn(x, y, furn);
         }
-      }
-      ter_id ter = tmpsub->ter[x][y];
-      //if the fruit-bearing season of the already harvested terrain has passed, make it harvestable again
-      if ((ter) && (terlist[ter].has_flag(TFLAG_HARVESTED))){
-        if ((terlist[ter].harvest_season != calendar::turn.get_season()) ||
-        (calendar::turn - tmpsub->turn_last_touched > calendar::season_length()*14400)){
-          tmpsub->set_ter(x, y, terfind(terlist[ter].transforms_into));
-        }
-      }
     }
-  }
-  // fixme; roll off into some function elsewhere ---^
 
-  //Merchants will restock their inventories every three days
-  const int merchantRestock = 14400 * 3; //14400 is the length of one day
-  //Check for Merchants to restock
-  if (g->active_npc.size() >= 1){
-    for (auto &i : g->active_npc){
-        if (i->restock != -1 && calendar::turn > (i->restock + merchantRestock)){
+    // plantEpoch is half a season; 3 epochs pass from plant to harvest
+    const int plantEpoch = 14400 * int( calendar::season_length() ) / 2;
+
+    // check plants for crops and seasonal harvesting.
+    for( int x = 0; x < SEEX; x++ ) {
+        for( int y = 0; y < SEEY; y++ ) {
+            furn_id furn = tmpsub->get_furn( x, y );
+            if( furn && furnlist[furn].has_flag( "PLANT" ) ) {
+                if( tmpsub->itm[x][y].empty() ) {
+                    // No seed there anymore, we don't know what kind of plant it was.
+                    tmpsub->set_furn( x, y, f_null );
+                    continue;
+                }
+                item seed = tmpsub->itm[x][y][0];
+
+                while( calendar::turn > seed.bday + plantEpoch && furn < f_plant_harvest ) {
+                    furn = ( furn_id( ( int )furn + 1 ) );
+                    seed.bday += plantEpoch;
+
+                    // fixme; Lazy farmer drop rake on dirt mound. What happen rake?!
+                    tmpsub->itm[x][y].resize( 1 );
+                    tmpsub->itm[x][y][0].bday = seed.bday;
+                    tmpsub->set_furn( x, y, furn );
+                }
+            }
+            ter_id ter = tmpsub->ter[x][y];
+            //if the fruit-bearing season of the already harvested terrain has passed, make it harvestable again
+            if( ( ter ) && ( terlist[ter].has_flag( TFLAG_HARVESTED ) ) ) {
+                if( ( terlist[ter].harvest_season != calendar::turn.get_season() ) ||
+                    ( calendar::turn - tmpsub->turn_last_touched > calendar::season_length() * 14400 ) ) {
+                    tmpsub->set_ter( x, y, terfind( terlist[ter].transforms_into ) );
+                }
+            }
+        }
+    }
+    // fixme; roll off into some function elsewhere ---^
+
+    //Merchants will restock their inventories every three days
+    const int merchantRestock = 14400 * 3; //14400 is the length of one day
+    //Check for Merchants to restock
+    for( auto & i : g->active_npc ) {
+        if( i->restock != -1 && calendar::turn > ( i->restock + merchantRestock ) ) {
             i->shop_restock();
-            i->restock = int(calendar::turn);
+            i->restock = int( calendar::turn );
         }
     }
-  }
 
-  tmpsub->turn_last_touched = int(calendar::turn); // the last time we touched the submap, is right now.
-
+    // the last time we touched the submap, is right now.
+    tmpsub->turn_last_touched = calendar::turn;
 }
 
 void map::copy_grid(const int to, const int from)
