@@ -977,9 +977,10 @@ int draw_item_info(const int iLeft, const int iWidth, const int iTop, const int 
 {
     WINDOW *win = newwin(iHeight, iWidth, iTop + VIEW_OFFSET_Y, iLeft + VIEW_OFFSET_X);
 
-    // TODO: So ... uhm ... who deletes the window?
-    return draw_item_info(win, sItemName, vItemDisplay, vItemCompare,
+    const auto result = draw_item_info(win, sItemName, vItemDisplay, vItemCompare,
                           selected, without_getch, without_border);
+    delwin( win );
+    return result;
 }
 
 int draw_item_info(WINDOW *win, const std::string sItemName,
@@ -1109,7 +1110,6 @@ int draw_item_info(WINDOW *win, const std::string sItemName,
         } else if ( selected == KEY_LEFT ) {
             ch = (int)' ';
         }
-        delwin(win);
     }
 
     return ch;
