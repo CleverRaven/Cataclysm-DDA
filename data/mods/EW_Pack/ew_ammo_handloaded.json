@@ -27,7 +27,7 @@
     {
         "type" : "AMMO",
         "id" : "reloaded_545",
-        "price" : 3750,
+        "price" : 2750,
         "name" : "reloaded 5.45x39mm 5N7",
         "name_plural" : "reloaded 5.45x39mm 5N7",
         "symbol" : "=",
@@ -52,7 +52,7 @@
     {
         "type" : "AMMO",
         "id" : "reloaded_545_ap",
-        "price" : 4250,
+        "price" : 6250,
         "name" : "reloaded 5.45x39mm 7N22",
         "name_plural" : "reloaded 5.45x39mm 7N22",
         "symbol" : "=",

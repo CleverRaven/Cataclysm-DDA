@@ -5441,7 +5441,83 @@
       [ "duct_tape", 50 ]
     ]
   ]
-  },{
+},{
+        "type" : "recipe",
+  "result": "funnel",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      ["mold_plastic", -1]
+    ],
+    [
+      ["hotplate", 5],
+      ["toolset", 5],
+      ["fire", -1]
+    ]
+    ],
+    "components": [
+    [
+      ["plastic_chunk", 3]
+    ]
+    ]
+},{
+        "type" : "recipe",
+  "result": "jug_plastic",
+  "id_suffix": "plastic-mod",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_CONTAINERS",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": 45000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      ["mold_plastic", -1]
+    ],
+    [
+      ["hotplate", 15],
+      ["toolset", 15],
+      ["fire", -1]
+    ]
+  ],
+  "components": [
+    [
+      ["plastic_chunk", 15]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "leather_funnel",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "tailor",
+  "skills_required": [ "survival", 1 ],
+  "difficulty": 2,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 60 ],
+      [ "needle_wood", 60 ],
+      [ "sewing_kit", 60 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 4 ],
+      [ "fur", 4 ]
+    ]
+  ]
+},{
+
   "type" : "recipe",
   "result": "charcoal",
   "byproducts": { "id" : "charcoal", "amount" : 4 },
@@ -5467,3 +5543,4 @@
   ]
   }
 ]
+

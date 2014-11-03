@@ -138,7 +138,14 @@
         "symbol": ".",
         "color": "dkgray",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "FLAT"]
+        "flags": ["TRANSPARENT", "FLAT"],
+        "bash": {
+            "destroy_only": true,
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "rock", "amount": 10, "minamount": 2 }
+            ]
+        }
     },{
         "type" : "terrain",
         "id" : "t_pavement_y",
@@ -146,7 +153,14 @@
         "symbol": ".",
         "color": "yellow",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "FLAT"]
+        "flags": ["TRANSPARENT", "FLAT"],
+        "bash": {
+            "destroy_only": true,
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "rock", "amount": 10, "minamount": 2 }
+            ]            
+        }
     },{
         "type" : "terrain",
         "id" : "t_sidewalk",
@@ -154,7 +168,14 @@
         "symbol": ".",
         "color": "ltgray",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "FLAT"]
+        "flags": ["TRANSPARENT", "FLAT"],
+        "bash": {
+            "destroy_only": true,
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "rock", "amount": 10, "minamount": 2 }
+            ]
+        }
     },{
         "type" : "terrain",
         "id" : "t_concrete",
@@ -162,7 +183,14 @@
         "symbol": ".",
         "color": "ltgray",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "FLAT"]
+        "flags": ["TRANSPARENT", "FLAT"],
+        "bash": {
+            "destroy_only": true,
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "rock", "amount": 15, "minamount": 2 }
+            ]
+        }
     },{
         "type" : "terrain",
         "id" : "t_floor",
@@ -587,7 +615,7 @@
         "move_cost": 0,
         "flags": ["TRANSPARENT", "NOITEM", "SUPPORTS_ROOF", "WALL"],
         "bash": {
-            "str_min": 6, "str_max": 20,
+            "str_min": 4, "str_max": 12,
             "sound": "glass breaking!",
             "sound_fail": "whack!",
             "ter_set": "t_floor",
@@ -604,7 +632,7 @@
         "move_cost": 0,
         "flags": ["TRANSPARENT", "NOITEM", "SUPPORTS_ROOF", "WALL"],
         "bash": {
-            "str_min": 6, "str_max": 20,
+            "str_min": 4, "str_max": 12,
             "sound": "glass breaking!",
             "sound_fail": "whack!",
             "ter_set": "t_floor",
@@ -622,7 +650,7 @@
         "flags": [
             "TRANSPARENT", "ALARMED", "NOITEM", "SUPPORTS_ROOF", "WALL"],
         "bash": {
-            "str_min": 6, "str_max": 20,
+            "str_min": 4, "str_max": 12,
             "sound": "glass breaking!",
             "sound_fail": "whack!",
             "ter_set": "t_floor",
@@ -640,7 +668,7 @@
         "flags": [
             "TRANSPARENT", "ALARMED", "NOITEM", "SUPPORTS_ROOF", "WALL"],
         "bash": {
-            "str_min": 6, "str_max": 20,
+            "str_min": 4, "str_max": 12,
             "sound": "glass breaking!",
             "sound_fail": "whack!",
             "ter_set": "t_floor",
@@ -1314,7 +1342,7 @@
             "str_min": 30, "str_max": 210, "str_min_blocked": 40, "str_max_blocked": 240,
             "sound": "metal screeching!",
             "sound_fail": "clang!",
-            "ter_set": "t_dirt",
+            "ter_set": "t_mdoor_frame",
             "items": [
                 { "item": "scrap", "amount": 24, "minamount": 12 },
                 { "item": "steel_plate", "amount": 1, "chance": 75 }
@@ -1333,7 +1361,7 @@
             "str_min": 20, "str_max": 210, "str_min_blocked": 30, "str_max_blocked": 240,
             "sound": "metal screeching!",
             "sound_fail": "clang!",
-            "ter_set": "t_dirt",
+            "ter_set": "t_mdoor_frame",
             "items": [
                 { "item": "scrap", "amount": 24, "minamount": 12 },
                 { "item": "steel_plate", "amount": 1, "chance": 75 }
@@ -1352,7 +1380,7 @@
             "str_min": 30, "str_max": 210, "str_min_blocked": 40, "str_max_blocked": 240,
             "sound": "metal screeching!",
             "sound_fail": "clang!",
-            "ter_set": "t_dirt",
+            "ter_set": "t_mdoor_frame",
             "items": [
                 { "item": "scrap", "amount": 24, "minamount": 12 },
                 { "item": "steel_plate", "amount": 1, "chance": 75 }
