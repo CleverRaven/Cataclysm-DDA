@@ -39,6 +39,7 @@
 #include "messages.h"
 #include "pickup.h"
 #include "weather_gen.h"
+#include "start_location.h"
 #include <map>
 #include <set>
 #include <algorithm>
@@ -610,44 +611,22 @@ void game::start_game(std::string worldname)
         create_factions();
     }
     u.setID( assign_npc_id() ); // should be as soon as possible, but *after* load_master
-    cur_om = &overmap_buffer.get(0, 0); // We start in the (0,0,0) overmap.
 
-    // Find a random house on the map, and set us there.
-    cur_om->first_house(levx, levy, u.start_location);
-    point player_location = overmapbuffer::omt_to_sm_copy( levx, levy );
-    tinymap player_start;
-    player_start.load( player_location.x, player_location.y, levz, false, cur_om );
-    player_start.translate( t_window_domestic, t_curtains );
-    player_start.save();
+    const start_location &start_loc = *start_location::find( u.start_location );
     if (scen->has_flag("INFECTED")){u.add_disease("infected", 14401, false, 1, 1, 0, 0, random_body_part(), true);}
     if (scen->has_flag("BAD_DAY")){
         u.add_disease("flu", 10000);
         u.add_disease("drunk", 2700 - (12 * u.str_max));
         u.add_morale(MORALE_FEELING_BAD,-100,50,50,50);
     }
-    levx -= int(int(MAPSIZE / 2) / 2);
-    levy -= int(int(MAPSIZE / 2) / 2);
-    levz = 0;
+    start_loc.setup( cur_om, levx, levy, levz );
     // Start the overmap with out immediate neighborhood visible
-    overmap_buffer.reveal(point(levx, levy), OPTIONS["DISTANCE_INITIAL_VISIBILITY"], 0);
-    // Convert the overmap coordinates to submap coordinates
-    levx = levx * 2 - 1;
-    levy = levy * 2 - 1;
+    overmap_buffer.reveal(point(om_global_location().x, om_global_location().y), OPTIONS["DISTANCE_INITIAL_VISIBILITY"], 0);
     // Init the starting map at this location.
     m.load( levx, levy, levz, true, cur_om );
-
-    // Start us off somewhere in the shelter.
-    u.posx = SEEX * int(MAPSIZE / 2) + 5;
-    u.posy = SEEY * int(MAPSIZE / 2) + 6;
-
     m.build_map_cache();
-    // Make sure we spawn on an inside and valid location.
-    int tries = 0;
-    while( (m.is_outside(u.posx, u.posy) || m.move_cost(u.posx, u.posy) == 0) && tries < 1000 ) {
-        tries++;
-        u.posx = (SEEX * int(MAPSIZE / 2)) + rng(0, SEEX * 2);
-        u.posy = (SEEY * int(MAPSIZE / 2)) + rng(0, SEEY * 2);
-    }
+    // Do this after the map cache has been build!
+    start_loc.place_player( u );
     u.moves = 0;
     u.reset_bonuses();
     u.process_turn(); // process_turn adds the initial move points
