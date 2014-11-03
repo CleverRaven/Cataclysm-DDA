@@ -4688,6 +4688,31 @@ void map::fill_funnels( const point pnt )
     }
 }
 
+void map::grow_plant( const point pnt )
+{
+    const auto &furn = furn_at( pnt.x, pnt.y );
+    if( !furn.has_flag( "PLANT" ) ) {
+        return;
+    }
+    auto &items = i_at( pnt.x, pnt.y );
+    if( items.empty() ) {
+        // No seed there anymore, we don't know what kind of plant it was.
+        dbg( D_ERROR ) << "a seed item has vanished at " << pnt.x << "," << pnt.y;
+        furn_set( pnt.x, pnt.y, f_null );
+        return;
+    }
+    // plantEpoch is half a season; 3 epochs pass from plant to harvest
+    const int plantEpoch = DAYS( calendar::season_length() ) / 2;
+    // Erase fertilizer tokens, but keep the seed item
+    items.resize( 1 );
+    auto &seed = items.front();
+    // TODO: the comparisons to the loadid is very fragile. Replace with something more explicit.
+    while( calendar::turn > seed.bday + plantEpoch && furn.loadid < f_plant_harvest ) {
+        seed.bday += plantEpoch;
+        furn_set( pnt.x, pnt.y, static_cast<furn_id>( furn.loadid + 1 ) );
+    }
+}
+
 void map::actualize( const int gridx, const int gridy )
 {
     submap *const tmpsub = get_submap_at_grid( gridx, gridy );
@@ -4708,34 +4733,14 @@ void map::actualize( const int gridx, const int gridy )
             if( do_funnels ) {
                 fill_funnels( pnt );
             }
+
+            grow_plant( pnt );
         }
     }
-
-    // plantEpoch is half a season; 3 epochs pass from plant to harvest
-    const int plantEpoch = 14400 * int( calendar::season_length() ) / 2;
 
     // check plants for crops and seasonal harvesting.
     for( int x = 0; x < SEEX; x++ ) {
         for( int y = 0; y < SEEY; y++ ) {
-            furn_id furn = tmpsub->get_furn( x, y );
-            if( furn && furnlist[furn].has_flag( "PLANT" ) ) {
-                if( tmpsub->itm[x][y].empty() ) {
-                    // No seed there anymore, we don't know what kind of plant it was.
-                    tmpsub->set_furn( x, y, f_null );
-                    continue;
-                }
-                item seed = tmpsub->itm[x][y][0];
-
-                while( calendar::turn > seed.bday + plantEpoch && furn < f_plant_harvest ) {
-                    furn = ( furn_id( ( int )furn + 1 ) );
-                    seed.bday += plantEpoch;
-
-                    // fixme; Lazy farmer drop rake on dirt mound. What happen rake?!
-                    tmpsub->itm[x][y].resize( 1 );
-                    tmpsub->itm[x][y][0].bday = seed.bday;
-                    tmpsub->set_furn( x, y, furn );
-                }
-            }
             ter_id ter = tmpsub->ter[x][y];
             //if the fruit-bearing season of the already harvested terrain has passed, make it harvestable again
             if( ( ter ) && ( terlist[ter].has_flag( TFLAG_HARVESTED ) ) ) {
