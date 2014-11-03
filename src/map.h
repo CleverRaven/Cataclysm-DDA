@@ -690,6 +690,12 @@ protected:
          * Try to grow a harvestable plant to the next stage(s).
          */
         void grow_plant( const point pnt );
+        /**
+         * Try to grow fruits on static plants (not planted by the player)
+         * @param time_since_last_actualize Time (in turns) since this function has been
+         * called the last time.
+         */
+        void restock_fruits( const point pnt, int time_since_last_actualize );
  void copy_grid(const int to, const int from);
  void draw_map(const oter_id terrain_type, const oter_id t_north, const oter_id t_east,
                 const oter_id t_south, const oter_id t_west, const oter_id t_neast,

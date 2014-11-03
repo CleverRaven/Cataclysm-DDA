@@ -4713,9 +4713,23 @@ void map::grow_plant( const point pnt )
     }
 }
 
+void map::restock_fruits( const point pnt, int time_since_last_actualize )
+{
+    const auto &ter = ter_at( pnt.x, pnt.y );
+    //if the fruit-bearing season of the already harvested terrain has passed, make it harvestable again
+    if( !ter.has_flag( TFLAG_HARVESTED ) ) {
+        return;
+    }
+    if( ter.harvest_season != calendar::turn.get_season() ||
+        time_since_last_actualize >= DAYS( calendar::season_length() ) ) {
+        ter_set( pnt.x, pnt.y, ter.transforms_into );
+    }
+}
+
 void map::actualize( const int gridx, const int gridy )
 {
     submap *const tmpsub = get_submap_at_grid( gridx, gridy );
+    const auto time_since_last_actualize = calendar::turn - tmpsub->turn_last_touched;
     const bool do_funnels = ( abs_sub.z >= 0 );
 
     // check spoiled stuff, and fill up funnels while we're at it
@@ -4735,23 +4749,10 @@ void map::actualize( const int gridx, const int gridy )
             }
 
             grow_plant( pnt );
-        }
-    }
 
-    // check plants for crops and seasonal harvesting.
-    for( int x = 0; x < SEEX; x++ ) {
-        for( int y = 0; y < SEEY; y++ ) {
-            ter_id ter = tmpsub->ter[x][y];
-            //if the fruit-bearing season of the already harvested terrain has passed, make it harvestable again
-            if( ( ter ) && ( terlist[ter].has_flag( TFLAG_HARVESTED ) ) ) {
-                if( ( terlist[ter].harvest_season != calendar::turn.get_season() ) ||
-                    ( calendar::turn - tmpsub->turn_last_touched > calendar::season_length() * 14400 ) ) {
-                    tmpsub->set_ter( x, y, terfind( terlist[ter].transforms_into ) );
-                }
-            }
+            restock_fruits( pnt, time_since_last_actualize );
         }
     }
-    // fixme; roll off into some function elsewhere ---^
 
     //Merchants will restock their inventories every three days
     const int merchantRestock = 14400 * 3; //14400 is the length of one day
