@@ -5698,6 +5698,91 @@
       [ "cured_pelt", 1 ]
     ]
   ]
+},{
+        "type" : "recipe",
+  "result": "tanning_hide",
+  "id_suffix": "modern",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "cooking",
+  "skills_required": [ "survival", 3 ],
+  "difficulty": 4,
+  "time": 20000,
+  "batch_time_factors":[50, 5],
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["textbook_survival", 6], ["textbook_chemistry", 5], ["modern_tanner", 4]],
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"CHEM","level":1,"amount":1},
+    {"id":"COOK","level":3,"amount":1},
+    {"id":"BOIL","level":2,"amount":1},
+    {"id":"CONTAIN","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 10 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water_clean", 2 ],
+      [ "water", 2 ]
+    ],
+    [
+      [ "lye_powder", 10 ],
+      [ "aspirin", 10 ]
+    ],
+    [
+      [ "cured_hide", 1 ],
+      [ "cured_pelt", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "tanning_pelt",
+  "id_suffix": "modern",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "cooking",
+  "skills_required": [ "survival", 3 ],
+  "difficulty": 4,
+  "time": 20000,
+  "batch_time_factors":[50, 5],
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["textbook_survival", 6], ["textbook_chemistry", 5], ["modern_tanner", 4]],
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"CHEM","level":1,"amount":1},
+    {"id":"COOK","level":3,"amount":1},
+    {"id":"BOIL","level":2,"amount":1},
+    {"id":"CONTAIN","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 10 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water_clean", 2 ],
+      [ "water", 2 ]
+    ],
+    [
+      [ "lye_powder", 10 ],
+      [ "aspirin", 10 ]
+    ],
+    [
+      [ "cured_pelt", 1 ]
+    ]
+  ]
 }
 ]
 
