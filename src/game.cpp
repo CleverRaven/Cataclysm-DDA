@@ -3785,7 +3785,7 @@ void game::update_scent()
     int  sum_3_scent_y[SEEY * MAPSIZE][SEEX * MAPSIZE]; //intermediate variable
     int squares_used_y[SEEY * MAPSIZE][SEEX * MAPSIZE]; //intermediate variable
 
-    bool     has_wall_here[SEEX * MAPSIZE][SEEY * MAPSIZE];  // stash instead of
+    bool     blocks_scent[SEEX * MAPSIZE][SEEY * MAPSIZE];  // stash instead of
     bool reduce_scent_here[SEEX * MAPSIZE][SEEY * MAPSIZE];  // checking 14884 * (3 redundant)
 
     // for loop constants
@@ -3812,18 +3812,18 @@ void game::update_scent()
             // cache expensive flag checks, once per tile.
             if (y == scentmap_miny) {  // Setting y-1 y-0, when we are at the top row...
                 for (int i = y - 1; i <= y; ++i) {
-                    has_wall_here[x][i] = m.has_flag(TFLAG_WALL, x, i);
+                    blocks_scent[x][i] = m.has_flag(TFLAG_WALL, x, i);
                     reduce_scent_here[x][i] = m.has_flag(TFLAG_REDUCE_SCENT, x, i);
                 }
             }
-            has_wall_here[x][y + 1] = m.has_flag(TFLAG_WALL, x, y + 1); // ...so only y+1 here.
+            blocks_scent[x][y + 1] = m.has_flag(TFLAG_WALL, x, y + 1); // ...so only y+1 here.
             reduce_scent_here[x][y + 1] = m.has_flag(TFLAG_REDUCE_SCENT, x, y + 1);
 
             // remember the sum of the scent val for the 3 neighboring squares that can defuse into
             sum_3_scent_y[y][x] = 0;
             squares_used_y[y][x] = 0;
             for (int i = y - 1; i <= y + 1; ++i) {
-                if (has_wall_here[x][i] == false) {
+                if (blocks_scent[x][i] == false) {
                     if (reduce_scent_here[x][i] == true) {
                         // only 20% of scent can diffuse on REDUCE_SCENT squares
                         sum_3_scent_y[y][x] += 2 * grscent[x][i];
@@ -3838,7 +3838,7 @@ void game::update_scent()
     }
     for (int x = scentmap_minx; x <= scentmap_maxx; x++) {
         for (int y = scentmap_miny; y <= scentmap_maxy; y++) {
-            if (has_wall_here[x][y] == false) {
+            if (blocks_scent[x][y] == false) {
                 // to how many neighboring squares do we diffuse out? (include our own square
                 // since we also include our own square when diffusing in)
                 int squares_used = squares_used_y[y][x - 1]
