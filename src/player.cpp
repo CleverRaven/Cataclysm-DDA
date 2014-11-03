@@ -895,7 +895,10 @@ void player::update_bodytemp()
         }
         // Represents the fact that the body generates heat when it is cold.
         // TODO : should this increase hunger?
-        float homeostasis_adjustement = (temp_cur[i] > BODYTEMP_NORM ? 30.0 : 60.0);
+        double scaled_temperature = logistic_range( BODYTEMP_VERY_COLD, BODYTEMP_VERY_HOT,
+                                                    temp_cur[i] );
+        // Produces a smooth curve between 30.0 and 60.0.
+        float homeostasis_adjustement = 30.0 * (1.0 + scaled_temperature);
         int clothing_warmth_adjustement = homeostasis_adjustement * warmth(body_part(i));
         // WINDCHILL
 
