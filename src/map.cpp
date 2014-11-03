@@ -4639,6 +4639,32 @@ void map::loadn(const int worldx, const int worldy, const int worldz,
     actualize( gridx, gridy );
 }
 
+bool map::has_rotten_away( item &itm, const point &pnt ) const
+{
+    if( itm.is_corpse() ) {
+        itm.calc_rot( pnt );
+        return itm.get_rot() > DAYS( 10 ) && !itm.can_revive();
+    } else if( itm.goes_bad() ) {
+        itm.calc_rot( pnt );
+        return itm.has_rotten_away();
+    } else {
+        // Check and remove rotten contents, but always keep the container.
+        remove_rotten_items( itm.contents, pnt );
+        return false;
+    }
+}
+
+void map::remove_rotten_items( std::vector<item> &items, const point &pnt ) const
+{
+    for( auto it = items.begin(); it != items.end(); ) {
+        if( has_rotten_away( *it, pnt ) ) {
+            it = items.erase( it );
+        } else {
+            ++it;
+        }
+    }
+}
+
 void map::actualize( const int gridx, const int gridy )
 {
     submap *const tmpsub = get_submap_at_grid( gridx, gridy );
@@ -4666,6 +4692,10 @@ void map::actualize( const int gridx, const int gridy )
     // check spoiled stuff, and fill up funnels while we're at it
     for( int x = 0; x < SEEX; x++ ) {
         for( int y = 0; y < SEEY; y++ ) {
+            const point pnt( gridx * SEEX + x, gridy * SEEY + y );
+
+            remove_rotten_items( tmpsub->itm[x][y], pnt );
+
             int biggest_container_idx = -1;
             int maxvolume = 0;
             bool do_container_check = false;
@@ -4683,31 +4713,8 @@ void map::actualize( const int gridx, const int gridy )
                         biggest_container_idx = intidx; // this will survive erases below, it ptr may not
                     }
                 }
-                if( it->is_corpse() ) {
-                    it->calc_rot( point( x, y ) );
-
-                    //remove corpse after 10 days (dependent on temperature)
-                    if( it->get_rot() > DAYS( 10 ) && !it->can_revive() ) {
-                        it = tmpsub->itm[x][y].erase( it );
-                    } else {
-                        ++it;
-                        intidx++;
-                    }
-
-                    continue;
-                }
-                if( it->goes_bad() && biggest_container_idx != intidx ) { // you never know...
-                    it->calc_rot( point( x, y ) );
-                    if( it->has_rotten_away() ) {
-                        it = tmpsub->itm[x][y].erase( it );
-                    } else {
-                        ++it;
-                        intidx++;
-                    }
-                } else {
                     ++it;
                     intidx++;
-                }
             }
 
             if( do_container_check == true && biggest_container_idx != -1 ) {  // funnel: check. bucket: check
