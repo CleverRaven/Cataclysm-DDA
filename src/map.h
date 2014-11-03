@@ -681,6 +681,11 @@ protected:
          * @param pnt The point on this map where the items are, used for rot calculation.
          */
         void remove_rotten_items( std::vector<item> &items, const point &pnt ) const;
+        /**
+         * Try to fill funnel based items here.
+         * @param pnt The location in this map where to fill funnels.
+         */
+        void fill_funnels( const point pnt );
  void copy_grid(const int to, const int from);
  void draw_map(const oter_id terrain_type, const oter_id t_north, const oter_id t_east,
                 const oter_id t_south, const oter_id t_west, const oter_id t_neast,

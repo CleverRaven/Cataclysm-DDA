@@ -4665,6 +4665,29 @@ void map::remove_rotten_items( std::vector<item> &items, const point &pnt ) cons
     }
 }
 
+void map::fill_funnels( const point pnt )
+{
+    const auto t = tr_at( pnt.x, pnt.y );
+    if( t == tr_null || traplist[t]->funnel_radius_mm <= 0 ) {
+        // not a funnel at all
+        return;
+    }
+    // Note: the inside/outside cache might not be correct at this time
+    if( has_flag_ter_or_furn( TFLAG_INDOORS, pnt.x, pnt.y ) ) {
+        return;
+    }
+    item *biggest_container = nullptr;
+    int maxvolume = 0;
+    for( auto &it : i_at( pnt.x, pnt.y ) ) {
+        if( it.is_funnel_container( maxvolume ) ) {
+            biggest_container = &it;
+        }
+    }
+    if( biggest_container != nullptr ) {
+        retroactively_fill_from_funnel( biggest_container, t, calendar::turn, pnt );
+    }
+}
+
 void map::actualize( const int gridx, const int gridy )
 {
     submap *const tmpsub = get_submap_at_grid( gridx, gridy );
@@ -4677,39 +4700,14 @@ void map::actualize( const int gridx, const int gridy )
 
             remove_rotten_items( tmpsub->itm[x][y], pnt );
 
-            int biggest_container_idx = -1;
-            int maxvolume = 0;
-            bool do_container_check = false;
-
             const auto trap_here = tmpsub->get_trap( x, y );
             if( trap_here != tr_null ) {
                 traplocs[trap_here].insert( pnt );
             }
-            if( trap_here != tr_null && do_funnels &&
-                traplist[trap_here]->funnel_radius_mm > 0 &&             // funnel
-                !has_flag_ter_or_furn( TFLAG_INDOORS, pnt.x, pnt.y ) // we have no outside_cache
-                ) {
-                    do_container_check = true;
-            }
-            int intidx = 0;
 
-            for( std::vector<item, std::allocator<item> >::iterator it = tmpsub->itm[x][y].begin();
-                 it != tmpsub->itm[x][y].end(); ) {
-                if( do_container_check == true ) { // cannot link trap to mapitems
-                    if( it->is_funnel_container( maxvolume ) ) { // biggest
-                        biggest_container_idx = intidx; // this will survive erases below, it ptr may not
-                    }
-                }
-                    ++it;
-                    intidx++;
+            if( do_funnels ) {
+                fill_funnels( pnt );
             }
-
-            if( do_container_check == true && biggest_container_idx != -1 ) {  // funnel: check. bucket: check
-                item *it = &tmpsub->itm[x][y][biggest_container_idx];
-                // bucket: what inside??
-                retroactively_fill_from_funnel( it, trap_here, calendar( calendar::turn ), point( x, y ) );
-            }
-
         }
     }
 
