@@ -4639,11 +4639,15 @@ void map::loadn(const int worldx, const int worldy, const int worldz,
    }
   }
 
-  // fixme; roll off into some function elsewhere ---v
+    actualize( gridx, gridy );
+}
 
+void map::actualize( const int gridx, const int gridy )
+{
+    submap *const tmpsub = get_submap_at_grid( gridx, gridy );
     // check traps
     std::map<point, trap_id> rain_backlog;
-    bool do_funnels = ( worldz >= 0 ); // empty if just loaded a save here
+    bool do_funnels = ( abs_sub.z >= 0 );
     for (int x = 0; x < SEEX; x++) {
         for (int y = 0; y < SEEY; y++) {
             const trap_id t = tmpsub->get_trap(x, y);

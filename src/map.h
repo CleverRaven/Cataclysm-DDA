@@ -664,6 +664,11 @@ protected:
             const int gridx, const int gridy);
  void loadn(const int x, const int y, const int z, const int gridx, const int gridy,
             const  bool update_vehicles = true);
+        /**
+         * Fast forward a submap that has just been loading into this map.
+         * This is used to rot and remove rotten items, grow plants, fill funnels etc.
+         */
+        void actualize( const int gridx, const int gridy );
  void copy_grid(const int to, const int from);
  void draw_map(const oter_id terrain_type, const oter_id t_north, const oter_id t_east,
                 const oter_id t_south, const oter_id t_west, const oter_id t_neast,
