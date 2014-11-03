@@ -566,25 +566,13 @@ bool vehicle::interact_vehicle_locked()
         if (crafting_inv.has_tools("screwdriver", 1)){
             if (query_yn(_("You don't find any keys in the %s. Attempt to hotwire vehicle?"), 
                             name.c_str())) {
-                if ((g->u).skillLevel("mechanics")> (int)rng(3,10)){
-                    //success
-                    is_locked = false;
-                    add_msg(_("This wire will probably start the engine."));
-                    return true;
-                } else if (one_in(2)) {
-                    //clean fail
-                    add_msg(_("You jam the screwdriver into the keyhole, nothing happens..."));
-                } else if (one_in(2)) {
-                    //soft fail
-                    is_locked = false;
-                    is_alarm = has_alarm_installed();
-                    add_msg(_("Hmm, what does this wire do?"));
-                } else {
-                    //hard fail
-                    is_alarm = has_alarm_installed();
-                    add_msg(_("Hmm, what does this wire do?"));
-                }
-                
+                                
+                int mechanics_skill = (g->u).skillLevel("mechanics");
+                int hotwire_time = 6000 / ((mechanics_skill > 0)? mechanics_skill : 1);
+                (&g->u)->assign_activity(ACT_HOTWIRE_CAR, hotwire_time, -1, INT_MIN, _("Hotwire"));
+                (&g->u)->activity.values.push_back(global_x());//[0]
+                (&g->u)->activity.values.push_back(global_y());//[1]
+                (&g->u)->activity.values.push_back((g->u).skillLevel("mechanics"));//[2]
             } else {
                 add_msg(_("You don't find any keys in the %s."), name.c_str());
                 add_msg(_("You leave the controls alone."));
@@ -3168,7 +3156,7 @@ void vehicle::alarm(bool on_map){
         if (found_alarm){
             const char *sound_msgs[] = { "WHOOP WHOOP", "NEEeu NEEeu NEEeu", "BLEEEEEEP", "WREEP"};
             g->ambient_sound( global_x(), global_y(), (int) rng(45,80), sound_msgs[rng(0,3)]);
-            if (one_in(100)) is_alarm = false;
+            if (one_in(1000)) is_alarm = false;
         } else{
             is_alarm = false;
         }

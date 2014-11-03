@@ -1912,6 +1912,9 @@ void game::activity_on_finish()
     case ACT_START_FIRE:
         activity_on_finish_start_fire();
         break;
+    case ACT_HOTWIRE_CAR:
+        activity_on_finish_hotwire();
+        break;
     default:
         u.activity.type = ACT_NULL;
     }
@@ -2077,6 +2080,37 @@ void game::activity_on_finish_start_fire()
     iuse tmp;
     tmp.resolve_firestarter_use(&u, &it, u.activity.placement);
     u.activity.type = ACT_NULL;
+}
+
+void game::activity_on_finish_hotwire()
+{
+    //Grab this now, in case the vehicle gets shifted
+    vehicle *veh = m.veh_at(u.activity.values[0], u.activity.values[1]);
+    if (veh) {
+        int mech_skill = u.activity.values[2];
+        if (mech_skill > (int)rng(1,6)){
+            //success
+            veh->is_locked = false;
+            add_msg(_("This wire will start the engine."));
+        } else if (mech_skill > (int)rng(0,4)) {
+            //soft fail
+            veh->is_locked = false;
+            veh->is_alarm = veh->has_alarm_installed();
+            add_msg(_("This wire will probably start the engine."));
+        } else if (veh->is_alarm){
+            veh->is_locked = false;
+            add_msg(_("By process of elimination, this wire will start the engine."));
+        } else {
+            //hard fail
+            veh->is_alarm = veh->has_alarm_installed();
+            add_msg(_("The red wire always starts the engine, doesn't it?"));
+        }
+    } else {
+        dbg(D_ERROR) << "game:process_activity: ACT_HOTWIRE_CAR: vehicle not found";
+        debugmsg("process_activity ACT_HOTWIRE_CAR: vehicle not found");
+    }
+    u.activity.type = ACT_NULL;
+    
 }
 
 void game::activity_on_finish_fish()
