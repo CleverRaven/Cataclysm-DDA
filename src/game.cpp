@@ -11580,7 +11580,7 @@ void game::complete_butcher(int index)
         break;
     case MS_SMALL:
         pieces = 2;
-        skins = 3;
+        skins = 2;
         bones = 4;
         fats = 2;
         sinews = 4;
@@ -11588,7 +11588,7 @@ void game::complete_butcher(int index)
         break;
     case MS_MEDIUM:
         pieces = 4;
-        skins = 6;
+        skins = 4;
         bones = 9;
         fats = 4;
         sinews = 9;
@@ -11596,7 +11596,7 @@ void game::complete_butcher(int index)
         break;
     case MS_LARGE:
         pieces = 8;
-        skins = 10;
+        skins = 8;
         bones = 14;
         fats = 8;
         sinews = 14;
@@ -11604,7 +11604,7 @@ void game::complete_butcher(int index)
         break;
     case MS_HUGE:
         pieces = 16;
-        skins = 18;
+        skins = 16;
         bones = 21;
         fats = 16;
         sinews = 21;
@@ -11629,7 +11629,7 @@ void game::complete_butcher(int index)
 
     pieces += int(skill_shift);
     if (skill_shift < 5)  { // Lose some skins and bones
-        skins += ((int)skill_shift - 5);
+        skins += ((int)skill_shift - 4);
         bones += ((int)skill_shift - 2);
         fats += ((int)skill_shift - 4);
         sinews += ((int)skill_shift - 8);
@@ -11685,10 +11685,10 @@ void game::complete_butcher(int index)
             m.spawn_item(u.posx, u.posy, "chitin_piece", chitin, 0, age);
         }
         if (fur) {
-            m.spawn_item(u.posx, u.posy, "fur", fur, 0, age);
+            m.spawn_item(u.posx, u.posy, "raw_fur", fur, 0, age);
         }
         if (leather) {
-            m.spawn_item(u.posx, u.posy, "leather", leather, 0, age);
+            m.spawn_item(u.posx, u.posy, "raw_leather", leather, 0, age);
         }
     }
 
