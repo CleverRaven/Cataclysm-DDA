@@ -1342,7 +1342,7 @@
             "str_min": 30, "str_max": 210, "str_min_blocked": 40, "str_max_blocked": 240,
             "sound": "metal screeching!",
             "sound_fail": "clang!",
-            "ter_set": "t_dirt",
+            "ter_set": "t_mdoor_frame",
             "items": [
                 { "item": "scrap", "amount": 24, "minamount": 12 },
                 { "item": "steel_plate", "amount": 1, "chance": 75 }
@@ -1361,7 +1361,7 @@
             "str_min": 20, "str_max": 210, "str_min_blocked": 30, "str_max_blocked": 240,
             "sound": "metal screeching!",
             "sound_fail": "clang!",
-            "ter_set": "t_dirt",
+            "ter_set": "t_mdoor_frame",
             "items": [
                 { "item": "scrap", "amount": 24, "minamount": 12 },
                 { "item": "steel_plate", "amount": 1, "chance": 75 }
@@ -1380,7 +1380,7 @@
             "str_min": 30, "str_max": 210, "str_min_blocked": 40, "str_max_blocked": 240,
             "sound": "metal screeching!",
             "sound_fail": "clang!",
-            "ter_set": "t_dirt",
+            "ter_set": "t_mdoor_frame",
             "items": [
                 { "item": "scrap", "amount": 24, "minamount": 12 },
                 { "item": "steel_plate", "amount": 1, "chance": 75 }
