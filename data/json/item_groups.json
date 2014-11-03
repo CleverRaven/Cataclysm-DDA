@@ -2339,7 +2339,9 @@
       ["fencing_epee", 10],
       ["survnote", 1],
       ["slingshot", 10],
-      ["wristrocket", 5]
+      ["wristrocket", 5],
+      ["hydration", 2],
+      ["hydration2", 1]
     ]
   },{
     "type" : "item_group",
@@ -4866,7 +4868,9 @@
       ["quikclot", 20],
       ["bfipowder", 20],
       ["sheath", 10],
-      ["survnote", 1]
+      ["survnote", 1],
+      ["hydration", 2],
+      ["hydration2", 1]
     ]
   },{
     "type" : "item_group",
