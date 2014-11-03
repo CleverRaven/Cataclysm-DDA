@@ -4649,7 +4649,9 @@ bool map::has_rotten_away( item &itm, const point &pnt ) const
         return itm.has_rotten_away();
     } else {
         // Check and remove rotten contents, but always keep the container.
-        remove_rotten_items( itm.contents, pnt );
+        if( !itm.has_flag( "PRESERVES" ) ) {
+            remove_rotten_items( itm.contents, pnt );
+        }
         return false;
     }
 }
