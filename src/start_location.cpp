@@ -154,11 +154,15 @@ void board_up( map &m, int sx, int sy, int dx, int dy )
             if( !m.has_furn( x, y ) ) {
                 continue;
             }
-            if( m.furn_at( x, y ).movecost == 0 ) {
-                // Obstacles are better, prefer them
-                furnitures1.push_back( point( x, y ) );
-            } else {
-                furnitures2.push_back( point( x, y ) );
+            // If the furniture is movable and the character can move it, use it to barricade
+            // g->u is workable here as NPCs by definition are not starting the game.  (Let's hope.)
+            if( (m.furn_at( x, y ).move_str_req > 0) && (m.furn_at( x, y ).move_str_req < g->u.get_str() )) {
+                if( m.furn_at( x, y ).movecost == 0 ) {
+                    // Obstacles are better, prefer them
+                    furnitures1.push_back( point( x, y ) );
+                } else {
+                    furnitures2.push_back( point( x, y ) );
+                }
             }
         }
     }
