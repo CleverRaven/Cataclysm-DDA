@@ -9,8 +9,8 @@
   "time": 5000,
   "reversible": false,
   "autolearn": true,
-  "qualities":[
   "batch_time_factors":[80, 4],
+  "qualities":[
     {"id":"BOIL","level":1,"amount":1}
   ], "tools": [
     [
