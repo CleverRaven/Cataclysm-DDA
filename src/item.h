@@ -61,7 +61,9 @@ enum layer_level {
     REGULAR_LAYER,
     OUTER_LAYER,
     BELTED_LAYER,
-    MAX_CLOTHING_LAYER
+    MAX_CLOTHING_LAYER,
+    BACKPACK_LAYER,
+    OVER_SHOULDER_LAYER
 };
 
 class item : public JsonSerializer, public JsonDeserializer
