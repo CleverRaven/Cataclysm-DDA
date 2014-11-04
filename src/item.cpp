@@ -267,6 +267,8 @@ bool item::stacks_with( const item &rhs ) const
     if( type != rhs.type ) {
         return false;
     }
+    // This function is also used to test whether items counted by charges should be merged, for that
+    // check the, the charges must be ignored. In all other cases (tools/guns), the charges are important.
     if( !count_by_charges() && charges != rhs.charges ) {
         return false;
     }
@@ -305,6 +307,10 @@ bool item::stacks_with( const item &rhs ) const
         return false;
     }
     for( size_t i = 0; i < contents.size(); i++ ) {
+        if( contents[i].charges != rhs.contents[i].charges ) {
+            // Don't stack *containers* with different sized contents.
+            return false;
+        }
         if( !contents[i].stacks_with( rhs.contents[i] ) ) {
             return false;
         }
@@ -4095,7 +4101,13 @@ bool item::process_charger_gun( player *carrier, point pos )
 
 bool item::process( player *carrier, point pos, bool activate )
 {
+    const bool preserves = has_flag( "PRESERVES" );
     for( auto it = contents.begin(); it != contents.end(); ) {
+        if( preserves ) {
+            // Simulate that the item has already "rotten" up to last_rot_check, but as item::rot
+            // is not changed, the item is still fresh.
+            it->last_rot_check = calendar::turn;
+        }
         if( it->process( carrier, pos, activate ) ) {
             it = contents.erase( it );
         } else {
