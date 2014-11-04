@@ -192,6 +192,7 @@ class JsonIn
         // non-fatal reading into values by reference
         // returns true if the data was read successfully, false otherwise
         bool read(bool &b);
+        bool read(char &c);
         bool read(int &i);
         bool read(unsigned int &u);
         bool read(long &l);
