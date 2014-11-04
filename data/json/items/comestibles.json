@@ -17351,5 +17351,29 @@
         "stack_size" : 1,
         "bashing" : 0,
         "fun" : -24
+    },{
+        "type" : "COMESTIBLE",
+        "id" : "can_tomato",
+        "name" : "canned tomato",
+        "name_plural" : "canned tomatoes",
+        "weight" : 463,
+        "color" : "red",
+        "addiction_type" : "none",
+        "spoils_in" : 90,
+        "symbol" : "%",
+        "quench" : 3,
+        "healthy" : 1,
+        "addiction_potential" : 0,
+        "nutrition" : 18,
+        "description" : "Canned tomato. A staple in many pantries, and useful for many recipes.",
+        "price" : 50,
+        "material" : "veggy",
+        "tool" : "null",
+        "volume" : 1,
+        "cutting" : 0,
+        "phase" : "solid",
+        "charges" : 1,
+        "bashing" : 0,
+        "fun" : 0
     }
 ]

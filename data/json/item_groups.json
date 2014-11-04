@@ -408,6 +408,7 @@
       ["heatpack", 60],
       ["can_beans", 40],
       ["can_chicken", 40],
+      ["can_tomato", 40],
       ["con_milk", 20],
       ["can_corn", 35],
       ["can_spam", 30],
@@ -1591,6 +1592,7 @@
     "id" : "cannedfood",
     "items":[
       ["can_beans", 40],
+      ["can_tomato", 40],
       ["can_corn", 35],
       ["con_milk", 30],
       ["can_spam", 30],
@@ -4888,6 +4890,7 @@
       ["chocolate", 50],
       ["ravioli", 25],
       ["can_beans", 40],
+      ["can_tomato", 40],
       ["con_milk", 20],
       ["can_spam", 30],
       ["can_tuna", 35],

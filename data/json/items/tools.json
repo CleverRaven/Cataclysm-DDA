@@ -5985,9 +5985,35 @@
         "target": "apple_canned",
         "container": "jar_glass"
     }
-  },
-
-  {
+  },{
+    "id": "jar_tomato_canned",
+    "type": "TOOL",
+    "symbol": "%",
+    "color": "red",
+    "name": "sealed jar of canned tomato",
+    "name_plural": "sealed jars of canned tomatoes",
+    "description": "This is a sealed glass jar containing tomatoes.  Use to open and eat to enjoy.",
+    "price": 6500,
+    "material": ["glass", "veggy"],
+    "weight": 504,
+    "volume": 1,
+    "bashing": 8,
+    "cutting": 1,
+    "to_hit": 0,
+    "max_charges": 3,
+    "initial_charges": 3,
+    "charges_per_use": 1,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "category" : "food",
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the jar, exposing it to the atmosphere.",
+        "target": "can_tomato",
+        "container": "jar_glass"
+    }
+  },{
     "id": "jar_veggy_pickled",
     "type": "GENERIC",
     "symbol": "%",
