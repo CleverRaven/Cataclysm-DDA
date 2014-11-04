@@ -1411,7 +1411,7 @@
         "material_thickness" : 2,
         "use_action": "HYDRATION PACK"
     },{
-        "type" : "ARMOR",
+        "type" : "TOOL_ARMOR",
         "id" : "molle_pack",
         "name" : "MOLLE pack",
         "weight" : 966,
@@ -1435,7 +1435,7 @@
         "material_thickness" : 2,
         "use_action": "HYDRATION PACK"
     },{
-        "type" : "ARMOR",
+        "type" : "TOOL_ARMOR",
         "id" : "runner_bag",
         "name" : "runner pack",
         "weight" : 840,
