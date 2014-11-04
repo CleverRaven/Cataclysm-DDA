@@ -748,7 +748,14 @@ void Pickup::pick_up(int posx, int posy, int min)
 
         } while (ch != ' ' && ch != '\n' && ch != KEY_ESCAPE);
 
-        if (ch != '\n') {
+        bool item_selected = false;
+        // Check if we have selected an item.
+        for( auto selection : getitem ) {
+            if( selection ) {
+                item_selected = true;
+            }
+        }
+        if( ch != '\n' || !item_selected ) {
             w_pickupptr.reset();
             w_item_infoptr.reset();
             add_msg(_("Never mind."));
