@@ -26,7 +26,7 @@ const std::string &player_activity::get_stop_phrase() const
         _(" Stop stashing?"), _(" Stop picking up?"),
         _(" Stop moving items?"),
         _(" Stop interacting with inventory?"),
-        _(" Stop lighting the fire?"), _("Stop filling the container")
+        _(" Stop lighting the fire?"), _("Stop filling the container?")
     };
     return stop_phrase[type];
 }
