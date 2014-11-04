@@ -10326,6 +10326,10 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
                 level = OUTER_LAYER;
             } else if ( worn[i].has_flag( "BELTED") ) {
                 level = BELTED_LAYER;
+            } else if ( worn[i].has_flag( "BACK" ) ) {
+                level = BACKPACK_LAYER;
+            } else if ( worn[i].has_flag( "OVER_SHOULDER") ) {
+                level = OVER_SHOULDER_LAYER;
             } else {
                 level = REGULAR_LAYER;
             }
