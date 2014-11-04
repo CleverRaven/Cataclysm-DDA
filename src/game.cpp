@@ -3975,14 +3975,24 @@ void game::update_scent()
         player_last_moved = calendar::turn;
     }
 
-    // note: the next two intermediate variables need to be at least
+    // note: the next four intermediate matrices need to be at least
     // [2*SCENT_RADIUS+3][2*SCENT_RADIUS+1] in size to hold enough data
     // The code I'm modifying used [SEEX * MAPSIZE]. I'm staying with that to avoid new bugs.
-    int  sum_3_scent_y[SEEY * MAPSIZE][SEEX * MAPSIZE]; //intermediate variable
+
+    // These two matrices are transposed so that x addresses are contiguous in memory
+    int sum_3_scent_y[SEEY * MAPSIZE][SEEX * MAPSIZE];  //intermediate variable
     int squares_used_y[SEEY * MAPSIZE][SEEX * MAPSIZE]; //intermediate variable
 
-    bool     has_wall_here[SEEX * MAPSIZE][SEEY * MAPSIZE];  // stash instead of
-    bool reduce_scent_here[SEEX * MAPSIZE][SEEY * MAPSIZE];  // checking 14884 * (3 redundant)
+    // these are for caching flag lookups
+    bool blocks_scent[SEEX * MAPSIZE][SEEY * MAPSIZE]; // currently only TFLAG_WALL blocks scent
+    bool reduces_scent[SEEX * MAPSIZE][SEEY * MAPSIZE];
+
+
+    // for loop constants
+    const int scentmap_minx = u.posx - SCENT_RADIUS;
+    const int scentmap_maxx = u.posx + SCENT_RADIUS;
+    const int scentmap_miny = u.posy - SCENT_RADIUS;
+    const int scentmap_maxy = u.posy + SCENT_RADIUS;
 
     const int diffusivity = 100; // decrease this to reduce gas spread. Keep it under 125 for
     // stability. This is essentially a decimal number * 1000.
@@ -3997,27 +4007,27 @@ void game::update_scent()
     // note: this method needs an array that is one square larger on each side in the x direction
     // than the final scent matrix. I think this is fine since SCENT_RADIUS is less than
     // SEEX*MAPSIZE, but if that changes, this may need tweaking.
-    for (int x = u.posx - SCENT_RADIUS - 1; x <= u.posx + SCENT_RADIUS + 1; x++) {
-        for (int y = u.posy - SCENT_RADIUS; y <= u.posy + SCENT_RADIUS; y++) {
+    for (int x = scentmap_minx - 1; x <= scentmap_maxx + 1; ++x) {
+        for (int y = scentmap_miny; y <= scentmap_maxy; ++y) {
             // cache expensive flag checks, once per tile.
-            if (y == u.posy - SCENT_RADIUS) {  // Setting y-1 y-0, when we are at the top row...
+            if (y == scentmap_miny) {  // Setting y-1 y-0, when we are at the top row...
                 for (int i = y - 1; i <= y; ++i) {
-                    has_wall_here[x][i] = m.has_flag(TFLAG_WALL, x, i);
-                    reduce_scent_here[x][i] = m.has_flag(TFLAG_REDUCE_SCENT, x, i);
+                    blocks_scent[x][i] = m.has_flag(TFLAG_WALL, x, i);
+                    reduces_scent[x][i] = m.has_flag(TFLAG_REDUCE_SCENT, x, i);
                 }
             }
-            has_wall_here[x][y + 1] = m.has_flag(TFLAG_WALL, x, y + 1); // ...so only y+1 here.
-            reduce_scent_here[x][y + 1] = m.has_flag(TFLAG_REDUCE_SCENT, x, y + 1);
+            blocks_scent[x][y + 1] = m.has_flag(TFLAG_WALL, x, y + 1); // ...so only y+1 here.
+            reduces_scent[x][y + 1] = m.has_flag(TFLAG_REDUCE_SCENT, x, y + 1);
 
             // remember the sum of the scent val for the 3 neighboring squares that can defuse into
             sum_3_scent_y[y][x] = 0;
             squares_used_y[y][x] = 0;
             for (int i = y - 1; i <= y + 1; ++i) {
-                if (has_wall_here[x][i] == false) {
-                    if (reduce_scent_here[x][i] == true) {
+                if (not blocks_scent[x][i]) {
+                    if (reduces_scent[x][i]) {
                         // only 20% of scent can diffuse on REDUCE_SCENT squares
                         sum_3_scent_y[y][x] += 2 * grscent[x][i];
-                        squares_used_y[y][x] += 2; // only 20% diffuses into REDUCE_SCENT squares
+                        squares_used_y[y][x] += 2;
                     } else {
                         sum_3_scent_y[y][x] += 10 * grscent[x][i];
                         squares_used_y[y][x] += 10;
@@ -4026,9 +4036,9 @@ void game::update_scent()
             }
         }
     }
-    for (int x = u.posx - SCENT_RADIUS; x <= u.posx + SCENT_RADIUS; x++) {
-        for (int y = u.posy - SCENT_RADIUS; y <= u.posy + SCENT_RADIUS; y++) {
-            if (has_wall_here[x][y] == false) {
+    for (int x = scentmap_minx; x <= scentmap_maxx; ++x) {
+        for (int y = scentmap_miny; y <= scentmap_maxy; ++y) {
+            if (not blocks_scent[x][y]) {
                 // to how many neighboring squares do we diffuse out? (include our own square
                 // since we also include our own square when diffusing in)
                 int squares_used = squares_used_y[y][x - 1]
@@ -4036,7 +4046,7 @@ void game::update_scent()
                                    + squares_used_y[y][x + 1];
 
                 int this_diffusivity;
-                if (reduce_scent_here[x][y] == false) {
+                if (not reduces_scent[x][y]) {
                     this_diffusivity = diffusivity;
                 } else {
                     this_diffusivity = diffusivity / 5; //less air movement for REDUCE_SCENT square
@@ -4049,9 +4059,12 @@ void game::update_scent()
                 // we've already summed neighboring scent values in the y direction in the previous
                 // loop. Now we do it for the x direction, multiply by diffusion, and this is what
                 // diffuses into our current square.
-                grscent[x][y] = (temp_scent + this_diffusivity *
-                                 (sum_3_scent_y[y][x - 1] + sum_3_scent_y[y][x] +
-                                  sum_3_scent_y[y][x + 1])) / (1000 * 10);
+                grscent[x][y] =
+                    (temp_scent
+                     + this_diffusivity * (sum_3_scent_y[y][x - 1]
+                                           + sum_3_scent_y[y][x]
+                                           + sum_3_scent_y[y][x + 1])
+                    ) / (1000 * 10);
 
 
                 const int fslime = m.get_field_strength(point(x, y), fd_slime) * 10;
@@ -4064,7 +4077,7 @@ void game::update_scent()
                     debugmsg("Wacky scent at %d, %d (%d)", x, y, grscent[x][y]);
                     grscent[x][y] = 0; // Scent should never be higher
                 }
-            } else { // there is a wall here
+            } else { // this cell blocks scent
                 grscent[x][y] = 0;
             }
         }

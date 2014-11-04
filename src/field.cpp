@@ -1439,21 +1439,25 @@ void map::step_in_field(int x, int y)
         } break;
 
         case fd_acid:
-            //Acid deals damage at all levels now; the inside refers to inside a vehicle.
             //TODO: Add resistance to this with rubber shoes or something?
-            if (cur->getFieldDensity() == 3 && !inside) {
+            // Assume vehicles block acid damage entirely,
+            // you're certainly not standing in it.
+            if (veh) {
+                break;
+            }
+            if (cur->getFieldDensity() == 3) {
                 add_msg(m_bad, _("The acid burns your legs and feet!"));
                 g->u.deal_damage( nullptr, bp_foot_l, damage_instance( DT_ACID, rng( 4, 10 ) ) );
                 g->u.deal_damage( nullptr, bp_foot_r, damage_instance( DT_ACID, rng( 4, 10 ) ) );
                 g->u.deal_damage( nullptr, bp_leg_l, damage_instance( DT_ACID, rng( 2, 8 ) ) );
                 g->u.deal_damage( nullptr, bp_leg_r, damage_instance( DT_ACID, rng( 2, 8 ) ) );
-            } else if (cur->getFieldDensity() == 2 && !inside) {
+            } else if (cur->getFieldDensity() == 2) {
                 add_msg(m_bad, _("The acid burns your legs and feet!"));
                 g->u.deal_damage( nullptr, bp_foot_l, damage_instance( DT_ACID, rng( 2, 5 ) ) );
                 g->u.deal_damage( nullptr, bp_foot_r, damage_instance( DT_ACID, rng( 2, 5 ) ) );
                 g->u.deal_damage( nullptr, bp_leg_l, damage_instance( DT_ACID, rng( 1, 4 ) ) );
                 g->u.deal_damage( nullptr, bp_leg_r, damage_instance( DT_ACID, rng( 1, 4 ) ) );
-            } else if (!inside) {
+            } else {
                 add_msg(m_bad, _("The acid burns your legs and feet!"));
                 g->u.deal_damage( nullptr, bp_foot_l, damage_instance( DT_ACID, rng( 1, 3 ) ) );
                 g->u.deal_damage( nullptr, bp_foot_r, damage_instance( DT_ACID, rng( 1, 3 ) ) );
