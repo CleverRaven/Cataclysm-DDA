@@ -5843,7 +5843,7 @@
 
   {
     "id": "jar_meat_canned",
-    "type": "TOOL",
+    "type": "GENERIC",
     "symbol": "%",
     "color": "red",
     "name": "sealed jar of canned meat",
@@ -5856,13 +5856,7 @@
     "bashing": 8,
     "cutting": 1,
     "to_hit": 0,
-    "max_charges": 1,
-    "initial_charges": 1,
-    "charges_per_use": 1,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
     "category": "food",
-    "revert_to": "null",
     "use_action": {
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
@@ -5873,7 +5867,7 @@
 
   {
     "id": "jar_fish_canned",
-    "type": "TOOL",
+    "type": "GENERIC",
     "symbol": "%",
     "color": "light_gray",
     "name": "sealed jar of canned fish",
@@ -5886,13 +5880,7 @@
     "bashing": 8,
     "cutting": 1,
     "to_hit": 0,
-    "max_charges": 1,
-    "initial_charges": 1,
-    "charges_per_use": 1,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
     "category": "food",
-    "revert_to": "null",
     "use_action": {
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
@@ -5903,7 +5891,7 @@
 
   {
     "id": "jar_kompot",
-    "type": "TOOL",
+    "type": "GENERIC",
     "symbol": ")",
     "color": "cyan",
     "name": "sealed 3-liter jar of kompot",
@@ -5917,12 +5905,6 @@
     "bashing": 8,
     "cutting": 1,
     "to_hit": 0,
-    "max_charges": 1,
-    "initial_charges": 1,
-    "charges_per_use": 1,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
     "category": "food",
     "use_action": {
         "type": "transform",
@@ -5935,7 +5917,7 @@
 
   {
     "id": "jar_human_canned",
-    "type": "TOOL",
+    "type": "GENERIC",
     "symbol": "%",
     "color": "red",
     "name": "sealed jar of soylent slices",
@@ -5948,12 +5930,6 @@
     "bashing": 8,
     "cutting": 1,
     "to_hit": 0,
-    "max_charges": 1,
-    "initial_charges": 1,
-    "charges_per_use": 1,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
     "category" : "food",
     "use_action": {
         "type": "transform",
@@ -5965,7 +5941,7 @@
 
   {
     "id": "jar_veggy_canned",
-    "type": "TOOL",
+    "type": "GENERIC",
     "symbol": "%",
     "color": "green",
     "name": "sealed jar of canned veggy",
@@ -5978,12 +5954,6 @@
     "bashing": 8,
     "cutting": 1,
     "to_hit": 0,
-    "max_charges": 1,
-    "initial_charges": 1,
-    "charges_per_use": 1,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
     "category" : "food",
     "use_action": {
         "type": "transform",
@@ -5995,7 +5965,7 @@
 
   {
     "id": "jar_apple_canned",
-    "type": "TOOL",
+    "type": "GENERIC",
     "symbol": "%",
     "color": "red",
     "name": "sealed jar of canned fruit",
@@ -6008,12 +5978,6 @@
     "bashing": 8,
     "cutting": 1,
     "to_hit": 0,
-    "max_charges": 1,
-    "initial_charges": 1,
-    "charges_per_use": 1,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
     "category" : "food",
     "use_action": {
         "type": "transform",
@@ -6025,7 +5989,7 @@
 
   {
     "id": "jar_veggy_pickled",
-    "type": "TOOL",
+    "type": "GENERIC",
     "symbol": "%",
     "color": "green",
     "name": "sealed jar of pickled vegetable",
@@ -6038,12 +6002,6 @@
     "bashing": 8,
     "cutting": 1,
     "to_hit": 0,
-    "max_charges": 1,
-    "initial_charges": 1,
-    "charges_per_use": 1,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
     "category" : "food",
     "use_action": {
         "type": "transform",
@@ -6055,7 +6013,7 @@
 
   {
     "id": "jar_meat_pickled",
-    "type": "TOOL",
+    "type": "GENERIC",
     "symbol": "%",
     "color": "pink",
     "name": "sealed jar of pickled meat",
@@ -6068,12 +6026,6 @@
     "bashing": 8,
     "cutting": 1,
     "to_hit": 0,
-    "max_charges": 1,
-    "initial_charges": 1,
-    "charges_per_use": 1,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
     "category" : "food",
     "use_action": {
         "type": "transform",
@@ -6085,7 +6037,7 @@
 
   {
     "id": "jar_fish_pickled",
-    "type": "TOOL",
+    "type": "GENERIC",
     "symbol": "%",
     "color": "light_gray",
     "name": "sealed jar of pickled fish",
@@ -6098,12 +6050,6 @@
     "bashing": 8,
     "cutting": 1,
     "to_hit": 0,
-    "max_charges": 1,
-    "initial_charges": 1,
-    "charges_per_use": 1,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
     "category" : "food",
     "use_action": {
         "type": "transform",
@@ -6115,7 +6061,7 @@
 
   {
     "id": "jar_human_pickled",
-    "type": "TOOL",
+    "type": "GENERIC",
     "symbol": "%",
     "color": "pink",
     "name": "sealed jar of pickled human flesh",
@@ -6128,12 +6074,6 @@
     "bashing": 8,
     "cutting": 1,
     "to_hit": 0,
-    "max_charges": 1,
-    "initial_charges": 1,
-    "charges_per_use": 1,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
     "category" : "food",
     "use_action": {
         "type": "transform",
@@ -6215,7 +6155,7 @@
 
   {
     "id": "bag_meat_vac",
-    "type": "TOOL",
+    "type": "GENERIC",
     "symbol": "%",
     "color": "red",
     "name": "vacuum-packed meat slice",
@@ -6228,12 +6168,6 @@
     "bashing": 8,
     "cutting": 1,
     "to_hit": 0,
-    "max_charges": 1,
-    "initial_charges": 1,
-    "charges_per_use": 1,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
     "category" : "food",
     "use_action": {
         "type": "transform",
@@ -6245,7 +6179,7 @@
 
   {
     "id": "bag_fish_vac",
-    "type": "TOOL",
+    "type": "GENERIC",
     "symbol": "%",
     "color": "light_gray",
     "name": "vacuum-packed fish slice",
@@ -6257,12 +6191,6 @@
     "bashing": 8,
     "cutting": 1,
     "to_hit": 0,
-    "max_charges": 1,
-    "initial_charges": 1,
-    "charges_per_use": 1,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
     "category" : "food",
     "use_action": {
         "type": "transform",
@@ -6274,7 +6202,7 @@
 
    {
     "id": "bag_hflesh_vac",
-    "type": "TOOL",
+    "type": "GENERIC",
     "symbol": "%",
     "color": "red",
     "name": "vacuum-packed salted simpleton slice",
@@ -6286,12 +6214,6 @@
     "bashing": 8,
     "cutting": 1,
     "to_hit": 0,
-    "max_charges": 1,
-    "initial_charges": 1,
-    "charges_per_use": 1,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
     "category" : "food",
     "use_action": {
         "type": "transform",
@@ -6303,7 +6225,7 @@
 
   {
     "id": "bag_veggy_vac",
-    "type": "TOOL",
+    "type": "GENERIC",
     "symbol": "%",
     "color": "green",
     "name": "vacuum-packed veggy chunk",
@@ -6315,12 +6237,6 @@
     "bashing": 8,
     "cutting": 1,
     "to_hit": 0,
-    "max_charges": 1,
-    "initial_charges": 1,
-    "charges_per_use": 1,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
     "category" : "food",
     "use_action": {
         "type": "transform",
@@ -6332,7 +6248,7 @@
 
   {
     "id": "bag_apple_vac",
-    "type": "TOOL",
+    "type": "GENERIC",
     "symbol": "%",
     "color": "red",
     "name": "vacuum-packed fruit slice",
@@ -6344,12 +6260,6 @@
     "bashing": 8,
     "cutting": 1,
     "to_hit": 0,
-    "max_charges": 1,
-    "initial_charges": 1,
-    "charges_per_use": 1,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
     "category" : "food",
     "use_action": {
         "type": "transform",

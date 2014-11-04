@@ -37,7 +37,7 @@ long iuse_transform::use(player *p, item *it, bool t, point /*pos*/) const
         return 0;
     }
     // load this from the original item, not the transformed one.
-    const int charges_to_use = it->type->charges_to_use();
+    const long charges_to_use = it->type->charges_to_use();
     p->add_msg_if_player(m_neutral, msg_transform.c_str(), it->tname().c_str());
     item *target;
     if (container_id.empty()) {
@@ -55,10 +55,15 @@ long iuse_transform::use(player *p, item *it, bool t, point /*pos*/) const
     if (target_charges > -2) {
         // -1 is for items that can not have any charges at all.
         target->charges = target_charges;
-    }
+    } else if( charges_to_use > 0 && target->charges >= 0 ) {
+    // Makes no sense to set the charges via this iuse and than remove some of them, you can combine
+    // both into the target_charges value.
+    // Also if the target does not use charges (item::charges == -1), don't change them at all.
+    // This allows simple transformations like "folded" <=> "unfolded", and "retracted" <=> "extended"
     // Active item handling has gotten complicated, so having this consume charges itself
     // instead of passing it off to the caller.
-    target->charges -= std::min(charges_to_use, (int)target->charges);
+        target->charges -= std::min(charges_to_use, target->charges);
+    }
     p->moves -= moves;
     return 0;
 }
