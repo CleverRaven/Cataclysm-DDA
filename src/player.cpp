@@ -3732,31 +3732,28 @@ bool player::purifiable(const std::string &flag) const
 
 void player::toggle_str_set( std::vector< std::string > &set, const std::string &str )
 {
-    bool ck = false;
-    for (auto &i : set){
-        if (i == str){
-            ck = true;
-        }
-    }
-    if(ck == true){
-        std::vector<std::string> new_set;
-                for(auto &i : set) {
-                    if (!(traits[i].id == str)) {
-                        new_set.push_back(trait(traits[i].id, traits[i].invlet).id);
-                    }
+    auto toggled_element = std::find( set.begin(), set.end(), str );
+    if( toggled_element == set.end() ) {
+        char new_key = ' ';
+        // Find a letter in inv_chars that isn't in trait_keys.
+        for( const auto &letter : inv_chars ) {
+            bool found = false;
+            for( const auto &key : trait_keys ) {
+                if( letter == key.second ) {
+                    found = true;
+                    break;
                 }
-                set = new_set;
-    }
-    else{
-        char newinv = ' ';
-        for( size_t i = 0; i < inv_chars.size(); i++ ) {
-            if( mutation_by_invlet( inv_chars[i] ) == nullptr ) {
-                newinv = inv_chars[i];
+            }
+            if( !found ) {
+                new_key = letter;
                 break;
             }
         }
-        set.push_back(trait(traits[str].id, newinv).id);
-        traits[str].invlet = newinv;
+        set.push_back( str );
+        trait_keys[str] = new_key;
+    } else {
+        set.erase( toggled_element );
+        trait_keys.erase(str);
     }
 }
 
@@ -3984,14 +3981,6 @@ bionic* player::bionic_by_invlet(char ch) {
     for (size_t i = 0; i < my_bionics.size(); i++) {
         if (my_bionics[i].invlet == ch) {
             return &my_bionics[i];
-        }
-    }
-    return 0;
-}
-std::string* player::mutation_by_invlet(char ch) {
-    for (size_t i = 0; i < my_mutations.size(); i++) {
-        if (traits[my_mutations[i]].invlet == ch) {
-            return &my_mutations[i];
         }
     }
     return 0;
