@@ -8075,6 +8075,17 @@ int iuse::sheath_sword(player *p, item *it, bool, point)
             return 0;
         }
 
+        int maxvol = 20;
+        if (it->type->id == "scabbard") { // scabbard can't hold as much as large scabbard
+            maxvol = 8;
+        }
+
+        // only allow swords smaller than a certain size
+        if (put->volume() > maxvol) {
+            p->add_msg_if_player(m_info, _("That scabbard is too small to hold your %s!"), put->tname().c_str());
+            return 0;
+        }
+
         int lvl = p->skillLevel("cutting");
         std::string message;
         if (lvl < 2) {
