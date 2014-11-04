@@ -280,7 +280,8 @@ void player::power_mutations()
                         break;
                     }
                     type = c_cyan;
-                    mvwprintz(wBio, list_start_y + i, 2, type, "%c %s", traits[passive[i]].invlet,
+                    mvwprintz(wBio, list_start_y + i, 2, type, "%c %s",
+                              trait_keys[traits[passive[i]].id],
                               traits[passive[i]].name.c_str());
                 }
             }
@@ -301,7 +302,8 @@ void player::power_mutations()
                         type = c_ltred;
                     }
                     // TODO: track resource(s) used and specify
-                    mvwputch(wBio, list_start_y + i, second_column, type, traits[active[i]].invlet);
+                    mvwputch( wBio, list_start_y + i, second_column, type,
+                              trait_keys[traits[active[i]].id] );
                     mvwprintz(wBio, list_start_y + i, second_column + 2, type,
                               (traits[active[i]].powered ? _("%s - Active") : _("%s - %d RU / %d turns")),
                               traits[active[i]].name.c_str(),
@@ -323,11 +325,16 @@ void player::power_mutations()
         show_mutations_titlebar(w_title, this, menu_mode);
         const std::string action = ctxt.handle_input();
         const long ch = ctxt.get_raw_input().get_first_input();
-        std::string *tmp = NULL;
+        const std::string *tmp = nullptr;
         if (menu_mode == "reassigning") {
             menu_mode = "activating";
-            tmp = mutation_by_invlet(ch);
-            if(tmp == 0) {
+            for( const auto key_pair : trait_keys ) {
+                if( key_pair.second == ch ) {
+                    tmp = &key_pair.first;
+                    break;
+                }
+            }
+            if(tmp == nullptr) {
                 // Selected an non-existing mutation (or escape, or ...)
                 continue;
             }
@@ -338,18 +345,24 @@ void player::power_mutations()
             if(newch == ch || newch == ' ' || newch == KEY_ESCAPE) {
                 continue;
             }
-            std::string *otmp = mutation_by_invlet(newch);
-            // if there is already a mutation with the new invlet, the invlet
+            const std::string *otmp = nullptr;
+            for( const auto key_pair : trait_keys ) {
+                if( key_pair.second == newch ) {
+                    otmp = &key_pair.first;
+                    break;
+                }
+            }
+            // if there is already a mutation with the new key, the key
             // is considered valid.
-            if(otmp == 0 && inv_chars.find(newch) == std::string::npos) {
+            if(otmp == nullptr && inv_chars.find(newch) == std::string::npos) {
                 // TODO separate list of letters for mutations
                 popup(_("%c is not a valid inventory letter."), newch);
                 continue;
             }
             if(otmp != 0) {
-                std::swap(traits[*tmp].invlet, traits[*otmp].invlet);
+                std::swap(trait_keys[*tmp], trait_keys[*otmp]);
             } else {
-                traits[*tmp].invlet = newch;
+                trait_keys[*tmp] = newch;
             }
             // TODO: show a message like when reassigning a key to an item?
         } else if (action == "DOWN") {
@@ -372,8 +385,13 @@ void player::power_mutations()
         }else if (action == "HELP_KEYBINDINGS") {
             redraw = true;
         } else {
-            tmp = mutation_by_invlet(ch);
-            if(tmp == 0) {
+            for( const auto key_pair : trait_keys ) {
+                if( key_pair.second == ch ) {
+                    tmp = &key_pair.first;
+                    break;
+                }
+            }
+            if( tmp == nullptr ) {
                 // entered a key that is not mapped to any mutation,
                 // -> leave screen
                 break;
@@ -413,7 +431,8 @@ void player::power_mutations()
                 } else {
                     popup(_("\
 You cannot activate %s!  To read a description of \
-%s, press '!', then '%c'."), mut_data.name.c_str(), mut_data.name.c_str(), traits[*tmp].invlet);
+%s, press '!', then '%c'."), mut_data.name.c_str(), mut_data.name.c_str(),
+                          trait_keys[*tmp] );
                     redraw = true;
                 }
             }

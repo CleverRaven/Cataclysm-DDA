@@ -1302,6 +1302,15 @@ bool JsonIn::read(bool &b)
     return true;
 }
 
+bool JsonIn::read(char &c)
+{
+    if (!test_number()) {
+        return false;
+    }
+    c = get_int();
+    return true;
+}
+
 bool JsonIn::read(int &i)
 {
     if (!test_number()) {

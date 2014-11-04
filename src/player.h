@@ -280,7 +280,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bionic &bionic_at_index(int i);
         /** Returns the bionic with the given invlet, or NULL if no bionic has that invlet */
         bionic *bionic_by_invlet(char ch);
-        std::string *mutation_by_invlet(char ch);
         /** Returns player lumination based on the brightest active item they are carrying */
         float active_light();
 
@@ -1147,6 +1146,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
     protected:
         std::vector<std::string> my_traits;
         std::vector<std::string> my_mutations;
+        std::map<std::string, char> trait_keys;
         std::vector<bionic> my_bionics;
         std::list<disease> illness;
         bool underwater;
