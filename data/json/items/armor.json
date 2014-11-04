@@ -6776,7 +6776,7 @@
         "warmth" : 0,
         "phase" : "solid",
         "environmental_protection" : 0,
-        "encumbrance" : 1,
+        "encumbrance" : 2,
         "bashing" : 2,
         "coverage" : 10,
         "material_thickness" : 2,
@@ -6801,7 +6801,7 @@
         "warmth" : 0,
         "phase" : "solid",
         "environmental_protection" : 0,
-        "encumbrance" : 0,
+        "encumbrance" : 1,
         "bashing" : 1,
         "coverage" : 30,
         "flags" : ["OVER_SHOULDER"],
@@ -6852,7 +6852,7 @@
         "cutting" : 0,
         "warmth" : 0,
         "environmental_protection" : 0,
-        "flags" : ["OVER_SHOULDER", "VARSIZE"],
+        "flags" : ["OVER_SHOULDER"],
         "phase" : "solid"
     },
     {
