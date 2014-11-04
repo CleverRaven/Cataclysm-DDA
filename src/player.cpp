@@ -10949,6 +10949,7 @@ bool player::is_wearing_backpack() const
             return true;
         }
     }
+    return false;
 }
 
 double player::footwear_factor() const
