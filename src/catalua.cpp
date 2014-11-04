@@ -269,6 +269,14 @@ static int game_monster_type(lua_State *L)
 
 }
 
+static void popup_wrapper(const std::string &text) {
+    popup( "%s", text.c_str() );
+}
+
+static void add_msg_wrapper(const std::string &text) {
+    add_msg( "%s", text.c_str() );
+}
+
 // items = game.items_at(x, y)
 static int game_items_at(lua_State *L)
 {
