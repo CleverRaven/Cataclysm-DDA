@@ -76,7 +76,6 @@ int player::create(character_type type, std::string tempname)
     int tab = 0;
     int points = OPTIONS["INITIAL_POINTS"];
     int max_trait_points = OPTIONS["MAX_TRAIT_POINTS"];
-    bool randomize_scenario = false;
     if (type != PLTYPE_CUSTOM) {
         points = points + 32;
         switch (type) {
@@ -84,8 +83,6 @@ int player::create(character_type type, std::string tempname)
             break;
         case PLTYPE_MAX:
             break;
-        case PLTYPE_RANDOM_WITH_SCENARIO:
-            randomize_scenario = true;
         case PLTYPE_NOW:
             g->u.male = (rng(1, 100) > 50);
 
@@ -94,6 +91,7 @@ int player::create(character_type type, std::string tempname)
             } else {
                 g->u.name = MAP_SHARING::getUsername();
             }
+        case PLTYPE_RANDOM_WITH_SCENARIO:
         case PLTYPE_RANDOM: {
             g->u.male = (rng(1, 100) > 50);
             if(!MAP_SHARING::isSharing()) {
@@ -101,7 +99,7 @@ int player::create(character_type type, std::string tempname)
             } else {
                 g->u.name = MAP_SHARING::getUsername();
             }
-            if (randomize_scenario) {
+            if (type == PLTYPE_RANDOM_WITH_SCENARIO) {
                 std::vector<scenario *> scenarios;
                 for (scenmap::const_iterator iter = scenario::begin(); iter != scenario::end(); iter++) {
                     if (!(iter->second).has_flag("CHALLENGE")) {
