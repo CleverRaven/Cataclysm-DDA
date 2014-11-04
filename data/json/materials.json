@@ -238,6 +238,7 @@
         "type" : "material",
         "ident" : "wool",
         "name" : "Wool",
+        "salvage_id": "wool_patch",
         "bash_resist" : 1,
         "cut_resist" : 1,
         "bash_dmg_verb" : "torn",

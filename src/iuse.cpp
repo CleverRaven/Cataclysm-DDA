@@ -2865,8 +2865,8 @@ int iuse::sew(player *p, item *it, bool, point)
     std::vector<itype_id> repair_items;
     std::string plural = "";
     //translation note: add <plural> tag to keep them unique
-    if (fix->made_of("cotton") || fix->made_of("wool")) {
-        repair_items.push_back("rag");
+    if (fix->made_of("cotton")) {
+        repair_items.push_back("cotton");
         plurals.push_back(rm_prefix(_("<plural>rags")));
     }
     if (fix->made_of("leather")) {
@@ -2880,6 +2880,10 @@ int iuse::sew(player *p, item *it, bool, point)
     if (fix->made_of("nomex")) {
         repair_items.push_back("nomex");
         plurals.push_back(rm_prefix(_("<plural>nomex")));
+    }
+    if (fix->made_of("wool")) {
+        repair_items.push_back("wool");
+        plurals.push_back(rm_prefix(_("<plural>wool")));
     }
     if (repair_items.empty()) {
         p->add_msg_if_player(m_info, _("Your %s is not made of fabric, leather or fur."),
@@ -6683,6 +6687,7 @@ static bool valid_to_cut_up(player *p, item *it)
     material_id_white_list.push_back("kevlar");
     material_id_white_list.push_back("plastic");
     material_id_white_list.push_back("wood");
+    material_id_white_list.push_back("wool");
 
     if (it->is_null()) {
         add_msg(m_info, _("You do not have that item."));
