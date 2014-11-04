@@ -10727,7 +10727,7 @@
         "flags" : ["VARSIZE"],
         "coverage" : 25,
         "material_thickness" : 1
-    }
+    },
     {
         "type": "ARMOR",
         "id": "XL_chestrig",
