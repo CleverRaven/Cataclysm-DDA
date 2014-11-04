@@ -9005,7 +9005,7 @@ bool player::wear_item(item *to_wear, bool interactive)
         // only one backpack is allowed
         if (to_wear->covers.test(bp_torso) && to_wear->has_flag("BACKPACK") && is_wearing_backpack()) {
             if(interactive){
-                add_msg(m_info, _("You're already wearing backpack!"));
+                add_msg(m_info, _("You're already wearing a backpack!"));
             }
             return false;
         }
