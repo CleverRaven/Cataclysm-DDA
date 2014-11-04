@@ -21,6 +21,10 @@ extern "C" {
 #include "lauxlib.h"
 }
 
+#if LUA_VERSION_NUM < 502
+#define LUA_OK 0
+#endif
+
 lua_State *lua_state;
 
 // Keep track of the current mod from which we are executing, so that
@@ -63,9 +67,9 @@ void luah_setglobal(lua_State *L, const char *name, int index)
 // Given a Lua return code and a file that it happened in, print a debugmsg with the error and path.
 // Returns true if there was an error, false if there was no error at all.
 bool lua_report_error(lua_State *L, int err, const char *path) {
-    if( err == 0 || err == LUA_ERRRUN ) {
+    if( err == LUA_OK || err == LUA_ERRRUN ) {
         // No error or error message already shown via traceback function.
-        return err != 0;
+        return err != LUA_OK;
     }
     const char *error = lua_tostring(L, -1);
     switch(err) {
@@ -468,8 +472,14 @@ static int traceback(lua_State *L)
     const char *error = lua_tostring(L, -1);
 
     // Get the lua stack trace
+#if LUA_VERSION_NUM < 502
     lua_getfield(L, LUA_GLOBALSINDEX, "debug");
     lua_getfield(L, -1, "traceback");
+#else
+    lua_getglobal(L, "debug");
+    lua_getfield(L, -1, "traceback");
+    lua_remove(L, -2);
+#endif
     lua_pushvalue(L, 1);
     lua_pushinteger(L, 2);
     lua_call(L, 2, 1);
@@ -537,8 +547,23 @@ void game::init_lua()
     luaL_openlibs(lua_state); // Load standard lua libs
 
     // Load our custom "game" module
+#if LUA_VERSION_NUM < 502
     luaL_register(lua_state, "game", gamelib);
     luaL_register(lua_state, "game", global_funcs);
+#else
+    std::vector<luaL_Reg> lib_funcs;
+    for( auto x = gamelib; x->name != nullptr; ++x ) {
+        lib_funcs.push_back(*x);
+    }
+    for( auto x = global_funcs; x->name != nullptr; ++x ) {
+        lib_funcs.push_back(*x);
+    }
+    lib_funcs.push_back( luaL_Reg { NULL, NULL } );
+    luaL_newmetatable(lua_state, "game");
+    lua_pushvalue(lua_state, -1);
+    luaL_setfuncs(lua_state, &lib_funcs.front(), 0);
+    lua_setglobal(lua_state, "game");
+#endif
 
     // Load lua-side metatables etc.
     lua_dofile(lua_state, FILENAMES["class_defslua"].c_str());
