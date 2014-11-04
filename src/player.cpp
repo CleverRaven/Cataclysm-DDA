@@ -9001,6 +9001,14 @@ bool player::wear_item(item *to_wear, bool interactive)
             }
             return false;
         }
+
+        // only one backpack is allowed
+        if (to_wear->covers.test(bp_torso) && to_wear->has_flag("BACKPACK") && is_wearing_backpack()) {
+            if(interactive){
+                add_msg(m_info, _("You're already wearing backpack!"));
+            }
+            return false;
+        }
     }
 
     if (to_wear->invlet == 0) {
@@ -10931,6 +10939,16 @@ bool player::is_wearing_shoes(std::string side) const
         }
     }
     return (left && right);
+}
+
+bool player::is_wearing_backpack() const
+{
+    for( auto &i : worn ) {
+        const item *worn_item = &i;
+        if( i.covers.test( bp_torso ) && worn_item->has_flag( "BACKPACK" ) ) {
+            return true;
+        }
+    }
 }
 
 double player::footwear_factor() const

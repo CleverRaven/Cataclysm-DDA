@@ -722,6 +722,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool wearing_something_on(body_part bp) const;
         /** Returns true if the player is wearing something on their feet that is not SKINTIGHT */
         bool is_wearing_shoes(std::string side = "both") const;
+        /** Returns true if the player is wearing BACKPACK */
+        bool is_wearing_backpack() const;
         /** Returns 1 if the player is wearing something on both feet, .5 if on one, and 0 if on neither */
         double footwear_factor() const;
         /** Returns 1 if the player is wearing an item of that count on one foot, 2 if on both, and zero if on neither */
