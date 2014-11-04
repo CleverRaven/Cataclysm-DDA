@@ -2314,7 +2314,7 @@
       [ "bleach", 1 ],
       [ "lye_powder", 100 ],
       [ "bone", 20 ],
-      [ "leather", 20 ],
+      [ "cured_hide", 2 ],
       [ "pine_bough", 10 ],
       [ "raw_dandelion", 20 ],
       [ "biollante_bud", 1],

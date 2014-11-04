@@ -159,7 +159,8 @@
   ],
   "components": [
     [
-      [ "leather", 8 ]
+      [ "leather", 8 ],
+      [ "tanned_hide", 1 ]
     ],
     [
       [ "scrap", 3 ],
@@ -350,7 +351,8 @@
   ],
   "components": [
     [
-      [ "leather", 10 ]
+      [ "leather", 10 ],
+      [ "tanned_hide", 2 ]
     ]
   ]
 },{
@@ -374,10 +376,12 @@
   ],
   "components": [
     [
-      [ "leather", 7 ]
+      [ "leather", 7 ],
+      [ "tanned_hide", 1 ]
     ],
     [
-      [ "fur", 7 ]
+      [ "fur", 7 ],
+      [ "tanned_pelt", 1 ]
     ]
   ]
 },{
@@ -458,7 +462,9 @@
   "components": [
     [
       [ "leather", 18 ],
-      [ "fur", 18 ]
+      [ "tanned_hide", 3 ],
+      [ "fur", 18 ],
+      [ "tanned_pelt", 3 ]
     ]
   ]
 },{
@@ -484,7 +490,8 @@
   ],
   "components": [
     [
-      [ "leather", 9 ]
+      [ "leather", 9 ],
+      [ "tanned_hide", 2 ]
     ]
   ]
 },{
@@ -510,7 +517,9 @@
   "components": [
     [
       [ "leather", 16 ],
-      [ "fur", 16 ]
+      [ "tanned_hide", 3 ],
+      [ "fur", 16 ],
+      [ "tanned_pelt", 3 ]
     ]
   ]
 },{
@@ -915,7 +924,8 @@
   ],
   "components": [
     [
-      [ "fur", 10 ]
+      [ "fur", 10 ],
+      [ "tanned_pelt", 2 ]
     ]
   ]
 },{
@@ -961,7 +971,8 @@
   ],
   "components": [
     [
-      [ "leather", 10 ]
+      [ "leather", 10 ],
+      [ "tanned_hide", 2 ]
     ]
   ]
 },{
@@ -987,7 +998,8 @@
       [ "rag", 10 ]
     ],
     [
-      [ "fur", 6 ]
+      [ "fur", 6 ],
+      [ "tanned_pelt", 1 ]
     ]
   ]
 },{
@@ -1405,7 +1417,8 @@
   ],
   "components": [
     [
-      [ "fur", 11 ]
+      [ "fur", 11 ],
+      [ "tanned_pelt", 2 ]
     ]
   ]
 },{
@@ -1430,7 +1443,8 @@
   ],
   "components": [
     [
-      [ "fur", 9 ]
+      [ "fur", 9 ],
+      [ "tanned_pelt", 2 ]
     ]
   ]
 },{
@@ -1474,7 +1488,8 @@
   ],
   "components": [
     [
-      [ "leather", 22 ]
+      [ "leather", 22 ],
+      [ "tanned_hide", 4 ]
     ]
   ]
 },{
@@ -1499,7 +1514,8 @@
   ],
   "components": [
     [
-      [ "leather", 18 ]
+      [ "leather", 18 ],
+      [ "tanned_hide", 3 ]
     ]
   ]
 },{
@@ -1544,7 +1560,8 @@
   ],
   "components": [
     [
-      [ "fur", 10 ]
+      [ "fur", 10 ],
+      [ "tanned_pelt", 2 ]
     ]
   ]
 },{
@@ -1567,7 +1584,8 @@
   ],
   "components": [
     [
-      [ "leather", 18 ]
+      [ "leather", 18 ],
+      [ "tanned_hide", 3 ]
     ]
   ]
 },{
@@ -1609,7 +1627,8 @@
   ],
   "components": [
     [
-      [ "leather", 10 ]
+      [ "leather", 10 ],
+      [ "tanned_hide", 2 ]
     ]
   ]
 },{
@@ -2103,7 +2122,9 @@
   "components": [
     [
       [ "leather", 6 ],
-      [ "fur", 6 ]
+      [ "tanned_hide", 1 ],
+      [ "fur", 6 ],
+      [ "tanned_pelt", 1 ]
     ]
   ]
 },{
@@ -2215,7 +2236,8 @@
   ],
   "components": [
     [
-      [ "fur", 4 ]
+      [ "fur", 4 ],
+      [ "tanned_pelt", 1 ]
     ]
   ]
 },{
@@ -2239,7 +2261,8 @@
   ],
   "components": [
     [
-      [ "fur", 12 ]
+      [ "fur", 12 ],
+      [ "tanned_pelt", 2 ]
     ]
   ]
 },{
@@ -2548,7 +2571,8 @@
       [ "kevlar_plate", 4 ]
       ],
       [
-      [ "fur", 6 ]
+      [ "fur", 6 ],
+      [ "tanned_pelt", 1 ]
       ]
   ]
 },{
@@ -2596,7 +2620,8 @@
       [ "kevlar_plate", 4 ]
       ],
       [
-      [ "fur", 12 ]
+      [ "fur", 12 ],
+      [ "tanned_pelt", 2 ]
       ]
   ]
 },{
@@ -3094,7 +3119,8 @@
   ],
   "components": [
     [
-      [ "leather", 8 ]
+      [ "leather", 8 ],
+      [ "tanned_hide", 1 ]
     ]
   ]
 },{
@@ -3116,7 +3142,8 @@
   ],
   "components": [
     [
-      [ "leather", 8 ]
+      [ "leather", 8 ],
+      [ "tanned_hide", 1 ]
     ],
     [
       [ "tallow", 1 ],
@@ -3232,7 +3259,9 @@
     ],
     [
       [ "leather", 20 ],
-      [ "fur", 20 ]
+      [ "tanned_hide", 3 ],
+      [ "fur", 20 ],
+      [ "tanned_pelt", 3 ]
     ]
   ]
 },{
@@ -3259,7 +3288,9 @@
   "components": [
     [
       [ "leather", 42 ],
-      [ "fur", 42 ]
+      [ "tanned_hide", 7 ],
+      [ "fur", 42 ],
+      [ "tanned_pelt", 7 ]
     ]
   ]
 },{
@@ -3284,7 +3315,8 @@
   ],
   "components": [
     [
-      [ "fur", 48 ]
+      [ "fur", 48 ],
+      [ "tanned_pelt", 8 ]
     ]
   ]
 },{
@@ -3373,9 +3405,7 @@
   ],
   "components": [
     [
-      [ "rag", 20 ],
-      [ "fur", 16 ],
-      [ "leather", 12 ]
+      [ "rag", 20 ]
     ]
   ]
 },{
@@ -3397,7 +3427,8 @@
   ],
   "components": [
     [
-      [ "leather", 20 ]
+      [ "leather", 20 ],
+      [ "tanned_hide", 3 ]
     ],
     [
       [ "scrap", 6 ]
@@ -3424,7 +3455,9 @@
     [
       [ "rag", 40 ],
       [ "fur", 32 ],
-      [ "leather", 24 ]
+      [ "tanned_pelt", 6 ],
+      [ "leather", 24 ],
+      [ "tanned_hide", 6 ]
     ]
   ]
 },{
@@ -3498,7 +3531,8 @@
       [ "rag", 30 ]
     ],
     [
-      [ "fur", 10 ]
+      [ "fur", 10 ],
+      [ "tanned_pelt", 2 ]
     ]
   ]
 },{
@@ -3566,7 +3600,8 @@
   ],
   "components": [
     [
-      [ "fur", 15 ]
+      [ "fur", 15 ],
+      [ "tanned_pelt", 3 ]
     ]
   ]
 },{
@@ -3588,7 +3623,8 @@
   ],
   "components": [
     [
-      [ "leather", 20 ]
+      [ "leather", 20 ],
+      [ "tanned_hide", 3 ]
     ]
   ]
 },{
@@ -3639,7 +3675,8 @@
       [ "rag", 10 ]
     ],
     [
-      [ "fur", 20 ]
+      [ "fur", 20 ],
+      [ "tanned_pelt", 3 ]
     ]
   ]
 },{
@@ -3691,7 +3728,8 @@
   ],
   "components": [
     [
-      [ "leather", 6 ]
+      [ "leather", 6 ],
+      [ "tanned_hide", 1 ]
     ],
     [
       [ "string_36", 1 ],
@@ -3852,7 +3890,8 @@
   ],
   "components": [
     [
-      [ "leather", 18 ]
+      [ "leather", 18 ],
+      [ "tanned_hide", 3 ]
     ]
   ]
 },{
@@ -4057,7 +4096,8 @@
   ],
   "components": [
      [
-      [ "leather", 6 ]
+      [ "leather", 6 ],
+      [ "tanned_hide", 1 ]
      ],
      [
       [ "duct_tape", 100 ]
@@ -4114,7 +4154,8 @@
       [ "rag", 6 ]
      ],
      [
-      [ "leather", 6 ]
+      [ "leather", 6 ],
+      [ "tanned_hide", 1 ]
      ],
      [
       [ "chestrig", 1 ],
@@ -4157,7 +4198,8 @@
       [ "rag", 6 ]
      ],
      [
-      [ "leather", 8 ]
+      [ "leather", 8 ],
+      [ "tanned_hide", 2 ]
      ],
      [
       [ "runner_bag", 2 ],
@@ -4206,7 +4248,8 @@
       [ "rag", 10 ]
      ],
      [
-      [ "leather", 10 ]
+      [ "leather", 10 ],
+      [ "tanned_hide", 2 ]
      ],
      [
       [ "runner_bag", 4 ],
@@ -4255,7 +4298,8 @@
       [ "rag", 14 ]
      ],
      [
-      [ "leather", 16 ]
+      [ "leather", 16 ],
+      [ "tanned_hide", 3 ]
      ],
      [
       [ "backpack", 4 ],
@@ -4305,7 +4349,8 @@
       [ "rag", 18 ]
      ],
      [
-      [ "leather", 20 ]
+      [ "leather", 20 ],
+      [ "tanned_hide", 4 ]
      ],
      [
       [ "molle_pack", 4 ],
@@ -4412,7 +4457,8 @@
       [ "rag", 20 ]
      ],
      [
-      [ "leather", 20 ]
+      [ "leather", 20 ],
+      [ "tanned_hide", 4 ]
      ],
      [
       [ "coat_rain", 1 ]
@@ -4470,7 +4516,8 @@
       [ "rag", 20 ]
      ],
      [
-      [ "leather", 20 ]
+      [ "leather", 20 ],
+      [ "tanned_hide", 4 ]
      ],
      [
       [ "steel_chunk", 4 ],
@@ -4531,10 +4578,12 @@
       [ "rag", 10 ]
      ],
      [
-      [ "leather", 20 ]
+      [ "leather", 20 ],
+      [ "tanned_hide", 4 ]
      ],
      [
-      [ "fur", 20 ]
+      [ "fur", 20 ],
+      [ "tanned_pelt", 3 ]
      ],
      [
       [ "coat_rain", 1 ]
@@ -4706,7 +4755,8 @@
       [ "rag", 30 ]
      ],
      [
-      [ "leather", 40 ]
+      [ "leather", 40 ],
+      [ "tanned_hide", 7 ]
      ],
     [
       ["scrap", 8]
@@ -4763,7 +4813,8 @@
   ],
   "components": [
      [
-      [ "leather", 24 ]
+      [ "leather", 24 ],
+      [ "tanned_hide", 4 ]
      ],
      [
       [ "rag", 6 ]
@@ -4807,7 +4858,8 @@
   ],
   "components": [
      [
-      [ "leather", 16 ]
+      [ "leather", 16 ],
+      [ "tanned_hide", 3 ]
      ],
      [
       [ "rag", 6 ]
@@ -4851,7 +4903,8 @@
   ],
   "components": [
      [
-      [ "leather", 14 ]
+      [ "leather", 14 ],
+      [ "tanned_hide", 3 ]
      ],
      [
       [ "rag", 4 ]
@@ -4904,7 +4957,8 @@
       [ "rag", 6 ]
      ],
      [
-      [ "leather", 16 ]
+      [ "leather", 16 ],
+      [ "tanned_hide", 3 ]
      ],
      [
       [ "plastic_chunk", 20 ]
@@ -4989,7 +5043,8 @@
   ],
   "components": [
      [
-      [ "leather", 6 ]
+      [ "leather", 6 ],
+      [ "tanned_hide", 1 ]
      ],
      [
       [ "rag", 2 ]
@@ -5048,7 +5103,8 @@
       [ "bag_plastic", 2 ]
      ],
      [
-      [ "leather", 8 ]
+      [ "leather", 8 ],
+      [ "tanned_hide", 2 ]
      ],
      [
       [ "duct_tape", 150 ]
@@ -5156,7 +5212,8 @@
   ],
   "components": [
      [
-      [ "fur", 8 ]
+      [ "fur", 8 ],
+      [ "tanned_pelt", 1 ]
      ],
      [
       [ "rag", 2 ]
@@ -5332,7 +5389,8 @@
       [ "rag", 2 ]
      ],
      [
-      [ "leather", 6 ]
+      [ "leather", 6 ],
+      [ "tanned_hide", 1 ]
      ],
      [
       [ "duct_tape", 80 ]
@@ -5431,7 +5489,8 @@
       [ "rag", 2 ]
      ],
      [
-      [ "fur", 8 ]
+      [ "fur", 8 ],
+      [ "tanned_pelt", 1 ]
      ],
      [
       [ "duct_tape", 80 ]
@@ -5606,7 +5665,8 @@
   ],
   "components": [
      [
-      [ "leather", 8 ]
+      [ "leather", 8 ],
+      [ "tanned_hide", 2 ]
      ],
      [
       [ "kevlar_plate", 4 ]
@@ -5701,7 +5761,8 @@
   ],
   "components": [
      [
-      [ "fur", 12 ]
+      [ "fur", 12 ],
+      [ "tanned_pelt", 2 ]
      ],
      [
       [ "kevlar_plate", 4 ]
@@ -6466,7 +6527,7 @@
         {"id":"CUT","level":1,"amount":1}
     ],
     "components": [
-        [ [ "leather", 10 ] ],
+        [ [ "leather", 10 ], [ "tanned_hide", 2 ] ],
         [ ["superglue", 1] ],
         [ ["2x4", 2] ],
         [ ["nail", 5] ]
@@ -6491,7 +6552,7 @@
       ]
     ],
     "components": [
-      [ [ "leather", 6 ] ],
+      [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
       [
         [ "string_36", 1 ],
         [ "string_6", 6 ],
@@ -6550,7 +6611,8 @@
     ],
      "components": [
       [
-        [ "leather", 6 ]
+        [ "leather", 6 ],
+        [ "tanned_hide", 1 ]
       ],
       [
         [ "string_36", 1 ],
@@ -6597,7 +6659,9 @@
      ],
      [
       [ "fur", 16 ],
-      [ "leather", 16 ]
+     [ "tanned_pelt", 3 ],
+      [ "leather", 16 ],
+     [ "tanned_hide", 3 ]
      ]
     ]
 },{
@@ -6638,7 +6702,9 @@
     ],
     [
      [ "fur", 20 ],
-     [ "leather", 20 ]
+     [ "tanned_pelt", 3 ],
+     [ "leather", 20 ],
+     [ "tanned_hide", 3 ]
     ]
     ]
 },{
@@ -6679,7 +6745,9 @@
     ],
     [
      [ "fur", 10 ],
-     [ "leather", 10 ]
+     [ "tanned_pelt", 2 ],
+     [ "leather", 10 ],
+     [ "tanned_hide", 2 ]
     ]
    ]
 },{
@@ -6721,7 +6789,9 @@
     ],
     [
      [ "fur", 16 ],
-     [ "leather", 16 ]
+     [ "tanned_pelt", 3 ],
+     [ "leather", 16 ],
+     [ "tanned_hide", 3 ]
     ]
    ]
 },{
@@ -6844,7 +6914,9 @@
     ],
     [
      [ "fur", 28 ],
-     [ "leather", 28 ]
+     [ "tanned_pelt", 6 ],
+     [ "leather", 28 ],
+     [ "tanned_hide", 6 ]
     ],
     [
      [ "rag", 10 ]
@@ -6871,7 +6943,7 @@
   ],
   "components": [
     [ [ "steel_lump", 12 ] ],
-    [ [ "fur", 14 ], [ "leather", 14 ] ],
+    [ [ "fur", 14 ], [ "tanned_pelt", 2 ], [ "leather", 14 ], [ "tanned_hide", 2 ] ],
     [ [ "rag", 4 ] ]
   ]
 },{
