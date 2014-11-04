@@ -1439,8 +1439,9 @@ void map::step_in_field(int x, int y)
         } break;
 
         case fd_acid:
-            //Acid deals damage at all levels now; the inside refers to inside a vehicle.
             //TODO: Add resistance to this with rubber shoes or something?
+            // Assume vehicles block acid damage entirely,
+            // you're certainly not standing in it.
             if (veh) {
                 break;
             }
