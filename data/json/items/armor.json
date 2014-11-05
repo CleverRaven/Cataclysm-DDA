@@ -10944,7 +10944,7 @@
         "storage" : 5,
         "symbol" : "[",
         "description" : "A massive fur coat with a couple small pockets.  Extremely warm.",
-        "flags" : ["VARSIZE","POCKETS","OUTER","OVERSIZE]",
+        "flags" : ["VARSIZE","POCKETS","OUTER","OVERSIZE"],
         "price" : 45000,
         "material" : ["fur","leather"],
         "volume" : 42,
