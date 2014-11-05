@@ -13960,10 +13960,13 @@ void game::update_stair_monsters()
     std::vector<int> stairx, stairy;
     std::vector<int> stairdist;
 
+    const bool from_below = monstairz < levz;
+
     if (!coming_to_stairs.empty()) {
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
-                if (m.has_flag("GOES_UP", x, y) || m.has_flag("GOES_DOWN", x, y)) {
+                if( ( from_below && m.has_flag( "GOES_DOWN", x, y ) ) ||
+                    ( !from_below && m.has_flag( "GOES_UP", x, y ) ) ) {
                     stairx.push_back(x);
                     stairy.push_back(y);
                     stairdist.push_back(rl_dist(x, y, u.posx, u.posy));
@@ -14018,7 +14021,7 @@ void game::update_stair_monsters()
                     } else {
                         //~ The <monster> is almost at the <bottom/top> of the <terrain type>!
                         if (coming_to_stairs[i].staircount > 0) {
-                            dump << (!(m.has_flag("GOES_UP", mposx, mposy)) ?
+                            dump << (from_below ?
                                      string_format(_("The %s is almost at the top of the %s!"),
                                                    critter.name().c_str(),
                                                    m.tername(mposx, mposy).c_str()) :
@@ -14037,7 +14040,7 @@ void game::update_stair_monsters()
                     critter.staircount = 0;
                     add_zombie(critter);
                     if (u_see(mposx, mposy)) {
-                        if (m.has_flag("GOES_UP", mposx, mposy)) {
+                        if (!from_below) {
                             add_msg(m_warning, _("The %s comes down the %s!"),
                                     critter.name().c_str(),
                                     m.tername(mposx, mposy).c_str());
