@@ -613,13 +613,8 @@ void game::start_game(std::string worldname)
     u.setID( assign_npc_id() ); // should be as soon as possible, but *after* load_master
 
     const start_location &start_loc = *start_location::find( u.start_location );
-    if (scen->has_flag("INFECTED")){u.add_disease("infected", 14401, false, 1, 1, 0, 0, random_body_part(), true);}
-    if (scen->has_flag("BAD_DAY")){
-        u.add_disease("flu", 10000);
-        u.add_disease("drunk", 2700 - (12 * u.str_max));
-        u.add_morale(MORALE_FEELING_BAD,-100,50,50,50);
-    }
     start_loc.setup( cur_om, levx, levy, levz );
+    
     // Start the overmap with out immediate neighborhood visible
     overmap_buffer.reveal(point(om_global_location().x, om_global_location().y), OPTIONS["DISTANCE_INITIAL_VISIBILITY"], 0);
     // Init the starting map at this location.
@@ -627,6 +622,7 @@ void game::start_game(std::string worldname)
     m.build_map_cache();
     // Do this after the map cache has been build!
     start_loc.place_player( u );
+
     u.moves = 0;
     u.reset_bonuses();
     u.process_turn(); // process_turn adds the initial move points
@@ -653,6 +649,12 @@ void game::start_game(std::string worldname)
             m.add_field(u.pos().x + 5, u.pos().y + 3, field_from_ident("fd_fire"), 3 );
             m.add_field(u.pos().x + 7, u.pos().y + 6, field_from_ident("fd_fire"), 3 );
             m.add_field(u.pos().x + 3, u.pos().y + 4, field_from_ident("fd_fire"), 3 );
+    }
+    if (scen->has_flag("INFECTED")){u.add_disease("infected", 14401, false, 1, 1, 0, 0, random_body_part(), true);}
+    if (scen->has_flag("BAD_DAY")){
+        u.add_disease("flu", 10000);
+        u.add_disease("drunk", 2700 - (12 * u.str_max));
+        u.add_morale(MORALE_FEELING_BAD,-100,50,50,50);
     }
     //~ %s is player name
     u.add_memorial_log(pgettext("memorial_male", "%s began their journey into the Cataclysm."),
