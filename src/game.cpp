@@ -4281,13 +4281,13 @@ void game::load_world_modfiles(WORLDPTR world)
         // are resolved during the creation of the world.
         // That means world->active_mod_order contains a list
         // of mods in the correct order.
-        for (std::vector<std::string>::iterator it =
-                 world->active_mod_order.begin();
-             it != world->active_mod_order.end(); ++it) {
-            const std::string &mod_ident = *it;
+        for( const auto &mod_ident : world->active_mod_order ) {
             if (mm->has_mod(mod_ident)) {
                 MOD_INFORMATION *mod = mm->mod_map[mod_ident];
-                load_data_from_dir(mod->path);
+                if( !mod->obsolete ) {
+                    // Silently ignore mods marked as obsolete.
+                    load_data_from_dir(mod->path);
+                }
             } else {
                 debugmsg("the world uses an unknown mod %s", mod_ident.c_str());
             }

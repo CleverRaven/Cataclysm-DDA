@@ -1258,7 +1258,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
             } else {
                 damtext = rmp_format("%s ", type->dmg_adj(damage).c_str());
             }
-            }
+        }
     }
 
     std::string vehtext = "";
