@@ -9001,6 +9001,14 @@ bool player::wear_item(item *to_wear, bool interactive)
             }
             return false;
         }
+
+        // only one backpack is allowed
+        if (to_wear->covers.test(bp_torso) && to_wear->has_flag("BACKPACK") && is_wearing_backpack()) {
+            if(interactive){
+                add_msg(m_info, _("You're already wearing a backpack!"));
+            }
+            return false;
+        }
     }
 
     if (to_wear->invlet == 0) {
@@ -10326,6 +10334,10 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
                 level = OUTER_LAYER;
             } else if ( worn[i].has_flag( "BELTED") ) {
                 level = BELTED_LAYER;
+            } else if ( worn[i].has_flag( "BACK" ) ) {
+                level = BACKPACK_LAYER;
+            } else if ( worn[i].has_flag( "OVER_SHOULDER") ) {
+                level = OVER_SHOULDER_LAYER;
             } else {
                 level = REGULAR_LAYER;
             }
@@ -10927,6 +10939,17 @@ bool player::is_wearing_shoes(std::string side) const
         }
     }
     return (left && right);
+}
+
+bool player::is_wearing_backpack() const
+{
+    for( auto &i : worn ) {
+        const item *worn_item = &i;
+        if( i.covers.test( bp_torso ) && worn_item->has_flag( "BACKPACK" ) ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 double player::footwear_factor() const

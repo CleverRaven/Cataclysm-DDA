@@ -2779,7 +2779,7 @@
         "environmental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : -3,
-        "flags" : ["WATER_FRIENDLY", "STURDY", "BELTED"],
+        "flags" : ["WATER_FRIENDLY", "STURDY", "BACK", "BACKPACK"],
         "coverage" : 30,
         "material_thickness" : 2
     },
@@ -2803,7 +2803,7 @@
         "environmental_protection" : 0,
         "encumbrance" : 1,
         "bashing" : -3,
-        "flags" : ["WATER_FRIENDLY", "STURDY", "BELTED"],
+        "flags" : ["WATER_FRIENDLY", "STURDY", "BACK", "BACKPACK"],
         "coverage" : 30,
         "material_thickness" : 2
     },
@@ -2827,7 +2827,7 @@
         "environmental_protection" : 0,
         "encumbrance" : 2,
         "bashing" : -3,
-        "flags" : ["WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE"],
+        "flags" : ["WATER_FRIENDLY", "STURDY", "BACK", "BACKPACK", "OVERSIZE"],
         "coverage" : 40,
         "material_thickness" : 2
     },
@@ -2851,7 +2851,7 @@
         "environmental_protection" : 0,
         "encumbrance" : 3,
         "bashing" : -3,
-        "flags" : ["WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE"],
+        "flags" : ["WATER_FRIENDLY", "STURDY", "BACK", "BACKPACK", "OVERSIZE"],
         "coverage" : 40,
         "material_thickness" : 2
     },
@@ -6589,7 +6589,7 @@
         "encumbrance" : 1,
         "bashing" : -4,
         "coverage" : 30,
-        "flags" : ["BELTED"],
+        "flags" : ["BACK", "BACKPACK"],
         "material_thickness" : 2
     },
     {
@@ -6613,7 +6613,7 @@
         "encumbrance" : 1,
         "bashing" : -4,
         "coverage" : 30,
-        "flags" : ["BELTED"],
+        "flags" : ["BACK", "BACKPACK"],
         "material_thickness" : 3
     },
     {
@@ -6637,7 +6637,7 @@
         "encumbrance" : 1,
         "bashing" : -4,
         "coverage" : 40,
-        "flags" : ["WATER_FRIENDLY", "BELTED"],
+        "flags" : ["WATER_FRIENDLY", "BACK", "BACKPACK"],
         "material_thickness" : 1
     },
     {
@@ -6661,7 +6661,7 @@
         "encumbrance" : 1,
         "bashing" : -4,
         "coverage" : 35,
-        "flags" : ["WATERPROOF", "BELTED"],
+        "flags" : ["WATERPROOF", "BACK", "BACKPACK"],
         "material_thickness" : 2
     },
     {
@@ -6685,7 +6685,7 @@
         "encumbrance" : 2,
         "bashing" : -4,
         "coverage" : 40,
-        "flags" : ["BELTED"],
+        "flags" : ["BACK", "BACKPACK"],
         "material_thickness" : 2
     },
     {
@@ -6709,7 +6709,7 @@
         "encumbrance" : 3,
         "bashing" : -4,
         "coverage" : 50,
-        "flags" : ["BELTED"],
+        "flags" : ["BACK", "BACKPACK"],
         "material_thickness" : 2
     },
     {
@@ -6776,11 +6776,11 @@
         "warmth" : 0,
         "phase" : "solid",
         "environmental_protection" : 0,
-        "encumbrance" : 1,
+        "encumbrance" : 2,
         "bashing" : 2,
         "coverage" : 10,
         "material_thickness" : 2,
-        "flags" : ["FANCY", "BELTED"]
+        "flags" : ["FANCY", "OVER_SHOULDER"]
     },
     {
         "type" : "ARMOR",
@@ -6801,10 +6801,10 @@
         "warmth" : 0,
         "phase" : "solid",
         "environmental_protection" : 0,
-        "encumbrance" : 0,
+        "encumbrance" : 1,
         "bashing" : 1,
         "coverage" : 30,
-        "flags" : ["BELTED"],
+        "flags" : ["OVER_SHOULDER"],
         "material_thickness" : 1
     },
     {
@@ -6828,7 +6828,7 @@
         "encumbrance" : 0,
         "bashing" : 1,
         "coverage" : 20,
-        "flags" : ["WATERPROOF", "BELTED"],
+        "flags" : ["WATERPROOF", "BACK", "BACKPACK"],
         "material_thickness" : 1
     },
     {
@@ -6852,7 +6852,7 @@
         "cutting" : 0,
         "warmth" : 0,
         "environmental_protection" : 0,
-        "flags" : ["BELTED", "VARSIZE"],
+        "flags" : ["OVER_SHOULDER"],
         "phase" : "solid"
     },
     {
@@ -7001,7 +7001,7 @@
         "encumbrance" : 0,
         "coverage" : 5,
         "material_thickness" : 1,
-        "flags" : ["QUIVER_20", "BELTED", "VARSIZE", "OVERSIZE"],
+        "flags" : ["QUIVER_20", "BACK", "VARSIZE", "OVERSIZE"],
         "use_action" : "QUIVER"
     },
     {
@@ -7026,7 +7026,7 @@
         "encumbrance" : 0,
         "coverage" : 15,
         "material_thickness" : 1,
-        "flags" : ["QUIVER_60", "BELTED", "VARSIZE", "OVERSIZE"],
+        "flags" : ["QUIVER_60", "BACK", "VARSIZE", "OVERSIZE"],
         "use_action" : "QUIVER"
     },
     {
@@ -7035,11 +7035,11 @@
         "name" : "scabbard",
         "weight" : 1360,
         "color" : "brown",
-        "covers" : ["TORSO"],
+        "covers" : ["LEGS"],
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "A large, adjustable sheath for holding swords and other large blades.  Activate to sheathe/draw a weapon.",
+        "description" : "An adjustable sheath for holding swords and other blades.  Activate to sheathe/draw a weapon.",
         "price" : 6000,
         "material" : ["leather", "wood"],
         "volume" : 7,
@@ -7049,9 +7049,34 @@
         "phase" : "solid",
         "environmental_protection" : 0,
         "encumbrance" : 0,
-        "coverage" : 15,
+        "coverage" : 10,
         "material_thickness" : 1,
         "flags" : ["VARSIZE", "BELTED", "OVERSIZE"],
+        "use_action": "SHEATH_SWORD"
+    },
+    {
+        "type" : "ARMOR",
+        "id" : "large_scabbard",
+        "name" : "large scabbard",
+        "weight" : 2360,
+        "color" : "brown",
+        "covers" : ["TORSO"],
+        "to_hit" : 0,
+        "storage" : 0,
+        "symbol" : "[",
+        "description" : "A large, adjustable sheath for holding two-handed swords and other large blades.  Activate to sheathe/draw a weapon.",
+        "price" : 10000,
+        "material" : ["leather", "wood"],
+        "volume" : 12,
+        "cutting" : -4,
+        "bashing" : 4,
+        "warmth" : 0,
+        "phase" : "solid",
+        "environmental_protection" : 0,
+        "encumbrance" : 0,
+        "coverage" : 15,
+        "material_thickness" : 1,
+        "flags" : ["VARSIZE", "BACK", "OVERSIZE"],
         "use_action": "SHEATH_SWORD"
     },
     {
@@ -7076,7 +7101,7 @@
         "encumbrance" : 1,
         "bashing" : 1,
         "coverage" : 15,
-        "flags" : ["BELTED", "OVERSIZE"],
+        "flags" : ["BACK", "BACKPACK", "OVERSIZE"],
         "material_thickness" : 1
     },
     {
@@ -7101,7 +7126,7 @@
         "encumbrance" : 0,
         "bashing" : 1,
         "coverage" : 15,
-        "flags" : ["BELTED", "OVERSIZE"],
+        "flags" : ["BACK", "BACKPACK", "OVERSIZE"],
         "material_thickness" : 1
     },
     {
@@ -8095,7 +8120,7 @@
         "encumbrance" : 4,
         "bashing" : 1,
         "symbol" : "[",
-        "flags" : ["WATERPROOF", "STURDY", "BELTED"],
+        "flags" : ["WATERPROOF", "STURDY", "BACK", "BACKPACK"],
         "coverage" : 100,
         "material_thickness" : 10
     },
@@ -9917,7 +9942,7 @@
         "encumbrance" : 4,
         "bashing" : -1,
         "coverage" : 50,
-        "flags" : ["BELTED"],
+        "flags" : ["BACK", "BACKPACK"],
         "material_thickness" : 3
     },
     {

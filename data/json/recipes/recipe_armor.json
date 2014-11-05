@@ -6532,8 +6532,31 @@
         [ ["2x4", 2] ],
         [ ["nail", 5] ]
     ]
-  },
-  {
+  },{
+    "type" : "recipe",
+    "result": "large_scabbard",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": 60000,
+    "reversible": false,
+    "autolearn": false,
+    "book_learn": [
+        ["textbook_weapwest", 5], ["textbook_weapeast", 5],
+        ["textbook_armwest", 5], ["textbook_armeast", 5]
+    ],
+    "qualities":[
+        {"id":"HAMMER","level":1,"amount":1},
+        {"id":"CUT","level":1,"amount":1}
+    ],
+    "components": [
+        [ [ "leather", 20 ], [ "tanned_hide", 4 ] ],
+        [ ["superglue", 1] ],
+        [ ["2x4", 4] ],
+        [ ["nail", 10] ]
+    ]
+  },{
     "type" : "recipe",
     "result": "holster",
     "category": "CC_ARMOR",
