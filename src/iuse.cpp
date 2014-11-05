@@ -2866,7 +2866,7 @@ int iuse::sew(player *p, item *it, bool, point)
     std::string plural = "";
     //translation note: add <plural> tag to keep them unique
     if (fix->made_of("cotton")) {
-        repair_items.push_back("cotton");
+        repair_items.push_back("rag");
         plurals.push_back(rm_prefix(_("<plural>rags")));
     }
     if (fix->made_of("leather")) {
@@ -2886,7 +2886,7 @@ int iuse::sew(player *p, item *it, bool, point)
         plurals.push_back(rm_prefix(_("<plural>wool")));
     }
     if (repair_items.empty()) {
-        p->add_msg_if_player(m_info, _("Your %s is not made of fabric, leather or fur."),
+        p->add_msg_if_player(m_info, _("Your %s is not made of fabric, leather, fur, or wool."),
                              fix->tname().c_str());
         return 0;
     }
