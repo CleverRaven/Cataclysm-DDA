@@ -723,29 +723,45 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         if (covers.test(bp_torso)) {
             temp1 << _("The torso. ");
         }
-        if (covers.test(bp_arm_l)) {
-            temp1 << _("The left arm. ");
+        if( covers.test( bp_arm_l ) && covers.test( bp_arm_r ) ) {
+            temp1 << _("The arms. ");
+        } else {
+            if (covers.test(bp_arm_l)) {
+                temp1 << _("The left arm. ");
+            }
+            if (covers.test(bp_arm_r)) {
+                temp1 << _("The right arm. ");
+            }
         }
-        if (covers.test(bp_arm_r)) {
-            temp1 << _("The right arm. ");
+        if( covers.test( bp_hand_l ) && covers.test( bp_hand_r ) ) {
+            temp1 << _("The hands. ");
+        } else {
+            if (covers.test(bp_hand_l)) {
+                temp1 << _("The left hand. ");
+            }
+            if (covers.test(bp_hand_r)) {
+                temp1 << _("The right hand. ");
+            }
         }
-        if (covers.test(bp_hand_l)) {
-            temp1 << _("The left hand. ");
+        if( covers.test( bp_leg_l ) && covers.test( bp_leg_r ) ) {
+            temp1 << _("The legs. ");
+        } else {
+            if (covers.test(bp_leg_l)) {
+                temp1 << _("The left leg. ");
+            }
+            if (covers.test(bp_leg_r)) {
+                temp1 << _("The right leg. ");
+            }
         }
-        if (covers.test(bp_hand_r)) {
-            temp1 << _("The right hand. ");
-        }
-        if (covers.test(bp_leg_l)) {
-            temp1 << _("The left leg. ");
-        }
-        if (covers.test(bp_leg_r)) {
-            temp1 << _("The right leg. ");
-        }
-        if (covers.test(bp_foot_l)) {
-            temp1 << _("The left foot. ");
-        }
-        if (covers.test(bp_foot_r)) {
-            temp1 << _("The right foot. ");
+        if( covers.test( bp_foot_l ) && covers.test( bp_foot_r ) ) {
+            temp1 << _("The feet. ");
+        } else {
+            if (covers.test(bp_foot_l)) {
+                temp1 << _("The left foot. ");
+            }
+            if (covers.test(bp_foot_r)) {
+                temp1 << _("The right foot. ");
+            }
         }
 
         dump->push_back(iteminfo("ARMOR", temp1.str()));
