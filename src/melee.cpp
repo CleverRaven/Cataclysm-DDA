@@ -725,7 +725,7 @@ int player::roll_cut_damage(bool crit)
     if (weapon.has_flag("SPEAR"))
         return 0;  // Stabs, doesn't cut!
 
-    double ret = mabuff_cut_bonus() + weapon.damage_cut();
+    double ret = 0;
 
     int cutting_skill = get_skill_level("cutting");
     int unarmed_skill = get_skill_level("unarmed");
@@ -736,7 +736,7 @@ int player::roll_cut_damage(bool crit)
         unarmed_skill = 5;
     }
 
-    if (unarmed_attack()) {
+    if (unarmed_attack() && !weapon.has_flag("UNARMED_WEAPON")) {
         if (!wearing_something_on(bp_hand_l)) {
             if (has_trait("CLAWS") || (has_active_mutation("CLAWS_RETRACT")) ) {
                 ret += 3;
@@ -774,6 +774,8 @@ int player::roll_cut_damage(bool crit)
                 ret += rng(2, 3);
             }
         }
+    } else {
+        ret = mabuff_cut_bonus() + weapon.damage_cut();
     }
 
     if (ret <= 0)
@@ -798,8 +800,7 @@ int player::roll_stab_damage(bool crit)
     //TODO: armor formula is z->get_armor_cut() - 3 * get_skill_level("stabbing")
 
     int unarmed_skill = get_skill_level("unarmed");
-    if (unarmed_attack()) {
-        ret = 0;
+    if (unarmed_attack() && !weapon.has_flag("UNARMED_WEAPON")) {
         if (!wearing_something_on(bp_hand_l)) {
             if (has_trait("CLAWS") || has_trait("CLAWS_RETRACT")) {
                 ret += 3;
@@ -828,8 +829,6 @@ int player::roll_stab_damage(bool crit)
         }
     } else if (weapon.has_flag("SPEAR") || weapon.has_flag("STAB"))
         ret = weapon.damage_cut();
-    else
-        return 0; // Can't stab at all!
 
     /* TODO: add this bonus back in
     if (z != NULL && z->speed > 100) { // Bonus against fast monsters
