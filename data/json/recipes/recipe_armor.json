@@ -7168,6 +7168,69 @@
     ]
   ]
 },{
+        "type" : "recipe",
+  "result": "peacoat",
+  "id_suffix": "knitting",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "tailor",
+  "difficulty": 5,
+  "time": 6000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "knitting_needles", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "wool_thread", 600 ],
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "blazer",
+  "id_suffix": "knitting",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "tailor",
+  "difficulty": 5,
+  "time": 6000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "knitting_needles", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "wool_thread", 700 ],
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "boots_winter",
+  "id_suffix": "knitting",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "tailor",
+  "difficulty": 6,
+  "time": 6000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "knitting_needles", -1 ]
+    ]
+  ],
+  "components": [
+    [ [ "wool_thread", 700 ] ],
+    [ [ "bag_plastic", 8 ] ]
+    ]
+  ]
+},{
   "type" : "recipe",
   "result": "plastic_shopping_bag",
   "category": "CC_ARMOR",
