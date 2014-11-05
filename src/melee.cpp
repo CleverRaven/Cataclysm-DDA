@@ -800,6 +800,13 @@ int player::roll_stab_damage(bool crit)
     //TODO: armor formula is z->get_armor_cut() - 3 * get_skill_level("stabbing")
 
     int unarmed_skill = get_skill_level("unarmed");
+    int stabbing_skill = get_skill_level("stabbing");
+
+    if (has_active_bionic("bio_cqb")) {
+        unarmed_skill = 5;
+        stabbing_skill = 5;
+    }
+    
     if (unarmed_attack() && !weapon.has_flag("UNARMED_WEAPON")) {
         if (!wearing_something_on(bp_hand_l)) {
             if (has_trait("CLAWS") || has_trait("CLAWS_RETRACT")) {
@@ -843,11 +850,6 @@ int player::roll_stab_damage(bool crit)
 
     if (ret <= 0)
         return 0; // No negative stabbing!
-
-    int stabbing_skill = get_skill_level("stabbing");
-
-    if (has_active_bionic("bio_cqb"))
-        stabbing_skill = 5;
 
     // 76%, 86%, 96%, 106%, 116%, 122%, 128%, 134%, 140%, 146%
     if (stabbing_skill <= 5)
