@@ -731,9 +731,7 @@ int player::roll_cut_damage(bool crit)
     int unarmed_skill = get_skill_level("unarmed");
 
     if (has_active_bionic("bio_cqb"))
-    {
         cutting_skill = 5;
-    }
 
     if (unarmed_attack() && !weapon.has_flag("UNARMED_WEAPON")) {
         if (!wearing_something_on(bp_hand_l)) {
@@ -801,10 +799,8 @@ int player::roll_stab_damage(bool crit)
     int unarmed_skill = get_skill_level("unarmed");
     int stabbing_skill = get_skill_level("stabbing");
 
-    if (has_active_bionic("bio_cqb")) {
-        unarmed_skill = 5;
+    if (has_active_bionic("bio_cqb"))
         stabbing_skill = 5;
-    }
     
     if (unarmed_attack() && !weapon.has_flag("UNARMED_WEAPON")) {
         if (!wearing_something_on(bp_hand_l)) {
