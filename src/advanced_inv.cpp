@@ -626,7 +626,7 @@ advanced_inv_listitem::advanced_inv_listitem( item *an_item, int index, int coun
     , it( an_item )
     , name( an_item->tname( count ) )
     , name_without_prefix( an_item->tname( 1, false ) )
-    , autopickup( hasPickupRule( name ) )
+    , autopickup( hasPickupRule( an_item->tname() ) )
     , stacks( count )
     , volume( an_item->volume() * stacks )
     , weight( an_item->weight() * stacks )
@@ -1218,13 +1218,13 @@ void advanced_inventory::display()
                 continue;
             }
             if( sitem->autopickup == true ) {
-                removePickupRule( sitem->name );
+                removePickupRule( sitem->it->tname() );
                 sitem->autopickup = false;
             } else {
-                addPickupRule( sitem->name );
+                addPickupRule( sitem->it->tname() );
                 sitem->autopickup = true;
             }
-            redraw = true;
+            recalc = true;
         } else if( action == "EXAMINE" ) {
             if( sitem == nullptr || !sitem->is_item_entry() ) {
                 continue;
