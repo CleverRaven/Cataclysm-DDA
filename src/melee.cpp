@@ -730,10 +730,11 @@ int player::roll_cut_damage(bool crit)
     int cutting_skill = get_skill_level("cutting");
     int unarmed_skill = get_skill_level("unarmed");
 
-    if (has_active_bionic("bio_cqb"))
+    if (has_active_bionic("bio_cqb")) {
         cutting_skill = 5;
+    }
 
-    if (unarmed_attack() && !weapon.has_flag("UNARMED_WEAPON")) {
+    if (unarmed_attack()) {
         if (!wearing_something_on(bp_hand_l)) {
             if (has_trait("CLAWS") || (has_active_mutation("CLAWS_RETRACT")) ) {
                 ret += 3;
@@ -753,7 +754,7 @@ int player::roll_cut_damage(bool crit)
                 ret += rng(2, 3);
             }
         }
-        if (!wearing_something_on(bp_hand_r)) {
+        if (!wearing_something_on(bp_hand_r) && !weapon.has_flag("UNARMED_WEAPON")) {
             if (has_trait("CLAWS") || (has_active_mutation("CLAWS_RETRACT")) ) {
                 ret += 3;
             }
@@ -799,10 +800,11 @@ int player::roll_stab_damage(bool crit)
     int unarmed_skill = get_skill_level("unarmed");
     int stabbing_skill = get_skill_level("stabbing");
 
-    if (has_active_bionic("bio_cqb"))
+    if (has_active_bionic("bio_cqb")) {
         stabbing_skill = 5;
+    }
     
-    if (unarmed_attack() && !weapon.has_flag("UNARMED_WEAPON")) {
+    if (unarmed_attack()) {
         if (!wearing_something_on(bp_hand_l)) {
             if (has_trait("CLAWS") || has_trait("CLAWS_RETRACT")) {
                 ret += 3;
@@ -816,7 +818,7 @@ int player::roll_stab_damage(bool crit)
                 ret += 3 + (unarmed_skill / 2);
             }
         }
-        if (!wearing_something_on(bp_hand_r)) {
+        if (!wearing_something_on(bp_hand_r) && !weapon.has_flag("UNARMED_WEAPON")) {
             if (has_trait("CLAWS") || has_trait("CLAWS_RETRACT")) {
                 ret += 3;
             } if (has_trait("NAILS")) {
@@ -872,8 +874,9 @@ int player::roll_stuck_penalty(bool stabbing, ma_technique &tec)
     int stuck_cost = weapon_speed;
     int attack_skill = stabbing ? get_skill_level("stabbing") : get_skill_level("cutting");
 
-    if (has_active_bionic("bio_cqb"))
+    if (has_active_bionic("bio_cqb")) {
         attack_skill = 5;
+    }
 
     const float cut_damage = weapon.damage_cut();
     const float bash_damage = weapon.damage_bash();
