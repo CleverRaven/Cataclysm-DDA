@@ -653,7 +653,8 @@ void Pickup::pick_up(int posx, int posy, int min)
                     draw_item_info(w_item_info, "", vThisItem, vDummy, 0, true, true);
                 }
                 draw_border(w_item_info);
-                mvwprintz(w_item_info, 0, 2, c_white, "< %s >", here[selected].display_name().c_str());
+                const auto name = utf8_wrapper( here[selected].display_name() ).shorten( itemsW - 8 );
+                mvwprintz(w_item_info, 0, 2, c_white, "< %s >", name.c_str());
                 wrefresh(w_item_info);
             }
 

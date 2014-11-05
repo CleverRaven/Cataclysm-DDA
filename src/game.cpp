@@ -9954,12 +9954,16 @@ int game::list_items(const int iLastState)
     const int width = use_narrow_sidebar() ? 45 : 55;
     WINDOW *w_items = newwin(TERMY - 2 - iInfoHeight - VIEW_OFFSET_Y * 2, width - 2, VIEW_OFFSET_Y + 1,
                              TERMX - width + 1 - VIEW_OFFSET_X);
+    WINDOW_PTR w_itemsptr( w_items );
     WINDOW *w_items_border = newwin(TERMY - iInfoHeight - VIEW_OFFSET_Y * 2, width, VIEW_OFFSET_Y,
                                     TERMX - width - VIEW_OFFSET_X);
+    WINDOW_PTR w_items_borderptr( w_items_border );
     WINDOW *w_item_info = newwin(iInfoHeight - 1, width - 2, TERMY - iInfoHeight - VIEW_OFFSET_Y,
                                  TERMX - width + 1 - VIEW_OFFSET_X);
+    WINDOW_PTR w_item_infoptr( w_item_info );
     WINDOW *w_item_info_border = newwin(iInfoHeight, width, TERMY - iInfoHeight - VIEW_OFFSET_Y,
                                         TERMX - width - VIEW_OFFSET_X);
+    WINDOW_PTR w_item_info_borderptr( w_item_info_border );
 
     //Area to search +- of players position.
     const int iRadius = 12 + (u.per_cur * 2);
@@ -10094,15 +10098,6 @@ int game::list_items(const int iLastState)
             } else if (action == "NEXT_TAB" || action == "PREV_TAB") {
                 u.view_offset_x = iStoreViewOffsetX;
                 u.view_offset_y = iStoreViewOffsetY;
-
-                werase(w_items);
-                werase(w_items_border);
-                werase(w_item_info);
-                werase(w_item_info_border);
-                delwin(w_items);
-                delwin(w_items_border);
-                delwin(w_item_info);
-                delwin(w_item_info_border);
                 return 1;
             }
 
@@ -10227,15 +10222,6 @@ int game::list_items(const int iLastState)
     u.view_offset_x = iStoreViewOffsetX;
     u.view_offset_y = iStoreViewOffsetY;
 
-    werase(w_items);
-    werase(w_items_border);
-    werase(w_item_info);
-    werase(w_item_info_border);
-    delwin(w_items);
-    delwin(w_items_border);
-    delwin(w_item_info);
-    delwin(w_item_info_border);
-
     return iReturn;
 }
 
@@ -10260,12 +10246,16 @@ int game::list_monsters(const int iLastState)
     const int width = use_narrow_sidebar() ? 45 : 55;
     WINDOW *w_monsters = newwin(TERMY - 2 - iInfoHeight - VIEW_OFFSET_Y * 2, width - 2,
                                 VIEW_OFFSET_Y + 1, TERMX - width + 1 - VIEW_OFFSET_X);
+    WINDOW_PTR w_monstersptr( w_monsters );
     WINDOW *w_monsters_border = newwin(TERMY - iInfoHeight - VIEW_OFFSET_Y * 2, width, VIEW_OFFSET_Y,
                                        TERMX - width - VIEW_OFFSET_X);
+    WINDOW_PTR w_monsters_borderptr( w_monsters_border );
     WINDOW *w_monster_info = newwin(iInfoHeight - 1, width - 2, TERMY - iInfoHeight - VIEW_OFFSET_Y,
                                     TERMX - width + 1 - VIEW_OFFSET_X);
+    WINDOW_PTR w_monster_infoptr( w_monster_info );
     WINDOW *w_monster_info_border = newwin(iInfoHeight, width, TERMY - iInfoHeight - VIEW_OFFSET_Y,
                                            TERMX - width - VIEW_OFFSET_X);
+    WINDOW_PTR w_monster_info_borderptr( w_monster_info_border );
 
     uistate.list_item_mon = 2; // remember we've tabbed here
     //this stores the monsters found
@@ -10344,15 +10334,6 @@ int game::list_monsters(const int iLastState)
             } else if (action == "NEXT_TAB" || action == "PREV_TAB") {
                 u.view_offset_x = iStoreViewOffsetX;
                 u.view_offset_y = iStoreViewOffsetY;
-
-                werase(w_monsters);
-                werase(w_monsters_border);
-                werase(w_monster_info);
-                werase(w_monster_info_border);
-                delwin(w_monsters);
-                delwin(w_monsters_border);
-                delwin(w_monster_info);
-                delwin(w_monster_info_border);
                 return 1;
             } else if (action == "look") {
                 point recentered = look_around();
@@ -10364,14 +10345,6 @@ int game::list_monsters(const int iLastState)
                     last_target = iMonDex;
                     u.view_offset_x = iStoreViewOffsetX;
                     u.view_offset_y = iStoreViewOffsetY;
-                    werase(w_monsters);
-                    werase(w_monsters_border);
-                    werase(w_monster_info);
-                    werase(w_monster_info_border);
-                    delwin(w_monsters);
-                    delwin(w_monsters_border);
-                    delwin(w_monster_info);
-                    delwin(w_monster_info_border);
                     return 2;
                 }
             }
@@ -10485,15 +10458,6 @@ int game::list_monsters(const int iLastState)
 
     u.view_offset_x = iStoreViewOffsetX;
     u.view_offset_y = iStoreViewOffsetY;
-
-    werase(w_monsters);
-    werase(w_monsters_border);
-    werase(w_monster_info);
-    werase(w_monster_info_border);
-    delwin(w_monsters);
-    delwin(w_monsters_border);
-    delwin(w_monster_info);
-    delwin(w_monster_info_border);
 
     return iReturn;
 }
