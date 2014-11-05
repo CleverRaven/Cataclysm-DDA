@@ -733,7 +733,6 @@ int player::roll_cut_damage(bool crit)
     if (has_active_bionic("bio_cqb"))
     {
         cutting_skill = 5;
-        unarmed_skill = 5;
     }
 
     if (unarmed_attack() && !weapon.has_flag("UNARMED_WEAPON")) {
