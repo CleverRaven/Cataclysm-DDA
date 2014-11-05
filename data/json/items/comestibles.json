@@ -5692,7 +5692,7 @@
         "weight" : 225,
         "color" : "yellow",
         "addiction_type" : "none",
-        "spoils_in" : 0,
+        "spoils_in" : 268,
         "stim" : 0,
         "container" : "bag_plastic",
         "to_hit" : 0,
