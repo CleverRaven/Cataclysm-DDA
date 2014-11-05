@@ -6965,7 +6965,7 @@
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
   "difficulty": 3,
-  "time": 18000,
+  "time": 360000,
   "reversible": false,
   "autolearn": true,
   "tools": [
@@ -6986,7 +6986,7 @@
   "subcategory": "CSC_ARMOR_FEET",
   "skill_used": "tailor",
   "difficulty": 1,
-  "time": 6000,
+  "time": 60000,
   "reversible": false,
   "autolearn": true,
   "tools": [
@@ -7007,7 +7007,7 @@
   "subcategory": "CSC_ARMOR_HANDS",
   "skill_used": "tailor",
   "difficulty": 1,
-  "time": 9000,
+  "time": 90000,
   "reversible": false,
   "autolearn": true,
   "tools": [
@@ -7028,7 +7028,7 @@
   "subcategory": "CSC_ARMOR_HEAD",
   "skill_used": "tailor",
   "difficulty": 1,
-  "time": 4000,
+  "time": 40000,
   "reversible": false,
   "autolearn": true,
   "tools": [
@@ -7049,7 +7049,7 @@
   "subcategory": "CSC_ARMOR_HEAD",
   "skill_used": "tailor",
   "difficulty": 2,
-  "time": 6000,
+  "time": 60000,
   "reversible": false,
   "autolearn": true,
   "tools": [
@@ -7070,7 +7070,7 @@
   "subcategory": "CSC_ARMOR_HEAD",
   "skill_used": "tailor",
   "difficulty": 1,
-  "time": 6000,
+  "time": 60000,
   "reversible": false,
   "autolearn": true,
   "tools": [
@@ -7091,7 +7091,7 @@
   "subcategory": "CSC_ARMOR_HANDS",
   "skill_used": "tailor",
   "difficulty": 1,
-  "time": 5000,
+  "time": 50000,
   "reversible": false,
   "autolearn": true,
   "tools": [
@@ -7112,7 +7112,7 @@
   "subcategory": "CSC_ARMOR_HEAD",
   "skill_used": "tailor",
   "difficulty": 2,
-  "time": 9000,
+  "time": 90000,
   "reversible": false,
   "autolearn": true,
   "tools": [
@@ -7133,7 +7133,7 @@
   "subcategory": "CSC_ARMOR_HEAD",
   "skill_used": "tailor",
   "difficulty": 3,
-  "time": 8000,
+  "time": 80000,
   "reversible": false,
   "autolearn": true,
   "tools": [
@@ -7154,7 +7154,7 @@
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
   "difficulty": 4,
-  "time": 12000,
+  "time": 180000,
   "reversible": false,
   "autolearn": true,
   "tools": [
@@ -7175,7 +7175,7 @@
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
   "difficulty": 5,
-  "time": 15000,
+  "time": 480000,
   "reversible": false,
   "autolearn": true,
   "tools": [
@@ -7196,7 +7196,7 @@
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
   "difficulty": 5,
-  "time": 12000,
+  "time": 180000,
   "reversible": false,
   "autolearn": true,
   "tools": [
@@ -7217,7 +7217,7 @@
   "subcategory": "CSC_ARMOR_FEET",
   "skill_used": "tailor",
   "difficulty": 6,
-  "time": 18000,
+  "time": 360000,
   "reversible": false,
   "autolearn": true,
   "tools": [
