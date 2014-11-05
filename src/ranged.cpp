@@ -544,11 +544,6 @@ void player::fire_gun(int tarx, int tary, bool burst)
     }
 }
 
-void game::fire(player &p, int tarx, int tary, std::vector<point> &, bool burst)
-{
-    p.fire_gun(tarx, tary, burst);
-}
-
 void game::throw_item(player &p, int tarx, int tary, item &thrown,
                       std::vector<point> &trajectory)
 {
