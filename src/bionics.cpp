@@ -696,16 +696,16 @@ void player::activate_bionic(int b)
                 }
                 if(avail > 0 && query_yn(_("Extract water from the %s"), it->tname().c_str())) {
                     item water = item("water_clean", 0);
-                    if (g->handle_liquid(water, true, true)) {
+                    water.charges = avail;
+                    if (g->handle_liquid(water, true, false)) {
                         moves -= 100;
-                    } else if (query_yn(_("Drink directly from the condenser?"))) {
-                        inv.push_back(water);
-                        consume(inv.position_by_type(water.typeId()));
-                        moves -= 350;
+                    } else {
+                        water.charges -= drink_from_hands( water );
                     }
-                    extracted = true;
-                    avail--;
-                    it->item_vars["remaining_water"] = string_format("%d", avail);
+                    if( water.charges != avail ) {
+                        extracted = true;
+                        it->item_vars["remaining_water"] = string_format("%d", water.charges);
+                    }
                     break;
                 }
             }
