@@ -920,13 +920,22 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
 
         //See shorten version of this in armor_layers.cpp::clothing_flags_description
         if (is_armor() && has_flag("FIT")) {
+            it_armor* armor = dynamic_cast<it_armor*>(type);
+            if (armor->encumber > 0) {
+                dump->push_back(iteminfo("DESCRIPTION", "--"));
+                dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing fits you perfectly.")));
+            } else {
+                dump->push_back(iteminfo("DESCRIPTION", "--"));
+                dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing fits you perfectly and layers easily.")));
+            }
+        } else if (is_armor() && has_flag("VARSIZE")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
-            dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing fits you perfectly.")));
+            dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing can be refitted.")));
         }
         if (is_armor() && has_flag("SKINTIGHT")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
-                _("This piece of clothing lies close to the skin and layers easily.")));
+                _("This piece of clothing lies close to the skin.")));
         } else if (is_armor() && has_flag("BELTED")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
@@ -990,6 +999,15 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
             dump->push_back(iteminfo("DESCRIPTION",
                 _("This piece of clothing prevents you from going underwater (including voluntary diving).")));
         }
+        if (is_armor() && has_flag("FANCY")) {
+            dump->push_back(iteminfo("DESCRIPTION", "--"));
+            dump->push_back(iteminfo("DESCRIPTION",
+                _("This piece of clothing is fancy.")));
+        } else if (is_armor() && has_flag("SUPER_FANCY")) {
+            dump->push_back(iteminfo("DESCRIPTION", "--"));
+            dump->push_back(iteminfo("DESCRIPTION",
+                _("This piece of clothing is very fancy.")));
+        } 
         if (is_armor() && type->id == "rad_badge") {
             size_t i;
             for( i = 1; i < sizeof(rad_dosage_thresholds) / sizeof(rad_dosage_thresholds[0]); i++ ) {
