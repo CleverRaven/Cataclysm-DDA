@@ -7063,6 +7063,111 @@
     ]
   ]
 },{
+        "type" : "recipe",
+  "result": "scarf",
+  "id_suffix": "knitting",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "tailor",
+  "difficulty": 1,
+  "time": 6000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "knitting_needles", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "wool_thread", 100 ],
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "mittens",
+  "id_suffix": "knitting",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "tailor",
+  "difficulty": 1,
+  "time": 6000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "knitting_needles", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "wool_thread", 150 ],
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "hat_hunting",
+  "id_suffix": "knitting",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "time": 6000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "knitting_needles", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "wool_thread", 150 ],
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "scarf_long",
+  "id_suffix": "knitting",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 6000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "knitting_needles", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "wool_thread", 200 ],
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "poncho",
+  "id_suffix": "knitting",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "tailor",
+  "difficulty": 4,
+  "time": 6000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "knitting_needles", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "wool_thread", 250 ],
+    ]
+  ]
+},{
   "type" : "recipe",
   "result": "plastic_shopping_bag",
   "category": "CC_ARMOR",
