@@ -5987,7 +5987,7 @@
     }
   },{
     "id": "jar_tomato_canned",
-    "type": "TOOL",
+    "type": "GENERIC",
     "symbol": "%",
     "color": "red",
     "name": "sealed jar of canned tomato",
@@ -6000,17 +6000,12 @@
     "bashing": 8,
     "cutting": 1,
     "to_hit": 0,
-    "max_charges": 3,
-    "initial_charges": 3,
-    "charges_per_use": 1,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
     "category" : "food",
     "use_action": {
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "can_tomato",
+        "target_charges": 3,
         "container": "jar_glass"
     }
   },{
