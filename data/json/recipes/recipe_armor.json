@@ -6975,7 +6975,7 @@
   ],
   "components": [
     [
-      [ "wool_thread", 400 ],
+      [ "wool_thread", 400 ]
     ]
   ]
 },{
@@ -6996,7 +6996,7 @@
   ],
   "components": [
     [
-      [ "wool_thread", 50 ],
+      [ "wool_thread", 50 ]
     ]
   ]
 },{
@@ -7017,7 +7017,7 @@
   ],
   "components": [
     [
-      [ "wool_thread", 50 ],
+      [ "wool_thread", 50 ]
     ]
   ]
 },{
@@ -7038,7 +7038,7 @@
   ],
   "components": [
     [
-      [ "wool_thread", 50 ],
+      [ "wool_thread", 50 ]
     ]
   ]
 },{
@@ -7059,7 +7059,7 @@
   ],
   "components": [
     [
-      [ "wool_thread", 50 ],
+      [ "wool_thread", 50 ]
     ]
   ]
 },{
@@ -7080,7 +7080,7 @@
   ],
   "components": [
     [
-      [ "wool_thread", 100 ],
+      [ "wool_thread", 100 ]
     ]
   ]
 },{
@@ -7101,7 +7101,7 @@
   ],
   "components": [
     [
-      [ "wool_thread", 150 ],
+      [ "wool_thread", 150 ]
     ]
   ]
 },{
@@ -7122,7 +7122,7 @@
   ],
   "components": [
     [
-      [ "wool_thread", 150 ],
+      [ "wool_thread", 150 ]
     ]
   ]
 },{
@@ -7143,7 +7143,7 @@
   ],
   "components": [
     [
-      [ "wool_thread", 200 ],
+      [ "wool_thread", 200 ]
     ]
   ]
 },{
@@ -7164,7 +7164,7 @@
   ],
   "components": [
     [
-      [ "wool_thread", 250 ],
+      [ "wool_thread", 250 ]
     ]
   ]
 },{
@@ -7185,7 +7185,7 @@
   ],
   "components": [
     [
-      [ "wool_thread", 600 ],
+      [ "wool_thread", 600 ]
     ]
   ]
 },{
@@ -7206,7 +7206,7 @@
   ],
   "components": [
     [
-      [ "wool_thread", 700 ],
+      [ "wool_thread", 700 ]
     ]
   ]
 },{
@@ -7228,7 +7228,6 @@
   "components": [
     [ [ "wool_thread", 700 ] ],
     [ [ "bag_plastic", 8 ] ]
-    ]
   ]
 },{
   "type" : "recipe",
