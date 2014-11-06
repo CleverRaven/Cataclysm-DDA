@@ -485,8 +485,7 @@ bool veh_interact::can_install_part(int msg_width, int engines, int dif_eng){
     bool has_tools = ((has_welder && has_goggles) || has_duct_tape) && has_wrench;
     bool has_skill2 = !is_engine || (g->u.skillLevel("mechanics") >= dif_eng);
     bool is_wrenchable = sel_vpart_info->has_flag("TOOL_WRENCH");
-    bool is_hand_remove = sel_vpart_info->has_flag("TOOL_NONE") ||
-                          sel_vpart_info->has_flag("UNMOUNT_ON_MOVE");
+    bool is_hand_remove = sel_vpart_info->has_flag("TOOL_NONE");
     std::string engine_string = "";
     if (!drive_conflict){
         if (engines && is_engine) { // already has engine
@@ -783,8 +782,7 @@ bool veh_interact::can_remove_part(int veh_part_index, int mech_skill, int msg_w
     if (veh->can_unmount(veh_part_index)) {
         bool is_wheel = veh->part_flag(veh_part_index, "WHEEL");
         bool is_wrenchable = veh->part_flag(veh_part_index, "TOOL_WRENCH");
-        bool is_hand_remove = veh->part_flag(veh_part_index, "TOOL_NONE") ||
-                              veh->part_flag(veh_part_index, "UNMOUNT_ON_MOVE");
+        bool is_hand_remove = veh->part_flag(veh_part_index, "TOOL_NONE");
         bool has_skill;
         if (is_wrenchable ||is_hand_remove) has_skill = (mech_skill >= 1)? true: false;
         else has_skill = (mech_skill >= 2)? true: false;
