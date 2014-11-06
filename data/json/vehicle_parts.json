@@ -4045,7 +4045,7 @@
         "durability" : 120,
         "item" : "jumper_cable",
         "difficulty" : 1,
-        "flags" : ["NOINSTALL", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER"],
+        "flags" : ["NOINSTALL", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER", "TOOL_NONE"],
         "breaks_into" : [
             {"item": "cable", "min": 1, "max": 10},
             {"item": "plastic_chunk", "min": 1, "max": 2}
@@ -4065,7 +4065,7 @@
         "//" : "Epower for POWER_TRANSFER stuff is how much percentage-wise loss there is in transmission",
         "item" : "jumper_cable_heavy",
         "difficulty" : 1,
-        "flags" : ["NOINSTALL", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER"],
+        "flags" : ["NOINSTALL", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER", "TOOL_NONE"],
         "breaks_into" : [
             {"item": "wire", "min": 4, "max": 8},
             {"item": "plastic_chunk", "min": 4, "max": 8}
@@ -4085,7 +4085,7 @@
         "durability" : 120,
         "item" : "jumper_cable_debug",
         "difficulty" : 1,
-        "flags" : ["NOINSTALL", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER"],
+        "flags" : ["NOINSTALL", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER", "TOOL_NONE"],
         "breaks_into" : [
             {"item": "jumper_cable_debug", "min": 1, "max": 1}
         ]
