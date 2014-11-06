@@ -8386,11 +8386,12 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "tool",
-    "use_action": "POCKET_METEOROLOGIST",
+    "use_action": "WEATHER_TOOL",
     "max_charges": 0,
     "initial_charges": 0,
     "charges_per_use": 0,
-    "turns_per_charge": 0
+    "turns_per_charge": 0,
+    "flags": ["THERMOMETER", "HYGROMETER", "BAROMETER"]    
   },
 
   {

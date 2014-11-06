@@ -10304,11 +10304,19 @@ int iuse::cable_attach(player *p, item *it, bool, point)
     return 0;
 }
 
-int iuse::pocket_meteorolgist(player *p, item *, bool, point)
+int iuse::weather_tool(player *p, item *it, bool, point)
 {
-    const w_point weatherPoint = g->weatherGen.get_weather( p->pos(), calendar::turn );
-    add_msg("Temperature: %d, pressure: %d, humidity: %d",
-            (int)weatherPoint.temperature, (int)weatherPoint.pressure,
-            (int)weatherPoint.humidity);
+    w_point weatherPoint = g->weatherGen.get_weather(p->pos(), calendar::turn);
+
+    if (it->has_flag("THERMOMETER")) {
+        p->add_msg_if_player(m_neutral, _("Temperature: %s."), print_temperature(g->get_temperature()).c_str());
+    }
+    if (it->has_flag("HYGROMETER")) {
+        p->add_msg_if_player(m_neutral, _("Relative Humidity: %s."), print_humidity(get_local_humidity(weatherPoint.humidity, g->weather, g->is_sheltered(g->u.posx, g->u.posy))).c_str());
+    }
+    if (it->has_flag("BAROMETER")) {
+        p->add_msg_if_player(m_neutral, _("Pressure: %s."), print_pressure((int)weatherPoint.pressure).c_str());
+    }
+
     return 0;
 }

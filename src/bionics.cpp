@@ -811,7 +811,7 @@ void player::activate_bionic(int b)
     } else if(bio.id == "bio_meteorologist") {
         add_msg_if_player(m_neutral, _("Temperature: %s."), print_temperature(g->get_temperature()).c_str());
         add_msg_if_player(m_neutral, _("Relative Humidity: %s."), print_humidity(get_local_humidity(weatherPoint.humidity, g->weather, g->is_sheltered(g->u.posx, g->u.posy))).c_str());
-        add_msg_if_player(m_neutral, _("Pressure: %s."), print_pressure((int)weatherPoint.pressure/10).c_str());
+        add_msg_if_player(m_neutral, _("Pressure: %s."), print_pressure((int)weatherPoint.pressure).c_str());
         // Calculate local wind power
         int vpart = -1;
         vehicle *veh = g->m.veh_at( posx, posy, vpart );
