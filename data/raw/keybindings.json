@@ -1612,6 +1612,38 @@
     },
     {
         "type" : "keybinding",
+        "id":"PAGE_DOWN",
+        "category": "ADVANCED_INVENTORY",
+        "name":"Page down",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"NPAGE"
+            },
+            {
+                "input_method":"keyboard",
+                "key":">"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"PAGE_UP",
+        "category": "ADVANCED_INVENTORY",
+        "name":"Page up",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"PPAGE"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"<"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id":"UP",
         "category": "ADVANCED_INVENTORY",
         "name":"Pan up",

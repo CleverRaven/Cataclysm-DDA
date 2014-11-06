@@ -1257,21 +1257,21 @@ void advanced_inventory::display()
         } else if( action == "QUIT" ) {
             exit = true;
         } else if( action == "PAGE_DOWN" ) {
+            spane.scroll_by( +itemsPerPage );
+        } else if( action == "PAGE_UP" ) {
+            spane.scroll_by( -itemsPerPage );
+        } else if( action == "DOWN" ) {
             if( inCategoryMode ) {
                 spane.scroll_category( +1 );
             } else {
-                spane.scroll_by( +itemsPerPage );
+                spane.scroll_by( +1 );
             }
-        } else if( action == "PAGE_UP" ) {
+        } else if( action == "UP" ) {
             if( inCategoryMode ) {
                 spane.scroll_category( -1 );
             } else {
-                spane.scroll_by( -itemsPerPage );
+                spane.scroll_by( -1 );
             }
-        } else if( action == "DOWN" ) {
-            spane.scroll_by( +1 );
-        } else if( action == "UP" ) {
-            spane.scroll_by( -1 );
         } else if( action == "LEFT" ) {
             src = left;
             redraw = true;
