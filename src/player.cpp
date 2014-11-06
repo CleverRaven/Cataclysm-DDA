@@ -9685,8 +9685,11 @@ void player::read(int inventory_position)
                          _("Your %s skill won't be improved.  Read anyway?"),
                          tmp->type->name().c_str())) {
         return;
-    } else if (!continuous && !query_yn(_("Study %s until you learn something? (gain a level)"),
-                                        tmp->type->name().c_str())) {
+    } else if( !continuous && ( skillLevel(tmp->type) < (int)tmp->level || can_study_recipe(tmp) ) &&
+                         !query_yn( skillLevel(tmp->type) < (int)tmp->level ? 
+                         _("Study %s until you learn something? (gain a level)") :
+                         _("Study the book until you learn all recipes?"),
+                         tmp->type->name().c_str()) ) {
         study = false;
     } else {
         //If we just started studying, tell the player how to stop
@@ -9830,6 +9833,7 @@ void player::do_read( item *book )
             if( recipe_learned ) {
                 add_msg(m_info, _("The rest of the book is currently still beyond your understanding."));
             }
+            
             activity.type = ACT_NULL;
             return;
         }
@@ -9897,14 +9901,37 @@ void player::do_read( item *book )
             }
         }
 
-        if (skillLevel(reading->type) == (int)reading->level) {
-            if (no_recipes) {
+        if( skillLevel(reading->type) == (int)reading->level ) {
+            if( no_recipes ) {
                 add_msg(m_info, _("You can no longer learn from %s."), reading->nname(1).c_str());
             } else {
                 add_msg(m_info, _("Your skill level won't improve, but %s has more recipes for you."),
                         reading->nname(1).c_str());
             }
         }
+    } else if( can_study_recipe(reading) && activity.get_value(0) == 1 ) {
+        // continuously read until player gains a new recipe
+        activity.type = ACT_NULL;
+        read(activity.position);
+        // Rooters root (based on time spent reading)
+        int root_factor = (reading->time / 20);
+        double foot_factor = footwear_factor();
+        if( (has_trait("ROOTS2") || has_trait("ROOTS3")) &&
+            g->m.has_flag("DIGGABLE", posx, posy) &&
+            !foot_factor ) {
+            if (hunger > -20) {
+                hunger -= root_factor * foot_factor;
+            }
+            if (thirst > -20) {
+                thirst -= root_factor * foot_factor;
+            }
+            mod_healthy_mod(root_factor * foot_factor);
+        }
+        if (activity.type != ACT_NULL) {
+            return;
+        }
+    } else if ( !reading->recipes.empty() && no_recipes ) {
+        add_msg(m_info, _("You can no longer learn from %s."), reading->nname(1).c_str());
     }
 
     if( reading->has_use() ) {
