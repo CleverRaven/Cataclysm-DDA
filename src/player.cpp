@@ -10649,7 +10649,7 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
 
         get_armor_on(this,bp,armor_indices);
 
-        // CBMs absorb damage first before hitting armour
+        // CBMs absorb damage first before hitting armor
         if (has_active_bionic("bio_ads")) {
             if (it->amount > 0 && power_level > 24) {
                 if (it->type == DT_BASH)
@@ -10672,7 +10672,7 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
 
             armor_absorb(*it, worn[index]);
 
-            // now check if armour was completely destroyed and display relevant messages
+            // now check if armor was completely destroyed and display relevant messages
             // TODO: use something less janky than the old code for this check
             if (worn[index].damage >= 5) {
                 //~ %s is armor name
@@ -10694,10 +10694,10 @@ void player::absorb(body_part bp, int &dam, int &cut)
 {
     it_armor* tmp;
     int arm_bash = 0, arm_cut = 0;
-    bool cut_through = true;      // to determine if cutting damage penetrates multiple layers of armour
-    int bash_absorb = 0;      // to determine if lower layers of armour get damaged
+    bool cut_through = true;      // to determine if cutting damage penetrates multiple layers of armor
+    int bash_absorb = 0;      // to determine if lower layers of armor get damaged
 
-    // CBMS absorb damage first before hitting armour
+    // CBMS absorb damage first before hitting armor
     if (has_active_bionic("bio_ads")) {
         if (dam > 0 && power_level > 24) {
             dam -= rng(1, 8);
@@ -10715,7 +10715,7 @@ void player::absorb(body_part bp, int &dam, int &cut)
         }
     }
 
-    // determines how much damage is absorbed by armour
+    // determines how much damage is absorbed by armor
     // zero if damage misses a covered part
     int bash_reduction = 0;
     int cut_reduction = 0;
@@ -10727,30 +10727,30 @@ void player::absorb(body_part bp, int &dam, int &cut)
             // first determine if damage is at a covered part of the body
             // probability given by coverage
             if (rng(0, 100) <= tmp->coverage) {
-                // hit a covered part of the body, so now determine if armour is damaged
+                // hit a covered part of the body, so now determine if armor is damaged
                 arm_bash = worn[i].bash_resist();
                 arm_cut  = worn[i].cut_resist();
-                // also determine how much damage is absorbed by armour
+                // also determine how much damage is absorbed by armor
                 // factor of 3 to normalise for material hardness values
                 bash_reduction = arm_bash / 3;
                 cut_reduction = arm_cut / 3;
 
-                // power armour first  - to depreciate eventually
+                // power armor first  - to depreciate eventually
                 if (worn[i].type->is_power_armor()) {
                     if (cut > arm_cut * 2 || dam > arm_bash * 2) {
                         add_msg_if_player(m_bad, _("Your %s is damaged!"), worn[i].tname().c_str());
                         worn[i].damage++;
                     }
-                } else { // normal armour
-                    // determine how much the damage exceeds the armour absorption
+                } else { // normal armor
+                    // determine how much the damage exceeds the armor absorption
                     // bash damage takes into account preceding layers
                     int diff_bash = (dam - arm_bash - bash_absorb < 0) ? -1 : (dam - arm_bash);
                     int diff_cut  = (cut - arm_cut  < 0) ? -1 : (cut - arm_cut);
                     bool armor_damaged = false;
                     std::string pre_damage_name = worn[i].tname();
 
-                    // armour damage occurs only if damage exceeds armour absorption
-                    // plus a luck factor, even if damage is below armour absorption (2% chance)
+                    // armor damage occurs only if damage exceeds armor absorption
+                    // plus a luck factor, even if damage is below armor absorption (2% chance)
                     if ((dam > arm_bash && !one_in(diff_bash)) ||
                         (!worn[i].has_flag ("STURDY") && diff_bash == -1 && one_in(50))) {
                         armor_damaged = true;
@@ -10771,7 +10771,7 @@ void player::absorb(body_part bp, int &dam, int &cut)
                         }
                     }
 
-                    // now check if armour was completely destroyed and display relevant messages
+                    // now check if armor was completely destroyed and display relevant messages
                     if (worn[i].damage >= 5) {
                       //~ %s is armor name
                       add_memorial_log(pgettext("memorial_male", "Worn %s was completely destroyed."),
@@ -10787,7 +10787,7 @@ void player::absorb(body_part bp, int &dam, int &cut)
                         add_msg_if_player( m_bad, _("Your %s is %s!"), pre_damage_name.c_str(),
                                                   damage_verb.c_str());
                     }
-                } // end of armour damage code
+                } // end of armor damage code
             }
         }
         // reduce damage accordingly
