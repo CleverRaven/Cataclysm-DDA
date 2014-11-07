@@ -1034,7 +1034,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
                 _("This gear is a part of power armor.")));
             if (covers.test(bp_head)) {
                 dump->push_back(iteminfo("DESCRIPTION",
-                    _("When worn with power armor suit, it will fully protect you from radiation.")));
+                    _("When worn with a power armor suit, it will fully protect you from radiation.")));
             } else {
                 dump->push_back(iteminfo("DESCRIPTION",
                     _("When worn with a power armor helmet, it will fully protect you from radiation.")));
