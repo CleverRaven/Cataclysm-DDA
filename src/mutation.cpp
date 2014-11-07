@@ -33,7 +33,6 @@ void player::activate_mutation( std::string mut )
     } else {
         // Not-on units, or those with zero charge, have to pay the power cost
         if (traits[mut].cooldown > 0) {
-            traits[my_mutations[b]].powered = true;
             traits[mut].charge = traits[mut].cooldown - 1;
         }
         if (traits[mut].hunger){
@@ -45,6 +44,7 @@ void player::activate_mutation( std::string mut )
         if (traits[mut].fatigue){
             fatigue += cost;
         }
+        traits[mut].powered = true;
     }
 
     if (traits[mut].id == "WEB_WEAVER"){
