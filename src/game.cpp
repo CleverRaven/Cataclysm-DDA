@@ -11098,26 +11098,13 @@ std::vector<point> game::pl_target_ui(int &x, int &y, int range, item *relevant,
                                       int default_target_x, int default_target_y)
 {
     // Populate a list of targets with the zombies in range and visible
-    std::vector <Creature *> mon_targets;
     const Creature *last_target_critter = NULL;
     if (last_target >= 0 && !last_target_was_npc && size_t(last_target) < num_zombies()) {
         last_target_critter = &zombie(last_target);
     } else if (last_target >= 0 && last_target_was_npc && size_t(last_target) < active_npc.size()) {
         last_target_critter = active_npc[last_target];
     }
-    for (size_t i = 0; i < num_zombies(); i++) {
-        monster &critter = critter_tracker.find(i);
-        if (u_see(critter) && (rl_dist(u.posx, u.posy, critter.xpos(), critter.ypos()) <= range)) {
-            mon_targets.push_back(&critter);
-        }
-    }
-    for (std::vector<npc *>::iterator it = active_npc.begin();
-         it != active_npc.end(); ++it) {
-        npc *critter = *it;
-        if (u_see(critter) && (rl_dist( u.posx, u.posy, critter->xpos(), critter->ypos() ) <= range)) {
-            mon_targets.push_back(critter);
-        }
-    }
+    auto mon_targets = u.get_visible_creatures( range );
     std::sort(mon_targets.begin(), mon_targets.end(), Creature::compare_by_dist_to_point { u.pos() } );
     int passtarget = -1;
     for (size_t i = 0; i < mon_targets.size(); i++) {

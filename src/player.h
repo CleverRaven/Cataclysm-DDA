@@ -367,6 +367,14 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * because the player is in the way.
          */
         Creature *auto_find_hostile_target(int range, int &boo_hoo, int &fire_t);
+        /**
+         * Returns all creatures that this player can see and that are in the given
+         * range. This player object itself is never included.
+         * The player character (g->u) is checked and might be included (if applicable).
+         * @param range The maximal distance (@ref rl_dist), creatures at this distance or less
+         * are included.
+         */
+        std::vector<Creature*> get_visible_creatures( int range ) const;
 
 
         void pause(); // '.' command; pauses & reduces recoil
@@ -1164,6 +1172,12 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool valid_aoe_technique( Creature &t, ma_technique &technique );
         bool valid_aoe_technique( Creature &t, ma_technique &technique,
                                   std::vector<int> &mon_targets, std::vector<int> &npc_targets );
+        /**
+         * Check whether the other creature is in range and can be seen by this creature.
+         * @param range The maximal distance (@ref rl_dist), creatures at this distance or less
+         * are included.
+         */
+        bool is_visible_in_range( const Creature &critter, int range ) const;
 
         // Trigger and disable mutations that can be so toggled.
         void activate_mutation( std::string mutation );
