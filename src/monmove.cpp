@@ -300,11 +300,12 @@ void monster::move()
         return;
     }
 
-    if (!plans.empty() &&
+    if( !plans.empty() &&
         (mondex == -1 || g->zombie(mondex).friendly != 0 || has_flag(MF_ATTACKMON)) &&
         (can_move_to(plans[0].x, plans[0].y) ||
          (plans[0].x == g->u.posx && plans[0].y == g->u.posy) ||
-         (has_flag(MF_BASHES) && g->m.bash_rating(bash_skill(), plans[0].x, plans[0].y) > 0))){
+         (has_flag(MF_BASHES) &&
+          g->m.bash_rating(bash_estimate(), plans[0].x, plans[0].y) >= 0) ) ) {
         // CONCRETE PLANS - Most likely based on sight
         next = plans[0];
         moved = true;
@@ -390,8 +391,9 @@ void monster::friendly_move()
     bool moved = false;
     //If we successfully calculated a plan in the generic monster movement function, begin executing it.
     if (!plans.empty() && (plans[0].x != g->u.posx || plans[0].y != g->u.posy) &&
-            (can_move_to(plans[0].x, plans[0].y) ||
-             (has_flag(MF_BASHES) && g->m.bash_rating(bash_skill(), plans[0].x, plans[0].y) > 0))) {
+        (can_move_to(plans[0].x, plans[0].y) ||
+         (has_flag(MF_BASHES) &&
+          g->m.bash_rating(bash_estimate(), plans[0].x, plans[0].y) >= 0))) {
         next = plans[0];
         plans.erase(plans.begin());
         moved = true;
@@ -435,9 +437,9 @@ point monster::scent_move()
             const int ny = posy() + y;
             smell = g->scent(nx, ny);
             int mon = g->mon_at(nx, ny);
-            if ((mon == -1 || g->zombie(mon).friendly != 0 || has_flag(MF_ATTACKMON)) &&
-                  (can_move_to(nx, ny) || (nx == g->u.posx && ny == g->u.posy) ||
-                  (has_flag(MF_BASHES) && g->m.bash_rating(bash_skill(), nx, ny) > 0))) {
+            if( (mon == -1 || g->zombie(mon).friendly != 0 || has_flag(MF_ATTACKMON)) &&
+                (can_move_to(nx, ny) || (nx == g->u.posx && ny == g->u.posy) ||
+                 (has_flag(MF_BASHES) && g->m.bash_rating(bash_estimate(), nx, ny) >= 0))) {
                 if ((!fleeing && smell > maxsmell) || (fleeing && smell < minsmell)) {
                     smoves.clear();
                     pbuff.x = nx;
@@ -483,48 +485,58 @@ point monster::wander_next()
     if (wandy > posy()) {
         y++; y2++; y3 -= 2;
     }
-    int bashskill = bash_skill();
+
     if (xbest) {
         if (can_move_to(x, y) || (x == g->u.posx && y == g->u.posy) ||
-              (has_flag(MF_BASHES) && g->m.bash_rating(bashskill, x, y) > 0)) {
+            (has_flag(MF_BASHES) &&
+             g->m.bash_rating(bash_estimate(), x, y) >= 0)) {
             next.x = x;
             next.y = y;
         } else if (can_move_to(x, y2) || (x == g->u.posx && y == g->u.posy) ||
-                    (has_flag(MF_BASHES) && g->m.bash_rating(bashskill, x, y2) > 0)) {
+                   (has_flag(MF_BASHES) &&
+                    g->m.bash_rating(bash_estimate(), x, y2) >= 0)) {
             next.x = x;
             next.y = y2;
         } else if (can_move_to(x2, y) || (x == g->u.posx && y == g->u.posy) ||
-                    (has_flag(MF_BASHES) && g->m.bash_rating(bashskill, x2, y) > 0)) {
+                   (has_flag(MF_BASHES) &&
+                    g->m.bash_rating(bash_estimate(), x2, y) >= 0)) {
             next.x = x2;
             next.y = y;
         } else if (can_move_to(x, y3) || (x == g->u.posx && y == g->u.posy) ||
-                    (has_flag(MF_BASHES) && g->m.bash_rating(bashskill, x, y3) > 0)) {
+                   (has_flag(MF_BASHES) &&
+                    g->m.bash_rating(bash_estimate(), x, y3) >= 0)) {
             next.x = x;
             next.y = y3;
         } else if (can_move_to(x3, y) || (x == g->u.posx && y == g->u.posy) ||
-                    (has_flag(MF_BASHES) && g->m.bash_rating(bashskill, x3, y) > 0)) {
+                   (has_flag(MF_BASHES) &&
+                    g->m.bash_rating(bash_estimate(), x3, y) >= 0)) {
             next.x = x3;
             next.y = y;
         }
     } else {
         if (can_move_to(x, y) || (x == g->u.posx && y == g->u.posy) ||
-              (has_flag(MF_BASHES) && g->m.bash_rating(bashskill, x, y) > 0)) {
+            (has_flag(MF_BASHES) &&
+             g->m.bash_rating(bash_estimate(), x, y) >= 0)) {
             next.x = x;
             next.y = y;
         } else if (can_move_to(x2, y) || (x == g->u.posx && y == g->u.posy) ||
-                    (has_flag(MF_BASHES) && g->m.bash_rating(bashskill, x2, y) > 0)) {
+                   (has_flag(MF_BASHES) &&
+                    g->m.bash_rating(bash_estimate(), x2, y) >= 0)) {
             next.x = x2;
             next.y = y;
         } else if (can_move_to(x, y2) || (x == g->u.posx && y == g->u.posy) ||
-                    (has_flag(MF_BASHES) && g->m.bash_rating(bashskill, x, y2) > 0)) {
+                   (has_flag(MF_BASHES) &&
+                    g->m.bash_rating(bash_estimate(), x, y2) >= 0)) {
             next.x = x;
             next.y = y2;
         } else if (can_move_to(x3, y) || (x == g->u.posx && y == g->u.posy) ||
-                    (has_flag(MF_BASHES) && g->m.bash_rating(bashskill, x3, y) > 0)) {
+                   (has_flag(MF_BASHES) &&
+                    g->m.bash_rating(bash_estimate(), x3, y) >= 0)) {
             next.x = x3;
             next.y = y;
         } else if (can_move_to(x, y3) || (x == g->u.posx && y == g->u.posy) ||
-                    (has_flag(MF_BASHES) && g->m.bash_rating(bashskill, x, y3) > 0)) {
+                   (has_flag(MF_BASHES) &&
+                    g->m.bash_rating(bash_estimate(), x, y3) >= 0)) {
             next.x = x;
             next.y = y3;
         }
@@ -654,6 +666,17 @@ int monster::bash_at(int x, int y) {
         return 1;
     }
     return 0;
+}
+
+int monster::bash_estimate()
+{
+    int estimate = bash_skill();
+    if( has_flag(MF_GROUP_BASH) ) {
+        // Right now just give them a boost so they try to bash a lot of stuff.
+        // TODO: base it on number of nearby friendlies.
+        estimate += 20;
+    }
+    return estimate;
 }
 
 int monster::bash_skill()
