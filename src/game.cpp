@@ -11094,12 +11094,6 @@ void game::plthrow(int pos)
     reenter_fullscreen();
 }
 
-bool compare_by_dist_to_u(Creature *a, Creature *b)
-{
-    return rl_dist(a->xpos(), a->ypos(), g->u.posx, g->u.posy) <
-           rl_dist(b->xpos(), b->ypos(), g->u.posx, g->u.posy);
-}
-
 std::vector<point> game::pl_target_ui(int &x, int &y, int range, item *relevant,
                                       int default_target_x, int default_target_y)
 {
@@ -11124,7 +11118,7 @@ std::vector<point> game::pl_target_ui(int &x, int &y, int range, item *relevant,
             mon_targets.push_back(critter);
         }
     }
-    std::sort(mon_targets.begin(), mon_targets.end(), compare_by_dist_to_u);
+    std::sort(mon_targets.begin(), mon_targets.end(), Creature::compare_by_dist_to_point { u.pos() } );
     int passtarget = -1;
     for (size_t i = 0; i < mon_targets.size(); i++) {
         Creature &critter = *mon_targets[i];
