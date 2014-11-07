@@ -154,8 +154,9 @@ void player::activate_mutation( std::string mut )
     }
 }
 
-void player::deactivate_mutation(std::string)
+void player::deactivate_mutation(std::string mutation)
 {
+    traits[mutation].powered = false;
 }
 
 void show_mutations_titlebar(WINDOW *window, player *p, std::string menu_mode)
@@ -401,7 +402,6 @@ void player::power_mutations()
             if (menu_mode == "activating") {
                 if (mut_data.activated) {
                     if (traits[*tmp].powered) {
-                        traits[*tmp].powered = false;
                         add_msg(m_neutral, _("You stop using your %s."), mut_data.name.c_str());
 
                         deactivate_mutation( *tmp );
