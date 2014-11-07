@@ -116,6 +116,15 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
         debugmsg("there is already a mod with ident %s", m_ident.c_str());
         return;
     }
+    if( jo.has_bool( "obsolete" ) ) {
+        // Marked obsolete, no need to try to load anything else.
+        MOD_INFORMATION *modfile = new MOD_INFORMATION;
+        modfile->ident = m_ident;
+        modfile->obsolete = true;
+        mod_map[modfile->ident] = modfile;
+        return;
+    }
+
     std::string t_type = jo.get_string("mod-type", "SUPPLEMENTAL");
     std::vector<std::string> m_authors;
     if (jo.has_array("authors")) {
