@@ -27,16 +27,6 @@ bool itype::can_use( std::string iuse_name ) const
                       *func ) != use_methods.cend();
 }
 
-bool itype::is_covering(body_part bp) const
-{
-    if (!is_armor()) {
-        return false;
-    }
-    const it_armor *armor = dynamic_cast<const it_armor *>(this);
-    return armor->covers.test(bp);
-}
-
-
 bool itype::is_sided(body_part bp) const
 {
     if (!is_armor()) {
