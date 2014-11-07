@@ -2187,7 +2187,7 @@
       ["irradiated_raspberries", 4],
       ["irradiated_rhubarb", 8],
       ["irradiated_strawberries", 4],
-      ["irradiated_watermelon", 4],
+      ["irradiated_watermelon", 3],
       ["lemon", 4],
       ["mango", 4],
       ["melon", 8],
@@ -2199,7 +2199,8 @@
       ["pomegranate", 4],
       ["raspberries", 4],
       ["rhubarb", 8],
-      ["strawberries", 4]
+      ["strawberries", 4],
+      ["watermelon", 3]
     ],
     [
       [ "sugar", 1 ]
@@ -4327,7 +4328,8 @@
       ["pomegranate", 1],
       ["raspberries", 1],
       ["rehydrated_fruit", 1],
-      ["strawberries", 1]
+      ["strawberries", 1],
+      ["watermelon", 1]
     ]
   ]
 },{
@@ -4524,7 +4526,8 @@
       ["pomegranate", 1],
       ["raspberries", 1],
       ["rehydrated_fruit", 1],
-      ["strawberries", 1]
+      ["strawberries", 1],
+      ["watermelon", 1]
     ]
   ]
 },{
@@ -4648,7 +4651,8 @@
       ["plums", 1],
       ["pomegranate", 1],
       ["raspberries", 1],
-      ["strawberries", 1]
+      ["strawberries", 1],
+      ["watermelon", 1]
     ],
     [
       [ "sugar", 1 ],
@@ -4753,7 +4757,8 @@
       ["pomegranate", 1],
       ["raspberries", 1],
       ["rehydrated_fruit", 1],
-      ["strawberries", 1]
+      ["strawberries", 1],
+      ["watermelon", 1]
     ]
   ]
 },{
@@ -4858,7 +4863,7 @@
       ["irradiated_raspberries", 2],
       ["irradiated_rhubarb", 4],
       ["irradiated_strawberries", 2],
-      ["irradiated_watermelon", 2],
+      ["irradiated_watermelon", 1],
       ["juice_pulp", 4],
       ["kiwi", 2],
       ["lemon", 2],
@@ -4874,7 +4879,7 @@
       ["raspberries", 2],
       ["rhubarb", 4],
       ["strawberries", 2],
-      ["watermelon", 2]
+      ["watermelon", 1]
     ],
     [
       [ "sugar", 2 ]
@@ -5633,7 +5638,7 @@
       ["irradiated_pomegranate", 2],
       ["irradiated_raspberries", 2],
       ["irradiated_strawberries", 2],
-      ["irradiated_watermelon", 2],
+      ["irradiated_watermelon", 1],
       ["kiwi", 2],
       ["mango", 2],
       ["melon", 4],
@@ -5650,7 +5655,7 @@
       ["strawberries", 2],
       ["syrup", 4],
       ["beet_syrup", 4],
-      ["watermelon", 2]
+      ["watermelon", 1]
     ],
     [
       [ "lye_powder", 50 ]
@@ -5915,7 +5920,7 @@
       [ "pomegranate", 3 ],
       [ "raspberries", 3 ],
       [ "strawberries", 3 ],
-      [ "watermelon", 3 ]
+      [ "watermelon", 2 ]
     ]
   ]
 },{
@@ -6097,7 +6102,7 @@
       [ "pineapple", 3],
       [ "peach", 3 ],
       [ "cranberries", 9 ],
-      [ "watermelon", 3 ],
+      [ "watermelon", 2 ],
       [ "melon", 6 ],
       [ "raspberries", 3 ],
       [ "blackberries", 3 ],
@@ -6173,7 +6178,7 @@
       ["irradiated_raspberries", 4],
       ["irradiated_rhubarb", 8],
       ["irradiated_strawberries", 4],
-      ["irradiated_watermelon", 4],
+      ["irradiated_watermelon", 3],
       ["lemon", 4],
       ["mango", 4],
       ["melon", 8],
@@ -6185,7 +6190,8 @@
       ["pomegranate", 4],
       ["raspberries", 4],
       ["rhubarb", 8],
-      ["strawberries", 4]
+      ["strawberries", 4],
+      ["watermelon", 3]
     ],
     [
       [ "sugar", 1]
