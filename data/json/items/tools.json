@@ -8444,22 +8444,22 @@
     "symbol": "/",
     "color": "dark_gray",
     "name": "lobotomizer",
-    "description": "This is a hand-forged collapsible tool that has two axe heads and sharp shovel-like tip on one end. It can be used as an axe or shovel, or you could chop some zombies with it instead.",
-    "price": 45000,
-    "material": ["steel", "wood"],
+    "description": "This is a hand-forged collapsible tool that has two axe heads and sharp shovel-like tip on one end. It can be used as a shovel, or you could chop some zombies with it instead.",
+    "price": 25000,
+    "material": ["steel"],
     "weight": 2722,
     "volume": 7,
     "bashing": 13,
     "cutting": 26,
     "flags" : ["CHOP"],
-    "to_hit": 0,
+    "to_hit": -3,
     "max_charges": 0,
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "qualities": [["DIG", 2], ["AXE", 2], ["CUT", 1], ["BUTCHER", -11]],
-    "use_action": "LUMBER"
+    "qualities": [["DIG", 2], ["AXE", 1], ["CUT", 1], ["BUTCHER", -11]],
+    "use_action": "DIG"
   }
 ]
