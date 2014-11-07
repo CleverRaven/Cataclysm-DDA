@@ -72,7 +72,7 @@
     "type" : "item_group",
     "id" : "forest",
     "items":[
-      
+      ["rock", 40],
       ["stick", 95],
       ["pine_bough", 20],
       ["acorns", 15],
