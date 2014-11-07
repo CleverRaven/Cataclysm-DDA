@@ -56,9 +56,23 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "gas_charging_rack",
+    "items":[
+      { "item": "storage_battery", "prob": 15, "charges-min": 80000, "charges-max": 100000 },
+      { "item": "storage_battery", "prob": 40, "charges-min": 4000, "charges-max": 10000 },
+      { "item": "storage_battery", "prob": 60, "charges-min": 0, "charges-max": 2000 },
+      { "item": "small_storage_battery", "prob": 15, "charges-min": 600, "charges-max": 1000 },
+      { "item": "small_storage_battery", "prob": 40, "charges-min": 0, "charges-max": 200 },
+      ["battery_mount", 100],
+      ["battery_mount", 100],
+      ["battery_mount", 100],
+      ["battery_mount", 100]
+    ]
+  },{
+    "type" : "item_group",
     "id" : "forest",
     "items":[
-      ["rock", 40],
+      
       ["stick", 95],
       ["pine_bough", 20],
       ["acorns", 15],
