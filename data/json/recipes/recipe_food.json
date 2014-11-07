@@ -8189,5 +8189,34 @@
       [ "tomato", 3 ]
     ]
   ]
+},{
+        "type" : "recipe",
+  "result": "royal_beef",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": true,
+  "batch_time_factors":[67, 5],
+  "qualities":[
+    {"id":"COOK","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 7 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 7 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "meat", 1 ]
+    ],
+    [
+      [ "royal_jelly", 1 ]
+    ]
+  ]
 }
 ]
