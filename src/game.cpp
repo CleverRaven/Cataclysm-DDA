@@ -420,10 +420,12 @@ void game::init_ui()
         messX = MINIMAP_WIDTH;
         messY = 0;
         messW = sidebarWidth - messX;
-        messH = 20;
+        messH = TERMY - 5; // 1 for w_location + 4 for w_stat, w_messages starts at 0
         hpX = 0;
         hpY = MINIMAP_HEIGHT;
-        hpH = 14;
+        // under the minimap, but down to the same line as w_messages (even when that is to much),
+        // so it erases the space between w_terrain and w_messages
+        hpH = messH - MINIMAP_HEIGHT;
         hpW = 7;
         locX = MINIMAP_WIDTH;
         locY = messY + messH;
