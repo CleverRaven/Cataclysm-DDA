@@ -66,8 +66,6 @@ npc::npc()
  }
 }
 
-npc::npc(const npc &rhs):player() { *this = rhs; }
-
 npc_map npc::_all_npc;
 
 void npc::load_npc(JsonObject &jsobj)
@@ -142,84 +140,6 @@ void npc::load_npc_template(std::string ident)
 }
 
 npc::~npc() { }
-
-npc& npc::operator= (const npc & rhs)
-{
- player::operator=(rhs);
-
- attitude = rhs.attitude;
- myclass = rhs.myclass;
- wandx = rhs.wandx;
- wandy = rhs.wandy;
- wandf = rhs.wandf;
-
- // Location:
- mapx = rhs.mapx;
- mapy = rhs.mapy;
- mapz = rhs.mapz;
- plx = rhs.plx;
- ply = rhs.ply;
- plt = rhs.plt;
- itx = rhs.itx;
- ity = rhs.ity;
- guardx = rhs.guardx;
- guardy = rhs.guardy;
- goal = rhs.goal;
-
- path = rhs.path;
-
- fetching_item = rhs.fetching_item;
- has_new_items = rhs.has_new_items;
- worst_item_value = rhs.worst_item_value;
-
- idz = rhs.idz;
- miss_id = rhs.miss_id;
- fac_id = rhs.fac_id;
- my_fac = rhs.my_fac;
- mission = rhs.mission;
- personality = rhs.personality;
- op_of_u = rhs.op_of_u;
- chatbin = rhs.chatbin;
- patience = rhs.patience;
- combat_rules = rhs.combat_rules;
- marked_for_death = rhs.marked_for_death;
- dead = rhs.dead;
-
- needs = rhs.needs;
-
- flags = rhs.flags;
-
- posx = rhs.posx;
- posy = rhs.posy;
-
- weapon = rhs.weapon;
- ret_null = rhs.ret_null;
- inv = rhs.inv;
- worn.clear();
- for (auto &i : rhs.worn)
-  worn.push_back(i);
-
- needs.clear();
- for (auto &i : rhs.needs)
-  needs.push_back(i);
-
- path.clear();
- for (auto &i : rhs.path)
-  path.push_back(i);
-
- for (int i = 0; i < num_hp_parts; i++) {
-  hp_cur[i] = rhs.hp_cur[i];
-  hp_max[i] = rhs.hp_max[i];
- }
-
- copy_skill_levels(&rhs);
-
- ma_styles.clear();
- for (auto &i : rhs.ma_styles)
-  ma_styles.push_back(i);
-
- return *this;
-}
 
 std::string npc::save_info()
 {
@@ -802,14 +722,21 @@ void npc::set_fac(std::string fac_name)
 std::vector<item> starting_clothes(npc_class type, bool male)
 {
  std::vector<item> ret;
- itype_id pants = "null", shoes = "null", shirt = "null",
-                  gloves = "null", coat = "null", mask = "null",
-                  glasses = "null", hat = "null", extras = "null";
- Item_tag selected_item;
+ itype_id pants = "null",
+          shoes = "null",
+          shirt = "null",
+          gloves = "null",
+          coat = "null",
+          mask = "null",
+          glasses = "null",
+          hat = "null",
+          extras = "null";
+
  pants = item_controller->id_from(npc_class_name_str(type)+"_pants_male");
- if (!male)
+ if (!male) {
      pants = item_controller->id_from(npc_class_name_str(type)+"_pants_female");
- if (pants == "MISSING_ITEM"){
+ }
+ if (pants == Item_factory::EMPTY_GROUP_ITEM_ID){
      if (male)
         pants = item_controller->id_from("npc_pants_male");
      else
@@ -819,45 +746,45 @@ std::vector<item> starting_clothes(npc_class type, bool male)
  shirt = item_controller->id_from(npc_class_name_str(type)+"_shirt_male");
  if (!male)
      shirt = item_controller->id_from(npc_class_name_str(type)+"_shirt_female");
- if (shirt == "MISSING_ITEM"){
+ if (shirt == Item_factory::EMPTY_GROUP_ITEM_ID){
      if (male)
         shirt = item_controller->id_from("npc_shirt_male");
      else
-        shirt = item_controller->id_from("npc_shirt_male");
+        shirt = item_controller->id_from("npc_shirt_female");
  }
 
  gloves = item_controller->id_from(npc_class_name_str(type)+"_gloves");
- if (gloves == "MISSING_ITEM"){
+ if (gloves == Item_factory::EMPTY_GROUP_ITEM_ID){
     gloves = item_controller->id_from("npc_gloves");
  }
 
  coat = item_controller->id_from(npc_class_name_str(type)+"_coat");
- if (coat == "MISSING_ITEM"){
+ if (coat == Item_factory::EMPTY_GROUP_ITEM_ID){
     coat = item_controller->id_from("npc_coat");
  }
 
  shoes = item_controller->id_from(npc_class_name_str(type)+"_shoes");
- if (shoes == "MISSING_ITEM"){
+ if (shoes == Item_factory::EMPTY_GROUP_ITEM_ID){
     shoes = item_controller->id_from("npc_shoes");
  }
 
  mask = item_controller->id_from(npc_class_name_str(type)+"_masks");
- if (mask == "MISSING_ITEM"){
+ if (mask == Item_factory::EMPTY_GROUP_ITEM_ID){
     mask = item_controller->id_from("npc_masks");
  }
 
  glasses = item_controller->id_from(npc_class_name_str(type)+"_glasses");
- if (glasses == "MISSING_ITEM"){
+ if (glasses == Item_factory::EMPTY_GROUP_ITEM_ID){
     glasses = item_controller->id_from("npc_eyes");
  }
 
  hat = item_controller->id_from(npc_class_name_str(type)+"_hat");
- if (hat == "MISSING_ITEM"){
+ if (hat == Item_factory::EMPTY_GROUP_ITEM_ID){
     hat = item_controller->id_from("npc_hat");
  }
 
  extras = item_controller->id_from(npc_class_name_str(type)+"_extra");
- if (extras == "MISSING_ITEM"){
+ if (extras == Item_factory::EMPTY_GROUP_ITEM_ID){
     extras = item_controller->id_from("npc_extra");
  }
 // Fill in the standard things we wear
@@ -886,6 +813,9 @@ std::vector<item> starting_clothes(npc_class type, bool male)
     // is a non-armor item!
     for( auto it = ret.begin(); it != ret.end(); ) {
         if( it->is_armor() ) {
+            if( one_in( 3 ) && it->has_flag( "VARSIZE" ) ) {
+                it->item_tags.insert( "FIT" );
+            }
             ++it;
         } else {
             it = ret.erase( it );
@@ -940,6 +870,9 @@ std::list<item> starting_inv(npc *me, npc_class type)
     tmpitem = item_controller->item_from(npc_class_name_str(type)+"_misc");
     if (tmpitem.is_null())
         tmpitem = item_controller->item_from("npc_misc");
+    if( one_in( 3 ) && tmpitem.has_flag( "VARSIZE" ) ) {
+        tmpitem.item_tags.insert( "FIT" );
+    }
     if (total_space >= tmpitem.volume()) {
         ret.push_back(tmpitem);
         ret.back() = ret.back().in_its_container();
@@ -1064,59 +997,59 @@ void npc::starting_weapon(npc_class type)
     itype_id sel_weapon = "null";
     if (best->ident() == "bashing"){
         sel_weapon = item_controller->id_from(npc_class_name_str(type)+"_bashing");
-        if (sel_weapon == "MISSING_ITEM"){
+        if (sel_weapon == Item_factory::EMPTY_GROUP_ITEM_ID){
             sel_weapon = item_controller->id_from("npc_bashing");
         }
     } else if (best->ident() == "cutting"){
         sel_weapon = item_controller->id_from(npc_class_name_str(type)+"_cutting");
-        if (sel_weapon == "MISSING_ITEM"){
+        if (sel_weapon == Item_factory::EMPTY_GROUP_ITEM_ID){
             sel_weapon = item_controller->id_from("npc_cutting");
         }
     } else if (best->ident() == "stabbing"){
         sel_weapon = item_controller->id_from(npc_class_name_str(type)+"_stabbing");
-        if (sel_weapon == "MISSING_ITEM"){
+        if (sel_weapon == Item_factory::EMPTY_GROUP_ITEM_ID){
             sel_weapon = item_controller->id_from("npc_stabbing");
         }
     } else if (best->ident() == "throw"){
         sel_weapon = item_controller->id_from(npc_class_name_str(type)+"_throw");
-        if (sel_weapon == "MISSING_ITEM"){
+        if (sel_weapon == Item_factory::EMPTY_GROUP_ITEM_ID){
             sel_weapon = item_controller->id_from("npc_throw");
         }
     } else if (best->ident() == "archery"){
         sel_weapon = item_controller->id_from(npc_class_name_str(type)+"_archery");
-        if (sel_weapon == "MISSING_ITEM"){
+        if (sel_weapon == Item_factory::EMPTY_GROUP_ITEM_ID){
             sel_weapon = item_controller->id_from("npc_archery");
         }
     }else if (best->ident() == "pistol"){
         sel_weapon = item_controller->id_from(npc_class_name_str(type)+"_pistols");
-        if (sel_weapon == "MISSING_ITEM"){
+        if (sel_weapon == Item_factory::EMPTY_GROUP_ITEM_ID){
             sel_weapon = item_controller->id_from("pistols");
         }
     }else if (best->ident() == "shotgun"){
         sel_weapon = item_controller->id_from(npc_class_name_str(type)+"_shotgun");
-        if (sel_weapon == "MISSING_ITEM"){
+        if (sel_weapon == Item_factory::EMPTY_GROUP_ITEM_ID){
             sel_weapon = item_controller->id_from("shotguns");
         }
     }else if (best->ident() == "smg"){
         sel_weapon = item_controller->id_from(npc_class_name_str(type)+"_smg");
-        if (sel_weapon == "MISSING_ITEM"){
+        if (sel_weapon == Item_factory::EMPTY_GROUP_ITEM_ID){
             sel_weapon = item_controller->id_from("smg");
         }
     }else if (best->ident() == "rifle"){
         sel_weapon = item_controller->id_from(npc_class_name_str(type)+"_rifle");
-        if (sel_weapon == "MISSING_ITEM"){
+        if (sel_weapon == Item_factory::EMPTY_GROUP_ITEM_ID){
             sel_weapon = item_controller->id_from("rifles");
         }
     }else if (best->ident() == "launcher"){
         sel_weapon = item_controller->id_from(npc_class_name_str(type)+"_launcher");
-        if (sel_weapon == "MISSING_ITEM"){
+        if (sel_weapon == Item_factory::EMPTY_GROUP_ITEM_ID){
             sel_weapon = item_controller->id_from("npc_launcher");
         }
     }
 
     if (sel_weapon == "null"){
         sel_weapon = item_controller->id_from(npc_class_name_str(type)+"_weapon_random");
-        if (sel_weapon == "MISSING_ITEM"){
+        if (sel_weapon == Item_factory::EMPTY_GROUP_ITEM_ID){
             sel_weapon = item_controller->id_from("npc_weapon_random");
         }
     }
@@ -1128,7 +1061,7 @@ void npc::starting_weapon(npc_class type)
         const std::string tmp = default_ammo( gun->ammo );
         if( tmp != "" ) {
             weapon.charges = gun->clip;
-            weapon.curammo = dynamic_cast<it_ammo*>( itypes[tmp] );
+            weapon.curammo = dynamic_cast<it_ammo*>( item_controller->find_template( tmp ) );
         }
     }
 }
@@ -1734,7 +1667,7 @@ int npc::value(const item &it)
    if (ammo->type == gun->ammo)
     ret += 14;
   }
-  if (inv.has_gun_for_ammo(ammo->type)) {
+  if (has_gun_for_ammo(ammo->type)) {
    // TODO consider making this cumulative (once was)
    ret += 14;
   }

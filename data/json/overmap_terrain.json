@@ -662,7 +662,7 @@
         "mondensity" : 2,
         "sidewalk" : true
     },{
-	    "type" : "overmap_terrain",
+        "type" : "overmap_terrain",
         "id" : "s_pizza_parlor",
         "name" : "pizza parlor",
         "rotate" : true,
@@ -1563,8 +1563,8 @@
         "type" : "overmap_terrain",
         "id" : "fungal_flowers",
         "name" : "fungal flowers",
-        "sym" : 70,
-        "color" : "light_gray",
+        "sym" : 84,
+        "color" : "cyan",
         "see_cost" : 5,
         "extras" : "field"
     },{
@@ -4429,5 +4429,15 @@
         "color" : "cyan",
         "see_cost" : 5,
         "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "warehouse",
+        "name" : "small warehouse",
+        "rotate" : true,
+        "sym" : 119,
+        "color" : "light_blue",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
     }
 ]

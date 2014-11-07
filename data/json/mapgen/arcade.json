@@ -6,7 +6,7 @@
     "monsters" : [
       { "monster" : "mon_zombie_child", "freq" : 600, "cost_multiplier" : 1, "pack_size": [5,12] }
                  ]
-	  },{
+      },{
         "type" : "overmap_terrain",
         "id" : "s_arcade",
         "name" : "arcade",
@@ -105,9 +105,9 @@
                 { "item": "vending_drink", "chance": 75, "x": 19, "y": 8 },
                 { "item": "vending_food", "chance": 75, "x": 20, "y": 8 },
                 { "item": "arcade_prizes", "chance": 95, "x": 21, "y": [ 14,18 ] }
+            ]
+            }
+        }
+        ]
+    }
 ]
-}
-}
-]
-}
-		]

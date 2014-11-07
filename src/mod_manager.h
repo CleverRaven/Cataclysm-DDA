@@ -165,4 +165,4 @@ class mod_ui
         void set_usable_mods();
 };
 
-#endif // MOD_MANAGER_H
+#endif

@@ -73,11 +73,11 @@ void map::generate_lightmap()
         for(int sy = 0; sy < LIGHTMAP_CACHE_Y; ++sy) {
             const ter_id terrain = ter(sx, sy);
             const std::vector<item> &items = i_at(sx, sy);
-            field &current_field = field_at(sx, sy);
+            const field &current_field = field_at(sx, sy);
             // When underground natural_light is 0, if this changes we need to revisit
             // Only apply this whole thing if the player is inside,
             // buildings will be shadowed when outside looking in.
-            if (natural_light > LIGHT_AMBIENT_LOW && !is_outside(g->u.posx, g->u.posy) ) {
+            if (natural_light > LIGHT_SOURCE_BRIGHT && !is_outside(g->u.posx, g->u.posy) ) {
                 if (!is_outside(sx, sy)) {
                     // Apply light sources for external/internal divide
                     for(int i = 0; i < 4; ++i) {
@@ -101,22 +101,12 @@ void map::generate_lightmap()
                 add_light_source(sx, sy, 3 );
             }
 
-            if(terrain == t_emergency_light) {
-                add_light_source(sx, sy, 3 );
-            }
-
             if(terrain == t_utility_light) {
                 add_light_source(sx, sy, 35 );
             }
 
-            field_entry *cur = NULL;
-            for(std::map<field_id, field_entry *>::iterator field_list_it = current_field.getFieldStart();
-                field_list_it != current_field.getFieldEnd(); ++field_list_it) {
-                cur = field_list_it->second;
-
-                if(cur == NULL) {
-                    continue;
-                }
+            for( auto &fld : current_field ) {
+                const field_entry *cur = &fld.second;
                 // TODO: [lightmap] Attach light brightness to fields
                 switch(cur->getFieldType()) {
                 case fd_fire:

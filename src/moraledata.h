@@ -1,5 +1,5 @@
-#ifndef _MORALEDATA_H_
-#define _MORALEDATA_H_
+#ifndef MORALEDATA_H
+#define MORALEDATA_H
 
 #include <string>
 #include "morale.h"

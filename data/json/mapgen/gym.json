@@ -30,7 +30,7 @@
       ["vitamins", 10],
       ["aspirin", 10]
           ]
-	  },{
+      },{
     "type" : "overmap_terrain",
     "id" : "gym_fitness",
     "name" : "fitness gym",
@@ -141,8 +141,8 @@
             "place_groups": [
                 { "item": "gym", "chance": 95, "x": [ 5,14 ], "y": [ 19,19 ] }
                             ] 
-}
-}
+            }
+        }
+        ]
+    }
 ]
-}
-		]

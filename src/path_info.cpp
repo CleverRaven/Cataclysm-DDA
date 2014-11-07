@@ -134,6 +134,7 @@ void PATH_INFO::set_standart_filenames(void)
     update_pathname("memorialdir", FILENAMES["user_dir"] + "memorial/");
     update_pathname("templatedir", FILENAMES["user_dir"] + "templates/");
     update_pathname("config_dir", FILENAMES["user_dir"] + "config/");
+    update_pathname("graveyarddir", FILENAMES["user_dir"] + "graveyard/");
 
     update_pathname("options", FILENAMES["config_dir"] + "options.txt");
     update_pathname("keymap", FILENAMES["config_dir"] + "keymap.txt");

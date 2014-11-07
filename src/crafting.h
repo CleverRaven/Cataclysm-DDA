@@ -1,5 +1,5 @@
-#ifndef _CRAFTING_H_
-#define _CRAFTING_H_
+#ifndef CRAFTING_H
+#define CRAFTING_H
 
 #include <string>
 #include <vector>
@@ -49,13 +49,11 @@ struct recipe : public requirements {
     craft_subcat subcat;
     Skill *skill_used;
     std::map<Skill *, int> required_skills;
-    int difficulty;
     bool reversible; // can the item be disassembled?
     bool autolearn; // do we learn it just by leveling skills?
     int learn_by_disassembly; // what level (if any) do we learn it by disassembly?
     int result_mult; // used by certain batch recipes that create more than one stack of the result
     bool paired;
-    int batch; // Size of batch for crafting, 1 is default
 
     // only used during loading json data: books and the skill needed
     // to learn this recipe from.
@@ -63,40 +61,32 @@ struct recipe : public requirements {
 
     //Create a string list to describe the skill requirements fir this recipe
     // Format: skill_name(amount), skill_name(amount)
-    std::string required_skills_string();
+    std::string required_skills_string() const;
 
     recipe()
     {
         id = 0;
         result = "null";
         skill_used = NULL;
-        difficulty = 0;
         reversible = false;
         autolearn = false;
         learn_by_disassembly = -1;
         result_mult = 1;
         paired = false;
-        batch = 1;
     }
 
     recipe(std::string pident, int pid, itype_id pres, craft_cat pcat, craft_subcat psubcat,
-           std::string &to_use, std::map<std::string, int> &to_require, int pdiff,
+           std::string &to_use, std::map<std::string, int> &to_require,
            bool preversible, bool pautolearn, int plearn_dis, int pmult, bool ppaired,
            std::vector<byproduct> &bps) :
-        ident (pident), id (pid), result (pres), cat(pcat), subcat(psubcat), difficulty (pdiff),
+        ident (pident), id (pid), result (pres), byproducts(bps), cat(pcat), subcat(psubcat),
         reversible (preversible), autolearn (pautolearn), learn_by_disassembly (plearn_dis),
-        result_mult(pmult), paired(ppaired)
-    {
+        result_mult(pmult), paired(ppaired) {
         skill_used = to_use.size() ? Skill::skill(to_use) : NULL;
         if(!to_require.empty()) {
             for(std::map<std::string, int>::iterator iter = to_require.begin(); iter != to_require.end();
                 ++iter) {
                 required_skills[Skill::skill(iter->first)] = iter->second;
-            }
-        }
-        if(!bps.empty()) {
-            for(auto &val : bps) {
-                byproducts.push_back(val);
             }
         }
     }
@@ -113,8 +103,9 @@ struct recipe : public requirements {
 
     bool can_make_with_inventory(const inventory &crafting_inv, int batch = 1) const;
 
-    int print_items(WINDOW *w, int ypos, int xpos, nc_color col, int batch = 1);
-    void print_item(WINDOW *w, int ypos, int xpos, nc_color col, const byproduct &bp, int batch = 1);
+    int print_items(WINDOW *w, int ypos, int xpos, nc_color col, int batch = 1) const;
+    void print_item(WINDOW *w, int ypos, int xpos, nc_color col, const byproduct &bp,
+                    int batch = 1) const;
 };
 
 typedef std::vector<recipe *> recipe_list;
@@ -131,7 +122,7 @@ void load_recipe_category(JsonObject &jsobj);
 void reset_recipe_categories();
 void load_recipe(JsonObject &jsobj);
 void reset_recipes();
-recipe *recipe_by_name(std::string name);
+const recipe *recipe_by_name(std::string name);
 void finalize_recipes();
 // Show the "really disassemble?" query along with a list of possible results.
 // Returns false if the player answered no to the query.
@@ -144,6 +135,7 @@ void check_recipe_definitions();
 
 void set_item_spoilage(item &newit, float used_age_tally, int used_age_count);
 void set_item_food(item &newit);
-void set_item_inventory(game *g, item &newit);
+void set_item_inventory(item &newit);
+void finalize_crafted_item(item &newit, float used_age_tally, int used_age_count);
 
 #endif

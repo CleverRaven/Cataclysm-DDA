@@ -1,10 +1,11 @@
-#ifndef _INIT_H_
-#define _INIT_H_
+#ifndef INIT_H
+#define INIT_H
 
 #include "json.h"
 
 #include <string>
 #include <vector>
+#include <memory>
 
 //********** Functor Base, Static and Class member accessors
 class TFunctor
@@ -59,6 +60,11 @@ template <class TClass> class ClassFunctionAccessor : public TFunctor
         ClassFunctionAccessor(TClass *ptr2obj, void (TClass::*fptr)(JsonObject &jo))
         {
             ptr_to_obj = ptr2obj;
+            _fptr = fptr;
+        }
+        ClassFunctionAccessor(const std::unique_ptr<TClass> &ptr2obj, void (TClass::*fptr)(JsonObject &jo))
+        {
+            ptr_to_obj = ptr2obj.get();
             _fptr = fptr;
         }
 
@@ -188,4 +194,4 @@ class DynamicDataLoader
 
 void init_names();
 
-#endif // _INIT_H_
+#endif

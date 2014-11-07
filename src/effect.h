@@ -1,5 +1,5 @@
-#ifndef _EFFECT_H_
-#define _EFFECT_H_
+#ifndef EFFECT_H
+#define EFFECT_H
 
 #include "pldata.h"
 #include "json.h"
@@ -121,4 +121,5 @@ class effect : public JsonSerializer, public JsonDeserializer
 
 void load_effect_type(JsonObject &jo);
 void reset_effect_types();
+
 #endif

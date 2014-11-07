@@ -1,4 +1,5 @@
 #include "game.h"
+#include "gamemode.h"
 #include "debug.h"
 #include "input.h"
 #include "mapbuffer.h"
@@ -184,6 +185,7 @@ bool game::opening_screen()
     world_generator->get_all_worlds();
 
     WINDOW *w_background = newwin(TERMY, TERMX, 0, 0);
+    WINDOW_PTR w_backgroundptr( w_background );
     werase(w_background);
     wrefresh(w_background);
 
@@ -201,6 +203,7 @@ bool game::opening_screen()
     const int y0 = (TERMY - total_h) / 2;
 
     WINDOW *w_open = newwin(total_h, total_w, y0, x0);
+    WINDOW_PTR w_openptr( w_open );
 
     const int iMenuOffsetX = 2;
     int iMenuOffsetY = total_h - 3;
@@ -336,8 +339,6 @@ bool game::opening_screen()
                     display_help();
                 } else if (sel1 == 8) {
                     uquit = QUIT_MENU;
-                    delwin(w_open);
-                    delwin(w_background);
                     return false;
                 } else {
                     sel2 = 0;
@@ -390,18 +391,28 @@ bool game::opening_screen()
                     if (sel2 == 0 || sel2 == 2 || sel2 == 3) {
                         // First load the mods, this is done by
                         // loading the world.
-                        // Pick a world, supressing prompts if it's "play now" mode.
+                        // Pick a world, suppressing prompts if it's "play now" mode.
                         WORLDPTR world = world_generator->pick_world( sel2 != 3 );
                         if (world == NULL) {
                             continue;
                         }
                         world_generator->set_active_world(world);
                         setup();
-                        if (!u.create((sel2 == 0) ? PLTYPE_CUSTOM :
-                                      ((sel2 == 2) ? PLTYPE_RANDOM : PLTYPE_NOW))) {
+                        int pgen = -1;
+                        while (pgen < 0) {
+                            //create will return -1 on re-randomize command, keeping the loop going
+                            //it will return 0 on exit, or 1 on success
+                            pgen = u.create((sel2 == 0) ? PLTYPE_CUSTOM :
+                                      ((sel2 == 2) ? PLTYPE_RANDOM : PLTYPE_NOW));
+                            if (pgen == -1) {
+                                u = player();
+                            }
+                        }
+                        if (pgen == 0) {
                             u = player();
                             continue;
                         }
+
                         werase(w_background);
                         wrefresh(w_background);
 
@@ -792,8 +803,8 @@ bool game::opening_screen()
             }
         }
     }
-    delwin(w_open);
-    delwin(w_background);
+    w_openptr.reset();
+    w_backgroundptr.reset();
     if (start == false) {
         uquit = QUIT_MENU;
     } else {

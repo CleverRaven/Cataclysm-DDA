@@ -1,5 +1,5 @@
-#ifndef _LIVE_VIEW_H_
-#define _LIVE_VIEW_H_
+#ifndef LIVE_VIEW_H
+#define LIVE_VIEW_H
 
 #include <vector>
 
@@ -28,4 +28,5 @@ class live_view
 
         void print_items(std::vector<item> &items, int &line) const;
 };
+
 #endif

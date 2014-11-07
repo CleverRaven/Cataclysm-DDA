@@ -74,54 +74,8 @@ Creature::Creature()
     fake = false;
 }
 
-Creature::Creature(const Creature &rhs)
+Creature::~Creature()
 {
-    str_max = rhs.str_max;
-    dex_max = rhs.dex_max;
-    per_max = rhs.per_max;
-    int_max = rhs.int_max;
-    str_cur = rhs.str_cur;
-    dex_cur = rhs.dex_cur;
-    per_cur = rhs.per_cur;
-    int_cur = rhs.int_cur;
-    moves = rhs.moves;
-    pain = rhs.pain;
-    killer = rhs.killer;
-    speed_base = rhs.speed_base;
-
-    str_bonus = rhs.str_bonus;
-    dex_bonus = rhs.dex_bonus;
-    per_bonus = rhs.per_bonus;
-    int_bonus = rhs.int_bonus;
-
-    healthy = rhs.healthy;
-    healthy_mod = rhs.healthy_mod;
-
-    num_blocks = rhs.num_blocks;
-    num_dodges = rhs.num_dodges;
-    num_blocks_bonus = rhs.num_blocks_bonus;
-    num_dodges_bonus = rhs.num_dodges_bonus;
-
-    armor_bash_bonus = rhs.armor_bash_bonus;
-    armor_cut_bonus = rhs.armor_cut_bonus;
-
-    speed_bonus = rhs.speed_bonus;
-    dodge_bonus = rhs.dodge_bonus;
-    block_bonus = rhs.block_bonus;
-    hit_bonus = rhs.hit_bonus;
-    bash_bonus = rhs.bash_bonus;
-    cut_bonus = rhs.cut_bonus;
-
-    bash_mult = rhs.bash_mult;
-    cut_mult = rhs.cut_mult;
-
-    melee_quiet = rhs.melee_quiet;
-    grab_resist = rhs.grab_resist;
-    throw_resist = rhs.throw_resist;
-
-    effects = rhs.effects;
-
-    fake = rhs.fake;
 }
 
 void Creature::normalize()
@@ -540,7 +494,7 @@ void Creature::deal_damage_handle_type(const damage_unit &du, body_part, int &da
     case DT_HEAT: // heat damage sets us on fire sometimes
         damage += adjusted_damage;
         pain += adjusted_damage / 4;
-        if (rng(0, 100) > (100 - 400 / (adjusted_damage + 3))) {
+        if( rng(0, 100) < adjusted_damage ) {
             add_effect("onfire", rng(1, 3));
         }
         break;
@@ -610,7 +564,7 @@ void Creature::add_effect(efftype_id eff_id, int dur, int intensity, bool perman
                      add_msg(effect_types[eff_id].gain_game_message_type(),
                              _(effect_types[eff_id].get_apply_message().c_str()));
             }
-            g->u.add_memorial_log(pgettext("memorial_male",
+            add_memorial_log(pgettext("memorial_male",
                                            effect_types[eff_id].get_apply_memorial_log().c_str()),
                                   pgettext("memorial_female",
                                            effect_types[eff_id].get_apply_memorial_log().c_str()));
@@ -655,7 +609,7 @@ void Creature::process_effects()
             if(type->get_remove_message() != "") {
                 add_msg( type->lose_game_message_type(), _(type->get_remove_message().c_str()) );
             }
-            g->u.add_memorial_log(
+            add_memorial_log(
                 pgettext("memorial_male", type->get_remove_memorial_log().c_str() ),
                 pgettext("memorial_female", type->get_remove_memorial_log().c_str()) );
             const auto id = it->second.get_id();
@@ -1228,55 +1182,4 @@ body_part Creature::select_body_part(Creature *source, int hit_roll)
     }
 
     return selected_part;
-}
-
-Creature &Creature::operator= (const Creature &rhs)
-{
-    str_cur = rhs.str_cur;
-    dex_cur = rhs.dex_cur;
-    int_cur = rhs.int_cur;
-    per_cur = rhs.per_cur;
-
-    str_max = rhs.str_max;
-    dex_max = rhs.dex_max;
-    int_max = rhs.int_max;
-    per_max = rhs.per_max;
-
-    moves = rhs.moves;
-    pain = rhs.pain;
-
-    killer = rhs.killer;
-    effects = rhs.effects;
-
-    str_bonus = rhs.str_bonus;
-    dex_bonus = rhs.dex_bonus;
-    per_bonus = rhs.per_bonus;
-    int_bonus = rhs.int_bonus;
-
-    num_blocks = rhs.num_blocks;
-    num_dodges = rhs.num_dodges;
-    num_blocks_bonus = rhs.num_blocks_bonus;
-    num_dodges_bonus = rhs.num_dodges_bonus;
-
-    armor_bash_bonus = rhs.armor_bash_bonus;
-    armor_cut_bonus = rhs.armor_cut_bonus;
-
-    speed_base = rhs.speed_base;
-
-    speed_bonus = rhs.speed_bonus;
-    dodge_bonus = rhs.dodge_bonus;
-    block_bonus = rhs.block_bonus;
-    hit_bonus = rhs.hit_bonus;
-    bash_bonus = rhs.bash_bonus;
-    cut_bonus = rhs.cut_bonus;
-
-    bash_mult = rhs.bash_mult;
-    cut_mult = rhs.cut_mult;
-    melee_quiet = rhs.melee_quiet;
-
-    grab_resist = rhs.grab_resist;
-    throw_resist = rhs.throw_resist;
-
-    fake = rhs.fake;
-    return *this;
 }

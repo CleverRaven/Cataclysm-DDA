@@ -71,5 +71,9 @@
         "type" : "tool_quality",
         "id" : "BUTCHER",
         "name" : "butchering"
+    },{
+        "type" : "tool_quality",
+        "id" : "DRILL",
+        "name" : "drilling"
     }
 ]

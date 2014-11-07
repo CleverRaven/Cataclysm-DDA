@@ -101,6 +101,8 @@
                     ],
                         "comment": "randomly picked from a group ---v",
             "place_groups": [
+                { "item": "bed", "chance": 80,  "x": [2,3 ], "y": [18,19 ] },
+                { "item": "bed", "chance": 80,  "x": [18,19 ], "y": [20,21 ] },
                 { "item": "livingroom", "chance": 50,  "x": [ 1,10 ], "y": [ 8,13 ] },
                 { "item": "bedroom", "chance": 60,  "x": [ 1,6 ], "y": [ 15,21 ] },
                 { "item": "consumer_electronics", "chance": 20,  "x": [ 1,6 ], "y": [ 15,21 ] },

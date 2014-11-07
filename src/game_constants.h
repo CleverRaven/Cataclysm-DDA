@@ -1,5 +1,5 @@
-#ifndef _GAME_CONSTANTS_H_
-#define _GAME_CONSTANTS_H_
+#ifndef GAME_CONSTANTS_H
+#define GAME_CONSTANTS_H
 
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
@@ -27,4 +27,4 @@
 #define MAX_VOLUME_IN_SQUARE 4000 // 6.25 dead bears is enough for everybody!
 #define MAX_ITEM_IN_VEHICLE_STORAGE MAX_ITEM_IN_SQUARE // no reason to differ
 
-#endif // _GAME_CONSTANTS_H_
+#endif

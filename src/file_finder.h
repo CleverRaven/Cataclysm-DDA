@@ -15,4 +15,4 @@ class file_finder
     private:
 };
 
-#endif // FILE_FINDER_H
+#endif

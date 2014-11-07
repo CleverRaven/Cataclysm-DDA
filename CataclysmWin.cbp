@@ -264,8 +264,6 @@
 		<Unit filename="src/gamemode.h" />
 		<Unit filename="src/get_version.h" />
 		<Unit filename="src/globals.h" />
-		<Unit filename="src/graffiti.cpp" />
-		<Unit filename="src/graffiti.h" />
 		<Unit filename="src/help.cpp" />
 		<Unit filename="src/help.h" />
 		<Unit filename="src/helper.cpp" />

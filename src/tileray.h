@@ -1,5 +1,5 @@
-#ifndef _TILERAY_H_
-#define _TILERAY_H_
+#ifndef TILERAY_H
+#define TILERAY_H
 
 // Class for calculating tile coords
 // of a point that moves along the ray with given

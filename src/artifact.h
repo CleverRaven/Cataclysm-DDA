@@ -1,5 +1,5 @@
-#ifndef _ARTIFACT_H_
-#define _ARTIFACT_H_
+#ifndef ARTIFACT_H
+#define ARTIFACT_H
 
 #include "itype.h"
 #include "json.h"

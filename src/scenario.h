@@ -1,5 +1,5 @@
-#ifndef _SCENARIO_H_
-#define _SCENARIO_H_
+#ifndef SCENARIO_H
+#define SCENARIO_H
 
 #include <string>
 #include <vector>

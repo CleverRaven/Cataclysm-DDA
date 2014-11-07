@@ -18,11 +18,7 @@
 bool is_whitespace(char ch)
 {
     // These are all the valid whitespace characters allowed by RFC 4627.
-    if (ch == ' ' || ch == '\n' || ch == '\t' || ch == '\r') {
-        return true;
-    } else {
-        return false;
-    }
+    return (ch == ' ' || ch == '\n' || ch == '\t' || ch == '\r');
 }
 
 // for parsing \uxxxx escapes
@@ -1303,6 +1299,15 @@ bool JsonIn::read(bool &b)
         return false;
     }
     b = get_bool();
+    return true;
+}
+
+bool JsonIn::read(char &c)
+{
+    if (!test_number()) {
+        return false;
+    }
+    c = get_int();
     return true;
 }
 

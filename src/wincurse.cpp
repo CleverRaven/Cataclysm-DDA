@@ -454,6 +454,10 @@ WINDOW *curses_init(void)
     int map_fontheight = 16;
     int map_fontsize = 16;
     std::string map_typeface;
+    int overmap_fontwidth = 8;
+    int overmap_fontheight = 16;
+    int overmap_fontsize = 16;
+    std::string overmap_typeface;
     bool fontblending;
 
     std::ifstream jsonstream(FILENAMES["fontdata"].c_str(), std::ifstream::binary);
@@ -479,6 +483,10 @@ WINDOW *curses_init(void)
             map_fontheight = config.get_int("map_fontheight", fontheight);
             map_fontsize = config.get_int("map_fontsize", fontsize);
             map_typeface = config.get_string("map_typeface", typeface);
+            overmap_fontwidth = config.get_int("overmap_fontwidth", fontwidth);
+            overmap_fontheight = config.get_int("overmap_fontheight", fontheight);
+            overmap_fontsize = config.get_int("overmap_fontsize", fontsize);
+            overmap_typeface = config.get_string("overmap_typeface", typeface);
             InStream.close();
             // Save legacy as user fontdata.
             assure_dir_exist(FILENAMES["config_dir"]);
@@ -499,6 +507,10 @@ WINDOW *curses_init(void)
             jOut.member("map_fontheight", map_fontheight);
             jOut.member("map_fontsize", map_fontsize);
             jOut.member("map_typeface", map_typeface);
+            jOut.member("overmap_fontwidth", overmap_fontwidth);
+            jOut.member("overmap_fontheight", overmap_fontheight);
+            jOut.member("overmap_fontsize", overmap_fontsize);
+            jOut.member("overmap_typeface", overmap_typeface);
             jOut.end_object();
             OutStream << "\n";
             OutStream.close();

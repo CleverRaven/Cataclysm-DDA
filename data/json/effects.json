@@ -65,9 +65,9 @@
     {
         "type":"effect_type",
         "id":"bouldering",
-        "name": "Clambering Over Rubble",
-        "desc": "You are being slowed climbing over a pile of rubble",
-        "apply_message":"You are slowed by the rubble.",
+        "name": "Unstable footing",
+        "desc": "Your footing is unstable.  It's more difficult to fight while standing here.",
+        "apply_message":"You balance on the rubble.",
         "rating": "bad"
     },
     {

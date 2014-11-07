@@ -25,10 +25,9 @@ mtype::mtype ()
     armor_bash = 0;
     armor_cut = 0;
     hp = 0;
-    sp_freq = 0;
     def_chance = 0;
     dies.push_back(&mdeath::normal);
-    sp_attack = NULL;
+    sp_attack.push_back(NULL);
     sp_defense = NULL;
     luminance = 0;
     flags.insert(MF_HUMAN);
@@ -81,6 +80,16 @@ bool mtype::in_category(std::string category) const
 bool mtype::in_species(std::string spec) const
 {
     return (species.find(spec) != species.end());
+}
+
+bool mtype::same_species( const mtype &other ) const
+{
+    for( auto &s : species ) {
+        if( other.in_species( s ) ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 field_id mtype::bloodType() const

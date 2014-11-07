@@ -238,6 +238,8 @@
                 { "item": "vending_food", "chance": 50, "x": [ 18,23 ], "y": [ 5,10 ] },
                 { "item": "trash_forest", "chance": 40, "x": [14,23], "y": [16,23] },
                 { "item": "trash", "chance": 50, "x": [14,23], "y": [16,23] },
+                { "item": "bed", "chance": 60, "x": [5,6], "y": [19,20] },
+                { "item": "bed", "chance": 60, "x": [8,9], "y": [19,20] },
                 { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ] },
                 { "monster": "GROUP_ZOMBIE_POOL", "chance": 2, "x": [ 2, 10 ], "y": [ 3, 11 ] }
             ]
@@ -368,6 +370,12 @@
                 { "item": "trash", "chance": 50, "x": [ 13,23 ], "y": [ 0,11 ] },
                 { "item": "trash_forest", "chance": 60, "x": [ 9,10 ], "y": [ 19,21 ] },
                 { "item": "trash", "chance": 70, "x": [ 9,10 ], "y": [ 19,21 ] },
+                { "item": "bed", "chance": 60, "x": [5,6], "y": [1,2] },
+                { "item": "bed", "chance": 60, "x": [8,9], "y": [1,2] },
+                { "item": "bed", "chance": 60, "x": [8,9], "y": [7,8] },
+                { "item": "bed", "chance": 60, "x": [7,8], "y": [13,14] },
+                { "item": "bed", "chance": 60, "x": [12,13], "y": [14,15] },
+                { "item": "bed", "chance": 60, "x": [18,19], "y": [15,16] },
                 { "monster": "GROUP_ZOMBIE", "x": [ 3, 23 ], "y": [ 0, 22 ] },
                 { "monster": "GROUP_ZOMBIE", "chance": 3, "x": [ 2,9 ], "y": [ 0,14 ] },
                 { "monster": "GROUP_ZOMBIE", "x": [ 12,22 ], "y": [ 13,21 ] }
@@ -492,6 +500,14 @@
                 { "item": "traveler", "chance": 30, "x": [ 22,22 ], "y": [ 17,18 ] },
                 { "item": "trash_forest", "chance": 40, "x": [ 0,22 ], "y": [ 0,13 ] },
                 { "item": "trash", "chance": 50, "x": [ 0,22 ], "y": [ 0,13 ] },
+                { "item": "bed", "chance": 60, "x": [0,1], "y": [14,15] },
+                { "item": "bed", "chance": 60, "x": [0,1], "y": [17,18] },
+                { "item": "bed", "chance": 60, "x": [6,7], "y": [14,15] },
+                { "item": "bed", "chance": 60, "x": [6,7], "y": [17,18] },
+                { "item": "bed", "chance": 60, "x": [12,13], "y": [14,15] },
+                { "item": "bed", "chance": 60, "x": [12,13], "y": [17,18] },
+                { "item": "bed", "chance": 60, "x": [18,19], "y": [14,15] },
+                { "item": "bed", "chance": 60, "x": [18,19], "y": [17,18] },
                 { "monster": "GROUP_ZOMBIE", "x": [ 0, 21 ], "y": [ 0, 22 ] },
                 { "monster": "GROUP_ZOMBIE", "chance": 2, "x": [ 0, 22 ], "y": [ 13, 21 ] }
             ]
@@ -698,6 +714,8 @@
             "place_groups": [
                 { "item": "traveler", "chance": 30, "x": [ 5,6 ], "y": [ 16,16 ] },
                 { "item": "traveler", "chance": 30, "x": [ 5,6 ], "y": [ 22,22 ] },
+                { "item": "bed", "chance": 60, "x": [5,6], "y": [19,20] },
+                { "item": "bed", "chance": 60, "x": [8,9], "y": [19,20] },
                 { "monster": "GROUP_ZOMBIE", "x": [ 5, 6 ], "y": [16, 16 ] }
             ]
         }
@@ -819,6 +837,12 @@
                 { "item": "traveler", "chance": 30, "x": [ 5,6 ], "y": [ 10,10 ] },
                 { "item": "traveler", "chance": 30, "x": [ 16,16 ], "y": [ 17,18 ] },
                 { "item": "traveler", "chance": 30, "x": [ 22,22 ], "y": [ 17,18 ] },
+                { "item": "bed", "chance": 60, "x": [5,6], "y": [1,2] },
+                { "item": "bed", "chance": 60, "x": [8,9], "y": [1,2] },
+                { "item": "bed", "chance": 60, "x": [8,9], "y": [7,8] },
+                { "item": "bed", "chance": 60, "x": [7,8], "y": [13,14] },
+                { "item": "bed", "chance": 60, "x": [12,13], "y": [14,15] },
+                { "item": "bed", "chance": 60, "x": [18,19], "y": [15,16] },
                 { "monster": "GROUP_ZOMBIE", "x": [ 4, 6 ], "y": [ 4, 4 ] },
                 { "monster": "GROUP_ZOMBIE", "chance": 3, "x": [ 15,16 ], "y": [ 16,16 ] },
                 { "monster": "GROUP_ZOMBIE", "x": [ 22,22 ], "y": [ 16,16 ] }
@@ -938,6 +962,14 @@
                 { "item": "traveler", "chance": 30, "x": [ 10,10 ], "y": [ 17,18 ] },
                 { "item": "traveler", "chance": 30, "x": [ 16,16 ], "y": [ 17,18 ] },
                 { "item": "traveler", "chance": 30, "x": [ 22,22 ], "y": [ 17,18 ] },
+                { "item": "bed", "chance": 60, "x": [0,1], "y": [14,15] },
+                { "item": "bed", "chance": 60, "x": [0,1], "y": [17,18] },
+                { "item": "bed", "chance": 60, "x": [6,7], "y": [14,15] },
+                { "item": "bed", "chance": 60, "x": [6,7], "y": [17,18] },
+                { "item": "bed", "chance": 60, "x": [12,13], "y": [14,15] },
+                { "item": "bed", "chance": 60, "x": [12,13], "y": [17,18] },
+                { "item": "bed", "chance": 60, "x": [18,19], "y": [14,15] },
+                { "item": "bed", "chance": 60, "x": [18,19], "y": [17,18] },
                 { "monster": "GROUP_ZOMBIE", "x": [ 4, 4 ], "y": [ 16, 16 ] },
                 { "monster": "GROUP_ZOMBIE", "chance": 2, "x": [ 10, 10 ], "y": [ 16, 16 ] }
             ]

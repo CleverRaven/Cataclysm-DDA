@@ -97,6 +97,7 @@
                         "comment": "randomly picked from a group ---v",
             "place_groups": [
                 { "vehicle": "rv", "x": 5, "y": 4, "rotation": 270, "chance": 10  },
+                { "item": "bed", "chance": 80,  "x": [2,3 ], "y": [18,19 ] },
                 { "item": "livingroom", "chance": 70,  "x": [ 12,21 ], "y": [ 2,6 ] },
                 { "item": "dining", "chance": 70,  "x": [ 16,18 ], "y": [ 8,9 ] },
                 { "item": "bedroom", "chance": 60,  "x": [ 1,10 ], "y": [ 17,21 ] },

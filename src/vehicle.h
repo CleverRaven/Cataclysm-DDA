@@ -1,5 +1,5 @@
-#ifndef _VEHICLE_H_
-#define _VEHICLE_H_
+#ifndef VEHICLE_H
+#define VEHICLE_H
 
 #include "tileray.h"
 #include "color.h"
@@ -7,8 +7,10 @@
 #include "line.h"
 #include "veh_type.h"
 #include <vector>
+#include <map>
 #include <string>
 #include <iosfwd>
+
 
 class map;
 class player;
@@ -19,19 +21,18 @@ float get_collision_factor(float delta_v);
 //How far to scatter parts from a vehicle when the part is destroyed (+/-)
 #define SCATTER_DISTANCE 3
 
-#define num_fuel_types 5
+#define num_fuel_types 6
 extern const ammotype fuel_types[num_fuel_types];
+extern const nc_color fuel_colors[num_fuel_types];
 #define k_mvel 200 //adjust this to balance collision damage
 
 // 0 - nothing, 1 - monster/player/npc, 2 - vehicle,
-// 3 - thin_obstacle, 4 - bashable, 5 - destructible, 6 - other
+// 3 - bashable, 4 - other
 enum veh_coll_type {
  veh_coll_nothing = 0,
  veh_coll_body,
  veh_coll_veh,
- veh_coll_thin_obstacle,
  veh_coll_bashable,
- veh_coll_destructable,
  veh_coll_other,
 
  num_veh_coll_types
@@ -72,8 +73,8 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
 {
     vehicle_part(const std::string &sid = "", int dx = 0, int dy = 0,
                  const item *it = NULL) : id("null"), iid(0), mount_dx(dx), mount_dy(dy),
-                 hp(0), blood(0), bigness(0), inside(false), removed(false), flags(0),
-                 passenger_id(0), amount(0) {
+                 hp(0), blood(0), bigness(0), inside(false), removed(false),enabled(1), flags(0),
+                 passenger_id(0), amount(0), target(point(0,0),point(0,0)) {
         precalc_dx[0] = precalc_dx[1] = -1;
         precalc_dy[0] = precalc_dy[1] = -1;
         if (!sid.empty()) {
@@ -101,6 +102,7 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     bool inside;            // if tile provides cover. WARNING: do not read it directly, use vehicle::is_inside() instead
     bool removed;           // TRUE if this part is removed. The part won't disappear until the end of the turn
                             // so our indices can remain consistent.
+    bool enabled;
     int flags;
     int passenger_id;       // carrying passenger
     union
@@ -109,6 +111,9 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
         int open;           // door is open
         int direction;      // direction the part is facing
     };
+    std::pair<point,point> target;  // coordinates for some kind of target; jumper cables use this
+                    // Two coord pairs are stored: actual target point, and target vehicle center.
+                    // Both cases use absolute coordinates (relative to world origin)
     std::vector<item> items;// inventory
 
     bool setid(const std::string str) {
@@ -146,24 +151,25 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
  */
 struct label : public JsonSerializer, public JsonDeserializer {
     label(const int x = 0, const int y = 0) {
-    	this->x = x;
-    	this->y = y;
+        this->x = x;
+        this->y = y;
     }
     label(const int x, const int y, const std::string text) {
-    	this->x = x;
-    	this->y = y;
-    	this->text = text;
+        this->x = x;
+        this->y = y;
+        this->text = text;
     }
 
     int x;
     int y;
     std::string text;
 
-	// these are stored in a set
+    // these are stored in a set
     bool operator< (const label &other) const {
-    	if (x != other.x)
-    		return x < other.x;
-    	return y < other.y;
+        if (x != other.x) {
+            return x < other.x;
+        }
+        return y < other.y;
     }
 
     // json saving/loading
@@ -273,6 +279,29 @@ private:
     // Do stuff like clean up blood and produce smoke from broken parts. Returns false if nothing needs doing.
     bool do_environmental_effects();
 
+    /**
+     * Find a possibly off-map vehicle. If necessary, loads up its submap through
+     * the global MAPBUFFER and pulls it from there. For this reason, you should only
+     * give it the coordinates of the origin tile of a target vehicle.
+     * @param where Location of the other vehicle's origin tile.
+     */
+    vehicle* find_vehicle(point &where);
+
+    /**
+     * Traverses the graph of connected vehicles, starting from start_veh, and continuing
+     * along all vehicles connected by some kind of POWER_TRANSFER part.
+     * @param start_vehicle The vehicle to start traversing from. NB: the start_vehicle is
+     * assumed to have been already visited!
+     * @param amount An amount of power to traverse with. This is passed back to the visitor,
+     * and reset to the visitor's return value at each step.
+     * @param visitor A function(vehicle* veh, int amount, int loss) returning int. The function
+     * may do whatever it desires, and may be a lambda (including a capturing lambda).
+     * NB: returning 0 from a visitor will stop traversal immediately!
+     * @return The last visitor's return value.
+     */
+    template<typename Func>
+    int traverse_vehicle_graph(vehicle* start_veh, int amount, Func visitor);
+
 public:
     vehicle (std::string type_id = "null", int veh_init_fuel = -1, int veh_init_status = -1);
     ~vehicle ();
@@ -327,6 +356,12 @@ public:
 
     bool remove_part (int p);
     void part_removal_cleanup ();
+
+    /**
+     * Remove a part from a targeted remote vehicle. Useful for, e.g. power cables that have
+     * a vehicle part on both sides.
+     */
+    void remove_remote_part(int part_num);
 
     const std::string get_label(int x, int y);
     void set_label(int x, int y, const std::string text);
@@ -399,7 +434,7 @@ public:
 
 // Vehicle fuel indicator. Should probably rename to print_fuel_indicators and make a print_fuel_indicator(..., FUEL_TYPE);
     void print_fuel_indicator (void *w, int y, int x, bool fullsize = false,
-                               bool verbose = false, bool desc = false);
+                               bool verbose = false, bool desc = false, bool isHorizontal = false);
 
 // Precalculate mount points for (idir=0) - current direction or (idir=1) - next turn direction
     void precalc_mounts (int idir, int dir);
@@ -427,7 +462,7 @@ public:
     point real_global_pos() const;
 
 // Checks how much certain fuel left in tanks.
-    int fuel_left (const ammotype & ftype);
+    int fuel_left (const ammotype & ftype, bool recurse=false);
     int fuel_capacity (const ammotype & ftype);
 
     // refill fuel tank(s) with given type of fuel
@@ -445,9 +480,17 @@ public:
 
     void power_parts ();
 
-    void charge_battery (int amount);
+    /**
+     * Try to charge our (and, optionally, connected vehicles') batteries by the given amount.
+     * @return amount of charge left over.
+     */
+    int charge_battery (int amount, bool recurse = true);
 
-    int discharge_battery (int amount);
+    /**
+     * Try to discharge our (and, optionally, connected vehicles') batteries by the given amount.
+     * @return amount of request unfulfilled (0 if totally successful).
+     */
+    int discharge_battery (int amount, bool recurse = true);
 
 // get the total mass of vehicle, including cargo and passengers
     int total_mass ();
@@ -502,7 +545,7 @@ public:
     bool valid_wheel_config ();
 
 // idle fuel consumption
-    void idle ();
+    void idle (bool on_map = true);
 
 // leak from broken tanks
     void slow_leak ();
@@ -578,6 +621,7 @@ public:
     bool shift_if_needed();
 
     void leak_fuel (int p);
+    void shed_loose_parts();
 
     // Cycle through available turret modes
     void cycle_turret_mode();
@@ -605,6 +649,27 @@ public:
 
     // upgrades/refilling/etc. see veh_interact.cpp
     void interact ();
+    
+    //main method for the control of individual engines
+    void control_engines();
+    // shows ui menu to select an engine
+    int select_engine();
+    //returns whether the engine is enabled or not, and has fueltype
+    bool is_engine_type_on(int e, const ammotype & ft);
+    //returns whether the engine is enabled or not
+    bool is_engine_on(int e);
+    //returns whether the part is enabled or not
+    bool is_part_on(int p);
+    //returns whether the engine uses specified fuel type
+    bool is_engine_type(int e, const ammotype  & ft);
+    //returns whether there is an active engine at vehicle coordinates
+    bool is_active_engine_at(int x,int y);
+    //returns whether the alternator is operational
+    bool is_alternator_on(int a);
+    //mark engine as on or off
+    void toggle_specific_engine(int p, bool on);
+    void toggle_specific_part(int p,bool on);
+
 
     // return a vector w/ 'direction' & 'magnitude', in its own sense of the words.
     rl_vec2d velo_vec();
@@ -625,6 +690,7 @@ public:
     std::vector<int> engines;          // List of engine indices
     std::vector<int> reactors;         // List of reactor indices
     std::vector<int> solar_panels;     // List of solar panel indices
+    std::vector<int> loose_parts;      // List of UNMOUNT_ON_MOVE parts
     std::vector<int> wheelcache;
     std::vector<vehicle_item_spawn> item_spawns; //Possible starting items
     std::set<std::string> tags;        // Properties of the vehicle

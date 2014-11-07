@@ -1,5 +1,5 @@
-#ifndef _CREATURE_TRACKER_H_
-#define _CREATURE_TRACKER_H_
+#ifndef CREATURE_TRACKER_H
+#define CREATURE_TRACKER_H
 
 #include "monster.h"
 #include "creature.h"

@@ -1,14 +1,14 @@
 [
     {
-		"type" : "mapgen",
-		"om_terrain" : ["pwr_sub_s"],
-		"method": "json",
-		"weight": 10,
-		"object": {
+        "type" : "mapgen",
+        "om_terrain" : ["pwr_sub_s"],
+        "method": "json",
+        "weight": 10,
+        "object": {
             "fill_ter": "t_concrete",
             "rows": [
             "........................",
-            "x----------------------x",
+            "------------------------",
             "|   T                  |",
             "|                      |",
             "|   }                  |",
@@ -26,11 +26,11 @@
             "|        8S            |",
             "|                      |",
             "| T hST{BT             |",
-            "|   {              x++-x",
+            "|   {              -++--",
             "|   B              |  ..",
             "| T hST            |  ..",
             "|   }              |  ..",
-            "x------------------x...."
+            "--------------------...."
             ],
             "terrain": {
             ".": "t_grass",
@@ -39,10 +39,10 @@
             "|": "t_chainfence_v",
             "x": "t_chainfence_posts",
             "+": "t_chaingate_c",
-            "T": "t_pwr_sb_support_l",
+            "T": "t_support_l",
             "B": "t_oil_circ_brkr_l",
-            "S": "t_pwr_sb_switchgear_l",
-            "s": "t_pwr_sb_switchgear_s",
+            "S": "t_switchgear_l",
+            "s": "t_switchgear_s",
             "w": "t_wall_h",
             "v": "t_wall_v",
             "d": "t_door_locked",
@@ -58,7 +58,7 @@
             "furniture": {
             "c": "f_counter"
             },
-		  	"add": [
+              "add": [
                 { "item": "hat_hard", "x": 16, "y": 7, "chance": 8 },
                 { "item": "boots", "x": 16, "y": 7, "chance": 6 },
                 { "item": "glasses_safety", "x": 16, "y": 7, "chance": 4 },
@@ -68,7 +68,7 @@
                 { "item": "cable", "x": 16, "y": 7, "chance": 6 },
                 { "item": "amplifier", "x": 16, "y": 7, "chance": 2 },
                 { "item": "hat_hard", "x": 16, "y": 8, "chance": 2 },
-                { "item": "boots", "x": 16, "y": 8, "chance": 4 },	
+                { "item": "boots", "x": 16, "y": 8, "chance": 4 },    
                 { "item": "glasses_safety", "x": 16, "y": 8, "chance": 6 },
                 { "item": "flashlight", "x": 16, "y": 8, "chance": 6 },
                 { "item": "wrench", "x": 16, "y": 8, "chance": 4 },

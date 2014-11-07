@@ -1,5 +1,6 @@
-#ifndef _BUILDING_GENERATION_H_
-#define _BUILDING_GENERATION_H_
+#ifndef BUILDING_GENERATION_H
+#define BUILDING_GENERATION_H
+
 #include "overmap.h"
 #include "map.h"
 
@@ -248,4 +249,5 @@ void mapgen_tutorial(map *m, oter_id terrain_type, mapgendata dat, int turn, flo
 
 //
 void init_mapgen_builtin_functions();
+
 #endif

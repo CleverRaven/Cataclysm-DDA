@@ -181,6 +181,12 @@
     },
     {
         "type" : "ammunition_type",
+        "id" : "diesel",
+        "name" : "diesel",
+        "default" : "diesel"
+    },
+    {
+        "type" : "ammunition_type",
         "id" : "lamp_oil",
         "name" : "lamp oil",
         "default" : "lamp_oil"

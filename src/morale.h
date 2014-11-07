@@ -1,5 +1,5 @@
-#ifndef _MORALE_H_
-#define _MORALE_H_
+#ifndef MORALE_H
+#define MORALE_H
 
 #include "itype.h"
 #include "json.h"
@@ -31,6 +31,7 @@ enum morale_type
     MORALE_CRAVING_CRACK,
     MORALE_CRAVING_MUTAGEN,
     MORALE_CRAVING_DIAZEPAM,
+    MORALE_CRAVING_MARLOSS,
 
     MORALE_FOOD_BAD,
     MORALE_CANNIBAL,
@@ -84,34 +85,9 @@ class morale_point : public JsonSerializer, public JsonDeserializer
             type (T), item_type (I), bonus (B), duration(D), decay_start(DS), age(A) {};
 
         using JsonDeserializer::deserialize;
-        void deserialize(JsonIn &jsin)
-        {
-            JsonObject jo = jsin.get_object();
-            type = (morale_type)jo.get_int("type_enum");
-            std::string tmpitype;
-            if ( jo.read("item_type", tmpitype) &&
-                 itypes.find(tmpitype) != itypes.end() ) {
-                item_type = itypes[tmpitype];
-            }
-            jo.read("bonus", bonus);
-            jo.read("duration", duration);
-            jo.read("decay_start", decay_start);
-            jo.read("age", age);
-        }
+        void deserialize(JsonIn &jsin);
         using JsonSerializer::serialize;
-        void serialize(JsonOut &json) const
-        {
-            json.start_object();
-            json.member("type_enum", (int)type);
-            if (item_type != NULL) {
-                json.member("item_type", item_type->id);
-            }
-            json.member("bonus", bonus);
-            json.member("duration", duration);
-            json.member("decay_start", decay_start);
-            json.member("age", age);
-            json.end_object();
-        }
+        void serialize(JsonOut &json) const;
 
         std::string name(std::string morale_data[])
         {

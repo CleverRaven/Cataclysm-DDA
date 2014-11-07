@@ -7,7 +7,7 @@
         "object": {
         "fill_ter": "t_concrete",
             "rows": [
-            "  |     x--------------|",
+            "  |     ---------------|",
             "  |     |              |",
             " T|  T  |  ThB         |",
             "  |     |         {Bh} |",
@@ -19,18 +19,18 @@
             "  |     |         {Bh} |",
             "  |     |     T  s8    |",
             "  |     |              |",
-            "  +     x----------+---|",
+            "  +     -----------+---|",
             "  |                    |",
             "  |                    |",
             "  |                    |",
             "wwwwWWWWwwww           |",
             "CCCCCccccccv           |",
             "***********d           |",
-            "***********v       x-+-|",
+            "***********v       --+-|",
             "***********v       |   |",
             "wwwwWWWWwwww       |   |",
             "  |                |   |",
-            "-------------------x-+-x"
+            "---------------------+--"
             ],
             "terrain": {
             " ": "t_concrete",
@@ -38,9 +38,9 @@
             "|": "t_chainfence_v",
             "x": "t_chainfence_posts",
             "+": "t_chaingate_c",
-            "T": "t_pwr_sb_support_l",
+            "T": "t_support_l",
             "B": "t_oil_circ_brkr_l",
-            "s": "t_pwr_sb_switchgear_s",
+            "s": "t_switchgear_s",
             "w": "t_wall_h",
             "v": "t_wall_v",
             "d": "t_door_locked",
@@ -110,7 +110,7 @@
             "|         |     v*******",
             "|         |     wwwwWWWW",
             "|         |             ",
-            "x-----------------------"
+            "------------------------"
             ],
             "terrain": {
             " ": "t_concrete",
@@ -118,8 +118,8 @@
             "|": "t_chainfence_v",
             "x": "t_chainfence_posts",
             "+": "t_chaingate_c",
-            "T": "t_pwr_sb_support_l",
-            "S": "t_pwr_sb_switchgear_l",
+            "T": "t_support_l",
+            "S": "t_switchgear_l",
             "w": "t_wall_h",
             "v": "t_wall_v",
             "d": "t_door_locked",
@@ -162,7 +162,7 @@
         "object": {
         "fill_ter": "t_concrete",
             "rows": [
-            "x-----------------------",
+            "------------------------",
             "|         |             ",
             "|    }    |             ",
             "|    h    |             ",
@@ -192,9 +192,9 @@
             "-": "t_chainfence_h",
             "|": "t_chainfence_v",
             "x": "t_chainfence_posts",
-            "T": "t_pwr_sb_support_l",
+            "T": "t_support_l",
             "B": "t_oil_circ_brkr_l",
-            "S": "t_pwr_sb_switchgear_l",
+            "S": "t_switchgear_l",
             "}": "t_lgtn_arrest",
             "h": "t_station_disc",
             "{": "t_current_trans",
@@ -209,7 +209,7 @@
         "object": {
         "fill_ter": "t_concrete",
             "rows": [
-            "-----------------------x",
+            "------------------------",
             "  |     |              |",
             "  |     |  }    }   }  |",
             "  |     |  h    h   h  |",
@@ -221,7 +221,7 @@
             "  |     |      hB      |",
             "  |     |      T       |",
             "  |     |              |",
-            "  |     x----------+---|",
+            "  |     -----------+---|",
             "  |                    |",
             "  |            T       |",
             "  |                    |",
@@ -240,9 +240,9 @@
             "|": "t_chainfence_v",
             "x": "t_chainfence_posts",
             "+": "t_chaingate_c",
-            "T": "t_pwr_sb_support_l",
+            "T": "t_support_l",
             "B": "t_oil_circ_brkr_l",
-            "s": "t_pwr_sb_switchgear_s",
+            "s": "t_switchgear_s",
             "}": "t_lgtn_arrest",
             "h": "t_station_disc",
             "{": "t_current_trans",

@@ -5,6 +5,7 @@
 #include "translations.h"
 #include "game.h"
 
+calendar calendar::start;
 calendar calendar::turn;
 
 calendar::calendar()

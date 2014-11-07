@@ -371,13 +371,15 @@ void inventory_selector::print_right_column() const
         const item &it = stack.front();
         const char invlet = invlet_or_space(it);
         const int count = a->second;
+        const int display_count = (count == -1) ? (it.charges >= 0) ? it.charges : stack.size() : count;
         const nc_color col = it.color_in_inventory();
-        std::string item_name = it.display_name(count);
-        if (stack.size() > 1) {
-            item_name = string_format("%d %s", stack.size(), item_name.c_str());
-        }
+        std::string item_name = it.tname( display_count );
         if (count == -1) {
-            item_name.insert(0, "+ ");
+            if (stack.size() > 1) {
+                item_name = string_format("%d %s", stack.size(), item_name.c_str());
+            } else {
+                item_name.insert(0, "+ ");
+            }
         } else {
             item_name = string_format("# %s {%d}", item_name.c_str(), count);
         }
@@ -733,11 +735,13 @@ void inventory_selector::remove_dropping_items( player &u ) const
             continue;
         }
         const int count = a->second;
-        const item tmpit = u.inv.find_item( a->first );
+        item &tmpit = u.inv.find_item( a->first );
         if( tmpit.count_by_charges() ) {
             long charges = tmpit.charges;
             if( count != -1 && count < charges ) {
-                charges = count;
+                tmpit.charges -= count;
+            } else {
+                u.inv.remove_item( a->first );
             }
         } else {
             size_t max_count = u.inv.const_stack( a->first ).size();
@@ -809,7 +813,7 @@ int game::inv_for_liquid(const item &liquid, const std::string title, bool auto_
     indexed_invslice reduced_inv = u.inv.slice_filter_by_capacity_for_liquid(liquid);
     if (auto_choose_single && reduced_inv.size() == 1) {
         std::list<item> *cont_stack = reduced_inv[0].first;
-        if (cont_stack->size() > 0) {
+        if (! cont_stack->empty() ) {
             return reduced_inv[0].second;
         }
     }
@@ -902,7 +906,7 @@ int game::inv_for_flag(const std::string flag, const std::string title, bool aut
     indexed_invslice reduced_inv = u.inv.slice_filter_by_flag(flag);
     if (auto_choose_single && reduced_inv.size() == 1) {
         std::list<item> *cont_stack = reduced_inv[0].first;
-        if (cont_stack->size() > 0) {
+        if (! cont_stack->empty() ) {
             return reduced_inv[0].second;
         }
     }

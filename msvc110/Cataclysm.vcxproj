@@ -122,7 +122,6 @@
     <ClCompile Include="..\src\file_wrapper.cpp" />
     <ClCompile Include="..\src\game.cpp" />
     <ClCompile Include="..\src\gamemode.cpp" />
-    <ClCompile Include="..\src\graffiti.cpp" />
     <ClCompile Include="..\src\help.cpp" />
     <ClCompile Include="..\src\helper.cpp" />
     <ClCompile Include="..\src\iexamine.cpp" />
@@ -263,7 +262,6 @@
     <ClInclude Include="..\src\game_constants.h" />
     <ClInclude Include="..\src\gamemode.h" />
     <ClInclude Include="..\src\get_version.h" />
-    <ClInclude Include="..\src\graffiti.h" />
     <ClInclude Include="..\src\help.h" />
     <ClInclude Include="..\src\helper.h" />
     <ClInclude Include="..\src\iexamine.h" />

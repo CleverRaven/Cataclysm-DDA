@@ -108,7 +108,7 @@ void input_manager::init()
         if (action_contexts[default_context_id].count(action_id) > 0) {
             context = default_context_id;
         } else if (touched.count(a->second) == 0) {
-            // Note: movement keys are somewhoe special as the default in keymap
+            // Note: movement keys are somehow special as the default in keymap
             // does not contain the arrow keys, so we don't clear existing keybindings
             // for them.
             // If the keymap contains a binding for this action, erase all the
@@ -219,7 +219,7 @@ void input_manager::load(const std::string &file_name, bool is_user_preferences)
         // To be backwards compatible with keybindings.json from prior
         // experimental builds, we will detect user-created, local keybindings
         // with empty input_events and disregard them. When keybindings are
-        // later saved, these remants won't be saved.
+        // later saved, these remnants won't be saved.
         if (!is_user_preferences ||
             !events.empty() ||
             context == default_context_id ||
@@ -887,7 +887,7 @@ void input_context::display_help()
     while(true) {
         werase(w_help);
         draw_border(w_help);
-        draw_scrollbar(w_help, scroll_offset, display_height, org_registered_actions.size(), 1);
+        draw_scrollbar(w_help, scroll_offset, display_height, org_registered_actions.size() - display_height, 1);
         mvwprintz(w_help, 0, (FULL_SCREEN_WIDTH - utf8_width(_("Keybindings"))) / 2 - 1,
                   c_ltred, " %s ", _("Keybindings"));
 
@@ -945,12 +945,13 @@ void input_context::display_help()
             status = s_remove;
         } else if (action == "ANY_INPUT") {
             const size_t hotkey_index = hotkeys.find_first_of(raw_input_char);
-            if (status == s_show || hotkey_index == std::string::npos ||
-                hotkey_index >= org_registered_actions.size()) {
+            if (status == s_show || hotkey_index == std::string::npos ) {
                 continue;
             }
-
-            const int action_index = hotkey_index + scroll_offset;
+            const size_t action_index = hotkey_index + scroll_offset;
+            if( action_index >= org_registered_actions.size() ) {
+                continue;
+            }
             const std::string &action_id = org_registered_actions[action_index];
 
             // Check if this entry is local or global.
@@ -1003,7 +1004,7 @@ void input_context::display_help()
             }
             status = s_show;
         } else if (action == "DOWN") {
-            if (scroll_offset + 1 < org_registered_actions.size()) {
+            if (scroll_offset < org_registered_actions.size() - display_height) {
                 scroll_offset++;
             }
         } else if (action == "UP") {
@@ -1012,7 +1013,8 @@ void input_context::display_help()
             }
         } else if (action == "PAGE_DOWN") {
             if( scroll_offset + display_height < org_registered_actions.size() ) {
-                scroll_offset += display_height;
+                scroll_offset += std::min(display_height, org_registered_actions.size() -
+                                          display_height - scroll_offset);
             } else if( org_registered_actions.size() > display_height ) {
                 scroll_offset = 0;
             }
@@ -1141,7 +1143,7 @@ input_event input_manager::get_input_event(WINDOW * /*win*/)
             previously_pressed_key = key;
             return input_event( key, CATA_INPUT_KEYBOARD );
         }
-        // Now we have loaded an UTF-8 sequence (possbily several bytes)
+        // Now we have loaded an UTF-8 sequence (possibly several bytes)
         // but we should only return *one* key, so return the code point of it.
         const char *utf8str = rval.text.c_str();
         int len = rval.text.length();

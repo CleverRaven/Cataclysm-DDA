@@ -1,4 +1,5 @@
-#pragma once
+#ifndef IUSE_ACTOR_H
+#define IUSE_ACTOR_H
 
 #include "iuse.h"
 #include "color.h"
@@ -52,7 +53,7 @@ class iuse_transform : public iuse_actor
         {
         }
         virtual ~iuse_transform();
-        virtual long use(player *, item *, bool) const;
+        virtual long use(player *, item *, bool, point) const;
         virtual iuse_actor *clone() const;
 };
 
@@ -83,7 +84,7 @@ class auto_iuse_transform : public iuse_transform
         {
         }
         virtual ~auto_iuse_transform();
-        virtual long use(player *, item *, bool) const;
+        virtual long use(player *, item *, bool, point) const;
         virtual iuse_actor *clone() const;
 };
 
@@ -144,7 +145,7 @@ class explosion_iuse : public iuse_actor
         {
         }
         virtual ~explosion_iuse();
-        virtual long use(player *, item *, bool) const;
+        virtual long use(player *, item *, bool, point) const;
         virtual iuse_actor *clone() const;
 };
 
@@ -167,7 +168,7 @@ class unfold_vehicle_iuse : public iuse_actor
         {
         }
         virtual ~unfold_vehicle_iuse();
-        virtual long use(player *, item *, bool) const;
+        virtual long use(player *, item *, bool, point) const;
         virtual iuse_actor *clone() const;
 };
 
@@ -192,6 +193,55 @@ class consume_drug_iuse : public iuse_actor
 
         consume_drug_iuse() : iuse_actor() { }
         virtual ~consume_drug_iuse();
-        virtual long use(player *, item *, bool) const;
+        virtual long use(player *, item *, bool, point) const;
         virtual iuse_actor *clone() const;
 };
+
+/**
+ * This iuse contains the logic to transform a robot item into an actual monster on the map.
+ */
+class place_monster_iuse : public iuse_actor
+{
+    public:
+        /** The monster type id of the monster to create. */
+        std::string mtype_id;
+        /** If true, place the monster at a random square around the player,
+         * otherwise allow the player to select the target square. */
+        bool place_randomly;
+        /** How many move points this action takes. */
+        int moves;
+        /** Difficulty of programming the monster (to be friendly). */
+        int difficulty;
+        /** Shown when programming the monster succeeded and it's friendly. Can be empty. */
+        std::string friendly_msg;
+        /** Shown when programming the monster failed and it's hostile. Can be empty. */
+        std::string hostile_msg;
+
+        place_monster_iuse() : iuse_actor(), place_randomly( false ), moves( 100 ), difficulty( 0 ) { }
+        virtual ~place_monster_iuse();
+        virtual long use(player *, item *, bool, point) const;
+        virtual iuse_actor *clone() const;
+};
+
+/**
+ * Items that can be worn and can be activated to consume energy from UPS.
+ * Note that the energy consumption is done in @ref player::process_active_items, it is
+ * *not* done by this class!
+ */
+class ups_based_armor_actor : public iuse_actor
+{
+    public:
+        /** Shown when activated. */
+        std::string activate_msg;
+        /** Shown when deactivated. */
+        std::string deactive_msg;
+        /** Shown when it runs out of power. */
+        std::string out_of_power_msg;
+
+        ups_based_armor_actor() : iuse_actor() { }
+        virtual ~ups_based_armor_actor();
+        virtual long use(player *, item *, bool, point) const;
+        virtual iuse_actor *clone() const;
+};
+
+#endif

@@ -1,5 +1,5 @@
-#ifndef _DISEASE_H_
-#define _DISEASE_H_
+#ifndef DISEASE_H
+#define DISEASE_H
 
 #include "rng.h"
 #include "game.h"

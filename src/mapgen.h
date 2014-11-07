@@ -1,5 +1,6 @@
-#ifndef _MAPGEN_H_
-#define _MAPGEN_H_
+#ifndef MAPGEN_H
+#define MAPGEN_H
+
 #include <map>
 #include <string>
 #include "mapgenformat.h"
@@ -285,6 +286,7 @@ void square(map *m, ter_id type, int x1, int y1, int x2, int y2);
 void square(map *m, ter_id (*f)(), int x1, int y1, int x2, int y2);
 void square_furn(map *m, furn_id type, int x1, int y1, int x2, int y2);
 void rough_circle(map *m, ter_id type, int x, int y, int rad);
+void rough_circle_furn(map *m, furn_id type, int x, int y, int rad);
 void add_corpse(map *m, int x, int y);
 
 #endif

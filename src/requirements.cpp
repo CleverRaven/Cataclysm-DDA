@@ -8,6 +8,7 @@
 #include "itype.h"
 #include <sstream>
 #include "calendar.h"
+#include <cmath>
 
 quality::quality_map quality::qualities;
 
@@ -45,10 +46,15 @@ std::string quality_requirement::to_string(int) const
                           count, quality::get_name( type ).c_str(), level );
 }
 
+bool tool_comp::by_charges() const
+{
+    return count > 0;
+}
+
 std::string tool_comp::to_string(int batch) const
 {
     const itype *it = item_controller->find_template( type );
-    if( count > 0 ) {
+    if( by_charges() ) {
         //~ <tool-name> (<numer-of-charges> charges)
         return string_format( ngettext( "%s (%d charge)", "%s (%d charges)", count * batch ),
                               it->nname( 1 ).c_str(), count * batch );
@@ -60,7 +66,7 @@ std::string tool_comp::to_string(int batch) const
 std::string item_comp::to_string(int batch) const
 {
     const itype *it = item_controller->find_template( type );
-    const int c = (count > 0) ? count * batch : abs( count );
+    const int c = std::abs( count ) * batch;
     //~ <item-count> <item-name>
     return string_format( ngettext( "%d %s", "%d %s", c ), c, it->nname( c ).c_str() );
 }
@@ -126,6 +132,32 @@ void requirements::load( JsonObject &jsobj )
     jsarr = jsobj.get_array( "tools" );
     load_obj_list( jsarr, tools );
     time = jsobj.get_int( "time" );
+    difficulty = jsobj.get_int( "difficulty" );
+    if (jsobj.has_array( "batch_time_factors" )) {
+        jsarr = jsobj.get_array( "batch_time_factors" );
+        batch_rscale = (double)jsarr.get_int(0) / 100.0;
+        batch_rsize = jsarr.get_int(1);
+    } else {
+        batch_rscale = 0.0;
+        batch_rsize = 0;
+    }
+}
+
+int requirements::batch_time( int batch ) const
+{
+    if (batch_rscale == 0.0) {
+        return time * batch;
+    }
+
+    double total_time = 0.0;
+    double scale = batch_rsize / 6.0; // At batch_rsize, incremental time increase is 99.5% of batch_rscale
+    for (int x = 0; x < batch; x++) {
+        // scaled logistic function output
+        double logf = (2.0/(1.0+exp(-((double)x/scale)))) - 1.0;
+        total_time += (double)time * (1.0 - (batch_rscale * logf));
+    }
+
+    return (int)total_time;
 }
 
 template<typename T>
@@ -256,7 +288,7 @@ int requirements::print_tools( WINDOW *w, int ypos, int xpos, int width, nc_colo
 
 int requirements::print_time( WINDOW *w, int ypos, int xpos, int width, nc_color col, int batch ) const
 {
-    const int turns = time * batch / 100;
+    const int turns = batch_time(batch) / 100;
     std::string text;
     if( turns < MINUTES( 1 ) ) {
         const int seconds = std::max( 1, turns * 6 );
@@ -282,12 +314,19 @@ int requirements::print_time( WINDOW *w, int ypos, int xpos, int width, nc_color
 bool requirements::can_make_with_inventory( const inventory &crafting_inv, int batch ) const
 {
     bool retval = true;
-    // Doing this in several steps avoids C++ Short-circuit evaluation
-    // and makes sure that the available value is set for every entry
-    retval &= has_comps(crafting_inv, qualities);
-    retval &= has_comps(crafting_inv, tools, batch);
-    retval &= has_comps(crafting_inv, components, batch);
-    retval &= check_enough_materials(crafting_inv, batch);
+    // All functions must be called to update the available settings in the components.
+    if( !has_comps( crafting_inv, qualities ) ) {
+        retval = false;
+    }
+    if( !has_comps( crafting_inv, tools, batch ) ) {
+        retval = false;
+    }
+    if( !has_comps( crafting_inv, components, batch ) ) {
+        retval = false;
+    }
+    if( !check_enough_materials( crafting_inv, batch ) ) {
+        retval = false;
+    }
     return retval;
 }
 
@@ -331,7 +370,7 @@ bool tool_comp::has( const inventory &crafting_inv, int batch ) const
             return true;
         }
     }
-    if( count <= 0 ) {
+    if( !by_charges() ) {
         return crafting_inv.has_tools( type, std::abs( count ) );
     } else {
         return crafting_inv.has_charges( type, count * batch );
@@ -347,9 +386,9 @@ std::string tool_comp::get_color( bool has_one, const inventory &crafting_inv, i
     }
     if( available == a_insufficent ) {
         return "brown";
-    } else if( count < 0 && crafting_inv.has_tools( type, std::abs( count ) ) ) {
+    } else if( !by_charges() && crafting_inv.has_tools( type, std::abs( count ) ) ) {
         return "green";
-    } else if( count > 0 && crafting_inv.has_charges( type, count * batch ) ) {
+    } else if( by_charges() && crafting_inv.has_charges( type, count * batch ) ) {
         return "green";
     }
     return has_one ? "dkgray" : "red";
@@ -367,11 +406,12 @@ bool item_comp::has( const inventory &crafting_inv, int batch ) const
             return true;
         }
     }
+    const int cnt = std::abs( count ) * batch;
     const itype *it = item_controller->find_template( type );
-    if( it->count_by_charges() && count > 0 ) {
-        return crafting_inv.has_charges( type, count * batch );
+    if( it->count_by_charges() ) {
+        return crafting_inv.has_charges( type, cnt );
     } else {
-        return crafting_inv.has_components( type, (count > 0) ? count * batch : abs( count ) );
+        return crafting_inv.has_components( type, cnt );
     }
 }
 
@@ -382,14 +422,15 @@ std::string item_comp::get_color( bool has_one, const inventory &crafting_inv, i
             return "ltgreen"; // Show that WEB_ROPE is on the job!
         }
     }
+    const int cnt = std::abs( count ) * batch;
     const itype *it = item_controller->find_template( type );
     if( available == a_insufficent ) {
         return "brown";
-    } else if( it->count_by_charges() && count > 0 ) {
-        if( crafting_inv.has_charges( type, count * batch ) ) {
+    } else if( it->count_by_charges() ) {
+        if( crafting_inv.has_charges( type, cnt ) ) {
             return "green";
         }
-    } else if( crafting_inv.has_components( type, (count > 0) ? count * batch : abs( count ) ) ) {
+    } else if( crafting_inv.has_components( type, cnt ) ) {
         return "green";
     }
     return has_one ? "dkgray" : "red";
@@ -432,12 +473,12 @@ bool requirements::check_enough_materials( const item_comp &comp,
     if( comp.available != a_true ) {
         return false;
     }
-    const itype *it = item_controller->find_template( comp.type );
+    const int cnt = std::abs( comp.count ) * batch;
     const tool_comp *tq = find_by_type( tools, comp.type );
-    if( tq != nullptr ) {
+    if( tq != nullptr && tq->available == a_true ) {
         // The very same item type is also needed as tool!
         // Use charges of it, or use it by count?
-        const int tc = tq->count < 0 ? std::abs( tq->count ) : 1;
+        const int tc = tq->by_charges() ? 1 : std::abs( tq->count );
         // Check for components + tool count. Check item amount (excludes
         // pseudo items) and tool amount (includes pseudo items)
         // Imagine: required = 1 welder (component) + 1 welder (tool),
@@ -451,16 +492,14 @@ bool requirements::check_enough_materials( const item_comp &comp,
         // non-available even before this function is called.
         // Only ammo and (some) food is counted by charges, both are unlikely
         // to appear as tool, but it's possible /-:
-        bool has_comps;
-        if( it->count_by_charges() && comp.count > 0 ) {
-            has_comps = crafting_inv.has_charges( comp.type, comp.count * batch + tc );
-        } else {
-            has_comps = crafting_inv.has_components( comp.type, ((comp.count > 0) ? comp.count * batch : abs( comp.count )) + tc );
-        }
-        if( !has_comps && !crafting_inv.has_tools( comp.type, comp.count + tc ) ) {
+        const item_comp i_tmp( comp.type, cnt + tc );
+        const tool_comp t_tmp( comp.type, -( cnt + tc ) ); // not by charges!
+        // batch factor is explicitly 1, because it's already included in the count.
+        if( !i_tmp.has( crafting_inv, 1 ) && !t_tmp.has( crafting_inv, 1 ) ) {
             comp.available = a_insufficent;
         }
     }
+    const itype *it = item_controller->find_template( comp.type );
     for( const auto &ql : it->qualities ) {
         const quality_requirement *qr = find_by_type( qualities, ql.first );
         if( qr == nullptr || qr->level > ql.second ) {

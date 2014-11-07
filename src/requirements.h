@@ -1,5 +1,5 @@
-#ifndef _REQUIREMENTS_H_
-#define _REQUIREMENTS_H_
+#ifndef REQUIREMENTS_H
+#define REQUIREMENTS_H
 
 #include <string>
 #include <vector>
@@ -59,6 +59,7 @@ struct tool_comp : public component {
     bool has(const inventory &crafting_inv, int batch = 1) const;
     std::string to_string(int batch = 1) const;
     std::string get_color(bool has_one, const inventory &crafting_inv, int batch = 1) const;
+    bool by_charges() const;
 };
 
 struct item_comp : public component {
@@ -136,6 +137,21 @@ struct requirements {
          */
         int time;
         /**
+         * Recipe difficulty, or carpenter skill needed for construction.
+         */
+        int difficulty;
+        /**
+         * Variables for holding batch crafting time reduction parameters.
+         *
+         * batch_rscale - maximum achievable time reduction, as percentage
+         *                of the original time. if zero then the recipe has
+         *                no batch crafting time reduction.
+         * batch_rsize  - minimum batch size to needed to reach the above.
+         */
+        double batch_rscale;
+        int batch_rsize;
+
+        /**
          * Load @ref tools, @ref qualities and @ref components from
          * the json object. Assumes them to be in sub-objects.
          */
@@ -158,6 +174,10 @@ struct requirements {
          * been removed. This requirement can never be fulfilled and should be discarded.
          */
         bool remove_item(const std::string &type);
+        /**
+         * Calculate total time for batch crafting, possibly reducing the overall time.
+         */
+        int batch_time(int batch = 1) const;
 
         bool can_make_with_inventory(const inventory &crafting_inv, int batch = 1) const;
 

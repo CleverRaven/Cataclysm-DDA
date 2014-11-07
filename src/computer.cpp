@@ -164,7 +164,7 @@ void computer::use()
                         shutdown_terminal();
                         return;
                     } else {
-                        // Succesfully hacked function
+                        // Successfully hacked function
                         options[ch].security = 0;
                         activate_function(current.action);
                     }
@@ -360,6 +360,13 @@ void computer::activate_function(computer_action action)
         g->sound(g->u.posx, g->u.posy, 40, _("An alarm sounds!"));
         g->m.translate_radius(t_reinforced_glass_h, t_floor, 25.0, g->u.posx, g->u.posy);
         g->m.translate_radius(t_reinforced_glass_v, t_floor, 25.0, g->u.posx, g->u.posy);
+        query_any(_("Containment shields opened.  Press any key..."));
+        break;
+
+    case COMPACT_RELEASE_BIONICS:
+        g->sound(g->u.posx, g->u.posy, 40, _("An alarm sounds!"));
+        g->m.translate_radius(t_reinforced_glass_h, t_floor, 2.0, g->u.posx, g->u.posy);
+        g->m.translate_radius(t_reinforced_glass_v, t_floor, 2.0, g->u.posx, g->u.posy);
         query_any(_("Containment shields opened.  Press any key..."));
         break;
 
@@ -976,7 +983,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
   unidentified compounds in the ground water.  We now have\n\
   conclusive evidence that the SRCFs are a threat to the public\n\
   safety.  We are taking these data to state representatives and\n\
-  petitioning for a full congressional inquiry.  They should be\n\
+  petitioning for a full Congressional inquiry.  They should be\n\
   able to force open your secret vaults, and the world will see\n\
   what you've been hiding.\n\
   \n\
@@ -992,14 +999,14 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
         reset_terminal();
         print_line(_(" Subj: CDC: Internal Memo, Standby [2918115]\n\
   To: all SRCF staff\n\
-  From:  Ellen Grimes, Director of the EPA\n\
+  From:  Ellen Grimes, Director of the CDC\n\
   \n\
       Your site along with many others has been found to be\n\
   contaminated with what we will now refer to as [redacted].\n\
   It is vital that you standby for further orders.  We are\n\
   currently awaiting the President to decide our course of\n\
   action in this national crisis.  You will proceed with fail-\n\
-  safe procedures and rig the sarcophagus with c-4 as outlined\n\
+  safe procedures and rig the sarcophagus with C-4 as outlined\n\
   in Publication 4423.  We will send you orders to either detonate\n\
   and seal the sarcophagus or remove the charges.  It is of the\n\
   utmost importance that the facility be sealed immediatly when\n\
@@ -1043,17 +1050,17 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
                 if (g->m.ter(x, y) == t_elevator || g->m.ter(x, y) == t_vat) {
-                    g->m.ter_set(x, y, t_rubble);
+                    g->m.make_rubble(x, y, f_rubble_rock, true);
                     g->explosion(x, y, 40, 0, true);
                 }
                 if (g->m.ter(x, y) == t_wall_glass_h || g->m.ter(x, y) == t_wall_glass_v) {
-                    g->m.ter_set(x, y, t_rubble);
+                    g->m.make_rubble(x, y, f_rubble_rock, true);
                 }
                 if (g->m.ter(x, y) == t_sewage_pipe || g->m.ter(x, y) == t_sewage || g->m.ter(x, y) == t_grate) {
-                    g->m.ter_set(x, y, t_rubble);
+                    g->m.make_rubble(x, y, f_rubble_rock, true);
                 }
                 if (g->m.ter(x, y) == t_sewage_pump) {
-                    g->m.ter_set(x, y, t_rubble);
+                    g->m.make_rubble(x, y, f_rubble_rock, true);
                     g->explosion(x, y, 50, 0, true);
                 }
             }
@@ -1187,7 +1194,7 @@ void computer::activate_failure(computer_failure fail)
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
                 if (g->m.ter(x, y) == t_sewage_pump) {
-                    g->m.ter_set(x, y, t_rubble);
+                    g->m.make_rubble(x, y);
                     g->explosion(x, y, 10, 0, false);
                 }
             }
