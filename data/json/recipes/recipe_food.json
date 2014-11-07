@@ -634,8 +634,8 @@
     [
       [ "cucumber", 1 ],
       [ "irradiated_cucumber", 1],
-      [ "carrot", 1],
-      [ "irradiated_carrot", 1],
+      [ "carrot", 6],
+      [ "irradiated_carrot", 6],
       [ "celery", 1],
       [ "irradiated_celery", 1],
       [ "veggy_wild", 1 ],
@@ -750,8 +750,8 @@
     [
       [ "cucumber", 1 ],
       [ "irradiated_cucumber", 1],
-      [ "carrot", 1],
-      [ "irradiated_carrot", 1],
+      [ "carrot", 6],
+      [ "irradiated_carrot", 6],
       [ "celery", 1],
       [ "irradiated_celery", 1],
       [ "veggy_wild", 1 ],
@@ -908,7 +908,7 @@
       [ "zucchini", 2 ],
       [ "potato_raw", 2 ],
       [ "onion", 2 ],
-      [ "carrot", 2 ],
+      [ "carrot", 12 ],
       [ "veggy", 2 ],
       [ "veggy_wild", 2 ],
       [ "plant_sac", 6 ],
@@ -2995,7 +2995,7 @@
       [ "zucchini", 2 ],
       [ "potato_raw", 2 ],
       [ "onion", 2 ],
-      [ "carrot", 2 ],
+      [ "carrot", 12 ],
       [ "veggy", 2 ],
       [ "veggy_wild", 2 ]
     ]
@@ -3080,7 +3080,7 @@
       [ "corn", 1 ],
       [ "can_corn", 1 ],
       [ "onion", 1 ],
-      [ "carrot", 1 ],
+      [ "carrot", 6 ],
       [ "veggy_wild", 1 ],
       [ "veggy", 1 ],
       [ "dry_veggy", 1 ],
@@ -3581,7 +3581,7 @@
       ["potato_raw", 1],
       ["corn", 1],
       ["onion", 1],
-      ["carrot", 1]
+      ["carrot", 6]
     ],
     [
       [ "sugar", 1 ],
@@ -3703,7 +3703,7 @@
       ["potato_raw", 1],
       ["corn", 1],
       ["onion", 1],
-      ["carrot", 1]
+      ["carrot", 6]
     ],
     [
       [ "cooking_oil", 1 ],
@@ -3835,7 +3835,7 @@
       ["potato_raw", 1],
       ["corn", 1],
       ["onion", 1],
-      ["carrot", 1]
+      ["carrot", 6]
     ],
     [
       [ "salt", 1 ],
@@ -7609,7 +7609,7 @@
       ["potato_raw", 1],
       ["corn", 1],
       ["onion", 1],
-      ["carrot", 1]
+      ["carrot", 6]
     ],
     [
       [ "vinegar", 1 ]
@@ -7969,8 +7969,8 @@
       [ "tomato", 2],
       [ "can_tomato", 1 ],
       [ "irradiated_tomato", 2],
-      [ "carrot", 2],
-      [ "irradiated_carrot", 2],
+      [ "carrot", 12],
+      [ "irradiated_carrot", 12],
       [ "celery", 2],
       [ "irradiated_celery", 2],
       [ "pineapple", 2],
