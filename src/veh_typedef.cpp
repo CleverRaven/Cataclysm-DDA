@@ -120,7 +120,7 @@ void game::load_vehiclepart(JsonObject &jo)
     //Calculate and cache z-ordering based off of location
     // list_order is used when inspecting the vehicle
     if(next_part.location == "on_roof") {
-        next_part.z_order = 9;
+        next_part.z_order = 10;
         next_part.list_order = 3;
     } else if(next_part.location == "on_cargo") {
         next_part.z_order = 8;
@@ -144,7 +144,7 @@ void game::load_vehiclepart(JsonObject &jo)
         next_part.z_order = 3;
         next_part.list_order = 9;
     } else if(next_part.location == "roof") {
-        //Shouldn't be displayed
+        //Displayed when player is not onboard
         next_part.z_order = 9;
         next_part.list_order = 4;
     } else if(next_part.location == "armor") {
