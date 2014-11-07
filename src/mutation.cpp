@@ -16,9 +16,8 @@ void mutation_loss_effect(player &p, std::string mut);
 
 std::vector<std::string> unpowered_traits;
 
-void player::activate_mutation(int b)
+void player::activate_mutation( std::string mut )
 {
-    std::string mut = my_mutations[b];
     int cost = traits[mut].cost;
     // You can take yourself halfway to Near Death levels of hunger/thirst.
     // Fatigue can go to Exhausted.
@@ -28,14 +27,13 @@ void player::activate_mutation(int b)
         add_msg(m_warning, _("You feel like using your %s would kill you!"), traits[mut].name.c_str());
         return;
     }
-    if (traits[my_mutations[b]].powered && traits[my_mutations[b]].charge > 0) {
+    if (traits[mut].powered && traits[mut].charge > 0) {
         // Already-on units just lose a bit of charge
-        traits[my_mutations[b]].charge--;
+        traits[mut].charge--;
     } else {
         // Not-on units, or those with zero charge, have to pay the power cost
         if (traits[mut].cooldown > 0) {
-            traits[my_mutations[b]].powered = true;
-            traits[my_mutations[b]].charge = traits[mut].cooldown - 1;
+            traits[mut].charge = traits[mut].cooldown - 1;
         }
         if (traits[mut].hunger){
             hunger += cost;
@@ -46,6 +44,7 @@ void player::activate_mutation(int b)
         if (traits[mut].fatigue){
             fatigue += cost;
         }
+        traits[mut].powered = true;
     }
 
     if (traits[mut].id == "WEB_WEAVER"){
@@ -154,10 +153,12 @@ void player::activate_mutation(int b)
         }
     }
 }
-void player::deactivate_mutation(int b)
+
+void player::deactivate_mutation(std::string mutation)
 {
-    std::string mut = my_mutations[b];
+    traits[mutation].powered = false;
 }
+
 void show_mutations_titlebar(WINDOW *window, player *p, std::string menu_mode)
 {
     werase(window);
@@ -400,18 +401,18 @@ void player::power_mutations()
             const trait mut_data = traits[mut_id];
             if (menu_mode == "activating") {
                 if (mut_data.activated) {
-                    int b = tmp - &my_mutations[0];
                     if (traits[*tmp].powered) {
-                        traits[*tmp].powered = false;
                         add_msg(m_neutral, _("You stop using your %s."), mut_data.name.c_str());
 
-                        deactivate_mutation(b);
+                        deactivate_mutation( *tmp );
                         delwin(w_title);
                         delwin(w_description);
                         delwin(wBio);
                         // Action done, leave screen
                         break;
-                    } else if ((!traits[*tmp].hunger || (traits[*tmp].hunger && hunger <= 400)) || (!traits[*tmp].thirst || (traits[*tmp].thirst && thirst <= 400)) || (!traits[*tmp].fatigue || (traits[*tmp].fatigue && fatigue <= 400))){
+                    } else if( (!traits[*tmp].hunger || hunger <= 400) &&
+                               (!traits[*tmp].thirst || thirst <= 400) &&
+                               (!traits[*tmp].fatigue || fatigue <= 400) ) {
 
                         // this will clear the mutations menu for targeting purposes
                         werase(wBio);
@@ -420,7 +421,7 @@ void player::power_mutations()
                         delwin(w_description);
                         delwin(wBio);
                         g->draw();
-                        activate_mutation(b);
+                        activate_mutation( *tmp );
                         // Action done, leave screen
                         break;
                     } else {
