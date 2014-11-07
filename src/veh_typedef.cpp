@@ -145,7 +145,7 @@ void game::load_vehiclepart(JsonObject &jo)
         next_part.list_order = 9;
     } else if(next_part.location == "roof") {
         //Shouldn't be displayed
-        next_part.z_order = -1;
+        next_part.z_order = 9;
         next_part.list_order = 4;
     } else if(next_part.location == "armor") {
         //Shouldn't be displayed (the color is used, but not the symbol)
