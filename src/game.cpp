@@ -5421,16 +5421,21 @@ void game::draw_sidebar()
         return;
     }
 
+    // w_status2 is not used with the wide sidebar (wide == !narrow)
+    // Don't draw anything on it (no werase, wrefresh) in this case to avoid flickering
+    // (it overlays other windows)
+    const bool sideStyle = use_narrow_sidebar();
+
     // Draw Status
     draw_HP();
     werase(w_status);
-    werase(w_status2);
+    if( sideStyle ) {
+        werase(w_status2);
+    }
     if (!liveview.compact_view) {
         liveview.hide(true, false);
     }
     u.disp_status(w_status, w_status2);
-
-    bool sideStyle = use_narrow_sidebar();
 
     WINDOW *time_window = sideStyle ? w_status2 : w_status;
     wmove(time_window, sideStyle ? 0 : 1, sideStyle ? 15 : 41);
@@ -5511,7 +5516,9 @@ void game::draw_sidebar()
         }
     }
     wrefresh(w_status);
-    wrefresh(w_status2);
+    if( sideStyle ) {
+        wrefresh(w_status2);
+    }
 
     werase(w_messages);
     int maxlength = getmaxx(w_messages);
