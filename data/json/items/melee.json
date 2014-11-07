@@ -68,7 +68,7 @@
     },
     {
         "type":"GENERIC",
-        "id": "wool_patch",
+        "id": "felt_patch",
         "symbol": ",",
         "color": "white",
         "name": "felt patch",

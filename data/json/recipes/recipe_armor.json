@@ -6975,7 +6975,7 @@
   ],
   "components": [
     [
-      [ "wool_thread", 600 ]
+      [ "yarn", 600 ]
     ]
   ]
 },{
@@ -6996,7 +6996,7 @@
   ],
   "components": [
     [
-      [ "wool_thread", 75 ]
+      [ "yarn", 75 ]
     ]
   ]
 },{
@@ -7019,7 +7019,7 @@
   ],
   "components": [
     [
-      [ "wool_patch", 4 ]
+      [ "felt_patch", 4 ]
     ]
   ]
 },{
@@ -7040,7 +7040,7 @@
   ],
   "components": [
     [
-      [ "wool_thread", 75 ]
+      [ "yarn", 75 ]
     ]
   ]
 },{
@@ -7063,7 +7063,7 @@
   ],
   "components": [
     [
-      [ "wool_patch", 4 ]
+      [ "felt_patch", 4 ]
     ]
   ]
 },{
@@ -7084,7 +7084,7 @@
   ],
   "components": [
     [
-      [ "wool_thread", 150 ]
+      [ "yarn", 150 ]
     ]
   ]
 },{
@@ -7105,7 +7105,7 @@
   ],
   "components": [
     [
-      [ "wool_thread", 250 ]
+      [ "yarn", 250 ]
     ]
   ]
 },{
@@ -7128,7 +7128,7 @@
   ],
   "components": [
     [
-      [ "wool_patch", 10 ]
+      [ "felt_patch", 10 ]
     ]
   ]
 },{
@@ -7149,7 +7149,7 @@
   ],
   "components": [
     [
-      [ "wool_thread", 300 ]
+      [ "yarn", 300 ]
     ]
   ]
 },{
@@ -7172,7 +7172,7 @@
   ],
   "components": [
     [
-      [ "wool_patch", 16 ]
+      [ "yarn", 16 ]
     ]
   ]
 },{
@@ -7195,7 +7195,7 @@
   ],
   "components": [
     [
-      [ "wool_patch", 30 ]
+      [ "felt_patch", 30 ]
     ]
   ]
 },{
@@ -7218,7 +7218,7 @@
   ],
   "components": [
     [
-      [ "wool_patch", 25 ]
+      [ "felt_patch", 25 ]
     ]
   ]
 },{
@@ -7240,7 +7240,7 @@
     ]
   ],
   "components": [
-    [ [ "wool_patch", 20 ] ],
+    [ [ "felt_patch", 20 ] ],
     [ [ "bag_plastic", 8 ] ]
   ]
 },{
