@@ -2557,7 +2557,7 @@
   ]
 },{
   "type" : "recipe",
-  "result": "battery_mount",
+  "result": "it_battery_mount",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
   "skill_used": "fabrication",

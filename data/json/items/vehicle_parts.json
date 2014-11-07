@@ -436,7 +436,7 @@
     },
     {
         "type":"GENERIC",
-        "id" : "battery_mount",
+        "id" : "it_battery_mount",
         "name" : "storage battery case",
         "name_plural" : "storage battery cases",
         "description" : "An empty case that can hold a storage battery. Complete with charging controller chip and connecting wires.",
