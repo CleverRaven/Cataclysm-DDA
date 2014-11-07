@@ -528,7 +528,7 @@
     "special_freq":[0],
     "death_function":"NORMAL",
     "special_attack":["BITE"],
-    "description":"A once aggresive and hungry bull shark, this jawed terror is now even more aggresive possibly thanks to its lack of a functioning brain.",
+    "description":"A once aggressive and hungry bull shark, this jawed terror is now even more aggressive possibly thanks to its lack of a functioning brain.",
     "flags":["SEES", "HEARS", "SMELLS", "WARM", "SWIMS", "AQUATIC", "POISON", "NO_BREATHE", "VIS40", "REVIVES", "BONES"]
     },
   {

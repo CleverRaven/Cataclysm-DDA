@@ -176,6 +176,7 @@
         "type":"GENERIC",
         "id" : "vehicle_controls",
         "name" : "vehicle controls",
+        "name_plural" : "sets of vehicle controls",
         "description" : "A set of various vehicle controls.  Useful for crafting.",
         "weight" : 2721,
         "to_hit" : -4,
