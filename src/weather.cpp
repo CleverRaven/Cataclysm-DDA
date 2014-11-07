@@ -7,6 +7,7 @@
 #include "messages.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
+#include "math.h"
 
 /**
  * \defgroup Weather "Weather and its implications."
@@ -566,50 +567,117 @@ std::string print_temperature(float fahrenheit, int decimals)
 
 }
 
-int get_local_windchill(double temperature, double humidity, double windpower, std::string omtername, bool sheltered)
+/**
+ * Print wind speed (and convert to m/s if km/h is enabled.)
+ */
+std::string print_windspeed(float windspeed, int decimals)
 {
-    /**
-    *  A player is sheltered if he is underground, in a car, or indoors.
-    **/
+    std::stringstream ret;
+    ret.precision(decimals);
+    ret << std::fixed;
 
-    int tmpwind = windpower;
-    tmpwind = (float)(tmpwind*0.44704); // Convert to meters per second.
-    int Ctemperature = (temperature - 32) * 5/9; // Convert to celsius.
+    if (OPTIONS["USE_METRIC_SPEEDS"] == "mph") {
+        ret << windspeed;
+        return rmp_format(_("%s mph"), ret.str().c_str());
+    } else {
+        ret << windspeed * 0.44704;
+        return rmp_format(_("%s m/s"), ret.str().c_str());
+    }
+}
 
-    // Over map terrain may modify the effect of wind.
-    if (sheltered)
-        tmpwind  = 0.0;
-    else if ( omtername == "forest_water")
-        tmpwind *= 0.7;
-    else if ( omtername == "forest" )
-        tmpwind *= 0.5;
-    else if ( omtername == "forest_thick" || omtername == "hive")
-        tmpwind *= 0.4;
+/**
+ * Print relative humidity (no conversions.)
+ */
+std::string print_humidity(float humidity, int decimals)
+{
+    std::stringstream ret;
+    ret.precision(decimals);
+    ret << std::fixed;
+
+    ret << humidity;
+    return rmp_format(_("%s %%"), ret.str().c_str());
+}
+
+/**
+ * Print pressure (no conversions.)
+ */
+std::string print_pressure(float pressure, int decimals)
+{
+    std::stringstream ret;
+    ret.precision(decimals);
+    ret << std::fixed;
+
+    ret << pressure;
+    return rmp_format(_("%s kPa"), ret.str().c_str());
+}
 
 
+int get_local_windchill(double temperature, double humidity, double windpower)
+{
+    double tmptemp = temperature;
+    double tmpwind = windpower;
+    double windchill = 0;
 
-    /// Source : http://en.wikipedia.org/wiki/Wind_chill#Australian_Apparent_Temperature
-    int windchill = (0.33 * ((humidity / 100.00) * 6.105 * exp((17.27 * Ctemperature)/(237.70 + Ctemperature))) - 0.70*tmpwind - 4.00);
+    if (tmptemp < 50) {
+        /// Model 1, cold wind chill (only valid for temps below 50F)
+        /// Is also used as a standard in North America.
 
-    windchill = windchill * 9/5; // Convert to Fahrenheit, but omit the '+ 32' because we are only dealing with a piece of the felt air temperature equation.
+        // Temperature is removed at the end, because get_local_windchill is meant to calculate the difference.
+        // Source : http://en.wikipedia.org/wiki/Wind_chill#North_American_and_United_Kingdom_wind_chill_index
+        windchill = 35.74 + 0.6215 * tmptemp - 35.75 * (pow(tmpwind,
+                    0.16)) + 0.4275 * tmptemp * (pow(tmpwind, 0.16)) - tmptemp;
+        if (tmpwind < 4) {
+            windchill = 0;    // This model fails when there is 0 wind.
+        }
+    } else {
+        /// Model 2, warm wind chill
+
+        // Source : http://en.wikipedia.org/wiki/Wind_chill#Australian_Apparent_Temperature
+        tmpwind = tmpwind * 0.44704; // Convert to meters per second.
+        tmptemp = (tmptemp - 32) * 5 / 9; // Convert to celsius.
+
+        windchill = (0.33 * ((humidity / 100.00) * 6.105 * exp((17.27 * tmptemp) /
+                             (237.70 + tmptemp))) - 0.70 * tmpwind - 4.00);
+        // Convert to Fahrenheit, but omit the '+ 32' because we are only dealing with a piece of the felt air temperature equation.
+        windchill = windchill * 9 / 5;
+    }
 
     return windchill;
-
 }
 
 int get_local_humidity(double humidity, weather_type weather, bool sheltered)
 {
     int tmphumidity = humidity;
-    if (sheltered)
-    {
+    if (sheltered) {
         tmphumidity = humidity * (100 - humidity) / 100 + humidity; // norm for a house?
-    }
-    else if (weather == WEATHER_RAINY || weather == WEATHER_DRIZZLE || weather == WEATHER_THUNDER || weather == WEATHER_LIGHTNING)
-    {
+    } else if (weather == WEATHER_RAINY || weather == WEATHER_DRIZZLE || weather == WEATHER_THUNDER ||
+               weather == WEATHER_LIGHTNING) {
         tmphumidity = 100;
     }
 
     return tmphumidity;
+}
+
+int get_local_windpower(double windpower, std::string omtername, bool sheltered)
+{
+    /**
+    *  A player is sheltered if he is underground, in a car, or indoors.
+    **/
+
+    double tmpwind = windpower;
+
+    // Over map terrain may modify the effect of wind.
+    if (sheltered) {
+        tmpwind  = 0.0;
+    } else if ( omtername == "forest_water") {
+        tmpwind *= 0.7;
+    } else if ( omtername == "forest" ) {
+        tmpwind *= 0.5;
+    } else if ( omtername == "forest_thick" || omtername == "hive") {
+        tmpwind *= 0.4;
+    }
+
+    return tmpwind;
 }
 
 ///@}

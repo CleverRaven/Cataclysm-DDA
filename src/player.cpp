@@ -790,9 +790,12 @@ void player::update_bodytemp()
     vehicle *veh = g->m.veh_at( posx, posy, vpart );
     int vehwindspeed = 0;
     if( veh ) {
-        vehwindspeed = veh->velocity / 100;    // For mph
+        vehwindspeed = abs(veh->velocity / 100); // For mph
     }
-    int total_windpower = vehwindspeed + weather.windpower;
+    const oter_id &cur_om_ter = overmap_buffer.ter(g->om_global_location());
+    std::string omtername = otermap[cur_om_ter].name;
+    bool sheltered = g->is_sheltered(posx, posy);
+    int total_windpower = vehwindspeed + get_local_windpower(weather.windpower, omtername, sheltered);
     // Temperature norms
     // Ambient normal temperature is lower while asleep
     int ambient_norm = (has_effect("sleep") ? 3100 : 1900);
@@ -887,18 +890,19 @@ void player::update_bodytemp()
         }
         // Represents the fact that the body generates heat when it is cold.
         // TODO : should this increase hunger?
-        float homeostasis_adjustement = (temp_cur[i] > BODYTEMP_NORM ? 30.0 : 60.0);
+        double scaled_temperature = logistic_range( BODYTEMP_VERY_COLD, BODYTEMP_VERY_HOT,
+                                                    temp_cur[i] );
+        // Produces a smooth curve between 30.0 and 60.0.
+        float homeostasis_adjustement = 30.0 * (1.0 + scaled_temperature);
         int clothing_warmth_adjustement = homeostasis_adjustement * warmth(body_part(i));
         // WINDCHILL
-        const oter_id &cur_om_ter = overmap_buffer.ter(g->om_global_location());
-        std::string omtername = otermap[cur_om_ter].name;
-        bool sheltered = g->is_sheltered(posx, posy);
+
         bp_windpower = (float)bp_windpower * (1 - get_wind_resistance(body_part(i)) / 100.0);
         // Calculate windchill
         int windchill = get_local_windchill( g->get_temperature(),
                                              get_local_humidity(weather.humidity, g->weather,
                                                      sheltered),
-                                             bp_windpower, omtername, sheltered );
+                                             bp_windpower );
         // If you're standing in water, air temperature is replaced by water temperature. No wind.
         // Convert to C.
         int water_temperature = 100 * (g->weatherGen.get_water_temperature() - 32) * 5 / 9;
@@ -908,6 +912,15 @@ void player::update_bodytemp()
             adjusted_temp += water_temperature - Ctemperature; // Swap out air temp for water temp.
             windchill = 0;
         }
+        // Warn the player that wind is going to be a problem.
+        if (windchill < -10 && one_in(200)) {
+            add_msg(m_bad, _("The wind is making your %s feel quite cold."), body_part_name(body_part(i)).c_str());
+        } else if (windchill < -20 && one_in(100)) {
+            add_msg(m_bad, _("The wind is very strong, you should find some more wind-resistant clothing for your %s."), body_part_name(body_part(i)).c_str());
+        } else if (windchill < -30 && one_in(50)) {
+            add_msg(m_bad, _("Your clothing is not providing enough protection from the wind for your %s!"), body_part_name(body_part(i)).c_str());
+        }
+
         // Convergeant temperature is affected by ambient temperature,
         // clothing warmth, and body wetness.
         temp_conv[i] = BODYTEMP_NORM + adjusted_temp + windchill * 100 + clothing_warmth_adjustement;
@@ -915,7 +928,7 @@ void player::update_bodytemp()
         temp_conv[i] -= hunger / 6 + 100;
         // FATIGUE
         if( !has_effect("sleep") ) {
-            temp_conv[i] -= 1.5 * fatigue;
+            temp_conv[i] -= std::max(0.0, 1.5 * fatigue);
         }
         // CONVECTION HEAT SOURCES (generates body heat, helps fight frostbite)
         // Bark : lowers blister count to -100; harder to get blisters
@@ -3730,31 +3743,28 @@ bool player::purifiable(const std::string &flag) const
 
 void player::toggle_str_set( std::vector< std::string > &set, const std::string &str )
 {
-    bool ck = false;
-    for (auto &i : set){
-        if (i == str){
-            ck = true;
-        }
-    }
-    if(ck == true){
-        std::vector<std::string> new_set;
-                for(auto &i : set) {
-                    if (!(traits[i].id == str)) {
-                        new_set.push_back(trait(traits[i].id, traits[i].invlet).id);
-                    }
+    auto toggled_element = std::find( set.begin(), set.end(), str );
+    if( toggled_element == set.end() ) {
+        char new_key = ' ';
+        // Find a letter in inv_chars that isn't in trait_keys.
+        for( const auto &letter : inv_chars ) {
+            bool found = false;
+            for( const auto &key : trait_keys ) {
+                if( letter == key.second ) {
+                    found = true;
+                    break;
                 }
-                set = new_set;
-    }
-    else{
-        char newinv = ' ';
-        for( size_t i = 0; i < inv_chars.size(); i++ ) {
-            if( mutation_by_invlet( inv_chars[i] ) == nullptr ) {
-                newinv = inv_chars[i];
+            }
+            if( !found ) {
+                new_key = letter;
                 break;
             }
         }
-        set.push_back(trait(traits[str].id, newinv).id);
-        traits[str].invlet = newinv;
+        set.push_back( str );
+        trait_keys[str] = new_key;
+    } else {
+        set.erase( toggled_element );
+        trait_keys.erase(str);
     }
 }
 
@@ -3982,14 +3992,6 @@ bionic* player::bionic_by_invlet(char ch) {
     for (size_t i = 0; i < my_bionics.size(); i++) {
         if (my_bionics[i].invlet == ch) {
             return &my_bionics[i];
-        }
-    }
-    return 0;
-}
-std::string* player::mutation_by_invlet(char ch) {
-    for (size_t i = 0; i < my_mutations.size(); i++) {
-        if (traits[my_mutations[i]].invlet == ch) {
-            return &my_mutations[i];
         }
     }
     return 0;
@@ -4934,12 +4936,14 @@ void player::heal(body_part healed, int dam)
 
 void player::heal(hp_part healed, int dam)
 {
-    hp_cur[healed] += dam;
-    if (hp_cur[healed] > hp_max[healed]) {
-        lifetime_stats()->damage_healed -= hp_cur[healed] - hp_max[healed];
-        hp_cur[healed] = hp_max[healed];
+    if (hp_cur[healed] > 0) {
+        hp_cur[healed] += dam;
+        if (hp_cur[healed] > hp_max[healed]) {
+            lifetime_stats()->damage_healed -= hp_cur[healed] - hp_max[healed];
+            hp_cur[healed] = hp_max[healed];
+        }
+        lifetime_stats()->damage_healed += dam;
     }
-    lifetime_stats()->damage_healed += dam;
 }
 
 void player::healall(int dam)
@@ -11221,8 +11225,11 @@ void player::read(int inventory_position)
                          _("Your %s skill won't be improved.  Read anyway?"),
                          tmp->type->name().c_str())) {
         return;
-    } else if (!continuous && !query_yn(_("Study %s until you learn something? (gain a level)"),
-                                        tmp->type->name().c_str())) {
+    } else if( !continuous && ( skillLevel(tmp->type) < (int)tmp->level || can_study_recipe(tmp) ) &&
+                         !query_yn( skillLevel(tmp->type) < (int)tmp->level ? 
+                         _("Study %s until you learn something? (gain a level)") :
+                         _("Study the book until you learn all recipes?"),
+                         tmp->type->name().c_str()) ) {
         study = false;
     } else {
         //If we just started studying, tell the player how to stop
@@ -11366,6 +11373,7 @@ void player::do_read( item *book )
             if( recipe_learned ) {
                 add_msg(m_info, _("The rest of the book is currently still beyond your understanding."));
             }
+            
             activity.type = ACT_NULL;
             return;
         }
@@ -11433,14 +11441,37 @@ void player::do_read( item *book )
             }
         }
 
-        if (skillLevel(reading->type) == (int)reading->level) {
-            if (no_recipes) {
+        if( skillLevel(reading->type) == (int)reading->level ) {
+            if( no_recipes ) {
                 add_msg(m_info, _("You can no longer learn from %s."), reading->nname(1).c_str());
             } else {
                 add_msg(m_info, _("Your skill level won't improve, but %s has more recipes for you."),
                         reading->nname(1).c_str());
             }
         }
+    } else if( can_study_recipe(reading) && activity.get_value(0) == 1 ) {
+        // continuously read until player gains a new recipe
+        activity.type = ACT_NULL;
+        read(activity.position);
+        // Rooters root (based on time spent reading)
+        int root_factor = (reading->time / 20);
+        double foot_factor = footwear_factor();
+        if( (has_trait("ROOTS2") || has_trait("ROOTS3")) &&
+            g->m.has_flag("DIGGABLE", posx, posy) &&
+            !foot_factor ) {
+            if (hunger > -20) {
+                hunger -= root_factor * foot_factor;
+            }
+            if (thirst > -20) {
+                thirst -= root_factor * foot_factor;
+            }
+            mod_healthy_mod(root_factor * foot_factor);
+        }
+        if (activity.type != ACT_NULL) {
+            return;
+        }
+    } else if ( !reading->recipes.empty() && no_recipes ) {
+        add_msg(m_info, _("You can no longer learn from %s."), reading->nname(1).c_str());
     }
 
     if( reading->has_use() ) {
@@ -12749,7 +12780,8 @@ std::string player::weapname(bool charges)
           weapon.charges >= 0 && charges) {
         std::stringstream dump;
         int spare_mag = weapon.has_gunmod("spare_mag");
-        dump << weapon.tname().c_str();
+        // For guns, just print the unadorned name.
+        dump << weapon.type->nname(1).c_str();
         if (!(weapon.has_flag("NO_AMMO") || weapon.has_flag("RELOAD_AND_SHOOT"))) {
             dump << " (" << weapon.charges;
             if( -1 != spare_mag ) {

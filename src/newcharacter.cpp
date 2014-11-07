@@ -1172,6 +1172,10 @@ int set_profession(WINDOW *w, player *u, int &points)
                 buffer << string_format( format, addiction_name( a ).c_str(), a.intensity ) << "\n";
             }
         }
+        buffer << "<color_ltblue>" << _( "Profession traits:" ) << "</color>\n";
+        for( const auto &t : sorted_profs[cur_id]->traits() ) {
+            buffer << traits[ t ].name << "\n";
+        }
         const auto prof_skills = sorted_profs[cur_id]->skills();
         buffer << "<color_ltblue>" << _( "Profession skills:" ) << "</color>\n";
         if( prof_skills.empty() ) {
@@ -1433,6 +1437,14 @@ int set_scenario(WINDOW *w, player *u, int &points)
     // scenario_display_sort() keeps "Evacuee" at the top.
     std::sort(sorted_scens.begin(), sorted_scens.end(), scenario_display_sort);
 
+    // Select the current scenario, if possible.
+    for (size_t i = 0; i < sorted_scens.size(); ++i) {
+        if (sorted_scens[i]->ident() == g->scen->ident()) {
+            cur_id = i;
+            break;
+        }
+    }
+
     input_context ctxt("NEW_CHAR_SCENARIOS");
     ctxt.register_cardinal();
     ctxt.register_action("CONFIRM");
@@ -1553,6 +1565,7 @@ int set_scenario(WINDOW *w, player *u, int &points)
             g->scen = scenario::scen(sorted_scens[cur_id]->ident());
             u->prof = g->scen->get_profession();
             u->empty_traits();
+            u->empty_skills();
             u->add_traits();
             points = OPTIONS["INITIAL_POINTS"] - sorted_scens[cur_id]->point_cost();
 
@@ -1585,7 +1598,9 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
     WINDOW_PTR w_statstptr( w_stats );
     WINDOW *w_traits = newwin(13, 24, getbegy(w) + 10, getbegx(w) + 24);
     WINDOW_PTR w_traitsptr( w_traits );
-    WINDOW *w_profession = newwin(1, 32, getbegy(w) + 10, getbegx(w) + 47);
+    WINDOW *w_scenario = newwin(1, 32, getbegy(w) + 10, getbegx(w) + 47);
+    WINDOW_PTR w_scenarioptr( w_scenario );
+    WINDOW *w_profession = newwin(1, 32, getbegy(w) + 11, getbegx(w) + 47);
     WINDOW_PTR w_professionptr( w_profession );
     WINDOW *w_skills = newwin(9, 24, getbegy(w) + 12, getbegx(w) + 47);
     WINDOW_PTR w_skillsptr( w_skills );
@@ -1766,6 +1781,11 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
                    c_ltgray, _(start_location::find(u->start_location)->name().c_str()));
         wrefresh(w_location);
 
+        werase(w_scenario);
+        mvwprintz(w_scenario, 0, 0, COL_HEADER, _("Scenario: "));
+        wprintz(w_scenario, c_ltgray, g->scen->gender_appropriate_name(u->male).c_str());
+        wrefresh(w_scenario);
+
         werase(w_profession);
         mvwprintz(w_profession, 0, 0, COL_HEADER, _("Profession: "));
         wprintz (w_profession, c_ltgray, u->prof->gender_appropriate_name(u->male).c_str());
@@ -1869,8 +1889,15 @@ void player::empty_traits()
         }
     }
 }
-void player::add_traits()
+void player::empty_skills()
 {
+    for (auto iter = Skill::skills.begin(); iter != Skill::skills.end(); ++iter) {
+        SkillLevel &level = skillLevel(*iter);
+        level.level(0);
+    }
+}
+void player::add_traits()
+{ 
     for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
         if (g->scen->locked_traits(iter->first)) {
             toggle_trait(iter->first);

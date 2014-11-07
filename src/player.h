@@ -121,6 +121,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Empties the trait list */
         void empty_traits();
         void add_traits();
+        void empty_skills();
         /** Returns the id of a random starting trait that costs >= 0 points */
         std::string random_good_trait();
         /** Returns the id of a random starting trait that costs < 0 points */
@@ -273,10 +274,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void power_mutations();
         /** Handles bionic activation effects of the entered bionic */
         void activate_bionic(int b);
-        void activate_mutation(int b);
         /** Handles bionic deactivation effects of the entered bionic */
         void deactivate_bionic(int b);
-        void deactivate_mutation(int b);
         /** Randomly removes a bionic from my_bionics[] */
         bool remove_random_bionic();
         /** Returns the size of my_bionics[] */
@@ -285,7 +284,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bionic &bionic_at_index(int i);
         /** Returns the bionic with the given invlet, or NULL if no bionic has that invlet */
         bionic *bionic_by_invlet(char ch);
-        std::string *mutation_by_invlet(char ch);
         /** Returns player lumination based on the brightest active item they are carrying */
         float active_light();
 
@@ -1156,6 +1154,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
     protected:
         std::vector<std::string> my_traits;
         std::vector<std::string> my_mutations;
+        std::map<std::string, char> trait_keys;
         std::vector<bionic> my_bionics;
         std::list<disease> illness;
         bool underwater;
@@ -1176,6 +1175,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool valid_aoe_technique( Creature &t, ma_technique &technique,
                                   std::vector<int> &mon_targets, std::vector<int> &npc_targets );
 
+        // Trigger and disable mutations that can be so toggled.
+        void activate_mutation( std::string mutation );
+        void deactivate_mutation( std::string mutation );
         bool has_fire(const int quantity) const;
         void use_fire(const int quantity);
         /**

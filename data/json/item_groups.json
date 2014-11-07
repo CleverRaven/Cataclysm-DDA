@@ -408,6 +408,7 @@
       ["heatpack", 60],
       ["can_beans", 40],
       ["can_chicken", 40],
+      ["can_tomato", 40],
       ["con_milk", 20],
       ["can_corn", 35],
       ["can_spam", 30],
@@ -1591,6 +1592,7 @@
     "id" : "cannedfood",
     "items":[
       ["can_beans", 40],
+      ["can_tomato", 40],
       ["can_corn", 35],
       ["con_milk", 30],
       ["can_spam", 30],
@@ -2064,6 +2066,7 @@
       ["mag_survival", 40],
       ["manual_survival", 2],
       ["textbook_survival", 20],
+      ["modern_tanner", 8],
       ["recipe_bows", 8],
       ["recipe_arrows", 8],
       ["mag_rifle", 30],
@@ -2716,6 +2719,7 @@
       ["sword_bayonet", 1],
       ["mag_survival", 20],
       ["textbook_survival", 2],
+      ["modern_tanner", 1],
       ["mag_melee", 10],
       ["mag_traps", 10],
       ["mag_archery", 20],
@@ -3355,6 +3359,7 @@
       ["pocket_firearms", 2],
       ["textbook_anarch", 1],
       ["textbook_survival", 8],
+      ["modern_tanner", 4],
       ["textbook_traps", 4],
       ["manual_survival", 3],
       ["manual_swimming", 5],
@@ -4885,6 +4890,7 @@
       ["chocolate", 50],
       ["ravioli", 25],
       ["can_beans", 40],
+      ["can_tomato", 40],
       ["con_milk", 20],
       ["can_spam", 30],
       ["can_tuna", 35],
@@ -7851,7 +7857,9 @@
       ["bio_claws_weapon", 0],
       ["bio_blade_weapon", 0],
       ["v_table", 0],
-      ["survnote", 5]
+      ["survnote", 5],
+      ["raw_leather", 0],
+      ["raw_fur", 0]
     ]
   },{
     "type" : "item_group",

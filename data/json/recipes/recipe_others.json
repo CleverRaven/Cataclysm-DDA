@@ -856,7 +856,9 @@
     ],
     [
       [ "leather", 6 ],
-      [ "fur", 6 ]
+      [ "tanned_hide", 1 ],
+      [ "fur", 6 ],
+      [ "tanned_pelt", 1 ]
     ]
   ]
 },{
@@ -886,7 +888,9 @@
     ],
     [
       [ "leather", 14 ],
-      [ "fur", 14 ]
+      [ "tanned_hide", 2 ],
+      [ "fur", 14 ],
+      [ "tanned_pelt", 2 ]
     ]
   ]
 },{
@@ -916,7 +920,9 @@
     ],
     [
       [ "leather", 24 ],
-      [ "fur", 24 ]
+      [ "tanned_hide", 4 ],
+      [ "fur", 24 ],
+      [ "tanned_pelt", 4 ]
     ]
   ]
 },{
@@ -963,7 +969,8 @@
       [ "2x4", 5 ]
     ],
     [
-      [ "leather", 20 ]
+      [ "leather", 20 ],
+      [ "tanned_hide", 4 ]
     ],
     [
       [ "string_6", 10 ],
@@ -997,7 +1004,8 @@
       [ "2x4", 2 ]
     ],
     [
-      [ "leather", 4 ]
+      [ "leather", 4 ],
+      [ "tanned_hide", 1 ]
     ],
     [
       [ "sinew", 60 ],
@@ -1321,6 +1329,8 @@
       [ "leather", 12 ],
       [ "fur", 12 ],
       [ "rag", 20 ],
+      [ "tanned_hide", 3 ],
+      [ "tanned_pelt", 3 ],
       [ "sheet", 1 ]
     ]
   ]
@@ -1611,7 +1621,8 @@
   "components": [
     [
       ["rag", 30],
-      ["leather", 30]
+      ["leather", 30],
+      [ "tanned_hide", 5 ]
     ]
   ]  
 },{
@@ -5513,7 +5524,9 @@
   "components": [
     [
       [ "leather", 4 ],
-      [ "fur", 4 ]
+      [ "tanned_hide", 1 ],
+      [ "fur", 4 ],
+      [ "tanned_pelt", 1 ]
     ]
   ]
 },{
@@ -5541,6 +5554,249 @@
         [ "coal", 1 ]
     ]
   ]
-  }
+  },{
+        "type" : "recipe",
+  "result": "cured_hide",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "survival",
+  "skills_required": [ "cooking", 1 ],
+  "difficulty": 1,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "salt_water", 2 ],
+      [ "salt", 1 ]
+    ],
+    [
+      [ "raw_leather", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "cured_hide",
+  "id_suffix": "scraped",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "survival",
+  "difficulty": 1,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "cured_pelt", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "tanning_hide",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "survival",
+  "skills_required": [ "cooking", 2 ],
+  "difficulty": 3,
+  "time": 48000,
+  "batch_time_factors":[20, 10],
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":3,"amount":1},
+    {"id":"BOIL","level":2,"amount":1},
+    {"id":"CONTAIN","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "hotplate", 20 ],
+      [ "char_smoker", 2 ],
+      [ "toolset", 20 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water_clean", 2 ],
+      [ "water", 2 ]
+    ],
+    [
+      [ "acorns", 1 ],
+      [ "hops", 2 ],
+      [ "pine_bough", 6 ]
+    ],
+    [
+      [ "salt_water", 2 ],
+      [ "salt", 1 ]
+    ],
+    [
+      [ "tallow", 1 ],
+      [ "lard", 1 ]
+    ],
+    [
+      [ "cured_hide", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "cured_pelt",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "survival",
+  "skills_required": [ "cooking", 1 ],
+  "difficulty": 1,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "salt_water", 2 ],
+      [ "salt", 1 ]
+    ],
+    [
+      [ "raw_fur", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "tanning_pelt",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "survival",
+  "skills_required": [ "cooking", 2 ],
+  "difficulty": 3,
+  "time": 48000,
+  "batch_time_factors":[20, 10],
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":3,"amount":1},
+    {"id":"BOIL","level":2,"amount":1},
+    {"id":"CONTAIN","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "hotplate", 20 ],
+      [ "char_smoker", 2 ],
+      [ "toolset", 20 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water_clean", 2 ],
+      [ "water", 2 ]
+    ],
+    [
+      [ "acorns", 1 ],
+      [ "hops", 2 ],
+      [ "pine_bough", 6 ]
+    ],
+    [
+      [ "salt_water", 2 ],
+      [ "salt", 1 ]
+    ],
+    [
+      [ "tallow", 1 ],
+      [ "lard", 1 ]
+    ],
+    [
+      [ "cured_pelt", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "tanning_hide",
+  "id_suffix": "modern",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "cooking",
+  "skills_required": [ "survival", 3 ],
+  "difficulty": 4,
+  "time": 20000,
+  "batch_time_factors":[50, 5],
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["textbook_survival", 6], ["textbook_chemistry", 5], ["modern_tanner", 4]],
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":1},
+    {"id":"COOK","level":3,"amount":1},
+    {"id":"BOIL","level":2,"amount":1},
+    {"id":"CONTAIN","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 10 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water_clean", 2 ],
+      [ "water", 2 ]
+    ],
+    [
+      [ "lye_powder", 10 ],
+      [ "aspirin", 10 ]
+    ],
+    [
+      [ "cured_hide", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "tanning_pelt",
+  "id_suffix": "modern",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "cooking",
+  "skills_required": [ "survival", 3 ],
+  "difficulty": 4,
+  "time": 20000,
+  "batch_time_factors":[50, 5],
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["textbook_survival", 6], ["textbook_chemistry", 5], ["modern_tanner", 4]],
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":1},
+    {"id":"COOK","level":3,"amount":1},
+    {"id":"BOIL","level":2,"amount":1},
+    {"id":"CONTAIN","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 10 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water_clean", 2 ],
+      [ "water", 2 ]
+    ],
+    [
+      [ "lye_powder", 10 ],
+      [ "aspirin", 10 ]
+    ],
+    [
+      [ "cured_pelt", 1 ]
+    ]
+  ]
+}
 ]
 

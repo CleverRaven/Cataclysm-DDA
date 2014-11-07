@@ -7960,7 +7960,7 @@
         "bashing" : 1,
         "coverage" : 100,
         "material_thickness" : 11,
-        "flags" : ["WATCH", "WATERPROOF", "STURDY"]
+        "flags" : ["WATCH", "WATERPROOF", "STURDY", "THERMOMETER"]
     },
     {
         "type" : "ARMOR",
@@ -8016,7 +8016,7 @@
         "bashing" : 1,
         "coverage" : 100,
         "material_thickness" : 9,
-        "flags" : ["WATCH", "WATERPROOF", "STURDY"]
+        "flags" : ["WATCH", "WATERPROOF", "STURDY", "THERMOMETER"]
     },
     {
         "type" : "ARMOR",
@@ -8072,7 +8072,7 @@
         "bashing" : 1,
         "coverage" : 100,
         "material_thickness" : 12,
-        "flags" : ["WATCH", "WATERPROOF", "STURDY"]
+        "flags" : ["WATCH", "WATERPROOF", "STURDY", "THERMOMETER"]
     },
     {
         "type" : "ARMOR",
@@ -10714,7 +10714,7 @@
         "to_hit" : -5,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "A halter top made from silk.  It is light and easy to wear.",
+        "description" : "A short top made from cotton.  It is light and easy to wear.",
         "price" : 2000,
         "material" : ["cotton", "null"],
         "volume" : 2,

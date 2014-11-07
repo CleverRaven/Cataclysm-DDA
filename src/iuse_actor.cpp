@@ -37,7 +37,7 @@ long iuse_transform::use(player *p, item *it, bool t, point /*pos*/) const
         return 0;
     }
     // load this from the original item, not the transformed one.
-    const int charges_to_use = it->type->charges_to_use();
+    const long charges_to_use = it->type->charges_to_use();
     p->add_msg_if_player(m_neutral, msg_transform.c_str(), it->tname().c_str());
     item *target;
     if (container_id.empty()) {
@@ -55,10 +55,15 @@ long iuse_transform::use(player *p, item *it, bool t, point /*pos*/) const
     if (target_charges > -2) {
         // -1 is for items that can not have any charges at all.
         target->charges = target_charges;
-    }
+    } else if( charges_to_use > 0 && target->charges >= 0 ) {
+    // Makes no sense to set the charges via this iuse and than remove some of them, you can combine
+    // both into the target_charges value.
+    // Also if the target does not use charges (item::charges == -1), don't change them at all.
+    // This allows simple transformations like "folded" <=> "unfolded", and "retracted" <=> "extended"
     // Active item handling has gotten complicated, so having this consume charges itself
     // instead of passing it off to the caller.
-    target->charges -= std::min(charges_to_use, (int)target->charges);
+        target->charges -= std::min(charges_to_use, target->charges);
+    }
     p->moves -= moves;
     return 0;
 }
@@ -398,6 +403,18 @@ iuse_actor *ups_based_armor_actor::clone() const
     return new ups_based_armor_actor(*this);
 }
 
+bool has_power_armor_interface(const player &p)
+{
+    return p.has_active_bionic( "bio_power_armor_interface" ) || p.has_active_bionic( "bio_power_armor_interface_mkII" );
+}
+
+bool has_powersource(const item &i, const player &p) {
+    if( i.type->is_power_armor() && has_power_armor_interface( p ) && p.max_power_level > 0 ) {
+        return true;
+    }
+    return p.has_charges( "UPS", 1 );
+}
+
 long ups_based_armor_actor::use( player *p, item *it, bool t, point ) const
 {
     if( p == nullptr ) {
@@ -411,8 +428,11 @@ long ups_based_armor_actor::use( player *p, item *it, bool t, point ) const
         p->add_msg_if_player( m_info, _( "You should wear the %s before activating it." ), it->tname().c_str() );
         return 0;
     }
-    if( !it->active && !p->has_charges( "UPS", 1 ) ) {
+    if( !it->active && !has_powersource( *it, *p ) ) {
         p->add_msg_if_player( m_info, _( "You need some source of power for your %s (a simple UPS will do)." ), it->tname().c_str() );
+        if( it->type->is_power_armor() ) {
+            p->add_msg_if_player( m_info, _( "There is also a certain bionic that helps with this kind of armor." ) );
+        }
         return 0;
     }
     if( it->active && !p->has_charges( "UPS", 1 ) ) {

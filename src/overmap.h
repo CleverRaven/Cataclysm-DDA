@@ -271,7 +271,13 @@ class overmap
     point const& pos() const { return loc; }
 
     void save() const;
-    void first_house(int &x, int &y, const std::string start_location);
+
+    /**
+     * @return The (local) overmap terrain coordinates of a randomly
+     * chosen place on the overmap with the specific overmap terrain.
+     * Returns @ref invalid_tripoint if no suitable place has been found.
+     */
+    tripoint find_random_omt( const std::string &omt_base_type ) const;
 
     void process_mongroups(); // Makes them die out, maybe more
     void move_hordes();
@@ -444,7 +450,7 @@ public:
   void make_hiway(int x1, int y1, int x2, int y2, int z, const std::string &base);
   void building_on_hiway(int x, int y, int dir);
   // Polishing
-  bool check_ot_type(const std::string &otype, int x, int y, int z);
+  bool check_ot_type(const std::string &otype, int x, int y, int z) const;
   bool check_ot_type_road(const std::string &otype, int x, int y, int z);
   bool is_road(int x, int y, int z);
   void polish(const int z, const std::string &terrain_type="all");

@@ -4430,6 +4430,7 @@ void map::save()
 void map::load_abs(const int wx, const int wy, const int wz, const bool update_vehicle)
 {
     traplocs.clear();
+    set_abs_sub( wx, wy, wz );
     for (int gridx = 0; gridx < my_MAPSIZE; gridx++) {
         for (int gridy = 0; gridy < my_MAPSIZE; gridy++) {
             loadn(wx, wy, wz, gridx, gridy, update_vehicle);
@@ -4599,12 +4600,24 @@ void map::loadn(const int worldx, const int worldy, const int worldz,
             << "  gridn: " << gridn;
 
  submap *tmpsub = MAPBUFFER.lookup_submap(absx, absy, worldz);
+    if( tmpsub == nullptr ) {
+        // It doesn't exist; we must generate it!
+        dbg( D_INFO | D_WARNING ) << "map::loadn: Missing mapbuffer data. Regenerating.";
+        tinymap tmp_map;
+        // Each overmap square is two nonants; to prevent overlap, generate only at
+        //  squares divisible by 2.
+        const int newmapx = absx - ( abs( absx ) % 2 );
+        const int newmapy = absy - ( abs( absy ) % 2 );
+        tmp_map.generate( newmapx, newmapy, worldz, calendar::turn );
+        // This is the same call to MAPBUFFER as above!
+        tmpsub = MAPBUFFER.lookup_submap( absx, absy, worldz );
+        if( tmpsub == nullptr ) {
+            dbg( D_ERROR ) << "failed to generate a submap at " << absx << absy << worldz;
+            debugmsg( "failed to generate a submap at %d,%d,%d", absx, absy, worldz );
+            return;
+        }
+    }
 
- if ( gridx == 0 && gridy == 0 ) {
-     set_abs_sub(absx, absy, worldz);
- }
-
- if (tmpsub) {
     // New submap changes the content of the map and all caches must be recalculated
     set_transparency_cache_dirty();
     set_outside_cache_dirty();
@@ -4625,145 +4638,145 @@ void map::loadn(const int worldx, const int worldy, const int worldz,
    }
   }
 
-  // fixme; roll off into some function elsewhere ---v
+    actualize( gridx, gridy );
+}
 
-    // check traps
-    std::map<point, trap_id> rain_backlog;
-    bool do_funnels = ( worldz >= 0 ); // empty if just loaded a save here
-    for (int x = 0; x < SEEX; x++) {
-        for (int y = 0; y < SEEY; y++) {
-            const trap_id t = tmpsub->get_trap(x, y);
-            if (t != tr_null) {
+bool map::has_rotten_away( item &itm, const point &pnt ) const
+{
+    if( itm.is_corpse() ) {
+        itm.calc_rot( pnt );
+        return itm.get_rot() > DAYS( 10 ) && !itm.can_revive();
+    } else if( itm.goes_bad() ) {
+        itm.calc_rot( pnt );
+        return itm.has_rotten_away();
+    } else if( itm.has_flag( "PRESERVES" ) ) {
+        // Containers like tin cans preserves all items inside, they do not rot at all.
+        return false;
+    } else if( itm.has_flag( "SEALS" ) ) {
+        // Items inside rot but do not vanish as the container seals them in.
+        for( auto &c : itm.contents ) {
+            c.calc_rot( pnt );
+        }
+        return false;
+    } else {
+        // Check and remove rotten contents, but always keep the container.
+        remove_rotten_items( itm.contents, pnt );
+        return false;
+    }
+}
 
-                const int fx = x + gridx * SEEX;
-                const int fy = y + gridy * SEEY;
-                traplocs[t].insert(point(fx, fy));
-                if ( do_funnels &&
-                     traplist[t]->funnel_radius_mm > 0 &&             // funnel
-                     has_flag_ter_or_furn(TFLAG_INDOORS, fx, fy) == false // we have no outside_cache
-                   ) {
-                    rain_backlog[point(x, y)] = t;
-                }
+void map::remove_rotten_items( std::vector<item> &items, const point &pnt ) const
+{
+    for( auto it = items.begin(); it != items.end(); ) {
+        if( has_rotten_away( *it, pnt ) ) {
+            it = items.erase( it );
+        } else {
+            ++it;
+        }
+    }
+}
+
+void map::fill_funnels( const point pnt )
+{
+    const auto t = tr_at( pnt.x, pnt.y );
+    if( t == tr_null || traplist[t]->funnel_radius_mm <= 0 ) {
+        // not a funnel at all
+        return;
+    }
+    // Note: the inside/outside cache might not be correct at this time
+    if( has_flag_ter_or_furn( TFLAG_INDOORS, pnt.x, pnt.y ) ) {
+        return;
+    }
+    item *biggest_container = nullptr;
+    int maxvolume = 0;
+    for( auto &it : i_at( pnt.x, pnt.y ) ) {
+        if( it.is_funnel_container( maxvolume ) ) {
+            biggest_container = &it;
+        }
+    }
+    if( biggest_container != nullptr ) {
+        retroactively_fill_from_funnel( biggest_container, t, calendar::turn, pnt );
+    }
+}
+
+void map::grow_plant( const point pnt )
+{
+    const auto &furn = furn_at( pnt.x, pnt.y );
+    if( !furn.has_flag( "PLANT" ) ) {
+        return;
+    }
+    auto &items = i_at( pnt.x, pnt.y );
+    if( items.empty() ) {
+        // No seed there anymore, we don't know what kind of plant it was.
+        dbg( D_ERROR ) << "a seed item has vanished at " << pnt.x << "," << pnt.y;
+        furn_set( pnt.x, pnt.y, f_null );
+        return;
+    }
+    // plantEpoch is half a season; 3 epochs pass from plant to harvest
+    const int plantEpoch = DAYS( calendar::season_length() ) / 2;
+    // Erase fertilizer tokens, but keep the seed item
+    items.resize( 1 );
+    auto &seed = items.front();
+    // TODO: the comparisons to the loadid is very fragile. Replace with something more explicit.
+    while( calendar::turn > seed.bday + plantEpoch && furn.loadid < f_plant_harvest ) {
+        seed.bday += plantEpoch;
+        furn_set( pnt.x, pnt.y, static_cast<furn_id>( furn.loadid + 1 ) );
+    }
+}
+
+void map::restock_fruits( const point pnt, int time_since_last_actualize )
+{
+    const auto &ter = ter_at( pnt.x, pnt.y );
+    //if the fruit-bearing season of the already harvested terrain has passed, make it harvestable again
+    if( !ter.has_flag( TFLAG_HARVESTED ) ) {
+        return;
+    }
+    if( ter.harvest_season != calendar::turn.get_season() ||
+        time_since_last_actualize >= DAYS( calendar::season_length() ) ) {
+        ter_set( pnt.x, pnt.y, ter.transforms_into );
+    }
+}
+
+void map::actualize( const int gridx, const int gridy )
+{
+    submap *const tmpsub = get_submap_at_grid( gridx, gridy );
+    const auto time_since_last_actualize = calendar::turn - tmpsub->turn_last_touched;
+    const bool do_funnels = ( abs_sub.z >= 0 );
+
+    // check spoiled stuff, and fill up funnels while we're at it
+    for( int x = 0; x < SEEX; x++ ) {
+        for( int y = 0; y < SEEY; y++ ) {
+            const point pnt( gridx * SEEX + x, gridy * SEEY + y );
+
+            remove_rotten_items( tmpsub->itm[x][y], pnt );
+
+            const auto trap_here = tmpsub->get_trap( x, y );
+            if( trap_here != tr_null ) {
+                traplocs[trap_here].insert( pnt );
             }
+
+            if( do_funnels ) {
+                fill_funnels( pnt );
+            }
+
+            grow_plant( pnt );
+
+            restock_fruits( pnt, time_since_last_actualize );
         }
     }
 
-  // check spoiled stuff, and fill up funnels while we're at it
-  for (int x = 0; x < SEEX; x++) {
-      for (int y = 0; y < SEEY; y++) {
-          int biggest_container_idx = -1;
-          int maxvolume = 0;
-          bool do_container_check = false;
-
-          if ( do_funnels && ! rain_backlog.empty() &&
-               rain_backlog.find(point(x,y)) != rain_backlog.end() ) {
-              do_container_check = true;
-          }
-          int intidx = 0;
-
-          for(std::vector<item, std::allocator<item> >::iterator it = tmpsub->itm[x][y].begin();
-              it != tmpsub->itm[x][y].end();) {
-              if ( do_container_check == true ) { // cannot link trap to mapitems
-                  if ( it->is_funnel_container(maxvolume) ) {                      // biggest
-                      biggest_container_idx = intidx;             // this will survive erases below, it ptr may not
-                  }
-              }
-              if (it->is_corpse()) {
-                  it->calc_rot(point(x,y));
-
-                  //remove corpse after 10 days (dependent on temperature)
-                  if(it->get_rot() > DAYS( 10 ) && !it->can_revive() ) {
-                      it = tmpsub->itm[x][y].erase(it);
-                  } else { ++it; intidx++; }
-
-                  continue;
-              }
-              if(it->goes_bad() && biggest_container_idx != intidx) { // you never know...
-                  it->calc_rot(point(x,y));
-                  if( it->has_rotten_away() ) {
-                      it = tmpsub->itm[x][y].erase(it);
-                  } else { ++it; intidx++; }
-              } else { ++it; intidx++; }
-          }
-
-          if ( do_container_check == true && biggest_container_idx != -1 ) { // funnel: check. bucket: check
-              item * it = &tmpsub->itm[x][y][biggest_container_idx];
-              trap_id fun_trap_id = rain_backlog[point(x,y)];
-              retroactively_fill_from_funnel( it, fun_trap_id, calendar(calendar::turn), point(x,y) ); // bucket: what inside??
-          }
-
-      }
-  }
-
-  // plantEpoch is half a season; 3 epochs pass from plant to harvest
-  const int plantEpoch = 14400 * int(calendar::season_length()) / 2;
-
-  // check plants for crops and seasonal harvesting.
-  for (int x = 0; x < SEEX; x++) {
-    for (int y = 0; y < SEEY; y++) {
-      furn_id furn = tmpsub->get_furn(x, y);
-      if (furn && furnlist[furn].has_flag("PLANT")) {
-          if( tmpsub->itm[x][y].empty() ) {
-              // No seed there anymore, we don't know what kind of plant it was.
-              tmpsub->set_furn( x, y, f_null );
-              continue;
-          }
-        item seed = tmpsub->itm[x][y][0];
-
-        while (calendar::turn > seed.bday + plantEpoch && furn < f_plant_harvest) {
-          furn = (furn_id((int)furn + 1));
-          seed.bday += plantEpoch;
-
-          // fixme; Lazy farmer drop rake on dirt mound. What happen rake?!
-          tmpsub->itm[x][y].resize(1);
-          tmpsub->itm[x][y][0].bday = seed.bday;
-          tmpsub->set_furn(x, y, furn);
-        }
-      }
-      ter_id ter = tmpsub->ter[x][y];
-      //if the fruit-bearing season of the already harvested terrain has passed, make it harvestable again
-      if ((ter) && (terlist[ter].has_flag(TFLAG_HARVESTED))){
-        if ((terlist[ter].harvest_season != calendar::turn.get_season()) ||
-        (calendar::turn - tmpsub->turn_last_touched > calendar::season_length()*14400)){
-          tmpsub->set_ter(x, y, terfind(terlist[ter].transforms_into));
-        }
-      }
-    }
-  }
-  // fixme; roll off into some function elsewhere ---^
-
-  //Merchants will restock their inventories every three days
-  const int merchantRestock = 14400 * 3; //14400 is the length of one day
-  //Check for Merchants to restock
-  if (g->active_npc.size() >= 1){
-    for (auto &i : g->active_npc){
-        if (i->restock != -1 && calendar::turn > (i->restock + merchantRestock)){
+    //Merchants will restock their inventories every three days
+    const int merchantRestock = 14400 * 3; //14400 is the length of one day
+    //Check for Merchants to restock
+    for( auto & i : g->active_npc ) {
+        if( i->restock != -1 && calendar::turn > ( i->restock + merchantRestock ) ) {
             i->shop_restock();
-            i->restock = int(calendar::turn);
+            i->restock = int( calendar::turn );
         }
     }
-  }
 
-  tmpsub->turn_last_touched = int(calendar::turn); // the last time we touched the submap, is right now.
-
- } else { // It doesn't exist; we must generate it!
-  dbg(D_INFO|D_WARNING) << "map::loadn: Missing mapbuffer data. Regenerating.";
-  tinymap tmp_map;
-// overx, overy is where in the overmap we need to pull data from
-// Each overmap square is two nonants; to prevent overlap, generate only at
-//  squares divisible by 2.
-  int newmapx = worldx + gridx - (abs(worldx + gridx) % 2);
-  int newmapy = worldy + gridy - (abs(worldy + gridy) % 2);
-  tmp_map.generate(newmapx, newmapy, worldz, calendar::turn);
-  // This function is called again, but if mapgen failed (and did not create a submap),
-  // this would lead to a infinite loop, this must be avoided.
-  // This is the same call to MAPBUFFER as above!
-  if( MAPBUFFER.lookup_submap( absx, absy, worldz ) == nullptr ) {
-      dbg( D_ERROR ) << "failed to generate a submap at " << absx << absy << worldz;
-      return;
-  }
-  loadn( worldx, worldy, worldz, gridx, gridy, update_vehicles );
- }
+    // the last time we touched the submap, is right now.
+    tmpsub->turn_last_touched = calendar::turn;
 }
 
 void map::copy_grid(const int to, const int from)

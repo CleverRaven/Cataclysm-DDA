@@ -2425,7 +2425,7 @@
         "points" : 3,
         "visibility" : 4,
         "ugliness" : 4,
-        "description" : "You have a pair of large, translucent wings.  They are too small to lift you, but are powerful enough to greatly speed your momvement, with some effort and noise.",
+        "description" : "You have a pair of large, translucent wings.  They are too small to lift you, but are powerful enough to greatly speed your movement, with some effort and noise.",
         "prereqs" : ["WINGS_STUB"],
         "cancels" : ["WINGS_BIRD", "WINGS_BAT", "WINGS_BUTTERFLY"],
         "category" : ["MUTCAT_INSECT"],
@@ -3128,7 +3128,7 @@
         "ugliness" : 4,
         "description" : "Your face and jaw have extended, giving you an alert and attentive appearance.",
         "prereqs" : ["SNOUT"],
-        "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "MINOTAUR", "MUZZLE", "MUZZLE_BEAR", "MUZZLE_LONG", "SNOUT"],
+        "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "MINOTAUR", "MUZZLE", "MUZZLE_BEAR", "MUZZLE_LONG"],
         "category" : ["MUTCAT_RAT"]
     },{
         "type" : "mutation",
@@ -3948,7 +3948,7 @@
         "visibility" : 10,
         "ugliness" : 3,
         "mixed_effect" : true,
-        "description" : "Your protective shell has grown large enough to accomodate--if need be--your whole body.  Activate to pull your head and limbs into your shell, trading mobility and vision for warmth, protection, and shelter.",
+        "description" : "Your protective shell has grown large enough to accommodate--if need be--your whole body.  Activate to pull your head and limbs into your shell, trading mobility and vision for warmth, protection, and shelter.",
         "prereqs" : ["SHELL"],
         "threshreq" : ["THRESH_CEPHALOPOD"],
         "category" : ["MUTCAT_CEPHALOPOD"],

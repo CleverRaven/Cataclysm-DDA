@@ -39,6 +39,7 @@
 #include "messages.h"
 #include "pickup.h"
 #include "weather_gen.h"
+#include "start_location.h"
 #include <map>
 #include <set>
 #include <algorithm>
@@ -610,46 +611,18 @@ void game::start_game(std::string worldname)
         create_factions();
     }
     u.setID( assign_npc_id() ); // should be as soon as possible, but *after* load_master
-    cur_om = &overmap_buffer.get(0, 0); // We start in the (0,0,0) overmap.
 
-    // Find a random house on the map, and set us there.
-    cur_om->first_house(levx, levy, u.start_location);
-    point player_location = overmapbuffer::omt_to_sm_copy( levx, levy );
-    tinymap player_start;
-    player_start.load( player_location.x, player_location.y, levz, false, cur_om );
-    player_start.translate( t_window_domestic, t_curtains );
-    player_start.save();
-    if (scen->has_flag("INFECTED")){
-        u.add_effect("infected", 1, random_body_part(), true);
-    }
-    if (scen->has_flag("BAD_DAY")){
-        u.add_effect("flu", 10000);
-        u.add_effect("drunk", 2700 - (12 * u.str_max));
-        u.add_morale(MORALE_FEELING_BAD,-100,50,50,50);
-    }
-    levx -= int(int(MAPSIZE / 2) / 2);
-    levy -= int(int(MAPSIZE / 2) / 2);
-    levz = 0;
+    const start_location &start_loc = *start_location::find( u.start_location );
+    start_loc.setup( cur_om, levx, levy, levz );
+    
     // Start the overmap with out immediate neighborhood visible
-    overmap_buffer.reveal(point(levx, levy), OPTIONS["DISTANCE_INITIAL_VISIBILITY"], 0);
-    // Convert the overmap coordinates to submap coordinates
-    levx = levx * 2 - 1;
-    levy = levy * 2 - 1;
+    overmap_buffer.reveal(point(om_global_location().x, om_global_location().y), OPTIONS["DISTANCE_INITIAL_VISIBILITY"], 0);
     // Init the starting map at this location.
     m.load( levx, levy, levz, true, cur_om );
-
-    // Start us off somewhere in the shelter.
-    u.posx = SEEX * int(MAPSIZE / 2) + 5;
-    u.posy = SEEY * int(MAPSIZE / 2) + 6;
-
     m.build_map_cache();
-    // Make sure we spawn on an inside and valid location.
-    int tries = 0;
-    while( (m.is_outside(u.posx, u.posy) || m.move_cost(u.posx, u.posy) == 0) && tries < 1000 ) {
-        tries++;
-        u.posx = (SEEX * int(MAPSIZE / 2)) + rng(0, SEEX * 2);
-        u.posy = (SEEY * int(MAPSIZE / 2)) + rng(0, SEEY * 2);
-    }
+    // Do this after the map cache has been build!
+    start_loc.place_player( u );
+
     u.moves = 0;
     u.reset_bonuses();
     u.process_turn(); // process_turn adds the initial move points
@@ -676,6 +649,14 @@ void game::start_game(std::string worldname)
             m.add_field(u.pos().x + 5, u.pos().y + 3, field_from_ident("fd_fire"), 3 );
             m.add_field(u.pos().x + 7, u.pos().y + 6, field_from_ident("fd_fire"), 3 );
             m.add_field(u.pos().x + 3, u.pos().y + 4, field_from_ident("fd_fire"), 3 );
+    }
+    if (scen->has_flag("INFECTED")){
+        u.add_effect("infected", 1, random_body_part(), true);
+    }
+    if (scen->has_flag("BAD_DAY")){
+        u.add_effect("flu", 10000);
+        u.add_effect("drunk", 2700 - (12 * u.str_max));
+        u.add_morale(MORALE_FEELING_BAD,-100,50,50,50);
     }
     //~ %s is player name
     u.add_memorial_log(pgettext("memorial_male", "%s began their journey into the Cataclysm."),
@@ -1675,6 +1656,9 @@ void game::activity_on_turn()
         u.rooted();
         u.pause();
         break;
+    case ACT_FILL_LIQUID:
+        activity_on_turn_fill_liquid();
+        break;
     default:
         // Based on speed, not time
         u.activity.moves_left -= u.moves;
@@ -1736,6 +1720,25 @@ void game::activity_on_turn_vibe()
     // Vibrator requires that you be able to move around, stretch, etc, so doesn't play
     // well with roots.  Sorry.  :-(
 
+    u.pause();
+}
+
+void game::activity_on_turn_fill_liquid()
+{
+    //Filling a container takes time, not speed
+    u.activity.moves_left -= 100;
+
+    item *container = &u.i_at(u.activity.position);
+    item water = item(u.activity.str_values[0], u.activity.values[1]);
+    water.poison = u.activity.values[0];
+    // Fill up 10 charges per time
+    water.charges = 10;
+
+    if (handle_liquid(water, true, true, NULL, container) == false) {
+        u.activity.moves_left = 0;
+    }
+
+    u.rooted();
     u.pause();
 }
 
@@ -2046,10 +2049,10 @@ void game::activity_on_finish_firstaid()
 
 void game::activity_on_finish_start_fire()
 {
-        item &it = u.i_at(u.activity.position);
-        iuse tmp;
-        tmp.resolve_firestarter_use(&u, &it, u.activity.placement);
-        u.activity.type = ACT_NULL;
+    item &it = u.i_at(u.activity.position);
+    iuse tmp;
+    tmp.resolve_firestarter_use(&u, &it, u.activity.placement);
+    u.activity.type = ACT_NULL;
 }
 
 void game::activity_on_finish_fish()
@@ -3970,14 +3973,24 @@ void game::update_scent()
         player_last_moved = calendar::turn;
     }
 
-    // note: the next two intermediate variables need to be at least
+    // note: the next four intermediate matrices need to be at least
     // [2*SCENT_RADIUS+3][2*SCENT_RADIUS+1] in size to hold enough data
     // The code I'm modifying used [SEEX * MAPSIZE]. I'm staying with that to avoid new bugs.
-    int  sum_3_scent_y[SEEY * MAPSIZE][SEEX * MAPSIZE]; //intermediate variable
+
+    // These two matrices are transposed so that x addresses are contiguous in memory
+    int sum_3_scent_y[SEEY * MAPSIZE][SEEX * MAPSIZE];  //intermediate variable
     int squares_used_y[SEEY * MAPSIZE][SEEX * MAPSIZE]; //intermediate variable
 
-    bool     has_wall_here[SEEX * MAPSIZE][SEEY * MAPSIZE];  // stash instead of
-    bool reduce_scent_here[SEEX * MAPSIZE][SEEY * MAPSIZE];  // checking 14884 * (3 redundant)
+    // these are for caching flag lookups
+    bool blocks_scent[SEEX * MAPSIZE][SEEY * MAPSIZE]; // currently only TFLAG_WALL blocks scent
+    bool reduces_scent[SEEX * MAPSIZE][SEEY * MAPSIZE];
+
+
+    // for loop constants
+    const int scentmap_minx = u.posx - SCENT_RADIUS;
+    const int scentmap_maxx = u.posx + SCENT_RADIUS;
+    const int scentmap_miny = u.posy - SCENT_RADIUS;
+    const int scentmap_maxy = u.posy + SCENT_RADIUS;
 
     const int diffusivity = 100; // decrease this to reduce gas spread. Keep it under 125 for
     // stability. This is essentially a decimal number * 1000.
@@ -3992,27 +4005,27 @@ void game::update_scent()
     // note: this method needs an array that is one square larger on each side in the x direction
     // than the final scent matrix. I think this is fine since SCENT_RADIUS is less than
     // SEEX*MAPSIZE, but if that changes, this may need tweaking.
-    for (int x = u.posx - SCENT_RADIUS - 1; x <= u.posx + SCENT_RADIUS + 1; x++) {
-        for (int y = u.posy - SCENT_RADIUS; y <= u.posy + SCENT_RADIUS; y++) {
+    for (int x = scentmap_minx - 1; x <= scentmap_maxx + 1; ++x) {
+        for (int y = scentmap_miny; y <= scentmap_maxy; ++y) {
             // cache expensive flag checks, once per tile.
-            if (y == u.posy - SCENT_RADIUS) {  // Setting y-1 y-0, when we are at the top row...
+            if (y == scentmap_miny) {  // Setting y-1 y-0, when we are at the top row...
                 for (int i = y - 1; i <= y; ++i) {
-                    has_wall_here[x][i] = m.has_flag(TFLAG_WALL, x, i);
-                    reduce_scent_here[x][i] = m.has_flag(TFLAG_REDUCE_SCENT, x, i);
+                    blocks_scent[x][i] = m.has_flag(TFLAG_WALL, x, i);
+                    reduces_scent[x][i] = m.has_flag(TFLAG_REDUCE_SCENT, x, i);
                 }
             }
-            has_wall_here[x][y + 1] = m.has_flag(TFLAG_WALL, x, y + 1); // ...so only y+1 here.
-            reduce_scent_here[x][y + 1] = m.has_flag(TFLAG_REDUCE_SCENT, x, y + 1);
+            blocks_scent[x][y + 1] = m.has_flag(TFLAG_WALL, x, y + 1); // ...so only y+1 here.
+            reduces_scent[x][y + 1] = m.has_flag(TFLAG_REDUCE_SCENT, x, y + 1);
 
             // remember the sum of the scent val for the 3 neighboring squares that can defuse into
             sum_3_scent_y[y][x] = 0;
             squares_used_y[y][x] = 0;
             for (int i = y - 1; i <= y + 1; ++i) {
-                if (has_wall_here[x][i] == false) {
-                    if (reduce_scent_here[x][i] == true) {
+                if (not blocks_scent[x][i]) {
+                    if (reduces_scent[x][i]) {
                         // only 20% of scent can diffuse on REDUCE_SCENT squares
                         sum_3_scent_y[y][x] += 2 * grscent[x][i];
-                        squares_used_y[y][x] += 2; // only 20% diffuses into REDUCE_SCENT squares
+                        squares_used_y[y][x] += 2;
                     } else {
                         sum_3_scent_y[y][x] += 10 * grscent[x][i];
                         squares_used_y[y][x] += 10;
@@ -4021,9 +4034,9 @@ void game::update_scent()
             }
         }
     }
-    for (int x = u.posx - SCENT_RADIUS; x <= u.posx + SCENT_RADIUS; x++) {
-        for (int y = u.posy - SCENT_RADIUS; y <= u.posy + SCENT_RADIUS; y++) {
-            if (has_wall_here[x][y] == false) {
+    for (int x = scentmap_minx; x <= scentmap_maxx; ++x) {
+        for (int y = scentmap_miny; y <= scentmap_maxy; ++y) {
+            if (not blocks_scent[x][y]) {
                 // to how many neighboring squares do we diffuse out? (include our own square
                 // since we also include our own square when diffusing in)
                 int squares_used = squares_used_y[y][x - 1]
@@ -4031,7 +4044,7 @@ void game::update_scent()
                                    + squares_used_y[y][x + 1];
 
                 int this_diffusivity;
-                if (reduce_scent_here[x][y] == false) {
+                if (not reduces_scent[x][y]) {
                     this_diffusivity = diffusivity;
                 } else {
                     this_diffusivity = diffusivity / 5; //less air movement for REDUCE_SCENT square
@@ -4044,9 +4057,12 @@ void game::update_scent()
                 // we've already summed neighboring scent values in the y direction in the previous
                 // loop. Now we do it for the x direction, multiply by diffusion, and this is what
                 // diffuses into our current square.
-                grscent[x][y] = (temp_scent + this_diffusivity *
-                                 (sum_3_scent_y[y][x - 1] + sum_3_scent_y[y][x] +
-                                  sum_3_scent_y[y][x + 1])) / (1000 * 10);
+                grscent[x][y] =
+                    (temp_scent
+                     + this_diffusivity * (sum_3_scent_y[y][x - 1]
+                                           + sum_3_scent_y[y][x]
+                                           + sum_3_scent_y[y][x + 1])
+                    ) / (1000 * 10);
 
 
                 const int fslime = m.get_field_strength(point(x, y), fd_slime) * 10;
@@ -4059,7 +4075,7 @@ void game::update_scent()
                     debugmsg("Wacky scent at %d, %d (%d)", x, y, grscent[x][y]);
                     grscent[x][y] = 0; // Scent should never be higher
                 }
-            } else { // there is a wall here
+            } else { // this cell blocks scent
                 grscent[x][y] = 0;
             }
         }
@@ -5469,34 +5485,10 @@ void game::draw_sidebar()
         mvwprintz(w_location, 0, 18, weather_data[weather].color, "%s", weather_data[weather].name.c_str());
     }
 
-    int display_temp = get_temperature();
-    // Apply windchill
-    w_point weatherPoint = weatherGen.get_weather(u.pos(), calendar::turn);
-    const oter_id &cur_om_ter = overmap_buffer.ter(om_global_location());
-    std::string omtername = otermap[cur_om_ter].name;
-    bool sheltered = is_sheltered(u.pos().x, u.pos().y);
-    int vehwindspeed = 0;
-    int vpart = -1;
-    vehicle *veh = m.veh_at (u.pos().x, u.pos().y, vpart);
-    if (veh) vehwindspeed = veh->velocity / 100; // For mph
-    int windpower = weatherPoint.windpower + vehwindspeed;
-    int windchill = get_local_windchill(get_temperature(), get_local_humidity(weatherPoint.humidity, weather, sheltered), windpower, omtername, sheltered);
-    display_temp += windchill;
-
-    nc_color col_temp = c_blue;
-    if (display_temp >= 90) {
-        col_temp = c_red;
-    } else if (display_temp >= 75) {
-        col_temp = c_yellow;
-    } else if (display_temp >= 60) {
-        col_temp = c_ltgreen;
-    } else if (display_temp >= 50) {
-        col_temp = c_cyan;
-    } else if (display_temp > 32) {
-        col_temp = c_ltblue;
+    if (u.worn_with_flag("THERMOMETER")) {
+        wprintz( w_location, c_white, " %s", print_temperature( get_temperature() ).c_str());
     }
 
-    wprintz( w_location, col_temp, " %s", print_temperature( display_temp ).c_str());
     wrefresh(w_location);
 
     //Safemode coloring
@@ -9960,12 +9952,16 @@ int game::list_items(const int iLastState)
     const int width = use_narrow_sidebar() ? 45 : 55;
     WINDOW *w_items = newwin(TERMY - 2 - iInfoHeight - VIEW_OFFSET_Y * 2, width - 2, VIEW_OFFSET_Y + 1,
                              TERMX - width + 1 - VIEW_OFFSET_X);
+    WINDOW_PTR w_itemsptr( w_items );
     WINDOW *w_items_border = newwin(TERMY - iInfoHeight - VIEW_OFFSET_Y * 2, width, VIEW_OFFSET_Y,
                                     TERMX - width - VIEW_OFFSET_X);
+    WINDOW_PTR w_items_borderptr( w_items_border );
     WINDOW *w_item_info = newwin(iInfoHeight - 1, width - 2, TERMY - iInfoHeight - VIEW_OFFSET_Y,
                                  TERMX - width + 1 - VIEW_OFFSET_X);
+    WINDOW_PTR w_item_infoptr( w_item_info );
     WINDOW *w_item_info_border = newwin(iInfoHeight, width, TERMY - iInfoHeight - VIEW_OFFSET_Y,
                                         TERMX - width - VIEW_OFFSET_X);
+    WINDOW_PTR w_item_info_borderptr( w_item_info_border );
 
     //Area to search +- of players position.
     const int iRadius = 12 + (u.per_cur * 2);
@@ -10100,15 +10096,6 @@ int game::list_items(const int iLastState)
             } else if (action == "NEXT_TAB" || action == "PREV_TAB") {
                 u.view_offset_x = iStoreViewOffsetX;
                 u.view_offset_y = iStoreViewOffsetY;
-
-                werase(w_items);
-                werase(w_items_border);
-                werase(w_item_info);
-                werase(w_item_info_border);
-                delwin(w_items);
-                delwin(w_items_border);
-                delwin(w_item_info);
-                delwin(w_item_info_border);
                 return 1;
             }
 
@@ -10233,15 +10220,6 @@ int game::list_items(const int iLastState)
     u.view_offset_x = iStoreViewOffsetX;
     u.view_offset_y = iStoreViewOffsetY;
 
-    werase(w_items);
-    werase(w_items_border);
-    werase(w_item_info);
-    werase(w_item_info_border);
-    delwin(w_items);
-    delwin(w_items_border);
-    delwin(w_item_info);
-    delwin(w_item_info_border);
-
     return iReturn;
 }
 
@@ -10266,12 +10244,16 @@ int game::list_monsters(const int iLastState)
     const int width = use_narrow_sidebar() ? 45 : 55;
     WINDOW *w_monsters = newwin(TERMY - 2 - iInfoHeight - VIEW_OFFSET_Y * 2, width - 2,
                                 VIEW_OFFSET_Y + 1, TERMX - width + 1 - VIEW_OFFSET_X);
+    WINDOW_PTR w_monstersptr( w_monsters );
     WINDOW *w_monsters_border = newwin(TERMY - iInfoHeight - VIEW_OFFSET_Y * 2, width, VIEW_OFFSET_Y,
                                        TERMX - width - VIEW_OFFSET_X);
+    WINDOW_PTR w_monsters_borderptr( w_monsters_border );
     WINDOW *w_monster_info = newwin(iInfoHeight - 1, width - 2, TERMY - iInfoHeight - VIEW_OFFSET_Y,
                                     TERMX - width + 1 - VIEW_OFFSET_X);
+    WINDOW_PTR w_monster_infoptr( w_monster_info );
     WINDOW *w_monster_info_border = newwin(iInfoHeight, width, TERMY - iInfoHeight - VIEW_OFFSET_Y,
                                            TERMX - width - VIEW_OFFSET_X);
+    WINDOW_PTR w_monster_info_borderptr( w_monster_info_border );
 
     uistate.list_item_mon = 2; // remember we've tabbed here
     //this stores the monsters found
@@ -10350,15 +10332,6 @@ int game::list_monsters(const int iLastState)
             } else if (action == "NEXT_TAB" || action == "PREV_TAB") {
                 u.view_offset_x = iStoreViewOffsetX;
                 u.view_offset_y = iStoreViewOffsetY;
-
-                werase(w_monsters);
-                werase(w_monsters_border);
-                werase(w_monster_info);
-                werase(w_monster_info_border);
-                delwin(w_monsters);
-                delwin(w_monsters_border);
-                delwin(w_monster_info);
-                delwin(w_monster_info_border);
                 return 1;
             } else if (action == "look") {
                 point recentered = look_around();
@@ -10370,14 +10343,6 @@ int game::list_monsters(const int iLastState)
                     last_target = iMonDex;
                     u.view_offset_x = iStoreViewOffsetX;
                     u.view_offset_y = iStoreViewOffsetY;
-                    werase(w_monsters);
-                    werase(w_monsters_border);
-                    werase(w_monster_info);
-                    werase(w_monster_info_border);
-                    delwin(w_monsters);
-                    delwin(w_monsters_border);
-                    delwin(w_monster_info);
-                    delwin(w_monster_info_border);
                     return 2;
                 }
             }
@@ -10491,15 +10456,6 @@ int game::list_monsters(const int iLastState)
 
     u.view_offset_x = iStoreViewOffsetX;
     u.view_offset_y = iStoreViewOffsetY;
-
-    werase(w_monsters);
-    werase(w_monsters_border);
-    werase(w_monster_info);
-    werase(w_monster_info_border);
-    delwin(w_monsters);
-    delwin(w_monsters_border);
-    delwin(w_monster_info);
-    delwin(w_monster_info_border);
 
     return iReturn;
 }
@@ -11598,7 +11554,7 @@ void game::complete_butcher(int index)
         break;
     case MS_SMALL:
         pieces = 2;
-        skins = 3;
+        skins = 2;
         bones = 4;
         fats = 2;
         sinews = 4;
@@ -11606,7 +11562,7 @@ void game::complete_butcher(int index)
         break;
     case MS_MEDIUM:
         pieces = 4;
-        skins = 6;
+        skins = 4;
         bones = 9;
         fats = 4;
         sinews = 9;
@@ -11614,7 +11570,7 @@ void game::complete_butcher(int index)
         break;
     case MS_LARGE:
         pieces = 8;
-        skins = 10;
+        skins = 8;
         bones = 14;
         fats = 8;
         sinews = 14;
@@ -11622,7 +11578,7 @@ void game::complete_butcher(int index)
         break;
     case MS_HUGE:
         pieces = 16;
-        skins = 18;
+        skins = 16;
         bones = 21;
         fats = 16;
         sinews = 21;
@@ -11647,7 +11603,7 @@ void game::complete_butcher(int index)
 
     pieces += int(skill_shift);
     if (skill_shift < 5)  { // Lose some skins and bones
-        skins += ((int)skill_shift - 5);
+        skins += ((int)skill_shift - 4);
         bones += ((int)skill_shift - 2);
         fats += ((int)skill_shift - 4);
         sinews += ((int)skill_shift - 8);
@@ -11703,10 +11659,10 @@ void game::complete_butcher(int index)
             m.spawn_item(u.posx, u.posy, "chitin_piece", chitin, 0, age);
         }
         if (fur) {
-            m.spawn_item(u.posx, u.posy, "fur", fur, 0, age);
+            m.spawn_item(u.posx, u.posy, "raw_fur", fur, 0, age);
         }
         if (leather) {
-            m.spawn_item(u.posx, u.posy, "leather", leather, 0, age);
+            m.spawn_item(u.posx, u.posy, "raw_leather", leather, 0, age);
         }
     }
 
@@ -13919,10 +13875,13 @@ void game::update_stair_monsters()
     std::vector<int> stairx, stairy;
     std::vector<int> stairdist;
 
+    const bool from_below = monstairz < levz;
+
     if (!coming_to_stairs.empty()) {
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
-                if (m.has_flag("GOES_UP", x, y) || m.has_flag("GOES_DOWN", x, y)) {
+                if( ( from_below && m.has_flag( "GOES_DOWN", x, y ) ) ||
+                    ( !from_below && m.has_flag( "GOES_UP", x, y ) ) ) {
                     stairx.push_back(x);
                     stairy.push_back(y);
                     stairdist.push_back(rl_dist(x, y, u.posx, u.posy));
@@ -13977,7 +13936,7 @@ void game::update_stair_monsters()
                     } else {
                         //~ The <monster> is almost at the <bottom/top> of the <terrain type>!
                         if (coming_to_stairs[i].staircount > 0) {
-                            dump << (!(m.has_flag("GOES_UP", mposx, mposy)) ?
+                            dump << (from_below ?
                                      string_format(_("The %s is almost at the top of the %s!"),
                                                    critter.name().c_str(),
                                                    m.tername(mposx, mposy).c_str()) :
@@ -13996,7 +13955,7 @@ void game::update_stair_monsters()
                     critter.staircount = 0;
                     add_zombie(critter);
                     if (u_see(mposx, mposy)) {
-                        if (m.has_flag("GOES_UP", mposx, mposy)) {
+                        if (!from_below) {
                             add_msg(m_warning, _("The %s comes down the %s!"),
                                     critter.name().c_str(),
                                     m.tername(mposx, mposy).c_str());

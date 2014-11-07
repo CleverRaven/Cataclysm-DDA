@@ -312,6 +312,7 @@
         "type" : "material",
         "ident" : "fur",
         "name" : "Fur",
+        "salvage_id": "fur",
         "bash_resist" : 2,
         "cut_resist" : 2,
         "bash_dmg_verb" : "ripped",

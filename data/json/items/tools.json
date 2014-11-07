@@ -5843,7 +5843,7 @@
 
   {
     "id": "jar_meat_canned",
-    "type": "TOOL",
+    "type": "GENERIC",
     "symbol": "%",
     "color": "red",
     "name": "sealed jar of canned meat",
@@ -5856,13 +5856,7 @@
     "bashing": 8,
     "cutting": 1,
     "to_hit": 0,
-    "max_charges": 1,
-    "initial_charges": 1,
-    "charges_per_use": 1,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
     "category": "food",
-    "revert_to": "null",
     "use_action": {
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
@@ -5873,7 +5867,7 @@
 
   {
     "id": "jar_fish_canned",
-    "type": "TOOL",
+    "type": "GENERIC",
     "symbol": "%",
     "color": "light_gray",
     "name": "sealed jar of canned fish",
@@ -5886,13 +5880,7 @@
     "bashing": 8,
     "cutting": 1,
     "to_hit": 0,
-    "max_charges": 1,
-    "initial_charges": 1,
-    "charges_per_use": 1,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
     "category": "food",
-    "revert_to": "null",
     "use_action": {
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
@@ -5903,7 +5891,7 @@
 
   {
     "id": "jar_kompot",
-    "type": "TOOL",
+    "type": "GENERIC",
     "symbol": ")",
     "color": "cyan",
     "name": "sealed 3-liter jar of kompot",
@@ -5917,12 +5905,6 @@
     "bashing": 8,
     "cutting": 1,
     "to_hit": 0,
-    "max_charges": 1,
-    "initial_charges": 1,
-    "charges_per_use": 1,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
     "category": "food",
     "use_action": {
         "type": "transform",
@@ -5935,7 +5917,7 @@
 
   {
     "id": "jar_human_canned",
-    "type": "TOOL",
+    "type": "GENERIC",
     "symbol": "%",
     "color": "red",
     "name": "sealed jar of soylent slices",
@@ -5948,12 +5930,6 @@
     "bashing": 8,
     "cutting": 1,
     "to_hit": 0,
-    "max_charges": 1,
-    "initial_charges": 1,
-    "charges_per_use": 1,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
     "category" : "food",
     "use_action": {
         "type": "transform",
@@ -5965,7 +5941,7 @@
 
   {
     "id": "jar_veggy_canned",
-    "type": "TOOL",
+    "type": "GENERIC",
     "symbol": "%",
     "color": "green",
     "name": "sealed jar of canned veggy",
@@ -5978,12 +5954,6 @@
     "bashing": 8,
     "cutting": 1,
     "to_hit": 0,
-    "max_charges": 1,
-    "initial_charges": 1,
-    "charges_per_use": 1,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
     "category" : "food",
     "use_action": {
         "type": "transform",
@@ -5995,7 +5965,7 @@
 
   {
     "id": "jar_apple_canned",
-    "type": "TOOL",
+    "type": "GENERIC",
     "symbol": "%",
     "color": "red",
     "name": "sealed jar of canned fruit",
@@ -6008,12 +5978,6 @@
     "bashing": 8,
     "cutting": 1,
     "to_hit": 0,
-    "max_charges": 1,
-    "initial_charges": 1,
-    "charges_per_use": 1,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
     "category" : "food",
     "use_action": {
         "type": "transform",
@@ -6021,11 +5985,32 @@
         "target": "apple_canned",
         "container": "jar_glass"
     }
-  },
-
-  {
+  },{
+    "id": "jar_tomato_canned",
+    "type": "GENERIC",
+    "symbol": "%",
+    "color": "red",
+    "name": "sealed jar of canned tomato",
+    "name_plural": "sealed jars of canned tomatoes",
+    "description": "This is a sealed glass jar containing tomatoes.  Use to open and eat to enjoy.",
+    "price": 6500,
+    "material": ["glass", "veggy"],
+    "weight": 504,
+    "volume": 1,
+    "bashing": 8,
+    "cutting": 1,
+    "to_hit": 0,
+    "category" : "food",
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the jar, exposing it to the atmosphere.",
+        "target": "can_tomato",
+        "target_charges": 3,
+        "container": "jar_glass"
+    }
+  },{
     "id": "jar_veggy_pickled",
-    "type": "TOOL",
+    "type": "GENERIC",
     "symbol": "%",
     "color": "green",
     "name": "sealed jar of pickled vegetable",
@@ -6038,12 +6023,6 @@
     "bashing": 8,
     "cutting": 1,
     "to_hit": 0,
-    "max_charges": 1,
-    "initial_charges": 1,
-    "charges_per_use": 1,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
     "category" : "food",
     "use_action": {
         "type": "transform",
@@ -6055,7 +6034,7 @@
 
   {
     "id": "jar_meat_pickled",
-    "type": "TOOL",
+    "type": "GENERIC",
     "symbol": "%",
     "color": "pink",
     "name": "sealed jar of pickled meat",
@@ -6068,12 +6047,6 @@
     "bashing": 8,
     "cutting": 1,
     "to_hit": 0,
-    "max_charges": 1,
-    "initial_charges": 1,
-    "charges_per_use": 1,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
     "category" : "food",
     "use_action": {
         "type": "transform",
@@ -6085,7 +6058,7 @@
 
   {
     "id": "jar_fish_pickled",
-    "type": "TOOL",
+    "type": "GENERIC",
     "symbol": "%",
     "color": "light_gray",
     "name": "sealed jar of pickled fish",
@@ -6098,12 +6071,6 @@
     "bashing": 8,
     "cutting": 1,
     "to_hit": 0,
-    "max_charges": 1,
-    "initial_charges": 1,
-    "charges_per_use": 1,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
     "category" : "food",
     "use_action": {
         "type": "transform",
@@ -6115,7 +6082,7 @@
 
   {
     "id": "jar_human_pickled",
-    "type": "TOOL",
+    "type": "GENERIC",
     "symbol": "%",
     "color": "pink",
     "name": "sealed jar of pickled human flesh",
@@ -6128,12 +6095,6 @@
     "bashing": 8,
     "cutting": 1,
     "to_hit": 0,
-    "max_charges": 1,
-    "initial_charges": 1,
-    "charges_per_use": 1,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
     "category" : "food",
     "use_action": {
         "type": "transform",
@@ -6215,7 +6176,7 @@
 
   {
     "id": "bag_meat_vac",
-    "type": "TOOL",
+    "type": "GENERIC",
     "symbol": "%",
     "color": "red",
     "name": "vacuum-packed meat slice",
@@ -6228,12 +6189,6 @@
     "bashing": 8,
     "cutting": 1,
     "to_hit": 0,
-    "max_charges": 1,
-    "initial_charges": 1,
-    "charges_per_use": 1,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
     "category" : "food",
     "use_action": {
         "type": "transform",
@@ -6245,7 +6200,7 @@
 
   {
     "id": "bag_fish_vac",
-    "type": "TOOL",
+    "type": "GENERIC",
     "symbol": "%",
     "color": "light_gray",
     "name": "vacuum-packed fish slice",
@@ -6257,12 +6212,6 @@
     "bashing": 8,
     "cutting": 1,
     "to_hit": 0,
-    "max_charges": 1,
-    "initial_charges": 1,
-    "charges_per_use": 1,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
     "category" : "food",
     "use_action": {
         "type": "transform",
@@ -6274,7 +6223,7 @@
 
    {
     "id": "bag_hflesh_vac",
-    "type": "TOOL",
+    "type": "GENERIC",
     "symbol": "%",
     "color": "red",
     "name": "vacuum-packed salted simpleton slice",
@@ -6286,12 +6235,6 @@
     "bashing": 8,
     "cutting": 1,
     "to_hit": 0,
-    "max_charges": 1,
-    "initial_charges": 1,
-    "charges_per_use": 1,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
     "category" : "food",
     "use_action": {
         "type": "transform",
@@ -6303,7 +6246,7 @@
 
   {
     "id": "bag_veggy_vac",
-    "type": "TOOL",
+    "type": "GENERIC",
     "symbol": "%",
     "color": "green",
     "name": "vacuum-packed veggy chunk",
@@ -6315,12 +6258,6 @@
     "bashing": 8,
     "cutting": 1,
     "to_hit": 0,
-    "max_charges": 1,
-    "initial_charges": 1,
-    "charges_per_use": 1,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
     "category" : "food",
     "use_action": {
         "type": "transform",
@@ -6332,7 +6269,7 @@
 
   {
     "id": "bag_apple_vac",
-    "type": "TOOL",
+    "type": "GENERIC",
     "symbol": "%",
     "color": "red",
     "name": "vacuum-packed fruit slice",
@@ -6344,12 +6281,6 @@
     "bashing": 8,
     "cutting": 1,
     "to_hit": 0,
-    "max_charges": 1,
-    "initial_charges": 1,
-    "charges_per_use": 1,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
     "category" : "food",
     "use_action": {
         "type": "transform",
@@ -8431,5 +8362,79 @@
         "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
         "explosion_power": 80
     }
+  },
+  {
+    "id": "test_weather_reader",
+    "type": "TOOL",
+    "symbol": "*",
+    "color": "white",
+    "name": "pocket meterologist",
+    "name_plural": "pocket meterologists",
+    "description": "A debug tool that reads temperature, humidity and pressure.",
+    "price": 0,
+    "material": "plastic",
+    "weight": 1,
+    "volume": 1,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": -3,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "category": "tool",
+    "use_action": "POCKET_METEOROLOGIST",
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0
+  },
+
+  {
+    "id": "tanning_hide",
+    "type": "TOOL",
+    "category" : "spare_parts",
+    "symbol": ",",
+    "color": "brown",
+    "name": "tanning leather hide",
+    "description": "A treated animal hide which is undergoing the chemical processes required to become leather.  You will be able to activate it to unroll and make use of it when it is done.",
+    "price": 0,
+    "material": ["flesh", "leather"],
+    "flags": ["NO_SALVAGE"],
+    "weight": 400,
+    "volume": 4,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": -2,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "TANNING_HIDE"
+  },
+
+  {
+    "id": "tanning_pelt",
+    "type": "TOOL",
+    "category" : "spare_parts",
+    "symbol": ",",
+    "color": "brown",
+    "name": "tanning fur pelt",
+    "description": "A treated animal pelt which is undergoing the chemical processes required to become fur.  You will be able to activate it to unroll and make use of it when it is done.",
+    "price": 0,
+    "material": ["fur", "flesh"],
+    "flags": ["NO_SALVAGE"],
+    "weight": 400,
+    "volume": 4,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": -2,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "TANNING_HIDE"
   }
 ]
