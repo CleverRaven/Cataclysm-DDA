@@ -388,8 +388,8 @@ void player::fire_gun(int tarx, int tary, bool burst)
 
     for (int curshot = 0; curshot < num_shots; curshot++) {
         // Burst-fire weapons allow us to pick a new target after killing the first
-        int zid = g->mon_at(tarx, tary);
-        if ( curshot > 0 && (zid == -1 || g->zombie(zid).hp <= 0) ) {
+        const auto critter = g->critter_at( tarx, tary );
+        if ( curshot > 0 && ( critter == nullptr || critter->is_dead_state() ) ) {
             auto const near_range = std::min( 2 + skillLevel( "gun" ), weaponrange );
             auto new_targets = get_visible_creatures( weaponrange );
             for( auto it = new_targets.begin(); it != new_targets.end(); ) {
@@ -408,7 +408,6 @@ void player::fire_gun(int tarx, int tary, bool burst)
                 int target_picked = rng(0, new_targets.size() - 1);
                 tarx = new_targets[target_picked]->xpos();
                 tary = new_targets[target_picked]->ypos();
-                zid = g->mon_at(tarx, tary);
             } else if( ( !has_trait("TRIGGERHAPPY") || one_in(3) ) &&
                        ( skillLevel("gun") >= 7 || one_in(7 - skillLevel("gun")) ) ) {
                 // Triggerhappy has a higher chance of firing repeatedly.
