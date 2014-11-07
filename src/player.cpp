@@ -933,7 +933,7 @@ void player::update_bodytemp()
         temp_conv[i] -= hunger / 6 + 100;
         // FATIGUE
         if( !has_disease("sleep") ) {
-            temp_conv[i] -= 1.5 * fatigue;
+            temp_conv[i] -= std::max(0.0, 1.5 * fatigue);
         }
         // CONVECTION HEAT SOURCES (generates body heat, helps fight frostbite)
         int blister_count = 0; // If the counter is high, your skin starts to burn
