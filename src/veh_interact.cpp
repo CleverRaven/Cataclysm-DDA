@@ -1699,22 +1699,29 @@ void complete_vehicle ()
     int posy = 0;
     std::map<point, vehicle *> foundv;
     vehicle *fillv = NULL;
+    
+    bool is_wrenchable = vehicle_part_types[part_id].has_flag("TOOL_WRENCH");
+    bool is_hand_remove = vehicle_part_types[part_id].has_flag("TOOL_NONE");
 
     // cmd = Install Repair reFill remOve Siphon Drainwater Changetire reName relAbel
     switch (cmd) {
     case 'i':
-        if (has_goggles) {
-            // Need welding goggles to use any of these tools,
-            // without the goggles one _must_ use the duct tape
-            tools.push_back(tool_comp("welder", welder_charges));
-            tools.push_back(tool_comp("oxy_torch", welder_oxy_charges));
-            tools.push_back(tool_comp("welder_crude", welder_crude_charges));
-            tools.push_back(tool_comp("toolset", welder_crude_charges));
+        // Only parts that use charges
+        if (!is_wrenchable && !is_hand_remove){
+            if (has_goggles) {
+                // Need welding goggles to use any of these tools,
+                // without the goggles one _must_ use the duct tape
+                tools.push_back(tool_comp("welder", welder_charges));
+                tools.push_back(tool_comp("oxy_torch", welder_oxy_charges));
+                tools.push_back(tool_comp("welder_crude", welder_crude_charges));
+                tools.push_back(tool_comp("toolset", welder_crude_charges));
+            }
+            tools.push_back(tool_comp("duct_tape", DUCT_TAPE_USED));
+            tools.push_back(tool_comp("toolbox", DUCT_TAPE_USED));
+            g->consume_tools(&g->u, tools);
         }
-        tools.push_back(tool_comp("duct_tape", DUCT_TAPE_USED));
-        tools.push_back(tool_comp("toolbox", DUCT_TAPE_USED));
-        g->consume_tools(&g->u, tools);
-
+        
+        
         used_item = consume_vpart_item (part_id);
         partnum = veh->install_part (dx, dy, part_id, used_item);
         if(partnum < 0) {
@@ -1755,7 +1762,10 @@ void complete_vehicle ()
 
         add_msg (m_good, _("You install a %s into the %s."),
                  vehicle_part_types[part_id].name.c_str(), veh->name.c_str());
-        g->u.practice( "mechanics", vehicle_part_types[part_id].difficulty * 5 + 20 );
+        // easy parts don't train
+        if (!is_wrenchable && !is_hand_remove) {
+            g->u.practice( "mechanics", vehicle_part_types[part_id].difficulty * 5 + 20 );
+        }
         break;
     case 'r':
         veh->last_repair_turn = calendar::turn;
@@ -1792,8 +1802,8 @@ void complete_vehicle ()
         g->pl_refill_vehicle(*veh, vehicle_part);
         break;
     case 'o':
-        // Loose part removal (e.g. jumper cables) is a tool-free action.
-        if (!veh->part_flag(vehicle_part, "UNMOUNT_ON_MOVE")) {
+        // Only parts that use charges
+        if (!is_wrenchable && !is_hand_remove){
             tools.push_back(tool_comp("hacksaw", -1));
             tools.push_back(tool_comp("toolbox", -1));
             tools.push_back(tool_comp("survivor_belt", -1));
@@ -1816,7 +1826,8 @@ void complete_vehicle ()
         if (!broken) {
             used_item = veh->parts[vehicle_part].properties_to_item();
             g->m.add_item_or_charges(g->u.posx, g->u.posy, used_item);
-            if(type != SEL_JACK) { // Changing tires won't make you a car mechanic
+            // simple tasks won't train mechanics
+            if(type != SEL_JACK && !is_wrenchable && !is_hand_remove) { 
                 g->u.practice ( "mechanics", 2 * 5 + 20 );
             }
         } else {
