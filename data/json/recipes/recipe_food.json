@@ -2185,7 +2185,7 @@
       ["irradiated_plums", 4],
       ["irradiated_pomegranate", 4],
       ["irradiated_raspberries", 4],
-      ["irradiated_rhubarb", 4],
+      ["irradiated_rhubarb", 8],
       ["irradiated_strawberries", 4],
       ["irradiated_watermelon", 4],
       ["lemon", 4],
@@ -2198,7 +2198,7 @@
       ["plums", 4],
       ["pomegranate", 4],
       ["raspberries", 4],
-      ["rhubarb", 4],
+      ["rhubarb", 8],
       ["strawberries", 4]
     ],
     [
@@ -4855,7 +4855,7 @@
       ["irradiated_plums", 2],
       ["irradiated_pomegranate", 2],
       ["irradiated_raspberries", 2],
-      ["irradiated_rhubarb", 2],
+      ["irradiated_rhubarb", 4],
       ["irradiated_strawberries", 2],
       ["irradiated_watermelon", 2],
       ["juice_pulp", 4],
@@ -4871,7 +4871,7 @@
       ["plums", 2],
       ["pomegranate", 2],
       ["raspberries", 2],
-      ["rhubarb", 2],
+      ["rhubarb", 4],
       ["strawberries", 2],
       ["watermelon", 2]
     ],
@@ -6170,7 +6170,7 @@
       ["irradiated_plums", 4],
       ["irradiated_pomegranate", 4],
       ["irradiated_raspberries", 4],
-      ["irradiated_rhubarb", 4],
+      ["irradiated_rhubarb", 8],
       ["irradiated_strawberries", 4],
       ["irradiated_watermelon", 4],
       ["lemon", 4],
@@ -6183,7 +6183,7 @@
       ["plums", 4],
       ["pomegranate", 4],
       ["raspberries", 4],
-      ["rhubarb", 4],
+      ["rhubarb", 8],
       ["strawberries", 4]
     ],
     [
@@ -7816,7 +7816,7 @@
        [ "blackberries", 1 ],
        [ "pomegranate", 1 ],
        [ "mango", 1 ],
-       [ "rhubarb", 1 ],
+       [ "rhubarb", 2 ],
        [ "papaya", 1 ],
        [ "apricot", 1 ],
        [ "kiwi", 1 ]
