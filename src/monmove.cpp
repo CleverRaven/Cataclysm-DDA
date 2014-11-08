@@ -93,6 +93,7 @@ void monster::plan(const std::vector<int> &friendlies)
     int tc = 0;
     int stc = 0;
     bool fleeing = false;
+
     if (friendly != 0) { // Target monsters, not the player!
         for (int i = 0, numz = g->num_zombies(); i < numz; i++) {
             monster *tmp = &(g->zombie(i));
@@ -190,6 +191,13 @@ void monster::plan(const std::vector<int> &friendlies)
         } else if (closest >= 0) {
             set_dest(g->active_npc[closest]->posx, g->active_npc[closest]->posy, stc);
         }
+    }
+    // If we're not adjacent to the start of our plan path, don't act on it.
+    // This is to catch when we had pre-existing invalid plans and
+    // made it through the function without changing them.
+    if( !plans.empty() && square_dist(pos().x, pos().y,
+                                      plans.front().x, plans.front().y ) > 1 ) {
+        plans.clear();
     }
 }
 
