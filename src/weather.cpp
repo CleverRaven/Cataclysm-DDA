@@ -267,6 +267,7 @@ void fill_water_collectors(int mmPerHour, bool acid)
 {
     fill_funnels(mmPerHour, acid, tr_funnel);
     fill_funnels(mmPerHour, acid, tr_makeshift_funnel);
+    fill_funnels(mmPerHour, acid, tr_leather_funnel);
 }
 
 /**

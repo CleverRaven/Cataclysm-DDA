@@ -23,12 +23,13 @@
   "result": "saline",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MEDICAL",
-  "skill_used": "cooking",
+  "skill_used": "firstaid",
   "difficulty": 2,
+  "skills_required": [ "cooking", 2 ],
   "time": 30000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [["textbook_firstaid", 2] , ["pocket_firstaid", 3], ["manual_first_aid", 2], ["atomic_survival", 4], ["textbook_chemistry", 5], ["adv_chemistry", 4] , ["emergency_book", 3]],
+  "book_learn": [["textbook_firstaid", 2] , ["pocket_firstaid", 2], ["manual_first_aid", 2], ["atomic_survival", 4], ["textbook_chemistry", 5], ["adv_chemistry", 4] , ["emergency_book", 3]],
   "qualities":[
     {"id":"BOIL","level":1,"amount":1}
   ], "tools": [

@@ -98,8 +98,8 @@ void mod_manager::load_mods_from(std::string path)
     if (file_exist(FILENAMES["mods-dev-default"])) {
         load_mod_info(FILENAMES["mods-dev-default"]);
     }
-    if (file_exist(FILENAMES["mods-user-defaults"])) {
-        load_mod_info(FILENAMES["mods-user-defaults"]);
+    if (file_exist(FILENAMES["mods-user-default"])) {
+        load_mod_info(FILENAMES["mods-user-default"]);
     }
 }
 
@@ -116,6 +116,15 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
         debugmsg("there is already a mod with ident %s", m_ident.c_str());
         return;
     }
+    if( jo.has_bool( "obsolete" ) ) {
+        // Marked obsolete, no need to try to load anything else.
+        MOD_INFORMATION *modfile = new MOD_INFORMATION;
+        modfile->ident = m_ident;
+        modfile->obsolete = true;
+        mod_map[modfile->ident] = modfile;
+        return;
+    }
+
     std::string t_type = jo.get_string("mod-type", "SUPPLEMENTAL");
     std::vector<std::string> m_authors;
     if (jo.has_array("authors")) {
@@ -199,7 +208,7 @@ bool mod_manager::set_default_mods(const t_mod_list &mods)
     default_mods = mods;
     std::ofstream stream(FILENAMES["mods-user-default"].c_str(), std::ios::out | std::ios::binary);
     if(!stream) {
-        popup(_("Can not open %s for writing"), FILENAMES["mods-user-defaults"].c_str());
+        popup(_("Can not open %s for writing"), FILENAMES["mods-user-default"].c_str());
         return false;
     }
     try {
@@ -214,7 +223,7 @@ bool mod_manager::set_default_mods(const t_mod_list &mods)
         return true;
     } catch(std::ios::failure &) {
         // this might happen and indicates an I/O-error
-        popup(_("Failed to write default mods to %s"), FILENAMES["mods-user-defaults"].c_str());
+        popup(_("Failed to write default mods to %s"), FILENAMES["mods-user-default"].c_str());
     } catch(std::string e) {
         // this should not happen, it comes from json-serialization
         debugmsg("%s", e.c_str());

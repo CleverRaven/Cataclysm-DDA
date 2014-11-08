@@ -130,6 +130,13 @@ class Creature
         virtual int ypos() const = 0;
         virtual point pos() const = 0;
 
+        struct compare_by_dist_to_point {
+            point center;
+            // Compare the two creatures a and b by their distance to a fixed center point.
+            // The nearer creature is considered smaller and sorted first.
+            bool operator()( const Creature *a, const Creature *b ) const;
+        };
+
         /** Processes move stopping effects. Returns false if movement is stopped. */
         virtual bool move_effects();
         

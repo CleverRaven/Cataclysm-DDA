@@ -1879,7 +1879,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
 
 std::vector<std::string> player::get_traits() const
 {
-    return my_traits;
+    return std::vector<std::string>( my_traits.begin(), my_traits.end() );
 }
 void player::empty_traits()
 {
