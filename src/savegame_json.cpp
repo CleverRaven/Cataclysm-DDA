@@ -1463,7 +1463,7 @@ void faction::deserialize(JsonIn &jsin)
 
     jo.read("id", id);
     jo.read("name", name);
-    if ( !jo.read( "description", desc )) {
+    if ( !jo.read( "desc", desc )) {
         desc = "";
     }
     goal = faction_goal(jo.get_int("goal", goal));
