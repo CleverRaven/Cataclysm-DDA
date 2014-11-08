@@ -233,7 +233,7 @@ void monster::move()
             g->m.i_clear(posx(), posy());
         }
     }
-    
+
     // First, use the special attack, if we can!
     for (size_t i = 0; i < sp_timeout.size(); ++i) {
         if (sp_timeout[i] > 0) {
@@ -587,37 +587,30 @@ int monster::calc_movecost(int x1, int y1, int x2, int y2) const
 }
 
 /*
- * Return valid points of an area extending 1 tile to either side and (maxdepth) tiles behind basher,
- * taking blocking into account, only if basher is directly infront of bashee
+ * Return points of an area extending 1 tile to either side and
+ * (maxdepth) tiles behind basher.
  */
 std::vector<point> get_bashing_zone( point bashee, point basher, int maxdepth ) {
-    std::vector<point> ret;
-    maxdepth++;
-    int diffx = basher.x - bashee.x;
-    int diffy = basher.y - bashee.y;
-    bool blocked[3] = { false, false, false };
-    if ( diffx == 0 || diffy == 0 ) { // not directly adjacent to target? bail
-       for(int offside=0; offside < 3; offside++) {
-          for(int offdepth = 0; offdepth < maxdepth; offdepth++) {
-             point hpos(0,0);
-             if ( diffx == 0 ) { // vertical
-                hpos = point(basher.x - 1 + offside, basher.y + ( offdepth * diffy ));
-             } else { // horizontal
-                hpos = point(basher.x + ( offdepth * diffx ), basher.y - 1 + offside );
-             }
-             if ( hpos.x != basher.x || hpos.y != basher.y ) { // zeds are beyond self-help
-                if ( g->m.move_cost(hpos.x, hpos.y) == 0 ) { // there's a wall or such here
-                   blocked[offside] = true;
-                }
-                if ( blocked[offside] == false ) { // mobs behind walls are not helpful
-                   // add_msg("bzone += %d,%d",hpos.x,hpos.y);
-                   ret.push_back( hpos );
-                }
-             }
-          }
-       }
+    std::vector<point> direction;
+    direction.push_back(bashee);
+    direction.push_back(basher);
+    // Draw a line from the target through the attacker.
+    std::vector<point> path = continue_line( direction, maxdepth );
+    // Remove the target.
+    path.insert( path.begin(), basher );
+    std::vector<point> zone;
+    // Go ahead and reserve enough room for all the points since
+    // we know how many it will be.
+    zone.reserve( 3 * maxdepth );
+    point previous = bashee;
+    for( point p : path ) {
+        std::vector<point> swath = squares_in_direction( previous.x, previous.y, p.x, p.y );
+        for( point q : swath ) {
+            zone.push_back( q );
+        }
+        previous = p;
     }
-    return ret;
+    return zone;
 }
 
 int monster::bash_at(int x, int y) {
@@ -662,32 +655,44 @@ int monster::bash_skill()
 
 int monster::group_bash_skill( point target )
 {
-    int bashskill = bash_skill();
+    if( !has_flag(MF_GROUP_BASH) ) {
+        return bash_skill();
+    }
+    int bashskill = 0;
 
     // pileup = more bashskill, but only help bashing mob directly infront of target
     const int max_helper_depth = 5;
     const std::vector<point> bzone = get_bashing_zone( target, pos(), max_helper_depth );
-    int diffx = pos().x - target.x;
-    int diffy = pos().y - target.y;
-    int mo_bash = 0;
-    for( size_t i = 0; i < bzone.size(); ++i ) {
-        if ( g->mon_at( bzone[i] ) != -1 ) {
-            monster & helpermon = g->zombie( g->mon_at( bzone[i] ) );
-            // trying for the same door and can bash; put on helper hat
-            if ( helpermon.wandx == wandx && helpermon.wandy == wandy &&
-                 helpermon.has_flag(MF_BASHES) ) {
-                // helpers lined up behind primary basher add full strength,
-                // so do those at either shoulder, others add 50%
-                int addbash = helpermon.bash_skill();
-                // helpers lined up behind primary basher add full strength, others 50%
-                addbash *= ( ( diffx == 0 && bzone[i].x == pos().x ) ||
-                             ( diffy == 0 && bzone[i].y == pos().y ) ) ? 2 : 1;
-                mo_bash += addbash;
+
+    for( point candidate : bzone ) {
+        // Drawing this line backwards excludes the target and includes the candidate.
+        std::vector<point> path_to_target = line_to( target.x, target.y,
+                                                     candidate.x, candidate.y, 0);
+        bool connected = true;
+        int mondex = -1;
+        for( point in_path : path_to_target ) {
+            // If any point in the line from zombie to target is not a cooperating zombie,
+            // it can't contribute.
+            mondex = g->mon_at( in_path );
+            if( mondex == -1 ) {
+                connected = false;
+                break;
+            }
+            monster &helpermon = g->zombie( mondex );
+            if( !helpermon.has_flag(MF_GROUP_BASH) ) {
+                connected = false;
+                break;
             }
         }
+        if( !connected ) {
+            continue;
+        }
+        // If we made it here, the last monster checked was the candidate.
+        monster &helpermon = g->zombie( mondex );
+        // Contribution falls off rapidly with distance from target.
+        bashskill += helpermon.bash_skill() / rl_dist( candidate, target );
     }
-    // by our powers combined...
-    bashskill += int (mo_bash / 2);
+
     return bashskill;
 }
 
