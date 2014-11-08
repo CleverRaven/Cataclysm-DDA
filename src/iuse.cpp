@@ -874,7 +874,7 @@ int iuse::smoking_pipe(player *p, item *it, bool, point)
     p->use_charges("fire", 1);
     /// \todo More content goes into a single toke than a cig/cigar. Should pipe effects be stronger?
     if ("tobacco" == id_to_smoke) {
-        p->add_msg_if_player(_("You smoke some tobacco out of your %s."), it->tname().c_str());
+        p->add_msg_if_player(m_neutral, _("You smoke some tobacco out of your %s."), it->tname().c_str());
         p->use_charges("tobacco", 1);
         p->thirst += 1;
         p->hunger -= 2;
@@ -979,7 +979,7 @@ int iuse::smoking(player *p, item *it, bool, point)
     p->use_charges_if_avail("fire", 1);
     cig.active = true;
     p->inv.add_item(cig, false, true);
-    p->add_msg_if_player(m_info, _("You light a %s."), cig.tname().c_str());
+    p->add_msg_if_player(m_neutral, _("You light a %s."), cig.tname().c_str());
 
     // Parting messages
     if (it->type->id == "joint") {
@@ -999,10 +999,10 @@ int iuse::smoking(player *p, item *it, bool, point)
 int iuse::ecig(player *p, item *it, bool, point)
 {
     if (it->type->id == "ecig") {
-        p->add_msg_if_player(_("You take a puff from your electronic cigarette."));
+        p->add_msg_if_player(m_neutral, _("You take a puff from your electronic cigarette."));
     } else if (it->type->id == "advanced_ecig") {
         if (p->inv.has_components("nicotine_liquid", 1)) {
-            p->add_msg_if_player(_("You inhale some vapor from your advanced electronic cigarette."));
+            p->add_msg_if_player(m_neutral, _("You inhale some vapor from your advanced electronic cigarette."));
             p->inv.use_charges("nicotine_liquid", 1);
         } else {
             p->add_msg_if_player(m_info, _("You don't have any nicotine liquid!"));
@@ -1021,7 +1021,7 @@ int iuse::ecig(player *p, item *it, bool, point)
 
 int iuse::antibiotic(player *p, item *it, bool, point)
 {
-    p->add_msg_if_player(_("You take some antibiotics."));
+    p->add_msg_if_player(m_neutral, _("You take some antibiotics."));
     if (p->has_disease("infected")) {
         // cheap model of antibiotic resistance, but it's something.
         if (x_in_y(95, 100)) {
@@ -1405,7 +1405,7 @@ int iuse::flusleep(player *p, item *it, bool, point)
 int iuse::inhaler(player *p, item *it, bool, point)
 {
     p->rem_disease("asthma");
-    p->add_msg_if_player(_("You take a puff from your inhaler."));
+    p->add_msg_if_player(m_neutral, _("You take a puff from your inhaler."));
     if (one_in(50)) {  // adverse reaction
         p->add_msg_if_player(m_bad, _("Your heart begins to race."));
         p->fatigue -= 10;
@@ -1416,7 +1416,7 @@ int iuse::inhaler(player *p, item *it, bool, point)
 int iuse::oxygen_bottle(player *p, item *it, bool, point)
 {
     p->moves -= 500;
-    p->add_msg_if_player(_("You breathe deeply from the %s"), it->tname().c_str());
+    p->add_msg_if_player(m_neutral, _("You breathe deeply from the %s"), it->tname().c_str());
     if (p->has_effect("smoke")) {
         p->remove_effect("smoke");
     } else if (p->has_disease("asthma")) {
@@ -2592,7 +2592,7 @@ int iuse::mycus(player *p, item *it, bool t, point pos)
     if (p->has_trait("THRESH_MARLOSS")) {
         p->add_memorial_log(pgettext("memorial_male", "Became one with the Mycus."),
                         pgettext("memorial_female", "Became one with the Mycus."));
-        p->add_msg_if_player(m_info, _("The apple tastes amazing, and you finish it quickly, not even noticing the lack of any core or seeds."));
+        p->add_msg_if_player(m_neutral, _("The apple tastes amazing, and you finish it quickly, not even noticing the lack of any core or seeds."));
         p->add_msg_if_player(m_good, _("You feel better all over."));
         p->pkill += 30;
         this->purifier(p, it, t, pos); // Clear out some of that goo you may have floating around
