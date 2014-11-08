@@ -6083,32 +6083,8 @@ Creature *game::is_hostile_very_close()
 
 Creature *game::is_hostile_within(int distance)
 {
-    for (std::vector<npc *>::iterator it = active_npc.begin();
-         it != active_npc.end(); ++it) {
-        point npcp((*it)->posx, (*it)->posy);
-
-        if (!u_see(npcp.x, npcp.y)) {
-            continue;
-        }
-
-        if ((*it)->attitude != NPCATT_KILL) {
-            continue;
-        }
-
-        if (rl_dist(u.posx, u.posy, npcp.x, npcp.y) <= distance) {
-            return *it;
-        }
-    }
-
-    for (size_t i = 0; i < num_zombies(); i++) {
-        monster *critter = &critter_tracker.find(i);
-
-        if ((critter->attitude(&u) != MATT_ATTACK) || (!u_see(critter))) {
-            continue;
-        }
-
-        int mondist = rl_dist(u.posx, u.posy, critter->posx(), critter->posy());
-        if (mondist <= distance) {
+    for( auto &critter : u.get_visible_creatures( distance ) ) {
+        if( u.attitude_to( *critter ) == Creature::A_HOSTILE ) {
             return critter;
         }
     }
