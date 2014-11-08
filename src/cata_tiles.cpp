@@ -618,11 +618,14 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
                                      const std::string &subcategory, int x, int y,
                                      int subtile, int rota)
 {
-    // For the moment, if the ID string does not produce a drawable tile it will revert to the "unknown" tile.
+    // If the ID string does not produce a drawable tile
+    // it will revert to the "unknown" tile.
     // The "unknown" tile is one that is highly visible so you kinda can't miss it :D
 
-    // check to make sure that we are drawing within a valid area [0->width|height / tile_width|height]
-    if (x - o_x < 0 || x - o_x >= screentile_width || y - o_y < 0 || y - o_y >= screentile_height) {
+    // check to make sure that we are drawing within a valid area
+    // [0->width|height / tile_width|height]
+    if( x - o_x < 0 || x - o_x >= screentile_width ||
+        y - o_y < 0 || y - o_y >= screentile_height ) {
         return false;
     }
 
