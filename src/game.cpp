@@ -6119,14 +6119,13 @@ int game::mon_info(WINDOW *w)
     const int maxheight = 12;
     const int startrow = use_narrow_sidebar() ? 1 : 0;
 
-    int buff;
     std::string sbuff;
     int newseen = 0;
     const int iProxyDist = (OPTIONS["SAFEMODEPROXIMITY"] <= 0) ? 60 : OPTIONS["SAFEMODEPROXIMITY"];
     // 7 0 1    unique_types uses these indices;
     // 6 8 2    0-7 are provide by direction_from()
     // 5 4 3    8 is used for local monsters (for when we explain them below)
-    std::vector<int> unique_types[9];
+    std::vector<npc*> unique_types[9];
     std::vector<std::string> unique_mons[9];
     // dangerous_types tracks whether we should print in red to warn the player
     bool dangerous[8];
@@ -6139,9 +6138,14 @@ int game::mon_info(WINDOW *w)
     int viewy = u.posy + u.view_offset_y;
     new_seen_mon.clear();
 
-    for (size_t i = 0; i < num_zombies(); i++) {
-        monster &critter = critter_tracker.find(i);
-        if (u_see(&critter) && !critter.type->has_flag(MF_VERMIN)) {
+    for( auto &c : u.get_visible_creatures( SEEX * MAPSIZE ) ) {
+        const auto m = dynamic_cast<monster*>( c );
+        const auto p = dynamic_cast<npc*>( c );
+        if( m != nullptr ) {
+            auto &critter = *m;
+            if(critter.type->has_flag(MF_VERMIN)) {
+                continue;
+            }
             dir_to_mon = direction_from(viewx, viewy, critter.posx(), critter.posy());
             int index;
             int mx = POSX + (critter.posx() - viewx);
@@ -6171,7 +6175,7 @@ int game::mon_info(WINDOW *w)
                     }
                     if (!passmon) {
                         newseen++;
-                        new_seen_mon.push_back(i);
+                        new_seen_mon.push_back( mon_at( critter.posx(), critter.posy() ) );
                     }
                 }
             }
@@ -6180,13 +6184,9 @@ int game::mon_info(WINDOW *w)
             if( std::find( vec.begin(), vec.end(), critter.type->id ) == vec.end() ) {
                 unique_mons[index].push_back(critter.type->id);
             }
-        }
-    }
-
-    for (size_t i = 0; i < active_npc.size(); i++) {
-        point npcp(active_npc[i]->posx, active_npc[i]->posy);
-        if (u_see(npcp.x, npcp.y)) { // TODO: NPC invis
-            if (active_npc[i]->attitude == NPCATT_KILL)
+        } else if( p != nullptr ) {
+            const auto npcp = p->pos();
+            if (p->attitude == NPCATT_KILL)
                 if (rl_dist(u.posx, u.posy, npcp.x, npcp.y) <= iProxyDist) {
                     newseen++;
                 }
@@ -6201,7 +6201,7 @@ int game::mon_info(WINDOW *w)
                 index = dir_to_npc;
             }
 
-            unique_types[index].push_back(-1 - i);
+            unique_types[index].push_back( p );
         }
     }
 
@@ -6292,8 +6292,7 @@ int game::mon_info(WINDOW *w)
                 c = c_white;
                 sym = "+";
             } else if (j < typeshere_npc) {
-                buff = unique_types[i][j];
-                switch (active_npc[(buff + 1) * -1]->attitude) {
+                switch (unique_types[i][j]->attitude) {
                 case NPCATT_KILL:
                     c = c_red;
                     break;
