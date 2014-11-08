@@ -802,24 +802,11 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
     int range = (hix - u.posx);
     // First, decide on a target among the monsters, if there are any in range
     if (!t.empty()) {
-        // Check for previous target
-        if( target == -1 || !u.sees( t[target]) ) {
-            target = -1;
-            // If no previous target, target the closest there is
-            double closest = -1;
-            double dist;
-            for (size_t i = 0; i < t.size(); i++) {
-                dist = rl_dist(t[i]->xpos(), t[i]->ypos(), u.posx, u.posy);
-                if( (closest < 0 || dist < closest) && u.sees( t[i] ) ) {
-                    closest = dist;
-                    target = i;
-                }
-            }
+        if( static_cast<size_t>( target ) >= t.size() ) {
+            target = 0;
         }
-        if( target != -1 ) {
-            x = t[target]->xpos();
-            y = t[target]->ypos();
-        }
+        x = t[target]->xpos();
+        y = t[target]->ypos();
     } else {
         target = -1; // No monsters in range, don't use target, reset to -1
     }

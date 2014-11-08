@@ -11104,6 +11104,26 @@ void game::plthrow(int pos)
     reenter_fullscreen();
 }
 
+// TODO: Put this into a header (which one?) and maybe move the implementation somewhere else.
+/** Comparator object to sort creatures according to their attitude from "u",
+ * and (on same attitude) according to their distance to "u".
+ */
+struct compare_by_dist_attitude {
+    const Creature &u;
+    bool operator()(Creature *a, Creature *b) const;
+};
+
+bool compare_by_dist_attitude::operator()(Creature *a, Creature *b) const
+{
+    const auto aa = u.attitude_to( *a );
+    const auto ab = u.attitude_to( *b );
+    if( aa != ab ) {
+        return aa < ab;
+    }
+    return rl_dist( a->xpos(), a->ypos(), u.xpos(), u.ypos() ) <
+           rl_dist( b->xpos(), b->ypos(), u.xpos(), u.ypos() );
+}
+
 std::vector<point> game::pl_target_ui(int &x, int &y, int range, item *relevant,
                                       int default_target_x, int default_target_y)
 {
@@ -11115,7 +11135,7 @@ std::vector<point> game::pl_target_ui(int &x, int &y, int range, item *relevant,
         last_target_critter = active_npc[last_target];
     }
     auto mon_targets = u.get_visible_creatures( range );
-    std::sort(mon_targets.begin(), mon_targets.end(), Creature::compare_by_dist_to_point { u.pos() } );
+    std::sort(mon_targets.begin(), mon_targets.end(), compare_by_dist_attitude { u } );
     int passtarget = -1;
     for (size_t i = 0; i < mon_targets.size(); i++) {
         Creature &critter = *mon_targets[i];
