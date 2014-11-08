@@ -235,7 +235,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void toggle_trait(const std::string &flag);
         /** Toggles a mutation on the player */
         void toggle_mutation(const std::string &flag);
-        void toggle_str_set( std::vector< std::string > &set, const std::string &str );
+        void toggle_str_set( std::unordered_set< std::string > &set, const std::string &str );
         /** Modifies mutation_category_level[] based on the entered trait */
         void set_cat_level_rec(const std::string &sMut);
         /** Recalculates mutation_category_level[] values for the player */
@@ -1150,8 +1150,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void blossoms();
 
     protected:
-        std::vector<std::string> my_traits;
-        std::vector<std::string> my_mutations;
+        std::unordered_set<std::string> my_traits;
+        std::unordered_set<std::string> my_mutations;
         std::map<std::string, char> trait_keys;
         std::vector<bionic> my_bionics;
         std::list<disease> illness;
