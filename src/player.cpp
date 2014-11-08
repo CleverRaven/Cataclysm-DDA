@@ -11898,6 +11898,31 @@ int player::print_info(WINDOW* w, int vStart, int, int column) const
     return vStart;
 }
 
+bool player::is_visible_in_range( const Creature &critter, const int range ) const
+{
+    return sees( &critter ) && rl_dist( posx, posy, critter.xpos(), critter.ypos() ) <= range;
+}
+
+std::vector<Creature *> player::get_visible_creatures( const int range ) const
+{
+    std::vector<Creature *> result;
+    for( size_t i = 0; i < g->num_zombies(); i++ ) {
+        auto &critter = g->zombie( i );
+        if( !critter.is_dead() && is_visible_in_range( critter, range ) ) {
+            result.push_back( &critter );
+        }
+    }
+    for( auto & n : g->active_npc ) {
+        if( n != this && is_visible_in_range( *n, range ) ) {
+            result.push_back( n );
+        }
+    }
+    if( this != &g->u && is_visible_in_range( g->u, range ) ) {
+        result.push_back( &g->u );
+    }
+    return result;
+}
+
 void player::place_corpse()
 {
     std::vector<item *> tmp = inv_dump();

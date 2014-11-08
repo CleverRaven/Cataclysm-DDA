@@ -1183,3 +1183,9 @@ body_part Creature::select_body_part(Creature *source, int hit_roll)
 
     return selected_part;
 }
+
+bool Creature::compare_by_dist_to_point::operator()( const Creature* const a, const Creature* const b ) const
+{
+    return rl_dist( a->xpos(), a->ypos(), center.x, center.y ) <
+           rl_dist( b->xpos(), b->ypos(), center.x, center.y );
+}

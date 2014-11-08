@@ -388,32 +388,26 @@ void player::fire_gun(int tarx, int tary, bool burst)
 
     for (int curshot = 0; curshot < num_shots; curshot++) {
         // Burst-fire weapons allow us to pick a new target after killing the first
-        int zid = g->mon_at(tarx, tary);
-        if ( curshot > 0 && (zid == -1 || g->zombie(zid).hp <= 0) ) {
-            std::vector<point> new_targets;
-            new_targets.clear();
-
-            for (unsigned long int i = 0; i < g->num_zombies(); i++) {
-                monster &z = g->zombie(i);
-                if( z.is_dead() ) {
-                    continue;
-                }
-                int dummy;
+        const auto critter = g->critter_at( tarx, tary );
+        if ( curshot > 0 && ( critter == nullptr || critter->is_dead_state() ) ) {
+            auto const near_range = std::min( 2 + skillLevel( "gun" ), weaponrange );
+            auto new_targets = get_visible_creatures( weaponrange );
+            for( auto it = new_targets.begin(); it != new_targets.end(); ) {
+                auto &z = **it;
                 // search for monsters in radius
-                if( rl_dist(z.posx(), z.posy(), tarx, tary) <=
-                    std::min(2 + skillLevel("gun"), weaponrange) &&
-                    rl_dist(xpos(), ypos(), z.xpos(), z.ypos()) <= weaponrange && sees(&z, dummy) ) {
+                if( rl_dist( z.xpos(), z.ypos(), tarx, tary) <= near_range ) {
                     // oh you're not dead and I don't like you. Hello!
-                    new_targets.push_back(z.pos());
+                    ++it;
+                } else {
+                    it = new_targets.erase( it );
                 }
             }
 
             if ( new_targets.empty() == false ) {    /* new victim! or last victim moved */
                 /* 1 victim list unless wildly spraying */
                 int target_picked = rng(0, new_targets.size() - 1);
-                tarx = new_targets[target_picked].x;
-                tary = new_targets[target_picked].y;
-                zid = g->mon_at(tarx, tary);
+                tarx = new_targets[target_picked]->xpos();
+                tary = new_targets[target_picked]->ypos();
             } else if( ( !has_trait("TRIGGERHAPPY") || one_in(3) ) &&
                        ( skillLevel("gun") >= 7 || one_in(7 - skillLevel("gun")) ) ) {
                 // Triggerhappy has a higher chance of firing repeatedly.
