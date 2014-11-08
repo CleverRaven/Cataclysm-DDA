@@ -1567,7 +1567,7 @@ void player::load_legacy(std::stringstream & dump)
     if (sTemp == "TRAITS_END") {
         break;
     } else {
-        my_traits.push_back(sTemp);
+        my_traits.insert(sTemp);
     }
  }
 
@@ -1576,7 +1576,7 @@ void player::load_legacy(std::stringstream & dump)
     if (sTemp == "MUTATIONS_END") {
         break;
     } else {
-        my_mutations.push_back(sTemp);
+        my_mutations.insert(sTemp);
     }
  }
 
@@ -1744,7 +1744,7 @@ void npc::load_legacy(std::stringstream & dump) {
     if (sTemp == "TRAITS_END") {
         break;
     } else {
-        my_traits.push_back(sTemp);
+        my_traits.insert(sTemp);
     }
  }
 

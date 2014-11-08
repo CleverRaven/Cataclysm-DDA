@@ -190,12 +190,11 @@ void player::power_mutations()
 {
     std::vector <std::string> passive;
     std::vector <std::string> active;
-    for (std::vector<std::string>::iterator it = my_mutations.begin();
-         it != my_mutations.end(); ++it) {
-        if (!traits[*it].activated) {
-            passive.push_back(*it);
+    for( auto &mut : my_mutations ) {
+        if (!traits[mut].activated) {
+            passive.push_back(mut);
         } else {
-            active.push_back(*it);
+            active.push_back(mut);
         }
     }
 

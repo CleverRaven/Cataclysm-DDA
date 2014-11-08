@@ -3645,23 +3645,13 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
 bool player::has_trait(const std::string &b) const
 {
     // Look for active mutations and traits
-    for (auto &i : my_mutations) {
-        if (traits[i].id == b) {
-            return true;
-        }
-    }
-    return false;
+    return my_mutations.find( b ) != my_mutations.end();
 }
 
 bool player::has_base_trait(const std::string &b) const
 {
     // Look only at base traits
-    for (auto &i : my_traits) {
-        if (traits[i].id == b) {
-            return true;
-        }
-    }
-    return false;
+    return my_traits.find( b ) != my_traits.end();
 }
 
 bool player::has_conflicting_trait(const std::string &flag) const
@@ -3711,10 +3701,10 @@ bool player::has_higher_trait(const std::string &flag) const
 bool player::crossed_threshold()
 {
     std::vector<std::string> traitslist;
-    for( auto iter = my_mutations.begin(); iter != my_mutations.end(); ++iter ) {
-        traitslist.push_back(*iter);
+    for( auto &mut : my_mutations ) {
+        traitslist.push_back( mut );
     }
-    for (auto &i : traitslist) {
+    for( auto &i : traitslist ) {
         if (mutation_data[i].threshold == true) {
             return true;
         }
@@ -3730,7 +3720,7 @@ bool player::purifiable(const std::string &flag) const
     return false;
 }
 
-void player::toggle_str_set( std::vector< std::string > &set, const std::string &str )
+void player::toggle_str_set( std::unordered_set< std::string > &set, const std::string &str )
 {
     auto toggled_element = std::find( set.begin(), set.end(), str );
     if( toggled_element == set.end() ) {
@@ -3749,7 +3739,7 @@ void player::toggle_str_set( std::vector< std::string > &set, const std::string 
                 break;
             }
         }
-        set.push_back( str );
+        set.insert( str );
         trait_keys[str] = new_key;
     } else {
         set.erase( toggled_element );
@@ -3792,8 +3782,8 @@ void player::set_highest_cat_level()
     mutation_category_level.clear();
 
     // Loop through our mutations
-    for( auto iter = my_mutations.begin(); iter != my_mutations.end(); ++iter ) {
-        set_cat_level_rec(*iter);
+    for( auto &mut : my_mutations ) {
+        set_cat_level_rec( mut );
     }
 }
 
@@ -3931,12 +3921,11 @@ bool player::has_active_bionic(const bionic_id & b) const
 }
 bool player::has_active_mutation(const std::string & b) const
 {
-    for (auto &i : my_mutations) {
-        if (traits[i].id == b) {
-            return (traits[i].powered);
-        }
+    const auto &mut_iter = my_mutations.find( b );
+    if( mut_iter == my_mutations.end() ) {
+        return false;
     }
-    return false;
+    return traits[*mut_iter].powered;
 }
 
 void player::add_bionic( bionic_id b )
