@@ -282,7 +282,7 @@ void game::init_fields()
 
         {
             "fd_fungal_haze",
-            {_("hazy cloud"),_("fungal haze"),_("thick fungal haze")}, '.', 8,
+            {_("hazy cloud"),_("fungal haze"),_("thick fungal haze")}, '%', 8,
             { c_white, c_cyan, c_cyan }, { true, true, false }, { true, true, true }, 40,
             {0,0,0}
         },
@@ -359,7 +359,7 @@ void map::spread_gas( field_entry *cur, int x, int y, field_id curtype,
             if( !(a || b) ) { continue; }
             const field_entry* tmpfld = get_field( point( x + a, y + b ), curtype );
             // Candidates are existing weaker fields or navigable/flagged tiles with no field.
-            if( (tmpfld && tmpfld->getFieldDensity() < cur->getFieldDensity() && 
+            if( (tmpfld && tmpfld->getFieldDensity() < cur->getFieldDensity() &&
                  (move_cost( x + a, y + b ) > 0 || has_flag("PERMEABLE", x + a, y + b))) ||
                 (!tmpfld && (move_cost( x + a, y + b ) > 0 || has_flag("PERMEABLE", x + a, y + b))) ) {
                 spread.push_back( point( x + a, y + b ) );
