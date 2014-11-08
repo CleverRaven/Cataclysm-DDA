@@ -99,7 +99,7 @@ enum TILE_CATEGORY
 
 /** Typedefs */
 typedef std::vector<SDL_Texture *> tile_map;
-typedef std::map<std::string, tile_type *> tile_id_map;
+typedef std::unordered_map<std::string, tile_type *> tile_id_map;
 
 typedef tile_map::iterator tile_iterator;
 typedef tile_id_map::iterator tile_id_iterator;
