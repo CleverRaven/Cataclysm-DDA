@@ -456,6 +456,40 @@ bool monster::is_fleeing(player &u) const
          (att == MATT_FOLLOW && rl_dist(_posx, _posy, u.posx, u.posy) <= 4));
 }
 
+Creature::Attitude monster::attitude_to( const Creature &other ) const
+{
+    const auto m = dynamic_cast<const monster *>( &other );
+    const auto p = dynamic_cast<const player *>( &other );
+    if( m != nullptr ) {
+        if( friendly != 0 && friendly != 0 ) {
+            // Currently friendly means "friendly to the player" (on same side as player),
+            // so if both monsters are friendly (towards the player), they are friendly towards
+            // each other.
+            return A_FRIENDLY;
+        }
+        // For now monsters are neutral (not hostile!) to all other monsters.
+        return A_NEUTRAL;
+    } else if( p != nullptr ) {
+        switch( attitude( const_cast<player *>( p ) ) ) {
+            case MATT_FRIEND:
+                return A_FRIENDLY;
+            case MATT_FPASSIVE:
+            case MATT_FLEE:
+            case MATT_IGNORE:
+            case MATT_FOLLOW:
+            case MATT_ZLAVE:
+                return A_NEUTRAL;
+            case MATT_ATTACK:
+                return A_HOSTILE;
+            case MATT_NULL:
+            case NUM_MONSTER_ATTITUDES:
+                break;
+        }
+    }
+    // Should not happen!, creature should be either player or monster
+    return A_NEUTRAL;
+}
+
 monster_attitude monster::attitude(player *u) const
 {
     if (friendly != 0 && !(has_effect("docile"))) {
