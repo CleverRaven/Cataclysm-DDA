@@ -346,6 +346,7 @@ void DynamicDataLoader::unload_data()
     reset_speech();
     iuse::reset_bullet_pulling();
     clear_overmap_specials();
+    ammunition_type::reset();
 
     // TODO:
     //    NameGenerator::generator().clear_names();
