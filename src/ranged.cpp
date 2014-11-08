@@ -387,6 +387,7 @@ void player::fire_gun(int tarx, int tary, bool burst)
         }
     }
 
+    const bool trigger_happy = has_trait( "TRIGGERHAPPY" );
     for (int curshot = 0; curshot < num_shots; curshot++) {
         // Burst-fire weapons allow us to pick a new target after killing the first
         const auto critter = g->critter_at( tarx, tary );
@@ -395,6 +396,16 @@ void player::fire_gun(int tarx, int tary, bool burst)
             auto new_targets = get_visible_creatures( weaponrange );
             for( auto it = new_targets.begin(); it != new_targets.end(); ) {
                 auto &z = **it;
+                if( attitude_to( z ) == A_FRIENDLY ) {
+                    if( !trigger_happy ) {
+                        it = new_targets.erase( it );
+                        continue;
+                    } else if( !one_in( 10 ) ) {
+                        // Trigger happy sometimes doesn't care whom to shoot.
+                        it = new_targets.erase( it );
+                        continue;
+                    }
+                }
                 // search for monsters in radius
                 if( rl_dist( z.xpos(), z.ypos(), tarx, tary) <= near_range ) {
                     // oh you're not dead and I don't like you. Hello!
@@ -409,7 +420,7 @@ void player::fire_gun(int tarx, int tary, bool burst)
                 int target_picked = rng(0, new_targets.size() - 1);
                 tarx = new_targets[target_picked]->xpos();
                 tary = new_targets[target_picked]->ypos();
-            } else if( ( !has_trait("TRIGGERHAPPY") || one_in(3) ) &&
+            } else if( ( !trigger_happy || one_in(3) ) &&
                        ( skillLevel("gun") >= 7 || one_in(7 - skillLevel("gun")) ) ) {
                 // Triggerhappy has a higher chance of firing repeatedly.
                 // Otherwise it's dominated by how much practice you've had.
