@@ -6133,7 +6133,6 @@ int game::mon_info(WINDOW *w)
         dangerous[i] = false;
     }
 
-    direction dir_to_mon, dir_to_npc;
     int viewx = u.posx + u.view_offset_x;
     int viewy = u.posy + u.view_offset_y;
     new_seen_mon.clear();
@@ -6141,19 +6140,19 @@ int game::mon_info(WINDOW *w)
     for( auto &c : u.get_visible_creatures( SEEX * MAPSIZE ) ) {
         const auto m = dynamic_cast<monster*>( c );
         const auto p = dynamic_cast<npc*>( c );
+        const auto dir_to_mon = direction_from( viewx, viewy, c->xpos(), c->ypos() );
+        const int mx = POSX + ( c->xpos() - viewx );
+        const int my = POSY + ( c->ypos() - viewy );
+        int index;
+        if( is_valid_in_w_terrain( mx, my ) ) {
+            index = 8;
+        } else {
+            index = dir_to_mon;
+        }
         if( m != nullptr ) {
             auto &critter = *m;
             if(critter.type->has_flag(MF_VERMIN)) {
                 continue;
-            }
-            dir_to_mon = direction_from(viewx, viewy, critter.posx(), critter.posy());
-            int index;
-            int mx = POSX + (critter.posx() - viewx);
-            int my = POSY + (critter.posy() - viewy);
-            if (is_valid_in_w_terrain(mx, my)) {
-                index = 8;
-            } else {
-                index = dir_to_mon;
             }
 
             monster_attitude matt = critter.attitude(&u);
@@ -6190,16 +6189,6 @@ int game::mon_info(WINDOW *w)
                 if (rl_dist(u.posx, u.posy, npcp.x, npcp.y) <= iProxyDist) {
                     newseen++;
                 }
-
-            dir_to_npc = direction_from(viewx, viewy, npcp.x, npcp.y);
-            int index;
-            int mx = POSX + (npcp.x - viewx);
-            int my = POSY + (npcp.y - viewy);
-            if (is_valid_in_w_terrain(mx, my)) {
-                index = 8;
-            } else {
-                index = dir_to_npc;
-            }
 
             unique_types[index].push_back( p );
         }
