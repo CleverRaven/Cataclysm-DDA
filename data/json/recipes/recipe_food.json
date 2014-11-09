@@ -4115,7 +4115,8 @@
   "subcategory": "CSC_FOOD_OTHER",
   "skill_used": "cooking",
   "difficulty": 1,
-  "time": 1000,
+  "time": 10000,
+  "batch_time_factors":[80, 4],
   "reversible": false,
   "autolearn": true,
   "qualities":[
