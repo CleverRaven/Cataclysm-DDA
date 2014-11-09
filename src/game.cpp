@@ -420,12 +420,10 @@ void game::init_ui()
         messX = MINIMAP_WIDTH;
         messY = 0;
         messW = sidebarWidth - messX;
-        messH = TERMY - 5; // 1 for w_location + 4 for w_stat, w_messages starts at 0
+        messH = 20;
         hpX = 0;
         hpY = MINIMAP_HEIGHT;
-        // under the minimap, but down to the same line as w_messages (even when that is to much),
-        // so it erases the space between w_terrain and w_messages
-        hpH = messH - MINIMAP_HEIGHT;
+        hpH = 14;
         hpW = 7;
         locX = MINIMAP_WIDTH;
         locY = messY + messH;
@@ -437,9 +435,10 @@ void game::init_ui()
         statW = sidebarWidth;
 
         // The default style only uses one status window.
+        // But the second status window is used to clear the area under the message window which is otherwise not used.
         stat2X = 0;
         stat2Y = statY + statH;
-        stat2H = 1;
+        stat2H = TERMY - stat2Y;
         stat2W = sidebarWidth;
 
         mouseview_y = stat2Y + stat2H;
@@ -5421,17 +5420,14 @@ void game::draw_sidebar()
         return;
     }
 
-    // w_status2 is not used with the wide sidebar (wide == !narrow)
-    // Don't draw anything on it (no werase, wrefresh) in this case to avoid flickering
-    // (it overlays other windows)
+    // w_status2 is not used with the wide sidebar (wide == !narrow), but is erased to clear
+    // contents of other windows (e.g. the inventory, armor sorting etc.)
     const bool sideStyle = use_narrow_sidebar();
 
     // Draw Status
     draw_HP();
     werase(w_status);
-    if( sideStyle ) {
-        werase(w_status2);
-    }
+    werase(w_status2);
     if (!liveview.compact_view) {
         liveview.hide(true, false);
     }
@@ -5516,9 +5512,7 @@ void game::draw_sidebar()
         }
     }
     wrefresh(w_status);
-    if( sideStyle ) {
-        wrefresh(w_status2);
-    }
+    wrefresh(w_status2);
 
     werase(w_messages);
     int maxlength = getmaxx(w_messages);
