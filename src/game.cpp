@@ -13476,6 +13476,9 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
                     x >= SEEX * (1 + int(MAPSIZE / 2)) || y >= SEEY * (1 + int(MAPSIZE / 2)) ) ) {
                     update_map( x, y );
                 }
+                if (p->in_vehicle) {
+                    m.unboard_vehicle(p->posx, p->posy);
+                }
                 p->posx = x;
                 p->posy = y;
             } else {
