@@ -13832,7 +13832,7 @@
         "volume" : 1,
         "cutting" : 0,
         "phase" : "liquid",
-        "charges" : 2,
+        "charges" : 1,
         "bashing" : 0,
         "fun" : 10,
         "flags" : ["USE_EAT_VERB"]
@@ -13861,7 +13861,7 @@
         "volume" : 1,
         "cutting" : 0,
         "phase" : "liquid",
-        "charges" : 2,
+        "charges" : 1,
         "bashing" : 0,
         "fun" : 10,
         "flags" : ["USE_EAT_VERB"]
