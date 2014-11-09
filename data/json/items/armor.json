@@ -6727,13 +6727,13 @@
         "material" : ["plastic", "null"],
         "volume" : 100,
         "cutting" : 0,
-        "warmth" : 10,
+        "warmth" : 0,
         "phase" : "solid",
         "environmental_protection" : 0,
         "encumbrance" : 5,
         "bashing" : -4,
         "coverage" : 25,
-        "material_thickness" : 3
+        "material_thickness" : 0
     },
     {
         "type" : "ARMOR",
@@ -6750,13 +6750,13 @@
         "material" : ["cotton", "null"],
         "volume" : 10,
         "cutting" : 0,
-        "warmth" : 10,
+        "warmth" : 0,
         "phase" : "solid",
         "environmental_protection" : 0,
         "encumbrance" : 5,
         "bashing" : -4,
         "coverage" : 25,
-        "material_thickness" : 3
+        "material_thickness" : 0
     },
     {
         "type" : "ARMOR",
@@ -7571,7 +7571,7 @@
         "name" : "american flag",
         "weight" : 3404,
         "color" : "light_red",
-        "covers" : ["TORSO", "ARMS", "HANDS", "LEGS", "FEET"],
+        "covers" : ["TORSO", "ARMS", "HANDS", "LEGS"],
         "to_hit" : -1,
         "storage" : 0,
         "symbol" : "[",
