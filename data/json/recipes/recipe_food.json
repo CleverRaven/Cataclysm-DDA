@@ -38,7 +38,7 @@
   "time": 90000,
   "reversible": false,
   "autolearn": true,
-  "batch_time_factors":[40, 2],
+  "batch_time_factors":[80, 4],
   "qualities":[
     {"id":"BOIL","level":1,"amount":1}
   ], "tools": [
