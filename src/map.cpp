@@ -1216,35 +1216,7 @@ int map::combined_movecost(const int x1, const int y1,
 
 bool map::trans(const int x, const int y)
 {
-    // Control statement is a problem. Normally returning false on an out-of-bounds
-    // is how we stop rays from going on forever.  Instead we'll have to include
-    // this check in the ray loop.
-    int vpart = -1;
-    vehicle *veh = veh_at(x, y, vpart);
-    bool tertr;
-    if (veh) {
-        tertr = veh->part_with_feature(vpart, VPFLAG_OPAQUE) < 0;
-        if (!tertr) {
-            const int dpart = veh->part_with_feature(vpart, VPFLAG_OPENABLE);
-            if (dpart >= 0 && veh->parts[dpart].open) {
-                tertr = true; // open opaque door
-            }
-        }
-    } else {
-        tertr = has_flag_ter_and_furn(TFLAG_TRANSPARENT, x, y);
-    }
-    if( tertr ) {
-        // Fields may obscure the view, too
-        const field &curfield = field_at( x,y );
-        for( auto &fld : curfield ) {
-                //If ANY field blocks vision, the tile does.
-                if(!fieldlist[fld.second.getFieldType()].transparent[fld.second.getFieldDensity() - 1]) {
-                    return false;
-                }
-        }
-        return true; //no blockers found, this is transparent
-    }
-    return false; //failsafe block vision
+    return light_transparency(x, y) > LIGHT_TRANSPARENCY_SOLID;
 }
 
 bool map::has_flag(const std::string &flag, const int x, const int y) const

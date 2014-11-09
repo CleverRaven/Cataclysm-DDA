@@ -4208,13 +4208,16 @@ int player::overmap_sight_range(int light_level)
     return 10;
 }
 
+#define MAX_CLAIRVOYANCE 40
 int player::clairvoyance() const
 {
- if (has_artifact_with(AEP_CLAIRVOYANCE))
-  return 3;
- if (has_artifact_with(AEP_SUPER_CLAIRVOYANCE))
-  return 40;
- return 0;
+    if (has_artifact_with(AEP_SUPER_CLAIRVOYANCE)) {
+        return MAX_CLAIRVOYANCE;
+    }
+    if (has_artifact_with(AEP_CLAIRVOYANCE)) {
+        return 3;
+    }
+    return 0;
 }
 
 bool player::sight_impaired()
@@ -11703,28 +11706,36 @@ bool player::sees(int x, int y) const
 
 bool player::sees(int x, int y, int &t) const
 {
-    const int s_range = sight_range(g->light_level());
     static const std::string str_bio_night("bio_night");
     const int wanted_range = rl_dist(posx, posy, x, y);
-
-    if (wanted_range < clairvoyance()) {
-        return true;
-    }
     bool can_see = false;
-    if (wanted_range <= s_range ||
-        (wanted_range <= sight_range(DAYLIGHT_LEVEL) &&
-            g->m.light_at(x, y) >= LL_LOW)) {
-        if (is_player()) {
-            // uses the seen cache in map
-            can_see = g->m.pl_sees(posx, posy, x, y, wanted_range);
-        } else if (g->m.light_at(x, y) >= LL_LOW) {
-            can_see = g->m.sees(posx, posy, x, y, wanted_range, t);
-        } else {
-            can_see = g->m.sees(posx, posy, x, y, s_range, t);
+
+    // Uses the seen cache in map to quickly resolve the most common case.
+    if( is_player() ) {
+        if( g->m.pl_sees(posx, posy, x, y, wanted_range) ) {
+            can_see = true;
+        }
+    } else {
+        const int s_range = sight_range(g->light_level());
+        if( wanted_range <= s_range ||
+            (wanted_range <= sight_range(DAYLIGHT_LEVEL) &&
+             g->m.light_at(x, y) >= LL_LOW)) {
+            if (g->m.light_at(x, y) >= LL_LOW) {
+                can_see = g->m.sees(posx, posy, x, y, wanted_range, t);
+            } else {
+                can_see = g->m.sees(posx, posy, x, y, s_range, t);
+            }
         }
     }
-    if (has_active_bionic(str_bio_night) && wanted_range < 15 && wanted_range > sight_range(1)) {
-        return false;
+    // Only check if we need to override if we already came to the opposite conclusion.
+    if( can_see && wanted_range < 15 && wanted_range > sight_range(1) &&
+        has_active_bionic(str_bio_night) ) {
+        can_see = false;
+    }
+    // Clairvoyance is a really expensive check,
+    // so try to avoid making it if at all possible.
+    if( !can_see && wanted_range < MAX_CLAIRVOYANCE && wanted_range < clairvoyance() ) {
+        return true;
     }
     return can_see;
 }
