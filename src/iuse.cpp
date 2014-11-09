@@ -657,19 +657,23 @@ int iuse::raw_meat(player *p, item *it, bool, point)
 {
     if ((one_in(32)) && !(p->has_disease("tapeworm") || p->has_bionic("bio_digestion") ||
                           p->has_trait("PARAIMMUNE") ||
+                          p->has_trait("CARNIVORE") ||
                           // Hyper-Metabolism digests the thing before it can set up shop.
                           p->has_trait("EATHEALTH"))) {
         p->add_disease("tapeworm", 1, true);
     }
     if ((one_in(64)) && !(p->has_disease("bloodworms") || p->has_bionic("bio_digestion") ||
+                          p->has_trait("CARNIVORE") ||
                           p->has_trait("PARAIMMUNE"))) {
         p->add_disease("bloodworms", 1, true);
     }
     if ((one_in(128)) && !(p->has_disease("brainworm") || p->has_bionic("bio_digestion") ||
+                           p->has_trait("CARNIVORE") ||
                            p->has_trait("PARAIMMUNE"))) {
         p->add_disease("brainworm", 1, true);
     }
     if ((one_in(64)) && !(p->has_disease("paincysts") || p->has_bionic("bio_digestion") ||
+                          p->has_trait("CARNIVORE") ||
                           p->has_trait("PARAIMMUNE"))) {
         p->add_disease("paincysts", 1, true);
     }

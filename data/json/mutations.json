@@ -3561,7 +3561,7 @@
         "id" : "CARNIVORE",
         "name" : "Carnivore",
         "points" : -3,
-        "description" : "Your body's ability to digest fruits, vegetables and grains is severely hampered. You cannot eat anything besides meat.",
+        "description" : "Your body's ability to digest fruits, vegetables and grains is severely hampered. You cannot eat anything besides meat. However, you don't have to worry about potential side effects of eating raw meat.",
         "cancels" : ["VEGETARIAN", "HERBIVORE", "RUMINANT"],
         "leads_to" : ["SAPROVORE"],
         "category" : ["MUTCAT_LIZARD", "MUTCAT_BEAST", "MUTCAT_SPIDER", "MUTCAT_CHIMERA", "MUTCAT_RAPTOR", "MUTCAT_FELINE"]
