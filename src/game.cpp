@@ -12100,6 +12100,10 @@ void game::unload(int pos)
 
 void game::unload(item &it)
 {
+    if( it.is_null() ) {
+        add_msg(m_info, _("You're not wielding anything."));
+        return;
+    }
     if (!it.is_gun() && it.contents.empty() && (!it.is_tool() || it.ammo_type() == "NULL")) {
         add_msg(m_info, _("You can't unload a %s!"), it.tname().c_str());
         return;
