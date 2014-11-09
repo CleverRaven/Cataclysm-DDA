@@ -60,6 +60,31 @@ void luah_setglobal(lua_State *L, const char *name, int index)
     lua_setglobal(L, name);
 }
 
+// Given a Lua return code and a file that it happened in, print a debugmsg with the error and path.
+// Returns true if there was an error, false if there was no error at all.
+bool lua_report_error(lua_State *L, int err, const char *path) {
+    if( err == 0 || err == LUA_ERRRUN ) {
+        // No error or error message already shown via traceback function.
+        return err != 0;
+    }
+    const char *error = lua_tostring(L, -1);
+    switch(err) {
+        case LUA_ERRSYNTAX:
+            debugmsg( "Lua returned syntax error for %s\n%s", path, error );
+            break;
+        case LUA_ERRMEM:
+            debugmsg( "Lua is out of memory" );
+            break;
+        case LUA_ERRFILE:
+            debugmsg( "Lua returned file io error for %s\n%s", path, error );
+            break;
+        default:
+            debugmsg( "Lua returned unknown error %d for %s\n%s", err, path, error );
+            break;
+    }
+    return true;
+}
+
 void update_globals(lua_State *L)
 {
     // Make sure the player reference is up to date.
@@ -102,11 +127,7 @@ int call_lua(std::string tocall)
 
     update_globals(L);
     int err = luaL_dostring(L, tocall.c_str());
-    if(err) {
-        // Error handling.
-        const char *error = lua_tostring(L, -1);
-        debugmsg("Error in lua command: %s", error);
-    }
+    lua_report_error(L, err, tocall.c_str());
     return err;
 }
 
@@ -119,6 +140,9 @@ void lua_callback(lua_State *, const char *callback_name)
 //
 int lua_mapgen(map *m, std::string terrain_type, mapgendata, int t, float, const std::string &scr)
 {
+    if( lua_state == nullptr ) {
+        return 0;
+    }
     lua_State *L = lua_state;
     {
         map **map_userdata = (map **) lua_newuserdata(L, sizeof(map *));
@@ -128,10 +152,7 @@ int lua_mapgen(map *m, std::string terrain_type, mapgendata, int t, float, const
     }
 
     int err = luaL_loadstring(L, scr.c_str() );
-    if(err) {
-        // Error handling.
-        const char *error = lua_tostring(L, -1);
-        debugmsg("Error loading lua mapgen: %s", error);
+    if( lua_report_error( L, err, scr.c_str() ) ) {
         return err;
     }
     //    int function_index = luaL_ref(L, LUA_REGISTRYINDEX); // todo; make use of this
@@ -143,11 +164,7 @@ int lua_mapgen(map *m, std::string terrain_type, mapgendata, int t, float, const
     lua_setglobal(L, "turn");
 
     err = lua_pcall(L, 0 , LUA_MULTRET, 0);
-    if(err) {
-        // Error handling.
-        const char *error = lua_tostring(L, -1);
-        debugmsg("Error running lua mapgen: %s", error);
-    }
+    lua_report_error( L, err, scr.c_str() );
 
     //    luah_remove_from_registry(L, function_index); // todo: make use of this
 
@@ -463,7 +480,12 @@ static int traceback(lua_State *L)
 void lua_dofile(lua_State *L, const char *path)
 {
     lua_pushcfunction(L, &traceback);
-    luaL_loadfile(L, path) || lua_pcall(L, 0, LUA_MULTRET, -2);
+    int err = luaL_loadfile(L, path);
+    if( lua_report_error( L, err, path ) ) {
+        return;
+    }
+    err = lua_pcall(L, 0, LUA_MULTRET, -2);
+    lua_report_error( L, err, path );
 }
 
 // game.dofile(file)
@@ -499,6 +521,10 @@ static const struct luaL_Reg global_funcs [] = {
 void game::init_lua()
 {
     lua_state = luaL_newstate();
+    if( lua_state == nullptr ) {
+        debugmsg( "Failed to start Lua. Lua scripting won't be available." );
+        return;
+    }
 
     luaL_openlibs(lua_state); // Load standard lua libs
 
@@ -507,9 +533,10 @@ void game::init_lua()
     luaL_register(lua_state, "game", global_funcs);
 
     // Load lua-side metatables etc.
-    luaL_dofile(lua_state, FILENAMES["class_defslua"].c_str());
-    luaL_dofile(lua_state, FILENAMES["autoexeclua"].c_str());
+    lua_dofile(lua_state, FILENAMES["class_defslua"].c_str());
+    lua_dofile(lua_state, FILENAMES["autoexeclua"].c_str());
 }
+
 #endif // #ifdef LUA
 
 use_function::~use_function()
@@ -599,11 +626,7 @@ int use_function::call(player *player_instance, item *item_instance, bool active
 
         // Call the iuse function
         int err = lua_pcall(L, 2, 1, 0);
-        if(err) {
-            // Error handling.
-            const char *error = lua_tostring(L, -1);
-            debugmsg("Error in lua iuse function: %s", error);
-        }
+        lua_report_error( L, err, "iuse function" );
 
         // Make sure the now outdated parameters we passed to lua aren't
         // being used anymore by setting a metatable that will error on
