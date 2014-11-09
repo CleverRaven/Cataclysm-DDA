@@ -241,7 +241,7 @@ void player::power_mutations()
     input_context ctxt("MUTATIONS");
     ctxt.register_updown();
     ctxt.register_action("ANY_INPUT");
-    ctxt.register_action("TOOGLE_EXAMINE");
+    ctxt.register_action("TOGGLE_EXAMINE");
     ctxt.register_action("REASSIGN");
     ctxt.register_action("HELP_KEYBINDINGS");
 
@@ -377,7 +377,7 @@ void player::power_mutations()
             }
         } else if (action == "REASSIGN") {
             menu_mode = "reassigning";
-        } else if (action == "TOOGLE_EXAMINE") { // switches between activation and examination
+        } else if (action == "TOGGLE_EXAMINE") { // switches between activation and examination
             menu_mode = menu_mode == "activating" ? "examining" : "activating";
             werase(w_description);
             draw_exam_window(wBio, DESCRIPTION_LINE_Y, false);
