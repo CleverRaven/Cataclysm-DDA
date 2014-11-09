@@ -405,7 +405,7 @@ bool has_power_armor_interface(const player &p)
 }
 
 bool has_powersource(const item &i, const player &p) {
-    if( i.type->is_power_armor() && has_power_armor_interface( p ) && p.max_power_level > 0 ) {
+    if( i.type->is_power_armor() && has_power_armor_interface( p ) && p.power_level > 0 ) {
         return true;
     }
     return p.has_charges( "UPS", 1 );
