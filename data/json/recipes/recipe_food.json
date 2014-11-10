@@ -38,7 +38,7 @@
   "time": 90000,
   "reversible": false,
   "autolearn": true,
-  "batch_time_factors":[40, 2],
+  "batch_time_factors":[80, 4],
   "qualities":[
     {"id":"BOIL","level":1,"amount":1}
   ], "tools": [
@@ -957,7 +957,8 @@
       ["plums", 2],
       ["pomegranate", 2],
       ["raspberries", 2],
-      ["strawberries", 2]
+      ["strawberries", 2],
+      ["rhubarb", 2]
     ]
   ]
 },{
@@ -2716,6 +2717,7 @@
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 30000,
+  "batch_time_factors":[83, 5],
   "reversible": false,
   "autolearn": true,
   "tools": [
@@ -2746,6 +2748,7 @@
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 30000,
+  "batch_time_factors":[83, 5],
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "cookbook_human", 3 ]],
@@ -4115,7 +4118,8 @@
   "subcategory": "CSC_FOOD_OTHER",
   "skill_used": "cooking",
   "difficulty": 1,
-  "time": 1000,
+  "time": 10000,
+  "batch_time_factors":[80, 4],
   "reversible": false,
   "autolearn": true,
   "qualities":[

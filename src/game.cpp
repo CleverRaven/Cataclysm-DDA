@@ -420,10 +420,12 @@ void game::init_ui()
         messX = MINIMAP_WIDTH;
         messY = 0;
         messW = sidebarWidth - messX;
-        messH = 20;
+        messH = TERMY - 5; // 1 for w_location + 4 for w_stat, w_messages starts at 0
         hpX = 0;
         hpY = MINIMAP_HEIGHT;
-        hpH = 14;
+        // under the minimap, but down to the same line as w_messages (even when that is to much),
+        // so it erases the space between w_terrain and w_messages
+        hpH = messH - MINIMAP_HEIGHT;
         hpW = 7;
         locX = MINIMAP_WIDTH;
         locY = messY + messH;
@@ -4281,13 +4283,13 @@ void game::load_world_modfiles(WORLDPTR world)
         // are resolved during the creation of the world.
         // That means world->active_mod_order contains a list
         // of mods in the correct order.
-        for (std::vector<std::string>::iterator it =
-                 world->active_mod_order.begin();
-             it != world->active_mod_order.end(); ++it) {
-            const std::string &mod_ident = *it;
+        for( const auto &mod_ident : world->active_mod_order ) {
             if (mm->has_mod(mod_ident)) {
                 MOD_INFORMATION *mod = mm->mod_map[mod_ident];
-                load_data_from_dir(mod->path);
+                if( !mod->obsolete ) {
+                    // Silently ignore mods marked as obsolete.
+                    load_data_from_dir(mod->path);
+                }
             } else {
                 debugmsg("the world uses an unknown mod %s", mod_ident.c_str());
             }
@@ -5419,16 +5421,21 @@ void game::draw_sidebar()
         return;
     }
 
+    // w_status2 is not used with the wide sidebar (wide == !narrow)
+    // Don't draw anything on it (no werase, wrefresh) in this case to avoid flickering
+    // (it overlays other windows)
+    const bool sideStyle = use_narrow_sidebar();
+
     // Draw Status
     draw_HP();
     werase(w_status);
-    werase(w_status2);
+    if( sideStyle ) {
+        werase(w_status2);
+    }
     if (!liveview.compact_view) {
         liveview.hide(true, false);
     }
     u.disp_status(w_status, w_status2);
-
-    bool sideStyle = use_narrow_sidebar();
 
     WINDOW *time_window = sideStyle ? w_status2 : w_status;
     wmove(time_window, sideStyle ? 0 : 1, sideStyle ? 15 : 41);
@@ -5509,7 +5516,9 @@ void game::draw_sidebar()
         }
     }
     wrefresh(w_status);
-    wrefresh(w_status2);
+    if( sideStyle ) {
+        wrefresh(w_status2);
+    }
 
     werase(w_messages);
     int maxlength = getmaxx(w_messages);
@@ -11094,37 +11103,18 @@ void game::plthrow(int pos)
     reenter_fullscreen();
 }
 
-bool compare_by_dist_to_u(Creature *a, Creature *b)
-{
-    return rl_dist(a->xpos(), a->ypos(), g->u.posx, g->u.posy) <
-           rl_dist(b->xpos(), b->ypos(), g->u.posx, g->u.posy);
-}
-
 std::vector<point> game::pl_target_ui(int &x, int &y, int range, item *relevant,
                                       int default_target_x, int default_target_y)
 {
     // Populate a list of targets with the zombies in range and visible
-    std::vector <Creature *> mon_targets;
     const Creature *last_target_critter = NULL;
     if (last_target >= 0 && !last_target_was_npc && size_t(last_target) < num_zombies()) {
         last_target_critter = &zombie(last_target);
     } else if (last_target >= 0 && last_target_was_npc && size_t(last_target) < active_npc.size()) {
         last_target_critter = active_npc[last_target];
     }
-    for (size_t i = 0; i < num_zombies(); i++) {
-        monster &critter = critter_tracker.find(i);
-        if (u_see(critter) && (rl_dist(u.posx, u.posy, critter.xpos(), critter.ypos()) <= range)) {
-            mon_targets.push_back(&critter);
-        }
-    }
-    for (std::vector<npc *>::iterator it = active_npc.begin();
-         it != active_npc.end(); ++it) {
-        npc *critter = *it;
-        if (u_see(critter) && (rl_dist( u.posx, u.posy, critter->xpos(), critter->ypos() ) <= range)) {
-            mon_targets.push_back(critter);
-        }
-    }
-    std::sort(mon_targets.begin(), mon_targets.end(), compare_by_dist_to_u);
+    auto mon_targets = u.get_visible_creatures( range );
+    std::sort(mon_targets.begin(), mon_targets.end(), Creature::compare_by_dist_to_point { u.pos() } );
     int passtarget = -1;
     for (size_t i = 0; i < mon_targets.size(); i++) {
         Creature &critter = *mon_targets[i];

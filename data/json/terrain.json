@@ -1339,7 +1339,7 @@
         "flags": ["NOITEM", "SUPPORTS_ROOF", "DOOR"],
         "open": "t_door_metal_o",
         "bash": {
-            "str_min": 30, "str_max": 210, "str_min_blocked": 40, "str_max_blocked": 240,
+            "str_min": 80, "str_max": 250,
             "sound": "metal screeching!",
             "sound_fail": "clang!",
             "ter_set": "t_mdoor_frame",
@@ -1358,7 +1358,7 @@
         "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "FLAT"],
         "close": "t_door_metal_c",
         "bash": {
-            "str_min": 20, "str_max": 210, "str_min_blocked": 30, "str_max_blocked": 240,
+            "str_min": 80, "str_max": 250,
             "sound": "metal screeching!",
             "sound_fail": "clang!",
             "ter_set": "t_mdoor_frame",
@@ -1377,7 +1377,7 @@
         "move_cost": 0,
         "flags": ["NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT"],
         "bash": {
-            "str_min": 30, "str_max": 210, "str_min_blocked": 40, "str_max_blocked": 240,
+            "str_min": 80, "str_max": 250,
             "sound": "metal screeching!",
             "sound_fail": "clang!",
             "ter_set": "t_mdoor_frame",

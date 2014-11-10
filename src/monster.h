@@ -188,6 +188,10 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
 
         /** Returns innate monster bash skill, without calculating additional from helpers */
         int bash_skill();
+        int bash_estimate();
+        /** Returns ability of monster and any cooperative helpers to
+         * bash the designated target.  **/
+        int group_bash_skill( point target );
 
         void stumble(bool moved);
         void knock_back_from(int posx, int posy);
