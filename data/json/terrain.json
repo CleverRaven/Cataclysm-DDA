@@ -1018,7 +1018,6 @@
             "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF",
             "OPENCLOSE_INSIDE", "REDUCE_SCENT"
         ],
-        "examine_action": "door_peephole",
         "open": "t_door_o",
         "bash": {
             "str_min": 8, "str_max": 80, "str_min_blocked": 15, "str_max_blocked": 100,
