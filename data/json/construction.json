@@ -971,7 +971,7 @@
             [ [ "steel_chunk", 3 ], [ "scrap", 12 ] ],
             [ [ "pipe", 20 ] ]
         ],
-        "pre_special" : "check_support",
+        "pre_terrain" : "t_chainfence_posts",
         "post_terrain" : "t_chaingate_c"
     },{
         "type" : "construction",
