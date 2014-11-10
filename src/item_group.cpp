@@ -164,7 +164,6 @@ void Item_modifier::modify(item &new_item) const
     if(dm >= -1 && dm <= 4) {
         new_item.damage = dm;
     }
-    bool charge_set = false;
     long ch = (charges.first == charges.second) ? charges.first : rng(charges.first, charges.second);
     const auto g = dynamic_cast<const it_gun *>( new_item.type );
     it_tool *t = dynamic_cast<it_tool *>(new_item.type);
