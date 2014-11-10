@@ -2720,6 +2720,16 @@
 			"fg":1680,
             "rotates":false
         },
+		{
+            "id":"t_diesel_pump",
+			"fg":1838,
+            "rotates":false
+        },
+		{
+            "id":"t_diesel_pump_smashed",
+			"fg":1839,
+            "rotates":false
+        },
         {
             "id":"t_ladder_up",
 			"fg":87,
@@ -5281,6 +5291,11 @@
             "fg":30,
             "rotates":true
         },
+		{
+            "id":"t_pontoon_dp",
+            "fg":30,
+            "rotates":true
+        },
         {
             "id":"f_exercise",
             "fg":31,
@@ -5349,6 +5364,11 @@
 		{
             "id":"pinecone",
             "fg":1740,
+            "rotates":false
+        },
+		{
+            "id":"t_dock",
+            "fg":55,
             "rotates":false
         },
         {
@@ -5797,6 +5817,19 @@
 				{
 					"id":"broken",
 					"fg":430
+				}
+			]
+		},
+		{
+            "id":"vp_seat_wood",
+			"fg":1849,
+            "rotates":true,
+            "multitile":true,
+			"additional_tiles":
+			[
+				{
+					"id":"broken",
+					"fg":442
 				}
 			]
 		},
@@ -7207,6 +7240,19 @@
 			]
 		},
 		{
+            "id":"vp_roof_wood",
+			"fg":320,
+            "rotates":true,
+            "multitile":true,
+			"additional_tiles":
+			[
+				{
+					"id":"broken",
+					"fg":430
+				}
+			]
+		},
+		{
             "id":"vp_hdroof",
 			"fg":1416,
             "rotates":true,
@@ -7360,6 +7406,23 @@
 				}
 			]    
         },
+		{
+            "id":"vp_door_wood",
+			"fg":1845,
+            "rotates":false,
+            "multitile":true,
+			"additional_tiles":
+			[
+				{
+					"id":"open",
+					"fg":1846
+				},
+				{
+					"id":"broken",
+					"fg":1847
+				}
+			]    
+        },
         {
             "id":"vp_windshield",
 			"fg":328,
@@ -7453,6 +7516,19 @@
 				}
 			]
 		},
+		{
+            "id":"vp_spike_wood",
+			"fg":418,
+            "rotates":true,
+            "multitile":true,
+			"additional_tiles":
+			[
+				{
+					"id":"broken",
+					"fg":442
+				}
+			]
+		},
         {
             "id":"vp_wheel",
 			"fg":337,
@@ -7469,6 +7545,20 @@
         },
 		{
             "id":"vp_wheel_underbody",
+			"fg":337,
+            "rotates":true,
+            "multitile":true,
+			"additional_tiles":
+			[
+				
+				{
+					"id":"broken",
+					"fg":348
+				}
+			]
+        },
+		{
+            "id":"vp_metal_wheel",
 			"fg":337,
             "rotates":true,
             "multitile":true,
@@ -7634,6 +7724,12 @@
 		},
 		{
 			 "id" : "wheel", 
+			 "fg" : 337,
+			 "rotates" : false, 
+			 "multitile" : false
+		},
+		{
+			 "id" : "wheel_metal", 
 			 "fg" : 337,
 			 "rotates" : false, 
 			 "multitile" : false
@@ -7927,6 +8023,45 @@
 			]
 		},
 		{
+            "id":"vp_diesel_tank",
+			"fg":1843,
+            "rotates":true,
+            "multitile":true,
+			"additional_tiles":
+			[
+				{
+					"id":"broken",
+					"fg":431
+				}
+			]
+		},
+		{
+            "id":"vp_diesel_tank_little",
+			"fg":1843,
+            "rotates":true,
+            "multitile":true,
+			"additional_tiles":
+			[
+				{
+					"id":"broken",
+					"fg":431
+				}
+			]
+		},
+		{
+            "id":"vp_diesel_tank_small",
+			"fg":1843,
+            "rotates":true,
+            "multitile":true,
+			"additional_tiles":
+			[
+				{
+					"id":"broken",
+					"fg":431
+				}
+			]
+		},
+		{
             "id":"vp_fuel_tank_batt",
 			"fg":437,
             "rotates":true,
@@ -8085,6 +8220,19 @@
 		{
             "id":"vp_external_gas_tank",
 			"fg":662,
+            "rotates":true,
+            "multitile":true,
+			"additional_tiles":
+			[
+				{
+					"id":"broken",
+					"fg":431
+				}
+			]
+		},
+		{
+            "id":"vp_external_diesel_tank",
+			"fg":1844,
             "rotates":true,
             "multitile":true,
 			"additional_tiles":
@@ -8689,6 +8837,11 @@
 			"fg":409,
             "rotates":true
         },
+		{
+            "id":"vp_plating_chitin",
+			"fg":409,
+            "rotates":true
+        },
         {
             "id":"vp_plating_superalloy",
 			"fg":410,
@@ -8712,6 +8865,11 @@
 		{
             "id":"vp_plating_military",
 			"fg":654,
+            "rotates":true
+        },
+		{
+            "id":"vp_plating_bone",
+			"fg":1848,
             "rotates":true
         },
 		{
@@ -8886,6 +9044,24 @@
          "rotates" : false, 
          "multitile" : false
       },
+	  {
+         "id" : "i6_diesel", 
+         "fg" : 351, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	{
+         "id" : "v6_diesel", 
+         "fg" : 351, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  {
+         "id" : "v8_diesel", 
+         "fg" : 351, 
+         "rotates" : false, 
+         "multitile" : false
+      },
 		{
             "id":"tr_engine",
 			"fg":1372,
@@ -8938,6 +9114,21 @@
         },
 		{
             "id":"vp_engine_electric_small",
+			"fg":351,
+            "rotates":true
+        },
+		{
+            "id":"vp_diesel_engine_i6",
+			"fg":351,
+            "rotates":true
+        },
+		{
+            "id":"vp_diesel_engine_v6",
+			"fg":351,
+            "rotates":true
+        },
+		{
+            "id":"vp_diesel_engine_v8",
 			"fg":351,
             "rotates":true
         },
@@ -10076,7 +10267,14 @@
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
-      }, 
+      },
+	  { 
+         "id" : "diesel", 
+         "fg" : 952, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "medical_tape", 
          "fg" : 593, 
@@ -11064,7 +11262,14 @@
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
-      }, 
+      },
+	  { 
+         "id" : "kilt", 
+         "fg" : 701, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "jumpsuit", 
          "fg" : 702, 
@@ -11274,21 +11479,35 @@
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
-      }, 
+      },
+	  { 
+         "id" : "halter_top", 
+         "fg" : 712, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "dress", 
          "fg" : 713, 
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
-      }, 
+      },
 	  { 
          "id" : "sundress", 
          "fg" : 713, 
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
-      }, 
+      },
+	  { 
+         "id" : "sleeveless_tunic", 
+         "fg" : 713, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "dress_wedding", 
          "fg" : 714, 
@@ -11568,7 +11787,14 @@
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
-      }, 
+      },
+	  { 
+         "id" : "jacket_evac", 
+         "fg" : 739, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "jacket_flannel", 
          "fg" : 740, 
@@ -11841,7 +12067,14 @@
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
-      }, 
+      },
+	  { 
+         "id" : "winter_gloves_army", 
+         "fg" : 764, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "gloves_light", 
          "fg" : 765, 
@@ -12747,7 +12980,7 @@
       }, 
       { 
          "id" : "wrapped_rad_badge", 
-         "fg" : 831, 
+         "fg" : 832, 
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
@@ -12768,6 +13001,13 @@
       },
 	  { 
          "id" : "badge_marshal", 
+         "fg" : 833, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "badge_detective", 
          "fg" : 833, 
          "bg" : -1, 
          "rotates" : false, 
@@ -12825,6 +13065,62 @@
 	  { 
          "id" : "peephole", 
          "fg" : 1810, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "raw_fur", 
+         "fg" : 1830, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "raw_leather", 
+         "fg" : 1831, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "cured_pelt", 
+         "fg" : 1832, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "cured_hide", 
+         "fg" : 1833, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "fur", 
+         "fg" : 1834, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "leather", 
+         "fg" : 1835, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "tanning_pelt", 
+         "fg" : 1836, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "tanning_hide", 
+         "fg" : 1837, 
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
@@ -13179,6 +13475,20 @@
          "rotates" : false, 
          "multitile" : false
       },
+	  { 
+         "id" : "winter_jacket_army", 
+         "fg" : 758, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "linuxtshirt", 
+         "fg" : 831, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "pants_checkered", 
          "fg" : 861, 
@@ -13475,6 +13785,13 @@
       },
 	  { 
          "id" : "recipe_bows", 
+         "fg" : 881, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "modern_tanner", 
          "fg" : 881, 
          "bg" : -1, 
          "rotates" : false, 
@@ -15097,6 +15414,13 @@
          "multitile" : false
       },
 	  { 
+         "id" : "ear_spool", 
+         "fg" : 976, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
          "id" : "silver", 
          "fg" : 977, 
          "bg" : -1, 
@@ -15329,6 +15653,13 @@
       },
 	  { 
          "id" : "fencing_pants", 
+         "fg" : 1212, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "winter_pants_army", 
          "fg" : 1212, 
          "bg" : -1, 
          "rotates" : false, 
@@ -15568,6 +15899,13 @@
 	  { 
          "id" : "technician_pants_blue", 
          "fg" : 1757, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "nanoskirt", 
+         "fg" : 1829, 
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
@@ -15921,7 +16259,15 @@
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
-      }, 
+      },
+	  { 
+         "id" : "poppysyrup", 
+         "fg" : 948, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+
       { 
          "id" : "cola", 
          "fg" : 945, 
@@ -16784,6 +17130,20 @@
          "multitile" : false
       },
 	  { 
+         "id" : "dry_meat_tainted", 
+         "fg" : 1003, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "dry_veggy_tainted", 
+         "fg" : 1003, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
          "id" : "rehydrated_fruit", 
          "fg" : 1004, 
          "bg" : -1, 
@@ -17156,6 +17516,13 @@
       },
 	  { 
          "id" : "curry_powder", 
+         "fg" : 1020, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "can_tomato", 
          "fg" : 1020, 
          "bg" : -1, 
          "rotates" : false, 
@@ -19916,6 +20283,13 @@
          "multitile" : false
       },
 	  { 
+         "id" : "brew_vinegar", 
+         "fg" : 952, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
          "id" : "cooking_oil", 
          "fg" : 1127, 
          "bg" : -1, 
@@ -20213,14 +20587,14 @@
          "multitile" : false
       }, 
       { 
-         "id" : "fur", 
+         "id" : "tanned_pelt", 
          "fg" : 1186, 
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
       }, 
       { 
-         "id" : "leather", 
+         "id" : "tanned_hide", 
          "fg" : 1187, 
          "bg" : -1, 
          "rotates" : false, 
@@ -21455,7 +21829,21 @@
          "multitile" : false
       },
 	  { 
+         "id" : "bone_plate", 
+         "fg" : 1302, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
          "id" : "alloy_sheet", 
+         "fg" : 1303, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "chitin_plate", 
          "fg" : 1303, 
          "bg" : -1, 
          "rotates" : false, 
@@ -22222,6 +22610,13 @@
          "rotates" : false, 
          "multitile" : false
       },
+	  { 
+         "id" : "carbine_flintlock", 
+         "fg" : 1378, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "sling", 
          "fg" : 1379, 
@@ -22523,6 +22918,20 @@
          "rotates" : false, 
          "multitile" : false
       },
+	  { 
+         "id" : "l_bak_223", 
+         "fg" : 1386, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "l_lookout_9mm", 
+         "fg" : 1386, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "shotgun_sawn", 
          "fg" : 1403, 
@@ -22609,6 +23018,13 @@
       },
 	  { 
          "id" : "l_def_12", 
+         "fg" : 1407, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "m1014", 
          "fg" : 1407, 
          "bg" : -1, 
          "rotates" : false, 
@@ -23001,6 +23417,13 @@
       },
 	  { 
          "id" : "unbio_blaster_gun", 
+         "fg" : 1443, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "laser_cannon", 
          "fg" : 1443, 
          "bg" : -1, 
          "rotates" : false, 
@@ -23582,7 +24005,14 @@
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
-      }, 
+      },
+	  { 
+         "id" : "wristrocket", 
+         "fg" : 1507, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "hose", 
          "fg" : 1508, 
@@ -24949,6 +25379,13 @@
          "rotates" : false, 
          "multitile" : false
       },
+	  { 
+         "id" : "jar_tomato_canned", 
+         "fg" : 1641, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "jar_veggy_canned", 
          "fg" : 1642, 
@@ -25244,6 +25681,27 @@
 	  { 
          "id" : "fishing_rod_professional", 
          "fg" : 1819, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "tr_leather_funnel", 
+         "fg" : 1840, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "leather_funnel", 
+         "fg" : 1841, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "magnifying_glass", 
+         "fg" : 1842, 
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
@@ -26139,6 +26597,13 @@
       },
 	  { 
          "id" : "bio_cqb", 
+         "fg" : 916, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "bio_meteorologist", 
          "fg" : 916, 
          "bg" : -1, 
          "rotates" : false, 
