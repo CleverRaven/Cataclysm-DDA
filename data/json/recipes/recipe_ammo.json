@@ -1,4 +1,4 @@
-[
+[[
 {
         "type" : "recipe",
   "result": "reloaded_shot_he",
@@ -887,7 +887,7 @@
       [ "tin", 100 ],
       [ "bismuth", 100 ],
       [ "solder_wire", 100 ]
-
+ 
     ]
   ]
 },{
@@ -929,7 +929,7 @@
       [ "tin", 40 ],
       [ "bismuth", 40 ],
       [ "solder_wire", 40 ]
-
+ 
     ]
   ]
 },{
@@ -971,7 +971,7 @@
       [ "tin", 250 ],
       [ "bismuth", 250 ],
       [ "solder_wire", 250 ]
-
+ 
     ]
   ]
 },{
@@ -1013,7 +1013,7 @@
       [ "tin", 125 ],
       [ "bismuth", 125 ],
       [ "solder_wire", 125 ]
-
+ 
     ]
   ]
 },{
@@ -1055,7 +1055,7 @@
       [ "tin", 300 ],
       [ "bismuth", 300 ],
       [ "solder_wire", 300 ]
-
+ 
     ]
   ]
 },{
@@ -1097,7 +1097,7 @@
       [ "tin", 400 ],
       [ "bismuth", 400 ],
       [ "solder_wire", 400 ]
-
+ 
     ]
   ]
 },{
@@ -1139,7 +1139,7 @@
       [ "tin", 500 ],
       [ "bismuth", 500 ],
       [ "solder_wire", 500 ]
-
+ 
     ]
   ]
 },{
@@ -1181,7 +1181,7 @@
       [ "tin", 400 ],
       [ "bismuth", 400 ],
       [ "solder_wire", 400 ]
-
+ 
     ]
   ]
 },{
@@ -1223,7 +1223,7 @@
       [ "tin", 100 ],
       [ "bismuth", 100 ],
       [ "solder_wire", 100 ]
-
+ 
     ]
   ]
 },{
@@ -1265,7 +1265,7 @@
       [ "tin", 400 ],
       [ "bismuth", 400 ],
       [ "solder_wire", 400 ]
-
+ 
     ],
     [
       [ "cu_pipe", 3]
@@ -1310,7 +1310,7 @@
       [ "tin", 400 ],
       [ "bismuth", 400 ],
       [ "solder_wire", 400 ]
-
+ 
     ],
     [
       [ "cu_pipe", 2 ]
@@ -1355,7 +1355,7 @@
       [ "tin", 450 ],
       [ "bismuth", 450 ],
       [ "solder_wire", 450 ]
-
+ 
     ],
     [
       [ "cu_pipe", 2 ]
@@ -1400,7 +1400,7 @@
       [ "tin", 200 ],
       [ "bismuth", 200 ],
       [ "solder_wire", 200 ]
-
+ 
     ]
   ]
 },{
@@ -1442,7 +1442,7 @@
       [ "tin", 200 ],
       [ "bismuth", 200 ],
       [ "solder_wire", 200 ]
-
+ 
     ]
   ]
 },{
@@ -1484,7 +1484,7 @@
       [ "tin", 400 ],
       [ "bismuth", 400 ],
       [ "solder_wire", 400 ]
-
+ 
     ],
     [
       [ "cu_pipe", 4 ]
@@ -1529,7 +1529,7 @@
       [ "tin", 400 ],
       [ "bismuth", 400 ],
       [ "solder_wire", 400 ]
-
+ 
     ],
     [
       [ "cu_pipe", 4 ]
@@ -1578,7 +1578,7 @@
       [ "tin", 80 ],
       [ "bismuth", 80 ],
       [ "solder_wire", 80 ]
-
+ 
     ]
   ]
 },{
@@ -1624,7 +1624,7 @@
       [ "tin", 80 ],
       [ "bismuth", 80 ],
       [ "solder_wire", 80 ]
-
+ 
     ]
   ]
 },{
@@ -1750,7 +1750,7 @@
       [ "tin", 80 ],
       [ "bismuth", 80 ],
       [ "solder_wire", 80 ]
-
+ 
     ],
     [
       [ "cu_pipe", 3 ]
@@ -1798,7 +1798,7 @@
       [ "tin", 200 ],
       [ "bismuth", 200 ],
       [ "solder_wire", 200 ]
-
+ 
     ],
     [
       [ "cu_pipe", 3 ]
@@ -1965,7 +1965,7 @@
       [ "tin", 120 ],
       [ "bismuth", 120 ],
       [ "solder_wire", 120 ]
-
+ 
     ],
     [
       [ "cu_pipe", 3 ]
@@ -2010,7 +2010,7 @@
       [ "tin", 120 ],
       [ "bismuth", 120 ],
       [ "solder_wire", 120 ]
-
+ 
     ],
     [
       [ "cu_pipe", 3 ]
@@ -2133,7 +2133,7 @@
       [ "tin", 400 ],
       [ "bismuth", 400 ],
       [ "solder_wire", 400 ]
-
+ 
     ]
   ]
 },{
@@ -2175,7 +2175,7 @@
       [ "tin", 400 ],
       [ "bismuth", 400 ],
       [ "solder_wire", 400 ]
-
+ 
     ]
   ]
 },{
@@ -2242,6 +2242,174 @@
     [ [ "gunpowder", 120 ] ],
     [ [ "nail", 160 ] ]
    ]
+},{
+        "type" : "recipe",
+  "result": "shot_scrap",
+  "category": "CC_AMMO",
+  "subcategory": "CSC_AMMO_BULLETS",
+  "skill_used": "fabrication",
+  "skills_required": [ "gun", 1 ],
+  "difficulty": 3,
+  "time": 17500,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 2 ] , [ "manual_shotgun", 2 ]],  
+  "qualities":[
+    {"id":"SAW_M","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "press", -1 ]
+    ],
+    [
+      [ "fire", -1 ],
+      [ "toolset", 2 ],
+      [ "press", 2 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "shot_hull", 25 ]
+    ],
+    [
+      [ "shotgun_primer", 25 ]
+    ],
+    [
+      [ "gunpowder", 400 ]
+    ],
+    [
+      [ "scrap", 4 ],
+          [ "nail", 100 ],
+          [ "rebar", 1 ],
+          [ "spear_rebar", 1],
+          [ "rebar_rail", 2],
+          [ "steel_rail", 2],
+          [ "bb", 400 ],
+          [ "pipe", 2 ],
+          [ "cu_pipe", 4 ],
+          [ "copper", 400 ],
+          [ "steel_chunk", 2 ],
+          [ "clockworks", 4 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "shot_scrapslug",
+  "category": "CC_AMMO",
+  "subcategory": "CSC_AMMO_BULLETS",
+  "skill_used": "fabrication",
+  "skills_required": [ "gun", 1 ],
+  "difficulty": 3,
+  "time": 17500,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 2 ] , [ "manual_shotgun", 2 ]],
+  "qualities":[
+  {"id":"SAW_M","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "press", -1 ]
+    ],
+    [
+      [ "fire", -1 ],
+      [ "toolset", 2 ],
+      [ "press", 2 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "shot_hull", 25 ]
+    ],
+    [
+      [ "shotgun_primer", 25 ]
+    ],
+    [
+      [ "gunpowder", 400 ]
+    ],
+    [
+      [ "rebar", 1 ],
+          [ "spear_rebar", 1 ],
+          [ "rebar_rail", 2],
+          [ "steel_rail", 2],
+          [ "scrap", 4 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "shot_scrapbag",
+  "category": "CC_AMMO",
+  "subcategory": "CSC_AMMO_BULLETS",
+  "skill_used": "fabrication",
+  "skills_required": [ "gun", 1 ],
+  "difficulty": 4,
+  "time": 17500,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 3 ] , [ "manual_shotgun", 3 ]],
+  "tools": [
+    [
+      [ "press", -1 ]
+    ],
+    [
+      [ "fire", -1 ],
+      [ "toolset", 2 ],
+      [ "press", 2 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "shot_hull", 25 ]
+    ],
+    [
+      [ "shotgun_primer", 25 ]
+    ],
+    [
+      [ "gunpowder", 400 ]
+    ],
+    [
+      [ "material_sand", 50 ],
+          [ "salt", 16 ]
+        ],
+          [ "rag", 4 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "reloaded_shot_beanbag",
+  "category": "CC_AMMO",
+  "subcategory": "CSC_AMMO_BULLETS",
+  "skill_used": "fabrication",
+  "skills_required": [ "gun", 1 ],
+  "difficulty": 4,
+  "time": 17500,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["recipe_bullets" , 3 ] , [ "manual_shotgun", 3 ]],
+  "tools": [
+    [
+      [ "press", -1 ]
+    ],
+    [
+      [ "fire", -1 ],
+      [ "toolset", 2 ],
+      [ "press", 2 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "shot_hull", 25 ]
+    ],
+    [
+      [ "shotgun_primer", 25 ]
+    ],
+    [
+      [ "gunpowder", 400 ]
+    ],
+    [
+      [ "rubber_slug", 25 ]
+    ]
+  ]
 },{
         "type" : "recipe",
   "result": "gunpowder",
@@ -3593,3 +3761,4 @@
   ]
 }
 ]
+
