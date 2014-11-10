@@ -6,7 +6,7 @@
             "s_gas"
         ],
         "method": "json",
-        "weight": 1000,
+        "weight": 350,
         "object": {
             "rows": [
                 "........................",
