@@ -311,8 +311,8 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
         if (part_flag(p, "BOARDABLE")) {      // no passengers
             parts[p].remove_flag(vehicle_part::passenger_flag);
         }
-        //sets the vehicle to locked, if there is no key
-         if (part_flag(p, "CONTROLS") && (has_no_key) && parts[p].hp > 0){
+        //sets the alarm to locked, if there is no key
+        if (part_flag(p, "ALARM") && (has_no_key) && parts[p].hp > 0) {
             is_locked = true;
         }
 
@@ -337,61 +337,44 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
          {
             parts[p].hp= part_info(p).durability;
          }
-
-         if (destroySeats) { // vehicle is disabled because no seats
-          if (part_flag(p, "SEAT")) {
-           parts[p].hp= 0;
-          }
-          if (part_flag(p, "SEATBELT")) {
-           parts[p].hp= 0;
-          }
-         }
-         if (destroyControls) { // vehicle is disabled because no controls
-          if (part_flag(p, "CONTROLS")) {
-           parts[p].hp= 0;
-          }
-          if (part_flag(p, "ALARM")){
-           parts[p].hp = 0;
-          }
-         }
-         if (destroyTank) { // vehicle is disabled because no battery, minireactor or gasoline tank
-          if (part_flag(p, "FUEL_TANK")) {
-           parts[p].hp= 0;
-           parts[p].amount = 0;
-          }
-         }
-         if (destroyEngine) { // vehicle is disabled because engine is dead
-          if (part_flag(p, "ENGINE")) {
-           parts[p].hp= 0;
-          }
-         }
-         if (destroyTires) { // vehicle is disabled because flat tires
-          if (part_flag(p, VPFLAG_WHEEL)) {
-             parts[p].hp= 0;
-          }
-         }
-         if (part_flag(p, "SOLAR_PANEL") && one_in(4)) {//Solar panels have a 1 in four chance of being broken.
+         
+        if ((destroySeats && (part_flag(p, "SEAT") || part_flag(p, "SEATBELT"))) ||
+            (destroyControls && (part_flag(p, "CONTROLS") || part_flag(p, "ALARM"))) ||
+            (destroyEngine && part_flag(p, "ENGINE")) ||
+            (destroyTires && part_flag(p, VPFLAG_WHEEL)))
+        {
             parts[p].hp= 0;
-         }
+        }
+        
+        // Fuel tanks should be emptied as well
+        if (destroyTank && part_flag(p, "FUEL_TANK")){
+            parts[p].hp= 0;
+            parts[p].amount = 0;
+        }
+        
+        //Solar panels have 25% of being destroyed
+        if (part_flag(p, "SOLAR_PANEL") && one_in(4)) {
+            parts[p].hp= 0;
+        }
 
 
-         /* Bloodsplatter the front-end parts. Assume anything with x > 0 is
-          * the "front" of the vehicle (since the driver's seat is at (0, 0).
-          * We'll be generous with the blood, since some may disappear before
-          * the player gets a chance to see the vehicle. */
-         if(blood_covered && parts[p].mount_dx > 0) {
-           if(one_in(3)) {
+        /* Bloodsplatter the front-end parts. Assume anything with x > 0 is
+        * the "front" of the vehicle (since the driver's seat is at (0, 0).
+        * We'll be generous with the blood, since some may disappear before
+        * the player gets a chance to see the vehicle. */
+        if(blood_covered && parts[p].mount_dx > 0) {
+            if(one_in(3)) {
              //Loads of blood. (200 = completely red vehicle part)
              parts[p].blood = rng(200, 600);
-           } else {
+            } else {
              //Some blood
              parts[p].blood = rng(50, 200);
-           }
-         }
+            }
+        }
 
-         if(blood_inside) {
-        // blood is splattered around (blood_inside_x, blood_inside_y),
-        // coords relative to mount point; the center is always a seat
+        if(blood_inside) {
+            // blood is splattered around (blood_inside_x, blood_inside_y),
+            // coords relative to mount point; the center is always a seat
             if (blood_inside_set) {
                 int distSq = std::pow((blood_inside_x - parts[p].mount_dx), 2) + \
                     std::pow((blood_inside_y - parts[p].mount_dy), 2);
@@ -404,7 +387,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
                 blood_inside_y = parts[p].mount_dy;
                 blood_inside_set = true;
             }
-         }
+        }
 
         }
 
