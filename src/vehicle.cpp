@@ -553,6 +553,34 @@ bool vehicle::interact_vehicle_locked()
     return !(is_locked);
 }
 
+void vehicle::smash_security_system(){
+    //get security and controls location
+    int s = -1;
+    for (size_t d = 0; d < speciality.size(); d++){
+        int p = speciality[d];
+        if (part_flag(p, "SECURITY") && parts[p].hp > 0){
+            s = p;
+            break;
+        }
+    }
+    if (s >= 0){
+        int c = part_with_feature(s, "CONTROLS");
+        if (one_in(2)) {
+            // 25% damage to controls
+            damage_direct (c, part_info(c).durability / 4);
+            add_msg(_("You damage the controls."));
+        }
+        // 20% damage to security system
+        damage_direct (s, part_info(s).durability / 5);
+        // 5% chance to disable alarm straight away
+        is_alarm_on = (parts[s].hp > 0)? (is_alarm_on && !one_in(20)) : false;
+        add_msg((is_alarm_on) ? _("The alarm keeps going.") : _("The alarm stops."));
+    } else {
+        debugmsg("No security system found on vehicle.");
+    }
+    
+}
+
 void vehicle::use_controls()
 {
     std::vector<vehicle_controls> options_choice;
@@ -731,8 +759,8 @@ void vehicle::use_controls()
         control_engines();
         break;
     case try_disarm_alarm:
-        is_alarm_on = !one_in(4);
-        add_msg((is_alarm_on) ? _("The alarm keeps going") : _("The alarm stops"));
+        smash_security_system();
+        
         break;
     case toggle_cruise_control:
         cruise_on = !cruise_on;

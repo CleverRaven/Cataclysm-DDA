@@ -260,7 +260,8 @@ private:
     // direct damage to part (armor protection and internals are not counted)
     // returns damage bypassed
     int damage_direct (int p, int dmg, int type = 1);
-
+    //damages vehicle controls and security system
+    void smash_security_system();
     // get vpart powerinfo for part number, accounting for variable-sized parts and hps.
     int part_power( int index, bool at_full_hp = false );
 
