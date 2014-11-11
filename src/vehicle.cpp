@@ -1254,6 +1254,20 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
             return false;
         }
     }
+    
+    // Security system must be installed on controls
+    if(vehicle_part_types[id].has_flag("CONTROLS")) {
+        bool anchor_found = false;
+        for( std::vector<int>::const_iterator it = parts_in_square.begin();
+             it != parts_in_square.end(); ++it ) {
+            if(part_info(*it).has_flag("ON_CONTROLS")) {
+                anchor_found = true;
+            }
+        }
+        if(!anchor_found) {
+            return false;
+        }
+    }
 
     //Anything not explicitly denied is permitted
     return true;
@@ -1282,6 +1296,11 @@ bool vehicle::can_unmount (int p)
 
     // Can't remove a window with curtains still on it
     if(part_flag(p, "WINDOW") && part_with_feature(p, "CURTAIN") >=0) {
+        return false;
+    }
+    
+    //Can't remove controls if there's something attached
+    if(part_flag(p, "CONTROLS") && part_with_feature(p, "ON_CONTROLS") >= 0) {
         return false;
     }
 
