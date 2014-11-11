@@ -11,6 +11,7 @@
 #include "artifact.h"
 #include "itype.h"
 #include "mtype.h"
+#include "lightmap.h"
 
 class game;
 class player;
@@ -23,13 +24,6 @@ const int rad_dosage_thresholds[] = { 0, 30, 60, 120, 240, 500};
 const std::string rad_threshold_colors[] = { _("green"), _("blue"), _("yellow"),
                                              _("orange"), _("red"), _("black")
                                            };
-
-struct light_emission {
-    unsigned short luminance;
-    short width;
-    short direction;
-};
-extern light_emission nolight;
 
 struct iteminfo {
     public:
@@ -298,9 +292,6 @@ public:
  bool ready_to_revive( point pos ); // used for corpses
  void detonate(point p) const;
  bool can_revive();      // test if item is a corpse and can be revived
-// light emission, determined by type->light_emission (LIGHT_???) tag (circular),
-// overridden by light.* struct (shaped)
- bool getlight(float & luminance, int & width, int & direction, bool calculate_dimming = true) const;
 // for quick iterative loops
  int getlight_emit(bool calculate_dimming = true) const;
 // Our value as a weapon, given particular skills

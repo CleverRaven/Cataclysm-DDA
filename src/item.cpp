@@ -20,8 +20,6 @@
 #include <unordered_set>
 #include <set>
 
-light_emission nolight = {0, 0, 0};
-
 item::item()
 {
     init();
@@ -3278,29 +3276,8 @@ item item::clone(bool rand) {
     return item(type->id, bday, rand);
 }
 
-bool item::getlight(float & luminance, int & width, int & direction, bool calculate_dimming ) const {
-    luminance = 0;
-    width = 0;
-    direction = 0;
-    if ( light.luminance > 0 ) {
-        luminance = (float)light.luminance;
-        if ( light.width > 0 ) { // width > 0 is a light arc
-            width = light.width;
-            direction = light.direction;
-        }
-        return true;
-    } else {
-        const int lumint = getlight_emit( calculate_dimming );
-        if ( lumint > 0 ) {
-            luminance = (float)lumint;
-            return true;
-        }
-    }
-    return false;
-}
-
 /*
- * Returns just the integer
+ * Get light from type->light_emission
  */
 int item::getlight_emit(bool calculate_dimming) const {
     const int mult = 10; // woo intmath

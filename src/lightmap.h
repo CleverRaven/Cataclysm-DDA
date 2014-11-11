@@ -19,4 +19,12 @@ enum lit_level {
     LL_BRIGHT  // Probably only for light sources
 };
 
+struct light_emission {
+    unsigned short luminance;
+    short width;
+    short direction;
+    bool getlight(float & luminance, int & width, int & direction) const;
+};
+extern light_emission nolight;
+
 #endif

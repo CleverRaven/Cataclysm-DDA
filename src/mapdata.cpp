@@ -155,6 +155,8 @@ furn_t null_furniture_t() {
   new_furniture.color = c_white;
   new_furniture.movecost = 0;
   new_furniture.move_str_req = -1;
+  new_furniture.power = 0;
+  new_furniture.light = nolight;
   new_furniture.transparent = true;
   new_furniture.bitflags = 0;
   new_furniture.set_flag("TRANSPARENT");
@@ -162,6 +164,8 @@ furn_t null_furniture_t() {
   new_furniture.loadid = 0;
   new_furniture.open = "";
   new_furniture.close = "";
+  new_furniture.on = "";
+  new_furniture.off = "";
   new_furniture.max_volume = MAX_VOLUME_IN_SQUARE;
   return new_furniture;
 };
@@ -220,6 +224,8 @@ void load_furniture(JsonObject &jsobj)
 
   new_furniture.movecost = jsobj.get_int("move_cost_mod");
   new_furniture.move_str_req = jsobj.get_int("required_str");
+  new_furniture.power = jsobj.get_int("power", 0);
+  new_furniture.light = nolight;
   new_furniture.max_volume = jsobj.get_int("max_volume", MAX_VOLUME_IN_SQUARE);
 
   new_furniture.crafting_pseudo_item = jsobj.get_string("crafting_pseudo_item", "");
@@ -246,6 +252,14 @@ void load_furniture(JsonObject &jsobj)
   new_furniture.close = "";
   if ( jsobj.has_member("close") ) {
       new_furniture.close = jsobj.get_string("close");
+  }
+  new_furniture.on = "";
+  if (jsobj.has_member("on")) {
+      new_furniture.on = jsobj.get_string("on");
+  }
+  new_furniture.close = "";
+  if (jsobj.has_member("off")) {
+      new_furniture.off = jsobj.get_string("off");
   }
   new_furniture.bash.load(jsobj, "bash", true);
   new_furniture.deconstruct.load(jsobj, "deconstruct", true);

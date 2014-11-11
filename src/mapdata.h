@@ -237,11 +237,15 @@ struct furn_t {
  nc_color color;
  int movecost; // Penalty to terrain
  int move_str_req; //The amount of strength required to move through this terrain easily.
+ int power; // Amount of power generated; negative uses power instead
+ light_emission light; // Light source, if any
  std::set<std::string> flags;// string flags which may or may not refer to what's documented above.
- unsigned long bitflags; // bitfield of -certian- string flags which are heavily checked
+ unsigned long bitflags; // bitfield of -certain- string flags which are heavily checked
  iexamine_function examine;
  std::string open;
  std::string close;
+ std::string on;
+ std::string off;
  // Maximal volume of items that can be stored in/on this furniture
  int max_volume;
 
