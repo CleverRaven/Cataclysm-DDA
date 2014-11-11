@@ -354,6 +354,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 
 - ```NULL``` None
 - ```gasoline``` Refined dino.
+- ```diesel``` Refined dino.
 - ```battery``` Electrifying.
 - ```plutonium``` 1.21 Gigawatts!
 - ```plasma``` Superheated.
@@ -483,45 +484,23 @@ The chambering of weapons that this ammo can be loaded into.
 - ```FLASHBANG``` Blinds and deafens nearby targets.
 - ```ACIDBOMB``` Leaves a pool of acid on detonation.
 - ```FLAME``` Very small explosion that lights fires.
-- ```STREAM``` No effect? Not currently used in source files.
+- ```STREAM``` Leaves a trail of fire fields.
 - ```BEANBAG``` Stuns the target.
 - ```LARGE_BEANBAG``` Heavily stuns the target.
 - ```MININUKE_MOD``` Small thermo-nuclear detonation that leaves behind radioactive fallout.
 - ```LIGHTNING``` Creates a trail of lightning.
 - ```PLASMA``` Creates a trail of superheated plasma.
 - ```LASER``` Creates a trail of laser (the field type)
+- ```NEVER_MISFIRES``` Firing ammo without this flag may trigger a misfiring, this is independent of the weapon flags.
+- ```RECYCLED``` (For handmade ammo) causes the gun to misfire sometimes, this independent of the weapon flags.
+- ```WHIP``` Special sounds for whips and has a chance of disarming the opponent.
+- ```NOGIB``` Prevents overkill damage on the target (target won't explode into gibs, see also the monster flag NO_GIBS).
 
 ## Techniques
 Techniques may be used by tools, armors, weapons and anything else that can be wielded.
 
-### Offensive
-
-- ```SWEEP``` Criticals may make your enemy fall & miss a turn.
-- ```PRECISE``` Criticals are painful and stun.
-- ```BRUTAL``` Criticals knock the target back.
-- ```GRAB``` Hit may allow a second unarmed attack attempt.
-- ```WIDE``` Attacks adjacent opponents.
-- ```RAPID``` Hits faster.
-- ```FEINT``` Misses take less time.
-- ```THROW``` Attacks may throw your opponent.
-- ```DISARM``` Remove an NPC's weapon.
-- ```FLAMING``` Sets the target on fire.
-
-### Defensive
-
-- ```BLOCK``` Block attacks, reducing them to 25% damage.
-- ```BLOCK_LEGS``` Block attacks, but with your legs.
-- ```WBLOCK_1``` Poor chance to block when wielding this item (e.g. pole).
-- ```WBLOCK_2``` Moderate chance to block when wielding this item (e.g. a weapon made for blocking)
-- ```WBLOCK_3``` Good chance to block when wielding this item (e.g. a shield).
-- ```BREAK``` Break from a grab.
-- ```DEF_THROW``` Throw an enemy that attacks you.
-- ```DEF_DISARM``` Disarm an enemy.
-
-## Qualities
-Qualities, like techniques, may be used by tools, armors, weapons and anything else that can be wielded.
-
-- ```CUT``` Can be used to cut objects.
+- see contents of `data/json/techniques.json`
+- techniques are also used with martial arts styles, see `data/json/martialarts.json`
 
 ## Armor
 
@@ -531,10 +510,18 @@ Qualities, like techniques, may be used by tools, armors, weapons and anything e
 - ```HEAD```
 - ```EYES```
 - ```MOUTH```
-- ```ARMS```
-- ```HANDS```
-- ```LEGS```
-- ```FEET```
+- ```ARM_L```
+- ```ARM_R```
+- ```ARMS``` ... same ```ARM_L``` and ```ARM_R```
+- ```HAND_L```
+- ```HAND_R```
+- ```HANDS``` ... same ```HAND_L``` and ```HAND_R```
+- ```LEG_L```
+- ```LEG_R```
+- ```LEGS``` ... same ```LEG_L``` and ```LEG_R```
+- ```FOOT_L```
+- ```FOOT_R```
+- ```FEET``` ... same ```FOOT_L``` and ```FOOT_R```
 
 ### Flags
 Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other item types. Experiment to find which flags work elsewhere.
@@ -874,7 +861,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 ### Flags
 - ```UNRECOVERABLE``` Cannot be recovered from a disassembly.
 - ```NO_SALVAGE``` Item cannot be broken down through a salvage process. Best used when something should not be able to be broken down (i.e. base components like leather patches).
-
+- ```FLAMING` ... Sets the target on fire when used as melee weapon.
 
 
 ## Skills
