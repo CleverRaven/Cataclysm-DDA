@@ -1256,11 +1256,11 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
     }
     
     // Security system must be installed on controls
-    if(vehicle_part_types[id].has_flag("CONTROLS")) {
+    if(vehicle_part_types[id].has_flag("ON_CONTROLS")) {
         bool anchor_found = false;
         for( std::vector<int>::const_iterator it = parts_in_square.begin();
              it != parts_in_square.end(); ++it ) {
-            if(part_info(*it).has_flag("ON_CONTROLS")) {
+            if(part_info(*it).has_flag("CONTROLS")) {
                 anchor_found = true;
             }
         }
