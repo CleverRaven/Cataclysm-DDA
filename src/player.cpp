@@ -1182,54 +1182,37 @@ void player::update_bodytemp()
         // Chemical Imbalance
         // Added line in player::suffer()
         // FINAL CALCULATION : Increments current body temperature towards convergent.
+        int bonus_warmth = 0;
         if ( has_disease("sleep") || has_disease("lying_down")) {
-            int sleep_bonus = floor_bedding_warmth + floor_item_warmth + floor_mut_warmth;
-            // Too warm, don't need items on the floor
-            if ( temp_conv[i] > BODYTEMP_NORM ) {
-                // Do nothing
-            }
-            // Intelligently use items on the floor; just enough to be comfortable
-            else if ( (temp_conv[i] + sleep_bonus) > BODYTEMP_NORM ) {
-                temp_conv[i] = BODYTEMP_NORM;
-            }
-            // Use all items on the floor -- there are not enough to keep comfortable
-            else {
-                temp_conv[i] += sleep_bonus;
-            }
-        } else if ( best_fire > 0 && temp_conv[i] < BODYTEMP_NORM ) {
+            bonus_warmth = floor_bedding_warmth + floor_item_warmth + floor_mut_warmth;
+        } else if ( best_fire > 0 ) {
             // Warming up over a fire
             // Extremities are easier to extend over a fire
-            int fire_bonus = 0;
             switch (i) {
             case bp_head:
             case bp_torso:
             case bp_mouth:
             case bp_leg_l:
             case bp_leg_r:
-                fire_bonus = best_fire * best_fire * 100; // Not much
+                bonus_warmth = best_fire * best_fire * 100; // Not much
                 break;
             case bp_arm_l:
             case bp_arm_r:
-                fire_bonus = best_fire * 400; // A fair bit
+                bonus_warmth = best_fire * 400; // A fair bit
                 break;
             case bp_foot_l:
             case bp_foot_r:
                 if( furn_at_pos == f_armchair || furn_at_pos == f_chair || furn_at_pos == f_bench ) {
                     // Can sit on something to lift feet up to the fire
-                    fire_bonus = best_fire * 800;
+                    bonus_warmth = best_fire * 800;
                 } else {
                     // Has to stand
-                    fire_bonus = best_fire * 200;
+                    bonus_warmth = best_fire * 200;
                 }
                 break;
             case bp_hand_l:
             case bp_hand_r:
-                fire_bonus = std::max( 2000, best_fire * 1000 ); // A lot
-            }
-            if ( (temp_conv[i] + fire_bonus) > BODYTEMP_NORM ) {
-                temp_conv[i] = BODYTEMP_NORM;
-            } else {
-                temp_conv[i] += fire_bonus;
+                bonus_warmth = std::max( 2000, best_fire * 1000 ); // A lot
             }
         }
         int temp_before = temp_cur[i];
@@ -1243,6 +1226,28 @@ void player::update_bodytemp()
         }
         if( temp_cur[i] != temp_conv[i] ) {
             temp_cur[i] = temp_difference * exp(-0.002) + temp_conv[i] + rounding_error;
+        }
+        // Rapid heating with clothes on the ground or adjactent fire
+        if( temp_cur[i] < BODYTEMP_NORM && bonus_warmth > 0) {
+            temp_conv[i] += bonus_warmth;
+            temp_difference = temp_cur[i] - temp_conv[i];
+            rounding_error = 0;
+            if( temp_difference < 0 && temp_difference > -600 ) {
+                rounding_error = 1;
+            }
+            
+            int temp_max = temp_difference * exp(-0.002) + temp_conv[i] + rounding_error;
+            if( temp_max > BODYTEMP_NORM ) {
+                // Can heat up up to comfortable
+                temp_cur[i] = BODYTEMP_NORM;
+            } else {
+                // Heat up as fast as possible, not just at regular converge-to-comfortable speed
+                temp_cur[i] = temp_max;
+            }
+            // Don't alarm the player with this extra heat - it won't cause debuffs
+            if( temp_conv[i] > BODYTEMP_NORM ) {
+                temp_conv[i] = std::max( BODYTEMP_NORM, temp_conv[i] - bonus_warmth );
+            }
         }
         int temp_after = temp_cur[i];
         // PENALTIES
