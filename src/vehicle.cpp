@@ -998,7 +998,7 @@ vpart_info& vehicle::part_info (int index, bool include_removed) const
     if (index < (int)parts.size()) {
         if (!parts[index].removed || include_removed) {
             return vehicle_part_int_types[parts[index].iid];
-            // slow autovivication // vehicle_part_types[parts[index].id];
+            // slow autovivification // vehicle_part_types[parts[index].id];
         }
     }
     return vehicle_part_int_types[0];//"null"];
@@ -1417,7 +1417,7 @@ void vehicle_part::properties_from_item( const item &used_item )
         bigness = used_item.bigness;
     }
     // item damage is 0,1,2,3, or 4. part hp is 1..durability.
-    // assuming it rusts. other item materials disentigrate at different rates...
+    // assuming it rusts. other item materials disintegrate at different rates...
     int health = 5 - used_item.damage;
     health *= vpinfo.durability; //[0,dur]
     health /= 5;
