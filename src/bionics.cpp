@@ -567,15 +567,13 @@ void player::activate_bionic(int b)
         water.charges = water_charges;
         if (water_charges == 0) {
             add_msg_if_player(m_bad, _("There was not enough moisture in the air from which to draw water!"));
-        }
-        if (g->handle_liquid(water, true, false)) {
+        } else if (g->handle_liquid(water, true, false)) {
             moves -= 100;
-        } else if (query_yn(_("Drink from your hands?"))) {
-            inv.push_back(water);
-            consume(inv.position_by_type(water.typeId()));
-            moves -= 350;
-        } else if (water.charges == water_charges && water_charges != 0) {
-            power_level += bionics["bio_evap"]->power_cost;
+        } else {
+            water.charges -= drink_from_hands( water );
+            if( water.charges == water_charges ) {
+                power_level += bionics["bio_evap"]->power_cost;
+            }
         }
     } else if(bio.id == "bio_lighter") {
         if(!choose_adjacent(_("Start a fire where?"), dirx, diry) ||
@@ -698,16 +696,16 @@ void player::activate_bionic(int b)
                 }
                 if(avail > 0 && query_yn(_("Extract water from the %s"), it->tname().c_str())) {
                     item water = item("water_clean", 0);
-                    if (g->handle_liquid(water, true, true)) {
+                    water.charges = avail;
+                    if (g->handle_liquid(water, true, false)) {
                         moves -= 100;
-                    } else if (query_yn(_("Drink directly from the condenser?"))) {
-                        inv.push_back(water);
-                        consume(inv.position_by_type(water.typeId()));
-                        moves -= 350;
+                    } else {
+                        water.charges -= drink_from_hands( water );
                     }
-                    extracted = true;
-                    avail--;
-                    it->item_vars["remaining_water"] = string_format("%d", avail);
+                    if( water.charges != avail ) {
+                        extracted = true;
+                        it->item_vars["remaining_water"] = string_format("%d", water.charges);
+                    }
                     break;
                 }
             }

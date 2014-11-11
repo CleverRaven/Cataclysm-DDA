@@ -653,7 +653,8 @@ void Pickup::pick_up(int posx, int posy, int min)
                     draw_item_info(w_item_info, "", vThisItem, vDummy, 0, true, true);
                 }
                 draw_border(w_item_info);
-                mvwprintz(w_item_info, 0, 2, c_white, "< %s >", here[selected].display_name().c_str());
+                const auto name = utf8_wrapper( here[selected].display_name() ).shorten( itemsW - 8 );
+                mvwprintz(w_item_info, 0, 2, c_white, "< %s >", name.c_str());
                 wrefresh(w_item_info);
             }
 
@@ -748,7 +749,14 @@ void Pickup::pick_up(int posx, int posy, int min)
 
         } while (ch != ' ' && ch != '\n' && ch != KEY_ESCAPE);
 
-        if (ch != '\n') {
+        bool item_selected = false;
+        // Check if we have selected an item.
+        for( auto selection : getitem ) {
+            if( selection ) {
+                item_selected = true;
+            }
+        }
+        if( ch != '\n' || !item_selected ) {
             w_pickupptr.reset();
             w_item_infoptr.reset();
             add_msg(_("Never mind."));

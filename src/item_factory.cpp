@@ -292,6 +292,7 @@ void Item_factory::init()
     iuse_function_list["LAW"] = &iuse::LAW;
     iuse_function_list["HEATPACK"] = &iuse::heatpack;
     iuse_function_list["FLASK_YEAST"] = &iuse::flask_yeast;
+    iuse_function_list["TANNING_HIDE"] = &iuse::tanning_hide;
     iuse_function_list["BOOTS"] = &iuse::boots;
     iuse_function_list["QUIVER"] = &iuse::quiver;
     iuse_function_list["SHEATH_SWORD"] = &iuse::sheath_sword;

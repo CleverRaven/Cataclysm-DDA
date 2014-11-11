@@ -657,6 +657,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```RIGID``` Volume of the item does not include volume of the content. Without that flag the volume of the contents are added to the volume of the container.
 - ```WATERTIGHT``` Can hold liquids.
 - ```SEALS``` Can be resealed.
+- ```PRESERVES``` Contents do not spoil.
 
 ## Melee
 

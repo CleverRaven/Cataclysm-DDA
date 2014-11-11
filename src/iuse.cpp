@@ -6678,6 +6678,7 @@ static bool valid_to_cut_up(player *p, item *it)
     std::vector<std::string> material_id_white_list;
     material_id_white_list.push_back("cotton");
     material_id_white_list.push_back("leather");
+    material_id_white_list.push_back("fur");
     material_id_white_list.push_back("nomex");
     material_id_white_list.push_back("kevlar");
     material_id_white_list.push_back("plastic");
@@ -7806,6 +7807,23 @@ int iuse::flask_yeast(player *p, item *it, bool, point)
         return it->type->charges_to_use();
     } else {
         p->add_msg_if_player(m_info, _("The yeast isn't done culturing yet."));
+        return 0;
+    }
+}
+
+int iuse::tanning_hide(player *p, item *it, bool, point)
+{
+    if (calendar::turn.get_turn() > (it->bday + 28800)) {
+        p->add_msg_if_player(m_info, _("You carefully unfold the %s and shake it clean."), it->tname().c_str());
+        p->moves -= 150;
+        if (it->type->id == "tanning_hide") {
+        it->make("tanned_hide");
+        } else {
+        it->make("tanned_pelt");
+        }
+        return 0;
+    } else {
+        p->add_msg_if_player(m_info, _("The %s isn't done yet."), it->tname().c_str());
         return 0;
     }
 }

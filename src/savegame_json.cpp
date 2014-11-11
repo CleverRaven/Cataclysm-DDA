@@ -349,6 +349,7 @@ void player::serialize(JsonOut &json) const
 
     // mutations; just like traits but can be removed.
     json.member( "mutations", my_mutations );
+    json.member( "mutation_keys", trait_keys );
 
     // "The cold wakes you up."
     json.member( "temp_cur", temp_cur );
@@ -444,6 +445,7 @@ void player::deserialize(JsonIn &jsin)
     data.read( "style_selected", style_selected );
 
     data.read( "mutations", my_mutations );
+    data.read( "mutation_keys", trait_keys );
 
     set_highest_cat_level();
     drench_mut_calc();
@@ -1465,7 +1467,7 @@ void faction::deserialize(JsonIn &jsin)
 
     jo.read("id", id);
     jo.read("name", name);
-    if ( !jo.read( "description", desc )) {
+    if ( !jo.read( "desc", desc )) {
         desc = "";
     }
     goal = faction_goal(jo.get_int("goal", goal));
