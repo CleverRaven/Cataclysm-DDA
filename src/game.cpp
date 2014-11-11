@@ -10203,6 +10203,13 @@ int game::list_items(const int iLastState)
 
 int game::list_monsters(const int iLastState)
 {
+    const auto vMonsters = u.get_visible_creatures( DAYLIGHT_LEVEL );
+    const int iMonsterNum = vMonsters.size();
+
+    if( vMonsters.empty() && iLastState != 1 ) {
+        return 0;
+    }
+
     int iInfoHeight = 12;
     const int width = use_narrow_sidebar() ? 45 : 55;
     WINDOW *w_monsters = newwin(TERMY - 2 - iInfoHeight - VIEW_OFFSET_Y * 2, width - 2,
@@ -10219,13 +10226,7 @@ int game::list_monsters(const int iLastState)
     WINDOW_PTR w_monster_info_borderptr( w_monster_info_border );
 
     uistate.list_item_mon = 2; // remember we've tabbed here
-    const auto vMonsters = u.get_visible_creatures( DAYLIGHT_LEVEL );
 
-    const int iMonsterNum = vMonsters.size();
-
-    if (iMonsterNum > 0) {
-        uistate.list_item_mon = 2; // remember we've tabbed here
-    }
     const int iWeaponRange = u.weapon.range(&u);
 
     const int iStoreViewOffsetX = u.view_offset_x;
@@ -10234,7 +10235,6 @@ int game::list_monsters(const int iLastState)
     u.view_offset_x = 0;
     u.view_offset_y = 0;
 
-    int iReturn = -1;
     int iActive = 0; // monster index that we're looking at
     const int iMaxRows = TERMY - iInfoHeight - 2 - VIEW_OFFSET_Y * 2;
     int iStartPos = 0;
@@ -10280,7 +10280,6 @@ int game::list_monsters(const int iLastState)
     ctxt.register_action("HELP_KEYBINDINGS");
 
     do {
-        if (!vMonsters.empty() || iLastState == 1) {
             if (action == "UP") {
                 iActive--;
                 if (iActive < 0) {
@@ -10309,7 +10308,7 @@ int game::list_monsters(const int iLastState)
                 }
             }
 
-            if (vMonsters.empty() && iLastState == 1) {
+            if (vMonsters.empty()) {
                 wrefresh(w_monsters_border);
                 mvwprintz(w_monsters, 10, 2, c_white, _("You dont see any monsters around you!"));
             } else {
@@ -10416,16 +10415,12 @@ int game::list_monsters(const int iLastState)
             refresh();
 
             action = ctxt.handle_input();
-        } else {
-            iReturn = 0;
-            action = "QUIT";
-        }
     } while (action != "QUIT");
 
     u.view_offset_x = iStoreViewOffsetX;
     u.view_offset_y = iStoreViewOffsetY;
 
-    return iReturn;
+    return -1;
 }
 
 // Establish or release a grab on a vehicle
