@@ -336,7 +336,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
              }
              
             if ((destroySeats && (part_flag(p, "SEAT") || part_flag(p, "SEATBELT"))) ||
-                (destroyControls && (part_flag(p, "CONTROLS") || part_flag(p, "ALARM"))) ||
+                (destroyControls && (part_flag(p, "CONTROLS") || part_flag(p, "SECURITY"))) ||
                 (destroyEngine && part_flag(p, "ENGINE")) ||
                 (destroyTires && part_flag(p, VPFLAG_WHEEL)))
             {
@@ -353,7 +353,6 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
             if (part_flag(p, "SOLAR_PANEL") && one_in(4)) {
                 parts[p].hp= 0;
             }
-
 
             /* Bloodsplatter the front-end parts. Assume anything with x > 0 is
             * the "front" of the vehicle (since the driver's seat is at (0, 0).
@@ -387,8 +386,8 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
             }
 
         }
-                //sets the alarm to locked, if there is no key
-        if (part_flag(p, "ALARM") && (has_no_key) && parts[p].hp > 0) {
+        //sets the vehicle to locked, if there is no key and an alarm part exists
+        if (part_flag(p, "SECURITY") && (has_no_key) && parts[p].hp > 0) {
             is_locked = true;
         }
     }
@@ -520,7 +519,7 @@ bool vehicle::is_alternator_on(int a) {
 bool vehicle::has_alarm_installed(){
     bool found_alarm = false;
     for (size_t s = 0; s < speciality.size(); s++){
-        if (part_flag(speciality[s], "ALARM")){
+        if (part_flag(speciality[s], "SECURITY")){
             found_alarm = true;
             break;
         }
@@ -4082,7 +4081,7 @@ void vehicle::refresh()
         if( vpi.has_flag("UNMOUNT_ON_MOVE") ) {
             loose_parts.push_back(p);
         }
-        if (vpi.has_flag("ALARM")){
+        if (vpi.has_flag("SECURITY")){
             speciality.push_back(p);
         }
         // Build map of point -> all parts in that point
