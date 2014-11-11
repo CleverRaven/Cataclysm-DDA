@@ -956,7 +956,7 @@ void player::update_bodytemp()
                     }
                     temp_conv[i] +=  300 * heat_intensity * heat_intensity / (fire_dist * fire_dist);
                     blister_count += heat_intensity / (fire_dist * fire_dist);
-                    if( std::abs( j ) <= 1 && std::abs( k ) <= 1 ) {
+                    if( fire_dist <= 1 ) {
                         // Extend limbs/lean over a single adjacent fire to warm up
                         best_fire = std::max( best_fire, heat_intensity );
                     }
@@ -1243,10 +1243,6 @@ void player::update_bodytemp()
             } else {
                 // Heat up as fast as possible, not just at regular converge-to-comfortable speed
                 temp_cur[i] = temp_max;
-            }
-            // Don't alarm the player with this extra heat - it won't cause debuffs
-            if( temp_conv[i] > BODYTEMP_NORM ) {
-                temp_conv[i] = std::max( BODYTEMP_NORM, temp_conv[i] - bonus_warmth );
             }
         }
         int temp_after = temp_cur[i];
