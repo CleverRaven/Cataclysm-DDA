@@ -1,0 +1,312 @@
+[
+    {
+"//": "Add only mundane, standard issue gear and items, more powerfull items belong in the X.E.D.R.A encampment.",
+"//": "Take note that the FEMA camp is also a classic mode building.",
+"//": "If editing the corpse spawn lists, please leave the corpse as the LAST entry.",
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "fema_soldier_corpse",
+        "entries":
+        [
+            { "item": "pants_army"},
+            { "group": "underwear"},
+            { "item": "jacket_army"},
+            { "item": "helmet_army"},
+            { "item": "chestrig"},
+            { "item": "LAW", "prob": 5},
+            { "group": "fema_soldier_main", "prob": 20},
+            { "group": "fema_soldier_corpseman", "prob": 1},
+            { "group": "fema_soldier_extras", "count-min": 3, "count-max": 6},
+            { "group": "fema_soldier_sidearm", "prob": 30},
+            { "item": "mask_gas", "prob": 50},
+            { "item": "holster", "prob": 20},
+            { "item": "dump_pouch", "prob": 20},
+            { "item": "boots_combat"}
+        ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "distribution",
+        "id": "fema_soldier_main",
+        "entries":
+        [
+            { "group": "fema_iar", "prob": 30},
+            { "group": "fema_m4", "prob": 55},
+            { "group": "fema_m1014", "prob": 5},
+            { "group": "fema_m249", "prob": 5},
+            { "group": "fema_m14ebr", "prob": 5}
+        ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "fema_iar",
+        "entries":
+        [
+            { "item": "m27iar", "charges-min": 0, "charges-max": 30, "ammo": "556"},
+            { "item": "556", "charges-min": 0, "charges-max": 60}
+        ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "fema_m4",
+        "entries":
+        [
+            { "item": "m4a1", "charges-min": 0, "charges-max": 30, "ammo": "556"},
+            { "item": "556", "charges-min": 0, "charges-max": 60}
+        ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "fema_m1014",
+        "entries":
+        [
+            { "item": "grenade_incendiary", "prob": 20},
+            { "item": "m1014", "charges-min": 0, "charges-max": 8, "ammo": "shot_00"},
+            { "item": "shot_00", "charges-min": 0, "charges-max": 25}
+        ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "fema_m249",
+        "entries":
+        [
+            { "item": "dump_pouch", "prob": 20},
+            { "item": "balaclava", "prob": 50},
+            { "item": "m249", "charges-min": 0, "charges-max": 150, "ammo": "556"},
+            { "item": "556", "charges-min": 0, "charges-max": 300}
+        ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "fema_m14ebr",
+        "entries":
+        [
+            { "item": "m14ebr", "charges-min": 0, "charges-max": 30, "ammo": "762_51"},
+            { "item": "556", "charges-min": 0, "charges-max": 60}
+        ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "distribution",
+        "id": "fema_soldier_sidearm",
+        "entries":
+        [
+            { "group": "sig_p226", "prob": 20},
+            { "group": "m9", "prob": 80}
+        ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "fema_soldier_extra",
+        "entries":
+        [
+            { "item": "molle_pack", "charges-min": 0, "charges-max": 30, "ammo": "556"},
+            { "item": "bandages", "count-min": 0, "count-max": 3},
+            { "item": "1st_aid"},
+            { "item": "scissors"},
+            { "item": "morphine", "count-min": 1, "count-max": 2},
+            { "item": "gloves_medical", "count-min": 1, "count-max": 2},
+            { "item": "syringe", "container-item": "bag_plastic", "count-min": 1, "count-max": 2}
+        ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "fema_soldier_corpseman",
+        "entries":
+        [
+            { "item": "molle_pack", "charges-min": 0, "charges-max": 30, "ammo": "556"},
+            { "item": "bandages", "count-min": 0, "count-max": 3},
+            { "item": "1st_aid"},
+            { "item": "scissors"},
+            { "item": "morphine", "count-min": 1, "count-max": 2},
+            { "item": "gloves_medical", "count-min": 1, "count-max": 2},
+            { "item": "syringe", "container-item": "bag_plastic", "count-min": 1, "count-max": 2}
+        ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "fema_food_crate",
+        "entries":
+        [
+            { "item": "mre_beef_box", "count-min": 0, "count-max": 5},
+            { "item": "mre_chicken_box", "count-min": 0, "count-max": 5},
+            { "item": "mre_ravioli_box", "count-min": 0, "count-max": 5},
+            { "item": "mre_veggy_box", "count-min": 0, "count-max": 5},
+            { "item": "mre_hotdog_box", "count-min": 1, "count-max": 5},
+            { "item": "can_beans", "count-min": 0, "count-max": 3},
+            { "item": "can_spam", "count-min": 0, "count-max": 3},
+            { "item": "sugar", "count-min": 0, "count-max": 5},
+            { "item": "flour", "count-min": 0, "count-max": 5},
+            { "item": "toastem", "count-min": 0, "count-max": 5}
+        ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "fema_water",
+        "entries":
+        [
+            { "item": "water_clean", "charges": 450, "container-item": "30gal_drum"}
+        ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "fema_clothes_crate",
+        "entries":
+        [
+            { "item": "jacket_evac", "count-min": 0, "count-max": 5},
+            { "item": "emer_blanket", "count-min": 0, "count-max": 5},
+            { "item": "mask_gas", "count-min": 0, "count-max": 5},
+            { "item": "coat_rain", "count-min": 0, "count-max": 5},
+            { "item": "coat_winter", "count-min": 1, "count-max": 5},
+            { "item": "can_beans", "count-min": 0, "count-max": 3},
+            { "item": "can_spam", "count-min": 0, "count-max": 3},
+            { "item": "sugar", "count-min": 0, "count-max": 5},
+            { "item": "flour", "count-min": 0, "count-max": 5},
+            { "item": "toastem", "count-min": 0, "count-max": 5}
+        ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "fema_medical_crate",
+        "entries":
+        [
+
+            { "item": "bandages", "count-min": 0, "count-max": 5},
+            { "item": "1st_aid", "count-min": 0, "count-max": 5},
+            { "item": "scissors"},
+            { "item": "scalpel", "container-item": "bag_plastic", "count-min": 1, "count-max": 5},
+            { "item": "stethoscope", "prob": 10},
+            { "item": "aspirin", "count-min": 1, "count-max": 5},
+            { "item": "morphine", "count-min": 0, "count-max": 2},
+            { "item": "smoxygen_tank", "count-min": 0, "count-max": 2},
+            { "item": "gloves_medical", "count-min": 1, "count-max": 5},
+            { "item": "syringe", "container-item": "bag_plastic", "count-min": 1, "count-max": 5}
+
+        ]
+    },
+    {
+        "type": "mapgen",
+        "om_terrain": [
+            "cabin"
+        ],
+        "method": "json",
+        "weight": 300, "comment": "<--- low weight due to low randomness, remove when house mapgen pool is big",
+        "object": {
+            "rows": [ 
+               ".zzz....................",
+                ".----------------------.",
+                ".|   B  l|     >  >  >|.",
+                ".|  CCC l|     A  A  A|.",
+                ".|  B    |     G  G  G|.",
+                ".|       +     G  G  G|.",
+                ".|--------     >  >  >|.",
+                ".|xxxxx00|            |.",
+                ".|0      +    |---+---|.",
+                ".|0000   |    |     B |.",
+                ".|--------    |0 B    |.",
+                ".|            |  666  |.",
+                ".|--+-|-3--------222--|.",
+                ".|A   |..[..........c...",
+                ".|   ;|~c[.~~~~~~~~~~...",
+                ".------..[.........[....",
+                ".........~~~~~~~~~c[....",
+                "........................",
+                "........................",
+                "........................",
+                "........................",
+                "........................",
+                "........................",
+                "........................"
+
+            ],
+            "terrain": {
+                ".": "t_dirt",
+                "-": "t_concrete_h",
+                "2": "t_bars",
+                "3": "t_door_metal_locked",
+                "|": "t_concrete_v",
+                " ": "t_floor",
+                "6": "t_floor",
+                "7": "t_floor",
+                "9": "t_floor",
+                ":": "t_floor",
+                ";": "t_floor",
+                "+": "t_door_c",
+                "c": "t_chaingate_c",
+                "=": "t_floor",
+                ">": "t_floor",
+                "?": "t_floor",
+                "@": "t_floor",
+                "A": "t_floor",
+                "B": "t_floor",
+                "C": "t_floor",
+                "D": "t_floor",
+                "E": "t_floor",
+                "0": "t_floor",
+                "l": "t_floor",
+                "x": "t_floor",
+                "F": "t_floor",
+                "G": "t_floor",
+                "z": "t_shrub",
+                "S": "t_sidewalk",
+                "^": "t_tree",
+                "{": "t_door_glass_c",
+                "[": "t_chainfence_v",
+                "~": "t_chainfence_h"
+            },
+            "furniture": {
+                "6": "f_table",
+                "x": "f_crate_c",
+                "0": "f_crate_o",
+                "7": "f_bookcase",
+                "9": "f_rack",
+                "l": "f_locker",
+                ":": "f_dresser",
+                ";": "f_toilet",
+                "=": "f_fireplace",
+                ">": "f_counter",
+                "?": "f_sofa",
+                "@": "f_bed",
+                "A": "f_sink",
+                "B": "f_chair",
+                "C": "f_desk",
+                "D": "f_trashcan",
+                "E": "f_cupboard",
+                "F": "f_fridge",
+                "G": "f_oven"
+            },
+            "place_specials": [
+                { "type": "toilet", "x": 5, "y": 14 }
+            ],
+            "set": [
+                { "point": "terrain", "id": "t_dirt", "x": 0, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
+                { "point": "terrain", "id": "t_dirt", "x": 23, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
+                { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": 23, "repeat": [ 5, 8 ] },
+                { "point": "terrain", "id": "t_dirt", "x": [ 0, 14 ], "y": 0, "repeat": [ 5, 8 ] },
+                { "point": "terrain", "id": "t_tree_apple", "x": [ 0, 14 ], "y": 0, "repeat": [ 1, 2 ] },
+                { "point": "terrain", "id": "t_tree", "x": [ 2, 14 ], "y":[ 17,21 ] , "repeat": [ 2,6 ] },
+                { "point": "terrain", "id": "t_tree_young", "x": [ 2, 14 ], "y":[ 17,21 ] , "repeat": [ 3,5 ] }
+            ],
+            "place_groups": [
+                { "item": "fema_food_crate", "chance": 100,  "x": [ 2,4 ], "y": [ 7,7 ] },
+                { "item": "fema_food_crate", "chance": 100,  "x": [ 5,5 ], "y": [ 7,7 ] },
+                { "item": "fema_food_crate", "chance": 100,  "x": [ 6,6 ], "y": [ 7,7 ] },
+                { "item": "fema_water", "chance": 100,  "x": [ 6,6 ], "y": [ 9,9 ] },
+                { "item": "fema_water", "chance": 100,  "x": [ 7,7 ], "y": [ 9,9 ] },
+                { "item": "fema_water", "chance": 100,  "x": [ 8,8 ], "y": [ 9,9 ] }
+
+            ]
+        }
+    }
+]
