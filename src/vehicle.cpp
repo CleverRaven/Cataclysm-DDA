@@ -629,7 +629,7 @@ void vehicle::use_controls()
         }
     }
     
-    if (is_alarm_on && !is_locked){
+    if (is_alarm_on && velocity == 0){
         options_choice.push_back(try_disarm_alarm);
         options_message.push_back(uimenu_entry(_("Try to disarm alarm."), 'z'));
     }
