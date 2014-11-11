@@ -71,6 +71,7 @@ List of known flags, used in both terrain.json and furniture.json
 - ```PERMEABLE``` Permeable for gases.
 - ```MOUNTABLE``` Suitable for guns with the "MOUNTED_GUN" flag.
 - ```UNSTABLE``` Walking here cause the bouldering effect on the character.
+- ```HARVESTED``` Marks the harvested version of a terrain type (e.g. harvesting an apple tree turns it into a harvested tree, which later becomes an apple tree again).
 
 ### Examine actions
 
@@ -183,8 +184,10 @@ Flags used to describe monsters and define their properties and abilities.
 - ```WARM``` Warm blooded.
 - ```NOHEAD``` Headshots not allowed!
 - ```HARDTOSHOOT``` Some shots are actually misses.
+- ```LEAKSGAS``` Leaks toxic gas.
 - ```GRABS``` Its attacks may grab you!
 - ```BASHES``` Bashes down doors.
+- ```GROUP_BASH``` Gets help from monsters around it when bashing.
 - ```DESTROYS``` Bashes down walls and more.
 - ```POISON``` Poisonous to eat.
 - ```VENOM``` Attack may poison the player.
@@ -392,7 +395,8 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```STABLE``` Similar to `WHEEL`, but if the vehicle is only a 1x1 section, this single wheel counts as enough wheels.
 - ```ENGINE``` Is an engine and contributes towards vehicle mechanical power.
 - ```ALTERNATOR``` Recharges batteries installed on the vehicle.
-- ```PEDALS``` Similar to 'ENGINE', but requires the player to manually power it.
+- ```PEDALS``` Similar to 'ENGINE', but requires the player to manually power it with their feet.
+- ```HAND_RIMS``` Similar to 'ENGINE', but requires the player to manually power it with their hands.
 - ```FUEL_TANK``` Storage device for a fuel type.
 - ```FRIDGE``` Can refrigerate items.
 - ```CONTROLS``` Can be used to control the vehicle.
@@ -548,6 +552,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```DEAF``` Makes the player deaf.
 - ```SWIM_GOGGLES``` - Allows you to see much further under water.
 - ```SUN_GLASSES``` - Prevents glaring when in sunlight.
+- ```PAIRED``` - Item usually comes in two, one for the left side and one for the right side.
 
 ## Comestibles
 
@@ -690,7 +695,9 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```STR10_DRAW``` Character needs at least strength 10 to use the full range of this bow, can not be used with less than 5 strength.
 - ```STR12_DRAW``` Character needs at least strength 12 to use the full range of this bow, can not be used with less than 6 strength.
 - ```MOUNTED_GUN``` Gun can only be used on terrain / furniture with the "MOUNTABLE" flag.
-- ```WATERPROOF_GUN``` Gun does not rust.
+- ```WATERPROOF_GUN``` Gun does not rust and can be used underwater.
+- ```UNDERWATER_GUN``` Gun is optimized for usage underwater, does perform badly outside of water.
+- ```NEVER_JAMS``` Never malfunctions.
 
 ## Tools
 
@@ -715,6 +722,7 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```CABLE_SPOOL``` This item is a cable spool and must be processed as such. It has an internal "state" variable which may be in the states "attach_first" or "pay_out_cable" -- in the latter case, set its charges to `max_charges - dist(here, point(vars["source_x"], vars["source_y"]))`. If this results in 0 or a negative number, set its state back to "attach_first".
 - ```NO_DROP``` An item with this flag should never actually be dropped. Used internally to signal that an item was created, but that it is unwanted. Needless to say, don't use this in an item definition.
 - ```WET``` Item is wet and will slowly dry off (e.g. towel).
+- ```MC_MOBILE```, ```MC_RANDOM_STUFF```, ```MC_SCIENCE_STUFF```, ```MC_USED```, ```MC_HAS_DATA``` Memory card related flags, see `iuse.cpp`
 
 ### Flags that apply to items, not to item types.
 Those flags are added by the game code to specific items (that specific welder, not *all* welders).
@@ -885,6 +893,10 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```RADIOACTIVE``` ... Is radioactive (can be used with LEAK_*).
 - ```LEAK_ALWAYS``` ... Leaks (may be combined with "RADIOACTIVE").
 - ```LEAK_DAM``` ... Leaks when damaged (may be combined with "RADIOACTIVE").
+- ```UNBREAKABLE_MELEE``` ... Does never get damaged when used as melee weapon.
+- ```DURABLE_MELEE``` ... Item is made to hit stuff and it does it well, so it's considered to be a lot tougher than other weapons made of the same materials.
+- ```RAIN_PROTECT``` ... Protects from sunlight and from rain, when wielded.
+- ```NO_PICKUP``` ... Character can not pickup anything while wielding this item (e.g. bionic claws).
 
 ## Skills
 
@@ -900,6 +912,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```SPR_START``` ... start in spring.
 - ```AUT_START``` ... start in autumn.
 - ```WIN_START``` ... start in winter.
+- ```SUR_START``` ... surrounded start, zombies outside the starting shelter.
 
 ## TODO
 
