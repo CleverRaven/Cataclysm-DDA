@@ -519,7 +519,7 @@ bool vehicle::is_alternator_on(int a) {
 bool vehicle::has_alarm_installed(){
     bool found_alarm = false;
     for (size_t s = 0; s < speciality.size(); s++){
-        if (part_flag(speciality[s], "SECURITY")){
+        if (part_flag(speciality[s], "SECURITY") && parts[speciality[s]].hp > 0;){
             found_alarm = true;
             break;
         }
