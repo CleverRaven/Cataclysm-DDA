@@ -10236,7 +10236,7 @@ int game::list_monsters(const int iLastState)
     u.view_offset_y = 0;
 
     int iActive = 0; // monster index that we're looking at
-    const int iMaxRows = TERMY - iInfoHeight - 2 - VIEW_OFFSET_Y * 2;
+    const int iMaxRows = TERMY - iInfoHeight - 2 - VIEW_OFFSET_Y * 2 - 1;
     int iStartPos = 0;
     int iActiveX = 0;
     int iActiveY = 0;
@@ -10377,11 +10377,11 @@ int game::list_monsters(const int iLastState)
                 //print monster info
                 cCurMon->print_info(w_monster_info, 1, 11, 1);
 
-                mvwprintz(w_monsters, getmaxy(w_monsters) - 1, 1, c_ltgreen, "%s", press_x(ACTION_LOOK).c_str());
+                mvwprintz(w_monsters, getmaxy(w_monsters) - 1, 1, c_ltgreen, "%s", ctxt.press_x( "look" ).c_str());
                 wprintz(w_monsters, c_ltgray, " %s", _("to look around"));
                 if (rl_dist( u.pos(), cCurMon->pos() ) <= iWeaponRange) {
                     wprintz(w_monsters, c_ltgray, "%s", " ");
-                    wprintz(w_monsters, c_ltgreen, "%s", press_x(ACTION_FIRE).c_str());
+                    wprintz(w_monsters, c_ltgreen, "%s", ctxt.press_x( "fire" ).c_str());
                     wprintz(w_monsters, c_ltgray, " %s", _("to shoot"));
                 }
 
