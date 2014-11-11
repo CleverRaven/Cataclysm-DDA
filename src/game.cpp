@@ -14763,19 +14763,23 @@ void intro()
     erase();
 }
 
+bool is_worn(const player &p, const item *it)
+{
+    return !p.worn.empty() && &p.worn.front() <= it && it <= &p.worn.back();
+}
+
 void game::process_artifact(item *it, player *p, bool wielded)
 {
+    const bool worn = is_worn( *p, it );
     std::vector<art_effect_passive> effects;
-    if (it->is_armor()) {
+    if( worn && it->is_armor() ) {
         it_artifact_armor *armor = dynamic_cast<it_artifact_armor *>(it->type);
         effects = armor->effects_worn;
     } else if (it->is_tool()) {
         it_artifact_tool *tool = dynamic_cast<it_artifact_tool *>(it->type);
         effects = tool->effects_carried;
         if (wielded) {
-            for (auto &i : tool->effects_wielded) {
-                effects.push_back(i);
-            }
+            effects.insert( effects.end(), tool->effects_wielded.begin(), tool->effects_wielded.end() );
         }
         // Recharge it if necessary
         if (it->charges < tool->max_charges) {
@@ -14880,9 +14884,11 @@ void game::process_artifact(item *it, player *p, bool wielded)
         case AEP_EVIL:
             if (one_in(150)) { // Once every 15 minutes, on average
                 p->add_disease("evil", 300);
-                if (it->is_armor()) {
+                if( it->is_armor() ) {
+                    if( !worn ) {
                     add_msg(_("You have an urge to wear the %s."),
                             it->tname().c_str());
+                    }
                 } else if (!wielded) {
                     add_msg(_("You have an urge to wield the %s."),
                             it->tname().c_str());
