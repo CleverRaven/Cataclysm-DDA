@@ -311,86 +311,86 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
         if (part_flag(p, "BOARDABLE")) {      // no passengers
             parts[p].remove_flag(vehicle_part::passenger_flag);
         }
-        //sets the alarm to locked, if there is no key
-        if (part_flag(p, "ALARM") && (has_no_key) && parts[p].hp > 0) {
-            is_locked = true;
-        }
+
 
         // initial vehicle damage
         if (veh_status == 0) {
             // Completely mint condition vehicle
             parts[p].hp= part_info(p).durability;
         } else {
-         //a bit of initial damage :)
-         //clamp 4d8 to the range of [8,20]. 8=broken, 20=undamaged.
-         int broken = 8, unhurt = 20;
-         int roll = dice(4,8);
-         if(roll < unhurt){
-            if (roll <= broken) {
-               parts[p].hp= 0;
-               parts[p].amount= 0; //empty broken batteries and fuel tanks
-            }
-            else
-               parts[p].hp= ((float)(roll-broken) / (unhurt-broken)) * part_info(p).durability;
-            }
-         else // new.
-         {
-            parts[p].hp= part_info(p).durability;
-         }
-         
-        if ((destroySeats && (part_flag(p, "SEAT") || part_flag(p, "SEATBELT"))) ||
-            (destroyControls && (part_flag(p, "CONTROLS") || part_flag(p, "ALARM"))) ||
-            (destroyEngine && part_flag(p, "ENGINE")) ||
-            (destroyTires && part_flag(p, VPFLAG_WHEEL)))
-        {
-            parts[p].hp= 0;
-        }
-        
-        // Fuel tanks should be emptied as well
-        if (destroyTank && part_flag(p, "FUEL_TANK")){
-            parts[p].hp= 0;
-            parts[p].amount = 0;
-        }
-        
-        //Solar panels have 25% of being destroyed
-        if (part_flag(p, "SOLAR_PANEL") && one_in(4)) {
-            parts[p].hp= 0;
-        }
-
-
-        /* Bloodsplatter the front-end parts. Assume anything with x > 0 is
-        * the "front" of the vehicle (since the driver's seat is at (0, 0).
-        * We'll be generous with the blood, since some may disappear before
-        * the player gets a chance to see the vehicle. */
-        if(blood_covered && parts[p].mount_dx > 0) {
-            if(one_in(3)) {
-             //Loads of blood. (200 = completely red vehicle part)
-             parts[p].blood = rng(200, 600);
-            } else {
-             //Some blood
-             parts[p].blood = rng(50, 200);
-            }
-        }
-
-        if(blood_inside) {
-            // blood is splattered around (blood_inside_x, blood_inside_y),
-            // coords relative to mount point; the center is always a seat
-            if (blood_inside_set) {
-                int distSq = std::pow((blood_inside_x - parts[p].mount_dx), 2) + \
-                    std::pow((blood_inside_y - parts[p].mount_dy), 2);
-                if (distSq <= 1) {
-                    parts[p].blood = rng(200, 400) - distSq*100;
+             //a bit of initial damage :)
+             //clamp 4d8 to the range of [8,20]. 8=broken, 20=undamaged.
+             int broken = 8, unhurt = 20;
+             int roll = dice(4,8);
+             if(roll < unhurt){
+                if (roll <= broken) {
+                   parts[p].hp= 0;
+                   parts[p].amount= 0; //empty broken batteries and fuel tanks
                 }
-            } else if (part_flag(p, "SEAT")) {
-                // Set the center of the bloody mess inside
-                blood_inside_x = parts[p].mount_dx;
-                blood_inside_y = parts[p].mount_dy;
-                blood_inside_set = true;
+                else
+                   parts[p].hp= ((float)(roll-broken) / (unhurt-broken)) * part_info(p).durability;
+                }
+             else // new.
+             {
+                parts[p].hp= part_info(p).durability;
+             }
+             
+            if ((destroySeats && (part_flag(p, "SEAT") || part_flag(p, "SEATBELT"))) ||
+                (destroyControls && (part_flag(p, "CONTROLS") || part_flag(p, "ALARM"))) ||
+                (destroyEngine && part_flag(p, "ENGINE")) ||
+                (destroyTires && part_flag(p, VPFLAG_WHEEL)))
+            {
+                parts[p].hp= 0;
             }
-        }
+
+            // Fuel tanks should be emptied as well
+            if (destroyTank && part_flag(p, "FUEL_TANK")){
+                parts[p].hp= 0;
+                parts[p].amount = 0;
+            }
+
+            //Solar panels have 25% of being destroyed
+            if (part_flag(p, "SOLAR_PANEL") && one_in(4)) {
+                parts[p].hp= 0;
+            }
+
+
+            /* Bloodsplatter the front-end parts. Assume anything with x > 0 is
+            * the "front" of the vehicle (since the driver's seat is at (0, 0).
+            * We'll be generous with the blood, since some may disappear before
+            * the player gets a chance to see the vehicle. */
+            if(blood_covered && parts[p].mount_dx > 0) {
+                if(one_in(3)) {
+                 //Loads of blood. (200 = completely red vehicle part)
+                 parts[p].blood = rng(200, 600);
+                } else {
+                 //Some blood
+                 parts[p].blood = rng(50, 200);
+                }
+            }
+
+            if(blood_inside) {
+                // blood is splattered around (blood_inside_x, blood_inside_y),
+                // coords relative to mount point; the center is always a seat
+                if (blood_inside_set) {
+                    int distSq = std::pow((blood_inside_x - parts[p].mount_dx), 2) + \
+                        std::pow((blood_inside_y - parts[p].mount_dy), 2);
+                    if (distSq <= 1) {
+                        parts[p].blood = rng(200, 400) - distSq*100;
+                    }
+                } else if (part_flag(p, "SEAT")) {
+                    // Set the center of the bloody mess inside
+                    blood_inside_x = parts[p].mount_dx;
+                    blood_inside_y = parts[p].mount_dy;
+                    blood_inside_set = true;
+                }
+            }
 
         }
-
+                //sets the alarm to locked, if there is no key
+        if (part_flag(p, "ALARM") && (has_no_key) && parts[p].hp > 0) {
+            is_locked = true;
+        }
     }
 }
 /**
