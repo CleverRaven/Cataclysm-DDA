@@ -4607,45 +4607,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "grenade_inc",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_EXPLOSIVE",
-  "skill_used": "fabrication",
-  "skills_required": [ "mechanics", 2 ],
-  "difficulty": 4,
-  "time": 8000,
-  "reversible": true,
-  "autolearn": false,
-  "book_learn": [[ "recipe_labchem", 7 ] , [ "textbook_anarch", 6 ] , [ "textbook_gaswarfare", 5 ]],
-  "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "pilot_light", 1 ]
-    ],
-    [
-      [ "superglue", 1 ],
-      [ "duct_tape", 75 ],
-      [ "string_36", 1 ]
-    ],
-    [
-      [ "canister_empty", 1 ],
-      [ "can_drink", 1 ],
-      [ "can_food", 1 ]
-    ],
-    [
-      [ "incendiary", 100 ]
-    ],
-    [
-      [ "gunpowder", 36 ],
-      [ "shot_00", 2 ],
-      [ "shot_slug", 1 ],
-      [ "gasoline", 100 ],
-      [ "shot_bird", 3 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "flashbang",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_EXPLOSIVE",
