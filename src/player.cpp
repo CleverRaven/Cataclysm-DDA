@@ -1215,6 +1215,29 @@ void player::update_bodytemp()
                 bonus_warmth = std::max( 2000, best_fire * 1000 ); // A lot
             }
         }
+        if( bonus_warmth > 0 ) {
+            // Approximate temp_conv needed to reach comfortable temperature in this very turn
+            // Basically inverted formula for temp_cur below
+            int desired = 501 * BODYTEMP_NORM - 499 * temp_cur[i];
+            if( std::abs( BODYTEMP_NORM - desired ) < 1000 ) {
+                desired = BODYTEMP_NORM; // Ensure that it converges
+            }
+            
+            if( desired < temp_conv[i] ) {
+                // Too hot, can't help here
+            } else if( desired < temp_conv[i] + bonus_warmth ) {
+                // Use some heat, but not all of it
+                temp_conv[i] = desired;
+            } else {
+                // Use all the heat
+                temp_conv[i] += bonus_warmth;
+                if( one_in(100) && temp_conv[i] > BODYTEMP_HOT &&  !has_disease("sleep") && !has_disease("lying_down") ) {
+                        add_msg(m_good, _("You warm up your %s by the fire."),
+                                body_part_name(body_part(i)).c_str());
+                }
+            }
+        }
+        
         int temp_before = temp_cur[i];
         int temp_difference = temp_cur[i] - temp_conv[i]; // Negative if the player is warming up.
         // exp(-0.001) : half life of 60 minutes, exp(-0.002) : half life of 30 minutes,
@@ -1226,24 +1249,6 @@ void player::update_bodytemp()
         }
         if( temp_cur[i] != temp_conv[i] ) {
             temp_cur[i] = temp_difference * exp(-0.002) + temp_conv[i] + rounding_error;
-        }
-        // Rapid heating with clothes on the ground or adjactent fire
-        if( temp_cur[i] < BODYTEMP_NORM && bonus_warmth > 0) {
-            temp_conv[i] += bonus_warmth;
-            temp_difference = temp_cur[i] - temp_conv[i];
-            rounding_error = 0;
-            if( temp_difference < 0 && temp_difference > -600 ) {
-                rounding_error = 1;
-            }
-            
-            int temp_max = temp_difference * exp(-0.002) + temp_conv[i] + rounding_error;
-            if( temp_max > BODYTEMP_NORM ) {
-                // Can heat up up to comfortable
-                temp_cur[i] = BODYTEMP_NORM;
-            } else {
-                // Heat up as fast as possible, not just at regular converge-to-comfortable speed
-                temp_cur[i] = temp_max;
-            }
         }
         int temp_after = temp_cur[i];
         // PENALTIES
