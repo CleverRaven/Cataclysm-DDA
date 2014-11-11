@@ -959,7 +959,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         spread_gas( cur, x, y, curtype, 33,  5);
                         int mondex;
                         mondex = g->mon_at(x, y);
-                        if (g->m.move_cost(x, y) > 0) {
+                        if (move_cost(x, y) > 0) {
                             if (mondex != -1) { // Haze'd!
                                 if (!g->zombie(mondex).type->in_species("FUNGUS") &&
                                   !g->zombie(mondex).type->has_flag("NO_BREATHE")) {
@@ -1439,21 +1439,25 @@ void map::step_in_field(int x, int y)
         } break;
 
         case fd_acid:
-            //Acid deals damage at all levels now; the inside refers to inside a vehicle.
             //TODO: Add resistance to this with rubber shoes or something?
-            if (cur->getFieldDensity() == 3 && !inside) {
+            // Assume vehicles block acid damage entirely,
+            // you're certainly not standing in it.
+            if (veh) {
+                break;
+            }
+            if (cur->getFieldDensity() == 3) {
                 add_msg(m_bad, _("The acid burns your legs and feet!"));
                 g->u.deal_damage( nullptr, bp_foot_l, damage_instance( DT_ACID, rng( 4, 10 ) ) );
                 g->u.deal_damage( nullptr, bp_foot_r, damage_instance( DT_ACID, rng( 4, 10 ) ) );
                 g->u.deal_damage( nullptr, bp_leg_l, damage_instance( DT_ACID, rng( 2, 8 ) ) );
                 g->u.deal_damage( nullptr, bp_leg_r, damage_instance( DT_ACID, rng( 2, 8 ) ) );
-            } else if (cur->getFieldDensity() == 2 && !inside) {
+            } else if (cur->getFieldDensity() == 2) {
                 add_msg(m_bad, _("The acid burns your legs and feet!"));
                 g->u.deal_damage( nullptr, bp_foot_l, damage_instance( DT_ACID, rng( 2, 5 ) ) );
                 g->u.deal_damage( nullptr, bp_foot_r, damage_instance( DT_ACID, rng( 2, 5 ) ) );
                 g->u.deal_damage( nullptr, bp_leg_l, damage_instance( DT_ACID, rng( 1, 4 ) ) );
                 g->u.deal_damage( nullptr, bp_leg_r, damage_instance( DT_ACID, rng( 1, 4 ) ) );
-            } else if (!inside) {
+            } else {
                 add_msg(m_bad, _("The acid burns your legs and feet!"));
                 g->u.deal_damage( nullptr, bp_foot_l, damage_instance( DT_ACID, rng( 1, 3 ) ) );
                 g->u.deal_damage( nullptr, bp_foot_r, damage_instance( DT_ACID, rng( 1, 3 ) ) );
@@ -1637,7 +1641,8 @@ void map::step_in_field(int x, int y)
         case fd_flame_burst:
             //A burst of flame? Only hits the legs and torso.
             if (inside) break; //fireballs can't touch you inside a car.
-            if (!g->u.has_active_bionic("bio_heatsink") || !g->u.is_wearing("rm13_armor_on")) { //heatsink or suit stops fire.
+            if (!g->u.has_active_bionic("bio_heatsink") && !g->u.is_wearing("rm13_armor_on") &&
+                !g->u.has_trait("M_SKIN2")) { //heatsink, suit, or Mycus fireproofing stops fire.
                 add_msg(m_bad, _("You're torched by flames!"));
                 g->u.deal_damage( nullptr, bp_leg_l, damage_instance( DT_HEAT, rng( 2, 6 ) ) );
                 g->u.deal_damage( nullptr, bp_leg_r, damage_instance( DT_HEAT, rng( 2, 6 ) ) );

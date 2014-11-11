@@ -630,6 +630,20 @@ you're unable to withstand them. Staying dry is important, especially if conditi
 that they would cause frostbite. If you're having trouble staying warm over night, make a pile \
 of clothing on the floor to sleep on."));
 
+    text.push_back(_("\
+Your clothing can sit in one of four layers on your body: next-to-skin, standard, over, and belted. \
+You can wear one item from each layer on a body part without incurring an encumbrance penalty for \
+too many worn items. Any items beyond the first on each layer add an additional point to the body \
+part's encumbrance. (However, you can wear one additional item that would be encumbrance 0 before \
+fitting, and is fitted anyway, without incurring that penalty.)"));
+
+     text.push_back(_("\
+For example, on her torso, a character might wear a leather corset (next-to-skin), a leather touring \
+suit (standard), a trenchcoat (over), and a survivor's runner pack (belted). Her encumbrance penalty \
+is 0. She could also wear one encumbrance 0 fitted item on any layer without triggering the penalty: \
+for example, a tank top (next-to-skin) or a t-shirt (standard). If she put on a tank top AND a \
+t-shirt, one of them would be penalized, bringing her encumbrance to 1."));
+
     return text;
 }
 
@@ -639,7 +653,7 @@ std::vector<std::string> text_types()
 
     text.push_back(string_format(_("\
 ~       Liquid\n\
-%%%%       Food\n\
+%%       Food\n\
 !       Medication\n\
 These are all consumed by using %s. They provide a certain amount of nutrition, quench your thirst, may \
 be a stimulant or a depressant, and may provide morale. There may also be more subtle effects."),

@@ -564,7 +564,7 @@ void Creature::add_effect(efftype_id eff_id, int dur, int intensity, bool perman
                      add_msg(effect_types[eff_id].gain_game_message_type(),
                              _(effect_types[eff_id].get_apply_message().c_str()));
             }
-            g->u.add_memorial_log(pgettext("memorial_male",
+            add_memorial_log(pgettext("memorial_male",
                                            effect_types[eff_id].get_apply_memorial_log().c_str()),
                                   pgettext("memorial_female",
                                            effect_types[eff_id].get_apply_memorial_log().c_str()));
@@ -609,7 +609,7 @@ void Creature::process_effects()
             if(type->get_remove_message() != "") {
                 add_msg( type->lose_game_message_type(), _(type->get_remove_message().c_str()) );
             }
-            g->u.add_memorial_log(
+            add_memorial_log(
                 pgettext("memorial_male", type->get_remove_memorial_log().c_str() ),
                 pgettext("memorial_female", type->get_remove_memorial_log().c_str()) );
             const auto id = it->second.get_id();
@@ -1182,4 +1182,10 @@ body_part Creature::select_body_part(Creature *source, int hit_roll)
     }
 
     return selected_part;
+}
+
+bool Creature::compare_by_dist_to_point::operator()( const Creature* const a, const Creature* const b ) const
+{
+    return rl_dist( a->xpos(), a->ypos(), center.x, center.y ) <
+           rl_dist( b->xpos(), b->ypos(), center.x, center.y );
 }

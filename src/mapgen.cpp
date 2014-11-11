@@ -3904,7 +3904,7 @@ ff.......|....|WWWWWWWW|\n\
         }
 
         if ( ice_lab ) {
-            int temperature = -20 + 30 * (g->levz);
+            int temperature = -20 + 30 * zlevel;
             set_temperature(x, y, temperature);
 
             tw = is_ot_type("ice_lab", t_north) ? 0 : 2;
@@ -4537,8 +4537,8 @@ ff.......|....|WWWWWWWW|\n\
             // Start with all rock floor
             square(this, t_rock_floor, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1);
             // We always start at the south and go north.
-            // We use (g->levx / 2 + g->levz) % 5 to guarantee that rooms don't repeat.
-            switch (1 + int(g->levy / 2 + g->levz) % 4) {// TODO: More varieties!
+            // We use (y / 2 + z) % 4 to guarantee that rooms don't repeat.
+            switch (1 + abs(abs_sub.y / 2 + zlevel + 4) % 4) {// TODO: More varieties!
 
             case 1: // Flame bursts
                 square(this, t_rock, 0, 0, SEEX - 1, SEEY * 2 - 1);
@@ -13305,9 +13305,7 @@ void map::add_extra(map_extra type)
                 if (rng(1, 9) >= trig_dist(x, y, i, j)) {
                     marlossify(i, j);
                     if (one_in(15)) {
-                        monster creature(GetMType(monids[rng(0, 4)]));
-                        creature.spawn(i, j);
-                        g->add_zombie(creature);
+                        add_spawn( monids[rng( 0, 4 )], 1, i, j );
                     }
                 }
             }
@@ -13333,6 +13331,7 @@ void map::create_anomaly(int cx, int cy, artifact_natural_property prop)
 {
     rough_circle(this, t_dirt, cx, cy, 11);
     rough_circle_furn(this, f_rubble, cx, cy, 5);
+    furn_set(cx, cy, f_null);
     switch (prop) {
     case ARTPROP_WRIGGLING:
     case ARTPROP_MOVING:

@@ -25,6 +25,7 @@ enum activity_type {    // expanded this enum for readability
     ACT_FIRSTAID,
     ACT_FISH,
     ACT_PICKAXE,
+    ACT_BURROW,
     ACT_PULP,
     ACT_VIBE,
     ACT_MAKE_ZLAVE,
@@ -34,6 +35,7 @@ enum activity_type {    // expanded this enum for readability
     ACT_MOVE_ITEMS,
     ACT_ADV_INVENTORY,
     ACT_START_FIRE,
+    ACT_FILL_LIQUID,
     NUM_ACTIVITIES
 };
 

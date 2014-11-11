@@ -540,7 +540,6 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
                 // Draw lighting
                 draw_lighting(x, y, l);
                 // continue on to next part of loop
-                g->mapRain[my][mx] = false;
                 continue;
             }
             // light is no longer being considered, for now.
@@ -548,7 +547,6 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
             if (!draw_terrain(x, y)) {
                 continue;
             }
-            g->mapRain[my][mx] = g->m.is_outside(x, y);
             draw_furniture(x, y);
             draw_trap(x, y);
             draw_field_or_item(x, y);

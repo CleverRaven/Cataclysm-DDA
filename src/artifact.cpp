@@ -667,8 +667,15 @@ std::string new_artifact()
                 art->create_name(newname.str());
             }
         }
+        // CHOP is a sword, STAB is a dagger
+        if( art->item_tags.count( "CHOP" ) > 0 ) {
+            art->item_tags.insert( "SHEATH_SWORD" );
+        }
+        if( art->item_tags.count( "STAB" ) > 0 ) {
+            art->item_tags.insert( "SHEATH_KNIFE" );
+        }
         art->description = string_format(
-                               _("This is the %s.\nIt is the only one of its kind.\nIt may have unknown powers; use 'a' to activate them."),
+                               _("This is the %s.\nIt is the only one of its kind.\nIt may have unknown powers; try activating them."),
                                art->nname(1).c_str());
 
         // Finally, pick some powers
@@ -1116,8 +1123,8 @@ void it_artifact_tool::deserialize(JsonObject &jo)
     }
     // Assumption, perhaps dangerous, that we won't wind up with m1 and m2 and
     // a materials array in our serialized objects at the same time.
-    if (jo.has_array("material")) {
-        JsonArray jarr = jo.get_array("material");
+    if (jo.has_array("materials")) {
+        JsonArray jarr = jo.get_array("materials");
         for (int i = 0; i < jarr.size(); ++i) {
             materials.push_back(jarr.get_string(i));
         }
@@ -1159,6 +1166,13 @@ void it_artifact_tool::deserialize(JsonObject &jo)
     while (ja.has_more()) {
         effects_carried.push_back((art_effect_passive)ja.next_int());
     }
+
+    if( item_tags.count( "CHOP" ) > 0 ) {
+        item_tags.insert( "SHEATH_SWORD" );
+    }
+    if( item_tags.count( "STAB" ) > 0 ) {
+        item_tags.insert( "SHEATH_KNIFE" );
+    }
 }
 
 void it_artifact_armor::deserialize(JsonObject &jo)
@@ -1181,8 +1195,8 @@ void it_artifact_armor::deserialize(JsonObject &jo)
     }
     // Assumption, perhaps dangerous, that we won't wind up with m1 and m2 and
     // a materials array in our serialized objects at the same time.
-    if (jo.has_array("material")) {
-        JsonArray jarr = jo.get_array("material");
+    if (jo.has_array("materials")) {
+        JsonArray jarr = jo.get_array("materials");
         for (int i = 0; i < jarr.size(); ++i) {
             materials.push_back(jarr.get_string(i));
         }
