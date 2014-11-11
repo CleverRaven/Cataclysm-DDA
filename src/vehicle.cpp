@@ -188,11 +188,10 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
     bool destroyTank = false;
     bool destroyEngine = false;
     bool destroyTires = false;
-    bool has_alarm = false;
-    bool has_no_key = false;
     bool blood_covered = false;
     bool blood_inside = false;
-
+    bool has_no_key = false;
+    
     std::map<std::string, int> consistent_bignesses;
 
     // veh_fuel_multiplier is percentage of fuel
@@ -219,22 +218,20 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
 
         if (rand <= 10) {           //  seats are destroyed 10%
             destroySeats = true;
-        } else if (rand <= 20) {    //vehicle locked with alarm 10%
-            has_alarm = true;
+        } else if (rand <= 20) {    //vehicle locked 10%
+            has_no_key = true;
         } else if (rand <= 36) {    // controls are destroyed 16%
             destroyControls = true;
         } else if (rand <= 49) {    // battery, minireactor or gasoline tank are destroyed 13%
             destroyTank = true;
         } else if (rand <= 59) {   // engine are destroyed 10%
             destroyEngine = true;
-        } else if (rand <= 65){   // locked with no alarm 6%
-            has_no_key = true;
-        } else {                   // tires are destroyed 35%
+        } else {                   // tires are destroyed 41%
             destroyTires = true;
         }
     }
     //if locked, 16% chance something damaged
-    if (one_in(6) && (has_alarm || has_no_key)){
+    if (one_in(6) && is_locked){
         if (one_in(3)){
             destroyTank = true;
         } else if (one_in(2)){
@@ -245,15 +242,14 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
     }
     
     //debug only
-    has_alarm = true;
+    has_no_key = true;
     
     //Provide some variety to non-mint vehicles
     if(veh_status != 0) {
         //Leave engine running in some vehicles, if the engine has not been destroyed
         if(veh_fuel_mult > 0
                 && all_parts_with_feature("ENGINE", true).size() > 0
-                && one_in(8)
-                && !destroyEngine) {
+                && one_in(8) && !destroyEngine && !is_locked) {
             engine_on = true;
         }
 
@@ -315,21 +311,8 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
         if (part_flag(p, "BOARDABLE")) {      // no passengers
             parts[p].remove_flag(vehicle_part::passenger_flag);
         }
-        //for testing, this block should go inside veh_status == 0 check
-         if (part_flag(p, "CONTROLS") && has_alarm && parts[p].hp > 0){
-            //add alarm part to controls
-            vehicle_part alarm_part;
-            alarm_part.setid("alarm");
-            alarm_part.mount_dx = parts[p].mount_dx;
-            alarm_part.mount_dy = parts[p].mount_dy;
-            alarm_part.hp = vehicle_part_types["alarm"].durability;
-            alarm_part.amount = 0;
-            alarm_part.blood = 0;
-            alarm_part.bigness = 0;
-            parts.push_back (alarm_part);
-            is_locked = true;
-        }
-        if (has_no_key){
+        //sets the vehicle to locked, if there is no key
+         if (part_flag(p, "CONTROLS") && (has_no_key) && parts[p].hp > 0){
             is_locked = true;
         }
 
@@ -366,6 +349,9 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
          if (destroyControls) { // vehicle is disabled because no controls
           if (part_flag(p, "CONTROLS")) {
            parts[p].hp= 0;
+          }
+          if (part_flag(p, "ALARM")){
+           parts[p].hp = 0;
           }
          }
          if (destroyTank) { // vehicle is disabled because no battery, minireactor or gasoline tank

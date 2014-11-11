@@ -3047,8 +3047,8 @@
         ]
     },{
         "type" : "vehicle_part",
-        "id" : "alarm",
-        "name" : "alarm",
+        "id" : "vehicle_alarm",
+        "name" : "electronic security system",
         "symbol" : ",",
         "color" : "ltred",
         "broken_symbol" : ",",
