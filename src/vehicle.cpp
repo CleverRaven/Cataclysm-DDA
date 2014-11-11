@@ -516,15 +516,15 @@ bool vehicle::is_alternator_on(int a) {
     return (parts[alternators[a]].hp > 0)  && is_active_engine_at(
         parts[alternators[a]].mount_dx, parts[alternators[a]].mount_dy );
 }
-bool vehicle::has_alarm_installed(){
-    bool found_alarm = false;
+bool vehicle::has_security_working(){
+    bool found_security = false;
     for (size_t s = 0; s < speciality.size(); s++){
-        if (part_flag(speciality[s], "SECURITY") && parts[speciality[s]].hp > 0;){
-            found_alarm = true;
+        if (part_flag(speciality[s], "SECURITY") && parts[speciality[s]].hp > 0){
+            found_security = true;
             break;
         }
     }
-    return found_alarm;
+    return found_security;
 }
 
 bool vehicle::interact_vehicle_locked()
@@ -558,8 +558,9 @@ void vehicle::use_controls()
     std::vector<vehicle_controls> options_choice;
     std::vector<uimenu_entry> options_message;
     int vpart;
-    // Always have this option
+    
     if (!interact_vehicle_locked()) return;
+    // Always have this option
     // Let go without turning the engine off.
     if (g->u.controlling_vehicle &&
         g->m.veh_at(g->u.posx, g->u.posy, vpart) == this) {
@@ -3118,7 +3119,7 @@ void vehicle::idle(bool on_map) {
 void vehicle::alarm(bool on_map){
     if (on_map && is_alarm && one_in(4)) {
         //first check if the alarm is still installed
-        bool found_alarm = has_alarm_installed();
+        bool found_alarm = has_security_working();
 
         //if alarm found, make noise, else set alarm disabled
         if (found_alarm){

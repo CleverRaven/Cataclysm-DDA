@@ -644,7 +644,7 @@ public:
     //handles locked vehicles interaction
     bool interact_vehicle_locked(); 
     //true if an alarm part is installed on the vehicle
-    bool has_alarm_installed();
+    bool has_security_working();
     /**
      *  Opens everything that can be opened on the same tile as `p`
      */
