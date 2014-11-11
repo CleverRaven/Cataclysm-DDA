@@ -937,6 +937,7 @@ void player::update_bodytemp()
         }
         // CONVECTION HEAT SOURCES (generates body heat, helps fight frostbite)
         int blister_count = 0; // If the counter is high, your skin starts to burn
+        int best_fire = 0;
         for (int j = -6 ; j <= 6 ; j++) {
             for (int k = -6 ; k <= 6 ; k++) {
                 int heat_intensity = 0;
@@ -949,12 +950,16 @@ void player::update_bodytemp()
                 }
                 if (heat_intensity > 0 && sees(posx + j, posy + k)) {
                     // Ensure fire_dist >= 1 to avoid divide-by-zero errors.
-                    int fire_dist = std::max(1, std::max(j, k));
+                    int fire_dist = std::max(1, std::max( std::abs( j ), std::abs( k ) ) );
                     if (frostbite_timer[i] > 0) {
                         frostbite_timer[i] -= heat_intensity - fire_dist / 2;
                     }
                     temp_conv[i] +=  300 * heat_intensity * heat_intensity / (fire_dist * fire_dist);
                     blister_count += heat_intensity / (fire_dist * fire_dist);
+                    if( std::abs( j ) <= 1 && std::abs( k ) <= 1 ) {
+                        // Extend limbs/lean over a single adjacent fire to warm up
+                        best_fire = std::max( best_fire, heat_intensity );
+                    }
                 }
             }
         }
@@ -1190,6 +1195,41 @@ void player::update_bodytemp()
             // Use all items on the floor -- there are not enough to keep comfortable
             else {
                 temp_conv[i] += sleep_bonus;
+            }
+        } else if ( best_fire > 0 && temp_conv[i] < BODYTEMP_NORM ) {
+            // Warming up over a fire
+            // Extremities are easier to extend over a fire
+            int fire_bonus = 0;
+            switch (i) {
+            case bp_head:
+            case bp_torso:
+            case bp_mouth:
+            case bp_leg_l:
+            case bp_leg_r:
+                fire_bonus = best_fire * best_fire * 100; // Not much
+                break;
+            case bp_arm_l:
+            case bp_arm_r:
+                fire_bonus = best_fire * 400; // A fair bit
+                break;
+            case bp_foot_l:
+            case bp_foot_r:
+                if( furn_at_pos == f_armchair || furn_at_pos == f_chair || furn_at_pos == f_bench ) {
+                    // Can sit on something to lift feet up to the fire
+                    fire_bonus = best_fire * 800;
+                } else {
+                    // Has to stand
+                    fire_bonus = best_fire * 200;
+                }
+                break;
+            case bp_hand_l:
+            case bp_hand_r:
+                fire_bonus = std::max( 2000, best_fire * 1000 ); // A lot
+            }
+            if ( (temp_conv[i] + fire_bonus) > BODYTEMP_NORM ) {
+                temp_conv[i] = BODYTEMP_NORM;
+            } else {
+                temp_conv[i] += fire_bonus;
             }
         }
         int temp_before = temp_cur[i];
