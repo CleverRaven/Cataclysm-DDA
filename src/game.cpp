@@ -14768,9 +14768,10 @@ bool is_worn(const player &p, const item *it)
     return !p.worn.empty() && &p.worn.front() <= it && it <= &p.worn.back();
 }
 
-void game::process_artifact(item *it, player *p, bool wielded)
+void game::process_artifact(item *it, player *p)
 {
     const bool worn = is_worn( *p, it );
+    const bool wielded = ( it == &p->weapon );
     std::vector<art_effect_passive> effects;
     if( worn && it->is_armor() ) {
         it_artifact_armor *armor = dynamic_cast<it_artifact_armor *>(it->type);

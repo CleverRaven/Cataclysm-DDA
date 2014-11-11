@@ -3888,7 +3888,7 @@ bool item::process_artifact( player *carrier, point /*pos*/ )
     // TODO: change game::process_artifact to work with npcs,
     // TODO: consider moving game::process_artifact here.
     if( carrier == &g->u ) {
-        g->process_artifact( this, carrier, this == &g->u.weapon );
+        g->process_artifact( this, carrier );
     }
     // Artifacts are never consumed
     return false;
