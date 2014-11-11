@@ -68,6 +68,9 @@ List of known flags, used in both terrain.json and furniture.json
 - ```SHORT``` Feature too short to collide with vehicle protrusions. (mirrors, blades)
 - ```TINY``` Feature too short to collide with vehicle undercarriage. Vehicles drive over them with no damage, unless a wheel hits them.
 - ```NOCOLLIDE``` Feature that simply doesn't collide with vehicles at all.
+- ```PERMEABLE``` Permeable for gases.
+- ```MOUNTABLE``` Suitable for guns with the "MOUNTED_GUN" flag.
+- ```UNSTABLE``` Walking here cause the bouldering effect on the character.
 
 ### Examine actions
 
@@ -278,7 +281,7 @@ Some special attacks are also valid use actions for tools and weapons.
 - ```TAZER``` Shock the player.
 - ```SMG``` SMG turret fires.
 - ```LASER``` Laser turret fires.
-  ```RIFLE_TUR``` Rifle turret fires.
+- ```RIFLE_TUR``` Rifle turret fires.
 - ```FLAMETHROWER``` Shoots a stream fire.
 - ```COPBOT``` Cop-bot alerts and then tazes the player.
 - ```MULTI_ROBOT``` Robot can attack with tazer, flamethrower or SMG depending on distance.
@@ -526,7 +529,6 @@ Techniques may be used by tools, armors, weapons and anything else that can be w
 ### Flags
 Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other item types. Experiment to find which flags work elsewhere.
 
-- ```FIT``` Reduces encumbrance by one.
 - ```VARSIZE``` Can be made to fit via tailoring.
 - ```SKINTIGHT``` Undergarment layer.
 - ```OUTER```  Outer garment layer.
@@ -544,6 +546,8 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```WATCH``` Acts as a watch and allows the player to see actual time.
 - ```ALARMCLOCK``` Has an alarm-clock feature.
 - ```DEAF``` Makes the player deaf.
+- ```SWIM_GOGGLES``` - Allows you to see much further under water.
+- ```SUN_GLASSES``` - Prevents glaring when in sunlight.
 
 ## Comestibles
 
@@ -638,6 +642,9 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```PKILL_3``` Heavy painkiller.
 - ```PKILL_4``` "You shoot up."
 - ```PKILL_L``` Slow-release painkiller.
+- ```BREW``` ... Can be put into fermenting vat.
+- ```HIDDEN_POISON``` ... Food is poisonous, visible only with a certain survival skill level.
+- ```HIDDEN_HALLU``` ... Food causes hallucinations, visible only with a certain survival skill level.
 
 ## Containers
 
@@ -678,6 +685,12 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```BACKBLAST``` Causes a small explosion behind the person firing the weapon. Currently not implemented?
 - ```STR_RELOAD``` Reload speed is affected by strength.
 - ```RELOAD_EJECT``` Ejects shell from gun on reload instead of when fired.
+- ```NO_BOOM``` Cancels the ammo effect "FLAME".
+- ```STR8_DRAW``` Character needs at least strength 8 to use the full range of this bow, can not be used with less than 4 strength.
+- ```STR10_DRAW``` Character needs at least strength 10 to use the full range of this bow, can not be used with less than 5 strength.
+- ```STR12_DRAW``` Character needs at least strength 12 to use the full range of this bow, can not be used with less than 6 strength.
+- ```MOUNTED_GUN``` Gun can only be used on terrain / furniture with the "MOUNTABLE" flag.
+- ```WATERPROOF_GUN``` Gun does not rust.
 
 ## Tools
 
@@ -701,12 +714,18 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```FISH_POOR``` When used for fishing, it's a poor tool (requires that the matching use_action has been set).
 - ```CABLE_SPOOL``` This item is a cable spool and must be processed as such. It has an internal "state" variable which may be in the states "attach_first" or "pay_out_cable" -- in the latter case, set its charges to `max_charges - dist(here, point(vars["source_x"], vars["source_y"]))`. If this results in 0 or a negative number, set its state back to "attach_first".
 - ```NO_DROP``` An item with this flag should never actually be dropped. Used internally to signal that an item was created, but that it is unwanted. Needless to say, don't use this in an item definition.
+- ```WET``` Item is wet and will slowly dry off (e.g. towel).
 
 ### Flags that apply to items, not to item types.
 Those flags are added by the game code to specific items (that specific welder, not *all* welders).
+
 - ```DOUBLE_AMMO``` The tool has the double battery mod and has its max_charges doubled.
 - ```USE_UPS``` The tool has the UPS mod and is charged from an UPS.
 - ```ATOMIC_AMMO``` The tool has the atomic mod and runs on plutonium instead of normal batteries.
+- ```FIT``` Reduces encumbrance by one.
+- ```LITCIG``` Marks a lit smoking item (cigarette, joint etc.).
+- ```WET``` Item is wet and will slowly dry off (e.g. towel).
+- ```REVIVE_SPECIAL``` ... Corpses revives when the player is nearby.
 
 ### Use actions
 
@@ -861,14 +880,26 @@ Those flags are added by the game code to specific items (that specific welder, 
 ### Flags
 - ```UNRECOVERABLE``` Cannot be recovered from a disassembly.
 - ```NO_SALVAGE``` Item cannot be broken down through a salvage process. Best used when something should not be able to be broken down (i.e. base components like leather patches).
-- ```FLAMING` ... Sets the target on fire when used as melee weapon.
-
+- ```FLAMING``` ... Sets the target on fire when used as melee weapon.
+- ```GAS_DISCOUNT``` ... Discount cards for the automated gas stations.
+- ```RADIOACTIVE``` ... Is radioactive (can be used with LEAK_*).
+- ```LEAK_ALWAYS``` ... Leaks (may be combined with "RADIOACTIVE").
+- ```LEAK_DAM``` ... Leaks when damaged (may be combined with "RADIOACTIVE").
 
 ## Skills
 
 ### Tags
 
 - ```"gun_types"``` Define gun related skills?
+
+## Scenarios
+
+### Flags
+
+- ```SUM_START``` ... start in summer.
+- ```SPR_START``` ... start in spring.
+- ```AUT_START``` ... start in autumn.
+- ```WIN_START``` ... start in winter.
 
 ## TODO
 
