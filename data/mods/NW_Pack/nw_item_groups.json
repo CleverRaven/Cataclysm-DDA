@@ -3,7 +3,7 @@
     "type" : "item_group",
     "id" : "textbooks",
     "items":[
-      ["book_asgard"]
+      ["book_asgard", 1]
     ]
   },
 ]
