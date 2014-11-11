@@ -144,7 +144,7 @@
         "type" : "recipe",
   "result": "laevateinn_replica",
   "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_RANGED",
+  "subcategory": "CSC_WEAPON_CUTTING",
   "skill_used": "fabrication",
   "difficulty": 9,
   "time": 480000,
