@@ -2980,7 +2980,8 @@ input_context game::get_player_input(std::string &action)
         wPrint.endx = iEndX;
         wPrint.endy = iEndY;
 
-        do {
+        inp_mngr.set_timeout(125);
+        while (handle_mouseview(ctxt, action)) {
             if (bWeatherEffect && OPTIONS["ANIMATION_RAIN"]) {
                 /*
                 Location to add rain drop animation bits! Since it refreshes w_terrain it can be added to the animation section easily
@@ -3096,7 +3097,7 @@ input_context game::get_player_input(std::string &action)
             wrefresh(w_terrain);
 
             inp_mngr.set_timeout(125);
-        } while (handle_mouseview(ctxt, action));
+        }
         inp_mngr.set_timeout(-1);
 
     } else {
