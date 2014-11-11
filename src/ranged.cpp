@@ -156,6 +156,7 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
                 // don't hit targets that have already been hit
                 if (!z.has_effect("bounced")) {
                     add_msg(_("The attack bounced to %s!"), z.name().c_str());
+                    z.add_effect("bounced", 1);
                     projectile_attack(proj, tx, ty, z.posx(), z.posy(), shot_dispersion);
                     break;
                 }
