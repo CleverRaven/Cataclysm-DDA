@@ -2078,14 +2078,14 @@ void game::activity_on_finish_hotwire()
         } else if (mech_skill > (int)rng(0,4)) {
             //soft fail
             veh->is_locked = false;
-            veh->is_alarm = veh->has_security_working();
+            veh->is_alarm_on = veh->has_security_working();
             add_msg(_("This wire will probably start the engine."));
-        } else if (veh->is_alarm){
+        } else if (veh->is_alarm_on){
             veh->is_locked = false;
             add_msg(_("By process of elimination, this wire will start the engine."));
         } else {
             //hard fail
-            veh->is_alarm = veh->has_security_working();
+            veh->is_alarm_on = veh->has_security_working();
             add_msg(_("The red wire always starts the engine, doesn't it?"));
         }
     } else {

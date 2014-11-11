@@ -88,7 +88,7 @@ vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): t
     has_paddles = false;
     has_hand_rims = false;
     is_locked = false;
-    is_alarm = false;
+    is_alarm_on = false;
 
     //type can be null if the type_id parameter is omitted
     if(type != "null") {
@@ -218,7 +218,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
 
         if (rand <= 10) {           //  seats are destroyed 10%
             destroySeats = true;
-        } else if (rand <= 20) {    //vehicle locked 10%
+        } else if (rand <= 20) {    // vehicle locked 10%
             has_no_key = true;
         } else if (rand <= 36) {    // controls are destroyed 16%
             destroyControls = true;
@@ -230,7 +230,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
             destroyTires = true;
         }
     }
-    //if locked, 16% chance something damaged
+    // if locked, 16% chance something damaged
     if (one_in(6) && is_locked){
         if (one_in(3)){
             destroyTank = true;
@@ -629,7 +629,7 @@ void vehicle::use_controls()
         }
     }
     
-    if (is_alarm && !is_locked){
+    if (is_alarm_on && !is_locked){
         options_choice.push_back(try_disarm_alarm);
         options_message.push_back(uimenu_entry(_("Try to disarm alarm."), 'z'));
     }
@@ -731,8 +731,8 @@ void vehicle::use_controls()
         control_engines();
         break;
     case try_disarm_alarm:
-        is_alarm = !one_in(4);
-        add_msg((is_alarm) ? _("The alarm keeps going") : _("The alarm stops"));
+        is_alarm_on = !one_in(4);
+        add_msg((is_alarm_on) ? _("The alarm keeps going") : _("The alarm stops"));
         break;
     case toggle_cruise_control:
         cruise_on = !cruise_on;
@@ -2804,7 +2804,7 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
     if(tracking_on) epower += tracking_epower;
     if(fridge_on) epower += fridge_epower;
     if(recharger_on) epower += recharger_epower;
-    if (is_alarm) epower += alarm_epower;
+    if (is_alarm_on) epower += alarm_epower;
 
     // Producers of epower
     epower += solar_epower();
@@ -2905,7 +2905,7 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
     }
 
     if(battery_deficit) {
-        is_alarm = false;
+        is_alarm_on = false;
         lights_on = false;
         tracking_on = false;
         overhead_lights_on = false;
@@ -3117,7 +3117,7 @@ void vehicle::idle(bool on_map) {
 }
 
 void vehicle::alarm(bool on_map){
-    if (on_map && is_alarm && one_in(4)) {
+    if (on_map && is_alarm_on && one_in(4)) {
         //first check if the alarm is still installed
         bool found_alarm = has_security_working();
 
@@ -3125,9 +3125,9 @@ void vehicle::alarm(bool on_map){
         if (found_alarm){
             const char *sound_msgs[] = { "WHOOP WHOOP", "NEEeu NEEeu NEEeu", "BLEEEEEEP", "WREEP"};
             g->ambient_sound( global_x(), global_y(), (int) rng(45,80), sound_msgs[rng(0,3)]);
-            if (one_in(1000)) is_alarm = false;
+            if (one_in(1000)) is_alarm_on = false;
         } else{
-            is_alarm = false;
+            is_alarm_on = false;
         }
     }
 }
