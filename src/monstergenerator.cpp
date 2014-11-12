@@ -166,6 +166,7 @@ void MonsterGenerator::init_attack()
     attack_map["SMOKECLOUD"] = &mattack::smokecloud;
     attack_map["BOOMER"] = &mattack::boomer;
     attack_map["RESURRECT"] = &mattack::resurrect;
+    attack_map["SMASH"] = &mattack::smash;
     attack_map["SCIENCE"] = &mattack::science;
     attack_map["GROWPLANTS"] = &mattack::growplants;
     attack_map["GROW_VINE"] = &mattack::grow_vine;
@@ -173,8 +174,13 @@ void MonsterGenerator::init_attack()
     attack_map["SPIT_SAP"] = &mattack::spit_sap;
     attack_map["TRIFFID_HEARTBEAT"] = &mattack::triffid_heartbeat;
     attack_map["FUNGUS"] = &mattack::fungus;
+    attack_map["FUNGUS_HAZE"] = &mattack::fungus_haze;
+    attack_map["FUNGUS_BIG_BLOSSOM"] = &mattack::fungus_big_blossom;
+    attack_map["FUNGUS_INJECT"] = &mattack::fungus_inject;
+    attack_map["FUNGUS_BRISTLE"] = &mattack::fungus_bristle;
     attack_map["FUNGUS_GROWTH"] = &mattack::fungus_growth;
     attack_map["FUNGUS_SPROUT"] = &mattack::fungus_sprout;
+    attack_map["FUNGUS_FORTIFY"] = &mattack::fungus_fortify;
     attack_map["LEAP"] = &mattack::leap;
     attack_map["DERMATIK"] = &mattack::dermatik;
     attack_map["DERMATIK_GROWTH"] = &mattack::dermatik_growth;
@@ -202,6 +208,7 @@ void MonsterGenerator::init_attack()
     attack_map["SEARCHLIGHT"] = &mattack::searchlight;
     attack_map["FLAMETHROWER"] = &mattack::flamethrower;
     attack_map["COPBOT"] = &mattack::copbot;
+    attack_map["CHICKENBOT"] = &mattack::chickenbot;
     attack_map["MULTI_ROBOT"] = &mattack::multi_robot;
     attack_map["RATKING"] = &mattack::ratking;
     attack_map["GENERATOR"] = &mattack::generator;
@@ -261,6 +268,7 @@ void MonsterGenerator::init_flags()
     flag_map["HARDTOSHOOT"] = MF_HARDTOSHOOT;
     flag_map["GRABS"] = MF_GRABS;
     flag_map["BASHES"] = MF_BASHES;
+    flag_map["GROUP_BASH"] = MF_GROUP_BASH;
     flag_map["DESTROYS"] = MF_DESTROYS;
     flag_map["POISON"] = MF_POISON;
     flag_map["VENOM"] = MF_VENOM;
@@ -273,6 +281,7 @@ void MonsterGenerator::init_flags()
     flag_map["FLIES"] = MF_FLIES;
     flag_map["AQUATIC"] = MF_AQUATIC;
     flag_map["SWIMS"] = MF_SWIMS;
+    flag_map["FISHABLE"] = MF_FISHABLE;
     flag_map["ATTACKMON"] = MF_ATTACKMON;
     flag_map["ANIMAL"] = MF_ANIMAL;
     flag_map["PLASTIC"] = MF_PLASTIC;
@@ -304,6 +313,7 @@ void MonsterGenerator::init_flags()
     flag_map["REVIVES"] = MF_REVIVES;
     flag_map["CHITIN"] = MF_CHITIN;
     flag_map["VERMIN"] = MF_VERMIN;
+    flag_map["NO_GIBS"] = MF_NO_GIBS;
     flag_map["HUNTS_VERMIN"] = MF_HUNTS_VERMIN;
     flag_map["SMALL_BITER"] = MF_SMALL_BITER;
     flag_map["ABSORBS"] = MF_ABSORBS;
@@ -316,6 +326,7 @@ void MonsterGenerator::init_flags()
     flag_map["CBM_SCI"] = MF_CBM_SCI;
     flag_map["CBM_OP"] = MF_CBM_OP;
     flag_map["CBM_TECH"] = MF_CBM_TECH;
+    flag_map["CBM_SUBS"] = MF_CBM_SUBS;
 }
 
 
@@ -366,9 +377,9 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         newmon->armor_bash = jo.get_int("armor_bash", 0);
         newmon->armor_cut = jo.get_int("armor_cut", 0);
         newmon->hp = jo.get_int("hp", 0);
-        newmon->sp_freq = jo.get_int("special_freq", 0);
-        newmon->def_chance = jo.get_int("special_when_hit_freq", 0);
+        jo.read("starting_ammo", newmon->starting_ammo);
         newmon->luminance = jo.get_float("luminance", 0);
+        newmon->revert_to_itype = jo.get_string( "revert_to_itype", "" );
 
         if (jo.has_string("death_drops")) {
             newmon->death_drops = jo.get_string("death_drops");
@@ -384,8 +395,8 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         }
 
         newmon->dies = get_death_functions(jo, "death_function");
-        newmon->sp_attack = get_attack_function(jo, "special_attack");
-        newmon->sp_defense = get_defense_function(jo, "special_when_hit");
+        load_special_defense(newmon, jo, "special_when_hit");
+        load_special_attacks(newmon, jo, "special_attacks");
 
         std::set<std::string> flags, anger_trig, placate_trig, fear_trig;
         flags = jo.get_tags("flags");
@@ -517,23 +528,37 @@ std::vector<void (mdeath::*)(monster *)> MonsterGenerator::get_death_functions(J
     return deaths;
 }
 
-MonAttackFunction MonsterGenerator::get_attack_function(JsonObject &jo, std::string member)
-{
-    if (attack_map.find(jo.get_string(member, "")) != attack_map.end()) {
-        return attack_map[jo.get_string(member)];
+void MonsterGenerator::load_special_attacks(mtype *m, JsonObject &jo, std::string member) {
+    m->sp_attack.clear(); // make sure we're running with
+    m->sp_freq.clear();   // everything cleared
+
+    if (jo.has_array(member)) {
+        JsonArray outer = jo.get_array(member);
+        while (outer.has_more()) {
+            JsonArray inner = outer.next_array();
+            m->sp_attack.push_back(attack_map[inner.get_string(0)]);
+            m->sp_freq.push_back(inner.get_int(1));
+        }
     }
 
-    return attack_map["NONE"];
+    if (m->sp_attack.empty()) {
+        m->sp_attack.push_back(attack_map["NONE"]);
+        m->sp_freq.push_back(0);
+    }
 }
 
-MonDefenseFunction MonsterGenerator::get_defense_function(JsonObject &jo, std::string member)
-{
-    if (defense_map.find(jo.get_string(member, "")) != defense_map.end()) {
-        return defense_map[jo.get_string(member)];
+void MonsterGenerator::load_special_defense(mtype *m, JsonObject &jo, std::string member) {
+    if (jo.has_array(member)) {
+        JsonArray jsarr = jo.get_array(member);
+        m->sp_defense = defense_map[jsarr.get_string(0)];
+        m->def_chance = jsarr.get_int(1);
     }
 
-    return defense_map["NONE"];
+    if (m->sp_defense == NULL) {
+        m->sp_defense = defense_map["NONE"];
+    }
 }
+
 template <typename T>
 std::set<T> MonsterGenerator::get_set_from_tags(std::set<std::string> tags,
         std::map<std::string, T> conversion_map, T fallback)
@@ -579,6 +604,10 @@ void MonsterGenerator::check_monster_definitions() const
         if (!mon->death_drops.empty() && !item_controller->has_group(mon->death_drops)) {
             debugmsg("monster %s has unknown death drop item group: %s", mon->id.c_str(),
                      mon->death_drops.c_str());
+        }
+        if( !mon->revert_to_itype.empty() && !item_controller->has_template( mon->revert_to_itype ) ) {
+            debugmsg("monster %s has unknown revert_to_itype: %s", mon->id.c_str(),
+                     mon->revert_to_itype.c_str());
         }
     }
 }

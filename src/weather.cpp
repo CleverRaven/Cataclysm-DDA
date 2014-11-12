@@ -5,6 +5,9 @@
 #include "game.h"
 #include "weather.h"
 #include "messages.h"
+#include "overmap.h"
+#include "overmapbuffer.h"
+#include "math.h"
 
 /**
  * \defgroup Weather "Weather and its implications."
@@ -29,9 +32,17 @@ void weather_effect::glare()
     if (PLAYER_OUTSIDE && g->is_in_sunlight(g->u.posx, g->u.posy) &&
         !g->u.worn_with_flag("SUN_GLASSES") && !g->u.has_bionic("bio_sunglasses")) {
         if(!g->u.has_effect("glare")) {
-            g->u.add_env_effect("glare", bp_eyes, 2, 2);
+            if (g->u.has_trait("CEPH_VISION")) {
+                g->u.add_env_effect("glare", bp_eyes, 2, 4);
+            } else {
+                g->u.add_env_effect("glare", bp_eyes, 2, 2);
+            }
         } else {
-            g->u.add_env_effect("glare", bp_eyes, 2, 1);
+            if (g->u.has_trait("CEPH_VISION")) {
+                g->u.add_env_effect("glare", bp_eyes, 2, 2);
+            } else {
+                g->u.add_env_effect("glare", bp_eyes, 2, 1);
+            }
         }
     }
 }
@@ -43,6 +54,15 @@ void weather_effect::glare()
  */
 int get_rot_since( const int since, const int endturn, const point &location )
 {
+    // Hack: Ensure food doesn't rot in ice labs, where the
+    // temperature is much less than the weather specifies.
+    // http://github.com/CleverRaven/Cataclysm-DDA/issues/9162
+    // Bug with this hack: Rot is prevented even when it's above
+    // freezing on the ground floor.
+    oter_id oter = overmap_buffer.ter(g->om_global_location());
+    if (is_ot_type("ice_lab", oter)) {
+        return 0;
+    }
     int ret = 0;
     for (calendar i(since); i.get_turn() < endturn; i += 600) {
         w_point w = g->weatherGen.get_weather(location, i);
@@ -61,7 +81,7 @@ std::pair<int, int> rain_or_acid_level( const int wt )
         return std::make_pair(0, (wt == WEATHER_ACID_RAIN  ? 8 : 4 ));
     } else if (wt == WEATHER_DRIZZLE ) {
         return std::make_pair(4, 0);
-        // why isnt this in weather data. now we have multiple rain/turn scales =[
+        // why isn't this in weather data. now we have multiple rain/turn scales =[
     } else if ( wt ==  WEATHER_RAINY || wt == WEATHER_THUNDER || wt == WEATHER_LIGHTNING ) {
         return std::make_pair(8, 0);
         /// @todo bucket of melted snow?
@@ -247,10 +267,11 @@ void fill_water_collectors(int mmPerHour, bool acid)
 {
     fill_funnels(mmPerHour, acid, tr_funnel);
     fill_funnels(mmPerHour, acid, tr_makeshift_funnel);
+    fill_funnels(mmPerHour, acid, tr_leather_funnel);
 }
 
 /**
- * Weather-based degredation of fires and scentmap.
+ * Weather-based degradation of fires and scentmap.
  */
 void decay_fire_and_scent(int fire_amount)
 {
@@ -350,7 +371,7 @@ void weather_effect::very_wet()
 void weather_effect::thunder()
 {
     very_wet();
-    if (one_in(THUNDER_CHANCE)) {
+    if (!g->u.is_deaf() && one_in(THUNDER_CHANCE)) {
         if (g->levz >= 0) {
             add_msg(_("You hear a distant rumble of thunder."));
         } else if (g->u.has_trait("GOODHEARING") && one_in(1 - 2 * g->levz)) {
@@ -438,7 +459,6 @@ void weather_effect::acid()
     generic_very_wet(true);
 }
 
-
 // Script from wikipedia:
 // Current time
 // The current time is hour/minute Eastern Standard Time
@@ -483,7 +503,7 @@ std::string weather_forecast(radio_tower tower)
     //weather_report << "The wind was <direction> at ? mi/km an hour.  ";
     //weather_report << "The pressure was ??? in/mm and steady/rising/falling.";
 
-    // Regional conditions (simulated by chosing a random range containing the current conditions).
+    // Regional conditions (simulated by choosing a random range containing the current conditions).
     // Adjusted for weather volatility based on how many weather changes are coming up.
     //weather_report << "Across <region>, skies ranged from <cloudiest> to <clearest>.  ";
     // TODO: Add fake reports for nearby cities
@@ -546,6 +566,119 @@ std::string print_temperature(float fahrenheit, int decimals)
         return rmp_format(_("<Fahrenheit>%sF"), ret.str().c_str());
     }
 
+}
+
+/**
+ * Print wind speed (and convert to m/s if km/h is enabled.)
+ */
+std::string print_windspeed(float windspeed, int decimals)
+{
+    std::stringstream ret;
+    ret.precision(decimals);
+    ret << std::fixed;
+
+    if (OPTIONS["USE_METRIC_SPEEDS"] == "mph") {
+        ret << windspeed;
+        return rmp_format(_("%s mph"), ret.str().c_str());
+    } else {
+        ret << windspeed * 0.44704;
+        return rmp_format(_("%s m/s"), ret.str().c_str());
+    }
+}
+
+/**
+ * Print relative humidity (no conversions.)
+ */
+std::string print_humidity(float humidity, int decimals)
+{
+    std::stringstream ret;
+    ret.precision(decimals);
+    ret << std::fixed;
+
+    ret << humidity;
+    return rmp_format(_("%s %%"), ret.str().c_str());
+}
+
+/**
+ * Print pressure (no conversions.)
+ */
+std::string print_pressure(float pressure, int decimals)
+{
+    std::stringstream ret;
+    ret.precision(decimals);
+    ret << std::fixed;
+
+    ret << pressure;
+    return rmp_format(_("%s kPa"), ret.str().c_str());
+}
+
+
+int get_local_windchill(double temperature, double humidity, double windpower)
+{
+    double tmptemp = temperature;
+    double tmpwind = windpower;
+    double windchill = 0;
+
+    if (tmptemp < 50) {
+        /// Model 1, cold wind chill (only valid for temps below 50F)
+        /// Is also used as a standard in North America.
+
+        // Temperature is removed at the end, because get_local_windchill is meant to calculate the difference.
+        // Source : http://en.wikipedia.org/wiki/Wind_chill#North_American_and_United_Kingdom_wind_chill_index
+        windchill = 35.74 + 0.6215 * tmptemp - 35.75 * (pow(tmpwind,
+                    0.16)) + 0.4275 * tmptemp * (pow(tmpwind, 0.16)) - tmptemp;
+        if (tmpwind < 4) {
+            windchill = 0;    // This model fails when there is 0 wind.
+        }
+    } else {
+        /// Model 2, warm wind chill
+
+        // Source : http://en.wikipedia.org/wiki/Wind_chill#Australian_Apparent_Temperature
+        tmpwind = tmpwind * 0.44704; // Convert to meters per second.
+        tmptemp = (tmptemp - 32) * 5 / 9; // Convert to celsius.
+
+        windchill = (0.33 * ((humidity / 100.00) * 6.105 * exp((17.27 * tmptemp) /
+                             (237.70 + tmptemp))) - 0.70 * tmpwind - 4.00);
+        // Convert to Fahrenheit, but omit the '+ 32' because we are only dealing with a piece of the felt air temperature equation.
+        windchill = windchill * 9 / 5;
+    }
+
+    return windchill;
+}
+
+int get_local_humidity(double humidity, weather_type weather, bool sheltered)
+{
+    int tmphumidity = humidity;
+    if (sheltered) {
+        tmphumidity = humidity * (100 - humidity) / 100 + humidity; // norm for a house?
+    } else if (weather == WEATHER_RAINY || weather == WEATHER_DRIZZLE || weather == WEATHER_THUNDER ||
+               weather == WEATHER_LIGHTNING) {
+        tmphumidity = 100;
+    }
+
+    return tmphumidity;
+}
+
+int get_local_windpower(double windpower, std::string omtername, bool sheltered)
+{
+    /**
+    *  A player is sheltered if he is underground, in a car, or indoors.
+    **/
+
+    double tmpwind = windpower;
+
+    // Over map terrain may modify the effect of wind.
+    if (sheltered) {
+        tmpwind  = 0.0;
+    } else if ( omtername == "forest_water") {
+        tmpwind *= 0.7;
+    } else if ( omtername == "forest" ) {
+        tmpwind *= 0.5;
+    } else if ( omtername == "forest_thick" || omtername == "hive") {
+        tmpwind *= 0.4;
+    }
+
+    return tmpwind;
 }
 
 ///@}

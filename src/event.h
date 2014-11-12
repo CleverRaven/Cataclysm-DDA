@@ -1,5 +1,5 @@
-#ifndef _EVENT_H_
-#define _EVENT_H_
+#ifndef EVENT_H
+#define EVENT_H
 
 #include "faction.h"
 #include "line.h"

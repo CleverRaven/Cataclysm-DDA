@@ -138,6 +138,7 @@ The syntax listed here is still valid.
 "fear_triggers" : ["SOUND", etc],	// What makes the monster afraid. See JSON_FLAGS.md for a full list
 "anger_triggers" : ["PLAYER_CLOSE"],// What makes the monster angry. See JSON_FLAGS.md for a full list
 "placate_triggers" : ["MEAT"],		// What calms the monster. See JSON_FLAGS.md for a full list
+"revert_to_itype": "bot_turret",    // (optional) if not empty and a valid item id, the monster (usually a robot) can be converted into this item by the player (only when it's already friendly).
 "categories" : ["WILDLIFE"]			// Monster categories. Can be NULL, CLASSIC (only mobs found in classic zombie movies) or WILDLIFE (natural animals). If they are not CLASSIC or WILDLIFE, they will not spawn in classic mode
 ```	
 ###NAMES
@@ -152,6 +153,10 @@ The syntax listed here is still valid.
 "items":[              // ID's of items player starts with when selecting this profession
  "army_top",
  "boots_steel",
+ ["survnote", "snippet-id"],
+                       // Entries can also be an array containing the item id and a snippet id.
+                       // The id must match a snippet id from the snippet category that is
+                       // used by that item type.
  "jeans"
 ],
 "name":"Bow Hunter",   // In-game name displayed
@@ -184,6 +189,7 @@ The syntax listed here is still valid.
 "time": 5000,                // Time to perform recipe (where 1000 ~= 10 turns ~= 1 minute game time)
 "reversible": false,         // Can be disassembled.
 "autolearn": true,           // Automatically learned upon gaining required skills
+"batch_time_factors": [25, 15], // Optional factors for batch crafting time reduction. First number specifies maximum crafting time reduction as percentage, and the second number the minimal batch size to reach that number. In this example given batch size of 20 the last 6 crafts will take only 3750 time units.
 "tools": [                   // Tools needed to craft
 [                            // Equivalent tools are surrounded by a single set of brackets []
   [ "hatchet", -1 ],         // Charges consumed when tool is used, -1 means no charges are consumed
@@ -223,11 +229,6 @@ The syntax listed here is still valid.
 "name" : "submachine guns",  // In-game name displayed
 "description" : "Your skill with submachine guns and machine pistols. Halfway between a pistol and an assault rifle, these weapons fire and reload quickly, and may fire in bursts, but they are not very accurate.", // In-game description
 "tags" : ["gun_type"]  // Special flags (default: none)
-```
-###SNIPPETS
-```C++
-"category": "flier", // Category used
-	"text": "This is an advertisement for the Diet Devil brand Metabolic Exchange CBM.  It shows a picture of a tiny obese devil sitting on a woman's shoulder. The woman stares intently at a gigantic wedding cake covered with bacon and candybars. The caption reads: \"Burn calories! Burn!\"" // In-game description
 ```
 ###TRAITS/MUTATIONS
 ```C++
@@ -466,6 +467,7 @@ Never use `yellow` and `red`, those colors are reserved for sounds and infrared 
 "durability": 8,      // Resistance to damage/rusting, also determines misfire chance
 "burst": 5,           // Number of shots fired in burst mode
 "clip_size": 100,     // Maximum amount of ammo that can be loaded
+"ups_charges": 0,     // Additionally to the normal ammo (if any), a gun can require some charges from an UPS.
 "reload": 450         // Amount of time to reload, 100 = 6 seconds = 1 "turn"
 ```
 ###TOOLS
@@ -548,10 +550,25 @@ The contents of use_action fields can either be a string indicating a built-in f
     "fields_produced" : {"cracksmoke" : 2}, // Fields to produce, mostly used for smoke.
     "charges_needed" : { "fire" : 1 }, // Charges to use in the process of consuming the drug.
     "tools_needed" : { "apparatus" : -1 } // Tool needed to use the drug.
+},
+"use_action": {
+    "type": "place_monster", // place a turrent / manhack / whatever monster on the map
+    "monster_id": "mon_manhack", // monster id, see monsters.json
+    "difficulty": 4, // difficulty for programming it (manhacks have 4, turrets 6, ...)
+    "hostile_msg": "It's hostile!", // (optional) message when programming the monster failed and it's hostile.
+    "friendly_msg": "Good!", // (optional) message when the monster is programmed properly and it's friendly.
+    "place_randomly": true, // if true: places the monser randomly around the player, if false: let the player decide where to put it (default: false)
+    "moves": 60 // how many move points the action takes.
+},
+"use_action": {
+    "type": "ups_based_armor", // Armor that can be activated and uses power from an UPS, needs additional C++ code to work
+    "activate_msg": "You activate your foo.", // Message when the player activates the item.
+    "deactive_msg": "You deactivate your foo.", // Message when the player deactivates the item.
+    "out_of_power_msg": "Your foo runs out of power and deactivates itself." // Message when the UPS runs out of power and the item is deactivated automatically.
 }
 ```
-###PAPERS
-Require the same values as items of type "GENERIC", additional a "snippet_category" entry:
+###Random descriptions
+Any item with a "snippet_category" entry will have random descriptions, based on that snippet category:
 ```
 "snippet_category": "newspaper",
 ```
@@ -560,6 +577,7 @@ The item descriptions are taken from snippets, which can be specified like this 
 {
     "type" : "snippet",
     "category" : "newspaper",
+    "id" : "snippet-id",          // id is optional, it's used when the snippet is referenced in the item list of professions
     "text": "your flavor text"
 }
 ```
@@ -568,10 +586,23 @@ or several snippets at once:
 {
     "type" : "snippet",
     "category" : "newspaper",
+    "text": [
+        "your flavor text",
+        "more flavor",
+        // entries can also bo of this form to have a id to reference that specific snippet.
+        { "id" : "snippet-id", "text" : "another flavor text" }
+    ]
     "text": [ "your flavor text", "another flavor text", "more flavor" ]
 }
 ```
 Multiple snippets for the same category are possible and actually recommended. The game will select a random one for each item of that type.
+
+One can also put the snippets directly in the item definition:
+```
+"snippet_category": [ "text 1", "text 2", "text 3" ],
+```
+This will automatically create a snippet category specific to that item and populate that category with the given snippets.
+The format also support snippet ids like above.
 
 #json jsons
 

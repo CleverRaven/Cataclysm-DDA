@@ -1,5 +1,5 @@
-#ifndef _TIME_SPEC_H_
-#define _TIME_SPEC_H_
+#ifndef TIME_SPEC_H
+#define TIME_SPEC_H
 /* Windows lacks the nanosleep() function. The following code was stuffed
    together from GNUlib (http://www.gnu.org/software/gnulib/), which is
    licensed under the GPLv3. */
@@ -15,6 +15,7 @@ enum { BILLION = 1000 * 1000 * 1000 };
 extern "C" {
 #   endif
 
+// Apparently this is defined by pthread.h, if that header had been included.
 #ifndef _TIMESPEC_DEFINED
 #define _TIMESPEC_DEFINED
 struct timespec

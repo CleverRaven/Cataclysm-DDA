@@ -74,54 +74,8 @@ Creature::Creature()
     fake = false;
 }
 
-Creature::Creature(const Creature &rhs)
+Creature::~Creature()
 {
-    str_max = rhs.str_max;
-    dex_max = rhs.dex_max;
-    per_max = rhs.per_max;
-    int_max = rhs.int_max;
-    str_cur = rhs.str_cur;
-    dex_cur = rhs.dex_cur;
-    per_cur = rhs.per_cur;
-    int_cur = rhs.int_cur;
-    moves = rhs.moves;
-    pain = rhs.pain;
-    killer = rhs.killer;
-    speed_base = rhs.speed_base;
-
-    str_bonus = rhs.str_bonus;
-    dex_bonus = rhs.dex_bonus;
-    per_bonus = rhs.per_bonus;
-    int_bonus = rhs.int_bonus;
-
-    healthy = rhs.healthy;
-    healthy_mod = rhs.healthy_mod;
-
-    num_blocks = rhs.num_blocks;
-    num_dodges = rhs.num_dodges;
-    num_blocks_bonus = rhs.num_blocks_bonus;
-    num_dodges_bonus = rhs.num_dodges_bonus;
-
-    armor_bash_bonus = rhs.armor_bash_bonus;
-    armor_cut_bonus = rhs.armor_cut_bonus;
-
-    speed_bonus = rhs.speed_bonus;
-    dodge_bonus = rhs.dodge_bonus;
-    block_bonus = rhs.block_bonus;
-    hit_bonus = rhs.hit_bonus;
-    bash_bonus = rhs.bash_bonus;
-    cut_bonus = rhs.cut_bonus;
-
-    bash_mult = rhs.bash_mult;
-    cut_mult = rhs.cut_mult;
-
-    melee_quiet = rhs.melee_quiet;
-    grab_resist = rhs.grab_resist;
-    throw_resist = rhs.throw_resist;
-
-    effects = rhs.effects;
-
-    fake = rhs.fake;
 }
 
 void Creature::normalize()
@@ -520,40 +474,43 @@ dealt_damage_instance Creature::deal_damage(Creature *source, body_part bp,
 }
 void Creature::deal_damage_handle_type(const damage_unit &du, body_part, int &damage, int &pain)
 {
+    // Apply damage multiplier from critical hits or grazes after all other modifications.
+    const int adjusted_damage = du.amount * du.damage_multiplier;
     switch (du.type) {
     case DT_BASH:
-        damage += du.amount;
-        pain += du.amount / 4; // add up pain before using mod_pain since certain traits modify that
+        damage += adjusted_damage;
+        // add up pain before using mod_pain since certain traits modify that
+        pain += adjusted_damage / 4;
         mod_moves(-rng(0, damage * 2)); // bashing damage reduces moves
         break;
     case DT_CUT:
-        damage += du.amount;
-        pain += (du.amount + sqrt(double(du.amount))) / 4;
+        damage += adjusted_damage;
+        pain += (adjusted_damage + sqrt(double(adjusted_damage))) / 4;
         break;
     case DT_STAB: // stab differs from cut in that it ignores some armor
-        damage += du.amount;
-        pain += (du.amount + sqrt(double(du.amount))) / 4;
+        damage += adjusted_damage;
+        pain += (adjusted_damage + sqrt(double(adjusted_damage))) / 4;
         break;
     case DT_HEAT: // heat damage sets us on fire sometimes
-        damage += du.amount;
-        pain += du.amount / 4;
-        if (rng(0, 100) > (100 - 400 / (du.amount + 3))) {
+        damage += adjusted_damage;
+        pain += adjusted_damage / 4;
+        if( rng(0, 100) < adjusted_damage ) {
             add_effect("onfire", rng(1, 3));
         }
         break;
     case DT_ELECTRIC: // electrical damage slows us a lot
-        damage += du.amount;
-        pain += du.amount / 4;
-        mod_moves(-du.amount * 100);
+        damage += adjusted_damage;
+        pain += adjusted_damage / 4;
+        mod_moves(-adjusted_damage * 100);
         break;
     case DT_COLD: // cold damage slows us a bit and hurts less
-        damage += du.amount;
-        pain += du.amount / 6;
-        mod_moves(-du.amount * 80);
+        damage += adjusted_damage;
+        pain += adjusted_damage / 6;
+        mod_moves(-adjusted_damage * 80);
         break;
     default:
-        damage += du.amount;
-        pain += du.amount / 4;
+        damage += adjusted_damage;
+        pain += adjusted_damage / 4;
     }
 }
 
@@ -607,7 +564,7 @@ void Creature::add_effect(efftype_id eff_id, int dur, int intensity, bool perman
                      add_msg(effect_types[eff_id].gain_game_message_type(),
                              _(effect_types[eff_id].get_apply_message().c_str()));
             }
-            g->u.add_memorial_log(pgettext("memorial_male",
+            add_memorial_log(pgettext("memorial_male",
                                            effect_types[eff_id].get_apply_memorial_log().c_str()),
                                   pgettext("memorial_female",
                                            effect_types[eff_id].get_apply_memorial_log().c_str()));
@@ -643,9 +600,7 @@ void Creature::process_effects()
     for( auto it = effects.begin(); it != effects.end(); ++it ) {
         if( !it->second.is_permanent() ) {
             it->second.mod_duration( -1 );
-            if (g->debugmon) {
-                debugmsg("Duration %d", it->second.get_duration());
-            }
+            add_msg( m_debug, "Duration %d", it->second.get_duration() );
         }
     }
     for( auto it = effects.begin(); it != effects.end(); ) {
@@ -654,7 +609,7 @@ void Creature::process_effects()
             if(type->get_remove_message() != "") {
                 add_msg( type->lose_game_message_type(), _(type->get_remove_message().c_str()) );
             }
-            g->u.add_memorial_log(
+            add_memorial_log(
                 pgettext("memorial_male", type->get_remove_memorial_log().c_str() ),
                 pgettext("memorial_female", type->get_remove_memorial_log().c_str()) );
             const auto id = it->second.get_id();
@@ -682,9 +637,7 @@ void Creature::update_health(int base_threshold)
     }
     set_healthy_mod(get_healthy_mod() * 3 / 4);
 
-    if (g->debugmon) {
-        debugmsg("Health: %d, Health mod: %d", get_healthy(), get_healthy_mod());
-    }
+    add_msg( m_debug, "Health: %d, Health mod: %d", get_healthy(), get_healthy_mod());
 }
 
 // Methods for setting/getting misc key/value pairs.
@@ -1175,11 +1128,9 @@ body_part Creature::select_body_part(Creature *source, int hit_roll)
         szdif = 1;
     }
 
-    if(g->debugmon) {
-        add_msg(m_info, "source size = %d", source->get_size());
-        add_msg(m_info, "target size = %d", get_size());
-        add_msg(m_info, "difference = %d", szdif);
-    }
+    add_msg( m_debug, "source size = %d", source->get_size() );
+    add_msg( m_debug, "target size = %d", get_size() );
+    add_msg( m_debug, "difference = %d", szdif );
 
     std::map<body_part, double> hit_weights = default_hit_weights[szdif];
     std::map<body_part, double>::iterator iter;
@@ -1203,15 +1154,13 @@ body_part Creature::select_body_part(Creature *source, int hit_roll)
 
 
     // Debug for seeing weights.
-    if(g->debugmon) {
-        add_msg(m_info, "eyes = %f", hit_weights.at(bp_eyes));
-        add_msg(m_info, "head = %f", hit_weights.at(bp_head));
-        add_msg(m_info, "torso = %f", hit_weights.at(bp_torso));
-        add_msg(m_info, "arm_l = %f", hit_weights.at(bp_arm_l));
-        add_msg(m_info, "arm_r = %f", hit_weights.at(bp_arm_r));
-        add_msg(m_info, "leg_l = %f", hit_weights.at(bp_leg_l));
-        add_msg(m_info, "leg_r = %f", hit_weights.at(bp_leg_r));
-    }
+    add_msg( m_debug, "eyes = %f", hit_weights.at( bp_eyes ) );
+    add_msg( m_debug, "head = %f", hit_weights.at( bp_head ) );
+    add_msg( m_debug, "torso = %f", hit_weights.at( bp_torso ) );
+    add_msg( m_debug, "arm_l = %f", hit_weights.at( bp_arm_l ) );
+    add_msg( m_debug, "arm_r = %f", hit_weights.at( bp_arm_r ) );
+    add_msg( m_debug, "leg_l = %f", hit_weights.at( bp_leg_l ) );
+    add_msg( m_debug, "leg_r = %f", hit_weights.at( bp_leg_r ) );
 
     double totalWeight = 0;
     std::set<std::pair<body_part, double>, weight_compare> adjusted_weights;
@@ -1235,53 +1184,8 @@ body_part Creature::select_body_part(Creature *source, int hit_roll)
     return selected_part;
 }
 
-Creature &Creature::operator= (const Creature &rhs)
+bool Creature::compare_by_dist_to_point::operator()( const Creature* const a, const Creature* const b ) const
 {
-    str_cur = rhs.str_cur;
-    dex_cur = rhs.dex_cur;
-    int_cur = rhs.int_cur;
-    per_cur = rhs.per_cur;
-
-    str_max = rhs.str_max;
-    dex_max = rhs.dex_max;
-    int_max = rhs.int_max;
-    per_max = rhs.per_max;
-
-    moves = rhs.moves;
-    pain = rhs.pain;
-
-    killer = rhs.killer;
-    effects = rhs.effects;
-
-    str_bonus = rhs.str_bonus;
-    dex_bonus = rhs.dex_bonus;
-    per_bonus = rhs.per_bonus;
-    int_bonus = rhs.int_bonus;
-
-    num_blocks = rhs.num_blocks;
-    num_dodges = rhs.num_dodges;
-    num_blocks_bonus = rhs.num_blocks_bonus;
-    num_dodges_bonus = rhs.num_dodges_bonus;
-
-    armor_bash_bonus = rhs.armor_bash_bonus;
-    armor_cut_bonus = rhs.armor_cut_bonus;
-
-    speed_base = rhs.speed_base;
-
-    speed_bonus = rhs.speed_bonus;
-    dodge_bonus = rhs.dodge_bonus;
-    block_bonus = rhs.block_bonus;
-    hit_bonus = rhs.hit_bonus;
-    bash_bonus = rhs.bash_bonus;
-    cut_bonus = rhs.cut_bonus;
-
-    bash_mult = rhs.bash_mult;
-    cut_mult = rhs.cut_mult;
-    melee_quiet = rhs.melee_quiet;
-
-    grab_resist = rhs.grab_resist;
-    throw_resist = rhs.throw_resist;
-
-    fake = rhs.fake;
-    return *this;
+    return rl_dist( a->xpos(), a->ypos(), center.x, center.y ) <
+           rl_dist( b->xpos(), b->ypos(), center.x, center.y );
 }

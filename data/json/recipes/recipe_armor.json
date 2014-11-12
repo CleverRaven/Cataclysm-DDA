@@ -159,7 +159,8 @@
   ],
   "components": [
     [
-      [ "leather", 8 ]
+      [ "leather", 8 ],
+      [ "tanned_hide", 1 ]
     ],
     [
       [ "scrap", 3 ],
@@ -350,7 +351,8 @@
   ],
   "components": [
     [
-      [ "leather", 7 ]
+      [ "leather", 10 ],
+      [ "tanned_hide", 2 ]
     ]
   ]
 },{
@@ -374,10 +376,12 @@
   ],
   "components": [
     [
-      [ "leather", 7 ]
+      [ "leather", 7 ],
+      [ "tanned_hide", 1 ]
     ],
     [
-      [ "fur", 7 ]
+      [ "fur", 7 ],
+      [ "tanned_pelt", 1 ]
     ]
   ]
 },{
@@ -458,7 +462,9 @@
   "components": [
     [
       [ "leather", 18 ],
-      [ "fur", 18 ]
+      [ "tanned_hide", 3 ],
+      [ "fur", 18 ],
+      [ "tanned_pelt", 3 ]
     ]
   ]
 },{
@@ -484,7 +490,8 @@
   ],
   "components": [
     [
-      [ "leather", 9 ]
+      [ "leather", 9 ],
+      [ "tanned_hide", 2 ]
     ]
   ]
 },{
@@ -510,7 +517,9 @@
   "components": [
     [
       [ "leather", 16 ],
-      [ "fur", 16 ]
+      [ "tanned_hide", 3 ],
+      [ "fur", 16 ],
+      [ "tanned_pelt", 3 ]
     ]
   ]
 },{
@@ -635,7 +644,7 @@
   "difficulty": 2,
   "time": 35000,
   "reversible": false,
-  "autolearn": false,
+  "autolearn": true,
   "book_learn": [[ "mag_tailor", 1 ] , ["manual_tailor", 1]],
   "tools": [
     [
@@ -915,7 +924,8 @@
   ],
   "components": [
     [
-      [ "fur", 10 ]
+      [ "fur", 10 ],
+      [ "tanned_pelt", 2 ]
     ]
   ]
 },{
@@ -961,7 +971,8 @@
   ],
   "components": [
     [
-      [ "leather", 10 ]
+      [ "leather", 10 ],
+      [ "tanned_hide", 2 ]
     ]
   ]
 },{
@@ -987,7 +998,8 @@
       [ "rag", 10 ]
     ],
     [
-      [ "fur", 6 ]
+      [ "fur", 6 ],
+      [ "tanned_pelt", 1 ]
     ]
   ]
 },{
@@ -1324,7 +1336,7 @@
         "type" : "recipe",
   "result": "sleeveless_trenchcoat",
   "id_suffix": "from_trenchcoat",
-  "byproduct": { "id" : "rag", "amount" : 2 },
+  "byproducts": { "id" : "rag", "amount" : 2 },
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
@@ -1405,7 +1417,8 @@
   ],
   "components": [
     [
-      [ "fur", 11 ]
+      [ "fur", 11 ],
+      [ "tanned_pelt", 2 ]
     ]
   ]
 },{
@@ -1430,14 +1443,15 @@
   ],
   "components": [
     [
-      [ "fur", 9 ]
+      [ "fur", 9 ],
+      [ "tanned_pelt", 2 ]
     ]
   ]
 },{
         "type" : "recipe",
   "result": "sleeveless_trenchcoat_fur",
   "id_suffix": "from_trenchcoat_fur",
-  "byproduct": { "id" : "fur", "amount" : 2 },
+  "byproducts": { "id" : "fur", "amount" : 2 },
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
@@ -1474,7 +1488,8 @@
   ],
   "components": [
     [
-      [ "leather", 22 ]
+      [ "leather", 22 ],
+      [ "tanned_hide", 4 ]
     ]
   ]
 },{
@@ -1499,14 +1514,15 @@
   ],
   "components": [
     [
-      [ "leather", 18 ]
+      [ "leather", 18 ],
+      [ "tanned_hide", 3 ]
     ]
   ]
 },{
         "type" : "recipe",
   "result": "sleeveless_trenchcoat_leather",
   "id_suffix": "from_trenchcoat_leather",
-  "byproduct": { "id" : "leather", "amount" : 4 },
+  "byproducts": { "id" : "leather", "amount" : 4 },
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
@@ -1544,7 +1560,8 @@
   ],
   "components": [
     [
-      [ "fur", 10 ]
+      [ "fur", 10 ],
+      [ "tanned_pelt", 2 ]
     ]
   ]
 },{
@@ -1567,7 +1584,8 @@
   ],
   "components": [
     [
-      [ "leather", 16 ]
+      [ "leather", 18 ],
+      [ "tanned_hide", 3 ]
     ]
   ]
 },{
@@ -1609,7 +1627,8 @@
   ],
   "components": [
     [
-      [ "leather", 10 ]
+      [ "leather", 10 ],
+      [ "tanned_hide", 2 ]
     ]
   ]
 },{
@@ -2103,7 +2122,9 @@
   "components": [
     [
       [ "leather", 6 ],
-      [ "fur", 6 ]
+      [ "tanned_hide", 1 ],
+      [ "fur", 6 ],
+      [ "tanned_pelt", 1 ]
     ]
   ]
 },{
@@ -2153,6 +2174,50 @@
   ]
 },{
         "type" : "recipe",
+  "result": "knit_scarf",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "difficulty": 1,
+  "time": 40000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "knitting_needles", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "thread", 600 ],
+      [ "sinew", 600 ],
+      [ "plant_fibre", 600 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "long_knit_scarf",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "difficulty": 1,
+  "time": 60000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "knitting_needles", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "thread", 900 ],
+      [ "sinew", 900 ],
+      [ "plant_fibre", 900 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "scarf_fur",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -2171,7 +2236,8 @@
   ],
   "components": [
     [
-      [ "fur", 4 ]
+      [ "fur", 4 ],
+      [ "tanned_pelt", 1 ]
     ]
   ]
 },{
@@ -2195,7 +2261,8 @@
   ],
   "components": [
     [
-      [ "fur", 12 ]
+      [ "fur", 12 ],
+      [ "tanned_pelt", 2 ]
     ]
   ]
 },{
@@ -2239,7 +2306,8 @@
   "components": [
     [
       [ "bag_plastic", 2 ],
-      [ "bottle_plastic", 1 ]
+      [ "bottle_plastic", 1 ],
+      [ "bottle_plastic_small", 2 ]
     ],
     [
       [ "rag", 2 ],
@@ -2270,7 +2338,8 @@
       [ "string_6", 2 ]
     ],
     [
-      [ "bottle_plastic", 1 ]
+      [ "bottle_plastic", 1 ],
+      [ "bottle_plastic_small", 2 ]
     ]
   ]
 },{
@@ -2502,7 +2571,8 @@
       [ "kevlar_plate", 4 ]
       ],
       [
-      [ "fur", 6 ]
+      [ "fur", 6 ],
+      [ "tanned_pelt", 1 ]
       ]
   ]
 },{
@@ -2550,7 +2620,8 @@
       [ "kevlar_plate", 4 ]
       ],
       [
-      [ "fur", 12 ]
+      [ "fur", 12 ],
+      [ "tanned_pelt", 2 ]
       ]
   ]
 },{
@@ -3048,7 +3119,8 @@
   ],
   "components": [
     [
-      [ "leather", 8 ]
+      [ "leather", 8 ],
+      [ "tanned_hide", 1 ]
     ]
   ]
 },{
@@ -3070,7 +3142,8 @@
   ],
   "components": [
     [
-      [ "leather", 8 ]
+      [ "leather", 8 ],
+      [ "tanned_hide", 1 ]
     ],
     [
       [ "tallow", 1 ],
@@ -3186,7 +3259,9 @@
     ],
     [
       [ "leather", 20 ],
-      [ "fur", 20 ]
+      [ "tanned_hide", 3 ],
+      [ "fur", 20 ],
+      [ "tanned_pelt", 3 ]
     ]
   ]
 },{
@@ -3213,7 +3288,9 @@
   "components": [
     [
       [ "leather", 42 ],
-      [ "fur", 42 ]
+      [ "tanned_hide", 7 ],
+      [ "fur", 42 ],
+      [ "tanned_pelt", 7 ]
     ]
   ]
 },{
@@ -3238,7 +3315,8 @@
   ],
   "components": [
     [
-      [ "fur", 48 ]
+      [ "fur", 48 ],
+      [ "tanned_pelt", 8 ]
     ]
   ]
 },{
@@ -3270,7 +3348,8 @@
     [
       [ "wax", 2 ],
       [ "tallow", 8 ],
-      [ "vinegar", 10 ]
+      [ "vinegar", 10 ],
+      [ "pine_bough", 20 ]
     ],
     [
       [ "salt", 5 ]
@@ -3326,9 +3405,7 @@
   ],
   "components": [
     [
-      [ "rag", 20 ],
-      [ "fur", 16 ],
-      [ "leather", 12 ]
+      [ "rag", 20 ]
     ]
   ]
 },{
@@ -3350,7 +3427,8 @@
   ],
   "components": [
     [
-      [ "leather", 20 ]
+      [ "leather", 20 ],
+      [ "tanned_hide", 3 ]
     ],
     [
       [ "scrap", 6 ]
@@ -3377,7 +3455,9 @@
     [
       [ "rag", 40 ],
       [ "fur", 32 ],
-      [ "leather", 24 ]
+      [ "tanned_pelt", 6 ],
+      [ "leather", 24 ],
+      [ "tanned_hide", 6 ]
     ]
   ]
 },{
@@ -3404,6 +3484,31 @@
   ]
 },{
         "type" : "recipe",
+  "result": "down_blanket",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_OTHER",
+  "skill_used": "tailor",
+  "difficulty": 1,
+  "time": 85000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 20 ],
+      [ "needle_wood", 20 ],
+      [ "sewing_kit", 20 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 35 ]
+    ],
+    [
+      [ "feather", 160]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "fur_blanket",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_OTHER",
@@ -3426,7 +3531,8 @@
       [ "rag", 30 ]
     ],
     [
-      [ "fur", 10 ]
+      [ "fur", 10 ],
+      [ "tanned_pelt", 2 ]
     ]
   ]
 },{
@@ -3494,7 +3600,8 @@
   ],
   "components": [
     [
-      [ "fur", 15 ]
+      [ "fur", 15 ],
+      [ "tanned_pelt", 3 ]
     ]
   ]
 },{
@@ -3516,7 +3623,8 @@
   ],
   "components": [
     [
-      [ "leather", 20 ]
+      [ "leather", 20 ],
+      [ "tanned_hide", 3 ]
     ]
   ]
 },{
@@ -3567,7 +3675,8 @@
       [ "rag", 10 ]
     ],
     [
-      [ "fur", 20 ]
+      [ "fur", 20 ],
+      [ "tanned_pelt", 3 ]
     ]
   ]
 },{
@@ -3619,7 +3728,8 @@
   ],
   "components": [
     [
-      [ "leather", 6 ]
+      [ "leather", 6 ],
+      [ "tanned_hide", 1 ]
     ],
     [
       [ "string_36", 1 ],
@@ -3641,7 +3751,7 @@
   "autolearn": true,
   "components": [
     [
-      [ "rag", 4 ],
+      [ "rag", 6 ],
       [ "fur", 2 ],
       [ "leather", 1 ]
     ],
@@ -3780,7 +3890,8 @@
   ],
   "components": [
     [
-      [ "leather", 18 ]
+      [ "leather", 18 ],
+      [ "tanned_hide", 3 ]
     ]
   ]
 },{
@@ -3895,7 +4006,7 @@
         "type" : "recipe",
   "result": "sleeveless_trenchcoat_survivor",
   "id_suffix": "from_trenchcoat_survivor",
-  "byproduct": { "id" : "rag", "amount" : 4 },
+  "byproducts": { "id" : "rag", "amount" : 4 },
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
@@ -3985,7 +4096,8 @@
   ],
   "components": [
      [
-      [ "leather", 6 ]
+      [ "leather", 6 ],
+      [ "tanned_hide", 1 ]
      ],
      [
       [ "duct_tape", 100 ]
@@ -4042,7 +4154,8 @@
       [ "rag", 6 ]
      ],
      [
-      [ "leather", 6 ]
+      [ "leather", 6 ],
+      [ "tanned_hide", 1 ]
      ],
      [
       [ "chestrig", 1 ],
@@ -4085,7 +4198,8 @@
       [ "rag", 6 ]
      ],
      [
-      [ "leather", 8 ]
+      [ "leather", 8 ],
+      [ "tanned_hide", 2 ]
      ],
      [
       [ "runner_bag", 2 ],
@@ -4134,7 +4248,8 @@
       [ "rag", 10 ]
      ],
      [
-      [ "leather", 10 ]
+      [ "leather", 10 ],
+      [ "tanned_hide", 2 ]
      ],
      [
       [ "runner_bag", 4 ],
@@ -4183,7 +4298,8 @@
       [ "rag", 14 ]
      ],
      [
-      [ "leather", 16 ]
+      [ "leather", 16 ],
+      [ "tanned_hide", 3 ]
      ],
      [
       [ "backpack", 4 ],
@@ -4233,7 +4349,8 @@
       [ "rag", 18 ]
      ],
      [
-      [ "leather", 20 ]
+      [ "leather", 20 ],
+      [ "tanned_hide", 4 ]
      ],
      [
       [ "molle_pack", 4 ],
@@ -4340,7 +4457,8 @@
       [ "rag", 20 ]
      ],
      [
-      [ "leather", 20 ]
+      [ "leather", 20 ],
+      [ "tanned_hide", 4 ]
      ],
      [
       [ "coat_rain", 1 ]
@@ -4398,7 +4516,8 @@
       [ "rag", 20 ]
      ],
      [
-      [ "leather", 20 ]
+      [ "leather", 20 ],
+      [ "tanned_hide", 4 ]
      ],
      [
       [ "steel_chunk", 4 ],
@@ -4459,10 +4578,12 @@
       [ "rag", 10 ]
      ],
      [
-      [ "leather", 20 ]
+      [ "leather", 20 ],
+      [ "tanned_hide", 4 ]
      ],
      [
-      [ "fur", 20 ]
+      [ "fur", 20 ],
+      [ "tanned_pelt", 3 ]
      ],
      [
       [ "coat_rain", 1 ]
@@ -4634,7 +4755,8 @@
       [ "rag", 30 ]
      ],
      [
-      [ "leather", 40 ]
+      [ "leather", 40 ],
+      [ "tanned_hide", 7 ]
      ],
     [
       ["scrap", 8]
@@ -4691,7 +4813,8 @@
   ],
   "components": [
      [
-      [ "leather", 24 ]
+      [ "leather", 24 ],
+      [ "tanned_hide", 4 ]
      ],
      [
       [ "rag", 6 ]
@@ -4735,7 +4858,8 @@
   ],
   "components": [
      [
-      [ "leather", 16 ]
+      [ "leather", 16 ],
+      [ "tanned_hide", 3 ]
      ],
      [
       [ "rag", 6 ]
@@ -4779,7 +4903,8 @@
   ],
   "components": [
      [
-      [ "leather", 14 ]
+      [ "leather", 14 ],
+      [ "tanned_hide", 3 ]
      ],
      [
       [ "rag", 4 ]
@@ -4832,7 +4957,8 @@
       [ "rag", 6 ]
      ],
      [
-      [ "leather", 16 ]
+      [ "leather", 16 ],
+      [ "tanned_hide", 3 ]
      ],
      [
       [ "plastic_chunk", 20 ]
@@ -4917,7 +5043,8 @@
   ],
   "components": [
      [
-      [ "leather", 6 ]
+      [ "leather", 6 ],
+      [ "tanned_hide", 1 ]
      ],
      [
       [ "rag", 2 ]
@@ -4976,7 +5103,8 @@
       [ "bag_plastic", 2 ]
      ],
      [
-      [ "leather", 8 ]
+      [ "leather", 8 ],
+      [ "tanned_hide", 2 ]
      ],
      [
       [ "duct_tape", 150 ]
@@ -5084,7 +5212,8 @@
   ],
   "components": [
      [
-      [ "fur", 8 ]
+      [ "fur", 8 ],
+      [ "tanned_pelt", 1 ]
      ],
      [
       [ "rag", 2 ]
@@ -5260,7 +5389,8 @@
       [ "rag", 2 ]
      ],
      [
-      [ "leather", 6 ]
+      [ "leather", 6 ],
+      [ "tanned_hide", 1 ]
      ],
      [
       [ "duct_tape", 80 ]
@@ -5359,7 +5489,8 @@
       [ "rag", 2 ]
      ],
      [
-      [ "fur", 8 ]
+      [ "fur", 8 ],
+      [ "tanned_pelt", 1 ]
      ],
      [
       [ "duct_tape", 80 ]
@@ -5534,7 +5665,8 @@
   ],
   "components": [
      [
-      [ "leather", 8 ]
+      [ "leather", 8 ],
+      [ "tanned_hide", 2 ]
      ],
      [
       [ "kevlar_plate", 4 ]
@@ -5629,7 +5761,8 @@
   ],
   "components": [
      [
-      [ "fur", 12 ]
+      [ "fur", 12 ],
+      [ "tanned_pelt", 2 ]
      ],
      [
       [ "kevlar_plate", 4 ]
@@ -5991,7 +6124,8 @@
     [
       [ "plastic_chunk", 10],
       [ "bottle_plastic", 5],
-      [ "jug_plastic", 2]
+      [ "bottle_plastic_small", 10],
+      [ "jug_plastic", 1]
     ]
   ]
 },{
@@ -6029,7 +6163,8 @@
     [
       [ "plastic_chunk", 10],
       [ "bottle_plastic", 5],
-      [ "jug_plastic", 2]
+      [ "bottle_plastic_small", 10],
+      [ "jug_plastic", 1]
     ]
   ]
 },{
@@ -6383,24 +6518,19 @@
     "time": 40000,
     "reversible": false,
     "autolearn": false,
-	"book_learn": [ ["textbook_weapwest", 5], ["textbook_weapeast", 5], ["textbook_armwest", 5], ["textbook_armeast", 5] ],
-	"qualities":[
-      {"id":"HAMMER","level":1,"amount":1},
-	  {"id":"CUT","level":1,"amount":1}
-	],
+    "book_learn": [
+        ["textbook_weapwest", 5], ["textbook_weapeast", 5],
+        ["textbook_armwest", 5], ["textbook_armeast", 5]
+    ],
+    "qualities":[
+        {"id":"HAMMER","level":1,"amount":1},
+        {"id":"CUT","level":1,"amount":1}
+    ],
     "components": [
-      [
-        [ "leather", 10 ]
-      ],
-      [
-        ["superglue", 1]
-      ],
-      [
-        ["2x4", 2]
-      ],
-      [
-        ["nail", 5]
-      ]
+        [ [ "leather", 10 ], [ "tanned_hide", 2 ] ],
+        [ ["superglue", 1] ],
+        [ ["2x4", 2] ],
+        [ ["nail", 5] ]
     ]
   },
   {
@@ -6421,10 +6551,8 @@
         [ "sewing_kit", 20 ]
       ]
     ],
-     "components": [
-      [
-        [ "leather", 6 ]
-      ],
+    "components": [
+      [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
       [
         [ "string_36", 1 ],
         [ "string_6", 6 ],
@@ -6483,7 +6611,8 @@
     ],
      "components": [
       [
-        [ "leather", 6 ]
+        [ "leather", 6 ],
+        [ "tanned_hide", 1 ]
       ],
       [
         [ "string_36", 1 ],
@@ -6504,7 +6633,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 8 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities": [
+       {"id":"HAMMER","level":3,"amount":1} ],
+  "tools":[
      [
       ["tongs", -1]
      ],
@@ -6518,7 +6649,7 @@
       ["swage", -1]
      ],
      [
-      ["forge", 450], ["char_forge", 90]
+      ["forge", 450], ["char_forge", 90], ["oxy_torch", 90]
      ]
     ],
   "components":
@@ -6528,7 +6659,9 @@
      ],
      [
       [ "fur", 16 ],
-      [ "leather", 16 ]
+     [ "tanned_pelt", 3 ],
+      [ "leather", 16 ],
+     [ "tanned_hide", 3 ]
      ]
     ]
 },{
@@ -6542,7 +6675,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 7 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities": [
+       {"id":"HAMMER","level":3,"amount":1} ],
+  "tools": [
      [
       ["tongs", -1]
      ],
@@ -6556,7 +6691,7 @@
       ["swage", -1]
      ],
      [
-      ["forge", 400], ["char_forge", 80]
+      ["forge", 400], ["char_forge", 80], ["oxy_torch", 80]
      ]
     ],
   "components":
@@ -6567,7 +6702,9 @@
     ],
     [
      [ "fur", 20 ],
-     [ "leather", 20 ]
+     [ "tanned_pelt", 3 ],
+     [ "leather", 20 ],
+     [ "tanned_hide", 3 ]
     ]
     ]
 },{
@@ -6581,7 +6718,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 5 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities": [
+       {"id":"HAMMER","level":3,"amount":1} ],
+  "tools": [
      [
       ["tongs", -1]
      ],
@@ -6595,7 +6734,7 @@
       ["swage", -1]
      ],
      [
-      ["forge", 300], ["char_forge", 60]
+      ["forge", 300], ["char_forge", 60], ["oxy_torch", 60]
      ]
     ],
   "components":
@@ -6606,7 +6745,9 @@
     ],
     [
      [ "fur", 10 ],
-     [ "leather", 10 ]
+     [ "tanned_pelt", 2 ],
+     [ "leather", 10 ],
+     [ "tanned_hide", 2 ]
     ]
    ]
 },{
@@ -6620,7 +6761,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 4 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities": [
+       {"id":"HAMMER","level":3,"amount":1} ],
+  "tools": [
      [
       ["tongs", -1]
      ],
@@ -6634,7 +6777,7 @@
       ["swage", -1]
      ],
      [
-      ["forge", 250], ["char_forge", 50]
+      ["forge", 250], ["char_forge", 50], ["oxy_torch", 50]
      ]
      ],
   "components":
@@ -6646,7 +6789,9 @@
     ],
     [
      [ "fur", 16 ],
-     [ "leather", 16 ]
+     [ "tanned_pelt", 3 ],
+     [ "leather", 16 ],
+     [ "tanned_hide", 3 ]
     ]
    ]
 },{
@@ -6660,7 +6805,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 6 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+    "qualities": [
+       {"id":"HAMMER","level":3,"amount":1} ],
+  "tools": [
      [
       ["tongs", -1]
      ],
@@ -6674,7 +6821,7 @@
       ["crucible", -1]
      ],
      [
-      ["forge", 350], ["char_forge", 70]
+      ["forge", 350], ["char_forge", 70], ["oxy_torch", 70]
      ]
     ],
   "components":
@@ -6699,7 +6846,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 5 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities": [
+       {"id":"HAMMER","level":3,"amount":1} ],
+  "tools": [
      [
       ["tongs", -1]
      ],
@@ -6713,7 +6862,7 @@
       ["crucible", -1]
      ],
      [
-      ["forge", 300], ["char_forge", 60]
+      ["forge", 300], ["char_forge", 60], ["oxy_torch", 60]
      ]
     ],
   "components":
@@ -6738,7 +6887,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_armeast", 8 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities": [
+       {"id":"HAMMER","level":3,"amount":1} ],
+  "tools": [
      [
       ["tongs", -1]
      ],
@@ -6752,7 +6903,7 @@
       ["swage", -1]
      ],
      [
-      ["forge", 450], ["char_forge", 90]
+      ["forge", 450], ["char_forge", 90], ["oxy_torch", 90]
      ]
     ],
   "components":
@@ -6763,14 +6914,16 @@
     ],
     [
      [ "fur", 28 ],
-     [ "leather", 28 ]
+     [ "tanned_pelt", 6 ],
+     [ "leather", 28 ],
+     [ "tanned_hide", 6 ]
     ],
     [
      [ "rag", 10 ]
     ]
    ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "helmet_kabuto",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -6780,35 +6933,44 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_armeast", 8 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
-     [
-      ["tongs", -1]
-     ],
-     [
-      ["chisel", -1]
-     ],
-     [
-      ["anvil", -1]
-     ],
-     [
-      ["crucible", -1]
-     ],
-     [
-      ["forge", 450], ["char_forge", 90]
-     ]
-    ],
-  "components":
-   [
-    [
-     [ "steel_lump", 12 ]
-    ],
-    [
-     [ "fur", 14 ],
-     [ "leather", 14 ]
-    ],
-    [
-     [ "rag", 4 ]
-    ]
-   ]
+  "qualities": [ {"id":"HAMMER","level":3,"amount":1} ],
+  "tools": [
+    [ ["tongs", -1] ],
+    [ ["chisel", -1] ],
+    [ ["anvil", -1] ],
+    [ ["crucible", -1] ],
+    [ ["forge", 450], ["char_forge", 90], ["oxy_torch", 90] ]
+  ],
+  "components": [
+    [ [ "steel_lump", 12 ] ],
+    [ [ "fur", 14 ], [ "tanned_pelt", 2 ], [ "leather", 14 ], [ "tanned_hide", 2 ] ],
+    [ [ "rag", 4 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "helmet_netting",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "time": 18000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [ [ [ "thread", 500 ], [ "sinew", 500], [ "plant_fibre", 500] ] ]
+},{
+  "type" : "recipe",
+  "result": "plastic_shopping_bag",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_STORAGE",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities": [ {"id":"CUT","level":1,"amount":1} ],
+  "components": [
+    [ [ "string_36", 2 ] ],
+    [ [ "bag_plastic", 8 ] ]
+  ]
 }
 ]

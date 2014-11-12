@@ -18,6 +18,8 @@
 # Build types:
 # Debug (no optimizations)
 #  Default
+# ccache (use compilation caches)
+#  make CCACHE=1
 # Release (turn on optimizations)
 #  make RELEASE=1
 # Tiles (uses SDL rather than ncurses)
@@ -100,8 +102,13 @@ W32ODIRTILES = objwin/tiles
 DDIR = .deps
 
 OS  = $(shell uname -s)
-CXX = $(CROSS)g++
-LD  = $(CROSS)g++
+ifdef CCACHE
+  CXX = ccache $(CROSS)g++
+  LD  = ccache $(CROSS)g++
+else
+  CXX = $(CROSS)g++
+  LD  = $(CROSS)g++
+endif
 RC  = $(CROSS)windres
 
 # enable optimizations. slow to build
@@ -122,8 +129,13 @@ ifdef CLANG
   ifeq ($(NATIVE), osx)
     OTHERS += -stdlib=libc++
   endif
-  CXX = $(CROSS)clang++
-  LD  = $(CROSS)clang++
+  ifdef CCACHE
+    CXX = CCACHE_CPP2=1 $(CROSS)clang++
+    LD  = CCACHE_CPP2=1 $(CROSS)clang++
+  else
+    CXX = $(CROSS)clang++
+    LD  = $(CROSS)clang++
+  endif
   WARNINGS = -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-type-limits -Wno-narrowing
 endif
 
@@ -394,9 +406,6 @@ $(ODIR)/%.o: $(SRC_DIR)/%.cpp
 $(ODIR)/%.o: $(SRC_DIR)/%.rc
 	$(RC) $(RFLAGS) $< -o $@
 
-$(ODIR)/SDLMain.o: $(SRC_DIR)/SDLMain.m
-	$(CC) -c $(OSX_INC) $< -o $@
-
 version.cpp: version
 
 $(LUASRC_DIR)/catabindings.cpp: $(LUA_DIR)/class_definitions.lua $(LUASRC_DIR)/generate_bindings.lua
@@ -445,6 +454,8 @@ install: version $(TARGET)
 	cp -R --no-preserve=ownership data/names $(DATA_PREFIX)
 	cp -R --no-preserve=ownership data/raw $(DATA_PREFIX)
 	cp -R --no-preserve=ownership data/recycling $(DATA_PREFIX)
+	cp -R --no-preserve=ownership data/motd $(DATA_PREFIX)
+	cp -R --no-preserve=ownership data/credits $(DATA_PREFIX)
 ifdef TILES
 	cp -R --no-preserve=ownership gfx $(DATA_PREFIX)
 endif
@@ -453,7 +464,7 @@ ifdef LUA
 	install --mode=644 lua/autoexec.lua $(DATA_PREFIX)/lua
 	install --mode=644 lua/class_definitions.lua $(DATA_PREFIX)/lua
 endif
-	install --mode=644 data/changelog.txt data/credits data/motd data/cataicon.ico \
+	install --mode=644 data/changelog.txt data/cataicon.ico data/fontdata.json \
                    README.txt LICENSE.txt -t $(DATA_PREFIX)
 	mkdir -p $(LOCALE_DIR)
 	LOCALE_DIR=$(LOCALE_DIR) lang/compile_mo.sh
@@ -475,6 +486,7 @@ ctags: $(SOURCES) $(HEADERS)
 
 etags: $(SOURCES) $(HEADERS)
 	etags $(SOURCES) $(HEADERS)
+	find data/json -name "*.json" -print0 | xargs -0 -L 50 etags --append
 
 tests: $(ODIR) $(DDIR) $(OBJS)
 	$(MAKE) -C tests

@@ -450,7 +450,7 @@ std::string direction_name_short(direction dir)
     case ABOVEWEST:
         return _("UP_W ");
     case ABOVENORTHWEST:
-        return _("DN_NW");
+        return _("UP_NW");
     case BELOWNORTH:
         return _("DN_N ");
     case BELOWNORTHEAST:

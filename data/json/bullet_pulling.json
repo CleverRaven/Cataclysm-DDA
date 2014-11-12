@@ -131,7 +131,7 @@
     },
     {
         "type": "BULLET_PULLING",
-        "bullet": "40sw",
+        "bullet": "44magnum",
         "items": [
             ["lead", 10],
             ["44_casing", 1],

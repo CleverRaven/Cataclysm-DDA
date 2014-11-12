@@ -65,6 +65,9 @@ List of known flags, used in both terrain.json and furniture.json
 - ```OPENCLOSE_INSIDE``` If it's a door (with an 'open' or 'close' field), it can only be opened or closed if you're inside.
 - ```BARRICADABLE_WINDOW``` Window that can be barricaded.
 - ```BARRICADABLE_DOOR``` Door that can be barricaded.
+- ```SHORT``` Feature too short to collide with vehicle protrusions. (mirrors, blades)
+- ```TINY``` Feature too short to collide with vehicle undercarriage. Vehicles drive over them with no damage, unless a wheel hits them.
+- ```NOCOLLIDE``` Feature that simply doesn't collide with vehicles at all.
 
 ### Examine actions
 
@@ -97,9 +100,7 @@ List of known flags, used in both terrain.json and furniture.json
 - ```fungus``` Release spores as the terrain crumbles away.
 - ```dirtmound``` Plant seeds and plants.
 - ```aggie_plant``` Harvest plants.
-- ```tree_apple``` Pick an apple tree.
-- ```shrub_blueberry``` Pick a blueberry bush.
-- ```shrub_strawberry``` Pick a strawberry bush.
+- ```harvest_tree_shrub``` Harvest a fruit tree or shrub.
 - ```shrub_marloss``` Pick a marloss bush.
 - ```shrub_wildveggies``` Pick a wild veggies shrub.
 - ```recycler``` Recycle metal objects.
@@ -223,6 +224,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```REVIVES``` Monster corpse will revive after a short period of time.
 - ```CHITIN``` May produce chitin when butchered.
 - ```VERMIN``` Creature is too small for normal combat, butchering etc.
+- ```NO_GIBS``` Does not leave gibs / meat chunks when killed with huge damage.
 - ```HUNTS_VERMIN``` Creature uses vermin as a food source.
 - ```SMALL_BITER``` Creature can cause a painful, non-damaging bite.
 - ```ABSORBS``` Consumes objects it moves over.
@@ -234,6 +236,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```CBM_POWER``` May produce a power CBM when butchered, independent of CBM.
 - ```CBM_SCI``` May produce a cbm or two from bionics_sci when butchered.
 - ```CBM_OP``` May produce a cbm or two from bionics_op when butchered.
+- ```FISHABLE``` It is fishable.
 
 ### Special attacks
 Some special attacks are also valid use actions for tools and weapons.
@@ -365,6 +368,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```VARIABLE_SIZE``` Has 'bigness' for power, wheel radius, etc.
 - ```BOARDABLE``` The player can safely move over or stand on this part while the vehicle is moving.
 - ```CARGO``` Cargo holding area.
+- ```COVERED``` Prevents items in cargo parts from emitting any light.
 - ```BELTABLE``` Seatbelt can be attached to this part.
 - ```SEATBELT``` Helps prevent the player from being ejected from the vehicle during an accident.
 - ```SEAT``` A seat where the player can sit or sleep.
@@ -405,6 +409,8 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```ODDTURN``` Only on during odd turns.
 - ```EVENTURN``` Only on during even turns.
 - ```RECHARGE``` Recharge items with the same flag. ( Currently only the rechargeable battery mod. )
+- ```UNMOUNT_ON_MOVE``` Dismount this part when the vehicle moves. Doesn't drop the part, unless you give it special handling.
+- ```POWER_TRANSFER``` Transmits power to and from an attached thingy (probably a vehicle)
 
 ## Ammo
 
@@ -612,7 +618,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```PURIFIER``` Removes negative mutations.
 - ```MARLOSS``` "As you eat the berry, you have a near-religious experience, feeling at one with your surroundings..."
 - ```DOGFOOD``` Makes a dog friendly.
-- ```CATFOOD```Makes a cat friendly.
+- ```CATFOOD``` Makes a cat friendly.
 
 ### Flags
 
@@ -620,6 +626,8 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```USE_EAT_VERB``` "You drink your %s." or "You eat your %s."
 - ```FERTILIZER``` Works as fertilizer for farming.
 - ```SEED``` Plantable seed for farming.
+- ```LENS``` Lens items can make fires via focusing light rays.
+- ```FIRE_DRILL``` Item will start fires in the primitive way.
 - ```MUTAGEN_STRONG``` Chance of mutating several times.
 - ```MUTAGEN_PLANT``` Causes mutation in the plant branch.
 - ```MUTAGEN_INSECT``` Causes mutation in the insect branch.
@@ -649,6 +657,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```RIGID``` Volume of the item does not include volume of the content. Without that flag the volume of the contents are added to the volume of the container.
 - ```WATERTIGHT``` Can hold liquids.
 - ```SEALS``` Can be resealed.
+- ```PRESERVES``` Contents do not spoil.
 
 ## Melee
 
@@ -666,6 +675,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```IAIJUTSU``` Sword can slash at an enemy as it's drawn if cutting skill is above 7 and a roll is passed
 - ```SHEATH_KNIFE``` Item can be sheathed in a knife sheath
 - ```QUIVER_n``` Item can hold n arrows (will parse number as integer)
+- ```ALWAYS_TWOHAND``` Item is always wielded with two hands. Without this, the items volume and weight are used to calculate this.
 
 ## Guns
 
@@ -674,9 +684,6 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```RELOAD_ONE``` Only reloads one round at a time.
 - ```NO_AMMO``` Does not directly have a loaded ammo type.
 - ```BIO_WEAPON``` Weapon is a CBM weapon, uses power as ammo. (CBM weapons should get both NO_AMMO and BIO_WEAPON, to work correctly).
-- ```USE_UPS``` Uses 5 UPS charges per shot, or 3 advanced UPS charges.
-- ```USE_UPS_20``` Uses 20 UPS charges per shot, or 12 advanced UPS charges.
-- ```USE_UPS_40``` Uses 40 UPS charges per shot, or 24 advanced UPS charges.
 - ```CHARGE``` Has to be charged to fire. Higher charges do more damage.
 - ```NO_UNLOAD``` Cannot be unloaded.
 - ```FIRE_50``` Uses 50 shots per firing.
@@ -695,12 +702,29 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```FIRE``` Counts as a fire for crafting purposes.
 - ```WRAP``` Unused?
 - ```RECHARGE``` Gain charges when placed in a cargo area with a recharge station.
+- ```USE_UPS``` Item is charges from an UPS / it uses the charges of an UPS instead of its own.
+- ```NO_UNLOAD``` Cannot be unloaded.
+- ```RADIOCARITEM``` Item can be put into a remote controlled car.
+- ```RADIOSIGNAL_1``` Activated per radios signal 1.
+- ```RADIOSIGNAL_2``` Activated per radios signal 2.
+- ```BOMB``` It's a radio controlled bomb.
+- ```RADIO_CONTAINER``` It's a container of something that is radio controlled.
+- ```RADIO_ACTIVATION``` It is activated by a remote control (also requires RADIOSIGNAL_*).
+- ```FISH_GOOD``` When used for fishing, it's a good tool (requires that the matching use_action has been set).
+- ```FISH_POOR``` When used for fishing, it's a poor tool (requires that the matching use_action has been set).
+- ```CABLE_SPOOL``` This item is a cable spool and must be processed as such. It has an internal "state" variable which may be in the states "attach_first" or "pay_out_cable" -- in the latter case, set its charges to `max_charges - dist(here, point(vars["source_x"], vars["source_y"]))`. If this results in 0 or a negative number, set its state back to "attach_first".
+- ```NO_DROP``` An item with this flag should never actually be dropped. Used internally to signal that an item was created, but that it is unwanted. Needless to say, don't use this in an item definition.
+
+### Flags that apply to items, not to item types.
+Those flags are added by the game code to specific items (that specific welder, not *all* welders).
+- ```DOUBLE_AMMO``` The tool has the double battery mod and has its max_charges doubled.
+- ```USE_UPS``` The tool has the UPS mod and is charged from an UPS.
+- ```ATOMIC_AMMO``` The tool has the atomic mod and runs on plutonium instead of normal batteries.
 
 ### Use actions
 
 - ```NONE``` Do nothing.
-- ```LIGHTER``` Light a fire.
-- ```PRIMITIVE_FIRE``` Attempt to light a fire with a high chance of failure.
+- ```FIRESTARTER``` Light a fire with a lens, primitive tools or lighters.
 - ```SEW``` Sew clothing.
 - ```SCISSORS``` Cut up clothing.
 - ```HAMMER``` Pry boards off of windows, doors and fences.
@@ -841,6 +865,17 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```ATOMIC_BATTERY```
 - ```FISHING_BASIC``` Use a fishing rod
 - ```JET_INJECTOR``` Inject some jet drugs right into your veins.
+- ```CABLE_ATTACH``` This item is a cable spool. Use it to try to attach to a vehicle.
+
+
+
+## Generic
+
+### Flags
+- ```UNRECOVERABLE``` Cannot be recovered from a disassembly.
+- ```NO_SALVAGE``` Item cannot be broken down through a salvage process. Best used when something should not be able to be broken down (i.e. base components like leather patches).
+
+
 
 ## Skills
 

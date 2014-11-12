@@ -1,5 +1,6 @@
 #include "messages.h"
 #include "input.h"
+#include "debug.h"
 #include <sstream>
 
 // Messages object.
@@ -68,6 +69,9 @@ void Messages::add_msg_string(const std::string &s)
 void Messages::add_msg_string(const std::string &s, game_message_type type)
 {
     if (s.length() == 0) {
+        return;
+    }
+    if( type == m_debug && !debug_mode ) {
         return;
     }
     if (!player_messages.messages.empty() &&

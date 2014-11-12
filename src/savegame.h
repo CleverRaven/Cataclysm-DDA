@@ -1,5 +1,5 @@
-#ifndef SAVEGAME_H_
-#define SAVEGAME_H_
+#ifndef SAVEGAME_H
+#define SAVEGAME_H
 
 #include <string>
 #include <map>
@@ -40,9 +40,9 @@ const std::string legacy_mon_id[126] = {"mon_null", "mon_squirrel", "mon_rabbit"
 const int num_legacy_ter = 174;
 const std::string legacy_ter_id[174] = {"t_null", "t_hole", "t_dirt", "t_sand", "t_dirtmound",
     "t_pit_shallow", "t_pit", "t_pit_corpsed", "t_pit_covered", "t_pit_spiked", "t_pit_spiked_covered",
-    "t_rock_floor", "t_rubble", "t_ash", "t_metal", "t_wreckage", "t_grass", "t_metal_floor",
+    "t_rock_floor", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass", "t_metal_floor",
     "t_pavement", "t_pavement_y", "t_sidewalk", "t_concrete", "t_floor", "t_dirtfloor", "t_grate",
-    "t_slime", "t_bridge", "t_skylight", "t_emergency_light_flicker", "t_emergency_light",
+    "t_slime", "t_bridge", "t_floor", "t_floor", "t_floor",
     "t_wall_log_half", "t_wall_log", "t_wall_log_chipped", "t_wall_log_broken", "t_palisade",
     "t_palisade_gate", "t_palisade_gate_o", "t_wall_half", "t_wall_wood", "t_wall_wood_chipped",
     "t_wall_wood_broken", "t_wall_v", "t_wall_h", "t_concrete_v", "t_concrete_h", "t_wall_metal_v",
@@ -103,4 +103,5 @@ const std::string obj_type_name[11]={ "OBJECT_NONE", "OBJECT_ITEM", "OBJECT_ACTO
 };
 
 extern std::map<std::string, int> obj_type_id;
+
 #endif

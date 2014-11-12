@@ -1,5 +1,5 @@
-#ifndef _DAMAGE_H_
-#define _DAMAGE_H_
+#ifndef DAMAGE_H
+#define DAMAGE_H
 
 #include "bodypart.h"
 #include "color.h"
@@ -41,13 +41,10 @@ struct damage_unit {
     float amount;
     int res_pen;
     float res_mult;
+    float damage_multiplier;
 
     damage_unit(damage_type dt, float a, int rp, float rm) :
-        type(dt),
-        amount(a),
-        res_pen(rp),
-        res_mult(rm)
-    { }
+    type(dt), amount(a), res_pen(rp), res_mult(rm), damage_multiplier(1.0) { }
 };
 
 
@@ -121,4 +118,3 @@ struct projectile {
 void ammo_effects(int x, int y, const std::set<std::string> &effects);
 
 #endif
-

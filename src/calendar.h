@@ -1,5 +1,5 @@
-#ifndef _CALENDAR_H_
-#define _CALENDAR_H_
+#ifndef CALENDAR_H
+#define CALENDAR_H
 
 #include <string>
 
@@ -78,7 +78,7 @@ class calendar
         
         void sync(); // Synchronize all variables to the turn_number
 
-        // Sunlight and day/night calcuations
+        // Sunlight and day/night calculations
         int minutes_past_midnight() const; // Useful for sunrise/set calculations
         moon_phase moon() const;  // Find phase of moon
         calendar sunrise() const; // Current time of sunrise
@@ -138,6 +138,7 @@ class calendar
         std::string textify_period(); // "1 second" "2 hours" "two days"
         std::string day_of_week() const;
 
+        static   calendar start;
         static   calendar turn;
 };
-#endif // _CALENDAR_H_
+#endif

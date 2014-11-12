@@ -1,7 +1,9 @@
 #include "iuse_actor.h"
 #include "item.h"
 #include "game.h"
+#include "monster.h"
 #include <sstream>
+#include <algorithm>
 
 iuse_transform::~iuse_transform()
 {
@@ -12,8 +14,12 @@ iuse_actor *iuse_transform::clone() const
     return new iuse_transform(*this);
 }
 
-long iuse_transform::use(player *p, item *it, bool /*t*/) const
+long iuse_transform::use(player *p, item *it, bool t, point /*pos*/) const
 {
+    if( t ) {
+        // Invoked from active item processing, do nothing.
+        return 0;
+    }
     if (need_fire > 0 && p != NULL && p->is_underwater()) {
         p->add_msg_if_player(m_info, _("You can't do that while underwater"));
         return 0;
@@ -31,7 +37,7 @@ long iuse_transform::use(player *p, item *it, bool /*t*/) const
         return 0;
     }
     // load this from the original item, not the transformed one.
-    const int charges_to_use = it->type->charges_to_use();
+    const long charges_to_use = it->type->charges_to_use();
     p->add_msg_if_player(m_neutral, msg_transform.c_str(), it->tname().c_str());
     item *target;
     if (container_id.empty()) {
@@ -49,9 +55,17 @@ long iuse_transform::use(player *p, item *it, bool /*t*/) const
     if (target_charges > -2) {
         // -1 is for items that can not have any charges at all.
         target->charges = target_charges;
+    } else if( charges_to_use > 0 && target->charges >= 0 ) {
+    // Makes no sense to set the charges via this iuse and than remove some of them, you can combine
+    // both into the target_charges value.
+    // Also if the target does not use charges (item::charges == -1), don't change them at all.
+    // This allows simple transformations like "folded" <=> "unfolded", and "retracted" <=> "extended"
+    // Active item handling has gotten complicated, so having this consume charges itself
+    // instead of passing it off to the caller.
+        target->charges -= std::min(charges_to_use, target->charges);
     }
     p->moves -= moves;
-    return charges_to_use;
+    return 0;
 }
 
 
@@ -65,14 +79,14 @@ iuse_actor *auto_iuse_transform::clone() const
     return new auto_iuse_transform(*this);
 }
 
-long auto_iuse_transform::use(player *p, item *it, bool t) const
+long auto_iuse_transform::use(player *p, item *it, bool t, point pos) const
 {
     if (t) {
         if (!when_underwater.empty() && p != NULL && p->is_underwater()) {
             // Dirty hack to display the "when unterwater" message instead of the normal message
             std::swap(const_cast<auto_iuse_transform *>(this)->when_underwater,
                       const_cast<auto_iuse_transform *>(this)->msg_transform);
-            const long tmp = iuse_transform::use(p, it, t);
+            const long tmp = iuse_transform::use(p, it, t, pos);
             std::swap(const_cast<auto_iuse_transform *>(this)->when_underwater,
                       const_cast<auto_iuse_transform *>(this)->msg_transform);
             return tmp;
@@ -85,7 +99,7 @@ long auto_iuse_transform::use(player *p, item *it, bool t) const
         // Activated by the player, but not allowed to do so
         return 0;
     }
-    return iuse_transform::use(p, it, t);
+    return iuse_transform::use(p, it, t, pos);
 }
 
 
@@ -102,14 +116,8 @@ iuse_actor *explosion_iuse::clone() const
 // defined in iuse.cpp
 extern std::vector<point> points_for_gas_cloud(const point &center, int radius);
 
-long explosion_iuse::use(player *p, item *it, bool t) const
+long explosion_iuse::use(player *p, item *it, bool t, point pos) const
 {
-    // This ise used for active items, their charges are autmatically
-    // decremented, therfor this function always returns 0.
-    const point pos = g->find_item(it);
-    if (pos.x == -999 || pos.y == -999) {
-        return 0;
-    }
     if (t) {
         if (sound_volume >= 0) {
             g->sound(pos.x, pos.y, sound_volume, sound_msg);
@@ -156,7 +164,7 @@ long explosion_iuse::use(player *p, item *it, bool t) const
             }
         }
     }
-    return 0;
+    return 1;
 }
 
 
@@ -170,7 +178,7 @@ iuse_actor *unfold_vehicle_iuse::clone() const
     return new unfold_vehicle_iuse(*this);
 }
 
-long unfold_vehicle_iuse::use(player *p, item *it, bool /*t*/) const
+long unfold_vehicle_iuse::use(player *p, item *it, bool /*t*/, point /*pos*/) const
 {
     if (p->is_underwater()) {
         p->add_msg_if_player(m_info, _("You can't do that while underwater."));
@@ -244,7 +252,7 @@ iuse_actor *consume_drug_iuse::clone() const
     return new consume_drug_iuse(*this);
 }
 
-long consume_drug_iuse::use(player *p, item *it, bool) const
+long consume_drug_iuse::use(player *p, item *it, bool, point) const
 {
     // Check prerequisites first.
     for( auto tool = tools_needed.cbegin(); tool != tools_needed.cend(); ++tool ) {
@@ -296,4 +304,146 @@ long consume_drug_iuse::use(player *p, item *it, bool) const
         }
     }
     return it->type->charges_to_use();
+}
+
+place_monster_iuse::~place_monster_iuse() {};
+
+iuse_actor *place_monster_iuse::clone() const
+{
+    return new place_monster_iuse(*this);
+}
+
+long place_monster_iuse::use( player *p, item *it, bool, point ) const
+{
+    monster newmon( GetMType( mtype_id ) );
+    point target;
+    if( place_randomly ) {
+        std::vector<point> valid;
+        for( int x = p->posx - 1; x <= p->posx + 1; x++ ) {
+            for( int y = p->posy - 1; y <= p->posy + 1; y++ ) {
+                if( g->is_empty( x, y ) ) {
+                    valid.push_back( point( x, y ) );
+                }
+            }
+        }
+        if( valid.empty() ) { // No valid points!
+            p->add_msg_if_player( m_info, _( "There is no adjacent square to release the %s in!" ),
+                                  newmon.name().c_str() );
+            return 0;
+        }
+        target = valid[rng( 0, valid.size() - 1 )];
+    } else {
+        const std::string query = string_format( _( "Place the %s where?" ), newmon.name().c_str() );
+        if( !choose_adjacent( query, target.x, target.y ) ) {
+            return 0;
+        }
+        if( !g->is_empty( target.x, target.y ) ) {
+            p->add_msg_if_player( m_info, _( "You cannot place a %s there." ), newmon.name().c_str() );
+            return 0;
+        }
+    }
+    p->moves -= moves;
+    newmon.spawn( target.x, target.y );
+    for( auto & amdef : newmon.ammo ) {
+        item ammo_item( amdef.first, 0 );
+        const int available = p->charges_of( amdef.first );
+        if( available == 0 ) {
+            amdef.second = 0;
+            p->add_msg_if_player( m_info,
+                                  _( "If you had standard factory-built %s bullets, you could load the %s." ),
+                                  ammo_item.type->nname( 2 ).c_str(), newmon.name().c_str() );
+            continue;
+        }
+        // Don't load more than the default from the the monster definition.
+        ammo_item.charges = std::min( available, amdef.second );
+        p->use_charges( amdef.first, ammo_item.charges );
+        //~ First %s is the ammo item (with plural form and count included), second is the monster name
+        p->add_msg_if_player( ngettext( "You load %d x %s round into the %s.",
+                                        "You load %d x %s rounds into the %s.", ammo_item.charges ),
+                              ammo_item.charges, ammo_item.type->nname( ammo_item.charges ).c_str(),
+                              newmon.name().c_str() );
+        amdef.second = ammo_item.charges;
+    }
+    const int damfac = 5 - std::max<int>( 0, it->damage ); // 5 (no damage) ... 1 (max damage)
+    // One hp at least, everything else would be unfair (happens only to monster with *very* low hp),
+    newmon.hp = std::max( 1, newmon.hp * damfac / 5 );
+    if( rng( 0, p->int_cur / 2 ) + p->skillLevel( "electronics" ) / 2 + p->skillLevel( "computer" ) <
+        rng( 0, difficulty ) ) {
+        if( hostile_msg.empty() ) {
+            p->add_msg_if_player( m_bad, _( "The %s scans you and makes angry beeping noises!" ),
+                                  newmon.name().c_str() );
+        } else {
+            p->add_msg_if_player( m_bad, "%s", _( hostile_msg.c_str() ) );
+        }
+    } else {
+        if( friendly_msg.empty() ) {
+            p->add_msg_if_player( m_warning, _( "The %s emits an IFF beep as it scans you." ),
+                                  newmon.name().c_str() );
+        } else {
+            p->add_msg_if_player( m_warning, "%s", _( friendly_msg.c_str() ) );
+        }
+        newmon.friendly = -1;
+    }
+    // TODO: add a flag instead of monster id or something?
+    if( newmon.type->id == "mon_laserturret" && !g->is_in_sunlight( newmon.posx(), newmon.posy() ) ) {
+        p->add_msg_if_player( _( "A flashing LED on the laser turret appears to indicate low light." ) );
+    }
+    g->add_zombie( newmon );
+    return 1;
+}
+
+ups_based_armor_actor::~ups_based_armor_actor() {};
+
+iuse_actor *ups_based_armor_actor::clone() const
+{
+    return new ups_based_armor_actor(*this);
+}
+
+bool has_power_armor_interface(const player &p)
+{
+    return p.has_active_bionic( "bio_power_armor_interface" ) || p.has_active_bionic( "bio_power_armor_interface_mkII" );
+}
+
+bool has_powersource(const item &i, const player &p) {
+    if( i.type->is_power_armor() && has_power_armor_interface( p ) && p.power_level > 0 ) {
+        return true;
+    }
+    return p.has_charges( "UPS", 1 );
+}
+
+long ups_based_armor_actor::use( player *p, item *it, bool t, point ) const
+{
+    if( p == nullptr ) {
+        return 0;
+    }
+    if( t ) {
+        // Normal, continuous usage, do nothing. The item is *not* charge-based.
+        return 0;
+    }
+    if( p->get_item_position( it ) >= -1 ) {
+        p->add_msg_if_player( m_info, _( "You should wear the %s before activating it." ), it->tname().c_str() );
+        return 0;
+    }
+    if( !it->active && !has_powersource( *it, *p ) ) {
+        p->add_msg_if_player( m_info, _( "You need some source of power for your %s (a simple UPS will do)." ), it->tname().c_str() );
+        if( it->type->is_power_armor() ) {
+            p->add_msg_if_player( m_info, _( "There is also a certain bionic that helps with this kind of armor." ) );
+        }
+        return 0;
+    }
+    it->active = !it->active;
+    if( it->active ) {
+        if( activate_msg.empty() ) {
+            p->add_msg_if_player( m_info, _( "You activate your %s." ), it->tname().c_str() );
+        } else {
+            p->add_msg_if_player( m_info, _( activate_msg.c_str() ) , it->tname().c_str() );
+        }
+    } else {
+        if( deactive_msg.empty() ) {
+            p->add_msg_if_player( m_info, _( "You deactivate your %s." ), it->tname().c_str() );
+        } else {
+            p->add_msg_if_player( m_info, _( deactive_msg.c_str() ) , it->tname().c_str() );
+        }
+    }
+    return 0;
 }

@@ -20,9 +20,9 @@ std::vector<craft_cat> craft_cat_list;
 std::map<craft_cat, std::vector<craft_subcat> > craft_subcat_list;
 recipe_map recipes;
 
-static void draw_recipe_tabs(WINDOW *w, craft_cat tab, bool filtered = false);
+static void draw_recipe_tabs(WINDOW *w, craft_cat tab, TAB_MODE mode = NORMAL);
 static void draw_recipe_subtabs(WINDOW *w, craft_cat tab, craft_subcat subtab,
-                                bool filtered = false);
+                                TAB_MODE mode = NORMAL);
 static craft_cat first_craft_cat();
 static craft_cat next_craft_cat(const craft_cat cat);
 static craft_cat prev_craft_cat(const craft_cat cat);
@@ -30,6 +30,18 @@ static craft_subcat first_craft_subcat(const craft_cat cat);
 static craft_subcat last_craft_subcat(const craft_cat cat);
 static craft_subcat next_craft_subcat(const craft_cat cat, const craft_subcat subcat);
 static craft_subcat prev_craft_subcat(const craft_cat cat, const craft_subcat subcat);
+
+const recipe *find_recipe( std::string id )
+{
+    for( auto recipe_list : recipes ) {
+        for( auto recipe : recipe_list.second ) {
+            if( recipe->ident == id ) {
+                return recipe;
+            }
+        }
+    }
+    return nullptr;
+}
 
 void load_recipe_category(JsonObject &jsobj)
 {
@@ -93,7 +105,6 @@ void load_recipe(JsonObject &jsobj)
     std::string category = jsobj.get_string("category");
     std::string subcategory = jsobj.get_string("subcategory", "");
 
-    int difficulty = jsobj.get_int("difficulty");
     bool autolearn = jsobj.get_bool("autolearn");
     // optional
     bool reversible = jsobj.get_bool("reversible", false);
@@ -142,7 +153,7 @@ void load_recipe(JsonObject &jsobj)
     int id = check_recipe_ident(rec_name, jsobj);
 
     recipe *rec = new recipe(rec_name, id, result, category, subcategory, skill_used,
-                             requires_skills, difficulty, reversible, autolearn,
+                             requires_skills, reversible, autolearn,
                              learn_by_disassembly, result_mult, paired, bps);
     rec->load(jsobj);
 
@@ -214,14 +225,14 @@ bool game::crafting_can_see()
 
 void game::recraft()
 {
-    if(u.lastrecipe == NULL) {
+    if( u.lastrecipe.empty() ) {
         popup(_("Craft something first"));
-    } else if (making_would_work(u.lastrecipe)) {
-        make_craft(u.lastrecipe);
+    } else if (making_would_work( u.lastrecipe, u.last_batch )) {
+        make_craft( u.lastrecipe, u.last_batch );
     }
 }
 
-bool game::making_would_work(recipe *making)
+bool game::making_would_work(std::string id_to_make, int batch_size)
 {
     if (!crafting_allowed()) {
         return false;
@@ -231,7 +242,12 @@ bool game::making_would_work(recipe *making)
         return false;
     }
 
-    if(!can_make(making)) {
+    const recipe *making = find_recipe( id_to_make );
+    if( making == nullptr ) {
+        return false;
+    }
+
+    if( !can_make( making, batch_size ) ) {
         std::ostringstream buffer;
         buffer << _("You can no longer make that craft!") << "\n";
         buffer << making->list_missing();
@@ -239,16 +255,20 @@ bool game::making_would_work(recipe *making)
         return false;
     }
 
-    return check_eligible_containers_for_crafting(making);
+    return check_eligible_containers_for_crafting( making, batch_size );
 }
 
-bool game::check_eligible_containers_for_crafting(recipe *making)
+bool game::check_eligible_containers_for_crafting(const recipe *making, int batch)
 {
     std::vector<item> conts = get_eligible_containers_for_crafting();
-    std::vector<item> bps = making->create_byproducts();
-    bps.push_back(making->create_result());
+    std::vector<item> res = making->create_results(batch);
+    std::vector<item> bps = making->create_byproducts(batch);
+    std::vector<item> all;
+    all.reserve(res.size() + bps.size());
+    all.insert(all.end(), res.begin(), res.end());
+    all.insert(all.end(), bps.begin(), bps.end());
 
-    for(item &prod : bps) {
+    for(item &prod : all) {
         if (prod.made_of(LIQUID)) {
             long charges_to_store = prod.charges;
             // we go trough half-filled containers first
@@ -265,7 +285,7 @@ bool game::check_eligible_containers_for_crafting(recipe *making)
             // we go trough empty containers if we need
             if (charges_to_store > 0) {
                 std::vector<item>::iterator iter;
-                for(iter = conts.begin(); iter != conts.end(); ++iter) {
+                for(iter = conts.begin(); iter != conts.end();) {
                     if (iter->is_container_empty()) {
                         LIQUID_FILL_ERROR tmperr;
                         charges_to_store -= iter->get_remaining_capacity_for_liquid(prod, tmperr);
@@ -273,6 +293,8 @@ bool game::check_eligible_containers_for_crafting(recipe *making)
                         if (charges_to_store <= 0) {
                             break;
                         }
+                    } else {
+                        iter++;
                     }
                 }
             }
@@ -323,18 +345,18 @@ bool game::is_container_eligible_for_crafting(item &cont)
     return false;
 }
 
-bool game::can_make(recipe *r)
+bool game::can_make(const recipe *r, int batch_size)
 {
     inventory crafting_inv = crafting_inventory(&u);
-    return r->can_make_with_inventory( crafting_inv );
+    return r->can_make_with_inventory( crafting_inv, batch_size );
 }
 
-bool recipe::can_make_with_inventory(const inventory &crafting_inv) const
+bool recipe::can_make_with_inventory(const inventory &crafting_inv, int batch) const
 {
     if( !g->u.knows_recipe( this ) && -1 == g->u.has_recipe( this, crafting_inv) ) {
         return false;
     }
-    return requirements::can_make_with_inventory( crafting_inv );
+    return requirements::can_make_with_inventory( crafting_inv, batch );
 }
 
 void game::craft()
@@ -343,10 +365,11 @@ void game::craft()
         return;
     }
 
-    recipe *rec = select_crafting_recipe();
+    int batch_size = 0;
+    const recipe *rec = select_crafting_recipe( batch_size );
     if (rec) {
         if(crafting_can_see()) {
-            make_craft(rec);
+            make_craft( rec->ident, batch_size );
         }
     }
 }
@@ -357,10 +380,11 @@ void game::long_craft()
         return;
     }
 
-    recipe *rec = select_crafting_recipe();
+    int batch_size = 0;
+    const recipe *rec = select_crafting_recipe( batch_size );
     if (rec) {
         if(crafting_can_see()) {
-            make_all_craft(rec);
+            make_all_craft( rec->ident, batch_size );
         }
     }
 }
@@ -436,7 +460,7 @@ static craft_subcat prev_craft_subcat(const craft_cat cat, const craft_subcat su
     return NULL;
 }
 
-recipe *game::select_crafting_recipe()
+const recipe *game::select_crafting_recipe( int &batch_size )
 {
     const int headHeight = 3;
     const int subHeadHeight = 2;
@@ -458,18 +482,20 @@ recipe *game::select_crafting_recipe()
     WINDOW *w_data = newwin(dataHeight, width, headHeight + subHeadHeight, wStart);
 
     const int iInfoWidth = width - FULL_SCREEN_WIDTH - 3;
-    std::vector<std::string> folded;
+    std::string item_info_text;
     craft_cat tab = first_craft_cat();
     craft_subcat subtab = first_craft_subcat( tab );
-    std::vector<recipe *> current;
+    std::vector<const recipe *> current;
     std::vector<bool> available;
     item tmp;
     int line = 0, ypos;
     bool redraw = true;
     bool keepline = false;
     bool done = false;
+    bool batch = false;
+    int batch_line = 0;
     int display_mode = 0;
-    recipe *chosen = NULL;
+    const recipe *chosen = NULL;
     input_context ctxt("CRAFTING");
     ctxt.register_cardinal();
     ctxt.register_action("QUIT");
@@ -481,6 +507,7 @@ recipe *game::select_crafting_recipe()
     ctxt.register_action("RESET_FILTER");
     ctxt.register_action("HELP_RECIPE");
     ctxt.register_action("HELP_KEYBINDINGS");
+    ctxt.register_action("CYCLE_BATCH");
 
     inventory crafting_inv = crafting_inventory(&u);
     std::string filterstring = "";
@@ -494,12 +521,17 @@ recipe *game::select_crafting_recipe()
                 keepline = false;
             }
 
-            draw_recipe_tabs(w_head, tab, (filterstring == "") ? false : true);
-            draw_recipe_subtabs(w_subhead, tab, subtab, (filterstring == "") ? false : true);
+            TAB_MODE m = (batch) ? BATCH : (filterstring == "") ? NORMAL : FILTERED;
+            draw_recipe_tabs(w_head, tab, m);
+            draw_recipe_subtabs(w_subhead, tab, subtab, m);
             current.clear();
             available.clear();
-            // Set current to all recipes in the current tab; available are possible to make
-            pick_recipes(crafting_inv, current, available, tab, subtab, filterstring);
+            if (batch) {
+                batch_recipes(crafting_inv, current, available, chosen);
+            } else {
+                // Set current to all recipes in the current tab; available are possible to make
+                pick_recipes(crafting_inv, current, available, tab, subtab, filterstring);
+            }
         }
 
         // Clear the screen of recipe data, and draw it anew
@@ -510,17 +542,17 @@ recipe *game::select_crafting_recipe()
                       _("Press <ENTER> to attempt to craft object."));
             wprintz(w_data, c_white, "  ");
             if (filterstring != "") {
-                wprintz(w_data, c_white, _("[E]: Describe, [F]ind, [R]eset, [m]ode [?] keybindings"));
+                wprintz(w_data, c_white, _("[E]: Describe, [F]ind, [R]eset, [m]ode, %s [?] keybindings"), (batch) ? _("cancel [b]atch") : _("[b]atch"));
             } else {
-                wprintz(w_data, c_white, _("[E]: Describe, [F]ind, [m]ode [?] keybindings"));
+                wprintz(w_data, c_white, _("[E]: Describe, [F]ind, [m]ode, %s [?] keybindings"), (batch) ? _("cancel [b]atch") : _("[b]atch"));
             }
         } else {
             if (filterstring != "") {
                 mvwprintz(w_data, dataLines + 1, 5, c_white,
-                          _("[E]: Describe, [F]ind, [R]eset, [m]ode [?] keybindings"));
+                          _("[E]: Describe, [F]ind, [R]eset, [m]ode, [b]atch [?] keybindings"));
             } else {
                 mvwprintz(w_data, dataLines + 1, 5, c_white,
-                          _("[E]: Describe, [F]ind, [m]ode [?] keybindings"));
+                          _("[E]: Describe, [F]ind, [m]ode, [b]atch [?] keybindings"));
             }
             mvwprintz(w_data, dataLines + 2, 5, c_white,
                       _("Press <ENTER> to attempt to craft object."));
@@ -541,6 +573,9 @@ recipe *game::select_crafting_recipe()
             if (line <= recmin + dataHalfLines) {
                 for (int i = recmin; i < recmin + dataLines; ++i) {
                     std::string tmp_name = item_controller->find_template(current[i]->result)->nname(1);
+                    if (batch) {
+                        tmp_name = string_format(_("%2dx %s"), i + 1, tmp_name.c_str());
+                    }
                     mvwprintz(w_data, i - recmin, 2, c_dkgray, ""); // Clear the line
                     if (i == line) {
                         mvwprintz(w_data, i - recmin, 2, (available[i] ? h_white : h_dkgray),
@@ -553,6 +588,9 @@ recipe *game::select_crafting_recipe()
             } else if (line >= recmax - dataHalfLines) {
                 for (int i = recmax - dataLines; i < recmax; ++i) {
                     std::string tmp_name = item_controller->find_template(current[i]->result)->nname(1);
+                    if (batch) {
+                        tmp_name = string_format(_("%2dx %s"), i + 1, tmp_name.c_str());
+                    }
                     mvwprintz(w_data, dataLines + i - recmax, 2, c_ltgray, ""); // Clear the line
                     if (i == line) {
                         mvwprintz(w_data, dataLines + i - recmax, 2,
@@ -567,6 +605,9 @@ recipe *game::select_crafting_recipe()
             } else {
                 for (int i = line - dataHalfLines; i < line - dataHalfLines + dataLines; ++i) {
                     std::string tmp_name = item_controller->find_template(current[i]->result)->nname(1);
+                    if (batch) {
+                        tmp_name = string_format(_("%2dx %s"), i + 1, tmp_name.c_str());
+                    }
                     mvwprintz(w_data, dataHalfLines + i - line, 2, c_ltgray, ""); // Clear the line
                     if (i == line) {
                         mvwprintz(w_data, dataHalfLines + i - line, 2,
@@ -582,6 +623,9 @@ recipe *game::select_crafting_recipe()
         } else {
             for (size_t i = 0; i < current.size() && i < (size_t)dataHeight + 1; ++i) {
                 std::string tmp_name = item_controller->find_template(current[i]->result)->nname(1);
+                if (batch) {
+                    tmp_name = string_format(_("%2dx %s"), (int)i + 1, tmp_name.c_str());
+                }
                 if( (int)i == line ) {
                     mvwprintz(w_data, i, 2, (available[i] ? h_white : h_dkgray),
                               utf8_truncate(tmp_name, 28).c_str());
@@ -609,30 +653,29 @@ recipe *game::select_crafting_recipe()
                               // Macs don't seem to like passing this as a class, so force it to int
                               (int)u.skillLevel(current[line]->skill_used));
                 }
-                ypos += current[line]->print_time(w_data, ypos, 30, FULL_SCREEN_WIDTH - 30 - 1, col);
-                ypos += current[line]->print_items(w_data, ypos, 30, col);
+                ypos += current[line]->print_time(w_data, ypos, 30, FULL_SCREEN_WIDTH - 30 - 1, col, (batch) ? line + 1 : 1);
+                ypos += current[line]->print_items(w_data, ypos, 30, col, (batch) ? line + 1 : 1);
             }
             if(display_mode == 0 || display_mode == 1) {
-                ypos += current[line]->print_tools(w_data, ypos, 30, FULL_SCREEN_WIDTH - 30 - 1, col, crafting_inv);
+                ypos += current[line]->print_tools(w_data, ypos, 30, FULL_SCREEN_WIDTH - 30 - 1, col, crafting_inv,
+                                                   (batch) ? line + 1 : 1);
             }
             ypos += current[line]->print_components(w_data, ypos, 30, FULL_SCREEN_WIDTH - 30 - 1, col,
-                                                    crafting_inv);
+                                                    crafting_inv, (batch) ? line + 1 : 1);
+            if(!u.knows_recipe( current[line] )) {
+                mvwprintz(w_data, ypos++, 30, col, _("Recipe not memorized yet"));
+            }
 
             if ( isWide ) {
                 if ( lastid != current[line]->id ) {
                     lastid = current[line]->id;
                     tmp = current[line]->create_result();
-                    folded = foldstring(tmp.info(true), iInfoWidth);
+                    item_info_text = tmp.info( true );
                 }
-                int maxline = (int)folded.size() > dataHeight ? dataHeight : (int)folded.size();
-
                 mvwprintz(w_data, 0, FULL_SCREEN_WIDTH + 1, col, "%s",
                           utf8_truncate(tmp.type->nname(1), iInfoWidth).c_str());
 
-                for(int i = 1; i < maxline; i++) {
-                    mvwprintz(w_data, i, FULL_SCREEN_WIDTH + 1, col, "%s", folded[i].c_str() );
-                }
-
+                fold_and_print( w_data, 1, FULL_SCREEN_WIDTH + 1, iInfoWidth, col, item_info_text );
             }
 
         }
@@ -668,10 +711,11 @@ recipe *game::select_crafting_recipe()
         } else if (action == "CONFIRM") {
             if (available.empty() || !available[line]) {
                 popup(_("You can't do that!"));
-            } else if (!check_eligible_containers_for_crafting(current[line])) {
+            } else if (!check_eligible_containers_for_crafting(current[line], (batch) ? line + 1 : 1)) {
                 ; // popup is already inside check
             } else {
                 chosen = current[line];
+                batch_size = (batch) ? line + 1 : 1;
                 done = true;
             }
         } else if (action == "HELP_RECIPE") {
@@ -685,10 +729,25 @@ recipe *game::select_crafting_recipe()
                                               _("Search tools or component using prefix t. \nSearch skills using prefix s, or S for skill used only. \n (i.e. \"t:hammer\" or \"c:two by four\" or \"s:cooking\".)"));
             redraw = true;
         } else if (action == "QUIT") {
+            chosen = nullptr;
             done = true;
         } else if (action == "RESET_FILTER") {
             filterstring = "";
             redraw = true;
+        } else if (action == "CYCLE_BATCH") {
+            if (current[line]->reversible) {
+                popup(_("Batch crafting is not available for reversible items!"));
+            } else {
+                batch = !batch;
+                if (batch) {
+                    batch_line = line;
+                    chosen = current[batch_line];
+                } else {
+                    line = batch_line;
+                    keepline = true;
+                }
+                redraw = true;
+            }
         }
         if (line < 0) {
             line = current.size() - 1;
@@ -708,7 +767,7 @@ recipe *game::select_crafting_recipe()
     return chosen;
 }
 
-static void draw_recipe_tabs(WINDOW *w, craft_cat tab, bool filtered)
+static void draw_recipe_tabs(WINDOW *w, craft_cat tab, TAB_MODE mode)
 {
     werase(w);
     int width = getmaxx(w);
@@ -739,30 +798,38 @@ static void draw_recipe_tabs(WINDOW *w, craft_cat tab, bool filtered)
         color = c_black_white;
     }
     mvwprintz(w, 1, width - 1 - utf8_width(str), color, str);
-    if(!filtered) {
+    switch (mode) {
+    case NORMAL:
+    {
         int pos_x = 2;//draw the tabs on each other
         int tab_step = 3;//step between tabs, two for tabs border
-        draw_tab(w,  pos_x, _("WEAPONS"),     (tab == "CC_WEAPON")     ? true : false);
+        draw_tab(w,  pos_x, _("WEAPONS"), tab == "CC_WEAPON");
         pos_x += utf8_width(_("WEAPONS")) + tab_step;
-        draw_tab(w, pos_x,  _("AMMO"),        (tab == "CC_AMMO")       ? true : false);
+        draw_tab(w, pos_x,  _("AMMO"),    tab == "CC_AMMO");
         pos_x += utf8_width(_("AMMO")) + tab_step;
-        draw_tab(w, pos_x,  _("FOOD"),        (tab == "CC_FOOD")       ? true : false);
+        draw_tab(w, pos_x,  _("FOOD"),    tab == "CC_FOOD");
         pos_x += utf8_width(_("FOOD")) + tab_step;
-        draw_tab(w, pos_x,  _("CHEMS"),       (tab == "CC_CHEM")       ? true : false);
+        draw_tab(w, pos_x,  _("CHEMS"),   tab == "CC_CHEM");
         pos_x += utf8_width(_("CHEMS")) + tab_step;
-        draw_tab(w, pos_x,  _("ELECTRICAL"), (tab == "CC_ELECTRONIC") ? true : false);
+        draw_tab(w, pos_x,  _("ELECTRICAL"), tab == "CC_ELECTRONIC");
         pos_x += utf8_width(_("ELECTRICAL")) + tab_step;
-        draw_tab(w, pos_x,  _("ARMOR"),       (tab == "CC_ARMOR")      ? true : false);
+        draw_tab(w, pos_x,  _("ARMOR"),   tab == "CC_ARMOR");
         pos_x += utf8_width(_("ARMOR")) + tab_step;
-        draw_tab(w, pos_x,  _("OTHER"),       (tab == "CC_OTHER")      ? true : false);
-    } else {
+        draw_tab(w, pos_x,  _("OTHER"),   tab == "CC_OTHER");
+        break;
+    }
+    case FILTERED:
         draw_tab(w, 2, _("Searched"), true);
+        break;
+    case BATCH:
+        draw_tab(w, 2, _("Batch"), true);
+        break;
     }
 
     wrefresh(w);
 }
 
-static void draw_recipe_subtabs(WINDOW *w, craft_cat tab, craft_subcat subtab, bool filtered)
+static void draw_recipe_subtabs(WINDOW *w, craft_cat tab, craft_subcat subtab, TAB_MODE mode)
 {
     werase(w);
     int width = getmaxx(w);
@@ -781,114 +848,118 @@ static void draw_recipe_subtabs(WINDOW *w, craft_cat tab, craft_subcat subtab, b
         mvwputch(w, i, width - 1, BORDER_COLOR,  LINE_XOXO); // ^|
     }
 
-    if(!filtered) {
+    switch (mode) {
+    case NORMAL:
+    {
         int pos_x = 2;//draw the tabs on each other
         int tab_step = 3;//step between tabs, two for tabs border
-        draw_subtab(w, pos_x, _("ALL"),
-                    (subtab == "CSC_ALL") ? true : false);//Add ALL subcategory to all tabs;
+        draw_subtab(w, pos_x, _("ALL"), subtab == "CSC_ALL");//Add ALL subcategory to all tabs;
         pos_x += utf8_width(_("ALL")) + tab_step;
         if (tab == "CC_WEAPON") {
-            draw_subtab(w, pos_x, _("BASHING"), (subtab == "CSC_WEAPON_BASHING") ? true : false);
+            draw_subtab(w, pos_x, _("BASHING"), subtab == "CSC_WEAPON_BASHING");
             pos_x += utf8_width(_("BASHING")) + tab_step;
-            draw_subtab(w, pos_x, _("CUTTING"),    (subtab == "CSC_WEAPON_CUTTING")   ? true : false);
+            draw_subtab(w, pos_x, _("CUTTING"), subtab == "CSC_WEAPON_CUTTING");
             pos_x += utf8_width(_("CUTTING")) + tab_step;
-            draw_subtab(w, pos_x, _("PIERCING"),    (subtab == "CSC_WEAPON_PIERCING")   ? true : false);
+            draw_subtab(w, pos_x, _("PIERCING"), subtab == "CSC_WEAPON_PIERCING");
             pos_x += utf8_width(_("PIERCING")) + tab_step;
-            draw_subtab(w, pos_x, _("RANGED"),  (subtab == "CSC_WEAPON_RANGED")  ? true : false);
+            draw_subtab(w, pos_x, _("RANGED"), subtab == "CSC_WEAPON_RANGED");
             pos_x += utf8_width(_("RANGED")) + tab_step;
-            draw_subtab(w, pos_x, _("EXPLOSIVE"),  (subtab == "CSC_WEAPON_EXPLOSIVE")  ? true : false);
+            draw_subtab(w, pos_x, _("EXPLOSIVE"), subtab == "CSC_WEAPON_EXPLOSIVE");
             pos_x += utf8_width(_("EXPLOSIVE")) + tab_step;
-            draw_subtab(w, pos_x, _("MODS"),  (subtab == "CSC_WEAPON_MODS")  ? true : false);
+            draw_subtab(w, pos_x, _("MODS"), subtab == "CSC_WEAPON_MODS");
             pos_x += utf8_width(_("MODS")) + tab_step;
-            draw_subtab(w, pos_x, _("OTHER"),   (subtab == "CSC_WEAPON_OTHER")   ? true : false);
+            draw_subtab(w, pos_x, _("OTHER"), subtab == "CSC_WEAPON_OTHER");
         } else if (tab == "CC_AMMO") {
-            draw_subtab(w, pos_x, _("BULLETS"), (subtab == "CSC_AMMO_BULLETS") ? true : false);
+            draw_subtab(w, pos_x, _("BULLETS"), subtab == "CSC_AMMO_BULLETS");
             pos_x += utf8_width(_("BULLETS")) + tab_step;
-            draw_subtab(w, pos_x, _("ARROWS"), (subtab == "CSC_AMMO_ARROWS") ? true : false);
+            draw_subtab(w, pos_x, _("ARROWS"), subtab == "CSC_AMMO_ARROWS");
             pos_x += utf8_width(_("ARROWS")) + tab_step;
-            draw_subtab(w, pos_x, _("COMPONENTS"), (subtab == "CSC_AMMO_COMPONENTS") ? true : false);
+            draw_subtab(w, pos_x, _("COMPONENTS"), subtab == "CSC_AMMO_COMPONENTS");
             pos_x += utf8_width(_("COMPONENTS")) + tab_step;
-            draw_subtab(w, pos_x, _("OTHER"), (subtab == "CSC_AMMO_OTHER") ? true : false);
+            draw_subtab(w, pos_x, _("OTHER"), subtab == "CSC_AMMO_OTHER");
         } else if (tab == "CC_FOOD") {
-            draw_subtab(w, pos_x, _("DRINKS"), (subtab == "CSC_FOOD_DRINKS") ? true : false);
+            draw_subtab(w, pos_x, _("DRINKS"), subtab == "CSC_FOOD_DRINKS");
             pos_x += utf8_width(_("DRINKS")) + tab_step;
-            draw_subtab(w, pos_x, _("MEAT"), (subtab == "CSC_FOOD_MEAT") ? true : false);
+            draw_subtab(w, pos_x, _("MEAT"), subtab == "CSC_FOOD_MEAT");
             pos_x += utf8_width(_("MEAT")) + tab_step;
-            draw_subtab(w, pos_x, _("VEGGI"), (subtab == "CSC_FOOD_VEGGI") ? true : false);
+            draw_subtab(w, pos_x, _("VEGGI"), subtab == "CSC_FOOD_VEGGI");
             pos_x += utf8_width(_("VEGGI")) + tab_step;
-            draw_subtab(w, pos_x, _("SNACK"), (subtab == "CSC_FOOD_SNACK") ? true : false);
+            draw_subtab(w, pos_x, _("SNACK"), subtab == "CSC_FOOD_SNACK");
             pos_x += utf8_width(_("SNACK")) + tab_step;
-            draw_subtab(w, pos_x, _("BREAD"), (subtab == "CSC_FOOD_BREAD") ? true : false);
+            draw_subtab(w, pos_x, _("BREAD"), subtab == "CSC_FOOD_BREAD");
             pos_x += utf8_width(_("BREAD")) + tab_step;
-            draw_subtab(w, pos_x, _("PASTA"), (subtab == "CSC_FOOD_PASTA") ? true : false);
+            draw_subtab(w, pos_x, _("PASTA"), subtab == "CSC_FOOD_PASTA");
             pos_x += utf8_width(_("PASTA")) + tab_step;
-            draw_subtab(w, pos_x, _("OTHER"), (subtab == "CSC_FOOD_OTHER") ? true : false);
+            draw_subtab(w, pos_x, _("OTHER"), subtab == "CSC_FOOD_OTHER");
         } else if (tab == "CC_CHEM") {
-            draw_subtab(w, pos_x, _("DRUGS"), (subtab == "CSC_CHEM_DRUGS") ? true : false);
+            draw_subtab(w, pos_x, _("DRUGS"), subtab == "CSC_CHEM_DRUGS");
             pos_x += utf8_width(_("DRUGS")) + tab_step;
-            draw_subtab(w, pos_x, _("MUTAGEN"), (subtab == "CSC_CHEM_MUTAGEN") ? true : false);
+            draw_subtab(w, pos_x, _("MUTAGEN"), subtab == "CSC_CHEM_MUTAGEN");
             pos_x += utf8_width(_("MUTAGEN")) + tab_step;
-            draw_subtab(w, pos_x, _("CHEMICALS"), (subtab == "CSC_CHEM_CHEMICALS") ? true : false);
+            draw_subtab(w, pos_x, _("CHEMICALS"), subtab == "CSC_CHEM_CHEMICALS");
             pos_x += utf8_width(_("CHEMICALS")) + tab_step;
-            draw_subtab(w, pos_x, _("OTHER"), (subtab == "CSC_CHEM_OTHER") ? true : false);
+            draw_subtab(w, pos_x, _("OTHER"), subtab == "CSC_CHEM_OTHER");
         } else if (tab == "CC_ELECTRONIC") {
-            draw_subtab(w, pos_x, _("CBMS"), (subtab == "CSC_ELECTRONIC_CBMS") ? true : false);
+            draw_subtab(w, pos_x, _("CBMS"), subtab == "CSC_ELECTRONIC_CBMS");
             pos_x += utf8_width(_("CBMS")) + tab_step;
-            draw_subtab(w, pos_x, _("TOOLS"), (subtab == "CSC_ELECTRONIC_TOOLS") ? true : false);
+            draw_subtab(w, pos_x, _("TOOLS"), subtab == "CSC_ELECTRONIC_TOOLS");
             pos_x += utf8_width(_("TOOLS")) + tab_step;
-            draw_subtab(w, pos_x, _("PARTS"), (subtab == "CSC_ELECTRONIC_PARTS") ? true : false);
+            draw_subtab(w, pos_x, _("PARTS"), subtab == "CSC_ELECTRONIC_PARTS");
             pos_x += utf8_width(_("PARTS")) + tab_step;
-            draw_subtab(w, pos_x, _("LIGHTING"), (subtab == "CSC_ELECTRONIC_LIGHTING") ? true : false);
+            draw_subtab(w, pos_x, _("LIGHTING"), subtab == "CSC_ELECTRONIC_LIGHTING");
             pos_x += utf8_width(_("LIGHTING")) + tab_step;
-            draw_subtab(w, pos_x, _("COMPONENTS"), (subtab == "CSC_ELECTRONIC_COMPONENTS") ? true : false);
+            draw_subtab(w, pos_x, _("COMPONENTS"), subtab == "CSC_ELECTRONIC_COMPONENTS");
             pos_x += utf8_width(_("COMPONENTS")) + tab_step;
-            draw_subtab(w, pos_x, _("OTHER"), (subtab == "CSC_ELECTRONIC_OTHER") ? true : false);
+            draw_subtab(w, pos_x, _("OTHER"), subtab == "CSC_ELECTRONIC_OTHER");
         } else if (tab == "CC_ARMOR") {
-            draw_subtab(w, pos_x, _("STORAGE"), (subtab == "CSC_ARMOR_STORAGE") ? true : false);
+            draw_subtab(w, pos_x, _("STORAGE"), subtab == "CSC_ARMOR_STORAGE");
             pos_x += utf8_width(_("STORAGE")) + tab_step;
-            draw_subtab(w, pos_x, _("SUIT"), (subtab == "CSC_ARMOR_SUIT") ? true : false);
+            draw_subtab(w, pos_x, _("SUIT"), subtab == "CSC_ARMOR_SUIT");
             pos_x += utf8_width(_("SUIT")) + tab_step;
-            draw_subtab(w, pos_x, _("HEAD"), (subtab == "CSC_ARMOR_HEAD") ? true : false);
+            draw_subtab(w, pos_x, _("HEAD"), subtab == "CSC_ARMOR_HEAD");
             pos_x += utf8_width(_("HEAD")) + tab_step;
-            draw_subtab(w, pos_x, _("TORSO"), (subtab == "CSC_ARMOR_TORSO") ? true : false);
+            draw_subtab(w, pos_x, _("TORSO"), subtab == "CSC_ARMOR_TORSO");
             pos_x += utf8_width(_("TORSO")) + tab_step;
-            draw_subtab(w, pos_x, _("ARMS"), (subtab == "CSC_ARMOR_ARMS") ? true : false);
+            draw_subtab(w, pos_x, _("ARMS"), subtab == "CSC_ARMOR_ARMS");
             pos_x += utf8_width(_("ARMS")) + tab_step;
-            draw_subtab(w, pos_x, _("HANDS"), (subtab == "CSC_ARMOR_HANDS") ? true : false);
+            draw_subtab(w, pos_x, _("HANDS"), subtab == "CSC_ARMOR_HANDS");
             pos_x += utf8_width(_("HANDS")) + tab_step;
-            draw_subtab(w, pos_x, _("LEGS"), (subtab == "CSC_ARMOR_LEGS") ? true : false);
+            draw_subtab(w, pos_x, _("LEGS"), subtab == "CSC_ARMOR_LEGS");
             pos_x += utf8_width(_("LEGS")) + tab_step;
-            draw_subtab(w, pos_x, _("FEET"), (subtab == "CSC_ARMOR_FEET") ? true : false);
+            draw_subtab(w, pos_x, _("FEET"), subtab == "CSC_ARMOR_FEET");
             pos_x += utf8_width(_("FEET")) + tab_step;
-            draw_subtab(w, pos_x, _("OTHER"), (subtab == "CSC_ARMOR_OTHER") ? true : false);
+            draw_subtab(w, pos_x, _("OTHER"), subtab == "CSC_ARMOR_OTHER");
         } else if (tab == "CC_OTHER") {
-            draw_subtab(w, pos_x, _("TOOLS"), (subtab == "CSC_OTHER_TOOLS") ? true : false);
+            draw_subtab(w, pos_x, _("TOOLS"), subtab == "CSC_OTHER_TOOLS");
             pos_x += utf8_width(_("TOOLS")) + tab_step;
-            draw_subtab(w, pos_x, _("MEDICAL"), (subtab == "CSC_OTHER_MEDICAL") ? true : false);
+            draw_subtab(w, pos_x, _("MEDICAL"), subtab == "CSC_OTHER_MEDICAL");
             pos_x += utf8_width(_("MEDICAL")) + tab_step;
-            draw_subtab(w, pos_x, _("CONTAINERS"), (subtab == "CSC_OTHER_CONTAINERS") ? true : false);
+            draw_subtab(w, pos_x, _("CONTAINERS"), subtab == "CSC_OTHER_CONTAINERS");
             pos_x += utf8_width(_("CONTAINERS")) + tab_step;
-            draw_subtab(w, pos_x, _("MATERIALS"), (subtab == "CSC_OTHER_MATERIALS") ? true : false);
+            draw_subtab(w, pos_x, _("MATERIALS"), subtab == "CSC_OTHER_MATERIALS");
             pos_x += utf8_width(_("MATERIALS")) + tab_step;
-            draw_subtab(w, pos_x, _("PARTS"), (subtab == "CSC_OTHER_PARTS") ? true : false);
+            draw_subtab(w, pos_x, _("PARTS"), subtab == "CSC_OTHER_PARTS");
             pos_x += utf8_width(_("PARTS")) + tab_step;
-            draw_subtab(w, pos_x, _("TRAPS"), (subtab == "CSC_OTHER_TRAPS") ? true : false);
+            draw_subtab(w, pos_x, _("TRAPS"), subtab == "CSC_OTHER_TRAPS");
             pos_x += utf8_width(_("TRAPS")) + tab_step;
-            draw_subtab(w, pos_x, _("OTHER"), (subtab == "CSC_OTHER_OTHER") ? true : false);
+            draw_subtab(w, pos_x, _("OTHER"), subtab == "CSC_OTHER_OTHER");
         }
-    } else {
+        break;
+    }
+    case FILTERED:
+    case BATCH:
         werase(w);
-
         for (int i = 0; i < 3; i++) {
             mvwputch(w, i,  0, BORDER_COLOR, LINE_XOXO); // |^
             mvwputch(w, i, width - 1, BORDER_COLOR,  LINE_XOXO); // ^|
         }
+        break;
     }
 
     wrefresh(w);
 }
 
-int recipe::print_items(WINDOW *w, int ypos, int xpos, nc_color col)
+int recipe::print_items(WINDOW *w, int ypos, int xpos, nc_color col, int batch) const
 {
     if(!has_byproducts()) {
         return 0;
@@ -898,18 +969,18 @@ int recipe::print_items(WINDOW *w, int ypos, int xpos, nc_color col)
 
     mvwprintz(w, ypos++, xpos, col, _( "Byproducts:" ));
     for (auto &bp : byproducts) {
-        print_item(w, ypos++, xpos, col, bp);
+        print_item(w, ypos++, xpos, col, bp, batch);
     }
 
     return ypos - oldy;
 }
 
-void recipe::print_item(WINDOW *w, int ypos, int xpos, nc_color col, const byproduct &bp)
+void recipe::print_item(WINDOW *w, int ypos, int xpos, nc_color col, const byproduct &bp, int batch) const
 {
     item it(bp.result, calendar::turn, false);
-    std::string str = string_format(_("> %d %s"), bp.amount, it.tname().c_str());
+    std::string str = string_format(_("> %d %s"), (it.charges > 0) ? bp.amount : bp.amount * batch, it.tname().c_str());
     if (it.charges > 0) {
-        str = string_format(_("%s (%d)"), str.c_str(), it.charges * bp.charges_mult);
+        str = string_format(_("%s (%d)"), str.c_str(), it.charges * bp.charges_mult * batch);
     }
     mvwprintz(w, ypos, xpos, col, str.c_str());
 }
@@ -950,7 +1021,19 @@ bool lcmatch_any(const std::vector< std::vector<T> > &list_of_list, const std::s
     return false;
 }
 
-void game::pick_recipes(const inventory &crafting_inv, std::vector<recipe *> &current,
+void game::batch_recipes(const inventory &crafting_inv, std::vector<const recipe *> &current,
+                         std::vector<bool> &available, const recipe *rec)
+{
+    current.clear();
+    available.clear();
+
+    for (int i = 1; i <= 20; i++) {
+        current.push_back(rec);
+        available.push_back(rec->can_make_with_inventory(crafting_inv, i));
+    }
+}
+
+void game::pick_recipes(const inventory &crafting_inv, std::vector<const recipe *> &current,
                         std::vector<bool> &available, craft_cat tab,
                         craft_subcat subtab, std::string filter)
 {
@@ -994,12 +1077,12 @@ void game::pick_recipes(const inventory &crafting_inv, std::vector<recipe *> &cu
 
     current.clear();
     available.clear();
-    std::vector<recipe *> filtered_list;
+    std::vector<const recipe *> filtered_list;
     int max_difficulty = 0;
 
     for (recipe_list::iterator iter = available_recipes.begin();
          iter != available_recipes.end(); ++iter) {
-        recipe *rec = *iter;
+        const recipe *rec = *iter;
         if( subtab == "CSC_ALL" || rec->subcat == subtab ||
             (rec->subcat == "" && last_craft_subcat( tab ) == subtab) ||
             filter != "") {
@@ -1050,10 +1133,10 @@ void game::pick_recipes(const inventory &crafting_inv, std::vector<recipe *> &cu
     }
 
     int truecount = 0;
-    for (int i = max_difficulty; i != -1; --i) {
-        for (std::vector<recipe *>::iterator iter = filtered_list.begin(); iter != filtered_list.end();
-             ++iter) {
-            recipe *rec = *iter;
+    for( int i = max_difficulty; i != -1; --i ) {
+        for( std::vector<const recipe *>::iterator iter = filtered_list.begin();
+             iter != filtered_list.end(); ++iter ) {
+            const recipe *rec = *iter;
             if (rec->difficulty == i) {
                 if (rec->can_make_with_inventory(crafting_inv)) {
                     current.insert(current.begin(), rec);
@@ -1070,17 +1153,29 @@ void game::pick_recipes(const inventory &crafting_inv, std::vector<recipe *> &cu
     std::reverse(current.begin(), current.begin() + truecount);
 }
 
-void game::make_craft(recipe *making)
+void game::make_craft(std::string id_to_make, int batch_size)
 {
-    u.assign_activity(ACT_CRAFT, making->time, making->id);
-    u.lastrecipe = making;
+    const recipe *recipe_to_make = find_recipe( id_to_make );
+    if( recipe_to_make == nullptr ) {
+        return;
+    }
+    u.assign_activity(ACT_CRAFT, recipe_to_make->batch_time(batch_size), recipe_to_make->id);
+    u.activity.values.push_back( batch_size );
+    u.last_batch = batch_size;
+    u.lastrecipe = id_to_make;
 }
 
 
-void game::make_all_craft(recipe *making)
+void game::make_all_craft(std::string id_to_make, int batch_size)
 {
-    u.assign_activity(ACT_LONGCRAFT, making->time, making->id);
-    u.lastrecipe = making;
+    const recipe *recipe_to_make = find_recipe( id_to_make );
+    if( recipe_to_make == nullptr ) {
+        return;
+    }
+    u.assign_activity(ACT_LONGCRAFT, recipe_to_make->batch_time(batch_size), recipe_to_make->id);
+    u.activity.values.push_back( batch_size );
+    u.last_batch = batch_size;
+    u.lastrecipe = id_to_make;
 }
 
 item recipe::create_result(int handed) const
@@ -1092,22 +1187,59 @@ item recipe::create_result(int handed) const
     if (!newit.craft_has_charges()) {
         newit.charges = 0;
     }
+    if( newit.has_flag( "VARSIZE" ) ) {
+        newit.item_tags.insert( "FIT" );
+    }
     return newit;
 }
 
-std::vector<item> recipe::create_byproducts() const
+std::vector<item> recipe::create_results(int batch, int handed) const
+{
+    std::vector<item> items;
+
+    bool charges = item_controller->find_template(result)->count_by_charges();
+    if (!charges) {
+        for (int i = 0; i < batch; i++) {
+            item newit = create_result(handed);
+            items.push_back(newit);
+        }
+    } else {
+        item newit = create_result(handed);
+        newit.charges *= batch;
+        items.push_back(newit);
+    }
+
+    return items;
+}
+
+std::vector<item> recipe::create_byproducts(int batch) const
 {
     std::vector<item> bps;
     for(auto &val : byproducts) {
-        for (int i = 0; i < val.amount; i++) {
-            item newit(val.result, calendar::turn, false);
-            if (val.charges_mult != 1) {
-                newit.charges *= val.charges_mult;
+        bool charges = item_controller->find_template(val.result)->count_by_charges();
+        if (!charges) {
+            for (int i = 0; i < val.amount * batch; i++) {
+                item newit(val.result, calendar::turn, false);
+                if (!newit.craft_has_charges()) {
+                    newit.charges = 0;
+                }
+                if( newit.has_flag( "VARSIZE" ) ) {
+                    newit.item_tags.insert( "FIT" );
+                }
+                bps.push_back(newit);
             }
-            if (!newit.craft_has_charges()) {
-                newit.charges = 0;
+        } else {
+            for (int i = 0; i < val.amount; i++) {
+                item newit(val.result, calendar::turn, false);
+                if (val.charges_mult != 1) {
+                    newit.charges *= val.charges_mult;
+                }
+                newit.charges *= batch;
+                if( newit.has_flag( "VARSIZE" ) ) {
+                    newit.item_tags.insert( "FIT" );
+                }
+                bps.push_back(newit);
             }
-            bps.push_back(newit);
         }
     }
     return bps;
@@ -1120,14 +1252,12 @@ bool recipe::has_byproducts() const
 
 void game::complete_craft()
 {
-    recipe *making = recipe_by_index(u.activity.index); // Which recipe is it?
+    const recipe *making = recipe_by_index(u.activity.index); // Which recipe is it?
+    int batch_size = u.activity.values.front();
     if( making == nullptr ) {
         debugmsg( "no recipe with id %d found", u.activity.index );
         u.activity.type = ACT_NULL;
         return;
-    }
-    if( u.lastrecipe == nullptr ) {
-        u.lastrecipe = making; // has been lost due to save & load
     }
 
     int handed = 0;
@@ -1140,8 +1270,8 @@ void game::complete_craft()
 
     // farsightedness can impose a penalty on electronics and tailoring success
     // it's equivalent to a 2-rank electronics penalty, 1-rank tailoring
-    if (u.has_trait("HYPEROPIC") && !u.is_wearing("glasses_reading")
-        && !u.is_wearing("glasses_bifocal") && !u.has_effect("contacts")) {
+    if( u.has_trait("HYPEROPIC") && !u.is_wearing("glasses_reading") &&
+        !u.is_wearing("glasses_bifocal") && !u.has_effect("contacts") ) {
         int main_rank_penalty = 0;
         if (making->skill_used == Skill::skill("electronics")) {
             main_rank_penalty = 2;
@@ -1187,11 +1317,11 @@ void game::complete_craft()
         add_msg(m_bad, _("You fail to make the %s, and waste some materials."),
                 item_controller->find_template(making->result)->nname(1).c_str());
         for (auto it = making->components.begin(); it != making->components.end(); ++it) {
-            consume_items(&u, *it);
+            consume_items(&u, *it, batch_size);
         }
 
         for (auto it = making->tools.begin(); it != making->tools.end(); ++it) {
-            consume_tools(&u, *it);
+            consume_tools(&u, *it, batch_size);
         }
         u.activity.type = ACT_NULL;
         return;
@@ -1209,78 +1339,65 @@ void game::complete_craft()
     // Use up the components and tools
     std::list<item> used;
     for (auto it = making->components.begin(); it != making->components.end(); ++it) {
-        std::list<item> tmp = consume_items(&u, *it);
+        std::list<item> tmp = consume_items(&u, *it, batch_size);
         used.splice(used.end(), tmp);
     }
     for (auto it = making->tools.begin(); it != making->tools.end(); ++it) {
-        consume_tools(&u, *it);
+        consume_tools(&u, *it, batch_size);
     }
 
     // Set up the new item, and assign an inventory letter if available
-    item newit = making->create_result(handed);
-    if (!newit.count_by_charges() && making->reversible) {
-        // Setting this for items counted by charges gives only problems:
-        // those items are automatically merged everywhere (map/vehicle/inventory),
-        // which would either loose this information or merge it somehow.
-        newit.components.insert(newit.components.begin(), used.begin(), used.end());
-    }
-
-    if( u.knows_recipe( making ) ) {
-        add_msg(_("You craft %s from memory."), newit.type->nname(1).c_str());
-    } else {
-        add_msg(_("You craft %s using a book as a reference."), newit.type->nname(1).c_str());
-        // If we made it, but we don't know it,
-        // we're making it from a book and have a chance to learn it.
-        // Base expected time to learn is 1000*(difficulty^4)/skill/int moves.
-        // This means time to learn is greatly decreased with higher skill level,
-        // but also keeps going up as difficulty goes up.
-        // Worst case is lvl 10, which will typically take
-        // 10^4/10 (1,000) minutes, or about 16 hours of crafting it to learn.
-        int difficulty = u.has_recipe( making, crafting_inventory( &u ) );
-        if( x_in_y( making->time, (1000 * 8 * (difficulty ^ 4)) /
-                    (u.get_skill_level( making->skill_used ) * u.get_int() ) ) ) {
-            u.learn_recipe( making );
-            add_msg(m_good, _("You memorized the recipe for %s!"),
-                    newit.type->nname(1).c_str());
-        }
-    }
-
-    if (newit.is_armor() && newit.has_flag("VARSIZE")) {
-        newit.item_tags.insert("FIT");
-    }
+    std::vector<item> newits = making->create_results(batch_size, handed);
+    bool first = true;
     float used_age_tally = 0;
     int used_age_count = 0;
-    for (std::list<item>::iterator iter = used.begin(); iter != used.end(); ++iter) {
-        if (iter->goes_bad()) {
-            iter->calc_rot(u.pos());
-            used_age_tally += iter->rot /
-                              (float)(dynamic_cast<it_comest *>(iter->type)->spoils);
-            ++used_age_count;
-        }
-    }
-    if (used_age_count > 0 && newit.goes_bad()) {
-        set_item_spoilage(newit, used_age_tally, used_age_count);
-    }
-    // for food items
-    if (newit.is_food()) {
-        set_item_food(newit);
-    }
+    for(item &newit : newits) {
+        // messages, learning of recipe, food spoilage calc only once
+        if (first) {
+            first = false;
+            if( u.knows_recipe( making ) ) {
+                add_msg(_("You craft %s from memory."), newit.type->nname(1).c_str());
+            } else {
+                add_msg(_("You craft %s using a book as a reference."), newit.type->nname(1).c_str());
+                // If we made it, but we don't know it,
+                // we're making it from a book and have a chance to learn it.
+                // Base expected time to learn is 1000*(difficulty^4)/skill/int moves.
+                // This means time to learn is greatly decreased with higher skill level,
+                // but also keeps going up as difficulty goes up.
+                // Worst case is lvl 10, which will typically take
+                // 10^4/10 (1,000) minutes, or about 16 hours of crafting it to learn.
+                int difficulty = u.has_recipe( making, crafting_inventory( &u ) );
+                if( x_in_y( making->time, (1000 * 8 * (difficulty ^ 4)) /
+                            (u.get_skill_level( making->skill_used ) * u.get_int() ) ) ) {
+                    u.learn_recipe( (recipe *)making );
+                    add_msg(m_good, _("You memorized the recipe for %s!"),
+                            newit.type->nname(1).c_str());
+                }
+            }
 
-    set_item_inventory(this, newit);
+            for (std::list<item>::iterator iter = used.begin(); iter != used.end(); ++iter) {
+                if (iter->goes_bad()) {
+                    used_age_tally += iter->get_relative_rot();
+                    ++used_age_count;
+                }
+            }
+        }
+
+        if (!newit.count_by_charges() && making->reversible) {
+            // Setting this for items counted by charges gives only problems:
+            // those items are automatically merged everywhere (map/vehicle/inventory),
+            // which would either loose this information or merge it somehow.
+            newit.components.insert(newit.components.begin(), used.begin(), used.end());
+        }
+        finalize_crafted_item( newit, used_age_tally, used_age_count );
+        set_item_inventory(newit);
+    }
 
     if (making->has_byproducts()) {
-        std::vector<item> bps = making->create_byproducts();
+        std::vector<item> bps = making->create_byproducts(batch_size);
         for(auto &bp : bps) {
-            if (bp.is_armor() && bp.has_flag("VARSIZE")) {
-                bp.item_tags.insert("FIT");
-            }
-            if (used_age_count > 0 && bp.goes_bad()) {
-                set_item_spoilage(bp, used_age_tally, used_age_count);
-            }
-            if (bp.is_food()) {
-                set_item_food(bp);
-            }
-            set_item_inventory(this, bp);
+            finalize_crafted_item( bp, used_age_tally, used_age_count );
+            set_item_inventory(bp);
         }
     }
 
@@ -1289,9 +1406,7 @@ void game::complete_craft()
 
 void set_item_spoilage(item &newit, float used_age_tally, int used_age_count)
 {
-    const int average_used_age = int((used_age_tally / used_age_count) * dynamic_cast<it_comest *>
-                                     (newit.type)->spoils);
-    newit.bday = newit.bday - average_used_age;
+    newit.set_relative_rot( used_age_tally / used_age_count );
 }
 
 void set_item_food(item &newit)
@@ -1306,14 +1421,24 @@ void set_item_food(item &newit)
     }
 }
 
-void set_item_inventory(game *g, item &newit)
+void finalize_crafted_item( item &newit, float used_age_tally, int used_age_count )
 {
-    g->u.inv.assign_empty_invlet(newit);
+    if( newit.is_food() ) {
+        set_item_food( newit );
+    }
+    if( used_age_count > 0 && newit.goes_bad() ) {
+        set_item_spoilage( newit, used_age_tally, used_age_count );
+    }
+}
+
+void set_item_inventory(item &newit)
+{
     if (newit.made_of(LIQUID)) {
         while(!g->handle_liquid(newit, false, false)) {
             ;
         }
     } else {
+        g->u.inv.assign_empty_invlet( newit );
         // We might not have space for the item
         if (!g->u.can_pickVolume(newit.volume())) { //Accounts for result_mult
             add_msg(_("There's no room in your inventory for the %s, so you drop it."),
@@ -1330,7 +1455,7 @@ void set_item_inventory(game *g, item &newit)
     }
 }
 
-std::list<item> game::consume_items(player *p, const std::vector<item_comp> &components)
+std::list<item> game::consume_items(player *p, const std::vector<item_comp> &components, int batch)
 {
     std::list<item> ret;
     // For each set of components in the recipe, fill you_have with the list of all
@@ -1349,7 +1474,7 @@ std::list<item> game::consume_items(player *p, const std::vector<item_comp> &com
 
     for (auto it = components.begin(); it != components.end(); ++it) {
         itype_id type = it->type;
-        int count = abs(it->count);
+        int count = (it->count > 0) ? it->count * batch : abs(it->count);
         bool pl = false, mp = false;
 
         if (item_controller->find_template(type)->count_by_charges() && count > 0) {
@@ -1436,7 +1561,7 @@ std::list<item> game::consume_items(player *p, const std::vector<item_comp> &com
     itype *itt = item_controller->find_template(selected_comp.type);
     const bool by_charges = (itt->count_by_charges() && selected_comp.count > 0);
     // Count given to use_amount/use_charges, changed by those functions!
-    int real_count = abs(selected_comp.count);
+    int real_count = (selected_comp.count > 0) ? selected_comp.count * batch : abs(selected_comp.count);
     const bool in_container = (selected_comp.count < 0);
     // First try to get everything from the map, than (remaining amount) from player
     if (use_from & use_from_map) {
@@ -1473,7 +1598,7 @@ std::list<item> game::consume_items(player *p, const std::vector<item_comp> &com
     return ret;
 }
 
-void game::consume_tools(player *p, const std::vector<tool_comp> &tools)
+void game::consume_tools(player *p, const std::vector<tool_comp> &tools, int batch)
 {
     bool found_nocharge = false;
     inventory map_inv;
@@ -1484,7 +1609,7 @@ void game::consume_tools(player *p, const std::vector<tool_comp> &tools)
     for (auto it = tools.begin(); it != tools.end() && !found_nocharge; ++it) {
         itype_id type = it->type;
         if (it->count > 0) {
-            long count = it->count;
+            long count = it->count * batch;
             if (p->has_charges(type, count)) {
                 player_has.push_back(*it);
             }
@@ -1501,9 +1626,9 @@ void game::consume_tools(player *p, const std::vector<tool_comp> &tools)
 
     if (player_has.size() + map_has.size() == 1) {
         if(map_has.empty()) {
-            p->use_charges(player_has[0].type, player_has[0].count);
+            p->use_charges(player_has[0].type, player_has[0].count * batch);
         } else {
-            m.use_charges(p->pos(), PICKUP_RANGE, map_has[0].type, map_has[0].count);
+            m.use_charges(p->pos(), PICKUP_RANGE, map_has[0].type, map_has[0].count * batch);
         }
     } else { // Variety of options, list them and pick one
         // Populate the list
@@ -1525,20 +1650,20 @@ void game::consume_tools(player *p, const std::vector<tool_comp> &tools)
         size_t selection = menu_vec(false, _("Use which tool?"), options) - 1;
         if (selection < map_has.size())
             m.use_charges(point(p->posx, p->posy), PICKUP_RANGE,
-                          map_has[selection].type, map_has[selection].count);
+                          map_has[selection].type, map_has[selection].count * batch);
         else {
             selection -= map_has.size();
-            p->use_charges(player_has[selection].type, player_has[selection].count);
+            p->use_charges(player_has[selection].type, player_has[selection].count * batch);
         }
     }
 }
 
-recipe *game::get_disassemble_recipe(const itype_id &type)
+const recipe *game::get_disassemble_recipe(const itype_id &type)
 {
     for( auto cat_iter = recipes.begin(); cat_iter != recipes.end(); ++cat_iter ) {
         for( auto list_iter = cat_iter->second.begin();
              list_iter != cat_iter->second.end(); ++list_iter ) {
-            recipe *cur_recipe = *list_iter;
+            const recipe *cur_recipe = *list_iter;
             if (type == cur_recipe->result && cur_recipe->reversible) {
                 return cur_recipe;
             }
@@ -1548,7 +1673,7 @@ recipe *game::get_disassemble_recipe(const itype_id &type)
     return NULL;
 }
 
-bool game::can_disassemble(item *dis_item, recipe *cur_recipe, inventory &crafting_inv,
+bool game::can_disassemble(item *dis_item, const recipe *cur_recipe, inventory &crafting_inv,
                            bool print_msg)
 {
     if (dis_item->count_by_charges()) {
@@ -1643,7 +1768,7 @@ void game::disassemble(int pos)
         add_msg(m_info, _("You don't have that item!"), pos);
         return;
     }
-    recipe *cur_recipe = get_disassemble_recipe( dis_item->type->id );
+    const recipe *cur_recipe = get_disassemble_recipe( dis_item->type->id );
 
     //checks to see if you're disassembling rotten food, and will stop you if true
     if( (dis_item->is_food() && dis_item->goes_bad()) ||
@@ -1689,7 +1814,7 @@ void game::complete_disassemble()
     // which recipe was it?
     const int item_pos = u.activity.values[0];
     const bool from_ground = u.activity.values.size() > 1 && u.activity.values[1] == 1;
-    recipe *dis = recipe_by_index(u.activity.index); // Which recipe is it?
+    const recipe *dis = recipe_by_index(u.activity.index); // Which recipe is it?
     if( dis == nullptr ) {
         debugmsg( "no recipe with id %d found", u.activity.index );
         u.activity.type = ACT_NULL;
@@ -1837,7 +1962,7 @@ void game::complete_disassemble()
     if (dis->learn_by_disassembly >= 0 && !u.knows_recipe(dis)) {
         if (dis->skill_used == NULL || dis->learn_by_disassembly <= u.skillLevel(dis->skill_used)) {
             if (one_in(4)) {
-                u.learn_recipe(dis);
+                u.learn_recipe((recipe *)dis);
                 add_msg(m_good, _("You learned a recipe from disassembling it!"));
             } else {
                 add_msg(m_info, _("You might be able to learn a recipe if you disassemble another."));
@@ -1848,7 +1973,7 @@ void game::complete_disassemble()
     }
 }
 
-recipe *game::recipe_by_index(int index)
+const recipe *game::recipe_by_index(int index)
 {
     for (recipe_map::iterator map_iter = recipes.begin(); map_iter != recipes.end(); ++map_iter) {
         for (recipe_list::iterator list_iter = map_iter->second.begin();
@@ -1861,7 +1986,7 @@ recipe *game::recipe_by_index(int index)
     return NULL;
 }
 
-recipe *recipe_by_name(std::string name)
+const recipe *recipe_by_name(std::string name)
 {
     for (recipe_map::iterator map_iter = recipes.begin(); map_iter != recipes.end(); ++map_iter) {
         for (recipe_list::iterator list_iter = map_iter->second.begin();
@@ -1933,7 +2058,7 @@ void remove_ammo(item *dis_item, player &p)
     if( dis_item->is_tool() && dis_item->charges > 0 && dis_item->ammo_type() != "NULL" ) {
         item ammodrop( default_ammo( dis_item->ammo_type() ), calendar::turn );
         ammodrop.charges = dis_item->charges;
-        if( dis_item->typeId() == "adv_UPS_off" || dis_item->typeId() == "adv_UPS_on" ) {
+        if( dis_item->ammo_type() == "plutonium" ) {
             ammodrop.charges /= 500;
         }
         if( ammodrop.made_of( LIQUID ) && &p == &g->u ) {
@@ -1947,7 +2072,7 @@ void remove_ammo(item *dis_item, player &p)
     }
 }
 
-std::string recipe::required_skills_string()
+std::string recipe::required_skills_string() const
 {
     std::ostringstream skills_as_stream;
     if(!required_skills.empty()) {

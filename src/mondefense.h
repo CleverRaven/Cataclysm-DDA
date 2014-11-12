@@ -1,5 +1,5 @@
-#ifndef _MONDEFENSE_H_
-#define _MONDEFENSE_H_
+#ifndef MONDEFENSE_H
+#define MONDEFENSE_H
 
 class monster;
 struct projectile;

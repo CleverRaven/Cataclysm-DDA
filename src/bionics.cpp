@@ -8,6 +8,7 @@
 #include "json.h"
 #include "messages.h"
 #include "item_factory.h"
+#include "overmapbuffer.h"
 #include <math.h>    //sqrt
 #include <algorithm> //std::min
 #include <sstream>
@@ -52,7 +53,7 @@ void show_bionics_titlebar(WINDOW *window, player *p, std::string menu_mode)
     mvwprintz(window, 0,  0, c_blue, "%s", caption.c_str());
 
     std::stringstream pwr;
-    pwr << _("Power: ") << int(p->power_level) << _("/") << int(p->max_power_level);
+    pwr << string_format(_("Power: %i/%i"), int(p->power_level), int(p->max_power_level));
     int pwr_length = utf8_width(pwr.str().c_str()) + 1;
     mvwprintz(window, 0, getmaxx(window) - pwr_length, c_white, "%s", pwr.str().c_str());
 
@@ -110,17 +111,20 @@ void player::power_bionics()
     int START_X = (TERMX - WIDTH) / 2;
     int START_Y = (TERMY - HEIGHT) / 2;
     WINDOW *wBio = newwin(HEIGHT, WIDTH, START_Y, START_X);
+    WINDOW_PTR wBioptr( wBio );
 
     // Description window @ the bottom of the bio window
     int DESCRIPTION_START_Y = START_Y + HEIGHT - DESCRIPTION_HEIGHT - 1;
     int DESCRIPTION_LINE_Y = DESCRIPTION_START_Y - START_Y - 1;
     WINDOW *w_description = newwin(DESCRIPTION_HEIGHT, WIDTH - 2,
                                    DESCRIPTION_START_Y, START_X + 1);
+    WINDOW_PTR w_descriptionptr( w_description );
 
     // Title window
     int TITLE_START_Y = START_Y + 1;
     int HEADER_LINE_Y = TITLE_HEIGHT + 1; // + lines with text in titlebar, local
     WINDOW *w_title = newwin(TITLE_HEIGHT, WIDTH - 2, TITLE_START_Y, START_X + 1);
+    WINDOW_PTR w_titleptr( w_title );
 
     int scroll_position = 0;
     int second_column = 32 + (TERMX - FULL_SCREEN_WIDTH) /
@@ -295,11 +299,9 @@ void player::power_bionics()
                                (weapon_id == "bio_blade_weapon" && bio_id == "bio_blade_weapon")) {
 
                         // this will clear the bionics menu for targeting purposes
-                        werase(wBio);
-                        wrefresh(wBio);
-                        delwin(w_title);
-                        delwin(w_description);
-                        delwin(wBio);
+                        wBioptr.reset();
+                        w_titleptr.reset();
+                        w_descriptionptr.reset();
                         g->draw();
                         activate_bionic(b);
 
@@ -312,7 +314,7 @@ void player::power_bionics()
                         continue;
                     }
                     // Action done, leave screen
-                    break;
+                    return;
                 } else {
                     popup(_("\
 You can not activate %s!  To read a description of \
@@ -328,14 +330,6 @@ You can not activate %s!  To read a description of \
                 wrefresh(w_description);
             }
         }
-    }
-    //if we activated a bionic, already killed the windows
-    if(!(menu_mode == "activating")) {
-        werase(wBio);
-        wrefresh(wBio);
-        delwin(w_title);
-        delwin(w_description);
-        delwin(wBio);
     }
 }
 
@@ -397,6 +391,7 @@ void player::activate_bionic(int b)
     std::vector<std::string> bad;
     int dirx, diry;
     item tmp_item;
+    w_point weatherPoint = g->weatherGen.get_weather(pos(), calendar::turn);
 
     if(bio.id == "bio_painkiller") {
         pkill += 6;
@@ -412,15 +407,13 @@ void player::activate_bionic(int b)
             add_msg(m_neutral, _("Artificial night generator active!"));
         }
     } else if (bio.id == "bio_resonator") {
+        //~Sound of a bionic sonic-resonator shaking the area
         g->sound(posx, posy, 30, _("VRRRRMP!"));
         for (int i = posx - 1; i <= posx + 1; i++) {
             for (int j = posy - 1; j <= posy + 1; j++) {
-                g->m.bash( i, j, 40 );
-                g->m.bash( i, j, 40 ); // Multibash effect, so that doors &c will fall
-                g->m.bash( i, j, 40 );
-                if (g->m.is_destructable(i, j) && rng(1, 10) >= 4) {
-                    g->m.ter_set(i, j, t_rubble);
-                }
+                g->m.bash( i, j, 110 );
+                g->m.bash( i, j, 110 ); // Multibash effect, so that doors &c will fall
+                g->m.bash( i, j, 110 );
             }
         }
     } else if (bio.id == "bio_time_freeze") {
@@ -568,14 +561,20 @@ void player::activate_bionic(int b)
         stim = 0;
     } else if(bio.id == "bio_evap") {
         item water = item("water_clean", 0);
-        if (g->handle_liquid(water, true, true)) {
+        int humidity = weatherPoint.humidity;
+        int water_charges = (humidity * 3.0) / 100.0 + 0.5;
+        // At 50% relative humidity or more, the player will draw 2 units of water
+        // At 16% relative humidity or less, the player will draw 0 units of water
+        water.charges = water_charges;
+        if (water_charges == 0) {
+            add_msg_if_player(m_bad, _("There was not enough moisture in the air from which to draw water!"));
+        } else if (g->handle_liquid(water, true, false)) {
             moves -= 100;
-        } else if (query_yn(_("Drink from your hands?"))) {
-            inv.push_back(water);
-            consume(inv.position_by_type(water.typeId()));
-            moves -= 350;
         } else {
-            power_level += bionics["bio_evap"]->power_cost;
+            water.charges -= drink_from_hands( water );
+            if( water.charges == water_charges ) {
+                power_level += bionics["bio_evap"]->power_cost;
+            }
         }
     } else if(bio.id == "bio_lighter") {
         if(!choose_adjacent(_("Start a fire where?"), dirx, diry) ||
@@ -587,8 +586,8 @@ void player::activate_bionic(int b)
     }
     if(bio.id == "bio_leukocyte") {
         add_msg(m_neutral, _("You activate your leukocyte breeder system."));
-        g->u.set_healthy(std::min(100, g->u.get_healthy() + 2));
-        g->u.mod_healthy_mod(20);
+        set_healthy(std::min(100, get_healthy() + 2));
+        mod_healthy_mod(20);
     }
     if(bio.id == "bio_geiger") {
         add_msg(m_info, _("Your radiation level: %d"), radiation);
@@ -698,16 +697,16 @@ void player::activate_bionic(int b)
                 }
                 if(avail > 0 && query_yn(_("Extract water from the %s"), it->tname().c_str())) {
                     item water = item("water_clean", 0);
-                    if (g->handle_liquid(water, true, true)) {
+                    water.charges = avail;
+                    if (g->handle_liquid(water, true, false)) {
                         moves -= 100;
-                    } else if (query_yn(_("Drink directly from the condenser?"))) {
-                        inv.push_back(water);
-                        consume(inv.position_by_type(water.typeId()));
-                        moves -= 350;
+                    } else {
+                        water.charges -= drink_from_hands( water );
                     }
-                    extracted = true;
-                    avail--;
-                    it->item_vars["remaining_water"] = string_format("%d", avail);
+                    if( water.charges != avail ) {
+                        extracted = true;
+                        it->item_vars["remaining_water"] = string_format("%d", water.charges);
+                    }
                     break;
                 }
             }
@@ -727,9 +726,13 @@ void player::activate_bionic(int b)
                     }
                 }
                 traj.insert(traj.begin(), point(i, j));
+                if( g->m.has_flag( "SEALED", i, j ) ) {
+                    continue;
+                }
                 for (unsigned k = 0; k < g->m.i_at(i, j).size(); k++) {
-                    if (g->m.i_at(i, j)[k].made_of("iron") || g->m.i_at(i, j)[k].made_of("steel")) {
-                        tmp_item = g->m.i_at(i, j)[k];
+                    tmp_item = g->m.i_at(i, j)[k];
+                    if( (tmp_item.made_of("iron") || tmp_item.made_of("steel")) &&
+                        tmp_item.weight() < weight_capacity() ) {
                         g->m.i_rem(i, j, k);
                         std::vector<point>::iterator it;
                         for (it = traj.begin(); it != traj.end(); ++it) {
@@ -738,11 +741,18 @@ void player::activate_bionic(int b)
                                 g->zombie(index).apply_damage( this, bp_torso, tmp_item.weight() / 225 );
                                 g->m.add_item_or_charges(it->x, it->y, tmp_item);
                                 break;
-                            } else if (it != traj.begin() && g->m.move_cost(it->x, it->y) == 0) {
-                                g->m.bash( it->x, it->y, tmp_item.weight() / 225 );
-                                if (g->m.move_cost(it->x, it->y) == 0) {
-                                    g->m.add_item_or_charges((it - 1)->x, (it - 1)->y, tmp_item);
-                                    break;
+                            } else if (g->m.move_cost(it->x, it->y) == 0) {
+                                if (it != traj.begin()) {
+                                    g->m.bash( it->x, it->y, tmp_item.weight() / 225 );
+                                    if (g->m.move_cost(it->x, it->y) == 0) {
+                                        g->m.add_item_or_charges((it - 1)->x, (it - 1)->y, tmp_item);
+                                        break;
+                                    }
+                                } else {
+                                    g->m.bash( it->x, it->y, tmp_item.weight() / 225 );
+                                    if (g->m.move_cost(it->x, it->y) == 0) {
+                                        break;
+                                    }
                                 }
                             }
                         }
@@ -753,13 +763,14 @@ void player::activate_bionic(int b)
                 }
             }
         }
+        moves -= 100;
     } else if(bio.id == "bio_lockpick") {
         if(!choose_adjacent(_("Activate your bio lockpick where?"), dirx, diry)) {
             power_level += bionics["bio_lockpick"]->power_cost;
             return;
         }
         ter_id type = g->m.ter(dirx, diry);
-        if (type  == t_door_locked || type == t_door_locked_alarm || type == t_door_locked_interior ) {
+        if (type  == t_door_locked || type == t_door_locked_alarm || type == t_door_locked_interior) {
             moves -= 40;
             std::string door_name = rm_prefix(_("<door_name>door"));
             add_msg_if_player(m_neutral, _("With a satisfying click, the lock on the %s opens."),
@@ -769,15 +780,21 @@ void player::activate_bionic(int b)
         } else if(type == t_door_bar_locked) {
             moves -= 40;
             std::string door_name = rm_prefix(_("<door_name>door"));
-            add_msg_if_player(m_neutral, _("The %s swings open..."),
+            add_msg_if_player(m_neutral, _("The bars swing open..."),
                               door_name.c_str()); //Could better copy the messages from lockpick....
             g->m.ter_set(dirx, diry, t_door_bar_o);
         } else if(type == t_chaingate_l) {
             moves -= 40;
             std::string gate_name = rm_prefix (_("<door_name>gate"));
-            add_msg_if_player(m_neutral, _("With a satisfying click, the lock on the %s opens."),
+            add_msg_if_player(m_neutral, _("With a satisfying click, the chain-link gate opens."),
                               gate_name.c_str());
             g->m.ter_set(dirx, diry, t_chaingate_c);
+        } else if (type  == t_door_locked_peep) {
+            moves -= 40;
+            std::string door_name = rm_prefix(_("<door_name>door"));
+            add_msg_if_player(m_neutral, _("With a satisfying click, the peephole-door's lock opens."),
+                              door_name.c_str());
+            g->m.ter_set(dirx, diry, t_door_c_peep);
         } else if(type == t_door_c) {
             add_msg(m_info, _("That door isn't locked."));
         } else {
@@ -790,6 +807,23 @@ void player::activate_bionic(int b)
     } else if(bio.id == "bio_shockwave") {
         g->shockwave(posx, posy, 3, 4, 2, 8, true);
         add_msg_if_player(m_neutral, _("You unleash a powerful shockwave!"));
+    } else if(bio.id == "bio_meteorologist") {
+        add_msg_if_player(m_neutral, _("Temperature: %s."), print_temperature(g->get_temperature()).c_str());
+        add_msg_if_player(m_neutral, _("Relative Humidity: %s."), print_humidity(get_local_humidity(weatherPoint.humidity, g->weather, g->is_sheltered(g->u.posx, g->u.posy))).c_str());
+        add_msg_if_player(m_neutral, _("Pressure: %s."), print_pressure((int)weatherPoint.pressure/10).c_str());
+        // Calculate local wind power
+        int vpart = -1;
+        vehicle *veh = g->m.veh_at( posx, posy, vpart );
+        int vehwindspeed = 0;
+        if( veh ) {
+            vehwindspeed = abs(veh->velocity / 100); // For mph
+        }
+        const oter_id &cur_om_ter = overmap_buffer.ter(g->om_global_location());
+        std::string omtername = otermap[cur_om_ter].name;
+        int windpower = vehwindspeed + get_local_windpower(weatherPoint.windpower, omtername, g->is_sheltered(g->u.posx, g->u.posy));
+
+        add_msg_if_player(m_neutral, _("Wind Speed: %s."), print_windspeed((float)windpower).c_str());
+        add_msg_if_player(m_neutral, _("Feels Like: %s."), print_temperature(get_local_windchill(weatherPoint.temperature, weatherPoint.humidity, windpower) + g->get_temperature()).c_str());
     }
 }
 
@@ -845,6 +879,12 @@ int bionic_manip_cos(int p_int, int s_electronics, int s_firstaid, int s_mechani
                    s_electronics * 4 +
                    s_firstaid    * 3 +
                    s_mechanics   * 1;
+    
+    // Medical residents have some idea what they're doing
+    if (g->u.has_trait("PROF_MED")) {
+        pl_skill += 3;
+        add_msg(m_neutral, _("You prep yourself to begin surgery."));
+    }
 
     // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
     float adjusted_skill = float (pl_skill) - std::min( float (40),
@@ -893,7 +933,7 @@ bool player::uninstall_bionic(bionic_id b_id)
                             skillLevel("mechanics"),
                             difficulty + 2);
 
-    if (!query_yn(_("WARNING: %i percent chance of SEVERE bodily damage! Remove anyway?"),
+    if (!query_yn(_("WARNING: %i percent chance of failure and SEVERE bodily damage! Remove anyway?"),
                   100 - chance_of_success)) {
         return false;
     }
@@ -997,6 +1037,10 @@ void bionics_install_failure(player *u, it_bionic *type, int success)
                    u->skillLevel("electronics") * 4 +
                    u->skillLevel("firstaid")    * 3 +
                    u->skillLevel("mechanics")   * 1;
+    // Medical residents get a substantial assist here
+    if (u->has_trait("PROF_MED")) {
+        pl_skill += 6;
+    }
 
     // for failure_level calculation, shift skill down to a float between ~0.4 - 30
     float adjusted_skill = float (pl_skill) - std::min( float (40),
@@ -1032,6 +1076,16 @@ void bionics_install_failure(player *u, it_bionic *type, int success)
         break;
     }
 
+    if (u->has_trait("PROF_MED")) {
+    //~"Complications" is USian medical-speak for "unintended damage from a medical procedure".
+        add_msg(m_neutral, _("Your training helps you minimize the complications."));
+    // In addition to the bonus, medical residents know enough OR protocol to avoid botching.
+    // Take MD and be immune to faulty bionics.
+        if (fail_type == 5) {
+            fail_type = rng(1,3);
+        }
+    }
+    
     if (fail_type == 3 && u->num_bionics() == 0) {
         fail_type = 2;    // If we have no bionics, take damage instead of losing some
     }
@@ -1051,7 +1105,7 @@ void bionics_install_failure(player *u, it_bionic *type, int success)
         break;
 
     case 3:
-        if (u->num_bionics() <= failure_level) {
+        if (u->num_bionics() <= failure_level && u->max_power_level == 0) {
             add_msg(m_bad, _("All of your existing bionics are lost!"));
         } else {
             add_msg(m_bad, _("Some of your existing bionics are lost!"));
@@ -1083,7 +1137,7 @@ void bionics_install_failure(player *u, it_bionic *type, int success)
                 int old_power = u->max_power_level;
                 add_msg(m_bad, _("You lose power capacity!"));
                 u->max_power_level = rng(0, u->max_power_level - 25);
-                g->u.add_memorial_log(pgettext("memorial_male", "Lost %d units of power capacity."),
+                u->add_memorial_log(pgettext("memorial_male", "Lost %d units of power capacity."),
                                       pgettext("memorial_female", "Lost %d units of power capacity."),
                                       old_power - u->max_power_level);
             }

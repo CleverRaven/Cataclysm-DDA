@@ -157,10 +157,10 @@ void editmap_hilight::draw( editmap * hm, bool update ) {
                     t_sym = furniture_type.sym;
                     t_col = furniture_type.color;
                 }
-                field *t_field = &g->m.field_at(x, y);
+                const field *t_field = &g->m.field_at(x, y);
                 if ( t_field->fieldCount() > 0 ) {
                     field_id t_ftype = t_field->fieldSymbol();
-                    field_entry *t_fld = t_field->findField( t_ftype );
+                    const field_entry *t_fld = t_field->findField( t_ftype );
                     if ( t_fld != NULL ) {
                         t_col =  fieldlist[t_ftype].color[t_fld->getFieldDensity()-1];
                         t_sym = fieldlist[t_ftype].sym;
@@ -427,7 +427,7 @@ void editmap::update_view(bool update_info)
     target_frn = g->m.furn(target.x, target.y);
     furn_t furniture_type = furnlist[target_frn];
 
-    cur_field = &g->m.field_at(target.x, target.y);
+    cur_field = &g->m.get_field(target.x, target.y);
     cur_trap = g->m.tr_at(target.x, target.y);
     const Creature *critter = g->critter_at( target.x, target.y );
 
@@ -465,10 +465,10 @@ void editmap::update_view(bool update_info)
                     t_sym = furniture_type.sym;
                     t_col = furniture_type.color;
                 }
-                field *t_field = &g->m.field_at(x, y);
+                const field *t_field = &g->m.field_at(x, y);
                 if ( t_field->fieldCount() > 0 ) {
                     field_id t_ftype = t_field->fieldSymbol();
-                    field_entry *t_fld = t_field->findField( t_ftype );
+                    const field_entry *t_fld = t_field->findField( t_ftype );
                     if ( t_fld != NULL ) {
                         t_col =  fieldlist[t_ftype].color[t_fld->getFieldDensity()-1];
                         t_sym = fieldlist[t_ftype].sym;
@@ -541,17 +541,12 @@ void editmap::update_view(bool update_info)
         mvwprintw(w_info, off, 1, "%s %s", g->m.features(target.x, target.y).c_str(), extras.c_str());
         off++;  // 4-5
 
-        if (cur_field->fieldCount() > 0) {
-            for(std::map<field_id, field_entry *>::iterator field_list_it = cur_field->getFieldStart(); field_list_it != cur_field->getFieldEnd(); ++field_list_it) {
-                field_entry* cur = field_list_it->second;
-                if(cur == NULL) {
-                    continue;
-                }
+        for( auto &fld : *cur_field ) {
+                const field_entry* cur = &fld.second;
                 mvwprintz(w_info, off, 1, fieldlist[cur->getFieldType()].color[cur->getFieldDensity()-1], _("field: %s (%d) density %d age %d"),
                           fieldlist[cur->getFieldType()].name[cur->getFieldDensity()-1].c_str(), cur->getFieldType(), cur->getFieldDensity(), cur->getFieldAge()
                          );
                 off++; // 5ish
-            }
         }
 
 
@@ -585,8 +580,8 @@ void editmap::update_view(bool update_info)
         }
 
 
-        if (g->m.graffiti_at(target.x, target.y).contents) {
-            mvwprintw(w_info, off, 1, _("Graffiti: %s"), g->m.graffiti_at(target.x, target.y).contents->c_str());
+        if( g->m.has_graffiti_at( target.x, target.y ) ) {
+            mvwprintw(w_info, off, 1, _("Graffiti: %s"), g->m.graffiti_at( target.x, target.y ).c_str() );
         }
         off++;
 
@@ -645,13 +640,14 @@ int editmap::edit_ter()
     int lastsel_ter = sel_ter;
     int lastsel_frn = sel_frn;
 
-    int xmax = pickw;
-    int tymax = int(num_terrain_types / xmax);
-    if ( tymax % xmax != 0 ) {
+    const int xmin = 3; // left margin
+    int xmax = pickw - xmin;
+    int tymax = int(terlist.size() / xmax);
+    if ( terlist.size() % xmax != 0 ) {
         tymax++;
     }
-    int fymax = int(num_furniture_types / xmax);
-    if ( fymax == 0 || fymax % xmax != 0 ) {
+    int fymax = int(furnlist.size() / xmax);
+    if ( furnlist.size() % xmax != 0 ) {
         fymax++;
     }
 
@@ -687,8 +683,8 @@ int editmap::edit_ter()
         int cur_t = 0;
         int tstart = 2;
         // draw icon grid
-        for (int y = tstart; y < pickh && cur_t < num_terrain_types; y += 2) {
-            for (int x = 3; x < pickw && cur_t < num_terrain_types; x++, cur_t++) {
+        for (int y = tstart; y < pickh && cur_t < (int) terlist.size(); y += 2) {
+            for (int x = xmin; x < pickw && cur_t < (int) terlist.size(); x++, cur_t++) {
                 ter_t ttype = terlist[cur_t];
                 mvwputch(w_pickter, y, x, ( ter_frn_mode == 0 ? ttype.color : c_dkgray ) , ttype.sym);
                 if(cur_t == sel_ter) {
@@ -741,8 +737,8 @@ int editmap::edit_ter()
         off += 2;
         int cur_f = 0;
         int fstart = off; // calc vertical offset, draw furniture icons
-        for (int y = fstart; y < pickh && cur_f < num_furniture_types; y += 2) {
-            for (int x = 3; x < pickw && cur_f < num_furniture_types; x++, cur_f++) {
+        for (int y = fstart; y < pickh && cur_f < (int) furnlist.size(); y += 2) {
+            for (int x = xmin; x < pickw && cur_f < (int) furnlist.size(); x++, cur_f++) {
 
                 furn_t ftype = furnlist[cur_f];
                 mvwputch(w_pickter, y, x, ( ter_frn_mode == 1 ? ftype.color : c_dkgray ), ftype.sym);
@@ -814,18 +810,18 @@ int editmap::edit_ter()
         lastsel_frn = sel_frn;
         if ( ter_frn_mode == 0 ) {
             if( action == "LEFT" ) {
-                sel_ter = (sel_ter - 1 >= 0 ? sel_ter - 1 : num_terrain_types - 1);
+                sel_ter = (sel_ter - 1 >= 0 ? sel_ter - 1 : (int) terlist.size() - 1);
             } else if( action == "RIGHT" ) {
-                sel_ter = (sel_ter + 1 < num_terrain_types ? sel_ter + 1 : 0 );
+                sel_ter = (sel_ter + 1 < (int) terlist.size() ? sel_ter + 1 : 0 );
             } else if( action == "UP" ) {
-                if (sel_ter - xmax + 3 >= 0 ) {
-                    sel_ter = sel_ter - xmax + 3;
+                if (sel_ter - xmax >= 0 ) {
+                    sel_ter = sel_ter - xmax;
                 } else {
                     ter_frn_mode = ( ter_frn_mode == 0 ? 1 : 0 );
                 }
             } else if( action == "DOWN" ) {
-                if (sel_ter + xmax - 3 < num_terrain_types ) {
-                    sel_ter = sel_ter + xmax - 3;
+                if (sel_ter + xmax < (int) terlist.size() ) {
+                    sel_ter = sel_ter + xmax;
                 } else {
                     ter_frn_mode = ( ter_frn_mode == 0 ? 1 : 0 );
                 }
@@ -882,18 +878,18 @@ int editmap::edit_ter()
             }
         } else { // todo: cleanup
             if( action == "LEFT" ) {
-                sel_frn = (sel_frn - 1 >= 0 ? sel_frn - 1 : num_furniture_types - 1);
+                sel_frn = (sel_frn - 1 >= 0 ? sel_frn - 1 : (int) furnlist.size() - 1);
             } else if( action == "RIGHT" ) {
-                sel_frn = (sel_frn + 1 < num_furniture_types ? sel_frn + 1 : 0 );
+                sel_frn = (sel_frn + 1 < (int) furnlist.size() ? sel_frn + 1 : 0 );
             } else if( action == "UP" ) {
-                if ( sel_frn - xmax + 3 >= 0 ) {
-                    sel_frn = sel_frn - xmax + 3;
+                if ( sel_frn - xmax >= 0 ) {
+                    sel_frn = sel_frn - xmax;
                 } else {
                     ter_frn_mode = ( ter_frn_mode == 0 ? 1 : 0 );
                 }
             } else if( action == "DOWN" ) {
-                if ( sel_frn + xmax - 3 < num_furniture_types ) {
-                    sel_frn = sel_frn + xmax - 3;
+                if ( sel_frn + xmax < (int) furnlist.size() ) {
+                    sel_frn = sel_frn + xmax;
                 } else {
                     ter_frn_mode = ( ter_frn_mode == 0 ? 1 : 0 );
                 }
@@ -1022,7 +1018,7 @@ int editmap::edit_fld()
             if ( fdens != fsel_dens || target_list.size() > 1 ) {
                 for(std::vector<point>::iterator it = target_list.begin();
                     it != target_list.end(); ++it) {
-                    field *t_field = &g->m.field_at(it->x, it->y);
+                    field *t_field = &g->m.get_field(it->x, it->y);
                     field_entry *t_fld = t_field->findField((field_id)idx);
                     int t_dens = 0;
                     if ( t_fld != NULL ) {
@@ -1048,11 +1044,10 @@ int editmap::edit_fld()
         } else if ( fmenu.selected == 0 && fmenu.keypress == '\n' ) {
             for(std::vector<point>::iterator it = target_list.begin();
                 it != target_list.end(); ++it) {
-                field *t_field = &g->m.field_at(it->x, it->y);
+                field *t_field = &g->m.get_field(it->x, it->y);
                 if ( t_field->fieldCount() > 0 ) {
-                    for ( std::map<field_id, field_entry *>::iterator field_list_it = t_field->getFieldStart();
-                          field_list_it != t_field->getFieldEnd(); /* noop */
-                        ) {
+                    for ( auto field_list_it = t_field->begin();
+                          field_list_it != t_field->end(); /* noop */ ) {
                         field_id rmid = field_list_it->first;
                         field_list_it = t_field->removeField( rmid );
                         if ( it->x == target.x && it->y == target.y ) {
@@ -1682,8 +1677,6 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
                             memcpy( *destsm->trp, srcsm->trp, sizeof(srcsm->trp) ); // traps
                             memcpy( *destsm->rad, srcsm->rad, sizeof(srcsm->rad) ); // radiation
                             memcpy( *destsm->itm, srcsm->itm, sizeof(srcsm->itm) ); // items
-                            memcpy( *destsm->graf, srcsm->graf, sizeof(srcsm->graf) ); // graffiti
-                            // at the time of writing, cosmetics holds signage.
                             for (int x = 0; x < SEEX; ++x) {
                                 for (int y = 0; y < SEEY; ++y) {
                                     destsm->cosmetics[x][y] = srcsm->cosmetics[x][y];
@@ -1697,7 +1690,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
                             destsm->camp = srcsm->camp;
 
                             if ( spawns_todo > 0 ) {                              // trigger spawnpoints
-                                g->m.spawn_monsters();
+                                g->m.spawn_monsters( true );
                             }
                         }
                     }

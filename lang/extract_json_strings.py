@@ -21,8 +21,9 @@ ignorable = {
     "colordef",
     "ITEM_BLACKLIST",
     "item_group",
-    "mapgen",
     "monstergroup",
+    "MONSTER_BLACKLIST",
+    "MONSTER_WHITELIST",
     "monitems",
     "npc", # FIXME right now this object is unextractable
     "overmap_special",
@@ -162,12 +163,31 @@ def extract_professions(item):
         writestr(outfile, item["description"], context="prof_desc_female",
                  comment="Profession (female {}) description".format(nm))
 
+def extract_scenarios(item):
+    outfile = get_outfile("scenario")
+    # writestr will not write string if it is None.
+    for f in [ "name", "description", "start_name"]:
+        found = item.get(f, None)
+        writestr(outfile, found)
+
+def extract_mapgen(item):
+    outfile = get_outfile("mapgen")
+    # writestr will not write string if it is None.
+    for objkey in item["object"]:
+        if objkey == "place_specials":
+            for special in item["object"][objkey]:
+                for speckey in special:
+                    if speckey == "signage":
+                        writestr(outfile, special[speckey])
+
 # these objects need to have their strings specially extracted
 extract_specials = {
     "effect_type": extract_effect_type,
     "material": extract_material,
     "martial_art": extract_martial_art,
-    "profession": extract_professions
+    "profession": extract_professions,
+    "scenario": extract_scenarios,
+    "mapgen": extract_mapgen
 }
 
 ##
@@ -243,7 +263,12 @@ def get_outfile(json_object_type):
     return os.path.join(to_dir, json_object_type + "_from_json.py")
 
 use_action_msgs = {
+    "activate_msg",
+    "deactive_msg",
+    "out_of_power_msg",
     "msg",
+    "friendly_msg",
+    "hostile_msg",
     "need_fire_msg",
     "need_charges_msg",
     "non_interactive_msg",
@@ -295,6 +320,18 @@ def extract(item, infilename):
     if "sound" in item:
         writestr(outfile, item["sound"], **kwargs)
         wrote = True
+    if "snippet_category" in item and type(item["snippet_category"]) is list:
+        # snippet_category is either a simple string (the category ident)
+        # which is not translated, or an array of snippet texts.
+        for entry in item["snippet_category"]:
+            # Each entry is a json-object with an id and text
+            if type(entry) is dict:
+                writestr(outfile, entry["text"], **kwargs)
+                wrote = True
+            else:
+                # or a simple string
+                writestr(outfile, entry, **kwargs)
+                wrote = True
     if "bash" in item and type(item["bash"]) is dict:
         # entries of type technique have a bash member, too.
         # but it's a int, not an object.

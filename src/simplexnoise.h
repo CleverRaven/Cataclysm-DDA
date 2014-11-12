@@ -16,8 +16,8 @@
  */
 
 
-#ifndef SIMPLEX_H_
-#define SIMPLEX_H_
+#ifndef SIMPLEX_H
+#define SIMPLEX_H
 
 
 /* 2D, 3D and 4D Simplex Noise functions return 'random' values in (-1, 1).
@@ -191,4 +191,4 @@ static const int simplex[64][4] = {
 };
 
 
-#endif /*SIMPLEX_H_*/
+#endif

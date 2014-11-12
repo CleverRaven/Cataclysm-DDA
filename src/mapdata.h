@@ -1,5 +1,5 @@
-#ifndef _MAPDATA_H_
-#define _MAPDATA_H_
+#ifndef MAPDATA_H
+#define MAPDATA_H
 
 #include <vector>
 #include <string>
@@ -10,7 +10,6 @@
 #include "enums.h"
 #include "computer.h"
 #include "vehicle.h"
-#include "graffiti.h"
 #include "basecamp.h"
 #include "iexamine.h"
 #include "field.h"
@@ -44,20 +43,22 @@ struct map_bash_item_drop {
     map_bash_item_drop(std::string str, int i1, int i2) : itemtype(str), amount(i1), minamount(i2), chance(-1) {};
 };
 struct map_bash_info {
-    int str_min;          // min str(*) required to bash
-    int str_max;          // max str required: bash succeeds if str >= random # between str_min_roll & str_max
-    int str_min_roll;     // lower bound of success check; defaults to str_min ( may set default to 0 )
-    int str_min_blocked;  // same as above; alternate values for has_adjacent_furniture(...) == true
+    int str_min;            // min str(*) required to bash
+    int str_max;            // max str required: bash succeeds if str >= random # between str_min_roll & str_max_roll
+    int str_min_blocked;    // same as above; alternate values for has_adjacent_furniture(...) == true
     int str_max_blocked;
-    int num_tests;        // how many tests must succeed
-    int chance;
-    int explosive;        // Explosion on destruction
+    int str_min_roll;       // lower bound of success check; defaults to str_min
+    int str_max_roll;       // upper bound of success check; defaults to str_max
+    int explosive;          // Explosion on destruction
+    bool destroy_only;      // Only used for destroying, not normally bashable
     std::vector<map_bash_item_drop> items; // list of items: map_bash_item_drop
-    std::string sound;    // sound made on success ('You hear a "smash!"')
+    std::string sound;      // sound made on success ('You hear a "smash!"')
     std::string sound_fail; // sound  made on fail
     std::string ter_set;    // terrain to set (REQUIRED for terrain))
-    std::string furn_set;    // furniture to set (only used by furniture, not terrain)
-    map_bash_info() : str_min(-1), str_max(-1), str_min_roll(-1), str_min_blocked(-1), str_max_blocked(-1), num_tests(-1), chance(-1), explosive(0), ter_set(""), furn_set("") {};
+    std::string furn_set;   // furniture to set (only used by furniture, not terrain)
+    map_bash_info() : str_min(-1), str_max(-1), str_min_blocked(-1), str_max_blocked(-1),
+                      str_min_roll(-1), str_max_roll(-1), explosive(0), destroy_only(false),
+                      sound(""), sound_fail(""), ter_set(""), furn_set("") {};
     bool load(JsonObject &jsobj, std::string member, bool is_furniture);
 };
 struct map_deconstruct_info {
@@ -75,18 +76,15 @@ struct map_deconstruct_info {
  * List of known flags, used in both terrain.json and furniture.json.
  * TRANSPARENT - Players and monsters can see through/past it. Also sets ter_t.transparent
  * FLAT - Player can build and move furniture on
- * BASHABLE - Players + Monsters can bash this
  * CONTAINER - Items on this square are hidden until looted by the player
  * PLACE_ITEM - Valid terrain for place_item() to put items on
  * DOOR - Can be opened (used for NPC pathfinding)
  * FLAMMABLE - Can be lit on fire
  * FLAMMABLE_HARD - Harder to light on fire, but still possible
- * EXPLODES - Explodes when on fire
  * DIGGABLE - Digging monsters, seeding monsters, digging with shovel, etc
  * LIQUID - Blocks movement, but isn't a wall (lava, water, etc)
  * SWIMMABLE - Player and monsters can swim through it
  * SHARP - May do minor damage to players/monsters passing thruogh it
- * PAINFUL - May cause a small amount of pain
  * ROUGH - May hurt the player's feet
  * SEALED - Can't use 'e' to retrieve items, must smash open first
  * NOITEM - Items 'fall off' this space
@@ -98,7 +96,6 @@ struct map_deconstruct_info {
  * ALARMED - Sets off an alarm if smashed
  * SUPPORTS_ROOF - Used as a boundary for roof construction
  * INDOORS - Has roof over it; blocks rain, sunlight, etc.
- * THIN_OBSTACLE - Passable by players and monsters, vehicles destroy it
  * COLLAPSES - Has a roof that can collapse
  * FLAMMABLE_ASH - Burns to ash rather than rubble.
  * REDUCE_SCENT - Reduces scent even more, only works if also bashable
@@ -107,13 +104,16 @@ struct map_deconstruct_info {
  * PLANT - A "furniture" that grows and fruits
  * LIQUIDCONT - Furniture that contains liquid, allows for contents to be accessed in some checks even if SEALED
  * OPENCLOSE_INSIDE - If it's a door (with an 'open' or 'close' field), it can only be opened or closed if you're inside.
+ * PERMEABLE - Allows gases to flow through unimpeded.
  *
  * Currently only used for Fungal conversions
  * WALL - This terrain is an upright obstacle
+ * THIN_OBSTACLE - This terrain is a thin obstacle, i.e. fence
  * ORGANIC - This furniture is partly organic
  * FLOWER - This furniture is a flower
  * SHRUB - This terrain is a shrub
  * TREE - This terrain is a tree
+ * HARVESTED - This terrain has been harvested so it won't bear any fruit
  * YOUNG - This terrain is a young tree
  * FUNGUS - Fungal covered
  *
@@ -127,14 +127,13 @@ struct map_deconstruct_info {
  * so much that strings produce a significant performance penalty. The following are equivalent:
  *  m->has_flag("FLAMMABLE");     //
  *  m->has_flag(TFLAG_FLAMMABLE); // ~ 20 x faster than the above, ( 2.5 x faster if the above uses static const std::string str_flammable("FLAMMABLE");
- * To add a new ter_bitflag, add below and add to init_ter_bitflag_map() in mapdata.cpp
+ * To add a new ter_bitflag, add below and add to init_ter_bitflags_map() in mapdata.cpp
  * Order does not matter.
  */
 enum ter_bitflags {
     TFLAG_NONE,
     TFLAG_TRANSPARENT,
     TFLAG_FLAMMABLE,
-    TFLAG_BASHABLE,
     TFLAG_REDUCE_SCENT,
     TFLAG_SWIMMABLE,
     TFLAG_SUPPORTS_ROOF,
@@ -142,7 +141,6 @@ enum ter_bitflags {
     TFLAG_SEALED,
     TFLAG_LIQUID,
     TFLAG_COLLAPSES,
-    TFLAG_EXPLODES,
     TFLAG_FLAMMABLE_ASH,
     TFLAG_DESTROY_ITEM,
     TFLAG_INDOORS,
@@ -154,8 +152,11 @@ enum ter_bitflags {
     TFLAG_SHARP,
     TFLAG_DIGGABLE,
     TFLAG_ROUGH,
+    TFLAG_UNSTABLE,
     TFLAG_WALL,
-    TFLAG_DEEP_WATER
+    TFLAG_DEEP_WATER,
+    TFLAG_HARVESTED,
+    TFLAG_PERMEABLE
 };
 extern std::map<std::string, ter_bitflags> ter_bitflags_map;
 void init_ter_bitflags_map();
@@ -178,15 +179,19 @@ struct ter_t {
  */
  long sym;
 
- nc_color color;//The color the sym will draw in on the GUI.
+ nc_color color; //The color the sym will draw in on the GUI.
  unsigned char movecost; //The amount of movement points required to pass this terrain by default.
  trap_id trap; //The id of the trap located at this terrain. Limit one trap per tile currently.
- std::string trap_id_str; // String storing the id string of the trap.
+ std::string trap_id_str; //String storing the id string of the trap.
  std::set<std::string> flags;// string flags which may or may not refer to what's documented above.
  unsigned long bitflags; // bitfield of -certian- string flags which are heavily checked
  iexamine_function examine; //What happens when the terrain is examined
- std::string open;          // open action: transform into terrain with matching id
- std::string close;         // close action: transform into terrain with matching id
+ std::string harvestable; //what will be harvested from this terrain?
+ std::string transforms_into; // transform into what terrain?
+ int harvest_season; // when will this terrain get harvested?
+ int bloom_season; // when does this terrain bloom?
+ std::string open; //open action: transform into terrain with matching id
+ std::string close; //close action: transform into terrain with matching id
 
  map_bash_info bash;
  map_deconstruct_info deconstruct;
@@ -360,6 +365,10 @@ struct submap {
         frn[x][y] = furn;
     }
 
+    inline void set_ter(int x, int y, ter_id terr) {
+        ter[x][y] = terr;
+    }
+
     int get_radiation(int x, int y) {
         return rad[x][y];
     }
@@ -368,17 +377,10 @@ struct submap {
         rad[x][y] = radiation;
     }
 
-    inline const graffiti& get_graffiti(int x, int y) {
-        // return value must be const, or else somebody might
-        // be able to modify the graffiti without going through
-        // the setter
-
-        return graf[x][y];
-    }
-
-    inline void set_graffiti(int x, int y, const graffiti& value) {
-        graf[x][y] = value;
-    }
+    bool has_graffiti( int x, int y ) const;
+    const std::string &get_graffiti( int x, int y ) const;
+    void set_graffiti( int x, int y, const std::string &new_graffiti );
+    void delete_graffiti( int x, int y );
 
     // Signage is a pretend union between furniture on a square and stored
     // writing on the square. When both are present, we have signage.
@@ -414,7 +416,6 @@ struct submap {
     trap_id            trp[SEEX][SEEY];  // Trap on each square
     field              fld[SEEX][SEEY];  // Field on each square
     int                rad[SEEX][SEEY];  // Irradiation of each square
-    graffiti           graf[SEEX][SEEY]; // Graffiti on each square
     std::map<std::string, std::string> cosmetics[SEEX][SEEY]; // Textual "visuals" for each square.
 
     int active_item_count;
@@ -498,8 +499,8 @@ extern ter_id t_null,
     t_hole, // Real nothingness; makes you fall a z-level
     // Ground
     t_dirt, t_sand, t_dirtmound, t_pit_shallow, t_pit,
-    t_pit_corpsed, t_pit_covered, t_pit_spiked, t_pit_spiked_covered,
-    t_rock_floor, t_rubble, t_ash, t_metal, t_wreckage,
+    t_pit_corpsed, t_pit_covered, t_pit_spiked, t_pit_spiked_covered, t_pit_glass, t_pit_glass_covered,
+    t_rock_floor,
     t_grass,
     t_metal_floor,
     t_pavement, t_pavement_y, t_sidewalk, t_concrete,
@@ -510,7 +511,7 @@ extern ter_id t_null,
     t_bridge,
     t_covered_well,
     // Lighting related
-    t_skylight, t_emergency_light_flicker, t_emergency_light, t_utility_light,
+    t_utility_light,
     // Walls
     t_wall_log_half, t_wall_log, t_wall_log_chipped, t_wall_log_broken, t_palisade, t_palisade_gate, t_palisade_gate_o,
     t_wall_half, t_wall_wood, t_wall_wood_chipped, t_wall_wood_broken,
@@ -520,10 +521,10 @@ extern ter_id t_null,
     t_wall_glass_v_alarm, t_wall_glass_h_alarm,
     t_reinforced_glass_v, t_reinforced_glass_h,
     t_bars,
-    t_door_c, t_door_b, t_door_o,
-    t_door_locked_interior, t_door_locked, t_door_locked_alarm, t_door_frame,
+    t_door_c, t_door_c_peep, t_door_b, t_door_b_peep, t_door_o, t_door_o_peep,
+    t_door_locked_interior, t_door_locked, t_door_locked_peep, t_door_locked_alarm, t_door_frame,
     t_chaingate_l, t_fencegate_c, t_fencegate_o, t_chaingate_c, t_chaingate_o,
-    t_door_boarded, t_door_boarded_damaged, t_rdoor_boarded, t_rdoor_boarded_damaged,
+    t_door_boarded, t_door_boarded_damaged, t_door_boarded_peep, t_rdoor_boarded, t_rdoor_boarded_damaged, t_door_boarded_damaged_peep,
     t_door_metal_c, t_door_metal_o, t_door_metal_locked,
     t_door_bar_c, t_door_bar_o, t_door_bar_locked,
     t_door_glass_c, t_door_glass_o,
@@ -535,7 +536,9 @@ extern ter_id t_null,
     t_paper,
     t_rock_wall, t_rock_wall_half,
     // Tree
-    t_tree, t_tree_young, t_tree_apple, t_underbrush, t_shrub, t_shrub_blueberry, t_shrub_strawberry, t_trunk,
+    t_tree, t_tree_young, t_tree_apple, t_tree_apple_harvested, t_tree_pear, t_tree_pear_harvested,
+    t_tree_cherry, t_tree_cherry_harvested, t_tree_peach, t_tree_peach_harvested, t_tree_apricot, t_tree_apricot_harvested,
+    t_tree_plum, t_tree_plum_harvested, t_tree_pine, t_tree_deadpine, t_underbrush, t_shrub, t_shrub_blueberry, t_shrub_strawberry, t_trunk,
     t_root_wall,
     t_wax, t_floor_wax,
     t_fence_v, t_fence_h, t_chainfence_v, t_chainfence_h, t_chainfence_posts,
@@ -543,13 +546,14 @@ extern ter_id t_null,
     t_railing_v, t_railing_h,
     // Nether
     t_marloss, t_fungus_floor_in, t_fungus_floor_sup, t_fungus_floor_out, t_fungus_wall, t_fungus_wall_v,
-    t_fungus_wall_h, t_fungus_mound, t_fungus, t_shrub_fungal, t_tree_fungal, t_tree_fungal_young,
+    t_fungus_wall_h, t_fungus_mound, t_fungus, t_shrub_fungal, t_tree_fungal, t_tree_fungal_young, t_marloss_tree,
     // Water, lava, etc.
     t_water_sh, t_swater_sh, t_water_dp, t_swater_dp, t_water_pool, t_sewage,
     t_lava,
     // More embellishments than you can shake a stick at.
     t_sandbox, t_slide, t_monkey_bars, t_backboard,
     t_gas_pump, t_gas_pump_smashed,
+    t_diesel_pump, t_diesel_pump_smashed,
     t_atm,
     t_generator_broken,
     t_missile, t_missile_exploded,
@@ -560,7 +564,7 @@ extern ter_id t_null,
     t_column,
     t_vat,
     t_cvdbody, t_cvdmachine,
-    t_water_pump,
+    t_water_pump, t_improvised_shelter,
     // Staircases etc.
     t_stairs_down, t_stairs_up, t_manhole, t_ladder_up, t_ladder_down, t_slope_down,
      t_slope_up, t_rope_up,
@@ -573,8 +577,7 @@ extern ter_id t_null,
     t_rock_red, t_rock_green, t_rock_blue, t_floor_red, t_floor_green, t_floor_blue,
      t_switch_rg, t_switch_gb, t_switch_rb, t_switch_even,
     t_rdoor_c, t_rdoor_b, t_rdoor_o, t_mdoor_frame, t_window_reinforced, t_window_reinforced_noglass,
-    t_window_enhanced, t_window_enhanced_noglass, t_open_air, t_plut_generator,
-    num_terrain_types;
+    t_window_enhanced, t_window_enhanced_noglass, t_open_air, t_plut_generator;
 
 
 /*
@@ -584,7 +587,8 @@ about ter_id above.
 */
 extern furn_id f_null,
     f_hay,
-    f_barricade_road,
+    f_rubble, f_rubble_rock, f_wreckage, f_ash,
+    f_barricade_road, f_sandbag_half, f_sandbag_wall,
     f_bulletin,
     f_indoor_plant,
     f_bed, f_toilet, f_makeshift_bed,
@@ -604,7 +608,7 @@ extern furn_id f_null,
     f_plant_seed, f_plant_seedling, f_plant_mature, f_plant_harvest,
     f_fvat_empty, f_fvat_full,
     f_wood_keg, f_egg_sackbw, f_egg_sackws, f_egg_sacke,
-    num_furniture_types;
+    f_flower_marloss;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// These are on their way OUT and only used in certain switch statements until they are rewritten.

@@ -1,5 +1,5 @@
-#ifndef _IUSE_SOFTWARE_H_
-#define _IUSE_SOFTWARE_H_
+#ifndef IUSE_SOFTWARE_H
+#define IUSE_SOFTWARE_H
 
 #include <string>
 #include <map>

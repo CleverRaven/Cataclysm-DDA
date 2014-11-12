@@ -1,5 +1,6 @@
-#ifndef _ARMOR_LAYERS_H_
-#define _ARMOR_LAYERS_H_
+#ifndef ARMOR_LAYERS_H
+#define ARMOR_LAYERS_H
+
 #include "item.h"
 #include "output.h"
 #include <string>

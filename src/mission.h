@@ -1,5 +1,5 @@
-#ifndef _MISSION_H_
-#define _MISSION_H_
+#ifndef MISSION_H
+#define MISSION_H
 
 #include <vector>
 #include <string>

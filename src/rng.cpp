@@ -21,6 +21,12 @@ bool one_in(int chance)
     return (chance <= 1 || rng(0, chance - 1) == 0);
 }
 
+//this works just like one_in, but it accepts doubles as input to calulate chances like "1 in 350,52"
+bool one_in_improved(double chance)
+{
+    return (chance <= 1 || rng_float(0, chance) < 1);
+}
+
 bool x_in_y(double x, double y)
 {
     return ((double)rand() / RAND_MAX) <= ((double)x / y);

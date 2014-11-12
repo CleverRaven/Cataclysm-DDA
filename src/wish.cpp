@@ -2,7 +2,6 @@
 #include "output.h"
 #include "item_factory.h"
 #include <sstream>
-#include "text_snippets.h"
 #include "helper.h"
 #include "uistate.h"
 #include "monstergenerator.h"
@@ -14,7 +13,7 @@ class wish_mutate_callback: public uimenu_callback
 {
     public:
         int lastlen;           // last menu entry
-        std::string msg;       // feedback mesage
+        std::string msg;       // feedback message
         bool started;
         std::vector<std::string> vTraits;
         std::map<std::string, bool> pTraits;
@@ -196,8 +195,9 @@ void game::wishmutate( player *p )
             int rc = 0;
             std::string mstr = cb->vTraits[ wmenu.ret ];
             bool threshold = mutation_data[mstr].threshold;
+            bool profession = mutation_data[mstr].profession;
             //Manual override for the threshold-gaining
-            if (threshold) {
+            if (threshold || profession) {
                 if ( p->has_trait( mstr ) ) {
                     do {
                         p->remove_mutation(mstr );
@@ -249,12 +249,12 @@ class wish_monster_callback: public uimenu_callback
 {
     public:
         int lastent;           // last menu entry
-        std::string msg;       // feedback mesage
+        std::string msg;       // feedback message
         bool friendly;         // spawn friendly critter?
         int group;             // Number of monsters to spawn.
         WINDOW *w_info;        // ui_parent menu's padding area
         monster tmp;           // scrap critter for monster::print_info
-        bool started;          // if unset, intialize window
+        bool started;          // if unset, initialize window
         std::string padding;   // ' ' x window width
 
         wish_monster_callback() : msg(""), padding("")
@@ -269,7 +269,7 @@ class wish_monster_callback: public uimenu_callback
         void setup(uimenu *menu)
         {
             w_info = newwin(menu->w_height - 2, menu->pad_right, 1,
-                            menu->w_x + menu->w_width - 2 - menu->pad_right);
+                            menu->w_x + menu->w_width - 1 - menu->pad_right);
             padding = std::string( getmaxx(w_info), ' ' );
             werase(w_info);
             wrefresh(w_info);
@@ -388,7 +388,9 @@ class wish_item_callback: public uimenu_callback
     public:
         bool incontainer;
         std::string msg;
-        wish_item_callback() : incontainer(false), msg("")
+        const std::vector<std::string> &standard_itype_ids;
+        wish_item_callback(const std::vector<std::string> &ids) : incontainer(false), msg("")
+            , standard_itype_ids( ids )
         {
         }
         virtual bool key(int key, int /*entnum*/, uimenu * /*menu*/)
@@ -434,6 +436,7 @@ void game::wishitem( player *p, int x, int y)
         debugmsg("game::wishitem(): invalid parameters");
         return;
     }
+    const std::vector<std::string> standard_itype_ids = item_controller->get_all_itype_ids();
     int amount = 1;
     uimenu wmenu;
     wmenu.w_x = 0;
@@ -441,7 +444,7 @@ void game::wishitem( player *p, int x, int y)
     wmenu.pad_right = ( TERMX / 2 > 40 ? TERMX - 40 : TERMX / 2 );
     wmenu.return_invalid = true;
     wmenu.selected = uistate.wishitem_selected;
-    wish_item_callback *cb = new wish_item_callback();
+    wish_item_callback *cb = new wish_item_callback( standard_itype_ids );
     wmenu.callback = cb;
 
     for (size_t i = 0; i < standard_itype_ids.size(); i++) {

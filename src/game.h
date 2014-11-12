@@ -1,5 +1,5 @@
-#ifndef _GAME_H_
-#define _GAME_H_
+#ifndef GAME_H
+#define GAME_H
 
 #include "mtype.h"
 #include "monster.h"
@@ -20,7 +20,6 @@
 #include "calendar.h"
 #include "posix_time.h"
 #include "mutation.h"
-#include "gamemode.h"
 #include "live_view.h"
 #include "worldfactory.h"
 #include "creature_tracker.h"
@@ -66,6 +65,12 @@ enum quit_status {
     QUIT_ERROR
 };
 
+enum safe_mode_type {
+    SAFE_MODE_OFF = 0, // Moving always allowed
+    SAFE_MODE_ON = 1, // Moving allowed, but if a new monsters spawns, go to SAFE_MODE_STOP
+    SAFE_MODE_STOP = 2, // New monsters spotted, no movement allowed
+};
+
 // Refactoring into base monster class.
 
 struct monster_and_count {
@@ -74,6 +79,7 @@ struct monster_and_count {
     monster_and_count(monster M, int C) : critter (M), count (C) {};
 };
 
+struct special_game;
 struct mtype;
 struct mission_type;
 class map;
@@ -108,6 +114,7 @@ class game
         void setup();
         bool game_quit(); // True if we actually quit the game - used in main.cpp
         bool game_error();
+        bool new_game;    // Is true if game has just started or loaded, false otherwise
         quit_status uquit;    // used in main.cpp to determine what type of quit
         void serialize(std::ofstream &fout);  // for save
         void unserialize(std::ifstream &fin);  // for load
@@ -121,7 +128,7 @@ class game
         std::vector<std::string> list_active_characters();
         void write_memorial_file(std::string sLastWords);
         void cleanup_at_end();
-	void determine_starting_season();
+        void start_calendar();
         bool do_turn();
         void draw();
         void draw_ter(int posx = -999, int posy = -999);
@@ -188,12 +195,12 @@ class game
         void clear_zombies();
         bool spawn_hallucination(); //Spawns a hallucination close to the player
 
-        Creature *creature_at(const int x, const int y);
         int  mon_at(const int x, const int y) const; // Index of the monster at (x, y); -1 for none
         int  mon_at(point p) const;
         bool is_empty(const int x, const int y); // True if no PC, no monster, move cost > 0
         bool isBetween(int test, int down, int up);
         bool is_in_sunlight(int x, int y); // Checks outdoors + sunny
+        bool is_sheltered(int x, int y); // Checks if indoors, underground or in a car.
         bool is_in_ice_lab(point location);
         bool revive_corpse(int x, int y, int n); // revives a corpse from an item pile
         bool revive_corpse(int x, int y,
@@ -235,6 +242,9 @@ class game
 
         void teleport(player *p = NULL, bool add_teleglow = true);
         void plswim(int x, int y); // Called by plmove.  Handles swimming
+        void rod_fish(int sSkillLevel, int fishChance); // fish with rod catching function
+        void catch_a_monster(std::vector<monster*> &catchables, int posx, int posy, player *p, int catch_duration = 0); //catch monsters
+        std::vector<monster*> get_fishable(int distance); //gets the lish of fishable critters
         // when player is thrown (by impact or something)
         void fling_creature(Creature *c, const int &dir, float flvel,
                             bool controlled = false);
@@ -257,8 +267,8 @@ class game
         bool u_see (const monster *critter);
         bool u_see (const Creature *t); // for backwards compatibility
         bool u_see (const Creature &t);
-        bool is_hostile_nearby();
-        bool is_hostile_very_close();
+        Creature *is_hostile_nearby();
+        Creature *is_hostile_very_close();
         void refresh_all();
         void update_map(int &x, int &y);  // Called by plmove when the map updates
         void update_overmap_seen(); // Update which overmap tiles we can see
@@ -269,7 +279,7 @@ class game
         // in global overmap terrain coordinates.
         tripoint om_global_location() const;
 
-        void process_artifact(item *it, player *p, bool wielded = false);
+        void process_artifact(item *it, player *p);
         void add_artifact_messages(std::vector<art_effect_passive> effects);
 
         void peek( int peekx = 0, int peeky = 0);
@@ -311,34 +321,22 @@ class game
         int inv_for_flag(const std::string flag, const std::string title, bool auto_choose_single);
         int display_slice(indexed_invslice &, const std::string &, const int &position = INT_MIN);
         int inventory_item_menu(int pos, int startx = 0, int width = 50, int position = 0);
-        // Same as other multidrop, only the dropped_worn vector
-        // is merged into the result.
-        std::vector<item> multidrop();
-        // Select items to drop, removes those items from the players
-        // inventory, takes of the selected armor, unwields weapon (if
-        // selected).
-        // Selected items that had been worn are taken off and put into dropped_worn.
-        // Selected items from main inventory and the weapon are returned directly.
-        // removed_storage_space contains the summed up storage of the taken
-        // of armor. This includes the storage space of the items in dropped_worn
-        // and the items that have been autodropped while taking them off.
-        std::vector<item> multidrop(std::vector<item> &dropped_worn, int &removed_storage_space);
+        // Select items to drop.  Returns a list of pairs of position, quantity.
+        std::list<std::pair<int, int>> multidrop();
         faction *list_factions(std::string title = "FACTIONS:");
-        point find_item(item *it);
-        void remove_item(item *it);
 
         recipe_map list_recipes()
         {
             return recipes;
         };
         inventory crafting_inventory(player *p);  // inv_from_map, inv, & 'weapon'
-        std::list<item> consume_items(player *p, const std::vector<item_comp> &components);
-        void consume_tools(player *p, const std::vector<tool_comp> &tools);
+        std::list<item> consume_items(player *p, const std::vector<item_comp> &components, int batch = 1);
+        void consume_tools(player *p, const std::vector<tool_comp> &tools, int batch = 1);
         /**
          * Returns the recipe that is used to disassemble the given item type.
          * Returns NULL if there is no recipe to disassemble the item type.
          */
-        recipe *get_disassemble_recipe(const itype_id &ype);
+        const recipe *get_disassemble_recipe(const itype_id &ype);
         /**
          * Check if the player can disassemble the item dis_item with the recipe
          * cur_recipe and the inventory crafting_inv.
@@ -346,16 +344,11 @@ class game
          * (if disassembled item is counted by charges).
          * If print_msg is true show a message about missing tools/charges.
          */
-        bool can_disassemble(item *dis_item, recipe *cur_recipe, inventory &crafting_inv, bool print_msg);
+        bool can_disassemble(item *dis_item, const recipe *cur_recipe,
+                             inventory &crafting_inv, bool print_msg);
 
-        bool has_gametype() const
-        {
-            return gamemode && gamemode->id() != SGAME_NULL;
-        }
-        special_game_id gametype() const
-        {
-            return (gamemode) ? gamemode->id() : SGAME_NULL;
-        }
+        bool has_gametype() const;
+        special_game_id gametype() const;
 
         std::map<std::string, vehicle *> vtypes;
         void toggle_sidebar_style(void);
@@ -378,13 +371,14 @@ class game
         std::map<int, weather_segment> weather_log;
         overmap *cur_om;
         map m;
+
         int levx, levy, levz; // Placement inside the overmap
         /** Absolute values of lev[xyz] (includes the offset of cur_om) */
         int get_abs_levx() const;
         int get_abs_levy() const;
         int get_abs_levz() const;
         player u;
-	scenario* scen;
+        scenario *scen;
         std::vector<monster> coming_to_stairs;
         int monstairx, monstairy, monstairz;
         std::vector<npc *> active_npc;
@@ -394,18 +388,18 @@ class game
         ter_id dragging;
         std::vector<item> items_dragged;
         int weight_dragged; // Computed once, when you start dragging
-        bool debugmon;
-
-        std::map<int, std::map<int, bool> > mapRain;
 
         int ter_view_x, ter_view_y;
         WINDOW *w_terrain;
+        WINDOW *w_overmap;
+        WINDOW *w_omlegend;
         WINDOW *w_minimap;
         WINDOW *w_HP;
         WINDOW *w_messages;
         WINDOW *w_location;
         WINDOW *w_status;
         WINDOW *w_status2;
+        WINDOW *w_blackspace;
         live_view liveview;
 
         // View offset based on the driving speed (if any)
@@ -448,7 +442,6 @@ class game
         // ignore_player determines if player is affected, useful for bionic, etc.
         void shockwave(int x, int y, int radius, int force, int stun, int dam_mult, bool ignore_player);
 
-
         // Animation related functions
         void draw_explosion(int x, int y, int radius, nc_color col);
         void draw_bullet(Creature &p, int tx, int ty, int i, std::vector<point> trajectory, char bullet,
@@ -460,8 +453,7 @@ class game
         void draw_weather(weather_printable wPrint);
         void draw_sct();
         void draw_zones(const point &p_pointStart, const point &p_pointEnd, const point &p_pointOffset);
-        // Draw critter (if visible!) on its current position into w_terrain,
-        // also update mapRain to protect it from been overdrawn by rain.
+        // Draw critter (if visible!) on its current position into w_terrain.
         // @param center the center of view, same as when calling map::draw
         void draw_critter(const Creature &critter, const point &center);
 
@@ -481,6 +473,12 @@ class game
         void mmenu_refresh_motd();
         void mmenu_refresh_credits();
 
+        /**
+         * Check whether movement is allowed according to safe mode settings.
+         * @return true if the movement is allowed, otherwise false.
+         */
+        bool check_save_mode_allowed();
+
         const int dangerous_proximity;
         bool narrow_sidebar;
         bool fullscreen;
@@ -488,6 +486,13 @@ class game
         void exam_vehicle(vehicle &veh, int examx, int examy, int cx = 0,
                           int cy = 0); // open vehicle interaction screen
 
+        // put items from the item-vector on the map/a vehicle
+        // at (dirx, diry), items are dropped into a vehicle part
+        // with the cargo flag (if there is one), otherwise they are
+        // dropped onto the ground.
+        void drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
+                  int freed_volume_capacity, int dirx, int diry);
+        bool make_drop_activity( enum activity_type act, point target );
     private:
         // Game-start procedures
         void print_menu(WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY,
@@ -520,7 +525,6 @@ class game
         void init_weather();
         void init_weather_anim();
         void init_morale();
-        void init_itypes();       // Initializes item types
         void init_skills() throw (std::string);
         void init_professions();
         void init_faction_data();
@@ -555,21 +559,23 @@ class game
         void long_craft();                   // See crafting.cpp
         bool crafting_allowed();             // See crafting.cpp
         bool crafting_can_see();             // See crafting.cpp
-        recipe *select_crafting_recipe();    // See crafting.cpp
-        bool making_would_work(recipe *r);   // See crafting.cpp
+        const recipe *select_crafting_recipe( int &batch_size );    // See crafting.cpp
+        bool making_would_work(std::string id_to_make, int batch_size);   // See crafting.cpp
         bool is_container_eligible_for_crafting(item &cont); // See crafting.cpp
         std::vector<item> get_eligible_containers_for_crafting();    // See crafting.cpp
-        bool check_eligible_containers_for_crafting(recipe *r);  // See crafting.cpp
-        bool can_make(recipe *r);            // See crafting.cpp
-        void make_craft(recipe *making);     // See crafting.cpp
-        void make_all_craft(recipe *making); // See crafting.cpp
+        bool check_eligible_containers_for_crafting(const recipe *r, int batch = 1);
+        bool can_make(const recipe *r, int batch_size); // See crafting.cpp
+        void make_craft(std::string id, int batch_size); // See crafting.cpp
+        void make_all_craft(std::string id, int batch_size); // See crafting.cpp
         void complete_craft();               // See crafting.cpp
-        void pick_recipes(const inventory &crafting_inv, std::vector<recipe *> &current,
+        void pick_recipes(const inventory &crafting_inv, std::vector<const recipe *> &current,
                           std::vector<bool> &available, craft_cat tab, craft_subcat subtab,
                           std::string filter);// crafting.cpp
+        void batch_recipes(const inventory &crafting_inv, std::vector<const recipe *> &current,
+                           std::vector<bool> &available, const recipe* r);// crafting.cpp
         void disassemble(int pos = INT_MAX);       // See crafting.cpp
         void complete_disassemble();         // See crafting.cpp
-        recipe *recipe_by_index(int index);  // See crafting.cpp
+        const recipe *recipe_by_index(int index);  // See crafting.cpp
 
         // Forcefully close a door at (x, y).
         // The function checks for creatures/items/vehicles at that point and
@@ -603,12 +609,7 @@ class game
         void compare(int iCompareX = -999, int iCompareY = -999); // Compare two Items 'I'
         void drop(int pos = INT_MIN); // Drop an item  'd'
         void drop_in_direction(); // Drop w/ direction  'D'
-        // put items from the item-vector on the map/a vehicle
-        // at (dirx, diry), items are dropped into a vehicle part
-        // with the cargo flag (if there is one), otherwise they are
-        // dropped onto the ground.
-        void drop(std::vector<item> &dropped, std::vector<item> &dropped_worn, int freed_volume_capacity,
-                  int dirx, int diry);
+
         // calculate the time (in player::moves) it takes to drop the
         // items in dropped and dropped_worn.
         int calculate_drop_cost(std::vector<item> &dropped, const std::vector<item> &dropped_worn,
@@ -690,6 +691,14 @@ class game
 
 
         void rcdrive(int dx, int dy); //driving radio car
+        /**
+         * If there is a robot (that can be disabled), query the player
+         * and try to disable it.
+         * @return true if the robot has been disabled or a similar action has
+         * been done. false if the player did not choose any action and the function
+         * has effectively done nothing.
+         */
+        bool disable_robot( point p );
 
         void update_scent();     // Updates the scent map
         bool is_game_over();     // Returns true if the player quit or died
@@ -728,10 +737,9 @@ class game
 
         int last_target; // The last monster targeted
         bool last_target_was_npc;
-        int run_mode; // 0 - Normal run always; 1 - Running allowed, but if a new
-        //  monsters spawns, go to 2 - No movement allowed
+        safe_mode_type safe_mode;
         std::vector<int> new_seen_mon;
-        int mostseen;  // # of mons seen last turn; if this increases, run_mode++
+        int mostseen;  // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
         bool autosafemode; // is autosafemode enabled?
         bool safemodeveh; // safemode while driving?
         int turnssincelastmon; // needed for auto run mode
@@ -762,12 +770,18 @@ class game
         // Preview for auto move route
         std::vector<point> destination_preview;
 
-        bool is_hostile_within(int distance);
+        Creature *is_hostile_within(int distance);
         void activity_on_turn();
         void activity_on_turn_game();
+        void activity_on_turn_drop();
+        void activity_on_turn_stash();
+        void activity_on_turn_pickup();
+        void activity_on_turn_move_items();
         void activity_on_turn_vibe();
+        void activity_on_turn_fill_liquid();
         void activity_on_turn_refill_vehicle();
         void activity_on_turn_pulp();
+        void activity_on_turn_start_fire_lens();
         void activity_on_finish();
         void activity_on_finish_reload();
         void activity_on_finish_train();
@@ -775,7 +789,9 @@ class game
         void activity_on_finish_fish();
         void activity_on_finish_vehicle();
         void activity_on_finish_make_zlave();
-
+        void activity_on_finish_start_fire();
+        void move_save_to_graveyard();
+        bool save_player_data();
 };
 
 #endif

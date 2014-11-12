@@ -1,6 +1,6 @@
 cataclysm
 cataclysm-tiles
-chkjson
+chkjson*
 !src/chkjson
 data/*.template
 templates/
@@ -61,6 +61,22 @@ cscope.*
 # Compiled binary translations
 lang/mo/
 
+# Directory for translatable strings
+lang/json/*
+!lang/json/README
+
 # Netbeans IDE folders
 nbproject/
 
+# Python runtime files
+*.pyc
+
+# vim files
+*.vim
+*.session
+
+# taskwarrior files
+*.task*
+
+# GitEye files
+*.project

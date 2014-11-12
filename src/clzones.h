@@ -1,5 +1,5 @@
-#ifndef _CLZONES_H_
-#define _CLZONES_H_
+#ifndef CLZONES_H
+#define CLZONES_H
 
 #include "json.h"
 #include "enums.h"
@@ -23,6 +23,10 @@ class clZones : public JsonSerializer, public JsonDeserializer
     public:
         clZones();
         ~clZones() {};
+        clZones(clZones &&) = default;
+        clZones(const clZones &) = default;
+        clZones &operator=(clZones &&) = default;
+        clZones &operator=(const clZones &) = default;
 
         class clZoneData
         {
@@ -130,4 +134,4 @@ class clZones : public JsonSerializer, public JsonDeserializer
         void deserialize(JsonIn &jsin);
 };
 
-#endif // #ifdef _CLZONES_H_
+#endif

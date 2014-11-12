@@ -158,8 +158,6 @@ void DynamicDataLoader::initialize()
             &Item_factory::load_bionic);
     type_function_map["VAR_VEH_PART"] = new ClassFunctionAccessor<Item_factory>(item_controller,
             &Item_factory::load_veh_part);
-    type_function_map["STATIONARY_ITEM"] = new ClassFunctionAccessor<Item_factory>(item_controller,
-            &Item_factory::load_stationary);
     type_function_map["ITEM_CATEGORY"] = new ClassFunctionAccessor<Item_factory>(item_controller,
             &Item_factory::load_item_category);
 
@@ -203,6 +201,7 @@ void DynamicDataLoader::initialize()
         &faction::load_faction);
     type_function_map["npc"] = new StaticFunctionAccessor(
         &npc::load_npc);
+
 }
 
 void DynamicDataLoader::reset()
@@ -320,7 +319,7 @@ void DynamicDataLoader::unload_data()
     // Mission types are not loaded from json, but they depend on
     // the overmap terrain + items and that gets loaded from json.
     g->mission_types.clear();
-    item_controller->clear_items_and_groups();
+    item_controller->reset();
     mutations_category.clear();
     mutation_data.clear();
     traits.clear();
@@ -347,9 +346,8 @@ void DynamicDataLoader::unload_data()
     reset_speech();
     iuse::reset_bullet_pulling();
     clear_overmap_specials();
+    ammunition_type::reset();
 
-    // artifacts are not loaded from json, but must be unloaded anyway.
-    artifact_itype_ids.clear();
     // TODO:
     //    NameGenerator::generator().clear_names();
 }
@@ -372,8 +370,7 @@ void DynamicDataLoader::finalize_loaded_data()
 
 void DynamicDataLoader::check_consistency()
 {
-    item_controller->check_itype_definitions();
-    item_controller->check_items_of_groups_exist();
+    item_controller->check_definitions();
     MonsterGenerator::generator().check_monster_definitions();
     MonsterGroupManager::check_group_definitions();
     check_recipe_definitions();

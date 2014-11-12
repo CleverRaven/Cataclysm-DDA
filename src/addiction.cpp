@@ -197,6 +197,27 @@ void addict_effect(addiction &add)
             g->u.vomit();
         }
         break;
+    case ADD_MARLOSS_R:
+        add_msg(m_info, _("You daydream about luscious pink berries as big as your fist."));
+        g->u.add_morale(MORALE_CRAVING_MARLOSS, -5, -25);
+            if (g->u.focus_pool > 40 && one_in(800 - 20 * in)) {
+                g->u.focus_pool -= (in);
+            }
+        break;
+    case ADD_MARLOSS_B:
+       add_msg(m_info, _("You daydream about nutty cyan seeds as big as your hand."));
+       g->u.add_morale(MORALE_CRAVING_MARLOSS, -5, -25);
+            if (g->u.focus_pool > 40 && one_in(800 - 20 * in)) {
+                g->u.focus_pool -= (in);
+            }
+        break;
+    case ADD_MARLOSS_Y:
+        add_msg(m_info, _("You daydream about succulent, pale golden gel, sweet but light."));
+        g->u.add_morale(MORALE_CRAVING_MARLOSS, -5, -25);
+            if (g->u.focus_pool > 40 && one_in(800 - 20 * in)) {
+                g->u.focus_pool -= (in);
+            }
+        break;
 
     //for any other unhandled cases
     default:
@@ -232,6 +253,12 @@ std::string addiction_type_name(add_type cur)
         return _("mutation");
     case ADD_DIAZEPAM:
         return _("diazepam");
+    case ADD_MARLOSS_R:
+        return _("Marloss berries");
+    case ADD_MARLOSS_B:
+        return _("Marloss seeds");
+    case ADD_MARLOSS_Y:
+        return _("Marloss gel");
     default:
         return "bugs in addiction.cpp";
     }
@@ -247,7 +274,7 @@ std::string addiction_name(addiction cur)
     case ADD_ALCOHOL:
         return _("Alcohol Withdrawal");
     case ADD_SLEEP:
-        return _("Sleeping Pill Dependance");
+        return _("Sleeping Pill Dependence");
     case ADD_PKILLER:
         return _("Opiate Withdrawal");
     case ADD_SPEED:
@@ -260,6 +287,12 @@ std::string addiction_name(addiction cur)
         return _("Mutation Withdrawal");
     case ADD_DIAZEPAM:
         return _("Diazepam Withdrawal");
+    case ADD_MARLOSS_R:
+        return _("Marloss Longing");
+    case ADD_MARLOSS_B:
+        return _("Marloss Desire");
+    case ADD_MARLOSS_Y:
+        return _("Marloss Cravings");
     default:
         return "Erroneous addiction";
     }
@@ -286,6 +319,12 @@ morale_type addiction_craving(add_type cur)
         return MORALE_CRAVING_MUTAGEN;
     case ADD_DIAZEPAM:
         return MORALE_CRAVING_DIAZEPAM;
+    case ADD_MARLOSS_R:
+        return MORALE_CRAVING_MARLOSS;
+    case ADD_MARLOSS_B:
+        return MORALE_CRAVING_MARLOSS;
+    case ADD_MARLOSS_Y:
+        return MORALE_CRAVING_MARLOSS;
     default:
         return MORALE_NULL;
     }
@@ -313,6 +352,12 @@ add_type addiction_type(std::string name)
         return ADD_MUTAGEN;
     } else if (name == "diazepam") {
         return ADD_DIAZEPAM;
+    } else if (name == "marloss_r") {
+        return ADD_MARLOSS_R;
+    } else if (name == "marloss_b") {
+        return ADD_MARLOSS_B;
+    } else if (name == "marloss_y") {
+        return ADD_MARLOSS_Y;
     } else {
         if (name != "none") {
             debugmsg("unknown addiction type: %s.  For no addictive potential, use \"none\"", name.c_str());
@@ -367,6 +412,15 @@ Movement rate reduction.  Depression.  Weak immune system.  Frequent cravings.")
     case ADD_DIAZEPAM:
         return _("Perception - 1;   Intelligence - 1;\n\
 Anxiety, nausea, hallucinations, and general malaise.");
+
+    case ADD_MARLOSS_R:
+        return _("You should try some of those pink berries.");
+
+    case ADD_MARLOSS_B:
+        return _("You should try some of those cyan seeds.");
+
+    case ADD_MARLOSS_Y:
+        return _("You should try some of that golden gel.");
 
     default:
         return "";

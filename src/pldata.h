@@ -1,5 +1,5 @@
-#ifndef _PLDATA_H_
-#define _PLDATA_H_
+#ifndef PLDATA_H
+#define PLDATA_H
 
 #include "enums.h"
 #include "json.h"
@@ -30,7 +30,8 @@ typedef std::string dis_type;
 enum add_type {
     ADD_NULL,
     ADD_CAFFEINE, ADD_ALCOHOL, ADD_SLEEP, ADD_PKILLER, ADD_SPEED, ADD_CIG,
-    ADD_COKE, ADD_CRACK, ADD_MUTAGEN, ADD_DIAZEPAM,
+    ADD_COKE, ADD_CRACK, ADD_MUTAGEN, ADD_DIAZEPAM, ADD_MARLOSS_R, ADD_MARLOSS_B,
+    ADD_MARLOSS_Y,
 };
 
 void realDebugmsg(const char *name, const char *line, const char *mes, ...);
@@ -189,13 +190,33 @@ class addiction : public JsonSerializer, public JsonDeserializer
 
 struct trait {
     std::string name;
+    std::string id;
     int points; // How many points it costs in character creation
     int visibility; // How visible it is
     int ugliness; // How ugly it is
     bool mixed_effect; // Wheather it has positive as well as negative effects.
     bool startingtrait; // Starting Trait True/False
     bool purifiable; // Whether it's vulnerable to Purifier
+    bool activated;
+    bool fatigue; //IF any of the three are true, it drains that as the "cost"
+    bool hunger;
+    bool thirst;
+    int cost;
+    int charge;
+    bool powered;
+    int cooldown;
     std::string description;
+    trait() : name("NULL_TRAIT")
+    {
+        powered = false;
+        charge = 0;
+    }
+    trait(std::string pid) : name(pid)
+    {
+        id = pid;
+        powered = false;
+        charge = 0;
+    };
 };
 
 extern std::map<std::string, trait> traits;
@@ -251,4 +272,5 @@ inline hp_part bodypart_to_hp_part(body_part p_bp)
 
     return hp_torso;
 }
+
 #endif

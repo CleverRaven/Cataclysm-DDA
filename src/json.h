@@ -1,5 +1,5 @@
-#ifndef _JSON_H_
-#define _JSON_H_
+#ifndef JSON_H
+#define JSON_H
 
 #include <iosfwd>
 #include <map>
@@ -8,7 +8,9 @@
 #include <unordered_set>
 #include <string>
 #include <vector>
+#include <list>
 #include <bitset>
+#include <array>
 
 /* Cataclysm-DDA homegrown JSON tools
  * copyright CC-BY-SA-3.0 2013 CleverRaven
@@ -190,6 +192,7 @@ class JsonIn
         // non-fatal reading into values by reference
         // returns true if the data was read successfully, false otherwise
         bool read(bool &b);
+        bool read(char &c);
         bool read(int &i);
         bool read(unsigned int &u);
         bool read(long &l);
@@ -201,6 +204,49 @@ class JsonIn
         bool read(JsonDeserializer &j);
         // array ~> vector
         template <typename T> bool read(std::vector<T> &v)
+        {
+            if (!test_array()) {
+                return false;
+            }
+            try {
+                start_array();
+                v.clear();
+                while (!end_array()) {
+                    T element;
+                    if (read(element)) {
+                        v.push_back(element);
+                    } else {
+                        skip_value();
+                    }
+                }
+                return true;
+            } catch (std::string e) {
+                return false;
+            }
+        }
+        // array ~> array
+        template <typename T, size_t N> bool read( std::array<T, N> &v )
+        {
+            if( !test_array() ) {
+                return false;
+            }
+            try {
+                start_array();
+                for( size_t i = 0; i < N; ++i ) {
+                    if( end_array() ) {
+                        return false; // json array is too small
+                    }
+                    if( !read( v[i] ) ) {
+                        return false; // invalid entry
+                    }
+                }
+                return end_array(); // false if json array is too big
+            } catch( std::string e ) {
+                return false;
+            }
+        }
+        // array ~> list
+        template <typename T> bool read(std::list<T> &v)
         {
             if (!test_array()) {
                 return false;
@@ -389,6 +435,23 @@ class JsonOut
         {
             start_array();
             for (typename std::vector<T>::const_iterator it = v.begin();
+                 it != v.end(); ++it) {
+                write(*it);
+            }
+            end_array();
+        }
+        template <typename T, size_t N> void write(const std::array<T, N> &v)
+        {
+            start_array();
+            for( auto &e : v ) {
+                write( e );
+            }
+            end_array();
+        }
+        template <typename T> void write(const std::list<T> &v)
+        {
+            start_array();
+            for (typename std::list<T>::const_iterator it = v.begin();
                  it != v.end(); ++it) {
                 write(*it);
             }
@@ -800,6 +863,11 @@ class JsonSerializer
         virtual void serialize(JsonOut &jsout) const = 0;
         std::string serialize() const;
         void serialize(std::ostream &o) const;
+        JsonSerializer() { }
+        JsonSerializer(JsonSerializer &&) = default;
+        JsonSerializer(const JsonSerializer &) = default;
+        JsonSerializer &operator=(JsonSerializer &&) = default;
+        JsonSerializer &operator=(const JsonSerializer &) = default;
 };
 
 /* JsonDeserializer
@@ -834,6 +902,11 @@ class JsonDeserializer
         virtual void deserialize(JsonIn &jsin) = 0;
         void deserialize(const std::string &json_string);
         void deserialize(std::istream &i);
+        JsonDeserializer() { }
+        JsonDeserializer(JsonDeserializer &&) = default;
+        JsonDeserializer(const JsonDeserializer &) = default;
+        JsonDeserializer &operator=(JsonDeserializer &&) = default;
+        JsonDeserializer &operator=(const JsonDeserializer &) = default;
 };
 
-#endif // _JSON_H_
+#endif

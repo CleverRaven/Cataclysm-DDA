@@ -1,5 +1,5 @@
-#ifndef _CURSES_DEF_H_
-#define _CURSES_DEF_H_
+#ifndef CURSESDEF_H
+#define CURSESDEF_H
 
 #if (defined TILES || defined SDLTILES || defined _WIN32 || defined WINDOWS)
 #include "catacurse.h"
@@ -11,4 +11,4 @@ void init_interface();
 void init_interface();
 #endif
 
-#endif // CURSES_DEF_H
+#endif

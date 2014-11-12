@@ -1,5 +1,5 @@
-#ifndef _MAPITEMS_H_
-#define _MAPITEMS_H_
+#ifndef MAPITEMS_H
+#define MAPITEMS_H
 
 typedef std::string items_location;
 
@@ -16,4 +16,5 @@ struct items_location_and_chance {
         chance = c;
     };
 };
+
 #endif

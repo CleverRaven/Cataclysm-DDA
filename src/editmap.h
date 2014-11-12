@@ -1,5 +1,6 @@
-#ifndef _EDITMAP_H_
-#define _EDITMAP_H_
+#ifndef EDITMAP_H
+#define EDITMAP_H
+
 #include "game.h"
 #include "line.h"
 #include "options.h"
@@ -8,6 +9,7 @@
 #include <map>
 #include <list>
 #include <stdarg.h>
+
 enum shapetype {
     editmap_rect, editmap_rect_filled, editmap_line, editmap_circle,
 };

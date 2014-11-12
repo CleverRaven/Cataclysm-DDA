@@ -181,6 +181,7 @@
 		<Unit filename="src/SDLMain.h" />
 		<Unit filename="src/action.cpp" />
 		<Unit filename="src/action.h" />
+		<Unit filename="src/activity_item_handling.cpp" />
 		<Unit filename="src/addiction.cpp" />
 		<Unit filename="src/addiction.h" />
 		<Unit filename="src/advanced_inv.cpp" />
@@ -263,8 +264,6 @@
 		<Unit filename="src/gamemode.h" />
 		<Unit filename="src/get_version.h" />
 		<Unit filename="src/globals.h" />
-		<Unit filename="src/graffiti.cpp" />
-		<Unit filename="src/graffiti.h" />
 		<Unit filename="src/help.cpp" />
 		<Unit filename="src/help.h" />
 		<Unit filename="src/helper.cpp" />
