@@ -657,7 +657,7 @@ std::string new_artifact()
                 art->volume += weapon->volume;
                 art->weight += weapon->weight;
                 art->melee_dam += rng(weapon->bash_min, weapon->bash_max);
-                art->melee_cut += rng(weapon->bash_min, weapon->bash_max);
+                art->melee_cut += rng(weapon->cut_min, weapon->cut_max);
                 art->m_to_hit += rng(weapon->to_hit_min, weapon->to_hit_max);
                 if( weapon->tag != "" ) {
                     art->item_tags.insert(weapon->tag);
