@@ -5939,10 +5939,21 @@ void player::suffer()
         if (has_disease("sleep")) {
             wake_up(_("Your asthma wakes you up!"));
             auto_use = false;
+        } else {
+            add_msg_if_player( m_bad, _( "You have an asthma attack!" ) );
         }
 
         if (auto_use) {
             use_charges("inhaler", 1);
+            moves -= 40;
+            const auto charges = charges_of( "inhaler" );
+            if( charges == 0 ) {
+                add_msg_if_player( m_bad, _( "You use your last inhaler charge." ) );
+            } else {
+                add_msg_if_player( m_info, ngettext( "You use your inhaler, only %d charge left.",
+                                                     "You use your inhaler, only %d charges left.", charges ),
+                                   charges );
+            }
         } else {
             add_disease("asthma", 50 * rng(1, 4));
             if (!is_npc()) {
