@@ -2815,7 +2815,7 @@
     "death_function":"DISINTEGRATE",
     "special_attacks":[["PLANT", 500]],
     "description":"A mass of spores the size of a balled fist, wafting around in the air.",
-    "flags":["STUMBLES", "FLIES", "POISON", "NO_BREATHE", "NOHEAD", "FRIENDLY_SPECIAL", "NO_GIBS"]
+    "flags":["STUMBLES", "FLIES", "POISON", "NO_BREATHE", "NOHEAD", "FRIENDLY_SPECIAL", "NOGIB"]
     },{
         "type" : "MONSTER",
         "id" : "mon_fungaloid_queen",
