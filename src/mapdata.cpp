@@ -245,22 +245,10 @@ void load_furniture(JsonObject &jsobj)
     new_furniture.examine = iexamine_function_from_string("none");
   }
 
-  new_furniture.open = "";
-  if ( jsobj.has_member("open") ) {
-      new_furniture.open = jsobj.get_string("open");
-  }
-  new_furniture.close = "";
-  if ( jsobj.has_member("close") ) {
-      new_furniture.close = jsobj.get_string("close");
-  }
-  new_furniture.on = "";
-  if (jsobj.has_member("on")) {
-      new_furniture.on = jsobj.get_string("on");
-  }
-  new_furniture.close = "";
-  if (jsobj.has_member("off")) {
-      new_furniture.off = jsobj.get_string("off");
-  }
+  new_furniture.open = jsobj.get_string("open", "");
+  new_furniture.close = jsobj.get_string("close", "");
+  new_furniture.on = jsobj.get_string("on", "");
+  new_furniture.off = jsobj.get_string("off", "");
   new_furniture.bash.load(jsobj, "bash", true);
   new_furniture.deconstruct.load(jsobj, "deconstruct", true);
 
@@ -870,6 +858,12 @@ void check_furniture_and_terrain()
         }
         if( !f.close.empty() && furnmap.count( f.close ) == 0 ) {
             debugmsg( "invalid furniture %s for closing %s", f.close.c_str(), f.id.c_str() );
+        }
+        if (!f.on.empty() && furnmap.count(f.on) == 0) {
+            debugmsg("invalid furniture %s for turning on %s", f.on.c_str(), f.id.c_str());
+        }
+        if (!f.off.empty() && furnmap.count(f.off) == 0) {
+            debugmsg("invalid furniture %s for turning off %s", f.off.c_str(), f.id.c_str());
         }
     }
     for(std::vector<ter_t>::const_iterator a = terlist.begin(); a != terlist.end(); ++a) {

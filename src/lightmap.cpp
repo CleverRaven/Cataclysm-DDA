@@ -119,7 +119,7 @@ void map::generate_lightmap()
             add_light_from_items( sx, sy, items );
             float lumget = 0.0;
             int wget = 0, dirget = 0;
-            if (furniture.id != "f_null" && furniture.light.getlight(lumget, wget, dirget)) {
+            if (furniture.light.getlight(lumget, wget, dirget)) {
                 if (wget > 0) {
                     apply_light_arc(sx, sy, dirget, lumget, wget);
                 }

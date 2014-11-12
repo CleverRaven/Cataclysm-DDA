@@ -8449,12 +8449,12 @@ void game::control_vehicle()
         }
         auto &furn = m.furn_at(examx, examy);
         if (furn.id != "f_null") {
-            if (furn.on.length()) {
+            if (!furn.on.empty()) {
                 m.furn_set(examx, examy, furn.on);
                 add_msg(m_info, _("You turn on the %s."), furn.name.c_str());
                 return;
             }
-            if (furn.off.length()) {
+            if (!furn.off.empty()) {
                 m.furn_set(examx, examy, furn.off);
                 add_msg(m_info, _("You turn off the %s."), furn.name.c_str());
                 return;
