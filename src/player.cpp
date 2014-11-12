@@ -1221,6 +1221,8 @@ void player::update_bodytemp()
             int desired = 501 * BODYTEMP_NORM - 499 * temp_cur[i];
             if( std::abs( BODYTEMP_NORM - desired ) < 1000 ) {
                 desired = BODYTEMP_NORM; // Ensure that it converges
+            } else if( desired > BODYTEMP_HOT ) {
+                desired = BODYTEMP_HOT;
             }
             
             if( desired < temp_conv[i] ) {
@@ -1231,10 +1233,6 @@ void player::update_bodytemp()
             } else {
                 // Use all the heat
                 temp_conv[i] += bonus_warmth;
-                if( one_in(100) && temp_conv[i] > BODYTEMP_HOT &&  !has_disease("sleep") && !has_disease("lying_down") ) {
-                        add_msg(m_good, _("You warm up your %s by the fire."),
-                                body_part_name(body_part(i)).c_str());
-                }
             }
         }
         
