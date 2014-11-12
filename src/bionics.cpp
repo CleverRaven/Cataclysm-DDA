@@ -411,9 +411,9 @@ void player::activate_bionic(int b)
         g->sound(posx, posy, 30, _("VRRRRMP!"));
         for (int i = posx - 1; i <= posx + 1; i++) {
             for (int j = posy - 1; j <= posy + 1; j++) {
-                g->m.bash( i, j, 60 );
-                g->m.bash( i, j, 60 ); // Multibash effect, so that doors &c will fall
-                g->m.bash( i, j, 60 );
+                g->m.bash( i, j, 110 );
+                g->m.bash( i, j, 110 ); // Multibash effect, so that doors &c will fall
+                g->m.bash( i, j, 110 );
             }
         }
     } else if (bio.id == "bio_time_freeze") {
