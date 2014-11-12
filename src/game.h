@@ -279,7 +279,7 @@ class game
         // in global overmap terrain coordinates.
         tripoint om_global_location() const;
 
-        void process_artifact(item *it, player *p, bool wielded = false);
+        void process_artifact(item *it, player *p);
         void add_artifact_messages(std::vector<art_effect_passive> effects);
 
         void peek( int peekx = 0, int peeky = 0);
