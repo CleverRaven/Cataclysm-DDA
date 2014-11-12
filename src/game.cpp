@@ -15150,5 +15150,5 @@ int game::get_abs_levy() const
 
 int game::get_abs_levz() const
 {
-    return levx;
+    return levz;
 }
