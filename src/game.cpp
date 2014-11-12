@@ -736,6 +736,10 @@ void game::cleanup_at_end()
 {
     draw_sidebar();
     if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE) {
+        // Put (non-hallucinations) into the overmap so they are not lost.
+        while( num_zombies() > 0 ) {
+            despawn_monster( 0 );
+        }
         // Save the factions', missions and set the NPC's overmap coords
         // Npcs are saved in the overmap.
         save_factions_missions_npcs(); //missions need to be saved as they are global for all saves.
