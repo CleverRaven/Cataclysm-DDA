@@ -169,6 +169,7 @@
     },
     {
         "type": "AMMO",
+        "category": "other",
         "id": "rolling_paper",
         "symbol": ",",
         "color": "white",
