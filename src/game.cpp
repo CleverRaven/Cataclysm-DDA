@@ -6087,32 +6087,8 @@ Creature *game::is_hostile_very_close()
 
 Creature *game::is_hostile_within(int distance)
 {
-    for (std::vector<npc *>::iterator it = active_npc.begin();
-         it != active_npc.end(); ++it) {
-        point npcp((*it)->posx, (*it)->posy);
-
-        if (!u_see(npcp.x, npcp.y)) {
-            continue;
-        }
-
-        if ((*it)->attitude != NPCATT_KILL) {
-            continue;
-        }
-
-        if (rl_dist(u.posx, u.posy, npcp.x, npcp.y) <= distance) {
-            return *it;
-        }
-    }
-
-    for (size_t i = 0; i < num_zombies(); i++) {
-        monster *critter = &critter_tracker.find(i);
-
-        if ((critter->attitude(&u) != MATT_ATTACK) || (!u_see(critter))) {
-            continue;
-        }
-
-        int mondist = rl_dist(u.posx, u.posy, critter->posx(), critter->posy());
-        if (mondist <= distance) {
+    for( auto &critter : u.get_visible_creatures( distance ) ) {
+        if( u.attitude_to( *critter ) == Creature::A_HOSTILE ) {
             return critter;
         }
     }
@@ -6147,14 +6123,13 @@ int game::mon_info(WINDOW *w)
     const int maxheight = 12;
     const int startrow = use_narrow_sidebar() ? 1 : 0;
 
-    int buff;
     std::string sbuff;
     int newseen = 0;
     const int iProxyDist = (OPTIONS["SAFEMODEPROXIMITY"] <= 0) ? 60 : OPTIONS["SAFEMODEPROXIMITY"];
     // 7 0 1    unique_types uses these indices;
     // 6 8 2    0-7 are provide by direction_from()
     // 5 4 3    8 is used for local monsters (for when we explain them below)
-    std::vector<int> unique_types[9];
+    std::vector<npc*> unique_types[9];
     std::vector<std::string> unique_mons[9];
     // dangerous_types tracks whether we should print in red to warn the player
     bool dangerous[8];
@@ -6162,22 +6137,26 @@ int game::mon_info(WINDOW *w)
         dangerous[i] = false;
     }
 
-    direction dir_to_mon, dir_to_npc;
     int viewx = u.posx + u.view_offset_x;
     int viewy = u.posy + u.view_offset_y;
     new_seen_mon.clear();
 
-    for (size_t i = 0; i < num_zombies(); i++) {
-        monster &critter = critter_tracker.find(i);
-        if (u_see(&critter) && !critter.type->has_flag(MF_VERMIN)) {
-            dir_to_mon = direction_from(viewx, viewy, critter.posx(), critter.posy());
-            int index;
-            int mx = POSX + (critter.posx() - viewx);
-            int my = POSY + (critter.posy() - viewy);
-            if (is_valid_in_w_terrain(mx, my)) {
-                index = 8;
-            } else {
-                index = dir_to_mon;
+    for( auto &c : u.get_visible_creatures( SEEX * MAPSIZE ) ) {
+        const auto m = dynamic_cast<monster*>( c );
+        const auto p = dynamic_cast<npc*>( c );
+        const auto dir_to_mon = direction_from( viewx, viewy, c->xpos(), c->ypos() );
+        const int mx = POSX + ( c->xpos() - viewx );
+        const int my = POSY + ( c->ypos() - viewy );
+        int index;
+        if( is_valid_in_w_terrain( mx, my ) ) {
+            index = 8;
+        } else {
+            index = dir_to_mon;
+        }
+        if( m != nullptr ) {
+            auto &critter = *m;
+            if(critter.type->has_flag(MF_VERMIN)) {
+                continue;
             }
 
             monster_attitude matt = critter.attitude(&u);
@@ -6199,7 +6178,7 @@ int game::mon_info(WINDOW *w)
                     }
                     if (!passmon) {
                         newseen++;
-                        new_seen_mon.push_back(i);
+                        new_seen_mon.push_back( mon_at( critter.posx(), critter.posy() ) );
                     }
                 }
             }
@@ -6208,28 +6187,14 @@ int game::mon_info(WINDOW *w)
             if( std::find( vec.begin(), vec.end(), critter.type->id ) == vec.end() ) {
                 unique_mons[index].push_back(critter.type->id);
             }
-        }
-    }
-
-    for (size_t i = 0; i < active_npc.size(); i++) {
-        point npcp(active_npc[i]->posx, active_npc[i]->posy);
-        if (u_see(npcp.x, npcp.y)) { // TODO: NPC invis
-            if (active_npc[i]->attitude == NPCATT_KILL)
+        } else if( p != nullptr ) {
+            const auto npcp = p->pos();
+            if (p->attitude == NPCATT_KILL)
                 if (rl_dist(u.posx, u.posy, npcp.x, npcp.y) <= iProxyDist) {
                     newseen++;
                 }
 
-            dir_to_npc = direction_from(viewx, viewy, npcp.x, npcp.y);
-            int index;
-            int mx = POSX + (npcp.x - viewx);
-            int my = POSY + (npcp.y - viewy);
-            if (is_valid_in_w_terrain(mx, my)) {
-                index = 8;
-            } else {
-                index = dir_to_npc;
-            }
-
-            unique_types[index].push_back(-1 - i);
+            unique_types[index].push_back( p );
         }
     }
 
@@ -6320,8 +6285,7 @@ int game::mon_info(WINDOW *w)
                 c = c_white;
                 sym = "+";
             } else if (j < typeshere_npc) {
-                buff = unique_types[i][j];
-                switch (active_npc[(buff + 1) * -1]->attitude) {
+                switch (unique_types[i][j]->attitude) {
                 case NPCATT_KILL:
                     c = c_red;
                     break;
@@ -10241,23 +10205,15 @@ int game::list_items(const int iLastState)
     return iReturn;
 }
 
-std::vector<int> game::find_nearby_monsters(int iRadius)
-{
-    std::vector<int> ret;
-    std::vector<point> points = closest_points_first(iRadius, u.posx, u.posy);
-
-    for (std::vector<point>::iterator p_it = points.begin(); p_it != points.end(); ++p_it) {
-        int dex = mon_at(p_it->x, p_it->y);
-        if (dex != -1 && u_see(&zombie(dex))) {
-            ret.push_back(dex);
-        }
-    }
-
-    return ret;
-}
-
 int game::list_monsters(const int iLastState)
 {
+    const auto vMonsters = u.get_visible_creatures( DAYLIGHT_LEVEL );
+    const int iMonsterNum = vMonsters.size();
+
+    if( vMonsters.empty() && iLastState != 1 ) {
+        return 0;
+    }
+
     int iInfoHeight = 12;
     const int width = use_narrow_sidebar() ? 45 : 55;
     WINDOW *w_monsters = newwin(TERMY - 2 - iInfoHeight - VIEW_OFFSET_Y * 2, width - 2,
@@ -10274,14 +10230,7 @@ int game::list_monsters(const int iLastState)
     WINDOW_PTR w_monster_info_borderptr( w_monster_info_border );
 
     uistate.list_item_mon = 2; // remember we've tabbed here
-    //this stores the monsters found
-    std::vector<int> vMonsters = find_nearby_monsters(DAYLIGHT_LEVEL);
 
-    const int iMonsterNum = vMonsters.size();
-
-    if (iMonsterNum > 0) {
-        uistate.list_item_mon = 2; // remember we've tabbed here
-    }
     const int iWeaponRange = u.weapon.range(&u);
 
     const int iStoreViewOffsetX = u.view_offset_x;
@@ -10290,15 +10239,14 @@ int game::list_monsters(const int iLastState)
     u.view_offset_x = 0;
     u.view_offset_y = 0;
 
-    int iReturn = -1;
     int iActive = 0; // monster index that we're looking at
-    const int iMaxRows = TERMY - iInfoHeight - 2 - VIEW_OFFSET_Y * 2;
+    const int iMaxRows = TERMY - iInfoHeight - 2 - VIEW_OFFSET_Y * 2 - 1;
     int iStartPos = 0;
     int iActiveX = 0;
     int iActiveY = 0;
     int iLastActiveX = -1;
     int iLastActiveY = -1;
-    int iMonDex = -1;
+    Creature *cCurMon = nullptr;
 
     for (int i = 1; i < TERMX; i++) {
         if (i < width) {
@@ -10336,7 +10284,6 @@ int game::list_monsters(const int iLastState)
     ctxt.register_action("HELP_KEYBINDINGS");
 
     do {
-        if (!vMonsters.empty() || iLastState == 1) {
             if (action == "UP") {
                 iActive--;
                 if (iActive < 0) {
@@ -10356,67 +10303,73 @@ int game::list_monsters(const int iLastState)
                 iLastActiveX = recentered.x;
                 iLastActiveY = recentered.y;
             } else if (action == "fire") {
-                if (iMonDex >= 0 && size_t(iMonDex) < num_zombies() &&
-                    rl_dist(point(u.posx, u.posy), zombie(iMonDex).pos()) <= iWeaponRange) {
-                    last_target = iMonDex;
+                if( cCurMon != nullptr &&
+                    rl_dist( u.pos(), cCurMon->pos() ) <= iWeaponRange) {
+                    last_target = mon_at( cCurMon->xpos(), cCurMon->ypos() );
                     u.view_offset_x = iStoreViewOffsetX;
                     u.view_offset_y = iStoreViewOffsetY;
                     return 2;
                 }
             }
 
-            if (vMonsters.empty() && iLastState == 1) {
+            if (vMonsters.empty()) {
                 wrefresh(w_monsters_border);
                 mvwprintz(w_monsters, 10, 2, c_white, _("You dont see any monsters around you!"));
             } else {
+                if( static_cast<size_t>( iActive ) >= vMonsters.size() ) {
+                    iActive = 0;
+                }
                 werase(w_monsters);
 
                 calcStartPos(iStartPos, iActive, iMaxRows, iMonsterNum);
 
-                int iNum = 0;
-                iActiveX = 0;
-                iActiveY = 0;
-                iMonDex = -1;
+                cCurMon = vMonsters[iActive];
+                iActiveX = cCurMon->xpos() - u.posx;
+                iActiveY = cCurMon->ypos() - u.posy;
 
-                for (std::vector<int>::iterator it = vMonsters.begin();
-                     it != vMonsters.end(); ++it) {
-                    if (iNum >= iStartPos && iNum < iStartPos + ((iMaxRows > iMonsterNum) ?
-                            iMonsterNum : iMaxRows) ) {
-
-                        if (iNum == iActive) {
-                            iMonDex = *it;
-
-                            iActiveX = zombie(iMonDex).posx() - u.posx;
-                            iActiveY = zombie(iMonDex).posy() - u.posy;
-                        }
+                const auto endY = std::min<int>( iMaxRows, iMonsterNum - iStartPos );
+                for( int y = 0; y < endY; ++y ) {
+                    const auto critter = vMonsters[y + iStartPos];
+                    const bool selected = ( cCurMon == critter );
+                    const auto m = dynamic_cast<monster*>( critter );
+                    const auto p = dynamic_cast<npc*>( critter );
 
                         int iDummy;
-                        if (sees_u(zombie(*it).posx(), zombie(*it).posy(), iDummy)) {
-                            mvwprintz(w_monsters, iNum - iStartPos, 0, c_yellow, "!");
+                        if (sees_u(critter->xpos(), critter->ypos(), iDummy)) {
+                            mvwprintz(w_monsters, y, 0, c_yellow, "!");
                         }
 
-                        mvwprintz(w_monsters, iNum - iStartPos, 1,
-                                  ((iNum == iActive) ? c_ltgreen : c_white),
-                                  "%s", zombie(*it).name().c_str());
+                        if( m != nullptr ) {
+                            mvwprintz(w_monsters, y, 1, selected ? c_ltgreen : c_white, "%s", m->name().c_str());
+                        } else {
+                            mvwprintz(w_monsters, y, 1, selected ? c_ltgreen : c_white, "%s", critter->disp_name().c_str());
+                        }
                         nc_color color = c_white;
                         std::string sText = "";
 
-                        zombie(*it).get_HP_Bar(color, sText);
-                        mvwprintz(w_monsters, iNum - iStartPos, 22, color, "%s", sText.c_str());
+                        if( m != nullptr ) {
+                            m->get_HP_Bar(color, sText);
+                        } else {
+                            ::get_HP_Bar( critter->get_hp(), critter->get_hp_max(), color, sText, false );
+                        }
+                        mvwprintz(w_monsters, y, 22, color, "%s", sText.c_str());
 
-                        zombie(*it).get_Attitude(color, sText);
-                        mvwprintz(w_monsters, iNum - iStartPos, 28, color, "%s", sText.c_str());
+                        if( m != nullptr ) {
+                            m->get_Attitude(color, sText);
+                        } else if( p != nullptr ) {
+                            sText = npc_attitude_name( p->attitude );
+                            color = p->symbol_color();
+                        }
+                        mvwprintz(w_monsters, y, 28, color, "%s", sText.c_str());
 
                         int numw = iMonsterNum > 9 ? 2 : 1;
-                        mvwprintz(w_monsters, iNum - iStartPos, width - (6 + numw),
-                                  ((iNum == iActive) ? c_ltgreen : c_ltgray), "%*d %s",
-                                  numw, trig_dist(0, 0, zombie(*it).posx() - u.posx,
-                                                  zombie(*it).posy() - u.posy),
+                        mvwprintz(w_monsters, y, width - (6 + numw),
+                                  (selected ? c_ltgreen : c_ltgray), "%*d %s",
+                                  numw, trig_dist(0, 0, critter->xpos() - u.posx,
+                                                  critter->ypos() - u.posy),
                                   direction_name_short(
-                                      direction_from( 0, 0, zombie(*it).posx() - u.posx,
-                                                      zombie(*it).posy() - u.posy)).c_str() );
-                    }
-                    iNum++;
+                                      direction_from( 0, 0, critter->xpos() - u.posx,
+                                                      critter->ypos() - u.posy)).c_str() );
                 }
 
                 mvwprintz(w_monsters_border, 0, (width - 9) / 2 + ((iMonsterNum > 9) ? 0 : 1),
@@ -10426,13 +10379,13 @@ int game::list_monsters(const int iLastState)
                 werase(w_monster_info);
 
                 //print monster info
-                zombie(iMonDex).print_info(w_monster_info, 1, 11, 1);
+                cCurMon->print_info(w_monster_info, 1, 11, 1);
 
-                mvwprintz(w_monsters, getmaxy(w_monsters) - 1, 1, c_ltgreen, "%s", press_x(ACTION_LOOK).c_str());
+                mvwprintz(w_monsters, getmaxy(w_monsters) - 1, 1, c_ltgreen, "%s", ctxt.press_x( "look" ).c_str());
                 wprintz(w_monsters, c_ltgray, " %s", _("to look around"));
-                if (rl_dist(point(u.posx, u.posy), zombie(iMonDex).pos()) <= iWeaponRange) {
+                if (rl_dist( u.pos(), cCurMon->pos() ) <= iWeaponRange) {
                     wprintz(w_monsters, c_ltgray, "%s", " ");
-                    wprintz(w_monsters, c_ltgreen, "%s", press_x(ACTION_FIRE).c_str());
+                    wprintz(w_monsters, c_ltgreen, "%s", ctxt.press_x( "fire" ).c_str());
                     wprintz(w_monsters, c_ltgray, " %s", _("to shoot"));
                 }
 
@@ -10466,16 +10419,12 @@ int game::list_monsters(const int iLastState)
             refresh();
 
             action = ctxt.handle_input();
-        } else {
-            iReturn = 0;
-            action = "QUIT";
-        }
     } while (action != "QUIT");
 
     u.view_offset_x = iStoreViewOffsetX;
     u.view_offset_y = iStoreViewOffsetY;
 
-    return iReturn;
+    return -1;
 }
 
 // Establish or release a grab on a vehicle
@@ -11108,6 +11057,26 @@ void game::plthrow(int pos)
     reenter_fullscreen();
 }
 
+// TODO: Put this into a header (which one?) and maybe move the implementation somewhere else.
+/** Comparator object to sort creatures according to their attitude from "u",
+ * and (on same attitude) according to their distance to "u".
+ */
+struct compare_by_dist_attitude {
+    const Creature &u;
+    bool operator()(Creature *a, Creature *b) const;
+};
+
+bool compare_by_dist_attitude::operator()(Creature *a, Creature *b) const
+{
+    const auto aa = u.attitude_to( *a );
+    const auto ab = u.attitude_to( *b );
+    if( aa != ab ) {
+        return aa < ab;
+    }
+    return rl_dist( a->xpos(), a->ypos(), u.xpos(), u.ypos() ) <
+           rl_dist( b->xpos(), b->ypos(), u.xpos(), u.ypos() );
+}
+
 std::vector<point> game::pl_target_ui(int &x, int &y, int range, item *relevant,
                                       int default_target_x, int default_target_y)
 {
@@ -11119,7 +11088,7 @@ std::vector<point> game::pl_target_ui(int &x, int &y, int range, item *relevant,
         last_target_critter = active_npc[last_target];
     }
     auto mon_targets = u.get_visible_creatures( range );
-    std::sort(mon_targets.begin(), mon_targets.end(), Creature::compare_by_dist_to_point { u.pos() } );
+    std::sort(mon_targets.begin(), mon_targets.end(), compare_by_dist_attitude { u } );
     int passtarget = -1;
     for (size_t i = 0; i < mon_targets.size(); i++) {
         Creature &critter = *mon_targets[i];

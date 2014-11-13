@@ -4146,8 +4146,7 @@ bool item::process_charger_gun( player *carrier, point pos )
                                        tname().c_str() );
             carrier->add_msg_player_or_npc( m_bad, _( "Your %s discharges!" ), _( "<npcname>'s %s discharges!" ), tname().c_str() );
             point target( pos.x + rng( -12, 12 ), pos.y + rng( -12, 12 ) );
-            auto traj = line_to( pos.x, pos.y, target.x, target.y, 0 );
-            g->fire( *carrier, target.x, target.y, traj, false );
+            carrier->fire_gun( target.x, target.y, false );
         } else {
             carrier->add_msg_player_or_npc( m_warning, _( "Your %s beeps alarmingly." ), _( "<npcname>'s %s beeps alarmingly." ), tname().c_str() );
         }
