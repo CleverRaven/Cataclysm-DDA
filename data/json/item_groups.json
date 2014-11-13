@@ -729,8 +729,10 @@
       ["knitting_needles", 10],
       ["sheath", 15],
       ["peephole", 2],
-      ["magnifying_glass", 5]
-      
+      ["magnifying_glass", 5],
+      ["thermometer", 3],
+      ["hygrometer", 3],
+      ["barometer", 3]
     ]
   },{
     "type" : "item_group",
@@ -2155,7 +2157,10 @@
       ["grapnel", 1],
       ["razor_blade", 9],
       ["sheath", 5],
-      ["survnote", 1]
+      ["survnote", 1],
+      ["thermometer", 3],
+      ["hygrometer", 3],
+      ["barometer", 3]
     ]
   },{
     "type" : "item_group",
@@ -5175,7 +5180,10 @@
       ["chemistry_set", 5],
       ["sm_extinguisher", 10],
       ["charcoal", 10],
-      ["briefcase", 5]
+      ["briefcase", 5],
+      ["thermometer", 3],
+      ["hygrometer", 3],
+      ["barometer", 3]
     ]
   },{
     "type" : "item_group",
@@ -5525,7 +5533,10 @@
       ["holybook_scientology", 1],
       ["collarpin", 3],
       ["survnote", 1],
-      ["magnifying_glass", 2]
+      ["magnifying_glass", 2],
+      ["thermometer", 3],
+      ["hygrometer", 3],
+      ["barometer", 3]
     ]
   },{
     "type" : "item_group",
@@ -6517,7 +6528,10 @@
       ["toolbox", 1],
       ["nic_gum", 5],
       ["radio_car_box", 2],
-      ["radiocontrol", 15]
+      ["radiocontrol", 15],
+      ["thermometer", 10],
+      ["hygrometer", 10],
+      ["barometer", 10]
     ]
   },{
     "type" : "item_group",
@@ -6556,7 +6570,10 @@
       ["diazepam", 5],
       ["misc_repairkit", 5],
       ["toolbox", 2],
-      ["apron_leather", 10]
+      ["apron_leather", 10],
+      ["thermometer", 3],
+      ["hygrometer", 3],
+      ["barometer", 3]
     ]
   },{
     "type" : "item_group",
@@ -7284,6 +7301,9 @@
       ["mobile_memory_card", 50],
       ["mobile_memory_card_science", 5],
       ["camera", 3],
+      ["thermometer", 3],
+      ["hygrometer", 3],
+      ["barometer", 3],
       ["camera_pro", 1],
       ["electrohack", 3],
       ["RAM", 22],

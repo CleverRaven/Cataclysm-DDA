@@ -10310,21 +10310,21 @@ int iuse::weather_tool(player *p, item *it, bool, point)
 
     if (it->has_flag("THERMOMETER")) {        
         if (it->type->id == "thermometer") {
-            p->add_msg_if_player(m_neutral, _("The thermometer reads %s."), print_temperature(g->get_temperature()).c_str());
+            p->add_msg_if_player(m_neutral, _("The %s reads %s."), it->name().c_str(), print_temperature(g->get_temperature()).c_str());
         } else {
             p->add_msg_if_player(m_neutral, _("Temperature: %s."), print_temperature(g->get_temperature()).c_str());
         }
     }
     if (it->has_flag("HYGROMETER")) {
         if (it->type->id == "hygrometer") {
-            p->add_msg_if_player(m_neutral, _("The hygrometer reads %s."), print_humidity(get_local_humidity(weatherPoint.humidity, g->weather, g->is_sheltered(g->u.posx, g->u.posy))).c_str());
+            p->add_msg_if_player(m_neutral, _("The %s reads %s."), it->name().c_str(), print_humidity(get_local_humidity(weatherPoint.humidity, g->weather, g->is_sheltered(g->u.posx, g->u.posy))).c_str());
         } else {
             p->add_msg_if_player(m_neutral, _("Relative Humidity: %s."), print_humidity(get_local_humidity(weatherPoint.humidity, g->weather, g->is_sheltered(g->u.posx, g->u.posy))).c_str());
         }
     }
     if (it->has_flag("BAROMETER")) {
         if (it->type->id == "barometer") {
-            p->add_msg_if_player(m_neutral, _("The barometer reads %s."), print_pressure((int)weatherPoint.pressure).c_str());
+            p->add_msg_if_player(m_neutral, _("The %s reads %s."), it->name().c_str(), print_pressure((int)weatherPoint.pressure).c_str());
         } else {
             p->add_msg_if_player(m_neutral, _("Pressure: %s."), print_pressure((int)weatherPoint.pressure).c_str());
         }
