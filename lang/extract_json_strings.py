@@ -21,7 +21,6 @@ ignorable = {
     "colordef",
     "ITEM_BLACKLIST",
     "item_group",
-    "mapgen",
     "monstergroup",
     "MONSTER_BLACKLIST",
     "MONSTER_WHITELIST",
@@ -171,13 +170,24 @@ def extract_scenarios(item):
         found = item.get(f, None)
         writestr(outfile, found)
 
+def extract_mapgen(item):
+    outfile = get_outfile("mapgen")
+    # writestr will not write string if it is None.
+    for objkey in item["object"]:
+        if objkey == "place_specials":
+            for special in item["object"][objkey]:
+                for speckey in special:
+                    if speckey == "signage":
+                        writestr(outfile, special[speckey])
+
 # these objects need to have their strings specially extracted
 extract_specials = {
     "effect_type": extract_effect_type,
     "material": extract_material,
     "martial_art": extract_martial_art,
     "profession": extract_professions,
-    "scenario": extract_scenarios
+    "scenario": extract_scenarios,
+    "mapgen": extract_mapgen
 }
 
 ##

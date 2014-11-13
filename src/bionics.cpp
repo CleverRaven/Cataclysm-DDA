@@ -407,12 +407,13 @@ void player::activate_bionic(int b)
             add_msg(m_neutral, _("Artificial night generator active!"));
         }
     } else if (bio.id == "bio_resonator") {
+        //~Sound of a bionic sonic-resonator shaking the area
         g->sound(posx, posy, 30, _("VRRRRMP!"));
         for (int i = posx - 1; i <= posx + 1; i++) {
             for (int j = posy - 1; j <= posy + 1; j++) {
-                g->m.bash( i, j, 40 );
-                g->m.bash( i, j, 40 ); // Multibash effect, so that doors &c will fall
-                g->m.bash( i, j, 40 );
+                g->m.bash( i, j, 110 );
+                g->m.bash( i, j, 110 ); // Multibash effect, so that doors &c will fall
+                g->m.bash( i, j, 110 );
             }
         }
     } else if (bio.id == "bio_time_freeze") {
@@ -1036,7 +1037,7 @@ void bionics_install_failure(player *u, it_bionic *type, int success)
                    u->skillLevel("electronics") * 4 +
                    u->skillLevel("firstaid")    * 3 +
                    u->skillLevel("mechanics")   * 1;
-    // Medical resients get a substantial assist here
+    // Medical residents get a substantial assist here
     if (u->has_trait("PROF_MED")) {
         pl_skill += 6;
     }

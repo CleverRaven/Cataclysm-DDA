@@ -391,7 +391,7 @@
         "deconstruct": {
             "items": [
                 { "item": "2x4", "amount": 4 },
-                { "item": "nail", "amount": 10, "minamount": 6 }
+                { "item": "nail", "amount": 8, "minamount": 6 }
             ]
         },
         "max_volume": 4000,
@@ -472,8 +472,8 @@
         "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "ORGANIC", "MOUNTABLE"],
         "deconstruct": {
             "items": [
-                { "item": "2x4", "amount": 4 },
-                { "item": "nail", "amount": 10, "minamount": 6 }
+                { "item": "2x4", "amount": 3 },
+                { "item": "nail", "amount": 8, "minamount": 6 }
             ]
         },
         "max_volume": 4000,

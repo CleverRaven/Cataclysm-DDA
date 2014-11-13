@@ -3747,10 +3747,17 @@ void player::toggle_str_set( std::unordered_set< std::string > &set, const std::
     }
 }
 
+void mutation_effect(player &p, std::string mut);
+void mutation_loss_effect(player &p, std::string mut);
 void player::toggle_trait(const std::string &flag)
 {
     toggle_str_set(my_traits, flag); //Toggles a base trait on the player
     toggle_str_set(my_mutations, flag); //Toggles corresponding trait in mutations list as well.
+    if( has_trait( flag ) ) {
+        mutation_effect( *this, flag );
+    } else {
+        mutation_loss_effect( *this, flag );
+    }
     recalc_sight_limits();
 }
 
@@ -4204,17 +4211,22 @@ int player::overmap_sight_range(int light_level)
         }
         return 25;
     }
-
+    else if (has_trait("BIRD_EYE")) {
+            return 15;
+        }
     return 10;
 }
 
+#define MAX_CLAIRVOYANCE 40
 int player::clairvoyance() const
 {
- if (has_artifact_with(AEP_CLAIRVOYANCE))
-  return 3;
- if (has_artifact_with(AEP_SUPER_CLAIRVOYANCE))
-  return 40;
- return 0;
+    if (has_artifact_with(AEP_SUPER_CLAIRVOYANCE)) {
+        return MAX_CLAIRVOYANCE;
+    }
+    if (has_artifact_with(AEP_CLAIRVOYANCE)) {
+        return 3;
+    }
+    return 0;
 }
 
 bool player::sight_impaired()
@@ -6137,8 +6149,8 @@ void player::suffer()
                     if( before < rad_dosage_thresholds[i] &&
                         (*it)->irridation >= rad_dosage_thresholds[i] ) {
                         add_msg_if_player(m_warning, _("Your radiation badge changes from %s to %s!"),
-                                                     rad_threshold_colors[i - 1].c_str(),
-                                                     rad_threshold_colors[i].c_str() );
+                                          _(rad_threshold_colors[i - 1].c_str()),
+                                          _(rad_threshold_colors[i].c_str()) );
                     }
                 }
             }
@@ -11631,6 +11643,43 @@ field_id player::playerBloodType() const {
     return fd_blood;
 }
 
+Creature::Attitude player::attitude_to( const Creature &other ) const
+{
+    const auto m = dynamic_cast<const monster *>( &other );
+    const auto p = dynamic_cast<const npc *>( &other );
+    if( m != nullptr ) {
+        if( m->friendly != 0 ) {
+            return A_FRIENDLY;
+        }
+        switch( m->attitude( const_cast<player *>( this ) ) ) {
+                // player probably does not want to harm them, but doesn't care much at all.
+            case MATT_FOLLOW:
+            case MATT_FPASSIVE:
+            case MATT_IGNORE:
+            case MATT_FLEE:
+                return A_NEUTRAL;
+                // player does not want to harm those.
+            case MATT_FRIEND:
+            case MATT_ZLAVE: // Don't want to harm your zlave!
+                return A_FRIENDLY;
+            case MATT_ATTACK:
+                return A_HOSTILE;
+            case MATT_NULL:
+            case NUM_MONSTER_ATTITUDES:
+                break;
+        }
+    } else if( p != nullptr ) {
+        if( p->attitude == NPCATT_KILL ) {
+            return A_HOSTILE;
+        } else if( p->is_friend() ) {
+            return A_FRIENDLY;
+        } else {
+            return A_NEUTRAL;
+        }
+    }
+    return A_NEUTRAL;
+}
+
 Creature *player::auto_find_hostile_target(int range, int &boo_hoo, int &fire_t)
 {
     if (is_player()) {
@@ -11703,28 +11752,29 @@ bool player::sees(int x, int y) const
 
 bool player::sees(int x, int y, int &t) const
 {
-    const int s_range = sight_range(g->light_level());
     static const std::string str_bio_night("bio_night");
     const int wanted_range = rl_dist(posx, posy, x, y);
-
-    if (wanted_range < clairvoyance()) {
-        return true;
-    }
     bool can_see = false;
-    if (wanted_range <= s_range ||
-        (wanted_range <= sight_range(DAYLIGHT_LEVEL) &&
-            g->m.light_at(x, y) >= LL_LOW)) {
-        if (is_player()) {
-            // uses the seen cache in map
+    const int s_range = sight_range(g->light_level());
+    if( wanted_range <= s_range || (wanted_range <= sight_range(DAYLIGHT_LEVEL) &&
+         g->m.light_at(x, y) >= LL_LOW) ) {
+        if( is_player() ) {
             can_see = g->m.pl_sees(posx, posy, x, y, wanted_range);
-        } else if (g->m.light_at(x, y) >= LL_LOW) {
+        } else  if( g->m.light_at(x, y) >= LL_LOW ) {
             can_see = g->m.sees(posx, posy, x, y, wanted_range, t);
         } else {
             can_see = g->m.sees(posx, posy, x, y, s_range, t);
         }
     }
-    if (has_active_bionic(str_bio_night) && wanted_range < 15 && wanted_range > sight_range(1)) {
-        return false;
+    // Only check if we need to override if we already came to the opposite conclusion.
+    if( can_see && wanted_range < 15 && wanted_range > sight_range(1) &&
+        has_active_bionic(str_bio_night) ) {
+        can_see = false;
+    }
+    // Clairvoyance is a really expensive check,
+    // so try to avoid making it if at all possible.
+    if( !can_see && wanted_range < MAX_CLAIRVOYANCE && wanted_range < clairvoyance() ) {
+        return true;
     }
     return can_see;
 }

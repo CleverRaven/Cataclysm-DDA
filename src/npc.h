@@ -541,6 +541,7 @@ public:
  bool is_friend() const; // Allies with the player
  bool is_leader() const; // Leading the player
  bool is_defending() const; // Putting the player's safety ahead of ours
+        Attitude attitude_to( const Creature &other ) const override;
 // What happens when the player makes a request
  void told_to_help();
  void told_to_wait();
