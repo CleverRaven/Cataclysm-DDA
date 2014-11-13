@@ -278,10 +278,13 @@ Some special attacks are also valid use actions for tools and weapons.
 - ```TAZER``` Shock the player.
 - ```SMG``` SMG turret fires.
 - ```LASER``` Laser turret fires.
-  ```RIFLE_TUR``` Rifle turret fires.
-- ```FLAMETHROWER``` Shoots a stream fire.
+- ```RIFLE_TUR``` Rifle turret fires.
+- ```FRAG_TUR``` MGL fires frag rounds.
+- ```BMG_TUR``` Barrett .50BMG rifle fires.
+- ```FLAMETHROWER``` Shoots a stream of fire.
 - ```COPBOT``` Cop-bot alerts and then tazes the player.
-- ```MULTI_ROBOT``` Robot can attack with tazer, flamethrower or SMG depending on distance.
+- ```CHICKENBOT``` Robot can attack with tazer, M4, or MGL depending on distance.
+- ```MULTI_ROBOT``` Robot can attack with tazer, flamethrower, M4, MGL, or 120mm cannon depending on distance.
 - ```RATKING``` Inflicts disease `rat`
 - ```GENERATOR``` Regenerates health.
 - ```UPGRADE``` Upgrades a regular zombie into a special zombie.
