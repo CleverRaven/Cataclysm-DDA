@@ -13004,10 +13004,13 @@ void map::add_extra(map_extra type)
         line(this, t_fence_barbed, SEEX * 2 - 3, 13, SEEX * 2 - 3, 19);
         line(this, t_fence_barbed, 3, 4, 3, 10);
         line(this, t_fence_barbed, 1, 13, 1, 19);
-        if (one_in(2)) {  // Chicken delivery truck
+        if (one_in(3)) {  // Chicken delivvery truck
             add_vehicle("military_cargo_truck", 12, SEEY * 2 - 5, 0);
             add_spawn("mon_chickenbot", 1, 12, 12);
-        // Tankbot spawn removed.  Will find them another home, no worries-KA101.
+        } else if (one_in(2)) {  // TAAANK
+            // The truck's wrecked...with fuel.  Explosive barrel?
+            add_vehicle("military_cargo_truck", 12, SEEY * 2 - 5, 0, 70, -1);
+            add_spawn("mon_tankbot", 1, 12, 12);
         } else {  // Truck & turrets
             add_vehicle("military_cargo_truck", 12, SEEY * 2 - 5, 0);
             add_spawn("mon_turret_bmg", 1, 12, 12);
