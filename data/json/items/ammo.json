@@ -1695,7 +1695,7 @@
         "dispersion" : 5,
         "recoil" : 30,
         "count" : 1,
-        "effects" : ["COOKOFF", "EXPLOSIVE_BIG", "TRAIL"]
+        "effects" : ["COOKOFF", "EXPLOSIVE", "TRAIL"]
     },
     {   "type" : "AMMO",
         "id" : "12mm",

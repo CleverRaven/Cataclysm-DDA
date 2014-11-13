@@ -13004,7 +13004,7 @@ void map::add_extra(map_extra type)
         line(this, t_fence_barbed, SEEX * 2 - 3, 13, SEEX * 2 - 3, 19);
         line(this, t_fence_barbed, 3, 4, 3, 10);
         line(this, t_fence_barbed, 1, 13, 1, 19);
-        if (one_in(3)) {  // Chicken delivvery truck
+        if (one_in(3)) {  // Chicken delivery truck
             add_vehicle("military_cargo_truck", 12, SEEY * 2 - 5, 0);
             add_spawn("mon_chickenbot", 1, 12, 12);
         } else if (one_in(2)) {  // TAAANK
