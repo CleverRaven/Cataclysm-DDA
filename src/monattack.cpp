@@ -2349,7 +2349,7 @@ void mattack::tank_tur(monster *z, int index)
             add_msg(m_warning, _("You're not sure why you've got a laser dot on you...") );
             //~ Sound of a tank turret swiveling into place
             g->sound(z->posx(), z->posy(), 10, _("whirrrrrclick."));
-            z->add_effect("targeted", 2);
+            z->add_effect("targeted", 3);
             z->moves -= 200;
             // Should give some ability to get behind cover,
             // even though it's patently unrealistic.
@@ -2376,9 +2376,6 @@ void mattack::tank_tur(monster *z, int index)
     z->ammo[ammo_type] -= tmp.weapon.charges;
     tmp.fire_gun(target->xpos(), target->ypos(), false);
     z->ammo[ammo_type] += tmp.weapon.charges;
-    if (target == &g->u) {
-        z->add_effect("targeted", 2);
-    }
 }
 
 void mattack::searchlight(monster *z, int index)
