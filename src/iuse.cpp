@@ -10308,29 +10308,32 @@ int iuse::weather_tool(player *p, item *it, bool, point)
 {
     w_point weatherPoint = g->weatherGen.get_weather(p->pos(), calendar::turn);
 
+    if (it->type->id == "weather_reader") {
+        p->add_msg_if_player(m_neutral, _("The %s's monitor slowly outputs the data..."), it->tname().c_str());
+    }
     if (it->has_flag("THERMOMETER")) {        
         if (it->type->id == "thermometer") {
-            p->add_msg_if_player(m_neutral, _("The %s reads %s."), it->name().c_str(), print_temperature(g->get_temperature()).c_str());
+            p->add_msg_if_player(m_neutral, _("The %s reads %s."), it->tname().c_str(), print_temperature(g->get_temperature()).c_str());
         } else {
             p->add_msg_if_player(m_neutral, _("Temperature: %s."), print_temperature(g->get_temperature()).c_str());
         }
     }
     if (it->has_flag("HYGROMETER")) {
         if (it->type->id == "hygrometer") {
-            p->add_msg_if_player(m_neutral, _("The %s reads %s."), it->name().c_str(), print_humidity(get_local_humidity(weatherPoint.humidity, g->weather, g->is_sheltered(g->u.posx, g->u.posy))).c_str());
+            p->add_msg_if_player(m_neutral, _("The %s reads %s."), it->tname().c_str(), print_humidity(get_local_humidity(weatherPoint.humidity, g->weather, g->is_sheltered(g->u.posx, g->u.posy))).c_str());
         } else {
             p->add_msg_if_player(m_neutral, _("Relative Humidity: %s."), print_humidity(get_local_humidity(weatherPoint.humidity, g->weather, g->is_sheltered(g->u.posx, g->u.posy))).c_str());
         }
     }
     if (it->has_flag("BAROMETER")) {
         if (it->type->id == "barometer") {
-            p->add_msg_if_player(m_neutral, _("The %s reads %s."), it->name().c_str(), print_pressure((int)weatherPoint.pressure).c_str());
+            p->add_msg_if_player(m_neutral, _("The %s reads %s."), it->tname().c_str(), print_pressure((int)weatherPoint.pressure).c_str());
         } else {
             p->add_msg_if_player(m_neutral, _("Pressure: %s."), print_pressure((int)weatherPoint.pressure).c_str());
         }
     }
 
-    if (it->has_flag("BAROMETER") && it->has_flag("HYGROMETER") && it->has_flag("THERMOMETER")) {
+    if (it->type->id == "weather_reader") {
         int vpart = -1;
         vehicle *veh = g->m.veh_at( p->posx, p->posy, vpart );
         int vehwindspeed = 0;

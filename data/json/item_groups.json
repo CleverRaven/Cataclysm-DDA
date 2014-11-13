@@ -6531,7 +6531,8 @@
       ["radiocontrol", 15],
       ["thermometer", 10],
       ["hygrometer", 10],
-      ["barometer", 10]
+      ["barometer", 10],
+      ["weather_reader", 1]
     ]
   },{
     "type" : "item_group",
