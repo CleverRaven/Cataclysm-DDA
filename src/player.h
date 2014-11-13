@@ -1182,7 +1182,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         // Trigger and disable mutations that can be so toggled.
         void activate_mutation( std::string mutation );
-        void deactivate_mutation( std::string mutation );
+        void deactivate_mutation( std::string mut );
         bool has_fire(const int quantity) const;
         void use_fire(const int quantity);
         /**

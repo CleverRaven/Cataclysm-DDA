@@ -54,16 +54,19 @@ void player::activate_mutation( std::string mut )
     else if (traits[mut].id == "BURROW"){
         if (g->u.is_underwater()) {
         add_msg_if_player(m_info, _("You can't do that while underwater."));
+        traits[mut].powered = false;
         return;
     }
     int dirx, diry;
     if (!choose_adjacent(_("Burrow where?"), dirx, diry)) {
+        traits[mut].powered = false;
         return;
     }
 
     if (dirx == g->u.posx && diry == g->u.posy) {
         add_msg_if_player(_("You've got places to go and critters to beat."));
         add_msg_if_player(_("Let the lesser folks eat their hearts out."));
+        traits[mut].powered = false;
         return;
     }
     int turns;
@@ -77,12 +80,14 @@ void player::activate_mutation( std::string mut )
         turns = 18000;
     } else {
         add_msg_if_player(m_info, _("You can't burrow there."));
+        traits[mut].powered = false;
         return;
     }
     g->u.assign_activity(ACT_BURROW, turns, -1, 0);
     g->u.activity.placement = point(dirx, diry);
     add_msg_if_player(_("You tear into the %s with your teeth and claws."),
                          g->m.tername(dirx, diry).c_str());
+    traits[mut].powered = false;
     return; // handled when the activity finishes
     }
     else if (traits[mut].id == "SLIMESPAWNER"){
@@ -97,6 +102,7 @@ void player::activate_mutation( std::string mut )
         // Oops, no room to divide!
         if (valid.size() == 0) {
             add_msg(m_bad, _("You focus, but are too hemmed in to birth a new slimespring!"));
+            traits[mut].powered = false;
             return;
         }
         add_msg(m_good, _("You focus, and with a pleasant splitting feeling, birth a new slimespring!"));
@@ -118,24 +124,38 @@ void player::activate_mutation( std::string mut )
         } else {
             add_msg(m_good, _("we're a team, we've got this!"));
         }
+        traits[mut].powered = false;
+        return;
     }
     else if (traits[mut].id == "SHOUT1"){
         g->sound(posx, posy, 10 + 2 * str_cur, _("You shout loudly!"));
+        traits[mut].powered = false;
+        return;
     }
     else if (traits[mut].id == "SHOUT2"){
         g->sound(posx, posy, 15 + 3 * str_cur, _("You scream loudly!"));
+        traits[mut].powered = false;
+        return;
     }
     else if (traits[mut].id == "SHOUT3"){
         g->sound(posx, posy, 20 + 4 * str_cur, _("You let out a piercing howl!"));
+        traits[mut].powered = false;
+        return;
     }
     else if ((traits[mut].id == "NAUSEA") || (traits[mut].id == "VOMITOUS") ){
         vomit();
+        traits[mut].powered = false;
+        return;
     }
     else if (traits[mut].id == "M_FERTILE"){
         spores();
+        traits[mut].powered = false;
+        return;
     }
     else if (traits[mut].id == "M_BLOOM"){
         blossoms();
+        traits[mut].powered = false;
+        return;
     }
     else if (traits[mut].id == "VINES3"){
         int handed = 0;
@@ -151,12 +171,14 @@ void player::activate_mutation( std::string mut )
             newit = i_add(newit);
             add_msg(m_info, "%c - %s", newit.invlet == 0 ? ' ' : newit.invlet, newit.tname().c_str());
         }
+        traits[mut].powered = false;
+        return;
     }
 }
 
-void player::deactivate_mutation(std::string mutation)
+void player::deactivate_mutation(std::string mut)
 {
-    traits[mutation].powered = false;
+    traits[mut].powered = false;
 }
 
 void show_mutations_titlebar(WINDOW *window, player *p, std::string menu_mode)
