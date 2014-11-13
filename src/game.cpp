@@ -423,9 +423,9 @@ void game::init_ui()
         messH = TERMY - 5; // 1 for w_location + 4 for w_stat, w_messages starts at 0
         hpX = 0;
         hpY = MINIMAP_HEIGHT;
-        // under the minimap, but down to the same line as w_messages (even when that is to much),
-        // so it erases the space between w_terrain and w_messages
-        hpH = messH - MINIMAP_HEIGHT;
+        // under the minimap, but down to the same line as w_location (which is under w_messages)
+        // so it erases the space between w_terrain and (w_messages and w_location)
+        hpH = messH - MINIMAP_HEIGHT + 1;
         hpW = 7;
         locX = MINIMAP_WIDTH;
         locY = messY + messH;
@@ -474,7 +474,7 @@ void game::init_ui()
         if (!use_narrow_sidebar()) {
             // Second status window must now take care of clearing the area to the
             // bottom of the screen.
-            stat2H = TERMY - stat2Y;
+            stat2H = std::max( 1, TERMY - stat2Y );
         }
     }
     liveview.init(mouse_view_x, mouseview_y, sidebarWidth, mouseview_h);
@@ -736,6 +736,10 @@ void game::cleanup_at_end()
 {
     draw_sidebar();
     if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE) {
+        // Put (non-hallucinations) into the overmap so they are not lost.
+        while( num_zombies() > 0 ) {
+            despawn_monster( 0 );
+        }
         // Save the factions', missions and set the NPC's overmap coords
         // Npcs are saved in the overmap.
         save_factions_missions_npcs(); //missions need to be saved as they are global for all saves.
@@ -15150,5 +15154,5 @@ int game::get_abs_levy() const
 
 int game::get_abs_levz() const
 {
-    return levx;
+    return levz;
 }
