@@ -2205,7 +2205,9 @@ void mattack::frag_tur(monster *z, int index) // This is for the bots, not a sta
             add_msg(m_warning, _("Those laser dots don't seem very friendly...") );
             g->sound(z->posx(), z->posy(), 10, _("Targeting."));
             z->add_effect("targeted", 4);
-            z->moves -= 100;
+            z->moves -= 150;
+            // Should give some ability to get behind cover,
+            // even though it's patently unrealistic.
             return;
         }
         target = &g->u;
@@ -2347,8 +2349,10 @@ void mattack::tank_tur(monster *z, int index)
             add_msg(m_warning, _("You're not sure why you've got a laser dot on you...") );
             //~ Sound of a tank turret swiveling into place
             g->sound(z->posx(), z->posy(), 10, _("whirrrrrclick."));
-            z->add_effect("targeted", 2);
-            z->moves -= 100;
+            z->add_effect("targeted", 3);
+            z->moves -= 200;
+            // Should give some ability to get behind cover,
+            // even though it's patently unrealistic.
             return;
         }
         target = &g->u;
@@ -2372,9 +2376,6 @@ void mattack::tank_tur(monster *z, int index)
     z->ammo[ammo_type] -= tmp.weapon.charges;
     tmp.fire_gun(target->xpos(), target->ypos(), false);
     z->ammo[ammo_type] += tmp.weapon.charges;
-    if (target == &g->u) {
-        z->add_effect("targeted", 2);
-    }
 }
 
 void mattack::searchlight(monster *z, int index)
@@ -2714,9 +2715,15 @@ void mattack::multi_robot(monster *z, int index)
         mode = 3;
     } else if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) <= 30) {
         mode = 4;
-    } else if ((rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) >= 35) ||
-      (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) >= 25 && g->u.in_vehicle)) {
-        mode = 5;
+    } else if (g->u.in_vehicle || g->u.has_trait("HUGE") || g->u.has_trait("HUGE_OK") ||
+      z->friendly != 0) {
+        // Primary only kicks in if you're in a vehicle or are big enough to be mistaken for one.
+        // Or if you've hacked it so the turret's on your side.  ;-)
+        if ( (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) >= 35) &&
+          (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) < 50 )) {
+            // Enforced max-range of 50.
+            mode = 5;
+        }
     }
 
     if (mode == 0) {
