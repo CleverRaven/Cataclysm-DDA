@@ -2351,7 +2351,7 @@
   "skills_required": ["fabrication", 1],
   "difficulty": 3,
   "time": 20000,
-  "reversible": true,
+  "reversible": false,
   "decomp_learn": 3,
   "autolearn": false,
   "book_learn": [["textbook_fireman", 3] , ["atomic_survival", 3] , ["adv_chemistry", 4] , ["textbook_chemistry", 4] , ["emergency_book", 3] , ["textbook_gaswarfare", 3]],
