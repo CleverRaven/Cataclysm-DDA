@@ -1380,7 +1380,7 @@ void load_construction(JsonObject &jo)
     con->skill = jo.get_string("skill", "carpentry");
     con->difficulty = jo.get_int("difficulty");
     con->category = jo.get_string("category", "OTHER");
-    con->load(jo);
+    con->load_requirements(jo);
     // constructions use different time units in json, this makes it compatible
     // with recipes/requirements, TODO: should be changed in json
     con->time *= 1000;

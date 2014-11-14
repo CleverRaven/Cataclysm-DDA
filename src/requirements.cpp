@@ -122,7 +122,7 @@ void requirements::load_obj_list(JsonArray &jsarr, std::vector< std::vector<T> >
     }
 }
 
-void requirements::load( JsonObject &jsobj )
+void requirements::load_requirements( JsonObject &jsobj )
 {
     JsonArray jsarr;
     jsarr = jsobj.get_array( "components" );

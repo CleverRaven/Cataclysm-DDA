@@ -155,7 +155,7 @@ struct requirements {
          * Load @ref tools, @ref qualities and @ref components from
          * the json object. Assumes them to be in sub-objects.
          */
-        void load(JsonObject &jsobj);
+        void load_requirements(JsonObject &jsobj);
         /**
          * Returns a list of components/tools/qualities that are not available,
          * nicely formatted for popup window or similar.
