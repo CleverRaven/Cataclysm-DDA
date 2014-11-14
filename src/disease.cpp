@@ -1332,7 +1332,7 @@ void dis_effect(player &p, disease &dis)
             p.mod_dex_bonus(-4);
             p.add_miss_reason(_("Your muscles are locking up and you can't fight effectively."), 4);
             if (one_in(512)) {
-                add_msg(m_bad, "Your muscles spasm.");
+                add_msg(m_bad, _("Your muscles spasm."));
                 p.add_effect("downed",rng(1,4));
                 p.add_effect("stunned",rng(1,4));
                 if (one_in(10)) {
