@@ -2597,6 +2597,18 @@
 			"bg":64,
             "rotates":false
         },
+		{
+            "id":"f_aut_gas_console_o",
+			"fg":161,
+			"bg":64,
+            "rotates":false
+        },
+        {
+            "id":"f_aut_gas_console",
+			"fg":160,
+			"bg":64,
+            "rotates":false
+        },
         {
             "id":"t_gates_mech_control",
 			"fg":165,
@@ -2671,6 +2683,11 @@
             "rotates":false
         },
 		{
+            "id":"t_little_column",
+			"fg":483,
+            "rotates":false
+        },
+		{
             "id":"t_atm",
 			"fg":659,
             "rotates":false
@@ -2728,6 +2745,16 @@
 		{
             "id":"t_diesel_pump_smashed",
 			"fg":1839,
+            "rotates":false
+        },
+		{
+            "id":"t_gas_tank",
+			"fg":1850,
+            "rotates":false
+        },
+		{
+            "id":"t_gas_pump_a",
+			"fg":1851,
             "rotates":false
         },
         {
@@ -13126,6 +13153,20 @@
          "multitile" : false
       },
 	  { 
+         "id" : "gasdiscount_silver", 
+         "fg" : 1852, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "gasdiscount_platinum", 
+         "fg" : 1852, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
          "id" : "mobile_memory_card", 
          "fg" : 1777, 
          "bg" : -1, 
@@ -20627,7 +20668,14 @@
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
-      }, 
+      },
+	  { 
+         "id" : "gasdiscount_gold", 
+         "fg" : 1192, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "electrohack", 
          "fg" : 1191, 
