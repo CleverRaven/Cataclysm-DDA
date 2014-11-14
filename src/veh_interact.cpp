@@ -509,7 +509,7 @@ bool veh_interact::can_install_part(int msg_width, int engines, int dif_eng){
         else if (is_hand_remove) {
             werase (w_msg);
             fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                           _("Needs <color_%1$s>%2$s</color>,  and level <color_%3$s>%4$d</color> skill in mechanics.%5$s"),
+                           _("Needs <color_%1$s>%2$s</color>, and level <color_%3$s>%4$d</color> skill in mechanics.%5$s"),
                            has_comps ? "ltgreen" : "red",
                            item_controller->nname( itm ).c_str(),
                            has_skill ? "ltgreen" : "red",
