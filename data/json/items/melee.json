@@ -1284,7 +1284,7 @@
         "description": "A pilot light from a gas-burning device, this particular one is a simple piezoelectric igniter.",
         "price": 1000,
         "material": ["aluminum", "plastic"],
-        "weight": 113,
+        "weight": 5,
         "volume": 0,
         "bashing": 0,
         "cutting": 0,
