@@ -12,6 +12,7 @@
 #include "item_factory.h"
 #include "catacharset.h"
 #include "messages.h"
+#include "itype.h"
 #include <queue>
 #include <math.h>    //sqrt
 #include <algorithm> //std::min
@@ -1000,11 +1001,6 @@ inventory game::crafting_inventory(player *p)
         crafting_inv += tools;
     }
     return crafting_inv;
-}
-
-std::string item_name(const itype_id &type)
-{
-    return item_controller->find_template(type)->nname(1);
 }
 
 // ui.cpp
