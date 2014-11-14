@@ -62,6 +62,8 @@ Overhaul of "cut up" system:
   Cutting up returns items from each material that makes up the item.
   Cuting up most items should respect the total volume of the item.
 Most terrain can be smashed now, if you can hit it hard enough.
+Can turn individual vehicle engines on and off.
+Filling an item with water from e.g. a river is now an interruptable action.
 
 Infrastructure:
 Switched to SDL 2.0.
@@ -98,6 +100,7 @@ Hgamelaunch start script.
 Items can spawn with variable amounts of charge.
 Monster blacklists are applied consistently to all spawn code.
 Different ammunition-bearing monsters (turrets, robots) have customized loadouts of their various ammo types.
+Obsolete mods can be marked as such, preventing debug spam if a save containing them is loaded.
 
 Balance:
 Give most starting professions decent starting equipment.
@@ -178,6 +181,8 @@ Various power substations, with new monsters.
 Diesel added as a vehicle fuel.
 Added craftable pontoon bridges.
 Rat mutants can burrow, Cephalopod mutants can grow a large shell, lizards can regrow limbs.
+Many new starting locations.
+Curing hides and tanning leather.
 
 Interface:
 Expanded armor layering window.
@@ -201,6 +206,7 @@ Player can write and read sign items.
 Added a menu displaying martial art style characteristics.
 Perishable and rotting items colorized.
 UPS no longer activatable, now act as passive batteries.
+Prompt to continue studying a book until all recipes learned.
 
 Performance:
 Greatly sped up construction menu.
@@ -232,6 +238,12 @@ Use maximum heard sound for effects (such as deafness), not the sum.
 Player graveyard works as intended, most recent player save is moved to the graveyard folder.
 Factored weight of items in furniture into cost of dragging the furniture.
 Gunmods with firing modes finally make correct sounds when fired.
+Guns spawn with ammo when mapgen calls for it.
+Fixed longstanding bug where displayed warmth would fluctuate wildly if your body temperature was optimal.
+Prevent player from taking damage when driving over an acid puddle.
+Taught zombies how to pick the right stairs.
+Fixed bug where zombies can attack at range after a knockback.
+Lots of window refresh cleanup.
 
 0.A
 
