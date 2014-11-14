@@ -7419,7 +7419,8 @@
     ],
     [
       [ "meat_cooked", 1 ],
-      [ "lunchmeat", 4 ]
+      [ "lunchmeat", 4 ],
+      [ "bologna", 5 ]
     ]
   ]
 },{
@@ -7517,7 +7518,8 @@
       [ "hardtack", 4]
     ],
     [
-      [ "human_cooked", 1 ]
+      [ "human_cooked", 1 ],
+      [ "hfleshbologna", 5 ]
     ]
   ]
 },{
