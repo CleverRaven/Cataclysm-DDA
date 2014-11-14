@@ -51,14 +51,14 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
     public:
         monster();
         monster(mtype *t);
-        monster(mtype *t, int x, int y);
+        monster(mtype *t, int x, int y, int z);
         monster(const monster &) = default;
         monster(monster &&) = default;
         virtual ~monster() override;
         monster &operator=(const monster &) = default;
         monster &operator=(monster &&) = default;
         void poly(mtype *t);
-        void spawn(int x, int y); // All this does is moves the monster to x,y
+        void spawn(int x, int y, int z); // All this does is moves the monster to x,y
         m_size get_size() const;
         int get_hp( hp_part ) const
         {
@@ -117,7 +117,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         point move_target(); // Returns point at the end of the monster's current plans
 
         // Movement
-        void shift(int sx, int sy); // Shifts the monster to the appropriate submap
+        void shift(int sx, int sy, int sz); // Shifts the monster to the appropriate submap
         // Updates current pos AND our plans
         bool wander(); // Returns true if we have no plans
 
@@ -127,12 +127,12 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
          * This is used in pathfinding and ONLY checks the terrain. It ignores players
          * and monsters, which might only block this tile temporarily.
          */
-        bool can_move_to(int x, int y) const;
+        bool can_move_to(int x, int y, int z) const;
 
-        bool will_reach(int x, int y); // Do we have plans to get to (x, y)?
-        int  turns_to_reach(int x, int y); // How long will it take?
+        bool will_reach(int x, int y, int z); // Do we have plans to get to (x, y)?
+        int  turns_to_reach(int x, int y, int z); // How long will it take?
 
-        void set_dest(int x, int y, int &t); // Go in a straight line to (x, y)
+        void set_dest(int x, int y, int z, int &t); // Go in a straight line to (x, y)
         // t determines WHICH Bresenham line
 
         /**
@@ -144,16 +144,16 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
          * @param f The priority of the destination, as well as how long we should
          *          wander towards there.
          */
-        void wander_to(int x, int y, int f); // Try to get to (x, y), we don't know
+        void wander_to(int x, int y, int z, int f); // Try to get to (x, y), we don't know
         // the route.  Give up after f steps.
         void plan(const std::vector<int> &friendlies);
         void move(); // Actual movement
-        void footsteps(int x, int y); // noise made by movement
+        void footsteps(int x, int y, int z); // noise made by movement
         void friendly_move();
 
         point scent_move();
         point wander_next();
-        int calc_movecost(int x1, int y1, int x2, int y2) const;
+        int calc_movecost(int x1, int y1, int z1, int x2, int y2, int z2) const;
 
         /**
          * Attempt to move to (x,y).
@@ -167,7 +167,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
          *
          * @return 1 if movement successful, 0 otherwise
          */
-        int move_to(int x, int y, bool force = false);
+        int move_to(int x, int y, int z, bool force = false);
 
         /**
          * Attack any enemies at the given location.
@@ -177,20 +177,20 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
          *
          * @return 1 if something was attacked, 0 otherwise
          */
-        int attack_at(int x, int y);
+        int attack_at(int x, int y, int z);
 
         /**
          * Try to smash/bash/destroy your way through the terrain at (x, y).
          *
          * @return 1 if we destroyed something, 0 otherwise.
          */
-        int bash_at(int x, int y);
+        int bash_at(int x, int y, int z);
 
         /** Returns innate monster bash skill, without calculating additional from helpers */
         int bash_skill();
 
         void stumble(bool moved);
-        void knock_back_from(int posx, int posy);
+        void knock_back_from(int posx, int posy, int posz);
 
         // Combat
         bool is_fleeing(player &u) const; // True if we're fleeing
@@ -227,7 +227,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         int  hit_roll() const;  // For the purposes of comparing to player::dodge_roll()
         int  dodge_roll();  // For the purposes of comparing to player::hit_roll()
         int  fall_damage() const; // How much a fall hurts us
-        
+
         /** Resets a given special to its monster type cooldown value, an index of -1 does nothing. */
         void reset_special(int index);
         /** Resets a given special to a value between 0 and its monster type cooldown value.
@@ -276,9 +276,9 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         std::string unique_name; // If we're unique
         bool hallucination;
 
-        bool setpos(const int x, const int y, const bool level_change = false);
-        bool setpos(const point &p, const bool level_change = false);
-        point pos() const;
+        bool setpos(const int x, const int y, const int z, const bool level_change = false);
+        bool setpos(const tripoint &p, const bool level_change = false);
+        tripoint pos() const;
         // posx and posy are kept to retain backwards compatibility
         inline int posx() const
         {
@@ -287,6 +287,10 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         inline int posy() const
         {
             return _posy;
+        }
+        inline int posz() const
+        {
+            return _posz;
         }
         // the creature base class uses xpos/ypos to prevent conflict with
         // player.xpos and player.ypos which are public ints that are literally used
@@ -298,6 +302,10 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         int ypos() const
         {
             return _posy;
+        }
+        int zpos() const
+        {
+            return _posz;
         }
 
         short ignoring;
@@ -317,8 +325,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
 
     private:
         std::vector<int> sp_timeout;
-        std::vector <point> plans;
-        int _posx, _posy;
+        std::vector <tripoint> plans;
+        int _posx, _posy, _posz;
         bool dead;
         /** Attack another monster */
         void hit_monster(monster &other);

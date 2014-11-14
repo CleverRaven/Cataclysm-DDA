@@ -109,7 +109,7 @@ public:
      * used to remove the vehicle from the old overmap if the new position is
      * on another overmap.
      */
-    void move_vehicle(vehicle *veh, const point &old_msp);
+    void move_vehicle(vehicle *veh, const tripoint &old_msp);
     /**
      * Add the vehicle to be tracked in the overmap.
      */

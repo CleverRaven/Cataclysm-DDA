@@ -386,10 +386,10 @@ void player::activate_bionic(int b)
         power_level -= power_cost;
     }
 
-    std::vector<point> traj;
+    std::vector<tripoint> traj;
     std::vector<std::string> good;
     std::vector<std::string> bad;
-    int dirx, diry;
+    int dirx, diry, dirz;
     item tmp_item;
     w_point weatherPoint = g->weatherGen.get_weather(pos(), calendar::turn);
 
@@ -410,9 +410,11 @@ void player::activate_bionic(int b)
         g->sound(posx, posy, 30, _("VRRRRMP!"));
         for (int i = posx - 1; i <= posx + 1; i++) {
             for (int j = posy - 1; j <= posy + 1; j++) {
-                g->m.bash( i, j, 40 );
-                g->m.bash( i, j, 40 ); // Multibash effect, so that doors &c will fall
-                g->m.bash( i, j, 40 );
+                for (int k = posz - 1; k <= posz + 1; k++){
+                    g->m.bash( i, j, k, 40 );
+                    g->m.bash( i, j, k, 40 ); // Multibash effect, so that doors &c will fall
+                    g->m.bash( i, j, k, 40 );
+                }
             }
         }
     } else if (bio.id == "bio_time_freeze") {
@@ -577,7 +579,7 @@ void player::activate_bionic(int b)
         }
     } else if(bio.id == "bio_lighter") {
         if(!choose_adjacent(_("Start a fire where?"), dirx, diry) ||
-           (!g->m.add_field(dirx, diry, fd_fire, 1))) {
+           (!g->m.add_field(dirx, diry, g->u.posz, fd_fire, 1))) {
             add_msg_if_player(m_info, _("You can't light a fire there."));
             power_level += bionics["bio_lighter"]->power_cost;
         }
@@ -618,7 +620,7 @@ void player::activate_bionic(int b)
         } else if(weapon.type->id != "null") {
             add_msg(m_warning, _("Your claws extend, forcing you to drop your %s."),
                     weapon.tname().c_str());
-            g->m.add_item_or_charges(posx, posy, weapon);
+            g->m.add_item_or_charges(posx, posy, g->u.posz, weapon);
             weapon = item("bio_claws_weapon", 0);
             weapon.invlet = '#';
         } else {
@@ -638,7 +640,7 @@ void player::activate_bionic(int b)
         } else if(weapon.type->id != "null") {
             add_msg(m_warning, _("Your blade extends, forcing you to drop your %s."),
                     weapon.tname().c_str());
-            g->m.add_item_or_charges(posx, posy, weapon);
+            g->m.add_item_or_charges(posx, posy, posz, weapon);
             weapon = item("bio_blade_weapon", 0);
             weapon.invlet = '#';
         } else {
@@ -685,8 +687,8 @@ void player::activate_bionic(int b)
         g->sound(posx, posy, 19, _("HISISSS!"));
     } else if (bio.id == "bio_water_extractor") {
         bool extracted = false;
-        for (std::vector<item>::iterator it = g->m.i_at(posx, posy).begin();
-             it != g->m.i_at(posx, posy).end(); ++it) {
+        for (std::vector<item>::iterator it = g->m.i_at(posx, posy, posz).begin();
+             it != g->m.i_at(posx, posy, posz).end(); ++it) {
             if (it->type->id == "corpse" ) {
                 int avail = 0;
                 if ( it->item_vars.find("remaining_water") != it->item_vars.end() ) {
@@ -716,47 +718,49 @@ void player::activate_bionic(int b)
     } else if(bio.id == "bio_magnet") {
         for (int i = posx - 10; i <= posx + 10; i++) {
             for (int j = posy - 10; j <= posy + 10; j++) {
-                if (g->m.i_at(i, j).size() > 0) {
-                    int t; //not sure why map:sees really needs this, but w/e
-                    if (g->m.sees(i, j, posx, posy, -1, t)) {
-                        traj = line_to(i, j, posx, posy, t);
-                    } else {
-                        traj = line_to(i, j, posx, posy, 0);
+                for (int h = posz - 10; h <= posz + 10; h++){
+                    if (g->m.i_at(i, j, h).size() > 0) {
+                        int t; //not sure why map:sees really needs this, but w/e
+                        if (g->m.sees(i, j, h, posx, posy, posz, -1, t)) {
+                            traj = line_to(tripoint(i, j, h), tripoint(posx, posy, posz), t, 0);
+                        } else {
+                            traj = line_to(tripoint(i, j, h), tripoint(posx, posy, posz), t, 0);
+                        }
                     }
-                }
-                traj.insert(traj.begin(), point(i, j));
-                if( g->m.has_flag( "SEALED", i, j ) ) {
-                    continue;
-                }
-                for (unsigned k = 0; k < g->m.i_at(i, j).size(); k++) {
-                    tmp_item = g->m.i_at(i, j)[k];
-                    if( (tmp_item.made_of("iron") || tmp_item.made_of("steel")) &&
-                        tmp_item.weight() < weight_capacity() ) {
-                        g->m.i_rem(i, j, k);
-                        std::vector<point>::iterator it;
-                        for (it = traj.begin(); it != traj.end(); ++it) {
-                            int index = g->mon_at(it->x, it->y);
-                            if (index != -1) {
-                                g->zombie(index).apply_damage( this, bp_torso, tmp_item.weight() / 225 );
-                                g->m.add_item_or_charges(it->x, it->y, tmp_item);
-                                break;
-                            } else if (g->m.move_cost(it->x, it->y) == 0) {
-                                if (it != traj.begin()) {
-                                    g->m.bash( it->x, it->y, tmp_item.weight() / 225 );
-                                    if (g->m.move_cost(it->x, it->y) == 0) {
-                                        g->m.add_item_or_charges((it - 1)->x, (it - 1)->y, tmp_item);
-                                        break;
-                                    }
-                                } else {
-                                    g->m.bash( it->x, it->y, tmp_item.weight() / 225 );
-                                    if (g->m.move_cost(it->x, it->y) == 0) {
-                                        break;
+                    traj.insert(traj.begin(), tripoint(i, j, h));
+                    if( g->m.has_flag( "SEALED", i, j, h ) ) {
+                        continue;
+                    }
+                    for (unsigned k = 0; k < g->m.i_at(i, j, h).size(); k++) {
+                        tmp_item = g->m.i_at(i, j, h)[k];
+                        if( (tmp_item.made_of("iron") || tmp_item.made_of("steel")) &&
+                            tmp_item.weight() < weight_capacity() ) {
+                            g->m.i_rem(i, j, h, k);
+                            std::vector<tripoint>::iterator it;
+                            for (it = traj.begin(); it != traj.end(); ++it) {
+                                int index = g->mon_at(it->x, it->y);
+                                if (index != -1) {
+                                    g->zombie(index).apply_damage( this, bp_torso, tmp_item.weight() / 225 );
+                                    g->m.add_item_or_charges(it->x, it->y, it->z, tmp_item);
+                                    break;
+                                } else if (g->m.move_cost(it->x, it->y, it->z) == 0) {
+                                    if (it != traj.begin()) {
+                                        g->m.bash( it->x, it->y, it->z, tmp_item.weight() / 225 );
+                                        if (g->m.move_cost(it->x, it->y, it->z) == 0) {
+                                            g->m.add_item_or_charges((it - 1)->x, (it - 1)->y, (it - 1)->z, tmp_item);
+                                            break;
+                                        }
+                                    } else {
+                                        g->m.bash( it->x, it->y, it->z, tmp_item.weight() / 225 );
+                                        if (g->m.move_cost(it->x, it->y, it->z) == 0) {
+                                            break;
+                                        }
                                     }
                                 }
                             }
-                        }
-                        if (it == traj.end()) {
-                            g->m.add_item_or_charges(posx, posy, tmp_item);
+                            if (it == traj.end()) {
+                                g->m.add_item_or_charges(posx, posy, posz, tmp_item);
+                            }
                         }
                     }
                 }
@@ -768,37 +772,37 @@ void player::activate_bionic(int b)
             power_level += bionics["bio_lockpick"]->power_cost;
             return;
         }
-        ter_id type = g->m.ter(dirx, diry);
+        ter_id type = g->m.ter(dirx, diry, dirz);
         if (type  == t_door_locked || type == t_door_locked_alarm || type == t_door_locked_interior) {
             moves -= 40;
             std::string door_name = rm_prefix(_("<door_name>door"));
             add_msg_if_player(m_neutral, _("With a satisfying click, the lock on the %s opens."),
                               door_name.c_str());
-            g->m.ter_set(dirx, diry, t_door_c);
+            g->m.ter_set(dirx, diry, dirz, t_door_c);
             // Locked metal doors are the Lab and Bunker entries.  Those need to stay locked.
         } else if(type == t_door_bar_locked) {
             moves -= 40;
             std::string door_name = rm_prefix(_("<door_name>door"));
             add_msg_if_player(m_neutral, _("The bars swing open..."),
                               door_name.c_str()); //Could better copy the messages from lockpick....
-            g->m.ter_set(dirx, diry, t_door_bar_o);
+            g->m.ter_set(dirx, diry, dirz, t_door_bar_o);
         } else if(type == t_chaingate_l) {
             moves -= 40;
             std::string gate_name = rm_prefix (_("<door_name>gate"));
             add_msg_if_player(m_neutral, _("With a satisfying click, the chain-link gate opens."),
                               gate_name.c_str());
-            g->m.ter_set(dirx, diry, t_chaingate_c);
+            g->m.ter_set(dirx, diry, dirz, t_chaingate_c);
         } else if (type  == t_door_locked_peep) {
             moves -= 40;
             std::string door_name = rm_prefix(_("<door_name>door"));
             add_msg_if_player(m_neutral, _("With a satisfying click, the peephole-door's lock opens."),
                               door_name.c_str());
-            g->m.ter_set(dirx, diry, t_door_c_peep);
+            g->m.ter_set(dirx, diry, dirz, t_door_c_peep);
         } else if(type == t_door_c) {
             add_msg(m_info, _("That door isn't locked."));
         } else {
             add_msg_if_player(m_neutral, _("You can't unlock that %s."),
-                              g->m.tername(dirx, diry).c_str());
+                              g->m.tername(dirx, diry, dirz).c_str());
         }
     } else if(bio.id == "bio_flashbang") {
         add_msg_if_player(m_neutral, _("You activate your integrated flashbang generator!"));
@@ -878,7 +882,7 @@ int bionic_manip_cos(int p_int, int s_electronics, int s_firstaid, int s_mechani
                    s_electronics * 4 +
                    s_firstaid    * 3 +
                    s_mechanics   * 1;
-    
+
     // Medical residents have some idea what they're doing
     if (g->u.has_trait("PROF_MED")) {
         pl_skill += 3;
@@ -953,7 +957,7 @@ bool player::uninstall_bionic(bionic_id b_id)
         add_msg(m_neutral, _("You jiggle your parts back into their familiar places."));
         add_msg(m_good, _("Successfully removed %s."), bionics[b_id]->name.c_str());
         remove_bionic(b_id);
-        g->m.spawn_item(posx, posy, "burnt_out_bionic", 1);
+        g->m.spawn_item(posx, posy, posz, "burnt_out_bionic", 1);
     } else {
         add_memorial_log(pgettext("memorial_male", "Removed bionic: %s."),
                          pgettext("memorial_female", "Removed bionic: %s."),
@@ -1084,7 +1088,7 @@ void bionics_install_failure(player *u, it_bionic *type, int success)
             fail_type = rng(1,3);
         }
     }
-    
+
     if (fail_type == 3 && u->num_bionics() == 0) {
         fail_type = 2;    // If we have no bionics, take damage instead of losing some
     }

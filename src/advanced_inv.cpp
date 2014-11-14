@@ -189,7 +189,7 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
                 if( squares[pane.area].veh != NULL && squares[pane.area].vstor >= 0 ) {
                     maxvolume = squares[pane.area].veh->max_volume( squares[pane.area].vstor );
                 } else {
-                    maxvolume = g->m.max_volume( squares[pane.area].x, squares[pane.area].y );
+                    maxvolume = g->m.max_volume( squares[pane.area].x, squares[pane.area].y, g->u.posz );
                 }
             }
             head = string_format( "%3.1f %3d/%3d",
@@ -463,7 +463,7 @@ int advanced_inv_area::get_item_count() const
     } else if( veh != nullptr ) {
         return veh->parts[vstor].items.size();
     } else {
-        return g->m.i_at( g->u.posx + offx, g->u.posy + offy ).size();
+        return g->m.i_at( g->u.posx + offx, g->u.posy + offy, g->u.posz ).size();
     }
 }
 
@@ -536,11 +536,11 @@ void advanced_inv_area::init()
                 max_volume = veh->max_volume( vstor );
             } else {
                 veh = nullptr;
-                canputitemsloc = g->m.can_put_items( g->u.posx + offx, g->u.posy + offy );
+                canputitemsloc = g->m.can_put_items( g->u.posx + offx, g->u.posy + offy, g->u.posz );
                 max_size = MAX_ITEM_IN_SQUARE;
-                max_volume = g->m.max_volume( g->u.posx + offx, g->u.posy + offy );
-                if( g->m.has_graffiti_at( g->u.posx + offx, g->u.posy + offy ) ) {
-                    desc = g->m.graffiti_at( g->u.posx + offx, g->u.posy + offy );
+                max_volume = g->m.max_volume( g->u.posx + offx, g->u.posy + offy, g->u.posz );
+                if( g->m.has_graffiti_at( g->u.posx + offx, g->u.posy + offy, g->u.posz ) ) {
+                    desc = g->m.graffiti_at( g->u.posx + offx, g->u.posy + offy, g->u.posz );
                 }
             }
             break;
@@ -723,7 +723,7 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square )
         map &m = g->m;
         const itemslice &stacks = square.veh != nullptr ?
                                   m.i_stacked( square.veh->parts[square.vstor].items ) :
-                                  m.i_stacked( m.i_at( square.x , square.y ) );
+                                  m.i_stacked( m.i_at( square.x , square.y, g->u.posz ) );
         for( size_t x = 0; x < stacks.size(); ++x ) {
             advanced_inv_listitem it( stacks[x].first, x, stacks[x].second, square.id );
             if( is_filtered( it ) ) {
@@ -935,7 +935,7 @@ bool advanced_inventory::move_all_items()
 
     if( spane.area == AIM_INVENTORY ) {
         g->u.assign_activity( ACT_DROP, 0 );
-        g->u.activity.placement = point( darea.x - g->u.xpos(), darea.y - g->u.ypos() );
+        g->u.activity.placement = tripoint( darea.x - g->u.xpos(), darea.y - g->u.ypos(), g->u.zpos() );
 
         for( size_t index = 0; index < g->u.inv.size(); ++index ) {
             const auto &stack = g->u.inv.const_stack( index );
@@ -951,7 +951,7 @@ bool advanced_inventory::move_all_items()
         }
     } else {
         const std::vector<item> &source_items = sarea.veh == nullptr ?
-                                                g->m.i_at( sarea.x, sarea.y ) :
+                                                g->m.i_at( sarea.x, sarea.y, g->u.posz ) :
                                                 sarea.veh->parts[sarea.vstor].items;
         if( dpane.area == AIM_INVENTORY ) {
             g->u.assign_activity( ACT_PICKUP, 0 );
@@ -962,7 +962,7 @@ bool advanced_inventory::move_all_items()
             g->u.activity.values.push_back( darea.x - g->u.xpos() );
             g->u.activity.values.push_back( darea.y - g->u.ypos() );
         }
-        g->u.activity.placement = point( sarea.x - g->u.xpos(), sarea.y - g->u.ypos() );
+        g->u.activity.placement = tripoint( sarea.x - g->u.xpos(), sarea.y - g->u.ypos(), g->u.zpos() );
 
         for( size_t index = 0; index < source_items.size(); index++ ) {
             if( spane.is_filtered( source_items[index].tname() ) ) {
@@ -1428,7 +1428,7 @@ void advanced_inventory::remove_item( advanced_inv_listitem &sitem )
     if( s.veh != nullptr ) {
         s.veh->remove_item( s.vstor, sitem.it );
     } else {
-        g->m.i_rem( g->u.posx + s.offx, g->u.posy + s.offy, sitem.it );
+        g->m.i_rem( g->u.posx + s.offx, g->u.posy + s.offy, g->u.posz, sitem.it );
     }
 }
 
@@ -1446,7 +1446,7 @@ bool advanced_inventory::add_item( aim_location destarea, const item &new_item )
             popup( _( "Destination area is full.  Remove some items first" ) );
             return false;
         }
-    } else if( !g->m.add_item_or_charges( p.x, p.y, new_item, 0 ) ) {
+    } else if( !g->m.add_item_or_charges( p.x, p.y, g->u.posz, new_item, 0 ) ) {
         popup( _( "Destination area is full.  Remove some items first" ) );
         return false;
     }
@@ -1491,7 +1491,7 @@ int advanced_inv_area::free_volume() const
     if( id == AIM_INVENTORY ) {
         return g->u.volume_capacity() - g->u.volume_carried();
     }
-    return veh != nullptr ? veh->free_volume( vstor ) : g->m.free_volume( x, y );
+    return veh != nullptr ? veh->free_volume( vstor ) : g->m.free_volume( x, y, g->u.posz );
 }
 
 bool advanced_inventory::query_charges( aim_location destarea, const advanced_inv_listitem &sitem,
@@ -1661,7 +1661,7 @@ item* advanced_inv_area::get_container()
             map &m = g->m;
             const itemslice &stacks = veh != nullptr ?
                                       m.i_stacked( veh->parts[vstor].items ) :
-                                      m.i_stacked( m.i_at( x , y ) );
+                                      m.i_stacked( m.i_at( x , y, g->u.posz ) );
 
             // check index first
             if (stacks.size() > (size_t)uistate.adv_inv_container_index) {

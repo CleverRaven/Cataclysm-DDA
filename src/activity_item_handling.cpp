@@ -7,14 +7,14 @@
 #include <list>
 #include <vector>
 
-bool game::make_drop_activity( enum activity_type act, point target )
+bool game::make_drop_activity( enum activity_type act, tripoint target )
 {
     std::list<std::pair<int, int> > dropped = multidrop();
     if( dropped.empty() ) {
         return false;
     }
     u.assign_activity( act, 0 );
-    u.activity.placement = point( target.x - u.xpos(), target.y - u.ypos() );
+    u.activity.placement = tripoint( target.x - u.xpos(), target.y - u.ypos(), target.z - u.zpos() );
     for( auto item_pair : dropped ) {
         u.activity.values.push_back( item_pair.first );
         u.activity.values.push_back( item_pair.second );
@@ -41,7 +41,7 @@ static void add_drop_pairs( std::list<item *> &items, std::list<int> &quantities
     }
 }
 
-static void make_drop_activity( enum activity_type act, point drop_target,
+static void make_drop_activity( enum activity_type act, tripoint drop_target,
     std::list<item *> &selected_items, std::list<int> &item_quantities,
     std::list<item *> &selected_worn_items, std::list<int> &worn_item_quantities )
 {
@@ -53,7 +53,7 @@ static void make_drop_activity( enum activity_type act, point drop_target,
     add_drop_pairs( selected_items, item_quantities);
 }
 
-static point get_item_pointers_from_activity(
+static tripoint get_item_pointers_from_activity(
     std::list<item *> &selected_items, std::list<int> &item_quantities,
     std::list<item *> &selected_worn_items, std::list<int> &worn_item_quantities )
 {
@@ -92,7 +92,7 @@ static point get_item_pointers_from_activity(
             }
         }
     }
-    point drop_target = g->u.activity.placement;
+    tripoint drop_target = g->u.activity.placement;
     // Now that we have all the data, cancel the activity,
     // if we don't finish it we'll make a new one with the remaining items.
     g->u.cancel_activity();
@@ -135,7 +135,7 @@ static void stash_on_pet( item *item_to_stash, monster *pet )
     if( !too_heavy && !too_big ) {
         pet->inv.push_back( *item_to_stash );
     } else {
-        g->m.add_item_or_charges( pet->xpos(), pet->ypos(), *item_to_stash, 1);
+        g->m.add_item_or_charges( pet->xpos(), pet->ypos(), pet->zpos(), *item_to_stash, 1);
         if( too_big ) {
             g->u.add_msg_if_player(m_bad, _("%s did not fit and fell to the ground!"),
                                    item_to_stash->display_name().c_str());
@@ -147,7 +147,7 @@ static void stash_on_pet( item *item_to_stash, monster *pet )
 }
 
 static void stash_on_pet( std::vector<item> &dropped_items, std::vector<item> &dropped_worn_items,
-                          point drop_target )
+                          tripoint drop_target )
 {
     Creature *critter = g->critter_at( drop_target.x, drop_target.y);
     if( critter == NULL ) {
@@ -169,7 +169,7 @@ static void stash_on_pet( std::vector<item> &dropped_items, std::vector<item> &d
 static void place_item_activity( std::list<item *> &selected_items, std::list<int> &item_quantities,
                                  std::list<item *> &selected_worn_items,
                                  std::list<int> &worn_item_quantities,
-                                 enum item_place_type type, point drop_target )
+                                 enum item_place_type type, tripoint drop_target )
 {
     std::vector<item> dropped_items;
     std::vector<item> dropped_worn_items;
@@ -227,7 +227,7 @@ static void activity_on_turn_drop_or_stash( enum activity_type act )
     std::list<item *> selected_worn_items;
     std::list<int> worn_item_quantities;
 
-    point drop_target = get_item_pointers_from_activity( selected_items, item_quantities,
+    tripoint drop_target = get_item_pointers_from_activity( selected_items, item_quantities,
                                                          selected_worn_items, worn_item_quantities );
 
     // Consume the list as long as we don't run out of moves.
@@ -265,14 +265,14 @@ void game::activity_on_turn_pickup()
     // Pickup activity has source square, bool indicating source type,
     // indices of items on map, and quantities of same.
     bool from_vehicle = g->u.activity.values.front();
-    point pickup_target = g->u.activity.placement;
+    tripoint pickup_target = g->u.activity.placement;
     // Auto_resume implies autopickup.
     bool autopickup = g->u.activity.auto_resume;
     std::list<int> indices;
     std::list<int> quantities;
 
     if( !from_vehicle &&
-        g->m.i_at(pickup_target.x + u.xpos(), pickup_target.y + u.ypos()).size() <= 0 ) {
+        g->m.i_at(pickup_target.x + u.xpos(), pickup_target.y + u.ypos(), u.zpos()).size() <= 0 ) {
         g->u.cancel_activity();
         return;
     }
@@ -302,22 +302,24 @@ void game::activity_on_turn_pickup()
 
 // I'd love to have this not duplicate so much code from Pickup::pick_one_up(),
 // but I don't see a clean way to do that.
-static void move_items( point source, point destination,
+static void move_items( tripoint source, tripoint destination,
                         std::list<int> &indices, std::list<int> &quantities )
 {
     source.x += g->u.xpos();
     source.y += g->u.ypos();
+    source.z += g->u.zpos();
     destination.x += g->u.xpos();
     destination.y += g->u.ypos();
+    destination.z += g->u.zpos();
     int veh_root_part = -1;
-    vehicle *veh = g->m.veh_at( source.x, source.y, veh_root_part );
+    vehicle *veh = g->m.veh_at( source.x, source.y, source.z, veh_root_part );
     int cargo_part = -1;
     if( veh != nullptr ) {
         cargo_part = veh->part_with_feature( veh_root_part, "CARGO", false );
     }
 
     std::vector<item> &here = (cargo_part >= 0) ?
-        veh->parts[cargo_part].items : g->m.i_at( source.x, source.y );
+        veh->parts[cargo_part].items : g->m.i_at( source.x, source.y, source.z );
 
     std::vector<item> dropped_items;
     std::vector<item> dropped_worn;
@@ -362,7 +364,7 @@ static void move_items( point source, point destination,
             if( veh != nullptr && cargo_part >= 0 ) {
                 veh->remove_item( cargo_part, index );
             } else {
-                g->m.i_rem( source.x, source.y, index );
+                g->m.i_rem( source.x, source.y, source.z, index );
             }
             g->u.moves -= 100;
 
@@ -375,7 +377,7 @@ static void move_items( point source, point destination,
                 to_map = !veh->add_item( cargo_part, leftovers );
             }
             if( to_map ){
-                g->m.add_item_or_charges( source.x, source.y, leftovers );
+                g->m.add_item_or_charges( source.x, source.y, source.z, leftovers );
             }
         }
 
@@ -387,8 +389,8 @@ void game::activity_on_turn_move_items()
 {
     // Move activity has source square, target square,
     // indices of items on map, and quantities of same.
-    point source = u.activity.placement;
-    point destination = point( u.activity.values[0], u.activity.values[1] );
+    tripoint source = u.activity.placement;
+    tripoint destination = tripoint( u.activity.values[0], u.activity.values[1], u.activity.values[2] );
     std::list<int> indices;
     std::list<int> quantities;
     // Note i = 2, skipping first few elements.

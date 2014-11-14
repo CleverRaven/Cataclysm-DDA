@@ -81,7 +81,7 @@ class Creature
         virtual void absorb_hit(body_part bp, damage_instance &dam) = 0;
 
         // TODO: this is just a shim so knockbacks work
-        virtual void knock_back_from(int posx, int posy) = 0;
+        virtual void knock_back_from(int posx, int posy, int posz) = 0;
 
         // begins a melee attack against the creature
         // returns hit - dodge (>=0 = hit, <0 = miss)
@@ -125,7 +125,9 @@ class Creature
         // player.cpp and therefore referenced everywhere
         virtual int xpos() const = 0;
         virtual int ypos() const = 0;
-        virtual point pos() const = 0;
+        virtual int zpos() const = 0;
+        virtual tripoint pos() const = 0;
+
 
         // should replace both player.add_disease and monster.add_effect
         // these are nonvirtual since otherwise they can't be accessed with

@@ -298,7 +298,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Removes the mutation's child flag from the player's list */
         void remove_child_flag(std::string mut);
 
-        point pos() const;
+        tripoint pos() const;
         /** Returns the player's sight range */
         int  sight_range(int light_level) const;
         /** Modifies the player's sight values
@@ -569,7 +569,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Harms all body parts for dam, with armor reduction. If vary > 0 damage to parts are random within vary % (1-100) */
         void hitall(int dam, int vary = 0);
         /** Knocks the player back one square from a tile */
-        void knock_back_from(int x, int y);
+        void knock_back_from(int x, int y, int z);
 
         /** Converts a body_part to an hp_part */
         static void bp_convert(hp_part &hpart, body_part bp);
@@ -979,7 +979,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void calculate_portions(int &x, int &y, int &z, int maximum);
 
         // ---------------VALUES-----------------
-        int posx, posy;
+        int posx, posy, posz;
         inline int xpos() const
         {
             return posx;
@@ -987,6 +987,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         inline int ypos() const
         {
             return posy;
+        }
+        inline int zpos() const
+        {
+            return posz;
         }
         int view_offset_x, view_offset_y;
         bool in_vehicle;       // Means player sit inside vehicle on the tile he is now

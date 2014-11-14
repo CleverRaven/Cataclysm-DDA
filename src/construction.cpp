@@ -433,27 +433,27 @@ static bool can_construct(construction *con, int x, int y)
     if (con->pre_terrain != "") {
         if (con->pre_is_furniture) {
             furn_id f = furnmap[con->pre_terrain].loadid;
-            place_okay &= (g->m.furn(x, y) == f);
+            place_okay &= (g->m.furn(x, y, g->u.posz) == f);
         } else {
             ter_id t = termap[con->pre_terrain].loadid;
-            place_okay &= (g->m.ter(x, y) == t);
+            place_okay &= (g->m.ter(x, y, g->u.posz) == t);
         }
     }
     // see if the flags check out
     if (!con->pre_flags.empty()) {
         std::set<std::string>::iterator it;
         for (it = con->pre_flags.begin(); it != con->pre_flags.end(); ++it) {
-            place_okay &= g->m.has_flag(*it, x, y);
+            place_okay &= g->m.has_flag(*it, x, y, g->u.posz);
         }
     }
     // make sure the construction would actually do something
     if (con->post_terrain != "") {
         if (con->post_is_furniture) {
             furn_id f = furnmap[con->post_terrain].loadid;
-            place_okay &= (g->m.furn(x, y) != f);
+            place_okay &= (g->m.furn(x, y, g->u.posz) != f);
         } else {
             ter_id t = termap[con->post_terrain].loadid;
-            place_okay &= (g->m.ter(x, y) != t);
+            place_okay &= (g->m.ter(x, y, g->u.posz) != t);
         }
     }
     return place_okay;
@@ -516,7 +516,7 @@ static void place_construction(const std::string &desc)
 
     construction *con = valid[choice];
     g->u.assign_activity(ACT_BUILD, con->time, con->id);
-    g->u.activity.placement = choice;
+    g->u.activity.placement = tripoint(choice.x,choice.y,g->u.posz);
 }
 
 void complete_construction()
@@ -534,12 +534,12 @@ void complete_construction()
     }
 
     // Make the terrain change
-    int terx = g->u.activity.placement.x, tery = g->u.activity.placement.y;
+    int terx = g->u.activity.placement.x, tery = g->u.activity.placement.y, terz = g->u.activity.placement.z;
     if (built->post_terrain != "") {
         if (built->post_is_furniture) {
-            g->m.furn_set(terx, tery, built->post_terrain);
+            g->m.furn_set(terx, tery, terz, built->post_terrain);
         } else {
-            g->m.ter_set(terx, tery, built->post_terrain);
+            g->m.ter_set(terx, tery, terz, built->post_terrain);
         }
     }
 
@@ -554,28 +554,28 @@ void complete_construction()
 
 bool construct::check_empty(point p)
 {
-    return (g->m.has_flag("FLAT", p.x, p.y) && !g->m.has_furn(p.x, p.y) &&
-            g->is_empty(p.x, p.y) && g->m.tr_at(p.x, p.y) == tr_null &&
-            g->m.i_at(p.x, p.y).empty() && g->m.veh_at(p.x, p.y) == NULL);
+    return (g->m.has_flag("FLAT", p.x, p.y, g->u.posz) && !g->m.has_furn(p.x, p.y, g->u.posz) &&
+            g->is_empty(p.x, p.y) && g->m.tr_at(p.x, p.y, g->u.posz) == tr_null &&
+            g->m.i_at(p.x, p.y, g->u.posz).empty() && g->m.veh_at(p.x, p.y, g->u.posz) == NULL);
 }
 
 bool construct::check_support(point p)
 {
     // need two or more orthogonally adjacent supports
     int num_supports = 0;
-    if (g->m.move_cost(p.x, p.y) == 0) {
+    if (g->m.move_cost(p.x, p.y, g->u.posz) == 0) {
         return false;
     }
-    if (g->m.has_flag("SUPPORTS_ROOF", p.x, p.y - 1)) {
+    if (g->m.has_flag("SUPPORTS_ROOF", p.x, p.y - 1, g->u.posz)) {
         ++num_supports;
     }
-    if (g->m.has_flag("SUPPORTS_ROOF", p.x, p.y + 1)) {
+    if (g->m.has_flag("SUPPORTS_ROOF", p.x, p.y + 1, g->u.posz)) {
         ++num_supports;
     }
-    if (g->m.has_flag("SUPPORTS_ROOF", p.x - 1, p.y)) {
+    if (g->m.has_flag("SUPPORTS_ROOF", p.x - 1, p.y, g->u.posz)) {
         ++num_supports;
     }
-    if (g->m.has_flag("SUPPORTS_ROOF", p.x + 1, p.y)) {
+    if (g->m.has_flag("SUPPORTS_ROOF", p.x + 1, p.y, g->u.posz)) {
         ++num_supports;
     }
     return num_supports >= 2;
@@ -583,11 +583,11 @@ bool construct::check_support(point p)
 
 bool construct::check_deconstruct(point p)
 {
-    if (g->m.has_furn(p.x, p.y)) {
-        return g->m.furn_at(p.x, p.y).deconstruct.can_do;
+    if (g->m.has_furn(p.x, p.y, g->u.posz)) {
+        return g->m.furn_at(p.x, p.y, g->u.posz).deconstruct.can_do;
     }
     // terrain can only be deconstructed when there is no furniture in the way
-    return g->m.ter_at(p.x, p.y).deconstruct.can_do;
+    return g->m.ter_at(p.x, p.y, g->u.posz).deconstruct.can_do;
 }
 
 bool construct::check_up_OK(point)
@@ -613,14 +613,15 @@ void construct::done_tree(point p)
     std::vector<point> tree = line_to(p.x, p.y, x, y, rng(1, 8));
     for (std::vector<point>::iterator it = tree.begin();
          it != tree.end(); ++it) {
-        g->m.destroy(it->x, it->y);
-        g->m.ter_set(it->x, it->y, t_trunk);
+        g->m.destroy(it->x, it->y, g->u.posz);
+        g->m.ter_set(it->x, it->y, g->u.posz, t_trunk);
+        //TODO: Handle tree z-levels
     }
 }
 
 void construct::done_trunk_log(point p)
 {
-    g->m.spawn_item(p.x, p.y, "log", rng(5, 15), 0, calendar::turn);
+    g->m.spawn_item(p.x, p.y, g->u.posz, "log", rng(5, 15), 0, calendar::turn);
 }
 
 void construct::done_trunk_plank(point p)
@@ -668,27 +669,27 @@ void construct::done_vehicle(point p)
 
 void construct::done_deconstruct(point p)
 {
-    if (g->m.has_furn(p.x, p.y)) {
-        furn_t &f = g->m.furn_at(p.x, p.y);
+    if (g->m.has_furn(p.x, p.y, g->u.posz)) {
+        furn_t &f = g->m.furn_at(p.x, p.y, g->u.posz);
         if (!f.deconstruct.can_do) {
             add_msg(m_info, _("That %s can not be disassembled!"), f.name.c_str());
             return;
         }
         if (f.deconstruct.furn_set.empty()) {
-            g->m.furn_set(p.x, p.y, f_null);
+            g->m.furn_set(p.x, p.y, g->u.posz, f_null);
         } else {
-            g->m.furn_set(p.x, p.y, f.deconstruct.furn_set);
+            g->m.furn_set(p.x, p.y, g->u.posz, f.deconstruct.furn_set);
         }
         add_msg(_("You disassemble the %s."), f.name.c_str());
-        g->m.spawn_item_list(f.deconstruct.items, p.x, p.y);
+        g->m.spawn_item_list(f.deconstruct.items, p.x, p.y, g->u.posz);
         // Hack alert.
         // Signs have cosmetics associated with them on the submap since
         // furniture can't store dynamic data to disk. To prevent writing
         // mysteriously appearing for a sign later built here, remove the
         // writing from the submap.
-        g->m.delete_signage(p.x, p.y);
+        g->m.delete_signage(p.x, p.y, g->u.posz);
     } else {
-        ter_t &t = g->m.ter_at(p.x, p.y);
+        ter_t &t = g->m.ter_at(p.x, p.y, g->u.posz);
         if (!t.deconstruct.can_do) {
             add_msg(_("That %s can not be disassembled!"), t.name.c_str());
             return;
@@ -703,9 +704,9 @@ void construct::done_deconstruct(point p)
                 g->u.practice("electronics", 40, 8);
             }
         }
-        g->m.ter_set(p.x, p.y, t.deconstruct.ter_set);
+        g->m.ter_set(p.x, p.y, g->u.posz, t.deconstruct.ter_set);
         add_msg(_("You disassemble the %s."), t.name.c_str());
-        g->m.spawn_item_list(t.deconstruct.items, p.x, p.y);
+        g->m.spawn_item_list(t.deconstruct.items, p.x, p.y, g->u.posz);
     }
 }
 
@@ -718,7 +719,7 @@ void construct::done_dig_stair(point p)
  bool danger_lava = false;
  bool danger_open = false;
  const int omtilesz=SEEX * 2;  // KA101's 1337 copy & paste skillz
-    real_coords rc( g->m.getabs(p.x % SEEX, p.y % SEEY) );
+    real_coords rc( g->m.getabs(p.x % SEEX, p.y % SEEY, g->u.posz));
 
     point omtile_align_start(
         g->m.getlocal( rc.begin_om_pos() )

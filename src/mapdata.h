@@ -28,6 +28,9 @@ class monster;
 #define SEEY 12 // Requires 2*SEEY+1= 25 vertical squares
 #endif          // Nuts to 80x24 terms. Mostly exists in graphical clients, and
                 // those fatcats can resize.
+#ifndef SEEZ
+#define SEEZ 21
+#endif
 
 // mfb(t_flag) converts a flag to a bit for insertion into a bitfield
 #ifndef mfb
@@ -334,89 +337,89 @@ struct map_extras {
 };
 
 struct spawn_point {
- int posx, posy;
+ int posx, posy, posz;
  int count;
  std::string type;
  int faction_id;
  int mission_id;
  bool friendly;
  std::string name;
- spawn_point(std::string T = "mon_null", int C = 0, int X = -1, int Y = -1,
+ spawn_point(std::string T = "mon_null", int C = 0, int X = -1, int Y = -1, int Z = -1,
              int FAC = -1, int MIS = -1, bool F = false,
              std::string N = "NONE") :
-             posx (X), posy (Y), count (C), type (T), faction_id (FAC),
+             posx (X), posy (Y), posz (Z), count (C), type (T), faction_id (FAC),
              mission_id (MIS), friendly (F), name (N) {}
 };
 
 struct submap {
-    inline trap_id get_trap(int x, int y) const {
-        return trp[x][y];
+    inline trap_id get_trap(int x, int y, int z) const {
+        return trp[x][y][z];
     }
 
-    inline void set_trap(int x, int y, trap_id trap) {
-        trp[x][y] = trap;
+    inline void set_trap(int x, int y, int z, trap_id trap) {
+        trp[x][y][z] = trap;
     }
 
-    inline furn_id get_furn(int x, int y) const {
-        return frn[x][y];
+    inline furn_id get_furn(int x, int y, int z) const {
+        return frn[x][y][z];
     }
 
-    inline void set_furn(int x, int y, furn_id furn) {
-        frn[x][y] = furn;
+    inline void set_furn(int x, int y, int z, furn_id furn) {
+        frn[x][y][z] = furn;
     }
 
-    inline void set_ter(int x, int y, ter_id terr) {
-        ter[x][y] = terr;
+    inline void set_ter(int x, int y, int z, ter_id terr) {
+        ter[x][y][z] = terr;
     }
 
-    int get_radiation(int x, int y) {
-        return rad[x][y];
+    int get_radiation(int x, int y, int z) {
+        return rad[x][y][z];
     }
 
-    void set_radiation(int x, int y, int radiation) {
-        rad[x][y] = radiation;
+    void set_radiation(int x, int y, int z, int radiation) {
+        rad[x][y][z] = radiation;
     }
 
-    bool has_graffiti( int x, int y ) const;
-    const std::string &get_graffiti( int x, int y ) const;
-    void set_graffiti( int x, int y, const std::string &new_graffiti );
-    void delete_graffiti( int x, int y );
+    bool has_graffiti( int x, int y, int z ) const;
+    const std::string &get_graffiti( int x, int y, int z ) const;
+    void set_graffiti( int x, int y, int z, const std::string &new_graffiti );
+    void delete_graffiti( int x, int y, int z );
 
     // Signage is a pretend union between furniture on a square and stored
     // writing on the square. When both are present, we have signage.
     // Its effect is meant to be cosmetic and atmospheric only.
-    inline bool has_signage(int x, int y) {
-        furn_id f = frn[x][y];
+    inline bool has_signage(int x, int y, int z) {
+        furn_id f = frn[x][y][z];
         if (furnlist[f].id == "f_sign") {
-            return cosmetics[x][y].find("SIGNAGE") != cosmetics[x][y].end();
+            return cosmetics[x][y][z].find("SIGNAGE") != cosmetics[x][y][z].end();
         }
         return false;
     }
     // Dependent on furniture + cosmetics.
-    inline const std::string get_signage(int x, int y) {
-        if (has_signage(x, y)) {
-            return cosmetics[x][y]["SIGNAGE"];
+    inline const std::string get_signage(int x, int y, int z) {
+        if (has_signage(x, y, z)) {
+            return cosmetics[x][y][z]["SIGNAGE"];
         }
         return "";
     }
     // Can be used anytime (prevents code from needing to place sign first.)
-    inline void set_signage(int x, int y, std::string s) {
-        cosmetics[x][y]["SIGNAGE"] = s;
+    inline void set_signage(int x, int y, int z, std::string s) {
+        cosmetics[x][y][z]["SIGNAGE"] = s;
     }
     // Can be used anytime (prevents code from needing to place sign first.)
-    inline void delete_signage(int x, int y) {
-        cosmetics[x][y].erase("SIGNAGE");
+    inline void delete_signage(int x, int y, int z) {
+        cosmetics[x][y][z].erase("SIGNAGE");
     }
 
-    ter_id             ter[SEEX][SEEY];  // Terrain on each square
-    std::vector<item>  itm[SEEX][SEEY];  // Items on each square
-    furn_id            frn[SEEX][SEEY];  // Furniture on each square
+    ter_id             ter[SEEX][SEEY][SEEZ];  // Terrain on each square
+    std::vector<item>  itm[SEEX][SEEY][SEEZ];  // Items on each square
+    furn_id            frn[SEEX][SEEY][SEEZ];  // Furniture on each square
 
     // TODO: make trp private once the horrible hack known as editmap is resolved
-    trap_id            trp[SEEX][SEEY];  // Trap on each square
-    field              fld[SEEX][SEEY];  // Field on each square
-    int                rad[SEEX][SEEY];  // Irradiation of each square
-    std::map<std::string, std::string> cosmetics[SEEX][SEEY]; // Textual "visuals" for each square.
+    trap_id            trp[SEEX][SEEY][SEEZ];  // Trap on each square
+    field              fld[SEEX][SEEY][SEEZ];  // Field on each square
+    int                rad[SEEX][SEEY][SEEZ];  // Irradiation of each square
+    std::map<std::string, std::string> cosmetics[SEEX][SEEY][SEEZ]; // Textual "visuals" for each square.
 
     int active_item_count;
     int field_count;

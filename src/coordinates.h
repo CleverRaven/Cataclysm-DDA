@@ -19,29 +19,30 @@ struct real_coords {
     static const int subs_in_om = OMAPX * 2;
     static const int subs_in_om_n = subs_in_om - 1;
 
-    point abs_pos;     // 1 per tile, starting from tile 0,0 of submap 0,0 of overmap 0,0
-    point abs_sub;     // submap: 12 tiles.
-    point abs_om;      // overmap: 360 submaps.
+    tripoint abs_pos;     // 1 per tile, starting from tile 0,0 of submap 0,0 of overmap 0,0
+    tripoint abs_sub;     // submap: 12 tiles.
+    tripoint abs_om;      // overmap: 360 submaps.
 
-    point sub_pos;     // coordinate (0-11) in submap / abs_pos constrained to % 12.
+    tripoint sub_pos;     // coordinate (0-11) in submap / abs_pos constrained to % 12.
 
-    point om_pos;      // overmap tile: 2x2 submaps.
-    point om_sub;      // submap (0-359) in overmap / abs_sub constrained to % 360. equivalent to g->levx
+    tripoint om_pos;      // overmap tile: 2x2 submaps.
+    tripoint om_sub;      // submap (0-359) in overmap / abs_sub constrained to % 360. equivalent to g->levx
 
     real_coords()
     {
     }
 
-    real_coords(point ap)
+    real_coords(tripoint ap)
     {
-        fromabs( ap.x, ap.y );
+        fromabs( ap.x, ap.y, ap.z );
     }
 
-    void fromabs(const int absx, const int absy)
+    void fromabs(const int absx, const int absy, const int absz)
     {
         const int normx = abs(absx);
         const int normy = abs(absy);
-        abs_pos = point(absx, absy);
+        const int normz = abs(absz);
+        abs_pos = tripoint(absx, absy, absz);
 
         if ( absx < 0 ) {
             abs_sub.x = (absx - 11) / 12;
@@ -68,11 +69,22 @@ struct real_coords {
             om_sub.y = abs_sub.y % subs_in_om;
         }
         om_pos.y = om_sub.y / 2;
+        if ( absz < 0) {
+            abs_sub.z = (absz - 11) / 12;
+            sub_pos.z = 11 - ((normz - 1) % 12);
+            abs_om.z = (abs_sub.z - subs_in_om_n) / subs_in_om;
+            om_sub.z = subs_in_om_n - (((normz - 1) / 12) % subs_in_om);
+        } else {
+            abs_sub.z = normz / 12;
+            sub_pos.z = absz % 12;
+            abs_om.z = abs_sub.z / subs_in_om;
+            om_sub.z = abs_sub.z % subs_in_om;
+        }
     }
 
     void fromabs(point absolute)
     {
-        fromabs(absolute.x, absolute.y);
+        fromabs(absolute.x, absolute.y, 0);
     }
 
     // specifically for the subjective position returned by overmap::draw
@@ -80,7 +92,7 @@ struct real_coords {
     {
         int ax = (rel_omx * OMAPX) + rel_om_posx;
         int ay = (rel_omy * OMAPY) + rel_om_posy;
-        fromabs(ax * 24, ay * 24);
+        fromabs(ax * 24, ay * 24, 0);
     }
 
     // helper functions to return abs_pos of submap/overmap tile/overmap's start

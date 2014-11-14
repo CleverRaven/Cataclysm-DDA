@@ -285,7 +285,7 @@ void computer::activate_function(computer_action action)
         break;
 
     case COMPACT_OPEN:
-        g->m.translate_radius(t_door_metal_locked, t_floor, 25.0, g->u.posx, g->u.posy);
+        g->m.translate_radius(t_door_metal_locked, t_floor, 25.0, g->u.posx, g->u.posy, g->u.posz);
         query_any(_("Doors opened.  Press any key..."));
         break;
 
@@ -295,12 +295,12 @@ void computer::activate_function(computer_action action)
     //Simply uses translate_radius which take a given radius and
     // player position to determine which terrain tiles to edit.
     case COMPACT_LOCK:
-        g->m.translate_radius(t_door_metal_c, t_door_metal_locked, 8.0, g->u.posx, g->u.posy);
+        g->m.translate_radius(t_door_metal_c, t_door_metal_locked, 8.0, g->u.posx, g->u.posy, g->u.posz);
         query_any(_("Lock enabled.  Press any key..."));
         break;
 
     case COMPACT_UNLOCK:
-        g->m.translate_radius(t_door_metal_locked, t_door_metal_c, 8.0, g->u.posx, g->u.posy);
+        g->m.translate_radius(t_door_metal_locked, t_door_metal_c, 8.0, g->u.posx, g->u.posy, g->u.posz);
         query_any(_("Lock disabled.  Press any key..."));
         break;
 
@@ -314,37 +314,41 @@ void computer::activate_function(computer_action action)
         g->u.moves -= 30;
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
-                if (g->m.ter(x, y) == t_sewage_pump) {
-                    for (int x1 = x - 1; x1 <= x + 1; x1++) {
-                        for (int y1 = y - 1; y1 <= y + 1; y1++ ) {
-                            if (g->m.furn(x1, y1) == f_counter) {
-                                bool found_item = false;
-                                for (std::vector<item>::iterator it = g->m.i_at(x1, y1).begin();
-                                     it != g->m.i_at(x1, y1).end(); ++it) {
-                                    if (it->is_container()) {
-                                        item sewage = item("sewage", calendar::turn);
-                                        it_container *container = dynamic_cast<it_container *>(it->type);
-                                        it_comest    *comest    = dynamic_cast<it_comest *>(sewage.type);
-                                        long maxCharges = container->contains * comest->charges;
+                for (int z = 0; z < SEEZ * MAPSIZE; z++) {
+                    if (g->m.ter(x, y, z) == t_sewage_pump) {
+                        for (int x1 = x - 1; x1 <= x + 1; x1++) {
+                            for (int y1 = y - 1; y1 <= y + 1; y1++ ) {
+                                for (int z1 = z - 1; z1 <= z + 1; z1++) {
+                                    if (g->m.furn(x1, y1, z1) == f_counter) {
+                                        bool found_item = false;
+                                        for (std::vector<item>::iterator it = g->m.i_at(x1, y1, z1).begin();
+                                             it != g->m.i_at(x1, y1, z1).end(); ++it) {
+                                            if (it->is_container()) {
+                                                item sewage = item("sewage", calendar::turn);
+                                                it_container *container = dynamic_cast<it_container *>(it->type);
+                                                it_comest    *comest    = dynamic_cast<it_comest *>(sewage.type);
+                                                long maxCharges = container->contains * comest->charges;
 
-                                        if (it->contents.empty()) {
-                                            it->put_in(sewage);
-                                            found_item = true;
-                                            break;
-                                        } else {
-                                            if (it->contents[0].type->id == sewage.type->id) {
-                                                if (it->contents[0].charges < maxCharges) {
-                                                    it->contents[0].charges += comest->charges;
+                                                if (it->contents.empty()) {
+                                                    it->put_in(sewage);
                                                     found_item = true;
                                                     break;
+                                                } else {
+                                                    if (it->contents[0].type->id == sewage.type->id) {
+                                                        if (it->contents[0].charges < maxCharges) {
+                                                            it->contents[0].charges += comest->charges;
+                                                            found_item = true;
+                                                            break;
+                                                        }
+                                                    }
                                                 }
                                             }
                                         }
+                                        if (!found_item) {
+                                            item sewage("sewage", calendar::turn);
+                                            g->m.add_item_or_charges(x1, y1, z1, sewage);
+                                        }
                                     }
-                                }
-                                if (!found_item) {
-                                    item sewage("sewage", calendar::turn);
-                                    g->m.add_item_or_charges(x1, y1, sewage);
                                 }
                             }
                         }
@@ -358,15 +362,15 @@ void computer::activate_function(computer_action action)
         g->u.add_memorial_log(pgettext("memorial_male", "Released subspace specimens."),
                               pgettext("memorial_female", "Released subspace specimens."));
         g->sound(g->u.posx, g->u.posy, 40, _("An alarm sounds!"));
-        g->m.translate_radius(t_reinforced_glass_h, t_floor, 25.0, g->u.posx, g->u.posy);
-        g->m.translate_radius(t_reinforced_glass_v, t_floor, 25.0, g->u.posx, g->u.posy);
+        g->m.translate_radius(t_reinforced_glass_h, t_floor, 25.0, g->u.posx, g->u.posy, g->u.posz);
+        g->m.translate_radius(t_reinforced_glass_v, t_floor, 25.0, g->u.posx, g->u.posy, g->u.posz);
         query_any(_("Containment shields opened.  Press any key..."));
         break;
 
     case COMPACT_RELEASE_BIONICS:
         g->sound(g->u.posx, g->u.posy, 40, _("An alarm sounds!"));
-        g->m.translate_radius(t_reinforced_glass_h, t_floor, 2.0, g->u.posx, g->u.posy);
-        g->m.translate_radius(t_reinforced_glass_v, t_floor, 2.0, g->u.posx, g->u.posy);
+        g->m.translate_radius(t_reinforced_glass_h, t_floor, 2.0, g->u.posx, g->u.posy, g->u.posz);
+        g->m.translate_radius(t_reinforced_glass_v, t_floor, 2.0, g->u.posx, g->u.posy, g->u.posz);
         query_any(_("Containment shields opened.  Press any key..."));
         break;
 
@@ -375,13 +379,15 @@ void computer::activate_function(computer_action action)
                               pgettext("memorial_female", "Terminated subspace specimens."));
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
-                int mondex = g->mon_at(x, y);
-                if (mondex != -1 &&
-                    ((g->m.ter(x, y - 1) == t_reinforced_glass_h &&
-                      g->m.ter(x, y + 1) == t_concrete_h) ||
-                     (g->m.ter(x, y + 1) == t_reinforced_glass_h &&
-                      g->m.ter(x, y - 1) == t_concrete_h))) {
-                    g->zombie( mondex ).die( &g->u );
+                for (int z = 0; z < SEEZ * MAPSIZE; z++) {
+                    int mondex = g->mon_at(x, y);
+                    if (mondex != -1 &&
+                        ((g->m.ter(x, y - 1, z) == t_reinforced_glass_h &&
+                          g->m.ter(x, y + 1, z) == t_concrete_h) ||
+                         (g->m.ter(x, y + 1, z) == t_reinforced_glass_h &&
+                          g->m.ter(x, y - 1, z) == t_concrete_h))) {
+                        g->zombie( mondex ).die( &g->u );
+                    }
                 }
             }
         }
@@ -393,19 +399,23 @@ void computer::activate_function(computer_action action)
                               pgettext("memorial_female", "Opened a portal."));
         for (int i = 0; i < SEEX * MAPSIZE; i++) {
             for (int j = 0; j < SEEY * MAPSIZE; j++) {
-                int numtowers = 0;
-                for (int xt = i - 2; xt <= i + 2; xt++) {
-                    for (int yt = j - 2; yt <= j + 2; yt++) {
-                        if (g->m.ter(xt, yt) == t_radio_tower) {
-                            numtowers++;
+                for (int h = 0; h < SEEZ * MAPSIZE; h++) {
+                    int numtowers = 0;
+                    for (int xt = i - 2; xt <= i + 2; xt++) {
+                        for (int yt = j - 2; yt <= j + 2; yt++) {
+                            for (int zt = h - 2; zt <= h + 2; zt++ ) {
+                                if (g->m.ter(xt, yt, zt) == t_radio_tower) {
+                                    numtowers++;
+                                }
+                            }
                         }
                     }
-                }
-                if (numtowers == 4) {
-                    if (g->m.tr_at(i, j) == tr_portal) {
-                        g->m.remove_trap(i, j);
-                    } else {
-                        g->m.add_trap(i, j, tr_portal);
+                    if (numtowers == 4) {
+                        if (g->m.tr_at(i, j, h) == tr_portal) {
+                            g->m.remove_trap(i, j, h);
+                        } else {
+                            g->m.add_trap(i, j, h, tr_portal);
+                        }
                     }
                 }
             }
@@ -421,7 +431,7 @@ void computer::activate_function(computer_action action)
         std::vector<point> cascade_points;
         for (int i = g->u.posx - 10; i <= g->u.posx + 10; i++) {
             for (int j = g->u.posy - 10; j <= g->u.posy + 10; j++) {
-                if (g->m.ter(i, j) == t_radio_tower) {
+                if (g->m.ter(i, j, g->u.posz) == t_radio_tower) {
                     cascade_points.push_back(point(i, j));
                 }
             }
@@ -502,7 +512,7 @@ void computer::activate_function(computer_action action)
         for(int i = g->u.posx + 8; i < g->u.posx + 15; i++) {
             for(int j = g->u.posy + 3; j < g->u.posy + 12; j++)
                 if(!one_in(4)) {
-                    g->m.add_field(i + rng(-2, 2), j + rng(-2, 2), fd_smoke, rng(1, 9));
+                    g->m.add_field(i + rng(-2, 2), j + rng(-2, 2), g->u.posz + rng(-2, 2), fd_smoke, rng(1, 9));
                 }
         }
 
@@ -564,13 +574,15 @@ void computer::activate_function(computer_action action)
         int more = 0;
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
-                for (std::vector<item>::iterator it = g->m.i_at(x, y).begin();
-                     it != g->m.i_at(x, y).end(); ++it) {
-                    if (it->is_bionic()) {
-                        if ((int)names.size() < TERMY - 8) {
-                            names.push_back(it->tname());
-                        } else {
-                            more++;
+                for (int z = 0; z < SEEZ * MAPSIZE; z++){
+                    for (std::vector<item>::iterator it = g->m.i_at(x, y, z).begin();
+                         it != g->m.i_at(x, y, z).end(); ++it) {
+                        if (it->is_bionic()) {
+                            if ((int)names.size() < TERMY - 8) {
+                                names.push_back(it->tname());
+                            } else {
+                                more++;
+                            }
                         }
                     }
                 }
@@ -599,8 +611,10 @@ void computer::activate_function(computer_action action)
     case COMPACT_ELEVATOR_ON:
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
-                if (g->m.ter(x, y) == t_elevator_control_off) {
-                    g->m.ter_set(x, y, t_elevator_control);
+                for (int z = 0; z < SEEZ * MAPSIZE; z++){
+                    if (g->m.ter(x, y, z) == t_elevator_control_off) {
+                        g->m.ter_set(x, y, z, t_elevator_control);
+                    }
                 }
             }
         }
@@ -742,19 +756,19 @@ of pureed bone & LSD."));
         g->u.moves -= 70;
         for (int x = g->u.posx - 2; x <= g->u.posx + 2; x++) {
             for (int y = g->u.posy - 2; y <= g->u.posy + 2; y++) {
-                if (g->m.ter(x, y) == t_centrifuge) {
-                    if (g->m.i_at(x, y).empty()) {
+                if (g->m.ter(x, y, g->u.posz) == t_centrifuge) {
+                    if (g->m.i_at(x, y, g->u.posz).empty()) {
                         print_error(_("ERROR: Please place sample in centrifuge."));
-                    } else if (g->m.i_at(x, y).size() > 1) {
+                    } else if (g->m.i_at(x, y, g->u.posz).size() > 1) {
                         print_error(_("ERROR: Please remove all but one sample from centrifuge."));
-                    } else if (g->m.i_at(x, y)[0].type->id != "vacutainer") {
+                    } else if (g->m.i_at(x, y, g->u.posz)[0].type->id != "vacutainer") {
                         print_error(_("ERROR: Please use vacutainer-contained samples."));
-                    } else if (g->m.i_at(x, y)[0].contents.empty()) {
+                    } else if (g->m.i_at(x, y, g->u.posz)[0].contents.empty()) {
                         print_error(_("ERROR: Vacutainer empty."));
-                    } else if (g->m.i_at(x, y)[0].contents[0].type->id != "blood") {
+                    } else if (g->m.i_at(x, y, g->u.posz)[0].contents[0].type->id != "blood") {
                         print_error(_("ERROR: Please only use blood samples."));
                     } else { // Success!
-                        item *blood = &(g->m.i_at(x, y)[0].contents[0]);
+                        item *blood = &(g->m.i_at(x, y, g->u.posz)[0].contents[0]);
                         if (blood->corpse == NULL || blood->corpse->id == "mon_null") {
                             print_line(_("Result:  Human blood, no pathogens found."));
                         } else if( blood->corpse->in_species( "ZOMBIE" ) ) {
@@ -789,22 +803,22 @@ of pureed bone & LSD."));
         g->u.moves -= 30;
         for (int x = g->u.posx - 2; x <= g->u.posx + 2; x++) {
             for (int y = g->u.posy - 2; y <= g->u.posy + 2; y++) {
-                if (g->m.ter(x, y) == t_floor_blue) {
+                if (g->m.ter(x, y, g->u.posz) == t_floor_blue) {
                     print_error(_("PROCESSING DATA"));
-                    if (g->m.i_at(x, y).empty()) {
+                    if (g->m.i_at(x, y, g->u.posz).empty()) {
                         print_error(_("ERROR: Please place memory bank in scan area."));
-                    } else if (g->m.i_at(x, y).size() > 1) {
+                    } else if (g->m.i_at(x, y, g->u.posz).size() > 1) {
                         print_error(_("ERROR: Please only scan one item at a time."));
-                    } else if (g->m.i_at(x, y)[0].type->id != "usb_drive" &&
-                               g->m.i_at(x, y)[0].type->id != "black_box") {
+                    } else if (g->m.i_at(x, y, g->u.posz)[0].type->id != "usb_drive" &&
+                               g->m.i_at(x, y, g->u.posz)[0].type->id != "black_box") {
                         print_error(_("ERROR: Memory bank destroyed or not present."));
-                    } else if (g->m.i_at(x, y)[0].type->id == "usb_drive" && g->m.i_at(x, y)[0].contents.empty()) {
+                    } else if (g->m.i_at(x, y, g->u.posz)[0].type->id == "usb_drive" && g->m.i_at(x, y, g->u.posz)[0].contents.empty()) {
                         print_error(_("ERROR: Memory bank is empty."));
                     } else { // Success!
-                        if (g->m.i_at(x, y)[0].type->id == "black_box") {
+                        if (g->m.i_at(x, y, g->u.posz)[0].type->id == "black_box") {
                             print_line(_("Memory Bank:  Military Hexron Encryption\nPrinting Transcript\n"));
                             item transcript("black_box_transcript", calendar::turn);
-                            g->m.add_item_or_charges(g->u.posx, g->u.posy, transcript);
+                            g->m.add_item_or_charges(g->u.posx, g->u.posy, g->u.posz, transcript);
                         } else {
                             print_line(_("Memory Bank:  Unencrypted\nNothing of interest.\n"));
                         }
@@ -1049,18 +1063,18 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
         add_msg(m_warning, _("Evacuate Immediately!"));
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
-                if (g->m.ter(x, y) == t_elevator || g->m.ter(x, y) == t_vat) {
-                    g->m.make_rubble(x, y, f_rubble_rock, true);
-                    g->explosion(x, y, 40, 0, true);
+                if (g->m.ter(x, y, g->u.posz) == t_elevator || g->m.ter(x, y, g->u.posz) == t_vat) {
+                    g->m.make_rubble(x, y, g->u.posz, f_rubble_rock, true);
+                    g->explosion(x, y, g->u.posz, 40, 0, true);
                 }
-                if (g->m.ter(x, y) == t_wall_glass_h || g->m.ter(x, y) == t_wall_glass_v) {
-                    g->m.make_rubble(x, y, f_rubble_rock, true);
+                if (g->m.ter(x, y, g->u.posz) == t_wall_glass_h || g->m.ter(x, y, g->u.posz) == t_wall_glass_v) {
+                    g->m.make_rubble(x, y, g->u.posz, f_rubble_rock, true);
                 }
-                if (g->m.ter(x, y) == t_sewage_pipe || g->m.ter(x, y) == t_sewage || g->m.ter(x, y) == t_grate) {
-                    g->m.make_rubble(x, y, f_rubble_rock, true);
+                if (g->m.ter(x, y, g->u.posz) == t_sewage_pipe || g->m.ter(x, y, g->u.posz) == t_sewage || g->m.ter(x, y, g->u.posz) == t_grate) {
+                    g->m.make_rubble(x, y, g->u.posz, f_rubble_rock, true);
                 }
-                if (g->m.ter(x, y) == t_sewage_pump) {
-                    g->m.make_rubble(x, y, f_rubble_rock, true);
+                if (g->m.ter(x, y, g->u.posz) == t_sewage_pump) {
+                    g->m.make_rubble(x, y, g->u.posz, f_rubble_rock, true);
                     g->explosion(x, y, 50, 0, true);
                 }
             }
@@ -1077,8 +1091,8 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
                 _("\nPower:         Backup Only\nRadion Level:  Very Dangerous\nOperational:   Overrided\n\n"));
             for (int x = 0; x < SEEX * MAPSIZE; x++) {
                 for (int y = 0; y < SEEY * MAPSIZE; y++) {
-                    if (g->m.ter(x, y) == t_elevator_control_off) {
-                        g->m.ter_set(x, y, t_elevator_control);
+                    if (g->m.ter(x, y, g->u.posz) == t_elevator_control_off) {
+                        g->m.ter_set(x, y, g->u.posz, t_elevator_control);
 
                     }
                 }
@@ -1109,8 +1123,8 @@ void computer::activate_failure(computer_failure fail)
     case COMPFAIL_SHUTDOWN:
         for( int x = g->u.posx - 1; x <= g->u.posx + 1; x++ ) {
             for( int y = g->u.posy - 1; y <= g->u.posy + 1; y++ ) {
-                if( g->m.has_flag("CONSOLE", x, y) ) {
-                    g->m.ter_set(x, y, t_console_broken);
+                if( g->m.has_flag("CONSOLE", x, y, g->u.posz) ) {
+                    g->m.ter_set(x, y, g->u.posz, t_console_broken);
                     add_msg(m_bad, _("The console shuts down."));
                     found_tile = true;
                 }
@@ -1121,8 +1135,8 @@ void computer::activate_failure(computer_failure fail)
         }
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
-                if (g->m.has_flag("CONSOLE", x, y)) {
-                    g->m.ter_set(x, y, t_console_broken);
+                if (g->m.has_flag("CONSOLE", x, y, g->u.posz)) {
+                    g->m.ter_set(x, y, g->u.posz, t_console_broken);
                     add_msg(m_bad, _("The console shuts down."));
                 }
             }
@@ -1150,7 +1164,7 @@ void computer::activate_failure(computer_failure fail)
             if (tries != 10) {
                 add_msg(m_warning, _("Manhacks drop from compartments in the ceiling."));
                 monster robot(GetMType("mon_manhack"));
-                robot.spawn(mx, my);
+                robot.spawn(mx, my, g->u.posz);
                 g->add_zombie(robot);
             }
         }
@@ -1169,7 +1183,7 @@ void computer::activate_failure(computer_failure fail)
             if (tries != 10) {
                 add_msg(m_warning, _("Secubots emerge from compartments in the floor."));
                 monster robot(GetMType("mon_secubot"));
-                robot.spawn(mx, my);
+                robot.spawn(mx, my, g->u.posz);
                 g->add_zombie(robot);
             }
         }
@@ -1193,8 +1207,8 @@ void computer::activate_failure(computer_failure fail)
         add_msg(m_warning, _("The pump explodes!"));
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
-                if (g->m.ter(x, y) == t_sewage_pump) {
-                    g->m.make_rubble(x, y);
+                if (g->m.ter(x, y, g->u.posz) == t_sewage_pump) {
+                    g->m.make_rubble(x, y, g->u.posz);
                     g->explosion(x, y, 10, 0, false);
                 }
             }
@@ -1205,21 +1219,21 @@ void computer::activate_failure(computer_failure fail)
         add_msg(m_warning, _("Sewage leaks!"));
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
-                if (g->m.ter(x, y) == t_sewage_pump) {
+                if (g->m.ter(x, y, g->u.posz) == t_sewage_pump) {
                     point p(x, y);
                     int leak_size = rng(4, 10);
                     for (int i = 0; i < leak_size; i++) {
                         std::vector<point> next_move;
-                        if (g->m.move_cost(p.x, p.y - 1) > 0) {
+                        if (g->m.move_cost(p.x, p.y - 1, g->u.posz) > 0) {
                             next_move.push_back( point(p.x, p.y - 1) );
                         }
-                        if (g->m.move_cost(p.x + 1, p.y) > 0) {
+                        if (g->m.move_cost(p.x + 1, p.y, g->u.posz) > 0) {
                             next_move.push_back( point(p.x + 1, p.y) );
                         }
-                        if (g->m.move_cost(p.x, p.y + 1) > 0) {
+                        if (g->m.move_cost(p.x, p.y + 1, g->u.posz) > 0) {
                             next_move.push_back( point(p.x, p.y + 1) );
                         }
-                        if (g->m.move_cost(p.x - 1, p.y) > 0) {
+                        if (g->m.move_cost(p.x - 1, p.y, g->u.posz) > 0) {
                             next_move.push_back( point(p.x - 1, p.y) );
                         }
 
@@ -1227,7 +1241,7 @@ void computer::activate_failure(computer_failure fail)
                             i = leak_size;
                         } else {
                             p = next_move[rng(0, next_move.size() - 1)];
-                            g->m.ter_set(p.x, p.y, t_sewage);
+                            g->m.ter_set(p.x, p.y, g->u.posz, t_sewage);
                         }
                     }
                 }
@@ -1246,21 +1260,21 @@ void computer::activate_failure(computer_failure fail)
         print_error(_("ERROR: Disruptive Spin"));
         for (int x = g->u.posx - 2; x <= g->u.posx + 2; x++) {
             for (int y = g->u.posy - 2; y <= g->u.posy + 2; y++) {
-                if (g->m.ter(x, y) == t_centrifuge) {
-                    if (g->m.i_at(x, y).empty()) {
+                if (g->m.ter(x, y, g->u.posz) == t_centrifuge) {
+                    if (g->m.i_at(x, y, g->u.posz).empty()) {
                         print_error(_("ERROR: Please place sample in centrifuge."));
-                    } else if (g->m.i_at(x, y).size() > 1) {
+                    } else if (g->m.i_at(x, y, g->u.posz).size() > 1) {
                         print_error(_("ERROR: Please remove all but one sample from centrifuge."));
-                    } else if (g->m.i_at(x, y)[0].type->id != "vacutainer") {
+                    } else if (g->m.i_at(x, y, g->u.posz)[0].type->id != "vacutainer") {
                         print_error(_("ERROR: Please use vacutainer-contained samples."));
-                    } else if (g->m.i_at(x, y)[0].contents.empty()) {
+                    } else if (g->m.i_at(x, y, g->u.posz)[0].contents.empty()) {
                         print_error(_("ERROR: Vacutainer empty."));
-                    } else if (g->m.i_at(x, y)[0].contents[0].type->id != "blood") {
+                    } else if (g->m.i_at(x, y, g->u.posz)[0].contents[0].type->id != "blood") {
                         print_error(_("ERROR: Please only use blood samples."));
                     } else {
                         print_error(_("ERROR: Blood sample destroyed."));
-                        for (std::vector<item>::iterator it = g->m.i_at(x, y).begin();
-                             it != g->m.i_at(x, y).end(); ++it) {
+                        for (std::vector<item>::iterator it = g->m.i_at(x, y, g->u.posz).begin();
+                             it != g->m.i_at(x, y, g->u.posz).end(); ++it) {
                             it->contents.clear();
                         }
                     }
@@ -1274,19 +1288,19 @@ void computer::activate_failure(computer_failure fail)
         print_error(_("ERROR: ACCESSING DATA MALFUNCTION"));
         for (int x = 0; x <= 23; x++) {
             for (int y = 0; y <= 23; y++) {
-                if (g->m.ter(x, y) == t_floor_blue) {
-                    if (g->m.i_at(x, y).empty()) {
+                if (g->m.ter(x, y, g->u.posz) == t_floor_blue) {
+                    if (g->m.i_at(x, y, g->u.posz).empty()) {
                         print_error(_("ERROR: Please place memory bank in scan area."));
-                    } else if (g->m.i_at(x, y).size() > 1) {
+                    } else if (g->m.i_at(x, y, g->u.posz).size() > 1) {
                         print_error(_("ERROR: Please only scan one item at a time."));
-                    } else if (g->m.i_at(x, y)[0].type->id != "usb_drive") {
+                    } else if (g->m.i_at(x, y, g->u.posz)[0].type->id != "usb_drive") {
                         print_error(_("ERROR: Memory bank destroyed or not present."));
-                    } else if (g->m.i_at(x, y)[0].contents.empty()) {
+                    } else if (g->m.i_at(x, y, g->u.posz)[0].contents.empty()) {
                         print_error(_("ERROR: Memory bank is empty."));
                     } else {
                         print_error(_("ERROR: Data bank destroyed."));
-                        for (std::vector<item>::iterator it = g->m.i_at(x, y).begin();
-                             it != g->m.i_at(x, y).end(); ++it) {
+                        for (std::vector<item>::iterator it = g->m.i_at(x, y, g->u.posz).begin();
+                             it != g->m.i_at(x, y, g->u.posz).end(); ++it) {
                             it->contents.clear();
                         }
                     }

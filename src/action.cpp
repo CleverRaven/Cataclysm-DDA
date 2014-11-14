@@ -403,11 +403,11 @@ long hotkey_for_action(action_id action)
     return keys.empty() ? -1 : keys[0];
 }
 
-bool can_butcher_at(int x, int y)
+bool can_butcher_at(int x, int y, int z = 0)
 {
     // TODO: unify this with game::butcher
     const int factor = g->u.butcher_factor();
-    std::vector<item> &items = g->m.i_at(x, y);
+    std::vector<item> &items = g->m.i_at(x, y, z);
     bool has_corpse, has_item = false;
     inventory crafting_inv = g->crafting_inventory(&g->u);
     for (std::vector<item>::iterator it = items.begin();
@@ -426,10 +426,10 @@ bool can_butcher_at(int x, int y)
     return has_corpse || has_item;
 }
 
-bool can_move_vertical_at(int x, int y, int movez)
+bool can_move_vertical_at(int x, int y, int z, int movez)
 {
     // TODO: unify this with game::move_vertical
-    if (g->m.has_flag("SWIMMABLE", x, y) && g->m.has_flag(TFLAG_DEEP_WATER, x, y)) {
+    if (g->m.has_flag("SWIMMABLE", x, y, z) && g->m.has_flag(TFLAG_DEEP_WATER, x, y, z)) {
         if (movez == -1) {
             return !g->u.is_underwater() && !g->u.worn_with_flag("FLOATATION");
         } else {
@@ -438,13 +438,13 @@ bool can_move_vertical_at(int x, int y, int movez)
     }
 
     if (movez == -1) {
-        return g->m.has_flag("GOES_DOWN", x, y);
+        return g->m.has_flag("GOES_DOWN", x, y, z);
     } else {
-        return g->m.has_flag("GOES_UP", x, y);
+        return g->m.has_flag("GOES_UP", x, y, z);
     }
 }
 
-bool can_examine_at(int x, int y)
+bool can_examine_at(int x, int y, int z = 0)
 {
     int veh_part = 0;
     vehicle *veh = NULL;
@@ -453,19 +453,19 @@ bool can_examine_at(int x, int y)
     if (veh) {
         return true;
     }
-    if (g->m.has_flag("CONSOLE", x, y)) {
+    if (g->m.has_flag("CONSOLE", x, y, z)) {
         return true;
     }
-    const furn_t *xfurn_t = &furnlist[g->m.furn(x, y)];
-    const ter_t *xter_t = &terlist[g->m.ter(x, y)];
+    const furn_t *xfurn_t = &furnlist[g->m.furn(x, y, z)];
+    const ter_t *xter_t = &terlist[g->m.ter(x, y, z)];
 
-    if (g->m.has_furn(x, y) && xfurn_t->examine != &iexamine::none) {
+    if (g->m.has_furn(x, y, z) && xfurn_t->examine != &iexamine::none) {
         return true;
     } else if(xter_t->examine != &iexamine::none) {
         return true;
     }
 
-    const trap_id t = g->m.tr_at( x, y );
+    const trap_id t = g->m.tr_at( x, y, z );
     if( t != tr_null && traplist[t]->can_see( g->u, x, y ) ) {
         return true;
     }
@@ -473,24 +473,24 @@ bool can_examine_at(int x, int y)
     return false;
 }
 
-bool can_interact_at(action_id action, int x, int y)
+bool can_interact_at(action_id action, int x, int y, int z = 0)
 {
     switch(action) {
     case ACTION_OPEN:
-        return g->m.open_door(x, y, !g->m.is_outside(g->u.posx, g->u.posy), true);
+        return g->m.open_door(x, y, z, !g->m.is_outside(g->u.posx, g->u.posy, g->u.posz), true);
         break;
     case ACTION_CLOSE:
-        return g->m.close_door(x, y, !g->m.is_outside(g->u.posx, g->u.posy), true);
+        return g->m.close_door(x, y, z, !g->m.is_outside(g->u.posx, g->u.posy, g->u.posz), true);
         break;
     case ACTION_BUTCHER:
-        return can_butcher_at(x, y);
+        return can_butcher_at(x, y, z);
     case ACTION_MOVE_UP:
-        return can_move_vertical_at(x, y, 1);
+        return can_move_vertical_at(x, y, z, 1);
     case ACTION_MOVE_DOWN:
-        return can_move_vertical_at(x, y, -1);
+        return can_move_vertical_at(x, y, z, -1);
         break;
     case ACTION_EXAMINE:
-        return can_examine_at(x, y);
+        return can_examine_at(x, y, z);
         break;
     default:
         return false;
@@ -534,26 +534,27 @@ action_id handle_action_menu()
         for(int dy = -1; dy <= 1; dy++) {
             int x = g->u.xpos() + dx;
             int y = g->u.ypos() + dy;
+            int z = g->u.zpos();
             if(dx != 0 || dy != 0) {
                 // Check for actions that work on nearby tiles
-                if(can_interact_at(ACTION_OPEN, x, y)) {
+                if(can_interact_at(ACTION_OPEN, x, y, z)) {
                     action_weightings[ACTION_OPEN] = 200;
                 }
-                if(can_interact_at(ACTION_CLOSE, x, y)) {
+                if(can_interact_at(ACTION_CLOSE, x, y, z)) {
                     action_weightings[ACTION_CLOSE] = 200;
                 }
-                if(can_interact_at(ACTION_EXAMINE, x, y)) {
+                if(can_interact_at(ACTION_EXAMINE, x, y, z)) {
                     action_weightings[ACTION_EXAMINE] = 200;
                 }
             } else {
                 // Check for actions that work on own tile only
-                if(can_interact_at(ACTION_BUTCHER, x, y)) {
+                if(can_interact_at(ACTION_BUTCHER, x, y, z)) {
                     action_weightings[ACTION_BUTCHER] = 200;
                 }
-                if(can_interact_at(ACTION_MOVE_UP, x, y)) {
+                if(can_interact_at(ACTION_MOVE_UP, x, y, z)) {
                     action_weightings[ACTION_MOVE_UP] = 200;
                 }
-                if(can_interact_at(ACTION_MOVE_DOWN, x, y)) {
+                if(can_interact_at(ACTION_MOVE_DOWN, x, y, z)) {
                     action_weightings[ACTION_MOVE_DOWN] = 200;
                 }
             }
@@ -784,8 +785,8 @@ bool choose_adjacent_highlight(std::string message, int &x, int &y,
         for (int dy = -1; dy <= 1; dy++) {
             int x = g->u.xpos() + dx;
             int y = g->u.ypos() + dy;
-
-            if(can_interact_at(action_to_highlight, x, y)) {
+            int z = g->u.zpos();
+            if(can_interact_at(action_to_highlight, x, y, z)) {
                 highlighted = true;
                 g->m.drawsq(g->w_terrain, g->u, x, y, true, true, g->u.xpos() + g->u.view_offset_x,
                             g->u.ypos() + g->u.view_offset_y);

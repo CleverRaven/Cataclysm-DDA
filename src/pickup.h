@@ -14,7 +14,7 @@ class item;
 class Pickup
 {
     public:
-        static void do_pickup( point pickup_target, bool from_vehicle,
+        static void do_pickup( tripoint pickup_target, bool from_vehicle,
                                std::list<int> &indices, std::list<int> &quantities, bool autopickup );
         static void pick_up(int posx, int posy, int min); // Pick up items; ',' or via examine()
 
