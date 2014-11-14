@@ -49,7 +49,8 @@ enum vehicle_controls {
  toggle_engine,
  toggle_fridge,
  toggle_recharger,
- cont_engines
+ cont_engines,
+ toggle_doors
 };
 
 vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): type(type_id)
@@ -422,6 +423,31 @@ void vehicle::smash() {
     }
 }
 
+void vehicle::control_doors() {
+        bool toggled = false;
+        int px = g->u.view_offset_x;
+        int py = g->u.view_offset_y;
+        point toggle_target;
+        toggle_target = g->look_around();
+        int dx = toggle_target.x - global_x();
+        int dy = toggle_target.y - global_y();
+        for (size_t i = 0; i < parts.size(); i++) {
+            if (parts[i].precalc_dx[0] == dx && parts[i].precalc_dy[0] == dy &&
+                part_flag( i, "OPENABLE" ) && parts[i].hp > 0) {
+                open_or_close( i, !(parts[i].open) );
+                toggled = true;
+                break;
+            }
+        }
+        
+        if( !toggled ) {
+            popup(_("No doors here!"));
+        }
+        
+        g->u.view_offset_x = px;
+        g->u.view_offset_y = py;
+}
+
 void vehicle::control_engines() {
     int e_toggle = 0;
     //count active engines
@@ -532,6 +558,7 @@ void vehicle::use_controls()
     bool has_mult_engine = false;
     bool has_fridge = false;
     bool has_recharger = false;
+    bool has_doors = false;
     for (size_t p = 0; p < parts.size(); p++) {
         if (part_flag(p, "CONE_LIGHT")) {
             has_lights = true;
@@ -567,6 +594,9 @@ void vehicle::use_controls()
         }
         else if (part_flag(p, "RECHARGE")) {
             has_recharger = true;
+        }
+        else if (part_flag(p, "OPENABLE")) {
+            has_doors = true;
         }
     }
 
@@ -652,6 +682,11 @@ void vehicle::use_controls()
         options_choice.push_back(toggle_reactor);
         options_message.push_back(uimenu_entry(reactor_on ? _("Turn off reactor") :
                                                _("Turn on reactor"), 'k'));
+    }
+    // Toggle doors remotely
+    if (has_doors) {
+        options_choice.push_back(toggle_doors);
+        options_message.push_back(uimenu_entry(_("Toggle door"), 'k'));
     }
     // control an engine
     if (has_mult_engine) {
@@ -902,6 +937,9 @@ void vehicle::use_controls()
         } else {
             add_msg(_("tracking device won't turn on"));
         }
+        break;
+    case toggle_doors:
+        control_doors();
         break;
     case control_cancel:
         break;

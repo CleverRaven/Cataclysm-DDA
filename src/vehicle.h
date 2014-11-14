@@ -669,6 +669,8 @@ public:
     //mark engine as on or off
     void toggle_specific_engine(int p, bool on);
     void toggle_specific_part(int p,bool on);
+    //remotely open/close doors
+    void control_doors();
 
 
     // return a vector w/ 'direction' & 'magnitude', in its own sense of the words.
