@@ -3309,7 +3309,7 @@
         "name":"diamond",
         "description":"A sparkling diamond.",
         "price": 1000000,
-        "material": "stone",
+        "material": "diamond",
         "weight": 120,
         "volume": 1,
         "bashing": 0,
