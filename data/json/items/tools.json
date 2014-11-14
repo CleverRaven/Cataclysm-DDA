@@ -4406,7 +4406,7 @@
     "color": "light_gray",
     "name": "makeshift machete",
     "description": "This is a large blade that has had a portion of the handle wrapped in duct tape, making it easier to wield as a rough machete.",
-    "price": 0,
+    "price": 1000,
     "material": "steel",
     "flags": ["CHOP", "SHEATH_SWORD", "IAIJUTSU"],
     "weight": 538,
