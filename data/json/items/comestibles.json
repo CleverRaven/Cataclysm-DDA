@@ -1681,7 +1681,7 @@
         "volume" : 1,
         "cutting" : 0,
         "phase" : "liquid",
-        "charges" : 6,
+        "charges" : 1, "//" : "Includes cola, so presumed to be a 250mL cocktail like the others.",
         "bashing" : 0,
         "flags" : ["EATEN_COLD"],
         "fun" : 20
