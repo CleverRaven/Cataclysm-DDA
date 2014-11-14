@@ -703,7 +703,7 @@
         "move_cost": 0,
         "flags": ["TRANSPARENT", "NOITEM", "SUPPORTS_ROOF", "WALL"],
         "bash": {
-            "str_min": 60, "str_max": 100,
+            "str_min": 40, "str_max": 210,
             "sound": "glass breaking!",
             "sound_fail": "whack!",
             "ter_set": "t_floor",
