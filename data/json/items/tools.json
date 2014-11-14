@@ -3595,7 +3595,7 @@
     "color": "light_gray",
     "name": "C-4 explosive",
     "description": "This is military grade RDX composition explosive.  A label reads: \"Highly explosive, use with extreme caution!\" It comes with a small timer.",
-    "price": 6000,
+    "price": 9000,
     "material": ["plastic", "null"],
     "weight": 1570,
     "volume": 4,
