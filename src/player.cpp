@@ -12325,7 +12325,7 @@ bool player::armor_absorb(damage_unit& du, item& armor) {
     bool armor_damaged = false;
 
     std::string pre_damage_name = armor.tname();
-    std::string pre_damage_adj = armor_type->dmg_adj(armor.damage);
+    std::string pre_damage_adj = armor.get_base_material().dmg_adj(armor.damage);
 
     if (rng(0,100) <= armor.get_coverage()) {
         if (armor.is_power_armor()) { // TODO: add some check for power armor

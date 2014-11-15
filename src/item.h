@@ -503,6 +503,10 @@ public:
          * item is made from several materials).
          */
         const material_type &get_random_material() const;
+        /**
+         * Get the basic (main) material of this item. May return the null-material.
+         */
+        const material_type &get_base_material() const;
 
         /**
          * @name Armor related functions.

@@ -1387,7 +1387,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
                 if (damage == 3) damtext = rm_prefix(_("<dam_adj>mangled "));
                 if (damage == 4) damtext = rm_prefix(_("<dam_adj>pulped "));
             } else {
-                damtext = rmp_format("%s ", type->dmg_adj(damage).c_str());
+                damtext = rmp_format("%s ", get_base_material().dmg_adj(damage).c_str());
             }
         }
     }
@@ -2655,6 +2655,14 @@ const material_type &item::get_random_material() const
     }
     const auto chosen_mat_id = type->materials[rng( 0, type->materials.size() - 1 )];
     return *material_type::find_material( chosen_mat_id );
+}
+
+const material_type &item::get_base_material() const
+{
+    if( type->materials.empty() ) {
+        return *material_type::find_material( "null" );
+    }
+    return *material_type::find_material( type->materials.front() );
 }
 
 bool item::operator<(const item& other) const

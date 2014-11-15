@@ -205,16 +205,6 @@ public:
     bool is_sided(body_part bp) const;
     int invoke( player *p, item *it, bool active, point pos );
 
-    std::string dmg_adj(int dam)
-    {
-        std::string primary_mat_id = "null";
-        if (materials.size() > 0) {
-            primary_mat_id = materials[0];
-        }
-
-        return material_type::find_material(primary_mat_id)->dmg_adj(dam);
-    }
-
     std::vector<use_function> use_methods;// Special effects of use
 
     itype() : id("null"), price(0), name("none"), name_plural("none"), description(), sym('#'),
