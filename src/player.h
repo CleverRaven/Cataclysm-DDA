@@ -332,7 +332,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Check if the item is suitable for auto-wielding, based on skill/style/item type */
         bool is_suitable_weapon(const item &it) const;
         /** Called when a player triggers a trap, returns true if they don't set it off */
-        bool avoid_trap(trap *tr, int x, int y);
+        bool avoid_trap(trap *tr, int x, int y, int z);
 
         /** Returns true if the player has some form of night vision */
         bool has_nv();

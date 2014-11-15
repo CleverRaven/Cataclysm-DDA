@@ -99,11 +99,11 @@ struct trap {
         int trigger_weight;
         /** Player has not yet seen the trap and returns the variable chance, at this moment,
          of whether the trap is seen or not. */
-        bool detect_trap(const player &p, int x, int y) const;
+        bool detect_trap(const player &p, int x, int y, int z) const;
         /** Can player/npc p see this kind of trap given their memory? */
-        bool can_see(const player &p, int x, int y) const;
+        bool can_see(const player &p, int x, int y, int z) const;
         /** Trigger trap effects by creature that stepped onto it. */
-        void trigger(Creature *creature, int x, int y) const;
+        void trigger(Creature *creature, int x, int y, int z) const;
 
         double funnel_turns_per_charge( double rain_depth_mm_per_hour ) const;
         /* pending jsonize

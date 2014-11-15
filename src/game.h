@@ -256,7 +256,7 @@ class game
          * Nuke the area at (x,y) - global overmap terrain coordinates!
          */
         void nuke(int x, int y);
-        bool spread_fungus(int x, int y);
+        bool spread_fungus(int x, int y, int z);
         std::vector<faction *> factions_at(int x, int y);
         int &scent(int x, int y);
         float natural_light_level() const;
@@ -275,7 +275,7 @@ class game
         Creature *is_hostile_nearby();
         Creature *is_hostile_very_close();
         void refresh_all();
-        void update_map(int &x, int &y);  // Called by plmove when the map updates
+        void update_map(int &x, int &y, int &z);  // Called by plmove when the map updates
         void update_overmap_seen(); // Update which overmap tiles we can see
         // Position of the player in overmap terrain coordinates, relative
         // to the current overmap (@ref cur_om).
@@ -554,7 +554,7 @@ class game
         void pldrive(int x, int y); // drive vehicle
         // Standard movement; handles attacks, traps, &c. Returns false if auto move
         // should be canceled
-        bool plmove(int dx, int dy);
+        bool plmove(int dx, int dy, int dz);
         void on_move_effects();
         void wait(); // Long wait (player action)  '^'
         void open(); // Open a door  'o'

@@ -17,35 +17,35 @@
 void iexamine::none(player *p, map *m, int examx, int examy)
 {
     (void)p; //unused
-    add_msg(_("That is a %s."), m->name(examx, examy).c_str());
+    add_msg(_("That is a %s."), m->name(examx, examy,p->posz).c_str());
 };
 
 void iexamine::gaspump(player *p, map *m, int examx, int examy)
 {
-    if (!query_yn(_("Use the %s?"), m->tername(examx, examy).c_str())) {
+    if (!query_yn(_("Use the %s?"), m->tername(examx, examy, p->posz).c_str())) {
         none(p, m, examx, examy);
         return;
     }
 
-    for (size_t i = 0; i < m->i_at(examx, examy).size(); i++) {
-        if (m->i_at(examx, examy)[i].made_of(LIQUID)) {
-            item *liq = &(m->i_at(examx, examy)[i]);
+    for (size_t i = 0; i < m->i_at(examx, examy, p->posz).size(); i++) {
+        if (m->i_at(examx, examy, p->posz)[i].made_of(LIQUID)) {
+            item *liq = &(m->i_at(examx, examy, p->posz)[i]);
 
             if (one_in(10 + p->dex_cur)) {
                 add_msg(m_bad, _("You accidentally spill the %s."), liq->type->nname(1).c_str());
                 item spill(liq->type->id, calendar::turn);
                 spill.charges = rng(dynamic_cast<it_ammo *>(liq->type)->count,
                                     dynamic_cast<it_ammo *>(liq->type)->count * (float)(8 / p->dex_cur));
-                m->add_item_or_charges(p->posx, p->posy, spill, 1);
+                m->add_item_or_charges(p->posx, p->posy, p->posz, spill, 1);
                 liq->charges -= spill.charges;
                 if (liq->charges < 1) {
-                    m->i_at(examx, examy).erase(m->i_at(examx, examy).begin() + i);
+                    m->i_at(examx, examy, p->posz).erase(m->i_at(examx, examy, p->posz).begin() + i);
                 }
             } else {
                 p->moves -= 300;
                 if (g->handle_liquid(*liq, true, false)) {
                     add_msg(_("With a clang and a shudder, the %s pump goes silent."), liq->type->nname(1).c_str());
-                    m->i_at(examx, examy).erase(m->i_at(examx, examy).begin() + i);
+                    m->i_at(examx, examy, p->posz).erase(m->i_at(examx, examy, p->posz).begin() + i);
                 }
             }
             return;
@@ -256,7 +256,7 @@ void iexamine::atm(player *p, map *m, int examx, int examy)
 
 void iexamine::vending(player *p, map *m, int examx, int examy)
 {
-    std::vector<item> &vend_items = m->i_at(examx, examy);
+    std::vector<item> &vend_items = m->i_at(examx, examy, p->posz);
     int num_items = vend_items.size();
 
     if (num_items == 0) {
@@ -317,7 +317,7 @@ void iexamine::vending(player *p, map *m, int examx, int examy)
         mvwaddch(w, 2, 0, LINE_XXXO); // |-
         mvwaddch(w, 2, w_width - 1, LINE_XOXX); // -|
 
-        vend_items = m->i_at(examx, examy);
+        vend_items = m->i_at(examx, examy, p->posz);
         num_items = vend_items.size();
 
         mvwprintz(w, 1, 2, c_ltgray, _("Money left:%d Press 'q' or ESC to stop."), card->charges);
@@ -372,7 +372,7 @@ void iexamine::vending(player *p, map *m, int examx, int examy)
             }
             card->charges -= vend_items[cur_pos].price();
             p->i_add_or_drop(vend_items[cur_pos]);
-            m->i_rem(examx, examy, cur_pos);
+            m->i_rem(examx, examy, p->posz, cur_pos);
             if (cur_pos == (int)vend_items.size()) {
                 cur_pos--;
             }
@@ -395,7 +395,7 @@ void iexamine::vending(player *p, map *m, int examx, int examy)
 
 void iexamine::toilet(player *p, map *m, int examx, int examy)
 {
-    std::vector<item> &items = m->i_at(examx, examy);
+    std::vector<item> &items = m->i_at(examx, examy, p->posz);
     int waterIndex = -1;
     for (size_t i = 0; i < items.size(); i++) {
         if (items[i].typeId() == "water") {
@@ -435,7 +435,7 @@ void iexamine::toilet(player *p, map *m, int examx, int examy)
 void iexamine::elevator(player *p, map *m, int examx, int examy)
 {
     (void)p; //unused
-    if (!query_yn(_("Use the %s?"), m->tername(examx, examy).c_str())) {
+    if (!query_yn(_("Use the %s?"), m->tername(examx, examy, p->posz).c_str())) {
         return;
     }
     int movez = (g->levz < 0 ? 2 : -2);
@@ -444,23 +444,23 @@ void iexamine::elevator(player *p, map *m, int examx, int examy)
 
 void iexamine::controls_gate(player *p, map *m, int examx, int examy)
 {
-    if (!query_yn(_("Use the %s?"), m->tername(examx, examy).c_str())) {
+    if (!query_yn(_("Use the %s?"), m->tername(examx, examy, p->posz).c_str())) {
         none(p, m, examx, examy);
         return;
     }
-    g->open_gate(examx, examy, (ter_id)m->ter(examx, examy));
+    g->open_gate(examx, examy, (ter_id)m->ter(examx, examy, p->posz));
 }
 
 void iexamine::cardreader(player *p, map *m, int examx, int examy)
 {
-    itype_id card_type = (m->ter(examx, examy) == t_card_science ? "id_science" :
+    itype_id card_type = (m->ter(examx, examy, p->posz) == t_card_science ? "id_science" :
                           "id_military");
     if (p->has_amount(card_type, 1) && query_yn(_("Swipe your ID card?"))) {
         p->moves -= 100;
         for (int i = -3; i <= 3; i++) {
             for (int j = -3; j <= 3; j++) {
-                if (m->ter(examx + i, examy + j) == t_door_metal_locked) {
-                    m->ter_set(examx + i, examy + j, t_floor);
+                if (m->ter(examx + i, examy + j, p->posz) == t_door_metal_locked) {
+                    m->ter_set(examx + i, examy + j, p->posz, t_floor);
                 }
             }
         }
@@ -504,17 +504,17 @@ void iexamine::cardreader(player *p, map *m, int examx, int examy)
                         p->charge_power(0 - rng(0, p->power_level));
                     }
                 }
-                m->ter_set(examx, examy, t_card_reader_broken);
+                m->ter_set(examx, examy, p->posz, t_card_reader_broken);
             } else if (success < 6) {
                 add_msg(_("Nothing happens."));
             } else {
                 add_msg(_("You activate the panel!"));
                 add_msg(m_good, _("The nearby doors slide into the floor."));
-                m->ter_set(examx, examy, t_card_reader_broken);
+                m->ter_set(examx, examy, p->posz, t_card_reader_broken);
                 for (int i = -3; i <= 3; i++) {
                     for (int j = -3; j <= 3; j++) {
-                        if (m->ter(examx + i, examy + j) == t_door_metal_locked) {
-                            m->ter_set(examx + i, examy + j, t_floor);
+                        if (m->ter(examx + i, examy + j, p->posz) == t_door_metal_locked) {
+                            m->ter_set(examx + i, examy + j, p->posz, t_floor);
                         }
                     }
                 }
@@ -532,11 +532,11 @@ void iexamine::rubble(player *p, map *m, int examx, int examy)
         add_msg(m_info, _("If only you had a shovel..."));
         return;
     }
-    std::string xname = m->furnname(examx, examy);
+    std::string xname = m->furnname(examx, examy, p->posz);
     if (query_yn(_("Clear up that %s?"), xname.c_str())) {
         // "Remove"
         p->moves -= 200;
-        m->furn_set(examx, examy, f_null);
+        m->furn_set(examx, examy, p->posz, f_null);
 
         // "Remind"
         add_msg(_("You clear up that %s."), xname.c_str());
@@ -545,7 +545,7 @@ void iexamine::rubble(player *p, map *m, int examx, int examy)
 
 void iexamine::chainfence( player *p, map *m, int examx, int examy )
 {
-    if( !query_yn( _( "Climb %s?" ), m->tername( examx, examy ).c_str() ) ) {
+    if( !query_yn( _( "Climb %s?" ), m->tername( examx, examy, p->posz ).c_str() ) ) {
         none( p, m, examx, examy );
         return;
     }
@@ -571,12 +571,12 @@ void iexamine::chainfence( player *p, map *m, int examx, int examy )
         p->moves += climb * 10;
     }
     if( p->in_vehicle ) {
-        m->unboard_vehicle( p->posx, p->posy );
+        m->unboard_vehicle( p->posx, p->posy, p->posz );
     }
     if( examx < SEEX * int( MAPSIZE / 2 ) || examy < SEEY * int( MAPSIZE / 2 ) ||
         examx >= SEEX * ( 1 + int( MAPSIZE / 2 ) ) || examy >= SEEY * ( 1 + int( MAPSIZE / 2 ) ) ) {
         if( &g->u == p ) {
-            g->update_map( examx, examy );
+            g->update_map( examx, examy, p->posz );
         }
     }
     p->posx = examx;
@@ -593,10 +593,10 @@ void iexamine::bars(player *p, map *m, int examx, int examy)
          (p->encumb(bp_foot_l) >= 1 ||
           p->encumb(bp_foot_r) >= 1) ) { // Most likely places for rigid gear that would catch on the bars.
         add_msg(m_info, _("Your amorphous body could slip though the %s, but your cumbersome gear can't."),
-                m->tername(examx, examy).c_str());
+                m->tername(examx, examy, p->posz).c_str());
         return;
     }
-    if (!query_yn(_("Slip through the %s?"), m->tername(examx, examy).c_str())) {
+    if (!query_yn(_("Slip through the %s?"), m->tername(examx, examy, p->posz).c_str())) {
         none(p, m, examx, examy);
         return;
     }
@@ -608,13 +608,13 @@ void iexamine::bars(player *p, map *m, int examx, int examy)
 
 void iexamine::portable_structure(player *p, map *m, int examx, int examy)
 {
-    int radius = m->furn(examx, examy) == f_center_groundsheet ? 2 : 1;
-    const char *name = m->furn(examx, examy) == f_skin_groundsheet ? _("shelter") : _("tent");
+    int radius = m->furn(examx, examy, p->posz) == f_center_groundsheet ? 2 : 1;
+    const char *name = m->furn(examx, examy, p->posz) == f_skin_groundsheet ? _("shelter") : _("tent");
       // We don't take the name from the item in case "kit" is in
       // it, instead of just the name of the structure.
     std::string dropped =
-        m->furn(examx, examy) == f_groundsheet        ? "tent_kit"
-      : m->furn(examx, examy) == f_center_groundsheet ? "large_tent_kit"
+        m->furn(examx, examy, p->posz) == f_groundsheet        ? "tent_kit"
+      : m->furn(examx, examy, p->posz) == f_center_groundsheet ? "large_tent_kit"
       :                                                 "shelter_kit";
     if (!query_yn(_("Take down the %s?"), name)) {
         none(p, m, examx, examy);
@@ -904,7 +904,7 @@ void iexamine::door_peephole(player *p, map *m, int examx, int examy) {
         return;
     }
 
-    // Peek through the peephole, or open the door. 
+    // Peek through the peephole, or open the door.
     int choice = menu( true, _("Do what with the door?"),
                        _("Peek through peephole."), _("Open door."),
                        _("Cancel"), NULL );
@@ -1743,7 +1743,7 @@ void iexamine::harvest_tree_shrub(player *p, map *m, int examx, int examy)
         add_msg(m_info, _("This %s has already been harvested. Harvest it again next year."), m->tername(examx, examy).c_str());
         return;
     }
-    
+
     bool seeds = false;
     if (m->has_flag("SHRUB", examx, examy)) { // if shrub, it gives seeds. todo -> trees give seeds(?) -> trees plantable
         seeds = true;

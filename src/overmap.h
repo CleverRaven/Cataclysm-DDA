@@ -268,7 +268,7 @@ class overmap
 
     overmap& operator=(overmap const&) = default;
 
-    point const& pos() const { return loc; }
+    tripoint const& pos() const { return loc; }
 
     void save() const;
 
@@ -380,7 +380,7 @@ public:
 
  private:
   friend class overmapbuffer;
-  point loc;
+  tripoint loc;
 
     std::array<map_layer, OVERMAP_LAYERS> layer;
 

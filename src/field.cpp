@@ -978,7 +978,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                         }
                                     }
                             } if (one_in(5 - cur->getFieldDensity())) {
-                                g->spread_fungus(x, y); //Haze'd terrain
+                                g->spread_fungus(x, y, z); //Haze'd terrain
                             }
                             }
                             break;
