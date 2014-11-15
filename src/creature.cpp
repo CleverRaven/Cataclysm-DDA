@@ -147,6 +147,10 @@ void Creature::reset_stats()
 
 void Creature::process_turn()
 {
+//    if(is_dead_state()) {
+//        return;
+//    }
+
     process_effects();
 
     // Call this in case any effects have changed our stats

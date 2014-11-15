@@ -1153,39 +1153,15 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void blossoms();
 
         // return the calendar::turn the player expired
-        int get_turn_of_death() const
+        int get_turn_died() const
         {
             return turn_died;
         }
-        // change state of deathcam
-        void set_deathcam(deathcam_state dc)
+        // set the turn the turn the player died if not already done
+        void set_turn_died(int turn)
         {
-            deathcam = dc;
+            turn_died = (turn_died != -1) ? turn : turn_died;
         }
-        // return state of deathcam
-        deathcam_state get_deathcam() const
-        {
-            return deathcam;
-        }
-        /*// return whether we are still watching the character's final moments*/
-        /*bool is_final_moments() const*/
-        /*{*/
-        /*return final_moments;*/
-        /*}*/
-        /*// sets whether we are, in fact, watching macabre things*/
-        /*void watch_final_moments(bool b)*/
-        /*{*/
-        /*final_moments = b;*/
-        /*}*/
-        /*void end_final_moments()*/
-        /*{*/
-        /*post_deathcam = true;*/
-        /*}*/
-        /*bool is_post_deathcam() const*/
-        /*{*/
-        /*return post_deathcam;*/
-        /*}*/
-
 
     protected:
         std::vector<std::string> my_traits;
@@ -1229,7 +1205,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         int id; // A unique ID number, assigned by the game class private so it cannot be overwritten and cause save game corruptions.
         //NPCs also use this ID value. Values should never be reused.
-        int turn_died;
+
+        // turn the player expired, if -1 it has not been set yet.
+        int turn_died = -1;
         deathcam_state deathcam = DC_OFF;
 };
 

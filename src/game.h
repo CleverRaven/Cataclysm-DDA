@@ -57,11 +57,12 @@ enum input_ret {
 };
 
 enum quit_status {
-    QUIT_NO = 0,  // Still playing
-    QUIT_MENU,    // Quit at the menu
-    QUIT_SUICIDE, // Quit with 'Q'
-    QUIT_SAVED,   // Saved and quit
-    QUIT_DIED,     // Actual death
+    QUIT_NO = 0,    // Still playing
+    QUIT_MENU,      // Quit at the menu
+    QUIT_SUICIDE,   // Quit with 'Q'
+    QUIT_SAVED,     // Saved and quit
+    QUIT_DIED,      // Actual death
+    QUIT_WATCH,     // Died, and watching aftermath
     QUIT_ERROR
 };
 
@@ -127,7 +128,7 @@ class game
         void delete_world(std::string worldname, bool delete_folder);
         std::vector<std::string> list_active_characters();
         void write_memorial_file(std::string sLastWords);
-        void cleanup_at_end();
+        bool cleanup_at_end();
         void start_calendar();
         bool do_turn();
         void draw();
@@ -642,7 +643,8 @@ class game
                                     bool mouse_hover);
         void get_lookaround_dimensions(int &lookWidth, int &begin_y, int &begin_x) const;
 
-
+        // show weather and sct animations
+        void do_animations();
         input_context get_player_input(std::string &action);
         // Target is an interactive function which allows the player to choose a nearby
         // square.  It display information on any monster/NPC on that square, and also

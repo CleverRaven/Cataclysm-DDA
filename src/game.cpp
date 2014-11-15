@@ -749,25 +749,9 @@ void game::create_starting_npcs()
         reserve_random_mission(ORIGIN_OPENER_NPC, om_location(), tmp->getID()));
 }
 
-void game::cleanup_at_end()
+bool game::cleanup_at_end()
 {
     draw_sidebar();
-    // only show this prompt if you die, not if you quit
-    if(u.get_deathcam() == DC_ON) {
-        if((int(calendar::turn) - u.get_turn_of_death()) >= DEATHCAM_LENGTH) { // DEATHCAM_LENGTH set to 25
-            u.set_deathcam(DC_DONE);
-            debugmsg("deathcam set off [turn %d]", int(calendar::turn));
-        }
-    }
-    if((uquit == QUIT_DIED) && (u.get_deathcam() == DC_OFF)) {
-        if((query_yn("Watch the last moments of your life?")) == true) {
-            u.set_deathcam(DC_ON);
-            debugmsg("deathcam set on [turn %d]", int(calendar::turn));
-        }
-    }
-    if(u.get_deathcam() == DC_ON) {
-        return;
-    }
     if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE) {
         // Save the factions', missions and set the NPC's overmap coords
         // Npcs are saved in the overmap.
@@ -1011,7 +995,7 @@ void game::cleanup_at_end()
     }
     MAPBUFFER.reset();
     overmap_buffer.clear();
-    return;
+    return true;
 }
 
 static int veh_lumi(vehicle *veh)
@@ -1135,8 +1119,7 @@ void game::calc_driving_offset(vehicle *veh)
 bool game::do_turn()
 {
     if (is_game_over()) {
-        cleanup_at_end();
-        return true;
+        return cleanup_at_end();
     }
     // Actual stuff
     if (new_game) {
@@ -1433,7 +1416,8 @@ bool game::do_turn()
 
     // Auto-save if autosave is enabled
     if (OPTIONS["AUTOSAVE"] &&
-        calendar::turn % ((int)OPTIONS["AUTOSAVE_TURNS"]) == 0) {
+        calendar::turn % ((int)OPTIONS["AUTOSAVE_TURNS"]) == 0 &&
+        !u.is_dead_state()) {
         autosave();
     }
 
@@ -1447,6 +1431,10 @@ bool game::do_turn()
     }
 
     process_activity();
+    if (uquit == QUIT_WATCH) {
+        draw();
+        do_animations();
+    }
     if (!u.has_disease("sleep") && !u.has_disease("lying_down")) {
         if (u.moves > 0) {
             while (u.moves > 0) {
@@ -1461,14 +1449,14 @@ bool game::do_turn()
                 }
 
                 if (is_game_over()) {
-                    cleanup_at_end();
-                    return true;
+                    return cleanup_at_end();
                 }
             }
         } else {
             handle_key_blocking_activity();
         }
-    }
+    } 
+
     if ((driving_view_offset.x != 0 || driving_view_offset.y != 0)) {
         // Still have a view offset, but might not be driving anymore,
         // or the option has been deactivated,
@@ -1524,7 +1512,6 @@ bool game::do_turn()
 
     u.update_bodytemp();
     u.update_body_wetness();
-
     rustCheck();
     if (calendar::turn % 10 == 0) {
         u.update_morale();
@@ -2956,157 +2943,158 @@ input_context get_default_mode_input_context()
     return ctxt;
 }
 
+void game::do_animations()
+{
+    int iStartX = (TERRAIN_WINDOW_WIDTH > 121) ? (TERRAIN_WINDOW_WIDTH - 121) / 2 : 0;
+    int iStartY = (TERRAIN_WINDOW_HEIGHT > 121) ? (TERRAIN_WINDOW_HEIGHT - 121) / 2 : 0;
+    int iEndX = (TERRAIN_WINDOW_WIDTH > 121) ? TERRAIN_WINDOW_WIDTH - (TERRAIN_WINDOW_WIDTH - 121) / 2 :
+                TERRAIN_WINDOW_WIDTH;
+    int iEndY = (TERRAIN_WINDOW_HEIGHT > 121) ? TERRAIN_WINDOW_HEIGHT - (TERRAIN_WINDOW_HEIGHT - 121) /
+                2 : TERRAIN_WINDOW_HEIGHT;
+
+    if (fullscreen) {
+        iStartX = 0;
+        iStartY = 0;
+        iEndX = TERMX;
+        iEndY = TERMY;
+    }
+
+    //x% of the Viewport, only shown on visible areas
+    const int dropCount = int(iEndX * iEndY * mapWeatherAnim[weather].fFactor);
+    const int offset_x = (u.posx + u.view_offset_x) - getmaxx(w_terrain) / 2;
+    const int offset_y = (u.posy + u.view_offset_y) - getmaxy(w_terrain) / 2;
+
+    const bool bWeatherEffect = (mapWeatherAnim[weather].cGlyph != '?');
+
+    weather_printable wPrint;
+    wPrint.colGlyph = mapWeatherAnim[weather].colGlyph;
+    wPrint.cGlyph = mapWeatherAnim[weather].cGlyph;
+    wPrint.wtype = weather;
+    wPrint.vdrops.clear();
+    wPrint.startx = iStartX;
+    wPrint.starty = iStartY;
+    wPrint.endx = iEndX;
+    wPrint.endy = iEndY;
+
+    if (bWeatherEffect && OPTIONS["ANIMATION_RAIN"]) {
+        /*
+        Location to add rain drop animation bits! Since it refreshes w_terrain it can be added to the animation section easily
+        Get tile information from above's weather information:
+        WEATHER_ACID_DRIZZLE | WEATHER_ACID_RAIN = "weather_acid_drop"
+        WEATHER_DRIZZLE | WEATHER_RAINY | WEATHER_THUNDER | WEATHER_LIGHTNING = "weather_rain_drop"
+        WEATHER_FLURRIES | WEATHER_SNOW | WEATHER_SNOWSTORM = "weather_snowflake"
+        */
+
+        //Erase previous drops from w_terrain
+        for (std::vector<std::pair<int, int> >::iterator it =
+                 wPrint.vdrops.begin();
+             it != wPrint.vdrops.end(); ++it) {
+            m.drawsq(w_terrain, u,
+                     it->first + offset_x,
+                     it->second + offset_y,
+                     false,
+                     true,
+                     u.posx + u.view_offset_x,
+                     u.posy + u.view_offset_y);
+        }
+
+        wPrint.vdrops.clear();
+
+
+        const int light_sight_range = u.sight_range( light_level() );
+        for (int i = 0; i < dropCount; i++) {
+            const int iRandX = rng(iStartX, iEndX - 1);
+            const int iRandY = rng(iStartY, iEndY - 1);
+            const int mapx = iRandX + offset_x;
+            const int mapy = iRandY + offset_y;
+            const int distance = rl_dist( u.posx, u.posy, mapx, mapy );
+
+            if( m.is_outside( mapx, mapy ) &&
+                ( m.light_at( mapx, mapy ) > LL_LOW ||
+                  distance <= light_sight_range ) &&
+                m.pl_sees( u.posx, u.posy, mapx, mapy, distance ) &&
+                !critter_at(mapx, mapy) ) {
+                // Supress if a critter is there
+                wPrint.vdrops.push_back(std::make_pair(iRandX, iRandY));
+            }
+        }
+    }
+    if (OPTIONS["ANIMATION_SCT"]) {
+#ifdef TILES
+        if (!use_tiles) {
+#endif
+            for (auto iter = SCT.vSCT.begin(); iter != SCT.vSCT.end(); ++iter) {
+                //Erase previous text from w_terrain
+                if (iter->getStep() > 0) {
+                    for (size_t i = 0; i < iter->getText().length(); ++i) {
+                        if (u_see(iter->getPosX() + i, iter->getPosY())) {
+                            m.drawsq(w_terrain, u,
+                                     iter->getPosX() + i,
+                                     iter->getPosY(),
+                                     false,
+                                     true,
+                                     u.posx + u.view_offset_x,
+                                     u.posy + u.view_offset_y);
+                        } else {
+                            const int iDY = POSY + (iter->getPosY() -
+                                                    (u.posy + u.view_offset_y));
+                            const int iDX = POSX + (iter->getPosX() -
+                                                    (u.posx + u.view_offset_x));
+
+                            if (u.has_effect("boomered")) {
+                                mvwputch(w_terrain, iDY, iDX + i, c_magenta, '#');
+
+                            } else {
+                                mvwputch(w_terrain, iDY, iDX + i, c_black, ' ');
+                            }
+                        }
+                    }
+                }
+            }
+#ifdef TILES
+        }
+#endif
+
+        SCT.advanceAllSteps();
+
+        //Check for creatures on all drawing positions and offset if necessary
+        for (auto iter = SCT.vSCT.rbegin(); iter != SCT.vSCT.rend(); ++iter) {
+            const direction oCurDir = iter->getDirecton();
+
+            for (int i = 0; i < (int)iter->getText().length(); ++i) {
+                const int dex = mon_at(iter->getPosX() + i, iter->getPosY());
+
+                if (dex != -1 && u_see(&zombie(dex))) {
+                    i = -1;
+
+                    int iPos = iter->getStep() + iter->getStepOffset();
+                    for (auto iter2 = iter; iter2 != SCT.vSCT.rend(); ++iter2) {
+                        if (iter2->getDirecton() == oCurDir &&
+                            iter2->getStep() + iter2->getStepOffset() <= iPos) {
+                            if (iter2->getType() == "hp") {
+                                iter2->advanceStepOffset();
+                            }
+
+                            iter2->advanceStepOffset();
+                            iPos = iter2->getStep() + iter2->getStepOffset();
+                        }
+                    }
+                }
+            }
+        }
+    }
+    draw_weather(wPrint);
+    draw_sct();
+    wrefresh(w_terrain);
+}
+
 input_context game::get_player_input(std::string &action)
 {
     input_context ctxt = get_default_mode_input_context();
 
     if (OPTIONS["ANIMATIONS"]) {
-        int iStartX = (TERRAIN_WINDOW_WIDTH > 121) ? (TERRAIN_WINDOW_WIDTH - 121) / 2 : 0;
-        int iStartY = (TERRAIN_WINDOW_HEIGHT > 121) ? (TERRAIN_WINDOW_HEIGHT - 121) / 2 : 0;
-        int iEndX = (TERRAIN_WINDOW_WIDTH > 121) ? TERRAIN_WINDOW_WIDTH - (TERRAIN_WINDOW_WIDTH - 121) / 2 :
-                    TERRAIN_WINDOW_WIDTH;
-        int iEndY = (TERRAIN_WINDOW_HEIGHT > 121) ? TERRAIN_WINDOW_HEIGHT - (TERRAIN_WINDOW_HEIGHT - 121) /
-                    2 : TERRAIN_WINDOW_HEIGHT;
-
-        if (fullscreen) {
-            iStartX = 0;
-            iStartY = 0;
-            iEndX = TERMX;
-            iEndY = TERMY;
-        }
-
-        //x% of the Viewport, only shown on visible areas
-        const int dropCount = int(iEndX * iEndY * mapWeatherAnim[weather].fFactor);
-        const int offset_x = (u.posx + u.view_offset_x) - getmaxx(w_terrain) / 2;
-        const int offset_y = (u.posy + u.view_offset_y) - getmaxy(w_terrain) / 2;
-
-        const bool bWeatherEffect = (mapWeatherAnim[weather].cGlyph != '?');
-
-        weather_printable wPrint;
-        wPrint.colGlyph = mapWeatherAnim[weather].colGlyph;
-        wPrint.cGlyph = mapWeatherAnim[weather].cGlyph;
-        wPrint.wtype = weather;
-        wPrint.vdrops.clear();
-        wPrint.startx = iStartX;
-        wPrint.starty = iStartY;
-        wPrint.endx = iEndX;
-        wPrint.endy = iEndY;
-
         do {
-            if (bWeatherEffect && OPTIONS["ANIMATION_RAIN"]) {
-                /*
-                Location to add rain drop animation bits! Since it refreshes w_terrain it can be added to the animation section easily
-                Get tile information from above's weather information:
-                WEATHER_ACID_DRIZZLE | WEATHER_ACID_RAIN = "weather_acid_drop"
-                WEATHER_DRIZZLE | WEATHER_RAINY | WEATHER_THUNDER | WEATHER_LIGHTNING = "weather_rain_drop"
-                WEATHER_FLURRIES | WEATHER_SNOW | WEATHER_SNOWSTORM = "weather_snowflake"
-                */
-
-                //Erase previous drops from w_terrain
-                for (std::vector<std::pair<int, int> >::iterator it =
-                         wPrint.vdrops.begin();
-                     it != wPrint.vdrops.end(); ++it) {
-                    m.drawsq(w_terrain, u,
-                             it->first + offset_x,
-                             it->second + offset_y,
-                             false,
-                             true,
-                             u.posx + u.view_offset_x,
-                             u.posy + u.view_offset_y);
-                }
-
-                wPrint.vdrops.clear();
-
-
-                const int light_sight_range = u.sight_range( light_level() );
-                for (int i = 0; i < dropCount; i++) {
-                    const int iRandX = rng(iStartX, iEndX - 1);
-                    const int iRandY = rng(iStartY, iEndY - 1);
-                    const int mapx = iRandX + offset_x;
-                    const int mapy = iRandY + offset_y;
-                    const int distance = rl_dist( u.posx, u.posy, mapx, mapy );
-
-                    if( m.is_outside( mapx, mapy ) &&
-                        ( m.light_at( mapx, mapy ) > LL_LOW ||
-                          distance <= light_sight_range ) &&
-                        m.pl_sees( u.posx, u.posy, mapx, mapy, distance ) &&
-                        !critter_at(mapx, mapy) ) {
-                        // Supress if a critter is there
-                        wPrint.vdrops.push_back(std::make_pair(iRandX, iRandY));
-                    }
-                }
-            }
-
-            if (OPTIONS["ANIMATION_SCT"]) {
-#ifdef TILES
-                if (!use_tiles) {
-#endif
-                    for (auto iter = SCT.vSCT.begin(); iter != SCT.vSCT.end(); ++iter) {
-                        //Erase previous text from w_terrain
-                        if (iter->getStep() > 0) {
-                            for (size_t i = 0; i < iter->getText().length(); ++i) {
-                                if (u_see(iter->getPosX() + i, iter->getPosY())) {
-                                    m.drawsq(w_terrain, u,
-                                             iter->getPosX() + i,
-                                             iter->getPosY(),
-                                             false,
-                                             true,
-                                             u.posx + u.view_offset_x,
-                                             u.posy + u.view_offset_y);
-                                } else {
-                                    const int iDY = POSY + (iter->getPosY() -
-                                                            (u.posy + u.view_offset_y));
-                                    const int iDX = POSX + (iter->getPosX() -
-                                                            (u.posx + u.view_offset_x));
-
-                                    if (u.has_effect("boomered")) {
-                                        mvwputch(w_terrain, iDY, iDX + i, c_magenta, '#');
-
-                                    } else {
-                                        mvwputch(w_terrain, iDY, iDX + i, c_black, ' ');
-                                    }
-                                }
-                            }
-                        }
-                    }
-#ifdef TILES
-                }
-#endif
-
-                SCT.advanceAllSteps();
-
-                //Check for creatures on all drawing positions and offset if necessary
-                for (auto iter = SCT.vSCT.rbegin(); iter != SCT.vSCT.rend(); ++iter) {
-                    const direction oCurDir = iter->getDirecton();
-
-                    for (int i = 0; i < (int)iter->getText().length(); ++i) {
-                        const int dex = mon_at(iter->getPosX() + i, iter->getPosY());
-
-                        if (dex != -1 && u_see(&zombie(dex))) {
-                            i = -1;
-
-                            int iPos = iter->getStep() + iter->getStepOffset();
-                            for (auto iter2 = iter; iter2 != SCT.vSCT.rend(); ++iter2) {
-                                if (iter2->getDirecton() == oCurDir &&
-                                    iter2->getStep() + iter2->getStepOffset() <= iPos) {
-                                    if (iter2->getType() == "hp") {
-                                        iter2->advanceStepOffset();
-                                    }
-
-                                    iter2->advanceStepOffset();
-                                    iPos = iter2->getStep() + iter2->getStepOffset();
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            draw_weather(wPrint);
-            draw_sct();
-
-            wrefresh(w_terrain);
-
+            do_animations();
             inp_mngr.set_timeout(125);
         } while (handle_mouseview(ctxt, action));
         inp_mngr.set_timeout(-1);
@@ -4089,6 +4077,17 @@ void game::update_scent()
 
 bool game::is_game_over()
 {
+    if (uquit == QUIT_WATCH) {
+        u.moves = 0;
+        return false;
+    }
+    if (uquit == QUIT_DIED) {
+        if (u.in_vehicle) {
+            m.unboard_vehicle(u.posx, u.posy);
+        }
+        u.place_corpse();
+        return true;
+    }
     if (uquit == QUIT_SUICIDE) {
         if (u.in_vehicle) {
             m.unboard_vehicle(u.posx, u.posy);
@@ -4098,13 +4097,11 @@ bool game::is_game_over()
     if (uquit != QUIT_NO) {
         return true;
     }
+    // previous commit changed this to test any body part for <= 0,
+    // wouldn't that cause a sprained ankle to result in an aneurysm?
     if(u.is_dead_state()) {
-        if (u.in_vehicle) {
-            m.unboard_vehicle(u.posx, u.posy);
-        }
-        u.place_corpse();
-        uquit = QUIT_DIED;
-        return true;
+        uquit = QUIT_WATCH;
+        return false;
     }
     return false;
 }
@@ -4650,7 +4647,7 @@ void game::debug()
                       _("Test Item Group"), // 21
                       _("Damage Self"), //22
 #ifdef LUA
-                      _("Lua Command"), // 23
+                      _("Lua Command"), // 99
 #endif
                       _("Cancel"),
                       NULL);
@@ -5052,20 +5049,25 @@ void game::debug()
     }
     break;
 
+    // Damage Self
     case 22: {
         int dbg_damage = query_int("Damage self for how much? hp: %d", u.hp_cur[hp_torso]);
         u.hp_cur[hp_torso] -= dbg_damage;
+        u.die(NULL);
         draw_sidebar();
     }
     break;
 
 #ifdef LUA
-    case 23: {
+    // make case # '99' to keep from having to shift each time, as it's
+    // a conditional debug entry!
+    case 99: {
         std::string luacode = string_input_popup(_("Lua:"), 60, "");
         call_lua(luacode);
     }
     break;
 #endif
+
     }
     erase();
     refresh_all();
