@@ -114,7 +114,7 @@ typedef std::map<craft_cat, recipe_list> recipe_map;
 
 extern recipe_map recipes; // The list of valid recipes
 
-extern std::map<itype_id, recipe_list> recipes_by_itype; // reverse lookup
+extern std::map<itype_id, recipe_list> recipes_by_component; // reverse lookup
 
 class item;
 // removes any (removable) ammo from the item and stores it in the
