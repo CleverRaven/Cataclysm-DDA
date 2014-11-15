@@ -8,6 +8,7 @@
 #include "json.h"
 #include "messages.h"
 #include "item_factory.h"
+#include "overmapbuffer.h"
 #include <math.h>    //sqrt
 #include <algorithm> //std::min
 #include <sstream>
@@ -390,6 +391,7 @@ void player::activate_bionic(int b)
     std::vector<std::string> bad;
     int dirx, diry;
     item tmp_item;
+    w_point weatherPoint = g->weatherGen.get_weather(pos(), calendar::turn);
 
     if(bio.id == "bio_painkiller") {
         pkill += 6;
@@ -405,12 +407,13 @@ void player::activate_bionic(int b)
             add_msg(m_neutral, _("Artificial night generator active!"));
         }
     } else if (bio.id == "bio_resonator") {
+        //~Sound of a bionic sonic-resonator shaking the area
         g->sound(posx, posy, 30, _("VRRRRMP!"));
         for (int i = posx - 1; i <= posx + 1; i++) {
             for (int j = posy - 1; j <= posy + 1; j++) {
-                g->m.bash( i, j, 40 );
-                g->m.bash( i, j, 40 ); // Multibash effect, so that doors &c will fall
-                g->m.bash( i, j, 40 );
+                g->m.bash( i, j, 110 );
+                g->m.bash( i, j, 110 ); // Multibash effect, so that doors &c will fall
+                g->m.bash( i, j, 110 );
             }
         }
     } else if (bio.id == "bio_time_freeze") {
@@ -558,22 +561,20 @@ void player::activate_bionic(int b)
         stim = 0;
     } else if(bio.id == "bio_evap") {
         item water = item("water_clean", 0);
-        int humidity = g->weatherGen.get_weather(pos(), calendar::turn).humidity;
+        int humidity = weatherPoint.humidity;
         int water_charges = (humidity * 3.0) / 100.0 + 0.5;
         // At 50% relative humidity or more, the player will draw 2 units of water
         // At 16% relative humidity or less, the player will draw 0 units of water
         water.charges = water_charges;
         if (water_charges == 0) {
             add_msg_if_player(m_bad, _("There was not enough moisture in the air from which to draw water!"));
-        }
-        if (g->handle_liquid(water, true, false)) {
+        } else if (g->handle_liquid(water, true, false)) {
             moves -= 100;
-        } else if (query_yn(_("Drink from your hands?"))) {
-            inv.push_back(water);
-            consume(inv.position_by_type(water.typeId()));
-            moves -= 350;
-        } else if (water.charges == water_charges && water_charges != 0) {
-            power_level += bionics["bio_evap"]->power_cost;
+        } else {
+            water.charges -= drink_from_hands( water );
+            if( water.charges == water_charges ) {
+                power_level += bionics["bio_evap"]->power_cost;
+            }
         }
     } else if(bio.id == "bio_lighter") {
         if(!choose_adjacent(_("Start a fire where?"), dirx, diry) ||
@@ -696,16 +697,16 @@ void player::activate_bionic(int b)
                 }
                 if(avail > 0 && query_yn(_("Extract water from the %s"), it->tname().c_str())) {
                     item water = item("water_clean", 0);
-                    if (g->handle_liquid(water, true, true)) {
+                    water.charges = avail;
+                    if (g->handle_liquid(water, true, false)) {
                         moves -= 100;
-                    } else if (query_yn(_("Drink directly from the condenser?"))) {
-                        inv.push_back(water);
-                        consume(inv.position_by_type(water.typeId()));
-                        moves -= 350;
+                    } else {
+                        water.charges -= drink_from_hands( water );
                     }
-                    extracted = true;
-                    avail--;
-                    it->item_vars["remaining_water"] = string_format("%d", avail);
+                    if( water.charges != avail ) {
+                        extracted = true;
+                        it->item_vars["remaining_water"] = string_format("%d", water.charges);
+                    }
                     break;
                 }
             }
@@ -806,6 +807,23 @@ void player::activate_bionic(int b)
     } else if(bio.id == "bio_shockwave") {
         g->shockwave(posx, posy, 3, 4, 2, 8, true);
         add_msg_if_player(m_neutral, _("You unleash a powerful shockwave!"));
+    } else if(bio.id == "bio_meteorologist") {
+        add_msg_if_player(m_neutral, _("Temperature: %s."), print_temperature(g->get_temperature()).c_str());
+        add_msg_if_player(m_neutral, _("Relative Humidity: %s."), print_humidity(get_local_humidity(weatherPoint.humidity, g->weather, g->is_sheltered(g->u.posx, g->u.posy))).c_str());
+        add_msg_if_player(m_neutral, _("Pressure: %s."), print_pressure((int)weatherPoint.pressure/10).c_str());
+        // Calculate local wind power
+        int vpart = -1;
+        vehicle *veh = g->m.veh_at( posx, posy, vpart );
+        int vehwindspeed = 0;
+        if( veh ) {
+            vehwindspeed = abs(veh->velocity / 100); // For mph
+        }
+        const oter_id &cur_om_ter = overmap_buffer.ter(g->om_global_location());
+        std::string omtername = otermap[cur_om_ter].name;
+        int windpower = vehwindspeed + get_local_windpower(weatherPoint.windpower, omtername, g->is_sheltered(g->u.posx, g->u.posy));
+
+        add_msg_if_player(m_neutral, _("Wind Speed: %s."), print_windspeed((float)windpower).c_str());
+        add_msg_if_player(m_neutral, _("Feels Like: %s."), print_temperature(get_local_windchill(weatherPoint.temperature, weatherPoint.humidity, windpower) + g->get_temperature()).c_str());
     }
 }
 
@@ -1019,7 +1037,7 @@ void bionics_install_failure(player *u, it_bionic *type, int success)
                    u->skillLevel("electronics") * 4 +
                    u->skillLevel("firstaid")    * 3 +
                    u->skillLevel("mechanics")   * 1;
-    // Medical resients get a substantial assist here
+    // Medical residents get a substantial assist here
     if (u->has_trait("PROF_MED")) {
         pl_skill += 6;
     }

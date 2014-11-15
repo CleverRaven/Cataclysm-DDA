@@ -60,7 +60,6 @@ void player::sort_armor()
     int rightListSize;
     int rightListOffset = 0;
 
-    item tmp_item;
     std::vector<item *> tmp_worn;
     std::string tmp_str;
 
@@ -251,19 +250,13 @@ void player::sort_armor()
 
             // move selected item
             if (selected >= 0) {
-                tmp_item = *tmp_worn[leftListIndex];
-                for (std::vector<item>::iterator it = worn.begin();
-                     it != worn.end(); ++it) {
-                    if (&*it == tmp_worn[leftListIndex]) {
-                        *it = *tmp_worn[selected];
-                    }
-                }
-
-                for (std::vector<item>::iterator it = worn.begin();
-                     it != worn.end(); ++it) {
-                    if (&*it == tmp_worn[selected]) {
-                        *it = tmp_item;
-                    }
+                if( leftListIndex < selected ) {
+                    std::swap( *tmp_worn[leftListIndex], *tmp_worn[selected] );
+                } else {
+                    const auto tmp_item = *tmp_worn[selected];
+                    const auto it_selected = worn.begin() + ( tmp_worn[selected] - &worn.front() );
+                    worn.erase( it_selected );
+                    worn.insert( worn.end(), tmp_item );
                 }
 
                 selected = leftListIndex;
@@ -279,19 +272,13 @@ void player::sort_armor()
 
             // move selected item
             if (selected >= 0) {
-                tmp_item = *tmp_worn[leftListIndex];
-                for (std::vector<item>::iterator it = worn.begin();
-                     it != worn.end(); ++it) {
-                    if (&*it == tmp_worn[leftListIndex]) {
-                        *it = *tmp_worn[selected];
-                    }
-                }
-
-                for (std::vector<item>::iterator it = worn.begin();
-                     it != worn.end(); ++it) {
-                    if (&*it == tmp_worn[selected]) {
-                        *it = tmp_item;
-                    }
+                if( leftListIndex > selected ) {
+                    std::swap( *tmp_worn[leftListIndex], *tmp_worn[selected] );
+                } else {
+                    const auto tmp_item = *tmp_worn[selected];
+                    const auto it_selected = worn.begin() + ( tmp_worn[selected] - &worn.front() );
+                    worn.erase( it_selected );
+                    worn.insert( worn.begin(), tmp_item );
                 }
 
                 selected = leftListIndex;

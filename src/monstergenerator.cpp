@@ -268,6 +268,7 @@ void MonsterGenerator::init_flags()
     flag_map["HARDTOSHOOT"] = MF_HARDTOSHOOT;
     flag_map["GRABS"] = MF_GRABS;
     flag_map["BASHES"] = MF_BASHES;
+    flag_map["GROUP_BASH"] = MF_GROUP_BASH;
     flag_map["DESTROYS"] = MF_DESTROYS;
     flag_map["POISON"] = MF_POISON;
     flag_map["VENOM"] = MF_VENOM;
@@ -312,7 +313,7 @@ void MonsterGenerator::init_flags()
     flag_map["REVIVES"] = MF_REVIVES;
     flag_map["CHITIN"] = MF_CHITIN;
     flag_map["VERMIN"] = MF_VERMIN;
-    flag_map["NO_GIBS"] = MF_NO_GIBS;
+    flag_map["NOGIB"] = MF_NOGIB;
     flag_map["HUNTS_VERMIN"] = MF_HUNTS_VERMIN;
     flag_map["SMALL_BITER"] = MF_SMALL_BITER;
     flag_map["ABSORBS"] = MF_ABSORBS;

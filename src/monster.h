@@ -188,6 +188,10 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
 
         /** Returns innate monster bash skill, without calculating additional from helpers */
         int bash_skill();
+        int bash_estimate();
+        /** Returns ability of monster and any cooperative helpers to
+         * bash the designated target.  **/
+        int group_bash_skill( point target );
 
         void stumble(bool moved);
         void knock_back_from(int posx, int posy);
@@ -195,6 +199,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         // Combat
         bool is_fleeing(player &u) const; // True if we're fleeing
         monster_attitude attitude(player *u = NULL) const; // See the enum above
+        Attitude attitude_to( const Creature &other ) const override;
         int morale_level(player &u); // Looks at our HP etc.
         void process_triggers(); // Process things that anger/scare us
         void process_trigger(monster_trigger trig, int amount); // Single trigger

@@ -626,7 +626,7 @@ advanced_inv_listitem::advanced_inv_listitem( item *an_item, int index, int coun
     , it( an_item )
     , name( an_item->tname( count ) )
     , name_without_prefix( an_item->tname( 1, false ) )
-    , autopickup( hasPickupRule( name ) )
+    , autopickup( hasPickupRule( an_item->tname() ) )
     , stacks( count )
     , volume( an_item->volume() * stacks )
     , weight( an_item->weight() * stacks )
@@ -1218,13 +1218,13 @@ void advanced_inventory::display()
                 continue;
             }
             if( sitem->autopickup == true ) {
-                removePickupRule( sitem->name );
+                removePickupRule( sitem->it->tname() );
                 sitem->autopickup = false;
             } else {
-                addPickupRule( sitem->name );
+                addPickupRule( sitem->it->tname() );
                 sitem->autopickup = true;
             }
-            redraw = true;
+            recalc = true;
         } else if( action == "EXAMINE" ) {
             if( sitem == nullptr || !sitem->is_item_entry() ) {
                 continue;
@@ -1257,21 +1257,21 @@ void advanced_inventory::display()
         } else if( action == "QUIT" ) {
             exit = true;
         } else if( action == "PAGE_DOWN" ) {
+            spane.scroll_by( +itemsPerPage );
+        } else if( action == "PAGE_UP" ) {
+            spane.scroll_by( -itemsPerPage );
+        } else if( action == "DOWN" ) {
             if( inCategoryMode ) {
                 spane.scroll_category( +1 );
             } else {
-                spane.scroll_by( +itemsPerPage );
+                spane.scroll_by( +1 );
             }
-        } else if( action == "PAGE_UP" ) {
+        } else if( action == "UP" ) {
             if( inCategoryMode ) {
                 spane.scroll_category( -1 );
             } else {
-                spane.scroll_by( -itemsPerPage );
+                spane.scroll_by( -1 );
             }
-        } else if( action == "DOWN" ) {
-            spane.scroll_by( +1 );
-        } else if( action == "UP" ) {
-            spane.scroll_by( -1 );
         } else if( action == "LEFT" ) {
             src = left;
             redraw = true;

@@ -203,20 +203,17 @@ struct trait {
     bool thirst;
     int cost;
     int charge;
-    char invlet;
     bool powered;
     int cooldown;
     std::string description;
     trait() : name("NULL_TRAIT")
     {
-        invlet = 'a';
         powered = false;
         charge = 0;
     }
-    trait(std::string pid, char pinvlet) : name(pid)
+    trait(std::string pid) : name(pid)
     {
         id = pid;
-        invlet = pinvlet;
         powered = false;
         charge = 0;
     };

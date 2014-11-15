@@ -977,9 +977,10 @@ int draw_item_info(const int iLeft, const int iWidth, const int iTop, const int 
 {
     WINDOW *win = newwin(iHeight, iWidth, iTop + VIEW_OFFSET_Y, iLeft + VIEW_OFFSET_X);
 
-    // TODO: So ... uhm ... who deletes the window?
-    return draw_item_info(win, sItemName, vItemDisplay, vItemCompare,
+    const auto result = draw_item_info(win, sItemName, vItemDisplay, vItemCompare,
                           selected, without_getch, without_border);
+    delwin( win );
+    return result;
 }
 
 int draw_item_info(WINDOW *win, const std::string sItemName,
@@ -996,6 +997,10 @@ int draw_item_info(WINDOW *win, const std::string sItemName,
     bool bStartNewLine = true;
     int selected_ret = '\n';
     std::string spaces(getmaxx(win), ' ');
+    // Buffering the whole item info text so we can apply proper word wrapping on it.
+    // Note that the "MENU" items are *not* included in this buffer, they are only used from
+    // game::inventory_item_menu and require specific placing, according to iOffsetX / iOffsetY.
+    std::ostringstream buffer;
     for (size_t i = 0; i < vItemDisplay.size(); i++) {
         if (vItemDisplay[i].sType == "MENU") {
             if (vItemDisplay[i].sFmt == "iOffsetY") {
@@ -1022,23 +1027,19 @@ int draw_item_info(WINDOW *win, const std::string sItemName,
                 line_num++;
             }
         } else if (vItemDisplay[i].sType == "DESCRIPTION") {
-            line_num++;
+            buffer << "\n";
             if (vItemDisplay[i].bDrawName) {
-                line_num += fold_and_print(win, line_num, (without_border) ? 1 : 2, getmaxx(win) - 4, c_white,
-                                           vItemDisplay[i].sName);
+                buffer << vItemDisplay[i].sName;
             }
         } else {
             if (bStartNewLine) {
                 if (vItemDisplay[i].bDrawName) {
-                    const auto b = without_border ? 1 : 2;
-                    const auto h = fold_and_print( win, line_num, b, getmaxx( win ) - b * 2,
-                                                   c_white, vItemDisplay[i].sName );
-                    line_num += h - 1;
+                    buffer << "\n" << vItemDisplay[i].sName;
                 }
                 bStartNewLine = false;
             } else {
                 if (vItemDisplay[i].bDrawName) {
-                    wprintz(win, c_white, "%s", vItemDisplay[i].sName.c_str());
+                    buffer << vItemDisplay[i].sName;
                 }
             }
 
@@ -1050,10 +1051,10 @@ int draw_item_info(WINDOW *win, const std::string sItemName,
             //A bit tricky, find %d and split the string
             size_t pos = sFmt.find("<num>");
             if(pos != std::string::npos) {
-                wprintz(win, c_white, "%s", sFmt.substr(0, pos).c_str());
+                buffer << sFmt.substr(0, pos);
                 sPost = sFmt.substr(pos + 5);
             } else {
-                wprintz(win, c_white, "%s", sFmt.c_str());
+                buffer << sFmt;
             }
 
             if (vItemDisplay[i].sValue != "-999") {
@@ -1081,19 +1082,26 @@ int draw_item_info(WINDOW *win, const std::string sItemName,
                         }
                     }
                 }
+                buffer << sPlus << "<color_" << string_from_color( thisColor ) << ">";
                 if (vItemDisplay[i].is_int == true) {
-                    wprintz(win, thisColor, "%s%.0f", sPlus.c_str(), vItemDisplay[i].dValue);
+                    buffer << string_format( "%.0f", vItemDisplay[i].dValue );
                 } else {
-                    wprintz(win, thisColor, "%s%.1f", sPlus.c_str(), vItemDisplay[i].dValue);
+                    buffer << string_format( "%.1f", vItemDisplay[i].dValue );
                 }
+                buffer << "</color>";
             }
-            wprintz(win, c_white, "%s", sPost.c_str());
+            buffer << sPost;
 
             if (vItemDisplay[i].bNewLine) {
-                line_num++;
+                buffer << "\n";
                 bStartNewLine = true;
             }
         }
+    }
+    if( !buffer.str().empty() ) {
+        const auto b = without_border ? 1 : 2;
+        const auto width = getmaxx( win ) - b * 2;
+        fold_and_print( win, line_num, b, width, c_white, buffer.str() );
     }
 
     if (!without_border) {
@@ -1109,7 +1117,6 @@ int draw_item_info(WINDOW *win, const std::string sItemName,
         } else if ( selected == KEY_LEFT ) {
             ch = (int)' ';
         }
-        delwin(win);
     }
 
     return ch;

@@ -26,7 +26,7 @@ const std::string &player_activity::get_stop_phrase() const
         _(" Stop stashing?"), _(" Stop picking up?"),
         _(" Stop moving items?"),
         _(" Stop interacting with inventory?"),
-        _(" Stop lighting the fire?")
+        _(" Stop lighting the fire?"), _("Stop filling the container?")
     };
     return stop_phrase[type];
 }
@@ -52,6 +52,7 @@ bool player_activity::is_abortable() const
     case ACT_MOVE_ITEMS:
     case ACT_ADV_INVENTORY:
     case ACT_START_FIRE:
+    case ACT_FILL_LIQUID:
         return true;
     default:
         return false;

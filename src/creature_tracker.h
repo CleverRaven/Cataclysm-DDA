@@ -5,6 +5,7 @@
 #include "creature.h"
 #include "enums.h"
 #include <vector>
+#include <unordered_map>
 
 class Creature_tracker
 {
@@ -24,7 +25,7 @@ class Creature_tracker
 
     private:
         std::vector<monster *> _old_monsters_list;
-        std::map<point, int> _old_monsters_by_location;
+        std::unordered_map<point, int> _old_monsters_by_location;
         // Same as mon_at, but only returns id of dead critters.
         int dead_mon_at(point coords) const;
 };

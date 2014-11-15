@@ -6,6 +6,18 @@
     "target" : "shelter"
   },{
     "type" : "start_location",
+    "ident" : "boarded_house",
+    "name" : "Boarded up house",
+    "target" : "house",
+    "flags" : ["BOARDED"]
+  },{
+    "type" : "start_location",
+    "ident" : "field",
+    "name" : "Field",
+    "target" : "field",
+    "flags" : ["ALLOW_OUTSIDE"]
+  },{
+    "type" : "start_location",
     "ident" : "house",
     "name" : "House",
     "target" : "house"
@@ -68,7 +80,8 @@
     "type" : "start_location",
     "ident" : "forest",
     "name" : "Middle of Nowhere",
-    "target" : "forest"
+    "target" : "forest",
+    "flags" : ["ALLOW_OUTSIDE"]
   },{
     "type" : "start_location",
     "ident" : "lab_stairs",

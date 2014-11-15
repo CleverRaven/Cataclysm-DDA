@@ -106,8 +106,9 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
             dealt_damage_instance dealt_dam;
             bool passed_through = critter->deal_projectile_attack(this, cur_missed_by, proj, dealt_dam) == 1;
             if (dealt_dam.total_damage() > 0) {
-                std::vector<point> blood_traj = trajectory;
+                std::vector<point> blood_traj = std::vector<point>();
                 blood_traj.insert(blood_traj.begin(), point(xpos(), ypos()));
+                blood_traj.insert(blood_traj.end(), point(critter->xpos(), critter->ypos()));
                 splatter( blood_traj, dam, critter );
             }
             if (!passed_through) {
@@ -155,6 +156,7 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
                 // don't hit targets that have already been hit
                 if (!z.has_effect("bounced")) {
                     add_msg(_("The attack bounced to %s!"), z.name().c_str());
+                    z.add_effect("bounced", 1);
                     projectile_attack(proj, tx, ty, z.posx(), z.posy(), shot_dispersion);
                     break;
                 }
@@ -385,35 +387,40 @@ void player::fire_gun(int tarx, int tary, bool burst)
         }
     }
 
+    const bool trigger_happy = has_trait( "TRIGGERHAPPY" );
     for (int curshot = 0; curshot < num_shots; curshot++) {
         // Burst-fire weapons allow us to pick a new target after killing the first
-        int zid = g->mon_at(tarx, tary);
-        if ( curshot > 0 && (zid == -1 || g->zombie(zid).hp <= 0) ) {
-            std::vector<point> new_targets;
-            new_targets.clear();
-
-            for (unsigned long int i = 0; i < g->num_zombies(); i++) {
-                monster &z = g->zombie(i);
-                if( z.is_dead() ) {
-                    continue;
+        const auto critter = g->critter_at( tarx, tary );
+        if ( curshot > 0 && ( critter == nullptr || critter->is_dead_state() ) ) {
+            auto const near_range = std::min( 2 + skillLevel( "gun" ), weaponrange );
+            auto new_targets = get_visible_creatures( weaponrange );
+            for( auto it = new_targets.begin(); it != new_targets.end(); ) {
+                auto &z = **it;
+                if( attitude_to( z ) == A_FRIENDLY ) {
+                    if( !trigger_happy ) {
+                        it = new_targets.erase( it );
+                        continue;
+                    } else if( !one_in( 10 ) ) {
+                        // Trigger happy sometimes doesn't care whom to shoot.
+                        it = new_targets.erase( it );
+                        continue;
+                    }
                 }
-                int dummy;
                 // search for monsters in radius
-                if( rl_dist(z.posx(), z.posy(), tarx, tary) <=
-                    std::min(2 + skillLevel("gun"), weaponrange) &&
-                    rl_dist(xpos(), ypos(), z.xpos(), z.ypos()) <= weaponrange && sees(&z, dummy) ) {
+                if( rl_dist( z.xpos(), z.ypos(), tarx, tary) <= near_range ) {
                     // oh you're not dead and I don't like you. Hello!
-                    new_targets.push_back(z.pos());
+                    ++it;
+                } else {
+                    it = new_targets.erase( it );
                 }
             }
 
             if ( new_targets.empty() == false ) {    /* new victim! or last victim moved */
                 /* 1 victim list unless wildly spraying */
                 int target_picked = rng(0, new_targets.size() - 1);
-                tarx = new_targets[target_picked].x;
-                tary = new_targets[target_picked].y;
-                zid = g->mon_at(tarx, tary);
-            } else if( ( !has_trait("TRIGGERHAPPY") || one_in(3) ) &&
+                tarx = new_targets[target_picked]->xpos();
+                tary = new_targets[target_picked]->ypos();
+            } else if( ( !trigger_happy || one_in(3) ) &&
                        ( skillLevel("gun") >= 7 || one_in(7 - skillLevel("gun")) ) ) {
                 // Triggerhappy has a higher chance of firing repeatedly.
                 // Otherwise it's dominated by how much practice you've had.
@@ -546,11 +553,6 @@ void player::fire_gun(int tarx, int tary, bool burst)
     } else {
         practice( "gun", 0 );
     }
-}
-
-void game::fire(player &p, int tarx, int tary, std::vector<point> &, bool burst)
-{
-    p.fire_gun(tarx, tary, burst);
 }
 
 void game::throw_item(player &p, int tarx, int tary, item &thrown,
@@ -811,24 +813,11 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
     int range = (hix - u.posx);
     // First, decide on a target among the monsters, if there are any in range
     if (!t.empty()) {
-        // Check for previous target
-        if( target == -1 || !u.sees( t[target]) ) {
-            target = -1;
-            // If no previous target, target the closest there is
-            double closest = -1;
-            double dist;
-            for (size_t i = 0; i < t.size(); i++) {
-                dist = rl_dist(t[i]->xpos(), t[i]->ypos(), u.posx, u.posy);
-                if( (closest < 0 || dist < closest) && u.sees( t[i] ) ) {
-                    closest = dist;
-                    target = i;
-                }
-            }
+        if( static_cast<size_t>( target ) >= t.size() ) {
+            target = 0;
         }
-        if( target != -1 ) {
-            x = t[target]->xpos();
-            y = t[target]->ypos();
-        }
+        x = t[target]->xpos();
+        y = t[target]->ypos();
     } else {
         target = -1; // No monsters in range, don't use target, reset to -1
     }
