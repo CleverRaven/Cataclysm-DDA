@@ -174,6 +174,7 @@ int waddch(WINDOW *win, const chtype ch);
 int printw(const char *fmt, ...);
 int getmaxx(WINDOW *win);
 int getmaxy(WINDOW *win);
+int getmaxz(WINDOW *win);
 int getbegx(WINDOW *win);
 int getbegy(WINDOW *win);
 int getcurx(WINDOW *win);

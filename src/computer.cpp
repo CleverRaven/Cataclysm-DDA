@@ -307,7 +307,7 @@ void computer::activate_function(computer_action action)
     //Toll is required for the church computer/mechanism to function
     case COMPACT_TOLL:
         //~ the sound of a church bell ringing
-        g->sound(g->u.posx, g->u.posy, 120, _("Bohm... Bohm... Bohm..."));
+        g->sound(g->u.posx, g->u.posy, g->u.posz, 120, _("Bohm... Bohm... Bohm..."));
         break;
 
     case COMPACT_SAMPLE:
@@ -361,14 +361,14 @@ void computer::activate_function(computer_action action)
     case COMPACT_RELEASE:
         g->u.add_memorial_log(pgettext("memorial_male", "Released subspace specimens."),
                               pgettext("memorial_female", "Released subspace specimens."));
-        g->sound(g->u.posx, g->u.posy, 40, _("An alarm sounds!"));
+        g->sound(g->u.posx, g->u.posy, g->u.posz, 40, _("An alarm sounds!"));
         g->m.translate_radius(t_reinforced_glass_h, t_floor, 25.0, g->u.posx, g->u.posy, g->u.posz);
         g->m.translate_radius(t_reinforced_glass_v, t_floor, 25.0, g->u.posx, g->u.posy, g->u.posz);
         query_any(_("Containment shields opened.  Press any key..."));
         break;
 
     case COMPACT_RELEASE_BIONICS:
-        g->sound(g->u.posx, g->u.posy, 40, _("An alarm sounds!"));
+        g->sound(g->u.posx, g->u.posy, g->u.posz, 40, _("An alarm sounds!"));
         g->m.translate_radius(t_reinforced_glass_h, t_floor, 2.0, g->u.posx, g->u.posy, g->u.posz);
         g->m.translate_radius(t_reinforced_glass_v, t_floor, 2.0, g->u.posx, g->u.posy, g->u.posz);
         query_any(_("Containment shields opened.  Press any key..."));
@@ -428,19 +428,21 @@ void computer::activate_function(computer_action action)
         }
         g->u.add_memorial_log(pgettext("memorial_male", "Caused a resonance cascade."),
                               pgettext("memorial_female", "Caused a resonance cascade."));
-        std::vector<point> cascade_points;
+        std::vector<tripoint> cascade_points;
         for (int i = g->u.posx - 10; i <= g->u.posx + 10; i++) {
             for (int j = g->u.posy - 10; j <= g->u.posy + 10; j++) {
-                if (g->m.ter(i, j, g->u.posz) == t_radio_tower) {
-                    cascade_points.push_back(point(i, j));
+                for (int h = g->u.posz - 10; h <= g->u.posz + 10; h++){
+                    if (g->m.ter(i, j, h) == t_radio_tower) {
+                        cascade_points.push_back(tripoint(i, j, h));
+                    }
                 }
             }
         }
         if (cascade_points.empty()) {
-            g->resonance_cascade(g->u.posx, g->u.posy);
+            g->resonance_cascade(g->u.posx, g->u.posy, g->u.posz);
         } else {
-            point p = cascade_points[rng(0, cascade_points.size() - 1)];
-            g->resonance_cascade(p.x, p.y);
+            tripoint p = cascade_points[rng(0, cascade_points.size() - 1)];
+            g->resonance_cascade(p.x, p.y, p.z);
         }
     }
     break;
@@ -516,7 +518,7 @@ void computer::activate_function(computer_action action)
                 }
         }
 
-        g->explosion(g->u.posx + 10, g->u.posx + 21, 200, 0, true); //Only explode once. But make it large.
+        g->explosion(g->u.posx + 10, g->u.posx + 21, g->u.posz, 200, 0, true); //Only explode once. But make it large.
 
         //...ERASE MISSILE, OPEN SILO, DISABLE COMPUTER
         // For each level between here and the surface, remove the missile
@@ -1063,19 +1065,21 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
         add_msg(m_warning, _("Evacuate Immediately!"));
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
-                if (g->m.ter(x, y, g->u.posz) == t_elevator || g->m.ter(x, y, g->u.posz) == t_vat) {
-                    g->m.make_rubble(x, y, g->u.posz, f_rubble_rock, true);
-                    g->explosion(x, y, g->u.posz, 40, 0, true);
-                }
-                if (g->m.ter(x, y, g->u.posz) == t_wall_glass_h || g->m.ter(x, y, g->u.posz) == t_wall_glass_v) {
-                    g->m.make_rubble(x, y, g->u.posz, f_rubble_rock, true);
-                }
-                if (g->m.ter(x, y, g->u.posz) == t_sewage_pipe || g->m.ter(x, y, g->u.posz) == t_sewage || g->m.ter(x, y, g->u.posz) == t_grate) {
-                    g->m.make_rubble(x, y, g->u.posz, f_rubble_rock, true);
-                }
-                if (g->m.ter(x, y, g->u.posz) == t_sewage_pump) {
-                    g->m.make_rubble(x, y, g->u.posz, f_rubble_rock, true);
-                    g->explosion(x, y, 50, 0, true);
+                for (int z = 0; z < SEEZ * MAPSIZE; z++) {
+                    if (g->m.ter(x, y, z) == t_elevator || g->m.ter(x, y, z) == t_vat) {
+                        g->m.make_rubble(x, y, z, f_rubble_rock, true);
+                        g->explosion(x, y, z, 40, 0, true);
+                    }
+                    if (g->m.ter(x, y, z) == t_wall_glass_h || g->m.ter(x, y, z) == t_wall_glass_v) {
+                        g->m.make_rubble(x, y, z, f_rubble_rock, true);
+                    }
+                    if (g->m.ter(x, y, z) == t_sewage_pipe || g->m.ter(x, y, z) == t_sewage || g->m.ter(x, y, z) == t_grate) {
+                        g->m.make_rubble(x, y, z, f_rubble_rock, true);
+                    }
+                    if (g->m.ter(x, y, z) == t_sewage_pump) {
+                        g->m.make_rubble(x, y, z, f_rubble_rock, true);
+                        g->explosion(x, y, z, 50, 0, true);
+                    }
                 }
             }
         }
@@ -1146,7 +1150,7 @@ void computer::activate_failure(computer_failure fail)
     case COMPFAIL_ALARM:
         g->u.add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
                               pgettext("memorial_female", "Set off an alarm."));
-        g->sound(g->u.posx, g->u.posy, 60, _("An alarm sounds!"));
+        g->sound(g->u.posx, g->u.posy, g->u.posz, 60, _("An alarm sounds!"));
         if (g->levz > 0 && !g->event_queued(EVENT_WANTED)) {
             g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->get_abs_levx(), g->get_abs_levy());
         }
@@ -1155,16 +1159,17 @@ void computer::activate_failure(computer_failure fail)
     case COMPFAIL_MANHACKS: {
         int num_robots = rng(4, 8);
         for (int i = 0; i < num_robots; i++) {
-            int mx, my, tries = 0;
+            int mx, my, mz, tries = 0;
             do {
                 mx = rng(g->u.posx - 3, g->u.posx + 3);
                 my = rng(g->u.posy - 3, g->u.posy + 3);
+                mz = g->u.posz;
                 tries++;
-            } while (!g->is_empty(mx, my) && tries < 10);
+            } while (!g->is_empty(mx, my, mz) && tries < 10);
             if (tries != 10) {
                 add_msg(m_warning, _("Manhacks drop from compartments in the ceiling."));
                 monster robot(GetMType("mon_manhack"));
-                robot.spawn(mx, my, g->u.posz);
+                robot.spawn(mx, my, mz);
                 g->add_zombie(robot);
             }
         }
@@ -1174,16 +1179,17 @@ void computer::activate_failure(computer_failure fail)
     case COMPFAIL_SECUBOTS: {
         int num_robots = 1;
         for (int i = 0; i < num_robots; i++) {
-            int mx, my, tries = 0;
+            int mx, my, mz, tries = 0;
             do {
                 mx = rng(g->u.posx - 3, g->u.posx + 3);
                 my = rng(g->u.posy - 3, g->u.posy + 3);
+                mz = g->u.posz;
                 tries++;
-            } while (!g->is_empty(mx, my) && tries < 10);
+            } while (!g->is_empty(mx, my, mz) && tries < 10);
             if (tries != 10) {
                 add_msg(m_warning, _("Secubots emerge from compartments in the floor."));
                 monster robot(GetMType("mon_secubot"));
-                robot.spawn(mx, my, g->u.posz);
+                robot.spawn(mx, my, mz);
                 g->add_zombie(robot);
             }
         }
@@ -1207,9 +1213,11 @@ void computer::activate_failure(computer_failure fail)
         add_msg(m_warning, _("The pump explodes!"));
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
-                if (g->m.ter(x, y, g->u.posz) == t_sewage_pump) {
-                    g->m.make_rubble(x, y, g->u.posz);
-                    g->explosion(x, y, 10, 0, false);
+                for (int z = 0; z < SEEZ * MAPSIZE; z++){
+                    if (g->m.ter(x, y, z) == t_sewage_pump) {
+                        g->m.make_rubble(x, y, z);
+                        g->explosion(x, y, z, 10, 0, false);
+                    }
                 }
             }
         }
@@ -1252,8 +1260,8 @@ void computer::activate_failure(computer_failure fail)
     case COMPFAIL_AMIGARA:
         g->add_event(EVENT_AMIGARA, int(calendar::turn) + 5);
         g->u.add_disease("amigara", 20);
-        g->explosion(rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), 10, 10, false);
-        g->explosion(rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), 10, 10, false);
+        g->explosion(rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), rng(0, SEEZ * MAPSIZE), 10, 10, false);
+        g->explosion(rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), rng(0, SEEZ * MAPSIZE), 10, 10, false);
         break;
 
     case COMPFAIL_DESTROY_BLOOD:

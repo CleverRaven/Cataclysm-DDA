@@ -294,19 +294,19 @@ void defense_game::init_map()
     g->m.load(g->levx, g->levy, g->levz, true, g->cur_om);
 
     g->update_map(g->u.posx, g->u.posy);
-    monster generator(GetMType("mon_generator"), g->u.posx + 1, g->u.posy + 1);
+    monster generator(GetMType("mon_generator"), g->u.posx + 1, g->u.posy + 1, g->u.posz);
     // Find a valid spot to spawn the generator
     std::vector<point> valid;
     for (int x = g->u.posx - 1; x <= g->u.posx + 1; x++) {
         for (int y = g->u.posy - 1; y <= g->u.posy + 1; y++) {
-            if (generator.can_move_to(x, y) && g->is_empty(x, y)) {
+            if (generator.can_move_to(x, y, g->u.posz) && g->is_empty(x, y, g->u.posz)) {
                 valid.push_back( point(x, y) );
             }
         }
     }
     if (!valid.empty()) {
         point p = valid[rng(0, valid.size() - 1)];
-        generator.spawn(p.x, p.y);
+        generator.spawn(p.x, p.y, g->u.posz);
     }
     generator.friendly = -1;
     g->add_zombie(generator);
@@ -1105,7 +1105,7 @@ Press %s to buy everything in your cart, %s to buy nothing."),
                     g->u.i_add(tmp);
                 } else { // Could fit it in the inventory!
                     dropped_some = true;
-                    g->m.add_item_or_charges(g->u.posx, g->u.posy, tmp);
+                    g->m.add_item_or_charges(g->u.posx, g->u.posy, g->u.posz, tmp);
                 }
             }
         }
@@ -1411,7 +1411,7 @@ void defense_game::spawn_wave_monster(mtype *type)
                 pnt = point( SEEX * MAPSIZE - 1 - pnt.x, pnt.y );
             }
         }
-        if( g->is_empty( pnt.x, pnt.y ) ) {
+        if( g->is_empty( pnt.x, pnt.y, g->u.posz ) ) {
             break;
         }
         if( tries++ == 1000 ) {
@@ -1419,7 +1419,7 @@ void defense_game::spawn_wave_monster(mtype *type)
             return;
         }
     }
-    monster tmp( type, pnt.x, pnt.y );
+    monster tmp( type, pnt.x, pnt.y, 0 );
     tmp.wandx = g->u.posx;
     tmp.wandy = g->u.posy;
     tmp.wandf = 150;

@@ -149,7 +149,7 @@ static void stash_on_pet( item *item_to_stash, monster *pet )
 static void stash_on_pet( std::vector<item> &dropped_items, std::vector<item> &dropped_worn_items,
                           tripoint drop_target )
 {
-    Creature *critter = g->critter_at( drop_target.x, drop_target.y);
+    Creature *critter = g->critter_at( drop_target.x, drop_target.y, drop_target.z);
     if( critter == NULL ) {
         return;
     }

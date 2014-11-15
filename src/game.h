@@ -154,9 +154,9 @@ class game
          * If true, activities continue.
          * @returns true if the player could hear the sound.
          */
-        bool sound(int x, int y, int vol, std::string description, bool ambient = false);
+        bool sound(int x, int y, int z, int vol, std::string description, bool ambient = false);
         // same as sound(..., true)
-        bool ambient_sound(int x, int y, int vol, std::string description);
+        bool ambient_sound(int x, int y, int z, int vol, std::string description);
         // creates a list of coordinates to draw footsteps
         void add_footstep(int x, int y, int volume, int distance, monster *source);
         std::vector<std::vector<point> > footsteps;
@@ -167,43 +167,46 @@ class game
         // visual cue to monsters moving out of the players sight
         void draw_footsteps();
         // Explosion at (x, y) of intensity (power), with (shrapnel) chunks of shrapnel
-        void explosion(int x, int y, int power, int shrapnel, bool fire, bool blast = true);
+        void explosion(int x, int y, int z, int power, int shrapnel, bool fire, bool blast = true);
         // Draws an explosion with set radius and color at the given location
         /* Defined later in this file */
         //void draw_explosion(int x, int y, int radius, nc_color col);
         // Flashback at (x, y)
-        void flashbang(int x, int y, bool player_immune = false);
+        void flashbang(int x, int y, int z, bool player_immune = false);
         // Move the player vertically, if (force) then they fell
         void vertical_move(int z, bool force);
-        void use_computer(int x, int y);
+        void use_computer(int x, int y, int z);
         bool refill_vehicle_part (vehicle &veh, vehicle_part *part, bool test = false);
         bool pl_refill_vehicle (vehicle &veh, int part, bool test = false);
-        void resonance_cascade(int x, int y);
-        void scrambler_blast(int x, int y);
-        void emp_blast(int x, int y);
-        int  npc_at(const int x, const int y) const; // Index of the npc at (x, y); -1 for none
+        void resonance_cascade(int x, int y, int z);
+        void scrambler_blast(int x, int y, int z);
+        void emp_blast(int x, int y, int z);
+        int  npc_at(const int x, const int y, int z) const; // Index of the npc at (x, y); -1 for none
         int  npc_by_id(const int id) const; // Index of the npc at (x, y); -1 for none
         // Return any critter at (x,y), be it a monster, an npc, or u (the player).
-        Creature *critter_at(int x, int y);
+        Creature *critter_at(point p);
+        Creature *critter_at(int x, int y, int z);
         // void build_monmap();  // Caches data for mon_at()
 
         bool add_zombie(monster &critter);
         size_t num_zombies() const;
         monster &zombie(const int idx);
-        bool update_zombie_pos(const monster &critter, const int newx, const int newy);
+        bool update_zombie_pos(const monster &critter, const int newx, const int newy, const int newz);
         void remove_zombie(const int idx);
         void clear_zombies();
         bool spawn_hallucination(); //Spawns a hallucination close to the player
 
         int  mon_at(const int x, const int y) const; // Index of the monster at (x, y); -1 for none
+        int  mon_at(const int x, const int y, const int z) const;
+        int  mon_at(tripoint p) const;
         int  mon_at(point p) const;
-        bool is_empty(const int x, const int y); // True if no PC, no monster, move cost > 0
+        bool is_empty(const int x, const int y, const int z); // True if no PC, no monster, move cost > 0
         bool isBetween(int test, int down, int up);
-        bool is_in_sunlight(int x, int y); // Checks outdoors + sunny
-        bool is_sheltered(int x, int y); // Checks if indoors, underground or in a car.
+        bool is_in_sunlight(int x, int y, int z); // Checks outdoors + sunny
+        bool is_sheltered(int x, int y, int z); // Checks if indoors, underground or in a car.
         bool is_in_ice_lab(point location);
-        bool revive_corpse(int x, int y, int n); // revives a corpse from an item pile
-        bool revive_corpse(int x, int y,
+        bool revive_corpse(int x, int y, int z, int n); // revives a corpse from an item pile
+        bool revive_corpse(int x, int y, int z,
                            item *it); // revives a corpse by item pointer, caller handles item deletion
         void plfire(bool burst, int default_target_x = -1,
                     int default_target_y = -1); // Player fires a gun (target selection)...
@@ -263,7 +266,9 @@ class game
         int assign_faction_id();
         faction *faction_by_ident(std::string ident);
         bool sees_u(int x, int y, int &t);
+        bool sees_u(int x, int y, int z, int &t);
         bool u_see (int x, int y);
+        bool u_see (int x, int y, int z);
         bool u_see (const monster *critter);
         bool u_see (const Creature *t); // for backwards compatibility
         bool u_see (const Creature &t);
@@ -291,7 +296,7 @@ class game
         void zones_manager_draw_borders(WINDOW *w_border, WINDOW *w_info_border, const int iInfoHeight,
                                         const int width);
         // Look at nearby terrain ';', or select zone points
-        point look_around(WINDOW *w_info = NULL, const point pairCoordsFirst = point(-1, -1));
+        tripoint look_around(WINDOW *w_info = NULL, const tripoint pairCoordsFirst = tripoint(-1, -1, -1));
 
         int list_items(const int iLastState); //List all items around the player
         int list_monsters(const int iLastState); //List all monsters around the player
@@ -426,7 +431,7 @@ class game
         bionic_id random_good_bionic() const; // returns a non-faulty, valid bionic
 
         // Helper because explosion was getting too big.
-        void do_blast( const int x, const int y, const int power, const int radius, const bool fire );
+        void do_blast( const int x, const int y, const int z, const int power, const int radius, const bool fire );
 
         // Knockback functions: knock target at (tx,ty) along a line, either calculated
         // from source position (sx,sy) using force parameter or passed as an argument;
@@ -440,16 +445,17 @@ class game
         // shockwave applies knockback to all targets within radius of (x,y)
         // parameters force, stun, and dam_mult are passed to knockback()
         // ignore_player determines if player is affected, useful for bionic, etc.
-        void shockwave(int x, int y, int radius, int force, int stun, int dam_mult, bool ignore_player);
+        void shockwave(int x, int y, int z, int radius, int force, int stun, int dam_mult, bool ignore_player);
 
         // Animation related functions
-        void draw_explosion(int x, int y, int radius, nc_color col);
+        void draw_explosion(int x, int y, int z, int radius, nc_color col);
         void draw_bullet(Creature &p, int tx, int ty, int i, std::vector<point> trajectory, char bullet,
                          timespec &ts);
         void draw_hit_mon(int x, int y, monster critter, bool dead = false);
         void draw_hit_player(player *p, const int iDam, bool dead = false);
-        void draw_line(const int x, const int y, const point center_point, std::vector<point> ret);
+        void draw_line(const int x, const int y, const int z, const tripoint center_point, std::vector<tripoint> ret);
         void draw_line(const int x, const int y, std::vector<point> ret);
+        void draw_line(const int x, const int y, const int z, std::vector<tripoint> ret);
         void draw_weather(weather_printable wPrint);
         void draw_sct();
         void draw_zones(const point &p_pointStart, const point &p_pointEnd, const point &p_pointOffset);
@@ -768,7 +774,7 @@ class game
         int tileset_zoom;
 
         // Preview for auto move route
-        std::vector<point> destination_preview;
+        std::vector<tripoint> destination_preview;
 
         Creature *is_hostile_within(int distance);
         void activity_on_turn();

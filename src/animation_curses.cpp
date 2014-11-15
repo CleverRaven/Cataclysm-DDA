@@ -5,7 +5,7 @@ bool is_valid_in_w_terrain(int x, int y);
 
 #include "game.h"
 /* Explosion Animation */
-void game::draw_explosion(int x, int y, int radius, nc_color col)
+void game::draw_explosion(int x, int y, int z, int radius, nc_color col)
 {
     timespec ts;    // Timespec for the animation of the explosion
     ts.tv_sec = 0;
@@ -81,12 +81,12 @@ void game::draw_hit_player(player *p, const int iDam, bool dead)
 }
 /* Line drawing code, not really an animation but should be separated anyway */
 
-void game::draw_line(const int x, const int y, const point center_point, std::vector<point> ret)
+void game::draw_line(const int x, const int y, const int z, const tripoint center_point, std::vector<tripoint> ret)
 {
     if (u_see( x, y)) {
-        for (std::vector<point>::iterator it = ret.begin();
+        for (std::vector<tripoint>::iterator it = ret.begin();
              it != ret.end(); ++it) {
-            const Creature *critter = critter_at( it->x, it->y );
+            const Creature *critter = critter_at( it->x, it->y, z );
             // NPCs and monsters get drawn with inverted colors
             if( critter != nullptr && u.sees( critter ) ) {
                 critter->draw( w_terrain, center_point.x, center_point.y, true );
@@ -96,7 +96,7 @@ void game::draw_line(const int x, const int y, const point center_point, std::ve
         }
     }
 }
-void game::draw_line(const int x, const int y, std::vector<point> vPoint)
+void game::draw_line(const int x, const int y, const int z, std::vector<tripoint> vPoint)
 {
     (void)x; //unused
     (void)y; //unused
@@ -106,7 +106,7 @@ void game::draw_line(const int x, const int y, std::vector<point> vPoint)
         crx += (vPoint[vPoint.size() - 1].x - (u.posx + u.view_offset_x));
         cry += (vPoint[vPoint.size() - 1].y - (u.posy + u.view_offset_y));
     }
-    for (std::vector<point>::iterator it = vPoint.begin();
+    for (std::vector<tripoint>::iterator it = vPoint.begin();
          it != vPoint.end() - 1; it++) {
         m.drawsq(w_terrain, u, it->x, it->y, true, true);
     }

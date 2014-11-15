@@ -365,7 +365,7 @@ void game::wishmonster(int x, int y)
             if (cb->friendly) {
                 mon.friendly = -1;
             }
-            point spawn = ( x == -1 && y == -1 ? look_around() : point ( x, y ) );
+            tripoint spawn = ( x == -1 && y == -1 && z == -1 ? look_around() : tripoint ( x, y, z ) );
             if (spawn.x != -1) {
                 std::vector<point> spawn_points = closest_points_first( cb->group, spawn );
                 for( auto spawn_point : spawn_points ) {

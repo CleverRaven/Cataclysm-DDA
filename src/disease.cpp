@@ -1092,7 +1092,7 @@ void dis_effect(player &p, disease &dis)
                                 dis.duration += 100;
                             }
                         } else {
-                            if(!g->sound(p.posx, p.posy, 12, _("beep-beep-beep!"))) {
+                            if(!g->sound(p.posx, p.posy, p.posz, 12, _("beep-beep-beep!"))) {
                                 // 10 minute automatic snooze
                                 dis.duration += 100;
                             } else {
@@ -1270,7 +1270,7 @@ void dis_effect(player &p, disease &dis)
                 p.apply_damage( nullptr, dis.bp, 1 );
                 p.mod_per_bonus(-1);
                 p.mod_str_bonus(-1);
-                g->m.add_field(p.posx, p.posy, p.playerBloodType(), 1);
+                g->m.add_field(p.posx, p.posy, p.posz, p.playerBloodType(), 1);
             }
             break;
 
@@ -1610,10 +1610,10 @@ void dis_effect(player &p, disease &dis)
                         }
                     } while (((x == p.posx && y == p.posy) || g->mon_at(x, y) != -1));
                     if (tries < 10) {
-                        if (g->m.move_cost(x, y) == 0) {
-                            g->m.make_rubble(x, y, f_rubble_rock, true);
+                        if (g->m.move_cost(x, y, g->u.posz) == 0) {
+                            g->m.make_rubble(x, y, g->u.posz, f_rubble_rock, true);
                         }
-                        beast.spawn(x, y);
+                        beast.spawn(x, y, g->u.posz);
                         g->add_zombie(beast);
                         if (g->u_see(x, y)) {
                             g->cancel_activity_query(_("A monster appears nearby!"));
@@ -1678,10 +1678,10 @@ void dis_effect(player &p, disease &dis)
                     tries++;
                 } while (((x == p.posx && y == p.posy) || g->mon_at(x, y) != -1) && tries < 10);
                 if (tries < 10) {
-                    if (g->m.move_cost(x, y) == 0) {
+                    if (g->m.move_cost(x, y, g->u.posz) == 0) {
                         g->m.make_rubble(x, y, f_rubble_rock, true);
                     }
-                    beast.spawn(x, y);
+                    beast.spawn(x, y, g->u.posz);
                     g->add_zombie(beast);
                     if (g->u_see(x, y)) {
                         g->cancel_activity_query(_("A monster appears nearby!"));
@@ -2899,7 +2899,7 @@ void manage_fungal_infection(player& p, disease& dis)
                 }
                 sporex = p.posx + i;
                 sporey = p.posy + j;
-                if (g->m.move_cost(sporex, sporey) > 0) {
+                if (g->m.move_cost(sporex, sporey, g->u.posz) > 0) {
                     const int zid = g->mon_at(sporex, sporey);
                     if (zid >= 0) {  // Spores hit a monster
                         if (g->u_see(sporex, sporey) &&
@@ -2912,7 +2912,7 @@ void manage_fungal_infection(player& p, disease& dis)
                             critter.die( &p ); // counts as kill by player
                         }
                     } else if (one_in(4) && g->num_zombies() <= 1000){
-                        spore.spawn(sporex, sporey);
+                        spore.spawn(sporex, sporey, g->u.posz);
                         g->add_zombie(spore);
                     }
                 }
@@ -3065,7 +3065,7 @@ void manage_sleep(player& p, disease& dis)
     }
 
     if (int(calendar::turn) % 100 == 0 && p.has_trait("CHLOROMORPH") &&
-    g->is_in_sunlight(g->u.posx, g->u.posy) ) {
+    g->is_in_sunlight(g->u.posx, g->u.posy, g->u.posz) ) {
         // Hunger and thirst fall before your Chloromorphic physiology!
         if (p.hunger >= -30) {
             p.hunger -= 5;
@@ -3394,9 +3394,9 @@ static void handle_cough(player &p, int, int loudness, bool harmful)
 {
     if (!p.is_npc()) {
         add_msg(m_bad, _("You cough heavily."));
-        g->sound(p.posx, p.posy, loudness, "");
+        g->sound(p.posx, p.posy, p.posz, loudness, "");
     } else {
-        g->sound(p.posx, p.posy, loudness, _("a hacking cough."));
+        g->sound(p.posx, p.posy, p.posz, loudness, _("a hacking cough."));
     }
     p.moves -= 80;
     if (harmful && !one_in(4)) {
@@ -3463,7 +3463,7 @@ static void handle_deliriant(player& p, disease& dis)
             int loudness = 20 + p.str_cur - p.int_cur;
             loudness = (loudness > 5 ? loudness : 5);
             loudness = (loudness < 30 ? loudness : 30);
-            g->sound(p.posx, p.posy, loudness, _(npcText.c_str()));
+            g->sound(p.posx, p.posy, p.posz, loudness, _(npcText.c_str()));
         }
     } else if (dis.duration == peakTime) {
         // Visuals start
@@ -3554,7 +3554,7 @@ static void handle_insect_parasites(player& p, disease& dis)
                     continue;
                 }
                 if (g->mon_at(i, j) == -1) {
-                    grub.spawn(i, j);
+                    grub.spawn(i, j, g->u.posz);
                     if (one_in(3)) {
                         grub.friendly = -1;
                     } else {

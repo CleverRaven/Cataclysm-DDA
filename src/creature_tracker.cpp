@@ -17,14 +17,14 @@ monster &Creature_tracker::find(int index)
     return *(_old_monsters_list[index]);
 }
 
-int Creature_tracker::mon_at(int x_pos, int y_pos) const
+int Creature_tracker::mon_at(int x_pos, int y_pos, int z_pos) const
 {
-    return mon_at(point(x_pos, y_pos));
+    return mon_at(tripoint(x_pos, y_pos, z_pos));
 }
 
-int Creature_tracker::mon_at(point coords) const
+int Creature_tracker::mon_at(tripoint coords) const
 {
-    std::map<point, int>::const_iterator iter = _old_monsters_by_location.find(coords);
+    std::map<tripoint, int>::const_iterator iter = _old_monsters_by_location.find(coords);
     if (iter != _old_monsters_by_location.end()) {
         const int critter_id = iter->second;
         if (!_old_monsters_list[critter_id]->is_dead()) {
@@ -34,9 +34,9 @@ int Creature_tracker::mon_at(point coords) const
     return -1;
 }
 
-int Creature_tracker::dead_mon_at(point coords) const
+int Creature_tracker::dead_mon_at(tripoint coords) const
 {
-    std::map<point, int>::const_iterator iter = _old_monsters_by_location.find(coords);
+    std::map<tripoint, int>::const_iterator iter = _old_monsters_by_location.find(coords);
     if (iter != _old_monsters_by_location.end()) {
         const int critter_id = iter->second;
         if (_old_monsters_list[critter_id]->is_dead()) {
@@ -58,7 +58,7 @@ bool Creature_tracker::add(monster &critter)
     if (monster_is_blacklisted(critter.type)) {
         return false;
     }
-    _old_monsters_by_location[point(critter.posx(), critter.posy())] = _old_monsters_list.size();
+    _old_monsters_by_location[tripoint(critter.posx(), critter.posy(), critter.posz())] = _old_monsters_list.size();
     _old_monsters_list.push_back(new monster(critter));
     return true;
 }
@@ -67,23 +67,23 @@ size_t Creature_tracker::size() const
     return _old_monsters_list.size();
 }
 
-bool Creature_tracker::update_pos(const monster &critter, const int new_x_pos, const int new_y_pos)
+bool Creature_tracker::update_pos(const monster &critter, const int new_x_pos, const int new_y_pos, const int new_z_pos)
 {
-    if (critter.posx() == new_x_pos && critter.posy() == new_y_pos) {
+    if (critter.posx() == new_x_pos && critter.posy() == new_y_pos && critter.posz() == new_z_pos) {
         return true; // success?
     }
     bool success = false;
-    const int dead_critter_id = dead_mon_at(point(critter.posx(), critter.posy()));
-    const int live_critter_id = mon_at(point(critter.posx(), critter.posy()));
+    const int dead_critter_id = dead_mon_at(tripoint(critter.posx(), critter.posy(), critter.posz()));
+    const int live_critter_id = mon_at(tripoint(critter.posx(), critter.posy(), critter.posz()));
     const int critter_id = critter.is_dead() ? dead_critter_id : live_critter_id;
-    const int new_critter_id = mon_at(new_x_pos, new_y_pos);
+    const int new_critter_id = mon_at(new_x_pos, new_y_pos, new_z_pos);
     if (new_critter_id >= 0 && !_old_monsters_list[new_critter_id]->is_dead()) {
         debugmsg("update_zombie_pos: new location %d,%d already has zombie %d",
                  new_x_pos, new_y_pos, new_critter_id);
     } else if (critter_id >= 0) {
         if (&critter == _old_monsters_list[critter_id]) {
-            _old_monsters_by_location.erase(point(critter.posx(), critter.posy()));
-            _old_monsters_by_location[point(new_x_pos, new_y_pos)] = critter_id;
+            _old_monsters_by_location.erase(tripoint(critter.posx(), critter.posy(), critter.posz()));
+            _old_monsters_by_location[tripoint(new_x_pos, new_y_pos, new_z_pos)] = critter_id;
             success = true;
         } else {
             debugmsg("update_zombie_pos: old location %d,%d had zombie %d instead",
@@ -101,8 +101,8 @@ bool Creature_tracker::update_pos(const monster &critter, const int new_x_pos, c
 void Creature_tracker::remove(const int idx)
 {
     monster &m = *_old_monsters_list[idx];
-    const point oldloc(m.posx(), m.posy());
-    const std::map<point, int>::const_iterator i = _old_monsters_by_location.find(oldloc);
+    const tripoint oldloc(m.posx(), m.posy(), m.posz());
+    const std::map<tripoint, int>::const_iterator i = _old_monsters_by_location.find(oldloc);
     const int prev = (i == _old_monsters_by_location.end() ? -1 : i->second);
 
     if (prev == idx) {
@@ -113,7 +113,7 @@ void Creature_tracker::remove(const int idx)
     _old_monsters_list.erase(_old_monsters_list.begin() + idx);
 
     // Fix indices in _old_monsters_by_location for any zombies that were just moved down 1 place.
-    for (std::map<point, int>::iterator iter = _old_monsters_by_location.begin();
+    for (std::map<tripoint, int>::iterator iter = _old_monsters_by_location.begin();
          iter != _old_monsters_by_location.end(); ++iter) {
         if (iter->second > idx) {
             --iter->second;
@@ -136,7 +136,7 @@ void Creature_tracker::rebuild_cache()
     _old_monsters_by_location.clear();
     for (int ii = 0, max_ii = size(); ii < max_ii; ii++) {
         monster &critter = *_old_monsters_list[ii];
-        _old_monsters_by_location[point(critter.posx(), critter.posy())] = ii;
+        _old_monsters_by_location[tripoint(critter.posx(), critter.posy(), critter.posz())] = ii;
     }
 }
 

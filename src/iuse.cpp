@@ -7422,7 +7422,7 @@ int iuse::artifact(player *p, item *it, bool, point)
             break;
 
             case AEA_FIREBALL: {
-                point fireball = g->look_around();
+                tripoint fireball = g->look_around();
                 if (fireball.x != -1 && fireball.y != -1) {
                     g->explosion(fireball.x, fireball.y, 8, 0, true);
                 }
@@ -7469,7 +7469,7 @@ int iuse::artifact(player *p, item *it, bool, point)
             break;
 
             case AEA_ACIDBALL: {
-                point acidball = g->look_around();
+                tripoint acidball = g->look_around();
                 if (acidball.x != -1 && acidball.y != -1) {
                     for (int x = acidball.x - 1; x <= acidball.x + 1; x++) {
                         for (int y = acidball.y - 1; y <= acidball.y + 1; y++) {
@@ -9325,7 +9325,7 @@ int iuse::camera(player *p, item *it, bool, point)
 
     if (c_shot == choice) {
 
-        point aim_point = g->look_around();
+        tripoint aim_point = g->look_around();
 
         if (aim_point.x == -1 || aim_point.y == -1) {
             p->add_msg_if_player(_("Never mind."));

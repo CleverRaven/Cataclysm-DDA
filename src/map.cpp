@@ -4264,7 +4264,8 @@ std::vector<point> map::getDirCircle(const int Fx, const int Fy, const int Tx, c
 }
 
 // Bash defaults to true.
-std::vector<point> map::route(const int Fx, const int Fy, const int Tx, const int Ty, const bool can_bash)
+ std::vector<tripoint> route(const int Fx, const int Fy, const int Fz, const int Tx, const int Ty, const int Tz,
+                          const bool bash = true);
 {
     /* TODO: If the origin or destination is out of bound, figure out the closest
      * in-bounds point and go to that, then to the real origin/destination.
@@ -4275,7 +4276,7 @@ std::vector<point> map::route(const int Fx, const int Fy, const int Tx, const in
         if (sees(Fx, Fy, Tx, Ty, -1, linet)) {
             return line_to(Fx, Fy, Tx, Ty, linet);
         } else {
-            std::vector<point> empty;
+            std::vector<tripoint> empty;
             return empty;
         }
     }
@@ -4294,11 +4295,11 @@ std::vector<point> map::route(const int Fx, const int Fy, const int Tx, const in
                     tername(Fx, Fy).c_str(), Tx, Ty);
     }
     */
-    std::vector<point> open;
-    astar_list list[SEEX * MAPSIZE][SEEY * MAPSIZE];
-    int score[SEEX * MAPSIZE][SEEY * MAPSIZE];
-    int gscore[SEEX * MAPSIZE][SEEY * MAPSIZE];
-    point parent[SEEX * MAPSIZE][SEEY * MAPSIZE];
+    std::vector<tripoint> open;
+    astar_list list[SEEX * MAPSIZE][SEEY * MAPSIZE][SEEZ * MAPSIZE];
+    int score[SEEX * MAPSIZE][SEEY * MAPSIZE][SEEZ * MAPSIZE];
+    int gscore[SEEX * MAPSIZE][SEEY * MAPSIZE][SEEZ * MAPSIZE];
+    tripoint parent[SEEX * MAPSIZE][SEEY * MAPSIZE][SEEZ * MAPSIZE];
     int startx = Fx - 4, endx = Tx + 4, starty = Fy - 4, endy = Ty + 4;
     if (Tx < Fx) {
         startx = Tx - 4;

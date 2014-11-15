@@ -88,7 +88,7 @@ void event::actualize()
     monster robot(robot_type);
     int robx = (g->get_abs_levx() > map_point.x ? 0 - SEEX * 2 : SEEX * 4),
         roby = (g->get_abs_levy() > map_point.y ? 0 - SEEY * 2 : SEEY * 4);
-    robot.spawn(robx, roby);
+    robot.spawn(robx, roby, g->u.posz);
     g->add_zombie(robot);
    }
   } break;
@@ -102,15 +102,16 @@ void event::actualize()
    int num_wyrms = rng(1, 4);
    for (int i = 0; i < num_wyrms; i++) {
     int tries = 0;
-    int monx = -1, mony = -1;
+    int monx = -1, mony = -1, monz = -1;
     do {
      monx = rng(0, SEEX * MAPSIZE);
      mony = rng(0, SEEY * MAPSIZE);
+     monz = rng(0, SEEZ * MAPSIZE);
      tries++;
-    } while (tries < 10 && !g->is_empty(monx, mony) &&
+    } while (tries < 10 && !g->is_empty(monx, mony, monz) &&
              rl_dist(g->u.posx, g->u.posy, monx, mony) <= 2);
     if (tries < 10) {
-     wyrm.spawn(monx, mony);
+     wyrm.spawn(monx, mony, monz);
      g->add_zombie(wyrm);
     }
    }
@@ -122,17 +123,20 @@ void event::actualize()
    g->u.add_memorial_log(pgettext("memorial_male", "Angered a group of amigara horrors!"),
                          pgettext("memorial_female", "Angered a group of amigara horrors!"));
    int num_horrors = rng(3, 5);
-   int faultx = -1, faulty = -1;
+   int faultx = -1, faulty = -1, faultz = -1;
    bool horizontal = false;
    for (int x = 0; x < SEEX * MAPSIZE && faultx == -1; x++) {
     for (int y = 0; y < SEEY * MAPSIZE && faulty == -1; y++) {
-     if (g->m.ter(x, y) == t_fault) {
-      faultx = x;
-      faulty = y;
-      if (g->m.ter(x - 1, y) == t_fault || g->m.ter(x + 1, y) == t_fault)
-       horizontal = true;
-      else
-       horizontal = false;
+     for (int z = 0; z < SEEZ * MAPSIZE && faultz == -1; z++) {
+      if (g->m.ter(x, y, z) == t_fault) {
+       faultx = x;
+       faulty = y;
+       faultz = z;
+       if (g->m.ter(x - 1, y, z) == t_fault || g->m.ter(x + 1, y, z) == t_fault)
+        horizontal = true;
+       else
+        horizontal = false;
+      }
      }
     }
    }
@@ -144,21 +148,21 @@ void event::actualize()
      if (horizontal) {
       monx = rng(faultx, faultx + 2 * SEEX - 8);
       for (int n = -1; n <= 1; n++) {
-       if (g->m.ter(monx, faulty + n) == t_rock_floor)
+       if (g->m.ter(monx, faulty + n, g->u.posz) == t_rock_floor)
         mony = faulty + n;
       }
      } else { // Vertical fault
       mony = rng(faulty, faulty + 2 * SEEY - 8);
       for (int n = -1; n <= 1; n++) {
-       if (g->m.ter(faultx + n, mony) == t_rock_floor)
+       if (g->m.ter(faultx + n, mony, g->u.posz) == t_rock_floor)
         monx = faultx + n;
       }
      }
      tries++;
-    } while ((monx == -1 || mony == -1 || !g->is_empty(monx, mony)) &&
+    } while ((monx == -1 || mony == -1 || !g->is_empty(monx, mony, g->u.posz)) &&
              tries < 10);
     if (tries < 10) {
-     horror.spawn(monx, mony);
+     horror.spawn(monx, mony, g->u.posz);
      g->add_zombie(horror);
     }
    }
@@ -169,8 +173,10 @@ void event::actualize()
                          pgettext("memorial_female", "Destroyed a triffid grove."));
    for (int x = 0; x < SEEX * MAPSIZE; x++) {
     for (int y = 0; y < SEEY * MAPSIZE; y++) {
-     if (g->m.ter(x, y) == t_root_wall && one_in(3))
-      g->m.ter_set(x, y, t_underbrush);
+     for (int z = 0; z < SEEZ * MAPSIZE; z++) {
+      if (g->m.ter(x, y, z) == t_root_wall && one_in(3))
+       g->m.ter_set(x, y, z, t_underbrush);
+     }
     }
    }
    break;
@@ -181,10 +187,12 @@ void event::actualize()
    bool saw_grate = false;
    for (int x = 0; x < SEEX * MAPSIZE; x++) {
     for (int y = 0; y < SEEY * MAPSIZE; y++) {
-     if (g->m.ter(x, y) == t_grate) {
-      g->m.ter_set(x, y, t_stairs_down);
-      if (!saw_grate && g->u_see(x, y))
-       saw_grate = true;
+     for (int z = 0; z < SEEZ * MAPSIZE; z++) {
+      if (g->m.ter(x, y, z) == t_grate) {
+       g->m.ter_set(x, y, z, t_stairs_down);
+       if (!saw_grate && g->u_see(x, y))
+        saw_grate = true;
+      }
      }
     }
    }
@@ -194,19 +202,19 @@ void event::actualize()
 
   case EVENT_TEMPLE_FLOOD: {
    bool flooded = false;
-
+   //Assuming this whole mess takes place on the same level as the player
    ter_id flood_buf[SEEX*MAPSIZE][SEEY*MAPSIZE];
    for (int x = 0; x < SEEX * MAPSIZE; x++) {
     for (int y = 0; y < SEEY * MAPSIZE; y++)
-     flood_buf[x][y] = g->m.ter(x, y);
+     flood_buf[x][y] = g->m.ter(x, y, g->u.posz);
    }
    for (int x = 0; x < SEEX * MAPSIZE; x++) {
     for (int y = 0; y < SEEY * MAPSIZE; y++) {
-     if (g->m.ter(x, y) == t_water_sh) {
+     if (g->m.ter(x, y, g->u.posz) == t_water_sh) {
       bool deepen = false;
       for (int wx = x - 1;  wx <= x + 1 && !deepen; wx++) {
        for (int wy = y - 1;  wy <= y + 1 && !deepen; wy++) {
-        if (g->m.ter(wx, wy) == t_water_dp)
+        if (g->m.ter(wx, wy, g->u.posz) == t_water_dp)
          deepen = true;
        }
       }
@@ -214,11 +222,11 @@ void event::actualize()
        flood_buf[x][y] = t_water_dp;
        flooded = true;
       }
-     } else if (g->m.ter(x, y) == t_rock_floor) {
+     } else if (g->m.ter(x, y, g->u.posz) == t_rock_floor) {
       bool flood = false;
       for (int wx = x - 1;  wx <= x + 1 && !flood; wx++) {
        for (int wy = y - 1;  wy <= y + 1 && !flood; wy++) {
-        if (g->m.ter(wx, wy) == t_water_dp || g->m.ter(wx, wy) == t_water_sh)
+        if (g->m.ter(wx, wy, g->u.posz) == t_water_dp || g->m.ter(wx, wy, g->u.posz) == t_water_sh)
          flood = true;
        }
       }
@@ -232,7 +240,7 @@ void event::actualize()
    if (!flooded)
     return; // We finished flooding the entire chamber!
 // Check if we should print a message
-   if (flood_buf[g->u.posx][g->u.posy] != g->m.ter(g->u.posx, g->u.posy)) {
+   if (flood_buf[g->u.posx][g->u.posy] != g->m.ter(g->u.posx, g->u.posy, g->u.posz)) {
     if (flood_buf[g->u.posx][g->u.posy] == t_water_sh) {
      add_msg(m_warning, _("Water quickly floods up to your knees."));
      g->u.add_memorial_log(pgettext("memorial_male", "Water level reached knees."),
@@ -247,7 +255,7 @@ void event::actualize()
 // flood_buf is filled with correct tiles; now copy them back to g->m
    for (int x = 0; x < SEEX * MAPSIZE; x++) {
     for (int y = 0; y < SEEY * MAPSIZE; y++)
-       g->m.ter_set(x, y, flood_buf[x][y]);
+       g->m.ter_set(x, y, g->u.posz, flood_buf[x][y]);
    }
    g->add_event(EVENT_TEMPLE_FLOOD, int(calendar::turn) + rng(2, 3));
   } break;
@@ -266,10 +274,11 @@ void event::actualize()
     x = rng(g->u.posx - 5, g->u.posx + 5);
     y = rng(g->u.posy - 5, g->u.posy + 5);
     tries++;
-   } while (tries < 20 && !g->is_empty(x, y) &&
+   } while (tries < 20 && !g->is_empty(x, y, g->u.posz) &&
             rl_dist(x, y, g->u.posx, g->u.posy) <= 2);
    if (tries < 20) {
-    spawned.spawn(x, y);
+    //We want the monsters on the same level as the monster
+    spawned.spawn(x, y, g->u.posz);
     g->add_zombie(spawned);
    }
   } break;
@@ -290,7 +299,7 @@ void event::per_turn()
     point place = g->m.random_outdoor_tile();
     if (place.x == -1 && place.y == -1)
      return; // We're safely indoors!
-    eyebot.spawn(place.x, place.y);
+    eyebot.spawn(place.x, place.y, g->u.posz);
     g->add_zombie(eyebot);
     if (g->u_see(place.x, place.y))
      add_msg(m_warning, _("An eyebot swoops down nearby!"));

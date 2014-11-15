@@ -36,7 +36,9 @@ struct real_coords {
     {
         fromabs( ap.x, ap.y, ap.z );
     }
-
+    void fromabs (tripoint point){
+        fromabs(point.x, point.y, point.z);
+    }
     void fromabs(const int absx, const int absy, const int absz)
     {
         const int normx = abs(absx);
@@ -97,18 +99,19 @@ struct real_coords {
 
     // helper functions to return abs_pos of submap/overmap tile/overmap's start
 
-    point begin_sub()
+    tripoint begin_sub()
     {
-        return point( abs_sub.x * tiles_in_sub, abs_sub.y * tiles_in_sub );
+        return tripoint( abs_sub.x * tiles_in_sub, abs_sub.y * tiles_in_sub, abs_sub.z * tiles_in_sub );
     }
-    point begin_om_pos()
+    tripoint begin_om_pos()
     {
-        return point( (abs_om.x * subs_in_om * tiles_in_sub) + ( om_pos.x * 2 * tiles_in_sub ),
-                      (abs_om.y * subs_in_om * tiles_in_sub) + ( om_pos.y * 2 * tiles_in_sub ) );
+        return tripoint( (abs_om.x * subs_in_om * tiles_in_sub) + ( om_pos.x * 2 * tiles_in_sub ),
+                      (abs_om.y * subs_in_om * tiles_in_sub) + ( om_pos.y * 2 * tiles_in_sub ),
+                      (abs_om.z * subs_in_om * tiles_in_sub) + ( om_pos.z * 2 * tiles_in_sub));
     }
-    point begin_om()
+    tripoint begin_om()
     {
-        return point( abs_om.x * subs_in_om * tiles_in_sub, abs_om.y * subs_in_om * tiles_in_sub);
+        return tripoint( abs_om.x * subs_in_om * tiles_in_sub, abs_om.y * subs_in_om * tiles_in_sub, abs_om.z * subs_in_om * tiles_in_sub);
     }
 };
 #endif

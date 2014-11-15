@@ -19,7 +19,7 @@ struct editmap_hilight {
     std::vector<bool> blink_interval;
     int cur_blink;
     nc_color color;
-    std::map<point, char> points;
+    std::map<tripoint, char> points;
     nc_color(*getbg)(nc_color);
     void setup()
     {
@@ -73,7 +73,7 @@ class editmap
         int sel_frn;
         int target_frn;
 
-        point recalc_target(shapetype shape);
+        tripoint recalc_target(shapetype shape);
         bool move_target( const std::string &action, int moveorigin = -1 );
         field *cur_field;
 
@@ -90,8 +90,8 @@ class editmap
         int trsel;
         int trset;
 
-        point target;
-        point origin;
+        tripoint target;
+        tripoint origin;
         bool moveall;
         bool refresh_mplans;
         shapetype editshape;
@@ -100,7 +100,7 @@ class editmap
 
         std::string fids[num_fields];
 
-        std::vector<point> target_list;
+        std::vector<tripoint> target_list;
         std::map<std::string, editmap_hilight> hilights;
         bool blink;
         bool altblink;

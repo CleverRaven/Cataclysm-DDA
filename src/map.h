@@ -261,7 +261,7 @@ class map
   * @param bash Whether we should path through terrain that's impassable, but can
   *             be destroyed(closed windows, doors, etc.)
   */
- std::vector<tripoint> route(const int Fx, const int Fy, const int Fz, const int Tx, const int Ty, const int Tz,
+ std::vector<tripoint> route(const int Fx, const int Fy, const int Tx, const int Ty,
                           const bool bash = true);
 
  int coord_to_angle (const int x, const int y, const int z, const int tgtx, const int tgty, const int tgtz);
@@ -567,6 +567,7 @@ void add_corpse(int x, int y, int z);
          * Add field entry at point, or set density if present
          * @return false if the field could not be created (out of bounds), otherwise true.
          */
+        bool add_field(const point p, const field_id t, const int density, const int age);
         bool add_field(const tripoint p, const field_id t, const int density, const int age);
         /**
          * Add field entry at xy, or set density if present
@@ -736,9 +737,9 @@ protected:
 
 private:
     field& get_field(const int x, const int y, const int z);
-    void spread_gas( field_entry *cur, int x, int y, int z, field_id curtype,
+    void spread_gas( field_entry *cur, int x, int y, field_id curtype,
                         int percent_spread, int outdoor_age_speedup );
-    void create_hot_air( int x, int y, int z, int density );
+    void create_hot_air( int x, int y, int density );
 
  bool transparency_cache_dirty;
  bool outside_cache_dirty;

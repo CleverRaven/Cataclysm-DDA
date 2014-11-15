@@ -346,7 +346,7 @@ void map::spread_gas( field_entry *cur, int x, int y, field_id curtype,
         }
     }
     // Dissapate faster outdoors.
-    if (is_outside(x, y)) { cur->setFieldAge( cur->getFieldAge() + outdoor_age_speedup ); }
+    if (is_outside(x, y, g->u.posz)) { cur->setFieldAge( cur->getFieldAge() + outdoor_age_speedup ); }
 
     // Bail out if we don't meet the spread chance.
     if( rng(1, 100) > percent_spread ) { return; }
@@ -357,11 +357,12 @@ void map::spread_gas( field_entry *cur, int x, int y, field_id curtype,
         for( int b = -1; b <= 1; b++ ) {
             // Current field not a candidate.
             if( !(a || b) ) { continue; }
-            const field_entry* tmpfld = get_field( point( x + a, y + b ), curtype );
+            //Gas currently will only evaluate on the same level as the player.
+            const field_entry* tmpfld = get_field( tripoint( x + a, y + b, g->u.posz ), curtype );
             // Candidates are existing weaker fields or navigable/flagged tiles with no field.
-            if( (tmpfld && tmpfld->getFieldDensity() < cur->getFieldDensity() && 
-                 (move_cost( x + a, y + b ) > 0 || has_flag("PERMEABLE", x + a, y + b))) ||
-                (!tmpfld && (move_cost( x + a, y + b ) > 0 || has_flag("PERMEABLE", x + a, y + b))) ) {
+            if( (tmpfld && tmpfld->getFieldDensity() < cur->getFieldDensity() &&
+                 (move_cost( x + a, y + b, g->u.posz ) > 0 || has_flag("PERMEABLE", x + a, y + b, g->u.posz))) ||
+                (!tmpfld && (move_cost( x + a, y + b, g->u.posz ) > 0 || has_flag("PERMEABLE", x + a, y + b, g->u.posz))) ) {
                 spread.push_back( point( x + a, y + b ) );
             }
         }
@@ -371,7 +372,7 @@ void map::spread_gas( field_entry *cur, int x, int y, field_id curtype,
     int current_age = cur->getFieldAge();
     if (current_density > 1 && current_age > 0 && !spread.empty()) {
         point p = spread[ rng( 0, spread.size() - 1 ) ];
-        field_entry *candidate_field = get_field(p.x, p.y).findField( curtype );
+        field_entry *candidate_field = get_field(p.x, p.y, g->u.posz).findField( curtype );
         int candidate_density = candidate_field ? candidate_field->getFieldDensity() : 0;
         // Nearby gas grows thicker, and ages are shared.
         int age_fraction = 0.5 + current_age / current_density;
@@ -381,8 +382,8 @@ void map::spread_gas( field_entry *cur, int x, int y, field_id curtype,
             candidate_field->setFieldAge(candidate_field->getFieldAge() + age_fraction);
             cur->setFieldAge(current_age - age_fraction);
         // Or, just create a new field.
-        } else if ( add_field( p.x, p.y, curtype, 1 ) ) {
-            get_field(p.x, p.y).findField( curtype )->setFieldAge(age_fraction);
+        } else if ( add_field( p.x, p.y, g->u.posz, curtype, 1 ) ) {
+            get_field(p.x, p.y, g->u.posz).findField( curtype )->setFieldAge(age_fraction);
             cur->setFieldDensity( current_density - 1 );
             cur->setFieldAge(current_age - age_fraction);
         }
@@ -399,10 +400,10 @@ void map::create_hot_air( int x, int y, int density )
     while (counter < 5) {
         int dx = rng(-1, 1);
         int dy = rng(-1, 1);
-        if (density == 1)      add_field(x + dx, y + dy, fd_hot_air1, 1);
-        else if (density == 2) add_field(x + dx, y + dy, fd_hot_air2, 1);
-        else if (density == 3) add_field(x + dx, y + dy, fd_hot_air3, 1);
-        else if (density == 4) add_field(x + dx, y + dy, fd_hot_air4, 1);
+        if (density == 1)      add_field(x + dx, y + dy, g->u.posz, fd_hot_air1, 1);
+        else if (density == 2) add_field(x + dx, y + dy, g->u.posz, fd_hot_air2, 1);
+        else if (density == 3) add_field(x + dx, y + dy, g->u.posz, fd_hot_air3, 1);
+        else if (density == 4) add_field(x + dx, y + dy, g->u.posz, fd_hot_air4, 1);
         counter++;
     }
 }
@@ -412,9 +413,11 @@ bool map::process_fields()
  bool found_field = false;
  for (int x = 0; x < my_MAPSIZE; x++) {
   for (int y = 0; y < my_MAPSIZE; y++) {
-   submap * const current_submap = get_submap_at_grid(x, y);
-   if (current_submap->field_count > 0)
-    found_field |= process_fields_in_submap(current_submap, x, y);
+   for (int z = -10; z < 11; z++){
+    submap * const current_submap = get_submap_at_grid(x, y, z);
+    if (current_submap->field_count > 0)
+     found_field |= process_fields_in_submap(current_submap, x, y, z);
+   }
   }
  }
  if (found_field) {
@@ -436,7 +439,7 @@ This is the general update function for field effects. This should only be calle
 If you need to insert a new field behavior per unit time add a case statement in the switch below.
 */
 bool map::process_fields_in_submap( submap *const current_submap,
-                                    const int submap_x, const int submap_y )
+                                    const int submap_x, const int submap_y, const int submap_z )
 {
     // Realistically this is always true, this function only gets called if fields exist.
     bool found_field = false;
@@ -450,927 +453,932 @@ bool map::process_fields_in_submap( submap *const current_submap,
     //Loop through all tiles in this submap indicated by current_submap
     for (int locx = 0; locx < SEEX; locx++) {
         for (int locy = 0; locy < SEEY; locy++) {
-            // This is a translation from local coordinates to submap coords.
-            // All submaps are in one long 1d array.
-            int x = locx + submap_x * SEEX;
-            int y = locy + submap_y * SEEY;
-            // get a copy of the field variable from the submap;
-            // contains all the pointers to the real field effects.
-            field &curfield = current_submap->fld[locx][locy];
-            for( auto it = curfield.begin(); it != curfield.end();) {
-                //Iterating through all field effects in the submap's field.
-                field_entry * cur = &it->second;
+            for (int locz = 0; locz < SEEZ; locz++){
+                // This is a translation from local coordinates to submap coords.
+                // All submaps are in one long 1d array.
+                int x = locx + submap_x * SEEX;
+                int y = locy + submap_y * SEEY;
+                int z = locz + submap_z * SEEZ;
+                // get a copy of the field variable from the submap;
+                // contains all the pointers to the real field effects.
+                field &curfield = current_submap->fld[locx][locy][locz];
+                for( auto it = curfield.begin(); it != curfield.end();) {
+                    //Iterating through all field effects in the submap's field.
+                    field_entry * cur = &it->second;
 
-                curtype = cur->getFieldType();
-                // Setting our return value. fd_null really doesn't exist anymore,
-                // its there for legacy support.
-                if (!found_field && curtype != fd_null) {
-                    found_field = true;
-                }
-                // Again, legacy support in the event someone Mods setFieldDensity to allow more values.
-                if (cur->getFieldDensity() > 3 || cur->getFieldDensity() < 1) {
-                    debugmsg("Whoooooa density of %d", cur->getFieldDensity());
-                }
-
-                // Don't process "newborn" fields. This gives the player time to run if they need to.
-                if (cur->getFieldAge() == 0) {
-                    curtype = fd_null;
-                }
-
-                int part;
-                vehicle *veh;
-                switch (curtype) {
-
-                    case fd_null:
-                    case num_fields:
-                        break;  // Do nothing, obviously.  OBVIOUSLY.
-
-                    case fd_blood:
-                    case fd_blood_veggy:
-                    case fd_blood_insect:
-                    case fd_blood_invertebrate:
-                    case fd_bile:
-                    case fd_gibs_flesh:
-                    case fd_gibs_veggy:
-                    case fd_gibs_insect:
-                    case fd_gibs_invertebrate:
-                        if (has_flag("SWIMMABLE", x, y)) { // Dissipate faster in water
-                            cur->setFieldAge(cur->getFieldAge() + 250);
-                        }
-                        break;
-
-                    case fd_acid:
-                    {
-                        std::vector<item> contents;
-                        if (has_flag("SWIMMABLE", x, y)) { // Dissipate faster in water
-                            cur->setFieldAge(cur->getFieldAge() + 20);
-                        }
-                        for (std::vector<item>::iterator it =
-                                 i_at(x, y).begin();
-                             it != i_at(x, y).end();) {
-                            item *melting = &*it; //For each item on the tile...
-
-                            // see DEVELOPER_FAQ.txt for how acid resistance is calculated
-
-                            int chance = melting->acid_resist();
-                            if (chance == 0) {
-                                melting->damage++;
-                            } else if (chance > 0 && chance < 9) {
-                                if (one_in(chance)) {
-                                    melting->damage++;
-                                }
-                            }
-                            if (melting->damage >= 5) {
-                                //Destroy the object, age the field.
-                                cur->setFieldAge(cur->getFieldAge() + melting->volume());
-                                contents.insert( contents.begin(), it->contents.begin(), it->contents.end() );
-                                it = i_at(x, y).erase(it);
-                            } else {
-                                it++;
-                            }
-                        }
-                        for( auto &c : contents ) {
-                            add_item_or_charges( x, y, c );
-                        }
+                    curtype = cur->getFieldType();
+                    // Setting our return value. fd_null really doesn't exist anymore,
+                    // its there for legacy support.
+                    if (!found_field && curtype != fd_null) {
+                        found_field = true;
                     }
-                        break;
+                    // Again, legacy support in the event someone Mods setFieldDensity to allow more values.
+                    if (cur->getFieldDensity() > 3 || cur->getFieldDensity() < 1) {
+                        debugmsg("Whoooooa density of %d", cur->getFieldDensity());
+                    }
 
-                        // Use the normal aging logic below this switch
-                    case fd_web:
-                        break;
-                    case fd_sap:
-                        break;
-                    case fd_sludge:
-                        break;
-                    case fd_slime:
-                        break;
-                    case fd_plasma:
-                        break;
-                    case fd_laser:
-                        break;
+                    // Don't process "newborn" fields. This gives the player time to run if they need to.
+                    if (cur->getFieldAge() == 0) {
+                        curtype = fd_null;
+                    }
 
-                        // TODO-MATERIALS: use fire resistance
-                    case fd_fire: {
-                        std::vector<item> &items_here = i_at(x, y);
-                        // explosions will destroy items on this square, iterating
-                        // backwards makes sure that every item is visited.
-                        for( int i = (int) items_here.size() - 1; i >= 0; --i ) {
-                            if( i >= (int) items_here.size() ) {
-                                // the last item exploded and destroyed some items,
-                                // now there is a gap (e.g. exploded item has index 10,
-                                // items 9,8,7 have been destroyed, i is now 9 and thereby
-                                // invalid, continue until the index is valid again.
-                                continue;
+                    int part;
+                    vehicle *veh;
+                    switch (curtype) {
+
+                        case fd_null:
+                        case num_fields:
+                            break;  // Do nothing, obviously.  OBVIOUSLY.
+
+                        case fd_blood:
+                        case fd_blood_veggy:
+                        case fd_blood_insect:
+                        case fd_blood_invertebrate:
+                        case fd_bile:
+                        case fd_gibs_flesh:
+                        case fd_gibs_veggy:
+                        case fd_gibs_insect:
+                        case fd_gibs_invertebrate:
+                            if (has_flag("SWIMMABLE", x, y, z)) { // Dissipate faster in water
+                                cur->setFieldAge(cur->getFieldAge() + 250);
                             }
-                            if( items_here[i].type->explode_in_fire() ) {
-                                // make a copy and let the copy explode
-                                item tmp( items_here[i] );
-                                items_here.erase( items_here.begin() + i );
-                                tmp.detonate(point(x, y));
+                            break;
+
+                        case fd_acid:
+                        {
+                            std::vector<item> contents;
+                            if (has_flag("SWIMMABLE", x, y, z)) { // Dissipate faster in water
+                                cur->setFieldAge(cur->getFieldAge() + 20);
+                            }
+                            for (std::vector<item>::iterator it =
+                                     i_at(x, y, z).begin();
+                                 it != i_at(x, y, z).end();) {
+                                item *melting = &*it; //For each item on the tile...
+
+                                // see DEVELOPER_FAQ.txt for how acid resistance is calculated
+
+                                int chance = melting->acid_resist();
+                                if (chance == 0) {
+                                    melting->damage++;
+                                } else if (chance > 0 && chance < 9) {
+                                    if (one_in(chance)) {
+                                        melting->damage++;
+                                    }
+                                }
+                                if (melting->damage >= 5) {
+                                    //Destroy the object, age the field.
+                                    cur->setFieldAge(cur->getFieldAge() + melting->volume());
+                                    contents.insert( contents.begin(), it->contents.begin(), it->contents.end() );
+                                    it = i_at(x, y, z).erase(it);
+                                } else {
+                                    it++;
+                                }
+                            }
+                            for( auto &c : contents ) {
+                                add_item_or_charges( x, y, z, c );
                             }
                         }
-                        std::vector<item> new_content;
-                        // Consume items as fuel to help us grow/last longer.
-                        bool destroyed = false; //Is the item destroyed?
-                        // Volume, Smoke generation probability, consumed items count
-                        int vol = 0, smoke = 0, consumed = 0;
-                        // The highest # of items this fire can remove in one turn
-                        int max_consume = cur->getFieldDensity() * 2;
-                        for (auto it = items_here.begin(); it != items_here.end() &&
-                                 consumed < max_consume;) {
-                            // Stop when we hit the end of the item buffer OR we consumed
-                            // more than max_consume items
-                            destroyed = false;
-                            vol = it->volume(); //Used to feed the fire based on volume of item burnt.
-                            it_ammo *ammo_type = NULL; //Special case if its ammo.
+                            break;
 
-                            if (it->is_ammo()) {
-                                ammo_type = dynamic_cast<it_ammo *>(it->type);
+                            // Use the normal aging logic below this switch
+                        case fd_web:
+                            break;
+                        case fd_sap:
+                            break;
+                        case fd_sludge:
+                            break;
+                        case fd_slime:
+                            break;
+                        case fd_plasma:
+                            break;
+                        case fd_laser:
+                            break;
+
+                            // TODO-MATERIALS: use fire resistance
+                        case fd_fire: {
+                            std::vector<item> &items_here = i_at(x, y, z);
+                            // explosions will destroy items on this square, iterating
+                            // backwards makes sure that every item is visited.
+                            for( int i = (int) items_here.size() - 1; i >= 0; --i ) {
+                                if( i >= (int) items_here.size() ) {
+                                    // the last item exploded and destroyed some items,
+                                    // now there is a gap (e.g. exploded item has index 10,
+                                    // items 9,8,7 have been destroyed, i is now 9 and thereby
+                                    // invalid, continue until the index is valid again.
+                                    continue;
+                                }
+                                if( items_here[i].type->explode_in_fire() ) {
+                                    // make a copy and let the copy explode
+                                    item tmp( items_here[i] );
+                                    items_here.erase( items_here.begin() + i );
+                                    tmp.detonate(point(x, y));
+                                }
                             }
-                            // Types of ammo with special effects.
-                            bool cookoff = false;
-                            bool special = false;
-                            //Flame type ammo removed so gasoline isn't explosive, it just burns.
-                            if( ammo_type != NULL && (ammo_type->id != "gasoline" || ammo_type->id != "diesel") ) {
-                                cookoff = ammo_type->ammo_effects.count("INCENDIARY") ||
-                                          ammo_type->ammo_effects.count("COOKOFF");
-                                special = ammo_type->ammo_effects.count("FRAG") ||
-                                          ammo_type->ammo_effects.count("NAPALM") ||
-                                          ammo_type->ammo_effects.count("NAPALM_BIG") ||
-                                          ammo_type->ammo_effects.count("EXPLOSIVE") ||
-                                          ammo_type->ammo_effects.count("EXPLOSIVE_BIG") ||
-                                          ammo_type->ammo_effects.count("EXPLOSIVE_HUGE") ||
-                                          ammo_type->ammo_effects.count("TEARGAS") ||
-                                          ammo_type->ammo_effects.count("SMOKE") ||
-                                          ammo_type->ammo_effects.count("SMOKE_BIG") ||
-                                          ammo_type->ammo_effects.count("FLASHBANG");
-                            }
+                            std::vector<item> new_content;
+                            // Consume items as fuel to help us grow/last longer.
+                            bool destroyed = false; //Is the item destroyed?
+                            // Volume, Smoke generation probability, consumed items count
+                            int vol = 0, smoke = 0, consumed = 0;
+                            // The highest # of items this fire can remove in one turn
+                            int max_consume = cur->getFieldDensity() * 2;
+                            for (auto it = items_here.begin(); it != items_here.end() &&
+                                     consumed < max_consume;) {
+                                // Stop when we hit the end of the item buffer OR we consumed
+                                // more than max_consume items
+                                destroyed = false;
+                                vol = it->volume(); //Used to feed the fire based on volume of item burnt.
+                                it_ammo *ammo_type = NULL; //Special case if its ammo.
 
-                            // How much more burnt the item will be, should be a multiple of 'base_burn_amt'
-                            int burn_amt = 0;
-                            // 'burn_amt' / 'base_burn_amt' == 1 to 'consumed',
-                            // Right now all materials are 1, except paper, which is 3
-                            // This means paper is consumed 3x as fast
-                            int base_burn_amt = 1;
-                            // How much time to add to the fire's life
-                            int time_added = 0;
+                                if (it->is_ammo()) {
+                                    ammo_type = dynamic_cast<it_ammo *>(it->type);
+                                }
+                                // Types of ammo with special effects.
+                                bool cookoff = false;
+                                bool special = false;
+                                //Flame type ammo removed so gasoline isn't explosive, it just burns.
+                                if( ammo_type != NULL && (ammo_type->id != "gasoline" || ammo_type->id != "diesel") ) {
+                                    cookoff = ammo_type->ammo_effects.count("INCENDIARY") ||
+                                              ammo_type->ammo_effects.count("COOKOFF");
+                                    special = ammo_type->ammo_effects.count("FRAG") ||
+                                              ammo_type->ammo_effects.count("NAPALM") ||
+                                              ammo_type->ammo_effects.count("NAPALM_BIG") ||
+                                              ammo_type->ammo_effects.count("EXPLOSIVE") ||
+                                              ammo_type->ammo_effects.count("EXPLOSIVE_BIG") ||
+                                              ammo_type->ammo_effects.count("EXPLOSIVE_HUGE") ||
+                                              ammo_type->ammo_effects.count("TEARGAS") ||
+                                              ammo_type->ammo_effects.count("SMOKE") ||
+                                              ammo_type->ammo_effects.count("SMOKE_BIG") ||
+                                              ammo_type->ammo_effects.count("FLASHBANG");
+                                }
 
-                            if( special || cookoff ) {
-                                const long rounds_exploded = rng( 1, it->charges );
-                                // cook off ammo instead of just burning it.
-                                for(int j = 0; j < (rounds_exploded / 10) + 1; j++) {
-                                    if( cookoff ) {
-                                        // Ammo that cooks off, but doesn't have a
-                                        // large intrinsic effect blows up with half
-                                        // the ammos damage in force, for each bullet,
-                                        // just creating shrapnel.
-                                        g->explosion( x, y, ammo_type->damage / 2,
-                                                      true, false, false );
-                                    } else if( special ) {
-                                        // If it has a special effect just trigger it.
-                                        ammo_effects( x, y, ammo_type->ammo_effects );
+                                // How much more burnt the item will be, should be a multiple of 'base_burn_amt'
+                                int burn_amt = 0;
+                                // 'burn_amt' / 'base_burn_amt' == 1 to 'consumed',
+                                // Right now all materials are 1, except paper, which is 3
+                                // This means paper is consumed 3x as fast
+                                int base_burn_amt = 1;
+                                // How much time to add to the fire's life
+                                int time_added = 0;
+
+                                if( special || cookoff ) {
+                                    const long rounds_exploded = rng( 1, it->charges );
+                                    // cook off ammo instead of just burning it.
+                                    for(int j = 0; j < (rounds_exploded / 10) + 1; j++) {
+                                        if( cookoff ) {
+                                            // Ammo that cooks off, but doesn't have a
+                                            // large intrinsic effect blows up with half
+                                            // the ammos damage in force, for each bullet,
+                                            // just creating shrapnel.
+                                            g->explosion( x, y, ammo_type->damage / 2,
+                                                          true, false, false );
+                                        } else if( special ) {
+                                            // If it has a special effect just trigger it.
+                                            ammo_effects( x, y, ammo_type->ammo_effects );
+                                        }
                                     }
-                                }
-                                burn_amt = rounds_exploded;
+                                    burn_amt = rounds_exploded;
 
-                            } else if (it->made_of("paper")) {
-                                //paper items feed the fire moderately.
-                                base_burn_amt = 3;
-                                burn_amt = base_burn_amt * (max_consume - consumed);
-                                if (ammo_type != NULL) {
-                                    if (it->charges - burn_amt < 0) {
-                                        burn_amt = it->charges;
+                                } else if (it->made_of("paper")) {
+                                    //paper items feed the fire moderately.
+                                    base_burn_amt = 3;
+                                    burn_amt = base_burn_amt * (max_consume - consumed);
+                                    if (ammo_type != NULL) {
+                                        if (it->charges - burn_amt < 0) {
+                                            burn_amt = it->charges;
+                                        }
                                     }
-                                }
-                                if (cur->getFieldDensity() == 1) {
-                                    time_added = vol * 10;
-                                    time_added += (vol * 10) * (burn_amt / base_burn_amt);
-                                }
-                                if (vol >= 4) {
-                                    smoke++;    //Large paper items give chance to smoke.
-                                }
-
-                            } else if ((it->made_of("wood") || it->made_of("veggy"))) {
-                                //Wood or vegy items burn slowly.
-                                if (vol <= cur->getFieldDensity() * 10 ||
-                                    cur->getFieldDensity() == 3) {
-                                    // A single wood item will just maintain at the current level.
-                                    time_added = 1;
-                                    // ammo has more surface area, and burns quicker
-                                    if (one_in( (ammo_type != NULL) ? 25 : 50 )) {
-                                        burn_amt = cur->getFieldDensity();
+                                    if (cur->getFieldDensity() == 1) {
+                                        time_added = vol * 10;
+                                        time_added += (vol * 10) * (burn_amt / base_burn_amt);
                                     }
-                                } else if (it->burnt < cur->getFieldDensity()) {
-                                    burn_amt = 1;
-                                }
-                                smoke++;
+                                    if (vol >= 4) {
+                                        smoke++;    //Large paper items give chance to smoke.
+                                    }
 
-                            } else if ((it->made_of("cotton") || it->made_of("wool"))) {
-                                //Cotton and wool burn slowly but don't feed the fire much.
-                                if (vol <= cur->getFieldDensity() * 5 || cur->getFieldDensity() == 3) {
-                                    time_added = 1;
-                                    burn_amt = cur->getFieldDensity();
-                                } else if (it->burnt < cur->getFieldDensity()) {
-                                    burn_amt = 1;
-                                }
-                                smoke++;
-
-                            } else if ((it->made_of("flesh")) || (it->made_of("hflesh")) ||
-                                       (it->made_of("iflesh"))) {
-                                //Same as cotton/wool really but more smokey.
-                                if (vol <= cur->getFieldDensity() * 5 ||
-                                    (cur->getFieldDensity() == 3 && one_in(vol / 20))) {
-                                    time_added = 1;
-                                    burn_amt = cur->getFieldDensity();
-                                    smoke += 3;
-                                } else if (it->burnt < cur->getFieldDensity()) {
-                                    burn_amt = 1;
-                                    smoke++;
-                                }
-
-                            } else if (it->made_of(LIQUID)) {
-                                // Lots of smoke if alcohol, and LOTS of fire fueling power
-                                if(it->type->id == "tequila" || it->type->id == "whiskey" ||
-                                   it->type->id == "vodka" || it->type->id == "rum" ||
-                                   it->type->id == "gasoline" || it->type->id == "diesel") {
-                                    time_added = 300;
-                                    smoke += 6;
-                                } else {
-                                    // kills a fire otherwise.
-                                    time_added = -rng(80 * vol, 300 * vol);
-                                    smoke++;
-                                }
-                                burn_amt = cur->getFieldDensity();
-
-                            } else if (it->made_of("powder")) {
-                                // Any powder will fuel the fire as much as its volume
-                                // but be immediately destroyed.
-                                time_added = vol;
-                                destroyed = true;
-                                smoke += 2;
-
-                            } else if (it->made_of("plastic")) {
-                                //Smokey material, doesn't fuel well.
-                                smoke += 3;
-                                if (it->burnt <= cur->getFieldDensity() * 2 ||
-                                    (cur->getFieldDensity() == 3 && one_in(vol))) {
-                                    burn_amt = cur->getFieldDensity();
-                                    if (one_in( (ammo_type != NULL) ? vol : it->burnt )) {
+                                } else if ((it->made_of("wood") || it->made_of("veggy"))) {
+                                    //Wood or vegy items burn slowly.
+                                    if (vol <= cur->getFieldDensity() * 10 ||
+                                        cur->getFieldDensity() == 3) {
+                                        // A single wood item will just maintain at the current level.
                                         time_added = 1;
-                                    }
-                                }
-                            }
-                            if (!destroyed) {
-                                if (ammo_type != NULL) {
-                                    if (burn_amt > it->charges) {
-                                        burn_amt = it->charges;
-                                    }
-                                    it->charges -= burn_amt;
-                                    consumed += burn_amt / base_burn_amt;
-                                    destroyed = it->charges <= 0;
-                                } else {
-                                    destroyed = it->burn(burn_amt);
-                                }
-                            }
-
-                            //lower age is a longer lasting fire
-                            cur->setFieldAge(cur->getFieldAge() - time_added);
-
-                            if (destroyed) {
-                                //If we decided the item was destroyed by fire, remove it.
-                                new_content.insert( new_content.end(), it->contents.begin(), it->contents.end() );
-                                it = items_here.erase( it );
-                            } else {
-                                it++;
-                            }
-                        }
-                        items_here.insert( items_here.end(), new_content.begin(), new_content.end() );
-
-                        veh = veh_at(x, y, part); //Get the part of the vehicle in the fire.
-                        if (veh) {
-                            veh->damage(part, cur->getFieldDensity() * 10, 2, false);
-                            //Damage the vehicle in the fire.
-                        }
-                        // If the flames are in a brazier, they're fully contained,
-                        // so skip consuming terrain
-                        if((tr_brazier != tr_at(x, y)) &&
-                           (has_flag("FIRE_CONTAINER", x, y) != true )) {
-                            // Consume the terrain we're on
-                            if (has_flag("FLAMMABLE", x, y) && one_in(32 - cur->getFieldDensity() * 10)) {
-                                //The fire feeds on the ground itself until max density.
-                                cur->setFieldAge(cur->getFieldAge() - cur->getFieldDensity() *
-                                                 cur->getFieldDensity() * 40);
-                                smoke += 15;
-                                if (cur->getFieldDensity() == 3) {
-                                    destroy(x, y, true);
-                                }
-
-                            } else if (has_flag("FLAMMABLE_ASH", x, y) &&
-                                       one_in(32 - cur->getFieldDensity() * 10)) {
-                                //The fire feeds on the ground itself until max density.
-                                cur->setFieldAge(cur->getFieldAge() - cur->getFieldDensity() *
-                                                 cur->getFieldDensity() * 40);
-                                smoke += 15;
-                                if (cur->getFieldDensity() == 3 || cur->getFieldAge() < -600) {
-                                    ter_set(x, y, t_dirt);
-                                    furn_set(x, y, f_ash);
-                                }
-
-                            } else if (has_flag("FLAMMABLE_HARD", x, y) &&
-                                       one_in(62 - cur->getFieldDensity() * 10)) {
-                                //The fire feeds on the ground itself until max density.
-                                cur->setFieldAge(cur->getFieldAge() - cur->getFieldDensity() *
-                                                 cur->getFieldDensity() * 30);
-                                smoke += 10;
-                                if (cur->getFieldDensity() == 3 || cur->getFieldAge() < -600) {
-                                    destroy(x, y, true);
-                                }
-
-                            } else if (terlist[ter(x, y)].has_flag("SWIMMABLE")) {
-                                cur->setFieldAge(cur->getFieldAge() + 800);
-                                // Flames die quickly on water
-                            }
-                        }
-
-                        // If the flames are in a pit, it can't spread to non-pit
-                        bool in_pit = (ter(x, y) == t_pit);
-
-                        // If the flames are REALLY big, they contribute to adjacent flames
-                        if (cur->getFieldAge() < 0 && tr_brazier != tr_at(x, y) &&
-                            (has_flag("FIRE_CONTAINER", x, y) != true  ) ) {
-                            if(cur->getFieldDensity() == 3) {
-                                // Randomly offset our x/y shifts by 0-2, to randomly pick
-                                // a square to spread to
-                                int starti = rng(0, 2);
-                                int startj = rng(0, 2);
-                                tmpfld = NULL;
-                                // Basically: Scan around for a spot,
-                                // if there is more fire there, make it bigger and
-                                // both flames renew in power
-                                // This is how level 3 fires spend their excess age:
-                                // making other fires bigger. Flashpoint.
-                                for (int i = 0; i < 3 && cur->getFieldAge() < 0; i++) {
-                                    for (int j = 0; j < 3 && cur->getFieldAge() < 0; j++) {
-                                        int fx = x + ((i + starti) % 3) - 1;
-                                        int fy = y + ((j + startj) % 3) - 1;
-                                        tmpfld = get_field(fx, fy).findField(fd_fire);
-                                        if (tmpfld && tmpfld != cur && cur->getFieldAge() < 0 &&
-                                            tmpfld->getFieldDensity() < 3 &&
-                                            (in_pit == (ter(fx, fy) == t_pit))) {
-                                            tmpfld->setFieldDensity(tmpfld->getFieldDensity() + 1);
-                                            cur->setFieldAge(cur->getFieldAge() + 150);
+                                        // ammo has more surface area, and burns quicker
+                                        if (one_in( (ammo_type != NULL) ? 25 : 50 )) {
+                                            burn_amt = cur->getFieldDensity();
                                         }
+                                    } else if (it->burnt < cur->getFieldDensity()) {
+                                        burn_amt = 1;
                                     }
-                                }
-                            } else {
-                                // See if we can grow into a stage 2/3 fire, for this
-                                // burning neighbours are necessary in addition to
-                                // field age < 0, or alternatively, a LOT of fuel.
+                                    smoke++;
 
-                                // The maximum fire density is 1 for a lone fire, 2 for at least 1 neighbour,
-                                // 3 for at least 2 neighbours.
-                                int maximum_density =  1;
-
-                                // The following logic looks a bit complex due to optimization concerns, so here are the semantics:
-                                // 1. Calculate maximum field density based on fuel, -500 is 2(raging), -1000 is 3(inferno)
-                                // 2. Calculate maximum field density based on neighbours, 1 neighbours is 2(raging), 2 or more neighbours is 3(inferno)
-                                // 3. Pick the higher maximum between 1. and 2.
-                                // We don't just calculate both maximums and pick the higher because the adjacent field lookup is quite expensive and should be avoided if possible.
-                                if(cur->getFieldAge() < -1500) {
-                                    maximum_density = 3;
-                                } else {
-                                    int adjacent_fires = 0;
-
-                                    for (int i = 0; i < 3; i++) {
-                                        for (int j = 0; j < 3; j++) {
-                                            if( i == 1 && j == 1 ) {
-                                                continue;
-                                            }
-                                            const point pnt( x + (i % 3) - 1, y + (j % 3) - 1 );
-                                            if( get_field( pnt, fd_fire ) != nullptr ) {
-                                                adjacent_fires++;
-                                            }
-                                        }
+                                } else if ((it->made_of("cotton") || it->made_of("wool"))) {
+                                    //Cotton and wool burn slowly but don't feed the fire much.
+                                    if (vol <= cur->getFieldDensity() * 5 || cur->getFieldDensity() == 3) {
+                                        time_added = 1;
+                                        burn_amt = cur->getFieldDensity();
+                                    } else if (it->burnt < cur->getFieldDensity()) {
+                                        burn_amt = 1;
                                     }
-                                    maximum_density = 1 + (adjacent_fires >= 1) + (adjacent_fires >= 2);
+                                    smoke++;
 
-                                    if(maximum_density < 2 && cur->getFieldAge() < -500) {
-                                        maximum_density = 2;
+                                } else if ((it->made_of("flesh")) || (it->made_of("hflesh")) ||
+                                           (it->made_of("iflesh"))) {
+                                    //Same as cotton/wool really but more smokey.
+                                    if (vol <= cur->getFieldDensity() * 5 ||
+                                        (cur->getFieldDensity() == 3 && one_in(vol / 20))) {
+                                        time_added = 1;
+                                        burn_amt = cur->getFieldDensity();
+                                        smoke += 3;
+                                    } else if (it->burnt < cur->getFieldDensity()) {
+                                        burn_amt = 1;
+                                        smoke++;
                                     }
-                                }
 
-                                // If we consumed a lot, the flames grow higher
-                                while (cur->getFieldDensity() < maximum_density && cur->getFieldAge() < 0) {
-                                    //Fires under 0 age grow in size. Level 3 fires under 0 spread later on.
-                                    cur->setFieldAge(cur->getFieldAge() + 300);
-                                    cur->setFieldDensity(cur->getFieldDensity() + 1);
-                                }
-                            }
-                        }
-
-                        // Consume adjacent fuel / terrain / webs to spread.
-                        // Randomly offset our x/y shifts by 0-2, to randomly pick a square to spread to
-                        //Fires can only spread under 30 age. This is arbitrary but seems to work well.
-                        //The reason is to differentiate a fire that spawned vs one created really.
-                        //Fires spawned by fire in a new square START at 30 age, so if its a square with no fuel on it
-                        //the fire won't keep crawling endlessly across the map.
-                        int starti = rng(0, 2);
-                        int startj = rng(0, 2);
-                        for (int i = 0; i < 3; i++) {
-                            for (int j = 0; j < 3; j++) {
-                                int fx = x + ((i + starti) % 3) - 1, fy = y + ((j + startj) % 3) - 1;
-                                if (INBOUNDS(fx, fy)) {
-                                    field &nearby_field = get_field(fx, fy);
-                                    field_entry *nearwebfld = nearby_field.findField(fd_web);
-                                    int spread_chance = 25 * (cur->getFieldDensity() - 1);
-                                    if (nearwebfld) {
-                                        spread_chance = 50 + spread_chance / 2;
-                                    }
-                                    if ((i != 0 || j != 0) && rng(1, 100) < spread_chance &&
-                                          cur->getFieldAge() < 200 && tr_brazier != tr_at(x, y) &&
-                                          (has_flag("FIRE_CONTAINER", x, y) != true ) &&
-                                          (in_pit == (ter(fx, fy) == t_pit)) &&
-                                          ((cur->getFieldDensity() >= 2 && (has_flag("FLAMMABLE", fx, fy) && one_in(20))) ||
-                                          (cur->getFieldDensity() >= 2  && (has_flag("FLAMMABLE_ASH", fx, fy) && one_in(10))) ||
-                                          (cur->getFieldDensity() == 3  && (has_flag("FLAMMABLE_HARD", fx, fy) && one_in(10))) ||
-                                          flammable_items_at(fx, fy) || nearwebfld )) {
-                                        add_field(fx, fy, fd_fire, 1); //Nearby open flammable ground? Set it on fire.
-                                        tmpfld = nearby_field.findField(fd_fire);
-                                        if(tmpfld) {
-                                            tmpfld->setFieldAge(100);
-                                            cur->setFieldAge(cur->getFieldAge() + 50);
-                                        }
-                                        if(nearwebfld) {
-                                            if (fx == x && fy == y){
-                                                it = nearby_field.removeField(fd_web);
-                                                skipIterIncr = true;
-                                            } else {
-                                                nearby_field.removeField(fd_web);
-                                            }
-                                        }
+                                } else if (it->made_of(LIQUID)) {
+                                    // Lots of smoke if alcohol, and LOTS of fire fueling power
+                                    if(it->type->id == "tequila" || it->type->id == "whiskey" ||
+                                       it->type->id == "vodka" || it->type->id == "rum" ||
+                                       it->type->id == "gasoline" || it->type->id == "diesel") {
+                                        time_added = 300;
+                                        smoke += 6;
                                     } else {
-                                        bool nosmoke = true;
-                                        for (int ii = -1; ii <= 1; ii++) {
-                                            for (int jj = -1; jj <= 1; jj++) {
-                                                const point pnt( x + ii, y + jj );
-                                                const field_entry *fire = get_field( pnt, fd_fire );
-                                                const field_entry *smoke = get_field( pnt, fd_smoke );
-                                                if( fire != nullptr && ( fire->getFieldDensity() == 3 ||
-                                                    ( fire->getFieldDensity() == 2 && one_in(4) ) ) ) {
-                                                    smoke++; //The higher this gets, the more likely for smoke.
-                                                } else if( smoke != nullptr ) {
-                                                    nosmoke = false; //slightly, slightly, less likely to make smoke if there is already smoke
+                                        // kills a fire otherwise.
+                                        time_added = -rng(80 * vol, 300 * vol);
+                                        smoke++;
+                                    }
+                                    burn_amt = cur->getFieldDensity();
+
+                                } else if (it->made_of("powder")) {
+                                    // Any powder will fuel the fire as much as its volume
+                                    // but be immediately destroyed.
+                                    time_added = vol;
+                                    destroyed = true;
+                                    smoke += 2;
+
+                                } else if (it->made_of("plastic")) {
+                                    //Smokey material, doesn't fuel well.
+                                    smoke += 3;
+                                    if (it->burnt <= cur->getFieldDensity() * 2 ||
+                                        (cur->getFieldDensity() == 3 && one_in(vol))) {
+                                        burn_amt = cur->getFieldDensity();
+                                        if (one_in( (ammo_type != NULL) ? vol : it->burnt )) {
+                                            time_added = 1;
+                                        }
+                                    }
+                                }
+                                if (!destroyed) {
+                                    if (ammo_type != NULL) {
+                                        if (burn_amt > it->charges) {
+                                            burn_amt = it->charges;
+                                        }
+                                        it->charges -= burn_amt;
+                                        consumed += burn_amt / base_burn_amt;
+                                        destroyed = it->charges <= 0;
+                                    } else {
+                                        destroyed = it->burn(burn_amt);
+                                    }
+                                }
+
+                                //lower age is a longer lasting fire
+                                cur->setFieldAge(cur->getFieldAge() - time_added);
+
+                                if (destroyed) {
+                                    //If we decided the item was destroyed by fire, remove it.
+                                    new_content.insert( new_content.end(), it->contents.begin(), it->contents.end() );
+                                    it = items_here.erase( it );
+                                } else {
+                                    it++;
+                                }
+                            }
+                            items_here.insert( items_here.end(), new_content.begin(), new_content.end() );
+
+                            veh = veh_at(x, y, part); //Get the part of the vehicle in the fire.
+                            if (veh) {
+                                veh->damage(part, cur->getFieldDensity() * 10, 2, false);
+                                //Damage the vehicle in the fire.
+                            }
+                            // If the flames are in a brazier, they're fully contained,
+                            // so skip consuming terrain
+                            if((tr_brazier != tr_at(x, y, z)) &&
+                               (has_flag("FIRE_CONTAINER", x, y, z) != true )) {
+                                // Consume the terrain we're on
+                                if (has_flag("FLAMMABLE", x, y, z) && one_in(32 - cur->getFieldDensity() * 10)) {
+                                    //The fire feeds on the ground itself until max density.
+                                    cur->setFieldAge(cur->getFieldAge() - cur->getFieldDensity() *
+                                                     cur->getFieldDensity() * 40);
+                                    smoke += 15;
+                                    if (cur->getFieldDensity() == 3) {
+                                        destroy(x, y, true);
+                                    }
+
+                                } else if (has_flag("FLAMMABLE_ASH", x, y, z) &&
+                                           one_in(32 - cur->getFieldDensity() * 10)) {
+                                    //The fire feeds on the ground itself until max density.
+                                    cur->setFieldAge(cur->getFieldAge() - cur->getFieldDensity() *
+                                                     cur->getFieldDensity() * 40);
+                                    smoke += 15;
+                                    if (cur->getFieldDensity() == 3 || cur->getFieldAge() < -600) {
+                                        ter_set(x, y, z, t_dirt);
+                                        furn_set(x, y, z, f_ash);
+                                    }
+
+                                } else if (has_flag("FLAMMABLE_HARD", x, y, z) &&
+                                           one_in(62 - cur->getFieldDensity() * 10)) {
+                                    //The fire feeds on the ground itself until max density.
+                                    cur->setFieldAge(cur->getFieldAge() - cur->getFieldDensity() *
+                                                     cur->getFieldDensity() * 30);
+                                    smoke += 10;
+                                    if (cur->getFieldDensity() == 3 || cur->getFieldAge() < -600) {
+                                        destroy(x, y, true);
+                                    }
+
+                                } else if (terlist[ter(x, y, z)].has_flag("SWIMMABLE")) {
+                                    cur->setFieldAge(cur->getFieldAge() + 800);
+                                    // Flames die quickly on water
+                                }
+                            }
+
+                            // If the flames are in a pit, it can't spread to non-pit
+                            bool in_pit = (ter(x, y, z) == t_pit);
+
+                            // If the flames are REALLY big, they contribute to adjacent flames
+                            if (cur->getFieldAge() < 0 && tr_brazier != tr_at(x, y, z) &&
+                                (has_flag("FIRE_CONTAINER", x, y, z) != true  ) ) {
+                                if(cur->getFieldDensity() == 3) {
+                                    // Randomly offset our x/y shifts by 0-2, to randomly pick
+                                    // a square to spread to
+                                    int starti = rng(0, 2);
+                                    int startj = rng(0, 2);
+                                    tmpfld = NULL;
+                                    // Basically: Scan around for a spot,
+                                    // if there is more fire there, make it bigger and
+                                    // both flames renew in power
+                                    // This is how level 3 fires spend their excess age:
+                                    // making other fires bigger. Flashpoint.
+                                    for (int i = 0; i < 3 && cur->getFieldAge() < 0; i++) {
+                                        for (int j = 0; j < 3 && cur->getFieldAge() < 0; j++) {
+                                            int fx = x + ((i + starti) % 3) - 1;
+                                            int fy = y + ((j + startj) % 3) - 1;
+                                            tmpfld = get_field(fx, fy, z).findField(fd_fire);
+                                            if (tmpfld && tmpfld != cur && cur->getFieldAge() < 0 &&
+                                                tmpfld->getFieldDensity() < 3 &&
+                                                (in_pit == (ter(fx, fy, z) == t_pit))) {
+                                                tmpfld->setFieldDensity(tmpfld->getFieldDensity() + 1);
+                                                cur->setFieldAge(cur->getFieldAge() + 150);
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    // See if we can grow into a stage 2/3 fire, for this
+                                    // burning neighbours are necessary in addition to
+                                    // field age < 0, or alternatively, a LOT of fuel.
+
+                                    // The maximum fire density is 1 for a lone fire, 2 for at least 1 neighbour,
+                                    // 3 for at least 2 neighbours.
+                                    int maximum_density =  1;
+
+                                    // The following logic looks a bit complex due to optimization concerns, so here are the semantics:
+                                    // 1. Calculate maximum field density based on fuel, -500 is 2(raging), -1000 is 3(inferno)
+                                    // 2. Calculate maximum field density based on neighbours, 1 neighbours is 2(raging), 2 or more neighbours is 3(inferno)
+                                    // 3. Pick the higher maximum between 1. and 2.
+                                    // We don't just calculate both maximums and pick the higher because the adjacent field lookup is quite expensive and should be avoided if possible.
+                                    if(cur->getFieldAge() < -1500) {
+                                        maximum_density = 3;
+                                    } else {
+                                        int adjacent_fires = 0;
+
+                                        for (int i = 0; i < 3; i++) {
+                                            for (int j = 0; j < 3; j++) {
+                                                if( i == 1 && j == 1 ) {
+                                                    continue;
+                                                }
+                                                const tripoint pnt( x + (i % 3) - 1, y + (j % 3) - 1, z );
+                                                if( get_field( pnt, fd_fire ) != nullptr ) {
+                                                    adjacent_fires++;
                                                 }
                                             }
                                         }
-                                        // If we're not spreading, maybe we'll stick out some smoke, huh?
-                                        if(!(is_outside(fx, fy))) {
-                                            //Lets make more smoke indoors since it doesn't dissipate
-                                            smoke += 10; //10 is just a magic number. To much smoke indoors? Lower it. To little, raise it.
-                                        }
-                                        if (move_cost(fx, fy) > 0 &&
-                                            (rng(0, 100) <= smoke || (nosmoke && one_in(40))) &&
-                                            rng(3, 35) < cur->getFieldDensity() * 5 && cur->getFieldAge() < 1000 &&
-                                            (has_flag("SUPPRESS_SMOKE", x, y) != true )) {
-                                            smoke--;
-                                            add_field(fx, fy, fd_smoke, rng(1, cur->getFieldDensity())); //Add smoke!
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        create_hot_air( x, y, cur->getFieldDensity());
-                    }
-                    break;
+                                        maximum_density = 1 + (adjacent_fires >= 1) + (adjacent_fires >= 2);
 
-                    case fd_smoke:
-                        spread_gas( cur, x, y, curtype, 80, 50 );
-                        break;
-
-                    case fd_tear_gas:
-                        spread_gas( cur, x, y, curtype, 33, 30 );
-                        break;
-
-                    case fd_relax_gas:
-                        spread_gas( cur, x, y, curtype, 25, 50 );
-                        break;
-
-                    case fd_fungal_haze:
-                        spread_gas( cur, x, y, curtype, 33,  5);
-                        int mondex;
-                        mondex = g->mon_at(x, y);
-                        if (move_cost(x, y) > 0) {
-                            if (mondex != -1) { // Haze'd!
-                                if (!g->zombie(mondex).type->in_species("FUNGUS") &&
-                                  !g->zombie(mondex).type->has_flag("NO_BREATHE")) {
-                                    if (g->u_see(x, y)) {
-                                        add_msg(m_info, _("The %s inhales thousands of live spores!"),
-                                    g->zombie(mondex).name().c_str());
-                                    }
-                                    monster &critter = g->zombie( mondex );
-                                    if( !critter.make_fungus() ) {
-                                        critter.die(nullptr);
-                                    }
-                                }
-                        } if (one_in(5 - cur->getFieldDensity())) {
-                            g->spread_fungus(x, y); //Haze'd terrain
-                        }
-                        }
-                        break;
-
-                    case fd_toxic_gas:
-                        spread_gas( cur, x, y, curtype, 50, 30 );
-                        break;
-
-                    case fd_cigsmoke:
-                        spread_gas( cur, x, y, curtype, 250, 65 );
-                        break;
-
-                    case fd_weedsmoke: {
-                        spread_gas( cur, x, y, curtype, 200, 60 );
-
-                        if(one_in(20)) {
-                            int npcdex = g->npc_at(x, y);
-                            if (npcdex != -1) {
-                                npc *p = g->active_npc[npcdex];
-                                if(p->is_friend()) {
-                                    p->say(one_in(10) ? _("Whew... smells like skunk!") : _("Man, that smells like some good shit!"));
-                                }
-                            }
-                        }
-
-                    }
-                        break;
-
-                    case fd_methsmoke: {
-                        spread_gas( cur, x, y, curtype, 175, 70 );
-
-                        if(one_in(20)) {
-                            int npcdex = g->npc_at(x, y);
-                            if (npcdex != -1) {
-                                npc *p = g->active_npc[npcdex];
-                                if(p->is_friend()) {
-                                    p->say(_("I don't know... should you really be smoking that stuff?"));
-                                }
-                            }
-                        }
-                    }
-                        break;
-
-                    case fd_cracksmoke: {
-                        spread_gas( cur, x, y, curtype, 175, 80 );
-
-                        if(one_in(20)) {
-                            int npcdex = g->npc_at(x, y);
-                            if (npcdex != -1) {
-                                npc *p = g->active_npc[npcdex];
-                                if(p->is_friend()) {
-                                    p->say(one_in(2) ? _("Ew, smells like burning rubber!") : _("Ugh, that smells rancid!"));
-                                }
-                            }
-                        }
-                    }
-                        break;
-
-                    case fd_nuke_gas: {
-                        int extra_radiation = rng(0, cur->getFieldDensity());
-                        adjust_radiation(x, y, extra_radiation);
-                        spread_gas( cur, x, y, curtype, 50, 10 );
-                        break;
-                    }
-
-                    case fd_hot_air1:
-                    case fd_hot_air2:
-                    case fd_hot_air3:
-                    case fd_hot_air4:
-                        spread_gas( cur, x, y, curtype, 100, 1000 );
-                        break;
-
-                    case fd_gas_vent:
-                        for (int i = x - 1; i <= x + 1; i++) {
-                            for (int j = y - 1; j <= y + 1; j++) {
-                                field &wandering_field = get_field(i, j);
-                                tmpfld = wandering_field.findField(fd_toxic_gas);
-                                if (tmpfld && tmpfld->getFieldDensity() < 3) {
-                                    tmpfld->setFieldDensity(tmpfld->getFieldDensity() + 1);
-                                } else {
-                                    add_field(i, j, fd_toxic_gas, 3);
-                                }
-                            }
-                        }
-                        break;
-
-                    case fd_fire_vent:
-                        if (cur->getFieldDensity() > 1) {
-                            if (one_in(3)) {
-                                cur->setFieldDensity(cur->getFieldDensity() - 1);
-                            }
-                        } else {
-                            it = curfield.replaceField(fd_fire_vent, fd_flame_burst);
-                            cur->setFieldDensity(3);
-                            continue;
-                        }
-                        create_hot_air( x, y, cur->getFieldDensity());
-                        break;
-
-                    case fd_flame_burst:
-                        if (cur->getFieldDensity() > 1) {
-                            cur->setFieldDensity(cur->getFieldDensity() - 1);
-                        } else {
-                            it = curfield.replaceField(fd_flame_burst, fd_fire_vent);
-                            cur->setFieldDensity(3);
-                            continue;
-                        }
-                        create_hot_air( x, y, cur->getFieldDensity());
-                        break;
-
-                    case fd_electricity:
-
-                        if (!one_in(5)) {   // 4 in 5 chance to spread
-                            std::vector<point> valid;
-                            if (move_cost(x, y) == 0 && cur->getFieldDensity() > 1) { // We're grounded
-                                int tries = 0;
-                                while (tries < 10 && cur->getFieldAge() < 50 && cur->getFieldDensity() > 1) {
-                                    int cx = x + rng(-1, 1), cy = y + rng(-1, 1);
-                                    if (move_cost(cx, cy) != 0) {
-                                        add_field(point(cx, cy), fd_electricity, 1, cur->getFieldAge() + 1);
-                                        cur->setFieldDensity(cur->getFieldDensity() - 1);
-                                        tries = 0;
-                                    } else {
-                                        tries++;
-                                    }
-                                }
-                            } else {    // We're not grounded; attempt to ground
-                                for (int a = -1; a <= 1; a++) {
-                                    for (int b = -1; b <= 1; b++) {
-                                        if (move_cost(x + a, y + b) == 0) // Grounded tiles first
-
-                                        {
-                                            valid.push_back(point(x + a, y + b));
-                                        }
-                                    }
-                                }
-                                if (valid.empty()) {    // Spread to adjacent space, then
-                                    int px = x + rng(-1, 1), py = y + rng(-1, 1);
-                                    field_entry *elec = get_field( px, py ).findField( fd_electricity );
-                                    if (move_cost(px, py) > 0 && elec != nullptr &&
-                                        elec->getFieldDensity() < 3) {
-                                        elec->setFieldDensity( elec->getFieldDensity() + 1 );
-                                        cur->setFieldDensity(cur->getFieldDensity() - 1);
-                                    } else if (move_cost(px, py) > 0) {
-                                        add_field(point(px, py), fd_electricity, 1, cur->getFieldAge() + 1);
-                                    }
-                                    cur->setFieldDensity(cur->getFieldDensity() - 1);
-                                }
-                                while (!valid.empty() && cur->getFieldDensity() > 1) {
-                                    int index = rng(0, valid.size() - 1);
-                                    add_field(valid[index], fd_electricity, 1, cur->getFieldAge() + 1);
-                                    cur->setFieldDensity(cur->getFieldDensity() - 1);
-                                    valid.erase(valid.begin() + index);
-                                }
-                            }
-                        }
-                        break;
-
-                    case fd_fatigue:{
-                        std::array<std::string, 9> monids = { { "mon_flying_polyp", "mon_hunting_horror",
-                        "mon_mi_go", "mon_yugg", "mon_gelatin", "mon_flaming_eye", "mon_kreck", "mon_gracke",
-                        "mon_blank" } };
-                        if (cur->getFieldDensity() < 3 && int(calendar::turn) % 3600 == 0 && one_in(10)) {
-                            cur->setFieldDensity(cur->getFieldDensity() + 1);
-                        } else if (cur->getFieldDensity() == 3 && one_in(600)) { // Spawn nether creature!
-                            std::string type = monids[rng( 0, monids.size() - 1 )];
-                            monster creature(GetMType(type));
-                            creature.spawn(x + rng(-3, 3), y + rng(-3, 3));
-                            g->add_zombie(creature);
-                        }
-                    }
-                        break;
-
-                    case fd_push_items: {
-                        std::vector<item> *it = &(i_at(x, y));
-                        for (size_t i = 0; i < it->size(); i++) {
-                            if ((*it)[i].type->id != "rock" || (*it)[i].bday >= int(calendar::turn) - 1) {
-                                i++;
-                            } else {
-                                item tmp = (*it)[i];
-                                tmp.bday = int(calendar::turn);
-                                it->erase(it->begin() + i);
-                                i--;
-                                std::vector<point> valid;
-                                for (int xx = x - 1; xx <= x + 1; xx++) {
-                                    for (int yy = y - 1; yy <= y + 1; yy++) {
-                                        if( get_field( point( xx, yy ), fd_push_items ) != nullptr ) {
-                                            valid.push_back( point(xx, yy) );
-                                        }
-                                    }
-                                }
-                                if (!valid.empty()) {
-                                    point newp = valid[rng(0, valid.size() - 1)];
-                                    add_item_or_charges(newp.x, newp.y, tmp);
-                                    if (g->u.posx == newp.x && g->u.posy == newp.y) {
-                                        add_msg(m_bad, _("A %s hits you!"), tmp.tname().c_str());
-                                        body_part hit = random_body_part();
-                                        g->u.deal_damage( nullptr, hit, damage_instance( DT_BASH, 6 ) );
-                                    }
-                                    int npcdex = g->npc_at(newp.x, newp.y),
-                                        mondex = g->mon_at(newp.x, newp.y);
-
-                                    if (npcdex != -1) {
-                                        npc *p = g->active_npc[npcdex];
-                                        body_part hit = random_body_part();
-                                        p->deal_damage( nullptr, hit, damage_instance( DT_BASH, 6 ) );
-                                        if (g->u_see(newp.x, newp.y)) {
-                                            add_msg(_("A %s hits %s!"), tmp.tname().c_str(), p->name.c_str());
+                                        if(maximum_density < 2 && cur->getFieldAge() < -500) {
+                                            maximum_density = 2;
                                         }
                                     }
 
-                                    if (mondex != -1) {
-                                        monster *mon = &(g->zombie(mondex));
-                                        mon->apply_damage( nullptr, bp_torso, 6 - mon->get_armor_bash( bp_torso ) );
-                                        if (g->u_see(newp.x, newp.y))
-                                            add_msg(_("A %s hits the %s!"), tmp.tname().c_str(),
-                                                       mon->name().c_str());
+                                    // If we consumed a lot, the flames grow higher
+                                    while (cur->getFieldDensity() < maximum_density && cur->getFieldAge() < 0) {
+                                        //Fires under 0 age grow in size. Level 3 fires under 0 spread later on.
+                                        cur->setFieldAge(cur->getFieldAge() + 300);
+                                        cur->setFieldDensity(cur->getFieldDensity() + 1);
                                     }
                                 }
                             }
-                        }
-                    }
-                    break;
 
-                    case fd_shock_vent:
-                        if (cur->getFieldDensity() > 1) {
-                            if (one_in(5)) {
-                                cur->setFieldDensity(cur->getFieldDensity() - 1);
-                            }
-                        } else {
-                            cur->setFieldDensity(3);
-                            int num_bolts = rng(3, 6);
-                            for (int i = 0; i < num_bolts; i++) {
-                                int xdir = 0, ydir = 0;
-                                while (xdir == 0 && ydir == 0) {
-                                    xdir = rng(-1, 1);
-                                    ydir = rng(-1, 1);
-                                }
-                                int dist = rng(4, 12);
-                                int boltx = x, bolty = y;
-                                for (int n = 0; n < dist; n++) {
-                                    boltx += xdir;
-                                    bolty += ydir;
-                                    add_field(boltx, bolty, fd_electricity, rng(2, 3));
-                                    if (one_in(4)) {
-                                        if (xdir == 0) {
-                                            xdir = rng(0, 1) * 2 - 1;
-                                        } else {
-                                            xdir = 0;
+                            // Consume adjacent fuel / terrain / webs to spread.
+                            // Randomly offset our x/y shifts by 0-2, to randomly pick a square to spread to
+                            //Fires can only spread under 30 age. This is arbitrary but seems to work well.
+                            //The reason is to differentiate a fire that spawned vs one created really.
+                            //Fires spawned by fire in a new square START at 30 age, so if its a square with no fuel on it
+                            //the fire won't keep crawling endlessly across the map.
+                            int starti = rng(0, 2);
+                            int startj = rng(0, 2);
+                            for (int i = 0; i < 3; i++) {
+                                for (int j = 0; j < 3; j++) {
+                                    int fx = x + ((i + starti) % 3) - 1, fy = y + ((j + startj) % 3) - 1;
+                                    if (INBOUNDS(fx, fy)) {
+                                        field &nearby_field = get_field(fx, fy, z);
+                                        field_entry *nearwebfld = nearby_field.findField(fd_web);
+                                        int spread_chance = 25 * (cur->getFieldDensity() - 1);
+                                        if (nearwebfld) {
+                                            spread_chance = 50 + spread_chance / 2;
                                         }
-                                    }
-                                    if (one_in(4)) {
-                                        if (ydir == 0) {
-                                            ydir = rng(0, 1) * 2 - 1;
-                                        } else {
-                                            ydir = 0;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        break;
-
-                    case fd_acid_vent:
-                        if (cur->getFieldDensity() > 1) {
-                            if (cur->getFieldAge() >= 10) {
-                                cur->setFieldDensity(cur->getFieldDensity() - 1);
-                                cur->setFieldAge(0);
-                            }
-                        } else {
-                            cur->setFieldDensity(3);
-                            for (int i = x - 5; i <= x + 5; i++) {
-                                for (int j = y - 5; j <= y + 5; j++) {
-                                    const field_entry *acid = get_field( point( i, j ), fd_acid );
-                                    if( acid != nullptr && acid->getFieldDensity() == 0 ) {
-                                            int newdens = 3 - (rl_dist(x, y, i, j) / 2) + (one_in(3) ? 1 : 0);
-                                            if (newdens > 3) {
-                                                newdens = 3;
+                                        if ((i != 0 || j != 0) && rng(1, 100) < spread_chance &&
+                                              cur->getFieldAge() < 200 && tr_brazier != tr_at(x, y, z) &&
+                                              (has_flag("FIRE_CONTAINER", x, y, z) != true ) &&
+                                              (in_pit == (ter(fx, fy, z) == t_pit)) &&
+                                              ((cur->getFieldDensity() >= 2 && (has_flag("FLAMMABLE", fx, fy, z) && one_in(20))) ||
+                                              (cur->getFieldDensity() >= 2  && (has_flag("FLAMMABLE_ASH", fx, fy, z) && one_in(10))) ||
+                                              (cur->getFieldDensity() == 3  && (has_flag("FLAMMABLE_HARD", fx, fy, z) && one_in(10))) ||
+                                              flammable_items_at(fx, fy, z) || nearwebfld )) {
+                                            add_field(fx, fy, z, fd_fire, 1); //Nearby open flammable ground? Set it on fire.
+                                            tmpfld = nearby_field.findField(fd_fire);
+                                            if(tmpfld) {
+                                                tmpfld->setFieldAge(100);
+                                                cur->setFieldAge(cur->getFieldAge() + 50);
                                             }
-                                            if (newdens > 0) {
-                                                add_field(i, j, fd_acid, newdens);
+                                            if(nearwebfld) {
+                                                if (fx == x && fy == y){
+                                                    it = nearby_field.removeField(fd_web);
+                                                    skipIterIncr = true;
+                                                } else {
+                                                    nearby_field.removeField(fd_web);
+                                                }
                                             }
+                                        } else {
+                                            bool nosmoke = true;
+                                            for (int ii = -1; ii <= 1; ii++) {
+                                                for (int jj = -1; jj <= 1; jj++) {
+                                                    const tripoint pnt( x + ii, y + jj, z );
+                                                    const field_entry *fire = get_field( pnt, fd_fire );
+                                                    const field_entry *smoke = get_field( pnt, fd_smoke );
+                                                    if( fire != nullptr && ( fire->getFieldDensity() == 3 ||
+                                                        ( fire->getFieldDensity() == 2 && one_in(4) ) ) ) {
+                                                        smoke++; //The higher this gets, the more likely for smoke.
+                                                    } else if( smoke != nullptr ) {
+                                                        nosmoke = false; //slightly, slightly, less likely to make smoke if there is already smoke
+                                                    }
+                                                }
+                                            }
+                                            // If we're not spreading, maybe we'll stick out some smoke, huh?
+                                            if(!(is_outside(fx, fy, z))) {
+                                                //Lets make more smoke indoors since it doesn't dissipate
+                                                smoke += 10; //10 is just a magic number. To much smoke indoors? Lower it. To little, raise it.
+                                            }
+                                            if (move_cost(fx, fy, z) > 0 &&
+                                                (rng(0, 100) <= smoke || (nosmoke && one_in(40))) &&
+                                                rng(3, 35) < cur->getFieldDensity() * 5 && cur->getFieldAge() < 1000 &&
+                                                (has_flag("SUPPRESS_SMOKE", x, y, z) != true )) {
+                                                smoke--;
+                                                add_field(fx, fy, z, fd_smoke, rng(1, cur->getFieldDensity())); //Add smoke!
+                                            }
+                                        }
                                     }
                                 }
                             }
-                        }
-                        break;
-
-                    case fd_bees:
-                        // Poor bees are vulnerable to so many other fields.
-                        // TODO: maybe adjust effects based on different fields.
-                        if( curfield.findField( fd_web ) ||
-                            curfield.findField( fd_fire ) ||
-                            curfield.findField( fd_smoke ) ||
-                            curfield.findField( fd_toxic_gas ) ||
-                            curfield.findField( fd_tear_gas ) ||
-                            curfield.findField( fd_relax_gas ) ||
-                            curfield.findField( fd_nuke_gas ) ||
-                            curfield.findField( fd_gas_vent ) ||
-                            curfield.findField( fd_fire_vent ) ||
-                            curfield.findField( fd_flame_burst ) ||
-                            curfield.findField( fd_electricity ) ||
-                            curfield.findField( fd_fatigue ) ||
-                            curfield.findField( fd_shock_vent ) ||
-                            curfield.findField( fd_plasma ) ||
-                            curfield.findField( fd_laser ) ||
-                            curfield.findField( fd_dazzling) ||
-                            curfield.findField( fd_electricity ) ||
-                            curfield.findField( fd_incendiary ) ) {
-                            // Kill them at the end of processing.
-                            cur->setFieldDensity( 0 );
-                        } else {
-                            // Bees chase the player if in range, wander randomly otherwise.
-                            int junk;
-                            if( !g->u.is_underwater() &&
-                                rl_dist( x, y, g->u.xpos(), g->u.ypos() ) < 10 &&
-                                clear_path( x, y, g->u.xpos(), g->u.ypos(), 10, 0, 100, junk ) ) {
-
-                                std::vector<point> candidate_positions =
-                                    squares_in_direction( x, y, g->u.xpos(), g->u.ypos() );
-                                for( auto new_position = candidate_positions.begin();
-                                     new_position != candidate_positions.end(); ++new_position ) {
-                                    field &target_field = get_field( new_position->x,
-                                                                    new_position->y );
-                                    // Only shift if there are no bees already there.
-                                    // TODO: Figure out a way to merge bee fields without allowing
-                                    // Them to effectively move several times in a turn depending
-                                    // on iteration direction.
-                                    if( !target_field.findField( fd_bees ) ) {
-                                        add_field( *new_position, fd_bees,
-                                                   cur->getFieldDensity(), cur->getFieldAge() );
-                                        cur->setFieldDensity( 0 );
-                                        break;
-                                    }
-                                }
-                            } else {
-                                spread_gas( cur, x, y, curtype, 5, 0 );
-                            }
-                        }
-                        break;
-
-                    case fd_incendiary:
-                        { //Needed for variable scope
-                            int offset_x = x + rng(-1,1);
-                            int offset_y = y + rng(-1,1); //pick a random adjacent tile and attempt to set that on fire
-                            if (has_flag("FLAMMABLE", offset_x, offset_y) ||
-                                  has_flag("FLAMMABLE_ASH",offset_x, offset_y) ||
-                                  has_flag("FLAMMABLE_HARD", offset_x, offset_y) ) {
-                                add_field(offset_x, offset_y , fd_fire, 1);
-                            }
-
-                            //check piles for flammable items and set those on fire
-                            for (std::vector<item>::iterator it =
-                                     i_at(x, y).begin();
-                                 it != i_at(x, y).end(); ++it) {
-                                    if (it->made_of("paper") || it->made_of("wood") || it->made_of("veggy") ||
-                                    it->made_of("cotton") || it->made_of("wool") || it->type->id == "gasoline"){
-                                        add_field(x, y, fd_fire, 1);
-                                    }
-                            }
-
-                            spread_gas( cur, x, y, curtype, 66, 40 );
                             create_hot_air( x, y, cur->getFieldDensity());
                         }
                         break;
 
-                    //Legacy Stuff
-                    case fd_rubble:
-                        make_rubble(x, y);
-                        break;
+                        case fd_smoke:
+                            spread_gas( cur, x, y, curtype, 80, 50 );
+                            break;
 
-                    default:
-                        //Suppress warnings
-                        break;
+                        case fd_tear_gas:
+                            spread_gas( cur, x, y, curtype, 33, 30 );
+                            break;
 
-                } // switch (curtype)
+                        case fd_relax_gas:
+                            spread_gas( cur, x, y, curtype, 25, 50 );
+                            break;
 
-                cur->setFieldAge(cur->getFieldAge() + 1);
-                if (fieldlist[cur->getFieldType()].halflife > 0) {
-                    bool should_dissipate = false;
-                    if (cur->getFieldAge() > 0 &&
-                        dice(2, cur->getFieldAge()) > fieldlist[cur->getFieldType()].halflife) {
-                        cur->setFieldAge(0);
-                        if(cur->getFieldDensity() == 1 || !cur->isAlive()) {
-                            should_dissipate = true;
+                        case fd_fungal_haze:
+                            spread_gas( cur, x, y, curtype, 33,  5);
+                            int mondex;
+                            mondex = g->mon_at(x, y);
+                            if (move_cost(x, y, z) > 0) {
+                                if (mondex != -1) { // Haze'd!
+                                    if (!g->zombie(mondex).type->in_species("FUNGUS") &&
+                                      !g->zombie(mondex).type->has_flag("NO_BREATHE")) {
+                                        if (g->u_see(x, y)) {
+                                            add_msg(m_info, _("The %s inhales thousands of live spores!"),
+                                        g->zombie(mondex).name().c_str());
+                                        }
+                                        monster &critter = g->zombie( mondex );
+                                        if( !critter.make_fungus() ) {
+                                            critter.die(nullptr);
+                                        }
+                                    }
+                            } if (one_in(5 - cur->getFieldDensity())) {
+                                g->spread_fungus(x, y); //Haze'd terrain
+                            }
+                            }
+                            break;
+
+                        case fd_toxic_gas:
+                            spread_gas( cur, x, y, curtype, 50, 30 );
+                            break;
+
+                        case fd_cigsmoke:
+                            spread_gas( cur, x, y, curtype, 250, 65 );
+                            break;
+
+                        case fd_weedsmoke: {
+                            spread_gas( cur, x, y, curtype, 200, 60 );
+
+                            if(one_in(20)) {
+                                int npcdex = g->npc_at(x, y, z);
+                                if (npcdex != -1) {
+                                    npc *p = g->active_npc[npcdex];
+                                    if(p->is_friend()) {
+                                        p->say(one_in(10) ? _("Whew... smells like skunk!") : _("Man, that smells like some good shit!"));
+                                    }
+                                }
+                            }
+
                         }
-                        cur->setFieldDensity(cur->getFieldDensity() - 1);
+                            break;
+
+                        case fd_methsmoke: {
+                            spread_gas( cur, x, y, curtype, 175, 70 );
+
+                            if(one_in(20)) {
+                                int npcdex = g->npc_at(x, y, z);
+                                if (npcdex != -1) {
+                                    npc *p = g->active_npc[npcdex];
+                                    if(p->is_friend()) {
+                                        p->say(_("I don't know... should you really be smoking that stuff?"));
+                                    }
+                                }
+                            }
+                        }
+                            break;
+
+                        case fd_cracksmoke: {
+                            spread_gas( cur, x, y, curtype, 175, 80 );
+
+                            if(one_in(20)) {
+                                int npcdex = g->npc_at(x, y, z);
+                                if (npcdex != -1) {
+                                    npc *p = g->active_npc[npcdex];
+                                    if(p->is_friend()) {
+                                        p->say(one_in(2) ? _("Ew, smells like burning rubber!") : _("Ugh, that smells rancid!"));
+                                    }
+                                }
+                            }
+                        }
+                            break;
+
+                        case fd_nuke_gas: {
+                            int extra_radiation = rng(0, cur->getFieldDensity());
+                            adjust_radiation(x, y, z, extra_radiation);
+                            spread_gas( cur, x, y, curtype, 50, 10 );
+                            break;
+                        }
+
+                        case fd_hot_air1:
+                        case fd_hot_air2:
+                        case fd_hot_air3:
+                        case fd_hot_air4:
+                            spread_gas( cur, x, y, curtype, 100, 1000 );
+                            break;
+
+                        case fd_gas_vent:
+                            for (int i = x - 1; i <= x + 1; i++) {
+                                for (int j = y - 1; j <= y + 1; j++) {
+                                    field &wandering_field = get_field(i, j, z);
+                                    tmpfld = wandering_field.findField(fd_toxic_gas);
+                                    if (tmpfld && tmpfld->getFieldDensity() < 3) {
+                                        tmpfld->setFieldDensity(tmpfld->getFieldDensity() + 1);
+                                    } else {
+                                        add_field(i, j, z, fd_toxic_gas, 3);
+                                    }
+                                }
+                            }
+                            break;
+
+                        case fd_fire_vent:
+                            if (cur->getFieldDensity() > 1) {
+                                if (one_in(3)) {
+                                    cur->setFieldDensity(cur->getFieldDensity() - 1);
+                                }
+                            } else {
+                                it = curfield.replaceField(fd_fire_vent, fd_flame_burst);
+                                cur->setFieldDensity(3);
+                                continue;
+                            }
+                            create_hot_air( x, y, cur->getFieldDensity());
+                            break;
+
+                        case fd_flame_burst:
+                            if (cur->getFieldDensity() > 1) {
+                                cur->setFieldDensity(cur->getFieldDensity() - 1);
+                            } else {
+                                it = curfield.replaceField(fd_flame_burst, fd_fire_vent);
+                                cur->setFieldDensity(3);
+                                continue;
+                            }
+                            create_hot_air( x, y, cur->getFieldDensity());
+                            break;
+
+                        case fd_electricity:
+
+                            if (!one_in(5)) {   // 4 in 5 chance to spread
+                                std::vector<tripoint> valid;
+                                if (move_cost(x, y, z) == 0 && cur->getFieldDensity() > 1) { // We're grounded
+                                    int tries = 0;
+                                    while (tries < 10 && cur->getFieldAge() < 50 && cur->getFieldDensity() > 1) {
+                                        int cx = x + rng(-1, 1), cy = y + rng(-1, 1);
+                                        if (move_cost(cx, cy, z) != 0) {
+                                            add_field(tripoint(cx, cy, z), fd_electricity, 1, cur->getFieldAge() + 1);
+                                            cur->setFieldDensity(cur->getFieldDensity() - 1);
+                                            tries = 0;
+                                        } else {
+                                            tries++;
+                                        }
+                                    }
+                                } else {    // We're not grounded; attempt to ground
+                                    for (int a = -1; a <= 1; a++) {
+                                        for (int b = -1; b <= 1; b++) {
+                                            if (move_cost(x + a, y + b, z) == 0) // Grounded tiles first
+
+                                            {
+                                                valid.push_back(tripoint(x + a, y + b, z));
+                                            }
+                                        }
+                                    }
+                                    if (valid.empty()) {    // Spread to adjacent space, then
+                                        int px = x + rng(-1, 1), py = y + rng(-1, 1);
+                                        field_entry *elec = get_field( px, py, z ).findField( fd_electricity );
+                                        if (move_cost(px, py, z) > 0 && elec != nullptr &&
+                                            elec->getFieldDensity() < 3) {
+                                            elec->setFieldDensity( elec->getFieldDensity() + 1 );
+                                            cur->setFieldDensity(cur->getFieldDensity() - 1);
+                                        } else if (move_cost(px, py, z) > 0) {
+                                            add_field(tripoint(px, py, z), fd_electricity, 1, cur->getFieldAge() + 1);
+                                        }
+                                        cur->setFieldDensity(cur->getFieldDensity() - 1);
+                                    }
+                                    while (!valid.empty() && cur->getFieldDensity() > 1) {
+                                        int index = rng(0, valid.size() - 1);
+                                        add_field(valid[index], fd_electricity, 1, cur->getFieldAge() + 1);
+                                        cur->setFieldDensity(cur->getFieldDensity() - 1);
+                                        valid.erase(valid.begin() + index);
+                                    }
+                                }
+                            }
+                            break;
+
+                        case fd_fatigue:{
+                            std::array<std::string, 9> monids = { { "mon_flying_polyp", "mon_hunting_horror",
+                            "mon_mi_go", "mon_yugg", "mon_gelatin", "mon_flaming_eye", "mon_kreck", "mon_gracke",
+                            "mon_blank" } };
+                            if (cur->getFieldDensity() < 3 && int(calendar::turn) % 3600 == 0 && one_in(10)) {
+                                cur->setFieldDensity(cur->getFieldDensity() + 1);
+                            } else if (cur->getFieldDensity() == 3 && one_in(600)) { // Spawn nether creature!
+                                std::string type = monids[rng( 0, monids.size() - 1 )];
+                                monster creature(GetMType(type));
+                                creature.spawn(x + rng(-3, 3), y + rng(-3, 3), z);
+                                g->add_zombie(creature);
+                            }
+                        }
+                            break;
+
+                        case fd_push_items: {
+                            std::vector<item> *it = &(i_at(x, y, z));
+                            for (size_t i = 0; i < it->size(); i++) {
+                                if ((*it)[i].type->id != "rock" || (*it)[i].bday >= int(calendar::turn) - 1) {
+                                    i++;
+                                } else {
+                                    item tmp = (*it)[i];
+                                    tmp.bday = int(calendar::turn);
+                                    it->erase(it->begin() + i);
+                                    i--;
+                                    std::vector<tripoint> valid;
+                                    for (int xx = x - 1; xx <= x + 1; xx++) {
+                                        for (int yy = y - 1; yy <= y + 1; yy++) {
+                                            if( get_field( tripoint( xx, yy, z ), fd_push_items ) != nullptr ) {
+                                                valid.push_back( tripoint(xx, yy, z) );
+                                            }
+                                        }
+                                    }
+                                    if (!valid.empty()) {
+                                        tripoint newp = valid[rng(0, valid.size() - 1)];
+                                        add_item_or_charges(newp.x, newp.y, newp.z, tmp);
+                                        if (g->u.posx == newp.x && g->u.posy == newp.y && g->u.posz) {
+                                            add_msg(m_bad, _("A %s hits you!"), tmp.tname().c_str());
+                                            body_part hit = random_body_part();
+                                            g->u.deal_damage( nullptr, hit, damage_instance( DT_BASH, 6 ) );
+                                        }
+                                        int npcdex = g->npc_at(newp.x, newp.y, newp.z),
+                                            mondex = g->mon_at(newp.x, newp.y, newp.z);
+
+                                        if (npcdex != -1) {
+                                            npc *p = g->active_npc[npcdex];
+                                            body_part hit = random_body_part();
+                                            p->deal_damage( nullptr, hit, damage_instance( DT_BASH, 6 ) );
+                                            if (g->u_see(newp.x, newp.y)) {
+                                                add_msg(_("A %s hits %s!"), tmp.tname().c_str(), p->name.c_str());
+                                            }
+                                        }
+
+                                        if (mondex != -1) {
+                                            monster *mon = &(g->zombie(mondex));
+                                            mon->apply_damage( nullptr, bp_torso, 6 - mon->get_armor_bash( bp_torso ) );
+                                            if (g->u_see(newp.x, newp.y))
+                                                add_msg(_("A %s hits the %s!"), tmp.tname().c_str(),
+                                                           mon->name().c_str());
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        break;
+
+                        case fd_shock_vent:
+                            if (cur->getFieldDensity() > 1) {
+                                if (one_in(5)) {
+                                    cur->setFieldDensity(cur->getFieldDensity() - 1);
+                                }
+                            } else {
+                                cur->setFieldDensity(3);
+                                int num_bolts = rng(3, 6);
+                                for (int i = 0; i < num_bolts; i++) {
+                                    int xdir = 0, ydir = 0;
+                                    while (xdir == 0 && ydir == 0) {
+                                        xdir = rng(-1, 1);
+                                        ydir = rng(-1, 1);
+                                    }
+                                    int dist = rng(4, 12);
+                                    int boltx = x, bolty = y;
+                                    for (int n = 0; n < dist; n++) {
+                                        boltx += xdir;
+                                        bolty += ydir;
+                                        add_field(boltx, bolty, z, fd_electricity, rng(2, 3));
+                                        if (one_in(4)) {
+                                            if (xdir == 0) {
+                                                xdir = rng(0, 1) * 2 - 1;
+                                            } else {
+                                                xdir = 0;
+                                            }
+                                        }
+                                        if (one_in(4)) {
+                                            if (ydir == 0) {
+                                                ydir = rng(0, 1) * 2 - 1;
+                                            } else {
+                                                ydir = 0;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            break;
+
+                        case fd_acid_vent:
+                            if (cur->getFieldDensity() > 1) {
+                                if (cur->getFieldAge() >= 10) {
+                                    cur->setFieldDensity(cur->getFieldDensity() - 1);
+                                    cur->setFieldAge(0);
+                                }
+                            } else {
+                                cur->setFieldDensity(3);
+                                for (int i = x - 5; i <= x + 5; i++) {
+                                    for (int j = y - 5; j <= y + 5; j++) {
+                                        const field_entry *acid = get_field( tripoint( i, j, z ), fd_acid );
+                                        if( acid != nullptr && acid->getFieldDensity() == 0 ) {
+                                                int newdens = 3 - (rl_dist(x, y, i, j) / 2) + (one_in(3) ? 1 : 0);
+                                                if (newdens > 3) {
+                                                    newdens = 3;
+                                                }
+                                                if (newdens > 0) {
+                                                    add_field(i, j, z, fd_acid, newdens);
+                                                }
+                                        }
+                                    }
+                                }
+                            }
+                            break;
+
+                        case fd_bees:
+                            // Poor bees are vulnerable to so many other fields.
+                            // TODO: maybe adjust effects based on different fields.
+                            if( curfield.findField( fd_web ) ||
+                                curfield.findField( fd_fire ) ||
+                                curfield.findField( fd_smoke ) ||
+                                curfield.findField( fd_toxic_gas ) ||
+                                curfield.findField( fd_tear_gas ) ||
+                                curfield.findField( fd_relax_gas ) ||
+                                curfield.findField( fd_nuke_gas ) ||
+                                curfield.findField( fd_gas_vent ) ||
+                                curfield.findField( fd_fire_vent ) ||
+                                curfield.findField( fd_flame_burst ) ||
+                                curfield.findField( fd_electricity ) ||
+                                curfield.findField( fd_fatigue ) ||
+                                curfield.findField( fd_shock_vent ) ||
+                                curfield.findField( fd_plasma ) ||
+                                curfield.findField( fd_laser ) ||
+                                curfield.findField( fd_dazzling) ||
+                                curfield.findField( fd_electricity ) ||
+                                curfield.findField( fd_incendiary ) ) {
+                                // Kill them at the end of processing.
+                                cur->setFieldDensity( 0 );
+                            } else {
+                                // Bees chase the player if in range, wander randomly otherwise.
+                                int junk;
+                                if( !g->u.is_underwater() &&
+                                    rl_dist( x, y, g->u.xpos(), g->u.ypos() ) < 10 &&
+                                    clear_path( x, y, z, g->u.xpos(), g->u.ypos(), g->u.zpos(), 10, 0, 100, junk ) ) {
+
+                                    std::vector<point> candidate_positions =
+                                        squares_in_direction( x, y, g->u.xpos(), g->u.ypos() );
+                                    for( auto new_position = candidate_positions.begin();
+                                         new_position != candidate_positions.end(); ++new_position ) {
+                                        field &target_field = get_field( new_position->x,
+                                                                        new_position->y,
+                                                                        z );
+                                        // Only shift if there are no bees already there.
+                                        // TODO: Figure out a way to merge bee fields without allowing
+                                        // Them to effectively move several times in a turn depending
+                                        // on iteration direction.
+                                        if( !target_field.findField( fd_bees ) ) {
+                                            add_field( *new_position, fd_bees,
+                                                       cur->getFieldDensity(), cur->getFieldAge() );
+                                            cur->setFieldDensity( 0 );
+                                            break;
+                                        }
+                                    }
+                                } else {
+                                    spread_gas( cur, x, y, curtype, 5, 0 );
+                                }
+                            }
+                            break;
+
+                        case fd_incendiary:
+                            { //Needed for variable scope
+                                int offset_x = x + rng(-1,1);
+                                int offset_y = y + rng(-1,1); //pick a random adjacent tile and attempt to set that on fire
+                                if (has_flag("FLAMMABLE", offset_x, offset_y, z) ||
+                                      has_flag("FLAMMABLE_ASH",offset_x, offset_y, z) ||
+                                      has_flag("FLAMMABLE_HARD", offset_x, offset_y, z) ) {
+                                    add_field(offset_x, offset_y , z, fd_fire, 1);
+                                }
+
+                                //check piles for flammable items and set those on fire
+                                for (std::vector<item>::iterator it =
+                                         i_at(x, y, z).begin();
+                                     it != i_at(x, y, z).end(); ++it) {
+                                        if (it->made_of("paper") || it->made_of("wood") || it->made_of("veggy") ||
+                                        it->made_of("cotton") || it->made_of("wool") || it->type->id == "gasoline"){
+                                            add_field(x, y, z, fd_fire, 1);
+                                        }
+                                }
+
+                                spread_gas( cur, x, y, curtype, 66, 40 );
+                                create_hot_air( x, y, cur->getFieldDensity());
+                            }
+                            break;
+
+                        //Legacy Stuff
+                        case fd_rubble:
+                            make_rubble(x, y, z);
+                            break;
+
+                        default:
+                            //Suppress warnings
+                            break;
+
+                    } // switch (curtype)
+
+                    cur->setFieldAge(cur->getFieldAge() + 1);
+                    if (fieldlist[cur->getFieldType()].halflife > 0) {
+                        bool should_dissipate = false;
+                        if (cur->getFieldAge() > 0 &&
+                            dice(2, cur->getFieldAge()) > fieldlist[cur->getFieldType()].halflife) {
+                            cur->setFieldAge(0);
+                            if(cur->getFieldDensity() == 1 || !cur->isAlive()) {
+                                should_dissipate = true;
+                            }
+                            cur->setFieldDensity(cur->getFieldDensity() - 1);
+                        }
+                        if (should_dissipate == true || !cur->isAlive()) { // Totally dissapated.
+                            current_submap->field_count--;
+                            it = current_submap->fld[locx][locy][locz].removeField(cur->getFieldType());
+                            continue;
+                        }
                     }
-                    if (should_dissipate == true || !cur->isAlive()) { // Totally dissapated.
-                        current_submap->field_count--;
-                        it = current_submap->fld[locx][locy].removeField(cur->getFieldType());
-                        continue;
-                    }
+                    if (!skipIterIncr)
+                        ++it;
+                    skipIterIncr = false;
+
                 }
-                if (!skipIterIncr)
-                    ++it;
-                skipIterIncr = false;
             }
         }
     }
@@ -1385,10 +1393,10 @@ Triggers any active abilities a field effect would have. Fire burns you, acid me
 If you add a field effect that interacts with the player place a case statement in the switch here.
 If you wish for a field effect to do something over time (propagate, interact with terrain, etc) place it in process_subfields
 */
-void map::step_in_field(int x, int y)
+void map::step_in_field(int x, int y, int z)
 {
     // A copy of the current field for reference. Do not add fields to it, use map::add_field
-    field &curfield = get_field(x, y);
+    field &curfield = get_field(x, y, z);
     int veh_part; // vehicle part existing on this tile.
     vehicle *veh = NULL; // Vehicle reference if there is one.
     bool inside = false; // Are we inside?
@@ -1762,12 +1770,12 @@ void map::step_in_field(int x, int y)
 
 }
 
-void map::mon_in_field(int x, int y, monster *z)
+void map::mon_in_field(int x, int y, int z, monster *c)
 {
-    if (z->digging()) {
+    if (c->digging()) {
         return; // Digging monsters are immune to fields
     }
-    field &curfield = get_field(x, y);
+    field &curfield = get_field(x, y, z);
 
     int dam = 0;
     for( auto field_list_it = curfield.begin(); field_list_it != curfield.end(); ) {
@@ -1780,27 +1788,27 @@ void map::mon_in_field(int x, int y, monster *z)
             break;
 
         case fd_web:
-            if (!z->has_flag(MF_WEBWALK)) {
-                z->moves *= .8;
+            if (!c->has_flag(MF_WEBWALK)) {
+                c->moves *= .8;
                 field_list_it = curfield.removeField( fd_web );
                 continue;
             }
             break;
 
         case fd_acid:
-            if( !z->has_flag( MF_FLIES ) ) {
+            if( !c->has_flag( MF_FLIES ) ) {
                 if (cur->getFieldDensity() == 3) {
                     const int d = rng( 4, 10 ) + rng( 2, 8 );
-                    z->deal_damage( nullptr, bp_torso, damage_instance( DT_ACID, d ) );
+                    c->deal_damage( nullptr, bp_torso, damage_instance( DT_ACID, d ) );
                 } else {
                     const int d = rng( cur->getFieldDensity(), cur->getFieldDensity() * 4 );
-                    z->deal_damage( nullptr, bp_torso, damage_instance( DT_ACID, d ) );
+                    c->deal_damage( nullptr, bp_torso, damage_instance( DT_ACID, d ) );
                 }
             }
             break;
 
         case fd_sap:
-            z->moves -= cur->getFieldDensity() * 5;
+            c->moves -= cur->getFieldDensity() * 5;
             if (cur->getFieldDensity() == 1) {
                 field_list_it = curfield.removeField( fd_sap );
                 continue;
@@ -1810,29 +1818,29 @@ void map::mon_in_field(int x, int y, monster *z)
             break;
 
         case fd_sludge:
-            if (!z->has_flag(MF_DIGS) && !z->has_flag(MF_FLIES) &&
-                !z->has_flag(MF_SLUDGEPROOF)) {
-              z->moves -= cur->getFieldDensity() * 300;
+            if (!c->has_flag(MF_DIGS) && !c->has_flag(MF_FLIES) &&
+                !c->has_flag(MF_SLUDGEPROOF)) {
+              c->moves -= cur->getFieldDensity() * 300;
               field_list_it = curfield.removeField( fd_sludge );
             }
             break;
 
             // MATERIALS-TODO: Use fire resistance
         case fd_fire:
-            if ( z->made_of("flesh") || z->made_of("hflesh") || z->made_of("iflesh") ) {
+            if ( c->made_of("flesh") || c->made_of("hflesh") || c->made_of("iflesh") ) {
                 dam += 3;
             }
-            if (z->made_of("veggy")) {
+            if (c->made_of("veggy")) {
                 dam += 12;
             }
-            if (z->made_of("paper") || z->made_of(LIQUID) || z->made_of("powder") ||
-                z->made_of("wood")  || z->made_of("cotton") || z->made_of("wool")) {
+            if (c->made_of("paper") || c->made_of(LIQUID) || c->made_of("powder") ||
+                c->made_of("wood")  || c->made_of("cotton") || c->made_of("wool")) {
                 dam += 20;
             }
-            if (z->made_of("stone") || z->made_of("kevlar") || z->made_of("steel")) {
+            if (c->made_of("stone") || c->made_of("kevlar") || c->made_of("steel")) {
                 dam += -20;
             }
-            if (z->has_flag(MF_FLIES)) {
+            if (c->has_flag(MF_FLIES)) {
                 dam -= 15;
             }
 
@@ -1840,20 +1848,20 @@ void map::mon_in_field(int x, int y, monster *z)
                 dam += rng(2, 6);
             } else if (cur->getFieldDensity() == 2) {
                 dam += rng(6, 12);
-                if (!z->has_flag(MF_FLIES)) {
-                    z->moves -= 20;
-                    if (!z->made_of(LIQUID) && !z->made_of("stone") && !z->made_of("kevlar") &&
-                        !z->made_of("steel") && !z->has_flag(MF_FIREY)) {
-                        z->add_effect("onfire", rng(3, 8));
+                if (!c->has_flag(MF_FLIES)) {
+                    c->moves -= 20;
+                    if (!c->made_of(LIQUID) && !c->made_of("stone") && !c->made_of("kevlar") &&
+                        !c->made_of("steel") && !c->has_flag(MF_FIREY)) {
+                        c->add_effect("onfire", rng(3, 8));
                     }
                 }
             } else if (cur->getFieldDensity() == 3) {
                 dam += rng(10, 20);
-                if (!z->has_flag(MF_FLIES) || one_in(3)) {
-                    z->moves -= 40;
-                    if (!z->made_of(LIQUID) && !z->made_of("stone") && !z->made_of("kevlar") &&
-                        !z->made_of("steel") && !z->has_flag(MF_FIREY)) {
-                        z->add_effect("onfire", rng(8, 12));
+                if (!c->has_flag(MF_FLIES) || one_in(3)) {
+                    c->moves -= 40;
+                    if (!c->made_of(LIQUID) && !c->made_of("stone") && !c->made_of("kevlar") &&
+                        !c->made_of("steel") && !c->has_flag(MF_FIREY)) {
+                        c->add_effect("onfire", rng(8, 12));
                     }
                 }
             }
@@ -1862,73 +1870,73 @@ void map::mon_in_field(int x, int y, monster *z)
             break;
 
         case fd_smoke:
-            if (!z->has_flag(MF_NO_BREATHE)) {
+            if (!c->has_flag(MF_NO_BREATHE)) {
                 if (cur->getFieldDensity() == 3) {
-                    z->moves -= rng(10, 20);
+                    c->moves -= rng(10, 20);
                 }
-                if (z->made_of("veggy")) { // Plants suffer from smoke even worse
-                    z->moves -= rng(1, cur->getFieldDensity() * 12);
+                if (c->made_of("veggy")) { // Plants suffer from smoke even worse
+                    c->moves -= rng(1, cur->getFieldDensity() * 12);
                 }
             }
             break;
 
         case fd_tear_gas:
-            if ((z->made_of("flesh") || z->made_of("hflesh") || z->made_of("veggy") || z->made_of("iflesh")) &&
-                !z->has_flag(MF_NO_BREATHE)) {
+            if ((c->made_of("flesh") || c->made_of("hflesh") || c->made_of("veggy") || c->made_of("iflesh")) &&
+                !c->has_flag(MF_NO_BREATHE)) {
                 if (cur->getFieldDensity() == 3) {
-                    z->add_effect("stunned", rng(10, 20));
+                    c->add_effect("stunned", rng(10, 20));
                     dam += rng(4, 10);
                 } else if (cur->getFieldDensity() == 2) {
-                    z->add_effect("stunned", rng(5, 10));
+                    c->add_effect("stunned", rng(5, 10));
                     dam += rng(2, 5);
                 } else {
-                    z->add_effect("stunned", rng(1, 5));
+                    c->add_effect("stunned", rng(1, 5));
                 }
-                if (z->made_of("veggy")) {
-                    z->moves -= rng(cur->getFieldDensity() * 5, cur->getFieldDensity() * 12);
+                if (c->made_of("veggy")) {
+                    c->moves -= rng(cur->getFieldDensity() * 5, cur->getFieldDensity() * 12);
                     dam += cur->getFieldDensity() * rng(8, 14);
                 }
-                if (z->has_flag(MF_SEES)) {
-                     z->add_effect("blind", cur->getFieldDensity() * 8);
+                if (c->has_flag(MF_SEES)) {
+                     c->add_effect("blind", cur->getFieldDensity() * 8);
                 }
             }
             break;
 
         case fd_relax_gas:
-            if ((z->made_of("flesh") || z->made_of("hflesh") || z->made_of("veggy") || z->made_of("iflesh")) &&
-                !z->has_flag(MF_NO_BREATHE)) {
-                z->add_effect("stunned", rng(cur->getFieldDensity() * 4, cur->getFieldDensity() * 8));
+            if ((c->made_of("flesh") || c->made_of("hflesh") || c->made_of("veggy") || c->made_of("iflesh")) &&
+                !c->has_flag(MF_NO_BREATHE)) {
+                c->add_effect("stunned", rng(cur->getFieldDensity() * 4, cur->getFieldDensity() * 8));
             }
             break;
 
         case fd_dazzling:
-            if (z->has_flag(MF_SEES)) {
-                z->add_effect("blind", cur->getFieldDensity() * 12);
-                z->add_effect("stunned", cur->getFieldDensity() * rng(5, 12));
+            if (c->has_flag(MF_SEES)) {
+                c->add_effect("blind", cur->getFieldDensity() * 12);
+                c->add_effect("stunned", cur->getFieldDensity() * rng(5, 12));
             }
             break;
 
         case fd_toxic_gas:
-            if(!z->has_flag(MF_NO_BREATHE)) {
+            if(!c->has_flag(MF_NO_BREATHE)) {
                 dam += cur->getFieldDensity();
-                z->moves -= cur->getFieldDensity();
+                c->moves -= cur->getFieldDensity();
             }
             break;
 
         case fd_nuke_gas:
-            if(!z->has_flag(MF_NO_BREATHE)) {
+            if(!c->has_flag(MF_NO_BREATHE)) {
                 if (cur->getFieldDensity() == 3) {
-                    z->moves -= rng(60, 120);
+                    c->moves -= rng(60, 120);
                     dam += rng(30, 50);
                 } else if (cur->getFieldDensity() == 2) {
-                    z->moves -= rng(20, 50);
+                    c->moves -= rng(20, 50);
                     dam += rng(10, 25);
                 } else {
-                    z->moves -= rng(0, 15);
+                    c->moves -= rng(0, 15);
                     dam += rng(0, 12);
                 }
-                if (z->made_of("veggy")) {
-                    z->moves -= rng(cur->getFieldDensity() * 5, cur->getFieldDensity() * 12);
+                if (c->made_of("veggy")) {
+                    c->moves -= rng(cur->getFieldDensity() * 5, cur->getFieldDensity() * 12);
                     dam *= cur->getFieldDensity();
                 }
             }
@@ -1936,27 +1944,27 @@ void map::mon_in_field(int x, int y, monster *z)
 
             // MATERIALS-TODO: Use fire resistance
         case fd_flame_burst:
-            if (z->made_of("flesh") || z->made_of("hflesh") || z->made_of("iflesh")) {
+            if (c->made_of("flesh") || c->made_of("hflesh") || c->made_of("iflesh")) {
                 dam += 3;
             }
-            if (z->made_of("veggy")) {
+            if (c->made_of("veggy")) {
                 dam += 12;
             }
-            if (z->made_of("paper") || z->made_of(LIQUID) || z->made_of("powder") ||
-                z->made_of("wood")  || z->made_of("cotton") || z->made_of("wool")) {
+            if (c->made_of("paper") || c->made_of(LIQUID) || c->made_of("powder") ||
+                c->made_of("wood")  || c->made_of("cotton") || c->made_of("wool")) {
                 dam += 50;
             }
-            if (z->made_of("stone") || z->made_of("kevlar") || z->made_of("steel")) {
+            if (c->made_of("stone") || c->made_of("kevlar") || c->made_of("steel")) {
                 dam += -25;
             }
             dam += rng(0, 8);
-            z->moves -= 20;
+            c->moves -= 20;
             break;
 
         case fd_electricity:
             dam += rng(1, cur->getFieldDensity());
             if (one_in(8 - cur->getFieldDensity())) {
-                z->moves -= cur->getFieldDensity() * 150;
+                c->moves -= cur->getFieldDensity() * 150;
             }
             break;
 
@@ -1966,23 +1974,23 @@ void map::mon_in_field(int x, int y, monster *z)
                 int tries = 0;
                 int newposx, newposy;
                 do {
-                    newposx = rng(z->posx() - SEEX, z->posx() + SEEX);
-                    newposy = rng(z->posy() - SEEY, z->posy() + SEEY);
+                    newposx = rng(c->posx() - SEEX, c->posx() + SEEX);
+                    newposy = rng(c->posy() - SEEY, c->posy() + SEEY);
                     tries++;
-                } while (move_cost(newposx, newposy) == 0 && tries != 10);
+                } while (move_cost(newposx, newposy, z) == 0 && tries != 10);
 
                 if (tries == 10) {
-                    z->die_in_explosion( nullptr );
+                    c->die_in_explosion( nullptr );
                 } else {
                     int mon_hit = g->mon_at(newposx, newposy);
                     if (mon_hit != -1) {
-                        if (g->u_see(z)) {
+                        if (g->u_see(c)) {
                             add_msg(_("The %s teleports into a %s, killing them both!"),
-                                       z->name().c_str(), g->zombie(mon_hit).name().c_str());
+                                       c->name().c_str(), g->zombie(mon_hit).name().c_str());
                         }
-                        g->zombie( mon_hit ).die_in_explosion( z );
+                        g->zombie( mon_hit ).die_in_explosion( c );
                     } else {
-                        z->setpos(newposx, newposy);
+                        c->setpos(newposx, newposy);
                     }
                 }
             }
@@ -1990,17 +1998,17 @@ void map::mon_in_field(int x, int y, monster *z)
 
         case fd_incendiary:
             // MATERIALS-TODO: Use fire resistance
-            if ( z->made_of("flesh") || z->made_of("hflesh") || z->made_of("iflesh") ) {
+            if ( c->made_of("flesh") || c->made_of("hflesh") || c->made_of("iflesh") ) {
                 dam += 3;
             }
-            if (z->made_of("veggy")) {
+            if (c->made_of("veggy")) {
                 dam += 12;
             }
-            if (z->made_of("paper") || z->made_of(LIQUID) || z->made_of("powder") ||
-                z->made_of("wood")  || z->made_of("cotton") || z->made_of("wool")) {
+            if (c->made_of("paper") || c->made_of(LIQUID) || c->made_of("powder") ||
+                c->made_of("wood")  || c->made_of("cotton") || c->made_of("wool")) {
                 dam += 20;
             }
-            if (z->made_of("stone") || z->made_of("kevlar") || z->made_of("steel")) {
+            if (c->made_of("stone") || c->made_of("kevlar") || c->made_of("steel")) {
                 dam += -5;
             }
 
@@ -2008,17 +2016,17 @@ void map::mon_in_field(int x, int y, monster *z)
                 dam += rng(2, 6);
             } else if (cur->getFieldDensity() == 2) {
                 dam += rng(6, 12);
-                z->moves -= 20;
-                if (!z->made_of(LIQUID) && !z->made_of("stone") && !z->made_of("kevlar") &&
-                !z->made_of("steel") && !z->has_flag(MF_FIREY)) {
-                    z->add_effect("onfire", rng(8, 12));
+                c->moves -= 20;
+                if (!c->made_of(LIQUID) && !c->made_of("stone") && !c->made_of("kevlar") &&
+                !c->made_of("steel") && !c->has_flag(MF_FIREY)) {
+                    c->add_effect("onfire", rng(8, 12));
                 }
             } else if (cur->getFieldDensity() == 3) {
                 dam += rng(10, 20);
-                z->moves -= 40;
-                if (!z->made_of(LIQUID) && !z->made_of("stone") && !z->made_of("kevlar") &&
-                !z->made_of("steel") && !z->has_flag(MF_FIREY)) {
-                        z->add_effect("onfire", rng(12, 16));
+                c->moves -= 40;
+                if (!c->made_of(LIQUID) && !c->made_of("stone") && !c->made_of("kevlar") &&
+                !c->made_of("steel") && !c->has_flag(MF_FIREY)) {
+                        c->add_effect("onfire", rng(12, 16));
                 }
             }
             break;
@@ -2036,7 +2044,7 @@ void map::mon_in_field(int x, int y, monster *z)
         }
     }
     if (dam > 0) {
-        z->apply_damage( nullptr, bp_torso, dam );
+        c->apply_damage( nullptr, bp_torso, dam );
     }
 }
 

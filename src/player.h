@@ -966,7 +966,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool studied_all_recipes(it_book *book);
 
         // Auto move methods
-        void set_destination(const std::vector<point> &route);
+        void set_destination(const std::vector<tripoint> &route);
         void clear_destination();
         bool has_destination() const;
         std::vector<point> &get_auto_move_route();

@@ -407,7 +407,7 @@ void player::activate_bionic(int b)
             add_msg(m_neutral, _("Artificial night generator active!"));
         }
     } else if (bio.id == "bio_resonator") {
-        g->sound(posx, posy, 30, _("VRRRRMP!"));
+        g->sound(posx, posy, posz, 30, _("VRRRRMP!"));
         for (int i = posx - 1; i <= posx + 1; i++) {
             for (int j = posy - 1; j <= posy + 1; j++) {
                 for (int k = posz - 1; k <= posz + 1; k++){
@@ -677,14 +677,14 @@ void player::activate_bionic(int b)
         weapon = tmp_item;
     } else if (bio.id == "bio_emp") {
         if(choose_adjacent(_("Create an EMP where?"), dirx, diry)) {
-            g->emp_blast(dirx, diry);
+            g->emp_blast(dirx, diry, g->u.zpos());
         } else {
             power_level += bionics["bio_emp"]->power_cost;
         }
     } else if (bio.id == "bio_hydraulics") {
         add_msg(m_good, _("Your muscles hiss as hydraulic strength fills them!"));
         // Sound of hissing hydraulic muscle! (not quite as loud as a car horn)
-        g->sound(posx, posy, 19, _("HISISSS!"));
+        g->sound(posx, posy, posz, 19, _("HISISSS!"));
     } else if (bio.id == "bio_water_extractor") {
         bool extracted = false;
         for (std::vector<item>::iterator it = g->m.i_at(posx, posy, posz).begin();
@@ -808,11 +808,11 @@ void player::activate_bionic(int b)
         add_msg_if_player(m_neutral, _("You activate your integrated flashbang generator!"));
         g->flashbang(posx, posy, true);
     } else if(bio.id == "bio_shockwave") {
-        g->shockwave(posx, posy, 3, 4, 2, 8, true);
+        g->shockwave(posx, posy, posz, 3, 4, 2, 8, true);
         add_msg_if_player(m_neutral, _("You unleash a powerful shockwave!"));
     } else if(bio.id == "bio_meteorologist") {
         add_msg_if_player(m_neutral, _("Temperature: %s."), print_temperature(g->get_temperature()).c_str());
-        add_msg_if_player(m_neutral, _("Relative Humidity: %s."), print_humidity(get_local_humidity(weatherPoint.humidity, g->weather, g->is_sheltered(g->u.posx, g->u.posy))).c_str());
+        add_msg_if_player(m_neutral, _("Relative Humidity: %s."), print_humidity(get_local_humidity(weatherPoint.humidity, g->weather, g->is_sheltered(g->u.posx, g->u.posy, g->u.posz))).c_str());
         add_msg_if_player(m_neutral, _("Pressure: %s."), print_pressure((int)weatherPoint.pressure/10).c_str());
         // Calculate local wind power
         int vpart = -1;
@@ -823,7 +823,7 @@ void player::activate_bionic(int b)
         }
         const oter_id &cur_om_ter = overmap_buffer.ter(g->om_global_location());
         std::string omtername = otermap[cur_om_ter].name;
-        int windpower = vehwindspeed + get_local_windpower(weatherPoint.windpower, omtername, g->is_sheltered(g->u.posx, g->u.posy));
+        int windpower = vehwindspeed + get_local_windpower(weatherPoint.windpower, omtername, g->is_sheltered(g->u.posx, g->u.posy, g->u.posz));
 
         add_msg_if_player(m_neutral, _("Wind Speed: %s."), print_windspeed((float)windpower).c_str());
         add_msg_if_player(m_neutral, _("Feels Like: %s."), print_temperature(get_local_windchill(weatherPoint.temperature, weatherPoint.humidity, windpower) + g->get_temperature()).c_str());

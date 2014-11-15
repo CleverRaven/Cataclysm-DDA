@@ -327,7 +327,7 @@ std::vector<item> game::get_eligible_containers_for_crafting()
             }
         }
     }
-    for (item &i : m.i_at(u.posx, u.posy)) {
+    for (item &i : m.i_at(u.posx, u.posy, u.posz)) {
         if (is_container_eligible_for_crafting(i)) {
             conts.push_back(i);
         }
@@ -1443,11 +1443,11 @@ void set_item_inventory(item &newit)
         if (!g->u.can_pickVolume(newit.volume())) { //Accounts for result_mult
             add_msg(_("There's no room in your inventory for the %s, so you drop it."),
                     newit.tname().c_str());
-            g->m.add_item_or_charges(g->u.posx, g->u.posy, newit);
+            g->m.add_item_or_charges(g->u.posx, g->u.posy, g->u.posz, newit);
         } else if (!g->u.can_pickWeight(newit.weight(), !OPTIONS["DANGEROUS_PICKUPS"])) {
             add_msg(_("The %s is too heavy to carry, so you drop it."),
                     newit.tname().c_str());
-            g->m.add_item_or_charges(g->u.posx, g->u.posy, newit);
+            g->m.add_item_or_charges(g->u.posx, g->u.posy, g->u.posz, newit);
         } else {
             newit = g->u.i_add(newit);
             add_msg(m_info, "%c - %s", newit.invlet == 0 ? ' ' : newit.invlet, newit.tname().c_str());
@@ -1557,7 +1557,7 @@ std::list<item> game::consume_items(player *p, const std::vector<item_comp> &com
         }
     }
 
-    const point loc(p->posx, p->posy);
+    const tripoint loc(p->posx, p->posy, p->posz);
     itype *itt = item_controller->find_template(selected_comp.type);
     const bool by_charges = (itt->count_by_charges() && selected_comp.count > 0);
     // Count given to use_amount/use_charges, changed by those functions!
@@ -1649,7 +1649,7 @@ void game::consume_tools(player *p, const std::vector<tool_comp> &tools, int bat
         // Get selection via a popup menu
         size_t selection = menu_vec(false, _("Use which tool?"), options) - 1;
         if (selection < map_has.size())
-            m.use_charges(point(p->posx, p->posy), PICKUP_RANGE,
+            m.use_charges(tripoint(p->posx, p->posy, p->posz), PICKUP_RANGE,
                           map_has[selection].type, map_has[selection].count * batch);
         else {
             selection -= map_has.size();
@@ -1800,7 +1800,7 @@ void game::disassemble(int pos)
         } else {
             //twice the volume then multiplied by 10 (a book with volume 3 will give 60 pages)
             int num_pages = (dis_item->volume() * 2) * 10;
-            m.spawn_item(u.posx, u.posy, "paper", 0, num_pages);
+            m.spawn_item(u.posx, u.posy, u.posz, "paper", 0, num_pages);
             u.i_rem(pos);
         }
         return;
@@ -1821,7 +1821,7 @@ void game::complete_disassemble()
         return;
     }
     item *org_item;
-    std::vector<item> &items_on_ground = m.i_at(u.posx, u.posy);
+    std::vector<item> &items_on_ground = m.i_at(u.posx, u.posy, u.posz);
     if (from_ground) {
         if (static_cast<size_t>(item_pos) >= items_on_ground.size()) {
             add_msg(_("The item has vanished."));
@@ -1954,7 +1954,7 @@ void game::complete_disassemble()
             } else if (veh != NULL && veh->add_item(veh_part, act_item)) {
                 // add_item did put the items in the vehicle, nothing further to be done
             } else {
-                m.add_item_or_charges(u.posx, u.posy, act_item);
+                m.add_item_or_charges(u.posx, u.posy, u.posz, act_item);
             }
         }
     }
