@@ -59,6 +59,7 @@ void remove_recharge_mod( item &it, player &p )
     p.i_add_or_drop( mod, 1 );
     it.item_tags.erase( "RECHARGE" );
     it.item_tags.erase( "NO_UNLOAD" );
+    it.item_tags.erase( "NO_RELOAD" );
 }
 
 void remove_atomic_mod( item &it, player &p )
@@ -2789,7 +2790,7 @@ int iuse::firestarter(player *p, item *it, bool t, point pos)
             p->activity.placement = pos;
             p->practice("survival", 10);
             // charges used tied with moves_modifier (range 1 to 12).
-            it->charges -= it->type->charges_to_use() * std::round(moves_modifier);
+            it->charges -= it->type->charges_to_use() * round(moves_modifier);
             return 0;
         }
     } else if (it->has_flag("REFILLABLE_LIGHTER")) {
@@ -2885,7 +2886,7 @@ int iuse::sew(player *p, item *it, bool, point)
                              fix->tname().c_str());
         return 0;
     }
-    if (std::find(repair_items.begin(), repair_items.end(), fix->typeId()) != repair_items.end()) {
+    if( fix == it || std::find(repair_items.begin(), repair_items.end(), fix->typeId()) != repair_items.end()) {
         p->add_msg_if_player(m_info, _("This can be used to repair other items, not itself."));
         return 0;
     }
@@ -3062,6 +3063,7 @@ int iuse::rechargeable_battery(player *p, item *it, bool, point)
     modded->charges = it->charges;
     modded->item_tags.insert("RECHARGE");
     modded->item_tags.insert("NO_UNLOAD");
+    modded->item_tags.insert("NO_RELOAD");
     return 1;
 }
 
@@ -3540,7 +3542,7 @@ int iuse::solder_weld(player *p, item *it, bool, point)
                                      fix->tname().c_str());
                 return 0;
             }
-            if (std::find(repair_items.begin(), repair_items.end(), fix->typeId()) != repair_items.end()) {
+            if( fix == it || std::find(repair_items.begin(), repair_items.end(), fix->typeId()) != repair_items.end()) {
                 p->add_msg_if_player(m_info, _("This can be used to repair other items, not itself."));
                 return 0;
             }
@@ -6676,6 +6678,7 @@ static bool valid_to_cut_up(player *p, item *it)
     std::vector<std::string> material_id_white_list;
     material_id_white_list.push_back("cotton");
     material_id_white_list.push_back("leather");
+    material_id_white_list.push_back("fur");
     material_id_white_list.push_back("nomex");
     material_id_white_list.push_back("kevlar");
     material_id_white_list.push_back("plastic");
@@ -7808,6 +7811,23 @@ int iuse::flask_yeast(player *p, item *it, bool, point)
     }
 }
 
+int iuse::tanning_hide(player *p, item *it, bool, point)
+{
+    if (calendar::turn.get_turn() > (it->bday + 28800)) {
+        p->add_msg_if_player(m_info, _("You carefully unfold the %s and shake it clean."), it->tname().c_str());
+        p->moves -= 150;
+        if (it->type->id == "tanning_hide") {
+        it->make("tanned_hide");
+        } else {
+        it->make("tanned_pelt");
+        }
+        return 0;
+    } else {
+        p->add_msg_if_player(m_info, _("The %s isn't done yet."), it->tname().c_str());
+        return 0;
+    }
+}
+
 int iuse::quiver(player *p, item *it, bool, point)
 {
     int choice = -1;
@@ -8164,6 +8184,32 @@ int iuse::holster_ankle(player *p, item *it, bool b, point pos)
         }
     }
     return it->type->charges_to_use();
+}
+
+int iuse::survivor_belt(player *p, item *it, bool b, point pos)
+{
+    int choice = -1;
+
+    choice = menu( true,
+                   _( "Using survivor belt:" ),
+                   it->contents.empty() ? _( "Sheathe a knife" ) : _( "Unsheathe a knife" ),
+                   _( "Use hammer" ),
+                   _( "Use hacksaw" ),
+                   _( "Use wood saw" ),
+                   _( "Cancel" ),
+                   NULL );
+
+    switch ( choice ) {
+        case 1:
+            return sheath_knife( p, it, b, pos );
+        case 2:
+            return hammer( p, it, b, pos );
+        case 3:
+            return hacksaw( p, it, b, pos );
+        case 4:
+            return lumber( p, it, b, pos );
+    }
+    return 0;
 }
 
 int iuse::boots(player *p, item *it, bool, point)
@@ -8807,8 +8853,10 @@ bool einkpc_download_memory_card(player *p, item *eink, item *mc)
                 const int dif = (*list_iter)->difficulty;
 
                 if (science) {
-                    if (dif >= 3 && one_in(dif + 1)) {
-                        candidates.push_back(*list_iter);
+                    if ((*list_iter)->cat != "CC_NONCRAFT") {
+                        if (dif >= 3 && one_in(dif + 1)) {
+                            candidates.push_back(*list_iter);
+                        }
                     }
                 } else {
                     if ((*list_iter)->cat == "CC_FOOD") {
@@ -10253,5 +10301,14 @@ int iuse::cable_attach(player *p, item *it, bool, point)
         }
     }
 
+    return 0;
+}
+
+int iuse::pocket_meteorolgist(player *p, item *, bool, point)
+{
+    const w_point weatherPoint = g->weatherGen.get_weather( p->pos(), calendar::turn );
+    add_msg("Temperature: %d, pressure: %d, humidity: %d",
+            (int)weatherPoint.temperature, (int)weatherPoint.pressure,
+            (int)weatherPoint.humidity);
     return 0;
 }

@@ -267,6 +267,8 @@ bool item::stacks_with( const item &rhs ) const
     if( type != rhs.type ) {
         return false;
     }
+    // This function is also used to test whether items counted by charges should be merged, for that
+    // check the, the charges must be ignored. In all other cases (tools/guns), the charges are important.
     if( !count_by_charges() && charges != rhs.charges ) {
         return false;
     }
@@ -305,6 +307,10 @@ bool item::stacks_with( const item &rhs ) const
         return false;
     }
     for( size_t i = 0; i < contents.size(); i++ ) {
+        if( contents[i].charges != rhs.contents[i].charges ) {
+            // Don't stack *containers* with different sized contents.
+            return false;
+        }
         if( !contents[i].stacks_with( rhs.contents[i] ) ) {
             return false;
         }
@@ -717,29 +723,45 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         if (covers.test(bp_torso)) {
             temp1 << _("The torso. ");
         }
-        if (covers.test(bp_arm_l)) {
-            temp1 << _("The left arm. ");
+        if( covers.test( bp_arm_l ) && covers.test( bp_arm_r ) ) {
+            temp1 << _("The arms. ");
+        } else {
+            if (covers.test(bp_arm_l)) {
+                temp1 << _("The left arm. ");
+            }
+            if (covers.test(bp_arm_r)) {
+                temp1 << _("The right arm. ");
+            }
         }
-        if (covers.test(bp_arm_r)) {
-            temp1 << _("The right arm. ");
+        if( covers.test( bp_hand_l ) && covers.test( bp_hand_r ) ) {
+            temp1 << _("The hands. ");
+        } else {
+            if (covers.test(bp_hand_l)) {
+                temp1 << _("The left hand. ");
+            }
+            if (covers.test(bp_hand_r)) {
+                temp1 << _("The right hand. ");
+            }
         }
-        if (covers.test(bp_hand_l)) {
-            temp1 << _("The left hand. ");
+        if( covers.test( bp_leg_l ) && covers.test( bp_leg_r ) ) {
+            temp1 << _("The legs. ");
+        } else {
+            if (covers.test(bp_leg_l)) {
+                temp1 << _("The left leg. ");
+            }
+            if (covers.test(bp_leg_r)) {
+                temp1 << _("The right leg. ");
+            }
         }
-        if (covers.test(bp_hand_r)) {
-            temp1 << _("The right hand. ");
-        }
-        if (covers.test(bp_leg_l)) {
-            temp1 << _("The left leg. ");
-        }
-        if (covers.test(bp_leg_r)) {
-            temp1 << _("The right leg. ");
-        }
-        if (covers.test(bp_foot_l)) {
-            temp1 << _("The left foot. ");
-        }
-        if (covers.test(bp_foot_r)) {
-            temp1 << _("The right foot. ");
+        if( covers.test( bp_foot_l ) && covers.test( bp_foot_r ) ) {
+            temp1 << _("The feet. ");
+        } else {
+            if (covers.test(bp_foot_l)) {
+                temp1 << _("The left foot. ");
+            }
+            if (covers.test(bp_foot_r)) {
+                temp1 << _("The right foot. ");
+            }
         }
 
         dump->push_back(iteminfo("ARMOR", temp1.str()));
@@ -914,13 +936,22 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
 
         //See shorten version of this in armor_layers.cpp::clothing_flags_description
         if (is_armor() && has_flag("FIT")) {
+            it_armor* armor = dynamic_cast<it_armor*>(type);
+            if (armor->encumber > 0) {
+                dump->push_back(iteminfo("DESCRIPTION", "--"));
+                dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing fits you perfectly.")));
+            } else {
+                dump->push_back(iteminfo("DESCRIPTION", "--"));
+                dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing fits you perfectly and layers easily.")));
+            }
+        } else if (is_armor() && has_flag("VARSIZE")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
-            dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing fits you perfectly.")));
+            dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing can be refitted.")));
         }
         if (is_armor() && has_flag("SKINTIGHT")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
-                _("This piece of clothing lies close to the skin and layers easily.")));
+                _("This piece of clothing lies close to the skin.")));
         } else if (is_armor() && has_flag("BELTED")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
@@ -974,6 +1005,11 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
             dump->push_back(iteminfo("DESCRIPTION",
                 _("This piece of clothing is designed to protect you from harm and withstand a lot of abuse.")));
         }
+        if (is_armor() && has_flag("DEAF")) {
+            dump->push_back(iteminfo("DESCRIPTION", "--"));
+            dump->push_back(iteminfo("DESCRIPTION",
+                _("This gear prevents you from hearing any sounds.")));
+        }
         if (is_armor() && has_flag("SWIM_GOGGLES")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
@@ -984,6 +1020,50 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
             dump->push_back(iteminfo("DESCRIPTION",
                 _("This piece of clothing prevents you from going underwater (including voluntary diving).")));
         }
+        if (is_armor() && has_flag("RAD_PROOF")) {
+            dump->push_back(iteminfo("DESCRIPTION", "--"));
+            dump->push_back(iteminfo("DESCRIPTION",
+                _("This piece of clothing completely protects you from radiation.")));
+        } else if (is_armor() && has_flag("RAD_RESIST")) {
+            dump->push_back(iteminfo("DESCRIPTION", "--"));
+            dump->push_back(iteminfo("DESCRIPTION",
+                _("This piece of clothing partially protects you from radiation.")));
+        } else if (is_armor() && type->is_power_armor()) {
+            dump->push_back(iteminfo("DESCRIPTION", "--"));
+            dump->push_back(iteminfo("DESCRIPTION",
+                _("This gear is a part of power armor.")));
+            if (covers.test(bp_head)) {
+                dump->push_back(iteminfo("DESCRIPTION",
+                    _("When worn with a power armor suit, it will fully protect you from radiation.")));
+            } else {
+                dump->push_back(iteminfo("DESCRIPTION",
+                    _("When worn with a power armor helmet, it will fully protect you from radiation.")));
+            }
+        }
+        if (is_armor() && has_flag("ELECTRIC_IMMUNE")) {
+            dump->push_back(iteminfo("DESCRIPTION", "--"));
+            dump->push_back(iteminfo("DESCRIPTION",
+                _("This gear completely protects you from electric discharges.")));
+        }
+        if (is_armor() && has_flag("THERMOMETER")) {
+            dump->push_back(iteminfo("DESCRIPTION", "--"));
+            dump->push_back(iteminfo("DESCRIPTION",
+                _("This gear is equipped with an accurate thermometer.")));
+        }
+        if (is_armor() && has_flag("ALARMCLOCK")) {
+            dump->push_back(iteminfo("DESCRIPTION", "--"));
+            dump->push_back(iteminfo("DESCRIPTION",
+                _("This gear has an alarm clock feature.")));
+        }
+        if (is_armor() && has_flag("FANCY")) {
+            dump->push_back(iteminfo("DESCRIPTION", "--"));
+            dump->push_back(iteminfo("DESCRIPTION",
+                _("This piece of clothing is fancy.")));
+        } else if (is_armor() && has_flag("SUPER_FANCY")) {
+            dump->push_back(iteminfo("DESCRIPTION", "--"));
+            dump->push_back(iteminfo("DESCRIPTION",
+                _("This piece of clothing is very fancy.")));
+        }
         if (is_armor() && type->id == "rad_badge") {
             size_t i;
             for( i = 1; i < sizeof(rad_dosage_thresholds) / sizeof(rad_dosage_thresholds[0]); i++ ) {
@@ -993,7 +1073,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
             }
             dump->push_back(iteminfo("DESCRIPTION",
                 string_format(_("The film strip on the badge is %s."),
-                              rad_threshold_colors[i - 1].c_str())));
+                              _(rad_threshold_colors[i - 1].c_str()))));
         }
         if (is_tool() && has_flag("DOUBLE_AMMO")) {
             dump->push_back(iteminfo("DESCRIPTION",
@@ -1252,7 +1332,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
             } else {
                 damtext = rmp_format("%s ", type->dmg_adj(damage).c_str());
             }
-            }
+        }
     }
 
     std::string vehtext = "";
@@ -3808,7 +3888,7 @@ bool item::process_artifact( player *carrier, point /*pos*/ )
     // TODO: change game::process_artifact to work with npcs,
     // TODO: consider moving game::process_artifact here.
     if( carrier == &g->u ) {
-        g->process_artifact( this, carrier, this == &g->u.weapon );
+        g->process_artifact( this, carrier );
     }
     // Artifacts are never consumed
     return false;
@@ -4066,8 +4146,7 @@ bool item::process_charger_gun( player *carrier, point pos )
                                        tname().c_str() );
             carrier->add_msg_player_or_npc( m_bad, _( "Your %s discharges!" ), _( "<npcname>'s %s discharges!" ), tname().c_str() );
             point target( pos.x + rng( -12, 12 ), pos.y + rng( -12, 12 ) );
-            auto traj = line_to( pos.x, pos.y, target.x, target.y, 0 );
-            g->fire( *carrier, target.x, target.y, traj, false );
+            carrier->fire_gun( target.x, target.y, false );
         } else {
             carrier->add_msg_player_or_npc( m_warning, _( "Your %s beeps alarmingly." ), _( "<npcname>'s %s beeps alarmingly." ), tname().c_str() );
         }
@@ -4095,7 +4174,13 @@ bool item::process_charger_gun( player *carrier, point pos )
 
 bool item::process( player *carrier, point pos, bool activate )
 {
+    const bool preserves = has_flag( "PRESERVES" );
     for( auto it = contents.begin(); it != contents.end(); ) {
+        if( preserves ) {
+            // Simulate that the item has already "rotten" up to last_rot_check, but as item::rot
+            // is not changed, the item is still fresh.
+            it->last_rot_check = calendar::turn;
+        }
         if( it->process( carrier, pos, activate ) ) {
             it = contents.erase( it );
         } else {

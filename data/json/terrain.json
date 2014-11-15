@@ -703,7 +703,7 @@
         "move_cost": 0,
         "flags": ["TRANSPARENT", "NOITEM", "SUPPORTS_ROOF", "WALL"],
         "bash": {
-            "str_min": 60, "str_max": 100,
+            "str_min": 40, "str_max": 210,
             "sound": "glass breaking!",
             "sound_fail": "whack!",
             "ter_set": "t_floor",
@@ -1018,7 +1018,6 @@
             "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF",
             "OPENCLOSE_INSIDE", "REDUCE_SCENT"
         ],
-        "examine_action": "door_peephole",
         "open": "t_door_o",
         "bash": {
             "str_min": 8, "str_max": 80, "str_min_blocked": 15, "str_max_blocked": 100,
@@ -1339,10 +1338,10 @@
         "flags": ["NOITEM", "SUPPORTS_ROOF", "DOOR"],
         "open": "t_door_metal_o",
         "bash": {
-            "str_min": 30, "str_max": 210, "str_min_blocked": 40, "str_max_blocked": 240,
+            "str_min": 80, "str_max": 250,
             "sound": "metal screeching!",
             "sound_fail": "clang!",
-            "ter_set": "t_dirt",
+            "ter_set": "t_mdoor_frame",
             "items": [
                 { "item": "scrap", "amount": 24, "minamount": 12 },
                 { "item": "steel_plate", "amount": 1, "chance": 75 }
@@ -1358,10 +1357,10 @@
         "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "FLAT"],
         "close": "t_door_metal_c",
         "bash": {
-            "str_min": 20, "str_max": 210, "str_min_blocked": 30, "str_max_blocked": 240,
+            "str_min": 80, "str_max": 250,
             "sound": "metal screeching!",
             "sound_fail": "clang!",
-            "ter_set": "t_dirt",
+            "ter_set": "t_mdoor_frame",
             "items": [
                 { "item": "scrap", "amount": 24, "minamount": 12 },
                 { "item": "steel_plate", "amount": 1, "chance": 75 }
@@ -1377,10 +1376,10 @@
         "move_cost": 0,
         "flags": ["NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT"],
         "bash": {
-            "str_min": 30, "str_max": 210, "str_min_blocked": 40, "str_max_blocked": 240,
+            "str_min": 80, "str_max": 250,
             "sound": "metal screeching!",
             "sound_fail": "clang!",
-            "ter_set": "t_dirt",
+            "ter_set": "t_mdoor_frame",
             "items": [
                 { "item": "scrap", "amount": 24, "minamount": 12 },
                 { "item": "steel_plate", "amount": 1, "chance": 75 }
