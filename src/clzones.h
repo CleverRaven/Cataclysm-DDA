@@ -35,8 +35,8 @@ class clZones : public JsonSerializer, public JsonDeserializer
                 std::string sZoneType;
                 bool bInvert;
                 bool bEnabled;
-                point pointStartXY;
-                point pointEndXY;
+                tripoint pointStartXY;
+                tripoint pointEndXY;
 
             public:
                 clZoneData()
@@ -45,13 +45,13 @@ class clZones : public JsonSerializer, public JsonDeserializer
                     this->sZoneType = "";
                     this->bInvert = false;
                     this->bEnabled = false;
-                    this->pointStartXY = point(-1, -1);
-                    this->pointEndXY = point(-1, -1);
+                    this->pointStartXY = tripoint(-1, -1, -1);
+                    this->pointEndXY = tripoint(-1, -1, -1);
                 }
 
                 clZoneData(const std::string p_sName, const std::string p_sZoneType,
                            const bool p_bInvert, const bool p_bEnabled,
-                           const point &p_pointStartXY, const point &p_pointEndXY)
+                           const tripoint &p_pointStartXY, const tripoint &p_pointEndXY)
                 {
                     this->sName = p_sName;
                     this->sZoneType = p_sZoneType;
@@ -83,22 +83,22 @@ class clZones : public JsonSerializer, public JsonDeserializer
                 {
                     return bEnabled;
                 }
-                point getStartPoint() const
+                tripoint getStartPoint() const
                 {
                     return pointStartXY;
                 }
-                point getEndPoint() const
+                tripoint getEndPoint() const
                 {
                     return pointEndXY;
                 }
-                point getCenterPoint();
+                tripoint getCenterPoint();
         };
 
         std::vector<clZoneData> vZones;
 
         void add(const std::string p_sName, const std::string p_sZoneType,
                  const bool p_bInvert, const bool p_bEnabled,
-                 const point &p_pointStartXY, const point &p_pointEndXY)
+                 const tripoint &p_pointStartXY, const tripoint &p_pointEndXY)
         {
             vZones.push_back(clZoneData(p_sName, p_sZoneType,
                                         p_bInvert, p_bEnabled,
@@ -128,7 +128,7 @@ class clZones : public JsonSerializer, public JsonDeserializer
         std::string getNameFromType(const std::string p_sType);
         bool hasType(const std::string p_sType);
         void cacheZoneData();
-        bool hasZone(const std::string p_sType, const point p_pointInput);
+        bool hasZone(const std::string p_sType, const tripoint p_pointInput);
         using JsonSerializer::serialize;
         void serialize(JsonOut &json) const;
         void deserialize(JsonIn &jsin);

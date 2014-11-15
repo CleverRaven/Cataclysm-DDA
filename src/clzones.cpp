@@ -42,9 +42,9 @@ void clZones::clZoneData::setEnabled(const bool p_bEnabled)
     this->bEnabled = p_bEnabled;
 }
 
-point clZones::clZoneData::getCenterPoint()
+tripoint clZones::clZoneData::getCenterPoint()
 {
-    return point((pointStartXY.x + pointEndXY.x) / 2, (pointStartXY.y + pointEndXY.y) / 2);
+    return tripoint((pointStartXY.x + pointEndXY.x) / 2, (pointStartXY.y + pointEndXY.y) / 2, (pointStartXY.z + pointEndXY.z) / 2);
 }
 
 std::string clZones::getNameFromType(const std::string p_sType)
@@ -77,8 +77,8 @@ void clZones::cacheZoneData()
         if (vZones[i].getEnabled()) {
             const std::string sType = vZones[i].getZoneType();
 
-            point pStart = vZones[i].getStartPoint();
-            point pEnd = vZones[i].getEndPoint();
+            tripoint pStart = vZones[i].getStartPoint();
+            tripoint pEnd = vZones[i].getEndPoint();
 
             //draw marked area
             for (int iY = pStart.y; iY <= pEnd.y; ++iY) {
@@ -90,7 +90,7 @@ void clZones::cacheZoneData()
     }
 }
 
-bool clZones::hasZone(const std::string p_sType, const point p_pointInput)
+bool clZones::hasZone(const std::string p_sType, const tripoint p_pointInput)
 {
     //sure two ints as one unique int
     unsigned int iTemp = (p_pointInput.x * 100000) + p_pointInput.y;
@@ -108,8 +108,8 @@ void clZones::serialize(JsonOut &json) const
         json.member("invert", vZones[i].getInvert());
         json.member("enabled", vZones[i].getEnabled());
 
-        point pointStart = vZones[i].getStartPoint();
-        point pointEnd = vZones[i].getEndPoint();
+        tripoint pointStart = vZones[i].getStartPoint();
+        tripoint pointEnd = vZones[i].getEndPoint();
 
         json.member("start_x", pointStart.x);
         json.member("start_y", pointStart.y);
@@ -142,7 +142,7 @@ void clZones::deserialize(JsonIn &jsin)
         const int iEndY = joZone.get_int("end_y");
 
         if (hasType(sType)) {
-            add(sName, sType, bInvert, bEnabled, point(iStartX, iStartY), point(iEndX, iEndY));
+            add(sName, sType, bInvert, bEnabled, tripoint(iStartX, iStartY, -1), tripoint(iEndX, iEndY, -1));
         }
     }
 

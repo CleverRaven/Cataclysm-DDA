@@ -81,12 +81,12 @@ void game::draw_hit_player(player *p, const int iDam, bool dead)
 }
 /* Line drawing code, not really an animation but should be separated anyway */
 
-void game::draw_line(const int x, const int y, const int z, const tripoint center_point, std::vector<tripoint> ret)
+void game::draw_line(const int x, const int y, const int z,  const tripoint center_point, std::vector<tripoint> ret)
 {
     if (u_see( x, y)) {
         for (std::vector<tripoint>::iterator it = ret.begin();
              it != ret.end(); ++it) {
-            const Creature *critter = critter_at( it->x, it->y, z );
+            const Creature *critter = critter_at( it->x, it->y, it->z );
             // NPCs and monsters get drawn with inverted colors
             if( critter != nullptr && u.sees( critter ) ) {
                 critter->draw( w_terrain, center_point.x, center_point.y, true );
@@ -141,8 +141,8 @@ void game::draw_sct()
     }
 }
 
-void game::draw_zones(const point &p_pointStart, const point &p_pointEnd,
-                      const point &p_pointOffset)
+void game::draw_zones(const tripoint &p_pointStart, const tripoint &p_pointEnd,
+                      const tripoint &p_pointOffset)
 {
     for (int iY = p_pointStart.y; iY <= p_pointEnd.y; ++iY) {
         for (int iX = p_pointStart.x; iX <= p_pointEnd.x; ++iX) {

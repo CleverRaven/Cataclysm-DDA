@@ -5201,9 +5201,9 @@ std::vector<point> closest_points_first(int radius, point p)
 
 //this returns points in a spiral pattern starting at center_x/center_y until it hits the radius. clockwise fashion
 //credit to Tom J Nowell; http://stackoverflow.com/a/1555236/1269969
-std::vector<point> closest_points_first(int radius, int center_x, int center_y)
+std::vector<tripoint> closest_points_first(int radius, int center_x, int center_y, center_z)
 {
-    std::vector<point> points;
+    std::vector<tripoint> points;
     int X,Y,x,y,dx,dy;
     X = Y = (radius * 2) + 1;
     x = y = dx = 0;
@@ -5214,7 +5214,7 @@ std::vector<point> closest_points_first(int radius, int center_x, int center_y)
     {
         if ((-X/2 <= x) && (x <= X/2) && (-Y/2 <= y) && (y <= Y/2))
         {
-            points.push_back(point(x + center_x, y + center_y));
+            points.push_back(tripoint(x + center_x, y + center_y, center_z));
         }
         if( (x == y) || ((x < 0) && (x == -y)) || ((x > 0) && (x == 1 - y)))
         {

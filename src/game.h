@@ -290,7 +290,7 @@ class game
         void peek( int peekx = 0, int peeky = 0);
         point look_debug();
 
-        bool checkZone(const std::string p_sType, const int p_iX, const int p_iY);
+        bool checkZone(const std::string p_sType, const int p_iX, const int p_iY, const int p_iZ);
         void zones_manager();
         void zones_manager_shortcuts(WINDOW *w_info);
         void zones_manager_draw_borders(WINDOW *w_border, WINDOW *w_info_border, const int iInfoHeight,
@@ -301,7 +301,7 @@ class game
         int list_items(const int iLastState); //List all items around the player
         int list_monsters(const int iLastState); //List all monsters around the player
         // Shared method to print "look around" info
-        void print_all_tile_info(int lx, int ly, WINDOW *w_look, int column, int &line, bool mouse_hover);
+        void print_all_tile_info(int lx, int ly, int lz, WINDOW *w_look, int column, int &line, bool mouse_hover);
 
         bool list_items_match(item &item, std::string sPattern);
         int list_filter_high_priority(std::vector<map_item_stack> &stack, std::string prorities);
@@ -453,12 +453,12 @@ class game
                          timespec &ts);
         void draw_hit_mon(int x, int y, monster critter, bool dead = false);
         void draw_hit_player(player *p, const int iDam, bool dead = false);
-        void draw_line(const int x, const int y, const int z, const tripoint center_point, std::vector<tripoint> ret);
+        void draw_line(const int x, const int y, const int z,  const tripoint center_point, std::vector<tripoint> ret);
         void draw_line(const int x, const int y, std::vector<point> ret);
         void draw_line(const int x, const int y, const int z, std::vector<tripoint> ret);
         void draw_weather(weather_printable wPrint);
         void draw_sct();
-        void draw_zones(const point &p_pointStart, const point &p_pointEnd, const point &p_pointOffset);
+        void draw_zones(const tripoint &p_pointStart, const tripoint &p_pointEnd, const tripoint &p_pointOffset);
         // Draw critter (if visible!) on its current position into w_terrain.
         // @param center the center of view, same as when calling map::draw
         void draw_critter(const Creature &critter, const point &center);
@@ -600,7 +600,7 @@ class game
         // will do so, if bash_dmg is greater than 0, items won't stop the door
         // from closing at all.
         // If the door gets closed the items on the door tile get moved away or destroyed.
-        bool forced_gate_closing(int x, int y, ter_id door_type, int bash_dmg);
+        bool forced_gate_closing(int x, int y, int z, ter_id door_type, int bash_dmg);
 
         bool vehicle_near ();
         void handbrake ();
@@ -639,12 +639,12 @@ class game
         void plthrow(int pos = INT_MIN); // Throw an item  't'
 
         // Internal methods to show "look around" info
-        void print_fields_info(int lx, int ly, WINDOW *w_look, int column, int &line);
-        void print_terrain_info(int lx, int ly, WINDOW *w_look, int column, int &line);
-        void print_trap_info(int lx, int ly, WINDOW *w_look, const int column, int &line);
-        void print_object_info(int lx, int ly, WINDOW *w_look, const int column, int &line,
+        void print_fields_info(int lx, int ly, int lz, WINDOW *w_look, int column, int &line);
+        void print_terrain_info(int lx, int ly, int lz, WINDOW *w_look, int column, int &line);
+        void print_trap_info(int lx, int ly, int lz, WINDOW *w_look, const int column, int &line);
+        void print_object_info(int lx, int ly, int lz, WINDOW *w_look, const int column, int &line,
                                bool mouse_hover);
-        void handle_multi_item_info(int lx, int ly, WINDOW *w_look, const int column, int &line,
+        void handle_multi_item_info(int lx, int ly, int lz, WINDOW *w_look, const int column, int &line,
                                     bool mouse_hover);
         void get_lookaround_dimensions(int &lookWidth, int &begin_y, int &begin_x) const;
 
@@ -659,7 +659,7 @@ class game
                                   item *relevent);
         // interface to target(), collects a list of targets & selects default target
         // finally calls target() and returns its result.
-        std::vector<point> pl_target_ui(int &x, int &y, int range, item *relevent,
+        std::vector<point> pl_target_ui(int &x, int &y, int z, int range, item *relevent,
                                         int default_target_x = -1, int default_target_y = -1);
 
         // Map updating and monster spawning
@@ -704,7 +704,7 @@ class game
          * been done. false if the player did not choose any action and the function
          * has effectively done nothing.
          */
-        bool disable_robot( point p );
+        bool disable_robot( tripoint p );
 
         void update_scent();     // Updates the scent map
         bool is_game_over();     // Returns true if the player quit or died
