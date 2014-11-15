@@ -158,7 +158,7 @@ void load_recipe(JsonObject &jsobj)
                              requires_skills, reversible, autolearn,
                              learn_by_disassembly, result_mult, paired, bps);
 
-    // load recipe requirements
+    // load tools, qualities and components
     rec->load_requirements(jsobj);
 
     jsarr = jsobj.get_array("book_learn");
