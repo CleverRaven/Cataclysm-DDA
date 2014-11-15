@@ -886,7 +886,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
     if (!components.empty()) {
         dump->push_back( iteminfo( "DESCRIPTION", string_format( _("Made from: %s"), components_to_string().c_str() ) ) );
     } else {
-        const recipe *dis_recipe = g->get_disassemble_recipe( type->id );
+        const recipe *dis_recipe = get_disassemble_recipe( type->id );
         if( dis_recipe != nullptr ) {
             std::ostringstream buffer;
             for( auto it = dis_recipe->components.begin(); it != dis_recipe->components.end(); ++it ) {
@@ -1206,11 +1206,11 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
                     }
                     found_recipe = true;
                     // darken recipes you can't currently craft
-                    if (!g->can_make(r, 1)) {
+                    if (!g->u.can_make(r, 1)) {
                         temp1 << "<color_dkgray>";
                     }
                     temp1 << item_name(r->result);
-                    if (!g->can_make(r, 1)) {
+                    if (!g->u.can_make(r, 1)) {
                         temp1 << "</color>";
                     }
                 }
@@ -2515,7 +2515,7 @@ bool item::is_disassemblable() const
     if( is_null() ) {
         return false;
     }
-    return g->get_disassemble_recipe(typeId()) != NULL;
+    return get_disassemble_recipe(typeId()) != NULL;
 }
 
 bool item::is_funnel_container(int &bigger_than) const

@@ -102,6 +102,7 @@ struct recipe : public requirements {
     bool has_byproducts() const;
 
     bool can_make_with_inventory(const inventory &crafting_inv, int batch = 1) const;
+    bool check_eligible_containers_for_crafting(int batch = 1) const;
 
     int print_items(WINDOW *w, int ypos, int xpos, nc_color col, int batch = 1) const;
     void print_item(WINDOW *w, int ypos, int xpos, nc_color col, const byproduct &bp,
@@ -110,6 +111,8 @@ struct recipe : public requirements {
 
 typedef std::vector<recipe *> recipe_list;
 typedef std::map<craft_cat, recipe_list> recipe_map;
+
+extern recipe_map recipes; // The list of valid recipes
 
 class item;
 // removes any (removable) ammo from the item and stores it in the
@@ -122,13 +125,21 @@ void load_recipe_category(JsonObject &jsobj);
 void reset_recipe_categories();
 void load_recipe(JsonObject &jsobj);
 void reset_recipes();
-const recipe *recipe_by_name(std::string name);
+const recipe *recipe_by_index(int index);
+const recipe *recipe_by_name(const std::string &name);
+const recipe *get_disassemble_recipe(const itype_id &type);
 void finalize_recipes();
 // Show the "really disassemble?" query along with a list of possible results.
 // Returns false if the player answered no to the query.
 bool query_dissamble(const item &dis_item);
-
-extern recipe_map recipes; // The list of valid recipes
+const recipe *select_crafting_recipe(int &batch_size);
+void pick_recipes(const inventory &crafting_inv,
+                  std::vector<const recipe *> &current,
+                  std::vector<bool> &available, craft_cat tab,
+                  craft_subcat subtab, std::string filter);
+void batch_recipes(const inventory &crafting_inv,
+                   std::vector<const recipe *> &current,
+                   std::vector<bool> &available, const recipe* r);
 
 const recipe *find_recipe( std::string id );
 void check_recipe_definitions();

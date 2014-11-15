@@ -9213,7 +9213,7 @@ hint_rating player::rate_action_disassemble(item *it) {
                    assign the activity
                    check tools are available
                    loop over the tools and see what's required...again */
-                inventory crafting_inv = g->crafting_inventory(this);
+                inventory crafting_inv = crafting_inventory();
                 for (auto &j : cur_recipe->tools) {
                     bool have_tool = false;
                     if (j.empty()) { // no tools required, may change this
