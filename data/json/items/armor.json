@@ -5469,7 +5469,7 @@
         "symbol" : "[",
         "description" : "A dark pair of goggles.  They make seeing very difficult, but protect you from bright flashes.",
         "price" : 1400,
-        "material" : ["glass", "steel"],
+        "material" : ["plastic", "null"],
         "volume" : 1,
         "cutting" : 0,
         "warmth" : 10,
@@ -5479,7 +5479,7 @@
         "bashing" : -1,
         "coverage" : 100,
         "flags" : ["SUN_GLASSES"],
-        "material_thickness" : 3
+        "material_thickness" : 4
     },
     {
         "type" : "ARMOR",
