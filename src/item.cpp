@@ -1198,6 +1198,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         recipe_list &rec = recipes_by_itype[tid];
         if (!rec.empty()) {
             temp1.str("");
+            inventory inv = g->u.crafting_inventory();
             bool found_recipe = false;
             for (recipe* r : rec) {
                 // only list known recipes
@@ -1207,11 +1208,12 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
                     }
                     found_recipe = true;
                     // darken recipes you can't currently craft
-                    if (!g->u.can_make(r, 1)) {
+                    bool can_make = r->can_make_with_inventory(inv);
+                    if (!can_make) {
                         temp1 << "<color_dkgray>";
                     }
                     temp1 << item_name(r->result);
-                    if (!g->u.can_make(r, 1)) {
+                    if (!can_make) {
                         temp1 << "</color>";
                     }
                 }
