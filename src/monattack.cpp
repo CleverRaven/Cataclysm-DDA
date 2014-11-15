@@ -3411,12 +3411,11 @@ void mattack::riotbot(monster *z, int index)
         //~ Sound of a riotbot using its blinding flash
         g->sound(x, y, 3, _("fzzzzzt"));
 
-        g->m.add_field(x, y, fd_dazzling, 1);
-
         std::vector <point> traj = line_to(monx, mony, x, y, 0);
-        traj.erase(traj.begin());
-
         for (auto it = traj.begin(); it != traj.end(); ++it) {
+            if( !g->m.trans( it->x, it->y ) ) {
+                break;
+            }
             g->m.add_field(it->x, it->y, fd_dazzling, 1);
         }
         return;

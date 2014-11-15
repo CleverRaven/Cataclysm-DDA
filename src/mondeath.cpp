@@ -492,11 +492,11 @@ void mdeath::focused_beam(monster *z)
         int x = z->posx() + atoi(settings.item_vars["SL_SPOT_X"].c_str());
         int y = z->posy() + atoi(settings.item_vars["SL_SPOT_Y"].c_str());
 
-        g->m.add_field(x, y, fd_dazzling, 2);
-
         std::vector <point> traj = line_to(z->posx(), z->posy(), x, y, 0);
-
         for (auto it = traj.begin(); it != traj.end(); ++it) {
+            if( !g->m.trans( it->x, it->y ) ) {
+                break;
+            }
             g->m.add_field(it->x, it->y, fd_dazzling, 2);
         }
     }
