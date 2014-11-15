@@ -344,6 +344,8 @@ void Item_factory::init()
 
     iuse_function_list["MULTICOOKER"] = &iuse::multicooker;
 
+    iuse_function_list["REMOTEVEH"] = &iuse::remoteveh;
+
     create_inital_categories();
 
     init_old();

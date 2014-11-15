@@ -9859,6 +9859,26 @@ int iuse::radiocontrol(player *p, item *it, bool t, point)
     return it->type->charges_to_use();
 }
 
+int iuse::remoteveh(player *, item *it, bool, point) {
+    int px = g->u.view_offset_x;
+    int py = g->u.view_offset_y;
+    point target = g->look_around();
+    
+    vehicle* veh = g->m.veh_at( target.x, target.y );
+    
+    if( veh == nullptr ) {
+        popup(_("No vehicles here!"));
+    } else if( veh->all_parts_with_feature( "CONTROLS", true ).size() > 0 ) {
+        veh->use_controls();
+    } else {
+        popup(_("This vehicle has no working controls!"));
+    }
+    
+    g->u.view_offset_x = px;
+    g->u.view_offset_y = py;
+    return it->type->charges_to_use();
+}
+
 bool multicooker_hallu(player *p)
 {
     p->moves -= 200;
