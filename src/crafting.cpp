@@ -376,7 +376,7 @@ bool recipe::check_eligible_containers_for_crafting(int batch) const
     return true;
 }
 
-bool is_container_eligible_for_crafting(item &cont)
+bool is_container_eligible_for_crafting(const item &cont)
 {
     if (cont.is_watertight_container()) {
         return !cont.is_container_full();
