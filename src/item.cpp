@@ -1189,12 +1189,13 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         }
 
         // list recipes you could use it in
-        recipe_list rec;
+        itype_id tid;
         if (contents.empty()) { // use this item
-            rec = recipes_using_itype(*type);
+            tid = type->id;
         } else { // use the contained item
-            rec = recipes_using_itype(*(contents[0].type));
+            tid = contents[0].type->id;
         }
+        recipe_list &rec = recipes_by_itype[tid];
         if (!rec.empty()) {
             temp1.str("");
             bool found_recipe = false;

@@ -20,6 +20,7 @@
 std::vector<craft_cat> craft_cat_list;
 std::map<craft_cat, std::vector<craft_subcat> > craft_subcat_list;
 recipe_map recipes;
+std::map<itype_id, recipe_list> recipes_by_itype;
 
 static void draw_recipe_tabs(WINDOW *w, craft_cat tab, TAB_MODE mode = NORMAL);
 static void draw_recipe_subtabs(WINDOW *w, craft_cat tab, craft_subcat subtab,
@@ -189,6 +190,18 @@ void load_recipe(JsonObject &jsobj)
         rec->booksets.push_back(std::pair<std::string, int>(book_name, book_level));
     }
 
+    // add to reverse requirements lookup for each component
+    std::unordered_set<itype_id> counted;
+    for (auto comp_choices : rec->components) {
+        for (item_comp comp : comp_choices) {
+            if (counted.count(comp.type)) {
+                continue;
+            }
+            counted.insert(comp.type);
+            recipes_by_itype[comp.type].push_back(rec);
+        }
+    }
+
     recipes[category].push_back(rec);
 }
 
@@ -201,6 +214,7 @@ void reset_recipes()
         }
     }
     recipes.clear();
+    recipes_by_itype.clear();
 }
 
 void finalize_recipes()
