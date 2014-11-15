@@ -138,4 +138,7 @@ void set_item_food(item &newit);
 void set_item_inventory(item &newit);
 void finalize_crafted_item(item &newit, float used_age_tally, int used_age_count);
 
+// recipes with the given itype as a (consumable) component
+recipe_list recipes_using_itype(itype &item_type);
+
 #endif

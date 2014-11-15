@@ -44,6 +44,27 @@ const recipe *find_recipe( std::string id )
     return nullptr;
 }
 
+recipe_list recipes_using_itype(itype &item_type)
+{
+    itype_id tid = item_type.id;
+    recipe_list rec;
+    for (auto rlist : recipes) {
+        for (recipe *r : rlist.second) {
+            for (auto comp_choices : r->components) {
+                for (item_comp comp : comp_choices) {
+                    if (comp.type == tid) {
+                        rec.push_back(r);
+                        goto next_recipe; // a.k.a. break(2)
+                    }
+                }
+            }
+            next_recipe:;
+        }
+    }
+    return rec;
+}
+
+
 void load_recipe_category(JsonObject &jsobj)
 {
     JsonArray subcats;

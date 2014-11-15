@@ -13,6 +13,7 @@
 #include "messages.h"
 #include "disease.h"
 #include "artifact.h"
+#include "itype.h"
 
 #include <cmath> // floor
 #include <sstream>
@@ -1171,6 +1172,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
             }
             dump->push_back(iteminfo("DESCRIPTION", ntext + item_note->second ));
         }
+
+        // describe contents
         if (!contents.empty()) {
             if (is_gun()) {//Mods description
                 for (size_t i = 0; i < contents.size(); i++) {
@@ -1182,6 +1185,38 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
                 }
             } else {
                 dump->push_back(iteminfo("DESCRIPTION", contents[0].type->description));
+            }
+        }
+
+        // list recipes you could use it in
+        recipe_list rec;
+        if (contents.empty()) { // use this item
+            rec = recipes_using_itype(*type);
+        } else { // use the contained item
+            rec = recipes_using_itype(*(contents[0].type));
+        }
+        if (!rec.empty()) {
+            temp1.str("");
+            bool found_recipe = false;
+            for (recipe* r : rec) {
+                // only list known recipes
+                if (g->u.knows_recipe(r)) {
+                    if (found_recipe) {
+                        temp1 << _(", ");
+                    }
+                    found_recipe = true;
+                    // darken recipes you can't currently craft
+                    if (!g->can_make(r, 1)) {
+                        temp1 << "<color_dkgray>";
+                    }
+                    temp1 << item_name(r->result);
+                    if (!g->can_make(r, 1)) {
+                        temp1 << "</color>";
+                    }
+                }
+            }
+            if (found_recipe) {
+                dump->push_back(iteminfo("DESCRIPTION", string_format(_("You could use it to craft: %s"), temp1.str().c_str())));
             }
         }
     }

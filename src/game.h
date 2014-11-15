@@ -561,7 +561,9 @@ class game
         bool is_container_eligible_for_crafting(item &cont); // See crafting.cpp
         std::vector<item> get_eligible_containers_for_crafting();    // See crafting.cpp
         bool check_eligible_containers_for_crafting(const recipe *r, int batch = 1);
+    public:
         bool can_make(const recipe *r, int batch_size); // See crafting.cpp
+    private:
         void make_craft(std::string id, int batch_size); // See crafting.cpp
         void make_all_craft(std::string id, int batch_size); // See crafting.cpp
         void complete_craft();               // See crafting.cpp
