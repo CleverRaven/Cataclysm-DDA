@@ -263,7 +263,6 @@ bool player::handle_gun_damage( it_gun *firing, std::set<std::string> *curammo_e
 
 void player::fire_gun(int tarx, int tary, bool burst)
 {
-    item ammotmp;
     item *gunmod = weapon.active_gunmod();
     it_ammo *curammo = NULL;
     item *used_weapon = NULL;
@@ -315,9 +314,6 @@ void player::fire_gun(int tarx, int tary, bool burst)
         curammo = weapon.curammo;
         used_weapon = &weapon;
     }
-
-    ammotmp = item(curammo->id, 0);
-    ammotmp.charges = 1;
 
     if (!used_weapon->is_gun() && !used_weapon->is_gunmod()) {
         debugmsg("%s tried to fire a non-gun (%s).", name.c_str(),
