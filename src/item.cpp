@@ -1199,10 +1199,20 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         if (!rec.empty()) {
             temp1.str("");
             inventory inv = g->u.crafting_inventory();
-            bool found_recipe = false;
-            for (recipe* r : rec) {
-                // only list known recipes
+            // only want known recipes
+            recipe_list known_recipes;
+            for (recipe *r : rec) {
                 if (g->u.knows_recipe(r)) {
+                    known_recipes.push_back(r);
+                }
+            }
+            if (known_recipes.size() > 24) {
+                dump->push_back(iteminfo("DESCRIPTION", _("You know dozens of things you could craft with it.")));
+            } else if (known_recipes.size() > 12) {
+                dump->push_back(iteminfo("DESCRIPTION", _("You could use it to craft various other things.")));
+            } else {
+                bool found_recipe = false;
+                for (recipe* r : known_recipes) {
                     if (found_recipe) {
                         temp1 << _(", ");
                     }
@@ -1217,9 +1227,9 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
                         temp1 << "</color>";
                     }
                 }
-            }
-            if (found_recipe) {
-                dump->push_back(iteminfo("DESCRIPTION", string_format(_("You could use it to craft: %s"), temp1.str().c_str())));
+                if (found_recipe) {
+                    dump->push_back(iteminfo("DESCRIPTION", string_format(_("You could use it to craft: %s"), temp1.str().c_str())));
+                }
             }
         }
     }
