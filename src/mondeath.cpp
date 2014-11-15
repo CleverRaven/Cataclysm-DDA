@@ -532,20 +532,19 @@ void mdeath::ratking(monster *z)
     for (int i = -1; i <= 1; i++) {
         for (int j = -1; j <= 1; j++) {
             ratx = z->posx() + i;
-            raty = z->posy() + i;
-            if (g->m.move_cost(ratx, raty) > 0 && g->mon_at(ratx, raty) == -1 &&
-                !(g->u.posx == ratx && g->u.posy == raty)) {
+            raty = z->posy() + j;
+            if (g->is_empty(ratx, raty)) {
                 ratspots.push_back(point(ratx, raty));
             }
         }
     }
-    int rn;
     monster rat(GetMType("mon_sewer_rat"));
     for (int rats = 0; rats < 7 && !ratspots.empty(); rats++) {
-        rn = rng(0, ratspots.size() - 1);
-        rat.spawn(ratspots[rn].x, ratspots[rn].y);
-        g->add_zombie(rat);
+        int rn = rng(0, ratspots.size() - 1);
+        point rp = ratspots[rn];
         ratspots.erase(ratspots.begin() + rn);
+        rat.spawn(rp.x, rp.y);
+        g->add_zombie(rat);
     }
 }
 
