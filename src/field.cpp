@@ -571,7 +571,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     // make a copy and let the copy explode
                                     item tmp( items_here[i] );
                                     items_here.erase( items_here.begin() + i );
-                                    tmp.detonate(point(x, y));
+                                    tmp.detonate(tripoint(x, y, z));
                                 }
                             }
                             std::vector<item> new_content;

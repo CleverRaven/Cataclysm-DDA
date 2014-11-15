@@ -1470,7 +1470,7 @@ std::list<item> game::consume_items(player *p, const std::vector<item_comp> &com
     } use_from;
     item_comp selected_comp("", 0);
     inventory map_inv;
-    map_inv.form_from_map(point(p->posx, p->posy), PICKUP_RANGE);
+    map_inv.form_from_map(point(p->posx, p->posy), p->posz, PICKUP_RANGE);
 
     for (auto it = components.begin(); it != components.end(); ++it) {
         itype_id type = it->type;
@@ -1602,7 +1602,7 @@ void game::consume_tools(player *p, const std::vector<tool_comp> &tools, int bat
 {
     bool found_nocharge = false;
     inventory map_inv;
-    map_inv.form_from_map(point(p->posx, p->posy), PICKUP_RANGE);
+    map_inv.form_from_map(point(p->posx, p->posy), p->posz, PICKUP_RANGE);
     std::vector<tool_comp> player_has;
     std::vector<tool_comp> map_has;
     // Use charges of any tools that require charges used

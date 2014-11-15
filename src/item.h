@@ -295,8 +295,8 @@ public:
     int fridge;
 
  int brewing_time();
- bool ready_to_revive( point pos ); // used for corpses
- void detonate(point p) const;
+ bool ready_to_revive( tripoint pos ); // used for corpses
+ void detonate(tripoint p) const;
  bool can_revive();      // test if item is a corpse and can be revived
 // light emission, determined by type->light_emission (LIGHT_???) tag (circular),
 // overridden by light.* struct (shaped)
@@ -373,19 +373,19 @@ public:
      * should than delete the item wherever it was stored.
      * Returns false if the item is not destroyed.
      */
-    bool process(player *carrier, point pos, bool activate);
+    bool process(player *carrier, tripoint pos, bool activate);
 protected:
     // Sub-functions of @ref process, they handle the processing for different
     // processing types, just to make the process function cleaner.
     // The interface is the same as for @ref process.
-    bool process_food(player *carrier, point pos);
-    bool process_corpse(player *carrier, point pos);
-    bool process_artifact(player *carrier, point pos);
-    bool process_wet(player *carrier, point pos);
-    bool process_litcig(player *carrier, point pos);
-    bool process_cable(player *carrier, point pos);
-    bool process_tool(player *carrier, point pos);
-    bool process_charger_gun(player *carrier, point pos);
+    bool process_food(player *carrier, tripoint pos);
+    bool process_corpse(player *carrier, tripoint pos);
+    bool process_artifact(player *carrier, tripoint pos);
+    bool process_wet(player *carrier, tripoint pos);
+    bool process_litcig(player *carrier, tripoint pos);
+    bool process_cable(player *carrier, tripoint pos);
+    bool process_tool(player *carrier, tripoint pos);
+    bool process_charger_gun(player *carrier, tripoint pos);
 public:
     /**
      * Helper to bring a cable back to its initial state.

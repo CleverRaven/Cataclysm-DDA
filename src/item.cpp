@@ -1023,7 +1023,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
                 _("This piece of clothing is very fancy.")));
-        } 
+        }
         if (is_armor() && type->id == "rad_badge") {
             size_t i;
             for( i = 1; i < sizeof(rad_dosage_thresholds) / sizeof(rad_dosage_thresholds[0]); i++ ) {
@@ -1857,7 +1857,7 @@ void item::set_relative_rot( float rel_rot )
     }
 }
 
-void item::calc_rot(const point &location)
+void item::calc_rot(const tripoint &location)
 {
     const int now = calendar::turn;
     if ( last_rot_check + 10 < now ) {
@@ -1901,7 +1901,7 @@ bool item::can_revive()
     return false;
 }
 
-bool item::ready_to_revive( point pos )
+bool item::ready_to_revive( tripoint pos )
 {
     if(can_revive() == false) {
         return false;
@@ -3035,7 +3035,7 @@ static void eject_casings( player &p, item *reload_target, itype_id casing_type 
             casing.charges = 1;
             // Drop all the casings on the ground under the player.
             for( int i = 0; i < num_casings; ++i ) {
-                g->m.add_item_or_charges(p.posx, p.posy, casing);
+                g->m.add_item_or_charges(p.posx, p.posy, p.posz, casing);
             }
             reload_target->item_vars.erase( "CASINGS" );
         }
@@ -3590,7 +3590,7 @@ iteminfo::iteminfo(std::string Type, std::string Name, std::string Fmt, double V
     bDrawName = DrawName;
 }
 
-void item::detonate(point p) const
+void item::detonate(tripoint p) const
 {
     if (type == NULL || type->explosion_on_fire_data.power < 0) {
         return;
@@ -3824,7 +3824,7 @@ bool item::needs_processing() const
            is_artifact();
 }
 
-bool item::process_food( player * /*carrier*/, point pos )
+bool item::process_food( player * /*carrier*/, tripoint pos )
 {
     calc_rot( pos );
     if( item_tags.count( "HOT" ) > 0 ) {
@@ -3841,7 +3841,7 @@ bool item::process_food( player * /*carrier*/, point pos )
     return false;
 }
 
-bool item::process_artifact( player *carrier, point /*pos*/ )
+bool item::process_artifact( player *carrier, tripoint /*pos*/ )
 {
     // Artifacts are currently only useful for the player character, the messages
     // don't consider npcs. Also they are not processed when laying on the ground.
@@ -3854,7 +3854,7 @@ bool item::process_artifact( player *carrier, point /*pos*/ )
     return false;
 }
 
-bool item::process_corpse( player *carrier, point pos )
+bool item::process_corpse( player *carrier, tripoint pos )
 {
     // some corpses rez over time
     if( corpse == nullptr ) {
@@ -3863,9 +3863,9 @@ bool item::process_corpse( player *carrier, point pos )
     if( !ready_to_revive( pos ) ) {
         return false;
     }
-    if( rng( 0, volume() ) > burnt && g->revive_corpse( pos.x, pos.y, this ) ) {
+    if( rng( 0, volume() ) > burnt && g->revive_corpse( pos.x, pos.y, pos.z, this ) ) {
         if( carrier == nullptr ) {
-            if( g->u_see( pos.x, pos.y ) ) {
+            if( g->u_see( pos.x, pos.y, pos.z ) ) {
                 if( corpse->in_species( "ROBOT" ) ) {
                     add_msg( m_warning, _( "A nearby robot has repaired itself and stands up!" ) );
                 } else {
@@ -3891,7 +3891,7 @@ bool item::process_corpse( player *carrier, point pos )
     return false;
 }
 
-bool item::process_litcig( player *carrier, point pos )
+bool item::process_litcig( player *carrier, tripoint pos )
 {
     field_id smoke_type;
     if( has_flag( "TOBACCO" ) ) {
@@ -3915,7 +3915,7 @@ bool item::process_litcig( player *carrier, point pos )
             } else {
                 carrier->add_disease( "weed_high", duration / 2 );
             }
-            g->m.add_field( pos.x + rng( -1, 1 ), pos.y + rng( -1, 1 ), smoke_type, 2 );
+            g->m.add_field( pos.x + rng( -1, 1 ), pos.y + rng( -1, 1 ), pos.z, smoke_type, 2 );
             carrier->moves -= 15;
         }
 
@@ -3923,19 +3923,19 @@ bool item::process_litcig( player *carrier, point pos )
             ( carrier->has_trait( "JITTERY" ) && one_in( 200 ) ) ) {
             carrier->add_msg_if_player( m_bad, _( "Your shaking hand causes you to drop your %s." ),
                                         tname().c_str() );
-            g->m.add_item_or_charges( pos.x + rng( -1, 1 ), pos.y + rng( -1, 1 ), *this, 2 );
+            g->m.add_item_or_charges( pos.x + rng( -1, 1 ), pos.y + rng( -1, 1 ), pos.z, *this, 2 );
             return true; // removes the item that has just been added to the map
         }
     } else {
         // If not carried by someone, but laying on the ground:
         // release some smoke every five ticks
         if( item_counter % 5 == 0 ) {
-            g->m.add_field( pos.x + rng( -2, 2 ), pos.y + rng( -2, 2 ), smoke_type, 1 );
+            g->m.add_field( pos.x + rng( -2, 2 ), pos.y + rng( -2, 2 ), pos.z, smoke_type, 1 );
             // lit cigarette can start fires
-            if( g->m.flammable_items_at( pos.x, pos.y ) ||
-                g->m.has_flag( "FLAMMABLE", pos.x, pos.y ) ||
-                g->m.has_flag( "FLAMMABLE_ASH", pos.x, pos.y ) ) {
-                g->m.add_field( pos.x, pos.y, fd_fire, 1 );
+            if( g->m.flammable_items_at( pos.x, pos.y, pos.z ) ||
+                g->m.has_flag( "FLAMMABLE", pos.x, pos.y, pos.z ) ||
+                g->m.has_flag( "FLAMMABLE_ASH", pos.x, pos.y, pos.z ) ) {
+                g->m.add_field( pos.x, pos.y, pos.z, fd_fire, 1 );
             }
         }
     }
@@ -3954,7 +3954,7 @@ bool item::process_litcig( player *carrier, point pos )
             make( "joint_roach" );
             if( carrier != nullptr ) {
                 carrier->add_disease( "weed_high", 10 ); // one last puff
-                g->m.add_field( pos.x + rng( -1, 1 ), pos.y + rng( -1, 1 ), fd_weedsmoke, 2 );
+                g->m.add_field( pos.x + rng( -1, 1 ), pos.y + rng( -1, 1 ), pos.z, fd_weedsmoke, 2 );
                 weed_msg( carrier );
             }
         }
@@ -3964,7 +3964,7 @@ bool item::process_litcig( player *carrier, point pos )
     return false;
 }
 
-bool item::process_cable( player *p, point pos )
+bool item::process_cable( player *p, tripoint pos )
 {
     if( item_vars["state"] != "pay_out_cable" ) {
         return false;
@@ -3974,8 +3974,8 @@ bool item::process_cable( player *p, point pos )
     int source_y = atoi(item_vars["source_y"].c_str());
     int source_z = atoi(item_vars["source_z"].c_str());
 
-    point relpos= g->m.getlocal(source_x, source_y);
-    auto veh = g->m.veh_at(relpos.x, relpos.y);
+    tripoint relpos= g->m.getlocal(source_x, source_y, g->u.posz);
+    auto veh = g->m.veh_at(relpos.x, relpos.y, g->u.posz);
     if( veh == nullptr || source_z != g->levz ) {
         if( p != nullptr && p->has_item(this) ) {
             p->add_msg_if_player(m_bad, _("You notice the cable has come loose!"));
@@ -3984,7 +3984,7 @@ bool item::process_cable( player *p, point pos )
         return false;
     }
 
-    point abspos = g->m.getabs(pos.x, pos.y);
+    tripoint abspos = g->m.getabs(pos.x, pos.y, g->u.posz);
 
     int distance = rl_dist(abspos.x, abspos.y, source_x, source_y);
     int max_charges = type->maximum_charges();
@@ -4014,7 +4014,7 @@ void item::reset_cable( player* p )
     }
 }
 
-bool item::process_wet( player * /*carrier*/, point /*pos*/ )
+bool item::process_wet( player * /*carrier*/, tripoint /*pos*/ )
 {
     item_counter--;
     if( item_counter == 0 ) {
@@ -4032,7 +4032,7 @@ bool item::process_wet( player * /*carrier*/, point /*pos*/ )
     return true;
 }
 
-bool item::process_tool( player *carrier, point pos )
+bool item::process_tool( player *carrier, tripoint pos )
 {
     it_tool *tmp = dynamic_cast<it_tool *>( type );
     long charges_used = 0;

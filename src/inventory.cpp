@@ -463,35 +463,35 @@ void inventory::restack(player *p)
 }
 
 extern long count_charges_in_list(const itype *type, const std::vector<item> &items);
-void inventory::form_from_map(point origin, int range, bool assign_invlet)
+void inventory::form_from_map(point origin, int z, int range, bool assign_invlet)
 {
     items.clear();
     for (int x = origin.x - range; x <= origin.x + range; x++) {
         for (int y = origin.y - range; y <= origin.y + range; y++) {
-            if (g->m.has_furn(x, y) && g->m.accessable_furniture(origin.x, origin.y, x, y, range)) {
-                const furn_t &f = g->m.furn_at(x, y);
+            if (g->m.has_furn(x, y, z) && g->m.accessable_furniture(origin.x, origin.y, z, x, y, z, range)) {
+                const furn_t &f = g->m.furn_at(x, y, z);
                 itype *type = f.crafting_pseudo_item_type();
                 if (type != NULL) {
                     item furn_item(type->id, 0);
                     const itype *ammo = f.crafting_ammo_item_type();
                     if (ammo != NULL) {
-                        furn_item.charges = count_charges_in_list(ammo, g->m.i_at(x, y));
+                        furn_item.charges = count_charges_in_list(ammo, g->m.i_at(x, y, z));
                     }
                     furn_item.item_tags.insert("PSEUDO");
                     add_item(furn_item);
                 }
             }
-            if(g->m.accessable_items(origin.x, origin.y, x, y, range)) {
+            if(g->m.accessable_items(origin.x, origin.y, z, x, y, z, range)) {
                 continue;
             }
-            for (auto &i : g->m.i_at(x, y)) {
+            for (auto &i : g->m.i_at(x, y, z)) {
                 if (!i.made_of(LIQUID)) {
                     add_item(i, false, assign_invlet);
                 }
             }
             // Kludges for now!
-            ter_id terrain_id = g->m.ter(x, y);
-            if (g->m.has_nearby_fire(x, y, 0)) {
+            ter_id terrain_id = g->m.ter(x, y, z);
+            if (g->m.has_nearby_fire(x, y, z, 0)) {
                 item fire("fire", 0);
                 fire.charges = 1;
                 add_item(fire);
@@ -516,9 +516,9 @@ void inventory::form_from_map(point origin, int range, bool assign_invlet)
             }
             // kludge that can probably be done better to check specifically for toilet water to use in
             // crafting
-            if (furnlist[g->m.furn(x, y)].examine == &iexamine::toilet) {
+            if (furnlist[g->m.furn(x, y, z)].examine == &iexamine::toilet) {
                 // get water charges at location
-                std::vector<item> toiletitems = g->m.i_at(x, y);
+                std::vector<item> toiletitems = g->m.i_at(x, y, z);
                 int waterindex = -1;
                 for (size_t i = 0; i < toiletitems.size(); ++i) {
                     if (toiletitems[i].typeId() == "water") {
@@ -532,8 +532,8 @@ void inventory::form_from_map(point origin, int range, bool assign_invlet)
             }
 
             // keg-kludge
-            if (furnlist[g->m.furn(x, y)].examine == &iexamine::keg) {
-                std::vector<item> liq_contained = g->m.i_at(x, y);
+            if (furnlist[g->m.furn(x, y, z)].examine == &iexamine::keg) {
+                std::vector<item> liq_contained = g->m.i_at(x, y, z);
                 for (auto &i : liq_contained)
                     if (i.made_of(LIQUID)) {
                         add_item(i);

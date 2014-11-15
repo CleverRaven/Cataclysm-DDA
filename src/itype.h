@@ -92,7 +92,7 @@ public:
 
     // What we're made of (material names). .size() == made of nothing.
     // MATERIALS WORK IN PROGRESS.
-    std::vector<std::string> materials; 
+    std::vector<std::string> materials;
 
     phase_id phase; //e.g. solid, liquid, gas
 
@@ -217,7 +217,7 @@ public:
     bool is_covering(body_part bp) const;
     /** Returns true if is_armor() and is sided on bp */
     bool is_sided(body_part bp) const;
-    int invoke( player *p, item *it, bool active, point pos );
+    int invoke( player *p, item *it, bool active, tripoint pos );
 
     std::string dmg_adj(int dam)
     {
