@@ -8412,17 +8412,18 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
     if (eaten->has_flag("HOT") && eaten->has_flag("EATEN_HOT")) {
         add_morale(MORALE_FOOD_HOT, 5, 10);
     }
-    if (eaten->has_flag("COLD") && eaten->has_flag("EATEN_COLD") && comest->fun > 0) {
-            add_morale(MORALE_FOOD_GOOD, comest->fun * 3, comest->fun * 3, 60, 30, false, comest);
+    auto fun = comest->fun;
+    if (eaten->has_flag("COLD") && eaten->has_flag("EATEN_COLD") && fun > 0) {
+            add_morale(MORALE_FOOD_GOOD, fun * 3, fun * 3, 60, 30, false, comest);
     }
-    if (eaten->has_flag("COLD") && eaten->has_flag("EATEN_COLD") && comest->fun <= 0) {
-            comest->fun = 1;
+    if (eaten->has_flag("COLD") && eaten->has_flag("EATEN_COLD") && fun <= 0) {
+            fun = 1;
     }
     if (has_trait("GOURMAND")) {
-        if (comest->fun < -2) {
-            add_morale(MORALE_FOOD_BAD, comest->fun * 0.5, comest->fun, 60, 30, false, comest);
-        } else if (comest->fun > 0) {
-            add_morale(MORALE_FOOD_GOOD, comest->fun * 3, comest->fun * 6, 60, 30, false, comest);
+        if (fun < -2) {
+            add_morale(MORALE_FOOD_BAD, fun * 0.5, fun, 60, 30, false, comest);
+        } else if (fun > 0) {
+            add_morale(MORALE_FOOD_GOOD, fun * 3, fun * 6, 60, 30, false, comest);
         }
         if (has_trait("GOURMAND") && !(has_active_mutation("HIBERNATE"))) {
         if ((comest->nutr > 0 && hunger < -60) || (comest->quench > 0 && thirst < -60)) {
@@ -8468,10 +8469,10 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
             thirst = -620;
         }
     } else {
-        if (comest->fun < 0) {
-            add_morale(MORALE_FOOD_BAD, comest->fun, comest->fun * 6, 60, 30, false, comest);
-        } else if (comest->fun > 0) {
-            add_morale(MORALE_FOOD_GOOD, comest->fun, comest->fun * 4, 60, 30, false, comest);
+        if (fun < 0) {
+            add_morale(MORALE_FOOD_BAD, fun, fun * 6, 60, 30, false, comest);
+        } else if (fun > 0) {
+            add_morale(MORALE_FOOD_GOOD, fun, fun * 4, 60, 30, false, comest);
         }
         if ((comest->nutr > 0 && hunger < -20) || (comest->quench > 0 && thirst < -20)) {
             add_msg_if_player(_("You can't finish it all!"));
