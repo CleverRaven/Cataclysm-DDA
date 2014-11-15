@@ -2571,16 +2571,6 @@ bool item::is_macguffin() const
     return type->is_macguffin();
 }
 
-bool item::is_other() const
-{
-    if( is_null() )
-        return false;
-
-    return (!is_gun() && !is_ammo() && !is_armor() && !is_food() &&
-            !is_food_container() && !is_tool() && !is_gunmod() && !is_bionic() &&
-            !is_book() && !is_weap());
-}
-
 bool item::is_artifact() const
 {
     if( is_null() )
