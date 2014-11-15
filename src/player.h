@@ -975,7 +975,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         // crafting.cpp
         bool crafting_allowed(); // is morale high enough to craft?
         bool crafting_can_see(); // can player see well enough to craft?
-        bool can_make(const recipe *r, int batch_size); // have components?
+        bool can_make(const recipe *r, int batch_size = 1); // have components?
         bool making_would_work(const std::string &id_to_make, int batch_size);
         void craft();
         void recraft();
