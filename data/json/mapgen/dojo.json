@@ -52,7 +52,12 @@
         "move_cost_mod": 0,
         "required_str": 7,
         "max_volume": 4000,
-        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC"]
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC"],
+        "bash": {
+            "str_min": 8, "str_max": 30,
+            "sound": "crunch.",
+            "sound_fail": "whump."
+        }
     },
     {
         "type" : "overmap_terrain",
