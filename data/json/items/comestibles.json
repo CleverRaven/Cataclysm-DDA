@@ -13148,7 +13148,7 @@
         "category" : "chems",
         "name" : "fungicide",
         "name_plural" : "fungicide",
-        "weight" : 458, "//" : "Typically sold in larger quantities.",
+        "weight" : 1, "//" : "Typically sold in larger quantities, but that's handed in the charge count.",
         "color" : "pink",
         "addiction_type" : "none",
         "spoils_in" : 0,
