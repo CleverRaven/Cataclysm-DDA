@@ -54,7 +54,7 @@ void map::generate_lightmap()
             for(int sy = DAYLIGHT_LEVEL - (natural_light / 2);
                 sy < LIGHTMAP_CACHE_Y - (natural_light / 2); ++sy) {
                 // In bright light indoor light exists to some degree
-                if (!is_outside(sx, sy)) {
+                if (!is_outside(sx, sy, g->u.posz)) {
                     lm[sx][sy] = LIGHT_AMBIENT_LOW;
                 } else if (g->u.posx == sx && g->u.posy == sy ) {
                     //Only apply daylight on square where player is standing to avoid flooding
@@ -71,18 +71,18 @@ void map::generate_lightmap()
     }
     for(int sx = 0; sx < LIGHTMAP_CACHE_X; ++sx) {
         for(int sy = 0; sy < LIGHTMAP_CACHE_Y; ++sy) {
-            const ter_id terrain = ter(sx, sy);
-            const std::vector<item> &items = i_at(sx, sy);
-            const field &current_field = field_at(sx, sy);
+            const ter_id terrain = ter(sx, sy, g->u.posz);
+            const std::vector<item> &items = i_at(sx, sy, g->u.posz);
+            const field &current_field = field_at(sx, sy, g->u.posz);
             // When underground natural_light is 0, if this changes we need to revisit
             // Only apply this whole thing if the player is inside,
             // buildings will be shadowed when outside looking in.
-            if (natural_light > LIGHT_SOURCE_BRIGHT && !is_outside(g->u.posx, g->u.posy) ) {
-                if (!is_outside(sx, sy)) {
+            if (natural_light > LIGHT_SOURCE_BRIGHT && !is_outside(g->u.posx, g->u.posy, g->u.posz) ) {
+                if (!is_outside(sx, sy, g->u.posz)) {
                     // Apply light sources for external/internal divide
                     for(int i = 0; i < 4; ++i) {
                         if (INBOUNDS(sx + dir_x[i], sy + dir_y[i]) &&
-                            is_outside(sx + dir_x[i], sy + dir_y[i])) {
+                            is_outside(sx + dir_x[i], sy + dir_y[i], g->u.posz)) {
                             lm[sx][sy] = natural_light;
 
                             if (light_transparency(sx, sy) > LIGHT_TRANSPARENCY_SOLID) {
@@ -337,7 +337,7 @@ void map::build_seen_cache()
     castLight( 1, 1.0f, 0.0f, 0, -1, -1, 0, offsetX, offsetY, 0 );
     castLight( 1, 1.0f, 0.0f, -1, 0, 0, -1, offsetX, offsetY, 0 );
 
-    if (vehicle *veh = veh_at(offsetX, offsetY)) {
+    if (vehicle *veh = veh_at(offsetX, offsetY, g->u.posz)) {
         // We're inside a vehicle. Do mirror calcs.
         std::vector<int> mirrors = veh->all_parts_with_feature(VPFLAG_MIRROR, true);
         // Do all the sight checks first to prevent fake multiple reflection

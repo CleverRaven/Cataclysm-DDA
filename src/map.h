@@ -34,6 +34,7 @@ struct mapgendata;
 struct wrapped_vehicle{
  int x;
  int y;
+ int z;
  int i; // submap col
  int j; // submap row
  vehicle* v;
@@ -302,7 +303,7 @@ class map
 // Returns true, if there was a submap change.
 // If test is true, function only checks for submap change, no displacement
 // WARNING: not checking collisions!
- bool displace_vehicle (int &x, int &y, const int dx, const int dy, bool test = false);
+ bool displace_vehicle (int &x, int &y, int &z, const int dx, const int dy, const int dz, bool test = false);
  void vehmove();          // Vehicle movement
  bool vehproceed();
 // move water under wheels. true if moved
@@ -624,11 +625,11 @@ void add_corpse(int x, int y, int z);
                       const int init_veh_fuel = -1, const int init_veh_status = -1,
                       const bool merge_wrecks = true);
  computer* add_computer(const int x, const int y, const int z, std::string name, const int security);
- float light_transparency(const int x, const int y, const int z) const;
+ float light_transparency(const int x, const int y) const;
  void build_map_cache();
- lit_level light_at(int dx, int dy, int dz); // Assumes 0,0 is light map center
- float ambient_light_at(int dx, int dy, int dz); // Raw values for tilesets
- bool pl_sees(int fx, int fy, int fz, int tx, int ty, int tz, int max_range);
+ lit_level light_at(int dx, int dy); // Assumes 0,0 is light map center
+ float ambient_light_at(int dx, int dy); // Raw values for tilesets
+ bool pl_sees(int fx, int fy, int tx, int ty, int max_range);
  std::set<vehicle*> vehicle_list;
  std::set<vehicle*> dirty_vehicle_list;
 
@@ -708,8 +709,8 @@ protected:
  void build_outside_cache();
  void generate_lightmap();
  void build_seen_cache();
- void castLight( int row, float start, float end, int xx, int xy, int xz, int yx, int yy, int yz, int zz,
-                 const int offsetX, const int offsetY, const int offsetZ, const int offsetDistance );
+ void castLight( int row, float start, float end, int xx, int xy, int yx, int yy,
+                 const int offsetX, const int offsetY, const int offsetDistance );
 
  int my_MAPSIZE;
 
@@ -760,15 +761,15 @@ private:
  long determine_wall_corner(const int x, const int y, const int z, const long orig_sym);
  void cache_seen(const int fx, const int fy, const int fz, const int tx, const int ty, const int tz, const int max_range);
  // apply a circular light pattern immediately, however it's best to use...
- void apply_light_source(int x, int y, int z, float luminance, bool trig_brightcalc);
+ void apply_light_source(int x, int y, float luminance, bool trig_brightcalc);
  // ...this, which will apply the light after at the end of generate_lightmap, and prevent redundant
  // light rays from causing massive slowdowns, if there's a huge amount of light.
- void add_light_source(int x, int y, int z, float luminance);
- void apply_light_arc(int x, int y, int z, int angle, float luminance, int wideangle = 30 );
- void apply_light_ray(bool lit[MAPSIZE*SEEX][MAPSIZE*SEEY][MAPSIZE*SEEZ],
-                      int sx, int sy, int sz, int ex, int ey, int ez, float luminance, bool trig_brightcalc = true);
- void add_light_from_items( const int x, const int y, const int z, const std::vector<item> &items );
- void calc_ray_end(int angle, int range, int x, int y, int z, int* outx, int* outy, int* outz);
+ void add_light_source(int x, int y, float luminance);
+ void apply_light_arc(int x, int y, int angle, float luminance, int wideangle = 30 );
+ void apply_light_ray(bool lit[MAPSIZE*SEEX][MAPSIZE*SEEY],
+                      int sx, int sy, int ex, int ey, float luminance, bool trig_brightcalc = true);
+ void add_light_from_items( const int x, const int y, const std::vector<item> &items );
+ void calc_ray_end(int angle, int range, int x, int y, int* outx, int* outy);
  void forget_traps(int gridx, int gridy, int gridz);
  vehicle *add_vehicle_to_map(vehicle *veh, const int x, const int y, const int z, const bool merge_wrecks = true);
  void add_item(const int x, const int y, const int z, item new_item, int maxitems = 64);
@@ -783,14 +784,14 @@ private:
  template<typename T>
  void process_items_in_vehicle( vehicle *cur_veh, submap *const current_submap, T processor );
 
- float lm[MAPSIZE*SEEX][MAPSIZE*SEEY][MAPSIZE*SEEZ];
- float sm[MAPSIZE*SEEX][MAPSIZE*SEEY][MAPSIZE*SEEZ];
+ float lm[MAPSIZE*SEEX][MAPSIZE*SEEY];
+ float sm[MAPSIZE*SEEX][MAPSIZE*SEEY];
  // to prevent redundant ray casting into neighbors: precalculate bulk light source positions. This is
  // only valid for the duration of generate_lightmap
- float light_source_buffer[MAPSIZE*SEEX][MAPSIZE*SEEY][MAPSIZE*SEEZ];
- bool outside_cache[MAPSIZE*SEEX][MAPSIZE*SEEY][MAPSIZE*SEEZ];
- float transparency_cache[MAPSIZE*SEEX][MAPSIZE*SEEY][MAPSIZE*SEEZ];
- bool seen_cache[MAPSIZE*SEEX][MAPSIZE*SEEY][MAPSIZE*SEEZ];
+ float light_source_buffer[MAPSIZE*SEEX][MAPSIZE*SEEY];
+ bool outside_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
+ float transparency_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
+ bool seen_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
  submap* grid[MAPSIZE * MAPSIZE];
  std::map<trap_id, std::set<tripoint> > traplocs;
 };

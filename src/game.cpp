@@ -3013,9 +3013,9 @@ input_context game::get_player_input(std::string &action)
                     const int distance = rl_dist( u.posx, u.posy, mapx, mapy );
 
                     if( m.is_outside( mapx, mapy, u.posz ) &&
-                        ( m.light_at( mapx, mapy, u.posz ) > LL_LOW ||
+                        ( m.light_at( mapx, mapy ) > LL_LOW ||
                           distance <= light_sight_range ) &&
-                        m.pl_sees( u.posx, u.posy, u.posz, mapx, mapy, u.posz, distance ) &&
+                        m.pl_sees( u.posx, u.posy, mapx, mapy, distance ) &&
                         !critter_at(mapx, mapy, u.posz) ) {
                         // Supress if a critter is there
                         wPrint.vdrops.push_back(std::make_pair(iRandX, iRandY));
@@ -5548,7 +5548,7 @@ void game::draw_critter(const Creature &critter, const point &center)
                         u.has_trait( "INFRARED" ) ||
                         u.has_trait( "LIZ_IR" ) ||
                         u.worn_with_flag( "IR_EFFECT" );
-    const bool can_see = m.pl_sees( u.posx, u.posy, u.posz, critter.xpos(), critter.ypos(), critter.zpos(),
+    const bool can_see = m.pl_sees( u.posx, u.posy, critter.xpos(), critter.ypos(),
                                     u.sight_range( DAYLIGHT_LEVEL ) );
     if( critter.is_warm() && has_ir && can_see ) {
         mvwputch( w_terrain, my, mx, c_red, '?' );
@@ -6645,7 +6645,7 @@ bool game::sound(int x, int y, int z, int vol, std::string description, bool amb
         }
     }
 
-    if (!ambient && (x != u.posx || y != u.posy) && !m.pl_sees(u.posx, u.posy, u.posz, x, y, z, dist)) {
+    if (!ambient && (x != u.posx || y != u.posy) && !m.pl_sees(u.posx, u.posy, x, y, dist)) {
         if (u.activity.ignore_trivial != true) {
             std::string query;
             if (description != "") {
@@ -9485,7 +9485,7 @@ tripoint game::look_around(WINDOW *w_info, const tripoint pairCoordsFirst)
                 print_all_tile_info(lx, ly, lz, w_info, 1, off, false);
 
             } else if (u.sight_impaired() &&
-                       m.light_at(lx, ly, lz) == LL_BRIGHT &&
+                       m.light_at(lx, ly) == LL_BRIGHT &&
                        rl_dist(u.posx, u.posy, lx, ly) < u.unimpaired_range() &&
                        m.sees(u.posx, u.posy, u.posz, lx, ly, lz, u.unimpaired_range(), junk)) {
                 if (u.has_effect("boomered")) {

@@ -1239,6 +1239,7 @@ void vehicle_part::deserialize(JsonIn &jsin)
     setid(pid);
     data.read("mount_dx", mount_dx);
     data.read("mount_dy", mount_dy);
+    data.read("mount_dz", mount_dz);
     data.read("hp", hp );
     data.read("amount", amount );
     data.read("blood", blood );
@@ -1259,6 +1260,7 @@ void vehicle_part::serialize(JsonOut &json) const
     json.member("id", id);
     json.member("mount_dx", mount_dx);
     json.member("mount_dy", mount_dy);
+    json.member("mount_dz", mount_dz);
     json.member("hp", hp);
     json.member("amount", amount);
     json.member("blood", blood);

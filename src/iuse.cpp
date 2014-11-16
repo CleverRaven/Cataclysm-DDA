@@ -10287,13 +10287,13 @@ int iuse::cable_attach(player *p, item *it, bool, tripoint)
             }
 
             tripoint vcoords = g->m.veh_part_coordinates(source_local.x, source_local.y, source_local.z);
-            vehicle_part source_part(it->typeId(), vcoords.x, vcoords.y, it);
+            vehicle_part source_part(it->typeId(), vcoords.x, vcoords.y, vcoords.z, it);
             source_part.target.first = target_global;
             source_part.target.second = target_veh->real_global_pos();
             source_veh->install_part(vcoords.x, vcoords.y, source_part);
 
             vcoords = g->m.veh_part_coordinates(target_local.x, target_local.y, target_local.z);
-            vehicle_part target_part(it->typeId(), vcoords.x, vcoords.y, it);
+            vehicle_part target_part(it->typeId(), vcoords.x, vcoords.y, vcoords.z, it);
             target_part.target.first = source_global;
             target_part.target.second = source_veh->real_global_pos();
             target_veh->install_part(vcoords.x, vcoords.y, target_part);

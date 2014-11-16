@@ -140,6 +140,7 @@ void vehicle::add_missing_frames()
     for (auto &i : parts) {
         int next_x = i.mount_dx;
         int next_y = i.mount_dy;
+        int next_z = i.mount_dz;
         std::pair<int, int> mount_location = std::make_pair(next_x, next_y);
 
         if(locations_checked.count(mount_location) == 0) {
@@ -158,6 +159,7 @@ void vehicle::add_missing_frames()
                 new_part.setid("frame_vertical");
                 new_part.mount_dx = next_x;
                 new_part.mount_dy = next_y;
+                new_part.mount_dz = next_z;
                 new_part.hp = vehicle_part_types["frame_vertical"].durability;
                 new_part.amount = 0;
                 new_part.blood = 0;
@@ -1818,6 +1820,7 @@ int vehicle::index_of_part(vehicle_part *part, bool check_removed)
       if(part->id == next_part.id &&
               part->mount_dx == next_part.mount_dx &&
               part->mount_dy == next_part.mount_dy &&
+              part->mount_dz == next_part.mount_dz &&
               part->hp == next_part.hp) {
         return index;
       }
@@ -2157,7 +2160,6 @@ int vehicle::global_x() const
 {
     return smx * SEEX + posx;
 }
-
 int vehicle::global_y() const
 {
     return smy * SEEY + posy;

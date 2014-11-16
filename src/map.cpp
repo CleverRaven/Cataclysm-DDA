@@ -50,32 +50,37 @@ map::~map()
 }
 
 VehicleList map::get_vehicles(){
-   return get_vehicles(0,0,SEEX*my_MAPSIZE, SEEY*my_MAPSIZE);
+   return get_vehicles(0,0,0,SEEX*my_MAPSIZE, SEEY*my_MAPSIZE, SEEZ*my_MAPSIZE);
 }
 
-VehicleList map::get_vehicles(const int sx, const int sy, const int ex, const int ey)
+VehicleList map::get_vehicles(const int sx, const int sy, const int sz, const int ex, const int ey, const int ez)
 {
  const int chunk_sx = (sx / SEEX) - 1;
  const int chunk_ex = (ex / SEEX) + 1;
  const int chunk_sy = (sy / SEEY) - 1;
  const int chunk_ey = (ey / SEEY) + 1;
+ const int chunk_sz = (sz / SEEZ) - 1;
+ const int chunk_ez = (ez / SEEZ) + 1;
  VehicleList vehs;
 
  for(int cx = chunk_sx; cx <= chunk_ex; ++cx) {
   for(int cy = chunk_sy; cy <= chunk_ey; ++cy) {
-   submap *current_submap = get_submap_at_grid(cx, cy);
-   if(current_submap == NULL) {
+   for (int cz = chunk_sz; cz <= chunk_ez; ++cz){
+    submap *current_submap = get_submap_at_grid(cx, cy, cz);
+    if(current_submap == NULL) {
        continue; // out of grid
-   }
+    }
 
-   for( size_t i = 0; i < current_submap->vehicles.size(); ++i ) {
-    wrapped_vehicle w;
-    w.v = current_submap->vehicles[i];
-    w.x = w.v->posx + cx * SEEX;
-    w.y = w.v->posy + cy * SEEY;
-    w.i = cx;
-    w.j = cy;
-    vehs.push_back(w);
+    for( size_t i = 0; i < current_submap->vehicles.size(); ++i ) {
+     wrapped_vehicle w;
+     w.v = current_submap->vehicles[i];
+     w.x = w.v->posx + cx * SEEX;
+     w.y = w.v->posy + cy * SEEY;
+     w.z = w.v->posz + cz * SEEZ;
+     w.i = cx;
+     w.j = cy;
+     vehs.push_back(w);
+    }
    }
   }
  }
@@ -83,13 +88,13 @@ VehicleList map::get_vehicles(const int sx, const int sy, const int ex, const in
  return vehs;
 }
 
-vehicle* map::veh_at(const int x, const int y, int &part_num)
+vehicle* map::veh_at(const int x, const int y, const int z, int &part_num)
 {
     // This function is called A LOT. Move as much out of here as possible.
-    if (!veh_in_active_range || !inbounds(x, y)) {
+    if (!veh_in_active_range || !inbounds(x, y, z)) {
         return NULL;    // Out-of-bounds - null vehicle
     }
-    if(!veh_exists_at[x][y]) {
+    if(!veh_exists_at[x][y][z]) {
         return NULL;    // cache cache indicates no vehicle. This should optimize a great deal.
     }
     std::pair<int,int> point(x,y);
@@ -108,7 +113,7 @@ tripoint map::veh_part_coordinates(const int x, const int y, const int z)
     vehicle* veh = veh_at(x, y, z, part_num);
 
     if(veh == nullptr) {
-        return point(0,0);
+        return tripoint(0,0,0);
     }
 
     auto part = veh->parts[part_num];
@@ -116,10 +121,10 @@ tripoint map::veh_part_coordinates(const int x, const int y, const int z)
     return tripoint(part.mount_dx, part.mount_dy, z);
 }
 
-vehicle* map::veh_at(const int x, const int y)
+vehicle* map::veh_at(const int x, const int y, const int z)
 {
  int part = 0;
- vehicle *veh = veh_at(x, y, part);
+ vehicle *veh = veh_at(x, y, z, part);
  return veh;
 }
 
@@ -145,10 +150,11 @@ void map::update_vehicle_cache(vehicle * veh, const bool brand_new)
    if( it->second.first == veh ) {
     int x = it->first.first;
     int y = it->first.second;
+    int z = veh->posz;
     if ((x > 0) && (y > 0) &&
          x < SEEX*MAPSIZE &&
          y < SEEY*MAPSIZE){
-     veh_exists_at[x][y] = false;
+     veh_exists_at[x][y][z] = false;
     }
     tmp = it;
     ++it;
@@ -174,7 +180,7 @@ void map::update_vehicle_cache(vehicle * veh, const bool brand_new)
   if ((px > 0) && (py > 0) &&
        px < SEEX*MAPSIZE &&
        py < SEEY*MAPSIZE){
-   veh_exists_at[px][py] = true;
+   veh_exists_at[px][py][veh->posz] = true;
   }
  }
 }
@@ -189,7 +195,7 @@ void map::clear_vehicle_cache()
   if ((x > 0) && (y > 0) &&
        x < SEEX*MAPSIZE &&
        y < SEEY*MAPSIZE){
-   veh_exists_at[x][y] = false;
+   veh_exists_at[x][y][0] = false;
   }
   veh_cached_parts.erase(part);
  }
@@ -203,7 +209,7 @@ void map::update_vehicle_list(submap *const to) {
  }
 }
 
-void map::board_vehicle(int x, int y, player *p)
+void map::board_vehicle(int x, int y, int z, player *p)
 {
     if (!p) {
         debugmsg ("map::board_vehicle: null player");
@@ -229,7 +235,7 @@ void map::board_vehicle(int x, int y, player *p)
         player *psg = veh->get_passenger (seat_part);
         debugmsg ("map::board_vehicle: passenger (%s) is already there",
                   psg ? psg->name.c_str() : "<null>");
-        unboard_vehicle( x, y );
+        unboard_vehicle( x, y, z );
     }
     veh->parts[seat_part].set_flag(vehicle_part::passenger_flag);
     veh->parts[seat_part].passenger_id = p->getID();
@@ -241,14 +247,14 @@ void map::board_vehicle(int x, int y, player *p)
         (x < SEEX * int(my_MAPSIZE / 2) || y < SEEY * int(my_MAPSIZE / 2) ||
          x >= SEEX * (1 + int(my_MAPSIZE / 2)) ||
          y >= SEEY * (1 + int(my_MAPSIZE / 2))   )) {
-        g->update_map(x, y);
+        g->update_map(x, y, z);
     }
 }
 
-void map::unboard_vehicle(const int x, const int y)
+void map::unboard_vehicle(const int x, const int y, const int z)
 {
     int part = 0;
-    vehicle *veh = veh_at(x, y, part);
+    vehicle *veh = veh_at(x, y, z, part);
     player *passenger = NULL;
     if (!veh) {
         debugmsg ("map::unboard_vehicle: vehicle not found");
@@ -256,7 +262,7 @@ void map::unboard_vehicle(const int x, const int y)
         if( g->u.xpos() == x && g->u.ypos() == y ) {
             passenger = &(g->u);
         } else {
-            int npcdex = g->npc_at( x, y );
+            int npcdex = g->npc_at( x, y, z );
             if( npcdex != -1 ) {
                 passenger = g->active_npc[npcdex];
             }
@@ -292,7 +298,7 @@ void map::destroy_vehicle (vehicle *veh)
         debugmsg("map::destroy_vehicle was passed NULL");
         return;
     }
-    submap * const current_submap = get_submap_at_grid(veh->smx, veh->smy);
+    submap * const current_submap = get_submap_at_grid(veh->smx, veh->smy, veh->smz);
     for (size_t i = 0; i < current_submap->vehicles.size(); i++) {
         if (current_submap->vehicles[i] == veh) {
             vehicle_list.erase(veh);
@@ -305,16 +311,17 @@ void map::destroy_vehicle (vehicle *veh)
     debugmsg ("destroy_vehicle can't find it! name=%s, x=%d, y=%d", veh->name.c_str(), veh->smx, veh->smy);
 }
 
-bool map::displace_vehicle (int &x, int &y, const int dx, const int dy, bool test)
+bool map::displace_vehicle (int &x, int &y, int &z, const int dx, const int dy, const int dz, bool test)
 {
     const int x2 = x + dx;
     const int y2 = y + dy;
     int srcx = x;
     int srcy = y;
+    int srcz = z;
     int dstx = x2;
     int dsty = y2;
 
-    if (!inbounds(srcx, srcy)){
+    if (!inbounds(srcx, srcy, srcz)){
         add_msg( m_debug, "map::displace_vehicle: coords out of bounds %d,%d->%d,%d",
                         srcx, srcy, dstx, dsty);
         return false;
