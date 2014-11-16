@@ -6633,6 +6633,9 @@ bool game::sound(int x, int y, int vol, std::string description, bool ambient)
 
             if (cancel_activity_or_ignore_query(query.c_str())) {
                 u.activity.ignore_trivial = true;
+                for( auto activity : u.backlog ) {
+                    activity.ignore_trivial = true;
+                }
             }
         }
     }
