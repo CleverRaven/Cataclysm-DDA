@@ -107,9 +107,35 @@ bool vehicle::player_in_control (player *p)
 {
     int veh_part;
     vehicle *veh = g->m.veh_at (p->posx, p->posy, veh_part);
-    if (veh == NULL || veh != this)
-        return false;
+
+    if (veh == NULL || veh != this) {
+        return remote_controlled( p );
+    }
+
     return part_with_feature(veh_part, VPFLAG_CONTROLS, false) >= 0 && p->controlling_vehicle;
+}
+
+bool vehicle::remote_controlled (player *p)
+{
+    std::stringstream remote_veh_string( g->u.get_value( "remote_controlling_vehicle" ) );
+    if( remote_veh_string.str() == "" ) {
+        return false;
+    }
+    
+    int vx, vy;
+    remote_veh_string >> vx >> vy;
+    vehicle *veh = g->m.veh_at( vx, vy );
+    if( veh == NULL || veh != this ) {
+        return false;
+    }
+    
+    if( rl_dist( p->posx, p->posy, global_x(), global_y() ) > 40 ) {
+        add_msg(m_bad, _("Lost connection with the vehicle due to distance!"));
+        p->remove_value( "remote_controlling_vehicle" );
+        return false;
+    }
+
+    return true;
 }
 
 void vehicle::load (std::ifstream &stin)

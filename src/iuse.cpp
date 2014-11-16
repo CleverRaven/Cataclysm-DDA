@@ -9859,21 +9859,59 @@ int iuse::radiocontrol(player *p, item *it, bool t, point)
     return it->type->charges_to_use();
 }
 
-int iuse::remoteveh(player *, item *it, bool, point) {
+int iuse::remoteveh(player *p, item *it, bool t, point) {
+    if (t) {
+        if (it->charges == 0) {
+            it->active = false;
+            p->remove_value( "remote_controlling_vehicle" );
+        } else if( p->get_value( "remote_controlling_vehicle" ) == "" ) {
+            it->active = false;
+        }
+
+        return it->type->charges_to_use();
+    }
+    
+    bool controlling = it->active && p->get_value( "remote_controlling_vehicle" ) != "";
+    int choice = menu(true, _("What do with remote vehicle control:"), _("Nothing"), 
+                      controlling ? _("Stop controlling the vehicle.") : _("Take control of a vehicle."),
+                      _("Execute one vehicle action"), NULL);
+
+   if (choice < 1 || choice > 3 ) {
+        return 0;
+    }
+    
+    if( choice == 2 && controlling ) {
+        it->active = false;
+        p->remove_value( "remote_controlling_vehicle" );
+        p->add_msg_if_player(m_good, _("You stop remotely controlling the vehicle."));
+        return 0;
+    }
+
     int px = g->u.view_offset_x;
     int py = g->u.view_offset_y;
-    point target = g->look_around();
     
+    point target = g->look_around();
     vehicle* veh = g->m.veh_at( target.x, target.y );
     
     if( veh == nullptr ) {
         popup(_("No vehicles here!"));
-    } else if( veh->all_parts_with_feature( "CONTROLS", true ).size() > 0 ) {
+        return 0;
+    } else if( veh->all_parts_with_feature( "CONTROLS", true ).size() == 0 ) {
+        popup(_("This vehicle has no working controls!"));
+        return 0;
+    } else if( choice == 2 ) {
+        std::stringstream car_location_string;
+        // Copypaste from RC car.
+        car_location_string << veh->global_x() << ' ' << veh->global_y() << ' ';
+        p->add_msg_if_player(m_good, _("You take control of a vehicle."));
+        p->set_value( "remote_controlling_vehicle", car_location_string.str() );
+        it->active = true;
+    } else if( choice == 3 ) {
         veh->use_controls();
     } else {
-        popup(_("This vehicle has no working controls!"));
+        return 0;
     }
-    
+
     g->u.view_offset_x = px;
     g->u.view_offset_y = py;
     return it->type->charges_to_use();

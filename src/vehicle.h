@@ -308,6 +308,8 @@ public:
 
 // check if given player controls this vehicle
     bool player_in_control (player *p);
+// check if player controls this vehicle remotely
+    bool remote_controlled (player *p);
 
 // init parts state for randomly generated vehicle
     void init_state(int veh_init_fuel, int veh_init_status);

@@ -413,8 +413,15 @@ bool map::displace_vehicle (int &x, int &y, const int dx, const int dy, bool tes
         src_submap->vehicles.erase( src_submap->vehicles.begin() + our_i );
     }
 
+    // Need old coords to check for remote control
+    bool remote = veh->remote_controlled( &g->u );
+
     x += dx;
     y += dy;
+
+    if( remote ) {
+        g->setremoteveh( veh );
+    }
 
     update_vehicle_cache(veh);
 
