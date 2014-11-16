@@ -570,7 +570,6 @@ public:
  int mission_id; // Refers to a mission in game's master list
  int player_id; // Only give a mission to the right player!
  std::map<std::string, std::string> item_vars;
- static itype * nullitem();
  typedef std::vector<item> t_item_vector;
  t_item_vector components;
 
@@ -578,8 +577,6 @@ public:
 
  int add_ammo_to_quiver(player *u, bool isAutoPickup);
  int max_charges_from_flag(std::string flagName);
-private:
- static itype * nullitem_m;
 };
 
 std::ostream &operator<<(std::ostream &, const item &);

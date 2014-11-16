@@ -23,6 +23,14 @@
 
 light_emission nolight = {0, 0, 0};
 
+// Returns the default item type, used for the null item (default constructed),
+// the returned pointer is always valid, it's never cleared by the @ref Item_factory.
+static itype *nullitem()
+{
+    static itype nullitem_m;
+    return &nullitem_m;
+}
+
 item::item()
 {
     init();
@@ -147,12 +155,6 @@ void item::make_corpse(const std::string new_type, mtype* mt, unsigned int turn,
     this->name = name;
 }
 
-itype * item::nullitem_m = new itype();
-itype * item::nullitem()
-{
-    return nullitem_m;
-}
-
 item::item(std::string itemdata)
 {
     load_info(itemdata);
@@ -220,7 +222,8 @@ void item::clear()
 bool item::is_null() const
 {
     static const std::string s_null("null"); // used alot, no need to repeat
-    return (type == nullptr || type->id == s_null);
+    // Actually, type should never by null at all.
+    return (type == nullptr || type == nullitem() || type->id == s_null);
 }
 
 item item::in_its_container()
