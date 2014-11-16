@@ -4073,8 +4073,9 @@ bool map::sees(const int Fx, const int Fy, const int Tx, const int Ty,
  int t = 0;
  int st;
 
- if (range >= 0 && (abs(dx) > range || abs(dy) > range))
-  return false; // Out of range!
+ if (range >= 0 && range < rl_dist(Fx, Fy, Tx, Ty) ) {
+     return false; // Out of range!
+ }
  if (ax > ay) { // Mostly-horizontal line
   st = SGN(ay - (ax >> 1));
 // Doing it "backwards" prioritizes straight lines before diagonal.
@@ -4136,8 +4137,9 @@ bool map::clear_path(const int Fx, const int Fy, const int Tx, const int Ty,
  int t = 0;
  int st;
 
- if (range >= 0 && (abs(dx) > range || abs(dy) > range))
-  return false; // Out of range!
+ if (range >= 0 &&  range < rl_dist(Fx, Fy, Tx, Ty) ) {
+     return false; // Out of range!
+ }
  if (ax > ay) { // Mostly-horizontal line
   st = SGN(ay - (ax >> 1));
 // Doing it "backwards" prioritizes straight lines before diagonal.
