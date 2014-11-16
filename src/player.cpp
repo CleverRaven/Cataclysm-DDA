@@ -10100,7 +10100,7 @@ bool player::wield(item* it, bool autodrop)
   return false;
  }
  if (!is_armed()) {
-  weapon = inv.remove_item(it);
+  weapon = i_rem(it);
   moves -= 30;
   weapon.on_wield( *this );
   last_item = itype_id(weapon.type->id);
@@ -10108,7 +10108,7 @@ bool player::wield(item* it, bool autodrop)
  } else if (volume_carried() + weapon.volume() - it->volume() <
             volume_capacity()) {
   item tmpweap = remove_weapon();
-  weapon = inv.remove_item(it);
+  weapon = i_rem(it);
   inv.add_item_keep_invlet(tmpweap);
   inv.unsort();
   moves -= 45;
@@ -10118,7 +10118,7 @@ bool player::wield(item* it, bool autodrop)
  } else if (query_yn(_("No space in inventory for your %s.  Drop it?"),
                      weapon.tname().c_str())) {
   g->m.add_item_or_charges(posx, posy, remove_weapon());
-  weapon = inv.remove_item(it);
+  weapon = i_rem(it);
   inv.unsort();
   moves -= 30;
   weapon.on_wield( *this );

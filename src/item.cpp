@@ -2566,10 +2566,7 @@ bool item::is_cutting_weapon() const
 
 bool item::is_armor() const
 {
-    if( is_null() )
-        return false;
-
-    return type->is_armor();
+    return type->is_armor() || has_flag( "IS_ARMOR" );
 }
 
 bool item::is_book() const

@@ -1036,8 +1036,8 @@ void item::deserialize(JsonObject &data)
     }
 
     data.read( "covers", tmp_covers );
-    if (is_armor() && tmp_covers.none()) {
-        it_armor *armor = dynamic_cast<it_armor *>( type );
+    const auto armor = dynamic_cast<const it_armor *>( type );
+    if( armor != nullptr && tmp_covers.none() ) {
         covers = armor->covers;
         if (armor->sided.any()) {
             make_handed( one_in( 2 ) ? LEFT : RIGHT );
