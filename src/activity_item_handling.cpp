@@ -43,12 +43,14 @@ static void add_drop_pairs( std::list<item *> &items, std::list<int> &quantities
 
 static void make_drop_activity( enum activity_type act, point drop_target,
     std::list<item *> &selected_items, std::list<int> &item_quantities,
-    std::list<item *> &selected_worn_items, std::list<int> &worn_item_quantities )
+    std::list<item *> &selected_worn_items, std::list<int> &worn_item_quantities,
+    bool ignoring_interruptions )
 {
     g->u.assign_activity( act, 0 );
     // This one is only ever called to re-insert the activity into the activity queue.
     // It's already relative, so no need to adjust it.
     g->u.activity.placement = drop_target;
+    g->u.activity.ignore_trivial = ignoring_interruptions;
     add_drop_pairs( selected_worn_items, worn_item_quantities);
     add_drop_pairs( selected_items, item_quantities);
 }
@@ -227,6 +229,7 @@ static void activity_on_turn_drop_or_stash( enum activity_type act )
     std::list<item *> selected_worn_items;
     std::list<int> worn_item_quantities;
 
+    bool ignoring_interruptions = g->u.activity.ignore_trivial;
     point drop_target = get_item_pointers_from_activity( selected_items, item_quantities,
                                                          selected_worn_items, worn_item_quantities );
 
@@ -247,7 +250,7 @@ static void activity_on_turn_drop_or_stash( enum activity_type act )
     }
     // If we make it here load anything left into a new activity.
     make_drop_activity( act, drop_target, selected_items, item_quantities,
-                        selected_worn_items, worn_item_quantities );
+                        selected_worn_items, worn_item_quantities, ignoring_interruptions );
 }
 
 void game::activity_on_turn_drop()
