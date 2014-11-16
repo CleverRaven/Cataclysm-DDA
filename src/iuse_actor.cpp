@@ -14,7 +14,7 @@ iuse_actor *iuse_transform::clone() const
     return new iuse_transform(*this);
 }
 
-long iuse_transform::use(player *p, item *it, bool t, point /*pos*/) const
+long iuse_transform::use(player *p, item *it, bool t, tripoint /*pos*/) const
 {
     if( t ) {
         // Invoked from active item processing, do nothing.
@@ -79,7 +79,7 @@ iuse_actor *auto_iuse_transform::clone() const
     return new auto_iuse_transform(*this);
 }
 
-long auto_iuse_transform::use(player *p, item *it, bool t, point pos) const
+long auto_iuse_transform::use(player *p, item *it, bool t, tripoint pos) const
 {
     if (t) {
         if (!when_underwater.empty() && p != NULL && p->is_underwater()) {
@@ -116,11 +116,11 @@ iuse_actor *explosion_iuse::clone() const
 // defined in iuse.cpp
 extern std::vector<point> points_for_gas_cloud(const point &center, int radius);
 
-long explosion_iuse::use(player *p, item *it, bool t, point pos) const
+long explosion_iuse::use(player *p, item *it, bool t, tripoint pos) const
 {
     if (t) {
         if (sound_volume >= 0) {
-            g->sound(pos.x, pos.y, sound_volume, sound_msg);
+            g->sound(pos.x, pos.y, pos.z, sound_volume, sound_msg);
         }
         return 0;
     }
@@ -137,30 +137,35 @@ long explosion_iuse::use(player *p, item *it, bool t, point pos) const
         g->explosion(pos.x, pos.y, explosion_power, explosion_shrapnel, explosion_fire, explosion_blast);
     }
     if (draw_explosion_radius >= 0) {
-        g->draw_explosion(pos.x, pos.y, draw_explosion_radius, draw_explosion_color);
+        g->draw_explosion(pos.x, pos.y, pos.z, draw_explosion_radius, draw_explosion_color);
     }
     if (do_flashbang) {
         g->flashbang(pos.x, pos.y, flashbang_player_immune);
     }
     if (fields_radius >= 0 && fields_type != fd_null) {
-        std::vector<point> gas_sources = points_for_gas_cloud(pos, fields_radius);
+        //Conversion to normal point for now, gas on z-levels is a 'later' job
+        std::vector<point> gas_sources = points_for_gas_cloud(point(pos.x,pos.y), fields_radius);
         for(size_t i = 0; i < gas_sources.size(); i++) {
             const point &p = gas_sources[i];
             const int dens = rng(fields_min_density, fields_max_density);
-            g->m.add_field(p.x, p.y, fields_type, dens);
+            g->m.add_field(p.x, p.y, pos.z, fields_type, dens);
         }
     }
     if (scrambler_blast_radius >= 0) {
         for (int x = pos.x - scrambler_blast_radius; x <= pos.x + scrambler_blast_radius; x++) {
             for (int y = pos.y - scrambler_blast_radius; y <= pos.y + scrambler_blast_radius; y++) {
-                g->scrambler_blast(x, y);
+                for (int z = pos.z - scrambler_blast_radius; z <= pos.z + scrambler_blast_radius; z++){
+                    g->scrambler_blast(x, y, z);
+                }
             }
         }
     }
     if (emp_blast_radius >= 0) {
         for (int x = pos.x - emp_blast_radius; x <= pos.x + emp_blast_radius; x++) {
             for (int y = pos.y - emp_blast_radius; y <= pos.y + emp_blast_radius; y++) {
-                g->emp_blast(x, y);
+                for (int z = pos.z - emp_blast_radius; z <= pos.z + emp_blast_radius; z++){
+                    g->emp_blast(x, y, z);
+                }
             }
         }
     }
@@ -178,7 +183,7 @@ iuse_actor *unfold_vehicle_iuse::clone() const
     return new unfold_vehicle_iuse(*this);
 }
 
-long unfold_vehicle_iuse::use(player *p, item *it, bool /*t*/, point /*pos*/) const
+long unfold_vehicle_iuse::use(player *p, item *it, bool /*t*/, tripoint /*pos*/) const
 {
     if (p->is_underwater()) {
         p->add_msg_if_player(m_info, _("You can't do that while underwater."));
@@ -252,7 +257,7 @@ iuse_actor *consume_drug_iuse::clone() const
     return new consume_drug_iuse(*this);
 }
 
-long consume_drug_iuse::use(player *p, item *it, bool, point) const
+long consume_drug_iuse::use(player *p, item *it, bool, tripoint) const
 {
     // Check prerequisites first.
     for( auto tool = tools_needed.cbegin(); tool != tools_needed.cend(); ++tool ) {
@@ -291,7 +296,7 @@ long consume_drug_iuse::use(player *p, item *it, bool, point) const
     for( auto field = fields_produced.cbegin(); field != fields_produced.cend(); ++field ) {
         const field_id fid = field_from_ident( field->first );
         for(int i = 0; i < 3; i++) {
-            g->m.add_field(p->posx + int(rng(-2, 2)), p->posy + int(rng(-2, 2)), fid, field->second);
+            g->m.add_field(p->posx + int(rng(-2, 2)), p->posy + int(rng(-2, 2)), p->posz, fid, field->second);
         }
     }
     // Output message.
@@ -313,7 +318,7 @@ iuse_actor *place_monster_iuse::clone() const
     return new place_monster_iuse(*this);
 }
 
-long place_monster_iuse::use( player *p, item *it, bool, point ) const
+long place_monster_iuse::use( player *p, item *it, bool, tripoint ) const
 {
     monster newmon( GetMType( mtype_id ) );
     point target;
@@ -321,7 +326,7 @@ long place_monster_iuse::use( player *p, item *it, bool, point ) const
         std::vector<point> valid;
         for( int x = p->posx - 1; x <= p->posx + 1; x++ ) {
             for( int y = p->posy - 1; y <= p->posy + 1; y++ ) {
-                if( g->is_empty( x, y ) ) {
+                if( g->is_empty( x, y, p->posz ) ) {
                     valid.push_back( point( x, y ) );
                 }
             }
@@ -337,13 +342,13 @@ long place_monster_iuse::use( player *p, item *it, bool, point ) const
         if( !choose_adjacent( query, target.x, target.y ) ) {
             return 0;
         }
-        if( !g->is_empty( target.x, target.y ) ) {
+        if( !g->is_empty( target.x, target.y, p->posz ) ) {
             p->add_msg_if_player( m_info, _( "You cannot place a %s there." ), newmon.name().c_str() );
             return 0;
         }
     }
     p->moves -= moves;
-    newmon.spawn( target.x, target.y );
+    newmon.spawn( target.x, target.y, p->posz );
     for( auto & amdef : newmon.ammo ) {
         item ammo_item( amdef.first, 0 );
         const int available = p->charges_of( amdef.first );
@@ -385,7 +390,7 @@ long place_monster_iuse::use( player *p, item *it, bool, point ) const
         newmon.friendly = -1;
     }
     // TODO: add a flag instead of monster id or something?
-    if( newmon.type->id == "mon_laserturret" && !g->is_in_sunlight( newmon.posx(), newmon.posy() ) ) {
+    if( newmon.type->id == "mon_laserturret" && !g->is_in_sunlight( newmon.posx(), newmon.posy(), newmon.posz() ) ) {
         p->add_msg_if_player( _( "A flashing LED on the laser turret appears to indicate low light." ) );
     }
     g->add_zombie( newmon );
@@ -411,7 +416,7 @@ bool has_powersource(const item &i, const player &p) {
     return p.has_charges( "UPS", 1 );
 }
 
-long ups_based_armor_actor::use( player *p, item *it, bool t, point ) const
+long ups_based_armor_actor::use( player *p, item *it, bool t, tripoint ) const
 {
     if( p == nullptr ) {
         return 0;

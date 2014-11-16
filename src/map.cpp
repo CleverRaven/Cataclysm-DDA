@@ -102,17 +102,18 @@ vehicle* map::veh_at(const int x, const int y, int &part_num)
     return NULL;
 }
 
-point map::veh_part_coordinates(const int x, const int y)
+tripoint map::veh_part_coordinates(const int x, const int y, const int z)
 {
     int part_num;
-    vehicle* veh = veh_at(x, y, part_num);
+    vehicle* veh = veh_at(x, y, z, part_num);
 
     if(veh == nullptr) {
         return point(0,0);
     }
 
     auto part = veh->parts[part_num];
-    return point(part.mount_dx, part.mount_dy);
+    //TODO: Support for multi-level vehicles, as this assumes the whole vehicle is on one z-level
+    return tripoint(part.mount_dx, part.mount_dy, z);
 }
 
 vehicle* map::veh_at(const int x, const int y)

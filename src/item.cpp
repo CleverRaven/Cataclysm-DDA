@@ -4084,7 +4084,7 @@ bool item::process_tool( player *carrier, tripoint pos )
     return false;
 }
 
-bool item::process_charger_gun( player *carrier, point pos )
+bool item::process_charger_gun( player *carrier, tripoint pos )
 {
     if( carrier == nullptr || this != &carrier->weapon ) {
         // Either on the ground or in the inventory of the player, in both cases:
@@ -4133,7 +4133,7 @@ bool item::process_charger_gun( player *carrier, point pos )
     return false;
 }
 
-bool item::process( player *carrier, point pos, bool activate )
+bool item::process( player *carrier, tripoint pos, bool activate )
 {
     const bool preserves = has_flag( "PRESERVES" );
     for( auto it = contents.begin(); it != contents.end(); ) {

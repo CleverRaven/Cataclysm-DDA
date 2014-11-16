@@ -231,10 +231,10 @@ public:
     /* This function is used when an artifact is activated.
        It examines the item's artifact-specific properties.
        See artifact.h for a list.                        */
-    int artifact            (player *, item *, bool, point);
+    int artifact            (player *, item *, bool, tripoint);
 
     // Helper for listening to music, might deserve a better home, but not sure where.
-    static void play_music( player *p, point source, int volume );
+    static void play_music( player *p, tripoint source, int volume );
 
     static void reset_bullet_pulling();
     static void load_bullet_pulling(JsonObject &jo);
@@ -246,14 +246,14 @@ protected:
 };
 
 
-typedef int (iuse::*use_function_pointer)(player*,item*,bool, point);
+typedef int (iuse::*use_function_pointer)(player*,item*,bool, tripoint);
 
 class iuse_actor {
 protected:
     iuse_actor() { }
 public:
     virtual ~iuse_actor() { }
-    virtual long use(player*, item*, bool, point) const = 0;
+    virtual long use(player*, item*, bool, tripoint) const = 0;
     virtual iuse_actor *clone() const = 0;
 };
 
@@ -295,7 +295,7 @@ public:
 
     ~use_function();
 
-    int call(player*,item*,bool,point) const;
+    int call(player*,item*,bool,tripoint) const;
 
     void operator=(use_function_pointer f);
     void operator=(iuse_actor *f);

@@ -287,7 +287,7 @@ class map
   * actually exists here.
   * Returns 0,0 if no vehicle exists there (use veh_at to check if it exists first)
   */
- point veh_part_coordinates(const int x, const int y, const int z);
+ tripoint veh_part_coordinates(const int x, const int y, const int z);
 
  // put player on vehicle at x,y
  void board_vehicle(int x, int y, int z, player *p);

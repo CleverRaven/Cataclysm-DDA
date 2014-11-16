@@ -621,7 +621,7 @@ struct it_macguffin : public virtual itype {
                  std::string pname_plural, std::string pdes, char psym, nc_color pcolor,
                  std::vector<std::string> pmaterial, unsigned int pvolume,
                  unsigned int pweight, int pmelee_dam, int pmelee_cut, int pm_to_hit,
-                 bool preadable, int (iuse::*puse)(player *, item *, bool, point))
+                 bool preadable, int (iuse::*puse)(player *, item *, bool, tripoint))
         : itype(pid, pprice, pname, pname_plural, pdes, psym, pcolor, pmaterial, SOLID,
                 pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit)
     {

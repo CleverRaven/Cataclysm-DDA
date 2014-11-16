@@ -672,7 +672,7 @@ void vehicle::use_controls()
     if (select < 0) {
         return;
     }
-    
+
     switch(options_choice[select]) {
     case cont_engines:
         control_engines();
@@ -2048,10 +2048,10 @@ void vehicle::print_fuel_indicator (void *w, int y, int x, bool fullsize, bool v
     const char fsyms[5] = { 'E', '\\', '|', '/', 'F' };
     nc_color col_indf1 = c_ltgray;
     int yofs = 0;
-    
+
     int max_gauge = (isHorizontal) ? 12 : 5;
     int cur_gauge = 0;
-    
+
     for (int i = 0; i < num_fuel_types; i++) {
         int cap = fuel_capacity(fuel_types[i]);
         if (cap > 0 && ( basic_consumption(fuel_types[i]) > 0 || fullsize ) ) {
@@ -2162,10 +2162,14 @@ int vehicle::global_y() const
 {
     return smy * SEEY + posy;
 }
-
-point vehicle::real_global_pos() const
+int vehicle::global_z() const
 {
-    return g->m.getabs( global_x(), global_y() );
+    return smz * SEEZ + posz;
+}
+
+tripoint vehicle::real_global_pos() const
+{
+    return g->m.getabs( global_x(), global_y(), global_z() );
 }
 
 void vehicle::set_submap_moved( int x, int y )
@@ -2418,7 +2422,7 @@ int vehicle::safe_velocity (bool fueled)
     int cnt = 0;
     for (size_t e = 0; e < engines.size(); e++){
         if (is_engine_on(e) &&
-            (!fueled || is_engine_type(e, fuel_type_muscle) || 
+            (!fueled || is_engine_type(e, fuel_type_muscle) ||
             fuel_left (part_info(engines[e]).fuel_type))) {
             int m2c = 100;
 
@@ -2734,7 +2738,7 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
     if(engine_on) {
         // Gas engines require epower to run for ignition system, ECU, etc.
         for( size_t e = 0; e < engines.size(); ++e ) {
-            if(is_engine_type_on(e, fuel_type_gasoline) || 
+            if(is_engine_type_on(e, fuel_type_gasoline) ||
                 is_engine_type_on(e, fuel_type_diesel)) {
                 gas_epower += part_info(engines[e]).epower;
             }
@@ -3191,7 +3195,7 @@ void vehicle::thrust (int thd) {
         int strn = (int) (strain () * strain() * 100);
         for (size_t e = 0; e < engines.size(); e++){
             size_t p = engines[e];
-            if (is_engine_on(e) && fuel_left(part_info(p).fuel_type) && 
+            if (is_engine_on(e) && fuel_left(part_info(p).fuel_type) &&
                 rng (1, 100) < strn ) {
                 int dmg = rng (strn * 2, strn * 4);
                 damage_direct (p, dmg, 0);
@@ -3247,9 +3251,9 @@ void vehicle::cruise_thrust (int amount)
     int safe_vel = safe_velocity();
     int max_vel = max_velocity();
     int max_rev_vel = -max_vel / 4;
-    
+
     //if the safe velocity is between the cruise velocity and its next value, set to safe velocity
-    if ((cruise_velocity < safe_vel && safe_vel < (cruise_velocity + amount)) || 
+    if ((cruise_velocity < safe_vel && safe_vel < (cruise_velocity + amount)) ||
         (cruise_velocity > safe_vel && safe_vel > (cruise_velocity + amount))){
         cruise_velocity = safe_vel;
     } else {
@@ -3257,7 +3261,7 @@ void vehicle::cruise_thrust (int amount)
         //then take one, so cruise_velocity scales down a multiple of amount
         if (amount < 0 && (cruise_velocity == safe_vel || cruise_velocity == max_vel)){
             cruise_velocity += -1;
-        } 
+        }
         //if not going up from max reverse velocity, increase by amount
         else if ((amount > 0 && cruise_velocity == max_rev_vel) == false){
             cruise_velocity += amount;
@@ -3274,7 +3278,7 @@ void vehicle::cruise_thrust (int amount)
     } else if (cruise_velocity < max_rev_vel) {
             cruise_velocity = max_rev_vel;
     }
-    
+
 }
 
 void vehicle::turn (int deg)

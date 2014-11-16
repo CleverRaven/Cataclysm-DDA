@@ -46,7 +46,7 @@ bool itype::is_sided(body_part bp) const
     return armor->sided.test(bp);
 }
 
-int itype::invoke( player *p, item *it, bool active, point pos )
+int itype::invoke( player *p, item *it, bool active, tripoint pos )
 {
     int charges_to_use = 0;
     for( auto method = use_methods.begin();

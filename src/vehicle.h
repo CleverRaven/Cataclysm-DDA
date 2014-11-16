@@ -74,7 +74,7 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     vehicle_part(const std::string &sid = "", int dx = 0, int dy = 0,
                  const item *it = NULL) : id("null"), iid(0), mount_dx(dx), mount_dy(dy),
                  hp(0), blood(0), bigness(0), inside(false), removed(false),enabled(1), flags(0),
-                 passenger_id(0), amount(0), target(point(0,0),point(0,0)) {
+                 passenger_id(0), amount(0), target(tripoint(0,0,0),tripoint(0,0,0)) {
         precalc_dx[0] = precalc_dx[1] = -1;
         precalc_dy[0] = precalc_dy[1] = -1;
         if (!sid.empty()) {
@@ -111,7 +111,7 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
         int open;           // door is open
         int direction;      // direction the part is facing
     };
-    std::pair<point,point> target;  // coordinates for some kind of target; jumper cables use this
+    std::pair<tripoint,tripoint> target;  // coordinates for some kind of target; jumper cables use this
                     // Two coord pairs are stored: actual target point, and target vehicle center.
                     // Both cases use absolute coordinates (relative to world origin)
     std::vector<item> items;// inventory
@@ -459,7 +459,7 @@ public:
      * Really global absolute coordinates in map squares.
      * This includes the overmap, the submap, and the map square.
      */
-    point real_global_pos() const;
+    tripoint real_global_pos() const;
 
 // Checks how much certain fuel left in tanks.
     int fuel_left (const ammotype & ftype, bool recurse=false);
@@ -649,7 +649,7 @@ public:
 
     // upgrades/refilling/etc. see veh_interact.cpp
     void interact ();
-    
+
     //main method for the control of individual engines
     void control_engines();
     // shows ui menu to select an engine
