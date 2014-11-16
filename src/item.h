@@ -653,7 +653,7 @@ public:
  bool active;             // If true, it has active effects to be processed
  signed char damage;      // How much damage it's sustained; generally, max is 5
  int burnt;               // How badly we're burnt
- std::bitset<13> covers;  // What body parts it covers
+ std::bitset<num_bp> covers;  // What body parts it covers
  int bday;                // The turn on which it was created
  int owned;               // UID of NPC owner; 0 = player, -1 = unowned
  light_emission light;

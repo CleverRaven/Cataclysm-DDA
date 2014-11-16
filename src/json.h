@@ -200,7 +200,8 @@ class JsonIn
         bool read(float &f);
         bool read(double &d);
         bool read(std::string &s);
-        bool read(std::bitset<13> &b);
+        template<size_t N>
+        bool read(std::bitset<N> &b);
         bool read(JsonDeserializer &j);
         // array ~> vector
         template <typename T> bool read(std::vector<T> &v)
@@ -424,7 +425,8 @@ class JsonOut
         void write(const unsigned long &ul);
         void write(const double &f);
         void write(const std::string &s);
-        void write(const std::bitset<13> &b);
+        template<size_t N>
+        void write(const std::bitset<N> &b);
         void write(const char *cstr)
         {
             write(std::string(cstr));

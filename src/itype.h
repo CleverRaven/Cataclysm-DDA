@@ -417,8 +417,8 @@ struct it_gunmod : public virtual itype {
 };
 
 struct it_armor : public virtual itype {
-    std::bitset<13> covers; // Bitfield of enum body_part
-    std::bitset<13> sided;  // Bitfield of enum body_part
+    std::bitset<num_bp> covers; // Bitfield of enum body_part
+    std::bitset<num_bp> sided;  // Bitfield of enum body_part
     signed char encumber;
     unsigned char coverage;
     unsigned char thickness;

@@ -953,7 +953,7 @@ void item::deserialize(JsonObject &data)
     int lettmp = 0;
     std::string corptmp = "null";
     int damtmp = 0;
-    std::bitset<13> tmp_covers;
+    std::bitset<num_bp> tmp_covers;
 
     if ( ! data.read( "typeid", idtmp) ) {
         debugmsg("Invalid item type: %s ", data.str().c_str() );

@@ -586,7 +586,7 @@ void player::apply_persistent_morale()
         std::string basic_flag = "FANCY";
         std::string bonus_flag = "SUPER_FANCY";
 
-        std::bitset<13> covered; // body parts covered
+        std::bitset<num_bp> covered; // body parts covered
         for( auto &elem : worn ) {
             if( elem.has_flag( basic_flag ) || elem.has_flag( bonus_flag ) ) {
                 covered |= elem.covers;
@@ -9077,12 +9077,12 @@ bool player::worn_with_flag( std::string flag ) const
     return false;
 }
 
-bool player::covered_with_flag(const std::string flag, std::bitset<13> parts) const
+bool player::covered_with_flag(const std::string flag, std::bitset<num_bp> parts) const
 {
-    std::bitset<13> covered = 0;
+    std::bitset<num_bp> covered = 0;
 
     for (std::vector<item>::const_reverse_iterator armorPiece = worn.rbegin(); armorPiece != worn.rend(); ++armorPiece) {
-        std::bitset<13> cover = armorPiece->covers & parts;
+        std::bitset<num_bp> cover = armorPiece->covers & parts;
 
         if (cover.none()) {
             continue; // For our purposes, this piece covers nothing.
@@ -9102,7 +9102,7 @@ bool player::covered_with_flag(const std::string flag, std::bitset<13> parts) co
     return (covered == parts);
 }
 
-bool player::covered_with_flag_exclusively(const std::string flag, std::bitset<13> parts) const
+bool player::covered_with_flag_exclusively(const std::string flag, std::bitset<num_bp> parts) const
 {
     for( const auto &elem : worn ) {
         if( ( elem.covers & parts ).any() && !elem.has_flag( flag ) ) {
@@ -9112,12 +9112,12 @@ bool player::covered_with_flag_exclusively(const std::string flag, std::bitset<1
     return true;
 }
 
-bool player::is_water_friendly(std::bitset<13> parts) const
+bool player::is_water_friendly(std::bitset<num_bp> parts) const
 {
     return covered_with_flag_exclusively("WATER_FRIENDLY", parts);
 }
 
-bool player::is_waterproof(std::bitset<13> parts) const
+bool player::is_waterproof(std::bitset<num_bp> parts) const
 {
     return covered_with_flag("WATERPROOF", parts);
 }

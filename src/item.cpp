@@ -177,7 +177,7 @@ void item::make( const std::string new_type )
 }
 
 // If armor is sided , add matching bits to cover bitset
-void make_sided_if( const it_armor &armor, std::bitset<13> &covers, handedness h, body_part bpl, body_part bpr )
+void make_sided_if( const it_armor &armor, std::bitset<num_bp> &covers, handedness h, body_part bpl, body_part bpr )
 {
     if( armor.sided.test( bpl ) ) {
         if( h == RIGHT ) {
