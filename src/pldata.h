@@ -210,12 +210,14 @@ struct trait {
     {
         powered = false;
         charge = 0;
+        cost = 0;
     }
     trait(std::string pid) : name(pid)
     {
         id = pid;
         powered = false;
         charge = 0;
+        cost = 0;
     };
 };
 
