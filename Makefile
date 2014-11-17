@@ -77,7 +77,6 @@ endif
 
 VERSION = 0.B
 
-
 TARGET = cataclysm
 TILESTARGET = cataclysm-tiles
 W32TILESTARGET = cataclysm-tiles.exe
