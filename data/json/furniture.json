@@ -11,7 +11,10 @@
         "bash": {
             "str_min": 1, "str_max": 12,
             "sound": "whish!",
-            "sound_fail": "whish."
+            "sound_fail": "whish.",
+            "items": [
+                { "item": "straw_pile", "amount": 10, "minamount": 6}
+            ]
         }
     },{
         "type" : "furniture",
