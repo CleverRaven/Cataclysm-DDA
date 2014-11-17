@@ -206,18 +206,18 @@ struct trait {
     bool powered;
     int cooldown;
     std::string description;
-    trait() : name("NULL_TRAIT")
+    trait() : name("NULL_TRAIT"), points(0), visibility(0), ugliness(0), mixed_effect(false),
+        startingtrait(false), purifiable(false), activated(false), fatigue(false),
+        hunger(false), thirst(false), cost(0), charge(0), powered(false), cooldown(0)
     {
-        powered = false;
-        charge = 0;
-        cost = 0;
     }
-    trait(std::string pid) : name(pid)
+
+    trait(std::string pid) : name(pid), points(0), visibility(0), ugliness(0),
+        mixed_effect(false), startingtrait(false), purifiable(false), activated(false),
+        fatigue(false), hunger(false), thirst(false), cost(0), charge(0), powered(false),
+        cooldown(0)
     {
         id = pid;
-        powered = false;
-        charge = 0;
-        cost = 0;
     };
 };
 
