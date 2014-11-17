@@ -496,7 +496,7 @@
   "batch_time_factors":[67, 5],
   "qualities" : [ {"id":"CUT","level":1,"amount":1} ],
   "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 5 ] ] ],
-  "components": [ [ [ "egg_bird", 12 ], [ "egg_reptile", 12 ] ] ]
+  "components": [ [ [ "egg_bird", 12 ], [ "egg_reptile", 12 ], [ "spider_egg", 4 ], [ "ant_egg", 1 ] ] ]
 },{
   "type" : "recipe",
   "result": "fish_fried",
