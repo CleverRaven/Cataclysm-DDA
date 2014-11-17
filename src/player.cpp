@@ -105,6 +105,8 @@ void game::init_morale()
 
     _("Moodswing"),
     _("Read %i"),
+    _("Got comfy"),
+    
     _("Heard Disturbing Scream"),
 
     _("Masochism"),
@@ -1194,25 +1196,25 @@ void player::update_bodytemp()
             case bp_mouth:
             case bp_leg_l:
             case bp_leg_r:
-                bonus_warmth = best_fire * best_fire * 100; // Not much
+                bonus_warmth = best_fire * best_fire * 150; // Not much
                 break;
             case bp_arm_l:
             case bp_arm_r:
-                bonus_warmth = best_fire * 400; // A fair bit
+                bonus_warmth = best_fire * 600; // A fair bit
                 break;
             case bp_foot_l:
             case bp_foot_r:
                 if( furn_at_pos == f_armchair || furn_at_pos == f_chair || furn_at_pos == f_bench ) {
                     // Can sit on something to lift feet up to the fire
-                    bonus_warmth = best_fire * 800;
+                    bonus_warmth = best_fire * 1000;
                 } else {
                     // Has to stand
-                    bonus_warmth = best_fire * 200;
+                    bonus_warmth = best_fire * 300;
                 }
                 break;
             case bp_hand_l:
             case bp_hand_r:
-                bonus_warmth = std::max( 2000, best_fire * 1000 ); // A lot
+                bonus_warmth = best_fire * 1500; // A lot
             }
         }
         if( bonus_warmth > 0 ) {
@@ -1222,9 +1224,9 @@ void player::update_bodytemp()
             if( std::abs( BODYTEMP_NORM - desired ) < 1000 ) {
                 desired = BODYTEMP_NORM; // Ensure that it converges
             } else if( desired > BODYTEMP_HOT ) {
-                desired = BODYTEMP_HOT;
+                desired = BODYTEMP_HOT; // Cap excess at sane temperature
             }
-            
+
             if( desired < temp_conv[i] ) {
                 // Too hot, can't help here
             } else if( desired < temp_conv[i] + bonus_warmth ) {
@@ -1234,8 +1236,18 @@ void player::update_bodytemp()
                 // Use all the heat
                 temp_conv[i] += bonus_warmth;
             }
+
+            // Morale bonus for comfiness - only if actually comfy (not too warm/cold)
+            // Spread the morale bonus in time. 
+            int mytime = MINUTES( i ) / MINUTES( num_bp );
+            if( calendar::turn % MINUTES( 1 ) == mytime && 
+                disease_intensity( "cold", false, (body_part)num_bp ) == 0 &&
+                disease_intensity( "hot", false, (body_part)num_bp ) == 0 &&
+                temp_cur[i] > BODYTEMP_COLD && temp_cur[i] <= BODYTEMP_NORM ) {
+                add_morale( MORALE_COMFY, 1, 5, 20, 10, true );
+            }
         }
-        
+
         int temp_before = temp_cur[i];
         int temp_difference = temp_cur[i] - temp_conv[i]; // Negative if the player is warming up.
         // exp(-0.001) : half life of 60 minutes, exp(-0.002) : half life of 30 minutes,
