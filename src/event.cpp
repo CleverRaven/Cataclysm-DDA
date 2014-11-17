@@ -296,7 +296,7 @@ void event::per_turn()
    if (g->levz >= 0 && one_in(100) && !ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"]) {
     monster eyebot(GetMType("mon_eyebot"));
     eyebot.faction_id = faction_id;
-    point place = g->m.random_outdoor_tile();
+    tripoint place = g->m.random_outdoor_tile();
     if (place.x == -1 && place.y == -1)
      return; // We're safely indoors!
     eyebot.spawn(place.x, place.y, g->u.posz);

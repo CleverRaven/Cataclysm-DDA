@@ -112,14 +112,14 @@ class map
   * @param center The coordinate of the center of the viewport, this can
   *               be different from the player coordinate.
   */
- void draw(WINDOW* w, const point center);
+ void draw(WINDOW* w, const tripoint center);
 
  /** Draw the map tile at the given coordinate. Called by `map::draw()`.
   *
   * @param x, y The tile on this map to draw.
   * @param cx, cy The center of the viewport to be rendered, see `center` in `map::draw()`
   */
- void drawsq(WINDOW* w, player &u, const int x, const int y, const bool invert, const bool show_items,
+ void drawsq(WINDOW* w, player &u, const int x, const int y, const int z, const bool invert, const bool show_items,
              const int view_center_x = -1, const int view_center_y = -1,
              const bool low_light = false, const bool bright_level = false);
 
@@ -262,7 +262,7 @@ class map
   * @param bash Whether we should path through terrain that's impassable, but can
   *             be destroyed(closed windows, doors, etc.)
   */
- std::vector<tripoint> route(const int Fx, const int Fy, const int Tx, const int Ty,
+ std::vector<tripoint> route(const int Fx, const int Fy, const int Fz, const int Tx, const int Ty, const int Tz,
                           const bool bash = true);
 
  int coord_to_angle (const int x, const int y, const int z, const int tgtx, const int tgty, const int tgtz);
@@ -398,7 +398,7 @@ class map
  bool is_outside(const int x, const int y, const int z);
  bool flammable_items_at(const int x, const int y, const int z);
  bool moppable_items_at(const int x, const int y, const int z);
- point random_outdoor_tile();
+ tripoint random_outdoor_tile();
 // mapgen
 
 void draw_line_ter(const ter_id type, int x1, int y1, int z1, int x2, int y2, int z2);
@@ -663,7 +663,7 @@ void add_corpse(int x, int y, int z);
 
 protected:
  void saven(const int x, const int y, const int z,
-            const int gridx, const int gridy);
+            const int gridx, const int gridy, const int gridz);
  void loadn(const int x, const int y, const int z, const int gridx, const int gridy, const int gridz,
             const  bool update_vehicles = true);
         /**

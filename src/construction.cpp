@@ -480,7 +480,7 @@ static void place_construction(const std::string &desc)
     inventory total_inv = g->crafting_inventory(&(g->u));
 
     std::vector<construction *> cons = constructions_by_desc(desc);
-    std::map<point, construction *> valid;
+    std::map<tripoint, construction *> valid;
     for (int x = g->u.posx - 1; x <= g->u.posx + 1; x++) {
         for (int y = g->u.posy - 1; y <= g->u.posy + 1; y++) {
             if (x == g->u.posx && y == g->u.posy) {
@@ -490,16 +490,16 @@ static void place_construction(const std::string &desc)
                  it != cons.end(); ++it) {
                 if (can_construct(*it, x, y, g->u.posz)
                     && player_can_build(g->u, total_inv, *it)) {
-                    valid[point(x, y)] = *it;
+                    valid[tripoint(x, y, g->u.posz)] = *it;
                 }
             }
         }
     }
 
-    for (std::map<point, construction *>::iterator it = valid.begin();
+    for (std::map<tripoint, construction *>::iterator it = valid.begin();
          it != valid.end(); ++it) {
-        int x = it->first.x, y = it->first.y;
-        g->m.drawsq(g->w_terrain, g->u, x, y, true, false);
+        int x = it->first.x, y = it->first.y, z = it->first.z;
+        g->m.drawsq(g->w_terrain, g->u, x, y, z, true, false);
     }
     wrefresh(g->w_terrain);
 
@@ -508,7 +508,7 @@ static void place_construction(const std::string &desc)
         return;
     }
 
-    point choice(dirx, diry);
+    tripoint choice(dirx, diry, g->u.posz);
     if (valid.find(choice) == valid.end()) {
         add_msg(m_info, _("You cannot build there!"));
         return;

@@ -5415,7 +5415,7 @@ int iuse::set_trap(player *p, item *it, bool, tripoint)
     trap *tr = traplist[type];
     g->m.add_trap(posx, posy, p->posz, type);
     if (!tr->can_see(*p, posx, posy, p->posz)) {
-        p->add_known_trap(posx, posy, tr->id);
+        p->add_known_trap(posx, posy, p->posz, tr->id);
     }
     p->moves -= 100 + practice * 25;
     if (type == tr_engine) {

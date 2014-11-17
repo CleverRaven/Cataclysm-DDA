@@ -6,18 +6,20 @@
 
 //Trying to pull points out of a tripoint vector is messy and
 //probably slow, so leaving two full functions for now
-std::vector <point> line_to(const int x1, const int y1, const int x2, const int y2, int t)
+std::vector <tripoint> line_to(const int x1, const int y1, const int z1, const int x2, const int y2, const int z2, int t)
 {
-    std::vector<point> ret;
+    std::vector<tripoint> ret;
     // Preallocate the number of cells we need instead of allocating them piecewise.
-    const int numCells = square_dist(tripoint(x1, y1, 0), tripoint(x2, y2, 0));
+    const int numCells = square_dist(tripoint(x1, y1, z1), tripoint(x2, y2, z2));
     ret.reserve(numCells);
     const int dx = x2 - x1;
     const int dy = y2 - y1;
+    const int dz = z2 - z1;
 
-    point cur;
+    tripoint cur;
     cur.x = x1;
     cur.y = y1;
+    cur.z = z1;
 
     // Draw point
     if (dx == 0 && dy == 0) {

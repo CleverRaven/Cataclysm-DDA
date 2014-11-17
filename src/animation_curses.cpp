@@ -108,7 +108,7 @@ void game::draw_line(const int x, const int y, const int z, std::vector<tripoint
     }
     for (std::vector<tripoint>::iterator it = vPoint.begin();
          it != vPoint.end() - 1; it++) {
-        m.drawsq(w_terrain, u, it->x, it->y, true, true);
+        m.drawsq(w_terrain, u, it->x, it->y, it->z, true, true);
     }
 
     mvwputch(w_terrain, cry, crx, c_white, 'X');

@@ -1123,8 +1123,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
                                            const char *npc_str, ...) const;
 
         typedef std::map<tripoint, std::string> trap_map;
-        bool knows_trap(int x, int y) const;
-        void add_known_trap(int x, int y, const std::string &t);
+        bool knows_trap(int x, int y, int z) const;
+        void add_known_trap(int x, int y, int z, const std::string &t);
         /** Search surrounding squares for traps (and maybe other things in the future). */
         void search_surroundings();
 

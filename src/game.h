@@ -131,7 +131,7 @@ class game
         void start_calendar();
         bool do_turn();
         void draw();
-        void draw_ter(int posx = -999, int posy = -999);
+        void draw_ter(int posx = -999, int posy = -999, int posz = -999);
         void draw_veh_dir_indicator(void);
         /**
          * Add an entry to @ref events. For further information see event.h
@@ -461,7 +461,7 @@ class game
         void draw_zones(const tripoint &p_pointStart, const tripoint &p_pointEnd, const tripoint &p_pointOffset);
         // Draw critter (if visible!) on its current position into w_terrain.
         // @param center the center of view, same as when calling map::draw
-        void draw_critter(const Creature &critter, const point &center);
+        void draw_critter(const Creature &critter, const tripoint &center);
 
         // Vehicle related JSON loaders and variables
         void load_vehiclepart(JsonObject &jo);

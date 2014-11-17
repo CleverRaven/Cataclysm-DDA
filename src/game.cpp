@@ -5533,7 +5533,7 @@ bool game::isBetween(int test, int down, int up)
     }
 }
 
-void game::draw_critter(const Creature &critter, const point &center)
+void game::draw_critter(const Creature &critter, const tripoint &center)
 {
     const int my = POSY + ( critter.ypos() - center.y );
     const int mx = POSX + ( critter.xpos() - center.x );
@@ -5555,7 +5555,7 @@ void game::draw_critter(const Creature &critter, const point &center)
     }
 }
 
-void game::draw_ter(int posx, int posy)
+void game::draw_ter(int posx, int posy, int posz)
 {
     // posx/posy default to -999
     if (posx == -999) {
@@ -5564,7 +5564,7 @@ void game::draw_ter(int posx, int posy)
     if (posy == -999) {
         posy = u.posy + u.view_offset_y;
     }
-    const point center( posx, posy );
+    const tripoint center( posx, posy, posz );
 
     ter_view_x = posx;
     ter_view_y = posy;
@@ -11054,7 +11054,7 @@ void game::plthrow(int pos)
     }
 
     temp_exit_fullscreen();
-    m.draw(w_terrain, point(u.posx, u.posy));
+    m.draw(w_terrain, tripoint(u.posx, u.posy, u.posz));
 
     int x = u.posx;
     int y = u.posy;
@@ -11387,7 +11387,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
     int range = u.weapon.range(&u);
 
     temp_exit_fullscreen();
-    m.draw(w_terrain, point(u.posx, u.posy));
+    m.draw(w_terrain, tripoint(u.posx, u.posy, u.posz));
 
     int x = u.posx;
     int y = u.posy;
@@ -12852,7 +12852,8 @@ bool game::plmove(int dx, int dy, int dz)
                                     gy + grabbed_vehicle->parts[p].precalc_dy[0] + dyVeh, p );
                             }
                         }
-                        m.displace_vehicle(gx, gy, dxVeh, dyVeh);
+                        //For now, vehicles are staying on their default z-level and will be 1 z-level high
+                        m.displace_vehicle(gx, gy, u.posz, dxVeh, dyVeh, u.posz);
                     } else {
                         //We are moving around the veh
                         u.grab_point.x = (dx + dxVeh) * (-1);
