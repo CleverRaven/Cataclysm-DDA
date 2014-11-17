@@ -608,7 +608,7 @@ std::string print_pressure(float pressure, int decimals)
     ret.precision(decimals);
     ret << std::fixed;
 
-    ret << pressure;
+    ret << pressure/10;
     return rmp_format(_("%s kPa"), ret.str().c_str());
 }
 
