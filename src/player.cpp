@@ -839,15 +839,16 @@ void player::update_bodytemp()
         if( furn_at_pos == f_bed ) {
             floor_bedding_warmth += 1000;
         } else if( furn_at_pos == f_makeshift_bed || furn_at_pos == f_armchair ||
-                   furn_at_pos == f_sofa || furn_at_pos == f_hay ) {
+                   furn_at_pos == f_sofa ) {
             floor_bedding_warmth += 500;
         } else if( furn_at_pos == f_straw_bed ) {
             floor_bedding_warmth += 200;
-        } else if( trap_at_pos == tr_cot || ter_at_pos == t_improvised_shelter ) {
+        } else if( trap_at_pos == tr_cot || ter_at_pos == t_improvised_shelter ||
+                   furn_at_pos == f_tatami ) {
             floor_bedding_warmth -= 500;
         } else if( trap_at_pos == tr_rollmat ) {
             floor_bedding_warmth -= 1000;
-        } else if( trap_at_pos == tr_fur_rollmat ) {
+        } else if( trap_at_pos == tr_fur_rollmat || furn_at_pos == f_hay ) {
             floor_bedding_warmth += 0;
         } else if( veh && veh->part_with_feature (vpart, "SEAT") >= 0 ) {
             floor_bedding_warmth += 200;
@@ -10084,7 +10085,7 @@ bool player::can_sleep()
  const furn_id furn_at_pos = g->m.furn(posx, posy);
  if ( ((veh && veh->part_with_feature (vpart, "BED") >= 0) ||
      furn_at_pos == f_makeshift_bed || trap_at_pos == tr_cot ||
-     furn_at_pos == f_sofa || furn_at_pos == f_hay || (in_shell)) &&
+     furn_at_pos == f_sofa || (in_shell)) &&
      (!(plantsleep)) ) {
     sleepy += 4;
  }
@@ -10093,13 +10094,16 @@ bool player::can_sleep()
       furn_at_pos == f_armchair || ter_at_pos == t_improvised_shelter) && (!(plantsleep)) ) {
     sleepy += 3;
  }
- else if ( (furn_at_pos == f_straw_bed) && (!(plantsleep)) ) {
+ else if ( (furn_at_pos == f_straw_bed || furn_at_pos == f_hay || furn_at_pos == f_tatami) &&
+          (!(plantsleep)) ) {
     sleepy += 2;
  }
  else if ( (furn_at_pos == f_bed) && (!(plantsleep)) ) {
     sleepy += 5;
  }
- else if ( (ter_at_pos == t_floor) && (!(plantsleep)) ) {
+ else if ( (ter_at_pos == t_floor || ter_at_pos == t_floor_waxed || ter_at_pos == t_carpet_red ||
+          ter_at_pos == t_carpet_yellow || ter_at_pos == t_carpet_green ||
+          ter_at_pos == t_carpet_purple) && (!(plantsleep)) ) {
     sleepy += 1;
  }
  else if (plantsleep) {
