@@ -76,8 +76,10 @@ enum jmapgen_setmap_op {
 struct jmapgen_setmap {
     jmapgen_int x;
     jmapgen_int y;
+    jmapgen_int z;
     jmapgen_int x2;
     jmapgen_int y2;
+    jmapgen_int z2;
     jmapgen_setmap_op op;
     jmapgen_int val;
     int chance;
@@ -87,11 +89,11 @@ struct jmapgen_setmap {
     int status;
 
     jmapgen_setmap(
-       jmapgen_int ix, jmapgen_int iy, jmapgen_int ix2, jmapgen_int iy2,
+       jmapgen_int ix, jmapgen_int iy, jmapgen_int iz, jmapgen_int ix2, jmapgen_int iy2, jmapgen_int iz2,
        jmapgen_setmap_op iop, jmapgen_int ival,
        int ione_in = 1, jmapgen_int irepeat = jmapgen_int(1,1), int irotation = 0, int ifuel = -1, int istatus = -1
     ) :
-       x(ix), y(iy), x2(ix2), y2(iy2), op(iop), val(ival), chance(ione_in), repeat(irepeat), rotation(irotation),
+       x(ix), y(iy), z(iz), x2(ix2), y2(iy2), z2(iz2), op(iop), val(ival), chance(ione_in), repeat(irepeat), rotation(irotation),
        fuel(ifuel), status(istatus) {}
     bool apply( map * m );
 };
@@ -107,6 +109,7 @@ enum jmapgen_place_group_op {
 struct jmapgen_place_group {
     jmapgen_int x;
     jmapgen_int y;
+    jmapgen_int z;
     std::string gid;
     jmapgen_place_group_op op;
     int chance;
@@ -115,9 +118,9 @@ struct jmapgen_place_group {
     int rotation;
     int fuel;
     int status;
-    jmapgen_place_group(jmapgen_int ix, jmapgen_int iy, std::string igid, jmapgen_place_group_op iop, int ichance,
+    jmapgen_place_group(jmapgen_int ix, jmapgen_int iy, jmapgen_int iz, std::string igid, jmapgen_place_group_op iop, int ichance,
         float idensity = -1.0f, jmapgen_int irepeat = jmapgen_int(1,1), int irotation = 0, int ifuel = -1, int istatus = -1
-      ) : x(ix), y(iy), gid(igid), op(iop), chance(ichance), density(idensity), repeat(irepeat), rotation(irotation),
+      ) : x(ix), y(iy), z(iz), gid(igid), op(iop), chance(ichance), density(idensity), repeat(irepeat), rotation(irotation),
        fuel(ifuel), status(istatus) { }
     void apply( map * m, float mdensity );
 };
@@ -134,11 +137,12 @@ enum jmapgen_place_special_op {
 struct jmapgen_place_special {
     jmapgen_int x;
     jmapgen_int y;
+    jmapgen_int z;
     jmapgen_place_special_op op;
     jmapgen_int amount;
     std::string type;
-    jmapgen_place_special(jmapgen_int ix, jmapgen_int iy, jmapgen_place_special_op iop, jmapgen_int iamount, std::string itype
-        ) : x(ix), y(iy), op(iop), amount(iamount), type(itype) {}
+    jmapgen_place_special(jmapgen_int ix, jmapgen_int iy, jmapgen_int iz, jmapgen_place_special_op iop, jmapgen_int iamount, std::string itype
+        ) : x(ix), y(iy), z(iz), op(iop), amount(iamount), type(itype) {}
     void apply( map * m );
 
 };
@@ -146,13 +150,14 @@ struct jmapgen_place_special {
 struct jmapgen_spawn_item {
     jmapgen_int x;
     jmapgen_int y;
+    jmapgen_int z;
     std::string itype;
     jmapgen_int amount;
     int chance;
     jmapgen_int repeat;
-    jmapgen_spawn_item( const jmapgen_int ix, jmapgen_int iy, std::string iitype, jmapgen_int iamount, int ichance = 1,
+    jmapgen_spawn_item( const jmapgen_int ix, jmapgen_int iy, jmapgen_int iz, std::string iitype, jmapgen_int iamount, int ichance = 1,
         jmapgen_int irepeat = jmapgen_int(1,1) ) :
-      x(ix), y(iy), itype(iitype), amount(iamount), chance(ichance), repeat(irepeat) {}
+      x(ix), y(iy), z(iz), itype(iitype), amount(iamount), chance(ichance), repeat(irepeat) {}
     void apply( map * m );
 
 };
@@ -287,6 +292,6 @@ void square(map *m, ter_id (*f)(), int x1, int y1, int x2, int y2);
 void square_furn(map *m, furn_id type, int x1, int y1, int x2, int y2);
 void rough_circle(map *m, ter_id type, int x, int y, int rad);
 void rough_circle_furn(map *m, furn_id type, int x, int y, int rad);
-void add_corpse(map *m, int x, int y);
+void add_corpse(map *m, int x, int y, int z);
 
 #endif

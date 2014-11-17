@@ -3131,24 +3131,26 @@ void map::process_items_in_submap( submap *const current_submap, int gridx, int 
 {
     for (int i = 0; i < SEEX; i++) {
         for (int j = 0; j < SEEY; j++) {
-            point location( gridx * SEEX + i, gridy * SEEY + j );
-            std::vector<item> &items = current_submap->itm[i][j];
-            //Do a count-down loop, as some items may be removed
-            for (size_t n = 0; n < items.size(); n++) {
-                bool previously_active = items[n].active;
-                if( processor( items, n, location, nullptr, 0 ) ) {
-                    // Item is destroyed, don't reinsert it.
-                    // Note: this might lead to items not being processed:
-                    // vector: 10 glass items, mininuke, mininuke
-                    // the first nuke explodes, destroys some of the glass items
-                    // now the index of the second nuke is not 11, but less, but
-                    // one can not know which it is now.
-                    current_submap->active_item_count -= previously_active;
-                    n--;
-                } else if( previously_active && !items[n].active ) {
-                    current_submap->active_item_count--;
-                } else if( !previously_active && items[n].active ) {
-                    current_submap->active_item_count++;
+            for ( int h = 0; h < SEEZ; h++) {
+                tripoint location( gridx * SEEX + i, gridy * SEEY + j, gridz * SEEZ + h );
+                std::vector<item> &items = current_submap->itm[i][j][h];
+                //Do a count-down loop, as some items may be removed
+                for (size_t n = 0; n < items.size(); n++) {
+                    bool previously_active = items[n].active;
+                    if( processor( items, n, location, nullptr, 0 ) ) {
+                        // Item is destroyed, don't reinsert it.
+                        // Note: this might lead to items not being processed:
+                        // vector: 10 glass items, mininuke, mininuke
+                        // the first nuke explodes, destroys some of the glass items
+                        // now the index of the second nuke is not 11, but less, but
+                        // one can not know which it is now.
+                        current_submap->active_item_count -= previously_active;
+                        n--;
+                    } else if( previously_active && !items[n].active ) {
+                        current_submap->active_item_count--;
+                    } else if( !previously_active && items[n].active ) {
+                        current_submap->active_item_count++;
+                    }
                 }
             }
         }
@@ -3184,10 +3186,11 @@ void map::process_items_in_vehicle(vehicle *cur_veh, submap *const current_subma
         vehicle_part &vp = cur_veh->parts[part];
         // Cache the mount position and the type, to identify
         // the vehicle part in case cur_veh->parts got changed
-        const point mnt(vp.precalc_dx[0], vp.precalc_dy[0]);
+        const tripoint mnt(vp.precalc_dx[0], vp.precalc_dy[0], vp.precalc_dz[0]);
         const int vp_type = vp.iid;
-        const point item_location( cur_veh->global_x() + vp.precalc_dx[0],
-                                   cur_veh->global_y() + vp.precalc_dy[0] );
+        const tripoint item_location( cur_veh->global_x() + vp.precalc_dx[0],
+                                   cur_veh->global_y() + vp.precalc_dy[0],
+                                   cur_veh->global_z() + vp.precalc_dz[0]);
         std::vector<item> *items_in_part = &vp.items;
         for( size_t n = 0; n < items_in_part->size(); n++ ) {
             if( !processor( *items_in_part, n, item_location, cur_veh, part ) ) {
@@ -5383,28 +5386,28 @@ ter_id find_furn_id(const std::string id, bool complain=true) {
     }
     return furnmap[id].loadid;
 };
-void map::draw_line_ter(const ter_id type, int x1, int y1, int x2, int y2)
+void map::draw_line_ter(const ter_id type, int x1, int y1, int z1, int x2, int y2, int z2)
 {
-    std::vector<point> line = line_to(x1, y1, x2, y2, 0);
+    std::vector<tripoint> line = line_to(tripoint(x1, y1, z1), tripoint(x2, y2, z2), 0, 0);
     for (auto &i : line) {
-        ter_set(i.x, i.y, type);
+        ter_set(i.x, i.y, i.z, type);
     }
-    ter_set(x1, y1, type);
+    ter_set(x1, y1, z1, type);
 }
-void map::draw_line_ter(const std::string type, int x1, int y1, int x2, int y2) {
-    draw_line_ter(find_ter_id(type), x1, y1, x2, y2);
+void map::draw_line_ter(const std::string type, int x1, int y1, int z1, int x2, int y2, int z2) {
+    draw_line_ter(find_ter_id(type), x1, y1, z1, x2, y2, z2);
 }
 
 
-void map::draw_line_furn(furn_id type, int x1, int y1, int x2, int y2) {
-    std::vector<point> line = line_to(x1, y1, x2, y2, 0);
+void map::draw_line_furn(furn_id type, int x1, int y1, int z1, int x2, int y2, int z2) {
+    std::vector<tripoint> line = line_to(tripoint(x1, y1, z1), tripoint(x2, y2, z2), 0, 0);
     for (auto &i : line) {
-        furn_set(i.x, i.y, type);
+        furn_set(i.x, i.y, i.z, type);
     }
-    furn_set(x1, y1, type);
+    furn_set(x1, y1, z1, type);
 }
-void map::draw_line_furn(const std::string type, int x1, int y1, int x2, int y2) {
-    draw_line_furn(find_furn_id(type), x1, y1, x2, y2);
+void map::draw_line_furn(const std::string type, int x1, int y1, int z1, int x2, int y2, int z2) {
+    draw_line_furn(find_furn_id(type), x1, y1, z1, x2, y2, z2);
 }
 
 void map::draw_fill_background(ter_id type) {
@@ -5424,7 +5427,7 @@ void map::draw_fill_background(const id_or_id & f) {
 void map::draw_square_ter(ter_id type, int x1, int y1, int x2, int y2) {
     for (int x = x1; x <= x2; x++) {
         for (int y = y1; y <= y2; y++) {
-            ter_set(x, y, type);
+            ter_set(x, y, 0, type);
         }
     }
 }
@@ -5435,7 +5438,7 @@ void map::draw_square_ter(std::string type, int x1, int y1, int x2, int y2) {
 void map::draw_square_furn(furn_id type, int x1, int y1, int x2, int y2) {
     for (int x = x1; x <= x2; x++) {
         for (int y = y1; y <= y2; y++) {
-            furn_set(x, y, type);
+            furn_set(x, y, 0, type);
         }
     }
 }
@@ -5446,7 +5449,7 @@ void map::draw_square_furn(std::string type, int x1, int y1, int x2, int y2) {
 void map::draw_square_ter(ter_id (*f)(), int x1, int y1, int x2, int y2) {
     for (int x = x1; x <= x2; x++) {
         for (int y = y1; y <= y2; y++) {
-            ter_set(x, y, f());
+            ter_set(x, y, 0, f());
         }
     }
 }
@@ -5454,7 +5457,7 @@ void map::draw_square_ter(ter_id (*f)(), int x1, int y1, int x2, int y2) {
 void map::draw_square_ter(const id_or_id & f, int x1, int y1, int x2, int y2) {
     for (int x = x1; x <= x2; x++) {
         for (int y = y1; y <= y2; y++) {
-            ter_set(x, y, f.get());
+            ter_set(x, y, 0, f.get());
         }
     }
 }
@@ -5463,7 +5466,7 @@ void map::draw_rough_circle(ter_id type, int x, int y, int rad) {
     for (int i = x - rad; i <= x + rad; i++) {
         for (int j = y - rad; j <= y + rad; j++) {
             if (rl_dist(x, y, i, j) + rng(0, 3) <= rad) {
-                ter_set(i, j, type);
+                ter_set(i, j, 0, type);
             }
         }
     }
@@ -5476,7 +5479,7 @@ void map::draw_rough_circle_furn(furn_id type, int x, int y, int rad) {
     for (int i = x - rad; i <= x + rad; i++) {
         for (int j = y - rad; j <= y + rad; j++) {
             if (rl_dist(x, y, i, j) + rng(0, 3) <= rad) {
-                furn_set(i, j, type);
+                furn_set(i, j, 0, type);
             }
         }
     }
@@ -5485,7 +5488,7 @@ void map::draw_rough_circle_furn(std::string type, int x, int y, int rad) {
     draw_rough_circle(find_furn_id(type), x, y, rad);
 }
 
-void map::add_corpse(int x, int y) {
+void map::add_corpse(int x, int y, int z) {
     item body;
 
     const bool isReviveSpecial = one_in(10);
@@ -5498,7 +5501,7 @@ void map::add_corpse(int x, int y) {
         body.active = true;
     }
 
-    add_item_or_charges(x, y, body);
+    add_item_or_charges(x, y, z, body);
     put_items_from("shoes",  1, x, y, 0, 0, 0);
     put_items_from("pants",  1, x, y, 0, 0, 0);
     put_items_from("shirts", 1, x, y, 0, 0, 0);

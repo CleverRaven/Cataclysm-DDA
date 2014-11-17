@@ -36,13 +36,16 @@ std::ostream & operator<<(std::ostream & out, const submap * sm)
  {
   for(int y = 0; y < SEEY; ++y)
   {
-   if( !sm->itm[x][y].empty() )
+   for(int z = 0; z < SEEZ; ++z)
    {
-    for( std::vector<item>::const_iterator it = sm->itm[x][y].begin(),
-      end = sm->itm[x][y].end(); it != end; ++it )
+    if( !sm->itm[x][y][z].empty() )
     {
-     out << "\n\t("<<x<<","<<y<<") ";
-     out << *it << ", ";
+     for( std::vector<item>::const_iterator it = sm->itm[x][y][z].begin(),
+       end = sm->itm[x][y][z].end(); it != end; ++it )
+     {
+      out << "\n\t("<<x<<","<<y<<") ";
+      out << *it << ", ";
+     }
     }
    }
   }
@@ -878,10 +881,12 @@ submap::submap() : ter(), frn(), trp(), rad(),
     active_item_count(0), field_count(0), turn_last_touched(0), temperature(0) {
     for (int x = 0; x < SEEX; x++) {
         for (int y = 0; y < SEEY; y++) {
-            ter[x][y] = t_null;
-            set_furn(x, y, f_null);
-            set_trap(x, y, tr_null);
-            set_radiation(x, y, 0);
+            for ( int z = 0; z < SEEZ; z++){
+                ter[x][y][z] = t_null;
+                set_furn(x, y, z, f_null);
+                set_trap(x, y, z, tr_null);
+                set_radiation(x, y, z, 0);
+            }
         }
     }
 }
@@ -901,27 +906,27 @@ void submap::delete_vehicles()
 
 static const std::string COSMETICS_GRAFFITI( "GRAFFITI" );
 
-bool submap::has_graffiti( int x, int y ) const
+bool submap::has_graffiti( int x, int y, int z ) const
 {
-    return cosmetics[x][y].count( COSMETICS_GRAFFITI ) > 0;
+    return cosmetics[x][y][z].count( COSMETICS_GRAFFITI ) > 0;
 }
 
-const std::string &submap::get_graffiti( int x, int y ) const
+const std::string &submap::get_graffiti( int x, int y, int z ) const
 {
-    const auto it = cosmetics[x][y].find( COSMETICS_GRAFFITI );
-    if( it == cosmetics[x][y].end() ) {
+    const auto it = cosmetics[x][y][z].find( COSMETICS_GRAFFITI );
+    if( it == cosmetics[x][y][z].end() ) {
         static const std::string empty_string;
         return empty_string;
     }
     return it->second;
 }
 
-void submap::set_graffiti( int x, int y, const std::string &new_graffiti )
+void submap::set_graffiti( int x, int y, int z, const std::string &new_graffiti )
 {
-    cosmetics[x][y][COSMETICS_GRAFFITI] = new_graffiti;
+    cosmetics[x][y][z][COSMETICS_GRAFFITI] = new_graffiti;
 }
 
-void submap::delete_graffiti( int x, int y )
+void submap::delete_graffiti( int x, int y, int z )
 {
-    cosmetics[x][y].erase( COSMETICS_GRAFFITI );
+    cosmetics[x][y][z].erase( COSMETICS_GRAFFITI );
 }

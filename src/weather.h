@@ -157,7 +157,7 @@ int get_local_humidity(double humidity, weather_type weather, bool sheltered = f
 int get_local_windpower(double windpower, std::string omtername = "no name",
                         bool sheltered = false);
 
-void retroactively_fill_from_funnel( item *it, const trap_id t, const calendar &, const point &);
+void retroactively_fill_from_funnel( item *it, const trap_id t, const calendar &, const tripoint &);
 
 extern const std::vector<int> rot_chart;
 int get_hourly_rotpoints_at_temp (const int &temp);

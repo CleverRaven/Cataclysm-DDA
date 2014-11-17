@@ -109,13 +109,15 @@ void map::generate(const int x, const int y, const int z, const int turn)
             int tries = 10;
             int monx = 0;
             int mony = 0;
+            int monz = 0;
             do {
                 monx = rng( 0, SEEX * 2 - 1 );
                 mony = rng( 0, SEEY * 2 - 1 );
+                monz = rng( 0, SEEZ * 2 - 1 );
                 tries--;
-            } while( move_cost( monx, mony ) == 0 && tries > 0 );
+            } while( move_cost( monx, mony, monz ) == 0 && tries > 0 );
             if( tries > 0 ) {
-                add_spawn( spawn_details.name, spawn_details.pack_size, monx, mony );
+                add_spawn( spawn_details.name, spawn_details.pack_size, monx, mony, monz );
             }
         }
     }
@@ -126,13 +128,15 @@ void map::generate(const int x, const int y, const int z, const int turn)
     // And finally save used submaps and delete the rest.
     for (int i = 0; i < my_MAPSIZE; i++) {
         for (int j = 0; j < my_MAPSIZE; j++) {
-            dbg(D_INFO) << "map::generate: submap (" << i << "," << j << ")";
-            dbg(D_INFO) << grid[i + j];
+            for ( int h = 0; h < my_MAPSIZE; h++) {
+                dbg(D_INFO) << "map::generate: submap (" << i << "," << j << ")";
+                dbg(D_INFO) << grid[i + j + h];
 
-            if (i <= 1 && j <= 1) {
-                saven(x, y, z, i, j);
-            } else {
-                delete grid[i + j * my_MAPSIZE];
+                if (i <= 1 && j <= 1 && h <= 1) {
+                    saven(x, y, z, i, j, h);
+                } else {
+                    delete grid[i + j + h * my_MAPSIZE];
+                }
             }
         }
     }
@@ -401,8 +405,10 @@ void mapgen_function_json::setup_setmap( JsonArray &parray ) {
         tmpop = sm_it->second;
         jmapgen_int tmp_x(0,0);
         jmapgen_int tmp_y(0,0);
+        jmapgen_int tmp_z(0,0);
         jmapgen_int tmp_x2(0,0);
         jmapgen_int tmp_y2(0,0);
+        jmapgen_int tmp_z2(0,0);
         jmapgen_int tmp_i(0,0);
         jmapgen_int tmp_repeat(1,1);
         int tmp_chance = 1;
@@ -468,7 +474,7 @@ void mapgen_function_json::setup_setmap( JsonArray &parray ) {
         pjo.read("rotation", tmp_rotation );
         pjo.read("fuel", tmp_fuel );
         pjo.read("status", tmp_status );
-        jmapgen_setmap tmp( tmp_x, tmp_y, tmp_x2, tmp_y2, jmapgen_setmap_op(tmpop+setmap_optype), tmp_i, tmp_chance, tmp_repeat, tmp_rotation, tmp_fuel, tmp_status );
+        jmapgen_setmap tmp( tmp_x, tmp_y, tmp_z, tmp_x2, tmp_y2, tmp_z2, jmapgen_setmap_op(tmpop+setmap_optype), tmp_i, tmp_chance, tmp_repeat, tmp_rotation, tmp_fuel, tmp_status );
 
         setmap_points.push_back(tmp);
         tmpval = "";
@@ -487,6 +493,7 @@ void mapgen_function_json::setup_place_group(JsonArray &parray ) {
     while ( parray.has_more() ) {
          jmapgen_int tmp_x(0,0);
          jmapgen_int tmp_y(0,0);
+         jmapgen_int tmp_z(0,0);
          jmapgen_int tmp_amt(1,1);
          JsonObject jsi = parray.next_object();
          jmapgen_place_group_op tmpop;
@@ -536,7 +543,7 @@ void mapgen_function_json::setup_place_group(JsonArray &parray ) {
 
          load_jmapgen_int(jsi, "repeat", tmp_repeat.val, tmp_repeat.valmax);  // todo, sanity check?
 
-         jmapgen_place_group new_placegroup( tmp_x, tmp_y, tmpval, tmpop, tmp_chance, tmp_density, tmp_repeat, tmp_rotation, tmp_fuel, tmp_status);
+         jmapgen_place_group new_placegroup( tmp_x, tmp_y, tmp_z, tmpval, tmpop, tmp_chance, tmp_density, tmp_repeat, tmp_rotation, tmp_fuel, tmp_status);
          place_groups.push_back( new_placegroup );
          tmpval = "";
      }
@@ -552,6 +559,7 @@ void mapgen_function_json::setup_place_special(JsonArray &parray )
     while ( parray.has_more() ) {
         jmapgen_int tmp_x(0,0);
         jmapgen_int tmp_y(0,0);
+        jmapgen_int tmp_z(0,0);
         jmapgen_int tmp_amt(0,0);
         std::string tmp_type;
         jmapgen_place_special_op tmpop = JMAPGEN_PLACESPECIAL_NULL;
@@ -599,7 +607,7 @@ void mapgen_function_json::setup_place_special(JsonArray &parray )
             jsi.throw_error("  place_specials: invalid value for 'y'");
         }
         load_jmapgen_int(jsi, "amount", tmp_amt.val, tmp_amt.valmax);
-        jmapgen_place_special new_special( tmp_x, tmp_y, tmpop, tmp_amt, tmp_type );
+        jmapgen_place_special new_special( tmp_x, tmp_y, tmp_z, tmpop, tmp_amt, tmp_type );
         place_specials.push_back( new_special );
         tmpval = "";
     }
@@ -742,6 +750,7 @@ bool mapgen_function_json::setup() {
            while ( parray.has_more() ) {
                jmapgen_int tmp_x(0,0);
                jmapgen_int tmp_y(0,0);
+               jmapgen_int tmp_z(0,0);
                jmapgen_int tmp_amt(1,1);
                JsonObject jsi = parray.next_object();
                if ( jsi.has_string("item") ) {
@@ -766,7 +775,7 @@ bool mapgen_function_json::setup() {
                int tmp_chance = 1;
                load_jmapgen_int(jsi, "repeat", tmp_repeat.val, tmp_repeat.valmax);  // todo, sanity check?
                jsi.read("chance", tmp_chance );
-               jmapgen_spawn_item new_spawn( tmp_x, tmp_y, tmpval, tmp_amt, tmp_chance, tmp_repeat );
+               jmapgen_spawn_item new_spawn( tmp_x, tmp_y, tmp_z, tmpval, tmp_amt, tmp_chance, tmp_repeat );
                tmpval = "";
                spawnitems.push_back( new_spawn );
            }
@@ -836,19 +845,19 @@ void jmapgen_place_group::apply( map * m, const float mdensity ) {
         case JMAPGEN_PLACEGROUP_MONSTER: {
             for (int i = 0; i < trepeat; i++) {
                 // add_msg("%s %d %d,%d %d,%d %.4f", gid.c_str(), chance, x.val, y.val, x.valmax, y.valmax, ( density == -1.0f ? mdensity : density ) );
-                m->place_spawns(gid, chance, x.val, y.val, x.valmax, y.valmax, ( density == -1.0f ? mdensity : density ) );
+                m->place_spawns(gid, chance, x.val, y.val, z.val, x.valmax, y.valmax, z.valmax, ( density == -1.0f ? mdensity : density ) );
             }
         } break;
         case JMAPGEN_PLACEGROUP_ITEM: {
             for (int i = 0; i < trepeat; i++) {
                 // add_msg("%s %d %d,%d %d,%d", gid.c_str(), chance, x.val, y.val, x.valmax, y.valmax);
-                m->place_items(gid, chance, x.val, y.val, x.valmax, y.valmax, true, 0 );
+                m->place_items(gid, chance, x.val, y.val, z.val, x.valmax, y.valmax, z.valmax, true, 0 );
             }
         } break;
         case JMAPGEN_PLACEGROUP_VEHICLE: {
             for (int i = 0; i < trepeat; i++) {
                 if (x_in_y(chance, 100)) {
-                    m->add_vehicle (gid, x.val, y.val, rotation, fuel, status);
+                    m->add_vehicle (gid, x.val, y.val, z.val, rotation, fuel, status);
                 }
             }
         } break;
@@ -862,7 +871,7 @@ void jmapgen_spawn_item::apply( map * m ) {
     if ( chance == 1 || one_in( chance ) ) {
         const int trepeat = repeat.get();
         for (int i = 0; i < trepeat; i++) {
-            m->spawn_item( x.get(), y.get(), itype, amount.get() );
+            m->spawn_item( x.get(), y.get(), z.get(), itype, amount.get() );
         }
     }
 }
@@ -871,31 +880,31 @@ void jmapgen_place_special::apply( map * m ) {
     int charges = amount.get();
     switch(op) {
         case JMAPGEN_PLACESPECIAL_TOILET: {
-            m->furn_set(x.get(), y.get(), f_null);
+            m->furn_set(x.get(), y.get(), z.get(), f_null);
             if (charges == 0)
-                m->place_toilet(x.get(), y.get());
+                m->place_toilet(x.get(), y.get(), z.get());
             else
-                m->place_toilet(x.get(), y.get(), charges );
+                m->place_toilet(x.get(), y.get(), z.get(), charges );
         } break;
         case JMAPGEN_PLACESPECIAL_GASPUMP: {
-            m->furn_set(x.get(), y.get(), f_null);
+            m->furn_set(x.get(), y.get(), z.get(), f_null);
             if (charges == 0)
-                m->place_gas_pump(x.get(), y.get(), rng(10000, 50000));
+                m->place_gas_pump(x.get(), y.get(), z.get(), rng(10000, 50000));
             else
-                m->place_toilet(x.get(), y.get(), charges );
+                m->place_toilet(x.get(), y.get(), z.get(), charges );
         } break;
         case JMAPGEN_PLACESPECIAL_VENDINGMACHINE: {
-            m->furn_set(x.get(), y.get(), f_null);
-            m->place_vending(x.get(), y.get(), type);
+            m->furn_set(x.get(), y.get(), z.get(), f_null);
+            m->place_vending(x.get(), y.get(), z.get(), type);
         } break;
         case JMAPGEN_PLACESPECIAL_SIGN: {
             // type meaning here: the writing on the sign, not the type of sign.
-            m->furn_set(x.get(), y.get(), f_null);
-            m->furn_set(x.get(), y.get(), "f_sign");
-            m->set_signage(x.get(), y.get(), type);
+            m->furn_set(x.get(), y.get(), z.get(), f_null);
+            m->furn_set(x.get(), y.get(), z.get(), "f_sign");
+            m->set_signage(x.get(), y.get(), z.get(), type);
         } break;
         case JMAPGEN_PLACESPECIAL_NPC: {
-            m->place_npc(x.get(), y.get(), type);
+            m->place_npc(x.get(), y.get(), z.get(), type);
         } break;
         case JMAPGEN_PLACESPECIAL_NULL:
         default:
@@ -915,35 +924,35 @@ bool jmapgen_setmap::apply( map *m ) {
         for (int i = 0; i < trepeat; i++) {
             switch(op) {
                 case JMAPGEN_SETMAP_TER: {
-                    m->ter_set( x.get(), y.get(), val.get() );
+                    m->ter_set( x.get(), y.get(), z.get(), val.get() );
                 } break;
                 case JMAPGEN_SETMAP_FURN: {
-                    m->furn_set( x.get(), y.get(), val.get() );
+                    m->furn_set( x.get(), y.get(), z.get(), val.get() );
                 } break;
                 case JMAPGEN_SETMAP_TRAP: {
-                    m->trap_set( x.get(), y.get(), val.get() );
+                    m->trap_set( x.get(), y.get(), z.get(), val.get() );
                 } break;
                 case JMAPGEN_SETMAP_RADIATION: {
-                    m->set_radiation( x.get(), y.get(), val.get());
+                    m->set_radiation( x.get(), y.get(), z.get(), val.get());
                 } break;
 
 
                 case JMAPGEN_SETMAP_LINE_TER: {
-                    m->draw_line_ter( (ter_id)val.get(), x.get(), y.get(), x2.get(), y2.get() );
+                    m->draw_line_ter( (ter_id)val.get(), x.get(), y.get(), z.get(), x2.get(), y2.get(), z2.get() );
                 } break;
                 case JMAPGEN_SETMAP_LINE_FURN: {
-                    m->draw_line_furn( (furn_id)val.get(), x.get(), y.get(), x2.get(), y2.get() );
+                    m->draw_line_furn( (furn_id)val.get(), x.get(), y.get(), z.get(), x2.get(), y2.get(), z2.get() );
                 } break;
                 case JMAPGEN_SETMAP_LINE_TRAP: {
-                    const std::vector<point> line = line_to(x.get(), y.get(), x2.get(), y2.get(), 0);
+                    const std::vector<tripoint> line = line_to(tripoint(x.get(), y.get(), z.get()), tripoint(x2.get(), y2.get(), z2.get()), 0, 0);
                     for (auto &i : line) {
-                        m->trap_set( i.x, i.y, (trap_id)val.get() );
+                        m->trap_set( i.x, i.y, i.z, (trap_id)val.get() );
                     }
                 } break;
                 case JMAPGEN_SETMAP_LINE_RADIATION: {
-                    const std::vector<point> line = line_to(x.get(), y.get(), x2.get(), y2.get(), 0);
+                    const std::vector<tripoint> line = line_to(tripoint(x.get(), y.get(), z.get()), tripoint(x2.get(), y2.get(), z2.get()), 0, 0);
                     for (auto &i : line) {
-                        m->set_radiation( i.x, i.y, (int)val.get() );
+                        m->set_radiation( i.x, i.y, i.z, (int)val.get() );
                     }
                 } break;
 
@@ -957,11 +966,15 @@ bool jmapgen_setmap::apply( map *m ) {
                 case JMAPGEN_SETMAP_SQUARE_TRAP: {
                     const int cx = x.get();
                     const int cy = y.get();
+                    const int cz = z.get();
                     const int cx2 = x2.get();
                     const int cy2 = y2.get();
+                    const int cz2 = z2.get();
                     for (int tx = cx; tx <= cx2; tx++) {
                        for (int ty = cy; ty <= cy2; ty++) {
-                           m->trap_set( tx, ty, (trap_id)val.get() );
+                           for (int tz = cz; tz <= cz2; tz++){
+                              m->trap_set( tx, ty, tz, (trap_id)val.get() );
+                           }
                        }
                     }
                 } break;

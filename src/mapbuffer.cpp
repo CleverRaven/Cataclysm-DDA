@@ -208,8 +208,10 @@ void mapbuffer::save_quad( const std::string &filename, const tripoint &om_addr,
         jsout.start_array();
         for(int j = 0; j < SEEY; j++) {
             for(int i = 0; i < SEEX; i++) {
-                // Save terrains
-                jsout.write( terlist[sm->ter[i][j]].id );
+                for (int h = 0; h < SEEZ; h++) {
+                    // Save terrains
+                    jsout.write( terlist[sm->ter[i][j][h]].id );
+                }
             }
         }
         jsout.end_array();
@@ -222,17 +224,19 @@ void mapbuffer::save_quad( const std::string &filename, const tripoint &om_addr,
         int count = 0;
         for(int j = 0; j < SEEY; j++) {
             for(int i = 0; i < SEEX; i++) {
-                // Save radiation, re-examine this because it doesnt look like it works right
-                int r = sm->get_radiation(i, j);
-                if (r == lastrad) {
-                    count++;
-                } else {
-                    if (count) {
-                        jsout.write( count );
+                for ( int h = 0; h < SEEZ; h++){
+                    // Save radiation, re-examine this because it doesnt look like it works right
+                    int r = sm->get_radiation(i, j, h);
+                    if (r == lastrad) {
+                        count++;
+                    } else {
+                        if (count) {
+                            jsout.write( count );
+                        }
+                        jsout.write( r );
+                        lastrad = r;
+                        count = 1;
                     }
-                    jsout.write( r );
-                    lastrad = r;
-                    count = 1;
                 }
             }
         }
@@ -243,13 +247,16 @@ void mapbuffer::save_quad( const std::string &filename, const tripoint &om_addr,
         jsout.start_array();
         for(int j = 0; j < SEEY; j++) {
             for(int i = 0; i < SEEX; i++) {
-                // Save furniture
-                if( sm->get_furn( i, j ) != f_null ) {
-                    jsout.start_array();
-                    jsout.write( i );
-                    jsout.write( j );
-                    jsout.write( furnlist[ sm->get_furn( i, j ) ].id );
-                    jsout.end_array();
+                for(int h = 0; h < SEEZ; h++){
+                    // Save furniture
+                    if( sm->get_furn( i, j, h ) != f_null ) {
+                        jsout.start_array();
+                        jsout.write( i );
+                        jsout.write( j );
+                        jsout.write( h );
+                        jsout.write( furnlist[ sm->get_furn( i, j, h ) ].id );
+                        jsout.end_array();
+                    }
                 }
             }
         }
@@ -259,12 +266,15 @@ void mapbuffer::save_quad( const std::string &filename, const tripoint &om_addr,
         jsout.start_array();
         for(int j = 0; j < SEEY; j++) {
             for(int i = 0; i < SEEX; i++) {
-                if( sm->itm[i][j].empty() ) {
-                    continue;
+                for(int h = 0; h < SEEZ; h++) {
+                    if( sm->itm[i][j][h].empty() ) {
+                        continue;
+                    }
+                    jsout.write( i );
+                    jsout.write( j );
+                    jsout.write( h );
+                    jsout.write( sm->itm[i][j][h] );
                 }
-                jsout.write( i );
-                jsout.write( j );
-                jsout.write( sm->itm[i][j] );
             }
         }
         jsout.end_array();
@@ -273,13 +283,16 @@ void mapbuffer::save_quad( const std::string &filename, const tripoint &om_addr,
         jsout.start_array();
         for(int j = 0; j < SEEY; j++) {
             for(int i = 0; i < SEEX; i++) {
-                // Save traps
-                if (sm->get_trap( i, j ) != tr_null) {
-                    jsout.start_array();
-                    jsout.write( i );
-                    jsout.write( j );
-                    jsout.write( traplist[ sm->get_trap( i, j ) ]->id );
-                    jsout.end_array();
+                for( int h = 0; h < SEEZ; h++){
+                    // Save traps
+                    if (sm->get_trap( i, j, h ) != tr_null) {
+                        jsout.start_array();
+                        jsout.write( i );
+                        jsout.write( j );
+                        jsout.write( h );
+                        jsout.write( traplist[ sm->get_trap( i, j, h ) ]->id );
+                        jsout.end_array();
+                    }
                 }
             }
         }
@@ -289,19 +302,22 @@ void mapbuffer::save_quad( const std::string &filename, const tripoint &om_addr,
         jsout.start_array();
         for(int j = 0; j < SEEY; j++) {
             for(int i = 0; i < SEEX; i++) {
-                // Save fields
-                if (sm->fld[i][j].fieldCount() > 0) {
-                    jsout.write( i );
-                    jsout.write( j );
-                    jsout.start_array();
-                    for( auto &fld : sm->fld[i][j] ) {
-                        const field_entry &cur = fld.second;
-                            // We don't seem to have a string identifier for fields anywhere.
-                            jsout.write( cur.getFieldType() );
-                            jsout.write( cur.getFieldDensity() );
-                            jsout.write( cur.getFieldAge() );
+                for( int h = 0; h < SEEZ; h++) {
+                    // Save fields
+                    if (sm->fld[i][j][h].fieldCount() > 0) {
+                        jsout.write( i );
+                        jsout.write( j );
+                        jsout.write( h );
+                        jsout.start_array();
+                        for( auto &fld : sm->fld[i][j][h] ) {
+                            const field_entry &cur = fld.second;
+                                // We don't seem to have a string identifier for fields anywhere.
+                                jsout.write( cur.getFieldType() );
+                                jsout.write( cur.getFieldDensity() );
+                                jsout.write( cur.getFieldAge() );
+                        }
+                        jsout.end_array();
                     }
-                    jsout.end_array();
                 }
             }
         }
@@ -311,12 +327,15 @@ void mapbuffer::save_quad( const std::string &filename, const tripoint &om_addr,
         jsout.start_array();
         for (int j = 0; j < SEEY; j++) {
             for (int i = 0; i < SEEX; i++) {
-                if (sm->cosmetics[i][j].size() > 0) {
-                    jsout.start_array();
-                    jsout.write(i);
-                    jsout.write(j);
-                    jsout.write(sm->cosmetics[i][j]);
-                    jsout.end_array();
+                for ( int h = 0; h  < SEEZ; h++) {
+                    if (sm->cosmetics[i][j][h].size() > 0) {
+                        jsout.start_array();
+                        jsout.write(i);
+                        jsout.write(j);
+                        jsout.write(h);
+                        jsout.write(sm->cosmetics[i][j][h]);
+                        jsout.end_array();
+                    }
                 }
             }
         }
@@ -421,35 +440,39 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
                     item chunk = item("steel_chunk", 0);
                     for( int j = 0; j < SEEY; j++ ) {
                         for( int i = 0; i < SEEX; i++ ) {
-                            ter_string = jsin.get_string();
-                            if (ter_string == "t_rubble") {
-                                sm->ter[i][j] = termap[ "t_dirt" ].loadid;
-                                sm->frn[i][j] = furnmap[ "f_rubble" ].loadid;
-                                sm->itm[i][j].push_back( rock );
-                                sm->itm[i][j].push_back( rock );
-                            } else if (ter_string == "t_wreckage"){
-                                sm->ter[i][j] = termap[ "t_dirt" ].loadid;
-                                sm->frn[i][j] = furnmap[ "f_wreckage" ].loadid;
-                                sm->itm[i][j].push_back( chunk );
-                                sm->itm[i][j].push_back( chunk );
-                            } else if (ter_string == "t_ash"){
-                                sm->ter[i][j] = termap[ "t_dirt" ].loadid;
-                                sm->frn[i][j] = furnmap[ "f_ash" ].loadid;
-                            } else if (ter_string == "t_pwr_sb_support_l"){
-                                sm->ter[i][j] = termap[ "t_support_l" ].loadid;
-                            } else if (ter_string == "t_pwr_sb_switchgear_l"){
-                                sm->ter[i][j] = termap[ "t_switchgear_l" ].loadid;
-                            } else if (ter_string == "t_pwr_sb_switchgear_s"){
-                                sm->ter[i][j] = termap[ "t_switchgear_s" ].loadid;
-                            } else {
-                                sm->ter[i][j] = termap[ ter_string ].loadid;
+                            for ( int h = 0; h < SEEZ; h++) {
+                                ter_string = jsin.get_string();
+                                if (ter_string == "t_rubble") {
+                                    sm->ter[i][j][h] = termap[ "t_dirt" ].loadid;
+                                    sm->frn[i][j][h] = furnmap[ "f_rubble" ].loadid;
+                                    sm->itm[i][j][h].push_back( rock );
+                                    sm->itm[i][j][h].push_back( rock );
+                                } else if (ter_string == "t_wreckage"){
+                                    sm->ter[i][j][h]= termap[ "t_dirt" ].loadid;
+                                    sm->frn[i][j][h] = furnmap[ "f_wreckage" ].loadid;
+                                    sm->itm[i][j][h].push_back( chunk );
+                                    sm->itm[i][j][h].push_back( chunk );
+                                } else if (ter_string == "t_ash"){
+                                    sm->ter[i][j][h] = termap[ "t_dirt" ].loadid;
+                                    sm->frn[i][j][h] = furnmap[ "f_ash" ].loadid;
+                                } else if (ter_string == "t_pwr_sb_support_l"){
+                                    sm->ter[i][j][h] = termap[ "t_support_l" ].loadid;
+                                } else if (ter_string == "t_pwr_sb_switchgear_l"){
+                                    sm->ter[i][j][h] = termap[ "t_switchgear_l" ].loadid;
+                                } else if (ter_string == "t_pwr_sb_switchgear_s"){
+                                    sm->ter[i][j][h] = termap[ "t_switchgear_s" ].loadid;
+                                } else {
+                                    sm->ter[i][j][h] = termap[ ter_string ].loadid;
+                                }
                             }
                         }
                     }
                 } else {
                     for( int j = 0; j < SEEY; j++ ) {
                         for( int i = 0; i < SEEX; i++ ) {
-                            sm->ter[i][j] = termap[ jsin.get_string() ].loadid;
+                            for ( int h = 0; h < SEEZ; h++) {
+                                sm->ter[i][j][h] = termap[ jsin.get_string() ].loadid;
+                            }
                         }
                     }
                 }
@@ -463,7 +486,8 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
                     for( int i = 0; i < rad_num; ++i ) {
                         // A little array trick here, assign to it as a 1D array.
                         // If it's not in bounds we're kinda hosed anyway.
-                        sm->set_radiation(0, rad_cell, rad_strength);
+                        // For z-levels radiation might be kinda broke :p
+                        sm->set_radiation(0, rad_cell, 0, rad_strength);
                         rad_cell++;
                     }
                 }
@@ -473,7 +497,8 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
                     jsin.start_array();
                     int i = jsin.get_int();
                     int j = jsin.get_int();
-                    sm->frn[i][j] = furnmap[ jsin.get_string() ].loadid;
+                    int h = jsin.get_int();
+                    sm->frn[i][j][h] = furnmap[ jsin.get_string() ].loadid;
                     jsin.end_array();
                 }
             } else if( submap_member_name == "items" ) {
@@ -481,11 +506,12 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
                 while( !jsin.end_array() ) {
                     int i = jsin.get_int();
                     int j = jsin.get_int();
+                    int h = jsin.get_int();
                     jsin.start_array();
                     while( !jsin.end_array() ) {
                         item tmp;
                         jsin.read( tmp );
-                        sm->itm[i][j].push_back( tmp );
+                        sm->itm[i][j][h].push_back( tmp );
                         if( tmp.needs_processing() ) {
                             sm->active_item_count++;
                         }
@@ -497,7 +523,8 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
                     jsin.start_array();
                     int i = jsin.get_int();
                     int j = jsin.get_int();
-                    sm->trp[i][j] = trapmap[ jsin.get_string() ];
+                    int h = jsin.get_int();
+                    sm->trp[i][j][h] = trapmap[ jsin.get_string() ];
                     jsin.end_array();
                 }
             } else if( submap_member_name == "fields" ) {
@@ -506,15 +533,16 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
                     // Coordinates loop
                     int i = jsin.get_int();
                     int j = jsin.get_int();
+                    int h = jsin.get_int();
                     jsin.start_array();
                     while( !jsin.end_array() ) {
                         int type = jsin.get_int();
                         int density = jsin.get_int();
                         int age = jsin.get_int();
-                        if (sm->fld[i][j].findField(field_id(type)) == NULL) {
+                        if (sm->fld[i][j][h].findField(field_id(type)) == NULL) {
                             sm->field_count++;
                         }
-                        sm->fld[i][j].addField(field_id(type), density, age);
+                        sm->fld[i][j][h].addField(field_id(type), density, age);
                     }
                 }
             } else if( submap_member_name == "graffiti" ) {
@@ -523,7 +551,8 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
                     jsin.start_array();
                     int i = jsin.get_int();
                     int j = jsin.get_int();
-                    sm->set_graffiti( i, j, jsin.get_string() );
+                    int h = jsin.get_int();
+                    sm->set_graffiti( i, j, h, jsin.get_string() );
                     jsin.end_array();
                 }
             } else if(submap_member_name == "cosmetics") {
@@ -532,7 +561,8 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
                     jsin.start_array();
                     int i = jsin.get_int();
                     int j = jsin.get_int();
-                    jsin.read(sm->cosmetics[i][j]);
+                    int h = jsin.get_int();
+                    jsin.read(sm->cosmetics[i][j][h]);
                     jsin.end_array();
                 }
             } else if( submap_member_name == "spawns" ) {
@@ -543,12 +573,13 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
                     int count = jsin.get_int();
                     int i = jsin.get_int();
                     int j = jsin.get_int();
+                    int h = jsin.get_int();
                     int faction_id = jsin.get_int();
                     int mission_id = jsin.get_int();
                     bool friendly = jsin.get_bool();
                     std::string name = jsin.get_string();
                     jsin.end_array();
-                    spawn_point tmp( type, count, i, j, faction_id, mission_id, friendly, name );
+                    spawn_point tmp( type, count, i, j, h, faction_id, mission_id, friendly, name );
                     sm->spawns.push_back( tmp );
                 }
             } else if( submap_member_name == "vehicles" ) {
