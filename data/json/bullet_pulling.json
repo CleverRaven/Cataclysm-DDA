@@ -45,7 +45,6 @@
         "items": [
             ["lead", 2],
             ["22_casing", 1],
-            ["smrifle_primer", 1],
             ["gunpowder", 2]
         ]
     },
@@ -55,7 +54,6 @@
         "items": [
             ["lead", 2],
             ["22_casing", 1],
-            ["smrifle_primer", 1],
             ["gunpowder", 2]
         ]
     },
@@ -65,7 +63,6 @@
         "items": [
             ["lead", 2],
             ["22_casing", 1],
-            ["smrifle_primer", 1],
             ["gunpowder", 1]
         ]
     },
@@ -75,7 +72,6 @@
         "items": [
             ["lead", 2],
             ["22_casing", 1],
-            ["smrifle_primer", 1],
             ["gunpowder", 1],
             ["copper", 2]
         ]
