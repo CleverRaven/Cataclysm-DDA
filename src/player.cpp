@@ -2423,13 +2423,16 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
     if (crossed_threshold()) {
         std::vector<std::string> traitslist;
         std::string race;
-        for (size_t i = 0; i < traitslist.size(); i++) {
-            if (mutation_data[traitslist[i]].threshold == true)
-                race = traits[traitslist[i]].name;
-        }
+        for( auto &mut : my_mutations ) {
+            traitslist.push_back( mut );
+                for (size_t i = 0; i < traitslist.size(); i++) {
+                    if (mutation_data[traitslist[i]].threshold == true)
+                        race = traits[traitslist[i]].name;
+                }
         //~ player info window: 1s - name, 2s - gender, 3s - Prof or Mutation name
         mvwprintw(w_tip, 0, 0, _("%1$s | %2$s | %3$s"), name.c_str(),
                   male ? _("Male") : _("Female"), race.c_str());
+        }
     } else if (prof == NULL || prof == prof->generic()) {
         // Regular person. Nothing interesting.
         //~ player info window: 1s - name, 2s - gender, '|' - field separator.
