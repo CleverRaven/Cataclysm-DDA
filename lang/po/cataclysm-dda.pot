@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: cataclysm-dda 0.A\n"
+"Project-Id-Version: cataclysm-dda 0.B\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-10 13:32+0300\n"
+"POT-Creation-Date: 2014-11-17 10:39+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -35740,6 +35740,7 @@ msgid "smash!"
 msgstr ""
 
 #: lang/json/furniture_from_json.py
+#: lang/json/furniture_from_json.py lang/json/terrain_from_json.py
 #: lang/json/terrain_from_json.py
 msgid "whump."
 msgstr ""
@@ -35996,6 +35997,7 @@ msgid "mutated poppy flower"
 msgstr ""
 
 #: lang/json/furniture_from_json.py
+#: lang/json/furniture_from_json.py lang/json/terrain_from_json.py
 #: lang/json/terrain_from_json.py
 msgid "crunch."
 msgstr ""
@@ -53489,6 +53491,7 @@ msgstr ""
 msgid "Artificial night generator active!"
 msgstr ""
 
+#. ~Sound of a bionic sonic-resonator shaking the area
 #: src/bionics.cpp
 msgid "VRRRRMP!"
 msgstr ""
@@ -56631,6 +56634,10 @@ msgstr ""
 
 #: src/disease.cpp
 msgid "Your muscles are locking up and you can't fight effectively."
+msgstr ""
+
+#: src/disease.cpp
+msgid "Your muscles spasm."
 msgstr ""
 
 #: src/disease.cpp
@@ -85975,7 +85982,7 @@ msgid "You need level 2 mechanics skill to remove parts."
 msgstr ""
 
 #: src/veh_interact.cpp
-msgid "Better not remove something will driving."
+msgid "Better not remove something while driving."
 msgstr ""
 
 #: src/veh_interact.cpp
