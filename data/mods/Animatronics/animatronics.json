@@ -167,7 +167,7 @@
         "special_freq":[0],
         "death_function":"BROKEN",
         "special_attack":["NONE"],
-        "description":"A bipedal animatronic bat, nearly twice your size.  It might have been cute once, but is has fallen into disrepair.  Though it is a robot, it stinks like death.",
+        "description":"A bipedal animatronic bat, nearly twice your size.  It might have been cute once, but has fallen into disrepair.  Though it is a robot, it stinks like death.",
         "flags":["SEES", "GRABS", "HEARS", "BASHES", "ATTACKMON", "ELECTRONIC", "NO_BREATHE", "VIS50"]
     },{
         "type" : "MONSTER",
@@ -269,7 +269,7 @@
         "special_freq":[0],
         "death_function":"BROKEN",
         "special_attack":["NONE"],
-        "description":"A bipedal animatronic chipmunk, nearly twice your size.  You might call  it cute if it wasn't charging you down right now.  Though it is a robot, it stinks like death.",
+        "description":"A bipedal animatronic chipmunk, nearly twice your size.  You might call it cute if it wasn't charging you down right now.  Though it is a robot, it stinks like death.",
         "flags":["SEES", "GRABS", "HEARS", "BASHES", "ATTACKMON", "ELECTRONIC", "NO_BREATHE", "VIS50"]
     },{
         "type" : "MONSTER",
@@ -507,7 +507,7 @@
         "special_freq":[0],
         "death_function":"BROKEN",
         "special_attack":["NONE"],
-        "description":"A bipedal animatronic squirrel, nearly twice your size.  Judging by how sharp it's teeth is, you hope is does not like nuts.  Though it is a robot, it stinks like death.",
+        "description":"A bipedal animatronic squirrel, nearly twice your size.  Judging by its sharp teeth, you hope it does not like nuts.  Though it is a robot, it stinks like death.",
         "flags":["SEES", "GRABS", "HEARS", "BASHES", "ATTACKMON", "ELECTRONIC", "NO_BREATHE", "VIS50"]
     },{
         "type" : "MONSTER",
@@ -543,4 +543,5 @@
         "special_attack":["NONE"],
         "description":"A bipedal animatronic wolf, nearly twice your size.  If the animal counterpart was scary, this robot is terrifying.  Though it is a robot, it stinks like death.",
         "flags":["SEES", "GRABS", "HEARS", "BASHES", "ATTACKMON", "ELECTRONIC", "NO_BREATHE", "VIS50"]
-    }]
+    }
+    ]
