@@ -6094,7 +6094,8 @@
       ["bio_speed", 2],
       ["bio_adrenaline", 10],
       ["bio_watch", 10],
-      ["bio_power_armor_interface_mkII", 5]
+      ["bio_power_armor_interface_mkII", 5],
+      ["bio_meteorologist", 10]
     ]
   },{
       "type" : "item_group",
@@ -6155,7 +6156,8 @@
       ["bio_speed", 5],
       ["bio_adrenaline", 15],
       ["bio_watch", 10],
-      ["bio_power_armor_interface_mkII", 5]
+      ["bio_power_armor_interface_mkII", 5],
+      ["bio_meteorologist", 10]
     ]
   },{
     "type" : "item_group",
@@ -6371,7 +6373,8 @@
       ["sm_extinguisher", 10],
       ["grapnel", 1],
       ["toolbox", 5],
-      ["apron_leather", 10]
+      ["apron_leather", 10],
+      ["bio_meteorologist", 10]
     ]
   },{
     "type" : "item_group",
@@ -6556,7 +6559,8 @@
       ["diazepam", 5],
       ["misc_repairkit", 5],
       ["toolbox", 2],
-      ["apron_leather", 10]
+      ["apron_leather", 10],
+      ["bio_meteorologist", 10]
     ]
   },{
     "type" : "item_group",
@@ -7354,7 +7358,8 @@
       ["toolbox", 1],
       ["diazepam", 1],
       ["magnifying_glass", 1],
-      ["material_quicklime", 10]
+      ["material_quicklime", 10],
+      ["bio_meteorologist", 10]
     ]
   },{
     "type" : "item_group",
