@@ -2329,12 +2329,12 @@ void mattack::tank_tur(monster *z, int index)
     tmp.skillLevel("gun").level(1);
 
     z->reset_special(index); // Reset timer
-    Creature *target = NULL;
+    point aim_point;
 
     if (z->friendly != 0) {
         // Attacking monsters, not the player!
         int boo_hoo;
-        target = tmp.auto_find_hostile_target(48, boo_hoo, fire_t);
+        Creature *target = tmp.auto_find_hostile_target(48, boo_hoo, fire_t);
         if (target == NULL) {// Couldn't find any targets!
             if(boo_hoo > 0 && g->u_see(z->posx(), z->posy()) ) { // because that stupid oaf was in the way!
                 add_msg(m_warning, ngettext("Pointed in your direction, the %s emits an IFF warning beep.",
@@ -2344,6 +2344,7 @@ void mattack::tank_tur(monster *z, int index)
             }
             return;
         }
+        aim_point = target->pos();
     } else {
         // Not friendly; hence, firing at the player
         // (Be grateful for safety precautions.)
@@ -2360,7 +2361,16 @@ void mattack::tank_tur(monster *z, int index)
             // even though it's patently unrealistic.
             return;
         }
-        target = &g->u;
+        aim_point = g->u.pos();
+        // Target the vehicle itself instead if there is one.
+        if( g->u.in_vehicle ) {
+            vehicle *veh = g->m.veh_at( g->u.xpos(), g->u.ypos() );
+            if( veh ) {
+                veh->center_of_mass( aim_point.x, aim_point.y );
+                aim_point.x += veh->global_x();
+                aim_point.y += veh->global_y();
+            }
+        }
     }
     z->moves -= 150;   // It takes a while
 
@@ -2379,7 +2389,7 @@ void mattack::tank_tur(monster *z, int index)
     tmp.weapon.curammo = dynamic_cast<it_ammo *>(item_controller->find_template( ammo_type ));
     tmp.weapon.charges = std::max(z->ammo[ammo_type], 5);
     z->ammo[ammo_type] -= tmp.weapon.charges;
-    tmp.fire_gun(target->xpos(), target->ypos(), false);
+    tmp.fire_gun( aim_point.x, aim_point.y, false );
     z->ammo[ammo_type] += tmp.weapon.charges;
 }
 
