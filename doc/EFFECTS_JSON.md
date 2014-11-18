@@ -423,7 +423,7 @@ Intensity 4 values = base_mods values + 3 * scaling_mods values
 and so on.
 
 Special case:
-The only special case is if base_mods "X_chance_bot" + scaling_mods * "X_chance_bot" = 0 then it treats it
+The only special case is if base_mods' "X_chance_bot" + intensity * scaling_mods' "X_chance_bot" = 0 then it treats it
 as if it were equal to 1 (i.e. trigger every time)
 
 ## Example Effect
