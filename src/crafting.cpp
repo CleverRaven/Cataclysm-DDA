@@ -45,6 +45,28 @@ const recipe *find_recipe( std::string id )
     return nullptr;
 }
 
+void add_to_component_lookup(recipe* r)
+{
+    std::unordered_set<itype_id> counted;
+    for (auto comp_choices : r->components) {
+        for (item_comp comp : comp_choices) {
+            if (counted.count(comp.type)) {
+                continue;
+            }
+            counted.insert(comp.type);
+            recipes_by_component[comp.type].push_back(r);
+        }
+    }
+}
+
+void remove_from_component_lookup(recipe* r)
+{
+    for (auto map_iter: recipes_by_component) {
+        recipe_list& rlist = map_iter.second;
+        rlist.erase(std::remove(rlist.begin(), rlist.end(), r), rlist.end());
+    }
+}
+
 void load_recipe_category(JsonObject &jsobj)
 {
     JsonArray subcats;
@@ -90,6 +112,7 @@ int check_recipe_ident(const std::string &rec_name, JsonObject &jsobj)
                 const int tmp_id = (*list_iter)->id;
                 delete *list_iter;
                 map_iter->second.erase(list_iter);
+                remove_from_component_lookup(*list_iter);
                 return tmp_id;
             }
         }
@@ -152,7 +175,7 @@ void load_recipe(JsonObject &jsobj)
     }
 
     std::string rec_name = result + id_suffix;
-    int id = check_recipe_ident(rec_name, jsobj);
+    int id = check_recipe_ident(rec_name, jsobj); // may delete recipes
 
     recipe *rec = new recipe(rec_name, id, result, category, subcategory, skill_used,
                              requires_skills, reversible, autolearn,
@@ -169,17 +192,7 @@ void load_recipe(JsonObject &jsobj)
         rec->booksets.push_back(std::pair<std::string, int>(book_name, book_level));
     }
 
-    // add to reverse requirements lookup for each component
-    std::unordered_set<itype_id> counted;
-    for (auto comp_choices : rec->components) {
-        for (item_comp comp : comp_choices) {
-            if (counted.count(comp.type)) {
-                continue;
-            }
-            counted.insert(comp.type);
-            recipes_by_component[comp.type].push_back(rec);
-        }
-    }
+    add_to_component_lookup(rec);
 
     recipes[category].push_back(rec);
 }
