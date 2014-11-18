@@ -850,8 +850,8 @@ static void draw_targeting_window( WINDOW *w_target, item *relevant, player &p, 
             if(relevant->has_flag("RELOAD_AND_SHOOT")) {
                 wprintz(w_target, c_red, _("Shooting %s from %s"),
                         p.weapon.curammo->nname(1).c_str(), p.weapon.tname().c_str());
-            } else if( relevent->has_flag("NO_AMMO") ) {
-                wprintz(w_target, c_red, _("Firing %s"), u.weapon.tname().c_str());
+            } else if( relevant->has_flag("NO_AMMO") ) {
+                wprintz(w_target, c_red, _("Firing %s"), p.weapon.tname().c_str());
             } else {
                 wprintz(w_target, c_red, _("Firing ") );
                 p.print_gun_mode( w_target, c_red );
