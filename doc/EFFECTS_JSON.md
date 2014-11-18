@@ -399,7 +399,7 @@ Basic definitions:
 "X_min_val"     - Minimum value the effect will push you to, 0 means uncapped! Doesn't exist for some X's!
 "X_max_val"     - Maximum value the effect will push you to, 0 means uncapped! Doesn't exist for some X's!
 "X_chance"      - Basic chance of X triggering each time, depends on "X_chance_bot" for exact formula
-"X_chance_bot"  - If this doesn't exist then the trigger chance is 1 in "X_chance". If this does exist then the chance is "X_chance" in "X_chance_bot
+"X_chance_bot"  - If this doesn't exist then the trigger chance is (1 in "X_chance"). If this does exist then the chance is ("X_chance" in "X_chance_bot")
 "X_tick"        - Effect rolls for X triggering every Y ticks
 ```
 Each argument can also take either one or two values.
@@ -414,14 +414,16 @@ value. If there is only one value given it will always use that amount.
 Base mods and Scaling mods:
 While on intensity = 1 an effect will only have the basic effects of its "base_mods". However for each
 additional intensity it gains it adds the value of each of its "scaling_mods" to the calculations. So:
+```C++
 Intensity 1 values = base_mods values
 Intensity 2 values = base_mods values + scaling_mods values
 Intensity 3 values = base_mods values + 2 * scaling_mods values
 Intensity 4 values = base_mods values + 3 * scaling_mods values
+```
 and so on.
 
 Special case:
-The only special case is if base_mods "X_chance_bot" + scaling_mods "X_chance_bot" = 0 then it treats it
+The only special case is if base_mods "X_chance_bot" + scaling_mods * "X_chance_bot" = 0 then it treats it
 as if it were equal to 1 (i.e. trigger every time)
 
 ## Example Effect
