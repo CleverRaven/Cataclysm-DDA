@@ -5984,6 +5984,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "apple_canned",
+        "target_charges": 3,
         "container": "jar_glass"
     }
   },{
