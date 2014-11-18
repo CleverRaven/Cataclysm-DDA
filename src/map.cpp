@@ -1216,35 +1216,7 @@ int map::combined_movecost(const int x1, const int y1,
 
 bool map::trans(const int x, const int y)
 {
-    // Control statement is a problem. Normally returning false on an out-of-bounds
-    // is how we stop rays from going on forever.  Instead we'll have to include
-    // this check in the ray loop.
-    int vpart = -1;
-    vehicle *veh = veh_at(x, y, vpart);
-    bool tertr;
-    if (veh) {
-        tertr = veh->part_with_feature(vpart, VPFLAG_OPAQUE) < 0;
-        if (!tertr) {
-            const int dpart = veh->part_with_feature(vpart, VPFLAG_OPENABLE);
-            if (dpart >= 0 && veh->parts[dpart].open) {
-                tertr = true; // open opaque door
-            }
-        }
-    } else {
-        tertr = has_flag_ter_and_furn(TFLAG_TRANSPARENT, x, y);
-    }
-    if( tertr ) {
-        // Fields may obscure the view, too
-        const field &curfield = field_at( x,y );
-        for( auto &fld : curfield ) {
-                //If ANY field blocks vision, the tile does.
-                if(!fieldlist[fld.second.getFieldType()].transparent[fld.second.getFieldDensity() - 1]) {
-                    return false;
-                }
-        }
-        return true; //no blockers found, this is transparent
-    }
-    return false; //failsafe block vision
+    return light_transparency(x, y) > LIGHT_TRANSPARENCY_SOLID;
 }
 
 bool map::has_flag(const std::string &flag, const int x, const int y) const
@@ -4092,129 +4064,131 @@ http://roguebasin.roguelikedevelopment.org/index.php?title=Simple_Line_of_Sight
 bool map::sees(const int Fx, const int Fy, const int Tx, const int Ty,
                const int range, int &tc)
 {
- const int dx = Tx - Fx;
- const int dy = Ty - Fy;
- const int ax = abs(dx) << 1;
- const int ay = abs(dy) << 1;
- const int sx = SGN(dx);
- const int sy = SGN(dy);
- int x = Fx;
- int y = Fy;
- int t = 0;
- int st;
+    const int dx = Tx - Fx;
+    const int dy = Ty - Fy;
+    const int ax = abs(dx) << 1;
+    const int ay = abs(dy) << 1;
+    const int sx = SGN(dx);
+    const int sy = SGN(dy);
+    int x = Fx;
+    int y = Fy;
+    int t = 0;
+    int st;
 
- if (range >= 0 && (abs(dx) > range || abs(dy) > range))
-  return false; // Out of range!
- if (ax > ay) { // Mostly-horizontal line
-  st = SGN(ay - (ax >> 1));
-// Doing it "backwards" prioritizes straight lines before diagonal.
-// This will help avoid creating a string of zombies behind you and will
-// promote "mobbing" behavior (zombies surround you to beat on you)
-  for (tc = abs(ay - (ax >> 1)) * 2 + 1; tc >= -1; tc--) {
-   t = tc * st;
-   x = Fx;
-   y = Fy;
-   do {
-    if (t > 0) {
-     y += sy;
-     t -= ax;
+    if (range >= 0 && range < rl_dist(Fx, Fy, Tx, Ty) ) {
+        return false; // Out of range!
     }
-    x += sx;
-    t += ay;
-    if (x == Tx && y == Ty) {
-     tc *= st;
+    if (ax > ay) { // Mostly-horizontal line
+        st = SGN(ay - (ax >> 1));
+        // Doing it "backwards" prioritizes straight lines before diagonal.
+        // This will help avoid creating a string of zombies behind you and will
+        // promote "mobbing" behavior (zombies surround you to beat on you)
+        for (tc = abs(ay - (ax >> 1)) * 2 + 1; tc >= -1; tc--) {
+            t = tc * st;
+            x = Fx;
+            y = Fy;
+            do {
+                if (t > 0) {
+                    y += sy;
+                    t -= ax;
+                }
+                x += sx;
+                t += ay;
+                if (x == Tx && y == Ty) {
+                    tc *= st;
+                    return true;
+                }
+            } while ((trans(x, y)) && (INBOUNDS(x,y)));
+        }
+        return false;
+    } else { // Same as above, for mostly-vertical lines
+        st = SGN(ax - (ay >> 1));
+        for (tc = abs(ax - (ay >> 1)) * 2 + 1; tc >= -1; tc--) {
+            t = tc * st;
+            x = Fx;
+            y = Fy;
+            do {
+                if (t > 0) {
+                    x += sx;
+                    t -= ay;
+                }
+                y += sy;
+                t += ax;
+                if (x == Tx && y == Ty) {
+                    tc *= st;
      return true;
+                }
+            } while ((trans(x, y)) && (INBOUNDS(x,y)));
+        }
+        return false;
     }
-   } while ((trans(x, y)) && (INBOUNDS(x,y)));
-  }
-  return false;
- } else { // Same as above, for mostly-vertical lines
-  st = SGN(ax - (ay >> 1));
-  for (tc = abs(ax - (ay >> 1)) * 2 + 1; tc >= -1; tc--) {
-  t = tc * st;
-  x = Fx;
-  y = Fy;
-   do {
-    if (t > 0) {
-     x += sx;
-     t -= ay;
-    }
-    y += sy;
-    t += ax;
-    if (x == Tx && y == Ty) {
-     tc *= st;
-     return true;
-    }
-   } while ((trans(x, y)) && (INBOUNDS(x,y)));
-  }
-  return false;
- }
- return false; // Shouldn't ever be reached, but there it is.
+    return false; // Shouldn't ever be reached, but there it is.
 }
 
 bool map::clear_path(const int Fx, const int Fy, const int Tx, const int Ty,
                      const int range, const int cost_min, const int cost_max, int &tc) const
 {
- const int dx = Tx - Fx;
- const int dy = Ty - Fy;
- const int ax = abs(dx) << 1;
- const int ay = abs(dy) << 1;
- const int sx = SGN(dx);
- const int sy = SGN(dy);
- int x = Fx;
- int y = Fy;
- int t = 0;
- int st;
+    const int dx = Tx - Fx;
+    const int dy = Ty - Fy;
+    const int ax = abs(dx) << 1;
+    const int ay = abs(dy) << 1;
+    const int sx = SGN(dx);
+    const int sy = SGN(dy);
+    int x = Fx;
+    int y = Fy;
+    int t = 0;
+    int st;
 
- if (range >= 0 && (abs(dx) > range || abs(dy) > range))
-  return false; // Out of range!
- if (ax > ay) { // Mostly-horizontal line
-  st = SGN(ay - (ax >> 1));
-// Doing it "backwards" prioritizes straight lines before diagonal.
-// This will help avoid creating a string of zombies behind you and will
-// promote "mobbing" behavior (zombies surround you to beat on you)
-  for (tc = abs(ay - (ax >> 1)) * 2 + 1; tc >= -1; tc--) {
-   t = tc * st;
-   x = Fx;
-   y = Fy;
-   do {
-    if (t > 0) {
-     y += sy;
-     t -= ax;
+    if (range >= 0 &&  range < rl_dist(Fx, Fy, Tx, Ty) ) {
+        return false; // Out of range!
     }
-    x += sx;
-    t += ay;
-    if (x == Tx && y == Ty) {
-     tc *= st;
-     return true;
+    if (ax > ay) { // Mostly-horizontal line
+        st = SGN(ay - (ax >> 1));
+        // Doing it "backwards" prioritizes straight lines before diagonal.
+        // This will help avoid creating a string of zombies behind you and will
+        // promote "mobbing" behavior (zombies surround you to beat on you)
+        for (tc = abs(ay - (ax >> 1)) * 2 + 1; tc >= -1; tc--) {
+            t = tc * st;
+            x = Fx;
+            y = Fy;
+            do {
+                if (t > 0) {
+                    y += sy;
+                    t -= ax;
+                }
+                x += sx;
+                t += ay;
+                if (x == Tx && y == Ty) {
+                    tc *= st;
+                    return true;
+                }
+            } while (move_cost(x, y) >= cost_min && move_cost(x, y) <= cost_max &&
+                     INBOUNDS(x, y));
+        }
+        return false;
+    } else { // Same as above, for mostly-vertical lines
+        st = SGN(ax - (ay >> 1));
+        for (tc = abs(ax - (ay >> 1)) * 2 + 1; tc >= -1; tc--) {
+            t = tc * st;
+            x = Fx;
+            y = Fy;
+            do {
+                if (t > 0) {
+                    x += sx;
+                    t -= ay;
+                }
+                y += sy;
+                t += ax;
+                if (x == Tx && y == Ty) {
+                    tc *= st;
+                    return true;
+                }
+            } while (move_cost(x, y) >= cost_min && move_cost(x, y) <= cost_max &&
+                     INBOUNDS(x,y));
+        }
+        return false;
     }
-   } while (move_cost(x, y) >= cost_min && move_cost(x, y) <= cost_max &&
-            INBOUNDS(x, y));
-  }
-  return false;
- } else { // Same as above, for mostly-vertical lines
-  st = SGN(ax - (ay >> 1));
-  for (tc = abs(ax - (ay >> 1)) * 2 + 1; tc >= -1; tc--) {
-  t = tc * st;
-  x = Fx;
-  y = Fy;
-   do {
-    if (t > 0) {
-     x += sx;
-     t -= ay;
-    }
-    y += sy;
-    t += ax;
-    if (x == Tx && y == Ty) {
-     tc *= st;
-     return true;
-    }
-   } while (move_cost(x, y) >= cost_min && move_cost(x, y) <= cost_max &&
-            INBOUNDS(x,y));
-  }
-  return false;
- }
- return false; // Shouldn't ever be reached, but there it is.
+    return false; // Shouldn't ever be reached, but there it is.
 }
 
 bool map::accessable_items(const int Fx, const int Fy, const int Tx, const int Ty, const int range) const

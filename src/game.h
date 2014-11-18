@@ -205,11 +205,9 @@ class game
         bool revive_corpse(int x, int y, int n); // revives a corpse from an item pile
         bool revive_corpse(int x, int y,
                            item *it); // revives a corpse by item pointer, caller handles item deletion
-        void plfire(bool burst, int default_target_x = -1,
-                    int default_target_y = -1); // Player fires a gun (target selection)...
-        // ... a gun is fired, maybe by an NPC (actual damage, etc.).
-        void fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
-                  bool burst);
+        // Player wants to fire a gun (target selection) etc. actual firing is done in player::fire_gun
+        // This is interactive and therefor not for npcs.
+        void plfire(bool burst, int default_target_x = -1, int default_target_y = -1);
         void throw_item(player &p, int tarx, int tary, item &thrown,
                         std::vector<point> &trajectory);
         void cancel_activity();
@@ -279,7 +277,7 @@ class game
         // in global overmap terrain coordinates.
         tripoint om_global_location() const;
 
-        void process_artifact(item *it, player *p, bool wielded = false);
+        void process_artifact(item *it, player *p);
         void add_artifact_messages(std::vector<art_effect_passive> effects);
 
         void peek( int peekx = 0, int peeky = 0);
@@ -304,7 +302,6 @@ class game
         std::vector<map_item_stack> filter_item_stacks(std::vector<map_item_stack> stack,
                 std::string filter);
         std::vector<map_item_stack> find_nearby_items(int iRadius);
-        std::vector<int> find_nearby_monsters(int iRadius);
         std::string ask_item_filter(WINDOW *window, int rows);
         std::string ask_item_priority_high(WINDOW *window, int rows);
         std::string ask_item_priority_low(WINDOW *window, int rows);

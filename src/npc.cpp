@@ -1760,6 +1760,20 @@ bool npc::is_defending() const
  return (attitude == NPCATT_DEFEND);
 }
 
+Creature::Attitude npc::attitude_to( const Creature &other ) const
+{
+    if( other.is_npc() ) {
+        // No npc vs npc action, so simply ignore other npcs
+        return A_NEUTRAL;
+    } else if( other.is_player() ) {
+        // For now, make it symmetric.
+        return other.attitude_to( *this );
+    }
+    // Fallback to use the same logic as player, even through it's wrong:
+    // Hostile (towards the player) npcs should see friendly monsters as hostile, too.
+    return player::attitude_to( other );
+}
+
 int npc::danger_assessment()
 {
     int ret = 0;

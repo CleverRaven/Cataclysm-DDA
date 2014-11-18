@@ -527,6 +527,7 @@ void iexamine::cardreader(player *p, map *m, int examx, int examy)
 
 void iexamine::rubble(player *p, map *m, int examx, int examy)
 {
+  // Perhaps check for vehicle covering the rubble and bail out if so (string freeze ATM)?
     if (!(p->has_amount("shovel", 1) || p->has_amount("primitive_shovel", 1) ||
           p->has_amount("e_tool", 1))) {
         add_msg(m_info, _("If only you had a shovel..."));

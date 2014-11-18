@@ -100,6 +100,8 @@ void game::init_morale()
 
     _("Moodswing"),
     _("Read %i"),
+    _("Got comfy"),
+    
     _("Heard Disturbing Scream"),
 
     _("Masochism"),
@@ -933,6 +935,7 @@ void player::update_bodytemp()
         // CONVECTION HEAT SOURCES (generates body heat, helps fight frostbite)
         // Bark : lowers blister count to -100; harder to get blisters
         int blister_count = (has_trait("BARK") ? -100 : 0); // If the counter is high, your skin starts to burn
+        int best_fire = 0;
         for (int j = -6 ; j <= 6 ; j++) {
             for (int k = -6 ; k <= 6 ; k++) {
                 int heat_intensity = 0;
@@ -945,12 +948,16 @@ void player::update_bodytemp()
                 }
                 if (heat_intensity > 0 && sees(posx + j, posy + k)) {
                     // Ensure fire_dist >= 1 to avoid divide-by-zero errors.
-                    int fire_dist = std::max(1, std::max(j, k));
+                    int fire_dist = std::max(1, std::max( std::abs( j ), std::abs( k ) ) );
                     if (frostbite_timer[i] > 0) {
                         frostbite_timer[i] -= heat_intensity - fire_dist / 2;
                     }
                     temp_conv[i] +=  300 * heat_intensity * heat_intensity / (fire_dist * fire_dist);
                     blister_count += heat_intensity / (fire_dist * fire_dist);
+                    if( fire_dist <= 1 ) {
+                        // Extend limbs/lean over a single adjacent fire to warm up
+                        best_fire = std::max( best_fire, heat_intensity );
+                    }
                 }
             }
         }
@@ -1172,21 +1179,70 @@ void player::update_bodytemp()
         // Chemical Imbalance
         // Added line in player::suffer()
         // FINAL CALCULATION : Increments current body temperature towards convergent.
+        int bonus_warmth = 0;
         if ( in_sleep_state() ) {
-            int sleep_bonus = floor_bedding_warmth + floor_item_warmth + floor_mut_warmth;
-            // Too warm, don't need items on the floor
-            if ( temp_conv[i] > BODYTEMP_NORM ) {
-                // Do nothing
-            }
-            // Intelligently use items on the floor; just enough to be comfortable
-            else if ( (temp_conv[i] + sleep_bonus) > BODYTEMP_NORM ) {
-                temp_conv[i] = BODYTEMP_NORM;
-            }
-            // Use all items on the floor -- there are not enough to keep comfortable
-            else {
-                temp_conv[i] += sleep_bonus;
+            bonus_warmth = floor_bedding_warmth + floor_item_warmth + floor_mut_warmth;
+        } else if ( best_fire > 0 ) {
+            // Warming up over a fire
+            // Extremities are easier to extend over a fire
+            switch (i) {
+            case bp_head:
+            case bp_torso:
+            case bp_mouth:
+            case bp_leg_l:
+            case bp_leg_r:
+                bonus_warmth = best_fire * best_fire * 150; // Not much
+                break;
+            case bp_arm_l:
+            case bp_arm_r:
+                bonus_warmth = best_fire * 600; // A fair bit
+                break;
+            case bp_foot_l:
+            case bp_foot_r:
+                if( furn_at_pos == f_armchair || furn_at_pos == f_chair || furn_at_pos == f_bench ) {
+                    // Can sit on something to lift feet up to the fire
+                    bonus_warmth = best_fire * 1000;
+                } else {
+                    // Has to stand
+                    bonus_warmth = best_fire * 300;
+                }
+                break;
+            case bp_hand_l:
+            case bp_hand_r:
+                bonus_warmth = best_fire * 1500; // A lot
             }
         }
+        if( bonus_warmth > 0 ) {
+            // Approximate temp_conv needed to reach comfortable temperature in this very turn
+            // Basically inverted formula for temp_cur below
+            int desired = 501 * BODYTEMP_NORM - 499 * temp_cur[i];
+            if( std::abs( BODYTEMP_NORM - desired ) < 1000 ) {
+                desired = BODYTEMP_NORM; // Ensure that it converges
+            } else if( desired > BODYTEMP_HOT ) {
+                desired = BODYTEMP_HOT; // Cap excess at sane temperature
+            }
+
+            if( desired < temp_conv[i] ) {
+                // Too hot, can't help here
+            } else if( desired < temp_conv[i] + bonus_warmth ) {
+                // Use some heat, but not all of it
+                temp_conv[i] = desired;
+            } else {
+                // Use all the heat
+                temp_conv[i] += bonus_warmth;
+            }
+
+            // Morale bonus for comfiness - only if actually comfy (not too warm/cold)
+            // Spread the morale bonus in time. 
+            int mytime = MINUTES( i ) / MINUTES( num_bp );
+            if( calendar::turn % MINUTES( 1 ) == mytime && 
+                disease_intensity( "cold", false, (body_part)num_bp ) == 0 &&
+                disease_intensity( "hot", false, (body_part)num_bp ) == 0 &&
+                temp_cur[i] > BODYTEMP_COLD && temp_cur[i] <= BODYTEMP_NORM ) {
+                add_morale( MORALE_COMFY, 1, 5, 20, 10, true );
+            }
+        }
+
         int temp_before = temp_cur[i];
         int temp_difference = temp_cur[i] - temp_conv[i]; // Negative if the player is warming up.
         // exp(-0.001) : half life of 60 minutes, exp(-0.002) : half life of 30 minutes,
@@ -2434,9 +2490,17 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
     if (crossed_threshold()) {
         std::vector<std::string> traitslist;
         std::string race;
-        for (size_t i = 0; i < traitslist.size(); i++) {
-            if (mutation_data[traitslist[i]].threshold == true)
-                race = traits[traitslist[i]].name;
+        for( auto &mut : my_mutations ) {
+            traitslist.push_back( mut );
+            for( size_t i = 0; i < traitslist.size(); i++ ) {
+                if( mutation_data[traitslist[i]].threshold ) {
+                    race = traits[traitslist[i]].name;
+                    break;
+                }
+            }
+            if( !race.empty() ) {
+                break;
+            }
         }
         //~ player info window: 1s - name, 2s - gender, 3s - Prof or Mutation name
         mvwprintw(w_tip, 0, 0, _("%1$s | %2$s | %3$s"), name.c_str(),
@@ -3758,10 +3822,17 @@ void player::toggle_str_set( std::unordered_set< std::string > &set, const std::
     }
 }
 
+void mutation_effect(player &p, std::string mut);
+void mutation_loss_effect(player &p, std::string mut);
 void player::toggle_trait(const std::string &flag)
 {
     toggle_str_set(my_traits, flag); //Toggles a base trait on the player
     toggle_str_set(my_mutations, flag); //Toggles corresponding trait in mutations list as well.
+    if( has_trait( flag ) ) {
+        mutation_effect( *this, flag );
+    } else {
+        mutation_loss_effect( *this, flag );
+    }
     recalc_sight_limits();
 }
 
@@ -4215,17 +4286,22 @@ int player::overmap_sight_range(int light_level)
         }
         return 25;
     }
-
+    else if (has_trait("BIRD_EYE")) {
+            return 15;
+        }
     return 10;
 }
 
+#define MAX_CLAIRVOYANCE 40
 int player::clairvoyance() const
 {
- if (has_artifact_with(AEP_CLAIRVOYANCE))
-  return 3;
- if (has_artifact_with(AEP_SUPER_CLAIRVOYANCE))
-  return 40;
- return 0;
+    if (has_artifact_with(AEP_SUPER_CLAIRVOYANCE)) {
+        return MAX_CLAIRVOYANCE;
+    }
+    if (has_artifact_with(AEP_CLAIRVOYANCE)) {
+        return 3;
+    }
+    return 0;
 }
 
 bool player::sight_impaired()
@@ -6679,7 +6755,7 @@ void player::hardcoded_effects(effect &it)
         if (!has_effect("valium")) {
             add_miss_reason(_("Your muscles are locking up and you can't fight effectively."), 4);
             if (one_in(512)) {
-                add_msg_if_player(m_bad, "Your muscles spasm.");
+                add_msg_if_player(m_bad, _("Your muscles spasm."));
                 add_effect("downed",rng(1,4));
                 add_effect("stunned",rng(1,4));
                 if (one_in(10)) {
@@ -7483,10 +7559,21 @@ void player::suffer()
             add_msg_if_player(_("You have an asthma attack!"));
             wake_up();
             auto_use = false;
+        } else {
+            add_msg_if_player( m_bad, _( "You have an asthma attack!" ) );
         }
 
         if (auto_use) {
             use_charges("inhaler", 1);
+            moves -= 40;
+            const auto charges = charges_of( "inhaler" );
+            if( charges == 0 ) {
+                add_msg_if_player( m_bad, _( "You use your last inhaler charge." ) );
+            } else {
+                add_msg_if_player( m_info, ngettext( "You use your inhaler, only %d charge left.",
+                                                     "You use your inhaler, only %d charges left.", charges ),
+                                   charges );
+            }
         } else {
             add_effect("asthma", 50 * rng(1, 4));
             if (!is_npc()) {
@@ -7684,8 +7771,8 @@ void player::suffer()
                     if( before < rad_dosage_thresholds[i] &&
                         (*it)->irridation >= rad_dosage_thresholds[i] ) {
                         add_msg_if_player(m_warning, _("Your radiation badge changes from %s to %s!"),
-                                                     rad_threshold_colors[i - 1].c_str(),
-                                                     rad_threshold_colors[i].c_str() );
+                                          _(rad_threshold_colors[i - 1].c_str()),
+                                          _(rad_threshold_colors[i].c_str()) );
                     }
                 }
             }
@@ -13157,6 +13244,43 @@ field_id player::playerBloodType() const {
     return fd_blood;
 }
 
+Creature::Attitude player::attitude_to( const Creature &other ) const
+{
+    const auto m = dynamic_cast<const monster *>( &other );
+    const auto p = dynamic_cast<const npc *>( &other );
+    if( m != nullptr ) {
+        if( m->friendly != 0 ) {
+            return A_FRIENDLY;
+        }
+        switch( m->attitude( const_cast<player *>( this ) ) ) {
+                // player probably does not want to harm them, but doesn't care much at all.
+            case MATT_FOLLOW:
+            case MATT_FPASSIVE:
+            case MATT_IGNORE:
+            case MATT_FLEE:
+                return A_NEUTRAL;
+                // player does not want to harm those.
+            case MATT_FRIEND:
+            case MATT_ZLAVE: // Don't want to harm your zlave!
+                return A_FRIENDLY;
+            case MATT_ATTACK:
+                return A_HOSTILE;
+            case MATT_NULL:
+            case NUM_MONSTER_ATTITUDES:
+                break;
+        }
+    } else if( p != nullptr ) {
+        if( p->attitude == NPCATT_KILL ) {
+            return A_HOSTILE;
+        } else if( p->is_friend() ) {
+            return A_FRIENDLY;
+        } else {
+            return A_NEUTRAL;
+        }
+    }
+    return A_NEUTRAL;
+}
+
 Creature *player::auto_find_hostile_target(int range, int &boo_hoo, int &fire_t)
 {
     if (is_player()) {
@@ -13229,28 +13353,29 @@ bool player::sees(int x, int y) const
 
 bool player::sees(int x, int y, int &t) const
 {
-    const int s_range = sight_range(g->light_level());
     static const std::string str_bio_night("bio_night");
     const int wanted_range = rl_dist(posx, posy, x, y);
-
-    if (wanted_range < clairvoyance()) {
-        return true;
-    }
     bool can_see = false;
-    if (wanted_range <= s_range ||
-        (wanted_range <= sight_range(DAYLIGHT_LEVEL) &&
-            g->m.light_at(x, y) >= LL_LOW)) {
-        if (is_player()) {
-            // uses the seen cache in map
+    const int s_range = sight_range(g->light_level());
+    if( wanted_range <= s_range || (wanted_range <= sight_range(DAYLIGHT_LEVEL) &&
+         g->m.light_at(x, y) >= LL_LOW) ) {
+        if( is_player() ) {
             can_see = g->m.pl_sees(posx, posy, x, y, wanted_range);
-        } else if (g->m.light_at(x, y) >= LL_LOW) {
+        } else  if( g->m.light_at(x, y) >= LL_LOW ) {
             can_see = g->m.sees(posx, posy, x, y, wanted_range, t);
         } else {
             can_see = g->m.sees(posx, posy, x, y, s_range, t);
         }
     }
-    if (has_active_bionic(str_bio_night) && wanted_range < 15 && wanted_range > sight_range(1)) {
-        return false;
+    // Only check if we need to override if we already came to the opposite conclusion.
+    if( can_see && wanted_range < 15 && wanted_range > sight_range(1) &&
+        has_active_bionic(str_bio_night) ) {
+        can_see = false;
+    }
+    // Clairvoyance is a really expensive check,
+    // so try to avoid making it if at all possible.
+    if( !can_see && wanted_range < MAX_CLAIRVOYANCE && wanted_range < clairvoyance() ) {
+        return true;
     }
     return can_see;
 }

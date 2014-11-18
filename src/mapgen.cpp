@@ -375,6 +375,7 @@ void mapgen_function_json::setup_setmap( JsonArray &parray ) {
     setmap_opmap[ "furniture" ] = JMAPGEN_SETMAP_FURN;
     setmap_opmap[ "trap" ] = JMAPGEN_SETMAP_TRAP;
     setmap_opmap[ "radiation" ] = JMAPGEN_SETMAP_RADIATION;
+    setmap_opmap[ "bash" ] = JMAPGEN_SETMAP_BASH;
     std::map<std::string, jmapgen_setmap_op>::iterator sm_it;
     jmapgen_setmap_op tmpop;
     int setmap_optype = 0;
@@ -432,6 +433,8 @@ void mapgen_function_json::setup_setmap( JsonArray &parray ) {
             if ( ! load_jmapgen_int(pjo, "amount", tmp_i.val, tmp_i.valmax) ) {
                 err = string_format("set %s: bad/missing value for 'amount'",tmpval.c_str() ); throw err;
             }
+        } else if (tmpop == JMAPGEN_SETMAP_BASH){
+            //suppress warning
         } else {
             if ( ! pjo.has_string("id") ) {
                 err = string_format("set %s: bad/missing value for 'id'",tmpval.c_str() ); throw err;
@@ -926,7 +929,9 @@ bool jmapgen_setmap::apply( map *m ) {
                 case JMAPGEN_SETMAP_RADIATION: {
                     m->set_radiation( x.get(), y.get(), val.get());
                 } break;
-
+                case JMAPGEN_SETMAP_BASH: {
+                    m->bash( x.get(), y.get(), 9999);
+                } break;
 
                 case JMAPGEN_SETMAP_LINE_TER: {
                     m->draw_line_ter( (ter_id)val.get(), x.get(), y.get(), x2.get(), y2.get() );
@@ -13004,7 +13009,7 @@ void map::add_extra(map_extra type)
         line(this, t_fence_barbed, SEEX * 2 - 3, 13, SEEX * 2 - 3, 19);
         line(this, t_fence_barbed, 3, 4, 3, 10);
         line(this, t_fence_barbed, 1, 13, 1, 19);
-        if (one_in(3)) {  // Chicken delivvery truck
+        if (one_in(3)) {  // Chicken delivery truck
             add_vehicle("military_cargo_truck", 12, SEEY * 2 - 5, 0);
             add_spawn("mon_chickenbot", 1, 12, 12);
         } else if (one_in(2)) {  // TAAANK

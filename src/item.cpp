@@ -1073,7 +1073,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
             }
             dump->push_back(iteminfo("DESCRIPTION",
                 string_format(_("The film strip on the badge is %s."),
-                              rad_threshold_colors[i - 1].c_str())));
+                              _(rad_threshold_colors[i - 1].c_str()))));
         }
         if (is_tool() && has_flag("DOUBLE_AMMO")) {
             dump->push_back(iteminfo("DESCRIPTION",
@@ -3888,7 +3888,7 @@ bool item::process_artifact( player *carrier, point /*pos*/ )
     // TODO: change game::process_artifact to work with npcs,
     // TODO: consider moving game::process_artifact here.
     if( carrier == &g->u ) {
-        g->process_artifact( this, carrier, this == &g->u.weapon );
+        g->process_artifact( this, carrier );
     }
     // Artifacts are never consumed
     return false;
@@ -4146,8 +4146,7 @@ bool item::process_charger_gun( player *carrier, point pos )
                                        tname().c_str() );
             carrier->add_msg_player_or_npc( m_bad, _( "Your %s discharges!" ), _( "<npcname>'s %s discharges!" ), tname().c_str() );
             point target( pos.x + rng( -12, 12 ), pos.y + rng( -12, 12 ) );
-            auto traj = line_to( pos.x, pos.y, target.x, target.y, 0 );
-            g->fire( *carrier, target.x, target.y, traj, false );
+            carrier->fire_gun( target.x, target.y, false );
         } else {
             carrier->add_msg_player_or_npc( m_warning, _( "Your %s beeps alarmingly." ), _( "<npcname>'s %s beeps alarmingly." ), tname().c_str() );
         }

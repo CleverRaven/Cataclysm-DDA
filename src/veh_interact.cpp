@@ -788,7 +788,7 @@ void veh_interact::do_remove()
         return;
     case MOVING_VEHICLE:
         fold_and_print( w_msg, 0, 1, msg_width - 2, c_ltgray,
-                        _( "Better not remove something will driving." ) );
+                        _( "Better not remove something while driving." ) );
         wrefresh (w_msg);
         return;
     default:

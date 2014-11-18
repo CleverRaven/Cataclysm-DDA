@@ -468,8 +468,8 @@ inventory_selector::inventory_selector(bool m, bool c, const std::string &t)
     if (compare || multidrop) {
         left_column_width = 40;
         left_column_offset = 0;
-        middle_column_width = 40;
-        right_column_width = TERMX - left_column_width - middle_column_width - 2;
+        middle_column_width = std::min<int>( TERMX - left_column_width - 1, 40 );
+        right_column_width = std::max<int>( 0, TERMX - left_column_width - middle_column_width - 2 );
     } else {
         left_column_width = TERMX / 2;
         left_column_offset = 0;
