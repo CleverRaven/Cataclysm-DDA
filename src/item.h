@@ -610,9 +610,6 @@ bool item_matches_locator(const item &it, const itype_id &id, int item_pos = INT
 bool item_matches_locator(const item &it, int locator_pos, int item_pos = INT_MIN);
 bool item_matches_locator(const item &it, const item *other, int);
 
-//this is an attempt for functional programming
-bool is_edible(item i, player const *u);
-
 //the assigned numbers are a result of legacy stuff in draw_item_info(),
 //it would be better long-term to rewrite stuff so that we don't need that hack
 enum hint_rating {
