@@ -981,11 +981,15 @@ bool jmapgen_setmap::apply( map *m ) {
                 case JMAPGEN_SETMAP_SQUARE_RADIATION: {
                     const int cx = x.get();
                     const int cy = y.get();
+                    const int cz = z.get();
                     const int cx2 = x2.get();
                     const int cy2 = y2.get();
+                    const int cz2 = z2.get();
                     for (int tx = cx; tx <= cx2; tx++) {
                         for (int ty = cy; ty <= cy2; ty++) {
-                            m->set_radiation( tx, ty, (int)val.get());
+                            for (int tz = cz; tz <= cz2; tz++) {
+                                m->set_radiation( tx, ty, tz, (int)val.get());
+                            }
                         }
                     }
                 } break;
@@ -1177,35 +1181,37 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
                                            f_sink,  f_fridge, f_oven,  f_chair, f_counter, f_dresser, f_locker, f_null,     f_bookcase));
         for (int i = 0; i <= 23; i++) {
             for (int j = 0; j <= 23; j++) {
-                if (this->furn(i, j) == f_dresser) {
-                    place_items("dresser", 70,  i,  j, i,  j, false, 0);
-                }
-                if (this->furn(i, j) == f_rack) {
-                    place_items("dresser", 30,  i,  j, i,  j, false, 0);
-                    place_items("jackets", 60,  i,  j, i,  j, false, 0);
-                } else if (this->furn(i, j) == f_fridge) {
-                    place_items("fridge", 70,  i,  j, i,  j, false, 0);
-                } else if (this->furn(i, j) == f_oven) {
-                    place_items("oven", 70,  i,  j, i,  j, false, 0);
-                } else if (this->furn(i, j) == f_cupboard) {
-                    place_items("cleaning", 50,  i,  j, i,  j, false, 0);
-                    place_items("home_hw", 30,  i,  j, i,  j, false, 0);
-                    place_items("cannedfood", 50,  i,  j, i,  j, false, 0);
-                    place_items("pasta", 50,  i,  j, i,  j, false, 0);
-                } else if (this->furn(i, j) == f_bookcase) {
-                    place_items("magazines", 30,  i,  j, i,  j, false, 0);
-                    place_items("novels", 40,  i,  j, i,  j, false, 0);
-                    place_items("alcohol", 30,  i,  j, i,  j, false, 0);
-                    place_items("manuals", 20,  i,  j, i,  j, false, 0);
-                } else if (this->furn(i, j) == f_bed) {
-                    place_items("bed", 60,  i,  j, i,  j, false, 0);
+                for (int h = 0; h <= 23; h++) {
+                    if (this->furn(i, j, h) == f_dresser) {
+                        place_items("dresser", 70,  i,  j, h, i,  j, h, false, 0);
+                    }
+                    if (this->furn(i, j, h) == f_rack) {
+                        place_items("dresser", 30,  i,  j, h, i,  j, h, false, 0);
+                        place_items("jackets", 60, i,  j, h, i,  j, h, false, 0);
+                    } else if (this->furn(i, j, h) == f_fridge) {
+                        place_items("fridge", 70,  i,  j, h, i,  j, h, false, 0);
+                    } else if (this->furn(i, j, h) == f_oven) {
+                        place_items("oven", 70,  i,  j, h, i,  j, h, false, 0);
+                    } else if (this->furn(i, j, h) == f_cupboard) {
+                        place_items("cleaning", 50, i,  j, h, i,  j, h, false, 0);
+                        place_items("home_hw", 30,  i,  j, h, i,  j, h, false, 0);
+                        place_items("cannedfood", 50, i,  j, h, i,  j, h, false, 0);
+                        place_items("pasta", 50, i,  j, h, i,  j, h, false, 0);
+                    } else if (this->furn(i, j, h) == f_bookcase) {
+                        place_items("magazines", 30,  i,  j, h, i,  j, h, false, 0);
+                        place_items("novels", 40,  i,  j, h, i,  j, h, false, 0);
+                        place_items("alcohol", 30,  i,  j, h, i,  j, h, false, 0);
+                        place_items("manuals", 20, i,  j, h, i,  j, h, false, 0);
+                    } else if (this->furn(i, j, h) == f_bed) {
+                        place_items("bed", 60,  i,  j, h, i,  j, h,false, 0);
+                    }
                 }
             }
         }
         if (density > 1) {
-            place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+            place_spawns("GROUP_ZOMBIE", 2, 0, 0, 0, 23, 23, 23, density);
         } else {
-            add_spawn("mon_zombie", rng(1, 8), 15, 10);
+            add_spawn("mon_zombie", rng(1, 8), 15, 10, 0);
         }
         if (t_north == "apartments_con_tower_1" && t_west == "apartments_con_tower_1") {
             rotate(3);
@@ -1263,41 +1269,43 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
                                                f_sink,  f_fridge, f_oven,  f_chair, f_counter, f_dresser, f_locker, f_null,     f_bookcase));
             for (int i = 0; i <= 23; i++) {
                 for (int j = 0; j <= 23; j++) {
-                    if (this->furn(i, j) == f_dresser) {
-                        place_items("dresser", 70,  i,  j, i,  j, false, 0);
-                    }
-                    if (this->furn(i, j) == f_rack) {
-                        place_items("dresser", 30,  i,  j, i,  j, false, 0);
-                        place_items("jackets", 60,  i,  j, i,  j, false, 0);
-                    } else if (this->furn(i, j) == f_fridge) {
-                        place_items("fridge", 70,  i,  j, i,  j, false, 0);
-                    } else if (this->furn(i, j) == f_oven) {
-                        place_items("oven", 70,  i,  j, i,  j, false, 0);
-                    } else if (this->furn(i, j) == f_cupboard) {
-                        place_items("cleaning", 50,  i,  j, i,  j, false, 0);
-                        place_items("home_hw", 30,  i,  j, i,  j, false, 0);
-                        place_items("cannedfood", 50,  i,  j, i,  j, false, 0);
-                        place_items("pasta", 50,  i,  j, i,  j, false, 0);
-                    } else if (this->furn(i, j) == f_bookcase) {
-                        place_items("magazines", 30,  i,  j, i,  j, false, 0);
-                        place_items("novels", 40,  i,  j, i,  j, false, 0);
-                        place_items("alcohol", 30,  i,  j, i,  j, false, 0);
-                        place_items("manuals", 20,  i,  j, i,  j, false, 0);
-                    } else if (this->furn(i, j) == f_sink) {
-                        place_items("softdrugs", 70,  i,  j, i,  j, false, 0);
-                        place_items("cleaning", 50,  i,  j, i,  j, false, 0);
-                    } else if (this->furn(i, j) == f_toilet) {
-                        place_items("magazines", 70,  i,  j + 1, i,  j + 1, false, 0);
-                        place_items("novels", 50,  i,  j + 1 , i,  j + 1, false, 0);
-                    } else if (this->furn(i, j) == f_bed) {
-                        place_items("bed", 60,  i,  j, i,  j, false, 0);
+                    for ( int h = 0; h <= 23; h++) {
+                        if (this->furn(i, j, h) == f_dresser) {
+                            place_items("dresser", 70,  i,  j, h, i,  j, h, false, 0);
+                        }
+                        if (this->furn(i, j, h) == f_rack) {
+                            place_items("dresser", 30,  i,  j, h, i,  j, h, false, 0);
+                            place_items("jackets", 60,  i,  j, h, i,  j, h, false, 0);
+                        } else if (this->furn(i, j, h) == f_fridge) {
+                            place_items("fridge", 70,  i,  j, h, i,  j, h, false, 0);
+                        } else if (this->furn(i, j, h) == f_oven) {
+                            place_items("oven", 70, i,  j, h, i,  j, h, false, 0);
+                        } else if (this->furn(i, j, h) == f_cupboard) {
+                            place_items("cleaning", 50,  i,  j, h, i,  j, h, false, 0);
+                            place_items("home_hw", 30, i,  j, h, i,  j, h, false, 0);
+                            place_items("cannedfood", 50, i,  j, h, i,  j, h, false, 0);
+                            place_items("pasta", 50,  i,  j, h, i,  j, h, false, 0);
+                        } else if (this->furn(i, j, h) == f_bookcase) {
+                            place_items("magazines", 30,  i,  j, h, i,  j, h, false, 0);
+                            place_items("novels", 40,  i,  j, h, i,  j, h, false, 0);
+                            place_items("alcohol", 30, i,  j, h, i,  j, h, false, 0);
+                            place_items("manuals", 20, i,  j, h, i,  j, h, false, 0);
+                        } else if (this->furn(i, j, h) == f_sink) {
+                            place_items("softdrugs", 70, i,  j, h, i,  j, h, false, 0);
+                            place_items("cleaning", 50,  i,  j, h, i,  j, h, false, 0);
+                        } else if (this->furn(i, j, h) == f_toilet) {
+                            place_items("magazines", 70,  i,  j + 1, h, i,  j + 1, h, false, 0);
+                            place_items("novels", 50,  i,  j + 1 , h, i,  j + 1, h, false, 0);
+                        } else if (this->furn(i, j, h) == f_bed) {
+                            place_items("bed", 60,  i,  j, h, i,  j, h, false, 0);
+                        }
                     }
                 }
             }
             if (density > 1) {
-                place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+                place_spawns("GROUP_ZOMBIE", 2, 0, 0, 0, 23, 23, 23, density);
             } else {
-                add_spawn("mon_zombie", rng(1, 8), 15, 10);
+                add_spawn("mon_zombie", rng(1, 8), 15, 10, 0);
             }
             if (t_west == "apartments_con_tower_1_entrance") {
                 rotate(1);
@@ -1352,41 +1360,43 @@ ss                      \n",
                                                f_sink,  f_fridge, f_oven,  f_chair, f_counter, f_dresser, f_locker, f_null,     f_bookcase));
             for (int i = 0; i <= 23; i++) {
                 for (int j = 0; j <= 23; j++) {
-                    if (this->furn(i, j) == f_dresser) {
-                        place_items("dresser", 70,  i,  j, i,  j, false, 0);
-                    }
-                    if (this->furn(i, j) == f_rack) {
-                        place_items("dresser", 30,  i,  j, i,  j, false, 0);
-                        place_items("jackets", 60,  i,  j, i,  j, false, 0);
-                    } else if (this->furn(i, j) == f_fridge) {
-                        place_items("fridge", 70,  i,  j, i,  j, false, 0);
-                    } else if (this->furn(i, j) == f_oven) {
-                        place_items("oven", 70,  i,  j, i,  j, false, 0);
-                    } else if (this->furn(i, j) == f_cupboard) {
-                        place_items("cleaning", 50,  i,  j, i,  j, false, 0);
-                        place_items("home_hw", 30,  i,  j, i,  j, false, 0);
-                        place_items("cannedfood", 50,  i,  j, i,  j, false, 0);
-                        place_items("pasta", 50,  i,  j, i,  j, false, 0);
-                    } else if (this->furn(i, j) == f_bookcase) {
-                        place_items("magazines", 30,  i,  j, i,  j, false, 0);
-                        place_items("novels", 40,  i,  j, i,  j, false, 0);
-                        place_items("alcohol", 30,  i,  j, i,  j, false, 0);
-                        place_items("manuals", 20,  i,  j, i,  j, false, 0);
-                    } else if (this->furn(i, j) == f_sink) {
-                        place_items("softdrugs", 70,  i,  j, i,  j, false, 0);
-                        place_items("cleaning", 50,  i,  j, i,  j, false, 0);
-                    } else if (this->furn(i, j) == f_toilet) {
-                        place_items("magazines", 70,  i,  j + 1, i,  j + 1, false, 0);
-                        place_items("novels", 50,  i,  j + 1 , i,  j + 1, false, 0);
-                    } else if (this->furn(i, j) == f_bed) {
-                        place_items("bed", 60,  i,  j, i,  j, false, 0);
+                    for ( int h = 0; h <= 23; h++) {
+                        if (this->furn(i, j, h) == f_dresser) {
+                            place_items("dresser", 70, i,  j, h, i,  j, h, false, 0);
+                        }
+                        if (this->furn(i, j, h) == f_rack) {
+                            place_items("dresser", 30, i,  j, h, i,  j, h, false, 0);
+                            place_items("jackets", 60, i,  j, h, i,  j, h,false, 0);
+                        } else if (this->furn(i, j, h) == f_fridge) {
+                            place_items("fridge", 70, i,  j, h, i,  j, h, false, 0);
+                        } else if (this->furn(i, j, h) == f_oven) {
+                            place_items("oven", 70, i,  j, h, i,  j, h, false, 0);
+                        } else if (this->furn(i, j, h) == f_cupboard) {
+                            place_items("cleaning", 50, i,  j, h, i,  j, h, false, 0);
+                            place_items("home_hw", 30, i,  j, h, i,  j, h,false, 0);
+                            place_items("cannedfood", 50,i,  j, h, i,  j, h, false, 0);
+                            place_items("pasta", 50, i,  j, h, i,  j, h, false, 0);
+                        } else if (this->furn(i, j, h) == f_bookcase) {
+                            place_items("magazines", 30, i,  j, h, i,  j, h, false, 0);
+                            place_items("novels", 40, i,  j, h, i,  j, h, false, 0);
+                            place_items("alcohol", 30, i,  j, h, i,  j, h, false, 0);
+                            place_items("manuals", 20,  i,  j, h, i,  j, h, false, 0);
+                        } else if (this->furn(i, j, h) == f_sink) {
+                            place_items("softdrugs", 70,i,  j, h, i,  j, h, false, 0);
+                            place_items("cleaning", 50, i,  j, h, i,  j, h,false, 0);
+                        } else if (this->furn(i, j, h) == f_toilet) {
+                            place_items("magazines", 70,  i,  j + 1, h, i,  j + 1, h, false, 0);
+                            place_items("novels", 50,  i,  j + 1 , h, i,  j + 1, h, false, 0);
+                        } else if (this->furn(i, j, h) == f_bed) {
+                            place_items("bed", 60,  i,  j, h, i,  j, h, false, 0);
+                        }
                     }
                 }
             }
             if (density > 1) {
-                place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+                place_spawns("GROUP_ZOMBIE", 2, 0, 0, 0, 23, 23, 23, density);
             } else {
-                add_spawn("mon_zombie", rng(1, 8), 15, 10);
+                add_spawn("mon_zombie", rng(1, 8), 15, 10, 0);
             }
             if (t_north == "apartments_con_tower_1_entrance") {
                 rotate(1);
@@ -1436,44 +1446,46 @@ ss                      \n",
                                                f_sink,  f_fridge, f_oven,  f_chair, f_counter, f_dresser, f_locker, f_null,     f_bookcase));
             for (int i = 0; i <= 23; i++) {
                 for (int j = 0; j <= 23; j++) {
-                    if (this->furn(i, j) == f_locker) {
-                        place_items("office", 70,  i,  j, i,  j, false, 0);
-                    }
-                    if (this->furn(i, j) == f_dresser) {
-                        place_items("dresser", 70,  i,  j, i,  j, false, 0);
-                    }
-                    if (this->furn(i, j) == f_rack) {
-                        place_items("dresser", 30,  i,  j, i,  j, false, 0);
-                        place_items("jackets", 60,  i,  j, i,  j, false, 0);
-                    } else if (this->furn(i, j) == f_fridge) {
-                        place_items("fridge", 70,  i,  j, i,  j, false, 0);
-                    } else if (this->furn(i, j) == f_oven) {
-                        place_items("oven", 70,  i,  j, i,  j, false, 0);
-                    } else if (this->furn(i, j) == f_cupboard) {
-                        place_items("cleaning", 50,  i,  j, i,  j, false, 0);
-                        place_items("home_hw", 30,  i,  j, i,  j, false, 0);
-                        place_items("cannedfood", 50,  i,  j, i,  j, false, 0);
-                        place_items("pasta", 50,  i,  j, i,  j, false, 0);
-                    } else if (this->furn(i, j) == f_bookcase) {
-                        place_items("magazines", 30,  i,  j, i,  j, false, 0);
-                        place_items("novels", 40,  i,  j, i,  j, false, 0);
-                        place_items("alcohol", 30,  i,  j, i,  j, false, 0);
-                        place_items("manuals", 20,  i,  j, i,  j, false, 0);
-                    } else if (this->furn(i, j) == f_sink) {
-                        place_items("softdrugs", 70,  i,  j, i,  j, false, 0);
-                        place_items("cleaning", 50,  i,  j, i,  j, false, 0);
-                    } else if (this->furn(i, j) == f_toilet) {
-                        place_items("magazines", 70,  i,  j + 1, i,  j + 1, false, 0);
-                        place_items("novels", 50,  i,  j + 1 , i,  j + 1, false, 0);
-                    } else if (this->furn(i, j) == f_bed) {
-                        place_items("bed", 60,  i,  j, i,  j, false, 0);
+                    for (int h = 0; h <= 23; h++) {
+                        if (this->furn(i, j, h) == f_locker) {
+                            place_items("office", 70, i,  j, h, i,  j, h, false, 0);
+                        }
+                        if (this->furn(i, j, h) == f_dresser) {
+                            place_items("dresser", 70, i,  j, h, i,  j, h, false, 0);
+                        }
+                        if (this->furn(i, j, h) == f_rack) {
+                            place_items("dresser", 30, i,  j, h, i,  j, h, false, 0);
+                            place_items("jackets", 60, i,  j, h, i,  j, h, false, 0);
+                        } else if (this->furn(i, j, h) == f_fridge) {
+                            place_items("fridge", 70, i,  j, h, i,  j, h, false, 0);
+                        } else if (this->furn(i, j, h) == f_oven) {
+                            place_items("oven", 70, i,  j, h, i,  j, h, false, 0);
+                        } else if (this->furn(i, j, h) == f_cupboard) {
+                            place_items("cleaning", 50, i,  j, h, i,  j, h, false, 0);
+                            place_items("home_hw", 30,  i,  j, h, i,  j, h, false, 0);
+                            place_items("cannedfood", 50,  i,  j, h, i,  j, h, false, 0);
+                            place_items("pasta", 50,  i,  j, h, i,  j, h, false, 0);
+                        } else if (this->furn(i, j, h) == f_bookcase) {
+                            place_items("magazines", 30,  i,  j, h, i,  j, h, false, 0);
+                            place_items("novels", 40,  i,  j, h, i,  j, h, false, 0);
+                            place_items("alcohol", 30, i,  j, h, i,  j, h, false, 0);
+                            place_items("manuals", 20, i,  j, h, i,  j, h, false, 0);
+                        } else if (this->furn(i, j, h) == f_sink) {
+                            place_items("softdrugs", 70, i,  j, h, i,  j, h, false, 0);
+                            place_items("cleaning", 50, i,  j, h, i,  j, h, false, 0);
+                        } else if (this->furn(i, j, h) == f_toilet) {
+                            place_items("magazines", 70,  i,  j + 1, h, i,  j + 1, h, false, 0);
+                            place_items("novels", 50,  i,  j + 1 , h, i,  j + 1, h, false, 0);
+                        } else if (this->furn(i, j, h) == f_bed) {
+                            place_items("bed", 60, i,  j, h, i,  j, h, false, 0);
+                        }
                     }
                 }
             }
             if (density > 1) {
-                place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+                place_spawns("GROUP_ZOMBIE", 2, 0, 0, 0, 23, 23, 23, density);
             } else {
-                add_spawn("mon_zombie", rng(1, 8), 15, 10);
+                add_spawn("mon_zombie", rng(1, 8), 15, 10, 0);
             }
             if (t_west == "apartments_con_tower_1" && t_north == "apartments_con_tower_1") {
                 rotate(1);
@@ -1528,34 +1540,36 @@ ss                      \n",
                                            f_bookcase));
         for (int i = 0; i <= 23; i++) {
             for (int j = 0; j <= 23; j++) {
-                if (this->furn(i, j) == f_dresser) {
-                    place_items("dresser", 70,  i,  j, i,  j, false, 0);
-                }
-                if (this->furn(i, j) == f_rack) {
-                    place_items("dresser", 30,  i,  j, i,  j, false, 0);
-                    place_items("jackets", 60,  i,  j, i,  j, false, 0);
-                } else if (this->furn(i, j) == f_fridge) {
-                    place_items("fridge", 70,  i,  j, i,  j, false, 0);
-                } else if (this->furn(i, j) == f_oven) {
-                    place_items("oven", 70,  i,  j, i,  j, false, 0);
-                } else if (this->furn(i, j) == f_cupboard) {
-                    place_items("cleaning", 50,  i,  j, i,  j, false, 0);
-                    place_items("home_hw", 30,  i,  j, i,  j, false, 0);
-                    place_items("cannedfood", 50,  i,  j, i,  j, false, 0);
-                    place_items("pasta", 50,  i,  j, i,  j, false, 0);
-                } else if (this->furn(i, j) == f_bookcase) {
-                    place_items("magazines", 30,  i,  j, i,  j, false, 0);
-                    place_items("novels", 40,  i,  j, i,  j, false, 0);
-                    place_items("alcohol", 30,  i,  j, i,  j, false, 0);
-                    place_items("manuals", 20,  i,  j, i,  j, false, 0);
-                } else if (this->furn(i, j) == f_sink) {
-                    place_items("softdrugs", 70,  i,  j, i,  j, false, 0);
-                    place_items("cleaning", 50,  i,  j, i,  j, false, 0);
-                } else if (this->furn(i, j) == f_toilet) {
-                    place_items("magazines", 70,  i,  j + 1, i,  j + 1, false, 0);
-                    place_items("novels", 50,  i,  j + 1 , i,  j + 1, false, 0);
-                } else if (this->furn(i, j) == f_bed) {
-                    place_items("bed", 60,  i,  j, i,  j, false, 0);
+                for ( int h = 0; h <= 23; h++) {
+                    if (this->furn(i, j, h) == f_dresser) {
+                        place_items("dresser", 70,  i,  j, h, i,  j, h, false, 0);
+                    }
+                    if (this->furn(i, j, h) == f_rack) {
+                        place_items("dresser", 30,  i,  j, h, i,  j, h, false, 0);
+                        place_items("jackets", 60, i,  j, h, i,  j, h, false, 0);
+                    } else if (this->furn(i, j, h) == f_fridge) {
+                        place_items("fridge", 70,  i,  j, h, i,  j, h,false, 0);
+                    } else if (this->furn(i, j, h) == f_oven) {
+                        place_items("oven", 70,  i,  j, h, i,  j, h, false, 0);
+                    } else if (this->furn(i, j, h) == f_cupboard) {
+                        place_items("cleaning", 50,  i,  j, h, i,  j, h, false, 0);
+                        place_items("home_hw", 30,  i,  j, h, i,  j, h, false, 0);
+                        place_items("cannedfood", 50, i,  j, h, i,  j, h, false, 0);
+                        place_items("pasta", 50,  i,  j, h, i,  j, h, false, 0);
+                    } else if (this->furn(i, j, h) == f_bookcase) {
+                        place_items("magazines", 30,  i,  j, h, i,  j, h, false, 0);
+                        place_items("novels", 40,  i,  j, h, i,  j, h, false, 0);
+                        place_items("alcohol", 30, i,  j, h, i,  j, h,false, 0);
+                        place_items("manuals", 20,  i,  j, h, i,  j, h, false, 0);
+                    } else if (this->furn(i, j, h) == f_sink) {
+                        place_items("softdrugs", 70,  i,  j, h, i,  j, h, false, 0);
+                        place_items("cleaning", 50, i,  j, h, i,  j, h,false, 0);
+                    } else if (this->furn(i, j, h) == f_toilet) {
+                        place_items("magazines", 70,  i,  j + 1, h, i,  j + 1, h, false, 0);
+                        place_items("novels", 50,  i,  j + 1, h, i,  j + 1, h, false, 0);
+                    } else if (this->furn(i, j, h) == f_bed) {
+                        place_items("bed", 60,  i,  j, h, i,  j, h, false, 0);
+                    }
                 }
             }
         }
