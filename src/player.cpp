@@ -11862,9 +11862,9 @@ bool player::sees(const Creature *critter) const
 
 bool player::sees(const Creature *critter, int &t) const
 {
-    if (!is_player() && critter->is_hallucination()) {
-        // hallucinations are only visible for the player
-        return false;
+    if( critter->is_hallucination() ) {
+        // hallucinations are always visible for the player, but never for anyone else.
+        return is_player();
     }
     const int cx = critter->xpos();
     const int cy = critter->ypos();
