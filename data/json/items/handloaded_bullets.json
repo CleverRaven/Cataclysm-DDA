@@ -166,7 +166,7 @@
         "dispersion" : 2,
         "recoil" : 30,
         "count" : 25,
-        "effects" : ["COOKOFF", "SHOT" "RECYCLED"]
+        "effects" : ["COOKOFF", "SHOT", "RECYCLED"]
     },
         {   "type" : "AMMO",
         "id" : "shot_scrapslug",
