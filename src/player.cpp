@@ -3401,7 +3401,7 @@ int player::print_aim_bars( WINDOW *w, int line_number, item *weapon, Creature *
     const double hit_rating = missed_by / std::max(double(get_speed()) / 80., 1.0);
     // Confidence is chance of the actual shot being under .6, which is the threshold for a solid hit.
     // This simplifies the calculation greatly, that's intentional.
-    const double confidence = std::max( 0.0, 0.6 / hit_rating );
+    const double confidence = std::min( 1.0, std::max( 0.0, 0.6 / hit_rating ) );
     // This is a relative measure of how steady the player's aim is,
     // 0 it is the best the player can do.
     const double steady_score = recoil - weapon->sight_dispersion( -1 );
