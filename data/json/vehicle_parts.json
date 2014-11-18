@@ -49,7 +49,7 @@
         "difficulty": 3,
         "epower": -63,
         "flags": [
-            "TRACK", "UNMOUNT_ON_DAMAGE"
+            "TRACK", "UNMOUNT_ON_DAMAGE", "FOLDABLE"
             ],
         "breaks_into": [
             {"item": "scrap", "min": 0, "max": 2}
@@ -68,7 +68,7 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : [
-            "SEAT", "BOARDABLE"
+            "SEAT", "BOARDABLE", "FOLDABLE"
         ],
         "breaks_into" : [
             {"item": "leather", "min": 0, "max": 1},
@@ -657,7 +657,7 @@
         "item" : "pipe",
         "difficulty" : 1,
         "location" : "structure",
-        "flags" : ["MOUNTABLE"],
+        "flags" : ["MOUNTABLE", "FOLDABLE"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -2140,7 +2140,7 @@
         "item" : "wheel_bicycle",
         "difficulty" : 2,
         "location" : "under",
-        "flags" : ["WHEEL", "STABLE", "VARIABLE_SIZE"],
+        "flags" : ["WHEEL", "STABLE", "VARIABLE_SIZE", "FOLDABLE"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 0, "max": 1},
             {"item": "steel_chunk", "min": 1, "max": 2},
@@ -2180,7 +2180,7 @@
         "item" : "wheel_bicycle",
         "difficulty" : 1,
         "location" : "under",
-        "flags" : ["WHEEL", "VARIABLE_SIZE"],
+        "flags" : ["WHEEL", "VARIABLE_SIZE", "FOLDABLE"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 0, "max": 1},
             {"item": "steel_chunk", "min": 1, "max": 2},
@@ -3041,7 +3041,7 @@
         "item" : "rope_6",
         "difficulty" : 1,
         "location" : "on_seat",
-        "flags" : ["SEATBELT"],
+        "flags" : ["SEATBELT", "FOLDABLE"],
         "breaks_into" : [
             {"item": "string_36", "min": 0, "max": 3}
         ]
@@ -3059,7 +3059,7 @@
         "item" : "rope_30",
         "difficulty" : 2,
         "location" : "on_seat",
-        "flags" : ["SEATBELT"],
+        "flags" : ["SEATBELT", "FOLDABLE"],
         "breaks_into" : [
             {"item": "string_36", "min": 0, "max": 3}
         ]
@@ -3563,7 +3563,7 @@
         "bonus" : 480,
         "item" : "flashlight",
         "difficulty" : 1,
-        "flags" : ["CONE_LIGHT"],
+        "flags" : ["CONE_LIGHT", "FOLDABLE"],
         "breaks_into" : [
             {"item": "scrap", "min": 0, "max": 2}
         ]
@@ -3616,7 +3616,7 @@
         "bonus" : 15,
         "item" : "horn_bicycle",
         "difficulty" : 1,
-        "flags" : ["HORN"],
+        "flags" : ["HORN", "FOLDABLE"],
         "breaks_into" : [
             {"item": "scrap", "min": 0, "max": 1}
         ]
@@ -3847,7 +3847,7 @@
         "item" : "light_emergency_red",
         "difficulty" : 1,
         "location" : "on_roof",
-        "flags" : ["CIRCLE_LIGHT", "ODDTURN"],
+        "flags" : ["CIRCLE_LIGHT", "ODDTURN", "FOLDABLE"],
         "breaks_into" : [
             {"item": "steel_chunk", "min": 0, "max": 1},
             {"item": "scrap", "min": 1, "max": 1}
@@ -3867,7 +3867,7 @@
         "item" : "light_emergency_blue",
         "difficulty" : 1,
         "location" : "on_roof",
-        "flags" : ["CIRCLE_LIGHT", "EVENTURN"],
+        "flags" : ["CIRCLE_LIGHT", "EVENTURN", "FOLDABLE"],
         "breaks_into" : [
             {"item": "steel_chunk", "min": 0, "max": 1},
             {"item": "scrap", "min": 1, "max": 1}
