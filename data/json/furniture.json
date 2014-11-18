@@ -446,7 +446,7 @@
         "deconstruct": {
             "items": [
                 { "item": "2x4", "amount": 10 },
-                { "item": "rag", "amount": 33, "minamount": 30 },
+                { "item": "rag", "amount": 15, "minamount": 10 },
                 { "item": "nail", "amount": 8, "minamount": 6 }
             ]
         },
@@ -460,7 +460,7 @@
                 { "item": "2x4", "amount": 3, "minamount": 1},
                 { "item": "nail", "amount": 6, "minamount": 2},
                 { "item": "splinter", "amount": 1 },
-                { "item": "rag", "amount": 30, "minamount": 20 }
+                { "item": "rag", "amount": 10, "minamount": 5 }
             ]
         }
     },{
@@ -473,9 +473,9 @@
         "required_str": 10,
         "deconstruct": {
             "items": [
-                { "item": "2x4", "amount": 12 },
-                { "item": "rag", "amount": 33, "minamount": 30 },
-                { "item": "nail", "amount": 10, "minamount": 8 }
+                { "item": "2x4", "amount": 10 },
+                { "item": "rag", "amount": 15, "minamount": 10 },
+                { "item": "nail", "amount": 8, "minamount": 6 }
             ]
         },
         "max_volume": 4000,
@@ -485,10 +485,10 @@
             "sound": "smash!",
             "sound_fail": "whump.",
             "items": [
-                { "item": "2x4", "amount": 5, "minamount": 2},
-                { "item": "nail", "amount": 8, "minamount": 3},
-                { "item": "splinter", "amount": 2, "minamount": 1 },
-                { "item": "rag", "amount": 30, "minamount": 20 }
+                { "item": "2x4", "amount": 3, "minamount": 1},
+                { "item": "nail", "amount": 6, "minamount": 2},
+                { "item": "splinter", "amount": 1 },
+                { "item": "rag", "amount": 10, "minamount": 5 }
             ]
         }
     },{
