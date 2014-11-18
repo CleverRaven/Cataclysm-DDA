@@ -293,7 +293,7 @@ Valid arguments:
 
 "pain_amount"
 "pain_min"
-"pain_max"          - If 0 value will be exactly "pain_min"
+"pain_max"          - if 0 or missing value will be exactly "pain_min"
 "pain_max_val"      - Defaults to 0, which means uncapped
 "pain_chance"
 "pain_chance_bot"
@@ -301,21 +301,21 @@ Valid arguments:
 
 "hurt_amount"
 "hurt_min"
-"hurt_max"          - If 0 value will be exactly "hurt_min"
+"hurt_max"          - if 0 or missing value will be exactly "hurt_min"
 "hurt_chance"
 "hurt_chance_bot"
 "hurt_tick"         - Defaults to every tick
 
 "sleep_amount"
 "sleep_min"
-"sleep_max"         - If 0 value will be exactly "sleep_min"
+"sleep_max"         - if 0 or missing value will be exactly "sleep_min"
 "sleep_chance"
 "sleep_chance_bot"
 "sleep_tick"        - Defaults to every tick
 
 "pkill_amount"
 "pkill_min"
-"pkill_max"         - If 0 value will be exactly "pkill_min"
+"pkill_max"         - if 0 or missing value will be exactly "pkill_min"
 "pkill_max_val"     - Defaults to 0, which means uncapped
 "pkill_chance"
 "pkill_chance_bot"
@@ -323,7 +323,7 @@ Valid arguments:
 
 "stim_amount"
 "stim_min"
-"stim_max"          - If 0 value will be exactly "stim_min"
+"stim_max"          - if 0 or missing value will be exactly "stim_min"
 "stim_min_val"      - Defaults to 0, which means uncapped
 "stim_max_val"      - Defaults to 0, which means uncapped
 "stim_chance"
@@ -332,7 +332,7 @@ Valid arguments:
 
 "health_amount"
 "health_min"
-"health_max"        - If 0 value will be exactly "health_min"
+"health_max"        - if 0 or missing value will be exactly "health_min"
 "health_min_val"    - Defaults to 0, which means uncapped
 "health_max_val"    - Defaults to 0, which means uncapped
 "health_chance"
@@ -341,7 +341,7 @@ Valid arguments:
 
 "h_mod_amount"
 "h_mod_min"
-"h_mod_max"         - If 0 value will be exactly "h_mod_min"
+"h_mod_max"         - if 0 or missing value will be exactly "h_mod_min"
 "h_mod_min_val"     - Defaults to 0, which means uncapped
 "h_mod_max_val"     - Defaults to 0, which means uncapped
 "h_mod_chance"
@@ -350,7 +350,7 @@ Valid arguments:
 
 "rad_amount"
 "rad_min"
-"rad_max"           - If 0 value will be exactly "rad_min"
+"rad_max"           - if 0 or missing value will be exactly "rad_min"
 "rad_max_val"       - Defaults to 0, which means uncapped
 "rad_chance"
 "rad_chance_bot"
@@ -358,7 +358,7 @@ Valid arguments:
 
 "hunger_amount"
 "hunger_min"
-"hunger_max"        - If 0 value will be exactly "hunger_min"
+"hunger_max"        - if 0 or missing value will be exactly "hunger_min"
 "hunger_min_val"    - Defaults to 0, which means uncapped
 "hunger_max_val"    - Defaults to 0, which means uncapped
 "hunger_chance"
@@ -367,7 +367,7 @@ Valid arguments:
 
 "thirst_amount"
 "thirst_min"
-"thirst_max"        - If 0 value will be exactly "thirst_min"
+"thirst_max"        - if 0 or missing value will be exactly "thirst_min"
 "thirst_min_val"    - Defaults to 0, which means uncapped
 "thirst_max_val"    - Defaults to 0, which means uncapped
 "thirst_chance"
@@ -376,7 +376,7 @@ Valid arguments:
 
 "fatigue_amount"
 "fatigue_min"
-"fatigue_max"       - If 0 value will be exactly "fatigue_min"
+"fatigue_max"       - if 0 or missing value will be exactly "fatigue_min"
 "fatigue_min_val"   - Defaults to 0, which means uncapped
 "fatigue_max_val"   - Defaults to 0, which means uncapped
 "fatigue_chance"
