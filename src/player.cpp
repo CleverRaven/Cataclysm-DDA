@@ -9384,13 +9384,13 @@ void player::use(int inventory_position)
         // so restack to sort things out.
         inv.restack();
     } else if (used->is_gunmod()) {
-        if (skillLevel("gun") == 0) {
-            add_msg(m_info, _("You need to be at least level 1 in the marksmanship skill before you\
- can modify weapons."));
+        it_gunmod *mod = dynamic_cast<it_gunmod*>(used->type);
+        if (!(skillLevel("gun") >= mod->req_skill) {
+            add_msg(m_info, _("You need to be at least level %d in the marksmanship skill before you\
+can install this mod."), mod->req_skill);
             return;
         }
         int gunpos = g->inv(_("Select gun to modify:"));
-        it_gunmod *mod = dynamic_cast<it_gunmod*>(used->type);
         item* gun = &(i_at(gunpos));
         if (gun->is_null()) {
             add_msg(m_info, _("You do not have that item."));
@@ -9706,7 +9706,7 @@ void player::read(int inventory_position)
                          tmp->type->name().c_str())) {
         return;
     } else if( !continuous && ( skillLevel(tmp->type) < (int)tmp->level || can_study_recipe(tmp) ) &&
-                         !query_yn( skillLevel(tmp->type) < (int)tmp->level ? 
+                         !query_yn( skillLevel(tmp->type) < (int)tmp->level ?
                          _("Study %s until you learn something? (gain a level)") :
                          _("Study the book until you learn all recipes?"),
                          tmp->type->name().c_str()) ) {
@@ -9853,7 +9853,7 @@ void player::do_read( item *book )
             if( recipe_learned ) {
                 add_msg(m_info, _("The rest of the book is currently still beyond your understanding."));
             }
-            
+
             activity.type = ACT_NULL;
             return;
         }
