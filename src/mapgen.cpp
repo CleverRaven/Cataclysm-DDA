@@ -1,6 +1,5 @@
 #include "map.h"
 #include "omdata.h"
-#include "mapitems.h"
 #include "output.h"
 #include "game.h"
 #include "rng.h"
@@ -1083,8 +1082,8 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
 
     // Below comment is outdated
     // TODO: Update comment
-    // The place_items() function takes a mapitems type (see mapitems.h and
-    //  mapitemsdef.cpp), an "odds" int giving the chance for a single item to be
+    // The place_items() function takes a item group ident type,
+    //  an "odds" int giving the chance for a single item to be
     //  placed, four ints (x1, y1, x2, y2) corresponding to the upper left corner
     //  and lower right corner of a square where the items are placed, a boolean
     //  that indicates whether items may spawn on grass & dirt, and finally an

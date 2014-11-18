@@ -9,7 +9,6 @@
 #include "scenario.h"
 #include "overmap.h"
 #include "omdata.h"
-#include "mapitems.h"
 #include "crafting.h"
 #include "npc.h"
 #include "faction.h"

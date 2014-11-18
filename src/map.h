@@ -12,7 +12,6 @@
 #include <unordered_set>
 
 #include "mapdata.h"
-#include "mapitems.h"
 #include "overmap.h"
 #include "item.h"
 #include "json.h"
@@ -41,6 +40,7 @@ struct wrapped_vehicle{
 
 typedef std::vector<wrapped_vehicle> VehicleList;
 typedef std::vector< std::pair< item*, int > > itemslice;
+typedef std::string items_location;
 
 /**
  * Manage and cache data about a part of the map.
