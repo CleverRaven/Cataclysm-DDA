@@ -69,6 +69,40 @@
         "unique" : false, "//":"only allow one per city",
         "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "CLASSIC" ]
+},{
+        "type" : "overmap_special",
+        "id" : "farm_abandoned",
+        "overmaps" :
+        [
+            { "point":[1,0,0], "overmap": "car_corner_aban1_north"},
+            { "point":[0,0,0], "overmap": "cabin_aban1_north"},
+            { "point":[1,-1,0], "overmap": "barn_aban1_north"},
+            { "point":[0,-1,0], "overmap": "dirtplaza_aban1_north"},
+            { "point":[0,-2,0], "overmap": "dirtroad2_aban1_north"},
+            { "point":[0,-3,0], "overmap": "dirtroad2_aban1_north"},
+            { "point":[-1,-5,0], "overmap": "radio_tower", "connect": "road"},
+            { "point":[0,-4,0], "overmap": "dirtroad1_aban1_north", "connect":"road"},
+            { "point":[2,0,0], "overmap": "forest_aban1_north"},
+            { "point":[1,1,0], "overmap": "forest_aban1_north"},
+            { "point":[0,1,0], "overmap": "forest_aban1_north"},
+            { "point":[2,-1,0], "overmap": "forest_aban1_north"},
+            { "point":[-1,-1,0], "overmap": "forest_aban1_north"},
+            { "point":[-1,-2,0], "overmap": "forest_aban1_north"},
+            { "point":[-1,-3,0], "overmap": "forest_aban1_north"},
+            { "point":[-1,-4,0], "overmap": "forest_aban1_north"},
+            { "point":[1,-2,0], "overmap": "forest_aban1_north"},
+            { "point":[1,-3,0], "overmap": "forest_aban1_north"},
+            { "point":[1,-4,0], "overmap": "forest_aban1_north"}
+
+        ],
+        "locations" : [ "forest" ], "//":"what special locations does it spawn",
+        "city_distance" : [0, -1], "//":"how far from a city it should be",
+        "city_sizes" : [1, 12], "//":"what city sizes should it spawn in",
+        "occurrences" : [0, 1], "//":"how many per overmap",
+        "rotate" : true, "//":"allow rotation",
+        "unique" : false, "//":"only allow one per city",
+        "required" : false, "//":"is this special required for valid city sizes",
+        "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
         "id" : "LMOE Shelter",
