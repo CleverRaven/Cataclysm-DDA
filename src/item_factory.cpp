@@ -847,6 +847,7 @@ void Item_factory::load_gunmod(JsonObject &jo)
     gunmod_template->clip = jo.get_int("clip_size_modifier", 0);
     gunmod_template->acceptible_ammo_types = jo.get_tags("acceptable_ammo");
     gunmod_template->skill_used = Skill::skill(jo.get_string("skill", "gun"));
+    gunmod_template->req_skill = jo.get_int("level_required", 0);
 
     itype *new_item_template = gunmod_template;
     load_basic_info(jo, new_item_template);
