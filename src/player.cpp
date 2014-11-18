@@ -8364,16 +8364,20 @@ int player::invlet_to_position( char invlet ) const
     return inv.invlet_to_position( invlet );
 }
 
-int player::get_item_position(const item* it) {
-    if (&weapon == it) {
+int player::get_item_position( const item *it ) const
+{
+    const auto filter = [it]( const item & i ) {
+        return &i == it;
+    };
+    if( inventory::has_item_with_recursive( weapon, filter ) ) {
         return -1;
     }
-    for (size_t i = 0; i < worn.size(); i++) {
-        if (&worn[i] == it) {
-            return worn_position_to_index(i);
+    for( size_t i = 0; i < worn.size(); i++ ) {
+        if( inventory::has_item_with_recursive( worn[i], filter ) ) {
+            return worn_position_to_index( i );
         }
     }
-    return inv.position_by_item(it);
+    return inv.position_by_item( it );
 }
 
 

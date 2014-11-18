@@ -765,12 +765,15 @@ int inventory::invlet_to_position( char invlet ) const
     return INT_MIN;
 }
 
-int inventory::position_by_item(const item *it)
+int inventory::position_by_item( const item *it ) const
 {
+    const auto filter = [it]( const item & i ) {
+        return &i == it;
+    };
     int i = 0;
     for( auto &elem : items ) {
         for( auto &elem_stack_iter : elem ) {
-            if( it == &elem_stack_iter ) {
+            if( has_item_with_recursive( elem_stack_iter, filter ) ) {
                 return i;
             }
         }

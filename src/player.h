@@ -757,12 +757,13 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int invlet_to_position(char invlet) const;
         /**
          * Returns the item position (suitable for @ref i_at or similar) of a
-         * specific item.
-         * NOTE: this only works for items outside of containers, in the main inventory,
-         * the weapon or worn items, If the item is a pointer to an item inside a
-         * container, it wont work.
+         * specific item. Returns INT_MIN if the item is not found.
+         * Note that this may lose some information, for example the returned position is the
+         * same when the given item points to the container and when it points to the item inside
+         * the container. All items that are part of the same stack have the same item position.
          */
-        int get_item_position(const item *it);
+        int get_item_position( const item *it ) const;
+
         const martialart &get_combat_style() const; // Returns the combat style object
         std::vector<item *> inv_dump(); // Inventory + weapon + worn (for death, etc)
         void place_corpse(); // put corpse+inventory on map at the place where this is.
