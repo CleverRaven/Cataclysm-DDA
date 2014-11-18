@@ -3495,23 +3495,23 @@ bool item::is_of_ammo_type_or_contains_it(const ammotype &ammo_type_id) const
     return false;
 }
 
-int item::pick_reload_ammo(player &u, bool interactive)
+int item::pick_reload_ammo( player &u, bool interactive )
 {
     if( is_null() ) {
         return INT_MIN;
     }
 
     if( !is_gun() && !is_tool() ) {
-        debugmsg("RELOADING NON-GUN NON-TOOL");
+        debugmsg( "RELOADING NON-GUN NON-TOOL" );
         return INT_MIN;
     }
-    int has_spare_mag = has_gunmod ("spare_mag");
+    int has_spare_mag = has_gunmod( "spare_mag" );
 
     std::vector<item *> am; // List of valid ammo
     std::vector<item *> tmpammo;
 
     if( is_gun() ) {
-        if(charges <= 0 && has_spare_mag != -1 && contents[has_spare_mag].charges > 0) {
+        if( charges <= 0 && has_spare_mag != -1 && contents[has_spare_mag].charges > 0 ) {
             // Special return to use magazine for reloading.
             return INT_MIN + 1;
         }
@@ -3520,48 +3520,48 @@ int item::pick_reload_ammo(player &u, bool interactive)
         // If the gun is partially loaded make sure the ammo matches.
         // If the gun is empty, either the spare mag is empty too and anything goes,
         // or the spare mag is loaded and we're doing a tactical reload.
-        if (charges < clip_size() ||
-            (has_spare_mag != -1 && contents[has_spare_mag].charges < spare_mag_size())) {
-            if (charges > 0 && has_curammo() ) {
+        if( charges < clip_size() ||
+            ( has_spare_mag != -1 && contents[has_spare_mag].charges < spare_mag_size() ) ) {
+            if( charges > 0 && has_curammo() ) {
                 // partially loaded, accept only ammo of the exact same type
                 tmpammo = u.has_exact_ammo( ammo_type(), get_curammo_id() );
             } else {
                 tmpammo = u.has_ammo( ammo_type() );
             }
-            am.insert(am.end(), tmpammo.begin(), tmpammo.end());
+            am.insert( am.end(), tmpammo.begin(), tmpammo.end() );
         }
 
         // ammo for gun attachments (shotgun attachments, grenade attachments, etc.)
         // for each attachment, find its associated ammo & append it to the ammo vector
-        for( auto &cont : contents ) {
+        for( auto & cont : contents ) {
             if( !cont.is_auxiliary_gunmod() ) {
                 // not a gunmod, or has no separate firing mode and can not be load
                 continue;
             }
             const auto mod = cont.type->gun.get();
-            if (cont.charges >= mod->clip) {
+            if( cont.charges >= mod->clip ) {
                 // already fully loaded
                 continue;
             }
-            if (cont.charges > 0 && cont.has_curammo() ) {
+            if( cont.charges > 0 && cont.has_curammo() ) {
                 // partially loaded, accept only ammo of the exact same type
                 tmpammo = u.has_exact_ammo( mod->ammo, cont.get_curammo_id() );
             } else {
                 tmpammo = u.has_ammo( mod->ammo );
             }
-            am.insert(am.end(), tmpammo.begin(), tmpammo.end());
+            am.insert( am.end(), tmpammo.begin(), tmpammo.end() );
         }
     } else { //non-gun.
         // this is probably a tool.
         am = u.has_ammo( ammo_type() );
     }
 
-    if (am.empty()) {
+    if( am.empty() ) {
         return INT_MIN;
     }
-    if (am.size() == 1 || !interactive) {
+    if( am.size() == 1 || !interactive ) {
         // Either only one valid choice or chosing for a NPC, just return the first.
-        return u.get_item_position(am[0]);
+        return u.get_item_position( am[0] );
     }
 
     // More than one option; list 'em and pick
@@ -3576,59 +3576,59 @@ int item::pick_reload_ammo(player &u, bool interactive)
     const int namelen = TERMX - 2 - 40 - 4;
     std::string lastreload = "";
 
-    if ( uistate.lastreload.find( ammo_type() ) != uistate.lastreload.end() ) {
+    if( uistate.lastreload.find( ammo_type() ) != uistate.lastreload.end() ) {
         lastreload = uistate.lastreload[ ammo_type() ];
     }
 
-    amenu.text = std::string(_("Choose ammo type:"));
-    if ((int)amenu.text.length() < namelen) {
-        amenu.text += std::string(namelen - amenu.text.length(), ' ');
+    amenu.text = std::string( _( "Choose ammo type:" ) );
+    if( ( int )amenu.text.length() < namelen ) {
+        amenu.text += std::string( namelen - amenu.text.length(), ' ' );
     } else {
-        amenu.text.erase(namelen, amenu.text.length() - namelen);
+        amenu.text.erase( namelen, amenu.text.length() - namelen );
     }
     // To cover the space in the header that is used by the hotkeys created by uimenu
-    amenu.text.insert(0, "  ");
+    amenu.text.insert( 0, "  " );
     //~ header of table that appears when reloading, each colum must contain exactly 10 characters
-    amenu.text += _("| Damage  | Pierce  | Range   | Accuracy");
+    amenu.text += _( "| Damage  | Pierce  | Range   | Accuracy" );
     // Stores the ammo ids (=item type, not ammo type) for the uistate
     std::vector<std::string> ammo_ids;
-    for (size_t i = 0; i < am.size(); i++) {
+    for( size_t i = 0; i < am.size(); i++ ) {
         item &it = *am[i];
         itype *ammo_def = it.type;
         // If ammo_def is not ammo (has no ammo slot), it is a container,
         // containing the ammo, go through its content to find the ammo
-        for (size_t j = 0; !ammo_def->ammo && j < it.contents.size(); j++) {
+        for( size_t j = 0; !ammo_def->ammo && j < it.contents.size(); j++ ) {
             ammo_def = it.contents[j].type;
         }
         if( !ammo_def->ammo ) {
-            debugmsg("%s: contains no ammo & is no ammo", it.tname().c_str());
-            ammo_ids.push_back("");
+            debugmsg( "%s: contains no ammo & is no ammo", it.tname().c_str() );
+            ammo_ids.push_back( "" );
             continue;
         }
-        ammo_ids.push_back(ammo_def->id);
+        ammo_ids.push_back( ammo_def->id );
         // still show the container name, display_name adds the contents
         // to the name: "bottle of gasoline"
         std::string row = it.display_name();
-        if ((int)row.length() < namelen) {
-            row += std::string(namelen - row.length(), ' ');
+        if( ( int )row.length() < namelen ) {
+            row += std::string( namelen - row.length(), ' ' );
         } else {
-            row.erase(namelen, row.length() - namelen);
+            row.erase( namelen, row.length() - namelen );
         }
-        row += string_format("| %-7d | %-7d | %-7d | %-7d",
-                             ammo_def->ammo->damage, ammo_def->ammo->pierce,
-                             ammo_def->ammo->range, 100 - ammo_def->ammo->dispersion);
-        amenu.addentry(i, true, i + 'a', row);
-        if ( lastreload == ammo_def->id ) {
+        row += string_format( "| %-7d | %-7d | %-7d | %-7d",
+                              ammo_def->ammo->damage, ammo_def->ammo->pierce,
+                              ammo_def->ammo->range, 100 - ammo_def->ammo->dispersion );
+        amenu.addentry( i, true, i + 'a', row );
+        if( lastreload == ammo_def->id ) {
             amenu.selected = i;
         }
     }
     amenu.query();
-    if (amenu.ret < 0 || amenu.ret >= (int)am.size()) {
+    if( amenu.ret < 0 || amenu.ret >= ( int )am.size() ) {
         // invalid selection / escaped from the menu
         return INT_MIN;
     }
     uistate.lastreload[ ammo_type() ] = ammo_ids[ amenu.ret ];
-    return u.get_item_position(am[ amenu.ret ]);
+    return u.get_item_position( am[ amenu.ret ] );
 }
 
 // Helper to handle ejecting casings from guns that require them to be manually extracted.
