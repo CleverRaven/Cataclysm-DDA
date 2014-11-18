@@ -207,7 +207,7 @@ future applications decreasing the overall time left.
 ### Intensities
 Intensities are used to control effect effects, names, and descriptions. They are defined with:
 ```C++
-    "int_add_val": 2        - Defaults to 0! This means future applications won't increase intensity unless changed!
+    "int_add_val": 2        - Defaults to 0! This means future applications will not increase intensity unless changed!
     and/or
     "int_decay_step": -2,    - Defaults to -1
     "int_decay_tick": 10
@@ -280,8 +280,9 @@ and hurt effects triggering. "harmful_cough" means that the coughs caused by thi
     }
 ```
 This is where the real meat of the effect JSON definition lies. Each one can take a variety of arguments.
-Decimals are valid but must be formatted as "0.X" or "-0.X" -1<Z<1, the game rounds towards zero at the end
+Decimals are valid but must be formatted as "0.X" or "-0.X". The game will round towards zero at the end
 when calculating actually applied values
+
 Valid arguments:
 ```C++
 "str_mod"
