@@ -4035,6 +4035,21 @@
     "category": "spare_parts",
     "to_hit": 0
   },
+  {
+    "type":"GENERIC",
+    "id": "teddy",
+    "symbol": "o",
+    "color": "brown",
+    "name": "teddy bear",
+    "description": "An old and half rotten teddy bear. Looks like this one commemorates the grave of the child who once owned it.",
+    "price": 200,
+    "material": ["cotton", "null"],
+    "weight": 514,
+    "volume": 3,
+    "bashing": -2,
+    "cutting": 0,
+    "to_hit": 0
+  },
   { 
     "type" : "AMMO",
     "id" : "material_cement",

@@ -1187,6 +1187,63 @@
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
+        "id" : "dirtroad1_aban1",
+        "name" : "forest",
+        "sym" : 70,
+        "rotate" : true,
+        "color" : "green",
+        "see_cost" : 4
+    },{
+        "type" : "overmap_terrain",
+        "id" : "forest_aban1",
+        "name" : "forest",
+        "sym" : 70,
+        "rotate" : true,
+        "color" : "green",
+        "see_cost" : 4
+    },{
+
+        "type" : "overmap_terrain",
+        "id" : "dirtroad2_aban1",
+        "name" : "forest",
+        "sym" : 70,
+        "rotate" : true,
+        "color" : "green",
+        "see_cost" : 4
+    },{
+        "type" : "overmap_terrain",
+        "id" : "dirtplaza_aban1",
+        "name" : "forest",
+        "sym" : 70,
+        "rotate" : true,
+        "color" : "green",
+        "see_cost" : 4
+    },{
+        "type" : "overmap_terrain",
+        "id" : "cabin_aban1",
+        "name" : "ruined cabin",
+        "sym" : 70,
+        "rotate" : true,
+        "color" : "green",
+        "see_cost" : 4
+    },{
+        "type" : "overmap_terrain",
+        "id" : "barn_aban1",
+        "name" : "barn",
+        "sym" : 70,
+        "rotate" : true,
+        "color" : "green",
+        "see_cost" : 4
+    },{
+        "type" : "overmap_terrain",
+        "id" : "car_corner_aban1",
+        "name" : "green",
+        "sym" : 70,
+        "rotate" : true,
+        "color" : "green",
+        "see_cost" : 4
+    },{
+        "type" : "overmap_terrain",
         "id" : "mansion_entrance",
         "name" : "mansion",
         "sym" : 77,
