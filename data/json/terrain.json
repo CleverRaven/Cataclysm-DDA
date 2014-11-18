@@ -4625,81 +4625,10 @@
         }
     },{
         "type" : "terrain",
-        "id" : "t_pavement_bg_sh",
-        "name": "bridge pavement",
-        "symbol": ".",
-        "color": "dkgray",
-        "move_cost": 2,
-        "flags": ["TRANSPARENT", "FLAT"],
-        "bash": {
-            "str_min": 70, "str_max": 300,
-            "sound": "concrete cracking and metal screeching!",
-            "sound_fail": "whump!",
-            "ter_set": "t_water_sh"
-            "items": [
-                { "item": "rock", "amount": 6, "minamount": 1 },
-                { "item": "rebar", "amount": 3, "minamount": 0 }
-            ]
-        }
-    },{
-        "type" : "terrain",
-        "id" : "t_pavement_y_bg_sh",
-        "name": "bridge yellow pavement",
-        "symbol": ".",
-        "color": "yellow",
-        "move_cost": 2,
-        "flags": ["TRANSPARENT", "FLAT"],
-        "bash": {
-            "str_min": 70, "str_max": 300,
-            "sound": "concrete cracking and metal screeching!",
-            "sound_fail": "whump!",
-            "ter_set": "t_water_sh"
-            "items": [
-                { "item": "rock", "amount": 6, "minamount": 1 },
-                { "item": "rebar", "amount": 3, "minamount": 0 }
-            ]
-        }
-    },{
-        "type" : "terrain",
-        "id" : "t_sidewalk_bg_sh",
-        "name": "bridge sidewalk",
-        "symbol": ".",
-        "color": "ltgray",
-        "move_cost": 2,
-        "flags": ["TRANSPARENT", "FLAT"],
-        "bash": {
-            "str_min": 70, "str_max": 300,
-            "sound": "concrete cracking and metal screeching!",
-            "sound_fail": "whump!",
-            "ter_set": "t_water_sh"
-            "items": [
-                { "item": "rock", "amount": 6, "minamount": 1 },
-                { "item": "rebar", "amount": 3, "minamount": 0 }
-            ]
-        }
-    },{
-        "type" : "terrain",
-        "id" : "t_guardrail_bg_sh",
-        "name": "guard rail",
-        "symbol": "#",
-        "color": "gray",
-        "move_cost": 3,
-        "flags": ["TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE", "SHORT", "THINOBSTACLE"],
-        "bash": {
-            "str_min": 8, "str_max": 150,
-            "sound": "crunch!",
-            "sound_fail": "clang!",
-            "ter_set": "t_pavement_bg_sh",
-            "items": [
-                { "item": "scrap", "amount": 6, "minamount": 3}
-            ]
-        }
-    },{
-        "type" : "terrain",
         "id" : "t_guardrail_bg_dp",
         "name": "guard rail",
         "symbol": "#",
-        "color": "gray",
+        "color": "ltgray",
         "move_cost": 3,
         "flags": ["TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE", "SHORT", "THINOBSTACLE"],
         "bash": {
