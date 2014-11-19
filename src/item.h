@@ -17,6 +17,7 @@ class player;
 class npc;
 struct itype;
 class material_type;
+class item_category;
 
 // Thresholds for radiation dosage for the radiation film badge.
 const int rad_dosage_thresholds[] = { 0, 30, 60, 120, 240, 500};
@@ -62,6 +63,26 @@ enum layer_level {
     OUTER_LAYER,
     BELTED_LAYER,
     MAX_CLOTHING_LAYER
+};
+
+class item_category
+{
+    public:
+        // id (like itype::id) - used when loading from json
+        std::string id;
+        // display name (localized)
+        std::string name;
+        // categories are sorted by this value,
+        // lower values means the category is shown first
+        int sort_rank;
+
+        item_category();
+        item_category(const std::string &id, const std::string &name, int sort_rank);
+        // Comparators operato on the sort_rank, name, id
+        // (in that order).
+        bool operator<(const item_category &rhs) const;
+        bool operator==(const item_category &rhs) const;
+        bool operator!=(const item_category &rhs) const;
 };
 
 class item : public JsonSerializer, public JsonDeserializer

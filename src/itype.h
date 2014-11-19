@@ -19,7 +19,7 @@
 
 typedef std::string itype_id;
 
-// see item_factory.h
+// see item.h
 class item_category;
 
 struct itype;

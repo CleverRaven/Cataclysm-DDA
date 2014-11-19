@@ -1538,29 +1538,6 @@ void Item_factory::set_intvar(std::string tag, unsigned int &var, int min, int m
     }
 }
 
-bool item_category::operator<(const item_category &rhs) const
-{
-    if (sort_rank != rhs.sort_rank) {
-        return sort_rank < rhs.sort_rank;
-    }
-    if (name != rhs.name) {
-        return name < rhs.name;
-    }
-    return id < rhs.id;
-}
-
-bool item_category::operator==(const item_category &rhs) const
-{
-    return sort_rank == rhs.sort_rank &&
-           name == rhs.name &&
-           id == rhs.id;
-}
-
-bool item_category::operator!=(const item_category &rhs) const
-{
-    return !(*this == rhs);
-}
-
 const item_category *Item_factory::get_category(const std::string &id)
 {
     const CategoryMap::const_iterator a = m_categories.find(id);

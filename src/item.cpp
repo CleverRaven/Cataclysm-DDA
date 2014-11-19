@@ -4430,3 +4430,34 @@ itype *item::find_type( const itype_id &type )
 {
     return item_controller->find_template( type );
 }
+
+item_category::item_category() : id(), name(), sort_rank( 0 )
+{
+}
+
+item_category::item_category( const std::string &id_, const std::string &name_,
+                              int sort_rank_ )
+    : id( id_ ), name( name_ ), sort_rank( sort_rank_ )
+{
+}
+
+bool item_category::operator<( const item_category &rhs ) const
+{
+    if( sort_rank != rhs.sort_rank ) {
+        return sort_rank < rhs.sort_rank;
+    }
+    if( name != rhs.name ) {
+        return name < rhs.name;
+    }
+    return id < rhs.id;
+}
+
+bool item_category::operator==( const item_category &rhs ) const
+{
+    return sort_rank == rhs.sort_rank && name == rhs.name && id == rhs.id;
+}
+
+bool item_category::operator!=( const item_category &rhs ) const
+{
+    return !( *this == rhs );
+}

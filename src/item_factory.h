@@ -20,28 +20,7 @@ class Item_spawn_data;
 class Item_group;
 class item;
 struct itype;
-
-class item_category
-{
-    public:
-        // id (like itype::id) - used when loading from json
-        std::string id;
-        // display name (localized)
-        std::string name;
-        // categories are sorted by this value,
-        // lower values means the category is shown first
-        int sort_rank;
-
-        item_category() : id(), name(), sort_rank(0) { }
-        item_category(const std::string &id_, const std::string &name_, int sort_rank_) : id(id_),
-            name(name_), sort_rank(sort_rank_) { }
-
-        // Comparators operato on the sort_rank, name, id
-        // (in that order).
-        bool operator<(const item_category &rhs) const;
-        bool operator==(const item_category &rhs) const;
-        bool operator!=(const item_category &rhs) const;
-};
+class item_category;
 
 /**
  * Central item type management class.
