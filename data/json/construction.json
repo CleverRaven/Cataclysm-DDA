@@ -1214,6 +1214,18 @@
         "post_terrain" : "f_makeshift_bed"
     },{
         "type" : "construction",
+        "description" : "Build Straw Bed",
+        "category" : "FURN",
+        "difficulty" : 1,
+        "time" : 10,
+        "components" : [
+            [ [ "2x4", 4 ] ],
+            [ [ "straw_pile", 8 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_straw_bed"
+    },{
+        "type" : "construction",
         "description" : "Build Bed",
         "category" : "FURN",
         "difficulty" : 3,

@@ -843,6 +843,8 @@ void player::update_bodytemp()
         } else if( furn_at_pos == f_makeshift_bed || furn_at_pos == f_armchair ||
                    furn_at_pos == f_sofa || furn_at_pos == f_hay ) {
             floor_bedding_warmth += 500;
+        } else if( furn_at_pos == f_straw_bed ) {
+            floor_bedding_warmth += 200;
         } else if( trap_at_pos == tr_cot || ter_at_pos == t_improvised_shelter ) {
             floor_bedding_warmth -= 500;
         } else if( trap_at_pos == tr_rollmat ) {
@@ -9836,7 +9838,7 @@ void player::read(int inventory_position)
                          tmp->type->name().c_str())) {
         return;
     } else if( !continuous && ( skillLevel(tmp->type) < (int)tmp->level || can_study_recipe(tmp) ) &&
-                         !query_yn( skillLevel(tmp->type) < (int)tmp->level ? 
+                         !query_yn( skillLevel(tmp->type) < (int)tmp->level ?
                          _("Study %s until you learn something? (gain a level)") :
                          _("Study the book until you learn all recipes?"),
                          tmp->type->name().c_str()) ) {
@@ -9983,7 +9985,7 @@ void player::do_read( item *book )
             if( recipe_learned ) {
                 add_msg(m_info, _("The rest of the book is currently still beyond your understanding."));
             }
-            
+
             activity.type = ACT_NULL;
             return;
         }
@@ -10169,8 +10171,8 @@ void player::try_to_sleep()
     if( (furn_at_pos == f_bed || furn_at_pos == f_makeshift_bed ||
          trap_at_pos == tr_cot || trap_at_pos == tr_rollmat ||
          trap_at_pos == tr_fur_rollmat || furn_at_pos == f_armchair ||
-         furn_at_pos == f_sofa || furn_at_pos == f_hay || ter_at_pos == t_improvised_shelter ||
-         (in_shell) ||
+         furn_at_pos == f_sofa || furn_at_pos == f_hay || furn_at_pos == f_straw_bed ||
+         ter_at_pos == t_improvised_shelter || (in_shell) ||
          (veh && veh->part_with_feature (vpart, "SEAT") >= 0) ||
          (veh && veh->part_with_feature (vpart, "BED") >= 0)) &&
         (!(plantsleep)) ) {
@@ -10220,6 +10222,9 @@ bool player::can_sleep()
       trap_at_pos == tr_rollmat || trap_at_pos == tr_fur_rollmat ||
       furn_at_pos == f_armchair || ter_at_pos == t_improvised_shelter) && (!(plantsleep)) ) {
     sleepy += 3;
+ }
+ else if ( (furn_at_pos == f_straw_bed) && (!(plantsleep)) ) {
+    sleepy += 2;
  }
  else if ( (furn_at_pos == f_bed) && (!(plantsleep)) ) {
     sleepy += 5;
