@@ -511,6 +511,11 @@ public:
          */
         int get_warmth() const;
         /**
+         * Returns the @ref it_armor::thickness value, or 0 for non-armor. Thickness is are
+         * relative value that affects the items resistance against bash / cutting damage.
+         */
+        int get_thickness() const;
+        /**
          * Returns the relative coverage that this item has when worn.
          * Values range from 0 (not covering anything, or no armor at all) to
          * 100 (covering the whole body part). Items that cover more are more likely to absorb

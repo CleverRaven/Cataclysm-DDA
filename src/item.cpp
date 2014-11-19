@@ -2010,6 +2010,16 @@ int item::get_coverage() const
     return static_cast<int>( static_cast<unsigned int>( t->coverage ) );
 }
 
+int item::get_thickness() const
+{
+    const auto t = dynamic_cast<const it_armor*>( type );
+    if( t == nullptr ) {
+        return 0;
+    }
+    // it_armor::thickness is unsigned char
+    return static_cast<int>( static_cast<unsigned int>( t->thickness) );
+}
+
 int item::get_warmth() const
 {
     const auto t = dynamic_cast<const it_armor*>( type );
@@ -2183,8 +2193,7 @@ int item::bash_resist() const
     // Armor gets an additional multiplier.
     if (is_armor()) {
         // base resistance
-        it_armor* tmp = dynamic_cast<it_armor*>(type);
-        eff_thickness = ((tmp->thickness - damage <= 0) ? 1 : (tmp->thickness - damage));
+        eff_thickness = ((get_thickness() - damage <= 0) ? 1 : (get_thickness() - damage));
     }
 
     for (auto mat : mat_types) {
@@ -2213,8 +2222,7 @@ int item::cut_resist() const
     // Armor gets an additional multiplier.
     if (is_armor()) {
         // base resistance
-        it_armor* tmp = dynamic_cast<it_armor*>(type);
-        eff_thickness = ((tmp->thickness - damage <= 0) ? 1 : (tmp->thickness - damage));
+        eff_thickness = ((get_thickness() - damage <= 0) ? 1 : (get_thickness() - damage));
     }
 
     for (auto mat : mat_types) {
