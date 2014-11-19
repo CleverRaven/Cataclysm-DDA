@@ -343,7 +343,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
             }
 
             // Fuel tanks should be emptied as well
-            if (destroyTank && (part_flag(p, "FUEL_TANK" ||part_flag(p, "NEEDS_BATTERY_MOUNT")))){
+            if (destroyTank && (part_flag(p, "FUEL_TANK") || part_flag(p, "NEEDS_BATTERY_MOUNT"))){
                 parts[p].hp= 0;
                 parts[p].amount = 0;
             }
@@ -760,7 +760,6 @@ void vehicle::use_controls()
         break;
     case try_disarm_alarm:
         smash_security_system();
-        
         break;
     case toggle_cruise_control:
         cruise_on = !cruise_on;
@@ -1289,14 +1288,19 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
         for( std::vector<int>::const_iterator it = parts_in_square.begin();
              it != parts_in_square.end(); ++it ) {
             if(part_info(*it).has_flag("CONTROLS")) {
-
+                anchor_found = true;
+            }
+        }
+        if(!anchor_found) {
+            return false;
+        }
+    }
     //Swappable storage battery must be installed on a BATTERY_MOUNT
     if(vehicle_part_types[id].has_flag("NEEDS_BATTERY_MOUNT")) {
         bool anchor_found = false;
         for( std::vector<int>::const_iterator it = parts_in_square.begin();
              it != parts_in_square.end(); ++it ) {
             if(part_info(*it).has_flag("BATTERY_MOUNT")) {
-
                 anchor_found = true;
             }
         }
@@ -1345,8 +1349,6 @@ bool vehicle::can_unmount (int p)
     if(part_flag(p, "BATTERY_MOUNT") && part_with_feature(p, "NEEDS_BATTERY_MOUNT") >= 0) {
         return false;
     }
-
-
 
     //Structural parts have extra requirements
     if(part_info(p).location == part_location_structure) {
