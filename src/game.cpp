@@ -4336,34 +4336,7 @@ bool game::save_factions_missions_npcs()
 bool game::save_artifacts()
 {
     std::string artfilename = world_generator->active_world->world_path + "/artifacts.gsav";
-    try {
-        std::ofstream fout;
-        fout.exceptions(std::ios::badbit | std::ios::failbit);
-
-        fopen_exclusive(fout, artfilename.c_str(), std::ofstream::trunc);
-        if (!fout.is_open()) {
-            return true; // trick game into thinking it was saved
-        }
-
-        JsonOut json(fout);
-        json.start_array();
-        for( auto &p : item_controller->get_all_itypes() ) {
-            it_artifact_tool *art_tool = dynamic_cast<it_artifact_tool *>( p.second );
-            it_artifact_armor *art_armor = dynamic_cast<it_artifact_armor *>( p.second );
-            if( art_tool != nullptr ) {
-                json.write( *art_tool );
-            } else if( art_armor != nullptr ) {
-                json.write( *art_armor );
-            }
-        }
-        json.end_array();
-        fclose_exclusive(fout, artfilename.c_str());
-
-        return true;
-    } catch (std::ios::failure &) {
-        popup(_("Failed to save artifacts to %s"), artfilename.c_str());
-        return false;
-    }
+    return ::save_artifacts( artfilename );
 }
 
 bool game::save_maps()

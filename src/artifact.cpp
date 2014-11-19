@@ -4,6 +4,7 @@
 #include "item_factory.h"
 #include "debug.h"
 #include "json.h"
+#include "mapsharing.h"
 
 #include <sstream>
 #include <fstream>
@@ -1225,6 +1226,41 @@ void it_artifact_armor::deserialize(JsonObject &jo)
     JsonArray ja = jo.get_array("effects_worn");
     while (ja.has_more()) {
         effects_worn.push_back((art_effect_passive)ja.next_int());
+    }
+}
+
+bool save_artifacts( const std::string &path )
+{
+    std::ofstream fout;
+    try {
+        fout.exceptions( std::ios::badbit | std::ios::failbit );
+
+        fopen_exclusive( fout, path.c_str(), std::ofstream::trunc );
+        if( !fout.is_open() ) {
+            return true; // trick game into thinking it was saved
+        }
+
+        JsonOut json( fout );
+        json.start_array();
+        for( auto & p : item_controller->get_all_itypes() ) {
+            it_artifact_tool *art_tool = dynamic_cast<it_artifact_tool *>( p.second );
+            it_artifact_armor *art_armor = dynamic_cast<it_artifact_armor *>( p.second );
+            if( art_tool != nullptr ) {
+                json.write( *art_tool );
+            } else if( art_armor != nullptr ) {
+                json.write( *art_armor );
+            }
+        }
+        json.end_array();
+        fclose_exclusive( fout, path.c_str() );
+
+        return true;
+    } catch( std::ios::failure & ) {
+        if( fout.is_open() ) {
+            fclose_exclusive( fout, path.c_str() );
+        }
+        popup( _( "Failed to save artifacts to %s" ), path.c_str() );
+        return false;
     }
 }
 
