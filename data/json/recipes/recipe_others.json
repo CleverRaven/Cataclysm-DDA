@@ -2556,6 +2556,43 @@
     ]
   ]
 },{
+  "type" : "recipe",
+  "result": "it_battery_mount",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": 10000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":2,"amount":1}
+  ], "tools": [
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "welder", 50 ],
+      [ "welder_crude", 75 ],
+      [ "toolset", 75 ],
+      [ "oxy_torch", 5]
+    ],
+    [
+    [ "soldering_iron", 10 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "sheet_metal", 1 ]
+    ],
+    [
+      [ "scrap", 2 ]
+    ],
+    [
+      [ "circuit", 1]
+    ]
+  ]
+},{
         "type" : "recipe",
   "result": "metal_tank_little",
   "category": "CC_OTHER",
@@ -5628,7 +5665,8 @@
       [ "water", 2 ]
     ],
     [
-      [ "acorns", 1 ],
+      [ "tanbark", 1 ],
+      [ "acorns", 2 ],
       [ "hops", 2 ],
       [ "pine_bough", 6 ]
     ],
@@ -5699,7 +5737,8 @@
       [ "water", 2 ]
     ],
     [
-      [ "acorns", 1 ],
+      [ "tanbark", 1 ],
+      [ "acorns", 2 ],
       [ "hops", 2 ],
       [ "pine_bough", 6 ]
     ],

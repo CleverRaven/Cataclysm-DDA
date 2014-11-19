@@ -492,11 +492,11 @@ void mdeath::focused_beam(monster *z)
         int x = z->posx() + atoi(settings.item_vars["SL_SPOT_X"].c_str());
         int y = z->posy() + atoi(settings.item_vars["SL_SPOT_Y"].c_str());
 
-        g->m.add_field(x, y, fd_dazzling, 2);
-
         std::vector <point> traj = line_to(z->posx(), z->posy(), x, y, 0);
-
         for (auto it = traj.begin(); it != traj.end(); ++it) {
+            if( !g->m.trans( it->x, it->y ) ) {
+                break;
+            }
             g->m.add_field(it->x, it->y, fd_dazzling, 2);
         }
     }
@@ -532,20 +532,19 @@ void mdeath::ratking(monster *z)
     for (int i = -1; i <= 1; i++) {
         for (int j = -1; j <= 1; j++) {
             ratx = z->posx() + i;
-            raty = z->posy() + i;
-            if (g->m.move_cost(ratx, raty) > 0 && g->mon_at(ratx, raty) == -1 &&
-                !(g->u.posx == ratx && g->u.posy == raty)) {
+            raty = z->posy() + j;
+            if (g->is_empty(ratx, raty)) {
                 ratspots.push_back(point(ratx, raty));
             }
         }
     }
-    int rn;
     monster rat(GetMType("mon_sewer_rat"));
     for (int rats = 0; rats < 7 && !ratspots.empty(); rats++) {
-        rn = rng(0, ratspots.size() - 1);
-        rat.spawn(ratspots[rn].x, ratspots[rn].y);
-        g->add_zombie(rat);
+        int rn = rng(0, ratspots.size() - 1);
+        point rp = ratspots[rn];
         ratspots.erase(ratspots.begin() + rn);
+        rat.spawn(rp.x, rp.y);
+        g->add_zombie(rat);
     }
 }
 

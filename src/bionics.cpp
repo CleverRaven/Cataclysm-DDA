@@ -407,12 +407,13 @@ void player::activate_bionic(int b)
             add_msg(m_neutral, _("Artificial night generator active!"));
         }
     } else if (bio.id == "bio_resonator") {
+        //~Sound of a bionic sonic-resonator shaking the area
         g->sound(posx, posy, 30, _("VRRRRMP!"));
         for (int i = posx - 1; i <= posx + 1; i++) {
             for (int j = posy - 1; j <= posy + 1; j++) {
-                g->m.bash( i, j, 40 );
-                g->m.bash( i, j, 40 ); // Multibash effect, so that doors &c will fall
-                g->m.bash( i, j, 40 );
+                g->m.bash( i, j, 110 );
+                g->m.bash( i, j, 110 ); // Multibash effect, so that doors &c will fall
+                g->m.bash( i, j, 110 );
             }
         }
     } else if (bio.id == "bio_time_freeze") {
@@ -807,9 +808,6 @@ void player::activate_bionic(int b)
         g->shockwave(posx, posy, 3, 4, 2, 8, true);
         add_msg_if_player(m_neutral, _("You unleash a powerful shockwave!"));
     } else if(bio.id == "bio_meteorologist") {
-        add_msg_if_player(m_neutral, _("Temperature: %s."), print_temperature(g->get_temperature()).c_str());
-        add_msg_if_player(m_neutral, _("Relative Humidity: %s."), print_humidity(get_local_humidity(weatherPoint.humidity, g->weather, g->is_sheltered(g->u.posx, g->u.posy))).c_str());
-        add_msg_if_player(m_neutral, _("Pressure: %s."), print_pressure((int)weatherPoint.pressure/10).c_str());
         // Calculate local wind power
         int vpart = -1;
         vehicle *veh = g->m.veh_at( posx, posy, vpart );
@@ -821,6 +819,9 @@ void player::activate_bionic(int b)
         std::string omtername = otermap[cur_om_ter].name;
         int windpower = vehwindspeed + get_local_windpower(weatherPoint.windpower, omtername, g->is_sheltered(g->u.posx, g->u.posy));
 
+        add_msg_if_player(m_neutral, _("Temperature: %s."), print_temperature(g->get_temperature()).c_str());
+        add_msg_if_player(m_neutral, _("Relative Humidity: %s."), print_humidity(get_local_humidity(weatherPoint.humidity, g->weather, g->is_sheltered(g->u.posx, g->u.posy))).c_str());
+        add_msg_if_player(m_neutral, _("Pressure: %s."), print_pressure((int)weatherPoint.pressure).c_str());
         add_msg_if_player(m_neutral, _("Wind Speed: %s."), print_windspeed((float)windpower).c_str());
         add_msg_if_player(m_neutral, _("Feels Like: %s."), print_temperature(get_local_windchill(weatherPoint.temperature, weatherPoint.humidity, windpower) + g->get_temperature()).c_str());
     }
@@ -1036,7 +1037,7 @@ void bionics_install_failure(player *u, it_bionic *type, int success)
                    u->skillLevel("electronics") * 4 +
                    u->skillLevel("firstaid")    * 3 +
                    u->skillLevel("mechanics")   * 1;
-    // Medical resients get a substantial assist here
+    // Medical residents get a substantial assist here
     if (u->has_trait("PROF_MED")) {
         pl_skill += 6;
     }

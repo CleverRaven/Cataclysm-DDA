@@ -16,7 +16,7 @@ const std::string &player_activity::get_stop_phrase() const
         _(" Stop reading?"), _(" Stop playing?"),
         _(" Stop waiting?"), _(" Stop crafting?"),
         _(" Stop crafting?"), _(" Stop disassembly?"),
-        _(" Stop butchering?"), _(" Stop foraging?"),
+        _(" Stop butchering?"), _(" Stop salvaging?"), _(" Stop foraging?"),
         _(" Stop construction?"), _(" Stop construction?"),
         _(" Stop pumping gas?"), _(" Stop training?"),
         _(" Stop waiting?"), _(" Stop using first aid?"),

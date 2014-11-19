@@ -327,7 +327,7 @@ void Item_factory::init()
     iuse_function_list["EHANDCUFFS"] = &iuse::ehandcuffs;
     iuse_function_list["CABLE_ATTACH"]  = &iuse::cable_attach;
     iuse_function_list["SURVIVOR_BELT"]  = &iuse::survivor_belt;
-    iuse_function_list["POCKET_METEOROLOGIST"] = &iuse::pocket_meteorolgist;
+    iuse_function_list["WEATHER_TOOL"] = &iuse::weather_tool;
 
     // MACGUFFINS
     iuse_function_list["MCG_NOTE"] = &iuse::mcg_note;
@@ -968,7 +968,9 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     RAD_RESIST - Partially protects from ambient radiation.
     RAD_PROOF- Fully protects from ambient radiation.
     ELECTRIC_IMMUNE- Fully protects from electricity.
-    THERMOMETER - Shows current air temperature, along with weather.
+    THERMOMETER - Shows current air temperature. If an item has Thermo, Hygro and/or Baro, more information is shown, such as windchill and wind speed.
+    HYGROMETER - Shows current relative humidity. If an item has Thermo, Hygro and/or Baro, more information is shown, such as windchill and wind speed.
+    BAROMETER - Shows current pressure. If an item has Thermo, Hygro and/or Baro, more information is shown, such as windchill and wind speed.
     Container-only flags:
     SEALS
     RIGID
@@ -1117,6 +1119,8 @@ void Item_factory::clear()
         delete it->second;
     }
     m_templates.clear();
+    item_blacklist.clear();
+    item_whitelist.clear();
 }
 
 Item_group *make_group_or_throw(Item_spawn_data *&isd, Item_group::Type t)

@@ -391,16 +391,6 @@ void Pickup::do_pickup( point pickup_target, bool from_vehicle,
 // Pick up items at (posx, posy).
 void Pickup::pick_up(int posx, int posy, int min)
 {
-    //min == -1 is Autopickup
-
-    if (g->m.has_flag("SEALED", posx, posy)) {
-        return;
-    }
-
-    if (!g->u.can_pickup(min != -1)) { // no message on autopickup (-1)
-        return;
-    }
-
     int veh_root_part = 0;
     int cargo_part = -1;
 
@@ -411,8 +401,18 @@ void Pickup::pick_up(int posx, int posy, int min)
         cargo_part = interact_with_vehicle( veh, posx, posy, veh_root_part );
         from_vehicle = cargo_part >= 0;
         if( cargo_part == -2 ) {
+            // -2 indicates that we already interacted with the vehicle.
             return;
         }
+    }
+
+    if (g->m.has_flag("SEALED", posx, posy)) {
+        return;
+    }
+
+    //min == -1 is Autopickup
+    if (!g->u.can_pickup(min != -1)) { // no message on autopickup (-1)
+        return;
     }
 
     if( !from_vehicle ) {

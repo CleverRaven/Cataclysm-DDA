@@ -312,7 +312,6 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
             parts[p].remove_flag(vehicle_part::passenger_flag);
         }
 
-
         // initial vehicle damage
         if (veh_status == 0) {
             // Completely mint condition vehicle
@@ -344,15 +343,16 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
             }
 
             // Fuel tanks should be emptied as well
-            if (destroyTank && part_flag(p, "FUEL_TANK")){
+            if (destroyTank && (part_flag(p, "FUEL_TANK" ||part_flag(p, "NEEDS_BATTERY_MOUNT")))){
                 parts[p].hp= 0;
                 parts[p].amount = 0;
             }
-
+	    
             //Solar panels have 25% of being destroyed
             if (part_flag(p, "SOLAR_PANEL") && one_in(4)) {
                 parts[p].hp= 0;
             }
+
 
             /* Bloodsplatter the front-end parts. Assume anything with x > 0 is
             * the "front" of the vehicle (since the driver's seat is at (0, 0).
@@ -1083,7 +1083,7 @@ vpart_info& vehicle::part_info (int index, bool include_removed) const
     if (index < (int)parts.size()) {
         if (!parts[index].removed || include_removed) {
             return vehicle_part_int_types[parts[index].iid];
-            // slow autovivication // vehicle_part_types[parts[index].id];
+            // slow autovivification // vehicle_part_types[parts[index].id];
         }
     }
     return vehicle_part_int_types[0];//"null"];
@@ -1289,6 +1289,14 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
         for( std::vector<int>::const_iterator it = parts_in_square.begin();
              it != parts_in_square.end(); ++it ) {
             if(part_info(*it).has_flag("CONTROLS")) {
+
+    //Swappable storage battery must be installed on a BATTERY_MOUNT
+    if(vehicle_part_types[id].has_flag("NEEDS_BATTERY_MOUNT")) {
+        bool anchor_found = false;
+        for( std::vector<int>::const_iterator it = parts_in_square.begin();
+             it != parts_in_square.end(); ++it ) {
+            if(part_info(*it).has_flag("BATTERY_MOUNT")) {
+
                 anchor_found = true;
             }
         }
@@ -1327,10 +1335,18 @@ bool vehicle::can_unmount (int p)
         return false;
     }
     
+
     //Can't remove controls if there's something attached
     if(part_flag(p, "CONTROLS") && part_with_feature(p, "ON_CONTROLS") >= 0) {
         return false;
     }
+
+    //Can't remove a battery mount if there's still a battery there
+    if(part_flag(p, "BATTERY_MOUNT") && part_with_feature(p, "NEEDS_BATTERY_MOUNT") >= 0) {
+        return false;
+    }
+
+
 
     //Structural parts have extra requirements
     if(part_info(p).location == part_location_structure) {
@@ -1521,7 +1537,7 @@ void vehicle_part::properties_from_item( const item &used_item )
         bigness = used_item.bigness;
     }
     // item damage is 0,1,2,3, or 4. part hp is 1..durability.
-    // assuming it rusts. other item materials disentigrate at different rates...
+    // assuming it rusts. other item materials disintegrate at different rates...
     int health = 5 - used_item.damage;
     health *= vpinfo.durability; //[0,dur]
     health /= 5;
@@ -4599,6 +4615,8 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, long char
     tmp.str_cur = 16;
     tmp.dex_cur = 8;
     tmp.per_cur = 12;
+    // Assume vehicle turrets are defending the player.
+    tmp.attitude = NPCATT_DEFEND;
     tmp.weapon = item(gun.id, 0);
     it_ammo curam = ammo;
     tmp.weapon.curammo = &curam;

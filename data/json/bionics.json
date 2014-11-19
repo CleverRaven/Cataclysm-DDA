@@ -541,9 +541,6 @@
         "type" : "bionic",
         "id" : "bio_ups",
     "name"       :    "Internal Unified Power System",
-    "active"     :    true,
-    "cost"       :    1,
-    "time"       :    1,
     "description":    "You have a unified power system wired into your power banks.  Objects that run on a UPS can now draw directly from your internal power supply."
     },{
         "type" : "bionic",

@@ -657,7 +657,7 @@ std::string new_artifact()
                 art->volume += weapon->volume;
                 art->weight += weapon->weight;
                 art->melee_dam += rng(weapon->bash_min, weapon->bash_max);
-                art->melee_cut += rng(weapon->bash_min, weapon->bash_max);
+                art->melee_cut += rng(weapon->cut_min, weapon->cut_max);
                 art->m_to_hit += rng(weapon->to_hit_min, weapon->to_hit_max);
                 if( weapon->tag != "" ) {
                     art->item_tags.insert(weapon->tag);
@@ -1123,8 +1123,8 @@ void it_artifact_tool::deserialize(JsonObject &jo)
     }
     // Assumption, perhaps dangerous, that we won't wind up with m1 and m2 and
     // a materials array in our serialized objects at the same time.
-    if (jo.has_array("material")) {
-        JsonArray jarr = jo.get_array("material");
+    if (jo.has_array("materials")) {
+        JsonArray jarr = jo.get_array("materials");
         for (int i = 0; i < jarr.size(); ++i) {
             materials.push_back(jarr.get_string(i));
         }
@@ -1195,8 +1195,8 @@ void it_artifact_armor::deserialize(JsonObject &jo)
     }
     // Assumption, perhaps dangerous, that we won't wind up with m1 and m2 and
     // a materials array in our serialized objects at the same time.
-    if (jo.has_array("material")) {
-        JsonArray jarr = jo.get_array("material");
+    if (jo.has_array("materials")) {
+        JsonArray jarr = jo.get_array("materials");
         for (int i = 0; i < jarr.size(); ++i) {
             materials.push_back(jarr.get_string(i));
         }

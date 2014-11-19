@@ -51,6 +51,22 @@ class Creature
         virtual int hit_roll() const = 0;
         virtual int dodge_roll() = 0;
 
+        /**
+         * Simplified attitude towards any creature:
+         * hostile - hate, want to kill, etc.
+         * friendly - avoid harming it, maybe even help.
+         * neutral - anything between.
+         */
+        enum Attitude {
+            A_HOSTILE,
+            A_NEUTRAL,
+            A_FRIENDLY,
+        };
+        /**
+         * Attitude (of this creature) towards another creature. This might not be symmetric.
+         */
+        virtual Attitude attitude_to( const Creature &other ) const = 0;
+
         // makes a single melee attack, with the currently equipped weapon
         virtual void melee_attack(Creature &t, bool allow_special,
                                   matec_id technique) = 0; // Returns a damage

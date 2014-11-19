@@ -16,6 +16,7 @@ enum activity_type {    // expanded this enum for readability
     ACT_LONGCRAFT,
     ACT_DISASSEMBLE,
     ACT_BUTCHER,
+    ACT_LONGSALVAGE,
     ACT_FORAGE,
     ACT_BUILD,
     ACT_VEHICLE,

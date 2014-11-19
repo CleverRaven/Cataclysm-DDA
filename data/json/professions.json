@@ -1031,6 +1031,7 @@
                 "socks",
                 "boots_steel",
                 "pants_cargo",
+                "jacket_flannel",
                 "compbow",
                 "arrow_cf",
                 "knife_hunting",
@@ -3138,14 +3139,15 @@
                 "socks",
                 "fishing_waders",
                 "knife_hunting",
-                "moonshine",
                 "knit_scarf",
                 "lighter",
                 "fishing_rod_professional",
+                "fish_bait_fish",
                 "fish_trap",
                 "vest",
                 "hat_boonie",
-                "jacket_flannel"
+                "jacket_flannel",
+                "sheath"
             ],
             "male": [
                 "boxer_shorts"
