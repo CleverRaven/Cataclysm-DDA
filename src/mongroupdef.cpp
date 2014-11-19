@@ -320,6 +320,10 @@ void MonsterGroupManager::LoadMonsterGroup(JsonObject &jo)
 void MonsterGroupManager::ClearMonsterGroups()
 {
     monsterGroupMap.clear();
+    monster_blacklist.clear();
+    monster_whitelist.clear();
+    monster_categories_blacklist.clear();
+    monster_categories_whitelist.clear();
 }
 
 void MonsterGroupManager::check_group_definitions()
