@@ -8393,7 +8393,8 @@
       ["rag_bloody", 1],
       ["bone", 2],
       ["syringe", 1],
-      ["spike", 1]
+      ["spike", 1],
+      ["tanbark", 2]
     ]
   },{
 "type" : "item_group",
