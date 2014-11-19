@@ -270,7 +270,7 @@ bool game::opening_screen()
             if (sel1 == 0) { // Print the MOTD.
                 const int motdy = (iMenuOffsetY - mmenu_motd.size()) * 2/3;
                 const int motdx = 8 + extra_w / 2;
-                for (size_t i = 0; i < mmenu_motd.size() && i < 16; i++) {
+                for (size_t i = 0; i < mmenu_motd.size(); i++) {
                     mvwprintz(w_open, motdy + i, motdx, c_ltred, mmenu_motd[i].c_str());
                 }
 
@@ -279,7 +279,7 @@ bool game::opening_screen()
             } else if (sel1 == 7) { // Print the Credits.
                 const int credy = (iMenuOffsetY - mmenu_credits.size()) * 2/3;
                 const int credx = 8 + extra_w / 2;
-                for (size_t i = 0; i < mmenu_credits.size() && i < 16; i++) {
+                for (size_t i = 0; i < mmenu_credits.size(); i++) {
                     mvwprintz(w_open, credy + i, credx, c_ltred, mmenu_credits[i].c_str());
                 }
 
