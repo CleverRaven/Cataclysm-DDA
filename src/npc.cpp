@@ -1061,7 +1061,7 @@ void npc::starting_weapon(npc_class type)
         const std::string tmp = default_ammo( gun->ammo );
         if( tmp != "" ) {
             weapon.charges = gun->clip;
-            weapon.curammo = dynamic_cast<it_ammo*>( item_controller->find_template( tmp ) );
+            weapon.curammo = dynamic_cast<it_ammo*>( item::find_type( tmp ) );
         }
     }
 }

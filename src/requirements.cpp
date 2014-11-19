@@ -1,7 +1,6 @@
 #include "requirements.h"
 #include "json.h"
 #include "translations.h"
-#include "item_factory.h"
 #include "game.h"
 #include "inventory.h"
 #include "output.h"
@@ -443,7 +442,7 @@ bool requirement_data::check_enough_materials( const item_comp &comp,
             comp.available = a_insufficent;
         }
     }
-    const itype *it = item_controller->find_template( comp.type );
+    const itype *it = item::find_type( comp.type );
     for( const auto &ql : it->qualities ) {
         const quality_requirement *qr = find_by_type( qualities, ql.first );
         if( qr == nullptr || qr->level > ql.second ) {

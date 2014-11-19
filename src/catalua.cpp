@@ -186,23 +186,23 @@ monster *create_monster(std::string mon_type, int x, int y)
 
 it_comest *get_comestible_type(std::string name)
 {
-    return dynamic_cast<it_comest *>(item_controller->find_template(name));
+    return dynamic_cast<it_comest *>(item::find_type(name));
 }
 it_tool *get_tool_type(std::string name)
 {
-    return dynamic_cast<it_tool *>(item_controller->find_template(name));
+    return dynamic_cast<it_tool *>(item::find_type(name));
 }
 it_gun *get_gun_type(std::string name)
 {
-    return dynamic_cast<it_gun *>(item_controller->find_template(name));
+    return dynamic_cast<it_gun *>(item::find_type(name));
 }
 it_gunmod *get_gunmod_type(std::string name)
 {
-    return dynamic_cast<it_gunmod *>(item_controller->find_template(name));
+    return dynamic_cast<it_gunmod *>(item::find_type(name));
 }
 it_armor *get_armor_type(std::string name)
 {
-    return dynamic_cast<it_armor *>(item_controller->find_template(name));
+    return dynamic_cast<it_armor *>(item::find_type(name));
 }
 
 

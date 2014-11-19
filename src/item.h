@@ -505,6 +505,10 @@ public:
          */
         static std::string nname( const itype_id &id, unsigned int quantity = 1 );
         /**
+         * Returns the item type of the given identifier. Never retruns null.
+         */
+        static itype *find_type( const itype_id &id );
+        /**
          * Whether the item is counted by charges, this is a static wrapper
          * around @ref count_by_charges, that does not need an items instance.
          */

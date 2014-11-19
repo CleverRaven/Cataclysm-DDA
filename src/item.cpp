@@ -31,7 +31,7 @@ item::item()
 item::item(const std::string new_type, unsigned int turn, bool rand, int handed)
 {
     init();
-    type = item_controller->find_template( new_type );
+    type = find_type( new_type );
     bday = turn;
     corpse = type->id == "corpse" ? GetMType( "mon_null" ) : nullptr;
     name = type->nname(1);
@@ -65,7 +65,7 @@ item::item(const std::string new_type, unsigned int turn, bool rand, int handed)
                 charges = tool->def_charges;
             }
             if (tool->ammo != "NULL") {
-                curammo = dynamic_cast<it_ammo*>(item_controller->find_template(default_ammo(tool->ammo)));
+                curammo = dynamic_cast<it_ammo*>(find_type(default_ammo(tool->ammo)));
             }
         }
     } else if (type->is_book()) {
@@ -136,7 +136,7 @@ void item::make_corpse(const std::string new_type, mtype* mt, unsigned int turn)
     init();
     active = mt->has_flag(MF_REVIVES)? true : false;
     if (active && isReviveSpecial) item_tags.insert("REVIVE_SPECIAL");
-    type = item_controller->find_template( new_type );
+    type = find_type( new_type );
     corpse = mt;
     bday = turn;
 }
@@ -194,7 +194,7 @@ void item::init() {
 void item::make( const std::string new_type )
 {
     const bool was_armor = is_armor();
-    type = item_controller->find_template( new_type );
+    type = find_type( new_type );
     contents.clear();
     if( was_armor != is_armor() ) {
         // If changed from armor to non-armor (or reverse), have to recalculate
@@ -1655,9 +1655,9 @@ int item::weight() const
         ret += curammo->weight * charges;
     } else if (type->is_tool() && charges >= 1 && ammo_type() != "NULL") {
         if( ammo_type() == "plutonium" ) {
-            ret += item_controller->find_template(default_ammo(this->ammo_type()))->weight * charges / 500;
+            ret += find_type(default_ammo(this->ammo_type()))->weight * charges / 500;
         } else {
-            ret += item_controller->find_template(default_ammo(this->ammo_type()))->weight * charges;
+            ret += find_type(default_ammo(this->ammo_type()))->weight * charges;
         }
     }
     for (size_t i = 0; i < contents.size(); i++) {
@@ -4411,17 +4411,22 @@ bool item::has_effect_when_carried( art_effect_passive effect ) const
 
 std::string item::nname( const itype_id &id, unsigned int quantity )
 {
-    const auto t = item_controller->find_template( id );
+    const auto t = find_type( id );
     return t->nname( quantity );
 }
 
 bool item::count_by_charges( const itype_id &id )
 {
-    const auto t = item_controller->find_template( id );
+    const auto t = find_type( id );
     return t->count_by_charges();
 }
 
 bool item::type_is_defined( const itype_id &id )
 {
     return item_controller->has_template( id );
+}
+
+itype *item::find_type( const itype_id &type )
+{
+    return item_controller->find_template( type );
 }

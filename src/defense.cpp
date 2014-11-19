@@ -1,7 +1,6 @@
 #include "gamemode.h"
 #include "game.h"
 #include "itype.h"
-#include "item_factory.h"
 #include "mtype.h"
 #include "overmapbuffer.h"
 #include "crafting.h"
@@ -168,10 +167,10 @@ void defense_game::game_over()
 
 void defense_game::init_itypes()
 {
-    item_controller->find_template( "2x4" )->volume = 0;
-    item_controller->find_template( "2x4" )->weight = 0;
-    item_controller->find_template( "landmine" )->price = 300;
-    item_controller->find_template( "bot_turret" )->price = 6000;
+    item::find_type( "2x4" )->volume = 0;
+    item::find_type( "2x4" )->weight = 0;
+    item::find_type( "landmine" )->price = 300;
+    item::find_type( "bot_turret" )->price = 6000;
 }
 
 void defense_game::init_mtypes()

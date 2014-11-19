@@ -1,4 +1,3 @@
-#include "item_factory.h"
 #include "helper.h"
 #include "game.h"
 #include "mapdata.h"
@@ -1834,15 +1833,13 @@ int sum_up_item_weight_by_material(std::vector<item> &items, const std::string &
 
 void add_recyle_menu_entry(uimenu &menu, int w, char hk, const std::string &type)
 {
-    const itype *itt = item_controller->find_template(type);
-    const int amount = (int) (w / itt->weight);
-    menu.entries.push_back(
-        uimenu_entry(
-            menu.entries.size() + 1, // value return by uimenu for this entry
-            true, // enabled
-            hk, // hotkey
-            string_format(_("about %d %s"), amount, itt->nname(amount).c_str())
-        )
+    const auto itt = item( type, 0 );
+    const int amount = w / itt.weight();
+    menu.addentry(
+        menu.entries.size() + 1, // value return by uimenu for this entry
+        true, // enabled
+        hk, // hotkey
+        string_format(_("about %d %s"), amount, itt.tname( amount ).c_str())
     );
 }
 
@@ -1896,10 +1893,10 @@ void iexamine::recycler(player *p, map *m, int examx, int examy)
 
     g->sound(examx, examy, 80, _("Ka-klunk!"));
 
-    int lump_weight = item_controller->find_template("steel_lump")->weight;
-    int sheet_weight = item_controller->find_template("sheet_metal")->weight;
-    int chunk_weight = item_controller->find_template("steel_chunk")->weight;
-    int scrap_weight = item_controller->find_template("scrap")->weight;
+    int lump_weight = item( "steel_lump", 0 ).weight();
+    int sheet_weight = item( "sheet_metal", 0 ).weight();
+    int chunk_weight = item( "steel_chunk", 0 ).weight();
+    int scrap_weight = item( "scrap", 0 ).weight();
 
     if (steel_weight < scrap_weight) {
         add_msg(_("The recycler chews up all the items in its hopper."));
@@ -2051,7 +2048,7 @@ itype *furn_t::crafting_pseudo_item_type() const
     if (crafting_pseudo_item.empty()) {
         return NULL;
     }
-    return item_controller->find_template(crafting_pseudo_item);
+    return item::find_type( crafting_pseudo_item );
 }
 
 itype *furn_t::crafting_ammo_item_type() const
@@ -2059,7 +2056,7 @@ itype *furn_t::crafting_ammo_item_type() const
     const it_tool *toolt = dynamic_cast<const it_tool *>(crafting_pseudo_item_type());
     if (toolt != NULL && toolt->ammo != "NULL") {
         const std::string ammoid = default_ammo(toolt->ammo);
-        return item_controller->find_template(ammoid);
+        return item::find_type( ammoid );
     }
     return NULL;
 }

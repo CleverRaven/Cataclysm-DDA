@@ -9,7 +9,6 @@
 #include "output.h"
 #include "crafting.h"
 #include "inventory.h"
-#include "item_factory.h"
 #include "catacharset.h"
 #include "messages.h"
 #include "itype.h"
@@ -265,7 +264,7 @@ void finalize_recipes()
                     debugmsg("book %s for recipe %s does not exist", book_id.c_str(), r->ident.c_str());
                     continue;
                 }
-                it_book *book_def = dynamic_cast<it_book *>(item_controller->find_template(book_id));
+                it_book *book_def = dynamic_cast<it_book *>( item::find_type( book_id ) );
                 if (book_def == NULL) {
                     debugmsg("book %s for recipe %s is not a book", book_id.c_str(), r->ident.c_str());
                     continue;
@@ -2012,13 +2011,11 @@ void player::complete_disassemble()
         // If not found, use the first one.
         const item_comp &comp = (it == altercomps.end()) ? altercomps.front() : *it;
 
-        itype *itt = item_controller->find_template(comp.type);
-        if (itt->item_tags.count("UNRECOVERABLE") > 0) {
+        int compcount = comp.count;
+        item newit( comp.type, calendar::turn );
+        if( newit.has_flag( "UNRECOVERABLE" ) ) {
             continue;
         }
-
-        int compcount = comp.count;
-        item newit(itt->id, calendar::turn);
         // Compress liquids and counted-by-charges items into one item,
         // they are added together on the map anyway and handle_liquid
         // should only be called once to put it all into a container at once.

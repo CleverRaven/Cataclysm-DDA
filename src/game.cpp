@@ -4984,7 +4984,7 @@ void game::debug()
             int exsp[ne];
             std::string spstr = "";
             for (int i = 0; i < ne; i++) {
-                itype *ity = item_controller->find_template(examples[i]);
+                const auto ity = item::find_type( examples[i] );
                 exsp[i] = dynamic_cast<it_comest *>(ity)->spoils;
                 esz[i] = examples[i].size();
                 spstr = string_format("%s | %s", spstr.c_str(), examples[i].c_str());
@@ -11193,7 +11193,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
             add_msg(_("Your %s starts charging."), u.weapon.tname().c_str());
             u.weapon.charges = 0;
             u.weapon.poison = 0;
-            u.weapon.curammo = dynamic_cast<it_ammo *>(item_controller->find_template( "charge_shot" ));
+            u.weapon.curammo = dynamic_cast<it_ammo *>( item::find_type( "charge_shot" ) );
             u.weapon.active = true;
             return;
         } else {
@@ -11204,7 +11204,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
 
     if (u.weapon.has_flag("NO_AMMO")) {
         u.weapon.charges = 1;
-        u.weapon.curammo = dynamic_cast<it_ammo *>(item_controller->find_template( "generic_no_ammo" ));
+        u.weapon.curammo = dynamic_cast<it_ammo *>( item::find_type( "generic_no_ammo" ) );
     }
 
     if ((u.weapon.has_flag("STR8_DRAW") && u.str_cur < 4) ||

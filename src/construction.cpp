@@ -6,7 +6,6 @@
 #include "inventory.h"
 #include "mapdata.h"
 #include "skill.h"
-#include "item_factory.h"
 #include "catacharset.h"
 #include "action.h"
 #include "translations.h"

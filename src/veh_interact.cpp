@@ -3,7 +3,6 @@
 #include "vehicle.h"
 #include "overmapbuffer.h"
 #include "game.h"
-#include "item_factory.h"
 #include "output.h"
 #include "catacharset.h"
 #include "crafting.h"
@@ -293,7 +292,7 @@ void veh_interact::deallocate_windows()
  */
 static int charges_per_use( const std::string &id )
 {
-    const it_tool *t = dynamic_cast<const it_tool *>( item_controller->find_template( id ) );
+    const it_tool *t = dynamic_cast<const it_tool *>( item::find_type( id ) );
     if( t == nullptr ) {
         debugmsg( "item %s is not a tool as expected", id.c_str() );
         return 0;

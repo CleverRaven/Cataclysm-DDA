@@ -19,7 +19,6 @@
 #include "catacharset.h"
 #include "get_version.h"
 #include "crafting.h"
-#include "item_factory.h"
 #include "monstergenerator.h"
 #include "help.h" // get_hint
 #include "martialarts.h"
@@ -8241,7 +8240,7 @@ bool player::eat(item *eaten, it_comest *comest)
         else healall(excess_food /= 5);
     }
 
-    if (item_controller->find_template( comest->tool )->is_tool()) {
+    if (item::find_type( comest->tool )->is_tool() ) {
         use_charges(comest->tool, 1); // Tools like lighters get used
     }
 

@@ -2207,7 +2207,7 @@ int vehicle::total_mass()
         if (parts[i].removed) {
           continue;
         }
-        m += item_controller->find_template( part_info(i).item )->weight;
+        m += item::find_type( part_info(i).item )->weight;
         for (auto &j : parts[i].items) {
             m += j.type->weight;
         }
@@ -2228,7 +2228,7 @@ void vehicle::center_of_mass(int &x, int &y)
           continue;
         }
         int m_part = 0;
-        m_part += item_controller->find_template( part_info(i).item )->weight;
+        m_part += item::find_type( part_info(i).item )->weight;
         for (auto &j : parts[i].items) {
             m_part += j.type->weight;
         }
@@ -2694,7 +2694,7 @@ bool vehicle::valid_wheel_config ()
         if (parts[p].removed) {
           continue;
         }
-        w2 = item_controller->find_template( part_info(p).item )->weight;
+        w2 = item::find_type( part_info(p).item )->weight;
         if (w2 < 1)
             continue;
         xo = xo * wo / (wo + w2) + parts[p].mount_dx * w2 / (wo + w2);
@@ -3464,7 +3464,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
     int degree = rng (70, 100);
 
     //Calculate damage resulting from d_E
-    const itype *type = item_controller->find_template( part_info( parm ).item );
+    const itype *type = item::find_type( part_info( parm ).item );
     std::vector<std::string> vpart_item_mats = type->materials;
     int vpart_dens = 0;
     for (auto mat_id : vpart_item_mats) {
@@ -4399,7 +4399,7 @@ bool vehicle::fire_turret (int p, bool burst)
 {
     if (!part_flag (p, "TURRET"))
         return false;
-    it_gun *gun = dynamic_cast<it_gun*> (item_controller->find_template( part_info( p ).item ));
+    it_gun *gun = dynamic_cast<it_gun*>( item::find_type( part_info( p ).item ) );
     if (!gun) {
         return false;
     }
@@ -4430,7 +4430,7 @@ bool vehicle::fire_turret (int p, bool burst)
         if (fleft < 1) {
             return false;
         }
-        it_ammo *ammo = dynamic_cast<it_ammo*>(item_controller->find_template( amt ));
+        it_ammo *ammo = dynamic_cast<it_ammo*>( item::find_type( amt ) );
         if (!ammo) {
             return false;
         }
