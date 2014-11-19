@@ -577,5 +577,41 @@
         "material": "plastic",
         "contains": 1,
         "flags": ["RIGID", "WATERTIGHT", "SEALS"]
+    },
+    {
+        "id": "hydration",
+        "type": "CONTAINER",
+        "symbol": ")",
+        "color": "ltblue",
+        "name": "small hydration bag",
+        "category": "other",
+        "description": "A small hydration bag with a hose and bite valve for easy drinking. Designed to fit inside a backpack. Can hold 1.5 liters of water.",
+        "price": 2000,
+        "weight": 453,
+        "volume": 1,
+        "bashing": 1,
+        "cutting": 0,
+        "to_hit": -1,
+        "material": "plastic",
+        "contains": 6,
+        "flags": ["SEALS", "WATERTIGHT", "HYDRATION_BAG"]
+    },
+    {
+        "id": "hydration2",
+        "type": "CONTAINER",
+        "symbol": ")",
+        "color": "ltblue",
+        "name": "hydration bag",
+        "category": "other",
+        "description": "A hydration bag with a hose and bite valve for easy drinking. Designed to fit inside a backpack. Can hold 3 liters of water.",
+        "price": 5000,
+        "weight": 783,
+        "volume": 2,
+        "bashing": 2,
+        "cutting": 0,
+        "to_hit": -1,
+        "material": "plastic",
+        "contains": 12,
+        "flags": ["SEALS", "WATERTIGHT", "HYDRATION_BAG"]
     }
 ]
