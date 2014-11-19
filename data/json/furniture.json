@@ -192,9 +192,9 @@
         "required_str": -1,
         "deconstruct": {
             "items": [
-                { "item": "2x4", "amount": 10 },
-                { "item": "rag", "amount": 15, "minamount": 10 },
-                { "item": "nail", "amount": 8, "minamount": 6 }
+                { "item": "2x4", "amount": 12 },
+                { "item": "rag", "amount": 135, "minamount": 120 },
+                { "item": "nail", "amount": 10, "minamount": 8 }
             ]
         },
         "max_volume": 4000,
@@ -205,10 +205,10 @@
             "sound": "crunch!",
             "sound_fail": "whump.",
             "items": [
-                { "item": "2x4", "amount": 8, "minamount": 3 },
-                { "item": "nail", "amount": 10, "minamount": 6 },
+                { "item": "2x4", "amount": 8, "minamount": 5 },
+                { "item": "nail", "amount": 8, "minamount": 6 },
                 { "item": "splinter", "amount": 6, "minamount": 3 },
-                { "item": "rag", "amount": 10, "minamount": 5 }
+                { "item": "rag", "amount": 130, "minamount": 80 }
             ]
         }
     },{
@@ -240,9 +240,9 @@
         "required_str": 12,
         "deconstruct": {
             "items": [
-                { "item": "2x4", "amount": 10 },
-                { "item": "rag", "amount": 15, "minamount": 10 },
-                { "item": "nail", "amount": 8, "minamount": 6 }
+                { "item": "2x4", "amount": 4 },
+                { "item": "rag", "amount": 35, "minamount": 30 },
+                { "item": "nail", "amount": 6, "minamount": 4 }
             ]
         },
         "max_volume": 4000,
@@ -252,10 +252,10 @@
             "sound": "crunch!",
             "sound_fail": "whump.",
             "items": [
-                { "item": "2x4", "amount": 3, "minamount": 0 },
+                { "item": "2x4", "amount": 3, "minamount": 1 },
                 { "item": "nail", "amount": 6, "minamount": 2 },
                 { "item": "splinter", "amount": 4, "minamount": 1 },
-                { "item": "rag", "amount": 12, "minamount": 6 }
+                { "item": "rag", "amount": 30, "minamount": 20 }
             ]
         }
     },{
@@ -446,7 +446,7 @@
         "deconstruct": {
             "items": [
                 { "item": "2x4", "amount": 10 },
-                { "item": "rag", "amount": 15, "minamount": 10 },
+                { "item": "rag", "amount": 33, "minamount": 30 },
                 { "item": "nail", "amount": 8, "minamount": 6 }
             ]
         },
@@ -460,7 +460,7 @@
                 { "item": "2x4", "amount": 3, "minamount": 1},
                 { "item": "nail", "amount": 6, "minamount": 2},
                 { "item": "splinter", "amount": 1 },
-                { "item": "rag", "amount": 10, "minamount": 5 }
+                { "item": "rag", "amount": 30, "minamount": 20 }
             ]
         }
     },{
@@ -473,9 +473,9 @@
         "required_str": 10,
         "deconstruct": {
             "items": [
-                { "item": "2x4", "amount": 10 },
-                { "item": "rag", "amount": 15, "minamount": 10 },
-                { "item": "nail", "amount": 8, "minamount": 6 }
+                { "item": "2x4", "amount": 12 },
+                { "item": "rag", "amount": 33, "minamount": 30 },
+                { "item": "nail", "amount": 10, "minamount": 8 }
             ]
         },
         "max_volume": 4000,
@@ -485,10 +485,10 @@
             "sound": "smash!",
             "sound_fail": "whump.",
             "items": [
-                { "item": "2x4", "amount": 3, "minamount": 1},
-                { "item": "nail", "amount": 6, "minamount": 2},
-                { "item": "splinter", "amount": 1 },
-                { "item": "rag", "amount": 10, "minamount": 5 }
+                { "item": "2x4", "amount": 5, "minamount": 2},
+                { "item": "nail", "amount": 8, "minamount": 3},
+                { "item": "splinter", "amount": 2, "minamount": 1 },
+                { "item": "rag", "amount": 30, "minamount": 20 }
             ]
         }
     },{

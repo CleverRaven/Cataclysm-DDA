@@ -704,7 +704,8 @@ furn_id f_null,
     f_wood_keg,
     f_statue, f_egg_sackbw, f_egg_sackws, f_egg_sacke,
     f_flower_marloss,
-    f_floor_canvas;
+    f_floor_canvas,
+    f_tatami;
 
 void set_furn_ids() {
     f_null=furnfind("f_null");
