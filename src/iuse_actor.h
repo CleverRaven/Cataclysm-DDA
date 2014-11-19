@@ -211,6 +211,32 @@ class consume_drug_iuse : public iuse_actor
 };
 
 /**
+ * This is a @ref iuse_transform for similar to @ref auto_iuse_transform,
+ * but it uses the age of the item instead of a counter.
+ * The age is calculated from the current turn and the birthday of the item.
+ * The player has to activate the item manually, only when the specific
+ * age has been reached, it will transform.
+ */
+class delayed_transform_iuse : public iuse_transform
+{
+    public:
+        /**
+         * The minimal age of the item (in turns) to allow the transformation.
+         */
+        int transform_age;
+        /**
+         * Message to display when the user activates the item before the
+         * age has been reached.
+         */
+        std::string not_ready_msg;
+
+        delayed_transform_iuse() : iuse_transform(), transform_age(0) { }
+        virtual ~delayed_transform_iuse();
+        virtual long use( player *, item *, bool, point ) const;
+        virtual iuse_actor *clone() const;
+};
+
+/**
  * This iuse contains the logic to transform a robot item into an actual monster on the map.
  */
 class place_monster_iuse : public iuse_actor

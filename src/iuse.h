@@ -185,8 +185,6 @@ public:
     int LAW                 (player *, item *, bool, point);
     int heatpack            (player *, item *, bool, point);
     int hotplate            (player *, item *, bool, point);
-    int flask_yeast         (player *, item *, bool, point);
-    int tanning_hide        (player *, item *, bool, point);
     int quiver              (player *, item *, bool, point);
     int boots               (player *, item *, bool, point);
     int sheath_sword        (player *, item *, bool, point);

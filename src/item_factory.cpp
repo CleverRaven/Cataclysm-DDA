@@ -293,8 +293,6 @@ void Item_factory::init()
     iuse_function_list["RAG"] = &iuse::rag;
     iuse_function_list["LAW"] = &iuse::LAW;
     iuse_function_list["HEATPACK"] = &iuse::heatpack;
-    iuse_function_list["FLASK_YEAST"] = &iuse::flask_yeast;
-    iuse_function_list["TANNING_HIDE"] = &iuse::tanning_hide;
     iuse_function_list["BOOTS"] = &iuse::boots;
     iuse_function_list["QUIVER"] = &iuse::quiver;
     iuse_function_list["SHEATH_SWORD"] = &iuse::sheath_sword;
@@ -1314,6 +1312,26 @@ use_function Item_factory::use_from_object(JsonObject obj)
         }
         obj.read("moves", actor->moves);
         // from hereon memory is handled by the use_function class
+        return use_function(actor.release());
+    } else if (type == "delayed_transform") {
+        std::unique_ptr<delayed_transform_iuse> actor(new delayed_transform_iuse);
+        // Mandatory:
+        actor->target_id = obj.get_string("target");
+        actor->not_ready_msg = _(obj.get_string("not_ready_msg").c_str());
+        actor->transform_age = obj.get_int("transform_age");
+        // Optional (default is good enough):
+        obj.read("msg", actor->msg_transform);
+        actor->msg_transform = _(actor->msg_transform.c_str());
+        obj.read("target_charges", actor->target_charges);
+        obj.read("container", actor->container_id);
+        obj.read("active", actor->active);
+        obj.read("need_fire", actor->need_fire);
+        obj.read("need_fire_msg", actor->need_fire_msg);
+        actor->need_fire_msg = _(actor->need_fire_msg.c_str());
+        obj.read("need_charges", actor->need_charges);
+        obj.read("need_charges_msg", actor->need_charges_msg);
+        actor->need_charges_msg = _(actor->need_charges_msg.c_str());
+        obj.read("moves", actor->moves);
         return use_function(actor.release());
     } else if (type == "explosion") {
         std::unique_ptr<explosion_iuse> actor(new explosion_iuse);

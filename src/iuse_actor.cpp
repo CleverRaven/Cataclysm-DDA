@@ -310,6 +310,22 @@ long consume_drug_iuse::use(player *p, item *it, bool, point) const
     return it->type->charges_to_use();
 }
 
+delayed_transform_iuse::~delayed_transform_iuse() {};
+
+iuse_actor *delayed_transform_iuse::clone() const
+{
+    return new delayed_transform_iuse(*this);
+}
+
+long delayed_transform_iuse::use( player *p, item *it, bool t, point pos ) const
+{
+    if( calendar::turn <= it->bday + transform_age ) {
+        p->add_msg_if_player( m_info, _( not_ready_msg.c_str() ) );
+        return 0;
+    }
+    return iuse_transform::use( p, it, t, pos );
+}
+
 place_monster_iuse::~place_monster_iuse() {};
 
 iuse_actor *place_monster_iuse::clone() const

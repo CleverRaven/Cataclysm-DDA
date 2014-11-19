@@ -6203,7 +6203,16 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "food",
-    "use_action": "FLASK_YEAST"
+    "use_action": {
+        "type": "delayed_transform",
+        "transform_age": 7200, "//": "12 hours",
+        "not_ready_msg": "The yeast isn't done culturing yet.",
+        "msg": "You open the flask and harvest the culture.",
+        "moves": 50,
+        "container": "flask_glass",
+        "target": "yeast",
+        "target_charges": 10
+    }
   },
 
   {
@@ -8589,7 +8598,14 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "TANNING_HIDE"
+    "use_action": {
+        "type": "delayed_transform",
+        "transform_age": 28800, "//": "2 days",
+        "not_ready_msg": "The tanning leather hide isn't done yet.",
+        "msg": "You carefully unfold the tanning leather hide and shake it clean.",
+        "moves": 150,
+        "target": "tanned_hide"
+    }
   },
 
   {
@@ -8614,7 +8630,14 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "TANNING_HIDE"
+    "use_action": {
+        "type": "delayed_transform",
+        "transform_age": 28800, "//": "2 days",
+        "not_ready_msg": "The tanning fur pelt isn't done yet.",
+        "msg": "You carefully unfold the tanning fur pelt and shake it clean.",
+        "moves": 150,
+        "target": "tanned_pelt"
+    }
   },
 
   {
