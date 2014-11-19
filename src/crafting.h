@@ -63,35 +63,13 @@ struct recipe : public requirements {
     // Format: skill_name(amount), skill_name(amount)
     std::string required_skills_string() const;
 
-    recipe()
-    {
-        id = 0;
-        result = "null";
-        skill_used = NULL;
-        reversible = false;
-        autolearn = false;
-        learn_by_disassembly = -1;
-        result_mult = 1;
-        paired = false;
-    }
-
-    recipe(std::string pident, int pid, itype_id pres, craft_cat pcat, craft_subcat psubcat,
-           std::string &to_use, std::map<std::string, int> &to_require,
-           bool preversible, bool pautolearn, int plearn_dis, int pmult, bool ppaired,
-           std::vector<byproduct> &bps) :
-        ident (pident), id (pid), result (pres), byproducts(bps), cat(pcat), subcat(psubcat),
-        reversible (preversible), autolearn (pautolearn), learn_by_disassembly (plearn_dis),
-        result_mult(pmult), paired(ppaired) {
-        skill_used = to_use.size() ? Skill::skill(to_use) : NULL;
-        if(!to_require.empty()) {
-            for(std::map<std::string, int>::iterator iter = to_require.begin(); iter != to_require.end();
-                ++iter) {
-                required_skills[Skill::skill(iter->first)] = iter->second;
-            }
-        }
-    }
-
     ~recipe();
+    recipe();
+    recipe(std::string pident, int pid, itype_id pres, craft_cat pcat,
+           craft_subcat psubcat, std::string &to_use,
+           std::map<std::string, int> &to_require,
+           bool preversible, bool pautolearn, int plearn_dis,
+           int pmult, bool ppaired, std::vector<byproduct> &bps);
 
     // Create an item instance as if the recipe was just finished,
     // Contain charges multiplier
