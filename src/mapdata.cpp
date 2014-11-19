@@ -684,7 +684,7 @@ furn_id f_null,
     f_barricade_road, f_sandbag_half, f_sandbag_wall,
     f_bulletin,
     f_indoor_plant,f_indoor_plant_y,
-    f_bed, f_toilet, f_makeshift_bed,
+    f_bed, f_toilet, f_makeshift_bed, f_straw_bed,
     f_sink, f_oven, f_woodstove, f_fireplace, f_bathtub,
     f_chair, f_armchair, f_sofa, f_cupboard, f_trashcan, f_desk, f_exercise,
     f_ball_mach, f_bench, f_lane, f_table, f_pool_table,
@@ -721,6 +721,7 @@ void set_furn_ids() {
     f_bed=furnfind("f_bed");
     f_toilet=furnfind("f_toilet");
     f_makeshift_bed=furnfind("f_makeshift_bed");
+    f_straw_bed=furnfind("f_straw_bed");
     f_sink=furnfind("f_sink");
     f_oven=furnfind("f_oven");
     f_woodstove=furnfind("f_woodstove");
