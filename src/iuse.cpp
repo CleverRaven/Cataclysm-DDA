@@ -6905,6 +6905,7 @@ int iuse::knife(player *p, item *it, bool t, point)
     const int menu_cut_up_item = 0;
     const int menu_carve_writing = 1;
     const int menu_cauterize = 2;
+    const int menu_make_zlave = 3;
     const int menu_cancel = 4;
     item *cut;
 
@@ -6913,6 +6914,10 @@ int iuse::knife(player *p, item *it, bool t, point)
     kmenu.addentry(menu_cut_up_item, true, -1, _("Cut up fabric/plastic/kevlar/wood/nomex"));
     kmenu.addentry(menu_carve_writing, true, -1, _("Carve writing into item"));
     kmenu.addentry(menu_cauterize, true, -1, _("Cauterize"));
+    if( p->skillLevel( "survival" ) > 1 && p->skillLevel( "firstaid" ) > 1 ) {
+        kmenu.addentry(menu_make_zlave, true, -1, _("Make zombie slave"));
+    }
+    
     kmenu.addentry(menu_cancel, true, 'q', _("Cancel"));
     kmenu.query();
     choice = kmenu.ret;
@@ -6930,6 +6935,9 @@ int iuse::knife(player *p, item *it, bool t, point)
         return cut_up(p, it, cut, t);
     } else if (choice == menu_carve_writing) {
         return carve_writing(p, it);
+    } else if( choice == menu_make_zlave ) {
+        make_zlave( p );
+        return 0;
     } else {
         return 0;
     }
