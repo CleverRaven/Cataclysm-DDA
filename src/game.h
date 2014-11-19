@@ -640,8 +640,6 @@ class game
                                     bool mouse_hover);
         void get_lookaround_dimensions(int &lookWidth, int &begin_y, int &begin_x) const;
 
-        // show weather and sct animations
-        void do_animations();
         input_context get_player_input(std::string &action);
         // Target is an interactive function which allows the player to choose a nearby
         // square.  It display information on any monster/NPC on that square, and also
@@ -756,7 +754,6 @@ class game
         time_t last_save_timestamp;
         unsigned char latest_lightlevel;
         calendar latest_lightlevel_turn;
-
 
         special_game *gamemode;
 
