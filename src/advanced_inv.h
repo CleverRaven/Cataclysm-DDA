@@ -6,7 +6,7 @@
 
 class uimenu;
 
-typedef std::vector< std::list<item *> > itemslice;
+typedef std::vector< std::pair<item *, int> > itemslice;
 
 enum aim_location {
     AIM_INVENTORY,
@@ -20,7 +20,8 @@ enum aim_location {
     AIM_NORTH,
     AIM_NORTHEAST,
     AIM_ALL,
-    AIM_DRAGED
+    AIM_DRAGED,
+    AIM_CONTAINER
 };
 
 enum advanced_inv_sortby {
@@ -33,6 +34,8 @@ enum advanced_inv_sortby {
     SORTBY_DAMAGE
 };
 
+struct advanced_inv_listitem;
+
 /**
  * Defines the source of item stacks.
  */
@@ -44,15 +47,17 @@ struct advanced_inv_area {
     // relative (to the player) position of the map point
     const int offx;
     const int offy;
-    // absolute position of the map point.
-    int x;
-    int y;
     /** Long name, displayed, translated */
     const std::string name;
     /** Shorter name (2 letters) */
     const std::string shortname;
-    // Can we put items there?
-    bool canputitems;
+    // absolute position of the map point.
+    int x;
+    int y;
+    /** Can we put items there? Only checks if location is valid, not if selected container in pane is.
+        For full check use canputitems()
+    */
+    bool canputitemsloc;
     // vehicle pointer and cargo part index
     vehicle *veh;
     int vstor;
@@ -63,12 +68,23 @@ struct advanced_inv_area {
     // maximal count / volume of items there.
     int max_size, max_volume;
 
+    advanced_inv_area( aim_location id, int hscreenx, int hscreeny, int offx, int offy, std::string name, std::string shortname ) :
+        id( id ), hscreenx( hscreenx ), hscreeny( hscreeny ), offx( offx ), offy( offy ), name( name ), shortname( shortname ),
+        x( 0 ), y( 0 ), canputitemsloc( false ), veh( nullptr ), vstor( -1 ), desc( "" ), volume( 0 ), weight( 0 ), max_size( 0 ), max_volume( 0 )
+    {
+    }
+
     void init();
     int free_volume() const;
     int get_item_count() const;
     // Other area is actually the same item source, e.g. dragged vehicle to the south
     // and AIM_SOUTH
-    bool is_same(const advanced_inv_area &other) const;
+    bool is_same( const advanced_inv_area &other ) const;
+    bool canputitems( const advanced_inv_listitem *advitem = nullptr );
+    item* get_container();
+    void set_container( const advanced_inv_listitem *advitem );
+    bool is_container_valid( const item *it ) const;
+    void set_container_position();
 };
 
 // see item_factory.h
@@ -273,7 +289,7 @@ class advanced_inventory
          * as index.
          */
         std::array<advanced_inventory_pane, 2> panes;
-        std::array<advanced_inv_area, 12> squares;
+        std::array<advanced_inv_area, 13> squares;
 
         WINDOW *head;
         WINDOW *left_window;
@@ -319,6 +335,12 @@ class advanced_inventory
          * @return true if adding has been done, false if adding the item failed.
          */
         bool add_item( aim_location destarea, const item &new_item );
+        /**
+         * Move content of source container into destination container (destination pane = AIM_CONTAINER)
+         * @param src_container Source container
+         * @param dest_container Destination container
+         */
+        bool move_content(item &src, item &dest);
         /**
          * Setup how many items/charges (if counted by charges) should be moved.
          * @param destarea Where to move to. This must not be AIM_ALL.

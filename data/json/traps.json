@@ -557,5 +557,21 @@
         "avoidance" : 8,
         "difficulty" : 99,
         "action" : "pit_glass"
+    },{
+        "type" : "trap",
+        "id": "tr_leather_funnel",
+        "identstring" : "LEATHER_FUNNEL",
+        "legacy_id": 41,
+        "name" : "leather funnel",
+        "color" : "brown",
+        "symbol" : "v",
+        "visibility" : -1,
+        "avoidance" : 0,
+        "difficulty" : 0,
+        "action" : "none",
+        "drops" : ["leather_funnel"],
+        "benign" : true,
+        "funnel_radius": 85
     }
+
 ]

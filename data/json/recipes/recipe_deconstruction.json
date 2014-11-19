@@ -1319,7 +1319,7 @@
     ], "components": [
         [ [ "flamethrower", 1 ] ],
         [ [ "tazer", 1 ] ],
-        [ [ "hk_mp5", 1 ] ],
+        [ [ "m4a1", 1 ] ],
         [ [ "motor_large", 1 ] ],
         [ [ "power_supply", 30 ] ],
         [ [ "plut_cell", 4 ] ],

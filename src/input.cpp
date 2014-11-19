@@ -945,12 +945,13 @@ void input_context::display_help()
             status = s_remove;
         } else if (action == "ANY_INPUT") {
             const size_t hotkey_index = hotkeys.find_first_of(raw_input_char);
-            if (status == s_show || hotkey_index == std::string::npos ||
-                hotkey_index >= org_registered_actions.size()) {
+            if (status == s_show || hotkey_index == std::string::npos ) {
                 continue;
             }
-
-            const int action_index = hotkey_index + scroll_offset;
+            const size_t action_index = hotkey_index + scroll_offset;
+            if( action_index >= org_registered_actions.size() ) {
+                continue;
+            }
             const std::string &action_id = org_registered_actions[action_index];
 
             // Check if this entry is local or global.

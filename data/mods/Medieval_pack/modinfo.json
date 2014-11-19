@@ -1,8 +1,5 @@
 {
     "type": "MOD_INFO",
-    "mod-type": "SUPPLEMENTAL",
     "ident": "Medieval_pack",
-    "name": "Medieval weapons (obsolete)",
-    "description": "The contents of this mod have been integrated into the game. This mod pack is deprecated and will eventually be removed. It is included to prevent warnings when moving from an older version of the game to a newer version.",
-    "path": ""
+    "obsolete": true
 }

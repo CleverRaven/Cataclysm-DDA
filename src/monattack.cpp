@@ -45,6 +45,11 @@ npc make_fake_npc(monster *z, int str, int dex, int inte, int per) {
     tmp.dex_cur = dex;
     tmp.int_cur = inte;
     tmp.per_cur = per;
+    if( z->friendly != 0 ) {
+        tmp.attitude = NPCATT_DEFEND;
+    } else {
+        tmp.attitude = NPCATT_KILL;
+    }
     return tmp;
 }
 
@@ -2185,7 +2190,7 @@ void mattack::frag_tur(monster *z, int index) // This is for the bots, not a sta
     if (z->friendly != 0) {
         // Attacking monsters, not the player!
         int boo_hoo;
-        target = tmp.auto_find_hostile_target(18, boo_hoo, fire_t);
+        target = tmp.auto_find_hostile_target(38, boo_hoo, fire_t);
         if (target == NULL) {// Couldn't find any targets!
             if(boo_hoo > 0 && g->u_see(z->posx(), z->posy()) ) { // because that stupid oaf was in the way!
                 add_msg(m_warning, ngettext("Pointed in your direction, the %s emits an IFF warning beep.",
@@ -2201,13 +2206,13 @@ void mattack::frag_tur(monster *z, int index) // This is for the bots, not a sta
         if (within_visual_range(z, 38) < 0) return;
 
         if (!z->has_effect("targeted")) {
-            if (g->u_see(z->posx(), z->posy())) {
-                //~Potential grenading detected.
-                add_msg(m_warning, _("Those laser dots don't seem very friendly...") );
-            }
+            //~Potential grenading detected.
+            add_msg(m_warning, _("Those laser dots don't seem very friendly...") );
             g->sound(z->posx(), z->posy(), 10, _("Targeting."));
-            z->add_effect("targeted", 8);
-            z->moves -= 100;
+            z->add_effect("targeted", 4);
+            z->moves -= 150;
+            // Should give some ability to get behind cover,
+            // even though it's patently unrealistic.
             return;
         }
         target = &g->u;
@@ -2256,7 +2261,7 @@ void mattack::bmg_tur(monster *z, int index)
     if (z->friendly != 0) {
         // Attacking monsters, not the player!
         int boo_hoo;
-        target = tmp.auto_find_hostile_target(18, boo_hoo, fire_t);
+        target = tmp.auto_find_hostile_target(40, boo_hoo, fire_t);
         if (target == NULL) {// Couldn't find any targets!
             if(boo_hoo > 0 && g->u_see(z->posx(), z->posy()) ) { // because that stupid oaf was in the way!
                 add_msg(m_warning, ngettext("Pointed in your direction, the %s emits an IFF warning beep.",
@@ -2272,10 +2277,8 @@ void mattack::bmg_tur(monster *z, int index)
         if (within_visual_range(z, 40) < 0) return;
 
         if (!z->has_effect("targeted")) {
-            if (g->u_see(z->posx(), z->posy())) {
-                //~There will be a .50BMG shell sent at high speed to your location next turn.
-                add_msg(m_warning, _("Why is there a laser dot on your torso..?"));
-            }
+            //~There will be a .50BMG shell sent at high speed to your location next turn.
+            add_msg(m_warning, _("Why is there a laser dot on your torso..?"));
             g->sound(z->posx(), z->posy(), 10, _("Hostile detected."));
             z->add_effect("targeted", 8);
             z->moves -= 100;
@@ -2322,16 +2325,16 @@ void mattack::tank_tur(monster *z, int index)
     // kevingranade KA101: yes, but make it really inaccurate
     // Sure thing.
     npc tmp = make_fake_npc(z, 12, 8, 8, 8);
-    tmp.skillLevel("launcher").level(2);
-    tmp.skillLevel("gun").level(2);
+    tmp.skillLevel("launcher").level(1);
+    tmp.skillLevel("gun").level(1);
 
     z->reset_special(index); // Reset timer
-    Creature *target = NULL;
+    point aim_point;
 
     if (z->friendly != 0) {
         // Attacking monsters, not the player!
         int boo_hoo;
-        target = tmp.auto_find_hostile_target(18, boo_hoo, fire_t);
+        Creature *target = tmp.auto_find_hostile_target(48, boo_hoo, fire_t);
         if (target == NULL) {// Couldn't find any targets!
             if(boo_hoo > 0 && g->u_see(z->posx(), z->posy()) ) { // because that stupid oaf was in the way!
                 add_msg(m_warning, ngettext("Pointed in your direction, the %s emits an IFF warning beep.",
@@ -2341,23 +2344,33 @@ void mattack::tank_tur(monster *z, int index)
             }
             return;
         }
+        aim_point = target->pos();
     } else {
         // Not friendly; hence, firing at the player
         // (Be grateful for safety precautions.)
-        if (within_visual_range(z, 50) < 0) return;
+        if (within_visual_range(z, 48) < 0) return;
 
         if (!z->has_effect("targeted")) {
-            if (g->u_see(z->posx(), z->posy())) {
-                //~ There will be a 120mm HEAT shell sent at high speed to your location next turn.
-                add_msg(m_warning, _("You're not sure why you've got a laser dot on you...") );
-            }
+            //~ There will be a 120mm HEAT shell sent at high speed to your location next turn.
+            add_msg(m_warning, _("You're not sure why you've got a laser dot on you...") );
             //~ Sound of a tank turret swiveling into place
             g->sound(z->posx(), z->posy(), 10, _("whirrrrrclick."));
-            z->add_effect("targeted", 4);
-            z->moves -= 100;
+            z->add_effect("targeted", 3);
+            z->moves -= 200;
+            // Should give some ability to get behind cover,
+            // even though it's patently unrealistic.
             return;
         }
-        target = &g->u;
+        aim_point = g->u.pos();
+        // Target the vehicle itself instead if there is one.
+        if( g->u.in_vehicle ) {
+            vehicle *veh = g->m.veh_at( g->u.xpos(), g->u.ypos() );
+            if( veh ) {
+                veh->center_of_mass( aim_point.x, aim_point.y );
+                aim_point.x += veh->global_x();
+                aim_point.y += veh->global_y();
+            }
+        }
     }
     z->moves -= 150;   // It takes a while
 
@@ -2376,11 +2389,8 @@ void mattack::tank_tur(monster *z, int index)
     tmp.weapon.curammo = dynamic_cast<it_ammo *>(item_controller->find_template( ammo_type ));
     tmp.weapon.charges = std::max(z->ammo[ammo_type], 5);
     z->ammo[ammo_type] -= tmp.weapon.charges;
-    tmp.fire_gun(target->xpos(), target->ypos(), false);
+    tmp.fire_gun( aim_point.x, aim_point.y, false );
     z->ammo[ammo_type] += tmp.weapon.charges;
-    if (target == &g->u) {
-        z->add_effect("targeted", 3);
-    }
 }
 
 void mattack::searchlight(monster *z, int index)
@@ -2720,9 +2730,15 @@ void mattack::multi_robot(monster *z, int index)
         mode = 3;
     } else if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) <= 30) {
         mode = 4;
-    } else if ((rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) >= 35) ||
-      (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) >= 25 && g->u.in_vehicle)) {
-        mode = 5;
+    } else if (g->u.in_vehicle || g->u.has_trait("HUGE") || g->u.has_trait("HUGE_OK") ||
+      z->friendly != 0) {
+        // Primary only kicks in if you're in a vehicle or are big enough to be mistaken for one.
+        // Or if you've hacked it so the turret's on your side.  ;-)
+        if ( (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) >= 35) &&
+          (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) < 50 )) {
+            // Enforced max-range of 50.
+            mode = 5;
+        }
     }
 
     if (mode == 0) {
@@ -3107,7 +3123,7 @@ void mattack::darkman(monster *z, int index)
             }
         }
     }
-    int free_index = rng( 0, -1 );
+    int free_index = rng( 0, free.size() - 1 );
     monster tmp( GetMType("mon_shadow") );
     z->moves -= 10;
     tmp.spawn( free[free_index].x, free[free_index].y );
@@ -3410,12 +3426,11 @@ void mattack::riotbot(monster *z, int index)
         //~ Sound of a riotbot using its blinding flash
         g->sound(x, y, 3, _("fzzzzzt"));
 
-        g->m.add_field(x, y, fd_dazzling, 1);
-
         std::vector <point> traj = line_to(monx, mony, x, y, 0);
-        traj.erase(traj.begin());
-
         for (auto it = traj.begin(); it != traj.end(); ++it) {
+            if( !g->m.trans( it->x, it->y ) ) {
+                break;
+            }
             g->m.add_field(it->x, it->y, fd_dazzling, 1);
         }
         return;

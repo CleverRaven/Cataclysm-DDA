@@ -292,6 +292,7 @@ void Item_factory::init()
     iuse_function_list["LAW"] = &iuse::LAW;
     iuse_function_list["HEATPACK"] = &iuse::heatpack;
     iuse_function_list["FLASK_YEAST"] = &iuse::flask_yeast;
+    iuse_function_list["TANNING_HIDE"] = &iuse::tanning_hide;
     iuse_function_list["BOOTS"] = &iuse::boots;
     iuse_function_list["QUIVER"] = &iuse::quiver;
     iuse_function_list["SHEATH_SWORD"] = &iuse::sheath_sword;
@@ -325,6 +326,8 @@ void Item_factory::init()
     iuse_function_list["CAMERA"] = &iuse::camera;
     iuse_function_list["EHANDCUFFS"] = &iuse::ehandcuffs;
     iuse_function_list["CABLE_ATTACH"]  = &iuse::cable_attach;
+    iuse_function_list["SURVIVOR_BELT"]  = &iuse::survivor_belt;
+    iuse_function_list["WEATHER_TOOL"] = &iuse::weather_tool;
 
     // MACGUFFINS
     iuse_function_list["MCG_NOTE"] = &iuse::mcg_note;
@@ -965,6 +968,9 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     RAD_RESIST - Partially protects from ambient radiation.
     RAD_PROOF- Fully protects from ambient radiation.
     ELECTRIC_IMMUNE- Fully protects from electricity.
+    THERMOMETER - Shows current air temperature. If an item has Thermo, Hygro and/or Baro, more information is shown, such as windchill and wind speed.
+    HYGROMETER - Shows current relative humidity. If an item has Thermo, Hygro and/or Baro, more information is shown, such as windchill and wind speed.
+    BAROMETER - Shows current pressure. If an item has Thermo, Hygro and/or Baro, more information is shown, such as windchill and wind speed.
     Container-only flags:
     SEALS
     RIGID
@@ -1018,11 +1024,14 @@ void Item_factory::set_qualities_from_json(JsonObject &jo, std::string member,
         JsonArray jarr = jo.get_array(member);
         while (jarr.has_more()) {
             JsonArray curr = jarr.next_array();
-            new_item_template->qualities.insert(
-                std::pair<std::string, int>(curr.get_string(0), curr.get_int(1)));
+            const auto quali = std::pair<std::string, int>(curr.get_string(0), curr.get_int(1));
+            if( new_item_template->qualities.count( quali.first ) > 0 ) {
+                curr.throw_error( "Duplicated quality", 0 );
+            }
+            new_item_template->qualities.insert( quali );
         }
     } else {
-        debugmsg("Qualities list for item %s not an array", new_item_template->id.c_str());
+        jo.throw_error( "Qualities list is not an array", member );
     }
 }
 
@@ -1110,6 +1119,8 @@ void Item_factory::clear()
         delete it->second;
     }
     m_templates.clear();
+    item_blacklist.clear();
+    item_whitelist.clear();
 }
 
 Item_group *make_group_or_throw(Item_spawn_data *&isd, Item_group::Type t)

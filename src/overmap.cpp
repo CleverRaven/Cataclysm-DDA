@@ -1886,25 +1886,22 @@ tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const 
     return ret;
 }
 
-void overmap::first_house(int &x, int &y, const std::string start_location)
+tripoint overmap::find_random_omt( const std::string &omt_base_type ) const
 {
-    std::vector<point> valid;
-    for (int i = 0; i < OMAPX; i++) {
-        for (int j = 0; j < OMAPY; j++) {
-            if (ter(i, j, 0).t().id_base == start_location) {
-                valid.push_back( point(i, j) );
+    std::vector<tripoint> valid;
+    for( int i = 0; i < OMAPX; i++ ) {
+        for( int j = 0; j < OMAPY; j++ ) {
+            for( int k = -OVERMAP_DEPTH; k <= OVERMAP_HEIGHT; k++ ) {
+                if( get_ter( i, j, k ).t().id_base == omt_base_type ) {
+                    valid.push_back( tripoint( i, j, k ) );
+                }
             }
         }
     }
-    if (valid.empty()) {
-        debugmsg("Couldn't find a shelter!");
-        x = 1;
-        y = 1;
-        return;
+    if( valid.empty() ) {
+        return invalid_tripoint;
     }
-    int index = rng(0, valid.size() - 1);
-    x = valid[index].x;
-    y = valid[index].y;
+    return valid[rng( 0, valid.size() - 1 )];
 }
 
 void overmap::process_mongroups()
@@ -2870,9 +2867,9 @@ void overmap::polish(const int z, const std::string &terrain_type)
     }
 }
 
-bool overmap::check_ot_type(const std::string &otype, int x, int y, int z)
+bool overmap::check_ot_type(const std::string &otype, int x, int y, int z) const
 {
-    const oter_id oter = ter(x, y, z);
+    const oter_id oter = get_ter(x, y, z);
     return is_ot_type(otype, oter);
 }
 

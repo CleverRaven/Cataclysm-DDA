@@ -20,7 +20,6 @@
 #include "calendar.h"
 #include "posix_time.h"
 #include "mutation.h"
-#include "gamemode.h"
 #include "live_view.h"
 #include "worldfactory.h"
 #include "creature_tracker.h"
@@ -80,6 +79,7 @@ struct monster_and_count {
     monster_and_count(monster M, int C) : critter (M), count (C) {};
 };
 
+struct special_game;
 struct mtype;
 struct mission_type;
 class map;
@@ -205,11 +205,9 @@ class game
         bool revive_corpse(int x, int y, int n); // revives a corpse from an item pile
         bool revive_corpse(int x, int y,
                            item *it); // revives a corpse by item pointer, caller handles item deletion
-        void plfire(bool burst, int default_target_x = -1,
-                    int default_target_y = -1); // Player fires a gun (target selection)...
-        // ... a gun is fired, maybe by an NPC (actual damage, etc.).
-        void fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
-                  bool burst);
+        // Player wants to fire a gun (target selection) etc. actual firing is done in player::fire_gun
+        // This is interactive and therefor not for npcs.
+        void plfire(bool burst, int default_target_x = -1, int default_target_y = -1);
         void throw_item(player &p, int tarx, int tary, item &thrown,
                         std::vector<point> &trajectory);
         void cancel_activity();
@@ -279,7 +277,7 @@ class game
         // in global overmap terrain coordinates.
         tripoint om_global_location() const;
 
-        void process_artifact(item *it, player *p, bool wielded = false);
+        void process_artifact(item *it, player *p);
         void add_artifact_messages(std::vector<art_effect_passive> effects);
 
         void peek( int peekx = 0, int peeky = 0);
@@ -304,7 +302,6 @@ class game
         std::vector<map_item_stack> filter_item_stacks(std::vector<map_item_stack> stack,
                 std::string filter);
         std::vector<map_item_stack> find_nearby_items(int iRadius);
-        std::vector<int> find_nearby_monsters(int iRadius);
         std::string ask_item_filter(WINDOW *window, int rows);
         std::string ask_item_priority_high(WINDOW *window, int rows);
         std::string ask_item_priority_low(WINDOW *window, int rows);
@@ -317,6 +314,7 @@ class game
         int inv_activatable(std::string title);
         int inv_type(std::string title, item_cat inv_item_type = IC_NULL);
         int inv_for_liquid(const item &liquid, const std::string title, bool auto_choose_single);
+        int inv_for_salvage(const std::string title);
         item *inv_map_for_liquid(const item &liquid, const std::string title);
         int inv_for_flag(const std::string flag, const std::string title, bool auto_choose_single);
         int display_slice(indexed_invslice &, const std::string &, const int &position = INT_MIN);
@@ -347,14 +345,8 @@ class game
         bool can_disassemble(item *dis_item, const recipe *cur_recipe,
                              inventory &crafting_inv, bool print_msg);
 
-        bool has_gametype() const
-        {
-            return gamemode && gamemode->id() != SGAME_NULL;
-        }
-        special_game_id gametype() const
-        {
-            return (gamemode) ? gamemode->id() : SGAME_NULL;
-        }
+        bool has_gametype() const;
+        special_game_id gametype() const;
 
         std::map<std::string, vehicle *> vtypes;
         void toggle_sidebar_style(void);
@@ -394,8 +386,6 @@ class game
         ter_id dragging;
         std::vector<item> items_dragged;
         int weight_dragged; // Computed once, when you start dragging
-
-        std::map<int, std::map<int, bool> > mapRain;
 
         int ter_view_x, ter_view_y;
         WINDOW *w_terrain;
@@ -461,8 +451,7 @@ class game
         void draw_weather(weather_printable wPrint);
         void draw_sct();
         void draw_zones(const point &p_pointStart, const point &p_pointEnd, const point &p_pointOffset);
-        // Draw critter (if visible!) on its current position into w_terrain,
-        // also update mapRain to protect it from been overdrawn by rain.
+        // Draw critter (if visible!) on its current position into w_terrain.
         // @param center the center of view, same as when calling map::draw
         void draw_critter(const Creature &critter, const point &center);
 
@@ -787,6 +776,7 @@ class game
         void activity_on_turn_pickup();
         void activity_on_turn_move_items();
         void activity_on_turn_vibe();
+        void activity_on_turn_fill_liquid();
         void activity_on_turn_refill_vehicle();
         void activity_on_turn_pulp();
         void activity_on_turn_start_fire_lens();
@@ -798,6 +788,7 @@ class game
         void activity_on_finish_vehicle();
         void activity_on_finish_make_zlave();
         void activity_on_finish_start_fire();
+        void longsalvage(); // Salvage everything activity
         void move_save_to_graveyard();
         bool save_player_data();
 };

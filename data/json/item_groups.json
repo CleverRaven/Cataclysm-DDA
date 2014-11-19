@@ -56,6 +56,20 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "gas_charging_rack",
+    "items":[
+      { "item": "storage_battery", "prob": 15, "charges-min": 80000, "charges-max": 100000 },
+      { "item": "storage_battery", "prob": 40, "charges-min": 4000, "charges-max": 10000 },
+      { "item": "storage_battery", "prob": 60, "charges-min": 0, "charges-max": 2000 },
+      { "item": "small_storage_battery", "prob": 15, "charges-min": 600, "charges-max": 1000 },
+      { "item": "small_storage_battery", "prob": 40, "charges-min": 0, "charges-max": 200 },
+      ["it_battery_mount", 90],
+      ["it_battery_mount", 50],
+      ["it_battery_mount", 40],
+      ["it_battery_mount", 10]
+    ]
+  },{
+    "type" : "item_group",
     "id" : "forest",
     "items":[
       ["rock", 40],
@@ -408,6 +422,7 @@
       ["heatpack", 60],
       ["can_beans", 40],
       ["can_chicken", 40],
+      ["can_tomato", 40],
       ["con_milk", 20],
       ["can_corn", 35],
       ["can_spam", 30],
@@ -728,8 +743,10 @@
       ["knitting_needles", 10],
       ["sheath", 15],
       ["peephole", 2],
-      ["magnifying_glass", 5]
-      
+      ["magnifying_glass", 5],
+      ["thermometer", 3],
+      ["hygrometer", 3],
+      ["barometer", 3]
     ]
   },{
     "type" : "item_group",
@@ -1591,6 +1608,7 @@
     "id" : "cannedfood",
     "items":[
       ["can_beans", 40],
+      ["can_tomato", 40],
       ["can_corn", 35],
       ["con_milk", 30],
       ["can_spam", 30],
@@ -2064,6 +2082,7 @@
       ["mag_survival", 40],
       ["manual_survival", 2],
       ["textbook_survival", 20],
+      ["modern_tanner", 8],
       ["recipe_bows", 8],
       ["recipe_arrows", 8],
       ["mag_rifle", 30],
@@ -2152,7 +2171,10 @@
       ["grapnel", 1],
       ["razor_blade", 9],
       ["sheath", 5],
-      ["survnote", 1]
+      ["survnote", 1],
+      ["thermometer", 3],
+      ["hygrometer", 3],
+      ["barometer", 3]
     ]
   },{
     "type" : "item_group",
@@ -2716,6 +2738,7 @@
       ["sword_bayonet", 1],
       ["mag_survival", 20],
       ["textbook_survival", 2],
+      ["modern_tanner", 1],
       ["mag_melee", 10],
       ["mag_traps", 10],
       ["mag_archery", 20],
@@ -3355,6 +3378,7 @@
       ["pocket_firearms", 2],
       ["textbook_anarch", 1],
       ["textbook_survival", 8],
+      ["modern_tanner", 4],
       ["textbook_traps", 4],
       ["manual_survival", 3],
       ["manual_swimming", 5],
@@ -4885,6 +4909,7 @@
       ["chocolate", 50],
       ["ravioli", 25],
       ["can_beans", 40],
+      ["can_tomato", 40],
       ["con_milk", 20],
       ["can_spam", 30],
       ["can_tuna", 35],
@@ -5169,7 +5194,10 @@
       ["chemistry_set", 5],
       ["sm_extinguisher", 10],
       ["charcoal", 10],
-      ["briefcase", 5]
+      ["briefcase", 5],
+      ["thermometer", 3],
+      ["hygrometer", 3],
+      ["barometer", 3]
     ]
   },{
     "type" : "item_group",
@@ -5519,7 +5547,10 @@
       ["holybook_scientology", 1],
       ["collarpin", 3],
       ["survnote", 1],
-      ["magnifying_glass", 2]
+      ["magnifying_glass", 2],
+      ["thermometer", 3],
+      ["hygrometer", 3],
+      ["barometer", 3]
     ]
   },{
     "type" : "item_group",
@@ -6088,7 +6119,8 @@
       ["bio_speed", 2],
       ["bio_adrenaline", 10],
       ["bio_watch", 10],
-      ["bio_power_armor_interface_mkII", 5]
+      ["bio_power_armor_interface_mkII", 5],
+      ["bio_meteorologist", 10]
     ]
   },{
       "type" : "item_group",
@@ -6149,7 +6181,8 @@
       ["bio_speed", 5],
       ["bio_adrenaline", 15],
       ["bio_watch", 10],
-      ["bio_power_armor_interface_mkII", 5]
+      ["bio_power_armor_interface_mkII", 5],
+      ["bio_meteorologist", 10]
     ]
   },{
     "type" : "item_group",
@@ -6365,7 +6398,8 @@
       ["sm_extinguisher", 10],
       ["grapnel", 1],
       ["toolbox", 5],
-      ["apron_leather", 10]
+      ["apron_leather", 10],
+      ["bio_meteorologist", 10]
     ]
   },{
     "type" : "item_group",
@@ -6511,7 +6545,11 @@
       ["toolbox", 1],
       ["nic_gum", 5],
       ["radio_car_box", 2],
-      ["radiocontrol", 15]
+      ["radiocontrol", 15],
+      ["thermometer", 10],
+      ["hygrometer", 10],
+      ["barometer", 10],
+      ["weather_reader", 1]
     ]
   },{
     "type" : "item_group",
@@ -6550,7 +6588,11 @@
       ["diazepam", 5],
       ["misc_repairkit", 5],
       ["toolbox", 2],
-      ["apron_leather", 10]
+      ["apron_leather", 10],
+      ["bio_meteorologist", 3],
+      ["thermometer", 3],
+      ["hygrometer", 3],
+      ["barometer", 3]
     ]
   },{
     "type" : "item_group",
@@ -7278,6 +7320,9 @@
       ["mobile_memory_card", 50],
       ["mobile_memory_card_science", 5],
       ["camera", 3],
+      ["thermometer", 3],
+      ["hygrometer", 3],
+      ["barometer", 3],
       ["camera_pro", 1],
       ["electrohack", 3],
       ["RAM", 22],
@@ -7348,7 +7393,8 @@
       ["toolbox", 1],
       ["diazepam", 1],
       ["magnifying_glass", 1],
-      ["material_quicklime", 10]
+      ["material_quicklime", 10],
+      ["bio_meteorologist", 10]
     ]
   },{
     "type" : "item_group",
@@ -7851,7 +7897,9 @@
       ["bio_claws_weapon", 0],
       ["bio_blade_weapon", 0],
       ["v_table", 0],
-      ["survnote", 5]
+      ["survnote", 5],
+      ["raw_leather", 0],
+      ["raw_fur", 0]
     ]
   },{
     "type" : "item_group",
@@ -8345,7 +8393,8 @@
       ["rag_bloody", 1],
       ["bone", 2],
       ["syringe", 1],
-      ["spike", 1]
+      ["spike", 1],
+      ["tanbark", 2]
     ]
   },{
 "type" : "item_group",
@@ -8730,6 +8779,7 @@
 "entries" : [
       { "item": "egg_bird", "prob": 15, "count-min": 2, "count-max": 5 },
       { "item": "egg_reptile", "prob": 5, "count-min": 2, "count-max": 5 },
+      { "item": "rhubarb", "prob": 5, "count-min": 2, "count-max": 5 },
       { "item": "wild_herbs", "prob": 10 },
       { "item": "buckwheat", "prob": 5, "count-min": 1, "count-max": 2 }
     ]
