@@ -162,6 +162,8 @@ public:
     int vortex              (player *, item *, bool, point);
     int dog_whistle         (player *, item *, bool, point);
     int vacutainer          (player *, item *, bool, point);
+    static bool valid_to_cut_up(item *it);
+    static int cut_up(player *p, item *it, item *cut, bool);
     int knife               (player *, item *, bool, point);
     static int cut_log_into_planks(player *p, item *it);
     int lumber              (player *, item *, bool, point);
@@ -215,7 +217,7 @@ public:
     int camera              (player *, item *, bool, point);
     int ehandcuffs          (player *, item *, bool, point);
     int cable_attach        (player *, item *, bool, point);
-    int pocket_meteorolgist (player *, item *, bool, point);
+    int weather_tool        (player *, item *, bool, point);
     int survivor_belt       (player *, item *, bool, point);
 
 // MACGUFFINS

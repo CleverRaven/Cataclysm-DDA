@@ -47,50 +47,48 @@ void player::activate_mutation( std::string mut )
         traits[mut].powered = true;
     }
 
-    if (traits[mut].id == "WEB_WEAVER"){
+    if( traits[mut].id == "WEB_WEAVER" ) {
         g->m.add_field(posx, posy, fd_web, 1);
         add_msg(_("You start spinning web with your spinnerets!"));
-    }
-    else if (traits[mut].id == "BURROW"){
+    } else if (traits[mut].id == "BURROW"){
         if (g->u.is_underwater()) {
-        add_msg_if_player(m_info, _("You can't do that while underwater."));
-        traits[mut].powered = false;
-        return;
-    }
-    int dirx, diry;
-    if (!choose_adjacent(_("Burrow where?"), dirx, diry)) {
-        traits[mut].powered = false;
-        return;
-    }
+            add_msg_if_player(m_info, _("You can't do that while underwater."));
+            traits[mut].powered = false;
+            return;
+        }
+        int dirx, diry;
+        if (!choose_adjacent(_("Burrow where?"), dirx, diry)) {
+            traits[mut].powered = false;
+            return;
+        }
 
-    if (dirx == g->u.posx && diry == g->u.posy) {
-        add_msg_if_player(_("You've got places to go and critters to beat."));
-        add_msg_if_player(_("Let the lesser folks eat their hearts out."));
+        if (dirx == g->u.posx && diry == g->u.posy) {
+            add_msg_if_player(_("You've got places to go and critters to beat."));
+            add_msg_if_player(_("Let the lesser folks eat their hearts out."));
+            traits[mut].powered = false;
+            return;
+        }
+        int turns;
+        if (g->m.is_bashable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
+            g->m.ter(dirx, diry) != t_tree) {
+            // Takes about 100 minutes (not quite two hours) base time.
+            // Being better-adapted to the task means that skillful Survivors can do it almost twice as fast.
+            turns = (100000 - 5000 * g->u.skillLevel("carpentry"));
+        } else if (g->m.move_cost(dirx, diry) == 2 && g->levz == 0 &&
+                   g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass) {
+            turns = 18000;
+        } else {
+            add_msg_if_player(m_info, _("You can't burrow there."));
+            traits[mut].powered = false;
+            return;
+        }
+        g->u.assign_activity(ACT_BURROW, turns, -1, 0);
+        g->u.activity.placement = point(dirx, diry);
+        add_msg_if_player(_("You tear into the %s with your teeth and claws."),
+                          g->m.tername(dirx, diry).c_str());
         traits[mut].powered = false;
-        return;
-    }
-    int turns;
-    if (g->m.is_bashable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
-        g->m.ter(dirx, diry) != t_tree) {
-        // Takes about 100 minutes (not quite two hours) base time.
-        // Being better-adapted to the task means that skillful Survivors can do it almost twice as fast.
-        turns = (100000 - 5000 * g->u.skillLevel("carpentry"));
-    } else if (g->m.move_cost(dirx, diry) == 2 && g->levz == 0 &&
-               g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass) {
-        turns = 18000;
-    } else {
-        add_msg_if_player(m_info, _("You can't burrow there."));
-        traits[mut].powered = false;
-        return;
-    }
-    g->u.assign_activity(ACT_BURROW, turns, -1, 0);
-    g->u.activity.placement = point(dirx, diry);
-    add_msg_if_player(_("You tear into the %s with your teeth and claws."),
-                         g->m.tername(dirx, diry).c_str());
-    traits[mut].powered = false;
-    return; // handled when the activity finishes
-    }
-    else if (traits[mut].id == "SLIMESPAWNER"){
+        return; // handled when the activity finishes
+    } else if (traits[mut].id == "SLIMESPAWNER") {
         std::vector<point> valid;
         for (int x = posx - 1; x <= posx + 1; x++) {
             for (int y = posy - 1; y <= posy + 1; y++) {
@@ -126,38 +124,31 @@ void player::activate_mutation( std::string mut )
         }
         traits[mut].powered = false;
         return;
-    }
-    else if (traits[mut].id == "SHOUT1"){
+    } else if (traits[mut].id == "SHOUT1") {
         g->sound(posx, posy, 10 + 2 * str_cur, _("You shout loudly!"));
         traits[mut].powered = false;
         return;
-    }
-    else if (traits[mut].id == "SHOUT2"){
+    } else if (traits[mut].id == "SHOUT2"){
         g->sound(posx, posy, 15 + 3 * str_cur, _("You scream loudly!"));
         traits[mut].powered = false;
         return;
-    }
-    else if (traits[mut].id == "SHOUT3"){
+    } else if (traits[mut].id == "SHOUT3"){
         g->sound(posx, posy, 20 + 4 * str_cur, _("You let out a piercing howl!"));
         traits[mut].powered = false;
         return;
-    }
-    else if ((traits[mut].id == "NAUSEA") || (traits[mut].id == "VOMITOUS") ){
+    } else if ((traits[mut].id == "NAUSEA") || (traits[mut].id == "VOMITOUS") ){
         vomit();
         traits[mut].powered = false;
         return;
-    }
-    else if (traits[mut].id == "M_FERTILE"){
+    } else if (traits[mut].id == "M_FERTILE"){
         spores();
         traits[mut].powered = false;
         return;
-    }
-    else if (traits[mut].id == "M_BLOOM"){
+    } else if (traits[mut].id == "M_BLOOM"){
         blossoms();
         traits[mut].powered = false;
         return;
-    }
-    else if (traits[mut].id == "VINES3"){
+    } else if (traits[mut].id == "VINES3"){
         int handed = 0;
         item newit("vine_30", calendar::turn, false, handed);
         if (!can_pickVolume(newit.volume())) { //Accounts for result_mult
@@ -347,44 +338,44 @@ void player::power_mutations()
         show_mutations_titlebar(w_title, this, menu_mode);
         const std::string action = ctxt.handle_input();
         const long ch = ctxt.get_raw_input().get_first_input();
-        const std::string *tmp = nullptr;
         if (menu_mode == "reassigning") {
             menu_mode = "activating";
-            for( const auto key_pair : trait_keys ) {
+            std::string mut_id;
+            for( const auto &key_pair : trait_keys ) {
                 if( key_pair.second == ch ) {
-                    tmp = &key_pair.first;
+                    mut_id = key_pair.first;
                     break;
                 }
             }
-            if(tmp == nullptr) {
+            if( mut_id.empty() ) {
                 // Selected an non-existing mutation (or escape, or ...)
                 continue;
             }
             redraw = true;
             const char newch = popup_getkey(_("%s; enter new letter."),
-                                            traits[*tmp].name.c_str());
+                                            traits[mut_id].name.c_str());
             wrefresh(wBio);
             if(newch == ch || newch == ' ' || newch == KEY_ESCAPE) {
                 continue;
             }
-            const std::string *otmp = nullptr;
-            for( const auto key_pair : trait_keys ) {
+            std::string other_mut_id;
+            for( const auto &key_pair : trait_keys ) {
                 if( key_pair.second == newch ) {
-                    otmp = &key_pair.first;
+                    other_mut_id = key_pair.first;
                     break;
                 }
             }
             // if there is already a mutation with the new key, the key
             // is considered valid.
-            if(otmp == nullptr && inv_chars.find(newch) == std::string::npos) {
+            if( other_mut_id.empty() && inv_chars.find(newch) == std::string::npos ) {
                 // TODO separate list of letters for mutations
                 popup(_("%c is not a valid inventory letter."), newch);
                 continue;
             }
-            if(otmp != 0) {
-                std::swap(trait_keys[*tmp], trait_keys[*otmp]);
+            if( !other_mut_id.empty() ) {
+                std::swap(trait_keys[mut_id], trait_keys[other_mut_id]);
             } else {
-                trait_keys[*tmp] = newch;
+                trait_keys[mut_id] = newch;
             }
             // TODO: show a message like when reassigning a key to an item?
         } else if (action == "DOWN") {
@@ -407,33 +398,33 @@ void player::power_mutations()
         }else if (action == "HELP_KEYBINDINGS") {
             redraw = true;
         } else {
-            for( const auto key_pair : trait_keys ) {
+            std::string mut_id;
+            for( const auto &key_pair : trait_keys ) {
                 if( key_pair.second == ch ) {
-                    tmp = &key_pair.first;
+                    mut_id = key_pair.first;
                     break;
                 }
             }
-            if( tmp == nullptr ) {
+            if( mut_id.empty() ) {
                 // entered a key that is not mapped to any mutation,
                 // -> leave screen
                 break;
             }
-            std::string mut_id = *tmp;
             const trait mut_data = traits[mut_id];
             if (menu_mode == "activating") {
                 if (mut_data.activated) {
-                    if (traits[*tmp].powered) {
+                    if (mut_data.powered) {
                         add_msg(m_neutral, _("You stop using your %s."), mut_data.name.c_str());
 
-                        deactivate_mutation( *tmp );
+                        deactivate_mutation( mut_id );
                         delwin(w_title);
                         delwin(w_description);
                         delwin(wBio);
                         // Action done, leave screen
                         break;
-                    } else if( (!traits[*tmp].hunger || hunger <= 400) &&
-                               (!traits[*tmp].thirst || thirst <= 400) &&
-                               (!traits[*tmp].fatigue || fatigue <= 400) ) {
+                    } else if( (!mut_data.hunger || hunger <= 400) &&
+                               (!mut_data.thirst || thirst <= 400) &&
+                               (!mut_data.fatigue || fatigue <= 400) ) {
 
                         // this will clear the mutations menu for targeting purposes
                         werase(wBio);
@@ -442,7 +433,7 @@ void player::power_mutations()
                         delwin(w_description);
                         delwin(wBio);
                         g->draw();
-                        activate_mutation( *tmp );
+                        activate_mutation( mut_id );
                         // Action done, leave screen
                         break;
                     } else {
@@ -454,7 +445,7 @@ void player::power_mutations()
                     popup(_("\
 You cannot activate %s!  To read a description of \
 %s, press '!', then '%c'."), mut_data.name.c_str(), mut_data.name.c_str(),
-                          trait_keys[*tmp] );
+                          trait_keys[mut_id] );
                     redraw = true;
                 }
             }

@@ -808,7 +808,7 @@ int player::roll_stab_damage(bool crit)
     
     if (unarmed_attack()) {
         if (!wearing_something_on(bp_hand_l)) {
-            if (has_trait("CLAWS") || has_trait("CLAWS_RETRACT")) {
+            if (has_trait("CLAWS") || has_active_mutation("CLAWS_RETRACT")) {
                 ret += 3;
             } if (has_trait("NAILS")) {
                 ret += .5;
@@ -821,7 +821,7 @@ int player::roll_stab_damage(bool crit)
             }
         }
         if (!wearing_something_on(bp_hand_r) && !weapon.has_flag("UNARMED_WEAPON")) {
-            if (has_trait("CLAWS") || has_trait("CLAWS_RETRACT")) {
+            if (has_trait("CLAWS") || has_active_mutation("CLAWS_RETRACT")) {
                 ret += 3;
             } if (has_trait("NAILS")) {
                 ret += .5;

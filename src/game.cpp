@@ -1858,6 +1858,9 @@ void game::activity_on_finish()
         complete_butcher(u.activity.index);
         u.activity.type = ACT_NULL;
         break;
+    case ACT_LONGSALVAGE:
+        longsalvage();
+        break;
     case ACT_VEHICLE:
         activity_on_finish_vehicle();
         break;
@@ -6633,6 +6636,9 @@ bool game::sound(int x, int y, int vol, std::string description, bool ambient)
 
             if (cancel_activity_or_ignore_query(query.c_str())) {
                 u.activity.ignore_trivial = true;
+                for( auto activity : u.backlog ) {
+                    activity.ignore_trivial = true;
+                }
             }
         }
     }
@@ -11384,20 +11390,19 @@ void game::butcher()
     std::vector<int> corpses;
     std::vector<item> &items = m.i_at(u.posx, u.posy);
     inventory crafting_inv = u.crafting_inventory();
+    bool has_salvage_tool = u.inv.has_items_with_quality( "CUT", 1, 1 );
 
     // check if we have a butchering tool
-    if( factor == INT_MIN ) {
-        add_msg(m_info, _("You don't have a sharp item to butcher with."));
-        return;
-    }
-    // get corpses
-    for (size_t i = 0; i < items.size(); i++) {
-        if (items[i].type->id == "corpse" && items[i].corpse != NULL) {
-            corpses.push_back(i);
-            has_corpse = true;
+    if( factor > INT_MIN ) {
+        // get corpses
+        for (size_t i = 0; i < items.size(); i++) {
+            if (items[i].type->id == "corpse" && items[i].corpse != NULL) {
+                corpses.push_back(i);
+                has_corpse = true;
+            }
         }
     }
-    // than get items to disassemble
+    // then get items to disassemble
     for (size_t i = 0; i < items.size(); i++) {
         if (items[i].type->id != "corpse" || items[i].corpse == NULL) {
             const recipe *cur_recipe = get_disassemble_recipe(items[i].type->id);
@@ -11407,8 +11412,25 @@ void game::butcher()
             }
         }
     }
+    // Now salvageable items
+    size_t salvage_index = corpses.size();
+    if( has_salvage_tool ) {
+        for( size_t i = 0; i < items.size(); i++ ) {
+            if (items[i].type->id != "corpse" || items[i].corpse == NULL) {
+                if( iuse::valid_to_cut_up( &items[i] ) ) {
+                    corpses.push_back(i);
+                    has_item = true;
+                }
+            }
+        }
+    }
+
     if (corpses.empty()) {
-        add_msg(m_info, _("There are no corpses here to butcher."));
+        if( factor > INT_MIN ) {
+            add_msg(m_info, _("There are no corpses here to butcher."));
+        } else {
+            add_msg(m_info, _("You don't have a sharp item to butcher with."));
+        }
         return;
     }
 
@@ -11421,9 +11443,10 @@ void game::butcher()
     }
 
     int butcher_corpse_index = 0;
+    bool multisalvage = corpses.size() - salvage_index > 1;
     if (corpses.size() > 1) {
         uimenu kmenu;
-        if (has_item && has_corpse) {
+        if( has_item && has_corpse ) {
             kmenu.text = _("Choose corpse to butcher / item to disassemble");
         } else if (has_corpse) {
             kmenu.text = _("Choose corpse to butcher");
@@ -11444,20 +11467,31 @@ void game::butcher()
             }
             if (it.corpse != NULL) {
                 kmenu.addentry(i, true, hotkey, corpse->nname());
-            } else {
+            } else if( i < salvage_index ) {
                 kmenu.addentry(i, true, hotkey, it.tname());
+            } else {
+                std::stringstream ss;
+                ss << _("Cut up") << " " << it.tname();
+                kmenu.addentry( i, true, hotkey, ss.str() );
             }
         }
-        kmenu.addentry(corpses.size(), true, 'q', _("Cancel"));
+        if( multisalvage ) {
+            kmenu.addentry(corpses.size(), true, 'q', _("Cut up all you can"));
+        }
+        kmenu.addentry(corpses.size() + multisalvage, true, 'q', _("Cancel"));
         kmenu.query();
-        if (kmenu.ret == (int)corpses.size()) {
+        if( kmenu.ret == (int)corpses.size() + multisalvage ) {
             return;
         }
         butcher_corpse_index = kmenu.ret;
     }
 
+    if( multisalvage == true && butcher_corpse_index == (int)corpses.size() ) {
+        u.assign_activity( ACT_LONGSALVAGE, 0 );
+        return;
+    }
     item &dis_item = items[corpses[butcher_corpse_index]];
-    if (dis_item.corpse == NULL) {
+    if( dis_item.corpse == NULL && butcher_corpse_index < (int)salvage_index) {
         const recipe *cur_recipe = get_disassemble_recipe(dis_item.type->id);
         assert(cur_recipe != NULL); // tested above
         if( !query_dissamble( dis_item ) ) {
@@ -11466,6 +11500,10 @@ void game::butcher()
         u.assign_activity(ACT_DISASSEMBLE, cur_recipe->time, cur_recipe->id);
         u.activity.values.push_back(corpses[butcher_corpse_index]);
         u.activity.values.push_back(1);
+        return;
+    } else if( dis_item.corpse == NULL ) {
+        item salvage_tool( "toolset", calendar::turn ); //TODO: Get the actual tool
+        iuse::cut_up( &u, &salvage_tool, &dis_item, false );
         return;
     }
     mtype *corpse = dis_item.corpse;
@@ -11815,6 +11853,27 @@ void game::complete_butcher(int index)
             m.add_item_or_charges(u.posx, u.posy, tmpitem);
         }
     }
+}
+
+void game::longsalvage()
+{
+    bool has_salvage_tool = u.inv.has_items_with_quality( "CUT", 1, 1 );
+    if( !has_salvage_tool ) {
+        add_msg(m_bad, _("You no longer have the necessary tools to keep salvaging!"));
+    }
+    
+    std::vector<item> &items = m.i_at(u.posx, u.posy);
+    item salvage_tool( "toolset", calendar::turn ); // TODO: Use actual tool
+    for( size_t i = 0; i < items.size(); i++ ) {
+        if( iuse::valid_to_cut_up( &items[i] ) ) {
+            iuse::cut_up( &u, &salvage_tool, &items[i], false );
+            u.assign_activity( ACT_LONGSALVAGE, 0 );
+            return;
+        }
+    }
+    
+    add_msg(_("You finish salvaging."));
+    u.activity.type = ACT_NULL;
 }
 
 void game::forage()

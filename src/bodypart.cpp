@@ -92,7 +92,7 @@ std::string encumb_text(body_part bp)
     case bp_foot_r:
         return _("Running is slowed.");
     default:
-        return _("It's inflammed.");
+        return _("It's inflamed.");
     }
 }
 

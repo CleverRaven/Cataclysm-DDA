@@ -65,3 +65,15 @@ Balance - A measure of how well-suited the item is for being swung/thrust/etc. T
 -1 - Balance of the object is uneven, but in a way that at least doesn't interfere with swinging. axes, sledgehammer, rifle, scythe, most polearms.
 0 - Neutral balance, neither well nor poorly weighted for the typical use. Heavy stick, rock, pool stick, kitchen knives, claw hammer, metal pipe, crowbar, handguns.
 +1 - Well-balanced for swinging or stabbing.  Baseball bat, golf club, swords, quarterstaff, knives.
+
+
+LIQUIDS:
+Multi-charge items are weighed by the charge/use.  If you have an item that contains 40 uses, it'll weigh 40x as much (when found in-game) as you entered in the JSON.
+Liquids are priced by the 250mL unit, but handled in containers.  This can cause problems if you create something that comes in (say) a gallon jug (15 charges) and price it at the cost of a jug's worth: it'll be 15x as expensive as intended.
+To that end, here's a list of containers with non-one volume.  If you have somoething spawn in 'em, divide the "shelf" price by this value to arrive at the correct price to list in the JSON.
+plastic bottle: 2
+glass jar: 2
+glass bottle: 3
+plastic canteen: 6
+3L glass jar: 12, as expected
+gallon jug: 15

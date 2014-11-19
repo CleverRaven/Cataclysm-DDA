@@ -1596,8 +1596,7 @@
         "cancels" : ["TALONS"],
         "category" : ["MUTCAT_FELINE"],
         "active"     :    true,
-        "cost"       :    0,
-        "time"       :    100
+        "cost"       :    0
     },{
         "type" : "mutation",
         "id" : "CLAWS_TENTACLE",
@@ -1943,8 +1942,7 @@
         "cancels" : ["CARNIVORE", "SAPROVORE"],
         "category" : ["MUTCAT_CATTLE"],
         "active"     :   true,
-        "cost"       :    0,
-        "turns"      :   100
+        "cost"       :    0
     },{
         "type" : "mutation",
         "id" : "GRAZER",
@@ -1956,8 +1954,7 @@
         "cancels" : ["CARNIVORE", "SAPROVORE"],
         "category" : ["MUTCAT_CATTLE"],
         "active"     :   true,
-        "cost"       :    0,
-        "turns"      :   100
+        "cost"       :    0
     },{
         "type" : "mutation",
         "id" : "EATPOISON",
@@ -2229,8 +2226,7 @@
         "threshreq" : ["THRESH_URSINE"],
         "category" : ["MUTCAT_URSINE"],
         "active"     :    true,
-        "cost"       :    0,
-        "time"       :    100
+        "cost"       :    0
     },{
         "type" : "mutation",
         "id" : "MUT_TOUGH",
@@ -3955,9 +3951,7 @@
         "wet_protection" : [
             { "part" : "TORSO", "ignored" : 26 }
         ],
-        "active"     :    true,
-        "//" : "Needs to be nonzero so it stays on, but there's no charge for using your shell",
-        "time"       :    100
+        "active"     :    true
     },{
         "type" : "mutation",
         "id" : "LEG_TENTACLES",
