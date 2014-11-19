@@ -5836,6 +5836,240 @@
       [ "cured_pelt", 1 ]
     ]
   ]
+},
+{
+        "type" : "recipe",
+  "result": "jug_clay",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_CONTAINERS",
+  "skill_used": "fabrication",
+  "skills_required": [ "survival", 1 ],
+  "difficulty": 2,
+  "time": 25000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "char_kiln", -1 ]
+    ],
+    [
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "clay_lump", 6 ]
+    ]
+  ]
+},
+{
+        "type" : "recipe",
+  "result": "bowl_clay",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_CONTAINERS",
+  "skill_used": "fabrication",
+  "skills_required": [ "survival", 1 ],
+  "difficulty": 2,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "char_kiln", -1 ]
+    ],
+    [
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "clay_lump", 4 ]
+    ]
+  ]
+},
+{
+        "type" : "recipe",
+  "result": "clay_pot",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "skills_required": [ "survival", 1 ],
+  "difficulty": 2,
+  "time": 45000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "char_kiln", -1 ]
+    ],
+    [
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "clay_lump", 5 ]
+    ]
+  ]
+},
+{
+        "type" : "recipe",
+  "result": "clay_watercont",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_CONTAINERS",
+  "skill_used": "fabrication",
+  "skills_required": [ "survival", 1 ],
+  "difficulty": 2,
+  "time": 80000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "char_kiln", -1 ]
+    ],
+    [
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water", 3 ],
+      [ "water_clean", 3 ]
+    ],
+    [
+      [ "clay_lump", 20 ]
+    ]
+  ]
+},
+{
+        "type" : "recipe",
+  "result": "clay_canister",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_CONTAINERS",
+  "skill_used": "fabrication",
+  "skills_required": [ "survival", 1 ],
+  "difficulty": 2,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "char_kiln", -1 ]
+    ],
+    [
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "clay_lump", 2 ]
+    ]
+  ]
+},
+{
+        "type" : "recipe",
+  "result": "clay_quern",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "skills_required": [ "survival", 1 ],
+  "difficulty": 2,
+  "time": 50000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "char_kiln", -1 ]
+    ],
+    [
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "clay_lump", 8 ]
+    ]
+  ]
+},
+{
+        "type" : "recipe",
+  "result": "clay_teapot",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "skills_required": [ "survival", 1 ],
+  "difficulty": 2,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "char_kiln", -1 ]
+    ],
+    [
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "clay_lump", 3 ]
+    ]
+  ]
+},
+{
+        "type" : "recipe",
+  "result": "brick",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "char_kiln", -1 ]
+    ],
+    [
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water", 2 ],
+      [ "water_clean", 2 ]
+    ],
+    [
+      [ "clay_lump", 12 ]
+    ],
+    [
+      [ "pebble", 20 ]
+    ]
+  ]
 }
 ]
 
