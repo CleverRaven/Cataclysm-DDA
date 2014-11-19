@@ -4761,27 +4761,6 @@
     ]
   ]
 },{
-  "type" : "recipe",
-  "result": "bat",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_BASHING",
-  "skill_used": "fabrication",
-  "requires_skills": [ "bashing", 2 ],
-  "difficulty": 5,
-  "time": 35000,
-  "reversible": false,
-  "autolearn": false,
-  "book_learn": [[ "recipe_melee", 5 ]],
-  "qualities" : [
-    {"id":"CUT","level":1,"amount":1},
-    {"id":"SAW_W","level":1,"amount":1}
-  ],
-  "components": [
-    [
-      [ "2x4", 2 ]
-    ]
-  ]
-},{
         "type" : "recipe",
   "result": "knife_steak",
   "category": "CC_WEAPON",
