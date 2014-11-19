@@ -1568,7 +1568,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "wool_patch",
+  "result": "felt_patch",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
   "subcategory": "CSC_NONCRAFT",
@@ -1581,7 +1581,7 @@
   ],
   "components": [
     [
-      [ "wool_thread", 50 ]
+      [ "yarn", 50 ]
     ]
   ]
 },{
