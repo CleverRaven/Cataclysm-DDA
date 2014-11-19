@@ -4251,5 +4251,20 @@
         "cutting": 0,
         "category" : "spare_parts",
         "to_hit": -1
+    },
+    {
+        "type":"GENERIC",
+        "id": "tanbark",
+        "symbol": ",",
+        "color": "brown",
+        "name": "tanbark",
+        "description": "A sheet of tannin-rich bark from a tree, useful for tanning leather",
+        "price": 0,
+        "material": "wood",
+        "weight": 323,
+        "volume": 1,
+        "bashing": 4,
+        "cutting": 0,
+        "to_hit": 1
     }
 ]
