@@ -3401,19 +3401,20 @@ int player::print_aim_bars( WINDOW *w, int line_number, item *weapon, Creature *
     const double hit_rating = missed_by / std::max(double(get_speed()) / 80., 1.0);
     // Confidence is chance of the actual shot being under .6, which is the threshold for a solid hit.
     // This simplifies the calculation greatly, that's intentional.
-    const double confidence = std::min( 1.0, std::max( 0.0, 0.6 / hit_rating ) );
+    const double hit_confidence = std::min( 1.0, std::max( 0.0, 0.6 / hit_rating ) );
+    const std::string confidence_label = _("Confidence: ");
+    const int confidence_width = window_width - utf8_width( confidence_label.c_str() );
+    const std::string confidence_meter = std::string( confidence_width * hit_confidence, '*' );
+    mvwprintw(w, line_number++, 1, "%s%s", confidence_label.c_str(), confidence_meter.c_str() );
+
     // This is a relative measure of how steady the player's aim is,
     // 0 it is the best the player can do.
     const double steady_score = recoil - weapon->sight_dispersion( -1 );
     // Fairly arbitrary cap on steadiness...
     const double steadiness = std::max( 0.0, 1.0 - (steady_score / 1000) );
-    const std::string confidence_label = _("Confidence: ");
-    const std::string steadiness_label = _("Steadiness: ");
-    const int confidence_width = window_width - utf8_width( confidence_label.c_str() );
     const int steadiness_width = window_width - utf8_width( steadiness_label.c_str() );
-    const std::string confidence_meter = std::string( confidence_width * confidence, '*' );
     const std::string steadiness_meter = std::string( steadiness_width * steadiness, '*' );
-    mvwprintw(w, line_number++, 1, "%s%s", confidence_label.c_str(), confidence_meter.c_str() );
+    const std::string steadiness_label = _("Steadiness: ");
     mvwprintw(w, line_number++, 1, "%s%s", steadiness_label.c_str(), steadiness_meter.c_str() );
     return line_number;
 }
