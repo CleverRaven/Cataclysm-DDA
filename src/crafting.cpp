@@ -261,7 +261,7 @@ void finalize_recipes()
             for( auto j = r->booksets.begin(); j != r->booksets.end(); ++j ) {
                 const std::string &book_id = j->first;
                 const int skill_level = j->second;
-                if (!item_controller->has_template(book_id)) {
+                if( !item::type_is_defined( book_id ) ) {
                     debugmsg("book %s for recipe %s does not exist", book_id.c_str(), r->ident.c_str());
                     continue;
                 }
@@ -2113,7 +2113,7 @@ void check_recipe_definitions()
             const recipe &r = **list_iter;
             const std::string display_name = std::string("recipe ") + r.ident;
             r.requirements.check_consistency(display_name);
-            if (!item_controller->has_template(r.result)) {
+            if (!item::type_is_defined(r.result)) {
                 debugmsg("result %s in recipe %s is not a valid item template", r.result.c_str(), r.ident.c_str());
             }
         }

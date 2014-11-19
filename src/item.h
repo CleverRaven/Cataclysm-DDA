@@ -509,6 +509,17 @@ public:
          * around @ref count_by_charges, that does not need an items instance.
          */
         static bool count_by_charges( const itype_id &id );
+        /**
+         * Check whether the type id refers to a known type.
+         * This should be used either before instantiating an item when it's possible
+         * that the item type is unknown and the caller can do something about it (e.g. the
+         * uninstall-bionics function checks this to see if there is a CBM item type and has
+         * logic to handle the case when that item type does not exist).
+         * Or one can use this to check that type ids from json refer to valid items types (e.g.
+         * the items that make up the vehicle parts must be defined somewhere, or the result of
+         * crafting recipes must be valid type ids).
+         */
+        static bool type_is_defined( const itype_id &id );
 
 private:
  std::string name;

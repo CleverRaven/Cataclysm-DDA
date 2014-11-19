@@ -748,7 +748,7 @@ bool mapgen_function_json::setup() {
                JsonObject jsi = parray.next_object();
                if ( jsi.has_string("item") ) {
                    tmpval = jsi.get_string("item");
-                   if( ! item_controller->has_template(tmpval) ) {
+                   if( !item::type_is_defined( tmpval ) ) {
                        jsi.throw_error(("  add item: no such item ") + tmpval );
                    }
                } else {

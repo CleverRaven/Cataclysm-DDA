@@ -289,7 +289,7 @@ void game::finalize_vehicles()
                          proto->name.c_str(), i.x, i.y, i.chance);
             }
             for (auto &j : i.item_ids) {
-                if (!item_controller->has_template(j)) {
+                if( !item::type_is_defined( j ) ) {
                     debugmsg("unknown item %s in spawn list of %s", j.c_str(), proto->id.c_str());
                 }
             }

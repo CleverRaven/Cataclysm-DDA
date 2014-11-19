@@ -1646,7 +1646,7 @@ void morale_point::deserialize( JsonIn &jsin )
     JsonObject jo = jsin.get_object();
     type = static_cast<morale_type>( jo.get_int( "type_enum" ) );
     std::string tmpitype;
-    if( jo.read( "item_type", tmpitype ) && item_controller->has_template( tmpitype ) ) {
+    if( jo.read( "item_type", tmpitype ) && item::type_is_defined( tmpitype ) ) {
         item_type = item_controller->find_template( tmpitype );
     }
     jo.read( "bonus", bonus );

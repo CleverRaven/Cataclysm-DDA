@@ -12149,7 +12149,7 @@ void player::place_corpse()
         g->m.add_item_or_charges( posx, posy, *itm );
     }
     for( auto & bio : my_bionics ) {
-        if( item_controller->has_template( bio.id ) ) {
+        if( item::type_is_defined( bio.id ) ) {
             body.put_in( item( bio.id, calendar::turn ) );
         }
     }

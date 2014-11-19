@@ -185,7 +185,7 @@ void quality_requirement::check_consistency( const std::string &display_name ) c
 
 void component::check_consistency( const std::string &display_name ) const
 {
-    if( !item_controller->has_template( type ) ) {
+    if( !item::type_is_defined( type ) ) {
         debugmsg( "%s in %s is not a valid item template", type.c_str(), display_name.c_str() );
     }
 }

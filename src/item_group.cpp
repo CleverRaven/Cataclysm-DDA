@@ -95,7 +95,7 @@ Item_spawn_data::ItemList Single_item_creator::create(int birthday, RecursionLis
 void Single_item_creator::check_consistency() const
 {
     if (type == S_ITEM) {
-        if (!item_controller->has_template(id)) {
+        if( !item::type_is_defined( id ) ) {
             debugmsg("item id %s is unknown", id.c_str());
         }
     } else if (type == S_ITEM_GROUP) {

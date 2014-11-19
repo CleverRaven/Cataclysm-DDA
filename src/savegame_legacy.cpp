@@ -1649,7 +1649,7 @@ void player::load_legacy(std::stringstream & dump)
   std::string item_id;
   dump >> mortype >> item_id;
   mortmp.type = morale_type(mortype);
-        if( item_controller->has_template( item_id ) ) {
+        if( item::type_is_defined( item_id ) ) {
             mortmp.item_type = item_controller->find_template( item_id );
         } else {
             mortmp.item_type = nullptr;

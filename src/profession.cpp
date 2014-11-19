@@ -163,7 +163,7 @@ void profession::check_definitions()
 void profession::check_item_definitions( const itypedecvec &items ) const
 {
     for( auto & itd : items ) {
-        if( !item_controller->has_template( itd.type_id ) ) {
+        if( !item::type_is_defined( itd.type_id ) ) {
             debugmsg( "profession %s: item %s does not exist", _ident.c_str() , itd.type_id.c_str() );
         } else if( !itd.snippet_id.empty() ) {
             const itype *type = item_controller->find_template( itd.type_id );

@@ -907,7 +907,7 @@ bool player::uninstall_bionic(bionic_id b_id)
 {
     // malfunctioning bionics don't have associated items and get a difficulty of 12
     int difficulty = 12;
-    if( item_controller->has_template(b_id) > 0) {
+    if( item::type_is_defined( b_id ) ) {
         const it_bionic *type = dynamic_cast<it_bionic *> (item_controller->find_template(b_id));
         difficulty = type->difficulty;
     }

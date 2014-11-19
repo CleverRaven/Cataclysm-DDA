@@ -5,6 +5,7 @@
 #include "debug.h"
 #include "item_factory.h"
 #include "catacharset.h"
+#include "item.h"
 
 MonsterGenerator::MonsterGenerator()
 {
@@ -605,7 +606,7 @@ void MonsterGenerator::check_monster_definitions() const
             debugmsg("monster %s has unknown death drop item group: %s", mon->id.c_str(),
                      mon->death_drops.c_str());
         }
-        if( !mon->revert_to_itype.empty() && !item_controller->has_template( mon->revert_to_itype ) ) {
+        if( !mon->revert_to_itype.empty() && !item::type_is_defined( mon->revert_to_itype ) ) {
             debugmsg("monster %s has unknown revert_to_itype: %s", mon->id.c_str(),
                      mon->revert_to_itype.c_str());
         }

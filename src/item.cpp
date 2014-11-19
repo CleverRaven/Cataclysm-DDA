@@ -4420,3 +4420,8 @@ bool item::count_by_charges( const itype_id &id )
     const auto t = item_controller->find_template( id );
     return t->count_by_charges();
 }
+
+bool item::type_is_defined( const itype_id &id )
+{
+    return item_controller->has_template( id );
+}
