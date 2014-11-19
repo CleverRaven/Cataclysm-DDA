@@ -315,6 +315,7 @@ class game
         int inv_activatable(std::string title);
         int inv_type(std::string title, item_cat inv_item_type = IC_NULL);
         int inv_for_liquid(const item &liquid, const std::string title, bool auto_choose_single);
+        int inv_for_salvage(const std::string title);
         item *inv_map_for_liquid(const item &liquid, const std::string title);
         int inv_for_flag(const std::string flag, const std::string title, bool auto_choose_single);
         int display_slice(indexed_invslice &, const std::string &, const int &position = INT_MIN);
@@ -786,6 +787,7 @@ class game
         void activity_on_finish_vehicle();
         void activity_on_finish_make_zlave();
         void activity_on_finish_start_fire();
+        void longsalvage(); // Salvage everything activity
         void move_save_to_graveyard();
         bool save_player_data();
 };

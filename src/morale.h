@@ -56,6 +56,7 @@ enum morale_type
 
     MORALE_MOODSWING,
     MORALE_BOOK,
+    MORALE_COMFY,
 
     MORALE_SCREAM,
 

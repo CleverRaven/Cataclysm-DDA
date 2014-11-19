@@ -65,6 +65,7 @@ class iexamine
                         bool seeds = false);
         void harvest_tree_shrub (player *p, map *m, int examx, int examy);
         void tree_pine (player *p, map *m, int examx, int examy);
+        void tree_blackjack (player *p, map *m, int examx, int examy);
         void shrub_blueberry (player *p, map *m, int examx, int examy);
         void shrub_strawberry (player *p, map *m, int examx, int examy);
         void shrub_marloss (player *p, map *m, int examx, int examy);
