@@ -9516,13 +9516,13 @@ void player::use(int inventory_position)
         // so restack to sort things out.
         inv.restack();
     } else if (used->is_gunmod()) {
-        if (skillLevel("gun") == 0) {
-            add_msg(m_info, _("You need to be at least level 1 in the marksmanship skill before you\
- can modify weapons."));
+        it_gunmod *mod = dynamic_cast<it_gunmod*>(used->type);
+        if (!(skillLevel("gun") >= mod->req_skill) {
+            add_msg(m_info, _("You need to be at least level %d in the marksmanship skill before you\
+can install this mod."), mod->req_skill);
             return;
         }
         int gunpos = g->inv(_("Select gun to modify:"));
-        it_gunmod *mod = dynamic_cast<it_gunmod*>(used->type);
         item* gun = &(i_at(gunpos));
         if (gun->is_null()) {
             add_msg(m_info, _("You do not have that item."));

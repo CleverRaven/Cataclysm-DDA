@@ -21,6 +21,7 @@
         "recoil_modifier": 2,
         "burst_modifier": 0,
         "clip_size_modifier": 0,
+        "skill_required": 6,
         "mod_targets": ["pistol", "smg"],
         "acceptable_ammo": ["9mm", "38", "40", "44"]
     },
@@ -94,6 +95,7 @@
         "burst_modifier" : 0,
         "recoil_modifier" : -2,
         "price" : 28000,
+        "skill_required": 1,
         "loudness_modifier" : 0
     },
     {
@@ -118,6 +120,7 @@
         "burst_modifier" : 0,
         "recoil_modifier" : 75,
         "price" : 40000,
+        "skill_required": 5,
         "loudness_modifier" : 0
     },
     {
@@ -142,6 +145,7 @@
         "burst_modifier" : 0,
         "recoil_modifier" : -90,
         "price" : 32000,
+        "skill_required": 5,
         "loudness_modifier" : 2
     },
     {
@@ -166,6 +170,7 @@
         "burst_modifier" : -1,
         "recoil_modifier" : 0,
         "price" : 22000,
+        "skill_required": 5,
         "loudness_modifier" : 0
     },
     {
@@ -262,6 +267,7 @@
         "burst_modifier" : 0,
         "recoil_modifier" : 0,
         "price" : 20000,
+        "skill_required": 1,
         "loudness_modifier" : 0
     },
     {
@@ -287,6 +293,7 @@
         "recoil_modifier" : -60,
         "price" : 68000,
         "loudness_modifier" : 0,
+        "skill_required": 7,
         "skill": "archery"
     },
     {
@@ -311,6 +318,7 @@
         "burst_modifier" : 6,
         "recoil_modifier" : 0,
         "price" : 70000,
+        "skill_required": 6,
         "loudness_modifier" : 4
     },
     {
@@ -337,6 +345,7 @@
         "mod_targets" : ["pistol"],
         "bashing" : 2,
         "ammo_modifier" : "NULL",
+        "skill_required": 6,
         "flags" : ["MODE_BURST"]
     },
     {
@@ -362,6 +371,7 @@
         "acceptable_ammo" : ["38", "40", "44", "45"],
         "mod_targets" : ["pistol", "smg"],
         "bashing" : 0,
+        "skill_required": 6,
         "ammo_modifier" : "9mm"
     },
     {
@@ -387,6 +397,7 @@
         "acceptable_ammo" : ["9mm", "38", "40", "57", "46", "762", "223"],
         "mod_targets" : ["pistol", "smg", "rifle"],
         "bashing" : -2,
+        "skill_required": 6,
         "ammo_modifier" : "22"
     },
     {
@@ -412,6 +423,7 @@
         "acceptable_ammo" : ["22", "9mm", "38"],
         "mod_targets" : ["pistol", "smg"],
         "bashing" : -3,
+        "skill_required": 6,
         "ammo_modifier" : "57"
     },
     {
@@ -437,6 +449,7 @@
         "acceptable_ammo" : ["22", "9mm", "38"],
         "mod_targets" : ["pistol", "smg"],
         "bashing" : -3,
+        "skill_required": 6,
         "ammo_modifier" : "46"
     },
     {
@@ -462,6 +475,7 @@
         "acceptable_ammo" : ["shot", "762", "223", "3006"],
         "mod_targets" : ["shotgun", "rifle"],
         "bashing" : 4,
+        "skill_required": 6,
         "ammo_modifier" : "308"
     },
     {
@@ -487,6 +501,7 @@
         "acceptable_ammo" : ["shot", "762", "3006", "308"],
         "mod_targets" : ["shotgun", "rifle"],
         "bashing" : 4,
+        "skill_required": 6,
         "ammo_modifier" : "223"
     },
     {
@@ -511,6 +526,7 @@
         "burst_modifier" : 4,
         "recoil_modifier" : 60,
         "price" : 68000,
+        "skill_required": 7,
         "loudness_modifier" : 4
     },
     {
@@ -535,6 +551,7 @@
         "burst_modifier" : -99,
         "recoil_modifier" : 0,
         "price" : 66000,
+        "skill_required": 8,
         "loudness_modifier" : 3
     },
     {
@@ -563,6 +580,7 @@
         "bashing" : 2,
         "flags" : ["MODE_AUX"],
         "ammo_modifier" : "40mm",
+        "skill_required": 1,
         "skill": "launcher"
     },
     {
@@ -591,6 +609,7 @@
         "recoil_modifier": 0,
         "burst_modifier": 0,
         "loudness_modifier": 0,
+        "skill_required": 2,
         "clip_size_modifier": 1
     },
     {
@@ -618,6 +637,7 @@
         "bashing" : 2,
         "flags" : ["MODE_AUX", "FIRE_100"],
         "ammo_modifier" : "gasoline",
+        "skill_required": 2,
         "skill": "shotgun"
     },
     {
@@ -645,6 +665,7 @@
         "bashing" : 4,
         "flags" : ["MODE_AUX"],
         "ammo_modifier" : "40mm",
+        "skill_required": 1,
         "skill": "launcher"
     },
     {
@@ -747,6 +768,7 @@
         "bashing" : 2,
         "flags" : ["MODE_AUX", "RELOAD_ONE"],
         "ammo_modifier" : "shot",
+        "skill_required": 1,
         "skill": "shotgun"
     },
     {
@@ -774,6 +796,7 @@
         "bashing" : 2,
         "flags" : ["MODE_AUX", "RELOAD_ONE"],
         "ammo_modifier" : "shot",
+        "skill_required": 2,
         "skill": "shotgun"
     },
     {
@@ -801,6 +824,7 @@
         "bashing" : 2,
         "flags" : ["MODE_AUX"],
         "ammo_modifier" : "20x66mm",
+        "skill_required": 2,
         "skill": "shotgun"
     },
     {
@@ -829,6 +853,7 @@
         "flags" : ["MODE_AUX", "STR_RELOAD"],
         "range" : 8,
         "ammo_modifier" : "bolt",
+        "skill_required": 2,
         "skill": "archery"
     },
     {
@@ -905,6 +930,7 @@
         "burst_modifier" : 0,
         "recoil_modifier" : 0,
         "price" : 72000,
+        "skill_required": 1,
         "loudness_modifier" : 0
     },
     {
@@ -930,6 +956,7 @@
         "burst_modifier" : 0,
         "recoil_modifier" : 0,
         "price" : 68000,
+        "skill_required": 2,
         "loudness_modifier" : 0
     },
     {
@@ -955,6 +982,7 @@
         "burst_modifier" : 0,
         "recoil_modifier" : 0,
         "price" : 68000,
+        "skill_required": 3,
         "loudness_modifier" : 0
     },
     {
@@ -980,6 +1008,7 @@
         "burst_modifier" : 0,
         "recoil_modifier" : 0,
         "price" : 68000,
+        "skill_required": 5,
         "loudness_modifier" : 0
     },
     {
@@ -1005,6 +1034,7 @@
         "burst_modifier" : 0,
         "recoil_modifier" : 0,
         "price" : 54000,
+        "skill_required": 3,
         "loudness_modifier" : 0
     },
     {
@@ -1029,6 +1059,7 @@
         "burst_modifier" : 0,
         "recoil_modifier" : -90,
         "price" : 72000,
+        "skill_required": 6,
         "loudness_modifier" : 8
     },
     {
@@ -1053,6 +1084,7 @@
         "burst_modifier" : 0,
         "recoil_modifier" : -150,
         "price" : 84000,
+        "skill_required": 2,
         "loudness_modifier" : 14
     },
     {
@@ -1077,6 +1109,7 @@
         "burst_modifier" : 0,
         "recoil_modifier" : -30,
         "price" : 38000,
+        "skill_required": 2,
         "loudness_modifier" : 0
     },
     {
@@ -1101,6 +1134,7 @@
         "burst_modifier" : 0,
         "recoil_modifier" : -30,
         "price" : 38000,
+        "skill_required": 2,
         "loudness_modifier" : 0
     },
     {
@@ -1125,6 +1159,7 @@
         "burst_modifier" : 0,
         "recoil_modifier" : -90,
         "price" : 400,
+        "skill_required": 3,
         "loudness_modifier" : 0
     },
     {
@@ -1149,6 +1184,7 @@
         "burst_modifier" : 0,
         "recoil_modifier" : -75,
         "price" : 38000,
+        "skill_required": 2,
         "loudness_modifier" : 0
     },
     {
@@ -1174,6 +1210,7 @@
         "recoil_modifier" : 0,
         "flags" : ["WATERPROOF_GUN"],
         "price" : 50000,
+        "skill_required": 6,
         "loudness_modifier" : 0
     },
     {
@@ -1199,6 +1236,7 @@
         "recoil_modifier" : -15,
         "flags" : ["NEVER_JAMS"],
         "price" : 2500,
+        "skill_required": 6,
         "loudness_modifier" : -1
     },
     {
@@ -1223,6 +1261,7 @@
         "burst_modifier" : 0,
         "recoil_modifier" : 0,
         "price" : 1500,
+        "skill_required": 6,
         "loudness_modifier" : 0
     },
     {
@@ -1247,6 +1286,7 @@
         "recoil_modifier" : -15,
         "dispersion_modifier" : -45,
         "price" : 68000,
+        "skill_required": 2,
         "loudness_modifier" : 0
     }
 ]

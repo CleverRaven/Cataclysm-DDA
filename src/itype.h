@@ -95,7 +95,7 @@ public:
 
     // What we're made of (material names). .size() == made of nothing.
     // MATERIALS WORK IN PROGRESS.
-    std::vector<std::string> materials; 
+    std::vector<std::string> materials;
 
     phase_id phase; //e.g. solid, liquid, gas
 
@@ -420,6 +420,7 @@ struct it_gunmod : public virtual itype {
     int recoil;
     int burst;
     int range;
+    int req_skill;
     Skill *skill_used;
     // Rest of the attributes are properly part of a gunmod.
     ammotype newtype;
@@ -439,7 +440,7 @@ struct it_gunmod : public virtual itype {
 
     it_gunmod() : itype(), dispersion(0), mod_dispersion(0), sight_dispersion(0),
         aim_speed(0), damage(0), loudness(0), clip(0), recoil(0), burst(0), range(0),
-        skill_used(NULL), newtype(), acceptible_ammo_types(), used_on_pistol(false),
+        req_skill(0), skill_used(NULL), newtype(), acceptible_ammo_types(), used_on_pistol(false),
         used_on_shotgun(false), used_on_smg(false), used_on_rifle(false), used_on_bow(false),
         used_on_crossbow(false), used_on_launcher(false), location() {}
 };
