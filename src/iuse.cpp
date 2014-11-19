@@ -10125,8 +10125,8 @@ int iuse::multicooker(player *p, item *it, bool t, point pos)
                     return 0;
                 }
 
-                for (auto it = meal->components.begin(); it != meal->components.end(); ++it) {
-                    p->consume_items(*it);
+                for (auto it : meal->requirements.components) {
+                    p->consume_items(it);
                 }
 
                 it->item_vars["DISH"] = meal->result;

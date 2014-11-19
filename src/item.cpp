@@ -889,11 +889,14 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         const recipe *dis_recipe = get_disassemble_recipe( type->id );
         if( dis_recipe != nullptr ) {
             std::ostringstream buffer;
-            for( auto it = dis_recipe->components.begin(); it != dis_recipe->components.end(); ++it ) {
-                if( it != dis_recipe->components.begin() ) {
+            bool first_component = true;
+            for( const auto &it : dis_recipe->requirements.components) {
+                if( first_component ) {
+                    first_component = false;
+                } else {
                     buffer << _(", ");
                 }
-                buffer << it->front().to_string();
+                buffer << it.front().to_string();
             }
             dump->push_back( iteminfo( "DESCRIPTION", string_format( _("Disassembling this item might yield %s"),
                                                                      buffer.str().c_str() ) ) );

@@ -40,10 +40,13 @@ struct byproduct {
     }
 };
 
-struct recipe : public requirements {
+struct recipe {
     std::string ident;
     int id;
     itype_id result;
+    int time; // in movement points (100 per turn)
+    int difficulty;
+    requirement_data requirements;
     std::vector<byproduct> byproducts;
     craft_cat cat;
     craft_subcat subcat;
@@ -52,6 +55,11 @@ struct recipe : public requirements {
     bool reversible; // can the item be disassembled?
     bool autolearn; // do we learn it just by leveling skills?
     int learn_by_disassembly; // what level (if any) do we learn it by disassembly?
+
+    // maximum achievable time reduction, as percentage of the original time.
+    // if zero then the recipe has no batch crafting time reduction.
+    double batch_rscale;
+    int batch_rsize; // minimum batch size to needed to reach batch_rscale
     int result_mult; // used by certain batch recipes that create more than one stack of the result
     bool paired;
 
@@ -69,7 +77,9 @@ struct recipe : public requirements {
            craft_subcat psubcat, std::string &to_use,
            std::map<std::string, int> &to_require,
            bool preversible, bool pautolearn, int plearn_dis,
-           int pmult, bool ppaired, std::vector<byproduct> &bps);
+           int pmult, bool ppaired, std::vector<byproduct> &bps,
+           int time, int difficulty, double batch_rscale,
+           int batch_rsize);
 
     // Create an item instance as if the recipe was just finished,
     // Contain charges multiplier
@@ -85,8 +95,13 @@ struct recipe : public requirements {
     bool check_eligible_containers_for_crafting(int batch = 1) const;
 
     int print_items(WINDOW *w, int ypos, int xpos, nc_color col, int batch = 1) const;
-    void print_item(WINDOW *w, int ypos, int xpos, nc_color col, const byproduct &bp,
-                    int batch = 1) const;
+    void print_item(WINDOW *w, int ypos, int xpos, nc_color col,
+                    const byproduct &bp, int batch = 1) const;
+    int print_time(WINDOW *w, int ypos, int xpos, int width, nc_color col,
+                   int batch = 1) const;
+
+    int batch_time(int batch = 1) const;
+
 };
 
 typedef std::vector<recipe *> recipe_list;

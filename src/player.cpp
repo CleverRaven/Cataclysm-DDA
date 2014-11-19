@@ -9214,12 +9214,12 @@ hint_rating player::rate_action_disassemble(item *it) {
                    check tools are available
                    loop over the tools and see what's required...again */
                 inventory crafting_inv = crafting_inventory();
-                for (auto &j : cur_recipe->tools) {
+                for (const auto &j : cur_recipe->requirements.tools) {
                     bool have_tool = false;
                     if (j.empty()) { // no tools required, may change this
                         have_tool = true;
                     } else {
-                        for (auto &k : j) {
+                        for (const auto &k : j) {
                             itype_id type = k.type;
                             int req = k.count; // -1 => 1
 
