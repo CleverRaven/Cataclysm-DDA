@@ -5628,7 +5628,8 @@
       [ "water", 2 ]
     ],
     [
-      [ "acorns", 1 ],
+      [ "tanbark", 1 ],
+      [ "acorns", 2 ],
       [ "hops", 2 ],
       [ "pine_bough", 6 ]
     ],
