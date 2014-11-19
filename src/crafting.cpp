@@ -646,7 +646,7 @@ const recipe *select_crafting_recipe( int &batch_size )
         if (recmax > dataLines) {
             if (line <= recmin + dataHalfLines) {
                 for (int i = recmin; i < recmin + dataLines; ++i) {
-                    std::string tmp_name = item_controller->find_template(current[i]->result)->nname(1);
+                    std::string tmp_name = item::nname(current[i]->result);
                     if (batch) {
                         tmp_name = string_format(_("%2dx %s"), i + 1, tmp_name.c_str());
                     }
@@ -661,7 +661,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                 }
             } else if (line >= recmax - dataHalfLines) {
                 for (int i = recmax - dataLines; i < recmax; ++i) {
-                    std::string tmp_name = item_controller->find_template(current[i]->result)->nname(1);
+                    std::string tmp_name = item::nname(current[i]->result);
                     if (batch) {
                         tmp_name = string_format(_("%2dx %s"), i + 1, tmp_name.c_str());
                     }
@@ -678,7 +678,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                 }
             } else {
                 for (int i = line - dataHalfLines; i < line - dataHalfLines + dataLines; ++i) {
-                    std::string tmp_name = item_controller->find_template(current[i]->result)->nname(1);
+                    std::string tmp_name = item::nname(current[i]->result);
                     if (batch) {
                         tmp_name = string_format(_("%2dx %s"), i + 1, tmp_name.c_str());
                     }
@@ -696,7 +696,7 @@ const recipe *select_crafting_recipe( int &batch_size )
             }
         } else {
             for (size_t i = 0; i < current.size() && i < (size_t)dataHeight + 1; ++i) {
-                std::string tmp_name = item_controller->find_template(current[i]->result)->nname(1);
+                std::string tmp_name = item::nname(current[i]->result);
                 if (batch) {
                     tmp_name = string_format(_("%2dx %s"), (int)i + 1, tmp_name.c_str());
                 }
@@ -1108,7 +1108,7 @@ bool lcmatch_any(const std::vector< std::vector<T> > &list_of_list, const std::s
 {
     for( auto &list : list_of_list ) {
         for( auto &comp : list ) {
-            if( lcmatch( item_name( comp.type ), filter ) ) {
+            if( lcmatch( item::nname( comp.type ), filter ) ) {
                 return true;
             }
         }
@@ -1209,7 +1209,7 @@ void pick_recipes(const inventory &crafting_inv,
             }
             if(filter != "") {
                 if(search_name) {
-                    if( !lcmatch( item_name( rec->result ), filter ) ) {
+                    if( !lcmatch( item::nname( rec->result ), filter ) ) {
                         continue;
                     }
                 }
@@ -1429,7 +1429,7 @@ void player::complete_craft()
     // Messed up badly; waste some components.
     if (making->difficulty != 0 && diff_roll > skill_roll * (1 + 0.1 * rng(1, 5))) {
         add_msg(m_bad, _("You fail to make the %s, and waste some materials."),
-                item_name(making->result).c_str());
+                item::nname(making->result).c_str());
         for (const auto &it : making->requirements.components) {
             consume_items(it, batch_size);
         }
@@ -1442,7 +1442,7 @@ void player::complete_craft()
         // Messed up slightly; no components wasted.
     } else if (diff_roll > skill_roll) {
         add_msg(m_neutral, _("You fail to make the %s, but don't waste any materials."),
-                item_name(making->result).c_str());
+                item::nname(making->result).c_str());
         //this method would only have been called from a place that nulls activity.type,
         //so it appears that it's safe to NOT null that variable here.
         //rationale: this allows certain contexts (e.g. ACT_LONGCRAFT) to distinguish major and minor failures
@@ -1635,14 +1635,14 @@ std::list<item> player::consume_items(const std::vector<item_comp> &components, 
         std::vector<std::string> options; // List for the menu_vec below
         // Populate options with the names of the items
         for (auto it = map_has.begin(); it != map_has.end(); ++it) {
-            std::string tmpStr = item_controller->find_template(it->type)->nname(1) + _(" (nearby)");
+            std::string tmpStr = item::nname(it->type) + _(" (nearby)");
             options.push_back(tmpStr);
         }
         for (auto it = player_has.begin(); it != player_has.end(); ++it) {
-            options.push_back(item_controller->find_template(it->type)->nname(1));
+            options.push_back(item::nname(it->type));
         }
         for (auto it = mixed.begin(); it != mixed.end(); ++it) {
-            std::string tmpStr = item_controller->find_template(it->type)->nname(1) +
+            std::string tmpStr = item::nname(it->type) +
                                  _(" (on person & nearby)");
             options.push_back(tmpStr);
         }
@@ -1748,12 +1748,12 @@ void player::consume_tools(const std::vector<tool_comp> &tools, int batch)
         // Populate the list
         std::vector<std::string> options;
         for( auto it = map_has.begin(); it != map_has.end(); ++it ) {
-            std::string tmpStr = item_controller->find_template(it->type)->nname(1) + _(" (nearby)");
+            std::string tmpStr = item::nname(it->type) + _(" (nearby)");
             options.push_back(tmpStr);
         }
         for (auto it = player_has.begin();
              it != player_has.end(); ++it) {
-            options.push_back(item_controller->find_template(it->type)->nname(1));
+            options.push_back(item::nname(it->type));
         }
 
         if (options.empty()) { // This SHOULD only happen if cooking with a fire,
@@ -1847,12 +1847,12 @@ bool player::can_disassemble(item *dis_item, const recipe *cur_recipe,
                 } else {
                     if (req <= 0) {
                         add_msg(m_info, _("You need a %s to disassemble this."),
-                                item_controller->find_template(it[0].type)->nname(1).c_str());
+                                item::nname(it[0].type).c_str());
                     } else {
                         add_msg(m_info, ngettext("You need a %s with %d charge to disassemble this.",
                                                  "You need a %s with %d charges to disassemble this.",
                                                  req),
-                                item_controller->find_template(it[0].type)->nname(1).c_str(), req);
+                                item::nname(it[0].type).c_str(), req);
                     }
                 }
             }

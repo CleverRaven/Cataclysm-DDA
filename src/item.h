@@ -497,6 +497,13 @@ public:
             }
             return result;
         }
+        /**
+         * Returns the translated item name for the item with given id.
+         * The name is in the proper plural form as specified by the
+         * quantity parameter. This is roughly equivalent to creating an item instance and calling
+         * @ref tname, however this function does not include strings like "(fresh)".
+         */
+        static std::string nname( const itype_id &id, unsigned int quantity = 1 );
 
 private:
  std::string name;

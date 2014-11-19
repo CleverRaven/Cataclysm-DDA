@@ -831,7 +831,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
                     if(g->u.knows_recipe(iter->first)) {
                         recipes += "<color_ltgray>";
                     }
-                    recipes += item_controller->find_template( iter->first->result )->nname(1);
+                    recipes += nname( iter->first->result, 1 );
                     if(g->u.knows_recipe(iter->first)) {
                         recipes += "</color>";
                     }
@@ -1230,7 +1230,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
                     if (!can_make) {
                         temp1 << "<color_dkgray>";
                     }
-                    temp1 << item_name(r->result);
+                    temp1 << item::nname(r->result);
                     if (!can_make) {
                         temp1 << "</color>";
                     }
@@ -4414,4 +4414,10 @@ bool item::has_effect_when_carried( art_effect_passive effect ) const
         }
     }
     return false;
+}
+
+std::string item::nname( const itype_id &id, unsigned int quantity )
+{
+    const auto t = item_controller->find_template( id );
+    return t->nname( quantity );
 }

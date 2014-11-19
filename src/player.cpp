@@ -7862,7 +7862,7 @@ bool player::consume(int target_position)
                 }
                 if (!has) {
                     add_msg_if_player(m_info, _("You need a %s to consume that!"),
-                                         item_controller->nname( comest->tool ).c_str());
+                                         item::nname( comest->tool ).c_str());
                     return false;
                 }
                 use_charges(comest->tool, 1); // Tools like lighters get used
@@ -7973,7 +7973,7 @@ bool player::eat(item *eaten, it_comest *comest)
         }
         if (!has) {
             add_msg_if_player(m_info, _("You need a %s to consume that!"),
-                       item_controller->nname( comest->tool ).c_str());
+                       item::nname( comest->tool ).c_str());
             return false;
         }
     }
@@ -10153,7 +10153,7 @@ bool player::try_study_recipe(it_book *book)
                 rng(0, 4) <= (skillLevel(iter->first->skill_used) - iter->second) / 2) {
                 learn_recipe((recipe *)iter->first);
                 add_msg(m_good, _("Learned a recipe for %s from the %s."),
-                                item_controller->nname( iter->first->result ).c_str(), book->nname(1).c_str());
+                                item::nname( iter->first->result ).c_str(), book->nname(1).c_str());
                 return true;
             } else {
                 add_msg(_("Failed to learn a recipe from the %s."), book->nname(1).c_str());

@@ -12,7 +12,6 @@
 #include "char_validity_check.h"
 #include "path_info.h"
 #include "mapsharing.h"
-#include "item_factory.h"
 #ifndef _MSC_VER
 #include <unistd.h>
 #endif
@@ -1193,7 +1192,7 @@ int set_profession(WINDOW *w, player *u, int &points)
         const auto prof_items = sorted_profs[cur_id]->items( u->male );
         buffer << "<color_ltblue>" << _( "Profession items:" ) << "</color>\n";
         for( const auto &i : prof_items ) {
-            buffer << item_controller->nname( i.type_id ) << "\n";
+            buffer << item::nname( i.type_id ) << "\n";
         }
 
         werase( w_items );

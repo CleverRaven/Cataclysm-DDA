@@ -1710,15 +1710,6 @@ Item_tag Item_factory::create_artifact_id() const
     return id;
 }
 
-std::string Item_factory::nname( const Item_tag &id, unsigned int quantity ) const
-{
-    auto it = m_templates.find( id );
-    if( it != m_templates.end() ) {
-        return it->second->nname( quantity );
-    }
-    return string_format( _( "unknown item %s" ), id.c_str() );
-}
-
 bool Item_factory::count_by_charges( const Item_tag &id )
 {
     return find_template( id )->count_by_charges();

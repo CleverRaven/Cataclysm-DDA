@@ -1294,7 +1294,7 @@ void draw_caravan_items(WINDOW *w, std::vector<itype_id> *items,
     // Finally, print the item list on the right
     for (int i = offset; i <= offset + FULL_SCREEN_HEIGHT - 2 && i < (int)items->size(); i++) {
         mvwprintz(w, i - offset + 1, 40, (item_selected == i ? h_white : c_white),
-                  item_controller->nname( (*items)[i], (*counts)[i] ).c_str());
+                  item::nname( (*items)[i], (*counts)[i] ).c_str());
         wprintz(w, c_white, " x %2d", (*counts)[i]);
         if ((*counts)[i] > 0) {
             unsigned long price = caravan_price(g->u, item( (*items)[i], 0 ).price() * (*counts)[i]);

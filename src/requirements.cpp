@@ -53,22 +53,20 @@ bool tool_comp::by_charges() const
 
 std::string tool_comp::to_string(int batch) const
 {
-    const itype *it = item_controller->find_template( type );
     if( by_charges() ) {
         //~ <tool-name> (<numer-of-charges> charges)
         return string_format( ngettext( "%s (%d charge)", "%s (%d charges)", count * batch ),
-                              it->nname( 1 ).c_str(), count * batch );
+                              item::nname( type ).c_str(), count * batch );
     } else {
-        return it->nname( abs( count ) );
+        return item::nname( type, abs( count ) );
     }
 }
 
 std::string item_comp::to_string(int batch) const
 {
-    const itype *it = item_controller->find_template( type );
     const int c = std::abs( count ) * batch;
     //~ <item-count> <item-name>
-    return string_format( ngettext( "%d %s", "%d %s", c ), c, it->nname( c ).c_str() );
+    return string_format( ngettext( "%d %s", "%d %s", c ), c, item::nname( type, c ).c_str() );
 }
 
 void quality_requirement::load( JsonArray &jsarr )

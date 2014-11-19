@@ -50,9 +50,6 @@ std::string ammo_name(ammotype t);
 // Returns the default ammo for a category of ammo (e.g. ""00_shot"")
 itype_id default_ammo(ammotype guntype);
 
-// Returns the name of the given item type
-std::string item_name(const itype_id &type);
-
 struct explosion_data {
     // Those 4 values are forwarded to game::explosion.
     int power;

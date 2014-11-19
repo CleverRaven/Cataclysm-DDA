@@ -520,7 +520,7 @@ void iexamine::cardreader(player *p, map *m, int examx, int examy)
                 }
             }
         } else {
-            add_msg(m_info, _("Looks like you need a %s."), item_controller->nname( card_type ).c_str());
+            add_msg(m_info, _("Looks like you need a %s."), item::nname( card_type ).c_str());
         }
     }
 }
@@ -1734,7 +1734,7 @@ void iexamine::harvest_tree_shrub(player *p, map *m, int examx, int examy)
     }
     //if the fruit is not ripe yet
     if (calendar::turn.get_season() != m->get_ter_harvest_season(examx, examy)) {
-        std::string fruit = item_controller->find_template(m->get_ter_harvestable(examx, examy))->nname(10);
+        std::string fruit = item::nname(m->get_ter_harvestable(examx, examy), 10);
         fruit[0] = toupper(fruit[0]);
         add_msg(m_info, _("%s ripen in %s."), fruit.c_str(), season_name[m->get_ter_harvest_season(examx, examy)].c_str());
         return;

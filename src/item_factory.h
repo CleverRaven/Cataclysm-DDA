@@ -244,13 +244,6 @@ class Item_factory
         void load_item_whitelist(JsonObject &jo);
         void finialize_item_blacklist();
 
-
-        /**
-         * Returns the translated item name for the item with given id.
-         * The name is in the proper plural form as specified by the
-         * quantity parameter.
-         */
-        std::string nname(const Item_tag &id, unsigned int quantity = 1) const;
         /**
          * Whether the item is counted by charges, see @ref item::count_by_charges
          */
