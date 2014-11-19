@@ -41,6 +41,10 @@ struct special_attack {
     };
 };
 
+// The minimum level recoil will reach without aiming.
+// Sets the floor for accuracy of a "snap" or "hip" shot.
+#define MIN_RECOIL 150
+
 //Don't forget to add new memorial counters
 //to the save and load functions in savegame_json.cpp
 struct stats : public JsonSerializer, public JsonDeserializer {
@@ -179,6 +183,13 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void disp_info();
         /** Provides the window and detailed morale data */
         void disp_morale();
+        /** Print the bars indicating how well the player is currently aiming.**/
+        int print_aim_bars( WINDOW *w, int line_number, item *weapon, Creature *target);
+        /** Print just the gun mode indicator. **/
+        void print_gun_mode( WINDOW *w, nc_color c );
+        /** Print just the colored recoil indicator. **/
+        void print_recoil( WINDOW *w ) const;
+
         /** Generates the sidebar and it's data in-game */
         void disp_status(WINDOW *w, WINDOW *w2);
 
@@ -452,8 +463,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool can_weapon_block();
         /** Sets up a melee attack and handles melee attack function calls */
         void melee_attack(Creature &t, bool allow_special, matec_id technique = "");
+        /** Returns the player's dispersion modifier based on skill. **/
+        int skill_dispersion( item *weapon, bool random ) const;
         /** Returns a weapon's modified dispersion value */
-        double get_weapon_dispersion(item *weapon);
+        double get_weapon_dispersion( item *weapon, bool random ) const;
         /** Returns true if a gun misfires, jams, or has other problems, else returns false */
         bool handle_gun_damage( it_gun *firing, std::set<std::string> *curammo_effects );
         /** Handles gun firing effects and functions */
@@ -538,11 +551,12 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns the throw range of the item at the entered inventory position. -1 = ERR, 0 = Can't throw */
         int throw_range(int pos);
         /** Returns the ranged attack dexterity mod */
-        int ranged_dex_mod (bool real_life = true);
+        int ranged_dex_mod() const;
         /** Returns the ranged attack perception mod */
-        int ranged_per_mod (bool real_life = true);
+        int ranged_per_mod() const;
         /** Returns the throwing attack dexterity mod */
-        int throw_dex_mod  (bool real_life = true);
+        int throw_dex_mod(bool return_stat_effect = true) const;
+        int aim_per_time( item *gun ) const;
 
         // Mental skills and stats
         /** Returns the player's reading speed */
@@ -1024,8 +1038,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int hunger, thirst, fatigue;
         int stomach_food, stomach_water;
         int oxygen;
-        unsigned int recoil;
-        unsigned int driving_recoil;
+        int recoil;
+        int driving_recoil;
         int scent;
         int dodges_left, blocks_left;
         int stim, pkill, radiation;

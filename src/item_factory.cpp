@@ -643,6 +643,8 @@ void Item_factory::load_gun(JsonObject &jo)
     gun_template->dmg_bonus = jo.get_int("ranged_damage");
     gun_template->range = jo.get_int("range");
     gun_template->dispersion = jo.get_int("dispersion");
+    gun_template->sight_dispersion = jo.get_int("sight_dispersion");
+    gun_template->aim_speed = jo.get_int("aim_speed");
     gun_template->recoil = jo.get_int("recoil");
     gun_template->durability = jo.get_int("durability");
     gun_template->burst = jo.get_int("burst");
@@ -841,6 +843,9 @@ void Item_factory::load_gunmod(JsonObject &jo)
     gunmod_template->used_on_crossbow = is_mod_target(jo, "mod_targets", "crossbow");
     gunmod_template->used_on_launcher = is_mod_target(jo, "mod_targets", "launcher");
     gunmod_template->dispersion = jo.get_int("dispersion_modifier", 0);
+    gunmod_template->mod_dispersion = jo.get_int("dispersion", 0);
+    gunmod_template->sight_dispersion = jo.get_int("sight_dispersion", -1);
+    gunmod_template->aim_speed = jo.get_int("aim_speed", -1);
     gunmod_template->recoil = jo.get_int("recoil_modifier", 0);
     gunmod_template->burst = jo.get_int("burst_modifier", 0);
     gunmod_template->range = jo.get_int("range", 0);

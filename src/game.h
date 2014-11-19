@@ -71,6 +71,11 @@ enum safe_mode_type {
     SAFE_MODE_STOP = 2, // New monsters spotted, no movement allowed
 };
 
+enum target_mode {
+    TARGET_MODE_FIRE,
+    TARGET_MODE_THROW
+};
+
 // Refactoring into base monster class.
 
 struct monster_and_count {
@@ -648,10 +653,10 @@ class game
         // throw().
         std::vector<point> target(int &x, int &y, int lowx, int lowy, int hix,
                                   int hiy, std::vector <Creature *> t, int &target,
-                                  item *relevent);
+                                  item *relevent, target_mode mode);
         // interface to target(), collects a list of targets & selects default target
         // finally calls target() and returns its result.
-        std::vector<point> pl_target_ui(int &x, int &y, int range, item *relevent,
+        std::vector<point> pl_target_ui(int &x, int &y, int range, item *relevent, target_mode mode,
                                         int default_target_x = -1, int default_target_y = -1);
 
         // Map updating and monster spawning

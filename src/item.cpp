@@ -655,8 +655,13 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         it_gunmod* mod = dynamic_cast<it_gunmod*>(type);
 
         if (mod->dispersion != 0) {
-            dump->push_back(iteminfo("GUNMOD", _("Dispersion: "), "",
+            dump->push_back(iteminfo("GUNMOD", _("Dispersion modifier: "), "",
                                      mod->dispersion, true, ((mod->dispersion > 0) ? "+" : "")));
+        }
+        if (mod->mod_dispersion != 0) {
+            dump->push_back(iteminfo("GUNMOD", _("Dispersion: "), "",
+                                     mod->mod_dispersion, true,
+                                     ((mod->mod_dispersion > 0) ? "+" : "")));
         }
         if (mod->damage != 0) {
             dump->push_back(iteminfo("GUNMOD", _("Damage: "), "", mod->damage, true,
@@ -2041,7 +2046,7 @@ int item::weapon_value(player *p) const
         gun_value += gun->dmg_bonus;
         gun_value += int(gun->burst / 2);
         gun_value += int(gun->clip / 3);
-        gun_value -= int(gun->dispersion / 5);
+        gun_value -= int(gun->dispersion / 75);
         gun_value *= (.5 + (.3 * p->skillLevel("gun")));
         gun_value *= (.3 + (.7 * p->skillLevel(gun->skill_used)));
         my_value += gun_value;
@@ -2667,6 +2672,18 @@ void item::next_mode()
     }
 }
 
+std::string item::skill() const
+{
+    if( is_gunmod() ) {
+        return dynamic_cast<it_gunmod *>(type)->skill_used->ident();
+    } else if ( is_gun() ) {
+        return dynamic_cast<it_gun *>(type)->skill_used->ident();
+    } else if ( is_book() ) {
+        return dynamic_cast<it_book *>(type)->type->ident();
+    }
+    return "null";
+}
+
 int item::clip_size()
 {
     if(is_gunmod() && has_flag("MODE_AUX"))
@@ -2685,19 +2702,75 @@ int item::clip_size()
     return ret;
 }
 
-int item::dispersion()
+int item::dispersion() const
 {
-    if (!is_gun())
-        return 0;
-    it_gun* gun = dynamic_cast<it_gun*>(type);
-    int ret = gun->dispersion;
-    for (size_t i = 0; i < contents.size(); i++) {
-        if (contents[i].is_gunmod())
-            ret += (dynamic_cast<it_gunmod*>(contents[i].type))->dispersion;
+    if( is_gunmod() ) {
+        return dynamic_cast<it_gunmod*>(type)->dispersion;
     }
-    ret += damage * 4;
-    if (ret < 0) ret = 0;
-    return ret;
+    if( !is_gun() ) {
+        return 0;
+    }
+    it_gun* gun = dynamic_cast<it_gun*>(type);
+    int dispersion_sum = gun->dispersion;
+    for (size_t i = 0; i < contents.size(); i++) {
+        if (contents[i].is_gunmod()) {
+            dispersion_sum += (dynamic_cast<it_gunmod*>(contents[i].type))->dispersion;
+        }
+    }
+    dispersion_sum += damage * 60;
+    if (dispersion_sum < 0) dispersion_sum = 0;
+    return dispersion_sum;
+}
+
+// Sight dispersion and aim speed pick the best sight bonus to use.
+// The best one is the fastest one whose dispersion is under the threshold.
+// If you provide a threshold of -1, it just gives lowest dispersion.
+int item::sight_dispersion( int aim_threshold ) const
+{
+    if (!is_gun()) {
+        return 0;
+    }
+    it_gun* gun = dynamic_cast<it_gun*>(type);
+    int best_dispersion = gun->sight_dispersion;
+    int best_aim_speed = INT_MAX;
+    if( gun->sight_dispersion < aim_threshold || aim_threshold == -1 ) {
+        best_aim_speed = gun->aim_speed;
+    }
+    for (size_t i = 0; i < contents.size(); i++) {
+        if (contents[i].is_gunmod()) {
+            it_gunmod *mod = dynamic_cast<it_gunmod*>(contents[i].type);
+            if( mod->sight_dispersion != -1 && mod->aim_speed != -1 &&
+                (mod->sight_dispersion < aim_threshold || aim_threshold == -1) &&
+                mod->aim_speed < best_aim_speed ) {
+                best_aim_speed = mod->aim_speed;
+                best_dispersion = mod->sight_dispersion;
+            }
+        }
+    }
+    return best_dispersion;
+}
+
+// This method should never be called if the threshold exceeds the accuracy of the available sights.
+int item::aim_speed( int aim_threshold ) const
+{
+    if (!is_gun()) {
+        return 0;
+    }
+    it_gun* gun = dynamic_cast<it_gun*>(type);
+    int best_aim_speed = INT_MAX;
+    if( gun->sight_dispersion <= aim_threshold ) {
+        best_aim_speed = gun->aim_speed;
+    }
+    for (size_t i = 0; i < contents.size(); i++) {
+        if (contents[i].is_gunmod()) {
+            it_gunmod *mod = dynamic_cast<it_gunmod*>(contents[i].type);
+            if( mod->sight_dispersion != -1 && mod->aim_speed != -1 &&
+                mod->sight_dispersion <= aim_threshold && mod->aim_speed < best_aim_speed ) {
+                best_aim_speed = mod->aim_speed;
+            }
+        }
+    }
+    return best_aim_speed;
 }
 
 int item::gun_damage(bool with_ammo)
@@ -2772,41 +2845,48 @@ int item::noise() const
 
 int item::burst_size()
 {
-    if (!is_gun())
+    if (!is_gun()) {
         return 0;
+    }
 // No burst fire for gunmods right now.
-    if(mode == "MODE_AUX")
+    if(mode == "MODE_AUX") {
         return 1;
+    }
     it_gun* gun = dynamic_cast<it_gun*>(type);
     int ret = gun->burst;
     for (size_t i = 0; i < contents.size(); i++) {
         if (contents[i].is_gunmod())
             ret += (dynamic_cast<it_gunmod*>(contents[i].type))->burst;
     }
-    if (ret < 0)
+    if (ret < 0) {
         return 0;
+    }
     return ret;
 }
 
 int item::recoil(bool with_ammo)
 {
-    if (!is_gun())
+    if (!is_gun()) {
         return 0;
+    }
 // Just use the raw ammo recoil for now.
     if(mode == "MODE_AUX") {
         item* gunmod = active_gunmod();
-        if (gunmod && gunmod->curammo)
+        if (gunmod && gunmod->curammo) {
             return gunmod->curammo->recoil;
-        else
+        } else {
             return 0;
+        }
     }
     it_gun* gun = dynamic_cast<it_gun*>(type);
     int ret = gun->recoil;
-    if (with_ammo && curammo)
+    if (with_ammo && curammo) {
         ret += curammo->recoil;
+    }
     for (size_t i = 0; i < contents.size(); i++) {
-        if (contents[i].is_gunmod())
+        if (contents[i].is_gunmod()) {
             ret += (dynamic_cast<it_gunmod*>(contents[i].type))->recoil;
+        }
     }
     ret += damage;
     return ret;
@@ -2814,8 +2894,9 @@ int item::recoil(bool with_ammo)
 
 int item::range(player *p)
 {
-    if (!is_gun())
+    if (!is_gun()) {
         return 0;
+    }
     // Just use the raw ammo range for now.
     // we do NOT want to use the parent gun's range.
     if( mode == "MODE_AUX" ) {

@@ -1615,6 +1615,11 @@ void game::activity_on_turn()
         u.moves = 0;
         on_turn_activity_burrow(&u);
         break;
+    case ACT_AIM:
+        if( u.activity.index == 0 ) {
+            plfire(false);
+        }
+        break;
     case ACT_GAME:
         // Takes care of u.activity.moves_left
         activity_on_turn_game();
@@ -1901,6 +1906,10 @@ void game::activity_on_finish()
     case ACT_START_FIRE:
         activity_on_finish_start_fire();
         break;
+    case ACT_AIM:
+        // Aim bails itself by resetting itself every turn,
+        // you only re-enter if it gets set again.
+        break;
     default:
         u.activity.type = ACT_NULL;
     }
@@ -2006,15 +2015,10 @@ void game::activity_on_finish_reload()
                 add_msg(_("You insert a cartridge into your %s."),
                         reloadable->tname().c_str());
             }
-            if (u.recoil < 8) {
-                u.recoil = 8;
-            }
-            if (u.recoil > 8) {
-                u.recoil = (8 + u.recoil) / 2;
-            }
+            u.recoil = std::max(MIN_RECOIL, (MIN_RECOIL + u.recoil) / 2);
         } else {
             add_msg(_("You reload your %s."), reloadable->tname().c_str());
-            u.recoil = 6;
+            u.recoil = MIN_RECOIL;
         }
     } else {
         add_msg(m_info, _("Can't reload your %s."), reloadable->tname().c_str());
@@ -2541,9 +2545,8 @@ void game::handle_key_blocking_activity()
 {
     // If player is performing a task and a monster is dangerously close, warn them
     // regardless of previous safemode warnings
-    if (u.activity.type != ACT_NULL &&
-            u.activity.moves_left > 0 &&
-            !u.activity.warned_of_proximity) {
+    if( u.activity.type != ACT_NULL && u.activity.type != ACT_AIM &&
+        u.activity.moves_left > 0 && !u.activity.warned_of_proximity ) {
         Creature *hostile_critter = is_hostile_very_close();
         if (hostile_critter != nullptr) {
             u.activity.warned_of_proximity = true;
@@ -11020,7 +11023,7 @@ void game::plthrow(int pos)
     int y = u.posy;
 
     // pl_target_ui() sets x and y, or returns empty vector if we canceled (by pressing Esc)
-    std::vector <point> trajectory = pl_target_ui(x, y, range, &thrown);
+    std::vector <point> trajectory = pl_target_ui(x, y, range, &thrown, TARGET_MODE_THROW);
     if (trajectory.empty()) {
         return;
     }
@@ -11083,7 +11086,7 @@ bool compare_by_dist_attitude::operator()(Creature *a, Creature *b) const
            rl_dist( b->xpos(), b->ypos(), u.xpos(), u.ypos() );
 }
 
-std::vector<point> game::pl_target_ui(int &x, int &y, int range, item *relevant,
+std::vector<point> game::pl_target_ui(int &x, int &y, int range, item *relevant, target_mode mode,
                                       int default_target_x, int default_target_y)
 {
     // Populate a list of targets with the zombies in range and visible
@@ -11112,11 +11115,8 @@ std::vector<point> game::pl_target_ui(int &x, int &y, int range, item *relevant,
     // target() sets x and y, and returns an empty vector if we canceled (Esc)
     std::vector <point> trajectory = target(x, y, u.posx - range, u.posy - range,
                                             u.posx + range, u.posy + range,
-                                            mon_targets, passtarget, relevant);
+                                            mon_targets, passtarget, relevant, mode);
 
-    if (trajectory.empty()) {
-        return trajectory;
-    }
     if (passtarget != -1) { // We picked a real live target
         // Make it our default for next time
         int id = npc_at(x, y);
@@ -11353,10 +11353,9 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
     int x = u.posx;
     int y = u.posy;
 
-    std::vector<point> trajectory = pl_target_ui(x, y, range, &u.weapon, default_target_x,
-                                    default_target_y);
+    std::vector<point> trajectory = pl_target_ui(x, y, range, &u.weapon, TARGET_MODE_FIRE,
+                                                 default_target_x, default_target_y);
 
-    draw_ter(); // Recenter our view
     if (trajectory.empty()) {
         if (u.weapon.has_flag("RELOAD_AND_SHOOT")) {
             u.moves += u.weapon.reload_time(u);
@@ -11366,6 +11365,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
         reenter_fullscreen();
         return;
     }
+    draw_ter(); // Recenter our view
 
     if (u.weapon.mode == "MODE_BURST") {
         burst = true;
@@ -12338,7 +12338,7 @@ void game::wield(int pos)
     }
 
     if (success) {
-        u.recoil = 5;
+        u.recoil = MIN_RECOIL;
     }
 }
 
@@ -13020,14 +13020,9 @@ bool game::plmove(int dx, int dy)
                                                       movecost_modifier), diag) * drag_multiplier);
 
         // Adjust recoil down
-        if (u.recoil > 0) {
-            if (int(u.str_cur / 2) + u.skillLevel("gun") >= (int)u.recoil) {
-                u.recoil = 0;
-            } else {
-                u.recoil -= int(u.str_cur / 2) + u.skillLevel("gun");
-                u.recoil = int(u.recoil / 2);
-            }
-        }
+        u.recoil -= int(u.str_cur / 2) + u.skillLevel("gun");
+        u.recoil = std::max( MIN_RECOIL * 2, u.recoil );
+        u.recoil = int(u.recoil / 2);
         if ((!u.has_trait("PARKOUR") && m.move_cost(x, y) > 2) ||
             ( u.has_trait("PARKOUR") && m.move_cost(x, y) > 4    )) {
             if (veh1 && m.move_cost(x, y) != 2) {
