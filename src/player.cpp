@@ -105,6 +105,8 @@ void game::init_morale()
 
     _("Moodswing"),
     _("Read %i"),
+    _("Got comfy"),
+    
     _("Heard Disturbing Scream"),
 
     _("Masochism"),
@@ -937,6 +939,7 @@ void player::update_bodytemp()
         }
         // CONVECTION HEAT SOURCES (generates body heat, helps fight frostbite)
         int blister_count = 0; // If the counter is high, your skin starts to burn
+        int best_fire = 0;
         for (int j = -6 ; j <= 6 ; j++) {
             for (int k = -6 ; k <= 6 ; k++) {
                 int heat_intensity = 0;
@@ -949,12 +952,16 @@ void player::update_bodytemp()
                 }
                 if (heat_intensity > 0 && sees(posx + j, posy + k)) {
                     // Ensure fire_dist >= 1 to avoid divide-by-zero errors.
-                    int fire_dist = std::max(1, std::max(j, k));
+                    int fire_dist = std::max(1, std::max( std::abs( j ), std::abs( k ) ) );
                     if (frostbite_timer[i] > 0) {
                         frostbite_timer[i] -= heat_intensity - fire_dist / 2;
                     }
                     temp_conv[i] +=  300 * heat_intensity * heat_intensity / (fire_dist * fire_dist);
                     blister_count += heat_intensity / (fire_dist * fire_dist);
+                    if( fire_dist <= 1 ) {
+                        // Extend limbs/lean over a single adjacent fire to warm up
+                        best_fire = std::max( best_fire, heat_intensity );
+                    }
                 }
             }
         }
@@ -1177,21 +1184,70 @@ void player::update_bodytemp()
         // Chemical Imbalance
         // Added line in player::suffer()
         // FINAL CALCULATION : Increments current body temperature towards convergent.
+        int bonus_warmth = 0;
         if ( has_disease("sleep") || has_disease("lying_down")) {
-            int sleep_bonus = floor_bedding_warmth + floor_item_warmth + floor_mut_warmth;
-            // Too warm, don't need items on the floor
-            if ( temp_conv[i] > BODYTEMP_NORM ) {
-                // Do nothing
-            }
-            // Intelligently use items on the floor; just enough to be comfortable
-            else if ( (temp_conv[i] + sleep_bonus) > BODYTEMP_NORM ) {
-                temp_conv[i] = BODYTEMP_NORM;
-            }
-            // Use all items on the floor -- there are not enough to keep comfortable
-            else {
-                temp_conv[i] += sleep_bonus;
+            bonus_warmth = floor_bedding_warmth + floor_item_warmth + floor_mut_warmth;
+        } else if ( best_fire > 0 ) {
+            // Warming up over a fire
+            // Extremities are easier to extend over a fire
+            switch (i) {
+            case bp_head:
+            case bp_torso:
+            case bp_mouth:
+            case bp_leg_l:
+            case bp_leg_r:
+                bonus_warmth = best_fire * best_fire * 150; // Not much
+                break;
+            case bp_arm_l:
+            case bp_arm_r:
+                bonus_warmth = best_fire * 600; // A fair bit
+                break;
+            case bp_foot_l:
+            case bp_foot_r:
+                if( furn_at_pos == f_armchair || furn_at_pos == f_chair || furn_at_pos == f_bench ) {
+                    // Can sit on something to lift feet up to the fire
+                    bonus_warmth = best_fire * 1000;
+                } else {
+                    // Has to stand
+                    bonus_warmth = best_fire * 300;
+                }
+                break;
+            case bp_hand_l:
+            case bp_hand_r:
+                bonus_warmth = best_fire * 1500; // A lot
             }
         }
+        if( bonus_warmth > 0 ) {
+            // Approximate temp_conv needed to reach comfortable temperature in this very turn
+            // Basically inverted formula for temp_cur below
+            int desired = 501 * BODYTEMP_NORM - 499 * temp_cur[i];
+            if( std::abs( BODYTEMP_NORM - desired ) < 1000 ) {
+                desired = BODYTEMP_NORM; // Ensure that it converges
+            } else if( desired > BODYTEMP_HOT ) {
+                desired = BODYTEMP_HOT; // Cap excess at sane temperature
+            }
+
+            if( desired < temp_conv[i] ) {
+                // Too hot, can't help here
+            } else if( desired < temp_conv[i] + bonus_warmth ) {
+                // Use some heat, but not all of it
+                temp_conv[i] = desired;
+            } else {
+                // Use all the heat
+                temp_conv[i] += bonus_warmth;
+            }
+
+            // Morale bonus for comfiness - only if actually comfy (not too warm/cold)
+            // Spread the morale bonus in time. 
+            int mytime = MINUTES( i ) / MINUTES( num_bp );
+            if( calendar::turn % MINUTES( 1 ) == mytime && 
+                disease_intensity( "cold", false, (body_part)num_bp ) == 0 &&
+                disease_intensity( "hot", false, (body_part)num_bp ) == 0 &&
+                temp_cur[i] > BODYTEMP_COLD && temp_cur[i] <= BODYTEMP_NORM ) {
+                add_morale( MORALE_COMFY, 1, 5, 20, 10, true );
+            }
+        }
+
         int temp_before = temp_cur[i];
         int temp_difference = temp_cur[i] - temp_conv[i]; // Negative if the player is warming up.
         // exp(-0.001) : half life of 60 minutes, exp(-0.002) : half life of 30 minutes,
@@ -2423,9 +2479,17 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
     if (crossed_threshold()) {
         std::vector<std::string> traitslist;
         std::string race;
-        for (size_t i = 0; i < traitslist.size(); i++) {
-            if (mutation_data[traitslist[i]].threshold == true)
-                race = traits[traitslist[i]].name;
+        for( auto &mut : my_mutations ) {
+            traitslist.push_back( mut );
+            for( size_t i = 0; i < traitslist.size(); i++ ) {
+                if( mutation_data[traitslist[i]].threshold ) {
+                    race = traits[traitslist[i]].name;
+                    break;
+                }
+            }
+            if( !race.empty() ) {
+                break;
+            }
         }
         //~ player info window: 1s - name, 2s - gender, 3s - Prof or Mutation name
         mvwprintw(w_tip, 0, 0, _("%1$s | %2$s | %3$s"), name.c_str(),
@@ -5948,10 +6012,21 @@ void player::suffer()
         if (has_disease("sleep")) {
             wake_up(_("Your asthma wakes you up!"));
             auto_use = false;
+        } else {
+            add_msg_if_player( m_bad, _( "You have an asthma attack!" ) );
         }
 
         if (auto_use) {
             use_charges("inhaler", 1);
+            moves -= 40;
+            const auto charges = charges_of( "inhaler" );
+            if( charges == 0 ) {
+                add_msg_if_player( m_bad, _( "You use your last inhaler charge." ) );
+            } else {
+                add_msg_if_player( m_info, ngettext( "You use your inhaler, only %d charge left.",
+                                                     "You use your inhaler, only %d charges left.", charges ),
+                                   charges );
+            }
         } else {
             add_disease("asthma", 50 * rng(1, 4));
             if (!is_npc()) {
@@ -11787,9 +11862,9 @@ bool player::sees(const Creature *critter) const
 
 bool player::sees(const Creature *critter, int &t) const
 {
-    if (!is_player() && critter->is_hallucination()) {
-        // hallucinations are only visible for the player
-        return false;
+    if( critter->is_hallucination() ) {
+        // hallucinations are always visible for the player, but never for anyone else.
+        return is_player();
     }
     const int cx = critter->xpos();
     const int cy = critter->ypos();

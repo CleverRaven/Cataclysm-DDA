@@ -9654,7 +9654,7 @@
         "environmental_protection" : 1,
         "encumbrance" : 2,
         "bashing" : 0,
-        "flags" : ["WATER_FRIENDLY"],
+        "flags" : ["WATER_FRIENDLY", "STURDY"],
         "coverage" : 95,
         "material_thickness" : 3
     },

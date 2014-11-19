@@ -4611,5 +4611,24 @@
                 { "item": "splinter", "amount": 4, "minamount": 2 }
             ]
         }
+    },{
+        "type" : "terrain",
+        "id" : "t_tree_blackjack",
+        "name": "blackjack oak",
+        "symbol": "7",
+        "color": "brown",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
+        "examine_action": "tree_blackjack",
+        "bash": {
+            "str_min": 80, "str_max": 180,
+            "sound": "crunch!",
+            "sound_fail": "whack!",
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "stick", "amount": 10, "minamount": 3 },
+                { "item": "splinter", "amount": 25, "minamount": 10 }
+            ]
+        }
     }
 ]

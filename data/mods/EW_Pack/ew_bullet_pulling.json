@@ -6,7 +6,8 @@
             ["lead", 5],
             ["654_casing", 1],
             ["smrifle_primer", 1],
-            ["gunpowder", 10]
+            ["gunpowder", 10],
+            ["copper", 5]
         ]
     },
     {
@@ -16,7 +17,8 @@
             ["lead", 6],
             ["654_casing", 1],
             ["smrifle_primer", 1],
-            ["gunpowder", 10]
+            ["gunpowder", 10],
+            ["copper", 6]
         ]
     },
     {
@@ -26,7 +28,8 @@
             ["lead", 2],
             ["545_casing", 1],
             ["smrifle_primer", 1],
-            ["gunpowder", 5]
+            ["gunpowder", 5],
+            ["copper", 2]
         ]
     },
     {
@@ -36,7 +39,8 @@
             ["lead", 3],
             ["545_casing", 1],
             ["smrifle_primer", 1],
-            ["gunpowder", 5]
+            ["gunpowder", 5],
+            ["copper", 3]
         ]
     }
 ]
