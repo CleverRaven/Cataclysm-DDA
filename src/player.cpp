@@ -3422,11 +3422,12 @@ int player::print_aim_bars( WINDOW *w, int line_number, item *weapon, Creature *
     // 0 it is the best the player can do.
     const double steady_score = recoil - weapon->sight_dispersion( -1 );
     // Fairly arbitrary cap on steadiness...
-    const double steadiness = std::max( 0.0, 1.0 - (steady_score / 1000) );
+    const double steadiness = std::max( 0.0, 1.0 - (steady_score / 250) );
+    const std::string steadiness_label = _("Steadiness: ");
     const int steadiness_width = window_width - utf8_width( steadiness_label.c_str() );
     const std::string steadiness_meter = std::string( steadiness_width * steadiness, '*' );
-    const std::string steadiness_label = _("Steadiness: ");
-    mvwprintw(w, line_number++, 1, "%s%s", steadiness_label.c_str(), steadiness_meter.c_str() );
+    mvwprintw(w, line_number++, 1, "%s%s",
+              steadiness_label.c_str(), steadiness_meter.c_str() );
     return line_number;
 }
 
