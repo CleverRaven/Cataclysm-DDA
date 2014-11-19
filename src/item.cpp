@@ -13,6 +13,7 @@
 #include "messages.h"
 #include "disease.h"
 #include "artifact.h"
+#include "itype.h"
 
 #include <cmath> // floor
 #include <sstream>
@@ -890,14 +891,17 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
     if (!components.empty()) {
         dump->push_back( iteminfo( "DESCRIPTION", string_format( _("Made from: %s"), components_to_string().c_str() ) ) );
     } else {
-        const recipe *dis_recipe = g->get_disassemble_recipe( type->id );
+        const recipe *dis_recipe = get_disassemble_recipe( type->id );
         if( dis_recipe != nullptr ) {
             std::ostringstream buffer;
-            for( auto it = dis_recipe->components.begin(); it != dis_recipe->components.end(); ++it ) {
-                if( it != dis_recipe->components.begin() ) {
+            bool first_component = true;
+            for( const auto &it : dis_recipe->requirements.components) {
+                if( first_component ) {
+                    first_component = false;
+                } else {
                     buffer << _(", ");
                 }
-                buffer << it->front().to_string();
+                buffer << it.front().to_string();
             }
             dump->push_back( iteminfo( "DESCRIPTION", string_format( _("Disassembling this item might yield %s"),
                                                                      buffer.str().c_str() ) ) );
@@ -1176,6 +1180,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
             }
             dump->push_back(iteminfo("DESCRIPTION", ntext + item_note->second ));
         }
+
+        // describe contents
         if (!contents.empty()) {
             if (is_gun()) {//Mods description
                 for (size_t i = 0; i < contents.size(); i++) {
@@ -1187,6 +1193,51 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
                 }
             } else {
                 dump->push_back(iteminfo("DESCRIPTION", contents[0].type->description));
+            }
+        }
+
+        // list recipes you could use it in
+        itype_id tid;
+        if (contents.empty()) { // use this item
+            tid = type->id;
+        } else { // use the contained item
+            tid = contents[0].type->id;
+        }
+        recipe_list &rec = recipes_by_component[tid];
+        if (!rec.empty()) {
+            temp1.str("");
+            inventory inv = g->u.crafting_inventory();
+            // only want known recipes
+            recipe_list known_recipes;
+            for (recipe *r : rec) {
+                if (g->u.knows_recipe(r)) {
+                    known_recipes.push_back(r);
+                }
+            }
+            if (known_recipes.size() > 24) {
+                dump->push_back(iteminfo("DESCRIPTION", _("You know dozens of things you could craft with it.")));
+            } else if (known_recipes.size() > 12) {
+                dump->push_back(iteminfo("DESCRIPTION", _("You could use it to craft various other things.")));
+            } else {
+                bool found_recipe = false;
+                for (recipe* r : known_recipes) {
+                    if (found_recipe) {
+                        temp1 << _(", ");
+                    }
+                    found_recipe = true;
+                    // darken recipes you can't currently craft
+                    bool can_make = r->can_make_with_inventory(inv);
+                    if (!can_make) {
+                        temp1 << "<color_dkgray>";
+                    }
+                    temp1 << item_name(r->result);
+                    if (!can_make) {
+                        temp1 << "</color>";
+                    }
+                }
+                if (found_recipe) {
+                    dump->push_back(iteminfo("DESCRIPTION", string_format(_("You could use it to craft: %s"), temp1.str().c_str())));
+                }
             }
         }
     }
@@ -2485,7 +2536,7 @@ bool item::is_disassemblable() const
     if( is_null() ) {
         return false;
     }
-    return g->get_disassemble_recipe(typeId()) != NULL;
+    return get_disassemble_recipe(typeId()) != NULL;
 }
 
 bool item::is_funnel_container(int &bigger_than) const

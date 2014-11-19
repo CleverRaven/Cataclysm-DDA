@@ -986,6 +986,37 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         bool studied_all_recipes(it_book *book);
 
+        // crafting.cpp
+        bool crafting_allowed(); // is morale high enough to craft?
+        bool crafting_can_see(); // can player see well enough to craft?
+        bool can_make(const recipe *r, int batch_size = 1); // have components?
+        bool making_would_work(const std::string &id_to_make, int batch_size);
+        void craft();
+        void recraft();
+        void long_craft();
+        void make_craft(const std::string &id, int batch_size);
+        void make_all_craft(const std::string &id, int batch_size);
+        void complete_craft();
+
+        // also crafting.cpp
+        /**
+         * Check if the player can disassemble the item dis_item with the recipe
+         * cur_recipe and the inventory crafting_inv.
+         * Checks for example tools (and charges), enough input charges
+         * (if disassembled item is counted by charges).
+         * If print_msg is true show a message about missing tools/charges.
+         */
+        bool can_disassemble(item *dis_item, const recipe *cur_recipe,
+                             inventory &crafting_inv, bool print_msg);
+        void disassemble(int pos = INT_MAX);
+        void complete_disassemble();
+
+        // yet more crafting.cpp
+        inventory crafting_inventory(); // includes nearby items
+        std::vector<item> get_eligible_containers_for_crafting();
+        std::list<item> consume_items(const std::vector<item_comp> &components, int batch = 1);
+        void consume_tools(const std::vector<tool_comp> &tools, int batch = 1);
+
         // Auto move methods
         void set_destination(const std::vector<point> &route);
         void clear_destination();

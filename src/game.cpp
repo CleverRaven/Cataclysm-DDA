@@ -1838,16 +1838,16 @@ void game::activity_on_finish()
         u.activity.type = ACT_NULL;
         break;
     case ACT_CRAFT:
-        complete_craft();
+        u.complete_craft();
         u.activity.type = ACT_NULL;
         break;
     case ACT_LONGCRAFT:
-        complete_craft();
+        u.complete_craft();
         u.activity.type = ACT_NULL;
         {
             int batch_size = u.activity.values.front();
-            if( making_would_work( u.lastrecipe, batch_size ) ) {
-                make_all_craft(u.lastrecipe, batch_size);
+            if( u.making_would_work( u.lastrecipe, batch_size ) ) {
+                u.make_all_craft(u.lastrecipe, batch_size);
             }
         }
         break;
@@ -1856,7 +1856,7 @@ void game::activity_on_finish()
         u.activity.type = ACT_NULL;
         break;
     case ACT_DISASSEMBLE:
-        complete_disassemble();
+        u.complete_disassemble();
         u.activity.type = ACT_NULL;
         break;
     case ACT_BUTCHER:
@@ -2756,7 +2756,7 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position)
                 u.read(pos);
                 break;
             case 'D':
-                disassemble(pos);
+                u.disassemble(pos);
                 break;
             case '=':
                 reassign_item(pos);
@@ -3700,7 +3700,7 @@ bool game::handle_action()
         if (u.has_active_mutation("SHELL2")) {
             add_msg(m_info, _("You can't craft while you're in your shell."));
         } else {
-            craft();
+            u.craft();
         }
         break;
 
@@ -3708,7 +3708,7 @@ bool game::handle_action()
         if (u.has_active_mutation("SHELL2")) {
             add_msg(m_info, _("You can't craft while you're in your shell."));
         } else {
-            recraft();
+            u.recraft();
         }
         break;
 
@@ -3716,7 +3716,7 @@ bool game::handle_action()
         if (u.has_active_mutation("SHELL2")) {
             add_msg(m_info, _("You can't craft while you're in your shell."));
         } else {
-            long_craft();
+            u.long_craft();
         }
         break;
 
@@ -3724,7 +3724,7 @@ bool game::handle_action()
         if (u.controlling_vehicle) {
             add_msg(m_info, _("You can't disassemble items while driving."));
         } else {
-            disassemble();
+            u.disassemble();
             refresh_all();
         }
         break;
@@ -11389,7 +11389,7 @@ void game::butcher()
     // indices of corpses / items that can be disassembled
     std::vector<int> corpses;
     std::vector<item> &items = m.i_at(u.posx, u.posy);
-    inventory crafting_inv = crafting_inventory(&u);
+    inventory crafting_inv = u.crafting_inventory();
     bool has_salvage_tool = u.inv.has_items_with_quality( "CUT", 1, 1 );
 
     // check if we have a butchering tool
@@ -11406,7 +11406,7 @@ void game::butcher()
     for (size_t i = 0; i < items.size(); i++) {
         if (items[i].type->id != "corpse" || items[i].corpse == NULL) {
             const recipe *cur_recipe = get_disassemble_recipe(items[i].type->id);
-            if (cur_recipe != NULL && can_disassemble(&items[i], cur_recipe, crafting_inv, false)) {
+            if (cur_recipe != NULL && u.can_disassemble(&items[i], cur_recipe, crafting_inv, false)) {
                 corpses.push_back(i);
                 has_item = true;
             }

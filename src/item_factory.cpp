@@ -80,7 +80,7 @@ void Item_factory::finialize_item_blacklist()
         for (recipe_map::iterator b = recipes.begin(); b != recipes.end(); ++b) {
             for (size_t c = 0; c < b->second.size(); c++) {
                 recipe *r = b->second[c];
-                if( r->result == itm || r->remove_item( itm ) ) {
+                if( r->result == itm || r->requirements.remove_item(itm) ) {
                     delete r;
                     b->second.erase(b->second.begin() + c);
                     c--;
@@ -90,7 +90,7 @@ void Item_factory::finialize_item_blacklist()
         }
         for (size_t i = 0; i < constructions.size(); i++) {
             construction *c = constructions[i];
-            if( c->remove_item( itm ) ) {
+            if( c->requirements.remove_item( itm ) ) {
                 delete c;
                 constructions.erase(constructions.begin() + i);
                 i--;
