@@ -2026,9 +2026,13 @@ void mapgen_gas_station(map *m, oter_id terrain_type, mapgendata dat, int, float
         else vset2 += left_w;
         m->place_vending(vset2,top_w-1, type2);
     }
-    //ATM
     if(rng(0,1)) {
+        //ATM
         m->ter_set(vset - 1, top_w-1, t_atm);
+    } else {
+        //charging rack
+        m->furn_set(vset - 1, top_w-1, f_rack);
+        m->place_items("gas_charging_rack", 100, vset - 1, top_w-1, vset - 1, top_w-1, false, 0);
     }
     //
     m->ter_set(center_w, rng(middle_w + 1, bottom_w - 1), t_door_c);
