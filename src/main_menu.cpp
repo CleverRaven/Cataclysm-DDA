@@ -207,7 +207,7 @@ bool game::opening_screen()
 
     const int iMenuOffsetX = 2;
     int iMenuOffsetY = total_h - 3;
-    // note: if iMenuffset is changed,
+    // note: if iMenuOffset is changed,
     // please update MOTD and credits to indicate how long they can be.
 
     std::vector<std::string> vSubItems;
