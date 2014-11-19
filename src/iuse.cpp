@@ -6670,7 +6670,8 @@ void make_zlave(player *p)
 }
 
 // *it here is the item that is a candidate for being chopped up.
-static bool valid_to_cut_up(player *p, item *it)
+// This is the former valid_to_cut_up with all the messages and queries
+bool static try_to_cut_up(player *p, item *it)
 {
     int pos = p->get_item_position(it);
     // If a material is made of different items than what is in this set, we
@@ -6711,12 +6712,49 @@ static bool valid_to_cut_up(player *p, item *it)
     // Softer warnings at the end so we don't ask permission and then tell them no.
     if (it == &p->weapon) {
         if(!query_yn(_("You are wielding that, are you sure?"))) {
-            return 0;
+            return false;
         }
-    } else if (pos < -1) {
+    } else if( pos == INT_MIN ) {
+        // Not in inventory
+        return true;
+    } else if( pos < -1 ) {
         if(!query_yn(_("You're wearing that, are you sure?"))) {
-            return 0;
+            return false;
         }
+    }
+
+    return true;
+}
+
+// This is new silent valid_to_cut_up
+bool iuse::valid_to_cut_up(item *it)
+{
+    // If a material is made of different items than what is in this set, we
+    // do not cut it up.
+    std::vector<std::string> material_id_white_list;
+    material_id_white_list.push_back("cotton");
+    material_id_white_list.push_back("leather");
+    material_id_white_list.push_back("fur");
+    material_id_white_list.push_back("nomex");
+    material_id_white_list.push_back("kevlar");
+    material_id_white_list.push_back("plastic");
+    material_id_white_list.push_back("wood");
+
+    if (it->is_null()) {
+        return false;
+    }
+    // There must be some historical significance to these items.
+    if (!it->is_salvageable()) {
+        return false;
+    }
+    if( !it->only_made_of(material_id_white_list) ) {
+        return false;
+    }
+    if (it->is_container() && !it->contents.empty()) {
+        return false;
+    }
+    if (it->volume() == 0) {
+        return false;
     }
 
     return true;
@@ -6725,7 +6763,7 @@ static bool valid_to_cut_up(player *p, item *it)
 // function returns charges from *it during the cutting process of the *cut.
 // *it cuts
 // *cut gets cut
-static int cut_up(player *p, item *it, item *cut, bool)
+int iuse::cut_up(player *p, item *it, item *cut, bool)
 {
     int pos = p->get_item_position(cut);
     // total number of raw components == total volume of item.
@@ -6784,7 +6822,11 @@ static int cut_up(player *p, item *it, item *cut, bool)
     // Clean up before removing the item.
     remove_ammo(cut, *p);
     // Original item has been consumed.
-    p->i_rem(pos);
+    if( pos != INT_MIN ) {
+        p->i_rem(pos);
+    } else {
+        g->m.i_rem( p->posx, p->posy, cut );
+    }
 
     for (auto salvaged : materials_salvaged) {
         std::string mat_name = salvaged.first;
@@ -6793,7 +6835,13 @@ static int cut_up(player *p, item *it, item *cut, bool)
         if (amount > 0) {
             add_msg(m_good, ngettext("Salvaged %1$i %2$s.", "Salvaged %1$i %2$ss.", amount),
                     amount, result.display_name().c_str());
-            p->i_add_or_drop(result, amount);
+            if( pos != INT_MIN ) {
+                p->i_add_or_drop(result, amount);
+            } else {
+                for( int i = 0; i < amount; i++ ) {
+                    g->m.spawn_an_item( p->posx, p->posy, result, amount, 0 );
+                }
+            }
         } else {
             add_msg(m_bad, _("Could not salvage a %s."), result.display_name().c_str());
         }
@@ -6873,9 +6921,9 @@ int iuse::knife(player *p, item *it, bool t, point)
         cauterize_flame(p, it);
         return it->type->charges_to_use();
     } else if (choice == menu_cut_up_item) {
-        int inventory_index = g->inv(_("Cut up what?"));
+        int inventory_index = g->inv_for_salvage(_("Cut up what?"));
         cut = &(p->i_at(inventory_index));
-        if (!valid_to_cut_up(p, cut)) {
+        if (!try_to_cut_up(p, cut)) {
             // Messages should have already been displayed.
             return 0;
         }

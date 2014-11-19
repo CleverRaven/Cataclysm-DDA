@@ -234,6 +234,19 @@ indexed_invslice inventory::slice_filter_by_capacity_for_liquid(const item &liqu
     return stacks;
 }
 
+indexed_invslice inventory::slice_filter_by_salvageability()
+{
+    int i = 0;
+    indexed_invslice stacks;
+    for( invstack::iterator iter = items.begin(); iter != items.end(); ++iter ) {
+        if( iuse::valid_to_cut_up( &iter->front() ) ) {
+            stacks.push_back( std::make_pair( &*iter, i ) );
+        }
+        ++i;
+    }
+    return stacks;
+}
+
 void inventory::unsort()
 {
     sorted = false;
