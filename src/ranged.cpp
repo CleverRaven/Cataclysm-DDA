@@ -912,10 +912,16 @@ static void do_aim( player *p, std::vector <Creature *> &t, int &target,
             }
         }
     }
-    // Increase aim at the cost of moves
-    p->moves -= 10;
-    p->recoil -= p->aim_per_time( relevant );
-    p->recoil = std::max( 0, p->recoil );
+    const int aim_amount = p->aim_per_time( relevant );
+    if( aim_amount > 0 ) {
+        // Increase aim at the cost of moves
+        p->moves -= 10;
+        p->recoil -= aim_amount;
+        p->recoil = std::max( 0, p->recoil );
+    } else {
+        // If aim is already maxed, we're just waiting, so pass the turn.
+        p->moves = 0;
+    }
 }
 
 // TODO: Shunt redundant drawing code elsewhere
