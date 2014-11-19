@@ -33,6 +33,13 @@ static craft_subcat last_craft_subcat(const craft_cat cat);
 static craft_subcat next_craft_subcat(const craft_cat cat, const craft_subcat subcat);
 static craft_subcat prev_craft_subcat(const craft_cat cat, const craft_subcat subcat);
 
+void remove_from_component_lookup(recipe* r);
+
+recipe::~recipe()
+{
+    remove_from_component_lookup(this);
+}
+
 const recipe *find_recipe( std::string id )
 {
     for( auto recipe_list : recipes ) {
@@ -61,8 +68,8 @@ void add_to_component_lookup(recipe* r)
 
 void remove_from_component_lookup(recipe* r)
 {
-    for (auto map_iter: recipes_by_component) {
-        recipe_list& rlist = map_iter.second;
+    for (auto &map_item : recipes_by_component) {
+        recipe_list &rlist = map_item.second;
         rlist.erase(std::remove(rlist.begin(), rlist.end(), r), rlist.end());
     }
 }
@@ -112,7 +119,6 @@ int check_recipe_ident(const std::string &rec_name, JsonObject &jsobj)
                 const int tmp_id = (*list_iter)->id;
                 delete *list_iter;
                 map_iter->second.erase(list_iter);
-                remove_from_component_lookup(*list_iter);
                 return tmp_id;
             }
         }
@@ -199,6 +205,7 @@ void load_recipe(JsonObject &jsobj)
 
 void reset_recipes()
 {
+    recipes_by_component.clear();
     for (recipe_map::iterator it = recipes.begin(); it != recipes.end(); ++it) {
         for (recipe_list::iterator i = it->second.begin();
              i != it->second.end(); ++i) {
@@ -206,7 +213,6 @@ void reset_recipes()
         }
     }
     recipes.clear();
-    recipes_by_component.clear();
 }
 
 void finalize_recipes()

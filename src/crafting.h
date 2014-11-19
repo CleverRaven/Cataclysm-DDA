@@ -91,6 +91,8 @@ struct recipe : public requirements {
         }
     }
 
+    ~recipe();
+
     // Create an item instance as if the recipe was just finished,
     // Contain charges multiplier
     item create_result(int handed = NONE) const;
