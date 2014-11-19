@@ -1,6 +1,7 @@
 #include <sstream>
 #include "inventory.h"
 #include "game.h"
+#include "iuse.h"
 
 const std::string inv_chars =
     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()*+./:;=@[\\]^_{|}";

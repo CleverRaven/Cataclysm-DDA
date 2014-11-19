@@ -2,7 +2,7 @@
 #define INVENTORY_H
 
 #include "item.h"
-#include "artifact.h"
+#include "enums.h"
 
 #include <list>
 #include <string>
