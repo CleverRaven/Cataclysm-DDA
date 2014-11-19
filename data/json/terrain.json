@@ -4613,7 +4613,6 @@
         }
     },{
         "type" : "terrain",
-<<<<<<< HEAD
         "id" : "t_pavement_bg_dp",
         "name": "bridge pavement",
         "symbol": ".",
