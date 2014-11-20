@@ -11634,7 +11634,7 @@ void game::complete_butcher(int index)
             add_msg(m_good, _("You harvest some usable sinews!"));
         } else if (corpse->mat == "veggy") {
             m.spawn_item(u.posx, u.posy, "plant_fibre", sinews, 0, age);
-            add_msg(m_good, _("You harvest some plant fibres!"));
+            add_msg(m_good, _("You harvest some plant fibers!"));
         }
     }
 
