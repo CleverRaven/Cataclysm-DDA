@@ -1108,7 +1108,7 @@
         "type": "profession",
         "ident": "backpacker",
         "name": "Backpacker",
-        "description": "You've travelled for a living, sightseeing here and there, and living off your parents' trust fund.  But now they're gone, and the only thing between you and death is the open road and your backpack.",
+        "description": "You've traveled for a living, sightseeing here and there, and living off your parents' trust fund.  But now they're gone, and the only thing between you and death is the open road and your backpack.",
         "points": 0,
         "items": {
             "both": [

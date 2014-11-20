@@ -1839,7 +1839,7 @@
     "hp":42,
     "death_function":"NORMAL",
     "special_attacks":[["BITE", 5]],
-    "description":"A zombified version of one of the German shepherd dogs used in law enforcement.  Its deformed body is encased in a protective kevlar harness.",
+    "description":"A zombified version of one of the German shepherd dogs used in law enforcement.  Its deformed body is encased in a protective Kevlar harness.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS50", "REVIVES", "FUR"],
     "categories":["CLASSIC"]
     },{
@@ -3282,7 +3282,7 @@
     "hp":220,
     "death_function":"RATKING",
     "special_attacks":[["RATKING", 3]],
-    "description":"A towering swarm of mutated rats, their tails knotted together in a filthy mass.  A foetid stench flows from its filthy presence."
+    "description":"A towering swarm of mutated rats, their tails knotted together in a filthy mass.  A fetid stench flows from its filthy presence."
     },{
         "type" : "MONSTER",
         "id" : "mon_mosquito",
@@ -5260,7 +5260,7 @@
     "luminance":0,
     "hp":14,
     "death_function":"NORMAL",
-    "description":"A small mammal native to North America, distinctive for its dextrous paws and facial markings.  It is resourceful and agile enough to open sealed containers with its paws.",
+    "description":"A small mammal native to North America, distinctive for its dexterous paws and facial markings.  It is resourceful and agile enough to open sealed containers with its paws.",
     "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "KEENNOSE", "BLEED", "BONES", "VIS50", "FAT"],
     "anger_triggers":["FRIEND_ATTACKED", "HURT"],
     "categories":["WILDLIFE"]
