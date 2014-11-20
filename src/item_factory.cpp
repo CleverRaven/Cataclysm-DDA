@@ -223,6 +223,8 @@ void Item_factory::init()
     iuse_function_list["SIPHON"] = &iuse::siphon;
     iuse_function_list["CHAINSAW_OFF"] = &iuse::chainsaw_off;
     iuse_function_list["CHAINSAW_ON"] = &iuse::chainsaw_on;
+    iuse_function_list["ELEC_CHAINSAW_OFF"] = &iuse::elec_chainsaw_off;
+    iuse_function_list["ELEC_CHAINSAW_ON"] = &iuse::elec_chainsaw_on;
     iuse_function_list["CS_LAJATANG_OFF"] = &iuse::cs_lajatang_off;
     iuse_function_list["CS_LAJATANG_ON"] = &iuse::cs_lajatang_on;
     iuse_function_list["CARVER_OFF"] = &iuse::carver_off;
@@ -243,6 +245,7 @@ void Item_factory::init()
     iuse_function_list["ZWEIFIRE_OFF"] = &iuse::zweifire_off;
     iuse_function_list["ZWEIFIRE_ON"] = &iuse::zweifire_on;
     iuse_function_list["JACKHAMMER"] = &iuse::jackhammer;
+    iuse_function_list["ELEC_JACKHAMMER"] = &iuse::elec_jackhammer;
     iuse_function_list["JACQUESHAMMER"] = &iuse::jacqueshammer;
     iuse_function_list["PICKAXE"] = &iuse::pickaxe;
     iuse_function_list["SET_TRAP"] = &iuse::set_trap;
