@@ -1418,14 +1418,6 @@ bool game::do_turn()
     }
 
     process_activity();
-    
-//    if (uquit == QUIT_WATCH) {
-//        draw();
-//        handle_action();
-//        if(is_game_over()) {
-//            return cleanup_at_end();
-//        }
-//    }
 
     if (!u.has_disease("sleep") && !u.has_disease("lying_down")) {
         if (u.moves > 0 || uquit == QUIT_WATCH) {
@@ -1442,10 +1434,6 @@ bool game::do_turn()
 
                 if (is_game_over()) {
                     return cleanup_at_end();
-                }
-
-                if (uquit == QUIT_WATCH) {
-                    break;
                 }
             }
         } else {
@@ -2827,7 +2815,6 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position)
     }
     return cMenu;
 }
-//
 
 // Checks input to see if mouse was moved and handles the mouse view box accordingly.
 // Returns true if input requires breaking out into a game action.
@@ -2968,8 +2955,8 @@ input_context game::get_player_input(std::string &action)
 {
     input_context ctxt;
     if(uquit == QUIT_WATCH) {
-        ctxt.register_action("CONFIRM");
         ctxt.register_action("QUIT");
+        ctxt.register_action("ANY_INPUT");
     } else {
         ctxt = get_default_mode_input_context();
     }
@@ -3116,6 +3103,12 @@ input_context game::get_player_input(std::string &action)
             }
             draw_weather(wPrint);
             draw_sct();
+            if(uquit == QUIT_WATCH) {
+                // display "press X to continue" text at top
+                input_context ctxt("DEFAULTMODE");
+                std::string message = "Press " + ctxt.get_desc("QUIT") + " to accept your fate...";
+                mvwprintz(w_terrain, 0, ((TERRAIN_WINDOW_WIDTH / 2) - (message.length() / 2)), c_white, message.c_str());
+            }
             wrefresh(w_terrain);
         }
         inp_mngr.set_timeout(-1);
@@ -3186,7 +3179,7 @@ bool game::handle_action()
     }
 
     if(uquit == QUIT_WATCH) {
-        if(action == "CONFIRM" || action == "QUIT") {
+        if(action == "QUIT") {
             uquit = QUIT_DIED;
         }
         gamemode->post_action(act);
@@ -4118,6 +4111,7 @@ void game::update_scent()
 bool game::is_game_over()
 {
     if (uquit == QUIT_WATCH) {
+        // deny player movement
         u.moves = 0;
         return false;
     }
@@ -4137,9 +4131,9 @@ bool game::is_game_over()
     if (uquit != QUIT_NO) {
         return true;
     }
-    // previous commit changed this to test any body part for <= 0,
-    // wouldn't that cause a sprained ankle to result in an aneurysm?
+    // is_dead_state() already checks hp_torso && hp_head, no need to loop it
     if(u.is_dead_state()) {
+        uquit = query_yn("Watch the last moments of your life...?") ? QUIT_WATCH : QUIT_DIED;
         uquit = QUIT_WATCH;
         return false;
     }
