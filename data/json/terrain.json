@@ -4663,6 +4663,7 @@
             ]
         }
     },{
+        "type" : "terrain",
         "id" : "t_tree_blackjack",
         "name": "blackjack oak",
         "symbol": "7",
