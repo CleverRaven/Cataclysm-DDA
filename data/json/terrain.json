@@ -387,7 +387,7 @@
         "color": "ltred",
         "move_cost": 0,
         "flags": [
-            "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "DOOR", "TRANSPARENT"
+            "FLAMMABLE", "NOITEM", "DOOR", "TRANSPARENT"
         ],
         "bash": {
             "str_min": 6, "str_max": 150,
@@ -406,7 +406,7 @@
         "symbol": ".",
         "color": "brown",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "FLAMMABLE", "SUPPORTS_ROOF", "FLAT"],
+        "flags": ["TRANSPARENT", "FLAMMABLE", "FLAT"],
         "bash": {
             "str_min": 6, "str_max": 150,
             "sound": "crunch!",
@@ -613,7 +613,7 @@
         "symbol": "LINE_XOXO",
         "color": "ltcyan",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "flags": ["TRANSPARENT", "NOITEM", "WALL"],
         "bash": {
             "str_min": 4, "str_max": 12,
             "sound": "glass breaking!",
@@ -630,7 +630,7 @@
         "symbol": "LINE_OXOX",
         "color": "ltcyan",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "flags": ["TRANSPARENT", "NOITEM", "WALL"],
         "bash": {
             "str_min": 4, "str_max": 12,
             "sound": "glass breaking!",
@@ -648,7 +648,7 @@
         "color": "ltcyan",
         "move_cost": 0,
         "flags": [
-            "TRANSPARENT", "ALARMED", "NOITEM", "SUPPORTS_ROOF", "WALL"],
+            "TRANSPARENT", "ALARMED", "NOITEM", "WALL"],
         "bash": {
             "str_min": 4, "str_max": 12,
             "sound": "glass breaking!",
@@ -666,7 +666,7 @@
         "color": "ltcyan",
         "move_cost": 0,
         "flags": [
-            "TRANSPARENT", "ALARMED", "NOITEM", "SUPPORTS_ROOF", "WALL"],
+            "TRANSPARENT", "ALARMED", "NOITEM", "WALL"],
         "bash": {
             "str_min": 4, "str_max": 12,
             "sound": "glass breaking!",
@@ -683,7 +683,7 @@
         "symbol": "LINE_XOXO",
         "color": "ltcyan",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "flags": ["TRANSPARENT", "NOITEM", "WALL"],
         "bash": {
             "str_min": 40, "str_max": 210,
             "sound": "glass breaking!",
@@ -701,7 +701,7 @@
         "symbol": "LINE_OXOX",
         "color": "ltcyan",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "flags": ["TRANSPARENT", "NOITEM", "WALL"],
         "bash": {
             "str_min": 40, "str_max": 210,
             "sound": "glass breaking!",
@@ -740,8 +740,7 @@
         "color": "brown",
         "move_cost": 0,
         "flags": [
-            "FLAMMABLE_ASH", "DOOR", "NOITEM",
-            "SUPPORTS_ROOF", "BARRICADABLE_DOOR"
+            "FLAMMABLE_ASH", "DOOR", "NOITEM", "BARRICADABLE_DOOR"
         ],
         "open": "t_door_o",
         "deconstruct": {
@@ -770,8 +769,7 @@
         "color": "brown",
         "move_cost": 0,
         "flags": [
-            "FLAMMABLE_ASH", "DOOR", "NOITEM",
-            "SUPPORTS_ROOF", "BARRICADABLE_DOOR"
+            "FLAMMABLE_ASH", "DOOR", "NOITEM", "BARRICADABLE_DOOR"
         ],
         "examine_action": "door_peephole",
         "open": "t_door_o_peep",
@@ -803,9 +801,8 @@
         "color": "brown",
         "move_cost": 0,
         "flags": [
-            "TRANSPARENT", "FLAMMABLE_ASH", "NOITEM",
-            "SUPPORTS_ROOF", "REDUCE_SCENT", "BARRICADABLE_DOOR_DAMAGED",
-            "PERMEABLE"
+            "TRANSPARENT", "FLAMMABLE_ASH", "NOITEM", "REDUCE_SCENT", 
+            "BARRICADABLE_DOOR_DAMAGED", "PERMEABLE"
         ],
         "bash": {
             "str_min": 5, "str_max": 70, "str_min_blocked": 7, "str_max_blocked": 90,
@@ -827,9 +824,8 @@
         "color": "brown",
         "move_cost": 0,
         "flags": [
-            "TRANSPARENT", "FLAMMABLE_ASH", "NOITEM",
-            "SUPPORTS_ROOF", "REDUCE_SCENT", "BARRICADABLE_DOOR_DAMAGED",
-            "PERMEABLE"
+            "TRANSPARENT", "FLAMMABLE_ASH", "NOITEM", "REDUCE_SCENT",
+            "BARRICADABLE_DOOR_DAMAGED", "PERMEABLE"
         ],
         "bash": {
             "str_min": 5, "str_max": 70, "str_min_blocked": 7, "str_max_blocked": 90,
@@ -851,7 +847,7 @@
         "color": "brown",
         "move_cost": 2,
         "flags": [
-            "FLAMMABLE_ASH", "TRANSPARENT", "SUPPORTS_ROOF",
+            "FLAMMABLE_ASH", "TRANSPARENT",
             "FLAT", "BARRICADABLE_DOOR"
         ],
         "deconstruct": {
@@ -881,7 +877,7 @@
         "color": "brown",
         "move_cost": 2,
         "flags": [
-            "FLAMMABLE_ASH", "TRANSPARENT", "SUPPORTS_ROOF",
+            "FLAMMABLE_ASH", "TRANSPARENT",
             "FLAT", "BARRICADABLE_DOOR"
         ],
         "deconstruct": {
@@ -913,8 +909,7 @@
         "color": "red",
         "move_cost": 0,
         "flags": [
-            "FLAMMABLE_ASH", "DOOR", "NOITEM",
-            "SUPPORTS_ROOF", "BARRICADABLE_DOOR_REINFORCED"
+            "FLAMMABLE_ASH", "DOOR", "NOITEM", "BARRICADABLE_DOOR_REINFORCED"
         ],
         "open": "t_rdoor_o",
         "deconstruct": {
@@ -943,8 +938,8 @@
         "color": "red",
         "move_cost": 0,
         "flags": [
-            "TRANSPARENT", "FLAMMABLE_ASH", "NOITEM",
-            "SUPPORTS_ROOF", "REDUCE_SCENT", "BARRICADABLE_DOOR_REINFORCED_DAMAGED",
+            "TRANSPARENT", "FLAMMABLE_ASH", "NOITEM", "REDUCE_SCENT", 
+            "BARRICADABLE_DOOR_REINFORCED_DAMAGED",
             "PERMEABLE"
         ],
         "bash": {
@@ -966,8 +961,7 @@
         "color": "red",
         "move_cost": 2,
         "flags": [
-            "FLAMMABLE_ASH", "TRANSPARENT", "SUPPORTS_ROOF",
-            "FLAT", "BARRICADABLE_DOOR_REINFORCED"
+            "FLAMMABLE_ASH", "TRANSPARENT", "FLAT", "BARRICADABLE_DOOR_REINFORCED"
         ],
         "deconstruct": {
             "ter_set": "t_door_c",
@@ -995,7 +989,7 @@
         "symbol": "+",
         "color": "brown",
         "move_cost": 0,
-        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT"],
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "REDUCE_SCENT"],
         "bash": {
             "str_min": 8, "str_max": 80, "str_min_blocked": 15, "str_max_blocked": 100,
             "sound": "smash!",
@@ -1015,8 +1009,7 @@
         "color": "brown",
         "move_cost": 0,
         "flags": [
-            "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF",
-            "OPENCLOSE_INSIDE", "REDUCE_SCENT"
+            "FLAMMABLE_ASH", "NOITEM", "OPENCLOSE_INSIDE", "REDUCE_SCENT"
         ],
         "open": "t_door_o",
         "bash": {
@@ -1038,8 +1031,7 @@
         "color": "brown",
         "move_cost": 0,
         "flags": [
-            "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF",
-            "OPENCLOSE_INSIDE", "REDUCE_SCENT"
+            "FLAMMABLE_ASH", "NOITEM", "OPENCLOSE_INSIDE", "REDUCE_SCENT"
         ],
         "open": "t_door_o_peep",
         "examine_action": "door_peephole",
@@ -1063,7 +1055,7 @@
         "color": "brown",
         "move_cost": 0,
         "flags": [
-            "FLAMMABLE_ASH", "ALARMED", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT"],
+            "FLAMMABLE_ASH", "ALARMED", "NOITEM", "REDUCE_SCENT"],
         "bash": {
             "str_min": 8, "str_max": 80, "str_min_blocked": 15, "str_max_blocked": 100,
             "sound": "smash!",
@@ -1082,7 +1074,7 @@
         "symbol": ".",
         "color": "brown",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "FLAT"],
+        "flags": ["TRANSPARENT", "FLAT"],
         "bash": {
             "str_min": 6, "str_max": 25,
             "sound": "crunch!",
@@ -1101,7 +1093,7 @@
         "symbol": ".",
         "color": "dkgray",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "FLAT"],
+        "flags": ["TRANSPARENT", "FLAT"],
         "bash": {
             "str_min": 18, "str_max": 75,
             "sound": "metal screeching!",
@@ -1119,7 +1111,7 @@
         "symbol": "+",
         "color": "cyan",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "PERMEABLE"],
+        "flags": ["TRANSPARENT", "PERMEABLE"],
         "bash": {
             "str_min": 10, "str_max": 150, "str_min_blocked": 15, "str_max_blocked": 175,
             "sound": "metal screeching!",
@@ -1137,7 +1129,7 @@
         "symbol": "+",
         "color": "brown",
         "move_cost": 3,
-        "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "FLAMMABLE_ASH", "DOOR", "MOUNTABLE"],
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DOOR", "MOUNTABLE"],
         "open": "t_fencegate_o",
         "bash": {
             "str_min": 4, "str_max": 20, "str_min_blocked": 6, "str_max_blocked": 30,
@@ -1158,7 +1150,7 @@
         "color": "brown",
         "move_cost": 2,
         "flags": [
-            "TRANSPARENT", "SUPPORTS_ROOF", "FLAMMABLE_ASH", "FLAT"],
+            "TRANSPARENT", "FLAMMABLE_ASH", "FLAT"],
         "close": "t_fencegate_c",
         "bash": {
             "str_min": 4, "str_max": 60,
@@ -1178,7 +1170,7 @@
         "symbol": "+",
         "color": "cyan",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "DOOR", "PERMEABLE"],
+        "flags": ["TRANSPARENT", "DOOR", "PERMEABLE"],
         "open": "t_chaingate_o",
         "bash": {
             "str_min": 10, "str_max": 150, "str_min_blocked": 15, "str_max_blocked": 100,
@@ -1198,7 +1190,7 @@
         "symbol": ".",
         "color": "cyan",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "FLAT"],
+        "flags": ["TRANSPARENT", "FLAT"],
         "close": "t_chaingate_c",
         "bash": {
             "str_min": 5, "str_max": 150,
@@ -1218,7 +1210,7 @@
         "symbol": "#",
         "color": "brown",
         "move_cost": 0,
-        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "WALL"],
         "bash": {
             "str_min": 15, "str_max": 80, "str_min_blocked": 17, "str_max_blocked": 100,
             "sound": "crash!",
@@ -1237,7 +1229,7 @@
         "symbol": "#",
         "color": "brown",
         "move_cost": 0,
-        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "WALL"],
         "bash": {
             "str_min": 10, "str_max": 40, "str_min_blocked": 9, "str_max_blocked": 50,
             "sound": "crash!",
@@ -1257,7 +1249,7 @@
         "color": "brown",
         "move_cost": 0,
         "examine_action": "door_peephole",
-        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "WALL"],
         "bash": {
             "str_min": 15, "str_max": 80, "str_min_blocked": 17, "str_max_blocked": 100,
             "sound": "crash!",
@@ -1276,7 +1268,7 @@
         "symbol": "#",
         "color": "brown",
         "move_cost": 0,
-        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "WALL"],
         "bash": {
             "str_min": 25, "str_max": 60, "str_min_blocked": 32, "str_max_blocked": 70,
             "sound": "crash!",
@@ -1295,7 +1287,7 @@
         "symbol": "#",
         "color": "brown",
         "move_cost": 0,
-        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "WALL"],
         "bash": {
             "str_min": 20, "str_max": 50, "str_min_blocked": 24, "str_max_blocked": 60,
             "sound": "crash!",
@@ -1315,7 +1307,7 @@
         "color": "brown",
         "move_cost": 0,
         "examine_action": "door_peephole",
-        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "WALL"],
         "bash": {
             "str_min": 10, "str_max": 40, "str_min_blocked": 9, "str_max_blocked": 50,
             "sound": "crash!",
@@ -1335,7 +1327,7 @@
         "symbol": "+",
         "color": "cyan",
         "move_cost": 0,
-        "flags": ["NOITEM", "SUPPORTS_ROOF", "DOOR"],
+        "flags": ["NOITEM", "DOOR"],
         "open": "t_door_metal_o",
         "bash": {
             "str_min": 80, "str_max": 250,
@@ -1354,7 +1346,7 @@
         "symbol": "'",
         "color": "cyan",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "FLAT"],
+        "flags": ["TRANSPARENT", "FLAT"],
         "close": "t_door_metal_c",
         "bash": {
             "str_min": 80, "str_max": 250,
@@ -1374,7 +1366,7 @@
         "symbol": "+",
         "color": "cyan",
         "move_cost": 0,
-        "flags": ["NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT"],
+        "flags": ["NOITEM", "REDUCE_SCENT"],
         "bash": {
             "str_min": 80, "str_max": 250,
             "sound": "metal screeching!",
@@ -1393,7 +1385,7 @@
         "symbol": "+",
         "color": "cyan",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM", "SUPPORTS_ROOF", "PERMEABLE"],
+        "flags": ["TRANSPARENT", "NOITEM", "PERMEABLE"],
         "open": "t_door_bar_o",
         "close": "t_door_bar_locked",
         "bash": {
@@ -1413,7 +1405,7 @@
         "symbol": "'",
         "color": "cyan",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "FLAT"],
+        "flags": ["TRANSPARENT", "FLAT"],
         "close": "t_door_bar_c",
         "bash": {
             "str_min": 20, "str_max": 210, "str_min_blocked": 30, "str_max_blocked": 240,
@@ -1433,7 +1425,7 @@
         "symbol": "+",
         "color": "cyan",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM", "SUPPORTS_ROOF", "PERMEABLE"],
+        "flags": ["TRANSPARENT", "NOITEM", "PERMEABLE"],
         "bash": {
             "str_min": 30, "str_max": 210, "str_min_blocked": 40, "str_max_blocked": 240,
             "sound": "metal screeching!",
@@ -1451,7 +1443,7 @@
         "symbol": "+",
         "color": "ltcyan",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "DOOR", "NOITEM", "SUPPORTS_ROOF"
+        "flags": ["TRANSPARENT", "DOOR", "NOITEM"
         ],
         "open": "t_door_glass_o",
         "bash": {
@@ -1470,7 +1462,7 @@
         "symbol": "'",
         "color": "ltcyan",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "FLAT"],
+        "flags": ["TRANSPARENT", "FLAT"],
         "close": "t_door_glass_c",
         "bash": {
             "str_min": 4, "str_max": 20,
@@ -1528,7 +1520,7 @@
         "color": "ltcyan",
         "move_cost": 0,
         "flags": [
-            "TRANSPARENT", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF",
+            "TRANSPARENT", "FLAMMABLE", "NOITEM",
             "REDUCE_SCENT", "BARRICADABLE_WINDOW"
         ],
         "deconstruct": {
@@ -1554,7 +1546,7 @@
         "color": "dkgray",
         "move_cost": 0,
         "flags": [
-            "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"
+            "FLAMMABLE", "NOITEM", "WALL"
         ],
         "bash": {
             "str_min": 6, "str_max": 12,
@@ -1573,8 +1565,8 @@
         "color": "ltcyan",
         "move_cost": 0,
         "flags": [
-            "TRANSPARENT", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF",
-            "OPENCLOSE_INSIDE", "BARRICADABLE_WINDOW", "REDUCE_SCENT"
+            "TRANSPARENT", "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE",
+            "BARRICADABLE_WINDOW", "REDUCE_SCENT"
         ],
         "close": "t_curtains",
         "open": "t_window_open",
@@ -1609,7 +1601,7 @@
         "color": "dkgray",
         "move_cost": 0,
         "flags": [
-            "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"
+            "FLAMMABLE", "NOITEM", "WALL"
         ],
         "bash": {
             "str_min": 6, "str_max": 12,
@@ -1630,7 +1622,7 @@
         "symbol": "'",
         "color": "ltcyan",
         "move_cost": 4,
-        "flags": ["TRANSPARENT", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "OPENCLOSE_INSIDE", "MOUNTABLE" ],
+        "flags": ["TRANSPARENT", "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "MOUNTABLE" ],
         "close": "t_window_domestic",
         "bash": {
             "str_min": 3, "str_max": 6,
@@ -1652,7 +1644,7 @@
         "color": "dkgray",
         "move_cost": 0,
         "flags": [
-            "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "OPENCLOSE_INSIDE", "REDUCE_SCENT" ],
+            "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "REDUCE_SCENT" ],
         "open": "t_window_domestic",
         "examine_action" : "curtains",
         "deconstruct": {
@@ -1686,7 +1678,7 @@
         "move_cost": 0,
         "flags": [
             "TRANSPARENT", "FLAMMABLE", "ALARMED", "NOITEM",
-            "SUPPORTS_ROOF", "REDUCE_SCENT", "BARRICADABLE_WINDOW"
+            "REDUCE_SCENT", "BARRICADABLE_WINDOW"
         ],
         "bash": {
             "str_min": 3, "str_max": 6,
@@ -1702,7 +1694,7 @@
         "color": "dkgray",
         "move_cost": 0,
         "flags": [
-            "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "ALARMED", "WALL", "BARRICADABLE_WINDOW"
+            "FLAMMABLE", "NOITEM", "ALARMED", "WALL", "BARRICADABLE_WINDOW"
         ],
         "bash": {
             "str_min": 6, "str_max": 12,
@@ -1751,7 +1743,7 @@
             ]
         },
         "flags": [
-            "TRANSPARENT", "SHARP", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "MOUNTABLE"
+            "TRANSPARENT", "SHARP", "FLAMMABLE", "NOITEM", "MOUNTABLE"
         ]
     },{
         "type" : "terrain",
@@ -1760,7 +1752,7 @@
         "symbol": "#",
         "color": "brown",
         "move_cost": 0,
-        "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT"],
+        "flags": ["FLAMMABLE", "NOITEM", "REDUCE_SCENT"],
         "bash": {
             "str_min": 3, "str_max": 30,
             "sound": "crash!",
@@ -1778,7 +1770,7 @@
         "symbol": "#",
         "color": "brown",
         "move_cost": 0,
-        "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT"],
+        "flags": ["FLAMMABLE", "NOITEM", "REDUCE_SCENT"],
         "bash": {
             "str_min": 3, "str_max": 30,
             "sound": "crash!",
@@ -1795,7 +1787,7 @@
         "symbol": "#",
         "color": "red",
         "move_cost": 0,
-        "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT"],
+        "flags": ["FLAMMABLE", "NOITEM", "REDUCE_SCENT"],
         "bash": {
             "str_min": 12, "str_max": 30,
             "sound": "crash!",
@@ -1812,7 +1804,7 @@
         "symbol": "#",
         "color": "red",
         "move_cost": 0,
-        "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT"],
+        "flags": ["FLAMMABLE", "NOITEM", "REDUCE_SCENT"],
         "bash": {
             "str_min": 12, "str_max": 30,
             "sound": "crash!",
@@ -1829,7 +1821,7 @@
         "symbol": "#",
         "color": "cyan",
         "move_cost": 0,
-        "flags": ["NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT"],
+        "flags": ["NOITEM", "REDUCE_SCENT"],
         "bash": {
             "str_min": 18, "str_max": 40,
             "sound": "crash!",
@@ -1847,7 +1839,7 @@
         "symbol": "#",
         "color": "cyan",
         "move_cost": 0,
-        "flags": ["NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT"],
+        "flags": ["NOITEM", "REDUCE_SCENT"],
         "bash": {
             "str_min": 18, "str_max": 40,
             "sound": "crash!",
@@ -4609,6 +4601,65 @@
             "items": [
                 { "item": "2x4", "amount": 2, "chance": 25 },
                 { "item": "splinter", "amount": 4, "minamount": 2 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_pavement_bg_dp",
+        "name": "bridge pavement",
+        "symbol": ".",
+        "color": "dkgray",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "FLAT"],
+        "bash": {
+            "str_min": 70, "str_max": 300,
+            "sound": "concrete cracking and metal screeching!",
+            "sound_fail": "whump!",
+            "ter_set": "t_water_dp"
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_pavement_y_bg_dp",
+        "name": "bridge yellow pavement",
+        "symbol": ".",
+        "color": "yellow",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "FLAT"],
+        "bash": {
+            "str_min": 70, "str_max": 300,
+            "sound": "concrete cracking and metal screeching!",
+            "sound_fail": "whump!",
+            "ter_set": "t_water_dp"
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_sidewalk_bg_dp",
+        "name": "bridge sidewalk",
+        "symbol": ".",
+        "color": "ltgray",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "FLAT"],
+        "bash": {
+            "str_min": 70, "str_max": 300,
+            "sound": "concrete cracking and metal screeching!",
+            "sound_fail": "whump!",
+            "ter_set": "t_water_dp"
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_guardrail_bg_dp",
+        "name": "guard rail",
+        "symbol": "#",
+        "color": "ltgray",
+        "move_cost": 3,
+        "flags": ["TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE", "SHORT", "THINOBSTACLE"],
+        "bash": {
+            "str_min": 8, "str_max": 150,
+            "sound": "crunch!",
+            "sound_fail": "clang!",
+            "ter_set": "t_pavement_bg_dp",
+            "items": [
+                { "item": "scrap", "amount": 6, "minamount": 3}
             ]
         }
     },{

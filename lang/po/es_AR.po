@@ -5,9 +5,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-10 13:32+0300\n"
-"PO-Revision-Date: 2014-11-12 06:23+0000\n"
-"Last-Translator: Noctivagante <noctivagante@yahoo.com>\n"
+"POT-Creation-Date: 2014-11-17 10:39+0300\n"
+"PO-Revision-Date: 2014-11-17 10:21+0000\n"
+"Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
 "Language-Team: Spanish (Argentina) (http://www.transifex.com/projects/p/"
 "cataclysm-dda/language/es_AR/)\n"
 "Language: es_AR\n"
@@ -4045,6 +4045,10 @@ msgid ""
 "\" of a settlement, or the captain of a post-apocalyptic crew, this is the "
 "hat for you."
 msgstr ""
+"De diseño clásico, el \"tricornio\", o sombrero de tres picos, tiene fija "
+"una de sus alas hacia arriba, y algún adorno bordado. Ya seas el gobernador "
+"de un asentamiento, o el capitán de una pandilla postapocalíptica, este es "
+"el sombrero indicado para vos."
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
@@ -4076,8 +4080,8 @@ msgid ""
 "A cotton bandana, worn over the mouth for warmth and minor protection from "
 "dust and other contaminants."
 msgstr ""
-"Una bandana de algodón que se usa sobre la boca para abrigar un poco, y "
-"brinda un poco de protección contra el polvo y otros contaminantes."
+"Una bandana de algodón que se usa sobre la boca para abrigar, y brinda un "
+"poco de protección contra el polvo y otros contaminantes."
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
@@ -4273,6 +4277,9 @@ msgid ""
 "the 40s and 50s, still common among those in the mod scene, hipsters, and "
 "people named Heisenberg."
 msgstr ""
+"Un sombrero plano con ala angosta y circular. Muy popular en la decada del "
+"40 y del 50, todavía es usado en el ámbito de la moda, por los hipsters, y "
+"por las personas apellidadas Heisenberg."
 
 #: lang/json/ARMOR_from_json.py
 msgid "A frilly white headpiece."
@@ -4540,10 +4547,12 @@ msgstr ""
 #: lang/json/ARMOR_from_json.py
 msgid "A huge duffel bag, provides plenty of storage but severely encumbering."
 msgstr ""
+"Un gran bolso de viaje. Tiene mucha capacidad de almacenamiento pero es muy "
+"incómodo."
 
 #: lang/json/ARMOR_from_json.py
 msgid "A huge military rucksack, provides a lot of storage."
-msgstr ""
+msgstr "Una mochila militar enorme. Tiene mucha capacidad de almacenamiento."
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
@@ -4551,6 +4560,9 @@ msgid ""
 "possessions during trips, provides a decent amount of storage but hauling it "
 "around is not fast nor comfortable."
 msgstr ""
+"Una valija grande con ruedas usada generalmente para transportar ropa y "
+"otras posesiones durante los viajes. Tiene buena capacidad de almacenamiento "
+"pero ir arrastrándola por ahí no es ni rápido ni cómodo."
 
 #: lang/json/ARMOR_from_json.py
 msgid "A jacket made from denim.  Provides decent protection from cuts."
@@ -4685,7 +4697,7 @@ msgstr ""
 
 #: lang/json/ARMOR_from_json.py
 msgid "A lightweight mesh backpack, commonly used by swimmers and divers."
-msgstr ""
+msgstr "Una bolsa de red liviana, muy usada por los nadadores y los buzos."
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
@@ -5548,6 +5560,7 @@ msgstr ""
 #: lang/json/ARMOR_from_json.py
 msgid "A small backpack, good storage for a little encumbrance."
 msgstr ""
+"Una mochila pequeña, buen almacenamiento a cambio de un poco de incomodidad."
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
@@ -5566,6 +5579,8 @@ msgstr ""
 #: lang/json/ARMOR_from_json.py
 msgid "A small leather backpack, good storage for a little encumbrance."
 msgstr ""
+"Una mochila pequeña de cuero, buen almacenamiento a cambio de un poco de "
+"incomodidad."
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
@@ -5833,8 +5848,7 @@ msgstr "Un buzo grueso de algodón. Es bastante abrigado y un poco acolchado."
 
 #: lang/json/ARMOR_from_json.py
 msgid "A thick foam helmet.  Designed to protect against concussion."
-msgstr ""
-"Un casco de goma espuma resistente. Diseñado para proteger contra los golpes."
+msgstr "Un casco de goma resistente. Diseñado para proteger contra los golpes."
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
@@ -6434,8 +6448,8 @@ msgstr[1] "chalecos MBR (con superaleación)"
 #: lang/json/ARMOR_from_json.py
 msgid "MOLLE pack"
 msgid_plural "MOLLE packs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "mochila MOLLE"
+msgstr[1] "mochilas MOLLE"
 
 #: lang/json/ARMOR_from_json.py
 msgid "Makes you wish you had running water to take a shower."
@@ -6647,6 +6661,10 @@ msgid ""
 "backpack.  Covered with pockets and straps, it strikes a fine balance "
 "between storage space and encumbrance."
 msgstr ""
+"Es una mochila militar. Su nombre viene del acrónimo en inglés \"Modular "
+"Lightweight Load-carrying Equipment\". Está cubierta de bolsillos y bolsas. "
+"Tiene un equilibrio perfecto entre la capacidad de almacenamiento y su "
+"incomodidad."
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
@@ -6667,12 +6685,16 @@ msgid ""
 "The only hat for a made man.  Look like a real good fella while laughing in "
 "the face of your foes!"
 msgstr ""
+"El sombrero indicado para un mafioso. Con esto parecés un buen muchacho "
+"¡mientras te reís en la cara de tus enemigos!"
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "These may not be the Great Plains, but you can still be the Boss with this "
 "high-crowned, wide-brimmed hat."
 msgstr ""
+"Tal vez no estés en las Grandes LLanuras pero de todas maneras podés "
+"sentirte el Jefe con este sombrero de copa alta y ala ancha."
 
 #: lang/json/ARMOR_from_json.py
 msgid "Thick body armor made from furs.  Warm and comfortable."
@@ -6766,6 +6788,8 @@ msgid ""
 "Whether hunting varmints, fixing up the ranch, or heading into the sunset, "
 "this is the hat for the job."
 msgstr ""
+"Ya sea para cazar alimañas, arreglar el rancho, o cabalgar hacia el ocaso, "
+"este es el sombrero indicado."
 
 #: lang/json/ARMOR_from_json.py
 msgid "XL gas mask"
@@ -6883,8 +6907,8 @@ msgstr[1] "pantalones militares de invierno"
 #: lang/json/ARMOR_from_json.py
 msgid "backpack"
 msgid_plural "backpacks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "mochila"
+msgstr[1] "mochilas"
 
 #: lang/json/ARMOR_from_json.py
 msgid "balaclava"
@@ -7063,8 +7087,8 @@ msgstr[1] "sombreros boonie"
 #: lang/json/ARMOR_from_json.py
 msgid "bowler hat"
 msgid_plural "bowler hats"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "bombín"
+msgstr[1] "bombines"
 
 #: lang/json/ARMOR_from_json.py
 msgid "boxer shorts"
@@ -7213,8 +7237,8 @@ msgstr[1] "gorros de algodón"
 #: lang/json/ARMOR_from_json.py
 msgid "cowboy hat"
 msgid_plural "cowboy hats"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "sombrero de vaquero"
+msgstr[1] "sombreros de vaquero"
 
 #: lang/json/ARMOR_from_json.py
 msgid "denim shorts"
@@ -7255,8 +7279,8 @@ msgstr[1] "disfraces de dinosaurio"
 #: lang/json/ARMOR_from_json.py
 msgid "dive bag"
 msgid_plural "dive bags"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "bolsa de buceo"
+msgstr[1] "bolsas de buceo"
 
 #: lang/json/ARMOR_from_json.py
 msgid "diver's watch"
@@ -7291,8 +7315,8 @@ msgstr[1] "camisas de vestir"
 #: lang/json/ARMOR_from_json.py
 msgid "duffel bag"
 msgid_plural "duffel bags"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "bolso de viaje"
+msgstr[1] "bolsos de viaje"
 
 #: lang/json/ARMOR_from_json.py
 msgid "dust mask"
@@ -7777,8 +7801,8 @@ msgstr[1] ""
 #: lang/json/ARMOR_from_json.py
 msgid "leather backpack"
 msgid_plural "leather backpacks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "mochila de cuero"
+msgstr[1] "mochilas de cuero"
 
 #: lang/json/ARMOR_from_json.py
 msgid "leather belt"
@@ -8035,8 +8059,8 @@ msgstr[1] ""
 #: lang/json/ARMOR_from_json.py
 msgid "military rucksack"
 msgid_plural "military rucksacks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "mochila militar"
+msgstr[1] "mochilas militares"
 
 #: lang/json/ARMOR_from_json.py
 msgid "monocle"
@@ -9067,8 +9091,8 @@ msgstr[1] "trajes"
 #: lang/json/ARMOR_from_json.py
 msgid "suitcase"
 msgid_plural "suitcases"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "valija"
+msgstr[1] "valijas"
 
 #: lang/json/ARMOR_from_json.py
 msgid "sundress"
@@ -9205,8 +9229,8 @@ msgstr[1] "musculosas"
 #: lang/json/ARMOR_from_json.py
 msgid "ten-gallon hat"
 msgid_plural "ten-gallon hats"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "sombrero de diez galones"
+msgstr[1] "sombreros de diez galones"
 
 #: lang/json/ARMOR_from_json.py
 msgid "tie clip"
@@ -9247,8 +9271,8 @@ msgstr[1] "sobretodos"
 #: lang/json/ARMOR_from_json.py
 msgid "tricorne"
 msgid_plural "tricornes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "tricornio"
+msgstr[1] "tricornios"
 
 #: lang/json/ARMOR_from_json.py
 msgid "turnout coat"
@@ -54602,6 +54626,7 @@ msgstr ""
 msgid "There was not enough moisture in the air from which to draw water!"
 msgstr ""
 
+#. ~Sound of a bionic sonic-resonator shaking the area
 #: src/bionics.cpp
 msgid "VRRRRMP!"
 msgstr ""
@@ -58793,6 +58818,10 @@ msgstr ""
 
 #: src/disease.cpp
 msgid "Your muscles are locking up and you can't fight effectively."
+msgstr ""
+
+#: src/disease.cpp
+msgid "Your muscles spasm."
 msgstr ""
 
 #: src/disease.cpp
@@ -86717,7 +86746,7 @@ msgid "Acceleration: <color_ltblue>%3d</color> %s/t"
 msgstr ""
 
 #: src/veh_interact.cpp
-msgid "Better not remove something will driving."
+msgid "Better not remove something while driving."
 msgstr ""
 
 #: src/veh_interact.cpp

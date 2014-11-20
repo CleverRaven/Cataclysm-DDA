@@ -104,6 +104,8 @@ public:
     int siphon              (player *, item *, bool, point);
     int chainsaw_off        (player *, item *, bool, point);
     int chainsaw_on         (player *, item *, bool, point);
+    int elec_chainsaw_off   (player *, item *, bool, point);
+    int elec_chainsaw_on    (player *, item *, bool, point);
     int cs_lajatang_off     (player *, item *, bool, point);
     int cs_lajatang_on      (player *, item *, bool, point);
     int carver_off          (player *, item *, bool, point);
