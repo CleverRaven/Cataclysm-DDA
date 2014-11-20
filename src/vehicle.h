@@ -764,6 +764,7 @@ public:
     int fridge_epower; // total power consumed by fridges
     int recharger_epower; // total power consumed by rechargers
     bool check_environmental_effects; // True if it has bloody or smoking parts
+    int security;           // security level for hacking/breaking in
 };
 
 #endif

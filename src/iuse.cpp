@@ -9859,7 +9859,48 @@ int iuse::radiocontrol(player *p, item *it, bool t, point)
     return it->type->charges_to_use();
 }
 
-int iuse::remoteveh(player *p, item *it, bool t, point) {
+static bool hackveh(player *p, item *it, vehicle *veh)
+{
+    if( veh->security == 0 ) {
+        return true;
+    } else if( veh->security < 0 ) {
+        p->add_msg_if_player(m_bad, _("This vehicle's security system has locked you out!"));
+        return false;
+    }
+    
+    if( !query_yn( _("Try to hack this car's security system?") ) ) {
+        return false;
+    }
+    
+    int effort = 0;
+    int roll = dice( p->skillLevel( "computer" ) + 2, p->int_cur ) - veh->security * 10;
+    p->practice( "computer", veh->security );
+    if( roll < -20 ) {
+        p->add_msg_if_player( m_bad, _("You trigger the security system which locks you out!") );
+        veh->security = -veh->security;
+    } else if( roll < -10 ) {
+        effort = rng( 4, 8 );
+        p->add_msg_if_player( m_bad, _("You waste some time, but fail to affect the security system.") );
+    } else if( roll < 0 ) {
+        effort = 1;
+        p->add_msg_if_player( m_bad, _("You fail to affect the security system.") );
+    } else if( roll < 20 ) {
+        effort = rng( 2, 8 );
+        p->add_msg_if_player( m_mixed, _("You take some time, but manage to break the security system!") );
+        veh->security = 0;
+    } else {
+        effort = 1;
+        p->add_msg_if_player( m_good, _("You quickly bypass the security system!") );
+        veh->security = 0;
+    }
+    
+    p->moves -= effort;
+    it->charges -= effort;
+    return veh->security == 0;
+}
+
+int iuse::remoteveh(player *p, item *it, bool t, point)
+{
     if (t) {
         if (it->charges == 0) {
             it->active = false;
@@ -9896,18 +9937,25 @@ int iuse::remoteveh(player *p, item *it, bool t, point) {
     if( veh == nullptr ) {
         popup(_("No vehicles here!"));
         return 0;
-    } else if( veh->all_parts_with_feature( "CONTROLS", true ).size() == 0 ) {
+    } 
+    
+    if( !hackveh( p, it, veh ) ) {
+        return 0;
+    }
+    
+    if( veh->all_parts_with_feature( "CONTROLS", true ).size() == 0 ) {
         popup(_("This vehicle has no working controls!"));
         return 0;
     } else if( choice == 2 ) {
         std::stringstream car_location_string;
         // Copypaste from RC car.
         car_location_string << veh->global_x() << ' ' << veh->global_y() << ' ';
-        p->add_msg_if_player(m_good, _("You take control of a vehicle."));
+        p->add_msg_if_player(m_good, _("You take control of the vehicle."));
         p->set_value( "remote_controlling_vehicle", car_location_string.str() );
         it->active = true;
     } else if( choice == 3 ) {
         veh->use_controls();
+        p->moves -= 100;
     } else {
         return 0;
     }

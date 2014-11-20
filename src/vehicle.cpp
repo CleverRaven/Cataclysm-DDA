@@ -71,6 +71,7 @@ vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): t
     recharger_epower = 0;
     tracking_epower = 0;
     cruise_velocity = 0;
+    security = 0;
     music_id = "";
     skidding = false;
     cruise_on = true;
@@ -408,6 +409,9 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
         }
 
     }
+    
+    // Security should depend on car type - high for military, low for low-end
+    security = 3;
 }
 /**
  * Smashes up a vehicle that has already been placed; used for generating
