@@ -1584,15 +1584,17 @@ void mapgen_bridge(map *m, oter_id terrain_type, mapgendata dat, int turn, float
     (void)dat;
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {
-            if (i < 4 || i >= SEEX * 2 - 4) {
+            if (i < 2 || i >= SEEX * 2 - 2) {
                 m->ter_set(i, j, t_water_dp);
-            } else if (i == 4 || i == SEEX * 2 - 5) {
-                m->ter_set(i, j, t_railing_v);
+            } else if (i == 2 || i == SEEX * 2 - 3) {
+                m->ter_set(i, j, t_guardrail_bg_dp);
+            } else if (i == 3 || i == SEEX * 2 - 4) {
+                m->ter_set(i, j, t_sidewalk_bg_dp);
             } else {
                 if ((i == SEEX - 1 || i == SEEX) && j % 4 != 0) {
-                    m->ter_set(i, j, t_pavement_y);
+                    m->ter_set(i, j, t_pavement_y_bg_dp);
                 } else {
-                    m->ter_set(i, j, t_pavement);
+                    m->ter_set(i, j, t_pavement_bg_dp);
                 }
             }
         }
