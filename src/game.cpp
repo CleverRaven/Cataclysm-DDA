@@ -11850,7 +11850,7 @@ void game::forage()
 
     if (one_in(12)) {
         add_msg(m_good, _("You found some trash!"));
-        m.put_items_from("trash_forest", 1, u.posx, u.posy, calendar::turn, 0, 0, 0);
+        m.put_items_from_loc( "trash_forest", u.posx, u.posy, calendar::turn );
         found_something = true;
     }
     // Compromise: Survival gives a bigger boost, and Peception is leveled a bit.

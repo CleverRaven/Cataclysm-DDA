@@ -5,7 +5,6 @@
 #include "game.h"
 #include "rng.h"
 #include "item.h"
-#include "item_group.h"
 #include "translations.h"
 #include "overmapbuffer.h"
 #include <sstream>
@@ -1265,10 +1264,7 @@ void monster::drop_items_on_death()
     if (type->death_drops.empty()) {
         return;
     }
-    const auto items = item_group::items_from(type->death_drops, calendar::turn);
-    for( auto &it : items ) {
-        g->m.add_item_or_charges(_posx, _posy, it);
-    }
+    g->m.put_items_from_loc( type->death_drops, _posx, _posy, calendar::turn );
 }
 
 void monster::process_effects()

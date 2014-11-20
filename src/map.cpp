@@ -5391,14 +5391,14 @@ void map::add_corpse(int x, int y) {
     }
 
     add_item_or_charges(x, y, body);
-    put_items_from("shoes",  1, x, y, 0, 0, 0);
-    put_items_from("pants",  1, x, y, 0, 0, 0);
-    put_items_from("shirts", 1, x, y, 0, 0, 0);
+    put_items_from_loc( "shoes",  x, y, 0);
+    put_items_from_loc( "pants",  x, y, 0);
+    put_items_from_loc( "shirts", x, y, 0);
     if (one_in(6)) {
-        put_items_from("jackets", 1, x, y, 0, 0, 0);
+        put_items_from_loc("jackets", x, y, 0);
     }
     if (one_in(15)) {
-        put_items_from("bags", 1, x, y, 0, 0, 0);
+        put_items_from_loc("bags", x, y, 0);
     }
 }
 

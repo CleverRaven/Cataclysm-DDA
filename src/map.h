@@ -607,10 +607,13 @@ void add_corpse(int x, int y);
  int place_npc(int x, int y, std::string type);
  int place_items(items_location loc, const int chance, const int x1, const int y1,
                   const int x2, const int y2, bool ongrass, const int turn, bool rand = true);
+ /**
+  * Place items from an item group at (x,y). Places as much items as the item group says.
+  * (Most item groups are distributions and will only create one item.)
+  * @param turn The birthday that the created items shall have.
+  * @return The number of placed items.
+  */
  int put_items_from_loc(items_location loc, const int x, const int y, const int turn = 0);
-// put_items_from puts exactly num items, based on chances
- void put_items_from(items_location loc, const int num, const int x, const int y, const int turn = 0,
-                    const int quantity = 0, const long charges = 0, const int damlevel = 0, const bool rand = true);
  void spawn_an_item(const int x, const int y, item new_item,
                     const long charges, const int damlevel);
  // Similar to spawn_an_item, but spawns a list of items, or nothing if the list is empty.

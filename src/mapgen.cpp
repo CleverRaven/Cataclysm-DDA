@@ -11136,7 +11136,6 @@ int map::place_items(items_location loc, int chance, int x1, int y1,
             lets_spawn -= 1.0;
 
             // Might contain one item or several that belong together like guns & their ammo
-            const auto items = item_group::items_from(loc, 0);
             int tries = 0;
             do {
                 px = rng(x1, x2);
@@ -11148,8 +11147,7 @@ int map::place_items(items_location loc, int chance, int x1, int y1,
                        (!ongrass && !terlist[ter(px, py)].has_flag("FLAT")) ) &&
                      tries < 20);
             if (tries < 20) {
-                spawn_items(px, py, items);
-                item_num += items.size();
+                item_num += put_items_from_loc( loc, px, py, 0 );
             }
         }
         if (chance == 100) {
@@ -11164,15 +11162,6 @@ int map::put_items_from_loc(items_location loc, int x, int y, int turn)
     const auto items = item_group::items_from(loc, turn);
     spawn_items(x, y, items);
     return items.size();
-}
-
-void map::put_items_from(items_location loc, int num, int x, int y, int turn, int quantity,
-                         long charges, int damlevel, bool rand)
-{
-    for (int i = 0; i < num; i++) {
-        Item_tag selected_item = item_group::id_from(loc);
-        spawn_item(x, y, selected_item, quantity, charges, turn, damlevel, rand);
-    }
 }
 
 void map::add_spawn(std::string type, int count, int x, int y, bool friendly,
