@@ -947,7 +947,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
     int height = 17;
     int width  = getmaxx(w_messages);
     // Overlap the player info window.
-    int top    = -1 + sideStyle ? getbegy(w_messages) : (getbegy(w_minimap) + getmaxy(w_minimap));
+    int top    = -1 + (sideStyle ? getbegy(w_messages) : (getbegy(w_minimap) + getmaxy(w_minimap)) );
     int left   = getbegx(w_messages);
     WINDOW *w_target = newwin(height, width, top, left);
     WINDOW_PTR w_targetptr( w_target );
