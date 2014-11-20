@@ -192,6 +192,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
     bool blood_covered = false;
     bool blood_inside = false;
     bool has_no_key = false;
+    bool destroyAlarm = false;
     
     std::map<std::string, int> consistent_bignesses;
 
@@ -240,10 +241,10 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
         } else{
             destroyTires = true;
         }
+    } else if (!one_in(3)){
+        //most cars should have a desroyed alarm
+        destroyAlarm = true;
     }
-    
-    //debug only
-    has_no_key = true;
     
     //Provide some variety to non-mint vehicles
     if(veh_status != 0) {
@@ -338,7 +339,8 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
             if ((destroySeats && (part_flag(p, "SEAT") || part_flag(p, "SEATBELT"))) ||
                 (destroyControls && (part_flag(p, "CONTROLS") || part_flag(p, "SECURITY"))) ||
                 (destroyEngine && part_flag(p, "ENGINE")) ||
-                (destroyTires && part_flag(p, VPFLAG_WHEEL)))
+                (destroyTires && part_flag(p, VPFLAG_WHEEL)) ||
+                (destroyAlarm && part_flag(p, "SECURITY")))
             {
                 parts[p].hp= 0;
             }
