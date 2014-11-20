@@ -1474,7 +1474,7 @@ bool game::do_turn()
     }
     m.process_fields();
     m.process_active_items();
-    m.step_in_field(u.posx, u.posy);
+    m.creature_in_field( u );
 
     monmove();
     update_stair_monsters();
@@ -6446,7 +6446,7 @@ void game::monmove()
             critter->process_turn();
         }
 
-        m.mon_in_field(critter->posx(), critter->posy(), critter);
+        m.creature_in_field( *critter );
 
         while (critter->moves > 0 && !critter->is_dead()) {
             critter->made_footstep = false;
@@ -6456,7 +6456,7 @@ void game::monmove()
             }
             critter->move(); // Move one square, possibly hit u
             critter->process_triggers();
-            m.mon_in_field(critter->posx(), critter->posy(), critter);
+            m.creature_in_field( *critter );
         }
 
         if (!critter->is_dead()) {
@@ -6489,6 +6489,7 @@ void game::monmove()
     for (std::vector<npc *>::iterator it = active_npc.begin();
          it != active_npc.end(); ++it) {
         int turns = 0;
+        m.creature_in_field( **it );
         if((*it)->hp_cur[hp_head] <= 0 || (*it)->hp_cur[hp_torso] <= 0) {
             (*it)->die( nullptr );
         } else {
