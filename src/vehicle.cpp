@@ -3224,7 +3224,7 @@ void vehicle::alarm(bool on_map){
         //if alarm found, make noise, else set alarm disabled
         if (found_alarm){
             const char *sound_msgs[] = { "WHOOP WHOOP", "NEEeu NEEeu NEEeu", "BLEEEEEEP", "WREEP"};
-            g->ambient_sound( global_x(), global_y(), (int) rng(45,80), sound_msgs[rng(0,3)]);
+            g->sound( global_x(), global_y(), (int) rng(45,80), sound_msgs[rng(0,3)]);
             if (one_in(1000)) is_alarm_on = false;
         } else{
             is_alarm_on = false;
