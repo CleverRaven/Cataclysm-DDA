@@ -186,7 +186,7 @@ void npc::execute_action(npc_action action, int target)
         if (!weapon.reload(*this, ammo_index)) {
             debugmsg("NPC reload failed.");
         }
-        recoil = 6;
+        recoil = MIN_RECOIL;
         if (g->u_see(posx, posy)) {
             add_msg(_("%s reloads their %s."), name.c_str(),
                     weapon.tname().c_str());
@@ -813,34 +813,10 @@ int npc::confident_range(int position)
     double deviation = 0;
     int max = 0;
     if (position == -1) {
-        it_gun *firing = dynamic_cast<it_gun *>(weapon.type);
-        // We want at least 50% confidence that missed_by will be < .5.
-        // missed_by = .00325 * deviation * range <= .5; deviation * range <= 156
-        // (range <= 156 / deviation) is okay, so confident range is (156 / deviation)
-        // Here we're using max values for deviation followed by *.5, for around-50% estimate.
-        // See game::fire (ranged.cpp) for where these computations come from
-
-        if (skillLevel(firing->skill_used) < 8) {
-            deviation += 3 * (8 - skillLevel(firing->skill_used));
-        }
-        if (skillLevel("gun") < 9) {
-            deviation += 9 - skillLevel("gun");
-        }
-
-        deviation += ranged_dex_mod();
-        deviation += ranged_per_mod();
-
-        deviation += encumb(bp_arm_l) + encumb(bp_arm_r) + 4 * encumb(bp_eyes);
-
-        if (weapon.curammo == NULL) { // This shouldn't happen, but it does sometimes
-            debugmsg("%s has NULL curammo!", name.c_str());    // TODO: investigate this bug
-        } else {
-            deviation += weapon.curammo->dispersion;
-            max = weapon.range();
-        }
-        deviation += firing->dispersion;
-        deviation += recoil;
-
+        deviation = get_weapon_dispersion( &weapon, true );
+        deviation += recoil + driving_recoil;
+        // Convert from MoA back to quarter-degrees.
+        deviation /= 15;
     } else { // We aren't firing a gun, we're throwing something!
 
         item *thrown = &i_at(position);
@@ -1003,7 +979,7 @@ void npc::move_to(int x, int y)
     }
     if (recoil > 0) { // Start by dropping recoil a little
         if (int(str_cur / 2) + skillLevel("gun") >= (int)recoil) {
-            recoil = 0;
+            recoil = MIN_RECOIL;
         } else {
             recoil -= int(str_cur / 2) + skillLevel("gun");
             recoil = int(recoil / 2);
@@ -1252,7 +1228,7 @@ void npc::move_pause()
     moves = 0;
     if (recoil > 0) {
         if (str_cur + 2 * skillLevel("gun") >= (int)recoil) {
-            recoil = 0;
+            recoil = MIN_RECOIL;
         } else {
             recoil -= str_cur + 2 * skillLevel("gun");
             recoil = int(recoil / 2);

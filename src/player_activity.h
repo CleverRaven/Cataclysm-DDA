@@ -38,6 +38,7 @@ enum activity_type {    // expanded this enum for readability
     ACT_START_FIRE,
     ACT_FILL_LIQUID,
     ACT_HOTWIRE_CAR,
+    ACT_AIM,
     NUM_ACTIVITIES
 };
 

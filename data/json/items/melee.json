@@ -4266,5 +4266,21 @@
         "bashing": 4,
         "cutting": 0,
         "to_hit": 1
+    },{
+        "type":"GENERIC",
+        "id": "straw_pile",
+        "symbol": ",",
+        "color": "light_gray",
+        "name": "pile of straw",
+        "name_plural": "piles of straw",
+        "category": "spare_parts",
+        "description": "A pile of dry grass.  Can be used if there is nothing else to sleep on.",
+        "price": 0,
+        "material": ["veggy"],
+        "weight": 20,
+        "volume": 1,
+        "bashing": 0,
+        "cutting": 0,
+        "to_hit": -2
     }
 ]

@@ -71,6 +71,11 @@ enum safe_mode_type {
     SAFE_MODE_STOP = 2, // New monsters spotted, no movement allowed
 };
 
+enum target_mode {
+    TARGET_MODE_FIRE,
+    TARGET_MODE_THROW
+};
+
 // Refactoring into base monster class.
 
 struct monster_and_count {
@@ -323,28 +328,6 @@ class game
         std::list<std::pair<int, int>> multidrop();
         faction *list_factions(std::string title = "FACTIONS:");
 
-        recipe_map list_recipes()
-        {
-            return recipes;
-        };
-        inventory crafting_inventory(player *p);  // inv_from_map, inv, & 'weapon'
-        std::list<item> consume_items(player *p, const std::vector<item_comp> &components, int batch = 1);
-        void consume_tools(player *p, const std::vector<tool_comp> &tools, int batch = 1);
-        /**
-         * Returns the recipe that is used to disassemble the given item type.
-         * Returns NULL if there is no recipe to disassemble the item type.
-         */
-        const recipe *get_disassemble_recipe(const itype_id &ype);
-        /**
-         * Check if the player can disassemble the item dis_item with the recipe
-         * cur_recipe and the inventory crafting_inv.
-         * Checks for example tools (and charges), enough input charges
-         * (if disassembled item is counted by charges).
-         * If print_msg is true show a message about missing tools/charges.
-         */
-        bool can_disassemble(item *dis_item, const recipe *cur_recipe,
-                             inventory &crafting_inv, bool print_msg);
-
         bool has_gametype() const;
         special_game_id gametype() const;
 
@@ -552,28 +535,6 @@ class game
         void open(); // Open a door  'o'
         void close(int closex = -1, int closey = -1); // Close a door  'c'
         void smash(); // Smash terrain
-        void craft();                        // See crafting.cpp
-        void recraft();                      // See crafting.cpp
-        void long_craft();                   // See crafting.cpp
-        bool crafting_allowed();             // See crafting.cpp
-        bool crafting_can_see();             // See crafting.cpp
-        const recipe *select_crafting_recipe( int &batch_size );    // See crafting.cpp
-        bool making_would_work(std::string id_to_make, int batch_size);   // See crafting.cpp
-        bool is_container_eligible_for_crafting(item &cont); // See crafting.cpp
-        std::vector<item> get_eligible_containers_for_crafting();    // See crafting.cpp
-        bool check_eligible_containers_for_crafting(const recipe *r, int batch = 1);
-        bool can_make(const recipe *r, int batch_size); // See crafting.cpp
-        void make_craft(std::string id, int batch_size); // See crafting.cpp
-        void make_all_craft(std::string id, int batch_size); // See crafting.cpp
-        void complete_craft();               // See crafting.cpp
-        void pick_recipes(const inventory &crafting_inv, std::vector<const recipe *> &current,
-                          std::vector<bool> &available, craft_cat tab, craft_subcat subtab,
-                          std::string filter);// crafting.cpp
-        void batch_recipes(const inventory &crafting_inv, std::vector<const recipe *> &current,
-                           std::vector<bool> &available, const recipe* r);// crafting.cpp
-        void disassemble(int pos = INT_MAX);       // See crafting.cpp
-        void complete_disassemble();         // See crafting.cpp
-        const recipe *recipe_by_index(int index);  // See crafting.cpp
 
         // Forcefully close a door at (x, y).
         // The function checks for creatures/items/vehicles at that point and
@@ -648,10 +609,10 @@ class game
         // throw().
         std::vector<point> target(int &x, int &y, int lowx, int lowy, int hix,
                                   int hiy, std::vector <Creature *> t, int &target,
-                                  item *relevent);
+                                  item *relevent, target_mode mode);
         // interface to target(), collects a list of targets & selects default target
         // finally calls target() and returns its result.
-        std::vector<point> pl_target_ui(int &x, int &y, int range, item *relevent,
+        std::vector<point> pl_target_ui(int &x, int &y, int range, item *relevent, target_mode mode,
                                         int default_target_x = -1, int default_target_y = -1);
 
         // Map updating and monster spawning

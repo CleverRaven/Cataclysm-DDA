@@ -504,8 +504,9 @@ extern ter_id t_null,
     t_grass,
     t_metal_floor,
     t_pavement, t_pavement_y, t_sidewalk, t_concrete,
-    t_floor,
+    t_floor, t_floor_waxed,
     t_dirtfloor,//Dirt floor(Has roof)
+    t_carpet_red,t_carpet_yellow,t_carpet_purple,t_carpet_green,
     t_grate,
     t_slime,
     t_bridge,
@@ -591,7 +592,7 @@ extern furn_id f_null,
     f_barricade_road, f_sandbag_half, f_sandbag_wall,
     f_bulletin,
     f_indoor_plant,
-    f_bed, f_toilet, f_makeshift_bed,
+    f_bed, f_toilet, f_makeshift_bed, f_straw_bed,
     f_sink, f_oven, f_woodstove, f_fireplace, f_bathtub,
     f_chair, f_armchair, f_sofa, f_cupboard, f_trashcan, f_desk, f_exercise,
     f_bench, f_table, f_pool_table,
@@ -608,7 +609,8 @@ extern furn_id f_null,
     f_plant_seed, f_plant_seedling, f_plant_mature, f_plant_harvest,
     f_fvat_empty, f_fvat_full,
     f_wood_keg, f_egg_sackbw, f_egg_sackws, f_egg_sacke,
-    f_flower_marloss;
+    f_flower_marloss,
+    f_tatami;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// These are on their way OUT and only used in certain switch statements until they are rewritten.

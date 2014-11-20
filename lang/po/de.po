@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cdda\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-10 13:32+0300\n"
-"PO-Revision-Date: 2014-11-11 16:14+0000\n"
+"POT-Creation-Date: 2014-11-17 10:39+0300\n"
+"PO-Revision-Date: 2014-11-17 17:19+0000\n"
 "Last-Translator: Wuzzy <almikes@aol.com>\n"
 "Language-Team: NOINFO\n"
 "Language: de\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2014-11-12 06:29+0000\n"
-"X-Generator: Launchpad (build 17241)\n"
+"X-Launchpad-Export-Date: 2014-11-19 07:40+0000\n"
+"X-Generator: Launchpad (build 17252)\n"
 
 #: lang/json/AMMO_from_json.py
 msgid ".20 DREAD Pellet"
@@ -46775,7 +46775,7 @@ msgstr "Fleischunverträglichkeit"
 
 #: lang/json/mutation_from_json.py
 msgid "Melee Weapon Training"
-msgstr "Nachkampfwaffentraining"
+msgstr "Nahkampfwaffentraining"
 
 #: lang/json/mutation_from_json.py
 msgid "Metallassomaiphile"
@@ -63086,6 +63086,7 @@ msgstr "Die Entfernung schlägt fehl."
 msgid "There was not enough moisture in the air from which to draw water!"
 msgstr "Die Luftfeuchtigkeit ist zu gering, um Wasser zu erhalten!"
 
+#. ~Sound of a bionic sonic-resonator shaking the area
 #: src/bionics.cpp
 msgid "VRRRRMP!"
 msgstr "»WRUMM!«"
@@ -67718,6 +67719,10 @@ msgstr "Deine Beine zittern unstetig vor Kälte."
 #: src/disease.cpp
 msgid "Your muscles are locking up and you can't fight effectively."
 msgstr "Deine Muskeln verkrampfen sich und du kannst nicht effizient kämpfen."
+
+#: src/disease.cpp
+msgid "Your muscles spasm."
+msgstr "Deine Muskeln verkrampfen sich."
 
 #: src/disease.cpp
 msgid "Your right arm feels warm."
@@ -88254,7 +88259,7 @@ msgstr "%s"
 msgid "%s %s %d point"
 msgid_plural "%s %s %d points"
 msgstr[0] "%s %s %d Punkt"
-msgstr[1] "%s %s %d Punkt"
+msgstr[1] "%s %s %d Punkte"
 
 #: src/newcharacter.cpp
 #, c-format
@@ -97600,8 +97605,8 @@ msgid "Acceleration: <color_ltblue>%3d</color> %s/t"
 msgstr "Beschleunigung: <color_ltblue>%3d</color> %s/t"
 
 #: src/veh_interact.cpp
-msgid "Better not remove something will driving."
-msgstr "Während der Fahrt sollte man lieber nichts vom Fahrzeug entfernen."
+msgid "Better not remove something while driving."
+msgstr "Während der Fahrt sollte man nichts entfernen."
 
 #: src/veh_interact.cpp
 msgid "Boat:    <color_blue>can swim</color>"

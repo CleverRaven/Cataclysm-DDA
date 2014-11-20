@@ -88,7 +88,7 @@ void tutorial_game::per_turn()
  if (g->u.pain > 0)
   add_message(LESSON_PAIN);
 
- if (g->u.recoil >= 5)
+ if (g->u.recoil >= MIN_RECOIL)
   add_message(LESSON_RECOIL);
 
  if (!tutorials_seen[LESSON_BUTCHER]) {
