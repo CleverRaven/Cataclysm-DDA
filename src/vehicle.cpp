@@ -4,7 +4,7 @@
 #include "output.h"
 #include "game.h"
 #include "item.h"
-#include "item_factory.h"
+#include "item_group.h"
 #include "veh_interact.h"
 #include <fstream>
 #include <sstream>
@@ -3890,9 +3890,7 @@ void vehicle::place_spawn_items()
                             continue;
                         }
                     }
-                    Item_tag group_tag = item_controller->id_from(*next_group_id);
-                    item new_item(group_tag, calendar::turn);
-                    new_item = new_item.in_its_container();
+                    item new_item = item_group::item_from( *next_group_id, 0 );
                     if ( idmg > 0 ) {
                         new_item.damage = (signed char)idmg;
                     }

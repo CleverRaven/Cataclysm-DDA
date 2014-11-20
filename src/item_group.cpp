@@ -2,12 +2,25 @@
 #include "item_group.h"
 #include "monstergenerator.h"
 #include "rng.h"
+#include "item.h"
 #include "debug.h"
 #include <map>
 #include <algorithm>
 #include <cassert>
 
 static const std::string null_item_id("null");
+
+Item_spawn_data::ItemList Item_spawn_data::create( int birthday ) const
+{
+    RecursionList rec;
+    return create( birthday, rec );
+}
+
+item Item_spawn_data::create_single( int birthday ) const
+{
+    RecursionList rec;
+    return create_single( birthday, rec );
+}
 
 Single_item_creator::Single_item_creator(const std::string &_id, Type _type, int _probability)
     : Item_spawn_data(_probability)
@@ -99,7 +112,7 @@ void Single_item_creator::check_consistency() const
             debugmsg("item id %s is unknown", id.c_str());
         }
     } else if (type == S_ITEM_GROUP) {
-        if (!item_controller->has_group(id)) {
+        if (!item_group::group_is_defined(id)) {
             debugmsg("item group id %s is unknown", id.c_str());
         }
     } else if (type == S_NONE) {
@@ -391,3 +404,66 @@ bool Item_group::has_item(const Item_tag &itemid) const
     }
     return false;
 }
+
+item_group::ItemList item_group::items_from( const Group_tag &group_id, int birthday )
+{
+    const auto group = item_controller->get_group( group_id );
+    if( group == nullptr ) {
+        return ItemList();
+    }
+    return group->create( birthday );
+}
+
+item_group::ItemList item_group::items_from( const Group_tag &group_id )
+{
+    return items_from( group_id, 0 );
+}
+
+itype_id item_group::id_from( const Group_tag &group_id )
+{
+    const auto group = item_controller->get_group( group_id );
+    if( group == nullptr ) {
+        return EMPTY_GROUP_ITEM_ID;
+    }
+    const auto new_item = group->create_single( 0 );
+    if( new_item.typeId() == null_item_id ) {
+        return EMPTY_GROUP_ITEM_ID;
+    }
+    return new_item.typeId();
+}
+
+item item_group::item_from( const Group_tag &group_id, int birthday )
+{
+    const auto group = item_controller->get_group( group_id );
+    if( group == nullptr ) {
+        return item();
+    }
+    return group->create_single( birthday );
+}
+
+item item_group::item_from( const Group_tag &group_id )
+{
+    return item_from( group_id, 0 );
+}
+
+bool item_group::group_is_defined( const Group_tag &group_id )
+{
+    return item_controller->get_group( group_id ) != nullptr;
+}
+
+bool item_group::group_contains_item( const Group_tag &group_id, const itype_id &type_id )
+{
+    const auto group = item_controller->get_group( group_id );
+    if( group == nullptr ) {
+        return false;
+    }
+    return group->has_item( type_id );
+}
+
+void item_group::load_item_group( JsonObject &jsobj, const Group_tag &group_id,
+                                  const std::string &subtype )
+{
+    item_controller->load_item_group( jsobj, group_id, subtype );
+}
+
+const itype_id item_group::EMPTY_GROUP_ITEM_ID( "MISSING_ITEM" );

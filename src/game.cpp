@@ -15,7 +15,7 @@
 #include "bodypart.h"
 #include "map.h"
 #include "uistate.h"
-#include "item_factory.h"
+#include "item_group.h"
 #include "helper.h"
 #include "json.h"
 #include "artifact.h"
@@ -5034,7 +5034,7 @@ void game::debug()
     }
     break;
     case 21: {
-        item_controller->debug_spawn();
+        item_group::debug_spawn();
     }
     break;
 
@@ -11676,7 +11676,7 @@ void game::complete_butcher(int index)
         if (skill_shift >= 0) {
             //To see if it spawns a random additional CBM
             if (rng(0, 1) == 1) { //The CBM works
-                Item_tag bionic_item = item_controller->id_from("bionics_common");
+                itype_id bionic_item = item_group::id_from("bionics_common");
                 m.spawn_item(u.posx, u.posy, bionic_item, 1, 0, age);
             } else { //There is a burnt out CBM
                 m.spawn_item(u.posx, u.posy, "burnt_out_bionic", 1, 0, age);
@@ -11699,7 +11699,7 @@ void game::complete_butcher(int index)
         if (skill_shift >= 0) {
             //To see if it spawns a random additional CBM
             if (rng(0, 1) == 1) { //The CBM works
-                Item_tag bionic_item = item_controller->id_from("bionics_sci");
+                itype_id bionic_item = item_group::id_from("bionics_sci");
                 m.spawn_item(u.posx, u.posy, bionic_item, 1, 0, age);
             } else { //There is a burnt out CBM
                 m.spawn_item(u.posx, u.posy, "burnt_out_bionic", 1, 0, age);
@@ -11721,7 +11721,7 @@ void game::complete_butcher(int index)
         if (skill_shift >= 0) {
             //To see if it spawns a random additional CBM
             if (rng(0, 1) == 1) { //The CBM works
-                Item_tag bionic_item = item_controller->id_from("bionics_tech");
+                itype_id bionic_item = item_group::id_from("bionics_tech");
                 m.spawn_item(u.posx, u.posy, bionic_item, 1, 0, age);
             } else { //There is a burnt out CBM
                 m.spawn_item(u.posx, u.posy, "burnt_out_bionic", 1, 0, age);
@@ -11743,7 +11743,7 @@ void game::complete_butcher(int index)
         if (skill_shift >= 0) {
             //To see if it spawns a random additional CBM
             if (rng(0, 1) == 1) { //The CBM works
-                Item_tag bionic_item = item_controller->id_from("bionics_subs");
+                itype_id bionic_item = item_group::id_from("bionics_subs");
                 m.spawn_item(u.posx, u.posy, bionic_item, 1, 0, age);
             } else { //There is a burnt out CBM
                 m.spawn_item(u.posx, u.posy, "burnt_out_bionic", 1, 0, age);
@@ -11752,7 +11752,7 @@ void game::complete_butcher(int index)
         if (skill_shift >= 0) {
             //To see if it spawns a random additional CBM
             if (rng(0, 1) == 1) { //The CBM works
-                Item_tag bionic_item = item_controller->id_from("bionics_subs");
+                itype_id bionic_item = item_group::id_from("bionics_subs");
                 m.spawn_item(u.posx, u.posy, bionic_item, 1, 0, age);
             } else { //There is a burnt out CBM
                 m.spawn_item(u.posx, u.posy, "burnt_out_bionic", 1, 0, age);
@@ -11775,7 +11775,7 @@ void game::complete_butcher(int index)
         if (skill_shift >= 0) {
             //To see if it spawns a random additional CBM
             if (rng(0, 1) == 1) { //The CBM works
-                Item_tag bionic_item = item_controller->id_from("bionics_op");
+                itype_id bionic_item = item_group::id_from("bionics_op");
                 m.spawn_item(u.posx, u.posy, bionic_item, 1, 0, age);
             } else { //There is a burnt out CBM
                 m.spawn_item(u.posx, u.posy, "burnt_out_bionic", 1, 0, age);

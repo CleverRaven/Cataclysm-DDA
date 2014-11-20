@@ -6,7 +6,7 @@
 #include "line.h"
 #include "debug.h"
 #include "options.h"
-#include "item_factory.h"
+#include "item_group.h"
 #include "mapgen_functions.h"
 #include "mapgenformat.h"
 #include "overmapbuffer.h"
@@ -501,7 +501,7 @@ void mapgen_function_json::setup_place_group(JsonArray &parray ) {
 
          if ( jsi.read("item", tmpval ) ) {
              tmpop = JMAPGEN_PLACEGROUP_ITEM;
-             if ( !item_controller->has_group( tmpval ) ) {
+             if ( !item_group::group_is_defined( tmpval ) ) {
                  jsi.throw_error(string_format("place_group: no such item group '%s'",tmpval.c_str() ));
              }
          } else if ( jsi.read("monster", tmpval ) ) {
@@ -567,7 +567,7 @@ void mapgen_function_json::setup_place_special(JsonArray &parray )
             } else if (tmpval == "vendingmachine") {
                 tmpop = JMAPGEN_PLACESPECIAL_VENDINGMACHINE;
                 tmp_type = jsi.get_string("item_group", one_in(2) ? "vending_food" : "vending_drink");
-                if (!item_controller->has_group(tmp_type)) {
+                if (!item_group::group_is_defined(tmp_type)) {
                     jsi.throw_error(string_format("  place special: no such item group '%s'", tmp_type.c_str()), "item_group" );
                 }
             } else if (tmpval == "sign") {
@@ -11120,7 +11120,7 @@ int map::place_items(items_location loc, int chance, int x1, int y1,
         debugmsg("map::place_items() called with an invalid chance (%d)", chance);
         return 0;
     }
-    if (!item_controller->has_group(loc)) {
+    if (!item_group::group_is_defined(loc)) {
         const point omt = overmapbuffer::sm_to_omt_copy( get_abs_sub().x, get_abs_sub().y );
         const oter_id &oid = overmap_buffer.ter( omt.x, omt.y, get_abs_sub().z );
         debugmsg("place_items: invalid item group '%s', om_terrain = '%s' (%s)",
@@ -11136,7 +11136,7 @@ int map::place_items(items_location loc, int chance, int x1, int y1,
             lets_spawn -= 1.0;
 
             // Might contain one item or several that belong together like guns & their ammo
-            const Item_list items = item_controller->create_from_group(loc, 0);
+            const auto items = item_group::items_from(loc, 0);
             int tries = 0;
             do {
                 px = rng(x1, x2);
@@ -11161,7 +11161,7 @@ int map::place_items(items_location loc, int chance, int x1, int y1,
 
 int map::put_items_from_loc(items_location loc, int x, int y, int turn)
 {
-    const Item_list items = item_controller->create_from_group(loc, turn);
+    const auto items = item_group::items_from(loc, turn);
     spawn_items(x, y, items);
     return items.size();
 }
@@ -11170,7 +11170,7 @@ void map::put_items_from(items_location loc, int num, int x, int y, int turn, in
                          long charges, int damlevel, bool rand)
 {
     for (int i = 0; i < num; i++) {
-        Item_tag selected_item = item_controller->id_from(loc);
+        Item_tag selected_item = item_group::id_from(loc);
         spawn_item(x, y, selected_item, quantity, charges, turn, damlevel, rand);
     }
 }
