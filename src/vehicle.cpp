@@ -3891,6 +3891,9 @@ void vehicle::place_spawn_items()
                         }
                     }
                     item new_item = item_group::item_from( *next_group_id, 0 );
+                    if( new_item.is_null() ) {
+                        continue;
+                    }
                     if ( idmg > 0 ) {
                         new_item.damage = (signed char)idmg;
                     }

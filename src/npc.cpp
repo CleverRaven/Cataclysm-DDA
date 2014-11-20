@@ -836,6 +836,9 @@ std::list<item> starting_inv(npc *me, npc_class type)
 
  while (total_space > 0 && !one_in(stopChance)) {
     tmpitem = random_item_from( type, "_misc" );
+    if( tmpitem.is_null() ) {
+        continue;
+    }
     if( one_in( 3 ) && tmpitem.has_flag( "VARSIZE" ) ) {
         tmpitem.item_tags.insert( "FIT" );
     }
@@ -1542,7 +1545,7 @@ void npc::shop_restock(){
         return;
     while (total_space > 0 && !one_in(50)) {
         item tmpit = item_group::item_from( from, 0 );
-        if (total_space >= tmpit.volume()) {
+        if( !tmpit.is_null() && total_space >= tmpit.volume()) {
             ret.push_back(tmpit);
             total_space -= tmpit.volume();
         }

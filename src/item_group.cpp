@@ -80,7 +80,10 @@ Item_spawn_data::ItemList Single_item_creator::create(int birthday, RecursionLis
     }
     for( ; cnt > 0; cnt--) {
         if (type == S_ITEM) {
-            result.push_back(create_single(birthday, rec));
+            const auto itm = create_single( birthday, rec );
+            if( !itm.is_null() ) {
+                result.push_back( itm );
+            }
         } else {
             if (std::find(rec.begin(), rec.end(), id) != rec.end()) {
                 debugmsg("recursion in item spawn list %s", id.c_str());
