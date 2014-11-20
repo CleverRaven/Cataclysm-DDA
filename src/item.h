@@ -98,7 +98,10 @@ public:
  // Firearm specifics
  int reload_time(player &u);
  int clip_size();
- int dispersion();
+ int dispersion() const;
+ // We use the current aim level to decide which sight to use.
+ int sight_dispersion( int aim_threshold ) const;
+ int aim_speed( int aim_threshold ) const;
  int gun_damage(bool with_ammo = true);
  int gun_pierce(bool with_ammo = true);
  int noise() const;
@@ -109,6 +112,7 @@ public:
  int pick_reload_ammo(player &u, bool interactive);
  bool reload(player &u, int pos);
  void next_mode();
+ std::string skill() const;
 
     using JsonSerializer::serialize;
     // give the option not to save recursively, but recurse by default

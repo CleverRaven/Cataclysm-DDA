@@ -424,7 +424,8 @@ ter_id t_null,
      t_pedestal_temple,
     // Temple tiles
     t_rock_red, t_rock_green, t_rock_blue, t_floor_red, t_floor_green, t_floor_blue,
-    t_switch_rg, t_switch_gb, t_switch_rb, t_switch_even, t_open_air, t_plut_generator;
+    t_switch_rg, t_switch_gb, t_switch_rb, t_switch_even, t_open_air, t_plut_generator,
+    t_pavement_bg_dp, t_pavement_y_bg_dp, t_sidewalk_bg_dp, t_guardrail_bg_dp;
 
 void set_ter_ids() {
     t_null=terfind("t_null");
@@ -669,6 +670,10 @@ void set_ter_ids() {
     t_water_pump=terfind("t_water_pump");
     t_open_air=terfind("t_open_air");
     t_plut_generator = terfind("t_plut_generator");
+    t_pavement_bg_dp = terfind("t_pavement_bg_dp");
+    t_pavement_y_bg_dp = terfind("t_pavement_y_bg_dp");
+    t_sidewalk_bg_dp = terfind("t_sidewalk_bg_dp");
+    t_guardrail_bg_dp = terfind("t_guardrail_bg_dp");
 };
 
 furn_id furnfind(const std::string & id) {
@@ -685,7 +690,7 @@ furn_id f_null,
     f_barricade_road, f_sandbag_half, f_sandbag_wall,
     f_bulletin,
     f_indoor_plant,f_indoor_plant_y,
-    f_bed, f_toilet, f_makeshift_bed,
+    f_bed, f_toilet, f_makeshift_bed, f_straw_bed,
     f_sink, f_oven, f_woodstove, f_fireplace, f_bathtub,
     f_chair, f_armchair, f_sofa, f_cupboard, f_trashcan, f_desk, f_exercise,
     f_ball_mach, f_bench, f_lane, f_table, f_pool_table,
@@ -704,7 +709,8 @@ furn_id f_null,
     f_wood_keg,
     f_statue, f_egg_sackbw, f_egg_sackws, f_egg_sacke,
     f_flower_marloss,
-    f_floor_canvas;
+    f_floor_canvas,
+    f_tatami;
 
 void set_furn_ids() {
     f_null=furnfind("f_null");
@@ -722,6 +728,7 @@ void set_furn_ids() {
     f_bed=furnfind("f_bed");
     f_toilet=furnfind("f_toilet");
     f_makeshift_bed=furnfind("f_makeshift_bed");
+    f_straw_bed=furnfind("f_straw_bed");
     f_sink=furnfind("f_sink");
     f_oven=furnfind("f_oven");
     f_woodstove=furnfind("f_woodstove");

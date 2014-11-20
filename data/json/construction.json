@@ -1200,18 +1200,30 @@
         "type" : "construction",
         "description" : "Build Makeshift Bed",
         "category" : "FURN",
-        "difficulty" : 3,
-        "time" : 20,
+        "difficulty" : 2,
+        "time" : 15,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
         ] ],
         "components" : [
             [ [ "2x4", 4 ] ],
             [ [ "nail", 6 ] ],
-            [ [ "blanket", 1 ], [ "sheet", 1 ] ]
+            [ [ "blanket", 1 ], [ "sheet", 2 ] ]
         ],
         "pre_special" : "check_empty",
         "post_terrain" : "f_makeshift_bed"
+    },{
+        "type" : "construction",
+        "description" : "Build Straw Bed",
+        "category" : "FURN",
+        "difficulty" : 1,
+        "time" : 10,
+        "components" : [
+            [ [ "2x4", 4 ] ],
+            [ [ "straw_pile", 8 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_straw_bed"
     },{
         "type" : "construction",
         "description" : "Build Bed",
@@ -1229,8 +1241,7 @@
         "components" : [
             [ [ "2x4", 12 ] ],
             [ [ "nail", 10 ] ],
-            [ [ "sheet", 10 ] ],
-            [ [ "blanket", 1 ] ]
+            [ [ "sheet", 7 ], [ "blanket", 4 ] ]
         ],
         "pre_special" : "check_empty",
         "post_terrain" : "f_bed"
@@ -1259,8 +1270,8 @@
         "type" : "construction",
         "description" : "Build Sofa",
         "category" : "FURN",
-        "difficulty" : 6,
-        "time" : 20,
+        "difficulty" : 5,
+        "time" : 22,
         "qualities": [
             [
             { "id": "HAMMER", "level": 2 }
@@ -1270,8 +1281,8 @@
             ]
             ],
         "components" : [
-            [ [ "2x4", 10 ] ],
-            [ [ "nail", 8 ] ],
+            [ [ "2x4", 12 ] ],
+            [ [ "nail", 10 ] ],
             [ [ "blanket", 1 ] ]
         ],
         "pre_special" : "check_empty",
