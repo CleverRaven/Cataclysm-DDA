@@ -50,7 +50,8 @@ enum vehicle_controls {
  toggle_fridge,
  toggle_recharger,
  cont_engines,
- try_disarm_alarm
+ try_disarm_alarm,
+ trigger_alarm
 };
 
 vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): type(type_id)
@@ -630,6 +631,7 @@ void vehicle::use_controls()
     bool has_mult_engine = false;
     bool has_fridge = false;
     bool has_recharger = false;
+    bool can_trigger_alarm = false;
     for (size_t p = 0; p < parts.size(); p++) {
         if (part_flag(p, "CONE_LIGHT")) {
             has_lights = true;
@@ -665,6 +667,8 @@ void vehicle::use_controls()
         }
         else if (part_flag(p, "RECHARGE")) {
             has_recharger = true;
+        } else if (part_flag(p, "SECURITY") && !is_alarm_on && parts[p].hp > 0) {
+            can_trigger_alarm = true;
         }
     }
 
@@ -761,6 +765,11 @@ void vehicle::use_controls()
         options_choice.push_back(cont_engines);
         options_message.push_back(uimenu_entry(_("Control individual engines"), 'y'));
     }
+    // start alarm
+    if (can_trigger_alarm) {
+        options_choice.push_back(trigger_alarm);
+        options_message.push_back(uimenu_entry(_("Trigger alarm")));
+    }
 
     options_choice.push_back(control_cancel);
     options_message.push_back(uimenu_entry(_("Do nothing"), ' '));
@@ -777,6 +786,10 @@ void vehicle::use_controls()
     }
     
     switch(options_choice[select]) {
+    case trigger_alarm:
+        is_alarm_on = true;
+        add_msg(_("You trigger the alarm"));
+        break;
     case cont_engines:
         control_engines();
         break;
