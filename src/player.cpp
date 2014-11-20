@@ -3406,7 +3406,7 @@ int player::print_aim_bars( WINDOW *w, int line_number, item *weapon, Creature *
     // Confidence is chance of the actual shot being under the target threshold,
     // This simplifies the calculation greatly, that's intentional.
     const std::array<std::pair<double, char>, 3> ratings =
-        {std::make_pair(0.1, '*'), std::make_pair(0.4, '+'), std::make_pair(0.6, '|')};
+        {{ std::make_pair(0.1, '*'), std::make_pair(0.4, '+'), std::make_pair(0.6, '|') }};
     const std::string confidence_label = _("Confidence: ");
     const int confidence_width = window_width - utf8_width( confidence_label.c_str() );
     int used_width = 0;
