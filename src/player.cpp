@@ -9441,8 +9441,7 @@ void player::use(int inventory_position)
         inv.restack();
     } else if (used->is_gunmod()) {
         if (skillLevel("gun") == 0) {
-            add_msg(m_info, _("You need to be at least level 1 in the marksmanship skill before you\
- can modify weapons."));
+            add_msg(m_info, _("You need to be at least level 1 in the marksmanship skill before you can modify weapons."));
             return;
         }
         int gunpos = g->inv(_("Select gun to modify:"));
