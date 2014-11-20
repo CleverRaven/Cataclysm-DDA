@@ -1034,7 +1034,7 @@
         "points" : 5,
         "valid" : false,
         "purifiable" : false,
-        "description" : "Your broken limbs mend theselves without significant difficulty.",
+        "description" : "Your broken limbs mend themselves without significant difficulty.",
         "cancels" : ["ROT1", "ROT2", "ROT3"],
         "prereqs" : ["FASTHEALER"],
         "threshreq" : ["THRESH_LIZARD"],
@@ -2508,7 +2508,7 @@
         "points" : 0,
         "visibility" : 4,
         "ugliness" : 1,
-        "description" : "Your upper earlobes have grown noticably higher.  Fortunately, they don't get in the way of your headgear, much.  Unfortunately, they also don't seem to help your hearing any.",
+        "description" : "Your upper earlobes have grown noticeably higher.  Fortunately, they don't get in the way of your headgear, much.  Unfortunately, they also don't seem to help your hearing any.",
         "valid" : false,
         "category" : ["MUTCAT_ELFA"],
         "cancels" : ["FELINE_EARS", "LUPINE_EARS", "URSINE_EARS", "CANINE_EARS"]
