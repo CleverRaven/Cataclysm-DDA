@@ -605,6 +605,18 @@ void add_corpse(int x, int y);
  void place_toilet(const int x, const int y, const int charges = 6 * 4); // 6 liters at 250 ml per charge
  void place_vending(int x, int y, std::string type);
  int place_npc(int x, int y, std::string type);
+ /**
+  * Place items from item group in the rectangle (x1,y1) - (x2,y2). Several items may be spawned
+  * on different places. Several items may spawn at once (at one place) when the item group says
+  * so (uses @ref item_group::items_from which may return several items at once).
+  * @param chance Chance for more items. A chance of 100 creates 1 item all the time, otherwise
+  * it's the chance that more items will be created (place items until the random roll with that
+  * chance fails). The chance is used for the first item as well, so it may not spawn an item at
+  * all. Values <= 0 or > 100 are invalid.
+  * @param ongrass If false the items won't spawn on flat terrain (grass, floor, ...).
+  * @param turn The birthday that the created items shall have.
+  * @return The number of placed items.
+  */
  int place_items(items_location loc, const int chance, const int x1, const int y1,
                   const int x2, const int y2, bool ongrass, const int turn, bool rand = true);
  /**

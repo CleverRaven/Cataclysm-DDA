@@ -11112,7 +11112,7 @@ int map::place_npc(int x, int y, std::string type)
 // A chance of 100 indicates that items should always spawn,
 // the item group should be responsible for determining the amount of items.
 int map::place_items(items_location loc, int chance, int x1, int y1,
-                     int x2, int y2, bool ongrass, int, bool)
+                     int x2, int y2, bool ongrass, int turn, bool)
 {
     const float spawn_rate = ACTIVE_WORLD_OPTIONS["ITEM_SPAWNRATE"];
 
@@ -11147,7 +11147,7 @@ int map::place_items(items_location loc, int chance, int x1, int y1,
                        (!ongrass && !terlist[ter(px, py)].has_flag("FLAT")) ) &&
                      tries < 20);
             if (tries < 20) {
-                item_num += put_items_from_loc( loc, px, py, 0 );
+                item_num += put_items_from_loc( loc, px, py, turn );
             }
         }
         if (chance == 100) {
