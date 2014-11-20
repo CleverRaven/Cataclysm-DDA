@@ -533,7 +533,7 @@ bool vehicle::has_security_working(){
 bool vehicle::interact_vehicle_locked()
 {
     if (is_locked){
-        inventory crafting_inv = g->crafting_inventory(&g->u);
+        inventory crafting_inv = (g->u).crafting_inventory();
         add_msg(_("You don't find any keys in the %s."), name.c_str());
         if (crafting_inv.has_tools("screwdriver", 1)){
             if (query_yn(_("You don't find any keys in the %s. Attempt to hotwire vehicle?"), 
