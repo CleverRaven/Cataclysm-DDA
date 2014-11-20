@@ -207,6 +207,8 @@ bool game::opening_screen()
 
     const int iMenuOffsetX = 2;
     int iMenuOffsetY = total_h - 3;
+    // note: if iMenuOffset is changed,
+    // please update MOTD and credits to indicate how long they can be.
 
     std::vector<std::string> vSubItems;
     vSubItems.push_back(pgettext("Main Menu|New Game", "<C>ustom Character"));
@@ -266,15 +268,19 @@ bool game::opening_screen()
 
         if (layer == 1) {
             if (sel1 == 0) { // Print the MOTD.
-                for (size_t i = 0; i < mmenu_motd.size() && i < 16; i++) {
-                    mvwprintz(w_open, i + 6, 8 + extra_w / 2, c_ltred, mmenu_motd[i].c_str());
+                const int motdy = (iMenuOffsetY - mmenu_motd.size()) * 2/3;
+                const int motdx = 8 + extra_w / 2;
+                for (size_t i = 0; i < mmenu_motd.size(); i++) {
+                    mvwprintz(w_open, motdy + i, motdx, c_ltred, mmenu_motd[i].c_str());
                 }
 
                 wrefresh(w_open);
                 refresh();
             } else if (sel1 == 7) { // Print the Credits.
-                for (size_t i = 0; i < mmenu_credits.size() && i < 16; i++) {
-                    mvwprintz(w_open, i + 6, 8 + extra_w / 2, c_ltred, mmenu_credits[i].c_str());
+                const int credy = (iMenuOffsetY - mmenu_credits.size()) * 2/3;
+                const int credx = 8 + extra_w / 2;
+                for (size_t i = 0; i < mmenu_credits.size(); i++) {
+                    mvwprintz(w_open, credy + i, credx, c_ltred, mmenu_credits[i].c_str());
                 }
 
                 wrefresh(w_open);
