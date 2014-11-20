@@ -1763,6 +1763,17 @@ void iexamine::tree_pine(player *p, map *m, int examx, int examy)
     m->ter_set(examx, examy, t_tree_deadpine);
 }
 
+void iexamine::tree_blackjack(player *p, map *m, int examx, int examy)
+{
+    if(!query_yn(_("Pick %s?"), m->tername(examx, examy).c_str())) {
+        none(p, m, examx, examy);
+        return;
+    }
+    m->spawn_item(p->xpos(), p->ypos(), "acorns", 2, 6 );
+    m->spawn_item( p->xpos(), p->ypos(), "tanbark", rng( 1, 2 ) );
+    m->ter_set(examx, examy, t_tree);
+}
+
 void iexamine::shrub_marloss(player *p, map *m, int examx, int examy)
 {
     if (p->has_trait("THRESH_MYCUS")) {
@@ -2817,6 +2828,9 @@ void (iexamine::*iexamine_function_from_string(std::string function_name))(playe
     }
     if ("tree_pine" == function_name) {
         return &iexamine::tree_pine;
+    }
+    if ("tree_blackjack" == function_name) {
+        return &iexamine::tree_blackjack;
     }
     if ("shrub_marloss" == function_name) {
         return &iexamine::shrub_marloss;

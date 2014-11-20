@@ -20,7 +20,7 @@
         "pierce" : 8,
         "range" : 38,
         "dispersion" : 5,
-        "recoil" : 30,
+        "recoil" : 450,
         "count" : 30,
         "effects" : ["COOKOFF"]
     },
@@ -45,7 +45,7 @@
         "pierce" : 32,
         "range" : 38,
         "dispersion" : 5,
-        "recoil" : 30,
+        "recoil" : 450,
         "count" : 30,
         "effects" : ["COOKOFF"]
     },
@@ -70,7 +70,7 @@
         "pierce" : 5,
         "range" : 37,
         "dispersion" : 5,
-        "recoil" : 26,
+        "recoil" : 390,
         "count" : 30,
         "effects" : ["COOKOFF"]
     },
@@ -95,7 +95,7 @@
         "pierce" : 13,
         "range" : 37,
         "dispersion" : 5,
-        "recoil" : 26,
+        "recoil" : 390,
         "count" : 30,
         "effects" : ["COOKOFF"]
     },
@@ -166,7 +166,7 @@
         "pierce" : 2,
         "range" : 8,
         "dispersion" : 8,
-        "recoil" : 0,
+        "recoil" : 3,
         "count" : 200
     }
 ]

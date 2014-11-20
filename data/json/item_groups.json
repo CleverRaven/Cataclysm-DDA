@@ -56,6 +56,20 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "gas_charging_rack",
+    "items":[
+      { "item": "storage_battery", "prob": 15, "charges-min": 80000, "charges-max": 100000 },
+      { "item": "storage_battery", "prob": 40, "charges-min": 4000, "charges-max": 10000 },
+      { "item": "storage_battery", "prob": 60, "charges-min": 0, "charges-max": 2000 },
+      { "item": "small_storage_battery", "prob": 15, "charges-min": 600, "charges-max": 1000 },
+      { "item": "small_storage_battery", "prob": 40, "charges-min": 0, "charges-max": 200 },
+      ["it_battery_mount", 90],
+      ["it_battery_mount", 50],
+      ["it_battery_mount", 40],
+      ["it_battery_mount", 10]
+    ]
+  },{
+    "type" : "item_group",
     "id" : "forest",
     "items":[
       ["rock", 40],
@@ -1837,9 +1851,11 @@
       ["scythe", 5],
       ["sickle", 3],
       ["chainsaw_off", 7],
+      ["elec_chainsaw_off", 4],
       ["trimmer_off", 10],
       ["hammer_sledge", 6],
       ["jackhammer", 2],
+      ["elec_jackhammer", 1],
       ["jacqueshammer", 2],
       ["pickaxe", 1],
       ["welder", 25],
@@ -4661,8 +4677,10 @@
       ["fan", 5],
       ["radio", 20],
       ["chainsaw_off", 7],
+      ["elec_chainsaw_off", 4],
       ["carver_off", 7],
       ["jackhammer", 2],
+      ["elec_jackhammer", 1],
       ["jacqueshammer", 2],
       ["pickaxe", 1],
       ["ring", 12],
@@ -6303,6 +6321,7 @@
       ["halligan", 3],
       ["fire_ax", 5],
       ["chainsaw_off", 7],
+      ["elec_chainsaw_off", 4],
       ["beartrap", 5],
       ["fishing_rod_professional", 3],
       ["grenade", 3],
@@ -6446,6 +6465,7 @@
       ["flashlight", 40],
       ["pickaxe", 1],
       ["jackhammer", 2],
+      ["elec_jackhammer", 1],
       ["jacqueshammer", 2],
       ["dynamite", 5],
       ["UPS_off", 5],
@@ -6663,6 +6683,7 @@
     "items":[
       ["rock", 40],
       ["jackhammer", 2],
+      ["elec_jackhammer", 1],
       ["jacqueshammer", 2],
       ["flashlight", 40],
       ["dynamite", 5],
@@ -7807,6 +7828,7 @@
       ["flashlight_on", 0],
       ["radio_on", 0],
       ["chainsaw_on", 0],
+      ["elec_chainsaw_on", 0],
       ["pipebomb_act", 0],
       ["grenade_act", 0],
       ["grenade_inc_act", 0],
@@ -8379,7 +8401,8 @@
       ["rag_bloody", 1],
       ["bone", 2],
       ["syringe", 1],
-      ["spike", 1]
+      ["spike", 1],
+      ["tanbark", 2]
     ]
   },{
 "type" : "item_group",

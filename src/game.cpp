@@ -1611,6 +1611,11 @@ void game::activity_on_turn()
         u.moves = 0;
         on_turn_activity_burrow(&u);
         break;
+    case ACT_AIM:
+        if( u.activity.index == 0 ) {
+            plfire(false);
+        }
+        break;
     case ACT_GAME:
         // Takes care of u.activity.moves_left
         activity_on_turn_game();
@@ -1829,16 +1834,16 @@ void game::activity_on_finish()
         u.activity.type = ACT_NULL;
         break;
     case ACT_CRAFT:
-        complete_craft();
+        u.complete_craft();
         u.activity.type = ACT_NULL;
         break;
     case ACT_LONGCRAFT:
-        complete_craft();
+        u.complete_craft();
         u.activity.type = ACT_NULL;
         {
             int batch_size = u.activity.values.front();
-            if( making_would_work( u.lastrecipe, batch_size ) ) {
-                make_all_craft(u.lastrecipe, batch_size);
+            if( u.making_would_work( u.lastrecipe, batch_size ) ) {
+                u.make_all_craft(u.lastrecipe, batch_size);
             }
         }
         break;
@@ -1847,12 +1852,15 @@ void game::activity_on_finish()
         u.activity.type = ACT_NULL;
         break;
     case ACT_DISASSEMBLE:
-        complete_disassemble();
+        u.complete_disassemble();
         u.activity.type = ACT_NULL;
         break;
     case ACT_BUTCHER:
         complete_butcher(u.activity.index);
         u.activity.type = ACT_NULL;
+        break;
+    case ACT_LONGSALVAGE:
+        longsalvage();
         break;
     case ACT_VEHICLE:
         activity_on_finish_vehicle();
@@ -1893,6 +1901,10 @@ void game::activity_on_finish()
         break;
     case ACT_START_FIRE:
         activity_on_finish_start_fire();
+        break;
+    case ACT_AIM:
+        // Aim bails itself by resetting itself every turn,
+        // you only re-enter if it gets set again.
         break;
     default:
         u.activity.type = ACT_NULL;
@@ -1999,15 +2011,10 @@ void game::activity_on_finish_reload()
                 add_msg(_("You insert a cartridge into your %s."),
                         reloadable->tname().c_str());
             }
-            if (u.recoil < 8) {
-                u.recoil = 8;
-            }
-            if (u.recoil > 8) {
-                u.recoil = (8 + u.recoil) / 2;
-            }
+            u.recoil = std::max(MIN_RECOIL, (MIN_RECOIL + u.recoil) / 2);
         } else {
             add_msg(_("You reload your %s."), reloadable->tname().c_str());
-            u.recoil = 6;
+            u.recoil = MIN_RECOIL;
         }
     } else {
         add_msg(m_info, _("Can't reload your %s."), reloadable->tname().c_str());
@@ -2534,9 +2541,8 @@ void game::handle_key_blocking_activity()
 {
     // If player is performing a task and a monster is dangerously close, warn them
     // regardless of previous safemode warnings
-    if (u.activity.type != ACT_NULL &&
-            u.activity.moves_left > 0 &&
-            !u.activity.warned_of_proximity) {
+    if( u.activity.type != ACT_NULL && u.activity.type != ACT_AIM &&
+        u.activity.moves_left > 0 && !u.activity.warned_of_proximity ) {
         Creature *hostile_critter = is_hostile_very_close();
         if (hostile_critter != nullptr) {
             u.activity.warned_of_proximity = true;
@@ -2746,7 +2752,7 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position)
                 u.read(pos);
                 break;
             case 'D':
-                disassemble(pos);
+                u.disassemble(pos);
                 break;
             case '=':
                 reassign_item(pos);
@@ -3690,7 +3696,7 @@ bool game::handle_action()
         if (u.has_active_mutation("SHELL2")) {
             add_msg(m_info, _("You can't craft while you're in your shell."));
         } else {
-            craft();
+            u.craft();
         }
         break;
 
@@ -3698,7 +3704,7 @@ bool game::handle_action()
         if (u.has_active_mutation("SHELL2")) {
             add_msg(m_info, _("You can't craft while you're in your shell."));
         } else {
-            recraft();
+            u.recraft();
         }
         break;
 
@@ -3706,7 +3712,7 @@ bool game::handle_action()
         if (u.has_active_mutation("SHELL2")) {
             add_msg(m_info, _("You can't craft while you're in your shell."));
         } else {
-            long_craft();
+            u.long_craft();
         }
         break;
 
@@ -3714,7 +3720,7 @@ bool game::handle_action()
         if (u.controlling_vehicle) {
             add_msg(m_info, _("You can't disassemble items while driving."));
         } else {
-            disassemble();
+            u.disassemble();
             refresh_all();
         }
         break;
@@ -11013,7 +11019,7 @@ void game::plthrow(int pos)
     int y = u.posy;
 
     // pl_target_ui() sets x and y, or returns empty vector if we canceled (by pressing Esc)
-    std::vector <point> trajectory = pl_target_ui(x, y, range, &thrown);
+    std::vector <point> trajectory = pl_target_ui(x, y, range, &thrown, TARGET_MODE_THROW);
     if (trajectory.empty()) {
         return;
     }
@@ -11074,7 +11080,7 @@ bool compare_by_dist_attitude::operator()(Creature *a, Creature *b) const
            rl_dist( b->xpos(), b->ypos(), u.xpos(), u.ypos() );
 }
 
-std::vector<point> game::pl_target_ui(int &x, int &y, int range, item *relevant,
+std::vector<point> game::pl_target_ui(int &x, int &y, int range, item *relevant, target_mode mode,
                                       int default_target_x, int default_target_y)
 {
     // Populate a list of targets with the zombies in range and visible
@@ -11103,11 +11109,8 @@ std::vector<point> game::pl_target_ui(int &x, int &y, int range, item *relevant,
     // target() sets x and y, and returns an empty vector if we canceled (Esc)
     std::vector <point> trajectory = target(x, y, u.posx - range, u.posy - range,
                                             u.posx + range, u.posy + range,
-                                            mon_targets, passtarget, relevant);
+                                            mon_targets, passtarget, relevant, mode);
 
-    if (trajectory.empty()) {
-        return trajectory;
-    }
     if (passtarget != -1) { // We picked a real live target
         // Make it our default for next time
         int id = npc_at(x, y);
@@ -11344,10 +11347,9 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
     int x = u.posx;
     int y = u.posy;
 
-    std::vector<point> trajectory = pl_target_ui(x, y, range, &u.weapon, default_target_x,
-                                    default_target_y);
+    std::vector<point> trajectory = pl_target_ui(x, y, range, &u.weapon, TARGET_MODE_FIRE,
+                                                 default_target_x, default_target_y);
 
-    draw_ter(); // Recenter our view
     if (trajectory.empty()) {
         if (u.weapon.has_flag("RELOAD_AND_SHOOT")) {
             u.moves += u.weapon.reload_time(u);
@@ -11357,6 +11359,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
         reenter_fullscreen();
         return;
     }
+    draw_ter(); // Recenter our view
 
     if (u.weapon.mode == "MODE_BURST") {
         burst = true;
@@ -11380,32 +11383,48 @@ void game::butcher()
     // indices of corpses / items that can be disassembled
     std::vector<int> corpses;
     std::vector<item> &items = m.i_at(u.posx, u.posy);
-    inventory crafting_inv = crafting_inventory(&u);
+    inventory crafting_inv = u.crafting_inventory();
+    bool has_salvage_tool = u.inv.has_items_with_quality( "CUT", 1, 1 );
 
     // check if we have a butchering tool
-    if( factor == INT_MIN ) {
-        add_msg(m_info, _("You don't have a sharp item to butcher with."));
-        return;
-    }
-    // get corpses
-    for (size_t i = 0; i < items.size(); i++) {
-        if (items[i].type->id == "corpse" && items[i].corpse != NULL) {
-            corpses.push_back(i);
-            has_corpse = true;
+    if( factor > INT_MIN ) {
+        // get corpses
+        for (size_t i = 0; i < items.size(); i++) {
+            if (items[i].type->id == "corpse" && items[i].corpse != NULL) {
+                corpses.push_back(i);
+                has_corpse = true;
+            }
         }
     }
-    // than get items to disassemble
+    // then get items to disassemble
     for (size_t i = 0; i < items.size(); i++) {
         if (items[i].type->id != "corpse" || items[i].corpse == NULL) {
             const recipe *cur_recipe = get_disassemble_recipe(items[i].type->id);
-            if (cur_recipe != NULL && can_disassemble(&items[i], cur_recipe, crafting_inv, false)) {
+            if (cur_recipe != NULL && u.can_disassemble(&items[i], cur_recipe, crafting_inv, false)) {
                 corpses.push_back(i);
                 has_item = true;
             }
         }
     }
+    // Now salvageable items
+    size_t salvage_index = corpses.size();
+    if( has_salvage_tool ) {
+        for( size_t i = 0; i < items.size(); i++ ) {
+            if (items[i].type->id != "corpse" || items[i].corpse == NULL) {
+                if( iuse::valid_to_cut_up( &items[i] ) ) {
+                    corpses.push_back(i);
+                    has_item = true;
+                }
+            }
+        }
+    }
+
     if (corpses.empty()) {
-        add_msg(m_info, _("There are no corpses here to butcher."));
+        if( factor > INT_MIN ) {
+            add_msg(m_info, _("There are no corpses here to butcher."));
+        } else {
+            add_msg(m_info, _("You don't have a sharp item to butcher with."));
+        }
         return;
     }
 
@@ -11418,9 +11437,10 @@ void game::butcher()
     }
 
     int butcher_corpse_index = 0;
+    bool multisalvage = corpses.size() - salvage_index > 1;
     if (corpses.size() > 1) {
         uimenu kmenu;
-        if (has_item && has_corpse) {
+        if( has_item && has_corpse ) {
             kmenu.text = _("Choose corpse to butcher / item to disassemble");
         } else if (has_corpse) {
             kmenu.text = _("Choose corpse to butcher");
@@ -11441,20 +11461,31 @@ void game::butcher()
             }
             if (it.corpse != NULL) {
                 kmenu.addentry(i, true, hotkey, corpse->nname());
-            } else {
+            } else if( i < salvage_index ) {
                 kmenu.addentry(i, true, hotkey, it.tname());
+            } else {
+                std::stringstream ss;
+                ss << _("Cut up") << " " << it.tname();
+                kmenu.addentry( i, true, hotkey, ss.str() );
             }
         }
-        kmenu.addentry(corpses.size(), true, 'q', _("Cancel"));
+        if( multisalvage ) {
+            kmenu.addentry(corpses.size(), true, 'q', _("Cut up all you can"));
+        }
+        kmenu.addentry(corpses.size() + multisalvage, true, 'q', _("Cancel"));
         kmenu.query();
-        if (kmenu.ret == (int)corpses.size()) {
+        if( kmenu.ret == (int)corpses.size() + multisalvage ) {
             return;
         }
         butcher_corpse_index = kmenu.ret;
     }
 
+    if( multisalvage == true && butcher_corpse_index == (int)corpses.size() ) {
+        u.assign_activity( ACT_LONGSALVAGE, 0 );
+        return;
+    }
     item &dis_item = items[corpses[butcher_corpse_index]];
-    if (dis_item.corpse == NULL) {
+    if( dis_item.corpse == NULL && butcher_corpse_index < (int)salvage_index) {
         const recipe *cur_recipe = get_disassemble_recipe(dis_item.type->id);
         assert(cur_recipe != NULL); // tested above
         if( !query_dissamble( dis_item ) ) {
@@ -11463,6 +11494,10 @@ void game::butcher()
         u.assign_activity(ACT_DISASSEMBLE, cur_recipe->time, cur_recipe->id);
         u.activity.values.push_back(corpses[butcher_corpse_index]);
         u.activity.values.push_back(1);
+        return;
+    } else if( dis_item.corpse == NULL ) {
+        item salvage_tool( "toolset", calendar::turn ); //TODO: Get the actual tool
+        iuse::cut_up( &u, &salvage_tool, &dis_item, false );
         return;
     }
     mtype *corpse = dis_item.corpse;
@@ -11812,6 +11847,27 @@ void game::complete_butcher(int index)
             m.add_item_or_charges(u.posx, u.posy, tmpitem);
         }
     }
+}
+
+void game::longsalvage()
+{
+    bool has_salvage_tool = u.inv.has_items_with_quality( "CUT", 1, 1 );
+    if( !has_salvage_tool ) {
+        add_msg(m_bad, _("You no longer have the necessary tools to keep salvaging!"));
+    }
+    
+    std::vector<item> &items = m.i_at(u.posx, u.posy);
+    item salvage_tool( "toolset", calendar::turn ); // TODO: Use actual tool
+    for( size_t i = 0; i < items.size(); i++ ) {
+        if( iuse::valid_to_cut_up( &items[i] ) ) {
+            iuse::cut_up( &u, &salvage_tool, &items[i], false );
+            u.assign_activity( ACT_LONGSALVAGE, 0 );
+            return;
+        }
+    }
+    
+    add_msg(_("You finish salvaging."));
+    u.activity.type = ACT_NULL;
 }
 
 void game::forage()
@@ -12276,7 +12332,7 @@ void game::wield(int pos)
     }
 
     if (success) {
-        u.recoil = 5;
+        u.recoil = MIN_RECOIL;
     }
 }
 
@@ -12916,14 +12972,9 @@ bool game::plmove(int dx, int dy)
                                                       movecost_modifier), diag) * drag_multiplier);
 
         // Adjust recoil down
-        if (u.recoil > 0) {
-            if (int(u.str_cur / 2) + u.skillLevel("gun") >= (int)u.recoil) {
-                u.recoil = 0;
-            } else {
-                u.recoil -= int(u.str_cur / 2) + u.skillLevel("gun");
-                u.recoil = int(u.recoil / 2);
-            }
-        }
+        u.recoil -= int(u.str_cur / 2) + u.skillLevel("gun");
+        u.recoil = std::max( MIN_RECOIL * 2, u.recoil );
+        u.recoil = int(u.recoil / 2);
         if ((!u.has_trait("PARKOUR") && m.move_cost(x, y) > 2) ||
             ( u.has_trait("PARKOUR") && m.move_cost(x, y) > 4    )) {
             if (veh1 && m.move_cost(x, y) != 2) {

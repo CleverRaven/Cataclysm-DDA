@@ -139,6 +139,10 @@ void game::load_vehiclepart(JsonObject &jo)
         //Should be hidden by frames
         next_part.z_order = 4;
         next_part.list_order = 8 ;
+    } else if (next_part.location == "on_battery_mount"){
+        //Should be hidden by frames
+        next_part.z_order = 3;
+        next_part.list_order = 10;
     } else if(next_part.location == "fuel_source") {
         //Should be hidden by frames
         next_part.z_order = 3;

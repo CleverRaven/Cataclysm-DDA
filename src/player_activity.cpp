@@ -16,7 +16,7 @@ const std::string &player_activity::get_stop_phrase() const
         _(" Stop reading?"), _(" Stop playing?"),
         _(" Stop waiting?"), _(" Stop crafting?"),
         _(" Stop crafting?"), _(" Stop disassembly?"),
-        _(" Stop butchering?"), _(" Stop foraging?"),
+        _(" Stop butchering?"), _(" Stop salvaging?"), _(" Stop foraging?"),
         _(" Stop construction?"), _(" Stop construction?"),
         _(" Stop pumping gas?"), _(" Stop training?"),
         _(" Stop waiting?"), _(" Stop using first aid?"),
@@ -26,7 +26,8 @@ const std::string &player_activity::get_stop_phrase() const
         _(" Stop stashing?"), _(" Stop picking up?"),
         _(" Stop moving items?"),
         _(" Stop interacting with inventory?"),
-        _(" Stop lighting the fire?"), _("Stop filling the container?")
+        _(" Stop lighting the fire?"), _("Stop filling the container?"),
+        _(" Stop aiming?")
     };
     return stop_phrase[type];
 }
@@ -71,6 +72,7 @@ bool player_activity::is_suspendable() const
     case ACT_PICKUP:
     case ACT_MOVE_ITEMS:
     case ACT_ADV_INVENTORY:
+    case ACT_AIM:
         return false;
     default:
         return true;

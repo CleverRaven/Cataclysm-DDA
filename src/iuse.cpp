@@ -17,6 +17,7 @@
 #include "overmapbuffer.h"
 #include "json.h"
 #include "messages.h"
+#include "crafting.h"
 #include <vector>
 #include <sstream>
 #include <algorithm>
@@ -2891,7 +2892,7 @@ int iuse::sew(player *p, item *it, bool, point)
 
     // this will cause issues if/when NPCs start being able to sew.
     // but, then again, it'll cause issues when they start crafting, too.
-    inventory crafting_inv = g->crafting_inventory(p);
+    inventory crafting_inv = p->crafting_inventory();
     bool bFound = false;
     //go through all discovered repair items and see if we have any of them available
     for (unsigned int i = 0; i < repair_items.size(); i++) {
@@ -2940,20 +2941,20 @@ int iuse::sew(player *p, item *it, bool, point)
             p->add_msg_if_player(m_mixed, _("You repair your %s, but waste lots of thread."),
                                  fix->tname().c_str());
             if (fix->damage >= 3) {
-                g->consume_items(p, comps);
+                p->consume_items(comps);
             }
             fix->damage--;
             thread_used = rng(1, 8);
         } else if (rn <= 16) {
             p->add_msg_if_player(m_good, _("You repair your %s!"), fix->tname().c_str());
             if (fix->damage >= 3) {
-                g->consume_items(p, comps);
+                p->consume_items(comps);
             }
             fix->damage--;
         } else {
             p->add_msg_if_player(m_good, _("You repair your %s completely!"), fix->tname().c_str());
             if (fix->damage >= 3) {
-                g->consume_items(p, comps);
+                p->consume_items(comps);
             }
             fix->damage = 0;
         }
@@ -2979,7 +2980,7 @@ int iuse::sew(player *p, item *it, bool, point)
         } else if (rn >= 12 && (fix->has_flag("FIT") || !fix->has_flag("VARSIZE"))) {
             p->add_msg_if_player(m_good, _("You make your %s extra sturdy."), fix->tname().c_str());
             fix->damage--;
-            g->consume_items(p, comps);
+            p->consume_items(comps);
         } else {
             p->add_msg_if_player(m_neutral, _("You practice your sewing."));
         }
@@ -3549,7 +3550,7 @@ int iuse::solder_weld(player *p, item *it, bool, point)
 
             // this will cause issues if/when NPCs start being able to sew.
             // but, then again, it'll cause issues when they start crafting, too.
-            inventory crafting_inv = g->crafting_inventory(p);
+            inventory crafting_inv = p->crafting_inventory();
 
             bool bFound = false;
             //go through all discovered repair items and see if we have any of them available
@@ -3600,20 +3601,20 @@ int iuse::solder_weld(player *p, item *it, bool, point)
                     p->add_msg_if_player(m_mixed, _("You repair your %s, but you waste lots of charge."),
                                          fix->tname().c_str());
                     if (fix->damage >= 3) {
-                        g->consume_items(p, comps);
+                        p->consume_items(comps);
                     }
                     fix->damage--;
                     charges_used += rng(1, 8);
                 } else if (rn <= 16) {
                     p->add_msg_if_player(m_good, _("You repair your %s!"), fix->tname().c_str());
                     if (fix->damage >= 3) {
-                        g->consume_items(p, comps);
+                        p->consume_items(comps);
                     }
                     fix->damage--;
                 } else {
                     p->add_msg_if_player(m_good, _("You repair your %s completely!"), fix->tname().c_str());
                     if (fix->damage >= 3) {
-                        g->consume_items(p, comps);
+                        p->consume_items(comps);
                     }
                     fix->damage = 0;
                 }
@@ -3640,7 +3641,7 @@ int iuse::solder_weld(player *p, item *it, bool, point)
                 } else if (rn >= 12 && (fix->has_flag("FIT") || !fix->has_flag("VARSIZE"))) {
                     p->add_msg_if_player(m_good, _("You make your %s extra sturdy."), fix->tname().c_str());
                     fix->damage--;
-                    g->consume_items(p, comps);
+                    p->consume_items(comps);
                 } else {
                     p->add_msg_if_player(m_neutral, _("You practice your soldering."));
                 }
@@ -4554,6 +4555,37 @@ int iuse::chainsaw_on(player *p, item *it, bool t, point)
     } else { // Toggling
         p->add_msg_if_player(_("Your chainsaw dies."));
         it->make("chainsaw_off");
+        it->active = false;
+    }
+    return it->type->charges_to_use();
+}
+
+int iuse::elec_chainsaw_off(player *p, item *it, bool, point)
+{
+    p->moves -= 80;
+    if (rng(0, 10) - it->damage > 5 && it->charges > 0 && !p->is_underwater()) {
+        g->sound(p->posx, p->posy, 20,
+                 _("With a roar, the electric chainsaw leaps to life!"));
+        it->make("elec_chainsaw_on");
+        it->active = true;
+    } else {
+        p->add_msg_if_player(_("You flip the switch, but nothing happens."));
+    }
+    return it->type->charges_to_use();
+}
+int iuse::elec_chainsaw_on(player *p, item *it, bool t, point)
+{
+    if (p->is_underwater()) {
+        p->add_msg_if_player(_("Your chainsaw gurgles in the water and stops."));
+        it->make("elec_chainsaw_off");
+        it->active = false;
+    } else if (t) { // Effects while simply on
+        if (one_in(15)) {
+            g->ambient_sound(p->posx, p->posy, 12, _("Your electric chainsaw rumbles."));
+        }
+    } else { // Toggling
+        p->add_msg_if_player(_("Your electric chainsaw dies."));
+        it->make("elec_chainsaw_off");
         it->active = false;
     }
     return it->type->charges_to_use();
@@ -6666,7 +6698,8 @@ void make_zlave(player *p)
 }
 
 // *it here is the item that is a candidate for being chopped up.
-static bool valid_to_cut_up(player *p, item *it)
+// This is the former valid_to_cut_up with all the messages and queries
+bool static try_to_cut_up(player *p, item *it)
 {
     int pos = p->get_item_position(it);
     // If a material is made of different items than what is in this set, we
@@ -6707,12 +6740,49 @@ static bool valid_to_cut_up(player *p, item *it)
     // Softer warnings at the end so we don't ask permission and then tell them no.
     if (it == &p->weapon) {
         if(!query_yn(_("You are wielding that, are you sure?"))) {
-            return 0;
+            return false;
         }
-    } else if (pos < -1) {
+    } else if( pos == INT_MIN ) {
+        // Not in inventory
+        return true;
+    } else if( pos < -1 ) {
         if(!query_yn(_("You're wearing that, are you sure?"))) {
-            return 0;
+            return false;
         }
+    }
+
+    return true;
+}
+
+// This is new silent valid_to_cut_up
+bool iuse::valid_to_cut_up(item *it)
+{
+    // If a material is made of different items than what is in this set, we
+    // do not cut it up.
+    std::vector<std::string> material_id_white_list;
+    material_id_white_list.push_back("cotton");
+    material_id_white_list.push_back("leather");
+    material_id_white_list.push_back("fur");
+    material_id_white_list.push_back("nomex");
+    material_id_white_list.push_back("kevlar");
+    material_id_white_list.push_back("plastic");
+    material_id_white_list.push_back("wood");
+
+    if (it->is_null()) {
+        return false;
+    }
+    // There must be some historical significance to these items.
+    if (!it->is_salvageable()) {
+        return false;
+    }
+    if( !it->only_made_of(material_id_white_list) ) {
+        return false;
+    }
+    if (it->is_container() && !it->contents.empty()) {
+        return false;
+    }
+    if (it->volume() == 0) {
+        return false;
     }
 
     return true;
@@ -6721,7 +6791,7 @@ static bool valid_to_cut_up(player *p, item *it)
 // function returns charges from *it during the cutting process of the *cut.
 // *it cuts
 // *cut gets cut
-static int cut_up(player *p, item *it, item *cut, bool)
+int iuse::cut_up(player *p, item *it, item *cut, bool)
 {
     int pos = p->get_item_position(cut);
     // total number of raw components == total volume of item.
@@ -6780,7 +6850,11 @@ static int cut_up(player *p, item *it, item *cut, bool)
     // Clean up before removing the item.
     remove_ammo(cut, *p);
     // Original item has been consumed.
-    p->i_rem(pos);
+    if( pos != INT_MIN ) {
+        p->i_rem(pos);
+    } else {
+        g->m.i_rem( p->posx, p->posy, cut );
+    }
 
     for (auto salvaged : materials_salvaged) {
         std::string mat_name = salvaged.first;
@@ -6789,7 +6863,13 @@ static int cut_up(player *p, item *it, item *cut, bool)
         if (amount > 0) {
             add_msg(m_good, ngettext("Salvaged %1$i %2$s.", "Salvaged %1$i %2$ss.", amount),
                     amount, result.display_name().c_str());
-            p->i_add_or_drop(result, amount);
+            if( pos != INT_MIN ) {
+                p->i_add_or_drop(result, amount);
+            } else {
+                for( int i = 0; i < amount; i++ ) {
+                    g->m.spawn_an_item( p->posx, p->posy, result, amount, 0 );
+                }
+            }
         } else {
             add_msg(m_bad, _("Could not salvage a %s."), result.display_name().c_str());
         }
@@ -6853,6 +6933,7 @@ int iuse::knife(player *p, item *it, bool t, point)
     const int menu_cut_up_item = 0;
     const int menu_carve_writing = 1;
     const int menu_cauterize = 2;
+    const int menu_make_zlave = 3;
     const int menu_cancel = 4;
     item *cut;
 
@@ -6861,6 +6942,10 @@ int iuse::knife(player *p, item *it, bool t, point)
     kmenu.addentry(menu_cut_up_item, true, -1, _("Cut up fabric/plastic/kevlar/wood/nomex"));
     kmenu.addentry(menu_carve_writing, true, -1, _("Carve writing into item"));
     kmenu.addentry(menu_cauterize, true, -1, _("Cauterize"));
+    if( p->skillLevel( "survival" ) > 1 && p->skillLevel( "firstaid" ) > 1 ) {
+        kmenu.addentry(menu_make_zlave, true, -1, _("Make zombie slave"));
+    }
+    
     kmenu.addentry(menu_cancel, true, 'q', _("Cancel"));
     kmenu.query();
     choice = kmenu.ret;
@@ -6869,15 +6954,18 @@ int iuse::knife(player *p, item *it, bool t, point)
         cauterize_flame(p, it);
         return it->type->charges_to_use();
     } else if (choice == menu_cut_up_item) {
-        int inventory_index = g->inv(_("Cut up what?"));
+        int inventory_index = g->inv_for_salvage(_("Cut up what?"));
         cut = &(p->i_at(inventory_index));
-        if (!valid_to_cut_up(p, cut)) {
+        if (!try_to_cut_up(p, cut)) {
             // Messages should have already been displayed.
             return 0;
         }
         return cut_up(p, it, cut, t);
     } else if (choice == menu_carve_writing) {
         return carve_writing(p, it);
+    } else if( choice == menu_make_zlave ) {
+        make_zlave( p );
+        return 0;
     } else {
         return 0;
     }
@@ -8838,7 +8926,6 @@ bool einkpc_download_memory_card(player *p, item *eink, item *mc)
         mc->item_vars["MC_RECIPE"] = "";
 
         std::vector<const recipe *> candidates;
-        recipe_map recipes = g->list_recipes();
 
         for (recipe_map::iterator map_iter = recipes.begin(); map_iter != recipes.end(); ++map_iter) {
             for (recipe_list::iterator list_iter = map_iter->second.begin();
@@ -10064,7 +10151,7 @@ int iuse::multicooker(player *p, item *it, bool t, point pos)
 
             std::vector<const recipe *> dishes;
 
-            inventory crafting_inv = g->crafting_inventory(&g->u);
+            inventory crafting_inv = g->u.crafting_inventory();
             //add some tools and qualities. we can't add this qualities to json, because multicook must be used only by activating, not as component other crafts.
             crafting_inv.push_back(item("hotplate", 0)); //hotplate inside
             crafting_inv.push_back(item("tongs", 0)); //some recipes requires tongs
@@ -10072,7 +10159,6 @@ int iuse::multicooker(player *p, item *it, bool t, point pos)
             crafting_inv.push_back(item("pot", 0)); //good COOK, BOIL, CONTAIN qualities inside
 
             int counter = 1;
-            recipe_map recipes = g->list_recipes();
 
             for (recipe_map::iterator map_iter = recipes.begin(); map_iter != recipes.end(); ++map_iter) {
                 for (recipe_list::iterator list_iter = map_iter->second.begin();
@@ -10120,8 +10206,8 @@ int iuse::multicooker(player *p, item *it, bool t, point pos)
                     return 0;
                 }
 
-                for (auto it = meal->components.begin(); it != meal->components.end(); ++it) {
-                    g->consume_items(p, *it);
+                for (auto it : meal->requirements.components) {
+                    p->consume_items(it);
                 }
 
                 it->item_vars["DISH"] = meal->result;
@@ -10148,7 +10234,7 @@ int iuse::multicooker(player *p, item *it, bool t, point pos)
 
             bool has_tools = true;
 
-            inventory cinv = g->crafting_inventory(&g->u);
+            inventory cinv = g->u.crafting_inventory();
 
             if (!cinv.has_amount("soldering_iron", 1)) {
                 item tmp("soldering_iron", 0);

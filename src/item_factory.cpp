@@ -80,7 +80,7 @@ void Item_factory::finialize_item_blacklist()
         for (recipe_map::iterator b = recipes.begin(); b != recipes.end(); ++b) {
             for (size_t c = 0; c < b->second.size(); c++) {
                 recipe *r = b->second[c];
-                if( r->result == itm || r->remove_item( itm ) ) {
+                if( r->result == itm || r->requirements.remove_item(itm) ) {
                     delete r;
                     b->second.erase(b->second.begin() + c);
                     c--;
@@ -90,7 +90,7 @@ void Item_factory::finialize_item_blacklist()
         }
         for (size_t i = 0; i < constructions.size(); i++) {
             construction *c = constructions[i];
-            if( c->remove_item( itm ) ) {
+            if( c->requirements.remove_item( itm ) ) {
                 delete c;
                 constructions.erase(constructions.begin() + i);
                 i--;
@@ -223,6 +223,8 @@ void Item_factory::init()
     iuse_function_list["SIPHON"] = &iuse::siphon;
     iuse_function_list["CHAINSAW_OFF"] = &iuse::chainsaw_off;
     iuse_function_list["CHAINSAW_ON"] = &iuse::chainsaw_on;
+    iuse_function_list["ELEC_CHAINSAW_OFF"] = &iuse::elec_chainsaw_off;
+    iuse_function_list["ELEC_CHAINSAW_ON"] = &iuse::elec_chainsaw_on;
     iuse_function_list["CS_LAJATANG_OFF"] = &iuse::cs_lajatang_off;
     iuse_function_list["CS_LAJATANG_ON"] = &iuse::cs_lajatang_on;
     iuse_function_list["CARVER_OFF"] = &iuse::carver_off;
@@ -643,6 +645,8 @@ void Item_factory::load_gun(JsonObject &jo)
     gun_template->dmg_bonus = jo.get_int("ranged_damage");
     gun_template->range = jo.get_int("range");
     gun_template->dispersion = jo.get_int("dispersion");
+    gun_template->sight_dispersion = jo.get_int("sight_dispersion");
+    gun_template->aim_speed = jo.get_int("aim_speed");
     gun_template->recoil = jo.get_int("recoil");
     gun_template->durability = jo.get_int("durability");
     gun_template->burst = jo.get_int("burst");
@@ -841,12 +845,16 @@ void Item_factory::load_gunmod(JsonObject &jo)
     gunmod_template->used_on_crossbow = is_mod_target(jo, "mod_targets", "crossbow");
     gunmod_template->used_on_launcher = is_mod_target(jo, "mod_targets", "launcher");
     gunmod_template->dispersion = jo.get_int("dispersion_modifier", 0);
+    gunmod_template->mod_dispersion = jo.get_int("dispersion", 0);
+    gunmod_template->sight_dispersion = jo.get_int("sight_dispersion", -1);
+    gunmod_template->aim_speed = jo.get_int("aim_speed", -1);
     gunmod_template->recoil = jo.get_int("recoil_modifier", 0);
     gunmod_template->burst = jo.get_int("burst_modifier", 0);
     gunmod_template->range = jo.get_int("range", 0);
     gunmod_template->clip = jo.get_int("clip_size_modifier", 0);
     gunmod_template->acceptible_ammo_types = jo.get_tags("acceptable_ammo");
     gunmod_template->skill_used = Skill::skill(jo.get_string("skill", "gun"));
+    gunmod_template->req_skill = jo.get_int("skill_required", 0);
 
     itype *new_item_template = gunmod_template;
     load_basic_info(jo, new_item_template);
@@ -1119,6 +1127,8 @@ void Item_factory::clear()
         delete it->second;
     }
     m_templates.clear();
+    item_blacklist.clear();
+    item_whitelist.clear();
 }
 
 Item_group *make_group_or_throw(Item_spawn_data *&isd, Item_group::Type t)
