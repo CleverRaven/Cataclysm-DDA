@@ -2396,7 +2396,7 @@ int vehicle::total_power (bool fueled)
     int cnt = 0;
     int part_under_player;
     g->m.veh_at(g->u.posx, g->u.posy, part_under_player);
-    bool player_controlling = player_in_control(&(g->u));
+    bool player_controlling = !remote_controlled( &g->u ) && player_in_control( &g->u );
     for (size_t e = 0; e < engines.size(); e++) {
         int p = engines[e];
         if (is_engine_on(e) && (fuel_left (part_info(p).fuel_type) || !fueled ||
@@ -3227,9 +3227,9 @@ void vehicle::thrust (int thd) {
     // Ugly hack, use full engine power occasionally when thrusting slightly
     // up to cruise control speed. Loses some extra power when in reverse.
     if (thrusting && rng(1, accel) <= vel_inc ) {
-        if (total_power () < 1) {
-            if (pl_ctrl) {
-                if (total_power (false) < 1) {
+        if (total_power() < 1) {
+            if( pl_ctrl ) {
+                if( total_power(false) < 1 ) {
                     add_msg (m_info, _("The %s doesn't have an engine!"), name.c_str());
                 } else if( has_pedals ) {
                     add_msg (m_info, _("The %s's pedals are out of reach!"), name.c_str());
@@ -3247,8 +3247,8 @@ void vehicle::thrust (int thd) {
           add_msg (_("The %s's engine isn't on!"), name.c_str());
           cruise_velocity = 0;
           return;
-        } else if (has_pedals || has_hand_rims || has_paddles) {
-            if (g->u.has_bionic("bio_torsionratchet")
+        } else if( has_pedals || has_hand_rims || has_paddles ) {
+            if( g->u.has_bionic( "bio_torsionratchet" ) 
                 && calendar::turn.get_turn() % 60 == 0) {
                 g->u.charge_power(1);
             }
