@@ -109,11 +109,12 @@ bool vehicle::player_in_control (player *p)
     int veh_part;
     vehicle *veh = g->m.veh_at (p->posx, p->posy, veh_part);
 
-    if (veh == NULL || veh != this) {
-        return remote_controlled( p );
+    if( veh != nullptr && veh == this && 
+        part_with_feature(veh_part, VPFLAG_CONTROLS, false) >= 0 && p->controlling_vehicle ) {
+        return true;
     }
-
-    return part_with_feature(veh_part, VPFLAG_CONTROLS, false) >= 0 && p->controlling_vehicle;
+    
+    return remote_controlled( p );
 }
 
 bool vehicle::remote_controlled (player *p)

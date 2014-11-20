@@ -3196,8 +3196,8 @@ bool game::handle_action()
     }
 
     int veh_part;
-    vehicle *veh = m.veh_at(u.posx, u.posy, veh_part);
-    bool veh_ctrl = ( veh && veh->player_in_control(&u) ) || remoteveh();
+    vehicle *veh = m.veh_at( u.posx, u.posy, veh_part );
+    bool veh_ctrl = ( veh && veh->player_in_control(&u) ) || remoteveh() != nullptr;
 
     // If performing an action with right mouse button, co-ordinates
     // of location clicked.
@@ -8415,13 +8415,13 @@ void game::moving_vehicle_dismount(int tox, int toy)
 
 void game::control_vehicle()
 {
-    int veh_part;
-    vehicle *veh = m.veh_at(u.posx, u.posy, veh_part);
-    if( !veh ) {
-        veh = remoteveh();
+    int veh_part = -1;
+    vehicle *veh = remoteveh();
+    if( veh == nullptr ) {
+        veh = m.veh_at(u.posx, u.posy, veh_part);
     }
 
-    if( ( veh && veh->player_in_control( &u ) ) ) {
+    if( veh != nullptr && veh->player_in_control( &u ) ) {
         veh->use_controls();
     } else if (veh && veh->part_with_feature(veh_part, "CONTROLS") >= 0
                && u.in_vehicle) {

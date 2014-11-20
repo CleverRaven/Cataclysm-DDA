@@ -9905,7 +9905,8 @@ int iuse::remoteveh(player *p, item *it, bool t, point)
         if (it->charges == 0) {
             it->active = false;
             p->remove_value( "remote_controlling_vehicle" );
-        } else if( p->get_value( "remote_controlling_vehicle" ) == "" ) {
+        } else if( g->remoteveh() == nullptr ) {
+            p->add_msg_if_player( _("You stop remotely controlling the vehicle.") );
             it->active = false;
         }
 
@@ -9917,7 +9918,7 @@ int iuse::remoteveh(player *p, item *it, bool t, point)
                       controlling ? _("Stop controlling the vehicle.") : _("Take control of a vehicle."),
                       _("Execute one vehicle action"), NULL);
 
-   if (choice < 1 || choice > 3 ) {
+   if (choice < 2 || choice > 3 ) {
         return 0;
     }
     
@@ -9955,7 +9956,6 @@ int iuse::remoteveh(player *p, item *it, bool t, point)
         it->active = true;
     } else if( choice == 3 ) {
         veh->use_controls();
-        p->moves -= 100;
     } else {
         return 0;
     }
