@@ -531,25 +531,31 @@ bool vehicle::interact_vehicle_locked()
 {
     if (is_locked){
         inventory crafting_inv = g->crafting_inventory(&g->u);
+        add_msg(_("You don't find any keys in the %s."), name.c_str());
         if (crafting_inv.has_tools("screwdriver", 1)){
             if (query_yn(_("You don't find any keys in the %s. Attempt to hotwire vehicle?"), 
                             name.c_str())) {
                                 
                 int mechanics_skill = (g->u).skillLevel("mechanics");
                 int hotwire_time = 6000 / ((mechanics_skill > 0)? mechanics_skill : 1);
+                //assign long activity
                 (&g->u)->assign_activity(ACT_HOTWIRE_CAR, hotwire_time, -1, INT_MIN, _("Hotwire"));
                 (&g->u)->activity.values.push_back(global_x());//[0]
                 (&g->u)->activity.values.push_back(global_y());//[1]
                 (&g->u)->activity.values.push_back((g->u).skillLevel("mechanics"));//[2]
             } else {
-                add_msg(_("You don't find any keys in the %s."), name.c_str());
-                add_msg(_("You leave the controls alone."));
+                if (has_security_working() && 
+                    query_yn(_("Trigger the %s's Alarm?"), name.c_str())) {
+                    is_alarm_on = true;
+                } else {
+                    add_msg(_("You leave the controls alone."));
+                }
             }
         } else {
-            add_msg(_("You don't find any keys in the %s."), name.c_str());
             add_msg(_("You could use a screwdriver to hotwire it."));
         }
     }
+
     return !(is_locked);
 }
 
