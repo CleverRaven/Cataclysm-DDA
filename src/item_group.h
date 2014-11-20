@@ -8,21 +8,10 @@
 
 typedef std::string Item_tag;
 typedef std::string Group_tag;
-// itype_id is used in most of the other source files
-typedef Item_tag itype_id;
 class JsonObject;
 class item;
 
 namespace item_group {
-    /**
-     * Item id used by @ref id_from to indicate an invalid or empty group.
-     */
-    extern const itype_id EMPTY_GROUP_ITEM_ID;
-    /**
-     * Returns a random item type id from the given item group.
-     * Returns @ref EMPTY_GROUP_ITEM_ID if the group is empty or undefined.
-     */
-    itype_id id_from( const Group_tag &group_id );
     /**
      * Returns a random item from the item group, handles packaged food by putting it into its
      * container and returning the container item.

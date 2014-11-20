@@ -419,19 +419,6 @@ item_group::ItemList item_group::items_from( const Group_tag &group_id )
     return items_from( group_id, 0 );
 }
 
-itype_id item_group::id_from( const Group_tag &group_id )
-{
-    const auto group = item_controller->get_group( group_id );
-    if( group == nullptr ) {
-        return EMPTY_GROUP_ITEM_ID;
-    }
-    const auto new_item = group->create_single( 0 );
-    if( new_item.typeId() == null_item_id ) {
-        return EMPTY_GROUP_ITEM_ID;
-    }
-    return new_item.typeId();
-}
-
 item item_group::item_from( const Group_tag &group_id, int birthday )
 {
     const auto group = item_controller->get_group( group_id );
@@ -465,5 +452,3 @@ void item_group::load_item_group( JsonObject &jsobj, const Group_tag &group_id,
 {
     item_controller->load_item_group( jsobj, group_id, subtype );
 }
-
-const itype_id item_group::EMPTY_GROUP_ITEM_ID( "MISSING_ITEM" );

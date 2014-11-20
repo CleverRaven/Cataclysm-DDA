@@ -1541,9 +1541,7 @@ void npc::shop_restock(){
     if (from == "NULL")
         return;
     while (total_space > 0 && !one_in(50)) {
-        Item_tag selected_item = item_group::id_from(from);
-        item tmpit(selected_item, 0);
-        tmpit = tmpit.in_its_container();
+        item tmpit = item_group::item_from( from, 0 );
         if (total_space >= tmpit.volume()) {
             ret.push_back(tmpit);
             total_space -= tmpit.volume();
