@@ -80,17 +80,17 @@
             "c": "f_counter"
             },
               "place_groups": [
-                { "item": "pwr_first",      "x": 16, "y": 7, "chance": 40 },
-                { "item": "pwr_second",     "x": 16, "y": 7, "chance": 60 },
+                { "item": "pwr_equipment",  "x": 16, "y": 7, "chance": 40 },
+                { "item": "pwr_supplies",   "x": 16, "y": 7, "chance": 60 },
                 
-                { "item": "pwr_first",      "x": 16, "y": 8, "chance": 20 },
-                { "item": "pwr_second",     "x": 16, "y": 8, "chance": 40 },
+                { "item": "pwr_equipment",  "x": 16, "y": 8, "chance": 20 },
+                { "item": "pwr_supplies",   "x": 16, "y": 8, "chance": 40 },
                 
-                { "item": "pwr_first",      "x": 16, "y": 12, "chance": 40 },
-                { "item": "pwr_second",     "x": 16, "y": 12, "chance": 40 },
+                { "item": "pwr_equipment",  "x": 16, "y": 12, "chance": 40 },
+                { "item": "pwr_supplies",   "x": 16, "y": 12, "chance": 40 },
                 
-                { "item": "pwr_first",      "x": 16, "y": 13, "chance": 20 },
-                { "item": "pwr_second",     "x": 16, "y": 13, "chance": 20 }
+                { "item": "pwr_equipment",  "x": 16, "y": 13, "chance": 20 },
+                { "item": "pwr_supplies",   "x": 16, "y": 13, "chance": 20 }
             ]
         }
     }

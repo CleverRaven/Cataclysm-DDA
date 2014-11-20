@@ -9518,7 +9518,7 @@ void player::use(int inventory_position)
         inv.restack();
     } else if (used->is_gunmod()) {
         it_gunmod *mod = dynamic_cast<it_gunmod*>(used->type);
-        if (!(skillLevel("gun") >= mod->req_skill) {
+        if (!(skillLevel("gun") >= mod->req_skill)) {
             add_msg(m_info, _("You need to be at least level %d in the marksmanship skill before you\
 can install this mod."), mod->req_skill);
             return;
@@ -10224,11 +10224,8 @@ bool player::can_sleep()
       furn_at_pos == f_armchair || ter_at_pos == t_improvised_shelter) && (!(plantsleep)) ) {
     sleepy += 3;
  }
-<<<<<<< HEAD
- else if ( (furn_at_pos == f_straw_bed) && (!(plantsleep)) ) {
-=======
- else if ( (furn_at_pos == f_hay || furn_at_pos == f_tatami) && (!(plantsleep)) ) {
->>>>>>> 66cf039509ba1789e3cab6eb588c24eaf1022e04
+ else if ( (furn_at_pos == f_straw_bed || furn_at_pos == f_hay || furn_at_pos == f_tatami) &&
+  (!(plantsleep)) ) {
     sleepy += 2;
  }
  else if ( (furn_at_pos == f_bed) && (!(plantsleep)) ) {

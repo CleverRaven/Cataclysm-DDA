@@ -1542,7 +1542,7 @@
     "turns_per_charge": 0,
     "ammo": "battery",
     "revert_to": "null",
-    "use_action": "elec_CHAINSAW_OFF"
+    "use_action": "ELEC_CHAINSAW_OFF"
   },{
     "id": "elec_chainsaw_on",
     "type": "TOOL",
