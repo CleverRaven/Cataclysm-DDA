@@ -777,6 +777,8 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```SIPHON``` Siphon liquids out of vehicle.
 - ```CHAINSAW_OFF``` Turn the chainsaw on.
 - ```CHAINSAW_ON``` Turn the chainsaw off.
+- ```ELEC_CHAINSAW_OFF``` Turn the electric chainsaw on.
+- ```ELEC_CHAINSAW_ON``` Turn the electric chainsaw off.
 - ```CARVER_OFF``` Turn the carver on.
 - ```CARVER_ON``` Turn the carver off.
 - ```COMBATSAW_OFF``` Turn the combat-saw on.

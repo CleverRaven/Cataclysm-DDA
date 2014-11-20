@@ -245,6 +245,7 @@ void Item_factory::init()
     iuse_function_list["ZWEIFIRE_OFF"] = &iuse::zweifire_off;
     iuse_function_list["ZWEIFIRE_ON"] = &iuse::zweifire_on;
     iuse_function_list["JACKHAMMER"] = &iuse::jackhammer;
+    iuse_function_list["ELEC_JACKHAMMER"] = &iuse::elec_jackhammer;
     iuse_function_list["JACQUESHAMMER"] = &iuse::jacqueshammer;
     iuse_function_list["PICKAXE"] = &iuse::pickaxe;
     iuse_function_list["SET_TRAP"] = &iuse::set_trap;
