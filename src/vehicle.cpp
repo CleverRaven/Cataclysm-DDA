@@ -411,8 +411,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
 
     }
     
-    // Security should depend on car type - high for military, low for low-end
-    security = 3;
+    security = 0;
 }
 /**
  * Smashes up a vehicle that has already been placed; used for generating
