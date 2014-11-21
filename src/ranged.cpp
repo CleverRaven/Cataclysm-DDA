@@ -869,8 +869,12 @@ static void draw_targeting_window( WINDOW *w_target, item *relevant, player &p, 
         --text_y;
     }
     if( relevant ) {
-        // Reserve lines for aiming and firing instructions.
-        text_y -= 6;
+        if( mode == TARGET_MODE_FIRE ) {
+            // Reserve lines for aiming and firing instructions.
+            text_y -= 6;
+        } else {
+            text_y -= 2;
+        }
     }
     mvwprintz(w_target, text_y++, 1, c_white,
               _("Move cursor to target with directional keys"));
@@ -879,14 +883,16 @@ static void draw_targeting_window( WINDOW *w_target, item *relevant, player &p, 
                   _("'<' '>' Cycle targets; 'f' or Enter to fire"));
         mvwprintz(w_target, text_y++, 1, c_white,
                   _("'0' target self; '*' toggle snap-to-target"));
-        mvwprintz(w_target, text_y++, 1, c_white,
-                  _("'.' to steady your aim."));
-        mvwprintz(w_target, text_y++, 1, c_white,
-                  _("'a' to aim and fire."));
-        mvwprintz(w_target, text_y++, 1, c_white,
-                  _("'c' to take careful aim and fire."));
-        mvwprintz(w_target, text_y++, 1, c_white,
-                  _("'p' to take precise aim and fire."));
+        if( mode == TARGET_MODE_FIRE ) {
+            mvwprintz(w_target, text_y++, 1, c_white,
+                      _("'.' to steady your aim."));
+            mvwprintz(w_target, text_y++, 1, c_white,
+                      _("'a' to aim and fire."));
+            mvwprintz(w_target, text_y++, 1, c_white,
+                      _("'c' to take careful aim and fire."));
+            mvwprintz(w_target, text_y++, 1, c_white,
+                      _("'p' to take precise aim and fire."));
+        }
     }
 
     if( is_mouse_enabled() ) {
@@ -1083,10 +1089,12 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
         ctxt.register_action("FIRE");
         ctxt.register_action("NEXT_TARGET");
         ctxt.register_action("PREV_TARGET");
-        ctxt.register_action("AIM");
-        ctxt.register_action("AIMED_SHOT");
-        ctxt.register_action("CAREFUL_SHOT");
-        ctxt.register_action("PRECISE_SHOT");
+        if( mode == TARGET_MODE_FIRE ) {
+            ctxt.register_action("AIM");
+            ctxt.register_action("AIMED_SHOT");
+            ctxt.register_action("CAREFUL_SHOT");
+            ctxt.register_action("PRECISE_SHOT");
+        }
         ctxt.register_action("CENTER");
         ctxt.register_action("TOGGLE_SNAP_TO_TARGET");
         ctxt.register_action("HELP_KEYBINDINGS");
