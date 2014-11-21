@@ -830,13 +830,20 @@ void Pickup::remove_from_map_or_vehicle(int posx, int posy, vehicle *veh, int ca
 void Pickup::show_pickup_message(std::map<std::string, int> &mapPickup,
                                  std::map<std::string, char> &item_invlet)
 {
-    // iterator _should_ be the same, as std::map is ordered
+    // iterator _should_ be the same, as std::map is ordered...
     std::map<std::string, int>::iterator mp_iter = mapPickup.begin();
     std::map<std::string, char>::iterator ii_iter = item_invlet.begin();
     while(mp_iter != mapPickup.end() && ii_iter != item_invlet.end()) {
         // FIXME: i18n
-        add_msg(ngettext("You pick up: %d %s [%c]", "You pick up: %d %ss [%c]", mp_iter->second),
-                mp_iter->second, mp_iter->first.c_str(), ii_iter->second);
+        if(mp_iter->first == ii_iter->first) {
+            add_msg(m_info,
+                    ngettext("You pick up: %d %s [%c]", "You pick up: %d %ss [%c]", mp_iter->second),
+                    mp_iter->second, mp_iter->first.c_str(), ii_iter->second);
+        } else {
+            // ... and if it for some reason isn't, catch it in debug logs.
+            debugmsg("show_pickup_message: mp_iter->first [%s] != ii_iter->first [%s]",
+                    mp_iter->first.c_str(), ii_iter->first.c_str());
+        }
         ++mp_iter;
         ++ii_iter;
     }
