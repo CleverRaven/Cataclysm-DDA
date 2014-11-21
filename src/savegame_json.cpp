@@ -1419,6 +1419,15 @@ void mission::deserialize(JsonIn &jsin)
     }
     follow_up = mission_id(jo.get_int("follow_up", follow_up));
     item_id = itype_id(jo.get_string("item_id", item_id));
+
+    const std::string omid = jo.get_string( "target_id", "" );
+    if( !omid.empty() ) {
+        target_id = oter_id( omid );
+    }
+    recruit_class = static_cast<npc_class>( jo.get_int( "recruit_class", recruit_class ) );
+    jo.read( "target_npc_id", target_npc_id );
+    jo.read( "monster_type", monster_type );
+    jo.read( "monster_kill_goal", monster_kill_goal );
     jo.read("deadline", deadline );
     jo.read("step", step );
     jo.read("item_count", item_count );
@@ -1444,7 +1453,13 @@ void mission::serialize(JsonOut &json) const
     json.write(target.y);
     json.end_array();
 
+    json.member("item_id", item_id);
     json.member("item_count", item_count);
+    json.member("target_id", target_id.t().id);
+    json.member("recruit_class", recruit_class);
+    json.member("target_npc_id", target_npc_id);
+    json.member("monster_type", monster_type);
+    json.member("monster_kill_goal", monster_kill_goal);
     json.member("deadline", deadline);
     json.member("npc_id", npc_id);
     json.member("good_fac_id", good_fac_id);
