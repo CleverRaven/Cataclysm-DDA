@@ -835,7 +835,9 @@ void Pickup::show_pickup_message(std::map<std::string, int> &mapPickup,
     std::map<std::string, char>::iterator ii_iter = item_invlet.begin();
     while(mp_iter != mapPickup.end() && ii_iter != item_invlet.end()) {
         // FIXME: i18n
+        // name seems to be a fitting test
         if(mp_iter->first == ii_iter->first) {
+            // make message m_info, so you can tell it apart from the rest of the log
             add_msg(m_info,
                     ngettext("You pick up: %d %s [%c]", "You pick up: %d %ss [%c]", mp_iter->second),
                     mp_iter->second, mp_iter->first.c_str(), ii_iter->second);
