@@ -2663,7 +2663,7 @@ float vehicle::strain ()
     int sv = safe_velocity();
     if (mv <= sv)
         mv = sv + 1;
-    if (velocity < safe_velocity() && velocity > -safe_velocity())
+    if (velocity < sv && velocity > -sv)
         return 0;
     else
         return (float) (abs(velocity) - sv) / (float) (mv - sv);
