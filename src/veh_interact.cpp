@@ -464,7 +464,7 @@ bool veh_interact::is_drive_conflict(int msg_width, int engines){
     bool install_paddles = sel_vpart_info->has_flag("PADDLES");
     
     bool install_muscle_engine = install_pedals || install_hand_rims || install_paddles;
-    bool has_muscle_engine = veh->has_pedals || veh->has_hand_rims || veh->has_paddles;
+    bool has_muscle_engine = veh->has_engine_type("muscle", false);
     bool can_install = (engines == 0)|| (has_muscle_engine && install_muscle_engine) ||
                                         (!has_muscle_engine && !install_muscle_engine);
     if (!can_install) {

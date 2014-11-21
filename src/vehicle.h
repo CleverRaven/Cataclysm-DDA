@@ -669,6 +669,10 @@ public:
     //mark engine as on or off
     void toggle_specific_engine(int p, bool on);
     void toggle_specific_part(int p,bool on);
+    //true if an engine exists with specified type. If enabled true, must be enabled
+    bool has_engine_type(const ammotype  & ft, bool enabled);
+    bool has_engine_not_type(const ammotype  & ft, bool enabled);
+    void msg_start_engine_fail();
 
 
     // return a vector w/ 'direction' & 'magnitude', in its own sense of the words.
@@ -737,9 +741,7 @@ public:
     bool cruise_on;     // cruise control on/off
     bool reactor_on;    // reactor on/off
     bool engine_on;     // engine on/off
-    bool has_pedals;
-    bool has_paddles;
-    bool has_hand_rims;
+    bool has_muscle;    // has a muscle type engine
     bool lights_on;     // lights on/off
     bool stereo_on;
     bool tracking_on;        // vehicle tracking on/off

@@ -82,10 +82,6 @@ vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): t
     insides_dirty = true;
     reactor_on = false;
     engine_on = false;
-    has_pedals = false;
-    has_paddles = false;
-    has_hand_rims = false;
-
     //type can be null if the type_id parameter is omitted
     if(type != "null") {
       if(g->vtypes.count(type) > 0) {
@@ -479,6 +475,33 @@ bool vehicle::is_engine_type_on(int e, const ammotype  & ft) {
     return is_engine_on(e) && is_engine_type(e, ft);
 }
 
+bool vehicle::has_engine_type(const ammotype  & ft, bool enabled) {
+    for (size_t e=0; e<engines.size(); ++e) {
+            if (is_engine_type(e, ft) && 
+                (!enabled || is_engine_on(e))) 
+                return true;
+    }
+    return false;
+}
+bool vehicle::has_engine_not_type(const ammotype  & ft, bool enabled) {
+    for (size_t e=0; e<engines.size(); ++e) {
+            if (!is_engine_type(e, ft) && 
+                (!enabled || is_engine_on(e))) 
+                return true;
+    }
+    return false;
+}
+
+void vehicle::msg_start_engine_fail() {
+    if (total_power (false) < 1) {
+        add_msg (m_info, _("The %s doesn't have an engine!"), name.c_str());
+    } else if (has_engine_type(fuel_type_muscle, true)) {
+        add_msg (m_info, _("The %s's mechanism is out of reach!"), name.c_str());
+    } else {
+        add_msg (_("The %s's engine emits a sneezing sound."), name.c_str());
+    }
+}
+
 bool vehicle::is_engine_type(int e, const ammotype  & ft) {
     return part_info(engines[e]).fuel_type == ft;
 }
@@ -571,7 +594,7 @@ void vehicle::use_controls()
     }
 
     // Toggle engine on/off, stop driving if we are driving.
-    if( !has_pedals && !has_hand_rims && !has_paddles && has_engine ) {
+    if (has_engine_not_type(fuel_type_muscle, true) && has_engine) {
         options_choice.push_back(toggle_engine);
         if (g->u.controlling_vehicle) {
             options_message.push_back(uimenu_entry(_("Stop driving."), 's'));
@@ -800,12 +823,8 @@ void vehicle::use_controls()
           if (total_power () < 1) {
               if (total_power (false) < 1) {
                   add_msg (m_info, _("The %s doesn't have an engine!"), name.c_str());
-              } else if( has_pedals ) {
-                  add_msg (m_info, _("The %s's pedals are out of reach!"), name.c_str());
-              } else if (has_paddles) {
-                  add_msg(m_info, _("The %s's paddles are out of reach!"), name.c_str());
-              } else if( has_hand_rims ) {
-                  add_msg (m_info, _("The %s's hand rims are out of reach!"), name.c_str());
+              } else if( has_engine_type(fuel_type_muscle, true) ) {
+                  add_msg (m_info, _("The %s's mechanism is out of reach!"), name.c_str());
               } else {
                   add_msg (_("The %s's engine emits a sneezing sound."), name.c_str());
               }
@@ -914,7 +933,8 @@ void vehicle::start_engine()
     // TODO: Make chance of success based on engine condition.
     for( size_t e = 0; e < engines.size(); ++e ) {
         if(parts[engines[e]].hp > 0) {
-            if(part_info(engines[e]).fuel_type == fuel_type_gasoline || part_info(engines[e]).fuel_type == fuel_type_diesel) {
+            if(is_engine_type(e, fuel_type_gasoline)  || 
+                is_engine_type(e, fuel_type_diesel)) {
                 int engine_power = part_power(engines[e]);
                 if(engine_power < 50) {
                     // Small engines can be pull-started
@@ -925,7 +945,7 @@ void vehicle::start_engine()
                         engine_on = true;
                     }
                 }
-            } else if (part_info(engines[e]).fuel_type == fuel_type_muscle) {
+            } else if (is_engine_type(e, fuel_type_muscle)) {
                 muscle_powered = true;
             } else {
                 // Electric & plasma engines
@@ -1133,10 +1153,10 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
     }
 
     // Pedals and engines can't both be installed
-    if( part.has_flag("PEDALS") && !engines.empty() ) {
+    if(part.has_flag("PEDALS") && has_engine_not_type(fuel_type_muscle, false)) {
         return false;
     }
-    if( part.has_flag(VPFLAG_ENGINE) && (has_pedals || has_hand_rims || has_paddles) ) {
+    if(part.has_flag(VPFLAG_ENGINE) && has_engine_type(fuel_type_muscle, false)) {
         return false;
     }
 
@@ -2387,7 +2407,7 @@ int vehicle::solar_epower ()
 
 int vehicle::acceleration (bool fueled)
 {
-    if ( (engine_on || skidding) || (has_pedals || has_paddles || has_hand_rims)) {
+    if ( (engine_on || skidding) || has_engine_type(fuel_type_muscle, true)) {
         return (int) (safe_velocity (fueled) * k_mass() / (1 + strain ()) / 10);
     }
     else {
@@ -2539,10 +2559,10 @@ void vehicle::noise_and_smoke( double load, double time )
     if( (exhaust_part != -1) && engine_on ) { // No engine, no smoke
         spew_smoke( mufflesmoke, exhaust_part );
     }
-    // Even a car with engines off will make noise traveling at high speeds
+    // Even a vehicle with engines off will make noise traveling at high speeds
     noise = std::max( noise, double(fabs(velocity/500.0)) );
     int lvl = 0;
-    if( !has_pedals && !has_hand_rims && !has_paddles && one_in(4) && rng(0, 30) < noise ) {
+    if( one_in(4) && rng(0, 30) < noise ) {
        while( noise > sound_levels[lvl] ) {
            lvl++;
        }
@@ -3041,7 +3061,7 @@ void vehicle::idle(bool on_map) {
     int engines_power = 0;
     float idle_rate;
 
-    if( engine_on && total_power() > 0 && !has_pedals && !has_hand_rims && !has_paddles) {
+    if( engine_on && total_power() > 0 && has_engine_not_type(fuel_type_muscle, true)) {
         int strn = (int)(strain() * strain() * 100);
         for (size_t e = 0; e < engines.size(); e++){
             size_t p = engines[e];
@@ -3180,25 +3200,15 @@ void vehicle::thrust (int thd) {
     if (thrusting && rng(1, accel) <= vel_inc ) {
         if (total_power () < 1) {
             if (pl_ctrl) {
-                if (total_power (false) < 1) {
-                    add_msg (m_info, _("The %s doesn't have an engine!"), name.c_str());
-                } else if( has_pedals ) {
-                    add_msg (m_info, _("The %s's pedals are out of reach!"), name.c_str());
-                } else if (has_paddles) {
-                    add_msg(m_info, _("The %s's paddles are out of reach!"), name.c_str());
-                } else if (has_hand_rims) {
-                    add_msg (m_info, _("The %s's hand rims are out of reach!"), name.c_str());
-                } else {
-                    add_msg (m_info, _("The %s's engine emits a sneezing sound."), name.c_str());
-                }
+                msg_start_engine_fail();
             }
             cruise_velocity = 0;
             return;
-        } else if (!engine_on && !has_pedals && !has_hand_rims && !has_paddles) {
+        } else if (!engine_on && !has_engine_type(fuel_type_muscle, false)) {
           add_msg (_("The %s's engine isn't on!"), name.c_str());
           cruise_velocity = 0;
           return;
-        } else if (has_pedals || has_hand_rims || has_paddles) {
+        } else if (has_engine_type(fuel_type_muscle, true)) {
             if (g->u.has_bionic("bio_torsionratchet")
                 && calendar::turn.get_turn() % 60 == 0) {
                 g->u.charge_power(1);
@@ -3965,9 +3975,7 @@ void vehicle::refresh()
     fridge_epower = 0;
     recharger_epower = 0;
     alternator_load = 0;
-    has_pedals = false;
-    has_paddles = false;
-    has_hand_rims = false;
+
 
     // Used to sort part list so it displays properly when examining
     struct sort_veh_part_vector {
@@ -4013,15 +4021,6 @@ void vehicle::refresh()
         }
         if( vpi.has_flag(VPFLAG_SOLAR_PANEL) ) {
             solar_panels.push_back( p );
-        }
-        if( vpi.has_flag("PEDALS") ) {
-            has_pedals = true;
-        }
-        if (vpi.has_flag("PADDLES")) {
-            has_paddles = true;
-        }
-        if( vpi.has_flag("HAND_RIMS") ) {
-            has_hand_rims = true;
         }
         if( vpi.has_flag("UNMOUNT_ON_MOVE") ) {
             loose_parts.push_back(p);
