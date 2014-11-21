@@ -3718,7 +3718,7 @@ bool map::add_field(const point p, const field_id t, int density, const int age)
         current_submap->field_count++; //Only adding it to the count if it doesn't exist.
     }
     if(g != NULL && this == &g->m && p.x == g->u.posx && p.y == g->u.posy) {
-        step_in_field(p.x, p.y); //Hit the player with the field if it spawned on top of them.
+        creature_in_field( g->u ); //Hit the player with the field if it spawned on top of them.
     }
     return true;
 }
