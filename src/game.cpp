@@ -2956,7 +2956,7 @@ input_context get_default_mode_input_context()
 
 input_context game::get_player_input(std::string &action)
 {
-    input_context ctxt;
+    input_context ctxt("DEFAULTMODE");
     if(uquit == QUIT_WATCH) {
         ctxt.register_action("QUIT");
         ctxt.register_action("ANY_INPUT");
@@ -4137,7 +4137,6 @@ bool game::is_game_over()
     // is_dead_state() already checks hp_torso && hp_head, no need to loop it
     if(u.is_dead_state()) {
         uquit = query_yn("Watch the last moments of your life...?") ? QUIT_WATCH : QUIT_DIED;
-        uquit = QUIT_WATCH;
         return false;
     }
     return false;
@@ -4684,7 +4683,7 @@ void game::debug()
                       _("Test Item Group"), // 21
                       _("Damage Self"), //22
 #ifdef LUA
-                      _("Lua Command"), // 99
+                      _("Lua Command"), // 23
 #endif
                       _("Cancel"),
                       NULL);
@@ -5098,7 +5097,7 @@ void game::debug()
 #ifdef LUA
     // make case # '99' to keep from having to shift each time, as it's
     // a conditional debug entry!
-    case 99: {
+    case 23: {
         std::string luacode = string_input_popup(_("Lua:"), 60, "");
         call_lua(luacode);
     }
