@@ -62,6 +62,9 @@ std::string ammo_name(ammotype t);
 // Returns the default ammo for a category of ammo (e.g. ""00_shot"")
 itype_id default_ammo(ammotype guntype);
 
+// Returns the name of the given item type
+std::string item_name(const itype_id &type);
+
 struct explosion_data {
     // Those 4 values are forwarded to game::explosion.
     int power;
@@ -92,7 +95,7 @@ public:
 
     // What we're made of (material names). .size() == made of nothing.
     // MATERIALS WORK IN PROGRESS.
-    std::vector<std::string> materials; 
+    std::vector<std::string> materials;
 
     phase_id phase; //e.g. solid, liquid, gas
 
@@ -375,6 +378,8 @@ struct it_gun : public virtual itype {
     int pierce;
     int range;
     int dispersion;
+    int sight_dispersion;
+    int aim_speed;
     int recoil;
     int durability;
     int burst;
@@ -398,22 +403,24 @@ struct it_gun : public virtual itype {
     }
 
     it_gun() : itype(), skill_used(NULL), dmg_bonus(0), pierce(0), range(0), dispersion(0),
-        recoil(0), durability(0), burst(0), clip(0), reload_time(0), ammo_effects(),
-        valid_mod_locations(), ups_charges(0)
+        sight_dispersion(0), aim_speed(0), recoil(0), durability(0), burst(0), clip(0),
+        reload_time(0), ammo_effects(), valid_mod_locations(), ups_charges(0)
     {
     }
 };
 
 struct it_gunmod : public virtual itype {
-    // Used by gunmods with a firing mode,
-    // this should be supported by assigning a gun itype to the item as well.
     int dispersion;
+    int mod_dispersion;
+    int sight_dispersion;
+    int aim_speed;
     int damage;
     int loudness;
     int clip;
     int recoil;
     int burst;
     int range;
+    int req_skill;
     Skill *skill_used;
     // Rest of the attributes are properly part of a gunmod.
     ammotype newtype;
@@ -431,8 +438,9 @@ struct it_gunmod : public virtual itype {
         return true;
     }
 
-    it_gunmod() : itype(), dispersion(0), damage(0), loudness(0), clip(0), recoil(0), burst(0),
-        range(0), skill_used(NULL), newtype(), acceptible_ammo_types(), used_on_pistol(false),
+    it_gunmod() : itype(), dispersion(0), mod_dispersion(0), sight_dispersion(0),
+        aim_speed(0), damage(0), loudness(0), clip(0), recoil(0), burst(0), range(0),
+        req_skill(0), skill_used(NULL), newtype(), acceptible_ammo_types(), used_on_pistol(false),
         used_on_shotgun(false), used_on_smg(false), used_on_rifle(false), used_on_bow(false),
         used_on_crossbow(false), used_on_launcher(false), location() {}
 };

@@ -20,6 +20,7 @@
 class item;
 class overmap;
 class player;
+class field_entry;
 
 void parse_tags(std::string &phrase, const player *u, const npc *me);
 
@@ -747,6 +748,10 @@ public:
 private:
     void setID (int id);
     bool dead;  // If true, we need to be cleaned up
+
+    bool is_dangerous_field( const field_entry &fld ) const;
+    bool sees_dangerous_field( point p ) const;
+    bool could_move_onto( point p ) const;
 };
 
 #endif

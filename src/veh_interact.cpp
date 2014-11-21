@@ -303,7 +303,7 @@ static int charges_per_use( const std::string &id )
 
 void veh_interact::cache_tool_availability()
 {
-    crafting_inv = g->crafting_inventory(&g->u);
+    crafting_inv = g->u.crafting_inventory();
 
     int charges = charges_per_use( "welder" );
     int charges_oxy = charges_per_use( "oxy_torch" );
@@ -1682,7 +1682,7 @@ void complete_vehicle ()
     int welder_charges = charges_per_use( "welder" );
     int welder_oxy_charges = charges_per_use( "oxy_torch" );
     int welder_crude_charges = charges_per_use( "welder_crude" );
-    inventory crafting_inv = g->crafting_inventory(&g->u);
+    inventory crafting_inv = g->u.crafting_inventory();
     const bool has_goggles = crafting_inv.has_tools("goggles_welding", 1) ||
                              g->u.has_bionic("bio_sunglasses") ||
                              g->u.is_wearing("goggles_welding") || g->u.is_wearing("rm13_armor_on");
@@ -1718,10 +1718,9 @@ void complete_vehicle ()
             }
             tools.push_back(tool_comp("duct_tape", DUCT_TAPE_USED));
             tools.push_back(tool_comp("toolbox", DUCT_TAPE_USED));
-            g->consume_tools(&g->u, tools);
+            g->u.consume_tools(tools);
         }
-        
-        
+
         used_item = consume_vpart_item (part_id);
         partnum = veh->install_part (dx, dy, part_id, used_item);
         if(partnum < 0) {
@@ -1776,7 +1775,7 @@ void complete_vehicle ()
             tools.push_back(tool_comp("wrench", -1));
             tools.push_back(tool_comp("survivor_belt", -1));
             tools.push_back(tool_comp("toolbox", -1));
-            g->consume_tools(&g->u, tools);
+            g->u.consume_tools(tools);
             tools.clear();
             dd = 0;
             veh->insides_dirty = true;
@@ -1789,7 +1788,7 @@ void complete_vehicle ()
         tools.push_back(tool_comp("duct_tape", int(DUCT_TAPE_USED * dmg)));
         tools.push_back(tool_comp("toolbox", int(DUCT_TAPE_USED * dmg)));
         tools.push_back(tool_comp("toolset", int(welder_crude_charges * dmg)));
-        g->consume_tools(&g->u, tools);
+        g->u.consume_tools(tools);
         veh->parts[vehicle_part].hp = veh->part_info(vehicle_part).durability;
         add_msg (m_good, _("You repair the %s's %s."),
                  veh->name.c_str(), veh->part_info(vehicle_part).name.c_str());
@@ -1809,7 +1808,7 @@ void complete_vehicle ()
             tools.push_back(tool_comp("survivor_belt", -1));
             tools.push_back(tool_comp("circsaw_off", 20));
             tools.push_back(tool_comp("oxy_torch", 10));
-            g->consume_tools(&g->u, tools);
+            g->u.consume_tools(tools);
         }
         // Dump contents of part at player's feet, if any.
         for (size_t i = 0; i < veh->parts[vehicle_part].items.size(); i++) {

@@ -106,7 +106,7 @@ void game::init_morale()
     _("Moodswing"),
     _("Read %i"),
     _("Got comfy"),
-    
+
     _("Heard Disturbing Scream"),
 
     _("Masochism"),
@@ -841,13 +841,16 @@ void player::update_bodytemp()
         if( furn_at_pos == f_bed ) {
             floor_bedding_warmth += 1000;
         } else if( furn_at_pos == f_makeshift_bed || furn_at_pos == f_armchair ||
-                   furn_at_pos == f_sofa || furn_at_pos == f_hay ) {
+                   furn_at_pos == f_sofa ) {
             floor_bedding_warmth += 500;
-        } else if( trap_at_pos == tr_cot || ter_at_pos == t_improvised_shelter ) {
+        } else if( furn_at_pos == f_straw_bed ) {
+            floor_bedding_warmth += 200;
+        } else if( trap_at_pos == tr_cot || ter_at_pos == t_improvised_shelter ||
+                   furn_at_pos == f_tatami ) {
             floor_bedding_warmth -= 500;
         } else if( trap_at_pos == tr_rollmat ) {
             floor_bedding_warmth -= 1000;
-        } else if( trap_at_pos == tr_fur_rollmat ) {
+        } else if( trap_at_pos == tr_fur_rollmat || furn_at_pos == f_hay ) {
             floor_bedding_warmth += 0;
         } else if( veh && veh->part_with_feature (vpart, "SEAT") >= 0 ) {
             floor_bedding_warmth += 200;
@@ -1238,9 +1241,9 @@ void player::update_bodytemp()
             }
 
             // Morale bonus for comfiness - only if actually comfy (not too warm/cold)
-            // Spread the morale bonus in time. 
+            // Spread the morale bonus in time.
             int mytime = MINUTES( i ) / MINUTES( num_bp );
-            if( calendar::turn % MINUTES( 1 ) == mytime && 
+            if( calendar::turn % MINUTES( 1 ) == mytime &&
                 disease_intensity( "cold", false, (body_part)num_bp ) == 0 &&
                 disease_intensity( "hot", false, (body_part)num_bp ) == 0 &&
                 temp_cur[i] > BODYTEMP_COLD && temp_cur[i] <= BODYTEMP_NORM ) {
@@ -2881,7 +2884,7 @@ your resistance to many diseases, and the effectiveness of actions which require
                               base_to_hit(false));
                     mvwprintz(w_stats, 7, 1, c_magenta, "                                            ");
                     mvwprintz(w_stats, 7, 1, c_magenta, _("Ranged penalty: -%d"),
-                              abs(ranged_dex_mod(false)));
+                              abs(ranged_dex_mod()));
                     mvwprintz(w_stats, 8, 1, c_magenta, "                                            ");
                     if (throw_dex_mod(false) <= 0) {
                         mvwprintz(w_stats, 8, 1, c_magenta, _("Throwing bonus: +%d"),
@@ -2907,7 +2910,7 @@ electronics crafting. It also affects how much skill you can pick up from readin
                     // display player current PER effects
                     mvwprintz(w_stats, 5, 1, h_ltgray, _("Perception:"));
                     mvwprintz(w_stats, 6, 1,  c_magenta, _("Ranged penalty: -%d"),
-                              abs(ranged_per_mod(false)),"          ");
+                              abs(ranged_per_mod()),"          ");
                     mvwprintz(w_stats, 7, 1, c_magenta, _("Trap detection level: %d       "), get_per());
                     mvwprintz(w_stats, 8, 1, c_magenta, "                             ");
                     fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, _("\
@@ -3387,46 +3390,103 @@ void player::disp_morale()
     delwin(w);
 }
 
+int player::print_aim_bars( WINDOW *w, int line_number, item *weapon, Creature *target )
+{
+    // Window width minus borders.
+    const int window_width = getmaxx( w ) - 2;
+    // This is absolute accuracy for the player.
+    // TODO: push the calculations duplicated from Creature::deal_projectile_attack() and
+    // Creature::projectile_attack() into shared methods.
+    // Dodge is intentionally not accounted for.
+    const double aim_level =
+        recoil + driving_recoil + get_weapon_dispersion( weapon, false );
+    const double range = rl_dist( xpos(), ypos(), target->xpos(), target->ypos() );
+    const double missed_by = aim_level * 0.00021666666666666666 * range;
+    const double hit_rating = missed_by / std::max(double(get_speed()) / 80., 1.0);
+    // Confidence is chance of the actual shot being under the target threshold,
+    // This simplifies the calculation greatly, that's intentional.
+    const std::array<std::pair<double, char>, 3> ratings =
+        {{ std::make_pair(0.1, '*'), std::make_pair(0.4, '+'), std::make_pair(0.6, '|') }};
+    const std::string confidence_label = _("Confidence: ");
+    const int confidence_width = window_width - utf8_width( confidence_label.c_str() );
+    int used_width = 0;
+    std::string confidence_meter;
+    for( auto threshold : ratings ) {
+        const double confidence =
+            std::min( 1.0, std::max( 0.0, threshold.first / hit_rating ) );
+        const int confidence_meter_width = int(confidence_width * confidence) - used_width;
+        used_width += confidence_meter_width;
+        confidence_meter += std::string( confidence_meter_width, threshold.second );
+    }
+    mvwprintw(w, line_number++, 1, "%s%s",
+              confidence_label.c_str(), confidence_meter.c_str() );
+
+    // This is a relative measure of how steady the player's aim is,
+    // 0 it is the best the player can do.
+    const double steady_score = recoil - weapon->sight_dispersion( -1 );
+    // Fairly arbitrary cap on steadiness...
+    const double steadiness = std::max( 0.0, 1.0 - (steady_score / 250) );
+    const std::string steadiness_label = _("Steadiness: ");
+    const int steadiness_width = window_width - utf8_width( steadiness_label.c_str() );
+    const std::string steadiness_meter = std::string( steadiness_width * steadiness, '*' );
+    mvwprintw(w, line_number++, 1, "%s%s",
+              steadiness_label.c_str(), steadiness_meter.c_str() );
+    return line_number;
+}
+
+void player::print_gun_mode( WINDOW *w, nc_color c )
+{
+    // Print current weapon, or attachment if active.
+    item* gunmod = weapon.active_gunmod();
+    std::stringstream attachment;
+    if (gunmod != NULL) {
+        attachment << gunmod->type->nname(1).c_str();
+        for( auto &mod : weapon.contents ) {
+            if (mod.is_gunmod() && mod.has_flag("MODE_AUX")) {
+                attachment << " (" << mod.charges << ")";
+            }
+        }
+        wprintz(w, c, _("%s (Mod)"), attachment.str().c_str());
+    } else {
+        if (weapon.mode == "MODE_BURST") {
+            wprintz(w, c, _("%s (Burst)"), weapname().c_str());
+        } else {
+            wprintz(w, c, _("%s"), weapname().c_str());
+        }
+    }
+}
+
+void player::print_recoil( WINDOW *w ) const
+{
+    if (weapon.is_gun()) {
+        const int adj_recoil = recoil + driving_recoil;
+        if (adj_recoil > 0) {
+            nc_color c = c_ltgray;
+            if (adj_recoil >= 36) {
+                c = c_red;
+            } else if (adj_recoil >= 20) {
+                c = c_ltred;
+            } else if (adj_recoil >= 4) {
+                c = c_yellow;
+            }
+            wprintz(w, c, _("Recoil"));
+        }
+    }
+}
+
 void player::disp_status(WINDOW *w, WINDOW *w2)
 {
     bool sideStyle = use_narrow_sidebar();
     WINDOW *weapwin = sideStyle ? w2 : w;
 
-    // Print current weapon, or attachment if active.
-    item* gunmod = weapon.active_gunmod();
-    std::stringstream attachment;
-    if (gunmod != NULL)
     {
-        attachment << gunmod->type->nname(1).c_str();
-        for (auto &i : weapon.contents) {
-            if (i.is_gunmod() && i.has_flag("MODE_AUX")) {
-                attachment << " (" << i.charges << ")";
-            }
-        }
-        mvwprintz(weapwin, sideStyle ? 1 : 0, 0, c_ltgray, _("%s (Mod)"), attachment.str().c_str());
-    }
-    else
-    {
-        if (weapon.mode == "MODE_BURST")
-                mvwprintz(weapwin, sideStyle ? 1 : 0, 0, c_ltgray, _("%s (Burst)"), weapname().c_str());
-        else
-            mvwprintz(weapwin, sideStyle ? 1 : 0, 0, c_ltgray, _("%s"), weapname().c_str());
-    }
+        const int y = sideStyle ? 1 : 0;
+        wmove( weapwin, y, 0 );
+        print_gun_mode( weapwin, c_ltgray );
 
-    if (weapon.is_gun()) {
-        int adj_recoil = recoil + driving_recoil;
-        if (adj_recoil > 0) {
-            nc_color c = c_ltgray;
-            if (adj_recoil >= 36)
-                c = c_red;
-            else if (adj_recoil >= 20)
-                c = c_ltred;
-            else if (adj_recoil >= 4)
-                c = c_yellow;
-            int y = sideStyle ? 1 : 0;
-            int x = sideStyle ? (getmaxx(weapwin) - 6) : 34;
-            mvwprintz(weapwin, y, x, c, _("Recoil"));
-        }
+        const int x = sideStyle ? (getmaxx(weapwin) - 6) : 34;
+        wmove( weapwin, y, x );
+        print_recoil(weapwin);
     }
 
     // Print currently used style or weapon mode.
@@ -4362,14 +4422,9 @@ bool player::has_pda()
 void player::pause()
 {
     moves = 0;
-    if (recoil > 0) {
-        if (str_cur + 2 * skillLevel("gun") >= int(recoil)) {
-            recoil = 0;
-        } else {
-            recoil -= str_cur + 2 * skillLevel("gun");
-            recoil = int(recoil / 2);
-        }
-    }
+    recoil -= str_cur + 2 * skillLevel("gun");
+    recoil = std::max(MIN_RECOIL * 2, recoil);
+    recoil = int(recoil / 2);
 
     // Meditation boost for Toad Style, obsolete
     if (weapon.type->id == "style_toad" && activity.type == ACT_NULL) {
@@ -4476,28 +4531,26 @@ int player::throw_range(int pos)
  return ret;
 }
 
-int player::ranged_dex_mod(bool return_stat_effect)
+int player::ranged_dex_mod() const
 {
-  // Stat window shows stat effects on based on current stat
-    const int dex = (return_stat_effect ? get_dex() : get_dex());
+    const int dex = get_dex();
 
     if (dex >= 12) { return 0; }
-    return 12 - dex;
+    return (12 - dex) * 15;
 }
 
-int player::ranged_per_mod(bool return_stat_effect)
+int player::ranged_per_mod() const
 {
-  // Stat window shows stat effects on based on current stat
- const int per = (return_stat_effect ? get_per() : get_per());
+    const int per = get_per();
 
- if (per >= 12) { return 0; }
- return 12 - per;
+    if (per >= 12) { return 0; }
+    return (12 - per) * 15;
 }
 
-int player::throw_dex_mod(bool return_stat_effect)
+int player::throw_dex_mod(bool return_stat_effect) const
 {
   // Stat window shows stat effects on based on current stat
- int dex = (return_stat_effect ? get_dex() : get_dex());
+ int dex = get_dex();
  if (dex == 8 || dex == 9)
   return 0;
  if (dex >= 10)
@@ -4513,6 +4566,30 @@ int player::throw_dex_mod(bool return_stat_effect)
 
  // return_stat_effect actually matters here
  return (return_stat_effect ? rng(0, deviation) : deviation);
+}
+
+// Calculates MOC of aim improvement per 10 moves, based on
+// skills, stats, and quality of the gun sight being used.
+// Using this weird setup because # of MOC per move is too fast, (slowest is one MOC/move)
+// and number of moves per MOC is too slow. (fastest is one MOC/move)
+// A worst case of 1 MOC per 10 moves is acceptable, and it scales up
+// indefinitely, though the smallest unit of aim time is 10 moves.
+int player::aim_per_time( item *gun ) const
+{
+    // Account for Dexterity, weapon skill, weapon mods and flags,
+    int speed_penalty = 0;
+    // Ranges from 0 - 600.
+    // 0 - 10 after adjustment.
+    speed_penalty += skill_dispersion( gun, false ) / 60;
+    // Ranges from 0 - 12 after adjustment.
+    speed_penalty += ranged_dex_mod() / 15;
+    // Ranges from 0 - 10
+    speed_penalty += gun->aim_speed( recoil );
+    // TODO: should any conditions, mutations, etc affect this?
+    // Probably CBMs too.
+    int improvement_amount = std::max( 1, 32 - speed_penalty );
+    // Improvement rate is capped by the max aim level of the gun sight being used.
+    return std::min( improvement_amount, recoil - gun->sight_dispersion( recoil ) );
 }
 
 int player::read_speed(bool return_stat_effect)
@@ -4791,18 +4868,18 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
         break;
     case bp_torso:
         // getting hit throws off our shooting
-        recoil += int(dam / 5);
+        recoil += int(dam * 3);
         break;
     case bp_hand_l: // Fall through to arms
     case bp_arm_l:
         if (weapon.is_two_handed(this)) {
-            recoil += int(dam / 3);
+            recoil += int(dam * 5);
         }
         break;
     case bp_hand_r: // Fall through to arms
     case bp_arm_r:
         // getting hit in the arms throws off our shooting
-        recoil += int(dam / 3);
+        recoil += int(dam * 5);
         break;
     case bp_foot_l: // Fall through to legs
     case bp_leg_l:
@@ -8452,12 +8529,12 @@ bool player::wield(item* it, bool autodrop)
    inv.add_item_keep_invlet(remove_weapon());
    inv.unsort();
    moves -= 20;
-   recoil = 0;
+   recoil = MIN_RECOIL;
    return true;
   } else if (query_yn(_("No space in inventory for your %s.  Drop it?"),
                       weapon.tname().c_str())) {
    g->m.add_item_or_charges(posx, posy, remove_weapon());
-   recoil = 0;
+   recoil = MIN_RECOIL;
    return true;
   } else
    return false;
@@ -9288,13 +9365,13 @@ hint_rating player::rate_action_disassemble(item *it) {
                    assign the activity
                    check tools are available
                    loop over the tools and see what's required...again */
-                inventory crafting_inv = g->crafting_inventory(this);
-                for (auto &j : cur_recipe->tools) {
+                inventory crafting_inv = crafting_inventory();
+                for (const auto &j : cur_recipe->requirements.tools) {
                     bool have_tool = false;
                     if (j.empty()) { // no tools required, may change this
                         have_tool = true;
                     } else {
-                        for (auto &k : j) {
+                        for (const auto &k : j) {
                             itype_id type = k.type;
                             int req = k.count; // -1 => 1
 
@@ -9440,13 +9517,13 @@ void player::use(int inventory_position)
         // so restack to sort things out.
         inv.restack();
     } else if (used->is_gunmod()) {
-        if (skillLevel("gun") == 0) {
-            add_msg(m_info, _("You need to be at least level 1 in the marksmanship skill before you\
- can modify weapons."));
+        it_gunmod *mod = dynamic_cast<it_gunmod*>(used->type);
+        if (!(skillLevel("gun") >= mod->req_skill)) {
+            add_msg(m_info, _("You need to be at least level %d in the marksmanship skill before you\
+can install this mod."), mod->req_skill);
             return;
         }
         int gunpos = g->inv(_("Select gun to modify:"));
-        it_gunmod *mod = dynamic_cast<it_gunmod*>(used->type);
         item* gun = &(i_at(gunpos));
         if (gun->is_null()) {
             add_msg(m_info, _("You do not have that item."));
@@ -9762,7 +9839,7 @@ void player::read(int inventory_position)
                          tmp->type->name().c_str())) {
         return;
     } else if( !continuous && ( skillLevel(tmp->type) < (int)tmp->level || can_study_recipe(tmp) ) &&
-                         !query_yn( skillLevel(tmp->type) < (int)tmp->level ? 
+                         !query_yn( skillLevel(tmp->type) < (int)tmp->level ?
                          _("Study %s until you learn something? (gain a level)") :
                          _("Study the book until you learn all recipes?"),
                          tmp->type->name().c_str()) ) {
@@ -9909,7 +9986,7 @@ void player::do_read( item *book )
             if( recipe_learned ) {
                 add_msg(m_info, _("The rest of the book is currently still beyond your understanding."));
             }
-            
+
             activity.type = ACT_NULL;
             return;
         }
@@ -10095,8 +10172,8 @@ void player::try_to_sleep()
     if( (furn_at_pos == f_bed || furn_at_pos == f_makeshift_bed ||
          trap_at_pos == tr_cot || trap_at_pos == tr_rollmat ||
          trap_at_pos == tr_fur_rollmat || furn_at_pos == f_armchair ||
-         furn_at_pos == f_sofa || furn_at_pos == f_hay || ter_at_pos == t_improvised_shelter ||
-         (in_shell) ||
+         furn_at_pos == f_sofa || furn_at_pos == f_hay || furn_at_pos == f_straw_bed ||
+         ter_at_pos == t_improvised_shelter || (in_shell) ||
          (veh && veh->part_with_feature (vpart, "SEAT") >= 0) ||
          (veh && veh->part_with_feature (vpart, "BED") >= 0)) &&
         (!(plantsleep)) ) {
@@ -10138,7 +10215,7 @@ bool player::can_sleep()
  const furn_id furn_at_pos = g->m.furn(posx, posy);
  if ( ((veh && veh->part_with_feature (vpart, "BED") >= 0) ||
      furn_at_pos == f_makeshift_bed || trap_at_pos == tr_cot ||
-     furn_at_pos == f_sofa || furn_at_pos == f_hay || (in_shell)) &&
+     furn_at_pos == f_sofa || (in_shell)) &&
      (!(plantsleep)) ) {
     sleepy += 4;
  }
@@ -10147,10 +10224,16 @@ bool player::can_sleep()
       furn_at_pos == f_armchair || ter_at_pos == t_improvised_shelter) && (!(plantsleep)) ) {
     sleepy += 3;
  }
+ else if ( (furn_at_pos == f_straw_bed || furn_at_pos == f_hay || furn_at_pos == f_tatami) &&
+  (!(plantsleep)) ) {
+    sleepy += 2;
+ }
  else if ( (furn_at_pos == f_bed) && (!(plantsleep)) ) {
     sleepy += 5;
  }
- else if ( (ter_at_pos == t_floor) && (!(plantsleep)) ) {
+ else if ( (ter_at_pos == t_floor || ter_at_pos == t_floor_waxed || ter_at_pos == t_carpet_red ||
+          ter_at_pos == t_carpet_yellow || ter_at_pos == t_carpet_green ||
+          ter_at_pos == t_carpet_purple) && (!(plantsleep)) ) {
     sleepy += 1;
  }
  else if (plantsleep) {
@@ -10346,23 +10429,20 @@ int player::warmth(body_part bp) const
 
     // If the player is not wielding anything, check if hands can be put in pockets
     if((bp == bp_hand_l || bp == bp_hand_r) && !is_armed() && (temp_conv[bp] <=  BODYTEMP_COLD) &&
-        worn_with_flag("POCKETS"))
-    {
+        worn_with_flag("POCKETS")) {
         ret += 10;
     }
 
     // If the players head is not encumbered, check if hood can be put up
-    if(bp == bp_head && encumb(bp_head) < 1 && (temp_conv[bp] <=  BODYTEMP_COLD) && worn_with_flag("HOOD"))
-    {
+    if(bp == bp_head && encumb(bp_head) < 1 &&
+       (temp_conv[bp] <=  BODYTEMP_COLD) && worn_with_flag("HOOD")) {
         ret += 10;
     }
 
-    for (auto &i : worn)
-    {
+    for (auto &i : worn) {
         armor = dynamic_cast<const it_armor*>(i.type);
 
-        if (i.covers.test(bp))
-        {
+        if (i.covers.test(bp)) {
             warmth = armor->warmth;
             // Wool items do not lose their warmth due to being wet.
             // Warmth is reduced by 0 - 66% based on wetness.
@@ -10376,7 +10456,7 @@ int player::warmth(body_part bp) const
     return ret;
 }
 
-int player::encumb(body_part bp) const
+int player::encumb( body_part bp ) const
 {
     int iArmorEnc = 0;
     double iLayers = 0;

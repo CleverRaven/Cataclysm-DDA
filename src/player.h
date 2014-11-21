@@ -41,6 +41,10 @@ struct special_attack {
     };
 };
 
+// The minimum level recoil will reach without aiming.
+// Sets the floor for accuracy of a "snap" or "hip" shot.
+#define MIN_RECOIL 150
+
 //Don't forget to add new memorial counters
 //to the save and load functions in savegame_json.cpp
 struct stats : public JsonSerializer, public JsonDeserializer {
@@ -179,6 +183,13 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void disp_info();
         /** Provides the window and detailed morale data */
         void disp_morale();
+        /** Print the bars indicating how well the player is currently aiming.**/
+        int print_aim_bars( WINDOW *w, int line_number, item *weapon, Creature *target);
+        /** Print just the gun mode indicator. **/
+        void print_gun_mode( WINDOW *w, nc_color c );
+        /** Print just the colored recoil indicator. **/
+        void print_recoil( WINDOW *w ) const;
+
         /** Generates the sidebar and it's data in-game */
         void disp_status(WINDOW *w, WINDOW *w2);
 
@@ -452,8 +463,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool can_weapon_block();
         /** Sets up a melee attack and handles melee attack function calls */
         void melee_attack(Creature &t, bool allow_special, matec_id technique = "");
+        /** Returns the player's dispersion modifier based on skill. **/
+        int skill_dispersion( item *weapon, bool random ) const;
         /** Returns a weapon's modified dispersion value */
-        double get_weapon_dispersion(item *weapon);
+        double get_weapon_dispersion( item *weapon, bool random ) const;
         /** Returns true if a gun misfires, jams, or has other problems, else returns false */
         bool handle_gun_damage( it_gun *firing, std::set<std::string> *curammo_effects );
         /** Handles gun firing effects and functions */
@@ -538,11 +551,12 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns the throw range of the item at the entered inventory position. -1 = ERR, 0 = Can't throw */
         int throw_range(int pos);
         /** Returns the ranged attack dexterity mod */
-        int ranged_dex_mod (bool real_life = true);
+        int ranged_dex_mod() const;
         /** Returns the ranged attack perception mod */
-        int ranged_per_mod (bool real_life = true);
+        int ranged_per_mod() const;
         /** Returns the throwing attack dexterity mod */
-        int throw_dex_mod  (bool real_life = true);
+        int throw_dex_mod(bool return_stat_effect = true) const;
+        int aim_per_time( item *gun ) const;
 
         // Mental skills and stats
         /** Returns the player's reading speed */
@@ -972,6 +986,37 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         bool studied_all_recipes(it_book *book);
 
+        // crafting.cpp
+        bool crafting_allowed(); // is morale high enough to craft?
+        bool crafting_can_see(); // can player see well enough to craft?
+        bool can_make(const recipe *r, int batch_size = 1); // have components?
+        bool making_would_work(const std::string &id_to_make, int batch_size);
+        void craft();
+        void recraft();
+        void long_craft();
+        void make_craft(const std::string &id, int batch_size);
+        void make_all_craft(const std::string &id, int batch_size);
+        void complete_craft();
+
+        // also crafting.cpp
+        /**
+         * Check if the player can disassemble the item dis_item with the recipe
+         * cur_recipe and the inventory crafting_inv.
+         * Checks for example tools (and charges), enough input charges
+         * (if disassembled item is counted by charges).
+         * If print_msg is true show a message about missing tools/charges.
+         */
+        bool can_disassemble(item *dis_item, const recipe *cur_recipe,
+                             inventory &crafting_inv, bool print_msg);
+        void disassemble(int pos = INT_MAX);
+        void complete_disassemble();
+
+        // yet more crafting.cpp
+        inventory crafting_inventory(); // includes nearby items
+        std::vector<item> get_eligible_containers_for_crafting();
+        std::list<item> consume_items(const std::vector<item_comp> &components, int batch = 1);
+        void consume_tools(const std::vector<tool_comp> &tools, int batch = 1);
+
         // Auto move methods
         void set_destination(const std::vector<point> &route);
         void clear_destination();
@@ -1024,8 +1069,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int hunger, thirst, fatigue;
         int stomach_food, stomach_water;
         int oxygen;
-        unsigned int recoil;
-        unsigned int driving_recoil;
+        int recoil;
+        int driving_recoil;
         int scent;
         int dodges_left, blocks_left;
         int stim, pkill, radiation;

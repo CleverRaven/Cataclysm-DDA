@@ -463,7 +463,12 @@ Never use `yellow` and `red`, those colors are reserved for sounds and infrared 
 "ranged_damage": 0,   // Ranged damage when fired
 "range": 0,           // Range when fired
 "dispersion": 32,     // Inaccuracy of gun, measured in quarter-degrees
-"recoil": 0,          // Recoil caused when firing
+// When sight_dispersion and aim_speed are present in a gun mod, the aiming system picks the "best"
+// sight to use for each aim action, which is the fastest sight with a dispersion under the current
+// aim threshold.
+"sight_dispersion": 10, // Inaccuracy of gun derived from the sight mechanism, also in quarter-degrees
+"aim_speed": 3,       // A measure of how quickly the player can aim, in moves per point of dispersion.
+"recoil": 0,          // Recoil caused when firing, in quarter-degrees of dispersion.
 "durability": 8,      // Resistance to damage/rusting, also determines misfire chance
 "burst": 5,           // Number of shots fired in burst mode
 "clip_size": 100,     // Maximum amount of ammo that can be loaded

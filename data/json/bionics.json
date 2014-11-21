@@ -297,7 +297,7 @@
     "active"     :    true,
     "cost"       :    4,
     "time"       :    1,
-    "description":    "Powerful heatsinks and supermaterials are woven into your flesh.  While powered, this system will prevent heat damage up to 2000 degrees fahrenheit.  Note that this does not affect your internal temperature."
+    "description":    "Powerful heatsinks and supermaterials are woven into your flesh.  While powered, this system will prevent heat damage up to 2000 degrees Fahrenheit.  Note that this does not affect your internal temperature."
     },{
         "type" : "bionic",
         "id" : "bio_resonator",
@@ -325,14 +325,14 @@
     "name"       :    "Blood Analysis",
     "active"     :    true,
     "cost"       :    25,
-    "description":    "Small sensors have been implanted in your heart, allowing you to analyse your blood.  This will detect many illnesses, drugs, and other conditions."
+    "description":    "Small sensors have been implanted in your heart, allowing you to analyze your blood.  This will detect many illnesses, drugs, and other conditions."
     },{
         "type" : "bionic",
         "id" : "bio_geiger",
     "name"       :    "Integrated Dosimeter",
     "active"     :    true,
     "cost"       :    25,
-    "description":    "Small radiation sensors have been implanted throughout your body, allowing you to analyse your level of absorbed radiation."
+    "description":    "Small radiation sensors have been implanted throughout your body, allowing you to analyze your level of absorbed radiation."
     },{
         "type" : "bionic",
         "id" : "bio_radscrubber",
@@ -656,6 +656,6 @@
     "name"       :    "Weather Reader",
     "active"     :    true,
     "cost"       :    25,
-    "description":    "A multitude of scientific instruments and sensors collect environemental data. The data is compiled and presented as a simple readout of the current weather."
+    "description":    "A multitude of scientific instruments and sensors collect environmental data. The data is compiled and presented as a simple readout of the current weather."
     }
 ]
