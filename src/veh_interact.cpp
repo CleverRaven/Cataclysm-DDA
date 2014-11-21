@@ -459,13 +459,9 @@ task_reason veh_interact::cant_do (char mode)
 }
 
 bool veh_interact::is_drive_conflict(int msg_width, int engines){
-    bool install_pedals = sel_vpart_info->has_flag("PEDALS");
-    bool install_hand_rims = sel_vpart_info->has_flag("HAND_RIMS");
-    bool install_paddles = sel_vpart_info->has_flag("PADDLES");
-    
-    bool install_muscle_engine = install_pedals || install_hand_rims || install_paddles;
+    bool install_muscle_engine = (sel_vpart_info->fuel_type == "muscle");
     bool has_muscle_engine = veh->has_engine_type("muscle", false);
-    bool can_install = (engines == 0)|| (has_muscle_engine && install_muscle_engine) ||
+    bool can_install = (engines == 0) || (has_muscle_engine && install_muscle_engine) ||
                                         (!has_muscle_engine && !install_muscle_engine);
     if (!can_install) {
         werase (w_msg);

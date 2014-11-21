@@ -483,7 +483,7 @@ bool vehicle::has_engine_type(const ammotype  & ft, bool enabled) {
     }
     return false;
 }
-bool vehicle::has_engine_not_type(const ammotype  & ft, bool enabled) {
+bool vehicle::has_engine_type_not(const ammotype  & ft, bool enabled) {
     for (size_t e=0; e<engines.size(); ++e) {
             if (!is_engine_type(e, ft) && 
                 (!enabled || is_engine_on(e))) 
@@ -594,7 +594,7 @@ void vehicle::use_controls()
     }
 
     // Toggle engine on/off, stop driving if we are driving.
-    if (has_engine_not_type(fuel_type_muscle, true) && has_engine) {
+    if (has_engine_type_not(fuel_type_muscle, true) && has_engine) {
         options_choice.push_back(toggle_engine);
         if (g->u.controlling_vehicle) {
             options_message.push_back(uimenu_entry(_("Stop driving."), 's'));
@@ -1152,11 +1152,13 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
         }
     }
 
-    // Pedals and engines can't both be installed
-    if(part.has_flag("PEDALS") && has_engine_not_type(fuel_type_muscle, false)) {
+    // muscle and other engines can't both be installed
+    if(part.has_flag(VPFLAG_ENGINE) && part.fuel_type == fuel_type_muscle && 
+        has_engine_type_not(fuel_type_muscle, false)) {
         return false;
     }
-    if(part.has_flag(VPFLAG_ENGINE) && has_engine_type(fuel_type_muscle, false)) {
+    if(part.has_flag(VPFLAG_ENGINE) && part.fuel_type != fuel_type_muscle && 
+        has_engine_type(fuel_type_muscle, false)) {
         return false;
     }
 
@@ -1166,7 +1168,8 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
         for(std::vector<int>::const_iterator it = parts_in_square.begin();
             it != parts_in_square.end(); ++it ) {
             if(part_info(*it).has_flag(VPFLAG_ENGINE) &&
-               (part_info(*it).fuel_type == fuel_type_gasoline || part_info(*it).fuel_type == fuel_type_diesel)) {
+               (part_info(*it).fuel_type == fuel_type_gasoline || 
+                part_info(*it).fuel_type == fuel_type_diesel)) {
                 anchor_found = true;
             }
         }
@@ -2407,7 +2410,7 @@ int vehicle::solar_epower ()
 
 int vehicle::acceleration (bool fueled)
 {
-    if ( (engine_on || skidding) || has_engine_type(fuel_type_muscle, true)) {
+    if (engine_on || skidding || has_engine_type(fuel_type_muscle, true)) {
         return (int) (safe_velocity (fueled) * k_mass() / (1 + strain ()) / 10);
     }
     else {
@@ -3061,7 +3064,7 @@ void vehicle::idle(bool on_map) {
     int engines_power = 0;
     float idle_rate;
 
-    if( engine_on && total_power() > 0 && has_engine_not_type(fuel_type_muscle, true)) {
+    if( engine_on && total_power() > 0 && has_engine_type_not(fuel_type_muscle, true)) {
         int strn = (int)(strain() * strain() * 100);
         for (size_t e = 0; e < engines.size(); e++){
             size_t p = engines[e];

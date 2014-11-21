@@ -2576,7 +2576,7 @@
         "item" : "foot_crank",
         "difficulty" : 1,
         "location" : "engine_block",
-        "flags" : ["PEDALS", "ENGINE", "FOLDABLE"],
+        "flags" : ["ENGINE", "FOLDABLE"],
         "breaks_into" : [
             {"item": "steel_chunk", "min": 1, "max": 2},
             {"item": "scrap", "min": 0, "max": 2}
@@ -2596,7 +2596,7 @@
         "item" : "hand_rims",
         "difficulty" : 1,
         "location" : "engine_block",
-        "flags" : ["HAND_RIMS", "ENGINE", "FOLDABLE"],
+        "flags" : ["ENGINE", "FOLDABLE"],
         "breaks_into" : [
             {"item": "steel_chunk", "min": 1, "max": 2},
             {"item": "scrap", "min": 0, "max": 2}

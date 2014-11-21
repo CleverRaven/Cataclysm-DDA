@@ -669,9 +669,13 @@ public:
     //mark engine as on or off
     void toggle_specific_engine(int p, bool on);
     void toggle_specific_part(int p,bool on);
-    //true if an engine exists with specified type. If enabled true, must be enabled
+    //true if an engine exists with specified type
+    //If enabled true, this engine must be enabled to return true
     bool has_engine_type(const ammotype  & ft, bool enabled);
-    bool has_engine_not_type(const ammotype  & ft, bool enabled);
+    //true if an engine exists without the specified type
+    //If enabled true, this engine must be enabled to return true
+    bool has_engine_type_not(const ammotype  & ft, bool enabled);
+    //prints message relating to vehicle start failure
     void msg_start_engine_fail();
 
 
