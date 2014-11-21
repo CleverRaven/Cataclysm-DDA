@@ -5095,8 +5095,6 @@ void game::debug()
     break;
 
 #ifdef LUA
-    // make case # '99' to keep from having to shift each time, as it's
-    // a conditional debug entry!
     case 23: {
         std::string luacode = string_input_popup(_("Lua:"), 60, "");
         call_lua(luacode);
