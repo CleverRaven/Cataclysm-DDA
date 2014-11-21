@@ -269,6 +269,7 @@ void player::die(Creature* nkiller)
     if( nkiller != NULL && !nkiller->is_fake() ) {
         killer = nkiller;
     }
+    set_turn_died(int(calendar::turn));
 }
 
 void player::reset_stats()
