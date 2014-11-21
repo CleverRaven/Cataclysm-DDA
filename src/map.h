@@ -579,8 +579,10 @@ void add_corpse(int x, int y);
         void remove_field( const int x, const int y, const field_id field_to_remove );
  bool process_fields(); // See fields.cpp
  bool process_fields_in_submap(submap * const current_submap, const int submap_x, const int submap_y); // See fields.cpp
- void step_in_field(const int x, const int y); // See fields.cpp
- void mon_in_field(const int x, const int y, monster *z); // See fields.cpp
+        /**
+         * Apply field effects to the creature when it's on a square with fields.
+         */
+        void creature_in_field( Creature &critter );
 
 // Computers
  computer* computer_at(const int x, const int y);
@@ -696,6 +698,9 @@ protected:
          * called the last time.
          */
         void restock_fruits( const point pnt, int time_since_last_actualize );
+        void player_in_field( player &u );
+        void monster_in_field( monster &z );
+
  void copy_grid(const int to, const int from);
  void draw_map(const oter_id terrain_type, const oter_id t_north, const oter_id t_east,
                 const oter_id t_south, const oter_id t_west, const oter_id t_neast,
