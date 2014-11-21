@@ -2134,6 +2134,37 @@
     },
     {
         "type": "profession",
+        "ident": "neckbeard",
+        "name": {
+            "male": "Neckbeard",
+            "female": "Legbeard"
+        },
+        "description": "In this moment, you are euphoric.  Not because of any phony god's blessing.  But because, it is in times of crisis like these that true gentlesirs and gentleladies are forged.  By Sagan, you'll show everyone who friendzoned you that your survival skills are just as good as your fashion sense.",
+        "points": 0,
+        "items": {
+            "both": [
+                "shorts",
+                "socks",
+                "sneakers",
+                "linuxtshirt",
+                "trenchcoat",
+                "fedora",
+                "weed",
+                "nachos",
+                "lemonlime",
+                "novel_scifi"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
+    },
+    {
+        "type": "profession",
         "ident": "goalie",
         "name": "Hockey Player",
         "description": "You were a minor-league hockey goalie before the rest of your team became zombies.  It's just you and your hockey equipment versus the undead, but at least you can cross-check them now.",
