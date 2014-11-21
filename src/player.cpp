@@ -269,10 +269,6 @@ void player::die(Creature* nkiller)
     if( nkiller != NULL && !nkiller->is_fake() ) {
         killer = nkiller;
     }
-    // "My head is missing, but my legs are fine!" -Nobody Ever
-    for(int i = 0; i < num_hp_parts; ++i) {
-        hp_cur[i] = 0;
-    }
     set_turn_died(int(calendar::turn));
 }
 
