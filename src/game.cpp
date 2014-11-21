@@ -89,6 +89,7 @@ bool is_valid_in_w_terrain(int x, int y)
 // This is the main game set-up process.
 game::game() :
     new_game(false),
+    game_inprogress(false),
     uquit(QUIT_NO),
     w_terrain(NULL),
     w_overmap(NULL),
@@ -250,6 +251,7 @@ void to_map_font_dimension(int &w, int &h);
 void from_map_font_dimension(int &w, int &h);
 void to_overmap_font_dimension(int &w, int &h);
 void reinitialize_framebuffer();
+void resize_window(int w, int h, bool keep_position);
 #else
 // unchanged, nothing to be translated without tiles
 void to_map_font_dimension(int &, int &) { }
@@ -257,6 +259,7 @@ void from_map_font_dimension(int &, int &) { }
 void to_overmap_font_dimension(int &, int &) { }
 //in pure curses, the framebuffer won't need reinitializing
 void reinitialize_framebuffer() { }
+void resize_window(int , int , bool ) { }
 #endif
 
 
@@ -483,6 +486,22 @@ void game::init_ui()
     werase(w_status2);
 }
 
+void game::reinit_ui(bool from_options)
+{
+    if(from_options) {
+        //window resize event will call this function right back
+        resize_window(OPTIONS["WINDOW_X"], OPTIONS["WINDOW_Y"], true);
+    }else {
+    #ifdef TILES
+        wresize(mainwin, get_terminal_height(), get_terminal_width());
+    #endif
+        init_ui();
+        if(g->game_inprogress){
+            refresh_all();
+        }
+    }
+}
+
 void game::toggle_sidebar_style(void)
 {
     narrow_sidebar = !narrow_sidebar;
@@ -662,6 +681,8 @@ void game::start_game(std::string worldname)
     u.add_memorial_log(pgettext("memorial_male", "%s began their journey into the Cataclysm."),
                        pgettext("memorial_female", "%s began their journey into the Cataclysm."),
                        u.name.c_str());
+    //game is officially started
+    game_inprogress = true;
 }
 
 void game::create_factions()
@@ -1106,10 +1127,12 @@ bool game::do_turn()
 {
     if (is_game_over()) {
         cleanup_at_end();
+        game_inprogress = false;
         return true;
     }
     // Actual stuff
     if (new_game) {
+        game_inprogress = true;
         new_game = false;
     } else {
         gamemode->per_turn();
@@ -1432,6 +1455,7 @@ bool game::do_turn()
 
                 if (is_game_over()) {
                     cleanup_at_end();
+                    game_inprogress = false;
                     return true;
                 }
             }

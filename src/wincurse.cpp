@@ -437,6 +437,18 @@ int projected_window_height(int)
     return OPTIONS["TERMINAL_Y"] * fontheight;
 }
 
+// Calculates the new width of the window, given the number of columns.
+int projected_terminal_width(int)
+{
+    return OPTIONS["WINDOW_X"] / fontwidth;
+}
+
+// Calculates the new height of the window, given the number of rows.
+int projected_terminal_height(int)
+{
+    return OPTIONS["WINDOW_Y"] / fontheight;
+}
+
 //***********************************
 //Psuedo-Curses Functions           *
 //***********************************

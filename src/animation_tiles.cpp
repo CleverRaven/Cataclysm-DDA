@@ -5,6 +5,7 @@
 #include "cata_tiles.h" // all animation functions will be pushed out to a cata_tiles function in some manner
 
 extern cata_tiles *tilecontext; // obtained from sdltiles.cpp
+extern void resize_window(int w, int h, bool keep_position);
 extern void try_update();
 
 /* Tiles version of Explosion Animation */
