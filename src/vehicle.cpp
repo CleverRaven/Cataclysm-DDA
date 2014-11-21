@@ -495,7 +495,7 @@ bool vehicle::has_engine_type_not(const ammotype  & ft, bool enabled) {
 void vehicle::msg_start_engine_fail() {
     if (total_power (false) < 1) {
         add_msg (m_info, _("The %s doesn't have an engine!"), name.c_str());
-    } else if (has_engine_type(fuel_type_muscle, true)) {
+    } else if (has_muscle_engine_on) {
         add_msg (m_info, _("The %s's mechanism is out of reach!"), name.c_str());
     } else {
         add_msg (_("The %s's engine emits a sneezing sound."), name.c_str());
@@ -823,7 +823,7 @@ void vehicle::use_controls()
           if (total_power () < 1) {
               if (total_power (false) < 1) {
                   add_msg (m_info, _("The %s doesn't have an engine!"), name.c_str());
-              } else if( has_engine_type(fuel_type_muscle, true) ) {
+              } else if(has_muscle_engine_on) {
                   add_msg (m_info, _("The %s's mechanism is out of reach!"), name.c_str());
               } else {
                   add_msg (_("The %s's engine emits a sneezing sound."), name.c_str());
@@ -2410,7 +2410,7 @@ int vehicle::solar_epower ()
 
 int vehicle::acceleration (bool fueled)
 {
-    if (engine_on || skidding || has_engine_type(fuel_type_muscle, true)) {
+    if (engine_on || skidding || has_muscle_engine_on) {
         return (int) (safe_velocity (fueled) * k_mass() / (1 + strain ()) / 10);
     }
     else {
@@ -3207,17 +3207,17 @@ void vehicle::thrust (int thd) {
             }
             cruise_velocity = 0;
             return;
-        } else if (!engine_on && !has_engine_type(fuel_type_muscle, false)) {
-          add_msg (_("The %s's engine isn't on!"), name.c_str());
-          cruise_velocity = 0;
-          return;
-        } else if (has_engine_type(fuel_type_muscle, true)) {
+        } else if (has_muscle_engine_on) {
             if (g->u.has_bionic("bio_torsionratchet")
                 && calendar::turn.get_turn() % 60 == 0) {
                 g->u.charge_power(1);
             }
+        } else if (!engine_on && !has_engine_type(fuel_type_muscle, false)) {
+          add_msg (_("The %s's engine isn't on!"), name.c_str());
+          cruise_velocity = 0;
+          return;
         }
-
+        
         noise_and_smoke( load );
         consume_fuel ();
 
@@ -3978,7 +3978,7 @@ void vehicle::refresh()
     fridge_epower = 0;
     recharger_epower = 0;
     alternator_load = 0;
-
+    
 
     // Used to sort part list so it displays properly when examining
     struct sort_veh_part_vector {
@@ -4038,6 +4038,8 @@ void vehicle::refresh()
     precalc_mounts( 0, face.dir() );
     check_environmental_effects = true;
     insides_dirty = true;
+    
+    has_muscle_engine_on = has_engine_type(fuel_type_muscle, true);
 }
 
 void vehicle::remove_remote_part(int part_num) {
