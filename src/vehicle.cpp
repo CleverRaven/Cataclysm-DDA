@@ -493,10 +493,12 @@ bool vehicle::has_engine_type_not(const ammotype  & ft, bool enabled) {
 }
 
 void vehicle::msg_start_engine_fail() {
-    if (total_power (false) < 1) {
+    if (total_power (false) <= 0) {
         add_msg (m_info, _("The %s doesn't have an engine!"), name.c_str());
     } else if (has_muscle_engine_on) {
         add_msg (m_info, _("The %s's mechanism is out of reach!"), name.c_str());
+    } else if (!engine_on) {
+        add_msg (_("The %s's engine isn't on!"), name.c_str());
     } else {
         add_msg (_("The %s's engine emits a sneezing sound."), name.c_str());
     }
@@ -3134,6 +3136,8 @@ void vehicle::slow_leak()
 }
 
 void vehicle::thrust (int thd) {
+    //if vehicle is stopped, set target direction to forward. 
+    //ensure it is not skidding. Set turns used to 0.
     if( velocity == 0 ) {
         turn_dir = face.dir();
         move = face;
@@ -3142,12 +3146,14 @@ void vehicle::thrust (int thd) {
         skidding = false;
     }
 
+    //no need to change velocity
     if( !thd ) {
         return;
     }
 
     bool pl_ctrl = player_in_control( &g->u );
 
+    //no need to change velocity if there are no wheels
     if( !valid_wheel_config() && velocity == 0 ) {
         if (pl_ctrl) {
             if (all_parts_with_feature(VPFLAG_FLOATS).empty()) {
@@ -3159,12 +3165,14 @@ void vehicle::thrust (int thd) {
         return;
     }
 
+    //accelerate (true) or brake (false)
     bool thrusting = true;
-    if( velocity ) { //brake?
+    if( velocity ) {
        int sgn = velocity < 0? -1 : 1;
-       thrusting = sgn == thd;
+       thrusting = (sgn == thd);
     }
 
+    //get braking power
     int accel = acceleration();
     int max_vel = max_velocity();
     int brake = 30 * k_mass();
@@ -3175,8 +3183,10 @@ void vehicle::thrust (int thd) {
     if (brk < 10 * 100) {
         brk = 10 * 100;
     }
+    //pos or neg if acc or brake
     int vel_inc = (thrusting? accel : brk) * thd;
-    if( thd == -1 && thrusting ) { // reverse accel.
+    if( thd == -1 && thrusting ) {
+        //accelerate 60% if going backward
         vel_inc = .6 * vel_inc;
     }
 
@@ -3188,7 +3198,8 @@ void vehicle::thrust (int thd) {
             vel_inc = std::max( vel_inc, cruise_velocity - velocity );
         }
     }
-
+    
+    //find power ratio used of engines max
     double load;
     if( cruise_on ) {
         load = abs(vel_inc) / std::max((thrusting ? accel : brk),1);
@@ -3199,33 +3210,32 @@ void vehicle::thrust (int thd) {
         load = 0.01;
     }
     // Ugly hack, use full engine power occasionally when thrusting slightly
-    // up to cruise control speed. Loses some extra power when in reverse.
+    // up to cruise control speed.
     if (thrusting && rng(1, accel) <= vel_inc ) {
-        if (total_power () < 1) {
+        if (total_power () <= 0 || (!engine_on && !has_muscle_engine_on)) {
+            //engine aren't operational
             if (pl_ctrl) {
                 msg_start_engine_fail();
             }
             cruise_velocity = 0;
             return;
         } else if (has_muscle_engine_on) {
+            //charge bionics
             if (g->u.has_bionic("bio_torsionratchet")
                 && calendar::turn.get_turn() % 60 == 0) {
                 g->u.charge_power(1);
             }
-        } else if (!engine_on && !has_engine_type(fuel_type_muscle, false)) {
-          add_msg (_("The %s's engine isn't on!"), name.c_str());
-          cruise_velocity = 0;
-          return;
         }
         
-        noise_and_smoke( load );
-        consume_fuel ();
+        noise_and_smoke (load);
+        consume_fuel (load);
 
         int strn = (int) (strain () * strain() * 100);
         for (size_t e = 0; e < engines.size(); e++){
             size_t p = engines[e];
             if (is_engine_on(e) && fuel_left(part_info(p).fuel_type) && 
                 rng (1, 100) < strn ) {
+                //engines are crying
                 int dmg = rng (strn * 2, strn * 4);
                 damage_direct (p, dmg, 0);
                 if(one_in(2)) {
@@ -3236,7 +3246,9 @@ void vehicle::thrust (int thd) {
             }
         }
     }
-
+    
+    //wheels aren't facing the right way to change velocity properly
+    //lower down, since engines should be getting damaged anyway
     if (skidding) {
         return;
     }
@@ -3244,11 +3256,13 @@ void vehicle::thrust (int thd) {
     if ((velocity > 0 && velocity + vel_inc < 0) ||
         (velocity < 0 && velocity + vel_inc > 0)) {
         stop ();
-    } else {
-        // Increase velocity up to max_vel, but not above.
+    } else if (velocity > max_vel) { 
         // If the velocity is already above max, don't change it at all,
         // this happens when the engine gets destroyed while driving, the max
         // velocity drops to 0 (no engine), but the actual velocity remains.
+        return;
+    }else {
+        // Increase velocity up to max_vel, but not above.
         const int min_vel = -max_vel / 4;
         if( velocity + vel_inc <= max_vel ) {
             // normal acceleration, result is still below maximum
