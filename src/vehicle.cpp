@@ -1154,15 +1154,12 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
         }
     }
 
-    // muscle and other engines can't both be installed
+    // only one muscle engine allowed
     if(part.has_flag(VPFLAG_ENGINE) && part.fuel_type == fuel_type_muscle && 
-        has_engine_type_not(fuel_type_muscle, false)) {
-        return false;
-    }
-    if(part.has_flag(VPFLAG_ENGINE) && part.fuel_type != fuel_type_muscle && 
         has_engine_type(fuel_type_muscle, false)) {
         return false;
     }
+
 
     // Alternators must be installed on a gas engine
     if(vehicle_part_types[id].has_flag(VPFLAG_ALTERNATOR)) {
