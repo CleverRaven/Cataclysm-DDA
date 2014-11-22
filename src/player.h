@@ -1016,12 +1016,13 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * If print_msg is true show a message about missing tools/charges.
          */
         bool can_disassemble(item *dis_item, const recipe *cur_recipe,
-                             inventory &crafting_inv, bool print_msg);
+                             const inventory &crafting_inv, bool print_msg);
         void disassemble(int pos = INT_MAX);
         void complete_disassemble();
 
         // yet more crafting.cpp
-        inventory crafting_inventory(); // includes nearby items
+        const inventory &crafting_inventory(); // includes nearby items
+        void invalidate_crafting_inventory();
         std::vector<item> get_eligible_containers_for_crafting();
         std::list<item> consume_items(const std::vector<item_comp> &components, int batch = 1);
         void consume_tools(const std::vector<tool_comp> &tools, int batch = 1);
@@ -1262,6 +1263,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         std::vector<point> auto_move_route;
         // Used to make sure auto move is canceled if we stumble off course
         point next_expected_position;
+
+        inventory cached_crafting_inventory;
+        int cached_moves;
+        int cached_turn;
+        point cached_position;
 
         struct reason_weight_list melee_miss_reasons;
 

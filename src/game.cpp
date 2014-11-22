@@ -11420,7 +11420,7 @@ void game::butcher()
     // indices of corpses / items that can be disassembled
     std::vector<int> corpses;
     std::vector<item> &items = m.i_at(u.posx, u.posy);
-    inventory crafting_inv = u.crafting_inventory();
+    const inventory &crafting_inv = u.crafting_inventory();
     bool has_salvage_tool = u.inv.has_items_with_quality( "CUT", 1, 1 );
 
     // check if we have a butchering tool
