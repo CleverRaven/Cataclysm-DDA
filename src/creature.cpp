@@ -645,11 +645,11 @@ void Creature::clear_effects()
 {
     effects.clear();
 }
-void Creature::remove_effect(efftype_id eff_id, body_part bp)
+bool Creature::remove_effect(efftype_id eff_id, body_part bp)
 {
     if (!has_effect(eff_id, bp)) {
         //Effect doesn't exist, so do nothing
-        return;
+        return false;
     }
     
     if (is_player()) {
@@ -674,6 +674,7 @@ void Creature::remove_effect(efftype_id eff_id, body_part bp)
             effects.erase(eff_id);
         }
     }
+    return true;
 }
 bool Creature::has_effect(efftype_id eff_id, body_part bp) const
 {
