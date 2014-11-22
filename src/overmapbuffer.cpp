@@ -7,6 +7,7 @@
 #include <fstream>
 #include <sstream>
 #include <cassert>
+#include <algorithm>
 
 overmapbuffer overmap_buffer;
 
@@ -535,45 +536,40 @@ void overmapbuffer::spawn_monster(const int x, const int y, const int z)
     point sm( x, y );
     const point omp = sm_to_om_remain( sm );
     overmap &om = get( omp.x, omp.y );
-    for( auto it = om.monsters.begin(); it != om.monsters.end(); ) {
-        auto &mdata = *it;
-        if( sm.x == mdata.x && sm.y == mdata.y && z == mdata.z ) {
-            monster &critter = mdata.mon;
-            // The absolute position in map squares, (x,y) is already global, but it's a
-            // submap coordinate, so translate it and add the exact monster position on
-            // the submap. modulo because the zombies position might be negative, as it
-            // is stored *after* it has gone out of bounds during shifting. When reloading
-            // we only need the part that tells where on the sumap to put it.
-            point ms( modulo( critter.posx(), SEEX ), modulo( critter.posy(), SEEY ) );
-            assert( ms.x >= 0 && ms.x < SEEX );
-            assert( ms.y >= 0 && ms.y < SEEX );
-            ms.x += x * SEEX;
-            ms.y += y * SEEY;
-            // The monster position must be local to the main map when added via game::add_zombie
-            const point local = g->m.getlocal( ms.x, ms.y );
-            assert( g->m.inbounds( local.x, local.y ) );
-            critter.spawn( local.x, local.y );
-            g->add_zombie( critter );
-            it = om.monsters.erase( it );
-        } else {
-            ++it;
-        }
-    }
+    const tripoint current_submap_loc( x, y, z );
+    auto monster_bucket = om.monster_map.equal_range( current_submap_loc );
+    std::for_each( monster_bucket.first, monster_bucket.second,
+                   [&](std::pair<const tripoint, monster> &monster_entry ) {
+        monster &this_monster = monster_entry.second;
+        // The absolute position in map squares, (x,y) is already global, but it's a
+        // submap coordinate, so translate it and add the exact monster position on
+        // the submap. modulo because the zombies position might be negative, as it
+        // is stored *after* it has gone out of bounds during shifting. When reloading
+        // we only need the part that tells where on the sumap to put it.
+        point ms( modulo( this_monster.posx(), SEEX ), modulo( this_monster.posy(), SEEY ) );
+        assert( ms.x >= 0 && ms.x < SEEX );
+        assert( ms.y >= 0 && ms.y < SEEX );
+        ms.x += x * SEEX;
+        ms.y += y * SEEY;
+        // The monster position must be local to the main map when added via game::add_zombie
+        const point local = g->m.getlocal( ms.x, ms.y );
+        assert( g->m.inbounds( local.x, local.y ) );
+        this_monster.spawn( local.x, local.y );
+        g->add_zombie( this_monster );
+    } );
+    om.monster_map.erase( current_submap_loc );
 }
 
 void overmapbuffer::despawn_monster(const monster &critter)
 {
-    overmap::monster_data mdata;
     // Get absolute coordinates of the monster in map squares, translate to submap position
     point sm = ms_to_sm_copy( g->m.getabs( critter.posx(), critter.posy() ) );
     // Get the overmap coordinates and get the overmap, sm is now local to that overmap
     const point omp = sm_to_om_remain( sm );
     overmap &om = get( omp.x, omp.y );
-    mdata.x = sm.x; // Local to the overmap
-    mdata.y = sm.y;
-    mdata.z = g->levz; // TODO: with Z-levels this should probably be taken from the critter
-    mdata.mon = critter; // the exact position is retained in here
-    om.monsters.push_back( mdata );
+    // Store the monster using coordinates local to the overmap.
+    // TODO: with Z-levels this should probably be taken from the critter
+    om.monster_map.insert( std::make_pair( tripoint(sm.x, sm.y, g->levz), critter ) );
 }
 
 extern bool lcmatch(const std::string& text, const std::string& pattern);
