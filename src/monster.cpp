@@ -251,7 +251,7 @@ int monster::print_info(WINDOW* w, int vStart, int vLines, int column) const
         wprintz(w, h_white, _("On ground"));
     } else if (has_effect("stunned")) {
         wprintz(w, h_white, _("Stunned"));
-    } else if (has_effect("beartrap")) {
+    } else if (has_effect("lightsnare") || has_effect("heavysnare") || has_effect("beartrap")) {
         wprintz(w, h_white, _("Trapped"));
     } else if (has_effect("tied")) {
         wprintz(w, h_white, _("Tied"));
@@ -311,7 +311,8 @@ bool monster::is_symbol_highlighted() const
 nc_color monster::color_with_effects() const
 {
     nc_color ret = type->color;
-    if (has_effect("beartrap") || has_effect("stunned") || has_effect("downed") || has_effect("tied")) {
+    if (has_effect("beartrap") || has_effect("stunned") || has_effect("downed") || has_effect("tied") ||
+          has_effect("lightsnare") || has_effect("heavysnare")) {
         ret = hilite(ret);
     }
     if (has_effect("pacified")) {
@@ -941,6 +942,105 @@ void monster::die_in_explosion(Creature* source)
     die( source );
 }
 
+bool monster::move_effects()
+{
+    bool u_see_me = g->u_see(this);
+    if (has_effect("tied")) {
+        return false;
+    }
+    if (has_effect("downed")) {
+        remove_effect("downed");
+        if (u_see_me) {
+            add_msg(_("The %s climbs to it's feet!"), name().c_str());
+        }
+        return false;
+    }
+    if (has_effect("webbed")) {
+        if (x_in_y(type->melee_dice * type->melee_sides, 6 * get_effect_int("webbed"))) {
+            if (u_see_me) {
+                add_msg(_("The %s breaks free of the webs!"), name().c_str());
+            }
+            remove_effect("webbed");
+        }
+        return false;
+    }
+    if (has_effect("lightsnare")) {
+        if(x_in_y(type->melee_dice * type->melee_sides, 12)) {
+            remove_effect("lightsnare");
+            g->m.spawn_item(xpos(), ypos(), "string_36");
+            g->m.spawn_item(xpos(), ypos(), "snare_trigger");
+            if (u_see_me) {
+                add_msg(_("The %s escapes the light snare!"), name().c_str());
+            }
+        }
+        return false;
+    }
+    if (has_effect("heavysnare")) {
+        if (type->melee_dice * type->melee_sides >= 7) {
+            if(x_in_y(type->melee_dice * type->melee_sides, 32)) {
+                remove_effect("lightsnare");
+                g->m.spawn_item(xpos(), ypos(), "rope_6");
+                g->m.spawn_item(xpos(), ypos(), "snare_trigger");
+                if (u_see_me) {
+                    add_msg(_("The %s escapes the heavy snare!"), name().c_str());
+                }
+            }
+        }
+        return false;
+    }
+    if (has_effect("beartrap")) {
+        if (type->melee_dice * type->melee_sides >= 18) {
+            if(x_in_y(type->melee_dice * type->melee_sides, 200)) {
+                remove_effect("lightsnare");
+                g->m.spawn_item(xpos(), ypos(), "beartrap");
+                if (u_see_me) {
+                    add_msg(_("The %s escapes the bear trap!"), name().c_str());
+                }
+            }
+        }
+        return false;
+    }
+    if (has_effect("crushed")) {
+        // Strength helps in getting free, but dex also helps you worm your way out of the rubble
+        if(x_in_y(type->melee_dice * type->melee_sides, 100)) {
+            remove_effect("crushed");
+            if (u_see_me) {
+                add_msg(_("The %s frees itself from the rubble!"), name().c_str());
+            }
+        }
+        return false;
+    }
+    
+    // If we ever get more effects that force movement on success this will need to be reworked to
+    // only trigger success effects if /all/ rolls succeed
+    if (has_effect("in_pit")) {
+        if (rng(0, 40) > type->melee_dice * type->melee_sides) {
+            return false;
+        } else {
+            if (u_see_me) {
+                add_msg(_("The %s escapes the pit!"), name().c_str());
+            }
+            remove_effect("in_pit");
+        }
+    }
+    return Creature::move_effects();
+}
+
+void monster::add_eff_effects(effect e, bool reduced)
+{
+    if (e.get_amount("HURT", reduced) > 0) {
+        if(e.activated(calendar::turn, "HURT", reduced)) {
+            apply_damage(nullptr, bp_torso, e.get_amount("HURT", reduced));
+        }
+    }
+    Creature::add_eff_effects(e, reduced);
+}
+void monster::add_effect(efftype_id eff_id, int dur, body_part bp, bool permanent, int intensity)
+{
+    bp = num_bp;
+    Creature::add_effect(eff_id, dur, bp, permanent, intensity);
+}
+
 int monster::get_armor_cut(body_part bp) const
 {
     (void) bp;
@@ -971,7 +1071,7 @@ int monster::get_dodge() const
         return 0;
     }
     int ret = type->sk_dodge;
-    if (has_effect("beartrap") || has_effect("tied")) {
+    if (has_effect("lightsnare") || has_effect("heavysnare") || has_effect("beartrap") || has_effect("tied")) {
         ret /= 2;
     }
     if (moves <= 0 - 100 - get_speed()) {
@@ -1273,24 +1373,33 @@ void monster::drop_items_on_death()
 
 void monster::process_effects()
 {
-    for( auto effect_it = effects.begin(); effect_it != effects.end(); ++effect_it ) {
-        std::string id = effect_it->second.get_id();
-        if (id == "nasty_poisoned") {
-            mod_speed_bonus( -rng(3, 5) );
-            apply_damage( nullptr, bp_torso, rng( 3, 6 ) );
-        } if (id == "poisoned") {
-            mod_speed_bonus( -rng(0, 3) );
-            apply_damage( nullptr, bp_torso, rng( 1, 3 ) );
-
-        // MATERIALS-TODO: use fire resistance
-        } else if (id == "onfire") {
-            if (made_of("flesh") || made_of("iflesh"))
-                apply_damage( nullptr, bp_torso, rng( 3, 8 ) );
-            if (made_of("veggy"))
-                apply_damage( nullptr, bp_torso, rng( 10, 20 ) );
-            if (made_of("paper") || made_of("powder") || made_of("wood") || made_of("cotton") ||
-                made_of("wool"))
-                apply_damage( nullptr, bp_torso, rng( 15, 40 ) );
+    // Monster only effects
+    int mod = 1;
+    for( auto maps = effects.begin(); maps != effects.end(); ++maps ) {
+        for (auto effect_it = maps->second.begin(); effect_it != maps->second.end(); ++effect_it) {
+            auto &it = effect_it->second;
+            // Monsters don't get trait-based reduction, but they do get effect based reduction
+            bool reduced = has_effect(it.get_resist_effect());
+            
+            mod_speed_bonus(it.get_mod("SPEED", reduced));
+            
+            if (it.get_mod("HURT", reduced) > 0) {
+                if(it.activated(calendar::turn, "HURT", reduced, mod)) {
+                    apply_damage(nullptr, bp_torso, it.get_mod("HURT", reduced));
+                }
+            }
+            
+            std::string id = effect_it->second.get_id();
+            // MATERIALS-TODO: use fire resistance
+            if (id == "onfire") {
+                if (made_of("flesh") || made_of("iflesh"))
+                    apply_damage( nullptr, bp_torso, rng( 3, 8 ) );
+                if (made_of("veggy"))
+                    apply_damage( nullptr, bp_torso, rng( 10, 20 ) );
+                if (made_of("paper") || made_of("powder") || made_of("wood") || made_of("cotton") ||
+                    made_of("wool"))
+                    apply_damage( nullptr, bp_torso, rng( 15, 40 ) );
+            }
         }
     }
 

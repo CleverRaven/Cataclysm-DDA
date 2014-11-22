@@ -4081,17 +4081,17 @@ bool item::process_litcig( player *carrier, point pos )
             } else if( carrier->has_trait( "LIGHTWEIGHT" ) ) {
                 duration = 20;
             }
-            carrier->add_msg_if_player( m_info, _( "You take a puff of your %s." ), tname().c_str() );
+            carrier->add_msg_if_player( m_neutral, _( "You take a puff of your %s." ), tname().c_str() );
             if( has_flag( "TOBACCO" ) ) {
-                carrier->add_disease( "cig", duration );
+                carrier->add_effect( "cig", duration );
             } else {
-                carrier->add_disease( "weed_high", duration / 2 );
+                carrier->add_effect( "weed_high", duration / 2 );
             }
             g->m.add_field( pos.x + rng( -1, 1 ), pos.y + rng( -1, 1 ), smoke_type, 2 );
             carrier->moves -= 15;
         }
 
-        if( ( carrier->has_disease( "shakes" ) && one_in( 10 ) ) ||
+        if( ( carrier->has_effect( "shakes" ) && one_in( 10 ) ) ||
             ( carrier->has_trait( "JITTERY" ) && one_in( 200 ) ) ) {
             carrier->add_msg_if_player( m_bad, _( "Your shaking hand causes you to drop your %s." ),
                                         tname().c_str() );
@@ -4116,7 +4116,7 @@ bool item::process_litcig( player *carrier, point pos )
     // cig dies out
     if( item_counter == 0 ) {
         if( carrier != nullptr ) {
-            carrier->add_msg_if_player( m_info, _( "You finish your %s." ), tname().c_str() );
+            carrier->add_msg_if_player( m_neutral, _( "You finish your %s." ), tname().c_str() );
         }
         if( type->id == "cig_lit" ) {
             make( "cig_butt" );
@@ -4125,7 +4125,7 @@ bool item::process_litcig( player *carrier, point pos )
         } else { // joint
             make( "joint_roach" );
             if( carrier != nullptr ) {
-                carrier->add_disease( "weed_high", 10 ); // one last puff
+                carrier->add_effect( "weed_high", 10 ); // one last puff
                 g->m.add_field( pos.x + rng( -1, 1 ), pos.y + rng( -1, 1 ), fd_weedsmoke, 2 );
                 weed_msg( carrier );
             }
@@ -4294,7 +4294,7 @@ bool item::process_charger_gun( player *carrier, point pos )
         }
     }
     if( poison < 0 ) {
-        carrier->add_msg_if_player( m_info, _( "Your %s spins down." ), tname().c_str() );
+        carrier->add_msg_if_player( m_neutral, _( "Your %s spins down." ), tname().c_str() );
         charges--;
         poison = charges - 1;
     }

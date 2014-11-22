@@ -251,16 +251,16 @@ void monster::move()
     if (moves < 0) {
         return;
     }
+    if (!move_effects()) {
+        moves = 0;
+        return;
+    }
     if (has_flag(MF_IMMOBILE)) {
         moves = 0;
         return;
     }
     if (has_effect("stunned")) {
         stumble(false);
-        moves = 0;
-        return;
-    }
-    if (has_effect("downed")) {
         moves = 0;
         return;
     }
@@ -759,11 +759,6 @@ int monster::move_to(int x, int y, bool force)
         return 0;
     }
 
-    if (has_effect("beartrap") || has_effect("tied")) {
-        moves = 0;
-        return 0;
-    }
-
     if (!plans.empty()) {
         plans.erase(plans.begin());
     }
@@ -800,7 +795,7 @@ int monster::move_to(int x, int y, bool force)
         apply_damage( nullptr, bp_torso, rng( 1, 2 ) );
     }
     if (g->m.has_flag("UNSTABLE", x, y)) {
-        add_effect("bouldering", 1, 1, true);
+        add_effect("bouldering", 1, num_bp, true);
     } else if (has_effect("bouldering")) {
         remove_effect("bouldering");
     }

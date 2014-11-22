@@ -21,7 +21,7 @@ bool one_in(int chance)
     return (chance <= 1 || rng(0, chance - 1) == 0);
 }
 
-//this works just like one_in, but it accepts doubles as input to calulate chances like "1 in 350,52"
+//this works just like one_in, but it accepts doubles as input to calculate chances like "1 in 350,52"
 bool one_in_improved(double chance)
 {
     return (chance <= 1 || rng_float(0, chance) < 1);

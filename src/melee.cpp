@@ -194,9 +194,9 @@ int player::hit_roll() const
     // Drunken master makes us hit better
     if (has_trait("DRUNKEN")) {
         if (unarmed_attack()) {
-            numdice += int(disease_duration("drunk") / 300);
+            numdice += int(get_effect_dur("drunk") / 300);
         } else {
-            numdice += int(disease_duration("drunk") / 400);
+            numdice += int(get_effect_dur("drunk") / 400);
         }
     }
 
@@ -483,8 +483,6 @@ bool player::scored_crit(int target_dodge)
   for (int i = 0; i > weapon.type->m_to_hit; i--)
    chance /= 2;
  }
- if (rng(0, 99) < chance + 4 * disease_intensity("attack_boost") + 4 * mabuff_tohit_bonus())
-  num_crits++;
 
 // Dexterity to-hit roll
 // ... except sometimes we don't use dexterity!
@@ -528,8 +526,6 @@ bool player::scored_crit(int target_dodge)
   for (int i = 3; i > best_skill; i--)
    chance /= 2;
  }
- if (rng(0, 99) < chance + 4 * disease_intensity("attack_boost") + 4 * mabuff_tohit_bonus())
-  num_crits++;
 
  if (num_crits == 3)
   return true;
@@ -549,59 +545,67 @@ int player::get_dodge() const
 //Return numbers range from around 4 (starting player, no boosts) to 29 (20 DEX, 10 dodge, +9 mutations)
 {
     //If we're asleep or busy we can't dodge
-    if (has_disease("sleep") || has_disease("lying_down")) {return 0;}
+    if (in_sleep_state()) {
+        return 0;
+    }
     if (activity.type != ACT_NULL) {return 0;}
 
-    return Creature::get_dodge();
+    int ret = Creature::get_dodge();
+    
+    // Chop in half if we are unable to move
+    if (has_effect("beartrap") || has_effect("lightsnare") || has_effect("heavysnare")) {
+        ret /= 2;
+    }
+    return ret;
 }
 
 int player::dodge_roll()
 {
     if ( (shoe_type_count("roller_blades") == 2 && one_in((get_dex() + get_skill_level("dodge")) / 3 )) ||
           (shoe_type_count("roller_blades") == 1 && one_in((get_dex() + get_skill_level("dodge")) / 8 ))) {
-        // Skaters have a 67% chance to avoid knockdown, and get up a turn quicker.
-        if (has_trait("PROF_SKATER")) {
-            if (one_in(3)) {
-                if (!has_disease("downed")) {
-                    add_msg_if_player(m_bad, _("You overbalance and stumble!"));
+        if (!has_effect("downed")) {
+            // Skaters have a 67% chance to avoid knockdown, and get up a turn quicker.
+            if (has_trait("PROF_SKATER")) {
+                if (one_in(3)) {
+                    if (!has_effect("downed")) {
+                        add_msg_if_player(m_bad, _("You overbalance and stumble!"));
+                        add_effect("downed", 2);
+                    }
                 }
-                add_disease("downed", 2);
+                else {
+                    add_msg_if_player(m_good, _("You nearly fall, but recover thanks to your skating experience."));
+                }
+            } else {
+                if (!has_effect("downed")) {
+                    add_msg_if_player(_("Fighting on wheels is hard!"));
+                    add_effect("downed", 3);
+                }
             }
-            else {
-                add_msg_if_player(m_good, _("You nearly fall, but recover thanks to your skating experience."));
-            }
-        }
-        else {
-            if (!has_disease("downed")) {
-            add_msg_if_player(_("Fighting on wheels is hard!"));
-            }
-            add_disease("downed", 3);
         }
     }
     //Fighting on a pair of quad skates isn't so hard, but fighting while wearing a single skate is.
     if (shoe_type_count("rollerskates") == 1 && one_in((get_dex() + get_skill_level("dodge")) / 8 )) {
         if (has_trait("PROF_SKATER")) {
             if (one_in(3)) {
-                if (!has_disease("downed")) {
+                if (!has_effect("downed")) {
                     add_msg_if_player(m_bad, _("You overbalance and stumble!"));
+                    add_effect("downed", 2);
                 }
-                add_disease("downed", 2);
             }
             else {
                 add_msg_if_player(m_good, _("You nearly fall, but recover thanks to your skating experience."));
             }
-        }
-        else {
-            if (!has_disease("downed")) {
+        } else {
+            if (!has_effect("downed")) {
                 add_msg_if_player(_("Fighting on wheels is hard!"));
+                add_effect("downed", 3);
             }
-            add_disease("downed", 3);
-            }
+        }
     }
     if (has_effect("bouldering")) {
         if(one_in(get_dex())) {
             add_msg_if_player(m_bad, _("You slip as the ground shifts beneath your feet!"));
-            add_disease("downed", 3);
+            add_effect("downed", 3);
             return 0;
         }
     }
@@ -656,15 +660,16 @@ int player::roll_bash_damage(bool crit)
     ret = base_damage(true, stat);
 
     // Drunken Master damage bonuses
-    if (has_trait("DRUNKEN") && has_disease("drunk")) {
+    if (has_trait("DRUNKEN") && has_effect("drunk")) {
         // Remember, a single drink gives 600 levels of "drunk"
         int mindrunk, maxdrunk;
+        int drunk_dur = get_effect_dur("drunk");
         if (unarmed_attack()) {
-            mindrunk = disease_duration("drunk") / 600;
-            maxdrunk = disease_duration("drunk") / 250;
+            mindrunk = drunk_dur / 600;
+            maxdrunk = drunk_dur / 250;
         } else {
-            mindrunk = disease_duration("drunk") / 900;
-            maxdrunk = disease_duration("drunk") / 400;
+            mindrunk = drunk_dur / 900;
+            maxdrunk = drunk_dur / 400;
         }
         ret += rng(mindrunk, maxdrunk);
     }
@@ -708,8 +713,6 @@ int player::roll_bash_damage(bool crit)
         bash_dam = rng(bash_dam, skill + int(stat / 2));
 
     ret += bash_dam;
-
-    ret += disease_intensity("damage_boost");
 
     // Finally, extra crit effects
     if (crit) {
@@ -1293,9 +1296,8 @@ void player::dodge_hit(Creature *source, int) {
 bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam) {
 
     //Shouldn't block if player is asleep; this only seems to be used by player.
-    //g->u.has_disease("sleep") would work as well from looking at other block functions.
 
-    if (blocks_left < 1 || this->has_disease("sleep")) {
+    if (blocks_left < 1 || in_sleep_state()) {
         return false;
     }
     blocks_left--;
@@ -1474,13 +1476,13 @@ void player::perform_special_attacks(Creature &t)
  }
 
  if (can_poison && ((has_trait("POISONOUS")) || (has_trait("POISONOUS2")))) {
-    if ((has_trait("POISONOUS")) && !t.has_effect("poisoned")) {
+    if (has_trait("POISONOUS")) {
         t.add_msg_if_player(m_good, _("You poison %s!"), target.c_str());
-        t.add_effect("poisoned", 6);
+        t.add_effect("poison", 6);
     }
-    else if ((has_trait("POISONOUS2")) && (!(t.has_effect("nasty_poisoned")))) {
+    else if (has_trait("POISONOUS2")) {
         t.add_msg_if_player(m_good, _("You inject your venom into %s!"), target.c_str());
-        t.add_effect("nasty_poisoned", 6);
+        t.add_effect("nasty_poison", 6);
     }
  }
 }
@@ -2282,8 +2284,6 @@ int attack_speed(player &u)
   move_cost *= .9;
  if (u.has_trait("HOLLOW_BONES"))
   move_cost *= .8;
-
- move_cost -= u.disease_intensity("speed_boost");
 
  if (move_cost < 25)
   return 25;

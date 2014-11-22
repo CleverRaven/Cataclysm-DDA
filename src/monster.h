@@ -10,23 +10,6 @@ class map;
 class game;
 class item;
 
-enum monster_effect_type {
-    ME_NULL = 0,
-    ME_BEARTRAP,        // Stuck in beartrap
-    ME_POISONED,        // Slowed, takes damage
-    ME_ONFIRE,          // Lit aflame
-    ME_STUNNED,         // Stumbling briefly
-    ME_DOWNED,          // Knocked down
-    ME_BLIND,           // Can't use sight
-    ME_DEAF,            // Can't use hearing
-    ME_TARGETED,        // Targeting locked on--for robots that shoot guns
-    ME_DOCILE,          // Don't attack other monsters--for tame monster
-    ME_HIT_BY_PLAYER,   // We shot or hit them
-    ME_RUN,             // For hit-and-run monsters; we're running for a bit;
-    ME_BOUNCED,
-    NUM_MONSTER_EFFECTS
-};
-
 enum monster_attitude {
     MATT_NULL = 0,
     MATT_FRIEND,
@@ -37,12 +20,6 @@ enum monster_attitude {
     MATT_ATTACK,
     MATT_ZLAVE,
     NUM_MONSTER_ATTITUDES
-};
-
-struct monster_effect {
-    monster_effect_type type;
-    int duration;
-    monster_effect(monster_effect_type T, int D) : type (T), duration (D) {}
 };
 
 class monster : public Creature, public JsonSerializer, public JsonDeserializer
@@ -57,6 +34,12 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         virtual ~monster() override;
         monster &operator=(const monster &) = default;
         monster &operator=(monster &&) = default;
+        
+        virtual bool is_monster() const
+        {
+            return true;
+        }
+        
         void poly(mtype *t);
         void spawn(int x, int y); // All this does is moves the monster to x,y
         m_size get_size() const;
@@ -225,6 +208,18 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         void explode();
         // Let the monster die and let its body explode into gibs
         void die_in_explosion( Creature *source );
+        
+        /** Processes monster-specific effects effects before calling Creature::process_effects(). */
+        virtual void process_effects();
+        /** Processes effects which may prevent the monster from moving (bear traps, crushed, etc.).
+         *  Returns false if movement is stopped. */
+        virtual bool move_effects();
+        /** Handles any monster-specific effect application effects before calling Creature::add_eff_effects(). */
+        virtual void add_eff_effects(effect e, bool reduced);
+        /** Performs any monster-specific modifications to the arguments before passing to Creature::add_effect(). */
+        virtual void add_effect(efftype_id eff_id, int dur, body_part bp = num_bp, bool permanent = false,
+                                int intensity = 0);
+
         int  get_armor_cut(body_part bp) const;   // Natural armor, plus any worn armor
         int  get_armor_bash(body_part bp) const;  // Natural armor, plus any worn armor
         int  get_dodge() const;       // Natural dodge, or 0 if we're occupied
@@ -245,7 +240,6 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         void drop_items_on_death();
 
         // Other
-        void process_effects(); // Process long-term effects
         bool make_fungus();  // Makes this monster into a fungus version
         // Returns false if no such monster exists
         void make_friendly();

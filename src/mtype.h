@@ -128,6 +128,19 @@ enum m_flag {
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
+/** Used to store monster effects placed on attack */
+struct mon_effect_data
+{
+    std::string id;
+    int duration;
+    body_part bp;
+    bool permanent;
+    int chance;
+    
+    mon_effect_data(std::string nid, int dur, body_part nbp, bool perm, int nchance) :
+                    id(nid), duration(dur), bp(nbp), permanent(perm), chance(nchance) {};
+};
+
 struct mtype {
     private:
         friend class MonsterGenerator;
@@ -148,6 +161,9 @@ struct mtype {
 
         std::bitset<MF_MAX> bitflags;
         std::bitset<N_MONSTER_TRIGGERS> bitanger, bitfear, bitplacate;
+        
+        /** Stores effect data for effects placed on attack */
+        std::vector<mon_effect_data> atk_effs;
 
         int difficulty; // Used all over; 30 min + (diff-3)*30 min = earliest appearance
         int agro;       // How likely to attack; -100 to 100

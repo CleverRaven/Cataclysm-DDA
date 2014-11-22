@@ -4,6 +4,7 @@
 #include "iuse.h"
 #include "color.h"
 #include "field.h"
+#include "bodypart.h"
 
 /**
  * Transform an item into a specific type.
@@ -89,7 +90,7 @@ class auto_iuse_transform : public iuse_transform
 };
 
 /**
- * This is a @ref iuse_actor for active items that explose when
+ * This is a @ref iuse_actor for active items that explode when
  * their charges reaches 0.
  * It can be called each turn, it can make a sound each turn.
  */
@@ -172,6 +173,18 @@ class unfold_vehicle_iuse : public iuse_actor
         virtual iuse_actor *clone() const;
 };
 
+/** Used in consume_drug_iuse for storing effect data. */
+struct effect_data
+{
+    std::string id;
+    int duration;
+    body_part bp;
+    bool permanent;
+    
+    effect_data(std::string nid, int dur, body_part nbp, bool perm) :
+                    id(nid), duration(dur), bp(nbp), permanent(perm) {};
+};
+
 /**
  * This iuse encapsulates the effects of taking a drug.
  */
@@ -186,8 +199,8 @@ class consume_drug_iuse : public iuse_actor
         std::map<std::string, int> charges_needed;
         /** Tools needed, but not consumed, e.g. "smoking apparatus". **/
         std::map<std::string, int> tools_needed;
-        /** A disease or diseases (conditions) to give the player for the stated duration. **/
-        std::map<std::string, int> diseases;
+        /** An effect or effects (conditions) to give the player for the stated duration. **/
+        std::vector<effect_data> effects;
         /** A list of stats and adjustments to them. **/
         std::map<std::string, int> stat_adjustments;
 

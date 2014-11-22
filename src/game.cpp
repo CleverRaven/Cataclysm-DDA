@@ -652,10 +652,12 @@ void game::start_game(std::string worldname)
             m.add_field(u.pos().x + 7, u.pos().y + 6, field_from_ident("fd_fire"), 3 );
             m.add_field(u.pos().x + 3, u.pos().y + 4, field_from_ident("fd_fire"), 3 );
     }
-    if (scen->has_flag("INFECTED")){u.add_disease("infected", 14401, false, 1, 1, 0, 0, random_body_part(), true);}
+    if (scen->has_flag("INFECTED")){
+        u.add_effect("infected", 1, random_body_part(), true);
+    }
     if (scen->has_flag("BAD_DAY")){
-        u.add_disease("flu", 10000);
-        u.add_disease("drunk", 2700 - (12 * u.str_max));
+        u.add_effect("flu", 10000);
+        u.add_effect("drunk", 2700 - (12 * u.str_max));
         u.add_morale(MORALE_FEELING_BAD,-100,50,50,50);
     }
     //~ %s is player name
@@ -732,7 +734,7 @@ void game::create_starting_npcs()
         reserve_random_mission(ORIGIN_OPENER_NPC, om_location(), tmp->getID()));
 }
 
-void game::cleanup_at_end()
+bool game::cleanup_at_end()
 {
     draw_sidebar();
     if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE) {
@@ -982,6 +984,7 @@ void game::cleanup_at_end()
     }
     MAPBUFFER.reset();
     overmap_buffer.clear();
+    return true;
 }
 
 static int veh_lumi(vehicle *veh)
@@ -1105,8 +1108,7 @@ void game::calc_driving_offset(vehicle *veh)
 bool game::do_turn()
 {
     if (is_game_over()) {
-        cleanup_at_end();
-        return true;
+        return cleanup_at_end();
     }
     // Actual stuff
     if (new_game) {
@@ -1143,17 +1145,18 @@ bool game::do_turn()
         u.add_memorial_log(pgettext("memorial_male", "Died of a drug overdose."),
                            pgettext("memorial_female", "Died of a drug overdose."));
         u.hp_cur[hp_torso] = 0;
-    } else if (u.has_disease("jetinjector") &&
-               u.disease_duration("jetinjector") > 400) {
-        if (!(u.has_trait("NOPAIN"))) {
-            add_msg(m_bad, _("Your heart spasms painfully and stops."));
-        } else {
-            add_msg(_("Your heart spasms and stops."));
-        }
-        u.add_memorial_log(pgettext("memorial_male", "Died of a healing stimulant overdose."),
-                           pgettext("memorial_female", "Died of a healing stimulant overdose."));
-        u.hp_cur[hp_torso] = 0;
-    } else if (u.has_disease("datura") && u.disease_duration("datura") > 14000 && one_in(512)) {
+    } else if (u.has_effect("jetinjector")) {
+            if (u.get_effect_dur("jetinjector") > 400) {
+                if (!(u.has_trait("NOPAIN"))) {
+                    add_msg(m_bad, _("Your heart spasms painfully and stops."));
+                } else {
+                    add_msg(_("Your heart spasms and stops."));
+                }
+                u.add_memorial_log(pgettext("memorial_male", "Died of a healing stimulant overdose."),
+                                   pgettext("memorial_female", "Died of a healing stimulant overdose."));
+                u.hp_cur[hp_torso] = 0;
+            }
+    } else if (u.has_effect("datura") && u.get_effect_dur("datura") > 14000 && one_in(512)) {
         if (!(u.has_trait("NOPAIN"))) {
             add_msg(m_bad, _("Your heart spasms painfully and stops, dragging you back to reality as you die."));
         } else {
@@ -1196,7 +1199,7 @@ bool game::do_turn()
     }
 
     // Check if we're falling asleep, unless we're sleeping
-    if (u.fatigue >= 600 && !u.has_disease("sleep")) {
+    if (u.fatigue >= 600 && !u.in_sleep_state()) {
         if (u.fatigue >= 1000) {
             add_msg(m_bad, _("Survivor sleep now."));
             u.add_memorial_log(pgettext("memorial_male", "Succumbed to lack of sleep."),
@@ -1212,27 +1215,27 @@ bool game::do_turn()
 
     // Even if we're not Exhausted, we really should be feeling lack/sleep earlier
     // Penalties start at Dead Tired and go from there
-    if (u.fatigue >= 383 && !u.has_disease("sleep")) {
+    if (u.fatigue >= 383 && !u.in_sleep_state()) {
         if (u.fatigue >= 700) {
             if (calendar::turn % 50 == 0) {
                 add_msg(m_warning, _("You're too tired to stop yawning."));
-                u.add_disease("lack_sleep", 50);
+                u.add_effect("lack_sleep", 50);
             }
             if (one_in(50 + u.int_cur)) {
                 // Rivet's idea: look out for microsleeps!
-                u.add_disease("sleep", 5);
+                u.fall_asleep(5);
             }
         } else if (u.fatigue >= 575) {
             if (calendar::turn % 50 == 0) {
                 add_msg(m_warning, _("How much longer until bedtime?"));
-                u.add_disease("lack_sleep", 50);
+                u.add_effect("lack_sleep", 50);
             }
             if (one_in(100 + u.int_cur)) {
-                u.add_disease("sleep", 5);
+                u.fall_asleep(5);
             }
         } else if (u.fatigue >= 383 && calendar::turn % 50 == 0) {
             add_msg(m_warning, _("*yawn* You should really get some sleep."));
-            u.add_disease("lack_sleep", 50);
+            u.add_effect("lack_sleep", 50);
         }
     }
 
@@ -1257,9 +1260,6 @@ bool game::do_turn()
             if (u.has_trait("HUNGER3")) {
                 u.hunger += 2;
             }
-            if (u.has_disease("tapeworm")) {
-                u.hunger++;
-            }
         }
         if ((!u.has_bionic("bio_recycler") || calendar::turn % 100 == 0) &&
             (!u.has_trait("PLANTSKIN") || !one_in(5)) &&
@@ -1276,13 +1276,9 @@ bool game::do_turn()
             if (u.has_trait("THIRST3")) {
                 u.thirst += 2;
             }
-            if (u.has_disease("bloodworms")) {
-                u.thirst++;
-            }
         }
         // Don't increase fatigue if sleeping or trying to sleep or if we're at the cap.
-        if (u.fatigue < 1050 && !(u.has_disease("sleep") || u.has_disease("lying_down")) &&
-          (!u.has_trait("DEBUG_LS")) ) {
+        if (u.fatigue < 1050 && !u.in_sleep_state() && !u.has_trait("DEBUG_LS") ) {
             u.fatigue++;
             // Wakeful folks don't always gain fatigue!
             if (u.has_trait("WAKEFUL")) {
@@ -1316,7 +1312,7 @@ bool game::do_turn()
                 u.fatigue++;
             }
         }
-        if (u.fatigue == 192 && !u.has_disease("lying_down") && !u.has_disease("sleep")) {
+        if (u.fatigue == 192 && !u.in_sleep_state()) {
             if (u.activity.type == ACT_NULL) {
                 add_msg(m_warning, _("You're feeling tired.  %s to lie down for sleep."),
                         press_x(ACTION_SLEEP).c_str());
@@ -1360,7 +1356,7 @@ bool game::do_turn()
         if (u.pain > 0) {
             u.pain -= 1 + int(u.pain / 10);
         } else if (u.pain < 0) {
-            u.pain++;
+            u.pain = 0;
         }
         // Mutation healing effects
         if (u.has_trait("FASTHEALER2") && one_in(5)) {
@@ -1381,7 +1377,7 @@ bool game::do_turn()
         }
         u.get_sick();
         // Freakishly Huge folks tire quicker
-        if (u.has_trait("HUGE") && !(u.has_disease("sleep") || u.has_disease("lying_down"))) {
+        if (u.has_trait("HUGE") && !u.in_sleep_state()) {
             add_msg(m_info, _("<whew> You catch your breath."));
             u.fatigue++;
         }
@@ -1403,7 +1399,8 @@ bool game::do_turn()
 
     // Auto-save if autosave is enabled
     if (OPTIONS["AUTOSAVE"] &&
-        calendar::turn % ((int)OPTIONS["AUTOSAVE_TURNS"]) == 0) {
+        calendar::turn % ((int)OPTIONS["AUTOSAVE_TURNS"]) == 0 &&
+        !u.is_dead_state()) {
         autosave();
     }
 
@@ -1417,9 +1414,10 @@ bool game::do_turn()
     }
 
     process_activity();
-    if (!u.has_disease("sleep") && !u.has_disease("lying_down")) {
-        if (u.moves > 0) {
-            while (u.moves > 0) {
+
+    if (!u.in_sleep_state()) {
+        if (u.moves > 0 || uquit == QUIT_WATCH) {
+            while (u.moves > 0 || uquit == QUIT_WATCH) {
                 cleanup_dead();
                 if (u.activity.type == ACT_NULL) {
                     draw();
@@ -1431,14 +1429,14 @@ bool game::do_turn()
                 }
 
                 if (is_game_over()) {
-                    cleanup_at_end();
-                    return true;
+                    return cleanup_at_end();
                 }
             }
         } else {
             handle_key_blocking_activity();
         }
-    }
+    } 
+
     if ((driving_view_offset.x != 0 || driving_view_offset.y != 0)) {
         // Still have a view offset, but might not be driving anymore,
         // or the option has been deactivated,
@@ -1487,14 +1485,13 @@ bool game::do_turn()
         (weffect.*(weather_data[weather].effect))();
     }
 
-    if (u.has_disease("sleep") && int(calendar::turn) % 300 == 0) {
+    if (u.has_effect("sleep") && int(calendar::turn) % 300 == 0) {
         draw();
         refresh();
     }
 
     u.update_bodytemp();
     u.update_body_wetness();
-
     rustCheck();
     if (calendar::turn % 10 == 0) {
         u.update_morale();
@@ -2817,7 +2814,6 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position)
     }
     return cMenu;
 }
-//
 
 // Checks input to see if mouse was moved and handles the mouse view box accordingly.
 // Returns true if input requires breaking out into a game action.
@@ -2956,7 +2952,13 @@ input_context get_default_mode_input_context()
 
 input_context game::get_player_input(std::string &action)
 {
-    input_context ctxt = get_default_mode_input_context();
+    input_context ctxt("DEFAULTMODE");
+    if(uquit == QUIT_WATCH) {
+        ctxt.register_action("QUIT");
+        ctxt.register_action("ANY_INPUT");
+    } else {
+        ctxt = get_default_mode_input_context();
+    }
 
     if (OPTIONS["ANIMATIONS"]) {
         int iStartX = (TERRAIN_WINDOW_WIDTH > 121) ? (TERRAIN_WINDOW_WIDTH - 121) / 2 : 0;
@@ -2991,7 +2993,7 @@ input_context game::get_player_input(std::string &action)
         wPrint.endy = iEndY;
 
         inp_mngr.set_timeout(125);
-        while (handle_mouseview(ctxt, action)) {
+        while(handle_mouseview(ctxt, action)) {
             if (bWeatherEffect && OPTIONS["ANIMATION_RAIN"]) {
                 /*
                 Location to add rain drop animation bits! Since it refreshes w_terrain it can be added to the animation section easily
@@ -3016,7 +3018,6 @@ input_context game::get_player_input(std::string &action)
 
                 wPrint.vdrops.clear();
 
-
                 const int light_sight_range = u.sight_range( light_level() );
                 for (int i = 0; i < dropCount; i++) {
                     const int iRandX = rng(iStartX, iEndX - 1);
@@ -3035,7 +3036,6 @@ input_context game::get_player_input(std::string &action)
                     }
                 }
             }
-
             if (OPTIONS["ANIMATION_SCT"]) {
 #ifdef TILES
                 if (!use_tiles) {
@@ -3100,16 +3100,17 @@ input_context game::get_player_input(std::string &action)
                     }
                 }
             }
-
             draw_weather(wPrint);
             draw_sct();
-
+            if(uquit == QUIT_WATCH) {
+                // display "press X to continue" text at top
+                input_context ctxt("DEFAULTMODE");
+                std::string message = "Press " + ctxt.get_desc("QUIT") + " to accept your fate...";
+                mvwprintz(w_terrain, 0, ((TERRAIN_WINDOW_WIDTH / 2) - (message.length() / 2)), c_white, message.c_str());
+            }
             wrefresh(w_terrain);
-
-            inp_mngr.set_timeout(125);
         }
         inp_mngr.set_timeout(-1);
-
     } else {
         while (handle_mouseview(ctxt, action)) {};
     }
@@ -3162,7 +3163,6 @@ bool game::handle_action()
 {
     std::string action;
     input_context ctxt;
-
     action_id act = ACTION_NULL;
     // Check if we have an auto-move destination
     if (u.has_destination()) {
@@ -3175,6 +3175,14 @@ bool game::handle_action()
     } else {
         // No auto-move, ask player for input
         ctxt = get_player_input(action);
+    }
+
+    if(uquit == QUIT_WATCH) {
+        if(action == "QUIT") {
+            uquit = QUIT_DIED;
+        }
+        gamemode->post_action(act);
+        return false;
     }
 
     int veh_part;
@@ -3791,7 +3799,7 @@ bool game::handle_action()
                 quicksave();
                 bSleep = true;
             } else if (as_m.ret >= 3 && as_m.ret <= 9) {
-                u.add_disease("alarm_clock", 600 * as_m.ret);
+                u.add_effect("alarm_clock", 600 * as_m.ret);
                 bSleep = true;
             }
 
@@ -3978,7 +3986,7 @@ int &game::scent(int x, int y)
 void game::update_scent()
 {
     static point player_last_position = point(u.posx, u.posy);
-    static calendar player_last_moved = calendar::turn;
+    static int player_last_moved = calendar::turn;
     // Stop updating scent after X turns of the player not moving.
     // Once wind is added, need to reset this on wind shifts as well.
     if (u.posx == player_last_position.x && u.posy == player_last_position.y) {
@@ -4101,6 +4109,18 @@ void game::update_scent()
 
 bool game::is_game_over()
 {
+    if (uquit == QUIT_WATCH) {
+        // deny player movement
+        u.moves = 0;
+        return false;
+    }
+    if (uquit == QUIT_DIED) {
+        if (u.in_vehicle) {
+            m.unboard_vehicle(u.posx, u.posy);
+        }
+        u.place_corpse();
+        return true;
+    }
     if (uquit == QUIT_SUICIDE) {
         if (u.in_vehicle) {
             m.unboard_vehicle(u.posx, u.posy);
@@ -4110,15 +4130,10 @@ bool game::is_game_over()
     if (uquit != QUIT_NO) {
         return true;
     }
-    for (int i = 0; i <= hp_torso; i++) {
-        if (u.hp_cur[i] < 1) {
-            if (u.in_vehicle) {
-                m.unboard_vehicle(u.posx, u.posy);
-            }
-            u.place_corpse();
-            uquit = QUIT_DIED;
-            return true;
-        }
+    // is_dead_state() already checks hp_torso && hp_head, no need to loop it
+    if(u.is_dead_state()) {
+        uquit = query_yn("Watch the last moments of your life...?") ? QUIT_WATCH : QUIT_DIED;
+        return false;
     }
     return false;
 }
@@ -4662,8 +4677,9 @@ void game::debug()
                       _("Remove all monsters"),    // 19
                       _("Display hordes"), // 20
                       _("Test Item Group"), // 21
+                      _("Damage Self"), //22
 #ifdef LUA
-                      _("Lua Command"), // 22
+                      _("Lua Command"), // 23
 #endif
                       _("Cancel"),
                       NULL);
@@ -4843,7 +4859,7 @@ void game::debug()
         break;
 
     case 13: {
-        add_msg(_("Recipe debug."));
+        add_msg(m_info, _("Recipe debug."));
         add_msg(_("Your eyes blink rapidly as knowledge floods your brain."));
         for( auto cat_iter = recipes.begin(); cat_iter != recipes.end(); ++cat_iter ) {
             for( auto list_iter = cat_iter->second.begin();
@@ -5065,13 +5081,23 @@ void game::debug()
     }
     break;
 
-#ifdef LUA
+    // Damage Self
     case 22: {
+        int dbg_damage = query_int("Damage self for how much? hp: %d", u.hp_cur[hp_torso]);
+        u.hp_cur[hp_torso] -= dbg_damage;
+        u.die(NULL);
+        draw_sidebar();
+    }
+    break;
+
+#ifdef LUA
+    case 23: {
         std::string luacode = string_input_popup(_("Lua:"), 60, "");
         call_lua(luacode);
     }
     break;
 #endif
+
     }
     erase();
     refresh_all();
@@ -5469,7 +5495,7 @@ void game::draw_sidebar()
         vGlyphs.push_back(std::make_pair('_', c_red));
         vGlyphs.push_back(std::make_pair('_', c_cyan));
 
-        const int iHour = calendar::turn.getHour();
+        const int iHour = calendar::turn.hours();
         wprintz(time_window, c_white, "[");
         bool bAddTrail = false;
 
@@ -5636,8 +5662,7 @@ void game::draw_ter(int posx, int posy)
     }
     wrefresh(w_terrain);
 
-    if (u.has_disease("visuals") || (u.has_disease("hot_head") &&
-                                     u.disease_intensity("hot_head") != 1)) {
+    if (u.has_effect("visuals") || (u.get_effect_int("hot", bp_head) > 1)) {
         hallucinate(posx, posy);
     }
 }
@@ -5749,13 +5774,13 @@ nc_color game::limb_color(player *p, body_part bp, bool bleed, bool bite, bool i
 
     int color_bit = 0;
     nc_color i_color = c_ltgray;
-    if (bleed && p->has_disease("bleed", bp)) {
+    if (bleed && p->has_effect("bleed", bp)) {
         color_bit += 1;
     }
-    if (bite && p->has_disease("bite", bp)) {
+    if (bite && p->has_effect("bite", bp)) {
         color_bit += 10;
     }
-    if (infect && p->has_disease("infected", bp)) {
+    if (infect && p->has_effect("infected", bp)) {
         color_bit += 100;
     }
     switch (color_bit) {
@@ -6212,13 +6237,15 @@ int game::mon_info(WINDOW *w)
                 if (u.has_trait("M_DEFENDER")) {
                     if (critter.type->in_species("PLANT")) {
                         add_msg(m_warning, _("We have detected a %s."), critter.name().c_str());
-                        if (!u.has_disease("adrenaline")){
-                            u.add_disease("adrenaline", 300); // Message handled in disease.cpp
-                        } else if (u.has_disease("adrenaline") && (u.disease_duration("adrenaline") < 150) ) {
-                            // Triffids present.  We ain't got TIME to adrenaline comedown!
-                            u.add_disease("adrenaline", 150);
-                            u.mod_pain(3); // Does take it out of you, though
-                            add_msg(m_info, _("Our fibers strain with renewed wrath!"));
+                        if (!u.has_effect("adrenaline_mycus")){
+                            u.add_effect("adrenaline_mycus", 300);
+                        } else {
+                            if (u.get_effect_int("adrenaline_mycus") == 1) {
+                                // Triffids present.  We ain't got TIME to adrenaline comedown!
+                                u.add_effect("adrenaline_mycus", 150);
+                                u.mod_pain(3); // Does take it out of you, though
+                                add_msg(m_info, _("Our fibers strain with renewed wrath!"));
+                            }
                         }
                     }
                 }
@@ -6465,9 +6492,8 @@ void game::monmove()
                 u.power_level -= 25;
                 add_msg(m_warning, _("Your motion alarm goes off!"));
                 cancel_activity_query(_("Your motion alarm goes off!"));
-                if (u.has_disease("sleep") || u.has_disease("lying_down")) {
-                    u.rem_disease("sleep");
-                    u.rem_disease("lying_down");
+                if (u.in_sleep_state()) {
+                    u.wake_up();
                 }
             }
             // We might have stumbled out of range of the player; if so, kill us
@@ -6616,14 +6642,14 @@ bool game::sound(int x, int y, int vol, std::string description, bool ambient)
     }
 
     // See if we need to wake someone up
-    if (u.has_disease("sleep")) {
+    if (u.has_effect("sleep")) {
         if ((!(u.has_trait("HEAVYSLEEPER") ||
                u.has_trait("HEAVYSLEEPER2")) && dice(2, 15) < vol - dist) ||
             (u.has_trait("HEAVYSLEEPER") && dice(3, 15) < vol - dist) ||
             (u.has_trait("HEAVYSLEEPER2") && dice(6, 15) < vol - dist)) {
             //Not kidding about sleep-thru-firefight
-            u.rem_disease("sleep");
-            add_msg(m_warning, _("You're woken up by a noise."));
+            u.wake_up();
+            add_msg(m_warning, _("Something is making noise."));
         } else {
             return false;
         }
@@ -7240,7 +7266,7 @@ void game::resonance_cascade(int x, int y)
         minglow = 0;
     }
     if (maxglow > 0) {
-        u.add_disease("teleglow", rng(minglow, maxglow) * 100);
+        u.add_effect("teleglow", rng(minglow, maxglow) * 100);
     }
     int startx = (x < 8 ? 0 : x - 8), endx = (x + 8 >= SEEX * 3 ? SEEX * 3 - 1 : x + 8);
     int starty = (y < 8 ? 0 : y - 8), endy = (y + 8 >= SEEY * 3 ? SEEY * 3 - 1 : y + 8);
@@ -7610,8 +7636,8 @@ bool game::revive_corpse(int x, int y, item *it)
     critter.no_extra_death_drops = true;
 
     if (it->item_vars["zlave"] == "zlave"){
-        critter.add_effect("pacified", 1, 1, true);
-        critter.add_effect("pet", 1, 1, true);
+        critter.add_effect("pacified", 1, num_bp, true);
+        critter.add_effect("pet", 1, num_bp, true);
     }
 
     add_zombie(critter);
@@ -8502,7 +8528,7 @@ bool pet_menu(monster *z)
             g->u.posy = y;
 
             if (t) {
-                z->add_effect("tied", 1, 1, true);
+                z->add_effect("tied", 1, num_bp, true);
             }
 
             add_msg(_("You swap positions with your %s."), pet_name.c_str());
@@ -8560,7 +8586,7 @@ bool pet_menu(monster *z)
 
         g->u.i_rem(pos);
 
-        z->add_effect("has_bag", 1, 1, true);
+        z->add_effect("has_bag", 1, num_bp, true);
 
         g->u.moves -= 200;
 
@@ -8645,7 +8671,7 @@ bool pet_menu(monster *z)
             item rope_6("rope_6", 0);
             g->u.i_add(rope_6);
         } else {
-            z->add_effect("tied", 1, 1, true);
+            z->add_effect("tied", 1, num_bp, true);
             g->u.use_amount( "rope_6", 1 );
         }
 
@@ -9470,7 +9496,7 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
                 if (u.has_effect("boomered")) {
                     mvwputch_inv(w_terrain, POSY + (ly - u.posy), POSX + (lx - u.posx), c_pink, '#');
 
-                } else if (u.has_disease("darkness")) {
+                } else if (u.has_effect("darkness")) {
                     mvwputch_inv(w_terrain, POSY + (ly - u.posy), POSX + (lx - u.posx), c_dkgray, '#');
 
                 } else {
@@ -11054,8 +11080,6 @@ void game::plthrow(int pos)
         move_cost *= .8;
     }
 
-    move_cost -= u.disease_intensity("speed_boost");
-
     if (move_cost < 25) {
         move_cost = 25;
     }
@@ -12512,7 +12536,7 @@ bool game::disable_robot( const point p )
                                  critter.name().c_str() );
                     }
                 } else {
-                    critter.add_effect( "docile", 1, 1, true );
+                    critter.add_effect( "docile", 1, num_bp, true );
                     if( one_in( 3 ) ) {
                         add_msg( _( "The %s lets out a whirring noise and starts to follow you." ),
                                  critter.name().c_str() );
@@ -12531,6 +12555,10 @@ bool game::plmove(int dx, int dy)
         if ( u.has_active_mutation("SHELL2")) {
             add_msg(m_warning, _("You can't move while in your shell.  Deactivate it to go mobile."));
         }
+        return false;
+    }
+    if (!u.move_effects()) {
+        u.moves -= 100;
         return false;
     }
     int x = 0;
@@ -12615,52 +12643,6 @@ bool game::plmove(int dx, int dy)
         u.melee_attack(*active_npc[npcdex], true);
         active_npc[npcdex]->make_angry();
         return false;
-    }
-
-    // Otherwise, actual movement, zomg
-    if (u.has_disease("amigara")) {
-        int curdist = 999, newdist = 999;
-        for (int cx = 0; cx < SEEX * MAPSIZE; cx++) {
-            for (int cy = 0; cy < SEEY * MAPSIZE; cy++) {
-                if (m.ter(cx, cy) == t_fault) {
-                    int dist = rl_dist(cx, cy, u.posx, u.posy);
-                    if (dist < curdist) {
-                        curdist = dist;
-                    }
-                    dist = rl_dist(cx, cy, x, y);
-                    if (dist < newdist) {
-                        newdist = dist;
-                    }
-                }
-            }
-        }
-        if (newdist > curdist) {
-            add_msg(m_info, _("You cannot pull yourself away from the faultline..."));
-            return false;
-        }
-    }
-
-    if (u.has_disease("in_pit")) {
-        if (rng(0, 40) > u.str_cur + int(u.dex_cur / 2)) {
-            add_msg(m_bad, _("You try to escape the pit, but slip back in."));
-            u.moves -= 100;
-            return false;
-        } else {
-            add_msg(m_good, _("You escape the pit!"));
-            u.rem_disease("in_pit");
-        }
-    }
-    if (u.has_effect("downed")) {
-        if (rng(0, 40) > u.dex_cur + int(u.str_cur / 2)) {
-            add_msg(_("You struggle to stand."));
-            u.moves -= 100;
-            return false;
-        } else {
-            add_msg(_("You stand up."));
-            u.remove_effect("downed");
-            u.moves -= 100;
-            return false;
-        }
     }
 
     // GRAB: pre-action checking.
@@ -13071,13 +13053,13 @@ bool game::plmove(int dx, int dy)
                         ter_or_furn ? m.tername(x, y).c_str() : m.furnname(x, y).c_str() );
             }
             if ((u.has_trait("INFRESIST")) && (one_in(1024))) {
-                u.add_disease("tetanus", 1, true);
+                u.add_effect("tetanus", 1, num_bp, true);
             } else if ((!u.has_trait("INFIMMUNE") || !u.has_trait("INFRESIST")) && (one_in(256))) {
-                u.add_disease("tetanus", 1, true);
+                u.add_effect("tetanus", 1, num_bp, true);
             }
         }
         if (m.has_flag("UNSTABLE", x, y)) {
-            u.add_effect("bouldering", 1, 1, true);
+            u.add_effect("bouldering", 1, num_bp, true);
         } else if (u.has_effect("bouldering")) {
             u.remove_effect("bouldering");
         }
@@ -13163,43 +13145,6 @@ bool game::plmove(int dx, int dy)
 
         // apply martial art move bonuses
         u.ma_onmove_effects();
-
-        // leave the old martial arts stuff in for now
-        // Some martial art styles have special effects that trigger when we move
-        if (u.weapon.type->id == "style_capoeira") {
-            if (u.disease_duration("attack_boost") < 2) {
-                u.add_disease("attack_boost", 2, false, 2, 2);
-            }
-            if (u.disease_duration("dodge_boost") < 2) {
-                u.add_disease("dodge_boost", 2, false, 2, 2);
-            }
-        } else if (u.weapon.type->id == "style_ninjutsu") {
-            u.add_disease("attack_boost", 2, false, 1, 3);
-        } else if (u.weapon.type->id == "style_crane") {
-            if (!u.has_disease("dodge_boost")) {
-                u.add_disease("dodge_boost", 1, false, 3, 3);
-            }
-        } else if (u.weapon.type->id == "style_leopard") {
-            u.add_disease("attack_boost", 2, false, 1, 4);
-        } else if (u.weapon.type->id == "style_dragon") {
-            if (!u.has_disease("damage_boost")) {
-                u.add_disease("damage_boost", 2, false, 3, 3);
-            }
-        } else if (u.weapon.type->id == "style_lizard") {
-            bool wall = false;
-            for (int wallx = x - 1; wallx <= x + 1 && !wall; wallx++) {
-                for (int wally = y - 1; wally <= y + 1 && !wall; wally++) {
-                    if (m.has_flag("SUPPORTS_ROOF", wallx, wally)) {
-                        wall = true;
-                    }
-                }
-            }
-            if (wall) {
-                u.add_disease("attack_boost", 2, false, 2, 8);
-            } else {
-                u.rem_disease("attack_boost");
-            }
-        }
 
         // Drench the player if swimmable
         if (m.has_flag("SWIMMABLE", x, y)) {
@@ -14293,7 +14238,7 @@ void game::wait()
     as_m.entries.push_back(uimenu_entry(12, true, 'x', _("Exit")));
     as_m.query(); /* calculate key and window variables, generate window, and loop until we get a valid answer */
 
-    const int iHour = calendar::turn.getHour();
+    const int iHour = calendar::turn.hours();
 
     int time = 0;
     activity_type actType = ACT_WAIT;
@@ -14368,7 +14313,7 @@ void game::teleport(player *p, bool add_teleglow)
     bool is_u = (p == &u);
 
     if (add_teleglow) {
-        p->add_disease("teleglow", 300);
+        p->add_effect("teleglow", 300);
     }
     do {
         newx = p->posx + rng(0, SEEX * 2) - SEEX;
@@ -14912,7 +14857,7 @@ void game::process_artifact(item *it, player *p)
 
         case AEP_EVIL:
             if (one_in(150)) { // Once every 15 minutes, on average
-                p->add_disease("evil", 300);
+                p->add_effect("evil", 300);
                 if( it->is_armor() ) {
                     if( !worn ) {
                     add_msg(_("You have an urge to wear the %s."),

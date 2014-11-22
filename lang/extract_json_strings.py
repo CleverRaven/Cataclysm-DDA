@@ -135,9 +135,15 @@ def extract_martial_art(item):
 def extract_effect_type(item):
     outfile = get_outfile("effects")
     # writestr will not write string if it is None.
-    for f in [ "name", "desc", "apply_message"]:
+    for f in ["name", "desc", "reduced_desc"]:
+        for i in item.get(f, None):
+            writestr(outfile, i)
+    for f in ["apply_message", "remove_message"]:
         found = item.get(f, None)
         writestr(outfile, found)
+    for f in ["miss_messages", "decay_messages"]:
+        for i in item.get(f, None):
+            writestr(outfile, i[0])
     for m in [ "remove_memorial_log", "apply_memorial_log"]:
         found = item.get(m, None)
         writestr(outfile, found, context="memorial_male")

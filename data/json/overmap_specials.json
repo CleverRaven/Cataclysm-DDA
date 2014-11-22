@@ -785,10 +785,10 @@
             { "point":[1,0,0], "overmap": "haz_sar_entrance", "connect": "road"},
             { "point":[0,1,0], "overmap": "haz_sar"},
             { "point":[1,1,0], "overmap": "haz_sar"},
-            { "point":[0,0,-1], "overmap": "haz_sar_b1"},
-            { "point":[1,0,-1], "overmap": "haz_sar_entrance_b1"},
-            { "point":[0,1,-1], "overmap": "haz_sar_b1"},
-            { "point":[1,1,-1], "overmap": "haz_sar_b1"}
+            { "point":[0,0,-2], "overmap": "haz_sar_b1"},
+            { "point":[1,0,-2], "overmap": "haz_sar_entrance_b1"},
+            { "point":[0,1,-2], "overmap": "haz_sar_b1"},
+            { "point":[1,1,-2], "overmap": "haz_sar_b1"}
         ],
         "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
         "city_distance" : [15, -1], "//":"how far from a city it should be",

@@ -1664,22 +1664,22 @@ void map::create_spores(const int x, const int y, Creature* source)
                 } else if (g->u.posx == i && g->u.posy == j) {
                     // Spores hit the player
                     bool hit = false;
-                    if (one_in(4) && g->u.infect("spores", bp_head, 3, 90, false, 1, 3, 120, 1, true)) {
+                    if (one_in(4) && g->u.add_env_effect("spores", bp_head, 3, 90, bp_head)) {
                         hit = true;
                     }
-                    if (one_in(2) && g->u.infect("spores", bp_torso, 3, 90, false, 1, 3, 120, 1, true)) {
+                    if (one_in(2) && g->u.add_env_effect("spores", bp_torso, 3, 90, bp_torso)) {
                         hit = true;
                     }
-                    if (one_in(4) && g->u.infect("spores", bp_arm_l, 3, 90, false, 1, 3, 120, 1, true)) {
+                    if (one_in(4) && g->u.add_env_effect("spores", bp_arm_l, 3, 90, bp_arm_l)) {
                         hit = true;
                     }
-                    if (one_in(4) && g->u.infect("spores", bp_arm_r, 3, 90, false, 1, 3, 120, 1, true)) {
+                    if (one_in(4) && g->u.add_env_effect("spores", bp_arm_r, 3, 90, bp_arm_r)) {
                         hit = true;
                     }
-                    if (one_in(4) && g->u.infect("spores", bp_leg_l, 3, 90, false, 1, 3, 120, 1, true)) {
+                    if (one_in(4) && g->u.add_env_effect("spores", bp_leg_l, 3, 90, bp_leg_l)) {
                         hit = true;
                     }
-                    if (one_in(4) && g->u.infect("spores", bp_leg_r, 3, 90, false, 1, 3, 120, 1, true)) {
+                    if (one_in(4) && g->u.add_env_effect("spores", bp_leg_r, 3, 90, bp_leg_r)) {
                         hit = true;
                     }
                     if (hit) {
@@ -2072,7 +2072,7 @@ void map::crush(const int x, const int y)
             //This is the roof coming down on top of us, no chance to dodge
             crushed_player->add_msg_player_or_npc( m_bad, _("You are crushed by the falling debris!"),
                                                    _("<npcname> is crushed by the falling debris!") );
-            int dam = rng(0, 60);
+            int dam = rng(0, 40);
             // Torso and head take the brunt of the blow
             body_part hit = bp_head;
             crushed_player->deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .25 ) );
@@ -2089,7 +2089,8 @@ void map::crush(const int x, const int y)
             hit = bp_arm_r;
             crushed_player->deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .05 ) );
 
-            // Add crushed pinning effect once effect processing is updated
+            // Pin whoever got hit
+            crushed_player->add_effect("crushed", 1, num_bp, true);
         }
     }
 
@@ -2100,7 +2101,8 @@ void map::crush(const int x, const int y)
         // 25 ~= 60 * .45 (torso)
         monhit->deal_damage(nullptr, bp_torso, damage_instance(DT_BASH, rng(0,25)));
 
-        // Add crushed pinning effect once effect processing is updated
+        // Pin whoever got hit
+        monhit->add_effect("crushed", 1, num_bp, true);
     }
 
     vehicle *veh = veh_at(x, y, veh_part);
@@ -4040,7 +4042,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
         tercol = (bright_light) ? c_white : c_ltgreen;
     } else if (low_light) {
         tercol = c_dkgray;
-    } else if (u.has_disease("darkness")) {
+    } else if (u.has_effect("darkness")) {
         tercol = c_dkgray;
     }
 

@@ -1426,8 +1426,7 @@ void map::player_in_field( player &u )
             //Moving through multiple webs stacks the effect.
             if (!u.has_trait("WEB_WALKER") && !u.in_vehicle) {
                 //between 5 and 15 minus your current web level.
-                int web = cur->getFieldDensity() * 5;
-                if (web > 0) { u.add_disease("webbed", web); }
+                u.add_effect("webbed", 1, num_bp, true, cur->getFieldDensity());
                 field_list_it = curfield.removeField( fd_web ); //Its spent.
                 continue;
                 //If you are in a vehicle destroy the web.
@@ -1468,9 +1467,11 @@ void map::player_in_field( player &u )
 
         case fd_sap:
             //Sap causes the player to get sap disease, slowing them down.
-            if( u.in_vehicle ) break; //sap does nothing to cars.
+            if ( u.in_vehicle ) {
+                break; //sap does nothing to cars.
+            }
             u.add_msg_player_or_npc(m_bad, _("The sap sticks to you!"), _("The sap sticks to <npcname>!"));
-            u.add_disease("sap", cur->getFieldDensity() * 2);
+            u.add_effect("sap", cur->getFieldDensity() * 2);
             if (cur->getFieldDensity() == 1) {
                 field_list_it = curfield.removeField( fd_sap );
                 continue;
@@ -1600,8 +1601,8 @@ void map::player_in_field( player &u )
 
         case fd_fungal_haze:
             if (!u.has_trait("M_IMMUNE") && (!inside || (inside && one_in(4))) ) {
-                u.infect("fungus", bp_mouth, 4, 100, true, 2, 4, 1, 1);
-                u.infect("fungus", bp_eyes, 4, 100, true, 2, 4, 1, 1);
+                u.add_env_effect("fungus", bp_mouth, 4, 100, num_bp, true);
+                u.add_env_effect("fungus", bp_eyes, 4, 100, num_bp, true);
             }
             break;
 
@@ -1622,7 +1623,7 @@ void map::player_in_field( player &u )
                     (!inside || (cur->getFieldDensity() == 3 && inside)) ) {
                     inhaled = u.add_env_effect("poison", bp_mouth, 5, 30);
                 } else if( cur->getFieldDensity() == 3 && !inside ) {
-                    inhaled = u.infect("badpoison", bp_mouth, 5, 30);
+                    inhaled = u.add_env_effect("badpoison", bp_mouth, 5, 30);
                 } else if( cur->getFieldDensity() == 1 && (!inside) ) {
                     inhaled = u.add_env_effect("poison", bp_mouth, 2, 20);
                 }
@@ -1703,21 +1704,21 @@ void map::player_in_field( player &u )
                 // If the bees can get at you, they cause steadily increasing pain.
                 // TODO: Specific stinging messages.
                 times_stung += one_in(4) &&
-                    u.add_env_effect( "stung", bp_torso, density, 90, density );
+                    u.add_env_effect( "stung", bp_torso, density, 90 );
                 times_stung += one_in(4) &&
-                    u.add_env_effect( "stung", bp_torso, density, 90, density );
+                    u.add_env_effect( "stung", bp_torso, density, 90 );
                 times_stung += one_in(4) &&
-                    u.add_env_effect( "stung", bp_torso, density, 90, density );
+                    u.add_env_effect( "stung", bp_torso, density, 90 );
                 times_stung += one_in(4) &&
-                    u.add_env_effect( "stung", bp_torso, density, 90, density );
+                    u.add_env_effect( "stung", bp_torso, density, 90 );
                 times_stung += one_in(4) &&
-                    u.add_env_effect( "stung", bp_torso, density, 90, density );
+                    u.add_env_effect( "stung", bp_torso, density, 90 );
                 times_stung += one_in(4) &&
-                    u.add_env_effect( "stung", bp_torso, density, 90, density );
+                    u.add_env_effect( "stung", bp_torso, density, 90 );
                 times_stung += one_in(4) &&
-                    u.add_env_effect( "stung", bp_torso, density, 90, density );
+                    u.add_env_effect( "stung", bp_torso, density, 90 );
                 times_stung += one_in(4) &&
-                    u.add_env_effect( "stung", bp_torso, density, 90, density );
+                    u.add_env_effect( "stung", bp_torso, density, 90 );
                 switch( times_stung ) {
                 case 0:
                     // Woo, unscathed!
@@ -1799,7 +1800,7 @@ void map::monster_in_field( monster &z )
 
         case fd_web:
             if (!z.has_flag(MF_WEBWALK)) {
-                z.moves *= .8;
+                z.add_effect("webbed", 1, num_bp, true, cur->getFieldDensity());
                 field_list_it = curfield.removeField( fd_web );
                 continue;
             }
