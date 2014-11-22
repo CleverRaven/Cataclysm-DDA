@@ -225,7 +225,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
         if(veh_fuel_mult > 0
                 && all_parts_with_feature("ENGINE", true).size() > 0
                 && one_in(8)
-                && !destroyEngine) {
+                && !destroyEngine && has_engine_type_not(fuel_type_muscle, true)) {
             engine_on = true;
         }
 
@@ -596,13 +596,14 @@ void vehicle::use_controls()
     }
 
     // Toggle engine on/off, stop driving if we are driving.
-    if (has_engine_type_not(fuel_type_muscle, true) && has_engine) {
+    if (has_engine && has_engine_type_not(fuel_type_muscle, true) ) {
         options_choice.push_back(toggle_engine);
         if (g->u.controlling_vehicle) {
             options_message.push_back(uimenu_entry(_("Stop driving."), 's'));
         } else {
-            options_message.push_back(uimenu_entry((engine_on) ? _("Turn off the engine") :
-                                                   _("Turn on the engine"), 'e'));
+            options_message.push_back(uimenu_entry((
+                        engine_on && has_engine_type_not(fuel_type_muscle, true)) ? 
+                        _("Turn off the engine") : _("Turn on the engine"), 'e'));
         }
     }
 
@@ -810,30 +811,25 @@ void vehicle::use_controls()
         break;
     case toggle_engine:
         if (g->u.controlling_vehicle) {
-            if (engine_on) {
-                engine_on = false;
+            //if we are controlling the vehicle, stop it.
+            if (engine_on && has_engine_type_not(fuel_type_muscle, true)){
                 add_msg(_("You turn the engine off and let go of the controls."));
             } else {
                 add_msg(_("You let go of the controls."));
             }
-            g->u.controlling_vehicle = false;
-            break;
-        } else if (engine_on) {
             engine_on = false;
-            add_msg(_("You turn the engine off."));
+            g->u.controlling_vehicle = false;
+        } else if (engine_on) {
+            if (has_engine_type_not(fuel_type_muscle, true))
+                add_msg(_("You turn the engine off."));
+            engine_on = false;
         } else {
-          if (total_power () < 1) {
-              if (total_power (false) < 1) {
-                  add_msg (m_info, _("The %s doesn't have an engine!"), name.c_str());
-              } else if(has_engine_type(fuel_type_muscle, true)) {
-                  add_msg (m_info, _("The %s's mechanism is out of reach!"), name.c_str());
-              } else {
-                  add_msg (_("The %s's engine emits a sneezing sound."), name.c_str());
-              }
-          }
-          else {
-              start_engine();
-          }
+            if (total_power () < 1) {
+                msg_start_engine_fail();
+            }
+            else {
+                start_engine();
+            }
         }
         break;
     case release_control:
@@ -931,35 +927,36 @@ void vehicle::use_controls()
 
 void vehicle::start_engine()
 {
+    bool failed_start = false;
     bool muscle_powered = false;
     // TODO: Make chance of success based on engine condition.
+    // electric and plasma engines don't require anything special
     for( size_t e = 0; e < engines.size(); ++e ) {
         if(parts[engines[e]].hp > 0) {
-            if(is_engine_type(e, fuel_type_gasoline)  || 
-                is_engine_type(e, fuel_type_diesel)) {
+            if(is_engine_type_on(e, fuel_type_gasoline)  || 
+                is_engine_type_on(e, fuel_type_diesel)) {
+                // Big engines can't be pull-started
                 int engine_power = part_power(engines[e]);
-                if(engine_power < 50) {
-                    // Small engines can be pull-started
-                    engine_on = true;
-                } else {
+                if(engine_power >= 50) {
                     // Starter motor battery draw proportional to engine power
-                    if(!discharge_battery(engine_power / 10)) {
-                        engine_on = true;
+                    if(discharge_battery(engine_power / 10)) {
+                        failed_start = true;
                     }
                 }
-            } else if (is_engine_type(e, fuel_type_muscle)) {
+            } else if (is_engine_type_on(e, fuel_type_muscle)) {
                 muscle_powered = true;
-            } else {
-                // Electric & plasma engines
-                engine_on = true;
             }
         }
     }
-
-    if(engine_on == true) {
-        add_msg(_("The %s's engine starts up."), name.c_str());
-    } else if (!muscle_powered) {
+    
+    if (failed_start) {
         add_msg (_("The %s's engine fails to start."), name.c_str());
+    } else {
+        if (!muscle_powered) {
+            add_msg(_("The %s's engine starts up."), name.c_str());
+        }
+        //turn on engine since nothing bad happened
+        engine_on = true;
     }
 }
 
@@ -2409,7 +2406,7 @@ int vehicle::solar_epower ()
 
 int vehicle::acceleration (bool fueled)
 {
-    if (engine_on || skidding) {
+    if ((engine_on && has_engine_type_not(fuel_type_muscle, true)) || skidding) {
         return (int) (safe_velocity (fueled) * k_mass() / (1 + strain ()) / 10);
     } else if ((has_engine_type(fuel_type_muscle, true))){
         //limit vehicle weight for muscle engines
@@ -2560,14 +2557,15 @@ void vehicle::noise_and_smoke( double load, double time )
                 pwr = (cur_pwr*9 + 1) * muffle;
             } else if(is_engine_type(e, fuel_type_battery)) {
                 pwr = cur_pwr*3;
-            } else if(is_engine_type(e, fuel_type_battery)) {
+            } else if(is_engine_type(e, fuel_type_muscle)) {
                 pwr = cur_pwr*5;
             }
             noise = std::max(noise, pwr); // Only the loudest engine counts.
         }
     }
 
-    if( (exhaust_part != -1) && engine_on ) { // No engine, no smoke
+    if( (exhaust_part != -1) && engine_on && 
+        has_engine_type_not(fuel_type_muscle, true)) { // No engine, no smoke
         spew_smoke( mufflesmoke, exhaust_part );
     }
     // Even a vehicle with engines off will make noise traveling at high speeds
@@ -2814,7 +2812,7 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
     }
 
     int battery_discharge = power_to_epower(fuel_capacity(fuel_type_battery) - fuel_left(fuel_type_battery));
-    if(engine_on || has_engine_type(fuel_type_muscle, true)) {
+    if(engine_on) {
         // If the engine is on, the alternators are working.
         int alternators_epower = 0;
         int alternators_power = 0;
@@ -3072,33 +3070,37 @@ void vehicle::idle(bool on_map) {
     int engines_power = 0;
     float idle_rate;
 
-    if( engine_on && total_power() > 0 && has_engine_type_not(fuel_type_muscle, true)) {
-        int strn = (int)(strain() * strain() * 100);
-        for (size_t e = 0; e < engines.size(); e++){
-            size_t p = engines[e];
-            if (fuel_left(part_info(p).fuel_type) && is_engine_on(e)) {
-                engines_power += part_power(p);
-                if (one_in(6) && rng(1, 100) < strn) {
-                    int dmg = rng(strn * 2, strn * 4);
-                    damage_direct(p, dmg, 0);
-                    if(one_in(2))
-                        add_msg(_("Your engine emits a high pitched whine."));
-                    else
-                        add_msg(_("Your engine emits a loud grinding sound."));
+    if (engine_on && total_power() > 0) {
+        if (has_engine_type_not(fuel_type_muscle, true)) {
+            int strn = (int)(strain() * strain() * 100);
+            for (size_t e = 0; e < engines.size(); e++){
+                size_t p = engines[e];
+                if (fuel_left(part_info(p).fuel_type) && is_engine_on(e)) {
+                    engines_power += part_power(p);
+                    if (one_in(6) && rng(1, 100) < strn) {
+                        int dmg = rng(strn * 2, strn * 4);
+                        damage_direct(p, dmg, 0);
+                        if(one_in(2))
+                            add_msg(_("Your engine emits a high pitched whine."));
+                        else
+                            add_msg(_("Your engine emits a loud grinding sound."));
+                    }
                 }
             }
-        }
 
-        idle_rate = (float)alternator_load / (float)engines_power;
-        if (idle_rate < 0.01) idle_rate = 0.01; // minimum idle is 1% of full throttle
-        consume_fuel(idle_rate);
+            idle_rate = (float)alternator_load / (float)engines_power;
+            if (idle_rate < 0.01) idle_rate = 0.01; // minimum idle is 1% of full throttle
+            consume_fuel(idle_rate);
 
-        if (on_map) {
-            noise_and_smoke( idle_rate, 6.0 );
+            if (on_map) {
+                noise_and_smoke( idle_rate, 6.0 );
+            }
         }
     }
     else {
-        if (g->u_see(global_x(), global_y()) && engine_on) {
+        if (g->u_see(global_x(), global_y()) && engine_on && 
+            has_engine_type_not(fuel_type_muscle, true)) 
+        {
             add_msg(_("The %s's engine dies!"), name.c_str());
         }
         engine_on = false;
@@ -3225,8 +3227,7 @@ void vehicle::thrust (int thd) {
     // only consume resources if engine accelerating
     if (thrusting) {
         //abort if engines not operational
-        if (total_power () <= 0 || (!engine_on && !has_engine_type(fuel_type_muscle, true))) {
-            
+        if (total_power () <= 0 || !engine_on) {
             if (pl_ctrl) {
                 msg_start_engine_fail();
             }
