@@ -3148,7 +3148,7 @@ int iuse::ups_battery(player *p, item *, bool, point)
 
 int iuse::remove_all_mods(player *p, item *, bool, point)
 {
-    int inventory_index = g->inv( _( "Select the item to remove mods from." ) );
+    int inventory_index = g->inv( _( "Select the item to remove battery mods from." ) );
     item *modded = &( p->i_at( inventory_index ) );
     if (modded == NULL || modded->is_null()) {
         p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
