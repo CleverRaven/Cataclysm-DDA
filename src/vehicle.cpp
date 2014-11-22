@@ -3145,6 +3145,10 @@ void vehicle::thrust (int thd) {
         last_turn = 0;
         skidding = false;
     }
+    
+    if (stereo_on == true) {
+        play_music();
+    }
 
     //no need to change velocity
     if( !thd ) {
@@ -3272,9 +3276,7 @@ void vehicle::thrust (int thd) {
             velocity = std::max(velocity, min_vel);
         }
     }
-    if (stereo_on == true) {
-        play_music();
-    }
+
 }
 
 void vehicle::cruise_thrust (int amount)
