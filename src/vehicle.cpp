@@ -2412,8 +2412,17 @@ int vehicle::solar_epower ()
 
 int vehicle::acceleration (bool fueled)
 {
-    if (engine_on || skidding || has_muscle_engine_on) {
+    if (engine_on || skidding) {
         return (int) (safe_velocity (fueled) * k_mass() / (1 + strain ()) / 10);
+    } else if ((has_muscle_engine_on)){
+        //limit vehicle weight for muscle engines
+        int mass = total_mass();
+        int move_mass = std::max((g->u).str_cur * 25, 150);
+        if (mass <= move_mass) {
+            return (int) (safe_velocity (fueled) * k_mass() / (1 + strain ()) / 10);
+        } else {
+            return 0;
+        }
     }
     else {
         return 0;
@@ -3146,6 +3155,7 @@ void vehicle::thrust (int thd) {
         skidding = false;
     }
     
+    
     if (stereo_on == true) {
         play_music();
     }
@@ -3176,9 +3186,10 @@ void vehicle::thrust (int thd) {
        thrusting = (sgn == thd);
     }
 
-    //get braking power
+    
     int accel = acceleration();
     int max_vel = max_velocity();
+    //get braking power
     int brake = 30 * k_mass();
     int brk = abs(velocity) * brake / 100;
     if (brk < accel) {
@@ -3213,6 +3224,7 @@ void vehicle::thrust (int thd) {
     if( load < 0.01 ) {
         load = 0.01;
     }
+    
     // only consume resources if engine accelerating
     if (thrusting) {
         //abort if engines not operational
@@ -3248,7 +3260,6 @@ void vehicle::thrust (int thd) {
         
         //charge bionics when using muscle engine
         if (has_muscle_engine_on) {
-            
             if (g->u.has_bionic("bio_torsionratchet")
                 && calendar::turn.get_turn() % 60 == 0) {
                 g->u.charge_power(1);
@@ -3262,6 +3273,7 @@ void vehicle::thrust (int thd) {
         return;
     }
     
+    //change vehicles velocity
     if ((velocity > 0 && velocity + vel_inc < 0) ||
         (velocity < 0 && velocity + vel_inc > 0)) {
         //velocity within braking distance of 0
@@ -3276,7 +3288,6 @@ void vehicle::thrust (int thd) {
             velocity = std::max(velocity, min_vel);
         }
     }
-
 }
 
 void vehicle::cruise_thrust (int amount)
