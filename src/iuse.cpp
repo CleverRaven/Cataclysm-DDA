@@ -1427,6 +1427,7 @@ int iuse::oxygen_bottle(player *p, item *it, bool, point)
         p->pkill += 2;
     }
     p->pkill += 2;
+    p->oxygen = 35 + 2 * p->str_cur;
     return it->type->charges_to_use();
 }
 
