@@ -3986,7 +3986,7 @@ int &game::scent(int x, int y)
 void game::update_scent()
 {
     static point player_last_position = point(u.posx, u.posy);
-    static calendar player_last_moved = calendar::turn;
+    static int player_last_moved = calendar::turn;
     // Stop updating scent after X turns of the player not moving.
     // Once wind is added, need to reset this on wind shifts as well.
     if (u.posx == player_last_position.x && u.posy == player_last_position.y) {
@@ -4859,7 +4859,7 @@ void game::debug()
         break;
 
     case 13: {
-        add_msg(_("Recipe debug."));
+        add_msg(m_info, _("Recipe debug."));
         add_msg(_("Your eyes blink rapidly as knowledge floods your brain."));
         for( auto cat_iter = recipes.begin(); cat_iter != recipes.end(); ++cat_iter ) {
             for( auto list_iter = cat_iter->second.begin();
@@ -5495,7 +5495,7 @@ void game::draw_sidebar()
         vGlyphs.push_back(std::make_pair('_', c_red));
         vGlyphs.push_back(std::make_pair('_', c_cyan));
 
-        const int iHour = calendar::turn.getHour();
+        const int iHour = calendar::turn.hours();
         wprintz(time_window, c_white, "[");
         bool bAddTrail = false;
 
@@ -14238,7 +14238,7 @@ void game::wait()
     as_m.entries.push_back(uimenu_entry(12, true, 'x', _("Exit")));
     as_m.query(); /* calculate key and window variables, generate window, and loop until we get a valid answer */
 
-    const int iHour = calendar::turn.getHour();
+    const int iHour = calendar::turn.hours();
 
     int time = 0;
     activity_type actType = ACT_WAIT;
