@@ -324,6 +324,7 @@ void input_manager::init_keycode_mapping()
     }
 
     add_keycode_pair('\t',          "TAB");
+    add_keycode_pair(KEY_BTAB,      "BACKTAB");
     add_keycode_pair(' ',           "SPACE");
     add_keycode_pair(KEY_UP,        "UP");
     add_keycode_pair(KEY_DOWN,      "DOWN");
