@@ -2444,7 +2444,7 @@
         "techniques" : ["SWEEP"],
         "flags" : ["DURABLE_MELEE"],
         "volume" : 5,
-        "bashing" : 26,
+        "bashing" : 28,
         "cutting" : 0,
         "price" : 100000,
                 "qualities": [["HAMMER", 1]]
@@ -2461,7 +2461,7 @@
         "material" : ["iron", "wood"],
         "techniques" : ["SWEEP"],
         "volume" : 6,
-        "bashing" : 22,
+        "bashing" : 30,
         "cutting" : 4,
         "flags" : ["DURABLE_MELEE", "SPEAR"],
         "price" : 120000,
