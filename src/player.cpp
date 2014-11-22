@@ -5726,9 +5726,12 @@ void player::add_eff_effects(effect e, bool reduced)
     }
     // Add pain
     if (e.get_amount("PAIN", reduced) > 0) {
-        add_pain_msg(e.get_amount("PAIN", reduced), bp);
-        mod_pain(bound_mod_to_vals(pain, e.get_amount("PAIN", reduced),
-                        e.get_max_val("PAIN", reduced), 0));
+        int pain_inc = bound_mod_to_vals(pain, e.get_amount("PAIN", reduced),
+                        e.get_max_val("PAIN", reduced), 0);
+        mod_pain(pain_inc);
+        if (pain_inc > 0) {
+            add_pain_msg(e.get_amount("PAIN", reduced), bp);
+        }
     }
     Creature::add_eff_effects(e, reduced);
 }
@@ -5738,12 +5741,13 @@ void player::process_effects() {
     if (has_effect("darkness") && g->is_in_sunlight(posx, posy)) {
         remove_effect("darkness");
     }
-    if (has_effect("fungus") && has_trait("M_IMMUNE")) {
+    if (has_trait("M_IMMUNE") && has_effect("fungus")) {
         vomit();
         remove_effect("fungus");
         add_msg_if_player(m_bad,  _("We have mistakenly colonized a local guide!  Purging now."));
     }
-    if (has_trait("PARAIMMUNE")) {
+    if (has_trait("PARAIMMUNE") && (has_effect("dermatik") || has_effect("tapeworm") ||
+          has_effect("bloodworms") || has_effect("brainworm") || has_effect("paincysts")) ) {
         remove_effect("dermatik");
         remove_effect("tapeworm");
         remove_effect("bloodworms");
@@ -5751,16 +5755,17 @@ void player::process_effects() {
         remove_effect("paincysts");
         add_msg_if_player(m_good, _("Something writhes and inside of you as it dies."));
     }
-    if (has_trait("EATHEALTH")) {
+    if (has_trait("EATHEALTH") && has_effect("tapeworm")) {
         remove_effect("tapeworm");
         add_msg_if_player(m_good, _("Your bowels gurgle as something inside them dies."));
     }
-    if (has_trait("INFIMMUNE")) {
+    if (has_trait("INFIMMUNE") && (has_effect("bite") || has_effect("infected") ||
+          has_effect("recover")) ) {
         remove_effect("bite");
         remove_effect("infected");
         remove_effect("recover");
     }
-    if (!(in_sleep_state())) {
+    if (!(in_sleep_state()) && has_effect("alarm_clock")) {
         remove_effect("alarm_clock");
     }
     
@@ -5880,8 +5885,11 @@ void player::process_effects() {
                     }
                 }
                 if(it.activated(calendar::turn, "PAIN", reduced, mod)) {
-                    add_pain_msg(val, bp);
-                    mod_pain(bound_mod_to_vals(pain, val, it.get_max_val("PAIN", reduced), 0));
+                    int pain_inc = bound_mod_to_vals(pain, val, it.get_max_val("PAIN", reduced), 0);
+                    mod_pain(pain_inc);
+                    if (pain_inc > 0) {
+                        add_pain_msg(val, bp);
+                    }
                 }
             }
 

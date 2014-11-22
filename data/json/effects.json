@@ -667,7 +667,8 @@
             "thirst_tick": [400],
             "thirst_chance": [2],
             "pain_min": [1],
-            "pain_chance": [2]
+            "pain_chance": [2],
+            "pain_max_val": [-1]
         },
         "scaling_mods": {
             "speed_mod": [-7],
