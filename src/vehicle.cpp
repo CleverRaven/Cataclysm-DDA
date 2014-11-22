@@ -3209,27 +3209,23 @@ void vehicle::thrust (int thd) {
     if( load < 0.01 ) {
         load = 0.01;
     }
-    // Ugly hack, use full engine power occasionally when thrusting slightly
-    // up to cruise control speed.
-    if (thrusting && rng(1, accel) <= vel_inc ) {
+    // only consume resources if engine accelerating
+    if (thrusting) {
+        //abort if engines not operational
         if (total_power () <= 0 || (!engine_on && !has_muscle_engine_on)) {
-            //engine aren't operational
+            
             if (pl_ctrl) {
                 msg_start_engine_fail();
             }
             cruise_velocity = 0;
             return;
-        } else if (has_muscle_engine_on) {
-            //charge bionics
-            if (g->u.has_bionic("bio_torsionratchet")
-                && calendar::turn.get_turn() % 60 == 0) {
-                g->u.charge_power(1);
-            }
-        }
-        
+        } 
+
+        //make noise and consume fuel
         noise_and_smoke (load);
         consume_fuel (load);
-
+    
+        //break the engines a bit, if going too fast.
         int strn = (int) (strain () * strain() * 100);
         for (size_t e = 0; e < engines.size(); e++){
             size_t p = engines[e];
@@ -3245,6 +3241,15 @@ void vehicle::thrust (int thd) {
                 }
             }
         }
+        
+        //charge bionics when using muscle engine
+        if (has_muscle_engine_on) {
+            
+            if (g->u.has_bionic("bio_torsionratchet")
+                && calendar::turn.get_turn() % 60 == 0) {
+                g->u.charge_power(1);
+            }
+        }
     }
     
     //wheels aren't facing the right way to change velocity properly
@@ -3252,33 +3257,19 @@ void vehicle::thrust (int thd) {
     if (skidding) {
         return;
     }
-
+    
     if ((velocity > 0 && velocity + vel_inc < 0) ||
         (velocity < 0 && velocity + vel_inc > 0)) {
+        //velocity within braking distance of 0
         stop ();
-    } else if (velocity > max_vel) { 
-        // If the velocity is already above max, don't change it at all,
-        // this happens when the engine gets destroyed while driving, the max
-        // velocity drops to 0 (no engine), but the actual velocity remains.
-        return;
-    }else {
-        // Increase velocity up to max_vel, but not above.
+    } else if (!(velocity > max_vel)) { // check engines didn't just explode
+        // Increase velocity up to max_vel or min_vel, but not above.
         const int min_vel = -max_vel / 4;
-        if( velocity + vel_inc <= max_vel ) {
-            // normal acceleration, result is still below maximum
-            velocity += vel_inc;
-        } else if( velocity < max_vel && velocity + vel_inc > max_vel ) {
-            // velocity is currently in range, but would go out of range, clip it
-            // to the range, this is still an acceleration.
-            velocity = max_vel;
-        } else if( velocity + vel_inc > max_vel ) {
-            // No acceleration, would get us above the maximum
-        } else if( velocity + vel_inc > min_vel ) {
-            // same for negative velocity
-            velocity += vel_inc;
-        } else if( velocity > min_vel && velocity + vel_inc < min_vel ) {
-            // same for negative velocity
-            velocity = min_vel;
+        velocity += vel_inc;
+        if (velocity > 0) {
+            velocity = std::min(velocity, max_vel);
+        } else {
+            velocity = std::max(velocity, min_vel);
         }
     }
     if (stereo_on == true) {
