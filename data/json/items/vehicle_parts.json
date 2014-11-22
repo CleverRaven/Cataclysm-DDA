@@ -264,7 +264,7 @@
         "symbol" : ":",
         "material" : ["steel", "null"],
         "volume" : 2,
-        "bashing" : 10,
+        "bashing" : 1,
         "cutting" : 0,
         "category" : "veh_parts",
         "price" : 9000
