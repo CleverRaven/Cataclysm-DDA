@@ -1355,7 +1355,7 @@ void player::update_bodytemp()
                     frostbite_timer[i] += 3;
                 }
                 if( one_in(100) && !has_disease("frostbite", (body_part)i)) {
-                    add_msg(m_bad, _("Your %s will be frostnipped in the next few hours."),
+                    add_msg(m_warning, _("Your %s will be frostnipped in the next few hours."),
                             body_part_name(body_part(i)).c_str());
                 }
                 // Medium risk zones
@@ -1368,7 +1368,7 @@ void player::update_bodytemp()
                          -4 * Ftemperature + 3 * FBwindPower - 170 >= 0)) ) {
                 frostbite_timer[i] += 8;
                 if (one_in(100) && disease_intensity("frostbite", false, (body_part)i) != 1) {
-                    add_msg(m_bad, _("Your %s will be frostbitten within the hour!"),
+                    add_msg(m_warning, _("Your %s will be frostbitten within the hour!"),
                             body_part_name(body_part(i)).c_str());
                 }
                 // High risk zones
@@ -1378,7 +1378,7 @@ void player::update_bodytemp()
                         (Ftemperature < -35 && FBwindPower >= 10)) ) {
                 frostbite_timer[i] += 72;
                 if (one_in(100) && disease_intensity("frostbite", false, (body_part)i) != 1) {
-                    add_msg(m_bad, _("Your %s will be frostbitten any minute now!!"),
+                    add_msg(m_warning, _("Your %s will be frostbitten any minute now!!"),
                             body_part_name(body_part(i)).c_str());
                 }
                 // Risk free, so reduce frostbite timer
@@ -9909,19 +9909,19 @@ void player::do_read( item *book )
 
         add_msg(_("You skim %s to find out what's in it."), reading->nname(1).c_str());
         if( reading->type ) {
-            add_msg(_("Can bring your %s skill to %d."),
+            add_msg(m_info, _("Can bring your %s skill to %d."),
                     reading->type->name().c_str(), reading->level);
             if( reading->req != 0 ){
-                add_msg(_("Requires %s level %d to understand."),
+                add_msg(m_info, _("Requires %s level %d to understand."),
                         reading->type->name().c_str(), reading->req);
             }
         }
 
-        add_msg(_("Requires intelligence of %d to easily read."), reading->intel);
+        add_msg(m_info, _("Requires intelligence of %d to easily read."), reading->intel);
         if (reading->fun != 0) {
-            add_msg(_("Reading this book affects your morale by %d"), reading->fun);
+            add_msg(m_info, _("Reading this book affects your morale by %d"), reading->fun);
         }
-        add_msg(ngettext("This book takes %d minute to read.",
+        add_msg(m_info, ngettext("This book takes %d minute to read.",
                          "This book takes %d minutes to read.", reading->time),
                 reading->time );
 
@@ -9941,7 +9941,7 @@ void player::do_read( item *book )
                 ngettext("This book contains %1$d crafting recipe: %2$s",
                          "This book contains %1$d crafting recipes: %2$s", reading->recipes.size()),
                 reading->recipes.size(), recipes.c_str());
-            add_msg( "%s", recipe_line.c_str());
+            add_msg(m_info, "%s", recipe_line.c_str());
         }
         activity.type = ACT_NULL;
         return;

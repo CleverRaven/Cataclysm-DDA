@@ -4081,7 +4081,7 @@ bool item::process_litcig( player *carrier, point pos )
             } else if( carrier->has_trait( "LIGHTWEIGHT" ) ) {
                 duration = 20;
             }
-            carrier->add_msg_if_player( m_info, _( "You take a puff of your %s." ), tname().c_str() );
+            carrier->add_msg_if_player( m_neutral, _( "You take a puff of your %s." ), tname().c_str() );
             if( has_flag( "TOBACCO" ) ) {
                 carrier->add_disease( "cig", duration );
             } else {
@@ -4116,7 +4116,7 @@ bool item::process_litcig( player *carrier, point pos )
     // cig dies out
     if( item_counter == 0 ) {
         if( carrier != nullptr ) {
-            carrier->add_msg_if_player( m_info, _( "You finish your %s." ), tname().c_str() );
+            carrier->add_msg_if_player( m_neutral, _( "You finish your %s." ), tname().c_str() );
         }
         if( type->id == "cig_lit" ) {
             make( "cig_butt" );
@@ -4294,7 +4294,7 @@ bool item::process_charger_gun( player *carrier, point pos )
         }
     }
     if( poison < 0 ) {
-        carrier->add_msg_if_player( m_info, _( "Your %s spins down." ), tname().c_str() );
+        carrier->add_msg_if_player( m_neutral, _( "Your %s spins down." ), tname().c_str() );
         charges--;
         poison = charges - 1;
     }

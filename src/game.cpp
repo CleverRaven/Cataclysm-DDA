@@ -4863,7 +4863,7 @@ void game::debug()
         break;
 
     case 13: {
-        add_msg(_("Recipe debug."));
+        add_msg(m_info, _("Recipe debug."));
         add_msg(_("Your eyes blink rapidly as knowledge floods your brain."));
         for( auto cat_iter = recipes.begin(); cat_iter != recipes.end(); ++cat_iter ) {
             for( auto list_iter = cat_iter->second.begin();
