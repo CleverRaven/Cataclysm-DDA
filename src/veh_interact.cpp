@@ -461,12 +461,12 @@ task_reason veh_interact::cant_do (char mode)
 bool veh_interact::is_drive_conflict(int msg_width, int engines){
     bool install_muscle_engine = (sel_vpart_info->fuel_type == "muscle");
     bool has_muscle_engine = veh->has_engine_type("muscle", false);
-    bool can_install = (engines == 0) || (has_muscle_engine && install_muscle_engine) ||
-                                        (!has_muscle_engine && !install_muscle_engine);
+    bool can_install = (engines == 0) || 
+                        !(has_muscle_engine && install_muscle_engine);
     if (!can_install) {
         werase (w_msg);
         fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltred,
-                       _("That install would conflict with the existing drive system."));
+                       _("Only one muscle powered engine can be installed."));
         wrefresh (w_msg);
     }
     return !can_install;
