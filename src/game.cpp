@@ -1828,7 +1828,9 @@ void game::activity_on_finish()
         break;
     case ACT_READ:
         u.do_read(&(u.i_at(u.activity.position)));
-        add_msg(_("You finish reading."));
+        if (u.activity.type == ACT_NULL) {
+            add_msg(_("You finish reading."));
+        }
         break;
     case ACT_WAIT:
     case ACT_WAIT_WEATHER:
