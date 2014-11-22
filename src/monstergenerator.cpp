@@ -380,6 +380,17 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         jo.read("starting_ammo", newmon->starting_ammo);
         newmon->luminance = jo.get_float("luminance", 0);
         newmon->revert_to_itype = jo.get_string( "revert_to_itype", "" );
+        
+        if (jo.has_array("attack_effs")) {
+            JsonArray jsarr = jo.get_array("attack_effs");
+            while (jsarr.has_more()) {
+                JsonObject e = jsarr.next_object();
+                mon_effect_data new_eff(e.get_string("id", "null"), e.get_int("duration", 0),
+                                    body_parts[e.get_string("bp", "NUM_BP")], e.get_bool("permanent", false),
+                                    e.get_int("chance", 100));
+                newmon->atk_effs.push_back(new_eff);
+            }
+        }
 
         if (jo.has_string("death_drops")) {
             newmon->death_drops = jo.get_string("death_drops");

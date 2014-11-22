@@ -400,7 +400,7 @@ void player::activate_bionic(int b)
             pkill = pain;
         }
     } else if (bio.id == "bio_nanobots") {
-        rem_disease("bleed");
+        remove_effect("bleed");
         healall(4);
     } else if (bio.id == "bio_night") {
         if (calendar::turn % 5) {
@@ -429,21 +429,21 @@ void player::activate_bionic(int b)
             apply_damage( nullptr, bp_torso, rng( 5, 15 ) );
         }
         if (one_in(5)) {
-            add_disease("teleglow", rng(50, 400));
+            add_effect("teleglow", rng(50, 400));
         }
     } else if (bio.id == "bio_teleport") {
         g->teleport();
-        add_disease("teleglow", 300);
+        add_effect("teleglow", 300);
     }
     // TODO: More stuff here (and bio_blood_filter)
     else if(bio.id == "bio_blood_anal") {
         WINDOW *w = newwin(20, 40, 3 + ((TERMY > 25) ? (TERMY - 25) / 2 : 0),
                            10 + ((TERMX > 80) ? (TERMX - 80) / 2 : 0));
         draw_border(w);
-        if (has_disease("fungus")) {
+        if (has_effect("fungus")) {
             bad.push_back(_("Fungal Parasite"));
         }
-        if (has_disease("dermatik")) {
+        if (has_effect("dermatik")) {
             bad.push_back(_("Insect Parasite"));
         }
         if (has_effect("stung")) {
@@ -455,67 +455,70 @@ void player::activate_bionic(int b)
         if (radiation > 0) {
             bad.push_back(_("Irradiated"));
         }
-        if (has_disease("pkill1")) {
+        if (has_effect("pkill1")) {
             good.push_back(_("Minor Painkiller"));
         }
-        if (has_disease("pkill2")) {
+        if (has_effect("pkill2")) {
             good.push_back(_("Moderate Painkiller"));
         }
-        if (has_disease("pkill3")) {
+        if (has_effect("pkill3")) {
             good.push_back(_("Heavy Painkiller"));
         }
-        if (has_disease("pkill_l")) {
+        if (has_effect("pkill_l")) {
             good.push_back(_("Slow-Release Painkiller"));
         }
-        if (has_disease("drunk")) {
+        if (has_effect("drunk")) {
             good.push_back(_("Alcohol"));
         }
-        if (has_disease("cig")) {
+        if (has_effect("cig")) {
             good.push_back(_("Nicotine"));
         }
-        if (has_disease("meth")) {
+        if (has_effect("meth")) {
             good.push_back(_("Methamphetamines"));
         }
-        if (has_disease("high")) {
+        if (has_effect("high")) {
             good.push_back(_("Intoxicant: Other"));
         }
-        if (has_disease("weed_high")) {
+        if (has_effect("weed_high")) {
             good.push_back(_("THC Intoxication"));
         }
-        if (has_disease("hallu") || has_disease("visuals")) {
-            bad.push_back(_("Magic Mushroom"));
+        if (has_effect("hallu") || has_effect("visuals")) {
+            bad.push_back(_("Hallucinations"));
         }
-        if (has_disease("iodine")) {
+        if (has_effect("iodine")) {
             good.push_back(_("Iodine"));
         }
-        if (has_disease("datura")) {
+        if (has_effect("datura")) {
             good.push_back(_("Anticholinergic Tropane Alkaloids"));
         }
-        if (has_disease("took_xanax")) {
+        if (has_effect("took_xanax")) {
             good.push_back(_("Xanax"));
         }
-        if (has_disease("took_prozac")) {
+        if (has_effect("took_prozac")) {
             good.push_back(_("Prozac"));
         }
-        if (has_disease("took_flumed")) {
+        if (has_effect("took_flumed")) {
             good.push_back(_("Antihistamines"));
         }
-        if (has_disease("adrenaline")) {
+        if (has_effect("adrenaline")) {
             good.push_back(_("Adrenaline Spike"));
         }
-        if (has_disease("tapeworm")) {  // This little guy is immune to the blood filter though, as he lives in your bowels.
+        if (has_effect("adrenaline_mycus")) {
+            good.push_back(_("Mycal Spike"));
+        }
+        if (has_effect("tapeworm")) {  // This little guy is immune to the blood filter though, as he lives in your bowels.
             good.push_back(_("Intestinal Parasite"));
         }
-        if (has_disease("bloodworms")) {
+        if (has_effect("bloodworms")) {
             good.push_back(_("Hemolytic Parasites"));
         }
-        if (has_disease("brainworm")) {  // This little guy is immune to the blood filter too, as he lives in your brain.
+        if (has_effect("brainworm")) {  // This little guy is immune to the blood filter too, as he lives in your brain.
             good.push_back(_("Intracranial Parasite"));
         }
-        if (has_disease("paincysts")) {  // These little guys are immune to the blood filter too, as they live in your muscles.
+        if (has_effect("paincysts")) {  // These little guys are immune to the blood filter too, as they live in your muscles.
             good.push_back(_("Intramuscular Parasites"));
         }
-        if (has_disease("tetanus")) {  // Tetanus infection.
+        if (has_effect("tetanus")) {  // Tetanus infection.
             good.push_back(_("Clostridium Tetani Infection"));
         }
         if (good.empty() && bad.empty()) {
@@ -535,28 +538,28 @@ void player::activate_bionic(int b)
         delwin(w);
     } else if(bio.id == "bio_blood_filter") {
         add_msg(m_neutral, _("You activate your blood filtration system."));
-        rem_disease("fungus");
-        rem_disease("dermatik");
-        rem_disease("bloodworms");
-        rem_disease("tetanus");
+        remove_effect("fungus");
+        remove_effect("dermatik");
+        remove_effect("bloodworms");
+        remove_effect("tetanus");
         remove_effect("poison");
         remove_effect("stung");
-        rem_disease("pkill1");
-        rem_disease("pkill2");
-        rem_disease("pkill3");
-        rem_disease("pkill_l");
-        rem_disease("drunk");
-        rem_disease("cig");
-        rem_disease("high");
-        rem_disease("hallu");
-        rem_disease("visuals");
-        rem_disease("iodine");
-        rem_disease("datura");
-        rem_disease("took_xanax");
-        rem_disease("took_prozac");
-        rem_disease("took_flumed");
-        rem_disease("adrenaline");
-        rem_disease("meth");
+        remove_effect("pkill1");
+        remove_effect("pkill2");
+        remove_effect("pkill3");
+        remove_effect("pkill_l");
+        remove_effect("drunk");
+        remove_effect("cig");
+        remove_effect("high");
+        remove_effect("hallu");
+        remove_effect("visuals");
+        remove_effect("iodine");
+        remove_effect("datura");
+        remove_effect("took_xanax");
+        remove_effect("took_prozac");
+        remove_effect("took_flumed");
+        remove_effect("adrenaline");
+        remove_effect("meth");
         pkill = 0;
         stim = 0;
     } else if(bio.id == "bio_evap") {
@@ -602,10 +605,10 @@ void player::activate_bionic(int b)
     }
     if(bio.id == "bio_adrenaline") {
         add_msg(m_neutral, _("You activate your adrenaline pump."));
-        if (has_disease("adrenaline")) {
-            add_disease("adrenaline", 50);
+        if (has_effect("adrenaline")) {
+            add_effect("adrenaline", 50);
         } else {
-            add_disease("adrenaline", 200);
+            add_effect("adrenaline", 200);
         }
     } else if(bio.id == "bio_claws") {
         if (weapon.type->id == "bio_claws_weapon") {
@@ -819,11 +822,11 @@ void player::activate_bionic(int b)
         std::string omtername = otermap[cur_om_ter].name;
         int windpower = vehwindspeed + get_local_windpower(weatherPoint.windpower, omtername, g->is_sheltered(g->u.posx, g->u.posy));
 
-        add_msg_if_player(m_neutral, _("Temperature: %s."), print_temperature(g->get_temperature()).c_str());
-        add_msg_if_player(m_neutral, _("Relative Humidity: %s."), print_humidity(get_local_humidity(weatherPoint.humidity, g->weather, g->is_sheltered(g->u.posx, g->u.posy))).c_str());
-        add_msg_if_player(m_neutral, _("Pressure: %s."), print_pressure((int)weatherPoint.pressure).c_str());
-        add_msg_if_player(m_neutral, _("Wind Speed: %s."), print_windspeed((float)windpower).c_str());
-        add_msg_if_player(m_neutral, _("Feels Like: %s."), print_temperature(get_local_windchill(weatherPoint.temperature, weatherPoint.humidity, windpower) + g->get_temperature()).c_str());
+        add_msg_if_player(m_info, _("Temperature: %s."), print_temperature(g->get_temperature()).c_str());
+        add_msg_if_player(m_info, _("Relative Humidity: %s."), print_humidity(get_local_humidity(weatherPoint.humidity, g->weather, g->is_sheltered(g->u.posx, g->u.posy))).c_str());
+        add_msg_if_player(m_info, _("Pressure: %s."), print_pressure((int)weatherPoint.pressure).c_str());
+        add_msg_if_player(m_info, _("Wind Speed: %s."), print_windspeed((float)windpower).c_str());
+        add_msg_if_player(m_info, _("Feels Like: %s."), print_temperature(get_local_windchill(weatherPoint.temperature, weatherPoint.humidity, windpower) + g->get_temperature()).c_str());
     }
 }
 

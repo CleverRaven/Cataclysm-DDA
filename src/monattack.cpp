@@ -267,7 +267,7 @@ void mattack::boomer(monster *z, int index)
     }
     if (!g->u.uncanny_dodge()) {
         if (rng(0, 10) > g->u.get_dodge() || one_in(g->u.get_dodge())) {
-            g->u.add_env_effect("boomered", bp_eyes, 3, 12, 1, false);
+            g->u.add_env_effect("boomered", bp_eyes, 3, 12);
         } else if (u_see) {
             add_msg(_("You dodge it!"));
         }
@@ -748,7 +748,7 @@ void mattack::spit_sap(monster *z, int index)
     }
     add_msg(m_bad, _("A glob of sap hits you!"));
     g->u.deal_damage( z, bp_torso, damage_instance( DT_BASH, dam ) );
-    g->u.add_disease("sap", dam);
+    g->u.add_effect("sap", dam);
 }
 
 void mattack::triffid_heartbeat(monster *z, int index)
@@ -850,22 +850,22 @@ void mattack::fungus(monster *z, int index)
                         return;
                     }
                     bool hit = false;
-                    if (one_in(4) && g->u.infect("spores", bp_head, 3, 90, false, 1, 3, 120, 1, true)) {
+                    if (one_in(4) && g->u.add_env_effect("spores", bp_head, 3, 90, bp_head)) {
                         hit = true;
                     }
-                    if (one_in(2) && g->u.infect("spores", bp_torso, 3, 90, false, 1, 3, 120, 1, true)) {
+                    if (one_in(2) && g->u.add_env_effect("spores", bp_torso, 3, 90, bp_torso)) {
                         hit = true;
                     }
-                    if (one_in(4) && g->u.infect("spores", bp_arm_l, 3, 90, false, 1, 3, 120, 1, true)) {
+                    if (one_in(4) && g->u.add_env_effect("spores", bp_arm_l, 3, 90, bp_arm_l)) {
                         hit = true;
                     }
-                    if (one_in(4) && g->u.infect("spores", bp_arm_r, 3, 90, false, 1, 3, 120, 1, true)) {
+                    if (one_in(4) && g->u.add_env_effect("spores", bp_arm_r, 3, 90, bp_arm_r)) {
                         hit = true;
                     }
-                    if (one_in(4) && g->u.infect("spores", bp_leg_l, 3, 90, false, 1, 3, 120, 1, true)) {
+                    if (one_in(4) && g->u.add_env_effect("spores", bp_leg_l, 3, 90, bp_leg_l)) {
                         hit = true;
                     }
-                    if (one_in(4) && g->u.infect("spores", bp_leg_r, 3, 90, false, 1, 3, 120, 1, true)) {
+                    if (one_in(4) && g->u.add_env_effect("spores", bp_leg_r, 3, 90, bp_leg_r)) {
                         hit = true;
                     }
                     if ((hit) && (g->u.has_trait("TAIL_CATTLE") &&
@@ -993,7 +993,7 @@ void mattack::fungus_inject(monster *z, int index)
                 body_part_name_accusative(hit).c_str());
 
         if(one_in(10 - dam)) {
-            g->u.add_disease("fungus", 100, false, 1, 1, 0, -1);
+            g->u.add_effect("fungus", 100, num_bp, true);
             add_msg(m_warning, _("You feel thousands of live spores pumping into you..."));
         }
     } else {
@@ -1042,7 +1042,7 @@ void mattack::fungus_bristle(monster *z, int index)
                 body_part_name_accusative(hit).c_str());
 
         if(one_in(15 - dam)) {
-            g->u.add_disease("fungus", 200, false, 1, 1, 0, -1);
+            g->u.add_effect("fungus", 200, num_bp, true);
             add_msg(m_warning, _("You feel thousands of live spores pumping into you..."));
         }
     } else {
@@ -1198,7 +1198,7 @@ void mattack::fungus_fortify(monster *z, int index)
                 //~ 1$s is monster name, 2$s bodypart in accusative
                 add_msg(m_bad, _("The %1$s sinks its point into your %2$s!"), z->name().c_str(),
                     body_part_name_accusative(hit).c_str());
-                g->u.add_disease("fungus", 400, false, 1, 1, 0, -1);
+                g->u.add_effect("fungus", 400, num_bp, true);
                 add_msg(m_warning, _("You feel millions of live spores pumping into you..."));
                 } else {
                     //~ 1$s is monster name, 2$s bodypart in accusative
@@ -1330,7 +1330,7 @@ void mattack::dermatik(monster *z, int index)
     add_msg(m_bad, _("The %1$s sinks its ovipositor into your %2$s!"), z->name().c_str(),
             body_part_name_accusative(targeted).c_str());
     if (!g->u.has_trait("PARAIMMUNE")) {
-        g->u.add_disease("dermatik", 14401, false, 1, 1, 0, 0, targeted, true);
+        g->u.add_effect("dermatik", 1, targeted, true);
         g->u.add_memorial_log(pgettext("memorial_male", "Injected with dermatik eggs."),
                               pgettext("memorial_female", "Injected with dermatik eggs."));
     }
@@ -1383,7 +1383,7 @@ void mattack::formblob(monster *z, int index)
             if (g->u.posx == z->posx() + i && g->u.posy == z->posy() + i) {
                 // If we hit the player, cover them with slime
                 didit = true;
-                g->u.add_disease("slimed", rng(0, z->hp));
+                g->u.add_effect("slimed", rng(0, z->hp));
             } else if (thatmon != -1) {
                 monster &othermon = g->zombie(thatmon);
                 // Hit a monster.  If it's a blob, give it our speed.  Otherwise, blobify it?
@@ -1474,7 +1474,7 @@ void mattack::callblobs(monster *z, int index)
         int trash = 0;
         (*ally)->set_dest( post.x, post.y, trash );
         if (!(*ally)->has_effect("controlled")) {
-            (*ally)->add_effect("controlled", 1, 1, true);
+            (*ally)->add_effect("controlled", 1, num_bp, true);
         }
     }
     // This is telepathy, doesn't take any moves.
@@ -1512,7 +1512,7 @@ void mattack::jackson(monster *z, int index)
         int trash = 0;
         (*ally)->set_dest( post.x, post.y, trash );
         if (!(*ally)->has_effect("controlled")) {
-            (*ally)->add_effect("controlled", 1, 1, true);
+            (*ally)->add_effect("controlled", 1, num_bp, true);
         }
     }
     // Did we convert anybody?
@@ -1835,7 +1835,7 @@ void mattack::para_sting(monster *z, int index)
     z->reset_special(index); // Reset timer
     add_msg(m_bad, _("The %s shoots a dart into you!"), z->name().c_str());
     add_msg(m_bad, _("You feel poison enter your body!"));
-    g->u.add_disease("paralyzepoison", 50, false, 1, 20, 100);
+    g->u.add_effect("paralyzepoison", 50);
 }
 
 void mattack::triffid_growth(monster *z, int index)
@@ -1856,7 +1856,7 @@ void mattack::stare(monster *z, int index)
     int j;
     if (g->sees_u(z->posx(), z->posy(), j)) {
         add_msg(m_bad, _("The %s stares at you, and you shudder."), z->name().c_str());
-        g->u.add_disease("teleglow", 800);
+        g->u.add_effect("teleglow", 800);
     } else {
         add_msg(m_bad, _("A piercing beam of light bursts forth!"));
         std::vector<point> sight = line_to(z->posx(), z->posy(), g->u.posx, g->u.posy, 0);
@@ -2789,7 +2789,7 @@ void mattack::ratking(monster *z, int index)
         break;
     }
     if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) <= 10) {
-        g->u.add_disease("rat", 30);
+        g->u.add_effect("rat", 30);
     }
 }
 
@@ -2926,12 +2926,12 @@ void mattack::bite(monster *z, int index)
                 body_part_name_accusative(hit).c_str());
 
         if(one_in(14 - dam)) {
-            if (g->u.has_disease("bite", hit)) {
-                g->u.add_disease("bite", 400, false, 1, 1, 0, -1, hit, true);
-            } else if (g->u.has_disease("infected", hit)) {
-                g->u.add_disease("infected", 250, false, 1, 1, 0, -1, hit, true);
+            if (g->u.has_effect("bite", hit)) {
+                g->u.add_effect("bite", 400, hit, true);
+            } else if (g->u.has_effect("infected", hit)) {
+                g->u.add_effect("infected", 250, hit, true);
             } else {
-                g->u.add_disease("bite", 3601, false, 1, 1, 0, 0, hit, true); //6 hours + 1 "tick"
+                g->u.add_effect("bite", 1, hit, true);
             }
         }
     } else {
@@ -3094,7 +3094,7 @@ void mattack::longswipe(monster *z, int index)
     //~ %d is damage value.
     add_msg(m_bad, _("Your throat is slashed for %d damage!"), dam);
     g->u.deal_damage( z, hit, damage_instance( DT_CUT, dam ) );
-    g->u.add_disease("bleed", 100, false, 1, 1, 0, -1, hit, true);
+    g->u.add_effect("bleed", 100, hit);
     g->u.practice( "dodge", z->type->melee_skill );
 }
 
@@ -3159,7 +3159,7 @@ void mattack::darkman(monster *z, int index)
         add_msg(_("\"Please dont\""));
         break;
     }
-    g->u.add_disease( "darkness", 10 );
+    g->u.add_effect( "darkness", 1, num_bp, true );
 }
 
 void mattack::slimespring(monster *z, int index)
@@ -3187,20 +3187,20 @@ void mattack::slimespring(monster *z, int index)
         }
     }
     if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) <= 3) {
-        if ( (g->u.has_disease("bleed")) || (g->u.has_disease("bite")) ) {
+        if ( (g->u.has_effect("bleed")) || (g->u.has_effect("bite")) ) {
             add_msg(_("\"let me help!\""));
             // Yes, your slimespring(s) handle/don't all Bad Damage at the same time.
-            if (g->u.has_disease("bite")) {
+            if (g->u.has_effect("bite")) {
                 if (one_in(3)) {
-                    g->u.rem_disease("bite");
+                    g->u.remove_effect("bite");
                     add_msg(m_good, _("The slime cleans you out!"));
                 } else {
                     add_msg(_("The slime flows over you, but your gouges still ache."));
                 }
             }
-            if (g->u.has_disease("bleed")) {
+            if (g->u.has_effect("bleed")) {
                 if (one_in(2)) {
-                    g->u.rem_disease("bleed");
+                    g->u.remove_effect("bleed");
                     add_msg(m_good, _("The slime seals up your leaks!"));
                 } else {
                     add_msg(_("The slime flows over you, but your fluids are still leaking."));

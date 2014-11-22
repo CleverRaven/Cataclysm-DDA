@@ -6987,7 +6987,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "category" : "tool",
+    "category" : "tools",
     "use_action": {
         "type": "transform",
         "target": "kiln_lit",
@@ -7019,7 +7019,7 @@
     "turns_per_charge": 1,
     "ammo": "NULL",
     "revert_to": "kiln_done",
-    "category" : "tool",
+    "category" : "tools",
     "use_action": {
         "type": "auto_transform",
         "target": "kiln_done",
@@ -7047,7 +7047,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "category" : "tool"
+    "category" : "tools"
   },
 
   {
@@ -8448,7 +8448,7 @@
     "to_hit": -1,
     "ammo": "battery",
     "revert_to": "null",
-    "category": "tool",
+    "category": "tools",
     "use_action": "WEATHER_TOOL",
     "max_charges": 20,
     "initial_charges": 0,
@@ -8473,7 +8473,7 @@
     "to_hit": -3,
     "ammo": "NULL",
     "revert_to": "null",
-    "category": "tool",
+    "category": "tools",
     "use_action": "WEATHER_TOOL",
     "max_charges": 0,
     "initial_charges": 0,
@@ -8498,7 +8498,7 @@
     "to_hit": -3,
     "ammo": "NULL",
     "revert_to": "null",
-    "category": "tool",
+    "category": "tools",
     "use_action": "WEATHER_TOOL",
     "max_charges": 0,
     "initial_charges": 0,
@@ -8523,7 +8523,7 @@
     "to_hit": -3,
     "ammo": "NULL",
     "revert_to": "null",
-    "category": "tool",
+    "category": "tools",
     "use_action": "WEATHER_TOOL",
     "max_charges": 0,
     "initial_charges": 0,

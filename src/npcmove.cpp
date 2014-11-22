@@ -155,7 +155,7 @@ void npc::move()
         add_msg( m_debug, "address_player %s", npc_action_name(action).c_str() );
         if (action == npc_undecided) {
             if (mission == NPC_MISSION_SHELTER || mission == NPC_MISSION_BASE || mission == NPC_MISSION_SHOPKEEP
-                || mission == NPC_MISSION_GUARD || has_disease("infection")) {
+                || mission == NPC_MISSION_GUARD || has_effect("infection")) {
                 action = npc_pause;
             } else if (has_new_items) {
                 action = scan_new_items(target);
@@ -248,7 +248,7 @@ void npc::execute_action(npc_action action, int target)
         /* TODO: Open a dialogue with the player, allowing us to ask if it's alright if
          * we get some sleep, how long watch shifts should be, etc.
          */
-        //add_disease("lying_down", 300);
+        //add_effect("lying_down", 300);
         if (is_friend() && g->u_see(posx, posy)) {
             say(_("I'm going to sleep."));
         }
@@ -705,7 +705,7 @@ npc_action npc::address_player()
     int linet;
     if ((attitude == NPCATT_TALK || attitude == NPCATT_TRADE) &&
         this->sees(g->u.posx, g->u.posy) && g->u.is_invisible() == false) {
-        if (g->u.has_disease("sleep")) {
+        if (g->u.in_sleep_state()) {
             // Leave sleeping characters alone.
             return npc_undecided;
         }
@@ -743,17 +743,19 @@ npc_action npc::address_player()
     if (attitude == NPCATT_LEAD) {
         if (rl_dist(posx, posy, g->u.posx, g->u.posy) >= 12 ||
             !g->sees_u(posx, posy, linet)) {
-            int intense = disease_intensity("catch_up");
-            if (intense < 10) {
-                say("<keep_up>");
-                add_disease("catch_up", 5, false, 1, 15);
-                return npc_pause;
-            } else if (intense == 10) {
-                say("<im_leaving_you>");
-                add_disease("catch_up", 5, false, 1, 15);
-                return npc_pause;
-            } else {
-                return npc_goto_destination;
+            if(has_effect("catch_up")) {
+                int intense = get_effect_int("catch_up");
+                if (intense < 10) {
+                    say("<keep_up>");
+                    add_effect("catch_up", 5);
+                    return npc_pause;
+                } else if (intense == 10) {
+                    say("<im_leaving_you>");
+                    add_effect("catch_up", 5);
+                    return npc_pause;
+                } else {
+                    return npc_goto_destination;
+                }
             }
         } else {
             return npc_goto_destination;
@@ -1022,10 +1024,14 @@ bool npc::can_move_to(int x, int y) const
 
 void npc::move_to(int x, int y)
 {
-
-    if (has_effect("downed")) {
-        moves -= 100;
+    if (!move_effects()) {
+        mod_moves(-100);
         return;
+    }
+    if (g->m.has_flag("UNSTABLE", x, y)) {
+        add_effect("bouldering", 1, num_bp, true);
+    } else if (has_effect("bouldering")) {
+        remove_effect("bouldering");
     }
     if( sees_dangerous_field( point( x, y ) ) ) {
         // move to a neighbor field instead, if possible.
