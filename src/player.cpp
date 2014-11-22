@@ -264,6 +264,7 @@ void player::die(Creature* nkiller)
     if( nkiller != NULL && !nkiller->is_fake() ) {
         killer = nkiller;
     }
+    set_turn_died(int(calendar::turn));
 }
 
 void player::reset_stats()
@@ -11059,7 +11060,7 @@ void player::use(int inventory_position)
     } else if (used->is_gunmod()) {
         it_gunmod *mod = dynamic_cast<it_gunmod*>(used->type);
         if (!(skillLevel("gun") >= mod->req_skill)) {
-            add_msg(m_info, _("You need to be at least level %d in the marksmanship skill before you\
+            add_msg(m_info, _("You need to be at least level %d in the marksmanship skill before you \
 can install this mod."), mod->req_skill);
             return;
         }

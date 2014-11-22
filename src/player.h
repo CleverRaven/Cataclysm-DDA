@@ -27,6 +27,15 @@ class mission;
 class profession;
 nc_color encumb_color(int level);
 
+// length of turns to show player's posthumous contributions
+const int DEATHCAM_LENGTH = 15;
+
+enum deathcam_state {
+    DC_OFF,
+    DC_ON,
+    DC_DONE
+};
+
 struct special_attack {
     std::string text;
     int bash;
@@ -1205,6 +1214,17 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void spores();
         void blossoms();
 
+        // return the calendar::turn the player expired
+        int get_turn_died() const
+        {
+            return turn_died;
+        }
+        // set the turn the turn the player died if not already done
+        void set_turn_died(int turn)
+        {
+            turn_died = (turn_died != -1) ? turn : turn_died;
+        }
+
     protected:
         std::unordered_set<std::string> my_traits;
         std::unordered_set<std::string> my_mutations;
@@ -1257,6 +1277,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         int id; // A unique ID number, assigned by the game class private so it cannot be overwritten and cause save game corruptions.
         //NPCs also use this ID value. Values should never be reused.
+
+        // turn the player expired, if -1 it has not been set yet.
+        int turn_died = -1;
+        deathcam_state deathcam = DC_OFF;
 };
 
 #endif
