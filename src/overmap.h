@@ -388,20 +388,13 @@ public:
   bool nullbool;
   std::string nullstr;
 
-    struct monster_data {
-        // relative to the position of this overmap,
-        // in submap coordinates.
-        int x;
-        int y;
-        int z;
-        monster mon;
-    };
     /**
      * When monsters despawn during map-shifting they will be added here.
      * map::spawn_monsters will load them and place them into the reality bubble
      * (adding it to the creature tracker and putting it onto the map).
+     * This stores each submap worth of monsters in a different bucket of the multimap.
      */
-    std::vector<monster_data> monsters;
+    std::unordered_multimap<tripoint, monster> monster_map;
     regional_settings settings;
 
   // Initialise
