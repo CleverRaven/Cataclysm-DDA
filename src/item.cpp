@@ -1206,7 +1206,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         recipe_list &rec = recipes_by_component[tid];
         if (!rec.empty()) {
             temp1.str("");
-            inventory inv = g->u.crafting_inventory();
+            const inventory &inv = g->u.crafting_inventory();
             // only want known recipes
             recipe_list known_recipes;
             for (recipe *r : rec) {

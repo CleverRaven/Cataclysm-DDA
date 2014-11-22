@@ -157,6 +157,7 @@ player::player() : Character(), name("")
  start_location = "shelter";
  moves = 100;
  movecounter = 0;
+ cached_turn = -1;
  oxygen = 0;
  next_climate_control_check=0;
  last_climate_control_ret=false;
@@ -10914,7 +10915,7 @@ hint_rating player::rate_action_disassemble(item *it) {
                    assign the activity
                    check tools are available
                    loop over the tools and see what's required...again */
-                inventory crafting_inv = crafting_inventory();
+                const inventory &crafting_inv = crafting_inventory();
                 for (const auto &j : cur_recipe->requirements.tools) {
                     bool have_tool = false;
                     if (j.empty()) { // no tools required, may change this

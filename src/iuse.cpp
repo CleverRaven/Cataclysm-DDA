@@ -2892,7 +2892,7 @@ int iuse::sew(player *p, item *it, bool, point)
 
     // this will cause issues if/when NPCs start being able to sew.
     // but, then again, it'll cause issues when they start crafting, too.
-    inventory crafting_inv = p->crafting_inventory();
+    const inventory &crafting_inv = p->crafting_inventory();
     bool bFound = false;
     //go through all discovered repair items and see if we have any of them available
     for (unsigned int i = 0; i < repair_items.size(); i++) {
@@ -3550,7 +3550,7 @@ int iuse::solder_weld(player *p, item *it, bool, point)
 
             // this will cause issues if/when NPCs start being able to sew.
             // but, then again, it'll cause issues when they start crafting, too.
-            inventory crafting_inv = p->crafting_inventory();
+            const inventory &crafting_inv = p->crafting_inventory();
 
             bool bFound = false;
             //go through all discovered repair items and see if we have any of them available
@@ -10234,7 +10234,7 @@ int iuse::multicooker(player *p, item *it, bool t, point pos)
 
             bool has_tools = true;
 
-            inventory cinv = g->u.crafting_inventory();
+            const inventory &cinv = g->u.crafting_inventory();
 
             if (!cinv.has_amount("soldering_iron", 1)) {
                 item tmp("soldering_iron", 0);

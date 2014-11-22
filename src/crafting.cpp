@@ -451,7 +451,7 @@ std::vector<item> player::get_eligible_containers_for_crafting()
 
 bool player::can_make(const recipe *r, int batch_size)
 {
-    inventory crafting_inv = crafting_inventory();
+    const inventory &crafting_inv = crafting_inventory();
     return r->can_make_with_inventory( crafting_inv, batch_size );
 }
 
@@ -583,7 +583,7 @@ const recipe *select_crafting_recipe( int &batch_size )
     ctxt.register_action("HELP_KEYBINDINGS");
     ctxt.register_action("CYCLE_BATCH");
 
-    inventory crafting_inv = g->u.crafting_inventory();
+    const inventory &crafting_inv = g->u.crafting_inventory();
     std::string filterstring = "";
     do {
         if (redraw) {
@@ -1059,19 +1059,31 @@ void recipe::print_item(WINDOW *w, int ypos, int xpos, nc_color col, const bypro
     mvwprintz(w, ypos, xpos, col, str.c_str());
 }
 
-inventory player::crafting_inventory()
+const inventory& player::crafting_inventory()
 {
-    inventory crafting_inv;
-    crafting_inv.form_from_map(point(posx, posy), PICKUP_RANGE, false);
-    crafting_inv += inv;
-    crafting_inv += weapon;
-    crafting_inv += worn;
+    if (cached_moves == moves
+            && cached_turn == calendar::turn.get_turn()
+            && cached_position == pos()) {
+        return cached_crafting_inventory;
+    }
+    cached_crafting_inventory.form_from_map(pos(), PICKUP_RANGE, false);
+    cached_crafting_inventory += inv;
+    cached_crafting_inventory += weapon;
+    cached_crafting_inventory += worn;
     if (has_bionic("bio_tools")) {
         item tools("toolset", calendar::turn);
         tools.charges = power_level;
-        crafting_inv += tools;
+        cached_crafting_inventory += tools;
     }
-    return crafting_inv;
+    cached_moves = moves;
+    cached_turn = calendar::turn.get_turn();
+    cached_position = pos();
+    return cached_crafting_inventory;
+}
+
+void player::invalidate_crafting_inventory()
+{
+    cached_turn = -1;
 }
 
 int recipe::print_time(WINDOW *w, int ypos, int xpos, int width,
@@ -1788,7 +1800,7 @@ const recipe *get_disassemble_recipe(const itype_id &type)
 }
 
 bool player::can_disassemble(item *dis_item, const recipe *cur_recipe,
-                             inventory &crafting_inv, bool print_msg)
+                             const inventory &crafting_inv, bool print_msg)
 {
     if (dis_item->count_by_charges()) {
         // Create a new item to get the default charges
@@ -1894,7 +1906,7 @@ void player::disassemble(int dis_pos)
     }
 
     if (cur_recipe != NULL) {
-        inventory crafting_inv = crafting_inventory();
+        const inventory &crafting_inv = crafting_inventory();
         if (can_disassemble(dis_item, cur_recipe, crafting_inv, true)) {
             if( !query_dissamble( *dis_item ) ) {
                 return;
