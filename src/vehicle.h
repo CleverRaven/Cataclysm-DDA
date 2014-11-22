@@ -744,7 +744,7 @@ public:
     std::string music_id;    // what music storage device is in the stereo
     bool cruise_on;     // cruise control on/off
     bool reactor_on;    // reactor on/off
-    bool engine_on;     // engine on/off
+    bool engine_on;     // non muscle engine on/off
     bool has_muscle_engine_on;    // has a muscle type engine
     bool lights_on;     // lights on/off
     bool stereo_on;

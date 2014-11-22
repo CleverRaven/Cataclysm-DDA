@@ -1168,7 +1168,7 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
             if(part_info(*it).has_flag(VPFLAG_ENGINE) &&
                (part_info(*it).fuel_type == fuel_type_gasoline || 
                 part_info(*it).fuel_type == fuel_type_diesel ||
-                part_info(*it).fuel_type == fuel_type_muscle) {
+                part_info(*it).fuel_type == fuel_type_muscle)) {
                 anchor_found = true;
             }
         }
@@ -2814,7 +2814,7 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
     }
 
     int battery_discharge = power_to_epower(fuel_capacity(fuel_type_battery) - fuel_left(fuel_type_battery));
-    if(engine_on) {
+    if(engine_on || has_muscle_engine_on) {
         // If the engine is on, the alternators are working.
         int alternators_epower = 0;
         int alternators_power = 0;
