@@ -495,7 +495,7 @@ bool vehicle::has_engine_type_not(const ammotype  & ft, bool enabled) {
 void vehicle::msg_start_engine_fail() {
     if (total_power (false) <= 0) {
         add_msg (m_info, _("The %s doesn't have an engine!"), name.c_str());
-    } else if (has_muscle_engine_on) {
+    } else if (has_engine_type(fuel_type_muscle, true)) {
         add_msg (m_info, _("The %s's mechanism is out of reach!"), name.c_str());
     } else if (!engine_on) {
         add_msg (_("The %s's engine isn't on!"), name.c_str());
@@ -825,7 +825,7 @@ void vehicle::use_controls()
           if (total_power () < 1) {
               if (total_power (false) < 1) {
                   add_msg (m_info, _("The %s doesn't have an engine!"), name.c_str());
-              } else if(has_muscle_engine_on) {
+              } else if(has_engine_type(fuel_type_muscle, true)) {
                   add_msg (m_info, _("The %s's mechanism is out of reach!"), name.c_str());
               } else {
                   add_msg (_("The %s's engine emits a sneezing sound."), name.c_str());
@@ -2411,7 +2411,7 @@ int vehicle::acceleration (bool fueled)
 {
     if (engine_on || skidding) {
         return (int) (safe_velocity (fueled) * k_mass() / (1 + strain ()) / 10);
-    } else if ((has_muscle_engine_on)){
+    } else if ((has_engine_type(fuel_type_muscle, true))){
         //limit vehicle weight for muscle engines
         int mass = total_mass();
         int move_mass = std::max((g->u).str_cur * 25, 150);
@@ -2814,7 +2814,7 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
     }
 
     int battery_discharge = power_to_epower(fuel_capacity(fuel_type_battery) - fuel_left(fuel_type_battery));
-    if(engine_on || has_muscle_engine_on) {
+    if(engine_on || has_engine_type(fuel_type_muscle, true)) {
         // If the engine is on, the alternators are working.
         int alternators_epower = 0;
         int alternators_power = 0;
@@ -3225,7 +3225,7 @@ void vehicle::thrust (int thd) {
     // only consume resources if engine accelerating
     if (thrusting) {
         //abort if engines not operational
-        if (total_power () <= 0 || (!engine_on && !has_muscle_engine_on)) {
+        if (total_power () <= 0 || (!engine_on && !has_engine_type(fuel_type_muscle, true))) {
             
             if (pl_ctrl) {
                 msg_start_engine_fail();
@@ -3256,7 +3256,7 @@ void vehicle::thrust (int thd) {
         }
         
         //charge bionics when using muscle engine
-        if (has_muscle_engine_on) {
+        if (has_engine_type(fuel_type_muscle, true)) {
             if (g->u.has_bionic("bio_torsionratchet")
                 && calendar::turn.get_turn() % 60 == 0) {
                 g->u.charge_power(1);
@@ -4053,8 +4053,6 @@ void vehicle::refresh()
     precalc_mounts( 0, face.dir() );
     check_environmental_effects = true;
     insides_dirty = true;
-    
-    has_muscle_engine_on = has_engine_type(fuel_type_muscle, true);
 }
 
 void vehicle::remove_remote_part(int part_num) {
