@@ -1160,7 +1160,6 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
         return false;
     }
 
-
     // Alternators must be installed on a gas engine
     if(vehicle_part_types[id].has_flag(VPFLAG_ALTERNATOR)) {
         bool anchor_found = false;
@@ -1168,7 +1167,8 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
             it != parts_in_square.end(); ++it ) {
             if(part_info(*it).has_flag(VPFLAG_ENGINE) &&
                (part_info(*it).fuel_type == fuel_type_gasoline || 
-                part_info(*it).fuel_type == fuel_type_diesel)) {
+                part_info(*it).fuel_type == fuel_type_diesel ||
+                part_info(*it).fuel_type == fuel_type_muscle) {
                 anchor_found = true;
             }
         }
