@@ -160,8 +160,8 @@ void monster::plan(const std::vector<int> &friendlies)
     if (!fleeing) {
         fleeing = attitude() == MATT_FLEE;
         if (can_see()) {
-            for (int f = 0, numf = friendlies.size(); f < numf; f++) {
-                const int i = friendlies[f];
+            for( auto &friendlie : friendlies ) {
+                const int i = friendlie;
                 monster *mon = &(g->zombie(i));
                 int mondist = rl_dist(posx(), posy(), mon->posx(), mon->posy());
                 if (mondist < dist &&
@@ -227,8 +227,8 @@ void monster::move()
         if(!g->m.i_at(posx(), posy()).empty()) {
             add_msg(_("The %s flows around the objects on the floor and they are quickly dissolved!"), name().c_str());
             std::vector<item> items_absorbed = g->m.i_at(posx(), posy());
-            for( size_t i = 0; i < items_absorbed.size(); ++i ) {
-                hp += items_absorbed.at(i).volume(); //Yeah this means it can get more HP than normal.
+            for( auto &elem : items_absorbed ) {
+                hp += elem.volume(); // Yeah this means it can get more HP than normal.
             }
             g->m.i_clear(posx(), posy());
         }

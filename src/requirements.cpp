@@ -460,13 +460,13 @@ bool requirement_data::check_enough_materials( const item_comp &comp,
 template<typename T>
 bool requirement_data::remove_item( const std::string &type, std::vector< std::vector<T> > &vec )
 {
-    for( auto b = vec.begin(); b != vec.end(); b++ ) {
-        for( auto c = b->begin(); c != b->end(); ) {
+    for( auto &elem : vec ) {
+        for( auto c = elem.begin(); c != elem.end(); ) {
             if( c->type == type ) {
-                if( b->size() == 1 ) {
+                if( elem.size() == 1 ) {
                     return true;
                 }
-                c = b->erase( c );
+                c = elem.erase( c );
             } else {
                 ++c;
             }

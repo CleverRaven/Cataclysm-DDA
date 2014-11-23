@@ -206,9 +206,8 @@ void DynamicDataLoader::initialize()
 
 void DynamicDataLoader::reset()
 {
-    for(t_type_function_map::iterator a = type_function_map.begin(); a != type_function_map.end();
-        ++a) {
-        delete a->second;
+    for( auto &elem : type_function_map ) {
+        delete elem.second;
     }
     type_function_map.clear();
 }
@@ -232,8 +231,8 @@ void DynamicDataLoader::load_data_from_path(const std::string &path)
         }
     }
     // iterate over each file
-    for (size_t i = 0; i < files.size(); i++) {
-        const std::string &file = files[i];
+    for( auto &files_i : files ) {
+        const std::string &file = files_i;
         // open the file as a stream
         std::ifstream infile(file.c_str(), std::ifstream::in | std::ifstream::binary);
         // and stuff it into ram

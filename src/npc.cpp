@@ -60,9 +60,8 @@ npc::npc()
  myclass = NC_NONE;
  patience = 0;
  restock = -1;
- for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
-      aSkill != Skill::skills.end(); ++aSkill) {
-   set_skill_level(*aSkill, 0);
+ for( auto &skill : Skill::skills ) {
+     set_skill_level( skill, 0 );
  }
 }
 
@@ -208,24 +207,24 @@ void npc::randomize(npc_class type)
  myclass = type;
  switch (type) { // Type of character
  case NC_NONE: // Untyped; no particular specialization
-  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
+     for( auto &skill : Skill::skills ) {
    int level = 0;
    if (one_in(3))
    {
     level = dice(4, 2) - rng(1, 4);
    }
-   set_skill_level(*aSkill, level);
+   set_skill_level( skill, level );
   }
   break;
 
  case NC_EVAC_SHOPKEEP:
-  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
+     for( auto &skill : Skill::skills ) {
    int level = 0;
    if (one_in(3))
    {
     level = dice(2, 2) - 2 + (rng(0, 1) * rng(0, 1));
    }
-   set_skill_level(*aSkill, level);
+   set_skill_level( skill, level );
   }
   boost_skill_level("mechanics", rng(0, 1));
   boost_skill_level("electronics", rng(1, 2));
@@ -239,13 +238,13 @@ void npc::randomize(npc_class type)
   break;
 
  case NC_ARSONIST:
-  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
+     for( auto &skill : Skill::skills ) {
    int level = dice(3, 2) - rng(0, 4);
    if (level < 0)
    {
     level = 0;
    }
-   set_skill_level(*aSkill, level);
+   set_skill_level( skill, level );
   }
   boost_skill_level("gun", rng(1, 3));
   boost_skill_level("pistol", rng(1, 3));
@@ -261,13 +260,13 @@ void npc::randomize(npc_class type)
   break;
 
  case NC_HUNTER:
-  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
+     for( auto &skill : Skill::skills ) {
    int level = dice(3, 2) - rng(0, 4);
    if (level < 0)
    {
     level = 0;
    }
-   set_skill_level(*aSkill, level);
+   set_skill_level( skill, level );
   }
   boost_skill_level("barter", rng(2, 5));
   boost_skill_level("gun", rng(2, 4));
@@ -284,13 +283,13 @@ void npc::randomize(npc_class type)
   break;
 
  case NC_HACKER:
-  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
+     for( auto &skill : Skill::skills ) {
    int level = 0;
    if (one_in(3))
    {
     level = dice(2, 2) - rng(1, 2);
    }
-   set_skill_level(*aSkill, level);
+   set_skill_level( skill, level );
   }
   boost_skill_level("electronics", rng(1, 4));
   boost_skill_level("computer", rng(3, 6));
@@ -303,13 +302,13 @@ void npc::randomize(npc_class type)
   break;
 
  case NC_DOCTOR:
-  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
+     for( auto &skill : Skill::skills ) {
    int level = 0;
    if (one_in(3))
    {
     level = dice(3, 2) - rng(1, 3);
    }
-   set_skill_level(*aSkill, level);
+   set_skill_level( skill, level );
   }
   boost_skill_level("firstaid", rng(2, 6));
   str_max -= rng(0, 2);
@@ -322,13 +321,13 @@ void npc::randomize(npc_class type)
   break;
 
  case NC_TRADER:
-  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
+     for( auto &skill : Skill::skills ) {
    int level = 0;
    if (one_in(3))
    {
     level = dice(2, 2) - 2 + (rng(0, 1) * rng(0, 1));
    }
-   set_skill_level(*aSkill, level);
+   set_skill_level( skill, level );
   }
   boost_skill_level("mechanics", rng(0, 2));
   boost_skill_level("electronics", rng(0, 2));
@@ -341,13 +340,13 @@ void npc::randomize(npc_class type)
   break;
 
  case NC_NINJA:
-  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
+     for( auto &skill : Skill::skills ) {
    int level = 0;
    if (one_in(3))
    {
     level = dice(2, 2) - rng(1, 2);
    }
-   set_skill_level(*aSkill, level);
+   set_skill_level( skill, level );
   }
   boost_skill_level("dodge", rng(2, 4));
   boost_skill_level("melee", rng(1, 4));
@@ -362,13 +361,13 @@ void npc::randomize(npc_class type)
   break;
 
  case NC_COWBOY:
-  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
+     for( auto &skill : Skill::skills ) {
    int level = dice(3, 2) - rng(0, 4);
    if (level < 0)
    {
     level = 0;
    }
-   set_skill_level(*aSkill, level);
+   set_skill_level( skill, level );
   }
   boost_skill_level("gun", rng(1, 3));
   boost_skill_level("pistol", rng(1, 3));
@@ -381,13 +380,13 @@ void npc::randomize(npc_class type)
   break;
 
  case NC_SCIENTIST:
-  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
+     for( auto &skill : Skill::skills ) {
    int level = dice(3, 2) - 4;
    if (level < 0)
    {
     level = 0;
    }
-   set_skill_level(*aSkill, level);
+   set_skill_level( skill, level );
   }
   boost_skill_level("computer", rng(0, 3));
   boost_skill_level("electronics", rng(0, 3));
@@ -410,13 +409,13 @@ void npc::randomize(npc_class type)
   break;
 
  case NC_BOUNTY_HUNTER:
-  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
+     for( auto &skill : Skill::skills ) {
    int level = dice(3, 2) - 3;
    if (level > 0 && one_in(3))
    {
     level--;
    }
-   set_skill_level(*aSkill, level);
+   set_skill_level( skill, level );
   }
   boost_skill_level("gun", rng(2, 4));
   boost_skill_level(Skill::random_skill_with_tag("gun"), rng(3, 5));
@@ -425,13 +424,13 @@ void npc::randomize(npc_class type)
   break;
 
  case NC_THUG:
-  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
+     for( auto &skill : Skill::skills ) {
    int level = dice(3, 2) - 3;
    if (level > 0 && one_in(3))
    {
     level--;
    }
-   set_skill_level(*aSkill, level);
+   set_skill_level( skill, level );
   }
   str_max -= rng(2, 4);
   dex_max -= rng(0, 2);
@@ -446,13 +445,13 @@ void npc::randomize(npc_class type)
   break;
 
  case NC_SCAVENGER:
-  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
+     for( auto &skill : Skill::skills ) {
    int level = dice(3, 2) - 3;
    if (level > 0 && one_in(3))
    {
     level--;
    }
-   set_skill_level(*aSkill, level);
+   set_skill_level( skill, level );
   }
   boost_skill_level("gun", rng(2, 4));
   boost_skill_level("pistol", rng(2, 5));
@@ -680,10 +679,9 @@ void npc::randomize_from_faction(faction *fac)
   dex_max += rng(0, 3);
   per_max += rng(0, 2);
   int_max += rng(0, 2);
-  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
-       aSkill != Skill::skills.end(); ++aSkill) {
+  for( auto &skill : Skill::skills ) {
    if (one_in(3))
-    boost_skill_level(*aSkill, rng(2, 4));
+       boost_skill_level( skill, rng( 2, 4 ) );
   }
  }
  if (fac->has_value(FACVAL_ROBOTS)) {
@@ -944,15 +942,15 @@ Skill* npc::best_skill()
 {
  std::vector<Skill*> best_skills;
  int highest = 0;
- for (std::vector<Skill*>::iterator iter = Skill::skills.begin(); iter != Skill::skills.end(); ++iter) {
+ for( auto &skill : Skill::skills ) {
   //Should check to see if the skill has a "combat_skill" tag
-  if ((*iter)->is_combat_skill()) {
-   if (skillLevel(*iter) > highest) {
-    highest = skillLevel(*iter);
+     if( ( skill )->is_combat_skill() ) {
+         if( skillLevel( skill ) > highest ) {
+             highest = skillLevel( skill );
     best_skills.clear();
-    best_skills.push_back(*iter);
-   } else if (skillLevel(*iter) == highest) {
-    best_skills.push_back(*iter);
+    best_skills.push_back( skill );
+         } else if( skillLevel( skill ) == highest ) {
+             best_skills.push_back( skill );
    }
   }
  }
@@ -1354,10 +1352,9 @@ std::vector<Skill*> npc::skills_offered_to(player *p)
  std::vector<Skill*> ret;
  if (p == NULL)
   return ret;
- for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
-      aSkill != Skill::skills.end(); ++aSkill) {
-  if (p->skillLevel(*aSkill) < skillLevel(*aSkill)) {
-   ret.push_back(*aSkill);
+ for( auto &skill : Skill::skills ) {
+     if( p->skillLevel( skill ) < skillLevel( skill ) ) {
+         ret.push_back( skill );
   }
  }
  return ret;
@@ -1415,8 +1412,8 @@ bool npc::fac_has_job(faction_job job)
 void npc::decide_needs()
 {
     int needrank[num_needs];
-    for (int i = 0; i < num_needs; i++)
-        needrank[i] = 20;
+    for( auto &elem : needrank )
+        elem = 20;
     if (weapon.is_gun()) {
         it_gun* gun = dynamic_cast<it_gun*>(weapon.type);
         needrank[need_ammo] = 5 * has_ammo(gun->ammo).size();

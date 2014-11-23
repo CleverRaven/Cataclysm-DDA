@@ -509,8 +509,8 @@ void player::mutate()
     std::vector<std::string> downgrades;
 
     // For each mutation...
-    for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
-        std::string base_mutation = iter->first;
+    for( auto &traits_iter : traits ) {
+        std::string base_mutation = traits_iter.first;
         bool thresh_save = mutation_data[base_mutation].threshold;
         bool prof_save = mutation_data[base_mutation].profession;
         bool purify_save = mutation_data[base_mutation].purifiable;
@@ -544,8 +544,8 @@ void player::mutate()
                 // Starting traits don't count toward categories
                 std::vector<std::string> group = mutations_category[cat];
                 bool in_cat = false;
-                for (size_t j = 0; j < group.size(); j++) {
-                    if (group[j] == base_mutation) {
+                for( auto &elem : group ) {
+                    if( elem == base_mutation ) {
                         in_cat = true;
                         break;
                     }
@@ -599,10 +599,9 @@ void player::mutate()
 
         if (cat == "") {
             // Pull the full list
-            for( std::map<std::string, trait>::iterator iter = traits.begin();
-                 iter != traits.end(); ++iter ) {
-                if (mutation_data[iter->first].valid) {
-                    valid.push_back( iter->first );
+            for( auto &traits_iter : traits ) {
+                if( mutation_data[traits_iter.first].valid ) {
+                    valid.push_back( traits_iter.first );
                 }
             }
         } else {
@@ -766,9 +765,9 @@ void player::mutate_towards(std::string mut)
     // Check if one of the prereqs that we have TURNS INTO this one
     std::string replacing = "";
     prereq = mutation_data[mut].prereqs; // Reset it
-    for (size_t i = 0; i < prereq.size(); i++) {
-        if (has_trait(prereq[i])) {
-            std::string pre = prereq[i];
+    for( auto &elem : prereq ) {
+        if( has_trait( elem ) ) {
+            std::string pre = elem;
             for (size_t j = 0; replacing == "" && j < mutation_data[pre].replacements.size(); j++) {
                 if (mutation_data[pre].replacements[j] == mut) {
                     replacing = pre;
@@ -780,9 +779,9 @@ void player::mutate_towards(std::string mut)
     // Loop through again for prereqs2
     std::string replacing2 = "";
     prereq = mutation_data[mut].prereqs2; // Reset it
-    for (size_t i = 0; i < prereq.size(); i++) {
-        if (has_trait(prereq[i])) {
-            std::string pre2 = prereq[i];
+    for( auto &elem : prereq ) {
+        if( has_trait( elem ) ) {
+            std::string pre2 = elem;
             for (size_t j = 0; replacing2 == "" && j < mutation_data[pre2].replacements.size(); j++) {
                 if (mutation_data[pre2].replacements[j] == mut) {
                     replacing2 = pre2;
@@ -886,10 +885,10 @@ void player::remove_mutation(std::string mut)
     // Check for dependant mutations first
     std::vector<std::string> dependant;
 
-    for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
-        for (size_t i = 0; i < mutation_data[iter->first].prereqs.size(); i++) {
-            if (mutation_data[iter->first].prereqs[i] == iter->first) {
-                dependant.push_back(iter->first);
+    for( auto &traits_iter : traits ) {
+        for( size_t i = 0; i < mutation_data[traits_iter.first].prereqs.size(); i++ ) {
+            if( mutation_data[traits_iter.first].prereqs[i] == traits_iter.first ) {
+                dependant.push_back( traits_iter.first );
                 break;
             }
         }
@@ -1025,8 +1024,8 @@ void player::remove_mutation(std::string mut)
 
 bool player::has_child_flag(std::string flag)
 {
-    for (size_t i = 0; i < mutation_data[flag].replacements.size(); i++) {
-        std::string tmp = mutation_data[flag].replacements[i];
+    for( auto &elem : mutation_data[flag].replacements ) {
+        std::string tmp = elem;
         if (has_trait(tmp) || has_child_flag(tmp)) {
             return true;
         }
@@ -1036,8 +1035,8 @@ bool player::has_child_flag(std::string flag)
 
 void player::remove_child_flag(std::string flag)
 {
-    for (size_t i = 0; i < mutation_data[flag].replacements.size(); i++) {
-        std::string tmp = mutation_data[flag].replacements[i];
+    for( auto &elem : mutation_data[flag].replacements ) {
+        std::string tmp = elem;
         if (has_trait(tmp)) {
             remove_mutation(tmp);
             return;
@@ -1271,9 +1270,8 @@ void mutation_effect(player &p, std::string mut)
 
     std::string mutation_safe = "OVERSIZE";
     for (size_t i = 0; i < p.worn.size(); i++) {
-        for (size_t j = 0; j < bps.size(); j++) {
-            if ( (p.worn[i].covers.test(bps[j])) &&
-                 (!(p.worn[i].has_flag(mutation_safe))) ) {
+        for( auto &bp : bps ) {
+            if( ( p.worn[i].covers.test( bp ) ) && ( !( p.worn[i].has_flag( mutation_safe ) ) ) ) {
                 if (destroy) {
                     if (is_u) {
                         add_msg(m_bad, _("Your %s is destroyed!"), p.worn[i].tname().c_str());

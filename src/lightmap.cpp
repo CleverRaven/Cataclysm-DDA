@@ -188,34 +188,34 @@ void map::generate_lightmap()
             float veh_luminance = 0.0;
             float iteration = 1.0;
             std::vector<int> light_indices = v->all_parts_with_feature(VPFLAG_CONE_LIGHT);
-            for (std::vector<int>::iterator part = light_indices.begin();
-                 part != light_indices.end(); ++part) {
-                veh_luminance += ( v->part_info(*part).bonus / iteration );
+            for( auto &light_indice : light_indices ) {
+                veh_luminance += ( v->part_info( light_indice ).bonus / iteration );
                 iteration = iteration * 1.1;
             }
             if (veh_luminance > LL_LIT) {
-                for (std::vector<int>::iterator part = light_indices.begin();
-                     part != light_indices.end(); ++part) {
-                    int px = vv.x + v->parts[*part].precalc_dx[0];
-                    int py = vv.y + v->parts[*part].precalc_dy[0];
+                for( auto &light_indice : light_indices ) {
+                    int px = vv.x + v->parts[light_indice].precalc_dx[0];
+                    int py = vv.y + v->parts[light_indice].precalc_dy[0];
                     if(INBOUNDS(px, py)) {
-                        apply_light_arc(px, py, dir + v->parts[*part].direction, veh_luminance, 45);
+                        apply_light_arc( px, py, dir + v->parts[light_indice].direction,
+                                         veh_luminance, 45 );
                     }
                 }
             }
         }
         if(v->overhead_lights_on) {
             std::vector<int> light_indices = v->all_parts_with_feature(VPFLAG_CIRCLE_LIGHT);
-            for (std::vector<int>::iterator part = light_indices.begin();
-                 part != light_indices.end(); ++part) {
-                if((calendar::turn % 2 && v->part_info(*part).has_flag(VPFLAG_ODDTURN)) ||
-                   (!(calendar::turn % 2) && v->part_info(*part).has_flag(VPFLAG_EVENTURN)) ||
-                   (!v->part_info(*part).has_flag(VPFLAG_EVENTURN) &&
-                    !v->part_info(*part).has_flag(VPFLAG_ODDTURN))) {
-                    int px = vv.x + v->parts[*part].precalc_dx[0];
-                    int py = vv.y + v->parts[*part].precalc_dy[0];
+            for( auto &light_indice : light_indices ) {
+                if( ( calendar::turn % 2 &&
+                      v->part_info( light_indice ).has_flag( VPFLAG_ODDTURN ) ) ||
+                    ( !( calendar::turn % 2 ) &&
+                      v->part_info( light_indice ).has_flag( VPFLAG_EVENTURN ) ) ||
+                    ( !v->part_info( light_indice ).has_flag( VPFLAG_EVENTURN ) &&
+                      !v->part_info( light_indice ).has_flag( VPFLAG_ODDTURN ) ) ) {
+                    int px = vv.x + v->parts[light_indice].precalc_dx[0];
+                    int py = vv.y + v->parts[light_indice].precalc_dy[0];
                     if(INBOUNDS(px, py)) {
-                        add_light_source( px, py, v->part_info(*part).bonus );
+                        add_light_source( px, py, v->part_info( light_indice ).bonus );
                     }
                 }
             }
@@ -358,9 +358,9 @@ void map::build_seen_cache()
             }
         }
 
-        for (std::vector<int>::iterator m_it = mirrors.begin(); m_it != mirrors.end(); ++m_it) {
-            const int mirrorX = veh->global_x() + veh->parts[*m_it].precalc_dx[0];
-            const int mirrorY = veh->global_y() + veh->parts[*m_it].precalc_dy[0];
+        for( auto &mirror : mirrors ) {
+            const int mirrorX = veh->global_x() + veh->parts[mirror].precalc_dx[0];
+            const int mirrorY = veh->global_y() + veh->parts[mirror].precalc_dy[0];
 
             // Determine how far the light has already traveled so mirrors
             // don't cheat the light distance falloff.

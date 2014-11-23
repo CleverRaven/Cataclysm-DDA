@@ -20,9 +20,8 @@ void player::sort_armor()
 
     int req_right_h = 3 + 1 + 2 + 12 + 1;
     for (int cover = 0; cover < num_bp; cover++) {
-        for (std::vector<item>::iterator it = worn.begin();
-             it != worn.end(); ++it) {
-            if (it->covers.test(cover)) {
+        for( auto &elem : worn ) {
+            if( elem.covers.test( cover ) ) {
                 req_right_h++;
             }
         }
@@ -116,15 +115,13 @@ void player::sort_armor()
         // Create ptr list of items to display
         tmp_worn.clear();
         if (tabindex == 12) { // All
-            for (std::vector<item>::iterator it = worn.begin();
-                 it != worn.end(); ++it) {
-                tmp_worn.push_back(&*it);
+            for( auto &elem : worn ) {
+                tmp_worn.push_back( &elem );
             }
         } else { // bp_*
-            for (std::vector<item>::iterator it = worn.begin();
-                 it != worn.end(); ++it) {
-                if (it->covers.test(tabindex)) {
-                    tmp_worn.push_back(&*it);
+            for( auto &elem : worn ) {
+                if( elem.covers.test( tabindex ) ) {
+                    tmp_worn.push_back( &elem );
                 }
             }
         }
@@ -205,16 +202,16 @@ void player::sort_armor()
                 pos++;
             }
             rightListSize++;
-            for (std::vector<item>::iterator it = worn.begin();
-                 it != worn.end(); ++it) {
-                each_armor = dynamic_cast<it_armor *>(it->type);
-                if (it->covers.test(cover)) {
+            for( auto &elem : worn ) {
+                each_armor = dynamic_cast<it_armor *>( elem.type );
+                if( elem.covers.test( cover ) ) {
                     if (rightListSize >= rightListOffset && pos <= cont_h - 2) {
-                        mvwprintz(w_sort_right, pos, 2, dam_color[int(it->damage + 1)],
-                                  each_armor->nname(1).c_str());
-                        mvwprintz(w_sort_right, pos, right_w - 2, c_ltgray, "%d",
-                                  (it->has_flag("FIT")) ? std::max(0, int(each_armor->encumber) - 1)
-                                  : int(each_armor->encumber));
+                        mvwprintz( w_sort_right, pos, 2, dam_color[int( elem.damage + 1 )],
+                                   each_armor->nname( 1 ).c_str() );
+                        mvwprintz( w_sort_right, pos, right_w - 2, c_ltgray, "%d",
+                                   ( elem.has_flag( "FIT" ) ) ?
+                                       std::max( 0, int( each_armor->encumber ) - 1 ) :
+                                       int( each_armor->encumber ) );
                         pos++;
                     }
                     rightListSize++;

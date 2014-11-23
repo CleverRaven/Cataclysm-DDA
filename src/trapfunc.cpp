@@ -8,8 +8,8 @@
 float pit_effectiveness(int x, int y)
 {
     int corpse_volume = 0;
-    for (size_t i = 0; i < g->m.i_at(x, y).size(); i++) {
-        item &j = g->m.i_at(x, y)[i];
+    for( auto &elem : g->m.i_at( x, y ) ) {
+        item &j = elem;
         if (j.type->id == "corpse") {
             corpse_volume += j.volume();
         }

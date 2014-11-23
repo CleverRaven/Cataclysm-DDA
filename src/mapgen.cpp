@@ -311,13 +311,14 @@ void reset_mapgens()
     // might be at multiple locations, but we must only delete it once!
     typedef std::set<mapgen_function*> xset;
     xset s;
-    for(std::map<std::string, std::vector<mapgen_function*> >::iterator a = oter_mapgen.begin(); a != oter_mapgen.end(); ++a) {
-        for(std::vector<mapgen_function*>::iterator b = a->second.begin(); b != a->second.end(); ++b) {
+    for( auto &elem : oter_mapgen ) {
+        for( std::vector<mapgen_function *>::iterator b = elem.second.begin();
+             b != elem.second.end(); ++b ) {
             s.insert(*b);
         }
     }
-    for(xset::iterator a = s.begin(); a != s.end(); ++a) {
-        delete *a;
+    for( const auto &elem : s ) {
+        delete elem;
     }
     oter_mapgen.clear();
 }
@@ -656,21 +657,23 @@ bool mapgen_function_json::setup() {
             if ( jo.has_object("terrain") ) {
                 pjo = jo.get_object("terrain");
                 std::set<std::string> keys = pjo.get_member_names();
-                for(std::set<std::string>::iterator it = keys.begin(); it != keys.end(); ++it) {
-                    if ( (*it).size() != 1 ) {
-                        pjo.throw_error( string_format("format map key '%s' must be 1 character", (*it).c_str() ));
+                for( const auto &key : keys ) {
+                    if( ( key ).size() != 1 ) {
+                        pjo.throw_error( string_format( "format map key '%s' must be 1 character",
+                                                        ( key ).c_str() ) );
                     }
-                    if ( pjo.has_string( *it ) ) {
-                        tmpval = pjo.get_string( *it );
+                    if( pjo.has_string( key ) ) {
+                        tmpval = pjo.get_string( key );
                         if ( termap.find( tmpval ) == termap.end() ) {
                             jo.throw_error( string_format("Invalid terrain '%s'", tmpval.c_str() ) );
                         }
-                        format_terrain[ (int)(*it)[0] ] = termap[ tmpval ].loadid;
+                        format_terrain[(int)( key )[0]] = termap[tmpval].loadid;
                         tmpval = "";
-                    } else if ( pjo.has_array( *it ) ) {
+                    } else if( pjo.has_array( key ) ) {
                         pjo.throw_error("rng terrain is todo");
                     } else {
-                        pjo.throw_error( string_format("unknown data for key '%s'", (*it).c_str() ));
+                        pjo.throw_error(
+                            string_format( "unknown data for key '%s'", ( key ).c_str() ) );
                     }
                 }
             } else {
@@ -681,21 +684,23 @@ bool mapgen_function_json::setup() {
             if ( jo.has_object("furniture") ) {
                 pjo = jo.get_object("furniture");
                 std::set<std::string> keys = pjo.get_member_names();
-                for(std::set<std::string>::iterator it = keys.begin(); it != keys.end(); ++it) {
-                    if ( (*it).size() != 1 ) {
-                        pjo.throw_error( string_format("format map key '%s' must be 1 character", (*it).c_str() ));
+                for( const auto &key : keys ) {
+                    if( ( key ).size() != 1 ) {
+                        pjo.throw_error( string_format( "format map key '%s' must be 1 character",
+                                                        ( key ).c_str() ) );
                     }
-                    if ( pjo.has_string( *it ) ) {
-                        tmpval = pjo.get_string( *it );
+                    if( pjo.has_string( key ) ) {
+                        tmpval = pjo.get_string( key );
                         if ( furnmap.find( tmpval ) == furnmap.end() ) {
                             jo.throw_error( string_format("Invalid furniture '%s'", tmpval.c_str() ) );
                         }
-                        format_furniture[ (int)(*it)[0] ] = furnmap[ tmpval ].loadid;
+                        format_furniture[(int)( key )[0]] = furnmap[tmpval].loadid;
                         tmpval = "";
-                    } else if ( pjo.has_array( *it ) ) {
+                    } else if( pjo.has_array( key ) ) {
                         pjo.throw_error("rng furniture is todo");
                     } else {
-                        pjo.throw_error( string_format("unknown data for key '%s'", (*it).c_str() ));
+                        pjo.throw_error(
+                            string_format( "unknown data for key '%s'", ( key ).c_str() ) );
                     }
                 }
             }
@@ -1001,17 +1006,17 @@ void mapgen_function_json::generate( map *m, oter_id terrain_type, mapgendata md
     if ( do_format ) {
         formatted_set_incredibly_simple(m, format, mapgensize, mapgensize, 0, 0, fill_ter );
     }
-    for( size_t i = 0; i < spawnitems.size(); ++i ) {
-        spawnitems[i].apply( m );
+    for( auto &elem : spawnitems ) {
+        elem.apply( m );
     }
-    for( size_t i = 0; i < place_groups.size(); ++i ) {
-        place_groups[i].apply( m, d );
+    for( auto &elem : place_groups ) {
+        elem.apply( m, d );
     }
-    for( size_t i = 0; i < place_specials.size(); ++i ) {
-        place_specials[i].apply( m );
+    for( auto &elem : place_specials ) {
+        elem.apply( m );
     }
-    for( size_t i = 0; i < setmap_points.size(); ++i ) {
-        setmap_points[i].apply( m );
+    for( auto &elem : setmap_points ) {
+        elem.apply( m );
     }
 #ifdef LUA
     if ( ! luascript.empty() ) {
@@ -10696,8 +10701,8 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         int step = 0;
         bool node_built[16];
         bool done = false;
-        for (int i = 0; i < 16; i++) {
-            node_built[i] = false;
+        for( auto &elem : node_built ) {
+            elem = false;
         }
         do {
             node_built[node] = true;

@@ -15,8 +15,8 @@ bool tutorial_game::init()
     // TODO: clean up old tutorial
 
  calendar::turn = HOURS(12); // Start at noon
- for (int i = 0; i < NUM_LESSONS; i++)
-  tutorials_seen[i] = false;
+ for( auto &elem : tutorials_seen )
+     elem = false;
 // Set the scent map to 0
  for (int i = 0; i < SEEX * MAPSIZE; i++) {
   for (int j = 0; j < SEEX * MAPSIZE; j++)

@@ -320,10 +320,9 @@ void mdeath::guilt(monster *z)
         msgtype = m_neutral;
     } else {
         msgtype = m_bad;
-        for (std::map<int, std::string>::iterator it = guilt_tresholds.begin();
-             it != guilt_tresholds.end(); it++) {
-            if (kill_count >= it->first) {
-                msg = it->second;
+        for( auto &guilt_treshold : guilt_tresholds ) {
+            if( kill_count >= guilt_treshold.first ) {
+                msg = guilt_treshold.second;
                 break;
             }
         }
@@ -493,11 +492,11 @@ void mdeath::focused_beam(monster *z)
         int y = z->posy() + atoi(settings.item_vars["SL_SPOT_Y"].c_str());
 
         std::vector <point> traj = line_to(z->posx(), z->posy(), x, y, 0);
-        for (auto it = traj.begin(); it != traj.end(); ++it) {
-            if( !g->m.trans( it->x, it->y ) ) {
+        for( auto &elem : traj ) {
+            if( !g->m.trans( elem.x, elem.y ) ) {
                 break;
             }
-            g->m.add_field(it->x, it->y, fd_dazzling, 2);
+            g->m.add_field( elem.x, elem.y, fd_dazzling, 2 );
         }
     }
 

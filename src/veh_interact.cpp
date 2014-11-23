@@ -1136,12 +1136,9 @@ void veh_interact::move_cursor (int dx, int dy)
     can_mount.clear();
     if (!obstruct) {
         int divider_index = 0;
-        for (std::map<std::string, vpart_info>::iterator
-             part_type_iterator = vehicle_part_types.begin();
-             part_type_iterator != vehicle_part_types.end();
-             ++part_type_iterator) {
-            if (veh->can_mount(vdx, vdy, part_type_iterator->first)) {
-                vpart_info *vpi = &part_type_iterator->second;
+        for( auto &vehicle_part_type : vehicle_part_types ) {
+            if( veh->can_mount( vdx, vdy, vehicle_part_type.first ) ) {
+                vpart_info *vpi = &vehicle_part_type.second;
                 if (can_currently_install(vpi)) {
                     can_mount.insert( can_mount.begin() + divider_index++, *vpi );
                 } else {
@@ -1153,12 +1150,9 @@ void veh_interact::move_cursor (int dx, int dy)
 
     //Only build the wheel list once
     if (wheel_types.empty()) {
-        for (std::map<std::string, vpart_info>::iterator
-             part_type_iterator = vehicle_part_types.begin();
-             part_type_iterator != vehicle_part_types.end();
-             ++part_type_iterator) {
-            if (part_type_iterator->second.has_flag("WHEEL")) {
-                wheel_types.push_back (part_type_iterator->second);
+        for( auto &vehicle_part_type : vehicle_part_types ) {
+            if( vehicle_part_type.second.has_flag( "WHEEL" ) ) {
+                wheel_types.push_back( vehicle_part_type.second );
             }
         }
     }
@@ -1238,8 +1232,8 @@ void veh_interact::display_veh ()
     //Iterate over structural parts so we only hit each square once
     std::vector<int> structural_parts = veh->all_parts_at_location("structure");
     int x, y;
-    for (size_t i = 0; i < structural_parts.size(); i++) {
-        const int p = structural_parts[i];
+    for( auto &structural_part : structural_parts ) {
+        const int p = structural_part;
         long sym = veh->part_sym (p);
         nc_color col = veh->part_color (p);
         if (vertical_menu) {
@@ -1275,8 +1269,8 @@ void veh_interact::display_stats()
     std::vector<int> cargo_parts = veh->all_parts_with_feature("CARGO");
     int total_cargo = 0;
     int free_cargo = 0;
-    for (size_t i = 0; i < cargo_parts.size(); i++) {
-        const int p = cargo_parts[i];
+    for( auto &cargo_part : cargo_parts ) {
+        const int p = cargo_part;
         total_cargo += veh->max_volume(p);
         free_cargo += veh->free_volume(p);
     }
@@ -1633,8 +1627,8 @@ item consume_vpart_item (std::string vpid)
     } else {
         // popup menu!?
         std::vector<std::string> options;
-        for( size_t i = 0; i < candidates.size(); ++i ) {
-            if( candidates[i] ) {
+        for( const auto &candidate : candidates ) {
+            if( candidate ) {
                 // In inventory.
                 options.push_back(vehicle_part_types[vpid].name);
             } else {
@@ -1810,8 +1804,8 @@ void complete_vehicle ()
             g->u.consume_tools(tools);
         }
         // Dump contents of part at player's feet, if any.
-        for (size_t i = 0; i < veh->parts[vehicle_part].items.size(); i++) {
-            g->m.add_item_or_charges (g->u.posx, g->u.posy, veh->parts[vehicle_part].items[i]);
+        for( auto &elem : veh->parts[vehicle_part].items ) {
+            g->m.add_item_or_charges( g->u.posx, g->u.posy, elem );
         }
         veh->parts[vehicle_part].items.clear();
 

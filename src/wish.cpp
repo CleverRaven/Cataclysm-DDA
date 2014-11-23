@@ -58,9 +58,9 @@ class wish_mutate_callback: public uimenu_callback
             if ( ! started ) {
                 started = true;
                 padding = std::string(menu->pad_right - 1, ' ');
-                for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
-                    vTraits.push_back(iter->first);
-                    pTraits[iter->first] = ( p->has_trait( iter->first ) );
+                for( auto &traits_iter : traits ) {
+                    vTraits.push_back( traits_iter.first );
+                    pTraits[traits_iter.first] = ( p->has_trait( traits_iter.first ) );
                 }
             }
 
@@ -146,8 +146,8 @@ class wish_mutate_callback: public uimenu_callback
 
             std::vector<std::string> desc = foldstring( traits[vTraits[ entnum ]].description,
                                             menu->pad_right - 1 );
-            for( size_t j = 0; j < desc.size(); ++j ) {
-                mvwprintz(menu->window, line2, startx, c_ltgray, "%s", desc[j].c_str() );
+            for( auto &elem : desc ) {
+                mvwprintz( menu->window, line2, startx, c_ltgray, "%s", elem.c_str() );
                 line2++;
             }
             lastlen = line2 + 1;
@@ -167,14 +167,14 @@ void game::wishmutate( player *p )
     uimenu wmenu;
     int c = 0;
 
-    for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
-        wmenu.addentry(-1, true, -2, "%s", iter->second.name.c_str() );
+    for( auto &traits_iter : traits ) {
+        wmenu.addentry( -1, true, -2, "%s", traits_iter.second.name.c_str() );
         wmenu.entries[ c ].extratxt.left = 1;
         wmenu.entries[ c ].extratxt.txt = "";
         wmenu.entries[ c ].extratxt.color = c_ltgreen;
-        if( p->has_trait( iter->first ) ) {
+        if( p->has_trait( traits_iter.first ) ) {
             wmenu.entries[ c ].text_color = c_green;
-            if ( p->has_base_trait( iter->first ) ) {
+            if( p->has_base_trait( traits_iter.first ) ) {
                 wmenu.entries[ c ].extratxt.txt = "T";
             }
         }
@@ -349,11 +349,10 @@ void game::wishmonster(int x, int y)
     wmenu.callback = cb;
 
     int i = 0;
-    for (std::map<std::string, mtype *>::const_iterator mon = montypes.begin();
-         mon != montypes.end(); ++mon) {
-        wmenu.addentry( i, true, 0, "%s", mon->second->nname().c_str() );
-        wmenu.entries[i].extratxt.txt = mon->second->sym;
-        wmenu.entries[i].extratxt.color = mon->second->color;
+    for( const auto &montype : montypes ) {
+        wmenu.addentry( i, true, 0, "%s", montype.second->nname().c_str() );
+        wmenu.entries[i].extratxt.txt = montype.second->sym;
+        wmenu.entries[i].extratxt.color = montype.second->color;
         wmenu.entries[i].extratxt.left = 1;
         ++i;
     }
@@ -492,12 +491,11 @@ void game::wishskill(player *p)
     skmenu.addentry(0, true, '1', _("Set all skills to..."));
     int *origskills = new int[Skill::skills.size()] ;
 
-    for (std::vector<Skill *>::iterator aSkill = Skill::skills.begin();
-         aSkill != Skill::skills.end(); ++aSkill) {
-        int skill_id = (*aSkill)->id();
-        skmenu.addentry( skill_id + skoffset, true, -2, _("@ %d: %s  "),
-                         (int)p->skillLevel(*aSkill), (*aSkill)->name().c_str() );
-        origskills[skill_id] = (int)p->skillLevel(*aSkill);
+    for( auto &skill : Skill::skills ) {
+        int skill_id = ( skill )->id();
+        skmenu.addentry( skill_id + skoffset, true, -2, _( "@ %d: %s  " ),
+                         (int)p->skillLevel( skill ), ( skill )->name().c_str() );
+        origskills[skill_id] = (int)p->skillLevel( skill );
     }
     do {
         skmenu.query();

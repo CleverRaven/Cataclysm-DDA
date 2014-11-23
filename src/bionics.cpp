@@ -77,12 +77,11 @@ void player::power_bionics()
 {
     std::vector <bionic *> passive;
     std::vector <bionic *> active;
-    for (std::vector<bionic>::iterator it = my_bionics.begin();
-         it != my_bionics.end(); ++it) {
-        if (!bionics[it->id]->activated) {
-            passive.push_back(&*it);
+    for( auto &elem : my_bionics ) {
+        if( !bionics[elem.id]->activated ) {
+            passive.push_back( &elem );
         } else {
-            active.push_back(&*it);
+            active.push_back( &elem );
         }
     }
 
@@ -837,9 +836,8 @@ void player::deactivate_bionic(int b)
         // check if player knows current style naturally, otherwise drop them back to style_none
         if (style_selected != "style_none") {
             bool has_style = false;
-            for (std::vector<matype_id>::iterator it = ma_styles.begin();
-                 it != ma_styles.end(); ++it) {
-                if (*it == style_selected) {
+            for( auto &elem : ma_styles ) {
+                if( elem == style_selected ) {
                     has_style = true;
                 }
             }
@@ -1128,10 +1126,9 @@ void bionics_install_failure(player *u, it_bionic *type, int success)
     case 5: {
         add_msg(m_bad, _("The installation is faulty!"));
         std::vector<bionic_id> valid;
-        for (std::vector<std::string>::iterator it = faulty_bionics.begin() ; it != faulty_bionics.end();
-             ++it) {
-            if (!u->has_bionic(*it)) {
-                valid.push_back(*it);
+        for( auto &faulty_bionic : faulty_bionics ) {
+            if( !u->has_bionic( faulty_bionic ) ) {
+                valid.push_back( faulty_bionic );
             }
         }
         if (valid.empty()) { // We've got all the bad bionics!
@@ -1158,9 +1155,8 @@ void bionics_install_failure(player *u, it_bionic *type, int success)
 
 void reset_bionics()
 {
-    for (std::map<bionic_id, bionic_data *>::iterator bio = bionics.begin(); bio != bionics.end();
-         ++bio) {
-        delete bio->second;
+    for( auto &bionic : bionics ) {
+        delete bionic.second;
     }
     bionics.clear();
     faulty_bionics.clear();

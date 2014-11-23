@@ -50,10 +50,9 @@ static void place_construction(const std::string &desc);
 std::vector<construction *> constructions_by_desc(const std::string &description)
 {
     std::vector<construction *> result;
-    for( std::vector<construction *>::iterator a = constructions.begin();
-         a != constructions.end(); ++a ) {
-        if( (*a)->description == description ) {
-            result.push_back( *a );
+    for( auto &constructions_a : constructions ) {
+        if( ( constructions_a )->description == description ) {
+            result.push_back( constructions_a );
         }
     }
     return result;
@@ -393,9 +392,8 @@ static bool player_can_build(player &p, const inventory &pinv, const std::string
 {
     // check all with the same desc to see if player can build any
     std::vector<construction *> cons = constructions_by_desc(desc);
-    for (std::vector<construction *>::iterator it = cons.begin();
-         it != cons.end(); ++it) {
-        if (player_can_build(p, pinv, *it)) {
+    for( auto &con : cons ) {
+        if( player_can_build( p, pinv, con ) ) {
             return true;
         }
     }
@@ -414,9 +412,8 @@ static bool can_construct( const std::string &desc )
 {
     // check all with the same desc to see if player can build any
     std::vector<construction *> cons = constructions_by_desc(desc);
-    for(std::vector<construction *>::iterator it = cons.begin();
-        it != cons.end(); ++it) {
-        if(can_construct(*it)) {
+    for( auto &con : cons ) {
+        if( can_construct( con ) ) {
             return true;
         }
     }
@@ -485,19 +482,16 @@ static void place_construction(const std::string &desc)
             if (x == g->u.posx && y == g->u.posy) {
                 y++;
             }
-            for (std::vector<construction *>::iterator it = cons.begin();
-                 it != cons.end(); ++it) {
-                if (can_construct(*it, x, y)
-                    && player_can_build(g->u, total_inv, *it)) {
-                    valid[point(x, y)] = *it;
+            for( auto &con : cons ) {
+                if( can_construct( con, x, y ) && player_can_build( g->u, total_inv, con ) ) {
+                    valid[point( x, y )] = con;
                 }
             }
         }
     }
 
-    for (std::map<point, construction *>::iterator it = valid.begin();
-         it != valid.end(); ++it) {
-        int x = it->first.x, y = it->first.y;
+    for( auto &elem : valid ) {
+        int x = elem.first.x, y = elem.first.y;
         g->m.drawsq(g->w_terrain, g->u, x, y, true, false);
     }
     wrefresh(g->w_terrain);
@@ -610,10 +604,9 @@ void construct::done_tree(point p)
     x = p.x + x * 3 + rng(-1, 1);
     y = p.y + y * 3 + rng(-1, 1);
     std::vector<point> tree = line_to(p.x, p.y, x, y, rng(1, 8));
-    for (std::vector<point>::iterator it = tree.begin();
-         it != tree.end(); ++it) {
-        g->m.destroy(it->x, it->y);
-        g->m.ter_set(it->x, it->y, t_trunk);
+    for( auto &elem : tree ) {
+        g->m.destroy( elem.x, elem.y );
+        g->m.ter_set( elem.x, elem.y, t_trunk );
     }
 }
 
@@ -1452,9 +1445,8 @@ void load_construction(JsonObject &jo)
 
 void reset_constructions()
 {
-    for( std::vector<construction *>::iterator a = constructions.begin();
-         a != constructions.end(); ++a ) {
-        delete *a;
+    for( auto &constructions_a : constructions ) {
+        delete constructions_a;
     }
     constructions.clear();
 }

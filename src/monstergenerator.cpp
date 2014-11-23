@@ -28,14 +28,12 @@ MonsterGenerator::~MonsterGenerator()
 
 void MonsterGenerator::reset()
 {
-    for (std::map<std::string, mtype *>::iterator types = mon_templates.begin();
-         types != mon_templates.end(); ++types) {
-        delete types->second;
+    for( auto &elem : mon_templates ) {
+        delete elem.second;
     }
     mon_templates.clear();
-    for (std::map<std::string, species_type *>::iterator specs = mon_species.begin();
-         specs != mon_species.end(); ++specs) {
-        delete specs->second;
+    for( auto &elem : mon_species ) {
+        delete elem.second;
     }
     mon_species.clear();
     mon_templates["mon_null"] = new mtype();
@@ -44,9 +42,8 @@ void MonsterGenerator::reset()
 
 void MonsterGenerator::finalize_mtypes()
 {
-    for (std::map<std::string, mtype *>::iterator monentry = mon_templates.begin();
-         monentry != mon_templates.end(); ++monentry) {
-        mtype *mon = monentry->second;
+    for( auto &elem : mon_templates ) {
+        mtype *mon = elem.second;
         apply_species_attributes(mon);
         set_mtype_flags(mon);
     }
@@ -97,8 +94,8 @@ void MonsterGenerator::set_mtype_flags(mtype *mon)
 template <typename T>
 void MonsterGenerator::apply_set_to_set(std::set<T> from, std::set<T> &to)
 {
-    for (typename std::set<T>::iterator entry = from.begin(); entry != from.end(); ++entry) {
-        to.insert(*entry);
+    for( const auto &elem : from ) {
+        to.insert( elem );
     }
 }
 
@@ -480,10 +477,9 @@ bool MonsterGenerator::has_species(const std::string &species) const
 mtype *MonsterGenerator::get_mtype(int mon)
 {
     int count = 0;
-    for (std::map<std::string, mtype *>::iterator monit = mon_templates.begin();
-         monit != mon_templates.end(); ++monit) {
+    for( auto &elem : mon_templates ) {
         if (count == mon) {
-            return monit->second;
+            return elem.second;
         }
         ++count;
     }
@@ -497,9 +493,8 @@ std::map<std::string, mtype *> MonsterGenerator::get_all_mtypes() const
 std::vector<std::string> MonsterGenerator::get_all_mtype_ids() const
 {
     std::vector<std::string> hold;
-    for (std::map<std::string, mtype *>::const_iterator mon = mon_templates.begin();
-         mon != mon_templates.end(); ++mon) {
-        hold.push_back(mon->first);
+    for( const auto &elem : mon_templates ) {
+        hold.push_back( elem.first );
     }
     return hold;
 }
@@ -507,10 +502,9 @@ std::vector<std::string> MonsterGenerator::get_all_mtype_ids() const
 mtype *MonsterGenerator::get_valid_hallucination()
 {
     std::vector<mtype *> potentials;
-    for (std::map<std::string, mtype *>::iterator mon = mon_templates.begin();
-         mon != mon_templates.end(); ++mon) {
-        if (mon->first != "mon_null" && mon->first != "mon_generator") {
-            potentials.push_back(mon->second);
+    for( auto &elem : mon_templates ) {
+        if( elem.first != "mon_null" && elem.first != "mon_generator" ) {
+            potentials.push_back( elem.second );
         }
     }
 
@@ -578,9 +572,9 @@ std::set<T> MonsterGenerator::get_set_from_tags(std::set<std::string> tags,
     std::set<T> ret;
 
     if (!tags.empty()) {
-        for (std::set<std::string>::iterator it = tags.begin(); it != tags.end(); ++it) {
-            if (conversion_map.find(*it) != conversion_map.end()) {
-                ret.insert(conversion_map[*it]);
+        for( const auto &tag : tags ) {
+            if( conversion_map.find( tag ) != conversion_map.end() ) {
+                ret.insert( conversion_map[tag] );
             }
         }
     }
@@ -604,9 +598,8 @@ T MonsterGenerator::get_from_string(std::string tag, std::map<std::string, T> co
 
 void MonsterGenerator::check_monster_definitions() const
 {
-    for(std::map<std::string, mtype *>::const_iterator a = mon_templates.begin();
-        a != mon_templates.end(); ++a) {
-        const mtype *mon = a->second;
+    for( const auto &elem : mon_templates ) {
+        const mtype *mon = elem.second;
         for(std::set<std::string>::iterator spec = mon->species.begin(); spec != mon->species.end();
             ++spec) {
             if(!has_species(*spec)) {

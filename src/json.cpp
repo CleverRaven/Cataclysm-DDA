@@ -137,9 +137,8 @@ bool JsonObject::has_member(const std::string &name)
 std::set<std::string> JsonObject::get_member_names()
 {
     std::set<std::string> ret;
-    for (std::map<std::string, int>::iterator it = positions.begin();
-         it != positions.end(); ++it) {
-        ret.insert(it->first);
+    for( auto &elem : positions ) {
+        ret.insert( elem.first );
     }
     return ret;
 }

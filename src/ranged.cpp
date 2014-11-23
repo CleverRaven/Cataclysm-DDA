@@ -1473,9 +1473,9 @@ void splatter( std::vector<point> trajectory, int dam, Creature *target )
 
     std::vector<point> spurt = continue_line( trajectory, distance );
 
-    for( size_t i = 0; i < spurt.size(); ++i ) {
-        int tarx = spurt[i].x;
-        int tary = spurt[i].y;
+    for( auto &elem : spurt ) {
+        int tarx = elem.x;
+        int tary = elem.y;
         g->m.adjust_field_strength( point(tarx, tary), blood, 1 );
         if( g->m.move_cost(tarx, tary) == 0 ) {
             // Blood splatters stop at walls.

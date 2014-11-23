@@ -93,9 +93,9 @@ void formatted_set_simple(map* m, const int startx, const int starty, const char
 std::shared_ptr<internal::format_effect> basic_bind(std::string characters, ...)
 {
  std::string temp;
- for( size_t i = 0; i < characters.size(); ++i )
-  if(characters[i] != ' ')
-   temp += characters[i];
+ for( auto &character : characters )
+     if( character != ' ' )
+         temp += character;
  characters = temp;
 
  std::vector<std::shared_ptr<internal::determine_terrain> > determiners;
@@ -111,9 +111,9 @@ std::shared_ptr<internal::format_effect> basic_bind(std::string characters, ...)
 std::shared_ptr<internal::format_effect> ter_str_bind(std::string characters, ...)
 {
  std::string temp;
- for( size_t i = 0; i < characters.size(); ++i )
-  if(characters[i] != ' ')
-   temp += characters[i];
+ for( auto &character : characters )
+     if( character != ' ' )
+         temp += character;
  characters = temp;
 
  std::vector<std::shared_ptr<internal::determine_terrain> > determiners;
@@ -132,9 +132,9 @@ std::shared_ptr<internal::format_effect> ter_str_bind(std::string characters, ..
 std::shared_ptr<internal::format_effect> furn_str_bind(std::string characters, ...)
 {
  std::string temp;
- for( size_t i = 0; i < characters.size(); ++i )
-  if(characters[i] != ' ')
-   temp += characters[i];
+ for( auto &character : characters )
+     if( character != ' ' )
+         temp += character;
  characters = temp;
 
  std::vector<std::shared_ptr<internal::determine_terrain> > determiners;
@@ -155,9 +155,9 @@ std::shared_ptr<internal::format_effect> furn_str_bind(std::string characters, .
 std::shared_ptr<internal::format_effect> simple_method_bind(std::string characters, ...)
 {
  std::string temp;
- for( size_t i = 0; i < characters.size(); ++i )
-  if(characters[i] != ' ')
-   temp += characters[i];
+ for( auto &character : characters )
+     if( character != ' ' )
+         temp += character;
  characters = temp;
 
  std::vector<std::shared_ptr<internal::determine_terrain> > determiners;

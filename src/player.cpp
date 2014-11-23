@@ -201,9 +201,8 @@ player::player() : Character(), name("")
 
  empty_traits();
 
- for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
-      aSkill != Skill::skills.end(); ++aSkill) {
-   skillLevel(*aSkill).level(0);
+ for( auto &skill : Skill::skills ) {
+     skillLevel( skill ).level( 0 );
  }
 
  for (int i = 0; i < num_bp; i++) {
@@ -588,14 +587,14 @@ void player::apply_persistent_morale()
         std::string bonus_flag = "SUPER_FANCY";
 
         std::bitset<13> covered; // body parts covered
-        for( size_t i = 0; i < worn.size(); ++i ) {
-            if(worn[i].has_flag(basic_flag) || worn[i].has_flag(bonus_flag) ) {
-                covered |= worn[i].covers;
+        for( auto &elem : worn ) {
+            if( elem.has_flag( basic_flag ) || elem.has_flag( bonus_flag ) ) {
+                covered |= elem.covers;
             }
-            if(worn[i].has_flag(bonus_flag)) {
+            if( elem.has_flag( bonus_flag ) ) {
               bonus+=2;
-            } else if (worn[i].has_flag(basic_flag)) {
-                if ((covered & worn[i].covers).none()) {
+            } else if( elem.has_flag( basic_flag ) ) {
+                if( ( covered & elem.covers ).none() ) {
                     bonus += 1;
                 }
             }
@@ -840,17 +839,16 @@ void player::update_bodytemp()
         std::vector<item> &floor_item = g->m.i_at(posx, posy);
         it_armor *floor_armor = NULL;
 
-        for( std::vector<item>::iterator afloor_item = floor_item.begin();
-             afloor_item != floor_item.end(); ++afloor_item ) {
-            if( !afloor_item->is_armor() ) {
+        for( auto &elem : floor_item ) {
+            if( !elem.is_armor() ) {
                 continue;
             }
-            floor_armor = dynamic_cast<it_armor *>(afloor_item->type);
+            floor_armor = dynamic_cast<it_armor *>( elem.type );
             // Items that are big enough and covers the torso are used to keep warm.
             // Smaller items don't do as good a job
-            if( floor_armor->volume > 1 && (afloor_item->covers.test(bp_torso) ||
-                                            afloor_item->covers.test(bp_leg_l) ||
-                                            afloor_item->covers.test(bp_leg_r)) ) {
+            if( floor_armor->volume > 1 &&
+                ( elem.covers.test( bp_torso ) || elem.covers.test( bp_leg_l ) ||
+                  elem.covers.test( bp_leg_r ) ) ) {
                 floor_item_warmth += 60 * floor_armor->warmth * floor_armor->volume / 10;
             }
         }
@@ -1962,8 +1960,8 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
     //Last 20 messages
     memorial_file << _("Final Messages:") << "\n";
     std::vector<std::pair<std::string, std::string> > recent_messages = Messages::recent_messages(20);
-    for( size_t i = 0; i < recent_messages.size(); ++i ) {
-      memorial_file << indent << recent_messages[i].first << " " << recent_messages[i].second;
+    for( auto &recent_message : recent_messages ) {
+        memorial_file << indent << recent_message.first << " " << recent_message.second;
       memorial_file << "\n";
     }
     memorial_file << "\n";
@@ -1974,10 +1972,12 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
     int total_kills = 0;
 
     const std::map<std::string, mtype*> monids = MonsterGenerator::generator().get_all_mtypes();
-    for (std::map<std::string, mtype*>::const_iterator mon = monids.begin(); mon != monids.end(); ++mon){
-        if (g->kill_count(mon->first) > 0){
-            memorial_file << "  " << mon->second->sym << " - " << string_format("%4d",g->kill_count(mon->first)) << " " << mon->second->nname(g->kill_count(mon->first)) << "\n";
-            total_kills += g->kill_count(mon->first);
+    for( const auto &monid : monids ) {
+        if( g->kill_count( monid.first ) > 0 ) {
+            memorial_file << "  " << monid.second->sym << " - "
+                          << string_format( "%4d", g->kill_count( monid.first ) ) << " "
+                          << monid.second->nname( g->kill_count( monid.first ) ) << "\n";
+            total_kills += g->kill_count( monid.first );
         }
     }
     if(total_kills == 0) {
@@ -1989,11 +1989,10 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
 
     //Skills
     memorial_file << _("Skills:") << "\n";
-    for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
-      aSkill != Skill::skills.end(); ++aSkill) {
-      SkillLevel next_skill_level = skillLevel(*aSkill);
-      memorial_file << indent << (*aSkill)->name() << ": "
-              << next_skill_level.level() << " (" << next_skill_level.exercise() << "%)\n";
+    for( auto &skill : Skill::skills ) {
+        SkillLevel next_skill_level = skillLevel( skill );
+        memorial_file << indent << ( skill )->name() << ": " << next_skill_level.level() << " ("
+                      << next_skill_level.exercise() << "%)\n";
     }
     memorial_file << "\n";
 
@@ -2075,8 +2074,8 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
     memorial_file << "\n";
 
     memorial_file << _("Equipment:") << "\n";
-    for( size_t i = 0; i < worn.size(); ++i ) {
-      item next_item = worn[i];
+    for( auto &elem : worn ) {
+        item next_item = elem;
       memorial_file << indent << next_item.invlet << " - " << next_item.tname();
       if(next_item.charges > 0) {
         memorial_file << " (" << next_item.charges << ")";
@@ -2093,11 +2092,11 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
     inv.restack(this);
     inv.sort();
     invslice slice = inv.slice();
-    for( size_t i = 0; i < slice.size(); ++i ) {
-      item& next_item = slice[i]->front();
+    for( auto &elem : slice ) {
+        item &next_item = elem->front();
       memorial_file << indent << next_item.invlet << " - " << next_item.tname();
-      if(slice[i]->size() > 1) {
-        memorial_file << " [" << slice[i]->size() << "]";
+      if( elem->size() > 1 ) {
+          memorial_file << " [" << elem->size() << "]";
       }
       if(next_item.charges > 0) {
         memorial_file << " (" << next_item.charges << ")";
@@ -2192,8 +2191,8 @@ std::string player::dump_memorial()
 
   std::stringstream output;
 
-  for( size_t i = 0; i < memorial_log.size(); ++i ) {
-    output << memorial_log[i] << "\n";
+  for( auto &elem : memorial_log ) {
+      output << elem << "\n";
   }
 
   return output.str();
@@ -2291,8 +2290,8 @@ void player::disp_info()
             effect_text.push_back(dis_description(next_illness));
         }
     }
-    for( auto maps = effects.begin(); maps != effects.end(); ++maps) {
-        for( auto effect_it = maps->second.begin(); effect_it != maps->second.end(); ++effect_it) {
+    for( auto &elem : effects ) {
+        for( auto effect_it = elem.second.begin(); effect_it != elem.second.end(); ++effect_it ) {
             tmp = effect_it->second.disp_name();
             if (tmp != "") {
                 effect_name.push_back( tmp );
@@ -2386,11 +2385,10 @@ Strength - 2;    Dexterity - 2;    Intelligence - 2;    Perception - 2"));
 Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
     }
 
-    for (size_t i = 0; i < addictions.size(); i++) {
-        if (addictions[i].sated < 0 &&
-            addictions[i].intensity >= MIN_ADDICTION_LEVEL) {
-            effect_name.push_back(addiction_name(addictions[i]));
-            effect_text.push_back(addiction_text(addictions[i]));
+    for( auto &elem : addictions ) {
+        if( elem.sated < 0 && elem.intensity >= MIN_ADDICTION_LEVEL ) {
+            effect_name.push_back( addiction_name( elem ) );
+            effect_text.push_back( addiction_text( elem ) );
         }
     }
 
@@ -2400,8 +2398,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
     unsigned infooffsetybottom = 15;
     std::vector<std::string> traitslist;
 
-    for ( auto iter = my_mutations.begin(); iter != my_mutations.end(); ++iter) {
-        traitslist.push_back(*iter);
+    for( const auto &elem : my_mutations ) {
+        traitslist.push_back( elem );
     }
 
     unsigned effect_win_size_y = 1 + effect_name.size();
@@ -2520,9 +2518,9 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
         std::string race;
         for( auto &mut : my_mutations ) {
             traitslist.push_back( mut );
-            for( size_t i = 0; i < traitslist.size(); i++ ) {
-                if( mutation_data[traitslist[i]].threshold ) {
-                    race = traits[traitslist[i]].name;
+            for( auto &elem : traitslist ) {
+                if( mutation_data[elem].threshold ) {
+                    race = traits[elem].name;
                     break;
                 }
             }
@@ -2707,12 +2705,12 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
         sorted.push_back(std::pair<Skill *, int>(s, sl.level() * 100 + sl.exercise()));
     }
     std::sort(sorted.begin(), sorted.end(), skill_display_sort);
-    for (std::vector<std::pair<Skill *, int> >::iterator i = sorted.begin(); i != sorted.end(); ++i) {
-        skillslist.push_back((*i).first);
+    for( auto &elem : sorted ) {
+        skillslist.push_back( ( elem ).first );
     }
 
-    for (auto aSkill = skillslist.begin(); aSkill != skillslist.end(); ++aSkill) {
-        SkillLevel level = skillLevel(*aSkill);
+    for( auto &elem : skillslist ) {
+        SkillLevel level = skillLevel( elem );
 
         // Default to not training and not rusting
         nc_color text_color = c_blue;
@@ -2730,17 +2728,17 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
         int level_num = (int)level;
         int exercise = level.exercise();
 
-        if (has_active_bionic("bio_cqb") &&
-        ((*aSkill)->ident() == "melee" || (*aSkill)->ident() == "unarmed" ||
-         (*aSkill)->ident() == "cutting" || (*aSkill)->ident() == "bashing" ||
-         (*aSkill)->ident() == "stabbing")) {
+        if( has_active_bionic( "bio_cqb" ) &&
+            ( ( elem )->ident() == "melee" || ( elem )->ident() == "unarmed" ||
+              ( elem )->ident() == "cutting" || ( elem )->ident() == "bashing" ||
+              ( elem )->ident() == "stabbing" ) ) {
             level_num = 5;
             exercise = 0;
             text_color = c_yellow;
         }
 
         if (line < skill_win_size_y + 1) {
-            mvwprintz(w_skills, line, 1, text_color, "%s:", (*aSkill)->name().c_str());
+            mvwprintz( w_skills, line, 1, text_color, "%s:", ( elem )->name().c_str() );
             mvwprintz(w_skills, line, 19, text_color, "%-2d(%2d%%)", level_num,
                       (exercise <  0 ? 0 : exercise));
             line++;
@@ -2844,8 +2842,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
 
     std::map<std::string, int> speed_effects;
     std::string dis_text = "";
-    for( auto maps = effects.begin(); maps != effects.end(); ++maps ) {
-        for( auto effect_it = maps->second.begin(); effect_it != maps->second.end(); ++effect_it ) {
+    for( auto &elem : effects ) {
+        for( auto effect_it = elem.second.begin(); effect_it != elem.second.end(); ++effect_it ) {
             auto &it = effect_it->second;
             bool reduced = has_trait(it.get_resist_trait()) || has_effect(it.get_resist_effect());
             int move_adjust = it.get_mod("SPEED", reduced);
@@ -2856,12 +2854,12 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
         }
     }
 
-    for (auto it = speed_effects.begin(); it != speed_effects.end(); ++it) {
-        nc_color col = (it->second > 0 ? c_green : c_red);
-        mvwprintz(w_speed, line,  1, col, "%s", it->first.c_str());
-        mvwprintz(w_speed, line, 21, col, (it->second > 0 ? "+" : "-"));
-        mvwprintz(w_speed, line, (abs(it->second) >= 10 ? 22 : 23), col, "%d%%",
-                  abs(it->second));
+    for( auto &speed_effect : speed_effects ) {
+        nc_color col = ( speed_effect.second > 0 ? c_green : c_red );
+        mvwprintz( w_speed, line, 1, col, "%s", speed_effect.first.c_str() );
+        mvwprintz( w_speed, line, 21, col, ( speed_effect.second > 0 ? "+" : "-" ) );
+        mvwprintz( w_speed, line, ( abs( speed_effect.second ) >= 10 ? 22 : 23 ), col, "%d%%",
+                   abs( speed_effect.second ) );
         line++;
     }
 
@@ -3930,8 +3928,8 @@ void player::toggle_mutation(const std::string &flag)
 void player::set_cat_level_rec(const std::string &sMut)
 {
     if (!has_base_trait(sMut)) { //Skip base traits
-        for (size_t i = 0; i < mutation_data[sMut].category.size(); i++) {
-            mutation_category_level[mutation_data[sMut].category[i]] += 8;
+        for( auto &elem : mutation_data[sMut].category ) {
+            mutation_category_level[elem] += 8;
         }
 
         for (auto &i : mutation_data[sMut].prereqs) {
@@ -3959,11 +3957,11 @@ std::string player::get_highest_category() const // Returns the mutation categor
     int iLevel = 0;
     std::string sMaxCat = "";
 
-    for (std::map<std::string, int>::const_iterator iter = mutation_category_level.begin(); iter != mutation_category_level.end(); ++iter) {
-        if (iter->second > iLevel) {
-            sMaxCat = iter->first;
-            iLevel = iter->second;
-        } else if (iter->second == iLevel) {
+    for( const auto &elem : mutation_category_level ) {
+        if( elem.second > iLevel ) {
+            sMaxCat = elem.first;
+            iLevel = elem.second;
+        } else if( elem.second == iLevel ) {
             sMaxCat = "";  // no category on ties
         }
     }
@@ -4033,17 +4031,17 @@ std::list<item *> player::get_radio_items()
 {
     std::list<item *> rc_items;
     const invslice & stacks = inv.slice();
-    for( size_t x  = 0; x  < stacks.size(); ++x  ) {
-        item &itemit = stacks[x]->front();
+    for( auto &stack : stacks ) {
+        item &itemit = stack->front();
         item *stack_iter = &itemit;
         if (stack_iter->active && stack_iter->has_flag("RADIO_ACTIVATION")) {
             rc_items.push_back( stack_iter );
         }
     }
 
-    for (size_t i = 0; i < worn.size(); i++) {
-        if ( worn[i].active  && worn[i].has_flag("RADIO_ACTIVATION")) {
-            rc_items.push_back( &worn[i] );
+    for( auto &elem : worn ) {
+        if( elem.active && elem.has_flag( "RADIO_ACTIVATION" ) ) {
+            rc_items.push_back( &elem );
         }
     }
 
@@ -4102,9 +4100,9 @@ void player::add_bionic( bionic_id b )
         return;
     }
     char newinv = ' ';
-    for( size_t i = 0; i < inv_chars.size(); i++ ) {
-        if( bionic_by_invlet( inv_chars[i] ) == nullptr ) {
-            newinv = inv_chars[i];
+    for( auto &inv_char : inv_chars ) {
+        if( bionic_by_invlet( inv_char ) == nullptr ) {
+            newinv = inv_char;
             break;
         }
     }
@@ -4134,9 +4132,9 @@ bionic& player::bionic_at_index(int i)
 }
 
 bionic* player::bionic_by_invlet(char ch) {
-    for (size_t i = 0; i < my_bionics.size(); i++) {
-        if (my_bionics[i].invlet == ch) {
-            return &my_bionics[i];
+    for( auto &elem : my_bionics ) {
+        if( elem.invlet == ch ) {
+            return &elem;
         }
     }
     return 0;
@@ -4175,8 +4173,8 @@ float player::active_light()
 
     int maxlum = 0;
     const invslice & stacks = inv.slice();
-    for( size_t x  = 0; x  < stacks.size(); ++x  ) {
-        item &itemit = stacks[x]->front();
+    for( auto &stack : stacks ) {
+        item &itemit = stack->front();
         item * stack_iter = &itemit;
         if (stack_iter->active && stack_iter->charges > 0) {
             int lumit = stack_iter->getlight_emit(true);
@@ -4186,9 +4184,9 @@ float player::active_light()
         }
     }
 
-    for (size_t i = 0; i < worn.size(); i++) {
-        if ( worn[i].active  && worn[i].charges > 0) {
-            int lumit = worn[i].getlight_emit(true);
+    for( auto &elem : worn ) {
+        if( elem.active && elem.charges > 0 ) {
+            int lumit = elem.getlight_emit( true );
             if ( maxlum < lumit ) {
                 maxlum = lumit;
             }
@@ -5292,43 +5290,42 @@ int player::hp_percentage()
 void player::recalc_hp()
 {
     int new_max_hp[num_hp_parts];
-    for (int i = 0; i < num_hp_parts; i++)
-    {
-        new_max_hp[i] = 60 + str_max * 3;
+    for( auto &elem : new_max_hp ) {
+        elem = 60 + str_max * 3;
         if (has_trait("HUGE")) {
             // Bad-Huge doesn't quite have the cardio/skeletal/etc to support the mass,
             // so no HP bonus from the ST above/beyond that from Large
-            new_max_hp[i] -= 6;
+            elem -= 6;
         }
         // You lose half the HP you'd expect from BENDY mutations.  Your gelatinous
         // structure can help with that, a bit.
         if (has_trait("BENDY2")) {
-            new_max_hp[i] += 3;
+            elem += 3;
         }
         if (has_trait("BENDY3")) {
-            new_max_hp[i] += 6;
+            elem += 6;
         }
         // Only the most extreme applies.
         if (has_trait("TOUGH")) {
-            new_max_hp[i] *= 1.2;
+            elem *= 1.2;
         } else if (has_trait("TOUGH2")) {
-            new_max_hp[i] *= 1.3;
+            elem *= 1.3;
         } else if (has_trait("TOUGH3")) {
-            new_max_hp[i] *= 1.4;
+            elem *= 1.4;
         } else if (has_trait("FLIMSY")) {
-            new_max_hp[i] *= .75;
+            elem *= .75;
         } else if (has_trait("FLIMSY2")) {
-            new_max_hp[i] *= .5;
+            elem *= .5;
         } else if (has_trait("FLIMSY3")) {
-            new_max_hp[i] *= .25;
+            elem *= .25;
         }
         // Mutated toughness stacks with starting, by design.
         if (has_trait("MUT_TOUGH")) {
-            new_max_hp[i] *= 1.2;
+            elem *= 1.2;
         } else if (has_trait("MUT_TOUGH2")) {
-            new_max_hp[i] *= 1.3;
+            elem *= 1.3;
         } else if (has_trait("MUT_TOUGH3")) {
-            new_max_hp[i] *= 1.4;
+            elem *= 1.4;
         }
     }
     if (has_trait("GLASSJAW"))
@@ -5794,8 +5791,8 @@ void player::process_effects() {
     }
     
     //Human only effects
-    for( auto maps = effects.begin(); maps != effects.end(); ++maps ) {
-        for( auto effect_it = maps->second.begin(); effect_it != maps->second.end(); ++effect_it ) {
+    for( auto &elem : effects ) {
+        for( auto effect_it = elem.second.begin(); effect_it != elem.second.end(); ++effect_it ) {
             auto &it = effect_it->second;
             bool reduced = has_trait(it.get_resist_trait()) || has_effect(it.get_resist_effect());
             double mod = 1;
@@ -6616,15 +6613,13 @@ void player::hardcoded_effects(effect &it)
         bool lesserEvil = false;  // Worn or wielded; diminished effects
         if (weapon.is_artifact() && weapon.is_tool()) {
             it_artifact_tool *tool = dynamic_cast<it_artifact_tool*>(weapon.type);
-            for (std::vector<art_effect_passive>::iterator i = tool->effects_carried.begin();
-                 i != tool->effects_carried.end(); ++i) {
-                if (*i == AEP_EVIL) {
+            for( auto &elem : tool->effects_carried ) {
+                if( elem == AEP_EVIL ) {
                     lesserEvil = true;
                 }
             }
-            for (std::vector<art_effect_passive>::iterator i = tool->effects_wielded.begin();
-                 i != tool->effects_wielded.end(); ++i) {
-                if (*i == AEP_EVIL) {
+            for( auto &elem : tool->effects_wielded ) {
+                if( elem == AEP_EVIL ) {
                     lesserEvil = true;
                 }
             }
@@ -6632,10 +6627,8 @@ void player::hardcoded_effects(effect &it)
         for (std::vector<item>::iterator i = worn.begin(); !lesserEvil && i != worn.end(); ++i) {
             if (i->is_artifact()) {
                 it_artifact_armor *armor = dynamic_cast<it_artifact_armor*>(i->type);
-                for (std::vector<art_effect_passive>::iterator effect =
-                         armor->effects_worn.begin();
-                     effect != armor->effects_worn.end(); ++effect) {
-                    if (*effect == AEP_EVIL) {
+                for( auto &elem : armor->effects_worn ) {
+                    if( elem == AEP_EVIL ) {
                         lesserEvil = true;
                     }
                 }
@@ -7422,11 +7415,11 @@ void player::suffer()
         }
     }
 
-    for( auto it = illness.begin(); it != illness.end(); ++it ) {
-        if( it->duration <= 0 ) {
+    for( auto &elem : illness ) {
+        if( elem.duration <= 0 ) {
             continue;
         }
-        dis_effect( *this, *it );
+        dis_effect( *this, elem );
     }
 
     // Diseases may remove themselves as part of applying (MA buffs do) so do a
@@ -7869,17 +7862,19 @@ void player::suffer()
 
         // Apply rads to any radiation badges.
         std::vector<item *> possessions = inv_dump();
-        for( auto it = possessions.begin(); it != possessions.end(); ++it ) {
-            if( (*it)->type->id == "rad_badge" ) {
+        for( auto &possession : possessions ) {
+            if( ( possession )->type->id == "rad_badge" ) {
                 // Actual irradiation levels of badges and the player aren't precisely matched.
                 // This is intentional.
-                int before = (*it)->irridation;
-                (*it)->irridation += rng(0, localRadiation / 16);
-                if( inv.has_item(*it) ) { continue; }
+                int before = ( possession )->irridation;
+                ( possession )->irridation += rng( 0, localRadiation / 16 );
+                if( inv.has_item( possession ) ) {
+                    continue;
+                }
                 for( size_t i = 0; i < sizeof(rad_dosage_thresholds) / sizeof(rad_dosage_thresholds[0]);
                      i++ ){
                     if( before < rad_dosage_thresholds[i] &&
-                        (*it)->irridation >= rad_dosage_thresholds[i] ) {
+                        ( possession )->irridation >= rad_dosage_thresholds[i] ) {
                         add_msg_if_player(m_warning, _("Your radiation badge changes from %s to %s!"),
                                           _(rad_threshold_colors[i - 1].c_str()),
                                           _(rad_threshold_colors[i].c_str()) );
@@ -8102,8 +8097,8 @@ void player::vomit()
     hunger += nut_loss;
     thirst += quench_loss;
     moves -= 100;
-    for( auto maps = effects.begin(); maps != effects.end(); ++maps ) {
-        for( auto effect_it = maps->second.begin(); effect_it != maps->second.end(); ++effect_it ) {
+    for( auto &elem : effects ) {
+        for( auto effect_it = elem.second.begin(); effect_it != elem.second.end(); ++effect_it ) {
             auto &it = effect_it->second;
             if (it.get_id() == "foodpoison") {
                 it.mod_duration(-300);
@@ -8230,15 +8225,15 @@ void player::drench_mut_calc()
     mMutDrench.clear();
     int ignored, neutral, good;
 
-    for (std::map<int, int>::iterator it = mDrenchEffect.begin(); it != mDrenchEffect.end(); ++it) {
+    for( auto &elem : mDrenchEffect ) {
         ignored = 0;
         neutral = 0;
         good = 0;
 
-        for( auto iter = my_mutations.begin(); iter != my_mutations.end(); ++iter ) {
-            for( auto wp_iter = mutation_data[*iter].protection.begin();
-                 wp_iter != mutation_data[*iter].protection.end(); ++wp_iter) {
-                if (body_parts[wp_iter->first] == it->first) {
+        for( const auto &_iter : my_mutations ) {
+            for( auto wp_iter = mutation_data[_iter].protection.begin();
+                 wp_iter != mutation_data[_iter].protection.end(); ++wp_iter ) {
+                if( body_parts[wp_iter->first] == elem.first ) {
                     ignored += wp_iter->second.second.x;
                     neutral += wp_iter->second.second.y;
                     good += wp_iter->second.second.z;
@@ -8246,9 +8241,9 @@ void player::drench_mut_calc()
             }
         }
 
-        mMutDrench[it->first]["good"] = good;
-        mMutDrench[it->first]["neutral"] = neutral;
-        mMutDrench[it->first]["ignored"] = ignored;
+        mMutDrench[elem.first]["good"] = good;
+        mMutDrench[elem.first]["neutral"] = neutral;
+        mMutDrench[elem.first]["ignored"] = ignored;
     }
 }
 
@@ -8523,9 +8518,9 @@ void player::add_morale(morale_type type, int bonus, int max_bonus,
 
 int player::has_morale( morale_type type ) const
 {
-    for( size_t i = 0; i < morale.size(); ++i ) {
-        if( morale[i].type == type ) {
-            return morale[i].bonus;
+    for( auto &elem : morale ) {
+        if( elem.type == type ) {
+            return elem.bonus;
         }
     }
     return 0;
@@ -8573,8 +8568,8 @@ void player::process_active_items()
     }
 
     std::vector<item *> inv_active = inv.active_items();
-    for (std::vector<item *>::iterator iter = inv_active.begin(); iter != inv_active.end(); ++iter) {
-        item *tmp_it = *iter;
+    for( auto tmp_it : inv_active ) {
+
         if( tmp_it->process( this, pos(), false ) ) {
             inv.remove_item(tmp_it);
         }
@@ -9050,8 +9045,8 @@ int player::butcher_factor() const
     }
     result = std::max( result, inv.butcher_factor() );
     result = std::max( result, weapon.butcher_factor() );
-    for (std::vector<item>::const_iterator a = worn.begin(); a != worn.end(); ++a) {
-        result = std::max( result, a->butcher_factor() );
+    for( const auto &elem : worn ) {
+        result = std::max( result, elem.butcher_factor() );
     }
     return result;
 }
@@ -9131,8 +9126,8 @@ bool player::covered_with_flag(const std::string flag, std::bitset<13> parts) co
 
 bool player::covered_with_flag_exclusively(const std::string flag, std::bitset<13> parts) const
 {
-    for (std::vector<item>::const_iterator armorPiece = worn.begin(); armorPiece != worn.end(); ++armorPiece) {
-        if ((armorPiece->covers & parts).any() && !armorPiece->has_flag(flag)) {
+    for( const auto &elem : worn ) {
+        if( ( elem.covers & parts ).any() && !elem.has_flag( flag ) ) {
             return false;
         }
     }
@@ -9187,8 +9182,8 @@ int player::amount_of(const itype_id &it) const
         }
     }
     int quantity = weapon.amount_of(it, true);
-    for (std::vector<item>::const_iterator a = worn.begin(); a != worn.end(); ++a) {
-        quantity += a->amount_of(it, true);
+    for( const auto &elem : worn ) {
+        quantity += elem.amount_of( it, true );
     }
     quantity += inv.amount_of(it);
     return quantity;
@@ -10441,10 +10436,8 @@ bool player::wear_item(item *to_wear, bool interactive)
     // are we trying to put on power armor? If so, make sure we don't have any other gear on.
     if (armor->is_power_armor())
     {
-        for (std::vector<item>::iterator it = worn.begin(); it != worn.end(); ++it)
-        {
-            if ((it->covers & to_wear->covers).any())
-            {
+        for( auto &elem : worn ) {
+            if( ( elem.covers & to_wear->covers ).any() ) {
                 if(interactive)
                 {
                     add_msg(m_info, _("You can't wear power armor over other gear!"));
@@ -10459,10 +10452,8 @@ bool player::wear_item(item *to_wear, bool interactive)
 
             if (worn.size())
             {
-                for (std::vector<item>::iterator it = worn.begin(); it != worn.end(); ++it)
-                {
-                    if (it->type->is_power_armor())
-                    {
+                for( auto &elem : worn ) {
+                    if( elem.type->is_power_armor() ) {
                         power_armor = true;
                         break;
                     }
@@ -10929,10 +10920,9 @@ hint_rating player::rate_action_unload(item *it) {
 
 //TODO refactor stuff so we don't need to have this code mirroring game::disassemble
 hint_rating player::rate_action_disassemble(item *it) {
- for (recipe_map::iterator cat_iter = recipes.begin(); cat_iter != recipes.end(); ++cat_iter) {
-        for (recipe_list::iterator list_iter = cat_iter->second.begin();
-             list_iter != cat_iter->second.end();
-             ++list_iter) {
+    for( auto &recipes_cat_iter : recipes ) {
+        for( recipe_list::iterator list_iter = recipes_cat_iter.second.begin();
+             list_iter != recipes_cat_iter.second.end(); ++list_iter ) {
             recipe* cur_recipe = *list_iter;
             if (it->type->id == cur_recipe->result && cur_recipe->reversible) {
                 /* ok, a valid recipe exists for the item, and it is reversible
@@ -11675,9 +11665,10 @@ bool player::has_identified( std::string item_id ) const
 
 bool player::can_study_recipe(it_book* book)
 {
-    for( auto iter = book->recipes.begin(); iter != book->recipes.end(); ++iter ) {
-        if (!knows_recipe(iter->first) &&
-            (iter->first->skill_used == NULL || skillLevel(iter->first->skill_used) >= iter->second)) {
+    for( auto &elem : book->recipes ) {
+        if( !knows_recipe( elem.first ) &&
+            ( elem.first->skill_used == NULL ||
+              skillLevel( elem.first->skill_used ) >= elem.second ) ) {
             return true;
         }
     }
@@ -11686,8 +11677,8 @@ bool player::can_study_recipe(it_book* book)
 
 bool player::studied_all_recipes(it_book* book)
 {
-    for( auto iter = book->recipes.begin(); iter != book->recipes.end(); ++iter ) {
-        if (!knows_recipe(iter->first)) {
+    for( auto &elem : book->recipes ) {
+        if( !knows_recipe( elem.first ) ) {
             return false;
         }
     }
@@ -11887,14 +11878,13 @@ std::string player::is_snuggling()
         return "nothing";
     }
 
-    for ( std::vector<item>::iterator afloor_item = floor_item.begin() ; afloor_item != floor_item.end() ; ++afloor_item) {
-        if ( !afloor_item->is_armor() ) {
+    for( auto &elem : floor_item ) {
+        if( !elem.is_armor() ) {
             continue;
-        }
-        else if ( afloor_item->volume() > 1 &&
-              (afloor_item->covers.test(bp_torso) || afloor_item->covers.test(bp_leg_l) ||
-              afloor_item->covers.test(bp_leg_r)) ){
-            floor_armor = dynamic_cast<it_armor*>(afloor_item->type);
+        } else if( elem.volume() > 1 &&
+                   ( elem.covers.test( bp_torso ) || elem.covers.test( bp_leg_l ) ||
+                     elem.covers.test( bp_leg_r ) ) ) {
+            floor_armor = dynamic_cast<it_armor *>( elem.type );
             ticker++;
         }
     }
@@ -12119,8 +12109,8 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
     }
     ret += armorenc;
 
-    for (size_t i = 0; i < sizeof(layer) / sizeof(layer[0]); ++i) {
-        layers += std::max( 0.0, layer[i] - 1.0 );
+    for( auto &elem : layer ) {
+        layers += std::max( 0.0, elem - 1.0 );
     }
 
     if (layers > 0.0) {
@@ -12379,8 +12369,7 @@ bool player::armor_absorb(damage_unit& du, item& armor) {
     return armor_damaged;
 }
 void player::absorb_hit(body_part bp, damage_instance &dam) {
-    for (std::vector<damage_unit>::iterator it = dam.damage_units.begin();
-            it != dam.damage_units.end(); ++it) {
+    for( auto &elem : dam.damage_units ) {
 
         // Recompute the armor indices for every damage unit because we may have
         // destroyed armor earlier in the loop.
@@ -12390,16 +12379,17 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
 
         // CBMs absorb damage first before hitting armor
         if (has_active_bionic("bio_ads")) {
-            if (it->amount > 0 && power_level > 24) {
-                if (it->type == DT_BASH)
-                    it->amount -= rng(1, 8);
-                else if (it->type == DT_CUT)
-                    it->amount -= rng(1, 4);
-                else if (it->type == DT_STAB)
-                    it->amount -= rng(1, 2);
+            if( elem.amount > 0 && power_level > 24 ) {
+                if( elem.type == DT_BASH )
+                    elem.amount -= rng( 1, 8 );
+                else if( elem.type == DT_CUT )
+                    elem.amount -= rng( 1, 4 );
+                else if( elem.type == DT_STAB )
+                    elem.amount -= rng( 1, 2 );
                 power_level -= 25;
             }
-            if (it->amount < 0) it->amount = 0;
+            if( elem.amount < 0 )
+                elem.amount = 0;
         }
 
         // The worn vector has the innermost item first, so
@@ -12409,7 +12399,7 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
 
             const int index = *armor_it;
 
-            armor_absorb(*it, worn[index]);
+            armor_absorb( elem, worn[index] );
 
             // now check if armor was completely destroyed and display relevant messages
             // TODO: use something less janky than the old code for this check
@@ -12721,8 +12711,8 @@ int player::shoe_type_count(const itype_id & it) const
 
 bool player::is_wearing_power_armor(bool *hasHelmet) const {
     bool result = false;
-    for (size_t i = 0; i < worn.size(); i++) {
-        it_armor *armor = dynamic_cast<it_armor*>(worn[i].type);
+    for( auto &elem : worn ) {
+        it_armor *armor = dynamic_cast<it_armor *>( elem.type );
         if (armor == NULL || !armor->is_power_armor()) {
             continue;
         }
@@ -12732,7 +12722,7 @@ bool player::is_wearing_power_armor(bool *hasHelmet) const {
         }
         // found power armor, continue search for helmet
         result = true;
-        if (worn[i].covers.test(bp_head)) {
+        if( elem.covers.test( bp_head ) ) {
             *hasHelmet = true;
             return true;
         }
@@ -12778,11 +12768,10 @@ void player::practice( Skill *s, int amount, int cap )
     SkillLevel savantSkillLevel = SkillLevel();
 
     if (isSavant) {
-        for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
-             aSkill != Skill::skills.end(); ++aSkill) {
-            if (skillLevel(*aSkill) > savantSkillLevel) {
-                savantSkill = *aSkill;
-                savantSkillLevel = skillLevel(*aSkill);
+        for( auto &skill : Skill::skills ) {
+            if( skillLevel( skill ) > savantSkillLevel ) {
+                savantSkill = skill;
+                savantSkillLevel = skillLevel( skill );
             }
         }
     }
@@ -12971,9 +12960,9 @@ std::vector<item*> player::has_ammo(ammotype at)
     if (weapon.is_of_ammo_type_or_contains_it(at)) {
         result.push_back(&weapon);
     }
-    for (size_t i = 0; i < worn.size(); i++) {
-        if (worn[i].is_of_ammo_type_or_contains_it(at)) {
-            result.push_back(&worn[i]);
+    for( auto &elem : worn ) {
+        if( elem.is_of_ammo_type_or_contains_it( at ) ) {
+            result.push_back( &elem );
         }
     }
     return result;
@@ -13067,10 +13056,9 @@ SkillLevel& player::skillLevel(Skill *_skill)
 
 SkillLevel player::get_skill_level(Skill *_skill) const
 {
-    for (std::map<Skill*,SkillLevel>::const_iterator it = _skills.begin();
-            it != _skills.end(); ++it) {
-        if (it->first == _skill) {
-            return it->second;
+    for( const auto &elem : _skills ) {
+        if( elem.first == _skill ) {
+            return elem.second;
         }
     }
     return SkillLevel();
@@ -13333,9 +13321,9 @@ void player::shift_destination(int shiftx, int shifty)
         next_expected_position.y += shifty;
     }
 
-    for (std::vector<point>::iterator it = auto_move_route.begin(); it != auto_move_route.end(); it++) {
-        it->x += shiftx;
-        it->y += shifty;
+    for( auto &elem : auto_move_route ) {
+        elem.x += shiftx;
+        elem.y += shifty;
     }
 }
 

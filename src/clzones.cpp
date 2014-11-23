@@ -49,9 +49,9 @@ point clZones::clZoneData::getCenterPoint()
 
 std::string clZones::getNameFromType(const std::string p_sType)
 {
-    for (unsigned int i = 0; i < vZoneTypes.size(); ++i) {
-        if (vZoneTypes[i].second == p_sType) {
-            return vZoneTypes[i].first;
+    for( auto &elem : vZoneTypes ) {
+        if( elem.second == p_sType ) {
+            return elem.first;
         }
     }
 
@@ -60,8 +60,8 @@ std::string clZones::getNameFromType(const std::string p_sType)
 
 bool clZones::hasType(const std::string p_sType)
 {
-    for (unsigned int i = 0; i < vZoneTypes.size(); ++i) {
-        if (vZoneTypes[i].second == p_sType) {
+    for( auto &elem : vZoneTypes ) {
+        if( elem.second == p_sType ) {
             return true;
         }
     }
@@ -73,12 +73,12 @@ void clZones::cacheZoneData()
 {
     mZones.clear();
 
-    for (unsigned int i = 0; i < vZones.size(); ++i) {
-        if (vZones[i].getEnabled()) {
-            const std::string sType = vZones[i].getZoneType();
+    for( auto &elem : vZones ) {
+        if( elem.getEnabled() ) {
+            const std::string sType = elem.getZoneType();
 
-            point pStart = vZones[i].getStartPoint();
-            point pEnd = vZones[i].getEndPoint();
+            point pStart = elem.getStartPoint();
+            point pEnd = elem.getEndPoint();
 
             //draw marked area
             for (int iY = pStart.y; iY <= pEnd.y; ++iY) {
@@ -100,16 +100,16 @@ bool clZones::hasZone(const std::string p_sType, const point p_pointInput)
 void clZones::serialize(JsonOut &json) const
 {
     json.start_array();
-    for (unsigned int i = 0; i < vZones.size(); ++i) {
+    for( auto &elem : vZones ) {
         json.start_object();
 
-        json.member("name", vZones[i].getName());
-        json.member("type", vZones[i].getZoneType());
-        json.member("invert", vZones[i].getInvert());
-        json.member("enabled", vZones[i].getEnabled());
+        json.member( "name", elem.getName() );
+        json.member( "type", elem.getZoneType() );
+        json.member( "invert", elem.getInvert() );
+        json.member( "enabled", elem.getEnabled() );
 
-        point pointStart = vZones[i].getStartPoint();
-        point pointEnd = vZones[i].getEndPoint();
+        point pointStart = elem.getStartPoint();
+        point pointEnd = elem.getEndPoint();
 
         json.member("start_x", pointStart.x);
         json.member("start_y", pointStart.y);

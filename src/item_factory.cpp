@@ -74,15 +74,15 @@ void Item_factory::finialize_item_blacklist()
         if (!item_is_blacklisted(itm)) {
             continue;
         }
-        for (GroupMap::iterator b = m_template_groups.begin(); b != m_template_groups.end(); ++b) {
-            b->second->remove_item(itm);
+        for( auto &elem : m_template_groups ) {
+            elem.second->remove_item( itm );
         }
-        for (recipe_map::iterator b = recipes.begin(); b != recipes.end(); ++b) {
-            for (size_t c = 0; c < b->second.size(); c++) {
-                recipe *r = b->second[c];
+        for( auto &recipes_b : recipes ) {
+            for( size_t c = 0; c < recipes_b.second.size(); c++ ) {
+                recipe *r = recipes_b.second[c];
                 if( r->result == itm || r->requirements.remove_item(itm) ) {
                     delete r;
-                    b->second.erase(b->second.begin() + c);
+                    recipes_b.second.erase( recipes_b.second.begin() + c );
                     c--;
                     continue;
                 }
@@ -96,11 +96,11 @@ void Item_factory::finialize_item_blacklist()
                 i--;
             }
         }
-        for (size_t i = 0; i < terlist.size(); i++) {
-            remove_item(itm, terlist[i].bash.items);
+        for( auto &elem : terlist ) {
+            remove_item( itm, elem.bash.items );
         }
-        for (size_t i = 0; i < furnlist.size(); i++) {
-            remove_item(itm, furnlist[i].bash.items);
+        for( auto &elem : furnlist ) {
+            remove_item( itm, elem.bash.items );
         }
     }
 }
@@ -410,9 +410,8 @@ void Item_factory::check_ammo_type(std::ostream &msg, const std::string &ammo) c
     if (ammo == "UPS") {
         return;
     }
-    for (std::map<Item_tag, itype *>::const_iterator it = m_templates.begin(); it != m_templates.end();
-         ++it) {
-        const it_ammo *ammot = dynamic_cast<const it_ammo *>(it->second);
+    for( const auto &elem : m_templates ) {
+        const it_ammo *ammot = dynamic_cast<const it_ammo *>( elem.second );
         if (ammot == 0) {
             continue;
         }
@@ -426,19 +425,17 @@ void Item_factory::check_ammo_type(std::ostream &msg, const std::string &ammo) c
 void Item_factory::check_definitions() const
 {
     std::ostringstream main_stream;
-    for( std::map<Item_tag, itype *>::const_iterator it = m_templates.begin();
-         it != m_templates.end(); ++it ) {
+    for( const auto &elem : m_templates ) {
         std::ostringstream msg;
-        const itype *type = it->second;
+        const itype *type = elem.second;
         for( auto mat_id : type->materials ) {
             if( mat_id != "null" && !material_type::has_material(mat_id) ) {
                 msg << string_format("invalid material %s", mat_id.c_str()) << "\n";
             }
         }
-        for (std::set<std::string>::const_iterator a = type->techniques.begin();
-             a != type->techniques.end(); ++a) {
-            if (ma_techniques.count(*a) == 0) {
-                msg << string_format("unknown technique %s", a->c_str()) << "\n";
+        for( const auto &_a : type->techniques ) {
+            if( ma_techniques.count( _a ) == 0 ) {
+                msg << string_format( "unknown technique %s", _a.c_str() ) << "\n";
             }
         }
         if( !type->snippet_category.empty() ) {
@@ -511,8 +508,8 @@ void Item_factory::check_definitions() const
         getch();
         werase(stdscr);
     }
-    for (GroupMap::const_iterator a = m_template_groups.begin(); a != m_template_groups.end(); a++) {
-        a->second->check_consistency();
+    for( const auto &elem : m_template_groups ) {
+        elem.second->check_consistency();
     }
 }
 
@@ -1060,8 +1057,8 @@ void Item_factory::reset()
 void Item_factory::clear()
 {
     // clear groups
-    for (GroupMap::iterator ig = m_template_groups.begin(); ig != m_template_groups.end(); ++ig) {
-        delete ig->second;
+    for( auto &elem : m_template_groups ) {
+        delete elem.second;
     }
     m_template_groups.clear();
 
@@ -1070,9 +1067,8 @@ void Item_factory::clear()
     // Also clear functions refering to lua
     iuse_function_list.clear();
 
-    for (std::map<Item_tag, itype *>::iterator it = m_templates.begin(); it != m_templates.end();
-         ++it) {
-        delete it->second;
+    for( auto &elem : m_templates ) {
+        delete elem.second;
     }
     m_templates.clear();
     item_blacklist.clear();
@@ -1423,8 +1419,9 @@ void Item_factory::set_flag_by_string(std::bitset<13> &cur_flags, const std::str
                 parts.push_back("FOOT_L");
                 parts.push_back("FOOT_R");
             }
-            for (auto it = parts.begin(); it != parts.end(); ++it) {
-                std::map<std::string, body_part>::const_iterator found_flag_iter = body_parts.find(*it);
+            for( auto &part : parts ) {
+                std::map<std::string, body_part>::const_iterator found_flag_iter =
+                    body_parts.find( part );
                 if (found_flag_iter != body_parts.end()) {
                     cur_flags.set(found_flag_iter->second);
                 } else {
@@ -1456,8 +1453,9 @@ void Item_factory::set_flag_by_string(std::bitset<13> &cur_flags, const std::str
                 parts.push_back("FOOT_L");
                 parts.push_back("FOOT_R");
             }
-            for (auto it = parts.begin(); it != parts.end(); ++it) {
-                std::map<std::string, body_part>::const_iterator found_flag_iter = body_parts.find(*it);
+            for( auto &part : parts ) {
+                std::map<std::string, body_part>::const_iterator found_flag_iter =
+                    body_parts.find( part );
                 if (found_flag_iter != body_parts.end()) {
                     cur_flags.set(found_flag_iter->second);
                 } else {

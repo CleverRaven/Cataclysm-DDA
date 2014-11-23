@@ -236,8 +236,8 @@ void game::load_vehicle(JsonObject &jo)
 
 void game::reset_vehicles()
 {
-    for (std::map<std::string, vehicle *>::iterator veh = vtypes.begin(); veh != vtypes.end(); ++veh) {
-        delete veh->second;
+    for( auto &elem : vtypes ) {
+        delete elem.second;
     }
     vtypes.clear();
 }

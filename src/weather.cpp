@@ -243,8 +243,8 @@ void fill_funnels(int rain_depth_mm_per_hour, bool acid, trap_id t)
             // This funnel has collected some rain! Put the rain in the largest
             // container here which is either empty or contains some mixture of
             // impure water and acid.
-            for (size_t j = 0; j < items.size(); j++) {
-                item *it = &(items[j]);
+            for( auto &items_j : items ) {
+                item *it = &( items_j );
                 if ( it->is_funnel_container( maxcontains ) ) {
                     c = it;
                 }
