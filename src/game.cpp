@@ -2960,15 +2960,11 @@ input_context get_default_mode_input_context()
 
 input_context game::get_player_input(std::string &action)
 {
-//    input_context ctxt("DEFAULTMODE");
-//    if(uquit == QUIT_WATCH) {
-//        ctxt.register_action("ANY_INPUT");
-//        ctxt.register_action("QUIT");
-//        ctxt.register_action("LOOK");
-//    } else {
-//        ctxt = get_default_mode_input_context();
-//    }
     input_context ctxt = get_default_mode_input_context();
+    // register QUIT action so it catches q/Q/etc instead of just Q
+    if(uquit == QUIT_WATCH) {
+        ctxt.register_action("QUIT");
+    }
 
     if (OPTIONS["ANIMATIONS"]) {
         int iStartX = (TERRAIN_WINDOW_WIDTH > 121) ? (TERRAIN_WINDOW_WIDTH - 121) / 2 : 0;
@@ -3003,6 +2999,9 @@ input_context game::get_player_input(std::string &action)
         wPrint.endy = iEndY;
 
         inp_mngr.set_timeout(125);
+        // use 'do' like before, instead of 'while', as deathcam will not show animations
+        // without it. While alive, handle_mouseview() will return true anyway, so this just
+        // guarantees that it is run at least once to show snow/rain while dead. -Davek
         do {
             if (bWeatherEffect && OPTIONS["ANIMATION_RAIN"]) {
                 /*
@@ -3195,6 +3194,7 @@ bool game::handle_action()
     // of location clicked.
     int mouse_action_x = -1, mouse_action_y = -1;
 
+    // do not allow mouse actions while dead
     if(!u.is_dead_state()) {
         if (act == ACTION_NULL) {
             if (action == "SELECT" || action == "SEC_SELECT") {
@@ -3316,12 +3316,17 @@ bool game::handle_action()
     // move or obstacle
     bool continue_auto_move = false;
 
-    // quit prompt check (ACTION_QUIT only grabs 'Q'
+    // quit prompt check (ACTION_QUIT only grabs 'Q')
     if(uquit == QUIT_WATCH && action == "QUIT") {
         uquit = QUIT_DIED;
         return false;
     }
-    // if watching or not dead
+
+    // I have split the switch(act) into two, so one can be done
+    // for the deathcam as well. It will still be run if you are
+    // alive, so no worries there. KA101 suggested (quite aptly)
+    // that the user should be able to look around, so this
+    // allows that. -Davek
     if(uquit == QUIT_WATCH || !u.is_dead_state()) {
         switch(act) {
         case ACTION_CENTER:
@@ -3374,6 +3379,7 @@ bool game::handle_action()
         }
     }
 
+    // actions allowed only while alive
     if(!u.is_dead_state()) {
         switch (act) {
         case ACTION_NULL:
@@ -4129,8 +4135,9 @@ void game::update_scent()
 bool game::is_game_over()
 {
     if (uquit == QUIT_WATCH) {
-        // deny player movement
+        // deny player movement and dodging
         u.moves = 0;
+        u.dodges_left = 0;
         return false;
     }
     if (uquit == QUIT_DIED) {
@@ -4149,7 +4156,7 @@ bool game::is_game_over()
     if (uquit != QUIT_NO) {
         return true;
     }
-    // is_dead_state() already checks hp_torso && hp_head, no need to loop it
+    // is_dead_state() already checks hp_torso && hp_head, no need to for loop it
     if(u.is_dead_state()) {
         uquit = query_yn("Watch the last moments of your life...?") ? QUIT_WATCH : QUIT_DIED;
         return false;
