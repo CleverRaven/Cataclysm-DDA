@@ -4570,7 +4570,7 @@ void game::write_memorial_file(std::string sLastWords)
     std::locale locl("C");
     std::string player_name;
     // 32 seems to be a reasonable length for a player's name...
-    int len = (u.name.length() < 32) ? u.name.length() : 32;
+    unsigned int len = (u.name.length() < 32) ? u.name.length() : 32;
     for(std::string::size_type i = 0; i < len; ++i) {
         // any printable, except space, as we want to convert those to '_'
         if(std::isgraph(u.name[i], locl)) {
