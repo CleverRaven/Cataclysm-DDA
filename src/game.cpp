@@ -3981,6 +3981,9 @@ bool game::handle_action()
         case ACTION_ZOOM_OUT:
             zoom_out();
             break;
+
+        default:
+            break;
         }
     }
 
