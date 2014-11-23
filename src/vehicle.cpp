@@ -3087,12 +3087,13 @@ void vehicle::idle(bool on_map) {
     float idle_rate;
 
     if (engine_on && total_power() > 0) {
-        if (has_engine_type_not(fuel_type_muscle, true)) {
-            int strn = (int)(strain() * strain() * 100);
-            for (size_t e = 0; e < engines.size(); e++){
-                size_t p = engines[e];
-                if (fuel_left(part_info(p).fuel_type) && is_engine_on(e)) {
-                    engines_power += part_power(p);
+        
+        int strn = (int)(strain() * strain() * 100);
+        for (size_t e = 0; e < engines.size(); e++){
+            size_t p = engines[e];
+            if (fuel_left(part_info(p).fuel_type) && is_engine_on(e)) {
+                engines_power += part_power(p);
+                if (has_engine_type_not(fuel_type_muscle, true)) {
                     if (one_in(6) && rng(1, 100) < strn) {
                         int dmg = rng(strn * 2, strn * 4);
                         damage_direct(p, dmg, 0);
@@ -3101,16 +3102,16 @@ void vehicle::idle(bool on_map) {
                         else
                             add_msg(_("Your engine emits a loud grinding sound."));
                     }
-                }
+                }       
             }
+        }
 
-            idle_rate = (float)alternator_load / (float)engines_power;
-            if (idle_rate < 0.01) idle_rate = 0.01; // minimum idle is 1% of full throttle
-            consume_fuel(idle_rate);
+        idle_rate = (float)alternator_load / (float)engines_power;
+        if (idle_rate < 0.01) idle_rate = 0.01; // minimum idle is 1% of full throttle
+        consume_fuel(idle_rate);
 
-            if (on_map) {
-                noise_and_smoke( idle_rate, 6.0 );
-            }
+        if (on_map) {
+            noise_and_smoke( idle_rate, 6.0 );
         }
     }
     else {
