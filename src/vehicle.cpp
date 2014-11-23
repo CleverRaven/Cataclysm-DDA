@@ -2802,8 +2802,9 @@ void vehicle::consume_fuel( double load = 1.0 )
         }
         //cost fatigue and hunger
         if (one_in(10)) {
-            g->u.fatigue += 2;
-            g->u.hunger += 2;
+            g->u.fatigue += 1;
+            g->u.hunger += 1;
+            g->u.thirst += 1;
         }
     }
 }
