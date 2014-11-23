@@ -48,6 +48,7 @@
 #include <sstream>
 #include <cmath>
 #include <vector>
+#include <locale>
 
 #ifdef _MSC_VER
 #include "wdirent.h"
@@ -4564,24 +4565,28 @@ void game::write_memorial_file(std::string sLastWords)
         }
     }
 
-    /* Remove non-ASCII glyphs from character names - unicode symbols are not
-     * valid in filenames. */
-    std::stringstream player_name;
-    for (size_t index = 0; index < u.name.size(); ++index) {
-        if ((unsigned char)u.name[index] <= '~') {
-            player_name << u.name[index];
+    // use "C" locale to determine printable characters, and replace with '_'
+    // note that spaces will also be translated to '_' as well
+    std::locale locl("C");
+    std::string player_name;
+    // 32 seems to be a reasonable length for a player's name...
+    int len = (u.name.length() < 32) ? u.name.length() : 32;
+    for(std::string::size_type i = 0; i < len; ++i) {
+        // any printable, except space, as we want to convert those to '_'
+        if(std::isgraph(u.name[i], locl)) {
+            player_name.push_back(u.name[i]);
+        } else {
+            player_name.push_back('_');
         }
     }
-    if (player_name.str().length() > 0) {
-        //Separate name and timestamp
-        player_name << '-';
+
+    // add '~' if player's name was shortened
+    if(u.name.length() >= 32) {
+        player_name.push_back('~');
     }
-
-    //Omit the name if too many unusable characters stripped
-    std::string memorial_file_path = string_format("memorial/%s%s.txt",
-                                     player_name.str().length() <= (u.name.length() / 5) ? "" : player_name.str().c_str(),
-                                     timestamp.c_str());
-
+    
+    std::string memorial_file_path = FILENAMES["memorialdir"] + player_name + "-" + timestamp + ".txt";
+                                    
     std::ofstream memorial_file;
     memorial_file.open(memorial_file_path.c_str());
 
