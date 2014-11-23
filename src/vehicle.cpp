@@ -2226,7 +2226,7 @@ int vehicle::total_folded_volume()
         if (parts[i].removed) {
           continue;
         }
-        m += parts[i].folded_volume;
+        m += part_info(i).folded_volume;
     }
     return m;
 }
