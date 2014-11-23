@@ -3257,10 +3257,16 @@ void vehicle::thrust (int thd) {
             }
         }
         
-        //charge bionics when using muscle engine
+        //do this with chance proportional to current load
         if (one_in((int)(1/load)) && has_engine_type(fuel_type_muscle, true)) {
+            //charge bionics when using muscle engine
             if (g->u.has_bionic("bio_torsionratchet")) {
                 g->u.charge_power(1);
+            }
+            //cost fatigue and hunger
+            if (one_in(10)) {
+                g->u.fatigue += 2;
+                g->u.hunger += 2;
             }
         }
     }
