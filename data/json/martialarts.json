@@ -461,7 +461,10 @@
             "rapier",
             "fencing_foil",
             "fencing_sabre",
-            "fencing_epee"
+            "fencing_epee",
+            "umbrella",
+            "cane",
+            "cudgel"
         ]
     },{
         "type" : "martial_art",
