@@ -2097,17 +2097,16 @@ void game::rod_fish(int sSkillLevel, int fishChance) // fish-with-rod fish catch
             std::string fish_mon = fish_group[rng(1, fish_group.size()) - 1];
             fish.make_corpse("corpse", GetMType(fish_mon), calendar::turn);
             m.add_item_or_charges(u.posx, u.posy, fish);
-            u.add_msg_if_player(m_good, _("You catch a fish!"));
+            u.add_msg_if_player(m_good, _("You caught a %s."), GetMType(fish_mon)->nname().c_str());
             } else {
-                u.add_msg_if_player(_("You catch nothing."));
+                u.add_msg_if_player(_("You didn't catch anything."));
             }
         } else {
-            u.add_msg_if_player(m_good, _("You catch a fish!"));
             catch_a_monster(fishables, u.posx, u.posy, &u, 30000);
         }
 
     } else {
-        u.add_msg_if_player(_("You catch nothing."));
+        u.add_msg_if_player(_("You didn't catch anything."));
     }
 }
 
@@ -2118,6 +2117,7 @@ void game::catch_a_monster(std::vector<monster*> &catchables, int posx, int posy
     item fish;
     fish.make_corpse("corpse", catchables[index]->type, calendar::turn + int(rng(0, catch_duration)));
     m.add_item_or_charges(posx, posy, fish);
+    u.add_msg_if_player(m_good, _("You caught a %s."), catchables[index]->type->nname().c_str());
     //quietly kill the catched
     catchables[index]->no_corpse_quiet = true;
     catchables[index]->die( p );
