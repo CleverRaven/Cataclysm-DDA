@@ -2619,20 +2619,25 @@ int item::reload_time(player &u)
         ret = reloading->reload_time;
         if (charges == 0) {
             int spare_mag = has_gunmod("spare_mag");
-            if (spare_mag != -1 && contents[spare_mag].charges > 0)
+            if (spare_mag != -1 && contents[spare_mag].charges > 0) {
                 ret -= int(double(ret) * 0.9);
+            }
         }
         double skill_bonus = double(u.skillLevel(reloading->skill_used)) * .075;
-        if (skill_bonus > .75)
+        if (skill_bonus > .75) {
             skill_bonus = .75;
+        }
         ret -= int(double(ret) * skill_bonus);
-    } else if (is_tool())
+    } else if (is_tool()) {
         ret = 100 + volume() + (weight() / 113);
+    }
 
-    if (has_flag("STR_RELOAD"))
+    if (has_flag("STR_RELOAD")) {
         ret -= u.str_cur * 20;
-    if (ret < 25)
+    }
+    if (ret < 25) {
         ret = 25;
+    }
     ret += u.encumb(bp_hand_l) * 15;
     ret += u.encumb(bp_hand_r) * 15;
     return ret;
@@ -2640,17 +2645,19 @@ int item::reload_time(player &u)
 
 item* item::active_gunmod()
 {
-    if( mode == "MODE_AUX" )
-        for( auto &elem : contents )
-            if( elem.is_gunmod() && elem.mode == "MODE_AUX" )
+    if( mode == "MODE_AUX" ) {
+        for( auto &elem : contents ) {
+            if( elem.is_gunmod() && elem.mode == "MODE_AUX" ) {
                 return &elem;
+            }
+        }
+    }
     return NULL;
 }
 
 item const* item::inspect_active_gunmod() const
 {
-    if (mode == "MODE_AUX")
-    {
+    if( mode == "MODE_AUX" ) {
         for( auto &elem : contents ) {
             if( elem.is_gunmod() && elem.mode == "MODE_AUX" ) {
                 return &elem;
@@ -2662,12 +2669,9 @@ item const* item::inspect_active_gunmod() const
 
 void item::next_mode()
 {
-    if( mode == "NULL" && has_flag("MODE_BURST") )
-    {
+    if( mode == "NULL" && has_flag("MODE_BURST") ) {
         mode = "MODE_BURST";
-    }
-    else if( mode == "NULL" || mode == "MODE_BURST" )
-    {
+    } else if( mode == "NULL" || mode == "MODE_BURST" ) {
         // mode is MODE_BURST, or item has no MODE_BURST flag and mode is NULL
         // Enable the first mod with an AUX firing mode.
         for( auto &elem : contents ) {
@@ -2678,29 +2682,22 @@ void item::next_mode()
             }
         }
         mode = "NULL";
-    }
-    else if( mode == "MODE_AUX")
-    {
+    } else if( mode == "MODE_AUX") {
         size_t i = 0;
         // Advance to next aux mode, or if there isn't one, normal mode
-        for (; i < contents.size(); i++)
-        {
-            if (contents[i].is_gunmod() && contents[i].mode == "MODE_AUX")
-            {
+        for( ; i < contents.size(); i++ ) {
+            if( contents[i].is_gunmod() && contents[i].mode == "MODE_AUX" ) {
                 contents[i].mode = "NULL";
                 break;
             }
         }
-        for (i++; i < contents.size(); i++)
-        {
-            if (contents[i].is_gunmod() && contents[i].has_flag("MODE_AUX"))
-            {
+        for( i++; i < contents.size(); i++ ) {
+            if( contents[i].is_gunmod() && contents[i].has_flag("MODE_AUX") ) {
                 contents[i].mode = "MODE_AUX";
                 break;
             }
         }
-        if (i == contents.size())
-        {
+        if( i == contents.size() ) {
             mode = "NULL";
         }
     }
@@ -2825,8 +2822,9 @@ int item::gun_damage(bool with_ammo)
     if (with_ammo && curammo != NULL)
         ret += curammo->damage;
     for( auto &elem : contents ) {
-        if( elem.is_gunmod() )
+        if( elem.is_gunmod() ) {
             ret += ( dynamic_cast<it_gunmod *>( elem.type ) )->damage;
+        }
     }
     ret -= damage * 2;
     return ret;
@@ -2834,65 +2832,74 @@ int item::gun_damage(bool with_ammo)
 
 int item::gun_pierce(bool with_ammo)
 {
-    if (is_gunmod() && mode == "MODE_AUX")
+    if( is_gunmod() && mode == "MODE_AUX" ) {
         return curammo->pierce;
-    if (!is_gun())
+    }
+    if( !is_gun() ) {
         return 0;
-    if(mode == "MODE_AUX") {
+    }
+    if( mode == "MODE_AUX" ) {
         item* gunmod = active_gunmod();
-        if(gunmod != NULL && gunmod->curammo != NULL)
+        if( gunmod != NULL && gunmod->curammo != NULL ) {
             return gunmod->curammo->pierce;
-        else
+        } else {
             return 0;
+        }
     }
     it_gun* gun = dynamic_cast<it_gun*>(type);
     int ret = gun->pierce;
-    if (with_ammo && curammo != NULL)
+    if( with_ammo && curammo != NULL ) {
         ret += curammo->pierce;
+    }
     return ret;
 }
 
 int item::noise() const
 {
-    if (!is_gun())
+    if( !is_gun() ) {
         return 0;
+    }
     int ret = 0;
-    if(mode == "MODE_AUX") {
+    if( mode == "MODE_AUX" ) {
         item const* gunmod = inspect_active_gunmod();
-        if (gunmod && gunmod->curammo)
+        if( gunmod && gunmod->curammo ) {
             ret = gunmod->curammo->damage;
-    } else if (curammo)
+        }
+    } else if (curammo) {
         ret = curammo->damage;
+    }
     ret *= .8;
     if (ret >= 5) {
         ret += 20;
     }
-    if(mode == "MODE_AUX") {
+    if( mode == "MODE_AUX" ) {
         return ret;
     }
     for( auto &elem : contents ) {
-        if( elem.is_gunmod() )
+        if( elem.is_gunmod() ) {
             ret += ( dynamic_cast<it_gunmod *>( elem.type ) )->loudness;
+        }
     }
     return ret;
 }
 
 int item::burst_size()
 {
-    if (!is_gun()) {
+    if( !is_gun() ) {
         return 0;
     }
-// No burst fire for gunmods right now.
-    if(mode == "MODE_AUX") {
+    // No burst fire for gunmods right now.
+    if( mode == "MODE_AUX" ) {
         return 1;
     }
     it_gun* gun = dynamic_cast<it_gun*>(type);
     int ret = gun->burst;
     for( auto &elem : contents ) {
-        if( elem.is_gunmod() )
+        if( elem.is_gunmod() ) {
             ret += ( dynamic_cast<it_gunmod *>( elem.type ) )->burst;
+        }
     }
-    if (ret < 0) {
+    if( ret < 0 ) {
         return 0;
     }
     return ret;
@@ -2903,10 +2910,10 @@ int item::recoil(bool with_ammo)
     if (!is_gun()) {
         return 0;
     }
-// Just use the raw ammo recoil for now.
+    // Just use the raw ammo recoil for now.
     if(mode == "MODE_AUX") {
         item* gunmod = active_gunmod();
-        if (gunmod && gunmod->curammo) {
+        if( gunmod && gunmod->curammo ) {
             return gunmod->curammo->recoil;
         } else {
             return 0;
@@ -2914,7 +2921,7 @@ int item::recoil(bool with_ammo)
     }
     it_gun* gun = dynamic_cast<it_gun*>(type);
     int ret = gun->recoil;
-    if (with_ammo && curammo) {
+    if( with_ammo && curammo ) {
         ret += curammo->recoil;
     }
     for( auto &elem : contents ) {
@@ -2938,7 +2945,7 @@ int item::range(player *p)
         int mod_range = 0;
         if( gunmod ) {
             mod_range += dynamic_cast<it_gunmod *>(gunmod->type)->range;
-            if( gunmod->curammo) {
+            if( gunmod->curammo ) {
                 mod_range += gunmod->curammo->range;
             }
         }
@@ -2946,7 +2953,7 @@ int item::range(player *p)
     }
 
     // Ammoless weapons use weapon's range only
-    if (has_flag("NO_AMMO") && !curammo) {
+    if( has_flag("NO_AMMO") && !curammo ) {
         return dynamic_cast<it_gun*>(type)->range;
     }
 
