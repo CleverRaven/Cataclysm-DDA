@@ -6922,8 +6922,7 @@ void game::knockback(int sx, int sy, int tx, int ty, int force, int stun, int da
     std::vector<point> traj;
     traj.clear();
     traj = line_to(sx, sy, tx, ty, 0);
-    traj.insert(traj.begin(), point(sx,
-                                    sy)); // how annoying, line_to() doesn't include the originating point!
+    traj.insert(traj.begin(), point(sx, sy)); // how annoying, line_to() doesn't include the originating point!
     traj = continue_line(traj, force);
     traj.insert(traj.begin(), point(tx, ty)); // how annoying, continue_line() doesn't either!
 

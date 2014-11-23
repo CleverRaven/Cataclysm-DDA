@@ -102,7 +102,10 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
     // if this is a vehicle mounted turret, which vehicle is it mounted on?
     const vehicle *in_veh = is_fake() ? g->m.veh_at(xpos(), ypos()) : NULL;
 
+    //Start this now in case we hit something early
+    std::vector<point> blood_traj = std::vector<point>();
     for (size_t i = 0; i < trajectory.size() && (dam > 0 || (proj.proj_effects.count("FLAME"))); i++) {
+        blood_traj.push_back(trajectory[i]);
         px = tx;
         py = ty;
         (void) px;
@@ -140,9 +143,6 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
             dealt_damage_instance dealt_dam;
             bool passed_through = critter->deal_projectile_attack(this, cur_missed_by, proj, dealt_dam) == 1;
             if (dealt_dam.total_damage() > 0) {
-                std::vector<point> blood_traj = std::vector<point>();
-                blood_traj.insert(blood_traj.begin(), point(xpos(), ypos()));
-                blood_traj.insert(blood_traj.end(), point(critter->xpos(), critter->ypos()));
                 splatter( blood_traj, dam, critter );
             }
             if (!passed_through) {
@@ -1487,5 +1487,3 @@ void splatter( std::vector<point> trajectory, int dam, Creature *target )
         }
     }
 }
-
-
