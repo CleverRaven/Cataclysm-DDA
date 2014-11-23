@@ -7306,7 +7306,7 @@ void player::suffer()
 {
     for (size_t i = 0; i < my_bionics.size(); i++) {
         if (my_bionics[i].powered) {
-            activate_bionic(i);
+            process_bionic(i);
         }
     }
 
@@ -7359,7 +7359,7 @@ void player::suffer()
                 oxygen += 12;
             }
         if (oxygen < 0) {
-            if (has_bionic("bio_gills") && power_level > 0) {
+            if (has_bionic("bio_gills") && power_level >= 25) {
                 oxygen += 5;
                 power_level -= 25;
             } else {
