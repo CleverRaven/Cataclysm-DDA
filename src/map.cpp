@@ -1552,6 +1552,8 @@ bool map::moppable_items_at(const int x, const int y)
     const field &fld = field_at(x, y);
     if(fld.findField(fd_blood) != 0 || fld.findField(fd_blood_veggy) != 0 ||
           fld.findField(fd_blood_insect) != 0 || fld.findField(fd_blood_invertebrate) != 0
+          || fld.findField(fd_gibs_flesh) != 0 || fld.findField(fd_gibs_veggy) != 0 ||
+          fld.findField(fd_gibs_insect) != 0 || fld.findField(fd_gibs_invertebrate) != 0
           || fld.findField(fd_bile) != 0 || fld.findField(fd_slime) != 0 ||
           fld.findField(fd_sludge) != 0) {
         return true;
@@ -1629,6 +1631,10 @@ void map::mop_spills(const int x, const int y) {
     remove_field( x, y, fd_blood_veggy );
     remove_field( x, y, fd_blood_insect );
     remove_field( x, y, fd_blood_invertebrate );
+    remove_field( x, y, fd_gibs_flesh );
+    remove_field( x, y, fd_gibs_veggy );
+    remove_field( x, y, fd_gibs_insect );
+    remove_field( x, y, fd_gibs_invertebrate );
     remove_field( x, y, fd_bile );
     remove_field( x, y, fd_slime );
     remove_field( x, y, fd_sludge );
@@ -5393,14 +5399,14 @@ void map::add_corpse(int x, int y) {
     }
 
     add_item_or_charges(x, y, body);
-    put_items_from("shoes",  1, x, y, 0, 0, 0);
-    put_items_from("pants",  1, x, y, 0, 0, 0);
-    put_items_from("shirts", 1, x, y, 0, 0, 0);
+    put_items_from_loc( "shoes",  x, y, 0);
+    put_items_from_loc( "pants",  x, y, 0);
+    put_items_from_loc( "shirts", x, y, 0);
     if (one_in(6)) {
-        put_items_from("jackets", 1, x, y, 0, 0, 0);
+        put_items_from_loc("jackets", x, y, 0);
     }
     if (one_in(15)) {
-        put_items_from("bags", 1, x, y, 0, 0, 0);
+        put_items_from_loc("bags", x, y, 0);
     }
 }
 

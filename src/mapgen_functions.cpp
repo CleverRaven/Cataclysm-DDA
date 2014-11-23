@@ -6277,7 +6277,9 @@ void mapgen_cavern(map *m, oter_id, mapgendata dat, int, float)
             m->spawn_item(x, y, "hat_hard");
         }
         while (!one_in(3)) {
-            m->put_items_from("cannedfood", 3, x, y, 0, 0, 0);
+            for( int i = 0; i < 3; ++i ) {
+                m->put_items_from_loc( "cannedfood", x, y, 0 );
+            }
         }
     }
 

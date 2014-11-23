@@ -17,21 +17,9 @@
 #include <set>
 #include <bitset>
 
-// for use in category specific inventory lists
-enum item_cat {
-    IC_NULL = 0,
-    IC_COMESTIBLE,
-    IC_AMMO,
-    IC_ARMOR,
-    IC_GUN,
-    IC_BOOK,
-    IC_TOOL,
-    IC_CONTAINER
-};
-
 typedef std::string itype_id;
 
-// see item_factory.h
+// see item.h
 class item_category;
 
 struct itype;
@@ -61,9 +49,6 @@ enum bigness_property_aspect {
 std::string ammo_name(ammotype t);
 // Returns the default ammo for a category of ammo (e.g. ""00_shot"")
 itype_id default_ammo(ammotype guntype);
-
-// Returns the name of the given item type
-std::string item_name(const itype_id &type);
 
 struct explosion_data {
     // Those 4 values are forwarded to game::explosion.

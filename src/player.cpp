@@ -19,7 +19,6 @@
 #include "catacharset.h"
 #include "get_version.h"
 #include "crafting.h"
-#include "item_factory.h"
 #include "monstergenerator.h"
 #include "help.h" // get_hint
 #include "martialarts.h"
@@ -116,6 +115,28 @@ void game::init_morale()
     for (int i = 0; i < NUM_MORALE_TYPES; ++i) {
         morale_data[i]=tmp_morale_data[i];
     }
+}
+
+
+std::string morale_point::name() const
+{
+    // Start with the morale type's description.
+    std::string ret = morale_data[type];
+
+    // Get the name of the referenced item (if any).
+    std::string item_name = "";
+    if( item_type != NULL ) {
+        item_name = item_type->nname( 1 );
+    }
+
+    // Replace each instance of %i with the item's name.
+    size_t it = ret.find( "%i" );
+    while( it != std::string::npos ) {
+        ret.replace( it, 2, item_name );
+        it = ret.find( "%i" );
+    }
+
+    return ret;
 }
 
 player::player() : Character(), name("")
@@ -3345,7 +3366,7 @@ void player::disp_morale()
     // Figure out how wide the name column needs to be.
     int name_column_width = 18;
     for (auto &i : morale) {
-        int length = i.name(morale_data).length();
+        int length = i.name().length();
         if ( length > name_column_width) {
             name_column_width = length;
         }
@@ -3368,7 +3389,7 @@ void player::disp_morale()
     // Print out the morale entries.
     for (size_t i = 0; i < morale.size(); i++)
     {
-        std::string name = morale[i].name(morale_data);
+        std::string name = morale[i].name();
         int bonus = net_morale(morale[i]);
 
         // Trim the name if need be.
@@ -9391,12 +9412,12 @@ bool player::consume(int target_position)
                 // Check tools
                 bool has = has_amount(comest->tool, 1);
                 // Tools with charges need to have charges, not just be present.
-                if (item_controller->count_by_charges( comest->tool )) {
+                if( item::count_by_charges( comest->tool ) ) {
                     has = has_charges(comest->tool, 1);
                 }
                 if (!has) {
                     add_msg_if_player(m_info, _("You need a %s to consume that!"),
-                                         item_controller->nname( comest->tool ).c_str());
+                                         item::nname( comest->tool ).c_str());
                     return false;
                 }
                 use_charges(comest->tool, 1); // Tools like lighters get used
@@ -9502,12 +9523,12 @@ bool player::eat(item *eaten, it_comest *comest)
     }
     if (comest->tool != "null") {
         bool has = has_amount(comest->tool, 1);
-        if (item_controller->count_by_charges( comest->tool )) {
+        if( item::count_by_charges( comest->tool ) ) {
             has = has_charges(comest->tool, 1);
         }
         if (!has) {
             add_msg_if_player(m_info, _("You need a %s to consume that!"),
-                       item_controller->nname( comest->tool ).c_str());
+                       item::nname( comest->tool ).c_str());
             return false;
         }
     }
@@ -9775,7 +9796,7 @@ bool player::eat(item *eaten, it_comest *comest)
         else healall(excess_food /= 5);
     }
 
-    if (item_controller->find_template( comest->tool )->is_tool()) {
+    if (item::find_type( comest->tool )->is_tool() ) {
         use_charges(comest->tool, 1); // Tools like lighters get used
     }
 
@@ -9964,17 +9985,18 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
     if (eaten->has_flag("HOT") && eaten->has_flag("EATEN_HOT")) {
         add_morale(MORALE_FOOD_HOT, 5, 10);
     }
-    if (eaten->has_flag("COLD") && eaten->has_flag("EATEN_COLD") && comest->fun > 0) {
-            add_morale(MORALE_FOOD_GOOD, comest->fun * 3, comest->fun * 3, 60, 30, false, comest);
+    auto fun = comest->fun;
+    if (eaten->has_flag("COLD") && eaten->has_flag("EATEN_COLD") && fun > 0) {
+            add_morale(MORALE_FOOD_GOOD, fun * 3, fun * 3, 60, 30, false, comest);
     }
-    if (eaten->has_flag("COLD") && eaten->has_flag("EATEN_COLD") && comest->fun <= 0) {
-            comest->fun = 1;
+    if (eaten->has_flag("COLD") && eaten->has_flag("EATEN_COLD") && fun <= 0) {
+            fun = 1;
     }
     if (has_trait("GOURMAND")) {
-        if (comest->fun < -2) {
-            add_morale(MORALE_FOOD_BAD, comest->fun * 0.5, comest->fun, 60, 30, false, comest);
-        } else if (comest->fun > 0) {
-            add_morale(MORALE_FOOD_GOOD, comest->fun * 3, comest->fun * 6, 60, 30, false, comest);
+        if (fun < -2) {
+            add_morale(MORALE_FOOD_BAD, fun * 0.5, fun, 60, 30, false, comest);
+        } else if (fun > 0) {
+            add_morale(MORALE_FOOD_GOOD, fun * 3, fun * 6, 60, 30, false, comest);
         }
         if (has_trait("GOURMAND") && !(has_active_mutation("HIBERNATE"))) {
         if ((comest->nutr > 0 && hunger < -60) || (comest->quench > 0 && thirst < -60)) {
@@ -10020,10 +10042,10 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
             thirst = -620;
         }
     } else {
-        if (comest->fun < 0) {
-            add_morale(MORALE_FOOD_BAD, comest->fun, comest->fun * 6, 60, 30, false, comest);
-        } else if (comest->fun > 0) {
-            add_morale(MORALE_FOOD_GOOD, comest->fun, comest->fun * 4, 60, 30, false, comest);
+        if (fun < 0) {
+            add_morale(MORALE_FOOD_BAD, fun, fun * 6, 60, 30, false, comest);
+        } else if (fun > 0) {
+            add_morale(MORALE_FOOD_GOOD, fun, fun * 4, 60, 30, false, comest);
         }
         if ((comest->nutr > 0 && hunger < -20) || (comest->quench > 0 && thirst < -20)) {
             add_msg_if_player(_("You can't finish it all!"));
@@ -11682,7 +11704,7 @@ bool player::try_study_recipe(it_book *book)
                 rng(0, 4) <= (skillLevel(iter->first->skill_used) - iter->second) / 2) {
                 learn_recipe((recipe *)iter->first);
                 add_msg(m_good, _("Learned a recipe for %s from the %s."),
-                                item_controller->nname( iter->first->result ).c_str(), book->nname(1).c_str());
+                                item::nname( iter->first->result ).c_str(), book->nname(1).c_str());
                 return true;
             } else {
                 add_msg(_("Failed to learn a recipe from the %s."), book->nname(1).c_str());
@@ -13687,7 +13709,7 @@ void player::place_corpse()
         g->m.add_item_or_charges( posx, posy, *itm );
     }
     for( auto & bio : my_bionics ) {
-        if( item_controller->has_template( bio.id ) ) {
+        if( item::type_is_defined( bio.id ) ) {
             body.put_in( item( bio.id, calendar::turn ) );
         }
     }

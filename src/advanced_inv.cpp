@@ -5,7 +5,6 @@
 #include "translations.h"
 #include "uistate.h"
 #include "helper.h"
-#include "item_factory.h"
 #include "auto_pickup.h"
 #include "messages.h"
 #include "player_activity.h"

@@ -1,4 +1,3 @@
-
 #include "game.h"
 #include "output.h"
 #include "skill.h"
@@ -15,7 +14,6 @@
 #include "trap.h"
 #include "mapdata.h"
 #include "translations.h"
-#include "item_factory.h"
 #include <map>
 #include <set>
 #include <algorithm>
@@ -1649,8 +1647,8 @@ void player::load_legacy(std::stringstream & dump)
   std::string item_id;
   dump >> mortype >> item_id;
   mortmp.type = morale_type(mortype);
-        if( item_controller->has_template( item_id ) ) {
-            mortmp.item_type = item_controller->find_template( item_id );
+        if( item::type_is_defined( item_id ) ) {
+            mortmp.item_type = item::find_type( item_id );
         } else {
             mortmp.item_type = nullptr;
         }
@@ -1948,7 +1946,7 @@ void item::load_legacy(std::stringstream & dump) {
         active = true;
     }
     if (ammotmp != "null") {
-        curammo = dynamic_cast<it_ammo*>(item_controller->find_template( ammotmp ));
+        curammo = dynamic_cast<it_ammo*>( item::find_type( ammotmp ) );
     } else {
         curammo = NULL;
     }

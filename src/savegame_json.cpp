@@ -24,7 +24,6 @@
 #include "crafting.h"
 #include "get_version.h"
 #include "monstergenerator.h"
-#include "item_factory.h"
 
 #include "savegame.h"
 #include "tile_id_data.h" // for monster::json_save
@@ -1045,7 +1044,7 @@ void item::deserialize(JsonObject &data)
 
     data.read( "covers", tmp_covers );
     if (is_armor() && tmp_covers.none()) {
-        it_armor *armor = dynamic_cast<it_armor *>( item( idtmp, 0 ).type );
+        it_armor *armor = dynamic_cast<it_armor *>( type );
         covers = armor->covers;
         if (armor->sided.any()) {
             bool left = one_in(2);
@@ -1684,8 +1683,8 @@ void morale_point::deserialize( JsonIn &jsin )
     JsonObject jo = jsin.get_object();
     type = static_cast<morale_type>( jo.get_int( "type_enum" ) );
     std::string tmpitype;
-    if( jo.read( "item_type", tmpitype ) && item_controller->has_template( tmpitype ) ) {
-        item_type = item_controller->find_template( tmpitype );
+    if( jo.read( "item_type", tmpitype ) && item::type_is_defined( tmpitype ) ) {
+        item_type = item::find_type( tmpitype );
     }
     jo.read( "bonus", bonus );
     jo.read( "duration", duration );

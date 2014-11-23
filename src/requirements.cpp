@@ -1,7 +1,6 @@
 #include "requirements.h"
 #include "json.h"
 #include "translations.h"
-#include "item_factory.h"
 #include "game.h"
 #include "inventory.h"
 #include "output.h"
@@ -53,22 +52,20 @@ bool tool_comp::by_charges() const
 
 std::string tool_comp::to_string(int batch) const
 {
-    const itype *it = item_controller->find_template( type );
     if( by_charges() ) {
         //~ <tool-name> (<numer-of-charges> charges)
         return string_format( ngettext( "%s (%d charge)", "%s (%d charges)", count * batch ),
-                              it->nname( 1 ).c_str(), count * batch );
+                              item::nname( type ).c_str(), count * batch );
     } else {
-        return it->nname( abs( count ) );
+        return item::nname( type, abs( count ) );
     }
 }
 
 std::string item_comp::to_string(int batch) const
 {
-    const itype *it = item_controller->find_template( type );
     const int c = std::abs( count ) * batch;
     //~ <item-count> <item-name>
-    return string_format( ngettext( "%d %s", "%d %s", c ), c, it->nname( c ).c_str() );
+    return string_format( ngettext( "%d %s", "%d %s", c ), c, item::nname( type, c ).c_str() );
 }
 
 void quality_requirement::load( JsonArray &jsarr )
@@ -187,7 +184,7 @@ void quality_requirement::check_consistency( const std::string &display_name ) c
 
 void component::check_consistency( const std::string &display_name ) const
 {
-    if( !item_controller->has_template( type ) ) {
+    if( !item::type_is_defined( type ) ) {
         debugmsg( "%s in %s is not a valid item template", type.c_str(), display_name.c_str() );
     }
 }
@@ -355,8 +352,7 @@ bool item_comp::has( const inventory &crafting_inv, int batch ) const
         }
     }
     const int cnt = std::abs( count ) * batch;
-    const itype *it = item_controller->find_template( type );
-    if( it->count_by_charges() ) {
+    if( item::count_by_charges( type ) ) {
         return crafting_inv.has_charges( type, cnt );
     } else {
         return crafting_inv.has_components( type, cnt );
@@ -371,10 +367,9 @@ std::string item_comp::get_color( bool has_one, const inventory &crafting_inv, i
         }
     }
     const int cnt = std::abs( count ) * batch;
-    const itype *it = item_controller->find_template( type );
     if( available == a_insufficent ) {
         return "brown";
-    } else if( it->count_by_charges() ) {
+    } else if( item::count_by_charges( type ) ) {
         if( crafting_inv.has_charges( type, cnt ) ) {
             return "green";
         }
@@ -447,7 +442,7 @@ bool requirement_data::check_enough_materials( const item_comp &comp,
             comp.available = a_insufficent;
         }
     }
-    const itype *it = item_controller->find_template( comp.type );
+    const itype *it = item::find_type( comp.type );
     for( const auto &ql : it->qualities ) {
         const quality_requirement *qr = find_by_type( qualities, ql.first );
         if( qr == nullptr || qr->level > ql.second ) {

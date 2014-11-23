@@ -9,7 +9,6 @@
 #include "color.h"
 #include "options.h"
 #include "debug.h"
-#include "item_factory.h"
 #include "monstergenerator.h"
 #include "file_wrapper.h"
 #include "path_info.h"
