@@ -2369,7 +2369,7 @@ int vehicle::basic_consumption (const ammotype & ftype)
                 // electric engine - use epower instead
                 fcon += abs(epower_to_power(part_epower(engines[e])));
             }
-            else {
+            else if (!is_engine_type(e, fuel_type_muscle)) {
                 fcon += part_power(engines[e]);
             }
         }
@@ -2589,7 +2589,8 @@ void vehicle::noise_and_smoke( double load, double time )
     // Even a vehicle with engines off will make noise traveling at high speeds
     noise = std::max( noise, double(fabs(velocity/500.0)) );
     int lvl = 0;
-    if( one_in(4) && rng(0, 30) < noise ) {
+    if( one_in(4) && rng(0, 30) < noise && 
+        has_engine_type_not(fuel_type_muscle, true)) {
        while( noise > sound_levels[lvl] ) {
            lvl++;
        }
