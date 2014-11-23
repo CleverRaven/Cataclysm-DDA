@@ -3216,12 +3216,13 @@ void vehicle::thrust (int thd) {
     //find power ratio used of engines max
     double load;
     if( cruise_on ) {
-        load = abs(vel_inc) / std::max((thrusting ? accel : brk),1);
+        load = ((float)abs(vel_inc)) / std::max((thrusting ? accel : brk),1);
     } else {
         load = (thrusting ? 1.0 : 0.0);
     }
+    
     if( load < 0.01 ) {
-        load = 0.01;
+        return;
     }
     
     // only consume resources if engine accelerating
@@ -3257,9 +3258,8 @@ void vehicle::thrust (int thd) {
         }
         
         //charge bionics when using muscle engine
-        if (has_engine_type(fuel_type_muscle, true)) {
-            if (g->u.has_bionic("bio_torsionratchet")
-                && calendar::turn.get_turn() % 60 == 0) {
+        if (one_in((int)(1/load)) && has_engine_type(fuel_type_muscle, true)) {
+            if (g->u.has_bionic("bio_torsionratchet")) {
                 g->u.charge_power(1);
             }
         }
