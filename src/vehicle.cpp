@@ -16,7 +16,6 @@
 #include "messages.h"
 #include "ui.h"
 #include "debug.h"
-
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;
  *   assemble "structure" once here instead of repeatedly later.
@@ -2776,6 +2775,18 @@ void vehicle::consume_fuel( double load = 1.0 )
             }
         }
     }
+    //do this with chance proportional to current load
+    if (one_in((int)(1/load)) && has_engine_type(fuel_type_muscle, true)) {
+        //charge bionics when using muscle engine
+        if (g->u.has_bionic("bio_torsionratchet")) {
+            g->u.charge_power(1);
+        }
+        //cost fatigue and hunger
+        if (one_in(10)) {
+            g->u.fatigue += 2;
+            g->u.hunger += 2;
+        }
+    }
 }
 
 void vehicle::power_parts ()//TODO: more categories of powered part!
@@ -3261,18 +3272,7 @@ void vehicle::thrust (int thd) {
             }
         }
         
-        //do this with chance proportional to current load
-        if (one_in((int)(1/load)) && has_engine_type(fuel_type_muscle, true)) {
-            //charge bionics when using muscle engine
-            if (g->u.has_bionic("bio_torsionratchet")) {
-                g->u.charge_power(1);
-            }
-            //cost fatigue and hunger
-            if (one_in(10)) {
-                g->u.fatigue += 2;
-                g->u.hunger += 2;
-            }
-        }
+
     }
     
     //wheels aren't facing the right way to change velocity properly
