@@ -21,7 +21,7 @@ float get_collision_factor(float delta_v);
 //How far to scatter parts from a vehicle when the part is destroyed (+/-)
 #define SCATTER_DISTANCE 3
 
-#define num_fuel_types 6
+#define num_fuel_types 7
 extern const ammotype fuel_types[num_fuel_types];
 extern const nc_color fuel_colors[num_fuel_types];
 extern const int fuel_coeff[num_fuel_types];

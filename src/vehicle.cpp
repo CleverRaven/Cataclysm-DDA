@@ -32,11 +32,12 @@ static const std::string part_location_structure("structure");
 
 const ammotype fuel_types[num_fuel_types] = {
 	fuel_type_gasoline, fuel_type_diesel, fuel_type_battery, 
-    fuel_type_plutonium, fuel_type_plasma, fuel_type_water };
+    fuel_type_plutonium, fuel_type_plasma, fuel_type_water,
+    fuel_type_muscle };
 const nc_color fuel_colors[num_fuel_types] = {
-	c_ltred, c_brown, c_yellow, c_ltgreen, c_ltblue, c_ltcyan};
+	c_ltred, c_brown, c_yellow, c_ltgreen, c_ltblue, c_ltcyan, c_white};
 const int fuel_coeff[num_fuel_types] = {
-    100, 100, 1, 1, 100, 1};
+    100, 100, 1, 1, 100, 1, 0};
 
 
 enum vehicle_controls {
