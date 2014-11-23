@@ -874,7 +874,7 @@ void vehicle::use_controls()
             bicycle.item_vars["weight"] = tmpstream.str();
             // TODO: how to calculate the volume?
             tmpstream.str(std::string());
-            tmpstream << (total_mass() * 10);
+            tmpstream << (total_folded_volume());
             bicycle.item_vars["volume"] = tmpstream.str();
             bicycle.item_vars["name"] = string_format(_("folded %s"), name.c_str());
             bicycle.item_vars["vehicle_name"] = name;
@@ -2216,6 +2216,19 @@ int vehicle::total_mass()
         }
     }
     return m/1000;
+}
+
+int vehicle::total_folded_volume()
+{
+    int m = 0;
+    for (size_t i = 0; i < parts.size(); i++)
+    {
+        if (parts[i].removed) {
+          continue;
+        }
+        m += part_info(i).folded_volume;
+    }
+    return m;
 }
 
 void vehicle::center_of_mass(int &x, int &y)
