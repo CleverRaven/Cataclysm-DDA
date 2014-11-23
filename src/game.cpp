@@ -3000,7 +3000,7 @@ input_context game::get_player_input(std::string &action)
         wPrint.endy = iEndY;
 
         inp_mngr.set_timeout(125);
-        while(handle_mouseview(ctxt, action)) {
+        do {
             if (bWeatherEffect && OPTIONS["ANIMATION_RAIN"]) {
                 /*
                 Location to add rain drop animation bits! Since it refreshes w_terrain it can be added to the animation section easily
@@ -3116,7 +3116,7 @@ input_context game::get_player_input(std::string &action)
                 mvwprintz(w_terrain, 0, ((TERRAIN_WINDOW_WIDTH / 2) - (message.length() / 2)), c_white, message.c_str());
             }
             wrefresh(w_terrain);
-        }
+        } while(handle_mouseview(ctxt, action));
         inp_mngr.set_timeout(-1);
     } else {
         while (handle_mouseview(ctxt, action)) {};
@@ -3313,6 +3313,11 @@ bool game::handle_action()
     // move or obstacle
     bool continue_auto_move = false;
 
+    // quit prompt check (ACTION_QUIT only grabs 'Q'
+    if(uquit == QUIT_WATCH && action == "QUIT") {
+        uquit = QUIT_DIED;
+        return false;
+    }
     // if watching or not dead
     if(uquit == QUIT_WATCH || !u.is_dead_state()) {
         switch(act) {
@@ -3359,18 +3364,6 @@ bool game::handle_action()
 
         case ACTION_LOOK:
             look_around();
-            break;
-
-        case ACTION_QUIT:
-            if(uquit == QUIT_WATCH) {
-                uquit = QUIT_DIED;
-            } else if (query_yn(_("Commit suicide?"))) {
-                if (query_yn(_("REALLY commit suicide?"))) {
-                    u.moves = 0;
-                    u.place_corpse();
-                    uquit = QUIT_SUICIDE;
-                }
-            }
             break;
 
         default:
@@ -3875,6 +3868,16 @@ bool game::handle_action()
                     critter.ignoring = rl_dist(point(u.posx, u.posy), critter.pos());
                 }
                 safe_mode = SAFE_MODE_ON;
+            }
+            break;
+
+        case ACTION_QUIT:
+            if (query_yn(_("Commit suicide?"))) {
+                if (query_yn(_("REALLY commit suicide?"))) {
+                    u.moves = 0;
+                    u.place_corpse();
+                    uquit = QUIT_SUICIDE;
+                }
             }
             break;
 
