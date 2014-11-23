@@ -2288,6 +2288,18 @@ int vehicle::fuel_left (const ammotype & ftype, bool recurse)
         fl = traverse_vehicle_graph(this, fl + 1, fuel_counting_visitor) - 1;
     }
 
+    //muscle engines have infinite fuel
+    if (ftype == fuel_type_muscle) {
+        int part_under_player;
+        g->m.veh_at(g->u.posx, g->u.posy, part_under_player);
+        bool player_controlling = player_in_control(&(g->u));
+        int p = part_with_feature(part_under_player, VPFLAG_ENGINE);
+        //if the engine in the player tile is a muscle engine, and player is controlling vehicle
+        if (part_info(p).fuel_type == fuel_type_muscle && player_controlling) {
+            fl += INT_MAX;
+        }
+    }
+
     return fl;
 }
 
@@ -3113,6 +3125,7 @@ void vehicle::idle(bool on_map) {
         }
         
         idle_rate = (float)alternator_load / (float)engines_power;
+        add_msg("Load: %f", idle_rate);
         if (idle_rate < 0.01) idle_rate = 0.01; // minimum idle is 1% of full throttle
         consume_fuel(idle_rate);
 
