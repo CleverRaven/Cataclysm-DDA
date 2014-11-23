@@ -305,6 +305,23 @@
     },
     {
         "type":"GENERIC",
+        "id" : "medium_storage_battery",
+        "name" : "medium storage battery",
+        "name_plural" : "medium storage batteries",
+        "description" : "A medium storage battery.",
+        "weight" : 2300,
+        "to_hit" : -2,
+        "color" : "light_cyan",
+        "symbol" : ":",
+        "material" : ["plastic", "null"],
+        "volume" : 4,
+        "bashing" : 2,
+        "cutting" : 0,
+        "category" : "veh_parts",
+        "price" : 6500
+    },
+    {
+        "type":"GENERIC",
         "id" : "battery_motorbike",
         "name" : "motorbike battery",
         "name_plural" : "motorbike batteries",

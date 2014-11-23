@@ -2776,6 +2776,25 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "medium_storage_battery",
+        "name" : "medium storage battery",
+        "symbol" : "O",
+        "color" : "yellow",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 250,
+        "size" : 10000,
+        "fuel_type" : "battery",
+        "item" : "medium_storage_battery",
+        "difficulty" : 1,
+        "location" : "fuel_source",
+        "flags" : ["FUEL_TANK", "TOOL_NONE"],
+        "breaks_into" : [
+            {"item": "scrap", "min": 1, "max": 2}
+        ]
+    },{
+        "type" : "vehicle_part",
         "id" : "storage_battery_mount",
         "name" : "swappable storage battery case",
         "symbol" : "O",

@@ -75,7 +75,7 @@
             {"x": -1, "y": 0, "part": "xlframe_vertical"},
             {"x": -1, "y": 0, "part": "wheel_bicycle"},
             {"x": -1, "y": 0, "part": "basketsm"},
-            {"x": -1, "y": 0, "part": "small_storage_battery"},
+            {"x": -1, "y": 0, "part": "medium_storage_battery"},
             {"x": -1, "y": 0, "part": "engine_electric_small"}
         ]
     },{
