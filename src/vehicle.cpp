@@ -17,10 +17,6 @@
 #include "ui.h"
 #include "debug.h"
 
-const ammotype fuel_types[num_fuel_types] = {
-	"gasoline", "diesel", "battery", "plutonium", "plasma", "water" };
-const nc_color fuel_colors[num_fuel_types] = {
-	c_ltred, c_brown, c_yellow, c_ltgreen, c_ltblue, c_ltcyan};
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;
  *   assemble "structure" once here instead of repeatedly later.
@@ -33,6 +29,14 @@ static const std::string fuel_type_plasma("plasma");
 static const std::string fuel_type_water("water");
 static const std::string fuel_type_muscle("muscle");
 static const std::string part_location_structure("structure");
+
+const ammotype fuel_types[num_fuel_types] = {
+	fuel_type_gasoline, fuel_type_diesel, fuel_type_battery, 
+    fuel_type_plutonium, fuel_type_plasma, fuel_type_water };
+const nc_color fuel_colors[num_fuel_types] = {
+	c_ltred, c_brown, c_yellow, c_ltgreen, c_ltblue, c_ltcyan};
+
+
 
 enum vehicle_controls {
  toggle_cruise_control,
