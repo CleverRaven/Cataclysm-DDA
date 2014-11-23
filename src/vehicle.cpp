@@ -2755,7 +2755,12 @@ void vehicle::consume_fuel( double load = 1.0 )
 {
     
     for( int ft = 0; ft < num_fuel_types; ft++ ) {
-        double amnt_precise = double(basic_consumption(fuel_types[ft])) / fuel_coeff[ft];
+        // if no engines use this fuel, skip
+        int amnt_fuel_use = basic_consumption(fuel_types[ft]);
+        if (amnt_fuel_use == 0) continue;
+        
+        //get exact amount of fuel needed
+        double amnt_precise = double(amnt_fuel_use) / fuel_coeff[ft];
         float st = strain() * 10;
         amnt_precise *= load * (1.0 + st * st);
         int amnt = int(amnt_precise);
@@ -2763,6 +2768,7 @@ void vehicle::consume_fuel( double load = 1.0 )
         if( x_in_y(int(amnt_precise*1000) % 1000, 1000) ) {
             amnt += 1;
         }
+        //find fuel needed and remove it
         for( size_t p = 0; p < fuel.size(); p++ ) {
             if( part_info(fuel[p]).fuel_type == fuel_types[ft] ) {
                 if( parts[fuel[p]].amount >= amnt ) {
@@ -3105,7 +3111,7 @@ void vehicle::idle(bool on_map) {
                 }       
             }
         }
-
+        
         idle_rate = (float)alternator_load / (float)engines_power;
         if (idle_rate < 0.01) idle_rate = 0.01; // minimum idle is 1% of full throttle
         consume_fuel(idle_rate);
