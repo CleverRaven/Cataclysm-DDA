@@ -570,8 +570,8 @@ void game::setup()
     kills.clear();
     // Set the scent map to 0
     for( auto &elem : grscent ) {
-        for (int j = 0; j < SEEX * MAPSIZE; j++) {
-            elem[j] = 0;
+        for( auto &elem_j : elem ) {
+            elem_j = 0;
         }
     }
 
@@ -4810,9 +4810,8 @@ void game::debug()
         add_msg(m_info, _("Recipe debug."));
         add_msg(_("Your eyes blink rapidly as knowledge floods your brain."));
         for( auto &recipes_cat_iter : recipes ) {
-            for( auto list_iter = recipes_cat_iter.second.begin();
-                 list_iter != recipes_cat_iter.second.end(); ++list_iter ) {
-                const recipe *cur_recipe = *list_iter;
+            for( auto cur_recipe : recipes_cat_iter.second ) {
+
                 if (!(u.learned_recipes.find(cur_recipe->ident) != u.learned_recipes.end()))  {
                     u.learn_recipe( (recipe *)cur_recipe );
                 }

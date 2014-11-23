@@ -721,9 +721,8 @@ item inventory::remove_item(int position)
 void inventory::dump(std::vector<item *> &dest)
 {
     for( auto &elem : items ) {
-        for( std::list<item>::iterator stack_iter = elem.begin(); stack_iter != elem.end();
-             ++stack_iter ) {
-            dest.push_back(&(*stack_iter));
+        for( auto &elem_stack_iter : elem ) {
+            dest.push_back( &( elem_stack_iter ) );
         }
     }
 }
@@ -756,9 +755,8 @@ int inventory::position_by_item(const item *it)
 {
     int i = 0;
     for( auto &elem : items ) {
-        for( std::list<item>::iterator stack_iter = elem.begin(); stack_iter != elem.end();
-             ++stack_iter ) {
-            if (it == &*stack_iter) {
+        for( auto &elem_stack_iter : elem ) {
+            if( it == &elem_stack_iter ) {
                 return i;
             }
         }
@@ -791,13 +789,12 @@ int inventory::position_by_type(itype_id type)
 item &inventory::item_or_container(itype_id type)
 {
     for( auto &elem : items ) {
-        for( std::list<item>::iterator stack_iter = elem.begin(); stack_iter != elem.end();
-             ++stack_iter ) {
-            if (stack_iter->type->id == type) {
-                return *stack_iter;
-            } else if (stack_iter->is_container() && !stack_iter->contents.empty()) {
-                if (stack_iter->contents[0].type->id == type) {
-                    return *stack_iter;
+        for( auto &elem_stack_iter : elem ) {
+            if( elem_stack_iter.type->id == type ) {
+                return elem_stack_iter;
+            } else if( elem_stack_iter.is_container() && !elem_stack_iter.contents.empty() ) {
+                if( elem_stack_iter.contents[0].type->id == type ) {
+                    return elem_stack_iter;
                 }
             }
         }
@@ -811,10 +808,9 @@ std::vector<std::pair<item *, int> > inventory::all_items_by_type(itype_id type)
     std::vector<std::pair<item *, int> > ret;
     int i = 0;
     for( auto &elem : items ) {
-        for( std::list<item>::iterator stack_iter = elem.begin(); stack_iter != elem.end();
-             ++stack_iter ) {
-            if (stack_iter->type->id == type) {
-                ret.push_back(std::make_pair(&*stack_iter, i));
+        for( auto &elem_stack_iter : elem ) {
+            if( elem_stack_iter.type->id == type ) {
+                ret.push_back( std::make_pair( &elem_stack_iter, i ) );
             }
         }
         ++i;
@@ -826,10 +822,9 @@ std::vector<item *> inventory::all_ammo(const ammotype &type)
 {
     std::vector<item *> ret;
     for( auto &elem : items ) {
-        for( std::list<item>::iterator stack_iter = elem.begin(); stack_iter != elem.end();
-             ++stack_iter ) {
-            if (stack_iter->is_of_ammo_type_or_contains_it(type)) {
-                ret.push_back(&*stack_iter);
+        for( auto &elem_stack_iter : elem ) {
+            if( elem_stack_iter.is_of_ammo_type_or_contains_it( type ) ) {
+                ret.push_back( &elem_stack_iter );
             }
         }
     }
@@ -845,9 +840,8 @@ int inventory::amount_of(itype_id it, bool used_as_tool) const
 {
     int count = 0;
     for( const auto &elem : items ) {
-        for( std::list<item>::const_iterator stack_iter = elem.begin(); stack_iter != elem.end();
-             ++stack_iter ) {
-            count += stack_iter->amount_of(it, used_as_tool);
+        for( const auto &elem_stack_iter : elem ) {
+            count += elem_stack_iter.amount_of( it, used_as_tool );
         }
     }
     return count;
@@ -857,9 +851,8 @@ long inventory::charges_of(itype_id it) const
 {
     int count = 0;
     for( const auto &elem : items ) {
-        for( std::list<item>::const_iterator stack_iter = elem.begin(); stack_iter != elem.end();
-             ++stack_iter ) {
-            count += stack_iter->charges_of(it);
+        for( const auto &elem_stack_iter : elem ) {
+            count += elem_stack_iter.charges_of( it );
         }
     }
     return count;
@@ -946,13 +939,13 @@ bool inventory::has_items_with_quality(std::string id, int level, int amount) co
 {
     int found = 0;
     for( const auto &elem : items ) {
-        for( std::list<item>::const_iterator stack_iter = elem.begin(); stack_iter != elem.end();
-             ++stack_iter ) {
-            if( !stack_iter->contents.empty() && stack_iter->is_container() ) {
+        for( const auto &elem_stack_iter : elem ) {
+            if( !elem_stack_iter.contents.empty() && elem_stack_iter.is_container() ) {
                 continue;
             }
-            auto quality_iter = stack_iter->type->qualities.find(id);
-            if(quality_iter != stack_iter->type->qualities.end() && level <= quality_iter->second) {
+            auto quality_iter = elem_stack_iter.type->qualities.find( id );
+            if( quality_iter != elem_stack_iter.type->qualities.end() &&
+                level <= quality_iter->second ) {
                 found++;
             }
         }
@@ -969,13 +962,12 @@ int inventory::leak_level(std::string flag) const
     int ret = 0;
 
     for( const auto &elem : items ) {
-        for( std::list<item>::const_iterator stack_iter = elem.begin(); stack_iter != elem.end();
-             ++stack_iter ) {
-            if (stack_iter->has_flag(flag)) {
-                if (stack_iter->has_flag("LEAK_ALWAYS")) {
-                    ret += stack_iter->volume();
-                } else if (stack_iter->has_flag("LEAK_DAM") && stack_iter->damage > 0) {
-                    ret += stack_iter->damage;
+        for( const auto &elem_stack_iter : elem ) {
+            if( elem_stack_iter.has_flag( flag ) ) {
+                if( elem_stack_iter.has_flag( "LEAK_ALWAYS" ) ) {
+                    ret += elem_stack_iter.volume();
+                } else if( elem_stack_iter.has_flag( "LEAK_DAM" ) && elem_stack_iter.damage > 0 ) {
+                    ret += elem_stack_iter.damage;
                 }
             }
         }
@@ -987,9 +979,8 @@ int inventory::butcher_factor() const
 {
     int result = INT_MIN;
     for( const auto &elem : items ) {
-        for( std::list<item>::const_iterator stack_iter = elem.begin(); stack_iter != elem.end();
-             ++stack_iter ) {
-            const item &cur_item = *stack_iter;
+        for( const auto &cur_item : elem ) {
+
             result = std::max( result, cur_item.butcher_factor() );
         }
     }
@@ -1079,11 +1070,12 @@ item *inventory::most_loaded_gun()
 void inventory::rust_iron_items()
 {
     for( auto &elem : items ) {
-        for( std::list<item>::iterator stack_iter = elem.begin(); stack_iter != elem.end();
-             ++stack_iter ) {
-            if (stack_iter->made_of("iron") && !stack_iter->has_flag("WATERPROOF_GUN") &&
-                !stack_iter->has_flag("WATERPROOF") && stack_iter->damage < 5 && one_in(500)) {
-                stack_iter->damage++;
+        for( auto &elem_stack_iter : elem ) {
+            if( elem_stack_iter.made_of( "iron" ) &&
+                !elem_stack_iter.has_flag( "WATERPROOF_GUN" ) &&
+                !elem_stack_iter.has_flag( "WATERPROOF" ) && elem_stack_iter.damage < 5 &&
+                one_in( 500 ) ) {
+                elem_stack_iter.damage++;
             }
         }
     }
@@ -1093,9 +1085,8 @@ int inventory::weight() const
 {
     int ret = 0;
     for( const auto &elem : items ) {
-        for( std::list<item>::const_iterator stack_iter = elem.begin(); stack_iter != elem.end();
-             ++stack_iter ) {
-            ret += stack_iter->weight();
+        for( const auto &elem_stack_iter : elem ) {
+            ret += elem_stack_iter.weight();
         }
     }
     return ret;
@@ -1105,9 +1096,8 @@ int inventory::volume() const
 {
     int ret = 0;
     for( const auto &elem : items ) {
-        for( std::list<item>::const_iterator stack_iter = elem.begin(); stack_iter != elem.end();
-             ++stack_iter ) {
-            ret += stack_iter->volume();
+        for( const auto &elem_stack_iter : elem ) {
+            ret += elem_stack_iter.volume();
         }
     }
     return ret;
@@ -1117,12 +1107,12 @@ std::vector<item *> inventory::active_items()
 {
     std::vector<item *> ret;
     for( auto &elem : items ) {
-        for( std::list<item>::iterator stack_iter = elem.begin(); stack_iter != elem.end();
-             ++stack_iter ) {
-            if ( (stack_iter->is_artifact() && stack_iter->is_tool()) ||
-                 stack_iter->active ||
-                 (stack_iter->is_container() && !stack_iter->contents.empty() && stack_iter->contents[0].active)) {
-                ret.push_back(&*stack_iter);
+        for( auto &elem_stack_iter : elem ) {
+            if( ( elem_stack_iter.is_artifact() && elem_stack_iter.is_tool() ) ||
+                elem_stack_iter.active ||
+                ( elem_stack_iter.is_container() && !elem_stack_iter.contents.empty() &&
+                  elem_stack_iter.contents[0].active ) ) {
+                ret.push_back( &elem_stack_iter );
             }
         }
     }

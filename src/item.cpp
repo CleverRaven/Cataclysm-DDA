@@ -1440,7 +1440,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     else if (is_gun() && !contents.empty() ) {
         ret.str("");
         ret << type->nname(quantity);
-        for( auto &elem : contents ) {
+        for( size_t i = 0; i < contents.size(); ++i ) {
             ret << "+";
         }
         maintext = ret.str();

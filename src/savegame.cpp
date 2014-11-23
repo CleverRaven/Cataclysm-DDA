@@ -92,8 +92,8 @@ void game::serialize(std::ofstream & fout) {
         int rle_lastval = -1;
         int rle_count = 0;
         for( auto &elem : grscent ) {
-            for (int j = 0; j < SEEY * MAPSIZE; j++) {
-                int val = elem[j];
+            for( auto val : elem ) {
+
                if (val == rle_lastval) {
                    rle_count++;
                } else {
@@ -226,12 +226,12 @@ void game::unserialize(std::ifstream & fin)
             int stmp;
             int count = 0;
             for( auto &elem : grscent ) {
-                for (int j = 0; j < SEEY * MAPSIZE; j++) {
+                for( auto &elem_j : elem ) {
                     if (count == 0) {
                         linein >> stmp >> count;
                     }
                     count--;
-                    elem[j] = stmp;
+                    elem_j = stmp;
                 }
             }
         }

@@ -197,9 +197,8 @@ void defense_game::init_constructions()
 void defense_game::init_recipes()
 {
     for( auto &recipe : recipes ) {
-        for( recipe_list::iterator list_iter = recipe.second.begin();
-             list_iter != recipe.second.end(); ++list_iter ) {
-            (*list_iter)->time /= 10; // Things take turns, not minutes
+        for( auto &elem : recipe.second ) {
+            ( elem )->time /= 10; // Things take turns, not minutes
         }
     }
 }

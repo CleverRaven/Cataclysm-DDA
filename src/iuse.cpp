@@ -8928,21 +8928,20 @@ bool einkpc_download_memory_card(player *p, item *eink, item *mc)
         std::vector<const recipe *> candidates;
 
         for( auto &recipe : recipes ) {
-            for( recipe_list::iterator list_iter = recipe.second.begin();
-                 list_iter != recipe.second.end(); ++list_iter ) {
+            for( auto &elem : recipe.second ) {
 
-                const int dif = (*list_iter)->difficulty;
+                const int dif = ( elem )->difficulty;
 
                 if (science) {
-                    if ((*list_iter)->cat != "CC_NONCRAFT") {
+                    if( ( elem )->cat != "CC_NONCRAFT" ) {
                         if (dif >= 3 && one_in(dif + 1)) {
-                            candidates.push_back(*list_iter);
+                            candidates.push_back( elem );
                         }
                     }
                 } else {
-                    if ((*list_iter)->cat == "CC_FOOD") {
+                    if( ( elem )->cat == "CC_FOOD" ) {
                         if (dif <= 3 && one_in(dif)) {
-                            candidates.push_back(*list_iter);
+                            candidates.push_back( elem );
                         }
                     }
 
@@ -10161,17 +10160,15 @@ int iuse::multicooker(player *p, item *it, bool t, point pos)
             int counter = 1;
 
             for( auto &recipe : recipes ) {
-                for( recipe_list::iterator list_iter = recipe.second.begin();
-                     list_iter != recipe.second.end(); ++list_iter ) {
-                    if ((*list_iter)->cat == "CC_FOOD" &&
-                        ((*list_iter)->subcat == "CSC_FOOD_MEAT" ||
-                         (*list_iter)->subcat == "CSC_FOOD_VEGGI" ||
-                         (*list_iter)->subcat == "CSC_FOOD_PASTA")) {
+                for( auto &elem : recipe.second ) {
+                    if( ( elem )->cat == "CC_FOOD" && ( ( elem )->subcat == "CSC_FOOD_MEAT" ||
+                                                        ( elem )->subcat == "CSC_FOOD_VEGGI" ||
+                                                        ( elem )->subcat == "CSC_FOOD_PASTA" ) ) {
 
-                        if (p->knows_recipe((*list_iter))) {
-                            dishes.push_back(*list_iter);
-                            const bool can_make = (*list_iter)->can_make_with_inventory(crafting_inv);
-                            item dummy((*list_iter)->result, 0);
+                        if( p->knows_recipe( ( elem ) ) ) {
+                            dishes.push_back( elem );
+                            const bool can_make = ( elem )->can_make_with_inventory( crafting_inv );
+                            item dummy( ( elem )->result, 0 );
 
                             dmenu.addentry(counter++, can_make, -1, dummy.display_name());
                         }

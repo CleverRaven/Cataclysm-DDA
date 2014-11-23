@@ -243,8 +243,8 @@ void reset_recipes()
 {
     recipes_by_component.clear();
     for( auto &recipe : recipes ) {
-        for( recipe_list::iterator i = recipe.second.begin(); i != recipe.second.end(); ++i ) {
-            delete *i;
+        for( auto &elem : recipe.second ) {
+            delete elem;
         }
     }
     recipes.clear();
@@ -253,9 +253,8 @@ void reset_recipes()
 void finalize_recipes()
 {
     for( auto &recipes_it : recipes ) {
-        for( recipe_list::iterator i = recipes_it.second.begin(); i != recipes_it.second.end();
-             ++i ) {
-            recipe *r = *i;
+        for( auto r : recipes_it.second ) {
+
             for( auto j = r->booksets.begin(); j != r->booksets.end(); ++j ) {
                 const std::string &book_id = j->first;
                 const int skill_level = j->second;
@@ -1778,9 +1777,8 @@ void player::consume_tools(const std::vector<tool_comp> &tools, int batch)
 const recipe *get_disassemble_recipe(const itype_id &type)
 {
     for( auto &recipes_cat_iter : recipes ) {
-        for( auto list_iter = recipes_cat_iter.second.begin();
-             list_iter != recipes_cat_iter.second.end(); ++list_iter ) {
-            const recipe *cur_recipe = *list_iter;
+        for( auto cur_recipe : recipes_cat_iter.second ) {
+
             if (type == cur_recipe->result && cur_recipe->reversible) {
                 return cur_recipe;
             }
@@ -2111,9 +2109,8 @@ const recipe *recipe_by_name(const std::string &name)
 void check_recipe_definitions()
 {
     for( auto &recipes_map_iter : recipes ) {
-        for( recipe_list::iterator list_iter = recipes_map_iter.second.begin();
-             list_iter != recipes_map_iter.second.end(); ++list_iter ) {
-            const recipe &r = **list_iter;
+        for( auto &elem : recipes_map_iter.second ) {
+            const recipe &r = *elem;
             const std::string display_name = std::string("recipe ") + r.ident;
             r.requirements.check_consistency(display_name);
             if (!item::type_is_defined(r.result)) {

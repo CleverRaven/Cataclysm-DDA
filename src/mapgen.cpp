@@ -312,9 +312,8 @@ void reset_mapgens()
     typedef std::set<mapgen_function*> xset;
     xset s;
     for( auto &elem : oter_mapgen ) {
-        for( std::vector<mapgen_function *>::iterator b = elem.second.begin();
-             b != elem.second.end(); ++b ) {
-            s.insert(*b);
+        for( auto &_b : elem.second ) {
+            s.insert( _b );
         }
     }
     for( const auto &elem : s ) {

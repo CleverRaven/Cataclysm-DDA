@@ -775,9 +775,8 @@ void inventory::json_save_invcache(JsonOut &json) const
         json.start_object();
         json.member( elem.first );
         json.start_array();
-        for( std::vector<char>::const_iterator sym = elem.second.begin(); sym != elem.second.end();
-             ++sym ) {
-            json.write( int(*sym) );
+        for( const auto &_sym : elem.second ) {
+            json.write( int( _sym ) );
         }
         json.end_array();
         json.end_object();
@@ -816,9 +815,8 @@ void inventory::json_save_items(JsonOut &json) const
 {
     json.start_array();
     for( const auto &elem : items ) {
-        for( std::list<item>::const_iterator stack_iter = elem.begin(); stack_iter != elem.end();
-             ++stack_iter ) {
-            stack_iter->serialize(json, true);
+        for( const auto &elem_stack_iter : elem ) {
+            elem_stack_iter.serialize( json, true );
         }
     }
     json.end_array();

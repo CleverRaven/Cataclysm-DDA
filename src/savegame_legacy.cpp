@@ -117,8 +117,8 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             parseline();
 
             for( auto &elem : grscent ) {
-                for( size_t j = 0; j < SEEY * MAPSIZE; j++ ) {
-                    linein >> elem[j];
+                for( auto &elem_j : elem ) {
+                    linein >> elem_j;
                 }
             }
 
@@ -199,8 +199,8 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             parseline();
 
             for( auto &elem : grscent ) {
-                for( size_t j = 0; j < SEEY * MAPSIZE; j++) {
-                    linein >> elem[j];
+                for( auto &elem_j : elem ) {
+                    linein >> elem_j;
                 }
             }
             // Now the number of monsters...
@@ -311,8 +311,8 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             parseline();
 
             for( auto &elem : grscent ) {
-                for( size_t j = 0; j < SEEY * MAPSIZE; j++) {
-                    linein >> elem[j];
+                for( auto &elem_j : elem ) {
+                    linein >> elem_j;
                 }
             }
             // Now the number of monsters...
@@ -420,8 +420,8 @@ original 'structure', which globs game/weather/location & killcount/player data 
 
         // Next, the scent map.
          for( auto &elem : grscent ) {
-          for( size_t j = 0; j < SEEY * MAPSIZE; j++)
-              fin >> elem[j];
+             for( auto &elem_j : elem )
+                 fin >> elem_j;
          }
         // Now the number of monsters...
          int nummon;

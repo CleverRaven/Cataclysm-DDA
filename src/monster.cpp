@@ -1370,8 +1370,8 @@ void monster::process_effects()
     // Monster only effects
     int mod = 1;
     for( auto &elem : effects ) {
-        for( auto effect_it = elem.second.begin(); effect_it != elem.second.end(); ++effect_it ) {
-            auto &it = effect_it->second;
+        for( auto &_effect_it : elem.second ) {
+            auto &it = _effect_it.second;
             // Monsters don't get trait-based reduction, but they do get effect based reduction
             bool reduced = has_effect(it.get_resist_effect());
             
@@ -1382,8 +1382,8 @@ void monster::process_effects()
                     apply_damage(nullptr, bp_torso, it.get_mod("HURT", reduced));
                 }
             }
-            
-            std::string id = effect_it->second.get_id();
+
+            std::string id = _effect_it.second.get_id();
             // MATERIALS-TODO: use fire resistance
             if (id == "onfire") {
                 if (made_of("flesh") || made_of("iflesh"))

@@ -2291,11 +2291,11 @@ void player::disp_info()
         }
     }
     for( auto &elem : effects ) {
-        for( auto effect_it = elem.second.begin(); effect_it != elem.second.end(); ++effect_it ) {
-            tmp = effect_it->second.disp_name();
+        for( auto &_effect_it : elem.second ) {
+            tmp = _effect_it.second.disp_name();
             if (tmp != "") {
                 effect_name.push_back( tmp );
-                effect_text.push_back( effect_it->second.disp_desc() );
+                effect_text.push_back( _effect_it.second.disp_desc() );
             }
         }
     }
@@ -2843,8 +2843,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
     std::map<std::string, int> speed_effects;
     std::string dis_text = "";
     for( auto &elem : effects ) {
-        for( auto effect_it = elem.second.begin(); effect_it != elem.second.end(); ++effect_it ) {
-            auto &it = effect_it->second;
+        for( auto &_effect_it : elem.second ) {
+            auto &it = _effect_it.second;
             bool reduced = has_trait(it.get_resist_trait()) || has_effect(it.get_resist_effect());
             int move_adjust = it.get_mod("SPEED", reduced);
             if (move_adjust != 0) {
@@ -5792,8 +5792,8 @@ void player::process_effects() {
     
     //Human only effects
     for( auto &elem : effects ) {
-        for( auto effect_it = elem.second.begin(); effect_it != elem.second.end(); ++effect_it ) {
-            auto &it = effect_it->second;
+        for( auto &_effect_it : elem.second ) {
+            auto &it = _effect_it.second;
             bool reduced = has_trait(it.get_resist_trait()) || has_effect(it.get_resist_effect());
             double mod = 1;
             body_part bp = it.get_bp();
@@ -8098,8 +8098,8 @@ void player::vomit()
     thirst += quench_loss;
     moves -= 100;
     for( auto &elem : effects ) {
-        for( auto effect_it = elem.second.begin(); effect_it != elem.second.end(); ++effect_it ) {
-            auto &it = effect_it->second;
+        for( auto &_effect_it : elem.second ) {
+            auto &it = _effect_it.second;
             if (it.get_id() == "foodpoison") {
                 it.mod_duration(-300);
             } else if (it.get_id() == "drunk" ) {
@@ -8231,12 +8231,11 @@ void player::drench_mut_calc()
         good = 0;
 
         for( const auto &_iter : my_mutations ) {
-            for( auto wp_iter = mutation_data[_iter].protection.begin();
-                 wp_iter != mutation_data[_iter].protection.end(); ++wp_iter ) {
-                if( body_parts[wp_iter->first] == elem.first ) {
-                    ignored += wp_iter->second.second.x;
-                    neutral += wp_iter->second.second.y;
-                    good += wp_iter->second.second.z;
+            for( auto &_wp_iter : mutation_data[_iter].protection ) {
+                if( body_parts[_wp_iter.first] == elem.first ) {
+                    ignored += _wp_iter.second.second.x;
+                    neutral += _wp_iter.second.second.y;
+                    good += _wp_iter.second.second.z;
                 }
             }
         }
@@ -10921,9 +10920,8 @@ hint_rating player::rate_action_unload(item *it) {
 //TODO refactor stuff so we don't need to have this code mirroring game::disassemble
 hint_rating player::rate_action_disassemble(item *it) {
     for( auto &recipes_cat_iter : recipes ) {
-        for( recipe_list::iterator list_iter = recipes_cat_iter.second.begin();
-             list_iter != recipes_cat_iter.second.end(); ++list_iter ) {
-            recipe* cur_recipe = *list_iter;
+        for( auto cur_recipe : recipes_cat_iter.second ) {
+
             if (it->type->id == cur_recipe->result && cur_recipe->reversible) {
                 /* ok, a valid recipe exists for the item, and it is reversible
                    assign the activity

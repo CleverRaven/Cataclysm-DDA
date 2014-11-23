@@ -403,10 +403,9 @@ void dependency_tree::check_for_strongly_connected_components()
     std::set<dependency_node *> in_circular_connection;
     for( auto &elem : strongly_connected_components ) {
         if( elem.size() > 1 ) {
-            for( std::vector<dependency_node *>::iterator node = elem.begin(); node != elem.end();
-                 ++node ) {
-                DebugLog( D_PEDANTIC_INFO, DC_ALL ) << "--" << (*node)->key << "\n";
-                in_circular_connection.insert(*node);
+            for( auto &elem_node : elem ) {
+                DebugLog( D_PEDANTIC_INFO, DC_ALL ) << "--" << ( elem_node )->key << "\n";
+                in_circular_connection.insert( elem_node );
             }
 
         }
