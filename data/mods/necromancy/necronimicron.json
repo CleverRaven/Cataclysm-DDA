@@ -219,5 +219,13 @@
       [ ["bone", 4] ],
       [ ["blob_dormant", 1] ]
     ]
+  },{
+    "type" : "item_group",
+    "id" : "mut_lab",
+    "items" : [ "abdul_necro", 1 ]
+  },{
+    "type" : "item_group",
+    "id" : "lab_dorm",
+    "items":[ "abdul_necro", 1]
   }
 ]
