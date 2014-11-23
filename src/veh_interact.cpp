@@ -458,7 +458,7 @@ task_reason veh_interact::cant_do (char mode)
     return CAN_DO;
 }
 
-bool veh_interact::is_drive_conflict(int msg_width, int engines){
+bool veh_interact::is_drive_conflict(int msg_width){
     bool install_muscle_engine = (sel_vpart_info->fuel_type == "muscle");
     bool has_muscle_engine = veh->has_engine_type("muscle", false);
     bool can_install = !(has_muscle_engine && install_muscle_engine);
@@ -490,7 +490,7 @@ bool veh_interact::can_install_part(int msg_width){
     }
     
     itype_id itm = sel_vpart_info->item;
-    bool drive_conflict = is_drive_conflict(msg_width, engines);
+    bool drive_conflict = is_drive_conflict(msg_width);
     
     bool has_comps = crafting_inv.has_components(itm, 1);
     bool has_skill = g->u.skillLevel("mechanics") >= sel_vpart_info->difficulty;

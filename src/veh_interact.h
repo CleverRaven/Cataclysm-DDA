@@ -128,7 +128,7 @@ class veh_interact
         bool can_install_part(int msg_width);
         //true if trying to install foot crank with electric engines for example
         //writes failure to ui
-        bool is_drive_conflict(int msg_width, int engines);
+        bool is_drive_conflict(int msg_width);
         /* true if current selected square has part with "FUEL_TANK flag and
          * they are not full. Otherwise will be false.
          */
