@@ -16,6 +16,7 @@
 #include "messages.h"
 #include "ui.h"
 #include "debug.h"
+
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;
  *   assemble "structure" once here instead of repeatedly later.
@@ -34,7 +35,8 @@ const ammotype fuel_types[num_fuel_types] = {
     fuel_type_plutonium, fuel_type_plasma, fuel_type_water };
 const nc_color fuel_colors[num_fuel_types] = {
 	c_ltred, c_brown, c_yellow, c_ltgreen, c_ltblue, c_ltcyan};
-
+const int fuel_coeff[num_fuel_types] = {
+    100, 100, 1, 1, 100, 1};
 
 
 enum vehicle_controls {
@@ -2751,9 +2753,9 @@ bool vehicle::valid_wheel_config ()
  */
 void vehicle::consume_fuel( double load = 1.0 )
 {
-    int ftype_coeff[num_fuel_types] = {100, 100, 1, 1, 100, 1};
+    
     for( int ft = 0; ft < num_fuel_types; ft++ ) {
-        double amnt_precise = double(basic_consumption(fuel_types[ft])) / ftype_coeff[ft];
+        double amnt_precise = double(basic_consumption(fuel_types[ft])) / fuel_coeff[ft];
         float st = strain() * 10;
         amnt_precise *= load * (1.0 + st * st);
         int amnt = int(amnt_precise);
