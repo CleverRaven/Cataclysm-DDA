@@ -2751,10 +2751,9 @@ bool vehicle::valid_wheel_config ()
  */
 void vehicle::consume_fuel( double load = 1.0 )
 {
-    ammotype ftypes[4] = { fuel_type_gasoline, fuel_type_diesel, fuel_type_battery, fuel_type_plasma };
-    int ftype_coeff[4] = {                100,              100,                 1,              100 };
-    for( int ft = 0; ft < 4; ft++ ) {
-        double amnt_precise = double(basic_consumption(ftypes[ft])) / ftype_coeff[ft];
+    int ftype_coeff[num_fuel_types] = {100, 100, 1, 1, 100, 1};
+    for( int ft = 0; ft < num_fuel_types; ft++ ) {
+        double amnt_precise = double(basic_consumption(fuel_types[ft])) / ftype_coeff[ft];
         float st = strain() * 10;
         amnt_precise *= load * (1.0 + st * st);
         int amnt = int(amnt_precise);
@@ -2763,7 +2762,7 @@ void vehicle::consume_fuel( double load = 1.0 )
             amnt += 1;
         }
         for( size_t p = 0; p < fuel.size(); p++ ) {
-            if( part_info(fuel[p]).fuel_type == ftypes[ft] ) {
+            if( part_info(fuel[p]).fuel_type == fuel_types[ft] ) {
                 if( parts[fuel[p]].amount >= amnt ) {
                     // enough fuel located in this part
                     parts[fuel[p]].amount -= amnt;
