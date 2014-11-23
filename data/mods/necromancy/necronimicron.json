@@ -73,7 +73,6 @@
     "revert_to": "null",
     "ammo": "NULL",
     "category": "tools",
-    "use_action": "MINION"
     "use_action": {
         "type": "place_monster",
         "monster_id": "mon_zombie",
@@ -96,7 +95,7 @@
     "comestible_type" : "MED",
     "symbol" : "!",
     "quench" : -100,
-    "heal" : -30,
+    "healthy" : -30,
     "addiction_type" : "none",
     "addiction_potential" : 0,
     "nutrition" : -100,
@@ -116,7 +115,7 @@
     "type" : "BOOK",
     "id" : "abdul_necro",
     "name" : "Principles of Post-Mortem Mind Control",
-    "max_level" : 10,
+    "max_level" : 5,
     "description" : "A thick book containing research notes of a mad scientist. It describes various methods of reanimating and controlling the dead. There's a lot of gory details and technical language mixed in, so it's not easy to read.",
     "weight" : 2330,
     "to_hit" : 0,
@@ -137,14 +136,14 @@
     "result": "control_chip",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "mechanics",
-    "skills_required": [["electronics", 5], ["computer", 5]],
+    "skill_used": "electronics",
+    "skills_required": [["computer", 5]],
     "difficulty": 6,
     "time": 30000,
     "reversible": true,
     "decomp_learn": 7,
     "autolearn": false,
-    "book_learn": [[ "abdul_necro", 1 ]],
+    "book_learn": [[ "abdul_necro", 5 ]],
     "tools": [
       [ [ "screwdriver", -1], [ "toolset", -1] ],
       [ [ "soldering_iron", 10], [ "toolset", 1] ]
@@ -162,17 +161,20 @@
     "category": "CC_OTHER",
     "subcategory": "CC_OTHER_TOOLS",
     "skill used": "firstaid",
-    "skills_required": [[ "electronics", 2], ["firstaid", 4]],
+    "skills_required": [[ "electronics", 2]],
     "difficulty": 5,
     "time": 15000,
     "reversible": false,
     "autolearn": false,
-    "book_learn": [[ "abdul_necro", 2 ]],
+    "book_learn": [[ "abdul_necro", 4 ]],
     "tools":[
       [ [ "needle_bone", 30 ], [ "needle_wood", 30], [ "sewing_kit", 30] ],
       [ ["UPS_off", 1] ]
     ],
-    "components": [ [ ["slime_scrap", 10] ] ]
+    "components": [
+      [ ["slime_scrap", 10] ],
+      [ ["control_chip", 1] ]
+    ]
   },{
     "type": "recipe",
     "result": "revival_serum",
@@ -200,12 +202,12 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "firstaid",
-    "skills_required": [[ "tailor", 6], [ "firstaid", 6]],
+    "skills_required": [[ "tailor", 6], [ "electronics", 6]],
     "difficulty": 7,
     "time": 120000,
     "reversible": false,
     "autolearn": false,
-    "book_learn": [["abdul_necro", 4]],
+    "book_learn": [["abdul_necro", 6]],
     "tools": [
       [ ["needle_bone", 30], ["needle_wood", 30], ["sewing_kit", 30] ],
       [ ["syringe", -1] ],
