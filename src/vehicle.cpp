@@ -3125,7 +3125,6 @@ void vehicle::idle(bool on_map) {
         }
         
         idle_rate = (float)alternator_load / (float)engines_power;
-        add_msg("Load: %f", idle_rate);
         if (idle_rate < 0.01) idle_rate = 0.01; // minimum idle is 1% of full throttle
         consume_fuel(idle_rate);
 
