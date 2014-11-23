@@ -1,13 +1,12 @@
 #include "map.h"
 #include "omdata.h"
-#include "mapitems.h"
 #include "output.h"
 #include "game.h"
 #include "rng.h"
 #include "line.h"
 #include "debug.h"
 #include "options.h"
-#include "item_factory.h"
+#include "item_group.h"
 #include "mapgen_functions.h"
 #include "mapgenformat.h"
 #include "overmapbuffer.h"
@@ -502,7 +501,7 @@ void mapgen_function_json::setup_place_group(JsonArray &parray ) {
 
          if ( jsi.read("item", tmpval ) ) {
              tmpop = JMAPGEN_PLACEGROUP_ITEM;
-             if ( !item_controller->has_group( tmpval ) ) {
+             if ( !item_group::group_is_defined( tmpval ) ) {
                  jsi.throw_error(string_format("place_group: no such item group '%s'",tmpval.c_str() ));
              }
          } else if ( jsi.read("monster", tmpval ) ) {
@@ -568,7 +567,7 @@ void mapgen_function_json::setup_place_special(JsonArray &parray )
             } else if (tmpval == "vendingmachine") {
                 tmpop = JMAPGEN_PLACESPECIAL_VENDINGMACHINE;
                 tmp_type = jsi.get_string("item_group", one_in(2) ? "vending_food" : "vending_drink");
-                if (!item_controller->has_group(tmp_type)) {
+                if (!item_group::group_is_defined(tmp_type)) {
                     jsi.throw_error(string_format("  place special: no such item group '%s'", tmp_type.c_str()), "item_group" );
                 }
             } else if (tmpval == "sign") {
@@ -749,7 +748,7 @@ bool mapgen_function_json::setup() {
                JsonObject jsi = parray.next_object();
                if ( jsi.has_string("item") ) {
                    tmpval = jsi.get_string("item");
-                   if( ! item_controller->has_template(tmpval) ) {
+                   if( !item::type_is_defined( tmpval ) ) {
                        jsi.throw_error(("  add item: no such item ") + tmpval );
                    }
                } else {
@@ -1083,8 +1082,8 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
 
     // Below comment is outdated
     // TODO: Update comment
-    // The place_items() function takes a mapitems type (see mapitems.h and
-    //  mapitemsdef.cpp), an "odds" int giving the chance for a single item to be
+    // The place_items() function takes a item group ident type,
+    //  an "odds" int giving the chance for a single item to be
     //  placed, four ints (x1, y1, x2, y2) corresponding to the upper left corner
     //  and lower right corner of a square where the items are placed, a boolean
     //  that indicates whether items may spawn on grass & dirt, and finally an
@@ -11113,7 +11112,7 @@ int map::place_npc(int x, int y, std::string type)
 // A chance of 100 indicates that items should always spawn,
 // the item group should be responsible for determining the amount of items.
 int map::place_items(items_location loc, int chance, int x1, int y1,
-                     int x2, int y2, bool ongrass, int, bool)
+                     int x2, int y2, bool ongrass, int turn, bool)
 {
     const float spawn_rate = ACTIVE_WORLD_OPTIONS["ITEM_SPAWNRATE"];
 
@@ -11121,7 +11120,7 @@ int map::place_items(items_location loc, int chance, int x1, int y1,
         debugmsg("map::place_items() called with an invalid chance (%d)", chance);
         return 0;
     }
-    if (!item_controller->has_group(loc)) {
+    if (!item_group::group_is_defined(loc)) {
         const point omt = overmapbuffer::sm_to_omt_copy( get_abs_sub().x, get_abs_sub().y );
         const oter_id &oid = overmap_buffer.ter( omt.x, omt.y, get_abs_sub().z );
         debugmsg("place_items: invalid item group '%s', om_terrain = '%s' (%s)",
@@ -11137,7 +11136,6 @@ int map::place_items(items_location loc, int chance, int x1, int y1,
             lets_spawn -= 1.0;
 
             // Might contain one item or several that belong together like guns & their ammo
-            const Item_list items = item_controller->create_from_group(loc, 0);
             int tries = 0;
             do {
                 px = rng(x1, x2);
@@ -11149,8 +11147,7 @@ int map::place_items(items_location loc, int chance, int x1, int y1,
                        (!ongrass && !terlist[ter(px, py)].has_flag("FLAT")) ) &&
                      tries < 20);
             if (tries < 20) {
-                spawn_items(px, py, items);
-                item_num += items.size();
+                item_num += put_items_from_loc( loc, px, py, turn );
             }
         }
         if (chance == 100) {
@@ -11162,18 +11159,9 @@ int map::place_items(items_location loc, int chance, int x1, int y1,
 
 int map::put_items_from_loc(items_location loc, int x, int y, int turn)
 {
-    const Item_list items = item_controller->create_from_group(loc, turn);
+    const auto items = item_group::items_from(loc, turn);
     spawn_items(x, y, items);
     return items.size();
-}
-
-void map::put_items_from(items_location loc, int num, int x, int y, int turn, int quantity,
-                         long charges, int damlevel, bool rand)
-{
-    for (int i = 0; i < num; i++) {
-        Item_tag selected_item = item_controller->id_from(loc);
-        spawn_item(x, y, selected_item, quantity, charges, turn, damlevel, rand);
-    }
 }
 
 void map::add_spawn(std::string type, int count, int x, int y, bool friendly,

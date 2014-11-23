@@ -553,48 +553,6 @@ void Item_factory::add_item_type(itype *new_type)
     entry = new_type;
 }
 
-
-Item_list Item_factory::create_from_group(Group_tag group, int created_at)
-{
-    GroupMap::iterator group_iter = m_template_groups.find(group);
-    //If the tag isn't found, just return a reference to missing item.
-    if (group_iter != m_template_groups.end()) {
-        return group_iter->second->create(created_at);
-    } else {
-        return Item_list();
-    }
-}
-
-//Returns a random template name from the list of all templates.
-const Item_tag Item_factory::id_from(const Group_tag group_tag)
-{
-    GroupMap::iterator group_iter = m_template_groups.find(group_tag);
-    //If the tag isn't found, just return a reference to missing item.
-    if (group_iter != m_template_groups.end()) {
-        item it = group_iter->second->create_single(calendar::turn);
-        return it.type->id;
-    } else {
-        return EMPTY_GROUP_ITEM_ID;
-    }
-}
-
-//Returns a random item from the list of all templates
-const item Item_factory::item_from(const Group_tag group_tag)
-{
-    GroupMap::iterator group_iter = m_template_groups.find(group_tag);
-    //If the tag isn't found, just return a reference to missing item.
-    if (group_iter != m_template_groups.end()) {
-        return group_iter->second->create_single(calendar::turn);
-    } else {
-        return item();
-    }
-}
-
-bool Item_factory::has_group(const Item_tag &group_tag) const
-{
-    return m_template_groups.count(group_tag) > 0;
-}
-
 Item_spawn_data *Item_factory::get_group(const Item_tag &group_tag)
 {
     GroupMap::iterator group_iter = m_template_groups.find(group_tag);
@@ -602,16 +560,6 @@ Item_spawn_data *Item_factory::get_group(const Item_tag &group_tag)
         return group_iter->second;
     }
     return NULL;
-}
-
-bool Item_factory::group_contains_item(Group_tag group_tag, Item_tag item)
-{
-    Item_spawn_data *current_group = m_template_groups.find(group_tag)->second;
-    if (current_group) {
-        return current_group->has_item(item);
-    } else {
-        return 0;
-    }
 }
 
 ///////////////////////
@@ -1546,29 +1494,6 @@ void Item_factory::set_intvar(std::string tag, unsigned int &var, int min, int m
     }
 }
 
-bool item_category::operator<(const item_category &rhs) const
-{
-    if (sort_rank != rhs.sort_rank) {
-        return sort_rank < rhs.sort_rank;
-    }
-    if (name != rhs.name) {
-        return name < rhs.name;
-    }
-    return id < rhs.id;
-}
-
-bool item_category::operator==(const item_category &rhs) const
-{
-    return sort_rank == rhs.sort_rank &&
-           name == rhs.name &&
-           id == rhs.id;
-}
-
-bool item_category::operator!=(const item_category &rhs) const
-{
-    return !(*this == rhs);
-}
-
 const item_category *Item_factory::get_category(const std::string &id)
 {
     const CategoryMap::const_iterator a = m_categories.find(id);
@@ -1651,9 +1576,9 @@ bool Item_factory::add_item_to_group(const Group_tag group_id, const Item_tag it
     return true;
 }
 
-void Item_factory::debug_spawn()
+void item_group::debug_spawn()
 {
-    std::vector<std::string> groups = get_all_group_names();
+    std::vector<std::string> groups = item_controller->get_all_group_names();
     uimenu menu;
     menu.text = _("Test which group?");
     for (size_t i = 0; i < groups.size(); i++) {
@@ -1670,10 +1595,9 @@ void Item_factory::debug_spawn()
         // Spawn items from the group 100 times
         std::map<std::string, int> itemnames;
         for (size_t a = 0; a < 100; a++) {
-            Item_spawn_data *isd = m_template_groups[groups[index]];
-            Item_spawn_data::ItemList items = isd->create(calendar::turn);
-            for (Item_spawn_data::ItemList::iterator a = items.begin(); a != items.end(); ++a) {
-                itemnames[a->display_name()]++;
+            const auto items = items_from( groups[index], calendar::turn );
+            for( auto &it : items ) {
+                itemnames[it.display_name()]++;
             }
         }
         // Invert the map to get sorting!
@@ -1717,19 +1641,3 @@ Item_tag Item_factory::create_artifact_id() const
     } while( has_template( id ) );
     return id;
 }
-
-std::string Item_factory::nname( const Item_tag &id, unsigned int quantity ) const
-{
-    auto it = m_templates.find( id );
-    if( it != m_templates.end() ) {
-        return it->second->nname( quantity );
-    }
-    return string_format( _( "unknown item %s" ), id.c_str() );
-}
-
-bool Item_factory::count_by_charges( const Item_tag &id )
-{
-    return find_template( id )->count_by_charges();
-}
-
-const Item_tag Item_factory::EMPTY_GROUP_ITEM_ID( "MISSING_ITEM" );

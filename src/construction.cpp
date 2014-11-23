@@ -6,7 +6,6 @@
 #include "inventory.h"
 #include "mapdata.h"
 #include "skill.h"
-#include "item_factory.h"
 #include "catacharset.h"
 #include "action.h"
 #include "translations.h"
@@ -143,7 +142,7 @@ void construction_menu()
     std::string category_name = "";
     std::vector<std::string> constructs;
 
-    inventory total_inv = g->u.crafting_inventory();
+    const inventory &total_inv = g->u.crafting_inventory();
 
     input_context ctxt("CONSTRUCTION");
     ctxt.register_action("UP", _("Move cursor up"));
@@ -477,7 +476,7 @@ static bool can_construct(construction *con)
 static void place_construction(const std::string &desc)
 {
     g->refresh_all();
-    inventory total_inv = g->u.crafting_inventory();
+    const inventory &total_inv = g->u.crafting_inventory();
 
     std::vector<construction *> cons = constructions_by_desc(desc);
     std::map<point, construction *> valid;

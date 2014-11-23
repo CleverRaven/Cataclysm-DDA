@@ -1,6 +1,5 @@
 #include <vector>
 #include <sstream>
-#include "item_factory.h"
 #include "options.h"
 #include "game.h"
 #include "weather.h"

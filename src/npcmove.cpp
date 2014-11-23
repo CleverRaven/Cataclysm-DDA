@@ -6,7 +6,6 @@
 #include "debug.h"
 #include "overmapbuffer.h"
 #include "messages.h"
-#include "item_factory.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_NPC) << __FILE__ << ":" << __LINE__ << ": "
 #define TARGET_PLAYER -2
@@ -792,7 +791,7 @@ bool npc::alt_attack_available()
 {
     for (int i = 0; i < NUM_ALT_ATTACK_ITEMS; i++) {
         if ((!is_following() || combat_rules.use_grenades ||
-             !(item_controller->find_template( ALT_ATTACK_ITEMS[i] )->item_tags.count("GRENADE"))) &&
+             !(item::find_type( ALT_ATTACK_ITEMS[i] )->item_tags.count("GRENADE"))) &&
             has_amount(ALT_ATTACK_ITEMS[i], 1)) {
             return true;
         }
@@ -1639,7 +1638,7 @@ void npc::alt_attack(int target)
      */
     for (int i = 0; i < NUM_ALT_ATTACK_ITEMS; i++) {
         if ((!is_following() || combat_rules.use_grenades ||
-             !(item_controller->find_template( ALT_ATTACK_ITEMS[i] )->item_tags.count("GRENADE"))) &&
+             !(item::find_type( ALT_ATTACK_ITEMS[i] )->item_tags.count("GRENADE"))) &&
             has_amount(ALT_ATTACK_ITEMS[i], 1)) {
             which = ALT_ATTACK_ITEMS[i];
         }

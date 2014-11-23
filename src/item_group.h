@@ -1,7 +1,6 @@
 #ifndef ITEM_GROUP_H
 #define ITEM_GROUP_H
 
-#include "item.h"
 #include <vector>
 #include <set>
 #include <string>
@@ -9,6 +8,63 @@
 
 typedef std::string Item_tag;
 typedef std::string Group_tag;
+class JsonObject;
+class item;
+
+namespace item_group {
+    /**
+     * Returns a random item from the item group, handles packaged food by putting it into its
+     * container and returning the container item.
+     * Note that this may return a null-item, if the group does not exist, is empty or did not
+     * create an item this time. You have to check this with @ref item::is_null.
+     */
+    item item_from( const Group_tag &group_id, int birthday );
+    /**
+     * Same as above but with implicit birthday at turn 0.
+     */
+    item item_from( const Group_tag &group_id );
+
+    typedef std::vector<item> ItemList;
+    /**
+     * Create items from the given group. It creates as many items as the group definition requests.
+     * For example if the group is a distribution that only contains item ids it will create
+     * a single item.
+     * If the group is a collection with several entries it can contain more than one item (or none
+     * at all).
+     * This function also creates ammo for guns, if this is requested in the item group and puts
+     * stuff into containers if that is required.
+     * The returned list may contain any number of items (or be empty), but it will never
+     * contain null-items.
+     * @param group_id The identifier of the item group. You may check its validity
+     * with @ref group_is_defined.
+     * @param birthday The birthday (@ref item::bday) of the items created by this function.
+     */
+    ItemList items_from( const Group_tag &group_id, int birthday );
+    /**
+     * Same as above but with implicit birthday at turn 0.
+     */
+    ItemList items_from( const Group_tag &group_id );
+    /**
+     * Check whether a specific item group contains a specific item type.
+     * This is used for the "trader_avoid" item group to specify what items npc should not spawn
+     * with.
+     */
+    bool group_contains_item( const Group_tag &group_id, const Item_tag &type_id );
+    /**
+     * Check whether an item group of the given id exists. You may use this to either choose an
+     * alternative group or check the json definitions for consistency (spawn data in json that
+     * refers to a non-existing group is broken), or just alert the player.
+     */
+    bool group_is_defined( const Group_tag &group_id);
+    /**
+     * Shows an menu to debug the item groups.
+     */
+    void debug_spawn();
+    /**
+     * See @ref Item_factory::load_item_group
+     */
+    void load_item_group( JsonObject &jsobj, const Group_tag &group_id, const std::string &subtype );
+}
 
 /**
  * Base interface for item spawn.
@@ -28,21 +84,13 @@ class Item_spawn_data
          * @param birthday All items have that value as birthday.
          */
         virtual ItemList create(int birthday, RecursionList &rec) const = 0;
-        ItemList create(int birthday) const
-        {
-            RecursionList rec;
-            return create(birthday, rec);
-        }
+        ItemList create(int birthday) const;
         /**
          * The same as create, but create a single item only.
          * The returned item might be a null item!
          */
         virtual item create_single(int birthday, RecursionList &rec) const = 0;
-        item create_single(int birthday) const
-        {
-            RecursionList rec;
-            return create_single(birthday, rec);
-        }
+        item create_single(int birthday) const;
         /**
          * Check item / spawn settings for consistency. Includes
          * checking for valid item types and valid settings.

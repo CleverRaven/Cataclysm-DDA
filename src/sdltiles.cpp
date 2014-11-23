@@ -908,9 +908,9 @@ int HandleDPad()
  * -1 when a ALT+number sequence has been started,
  * or somthing that a call to ncurses getch would return.
  */
-long sdl_keycode_to_curses(SDL_Keycode keycode)
+long sdl_keysym_to_curses(SDL_Keysym keysym)
 {
-    switch (keycode) {
+    switch (keysym.sym) {
         // This is special: allow entering a unicode character with ALT+number
         case SDLK_RALT:
         case SDLK_LALT:
@@ -929,6 +929,9 @@ long sdl_keycode_to_curses(SDL_Keycode keycode)
         case SDLK_ESCAPE:
             return KEY_ESCAPE;
         case SDLK_TAB:
+            if (keysym.mod & KMOD_SHIFT) {
+                return KEY_BTAB;
+            }
             return '\t';
         case SDLK_LEFT:
             return KEY_LEFT;
@@ -1004,7 +1007,7 @@ void CheckMessages()
                     quit = true;
                     break;
                 }
-                const long lc = sdl_keycode_to_curses(ev.key.keysym.sym);
+                const long lc = sdl_keysym_to_curses(ev.key.keysym);
                 if( lc <= 0 ) {
                     // a key we don't know in curses and won't handle.
                     break;

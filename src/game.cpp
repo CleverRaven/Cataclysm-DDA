@@ -15,7 +15,7 @@
 #include "bodypart.h"
 #include "map.h"
 #include "uistate.h"
-#include "item_factory.h"
+#include "item_group.h"
 #include "helper.h"
 #include "json.h"
 #include "artifact.h"
@@ -1828,6 +1828,9 @@ void game::activity_on_finish()
         break;
     case ACT_READ:
         u.do_read(&(u.i_at(u.activity.position)));
+        if (u.activity.type == ACT_NULL) {
+            add_msg(_("You finish reading."));
+        }
         break;
     case ACT_WAIT:
     case ACT_WAIT_WEATHER:
@@ -2462,7 +2465,7 @@ void game::wrap_up_mission(int id)
     }
     switch (miss->type->goal) {
     case MGOAL_FIND_ITEM:
-        if( item( miss->type->item_id, 0 ).count_by_charges() ) {
+        if( item::count_by_charges( miss->type->item_id ) ) {
             u.use_charges(miss->type->item_id, miss->item_count);
         } else {
             u.use_amount(miss->type->item_id, miss->item_count);
@@ -4351,34 +4354,7 @@ bool game::save_factions_missions_npcs()
 bool game::save_artifacts()
 {
     std::string artfilename = world_generator->active_world->world_path + "/artifacts.gsav";
-    try {
-        std::ofstream fout;
-        fout.exceptions(std::ios::badbit | std::ios::failbit);
-
-        fopen_exclusive(fout, artfilename.c_str(), std::ofstream::trunc);
-        if (!fout.is_open()) {
-            return true; // trick game into thinking it was saved
-        }
-
-        JsonOut json(fout);
-        json.start_array();
-        for( auto &p : item_controller->get_all_itypes() ) {
-            it_artifact_tool *art_tool = dynamic_cast<it_artifact_tool *>( p.second );
-            it_artifact_armor *art_armor = dynamic_cast<it_artifact_armor *>( p.second );
-            if( art_tool != nullptr ) {
-                json.write( *art_tool );
-            } else if( art_armor != nullptr ) {
-                json.write( *art_armor );
-            }
-        }
-        json.end_array();
-        fclose_exclusive(fout, artfilename.c_str());
-
-        return true;
-    } catch (std::ios::failure &) {
-        popup(_("Failed to save artifacts to %s"), artfilename.c_str());
-        return false;
-    }
+    return ::save_artifacts( artfilename );
 }
 
 bool game::save_maps()
@@ -5027,7 +5003,7 @@ void game::debug()
             int exsp[ne];
             std::string spstr = "";
             for (int i = 0; i < ne; i++) {
-                itype *ity = item_controller->find_template(examples[i]);
+                const auto ity = item::find_type( examples[i] );
                 exsp[i] = dynamic_cast<it_comest *>(ity)->spoils;
                 esz[i] = examples[i].size();
                 spstr = string_format("%s | %s", spstr.c_str(), examples[i].c_str());
@@ -5077,7 +5053,7 @@ void game::debug()
     }
     break;
     case 21: {
-        item_controller->debug_spawn();
+        item_group::debug_spawn();
     }
     break;
 
@@ -6922,8 +6898,7 @@ void game::knockback(int sx, int sy, int tx, int ty, int force, int stun, int da
     std::vector<point> traj;
     traj.clear();
     traj = line_to(sx, sy, tx, ty, 0);
-    traj.insert(traj.begin(), point(sx,
-                                    sy)); // how annoying, line_to() doesn't include the originating point!
+    traj.insert(traj.begin(), point(sx, sy)); // how annoying, line_to() doesn't include the originating point!
     traj = continue_line(traj, force);
     traj.insert(traj.begin(), point(tx, ty)); // how annoying, continue_line() doesn't either!
 
@@ -11245,7 +11220,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
             add_msg(_("Your %s starts charging."), u.weapon.tname().c_str());
             u.weapon.charges = 0;
             u.weapon.poison = 0;
-            u.weapon.curammo = dynamic_cast<it_ammo *>(item_controller->find_template( "charge_shot" ));
+            u.weapon.curammo = dynamic_cast<it_ammo *>( item::find_type( "charge_shot" ) );
             u.weapon.active = true;
             return;
         } else {
@@ -11256,7 +11231,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
 
     if (u.weapon.has_flag("NO_AMMO")) {
         u.weapon.charges = 1;
-        u.weapon.curammo = dynamic_cast<it_ammo *>(item_controller->find_template( "generic_no_ammo" ));
+        u.weapon.curammo = dynamic_cast<it_ammo *>( item::find_type( "generic_no_ammo" ) );
     }
 
     if ((u.weapon.has_flag("STR8_DRAW") && u.str_cur < 4) ||
@@ -11414,7 +11389,7 @@ void game::butcher()
     // indices of corpses / items that can be disassembled
     std::vector<int> corpses;
     std::vector<item> &items = m.i_at(u.posx, u.posy);
-    inventory crafting_inv = u.crafting_inventory();
+    const inventory &crafting_inv = u.crafting_inventory();
     bool has_salvage_tool = u.inv.has_items_with_quality( "CUT", 1, 1 );
 
     // check if we have a butchering tool
@@ -11728,8 +11703,7 @@ void game::complete_butcher(int index)
         if (skill_shift >= 0) {
             //To see if it spawns a random additional CBM
             if (rng(0, 1) == 1) { //The CBM works
-                Item_tag bionic_item = item_controller->id_from("bionics_common");
-                m.spawn_item(u.posx, u.posy, bionic_item, 1, 0, age);
+                m.put_items_from_loc( "bionics_common", u.posx, u.posy, age );
             } else { //There is a burnt out CBM
                 m.spawn_item(u.posx, u.posy, "burnt_out_bionic", 1, 0, age);
             }
@@ -11751,8 +11725,7 @@ void game::complete_butcher(int index)
         if (skill_shift >= 0) {
             //To see if it spawns a random additional CBM
             if (rng(0, 1) == 1) { //The CBM works
-                Item_tag bionic_item = item_controller->id_from("bionics_sci");
-                m.spawn_item(u.posx, u.posy, bionic_item, 1, 0, age);
+                m.put_items_from_loc( "bionics_sci", u.posx, u.posy, age );
             } else { //There is a burnt out CBM
                 m.spawn_item(u.posx, u.posy, "burnt_out_bionic", 1, 0, age);
             }
@@ -11773,8 +11746,7 @@ void game::complete_butcher(int index)
         if (skill_shift >= 0) {
             //To see if it spawns a random additional CBM
             if (rng(0, 1) == 1) { //The CBM works
-                Item_tag bionic_item = item_controller->id_from("bionics_tech");
-                m.spawn_item(u.posx, u.posy, bionic_item, 1, 0, age);
+                m.put_items_from_loc( "bionics_tech", u.posx, u.posy, age );
             } else { //There is a burnt out CBM
                 m.spawn_item(u.posx, u.posy, "burnt_out_bionic", 1, 0, age);
             }
@@ -11795,8 +11767,7 @@ void game::complete_butcher(int index)
         if (skill_shift >= 0) {
             //To see if it spawns a random additional CBM
             if (rng(0, 1) == 1) { //The CBM works
-                Item_tag bionic_item = item_controller->id_from("bionics_subs");
-                m.spawn_item(u.posx, u.posy, bionic_item, 1, 0, age);
+                m.put_items_from_loc( "bionics_subs", u.posx, u.posy, age );
             } else { //There is a burnt out CBM
                 m.spawn_item(u.posx, u.posy, "burnt_out_bionic", 1, 0, age);
             }
@@ -11804,8 +11775,7 @@ void game::complete_butcher(int index)
         if (skill_shift >= 0) {
             //To see if it spawns a random additional CBM
             if (rng(0, 1) == 1) { //The CBM works
-                Item_tag bionic_item = item_controller->id_from("bionics_subs");
-                m.spawn_item(u.posx, u.posy, bionic_item, 1, 0, age);
+                m.put_items_from_loc( "bionics_subs", u.posx, u.posy, age );
             } else { //There is a burnt out CBM
                 m.spawn_item(u.posx, u.posy, "burnt_out_bionic", 1, 0, age);
             }
@@ -11827,8 +11797,7 @@ void game::complete_butcher(int index)
         if (skill_shift >= 0) {
             //To see if it spawns a random additional CBM
             if (rng(0, 1) == 1) { //The CBM works
-                Item_tag bionic_item = item_controller->id_from("bionics_op");
-                m.spawn_item(u.posx, u.posy, bionic_item, 1, 0, age);
+                m.put_items_from_loc( "bionics_op", u.posx, u.posy, age );
             } else { //There is a burnt out CBM
                 m.spawn_item(u.posx, u.posy, "burnt_out_bionic", 1, 0, age);
             }
@@ -11908,7 +11877,7 @@ void game::forage()
 
     if (one_in(12)) {
         add_msg(m_good, _("You found some trash!"));
-        m.put_items_from("trash_forest", 1, u.posx, u.posy, calendar::turn, 0, 0, 0);
+        m.put_items_from_loc( "trash_forest", u.posx, u.posy, calendar::turn );
         found_something = true;
     }
     // Compromise: Survival gives a bigger boost, and Peception is leveled a bit.

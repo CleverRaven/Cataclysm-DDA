@@ -58,7 +58,7 @@
       [ "rag", 6 ]
     ],
     [
-      [ "feather", 40]
+      [ "down_feather", 40]
     ]
   ]
 },{
@@ -5835,6 +5835,98 @@
     [
       [ "cured_pelt", 1 ]
     ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "lobotomizer",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "difficulty": 9,
+  "time": 440000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn": [["manual_fabrication", 8] , ["textbook_fabrication", 6]],
+  "qualities":[
+    {"id":"HAMMER","level":3,"amount":1}
+  ], "tools": [
+     [
+      ["tongs", -1]
+     ],
+     [
+      ["chisel", -1]
+     ],
+     [
+      ["swage", -1]
+     ],
+     [
+      ["anvil", -1]
+     ],
+     [
+      ["swage", -1]
+     ],
+     [
+      ["forge", 350], ["char_forge", 70], [ "oxy_torch", 70]
+     ]
+    ],
+  "components":
+   [
+    [
+     [ "steel_lump", 6 ],
+     [ "steel_chunk", 24 ],
+     [ "scrap", 72 ]
+    ]
+   ]
+},{
+        "type" : "recipe",
+  "result": "chipper",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 8000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1},
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components":
+   [
+    [
+     [ "scrap", 1 ]
+    ],
+    [
+     [ "2x4", 1 ],
+     [ "stick", 1 ],
+     [ "broom", 1 ],
+     [ "mop", 1 ]
+   ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "paint_brush",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 8000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components":
+   [
+    [
+     [ "rag", 1 ]
+    ],
+    [
+     [ "2x4", 1 ],
+     [ "stick", 1 ],
+     [ "broom", 1 ],
+     [ "mop", 1 ]
+   ]
   ]
 }
 ]

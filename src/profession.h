@@ -10,6 +10,7 @@
 #include "json.h"
 
 class profession;
+class player;
 
 typedef std::map<std::string, profession> profmap;
 

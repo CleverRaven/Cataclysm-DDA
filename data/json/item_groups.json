@@ -5657,6 +5657,7 @@
   },{
     "type" : "item_group",
     "id" : "bionics_common",
+    "subtype": "distribution",
     "items":[
       ["bio_power_storage", 10],
       ["bio_tools", 10],
@@ -5676,6 +5677,7 @@
   },{
     "type" : "item_group",
     "id" : "bionics_sci",
+    "subtype": "distribution",
     "note" : "High-tech bionics, handy for the harried researcher. They get access to classified toys too.",
     "items":[
       ["bio_solar", 5],
@@ -6129,6 +6131,7 @@
   },{
       "type" : "item_group",
     "id" : "bionics_op",
+    "subtype": "distribution",
     "note" : "What the commandos get.",
     "items":[
       ["bio_power_storage_mkII", 10],
@@ -8850,6 +8853,7 @@
   },{
     "type" : "item_group",
     "id" : "bionics_tech",
+    "subtype": "distribution",
     "note" : "Bionics used by technicians.",
     "items":[
       ["bio_torsionratchet", 20],
@@ -8862,6 +8866,7 @@
   },{
     "type" : "item_group",
     "id" : "bionics_subs",
+    "subtype": "distribution",
     "note" : "Bionics dropped by substation mini-boss.",
     "items":[
       ["bio_power_storage", 20],

@@ -263,7 +263,8 @@ std::vector<tripoint> continue_line(const std::vector<tripoint> &line, const int
     // routines, erring on the side of readability.
     tripoint start;
     tripoint end;
-    start = end = line.back();
+    start = line.back();
+    end = line.back();
     // slope <<x,y>,z>
     std::pair<std::pair<double, double>, double> slope;
     slope = slope_of(line);

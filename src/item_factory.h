@@ -20,28 +20,7 @@ class Item_spawn_data;
 class Item_group;
 class item;
 struct itype;
-
-class item_category
-{
-    public:
-        // id (like itype::id) - used when loading from json
-        std::string id;
-        // display name (localized)
-        std::string name;
-        // categories are sorted by this value,
-        // lower values means the category is shown first
-        int sort_rank;
-
-        item_category() : id(), name(), sort_rank(0) { }
-        item_category(const std::string &id_, const std::string &name_, int sort_rank_) : id(id_),
-            name(name_), sort_rank(sort_rank_) { }
-
-        // Comparators operato on the sort_rank, name, id
-        // (in that order).
-        bool operator<(const item_category &rhs) const;
-        bool operator==(const item_category &rhs) const;
-        bool operator!=(const item_category &rhs) const;
-};
+class item_category;
 
 /**
  * Central item type management class.
@@ -86,7 +65,8 @@ class Item_factory
          * @name Item groups
          *
          * Item groups are used to spawn random items (in random amounts).
-         * You usually only need the @ref create_from_group function to create items from a group.
+         * You usually only need the @ref item_group::items_from function to create items
+         * from a group.
          */
         /*@{*/
         /**
@@ -109,47 +89,9 @@ class Item_factory
          */
         void load_item_group(JsonObject &jsobj, const Group_tag &ident, const std::string &subtype);
         /**
-         * Check whether an item group of that id exists.
-         */
-        bool has_group(const Group_tag &id) const;
-        /**
          * Get the item group object. Returns null if the item group does not exists.
          */
         Item_spawn_data *get_group(const Group_tag &id);
-        /**
-         * Returns a random item type id from the given item group.
-         * Returns @ref EMPTY_GROUP_ITEM_ID if the group is empty or undefined.
-         */
-        const Item_tag id_from(Group_tag group_tag);
-        /**
-         * Item id used by @ref id_from to indicate an invalid or empty group.
-         */
-        static const Item_tag EMPTY_GROUP_ITEM_ID;
-        /**
-         * Return a random item from the item group, handles packaged food where id_from returns the container.
-         */
-        const item item_from(Group_tag group_tag);
-        /**
-         * Check whether a specific item group contains a specific item.
-         * This is used for the "trader_avoid" item group to specify what items npc should not spawn
-         * with.
-         * @param group_tag Item group ident.
-         * @param item Item type ident.
-         */
-        bool group_contains_item(Group_tag group_tag, Group_tag item);
-        /**
-         * Create items from the given group. It creates as many items as the
-         * group definition requests.
-         * For example if the group is a distribution that only contains
-         * item ids it will create single item.
-         * If the group is a collection with several entries it can contain
-         * more than one item (or none at all!).
-         * This function also creates ammo for guns, if this is requested
-         * in the item group.
-         * @param group The ident of the item group.
-         * @param created_at The birthday of the items created by this function.
-         */
-        Item_list create_from_group(Group_tag group, int created_at);
         /**
          * Returns the idents of all item groups that are known.
          * This is meant to be accessed at startup by lua to do mod-related modifications of groups.
@@ -235,26 +177,11 @@ class Item_factory
          * @param new_type The new item type, must not be null.
          */
         void add_item_type( itype *new_type );
-        /**
-         * Shows an menu to debug the item groups.
-         */
-        void debug_spawn();
 
         void load_item_blacklist(JsonObject &jo);
         void load_item_whitelist(JsonObject &jo);
         void finialize_item_blacklist();
 
-
-        /**
-         * Returns the translated item name for the item with given id.
-         * The name is in the proper plural form as specified by the
-         * quantity parameter.
-         */
-        std::string nname(const Item_tag &id, unsigned int quantity = 1) const;
-        /**
-         * Whether the item is counted by charges, see @ref item::count_by_charges
-         */
-        bool count_by_charges(const Item_tag &id);
         /**
          * A list of *all* known item type ids. Each is suitable as input to
          * @ref find_template or as parameter to @ref item::item.

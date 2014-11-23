@@ -5513,7 +5513,7 @@
     "name": "zombie bio-operator",
     "species":"ZOMBIE",
     "symbol":"Z",
-    "color":"green_cyan",
+    "color":"red_cyan",
     "size":"MEDIUM",
     "material":"flesh",
     "diff":25,

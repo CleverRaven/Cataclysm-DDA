@@ -7,10 +7,10 @@
 #include "debug.h"
 #include "json.h"
 #include "player.h"
-#include "item_factory.h"
 #include "bionics.h"
 #include "start_location.h"
 #include "game.h"
+
 scenario::scenario()
    : _ident(""), _name_male("null"), _name_female("null"),
      _description_male("null"), _description_female("null")
@@ -195,17 +195,17 @@ void check_traits( const std::set<std::string> &traits, const std::string &ident
 void scenario::check_definition() const
 {
     for (std::vector<std::string>::const_iterator a = _starting_items.begin(); a != _starting_items.end(); ++a) {
-        if (!item_controller->has_template(*a)) {
+        if( !item::type_is_defined( *a ) ) {
             debugmsg("item %s for scenario %s does not exist", a->c_str(), _ident.c_str());
         }
     }
     for (std::vector<std::string>::const_iterator a = _starting_items_female.begin(); a != _starting_items_female.end(); ++a) {
-        if (!item_controller->has_template(*a)) {
+        if( !item::type_is_defined( *a ) ) {
             debugmsg("item %s for scenario %s does not exist", a->c_str(), _ident.c_str());
         }
     }
     for (std::vector<std::string>::const_iterator a = _starting_items_male.begin(); a != _starting_items_male.end(); ++a) {
-        if (!item_controller->has_template(*a)) {
+        if( !item::type_is_defined( *a ) ) {
             debugmsg("item %s for scenario %s does not exist", a->c_str(), _ident.c_str());
         }
     }

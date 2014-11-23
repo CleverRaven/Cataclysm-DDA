@@ -102,7 +102,10 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
     // if this is a vehicle mounted turret, which vehicle is it mounted on?
     const vehicle *in_veh = is_fake() ? g->m.veh_at(xpos(), ypos()) : NULL;
 
+    //Start this now in case we hit something early
+    std::vector<point> blood_traj = std::vector<point>();
     for (size_t i = 0; i < trajectory.size() && (dam > 0 || (proj.proj_effects.count("FLAME"))); i++) {
+        blood_traj.push_back(trajectory[i]);
         px = tx;
         py = ty;
         (void) px;
@@ -140,9 +143,6 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
             dealt_damage_instance dealt_dam;
             bool passed_through = critter->deal_projectile_attack(this, cur_missed_by, proj, dealt_dam) == 1;
             if (dealt_dam.total_damage() > 0) {
-                std::vector<point> blood_traj = std::vector<point>();
-                blood_traj.insert(blood_traj.begin(), point(xpos(), ypos()));
-                blood_traj.insert(blood_traj.end(), point(critter->xpos(), critter->ypos()));
                 splatter( blood_traj, dam, critter );
             }
             if (!passed_through) {
@@ -263,7 +263,6 @@ bool player::handle_gun_damage( it_gun *firing, std::set<std::string> *curammo_e
 
 void player::fire_gun(int tarx, int tary, bool burst)
 {
-    item ammotmp;
     item *gunmod = weapon.active_gunmod();
     it_ammo *curammo = NULL;
     item *used_weapon = NULL;
@@ -315,9 +314,6 @@ void player::fire_gun(int tarx, int tary, bool burst)
         curammo = weapon.curammo;
         used_weapon = &weapon;
     }
-
-    ammotmp = item(curammo->id, 0);
-    ammotmp.charges = 1;
 
     if (!used_weapon->is_gun() && !used_weapon->is_gunmod()) {
         debugmsg("%s tried to fire a non-gun (%s).", name.c_str(),
@@ -1487,5 +1483,3 @@ void splatter( std::vector<point> trajectory, int dam, Creature *target )
         }
     }
 }
-
-

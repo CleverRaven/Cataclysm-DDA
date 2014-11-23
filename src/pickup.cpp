@@ -222,7 +222,7 @@ static bool select_autopickup_items( std::vector<item> &here, std::vector<bool> 
 void Pickup::pick_one_up( const point &pickup_target, std::vector<item> &here, vehicle *veh,
                           int cargo_part, int index, int quantity, bool &got_water,
                           bool &offered_swap, std::map<std::string, int> &mapPickup,
-                          std::map<std::string, char> &item_invlet, bool autopickup )
+                          std::map<std::string, item> &item_info, bool autopickup )
 {
     int moves_taken = 100;
     bool picked_up = false;
@@ -312,9 +312,8 @@ void Pickup::pick_one_up( const point &pickup_target, std::vector<item> &here, v
         picked_up = true;
         add_msg(m_info, _("Wielding %c - %s"), newit.invlet, newit.display_name().c_str());
     } else {
-        mapPickup[ newit.tname() ] += (newit.count_by_charges()) ? newit.charges : 1;
-        newit = g->u.i_add(newit);
-        item_invlet[newit.tname()] = newit.invlet;
+        mapPickup[newit.tname()] += (newit.count_by_charges()) ? newit.charges : 1;
+        item_info[newit.tname()] = g->u.i_add(newit);
         picked_up = true;
     }
 
@@ -348,7 +347,7 @@ void Pickup::do_pickup( point pickup_target, bool from_vehicle,
     // Map of items picked up so we can output them all at the end and
     // merge dropping items with the same name.
     std::map<std::string, int> mapPickup;
-    std::map<std::string, char> item_invlet;
+    std::map<std::string, item> item_info;
 
     if( from_vehicle ) {
         int veh_root_part = -1;
@@ -373,11 +372,11 @@ void Pickup::do_pickup( point pickup_target, bool from_vehicle,
         quantities.pop_back();
 
         pick_one_up( pickup_target , here, veh, cargo_part, index, quantity,
-                     got_water, offered_swap, mapPickup, item_invlet, autopickup );
+                     got_water, offered_swap, mapPickup, item_info, autopickup );
     }
 
     if( !mapPickup.empty() ) {
-        show_pickup_message(mapPickup, item_invlet);
+        show_pickup_message(mapPickup, item_info);
     }
 
     if (got_water) {
@@ -805,11 +804,11 @@ int Pickup::handle_quiver_insertion(item &here, bool inv_on_fail, int &moves_to_
 
         //display output message
         std::map<std::string, int> map_pickup;
-        std::map<std::string, char> item_invlet;
+        std::map<std::string, item> item_info;
         int charges = (here.count_by_charges()) ? here.charges : 1;
         map_pickup.insert(std::pair<std::string, int>(here.tname(), charges));
-        item_invlet.insert(std::pair<std::string, char>(here.tname(), it.invlet));
-        show_pickup_message(map_pickup, item_invlet);
+        item_info.insert(std::pair<std::string, item>(here.tname(), it));
+        show_pickup_message(map_pickup, item_info);
     }
     return 0;
 }
@@ -828,19 +827,16 @@ void Pickup::remove_from_map_or_vehicle(int posx, int posy, vehicle *veh, int ca
 
 //helper function for Pickup::pick_up
 void Pickup::show_pickup_message(std::map<std::string, int> &mapPickup,
-                                 std::map<std::string, char> &item_invlet)
+                                 std::map<std::string, item> &item_info)
 {
     // iterator _should_ be the same, as std::map is ordered...
     std::map<std::string, int>::iterator mp_iter = mapPickup.begin();
-    std::map<std::string, char>::iterator ii_iter = item_invlet.begin();
-    while(mp_iter != mapPickup.end() && ii_iter != item_invlet.end()) {
-        // FIXME: i18n
+    std::map<std::string, item>::iterator ii_iter = item_info.begin();
+    while(mp_iter != mapPickup.end() && ii_iter != item_info.end()) {
         // name seems to be a fitting test
         if(mp_iter->first == ii_iter->first) {
-            // make message m_info, so you can tell it apart from the rest of the log
-            add_msg(m_info,
-                    ngettext("You pick up: %d %s [%c]", "You pick up: %d %ss [%c]", mp_iter->second),
-                    mp_iter->second, mp_iter->first.c_str(), ii_iter->second);
+            add_msg(_("You pick up: %d %s [%c]"),
+                    mp_iter->second, ii_iter->second.display_name(mp_iter->second).c_str(), ii_iter->second.invlet);
         } else {
             // ... and if it for some reason isn't, catch it in debug logs.
             debugmsg("show_pickup_message: mp_iter->first [%s] != ii_iter->first [%s]",
