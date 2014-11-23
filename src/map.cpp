@@ -5153,12 +5153,27 @@ void map::build_map_cache()
 
     // Cache all the vehicle stuff in one loop
     VehicleList vehs = get_vehicles();
+    bool player_in_that_vehicle = false;
     for(auto &v : vehs) {
         for (size_t part = 0; part < v.v->parts.size(); part++) {
             int px = v.x + v.v->parts[part].precalc_dx[0];
             int py = v.y + v.v->parts[part].precalc_dy[0];
             if(INBOUNDS(px, py)) {
-                if (v.v->is_inside(part)) {
+                // check, whether the player is inside *this* vehicle
+                // because otherwise the roof would be drawn and all
+                // tiles will become outside-ish
+                // copied from vehicle::part_displayed_at
+                if (g->u.in_vehicle) {
+                    std::vector<int> psg_parts = v.v->boarded_parts();
+                    for (size_t p = 0; p < psg_parts.size(); ++p) {
+                        if(v.v->get_passenger(psg_parts[p]) == &(g->u)) {
+                            player_in_that_vehicle = true;
+                            break;
+                        }
+                    }
+                }
+                
+                if (v.v->is_inside(part) && player_in_that_vehicle) {
                     outside_cache[px][py] = false;
                 }
                 if (v.v->part_flag(part, VPFLAG_OPAQUE) && v.v->parts[part].hp > 0) {

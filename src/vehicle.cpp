@@ -1852,9 +1852,10 @@ int vehicle::index_of_part(vehicle_part *part, bool check_removed)
  * square.
  * @param local_x The local x-coordinate.
  * @param local_y The local y-coordinate.
+ * @param hide_roof Whether to hide roof (used by vehicle construction mode)
  * @return The index of the part that will be displayed.
  */
-int vehicle::part_displayed_at(int local_x, int local_y)
+int vehicle::part_displayed_at(int local_x, int local_y, bool hide_roof)
 {
     // Z-order is implicitly defined in game::load_vehiclepart, but as
     // numbers directly set on parts rather than constants that can be
@@ -1881,7 +1882,7 @@ int vehicle::part_displayed_at(int local_x, int local_y)
         }
     }
 
-    int hide_z_at_or_above = (in_vehicle) ? (ON_ROOF_Z) : INT_MAX;
+    int hide_z_at_or_above = (in_vehicle || hide_roof) ? (ON_ROOF_Z) : INT_MAX;
 
     int top_part = 0;
     for(size_t index = 1; index < parts_in_square.size(); index++) {
@@ -1896,13 +1897,13 @@ int vehicle::part_displayed_at(int local_x, int local_y)
     return parts_in_square[top_part];
 }
 
-char vehicle::part_sym (int p)
+char vehicle::part_sym (int p, bool hide_roof)
 {
     if (p < 0 || p >= (int)parts.size() || parts[p].removed) {
         return ' ';
     }
 
-    int displayed_part = part_displayed_at(parts[p].mount_dx, parts[p].mount_dy);
+    int displayed_part = part_displayed_at(parts[p].mount_dx, parts[p].mount_dy, hide_roof);
 
     if (part_flag (displayed_part, VPFLAG_OPENABLE) && parts[displayed_part].open) {
         return '\''; // open door
@@ -1934,7 +1935,7 @@ std::string vehicle::part_id_string(int p, char &part_mod)
     return idinfo;
 }
 
-nc_color vehicle::part_color (int p)
+nc_color vehicle::part_color (int p, bool hide_roof)
 {
     if (p < 0 || p >= (int)parts.size()) {
         return c_black;
@@ -1952,7 +1953,7 @@ nc_color vehicle::part_color (int p)
         col = part_info(parm).color;
     } else {
 
-        int displayed_part = part_displayed_at(parts[p].mount_dx, parts[p].mount_dy);
+        int displayed_part = part_displayed_at(parts[p].mount_dx, parts[p].mount_dy, hide_roof);
 
         if (displayed_part < 0 || displayed_part >= (int)parts.size()) {
             return c_black;

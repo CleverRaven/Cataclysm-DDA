@@ -417,17 +417,17 @@ public:
 // Seek a vehicle part which obstructs tile with given coords relative to vehicle position
     int part_at (int dx, int dy);
     int global_part_at (int x, int y);
-    int part_displayed_at(int local_x, int local_y);
+    int part_displayed_at(int local_x, int local_y, bool hide_roof = false);
 
 // Given a part, finds its index in the vehicle
     int index_of_part(vehicle_part *part, bool check_removed = false);
 
 // get symbol for map
-    char part_sym (int p);
+    char part_sym (int p, bool hide_roof = false);
     std::string part_id_string(int p, char &part_mod);
 
 // get color for map
-    nc_color part_color (int p);
+    nc_color part_color (int p, bool hide_roof = false);
 
 // Vehicle parts description
     int print_part_desc (WINDOW *win, int y1, int width, int p, int hl = -1);

@@ -1240,8 +1240,8 @@ void veh_interact::display_veh ()
     int x, y;
     for (size_t i = 0; i < structural_parts.size(); i++) {
         const int p = structural_parts[i];
-        long sym = veh->part_sym (p);
-        nc_color col = veh->part_color (p);
+        long sym = veh->part_sym (p, true); // true: hide roof
+        nc_color col = veh->part_color (p, true); // true: hide roof
         if (vertical_menu) {
             x =   veh->parts[p].mount_dy + ddy;
             y = -(veh->parts[p].mount_dx + ddx);
