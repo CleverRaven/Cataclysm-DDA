@@ -41,7 +41,17 @@
     "max_charges": 0,
     "revert_to": "null",
     "ammo": "NULL",
-    "use_action": "MINION"
+    "use_action": {
+        "type": "place_monster",
+        "monster_id": "mon_blob",
+        "difficulty": 4,
+        "skill1": "firstaid",
+        "skill2": "electronics",
+        "hostile_msg": "You've made a terrible mistake, the blob is hostile!",
+        "friendly_msg": "The blob becomes active and starts slithering around.",
+        "place_randomly": true,
+        "moves": 60
+    }
   },{
     "id" : "minion_dormant",
     "type": "TOOL",
@@ -64,6 +74,17 @@
     "ammo": "NULL",
     "category": "tools",
     "use_action": "MINION"
+    "use_action": {
+        "type": "place_monster",
+        "monster_id": "mon_zombie",
+        "difficulty": 6,
+        "skill1": "firstaid",
+        "skill2": "electromics",
+        "hostile_msg": "Something has gone wrong, after getting up the zombie lumbers toward you menacingly!",
+        "friendly_msg": "The zombie climbs to its feet and shambles around.",
+        "place_randomly": true,
+        "moves": 60
+    }
   },{
     "id": "revival_serum",
     "type": "COMESTIBLE",

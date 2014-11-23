@@ -1374,6 +1374,8 @@ use_function Item_factory::use_from_object(JsonObject obj)
         obj.read( "difficulty", actor->difficulty );
         obj.read( "moves", actor->moves );
         obj.read( "place_randomly", actor->place_randomly );
+        obj.read( "skill1", actor->skill1 );
+        obj.read( "skill2", actor->skill2 );
         return use_function( actor.release() );
     } else if( type == "ups_based_armor" ) {
         std::unique_ptr<ups_based_armor_actor> actor( new ups_based_armor_actor() );
