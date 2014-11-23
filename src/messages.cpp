@@ -102,7 +102,7 @@ void Messages::vadd_msg(const char *msg, va_list ap)
 void Messages::vadd_msg(game_message_type type, const char *msg, va_list ap)
 {
     // hide messages if dead (trust me, the msg list explodes)
-    if(!g->u.is_dead_state()) {
+    if(!g->u.is_dead_state() && type != m_debug) {
         player_messages.add_msg_string(vstring_format(msg, ap), type);
     }
 }
