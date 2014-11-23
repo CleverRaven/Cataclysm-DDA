@@ -144,8 +144,3 @@ itype_id default_ammo(std::string t)
 {
     return ammunition_type::find_ammunition_type(t)->default_ammotype();
 }
-
-std::string item_name(const itype_id &type)
-{
-    return item_controller->find_template(type)->nname(1);
-}

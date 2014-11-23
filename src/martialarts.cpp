@@ -3,7 +3,6 @@
 #include "martialarts.h"
 #include "json.h"
 #include "translations.h"
-#include "item_factory.h"
 #include <map>
 #include <string>
 #include <algorithm>
@@ -217,7 +216,7 @@ void check_martialarts()
         }
         for( auto weapon = style->second.weapons.cbegin();
              weapon != style->second.weapons.cend(); ++weapon ) {
-            if( !item_controller->has_template( *weapon ) ) {
+            if( !item::type_is_defined( *weapon ) ) {
                 debugmsg( "Weapon %s in style %s doesn't exist.",
                           weapon->c_str(), style->second.name.c_str() );
             }

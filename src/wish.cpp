@@ -410,12 +410,7 @@ class wish_item_callback: public uimenu_callback
             for(int y = 2; y < menu->w_height - 1; y++) {
                 mvwprintw(menu->window, y, startx - 1, "%s", padding.c_str());
             }
-            itype *ity = item_controller->find_template(standard_itype_ids[entnum]);
-
-            if ( ity == NULL ) {
-                return;
-            }
-            item tmp(ity->id, calendar::turn);
+            item tmp(standard_itype_ids[entnum], calendar::turn);
             const std::string header = string_format("#%d: %s%s", entnum, standard_itype_ids[entnum].c_str(),
                                        ( incontainer ? _(" (contained)") : "" ));
             mvwprintz(menu->window, 1, startx + ( menu->pad_right - 1 - header.size() ) / 2, c_cyan, "%s",
@@ -448,10 +443,10 @@ void game::wishitem( player *p, int x, int y)
     wmenu.callback = cb;
 
     for (size_t i = 0; i < standard_itype_ids.size(); i++) {
-        itype *ity = item_controller->find_template(standard_itype_ids[i]);
-        wmenu.addentry( i, true, 0, string_format(_("%s"), ity->nname(1).c_str()) );
-        wmenu.entries[i].extratxt.txt = string_format("%c", ity->sym);
-        wmenu.entries[i].extratxt.color = ity->color;
+        item ity( standard_itype_ids[i], 0 );
+        wmenu.addentry( i, true, 0, string_format(_("%s"), ity.tname(1).c_str()) );
+        wmenu.entries[i].extratxt.txt = string_format("%c", ity.symbol());
+        wmenu.entries[i].extratxt.color = ity.color();
         wmenu.entries[i].extratxt.left = 1;
     }
     do {

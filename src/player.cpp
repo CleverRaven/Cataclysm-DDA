@@ -19,7 +19,6 @@
 #include "catacharset.h"
 #include "get_version.h"
 #include "crafting.h"
-#include "item_factory.h"
 #include "monstergenerator.h"
 #include "help.h" // get_hint
 #include "martialarts.h"
@@ -118,6 +117,28 @@ void game::init_morale()
     }
 }
 
+
+std::string morale_point::name() const
+{
+    // Start with the morale type's description.
+    std::string ret = morale_data[type];
+
+    // Get the name of the referenced item (if any).
+    std::string item_name = "";
+    if( item_type != NULL ) {
+        item_name = item_type->nname( 1 );
+    }
+
+    // Replace each instance of %i with the item's name.
+    size_t it = ret.find( "%i" );
+    while( it != std::string::npos ) {
+        ret.replace( it, 2, item_name );
+        it = ret.find( "%i" );
+    }
+
+    return ret;
+}
+
 player::player() : Character(), name("")
 {
  posx = 0;
@@ -157,6 +178,7 @@ player::player() : Character(), name("")
  start_location = "shelter";
  moves = 100;
  movecounter = 0;
+ cached_turn = -1;
  oxygen = 0;
  next_climate_control_check=0;
  last_climate_control_ret=false;
@@ -1574,6 +1596,7 @@ int player::run_cost(int base_cost, bool diag)
     bool flatground = movecost < 105;
     const ter_id ter_at_pos = g->m.ter(posx, posy);
     // If your floor is hard, flat, and otherwise skateable, list it here
+    // The "FLAT" tag includes soft surfaces, so not a good fit.
     bool offroading = ( flatground && (!((ter_at_pos == t_rock_floor) ||
       (ter_at_pos == t_pit_covered) || (ter_at_pos == t_metal_floor) ||
       (ter_at_pos == t_pit_spiked_covered) || (ter_at_pos == t_pavement) ||
@@ -1584,7 +1607,8 @@ int player::run_cost(int base_cost, bool diag)
       (ter_at_pos == t_door_frame) || (ter_at_pos == t_mdoor_frame) ||
       (ter_at_pos == t_fencegate_o) || (ter_at_pos == t_chaingate_o) ||
       (ter_at_pos == t_door_metal_o) || (ter_at_pos == t_door_bar_o) ||
-      (ter_at_pos == t_pit_glass_covered) )) );
+      (ter_at_pos == t_pit_glass_covered) || (ter_at_pos == t_sidewalk_bg_dp) ||
+      (ter_at_pos == t_pavement_bg_dp) || (ter_at_pos == t_pavement_y_bg_dp))) );
 
     if (has_trait("PARKOUR") && movecost > 100 ) {
         movecost *= .5f;
@@ -3342,7 +3366,7 @@ void player::disp_morale()
     // Figure out how wide the name column needs to be.
     int name_column_width = 18;
     for (auto &i : morale) {
-        int length = i.name(morale_data).length();
+        int length = i.name().length();
         if ( length > name_column_width) {
             name_column_width = length;
         }
@@ -3365,7 +3389,7 @@ void player::disp_morale()
     // Print out the morale entries.
     for (size_t i = 0; i < morale.size(); i++)
     {
-        std::string name = morale[i].name(morale_data);
+        std::string name = morale[i].name();
         int bonus = net_morale(morale[i]);
 
         // Trim the name if need be.
@@ -5726,9 +5750,12 @@ void player::add_eff_effects(effect e, bool reduced)
     }
     // Add pain
     if (e.get_amount("PAIN", reduced) > 0) {
-        add_pain_msg(e.get_amount("PAIN", reduced), bp);
-        mod_pain(bound_mod_to_vals(pain, e.get_amount("PAIN", reduced),
-                        e.get_max_val("PAIN", reduced), 0));
+        int pain_inc = bound_mod_to_vals(pain, e.get_amount("PAIN", reduced),
+                        e.get_max_val("PAIN", reduced), 0);
+        mod_pain(pain_inc);
+        if (pain_inc > 0) {
+            add_pain_msg(e.get_amount("PAIN", reduced), bp);
+        }
     }
     Creature::add_eff_effects(e, reduced);
 }
@@ -5738,12 +5765,13 @@ void player::process_effects() {
     if (has_effect("darkness") && g->is_in_sunlight(posx, posy)) {
         remove_effect("darkness");
     }
-    if (has_effect("fungus") && has_trait("M_IMMUNE")) {
+    if (has_trait("M_IMMUNE") && has_effect("fungus")) {
         vomit();
         remove_effect("fungus");
         add_msg_if_player(m_bad,  _("We have mistakenly colonized a local guide!  Purging now."));
     }
-    if (has_trait("PARAIMMUNE")) {
+    if (has_trait("PARAIMMUNE") && (has_effect("dermatik") || has_effect("tapeworm") ||
+          has_effect("bloodworms") || has_effect("brainworm") || has_effect("paincysts")) ) {
         remove_effect("dermatik");
         remove_effect("tapeworm");
         remove_effect("bloodworms");
@@ -5751,16 +5779,17 @@ void player::process_effects() {
         remove_effect("paincysts");
         add_msg_if_player(m_good, _("Something writhes and inside of you as it dies."));
     }
-    if (has_trait("EATHEALTH")) {
+    if (has_trait("EATHEALTH") && has_effect("tapeworm")) {
         remove_effect("tapeworm");
         add_msg_if_player(m_good, _("Your bowels gurgle as something inside them dies."));
     }
-    if (has_trait("INFIMMUNE")) {
+    if (has_trait("INFIMMUNE") && (has_effect("bite") || has_effect("infected") ||
+          has_effect("recover")) ) {
         remove_effect("bite");
         remove_effect("infected");
         remove_effect("recover");
     }
-    if (!(in_sleep_state())) {
+    if (!(in_sleep_state()) && has_effect("alarm_clock")) {
         remove_effect("alarm_clock");
     }
     
@@ -5880,8 +5909,11 @@ void player::process_effects() {
                     }
                 }
                 if(it.activated(calendar::turn, "PAIN", reduced, mod)) {
-                    add_pain_msg(val, bp);
-                    mod_pain(bound_mod_to_vals(pain, val, it.get_max_val("PAIN", reduced), 0));
+                    int pain_inc = bound_mod_to_vals(pain, val, it.get_max_val("PAIN", reduced), 0);
+                    mod_pain(pain_inc);
+                    if (pain_inc > 0) {
+                        add_pain_msg(val, bp);
+                    }
                 }
             }
 
@@ -9380,12 +9412,12 @@ bool player::consume(int target_position)
                 // Check tools
                 bool has = has_amount(comest->tool, 1);
                 // Tools with charges need to have charges, not just be present.
-                if (item_controller->count_by_charges( comest->tool )) {
+                if( item::count_by_charges( comest->tool ) ) {
                     has = has_charges(comest->tool, 1);
                 }
                 if (!has) {
                     add_msg_if_player(m_info, _("You need a %s to consume that!"),
-                                         item_controller->nname( comest->tool ).c_str());
+                                         item::nname( comest->tool ).c_str());
                     return false;
                 }
                 use_charges(comest->tool, 1); // Tools like lighters get used
@@ -9491,12 +9523,12 @@ bool player::eat(item *eaten, it_comest *comest)
     }
     if (comest->tool != "null") {
         bool has = has_amount(comest->tool, 1);
-        if (item_controller->count_by_charges( comest->tool )) {
+        if( item::count_by_charges( comest->tool ) ) {
             has = has_charges(comest->tool, 1);
         }
         if (!has) {
             add_msg_if_player(m_info, _("You need a %s to consume that!"),
-                       item_controller->nname( comest->tool ).c_str());
+                       item::nname( comest->tool ).c_str());
             return false;
         }
     }
@@ -9764,7 +9796,7 @@ bool player::eat(item *eaten, it_comest *comest)
         else healall(excess_food /= 5);
     }
 
-    if (item_controller->find_template( comest->tool )->is_tool()) {
+    if (item::find_type( comest->tool )->is_tool() ) {
         use_charges(comest->tool, 1); // Tools like lighters get used
     }
 
@@ -9953,17 +9985,18 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
     if (eaten->has_flag("HOT") && eaten->has_flag("EATEN_HOT")) {
         add_morale(MORALE_FOOD_HOT, 5, 10);
     }
-    if (eaten->has_flag("COLD") && eaten->has_flag("EATEN_COLD") && comest->fun > 0) {
-            add_morale(MORALE_FOOD_GOOD, comest->fun * 3, comest->fun * 3, 60, 30, false, comest);
+    auto fun = comest->fun;
+    if (eaten->has_flag("COLD") && eaten->has_flag("EATEN_COLD") && fun > 0) {
+            add_morale(MORALE_FOOD_GOOD, fun * 3, fun * 3, 60, 30, false, comest);
     }
-    if (eaten->has_flag("COLD") && eaten->has_flag("EATEN_COLD") && comest->fun <= 0) {
-            comest->fun = 1;
+    if (eaten->has_flag("COLD") && eaten->has_flag("EATEN_COLD") && fun <= 0) {
+            fun = 1;
     }
     if (has_trait("GOURMAND")) {
-        if (comest->fun < -2) {
-            add_morale(MORALE_FOOD_BAD, comest->fun * 0.5, comest->fun, 60, 30, false, comest);
-        } else if (comest->fun > 0) {
-            add_morale(MORALE_FOOD_GOOD, comest->fun * 3, comest->fun * 6, 60, 30, false, comest);
+        if (fun < -2) {
+            add_morale(MORALE_FOOD_BAD, fun * 0.5, fun, 60, 30, false, comest);
+        } else if (fun > 0) {
+            add_morale(MORALE_FOOD_GOOD, fun * 3, fun * 6, 60, 30, false, comest);
         }
         if (has_trait("GOURMAND") && !(has_active_mutation("HIBERNATE"))) {
         if ((comest->nutr > 0 && hunger < -60) || (comest->quench > 0 && thirst < -60)) {
@@ -10009,10 +10042,10 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
             thirst = -620;
         }
     } else {
-        if (comest->fun < 0) {
-            add_morale(MORALE_FOOD_BAD, comest->fun, comest->fun * 6, 60, 30, false, comest);
-        } else if (comest->fun > 0) {
-            add_morale(MORALE_FOOD_GOOD, comest->fun, comest->fun * 4, 60, 30, false, comest);
+        if (fun < 0) {
+            add_morale(MORALE_FOOD_BAD, fun, fun * 6, 60, 30, false, comest);
+        } else if (fun > 0) {
+            add_morale(MORALE_FOOD_GOOD, fun, fun * 4, 60, 30, false, comest);
         }
         if ((comest->nutr > 0 && hunger < -20) || (comest->quench > 0 && thirst < -20)) {
             add_msg_if_player(_("You can't finish it all!"));
@@ -10906,7 +10939,7 @@ hint_rating player::rate_action_disassemble(item *it) {
                    assign the activity
                    check tools are available
                    loop over the tools and see what's required...again */
-                inventory crafting_inv = crafting_inventory();
+                const inventory &crafting_inv = crafting_inventory();
                 for (const auto &j : cur_recipe->requirements.tools) {
                     bool have_tool = false;
                     if (j.empty()) { // no tools required, may change this
@@ -11671,7 +11704,7 @@ bool player::try_study_recipe(it_book *book)
                 rng(0, 4) <= (skillLevel(iter->first->skill_used) - iter->second) / 2) {
                 learn_recipe((recipe *)iter->first);
                 add_msg(m_good, _("Learned a recipe for %s from the %s."),
-                                item_controller->nname( iter->first->result ).c_str(), book->nname(1).c_str());
+                                item::nname( iter->first->result ).c_str(), book->nname(1).c_str());
                 return true;
             } else {
                 add_msg(_("Failed to learn a recipe from the %s."), book->nname(1).c_str());
@@ -13676,7 +13709,7 @@ void player::place_corpse()
         g->m.add_item_or_charges( posx, posy, *itm );
     }
     for( auto & bio : my_bionics ) {
-        if( item_controller->has_template( bio.id ) ) {
+        if( item::type_is_defined( bio.id ) ) {
             body.put_in( item( bio.id, calendar::turn ) );
         }
     }

@@ -1,6 +1,6 @@
 #include "vehicle.h"
 #include "game.h"
-#include "item_factory.h"
+#include "item_group.h"
 #include "json.h"
 
 // GENERAL GUIDELINES
@@ -289,12 +289,12 @@ void game::finalize_vehicles()
                          proto->name.c_str(), i.x, i.y, i.chance);
             }
             for (auto &j : i.item_ids) {
-                if (!item_controller->has_template(j)) {
+                if( !item::type_is_defined( j ) ) {
                     debugmsg("unknown item %s in spawn list of %s", j.c_str(), proto->id.c_str());
                 }
             }
             for (auto &j : i.item_groups) {
-                if (!item_controller->has_group(j)) {
+                if (!item_group::group_is_defined(j)) {
                     debugmsg("unknown item group %s in spawn list of %s", j.c_str(), proto->id.c_str());
                 }
             }

@@ -3,8 +3,9 @@
 #include "translations.h"
 #include "rng.h"
 #include "debug.h"
-#include "item_factory.h"
+#include "item_group.h"
 #include "catacharset.h"
+#include "item.h"
 
 MonsterGenerator::MonsterGenerator()
 {
@@ -400,7 +401,7 @@ void MonsterGenerator::load_monster(JsonObject &jo)
             newmon->death_drops = newmon->id + "_death_drops_auto";
             const std::string subtype = death_frop_json.get_string("subtype", "distribution");
             // and load the entry as a standard item group using the made up name.
-            item_controller->load_item_group(death_frop_json, newmon->death_drops, subtype);
+            item_group::load_item_group(death_frop_json, newmon->death_drops, subtype);
         } else if (jo.has_member("death_drops")) {
             jo.throw_error("invalid type, must be string or object", "death_drops");
         }
@@ -612,11 +613,11 @@ void MonsterGenerator::check_monster_definitions() const
                 debugmsg("monster %s has invalid species %s", mon->id.c_str(), spec->c_str());
             }
         }
-        if (!mon->death_drops.empty() && !item_controller->has_group(mon->death_drops)) {
+        if (!mon->death_drops.empty() && !item_group::group_is_defined(mon->death_drops)) {
             debugmsg("monster %s has unknown death drop item group: %s", mon->id.c_str(),
                      mon->death_drops.c_str());
         }
-        if( !mon->revert_to_itype.empty() && !item_controller->has_template( mon->revert_to_itype ) ) {
+        if( !mon->revert_to_itype.empty() && !item::type_is_defined( mon->revert_to_itype ) ) {
             debugmsg("monster %s has unknown revert_to_itype: %s", mon->id.c_str(),
                      mon->revert_to_itype.c_str());
         }

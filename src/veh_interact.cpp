@@ -3,7 +3,6 @@
 #include "vehicle.h"
 #include "overmapbuffer.h"
 #include "game.h"
-#include "item_factory.h"
 #include "output.h"
 #include "catacharset.h"
 #include "crafting.h"
@@ -293,7 +292,7 @@ void veh_interact::deallocate_windows()
  */
 static int charges_per_use( const std::string &id )
 {
-    const it_tool *t = dynamic_cast<const it_tool *>( item_controller->find_template( id ) );
+    const it_tool *t = dynamic_cast<const it_tool *>( item::find_type( id ) );
     if( t == nullptr ) {
         debugmsg( "item %s is not a tool as expected", id.c_str() );
         return 0;
@@ -499,7 +498,7 @@ bool veh_interact::can_install_part(int msg_width, int engines, int dif_eng){
             fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
                            _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color> and level <color_%4$s>%5$d</color> skill in mechanics.%6$s"),
                            has_comps ? "ltgreen" : "red",
-                           item_controller->nname( itm ).c_str(),
+                           item::nname( itm ).c_str(),
                            has_wrench ? "ltgreen" : "red",
                            has_skill ? "ltgreen" : "red",
                            sel_vpart_info->difficulty,
@@ -511,7 +510,7 @@ bool veh_interact::can_install_part(int msg_width, int engines, int dif_eng){
             fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
                            _("Needs <color_%1$s>%2$s</color>, and level <color_%3$s>%4$d</color> skill in mechanics.%5$s"),
                            has_comps ? "ltgreen" : "red",
-                           item_controller->nname( itm ).c_str(),
+                           item::nname( itm ).c_str(),
                            has_skill ? "ltgreen" : "red",
                            sel_vpart_info->difficulty,
                            engine_string.c_str());
@@ -522,7 +521,7 @@ bool veh_interact::can_install_part(int msg_width, int engines, int dif_eng){
             fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
                            _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color>, either a <color_%4$s>powered welder</color> or <color_%5$s>duct tape</color>, and level <color_%6$s>%7$d</color> skill in mechanics.%8$s"),
                            has_comps ? "ltgreen" : "red",
-                           item_controller->nname( itm ).c_str(),
+                           item::nname( itm ).c_str(),
                            has_wrench ? "ltgreen" : "red",
                            (has_welder && has_goggles) ? "ltgreen" : "red",
                            has_duct_tape ? "ltgreen" : "red",
@@ -694,7 +693,7 @@ void veh_interact::do_repair()
                            _("You also need a <color_%1$s>wrench</color> and <color_%2$s>%3$s</color> to replace broken one."),
                            has_wrench ? "ltgreen" : "red",
                            has_comps ? "ltgreen" : "red",
-                           item_controller->nname( itm ).c_str());
+                           item::nname( itm ).c_str());
         }
         wrefresh (w_msg);
         const std::string action = main_context.handle_input();
@@ -1682,7 +1681,7 @@ void complete_vehicle ()
     int welder_charges = charges_per_use( "welder" );
     int welder_oxy_charges = charges_per_use( "oxy_torch" );
     int welder_crude_charges = charges_per_use( "welder_crude" );
-    inventory crafting_inv = g->u.crafting_inventory();
+    const inventory &crafting_inv = g->u.crafting_inventory();
     const bool has_goggles = crafting_inv.has_tools("goggles_welding", 1) ||
                              g->u.has_bionic("bio_sunglasses") ||
                              g->u.is_wearing("goggles_welding") || g->u.is_wearing("rm13_armor_on");

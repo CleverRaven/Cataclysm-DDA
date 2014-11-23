@@ -1,7 +1,6 @@
 #include "gamemode.h"
 #include "game.h"
 #include "itype.h"
-#include "item_factory.h"
 #include "mtype.h"
 #include "overmapbuffer.h"
 #include "crafting.h"
@@ -168,10 +167,10 @@ void defense_game::game_over()
 
 void defense_game::init_itypes()
 {
-    item_controller->find_template( "2x4" )->volume = 0;
-    item_controller->find_template( "2x4" )->weight = 0;
-    item_controller->find_template( "landmine" )->price = 300;
-    item_controller->find_template( "bot_turret" )->price = 6000;
+    item::find_type( "2x4" )->volume = 0;
+    item::find_type( "2x4" )->weight = 0;
+    item::find_type( "landmine" )->price = 300;
+    item::find_type( "bot_turret" )->price = 6000;
 }
 
 void defense_game::init_mtypes()
@@ -1294,7 +1293,7 @@ void draw_caravan_items(WINDOW *w, std::vector<itype_id> *items,
     // Finally, print the item list on the right
     for (int i = offset; i <= offset + FULL_SCREEN_HEIGHT - 2 && i < (int)items->size(); i++) {
         mvwprintz(w, i - offset + 1, 40, (item_selected == i ? h_white : c_white),
-                  item_controller->nname( (*items)[i], (*counts)[i] ).c_str());
+                  item::nname( (*items)[i], (*counts)[i] ).c_str());
         wprintz(w, c_white, " x %2d", (*counts)[i]);
         if ((*counts)[i] > 0) {
             unsigned long price = caravan_price(g->u, item( (*items)[i], 0 ).price() * (*counts)[i]);

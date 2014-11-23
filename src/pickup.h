@@ -27,7 +27,7 @@ class Pickup
                                  vehicle *veh, int cargo_part, int index, int quantity,
                                  bool &got_water, bool &offered_swap,
                                  std::map<std::string, int> &mapPickup, 
-                                 std::map<std::string, char> &item_invlet, bool autopickup );
+                                 std::map<std::string, item> &item_info, bool autopickup );
 
         static int interact_with_vehicle( vehicle *veh, int posx, int posy, int veh_root_part );
 
@@ -36,7 +36,7 @@ class Pickup
         static void remove_from_map_or_vehicle( int posx, int posy, vehicle *veh, int cargo_part,
                                                 int &moves_taken, int curmit );
         static void show_pickup_message( std::map<std::string, int> &mapPickup,
-                                         std::map<std::string, char> &item_invlet );
+                                         std::map<std::string, item> &item_info );
 };
 
 #endif

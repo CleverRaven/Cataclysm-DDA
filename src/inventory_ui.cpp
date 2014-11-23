@@ -2,7 +2,6 @@
 #include "output.h"
 #include "uistate.h"
 #include "translations.h"
-#include "item_factory.h"
 #include "options.h"
 #include "messages.h"
 #include <string>

@@ -17,6 +17,7 @@ class player;
 class npc;
 struct itype;
 class material_type;
+class item_category;
 
 // Thresholds for radiation dosage for the radiation film badge.
 const int rad_dosage_thresholds[] = { 0, 30, 60, 120, 240, 500};
@@ -62,6 +63,26 @@ enum layer_level {
     OUTER_LAYER,
     BELTED_LAYER,
     MAX_CLOTHING_LAYER
+};
+
+class item_category
+{
+    public:
+        // id (like itype::id) - used when loading from json
+        std::string id;
+        // display name (localized)
+        std::string name;
+        // categories are sorted by this value,
+        // lower values means the category is shown first
+        int sort_rank;
+
+        item_category();
+        item_category(const std::string &id, const std::string &name, int sort_rank);
+        // Comparators operato on the sort_rank, name, id
+        // (in that order).
+        bool operator<(const item_category &rhs) const;
+        bool operator==(const item_category &rhs) const;
+        bool operator!=(const item_category &rhs) const;
 };
 
 class item : public JsonSerializer, public JsonDeserializer
@@ -497,6 +518,33 @@ public:
             }
             return result;
         }
+        /**
+         * Returns the translated item name for the item with given id.
+         * The name is in the proper plural form as specified by the
+         * quantity parameter. This is roughly equivalent to creating an item instance and calling
+         * @ref tname, however this function does not include strings like "(fresh)".
+         */
+        static std::string nname( const itype_id &id, unsigned int quantity = 1 );
+        /**
+         * Returns the item type of the given identifier. Never retruns null.
+         */
+        static itype *find_type( const itype_id &id );
+        /**
+         * Whether the item is counted by charges, this is a static wrapper
+         * around @ref count_by_charges, that does not need an items instance.
+         */
+        static bool count_by_charges( const itype_id &id );
+        /**
+         * Check whether the type id refers to a known type.
+         * This should be used either before instantiating an item when it's possible
+         * that the item type is unknown and the caller can do something about it (e.g. the
+         * uninstall-bionics function checks this to see if there is a CBM item type and has
+         * logic to handle the case when that item type does not exist).
+         * Or one can use this to check that type ids from json refer to valid items types (e.g.
+         * the items that make up the vehicle parts must be defined somewhere, or the result of
+         * crafting recipes must be valid type ids).
+         */
+        static bool type_is_defined( const itype_id &id );
 
 private:
  std::string name;
@@ -609,9 +657,6 @@ class map_item_stack
 bool item_matches_locator(const item &it, const itype_id &id, int item_pos = INT_MIN);
 bool item_matches_locator(const item &it, int locator_pos, int item_pos = INT_MIN);
 bool item_matches_locator(const item &it, const item *other, int);
-
-//this is an attempt for functional programming
-bool is_edible(item i, player const *u);
 
 //the assigned numbers are a result of legacy stuff in draw_item_info(),
 //it would be better long-term to rewrite stuff so that we don't need that hack

@@ -1,6 +1,7 @@
 #include <sstream>
 #include "inventory.h"
 #include "game.h"
+#include "iuse.h"
 
 const std::string inv_chars =
     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()*+./:;=@[\\]^_{|}";
@@ -997,23 +998,6 @@ int inventory::butcher_factor() const
         }
     }
     return result;
-}
-
-bool inventory::has_artifact_with(art_effect_passive effect) const
-{
-    for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter) {
-        const item &it = iter->front();
-        if (it.is_artifact() && it.is_tool()) {
-            it_artifact_tool *tool = dynamic_cast<it_artifact_tool *>(it.type);
-            for (std::vector<art_effect_passive>::const_iterator ef_iter = tool->effects_carried.begin();
-                 ef_iter != tool->effects_carried.end(); ++ef_iter) {
-                if (*ef_iter == effect) {
-                    return true;
-                }
-            }
-        }
-    }
-    return false;
 }
 
 int inventory::worst_item_value(npc *p) const

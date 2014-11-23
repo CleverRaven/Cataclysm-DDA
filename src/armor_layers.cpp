@@ -1,7 +1,6 @@
 #include "player.h"
 #include "armor_layers.h"
 #include "catacharset.h"
-#include "itype.h"
 #include "input.h"
 #include "output.h"
 
