@@ -1972,7 +1972,8 @@ void iexamine::trap(player *p, map *m, int examx, int examy)
     const struct trap &t = *traplist[tid];
     const int possible = t.get_difficulty();
     if ( (t.can_see(*p, examx, examy)) && (possible == 99) ) {
-        add_msg(m_info, _("That looks too dangerous to mess with. Best leave it alone."));
+        add_msg(m_info, _("That %s looks too dangerous to mess with. Best leave it alone."),
+            t.name.c_str());
         return;
     }
     // Some traps are not actual traps. Those should get a different query.
