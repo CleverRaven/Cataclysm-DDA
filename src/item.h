@@ -505,6 +505,13 @@ public:
          */
         /*@{*/
         /**
+         * Returns the relative coverage that this item has when worn.
+         * Values range from 0 (not covering anything, or no armor at all) to
+         * 100 (covering the whole body part). Items that cover more are more likely to absorb
+         * damage from attacks.
+         */
+        int get_coverage() const;
+        /**
          * Returns the encumbrance value that this item has when worn.
          * Returns 0 if this is can not be worn at all.
          * Note that this does not include any bonus from the FIT tag or similar, only

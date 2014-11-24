@@ -398,7 +398,7 @@ std::vector<std::string> clothing_properties(item *worn_item, int width)
     it_armor *each_armor = dynamic_cast<it_armor *>(worn_item->type);
     std::vector<std::string> props;
     props.push_back(name_and_value(_("Coverage:"),
-                                   string_format("%3d", int(each_armor->coverage)), width));
+                                   string_format("%3d", worn_item->get_coverage()), width));
     props.push_back(name_and_value(_("Encumbrance:"), string_format("%3d",
                                    (worn_item->has_flag("FIT")) ? std::max(0, worn_item->get_encumber() - 1) :
                                    worn_item->get_encumber()), width));
