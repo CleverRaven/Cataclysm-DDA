@@ -22,7 +22,7 @@ void NameGenerator::load_name(JsonObject &jo)
 {
     std::string name = jo.get_string("name");
     std::string usage = jo.get_string("usage");
-    nameType type = 0;
+    uint32_t type = 0;
 
     if (usage == "given") {
         type |= nameIsGivenName;
@@ -66,12 +66,13 @@ void NameGenerator::load_name(JsonObject &jo)
 // Find all name types satisfying the search flags.
 // There can be more than one, i.e. if searchFlags == nameIsUnisexName
 // this function will return [ nameIsMaleName, nameIsFemaleName ]
-std::vector<nameType> NameGenerator::nameTypesFromFlags(nameType searchFlags) const 
+std::vector<uint32_t> NameGenerator::uint32_tsFromFlags(uint32_t searchFlags) const
 {
-    std::vector<nameType> types;
+    std::vector<uint32_t> types;
 
-    for(std::map< nameType, std::vector<Name> >::const_iterator it = names.begin(); it != names.end(); ++it) {
-        const nameType type = it->first;
+    for( std::map< uint32_t, std::vector<Name> >::const_iterator it = names.begin();
+         it != names.end(); ++it ) {
+        const uint32_t type = it->first;
         if (searchFlags & type) {
             types.push_back(type);
         }
@@ -81,10 +82,10 @@ std::vector<nameType> NameGenerator::nameTypesFromFlags(nameType searchFlags) co
 }
 
 // Get a random name with the specified flag
-std::string NameGenerator::getName(nameType searchFlags)
+std::string NameGenerator::getName(uint32_t searchFlags)
 {
-    const std::vector<nameType> types = nameTypesFromFlags(searchFlags);
-    nameType type;
+    const std::vector<uint32_t> types = uint32_tsFromFlags(searchFlags);
+    uint32_t type;
     int nTypes = types.size();
 
     if (nTypes == 0) {
@@ -108,7 +109,7 @@ std::string NameGenerator::getName(nameType searchFlags)
 
 std::string NameGenerator::generateName(bool male)
 {
-    nameType baseSearchFlags = male ? nameIsMaleName : nameIsFemaleName;
+    uint32_t baseSearchFlags = male ? nameIsMaleName : nameIsFemaleName;
     //One in four chance to pull from the backer list, otherwise generate a name from the parts list
     if (one_in(4)) {
         return getName(baseSearchFlags | nameIsFullName);
@@ -131,7 +132,7 @@ std::string Name::generate(bool male)
     return NameGenerator::generator().generateName(male);
 }
 
-std::string Name::get(nameType searchFlags)
+std::string Name::get(uint32_t searchFlags)
 {
     return NameGenerator::generator().getName(searchFlags);
 }
@@ -142,7 +143,7 @@ Name::Name()
     _type = 15;
 }
 
-Name::Name(std::string name, nameType type)
+Name::Name(std::string name, uint32_t type)
 {
     _value = name;
     _type = type;

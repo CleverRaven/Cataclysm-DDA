@@ -16,33 +16,31 @@ typedef enum {
     nameIsWorldName = 64
 } nameFlags;
 
-typedef uint32_t nameType;
-
 class NameGenerator;
 
 class Name
 {
     public:
         Name();
-        Name(std::string name, nameType type);
+        Name(std::string name, uint32_t type);
 
         static NameGenerator &generator();
         static std::string generate(bool male);
 
-        static std::string get(nameType searchFlags);
+        static std::string get(uint32_t searchFlags);
 
         std::string value() const
         {
             return _value;
         }
-        nameType type() const
+        uint32_t type() const
         {
             return _type;
         }
 
     private:
         std::string _value;
-        nameType _type;
+        uint32_t _type;
 };
 
 class NameGenerator
@@ -59,16 +57,16 @@ class NameGenerator
 
         std::string generateName(bool male);
 
-        std::string getName(nameType searchFlags);
+        std::string getName(uint32_t searchFlags);
         void clear_names();
     private:
         NameGenerator();
 
         NameGenerator(NameGenerator const &);
         void operator=(NameGenerator const &);
-        std::vector<nameType> nameTypesFromFlags(nameType searchFlags) const;
+        std::vector<uint32_t> uint32_tsFromFlags(uint32_t searchFlags) const;
 
-        std::map< nameType, std::vector<Name> > names;
+        std::map< uint32_t, std::vector<Name> > names;
 };
 
 void load_names_from_file(const std::string &filename);
