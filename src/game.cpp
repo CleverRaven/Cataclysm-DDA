@@ -4575,10 +4575,12 @@ void game::write_memorial_file(std::string sLastWords)
         } else {
             player_name.push_back('_');
         }
-        // Make sure not to overflow filename length. The constant given takes into
-        // account '-' and '.txt' for filename as well.
-        if( player_name.size() >= ( FILENAME_MAX - timestamp.length() - 5 ) ) {
-            // Add '~' if player's name is shortened.
+        // Constant '5' takes into account '-' and '.txt'
+        unsigned int max_fn_len = (FILENAME_MAX - timestamp.length() - 5);
+        if( player_name.size() >= max_fn_len ) {
+            // Shorten string to appropriate length - 1, so can add '~'
+            player_name.resize(max_fn_len - 1);
+            // Add '~' if player's name is shortened
             player_name.push_back('~');
             break;
         }
