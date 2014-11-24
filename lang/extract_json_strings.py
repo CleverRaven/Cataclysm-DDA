@@ -136,14 +136,16 @@ def extract_effect_type(item):
     outfile = get_outfile("effects")
     # writestr will not write string if it is None.
     for f in ["name", "desc", "reduced_desc"]:
-        for i in item.get(f, None):
-            writestr(outfile, i)
+        if f in item:
+            writestr(outfile, item.get(f))
     for f in ["apply_message", "remove_message"]:
         found = item.get(f, None)
         writestr(outfile, found)
     for f in ["miss_messages", "decay_messages"]:
-        for i in item.get(f, None):
-            writestr(outfile, i[0])
+        if f in item:
+            found = item.get(f)
+            for msg in found:
+                writestr(outfile, msg[0])
     for m in [ "remove_memorial_log", "apply_memorial_log"]:
         found = item.get(m, None)
         writestr(outfile, found, context="memorial_male")
