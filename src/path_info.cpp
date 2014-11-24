@@ -95,15 +95,17 @@ void PATH_INFO::update_config_dir()
 
 void PATH_INFO::set_standart_filenames(void)
 {
-    // Special: data_dir lua_dir and gfx_dir
+    // Special: data_dir lua_dir gfx_dir and screenshot_dir
     if (!FILENAMES["base_path"].empty()) {
         update_pathname("datadir", FILENAMES["base_path"] + "share/cataclysm-dda/");
         update_pathname("gfxdir", FILENAMES["datadir"] + "gfx/");
         update_pathname("luadir", FILENAMES["datadir"] + "lua/");
+        update_pathname("screenshotsdir", FILENAMES["base_path"] + "screenshots/");
     } else {
         update_pathname("datadir", "data/");
         update_pathname("gfxdir", "gfx/");
         update_pathname("luadir", "lua/");
+        update_pathname("screenshotsdir", "screenshots/");
     }
 
     // Shared dirs

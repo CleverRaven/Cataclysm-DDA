@@ -264,6 +264,8 @@ std::string action_ident(action_id act)
         return "zoom_out";
     case ACTION_ZOOM_IN:
         return "zoom_in";
+    case ACTION_SCREENSHOT:
+        return "snap_screenshot";
     case ACTION_TOGGLE_SIDEBAR_STYLE:
         return "toggle_sidebar_style";
     case ACTION_TOGGLE_FULLSCREEN:
@@ -689,6 +691,7 @@ action_id handle_action_menu()
                 REGISTER_ACTION(ACTION_ZOOM_OUT);
                 REGISTER_ACTION(ACTION_ZOOM_IN);
             }
+            REGISTER_ACTION(ACTION_SCREENSHOT);
 #endif
         }
 

@@ -2932,6 +2932,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action("zoom_in");
     ctxt.register_action("toggle_sidebar_style");
     ctxt.register_action("toggle_fullscreen");
+    ctxt.register_action("snap_screenshot");
     ctxt.register_action("action_menu");
     ctxt.register_action("ANY_INPUT");
     ctxt.register_action("COORDINATE");
@@ -3909,6 +3910,24 @@ bool game::handle_action()
     case ACTION_TOGGLE_FULLSCREEN:
         toggle_fullscreen();
         break;
+
+    case ACTION_SCREENSHOT: {
+    #ifdef TILES
+        if( !assure_dir_exist( FILENAMES["screenshotsdir"] ) ) {
+            debugmsg( "Could not create screenshot path %s", FILENAMES["screenshotsdir"].c_str() );
+        }
+        int ss_ctr = 0;
+        std::string shotpath = "";
+        do{
+            std::ostringstream buffer;
+            buffer << FILENAMES["screenshotsdir"] << "screenshot" << ss_ctr << ".bmp";
+            shotpath = buffer.str();
+            ss_ctr++;
+        }while( access(shotpath.c_str(), F_OK) != -1 && ss_ctr < 1000);
+        saveScreenshotBMP(shotpath.c_str());
+    #endif
+    }
+    break;
 
     case ACTION_DISPLAY_SCENT:
         if (MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger()) {
