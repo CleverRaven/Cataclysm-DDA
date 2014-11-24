@@ -78,7 +78,7 @@
         "monster_id": "mon_zombie",
         "difficulty": 6,
         "skill1": "firstaid",
-        "skill2": "electromics",
+        "skill2": "electronics",
         "hostile_msg": "Something has gone wrong, after getting up the zombie lumbers toward you menacingly!",
         "friendly_msg": "The zombie climbs to its feet and shambles around.",
         "place_randomly": true,
@@ -119,7 +119,7 @@
     "description" : "A thick book containing research notes of a mad scientist. It describes various methods of reanimating and controlling the dead. There's a lot of gory details and technical language mixed in, so it's not easy to read.",
     "weight" : 2330,
     "to_hit" : 0,
-    "color" : "black",
+    "color" : "dark_gray",
     "intelligence" : 14,
     "symbol" : "?",
     "material" : ["paper", "null"],
@@ -160,7 +160,7 @@
     "result": "blob_dormant",
     "category": "CC_OTHER",
     "subcategory": "CC_OTHER_TOOLS",
-    "skill used": "firstaid",
+    "skill_used": "firstaid",
     "skills_required": [[ "electronics", 2]],
     "difficulty": 5,
     "time": 15000,
@@ -222,10 +222,10 @@
   },{
     "type" : "item_group",
     "id" : "mut_lab",
-    "items" : [ "abdul_necro", 1 ]
+    "items" : [ [ "abdul_necro", 1 ] ]
   },{
     "type" : "item_group",
     "id" : "lab_dorm",
-    "items":[ "abdul_necro", 1]
+    "items": [ [ "abdul_necro", 1] ]
   }
 ]
