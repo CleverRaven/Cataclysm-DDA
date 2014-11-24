@@ -2273,7 +2273,7 @@ std::string melee_cost_text(int moves)
                           moves );
 }
 
-std::string doge_skill_text(double mod)
+std::string dodge_skill_text(double mod)
 {
     return string_format( _( "Dodge skill %+.1f. " ), mod );
 }
@@ -3019,7 +3019,7 @@ detecting traps and other things of interest."));
             std::string s;
             if (line == 0) {
                 s += string_format( _("Melee skill %+d; "), -encumb( bp_torso ) );
-                s += doge_skill_text( -encumb( bp_torso ) );
+                s += dodge_skill_text( -encumb( bp_torso ) );
                 s += swim_cost_text( encumb( bp_torso ) * ( 80 - skillLevel( "swimming" ) * 3 ) );
                 s += melee_cost_text( encumb( bp_torso ) * 20 );
             } else if (line == 1) { //Torso
@@ -3045,11 +3045,11 @@ Perception %+.1f when throwing items."),
             } else if (line == 8) { //Left Leg
                 s += run_cost_text( encumb( bp_leg_l ) * 1.5 );
                 s += swim_cost_text( encumb( bp_leg_l ) * ( 50 - skillLevel( "swimming" ) * 2 ) / 2 );
-                s += doge_skill_text( -encumb( bp_leg_l ) / 4.0 );
+                s += dodge_skill_text( -encumb( bp_leg_l ) / 4.0 );
             } else if (line == 9) { //Right Leg
                 s += run_cost_text( encumb( bp_leg_r ) * 1.5 );
                 s += swim_cost_text( encumb( bp_leg_r ) * ( 50 - skillLevel( "swimming" ) * 2 ) / 2 );
-                s += doge_skill_text( -encumb( bp_leg_r ) / 4.0 );
+                s += dodge_skill_text( -encumb( bp_leg_r ) / 4.0 );
             } else if (line == 10) { //Left Foot
                 s += run_cost_text( encumb( bp_foot_l ) * 2.5 );
             } else if (line == 11) { //Right Foot

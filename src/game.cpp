@@ -1427,6 +1427,10 @@ bool game::do_turn()
                 if (is_game_over()) {
                     return cleanup_at_end();
                 }
+                
+                if (uquit == QUIT_WATCH) {
+                    break;
+                }
             }
         } else {
             handle_key_blocking_activity();
@@ -2829,7 +2833,8 @@ bool game::handle_mouseview(input_context &ctxt, std::string &action)
     }
 
     // Mouse movement or un-handled key
-    return true;
+    return (!u.is_dead_state());
+    //return true;
 }
 
 // Hides the mouse hover box and redraws what was under it
@@ -2943,12 +2948,10 @@ input_context get_default_mode_input_context()
 
 input_context game::get_player_input(std::string &action)
 {
-    input_context ctxt("DEFAULTMODE");
+    input_context ctxt = get_default_mode_input_context();
+    // register QUIT action so it catches q/Q/etc instead of just Q
     if(uquit == QUIT_WATCH) {
         ctxt.register_action("QUIT");
-        ctxt.register_action("ANY_INPUT");
-    } else {
-        ctxt = get_default_mode_input_context();
     }
 
     if (OPTIONS["ANIMATIONS"]) {
@@ -2984,7 +2987,10 @@ input_context game::get_player_input(std::string &action)
         wPrint.endy = iEndY;
 
         inp_mngr.set_timeout(125);
-        while(handle_mouseview(ctxt, action)) {
+        // use 'do' like before, instead of 'while', as deathcam will not show animations
+        // without it. While alive, handle_mouseview() will return true anyway, so this just
+        // guarantees that it is run at least once to show snow/rain while dead. -Davek
+        do {
             if (bWeatherEffect && OPTIONS["ANIMATION_RAIN"]) {
                 /*
                 Location to add rain drop animation bits! Since it refreshes w_terrain it can be added to the animation section easily
@@ -3089,7 +3095,7 @@ input_context game::get_player_input(std::string &action)
                 mvwprintz(w_terrain, 0, ((TERRAIN_WINDOW_WIDTH / 2) - (message.length() / 2)), c_white, message.c_str());
             }
             wrefresh(w_terrain);
-        }
+        } while(handle_mouseview(ctxt, action));
         inp_mngr.set_timeout(-1);
     } else {
         while (handle_mouseview(ctxt, action)) {};
@@ -3157,105 +3163,100 @@ bool game::handle_action()
         ctxt = get_player_input(action);
     }
 
-    if(uquit == QUIT_WATCH) {
-        if(action == "QUIT") {
-            uquit = QUIT_DIED;
-        }
-        gamemode->post_action(act);
-        return false;
-    }
-
     int veh_part;
     vehicle *veh = m.veh_at(u.posx, u.posy, veh_part);
-    bool veh_ctrl = veh && veh->player_in_control(&u);
+    bool veh_ctrl = veh && (veh->player_in_control(&u) && !u.is_dead_state());
 
     // If performing an action with right mouse button, co-ordinates
     // of location clicked.
     int mouse_action_x = -1, mouse_action_y = -1;
 
-    if (act == ACTION_NULL) {
-        if (action == "SELECT" || action == "SEC_SELECT") {
-            // Mouse button click
-            if (veh_ctrl) {
-                // No mouse use in vehicle
-                return false;
-            }
+    // do not allow mouse actions while dead
+    if(!u.is_dead_state()) {
+        if (act == ACTION_NULL) {
+            if (action == "SELECT" || action == "SEC_SELECT") {
+                // Mouse button click
+                if (veh_ctrl) {
+                    // No mouse use in vehicle
+                    return false;
+                }
 
-            int mx, my;
-            if (!ctxt.get_coordinates(w_terrain, mx, my) || !u_see(mx, my)) {
-                // Not clicked in visible terrain
-                return false;
-            }
+                int mx, my;
+                if (!ctxt.get_coordinates(w_terrain, mx, my) || !u_see(mx, my)) {
+                    // Not clicked in visible terrain
+                    return false;
+                }
 
-            if (action == "SELECT") {
-                bool new_destination = true;
-                if (!destination_preview.empty()) {
-                    point final_destination = destination_preview.back();
-                    if (final_destination.x == mx && final_destination.y == my) {
-                        // Second click
-                        new_destination = false;
-                        u.set_destination(destination_preview);
-                        destination_preview.clear();
-                        act = u.get_next_auto_move_direction();
-                        if (act == ACTION_NULL) {
-                            // Something went wrong
-                            u.clear_destination();
+                if (action == "SELECT") {
+                    bool new_destination = true;
+                    if (!destination_preview.empty()) {
+                        point final_destination = destination_preview.back();
+                        if (final_destination.x == mx && final_destination.y == my) {
+                            // Second click
+                            new_destination = false;
+                            u.set_destination(destination_preview);
+                            destination_preview.clear();
+                            act = u.get_next_auto_move_direction();
+                            if (act == ACTION_NULL) {
+                                // Something went wrong
+                                u.clear_destination();
+                                return false;
+                            }
+                        }
+                    }
+
+                    if (new_destination) {
+                        destination_preview = m.route(u.posx, u.posy, mx, my, false);
+                        return false;
+                    }
+                } else if (action == "SEC_SELECT") {
+                    // Right mouse button
+
+                    bool had_destination_to_clear = !destination_preview.empty();
+                    u.clear_destination();
+                    destination_preview.clear();
+
+                    if (had_destination_to_clear) {
+                        return false;
+                    }
+
+                    mouse_action_x = mx;
+                    mouse_action_y = my;
+                    int mouse_selected_mondex = mon_at(mx, my);
+                    if (mouse_selected_mondex != -1) {
+                        monster &critter = critter_tracker.find(mouse_selected_mondex);
+                        if (!u_see(&critter)) {
+                            add_msg(_("Nothing relevant here."));
                             return false;
                         }
-                    }
-                }
 
-                if (new_destination) {
-                    destination_preview = m.route(u.posx, u.posy, mx, my, false);
-                    return false;
-                }
-            } else if (action == "SEC_SELECT") {
-                // Right mouse button
-
-                bool had_destination_to_clear = !destination_preview.empty();
-                u.clear_destination();
-                destination_preview.clear();
-
-                if (had_destination_to_clear) {
-                    return false;
-                }
-
-                mouse_action_x = mx;
-                mouse_action_y = my;
-                int mouse_selected_mondex = mon_at(mx, my);
-                if (mouse_selected_mondex != -1) {
-                    monster &critter = critter_tracker.find(mouse_selected_mondex);
-                    if (!u_see(&critter)) {
-                        add_msg(_("Nothing relevant here."));
-                        return false;
-                    }
-
-                    if (!u.weapon.is_gun()) {
-                        add_msg(m_info, _("You are not wielding a ranged weapon."));
-                        return false;
-                    }
-
-                    //TODO: Add weapon range check. This requires weapon to be reloaded.
-
-                    act = ACTION_FIRE;
-                } else if (std::abs(mx - u.posx) <= 1 && std::abs(my - u.posy) <= 1 &&
-                           m.close_door(mx, my, !m.is_outside(u.posx, u.posy), true)) {
-                    // Can only close doors when adjacent to it.
-                    act = ACTION_CLOSE;
-                } else {
-                    int dx = abs(u.posx - mx);
-                    int dy = abs(u.posy - my);
-                    if (dx < 2 && dy < 2) {
-                        if (dy == 0 && dx == 0) {
-                            // Clicked on self
-                            act = ACTION_PICKUP;
-                        } else {
-                            // Clicked adjacent tile
-                            act = ACTION_EXAMINE;
+                        if (!u.weapon.is_gun()) {
+                            add_msg(m_info, _("You are not wielding a ranged weapon."));
+                            return false;
                         }
+
+                        //TODO: Add weapon range check. This requires weapon to be reloaded.
+
+                        act = ACTION_FIRE;
+                    } else if (std::abs(mx - u.posx) <= 1 && std::abs(my - u.posy) <= 1 &&
+                               m.close_door(mx, my, !m.is_outside(u.posx, u.posy), true)) {
+                        // Can only close doors when adjacent to it.
+                        act = ACTION_CLOSE;
                     } else {
-                        add_msg(_("Nothing relevant here."));
-                        return false;
+                        int dx = abs(u.posx - mx);
+                        int dy = abs(u.posy - my);
+                        if (dx < 2 && dy < 2) {
+                            if (dy == 0 && dx == 0) {
+                                // Clicked on self
+                                act = ACTION_PICKUP;
+                            } else {
+                                // Clicked adjacent tile
+                                act = ACTION_EXAMINE;
+                            }
+                        } else {
+                            add_msg(_("Nothing relevant here."));
+                            return false;
+                        }
                     }
                 }
             }
@@ -3292,650 +3293,674 @@ bool game::handle_action()
     // move or obstacle
     bool continue_auto_move = false;
 
-    switch (act) {
-    case ACTION_NULL:
-    case NUM_ACTIONS:
-        break; // dummy entries
-    case ACTION_ACTIONMENU:
-        break; // handled above
+    // quit prompt check (ACTION_QUIT only grabs 'Q')
+    if(uquit == QUIT_WATCH && action == "QUIT") {
+        uquit = QUIT_DIED;
+        return false;
+    }
 
-    case ACTION_PAUSE:
-        if( check_save_mode_allowed() ) {
-            u.pause();
+    // I have split the switch(act) into two, so one can be done
+    // for the deathcam as well. It will still be run if you are
+    // alive, so no worries there. KA101 suggested (quite aptly)
+    // that the user should be able to look around, so this
+    // allows that. -Davek
+    if(uquit == QUIT_WATCH || !u.is_dead_state()) {
+        switch(act) {
+        case ACTION_CENTER:
+            u.view_offset_x = driving_view_offset.x;
+            u.view_offset_y = driving_view_offset.y;
+            break;
+
+        case ACTION_SHIFT_N:
+            u.view_offset_y += soffsetr;
+            break;
+
+        case ACTION_SHIFT_NE:
+            u.view_offset_x += soffset;
+            u.view_offset_y += soffsetr;
+            break;
+
+        case ACTION_SHIFT_E:
+            u.view_offset_x += soffset;
+            break;
+
+        case ACTION_SHIFT_SE:
+            u.view_offset_x += soffset;
+            u.view_offset_y += soffset;
+            break;
+
+        case ACTION_SHIFT_S:
+            u.view_offset_y += soffset;
+            break;
+
+        case ACTION_SHIFT_SW:
+            u.view_offset_x += soffsetr;
+            u.view_offset_y += soffset;
+            break;
+
+        case ACTION_SHIFT_W:
+            u.view_offset_x += soffsetr;
+            break;
+
+        case ACTION_SHIFT_NW:
+            u.view_offset_x += soffsetr;
+            u.view_offset_y += soffsetr;
+            break;
+
+        case ACTION_LOOK:
+            look_around();
+            break;
+
+        default:
+            break;
         }
-        break;
+    }
 
-    case ACTION_MOVE_N:
-        moveCount++;
+    // actions allowed only while alive
+    if(!u.is_dead_state()) {
+        switch (act) {
+        case ACTION_NULL:
+        case NUM_ACTIONS:
+            break; // dummy entries
+        case ACTION_ACTIONMENU:
+            break; // handled above
 
-        if( u.get_value( "remote_controlling" ) != "" ) {
-            rcdrive(0, -1);
-        } else if (veh_ctrl) {
-            pldrive(0, -1);
-        } else {
-            continue_auto_move = plmove(0, -1);
-        }
-        break;
-
-    case ACTION_MOVE_NE:
-        moveCount++;
-
-        if( u.get_value( "remote_controlling" ) != "" ) {
-            rcdrive(1, -1);
-        } else if (veh_ctrl) {
-            pldrive(1, -1);
-        } else {
-            continue_auto_move = plmove(1, -1);
-        }
-        break;
-
-    case ACTION_MOVE_E:
-        moveCount++;
-
-        if( u.get_value( "remote_controlling" ) != "" ) {
-            rcdrive(1, 0);
-        } else if (veh_ctrl) {
-            pldrive(1, 0);
-        } else {
-            continue_auto_move = plmove(1, 0);
-        }
-        break;
-
-    case ACTION_MOVE_SE:
-        moveCount++;
-
-        if( u.get_value( "remote_controlling" ) != "" ) {
-            rcdrive(1, 1);
-        } else if (veh_ctrl) {
-            pldrive(1, 1);
-        } else {
-            continue_auto_move = plmove(1, 1);
-        }
-        break;
-
-    case ACTION_MOVE_S:
-        moveCount++;
-
-        if( u.get_value( "remote_controlling" ) != "" ) {
-            rcdrive(0, 1);
-        } else if (veh_ctrl) {
-            pldrive(0, 1);
-        } else {
-            continue_auto_move = plmove(0, 1);
-        }
-        break;
-
-    case ACTION_MOVE_SW:
-        moveCount++;
-
-        if( u.get_value( "remote_controlling" ) != "" ) {
-            rcdrive(-1, 1);
-        } else if (veh_ctrl) {
-            pldrive(-1, 1);
-        } else {
-            continue_auto_move = plmove(-1, 1);
-        }
-        break;
-
-    case ACTION_MOVE_W:
-        moveCount++;
-
-        if( u.get_value( "remote_controlling" ) != "" ) {
-            rcdrive(-1, 0);
-        } else if (veh_ctrl) {
-            pldrive(-1, 0);
-        } else {
-            continue_auto_move = plmove(-1, 0);
-        }
-        break;
-
-    case ACTION_MOVE_NW:
-        moveCount++;
-
-        if( u.get_value( "remote_controlling" ) != "" ) {
-            rcdrive(-1, -1);
-        } else if (veh_ctrl) {
-            pldrive(-1, -1);
-        } else {
-            continue_auto_move = plmove(-1, -1);
-        }
-        break;
-
-    case ACTION_MOVE_DOWN:
-        if (!u.in_vehicle) {
-            vertical_move(-1, false);
-        }
-        break;
-
-    case ACTION_MOVE_UP:
-        if (!u.in_vehicle) {
-            vertical_move(1, false);
-        }
-        break;
-
-    case ACTION_CENTER:
-        u.view_offset_x = driving_view_offset.x;
-        u.view_offset_y = driving_view_offset.y;
-        break;
-
-    case ACTION_SHIFT_N:
-        u.view_offset_y += soffsetr;
-        break;
-
-    case ACTION_SHIFT_NE:
-        u.view_offset_x += soffset;
-        u.view_offset_y += soffsetr;
-        break;
-
-    case ACTION_SHIFT_E:
-        u.view_offset_x += soffset;
-        break;
-
-    case ACTION_SHIFT_SE:
-        u.view_offset_x += soffset;
-        u.view_offset_y += soffset;
-        break;
-
-    case ACTION_SHIFT_S:
-        u.view_offset_y += soffset;
-        break;
-
-    case ACTION_SHIFT_SW:
-        u.view_offset_x += soffsetr;
-        u.view_offset_y += soffset;
-        break;
-
-    case ACTION_SHIFT_W:
-        u.view_offset_x += soffsetr;
-        break;
-
-    case ACTION_SHIFT_NW:
-        u.view_offset_x += soffsetr;
-        u.view_offset_y += soffsetr;
-        break;
-
-    case ACTION_OPEN:
-        if (u.has_active_mutation("SHELL2")) {
-            add_msg(m_info, _("You can't open things while you're in your shell."));
-        } else {
-            open();
-        }
-        break;
-
-    case ACTION_CLOSE:
-        if (u.has_active_mutation("SHELL2")) {
-            add_msg(m_info, _("You can't close things while you're in your shell."));
-        } else {
-            close(mouse_action_x, mouse_action_y);
-        }
-        break;
-
-    case ACTION_SMASH:
-        if (veh_ctrl) {
-            handbrake();
-        } else if (u.has_active_mutation("SHELL2")) {
-            add_msg(m_info, _("You can't smash things while you're in your shell."));
-        } else {
-            smash();
-        }
-        break;
-
-    case ACTION_EXAMINE:
-        if (u.has_active_mutation("SHELL2")) {
-            add_msg(m_info, _("You can't examine your surroundings while you're in your shell."));
-        } else {
-            examine(mouse_action_x, mouse_action_y);
-        }
-        break;
-
-    case ACTION_ADVANCEDINV:
-        if (u.has_active_mutation("SHELL2")) {
-            add_msg(m_info, _("You can't move mass quantities while you're in your shell."));
-        } else {
-            advanced_inv();
-        }
-        break;
-
-    case ACTION_PICKUP:
-        Pickup::pick_up(u.posx, u.posy, 1);
-        break;
-
-    case ACTION_GRAB:
-        if (u.has_active_mutation("SHELL2")) {
-            add_msg(m_info, _("You can't grab things while you're in your shell."));
-        } else {
-            grab();
-        }
-        break;
-
-    case ACTION_BUTCHER:
-        if (u.has_active_mutation("SHELL2")) {
-            add_msg(m_info, _("You can't butcher while you're in your shell."));
-        } else {
-            butcher();
-        }
-        break;
-
-    case ACTION_CHAT:
-        chat();
-        break;
-
-    case ACTION_LOOK:
-        look_around();
-        break;
-
-    case ACTION_PEEK:
-        if (u.has_active_mutation("SHELL2")) {
-            add_msg(m_info, _("You can't peek around corners while you're in your shell."));
-        } else {
-            peek();
-        }
-        break;
-
-    case ACTION_LIST_ITEMS: {
-        int iRetItems = -1;
-        int iRetMonsters = -1;
-        int startas = uistate.list_item_mon;
-        temp_exit_fullscreen();
-        do {
-            if (startas != 2) { // last mode 2 = list_monster
-                startas = 0;      // but only for the first bit of the loop
-                iRetItems = list_items(iRetMonsters);
-            } else {
-                iRetItems = -2;   // so we'll try list_items if list_monsters found 0
+        case ACTION_PAUSE:
+            if( check_save_mode_allowed() ) {
+                u.pause();
             }
-            if (iRetItems != -1 || startas == 2) {
-                startas = 0;
-                iRetMonsters = list_monsters(iRetItems);
-                if (iRetMonsters == 2) {
-                    iRetItems = -1; // will fire, exit loop
-                } else if (iRetMonsters == -1 && iRetItems == -2) {
-                    iRetItems = -1; // exit if requested on list_monsters firstrun
+            break;
+
+        case ACTION_MOVE_N:
+            moveCount++;
+
+            if( u.get_value( "remote_controlling" ) != "" ) {
+                rcdrive(0, -1);
+            } else if (veh_ctrl) {
+                pldrive(0, -1);
+            } else {
+                continue_auto_move = plmove(0, -1);
+            }
+            break;
+
+        case ACTION_MOVE_NE:
+            moveCount++;
+
+            if( u.get_value( "remote_controlling" ) != "" ) {
+                rcdrive(1, -1);
+            } else if (veh_ctrl) {
+                pldrive(1, -1);
+            } else {
+                continue_auto_move = plmove(1, -1);
+            }
+            break;
+
+        case ACTION_MOVE_E:
+            moveCount++;
+
+            if( u.get_value( "remote_controlling" ) != "" ) {
+                rcdrive(1, 0);
+            } else if (veh_ctrl) {
+                pldrive(1, 0);
+            } else {
+                continue_auto_move = plmove(1, 0);
+            }
+            break;
+
+        case ACTION_MOVE_SE:
+            moveCount++;
+
+            if( u.get_value( "remote_controlling" ) != "" ) {
+                rcdrive(1, 1);
+            } else if (veh_ctrl) {
+                pldrive(1, 1);
+            } else {
+                continue_auto_move = plmove(1, 1);
+            }
+            break;
+
+        case ACTION_MOVE_S:
+            moveCount++;
+
+            if( u.get_value( "remote_controlling" ) != "" ) {
+                rcdrive(0, 1);
+            } else if (veh_ctrl) {
+                pldrive(0, 1);
+            } else {
+                continue_auto_move = plmove(0, 1);
+            }
+            break;
+
+        case ACTION_MOVE_SW:
+            moveCount++;
+
+            if( u.get_value( "remote_controlling" ) != "" ) {
+                rcdrive(-1, 1);
+            } else if (veh_ctrl) {
+                pldrive(-1, 1);
+            } else {
+                continue_auto_move = plmove(-1, 1);
+            }
+            break;
+
+        case ACTION_MOVE_W:
+            moveCount++;
+
+            if( u.get_value( "remote_controlling" ) != "" ) {
+                rcdrive(-1, 0);
+            } else if (veh_ctrl) {
+                pldrive(-1, 0);
+            } else {
+                continue_auto_move = plmove(-1, 0);
+            }
+            break;
+
+        case ACTION_MOVE_NW:
+            moveCount++;
+
+            if( u.get_value( "remote_controlling" ) != "" ) {
+                rcdrive(-1, -1);
+            } else if (veh_ctrl) {
+                pldrive(-1, -1);
+            } else {
+                continue_auto_move = plmove(-1, -1);
+            }
+            break;
+
+        case ACTION_MOVE_DOWN:
+            if (!u.in_vehicle) {
+                vertical_move(-1, false);
+            }
+            break;
+
+        case ACTION_MOVE_UP:
+            if (!u.in_vehicle) {
+                vertical_move(1, false);
+            }
+            break;
+
+        case ACTION_OPEN:
+            if (u.has_active_mutation("SHELL2")) {
+                add_msg(m_info, _("You can't open things while you're in your shell."));
+            } else {
+                open();
+            }
+            break;
+
+        case ACTION_CLOSE:
+            if (u.has_active_mutation("SHELL2")) {
+                add_msg(m_info, _("You can't close things while you're in your shell."));
+            } else {
+                close(mouse_action_x, mouse_action_y);
+            }
+            break;
+
+        case ACTION_SMASH:
+            if (veh_ctrl) {
+                handbrake();
+            } else if (u.has_active_mutation("SHELL2")) {
+                add_msg(m_info, _("You can't smash things while you're in your shell."));
+            } else {
+                smash();
+            }
+            break;
+
+        case ACTION_EXAMINE:
+            if (u.has_active_mutation("SHELL2")) {
+                add_msg(m_info, _("You can't examine your surroundings while you're in your shell."));
+            } else {
+                examine(mouse_action_x, mouse_action_y);
+            }
+            break;
+
+        case ACTION_ADVANCEDINV:
+            if (u.has_active_mutation("SHELL2")) {
+                add_msg(m_info, _("You can't move mass quantities while you're in your shell."));
+            } else {
+                advanced_inv();
+            }
+            break;
+
+        case ACTION_PICKUP:
+            Pickup::pick_up(u.posx, u.posy, 1);
+            break;
+
+        case ACTION_GRAB:
+            if (u.has_active_mutation("SHELL2")) {
+                add_msg(m_info, _("You can't grab things while you're in your shell."));
+            } else {
+                grab();
+            }
+            break;
+
+        case ACTION_BUTCHER:
+            if (u.has_active_mutation("SHELL2")) {
+                add_msg(m_info, _("You can't butcher while you're in your shell."));
+            } else {
+                butcher();
+            }
+            break;
+
+        case ACTION_CHAT:
+            chat();
+            break;
+
+        case ACTION_PEEK:
+            if (u.has_active_mutation("SHELL2")) {
+                add_msg(m_info, _("You can't peek around corners while you're in your shell."));
+            } else {
+                peek();
+            }
+            break;
+
+        case ACTION_LIST_ITEMS: {
+            int iRetItems = -1;
+            int iRetMonsters = -1;
+            int startas = uistate.list_item_mon;
+            temp_exit_fullscreen();
+            do {
+                if (startas != 2) { // last mode 2 = list_monster
+                    startas = 0;      // but only for the first bit of the loop
+                    iRetItems = list_items(iRetMonsters);
+                } else {
+                    iRetItems = -2;   // so we'll try list_items if list_monsters found 0
+                }
+                if (iRetItems != -1 || startas == 2) {
+                    startas = 0;
+                    iRetMonsters = list_monsters(iRetItems);
+                    if (iRetMonsters == 2) {
+                        iRetItems = -1; // will fire, exit loop
+                    } else if (iRetMonsters == -1 && iRetItems == -2) {
+                        iRetItems = -1; // exit if requested on list_monsters firstrun
+                    }
+                }
+            } while (iRetItems != -1 && iRetMonsters != -1 && !(iRetItems == 0 && iRetMonsters == 0));
+
+            if (iRetItems == 0 && iRetMonsters == 0) {
+                add_msg(m_info, _("You don't see any items or monsters around you!"));
+            } else if (iRetMonsters == 2) {
+                refresh_all();
+                plfire(false);
+            }
+            refresh_all();
+            reenter_fullscreen();
+        }
+        break;
+
+        case ACTION_ZONES:
+            zones_manager();
+            break;
+
+        case ACTION_INVENTORY: {
+            int cMenu = ' ';
+            int position = INT_MIN;
+            do {
+                position = inv(_("Inventory:"), position);
+                cMenu = inventory_item_menu(position);
+            } while (cMenu == ' ' || cMenu == '.' || cMenu == 'q' || cMenu == '\n' ||
+                     cMenu == KEY_ESCAPE || cMenu == KEY_LEFT || cMenu == '=');
+            refresh_all();
+        }
+        break;
+
+        case ACTION_COMPARE:
+            compare();
+            break;
+
+        case ACTION_ORGANIZE:
+            reassign_item();
+            break;
+
+        case ACTION_USE:
+            // Shell-users are presumed to be able to mess with their inventories, etc
+            // while in the shell.  Eating, gear-changing, and item use are OK.
+            use_item();
+            break;
+
+        case ACTION_USE_WIELDED:
+            use_wielded_item();
+            break;
+
+        case ACTION_WEAR:
+            wear();
+            break;
+
+        case ACTION_TAKE_OFF:
+            takeoff();
+            break;
+
+        case ACTION_EAT:
+            eat();
+            break;
+
+        case ACTION_READ:
+            // Shell-users are presumed to have the book just at an opening and read it that way
+            read();
+            break;
+
+        case ACTION_WIELD:
+            wield();
+            break;
+
+        case ACTION_PICK_STYLE:
+            u.pick_style();
+            break;
+
+        case ACTION_RELOAD:
+            reload();
+            break;
+
+        case ACTION_UNLOAD:
+            unload(u.weapon);
+            break;
+
+        case ACTION_THROW:
+            if (u.has_active_mutation("SHELL2")) {
+                add_msg(m_info, _("You can't effectively throw while you're in your shell."));
+            } else {
+                plthrow();
+            }
+            break;
+
+        case ACTION_FIRE:
+            // Shell-users may fire a *single-handed* weapon out a port, if need be.
+            plfire(false, mouse_action_x, mouse_action_y);
+            break;
+
+        case ACTION_FIRE_BURST:
+            plfire(true, mouse_action_x, mouse_action_y);
+            break;
+
+        case ACTION_SELECT_FIRE_MODE:
+            u.weapon.next_mode();
+            break;
+
+        case ACTION_DROP:
+            // You CAN drop things to your own tile while in the shell.
+            drop();
+            break;
+
+        case ACTION_DIR_DROP:
+            if (u.has_active_mutation("SHELL2")) {
+                add_msg(m_info, _("You can't drop things to another tile while you're in your shell."));
+            } else {
+                drop_in_direction();
+            }
+            break;
+        case ACTION_BIONICS:
+            u.power_bionics();
+            refresh_all();
+            break;
+        case ACTION_MUTATIONS:
+            u.power_mutations();
+            refresh_all();
+            break;
+
+        case ACTION_SORT_ARMOR:
+            u.sort_armor();
+            refresh_all();
+            break;
+
+        case ACTION_WAIT:
+            wait();
+            break;
+
+        case ACTION_CRAFT:
+            if (u.has_active_mutation("SHELL2")) {
+                add_msg(m_info, _("You can't craft while you're in your shell."));
+            } else {
+                u.craft();
+            }
+            break;
+
+        case ACTION_RECRAFT:
+            if (u.has_active_mutation("SHELL2")) {
+                add_msg(m_info, _("You can't craft while you're in your shell."));
+            } else {
+                u.recraft();
+            }
+            break;
+
+        case ACTION_LONGCRAFT:
+            if (u.has_active_mutation("SHELL2")) {
+                add_msg(m_info, _("You can't craft while you're in your shell."));
+            } else {
+                u.long_craft();
+            }
+            break;
+
+        case ACTION_DISASSEMBLE:
+            if (u.controlling_vehicle) {
+                add_msg(m_info, _("You can't disassemble items while driving."));
+            } else {
+                u.disassemble();
+                refresh_all();
+            }
+            break;
+
+        case ACTION_CONSTRUCT:
+            if (u.in_vehicle) {
+                add_msg(m_info, _("You can't construct while in a vehicle."));
+            } else if (u.has_active_mutation("SHELL2")) {
+                add_msg(m_info, _("You can't construct while you're in your shell."));
+            } else {
+                construction_menu();
+            }
+            break;
+
+        case ACTION_SLEEP:
+            if (veh_ctrl) {
+                add_msg(m_info, _("Vehicle control has moved, %s"),
+                        press_x(ACTION_CONTROL_VEHICLE, _("new binding is "),
+                                _("new default binding is '^'.")).c_str());
+            } else {
+                uimenu as_m;
+                as_m.text = _("Are you sure you want to sleep?");
+                as_m.entries.push_back(uimenu_entry(0, true,
+                                                    (OPTIONS["FORCE_CAPITAL_YN"] ? 'Y' : 'y'),
+                                                    _("Yes.")));
+
+                if (OPTIONS["SAVE_SLEEP"]) {
+                    as_m.entries.push_back(uimenu_entry(1, (moves_since_last_save),
+                                                        (OPTIONS["FORCE_CAPITAL_YN"] ? 'S' : 's'),
+                                                        _("Yes, and save game before sleeping.")));
+                }
+                as_m.entries.push_back(uimenu_entry(2, true, (OPTIONS["FORCE_CAPITAL_YN"] ?
+                                                    'N' : 'n'), _("No.")));
+
+                if (u.has_item_with_flag("ALARMCLOCK") && (u.hunger < -60)) {
+                    as_m.text =
+                        _("You're engorged to hibernate. The alarm would only attract attention. Enter hibernation?");
+                }
+                if( (u.has_item_with_flag("ALARMCLOCK") || u.has_bionic("bio_watch")) &&
+                    !(u.hunger < -60) ) {
+                    as_m.entries.push_back(uimenu_entry(3, true, '3',
+                                                        _("Set alarm to wake up in 3 hours.")));
+                    as_m.entries.push_back(uimenu_entry(4, true, '4',
+                                                        _("Set alarm to wake up in 4 hours.")));
+                    as_m.entries.push_back(uimenu_entry(5, true, '5',
+                                                        _("Set alarm to wake up in 5 hours.")));
+                    as_m.entries.push_back(uimenu_entry(6, true, '6',
+                                                        _("Set alarm to wake up in 6 hours.")));
+                    as_m.entries.push_back(uimenu_entry(7, true, '7',
+                                                        _("Set alarm to wake up in 7 hours.")));
+                    as_m.entries.push_back(uimenu_entry(8, true, '8',
+                                                        _("Set alarm to wake up in 8 hours.")));
+                    as_m.entries.push_back(uimenu_entry(9, true, '9',
+                                                        _("Set alarm to wake up in 9 hours.")));
+                }
+                /* Calculate key and window variables, generate window,
+                   and loop until we get a valid answer. */
+                as_m.query();
+
+                bool bSleep = false;
+                if (as_m.ret == 0) {
+                    bSleep = true;
+                } else if (as_m.ret == 1) {
+                    quicksave();
+                    bSleep = true;
+                } else if (as_m.ret >= 3 && as_m.ret <= 9) {
+                    u.add_effect("alarm_clock", 600 * as_m.ret);
+                    bSleep = true;
+                }
+
+                if (bSleep) {
+                    u.moves = 0;
+                    u.try_to_sleep();
                 }
             }
-        } while (iRetItems != -1 && iRetMonsters != -1 && !(iRetItems == 0 && iRetMonsters == 0));
+            break;
 
-        if (iRetItems == 0 && iRetMonsters == 0) {
-            add_msg(m_info, _("You don't see any items or monsters around you!"));
-        } else if (iRetMonsters == 2) {
-            refresh_all();
-            plfire(false);
-        }
-        refresh_all();
-        reenter_fullscreen();
-    }
-    break;
-
-    case ACTION_ZONES:
-        zones_manager();
-        break;
-
-    case ACTION_INVENTORY: {
-        int cMenu = ' ';
-        int position = INT_MIN;
-        do {
-            position = inv(_("Inventory:"), position);
-            cMenu = inventory_item_menu(position);
-        } while (cMenu == ' ' || cMenu == '.' || cMenu == 'q' || cMenu == '\n' ||
-                 cMenu == KEY_ESCAPE || cMenu == KEY_LEFT || cMenu == '=');
-        refresh_all();
-    }
-    break;
-
-    case ACTION_COMPARE:
-        compare();
-        break;
-
-    case ACTION_ORGANIZE:
-        reassign_item();
-        break;
-
-    case ACTION_USE:
-        // Shell-users are presumed to be able to mess with their inventories, etc
-        // while in the shell.  Eating, gear-changing, and item use are OK.
-        use_item();
-        break;
-
-    case ACTION_USE_WIELDED:
-        use_wielded_item();
-        break;
-
-    case ACTION_WEAR:
-        wear();
-        break;
-
-    case ACTION_TAKE_OFF:
-        takeoff();
-        break;
-
-    case ACTION_EAT:
-        eat();
-        break;
-
-    case ACTION_READ:
-        // Shell-users are presumed to have the book just at an opening and read it that way
-        read();
-        break;
-
-    case ACTION_WIELD:
-        wield();
-        break;
-
-    case ACTION_PICK_STYLE:
-        u.pick_style();
-        break;
-
-    case ACTION_RELOAD:
-        reload();
-        break;
-
-    case ACTION_UNLOAD:
-        unload(u.weapon);
-        break;
-
-    case ACTION_THROW:
-        if (u.has_active_mutation("SHELL2")) {
-            add_msg(m_info, _("You can't effectively throw while you're in your shell."));
-        } else {
-            plthrow();
-        }
-        break;
-
-    case ACTION_FIRE:
-        // Shell-users may fire a *single-handed* weapon out a port, if need be.
-        plfire(false, mouse_action_x, mouse_action_y);
-        break;
-
-    case ACTION_FIRE_BURST:
-        plfire(true, mouse_action_x, mouse_action_y);
-        break;
-
-    case ACTION_SELECT_FIRE_MODE:
-        u.weapon.next_mode();
-        break;
-
-    case ACTION_DROP:
-        // You CAN drop things to your own tile while in the shell.
-        drop();
-        break;
-
-    case ACTION_DIR_DROP:
-        if (u.has_active_mutation("SHELL2")) {
-            add_msg(m_info, _("You can't drop things to another tile while you're in your shell."));
-        } else {
-            drop_in_direction();
-        }
-        break;
-    case ACTION_BIONICS:
-        u.power_bionics();
-        refresh_all();
-        break;
-    case ACTION_MUTATIONS:
-        u.power_mutations();
-        refresh_all();
-        break;
-
-    case ACTION_SORT_ARMOR:
-        u.sort_armor();
-        refresh_all();
-        break;
-
-    case ACTION_WAIT:
-        wait();
-        break;
-
-    case ACTION_CRAFT:
-        if (u.has_active_mutation("SHELL2")) {
-            add_msg(m_info, _("You can't craft while you're in your shell."));
-        } else {
-            u.craft();
-        }
-        break;
-
-    case ACTION_RECRAFT:
-        if (u.has_active_mutation("SHELL2")) {
-            add_msg(m_info, _("You can't craft while you're in your shell."));
-        } else {
-            u.recraft();
-        }
-        break;
-
-    case ACTION_LONGCRAFT:
-        if (u.has_active_mutation("SHELL2")) {
-            add_msg(m_info, _("You can't craft while you're in your shell."));
-        } else {
-            u.long_craft();
-        }
-        break;
-
-    case ACTION_DISASSEMBLE:
-        if (u.controlling_vehicle) {
-            add_msg(m_info, _("You can't disassemble items while driving."));
-        } else {
-            u.disassemble();
-            refresh_all();
-        }
-        break;
-
-    case ACTION_CONSTRUCT:
-        if (u.in_vehicle) {
-            add_msg(m_info, _("You can't construct while in a vehicle."));
-        } else if (u.has_active_mutation("SHELL2")) {
-            add_msg(m_info, _("You can't construct while you're in your shell."));
-        } else {
-            construction_menu();
-        }
-        break;
-
-    case ACTION_SLEEP:
-        if (veh_ctrl) {
-            add_msg(m_info, _("Vehicle control has moved, %s"),
-                    press_x(ACTION_CONTROL_VEHICLE, _("new binding is "),
-                            _("new default binding is '^'.")).c_str());
-        } else {
-            uimenu as_m;
-            as_m.text = _("Are you sure you want to sleep?");
-            as_m.entries.push_back(uimenu_entry(0, true,
-                                                (OPTIONS["FORCE_CAPITAL_YN"] ? 'Y' : 'y'),
-                                                _("Yes.")));
-
-            if (OPTIONS["SAVE_SLEEP"]) {
-                as_m.entries.push_back(uimenu_entry(1, (moves_since_last_save),
-                                                    (OPTIONS["FORCE_CAPITAL_YN"] ? 'S' : 's'),
-                                                    _("Yes, and save game before sleeping.")));
-            }
-            as_m.entries.push_back(uimenu_entry(2, true, (OPTIONS["FORCE_CAPITAL_YN"] ?
-                                                'N' : 'n'), _("No.")));
-
-            if (u.has_item_with_flag("ALARMCLOCK") && (u.hunger < -60)) {
-                as_m.text =
-                    _("You're engorged to hibernate. The alarm would only attract attention. Enter hibernation?");
-            }
-            if( (u.has_item_with_flag("ALARMCLOCK") || u.has_bionic("bio_watch")) &&
-                !(u.hunger < -60) ) {
-                as_m.entries.push_back(uimenu_entry(3, true, '3',
-                                                    _("Set alarm to wake up in 3 hours.")));
-                as_m.entries.push_back(uimenu_entry(4, true, '4',
-                                                    _("Set alarm to wake up in 4 hours.")));
-                as_m.entries.push_back(uimenu_entry(5, true, '5',
-                                                    _("Set alarm to wake up in 5 hours.")));
-                as_m.entries.push_back(uimenu_entry(6, true, '6',
-                                                    _("Set alarm to wake up in 6 hours.")));
-                as_m.entries.push_back(uimenu_entry(7, true, '7',
-                                                    _("Set alarm to wake up in 7 hours.")));
-                as_m.entries.push_back(uimenu_entry(8, true, '8',
-                                                    _("Set alarm to wake up in 8 hours.")));
-                as_m.entries.push_back(uimenu_entry(9, true, '9',
-                                                    _("Set alarm to wake up in 9 hours.")));
-            }
-            /* Calculate key and window variables, generate window,
-               and loop until we get a valid answer. */
-            as_m.query();
-
-            bool bSleep = false;
-            if (as_m.ret == 0) {
-                bSleep = true;
-            } else if (as_m.ret == 1) {
-                quicksave();
-                bSleep = true;
-            } else if (as_m.ret >= 3 && as_m.ret <= 9) {
-                u.add_effect("alarm_clock", 600 * as_m.ret);
-                bSleep = true;
-            }
-
-            if (bSleep) {
-                u.moves = 0;
-                u.try_to_sleep();
-            }
-        }
-        break;
-
-    case ACTION_CONTROL_VEHICLE:
-        if (u.has_active_mutation("SHELL2")) {
-            add_msg(m_info, _("You can't operate a vehicle while you're in your shell."));
-        } else {
-            control_vehicle();
-        }
-        break;
-
-    case ACTION_TOGGLE_SAFEMODE:
-        if (safe_mode == SAFE_MODE_OFF ) {
-            safe_mode = SAFE_MODE_ON;
-            mostseen = 0;
-            add_msg(m_info, _("Safe mode ON!"));
-        } else {
-            turnssincelastmon = 0;
-            safe_mode = SAFE_MODE_OFF;
-            if (autosafemode) {
-                add_msg(m_info, _("Safe mode OFF! (Auto safe mode still enabled!)"));
+        case ACTION_CONTROL_VEHICLE:
+            if (u.has_active_mutation("SHELL2")) {
+                add_msg(m_info, _("You can't operate a vehicle while you're in your shell."));
             } else {
-                add_msg(m_info, _("Safe mode OFF!"));
+                control_vehicle();
             }
-        }
-        break;
+            break;
 
-    case ACTION_TOGGLE_AUTOSAFE:
-        if (autosafemode) {
-            add_msg(m_info, _("Auto safe mode OFF!"));
-            autosafemode = false;
-        } else {
-            add_msg(m_info, _("Auto safe mode ON"));
-            autosafemode = true;
-        }
-        break;
-
-    case ACTION_IGNORE_ENEMY:
-        if (safe_mode == SAFE_MODE_STOP) {
-            add_msg(m_info, _("Ignoring enemy!"));
-            for( auto &elem : new_seen_mon ) {
-                monster &critter = critter_tracker.find( elem );
-                critter.ignoring = rl_dist(point(u.posx, u.posy), critter.pos());
+        case ACTION_TOGGLE_SAFEMODE:
+            if (safe_mode == SAFE_MODE_OFF ) {
+                safe_mode = SAFE_MODE_ON;
+                mostseen = 0;
+                add_msg(m_info, _("Safe mode ON!"));
+            } else {
+                turnssincelastmon = 0;
+                safe_mode = SAFE_MODE_OFF;
+                if (autosafemode) {
+                    add_msg(m_info, _("Safe mode OFF! (Auto safe mode still enabled!)"));
+                } else {
+                    add_msg(m_info, _("Safe mode OFF!"));
+                }
             }
-            safe_mode = SAFE_MODE_ON;
-        }
-        break;
+            break;
 
-    case ACTION_SAVE:
-        if (query_yn(_("Save and quit?"))) {
-            if(save()) {
-                u.moves = 0;
-                uquit = QUIT_SAVED;
+        case ACTION_TOGGLE_AUTOSAFE:
+            if (autosafemode) {
+                add_msg(m_info, _("Auto safe mode OFF!"));
+                autosafemode = false;
+            } else {
+                add_msg(m_info, _("Auto safe mode ON"));
+                autosafemode = true;
             }
-        }
-        break;
+            break;
 
-    case ACTION_QUICKSAVE:
-        quicksave();
-        return false;
-
-    case ACTION_QUIT:
-        if (query_yn(_("Commit suicide?"))) {
-            if (query_yn(_("REALLY commit suicide?"))) {
-                u.moves = 0;
-                u.place_corpse();
-                uquit = QUIT_SUICIDE;
+        case ACTION_IGNORE_ENEMY:
+            if (safe_mode == SAFE_MODE_STOP) {
+                add_msg(m_info, _("Ignoring enemy!"));
+                for( auto &elem : new_seen_mon ) {
+                    monster &critter = critter_tracker.find( elem );
+                    critter.ignoring = rl_dist(point(u.posx, u.posy), critter.pos());
+                }
+                safe_mode = SAFE_MODE_ON;
             }
+            break;
+
+        case ACTION_QUIT:
+            if (query_yn(_("Commit suicide?"))) {
+                if (query_yn(_("REALLY commit suicide?"))) {
+                    u.moves = 0;
+                    u.place_corpse();
+                    uquit = QUIT_SUICIDE;
+                }
+            }
+            break;
+
+        case ACTION_SAVE:
+            if (query_yn(_("Save and quit?"))) {
+                if(save()) {
+                    u.moves = 0;
+                    uquit = QUIT_SAVED;
+                }
+            }
+            break;
+
+        case ACTION_QUICKSAVE:
+            quicksave();
+            return false;
+
+        case ACTION_PL_INFO:
+            u.disp_info();
+            refresh_all();
+            break;
+
+        case ACTION_MAP:
+            draw_overmap();
+            break;
+
+        case ACTION_MISSIONS:
+            list_missions();
+            break;
+
+        case ACTION_KILLS:
+            disp_kills();
+            break;
+
+        case ACTION_FACTIONS:
+            list_factions(_("FACTIONS:"));
+            break;
+
+        case ACTION_MORALE:
+            u.disp_morale();
+            refresh_all();
+            break;
+
+        case ACTION_MESSAGES:
+            Messages::display_messages();
+            refresh_all();
+            break;
+
+        case ACTION_HELP:
+            display_help();
+            refresh_all();
+            break;
+
+        case ACTION_DEBUG:
+            if (MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger()) {
+                break;    //don't do anything when sharing and not debugger
+            }
+            debug();
+            refresh_all();
+            break;
+
+        case ACTION_TOGGLE_SIDEBAR_STYLE:
+            toggle_sidebar_style();
+            break;
+
+        case ACTION_TOGGLE_FULLSCREEN:
+            toggle_fullscreen();
+            break;
+
+        case ACTION_DISPLAY_SCENT:
+            if (MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger()) {
+                break;    //don't do anything when sharing and not debugger
+            }
+            display_scent();
+            break;
+
+        case ACTION_TOGGLE_DEBUG_MODE:
+            if (MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger()) {
+                break;    //don't do anything when sharing and not debugger
+            }
+            debug_mode = !debug_mode;
+            if( debug_mode ) {
+                add_msg( m_info, _("Debug mode ON!") );
+            } else {
+                add_msg( m_info, _("Debug mode OFF!") );
+            }
+            break;
+
+        case ACTION_ZOOM_IN:
+            zoom_in();
+            break;
+
+        case ACTION_ZOOM_OUT:
+            zoom_out();
+            break;
+
+        default:
+            break;
         }
-        break;
-
-    case ACTION_PL_INFO:
-        u.disp_info();
-        refresh_all();
-        break;
-
-    case ACTION_MAP:
-        draw_overmap();
-        break;
-
-    case ACTION_MISSIONS:
-        list_missions();
-        break;
-
-    case ACTION_KILLS:
-        disp_kills();
-        break;
-
-    case ACTION_FACTIONS:
-        list_factions(_("FACTIONS:"));
-        break;
-
-    case ACTION_MORALE:
-        u.disp_morale();
-        refresh_all();
-        break;
-
-    case ACTION_MESSAGES:
-        Messages::display_messages();
-        refresh_all();
-        break;
-
-    case ACTION_HELP:
-        display_help();
-        refresh_all();
-        break;
-
-    case ACTION_DEBUG:
-        if (MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger()) {
-            break;    //don't do anything when sharing and not debugger
-        }
-        debug();
-        refresh_all();
-        break;
-
-    case ACTION_TOGGLE_SIDEBAR_STYLE:
-        toggle_sidebar_style();
-        break;
-
-    case ACTION_TOGGLE_FULLSCREEN:
-        toggle_fullscreen();
-        break;
-
-    case ACTION_DISPLAY_SCENT:
-        if (MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger()) {
-            break;    //don't do anything when sharing and not debugger
-        }
-        display_scent();
-        break;
-
-    case ACTION_TOGGLE_DEBUG_MODE:
-        if (MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger()) {
-            break;    //don't do anything when sharing and not debugger
-        }
-        debug_mode = !debug_mode;
-        if( debug_mode ) {
-            add_msg( m_info, _("Debug mode ON!") );
-        } else {
-            add_msg( m_info, _("Debug mode OFF!") );
-        }
-        break;
-
-    case ACTION_ZOOM_IN:
-        zoom_in();
-        break;
-
-    case ACTION_ZOOM_OUT:
-        zoom_out();
-        break;
     }
 
     if (!continue_auto_move) {
@@ -3944,10 +3969,10 @@ bool game::handle_action()
 
     gamemode->post_action(act);
 
-    u.movecounter = before_action_moves - u.moves;
+    u.movecounter = (!u.is_dead_state() ? (before_action_moves - u.moves) : 0);
     dbg(D_INFO) << string_format("%s: [%d] %d - %d = %d", action_ident(act).c_str(),
                                  int(calendar::turn), before_action_moves, u.movecounter, u.moves);
-    return true;
+    return (!u.is_dead_state());
 }
 
 #define SCENT_RADIUS 40
@@ -4089,8 +4114,9 @@ void game::update_scent()
 bool game::is_game_over()
 {
     if (uquit == QUIT_WATCH) {
-        // deny player movement
+        // deny player movement and dodging
         u.moves = 0;
+        u.dodges_left = 0;
         return false;
     }
     if (uquit == QUIT_DIED) {
@@ -4109,7 +4135,7 @@ bool game::is_game_over()
     if (uquit != QUIT_NO) {
         return true;
     }
-    // is_dead_state() already checks hp_torso && hp_head, no need to loop it
+    // is_dead_state() already checks hp_torso && hp_head, no need to for loop it
     if(u.is_dead_state()) {
         uquit = query_yn("Watch the last moments of your life...?") ? QUIT_WATCH : QUIT_DIED;
         return false;
