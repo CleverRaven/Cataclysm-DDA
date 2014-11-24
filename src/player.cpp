@@ -4000,7 +4000,7 @@ bool player::in_climate_control()
         if( w.typeId() == "rm13_armor_on" ) {
             return true;
         }
-        if( w.active && dynamic_cast<it_armor*>( w.type )->is_power_armor() ) {
+        if( w.active && w.is_power_armor() ) {
             return true;
         }
     }
@@ -8592,7 +8592,7 @@ void player::process_active_items()
             cloak = &w;
         }
         // Only the main power armor item can be active, the other ones (hauling frame, helmet) aren't.
-        if( power_armor == nullptr && dynamic_cast<it_armor*>( w.type )->is_power_armor() ) {
+        if( power_armor == nullptr && w.is_power_armor() ) {
             power_armor = &w;
         }
     }
@@ -10296,15 +10296,15 @@ hint_rating player::rate_action_wear(item *it)
     it_armor* armor = dynamic_cast<it_armor*>(it->type);
 
     // are we trying to put on power armor? If so, make sure we don't have any other gear on.
-    if (armor->is_power_armor() && worn.size()) {
+    if (it->is_power_armor() && worn.size()) {
         if (it->covers.test(bp_torso)) {
             return HINT_IFFY;
-        } else if (it->covers.test(bp_head) && !worn[0].type->is_power_armor()) {
+        } else if (it->covers.test(bp_head) && !worn[0].is_power_armor()) {
             return HINT_IFFY;
         }
     }
     // are we trying to wear something over power armor? We can't have that, unless it's a backpack, or similar.
-    if (worn.size() && worn[0].type->is_power_armor() && !(it->covers.test(bp_head))) {
+    if (worn.size() && worn[0].is_power_armor() && !(it->covers.test(bp_head))) {
         if (!(it->covers.test(bp_torso) && armor->color == c_green)) {
             return HINT_IFFY;
         }
@@ -10431,7 +10431,7 @@ bool player::wear_item(item *to_wear, bool interactive)
     }
 
     // are we trying to put on power armor? If so, make sure we don't have any other gear on.
-    if (armor->is_power_armor())
+    if (to_wear->is_power_armor())
     {
         for( auto &elem : worn ) {
             if( ( elem.covers & to_wear->covers ).any() ) {
@@ -10450,7 +10450,7 @@ bool player::wear_item(item *to_wear, bool interactive)
             if (worn.size())
             {
                 for( auto &elem : worn ) {
-                    if( elem.type->is_power_armor() ) {
+                    if( elem.is_power_armor() ) {
                         power_armor = true;
                         break;
                     }
@@ -10469,7 +10469,7 @@ bool player::wear_item(item *to_wear, bool interactive)
 
         for (auto &i : worn)
         {
-            if (i.type->is_power_armor() && i.type == armor)
+            if (i.is_power_armor() && i.typeId() == to_wear->typeId() )
             {
                 if(interactive)
                 {
@@ -10486,7 +10486,7 @@ bool player::wear_item(item *to_wear, bool interactive)
              !to_wear->covers.test(bp_head)) {
             for (auto &i : worn)
             {
-                if( i.type->is_power_armor() )
+                if( i.is_power_armor() )
                 {
                     if(interactive)
                     {
@@ -10787,10 +10787,10 @@ bool player::takeoff(int inventory_position, bool autodrop, std::vector<item> *i
             item &w = worn[worn_index];
 
             // Handle power armor.
-            if (w.type->is_power_armor() && w.covers.test(bp_torso)) {
+            if (w.is_power_armor() && w.covers.test(bp_torso)) {
                 // We're trying to take off power armor, but cannot do that if we have a power armor component on!
                 for (int j = worn.size() - 1; j >= 0; j--) {
-                    if (worn[j].type->is_power_armor() &&
+                    if (worn[j].is_power_armor() &&
                             j != worn_index) {
                         if( autodrop || items != nullptr ) {
                             if( items != nullptr ) {
@@ -12059,19 +12059,17 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
     int level = 0;
     bool is_wearing_active_power_armor = false;
     for( auto &w : worn ) {
-        if( w.active && dynamic_cast<it_armor*>( w.type )->is_power_armor() ) {
+        if( w.active && w.is_power_armor() ) {
             is_wearing_active_power_armor = true;
             break;
         }
     }
 
-    const it_armor* armor = NULL;
     for (size_t i = 0; i < worn.size(); ++i) {
         if( !worn[i].is_armor() ) {
             debugmsg("%s::encumb hit a non-armor item at worn[%d] (%s)", name.c_str(),
                      i, worn[i].tname().c_str());
         }
-        armor = dynamic_cast<const it_armor*>(worn[i].type);
 
         if( worn[i].covers.test(bp) ) {
             if( worn[i].has_flag( "SKINTIGHT" ) ) {
@@ -12085,7 +12083,7 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
             }
 
             layer[level]++;
-            if( armor->is_power_armor() && is_wearing_active_power_armor ) {
+            if( worn[i].is_power_armor() && is_wearing_active_power_armor ) {
                 armorenc += std::max( 0, worn[i].get_encumber() - 4);
             } else {
                 armorenc += worn[i].get_encumber();
@@ -12330,7 +12328,7 @@ bool player::armor_absorb(damage_unit& du, item& armor) {
     std::string pre_damage_adj = armor_type->dmg_adj(armor.damage);
 
     if (rng(0,100) <= armor.get_coverage()) {
-        if (armor_type->is_power_armor()) { // TODO: add some check for power armor
+        if (armor.is_power_armor()) { // TODO: add some check for power armor
         }
 
         mitigation = std::min(effective_resist, du.amount);
@@ -12340,7 +12338,7 @@ bool player::armor_absorb(damage_unit& du, item& armor) {
         if ((du.amount > effective_resist && !one_in(du.amount) && one_in(2)) ||
                 // or if it isn't, but 1/50 chance
                 (du.amount <= effective_resist && !armor.has_flag("STURDY")
-                && !armor_type->is_power_armor() && one_in(200))) {
+                && !armor.is_power_armor() && one_in(200))) {
             armor_damaged = true;
             armor.damage++;
             std::string damage_verb = du.type == DT_BASH
@@ -12461,7 +12459,7 @@ void player::absorb(body_part bp, int &dam, int &cut)
                 cut_reduction = arm_cut / 3;
 
                 // power armor first  - to depreciate eventually
-                if (worn[i].type->is_power_armor()) {
+                if (worn[i].is_power_armor()) {
                     if (cut > arm_cut * 2 || dam > arm_bash * 2) {
                         add_msg_if_player(m_bad, _("Your %s is damaged!"), worn[i].tname().c_str());
                         worn[i].damage++;
@@ -12708,8 +12706,7 @@ int player::shoe_type_count(const itype_id & it) const
 bool player::is_wearing_power_armor(bool *hasHelmet) const {
     bool result = false;
     for( auto &elem : worn ) {
-        it_armor *armor = dynamic_cast<it_armor *>( elem.type );
-        if (armor == NULL || !armor->is_power_armor()) {
+        if( !elem.is_power_armor() ) {
             continue;
         }
         if (hasHelmet == NULL) {

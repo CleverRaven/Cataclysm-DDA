@@ -2000,6 +2000,15 @@ int item::get_env_resist() const
     return static_cast<int>( static_cast<unsigned int>( t->env_resist ) );
 }
 
+bool item::is_power_armor() const
+{
+    const auto t = dynamic_cast<const it_armor*>( type );
+    if( t == nullptr ) {
+        return false;
+    }
+    return t->is_power_armor();
+}
+
 int item::get_encumber() const
 {
     const auto t = dynamic_cast<const it_armor*>( type );

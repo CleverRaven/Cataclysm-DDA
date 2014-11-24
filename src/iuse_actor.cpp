@@ -409,7 +409,7 @@ bool has_power_armor_interface(const player &p)
 }
 
 bool has_powersource(const item &i, const player &p) {
-    if( i.type->is_power_armor() && has_power_armor_interface( p ) && p.power_level > 0 ) {
+    if( i.is_power_armor() && has_power_armor_interface( p ) && p.power_level > 0 ) {
         return true;
     }
     return p.has_charges( "UPS", 1 );
@@ -430,7 +430,7 @@ long ups_based_armor_actor::use( player *p, item *it, bool t, point ) const
     }
     if( !it->active && !has_powersource( *it, *p ) ) {
         p->add_msg_if_player( m_info, _( "You need some source of power for your %s (a simple UPS will do)." ), it->tname().c_str() );
-        if( it->type->is_power_armor() ) {
+        if( it->is_power_armor() ) {
             p->add_msg_if_player( m_info, _( "There is also a certain bionic that helps with this kind of armor." ) );
         }
         return 0;

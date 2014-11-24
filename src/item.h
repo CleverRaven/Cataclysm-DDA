@@ -541,6 +541,11 @@ public:
          * For non-armor it returns 0.
          */
         int get_env_resist() const;
+        /**
+         * Whether this is a power armor item. Not necessarily the main armor, it could be a helmet
+         * or similar.
+         */
+        bool is_power_armor() const;
         /*@}*/
 
         /**
