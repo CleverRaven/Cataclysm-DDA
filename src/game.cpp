@@ -4564,24 +4564,22 @@ void game::write_memorial_file(std::string sLastWords)
         }
     }
 
-    // use "C" locale to determine printable characters, and replace with '_'
+    // Use "C" locale to determine printable characters, and replace with '_'
     // note that spaces will also be translated to '_' as well
     std::locale locl("C");
     std::string player_name;
-    // 32 seems to be a reasonable length for a player's name...
-    unsigned int len = (u.name.length() < 32) ? u.name.length() : 32;
     for( auto character : u.name ) {
-        // any printable, except space, as we want to convert those to '_'
+        // Any printable, except space, as we want to convert those to '_'
         if( std::isgraph( character, locl ) ) {
             player_name.push_back( character );
         } else {
             player_name.push_back('_');
         }
-    }
-
-    // add '~' if player's name was shortened
-    if(u.name.length() >= 32) {
-        player_name.push_back('~');
+        // Add '~' if player's name is shortened.
+        if( player_name.size() >= FILENAME_MAX - 1 ) {
+            player_name.push_back('~');
+            break;
+        }
     }
 
     std::string memorial_file_path = FILENAMES["memorialdir"] +
