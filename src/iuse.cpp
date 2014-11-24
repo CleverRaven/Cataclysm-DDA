@@ -53,7 +53,7 @@ void remove_recharge_mod( item &it, player &p )
     if( !it.item_tags.count( "RECHARGE" ) ) {
         return;
     }
-    p.add_msg_if_player( _( "You remove the rechargeable powerpack in your %s!" ),
+    p.add_msg_if_player( _( "You remove the rechargeable powerpack from your %s!" ),
                          it.tname().c_str() );
     item mod( "rechargeable_battery", calendar::turn );
     mod.charges = it.charges;
@@ -3148,24 +3148,24 @@ int iuse::ups_battery(player *p, item *, bool, point)
 
 int iuse::remove_all_mods(player *p, item *, bool, point)
 {
-    int inventory_index = g->inv( _( "Select the item to remove battery mods from." ) );
+    int inventory_index = g->inv( _( "Detach battery mods from what?" ) );
     item *modded = &( p->i_at( inventory_index ) );
     if (modded == NULL || modded->is_null()) {
         p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
         return 0;
     }
-    
+
     if (!modded->is_tool()) {
-        p->add_msg_if_player( m_info, _( "Only tool mods can be removed this way." ) );
+        p->add_msg_if_player( m_info, _( "Only battery mods for tools can be removed this way." ) );
         return 0;
     }
-    
+
     it_tool *tool = dynamic_cast<it_tool *>(modded->type);
     if (tool->ammo != "battery") {
         p->add_msg_if_player( m_info, _( "That item does not use batteries!" ) );
         return 0;
     }
-    
+
     remove_double_ammo_mod( *modded, *p );
     remove_recharge_mod( *modded, *p );
     remove_atomic_mod( *modded, *p );

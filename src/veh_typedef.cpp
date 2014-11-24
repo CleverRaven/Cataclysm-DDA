@@ -51,6 +51,7 @@ void game::load_vehiclepart(JsonObject &jo)
     next_part.power = jo.get_int("power", 0);
     next_part.epower = jo.get_int("epower", 0);
     next_part.folded_volume = jo.get_int("folded_volume", 0);
+
     //Handle the par1 union as best we can by accepting any ONE of its elements
     int element_count = (jo.has_member("par1") ? 1 : 0)
                         + (jo.has_member("size") ? 1 : 0)
@@ -93,12 +94,11 @@ void game::load_vehiclepart(JsonObject &jo)
             next_part.bitflags |= mfb( vpart_bitflag_map.find(nstring)->second );
         }
     }
-	
-	if (jo.has_member("FOLDABLE") && next_part.folded_volume == 0){
-		debugmsg("Error: folded part has a volume of 0!");
-		//Check for folded_volume being set, as requested.
-	}
-	
+
+    if (jo.has_member("FOLDABLE") && next_part.folded_volume == 0){
+        debugmsg("Error: folded part %s has a volume of 0!", next_part.name.c_str());
+    }
+
     JsonArray breaks_into = jo.get_array("breaks_into");
     while(breaks_into.has_more()) {
         JsonObject next_entry = breaks_into.next_object();

@@ -2204,13 +2204,12 @@ int vehicle::total_mass()
     return m/1000;
 }
 
-int vehicle::total_folded_volume()
+int vehicle::total_folded_volume() const
 {
     int m = 0;
-    for (size_t i = 0; i < parts.size(); i++)
-    {
-        if (parts[i].removed) {
-          continue;
+    for( size_t i = 0; i < parts.size(); i++ ) {
+        if( parts[i].removed ) {
+            continue;
         }
         m += part_info(i).folded_volume;
     }

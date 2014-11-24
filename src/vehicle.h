@@ -279,6 +279,8 @@ private:
     // Do stuff like clean up blood and produce smoke from broken parts. Returns false if nothing needs doing.
     bool do_environmental_effects();
 
+    int total_folded_volume() const;
+
     /**
      * Find a possibly off-map vehicle. If necessary, loads up its submap through
      * the global MAPBUFFER and pulls it from there. For this reason, you should only
