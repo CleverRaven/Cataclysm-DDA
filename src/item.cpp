@@ -2648,6 +2648,15 @@ bool item::is_artifact() const
     return type->is_artifact();
 }
 
+const material_type &item::get_random_material() const
+{
+    if( type->materials.empty() ) {
+        return *material_type::find_material( "null" );
+    }
+    const auto chosen_mat_id = type->materials[rng( 0, type->materials.size() - 1 )];
+    return *material_type::find_material( chosen_mat_id );
+}
+
 bool item::operator<(const item& other) const
 {
     const item_category &cat_a = get_category();

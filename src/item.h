@@ -497,6 +497,14 @@ public:
  std::vector<item> contents;
 
         /**
+         * Get a material reference to a random material that this item is made of.
+         * This might return the null-material, you may check this with @ref material_type::is_null.
+         * Note that this may also return a different material each time it's invoked (if the
+         * item is made from several materials).
+         */
+        const material_type &get_random_material() const;
+
+        /**
          * @name Armor related functions.
          *
          * The functions here refer to values from @ref it_armor. They only apply to armor items,

@@ -12341,9 +12341,10 @@ bool player::armor_absorb(damage_unit& du, item& armor) {
                 && !armor.is_power_armor() && one_in(200))) {
             armor_damaged = true;
             armor.damage++;
+            auto &material = armor.get_random_material();
             std::string damage_verb = du.type == DT_BASH
-                ? armor_type->bash_dmg_verb()
-                : armor_type->cut_dmg_verb();
+                ? material.bash_dmg_verb()
+                : material.cut_dmg_verb();
 
             // add "further" if the damage adjective and verb are the same
             std::string format_string = pre_damage_adj == damage_verb
@@ -12505,8 +12506,9 @@ void player::absorb(body_part bp, int &dam, int &cut)
                                                      worn[i].tname().c_str() );
                         worn.erase(worn.begin() + i);
                     } else if (armor_damaged) {
-                        std::string damage_verb = diff_bash > diff_cut ? tmp->bash_dmg_verb() :
-                                                                         tmp->cut_dmg_verb();
+                        auto &material = worn[i].get_random_material();
+                        std::string damage_verb = diff_bash > diff_cut ? material.bash_dmg_verb() :
+                                                                         material.cut_dmg_verb();
                         add_msg_if_player( m_bad, _("Your %s is %s!"), pre_damage_name.c_str(),
                                                   damage_verb.c_str());
                     }
