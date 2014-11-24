@@ -2176,7 +2176,6 @@
         ]
     },{
         "type" : "vehicle_part",
-        "type" : "vehicle_part",
         "id" : "wheel_bicycle",
         "name" : "bicycle wheel",
         "symbol" : "|",
