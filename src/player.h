@@ -292,10 +292,12 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Generates and handles the UI for player interaction with installed bionics */
         void power_bionics();
         void power_mutations();
-        /** Handles bionic activation effects of the entered bionic */
-        void activate_bionic(int b);
-        /** Handles bionic deactivation effects of the entered bionic */
-        void deactivate_bionic(int b);
+        /** Handles bionic activation effects of the entered bionic, returns if anything activated */
+        bool activate_bionic(int b, bool eff_only = false);
+        /** Handles bionic deactivation effects of the entered bionic, returns if anything deactivated */
+        bool deactivate_bionic(int b, bool eff_only = false);
+        /** Handles bionic effects over time of the entered bionic */
+        void process_bionic(int b);
         /** Randomly removes a bionic from my_bionics[] */
         bool remove_random_bionic();
         /** Returns the size of my_bionics[] */

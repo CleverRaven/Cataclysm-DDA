@@ -495,6 +495,9 @@ public:
 // get the total mass of vehicle, including cargo and passengers
     int total_mass ();
 
+//get the total volume of a folded vehice
+	int total_folded_volume ();
+
 // get center of mass of vehicle; coordinates are precalc_dx[0] and precalc_dy[0]
     void center_of_mass(int &x, int &y);
 
