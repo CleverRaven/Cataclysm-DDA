@@ -85,7 +85,7 @@
         "id" : "BRUTAL",
         "name" : "Brutal Strike",
         "unarmed_allowed" : true,
-        "melee_allowed" : true,
+        "melee_allowed" : true,  
         "crit_tec" : true,
         "stun_dur" : 1,
         "knockback_dist" : 1,
