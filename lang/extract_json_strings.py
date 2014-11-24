@@ -385,7 +385,8 @@ def extract_all_from_dir(json_dir):
 def extract_all_from_file(json_file):
     print("Loading %s" % json_file)
     "Extract translatable strings from every object in the specified file."
-    jsondata = json.loads(open(json_file).read())
+    with open(json_file) as fp:
+        jsondata = json.load(fp)
     # it's either an array of objects, or a single object
     if hasattr(jsondata, "keys"):
         extract(jsondata, json_file)
