@@ -147,7 +147,7 @@ void player::sort_armor()
                 mvwprintz(w_sort_left, drawindex + 1, 2, dam_color[int(tmp_worn[itemindex]->damage + 1)],
                           each_armor->nname(1).c_str());
             }
-            mvwprintz(w_sort_left, drawindex + 1, left_w - 3, c_ltgray, "%3d", int(each_armor->storage));
+            mvwprintz(w_sort_left, drawindex + 1, left_w - 3, c_ltgray, "%3d", tmp_worn[itemindex]->get_storage());
         }
 
         // Left footer
@@ -409,7 +409,7 @@ std::vector<std::string> clothing_properties(item *worn_item, int width)
     props.push_back(name_and_value(_("Warmth:"),
                                    string_format("%3d", int(each_armor->warmth)), width));
     props.push_back(name_and_value(_("Storage:"),
-                                   string_format("%3d", int(each_armor->storage)), width));
+                                   string_format("%3d", worn_item->get_storage()), width));
 
     return props;
 }

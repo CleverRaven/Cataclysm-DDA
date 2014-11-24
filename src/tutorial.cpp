@@ -192,7 +192,7 @@ void tutorial_game::post_action(action_id act)
    it_armor *armor = dynamic_cast<it_armor*>(it.type);
    if (armor->coverage >= 2 || armor->thickness >= 2)
     add_message(LESSON_WORE_ARMOR);
-   if (armor->storage >= 20)
+   if (it.get_storage() >= 20)
     add_message(LESSON_WORE_STORAGE);
    if (armor->env_resist >= 2)
     add_message(LESSON_WORE_MASK);

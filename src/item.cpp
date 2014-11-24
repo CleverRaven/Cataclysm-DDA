@@ -786,7 +786,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         dump->push_back(iteminfo("ARMOR", space + _("Cut: "), "", cut_resist(), true, "", true));
         dump->push_back(iteminfo("ARMOR", _("Environmental protection: "), "",
                                  armor->env_resist, true, "", false));
-        dump->push_back(iteminfo("ARMOR", space + _("Storage: "), "", armor->storage));
+        dump->push_back(iteminfo("ARMOR", space + _("Storage: "), "", get_storage()));
 
     } else if (is_book()) {
 
@@ -1979,6 +1979,16 @@ void item::calc_rot(const point &location)
             active = false;
         }
     }
+}
+
+int item::get_storage() const
+{
+    const auto t = dynamic_cast<const it_armor*>( type );
+    if( t == nullptr ) {
+        return 0;
+    }
+    // it_armor::storage is unsigned char
+    return static_cast<int>( static_cast<unsigned int>( t->storage ) );
 }
 
 int item::brewing_time()

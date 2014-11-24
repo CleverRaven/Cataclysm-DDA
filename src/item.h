@@ -497,6 +497,22 @@ public:
  std::vector<item> contents;
 
         /**
+         * @name Armor related functions.
+         *
+         * The functions here refer to values from @ref it_armor. They only apply to armor items,
+         * those items can be worn. The functions are safe to call for any item, for non-armor they
+         * return a default value.
+         */
+        /*@{*/
+        /**
+         * Returns the storage amount (@ref it_armor::storage) that this item provides when worn.
+         * For non-armor it returns 0. The storage amount increases the volume capacity of the
+         * character that wears the item.
+         */
+        int get_storage() const;
+        /*@}*/
+
+        /**
          * Recursively check the contents of this item and remove those items
          * that match the filter. Note that this function does *not* match
          * the filter against *this* item, only against the contents.

@@ -111,14 +111,7 @@ enum item_place_type {
 static void stash_on_pet( item *item_to_stash, monster *pet )
 {
     item *it = &pet->inv[0];
-    it_armor *armor = nullptr;
-    if( it ) {
-        armor = dynamic_cast<it_armor *>(it->type);
-    }
-    int max_cap = 0;
-    if( armor ) {
-        max_cap = armor->storage;
-    }
+    int max_cap = it->get_storage();
     int max_weight = pet->weight_capacity();
 
     for (auto &i : pet->inv) {

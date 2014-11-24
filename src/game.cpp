@@ -8541,8 +8541,7 @@ bool pet_menu(monster *z)
             return true;
         }
 
-        it_armor *armor = dynamic_cast<it_armor *>(it->type);
-        if (armor->storage <= 0) {
+        if( it->get_storage() <= 0 ) {
             add_msg(_("This is not a bag!"));
             return true;
         }
@@ -8593,7 +8592,7 @@ bool pet_menu(monster *z)
 
         it_armor *armor = dynamic_cast<it_armor *>(it->type);
 
-        int max_cap = armor->storage;
+        int max_cap = it->get_storage();
         int max_weight = z->weight_capacity() - armor->weight;
 
         if (z->inv.size() > 1) {
