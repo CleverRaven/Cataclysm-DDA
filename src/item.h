@@ -535,6 +535,12 @@ public:
          * character that wears the item.
          */
         int get_storage() const;
+        /**
+         * Returns the resistance to environmental effects (@ref it_armor::env_resist) that this
+         * item provides when worn. See @ref player::get_env_resist. Higher values are better.
+         * For non-armor it returns 0.
+         */
+        int get_env_resist() const;
         /*@}*/
 
         /**

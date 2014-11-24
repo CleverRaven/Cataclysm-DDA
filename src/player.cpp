@@ -12621,7 +12621,7 @@ int player::get_env_resist(body_part bp) const
     for (auto &i : worn) {
         // Head protection works on eyes too (e.g. baseball cap)
         if (i.covers.test(bp) || (bp == bp_eyes && i.covers.test(bp_head))) {
-            ret += (dynamic_cast<it_armor*>(i.type))->env_resist;
+            ret += i.get_env_resist();
         }
     }
 

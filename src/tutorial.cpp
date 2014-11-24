@@ -189,12 +189,11 @@ void tutorial_game::post_action(action_id act)
  case ACTION_WEAR: {
   item it( g->u.last_item, 0 );
   if (it.is_armor()) {
-   it_armor *armor = dynamic_cast<it_armor*>(it.type);
    if (it.get_coverage() >= 2 || it.get_thickness() >= 2)
     add_message(LESSON_WORE_ARMOR);
    if (it.get_storage() >= 20)
     add_message(LESSON_WORE_STORAGE);
-   if (armor->env_resist >= 2)
+   if (it.get_env_resist() >= 2)
     add_message(LESSON_WORE_MASK);
   }
  } break;

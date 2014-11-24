@@ -785,7 +785,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         dump->push_back(iteminfo("ARMOR", _("Protection: Bash: "), "", bash_resist(), true, "", false));
         dump->push_back(iteminfo("ARMOR", space + _("Cut: "), "", cut_resist(), true, "", true));
         dump->push_back(iteminfo("ARMOR", _("Environmental protection: "), "",
-                                 armor->env_resist, true, "", false));
+                                 get_env_resist(), true, "", false));
         dump->push_back(iteminfo("ARMOR", space + _("Storage: "), "", get_storage()));
 
     } else if (is_book()) {
@@ -1988,6 +1988,16 @@ int item::get_storage() const
     }
     // it_armor::storage is unsigned char
     return static_cast<int>( static_cast<unsigned int>( t->storage ) );
+}
+
+int item::get_env_resist() const
+{
+    const auto t = dynamic_cast<const it_armor*>( type );
+    if( t == nullptr ) {
+        return 0;
+    }
+    // it_armor::env_resist is unsigned char
+    return static_cast<int>( static_cast<unsigned int>( t->env_resist ) );
 }
 
 int item::get_encumber() const
