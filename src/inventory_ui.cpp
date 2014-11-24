@@ -10,16 +10,6 @@
 #include <sstream>
 #include <algorithm>
 
-std::string trim_to(const std::string &text, size_t length)
-{
-    const size_t width = utf8_width(text.c_str());
-    if(width <= length) {
-        return text;
-    }
-    const size_t bytes_offset = cursorx_to_position(text.c_str(), length - 1, NULL, -1);
-    return text.substr(0, bytes_offset) + "…";
-}
-
 /**
  * - it != NULL -> item entry, print the item name and allow selecting it, or
  * - it == NULL && category != NULL -> category header, print it specially,

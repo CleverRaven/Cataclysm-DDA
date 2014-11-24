@@ -68,8 +68,6 @@ struct bionic : public JsonSerializer, public JsonDeserializer {
 
 extern std::map<bionic_id, bionic_data *> bionics;
 extern std::vector<bionic_id> faulty_bionics;
-extern std::vector<bionic_id> power_source_bionics;
-extern std::vector<bionic_id> unpowered_bionics;
 
 void draw_exam_window(WINDOW *win, int border_line, bool examination);
 void reset_bionics();
