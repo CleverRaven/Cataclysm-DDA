@@ -505,6 +505,12 @@ public:
          */
         /*@{*/
         /**
+         * Returns the warmth value that this item has when worn. See player class for temperature
+         * related code, or @ref player:::warmth. Returned values should be positive. A value
+         * of 0 indicates no warmth from this item at all (this is also the default for non-armor).
+         */
+        int get_warmth() const;
+        /**
          * Returns the relative coverage that this item has when worn.
          * Values range from 0 (not covering anything, or no armor at all) to
          * 100 (covering the whole body part). Items that cover more are more likely to absorb

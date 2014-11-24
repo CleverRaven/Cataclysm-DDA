@@ -407,7 +407,7 @@ std::vector<std::string> clothing_properties(item *worn_item, int width)
     props.push_back(name_and_value(_("Cut Protection:"),
                                    string_format("%3d", int(worn_item->cut_resist())), width));
     props.push_back(name_and_value(_("Warmth:"),
-                                   string_format("%3d", int(each_armor->warmth)), width));
+                                   string_format("%3d", worn_item->get_warmth()), width));
     props.push_back(name_and_value(_("Storage:"),
                                    string_format("%3d", worn_item->get_storage()), width));
 

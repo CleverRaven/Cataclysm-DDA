@@ -849,7 +849,7 @@ void player::update_bodytemp()
             if( floor_armor->volume > 1 &&
                 ( elem.covers.test( bp_torso ) || elem.covers.test( bp_leg_l ) ||
                   elem.covers.test( bp_leg_r ) ) ) {
-                floor_item_warmth += 60 * floor_armor->warmth * floor_armor->volume / 10;
+                floor_item_warmth += 60 * elem.get_warmth() * floor_armor->volume / 10;
             }
         }
 
@@ -12014,7 +12014,7 @@ int player::warmth(body_part bp) const
         armor = dynamic_cast<const it_armor*>(i.type);
 
         if (i.covers.test(bp)) {
-            warmth = armor->warmth;
+            warmth = i.get_warmth();
             // Wool items do not lose their warmth due to being wet.
             // Warmth is reduced by 0 - 66% based on wetness.
             if (!i.made_of("wool"))

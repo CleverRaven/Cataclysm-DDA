@@ -774,7 +774,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
 
         dump->push_back(iteminfo("ARMOR", temp1.str()));
         dump->push_back(iteminfo("ARMOR", _("Coverage: "), "<num>%  ", get_coverage(), true, "", false));
-        dump->push_back(iteminfo("ARMOR", _("Warmth: "), "", armor->warmth));
+        dump->push_back(iteminfo("ARMOR", _("Warmth: "), "", get_warmth()));
         if (has_flag("FIT")) {
             dump->push_back(iteminfo("ARMOR", _("Encumberment: "), _("<num> (fits)"),
                                      std::max(0, get_encumber() - 1), true, "", true, true));
@@ -2008,6 +2008,16 @@ int item::get_coverage() const
     }
     // it_armor::coverage is unsigned char
     return static_cast<int>( static_cast<unsigned int>( t->coverage ) );
+}
+
+int item::get_warmth() const
+{
+    const auto t = dynamic_cast<const it_armor*>( type );
+    if( t == nullptr ) {
+        return 0;
+    }
+    // it_armor::warmth is signed char
+    return static_cast<int>( t->warmth );
 }
 
 int item::brewing_time()
