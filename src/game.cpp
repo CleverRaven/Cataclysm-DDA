@@ -2987,10 +2987,9 @@ input_context game::get_player_input(std::string &action)
         wPrint.endy = iEndY;
 
         inp_mngr.set_timeout(125);
-        // use 'do' like before, instead of 'while', as deathcam will not show animations
-        // without it. While alive, handle_mouseview() will return true anyway, so this just
-        // guarantees that it is run at least once to show snow/rain while dead. -Davek
-        do {
+        // Force at least one animation frame if the player is dead.
+        bool show_once = u.is_dead_state();
+        while( handle_mouseview(ctxt, action) || show_once ) {
             if (bWeatherEffect && OPTIONS["ANIMATION_RAIN"]) {
                 /*
                 Location to add rain drop animation bits! Since it refreshes w_terrain it can be added to the animation section easily
@@ -3095,7 +3094,7 @@ input_context game::get_player_input(std::string &action)
                 mvwprintz(w_terrain, 0, ((TERRAIN_WINDOW_WIDTH / 2) - (message.length() / 2)), c_white, message.c_str());
             }
             wrefresh(w_terrain);
-        } while(handle_mouseview(ctxt, action));
+        }
         inp_mngr.set_timeout(-1);
     } else {
         while (handle_mouseview(ctxt, action)) {};
