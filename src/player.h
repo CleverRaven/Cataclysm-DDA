@@ -1135,6 +1135,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         std::vector<item> worn;
         std::vector<matype_id> ma_styles;
         matype_id style_selected;
+        bool keep_hands_free;
 
         item weapon;
         item ret_null; // Null item, sometimes returns by weapon() etc
