@@ -280,7 +280,7 @@ long consume_drug_iuse::use(player *p, item *it, bool, point) const
         if (eff.id == "null") {
             continue;
         }
-        
+
         int dur = eff.duration;
         if (p->has_trait("TOLERANCE")) {
             dur *= .8;
@@ -371,7 +371,7 @@ long place_monster_iuse::use( player *p, item *it, bool, point ) const
     const int damfac = 5 - std::max<int>( 0, it->damage ); // 5 (no damage) ... 1 (max damage)
     // One hp at least, everything else would be unfair (happens only to monster with *very* low hp),
     newmon.hp = std::max( 1, newmon.hp * damfac / 5 );
-    if( rng( 0, p->int_cur / 2 ) + p->skillLevel( "electronics" ) / 2 + p->skillLevel( "computer" ) <
+    if( rng( 0, p->int_cur / 2 ) + p->skillLevel( skill1 ) / 2 + p->skillLevel( skill2 ) <
         rng( 0, difficulty ) ) {
         if( hostile_msg.empty() ) {
             p->add_msg_if_player( m_bad, _( "The %s scans you and makes angry beeping noises!" ),
