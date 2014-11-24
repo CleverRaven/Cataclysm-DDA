@@ -777,10 +777,10 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         dump->push_back(iteminfo("ARMOR", _("Warmth: "), "", armor->warmth));
         if (has_flag("FIT")) {
             dump->push_back(iteminfo("ARMOR", _("Encumberment: "), _("<num> (fits)"),
-                                     std::max(0, armor->encumber - 1), true, "", true, true));
+                                     std::max(0, get_encumber() - 1), true, "", true, true));
         } else {
             dump->push_back(iteminfo("ARMOR", _("Encumberment: "), "",
-                                     armor->encumber, true, "", true, true));
+                                     get_encumber(), true, "", true, true));
         }
         dump->push_back(iteminfo("ARMOR", _("Protection: Bash: "), "", bash_resist(), true, "", false));
         dump->push_back(iteminfo("ARMOR", space + _("Cut: "), "", cut_resist(), true, "", true));
@@ -947,8 +947,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
 
         //See shorten version of this in armor_layers.cpp::clothing_flags_description
         if (is_armor() && has_flag("FIT")) {
-            it_armor* armor = dynamic_cast<it_armor*>(type);
-            if (armor->encumber > 0) {
+            if( get_encumber() > 0 ) {
                 dump->push_back(iteminfo("DESCRIPTION", "--"));
                 dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing fits you perfectly.")));
             } else {
@@ -1989,6 +1988,16 @@ int item::get_storage() const
     }
     // it_armor::storage is unsigned char
     return static_cast<int>( static_cast<unsigned int>( t->storage ) );
+}
+
+int item::get_encumber() const
+{
+    const auto t = dynamic_cast<const it_armor*>( type );
+    if( t == nullptr ) {
+        return 0;
+    }
+    // it_armor::encumber is signed char
+    return static_cast<int>( t->encumber );
 }
 
 int item::brewing_time()

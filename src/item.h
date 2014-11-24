@@ -505,6 +505,13 @@ public:
          */
         /*@{*/
         /**
+         * Returns the encumbrance value that this item has when worn.
+         * Returns 0 if this is can not be worn at all.
+         * Note that this does not include any bonus from the FIT tag or similar, only
+         * @ref it_armor::encumber.
+         */
+        int get_encumber() const;
+        /**
          * Returns the storage amount (@ref it_armor::storage) that this item provides when worn.
          * For non-armor it returns 0. The storage amount increases the volume capacity of the
          * character that wears the item.

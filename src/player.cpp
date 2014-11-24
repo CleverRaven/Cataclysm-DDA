@@ -10523,7 +10523,7 @@ bool player::wear_item(item *to_wear, bool interactive)
             return false;
         }
 
-        if (to_wear->covers.test(bp_head) && encumb(bp_head) != 0 && armor->encumber > 0) {
+        if (to_wear->covers.test(bp_head) && encumb(bp_head) != 0 && to_wear->get_encumber() > 0) {
             if(interactive) {
                 add_msg(m_info, wearing_something_on(bp_head) ?
                                 _("You can't wear another helmet!") : _("You can't wear a helmet!"));
@@ -12086,12 +12086,12 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
 
             layer[level]++;
             if( armor->is_power_armor() && is_wearing_active_power_armor ) {
-                armorenc += std::max( 0, armor->encumber - 4);
+                armorenc += std::max( 0, worn[i].get_encumber() - 4);
             } else {
-                armorenc += armor->encumber;
+                armorenc += worn[i].get_encumber();
                 // Fitted clothes will reduce either encumbrance or layering.
                 if( worn[i].has_flag( "FIT" ) ) {
-                    if( armor->encumber > 0 && armorenc > 0 ) {
+                    if( worn[i].get_encumber() > 0 && armorenc > 0 ) {
                         armorenc--;
                     } else if (layer[level] > 0) {
                         layer[level] -= .5;
