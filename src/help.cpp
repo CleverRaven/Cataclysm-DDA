@@ -84,8 +84,8 @@ Press q or ESC to return to the game.")) + 2;
     headers.push_back(_("q: Return to game"));
 
     y += half_size + 1;
-    for (size_t i = 0; i < headers.size(); i++) {
-        y += fold_and_print(win, y, 1, getmaxx(win) - 2, c_white, headers[i]);
+    for( auto &header : headers ) {
+        y += fold_and_print( win, y, 1, getmaxx( win ) - 2, c_white, header );
     }
     wrefresh(win);
 }
@@ -123,11 +123,11 @@ monsters enter the player's view."),
     int fig_last_line = pos_y + 8;
     // TODO: do it better!
     std::vector<std::string> remained_text;
-    for (size_t i = 0; i < text.size(); i++) {
+    for( auto &elem : text ) {
         if (pos_y < fig_last_line) {
-            pos_y += fold_and_print(win, pos_y, 20, getmaxx(win) - 22, c_white, text[i]) + 1;
+            pos_y += fold_and_print( win, pos_y, 20, getmaxx( win ) - 22, c_white, elem ) + 1;
         } else {
-            remained_text.push_back(text[i].c_str());
+            remained_text.push_back( elem.c_str() );
         }
     }
     multipage(win, remained_text, "", pos_y);
@@ -169,11 +169,11 @@ which has options for things you'd do from the driver's seat."),
     int fig_last_line = pos_y + 8;
     // TODO: do it better!
     std::vector<std::string> remained_text;
-    for (size_t i = 0; i < text.size(); i++) {
+    for( auto &elem : text ) {
         if (pos_y < fig_last_line) {
-            pos_y += fold_and_print(win, pos_y, 20, getmaxx(win) - 22, c_white, text[i]) + 1;
+            pos_y += fold_and_print( win, pos_y, 20, getmaxx( win ) - 22, c_white, elem ) + 1;
         } else {
-            remained_text.push_back(text[i].c_str());
+            remained_text.push_back( elem.c_str() );
         }
     }
     multipage(win, remained_text, "", pos_y);

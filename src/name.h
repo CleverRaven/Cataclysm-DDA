@@ -22,7 +22,7 @@ class Name
 {
     public:
         Name();
-        Name(std::string name, uint32_t flags);
+        Name(std::string name, uint32_t type);
 
         static NameGenerator &generator();
         static std::string generate(bool male);
@@ -33,19 +33,14 @@ class Name
         {
             return _value;
         }
-        uint32_t flags() const
+        uint32_t type() const
         {
-            return _flags;
+            return _type;
         }
 
-        bool isFirstName();
-        bool isLastName();
-
-        bool isMaleName();
-        bool isFemaleName();
     private:
         std::string _value;
-        uint32_t _flags;
+        uint32_t _type;
 };
 
 class NameGenerator
@@ -62,7 +57,6 @@ class NameGenerator
 
         std::string generateName(bool male);
 
-        std::vector<std::string> filteredNames(uint32_t searchFlags);
         std::string getName(uint32_t searchFlags);
         void clear_names();
     private:
@@ -70,8 +64,9 @@ class NameGenerator
 
         NameGenerator(NameGenerator const &);
         void operator=(NameGenerator const &);
+        std::vector<uint32_t> uint32_tsFromFlags(uint32_t searchFlags) const;
 
-        std::vector<Name> names;
+        std::map< uint32_t, std::vector<Name> > names;
 };
 
 void load_names_from_file(const std::string &filename);

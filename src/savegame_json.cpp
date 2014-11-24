@@ -167,12 +167,11 @@ void player::load(JsonObject &data)
 
     if (data.has_object("skills")) {
         JsonObject pmap = data.get_object("skills");
-        for( std::vector<Skill *>::iterator aSkill = Skill::skills.begin();
-             aSkill != Skill::skills.end(); ++aSkill ) {
-            if ( pmap.has_object( (*aSkill)->ident() ) ) {
-                pmap.read( (*aSkill)->ident(), skillLevel(*aSkill) );
+        for( auto &skill : Skill::skills ) {
+            if( pmap.has_object( ( skill )->ident() ) ) {
+                pmap.read( ( skill )->ident(), skillLevel( skill ) );
             } else {
-                debugmsg("Load (%s) Missing skill %s", "", (*aSkill)->ident().c_str() );
+                debugmsg( "Load (%s) Missing skill %s", "", ( skill )->ident().c_str() );
             }
         }
     } else {
@@ -263,10 +262,9 @@ void player::store(JsonOut &json) const
     // skills
     json.member( "skills" );
     json.start_object();
-    for( std::vector<Skill *>::iterator aSkill = Skill::skills.begin();
-         aSkill != Skill::skills.end(); ++aSkill ) {
-        SkillLevel sk = get_skill_level(*aSkill);
-        json.member((*aSkill)->ident(), sk);
+    for( auto &skill : Skill::skills ) {
+        SkillLevel sk = get_skill_level( skill );
+        json.member( ( skill )->ident(), sk );
     }
     json.end_object();
 
@@ -287,12 +285,12 @@ void player::store(JsonOut &json) const
 
     json.member( "known_traps" );
     json.start_array();
-    for (trap_map::const_iterator a = known_traps.begin(); a != known_traps.end(); ++a) {
+    for( const auto &elem : known_traps ) {
         json.start_object();
-        json.member( "x", a->first.x );
-        json.member( "y", a->first.y );
-        json.member( "z", a->first.z );
-        json.member( "trap", a->second );
+        json.member( "x", elem.first.x );
+        json.member( "y", elem.first.y );
+        json.member( "z", elem.first.z );
+        json.member( "trap", elem.second );
         json.end_object();
     }
     json.end_array();
@@ -773,14 +771,12 @@ void npc::store(JsonOut &json) const
 void inventory::json_save_invcache(JsonOut &json) const
 {
     json.start_array();
-    for( std::map<std::string, std::vector<char> >::const_iterator invlet_id =  invlet_cache.begin();
-         invlet_id != invlet_cache.end(); ++invlet_id ) {
+    for( const auto &elem : invlet_cache ) {
         json.start_object();
-        json.member( invlet_id->first );
+        json.member( elem.first );
         json.start_array();
-        for( std::vector<char>::const_iterator sym = invlet_id->second.begin();
-             sym != invlet_id->second.end(); ++sym ) {
-            json.write( int(*sym) );
+        for( const auto &_sym : elem.second ) {
+            json.write( int( _sym ) );
         }
         json.end_array();
         json.end_object();
@@ -798,14 +794,13 @@ void inventory::json_load_invcache(JsonIn &jsin)
         while ( ja.has_more() ) {
             JsonObject jo = ja.next_object();
             std::set<std::string> members = jo.get_member_names();
-            for (std::set<std::string>::iterator it = members.begin();
-                 it != members.end(); ++it) {
+            for( const auto &member : members ) {
                 std::vector<char> vect;
-                JsonArray pvect = jo.get_array(*it);
+                JsonArray pvect = jo.get_array( member );
                 while ( pvect.has_more() ) {
                     vect.push_back( pvect.next_int() );
                 }
-                invlet_cache[*it] = vect;
+                invlet_cache[member] = vect;
             }
         }
     } catch (std::string jsonerr) {
@@ -819,10 +814,9 @@ void inventory::json_load_invcache(JsonIn &jsin)
 void inventory::json_save_items(JsonOut &json) const
 {
     json.start_array();
-    for( invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter ) {
-        for( std::list<item>::const_iterator stack_iter = iter->begin();
-             stack_iter != iter->end(); ++stack_iter ) {
-            stack_iter->serialize(json, true);
+    for( const auto &elem : items ) {
+        for( const auto &elem_stack_iter : elem ) {
+            elem_stack_iter.serialize( json, true );
         }
     }
     json.end_array();
@@ -995,10 +989,9 @@ void item::deserialize(JsonObject &data)
 
     JsonObject pvars = data.get_object("item_vars");
     std::set<std::string> members = pvars.get_member_names();
-    for ( std::set<std::string>::iterator pvarsit = members.begin();
-          pvarsit != members.end(); ++pvarsit ) {
-        if ( pvars.has_string( *pvarsit ) ) {
-            item_vars[ *pvarsit ] = pvars.get_string( *pvarsit );
+    for( const auto &member : members ) {
+        if( pvars.has_string( member ) ) {
+            item_vars[member] = pvars.get_string( member );
         }
     }
 
@@ -1200,11 +1193,11 @@ void item::serialize(JsonOut &json, bool save_contents) const
     if ( save_contents && !contents.empty() ) {
         json.member("contents");
         json.start_array();
-        for (size_t k = 0; k < contents.size(); k++) {
-            if(!(contents[k].contents.empty()) && contents[k].contents[0].is_gunmod()) {
-                contents[k].serialize(json, true); // save gun mods of holstered pistol
+        for( auto &elem : contents ) {
+            if( !( elem.contents.empty() ) && elem.contents[0].is_gunmod() ) {
+                elem.serialize( json, true ); // save gun mods of holstered pistol
             } else {
-                contents[k].serialize(json, false); // no matryoshka dolls
+                elem.serialize( json, false ); // no matryoshka dolls
             }
         }
         json.end_array();

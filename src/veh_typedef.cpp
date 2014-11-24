@@ -48,16 +48,10 @@ void game::load_vehiclepart(JsonObject &jo)
     next_part.color_broken = color_from_string(jo.get_string("broken_color"));
     next_part.dmg_mod = jo.has_member("damage_modifier") ? jo.get_int("damage_modifier") : 100;
     next_part.durability = jo.get_int("durability");
-    if(jo.has_member("power")) {
-        next_part.power = jo.get_int("power");
-    } else { //defaults to 0
-        next_part.power = 0;
-    }
-    if(jo.has_member("epower")) {
-        next_part.epower = jo.get_int("epower");
-    } else { //defaults to 0
-        next_part.epower = 0;
-    }
+    next_part.power = jo.get_int("power", 0);
+    next_part.epower = jo.get_int("epower", 0);
+    next_part.folded_volume = jo.get_int("folded_volume", 0);
+
     //Handle the par1 union as best we can by accepting any ONE of its elements
     int element_count = (jo.has_member("par1") ? 1 : 0)
                         + (jo.has_member("size") ? 1 : 0)
@@ -99,6 +93,10 @@ void game::load_vehiclepart(JsonObject &jo)
         if ( vpart_bitflag_map.find(nstring) != vpart_bitflag_map.end() ) {
             next_part.bitflags |= mfb( vpart_bitflag_map.find(nstring)->second );
         }
+    }
+
+    if (jo.has_member("FOLDABLE") && next_part.folded_volume == 0){
+        debugmsg("Error: folded part %s has a volume of 0!", next_part.name.c_str());
     }
 
     JsonArray breaks_into = jo.get_array("breaks_into");
@@ -236,8 +234,8 @@ void game::load_vehicle(JsonObject &jo)
 
 void game::reset_vehicles()
 {
-    for (std::map<std::string, vehicle *>::iterator veh = vtypes.begin(); veh != vtypes.end(); ++veh) {
-        delete veh->second;
+    for( auto &elem : vtypes ) {
+        delete elem.second;
     }
     vtypes.clear();
 }

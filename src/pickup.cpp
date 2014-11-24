@@ -449,9 +449,9 @@ void Pickup::pick_up(int posx, int posy, int min)
         if( OPTIONS["AUTO_PICKUP_ADJACENT"] && g->u.posx == posx && g->u.posy == posy ) {
             //Autopickup adjacent
             direction adjacentDir[8] = {NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST};
-            for (int i = 0; i < 8; i++) {
+            for( auto &elem : adjacentDir ) {
 
-                point apos = direction_XY(adjacentDir[i]);
+                point apos = direction_XY( elem );
                 apos.x += posx;
                 apos.y += posy;
 

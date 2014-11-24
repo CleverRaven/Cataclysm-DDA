@@ -815,26 +815,26 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
 
     std::vector<std::string> vStartingTraits[2];
 
-    for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
-        if (iter->second.startingtrait || g->scen->traitquery(iter->first) == true) {
-            if (iter->second.points >= 0) {
-                vStartingTraits[0].push_back(iter->first);
+    for( auto &traits_iter : traits ) {
+        if( traits_iter.second.startingtrait || g->scen->traitquery( traits_iter.first ) == true ) {
+            if( traits_iter.second.points >= 0 ) {
+                vStartingTraits[0].push_back( traits_iter.first );
 
-                if (u->has_trait(iter->first)) {
-                    num_good += iter->second.points;
+                if( u->has_trait( traits_iter.first ) ) {
+                    num_good += traits_iter.second.points;
                 }
             } else {
-                vStartingTraits[1].push_back(iter->first);
+                vStartingTraits[1].push_back( traits_iter.first );
 
-                if (u->has_trait(iter->first)) {
-                    num_bad += iter->second.points;
+                if( u->has_trait( traits_iter.first ) ) {
+                    num_bad += traits_iter.second.points;
                 }
             }
         }
     }
 
-    for (int i = 0; i < 2; i++) {
-        std::sort(vStartingTraits[i].begin(), vStartingTraits[i].end(), trait_display_sort);
+    for( auto &vStartingTrait : vStartingTraits ) {
+        std::sort( vStartingTrait.begin(), vStartingTrait.end(), trait_display_sort );
     }
 
     nc_color col_on_act, col_off_act, col_on_pas, col_off_pas, hi_on, hi_off, col_tr;
@@ -1322,14 +1322,14 @@ int set_skills(WINDOW *w, player *u, int &points)
                         " (%d)", int(u->skillLevel(thisSkill)));
             }
             profession::StartingSkillList prof_skills = u->prof->skills();//profession skills
-            for (size_t k = 0; k < prof_skills.size(); k++) {
-                Skill *skill = Skill::skill(prof_skills[k].first);
+            for( auto &prof_skill : prof_skills ) {
+                Skill *skill = Skill::skill( prof_skill.first );
                 if (skill == NULL) {
                     continue;  // skip unrecognized skills.
                 }
                 if (skill->ident() == thisSkill->ident()) {
-                    wprintz(w, (i == cur_pos ? h_white : c_white),
-                            " (+%d)", int(prof_skills[k].second));
+                    wprintz( w, ( i == cur_pos ? h_white : c_white ), " (+%d)",
+                             int( prof_skill.second ) );
                     break;
                 }
             }
@@ -1678,11 +1678,10 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             if (current_traits.empty()) {
                 wprintz(w_traits, c_ltred, _("None!"));
             } else {
-                for (std::vector<std::string>::iterator i = current_traits.begin();
-                     i != current_traits.end(); ++i) {
+                for( auto &current_trait : current_traits ) {
                     wprintz(w_traits, c_ltgray, "\n");
-                    wprintz(w_traits, (traits[*i].points > 0) ? c_ltgreen : c_ltred,
-                            traits[*i].name.c_str());
+                    wprintz( w_traits, ( traits[current_trait].points > 0 ) ? c_ltgreen : c_ltred,
+                             traits[current_trait].name.c_str() );
                 }
             }
             wrefresh(w_traits);
@@ -1698,20 +1697,18 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
                 sorted.push_back(std::pair<Skill *, int>(s, sl.level() * 100 + sl.exercise()));
             }
             std::sort(sorted.begin(), sorted.end(), skill_description_sort);
-            for (std::vector<std::pair<Skill *, int> >::iterator i = sorted.begin();
-                 i != sorted.end(); ++i) {
-                skillslist.push_back((*i).first);
+            for( auto &elem : sorted ) {
+                skillslist.push_back( ( elem ).first );
             }
 
             int line = 1;
             bool has_skills = false;
             profession::StartingSkillList list_skills = u->prof->skills();
-            for (std::vector<Skill *>::iterator aSkill = skillslist.begin();
-                 aSkill != skillslist.end(); ++aSkill) {
-                int level = int(u->skillLevel(*aSkill));
+            for( auto &elem : skillslist ) {
+                int level = int( u->skillLevel( elem ) );
                 profession::StartingSkillList::iterator i = list_skills.begin();
                 while (i != list_skills.end()) {
-                    if (i->first == (*aSkill)->ident()) {
+                    if( i->first == ( elem )->ident() ) {
                         level += i->second;
                         break;
                     }
@@ -1719,7 +1716,8 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
                 }
 
                 if (level > 0) {
-                    mvwprintz(w_skills, line, 0, c_ltgray, "%s", ((*aSkill)->name() + ":").c_str());
+                    mvwprintz( w_skills, line, 0, c_ltgray, "%s",
+                               ( ( elem )->name() + ":" ).c_str() );
                     mvwprintz(w_skills, line, 17, c_ltgray, "%-2d", (int)level);
                     line++;
                     has_skills = true;
@@ -1882,24 +1880,24 @@ std::vector<std::string> player::get_traits() const
 }
 void player::empty_traits()
 {
-    for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
-        if (has_trait(iter->first)) {
-            toggle_trait(iter->first);
+    for( auto &traits_iter : traits ) {
+        if( has_trait( traits_iter.first ) ) {
+            toggle_trait( traits_iter.first );
         }
     }
 }
 void player::empty_skills()
 {
-    for (auto iter = Skill::skills.begin(); iter != Skill::skills.end(); ++iter) {
-        SkillLevel &level = skillLevel(*iter);
+    for( auto &skill : Skill::skills ) {
+        SkillLevel &level = skillLevel( skill );
         level.level(0);
     }
 }
 void player::add_traits()
-{ 
-    for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
-        if (g->scen->locked_traits(iter->first)) {
-            toggle_trait(iter->first);
+{
+    for( auto &traits_iter : traits ) {
+        if( g->scen->locked_traits( traits_iter.first ) ) {
+            toggle_trait( traits_iter.first );
         }
     }
 }
@@ -1907,9 +1905,9 @@ std::string player::random_good_trait()
 {
     std::vector<std::string> vTraitsGood;
 
-    for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
-        if (iter->second.startingtrait && iter->second.points >= 0) {
-            vTraitsGood.push_back(iter->first);
+    for( auto &traits_iter : traits ) {
+        if( traits_iter.second.startingtrait && traits_iter.second.points >= 0 ) {
+            vTraitsGood.push_back( traits_iter.first );
         }
     }
 
@@ -1920,9 +1918,9 @@ std::string player::random_bad_trait()
 {
     std::vector<std::string> vTraitsBad;
 
-    for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
-        if (iter->second.startingtrait && iter->second.points < 0) {
-            vTraitsBad.push_back(iter->first);
+    for( auto &traits_iter : traits ) {
+        if( traits_iter.second.startingtrait && traits_iter.second.points < 0 ) {
+            vTraitsBad.push_back( traits_iter.first );
         }
     }
 

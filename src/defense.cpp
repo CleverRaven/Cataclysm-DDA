@@ -177,14 +177,13 @@ void defense_game::init_mtypes()
 {
     std::map<std::string, mtype *> montemplates = MonsterGenerator::generator().get_all_mtypes();
 
-    for (std::map<std::string, mtype *>::iterator it = montemplates.begin(); it != montemplates.end();
-         ++it) {
-        it->second->difficulty *= 1.5;
-        it->second->difficulty += int(it->second->difficulty / 5);
-        it->second->flags.insert( MF_BASHES );
-        it->second->flags.insert( MF_SMELLS );
-        it->second->flags.insert( MF_HEARS );
-        it->second->flags.insert( MF_SEES );
+    for( auto &montemplate : montemplates ) {
+        montemplate.second->difficulty *= 1.5;
+        montemplate.second->difficulty += int( montemplate.second->difficulty / 5 );
+        montemplate.second->flags.insert( MF_BASHES );
+        montemplate.second->flags.insert( MF_SMELLS );
+        montemplate.second->flags.insert( MF_HEARS );
+        montemplate.second->flags.insert( MF_SEES );
     }
 }
 
@@ -197,10 +196,9 @@ void defense_game::init_constructions()
 
 void defense_game::init_recipes()
 {
-    for (recipe_map::iterator map_iter = recipes.begin(); map_iter != recipes.end(); ++map_iter) {
-        for (recipe_list::iterator list_iter = map_iter->second.begin();
-             list_iter != map_iter->second.end(); ++list_iter) {
-            (*list_iter)->time /= 10; // Things take turns, not minutes
+    for( auto &recipe : recipes ) {
+        for( auto &elem : recipe.second ) {
+            ( elem )->time /= 10; // Things take turns, not minutes
         }
     }
 }

@@ -98,8 +98,8 @@ bool player::handle_melee_wear()
                                     _("<npcname>'s %s is destroyed by the blow!"),
                                     weapon.tname().c_str());
             // Dump its contents on the ground
-            for (size_t i = 0; i < weapon.contents.size(); i++) {
-                g->m.add_item_or_charges(posx, posy, weapon.contents[i]);
+            for( auto &elem : weapon.contents ) {
+                g->m.add_item_or_charges( posx, posy, elem );
             }
             remove_weapon();
         }
@@ -1341,39 +1341,38 @@ bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam
 
     float total_damage = 0.0;
     float damage_blocked = 0.0;
-    for (std::vector<damage_unit>::iterator it = dam.damage_units.begin();
-            it != dam.damage_units.end(); ++it) {
-        total_damage += it->amount;
+    for( auto &elem : dam.damage_units ) {
+        total_damage += elem.amount;
         // block physical damage "normally"
-        if( it->type == DT_BASH || it->type == DT_CUT || it->type == DT_STAB ) {
+        if( elem.type == DT_BASH || elem.type == DT_CUT || elem.type == DT_STAB ) {
             // use up our flat block bonus first
-            float block_amount = std::min(total_phys_block, it->amount);
+            float block_amount = std::min( total_phys_block, elem.amount );
             total_phys_block -= block_amount;
-            it->amount -= block_amount;
+            elem.amount -= block_amount;
             damage_blocked += block_amount;
-            if( it->amount <= std::numeric_limits<float>::epsilon() ) {
+            if( elem.amount <= std::numeric_limits<float>::epsilon() ) {
                 continue;
             }
 
-            float previous_amount = it->amount;
-            it->amount *= physical_block_multiplier;
-            damage_blocked += previous_amount - it->amount;
+            float previous_amount = elem.amount;
+            elem.amount *= physical_block_multiplier;
+            damage_blocked += previous_amount - elem.amount;
         // non-electrical "elemental" damage types do their full damage if unarmed,
         // but severely mitigated damage if not
-        } else if (it->type == DT_HEAT || it->type == DT_ACID || it->type == DT_COLD) {
+        } else if( elem.type == DT_HEAT || elem.type == DT_ACID || elem.type == DT_COLD ) {
             //TODO: should damage weapons if blocked
             if (!unarmed_attack() && can_weapon_block()) {
-                float previous_amount = it->amount;
-                it->amount /= 5;
-                damage_blocked += previous_amount - it->amount;
+                float previous_amount = elem.amount;
+                elem.amount /= 5;
+                damage_blocked += previous_amount - elem.amount;
             }
         // electrical damage deals full damage if unarmed OR wielding a
         // conductive weapon
-        } else if (it->type == DT_ELECTRIC) {
+        } else if( elem.type == DT_ELECTRIC ) {
             if (!unarmed_attack() && can_weapon_block() && !conductive_weapon) {
-                float previous_amount = it->amount;
-                it->amount /= 5;
-                damage_blocked += previous_amount - it->amount;
+                float previous_amount = elem.amount;
+                elem.amount /= 5;
+                damage_blocked += previous_amount - elem.amount;
             }
         }
     }
@@ -1457,18 +1456,17 @@ void player::perform_special_attacks(Creature &t)
 
  std::string target = t.disp_name();
 
- for (size_t i = 0; i < special_attacks.size(); i++) {
+ for( auto &special_attack : special_attacks ) {
   dealt_damage_instance dealt_dam;
 
   int hit_spread = t.deal_melee_attack(this, hit_roll() * 0.8);
   if (hit_spread >= 0)
-      t.deal_melee_hit(this, hit_spread, false, damage_instance::physical(
-            special_attacks[i].bash,
-            special_attacks[i].cut,
-            special_attacks[i].stab
-        ), dealt_dam);
+      t.deal_melee_hit(
+          this, hit_spread, false,
+          damage_instance::physical( special_attack.bash, special_attack.cut, special_attack.stab ),
+          dealt_dam );
   if (dealt_dam.total_damage() > 0)
-      add_msg_if_player(m_good, special_attacks[i].text.c_str());
+      add_msg_if_player( m_good, special_attack.text.c_str() );
 
   if (!can_poison && (dealt_dam.type_damage(DT_CUT) > 0 ||
         dealt_dam.type_damage(DT_STAB) > 0 ))
@@ -1575,8 +1573,8 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, ma_te
 
         g->sound(posx, posy, 16, "");
         // Dump its contents on the ground
-        for (size_t i = 0; i < weapon.contents.size(); i++) {
-            g->m.add_item_or_charges(posx, posy, weapon.contents[i]);
+        for( auto &elem : weapon.contents ) {
+            g->m.add_item_or_charges( posx, posy, elem );
         }
         // Take damage
         deal_damage(this, bp_arm_r, damage_instance::physical(0, rng(0, weapon.volume() * 2), 0));

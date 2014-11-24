@@ -53,7 +53,7 @@ void remove_recharge_mod( item &it, player &p )
     if( !it.item_tags.count( "RECHARGE" ) ) {
         return;
     }
-    p.add_msg_if_player( _( "You remove the rechargeable powerpack in your %s!" ),
+    p.add_msg_if_player( _( "You remove the rechargeable powerpack from your %s!" ),
                          it.tname().c_str() );
     item mod( "rechargeable_battery", calendar::turn );
     mod.charges = it.charges;
@@ -179,8 +179,8 @@ std::vector<point> points_for_gas_cloud(const point &center, int radius)
     const std::vector<point> gas_sources = closest_points_first(radius, center.x, center.y);
     std::vector<point> result;
     int junk;
-    for (std::vector<point>::const_iterator a = gas_sources.begin(); a != gas_sources.end(); ++a) {
-        const point &p = *a;
+    for( const auto &p : gas_sources ) {
+
         if (g->m.move_cost(p.x, p.y) <= 0) {
             // A wall
             continue;
@@ -2136,10 +2136,10 @@ int iuse::purifier(player *p, item *it, bool, point)
     }
 
     std::vector<std::string> valid; // Which flags the player has
-    for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
-        if (p->has_trait(iter->first) && !p->has_base_trait(iter->first)) {
+    for( auto &traits_iter : traits ) {
+        if( p->has_trait( traits_iter.first ) && !p->has_base_trait( traits_iter.first ) ) {
             //Looks for active mutation
-            valid.push_back(iter->first);
+            valid.push_back( traits_iter.first );
         }
     }
     if (valid.empty()) {
@@ -2180,10 +2180,10 @@ int iuse::purify_iv(player *p, item *it, bool, point)
     }
 
     std::vector<std::string> valid; // Which flags the player has
-    for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
-        if (p->has_trait(iter->first) && !p->has_base_trait(iter->first)) {
+    for( auto &traits_iter : traits ) {
+        if( p->has_trait( traits_iter.first ) && !p->has_base_trait( traits_iter.first ) ) {
             //Looks for active mutation
-            valid.push_back(iter->first);
+            valid.push_back( traits_iter.first );
         }
     }
     if (valid.empty()) {
@@ -2895,10 +2895,10 @@ int iuse::sew(player *p, item *it, bool, point)
     const inventory &crafting_inv = p->crafting_inventory();
     bool bFound = false;
     //go through all discovered repair items and see if we have any of them available
-    for (unsigned int i = 0; i < repair_items.size(); i++) {
-        if (crafting_inv.has_amount(repair_items[i], items_needed)) {
+    for( auto &repair_items_i : repair_items ) {
+        if( crafting_inv.has_amount( repair_items_i, items_needed ) ) {
             //we've found enough of a material, use this one
-            repair_item = repair_items[i];
+            repair_item = repair_items_i;
             bFound = true;
         }
     }
@@ -3146,6 +3146,33 @@ int iuse::ups_battery(player *p, item *, bool, point)
     return 1;
 }
 
+int iuse::remove_all_mods(player *p, item *, bool, point)
+{
+    int inventory_index = g->inv( _( "Detach battery mods from what?" ) );
+    item *modded = &( p->i_at( inventory_index ) );
+    if (modded == NULL || modded->is_null()) {
+        p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
+        return 0;
+    }
+
+    if (!modded->is_tool()) {
+        p->add_msg_if_player( m_info, _( "Only battery mods for tools can be removed this way." ) );
+        return 0;
+    }
+
+    it_tool *tool = dynamic_cast<it_tool *>(modded->type);
+    if (tool->ammo != "battery") {
+        p->add_msg_if_player( m_info, _( "That item does not use batteries!" ) );
+        return 0;
+    }
+
+    remove_double_ammo_mod( *modded, *p );
+    remove_recharge_mod( *modded, *p );
+    remove_atomic_mod( *modded, *p );
+    remove_ups_mod( *modded, *p );
+    return 0;
+}
+
 int iuse::fishing_rod(player *p, item *it, bool, point)
 {
     int dirx, diry;
@@ -3160,12 +3187,12 @@ int iuse::fishing_rod(player *p, item *it, bool, point)
     }
     point op = overmapbuffer::ms_to_omt_copy( g->m.getabs( dirx, diry ) );
     if (!otermap[overmap_buffer.ter(op.x, op.y, g->levz)].is_river) {
-        p->add_msg_if_player(m_info, _("That water does not contain any fish, try a river instead."));
+        p->add_msg_if_player(m_info, _("That water does not contain any fish. Try a river instead."));
         return 0;
     }
     std::vector<monster*> fishables = g->get_fishable(60);
     if ( fishables.size() < 1){
-        p->add_msg_if_player(m_info, _("There is no fish around. Try another spot.")); // maybe let the player find that out by himself?
+        p->add_msg_if_player(m_info, _("There are no fish around. Try another spot.")); // maybe let the player find that out by himself?
         return 0;
     }
     p->rooted_message();
@@ -3554,10 +3581,10 @@ int iuse::solder_weld(player *p, item *it, bool, point)
 
             bool bFound = false;
             //go through all discovered repair items and see if we have any of them available
-            for (unsigned int i = 0; i < repair_items.size(); i++) {
-                if (crafting_inv.has_amount(repair_items[i], items_needed)) {
+            for( auto &repair_items_i : repair_items ) {
+                if( crafting_inv.has_amount( repair_items_i, items_needed ) ) {
                     //we've found enough of a material, use this one
-                    repair_item = repair_items[i];
+                    repair_item = repair_items_i;
                     bFound = true;
                 }
             }
@@ -3758,9 +3785,9 @@ int iuse::two_way_radio(player *p, item *it, bool, point)
         p->moves -= 150;
         std::vector<npc *> in_range;
         std::vector<npc *> npcs = overmap_buffer.get_npcs_near_player(30);
-        for (size_t i = 0; i < npcs.size(); i++) {
-            if (npcs[i]->op_of_u.value >= 4) {
-                in_range.push_back(npcs[i]);
+        for( auto &npc : npcs ) {
+            if( npc->op_of_u.value >= 4 ) {
+                in_range.push_back( npc );
             }
         }
         if (!in_range.empty()) {
@@ -3847,12 +3874,12 @@ int iuse::radio_on(player *p, item *it, bool t, point pos)
             int signal_strength = selected_tower->strength -
                                   rl_dist(selected_tower->x, selected_tower->y, g->levx, g->levy);
 
-            for (size_t j = 0; j < message.length(); j++) {
+            for( auto &elem : message ) {
                 if (dice(10, 100) > dice(10, signal_strength * 3)) {
                     if (!one_in(10)) {
-                        message[j] = '#';
+                        elem = '#';
                     } else {
-                        message[j] = char(rng('a', 'z'));
+                        elem = char( rng( 'a', 'z' ) );
                     }
                 }
             }
@@ -3960,8 +3987,8 @@ static void roadmap_targets(player *, item *, bool,
 {
     std::vector<point> places = overmap_buffer.find_all(
                                     g->om_global_location(), target, distance, false);
-    for (std::vector<point>::iterator iter = places.begin(); iter != places.end(); ++iter) {
-        const point &place = *iter;
+    for( auto &place : places ) {
+
         overmap_buffer.reveal(place, reveal_distance, g->levz);
     }
 }
@@ -5811,8 +5838,8 @@ int iuse::grenade_inc_act(player *p, item *it, bool t, point pos)
         int num_flames= rng(3,5);
         for (int current_flame = 0; current_flame < num_flames; current_flame++){
             std::vector<point> flames = line_to(pos.x, pos.y, pos.x + rng(-5,5), pos.y + rng(-5,5), 0);
-            for (size_t i = 0; i <flames.size(); i++) {
-                g->m.add_field(flames[i].x, flames[i].y, fd_fire, rng(0,2));
+            for( auto &flame : flames ) {
+                g->m.add_field( flame.x, flame.y, fd_fire, rng( 0, 2 ) );
             }
         }
         g->explosion(pos.x, pos.y, 8, 0, true);
@@ -7337,9 +7364,9 @@ int iuse::bullet_puller(player *p, item *it, bool, point)
         p->i_rem(inventory_index);
     }
     const result_list_t &recipe = a->second;
-    for (result_list_t::const_iterator a = recipe.begin(); a != recipe.end(); ++a) {
-        int count = a->second * multiply;
-        item new_item(a->first, calendar::turn);
+    for( const auto &elem : recipe ) {
+        int count = elem.second * multiply;
+        item new_item( elem.first, calendar::turn );
         if (new_item.count_by_charges()) {
             new_item.charges = count;
             count = 1;
@@ -8927,22 +8954,21 @@ bool einkpc_download_memory_card(player *p, item *eink, item *mc)
 
         std::vector<const recipe *> candidates;
 
-        for (recipe_map::iterator map_iter = recipes.begin(); map_iter != recipes.end(); ++map_iter) {
-            for (recipe_list::iterator list_iter = map_iter->second.begin();
-                 list_iter != map_iter->second.end(); ++list_iter) {
+        for( auto &recipe : recipes ) {
+            for( auto &elem : recipe.second ) {
 
-                const int dif = (*list_iter)->difficulty;
+                const int dif = ( elem )->difficulty;
 
                 if (science) {
-                    if ((*list_iter)->cat != "CC_NONCRAFT") {
+                    if( ( elem )->cat != "CC_NONCRAFT" ) {
                         if (dif >= 3 && one_in(dif + 1)) {
-                            candidates.push_back(*list_iter);
+                            candidates.push_back( elem );
                         }
                     }
                 } else {
-                    if ((*list_iter)->cat == "CC_FOOD") {
+                    if( ( elem )->cat == "CC_FOOD" ) {
                         if (dif <= 3 && one_in(dif)) {
-                            candidates.push_back(*list_iter);
+                            candidates.push_back( elem );
                         }
                     }
 
@@ -9894,9 +9920,10 @@ int iuse::radiocontrol(player *p, item *it, bool t, point)
             std::list<std::pair<tripoint, item *>> rc_pairs = g->m.get_rc_items();
             tripoint rc_item_location = {999, 999, 999};
             // TODO: grab the closest car or similar?
-            for( auto rc_pair = rc_pairs.begin(); rc_pair != rc_pairs.end(); ++rc_pair ) {
-                if( rc_pair->second->type->id == "radio_car_on" && rc_pair->second->active ) {
-                    rc_item_location = rc_pair->first;
+            for( auto &rc_pairs_rc_pair : rc_pairs ) {
+                if( rc_pairs_rc_pair.second->type->id == "radio_car_on" &&
+                    rc_pairs_rc_pair.second->active ) {
+                    rc_item_location = rc_pairs_rc_pair.first;
                 }
             }
             if( rc_item_location.x == 999 ) {
@@ -9918,9 +9945,8 @@ int iuse::radiocontrol(player *p, item *it, bool t, point)
         //red button
         if (choice == 3) {
             auto item_list = p->get_radio_items();
-            for( auto candidate_item = item_list.begin();
-                 candidate_item != item_list.end(); ++candidate_item ) {
-                if( (*candidate_item)->has_flag("BOMB") ) {
+            for( auto &elem : item_list ) {
+                if( ( elem )->has_flag( "BOMB" ) ) {
                     p->add_msg_if_player( m_warning,
                         _("You might want to place that radio bomb somewhere before detonating it.") );
                     return 0;
@@ -9990,10 +10016,10 @@ bool multicooker_hallu(player *p)
             } else {
                 add_msg(m_bad, _("You're surrounded by aggressive multi-cookers!"));
 
-                for (auto pp = points.begin(); pp != points.end(); ++pp) {
+                for( auto &point : points ) {
                     monster m(GetMType("mon_hallu_multicooker"));
                     m.hallucination = true;
-                    m.spawn(pp->x, pp->y);
+                    m.spawn( point.x, point.y );
                     g->add_zombie(m);
                 }
             }
@@ -10160,18 +10186,16 @@ int iuse::multicooker(player *p, item *it, bool t, point pos)
 
             int counter = 1;
 
-            for (recipe_map::iterator map_iter = recipes.begin(); map_iter != recipes.end(); ++map_iter) {
-                for (recipe_list::iterator list_iter = map_iter->second.begin();
-                     list_iter != map_iter->second.end(); ++list_iter) {
-                    if ((*list_iter)->cat == "CC_FOOD" &&
-                        ((*list_iter)->subcat == "CSC_FOOD_MEAT" ||
-                         (*list_iter)->subcat == "CSC_FOOD_VEGGI" ||
-                         (*list_iter)->subcat == "CSC_FOOD_PASTA")) {
+            for( auto &recipe : recipes ) {
+                for( auto &elem : recipe.second ) {
+                    if( ( elem )->cat == "CC_FOOD" && ( ( elem )->subcat == "CSC_FOOD_MEAT" ||
+                                                        ( elem )->subcat == "CSC_FOOD_VEGGI" ||
+                                                        ( elem )->subcat == "CSC_FOOD_PASTA" ) ) {
 
-                        if (p->knows_recipe((*list_iter))) {
-                            dishes.push_back(*list_iter);
-                            const bool can_make = (*list_iter)->can_make_with_inventory(crafting_inv);
-                            item dummy((*list_iter)->result, 0);
+                        if( p->knows_recipe( ( elem ) ) ) {
+                            dishes.push_back( elem );
+                            const bool can_make = ( elem )->can_make_with_inventory( crafting_inv );
+                            item dummy( ( elem )->result, 0 );
 
                             dmenu.addentry(counter++, can_make, -1, dummy.display_name());
                         }

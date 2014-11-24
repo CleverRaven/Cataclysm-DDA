@@ -3231,6 +3231,8 @@
         "type": "place_monster",
         "monster_id": "mon_manhack",
         "difficulty": 4,
+        "skill1": "electronics",
+        "skill2": "computer",
         "hostile_msg": "You misprogram the manhack; it's hostile!",
         "friendly_msg": "The manhack flies from your hand and surveys the area!",
         "place_randomly": true,
@@ -3261,6 +3263,8 @@
         "type": "place_monster",
         "monster_id": "mon_turret",
         "difficulty": 6,
+        "skill1": "electronics",
+        "skill2": "computer",
         "moves": 100
     }
   },
@@ -3288,6 +3292,8 @@
         "type": "place_monster",
         "monster_id": "mon_laserturret",
         "difficulty": 6,
+        "skill1": "electronics",
+        "skill2": "computer",
         "moves": 100
     }
   },
@@ -3315,6 +3321,8 @@
         "type": "place_monster",
         "monster_id": "mon_turret_rifle",
         "difficulty": 6,
+        "skill1": "electronics",
+        "skill2": "computer",
         "moves": 100
     }
   },
@@ -5151,6 +5159,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "use_action": "REMOVE_ALL_MODS",
     "qualities": [["SCREW", 1], ["SCREW_FINE", 1]]
   },
 

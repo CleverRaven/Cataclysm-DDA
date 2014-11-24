@@ -888,8 +888,8 @@ long popup(const std::string &text, PopupFlags flags)
     int height = 2;
     std::vector<std::string> folded = foldstring(text, FULL_SCREEN_WIDTH - 2);
     height += folded.size();
-    for( size_t i = 0; i < folded.size(); ++i ) {
-        int cw = utf8_width(folded[i].c_str());
+    for( auto &elem : folded ) {
+        int cw = utf8_width( elem.c_str() );
         if(cw > width) {
             width = cw;
         }

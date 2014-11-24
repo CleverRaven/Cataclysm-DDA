@@ -188,10 +188,9 @@ void set_trap_ids()
     tr_glass_pit = trapfind("tr_glass_pit");
 
     // Set ter_t.trap using ter_t.trap_id_str.
-    for( std::vector<ter_t>::iterator terrain = terlist.begin();
-         terrain != terlist.end(); ++terrain ) {
-        if( terrain->trap_id_str.length() != 0 ) {
-            terrain->trap = trapfind( terrain->trap_id_str );
+    for( auto &elem : terlist ) {
+        if( elem.trap_id_str.length() != 0 ) {
+            elem.trap = trapfind( elem.trap_id_str );
         }
     }
 }

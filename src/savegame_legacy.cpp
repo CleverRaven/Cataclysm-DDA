@@ -116,9 +116,9 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             // Next, the scent map.
             parseline();
 
-            for( size_t i = 0; i < SEEX *MAPSIZE; i++ ) {
-                for( size_t j = 0; j < SEEY * MAPSIZE; j++ ) {
-                    linein >> grscent[i][j];
+            for( auto &elem : grscent ) {
+                for( auto &elem_j : elem ) {
+                    linein >> elem_j;
                 }
             }
 
@@ -198,9 +198,9 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             // Next, the scent map.
             parseline();
 
-            for( size_t i = 0; i < SEEX *MAPSIZE; i++) {
-                for( size_t j = 0; j < SEEY * MAPSIZE; j++) {
-                    linein >> grscent[i][j];
+            for( auto &elem : grscent ) {
+                for( auto &elem_j : elem ) {
+                    linein >> elem_j;
                 }
             }
             // Now the number of monsters...
@@ -310,9 +310,9 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             // Next, the scent map.
             parseline();
 
-            for( size_t i = 0; i < SEEX *MAPSIZE; i++) {
-                for( size_t j = 0; j < SEEY * MAPSIZE; j++) {
-                    linein >> grscent[i][j];
+            for( auto &elem : grscent ) {
+                for( auto &elem_j : elem ) {
+                    linein >> elem_j;
                 }
             }
             // Now the number of monsters...
@@ -419,9 +419,9 @@ original 'structure', which globs game/weather/location & killcount/player data 
          last_target = tmptar;
 
         // Next, the scent map.
-         for( size_t i = 0; i < SEEX * MAPSIZE; i++) {
-          for( size_t j = 0; j < SEEY * MAPSIZE; j++)
-           fin >> grscent[i][j];
+         for( auto &elem : grscent ) {
+             for( auto &elem_j : elem )
+                 fin >> elem_j;
          }
         // Now the number of monsters...
          int nummon;
@@ -451,8 +451,8 @@ original 'structure', which globs game/weather/location & killcount/player data 
         // And the kill counts;
          if (fin.peek() == '\n')
           fin.get(junk); // Chomp that pesky endline
-         for (size_t i = 0; i < ARRAY_SIZE(legacy_mon_id); i++)
-          fin >> kills[legacy_mon_id[i]];
+         for( auto &elem : legacy_mon_id )
+             fin >> kills[elem];
         // Finally, the data on the player.
          if (fin.peek() == '\n')
           fin.get(junk); // Chomp that pesky endline
@@ -1509,9 +1509,8 @@ void mapbuffer::load( std::string worldname )
         if( map_files.empty() ) {
             return;
         }
-        for( std::vector<std::string>::iterator file = map_files.begin();
-             file != map_files.end(); ++file ) {
-            fin.open( file->c_str() );
+        for( auto &map_file : map_files ) {
+            fin.open( map_file.c_str() );
             unserialize_legacy_submaps( fin, num_submaps, ter_key, furn_key, trap_key );
             fin.close();
             // Write out and clear map data as its read.
@@ -1560,7 +1559,7 @@ void player::load_legacy(std::stringstream & dump)
  style_selected = styletmp;
 
  std::string sTemp = "";
- for( size_t i = 0; i < traits.size(); i++) {
+ for( size_t i = 0; i < traits.size(); i++ ) {
     dump >> sTemp;
     if (sTemp == "TRAITS_END") {
         break;
@@ -1569,7 +1568,7 @@ void player::load_legacy(std::stringstream & dump)
     }
  }
 
- for( size_t i = 0; i < traits.size(); i++) {
+ for( size_t i = 0; i < traits.size(); i++ ) {
     dump >> sTemp;
     if (sTemp == "MUTATIONS_END") {
         break;
@@ -1586,8 +1585,8 @@ void player::load_legacy(std::stringstream & dump)
  for (int i = 0; i < num_bp; i++)
   dump >> temp_cur[i] >> temp_conv[i] >> frostbite_timer[i];
 
- for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
-   dump >> skillLevel(*aSkill);
+ for( auto &skill : Skill::skills ) {
+     dump >> skillLevel( skill );
  }
 
  int num_recipes;
@@ -1737,7 +1736,7 @@ void npc::load_legacy(std::stringstream & dump) {
  myclass = npc_class(classtmp);
 
  std::string sTemp = "";
- for( size_t i = 0; i < traits.size(); i++) {
+ for( size_t i = 0; i < traits.size(); i++ ) {
     dump >> sTemp;
     if (sTemp == "TRAITS_END") {
         break;
@@ -1748,8 +1747,8 @@ void npc::load_legacy(std::stringstream & dump) {
 
  for (int i = 0; i < num_hp_parts; i++)
   dump >> hp_cur[i] >> hp_max[i];
- for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
-   dump >> skillLevel(*aSkill);
+ for( auto &skill : Skill::skills ) {
+     dump >> skillLevel( skill );
  }
 
  itype_id tmpstyle;

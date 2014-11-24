@@ -98,8 +98,8 @@ Item_spawn_data::ItemList Single_item_creator::create(int birthday, RecursionLis
             ItemList tmplist = isd->create(birthday, rec);
             rec.erase( rec.end() - 1 );
             if (modifier.get() != NULL) {
-                for(ItemList::iterator a = tmplist.begin(); a != tmplist.end(); ++a) {
-                    modifier->modify(*a);
+                for( auto &elem : tmplist ) {
+                    modifier->modify( elem );
                 }
             }
             result.insert(result.end(), tmplist.begin(), tmplist.end());
@@ -283,8 +283,8 @@ Item_group::Item_group(Type t, int probability)
 
 Item_group::~Item_group()
 {
-    for(prop_list::iterator a = items.begin(); a != items.end(); ++a) {
-        delete *a;
+    for( auto &elem : items ) {
+        delete elem;
     }
     items.clear();
 }
@@ -321,21 +321,21 @@ Item_spawn_data::ItemList Item_group::create(int birthday, RecursionList &rec) c
 {
     ItemList result;
     if (type == G_COLLECTION) {
-        for(prop_list::const_iterator a = items.begin(); a != items.end(); ++a) {
-            if(rng(0, 99) >= (*a)->probability) {
+        for( const auto &elem : items ) {
+            if( rng( 0, 99 ) >= ( elem )->probability ) {
                 continue;
             }
-            ItemList tmp = (*a)->create(birthday, rec);
+            ItemList tmp = ( elem )->create( birthday, rec );
             result.insert(result.end(), tmp.begin(), tmp.end());
         }
     } else if (type == G_DISTRIBUTION) {
         int p = rng(0, sum_prob - 1);
-        for(prop_list::const_iterator a = items.begin(); a != items.end(); ++a) {
-            p -= (*a)->probability;
+        for( const auto &elem : items ) {
+            p -= ( elem )->probability;
             if (p >= 0) {
                 continue;
             }
-            ItemList tmp = (*a)->create(birthday, rec);
+            ItemList tmp = ( elem )->create( birthday, rec );
             result.insert(result.end(), tmp.begin(), tmp.end());
             break;
         }
@@ -358,20 +358,20 @@ Item_spawn_data::ItemList Item_group::create(int birthday, RecursionList &rec) c
 item Item_group::create_single(int birthday, RecursionList &rec) const
 {
     if (type == G_COLLECTION) {
-        for(prop_list::const_iterator a = items.begin(); a != items.end(); ++a) {
-            if(rng(0, 99) >= (*a)->probability) {
+        for( const auto &elem : items ) {
+            if( rng( 0, 99 ) >= ( elem )->probability ) {
                 continue;
             }
-            return (*a)->create_single(birthday, rec);
+            return ( elem )->create_single( birthday, rec );
         }
     } else if (type == G_DISTRIBUTION) {
         int p = rng(0, sum_prob - 1);
-        for(prop_list::const_iterator a = items.begin(); a != items.end(); ++a) {
-            p -= (*a)->probability;
+        for( const auto &elem : items ) {
+            p -= ( elem )->probability;
             if (p >= 0) {
                 continue;
             }
-            return (*a)->create_single(birthday, rec);
+            return ( elem )->create_single( birthday, rec );
         }
     }
     return item(null_item_id, birthday);
@@ -379,8 +379,8 @@ item Item_group::create_single(int birthday, RecursionList &rec) const
 
 void Item_group::check_consistency() const
 {
-    for(prop_list::const_iterator a = items.begin(); a != items.end(); ++a) {
-        (*a)->check_consistency();
+    for( const auto &elem : items ) {
+        ( elem )->check_consistency();
     }
 }
 
@@ -400,8 +400,8 @@ bool Item_group::remove_item(const Item_tag &itemid)
 
 bool Item_group::has_item(const Item_tag &itemid) const
 {
-    for(prop_list::const_iterator a = items.begin(); a != items.end(); ++a) {
-        if ((*a)->has_item(itemid)) {
+    for( const auto &elem : items ) {
+        if( ( elem )->has_item( itemid ) ) {
             return true;
         }
     }

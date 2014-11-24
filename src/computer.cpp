@@ -216,20 +216,18 @@ std::string computer::save_data()
     }
     data << savename << " " << security << " " << mission_id << " " <<
          options.size() << " ";
-    for (std::vector<computer_option>::iterator it = options.begin();
-         it != options.end(); ++it) {
-        savename = it->name;
+    for( auto &elem : options ) {
+        savename = elem.name;
         found = savename.find(" ");
         while (found != std::string::npos) {
             savename.replace(found, 1, "_");
             found = savename.find(" ");
         }
-        data << savename << " " << int(it->action) << " " << it->security << " ";
+        data << savename << " " << int( elem.action ) << " " << elem.security << " ";
     }
     data << failures.size() << " ";
-    for (std::vector<computer_failure>::iterator it = failures.begin();
-         it != failures.end(); ++it) {
-        data << int(*it) << " ";
+    for( auto &elem : failures ) {
+        data << int( elem ) << " ";
     }
 
     return data.str();
@@ -319,22 +317,22 @@ void computer::activate_function(computer_action action)
                         for (int y1 = y - 1; y1 <= y + 1; y1++ ) {
                             if (g->m.furn(x1, y1) == f_counter) {
                                 bool found_item = false;
-                                for (std::vector<item>::iterator it = g->m.i_at(x1, y1).begin();
-                                     it != g->m.i_at(x1, y1).end(); ++it) {
-                                    if (it->is_container()) {
+                                for( auto &elem : g->m.i_at( x1, y1 ) ) {
+                                    if( elem.is_container() ) {
                                         item sewage = item("sewage", calendar::turn);
-                                        it_container *container = dynamic_cast<it_container *>(it->type);
+                                        it_container *container =
+                                            dynamic_cast<it_container *>( elem.type );
                                         it_comest    *comest    = dynamic_cast<it_comest *>(sewage.type);
                                         long maxCharges = container->contains * comest->charges;
 
-                                        if (it->contents.empty()) {
-                                            it->put_in(sewage);
+                                        if( elem.contents.empty() ) {
+                                            elem.put_in( sewage );
                                             found_item = true;
                                             break;
                                         } else {
-                                            if (it->contents[0].type->id == sewage.type->id) {
-                                                if (it->contents[0].charges < maxCharges) {
-                                                    it->contents[0].charges += comest->charges;
+                                            if( elem.contents[0].type->id == sewage.type->id ) {
+                                                if( elem.contents[0].charges < maxCharges ) {
+                                                    elem.contents[0].charges += comest->charges;
                                                     found_item = true;
                                                     break;
                                                 }
@@ -564,11 +562,10 @@ void computer::activate_function(computer_action action)
         int more = 0;
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
-                for (std::vector<item>::iterator it = g->m.i_at(x, y).begin();
-                     it != g->m.i_at(x, y).end(); ++it) {
-                    if (it->is_bionic()) {
+                for( auto &elem : g->m.i_at( x, y ) ) {
+                    if( elem.is_bionic() ) {
                         if ((int)names.size() < TERMY - 8) {
-                            names.push_back(it->tname());
+                            names.push_back( elem.tname() );
                         } else {
                             more++;
                         }
@@ -583,9 +580,8 @@ void computer::activate_function(computer_action action)
         print_line(_("Bionic access - Manifest:"));
         print_newline();
 
-        for (std::vector<std::string>::iterator it = names.begin();
-             it != names.end(); ++it) {
-            print_line("%s", it->c_str());
+        for( auto &name : names ) {
+            print_line( "%s", name.c_str() );
         }
         if (more > 0) {
             print_line(ngettext("%d OTHER FOUND...", "%d OTHERS FOUND...", more), more);
@@ -1259,9 +1255,8 @@ void computer::activate_failure(computer_failure fail)
                         print_error(_("ERROR: Please only use blood samples."));
                     } else {
                         print_error(_("ERROR: Blood sample destroyed."));
-                        for (std::vector<item>::iterator it = g->m.i_at(x, y).begin();
-                             it != g->m.i_at(x, y).end(); ++it) {
-                            it->contents.clear();
+                        for( auto &elem : g->m.i_at( x, y ) ) {
+                            elem.contents.clear();
                         }
                     }
                 }
@@ -1285,9 +1280,8 @@ void computer::activate_failure(computer_failure fail)
                         print_error(_("ERROR: Memory bank is empty."));
                     } else {
                         print_error(_("ERROR: Data bank destroyed."));
-                        for (std::vector<item>::iterator it = g->m.i_at(x, y).begin();
-                             it != g->m.i_at(x, y).end(); ++it) {
-                            it->contents.clear();
+                        for( auto &elem : g->m.i_at( x, y ) ) {
+                            elem.contents.clear();
                         }
                     }
                 }

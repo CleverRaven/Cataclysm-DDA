@@ -53,9 +53,9 @@ WORLD::WORLD()
     world_path = path.str();
     world_options.clear();
 
-    for (auto it = OPTIONS.begin(); it != OPTIONS.end(); ++it) {
-        if (it->second.getPage() == "world_default") {
-            world_options[it->first] = it->second;
+    for( auto &elem : OPTIONS ) {
+        if( elem.second.getPage() == "world_default" ) {
+            world_options[elem.first] = elem.second;
         }
     }
 
@@ -212,10 +212,10 @@ WORLDPTR worldfactory::convert_to_world(std::string origin_path)
     if (save_world(newworld, true)) {
         // move files from origin_path into new world path
         std::vector<std::string> origin_files = file_finder::get_files_from_path(".", origin_path, false);
-        for (unsigned i = 0; i < origin_files.size(); ++i) {
-            std::string filename = origin_files[i].substr(origin_files[i].find_last_of("/\\"));
+        for( auto &origin_file : origin_files ) {
+            std::string filename = origin_file.substr( origin_file.find_last_of( "/\\" ) );
 
-            rename(origin_files[i].c_str(), std::string(newworld->world_path + filename).c_str());
+            rename( origin_file.c_str(), std::string( newworld->world_path + filename ).c_str() );
         }
 
         DebugLog( D_INFO, DC_ALL ) << "worldfactory::convert_to_world -- World Converted Successfully!";
@@ -267,11 +267,10 @@ bool worldfactory::save_world(WORLDPTR world, bool is_conversion)
         }
         fout << world_options_header() << std::endl;
 
-        for (auto it = world->world_options.begin();
-             it != world->world_options.end(); ++it) {
-            fout << "#" << it->second.getTooltip() << std::endl;
-            fout << "#" << it->second.getDefaultText() << std::endl;
-            fout << it->first << " " << it->second.getValue() << std::endl << std::endl;
+        for( auto &elem : world->world_options ) {
+            fout << "#" << elem.second.getTooltip() << std::endl;
+            fout << "#" << elem.second.getDefaultText() << std::endl;
+            fout << elem.first << " " << elem.second.getValue() << std::endl << std::endl;
         }
         fclose_exclusive(fout, woption.str().c_str());
         if( fout.fail() ) {
@@ -291,9 +290,8 @@ std::map<std::string, WORLDPTR> worldfactory::get_all_worlds()
     qualifiers.push_back(SAVE_MASTER);
 
     if (!all_worlds.empty()) {
-        for (std::map<std::string, WORLDPTR>::iterator it = all_worlds.begin(); it != all_worlds.end();
-             ++it) {
-            delete it->second;
+        for( auto &elem : all_worlds ) {
+            delete elem.second;
         }
         all_worlds.clear();
         all_worldnames.clear();
@@ -306,28 +304,28 @@ std::map<std::string, WORLDPTR> worldfactory::get_all_worlds()
     if (!world_dirs.empty()) {
         // worlds exist by having an option file
         // create worlds
-        for (unsigned i = 0; i < world_dirs.size(); ++i) {
+        for( auto &world_dir : world_dirs ) {
             // get the option file again
             // we can assume that there is only one master.gsav, so just collect the first path
             bool no_options = true;
-            std::vector<std::string> detected_world_op = file_finder::get_files_from_path(WORLD_OPTION_FILE,
-                    world_dirs[i], false);
+            std::vector<std::string> detected_world_op =
+                file_finder::get_files_from_path( WORLD_OPTION_FILE, world_dir, false );
             if ( ! detected_world_op.empty() ) {
                 no_options = false;
             }
             // get the save files
-            std::vector<std::string> world_sav_files = file_finder::get_files_from_path(SAVE_EXTENSION,
-                    world_dirs[i], false);
+            std::vector<std::string> world_sav_files =
+                file_finder::get_files_from_path( SAVE_EXTENSION, world_dir, false );
             // split the save file names between the directory and the extension
-            for (unsigned j = 0; j < world_sav_files.size(); ++j) {
-                size_t save_index = world_sav_files[j].find(SAVE_EXTENSION);
-                world_sav_files[j] = world_sav_files[j].substr(world_dirs[i].size() + 1,
-                                     save_index - (world_dirs[i].size() + 1));
+            for( auto &world_sav_file : world_sav_files ) {
+                size_t save_index = world_sav_file.find( SAVE_EXTENSION );
+                world_sav_file = world_sav_file.substr( world_dir.size() + 1,
+                                                        save_index - ( world_dir.size() + 1 ) );
             }
             // the directory name is the name of the world
             std::string worldname;
-            unsigned name_index = world_dirs[i].find_last_of("/\\");
-            worldname = world_dirs[i].substr(name_index + 1);
+            unsigned name_index = world_dir.find_last_of( "/\\" );
+            worldname = world_dir.substr( name_index + 1 );
 
             // create and store the world
             retworlds[worldname] = new WORLD();
@@ -335,18 +333,18 @@ std::map<std::string, WORLDPTR> worldfactory::get_all_worlds()
             retworlds[worldname]->world_name = worldname;
             all_worldnames.push_back(worldname);
             // add sav files
-            for (unsigned j = 0; j < world_sav_files.size(); ++j) {
-                retworlds[worldname]->world_saves.push_back(world_sav_files[j]);
+            for( auto &world_sav_file : world_sav_files ) {
+                retworlds[worldname]->world_saves.push_back( world_sav_file );
             }
             // set world path
-            retworlds[worldname]->world_path = world_dirs[i];
+            retworlds[worldname]->world_path = world_dir;
             mman->load_mods_list(retworlds[worldname]);
 
             // load options into the world
             if ( no_options ) {
-                for (auto it = OPTIONS.begin(); it != OPTIONS.end(); ++it) {
-                    if (it->second.getPage() == "world_default") {
-                        retworlds[worldname]->world_options[it->first] = it->second;
+                for( auto &elem : OPTIONS ) {
+                    if( elem.second.getPage() == "world_default" ) {
+                        retworlds[worldname]->world_options[elem.first] = elem.second;
                     }
                 }
                 retworlds[worldname]->world_options["DELETE_WORLD"].setValue("yes");
@@ -435,8 +433,9 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
     mvwputch(w_worlds_border, 4, 0, BORDER_COLOR, LINE_XXXO); // |-
     mvwputch(w_worlds_border, 4, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_XOXX); // -|
 
-    for (std::map<int, bool>::iterator iter = mapLines.begin(); iter != mapLines.end(); ++iter) {
-        mvwputch(w_worlds_border, FULL_SCREEN_HEIGHT - 1, iter->first + 1, BORDER_COLOR, LINE_XXOX); // _|_
+    for( auto &mapLine : mapLines ) {
+        mvwputch( w_worlds_border, FULL_SCREEN_HEIGHT - 1, mapLine.first + 1, BORDER_COLOR,
+                  LINE_XXOX ); // _|_
     }
 
     center_print(w_worlds_border, 0, c_ltred, _(" WORLD SELECTION "));
@@ -612,8 +611,8 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
     mapLines[4] = true;
     mapLines[60] = true;
 
-    for (std::map<int, bool>::iterator mLine = mapLines.begin(); mLine != mapLines.end(); ++mLine) {
-        mvwputch(win, FULL_SCREEN_HEIGHT - 1, mLine->first + 1, BORDER_COLOR, LINE_XXOX); // _|_
+    for( auto &mapLine : mapLines ) {
+        mvwputch( win, FULL_SCREEN_HEIGHT - 1, mapLine.first + 1, BORDER_COLOR, LINE_XXOX ); // _|_
     }
 
     for (int i = 0; i < 78; i++) {
@@ -775,8 +774,8 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
         // clear active_mod_order and re-add all the mods, his ensures
         // that changes (like changing depencies) get updated
         tmp_mod_order.swap(active_mod_order);
-        for(size_t i = 0; i < tmp_mod_order.size(); i++) {
-            mman_ui->try_add(tmp_mod_order[i], active_mod_order);
+        for( auto &elem : tmp_mod_order ) {
+            mman_ui->try_add( elem, active_mod_order );
         }
     }
 
@@ -1256,9 +1255,9 @@ bool worldfactory::valid_worldname(std::string name, bool automated)
 std::unordered_map<std::string, cOpt> worldfactory::get_default_world_options()
 {
     std::unordered_map<std::string, cOpt> retoptions;
-    for( auto it = OPTIONS.begin(); it != OPTIONS.end(); ++it) {
-        if (it->second.getPage() == "world_default") {
-            retoptions[it->first] = it->second;
+    for( auto &elem : OPTIONS ) {
+        if( elem.second.getPage() == "world_default" ) {
+            retoptions[elem.first] = elem.second;
         }
     }
     return retoptions;

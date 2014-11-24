@@ -3302,8 +3302,8 @@ talk_topic dialogue::opt(talk_topic topic)
 // Number of lines to highlight
  int hilight_lines = 1;
  std::vector<std::string> folded = foldstring(challenge, FULL_SCREEN_WIDTH / 2);
- for (size_t i = 0; i < folded.size(); i++) {
-  history.push_back(folded[i]);
+ for( auto &elem : folded ) {
+     history.push_back( elem );
   hilight_lines++;
  }
 
@@ -3400,8 +3400,8 @@ talk_topic dialogue::opt(talk_topic topic)
 
  std::string response_printed = rmp_format(_("<you say something>You: %s"), responses[ch].text.c_str());
  folded = foldstring(response_printed, FULL_SCREEN_WIDTH / 2);
- for( size_t i = 0; i < folded.size(); ++i ){
-   history.push_back(folded[i]);
+ for( auto &elem : folded ) {
+     history.push_back( elem );
    hilight_lines++;
  }
 
@@ -3681,8 +3681,8 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
             }
         }
         // Do it in two passes, so removing items doesn't corrupt yours[]
-        for (size_t i = 0; i < removing.size(); i++) {
-            g->u.i_rem(removing[i]);
+        for( auto &elem : removing ) {
+            g->u.i_rem( elem );
         }
 
         for (size_t i = 0; i < theirs.size(); i++) {

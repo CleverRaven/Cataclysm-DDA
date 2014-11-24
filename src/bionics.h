@@ -13,18 +13,27 @@ typedef std::string bionic_id;
 class bionic_data
 {
     public:
-        bionic_data(std::string new_name, bool new_power_source, bool new_activated,
-                    int new_power_cost, int new_charge_time, std::string new_description, bool new_faulty = false);
+        bionic_data(std::string nname, bool ps, bool tog, int pac, int pad, int pot,
+                    int ct, std::string desc, bool fault);
 
         std::string name;
         bool power_source;
-        bool activated; // If true, then the below function only happens when
-        // activated; otherwise, it happens every turn
-        int power_cost;
-        int charge_time; // How long, when activated, between drawing power_cost
-        // If 0, it draws power once
+        /** Is true if a bionic is an active instead of a passive bionic */
+        bool activated;
+        /** If true, then the bionic only has a function when activated, else it causes
+         *  it's effect every turn. */
+        bool toggled;
+        /** Power cost on activation */
+        int power_activate;
+        /** Power cost on deactivation */
+        int power_deactivate;
+        /** Power cost over time, does nothing without a non-zero charge_time */
+        int power_over_time;
+        /** How often a bionic draws power while active in turns */
+        int charge_time;
         std::string description;
-        bool faulty; // Whether or not the bionic is faulty
+        /** True if a bionic is a "faulty" bionic */
+        bool faulty;
 };
 
 struct bionic : public JsonSerializer, public JsonDeserializer {

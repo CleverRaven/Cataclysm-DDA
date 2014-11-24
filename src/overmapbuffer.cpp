@@ -429,9 +429,9 @@ std::vector<point> overmapbuffer::find_all(const tripoint& origin, const std::st
 
 npc* overmapbuffer::find_npc(int id) {
     for( auto &it : overmaps ) {
-        for (size_t i = 0; i < it.second->npcs.size(); i++) {
-            if (it.second->npcs[i]->getID() == id) {
-                return it.second->npcs[i];
+        for( auto &elem : it.second->npcs ) {
+            if( elem->getID() == id ) {
+                return elem;
             }
         }
     }
@@ -494,8 +494,8 @@ std::vector<npc*> overmapbuffer::get_npcs_near(int x, int y, int z, int radius)
 {
     std::vector<npc*> result;
     for( auto &it : get_overmaps_near( point( x, y ), radius ) ) {
-        for (size_t i = 0; i < it->npcs.size(); i++) {
-            npc *p = it->npcs[i];
+        for( auto &elem : it->npcs ) {
+            npc *p = elem;
             // Global position of NPC, in submap coordiantes
             const tripoint pos = p->global_sm_location();
             if (pos.z != z) {
@@ -514,8 +514,8 @@ std::vector<npc*> overmapbuffer::get_npcs_near_omt(int x, int y, int z, int radi
 {
     std::vector<npc*> result;
     for( auto &it : get_overmaps_near( omt_to_sm_copy( x, y ), radius ) ) {
-        for (size_t i = 0; i < it->npcs.size(); i++) {
-            npc *p = it->npcs[i];
+        for( auto &elem : it->npcs ) {
+            npc *p = elem;
             // Global position of NPC, in submap coordiantes
             tripoint pos = p->global_omt_location();
             if (pos.z != z) {

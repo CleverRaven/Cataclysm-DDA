@@ -1165,9 +1165,9 @@ void iexamine::egg_sack_generic( player *p, map *m, int examx, int examy,
         monster spiderling( GetMType( montype ) );
         int monster_count = 0;
         const std::vector<point> points = closest_points_first( 1, point( examx, examy ) );
-        for( auto it = points.begin(); it != points.end(); ++it ) {
-            if( g->is_empty( it->x, it->y ) && one_in( 3 ) ) {
-                spiderling.spawn( it->x, it->y );
+        for( const auto &point : points ) {
+            if( g->is_empty( point.x, point.y ) && one_in( 3 ) ) {
+                spiderling.spawn( point.x, point.y );
                 g->add_zombie( spiderling );
                 monster_count++;
             }
@@ -1972,7 +1972,8 @@ void iexamine::trap(player *p, map *m, int examx, int examy)
     const struct trap &t = *traplist[tid];
     const int possible = t.get_difficulty();
     if ( (t.can_see(*p, examx, examy)) && (possible == 99) ) {
-        add_msg(m_info, _("That looks too dangerous to mess with. Best leave it alone."));
+        add_msg(m_info, _("That %s looks too dangerous to mess with. Best leave it alone."),
+            t.name.c_str());
         return;
     }
     // Some traps are not actual traps. Those should get a different query.
@@ -2128,9 +2129,9 @@ void iexamine::reload_furniture(player *p, map *m, const int examx, const int ex
     }
     p->reduce_charges(pos, amount);
     std::vector<item> &items = m->i_at(examx, examy);
-    for (size_t i = 0; i < items.size(); i++) {
-        if (items[i].type == ammo) {
-            items[i].charges += amount;
+    for( auto &item : items ) {
+        if( item.type == ammo ) {
+            item.charges += amount;
             amount = 0;
             break;
         }
@@ -2268,8 +2269,7 @@ static int getGasDiscountCardQuality(item it)
 {
     std::set<std::string> tags = it.type->item_tags;
 
-    for( std::set<std::string>::iterator it = tags.begin(); it != tags.end(); ++it ) {
-        std::string tag = (*it);
+    for( auto tag : tags ) {
 
         if( tag.size() > 15 && tag.substr(0, 15) == "DISCOUNT_VALUE_" ) {
             return atoi(tag.substr(15).c_str());

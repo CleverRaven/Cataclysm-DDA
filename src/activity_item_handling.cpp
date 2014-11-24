@@ -78,10 +78,10 @@ static point get_item_pointers_from_activity(
             // We MUST have pointers to these items, and this is the only way I can see to get them.
             std::list<item> &stack = (std::list<item> &)g->u.inv.const_stack( position );
             int items_dropped = 0;
-            for( auto it = stack.begin(); it != stack.end(); ++it ) {
-                selected_items.push_back( &*it );
-                if( it->count_by_charges() ) {
-                    const int qty_to_drop = std::min( quantity - items_dropped, (int)it->charges );
+            for( auto &elem : stack ) {
+                selected_items.push_back( &elem );
+                if( elem.count_by_charges() ) {
+                    const int qty_to_drop = std::min( quantity - items_dropped, (int)elem.charges );
                     item_quantities.push_back( qty_to_drop );
                     items_dropped += qty_to_drop;
                 } else {

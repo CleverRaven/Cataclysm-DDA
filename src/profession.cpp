@@ -198,10 +198,9 @@ void profession::check_definition() const
         }
     }
 
-    for (StartingSkillList::const_iterator a = _starting_skills.begin(); a != _starting_skills.end();
-         ++a) {
+    for( const auto &elem : _starting_skills ) {
         // Skill::skill shows a debug message if the skill is unknown
-        Skill::skill(a->first);
+        Skill::skill( elem.first );
     }
 }
 

@@ -279,6 +279,8 @@ private:
     // Do stuff like clean up blood and produce smoke from broken parts. Returns false if nothing needs doing.
     bool do_environmental_effects();
 
+    int total_folded_volume() const;
+
     /**
      * Find a possibly off-map vehicle. If necessary, loads up its submap through
      * the global MAPBUFFER and pulls it from there. For this reason, you should only
@@ -492,7 +494,7 @@ public:
      */
     int discharge_battery (int amount, bool recurse = true);
 
-// get the total mass of vehicle, including cargo and passengers
+    // get the total mass of vehicle, including cargo and passengers
     int total_mass ();
 
 // get center of mass of vehicle; coordinates are precalc_dx[0] and precalc_dy[0]

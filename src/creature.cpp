@@ -728,15 +728,15 @@ void Creature::process_effects()
     std::vector<body_part> rem_bps;
     
     // Decay/removal of effects
-    for (auto maps = effects.begin(); maps != effects.end(); ++maps) {
-        for( auto it = maps->second.begin(); it != maps->second.end(); ++it ) {
+    for( auto &elem : effects ) {
+        for( auto &_it : elem.second ) {
             // Add any effects that others remove to the removal list
-            if (it->second.get_removes_effect() != "") {
-                rem_ids.push_back(it->second.get_removes_effect());
+            if( _it.second.get_removes_effect() != "" ) {
+                rem_ids.push_back( _it.second.get_removes_effect() );
                 rem_bps.push_back(num_bp);
             }
             // Run decay effects
-            it->second.decay(rem_ids, rem_bps, calendar::turn, is_player());
+            _it.second.decay( rem_ids, rem_bps, calendar::turn, is_player() );
         }
     }
     

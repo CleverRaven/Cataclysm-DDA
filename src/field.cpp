@@ -1294,16 +1294,15 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                                 std::vector<point> candidate_positions =
                                     squares_in_direction( x, y, g->u.xpos(), g->u.ypos() );
-                                for( auto new_position = candidate_positions.begin();
-                                     new_position != candidate_positions.end(); ++new_position ) {
-                                    field &target_field = get_field( new_position->x,
-                                                                    new_position->y );
+                                for( auto &candidate_position : candidate_positions ) {
+                                    field &target_field =
+                                        get_field( candidate_position.x, candidate_position.y );
                                     // Only shift if there are no bees already there.
                                     // TODO: Figure out a way to merge bee fields without allowing
                                     // Them to effectively move several times in a turn depending
                                     // on iteration direction.
                                     if( !target_field.findField( fd_bees ) ) {
-                                        add_field( *new_position, fd_bees,
+                                        add_field( candidate_position, fd_bees,
                                                    cur->getFieldDensity(), cur->getFieldAge() );
                                         cur->setFieldDensity( 0 );
                                         break;

@@ -144,8 +144,8 @@ long explosion_iuse::use(player *p, item *it, bool t, point pos) const
     }
     if (fields_radius >= 0 && fields_type != fd_null) {
         std::vector<point> gas_sources = points_for_gas_cloud(pos, fields_radius);
-        for(size_t i = 0; i < gas_sources.size(); i++) {
-            const point &p = gas_sources[i];
+        for( auto &gas_source : gas_sources ) {
+            const point &p = gas_source;
             const int dens = rng(fields_min_density, fields_max_density);
             g->m.add_field(p.x, p.y, fields_type, dens);
         }
@@ -216,8 +216,8 @@ long unfold_vehicle_iuse::use(player *p, item *it, bool /*t*/, point /*pos*/) co
     veh_data.str(data);
     if (!data.empty() && data[0] >= '0' && data[0] <= '9') {
         // starts with a digit -> old format
-        for (size_t p = 0; p < veh->parts.size(); p++) {
-            veh_data >> veh->parts[p].hp;
+        for( auto &elem : veh->parts ) {
+            veh_data >> elem.hp;
         }
     } else {
         try {
@@ -280,7 +280,7 @@ long consume_drug_iuse::use(player *p, item *it, bool, point) const
         if (eff.id == "null") {
             continue;
         }
-        
+
         int dur = eff.duration;
         if (p->has_trait("TOLERANCE")) {
             dur *= .8;
@@ -371,7 +371,7 @@ long place_monster_iuse::use( player *p, item *it, bool, point ) const
     const int damfac = 5 - std::max<int>( 0, it->damage ); // 5 (no damage) ... 1 (max damage)
     // One hp at least, everything else would be unfair (happens only to monster with *very* low hp),
     newmon.hp = std::max( 1, newmon.hp * damfac / 5 );
-    if( rng( 0, p->int_cur / 2 ) + p->skillLevel( "electronics" ) / 2 + p->skillLevel( "computer" ) <
+    if( rng( 0, p->int_cur / 2 ) + p->skillLevel( skill1 ) / 2 + p->skillLevel( skill2 ) <
         rng( 0, difficulty ) ) {
         if( hostile_msg.empty() ) {
             p->add_msg_if_player( m_bad, _( "The %s scans you and makes angry beeping noises!" ),

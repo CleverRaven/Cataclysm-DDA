@@ -410,15 +410,15 @@ bool can_butcher_at(int x, int y)
     std::vector<item> &items = g->m.i_at(x, y);
     bool has_corpse, has_item = false;
     const inventory &crafting_inv = g->u.crafting_inventory();
-    for (std::vector<item>::iterator it = items.begin();
-         it != items.end(); ++it) {
-        if (it->type->id == "corpse" && it->corpse != NULL) {
+    for( auto &items_it : items ) {
+        if( items_it.type->id == "corpse" && items_it.corpse != NULL ) {
             if (factor != INT_MIN) {
                 has_corpse = true;
             }
         } else {
-            const recipe *cur_recipe = get_disassemble_recipe(it->type->id);
-            if (cur_recipe != NULL && g->u.can_disassemble(&*it, cur_recipe, crafting_inv, false)) {
+            const recipe *cur_recipe = get_disassemble_recipe( items_it.type->id );
+            if( cur_recipe != NULL &&
+                g->u.can_disassemble( &items_it, cur_recipe, crafting_inv, false ) ) {
                 has_item = true;
             }
         }
@@ -708,10 +708,9 @@ action_id handle_action_menu()
         }
 
         int width = 0;
-        for (std::vector<uimenu_entry>::iterator entry = entries.begin();
-             entry != entries.end(); ++entry) {
-            if (width < (int)entry->txt.length()) {
-                width = entry->txt.length();
+        for( auto &entrie : entries ) {
+            if( width < (int)entrie.txt.length() ) {
+                width = entrie.txt.length();
             }
         }
         //border=2, selectors=3, after=3 for balance.

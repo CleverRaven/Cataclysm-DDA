@@ -617,7 +617,7 @@ void effect::decay(std::vector<std::string> &rem_ids, std::vector<body_part> &re
         intensity = eff_type->max_intensity;
     }
     // Display decay message if available
-    if (player && tmp_int > intensity && int(eff_type->decay_msgs.size()) >= intensity - 1) {
+    if (player && tmp_int > intensity && (intensity - 1) < int(eff_type->decay_msgs.size())) {
         // -1 because intensity = 1 is the first message
         add_msg(eff_type->decay_msgs[intensity - 1].second, eff_type->decay_msgs[intensity - 1].first.c_str());
     }

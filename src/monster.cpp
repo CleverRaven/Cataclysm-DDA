@@ -53,8 +53,8 @@ monster::monster(mtype *t)
  moves = type->speed;
  Creature::set_speed_base(type->speed);
  hp = type->hp;
- for (size_t i = 0; i < type->sp_freq.size(); ++i) {
-    sp_timeout.push_back(rng(0, type->sp_freq[i]));
+ for( auto &elem : type->sp_freq ) {
+     sp_timeout.push_back( rng( 0, elem ) );
  }
  def_chance = type->def_chance;
  friendly = 0;
@@ -82,8 +82,8 @@ monster::monster(mtype *t, int x, int y)
  moves = type->speed;
  Creature::set_speed_base(type->speed);
  hp = type->hp;
- for (size_t i = 0; i < type->sp_freq.size(); ++i) {
-    sp_timeout.push_back(type->sp_freq[i]);
+ for( auto &elem : type->sp_freq ) {
+     sp_timeout.push_back( elem );
  }
  def_chance = type->def_chance;
  friendly = 0;
@@ -135,8 +135,8 @@ void monster::poly(mtype *t)
  morale = type->morale;
  hp = int(hp_percentage * type->hp);
  sp_timeout.clear();
- for (size_t i = 0; i < type->sp_freq.size(); ++i) {
-    sp_timeout.push_back(type->sp_freq[i]);
+ for( auto &elem : type->sp_freq ) {
+     sp_timeout.push_back( elem );
  }
  def_chance = type->def_chance;
 }
@@ -589,8 +589,8 @@ int monster::trigger_sum(std::set<monster_trigger> *triggers) const
 {
     int ret = 0;
     bool check_terrain = false, check_meat = false, check_fire = false;
-    for (auto trig = triggers->begin(); trig != triggers->end(); ++trig){
-        switch (*trig) {
+    for( const auto &trigger : *triggers ) {
+        switch( trigger ) {
             case MTRIG_STALK:
                 if (anger > 0 && one_in(20)) {
                     ret++;
@@ -634,10 +634,9 @@ int monster::trigger_sum(std::set<monster_trigger> *triggers) const
             for (int y = _posy - 3; y <= _posy + 3; y++) {
                 if (check_meat) {
                     std::vector<item> *items = &(g->m.i_at(x, y));
-                    for (size_t n = 0; n < items->size(); n++) {
-                        if ((*items)[n].type->id == "corpse" || (*items)[n].type->id == "meat" ||
-                              (*items)[n].type->id == "meat_cooked" ||
-                              (*items)[n].type->id == "human_flesh") {
+                    for( auto &item : *items ) {
+                        if( item.type->id == "corpse" || item.type->id == "meat" ||
+                            item.type->id == "meat_cooked" || item.type->id == "human_flesh" ) {
                             ret += 3;
                             check_meat = false;
                         }
@@ -686,9 +685,8 @@ bool monster::block_hit(Creature *, body_part &, damage_instance &) {
 }
 
 void monster::absorb_hit(body_part, damage_instance &dam) {
-    for (std::vector<damage_unit>::iterator it = dam.damage_units.begin();
-         it != dam.damage_units.end(); ++it) {
-        it->amount -= std::min(resistances(*this).get_effective_resist(*it), it->amount);
+    for( auto &elem : dam.damage_units ) {
+        elem.amount -= std::min( resistances( *this ).get_effective_resist( elem ), elem.amount );
     }
 }
 
@@ -1323,8 +1321,8 @@ void monster::die(Creature* nkiller) {
         //Not a hallucination, go process the death effects.
         std::vector<void (mdeath::*)(monster *)> deathfunctions = type->dies;
         void (mdeath::*func)(monster *);
-        for (size_t i = 0; i < deathfunctions.size(); i++) {
-            func = deathfunctions.at(i);
+        for( auto &deathfunction : deathfunctions ) {
+            func = deathfunction;
             (md.*func)(this);
         }
     }
@@ -1371,9 +1369,9 @@ void monster::process_effects()
 {
     // Monster only effects
     int mod = 1;
-    for( auto maps = effects.begin(); maps != effects.end(); ++maps ) {
-        for (auto effect_it = maps->second.begin(); effect_it != maps->second.end(); ++effect_it) {
-            auto &it = effect_it->second;
+    for( auto &elem : effects ) {
+        for( auto &_effect_it : elem.second ) {
+            auto &it = _effect_it.second;
             // Monsters don't get trait-based reduction, but they do get effect based reduction
             bool reduced = has_effect(it.get_resist_effect());
             
@@ -1384,8 +1382,8 @@ void monster::process_effects()
                     apply_damage(nullptr, bp_torso, it.get_mod("HURT", reduced));
                 }
             }
-            
-            std::string id = effect_it->second.get_id();
+
+            std::string id = _effect_it.second.get_id();
             // MATERIALS-TODO: use fire resistance
             if (id == "onfire") {
                 if (made_of("flesh") || made_of("iflesh"))
