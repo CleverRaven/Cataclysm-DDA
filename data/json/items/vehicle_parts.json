@@ -917,6 +917,7 @@
         "volume" : 14,
         "bashing" : 0,
         "cutting" : 0,
+		"category" : "veh_parts",
         "price" : 800
     },
     {
