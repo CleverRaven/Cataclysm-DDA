@@ -10931,7 +10931,7 @@
         "id" : "mask_guy_fawkes",
         "name" : "Guy Fawkes Mask",
         "category" : "armor",
-        "weight" : 228,
+        "weight" : 28,
         "color" : "white",
         "covers" : ["MOUTH", "EYES"],
         "to_hit" : -3,
@@ -10945,11 +10945,11 @@
         "warmth" : 5,
         "phase" : "solid",
         "environmental_protection" : 1,
-        "encumbrance" : 2,
+        "encumbrance" : 1,
         "bashing" : 0,
         "flags" : ["WATER_FRIENDLY", "STURDY"],
         "coverage" : 95,
-        "material_thickness" : 3
+        "material_thickness" : 1
     }
 ]
 
