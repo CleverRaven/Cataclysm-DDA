@@ -4814,7 +4814,7 @@
   "autolearn": true,
   "qualities" : [
     {"id":"HAMMER","level":1,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
     [
       [ "soldering_iron", 20 ],
