@@ -973,7 +973,7 @@
     "description": "A large and heavy pistol evidently welded from scrap. It's not pretty, but the .45 it's chambered with packs a serious punch. Just watch out for the kick.",
     "price": 60000,
     "material": ["steel"],
-    "flags": ["RELOAD_ONE"]
+    "flags": ["RELOAD_ONE"],
     "skill": "pistol",
     "ammo": "45",
     "weight": 1200,
