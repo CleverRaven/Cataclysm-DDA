@@ -5964,6 +5964,14 @@ void game::hallucinate(const int x, const int y)
     wrefresh(w_terrain);
 }
 
+float game::ground_natural_light_level() const
+{
+    float ret = (float)calendar::turn.sunlight();
+    ret += weather_data[weather].light_modifier;
+
+    return std::max(0.0f, ret);
+}
+
 float game::natural_light_level() const
 {
     float ret = 0;

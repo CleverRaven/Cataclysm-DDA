@@ -2376,7 +2376,7 @@ int vehicle::solar_epower ()
             int part_y = global_y() + parts[elem].precalc_dy[0];
             // Can't use g->in_sunlight() because it factors in vehicle roofs.
             if( !g->m.has_flag_ter_or_furn( TFLAG_INDOORS, part_x, part_y ) ) {
-                epower += ( part_epower( elem ) * g->natural_light_level() ) / DAYLIGHT_LEVEL;
+                epower += ( part_epower( elem ) * g->ground_natural_light_level() ) / DAYLIGHT_LEVEL;
             }
         }
     }
