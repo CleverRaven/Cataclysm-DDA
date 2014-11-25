@@ -7332,5 +7332,16 @@
   "reversible": false,
   "autolearn": true,
   "components": [ [ [ "straw_pile", 4 ] ] ]
+},{
+  "type" : "recipe",
+  "result": "straw_hat",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_FEET",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "time": 25000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [ [ [ "straw_pile", 3 ] ] ]
 }
 ]

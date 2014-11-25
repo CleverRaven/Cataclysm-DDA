@@ -2141,5 +2141,16 @@
     "reversible": true,
     "autolearn": false,
     "components": [ [ [ "straw_pile", 2 ] ] ]
+},{
+    "type" : "recipe",
+    "result": "straw_hat",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 1500,
+    "reversible": true,
+    "autolearn": false,
+    "components": [ [ [ "straw_pile", 2 ] ] ]
 }
 ]
