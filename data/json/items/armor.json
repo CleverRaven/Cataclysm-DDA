@@ -10748,7 +10748,7 @@
         "environmental_protection" : 1,
         "encumbrance" : 1,
         "bashing" : -5,
-        "flags" : ["VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF"],
+        "flags" : ["VARSIZE", "POCKETS", "OUTER"],
         "coverage" : 90,
         "material_thickness" : 2
     },
@@ -10773,7 +10773,7 @@
         "environmental_protection" : 1,
         "encumbrance" : 1,
         "bashing" : -5,
-        "flags" : ["VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF"],
+        "flags" : ["VARSIZE", "POCKETS", "OUTER"],
         "coverage" : 90,
         "material_thickness" : 2
     },
