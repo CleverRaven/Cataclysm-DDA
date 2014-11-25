@@ -265,64 +265,53 @@ void Pickup::pick_one_up( const point &pickup_target, std::vector<item> &here, v
                                              newit.charges), newit.tname(newit.charges).c_str());
                 }
             }
-        } else if( g->u.is_armed() && !autopickup ) {
-            if (!g->u.weapon.has_flag("NO_UNWIELD")) {
-                // Armor can be instantly worn
-                if (newit.is_armor() &&
-                    query_yn(_("Put on the %s?"),
-                             newit.display_name().c_str())) {
-                    if (g->u.wear_item(&newit)) {
-                        picked_up = true;
-                    }
-                } else if( !offered_swap ) {
-                    offered_swap = true;
-                    if ( g->u.weapon.type->id != newit.type->id &&
-                         query_yn(_("No space for %s; wield instead? (drops %s)"),
-                                  newit.display_name().c_str(),
-                                  g->u.weapon.display_name().c_str()) ) {
-                        picked_up = true;
-                        g->m.add_item_or_charges( pickup_target.x, pickup_target.y,
-                                                  g->u.remove_weapon(), 1 );
-                        g->u.inv.assign_empty_invlet( newit, true ); // force getting an invlet.
-                        g->u.wield( &( g->u.i_add(newit) ) );
-                        add_msg(m_info, _("Wielding %c - %s"), newit.invlet,
-                                newit.display_name().c_str());
-                    }
+        } else if( !autopickup ) {
+            // Armor can be instantly worn
+            if (newit.is_armor() &&
+                query_yn(_("Put on the %s?"),
+                         newit.display_name().c_str())) {
+                if (g->u.wear_item(&newit)) {
+                    picked_up = true;
                 }
-            } else {
-                add_msg(m_info, _("There's no room in your inventory for the %s "
-                                  "and you can't unwield your %s."),
-                        newit.display_name().c_str(),
-                        g->u.weapon.display_name().c_str());
-            }
-        } else if( !g->u.is_armed()  ) {
-            if (g->u.keep_hands_free) {
-                add_msg(m_info, _("There's no room in your inventory for the %s "
-                                  "and you have decided to keep your hands free."),
-                        newit.display_name().c_str());
-            } else {
-                g->u.inv.assign_empty_invlet(newit, true);  // force getting an invlet.
-                g->u.wield(&(g->u.i_add(newit)));
-                picked_up = true;
-                add_msg(m_info, _("Wielding %c - %s"), newit.invlet, newit.display_name().c_str());
-            }
-        }
+            } else if (g->u.is_armed()) {
+                if (!g->u.weapon.has_flag("NO_UNWIELD")) {
+                     if( !offered_swap ) {
+                        offered_swap = true;
+                        if ( g->u.weapon.type->id != newit.type->id &&
+                             query_yn(_("No space for %s; wield instead? (drops %s)"),
+                                      newit.display_name().c_str(),
+                                      g->u.weapon.display_name().c_str()) ) {
+                            picked_up = true;
+                            g->m.add_item_or_charges( pickup_target.x, pickup_target.y,
+                                                      g->u.remove_weapon(), 1 );
+                            g->u.inv.assign_empty_invlet( newit, true ); // force getting an invlet.
+                            g->u.wield( &( g->u.i_add(newit) ) );
+                            add_msg(m_info, _("Wielding %c - %s"), newit.invlet,
+                                    newit.display_name().c_str());
+                        }
+                    }
+                } else {
+                    add_msg(m_info, _("There's no room in your inventory for the %s "
+                                      "and you can't unwield your %s."),
+                            newit.display_name().c_str(),
+                            g->u.weapon.display_name().c_str());
+                }
+            } else if( !g->u.is_armed()  ) {
+                if (g->u.keep_hands_free) {
+                    add_msg(m_info, _("There's no room in your inventory for the %s "
+                                      "and you have decided to keep your hands free."),
+                            newit.display_name().c_str());
+                } else {
+                    g->u.inv.assign_empty_invlet(newit, true);  // force getting an invlet.
+                    g->u.wield(&(g->u.i_add(newit)));
+                    picked_up = true;
+                    add_msg(m_info, _("Wielding %c - %s"), newit.invlet, newit.display_name().c_str());
+                }
+            } // end of if unarmed
+        } // end of if !autopickup
     } else if (newit.is_ammo() && (newit.ammo_type() == "arrow" || newit.ammo_type() == "bolt")) {
         //add ammo to quiver
         handle_quiver_insertion(newit, true, moves_taken, picked_up);
-    } else if (!g->u.is_armed() &&
-               (g->u.volume_carried() + newit.volume() > g->u.volume_capacity() - 2 ||
-                g->u.is_suitable_weapon(newit))) {
-        if (g->u.keep_hands_free) {
-            add_msg(m_info, _("There's no room in your inventory for the %s "
-                              "and you have decided to keep your hands free."),
-                    newit.display_name().c_str());
-        } else {
-            g->u.inv.assign_empty_invlet(newit, true);  // force getting an invlet.
-            g->u.weapon = newit;
-            picked_up = true;
-            add_msg(m_info, _("Wielding %c - %s"), newit.invlet, newit.display_name().c_str());
-        }
     } else {
         mapPickup[newit.tname()] += (newit.count_by_charges()) ? newit.charges : 1;
         item_info[newit.tname()] = g->u.i_add(newit);

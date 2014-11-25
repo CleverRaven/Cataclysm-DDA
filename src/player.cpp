@@ -13659,20 +13659,6 @@ bool player::is_deaf() const
     return has_effect("deaf") || worn_with_flag("DEAF");
 }
 
-bool player::is_suitable_weapon( const item &it ) const
-{
-    // if style is selected, always prefer compatible weapons
-    if( get_combat_style().has_weapon( it.typeId() ) ) {
-        return true;
-    }
-    // Assume all martial art styles can use any UNARMED_WEAPON item.
-    // This includes the brawling style
-    if( style_selected != "style_none" ) {
-        return it.has_flag( "UNARMED_WEAPON" );
-    }
-    return false;
-}
-
 int player::print_info(WINDOW* w, int vStart, int, int column) const
 {
     mvwprintw( w, vStart++, column, _( "You (%s)" ), name.c_str() );
