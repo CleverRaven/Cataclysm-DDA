@@ -7862,7 +7862,7 @@ static bool heat_item(player *p)
         return false;
     }
     item *target = heat->is_food_container() ? &(heat->contents[0]) : heat;
-    if ((target->type->is_food()) && (target->has_flag("EATEN_HOT"))) {
+    if ((target->is_food()) && (target->has_flag("EATEN_HOT"))) {
         p->moves -= 300;
         add_msg(_("You heat up the food."));
         target->item_tags.insert("HOT");
@@ -7969,7 +7969,7 @@ int iuse::quiver(player *p, item *it, bool, point)
             return 0;
         }
 
-        if (!(put->type->is_ammo() && (put->ammo_type() == "arrow" || put->ammo_type() == "bolt"))) {
+        if (!(put->is_ammo() && (put->ammo_type() == "arrow" || put->ammo_type() == "bolt"))) {
             p->add_msg_if_player(m_info, _("Those aren't arrows!"));
             return 0;
         }
@@ -8034,7 +8034,7 @@ int iuse::holster_pistol(player *p, item *it, bool, point)
         }
 
         // make sure we're holstering a pistol
-        if (put->type->is_gun()) {
+        if (put->is_gun()) {
             it_gun *gun = dynamic_cast<it_gun *>(put->type);
             if (!(gun->skill_used == Skill::skill("pistol"))) {
                 p->add_msg_if_player(m_info, _("The %s isn't a pistol!"), put->tname().c_str());
@@ -8357,7 +8357,7 @@ int iuse::boots(player *p, item *it, bool, point)
             p->add_msg_if_player(m_info, _("That isn't a knife!"));
             return 0;
         }
-        if (put->type->volume > 5) {
+        if (put->volume() > 5) {
             p->add_msg_if_player(m_info, _("That item does not fit in your boot!"));
             return 0;
         }

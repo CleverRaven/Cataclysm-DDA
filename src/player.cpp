@@ -837,19 +837,17 @@ void player::update_bodytemp()
     if( in_sleep_state() ) {
         // Search the floor for items
         std::vector<item> &floor_item = g->m.i_at(posx, posy);
-        it_armor *floor_armor = NULL;
 
         for( auto &elem : floor_item ) {
             if( !elem.is_armor() ) {
                 continue;
             }
-            floor_armor = dynamic_cast<it_armor *>( elem.type );
             // Items that are big enough and covers the torso are used to keep warm.
             // Smaller items don't do as good a job
-            if( floor_armor->volume > 1 &&
+            if( elem.volume() > 1 &&
                 ( elem.covers.test( bp_torso ) || elem.covers.test( bp_leg_l ) ||
                   elem.covers.test( bp_leg_r ) ) ) {
-                floor_item_warmth += 60 * elem.get_warmth() * floor_armor->volume / 10;
+                floor_item_warmth += 60 * elem.get_warmth() * elem.volume() / 10;
             }
         }
 
@@ -9423,8 +9421,8 @@ bool player::consume(int target_position)
             charge_power(to_eat->charges / factor);
             to_eat->charges -= max_change * factor; //negative charges seem to be okay
             to_eat->charges++; //there's a flat subtraction later
-        } else if (!to_eat->type->is_food() && !to_eat->is_food_container(this)) {
-            if (to_eat->type->is_book()) {
+        } else if (!to_eat->is_food() && !to_eat->is_food_container(this)) {
+            if (to_eat->is_book()) {
                 it_book* book = dynamic_cast<it_book*>(to_eat->type);
                 if (book->type != NULL && !query_yn(_("Really eat %s?"), to_eat->tname().c_str())) {
                     return false;
@@ -10267,8 +10265,6 @@ hint_rating player::rate_action_wear(item *it)
         return HINT_CANT;
     }
 
-    it_armor* armor = dynamic_cast<it_armor*>(it->type);
-
     // are we trying to put on power armor? If so, make sure we don't have any other gear on.
     if (it->is_power_armor() && worn.size()) {
         if (it->covers.test(bp_torso)) {
@@ -10279,7 +10275,7 @@ hint_rating player::rate_action_wear(item *it)
     }
     // are we trying to wear something over power armor? We can't have that, unless it's a backpack, or similar.
     if (worn.size() && worn[0].is_power_armor() && !(it->covers.test(bp_head))) {
-        if (!(it->covers.test(bp_torso) && armor->color == c_green)) {
+        if (!(it->covers.test(bp_torso) && it->color() == c_green)) {
             return HINT_IFFY;
         }
     }
@@ -10780,7 +10776,7 @@ bool player::takeoff(int inventory_position, bool autodrop, std::vector<item> *i
             if( items != nullptr ) {
                 items->push_back( w );
                 taken_off = true;
-            } else if (autodrop || volume_capacity() - w.get_storage() > volume_carried() + int(w.type->volume)) {
+            } else if (autodrop || volume_capacity() - w.get_storage() > volume_carried() + w.volume()) {
                 inv.add_item_keep_invlet(w);
                 taken_off = true;
             } else if (query_yn(_("No room in inventory for your %s.  Drop it?"),
@@ -11911,7 +11907,6 @@ float player::fine_detail_vision_mod()
 
 int player::get_wind_resistance(body_part bp) const
 {
-    const it_armor* armor = NULL;
     int coverage = 0;
     float totalExposed = 1.0;
     int totalCoverage = 0;
@@ -11919,8 +11914,6 @@ int player::get_wind_resistance(body_part bp) const
 
     for (auto &i : worn)
     {
-        armor = dynamic_cast<const it_armor*>(i.type);
-
         if (i.covers.test(bp))
         {
             if (i.made_of("leather") || i.made_of("plastic") || i.made_of("bone") || i.made_of("chitin") || i.made_of("nomex"))
@@ -11959,7 +11952,6 @@ int player::get_wind_resistance(body_part bp) const
 int player::warmth(body_part bp) const
 {
     int ret = 0, warmth = 0;
-    const it_armor* armor = NULL;
 
     // If the player is not wielding anything, check if hands can be put in pockets
     if((bp == bp_hand_l || bp == bp_hand_r) && !is_armed() && (temp_conv[bp] <=  BODYTEMP_COLD) &&
@@ -11974,8 +11966,6 @@ int player::warmth(body_part bp) const
     }
 
     for (auto &i : worn) {
-        armor = dynamic_cast<const it_armor*>(i.type);
-
         if (i.covers.test(bp)) {
             warmth = i.get_warmth();
             // Wool items do not lose their warmth due to being wet.
@@ -12281,8 +12271,6 @@ void get_armor_on(player* p, body_part bp, std::vector<int>& armor_indices) {
 
 // mutates du, returns true if armor was damaged
 bool player::armor_absorb(damage_unit& du, item& armor) {
-    it_armor* armor_type = dynamic_cast<it_armor*>(armor.type);
-
     float mitigation = 0; // total amount of damage mitigated
     float effective_resist = resistances(armor).get_effective_resist(du);
     bool armor_damaged = false;
@@ -12379,7 +12367,6 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
 // get rid of this.
 void player::absorb(body_part bp, int &dam, int &cut)
 {
-    it_armor* tmp;
     int arm_bash = 0, arm_cut = 0;
     bool cut_through = true;      // to determine if cutting damage penetrates multiple layers of armor
     int bash_absorb = 0;      // to determine if lower layers of armor get damaged
@@ -12409,7 +12396,6 @@ void player::absorb(body_part bp, int &dam, int &cut)
 
     // See, we do it backwards, iterating inwards
     for (int i = worn.size() - 1; i >= 0; i--) {
-        tmp = dynamic_cast<it_armor*>(worn[i].type);
         if (worn[i].covers.test(bp)) {
             // first determine if damage is at a covered part of the body
             // probability given by coverage

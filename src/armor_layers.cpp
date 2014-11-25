@@ -6,8 +6,6 @@
 
 void player::sort_armor()
 {
-    it_armor *each_armor = 0;
-
     /* Define required height of the right pane:
     * + 3 - horizontal lines;
     * + 1 - caption line;
@@ -134,7 +132,6 @@ void player::sort_armor()
         // Left list
         for (int drawindex = 0; drawindex < leftListSize; drawindex++) {
             int itemindex = leftListOffset + drawindex;
-            each_armor = dynamic_cast<it_armor *>(tmp_worn[itemindex]->type);
 
             if (itemindex == leftListIndex) {
                 mvwprintz(w_sort_left, drawindex + 1, 0, c_yellow, ">>");
@@ -203,7 +200,6 @@ void player::sort_armor()
             }
             rightListSize++;
             for( auto &elem : worn ) {
-                each_armor = dynamic_cast<it_armor *>( elem.type );
                 if( elem.covers.test( cover ) ) {
                     if (rightListSize >= rightListOffset && pos <= cont_h - 2) {
                         mvwprintz( w_sort_right, pos, 2, dam_color[int( elem.damage + 1 )],
@@ -394,7 +390,6 @@ std::string clothing_layer(item *worn_item)
 
 std::vector<std::string> clothing_properties(item *worn_item, int width)
 {
-    it_armor *each_armor = dynamic_cast<it_armor *>(worn_item->type);
     std::vector<std::string> props;
     props.push_back(name_and_value(_("Coverage:"),
                                    string_format("%3d", worn_item->get_coverage()), width));

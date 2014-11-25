@@ -717,8 +717,6 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         dump->push_back(iteminfo("GUNMOD", temp2.str()));
 
     } else if (is_armor()) {
-        it_armor* armor = dynamic_cast<it_armor*>(type);
-
         temp1.str("");
         temp1 << _("Covers: ");
         if (covers.test(bp_head)) {

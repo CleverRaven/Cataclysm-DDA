@@ -218,7 +218,7 @@ void tutorial_game::post_action(action_id act)
    add_message(LESSON_GOT_TOOL);
   else if (it.is_food())
    add_message(LESSON_GOT_FOOD);
-  else if (it.type->melee_dam > 7 || it.type->melee_cut > 5)
+  else if (it.is_weap())
    add_message(LESSON_GOT_WEAPON);
 
   if (g->u.volume_carried() > g->u.volume_capacity() - 2)

@@ -943,9 +943,7 @@ bool inventory::has_items_with_quality(std::string id, int level, int amount) co
             if( !elem_stack_iter.contents.empty() && elem_stack_iter.is_container() ) {
                 continue;
             }
-            auto quality_iter = elem_stack_iter.type->qualities.find( id );
-            if( quality_iter != elem_stack_iter.type->qualities.end() &&
-                level <= quality_iter->second ) {
+            if( elem_stack_iter.has_quality( id, level ) ) {
                 found++;
             }
         }

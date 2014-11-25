@@ -8590,10 +8590,8 @@ bool pet_menu(monster *z)
             return true;
         }
 
-        it_armor *armor = dynamic_cast<it_armor *>(it->type);
-
         int max_cap = it->get_storage();
-        int max_weight = z->weight_capacity() - armor->weight;
+        int max_weight = z->weight_capacity() - it->weight();
 
         if (z->inv.size() > 1) {
             for (auto &i : z->inv) {
