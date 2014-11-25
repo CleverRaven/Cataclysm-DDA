@@ -3077,6 +3077,28 @@
   ]
 },{
         "type" : "recipe",
+  "result": "hat_boonie",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 25000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 10 ],
+      [ "needle_wood", 10 ],
+      [ "sewing_kit", 10 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 4 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "hat_noise_cancelling",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
