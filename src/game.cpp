@@ -4650,7 +4650,7 @@ void game::debug()
                       _("Unlock all recipes"),     // 13
                       _("Check NPC"),              // 14
                       _("Spawn Artifact"),         // 15
-                      _("Spawn Clarivoyance Artifact"), //16
+                      _("Spawn Clairvoyance Artifact"), //16
                       _("Map editor"), // 17
                       _("Change weather"),         // 18
                       _("Remove all monsters"),    // 19
