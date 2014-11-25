@@ -791,11 +791,7 @@
     {"id":"SAW_M_FINE","level":1,"amount":1}
   ], "tools": [
     [
-      [ "goggles_welding", -1 ],
-      [
-		[ "small_repairkit", -1 ],
-		[ "large_repairkit", -1 ]
-	  ]
+      [ "goggles_welding", -1 ]
     ],
     [
       [ "oxy_torch", 6 ],
@@ -829,12 +825,7 @@
     {"id":"SAW_M_FINE","level":1,"amount":1}
   ], "tools": [
     [
-      [ "goggles_welding", -1 ],
-      
-      [
-		[ "small_repairkit", -1 ],
-		[ "large_repairkit", -1 ]
-	  ]
+      [ "goggles_welding", -1 ]
     ],
     [
       [ "oxy_torch", 6 ],
@@ -1070,7 +1061,7 @@
     ]
   ]
 },{
-		"type" : "recipe",
+        "type" : "recipe",
   "result": "2_shot_special",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
@@ -1091,7 +1082,7 @@
       [ "scrap", 1 ]
     ],
     [
-	  [ "duct_tape", 50 ]
+      [ "duct_tape", 50 ]
     ]
   ]
 },{
@@ -1138,7 +1129,7 @@
       [ "2x4", 1 ]
     ],
     [
-	  [ "scrap", 1 ]
+      [ "scrap", 1 ]
     ]
   ]
 },{
@@ -1280,10 +1271,10 @@
       [ "spring", 1 ]
     ],
     [
-      [ "chunk_metal", 3 ]
+      [ "steel_chunk", 3 ]
     ],
     [
-	  [ "2x2", 1 ]
+      [ "2x4", 1 ]
     ]
   ]
 },{
