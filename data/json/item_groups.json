@@ -169,6 +169,7 @@
       ["seed_weed", 5],
       ["rolling_paper", 5],
       ["mask_hockey", 5],
+      ["mask_guy_fawkes", 5],
       ["hockey_stick", 10],
       ["news_regional", 4],
       ["many_years_old_newspaper", 2],
@@ -927,6 +928,7 @@
       ["mouthpiece", 1],
       ["leathersandals", 25],
       ["survnote", 2],
+      ["mask_guy_fawkes", 5],
       ["magnifying_glass", 2]
     ]
   },{
@@ -4251,6 +4253,7 @@
       ["manual_computers", 20],
       ["mag_tailor", 10],
       ["cookbook", 35],
+      ["mask_guy_fawkes", 5],
       ["cookbook_italian", 25],
       ["manual_electronics", 20],
       ["decoy_elfa", 5],
@@ -4580,6 +4583,7 @@
       ["jacket_chef", 5],
       ["pda", 15],
       ["eink_tablet_pc", 12],
+      ["mask_guy_fawkes", 5],
       ["camera", 10],
       ["camera_pro", 5],
       ["ruger_redhawk", 3],
@@ -5435,6 +5439,7 @@
       ["heroin", 1],
       ["sneakers", 40],
       ["mask_hockey", 5],
+      ["mask_guy_fawkes", 5],
       ["scarf_long", 15],
       ["jersey", 20],
       ["coat_lab", 40],
@@ -7782,6 +7787,7 @@
       ["textbook_computer", 8],
       ["textbook_anarch", 4],
       ["computer_science", 7],
+      ["mask_guy_fawkes", 5],
       ["solar_cell", 5],
       ["SICP", 3],
       ["recipe_serum", 2],
