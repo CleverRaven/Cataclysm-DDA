@@ -10948,6 +10948,31 @@
         "bashing" : 0,
         "coverage" : 4,
         "material_thickness" : 2
+    },
+    {
+        "type" : "ARMOR",
+        "id" : "straw_sandals",
+        "name" : "pair of straw sandals",
+        "name_plural" : "pairs of straw sandals",
+        "weight" : 70,
+        "color" : "light_gray",
+        "covers" : ["FEET"],
+        "to_hit" : -2,
+        "storage" : 0,
+        "symbol" : "[",
+        "description" : "Sandals made from straw rope.",
+        "price" : 2000,
+        "material" : ["cotton", "null"],
+        "volume" : 2,
+        "cutting" : 0,
+        "warmth" : 0,
+        "phase" : "solid",
+        "environmental_protection" : 0,
+        "encumbrance" : 1,
+        "bashing" : 0,
+        "flags" : ["VARSIZE", "WATER_FRIENDLY"],
+        "coverage" : 30,
+        "material_thickness" : 2
     }
 ]
 
