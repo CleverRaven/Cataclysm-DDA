@@ -2395,7 +2395,7 @@
       [ "toolset", 2 ],
       [ "press", 2 ]
     ]
-  ],
+  ],"components": [
     [
       [ "gunpowder", 16 ]
     ],
@@ -2428,7 +2428,7 @@
       [ "toolset", 2 ],
       [ "press", 2 ]
     ]
-  ],
+  ], "components":  [
     [
       [ "gunpowder", 16 ]
     ],
