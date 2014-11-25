@@ -4800,5 +4800,35 @@
      [ "scrap", 12 ]
     ]
    ]
+},
+{
+        "type" : "recipe",
+  "result": "survivor_machete",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_CUTTING",
+  "skill_used": "fabrication",
+  "difficulty": 6,
+  "skills_required" : [ "melee", 5 ],
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"HAMMER","level":1,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "soldering_iron", 20 ],
+      [ "toolset", 20 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "machete", 1 ],
+      [ "makeshift_machete", 1 ]
+    ],
+    [
+      [ "duct_tape", 100 ]
+    ]
+  ]
 }
 ]
