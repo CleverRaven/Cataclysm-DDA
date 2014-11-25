@@ -1807,12 +1807,10 @@ void iexamine::tree_marloss(player *p, map *m, int examx, int examy)
 
 void iexamine::shrub_wildveggies(player *p, map *m, int examx, int examy)
 {
-    if(!query_yn(_("Pick %s?"), m->tername(examx, examy).c_str())) {
-        return;
-    }
-
+    add_msg("You forage through the %s.", m->tername(examx, examy).c_str());
     p->assign_activity(ACT_FORAGE, 500 / (p->skillLevel("survival") + 1), 0);
     p->activity.placement = point(examx, examy);
+    return;
 }
 
 int sum_up_item_weight_by_material(std::vector<item> &items, const std::string &material,
