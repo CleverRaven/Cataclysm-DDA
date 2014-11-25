@@ -6972,5 +6972,343 @@
     [ [ "string_36", 2 ] ],
     [ [ "bag_plastic", 8 ] ]
   ]
+},{
+        "type" : "recipe",
+  "result": "duster",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 42000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 32 ],
+      [ "needle_wood", 32 ],
+      [ "sewing_kit", 32 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 15 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "sleeveless_duster",
+  "id_suffix": "from_rags",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "note": "The general guideline for sleeveless dusters is the the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original. Making it from an original takes 50% the time.",
+  "time": 35700,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 27 ],
+      [ "needle_wood", 27 ],
+      [ "sewing_kit", 27 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 12 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "sleeveless_duster",
+  "id_suffix": "from_duster",
+  "byproducts": { "id" : "rag", "amount" : 2 },
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "note": "The general guideline for sleeveless dusters is the the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original. Making it from an original takes 50% the time.",
+  "time": 21000,
+  "reversible": false,
+  "autolearn": true,
+   "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+    ],
+  "components": [
+    [
+      [ "duster", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "duster_fur",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "skills_required": [ "survival", 1 ],
+  "difficulty": 3,
+  "time": 200000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 60 ],
+      [ "needle_wood", 60 ],
+      [ "sewing_kit", 60 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "fur", 15 ],
+      [ "tanned_pelt", 3 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "sleeveless_duster_fur",
+  "id_suffix": "from_fur",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "skills_required": [ "survival", 1 ],
+  "difficulty": 3,
+  "note": "The general guideline for sleeveless dusters is the the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original. Making it from an original takes 50% the time.",
+  "time": 200000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 50 ],
+      [ "needle_wood", 50 ],
+      [ "sewing_kit", 50 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "fur", 12 ],
+      [ "tanned_pelt", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "sleeveless_duster_fur",
+  "id_suffix": "from_duster_fur",
+  "byproducts": { "id" : "fur", "amount" : 2 },
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "note": "The general guideline for sleeveless dusters is the the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original. Making it from an original takes 50% the time.",
+  "time": 100000,
+  "reversible": false,
+  "autolearn": true,
+   "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+    ],
+  "components": [
+    [
+      [ "duster_fur", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "duster_leather",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "difficulty": 6,
+  "time": 200000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn": [["textbook_tailor", 4] , ["tailor_portfolio", 4]],
+  "tools": [
+    [
+      [ "needle_bone", 60 ],
+      [ "needle_wood", 60 ],
+      [ "sewing_kit", 60 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 29 ],
+      [ "tanned_hide", 5 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "sleeveless_duster_leather",
+  "id_suffix": "from_leather",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "difficulty": 6,
+  "note": "The general guideline for sleeveless dusters is the the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original. Making it from an original takes 50% the time.",
+  "time": 200000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn": [["textbook_tailor", 4] , ["tailor_portfolio", 4]],
+  "tools": [
+    [
+      [ "needle_bone", 50 ],
+      [ "needle_wood", 50 ],
+      [ "sewing_kit", 50 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 24 ],
+      [ "tanned_hide", 4 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "sleeveless_duster_leather",
+  "id_suffix": "from_duster_leather",
+  "byproducts": { "id" : "leather", "amount" : 4 },
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "difficulty": 5,
+  "note": "The general guideline for sleeveless dusters is the the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original. Making it from an original takes 50% the time.",
+  "time": 100000,
+  "reversible": false,
+  "autolearn": true,
+   "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+    ],
+  "components": [
+    [
+      [ "duster_leather", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "duster_survivor",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 5],
+  "difficulty": 6,
+  "time": 70000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+      [
+      [ "needle_bone", 135 ],
+      [ "needle_wood", 135 ],
+      [ "sewing_kit", 135 ]
+    ]
+  ],
+  "components": [
+     [
+      [ "coat_rain", 1 ]
+     ],
+     [
+      [ "duster", 1 ],
+      [ "duster_leather", 1 ],
+      [ "jacket_army", 1 ]
+     ],
+     [
+      [ "kevlar", 1 ],
+      [ "modularvest", 1 ],
+      [ "kevlar_plate", 16 ]
+     ],
+     [
+      [ "rag", 19 ]
+     ],
+     [
+      [ "chestrig", 1 ],
+      [ "legrig", 1 ],
+      [ "vest", 1 ],
+      [ "tool_belt", 1 ],
+      [ "ragpouch", 4 ],
+      [ "leather_pouch", 2 ],
+      [ "dump_pouch", 1 ],
+      [ "purse", 2 ],
+      [ "fanny", 2 ]
+     ],
+     [
+      [ "duct_tape", 135 ]
+     ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "sleeveless_duster_survivor",
+  "id_suffix": "from_stuff",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 5],
+  "difficulty": 6,
+  "note": "The general guideline for sleeveless dusters is the the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original. Making it from an original takes 50% the time. The sleeveless survivor duster is the exception with the premade wearable items.",
+  "time": 59500,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+      [
+      [ "needle_bone", 115 ],
+      [ "needle_wood", 115 ],
+      [ "sewing_kit", 115 ]
+    ]
+  ],
+  "components": [
+     [
+      [ "coat_rain", 1 ]
+     ],
+     [
+      [ "duster", 1 ],
+      [ "duster_leather", 1 ],
+      [ "jacket_army", 1 ]
+     ],
+     [
+      [ "kevlar", 1 ],
+      [ "modularvest", 1 ],
+      [ "kevlar_plate", 13 ]
+     ],
+     [
+      [ "rag", 14 ]
+     ],
+     [
+      [ "chestrig", 1 ],
+      [ "legrig", 1 ],
+      [ "vest", 1 ],
+      [ "tool_belt", 1 ],
+      [ "ragpouch", 4 ],
+      [ "leather_pouch", 2 ],
+      [ "dump_pouch", 1 ],
+      [ "purse", 2 ],
+      [ "fanny", 2 ]
+     ],
+     [
+      [ "duct_tape", 115 ]
+     ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "sleeveless_duster_survivor",
+  "id_suffix": "from_duster_survivor",
+  "byproducts": { "id" : "rag", "amount" : 4 },
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "difficulty": 5,
+  "note": "The general guideline for sleeveless dusters is the the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original. Making it from an original takes 50% the time.",
+  "time": 35000,
+  "reversible": false,
+  "autolearn": true,
+   "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+    ],
+  "components": [
+    [
+      [ "duster_survivor", 1 ]
+    ]
+  ]
 }
 ]

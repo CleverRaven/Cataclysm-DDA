@@ -189,6 +189,7 @@ player::player() : Character(), name("")
  grab_point.y = 0;
  grab_type = OBJECT_NONE;
  style_selected = "style_none";
+ keep_hands_free = false;
  focus_pool = 100;
  last_item = itype_id("null");
  sight_max = 9999;
@@ -10175,12 +10176,12 @@ public:
         std::string style_selected;
         const size_t index = entnum;
         if( g->u.has_active_bionic( "bio_cqb" ) && index < menu->entries.size() ) {
-            const size_t id = menu->entries[index].retval - 1;
+            const size_t id = menu->entries[index].retval - 2;
             if( id < bio_cqb_styles.size() ) {
                 style_selected = bio_cqb_styles[id];
             }
-        } else if( index >= 2 && index - 2 < g->u.ma_styles.size() ) {
-            style_selected = g->u.ma_styles[index - 2];
+        } else if( index >= 3 && index - 3 < g->u.ma_styles.size() ) {
+            style_selected = g->u.ma_styles[index - 3];
         }
         if( !style_selected.empty() ) {
             const martialart &ma = martialarts[style_selected];
@@ -10218,6 +10219,13 @@ public:
             popup(buffer.str(), PF_NONE);
             menu->redraw();
         }
+        else if( index == 1 ) { // description of the "keep hands free" option
+            std::ostringstream buffer;
+            buffer << _("Keep hands free") << "\n\n";
+            buffer << _("When this is enabled, player won't wield things unless explicitly told to.");
+            popup(buffer.str(), PF_NONE);
+            menu->redraw();
+        }
         return true;
     }
     virtual ~ma_style_callback() { }
@@ -10240,25 +10248,33 @@ void player::pick_style() // Style selection menu
     kmenu.text = _("Select a style (press ? for style info)");
     std::auto_ptr<ma_style_callback> ma_style_info(new ma_style_callback());
     kmenu.callback = ma_style_info.get();
+    kmenu.addentry( 0, true, 'c', _("Cancel") );
+    if (keep_hands_free) {
+      kmenu.addentry( 1, true, 'h', _("Keep hands free (on)") );
+    }
+    else {
+      kmenu.addentry( 1, true, 'h', _("Keep hands free (off)") );
+    }
 
     if (has_active_bionic("bio_cqb")) {
-        kmenu.addentry( 0, true, 'c', _("Cancel") );
         for(size_t i = 0; i < bio_cqb_styles.size(); i++) {
             if (martialarts.find(bio_cqb_styles[i]) != martialarts.end()) {
-                kmenu.addentry( i + 1, true, -1, martialarts[bio_cqb_styles[i]].name );
+                kmenu.addentry( i + 2, true, -1, martialarts[bio_cqb_styles[i]].name );
             }
         }
 
         kmenu.query();
-        const size_t selection = kmenu.ret - 1;
-        if( selection < bio_cqb_styles.size() ) {
+        const size_t selection = kmenu.ret;
+        if ( selection >= 2 && selection - 2 < bio_cqb_styles.size() ) {
             style_selected = bio_cqb_styles[selection];
+        }
+        else if ( selection == 1 ) {
+            keep_hands_free = !keep_hands_free;
         }
     }
     else {
-        kmenu.addentry( 0, true, 'c', _("Cancel") );
-        kmenu.addentry( 1, true, 'n', _("No style") );
-        kmenu.selected = 1;
+        kmenu.addentry( 2, true, 'n', _("No style") );
+        kmenu.selected = 2;
         kmenu.return_invalid = true; //cancel with any other keys
 
         for (size_t i = 0; i < ma_styles.size(); i++) {
@@ -10267,9 +10283,9 @@ void player::pick_style() // Style selection menu
             } else {
                 //Check if this style is currently selected
                 if( ma_styles[i] == style_selected ) {
-                    kmenu.selected =i+2; //+2 because there are "cancel" and "no style" first in the list
+                    kmenu.selected =i+3; //+3 because there are "cancel", "keep hands free" and "no style" first in the list
                 }
-                kmenu.addentry( i+2, true, -1, martialarts[ma_styles[i]].name );
+                kmenu.addentry( i+3, true, -1, martialarts[ma_styles[i]].name );
             }
         }
 
@@ -10277,10 +10293,12 @@ void player::pick_style() // Style selection menu
         int selection = kmenu.ret;
 
         //debugmsg("selected %d",choice);
-        if (selection >= 2)
-            style_selected = ma_styles[selection - 2];
-        else if (selection == 1)
+        if (selection >= 3)
+            style_selected = ma_styles[selection - 3];
+        else if (selection == 2)
             style_selected = "style_none";
+        else if (selection == 1)
+            keep_hands_free = !keep_hands_free;
 
         //else
         //all other means -> don't change, keep current.
