@@ -791,8 +791,7 @@
     {"id":"SAW_M_FINE","level":1,"amount":1}
   ], "tools": [
     [
-      [ "goggles_welding", -1 ]
-      
+      [ "goggles_welding", -1 ],
       [
 		[ "small_repairkit", -1 ],
 		[ "large_repairkit", -1 ]
@@ -830,7 +829,7 @@
     {"id":"SAW_M_FINE","level":1,"amount":1}
   ], "tools": [
     [
-      [ "goggles_welding", -1 ]
+      [ "goggles_welding", -1 ],
       
       [
 		[ "small_repairkit", -1 ],
