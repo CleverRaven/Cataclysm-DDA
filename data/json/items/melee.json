@@ -4297,5 +4297,21 @@
         "bashing": -3,
         "cutting": 0,
         "to_hit": 0
-    }
+    },{
+        "type":"GENERIC",
+        "id" : "pitchfork",
+        "name" : "pitchfork",
+        "description" : "An agricultural tool with long wooden shaft and four spikes. Is used to lift hay.",
+        "weight" : 1000,
+        "to_hit" : 1,
+        "color" : "brown",
+        "symbol" : "/",
+        "material" : ["steel", "wood"],
+        "techniques" : ["WBLOCK_1", "RAPID", "IMPALE"],
+        "volume" : 7,
+        "bashing" : 5,
+        "cutting" : 15,
+        "flags" : ["SPEAR"],
+        "price" : 2000
+    },
 ]

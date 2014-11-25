@@ -1870,7 +1870,8 @@
       ["crucible", 2],
       ["anvil", 4],
       ["apron_leather", 10],
-      ["tool_belt", 30]
+      ["tool_belt", 30],
+      ["pitchfork", 2]
     ]
   },{
     "type" : "item_group",
@@ -8661,7 +8662,8 @@
       ["carbine_flintlock", 4],
       ["rifle_flintlock", 4],
       ["boxing_gloves", 12]
-      ["straw_doll", 1]
+      ["straw_doll", 1],
+      ["pitchfork", 1]
     ]
   },{
 "type"  : "item_group",
@@ -8716,7 +8718,8 @@
       ["distaff_spindle", 2],
       ["carding_paddles", 2],
       ["scythe", 40],
-      ["material_quicklime", 30]
+      ["material_quicklime", 30],
+      ["pitchfork", 40]
     ]
   },{
 "type" : "item_group",
