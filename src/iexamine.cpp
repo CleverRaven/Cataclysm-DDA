@@ -1807,10 +1807,6 @@ void iexamine::tree_marloss(player *p, map *m, int examx, int examy)
 
 void iexamine::shrub_wildveggies(player *p, map *m, int examx, int examy)
 {
-    if(!query_yn(_("Pick %s?"), m->tername(examx, examy).c_str())) {
-        return;
-    }
-
     p->assign_activity(ACT_FORAGE, 500 / (p->skillLevel("survival") + 1), 0);
     p->activity.placement = point(examx, examy);
 }
