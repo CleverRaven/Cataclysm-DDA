@@ -314,7 +314,8 @@
       ["survnote", 1],
       ["radio_car_box", 2],
       ["radiocontrol", 5],
-      ["magnifying_glass", 2]
+      ["magnifying_glass", 2],
+      ["straw_hat", 5]
     ]
   },{
     "type" : "item_group",
@@ -1146,7 +1147,8 @@
       ["linuxtshirt", 10],
       ["kilt", 5],
       ["nanoskirt", 10],
-      ["sleeveless_tunic", 5]
+      ["sleeveless_tunic", 5],
+      ["straw_hat", 5]
     ]
   },{
     "type" : "item_group",
@@ -2181,7 +2183,8 @@
       ["thermometer", 3],
       ["hygrometer", 3],
       ["barometer", 3],
-      ["straw_basket", 1]
+      ["straw_basket", 1],
+      ["straw_hat", 5]
     ]
   },{
     "type" : "item_group",
@@ -3114,7 +3117,8 @@
       ["kilt", 5],
       ["nanoskirt", 10],
       ["sleeveless_tunic", 5],
-      ["ear_spool",30]
+      ["ear_spool", 30],
+      ["straw_hat", 5]
       
     ]
   },{
@@ -4833,7 +4837,9 @@
       ["linuxtshirt", 15],
       ["kilt", 5],
       ["nanoskirt", 10],
-      ["sleeveless_tunic", 5]
+      ["sleeveless_tunic", 5],
+      ["straw_basket", 2],
+      ["straw_hat", 5]
     ]
   },{
     "type" : "item_group",
@@ -8663,7 +8669,8 @@
       ["rifle_flintlock", 4],
       ["boxing_gloves", 12]
       ["straw_doll", 1],
-      ["pitchfork", 1]
+      ["pitchfork", 1],
+      ["straw_sandals", 1]
     ]
   },{
 "type"  : "item_group",
