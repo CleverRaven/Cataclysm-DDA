@@ -1043,7 +1043,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
                 } else {
                     item *gunmod = u.weapon.active_gunmod();
                     if (gunmod != NULL) {
-                        mode = gunmod->type->nname(1);
+                        mode = gunmod->type_name();
                     }
                 }
                 if (mode != "") {

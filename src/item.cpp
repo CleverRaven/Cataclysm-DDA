@@ -23,18 +23,26 @@
 
 light_emission nolight = {0, 0, 0};
 
+// Returns the default item type, used for the null item (default constructed),
+// the returned pointer is always valid, it's never cleared by the @ref Item_factory.
+static itype *nullitem()
+{
+    static itype nullitem_m;
+    return &nullitem_m;
+}
+
 item::item()
 {
     init();
 }
 
-item::item(const std::string new_type, unsigned int turn, bool rand, int handed)
+item::item(const std::string new_type, unsigned int turn, bool rand, const handedness handed)
 {
     init();
     type = find_type( new_type );
     bday = turn;
     corpse = type->id == "corpse" ? GetMType( "mon_null" ) : nullptr;
-    name = type->nname(1);
+    name = type_name(1);
     if (type->is_gun()) {
         charges = 0;
     } else if (type->is_ammo()) {
@@ -77,47 +85,13 @@ item::item(const std::string new_type, unsigned int turn, bool rand, int handed)
         charges = -1;
     }
     if (type->is_armor()) {
-        it_armor* armor = dynamic_cast<it_armor*>(type);
-        covers = armor->covers;
-        if (armor->sided.any()) {
-            bool right = one_in(2);
-            if (handed == RIGHT) {
-                right = true;
-            } else if (handed == LEFT) {
-                right = false;
-            }
-            if (right) {
-                item_tags.insert("RIGHT");
+        if( handed != NONE ) {
+            make_handed( handed );
+        } else {
+            if( one_in( 2 ) ) {
+                make_handed( LEFT );
             } else {
-                item_tags.insert("LEFT");
-            }
-            if (type->is_sided(bp_arm_l)) {
-                if (right == true) {
-                    covers.set(bp_arm_r);
-                } else {
-                    covers.set(bp_arm_l);
-                }
-            }
-            if (type->is_sided(bp_hand_l)) {
-                if (right == true) {
-                    covers.set(bp_hand_r);
-                } else {
-                    covers.set(bp_hand_l);
-                }
-            }
-            if (type->is_sided(bp_leg_l)) {
-                if (right == true) {
-                    covers.set(bp_leg_r);
-                } else {
-                    covers.set(bp_leg_l);
-                }
-            }
-            if (type->is_sided(bp_foot_l)) {
-                if (right == true) {
-                    covers.set(bp_foot_r);
-                } else {
-                    covers.set(bp_foot_l);
-                }
+                make_handed( RIGHT );
             }
         }
     }
@@ -145,12 +119,6 @@ void item::make_corpse(const std::string new_type, mtype* mt, unsigned int turn,
 {
     make_corpse(new_type, mt, turn);
     this->name = name;
-}
-
-itype * item::nullitem_m = new itype();
-itype * item::nullitem()
-{
-    return nullitem_m;
 }
 
 item::item(std::string itemdata)
@@ -208,6 +176,42 @@ void item::make( const std::string new_type )
     }
 }
 
+// If armor is sided , add matching bits to cover bitset
+void make_sided_if( const it_armor &armor, std::bitset<num_bp> &covers, handedness h, body_part bpl, body_part bpr )
+{
+    if( armor.sided.test( bpl ) ) {
+        if( h == RIGHT ) {
+            covers.set( bpr );
+        } else {
+            covers.set( bpl );
+        }
+    }
+}
+
+void item::make_handed( const handedness handed )
+{
+    const auto armor = dynamic_cast<const it_armor *>( type );
+    if( armor == nullptr ) {
+        return;
+    }
+    item_tags.erase( "RIGHT" );
+    item_tags.erase( "LEFT" );
+    // Always reset the coverage, so to prevent inconsistencies.
+    covers = armor->covers;
+    if( !armor->sided.any() || handed == NONE ) {
+        return;
+    }
+    if( handed == RIGHT ) {
+        item_tags.insert( "RIGHT" );
+    } else {
+        item_tags.insert( "LEFT" );
+    }
+    make_sided_if( *armor, covers, handed, bp_arm_l, bp_arm_r );
+    make_sided_if( *armor, covers, handed, bp_hand_l, bp_hand_r );
+    make_sided_if( *armor, covers, handed, bp_leg_l, bp_leg_r );
+    make_sided_if( *armor, covers, handed, bp_foot_l, bp_foot_r );
+}
+
 void item::clear()
 {
     // should we be clearing contents, as well?
@@ -220,7 +224,8 @@ void item::clear()
 bool item::is_null() const
 {
     static const std::string s_null("null"); // used alot, no need to repeat
-    return (type == nullptr || type->id == s_null);
+    // Actually, type should never by null at all.
+    return (type == nullptr || type == nullitem() || type->id == s_null);
 }
 
 item item::in_its_container()
@@ -712,8 +717,6 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         dump->push_back(iteminfo("GUNMOD", temp2.str()));
 
     } else if (is_armor()) {
-        it_armor* armor = dynamic_cast<it_armor*>(type);
-
         temp1.str("");
         temp1 << _("Covers: ");
         if (covers.test(bp_head)) {
@@ -770,20 +773,20 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         }
 
         dump->push_back(iteminfo("ARMOR", temp1.str()));
-        dump->push_back(iteminfo("ARMOR", _("Coverage: "), "<num>%  ", armor->coverage, true, "", false));
-        dump->push_back(iteminfo("ARMOR", _("Warmth: "), "", armor->warmth));
+        dump->push_back(iteminfo("ARMOR", _("Coverage: "), "<num>%  ", get_coverage(), true, "", false));
+        dump->push_back(iteminfo("ARMOR", _("Warmth: "), "", get_warmth()));
         if (has_flag("FIT")) {
             dump->push_back(iteminfo("ARMOR", _("Encumberment: "), _("<num> (fits)"),
-                                     std::max(0, armor->encumber - 1), true, "", true, true));
+                                     std::max(0, get_encumber() - 1), true, "", true, true));
         } else {
             dump->push_back(iteminfo("ARMOR", _("Encumberment: "), "",
-                                     armor->encumber, true, "", true, true));
+                                     get_encumber(), true, "", true, true));
         }
         dump->push_back(iteminfo("ARMOR", _("Protection: Bash: "), "", bash_resist(), true, "", false));
         dump->push_back(iteminfo("ARMOR", space + _("Cut: "), "", cut_resist(), true, "", true));
         dump->push_back(iteminfo("ARMOR", _("Environmental protection: "), "",
-                                 armor->env_resist, true, "", false));
-        dump->push_back(iteminfo("ARMOR", space + _("Storage: "), "", armor->storage));
+                                 get_env_resist(), true, "", false));
+        dump->push_back(iteminfo("ARMOR", space + _("Storage: "), "", get_storage()));
 
     } else if (is_book()) {
 
@@ -944,8 +947,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
 
         //See shorten version of this in armor_layers.cpp::clothing_flags_description
         if (is_armor() && has_flag("FIT")) {
-            it_armor* armor = dynamic_cast<it_armor*>(type);
-            if (armor->encumber > 0) {
+            if( get_encumber() > 0 ) {
                 dump->push_back(iteminfo("DESCRIPTION", "--"));
                 dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing fits you perfectly.")));
             } else {
@@ -1360,6 +1362,33 @@ nc_color item::color_in_inventory() const
     return color(&g->u);
 }
 
+void item::on_wear( player &p  )
+{
+    const auto art = dynamic_cast<const it_artifact_armor*>( type );
+    // TODO: artifacts currently only work with the player character
+    if( &p == &g->u && art != nullptr ) {
+        g->add_artifact_messages( art->effects_worn );
+    }
+}
+
+void item::on_wield( player &p  )
+{
+    const auto art = dynamic_cast<const it_artifact_tool*>( type );
+    // TODO: artifacts currently only work with the player character
+    if( &p == &g->u && art != nullptr ) {
+        g->add_artifact_messages( art->effects_wielded );
+    }
+}
+
+void item::on_pickup( player &p  )
+{
+    const auto art = dynamic_cast<const it_artifact_tool*>( type );
+    // TODO: artifacts currently only work with the player character
+    if( &p == &g->u && art != nullptr ) {
+        g->add_artifact_messages( art->effects_carried );
+    }
+}
+
 /* @param with_prefix determines whether to return for more of its object, such as
 * the extent of damage and burning (was created to sort by name without prefix
 * in additional inventory)
@@ -1385,7 +1414,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
                 if (damage == 3) damtext = rm_prefix(_("<dam_adj>mangled "));
                 if (damage == 4) damtext = rm_prefix(_("<dam_adj>pulped "));
             } else {
-                damtext = rmp_format("%s ", type->dmg_adj(damage).c_str());
+                damtext = rmp_format("%s ", get_base_material().dmg_adj(damage).c_str());
             }
         }
     }
@@ -1439,27 +1468,27 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     }
     else if (is_gun() && !contents.empty() ) {
         ret.str("");
-        ret << type->nname(quantity);
+        ret << type_name(quantity);
         for( size_t i = 0; i < contents.size(); ++i ) {
             ret << "+";
         }
         maintext = ret.str();
     } else if (contents.size() == 1) {
         if(contents[0].made_of(LIQUID)) {
-            maintext = rmp_format(_("<item_name>%s of %s"), type->nname(quantity).c_str(), contents[0].tname().c_str());
+            maintext = rmp_format(_("<item_name>%s of %s"), type_name(quantity).c_str(), contents[0].tname().c_str());
         } else if (contents[0].is_food()) {
-            maintext = contents[0].charges > 1 ? rmp_format(_("<item_name>%s of %s"), type->nname(quantity).c_str(),
+            maintext = contents[0].charges > 1 ? rmp_format(_("<item_name>%s of %s"), type_name(quantity).c_str(),
                                                             contents[0].tname(contents[0].charges).c_str()) :
-                                                 rmp_format(_("<item_name>%s of %s"), type->nname(quantity).c_str(),
+                                                 rmp_format(_("<item_name>%s of %s"), type_name(quantity).c_str(),
                                                             contents[0].tname().c_str());
         } else {
-            maintext = rmp_format(_("<item_name>%s with %s"), type->nname(quantity).c_str(), contents[0].tname().c_str());
+            maintext = rmp_format(_("<item_name>%s with %s"), type_name(quantity).c_str(), contents[0].tname().c_str());
         }
     }
     else if (!contents.empty()) {
-        maintext = rmp_format(_("<item_name>%s, full"), type->nname(quantity).c_str());
+        maintext = rmp_format(_("<item_name>%s, full"), type_name(quantity).c_str());
     } else {
-        maintext = type->nname(quantity);
+        maintext = type_name(quantity);
     }
 
     const it_comest* food_type = NULL;
@@ -1978,6 +2007,75 @@ void item::calc_rot(const point &location)
     }
 }
 
+int item::get_storage() const
+{
+    const auto t = dynamic_cast<const it_armor*>( type );
+    if( t == nullptr ) {
+        return 0;
+    }
+    // it_armor::storage is unsigned char
+    return static_cast<int>( static_cast<unsigned int>( t->storage ) );
+}
+
+int item::get_env_resist() const
+{
+    const auto t = dynamic_cast<const it_armor*>( type );
+    if( t == nullptr ) {
+        return 0;
+    }
+    // it_armor::env_resist is unsigned char
+    return static_cast<int>( static_cast<unsigned int>( t->env_resist ) );
+}
+
+bool item::is_power_armor() const
+{
+    const auto t = dynamic_cast<const it_armor*>( type );
+    if( t == nullptr ) {
+        return false;
+    }
+    return t->is_power_armor();
+}
+
+int item::get_encumber() const
+{
+    const auto t = dynamic_cast<const it_armor*>( type );
+    if( t == nullptr ) {
+        return 0;
+    }
+    // it_armor::encumber is signed char
+    return static_cast<int>( t->encumber );
+}
+
+int item::get_coverage() const
+{
+    const auto t = dynamic_cast<const it_armor*>( type );
+    if( t == nullptr ) {
+        return 0;
+    }
+    // it_armor::coverage is unsigned char
+    return static_cast<int>( static_cast<unsigned int>( t->coverage ) );
+}
+
+int item::get_thickness() const
+{
+    const auto t = dynamic_cast<const it_armor*>( type );
+    if( t == nullptr ) {
+        return 0;
+    }
+    // it_armor::thickness is unsigned char
+    return static_cast<int>( static_cast<unsigned int>( t->thickness) );
+}
+
+int item::get_warmth() const
+{
+    const auto t = dynamic_cast<const it_armor*>( type );
+    if( t == nullptr ) {
+        return 0;
+    }
+    // it_armor::warmth is signed char
+    return static_cast<int>( t->warmth );
+}
+
 int item::brewing_time()
 {
     float season_mult = ( (float)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] ) / 14;
@@ -2141,8 +2239,7 @@ int item::bash_resist() const
     // Armor gets an additional multiplier.
     if (is_armor()) {
         // base resistance
-        it_armor* tmp = dynamic_cast<it_armor*>(type);
-        eff_thickness = ((tmp->thickness - damage <= 0) ? 1 : (tmp->thickness - damage));
+        eff_thickness = ((get_thickness() - damage <= 0) ? 1 : (get_thickness() - damage));
     }
 
     for (auto mat : mat_types) {
@@ -2171,8 +2268,7 @@ int item::cut_resist() const
     // Armor gets an additional multiplier.
     if (is_armor()) {
         // base resistance
-        it_armor* tmp = dynamic_cast<it_armor*>(type);
-        eff_thickness = ((tmp->thickness - damage <= 0) ? 1 : (tmp->thickness - damage));
+        eff_thickness = ((get_thickness() - damage <= 0) ? 1 : (get_thickness() - damage));
     }
 
     for (auto mat : mat_types) {
@@ -2470,10 +2566,7 @@ bool item::is_cutting_weapon() const
 
 bool item::is_armor() const
 {
-    if( is_null() )
-        return false;
-
-    return type->is_armor();
+    return type->is_armor() || has_flag( "IS_ARMOR" );
 }
 
 bool item::is_book() const
@@ -2571,22 +2664,29 @@ bool item::is_macguffin() const
     return type->is_macguffin();
 }
 
-bool item::is_other() const
-{
-    if( is_null() )
-        return false;
-
-    return (!is_gun() && !is_ammo() && !is_armor() && !is_food() &&
-            !is_food_container() && !is_tool() && !is_gunmod() && !is_bionic() &&
-            !is_book() && !is_weap());
-}
-
 bool item::is_artifact() const
 {
     if( is_null() )
         return false;
 
     return type->is_artifact();
+}
+
+const material_type &item::get_random_material() const
+{
+    if( type->materials.empty() ) {
+        return *material_type::find_material( "null" );
+    }
+    const auto chosen_mat_id = type->materials[rng( 0, type->materials.size() - 1 )];
+    return *material_type::find_material( chosen_mat_id );
+}
+
+const material_type &item::get_base_material() const
+{
+    if( type->materials.empty() ) {
+        return *material_type::find_material( "null" );
+    }
+    return *material_type::find_material( type->materials.front() );
 }
 
 bool item::operator<(const item& other) const
@@ -3866,7 +3966,7 @@ int item::add_ammo_to_quiver(player *u, bool isAutoPickup)
 
                 arrowsStored = worn->contents[0].charges - arrowsStored;
                 u->add_msg_if_player(ngettext("You store %d %s in your %s.", "You store %d %s in your %s.", arrowsStored),
-                                     arrowsStored, worn->contents[0].type->nname(arrowsStored).c_str(), worn->name.c_str());
+                                     arrowsStored, worn->contents[0].type_name(arrowsStored).c_str(), worn->name.c_str());
                 u->moves -= std::min(100, movesPerArrow * arrowsStored);
                 arrowsQuivered += arrowsStored;
             }
@@ -3880,7 +3980,7 @@ int item::add_ammo_to_quiver(player *u, bool isAutoPickup)
             u->i_add(clone);
 
             u->add_msg_if_player(ngettext("You pick up %d %s.", "You pick up %d %s.", charges),
-                             charges, clone.type->nname(charges).c_str());
+                             charges, clone.type_name(charges).c_str());
             u->moves -= 100;
 
             charges = 0;
@@ -4408,6 +4508,35 @@ bool item::has_effect_when_carried( art_effect_passive effect ) const
         }
     }
     return false;
+}
+
+std::string item::type_name( unsigned int quantity ) const
+{
+    const auto iter = item_vars.find( "name" );
+    if( corpse != nullptr && typeId() == "corpse" ) {
+        if( name.empty() ) {
+            return rmp_format( ngettext( "<item_name>%s corpse",
+                                         "<item_name>%s corpses", quantity ),
+                               corpse->nname().c_str() );
+        } else {
+            return rmp_format( ngettext( "<item_name>%s corpse of %s",
+                                         "<item_name>%s corpses of %s", quantity ),
+                               corpse->nname().c_str(), name.c_str() );
+        }
+    } else if( typeId() == "blood" ) {
+        if( corpse == nullptr || corpse->id == "mon_null" ) {
+            return rm_prefix( ngettext( "<item_name>human blood",
+                                        "<item_name>human blood", quantity ) );
+        } else {
+            return rmp_format( ngettext( "<item_name>%s blood",
+                                         "<item_name>%s blood",  quantity ),
+                               corpse->nname().c_str() );
+        }
+    } else if( iter != item_vars.end() ) {
+        return iter->second;
+    } else {
+        return type->nname( quantity );
+    }
 }
 
 std::string item::nname( const itype_id &id, unsigned int quantity )

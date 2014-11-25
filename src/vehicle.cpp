@@ -1426,7 +1426,7 @@ int vehicle::install_part( int dx, int dy, const vehicle_part &new_part )
 void vehicle_part::properties_from_item( const item &used_item )
 {
     const vpart_info &vpinfo = vehicle_part_int_types[iid];
-    if( used_item.type->is_var_veh_part() ) {
+    if( used_item.is_var_veh_part() ) {
         bigness = used_item.bigness;
     }
     // item damage is 0,1,2,3, or 4. part hp is 1..durability.
@@ -1451,12 +1451,12 @@ item vehicle_part::properties_to_item() const
 {
     const vpart_info &vpinfo = vehicle_part_int_types[iid];
     item tmp( vpinfo.item, calendar::turn );
-    if( tmp.type->is_var_veh_part() ) {
+    if( tmp.is_var_veh_part() ) {
         tmp.bigness = bigness;
     }
     // tools go unloaded to prevent user from exploiting this to
     // refill their (otherwise not refillable) tools
-    if( tmp.type->is_tool() ) {
+    if( tmp.is_tool() ) {
         tmp.charges = 0;
     }
     // Cables get special handling: their target coordinates need to remain

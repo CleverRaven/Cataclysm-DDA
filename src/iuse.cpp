@@ -134,7 +134,7 @@ static bool item_inscription(player *p, item *cut, std::string verb, std::string
     std::string message = "";
     std::string messageprefix = string_format(hasnote ? _("(To delete, input one '.')\n") : "") +
                                 string_format(_("%1$s on the %2$s is: "),
-                                        gerund.c_str(), cut->type->nname(1).c_str());
+                                        gerund.c_str(), cut->type_name().c_str());
     message = string_input_popup(string_format(_("%s what?"), verb.c_str()), 64,
                                  (hasnote ? cut->item_vars["item_note"] : message),
                                  messageprefix, "inscribe_item", 128);
@@ -7862,7 +7862,7 @@ static bool heat_item(player *p)
         return false;
     }
     item *target = heat->is_food_container() ? &(heat->contents[0]) : heat;
-    if ((target->type->is_food()) && (target->has_flag("EATEN_HOT"))) {
+    if ((target->is_food()) && (target->has_flag("EATEN_HOT"))) {
         p->moves -= 300;
         add_msg(_("You heat up the food."));
         target->item_tags.insert("HOT");
@@ -7952,7 +7952,7 @@ int iuse::quiver(player *p, item *it, bool, point)
             int arrowsRemoved = arrows.charges;
             p->add_msg_if_player(ngettext("You remove the %s from the %s.", "You remove the %s from the %s.",
                                           arrowsRemoved),
-                                 arrows.type->nname(arrowsRemoved).c_str(), it->tname().c_str());
+                                 arrows.type_name( arrowsRemoved ).c_str(), it->tname().c_str());
             p->inv.assign_empty_invlet(arrows, false);
             p->i_add(arrows);
             it->contents.erase(it->contents.begin());
@@ -7969,7 +7969,7 @@ int iuse::quiver(player *p, item *it, bool, point)
             return 0;
         }
 
-        if (!(put->type->is_ammo() && (put->ammo_type() == "arrow" || put->ammo_type() == "bolt"))) {
+        if (!(put->is_ammo() && (put->ammo_type() == "arrow" || put->ammo_type() == "bolt"))) {
             p->add_msg_if_player(m_info, _("Those aren't arrows!"));
             return 0;
         }
@@ -8013,7 +8013,7 @@ int iuse::quiver(player *p, item *it, bool, point)
         arrowsStored = it->contents[0].charges - arrowsStored;
         p->add_msg_if_player(ngettext("You store %d %s in your %s.", "You store %d %s in your %s.",
                                       arrowsStored),
-                             arrowsStored, it->contents[0].type->nname(arrowsStored).c_str(), it->tname().c_str());
+                             arrowsStored, it->contents[0].type_name( arrowsStored ).c_str(), it->tname().c_str());
         p->moves -= 10 * arrowsStored;
     } else {
         p->add_msg_if_player(_("Never mind."));
@@ -8034,7 +8034,7 @@ int iuse::holster_pistol(player *p, item *it, bool, point)
         }
 
         // make sure we're holstering a pistol
-        if (put->type->is_gun()) {
+        if (put->is_gun()) {
             it_gun *gun = dynamic_cast<it_gun *>(put->type);
             if (!(gun->skill_used == Skill::skill("pistol"))) {
                 p->add_msg_if_player(m_info, _("The %s isn't a pistol!"), put->tname().c_str());
@@ -8357,7 +8357,7 @@ int iuse::boots(player *p, item *it, bool, point)
             p->add_msg_if_player(m_info, _("That isn't a knife!"));
             return 0;
         }
-        if (put->type->volume > 5) {
+        if (put->volume() > 5) {
             p->add_msg_if_player(m_info, _("That item does not fit in your boot!"));
             return 0;
         }
@@ -8990,17 +8990,17 @@ bool einkpc_download_memory_card(player *p, item *eink, item *mc)
                 eink->item_vars["EIPC_RECIPES"] = "," + rident + ",";
 
                 p->add_msg_if_player(m_good, _("You download a recipe for %s into the tablet's memory."),
-                                     dummy.type->nname(1).c_str());
+                                     dummy.type_name().c_str());
             } else {
                 if (eink->item_vars["EIPC_RECIPES"].find("," + rident + ",") == std::string::npos) {
                     something_downloaded = true;
                     eink->item_vars["EIPC_RECIPES"] += rident + ",";
 
                     p->add_msg_if_player(m_good, _("You download a recipe for %s into the tablet's memory."),
-                                         dummy.type->nname(1).c_str());
+                                         dummy.type_name().c_str());
                 } else {
                     p->add_msg_if_player(m_good, _("Your tablet already has a recipe for %s."),
-                                         dummy.type->nname(1).c_str());
+                                         dummy.type_name().c_str());
                 }
             }
         }
@@ -9258,8 +9258,7 @@ int iuse::einktabletpc(player *p, item *it, bool t, point pos)
 
                 auto recipe = find_recipe( s );
                 if( recipe ) {
-                    const item dummy( recipe->result, 0 );
-                    rmenu.addentry(k++, true, -1, dummy.type->nname(1).c_str());
+                    rmenu.addentry( k++, true, -1, item::nname( recipe->result ) );
                 }
             }
 
@@ -9274,10 +9273,9 @@ int iuse::einktabletpc(player *p, item *it, bool t, point pos)
 
                 auto recipe = find_recipe( it->item_vars["RECIPE"] );
                 if( recipe ) {
-                    const item dummy( recipe->result, 0 );
                     p->add_msg_if_player(m_info,
                         _("You change the e-ink screen to show a recipe for %s."),
-                                         dummy.type->nname(1).c_str());
+                                         item::nname( recipe->result ).c_str());
                 }
             }
 
@@ -10261,17 +10259,12 @@ int iuse::multicooker(player *p, item *it, bool t, point pos)
             const inventory &cinv = g->u.crafting_inventory();
 
             if (!cinv.has_amount("soldering_iron", 1)) {
-                item tmp("soldering_iron", 0);
-
-                p->add_msg_if_player(m_warning, _("You need a %s."), tmp.type->nname(1).c_str());
+                p->add_msg_if_player(m_warning, _("You need a %s."), item::nname( "soldering_iron" ).c_str());
                 has_tools = false;
             }
 
             if (!cinv.has_tools("screwdriver", 1)) {
-
-                item tmp("screwdriver", 0);
-
-                p->add_msg_if_player(m_warning, _("You need a %s."), tmp.type->nname(1).c_str());
+                p->add_msg_if_player(m_warning, _("You need a %s."), item::nname( "screwdriver" ).c_str());
                 has_tools = false;
             }
 
