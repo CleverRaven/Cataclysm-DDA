@@ -4276,7 +4276,7 @@
         "category": "spare_parts",
         "description": "A pile of dry grass.  Can be used if there is nothing else to sleep on.",
         "price": 0,
-        "material": ["veggy"],
+        "material": ["paper"],
         "weight": 20,
         "volume": 1,
         "bashing": 0,
