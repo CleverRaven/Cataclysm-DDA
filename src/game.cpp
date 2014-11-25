@@ -11175,7 +11175,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
                     std::ostringstream ss;
                     ss << string_format(_("%s from %s (%d)"),
                                         i->contents[0].tname().c_str(),
-                                        i->type->nname(1).c_str(),
+                                        i->type_name(1).c_str(),
                                         i->contents[0].charges);
                     choices.push_back(ss.str());
                 }
@@ -11185,7 +11185,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
             if (choice > -1) {
                 u.wield_contents(holsters[choice], true, _("pistol"), 13);
                 u.add_msg_if_player(_("You pull your %s from its %s and ready it to fire."),
-                                    u.weapon.tname().c_str(), holsters[choice]->type->nname(1).c_str());
+                                    u.weapon.tname().c_str(), holsters[choice]->type_name(1).c_str());
                 if (u.weapon.charges <= 0) {
                     u.add_msg_if_player(_("... but it's empty!"));
                     return;
@@ -11259,7 +11259,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
                         std::ostringstream ss;
                         ss << string_format(_("%s from %s (%d)"),
                                             i->contents[0].tname().c_str(),
-                                            i->type->nname(1).c_str(),
+                                            i->type_name(1).c_str(),
                                             i->contents[0].charges);
                         choices.push_back(ss.str());
                     }
@@ -11275,11 +11275,11 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
                     if (archery <= 2 && one_in(10)) {
                         u.moves -= 30;
                         u.add_msg_if_player(_("You try to pull a %s from your %s, but fail!"),
-                                            arrows.tname().c_str(), worn->type->nname(1).c_str());
+                                            arrows.tname().c_str(), worn->type_name(1).c_str());
                         return;
                     }
                     u.add_msg_if_player(_("You pull a %s from your %s and nock it."),
-                                        arrows.tname().c_str(), worn->type->nname(1).c_str());
+                                        arrows.tname().c_str(), worn->type_name(1).c_str());
                     reload_pos = u.get_item_position(worn);
                 }
             }

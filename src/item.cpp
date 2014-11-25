@@ -42,7 +42,7 @@ item::item(const std::string new_type, unsigned int turn, bool rand, int handed)
     type = find_type( new_type );
     bday = turn;
     corpse = type->id == "corpse" ? GetMType( "mon_null" ) : nullptr;
-    name = type->nname(1);
+    name = type_name(1);
     if (type->is_gun()) {
         charges = 0;
     } else if (type->is_ammo()) {
@@ -1441,27 +1441,27 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     }
     else if (is_gun() && !contents.empty() ) {
         ret.str("");
-        ret << type->nname(quantity);
+        ret << type_name(quantity);
         for( size_t i = 0; i < contents.size(); ++i ) {
             ret << "+";
         }
         maintext = ret.str();
     } else if (contents.size() == 1) {
         if(contents[0].made_of(LIQUID)) {
-            maintext = rmp_format(_("<item_name>%s of %s"), type->nname(quantity).c_str(), contents[0].tname().c_str());
+            maintext = rmp_format(_("<item_name>%s of %s"), type_name(quantity).c_str(), contents[0].tname().c_str());
         } else if (contents[0].is_food()) {
-            maintext = contents[0].charges > 1 ? rmp_format(_("<item_name>%s of %s"), type->nname(quantity).c_str(),
+            maintext = contents[0].charges > 1 ? rmp_format(_("<item_name>%s of %s"), type_name(quantity).c_str(),
                                                             contents[0].tname(contents[0].charges).c_str()) :
-                                                 rmp_format(_("<item_name>%s of %s"), type->nname(quantity).c_str(),
+                                                 rmp_format(_("<item_name>%s of %s"), type_name(quantity).c_str(),
                                                             contents[0].tname().c_str());
         } else {
-            maintext = rmp_format(_("<item_name>%s with %s"), type->nname(quantity).c_str(), contents[0].tname().c_str());
+            maintext = rmp_format(_("<item_name>%s with %s"), type_name(quantity).c_str(), contents[0].tname().c_str());
         }
     }
     else if (!contents.empty()) {
-        maintext = rmp_format(_("<item_name>%s, full"), type->nname(quantity).c_str());
+        maintext = rmp_format(_("<item_name>%s, full"), type_name(quantity).c_str());
     } else {
-        maintext = type->nname(quantity);
+        maintext = type_name(quantity);
     }
 
     const it_comest* food_type = NULL;
@@ -3942,7 +3942,7 @@ int item::add_ammo_to_quiver(player *u, bool isAutoPickup)
 
                 arrowsStored = worn->contents[0].charges - arrowsStored;
                 u->add_msg_if_player(ngettext("You store %d %s in your %s.", "You store %d %s in your %s.", arrowsStored),
-                                     arrowsStored, worn->contents[0].type->nname(arrowsStored).c_str(), worn->name.c_str());
+                                     arrowsStored, worn->contents[0].type_name(arrowsStored).c_str(), worn->name.c_str());
                 u->moves -= std::min(100, movesPerArrow * arrowsStored);
                 arrowsQuivered += arrowsStored;
             }
@@ -3956,7 +3956,7 @@ int item::add_ammo_to_quiver(player *u, bool isAutoPickup)
             u->i_add(clone);
 
             u->add_msg_if_player(ngettext("You pick up %d %s.", "You pick up %d %s.", charges),
-                             charges, clone.type->nname(charges).c_str());
+                             charges, clone.type_name(charges).c_str());
             u->moves -= 100;
 
             charges = 0;
@@ -4484,6 +4484,35 @@ bool item::has_effect_when_carried( art_effect_passive effect ) const
         }
     }
     return false;
+}
+
+std::string item::type_name( unsigned int quantity ) const
+{
+    const auto iter = item_vars.find( "name" );
+    if( corpse != nullptr && typeId() == "corpse" ) {
+        if( name.empty() ) {
+            return rmp_format( ngettext( "<item_name>%s corpse",
+                                         "<item_name>%s corpses", quantity ),
+                               corpse->nname().c_str() );
+        } else {
+            return rmp_format( ngettext( "<item_name>%s corpse of %s",
+                                         "<item_name>%s corpses of %s", quantity ),
+                               corpse->nname().c_str(), name.c_str() );
+        }
+    } else if( typeId() == "blood" ) {
+        if( corpse == nullptr || corpse->id == "mon_null" ) {
+            return rm_prefix( ngettext( "<item_name>human blood",
+                                        "<item_name>human blood", quantity ) );
+        } else {
+            return rmp_format( ngettext( "<item_name>%s blood",
+                                         "<item_name>%s blood",  quantity ),
+                               corpse->nname().c_str() );
+        }
+    } else if( iter != item_vars.end() ) {
+        return iter->second;
+    } else {
+        return type->nname( quantity );
+    }
 }
 
 std::string item::nname( const itype_id &id, unsigned int quantity )

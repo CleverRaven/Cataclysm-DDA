@@ -142,10 +142,10 @@ void player::sort_armor()
 
             if (itemindex == selected) {
                 mvwprintz(w_sort_left, drawindex + 1, 3, dam_color[int(tmp_worn[itemindex]->damage + 1)],
-                          each_armor->nname(1).c_str());
+                          tmp_worn[itemindex]->type_name(1).c_str());
             } else {
                 mvwprintz(w_sort_left, drawindex + 1, 2, dam_color[int(tmp_worn[itemindex]->damage + 1)],
-                          each_armor->nname(1).c_str());
+                          tmp_worn[itemindex]->type_name(1).c_str());
             }
             mvwprintz(w_sort_left, drawindex + 1, left_w - 3, c_ltgray, "%3d", tmp_worn[itemindex]->get_storage());
         }
@@ -207,7 +207,7 @@ void player::sort_armor()
                 if( elem.covers.test( cover ) ) {
                     if (rightListSize >= rightListOffset && pos <= cont_h - 2) {
                         mvwprintz( w_sort_right, pos, 2, dam_color[int( elem.damage + 1 )],
-                                   each_armor->nname( 1 ).c_str() );
+                                   elem.type_name( 1 ).c_str() );
                         mvwprintz( w_sort_right, pos, right_w - 2, c_ltgray, "%d",
                                    ( elem.has_flag( "FIT" ) ) ?
                                        std::max( 0, elem.get_encumber() - 1 ) :
@@ -356,8 +356,7 @@ The sum of these values is the effective encumbrance value your character has fo
 
 void draw_mid_pane(WINDOW *w_sort_middle, item *worn_item)
 {
-    it_armor *each_armor = dynamic_cast<it_armor *>(worn_item->type);
-    mvwprintz(w_sort_middle, 0, 1, c_white, each_armor->nname(1).c_str());
+    mvwprintz(w_sort_middle, 0, 1, c_white, worn_item->type_name(1).c_str());
     int middle_w = getmaxx(w_sort_middle);
     std::vector<std::string> props = clothing_properties(worn_item, middle_w - 3);
     size_t i;

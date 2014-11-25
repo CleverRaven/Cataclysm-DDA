@@ -744,7 +744,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                     item_info_text = tmp.info( true );
                 }
                 mvwprintz(w_data, 0, FULL_SCREEN_WIDTH + 1, col, "%s",
-                          utf8_truncate(tmp.type->nname(1), iInfoWidth).c_str());
+                          utf8_truncate(tmp.type_name( 1 ), iInfoWidth).c_str());
 
                 fold_and_print( w_data, 1, FULL_SCREEN_WIDTH + 1, iInfoWidth, col, item_info_text );
             }
@@ -792,7 +792,7 @@ const recipe *select_crafting_recipe( int &batch_size )
         } else if (action == "HELP_RECIPE") {
             tmp = current[line]->create_result();
 
-            full_screen_popup("%s\n%s", tmp.type->nname(1).c_str(),  tmp.info(true).c_str());
+            full_screen_popup("%s\n%s", tmp.type_name( 1 ).c_str(),  tmp.info(true).c_str());
             redraw = true;
             keepline = true;
         } else if (action == "FILTER") {
@@ -1475,9 +1475,9 @@ void player::complete_craft()
         if (first) {
             first = false;
             if( knows_recipe(making) ) {
-                add_msg(_("You craft %s from memory."), newit.type->nname(1).c_str());
+                add_msg(_("You craft %s from memory."), newit.type_name( 1 ).c_str());
             } else {
-                add_msg(_("You craft %s using a book as a reference."), newit.type->nname(1).c_str());
+                add_msg(_("You craft %s using a book as a reference."), newit.type_name( 1 ).c_str());
                 // If we made it, but we don't know it,
                 // we're making it from a book and have a chance to learn it.
                 // Base expected time to learn is 1000*(difficulty^4)/skill/int moves.
@@ -1490,7 +1490,7 @@ void player::complete_craft()
                             (get_skill_level( making->skill_used ) * get_int() ) ) ) {
                     learn_recipe( (recipe *)making );
                     add_msg(m_good, _("You memorized the recipe for %s!"),
-                            newit.type->nname(1).c_str());
+                            newit.type_name( 1 ).c_str());
                 }
             }
 

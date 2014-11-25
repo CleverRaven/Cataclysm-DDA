@@ -31,7 +31,7 @@ void iexamine::gaspump(player *p, map *m, int examx, int examy)
             item *liq = &(m->i_at(examx, examy)[i]);
 
             if (one_in(10 + p->dex_cur)) {
-                add_msg(m_bad, _("You accidentally spill the %s."), liq->type->nname(1).c_str());
+                add_msg(m_bad, _("You accidentally spill the %s."), liq->type_name(1).c_str());
                 item spill(liq->type->id, calendar::turn);
                 spill.charges = rng(dynamic_cast<it_ammo *>(liq->type)->count,
                                     dynamic_cast<it_ammo *>(liq->type)->count * (float)(8 / p->dex_cur));
@@ -43,7 +43,7 @@ void iexamine::gaspump(player *p, map *m, int examx, int examy)
             } else {
                 p->moves -= 300;
                 if (g->handle_liquid(*liq, true, false)) {
-                    add_msg(_("With a clang and a shudder, the %s pump goes silent."), liq->type->nname(1).c_str());
+                    add_msg(_("With a clang and a shudder, the %s pump goes silent."), liq->type_name(1).c_str());
                     m->i_at(examx, examy).erase(m->i_at(examx, examy).begin() + i);
                 }
             }

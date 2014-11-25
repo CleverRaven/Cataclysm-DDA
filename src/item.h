@@ -507,6 +507,16 @@ public:
          * Get the basic (main) material of this item. May return the null-material.
          */
         const material_type &get_base_material() const;
+        /**
+         * Name of the item type (not the item), with proper plural.
+         * This is only special when the item itself has a special name ("name" entry in
+         * @ref item_tags) or is a named corpse.
+         * It's effectively the same as calling @ref nname with the item type id. Use this when
+         * the actual item is not meant, for example "The shovel" instead of "Your shovel".
+         * Or "The jacket is too small", when it applies to all jackets, not just the one the
+         * character tried to wear).
+         */
+        std::string type_name( unsigned int quantity = 1 ) const;
 
         /**
          * @name Armor related functions.

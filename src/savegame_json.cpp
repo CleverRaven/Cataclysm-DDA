@@ -1003,7 +1003,7 @@ void item::deserialize(JsonObject &data)
     make(idtmp);
 
     if ( ! data.read( "name", name ) ) {
-        name = type->nname(1);
+        name = type_name(1);
     }
     // Compatiblity for item type changes: for example soap changed from being a generic item
     // (item::charges == -1) to comestible (and thereby counted by charges), old saves still have
@@ -1178,7 +1178,7 @@ void item::serialize(JsonOut &json, bool save_contents) const
         json.member( "item_vars", item_vars );
     }
 
-    if ( name != type->nname(1) ) {
+    if ( name != type_name(1) ) {
         json.member( "name", name );
     }
 
