@@ -8400,28 +8400,39 @@ void game::control_vehicle()
 
     if (veh && veh->player_in_control(&u)) {
         veh->use_controls();
-    } else if (veh && veh->part_with_feature(veh_part, "CONTROLS") >= 0
-               && u.in_vehicle) {
+    }
+    else if (veh && veh->part_with_feature(veh_part, "CONTROLS") >= 0
+        && u.in_vehicle) {
         u.controlling_vehicle = true;
         add_msg(_("You take control of the %s."), veh->name.c_str());
         if (!veh->engine_on) {
             veh->start_engine();
         }
-    } else {
+    }
+    else {
         int examx, examy;
-        if (!choose_adjacent(_("Control vehicle where?"), examx, examy)) {
+        if (!choose_adjacent(_("Use controls where?"), examx, examy)) {
             return;
         }
         veh = m.veh_at(examx, examy, veh_part);
-        if (!veh) {
-            add_msg(_("No vehicle there."));
+        if (veh && veh->part_with_feature(veh_part, "CONTROLS") >= 0) {
+            veh->use_controls();
             return;
         }
-        if (veh->part_with_feature(veh_part, "CONTROLS") < 0) {
-            add_msg(m_info, _("No controls there."));
-            return;
+        auto &furn = m.furn_at(examx, examy);
+        if (furn.id != "f_null") {
+            if (!furn.on.empty()) {
+                m.furn_set(examx, examy, furn.on);
+                add_msg(m_info, _("You turn on the %s."), furn.name.c_str());
+                return;
+            }
+            if (!furn.off.empty()) {
+                m.furn_set(examx, examy, furn.off);
+                add_msg(m_info, _("You turn off the %s."), furn.name.c_str());
+                return;
+            }
         }
-        veh->use_controls();
+        add_msg(m_info, _("No controls there."));
     }
 }
 
