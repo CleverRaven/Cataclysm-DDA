@@ -1364,6 +1364,33 @@ nc_color item::color_in_inventory() const
     return color(&g->u);
 }
 
+void item::on_wear( player &p  )
+{
+    const auto art = dynamic_cast<const it_artifact_armor*>( type );
+    // TODO: artifacts currently only work with the player character
+    if( &p == &g->u && art != nullptr ) {
+        g->add_artifact_messages( art->effects_worn );
+    }
+}
+
+void item::on_wield( player &p  )
+{
+    const auto art = dynamic_cast<const it_artifact_tool*>( type );
+    // TODO: artifacts currently only work with the player character
+    if( &p == &g->u && art != nullptr ) {
+        g->add_artifact_messages( art->effects_wielded );
+    }
+}
+
+void item::on_pickup( player &p  )
+{
+    const auto art = dynamic_cast<const it_artifact_tool*>( type );
+    // TODO: artifacts currently only work with the player character
+    if( &p == &g->u && art != nullptr ) {
+        g->add_artifact_messages( art->effects_carried );
+    }
+}
+
 /* @param with_prefix determines whether to return for more of its object, such as
 * the extent of damage and burning (was created to sort by name without prefix
 * in additional inventory)

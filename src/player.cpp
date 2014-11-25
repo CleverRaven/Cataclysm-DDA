@@ -6610,28 +6610,13 @@ void player::hardcoded_effects(effect &it)
             apply_damage( nullptr, bp, 1 );
         }
     } else if (id == "evil") {
-        bool lesserEvil = false;  // Worn or wielded; diminished effects
-        if (weapon.is_artifact() && weapon.is_tool()) {
-            it_artifact_tool *tool = dynamic_cast<it_artifact_tool*>(weapon.type);
-            for( auto &elem : tool->effects_carried ) {
-                if( elem == AEP_EVIL ) {
-                    lesserEvil = true;
-                }
-            }
-            for( auto &elem : tool->effects_wielded ) {
-                if( elem == AEP_EVIL ) {
-                    lesserEvil = true;
-                }
-            }
-        }
-        for (std::vector<item>::iterator i = worn.begin(); !lesserEvil && i != worn.end(); ++i) {
-            if (i->is_artifact()) {
-                it_artifact_armor *armor = dynamic_cast<it_artifact_armor*>(i->type);
-                for( auto &elem : armor->effects_worn ) {
-                    if( elem == AEP_EVIL ) {
-                        lesserEvil = true;
-                    }
-                }
+        // Worn or wielded; diminished effects
+        bool lesserEvil = weapon.has_effect_when_wielded( AEP_EVIL ) ||
+                          weapon.has_effect_when_carried( AEP_EVIL );
+        for( auto &w : worn ) {
+            if( w.has_effect_when_worn( AEP_EVIL ) ) {
+                lesserEvil = true;
+                break;
             }
         }
         if (lesserEvil) {
@@ -8544,11 +8529,9 @@ item& player::i_add(item it)
      it.is_book() || it.is_tool() || it.is_weap() || it.is_food_container())
   inv.unsort();
 
- if (g != NULL && it.is_artifact() && it.is_tool()) {
-  it_artifact_tool *art = dynamic_cast<it_artifact_tool*>(it.type);
-  g->add_artifact_messages(art->effects_carried);
- }
- return inv.add_item(it);
+    auto &item_in_inv = inv.add_item( it );
+    item_in_inv.on_pickup( *this );
+    return item_in_inv;
 }
 
 bool player::has_active_item(const itype_id & id) const
@@ -10120,11 +10103,8 @@ bool player::wield(item* it, bool autodrop)
  }
  if (!is_armed()) {
   weapon = inv.remove_item(it);
-  if (weapon.is_artifact() && weapon.is_tool()) {
-   it_artifact_tool *art = dynamic_cast<it_artifact_tool*>(weapon.type);
-   g->add_artifact_messages(art->effects_wielded);
-  }
   moves -= 30;
+  weapon.on_wield( *this );
   last_item = itype_id(weapon.type->id);
   return true;
  } else if (volume_carried() + weapon.volume() - it->volume() <
@@ -10134,10 +10114,7 @@ bool player::wield(item* it, bool autodrop)
   inv.add_item_keep_invlet(tmpweap);
   inv.unsort();
   moves -= 45;
-  if (weapon.is_artifact() && weapon.is_tool()) {
-   it_artifact_tool *art = dynamic_cast<it_artifact_tool*>(weapon.type);
-   g->add_artifact_messages(art->effects_wielded);
-  }
+  weapon.on_wield( *this );
   last_item = itype_id(weapon.type->id);
   return true;
  } else if (query_yn(_("No space in inventory for your %s.  Drop it?"),
@@ -10146,10 +10123,7 @@ bool player::wield(item* it, bool autodrop)
   weapon = inv.remove_item(it);
   inv.unsort();
   moves -= 30;
-  if (weapon.is_artifact() && weapon.is_tool()) {
-   it_artifact_tool *art = dynamic_cast<it_artifact_tool*>(weapon.type);
-   g->add_artifact_messages(art->effects_wielded);
-  }
+  weapon.on_wield( *this );
   last_item = itype_id(weapon.type->id);
   return true;
  }
@@ -10724,11 +10698,7 @@ bool player::wear_item(item *to_wear, bool interactive)
         add_msg(_("You put on your %s."), to_wear->tname().c_str());
         moves -= 350; // TODO: Make this variable?
 
-        if (to_wear->is_artifact())
-        {
-            it_artifact_armor *art = dynamic_cast<it_artifact_armor*>(to_wear->type);
-            g->add_artifact_messages(art->effects_worn);
-        }
+        worn.back().on_wear( *this );
 
         for (body_part i = bp_head; i < num_bp; i = body_part(i + 1))
         {

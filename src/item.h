@@ -509,6 +509,22 @@ public:
          */
         const material_type &get_base_material() const;
         /**
+         * Callback when a player starts wearing the item. The item is already in the worn
+         * items vector and is called from there.
+         */
+        void on_wear( player &p );
+        /**
+         * Callback when a player starts wielding the item. The item is already in the weapon
+         * slot and is called from there.
+         */
+        void on_wield( player &p );
+        /**
+         * Callback when a player starts carrying the item. The item is already in the inventory
+         * and is called from there. This is not called when the item is added to the inventory
+         * from worn vector or weapon slot. The item is considered already carried.
+         */
+        void on_pickup( player &p );
+        /**
          * Name of the item type (not the item), with proper plural.
          * This is only special when the item itself has a special name ("name" entry in
          * @ref item_tags) or is a named corpse.
