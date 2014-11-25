@@ -36,7 +36,7 @@ item::item()
     init();
 }
 
-item::item(const std::string new_type, unsigned int turn, bool rand, int handed)
+item::item(const std::string new_type, unsigned int turn, bool rand, const handedness handed)
 {
     init();
     type = find_type( new_type );
@@ -85,47 +85,13 @@ item::item(const std::string new_type, unsigned int turn, bool rand, int handed)
         charges = -1;
     }
     if (type->is_armor()) {
-        it_armor* armor = dynamic_cast<it_armor*>(type);
-        covers = armor->covers;
-        if (armor->sided.any()) {
-            bool right = one_in(2);
-            if (handed == RIGHT) {
-                right = true;
-            } else if (handed == LEFT) {
-                right = false;
-            }
-            if (right) {
-                item_tags.insert("RIGHT");
+        if( handed != NONE ) {
+            make_handed( handed );
+        } else {
+            if( one_in( 2 ) ) {
+                make_handed( LEFT );
             } else {
-                item_tags.insert("LEFT");
-            }
-            if (type->is_sided(bp_arm_l)) {
-                if (right == true) {
-                    covers.set(bp_arm_r);
-                } else {
-                    covers.set(bp_arm_l);
-                }
-            }
-            if (type->is_sided(bp_hand_l)) {
-                if (right == true) {
-                    covers.set(bp_hand_r);
-                } else {
-                    covers.set(bp_hand_l);
-                }
-            }
-            if (type->is_sided(bp_leg_l)) {
-                if (right == true) {
-                    covers.set(bp_leg_r);
-                } else {
-                    covers.set(bp_leg_l);
-                }
-            }
-            if (type->is_sided(bp_foot_l)) {
-                if (right == true) {
-                    covers.set(bp_foot_r);
-                } else {
-                    covers.set(bp_foot_l);
-                }
+                make_handed( RIGHT );
             }
         }
     }
@@ -208,6 +174,42 @@ void item::make( const std::string new_type )
             covers = armor->covers;
         }
     }
+}
+
+// If armor is sided , add matching bits to cover bitset
+void make_sided_if( const it_armor &armor, std::bitset<13> &covers, handedness h, body_part bpl, body_part bpr )
+{
+    if( armor.sided.test( bpl ) ) {
+        if( h == RIGHT ) {
+            covers.set( bpr );
+        } else {
+            covers.set( bpl );
+        }
+    }
+}
+
+void item::make_handed( const handedness handed )
+{
+    const auto armor = dynamic_cast<const it_armor *>( type );
+    if( armor == nullptr ) {
+        return;
+    }
+    item_tags.erase( "RIGHT" );
+    item_tags.erase( "LEFT" );
+    // Always reset the coverage, so to prevent inconsistencies.
+    covers = armor->covers;
+    if( !armor->sided.any() || handed == NONE ) {
+        return;
+    }
+    if( handed == RIGHT ) {
+        item_tags.insert( "RIGHT" );
+    } else {
+        item_tags.insert( "LEFT" );
+    }
+    make_sided_if( *armor, covers, handed, bp_arm_l, bp_arm_r );
+    make_sided_if( *armor, covers, handed, bp_hand_l, bp_hand_r );
+    make_sided_if( *armor, covers, handed, bp_leg_l, bp_leg_r );
+    make_sided_if( *armor, covers, handed, bp_foot_l, bp_foot_r );
 }
 
 void item::clear()

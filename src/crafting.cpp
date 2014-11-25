@@ -1299,7 +1299,7 @@ void player::make_all_craft(const std::string &id_to_make, int batch_size)
     lastrecipe = id_to_make;
 }
 
-item recipe::create_result(int handed) const
+item recipe::create_result(handedness handed) const
 {
     item newit(result, calendar::turn, false, handed);
     if (result_mult != 1) {
@@ -1314,7 +1314,7 @@ item recipe::create_result(int handed) const
     return newit;
 }
 
-std::vector<item> recipe::create_results(int batch, int handed) const
+std::vector<item> recipe::create_results(int batch, handedness handed) const
 {
     std::vector<item> items;
 
@@ -1379,9 +1379,16 @@ void player::complete_craft()
         return;
     }
 
-    int handed = 0;
+    handedness handed = NONE;
     if (making->paired) {
-        handed = menu(true, ("Handedness?:"), _("Left-handed"), _("Right-handed"), NULL);
+        switch( menu(true, ("Handedness?:"), _("Left-handed"), _("Right-handed"), NULL) ) {
+            case 1:
+                handed = LEFT;
+                break;
+            case 2:
+                handed = RIGHT;
+                break;
+        }
     }
 
     // # of dice is 75% primary skill, 25% secondary (unless secondary is null)

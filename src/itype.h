@@ -201,8 +201,6 @@ public:
 
     bool has_use() const;
     bool can_use( std::string iuse_name ) const;
-    /** Returns true if is_armor() and is sided on bp */
-    bool is_sided(body_part bp) const;
     int invoke( player *p, item *it, bool active, point pos );
 
     std::vector<use_function> use_methods;// Special effects of use

@@ -1040,35 +1040,7 @@ void item::deserialize(JsonObject &data)
         it_armor *armor = dynamic_cast<it_armor *>( type );
         covers = armor->covers;
         if (armor->sided.any()) {
-            bool left = one_in(2);
-            if (armor->sided.test(bp_arm_l)) {
-                if (left == true) {
-                    covers.set(bp_arm_l);
-                } else {
-                    covers.set(bp_arm_r);
-                }
-            }
-            if (armor->sided.test(bp_hand_l)) {
-                if (left == true) {
-                    covers.set(bp_hand_l);
-                } else {
-                    covers.set(bp_hand_r);
-                }
-            }
-            if (armor->sided.test(bp_leg_l)) {
-                if (left == true) {
-                    covers.set(bp_leg_l);
-                } else {
-                    covers.set(bp_leg_r);
-                }
-            }
-            if (armor->sided.test(bp_foot_l)) {
-                if (left == true) {
-                    covers.set(bp_foot_l);
-                } else {
-                    covers.set(bp_foot_r);
-                }
-            }
+            make_handed( one_in( 2 ) ? LEFT : RIGHT );
         }
     } else {
         covers = tmp_covers;

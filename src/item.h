@@ -11,6 +11,7 @@
 #include "artifact.h"
 #include "itype.h"
 #include "mtype.h"
+#include "bodypart.h"
 
 class game;
 class player;
@@ -89,7 +90,7 @@ class item : public JsonSerializer, public JsonDeserializer
 {
 public:
  item();
- item(const std::string new_type, unsigned int turn, bool rand = true, int handed = 0);
+ item(const std::string new_type, unsigned int turn, bool rand = true, handedness handed = NONE);
  void make_corpse(const std::string new_type, mtype* mt, unsigned int turn);
  void make_corpse(const std::string new_type, mtype* mt, unsigned int turn, const std::string &name);
  item(std::string itemdata);
@@ -526,6 +527,15 @@ public:
          * return a default value.
          */
         /*@{*/
+        /**
+         * Make this item into a handed item.
+         * All previous handed info is erased and reset.
+         * Does nothing if the item is no armor at all. If the item type is not handed, it is only
+         * reset to be non-handed regardless of the requested handedness.
+         * @param handed The new handedness. If NONE, the item is made non-handed - all handed
+         * information is erased and only the default coverage (@ref it_armor::covers) is applied.
+         */
+        void make_handed( handedness handed );
         /**
          * Returns the warmth value that this item has when worn. See player class for temperature
          * related code, or @ref player:::warmth. Returned values should be positive. A value

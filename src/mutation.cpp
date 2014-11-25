@@ -149,8 +149,7 @@ void player::activate_mutation( std::string mut )
         traits[mut].powered = false;
         return;
     } else if (traits[mut].id == "VINES3"){
-        int handed = 0;
-        item newit("vine_30", calendar::turn, false, handed);
+        item newit("vine_30", calendar::turn, false);
         if (!can_pickVolume(newit.volume())) { //Accounts for result_mult
             add_msg(_("You detach a vine but don't have room to carry it, so you drop it."));
             g->m.add_item_or_charges(posx, posy, newit);
