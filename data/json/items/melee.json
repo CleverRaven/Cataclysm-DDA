@@ -4282,5 +4282,20 @@
         "bashing": 0,
         "cutting": 0,
         "to_hit": -2
+    },{
+        "type":"GENERIC",
+        "id": "straw_doll",
+        "symbol": "o",
+        "color": "ight_gray",
+        "name": "straw doll",
+        "name_plural": "straw dolls",
+        "description": "Old straw doll. Represents a woman in a dress. ",
+        "price": 100,
+        "material": ["paper", "null"],
+        "weight": 80,
+        "volume": 2,
+        "bashing": -3,
+        "cutting": 0,
+        "to_hit": 0
     }
 ]

@@ -873,6 +873,7 @@
       ["talking_doll", 65],
       ["marble", 65],
       ["creepy_doll", 1],
+      ["straw_doll", 1],
       ["money_bundle", 30],
       ["wristwatch", 15],
       ["diving_watch", 5],
@@ -2466,6 +2467,7 @@
       ["55gal_drum", 1],
       ["30gal_drum", 2],
       ["creepy_doll", 1],
+      ["straw_doll", 1],
       ["striped_shirt", 1],
       ["striped_pants", 1],
       ["razor_blade", 10],
@@ -5530,6 +5532,7 @@
       ["talking_doll", 5],
       ["marble", 5],
       ["creepy_doll", 1],
+      ["straw_doll", 1],
       ["wristwatch", 15],
       ["pocketwatch", 5],
       ["lsd", 1],
@@ -8658,6 +8661,7 @@
       ["carbine_flintlock", 4],
       ["rifle_flintlock", 4],
       ["boxing_gloves", 12]
+      ["straw_doll", 1]
     ]
   },{
 "type"  : "item_group",
