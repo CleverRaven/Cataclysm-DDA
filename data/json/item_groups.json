@@ -2178,7 +2178,8 @@
       ["survnote", 1],
       ["thermometer", 3],
       ["hygrometer", 3],
-      ["barometer", 3]
+      ["barometer", 3],
+      ["straw_basket", 1]
     ]
   },{
     "type" : "item_group",
@@ -7925,7 +7926,8 @@
       ["v_table", 0],
       ["survnote", 5],
       ["raw_leather", 0],
-      ["raw_fur", 0]
+      ["raw_fur", 0],
+      ["straw_pile", 0]
     ]
   },{
     "type" : "item_group",

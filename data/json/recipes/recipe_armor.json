@@ -7310,5 +7310,16 @@
       [ "duster_survivor", 1 ]
     ]
   ]
+},{
+  "type" : "recipe",
+  "result": "straw_basket",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_STORAGE",
+  "skill_used": "tailor",
+  "difficulty": 1,
+  "time": 18000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [ [ [ "straw_pile", 5 ] ] ]
 }
 ]

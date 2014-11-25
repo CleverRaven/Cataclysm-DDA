@@ -10925,6 +10925,29 @@
         "flags" : ["VARSIZE", "POCKETS", "HOOD", "STURDY", "WATERPROOF", "RAINPROOF", "OUTER"],
         "coverage" : 85,
         "material_thickness" : 3
+    },
+    {
+        "type" : "ARMOR",
+        "id" : "straw_basket",
+        "name" : "straw basket",
+        "weight" : 100,
+        "color" : "light_gray",
+        "covers" : ["HANDS"],
+        "to_hit" : -1,
+        "storage" : 15,
+        "symbol" : "[",
+        "description" : "Hand made straw basket.",
+        "price" : 200,
+        "material" : "paper",
+        "volume" : 15,
+        "cutting" : 0,
+        "warmth" : 0,
+        "phase" : "solid",
+        "environmental_protection" : 0,
+        "encumbrance" : 2,
+        "bashing" : 0,
+        "coverage" : 4,
+        "material_thickness" : 2
     }
 ]
 
