@@ -9356,6 +9356,9 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
             place_items("mechanics", 40, 8, 4, 15, 19, true, 0);
             place_items("home_hw", 50, 4, 19, 7, 19, true, 0);
             place_items("tools", 50, 4, 19, 7, 19, true, 0);
+            spawn_item(rng(4, 6), rng(4, 6), "straw_pile", rng(5, 15));
+            spawn_item(4, rng(9, 14), "straw_pile", rng(10, 20));
+            spawn_item(19, rng(9, 14), "straw_pile", rng(10, 20));
             if (one_in(3)) {
                 add_spawn("mon_zombie", rng(3, 6), 12, 12);
             } else {

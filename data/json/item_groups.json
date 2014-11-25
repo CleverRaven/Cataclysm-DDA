@@ -5362,7 +5362,8 @@
       ["celery", 4],
       ["onion", 3],
       ["carrot", 3],
-      ["withered", 60],
+      ["withered", 40],
+      ["straw_pile", 20],
       ["survnote", 1]
     ]
   },{
@@ -8412,6 +8413,7 @@
       ["jar_3l_glass", 1],
       ["wrapper", 3],
       ["withered", 5],
+      ["straw_pile", 5],
       ["string_6", 1],
       ["cig_butt", 4],
       ["string_36", 1],
