@@ -1009,7 +1009,8 @@ bool npc::wear_if_wanted(item it)
     int max_encumb[num_bp] = {2, 3, 3, 4, 3, 3, 3, 2};
     bool encumb_ok = true;
     for (int i = 0; i < num_bp && encumb_ok; i++) {
-        if (it.covers.test(i) && encumb(body_part(i)) + it.get_encumber() > max_encumb[i]) {
+        const auto bp = static_cast<body_part>( i );
+        if (it.covers(bp) && encumb(bp) + it.get_encumber() > max_encumb[i]) {
             encumb_ok = false;
         }
     }
@@ -1021,7 +1022,8 @@ bool npc::wear_if_wanted(item it)
     std::vector<int> removal;
     for (size_t i = 0; i < worn.size(); i++) {
         for (int j = 0; j < num_bp; j++) {
-            if (it.covers.test(j) && worn[i].covers.test(j)) {
+            const auto bp = static_cast<body_part>( j );
+            if (it.covers(bp) && worn[i].covers(bp)) {
                 removal.push_back(i);
                 j = num_bp;
             }

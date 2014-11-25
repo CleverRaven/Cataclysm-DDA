@@ -1270,7 +1270,7 @@ void mutation_effect(player &p, std::string mut)
     std::string mutation_safe = "OVERSIZE";
     for (size_t i = 0; i < p.worn.size(); i++) {
         for( auto &bp : bps ) {
-            if( ( p.worn[i].covers.test( bp ) ) && ( !( p.worn[i].has_flag( mutation_safe ) ) ) ) {
+            if( ( p.worn[i].covers( bp ) ) && ( !( p.worn[i].has_flag( mutation_safe ) ) ) ) {
                 if (destroy) {
                     if (is_u) {
                         add_msg(m_bad, _("Your %s is destroyed!"), p.worn[i].tname().c_str());

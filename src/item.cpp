@@ -142,7 +142,7 @@ void item::init() {
     invlet = 0;
     damage = 0;
     burnt = 0;
-    covers = 0;
+    covered_bodyparts.reset();
     poison = 0;
     mode = "NULL";
     item_counter = 0;
@@ -169,9 +169,9 @@ void item::make( const std::string new_type )
         // the coverage.
         const it_armor* armor = dynamic_cast<const it_armor*>( type );
         if( armor == nullptr ) {
-            covers = 0;
+            covered_bodyparts.reset();
         } else {
-            covers = armor->covers;
+            covered_bodyparts = armor->covers;
         }
     }
 }
@@ -197,7 +197,7 @@ void item::make_handed( const handedness handed )
     item_tags.erase( "RIGHT" );
     item_tags.erase( "LEFT" );
     // Always reset the coverage, so to prevent inconsistencies.
-    covers = armor->covers;
+    covered_bodyparts = armor->covers;
     if( !armor->sided.any() || handed == NONE ) {
         return;
     }
@@ -206,10 +206,10 @@ void item::make_handed( const handedness handed )
     } else {
         item_tags.insert( "LEFT" );
     }
-    make_sided_if( *armor, covers, handed, bp_arm_l, bp_arm_r );
-    make_sided_if( *armor, covers, handed, bp_hand_l, bp_hand_r );
-    make_sided_if( *armor, covers, handed, bp_leg_l, bp_leg_r );
-    make_sided_if( *armor, covers, handed, bp_foot_l, bp_foot_r );
+    make_sided_if( *armor, covered_bodyparts, handed, bp_arm_l, bp_arm_r );
+    make_sided_if( *armor, covered_bodyparts, handed, bp_hand_l, bp_hand_r );
+    make_sided_if( *armor, covered_bodyparts, handed, bp_leg_l, bp_leg_r );
+    make_sided_if( *armor, covered_bodyparts, handed, bp_foot_l, bp_foot_r );
 }
 
 void item::clear()
@@ -226,6 +226,20 @@ bool item::is_null() const
     static const std::string s_null("null"); // used alot, no need to repeat
     // Actually, type should never by null at all.
     return (type == nullptr || type == nullitem() || type->id == s_null);
+}
+
+bool item::covers( const body_part bp ) const
+{
+    if( bp >= num_bp ) {
+        debugmsg( "bad body part %d to ceck in item::covers", static_cast<int>( bp ) );
+        return false;
+    }
+    return covered_bodyparts.test( bp );
+}
+
+const std::bitset<num_bp> &item::get_covered_body_parts() const
+{
+    return covered_bodyparts;
 }
 
 item item::in_its_container()
@@ -719,55 +733,55 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
     } else if (is_armor()) {
         temp1.str("");
         temp1 << _("Covers: ");
-        if (covers.test(bp_head)) {
+        if (covers(bp_head)) {
             temp1 << _("The head. ");
         }
-        if (covers.test(bp_eyes)) {
+        if (covers(bp_eyes)) {
             temp1 << _("The eyes. ");
         }
-        if (covers.test(bp_mouth)) {
+        if (covers(bp_mouth)) {
             temp1 << _("The mouth. ");
         }
-        if (covers.test(bp_torso)) {
+        if (covers(bp_torso)) {
             temp1 << _("The torso. ");
         }
-        if( covers.test( bp_arm_l ) && covers.test( bp_arm_r ) ) {
+        if( covers( bp_arm_l ) && covers( bp_arm_r ) ) {
             temp1 << _("The arms. ");
         } else {
-            if (covers.test(bp_arm_l)) {
+            if (covers(bp_arm_l)) {
                 temp1 << _("The left arm. ");
             }
-            if (covers.test(bp_arm_r)) {
+            if (covers(bp_arm_r)) {
                 temp1 << _("The right arm. ");
             }
         }
-        if( covers.test( bp_hand_l ) && covers.test( bp_hand_r ) ) {
+        if( covers( bp_hand_l ) && covers( bp_hand_r ) ) {
             temp1 << _("The hands. ");
         } else {
-            if (covers.test(bp_hand_l)) {
+            if (covers(bp_hand_l)) {
                 temp1 << _("The left hand. ");
             }
-            if (covers.test(bp_hand_r)) {
+            if (covers(bp_hand_r)) {
                 temp1 << _("The right hand. ");
             }
         }
-        if( covers.test( bp_leg_l ) && covers.test( bp_leg_r ) ) {
+        if( covers( bp_leg_l ) && covers( bp_leg_r ) ) {
             temp1 << _("The legs. ");
         } else {
-            if (covers.test(bp_leg_l)) {
+            if (covers(bp_leg_l)) {
                 temp1 << _("The left leg. ");
             }
-            if (covers.test(bp_leg_r)) {
+            if (covers(bp_leg_r)) {
                 temp1 << _("The right leg. ");
             }
         }
-        if( covers.test( bp_foot_l ) && covers.test( bp_foot_r ) ) {
+        if( covers( bp_foot_l ) && covers( bp_foot_r ) ) {
             temp1 << _("The feet. ");
         } else {
-            if (covers.test(bp_foot_l)) {
+            if (covers(bp_foot_l)) {
                 temp1 << _("The left foot. ");
             }
-            if (covers.test(bp_foot_r)) {
+            if (covers(bp_foot_r)) {
                 temp1 << _("The right foot. ");
             }
         }
@@ -1042,7 +1056,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
                 _("This gear is a part of power armor.")));
-            if (covers.test(bp_head)) {
+            if (covers(bp_head)) {
                 dump->push_back(iteminfo("DESCRIPTION",
                     _("When worn with a power armor suit, it will fully protect you from radiation.")));
             } else {
