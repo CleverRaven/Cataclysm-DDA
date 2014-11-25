@@ -3436,6 +3436,38 @@
   ]
 },{
         "type" : "recipe",
+  "result": "legrig",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_STORAGE",
+  "skills_required" : ["fabrication", 2],
+  "skill_used": "tailor",
+  "difficulty": 4,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 15 ],
+      [ "needle_wood", 15 ],
+      [ "sewing_kit", 15 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 10 ]
+    ],
+    [
+      [ "ragpouch", 2]
+    ],
+    [
+      [ "scrap", 2]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "duffelbag",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_STORAGE",
