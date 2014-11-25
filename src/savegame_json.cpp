@@ -340,6 +340,7 @@ void player::serialize(JsonOut &json) const
     // misc player specific stuff
     json.member( "focus_pool", focus_pool );
     json.member( "style_selected", style_selected );
+    json.member( "keep_hands_free", keep_hands_free );
 
     json.member( "stomach_food", stomach_food );
     json.member( "stomach_water", stomach_water );
@@ -444,6 +445,7 @@ void player::deserialize(JsonIn &jsin)
 
     data.read( "focus_pool", focus_pool);
     data.read( "style_selected", style_selected );
+    data.read( "keep_hands_free", keep_hands_free );
 
     data.read( "mutations", my_mutations );
     data.read( "mutation_keys", trait_keys );
