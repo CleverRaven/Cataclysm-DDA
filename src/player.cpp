@@ -11446,10 +11446,10 @@ void player::do_read( item *book )
         add_msg(_("You skim %s to find out what's in it."), book->type_name().c_str());
         if( reading->type ) {
             add_msg(m_info, _("Can bring your %s skill to %d."),
-                    book->type_name().c_str(), reading->level);
+                    reading->type->name().c_str(), reading->level);
             if( reading->req != 0 ){
                 add_msg(m_info, _("Requires %s level %d to understand."),
-                        book->type_name().c_str(), reading->req);
+                        reading->type->name().c_str(), reading->req);
             }
         }
 
@@ -11551,7 +11551,7 @@ void player::do_read( item *book )
 
         skillLevel(reading->type).readBook( min_ex, max_ex, reading->level );
 
-        add_msg(_("You learn a little about %s! (%d%%)"), book->type_name().c_str(),
+        add_msg(_("You learn a little about %s! (%d%%)"), reading->type->name().c_str(),
                 skillLevel(reading->type).exercise());
 
         if (skillLevel(reading->type) == originalSkillLevel && activity.get_value(0) == 1) {
@@ -11580,14 +11580,14 @@ void player::do_read( item *book )
         int new_skill_level = (int)skillLevel(reading->type);
         if (new_skill_level > originalSkillLevel) {
             add_msg(m_good, _("You increase %s to level %d."),
-                    book->type_name().c_str(),
+                    reading->type->name().c_str(),
                     new_skill_level);
 
             if(new_skill_level % 4 == 0) {
                 //~ %s is skill name. %d is skill level
                 add_memorial_log(pgettext("memorial_male", "Reached skill level %1$d in %2$s."),
                                    pgettext("memorial_female", "Reached skill level %1$d in %2$s."),
-                                   new_skill_level, book->type_name().c_str());
+                                   new_skill_level, reading->type->name().c_str());
             }
         }
 
