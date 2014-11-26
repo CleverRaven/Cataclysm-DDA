@@ -989,11 +989,11 @@ void Item_factory::set_qualities_from_json(JsonObject &jo, std::string member,
     }
 }
 
-std::bitset<13> Item_factory::flags_from_json(JsonObject &jo, const std::string &member,
+std::bitset<num_bp> Item_factory::flags_from_json(JsonObject &jo, const std::string &member,
         std::string flag_type)
 {
     //If none is found, just use the standard none action
-    std::bitset<13> flag = 0;
+    std::bitset<num_bp> flag = 0;
     //Otherwise, grab the right label to look for
     if (jo.has_array(member)) {
         JsonArray jarr = jo.get_array(member);
@@ -1400,7 +1400,7 @@ use_function Item_factory::use_from_string(std::string function_name)
     }
 }
 
-void Item_factory::set_flag_by_string(std::bitset<13> &cur_flags, const std::string &new_flag,
+void Item_factory::set_flag_by_string(std::bitset<num_bp> &cur_flags, const std::string &new_flag,
                                       const std::string &flag_type)
 {
     if (flag_type == "bodyparts") {

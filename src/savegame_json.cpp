@@ -955,7 +955,7 @@ void item::deserialize(JsonObject &data)
     int lettmp = 0;
     std::string corptmp = "null";
     int damtmp = 0;
-    std::bitset<13> tmp_covers;
+    std::bitset<num_bp> tmp_covers;
 
     if ( ! data.read( "typeid", idtmp) ) {
         debugmsg("Invalid item type: %s ", data.str().c_str() );
@@ -1005,7 +1005,7 @@ void item::deserialize(JsonObject &data)
     make(idtmp);
 
     if ( ! data.read( "name", name ) ) {
-        name = type->nname(1);
+        name = type_name(1);
     }
     // Compatiblity for item type changes: for example soap changed from being a generic item
     // (item::charges == -1) to comestible (and thereby counted by charges), old saves still have
@@ -1038,39 +1038,11 @@ void item::deserialize(JsonObject &data)
     }
 
     data.read( "covers", tmp_covers );
-    if (is_armor() && tmp_covers.none()) {
-        it_armor *armor = dynamic_cast<it_armor *>( type );
+    const auto armor = dynamic_cast<const it_armor *>( type );
+    if( armor != nullptr && tmp_covers.none() ) {
         covers = armor->covers;
         if (armor->sided.any()) {
-            bool left = one_in(2);
-            if (armor->sided.test(bp_arm_l)) {
-                if (left == true) {
-                    covers.set(bp_arm_l);
-                } else {
-                    covers.set(bp_arm_r);
-                }
-            }
-            if (armor->sided.test(bp_hand_l)) {
-                if (left == true) {
-                    covers.set(bp_hand_l);
-                } else {
-                    covers.set(bp_hand_r);
-                }
-            }
-            if (armor->sided.test(bp_leg_l)) {
-                if (left == true) {
-                    covers.set(bp_leg_l);
-                } else {
-                    covers.set(bp_leg_r);
-                }
-            }
-            if (armor->sided.test(bp_foot_l)) {
-                if (left == true) {
-                    covers.set(bp_foot_l);
-                } else {
-                    covers.set(bp_foot_r);
-                }
-            }
+            make_handed( one_in( 2 ) ? LEFT : RIGHT );
         }
     } else {
         covers = tmp_covers;
@@ -1180,7 +1152,7 @@ void item::serialize(JsonOut &json, bool save_contents) const
         json.member( "item_vars", item_vars );
     }
 
-    if ( name != type->nname(1) ) {
+    if ( name != type_name(1) ) {
         json.member( "name", name );
     }
 

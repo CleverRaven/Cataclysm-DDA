@@ -7,6 +7,7 @@
 #include "debug.h"
 #include "catacharset.h"
 #include "messages.h"
+#include "ammo.h"
 #include <vector>
 #include <string>
 #include <sstream>
@@ -3256,8 +3257,7 @@ void parse_tags(std::string &phrase, const player *u, const npc *me)
     if (!me->weapon.is_gun())
      phrase.replace(fa, l, _("BADAMMO"));
     else {
-     it_gun* gun = dynamic_cast<it_gun*>(me->weapon.type);
-     phrase.replace(fa, l, ammo_name(gun->ammo));
+     phrase.replace(fa, l, ammunition_type::find_ammunition_type( me->weapon.ammo_type() )->name() );
     }
    } else if (tag == "<punc>") {
     switch (rng(0, 2)) {

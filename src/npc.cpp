@@ -1006,11 +1006,10 @@ bool npc::wear_if_wanted(item it)
         return false;
     }
 
-    it_armor* armor = dynamic_cast<it_armor*>(it.type);
     int max_encumb[num_bp] = {2, 3, 3, 4, 3, 3, 3, 2};
     bool encumb_ok = true;
     for (int i = 0; i < num_bp && encumb_ok; i++) {
-        if (it.covers.test(i) && encumb(body_part(i)) + armor->encumber > max_encumb[i]) {
+        if (it.covers.test(i) && encumb(body_part(i)) + it.get_encumber() > max_encumb[i]) {
             encumb_ok = false;
         }
     }

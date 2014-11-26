@@ -10997,6 +10997,30 @@
         "bashing" : -4,
         "coverage" : 40,
         "material_thickness" : 1
+    },
+    {
+        "id" : "mask_guy_fawkes",
+        "name" : "Guy Fawkes mask",
+        "category" : "armor",
+        "weight" : 45,
+        "color" : "white",
+        "covers" : ["MOUTH", "EYES"],
+        "to_hit" : -3,
+        "storage" : 0,
+        "symbol" : "[",
+        "description" : "We are Anonymous. We are legion. We do not forgive. We do not forget. Expect us.",
+        "price" : 4000,
+        "material" : ["plastic", "null"],
+        "volume" : 3,
+        "cutting" : 0,
+        "warmth" : 5,
+        "phase" : "solid",
+        "environmental_protection" : 1,
+        "encumbrance" : 1,
+        "bashing" : 0,
+        "flags" : ["WATER_FRIENDLY"],
+        "coverage" : 95,
+        "material_thickness" : 1
     }
 ]
 

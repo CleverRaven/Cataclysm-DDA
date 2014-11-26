@@ -665,7 +665,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 }
                                 smoke++;
 
-                            } else if ((it->made_of("cotton") || it->made_of("wool"))) {
+                            } else if ((it->made_of("cotton") || it->made_of("wool")) && !it->made_of("nomex")) {
                                 //Cotton and wool burn slowly but don't feed the fire much.
                                 if (vol <= cur->getFieldDensity() * 5 || cur->getFieldDensity() == 3) {
                                     time_added = 1;
@@ -709,7 +709,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 destroyed = true;
                                 smoke += 2;
 
-                            } else if (it->made_of("plastic")) {
+                            } else if (it->made_of("plastic") && !it->made_of("nomex")) {
                                 //Smokey material, doesn't fuel well.
                                 smoke += 3;
                                 if (it->burnt <= cur->getFieldDensity() * 2 ||

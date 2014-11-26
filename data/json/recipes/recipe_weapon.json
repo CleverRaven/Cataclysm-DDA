@@ -772,7 +772,75 @@
   ],
   "components": [
     [
-      [ "shotgun_s", 1 ]
+      [ "shotgun_s", 1 ], [ "pipe_shotgun", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "surv_six_shooter",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "mechanics",
+  "skills_required": [[ "gun", 3 ]],
+  "difficulty": 4,
+  "time": 400000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn": [ [ "manual_pistol", 3 ]],
+  "qualities":[
+    {"id":"SAW_M_FINE","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "oxy_torch", 6 ],
+      [ "welder", 30 ],
+      [ "welder_crude", 30 ],
+      [ "toolset", 30 ],
+      [ "small_repairkit", 150 ],
+      [ "large_repairkit", 30 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "pipe", 1],
+      [ "spring", 1],
+      [ "steel_chunk", 2]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "surv_hand_cannon",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "mechanics",
+  "skills_required": [[ "gun", 4 ]],
+  "difficulty": 5,
+  "time": 600000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn": [ [ "manual_pistol", 5 ]],
+  "qualities":[
+    {"id":"SAW_M_FINE","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "oxy_torch", 6 ],
+      [ "welder", 30 ],
+      [ "welder_crude", 30 ],
+      [ "toolset", 30 ],
+      [ "small_repairkit", 150 ],
+      [ "large_repairkit", 30 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "pipe", 1],
+      [ "spring", 1],
+      [ "steel_chunk", 5]
     ]
   ]
 },{
@@ -994,6 +1062,31 @@
   ]
 },{
         "type" : "recipe",
+  "result": "2_shot_special",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "mechanics",
+  "skills_required": [ "gun", 1 ],
+  "difficulty": 1,
+  "time": 12000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "pipe", 1 ]
+    ],
+    [
+      [ "scrap", 1 ]
+    ],
+    [
+      [ "duct_tape", 50 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "rifle_22",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
@@ -1012,6 +1105,31 @@
     ],
     [
       [ "2x4", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "blunderbuss",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "mechanics",
+  "skills_required": [ "gun", 1 ],
+  "difficulty": 2,
+  "time": 12000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "pipe", 1 ]
+    ],
+    [
+      [ "2x4", 1 ]
+    ],
+    [
+      [ "scrap", 1 ]
     ]
   ]
 },{
@@ -1093,6 +1211,67 @@
   ], "components": [
     [
       [ "pipe", 1 ]
+    ],
+    [
+      [ "2x4", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "rifle_308",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "mechanics",
+  "skills_required": [ "gun", 3 ],
+  "difficulty": 5,
+  "time": 14000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "pipe", 1 ]
+    ],
+    [
+      [ "2x4", 1 ]
+    ],
+    [
+      [ "scrap", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "surv_carbine_223",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "mechanics",
+  "skills_required": [ "gun", 5 ],
+  "difficulty": 7,
+  "time": 14000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1},
+    {"id":"WRENCH_FINE","level":1,"amount":1}
+  ], "tools": [
+    [
+      ["goggles_welding", -1]
+    ],
+    [
+      ["oxy_torch", 60], ["welder", 300], ["welder_crude", 450], ["toolset", 450]
+    ]
+  ], "components": [
+    [
+      [ "pipe", 2 ]
+    ],
+    [
+      [ "spring", 1 ]
+    ],
+    [
+      [ "steel_chunk", 3 ]
     ],
     [
       [ "2x4", 1 ]
