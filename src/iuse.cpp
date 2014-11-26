@@ -7105,7 +7105,7 @@ int iuse::oxytorch(player *p, item *it, bool, point)
                 g->sound(dirx, diry, 10, _("hissssssssss!"));
                 g->m.spawn_item(p->posx, p->posy, "pipe", rng(1, 2));
             }
-      else if( ter == t_window_bars_alarm ) {
+    } else if( ter == t_window_bars_alarm ) {
             p->moves -= 1000;
             g->m.ter_set(dirx, diry, t_window_empty);
             g->sound(dirx, diry, 10, _("hissssssssss!"));
