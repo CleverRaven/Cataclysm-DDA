@@ -2831,7 +2831,8 @@
       ["small_repairkit", 15],
       ["large_repairkit", 1],
       ["improve_sights", 20],
-      ["survnote", 1]
+      ["survnote", 1],
+      ["shoulder_strap", 24]
     ]
   },{
     "type" : "item_group",
@@ -7324,7 +7325,8 @@
       ["toolbox", 1],
       ["knife_rm42", 4],
       ["survnote", 1],
-      ["rm11b_sniper_rifle", 1]
+      ["rm11b_sniper_rifle", 1],
+      ["shoulder_strap", 16]
     ]
   },{
     "type" : "item_group",

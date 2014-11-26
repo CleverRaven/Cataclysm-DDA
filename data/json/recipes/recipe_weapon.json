@@ -1847,6 +1847,26 @@
   ]
 },{
         "type" : "recipe",
+  "result": "shoulder_strap",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_MODS",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 1000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "rope_6", 1 ],
+      [ "rag", 3 ],
+      [ "string_36", 6 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "bayonet",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_MODS",
