@@ -553,6 +553,18 @@ public:
          */
         void make_handed( handedness handed );
         /**
+         * Whether this item (when worn) covers the given body part.
+         */
+        bool covers( body_part bp ) const;
+        /**
+         * Bitset of all covered body parts. If the bit is set, the body part is covered by this
+         * item (when worn). The index of the bit should be a body part, for example:
+         * @code if( some_armor.get_covered_body_parts().test( bp_head ) ) { ... } @endcode
+         * For testing only a single body part, use @ref covers instead. This function allows you
+         * to get the whole covering data in one call.
+         */
+        const std::bitset<num_bp> &get_covered_body_parts() const;
+        /**
          * Returns the warmth value that this item has when worn. See player class for temperature
          * related code, or @ref player:::warmth. Returned values should be positive. A value
          * of 0 indicates no warmth from this item at all (this is also the default for non-armor).
@@ -645,15 +657,15 @@ public:
          */
         static bool type_is_defined( const itype_id &id );
 
-private:
- std::string name;
+    private:
+        std::string name;
+        std::bitset<num_bp> covered_bodyparts;
 public:
  char invlet;             // Inventory letter
  long charges;
  bool active;             // If true, it has active effects to be processed
  signed char damage;      // How much damage it's sustained; generally, max is 5
  int burnt;               // How badly we're burnt
- std::bitset<num_bp> covers;  // What body parts it covers
  int bday;                // The turn on which it was created
  int owned;               // UID of NPC owner; 0 = player, -1 = unowned
  light_emission light;

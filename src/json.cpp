@@ -1380,6 +1380,10 @@ bool JsonIn::read(std::bitset<N> &b)
         return false;
     }
     std::string tmp_string = get_string();
+    if( tmp_string.length() > N ) {
+        // If the loaded string contains more bits than expected, skip the most significant bits
+        tmp_string.erase( 0, tmp_string.length() - N );
+    }
     b = std::bitset<N> (tmp_string);
     return true;
 }

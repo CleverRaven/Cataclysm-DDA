@@ -19,7 +19,7 @@ void player::sort_armor()
     int req_right_h = 3 + 1 + 2 + 12 + 1;
     for (int cover = 0; cover < num_bp; cover++) {
         for( auto &elem : worn ) {
-            if( elem.covers.test( cover ) ) {
+            if( elem.covers( static_cast<body_part>( cover ) ) ) {
                 req_right_h++;
             }
         }
@@ -118,7 +118,7 @@ void player::sort_armor()
             }
         } else { // bp_*
             for( auto &elem : worn ) {
-                if( elem.covers.test( tabindex ) ) {
+                if( elem.covers( static_cast<body_part>( tabindex ) ) ) {
                     tmp_worn.push_back( &elem );
                 }
             }
@@ -170,7 +170,7 @@ void player::sort_armor()
             double layers;
             layers = armorenc = 0;
             enc = encumb(body_part(i), layers, armorenc);
-            if (leftListSize && (tmp_worn[leftListIndex]->covers.test(i))) {
+            if (leftListSize && (tmp_worn[leftListIndex]->covers(static_cast<body_part>(i)))) {
                 mvwprintz(w_sort_middle, cont_h - 12 + i, 2, c_green, "%s:", armor_cat[i].c_str());
             } else {
                 mvwprintz(w_sort_middle, cont_h - 12 + i, 2, c_ltgray, "%s:", armor_cat[i].c_str());
@@ -200,7 +200,7 @@ void player::sort_armor()
             }
             rightListSize++;
             for( auto &elem : worn ) {
-                if( elem.covers.test( cover ) ) {
+                if( elem.covers( static_cast<body_part>( cover ) ) ) {
                     if (rightListSize >= rightListOffset && pos <= cont_h - 2) {
                         mvwprintz( w_sort_right, pos, 2, dam_color[int( elem.damage + 1 )],
                                    elem.type_name( 1 ).c_str() );

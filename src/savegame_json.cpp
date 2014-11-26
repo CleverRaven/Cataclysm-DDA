@@ -1040,12 +1040,12 @@ void item::deserialize(JsonObject &data)
     data.read( "covers", tmp_covers );
     const auto armor = dynamic_cast<const it_armor *>( type );
     if( armor != nullptr && tmp_covers.none() ) {
-        covers = armor->covers;
+        covered_bodyparts = armor->covers;
         if (armor->sided.any()) {
             make_handed( one_in( 2 ) ? LEFT : RIGHT );
         }
     } else {
-        covers = tmp_covers;
+        covered_bodyparts = tmp_covers;
     }
 
     data.read("item_tags", item_tags);
@@ -1101,8 +1101,8 @@ void item::serialize(JsonOut &json, bool save_contents) const
     if ( burnt != 0 ) {
         json.member( "burnt", burnt );
     }
-    if ( covers != 0 ) {
-        json.member( "covers", covers );
+    if ( covered_bodyparts.any() ) {
+        json.member( "covers", covered_bodyparts );
     }
     if ( poison != 0 ) {
         json.member( "poison", poison );
