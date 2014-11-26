@@ -459,11 +459,10 @@ int vehicle::select_engine() {
     std::string name;
     tmenu.text = _("Toggle which?");
     for( size_t e = 0; e < engines.size(); ++e ) {
-        if( parts[engines[e]].hp > 0 ) {
-            name = part_info(engines[e]).name;
-            tmenu.addentry(e, true, -1, "[%s] %s",
-                            ((parts[engines[e]].enabled) ? "x" : " ") , name.c_str());
-        }
+        name = part_info(engines[e]).name;
+        tmenu.addentry(e, true, -1, "[%s] %s",
+                        ((parts[engines[e]].enabled) ? "x" : " ") , name.c_str());
+        
     }
 
     tmenu.addentry(-1, true, 'q', _("Finish"));
