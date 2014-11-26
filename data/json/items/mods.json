@@ -31,7 +31,7 @@
         "symbol": ":",
         "color": "green",
         "name":"shoulder strap",
-        "description":"A shoulder strap allows the rifle to be worn over your shoulders like a piece of cloth. However, it offers no protection.",
+        "description":"A shoulder strap allows the rifle to be worn over your shoulders like a piece of clothing. However, it offers no protection.",
         "location": "accessories",
         "price": 480,
         "material": "veggy",
@@ -48,7 +48,7 @@
         "recoil_modifier": 0,
         "burst_modifier": 0,
         "clip_size_modifier": 0,
-        "mod_targets": ["rifle"]
+        "mod_targets": ["rifle", "shotgun", "smg"]
     },
     {
         "type" : "GUNMOD",
