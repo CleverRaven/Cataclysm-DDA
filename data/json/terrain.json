@@ -1854,7 +1854,7 @@
         "type" : "terrain",
         "id" : "t_window_bars_alarm",
         "name": "window with metal bars",
-        "symbol": "#"",
+        "symbol": "#",
         "color": "ltgray",
         "move_cost": 0,
         "flags": ["TRANSPARENT", "NOITEM", "REDUCE_SCENT", "ALARMED"],
