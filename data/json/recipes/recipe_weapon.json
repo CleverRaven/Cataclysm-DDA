@@ -804,9 +804,9 @@
   ],
   "components": [
     [
-      [ "pipe", 1],
-      [ "spring", 1],
-      [ "steel_chunk", 2]
+      [ [ "pipe", 1] ],
+      [ [ "spring", 1] ],
+      [ [ "steel_chunk", 2] ]
     ]
   ]
 },{
@@ -838,9 +838,9 @@
   ],
   "components": [
     [
-      [ "pipe", 1],
-      [ "spring", 1],
-      [ "steel_chunk", 5]
+      [ [ "pipe", 1] ],
+      [ [ "spring", 1] ],
+      [ [ "steel_chunk", 5] ]
     ]
   ]
 },{
