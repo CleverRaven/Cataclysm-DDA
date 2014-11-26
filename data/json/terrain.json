@@ -1852,6 +1852,26 @@
         }
     },{
         "type" : "terrain",
+        "id" : "t_window_bars_alarm",
+        "name": "window with metal bars",
+        "symbol": "#"",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "NOITEM", "REDUCE_SCENT", "ALARMED"],
+        "bash": {
+            "str_min": 60, "str_max": 250,
+            "sound": "metal screeching!",
+            "sound_fail": "clang!",
+            "ter_set": "t_window_empty",
+            "items": [
+                { "item": "steel_lump", "amount": 1, "chance": 25 },
+                { "item": "steel_chunk", "amount": 4, "minamount": 1 },
+                { "item": "scrap", "amount": 5, "minamount": 1 },
+                { "item": "glass_shard", "amount": 3 }
+            ]
+        }
+    },{
+        "type" : "terrain",
         "id" : "t_window_stained_green",
         "name": "high stained glass window",
         "symbol": "\"",

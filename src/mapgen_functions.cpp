@@ -3489,11 +3489,11 @@ void mapgen_s_gun(map *m, oter_id terrain_type, mapgendata dat, int, float densi
                            (j == 16 && (i == 5 || i == 8 || i == 11 || i == 14 || i == 17))) {
                     m->set(i, j, t_floor, f_counter);
                 } else if ((j == 6 && ((i > 4 && i < 8) || (i > 15 && i < 19)))) {
-                    m->ter_set(i, j, t_window);
+                    m->ter_set(i, j, t_window_bars_alarm);
                 } else if ((j == 14 && i > 3 && i < 15)) {
-                    m->ter_set(i, j, t_wall_glass_h);
+                    m->ter_set(i, j, t_window_bars_alarm);
                 } else if (j == 16 && i == SEEX * 2 - 4) {
-                    m->ter_set(i, j, t_door_c);
+                    m->ter_set(i, j, t_door_metal_locked);
                 } else if (((j == 6 || j == SEEY * 2 - 1) && i > 1 && i < SEEX * 2 - 2) ||
                            ((j == 16 || j == 14) && i > 2 && i < SEEX * 2 - 3)) {
                     m->ter_set(i, j, t_wall_h);
