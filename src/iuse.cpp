@@ -10371,6 +10371,14 @@ int iuse::cable_attach(player *p, item *it, bool, point)
             point source_local = g->m.getlocal(source_global);
             auto source_veh = g->m.veh_at(source_local.x, source_local.y);
 
+            if(source_veh == target_veh) {
+                if (p != nullptr && p->has_item(it)) {
+                    p->add_msg_if_player(m_warning, _("The %s already has access to its own electric system!"),
+                                        source_veh->name.c_str());
+                }
+                return 0;
+            }
+
             point target_global = g->m.getabs(posx, posy);
             point target_local(posx, posy);
 
@@ -10393,6 +10401,11 @@ int iuse::cable_attach(player *p, item *it, bool, point)
             target_part.target.first = source_global;
             target_part.target.second = source_veh->real_global_pos();
             target_veh->install_part(vcoords.x, vcoords.y, target_part);
+
+            if( p != nullptr && p->has_item(it) ) {
+                p->add_msg_if_player(m_good, _("You link up the electric systems of the %s and the %s."),
+                                     source_veh->name.c_str(), target_veh->name.c_str());
+            }
 
             return 1; // Let the cable be destroyed.
         }
