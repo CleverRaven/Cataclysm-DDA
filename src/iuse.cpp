@@ -6867,7 +6867,7 @@ int iuse::knife(player *p, item *it, bool t, point)
 
     uimenu kmenu;
     kmenu.text = _("Using cutting instrument:");
-    kmenu.addentry(menu_cut_up_item, true, -1, _("Cut up fabric/plastic/kevlar/wood/nomex"));
+    kmenu.addentry(menu_cut_up_item, true, -1, _("Cut up fabric/plastic/kevlar/wood/nomex/wool"));
     kmenu.addentry(menu_carve_writing, true, -1, _("Carve writing into item"));
     kmenu.addentry(menu_cauterize, true, -1, _("Cauterize"));
     kmenu.addentry(menu_cancel, true, 'q', _("Cancel"));
