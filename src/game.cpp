@@ -4018,9 +4018,9 @@ void game::update_scent()
 
     // for loop constants
     const int scentmap_minx = 1;
-    const int scentmap_maxx = scentmap_len - 1;
+    const int scentmap_maxx = scentmap_len - 2;
     const int scentmap_miny = 1;
-    const int scentmap_maxy = scentmap_len - 1;
+    const int scentmap_maxy = scentmap_len - 2;
 
     // offset constants
     // minus (SCENT_RADIUS + 1) to get middle value
