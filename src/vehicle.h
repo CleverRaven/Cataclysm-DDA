@@ -678,6 +678,8 @@ public:
     bool has_engine_type_not(const ammotype  & ft, bool enabled);
     //prints message relating to vehicle start failure
     void msg_start_engine_fail();
+    //if necessary, damage this engine
+    void do_engine_damage(size_t p, int strain);
 
 
     // return a vector w/ 'direction' & 'magnitude', in its own sense of the words.

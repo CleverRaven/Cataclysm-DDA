@@ -602,13 +602,12 @@ void vehicle::use_controls()
     }
 
     // Toggle engine on/off, stop driving if we are driving.
-    if (has_engine && has_engine_type_not(fuel_type_muscle, true) ) {
+    if (has_engine) {
         options_choice.push_back(toggle_engine);
         if (g->u.controlling_vehicle) {
-            options_message.push_back(uimenu_entry(_("Stop driving."), 's'));
-        } else {
-            options_message.push_back(uimenu_entry((
-                        engine_on && has_engine_type_not(fuel_type_muscle, true)) ? 
+            options_message.push_back(uimenu_entry(_("Stop driving"), 's'));
+        } else if (has_engine_type_not(fuel_type_muscle, true)){
+            options_message.push_back(uimenu_entry((engine_on) ? 
                         _("Turn off the engine") : _("Turn on the engine"), 'e'));
         }
     }
@@ -3103,6 +3102,19 @@ int vehicle::discharge_battery (int amount, bool recurse)
     return amount; // non-zero if we weren't able to fulfill demand.
 }
 
+void vehicle::do_engine_damage(size_t e, int strain) {
+     if (is_engine_on(e) && !is_engine_type(e, fuel_type_muscle) && fuel_left(part_info(engines[e]).fuel_type) && 
+        rng (1, 100) < strain) {
+        int dmg = rng(strain * 2, strain * 4);
+        damage_direct(engines[e], dmg, 0);
+        if(one_in(2)) {
+            add_msg(_("Your engine emits a high pitched whine."));
+        } else {
+            add_msg(_("Your engine emits a loud grinding sound."));
+        }
+    }
+}
+
 void vehicle::idle(bool on_map) {
     int engines_power = 0;
     float idle_rate;
@@ -3113,17 +3125,8 @@ void vehicle::idle(bool on_map) {
         for (size_t e = 0; e < engines.size(); e++){
             size_t p = engines[e];
             if (fuel_left(part_info(p).fuel_type) && is_engine_on(e)) {
-                engines_power += part_power(p);
-                if (has_engine_type_not(fuel_type_muscle, true)) {
-                    if (one_in(6) && rng(1, 100) < strn) {
-                        int dmg = rng(strn * 2, strn * 4);
-                        damage_direct(p, dmg, 0);
-                        if(one_in(2))
-                            add_msg(_("Your engine emits a high pitched whine."));
-                        else
-                            add_msg(_("Your engine emits a loud grinding sound."));
-                    }
-                }       
+                engines_power += part_power(engines[e]);
+                do_engine_damage(e, strn);
             }
         }
         
@@ -3281,21 +3284,8 @@ void vehicle::thrust (int thd) {
         //break the engines a bit, if going too fast.
         int strn = (int) (strain () * strain() * 100);
         for (size_t e = 0; e < engines.size(); e++){
-            size_t p = engines[e];
-            if (is_engine_on(e) && fuel_left(part_info(p).fuel_type) && 
-                rng (1, 100) < strn ) {
-                //engines are crying
-                int dmg = rng (strn * 2, strn * 4);
-                damage_direct (p, dmg, 0);
-                if(one_in(2)) {
-                 add_msg(_("Your engine emits a high pitched whine."));
-                } else {
-                 add_msg(_("Your engine emits a loud grinding sound."));
-                }
-            }
+            do_engine_damage(e, strn);
         }
-        
-
     }
     
     //wheels aren't facing the right way to change velocity properly
