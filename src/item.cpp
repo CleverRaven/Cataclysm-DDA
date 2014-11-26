@@ -234,6 +234,11 @@ bool item::covers( const body_part bp ) const
         debugmsg( "bad body part %d to ceck in item::covers", static_cast<int>( bp ) );
         return false;
     }
+    if( is_gun() ) {
+        // Currently only used for guns with the should strap mod, other guns might
+        // go on another bodypart.
+        return bp == bp_torso;
+    }
     return covered_bodyparts.test( bp );
 }
 
