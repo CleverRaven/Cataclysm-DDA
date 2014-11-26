@@ -4286,7 +4286,7 @@
         "type":"GENERIC",
         "id": "straw_doll",
         "symbol": "o",
-        "color": "ight_gray",
+        "color": "light_gray",
         "name": "straw doll",
         "name_plural": "straw dolls",
         "description": "Old straw doll. Represents a woman in a dress. ",
