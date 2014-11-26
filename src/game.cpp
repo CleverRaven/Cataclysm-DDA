@@ -4002,10 +4002,6 @@ void game::update_scent()
         player_last_moved = calendar::turn;
     }
 
-    // note: the next four intermediate matrices need to be at least
-    // [2*SCENT_RADIUS+3][2*SCENT_RADIUS+1] in size to hold enough data
-    // The code I'm modifying used [SEEX * MAPSIZE]. I'm staying with that to avoid new bugs.
-
     // scentmap_len is assumed to be less than SEEX * MAPSIZE
     // otherwise there may be problems with grscent or flag lookup accesses
     // formula: diameter plus one extra on each side
