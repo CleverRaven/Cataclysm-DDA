@@ -421,7 +421,7 @@ useful for different applications:\n"),
 -> Fabrication is the generic artisan skill, used for a wide variety of gear.\n\
 -> Cooking, at low levels, is used for making tasty recipes; at higher levels, you have \
 an understanding of chemistry and can make chemical weapons and beneficial elixirs.\n\
--> Tailoring is used to create basic clothing and armor later on.\n\
+-> Tailoring is used to create basic clothing, and armor later on.\n\
 -> Electronics lets you make a wide variety of tools with intricate uses."));
 
     text.push_back(_("\
@@ -440,7 +440,7 @@ std::vector<std::string> text_traps()
     std::vector<std::string> text;
 
     text.push_back(_("\
-Before falling asleep in a dangerous territory, it may be wise to set traps to ward off \
+Before sleeping in a dangerous territory, it may be wise to set traps to ward off \
 unwanted intrusions. There are a few traps to be found in the world, most notably \
 bubble wrap (which will make a loud noise if stepped on, helping to wake you up) \
 and bear traps (which make noise AND damage, and trap anything that steps on them). \
