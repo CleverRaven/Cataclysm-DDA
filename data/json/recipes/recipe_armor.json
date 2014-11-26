@@ -3458,6 +3458,43 @@
   ]
 },{
         "type" : "recipe",
+  "result": "chestrig",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_STORAGE",
+  "skills_required" : ["fabrication", 2],
+  "skill_used": "tailor",
+  "difficulty": 5,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"SAW_M_FINE","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "soldering_iron", 5],
+      [ "toolset", 5]
+    ],
+    [
+      [ "needle_bone", 25 ],
+      [ "needle_wood", 25 ],
+      [ "sewing_kit", 25 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 16 ]
+    ],
+    [
+      [ "ragpouch", 2],
+      [ "leather_pouch", 2]
+    ],
+    [
+      [ "plastic_chunk", 2]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "legrig",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_STORAGE",
