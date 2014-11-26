@@ -10999,6 +10999,7 @@
         "material_thickness" : 1
     },
     {
+        "type" : "ARMOR",
         "id" : "mask_guy_fawkes",
         "name" : "Guy Fawkes mask",
         "category" : "armor",
