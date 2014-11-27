@@ -1525,7 +1525,7 @@ bool map::flammable_items_at(const int x, const int y)
         if ((i.made_of("wood") || i.made_of("veggy")) && (i.burnt < 1 || vol <= 10)) {
             return true;
         }
-        if (i.made_of("cotton") && (vol <= 5 || i.burnt < 1)) {
+        if ((i.made_of("cotton") || i.made_of("wool")) && (vol <= 5 || i.burnt < 1)) {
             return true;
         }
         if (i.is_ammo() && i.ammo_type() != "battery" &&
