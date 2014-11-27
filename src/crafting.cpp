@@ -744,7 +744,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                     item_info_text = tmp.info( true );
                 }
                 mvwprintz(w_data, 0, FULL_SCREEN_WIDTH + 1, col, "%s",
-                          utf8_truncate(tmp.type->nname(1), iInfoWidth).c_str());
+                          utf8_truncate(tmp.type_name( 1 ), iInfoWidth).c_str());
 
                 fold_and_print( w_data, 1, FULL_SCREEN_WIDTH + 1, iInfoWidth, col, item_info_text );
             }
@@ -792,7 +792,7 @@ const recipe *select_crafting_recipe( int &batch_size )
         } else if (action == "HELP_RECIPE") {
             tmp = current[line]->create_result();
 
-            full_screen_popup("%s\n%s", tmp.type->nname(1).c_str(),  tmp.info(true).c_str());
+            full_screen_popup("%s\n%s", tmp.type_name( 1 ).c_str(),  tmp.info(true).c_str());
             redraw = true;
             keepline = true;
         } else if (action == "FILTER") {
@@ -1299,7 +1299,7 @@ void player::make_all_craft(const std::string &id_to_make, int batch_size)
     lastrecipe = id_to_make;
 }
 
-item recipe::create_result(int handed) const
+item recipe::create_result(handedness handed) const
 {
     item newit(result, calendar::turn, false, handed);
     if (result_mult != 1) {
@@ -1314,7 +1314,7 @@ item recipe::create_result(int handed) const
     return newit;
 }
 
-std::vector<item> recipe::create_results(int batch, int handed) const
+std::vector<item> recipe::create_results(int batch, handedness handed) const
 {
     std::vector<item> items;
 
@@ -1379,9 +1379,16 @@ void player::complete_craft()
         return;
     }
 
-    int handed = 0;
+    handedness handed = NONE;
     if (making->paired) {
-        handed = menu(true, ("Handedness?:"), _("Left-handed"), _("Right-handed"), NULL);
+        switch( menu(true, ("Handedness?:"), _("Left-handed"), _("Right-handed"), NULL) ) {
+            case 1:
+                handed = LEFT;
+                break;
+            case 2:
+                handed = RIGHT;
+                break;
+        }
     }
 
     // # of dice is 75% primary skill, 25% secondary (unless secondary is null)
@@ -1475,9 +1482,9 @@ void player::complete_craft()
         if (first) {
             first = false;
             if( knows_recipe(making) ) {
-                add_msg(_("You craft %s from memory."), newit.type->nname(1).c_str());
+                add_msg(_("You craft %s from memory."), newit.type_name( 1 ).c_str());
             } else {
-                add_msg(_("You craft %s using a book as a reference."), newit.type->nname(1).c_str());
+                add_msg(_("You craft %s using a book as a reference."), newit.type_name( 1 ).c_str());
                 // If we made it, but we don't know it,
                 // we're making it from a book and have a chance to learn it.
                 // Base expected time to learn is 1000*(difficulty^4)/skill/int moves.
@@ -1490,7 +1497,7 @@ void player::complete_craft()
                             (get_skill_level( making->skill_used ) * get_int() ) ) ) {
                     learn_recipe( (recipe *)making );
                     add_msg(m_good, _("You memorized the recipe for %s!"),
-                            newit.type->nname(1).c_str());
+                            newit.type_name( 1 ).c_str());
                 }
             }
 
@@ -1923,6 +1930,20 @@ void player::disassemble(int dis_pos)
     add_msg(m_info, _("This item cannot be disassembled!"));
 }
 
+// Find out which of the alternative components had been used to craft the item.
+item_comp find_component( const std::vector<item_comp> &altercomps, const item &dis_item )
+{
+    for( auto & comp : altercomps ) {
+        for( auto & elem : dis_item.components ) {
+            if( elem.typeId() == comp.type ) {
+                return comp;
+            }
+        }
+    }
+    // Default is the one listed first in json.
+    return altercomps.front();
+}
+
 void player::complete_disassemble()
 {
     // which recipe was it?
@@ -2001,20 +2022,7 @@ void player::complete_disassemble()
     }
 
     for (const auto &altercomps : dis->requirements.components) {
-        // If there are several (alternative) components, search the
-        // one that was used.
-        // Don't check the first in altercomps, it's the default anyway.
-        auto it = altercomps.begin();
-        for(++it; it != altercomps.end(); ++it) {
-            for( auto &elem : dis_item.components ) {
-                if( elem.type->id == it->type ) {
-                    break;
-                }
-            }
-        }
-        // If not found, use the first one.
-        const item_comp &comp = (it == altercomps.end()) ? altercomps.front() : *it;
-
+        const item_comp comp = find_component( altercomps, dis_item );
         int compcount = comp.count;
         item newit( comp.type, calendar::turn );
         if( newit.has_flag( "UNRECOVERABLE" ) ) {

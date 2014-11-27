@@ -31,7 +31,7 @@ void iexamine::gaspump(player *p, map *m, int examx, int examy)
             item *liq = &(m->i_at(examx, examy)[i]);
 
             if (one_in(10 + p->dex_cur)) {
-                add_msg(m_bad, _("You accidentally spill the %s."), liq->type->nname(1).c_str());
+                add_msg(m_bad, _("You accidentally spill the %s."), liq->type_name(1).c_str());
                 item spill(liq->type->id, calendar::turn);
                 spill.charges = rng(dynamic_cast<it_ammo *>(liq->type)->count,
                                     dynamic_cast<it_ammo *>(liq->type)->count * (float)(8 / p->dex_cur));
@@ -43,7 +43,7 @@ void iexamine::gaspump(player *p, map *m, int examx, int examy)
             } else {
                 p->moves -= 300;
                 if (g->handle_liquid(*liq, true, false)) {
-                    add_msg(_("With a clang and a shudder, the %s pump goes silent."), liq->type->nname(1).c_str());
+                    add_msg(_("With a clang and a shudder, the %s pump goes silent."), liq->type_name(1).c_str());
                     m->i_at(examx, examy).erase(m->i_at(examx, examy).begin() + i);
                 }
             }
@@ -1807,12 +1807,10 @@ void iexamine::tree_marloss(player *p, map *m, int examx, int examy)
 
 void iexamine::shrub_wildveggies(player *p, map *m, int examx, int examy)
 {
-    if(!query_yn(_("Pick %s?"), m->tername(examx, examy).c_str())) {
-        return;
-    }
-
+    add_msg("You forage through the %s.", m->tername(examx, examy).c_str());
     p->assign_activity(ACT_FORAGE, 500 / (p->skillLevel("survival") + 1), 0);
     p->activity.placement = point(examx, examy);
+    return;
 }
 
 int sum_up_item_weight_by_material(std::vector<item> &items, const std::string &material,
@@ -2249,13 +2247,13 @@ static point getNearFilledGasTank(map *m, int x, int y, long &gas_units)
             if( new_distance >= distance ) {
                 continue;
             }
+            p = point(i, j);
             for( auto &k : m->i_at(i, j)) {
                 if(k.made_of(LIQUID)) {
                     long count = dynamic_cast<it_ammo *>(k.type)->count;
                     long units = k.charges / count;
 
                     distance = new_distance;
-                    p = point(i, j);
                     gas_units = units;
                     break;
                 }

@@ -386,7 +386,7 @@ static int game_item_type(lua_State *L)
     lua_createtable(L, 0, 2); // Preallocate enough space for all type properties.
 
     lua_pushstring(L, "name");
-    lua_pushstring(L, (*item_instance)->type->nname(1).c_str());
+    lua_pushstring(L, (*item_instance)->type_name( 1 ).c_str());
     lua_rawset(L, -3);
 
     lua_pushstring(L, "id");
