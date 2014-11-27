@@ -1424,7 +1424,6 @@ bool game::do_turn()
                     ++moves_since_last_save;
                     u.action_taken();
                 }
-				process_activity();
 
                 if (is_game_over()) {
                     return cleanup_at_end();
@@ -1673,16 +1672,6 @@ void game::activity_on_turn()
     case ACT_FILL_LIQUID:
         activity_on_turn_fill_liquid();
         break;
-	case ACT_RELOAD:
-		// Based on speed, not time
-		if (u.moves > u.activity.moves_left) {
-			u.moves -= u.activity.moves_left;
-			u.activity.moves_left = 0;
-			}else {
-			u.activity.moves_left -= u.moves;
-			u.moves = 0;
-		}
-		break;
     default:
         // Based on speed, not time
         u.activity.moves_left -= u.moves;
