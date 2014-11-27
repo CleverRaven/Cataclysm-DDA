@@ -217,18 +217,18 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
         int rand = rng( 1, 100 );
         veh_status = 1;
 
-        if (rand <= 10) {           //  seats are destroyed 10%
+        if( rand <= 5 ) {          //  seats are destroyed 5%
             destroySeats = true;
-        } else if (rand <= 20) {    // vehicle locked 10%
-            has_no_key = true;
-        } else if (rand <= 36) {    // controls are destroyed 16%
+        } else if( rand <= 15 ) {  // controls are destroyed 10%
             destroyControls = true;
-        } else if (rand <= 49) {    // battery, minireactor or gasoline tank are destroyed 13%
+        } else if( rand <= 23 ) {  // battery, minireactor or gasoline tank are destroyed 8%
             destroyTank = true;
-        } else if (rand <= 59) {   // engine are destroyed 10%
+        } else if( rand <= 29 ) {  // engine are destroyed 6%
             destroyEngine = true;
-        } else {                   // tires are destroyed 41%
+        } else if( rand <= 66 ) {  // tires are destroyed 37%
             destroyTires = true;
+        } else {                   // vehicle locked 34%
+            has_no_key = true;
         }
     }
     // if locked, 16% chance something damaged
