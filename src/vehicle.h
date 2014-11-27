@@ -481,7 +481,7 @@ public:
 
     void consume_fuel( double load );
 
-    void power_parts ();
+    void power_parts (tripoint sm_loc);
 
     /**
      * Try to charge our (and, optionally, connected vehicles') batteries by the given amount.
@@ -506,7 +506,7 @@ public:
     int total_power (bool fueled = true);
 
 // Get combined epower of solar panels
-    int solar_epower ();
+    int solar_epower (tripoint sm_loc);
 
 // Get acceleration gained by combined power of all engines. If fueled == true, then only engines which
 // vehicle have fuel for are accounted

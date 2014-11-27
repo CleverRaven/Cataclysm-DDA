@@ -259,6 +259,7 @@ class game
         bool spread_fungus(int x, int y);
         std::vector<faction *> factions_at(int x, int y);
         int &scent(int x, int y);
+        float ground_natural_light_level() const;
         float natural_light_level() const;
         unsigned char light_level();
         void reset_light_level();

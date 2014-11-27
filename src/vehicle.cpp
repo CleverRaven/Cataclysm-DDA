@@ -2500,16 +2500,35 @@ int vehicle::total_power (bool fueled)
     return pwr;
 }
 
-int vehicle::solar_epower ()
+int vehicle::solar_epower (tripoint sm_loc)
 {
+    // this will obviosuly be wrong for vehicles spanning z-levels, when
+    // that gets possible...
+    if( sm_loc.z < 0 ) {
+        return 0;
+    }
+
     int epower = 0;
     for( auto &elem : solar_panels ) {
         if( parts[elem].hp > 0 ) {
-            int part_x = global_x() + parts[elem].precalc_dx[0];
-            int part_y = global_y() + parts[elem].precalc_dy[0];
-            // Can't use g->in_sunlight() because it factors in vehicle roofs.
-            if( !g->m.has_flag_ter_or_furn( TFLAG_INDOORS, part_x, part_y ) ) {
-                epower += ( part_epower( elem ) * g->natural_light_level() ) / DAYLIGHT_LEVEL;
+            int px = posx + parts[elem].precalc_dx[0]; // veh. origin submap relative
+            int py = posy + parts[elem].precalc_dy[0]; // as above
+            //debugmsg("raw coords: sm %d,%d  sm-rel %d,%d", sm_loc.x, sm_loc.y, px, py);
+            point pg = overmapbuffer::sm_to_ms_copy(sm_loc.x, sm_loc.y);
+            pg.x += px;
+            pg.y += py;
+            point psm = overmapbuffer::ms_to_sm_remain(pg);
+            // now psm points to proper submap, and pg gives the submap relative coords
+            //debugmsg("fixed coords: sm %d,%d, sm-rel %d,%d", psm.x, psm.y, pg.x, pg.y);
+            auto sm = MAPBUFFER.lookup_submap(psm.x, psm.y, sm_loc.z);
+            if( sm == nullptr ) {
+                debugmsg("solar_epower(): couldn't find submap");
+                continue;
+            }
+
+            if( !(terlist[sm->ter[pg.x][pg.y]].has_flag(TFLAG_INDOORS) ||
+                  furnlist[sm->get_furn(pg.x, pg.y)].has_flag(TFLAG_INDOORS)) ) {
+                epower += ( part_epower( elem ) * g->ground_natural_light_level() ) / DAYLIGHT_LEVEL;
             }
         }
     }
@@ -2876,7 +2895,7 @@ void vehicle::consume_fuel( double load = 1.0 )
     }
 }
 
-void vehicle::power_parts ()//TODO: more categories of powered part!
+void vehicle::power_parts (tripoint sm_loc)//TODO: more categories of powered part!
 {
     int epower = 0;
 
@@ -2901,7 +2920,7 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
     if (is_alarm_on) epower += alarm_epower;
 
     // Producers of epower
-    epower += solar_epower();
+    epower += solar_epower(sm_loc);
 
     if(engine_on) {
         // Plasma engines generate epower if turned on

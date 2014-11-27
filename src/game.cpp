@@ -1465,7 +1465,7 @@ bool game::do_turn()
         for( auto &_i : sm->vehicles ) {
             auto veh = _i;
 
-            veh->power_parts();
+            veh->power_parts(sm_loc);
             if (sm_loc.z == levz) {
                 veh->idle(m.inbounds(in_reality.x, in_reality.y));
             }
@@ -5999,6 +5999,14 @@ void game::hallucinate(const int x, const int y)
         }
     }
     wrefresh(w_terrain);
+}
+
+float game::ground_natural_light_level() const
+{
+    float ret = (float)calendar::turn.sunlight();
+    ret += weather_data[weather].light_modifier;
+
+    return std::max(0.0f, ret);
 }
 
 float game::natural_light_level() const
