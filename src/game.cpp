@@ -2988,8 +2988,8 @@ input_context game::get_player_input(std::string &action)
 
         inp_mngr.set_timeout(125);
         // Force at least one animation frame if the player is dead.
-//        bool show_once = u.is_dead_state();
-        while( handle_mouseview(ctxt, action) || uquit == QUIT_WATCH ) {
+        bool show_once = u.is_dead_state();
+        while( handle_mouseview(ctxt, action) || show_once ) {
             if (bWeatherEffect && OPTIONS["ANIMATION_RAIN"]) {
                 /*
                 Location to add rain drop animation bits! Since it refreshes w_terrain it can be added to the animation section easily
@@ -3091,8 +3091,7 @@ input_context game::get_player_input(std::string &action)
                 // Display "press X to continue" text at top of main window
                 std::string message = "Press " + ctxt.get_desc("QUIT") + " to accept your fate...";
                 mvwprintz(w_terrain, 0, ((TERRAIN_WINDOW_WIDTH / 2) - (message.length() / 2)), c_white, message.c_str());
-                wrefresh(w_terrain);
-                break;
+                show_once = false;
             }
             wrefresh(w_terrain);
         }
