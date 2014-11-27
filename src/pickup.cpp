@@ -157,7 +157,7 @@ int Pickup::interact_with_vehicle( vehicle *veh, int posx, int posy, int veh_roo
             return -2;
         }
 
-        if(menu_items[choice] == _("Control vehicle")) {
+        if(menu_items[choice] == _("Control vehicle") && veh->interact_vehicle_locked()) {
             veh->use_controls();
             return -2;
         }

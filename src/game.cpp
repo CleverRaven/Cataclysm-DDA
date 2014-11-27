@@ -1468,6 +1468,7 @@ bool game::do_turn()
             veh->power_parts();
             if (sm_loc.z == levz) {
                 veh->idle(m.inbounds(in_reality.x, in_reality.y));
+                veh->alarm(m.inbounds(in_reality.x, in_reality.y));
             }
         }
     }
@@ -1907,6 +1908,8 @@ void game::activity_on_finish()
     case ACT_START_FIRE:
         activity_on_finish_start_fire();
         break;
+    case ACT_HOTWIRE_CAR:
+        activity_on_finish_hotwire();
     case ACT_AIM:
         // Aim bails itself by resetting itself every turn,
         // you only re-enter if it gets set again.
@@ -2071,6 +2074,37 @@ void game::activity_on_finish_start_fire()
     iuse tmp;
     tmp.resolve_firestarter_use(&u, &it, u.activity.placement);
     u.activity.type = ACT_NULL;
+}
+
+void game::activity_on_finish_hotwire()
+{
+    //Grab this now, in case the vehicle gets shifted
+    vehicle *veh = m.veh_at(u.activity.values[0], u.activity.values[1]);
+    if (veh) {
+        int mech_skill = u.activity.values[2];
+        if (mech_skill > (int)rng(1,6)){
+            //success
+            veh->is_locked = false;
+            add_msg(_("This wire will start the engine."));
+        } else if (mech_skill > (int)rng(0,4)) {
+            //soft fail
+            veh->is_locked = false;
+            veh->is_alarm_on = veh->has_security_working();
+            add_msg(_("This wire will probably start the engine."));
+        } else if (veh->is_alarm_on){
+            veh->is_locked = false;
+            add_msg(_("By process of elimination, this wire will start the engine."));
+        } else {
+            //hard fail
+            veh->is_alarm_on = veh->has_security_working();
+            add_msg(_("The red wire always starts the engine, doesn't it?"));
+        }
+    } else {
+        dbg(D_ERROR) << "game:process_activity: ACT_HOTWIRE_CAR: vehicle not found";
+        debugmsg("process_activity ACT_HOTWIRE_CAR: vehicle not found");
+    }
+    u.activity.type = ACT_NULL;
+    
 }
 
 void game::activity_on_finish_fish()
@@ -8406,10 +8440,12 @@ void game::control_vehicle()
         veh->use_controls();
     } else if (veh && veh->part_with_feature(veh_part, "CONTROLS") >= 0
                && u.in_vehicle) {
-        u.controlling_vehicle = true;
-        add_msg(_("You take control of the %s."), veh->name.c_str());
-        if (!veh->engine_on) {
-            veh->start_engine();
+        if (veh->interact_vehicle_locked()){
+            u.controlling_vehicle = true;
+            add_msg(_("You take control of the %s."), veh->name.c_str());
+            if (!veh->engine_on) {
+                veh->start_engine();
+            }
         }
     } else {
         int examx, examy;
@@ -8425,7 +8461,9 @@ void game::control_vehicle()
             add_msg(m_info, _("No controls there."));
             return;
         }
-        veh->use_controls();
+        if (veh->interact_vehicle_locked()){
+            veh->use_controls();
+        }
     }
 }
 

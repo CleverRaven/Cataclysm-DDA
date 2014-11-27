@@ -260,7 +260,8 @@ private:
     // direct damage to part (armor protection and internals are not counted)
     // returns damage bypassed
     int damage_direct (int p, int dmg, int type = 1);
-
+    //damages vehicle controls and security system
+    void smash_security_system();
     // get vpart powerinfo for part number, accounting for variable-sized parts and hps.
     int part_power( int index, bool at_full_hp = false );
 
@@ -337,7 +338,7 @@ public:
 
 // Honk the vehicle's horn, if there are any
     void honk_horn();
-
+    
     void play_music();
 
 // get vpart type info for part number (part at given vector index)
@@ -548,7 +549,7 @@ public:
 
 // idle fuel consumption
     void idle (bool on_map = true);
-
+    void alarm (bool on_map);
 // leak from broken tanks
     void slow_leak ();
 
@@ -643,7 +644,10 @@ public:
     bool is_foldable() const;
     // Restore parts of a folded vehicle.
     bool restore(const std::string &data);
-
+    //handles locked vehicles interaction
+    bool interact_vehicle_locked(); 
+    //true if an alarm part is installed on the vehicle
+    bool has_security_working();
     /**
      *  Opens everything that can be opened on the same tile as `p`
      */
@@ -694,6 +698,7 @@ public:
     std::vector<int> solar_panels;     // List of solar panel indices
     std::vector<int> loose_parts;      // List of UNMOUNT_ON_MOVE parts
     std::vector<int> wheelcache;
+    std::vector<int> speciality;        //List of parts that will not be on a vehicle very often, or which only one will be present
     std::vector<vehicle_item_spawn> item_spawns; //Possible starting items
     std::set<std::string> tags;        // Properties of the vehicle
 
@@ -745,6 +750,8 @@ public:
     bool lights_on;     // lights on/off
     bool stereo_on;
     bool tracking_on;        // vehicle tracking on/off
+    bool is_locked; //vehicle has no key
+    bool is_alarm_on;  //vehicle has alarm on
     int om_id;          // id of the om_vehicle struct corresponding to this vehicle
     bool overhead_lights_on; //circle lights on/off
     bool fridge_on;     //fridge on/off
@@ -760,6 +767,7 @@ public:
     int overhead_epower;   // total power of components with CIRCLE_LIGHT flag
     int tracking_epower; // total power consumed by tracking devices (why would you use more than one?)
     int fridge_epower; // total power consumed by fridges
+    int alarm_epower;
     int recharger_epower; // total power consumed by rechargers
     bool check_environmental_effects; // True if it has bloody or smoking parts
 };
