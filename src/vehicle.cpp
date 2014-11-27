@@ -192,7 +192,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
     bool blood_inside = false;
     bool has_no_key = false;
     bool destroyAlarm = false;
-    
+
     std::map<std::string, int> consistent_bignesses;
 
     // veh_fuel_multiplier is percentage of fuel
@@ -214,7 +214,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
         veh_status = 0;
     }
     if (init_veh_status == 1) {
-        int rand = rng(1,100);
+        int rand = rng( 1, 100 );
         veh_status = 1;
 
         if (rand <= 10) {           //  seats are destroyed 10%
@@ -235,18 +235,18 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
     if (one_in(6) && is_locked){
         if (one_in(3)){
             destroyTank = true;
-        } else if (one_in(2)){
+        } else if( one_in(2) ) {
             destroyEngine = true;
-        } else{
+        } else {
             destroyTires = true;
         }
-    } else if (!one_in(3)){
+    } else if( !one_in(3) ){
         //most cars should have a desroyed alarm
         destroyAlarm = true;
     }
-    
+
     //Provide some variety to non-mint vehicles
-    if(veh_status != 0) {
+    if( veh_status != 0 ) {
         //Leave engine running in some vehicles, if the engine has not been destroyed
         if(veh_fuel_mult > 0
                 && all_parts_with_feature("ENGINE", true).size() > 0
@@ -255,25 +255,25 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
         }
 
         //Turn on lights on some vehicles
-        if(one_in(20)) {
+        if( one_in(20) ) {
             lights_on = true;
         }
 
         //Turn flasher/overhead lights on separately (more likely since these are rarer)
-        if(one_in(4)) {
+        if( one_in(4) ) {
             overhead_lights_on = true;
         }
 
-        if(one_in(10)) {
+        if( one_in(10) ) {
             blood_covered = true;
         }
 
-        if(one_in(8)) {
+        if( one_in(8) ) {
             blood_inside = true;
         }
 
         //Fridge should always start out activated if present
-        if(all_parts_with_feature("FRIDGE").size() > 0) {
+        if( all_parts_with_feature("FRIDGE").size() > 0 ) {
             fridge_on = true;
         }
     }
@@ -290,18 +290,17 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
     bool blood_inside_set = false;
     int blood_inside_x = 0;
     int blood_inside_y = 0;
-    for (size_t p = 0; p < parts.size(); p++)
-    {
-        if (part_flag(p, "VARIABLE_SIZE")){ // generate its bigness attribute.?
-            if(consistent_bignesses.count(parts[p].id) < 1){
+    for( size_t p = 0; p < parts.size(); p++ ) {
+        if( part_flag(p, "VARIABLE_SIZE") ) { // generate its bigness attribute.?
+            if( consistent_bignesses.count(parts[p].id) < 1 ) {
                 //generate an item for this type, & cache its bigness
                 item tmp (part_info(p).item, 0);
                 consistent_bignesses[parts[p].id] = tmp.bigness;
             }
             parts[p].bigness = consistent_bignesses[parts[p].id];
         }
-        if (part_flag(p, "FUEL_TANK")) {   // set fuel status
-          parts[p].amount = part_info(p).size * veh_fuel_mult / 100;
+        if( part_flag(p, "FUEL_TANK") ) {   // set fuel status
+            parts[p].amount = part_info(p).size * veh_fuel_mult / 100;
         }
 
         if (part_flag(p, "OPENABLE")) {    // doors are closed
@@ -316,43 +315,41 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
         // initial vehicle damage
         if (veh_status == 0) {
             // Completely mint condition vehicle
-            parts[p].hp= part_info(p).durability;
+            parts[p].hp = part_info(p).durability;
         } else {
-             //a bit of initial damage :)
-             //clamp 4d8 to the range of [8,20]. 8=broken, 20=undamaged.
-             int broken = 8, unhurt = 20;
-             int roll = dice(4,8);
-             if(roll < unhurt){
+            //a bit of initial damage :)
+            //clamp 4d8 to the range of [8,20]. 8=broken, 20=undamaged.
+            int broken = 8;
+            int unhurt = 20;
+            int roll = dice( 4, 8 );
+            if(roll < unhurt){
                 if (roll <= broken) {
-                   parts[p].hp= 0;
-                   parts[p].amount= 0; //empty broken batteries and fuel tanks
+                    parts[p].hp = 0;
+                    parts[p].amount = 0; //empty broken batteries and fuel tanks
+                } else {
+                    parts[p].hp = ((float)(roll - broken) /
+                                   (unhurt - broken)) * part_info(p).durability;
                 }
-                else
-                   parts[p].hp= ((float)(roll-broken) / (unhurt-broken)) * part_info(p).durability;
-                }
-             else // new.
-             {
+            } else {
                 parts[p].hp= part_info(p).durability;
-             }
-             
+            }
             if ((destroySeats && (part_flag(p, "SEAT") || part_flag(p, "SEATBELT"))) ||
                 (destroyControls && (part_flag(p, "CONTROLS") || part_flag(p, "SECURITY"))) ||
                 (destroyEngine && part_flag(p, "ENGINE")) ||
                 (destroyTires && part_flag(p, VPFLAG_WHEEL)) ||
-                (destroyAlarm && part_flag(p, "SECURITY")))
-            {
-                parts[p].hp= 0;
+                (destroyAlarm && part_flag(p, "SECURITY"))) {
+                parts[p].hp = 0;
             }
 
             // Fuel tanks should be emptied as well
             if (destroyTank && (part_flag(p, "FUEL_TANK") || part_flag(p, "NEEDS_BATTERY_MOUNT"))){
-                parts[p].hp= 0;
+                parts[p].hp = 0;
                 parts[p].amount = 0;
             }
-	    
+
             //Solar panels have 25% of being destroyed
             if (part_flag(p, "SOLAR_PANEL") && one_in(4)) {
-                parts[p].hp= 0;
+                parts[p].hp = 0;
             }
 
 
@@ -362,11 +359,11 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
             * the player gets a chance to see the vehicle. */
             if(blood_covered && parts[p].mount_dx > 0) {
                 if(one_in(3)) {
-                 //Loads of blood. (200 = completely red vehicle part)
-                 parts[p].blood = rng(200, 600);
+                    //Loads of blood. (200 = completely red vehicle part)
+                    parts[p].blood = rng(200, 600);
                 } else {
-                 //Some blood
-                 parts[p].blood = rng(50, 200);
+                    //Some blood
+                    parts[p].blood = rng(50, 200);
                 }
             }
 
@@ -374,10 +371,10 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
                 // blood is splattered around (blood_inside_x, blood_inside_y),
                 // coords relative to mount point; the center is always a seat
                 if (blood_inside_set) {
-                    int distSq = std::pow((blood_inside_x - parts[p].mount_dx), 2) + \
+                    int distSq = std::pow((blood_inside_x - parts[p].mount_dx), 2) +
                         std::pow((blood_inside_y - parts[p].mount_dy), 2);
                     if (distSq <= 1) {
-                        parts[p].blood = rng(200, 400) - distSq*100;
+                        parts[p].blood = rng(200, 400) - distSq * 100;
                     }
                 } else if (part_flag(p, "SEAT")) {
                     // Set the center of the bloody mess inside
@@ -386,7 +383,6 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
                     blood_inside_set = true;
                 }
             }
-
         }
         //sets the vehicle to locked, if there is no key and an alarm part exists
         if (part_flag(p, "SECURITY") && (has_no_key) && parts[p].hp > 0) {
@@ -535,9 +531,9 @@ bool vehicle::interact_vehicle_locked()
         inventory crafting_inv = (g->u).crafting_inventory();
         add_msg(_("You don't find any keys in the %s."), name.c_str());
         if (crafting_inv.has_tools("screwdriver", 1)){
-            if (query_yn(_("You don't find any keys in the %s. Attempt to hotwire vehicle?"), 
+            if (query_yn(_("You don't find any keys in the %s. Attempt to hotwire vehicle?"),
                             name.c_str())) {
-                                
+
                 int mechanics_skill = (g->u).skillLevel("mechanics");
                 int hotwire_time = 6000 / ((mechanics_skill > 0)? mechanics_skill : 1);
                 //assign long activity
@@ -546,8 +542,7 @@ bool vehicle::interact_vehicle_locked()
                 (&g->u)->activity.values.push_back(global_y());//[1]
                 (&g->u)->activity.values.push_back((g->u).skillLevel("mechanics"));//[2]
             } else {
-                if (has_security_working() && 
-                    query_yn(_("Trigger the %s's Alarm?"), name.c_str())) {
+                if( has_security_working() && query_yn(_("Trigger the %s's Alarm?"), name.c_str()) ) {
                     is_alarm_on = true;
                 } else {
                     add_msg(_("You leave the controls alone."));
@@ -580,10 +575,10 @@ void vehicle::smash_security_system(){
         int percent_controls = 70 / (1 + skill);
         int percent_alarm = (skill+3) * 10;
         int rand = rng(1,100);
-        
+
         if (percent_controls > rand) {
             damage_direct (c, part_info(c).durability / 4);
-            
+
             if (parts[c].removed || parts[c].hp <= 0){
                 g->u.controlling_vehicle = false;
                 is_alarm_on = false;
@@ -591,7 +586,7 @@ void vehicle::smash_security_system(){
             } else {
                 add_msg(_("You damage the controls."));
             }
-        } 
+        }
         if (percent_alarm > rand) {
             damage_direct (s, part_info(s).durability / 5);
             //chance to disable alarm immediately
@@ -602,7 +597,7 @@ void vehicle::smash_security_system(){
         add_msg((is_alarm_on) ? _("The alarm keeps going.") : _("The alarm stops."));
     } else {
         debugmsg("No security system found on vehicle.");
-    } 
+    }
 }
 
 void vehicle::use_controls()
@@ -610,7 +605,7 @@ void vehicle::use_controls()
     std::vector<vehicle_controls> options_choice;
     std::vector<uimenu_entry> options_message;
     int vpart;
-    
+
     if (!interact_vehicle_locked()) return;
     // Always have this option
     // Let go without turning the engine off.
@@ -683,7 +678,7 @@ void vehicle::use_controls()
                                                    _("Turn on the engine"), 'e'));
         }
     }
-    
+
     if (is_alarm_on && velocity == 0){
         options_choice.push_back(try_disarm_alarm);
         options_message.push_back(uimenu_entry(_("Try to disarm alarm."), 'z'));
@@ -785,7 +780,7 @@ void vehicle::use_controls()
     if (select < 0) {
         return;
     }
-    
+
     switch(options_choice[select]) {
     case trigger_alarm:
         is_alarm_on = true;
