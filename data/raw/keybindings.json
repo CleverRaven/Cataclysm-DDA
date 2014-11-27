@@ -991,6 +991,18 @@
     },
     {
         "type" : "keybinding",
+        "id" : "REROLL_CHARACTER_WITH_SCENARIO",
+        "category" : "NEW_CHAR_DESCRIPTION",
+        "name" : "Reroll Random Character With Scenario",
+        "bindings" : [
+            {
+                "input_method" : "keyboard",
+                "key" : "^"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id": "PICK_RANDOM_NAME",
         "category": "NEW_CHAR_DESCRIPTION",
         "name": "Pick random character name",
