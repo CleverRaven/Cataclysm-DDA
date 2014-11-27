@@ -2862,7 +2862,7 @@ int iuse::sew(player *p, item *it, bool, point)
     std::vector<itype_id> repair_items;
     std::string plural = "";
     //translation note: add <plural> tag to keep them unique
-    if (fix->made_of("cotton") || fix->made_of("wool")) {
+    if (fix->made_of("cotton")) {
         repair_items.push_back("rag");
         plurals.push_back(rm_prefix(_("<plural>rags")));
     }
@@ -2878,8 +2878,12 @@ int iuse::sew(player *p, item *it, bool, point)
         repair_items.push_back("nomex");
         plurals.push_back(rm_prefix(_("<plural>nomex")));
     }
+    if (fix->made_of("wool")) {
+        repair_items.push_back("wool");
+        plurals.push_back(rm_prefix(_("<plural>wool")));
+    }
     if (repair_items.empty()) {
-        p->add_msg_if_player(m_info, _("Your %s is not made of fabric, leather or fur."),
+        p->add_msg_if_player(m_info, _("Your %s is not made of fabric, leather, fur, or wool."),
                              fix->tname().c_str());
         return 0;
     }
@@ -6739,6 +6743,7 @@ bool static try_to_cut_up(player *p, item *it)
     material_id_white_list.push_back("kevlar");
     material_id_white_list.push_back("plastic");
     material_id_white_list.push_back("wood");
+    material_id_white_list.push_back("wool");
 
     if (it->is_null()) {
         add_msg(m_info, _("You do not have that item."));
@@ -6966,7 +6971,7 @@ int iuse::knife(player *p, item *it, bool t, point)
 
     uimenu kmenu;
     kmenu.text = _("Using cutting instrument:");
-    kmenu.addentry(menu_cut_up_item, true, -1, _("Cut up fabric/plastic/kevlar/wood/nomex"));
+    kmenu.addentry(menu_cut_up_item, true, -1, _("Cut up fabric/plastic/kevlar/wood/nomex/wool"));
     kmenu.addentry(menu_carve_writing, true, -1, _("Carve writing into item"));
     kmenu.addentry(menu_cauterize, true, -1, _("Cauterize"));
     if( p->skillLevel( "survival" ) > 1 && p->skillLevel( "firstaid" ) > 1 ) {
