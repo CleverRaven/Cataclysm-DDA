@@ -6799,6 +6799,7 @@ bool iuse::valid_to_cut_up(item *it)
     material_id_white_list.push_back("kevlar");
     material_id_white_list.push_back("plastic");
     material_id_white_list.push_back("wood");
+    material_id_white_list.push_back("wool");
 
     if (it->is_null()) {
         return false;
