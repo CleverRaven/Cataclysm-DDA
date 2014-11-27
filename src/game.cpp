@@ -2834,8 +2834,7 @@ bool game::handle_mouseview(input_context &ctxt, std::string &action)
     }
 
     // Mouse movement or un-handled key
-    return (!u.is_dead_state());
-    //return true;
+    return true;
 }
 
 // Hides the mouse hover box and redraws what was under it
@@ -2989,8 +2988,8 @@ input_context game::get_player_input(std::string &action)
 
         inp_mngr.set_timeout(125);
         // Force at least one animation frame if the player is dead.
-        bool show_once = u.is_dead_state();
-        while( handle_mouseview(ctxt, action) || show_once ) {
+//        bool show_once = u.is_dead_state();
+        while( handle_mouseview(ctxt, action) || uquit == QUIT_WATCH ) {
             if (bWeatherEffect && OPTIONS["ANIMATION_RAIN"]) {
                 /*
                 Location to add rain drop animation bits! Since it refreshes w_terrain it can be added to the animation section easily
@@ -3089,10 +3088,11 @@ input_context game::get_player_input(std::string &action)
             draw_weather(wPrint);
             draw_sct();
             if(uquit == QUIT_WATCH) {
-                // display "press X to continue" text at top
-                input_context ctxt("DEFAULTMODE");
+                // Display "press X to continue" text at top of main window
                 std::string message = "Press " + ctxt.get_desc("QUIT") + " to accept your fate...";
                 mvwprintz(w_terrain, 0, ((TERRAIN_WINDOW_WIDTH / 2) - (message.length() / 2)), c_white, message.c_str());
+                wrefresh(w_terrain);
+                break;
             }
             wrefresh(w_terrain);
         }
@@ -5634,6 +5634,12 @@ void game::draw_ter(int posx, int posy)
 
     if (u.controlling_vehicle) {
         draw_veh_dir_indicator();
+    }
+    if(uquit == QUIT_WATCH) {
+        // This should remove the flickering the bar recieves
+        input_context ctxt("DEFAULTMODE");
+        std::string message = "Press " + ctxt.get_desc("QUIT") + " to accept your fate...";
+        mvwprintz(w_terrain, 0, ((TERRAIN_WINDOW_WIDTH / 2) - (message.length() / 2)), c_white, message.c_str());
     }
     wrefresh(w_terrain);
 
