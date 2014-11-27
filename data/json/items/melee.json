@@ -954,7 +954,7 @@
         "color": "dark_gray",
         "name": "pair of binoculars",
         "name_plural": "pairs of binoculars",
-        "description": "A tool useful for seeing long distances.  Simply carrying this item in your inventory will double the distance that is mapped around you during your travels.  You could also use them to focus the sunlight",
+        "description": "A tool useful for seeing long distances.  Simply carrying this item in your inventory will double the distance that is mapped around you during your travels.  You could also use them to focus the sunlight.",
         "price": 30000,
         "material": ["plastic", "glass"],
         "flags": [ "LENS" ],
