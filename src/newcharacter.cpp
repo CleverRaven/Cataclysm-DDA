@@ -1753,15 +1753,13 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             wrefresh(w_skills);
 
             mvwprintz(w_guide, 0, 0, c_green,
-                      _("Press %s to finish character creation or %s to go back and make revisions."),
+                      _("Press %s to finish character creation or %s to go back."),
                       ctxt.get_desc("NEXT_TAB").c_str(),
                       ctxt.get_desc("PREV_TAB").c_str());
             if( type == PLTYPE_RANDOM || type == PLTYPE_RANDOM_WITH_SCENARIO ) {
-                    mvwprintz(w_guide, 1, 0, c_green, _("Press %s to save a template of this character."),
-                    ctxt.get_desc("SAVE_TEMPLATE").c_str());
-                    mvwprintz(w_guide, 1, 46, c_ltgreen, _("Press %s or %s to re-roll."),
-                    ctxt.get_desc("REROLL_CHARACTER").c_str(),
-                    ctxt.get_desc("REROLL_CHARACTER_WITH_SCENARIO").c_str());
+                    mvwprintz( w_guide, 1, 0, c_green, _("Press %s to save character template, %s to re-roll or %s for random scenario."),
+                               ctxt.get_desc("SAVE_TEMPLATE").c_str(), ctxt.get_desc("REROLL_CHARACTER").c_str(),
+                               ctxt.get_desc("REROLL_CHARACTER_WITH_SCENARIO").c_str());
             }else {
                     mvwprintz(w_guide, 1, 0, c_green, _("Press %s to save a template of this character."),
                     ctxt.get_desc("SAVE_TEMPLATE").c_str());
