@@ -232,6 +232,8 @@ public:
 
     int multicooker(player *, item *, bool, point);
 
+    int remoteveh(player *, item *, bool, point);
+
 // ARTIFACTS
     /* This function is used when an artifact is activated.
        It examines the item's artifact-specific properties.
