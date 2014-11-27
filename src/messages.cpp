@@ -72,6 +72,10 @@ void Messages::add_msg_string(const std::string &s, game_message_type type)
     if (s.length() == 0) {
         return;
     }
+    // hide messages if dead
+    if(g->u.is_dead_state()) {
+        return;
+    }
     if( type == m_debug && !debug_mode ) {
         return;
     }
@@ -93,18 +97,12 @@ void Messages::add_msg_string(const std::string &s, game_message_type type)
 
 void Messages::vadd_msg(const char *msg, va_list ap)
 {
-    // hide messages if dead (trust me, the msg list explodes)
-    if(!g->u.is_dead_state()) {
-        player_messages.add_msg_string(vstring_format(msg, ap));
-    }
+    player_messages.add_msg_string(vstring_format(msg, ap));
 }
 
 void Messages::vadd_msg(game_message_type type, const char *msg, va_list ap)
 {
-    // hide messages if dead (trust me, the msg list explodes)
-    if(!g->u.is_dead_state() && type != m_debug) {
-        player_messages.add_msg_string(vstring_format(msg, ap), type);
-    }
+    player_messages.add_msg_string(vstring_format(msg, ap), type);
 }
 
 void add_msg(const char *msg, ...)
