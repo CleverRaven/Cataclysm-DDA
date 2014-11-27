@@ -904,7 +904,7 @@ void iexamine::door_peephole(player *p, map *m, int examx, int examy) {
         return;
     }
 
-    // Peek through the peephole, or open the door. 
+    // Peek through the peephole, or open the door.
     int choice = menu( true, _("Do what with the door?"),
                        _("Peek through peephole."), _("Open door."),
                        _("Cancel"), NULL );
@@ -1307,6 +1307,13 @@ void iexamine::aggie_plant(player *p, map *m, int examx, int examy)
                 m->spawn_item(examx, examy, seedType, 1, rng(plantCount / 4, plantCount / 2));
             } else {
                 m->spawn_item(examx, examy, seedType, rng(plantCount / 4, plantCount / 2));
+            }
+
+            if ((seedType == "seed_wheat") || (seedType == "seed_barley") ||
+                (seedType == "seed_hops")) {
+                m->spawn_item(examx, examy, "straw_pile");
+            } else if (seedType != "seed_sugar_beet") {
+                m->spawn_item(examx, examy, "withered");
             }
             p->moves -= 500;
         }
@@ -1743,7 +1750,7 @@ void iexamine::harvest_tree_shrub(player *p, map *m, int examx, int examy)
         add_msg(m_info, _("This %s has already been harvested. Harvest it again next year."), m->tername(examx, examy).c_str());
         return;
     }
-    
+
     bool seeds = false;
     if (m->has_flag("SHRUB", examx, examy)) { // if shrub, it gives seeds. todo -> trees give seeds(?) -> trees plantable
         seeds = true;

@@ -7690,5 +7690,50 @@
       [ "duster_survivor", 1 ]
     ]
   ]
+},{
+  "type" : "recipe",
+  "result": "straw_basket",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_STORAGE",
+  "skill_used": "tailor",
+  "difficulty": 1,
+  "time": 18000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [ [ [ "straw_pile", 5 ] ] ]
+},{
+  "type" : "recipe",
+  "result": "straw_sandals",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_FEET",
+  "skill_used": "tailor",
+  "difficulty": 1,
+  "time": 28000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [ [ [ "straw_pile", 4 ] ] ]
+},{
+  "type" : "recipe",
+  "result": "straw_hat",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "difficulty": 1,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [ [ [ "straw_pile", 3 ] ] ]
+},{
+  "type" : "recipe",
+  "result": "straw_fedora",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 45000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["mag_tailor", 1] , ["manual_tailor", 1] , ["mag_beauty", 1] , ["textbook_tailor", 0]],
+  "components": [ [ [ "straw_pile", 7 ] ] ]
 }
 ]
