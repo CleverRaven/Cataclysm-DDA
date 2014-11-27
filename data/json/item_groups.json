@@ -1150,7 +1150,9 @@
       ["kilt", 5],
       ["nanoskirt", 10],
       ["sleeveless_tunic", 5],
-      ["straw_hat", 5]
+      ["fedora", 10],
+      ["straw_hat", 5],
+      ["straw_fedora", 5]
     ]
   },{
     "type" : "item_group",
@@ -3120,7 +3122,9 @@
       ["nanoskirt", 10],
       ["sleeveless_tunic", 5],
       ["ear_spool", 30],
-      ["straw_hat", 5]
+      ["fedora", 5],
+      ["straw_hat", 5],
+      ["straw_fedora", 5]
       
     ]
   },{
@@ -4843,7 +4847,9 @@
       ["nanoskirt", 10],
       ["sleeveless_tunic", 5],
       ["straw_basket", 2],
-      ["straw_hat", 5]
+      ["fedora", 5],
+      ["straw_hat", 5],
+      ["straw_fedora", 5]
     ]
   },{
     "type" : "item_group",

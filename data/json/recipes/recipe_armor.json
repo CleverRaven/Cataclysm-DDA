@@ -7327,7 +7327,7 @@
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
   "skill_used": "tailor",
-  "difficulty": 2,
+  "difficulty": 1,
   "time": 28000,
   "reversible": false,
   "autolearn": true,
@@ -7336,12 +7336,24 @@
   "type" : "recipe",
   "result": "straw_hat",
   "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_FEET",
+  "subcategory": "CSC_ARMOR_HEAD",
   "skill_used": "tailor",
-  "difficulty": 2,
-  "time": 25000,
+  "difficulty": 1,
+  "time": 20000,
   "reversible": false,
   "autolearn": true,
   "components": [ [ [ "straw_pile", 3 ] ] ]
+},{
+  "type" : "recipe",
+  "result": "straw_fedora",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 45000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["mag_tailor", 1] , ["manual_tailor", 1] , ["mag_beauty", 1] , ["textbook_tailor", 0]],
+  "components": [ [ [ "straw_pile", 7 ] ] ]
 }
 ]

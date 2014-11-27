@@ -2152,5 +2152,17 @@
     "reversible": true,
     "autolearn": false,
     "components": [ [ [ "straw_pile", 2 ] ] ]
+},{
+    "type" : "recipe",
+    "result": "straw_fedora",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 1500,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"CUT","level":1,"amount":1} ],
+    "components": [ [ [ "straw_pile", 5 ] ] ]
 }
 ]
