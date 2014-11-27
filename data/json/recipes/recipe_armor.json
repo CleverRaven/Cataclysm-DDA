@@ -3469,14 +3469,14 @@
   "autolearn": true,
   "tools": [
     [
-      [ "toolset", 5],
-      [ "hotplate", 5],
-      [ "fire", -1]
-    ],
-    [
       [ "needle_bone", 25 ],
       [ "needle_wood", 25 ],
       [ "sewing_kit", 25 ]
+    ],
+    [
+      [ "toolset", 5],
+      [ "hotplate", 5],
+      [ "fire", -1]
     ],
     [
       [ "mold_plastic", -1]
