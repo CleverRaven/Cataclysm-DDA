@@ -3198,20 +3198,24 @@ void vehicle::idle(bool on_map) {
         if (on_map) {
             noise_and_smoke( idle_rate, 6.0 );
         }
-    }
-    else {
+    } else {
         if (g->u_see(global_x(), global_y()) && engine_on) {
             add_msg(_("The %s's engine dies!"), name.c_str());
         }
         engine_on = false;
     }
-    if (stereo_on == true) {
+
+    if (stereo_on) {
         play_music();
+    }
+
+    if (on_map && is_alarm_on) {
+        alarm();
     }
 }
 
-void vehicle::alarm(bool on_map){
-    if (on_map && is_alarm_on && one_in(4)) {
+void vehicle::alarm(){
+    if (one_in(4)) {
         //first check if the alarm is still installed
         bool found_alarm = has_security_working();
 

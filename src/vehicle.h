@@ -549,7 +549,8 @@ public:
 
 // idle fuel consumption
     void idle (bool on_map = true);
-    void alarm (bool on_map);
+// continuous processing for running vehicle alarms
+    void alarm ();
 // leak from broken tanks
     void slow_leak ();
 

@@ -1468,7 +1468,6 @@ bool game::do_turn()
             veh->power_parts();
             if (sm_loc.z == levz) {
                 veh->idle(m.inbounds(in_reality.x, in_reality.y));
-                veh->alarm(m.inbounds(in_reality.x, in_reality.y));
             }
         }
     }
