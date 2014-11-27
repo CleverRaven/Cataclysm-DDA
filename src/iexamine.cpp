@@ -2247,13 +2247,13 @@ static point getNearFilledGasTank(map *m, int x, int y, long &gas_units)
             if( new_distance >= distance ) {
                 continue;
             }
+            p = point(i, j);
             for( auto &k : m->i_at(i, j)) {
                 if(k.made_of(LIQUID)) {
                     long count = dynamic_cast<it_ammo *>(k.type)->count;
                     long units = k.charges / count;
 
                     distance = new_distance;
-                    p = point(i, j);
                     gas_units = units;
                     break;
                 }
