@@ -3467,18 +3467,19 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
-  "qualities":[
-    {"id":"SAW_M_FINE","level":1,"amount":1}
-  ],
   "tools": [
     [
-      [ "soldering_iron", 5],
-      [ "toolset", 5]
+      [ "toolset", 5],
+      [ "hotplate", 5],
+      [ "fire", -1]
     ],
     [
       [ "needle_bone", 25 ],
       [ "needle_wood", 25 ],
       [ "sewing_kit", 25 ]
+    ],
+    [
+      [ "mold_plastic", -1]
     ]
   ],
   "components": [
