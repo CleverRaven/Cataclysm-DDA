@@ -437,7 +437,7 @@ void mdeath::amigara(monster *z)
     if (count <= 1) { // We're the last!
         g->u.remove_effect("amigara");
         add_msg(_("Your obsession with the fault fades away..."));
-        g->m.add_item_or_charges( z->posx(), z->posy(), item( new_artifact(), calendar::turn ) );
+        g->m.spawn_artifact( z->posx(), z->posy() );
     }
 }
 

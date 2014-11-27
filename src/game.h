@@ -747,6 +747,7 @@ class game
         void activity_on_finish_vehicle();
         void activity_on_finish_make_zlave();
         void activity_on_finish_start_fire();
+        void activity_on_finish_hotwire();
         void longsalvage(); // Salvage everything activity
         void move_save_to_graveyard();
         bool save_player_data();

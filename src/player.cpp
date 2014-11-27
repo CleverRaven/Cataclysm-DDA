@@ -587,15 +587,15 @@ void player::apply_persistent_morale()
         std::string basic_flag = "FANCY";
         std::string bonus_flag = "SUPER_FANCY";
 
-        std::bitset<13> covered; // body parts covered
+        std::bitset<num_bp> covered; // body parts covered
         for( auto &elem : worn ) {
             if( elem.has_flag( basic_flag ) || elem.has_flag( bonus_flag ) ) {
-                covered |= elem.covers;
+                covered |= elem.get_covered_body_parts();
             }
             if( elem.has_flag( bonus_flag ) ) {
               bonus+=2;
             } else if( elem.has_flag( basic_flag ) ) {
-                if( ( covered & elem.covers ).none() ) {
+                if( ( covered & elem.get_covered_body_parts() ).none() ) {
                     bonus += 1;
                 }
             }
@@ -838,19 +838,17 @@ void player::update_bodytemp()
     if( in_sleep_state() ) {
         // Search the floor for items
         std::vector<item> &floor_item = g->m.i_at(posx, posy);
-        it_armor *floor_armor = NULL;
 
         for( auto &elem : floor_item ) {
             if( !elem.is_armor() ) {
                 continue;
             }
-            floor_armor = dynamic_cast<it_armor *>( elem.type );
             // Items that are big enough and covers the torso are used to keep warm.
             // Smaller items don't do as good a job
-            if( floor_armor->volume > 1 &&
-                ( elem.covers.test( bp_torso ) || elem.covers.test( bp_leg_l ) ||
-                  elem.covers.test( bp_leg_r ) ) ) {
-                floor_item_warmth += 60 * floor_armor->warmth * floor_armor->volume / 10;
+            if( elem.volume() > 1 &&
+                ( elem.covers( bp_torso ) || elem.covers( bp_leg_l ) ||
+                  elem.covers( bp_leg_r ) ) ) {
+                floor_item_warmth += 60 * elem.get_warmth() * elem.volume() / 10;
             }
         }
 
@@ -3475,7 +3473,7 @@ void player::print_gun_mode( WINDOW *w, nc_color c )
     item* gunmod = weapon.active_gunmod();
     std::stringstream attachment;
     if (gunmod != NULL) {
-        attachment << gunmod->type->nname(1).c_str();
+        attachment << gunmod->type_name().c_str();
         for( auto &mod : weapon.contents ) {
             if (mod.is_gunmod() && mod.has_flag("MODE_AUX")) {
                 attachment << " (" << mod.charges << ")";
@@ -4001,7 +3999,7 @@ bool player::in_climate_control()
         if( w.typeId() == "rm13_armor_on" ) {
             return true;
         }
-        if( w.active && dynamic_cast<it_armor*>( w.type )->is_power_armor() ) {
+        if( w.active && w.is_power_armor() ) {
             return true;
         }
     }
@@ -6611,28 +6609,13 @@ void player::hardcoded_effects(effect &it)
             apply_damage( nullptr, bp, 1 );
         }
     } else if (id == "evil") {
-        bool lesserEvil = false;  // Worn or wielded; diminished effects
-        if (weapon.is_artifact() && weapon.is_tool()) {
-            it_artifact_tool *tool = dynamic_cast<it_artifact_tool*>(weapon.type);
-            for( auto &elem : tool->effects_carried ) {
-                if( elem == AEP_EVIL ) {
-                    lesserEvil = true;
-                }
-            }
-            for( auto &elem : tool->effects_wielded ) {
-                if( elem == AEP_EVIL ) {
-                    lesserEvil = true;
-                }
-            }
-        }
-        for (std::vector<item>::iterator i = worn.begin(); !lesserEvil && i != worn.end(); ++i) {
-            if (i->is_artifact()) {
-                it_artifact_armor *armor = dynamic_cast<it_artifact_armor*>(i->type);
-                for( auto &elem : armor->effects_worn ) {
-                    if( elem == AEP_EVIL ) {
-                        lesserEvil = true;
-                    }
-                }
+        // Worn or wielded; diminished effects
+        bool lesserEvil = weapon.has_effect_when_wielded( AEP_EVIL ) ||
+                          weapon.has_effect_when_carried( AEP_EVIL );
+        for( auto &w : worn ) {
+            if( w.has_effect_when_worn( AEP_EVIL ) ) {
+                lesserEvil = true;
+                break;
             }
         }
         if (lesserEvil) {
@@ -8331,10 +8314,8 @@ int player::weight_capacity() const
 int player::volume_capacity() const
 {
     int ret = 2; // A small bonus (the overflow)
-    const it_armor *armor = NULL;
     for (auto &i : worn) {
-        armor = dynamic_cast<const it_armor*>(i.type);
-        ret += armor->storage;
+        ret += i.get_storage();
     }
     if (has_bionic("bio_storage")) {
         ret += 8;
@@ -8547,11 +8528,9 @@ item& player::i_add(item it)
      it.is_book() || it.is_tool() || it.is_weap() || it.is_food_container())
   inv.unsort();
 
- if (g != NULL && it.is_artifact() && it.is_tool()) {
-  it_artifact_tool *art = dynamic_cast<it_artifact_tool*>(it.type);
-  g->add_artifact_messages(art->effects_carried);
- }
- return inv.add_item(it);
+    auto &item_in_inv = inv.add_item( it );
+    item_in_inv.on_pickup( *this );
+    return item_in_inv;
 }
 
 bool player::has_active_item(const itype_id & id) const
@@ -8595,7 +8574,7 @@ void player::process_active_items()
             cloak = &w;
         }
         // Only the main power armor item can be active, the other ones (hauling frame, helmet) aren't.
-        if( power_armor == nullptr && dynamic_cast<it_armor*>( w.type )->is_power_armor() ) {
+        if( power_armor == nullptr && w.is_power_armor() ) {
             power_armor = &w;
         }
     }
@@ -9082,7 +9061,7 @@ bool player::is_wearing(const itype_id & it) const
 bool player::is_wearing_on_bp(const itype_id & it, body_part bp) const
 {
     for (auto &i : worn) {
-        if (i.type->id == it && i.covers.test(bp)) {
+        if (i.type->id == it && i.covers(bp)) {
             return true;
         }
     }
@@ -9099,12 +9078,12 @@ bool player::worn_with_flag( std::string flag ) const
     return false;
 }
 
-bool player::covered_with_flag(const std::string flag, std::bitset<13> parts) const
+bool player::covered_with_flag(const std::string flag, std::bitset<num_bp> parts) const
 {
-    std::bitset<13> covered = 0;
+    std::bitset<num_bp> covered = 0;
 
     for (std::vector<item>::const_reverse_iterator armorPiece = worn.rbegin(); armorPiece != worn.rend(); ++armorPiece) {
-        std::bitset<13> cover = armorPiece->covers & parts;
+        std::bitset<num_bp> cover = armorPiece->get_covered_body_parts() & parts;
 
         if (cover.none()) {
             continue; // For our purposes, this piece covers nothing.
@@ -9124,22 +9103,22 @@ bool player::covered_with_flag(const std::string flag, std::bitset<13> parts) co
     return (covered == parts);
 }
 
-bool player::covered_with_flag_exclusively(const std::string flag, std::bitset<13> parts) const
+bool player::covered_with_flag_exclusively(const std::string flag, std::bitset<num_bp> parts) const
 {
     for( const auto &elem : worn ) {
-        if( ( elem.covers & parts ).any() && !elem.has_flag( flag ) ) {
+        if( ( elem.get_covered_body_parts() & parts ).any() && !elem.has_flag( flag ) ) {
             return false;
         }
     }
     return true;
 }
 
-bool player::is_water_friendly(std::bitset<13> parts) const
+bool player::is_water_friendly(std::bitset<num_bp> parts) const
 {
     return covered_with_flag_exclusively("WATER_FRIENDLY", parts);
 }
 
-bool player::is_waterproof(std::bitset<13> parts) const
+bool player::is_waterproof(std::bitset<num_bp> parts) const
 {
     return covered_with_flag("WATERPROOF", parts);
 }
@@ -9443,8 +9422,8 @@ bool player::consume(int target_position)
             charge_power(to_eat->charges / factor);
             to_eat->charges -= max_change * factor; //negative charges seem to be okay
             to_eat->charges++; //there's a flat subtraction later
-        } else if (!to_eat->type->is_food() && !to_eat->is_food_container(this)) {
-            if (to_eat->type->is_book()) {
+        } else if (!to_eat->is_food() && !to_eat->is_food_container(this)) {
+            if (to_eat->is_book()) {
                 it_book* book = dynamic_cast<it_book*>(to_eat->type);
                 if (book->type != NULL && !query_yn(_("Really eat %s?"), to_eat->tname().c_str())) {
                     return false;
@@ -10122,37 +10101,28 @@ bool player::wield(item* it, bool autodrop)
   return false;
  }
  if (!is_armed()) {
-  weapon = inv.remove_item(it);
-  if (weapon.is_artifact() && weapon.is_tool()) {
-   it_artifact_tool *art = dynamic_cast<it_artifact_tool*>(weapon.type);
-   g->add_artifact_messages(art->effects_wielded);
-  }
+  weapon = i_rem(it);
   moves -= 30;
+  weapon.on_wield( *this );
   last_item = itype_id(weapon.type->id);
   return true;
  } else if (volume_carried() + weapon.volume() - it->volume() <
             volume_capacity()) {
   item tmpweap = remove_weapon();
-  weapon = inv.remove_item(it);
+  weapon = i_rem(it);
   inv.add_item_keep_invlet(tmpweap);
   inv.unsort();
   moves -= 45;
-  if (weapon.is_artifact() && weapon.is_tool()) {
-   it_artifact_tool *art = dynamic_cast<it_artifact_tool*>(weapon.type);
-   g->add_artifact_messages(art->effects_wielded);
-  }
+  weapon.on_wield( *this );
   last_item = itype_id(weapon.type->id);
   return true;
  } else if (query_yn(_("No space in inventory for your %s.  Drop it?"),
                      weapon.tname().c_str())) {
   g->m.add_item_or_charges(posx, posy, remove_weapon());
-  weapon = inv.remove_item(it);
+  weapon = i_rem(it);
   inv.unsort();
   moves -= 30;
-  if (weapon.is_artifact() && weapon.is_tool()) {
-   it_artifact_tool *art = dynamic_cast<it_artifact_tool*>(weapon.type);
-   g->add_artifact_messages(art->effects_wielded);
-  }
+  weapon.on_wield( *this );
   last_item = itype_id(weapon.type->id);
   return true;
  }
@@ -10206,7 +10176,7 @@ public:
             if( !ma.weapons.empty() ) {
                 buffer << ngettext( "Weapon:", "Weapons:", ma.weapons.size() ) << " ";
                 for( auto weapon = ma.weapons.cbegin(); weapon != ma.weapons.cend(); ++weapon ) {
-                    buffer << item(*weapon, 0).type->nname(1);
+                    buffer << item::nname( *weapon );
                     if( ma.weapons.size() > 1 && weapon == ----ma.weapons.cend() ) {
                         //~ Seperators that comes before last element of a list.
                         buffer << _(" and ");
@@ -10313,19 +10283,17 @@ hint_rating player::rate_action_wear(item *it)
         return HINT_CANT;
     }
 
-    it_armor* armor = dynamic_cast<it_armor*>(it->type);
-
     // are we trying to put on power armor? If so, make sure we don't have any other gear on.
-    if (armor->is_power_armor() && worn.size()) {
-        if (it->covers.test(bp_torso)) {
+    if (it->is_power_armor() && worn.size()) {
+        if (it->covers(bp_torso)) {
             return HINT_IFFY;
-        } else if (it->covers.test(bp_head) && !worn[0].type->is_power_armor()) {
+        } else if (it->covers(bp_head) && !worn[0].is_power_armor()) {
             return HINT_IFFY;
         }
     }
     // are we trying to wear something over power armor? We can't have that, unless it's a backpack, or similar.
-    if (worn.size() && worn[0].type->is_power_armor() && !(it->covers.test(bp_head))) {
-        if (!(it->covers.test(bp_torso) && armor->color == c_green)) {
+    if (worn.size() && worn[0].is_power_armor() && !(it->covers(bp_head))) {
+        if (!(it->covers(bp_torso) && it->color() == c_green)) {
             return HINT_IFFY;
         }
     }
@@ -10343,43 +10311,43 @@ hint_rating player::rate_action_wear(item *it)
     if (has_trait("WOOLALLERGY") && it->made_of("wool")) {
         return HINT_IFFY; //should this be HINT_CANT? I kinda think not, because HINT_CANT is more for things that can NEVER happen
     }
-    if (it->covers.test(bp_head) && encumb(bp_head) != 0) {
+    if (it->covers(bp_head) && encumb(bp_head) != 0) {
         return HINT_IFFY;
     }
-    if ((it->covers.test(bp_hand_l) || it->covers.test(bp_hand_r)) && has_trait("WEBBED")) {
+    if ((it->covers(bp_hand_l) || it->covers(bp_hand_r)) && has_trait("WEBBED")) {
         return HINT_IFFY;
     }
-    if ((it->covers.test(bp_hand_l) || it->covers.test(bp_hand_r)) && has_trait("TALONS")) {
+    if ((it->covers(bp_hand_l) || it->covers(bp_hand_r)) && has_trait("TALONS")) {
         return HINT_IFFY;
     }
-    if ((it->covers.test(bp_hand_l) || it->covers.test(bp_hand_r)) && (has_trait("ARM_TENTACLES") ||
+    if ((it->covers(bp_hand_l) || it->covers(bp_hand_r)) && (has_trait("ARM_TENTACLES") ||
             has_trait("ARM_TENTACLES_4") || has_trait("ARM_TENTACLES_8")) ) {
         return HINT_IFFY;
     }
-    if (it->covers.test(bp_mouth) && (has_trait("BEAK") ||
+    if (it->covers(bp_mouth) && (has_trait("BEAK") ||
             has_trait("BEAK_PECK") || has_trait("BEAK_HUM")) ) {
         return HINT_IFFY;
     }
-    if ((it->covers.test(bp_foot_l) || it->covers.test(bp_foot_r)) && has_trait("HOOVES")) {
+    if ((it->covers(bp_foot_l) || it->covers(bp_foot_r)) && has_trait("HOOVES")) {
         return HINT_IFFY;
     }
-    if ((it->covers.test(bp_foot_l) || it->covers.test(bp_foot_r)) && has_trait("LEG_TENTACLES")) {
+    if ((it->covers(bp_foot_l) || it->covers(bp_foot_r)) && has_trait("LEG_TENTACLES")) {
         return HINT_IFFY;
      }
-    if (it->covers.test(bp_head) && has_trait("HORNS_CURLED")) {
+    if (it->covers(bp_head) && has_trait("HORNS_CURLED")) {
         return HINT_IFFY;
     }
-    if (it->covers.test(bp_torso) && (has_trait("SHELL") || has_trait("SHELL2")))  {
+    if (it->covers(bp_torso) && (has_trait("SHELL") || has_trait("SHELL2")))  {
         return HINT_IFFY;
     }
-    if (it->covers.test(bp_head) && !it->made_of("wool") &&
+    if (it->covers(bp_head) && !it->made_of("wool") &&
           !it->made_of("cotton") && !it->made_of("leather") && !it->made_of("nomex") &&
           (has_trait("HORNS_POINTED") || has_trait("ANTENNAE") || has_trait("ANTLERS"))) {
         return HINT_IFFY;
     }
     // Checks to see if the player is wearing shoes
-    if (((it->covers.test(bp_foot_l) && is_wearing_shoes("left")) ||
-          (it->covers.test(bp_foot_r) && is_wearing_shoes("right"))) &&
+    if (((it->covers(bp_foot_l) && is_wearing_shoes("left")) ||
+          (it->covers(bp_foot_r) && is_wearing_shoes("right"))) &&
           !it->has_flag("BELTED") && !it->has_flag("SKINTIGHT")) {
     return HINT_IFFY;
     }
@@ -10438,23 +10406,16 @@ bool player::wear(int inventory_position, bool interactive)
 
 bool player::wear_item(item *to_wear, bool interactive)
 {
-    it_armor* armor = NULL;
-
-    if (to_wear->is_armor())
-    {
-        armor = dynamic_cast<it_armor*>(to_wear->type);
-    }
-    else
-    {
+    if( !to_wear->is_armor() ) {
         add_msg(m_info, _("Putting on a %s would be tricky."), to_wear->tname().c_str());
         return false;
     }
 
     // are we trying to put on power armor? If so, make sure we don't have any other gear on.
-    if (armor->is_power_armor())
+    if (to_wear->is_power_armor())
     {
         for( auto &elem : worn ) {
-            if( ( elem.covers & to_wear->covers ).any() ) {
+            if( ( elem.get_covered_body_parts() & to_wear->get_covered_body_parts() ).any() ) {
                 if(interactive)
                 {
                     add_msg(m_info, _("You can't wear power armor over other gear!"));
@@ -10463,14 +10424,14 @@ bool player::wear_item(item *to_wear, bool interactive)
             }
         }
 
-        if (!(to_wear->covers.test(bp_torso)))
+        if (!(to_wear->covers(bp_torso)))
         {
             bool power_armor = false;
 
             if (worn.size())
             {
                 for( auto &elem : worn ) {
-                    if( elem.type->is_power_armor() ) {
+                    if( elem.is_power_armor() ) {
                         power_armor = true;
                         break;
                     }
@@ -10489,7 +10450,7 @@ bool player::wear_item(item *to_wear, bool interactive)
 
         for (auto &i : worn)
         {
-            if (i.type->is_power_armor() && i.type == armor)
+            if (i.is_power_armor() && i.typeId() == to_wear->typeId() )
             {
                 if(interactive)
                 {
@@ -10502,11 +10463,11 @@ bool player::wear_item(item *to_wear, bool interactive)
     else
     {
         // Only headgear can be worn with power armor, except other power armor components
-        if(!to_wear->covers.test(bp_head) && !to_wear->covers.test(bp_eyes) &&
-             !to_wear->covers.test(bp_head)) {
+        if(!to_wear->covers(bp_head) && !to_wear->covers(bp_eyes) &&
+             !to_wear->covers(bp_head)) {
             for (auto &i : worn)
             {
-                if( i.type->is_power_armor() )
+                if( i.is_power_armor() )
                 {
                     if(interactive)
                     {
@@ -10543,7 +10504,7 @@ bool player::wear_item(item *to_wear, bool interactive)
             return false;
         }
 
-        if (to_wear->covers.test(bp_head) && encumb(bp_head) != 0 && armor->encumber > 0) {
+        if (to_wear->covers(bp_head) && encumb(bp_head) != 0 && to_wear->get_encumber() > 0) {
             if(interactive) {
                 add_msg(m_info, wearing_something_on(bp_head) ?
                                 _("You can't wear another helmet!") : _("You can't wear a helmet!"));
@@ -10551,115 +10512,115 @@ bool player::wear_item(item *to_wear, bool interactive)
             return false;
         }
 
-        if ((to_wear->covers.test(bp_hand_l) || to_wear->covers.test(bp_hand_r) ||
-              to_wear->covers.test(bp_arm_l) || to_wear->covers.test(bp_arm_r) ||
-              to_wear->covers.test(bp_leg_l) || to_wear->covers.test(bp_leg_r) ||
-              to_wear->covers.test(bp_foot_l) || to_wear->covers.test(bp_foot_r) ||
-              to_wear->covers.test(bp_torso) || to_wear->covers.test(bp_head)) &&
+        if ((to_wear->covers(bp_hand_l) || to_wear->covers(bp_hand_r) ||
+              to_wear->covers(bp_arm_l) || to_wear->covers(bp_arm_r) ||
+              to_wear->covers(bp_leg_l) || to_wear->covers(bp_leg_r) ||
+              to_wear->covers(bp_foot_l) || to_wear->covers(bp_foot_r) ||
+              to_wear->covers(bp_torso) || to_wear->covers(bp_head)) &&
             (has_trait("HUGE") || has_trait("HUGE_OK"))) {
             if(interactive) {
                 add_msg(m_info, _("The %s is much too small to fit your huge body!"),
-                        armor->nname(1).c_str());
+                        to_wear->type_name().c_str());
             }
             return false;
         }
 
-        if ((to_wear->covers.test(bp_hand_l) || to_wear->covers.test(bp_hand_r)) && has_trait("WEBBED"))
+        if ((to_wear->covers(bp_hand_l) || to_wear->covers(bp_hand_r)) && has_trait("WEBBED"))
         {
             if(interactive)
             {
-                add_msg(m_info, _("You cannot put %s over your webbed hands."), armor->nname(1).c_str());
+                add_msg(m_info, _("You cannot put %s over your webbed hands."), to_wear->type_name().c_str());
             }
             return false;
         }
 
-        if ( (to_wear->covers.test(bp_hand_l) || to_wear->covers.test(bp_hand_r)) &&
+        if ( (to_wear->covers(bp_hand_l) || to_wear->covers(bp_hand_r)) &&
              (has_trait("ARM_TENTACLES") || has_trait("ARM_TENTACLES_4") ||
               has_trait("ARM_TENTACLES_8")) )
         {
             if(interactive)
             {
-                add_msg(m_info, _("You cannot put %s over your tentacles."), armor->nname(1).c_str());
+                add_msg(m_info, _("You cannot put %s over your tentacles."), to_wear->type_name().c_str());
             }
             return false;
         }
 
-        if ((to_wear->covers.test(bp_hand_l) || to_wear->covers.test(bp_hand_r)) && has_trait("TALONS"))
+        if ((to_wear->covers(bp_hand_l) || to_wear->covers(bp_hand_r)) && has_trait("TALONS"))
         {
             if(interactive)
             {
-                add_msg(m_info, _("You cannot put %s over your talons."), armor->nname(1).c_str());
+                add_msg(m_info, _("You cannot put %s over your talons."), to_wear->type_name().c_str());
             }
             return false;
         }
 
-        if ((to_wear->covers.test(bp_hand_l) || to_wear->covers.test(bp_hand_r)) && (has_trait("PAWS") || has_trait("PAWS_LARGE")) )
+        if ((to_wear->covers(bp_hand_l) || to_wear->covers(bp_hand_r)) && (has_trait("PAWS") || has_trait("PAWS_LARGE")) )
         {
             if(interactive)
             {
-                add_msg(m_info, _("You cannot get %s to stay on your paws."), armor->nname(1).c_str());
+                add_msg(m_info, _("You cannot get %s to stay on your paws."), to_wear->type_name().c_str());
             }
             return false;
         }
 
-        if (to_wear->covers.test(bp_mouth) && (has_trait("BEAK") || has_trait("BEAK_PECK") ||
+        if (to_wear->covers(bp_mouth) && (has_trait("BEAK") || has_trait("BEAK_PECK") ||
         has_trait("BEAK_HUM")) )
         {
             if(interactive)
             {
-                add_msg(m_info, _("You cannot put a %s over your beak."), armor->nname(1).c_str());
+                add_msg(m_info, _("You cannot put a %s over your beak."), to_wear->type_name().c_str());
             }
             return false;
         }
 
-        if (to_wear->covers.test(bp_mouth) &&
+        if (to_wear->covers(bp_mouth) &&
             (has_trait("MUZZLE") || has_trait("MUZZLE_BEAR") || has_trait("MUZZLE_LONG") ||
             has_trait("MUZZLE_RAT")))
         {
             if(interactive)
             {
-                add_msg(m_info, _("You cannot fit the %s over your muzzle."), armor->nname(1).c_str());
+                add_msg(m_info, _("You cannot fit the %s over your muzzle."), to_wear->type_name().c_str());
             }
             return false;
         }
 
-        if (to_wear->covers.test(bp_mouth) && has_trait("MINOTAUR"))
+        if (to_wear->covers(bp_mouth) && has_trait("MINOTAUR"))
         {
             if(interactive)
             {
-                add_msg(m_info, _("You cannot fit the %s over your snout."), armor->nname(1).c_str());
+                add_msg(m_info, _("You cannot fit the %s over your snout."), to_wear->type_name().c_str());
             }
             return false;
         }
 
-        if (to_wear->covers.test(bp_mouth) && has_trait("SABER_TEETH"))
+        if (to_wear->covers(bp_mouth) && has_trait("SABER_TEETH"))
         {
             if(interactive)
             {
-                add_msg(m_info, _("Your saber teeth are simply too large for %s to fit."), armor->nname(1).c_str());
+                add_msg(m_info, _("Your saber teeth are simply too large for %s to fit."), to_wear->type_name().c_str());
             }
             return false;
         }
 
-        if (to_wear->covers.test(bp_mouth) && has_trait("MANDIBLES"))
+        if (to_wear->covers(bp_mouth) && has_trait("MANDIBLES"))
         {
             if(interactive)
             {
-                add_msg(_("Your mandibles are simply too large for %s to fit."), armor->nname(1).c_str());
+                add_msg(_("Your mandibles are simply too large for %s to fit."), to_wear->type_name().c_str());
             }
             return false;
         }
 
-        if (to_wear->covers.test(bp_mouth) && has_trait("PROBOSCIS"))
+        if (to_wear->covers(bp_mouth) && has_trait("PROBOSCIS"))
         {
             if(interactive)
             {
-                add_msg(m_info, _("Your proboscis is simply too large for %s to fit."), armor->nname(1).c_str());
+                add_msg(m_info, _("Your proboscis is simply too large for %s to fit."), to_wear->type_name().c_str());
             }
             return false;
         }
 
-        if ((to_wear->covers.test(bp_foot_l) || to_wear->covers.test(bp_foot_r)) && has_trait("HOOVES"))
+        if ((to_wear->covers(bp_foot_l) || to_wear->covers(bp_foot_r)) && has_trait("HOOVES"))
         {
             if(interactive)
             {
@@ -10668,7 +10629,7 @@ bool player::wear_item(item *to_wear, bool interactive)
             return false;
         }
 
-        if ((to_wear->covers.test(bp_foot_l) || to_wear->covers.test(bp_foot_r)) && has_trait("LEG_TENTACLES"))
+        if ((to_wear->covers(bp_foot_l) || to_wear->covers(bp_foot_r)) && has_trait("LEG_TENTACLES"))
         {
             if(interactive)
             {
@@ -10677,7 +10638,7 @@ bool player::wear_item(item *to_wear, bool interactive)
             return false;
         }
 
-        if ((to_wear->covers.test(bp_foot_l) || to_wear->covers.test(bp_foot_r)) && has_trait("RAP_TALONS"))
+        if ((to_wear->covers(bp_foot_l) || to_wear->covers(bp_foot_r)) && has_trait("RAP_TALONS"))
         {
             if(interactive)
             {
@@ -10686,7 +10647,7 @@ bool player::wear_item(item *to_wear, bool interactive)
             return false;
         }
 
-        if (to_wear->covers.test(bp_head) && has_trait("HORNS_CURLED"))
+        if (to_wear->covers(bp_head) && has_trait("HORNS_CURLED"))
         {
             if(interactive)
             {
@@ -10695,7 +10656,7 @@ bool player::wear_item(item *to_wear, bool interactive)
             return false;
         }
 
-        if (to_wear->covers.test(bp_torso) && (has_trait("SHELL") || has_trait("SHELL2")) )
+        if (to_wear->covers(bp_torso) && (has_trait("SHELL") || has_trait("SHELL2")) )
         {
             if(interactive)
             {
@@ -10704,7 +10665,7 @@ bool player::wear_item(item *to_wear, bool interactive)
             return false;
         }
 
-        if (to_wear->covers.test(bp_torso) && ((has_trait("INSECT_ARMS")) || (has_trait("ARACHNID_ARMS"))) )
+        if (to_wear->covers(bp_torso) && ((has_trait("INSECT_ARMS")) || (has_trait("ARACHNID_ARMS"))) )
         {
             if(interactive)
             {
@@ -10713,7 +10674,7 @@ bool player::wear_item(item *to_wear, bool interactive)
             return false;
         }
 
-        if (to_wear->covers.test(bp_head) &&
+        if (to_wear->covers(bp_head) &&
             !to_wear->made_of("wool") && !to_wear->made_of("cotton") &&
             !to_wear->made_of("nomex") && !to_wear->made_of("leather") &&
             (has_trait("HORNS_POINTED") || has_trait("ANTENNAE") || has_trait("ANTLERS")))
@@ -10727,8 +10688,8 @@ bool player::wear_item(item *to_wear, bool interactive)
             return false;
         }
 
-        if (((to_wear->covers.test(bp_foot_l) && is_wearing_shoes("left")) ||
-              (to_wear->covers.test(bp_foot_r) && is_wearing_shoes("right"))) &&
+        if (((to_wear->covers(bp_foot_l) && is_wearing_shoes("left")) ||
+              (to_wear->covers(bp_foot_r) && is_wearing_shoes("right"))) &&
               !to_wear->has_flag("BELTED") && !to_wear->has_flag("SKINTIGHT")) {
             // Checks to see if the player is wearing shoes
             if(interactive){
@@ -10751,15 +10712,11 @@ bool player::wear_item(item *to_wear, bool interactive)
         add_msg(_("You put on your %s."), to_wear->tname().c_str());
         moves -= 350; // TODO: Make this variable?
 
-        if (to_wear->is_artifact())
-        {
-            it_artifact_armor *art = dynamic_cast<it_artifact_armor*>(to_wear->type);
-            g->add_artifact_messages(art->effects_worn);
-        }
+        worn.back().on_wear( *this );
 
         for (body_part i = bp_head; i < num_bp; i = body_part(i + 1))
         {
-            if (to_wear->covers.test(i) && encumb(i) >= 4)
+            if (to_wear->covers(i) && encumb(i) >= 4)
             {
                 add_msg(m_warning,
                     !(i == bp_eyes) ?
@@ -10807,10 +10764,10 @@ bool player::takeoff(int inventory_position, bool autodrop, std::vector<item> *i
             item &w = worn[worn_index];
 
             // Handle power armor.
-            if (w.type->is_power_armor() && w.covers.test(bp_torso)) {
+            if (w.is_power_armor() && w.covers(bp_torso)) {
                 // We're trying to take off power armor, but cannot do that if we have a power armor component on!
                 for (int j = worn.size() - 1; j >= 0; j--) {
-                    if (worn[j].type->is_power_armor() &&
+                    if (worn[j].is_power_armor() &&
                             j != worn_index) {
                         if( autodrop || items != nullptr ) {
                             if( items != nullptr ) {
@@ -10837,7 +10794,7 @@ bool player::takeoff(int inventory_position, bool autodrop, std::vector<item> *i
             if( items != nullptr ) {
                 items->push_back( w );
                 taken_off = true;
-            } else if (autodrop || volume_capacity() - dynamic_cast<it_armor*>(w.type)->storage > volume_carried() + int(w.type->volume)) {
+            } else if (autodrop || volume_capacity() - w.get_storage() > volume_carried() + w.volume()) {
                 inv.add_item_keep_invlet(w);
                 taken_off = true;
             } else if (query_yn(_("No room in inventory for your %s.  Drop it?"),
@@ -11486,7 +11443,7 @@ void player::do_read( item *book )
         // Note that we've read the book.
         items_identified.insert( book->type->id );
 
-        add_msg(_("You skim %s to find out what's in it."), reading->nname(1).c_str());
+        add_msg(_("You skim %s to find out what's in it."), book->type_name().c_str());
         if( reading->type ) {
             add_msg(m_info, _("Can bring your %s skill to %d."),
                     reading->type->name().c_str(), reading->level);
@@ -11509,7 +11466,7 @@ void player::do_read( item *book )
             size_t index = 1;
             for( auto iter = reading->recipes.begin();
                  iter != reading->recipes.end(); ++iter, ++index ) {
-                recipes += item( iter->first->result, 0 ).type->nname(1);
+                recipes += item::nname( iter->first->result );
                 if(index == reading->recipes.size() - 1) {
                     recipes += _(" and "); // Who gives a fuck about an oxford comma?
                 } else if(index != reading->recipes.size()) {
@@ -11636,10 +11593,10 @@ void player::do_read( item *book )
 
         if( skillLevel(reading->type) == (int)reading->level ) {
             if( no_recipes ) {
-                add_msg(m_info, _("You can no longer learn from %s."), reading->nname(1).c_str());
+                add_msg(m_info, _("You can no longer learn from %s."), book->type_name().c_str());
             } else {
                 add_msg(m_info, _("Your skill level won't improve, but %s has more recipes for you."),
-                        reading->nname(1).c_str());
+                        book->type_name().c_str());
             }
         }
     } else if( can_study_recipe(reading) && activity.get_value(0) == 1 ) {
@@ -11664,7 +11621,7 @@ void player::do_read( item *book )
             return;
         }
     } else if ( !reading->recipes.empty() && no_recipes ) {
-        add_msg(m_info, _("You can no longer learn from %s."), reading->nname(1).c_str());
+        add_msg(m_info, _("You can no longer learn from %s."), book->type_name().c_str());
     }
 
     if( reading->has_use() ) {
@@ -11886,7 +11843,7 @@ std::string player::is_snuggling()
         }
     }
     std::vector<item>& floor_item = *items_to_snuggle;
-    it_armor* floor_armor = NULL;
+    const item* floor_armor = NULL;
     int ticker = 0;
 
     // If there are no items on the floor, return nothing
@@ -11898,9 +11855,9 @@ std::string player::is_snuggling()
         if( !elem.is_armor() ) {
             continue;
         } else if( elem.volume() > 1 &&
-                   ( elem.covers.test( bp_torso ) || elem.covers.test( bp_leg_l ) ||
-                     elem.covers.test( bp_leg_r ) ) ) {
-            floor_armor = dynamic_cast<it_armor *>( elem.type );
+                   ( elem.covers( bp_torso ) || elem.covers( bp_leg_l ) ||
+                     elem.covers( bp_leg_r ) ) ) {
+            floor_armor = &elem;
             ticker++;
         }
     }
@@ -11909,7 +11866,7 @@ std::string player::is_snuggling()
         return "nothing";
     }
     else if ( ticker == 1 ) {
-        return floor_armor->nname(1);
+        return floor_armor->type_name();
     }
     else if ( ticker > 1 ) {
         return "many";
@@ -11968,7 +11925,6 @@ float player::fine_detail_vision_mod()
 
 int player::get_wind_resistance(body_part bp) const
 {
-    const it_armor* armor = NULL;
     int coverage = 0;
     float totalExposed = 1.0;
     int totalCoverage = 0;
@@ -11976,9 +11932,7 @@ int player::get_wind_resistance(body_part bp) const
 
     for (auto &i : worn)
     {
-        armor = dynamic_cast<const it_armor*>(i.type);
-
-        if (i.covers.test(bp))
+        if (i.covers(bp))
         {
             if (i.made_of("leather") || i.made_of("plastic") || i.made_of("bone") || i.made_of("chitin") || i.made_of("nomex"))
             {
@@ -11997,7 +11951,7 @@ int player::get_wind_resistance(body_part bp) const
                 penalty = 1; // 99% effective
             }
 
-            coverage = std::max(0, armor->coverage - penalty);
+            coverage = std::max(0, i.get_coverage() - penalty);
             totalExposed *= (1.0 - coverage/100.0); // Coverage is between 0 and 1?
         }
     }
@@ -12016,7 +11970,6 @@ int player::get_wind_resistance(body_part bp) const
 int player::warmth(body_part bp) const
 {
     int ret = 0, warmth = 0;
-    const it_armor* armor = NULL;
 
     // If the player is not wielding anything, check if hands can be put in pockets
     if((bp == bp_hand_l || bp == bp_hand_r) && !is_armed() && (temp_conv[bp] <=  BODYTEMP_COLD) &&
@@ -12031,10 +11984,8 @@ int player::warmth(body_part bp) const
     }
 
     for (auto &i : worn) {
-        armor = dynamic_cast<const it_armor*>(i.type);
-
-        if (i.covers.test(bp)) {
-            warmth = armor->warmth;
+        if( i.covers( bp ) ) {
+            warmth = i.get_warmth();
             // Wool items do not lose their warmth due to being wet.
             // Warmth is reduced by 0 - 66% based on wetness.
             if (!i.made_of("wool"))
@@ -12079,21 +12030,19 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
     int level = 0;
     bool is_wearing_active_power_armor = false;
     for( auto &w : worn ) {
-        if( w.active && dynamic_cast<it_armor*>( w.type )->is_power_armor() ) {
+        if( w.active && w.is_power_armor() ) {
             is_wearing_active_power_armor = true;
             break;
         }
     }
 
-    const it_armor* armor = NULL;
     for (size_t i = 0; i < worn.size(); ++i) {
         if( !worn[i].is_armor() ) {
             debugmsg("%s::encumb hit a non-armor item at worn[%d] (%s)", name.c_str(),
                      i, worn[i].tname().c_str());
         }
-        armor = dynamic_cast<const it_armor*>(worn[i].type);
 
-        if( worn[i].covers.test(bp) ) {
+        if( worn[i].covers(bp) ) {
             if( worn[i].has_flag( "SKINTIGHT" ) ) {
                 level = UNDERWEAR;
             } else if ( worn[i].has_flag( "OUTER" ) ) {
@@ -12105,13 +12054,13 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
             }
 
             layer[level]++;
-            if( armor->is_power_armor() && is_wearing_active_power_armor ) {
-                armorenc += std::max( 0, armor->encumber - 4);
+            if( worn[i].is_power_armor() && is_wearing_active_power_armor ) {
+                armorenc += std::max( 0, worn[i].get_encumber() - 4);
             } else {
-                armorenc += armor->encumber;
+                armorenc += worn[i].get_encumber();
                 // Fitted clothes will reduce either encumbrance or layering.
                 if( worn[i].has_flag( "FIT" ) ) {
-                    if( armor->encumber > 0 && armorenc > 0 ) {
+                    if( worn[i].get_encumber() > 0 && armorenc > 0 ) {
                         armorenc--;
                     } else if (layer[level] > 0) {
                         layer[level] -= .5;
@@ -12212,7 +12161,7 @@ int player::get_armor_bash_base(body_part bp) const
 {
     int ret = 0;
     for (auto &i : worn) {
-        if (i.covers.test(bp)) {
+        if (i.covers(bp)) {
             ret += i.bash_resist();
         }
     }
@@ -12269,7 +12218,7 @@ int player::get_armor_cut_base(body_part bp) const
 {
     int ret = 0;
     for (auto &i : worn) {
-        if (i.covers.test(bp)) {
+        if (i.covers(bp)) {
             ret += i.cut_resist();
         }
     }
@@ -12332,7 +12281,7 @@ int player::get_armor_cut_base(body_part bp) const
 
 void get_armor_on(player* p, body_part bp, std::vector<int>& armor_indices) {
     for (size_t i = 0; i < p->worn.size(); i++) {
-        if (p->worn[i].covers.test(bp)) {
+        if (p->worn[i].covers(bp)) {
             armor_indices.push_back(i);
         }
     }
@@ -12340,17 +12289,15 @@ void get_armor_on(player* p, body_part bp, std::vector<int>& armor_indices) {
 
 // mutates du, returns true if armor was damaged
 bool player::armor_absorb(damage_unit& du, item& armor) {
-    it_armor* armor_type = dynamic_cast<it_armor*>(armor.type);
-
     float mitigation = 0; // total amount of damage mitigated
     float effective_resist = resistances(armor).get_effective_resist(du);
     bool armor_damaged = false;
 
     std::string pre_damage_name = armor.tname();
-    std::string pre_damage_adj = armor_type->dmg_adj(armor.damage);
+    std::string pre_damage_adj = armor.get_base_material().dmg_adj(armor.damage);
 
-    if (rng(0,100) <= armor_type->coverage) {
-        if (armor_type->is_power_armor()) { // TODO: add some check for power armor
+    if (rng(0,100) <= armor.get_coverage()) {
+        if (armor.is_power_armor()) { // TODO: add some check for power armor
         }
 
         mitigation = std::min(effective_resist, du.amount);
@@ -12360,12 +12307,13 @@ bool player::armor_absorb(damage_unit& du, item& armor) {
         if ((du.amount > effective_resist && !one_in(du.amount) && one_in(2)) ||
                 // or if it isn't, but 1/50 chance
                 (du.amount <= effective_resist && !armor.has_flag("STURDY")
-                && !armor_type->is_power_armor() && one_in(200))) {
+                && !armor.is_power_armor() && one_in(200))) {
             armor_damaged = true;
             armor.damage++;
+            auto &material = armor.get_random_material();
             std::string damage_verb = du.type == DT_BASH
-                ? armor_type->bash_dmg_verb()
-                : armor_type->cut_dmg_verb();
+                ? material.bash_dmg_verb()
+                : material.cut_dmg_verb();
 
             // add "further" if the damage adjective and verb are the same
             std::string format_string = pre_damage_adj == damage_verb
@@ -12437,7 +12385,6 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
 // get rid of this.
 void player::absorb(body_part bp, int &dam, int &cut)
 {
-    it_armor* tmp;
     int arm_bash = 0, arm_cut = 0;
     bool cut_through = true;      // to determine if cutting damage penetrates multiple layers of armor
     int bash_absorb = 0;      // to determine if lower layers of armor get damaged
@@ -12467,11 +12414,10 @@ void player::absorb(body_part bp, int &dam, int &cut)
 
     // See, we do it backwards, iterating inwards
     for (int i = worn.size() - 1; i >= 0; i--) {
-        tmp = dynamic_cast<it_armor*>(worn[i].type);
-        if (worn[i].covers.test(bp)) {
+        if (worn[i].covers(bp)) {
             // first determine if damage is at a covered part of the body
             // probability given by coverage
-            if (rng(0, 100) <= tmp->coverage) {
+            if (rng(0, 100) <= worn[i].get_coverage()) {
                 // hit a covered part of the body, so now determine if armor is damaged
                 arm_bash = worn[i].bash_resist();
                 arm_cut  = worn[i].cut_resist();
@@ -12481,7 +12427,7 @@ void player::absorb(body_part bp, int &dam, int &cut)
                 cut_reduction = arm_cut / 3;
 
                 // power armor first  - to depreciate eventually
-                if (worn[i].type->is_power_armor()) {
+                if (worn[i].is_power_armor()) {
                     if (cut > arm_cut * 2 || dam > arm_bash * 2) {
                         add_msg_if_player(m_bad, _("Your %s is damaged!"), worn[i].tname().c_str());
                         worn[i].damage++;
@@ -12527,8 +12473,9 @@ void player::absorb(body_part bp, int &dam, int &cut)
                                                      worn[i].tname().c_str() );
                         worn.erase(worn.begin() + i);
                     } else if (armor_damaged) {
-                        std::string damage_verb = diff_bash > diff_cut ? tmp->bash_dmg_verb() :
-                                                                         tmp->cut_dmg_verb();
+                        auto &material = worn[i].get_random_material();
+                        std::string damage_verb = diff_bash > diff_cut ? material.bash_dmg_verb() :
+                                                                         material.cut_dmg_verb();
                         add_msg_if_player( m_bad, _("Your %s is %s!"), pre_damage_name.c_str(),
                                                   damage_verb.c_str());
                     }
@@ -12640,8 +12587,8 @@ int player::get_env_resist(body_part bp) const
     int ret = 0;
     for (auto &i : worn) {
         // Head protection works on eyes too (e.g. baseball cap)
-        if (i.covers.test(bp) || (bp == bp_eyes && i.covers.test(bp_head))) {
-            ret += (dynamic_cast<it_armor*>(i.type))->env_resist;
+        if (i.covers(bp) || (bp == bp_eyes && i.covers(bp_head))) {
+            ret += i.get_env_resist();
         }
     }
 
@@ -12664,7 +12611,7 @@ int player::get_env_resist(body_part bp) const
 bool player::wearing_something_on(body_part bp) const
 {
     for (auto &i : worn) {
-        if (i.covers.test(bp))
+        if (i.covers(bp))
             return true;
     }
     return false;
@@ -12678,7 +12625,7 @@ bool player::is_wearing_shoes(std::string side) const
         left = false;
         for (auto &i : worn) {
             const item *worn_item = &i;
-            if (i.covers.test(bp_foot_l) &&
+            if (i.covers(bp_foot_l) &&
                 !worn_item->has_flag("BELTED") &&
                 !worn_item->has_flag("SKINTIGHT")) {
                 left = true;
@@ -12690,7 +12637,7 @@ bool player::is_wearing_shoes(std::string side) const
         right = false;
         for (auto &i : worn) {
             const item *worn_item = &i;
-            if (i.covers.test(bp_foot_r) &&
+            if (i.covers(bp_foot_r) &&
                 !worn_item->has_flag("BELTED") &&
                 !worn_item->has_flag("SKINTIGHT")) {
                 right = true;
@@ -12728,8 +12675,7 @@ int player::shoe_type_count(const itype_id & it) const
 bool player::is_wearing_power_armor(bool *hasHelmet) const {
     bool result = false;
     for( auto &elem : worn ) {
-        it_armor *armor = dynamic_cast<it_armor *>( elem.type );
-        if (armor == NULL || !armor->is_power_armor()) {
+        if( !elem.is_power_armor() ) {
             continue;
         }
         if (hasHelmet == NULL) {
@@ -12738,7 +12684,7 @@ bool player::is_wearing_power_armor(bool *hasHelmet) const {
         }
         // found power armor, continue search for helmet
         result = true;
-        if( elem.covers.test( bp_head ) ) {
+        if( elem.covers( bp_head ) ) {
             *hasHelmet = true;
             return true;
         }
@@ -12999,7 +12945,7 @@ std::string player::weapname(bool charges)
         std::stringstream dump;
         int spare_mag = weapon.has_gunmod("spare_mag");
         // For guns, just print the unadorned name.
-        dump << weapon.type->nname(1).c_str();
+        dump << weapon.type_name(1).c_str();
         if (!(weapon.has_flag("NO_AMMO") || weapon.has_flag("RELOAD_AND_SHOOT"))) {
             dump << " (" << weapon.charges;
             if( -1 != spare_mag ) {
@@ -13657,20 +13603,6 @@ void player::add_known_trap(int x, int y, const std::string &t)
 bool player::is_deaf() const
 {
     return has_effect("deaf") || worn_with_flag("DEAF");
-}
-
-bool player::is_suitable_weapon( const item &it ) const
-{
-    // if style is selected, always prefer compatible weapons
-    if( get_combat_style().has_weapon( it.typeId() ) ) {
-        return true;
-    }
-    // Assume all martial art styles can use any UNARMED_WEAPON item.
-    // This includes the brawling style
-    if( style_selected != "style_none" ) {
-        return it.has_flag( "UNARMED_WEAPON" );
-    }
-    return false;
 }
 
 int player::print_info(WINDOW* w, int vStart, int, int column) const

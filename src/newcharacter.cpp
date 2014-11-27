@@ -90,6 +90,7 @@ int player::create(character_type type, std::string tempname)
             } else {
                 g->u.name = MAP_SHARING::getUsername();
             }
+        case PLTYPE_RANDOM_WITH_SCENARIO:
         case PLTYPE_RANDOM: {
             g->u.male = (rng(1, 100) > 50);
             if(!MAP_SHARING::isSharing()) {
@@ -97,12 +98,28 @@ int player::create(character_type type, std::string tempname)
             } else {
                 g->u.name = MAP_SHARING::getUsername();
             }
-            g->u.prof = profession::weighted_random();
+            if (type == PLTYPE_RANDOM_WITH_SCENARIO) {
+                std::vector<scenario *> scenarios;
+                for (scenmap::const_iterator iter = scenario::begin(); iter != scenario::end(); iter++) {
+                    if (!(iter->second).has_flag("CHALLENGE")) {
+                        scenarios.emplace_back(scenario::scen((iter->second).ident()));
+                    }
+                }
+                g->scen = scenarios[rng(0,scenarios.size() - 1)];
+                if (g->scen->profsize() > 0) {
+                    g->u.prof = g->scen->random_profession();
+                } else {
+                    g->u.prof = profession::weighted_random();
+                }
+                g->u.start_location = g->scen->random_start_location();
+            } else {
+                g->u.prof = profession::weighted_random();
+            }
             str_max = rng(6, 12);
             dex_max = rng(6, 12);
             int_max = rng(6, 12);
             per_max = rng(6, 12);
-            points = points - str_max - dex_max - int_max - per_max - g->u.prof->point_cost();
+            points = points - str_max - dex_max - int_max - per_max - g->u.prof->point_cost() - g->scen->point_cost();
             if (str_max > HIGH_STAT) {
                 points -= (str_max - HIGH_STAT);
             }
@@ -287,6 +304,10 @@ int player::create(character_type type, std::string tempname)
     delwin(w);
 
     if (tab < -1) {
+        // Returned from set_description for reroll
+        if (tab == -3) {
+            return -2;
+        }
         return -1;
     } else if (tab < 0) {
         return 0;
@@ -1622,6 +1643,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
     ctxt.register_action("HELP_KEYBINDINGS");
     ctxt.register_action("CHOOSE_LOCATION");
     ctxt.register_action("REROLL_CHARACTER");
+    ctxt.register_action("REROLL_CHARACTER_WITH_SCENARIO");
     ctxt.register_action("ANY_INPUT");
 
     uimenu select_location;
@@ -1731,14 +1753,13 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             wrefresh(w_skills);
 
             mvwprintz(w_guide, 0, 0, c_green,
-                      _("Press %s to finish character creation or %s to go back and make revisions."),
+                      _("Press %s to finish character creation or %s to go back."),
                       ctxt.get_desc("NEXT_TAB").c_str(),
                       ctxt.get_desc("PREV_TAB").c_str());
-            if( type == PLTYPE_RANDOM ) {
-                    mvwprintz(w_guide, 1, 0, c_green, _("Press %s to save a template of this character."),
-                    ctxt.get_desc("SAVE_TEMPLATE").c_str());
-                    mvwprintz(w_guide, 1, 46, c_ltgreen, _("Press %s to re-roll."),
-                    ctxt.get_desc("REROLL_CHARACTER").c_str());
+            if( type == PLTYPE_RANDOM || type == PLTYPE_RANDOM_WITH_SCENARIO ) {
+                    mvwprintz( w_guide, 1, 0, c_green, _("Press %s to save character template, %s to re-roll or %s for random scenario."),
+                               ctxt.get_desc("SAVE_TEMPLATE").c_str(), ctxt.get_desc("REROLL_CHARACTER").c_str(),
+                               ctxt.get_desc("REROLL_CHARACTER_WITH_SCENARIO").c_str());
             }else {
                     mvwprintz(w_guide, 1, 0, c_green, _("Press %s to save a template of this character."),
                     ctxt.get_desc("SAVE_TEMPLATE").c_str());
@@ -1817,8 +1838,10 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             }
         } else if (action == "PREV_TAB") {
             return -1;
-        } else if (action == "REROLL_CHARACTER" && type == PLTYPE_RANDOM) {
+        } else if (action == "REROLL_CHARACTER" && (type == PLTYPE_RANDOM || type == PLTYPE_RANDOM_WITH_SCENARIO)) {
             return -7;
+        } else if (action == "REROLL_CHARACTER_WITH_SCENARIO" && (type == PLTYPE_RANDOM || type == PLTYPE_RANDOM_WITH_SCENARIO)) {
+            return -8;
         } else if (action == "SAVE_TEMPLATE") {
             if (points > 0) {
                 if(query_yn(_("You are attempting to save a template with unused points. "
