@@ -1379,6 +1379,25 @@
         }
     },{
         "type" : "terrain",
+        "id" : "t_door_metal_pickable",
+        "name": "closed metal door",
+        "comment": "Actually pickable, but locked",
+        "symbol": "+",
+        "color": "cyan",
+        "move_cost": 0,
+        "flags": ["NOITEM", "REDUCE_SCENT"],
+        "bash": {
+            "str_min": 80, "str_max": 250,
+            "sound": "metal screeching!",
+            "sound_fail": "clang!",
+            "ter_set": "t_mdoor_frame",
+            "items": [
+                { "item": "scrap", "amount": 24, "minamount": 12 },
+                { "item": "steel_plate", "amount": 1, "chance": 75 }
+            ]
+        }
+    },{
+        "type" : "terrain",
         "id" : "t_door_bar_c",
         "name": "closed bar door",
         "comment": "Unlocked, only created at map gen",

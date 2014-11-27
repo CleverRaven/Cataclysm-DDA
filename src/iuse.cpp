@@ -4206,6 +4206,9 @@ int iuse::picklock(player *p, item *it, bool, point)
     } else if (type == t_door_locked_peep) {
         door_name = rm_prefix(_("<door_name>door"));
         new_type = t_door_c_peep;
+    } else if (type == t_door_metal_pickable) {
+        door_name = rm_prefix(_("<door_name>door"));
+        new_type = t_door_metal_c;
     } else if (type == t_door_bar_locked) {
         door_name = rm_prefix(_("<door_name>door"));
         new_type = t_door_bar_o;
