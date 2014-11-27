@@ -1465,7 +1465,7 @@ bool game::do_turn()
         for( auto &_i : sm->vehicles ) {
             auto veh = _i;
 
-            veh->power_parts();
+            veh->power_parts(sm_loc);
             if (sm_loc.z == levz) {
                 veh->idle(m.inbounds(in_reality.x, in_reality.y));
             }
