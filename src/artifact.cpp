@@ -199,7 +199,7 @@ struct artifact_armor_form_datum {
     int warmth;
     int storage;
     int melee_bash, melee_cut, melee_hit;
-    std::bitset<13> covers;
+    std::bitset<num_bp> covers;
     bool plural;
     artifact_armor_mod available_mods[5];
 };

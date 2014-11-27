@@ -916,6 +916,7 @@
         "material" : ["steel", "null"],
         "volume" : 14,
         "bashing" : 0,
+        "category" : "veh_parts",
         "cutting" : 0,
         "price" : 800
     },

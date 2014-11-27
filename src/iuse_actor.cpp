@@ -189,7 +189,7 @@ long unfold_vehicle_iuse::use(player *p, item *it, bool /*t*/, point /*pos*/) co
         // Amount == -1 means need one, but don't consume it.
         if (!p->has_amount(tool->first, 1)) {
             p->add_msg_if_player(_("You need %s to do it!"),
-                                 item(tool->first, 0).type->nname(1).c_str());
+                                 item::nname( tool->first ).c_str());
             return 0;
         }
     }
@@ -259,8 +259,8 @@ long consume_drug_iuse::use(player *p, item *it, bool, point) const
         // Amount == -1 means need one, but don't consume it.
         if( !p->has_amount( tool->first, 1 ) ) {
             p->add_msg_if_player( _("You need %s to consume %s!"),
-                                  item(tool->first, 0).type->nname(1).c_str(),
-                                  it->type->nname(1).c_str() );
+                                  item::nname( tool->first ).c_str(),
+                                  it->type_name( 1 ).c_str() );
             return -1;
         }
     }
@@ -270,8 +270,8 @@ long consume_drug_iuse::use(player *p, item *it, bool, point) const
         if( !p->has_charges( consumable->first, (consumable->second == -1) ?
                              1 : consumable->second ) ) {
             p->add_msg_if_player( _("You need %s to consume %s!"),
-                                  item(consumable->first, 0).type->nname(1).c_str(),
-                                  it->type->nname(1).c_str() );
+                                  item::nname( consumable->first ).c_str(),
+                                  it->type_name( 1 ).c_str() );
             return -1;
         }
     }
@@ -355,7 +355,7 @@ long place_monster_iuse::use( player *p, item *it, bool, point ) const
             amdef.second = 0;
             p->add_msg_if_player( m_info,
                                   _( "If you had standard factory-built %s bullets, you could load the %s." ),
-                                  ammo_item.type->nname( 2 ).c_str(), newmon.name().c_str() );
+                                  ammo_item.type_name( 2 ).c_str(), newmon.name().c_str() );
             continue;
         }
         // Don't load more than the default from the the monster definition.
@@ -364,7 +364,7 @@ long place_monster_iuse::use( player *p, item *it, bool, point ) const
         //~ First %s is the ammo item (with plural form and count included), second is the monster name
         p->add_msg_if_player( ngettext( "You load %d x %s round into the %s.",
                                         "You load %d x %s rounds into the %s.", ammo_item.charges ),
-                              ammo_item.charges, ammo_item.type->nname( ammo_item.charges ).c_str(),
+                              ammo_item.charges, ammo_item.type_name( ammo_item.charges ).c_str(),
                               newmon.name().c_str() );
         amdef.second = ammo_item.charges;
     }
@@ -409,7 +409,7 @@ bool has_power_armor_interface(const player &p)
 }
 
 bool has_powersource(const item &i, const player &p) {
-    if( i.type->is_power_armor() && has_power_armor_interface( p ) && p.power_level > 0 ) {
+    if( i.is_power_armor() && has_power_armor_interface( p ) && p.power_level > 0 ) {
         return true;
     }
     return p.has_charges( "UPS", 1 );
@@ -430,7 +430,7 @@ long ups_based_armor_actor::use( player *p, item *it, bool t, point ) const
     }
     if( !it->active && !has_powersource( *it, *p ) ) {
         p->add_msg_if_player( m_info, _( "You need some source of power for your %s (a simple UPS will do)." ), it->tname().c_str() );
-        if( it->type->is_power_armor() ) {
+        if( it->is_power_armor() ) {
             p->add_msg_if_player( m_info, _( "There is also a certain bionic that helps with this kind of armor." ) );
         }
         return 0;

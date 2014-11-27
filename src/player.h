@@ -355,8 +355,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool handle_melee_wear();
         /** True if unarmed or wielding a weapon with the UNARMED_WEAPON flag */
         bool unarmed_attack() const;
-        /** Check if the item is suitable for auto-wielding, based on skill/style/item type */
-        bool is_suitable_weapon(const item &it) const;
         /** Called when a player triggers a trap, returns true if they don't set it off */
         bool avoid_trap(trap *tr, int x, int y);
 
@@ -955,10 +953,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool has_artifact_with(const art_effect_passive effect) const;
         bool worn_with_flag( std::string flag ) const;
 
-        bool covered_with_flag(const std::string flag, std::bitset<13> parts) const;
-        bool covered_with_flag_exclusively(const std::string flag, std::bitset<13> parts) const;
-        bool is_water_friendly(std::bitset<13> parts) const;
-        bool is_waterproof(std::bitset<13> parts) const;
+        bool covered_with_flag(const std::string flag, std::bitset<num_bp> parts) const;
+        bool covered_with_flag_exclusively(const std::string flag, std::bitset<num_bp> parts) const;
+        bool is_water_friendly(std::bitset<num_bp> parts) const;
+        bool is_waterproof(std::bitset<num_bp> parts) const;
 
         // has_amount works ONLY for quantity.
         // has_charges works ONLY for charges.
@@ -1135,6 +1133,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         std::vector<item> worn;
         std::vector<matype_id> ma_styles;
         matype_id style_selected;
+        bool keep_hands_free;
 
         item weapon;
         item ret_null; // Null item, sometimes returns by weapon() etc

@@ -782,33 +782,47 @@ bool veh_interact::can_remove_part(int veh_part_index, int mech_skill, int msg_w
         bool is_wheel = veh->part_flag(veh_part_index, "WHEEL");
         bool is_wrenchable = veh->part_flag(veh_part_index, "TOOL_WRENCH");
         bool is_hand_remove = veh->part_flag(veh_part_index, "TOOL_NONE");
-        bool has_skill;
-        if (is_wrenchable ||is_hand_remove) has_skill = (mech_skill >= 1)? true: false;
-        else has_skill = (mech_skill >= 2)? true: false;
+        
+        int skill_req;
+        if (veh->part_flag(veh_part_index, "DIFFICULTY_REMOVE")) {
+            skill_req = veh->part_info(veh_part_index).difficulty;
+        } else if (is_wrenchable ||is_hand_remove) {
+            skill_req = 1;
+        } else {
+            skill_req = 2;
+        }
+        
+        bool has_skill = false;
+        if (mech_skill >= skill_req) has_skill = true;
+        
         //print necessary materials
         if (is_wheel){
             fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                           _("You need a <color_%1$s>wrench</color>, a <color_%2$s>jack</color> and <color_%3$s>level 2</color> mechanics skill to remove this part."),
+                           _("You need a <color_%1$s>wrench</color>, a <color_%2$s>jack</color> and <color_%3$s>level %4$d</color> mechanics skill to remove this part."),
                            has_wrench ? "ltgreen" : "red",
                            has_jack ? "ltgreen" : "red",
-                           has_skill ? "ltgreen" : "red");
+                           has_skill ? "ltgreen" : "red",
+                           skill_req);
         }
         else if (is_wrenchable) {
             fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                           _("You need a <color_%1$s>wrench</color> and <color_%2$s>level 1</color> mechanics skill to remove this part."),
+                           _("You need a <color_%1$s>wrench</color> and <color_%2$s>level %3$d</color> mechanics skill to remove this part."),
                            has_wrench ? "ltgreen" : "red",
-                           has_skill ? "ltgreen" : "red");
+                           has_skill ? "ltgreen" : "red",
+                           skill_req);
         } else if (is_hand_remove) {
             fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                            _("You need <color_%1$s>level 1</color> mechanics skill to remove this part."),
-                           has_skill ? "ltgreen" : "red");
+                            _("You need <color_%1$s>level %2$d</color> mechanics skill to remove this part."),
+                           has_skill ? "ltgreen" : "red",
+                           skill_req);
         } 
         else {
             fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                           _("You need a <color_%1$s>wrench</color> and a <color_%2$s>hacksaw, cutting torch and goggles, or circular saw (off)</color> and <color_%3$s>level 2</color> mechanics skill to remove this part."),
+                           _("You need a <color_%1$s>wrench</color> and a <color_%2$s>hacksaw, cutting torch and goggles, or circular saw (off)</color> and <color_%3$s>level %4$d</color> mechanics skill to remove this part."),
                            has_wrench ? "ltgreen" : "red",
                            has_hacksaw ? "ltgreen" : "red",
-                           has_skill ? "ltgreen" : "red");
+                           has_skill ? "ltgreen" : "red",
+                           skill_req);
         }
         wrefresh (w_msg);
         //check if have all necessary materials

@@ -8613,5 +8613,32 @@
     "revert_to": "null",
     "qualities": [["DIG", 2], ["AXE", 1], ["CUT", 1], ["BUTCHER", -11]],
     "use_action": "DIG"
+  },
+
+  {
+    "id": "survivor_machete",
+    "type": "TOOL",
+    "symbol": "/",
+    "color": "dark_gray",
+    "name": "survivor machete",
+    "description": "This common gardening tool has been customized and rebalanced to improve its performance as a weapon.",
+    "price": 2800,
+    "material": "steel",
+    "techniques": ["WBLOCK_1", "RAPID", "BRUTAL", "PRECISE"],
+    "weight": 478,
+    "volume": 5,
+    "bashing": 7,
+    "cutting": 22,
+    "flags" : ["CHOP", "DURABLE_MELEE", "SHEATH_SWORD", "IAIJUTSU"],
+    "to_hit": 2,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "category": "weapons",
+    "use_action": "KNIFE",
+    "qualities": [["CUT", 1], ["BUTCHER", 10]]
   }
 ]
