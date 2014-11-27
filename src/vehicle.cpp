@@ -232,8 +232,8 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
         }
     }
     // if locked, 16% chance something damaged
-    if (one_in(6) && is_locked){
-        if (one_in(3)){
+    if( one_in(6) && has_no_key ) {
+        if( one_in(3) ) {
             destroyTank = true;
         } else if( one_in(2) ) {
             destroyEngine = true;
@@ -248,9 +248,8 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
     //Provide some variety to non-mint vehicles
     if( veh_status != 0 ) {
         //Leave engine running in some vehicles, if the engine has not been destroyed
-        if(veh_fuel_mult > 0
-                && all_parts_with_feature("ENGINE", true).size() > 0
-                && one_in(8) && !destroyEngine && !is_locked) {
+        if( veh_fuel_mult > 0 && all_parts_with_feature("ENGINE", true).size() > 0 &&
+            one_in(8) && !destroyEngine && !has_no_key ) {
             engine_on = true;
         }
 
