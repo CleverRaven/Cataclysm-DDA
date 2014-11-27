@@ -536,7 +536,7 @@ void overmapbuffer::spawn_monster(const int x, const int y, const int z)
     point sm( x, y );
     const point omp = sm_to_om_remain( sm );
     overmap &om = get( omp.x, omp.y );
-    const tripoint current_submap_loc( x, y, z );
+    const tripoint current_submap_loc( sm.x, sm.y, z );
     auto monster_bucket = om.monster_map.equal_range( current_submap_loc );
     std::for_each( monster_bucket.first, monster_bucket.second,
                    [&](std::pair<const tripoint, monster> &monster_entry ) {
