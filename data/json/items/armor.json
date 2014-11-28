@@ -3451,6 +3451,32 @@
         "storage" : 0,
         "symbol" : "[",
         "description" : "A shirt made of thick material imprinted with the name and logo of a sports team.",
+        "snippet_category" : [
+            { "id" : "decatur",
+              "text" : "A pro thunderball jersey made of thick material imprinted with the logo of the Decatur Fist."
+            },
+            { "id" : "squamish",
+              "text" : "A 43-man squamish jersey made of thick material imprinted with the logo of the Gainesville Veeblefetzers."
+            },
+            { "id" : "london",
+              "text" : "A zero-G football jersey made of thick material imprinted with the logo of the London Jets."
+            },
+            { "id" : "endsville",
+              "text" : "A football jersey made of thick material imprinted with the logo of the Endsville Fluffycats."
+            },
+            { "id" : "tokyo",
+              "text" : "A baseball jersey made of thick material imprinted with the logo of the Tokyo Samurai."
+            },
+            { "id" : "basin",
+              "text" : "A basketball jersey made of thick material imprinted with the logo of the Basin City Blues."
+            },
+            { "id" : "deathrace",
+              "text" : "A death race jersey made of thick material imprinted with Frankenstein's logo and signature."
+            },
+            { "id" : "houston",
+              "text" : "A rollerball jersey made of thick material imprinted with the logo of the Houston Energy Corporation."
+            }
+        ],
         "//" : "Genuine team merch, and priced like it!",
         "price" : 8900,
         "material" : ["cotton", "null"],
